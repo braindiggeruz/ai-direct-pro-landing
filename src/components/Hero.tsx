@@ -132,7 +132,7 @@ export default function Hero({ t, ctaUrl }: Props) {
           </div>
 
           {/* Hero image */}
-          <div className="lg:col-span-5 relative animate-fade-up order-first lg:order-last" style={{ animationDelay: '120ms' }}>
+          <div className="lg:col-span-5 relative animate-fade-up" style={{ animationDelay: '120ms' }}>
             <div className="relative mx-auto max-w-sm lg:max-w-none">
               <div className="absolute -inset-6 bg-grad-cta opacity-25 blur-3xl rounded-[50%] animate-float" />
               <img
