@@ -5,20 +5,87 @@
     <link rel="icon" type="image/png" href="/assets/landing/2.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#05070D" />
-    <title>AI-сейлз менеджер для Instagram и Telegram в Узбекистане</title>
-    <meta name="description" content="AI-менеджер отвечает клиентам 24/7, собирает контакты и передаёт горячие заявки вашему менеджеру." />
+
+    <title>BiznesBot — AI-бот для бизнеса в Узбекистане | Instagram и Telegram</title>
+    <meta name="description" content="BiznesBot — AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя, телефон и передаёт горячие заявки менеджеру." />
+    <meta name="keywords" content="бот для бизнеса Узбекистан, чат-бот для бизнеса Ташкент, AI бот для бизнеса, GPT бот для бизнеса, Telegram бот для бизнеса, Instagram Direct бот, AI менеджер для Instagram, автоматизация заявок, автоматизация продаж Узбекистан, biznes bot, biznes uchun bot, Telegram bot biznes uchun, Instagram uchun AI bot" />
+    <meta name="author" content="BiznesBot" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Canonical + hreflang. Same single-page app for both languages. -->
+    <link rel="canonical" href="https://biznesbot.uz/" />
+    <link rel="alternate" hreflang="ru" href="https://biznesbot.uz/?lang=ru" />
+    <link rel="alternate" hreflang="uz" href="https://biznesbot.uz/?lang=uz" />
+    <link rel="alternate" hreflang="x-default" href="https://biznesbot.uz/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="AI-сейлз менеджер для Instagram и Telegram в Узбекистане" />
-    <meta property="og:description" content="AI-менеджер отвечает клиентам 24/7, собирает контакты и передаёт горячие заявки вашему менеджеру." />
-    <meta property="og:image" content="/assets/landing/1.png" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:site_name" content="BiznesBot" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:locale:alternate" content="uz_UZ" />
+    <meta property="og:url" content="https://biznesbot.uz/" />
+    <meta property="og:title" content="BiznesBot — AI-бот для бизнеса в Узбекистане" />
+    <meta property="og:description" content="AI-менеджер для Instagram и Telegram: отвечает 24/7, собирает контакты и передаёт горячие заявки." />
+    <meta property="og:image" content="https://biznesbot.uz/assets/landing/1.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    <!-- Preconnect -->
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BiznesBot — AI-бот для бизнеса в Узбекистане" />
+    <meta name="twitter:description" content="AI-менеджер для Instagram и Telegram: отвечает 24/7, собирает контакты и передаёт горячие заявки." />
+    <meta name="twitter:image" content="https://biznesbot.uz/assets/landing/1.png" />
+
+    <!-- Preconnect / preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="/assets/landing/1.png" />
+
+    <!-- JSON-LD: Organization, WebSite, Service -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://biznesbot.uz/#org",
+          "name": "BiznesBot",
+          "url": "https://biznesbot.uz/",
+          "logo": "https://biznesbot.uz/assets/landing/2.png",
+          "areaServed": { "@type": "Country", "name": "Uzbekistan" },
+          "sameAs": ["https://t.me/aidirectprobot"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://biznesbot.uz/#site",
+          "url": "https://biznesbot.uz/",
+          "name": "BiznesBot",
+          "publisher": { "@id": "https://biznesbot.uz/#org" },
+          "inLanguage": ["ru", "uz"]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://biznesbot.uz/#service",
+          "name": "AI-бот для бизнеса в Узбекистане",
+          "description": "AI/GPT-менеджер для Instagram и Telegram, который отвечает клиентам 24/7, собирает контакты и передаёт заявки менеджеру.",
+          "provider": { "@id": "https://biznesbot.uz/#org" },
+          "areaServed": [
+            { "@type": "Country", "name": "Uzbekistan" },
+            { "@type": "City", "name": "Tashkent" }
+          ],
+          "serviceType": [
+            "AI sales assistant",
+            "Chatbot for business",
+            "Telegram bot",
+            "Instagram Direct bot",
+            "Sales automation"
+          ],
+          "category": "Business Automation",
+          "audience": { "@type": "BusinessAudience", "audienceType": "Small and medium business" }
+        }
+      ]
+    }
+    </script>
 
     <!-- dataLayer init -->
     <script>

@@ -90,7 +90,7 @@ export default function Hero({ t, ctaUrl }: Props) {
                 data-testid="hero-trust-badges"
                 className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] sm:text-xs text-white/65"
               >
-                {t.trust.badges.slice(0, 3).map((b, i) => (
+                {t.trust.badges.slice(0, 4).map((b, i) => (
                   <li key={i} className="inline-flex items-center gap-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan shadow-[0_0_8px_#2FE6D1]" />
                     {b}

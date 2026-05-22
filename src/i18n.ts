@@ -40,14 +40,14 @@ export type Dict = {
 export const i18n: Record<Lang, Dict> = {
   ru: {
     nav: {
-      brand: 'AI Direct Pro',
+      brand: 'BiznesBot',
       cta: 'Запустить демо',
     },
     hero: {
-      badge: 'AI-сейлз для Instagram и Telegram',
-      h1a: 'Ваш Instagram',
-      h1b: 'теряет клиентов?',
-      sub: 'Клиент написал — AI ответил за секунды, пока вы спите. Имя и телефон — автоматически. Готовый лид — менеджеру.',
+      badge: 'AI-бот для бизнеса · Instagram и Telegram',
+      h1a: 'BiznesBot — AI-бот для бизнеса,',
+      h1b: 'который не теряет заявки',
+      sub: 'AI/GPT-менеджер отвечает клиентам в Instagram и Telegram 24/7, собирает имя, телефон и передаёт горячие заявки вашему менеджеру.',
       bullets: [
         'Ответ за секунды, даже ночью',
         'Имя и телефон — автоматически',
@@ -143,11 +143,11 @@ export const i18n: Record<Lang, Dict> = {
       h: 'Не магия. Просто быстрый первый контакт.',
       t: 'AI закрывает самую слабую точку воронки: момент между «клиент написал» и «менеджер ответил».',
       badges: [
-        'Сценарий под нишу',
-        'RU + UZ коммуникация',
-        'Передача лида менеджеру',
+        'Instagram + Telegram',
+        'RU + UZ',
+        'Заявки менеджеру',
+        'Демо под вашу нишу',
         'Можно подключить CRM',
-        'Telegram / Instagram логика',
         'Подходит для малого бизнеса',
       ],
     },
@@ -168,9 +168,9 @@ export const i18n: Record<Lang, Dict> = {
       micro: 'Демо займёт 1 минуту.',
     },
     footer: {
-      brand: 'AI Direct Pro',
+      brand: 'BiznesBot.uz',
       city: 'Tashkent, Uzbekistan',
-      tag: 'Telegram / Instagram AI Sales Automation',
+      tag: 'AI-боты для бизнеса в Узбекистане · Telegram + Instagram',
       privacy: 'Политика конфиденциальности',
       consent: 'Оставляя заявку, вы соглашаетесь на обработку данных.',
     },
@@ -179,14 +179,14 @@ export const i18n: Record<Lang, Dict> = {
 
   uz: {
     nav: {
-      brand: 'AI Direct Pro',
+      brand: 'BiznesBot',
       cta: 'Demoni ishga tushirish',
     },
     hero: {
-      badge: 'Instagram va Telegram uchun AI-sotuvchi',
-      h1a: 'Instagram’ingiz',
-      h1b: 'mijozlarni yo‘qotyaptimi?',
-      sub: 'Mijoz yozdi — AI bir necha soniyada javob berdi. Ism va telefon — avtomatik. Tayyor lid — menejerga.',
+      badge: 'Biznes uchun AI bot · Instagram va Telegram',
+      h1a: 'BiznesBot — biznes uchun AI bot,',
+      h1b: 'mijozlarni yo‘qotmaydi',
+      sub: 'AI/GPT-menejer Instagram va Telegram’da 24/7 javob beradi, ism va telefonni yig‘adi, issiq lidlarni menejerga yuboradi.',
       bullets: [
         'Bir necha soniyada javob',
         'Ism va telefon — avtomatik',
@@ -282,11 +282,11 @@ export const i18n: Record<Lang, Dict> = {
       h: 'Sehr emas. Shunchaki tez birinchi kontakt.',
       t: 'AI voronkaning eng zaif nuqtasini yopadi: «mijoz yozdi» va «menejer javob berdi» o‘rtasidagi vaqt.',
       badges: [
-        'Nishga moslangan ssenariy',
-        'RU + UZ kommunikatsiya',
-        'Lidni menejerga uzatish',
+        'Instagram + Telegram',
+        'RU + UZ',
+        'Lidlar menejerga',
+        'Nishingiz uchun demo',
         'CRM ulanishi mumkin',
-        'Telegram / Instagram mantig‘i',
         'Kichik biznes uchun mos',
       ],
     },
@@ -307,9 +307,9 @@ export const i18n: Record<Lang, Dict> = {
       micro: 'Demo 1 daqiqa oladi.',
     },
     footer: {
-      brand: 'AI Direct Pro',
+      brand: 'BiznesBot.uz',
       city: 'Toshkent, O‘zbekiston',
-      tag: 'Telegram / Instagram AI Sales Automation',
+      tag: 'O‘zbekistonda biznes uchun AI botlar · Telegram + Instagram',
       privacy: 'Maxfiylik siyosati',
       consent: 'Ariza qoldirib, ma’lumotlarni qayta ishlashga rozilik bildirasiz.',
     },

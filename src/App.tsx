@@ -36,16 +36,30 @@ export default function App() {
     document.documentElement.lang = lang === 'uz' ? 'uz' : 'ru';
     document.title =
       lang === 'uz'
-        ? 'Instagram va Telegram uchun AI-sotuvchi O‘zbekistonda'
-        : 'AI-сейлз менеджер для Instagram и Telegram в Узбекистане';
+        ? 'BiznesBot — O‘zbekistonda biznes uchun AI bot | Instagram va Telegram'
+        : 'BiznesBot — AI-бот для бизнеса в Узбекистане | Instagram и Telegram';
     const desc = document.querySelector('meta[name="description"]');
     if (desc) {
       desc.setAttribute(
         'content',
         lang === 'uz'
-          ? 'AI-menejer 24/7 javob beradi, kontaktlarni yig‘adi va issiq lidlarni menejerga yuboradi.'
-          : 'AI-менеджер отвечает клиентам 24/7, собирает контакты и передаёт горячие заявки вашему менеджеру.',
+          ? 'BiznesBot Instagram va Telegram’da mijozlarga 24/7 javob beradi, kontaktlarni yig‘adi va issiq lidlarni menejerga yuboradi.'
+          : 'BiznesBot — AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя, телефон и передаёт горячие заявки менеджеру.',
       );
+    }
+    // Update OG title/description on language change
+    const setMeta = (sel: string, value: string) => {
+      const el = document.querySelector(sel);
+      if (el) el.setAttribute('content', value);
+    };
+    if (lang === 'uz') {
+      setMeta('meta[property="og:title"]', 'BiznesBot — O‘zbekistonda biznes uchun AI bot');
+      setMeta('meta[property="og:description"]', 'Instagram va Telegram uchun AI-menejer: 24/7 javob, kontakt yig‘ish va lidlarni menejerga yuborish.');
+      setMeta('meta[property="og:locale"]', 'uz_UZ');
+    } else {
+      setMeta('meta[property="og:title"]', 'BiznesBot — AI-бот для бизнеса в Узбекистане');
+      setMeta('meta[property="og:description"]', 'AI-менеджер для Instagram и Telegram: отвечает 24/7, собирает контакты и передаёт горячие заявки.');
+      setMeta('meta[property="og:locale"]', 'ru_RU');
     }
     localStorage.setItem('lang', lang);
   }, [lang]);
