@@ -1,0 +1,111 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { i18n, type Lang } from './i18n';
+import { buildCtaUrl, track } from './lib/cta';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Pain from './components/Pain';
+import Solution from './components/Solution';
+import HowItWorks from './components/HowItWorks';
+import DemoChat from './components/DemoChat';
+import Niches from './components/Niches';
+import Offer from './components/Offer';
+import Trust from './components/Trust';
+import FAQ from './components/FAQ';
+import FinalCTA from './components/FinalCTA';
+import Footer from './components/Footer';
+import StickyCTA from './components/StickyCTA';
+
+function getInitialLang(): Lang {
+  if (typeof window === 'undefined') return 'ru';
+  const params = new URLSearchParams(window.location.search);
+  const fromUrl = params.get('lang');
+  if (fromUrl === 'uz' || fromUrl === 'ru') return fromUrl;
+  const stored = localStorage.getItem('lang');
+  if (stored === 'uz' || stored === 'ru') return stored;
+  return 'ru';
+}
+
+export default function App() {
+  const [lang, setLang] = useState<Lang>(getInitialLang());
+  const t = useMemo(() => i18n[lang], [lang]);
+  const ctaUrl = useMemo(() => buildCtaUrl(), []);
+  const scroll50Fired = useRef(false);
+
+  // persist language + update <html lang>
+  useEffect(() => {
+    document.documentElement.lang = lang === 'uz' ? 'uz' : 'ru';
+    document.title =
+      lang === 'uz'
+        ? 'Instagram va Telegram uchun AI-sotuvchi O‘zbekistonda'
+        : 'AI-сейлз менеджер для Instagram и Telegram в Узбекистане';
+    const desc = document.querySelector('meta[name="description"]');
+    if (desc) {
+      desc.setAttribute(
+        'content',
+        lang === 'uz'
+          ? 'AI-menejer 24/7 javob beradi, kontaktlarni yig‘adi va issiq lidlarni menejerga yuboradi.'
+          : 'AI-менеджер отвечает клиентам 24/7, собирает контакты и передаёт горячие заявки вашему менеджеру.',
+      );
+    }
+    localStorage.setItem('lang', lang);
+  }, [lang]);
+
+  // 50% scroll tracking
+  useEffect(() => {
+    const onScroll = () => {
+      if (scroll50Fired.current) return;
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop + window.innerHeight) / h.scrollHeight;
+      if (scrolled >= 0.5) {
+        scroll50Fired.current = true;
+        track('scroll_50');
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // IntersectionObserver for .reveal
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>('.reveal');
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -60px 0px', threshold: 0.08 },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [lang]);
+
+  const switchLang = (next: Lang) => {
+    if (next === lang) return;
+    setLang(next);
+    track('switch_language', { lang: next });
+  };
+
+  return (
+    <div className="relative">
+      <Header t={t} lang={lang} onSwitchLang={switchLang} ctaUrl={ctaUrl} />
+      <main>
+        <Hero t={t} ctaUrl={ctaUrl} />
+        <Pain t={t} />
+        <Solution t={t} ctaUrl={ctaUrl} />
+        <HowItWorks t={t} />
+        <DemoChat t={t} ctaUrl={ctaUrl} />
+        <Niches t={t} />
+        <Offer t={t} ctaUrl={ctaUrl} />
+        <Trust t={t} />
+        <FAQ t={t} />
+        <FinalCTA t={t} ctaUrl={ctaUrl} />
+      </main>
+      <Footer t={t} />
+      <StickyCTA t={t} ctaUrl={ctaUrl} />
+    </div>
+  );
+}
