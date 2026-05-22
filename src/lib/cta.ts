@@ -2,6 +2,17 @@
 export const CTA_URL_BASE = 'https://t.me/aidirectprobot';
 export const CTA_START_DEFAULT = 'tgads_landing';
 
+// Map our custom events to standard Meta Pixel events where applicable.
+const PIXEL_STD_MAP: Record<string, string> = {
+  click_hero_cta: 'Lead',
+  click_sticky_cta: 'Lead',
+  click_demo_cta: 'Lead',
+  click_final_cta: 'Lead',
+  click_header_cta: 'Lead',
+  click_offer_cta: 'Lead',
+  view_section: 'ViewContent',
+};
+
 // Push to dataLayer (and Meta Pixel if available) safely.
 export function track(event: string, data: Record<string, unknown> = {}): void {
   try {
@@ -12,7 +23,12 @@ export function track(event: string, data: Record<string, unknown> = {}): void {
     if (!w.dataLayer) w.dataLayer = [];
     w.dataLayer.push({ event, ...data });
     if (typeof w.fbq === 'function') {
-      w.fbq('trackCustom', event, data);
+      const std = PIXEL_STD_MAP[event];
+      if (std) {
+        w.fbq('track', std, { content_name: event, ...data });
+      } else {
+        w.fbq('trackCustom', event, data);
+      }
     }
   } catch {
     /* noop */

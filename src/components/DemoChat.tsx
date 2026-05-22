@@ -62,7 +62,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto reveal">
-          <div className="chip mx-auto">Live demo</div>
+          <div className="chip mx-auto">Live demo · 1 min</div>
           <h2 className="h-display mt-4 text-3xl sm:text-4xl lg:text-5xl text-white">{t.demo.h}</h2>
           <p className="mt-3 text-white/65">{t.demo.sub}</p>
         </div>

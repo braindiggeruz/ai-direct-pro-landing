@@ -33,21 +33,21 @@ export default function Niches({ t }: { t: Dict }) {
             </div>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {t.niches.items.map((n, i) => (
               <div
                 key={i}
                 data-testid={`niche-${i}`}
-                className="glass card-hover p-4 sm:p-5 reveal"
-                style={{ transitionDelay: `${i * 50}ms` }}
+                className="glass card-hover p-5 reveal"
+                style={{ transitionDelay: `${i * 50}ms`, background: 'linear-gradient(180deg, rgba(34,158,217,0.06), rgba(255,255,255,0.02))' }}
               >
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-grad-cta text-[#04101A]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-grad-cta text-[#04101A] shadow-glow">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path d={ICONS[i % ICONS.length]} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
-                <h3 className="mt-3 text-sm sm:text-base font-semibold text-white">{n}</h3>
-                <p className="mt-1.5 text-[12px] sm:text-[13px] text-white/55 leading-relaxed">{t.niches.sub}</p>
+                <h3 className="mt-3.5 text-base sm:text-lg font-semibold text-white">{n}</h3>
+                <p className="mt-1.5 text-[13px] sm:text-sm text-white/65 leading-relaxed">{t.niches.sub}</p>
               </div>
             ))}
           </div>

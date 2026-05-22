@@ -65,6 +65,38 @@ export default function App() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // ViewContent events for key sections (Meta Pixel + dataLayer)
+  useEffect(() => {
+    const ids: { sel: string; name: string }[] = [
+      { sel: '[data-testid="hero"]', name: 'hero' },
+      { sel: '[data-testid="demo-chat"]', name: 'demo_chat' },
+      { sel: '[data-testid="offer"]', name: 'offer' },
+      { sel: '[data-testid="final-cta"]', name: 'final_cta' },
+    ];
+    const seen = new Set<string>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const name = (e.target as HTMLElement).dataset.viewname;
+          if (!name || seen.has(name)) continue;
+          if (e.isIntersecting && e.intersectionRatio >= 0.35) {
+            seen.add(name);
+            track('view_section', { section: name });
+          }
+        }
+      },
+      { threshold: [0.35] },
+    );
+    for (const { sel, name } of ids) {
+      const el = document.querySelector<HTMLElement>(sel);
+      if (el) {
+        el.dataset.viewname = name;
+        io.observe(el);
+      }
+    }
+    return () => io.disconnect();
+  }, [lang]);
+
   // IntersectionObserver for .reveal
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>('.reveal');
