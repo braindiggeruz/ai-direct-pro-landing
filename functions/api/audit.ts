@@ -10,13 +10,13 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
-  const pageFiles = await listDir(env, 'frontend/content/pages').catch(() => []);
+  const pageFiles = await listDir(env, 'content/pages').catch(() => []);
   const pages: Page[] = [];
   for (const p of pageFiles.filter((f) => f.endsWith('.json'))) {
     const f = await getFile(env, p);
     if (f) pages.push(JSON.parse(f.content));
   }
-  const globalFile = await getFile(env, 'frontend/content/global/site.json').catch(() => null);
+  const globalFile = await getFile(env, 'content/global/site.json').catch(() => null);
   const global: GlobalSEO | undefined = globalFile ? JSON.parse(globalFile.content) : undefined;
   const cockpit = buildCockpit(pages, global);
   return new Response(JSON.stringify(cockpit), { headers: { 'Content-Type': 'application/json' } });

@@ -13,7 +13,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const slug = url.searchParams.get('slug') || '';
   if (!slug) return new Response(JSON.stringify({ error: 'slug required' }), { status: 400 });
 
-  const files = await listDir(env, 'frontend/content/pages').catch(() => []);
+  const files = await listDir(env, 'content/pages').catch(() => []);
   const allPages: Page[] = [];
   for (const f of files.filter((p) => p.endsWith('.json'))) {
     const fr = await getFile(env, f);

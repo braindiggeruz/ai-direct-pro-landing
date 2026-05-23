@@ -12,11 +12,11 @@ function json(data: unknown, status = 200): Response {
 
 function pathFor(kind: string, locale?: string, slug?: string): string {
   switch (kind) {
-    case 'page': return `frontend/content/pages/${locale}/${slug}.json`;
-    case 'blog': return `frontend/content/blog/${locale}/${slug}.json`;
-    case 'global': return `frontend/content/global/site.json`;
-    case 'redirects': return `frontend/content/seo/redirects.json`;
-    case 'internal-links': return `frontend/content/seo/internal-links.json`;
+    case 'page': return `content/pages/${locale}/${slug}.json`;
+    case 'blog': return `content/blog/${locale}/${slug}.json`;
+    case 'global': return `content/global/site.json`;
+    case 'redirects': return `content/seo/redirects.json`;
+    case 'internal-links': return `content/seo/internal-links.json`;
     default: throw new Error(`Unknown kind: ${kind}`);
   }
 }
@@ -26,11 +26,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (auth instanceof Response) return auth;
 
   const [pageFiles, blogFiles, globalFile, redirectsFile, linksFile] = await Promise.all([
-    listDir(env, 'frontend/content/pages').catch(() => []),
-    listDir(env, 'frontend/content/blog').catch(() => []),
-    getFile(env, 'frontend/content/global/site.json').catch(() => null),
-    getFile(env, 'frontend/content/seo/redirects.json').catch(() => null),
-    getFile(env, 'frontend/content/seo/internal-links.json').catch(() => null),
+    listDir(env, 'content/pages').catch(() => []),
+    listDir(env, 'content/blog').catch(() => []),
+    getFile(env, 'content/global/site.json').catch(() => null),
+    getFile(env, 'content/seo/redirects.json').catch(() => null),
+    getFile(env, 'content/seo/internal-links.json').catch(() => null),
   ]);
 
   const pages = await Promise.all(

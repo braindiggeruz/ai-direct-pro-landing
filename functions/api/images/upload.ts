@@ -18,7 +18,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const approxBytes = Math.floor(b64.length * 0.75);
   if (approxBytes > 4 * 1024 * 1024) return new Response(JSON.stringify({ error: 'Image too large (max 4 MiB)' }), { status: 400 });
 
-  const repoPath = `frontend/public/assets/${folder}/${body.filename}`;
+  const repoPath = `public/assets/${folder}/${body.filename}`;
   // putFile expects raw string; for binary we need to commit base64 directly via Contents API.
   // Override: call the Contents API directly with the base64 we already have.
   const url = `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${repoPath}`;
