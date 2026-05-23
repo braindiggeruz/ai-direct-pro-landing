@@ -1,0 +1,18 @@
+{
+  "siteName": "GPTBot",
+  "siteUrl": "https://gptbot.uz",
+  "titleTemplate": "%s | GPTBot",
+  "defaultDescription": "AI/GPT-менеджер для Instagram и Telegram в Узбекистане. Отвечает клиентам 24/7, собирает контакты и передаёт горячие заявки менеджеру.",
+  "defaultOgImage": "https://gptbot.uz/assets/landing/1.png",
+  "organizationName": "GPTBot",
+  "logo": "https://gptbot.uz/assets/landing/2.png",
+  "phone": "",
+  "telegram": "https://t.me/aidirectprobot",
+  "instagram": "",
+  "address": "Tashkent, Uzbekistan",
+  "sameAs": ["https://t.me/aidirectprobot"],
+  "defaultCTA": {
+    "label": "Запустить демо в Telegram",
+    "href": "https://t.me/aidirectprobot?start=tgads_landing"
+  }
+}

@@ -40,12 +40,12 @@ export type Dict = {
 export const i18n: Record<Lang, Dict> = {
   ru: {
     nav: {
-      brand: 'BiznesBot',
+      brand: 'GPTBot',
       cta: 'Запустить демо',
     },
     hero: {
       badge: 'AI-бот для бизнеса · Instagram и Telegram',
-      h1a: 'BiznesBot — AI-бот для бизнеса,',
+      h1a: 'GPTBot — AI-бот для бизнеса,',
       h1b: 'который не теряет заявки',
       sub: 'AI/GPT-менеджер отвечает клиентам в Instagram и Telegram 24/7, собирает имя, телефон и передаёт горячие заявки вашему менеджеру.',
       bullets: [
@@ -168,7 +168,7 @@ export const i18n: Record<Lang, Dict> = {
       micro: 'Демо займёт 1 минуту.',
     },
     footer: {
-      brand: 'BiznesBot.uz',
+      brand: 'GPTBot.uz',
       city: 'Tashkent, Uzbekistan',
       tag: 'AI-боты для бизнеса в Узбекистане · Telegram + Instagram',
       privacy: 'Политика конфиденциальности',
@@ -179,12 +179,12 @@ export const i18n: Record<Lang, Dict> = {
 
   uz: {
     nav: {
-      brand: 'BiznesBot',
+      brand: 'GPTBot',
       cta: 'Demoni ishga tushirish',
     },
     hero: {
       badge: 'Biznes uchun AI bot · Instagram va Telegram',
-      h1a: 'BiznesBot — biznes uchun AI bot,',
+      h1a: 'GPTBot — biznes uchun AI bot,',
       h1b: 'mijozlarni yo‘qotmaydi',
       sub: 'AI/GPT-menejer Instagram va Telegram’da 24/7 javob beradi, ism va telefonni yig‘adi, issiq lidlarni menejerga yuboradi.',
       bullets: [
@@ -307,7 +307,7 @@ export const i18n: Record<Lang, Dict> = {
       micro: 'Demo 1 daqiqa oladi.',
     },
     footer: {
-      brand: 'BiznesBot.uz',
+      brand: 'GPTBot.uz',
       city: 'Toshkent, O‘zbekiston',
       tag: 'O‘zbekistonda biznes uchun AI botlar · Telegram + Instagram',
       privacy: 'Maxfiylik siyosati',

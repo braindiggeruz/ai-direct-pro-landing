@@ -1,0 +1,14 @@
+# Cloudflare Pages routing rules.
+# Order matters — most specific first.
+
+# 1) The admin SPA shell. Sent to /index.html so React Router takes over.
+/admin-tools/*  /index.html  200
+
+# 2) Redirects are dynamically generated from content/seo/redirects.json
+#    by scripts/generate-robots.ts (or a future generate-redirects.ts).
+
+# 3) Default SPA fallback for the landing page. NOTE: this MUST be the very last
+#    rule. Cloudflare serves prerendered static HTML files (/ru/foo/index.html)
+#    automatically before this rule fires, so money/blog pages get their real
+#    content, and only unknown paths fall back to the SPA shell.
+/*  /index.html  200

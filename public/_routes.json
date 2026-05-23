@@ -1,0 +1,11 @@
+/* Cloudflare Pages route rules
+ * Function paths handled by /functions:                    /api/*
+ *  Static prerendered money/blog pages and the SPA fallback:  everything else
+ *
+ * /_redirects controls the SPA-vs-prerender fallback.
+ */
+{
+  "version": 1,
+  "include": ["/api/*"],
+  "exclude": []
+}

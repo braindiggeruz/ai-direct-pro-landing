@@ -1,0 +1,62 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/biznes-uchun-ai-bot/",
+  "slug": "biznes-uchun-ai-bot",
+  "pageType": "money",
+  "primaryKeyword": "biznes uchun AI bot",
+  "secondaryKeywords": [
+    "O'zbekistonda biznes uchun AI bot",
+    "biznes uchun GPT bot",
+    "AI menejer biznes uchun"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Biznes uchun AI bot — Instagram va Telegram’da mijozlarga 24/7 javob",
+  "title": "Biznes uchun AI bot — Instagram va Telegram 24/7 | GPTBot",
+  "description": "Biznes uchun AI bot Instagram va Telegram’da mijozlarga 24/7 javob beradi, ism va telefonni yig‘adi, issiq lidlarni menejerga yuboradi. Nishingiz uchun demo.",
+  "canonical": "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
+  "hreflangRu": "/ru/ai-bot-dlya-biznesa/",
+  "hreflangUz": "/uz/biznes-uchun-ai-bot/",
+  "ogTitle": "Biznes uchun AI bot — 24/7 javob",
+  "ogDescription": "Instagram va Telegram uchun AI-menejer: 24/7 javob, kontakt yig‘ish va lidlarni menejerga yuborish.",
+  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Biznes uchun AI bot",
+  "heroTitle": "Biznes uchun AI bot, mijozlarni yo‘qotmaydi",
+  "heroSubtitle": "AI/GPT-menejer Instagram va Telegram’da 24/7 javob beradi, ism va telefonni yig‘adi, issiq lidlarni menejerga yuboradi.",
+  "ctaPrimaryLabel": "Telegram’da demoni ko‘rish",
+  "ctaPrimaryHref": "https://t.me/aidirectprobot?start=uz_ai_bot",
+  "ctaSecondaryLabel": "Qanday ishlashini ko‘rish",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    { "type": "h2", "text": "Biznes uchun AI bot nima qiladi" },
+    { "type": "p", "text": "Biznes uchun AI bot — bu GPT asosida ishlovchi virtual menejer. U Instagram Direct va Telegram’da avtomatik javob beradi, mijozning ehtiyojini aniqlaydi, ism va telefonni yig‘adi va tayyor lidni menejeringizga uzatadi." },
+    { "type": "h2", "text": "Imkoniyatlari" },
+    { "type": "list", "items": [
+      "Instagram va Telegram’da 24/7 javob",
+      "Rus va o‘zbek (UZ Latin) tilida muloqot",
+      "Aniqlovchi savollar bilan saralash",
+      "Ism, telefon va qiziqishni tuzilgan ko‘rinishda yig‘ish",
+      "Issiq lidni Telegram yoki CRM’ga uzatish",
+      "Spam va nomaqsadlilarni kesish"
+    ]},
+    { "type": "cta", "text": "Telegram’da demoni ko‘rish", "href": "https://t.me/aidirectprobot?start=uz_ai_bot" }
+  ],
+  "faq": [
+    { "q": "AI bot menejerni almashtiradimi?", "a": "Yo‘q. AI birinchi kontaktni o‘ziga oladi: tez javob beradi, mijozni saralaydi, ism va telefonni yig‘adi va tayyor issiq lidni sizning menejeringizga uzatadi." },
+    { "q": "Bot qaysi tillarda ishlaydi?", "a": "Rus va o‘zbek (UZ Latin). Ssenariy nishingizga moslashtiriladi." },
+    { "q": "CRM ulanishi mumkinmi?", "a": "Ha. Lid Telegram’ga yoki to‘g‘ridan-to‘g‘ri CRM’ga (Bitrix24, AmoCRM, Google Sheets) uzatiladi." },
+    { "q": "Narxi qancha?", "a": "Narx ssenariy va kanallar soniga bog‘liq. Nishingiz uchun bepul demo oling va ROI’ni baholang." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/instagram-bot-biznes-uchun/", "anchor": "Instagram bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/klinika-uchun-ai-bot/", "anchor": "klinika uchun AI bot", "locale": "uz", "type": "block" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-02-01",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-02-01T00:00:00Z"
+}

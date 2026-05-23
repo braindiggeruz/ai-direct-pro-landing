@@ -1,0 +1,9 @@
+[
+  {
+    "from": "/old-path/",
+    "to": "/new-path/",
+    "statusCode": 301,
+    "reason": "",
+    "createdAt": "2026-05-23T01:30:40.308Z"
+  }
+]

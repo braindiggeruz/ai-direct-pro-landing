@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://biznesbot.uz/sitemap.xml
+Sitemap: https://gptbot.uz/sitemap.xml

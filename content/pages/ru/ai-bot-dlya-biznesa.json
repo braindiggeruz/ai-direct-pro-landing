@@ -1,0 +1,134 @@
+{
+  "status": "draft",
+  "locale": "ru",
+  "url": "/ru/ai-bot-dlya-biznesa/",
+  "slug": "ai-bot-dlya-biznesa",
+  "pageType": "money",
+  "primaryKeyword": "AI-бот для бизнеса",
+  "secondaryKeywords": [
+    "AI бот для бизнеса Узбекистан",
+    "AI-менеджер для бизнеса",
+    "искусственный интеллект для бизнеса"
+  ],
+  "searchIntent": "commercial",
+  "h1": "AI-бот для бизнеса в Узбекистане — отвечает клиентам 24/7 в Telegram и Instagram",
+  "title": "AI-бот для бизнеса в Узбекистане — Telegram и Instagram 24/7 | GPTBot",
+  "description": "AI-бот для бизнеса отвечает клиентам в Telegram и Instagram 24/7, собирает имя, телефон и передаёт горячие заявки менеджеру. Демо под вашу нишу.",
+  "canonical": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+  "hreflangRu": "/ru/ai-bot-dlya-biznesa/",
+  "hreflangUz": "/uz/biznes-uchun-ai-bot/",
+  "ogTitle": "AI-бот для бизнеса — отвечает клиентам 24/7",
+  "ogDescription": "AI-менеджер для Instagram и Telegram: отвечает 24/7, собирает контакты и передаёт горячие заявки.",
+  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "AI-бот для бизнеса",
+  "heroTitle": "AI-бот для бизнеса, который не теряет заявки",
+  "heroSubtitle": "AI/GPT-менеджер отвечает клиентам в Instagram и Telegram 24/7, собирает имя, телефон и передаёт горячие заявки вашему менеджеру.",
+  "ctaPrimaryLabel": "Запустить демо в Telegram",
+  "ctaPrimaryHref": "https://t.me/aidirectprobot?start=ru_ai_bot",
+  "ctaSecondaryLabel": "Посмотреть, как работает",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Что такое AI-бот для бизнеса"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот для бизнеса — это виртуальный менеджер на базе GPT, который автоматически отвечает клиентам в Telegram и Instagram Direct. Он принимает заявки 24/7, ведёт диалог на русском и узбекском, собирает имя, телефон и потребность, а готового лида передаёт вашему менеджеру."
+    },
+    {
+      "type": "h2",
+      "text": "Что умеет AI-бот для бизнеса в Узбекистане"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Отвечать клиентам в Instagram Direct и Telegram за секунды, даже ночью",
+        "Понимать русский и узбекский (UZ Latin)",
+        "Задавать уточняющие вопросы и квалифицировать клиента",
+        "Собирать имя, телефон и интерес в структурированном виде",
+        "Передавать горячий лид менеджеру в Telegram или CRM",
+        "Отсекать спам и нецелевые запросы"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Для каких бизнесов подходит"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот работает для любого бизнеса, где первый контакт идёт через Direct: клиники и стоматологии, салоны красоты, учебные центры, магазины, недвижимость, HoReCa, сервисный бизнес."
+    },
+    {
+      "type": "cta",
+      "text": "Запустить демо в Telegram",
+      "href": "https://t.me/aidirectprobot?start=ru_ai_bot"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Чем AI-бот отличается от обычного чат-бота?",
+      "a": "Обычный чат-бот работает по жёсткому сценарию. AI-бот на базе GPT понимает свободные формулировки на русском и узбекском, задаёт уточняющие вопросы и ведёт диалог как живой менеджер."
+    },
+    {
+      "q": "AI-бот заменит менеджера?",
+      "a": "Нет. Он берёт на себя первый контакт: быстро отвечает, квалифицирует клиента, собирает имя и телефон — и передаёт готового горячего лида вашему менеджеру."
+    },
+    {
+      "q": "На каких языках работает AI-бот?",
+      "a": "Русский и узбекский (UZ Latin). Сценарий легко адаптируется под особенности вашей ниши и услуги."
+    },
+    {
+      "q": "Можно ли подключить CRM?",
+      "a": "Да. AI-бот передаёт лида либо в Telegram, либо напрямую в вашу CRM (Bitrix24, AmoCRM, Google Sheets, кастомные интеграции)."
+    },
+    {
+      "q": "Сколько стоит запуск AI-бота для бизнеса?",
+      "a": "Стоимость зависит от объёма сценария и количества каналов. Получите бесплатное демо под вашу нишу, чтобы оценить ROI."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/ru/telegram-bot-dlya-biznesa/",
+      "anchor": "Telegram-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/instagram-direct-bot/",
+      "anchor": "Instagram Direct бот",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "anchor": "GPT-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-kliniki/",
+      "anchor": "AI-бот для клиники",
+      "locale": "ru",
+      "type": "block"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-salona-krasoty/",
+      "anchor": "AI-бот для салона красоты",
+      "locale": "ru",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-02-01",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-23T01:30:39Z"
+}
