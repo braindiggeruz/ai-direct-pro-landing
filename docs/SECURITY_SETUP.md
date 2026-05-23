@@ -18,7 +18,11 @@ production deployment **will not start** without `JWT_SECRET`, `ADMIN_EMAIL`,
 | `ADMIN_PASSWORD` | ⚠️ dev only | Plain password fallback. **Delete in production once HASH is set.** |
 | `TURNSTILE_SITE_KEY` | optional | Public Turnstile key. If set, login UI renders the captcha. |
 | `TURNSTILE_SECRET_KEY` | optional | Server-side Turnstile secret. If set, login verifies the captcha. |
-| `EMERGENT_LLM_KEY` | optional | Emergent universal LLM key. Enables AI-fill button. Leave blank to disable. |
+| `OPENROUTER_API_KEY` | optional | OpenRouter key (server-side only — never reaches the browser). Enables AI-fill. Leave blank to disable AI-fill gracefully. |
+| `OPENROUTER_MODEL_ECONOMY` | optional | Default model for AI-fill. Defaults to `openai/gpt-4o-mini` (~$0.15/$0.60 per 1M tok, 128k ctx, native JSON mode, strong RU). |
+| `OPENROUTER_MODEL_QUALITY` | optional | Fallback / explicit-quality model. Defaults to `anthropic/claude-sonnet-4.5` (~$3/$15 per 1M tok, 1M ctx, best RU + Uzbek Latin). |
+| `OPENROUTER_SITE_URL` | optional | Sent as `HTTP-Referer` for OpenRouter attribution. Defaults to `https://gptbot.uz`. |
+| `OPENROUTER_APP_TITLE` | optional | Sent as `X-Title` for OpenRouter attribution. Defaults to `GPTBot SEO Cockpit`. |
 | `LOGIN_ATTEMPTS` *(KV binding)* | optional | Cloudflare KV namespace bound under the same name. Provides durable cross-isolate lockout. Falls back to in-isolate memory if absent. |
 
 ## 2. Generating the password hash
@@ -106,6 +110,7 @@ Both commands should print "no …".
 - [ ] `JWT_SECRET` is a random ≥ 32-char string.
 - [ ] `TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` configured (recommended).
 - [ ] `LOGIN_ATTEMPTS` KV namespace bound (recommended).
+- [ ] `OPENROUTER_API_KEY` set if AI-fill is wanted; left empty otherwise. Key never appears in client bundle.
 - [ ] `/admin-tools/` is reachable but requires sign-in.
 - [ ] `robots.txt` disallows `/admin-tools/` and `/api/`.
 - [ ] Cloudflare Web Application Firewall enabled (default tier is fine).

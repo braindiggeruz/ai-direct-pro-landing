@@ -12,6 +12,12 @@
 //   TURNSTILE_SECRET_KEY    optional. Server side. Skips verify if unset.
 //   TURNSTILE_SITE_KEY      optional. Public. Exposed by /api/auth/config to the SPA.
 //
+//   OPENROUTER_API_KEY      optional. Server-side LLM key for AI-fill (never exposed to client).
+//   OPENROUTER_MODEL_ECONOMY  optional. Defaults to openai/gpt-4o-mini.
+//   OPENROUTER_MODEL_QUALITY  optional. Defaults to anthropic/claude-sonnet-4.5.
+//   OPENROUTER_SITE_URL     optional. Sent as HTTP-Referer attribution. Defaults to https://gptbot.uz.
+//   OPENROUTER_APP_TITLE    optional. Sent as X-Title attribution. Defaults to "GPTBot SEO Cockpit".
+//
 // Optional bindings (set under Settings → Functions):
 //   LOGIN_ATTEMPTS          KV namespace for durable lockout (recommended).
 export interface Env {
@@ -25,5 +31,10 @@ export interface Env {
   JWT_SECRET: string;
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_SITE_KEY?: string;
+  OPENROUTER_API_KEY?: string;
+  OPENROUTER_MODEL_ECONOMY?: string;
+  OPENROUTER_MODEL_QUALITY?: string;
+  OPENROUTER_SITE_URL?: string;
+  OPENROUTER_APP_TITLE?: string;
   LOGIN_ATTEMPTS?: KVNamespace;
 }

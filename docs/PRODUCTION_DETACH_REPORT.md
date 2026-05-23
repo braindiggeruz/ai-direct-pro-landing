@@ -47,7 +47,7 @@ proprietary database.
 | Authentication | JWT (HS256, jose) + PBKDF2 hash, env vars | ❌ No |
 | Database | None — no MongoDB, no Postgres | ❌ No |
 | Build process | `yarn build` (Vite + tsx scripts) on Cloudflare CI | ❌ No |
-| AI assistant | Optional — uses Emergent universal LLM key but **never required** for runtime or rendering. Disable by leaving `EMERGENT_LLM_KEY` blank. | Optional |
+| AI assistant | Optional — uses **OpenRouter** (server-side only, key in Cloudflare env `OPENROUTER_API_KEY`). Disable by leaving the key blank; build/deploy still pass. No Emergent dependency in production. | Optional |
 
 The FastAPI server at `/app/backend/server.py` exists **only as a development
 mirror** so the admin UI can run locally inside the Emergent workspace before
