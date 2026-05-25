@@ -1,39 +1,141 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "ru",
   "url": "/ru/instagram-direct-bot/",
   "slug": "instagram-direct-bot",
   "pageType": "money",
   "primaryKeyword": "Instagram Direct бот",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "бот для Instagram",
+    "чат-бот Instagram",
+    "автоматизация Instagram",
+    "AI Direct"
+  ],
   "searchIntent": "commercial",
-  "h1": "Instagram Direct бот с AI для бизнеса",
-  "title": "Instagram Direct бот с AI — отвечает 24/7 и собирает заявки | GPTBot",
-  "description": "Instagram Direct бот с AI отвечает клиентам 24/7, квалифицирует, собирает имя и телефон и передаёт лида менеджеру.",
+  "h1": "Instagram Direct бот для бизнеса",
+  "title": "Instagram Direct бот — AI-ответы 24/7 | GPTBot",
+  "description": "Instagram Direct бот автоматизирует общение в Instagram: отвечает на сообщения и комментарии 24/7, собирает заявки и передаёт клиентские данные менеджеру в Tel.",
   "canonical": "https://gptbot.uz/ru/instagram-direct-bot/",
   "hreflangRu": "/ru/instagram-direct-bot/",
   "hreflangUz": "/uz/instagram-bot-biznes-uchun/",
-  "ogTitle": "Instagram Direct бот с AI — отвечает 24/7 и собирает заявки | GPTBot",
-  "ogDescription": "Instagram Direct бот с AI отвечает клиентам 24/7, квалифицирует, собирает имя и телефон и передаёт лида менеджеру.",
+  "ogTitle": "Instagram Direct бот — AI-ответы 24/7 | GPTBot",
+  "ogDescription": "Instagram Direct бот автоматизирует общение в Instagram: отвечает на сообщения и комментарии 24/7, собирает заявки и передаёт клиентские данные менеджеру в Tel.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "Instagram Direct бот",
-  "heroTitle": "Instagram Direct бот с AI для бизнеса",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Запустить демо в Telegram",
+  "breadcrumbLabel": "Instagram Direct бот для бизнеса",
+  "heroTitle": "Instagram Direct бот для бизнеса",
+  "heroSubtitle": "Бот отвечает в Instagram Direct и на комментарии, собирает имя и телефон и передаёт горячую заявку менеджеру.",
+  "ctaPrimaryLabel": "Подключить Instagram-бот",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Посмотреть, как работает",
+  "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Что делает Instagram Direct бот"
+    },
+    {
+      "type": "p",
+      "text": "Бот автоматически отвечает на Direct и комментарии, задаёт уточняющие вопросы (имя, услуга, время) и передаёт готовую заявку с данными менеджеру в Telegram или CRM."
+    },
+    {
+      "type": "h2",
+      "text": "Почему заявки теряются"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Заявки из Instagram теряются между Direct и комментариями",
+        "Менеджеры не успевают отвечать в Direct",
+        "Клиенты уходят к конкуренту из-за задержки",
+        "Нет учёта обращений из Instagram"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как это работает"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот подключается к Telegram и Instagram Direct, отвечает на входящие сообщения, задаёт уточняющие вопросы, собирает имя и контакт и передаёт готовую заявку менеджеру в Telegram или CRM. Сценарий настраивается под нишу."
+    },
+    {
+      "type": "h2",
+      "text": "Что получает бизнес"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Автоматические ответы в Instagram Direct",
+        "Реакция на комментарии",
+        "Сбор клиентских данных",
+        "Передача горячих заявок менеджерам",
+        "Снижение риска потери лидов"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Подключить Instagram-бот",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Как привязать бота к Instagram?",
+      "a": "Привязка идёт через Meta Business Suite и Instagram API (бизнес-аккаунт). Мы помогаем с настройкой технической части."
+    },
+    {
+      "q": "Есть ли лимиты на сообщения в Instagram?",
+      "a": "Да, Instagram ограничивает частоту автоответов. Бот учитывает лимиты Meta и работает в их рамках."
+    },
+    {
+      "q": "Безопасно ли хранить данные клиентов?",
+      "a": "Данные хранятся в зашифрованном виде. Передача в CRM идёт по защищённым каналам. Мы не передаём данные третьим лицам."
+    },
+    {
+      "q": "Может ли бот отвечать на комментарии под постами?",
+      "a": "Да. Бот реагирует на комментарии и переводит общение в Direct для сбора контакта."
+    },
+    {
+      "q": "Поддерживается ли узбекский язык?",
+      "a": "Да, русский и узбекский (UZ Latin). Скрипт настраиваем под аудиторию вашей ниши."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/ru/ai-menedzher-dlya-instagram/",
+      "anchor": "AI-менеджер для Instagram",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-biznesa/",
+      "anchor": "AI-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/telegram-bot-dlya-biznesa/",
+      "anchor": "Telegram-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/avtomatizatsiya-zayavok/",
+      "anchor": "автоматизация заявок",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.678Z",
-  "updatedAt": "2026-05-23T01:12:59.678Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.501Z"
 }

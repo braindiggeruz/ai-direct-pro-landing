@@ -5,35 +5,131 @@
   "slug": "klinika-uchun-ai-bot",
   "pageType": "money",
   "primaryKeyword": "klinika uchun AI bot",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "tibbiy chatbot",
+    "qabulga yozilish bot",
+    "klinikani avtomatlashtirish",
+    "bemor uchun bot"
+  ],
   "searchIntent": "commercial",
-  "h1": "Klinika uchun AI bot: 24/7 yozilish",
-  "title": "Klinika uchun AI bot — 24/7 yozilish va javoblar | GPTBot",
-  "description": "Klinika uchun AI bot bemorlarga 24/7 javob beradi, ularni qabulga yozadi va administratorga lid uzatadi.",
+  "h1": "Klinika uchun AI bot: virtual ro'yxatxona",
+  "title": "Klinika uchun AI bot — qabulga 24/7 yozuv | GPTBot",
+  "description": "Klinika uchun AI bot Telegram va Instagram'da qabulga yozuvni avtomatlashtiradi, bemorlar savollariga 24/7 javob beradi va ro'yxatxonani bo'shatadi.",
   "canonical": "https://gptbot.uz/uz/klinika-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-kliniki/",
   "hreflangUz": "/uz/klinika-uchun-ai-bot/",
-  "ogTitle": "Klinika uchun AI bot — 24/7 yozilish va javoblar | GPTBot",
-  "ogDescription": "Klinika uchun AI bot bemorlarga 24/7 javob beradi, ularni qabulga yozadi va administratorga lid uzatadi.",
+  "ogTitle": "Klinika uchun AI bot — qabulga 24/7 yozuv | GPTBot",
+  "ogDescription": "Klinika uchun AI bot Telegram va Instagram'da qabulga yozuvni avtomatlashtiradi, bemorlar savollariga 24/7 javob beradi va ro'yxatxonani bo'shatadi.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "klinika uchun AI bot",
-  "heroTitle": "Klinika uchun AI bot: 24/7 yozilish",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Telegram’da demoni ko‘rish",
+  "breadcrumbLabel": "Klinika uchun AI bot",
+  "heroTitle": "Klinika uchun AI bot: virtual ro'yxatxona",
+  "heroSubtitle": "Bemorlarni qabulga yozadi, tashrifni eslatadi va tipik savollarga 24/7 javob beradi.",
+  "ctaPrimaryLabel": "Bemorlarni qabul qilishni avtomatlashtirish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Qanday ishlashini ko‘rish",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "klinika uchun AI bot nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Bot bemorlarni yozuvga oladi, qabulni eslatadi, tez-tez beriladigan savollarga javob beradi (manzil, ish vaqti, xizmatlar). Tashriflarni o'tkazib yuborishni kamaytiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun arizalar yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ro'yxatxona band — bemorlar qo'ng'iroq qila olmaydi",
+        "Ish vaqtidan tashqari yozilish imkonsiz",
+        "O'tkazib yuborilgan qo'ng'iroqlar va kelmaganlar",
+        "Ro'yxatga oluvchi bir xil savollarga vaqt sarflaydi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qabulga yozuvni avtomatlashtirish",
+        "Bemorlar uchun 24/7 imkoniyat",
+        "Ro'yxatxona yukini kamaytirish",
+        "Kam o'tkazib yuborilgan tashriflar",
+        "Bemorlar uchun qulaylik"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Bemorlarni qabul qilishni avtomatlashtirish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Mavjud jadval bilan integratsiya qilish mumkinmi?",
+      "a": "Ha. Tibbiy jadvallar va MIS bilan API orqali integratsiyani qo'llab-quvvatlaymiz."
+    },
+    {
+      "q": "O'zbek tilini qo'llab-quvvatlaydimi?",
+      "a": "Ha, rus va o'zbek (UZ Latin). Skriptni klinikangiz auditoriyasiga moslashtiramiz."
+    },
+    {
+      "q": "Shoshilinch holatlarni qanday boshqaradi?",
+      "a": "Ssenariyda eskalatsiya bor: shoshilinch so'rovlarda bot bemorni jonli administratorga uzatadi va shoshilinch xizmat raqamini ko'rsatadi."
+    },
+    {
+      "q": "Bot qanday ma'lumotlarni yig'adi?",
+      "a": "Ism, telefon, xizmat, kerakli vaqt. Qo'shimcha maydonlar — klinika talablariga ko'ra."
+    },
+    {
+      "q": "Tashrifni qanday eslatadi?",
+      "a": "Telegram'da tashrifdan bir kun oldin va/yoki qabul kuni ertalab avtomatik eslatma."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.680Z",
-  "updatedAt": "2026-05-23T01:12:59.680Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.504Z"
 }

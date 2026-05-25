@@ -1,39 +1,141 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "ru",
   "url": "/ru/gpt-bot-dlya-biznesa/",
   "slug": "gpt-bot-dlya-biznesa",
   "pageType": "money",
   "primaryKeyword": "GPT-бот для бизнеса",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "AI-чатбот",
+    "GPT для бизнеса",
+    "генеративный AI",
+    "GPT-ответчик"
+  ],
   "searchIntent": "commercial",
-  "h1": "GPT-бот для бизнеса в Узбекистане",
-  "title": "GPT-бот для бизнеса в Узбекистане — 24/7 ответы клиентам | GPTBot",
-  "description": "GPT-бот отвечает клиентам в Telegram и Instagram 24/7, понимает RU и UZ, собирает имя и телефон, передаёт горячий лид менеджеру.",
+  "h1": "GPT-бот для бизнеса: умный ответчик 24/7",
+  "title": "GPT-бот для бизнеса — умный AI-чатбот 24/7 | GPTBot",
+  "description": "GPT-бот для бизнеса понимает естественный язык, ведёт диалоги с клиентами 24/7 в Telegram и Instagram, отвечает на нестандартные вопросы и передаёт заявки мене.",
   "canonical": "https://gptbot.uz/ru/gpt-bot-dlya-biznesa/",
   "hreflangRu": "/ru/gpt-bot-dlya-biznesa/",
   "hreflangUz": "/uz/gpt-bot-biznes-uchun/",
-  "ogTitle": "GPT-бот для бизнеса в Узбекистане — 24/7 ответы клиентам | GPTBot",
-  "ogDescription": "GPT-бот отвечает клиентам в Telegram и Instagram 24/7, понимает RU и UZ, собирает имя и телефон, передаёт горячий лид менеджеру.",
+  "ogTitle": "GPT-бот для бизнеса — умный AI-чатбот 24/7 | GPTBot",
+  "ogDescription": "GPT-бот для бизнеса понимает естественный язык, ведёт диалоги с клиентами 24/7 в Telegram и Instagram, отвечает на нестандартные вопросы и передаёт заявки мене.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "GPT-бот для бизнеса",
-  "heroTitle": "GPT-бот для бизнеса в Узбекистане",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Запустить демо в Telegram",
+  "heroTitle": "GPT-бот для бизнеса: умный ответчик 24/7",
+  "heroSubtitle": "GPT-бот понимает естественный язык, отвечает осмысленно и передаёт заявки менеджеру в Telegram или CRM.",
+  "ctaPrimaryLabel": "Получить демо GPT-бота",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Посмотреть, как работает",
+  "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Что делает GPT-бот для бизнеса"
+    },
+    {
+      "type": "p",
+      "text": "GPT-бот понимает естественный язык лучше скриптовых чат-ботов, отвечает осмысленно и контекстно. Обучаем под типовые запросы вашей ниши, работает 24/7, передаёт квалифицированные заявки менеджеру."
+    },
+    {
+      "type": "h2",
+      "text": "Почему заявки теряются"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Обычные чат-боты не понимают сложные запросы",
+        "Клиенты хотят быстрых и точных ответов",
+        "Нужен более естественный диалог, не FAQ-кнопки",
+        "Менеджеры тратят время на однотипные вопросы"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как это работает"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот подключается к Telegram и Instagram Direct, отвечает на входящие сообщения, задаёт уточняющие вопросы, собирает имя и контакт и передаёт готовую заявку менеджеру в Telegram или CRM. Сценарий настраивается под нишу."
+    },
+    {
+      "type": "h2",
+      "text": "Что получает бизнес"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Глубокое понимание естественного языка",
+        "Осмысленные и релевантные ответы",
+        "Работа с нестандартными вопросами",
+        "Естественные диалоги вместо кнопочного меню",
+        "Круглосуточная работа в Telegram и Instagram"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Получить демо GPT-бота",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Что такое GPT-бот?",
+      "a": "GPT-бот — это AI-чатбот на базе генеративной языковой модели. Он понимает свободный текст клиента и отвечает близко к естественному диалогу, без жёстких кнопок."
+    },
+    {
+      "q": "Чем GPT-бот лучше обычного чат-бота?",
+      "a": "Скриптовый чат-бот работает по дереву ответов и часто упирается в неизвестный вопрос. GPT-бот понимает свободные формулировки и отвечает осмысленно по контексту."
+    },
+    {
+      "q": "Нужно ли обучать GPT-бот?",
+      "a": "Базовая модель уже умеет вести диалог. Мы дообучаем её под вашу нишу: услуги, цены, типовые возражения, скрипты квалификации лида."
+    },
+    {
+      "q": "Поддерживает ли GPT-бот русский и узбекский языки?",
+      "a": "Да, русский и узбекский (UZ Latin). Сценарий адаптируется под аудиторию вашей ниши."
+    },
+    {
+      "q": "Куда GPT-бот отправляет заявки?",
+      "a": "Заявка уходит в Telegram, на e-mail или напрямую в CRM (Bitrix24, AmoCRM, Google Sheets, кастомные интеграции)."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/ru/ai-bot-dlya-biznesa/",
+      "anchor": "AI-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/chat-bot-dlya-biznesa/",
+      "anchor": "чат-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/telegram-bot-dlya-biznesa/",
+      "anchor": "Telegram-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-prodavec/",
+      "anchor": "AI-продавец",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.676Z",
-  "updatedAt": "2026-05-23T01:12:59.677Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.500Z"
 }

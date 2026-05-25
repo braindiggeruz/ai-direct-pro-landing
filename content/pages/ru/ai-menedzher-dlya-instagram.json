@@ -5,34 +5,130 @@
   "slug": "ai-menedzher-dlya-instagram",
   "pageType": "money",
   "primaryKeyword": "AI-менеджер для Instagram",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "бот-менеджер Instagram",
+    "виртуальный менеджер",
+    "автоматизация SMM",
+    "Direct бот"
+  ],
   "searchIntent": "commercial",
-  "h1": "AI-менеджер для Instagram, который отвечает за вас",
-  "title": "AI-менеджер для Instagram — авто-ответы в Direct 24/7 | GPTBot",
-  "description": "AI-менеджер для Instagram Direct отвечает 24/7 на русском и узбекском, собирает контакты и передаёт горячие лиды менеджеру.",
+  "h1": "AI-менеджер для Instagram: виртуальный помощник",
+  "title": "AI-менеджер для Instagram — автоответы и заявки",
+  "description": "AI-менеджер для Instagram управляет каналом: отвечает на комментарии и Direct-сообщения, записывает клиентов и передаёт горячие заявки в Telegram или CRM 24/7.",
   "canonical": "https://gptbot.uz/ru/ai-menedzher-dlya-instagram/",
   "hreflangRu": "/ru/ai-menedzher-dlya-instagram/",
-  "ogTitle": "AI-менеджер для Instagram — авто-ответы в Direct 24/7 | GPTBot",
-  "ogDescription": "AI-менеджер для Instagram Direct отвечает 24/7 на русском и узбекском, собирает контакты и передаёт горячие лиды менеджеру.",
+  "ogTitle": "AI-менеджер для Instagram — автоответы и заявки",
+  "ogDescription": "AI-менеджер для Instagram управляет каналом: отвечает на комментарии и Direct-сообщения, записывает клиентов и передаёт горячие заявки в Telegram или CRM 24/7.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "AI-менеджер для Instagram",
-  "heroTitle": "AI-менеджер для Instagram, который отвечает за вас",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Запустить демо в Telegram",
+  "heroTitle": "AI-менеджер для Instagram: виртуальный помощник",
+  "heroSubtitle": "AI-менеджер отвечает в Instagram Direct и комментариях, инициирует продажу и передаёт заявки менеджеру.",
+  "ctaPrimaryLabel": "Подключить AI-менеджера",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Посмотреть, как работает",
+  "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Что делает AI-менеджер для Instagram"
+    },
+    {
+      "type": "p",
+      "text": "AI-менеджер отвечает на все новые сообщения, собирает контакт и инициирует продажу. С ним не образуется очередь из непрочитанного."
+    },
+    {
+      "type": "h2",
+      "text": "Почему заявки теряются"
+    },
+    {
+      "type": "list",
+      "items": [
+        "SMM-команда не успевает закрывать Direct и комментарии",
+        "Потеря продаж из-за нехватки операторов",
+        "Долгий первый ответ — заявка остывает",
+        "Нет единого канала учёта обращений"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как это работает"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот подключается к Telegram и Instagram Direct, отвечает на входящие сообщения, задаёт уточняющие вопросы, собирает имя и контакт и передаёт готовую заявку менеджеру в Telegram или CRM. Сценарий настраивается под нишу."
+    },
+    {
+      "type": "h2",
+      "text": "Что получает бизнес"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Разгрузка SMM-менеджеров",
+        "Рост вовлечённости в Instagram",
+        "Автоответы на сообщения и комментарии",
+        "Сбор контактной информации",
+        "Инициирование продаж в Direct"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Подключить AI-менеджера",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Как передаются заявки менеджеру?",
+      "a": "Заявка уходит в Telegram, на e-mail или в CRM (AmoCRM, Bitrix24, Google Sheets) сразу после квалификации."
+    },
+    {
+      "q": "Поддерживает ли AI-менеджер узбекский язык?",
+      "a": "Да, русский и узбекский (UZ Latin). Сценарий и тон настраиваем под аудиторию."
+    },
+    {
+      "q": "Может ли управлять несколькими аккаунтами?",
+      "a": "Да, можно подключить несколько Instagram-аккаунтов в один сценарий или разные."
+    },
+    {
+      "q": "Влияет ли AI-менеджер на органический охват?",
+      "a": "Сам AI-менеджер не влияет на алгоритм Instagram. Влияет качество диалога — мы делаем тон, близкий к живому."
+    },
+    {
+      "q": "Заменяет ли AI-менеджер живого SMM?",
+      "a": "Нет. Закрывает первый контакт и рутину, живой менеджер закрывает сложные диалоги и сделки."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/ru/instagram-direct-bot/",
+      "anchor": "Instagram Direct бот",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-prodavec/",
+      "anchor": "AI-продавец",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-biznesa/",
+      "anchor": "AI-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.678Z",
-  "updatedAt": "2026-05-23T01:12:59.678Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.501Z"
 }

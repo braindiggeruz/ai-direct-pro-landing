@@ -8,54 +8,76 @@
   "secondaryKeywords": [
     "O'zbekistonda biznes uchun AI bot",
     "biznes uchun GPT bot",
-    "AI menejer biznes uchun"
+    "AI menejer biznes uchun",
+    "Telegram bot biznes"
   ],
   "searchIntent": "commercial",
-  "h1": "Biznes uchun AI bot — Instagram va Telegram’da mijozlarga 24/7 javob",
-  "title": "Biznes uchun AI bot — Instagram va Telegram 24/7 | GPTBot",
-  "description": "Biznes uchun AI bot Instagram va Telegram’da mijozlarga 24/7 javob beradi, ism va telefonni yig‘adi, issiq lidlarni menejerga yuboradi. Nishingiz uchun demo.",
+  "h1": "Biznes uchun AI bot — Instagram va Telegram'da mijozlarga 24/7 javob",
+  "title": "Biznes uchun AI bot — mijozlar bilan 24/7 aloqa | GPTBot",
+  "description": "Biznes uchun AI bot Instagram va Telegram'da 24/7 javob beradi, mijozning ism va telefonini yig'adi, issiq lidlarni Telegram yoki CRM'dagi menejerga uzatadi.",
   "canonical": "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-biznesa/",
   "hreflangUz": "/uz/biznes-uchun-ai-bot/",
-  "ogTitle": "Biznes uchun AI bot — 24/7 javob",
-  "ogDescription": "Instagram va Telegram uchun AI-menejer: 24/7 javob, kontakt yig‘ish va lidlarni menejerga yuborish.",
+  "ogTitle": "Biznes uchun AI bot — mijozlar bilan 24/7 aloqa | GPTBot",
+  "ogDescription": "Biznes uchun AI bot Instagram va Telegram'da 24/7 javob beradi, mijozning ism va telefonini yig'adi, issiq lidlarni Telegram yoki CRM'dagi menejerga uzatadi.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "Biznes uchun AI bot",
-  "heroTitle": "Biznes uchun AI bot, mijozlarni yo‘qotmaydi",
-  "heroSubtitle": "AI/GPT-menejer Instagram va Telegram’da 24/7 javob beradi, ism va telefonni yig‘adi, issiq lidlarni menejerga yuboradi.",
-  "ctaPrimaryLabel": "Telegram’da demoni ko‘rish",
+  "breadcrumbLabel": "Biznes uchun AI bot — Instagram va Telegram'da mijozlarga 24/7 javob",
+  "heroTitle": "Biznes uchun AI bot — Instagram va Telegram'da mijozlarga 24/7 javob",
+  "heroSubtitle": "AI/GPT-menejer Instagram va Telegram'da 24/7 javob beradi, ism va telefonni yig'adi va issiq lidlarni menejerga uzatadi.",
+  "ctaPrimaryLabel": "Telegram'da demo so'rash",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Qanday ishlashini ko‘rish",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
     {
       "type": "h2",
-      "text": "Biznes uchun AI bot nima qiladi"
+      "text": "biznes uchun AI bot nima qiladi"
     },
     {
       "type": "p",
-      "text": "Biznes uchun AI bot — bu GPT asosida ishlovchi virtual menejer. U Instagram Direct va Telegram’da avtomatik javob beradi, mijozning ehtiyojini aniqlaydi, ism va telefonni yig‘adi va tayyor lidni menejeringizga uzatadi."
+      "text": "AI bot mijozlarga bir zumda va 24/7 javob beradi, lidni avtomatik malakalaydi va to'ldirilgan arizani menejerga uzatadi: ism, telefon, savol. Sotuv bo'limini kengaytirmasdan kuchaytiradi."
     },
     {
       "type": "h2",
-      "text": "Imkoniyatlari"
+      "text": "Nima uchun arizalar yo'qoladi"
     },
     {
       "type": "list",
       "items": [
-        "Instagram va Telegram’da 24/7 javob",
-        "Rus va o‘zbek (UZ Latin) tilida muloqot",
-        "Aniqlovchi savollar bilan saralash",
-        "Ism, telefon va qiziqishni tuzilgan ko‘rinishda yig‘ish",
-        "Issiq lidni Telegram yoki CRM’ga uzatish",
-        "Spam va nomaqsadlilarni kesish"
+        "Mijoz so'rovlariga sekin javob berish",
+        "Kiruvchi arizalarni o'tkazib yuborish",
+        "Tezkor javob bo'lmagani sababli mijozlar yo'qotilishi",
+        "Menejerlar oddiy savollar bilan band",
+        "Operativ javob bo'lmagani sababli lidlar sovib qoladi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "24/7 ishlash va tezkor javoblar",
+        "Ko'proq qayta ishlangan arizalar",
+        "Birinchi javob muddatini qisqartirish",
+        "Lidlarni avtomatik malakalash",
+        "Tayyor arizalarni Telegram yoki CRM'ga uzatish"
       ]
     },
     {
       "type": "cta",
-      "text": "Telegram’da demoni ko‘rish",
+      "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
     }
   ],
@@ -75,9 +97,27 @@
     {
       "q": "Narxi qancha?",
       "a": "Narx ssenariy va kanallar soniga bog‘liq. Nishingiz uchun bepul demo oling va ROI’ni baholang."
+    },
+    {
+      "q": "AI botni joriy etish qancha turadi?",
+      "a": "Narx ssenariy va kanallar soniga bog'liq. Telegramga yozing, nishingiz uchun individual smeta va пример sсенарий tayyorlaymiz: https://t.me/XGame_changerx."
+    },
+    {
+      "q": "Bot tayyorlash qancha vaqt oladi?",
+      "a": "Muddat integratsiya murakkabligiga bog'liq. Bazaviy ssenariy tez ishga tushadi, to'liq yechim — alohida muhokama qilamiz."
+    },
+    {
+      "q": "Bot uchun maxsus server kerakmi?",
+      "a": "Odatda yo'q: bot bulutda ishlaydi, qo'shimcha infratuzilma talab qilmaydi. Iltimosingizga ko'ra alohida serverda joylashtirish mumkin."
     }
   ],
   "internalLinks": [
+    {
+      "target": "/uz/gpt-bot-biznes-uchun/",
+      "anchor": "GPT-bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
     {
       "target": "/uz/telegram-bot-biznes-uchun/",
       "anchor": "Telegram bot biznes uchun",
@@ -95,12 +135,6 @@
       "anchor": "arizalarni avtomatlashtirish",
       "locale": "uz",
       "type": "contextual"
-    },
-    {
-      "target": "/uz/klinika-uchun-ai-bot/",
-      "anchor": "klinika uchun AI bot",
-      "locale": "uz",
-      "type": "block"
     }
   ],
   "schemaTypes": [
@@ -110,7 +144,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-02-01",
+  "lastReviewedAt": "2026-05-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-02-01T00:00:00Z"
+  "updatedAt": "2026-05-25T09:39:29.503Z"
 }

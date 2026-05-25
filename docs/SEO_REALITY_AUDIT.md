@@ -8,41 +8,41 @@
 | Metric | Value |
 |---|---|
 | Total pages | 25 |
-| Published | 2 |
-| Drafts | 23 |
+| Published | 8 |
+| Drafts | 17 |
 | Mojibake pages | 0 |
-| Money pages with FAQ < 4 | 22 |
-| Money pages with inbound < 2 | 24 |
+| Money pages with FAQ < 4 | 0 |
+| Money pages with inbound < 2 | 10 |
 
 ## Per-page truth table
 
 | URL | loc | status | type | title | h1 | desc | mojib | FAQ | inb | hreflang | robots | sitemap | live | done | score | action |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `/ru/ai-bot-dlya-biznesa/` | ru | draft | money | weak(69) | yes | yes | no | 5 | 1 | ok | yes | no | — | 4/4 | 90 | **add-inbound-links** |
-| `/ru/ai-bot-dlya-horeca/` | ru | draft | money | yes | yes | weak(108) | no | 0 | 0 | missing | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/ru/ai-bot-dlya-kliniki/` | ru | draft | money | weak(66) | yes | weak(105) | no | 0 | 1 | ok | yes | no | — | 1/4 | 65 | **add-faq** |
-| `/ru/ai-bot-dlya-magazina/` | ru | draft | money | weak(67) | yes | weak(101) | no | 0 | 0 | ok | yes | no | — | 1/4 | 65 | **add-faq** |
-| `/ru/ai-bot-dlya-salona-krasoty/` | ru | draft | money | yes | yes | weak(114) | no | 0 | 1 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/ru/ai-bot-dlya-uchebnogo-tsentra/` | ru | draft | money | yes | yes | weak(101) | no | 0 | 0 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/ru/ai-menedzher-dlya-instagram/` | ru | draft | money | yes | yes | yes | no | 0 | 0 | missing | yes | no | — | 1/4 | 75 | **add-faq** |
-| `/ru/ai-prodavec/` | ru | draft | money | yes | yes | weak(117) | no | 0 | 0 | missing | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/ru/avtomatizatsiya-prodazh/` | ru | draft | money | weak(71) | yes | weak(112) | no | 0 | 0 | ok | yes | no | — | 1/4 | 65 | **add-faq** |
-| `/ru/avtomatizatsiya-zayavok/` | ru | draft | money | yes | yes | weak(110) | no | 0 | 1 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/ru/bot-dlya-obrabotki-zayavok/` | ru | draft | money | yes | yes | yes | no | 0 | 0 | missing | yes | no | — | 1/4 | 75 | **add-faq** |
-| `/ru/chat-bot-dlya-biznesa/` | ru | draft | money | weak(76) | yes | weak(114) | no | 0 | 0 | missing | yes | no | — | 1/4 | 65 | **add-faq** |
-| `/ru/gpt-bot-dlya-biznesa/` | ru | draft | money | yes | yes | yes | no | 0 | 1 | ok | yes | no | — | 1/4 | 75 | **add-faq** |
-| `/ru/instagram-direct-bot/` | ru | draft | money | weak(68) | yes | weak(114) | no | 0 | 2 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/ru/telegram-bot-dlya-biznesa/` | ru | published | money | weak(67) | yes | yes | no | 4 | 1 | ok | yes | yes | [link](https://gptbot.uz/ru/telegram-bot-dlya-biznesa/) | 4/4 | 90 | **add-inbound-links** |
-| `/uz/arizalarni-avtomatlashtirish/` | uz | draft | money | weak(67) | yes | weak(108) | no | 0 | 1 | ok | yes | no | — | 1/4 | 65 | **add-faq** |
-| `/uz/biznes-uchun-ai-bot/` | uz | published | money | yes | yes | yes | no | 4 | 0 | ok | yes | yes | [link](https://gptbot.uz/uz/biznes-uchun-ai-bot/) | 4/4 | 95 | **add-inbound-links** |
-| `/uz/dokon-uchun-ai-bot/` | uz | draft | money | yes | yes | weak(115) | no | 0 | 0 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/uz/gpt-bot-biznes-uchun/` | uz | draft | money | weak(42) | yes | yes | no | 0 | 0 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/uz/instagram-bot-biznes-uchun/` | uz | draft | money | yes | yes | weak(108) | no | 0 | 1 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/uz/klinika-uchun-ai-bot/` | uz | draft | money | yes | yes | weak(104) | no | 0 | 1 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/uz/oquv-markazi-uchun-ai-bot/` | uz | draft | money | yes | yes | weak(116) | no | 0 | 0 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/uz/salon-uchun-ai-bot/` | uz | draft | money | yes | yes | weak(114) | no | 0 | 0 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/uz/savdoni-avtomatlashtirish/` | uz | draft | money | weak(66) | yes | yes | no | 0 | 0 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
-| `/uz/telegram-bot-biznes-uchun/` | uz | draft | money | yes | yes | weak(115) | no | 0 | 1 | ok | yes | no | — | 1/4 | 70 | **add-faq** |
+| `/ru/ai-bot-dlya-biznesa/` | ru | published | money | yes | yes | yes | no | 7 | 12 | ok | yes | yes | [link](https://gptbot.uz/ru/ai-bot-dlya-biznesa/) | 4/4 | 100 | **keep-published** |
+| `/ru/ai-bot-dlya-horeca/` | ru | draft | money | yes | yes | yes | no | 5 | 0 | missing | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/ru/ai-bot-dlya-kliniki/` | ru | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/ru/ai-bot-dlya-magazina/` | ru | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 90 | **add-inbound-links** |
+| `/ru/ai-bot-dlya-salona-krasoty/` | ru | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/ru/ai-bot-dlya-uchebnogo-tsentra/` | ru | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/ru/ai-menedzher-dlya-instagram/` | ru | draft | money | yes | yes | yes | no | 5 | 2 | missing | yes | no | — | 4/4 | 100 | **ready-to-publish** |
+| `/ru/ai-prodavec/` | ru | draft | money | yes | yes | yes | no | 5 | 4 | missing | yes | no | — | 4/4 | 100 | **ready-to-publish** |
+| `/ru/avtomatizatsiya-prodazh/` | ru | draft | money | yes | yes | yes | no | 5 | 2 | ok | yes | no | — | 4/4 | 100 | **ready-to-publish** |
+| `/ru/avtomatizatsiya-zayavok/` | ru | draft | money | yes | yes | yes | no | 5 | 8 | ok | yes | no | — | 4/4 | 100 | **ready-to-publish** |
+| `/ru/bot-dlya-obrabotki-zayavok/` | ru | draft | money | yes | yes | yes | no | 5 | 2 | missing | yes | no | — | 4/4 | 100 | **ready-to-publish** |
+| `/ru/chat-bot-dlya-biznesa/` | ru | published | money | yes | yes | yes | no | 5 | 4 | missing | yes | yes | [link](https://gptbot.uz/ru/chat-bot-dlya-biznesa/) | 4/4 | 100 | **keep-published** |
+| `/ru/gpt-bot-dlya-biznesa/` | ru | published | money | yes | yes | yes | no | 5 | 3 | ok | yes | yes | [link](https://gptbot.uz/ru/gpt-bot-dlya-biznesa/) | 4/4 | 100 | **keep-published** |
+| `/ru/instagram-direct-bot/` | ru | published | money | yes | yes | yes | no | 5 | 7 | ok | yes | yes | [link](https://gptbot.uz/ru/instagram-direct-bot/) | 4/4 | 100 | **keep-published** |
+| `/ru/telegram-bot-dlya-biznesa/` | ru | published | money | yes | yes | yes | no | 7 | 7 | ok | yes | yes | [link](https://gptbot.uz/ru/telegram-bot-dlya-biznesa/) | 4/4 | 100 | **keep-published** |
+| `/uz/arizalarni-avtomatlashtirish/` | uz | draft | money | yes | yes | yes | no | 5 | 5 | ok | yes | no | — | 4/4 | 100 | **ready-to-publish** |
+| `/uz/biznes-uchun-ai-bot/` | uz | published | money | yes | yes | yes | no | 7 | 9 | ok | yes | yes | [link](https://gptbot.uz/uz/biznes-uchun-ai-bot/) | 4/4 | 100 | **keep-published** |
+| `/uz/dokon-uchun-ai-bot/` | uz | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/uz/gpt-bot-biznes-uchun/` | uz | draft | money | yes | yes | yes | no | 5 | 1 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/uz/instagram-bot-biznes-uchun/` | uz | published | money | yes | yes | yes | no | 5 | 6 | ok | yes | yes | [link](https://gptbot.uz/uz/instagram-bot-biznes-uchun/) | 4/4 | 100 | **keep-published** |
+| `/uz/klinika-uchun-ai-bot/` | uz | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/uz/oquv-markazi-uchun-ai-bot/` | uz | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/uz/salon-uchun-ai-bot/` | uz | draft | money | yes | yes | yes | no | 5 | 0 | ok | yes | no | — | 4/4 | 95 | **add-inbound-links** |
+| `/uz/savdoni-avtomatlashtirish/` | uz | draft | money | yes | yes | yes | no | 5 | 2 | ok | yes | no | — | 4/4 | 100 | **ready-to-publish** |
+| `/uz/telegram-bot-biznes-uchun/` | uz | published | money | yes | yes | yes | no | 5 | 9 | ok | yes | yes | [link](https://gptbot.uz/uz/telegram-bot-biznes-uchun/) | 4/4 | 100 | **keep-published** |
 
 ## Action key
 
