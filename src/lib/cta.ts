@@ -1,5 +1,5 @@
 // Centralized CTA URL with UTM passthrough into Telegram start parameter.
-export const CTA_URL_BASE = 'https://t.me/aidirectprobot';
+export const CTA_URL_BASE = 'https://t.me/XGame_changerx';
 export const CTA_START_DEFAULT = 'tgads_landing';
 
 // Map our custom events to standard Meta Pixel events where applicable.
@@ -43,23 +43,8 @@ function sanitizeToken(v: string): string {
 }
 
 export function buildCtaUrl(): string {
-  if (typeof window === 'undefined') {
-    return `${CTA_URL_BASE}?start=${CTA_START_DEFAULT}`;
-  }
-  const params = new URLSearchParams(window.location.search);
-  const src = params.get('utm_source');
-  const med = params.get('utm_medium');
-  const cmp = params.get('utm_campaign');
-
-  let start = CTA_START_DEFAULT;
-  const parts: string[] = [];
-  if (src) parts.push(`u_${sanitizeToken(src)}`);
-  if (med) parts.push(`m_${sanitizeToken(med)}`);
-  if (cmp) parts.push(`c_${sanitizeToken(cmp)}`);
-  if (parts.length) {
-    const extra = parts.join('_');
-    const combined = `${CTA_START_DEFAULT}__${extra}`;
-    start = combined.length <= 64 ? combined : combined.slice(0, 64);
-  }
-  return `${CTA_URL_BASE}?start=${start}`;
+  // Personal Telegram account (https://t.me/XGame_changerx) does NOT honour the
+  // `?start=` parameter (that is bot-only). UTM attribution is still preserved
+  // via the `track()` calls on each click (dataLayer + Meta Pixel Lead events).
+  return CTA_URL_BASE;
 }

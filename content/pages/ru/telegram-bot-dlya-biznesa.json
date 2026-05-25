@@ -26,35 +26,84 @@
   "heroTitle": "Telegram-бот для бизнеса с AI — без потерь заявок",
   "heroSubtitle": "AI/GPT отвечает клиентам в Telegram за секунды, собирает контакты и передаёт горячую заявку.",
   "ctaPrimaryLabel": "Запустить демо в Telegram",
-  "ctaPrimaryHref": "https://t.me/aidirectprobot?start=ru_tg_bot",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Посмотреть демо",
   "ctaSecondaryHref": "#demo",
   "bodyBlocks": [
-    { "type": "h2", "text": "Зачем бизнесу Telegram-бот с AI" },
-    { "type": "p", "text": "Клиенты в Узбекистане всё чаще пишут именно в Telegram. Если ответ задерживается на 10 минут — заявка уходит конкурентам. Telegram-бот с AI отвечает за секунды, собирает имя/телефон и передаёт лид менеджеру." },
-    { "type": "h2", "text": "Возможности Telegram-бота для бизнеса" },
-    { "type": "list", "items": [
-      "Авто-ответы 24/7 с поддержкой RU и UZ",
-      "GPT-диалоги под вашу нишу",
-      "Сбор имя/телефон/услуга в нативной форме Telegram",
-      "Уведомления менеджеру в чат или CRM",
-      "Telegram Ads интеграция",
-      "UTM-метки внутри start-параметра для аналитики"
-    ]},
-    { "type": "cta", "text": "Запустить демо в Telegram", "href": "https://t.me/aidirectprobot?start=ru_tg_bot" }
+    {
+      "type": "h2",
+      "text": "Зачем бизнесу Telegram-бот с AI"
+    },
+    {
+      "type": "p",
+      "text": "Клиенты в Узбекистане всё чаще пишут именно в Telegram. Если ответ задерживается на 10 минут — заявка уходит конкурентам. Telegram-бот с AI отвечает за секунды, собирает имя/телефон и передаёт лид менеджеру."
+    },
+    {
+      "type": "h2",
+      "text": "Возможности Telegram-бота для бизнеса"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Авто-ответы 24/7 с поддержкой RU и UZ",
+        "GPT-диалоги под вашу нишу",
+        "Сбор имя/телефон/услуга в нативной форме Telegram",
+        "Уведомления менеджеру в чат или CRM",
+        "Telegram Ads интеграция",
+        "UTM-метки внутри start-параметра для аналитики"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Запустить демо в Telegram",
+      "href": "https://t.me/XGame_changerx"
+    }
   ],
   "faq": [
-    { "q": "Можно ли вести клиента из Telegram Ads в бот?", "a": "Да. Мы настраиваем start-параметр с UTM-метками: видно, какой креатив и кампания принесла лид." },
-    { "q": "Бот работает только в Telegram?", "a": "Нет, мы также подключаем Instagram Direct. Telegram — основной канал в Узбекистане, Instagram — для премиум-аудитории." },
-    { "q": "Что произойдёт после диалога с ботом?", "a": "Бот соберёт имя/телефон/интерес и передаст лида менеджеру в Telegram или CRM в течение нескольких секунд." },
-    { "q": "Может ли бот принимать платежи?", "a": "Да, с подключением Telegram Payments или ссылками на оплату. Это согласовывается на демо." }
+    {
+      "q": "Можно ли вести клиента из Telegram Ads в бот?",
+      "a": "Да. Мы настраиваем start-параметр с UTM-метками: видно, какой креатив и кампания принесла лид."
+    },
+    {
+      "q": "Бот работает только в Telegram?",
+      "a": "Нет, мы также подключаем Instagram Direct. Telegram — основной канал в Узбекистане, Instagram — для премиум-аудитории."
+    },
+    {
+      "q": "Что произойдёт после диалога с ботом?",
+      "a": "Бот соберёт имя/телефон/интерес и передаст лида менеджеру в Telegram или CRM в течение нескольких секунд."
+    },
+    {
+      "q": "Может ли бот принимать платежи?",
+      "a": "Да, с подключением Telegram Payments или ссылками на оплату. Это согласовывается на демо."
+    }
   ],
   "internalLinks": [
-    { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/instagram-direct-bot/", "anchor": "Instagram Direct бот", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизация заявок", "locale": "ru", "type": "contextual" }
+    {
+      "target": "/ru/ai-bot-dlya-biznesa/",
+      "anchor": "AI-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/instagram-direct-bot/",
+      "anchor": "Instagram Direct бот",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/avtomatizatsiya-zayavok/",
+      "anchor": "автоматизация заявок",
+      "locale": "ru",
+      "type": "contextual"
+    }
   ],
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
   "lastReviewedAt": "2026-02-01",
   "createdAt": "2026-02-01T00:00:00Z",
   "updatedAt": "2026-02-01T00:00:00Z"
