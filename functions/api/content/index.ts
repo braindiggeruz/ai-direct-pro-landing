@@ -5,9 +5,13 @@
 import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
 import { getFile, listDir, putFile, deleteFile } from '../../lib/github';
+import { detectMojibake } from '../../../src/shared/audit';
 
 function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+  });
 }
 
 function pathFor(kind: string, locale?: string, slug?: string): string {
@@ -61,6 +65,16 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   let body: { kind: string; locale?: string; slug?: string; data: unknown; message?: string };
   try { body = await request.json(); } catch { return json({ error: 'Invalid body' }, 400); }
   if (!body.kind || !body.data) return json({ error: 'Missing kind/data' }, 400);
+  // PUBLISH GUARD: block save of pages/blog with mojibake when status=published.
+  if ((body.kind === 'page' || body.kind === 'blog') && body.data && typeof body.data === 'object') {
+    const d = body.data as Record<string, unknown>;
+    if (d.status === 'published') {
+      const hit = detectMojibake(d);
+      if (hit) {
+        return json({ error: `Encoding issue detected: "${hit.field}" contains mojibake characters (${hit.sample}). Publish blocked. Fix the text before publishing.` }, 400);
+      }
+    }
+  }
   try {
     const file = pathFor(body.kind, body.locale, body.slug);
     const content = JSON.stringify(body.data, null, 2) + '\n';

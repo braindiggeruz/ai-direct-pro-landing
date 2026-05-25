@@ -168,6 +168,7 @@ export interface CockpitStats {
   draftPages: number;
   noindexPages: number;
   pagesInSitemap: number;
+  mojibakePages: number;
   missingTitle: number;
   missingDescription: number;
   missingH1: number;
