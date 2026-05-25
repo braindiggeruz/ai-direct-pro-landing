@@ -5,34 +5,130 @@
   "slug": "ai-bot-dlya-horeca",
   "pageType": "money",
   "primaryKeyword": "AI-бот для HoReCa",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "бот для ресторанов",
+    "бот для кафе",
+    "бронирование столика бот",
+    "AI для общепита"
+  ],
   "searchIntent": "commercial",
-  "h1": "AI-бот для HoReCa: бронь и заявки 24/7",
-  "title": "AI-бот для HoReCa — бронирование столиков и заявки 24/7 | GPTBot",
-  "description": "AI-бот для HoReCa принимает брони и заявки 24/7 в Telegram и Instagram, собирает контакты и передаёт админу.",
+  "h1": "AI-бот для HoReCa: виртуальный администратор",
+  "title": "AI-бот для HoReCa — бронирование и заказы 24/7",
+  "description": "AI-бот для ресторанов и кафе принимает бронирование столиков и заказы на доставку, отвечает на вопросы гостей о меню и часах работы 24/7 в Telegram и Instagram.",
   "canonical": "https://gptbot.uz/ru/ai-bot-dlya-horeca/",
   "hreflangRu": "/ru/ai-bot-dlya-horeca/",
-  "ogTitle": "AI-бот для HoReCa — бронирование столиков и заявки 24/7 | GPTBot",
-  "ogDescription": "AI-бот для HoReCa принимает брони и заявки 24/7 в Telegram и Instagram, собирает контакты и передаёт админу.",
+  "ogTitle": "AI-бот для HoReCa — бронирование и заказы 24/7",
+  "ogDescription": "AI-бот для ресторанов и кафе принимает бронирование столиков и заказы на доставку, отвечает на вопросы гостей о меню и часах работы 24/7 в Telegram и Instagram.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "AI-бот для HoReCa",
-  "heroTitle": "AI-бот для HoReCa: бронь и заявки 24/7",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Запустить демо в Telegram",
+  "heroTitle": "AI-бот для HoReCa: виртуальный администратор",
+  "heroSubtitle": "Бронирует столики, принимает заказы на доставку и отвечает на вопросы гостей о меню 24/7.",
+  "ctaPrimaryLabel": "Получить бота для HoReCa",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Посмотреть, как работает",
+  "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Что делает AI-бот для HoReCa"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот для HoReCa автоматизирует бронирование столиков, приём заказов на доставку, отвечает на вопросы о меню и часах работы. Снижает нагрузку на персонал."
+    },
+    {
+      "type": "h2",
+      "text": "Почему заявки теряются"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Загруженность персонала в час пик",
+        "Пропущенные бронирования",
+        "Долгие ответы по доставке",
+        "Гости задают одни и те же вопросы о меню"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как это работает"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот подключается к Telegram и Instagram Direct, отвечает на входящие сообщения, задаёт уточняющие вопросы, собирает имя и контакт и передаёт готовую заявку менеджеру в Telegram или CRM. Сценарий настраивается под нишу."
+    },
+    {
+      "type": "h2",
+      "text": "Что получает бизнес"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Автоматизация бронирования столиков",
+        "Приём заказов на доставку 24/7",
+        "Снижение нагрузки на персонал",
+        "Лояльность гостей",
+        "Рост среднего чека через рекомендации"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Получить бота для HoReCa",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Как бот обрабатывает специальные пожелания гостей?",
+      "a": "Стандартные пожелания (без лука, доп. сыр и т.д.) бот учитывает в заказе. Нестандартные — передаёт администратору."
+    },
+    {
+      "q": "Интегрируется ли бот с POS?",
+      "a": "Поддерживаем интеграцию с популярными POS-системами через API. Конкретную систему уточняем по факту."
+    },
+    {
+      "q": "Какие языки поддерживает?",
+      "a": "Русский и узбекский (UZ Latin). Дополнительные языки — по запросу."
+    },
+    {
+      "q": "Как бот помогает в маркетинге?",
+      "a": "Сегментирует базу гостей, делает рассылки об акциях, напоминает о повторных посещениях."
+    },
+    {
+      "q": "Подойдёт ли сети заведений?",
+      "a": "Да, можно подключить несколько точек со своими меню, расписанием и зоной доставки."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/ru/ai-bot-dlya-biznesa/",
+      "anchor": "AI-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/telegram-bot-dlya-biznesa/",
+      "anchor": "Telegram-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/instagram-direct-bot/",
+      "anchor": "Instagram Direct бот",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.679Z",
-  "updatedAt": "2026-05-23T01:12:59.679Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.503Z"
 }

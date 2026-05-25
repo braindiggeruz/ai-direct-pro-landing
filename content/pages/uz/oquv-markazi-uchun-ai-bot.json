@@ -4,36 +4,132 @@
   "url": "/uz/oquv-markazi-uchun-ai-bot/",
   "slug": "oquv-markazi-uchun-ai-bot",
   "pageType": "money",
-  "primaryKeyword": "o‘quv markazi uchun AI bot",
-  "secondaryKeywords": [],
+  "primaryKeyword": "o'quv markazi uchun AI bot",
+  "secondaryKeywords": [
+    "ta'lim bot",
+    "kurslarga yozilish bot",
+    "AI bot maktab",
+    "o'quv markaz Telegram bot"
+  ],
   "searchIntent": "commercial",
-  "h1": "O‘quv markazi uchun AI bot",
-  "title": "O‘quv markazi uchun AI bot — talabalar uchun 24/7 | GPTBot",
-  "description": "O‘quv markazi uchun AI bot abituriyentlarga 24/7 javob beradi, kurslar haqida gapiradi va arizalarni CRM’ga yig‘adi.",
+  "h1": "O'quv markazi uchun AI bot: virtual o'qituvchi",
+  "title": "O'quv markazi uchun AI bot — 24/7 kurslarga yozuv",
+  "description": "O'quv markazi uchun AI bot Telegram va Instagram'da abituriyentlar savollariga javob beradi, kurslarga va sinov darslarga yozadi, dasturlar haqida xabar yubora.",
   "canonical": "https://gptbot.uz/uz/oquv-markazi-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
   "hreflangUz": "/uz/oquv-markazi-uchun-ai-bot/",
-  "ogTitle": "O‘quv markazi uchun AI bot — talabalar uchun 24/7 | GPTBot",
-  "ogDescription": "O‘quv markazi uchun AI bot abituriyentlarga 24/7 javob beradi, kurslar haqida gapiradi va arizalarni CRM’ga yig‘adi.",
+  "ogTitle": "O'quv markazi uchun AI bot — 24/7 kurslarga yozuv",
+  "ogDescription": "O'quv markazi uchun AI bot Telegram va Instagram'da abituriyentlar savollariga javob beradi, kurslarga va sinov darslarga yozadi, dasturlar haqida xabar yubora.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "o‘quv markazi uchun AI bot",
-  "heroTitle": "O‘quv markazi uchun AI bot",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Telegram’da demoni ko‘rish",
+  "breadcrumbLabel": "O'quv markazi uchun AI bot",
+  "heroTitle": "O'quv markazi uchun AI bot: virtual o'qituvchi",
+  "heroSubtitle": "Abituriyentlarga javob beradi, kurslarga yozadi va guruhlarni to'ldiradi — Telegram va Instagram'da 24/7.",
+  "ctaPrimaryLabel": "Markaz uchun bot sozlash",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Qanday ishlashini ko‘rish",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "o'quv markazi uchun AI bot nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "AI bot dastur, narxlar, o'qish shakli haqida savollarga javob beradi, sinov darsiga yozilishni taklif qiladi va arizani yig'adi. Yangiliklar haqida xabarlar yuborish uchun ishlatilishi mumkin."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun arizalar yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Abituriyentlardan ko'p bir xil savollar",
+        "Sinov darsiga qo'lda yozilish qiyin",
+        "Yangi dasturlarni xabar qilish qiyin",
+        "Arizalar menejerlar orasida yo'qoladi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Abituriyent savollariga avtomatik javob",
+        "Kurslarga yozilishni soddalashtirish",
+        "Ko'proq arizalar",
+        "Dasturlar va chegirmalar haqida xabar",
+        "Qabul komissiyasining samaradorligi"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Markaz uchun bot sozlash",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bot orqali test o'tkazish mumkinmi?",
+      "a": "Ha. Abituriyentlar uchun daraja testlari, kiruv so'rovnomalar va anketalarni amalga oshirish mumkin."
+    },
+    {
+      "q": "Bot dastur haqidagi murakkab savollarga qanday javob beradi?",
+      "a": "Bilim bazasini (o'quv rejalari, narxlar, jadval) botga oldindan beramiz. Murakkab nostandart savollarni bot jonli metodistga uzatadi."
+    },
+    {
+      "q": "O'zbek tilini qo'llab-quvvatlaydimi?",
+      "a": "Ha, rus va o'zbek (UZ Latin). Tonni auditoriyaga moslashtiramiz."
+    },
+    {
+      "q": "Bir necha kurslarni boshqara oladimi?",
+      "a": "Ha, har xil jadvallar bilan ixtiyoriy sondagi yo'nalishlar va oqimlarni ulash mumkin."
+    },
+    {
+      "q": "Arizalar qayerga uzatiladi?",
+      "a": "Telegram, e-mail yoki CRM'ga. Menejer allaqachon malakali arizani ko'radi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.680Z",
-  "updatedAt": "2026-05-23T01:12:59.680Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.505Z"
 }

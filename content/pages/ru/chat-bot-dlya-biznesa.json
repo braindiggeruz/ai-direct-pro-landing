@@ -1,38 +1,140 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "ru",
   "url": "/ru/chat-bot-dlya-biznesa/",
   "slug": "chat-bot-dlya-biznesa",
   "pageType": "money",
   "primaryKeyword": "чат-бот для бизнеса",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "чат-бот 24/7",
+    "автоматизация Telegram",
+    "бот для сервиса",
+    "чат-бот Instagram"
+  ],
   "searchIntent": "commercial",
-  "h1": "Чат-бот для бизнеса в Узбекистане с AI",
-  "title": "Чат-бот для бизнеса в Узбекистане — AI с GPT в Telegram и Instagram | GPTBot",
-  "description": "Чат-бот с AI отвечает клиентам в Telegram и Instagram 24/7, собирает контакты и передаёт горячие заявки менеджеру.",
+  "h1": "Чат-бот для бизнеса в Telegram и Instagram",
+  "title": "Чат-бот для бизнеса — Telegram и Instagram 24/7 | GPTBot",
+  "description": "Чат-бот для бизнеса в Telegram и Instagram отвечает клиентам 24/7, принимает заказы и заявки, разгружает менеджеров и сокращает потерю входящих обращений.",
   "canonical": "https://gptbot.uz/ru/chat-bot-dlya-biznesa/",
   "hreflangRu": "/ru/chat-bot-dlya-biznesa/",
-  "ogTitle": "Чат-бот для бизнеса в Узбекистане — AI с GPT в Telegram и Instagram | GPTBot",
-  "ogDescription": "Чат-бот с AI отвечает клиентам в Telegram и Instagram 24/7, собирает контакты и передаёт горячие заявки менеджеру.",
+  "ogTitle": "Чат-бот для бизнеса — Telegram и Instagram 24/7 | GPTBot",
+  "ogDescription": "Чат-бот для бизнеса в Telegram и Instagram отвечает клиентам 24/7, принимает заказы и заявки, разгружает менеджеров и сокращает потерю входящих обращений.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "чат-бот для бизнеса",
-  "heroTitle": "Чат-бот для бизнеса в Узбекистане с AI",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Запустить демо в Telegram",
+  "breadcrumbLabel": "Чат-бот для бизнеса в Telegram и Instagram",
+  "heroTitle": "Чат-бот для бизнеса в Telegram и Instagram",
+  "heroSubtitle": "Чат-бот отвечает на типовые вопросы, принимает заявки и разгружает менеджеров — в Telegram и Instagram, 24/7.",
+  "ctaPrimaryLabel": "Запустить демо чат-бота",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Посмотреть, как работает",
+  "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Что делает чат-бот для бизнеса"
+    },
+    {
+      "type": "p",
+      "text": "Чат-бот сам отвечает на частые вопросы (адрес, часы работы, цены), принимает предварительные заказы и квалифицирует лид. Менеджер получает уже подготовленную заявку."
+    },
+    {
+      "type": "h2",
+      "text": "Почему заявки теряются"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Рутинные вопросы съедают время менеджеров",
+        "Большой поток однотипных запросов",
+        "Клиенты ждут мгновенных ответов в мессенджерах",
+        "Заявки теряются после рабочего дня"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как это работает"
+    },
+    {
+      "type": "p",
+      "text": "AI-бот подключается к Telegram и Instagram Direct, отвечает на входящие сообщения, задаёт уточняющие вопросы, собирает имя и контакт и передаёт готовую заявку менеджеру в Telegram или CRM. Сценарий настраивается под нишу."
+    },
+    {
+      "type": "h2",
+      "text": "Что получает бизнес"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Экономия времени сотрудников",
+        "Круглосуточная доступность для клиентов",
+        "Обработка большого объёма запросов",
+        "Снижение нагрузки на службу поддержки",
+        "Автоматизация приёма заказов и заявок"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Запустить демо чат-бота",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Чем чат-бот отличается от живого оператора?",
+      "a": "Чат-бот работает 24/7, отвечает мгновенно и обрабатывает множество запросов одновременно. Живой оператор закрывает сложные случаи и закрытие сделки. Лучший результат даёт связка."
+    },
+    {
+      "q": "Нужен ли постоянный интернет?",
+      "a": "Бот работает в облаке, серверы доступны 24/7. Вам нужен только аккаунт Telegram или Business Instagram — никакого выделенного сервера."
+    },
+    {
+      "q": "Как бот узнаёт имя клиента?",
+      "a": "Бот задаёт клиенту уточняющие вопросы (имя, телефон, услуга) и записывает их в карточку лида. Менеджер получает готовую структуру."
+    },
+    {
+      "q": "Может ли чат-бот интегрироваться с CRM?",
+      "a": "Да. Поддерживаем передачу лидов в Telegram, e-mail, AmoCRM, Bitrix24, Google Sheets и кастомные вебхуки."
+    },
+    {
+      "q": "Подойдёт ли бот моей нише?",
+      "a": "Сценарий собираем под нишу: услуги, продажи, запись, бронирование. Пример сценария обсуждаем в Telegram под ваш бизнес."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/ru/ai-bot-dlya-biznesa/",
+      "anchor": "AI-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "anchor": "GPT-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/telegram-bot-dlya-biznesa/",
+      "anchor": "Telegram-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/instagram-direct-bot/",
+      "anchor": "Instagram Direct бот",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.677Z",
-  "updatedAt": "2026-05-23T01:12:59.677Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.501Z"
 }

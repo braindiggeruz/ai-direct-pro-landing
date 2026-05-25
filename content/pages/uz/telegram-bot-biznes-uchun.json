@@ -1,39 +1,141 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "url": "/uz/telegram-bot-biznes-uchun/",
   "slug": "telegram-bot-biznes-uchun",
   "pageType": "money",
   "primaryKeyword": "Telegram bot biznes uchun",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "buyurtma bot",
+    "Telegram chatbot",
+    "Telegram avtomatlashtirish",
+    "Telegram lid bot"
+  ],
   "searchIntent": "commercial",
-  "h1": "Telegram bot biznes uchun, AI bilan",
-  "title": "Telegram bot biznes uchun — AI bilan 24/7 | GPTBot",
-  "description": "Telegram bot biznes uchun AI bilan ishlaydi: 24/7 javob beradi, kontaktlarni yig‘adi va lidlarni menejerga uzatadi.",
+  "h1": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
+  "title": "Telegram bot biznes uchun — buyurtma va lid 24/7 | GPTBot",
+  "description": "Telegram bot biznes uchun buyurtmalarni qabul qiladi, mijozlarga 24/7 javob beradi, xabarlar yuboradi, to'lovni va CRM integratsiyasini boshqaradi. O'zbekiston.",
   "canonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
   "hreflangRu": "/ru/telegram-bot-dlya-biznesa/",
   "hreflangUz": "/uz/telegram-bot-biznes-uchun/",
-  "ogTitle": "Telegram bot biznes uchun — AI bilan 24/7 | GPTBot",
-  "ogDescription": "Telegram bot biznes uchun AI bilan ishlaydi: 24/7 javob beradi, kontaktlarni yig‘adi va lidlarni menejerga uzatadi.",
+  "ogTitle": "Telegram bot biznes uchun — buyurtma va lid 24/7 | GPTBot",
+  "ogDescription": "Telegram bot biznes uchun buyurtmalarni qabul qiladi, mijozlarga 24/7 javob beradi, xabarlar yuboradi, to'lovni va CRM integratsiyasini boshqaradi. O'zbekiston.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Telegram bot biznes uchun",
-  "heroTitle": "Telegram bot biznes uchun, AI bilan",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Telegram’da demoni ko‘rish",
+  "heroTitle": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
+  "heroSubtitle": "Buyurtmalarni qabul qiladi, 24/7 javob beradi, xabarlar yuboradi va lidlarni CRM'ga uzatadi.",
+  "ctaPrimaryLabel": "Telegram bot buyurtma qilish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Qanday ishlashini ko‘rish",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Telegram bot biznes uchun nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Telegram bot buyurtmalarni qabul qiladi (katalog, ma'lumotlarni yig'ish), mijozlar va menejerlarga xabarnomalar yuboradi, xabarlar va analitikani qo'llab-quvvatlaydi. To'lovlarni qabul qila oladi."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun arizalar yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kompaniyada Telegram'da 'sotuvchi' yo'q",
+        "Mijozlar Telegram'da yozadi, menejerlar ulgurmaydi",
+        "Buyurtmalar chatlar orasida yo'qoladi",
+        "Messendjerdan kelgan murojaatlar bo'yicha analitika yo'q"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Buyurtmalarni avtomatik qabul qilish",
+        "Telegram orqali sotuvlarni ko'paytirish",
+        "Xabarlarni segmentlarga yuborish",
+        "24/7 mijoz xizmati",
+        "CRM va to'lov integratsiyasi"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Telegram bot buyurtma qilish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Telegram botga to'lovni ulash mumkinmi?",
+      "a": "Ha, Telegram Payments orqali. Aniq shlyuz nishga moslab tanlanadi."
+    },
+    {
+      "q": "Qanday Telegram bot ssenariylarini qilamiz?",
+      "a": "Arizalar va buyurtmalar qabul qilish, katalog, bron, FAQ-yordamchi, xabarlar, so'rovnomalar, CRM'ga uzatish."
+    },
+    {
+      "q": "Telegram'dan foydalanish uchun ro'yxat kerakmi?",
+      "a": "Biznes uchun faqat Telegram-akkaunt. Bot BotFather orqali yaratiladi, biz texnik tomonda yordam beramiz."
+    },
+    {
+      "q": "Telegram bot sotuvlarga qanday yordam beradi?",
+      "a": "Birinchi kontaktni o'ziga oladi, tez javob beradi, lidni malakalaydi va menejerga tayyor arizani uzatadi."
+    },
+    {
+      "q": "Xabarlar yuborish mumkinmi?",
+      "a": "Ha, Telegram qoidalari doirasida segmentlarga avtomatik va qo'lda xabarlar yuborish mumkin."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/savdoni-avtomatlashtirish/",
+      "anchor": "savdoni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.679Z",
-  "updatedAt": "2026-05-23T01:12:59.679Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.504Z"
 }

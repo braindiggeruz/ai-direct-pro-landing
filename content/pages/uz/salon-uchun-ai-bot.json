@@ -5,35 +5,131 @@
   "slug": "salon-uchun-ai-bot",
   "pageType": "money",
   "primaryKeyword": "salon uchun AI bot",
-  "secondaryKeywords": [],
+  "secondaryKeywords": [
+    "go'zallik saloni uchun bot",
+    "manikyurga yozilish bot",
+    "salon bot Telegram",
+    "bo'shliq bron bot"
+  ],
   "searchIntent": "commercial",
-  "h1": "Salon uchun AI bot, mijozlarni yo‘qotmaydi",
-  "title": "Salon uchun AI bot — go‘zallik salonlari uchun 24/7 | GPTBot",
-  "description": "Salon uchun AI bot mijozlarga 24/7 javob beradi, xizmatga yozadi va lidlarni administratorga Telegram’da yuboradi.",
+  "h1": "Salon uchun AI bot: virtual administrator",
+  "title": "Salon uchun AI bot — 24/7 onlayn yozuv | GPTBot",
+  "description": "Go'zallik saloni uchun AI bot Direct va Telegram'da xizmatlarga 24/7 yozadi, tashrifni eslatadi va administrator yukini kamaytiradi.",
   "canonical": "https://gptbot.uz/uz/salon-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-salona-krasoty/",
   "hreflangUz": "/uz/salon-uchun-ai-bot/",
-  "ogTitle": "Salon uchun AI bot — go‘zallik salonlari uchun 24/7 | GPTBot",
-  "ogDescription": "Salon uchun AI bot mijozlarga 24/7 javob beradi, xizmatga yozadi va lidlarni administratorga Telegram’da yuboradi.",
+  "ogTitle": "Salon uchun AI bot — 24/7 onlayn yozuv | GPTBot",
+  "ogDescription": "Go'zallik saloni uchun AI bot Direct va Telegram'da xizmatlarga 24/7 yozadi, tashrifni eslatadi va administrator yukini kamaytiradi.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "salon uchun AI bot",
-  "heroTitle": "Salon uchun AI bot, mijozlarni yo‘qotmaydi",
-  "heroSubtitle": "",
-  "ctaPrimaryLabel": "Telegram’da demoni ko‘rish",
+  "breadcrumbLabel": "Salon uchun AI bot",
+  "heroTitle": "Salon uchun AI bot: virtual administrator",
+  "heroSubtitle": "Mijozlarni 24/7 xizmatlarga yozadi, tashrifni eslatadi va administrator yukini kamaytiradi.",
+  "ctaPrimaryLabel": "Salon uchun bot olish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Qanday ishlashini ko‘rish",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
-  "bodyBlocks": [],
-  "faq": [],
-  "internalLinks": [],
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "salon uchun AI bot nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Mijoz Direct yoki Telegram'ga yozadi, bot bo'sh vaqtni taklif qiladi, xizmatga (manikyur, soch turmagi va h.k.) yozib qo'yadi, kontaktni yig'adi va tashrifni eslatadi."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun arizalar yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijozlar ish vaqtidan tashqari yozila olmaydi",
+        "Kelmagan bemorlar va o'tkazib yuborilgan yozuvlar",
+        "Administrator qo'ng'iroqlar bilan band",
+        "Yozuvlar bir necha chatlarda olib boriladi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Salonga 24/7 yozilish imkoniyati",
+        "Kam o'tkazib yuborilgan tashriflar",
+        "Mijozlar uchun qulaylik",
+        "Administrator yukini kamaytirish",
+        "Yozuvlar sonining o'sishi"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Salon uchun bot olish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Ustalar jadvalini o'zgartirish mumkinmi?",
+      "a": "Ha. Jadval admin-panelda yuritiladi, o'zgarishlar darhol botda ko'rinadi."
+    },
+    {
+      "q": "Bot tashrifni eslatishni biladimi?",
+      "a": "Ha, tashrifdan bir kun oldin va/yoki ertalab avtomatik eslatma. Qo'shimcha eslatmalarni sozlash mumkin."
+    },
+    {
+      "q": "Bot qanday xizmatlarni taklif qila oladi?",
+      "a": "Har qanday: manikyur, pedikyur, sartarosh, kosmetologiya. Ro'yxat va davomiylik salonga moslab sozlanadi."
+    },
+    {
+      "q": "Bekor qilishni qanday boshqaradi?",
+      "a": "Mijoz bot orqali yozuvni bekor qila yoki ko'chira oladi. Vaqt bo'shatiladi, administrator xabar oladi."
+    },
+    {
+      "q": "Salonlar tarmog'iga mos keladimi?",
+      "a": "Ha, har xil jadvallar va xizmatlar bilan bir nechta nuqtalarni ulash mumkin."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service"
+    "Service",
+    "FAQPage"
   ],
-  "createdAt": "2026-05-23T01:12:59.680Z",
-  "updatedAt": "2026-05-23T01:12:59.680Z"
+  "lastReviewedAt": "2026-05-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-05-25T09:39:29.504Z"
 }
