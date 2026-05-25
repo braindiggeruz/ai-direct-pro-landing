@@ -1,6 +1,5 @@
 // Centralized CTA URL with UTM passthrough into Telegram start parameter.
 export const CTA_URL_BASE = 'https://t.me/XGame_changerx';
-export const CTA_START_DEFAULT = 'tgads_landing';
 
 // Map our custom events to standard Meta Pixel events where applicable.
 const PIXEL_STD_MAP: Record<string, string> = {
@@ -35,12 +34,6 @@ export function track(event: string, data: Record<string, unknown> = {}): void {
   }
 }
 
-// Build a CTA URL that preserves UTM tags by encoding them into the Telegram
-// `start` parameter. Telegram start params must be <=64 chars and safe
-// alphanumerics + `_`. We use a compact encoding: tgads_landing__u_<src>_m_<med>_c_<camp>
-function sanitizeToken(v: string): string {
-  return v.replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
-}
 
 export function buildCtaUrl(): string {
   // Personal Telegram account (https://t.me/XGame_changerx) does NOT honour the
