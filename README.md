@@ -50,5 +50,5 @@ Outputs to `dist/`. Deploy with `wrangler pages deploy dist --project-name=ai-di
 | `ADMIN_PASSWORD_HASH` | ✅ | Generate via `yarn hash-password "<password>"` |
 | `JWT_SECRET` | ✅ | random ≥ 32-char |
 | `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` | optional | enables captcha on login |
-| `EMERGENT_LLM_KEY` | optional | enables AI-fill in editor |
+| `OPENROUTER_API_KEY` | optional | enables AI-fill in editor (OpenRouter, server-side only) |
 | KV binding `LOGIN_ATTEMPTS` | optional | durable brute-force lockout |
