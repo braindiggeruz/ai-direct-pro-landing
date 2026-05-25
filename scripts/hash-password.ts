@@ -5,7 +5,7 @@
 //   yarn hash-password '<my-strong-password>'
 //
 // Output:
-//   pbkdf2_sha256$210000$<salt_b64>$<hash_b64>
+//   pbkdf2_sha256$100000$<salt_b64>$<hash_b64>
 //
 // Copy that value into:
 //   Cloudflare Pages → Settings → Environment variables → ADMIN_PASSWORD_HASH
