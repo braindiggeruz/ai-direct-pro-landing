@@ -7,7 +7,11 @@
 // Default: 210000 iterations, 16-byte salt, 32-byte derived key.
 
 const ALG = 'pbkdf2_sha256';
-const DEFAULT_ITER = 210000;
+// Cloudflare Workers runtime caps PBKDF2 at 100000 iterations.
+// verifyPassword() still reads the iter count from the stored hash, so older
+// hashes with ≤100000 iter continue to verify; but DEFAULT_ITER is used by
+// hashPassword() and MUST NOT exceed 100000.
+const DEFAULT_ITER = 100000;
 const KEY_LEN = 32;
 
 function bytesToBase64(bytes: Uint8Array): string {
