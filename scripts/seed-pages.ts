@@ -75,7 +75,7 @@ function stubFor(url: string, locale: 'ru' | 'uz'): Record<string, unknown> {
     heroTitle: meta?.h1 ?? '',
     heroSubtitle: '',
     ctaPrimaryLabel: locale === 'ru' ? 'Запустить демо в Telegram' : 'Telegram’da demoni ko‘rish',
-    ctaPrimaryHref: `https://t.me/aidirectprobot?start=${locale}_${slug.replace(/-/g, '').slice(0, 24)}`,
+    ctaPrimaryHref: `https://t.me/XGame_changerx`,
     ctaSecondaryLabel: locale === 'ru' ? 'Посмотреть, как работает' : 'Qanday ishlashini ko‘rish',
     ctaSecondaryHref: '#how',
     bodyBlocks: [],

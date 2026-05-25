@@ -7,12 +7,14 @@
   "organizationName": "GPTBot",
   "logo": "https://gptbot.uz/assets/landing/2.png",
   "phone": "",
-  "telegram": "https://t.me/aidirectprobot",
+  "telegram": "https://t.me/XGame_changerx",
   "instagram": "",
   "address": "Tashkent, Uzbekistan",
-  "sameAs": ["https://t.me/aidirectprobot"],
+  "sameAs": [
+    "https://t.me/XGame_changerx"
+  ],
   "defaultCTA": {
     "label": "Запустить демо в Telegram",
-    "href": "https://t.me/aidirectprobot?start=tgads_landing"
+    "href": "https://t.me/XGame_changerx"
   }
 }
