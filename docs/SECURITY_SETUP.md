@@ -32,13 +32,14 @@ Locally:
 ```bash
 cd frontend
 yarn hash-password 'your-strong-password-here'
-# → ADMIN_PASSWORD_HASH=pbkdf2_sha256$210000$<salt>$<hash>
+# → ADMIN_PASSWORD_HASH=pbkdf2_sha256$100000$<salt>$<hash>
 ```
 
 Paste the value (without the `ADMIN_PASSWORD_HASH=` prefix) into Cloudflare and
 **delete** any `ADMIN_PASSWORD` variable. The hash algorithm (PBKDF2-SHA256,
-210 000 iterations, 16-byte salt, 32-byte derived key) is identical between the
-Cloudflare Worker (Web Crypto) and the Python dev mirror (hashlib).
+100 000 iterations — the Cloudflare Workers cap — 16-byte salt, 32-byte derived
+key) is identical between the Cloudflare Worker (Web Crypto) and the Python dev
+mirror (hashlib).
 
 ## 3. Brute-force lockout
 
