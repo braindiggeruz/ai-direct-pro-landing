@@ -17,7 +17,10 @@ if (typeof globalThis.crypto === 'undefined') {
   globalThis.crypto = webcrypto;
 }
 
-const ITER = 210000;
+// Cloudflare Workers runtime caps PBKDF2 at 100000 iterations.
+// Keep this aligned with functions/lib/password.ts DEFAULT_ITER, otherwise
+// /api/auth/login throws "Pbkdf2 failed: iteration counts above 100000 are not supported".
+const ITER = 100000;
 const KEY_LEN = 32;
 
 function bytesToBase64(bytes: Uint8Array): string {
