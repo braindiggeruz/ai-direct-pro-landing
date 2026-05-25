@@ -25,6 +25,48 @@ export const RULES = {
   minFaqBlog: 3,
 } as const;
 
+// ----------------------------------------------------------------------------
+// MOJIBAKE DETECTOR
+//
+// Mojibake = text where UTF-8 bytes were mis-interpreted as Latin-1 (often
+// repeatedly), e.g. "AI-Ð…" instead of "AI-бот". This happened on gptbot.uz
+// because the old getFile() used atob() without UTF-8 decoding.
+//
+// We detect by scanning for sequences of "suspicious" characters that
+// almost never appear in real RU/UZ Latin/RU Cyrillic copy. The patterns
+// below were derived from the brief + observed broken pages in this repo.
+// ----------------------------------------------------------------------------
+const MOJIBAKE_REGEX = /(?:Ã.|Ñ.|Â.|Ð.|Ò.|\uFFFD){2,}|Ã[\u0080-\u00BF]|Ð[\u0080-\u00BF]/u;
+
+export function hasMojibake(value: unknown): boolean {
+  if (typeof value !== 'string' || !value) return false;
+  if (value.includes('\uFFFD')) return true;
+  return MOJIBAKE_REGEX.test(value);
+}
+
+/** Walk an object and report the first mojibake-affected field path + sample. */
+export function detectMojibake(obj: unknown, prefix = ''): { field: string; sample: string } | null {
+  if (obj == null) return null;
+  if (typeof obj === 'string') {
+    if (hasMojibake(obj)) return { field: prefix || '(root)', sample: obj.slice(0, 40) };
+    return null;
+  }
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      const r = detectMojibake(obj[i], `${prefix}[${i}]`);
+      if (r) return r;
+    }
+    return null;
+  }
+  if (typeof obj === 'object') {
+    for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
+      const r = detectMojibake(v, prefix ? `${prefix}.${k}` : k);
+      if (r) return r;
+    }
+  }
+  return null;
+}
+
 function unique<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
@@ -32,6 +74,34 @@ function unique<T>(arr: T[]): T[] {
 export function auditPage(page: Page, ctx: { allPages?: Page[]; global?: GlobalSEO } = {}): PageAuditResult {
   const issues: AuditIssue[] = [];
   const { allPages = [], global } = ctx;
+
+  // --- MOJIBAKE CHECK (CRITICAL) ---------------------------------------------
+  // If any user-visible string contains mojibake, treat the page as broken:
+  // we report an error-level issue and force the score down to 0. This blocks
+  // sitemap inclusion and triggers a publish-guard server-side.
+  const mojibakeHit = detectMojibake({
+    title: page.title,
+    description: page.description,
+    h1: page.h1,
+    heroTitle: page.heroTitle,
+    heroSubtitle: page.heroSubtitle,
+    breadcrumbLabel: page.breadcrumbLabel,
+    primaryKeyword: page.primaryKeyword,
+    secondaryKeywords: page.secondaryKeywords,
+    ogTitle: page.ogTitle,
+    ogDescription: page.ogDescription,
+    bodyBlocks: page.bodyBlocks,
+    faq: page.faq,
+    internalLinks: page.internalLinks,
+  });
+  if (mojibakeHit) {
+    issues.push({
+      level: 'error',
+      rule: 'mojibake',
+      field: mojibakeHit.field.split('.')[0].split('[')[0],
+      message: `Encoding issue (mojibake) in "${mojibakeHit.field}": ${mojibakeHit.sample}…`,
+    });
+  }
 
   // --- Title checks ----------------------------------------------------------
   if (!page.title || !page.title.trim()) {
@@ -131,9 +201,14 @@ export function auditPage(page: Page, ctx: { allPages?: Page[]; global?: GlobalS
   // --- FAQ --------------------------------------------------------------------
   if (page.pageType === 'money' || page.pageType === 'blog') {
     const minFaq = page.pageType === 'money' ? RULES.minFaqMoney : RULES.minFaqBlog;
-    if (!page.faq || page.faq.length < minFaq) {
+    const have = page.faq?.length || 0;
+    if (page.pageType === 'money' && have === 0) {
+      // Money page with NO FAQ at all → critical for ranking.
+      issues.push({ level: 'error', rule: 'no-faq-money', field: 'faq',
+        message: 'Money page has 0 FAQ items. At least 4 are required for ranking & schema.' });
+    } else if (have < minFaq) {
       issues.push({ level: 'warning', rule: 'too-few-faq', field: 'faq',
-        message: `Only ${page.faq?.length || 0} FAQ items (recommended ${minFaq}+).` });
+        message: `Only ${have} FAQ items (recommended ${minFaq}+).` });
     }
   }
 
@@ -161,14 +236,17 @@ export function auditPage(page: Page, ctx: { allPages?: Page[]; global?: GlobalS
       message: 'Page is draft but marked indexable — it will be excluded from sitemap until status=published.' });
   }
   if (page.status === 'published' && !page.robotsIndex) {
-    issues.push({ level: 'info', rule: 'published-but-noindex',
-      message: 'Page is published with robotsIndex=false — it will be excluded from sitemap.' });
+    // A published page that won't end up in the sitemap is almost always a bug.
+    issues.push({ level: 'error', rule: 'published-but-not-in-sitemap', field: 'robotsIndex',
+      message: 'Page status=published but robotsIndex=false → it will be excluded from sitemap. Either set robotsIndex=true or move back to draft/noindex.' });
   }
 
   // --- Score ------------------------------------------------------------------
   const errorCount = issues.filter((i) => i.level === 'error').length;
   const warnCount = issues.filter((i) => i.level === 'warning').length;
   let score = 100 - errorCount * 15 - warnCount * 5;
+  // Hard cap: any mojibake → score = 0 (page is unpublishable).
+  if (issues.some((i) => i.rule === 'mojibake')) score = 0;
   if (score < 0) score = 0;
   if (score > 100) score = 100;
 
@@ -191,6 +269,7 @@ export function buildCockpit(pages: Page[], global?: GlobalSEO): CockpitStats {
     draftPages: pages.filter((p) => p.status === 'draft').length,
     noindexPages: pages.filter((p) => p.status === 'noindex' || !p.robotsIndex).length,
     pagesInSitemap: pages.filter((p) => p.status === 'published' && p.robotsIndex).length,
+    mojibakePages: results.filter((r) => r.issues.some((i) => i.rule === 'mojibake')).length,
     missingTitle: pages.filter((p) => !p.title).length,
     missingDescription: pages.filter((p) => !p.description).length,
     missingH1: pages.filter((p) => !p.h1).length,

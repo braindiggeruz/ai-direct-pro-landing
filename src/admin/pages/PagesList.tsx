@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, ScoreBadge, Select } from '../components/ui';
-import { Plus, Copy, Eye, Pencil } from 'lucide-react';
-import { auditPage } from '../../shared/audit';
+import { Plus, Copy, Eye, Pencil, AlertTriangle } from 'lucide-react';
+import { auditPage, hasMojibake } from '../../shared/audit';
 
-type Filter = 'all' | 'published' | 'draft' | 'noindex' | 'low-score' | 'missing-faq' | 'missing-hreflang' | 'orphan' | 'in-sitemap' | 'not-in-sitemap';
+type Filter = 'all' | 'published' | 'draft' | 'noindex' | 'low-score' | 'missing-faq' | 'missing-hreflang' | 'orphan' | 'in-sitemap' | 'not-in-sitemap' | 'mojibake';
 
 export default function PagesList() {
   const nav = useNavigate();
@@ -33,7 +33,8 @@ export default function PagesList() {
     const incoming = pages.reduce((acc, q) => acc + (q.url !== p.url && (q.internalLinks || []).some((l: any) => l.target === p.url) ? 1 : 0), 0);
     const hreflangPair = p.locale === 'ru' ? p.hreflangUz : p.hreflangRu;
     const pairExists = pages.some((q) => q.url === hreflangPair);
-    return { ...p, ...audit, inSitemap, isLive, incoming, hreflangPair, pairExists };
+    const moji = hasMojibake(p.title) || hasMojibake(p.h1) || hasMojibake(p.description) || hasMojibake(p.heroTitle) || hasMojibake(p.heroSubtitle);
+    return { ...p, ...audit, inSitemap, isLive, incoming, hreflangPair, pairExists, moji };
   }), [pages]);
 
   const filtered = enriched.filter((p: any) => {
@@ -48,6 +49,7 @@ export default function PagesList() {
     if (filterState === 'orphan' && (p.incoming > 0 || p.pageType === 'homepage')) return false;
     if (filterState === 'in-sitemap' && !p.inSitemap) return false;
     if (filterState === 'not-in-sitemap' && p.inSitemap) return false;
+    if (filterState === 'mojibake' && !p.moji) return false;
     if (q) {
       const hay = `${p.url} ${p.title} ${p.h1} ${p.primaryKeyword}`.toLowerCase();
       if (!hay.includes(q.toLowerCase())) return false;
@@ -95,6 +97,7 @@ export default function PagesList() {
             <option value="noindex">Noindex</option>
             <option value="in-sitemap">In sitemap</option>
             <option value="not-in-sitemap">Not in sitemap</option>
+            <option value="mojibake">⚠ Encoding issue</option>
             <option value="low-score">Score &lt; 70</option>
             <option value="missing-faq">Missing FAQ</option>
             <option value="missing-hreflang">Missing hreflang</option>
@@ -147,7 +150,13 @@ export default function PagesList() {
                     <td className="py-2 px-2 text-center text-white/70">{p.incoming}</td>
                     <td className="py-2 px-2 text-center text-white/70">{(p.faq || []).length}</td>
                     <td className="py-2 px-2"><ScoreBadge score={p.score}/></td>
-                    <td className="py-2 px-2 text-white/70 max-w-xs truncate">{p.title || <span className="text-amber-300">— missing —</span>}</td>
+                    <td className="py-2 px-2 text-white/70 max-w-xs truncate">
+                      {p.moji ? (
+                        <span className="text-red-300 inline-flex items-center gap-1" title="Encoding issue: text contains mojibake (Ã/Ð/Â sequences). Publish is blocked until fixed.">
+                          <AlertTriangle size={12}/> Encoding issue
+                        </span>
+                      ) : p.title ? p.title : <span className="text-amber-300">— missing —</span>}
+                    </td>
                     <td className="py-2 px-2">
                       <div className="flex gap-2 items-center">
                         <Link to={`/admin-tools/pages/${p.locale}/${slug}`} className="text-white/40 hover:text-white" title="Edit"><Pencil size={14}/></Link>

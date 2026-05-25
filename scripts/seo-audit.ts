@@ -36,6 +36,7 @@ console.log(`Duplicate title:    ${cockpit.duplicateTitle}`);
 console.log(`Duplicate desc:     ${cockpit.duplicateDescription}`);
 console.log(`Missing hreflang:   ${cockpit.missingHreflang}`);
 console.log(`Missing OG:         ${cockpit.missingOg}`);
+console.log(`Mojibake pages:     ${cockpit.mojibakePages}`);
 console.log(`Orphan pages:       ${cockpit.orphanPages}`);
 console.log(`Broken intl. links: ${cockpit.brokenInternalLinks}`);
 console.log(`RU/UZ pairs OK:     ${cockpit.ruUzPairsOk} / missing ${cockpit.ruUzPairsMissing}`);
@@ -45,11 +46,14 @@ console.log('========================================');
 
 let critical = 0;
 const CRITICAL_RULES = new Set([
+  'mojibake',
   'duplicate-title',
   'duplicate-description',
   'missing-h1',
   'missing-title',
   'missing-description',
+  'no-faq-money',
+  'published-but-not-in-sitemap',
   'hreflang-not-bidirectional',
 ]);
 
