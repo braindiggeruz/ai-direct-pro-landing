@@ -6,7 +6,7 @@ export default function FAQ({ t }: { t: Dict }) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section data-testid="faq" className="relative py-20 sm:py-28">
+    <section id="faq" data-testid="faq" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center reveal">
           <div className="chip mx-auto">FAQ</div>

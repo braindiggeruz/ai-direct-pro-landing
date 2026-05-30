@@ -1,4 +1,6 @@
 import type { Dict } from '../i18n';
+import type { Lang } from '../i18n';
+import { track } from '../lib/cta';
 
 const ICONS = [
   // clinic
@@ -19,9 +21,34 @@ const ICONS = [
   'M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4L15 12l-3-3 2.7-2.7Z',
 ];
 
-export default function Niches({ t }: { t: Dict }) {
+// Map each niche slot (by position in t.niches.items) to a money page URL.
+// Order matches the RU / UZ i18n items list. Pages that don't exist in this
+// locale yet fall back to the RU page (better than null, lets crawlers
+// surface the niche). For now only ru/* niche pages exist as drafts with
+// content; once Batch B/C goes live they'll be served from prerender.
+const NICHE_URLS: { ru: string; uz?: string }[] = [
+  // 0 — Клиники
+  { ru: '/ru/ai-bot-dlya-kliniki/', uz: '/uz/klinika-uchun-ai-bot/' },
+  // 1 — Салоны красоты
+  { ru: '/ru/ai-bot-dlya-salona-krasoty/', uz: '/uz/salon-uchun-ai-bot/' },
+  // 2 — Учебные центры
+  { ru: '/ru/ai-bot-dlya-uchebnogo-tsentra/', uz: '/uz/oquv-markazi-uchun-ai-bot/' },
+  // 3 — Магазины техники / интернет-магазин
+  { ru: '/ru/ai-bot-dlya-magazina/', uz: '/uz/dokon-uchun-ai-bot/' },
+  // 4 — Недвижимость — fallback to AI for business
+  { ru: '/ru/ai-bot-dlya-biznesa/', uz: '/uz/biznes-uchun-ai-bot/' },
+  // 5 — Туризм — fallback to AI for business
+  { ru: '/ru/ai-bot-dlya-biznesa/', uz: '/uz/biznes-uchun-ai-bot/' },
+  // 6 — HoReCa
+  { ru: '/ru/ai-bot-dlya-horeca/', uz: '/uz/biznes-uchun-ai-bot/' },
+  // 7 — Сервисный — fallback to AI for business
+  { ru: '/ru/ai-bot-dlya-biznesa/', uz: '/uz/biznes-uchun-ai-bot/' },
+];
+
+export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
+  const isUz = lang === 'uz';
   return (
-    <section data-testid="niches" className="relative py-20 sm:py-28">
+    <section id="niches" data-testid="niches" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-5 lg:sticky lg:top-24 reveal">
@@ -34,22 +61,31 @@ export default function Niches({ t }: { t: Dict }) {
           </div>
 
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {t.niches.items.map((n, i) => (
-              <div
-                key={i}
-                data-testid={`niche-${i}`}
-                className="glass card-hover p-5 reveal"
-                style={{ transitionDelay: `${i * 50}ms`, background: 'linear-gradient(180deg, rgba(34,158,217,0.06), rgba(255,255,255,0.02))' }}
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-grad-cta text-[#04101A] shadow-glow">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d={ICONS[i % ICONS.length]} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <h3 className="mt-3.5 text-base sm:text-lg font-semibold text-white">{n}</h3>
-                <p className="mt-1.5 text-[13px] sm:text-sm text-white/65 leading-relaxed">{t.niches.sub}</p>
-              </div>
-            ))}
+            {t.niches.items.map((n, i) => {
+              const map = NICHE_URLS[i % NICHE_URLS.length];
+              const href = (isUz && map.uz) ? map.uz : map.ru;
+              return (
+                <a
+                  key={i}
+                  href={href}
+                  onClick={() => track('click_niche_card', { idx: i, href })}
+                  data-testid={`niche-${i}`}
+                  className="glass card-hover p-5 reveal block hover:border-brand-cyan/40 transition-colors"
+                  style={{ transitionDelay: `${i * 50}ms`, background: 'linear-gradient(180deg, rgba(34,158,217,0.06), rgba(255,255,255,0.02))' }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-grad-cta text-[#04101A] shadow-glow">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d={ICONS[i % ICONS.length]} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <span className="text-brand-cyan/70 group-hover:text-brand-cyan transition" aria-hidden>→</span>
+                  </div>
+                  <h3 className="mt-3.5 text-base sm:text-lg font-semibold text-white">{n}</h3>
+                  <p className="mt-1.5 text-[13px] sm:text-sm text-white/65 leading-relaxed">{t.niches.sub}</p>
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>

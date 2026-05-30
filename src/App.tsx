@@ -15,6 +15,7 @@ import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
 import BlogTeaser from './components/BlogTeaser';
+import SolutionsGrid from './components/SolutionsGrid';
 
 function getInitialLang(): Lang {
   if (typeof window === 'undefined') return 'ru';
@@ -143,16 +144,17 @@ export default function App() {
         <Hero t={t} ctaUrl={ctaUrl} />
         <Pain t={t} />
         <Solution t={t} ctaUrl={ctaUrl} />
+        <SolutionsGrid t={t} lang={lang} />
         <HowItWorks t={t} />
         <DemoChat t={t} ctaUrl={ctaUrl} />
-        <Niches t={t} />
+        <Niches t={t} lang={lang} />
         <BlogTeaser t={t} />
         <Offer t={t} ctaUrl={ctaUrl} />
         <Trust t={t} />
         <FAQ t={t} />
         <FinalCTA t={t} ctaUrl={ctaUrl} />
       </main>
-      <Footer t={t} />
+      <Footer t={t} lang={lang} ctaUrl={ctaUrl} />
       <StickyCTA t={t} ctaUrl={ctaUrl} />
     </div>
   );
