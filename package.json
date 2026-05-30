@@ -6,14 +6,15 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "tsx scripts/seo-audit.ts && tsc -b && vite build && tsx scripts/prerender.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
-    "build:fast": "vite build && tsx scripts/prerender.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
-    "build:cf": "tsx scripts/seo-audit.ts && vite build && tsx scripts/prerender.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
+    "build": "tsx scripts/seo-audit.ts && tsc -b && vite build && tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
+    "build:fast": "vite build && tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
+    "build:cf": "tsx scripts/seo-audit.ts && vite build && tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "seo:audit": "tsx scripts/seo-audit.ts",
-    "seo:prerender": "tsx scripts/prerender.ts",
+    "seo:prerender": "tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts",
     "seo:sitemap": "tsx scripts/generate-sitemap.ts",
+    "seo:blog": "tsx scripts/apply-blog.ts --write && tsx scripts/prerender-blog.ts",
     "hash-password": "tsx scripts/hash-password.ts"
   },
   "dependencies": {
