@@ -16,6 +16,11 @@ export default function Footer({ t }: { t: Dict }) {
           </div>
 
           <div className="flex flex-col sm:items-end gap-2 text-xs text-white/50">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-white/65" data-testid="footer-links">
+              <a href="/ru/blog/" data-testid="footer-blog" className="hover:text-white transition">Блог</a>
+              <a href="/sitemap.xml" data-testid="footer-sitemap" className="hover:text-white transition">Sitemap</a>
+              <a href="https://t.me/XGame_changerx" target="_blank" rel="noopener" data-testid="footer-telegram" className="hover:text-white transition">Telegram</a>
+            </div>
             <a href="#" className="hover:text-white transition">{t.footer.privacy}</a>
             <span>{t.footer.consent}</span>
             <span className="text-white/30">© {new Date().getFullYear()} {t.footer.brand}</span>
