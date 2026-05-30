@@ -135,6 +135,36 @@
       "anchor": "автоматизация заявок",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-kliniki/",
+      "anchor": "AI-бот для клиники",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-salona-krasoty/",
+      "anchor": "AI-бот для салона красоты",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+      "anchor": "AI-бот для учебного центра",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-magazina/",
+      "anchor": "AI-бот для интернет-магазина",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-horeca/",
+      "anchor": "AI-бот для HoReCa",
+      "locale": "ru",
+      "type": "niche"
     }
   ],
   "schemaTypes": [

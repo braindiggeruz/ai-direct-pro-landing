@@ -134,6 +134,24 @@
       "anchor": "автоматизация заявок",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-kliniki/",
+      "anchor": "бот для клиники",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-magazina/",
+      "anchor": "бот для интернет-магазина",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-horeca/",
+      "anchor": "бот для HoReCa",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

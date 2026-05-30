@@ -126,6 +126,18 @@
       "anchor": "автоматизация заявок",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-salona-krasoty/",
+      "anchor": "AI-бот для салона красоты",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+      "anchor": "AI-бот для учебного центра",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
