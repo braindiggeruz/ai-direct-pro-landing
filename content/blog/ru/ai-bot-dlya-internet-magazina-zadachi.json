@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "ru",
   "slug": "ai-bot-dlya-internet-magazina-zadachi",
   "url": "/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
@@ -182,6 +182,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T05:56:59.149Z",
+  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
   "createdAt": "2026-05-25T00:00:00Z"
 }

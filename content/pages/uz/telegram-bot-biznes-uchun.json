@@ -126,6 +126,18 @@
       "anchor": "savdoni avtomatlashtirish",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/klinika-uchun-ai-bot/",
+      "anchor": "Klinika uchun bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/dokon-uchun-ai-bot/",
+      "anchor": "Do'kon uchun bot",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

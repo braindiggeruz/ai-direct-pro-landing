@@ -135,6 +135,30 @@
       "anchor": "arizalarni avtomatlashtirish",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/klinika-uchun-ai-bot/",
+      "anchor": "Klinika uchun AI bot",
+      "locale": "uz",
+      "type": "niche"
+    },
+    {
+      "target": "/uz/salon-uchun-ai-bot/",
+      "anchor": "Salon uchun AI bot",
+      "locale": "uz",
+      "type": "niche"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O'quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "niche"
+    },
+    {
+      "target": "/uz/dokon-uchun-ai-bot/",
+      "anchor": "Do'kon uchun AI bot",
+      "locale": "uz",
+      "type": "niche"
     }
   ],
   "schemaTypes": [
