@@ -66,17 +66,20 @@ if (userRedirects.length) {
   lines.push('');
 }
 if (draftUrls.length) {
-  lines.push('# 3) Draft / noindex pages — return 410 Gone so search engines purge any phantom indexing.');
-  for (const u of draftUrls) lines.push(`${u}  /  410`);
+  lines.push('# 3) Draft / noindex pages — return 404 (Cloudflare Pages does NOT support 410 in _redirects).');
+  lines.push('#    404 has the same de-indexing effect for Google as 410 over time, and the served');
+  lines.push('#    404.html carries a noindex,nofollow meta so any phantom indexing is purged.');
+  for (const u of draftUrls) lines.push(`${u}  /404.html  404`);
   lines.push('');
 }
 // NOTE: NO wildcard `/*  /index.html  200` fallback.
-// Without it, Cloudflare Pages serves real static files for /, /ru/<slug>/, /uz/<slug>/, etc.
-// Unknown URLs fall through to Cloudflare's default 404 (HTTP 404), which is correct
-// for SEO — it prevents random/typo URLs from serving the homepage SPA shell and
-// creating soft-duplicates / "Crawled - currently not indexed" issues in GSC.
+// Without it AND with a /404.html present in the build output, Cloudflare Pages
+// will automatically serve /404.html with HTTP 404 for any unknown URL.
+// This prevents random/typo URLs from serving the homepage SPA shell and
+// being treated as soft-duplicates / "Crawled - currently not indexed" in GSC.
 lines.push('# 4) No SPA wildcard fallback by design: unknown URLs must return 404.');
 lines.push('#    The only client-rendered route is /admin-tools/* (handled above).');
+lines.push('#    Cloudflare Pages auto-serves /404.html (HTTP 404) for unmatched paths.');
 
 fs.writeFileSync(path.join(DIST_DIR, '_redirects'), lines.join('\n') + '\n', 'utf-8');
 console.log(`_redirects → dist/_redirects (${userRedirects.length} user redirects, ${draftUrls.length} draft 410s)`);
