@@ -70,8 +70,13 @@ if (draftUrls.length) {
   for (const u of draftUrls) lines.push(`${u}  /  410`);
   lines.push('');
 }
-lines.push('# 4) SPA fallback (must be LAST). Prerendered static HTML files are served first.');
-lines.push('/*  /index.html  200');
+// NOTE: NO wildcard `/*  /index.html  200` fallback.
+// Without it, Cloudflare Pages serves real static files for /, /ru/<slug>/, /uz/<slug>/, etc.
+// Unknown URLs fall through to Cloudflare's default 404 (HTTP 404), which is correct
+// for SEO — it prevents random/typo URLs from serving the homepage SPA shell and
+// creating soft-duplicates / "Crawled - currently not indexed" issues in GSC.
+lines.push('# 4) No SPA wildcard fallback by design: unknown URLs must return 404.');
+lines.push('#    The only client-rendered route is /admin-tools/* (handled above).');
 
 fs.writeFileSync(path.join(DIST_DIR, '_redirects'), lines.join('\n') + '\n', 'utf-8');
 console.log(`_redirects → dist/_redirects (${userRedirects.length} user redirects, ${draftUrls.length} draft 410s)`);
