@@ -42,6 +42,15 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
         </a>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            data-testid="header-blog-link"
+            href="/ru/blog/"
+            onClick={() => track('click_header_blog')}
+            className="text-sm font-semibold text-white/80 hover:text-brand-cyan transition px-2 sm:px-3"
+          >
+            Блог
+          </a>
+
           <div
             data-testid="lang-switcher"
             className="flex items-center rounded-full border border-white/10 bg-white/[0.04] p-0.5 text-xs font-semibold"

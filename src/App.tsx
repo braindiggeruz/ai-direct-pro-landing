@@ -14,6 +14,7 @@ import FAQ from './components/FAQ';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
+import BlogTeaser from './components/BlogTeaser';
 
 function getInitialLang(): Lang {
   if (typeof window === 'undefined') return 'ru';
@@ -145,6 +146,7 @@ export default function App() {
         <HowItWorks t={t} />
         <DemoChat t={t} ctaUrl={ctaUrl} />
         <Niches t={t} />
+        <BlogTeaser t={t} />
         <Offer t={t} ctaUrl={ctaUrl} />
         <Trust t={t} />
         <FAQ t={t} />
