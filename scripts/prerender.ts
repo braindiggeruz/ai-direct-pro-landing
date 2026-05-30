@@ -24,6 +24,16 @@ function loadPages(): Page[] {
   return files.map((f) => JSON.parse(fs.readFileSync(f, 'utf-8'))) as Page[];
 }
 
+// Load published blog articles so each money page can show related posts
+// pointing back at it (article.targetMoneyPage === page.url).
+import type { BlogArticle } from '../src/shared/types';
+function loadPublishedArticles(): BlogArticle[] {
+  const files = fg.sync('blog/**/*.json', { cwd: CONTENT_DIR, absolute: true });
+  return files
+    .map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')) as BlogArticle)
+    .filter((a) => a.status === 'published' && a.robotsIndex !== false);
+}
+
 function findCssAsset(): string | null {
   const assetsDir = path.join(DIST_DIR, 'assets');
   if (!fs.existsSync(assetsDir)) return null;
@@ -79,6 +89,19 @@ function renderInternalLinks(page: Page): string {
     </a>
   `).join('');
   return `<section data-testid="related-pages" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">Смотрите также</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+}
+
+function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
+  const related = articles.filter((a) => a.targetMoneyPage === page.url).slice(0, 3);
+  if (!related.length) return '';
+  const items = related.map((a) => `
+    <a href="${escapeHtml(a.url)}" data-testid="related-article" class="block bg-bg-surface border border-white/10 rounded-xl p-5 hover:border-brand-cyan/40 transition-colors group">
+      <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">Статья</div>
+      <div class="text-white font-medium leading-snug group-hover:text-brand-cyan transition-colors">${escapeHtml(a.h1)}</div>
+      <div class="text-white/55 text-sm mt-2 line-clamp-3">${escapeHtml(a.description)}</div>
+    </a>
+  `).join('');
+  return `<section data-testid="related-articles" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">Полезные статьи</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
 function buildJsonLd(page: Page, global: GlobalSEO): string {
@@ -141,7 +164,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null): string {
+function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = []): string {
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
   const ogDesc = page.ogDescription || page.description;
@@ -225,6 +248,7 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
   ${renderFaq(page.faq || [])}
   ${renderInternalLinks(page)}
+  ${renderRelatedArticles(page, articles)}
 </main>
 
 <footer class="border-t border-white/5 mt-20 py-10">
@@ -243,6 +267,7 @@ ${jsHref ? `<!-- React landing bundle is intentionally not loaded on money pages
 async function main() {
   const global = loadGlobal();
   const pages = loadPages();
+  const articles = loadPublishedArticles();
   const cssHref = findCssAsset();
   const jsHref = findJsAsset();
   let written = 0, skipped = 0;
@@ -250,7 +275,7 @@ async function main() {
     if (page.status === 'draft') { skipped++; continue; }
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderPage(page, global, cssHref, jsHref), 'utf-8');
+    fs.writeFileSync(outPath, renderPage(page, global, cssHref, jsHref, articles), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }
