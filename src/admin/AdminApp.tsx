@@ -5,6 +5,7 @@ import Cockpit from './pages/Cockpit';
 import PagesList from './pages/PagesList';
 import PageEditor from './pages/PageEditor';
 import BlogList from './pages/BlogList';
+import BlogEditor from './pages/BlogEditor';
 import InternalLinksPage from './pages/InternalLinks';
 import Redirects from './pages/Redirects';
 import Settings from './pages/Settings';
@@ -51,6 +52,8 @@ export default function AdminApp() {
       <Route path="pages/new" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
       <Route path="pages/:locale/:slug" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
       <Route path="blog" element={<RequireAuth><Shell><BlogList/></Shell></RequireAuth>} />
+      <Route path="blog/new" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
+      <Route path="blog/:locale/:slug" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
       <Route path="internal-links" element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
       <Route path="redirects" element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
       <Route path="settings" element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
