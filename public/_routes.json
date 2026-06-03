@@ -1,17 +1,3 @@
-/* Cloudflare Pages route rules
- *
- * Functions live under /functions/. Cloudflare invokes a function when the
- * incoming request path matches one of `include` and none of `exclude`.
- *
- *   /api/*           — backend (auth, content, audit, AI-fill, telegram webhook).
- *   /admin-tools/*   — catch-all that serves the admin SPA shell (dist/index.html).
- *                       Required because Cloudflare's static 404 fallback was
- *                       intercepting the `_redirects` splat-rewrite for admin
- *                       sub-routes — see functions/admin-tools/[[path]].ts.
- *
- * Everything else (homepage, prerendered money/blog pages, sitemap, robots,
- * 404.html) is served by Pages' static asset handler directly.
- */
 {
   "version": 1,
   "include": ["/api/*", "/admin-tools/*"],
