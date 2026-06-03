@@ -12,6 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import type { BlogArticle, GlobalSEO, FaqItem, BodyBlock } from '../src/shared/types';
+import { ANALYTICS_HEAD } from './analytics-snippet';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -168,6 +169,7 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
+${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
@@ -276,6 +278,7 @@ function renderBlogIndex(articles: BlogArticle[], global: GlobalSEO, cssHref: st
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ldGraph })}</script>
+${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
