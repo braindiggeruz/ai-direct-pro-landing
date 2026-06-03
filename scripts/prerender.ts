@@ -10,6 +10,7 @@ import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { SITE_URL } from '../src/shared/site-config';
+import { ANALYTICS_HEAD } from './analytics-snippet';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -227,6 +228,7 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
+${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
