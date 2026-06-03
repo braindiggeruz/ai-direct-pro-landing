@@ -193,7 +193,8 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
   <article>
     <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeHtml(a.h1)}</h1>
-    <p data-testid="article-meta" class="text-sm text-white/50 mb-10">${escapeHtml(a.author || 'GPTBot Team')} · ${escapeHtml(a.datePublished || '')}</p>
+    <p data-testid="article-meta" class="text-sm text-white/50 mb-2">${escapeHtml(a.author || 'GPTBot Team')} · ${escapeHtml(a.datePublished || '')}</p>
+    ${(a.dateModified || a.updatedAt) ? `<p data-testid="article-updated" class="text-xs uppercase tracking-wider text-white/40 mb-10">Обновлено <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></p>` : '<div class="mb-10"></div>'}
     <div class="prose-invert">
       ${(a.body || []).map(renderBlock).join('\n')}
     </div>

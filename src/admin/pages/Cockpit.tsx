@@ -2,7 +2,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { api } from '../lib/api';
 import { Card, StatTile, ScoreBadge, Badge, Button } from '../components/ui';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, CheckCircle2, RefreshCw, Eye, Pencil } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, RefreshCw, Eye, Pencil, XCircle } from 'lucide-react';
+
+function HealthRow({ ok, label, detail }: { ok: boolean; label: string; detail?: string }) {
+  return (
+    <div data-testid={`seo-health-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className={`flex items-center justify-between rounded-lg px-3 py-2 border ${ok ? 'border-emerald-500/20 bg-emerald-500/5' : 'border-red-500/30 bg-red-500/5'}`}>
+      <div className="flex items-center gap-2">
+        {ok ? <CheckCircle2 size={14} className="text-emerald-300"/> : <XCircle size={14} className="text-red-300"/>}
+        <span className={ok ? 'text-white/85' : 'text-red-200'}>{label}</span>
+      </div>
+      {detail && <span className="text-xs text-white/50">{detail}</span>}
+    </div>
+  );
+}
 
 type PageAudit = {
   url: string;
@@ -18,7 +30,20 @@ type Stats = {
   missingCanonical: number; missingJsonLd: number; duplicateTitle: number; duplicateDescription: number;
   orphanPages: number; brokenInternalLinks: number; missingFaq: number; missingHreflang: number;
   missingOg: number; ruUzPairsOk: number; ruUzPairsMissing: number; avgMoneyScore: number; avgBlogScore: number;
+  mojibakePages?: number;
   pages: PageAudit[];
+  // blog stats — added by /api/audit (additive, optional for back-compat)
+  totalBlog?: number; publishedBlog?: number; blogInSitemap?: number;
+  blogMissingFaq?: number; blogMissingTitle?: number; blogMissingDescription?: number;
+  blogDuplicateTitle?: number;
+  // live HTTP probes
+  live?: {
+    randomUrl404: boolean; randomUrlStatus: number;
+    adminNoindex: boolean; adminStatus: number;
+    sitemap200Xml: boolean; sitemapStatus: number;
+    robots200: boolean; faviconLive: boolean; sampleImageLive: boolean;
+    probedAt: string;
+  };
 };
 
 type Mismatch = { level: 'error' | 'warning'; message: string; url?: string };
@@ -98,6 +123,42 @@ export default function Cockpit() {
         <StatTile testId="stat-sitemap" label="In sitemap" value={stats.pagesInSitemap} tone="info"/>
         <StatTile testId="stat-money-score" label="Avg money score" value={`${stats.avgMoneyScore}`} tone={stats.avgMoneyScore >= 80 ? 'success' : 'warning'}/>
       </div>
+
+      {/* SEO Health — single-glance pass/fail across the most damaging
+          regressions we historically hit on gptbot.uz. Live probes run on
+          the Cloudflare zone via /api/audit (random URL 404, admin noindex,
+          sitemap XML, robots.txt, favicon, sample blog image). */}
+      <Card>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <h2 className="font-display text-lg text-white">SEO Health</h2>
+            {stats.live?.probedAt && (
+              <span className="text-xs text-white/40">last probe {new Date(stats.live.probedAt).toLocaleTimeString()}</span>
+            )}
+          </div>
+          <Button variant="secondary" size="sm" onClick={load} data-testid="seo-health-run"><RefreshCw size={14}/> Run SEO Health Check</Button>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm" data-testid="seo-health-grid">
+          <HealthRow ok={(stats.live?.sitemap200Xml ?? true)} label="Sitemap 200 (XML)" detail={stats.live ? `${stats.pagesInSitemap + (stats.blogInSitemap ?? 0)} URLs · HTTP ${stats.live.sitemapStatus}` : `${stats.pagesInSitemap + (stats.blogInSitemap ?? 0)} URLs in sitemap`} />
+          <HealthRow ok={(stats.live?.robots200 ?? true)} label="Robots.txt 200" />
+          <HealthRow ok={(stats.live?.randomUrl404 ?? true)} label="Random URL → 404" detail={stats.live ? `HTTP ${stats.live.randomUrlStatus}` : undefined} />
+          <HealthRow ok={(stats.live?.adminNoindex ?? true)} label="/admin-tools/ noindex" detail={stats.live ? `HTTP ${stats.live.adminStatus}` : undefined} />
+          <HealthRow ok={(stats.live?.faviconLive ?? true)} label="Favicon live" />
+          <HealthRow ok={(stats.live?.sampleImageLive ?? true)} label="Sample image live" />
+          <HealthRow ok={stats.missingTitle === 0} label="Titles" detail={`${stats.missingTitle} missing`} />
+          <HealthRow ok={stats.missingDescription === 0} label="Descriptions" detail={`${stats.missingDescription} missing`} />
+          <HealthRow ok={stats.missingH1 === 0} label="H1" detail={`${stats.missingH1} missing`} />
+          <HealthRow ok={stats.duplicateTitle === 0} label="Duplicate titles" detail={`${stats.duplicateTitle} dup`} />
+          <HealthRow ok={stats.duplicateDescription === 0} label="Duplicate descriptions" detail={`${stats.duplicateDescription} dup`} />
+          <HealthRow ok={stats.missingCanonical === 0} label="Canonical" detail={`${stats.missingCanonical} missing`} />
+          <HealthRow ok={stats.ruUzPairsMissing === 0} label="RU↔UZ pairs" detail={`${stats.ruUzPairsOk} ok / ${stats.ruUzPairsMissing} missing`} />
+          <HealthRow ok={stats.missingJsonLd === 0} label="Schema (JSON-LD)" detail={`${stats.missingJsonLd} missing`} />
+          <HealthRow ok={(stats.mojibakePages ?? 0) === 0} label="Mojibake" detail={`${stats.mojibakePages ?? 0} pages`} />
+          <HealthRow ok={stats.brokenInternalLinks === 0} label="Internal links" detail={`${stats.brokenInternalLinks} broken`} />
+          <HealthRow ok={stats.orphanPages === 0} label="Orphan pages" detail={`${stats.orphanPages} orphan`} />
+          <HealthRow ok={(stats.blogMissingFaq ?? 0) === 0} label="Blog FAQ" detail={`${stats.publishedBlog ?? 0} blog · ${stats.blogMissingFaq ?? 0} need FAQ`} />
+        </div>
+      </Card>
 
       {/* Mismatch warnings */}
       {mismatches.length > 0 && (

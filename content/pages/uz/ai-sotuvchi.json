@@ -1,0 +1,142 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/ai-sotuvchi/",
+  "slug": "ai-sotuvchi",
+  "pageType": "money",
+  "primaryKeyword": "AI sotuvchi",
+  "secondaryKeywords": [
+    "AI savdo bo'yicha yordamchi",
+    "GPT sotuvchi",
+    "AI sotuv menejeri",
+    "O'zbekistonda AI sotuvchi"
+  ],
+  "searchIntent": "commercial",
+  "h1": "AI-sotuvchi — mijoz bilan birinchi suhbatni olib boruvchi yordamchi",
+  "title": "AI-sotuvchi — birinchi suhbatni boshqaruvchi yordamchi",
+  "description": "AI-sotuvchi 24/7 javob beradi, ehtiyojni aniqlaydi, ism va telefonni yig'adi va tayyor lidni sizning menejeringizga uzatadi. O'zbekiston uchun demo.",
+  "canonical": "https://gptbot.uz/uz/ai-sotuvchi/",
+  "hreflangRu": "/ru/ai-prodavec/",
+  "hreflangUz": "/uz/ai-sotuvchi/",
+  "ogTitle": "AI-sotuvchi — birinchi suhbatni boshqaruvchi yordamchi",
+  "ogDescription": "AI-sotuvchi 24/7 javob beradi, ehtiyojni aniqlaydi, ism va telefonni yig'adi va tayyor lidni sizning menejeringizga uzatadi. O'zbekiston uchun demo.",
+  "ogImage": "https://gptbot.uz/assets/landing/2.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "AI-sotuvchi",
+  "heroTitle": "AI-sotuvchi — mijoz bilan birinchi suhbatni olib boruvchi yordamchi",
+  "heroSubtitle": "AI-sotuvchi sotuv bo'limini almashtirmaydi, balki birinchi kontaktni o'z zimmasiga oladi: javob beradi, mijozni saralaydi va menejerga tayyor lid uzatadi.",
+  "ctaPrimaryLabel": "Telegram'da demo so'rash",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "AI-sotuvchi nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "AI-sotuvchi — Telegram va Instagram Direct'da mijoz bilan birinchi suhbatni olib boruvchi GPT yordamchi. U mijozning savolini tushunadi, kerakli savollarni beradi, ism va telefonni yig'adi va tayyor lidni menejeringizga uzatadi. Bu jonli odam yo'q paytda yoki menejer band paytida bir nechta lidni parallel ravishda olib borishga imkon beradi."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi vazifalarni hal qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi javob vaqtini soniyalarga tushiradi",
+        "Mijozning haqiqiy ehtiyojini aniqlaydi",
+        "Mahsulot/xizmat haqida qisqa va ravon javob beradi",
+        "Ism va telefonni yig'adi",
+        "Tayyor lidni Telegram'ga yoki CRM'ga uzatadi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-sotuvchi sizning Telegram bot'ingiz yoki Instagram akkauntingizga ulanadi. Mijoz yozgan zahoti bot kontekstni o'qiydi, kerakli savollarni beradi va suhbat oxirida menejerga tayyor lid uzatadi: ism, telefon, savol, manfaatdorlik darajasi. Skript va ton sizning brendingizga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun jonli menejerni almashtirmaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Murakkab kelishuvlar va shartnomalar menejer ishi",
+        "AI birinchi kontaktni qabul qiladi va lidni tayyorlaydi",
+        "Issiq lid menejerga tayyor ariza ko'rinishida keladi",
+        "Menejer faqat haqiqiy mijozlar bilan vaqt o'tkazadi",
+        "Sotuvlar tezligi va konversiya oshadi"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Telegram'da demo so'rash",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "AI-sotuvchi mening menejerimni almashtiradimi?",
+      "a": "Yo'q. AI birinchi kontaktni qabul qiladi: tez javob beradi, mijozni saralaydi, ism va telefonni yig'adi va tayyor issiq lidni sizning menejeringizga uzatadi. Murakkab shartnoma menejer ishi bo'lib qoladi."
+    },
+    {
+      "q": "AI-sotuvchi qaysi tillarda gaplashadi?",
+      "a": "Rus va o'zbek (UZ Latin) tillarida. Ssenariy nishingizga moslab tuziladi."
+    },
+    {
+      "q": "Skriptni o'zim tahrirlay olamanmi?",
+      "a": "Ha. Skript savol-javoblari, qadamlari va kalit so'zlari sizning ishtirokingizda tuziladi va keyin tahrirlanadi."
+    },
+    {
+      "q": "AI-sotuvchi qancha lidni parallel ko'tara oladi?",
+      "a": "Bir vaqtning o'zida o'nlab va yuzlab suhbat olib bora oladi, jonli menejer kabi navbat hosil qilmaydi."
+    },
+    {
+      "q": "Narxi qancha?",
+      "a": "Narx ssenariy murakkabligi va kanallar soniga bog'liq. Nishingiz uchun bepul demo oling: https://t.me/XGame_changerx."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/savdoni-avtomatlashtirish/",
+      "anchor": "Savdoni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-03",
+  "createdAt": "2026-06-03T00:00:00Z",
+  "updatedAt": "2026-06-03T00:00:00Z"
+}
