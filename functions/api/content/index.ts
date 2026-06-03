@@ -4,7 +4,7 @@
 //   DELETE body={kind,locale?,slug,message?}      → delete
 import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
-import { getFile, listDir, putFile, deleteFile } from '../../lib/github';
+import { getFile, putFile, deleteFile, readContentBulk } from '../../lib/github';
 import { detectMojibake } from '../../../src/shared/audit';
 
 function json(data: unknown, status = 200): Response {
@@ -29,34 +29,27 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
-  const [pageFiles, blogFiles, globalFile, redirectsFile, linksFile] = await Promise.all([
-    listDir(env, 'content/pages').catch(() => []),
-    listDir(env, 'content/blog').catch(() => []),
-    getFile(env, 'content/global/site.json').catch(() => null),
-    getFile(env, 'content/seo/redirects.json').catch(() => null),
-    getFile(env, 'content/seo/internal-links.json').catch(() => null),
-  ]);
+  // Single-subrequest bulk read of the whole content/ tree.
+  // Replaces the prior 5×listDir + N×getFile path that exceeded the
+  // Cloudflare Workers Free runtime 50-subrequest cap once corpus > 40.
+  const all = await readContentBulk(env);
+  const pages: unknown[] = [];
+  const blog: unknown[] = [];
+  let globalObj: unknown = null;
+  let redirects: unknown[] = [];
+  let internalLinks: unknown[] = [];
+  for (const [path, text] of Object.entries(all)) {
+    if (!path.endsWith('.json')) continue;
+    let parsed: unknown;
+    try { parsed = JSON.parse(text); } catch { continue; }
+    if (path.startsWith('content/pages/')) pages.push(parsed);
+    else if (path.startsWith('content/blog/')) blog.push(parsed);
+    else if (path === 'content/global/site.json') globalObj = parsed;
+    else if (path === 'content/seo/redirects.json') redirects = (parsed as unknown[]) || [];
+    else if (path === 'content/seo/internal-links.json') internalLinks = (parsed as unknown[]) || [];
+  }
 
-  const pages = await Promise.all(
-    pageFiles.filter((p) => p.endsWith('.json')).map(async (p) => {
-      const f = await getFile(env, p);
-      return f ? JSON.parse(f.content) : null;
-    }),
-  );
-  const blog = await Promise.all(
-    blogFiles.filter((p) => p.endsWith('.json')).map(async (p) => {
-      const f = await getFile(env, p);
-      return f ? JSON.parse(f.content) : null;
-    }),
-  );
-
-  return json({
-    pages: pages.filter(Boolean),
-    blog: blog.filter(Boolean),
-    global: globalFile ? JSON.parse(globalFile.content) : null,
-    redirects: redirectsFile ? JSON.parse(redirectsFile.content) : [],
-    internalLinks: linksFile ? JSON.parse(linksFile.content) : [],
-  });
+  return json({ pages, blog, global: globalObj, redirects, internalLinks });
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
