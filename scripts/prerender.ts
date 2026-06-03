@@ -137,6 +137,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
     });
   }
   if (types.has('Service') || page.pageType === 'money') {
+    const dateModified = page.lastReviewedAt || page.updatedAt;
     graph.push({
       '@type': 'Service',
       name: page.h1 || page.title,
@@ -148,6 +149,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
       ],
       serviceType: page.primaryKeyword,
       url: `${global.siteUrl}${page.url}`,
+      ...(dateModified ? { dateModified: new Date(dateModified).toISOString().slice(0, 10) } : {}),
     });
   }
   if (types.has('FAQPage') && page.faq?.length) {
@@ -177,6 +179,21 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 
   const hrefRu = page.hreflangRu ? (page.hreflangRu.startsWith('http') ? page.hreflangRu : `${global.siteUrl}${page.hreflangRu}`) : '';
   const hrefUz = page.hreflangUz ? (page.hreflangUz.startsWith('http') ? page.hreflangUz : `${global.siteUrl}${page.hreflangUz}`) : '';
+
+  // Freshness layer: prefer lastReviewedAt (human-curated) over updatedAt
+  // (auto-touched by every admin save). Falls back gracefully to nothing if
+  // neither is present. Used by both the visible "Обновлено" badge and the
+  // dateModified property in Service JSON-LD.
+  const rawModified = page.lastReviewedAt || page.updatedAt || '';
+  const modifiedIso = rawModified ? new Date(rawModified).toISOString().slice(0, 10) : '';
+  const modifiedLabel = page.locale === 'uz' ? 'Yangilangan' : 'Обновлено';
+
+  // Trust microcopy chips — copy-only, no fake guarantees. Reused below the
+  // primary CTA on every money page. Localised per page.locale.
+  const trustChips = page.locale === 'uz'
+    ? ['RU + UZ', 'Telegram demo', 'Murakkab sozlash yo\u2018q', 'Lid menejerga uzatiladi']
+    : ['RU + UZ', 'Telegram demo', 'Без сложной настройки', 'Передаёт обращение менеджеру'];
+  const trustHtml = `<ul aria-label="${page.locale === 'uz' ? 'Ishonch belgilari' : 'Trust-маркеры'}" class="flex flex-wrap gap-2 text-xs text-white/70 mt-4 mb-10">${trustChips.map((c) => `<li class="px-3 py-1 rounded-full border border-white/10 bg-white/5">${escapeHtml(c)}</li>`).join('')}</ul>`;
 
   return `<!doctype html>
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
@@ -233,14 +250,16 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
   </nav>
 
   <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeHtml(page.h1)}</h1>
+  ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
   ${page.heroSubtitle ? `<p class="text-lg text-white/80 mb-8 max-w-2xl">${escapeHtml(page.heroSubtitle)}</p>` : ''}
 
-  ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-12">
+  ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
     <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
       ${escapeHtml(page.ctaPrimaryLabel || 'Демо')}
     </a>
     ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="border border-white/15 text-white px-8 py-4 rounded-full hover:bg-white/5">${escapeHtml(page.ctaSecondaryLabel || '')}</a>` : ''}
-  </div>` : ''}
+  </div>
+  ${trustHtml}` : ''}
 
   <article class="prose-invert">
     ${(page.bodyBlocks || []).map(renderBlock).join('\n')}

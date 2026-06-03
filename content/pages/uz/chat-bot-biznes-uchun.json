@@ -1,0 +1,75 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/chat-bot-biznes-uchun/",
+  "slug": "chat-bot-biznes-uchun",
+  "pageType": "money",
+  "primaryKeyword": "biznes uchun chat-bot",
+  "secondaryKeywords": [
+    "O'zbekistonda chat-bot",
+    "Telegram chat-bot biznes",
+    "Instagram chat-bot",
+    "chat-bot ssenariy"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Biznes uchun chat-bot — Telegram va Instagram'da 24/7 javob",
+  "title": "Biznes uchun chat-bot — Telegram va Instagram 24/7 | GPTBot",
+  "description": "Biznes uchun chat-bot Telegram va Instagram Direct'da 24/7 javob beradi, ism va telefonni yig'adi, tayyor arizani menejerga uzatadi. O'zbekiston uchun demo.",
+  "canonical": "https://gptbot.uz/uz/chat-bot-biznes-uchun/",
+  "hreflangRu": "/ru/chat-bot-dlya-biznesa/",
+  "hreflangUz": "/uz/chat-bot-biznes-uchun/",
+  "ogTitle": "Biznes uchun chat-bot — Telegram va Instagram 24/7 | GPTBot",
+  "ogDescription": "Biznes uchun chat-bot Telegram va Instagram Direct'da 24/7 javob beradi, ism va telefonni yig'adi, tayyor arizani menejerga uzatadi.",
+  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Biznes uchun chat-bot",
+  "heroTitle": "Biznes uchun chat-bot — Telegram va Instagram'da 24/7 javob",
+  "heroSubtitle": "Chat-bot mijozning birinchi savoliga bir necha soniyada javob beradi, ism va telefonni yig'adi va tayyor lidni menejeringizga uzatadi.",
+  "ctaPrimaryLabel": "Telegram'da demo so'rash",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    { "type": "h2", "text": "Biznes uchun chat-bot nima qiladi" },
+    { "type": "p", "text": "Chat-bot Telegram va Instagram Direct'da mijozning birinchi xabariga 24/7 javob beradi: kerakli savollarni beradi, ism va telefon raqamini yig'adi, suhbatni qisqacha jamlab menejeringizga uzatadi. Sotuv bo'limini kengaytirmasdan birinchi kontaktni tezlatadi."},
+    { "type": "h2", "text": "Nima uchun oddiy javob beruvchi bot yetarli emas" },
+    { "type": "list", "items": [
+      "Tayyor variantlardan iborat menyu mijozning aniq savoliga javob bermaydi",
+      "Skript bo'yicha javob beruvchi bot lidni soviqlashtiradi",
+      "Yangi savol kelishi bilan suhbat to'xtab qoladi",
+      "Mijoz boshqa kanalga o'tib ketadi",
+      "Birinchi kontakt vaqti uzayib, ariza yo'qoladi"
+    ]},
+    { "type": "h2", "text": "GPTBot chat-boti qanday ishlaydi" },
+    { "type": "p", "text": "Bot sizning Telegram va Instagram akkauntingizga ulanadi, kiruvchi xabarlarni o'qiydi, kontekstni tushunadi, mijozdan ism va telefonni so'raydi va to'ldirilgan arizani Telegram'dagi menejer chatiga yoki CRM tizimiga uzatadi. Ssenariy nishga moslab tuziladi: salon, klinika, do'kon, kurs."},
+    { "type": "h2", "text": "Biznes nima oladi" },
+    { "type": "list", "items": [
+      "Soat va kunlik javob vaqtini soniyalarga qisqartirish",
+      "Yo'qotilgan arizalarning kamayishi",
+      "Lidlarni avtomatik malakalash: ism, telefon, savol",
+      "Telegram yoki CRM'ga tayyor ariza",
+      "Rus va o'zbek (UZ Latin) tillarida ishlash"
+    ]},
+    { "type": "cta", "text": "Telegram'da demo so'rash", "href": "https://t.me/XGame_changerx" }
+  ],
+  "faq": [
+    { "q": "Chat-bot va AI-bot orasidagi farq nima?", "a": "Oddiy chat-bot tayyor menyu bo'yicha ishlaydi, AI-bot esa mijozning haqiqiy savolini tushunadi va kontekstga mos javob beradi. GPTBot — bu AI asosida ishlovchi chat-bot." },
+    { "q": "Qaysi kanallarni qo'llab-quvvatlaydi?", "a": "Telegram, Instagram Direct va veb-sayt vidjeti. Asosiy fokus — Telegram va Instagram, chunki O'zbekistonda lidlarning katta qismi shu yerdan keladi." },
+    { "q": "Botni CRM bilan bog'lash mumkinmi?", "a": "Ha. Tayyor lid Telegram chatiga yoki to'g'ridan-to'g'ri Bitrix24, AmoCRM yoki Google Sheets'ga uzatiladi." },
+    { "q": "Bot rus va o'zbek tillarini biladimi?", "a": "Ha. Bot ikkala tilda javob beradi, ssenariy nishingizga moslashtiriladi (RU + UZ Latin)." },
+    { "q": "Narxi qancha?", "a": "Narx ssenariy va ulanadigan kanallar soniga bog'liq. Nishingiz uchun bepul demo oling va ROI'ni baholang: https://t.me/XGame_changerx." },
+    { "q": "Botni ishga tushirish qancha vaqt oladi?", "a": "Bazaviy ssenariy odatda tezroq ishga tushadi, to'liq integratsiya CRM va to'lov tizimlari bilan alohida muhokama qilinadi." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/instagram-bot-biznes-uchun/", "anchor": "Instagram bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/gpt-bot-biznes-uchun/", "anchor": "GPT-bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "Arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-06-03",
+  "createdAt": "2026-06-03T00:00:00Z",
+  "updatedAt": "2026-06-03T00:00:00Z"
+}

@@ -1,0 +1,142 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/arizalarni-qabul-qiluvchi-bot/",
+  "slug": "arizalarni-qabul-qiluvchi-bot",
+  "pageType": "money",
+  "primaryKeyword": "arizalarni qabul qiluvchi bot",
+  "secondaryKeywords": [
+    "Telegram'da ariza qabul qilish",
+    "Instagram ariza boti",
+    "Lid qabul qiluvchi bot",
+    "Buyurtmalarni qayta ishlash boti"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Arizalarni qabul qiluvchi bot — Telegram va Instagram'da 24/7",
+  "title": "Arizalarni qabul qiluvchi bot — Telegram va Instagram",
+  "description": "Arizalarni qabul qiluvchi AI-bot Telegram va Instagram'da 24/7 ishlaydi: javob beradi, ism va telefonni yig'adi va tayyor arizani menejeringizga uzatadi.",
+  "canonical": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+  "hreflangRu": "/ru/bot-dlya-obrabotki-zayavok/",
+  "hreflangUz": "/uz/arizalarni-qabul-qiluvchi-bot/",
+  "ogTitle": "Arizalarni qabul qiluvchi bot — Telegram va Instagram",
+  "ogDescription": "Arizalarni qabul qiluvchi AI-bot Telegram va Instagram'da 24/7 ishlaydi: javob beradi, ism va telefonni yig'adi va tayyor arizani menejeringizga uzatadi.",
+  "ogImage": "https://gptbot.uz/assets/landing/5.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Arizalarni qabul qiluvchi bot",
+  "heroTitle": "Arizalarni qabul qiluvchi bot — Telegram va Instagram'da 24/7",
+  "heroSubtitle": "Bot mijozning birinchi xabaridan keyin ism va telefonni yig'adi va to'ldirilgan arizani Telegram'dagi menejerga yoki CRM'ga uzatadi.",
+  "ctaPrimaryLabel": "Telegram'da demo so'rash",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Arizalarni qabul qiluvchi bot nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Bu — Telegram va Instagram Direct'da kiruvchi arizalarni 24/7 qabul qiluvchi virtual operator. Bot mijozning birinchi xabariga soniyalarda javob beradi, kerakli savollarni beradi (qaysi xizmat, qaysi sana, qaysi shahar), ism va telefonni yig'adi va tayyor arizani Telegram chatiga yoki CRM'ga uzatadi. Menejer faqat tasdiqlashi va tayyor lid bilan ishlashi qoladi."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi muammolarni hal qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tunda va dam olish kunlari arizalar yo'qoladi",
+        "Birinchi javob vaqti uzun — mijoz raqobatchiga ketadi",
+        "Menejerlar oddiy savollar bilan band",
+        "Telegram, Instagram va sayt forma — alohida kanal",
+        "Lidlar yagona ro'yxatda yig'ilmaydi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot sizning Telegram bot'ingiz, Instagram Direct'ingiz va veb-sayt vidjetingizga ulanadi. Yangi xabar kelganda bot kontekstni o'qiydi, kerakli savollarni beradi, ism va telefonni so'raydi va to'ldirilgan ariza menejerlar chatiga keladi: ism, telefon, savol, manfaatdorlik darajasi. Skript nishingizga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Soat va dam olish kunlari ham ariza qabul qilinadi",
+        "Birinchi javob vaqti soniyalarga tushadi",
+        "Tayyor ariza Telegram yoki CRM'ga keladi",
+        "Lidlar yagona kanalda yig'iladi",
+        "Rus va o'zbek tillarida ishlash"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Telegram'da demo so'rash",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bot qaysi kanallarda ishlaydi?",
+      "a": "Telegram, Instagram Direct va veb-sayt vidjeti. Asosiy fokus — Telegram va Instagram, chunki O'zbekistonda lidlarning katta qismi shu yerdan keladi."
+    },
+    {
+      "q": "Tayyor ariza qayerga keladi?",
+      "a": "Telegram'dagi menejerlar chatiga yoki to'g'ridan-to'g'ri Bitrix24, AmoCRM yoki Google Sheets'ga."
+    },
+    {
+      "q": "Bot oddiy savollarga ham javob beradimi?",
+      "a": "Ha. Skript ichida tez-tez beriladigan savollar (narx, manzil, ish vaqti, yetkazib berish) bo'lib, bot ularga avtomatik javob beradi."
+    },
+    {
+      "q": "Skriptni o'zim tahrirlay olamanmi?",
+      "a": "Ha. Skript va savollar sizning ishtirokingizda tuziladi va keyin tahrirlanishi mumkin."
+    },
+    {
+      "q": "Narxi qancha?",
+      "a": "Narx ssenariy murakkabligi va ulanadigan kanallar/CRM soniga bog'liq. Bepul demo: https://t.me/XGame_changerx."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/savdoni-avtomatlashtirish/",
+      "anchor": "Savdoni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-03",
+  "createdAt": "2026-06-03T00:00:00Z",
+  "updatedAt": "2026-06-03T00:00:00Z"
+}

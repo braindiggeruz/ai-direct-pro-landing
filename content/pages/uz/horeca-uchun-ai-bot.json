@@ -1,0 +1,74 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/horeca-uchun-ai-bot/",
+  "slug": "horeca-uchun-ai-bot",
+  "pageType": "money",
+  "primaryKeyword": "HoReCa uchun AI bot",
+  "secondaryKeywords": [
+    "Restoran uchun AI bot",
+    "Kafe uchun chat-bot",
+    "Stol band qilish boti",
+    "Yetkazib berish boti O'zbekiston"
+  ],
+  "searchIntent": "commercial",
+  "h1": "HoReCa uchun AI-bot — stol band qilish va buyurtmalar 24/7",
+  "title": "HoReCa uchun AI-bot — stol band qilish va buyurtmalar | GPTBot",
+  "description": "HoReCa uchun AI-bot Telegram va Instagram'da 24/7 ishlaydi: stol band qilish, menyu savollari, yetkazib berish buyurtmasi va tayyor lid menejerga yuboriladi.",
+  "canonical": "https://gptbot.uz/uz/horeca-uchun-ai-bot/",
+  "hreflangRu": "/ru/ai-bot-dlya-horeca/",
+  "hreflangUz": "/uz/horeca-uchun-ai-bot/",
+  "ogTitle": "HoReCa uchun AI-bot — stol band qilish va buyurtmalar | GPTBot",
+  "ogDescription": "HoReCa uchun AI-bot Telegram va Instagram'da 24/7 ishlaydi: stol band qilish, menyu savollari, yetkazib berish buyurtmasi.",
+  "ogImage": "https://gptbot.uz/assets/landing/4.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "HoReCa uchun AI-bot",
+  "heroTitle": "HoReCa uchun AI-bot — stol band qilish va buyurtmalar 24/7",
+  "heroSubtitle": "Restoran, kafe va yetkazib berish xizmati uchun AI-bot stol band qiladi, menyu bo'yicha javob beradi va tayyor arizani administratorga uzatadi.",
+  "ctaPrimaryLabel": "Telegram'da demo so'rash",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    { "type": "h2", "text": "HoReCa uchun AI-bot qaysi vazifalarni hal qiladi" },
+    { "type": "p", "text": "Restoran, kafe va yetkazib berish xizmatlari uchun GPTBot — bu bir vaqtning o'zida birinchi liniya administrator va menejer yordamchisidir. Bot mehmonning savoliga 24/7 javob beradi: menyu, ish vaqti, manzil, narxlar, stol band qilish, yetkazib berish, banket va kompaniyalar uchun maxsus takliflar. Tayyor ariza Telegram'dagi administratorga yoki CRM'ga uzatiladi." },
+    { "type": "h2", "text": "Qaysi savollarni avtomatik qayta ishlaydi" },
+    { "type": "list", "items": [
+      "Stol band qilish — sana, vaqt, mehmonlar soni",
+      "Menyu va narxlar bo'yicha savollar",
+      "Manzil va ish vaqti",
+      "Yetkazib berish hududlari va vaqti",
+      "Banket va tug'ilgan kun maxsus takliflari",
+      "Buyurtma holatini bilish"
+    ]},
+    { "type": "h2", "text": "Bu qanday ishlaydi" },
+    { "type": "p", "text": "AI-bot sizning Telegram bot'ingiz va Instagram Direct'ingizga ulanadi. Mehmondan ariza kelganda bot kerakli savollarni beradi: sana, vaqt, mehmonlar soni, telefon raqami. To'ldirilgan ariza administrator chatiga keladi, administrator faqat tasdiqlashi kifoya. Standart savollar (menyu, manzil, ish vaqti) bot tomonidan to'liq qayta ishlanadi." },
+    { "type": "h2", "text": "Restoran/kafe nima oladi" },
+    { "type": "list", "items": [
+      "Tunda va dam olish kunlari ham ariza qabul qilinadi",
+      "Administrator faqat tasdiqlash bilan band bo'ladi",
+      "Yo'qotilgan stol band qilish arizalari kamayadi",
+      "Yetkazib berish buyurtmalari bir oqim'da yig'iladi",
+      "Rus va o'zbek (UZ Latin) tillarida xizmat"
+    ]},
+    { "type": "cta", "text": "Telegram'da demo so'rash", "href": "https://t.me/XGame_changerx" }
+  ],
+  "faq": [
+    { "q": "Bot menyuni qanday biladi?", "a": "Menyu va narxlarni biz birgalikda joylab beramiz: PDF, Google Sheet yoki saytdan import qilish mumkin. Yangilanish bir necha daqiqada bo'ladi." },
+    { "q": "Stol band qilishni CRM bilan bog'lay olamizmi?", "a": "Ha. Ariza Telegram chatiga yoki to'g'ridan-to'g'ri sizning band qilish/CRM tizimingizga uzatiladi." },
+    { "q": "Bot yetkazib berish hududlarini biladimi?", "a": "Ha. Yetkazib berish hududlari va tariflari botda saqlanadi, mehmonning manzili bo'yicha bot avtomatik tekshiradi." },
+    { "q": "Restoran va kafe uchun ssenariy farq qiladimi?", "a": "Ha. Restoran uchun fokus stol band qilish va banketda, kafe va yetkazib berish uchun — buyurtma va manzilda. Ssenariy nishga moslab tuziladi." },
+    { "q": "Narxi qancha?", "a": "Narx kanallar va integratsiyalar (band qilish/CRM, yetkazib berish tizimi) soniga bog'liq. Demo va smeta uchun: https://t.me/XGame_changerx." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/dokon-uchun-ai-bot/", "anchor": "Do'kon uchun AI bot", "locale": "uz", "type": "niche" },
+    { "target": "/uz/salon-uchun-ai-bot/", "anchor": "Salon uchun AI bot", "locale": "uz", "type": "niche" },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "Arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-06-03",
+  "createdAt": "2026-06-03T00:00:00Z",
+  "updatedAt": "2026-06-03T00:00:00Z"
+}

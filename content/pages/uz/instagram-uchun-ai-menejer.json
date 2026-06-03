@@ -1,0 +1,142 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/instagram-uchun-ai-menejer/",
+  "slug": "instagram-uchun-ai-menejer",
+  "pageType": "money",
+  "primaryKeyword": "Instagram uchun AI menejer",
+  "secondaryKeywords": [
+    "Instagram Direct AI bot",
+    "Instagram'da mijozlar bilan ishlash",
+    "Instagram avtoreply",
+    "Instagram bot O'zbekiston"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Instagram uchun AI-menejer — Direct'dagi savollarga 24/7 javob",
+  "title": "Instagram uchun AI-menejer — Direct'da avtomatik javob | GPTBot",
+  "description": "Instagram uchun AI-menejer Direct'da 24/7 javob beradi, ism va telefonni yig'adi, tayyor lidni sizning menejeringizga uzatadi. Demo Telegram'da.",
+  "canonical": "https://gptbot.uz/uz/instagram-uchun-ai-menejer/",
+  "hreflangRu": "/ru/ai-menedzher-dlya-instagram/",
+  "hreflangUz": "/uz/instagram-uchun-ai-menejer/",
+  "ogTitle": "Instagram uchun AI-menejer — Direct'da avtomatik javob | GPTBot",
+  "ogDescription": "Instagram uchun AI-menejer Direct'da 24/7 javob beradi, ism va telefonni yig'adi, tayyor lidni sizning menejeringizga uzatadi. Demo Telegram'da.",
+  "ogImage": "https://gptbot.uz/assets/landing/3.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Instagram uchun AI-menejer",
+  "heroTitle": "Instagram uchun AI-menejer — Direct'dagi savollarga 24/7 javob",
+  "heroSubtitle": "Instagram Direct'da mijozning birinchi savoliga soniyalarda javob bering, ism va telefonni yig'ing va tayyor lidni menejeringizga uzating.",
+  "ctaPrimaryLabel": "Telegram'da demo so'rash",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Instagram uchun AI-menejer nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "AI-menejer sizning Instagram biznes akkauntingizga ulanadi, Direct'ga kelgan xabarlarni 24/7 o'qiydi va javob beradi. U mijozning haqiqiy savolini tushunadi, kerakli savollarni beradi, ism va telefonni yig'adi va tayyor lidni Telegram'dagi menejerga yoki CRM'ga uzatadi. Bu sizning Instagram sahifangizdan kelgan lidlarning ko'p qismini yo'qotmaslikka imkon beradi."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun Instagram'da lidlar yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Direct'ga xabar tunda yoki dam olish kunlari keladi",
+        "Story javoblariga jonli odam tezda javob bera olmaydi",
+        "Komment va Direct alohida kanal — kuzatib bo'lmaydi",
+        "Mijoz tez javob olmasa, raqobatchiga o'tib ketadi",
+        "Menejerlar oddiy savollar bilan band bo'ladi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-menejer Instagram biznes akkauntingizga rasmiy API orqali ulanadi. Direct'ga yangi xabar yoki story'ga javob kelganda, bot kontekstni o'qiydi, mahsulot/xizmat haqida qisqa va ravon javob beradi, ism va telefonni so'raydi va to'ldirilgan arizani Telegram yoki CRM'ga uzatadi. Skript va ton sizning brendingizga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Direct'ga 24/7 tezkor javob",
+        "Story va komment javoblari ham qayta ishlanadi",
+        "Lidlar avtomatik malakalanadi",
+        "Tayyor ariza Telegram yoki CRM'ga keladi",
+        "Rus va o'zbek tillarida ishlash"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Telegram'da demo so'rash",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Instagram rasmiy API'siga ulanish xavfsizmi?",
+      "a": "Ha. Bot Instagram Graph API orqali ishlaydi va akkaunt qoidalarini buzmaydi. Profilingiz xavfsiz holatda qoladi."
+    },
+    {
+      "q": "Story javoblariga ham javob beradimi?",
+      "a": "Ha. Bot Direct'dagi suhbatlar va story javoblarini bir umumiy kanalda qayta ishlaydi."
+    },
+    {
+      "q": "Kommentlarga ham javob beradimi?",
+      "a": "Standart ssenariyda — yo'q (Instagram qoidalariga ko'ra ehtiyot bo'lish kerak), lekin alohida moslab tuzish mumkin."
+    },
+    {
+      "q": "Bot rus va o'zbek tillarini biladimi?",
+      "a": "Ha. Bot ikkala tilda javob beradi, ssenariy nishingizga moslashtiriladi (RU + UZ Latin)."
+    },
+    {
+      "q": "Narxi qancha?",
+      "a": "Narx ssenariy va integratsiyalar soniga bog'liq. Nishingiz uchun bepul demo oling: https://t.me/XGame_changerx."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-sotuvchi/",
+      "anchor": "AI-sotuvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-03",
+  "createdAt": "2026-06-03T00:00:00Z",
+  "updatedAt": "2026-06-03T00:00:00Z"
+}
