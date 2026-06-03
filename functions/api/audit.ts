@@ -1,6 +1,6 @@
 import type { Env } from '../_types';
 import { requireAuth } from '../lib/jwt';
-import { getFile, listDir } from '../lib/github';
+import { readContentBulk } from '../lib/github';
 // Run the same audit rules used everywhere else.
 // We import compiled-from-src module path; Cloudflare bundles automatically.
 import { buildCockpit } from '../../src/shared/audit';
@@ -52,20 +52,22 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
-  const pageFiles = await listDir(env, 'content/pages').catch(() => []);
+  // Single-subrequest bulk read (see lib/github.ts readContentBulk).
+  // The audit previously did ~50 getFile() calls and hit the Workers
+  // Free 50-subrequest cap once corpus passed 40 files.
+  const all = await readContentBulk(env);
   const pages: Page[] = [];
-  for (const p of pageFiles.filter((f) => f.endsWith('.json'))) {
-    const f = await getFile(env, p);
-    if (f) pages.push(JSON.parse(f.content));
-  }
-  const blogFiles = await listDir(env, 'content/blog').catch(() => []);
   const blog: BlogArticle[] = [];
-  for (const p of blogFiles.filter((f) => f.endsWith('.json'))) {
-    const f = await getFile(env, p);
-    if (f) blog.push(JSON.parse(f.content));
+  let global: GlobalSEO | undefined;
+  for (const [path, text] of Object.entries(all)) {
+    if (!path.endsWith('.json')) continue;
+    try {
+      const parsed = JSON.parse(text);
+      if (path.startsWith('content/pages/')) pages.push(parsed as Page);
+      else if (path.startsWith('content/blog/')) blog.push(parsed as BlogArticle);
+      else if (path === 'content/global/site.json') global = parsed as GlobalSEO;
+    } catch { /* skip unparsable */ }
   }
-  const globalFile = await getFile(env, 'content/global/site.json').catch(() => null);
-  const global: GlobalSEO | undefined = globalFile ? JSON.parse(globalFile.content) : undefined;
   const cockpit = buildCockpit(pages, global);
 
   // Aggregate blog stats — pages-only buildCockpit doesn't see blog, so we

@@ -79,3 +79,70 @@ export async function deleteFile(env: Env, filePath: string, message: string): P
   const res = await fetch(url, { method: 'DELETE', headers: { ...headers(env), 'Content-Type': 'application/json' }, body });
   if (!res.ok) throw new Error(`GitHub deleteFile ${filePath} failed: ${res.status} ${await res.text()}`);
 }
+
+// --- Bulk read path -----------------------------------------------------
+//
+// The Cloudflare Workers FREE runtime caps each invocation at 50 subrequests.
+// /api/content GET used to do ~5 listDir() + 1 fetch per file = 50+ once
+// the corpus grew past ~40 JSON files. After session 3 (30 pages + 16 blog
+// + 3 SEO configs) every authenticated GET to /api/content / /api/audit
+// threw `Too many subrequests by single Worker invocation`.
+//
+// readContentBulk() solves it by traversing the entire `content/` tree
+// inside ONE GitHub GraphQL request. Depth-5 covers
+// `content/{pages|blog}/{locale}/*.json` and the flat `content/{global,seo}/*.json`.
+// One subrequest, regardless of how many JSON files live under content/.
+//
+// Auth-only sprint scope: pure bulk-fetch, no semantic change to the API
+// response shape that the admin SPA consumes.
+type Blob = { __typename: 'Blob'; text: string };
+type Tree = { __typename: 'Tree'; entries?: Entry[] };
+type Entry = { name: string; type: 'tree' | 'blob'; object: Blob | Tree | null };
+
+function flatten(prefix: string, entries: Entry[] | null | undefined, out: Record<string, string>): void {
+  if (!entries) return;
+  for (const e of entries) {
+    const p = `${prefix}/${e.name}`;
+    if (e.type === 'blob' && e.object && (e.object as Blob).text !== undefined) {
+      out[p] = (e.object as Blob).text;
+    } else if (e.type === 'tree' && e.object) {
+      flatten(p, (e.object as Tree).entries, out);
+    }
+  }
+}
+
+export async function readContentBulk(env: Env): Promise<Record<string, string>> {
+  const query = `query($owner:String!,$repo:String!,$expr:String!){
+    repository(owner:$owner,name:$repo){
+      object(expression:$expr){
+        ... on Tree { entries { name type object {
+          __typename
+          ... on Blob { text }
+          ... on Tree { entries { name type object {
+            __typename
+            ... on Blob { text }
+            ... on Tree { entries { name type object {
+              __typename
+              ... on Blob { text }
+              ... on Tree { entries { name type object {
+                __typename
+                ... on Blob { text }
+              } } }
+            } } }
+          } } }
+        } } }
+      }
+    }
+  }`;
+  const res = await fetch(`${GH_API}/graphql`, {
+    method: 'POST',
+    headers: { ...headers(env), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables: { owner: env.GITHUB_OWNER, repo: env.GITHUB_REPO, expr: `${env.GITHUB_BRANCH}:content` } }),
+  });
+  if (!res.ok) throw new Error(`GitHub graphql failed: ${res.status} ${await res.text()}`);
+  const data = await res.json() as { data?: { repository?: { object?: Tree } }; errors?: unknown[] };
+  if (data.errors && data.errors.length) throw new Error(`GitHub graphql errors: ${JSON.stringify(data.errors)}`);
+  const out: Record<string, string> = {};
+  flatten('content', data.data?.repository?.object?.entries, out);
+  return out;
+}
