@@ -40,12 +40,19 @@ export const onRequest: PagesFunction<{ ASSETS: AssetsBinding }> = async ({ requ
   headers.set('Cache-Control', 'no-store');
   headers.set('X-Robots-Tag', 'noindex, nofollow');
 
-  // Strip Ahrefs Web Analytics + Google Tag Manager from the admin response
-  // so /admin-tools/* is never tracked. Public pages still ship those tags;
-  // we identify the inline GTM script and its noscript iframe via data-tag="gtm".
+  // Strip every analytics/tracking tag from the admin response so /admin-tools/*
+  // is never tracked. Public pages still ship those tags; we identify each one
+  // by a stable data-tag attribute:
+  //   data-tag="gtm"    -> Google Tag Manager (script + noscript iframe)
+  //   data-tag="ga"     -> Google Analytics gtag.js inline loader
+  //   data-tag="meta"   -> Meta (Facebook) Pixel
+  //   data-tag="ahrefs" -> Ahrefs Web Analytics (also matched by exact src)
   const rewriter = new HTMLRewriter()
     .on('script[src="https://analytics.ahrefs.com/analytics.js"]', { element(el) { el.remove(); } })
     .on('script[data-tag="gtm"]', { element(el) { el.remove(); } })
+    .on('script[data-tag="ga"]', { element(el) { el.remove(); } })
+    .on('script[data-tag="meta"]', { element(el) { el.remove(); } })
+    .on('script[data-tag="ahrefs"]', { element(el) { el.remove(); } })
     .on('noscript[data-tag="gtm"]', { element(el) { el.remove(); } });
   return rewriter.transform(new Response(res.body, { status: 200, statusText: 'OK', headers }));
 };
