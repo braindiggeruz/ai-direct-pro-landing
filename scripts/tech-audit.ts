@@ -242,17 +242,96 @@ async function main(): Promise<void> {
     for (const i of p.imgsNoAlt) imgAltMissing.push({ from: p.url, src: i.src });
   }
 
+  // ---- Sitemap parity: every <loc> must point to an indexable 200 page in
+  // dist; conversely, every indexable money/blog page should appear in the
+  // sitemap. Also flag forbidden paths and duplicates. ----
+  const sitemapPath = path.join(DIST, 'sitemap.xml');
+  const sitemapMissingInDist: { loc: string }[] = [];
+  const sitemapForbidden: { loc: string; reason: string }[] = [];
+  const sitemapDuplicates: { loc: string }[] = [];
+  const sitemapPointsToNoindex: { loc: string }[] = [];
+  const indexableMissingFromSitemap: { url: string }[] = [];
+  let sitemapLocs: string[] = [];
+  if (fs.existsSync(sitemapPath)) {
+    const xml = fs.readFileSync(sitemapPath, 'utf-8');
+    sitemapLocs = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1].trim());
+    const seen = new Set<string>();
+    for (const loc of sitemapLocs) {
+      if (seen.has(loc)) sitemapDuplicates.push({ loc });
+      seen.add(loc);
+      // forbidden paths
+      const u = normalizeUrl(loc);
+      const pOnly = u.replace(SITE, '');
+      if (/^\/(admin-tools|api)(\/|$)/.test(pOnly)) sitemapForbidden.push({ loc, reason: 'admin/api in sitemap' });
+      if (/draft|random|test-url/i.test(pOnly)) sitemapForbidden.push({ loc, reason: 'draft/random/test in sitemap' });
+      // page must exist
+      const tgt = pageForUrl(byUrl, u);
+      if (!tgt) sitemapMissingInDist.push({ loc });
+      else if (tgt.robotsNoindex) sitemapPointsToNoindex.push({ loc });
+    }
+    // reverse: every indexable non-homepage prerendered page should be in sitemap
+    const inSitemap = new Set(sitemapLocs.map(normalizeUrl));
+    for (const p of pages) {
+      if (p.robotsNoindex) continue;
+      if (p.fileRel === '404.html') continue;
+      if (p.fileRel === 'index.html') continue; // homepage may or may not be in sitemap depending on policy
+      const candidates = [p.url, p.url.replace(/\/$/, ''), p.url + '/'];
+      if (!candidates.some((c) => inSitemap.has(c))) indexableMissingFromSitemap.push({ url: p.url });
+    }
+  }
+
+  // ---- OG/Twitter tag presence ----
+  const ogTwitterMissing: { from: string; missing: string[] }[] = [];
+  const REQUIRED_OG = ['og:title', 'og:description', 'og:url', 'og:image', 'twitter:card', 'twitter:title', 'twitter:description'];
+  for (const p of pages) {
+    if (p.fileRel === '404.html') continue;
+    const html = fs.readFileSync(path.join(DIST, p.fileRel), 'utf-8');
+    const missing: string[] = [];
+    for (const key of REQUIRED_OG) {
+      const re = new RegExp(`<meta[^>]+(?:property|name)="${key.replace(':', '\\:')}"`, 'i');
+      if (!re.test(html)) missing.push(key);
+    }
+    if (missing.length) ogTwitterMissing.push({ from: p.url, missing });
+  }
+
+  // ---- Mojibake / encoding artefacts ----
+  const mojibake: { from: string; sample: string }[] = [];
+  const MOJIBAKE_RE = /Ð[ ]?[А-Яа-я]|Â[ ]?[А-Яа-я]|Ñ[ ]?[А-Яа-я]|Ò[ ]?[А-Яа-я]|�/;
+  for (const p of pages) {
+    const html = fs.readFileSync(path.join(DIST, p.fileRel), 'utf-8');
+    const m = html.match(MOJIBAKE_RE);
+    if (m) mojibake.push({ from: p.url, sample: html.slice(Math.max(0, html.indexOf(m[0]) - 30), html.indexOf(m[0]) + 50) });
+  }
+
+  // ---- Secrets leak check (raw dist HTML) ----
+  const SECRET_RE = /(github_pat_[A-Za-z0-9_]{20,}|ghp_[A-Za-z0-9]{30,}|sk-or-v1-[A-Za-z0-9]{20,}|CLOUDFLARE_API_TOKEN|ADMIN_PASSWORD_HASH|JWT_SECRET\s*=)/;
+  const secretsLeaked: { from: string; sample: string }[] = [];
+  for (const p of pages) {
+    const html = fs.readFileSync(path.join(DIST, p.fileRel), 'utf-8');
+    const m = html.match(SECRET_RE);
+    if (m) secretsLeaked.push({ from: p.url, sample: m[0].slice(0, 30) });
+  }
+
   // ---- Report ----
   const report = {
     pages: pages.length,
     indexable: pages.filter((p) => !p.robotsNoindex).length,
     noindex: pages.filter((p) => p.robotsNoindex).length,
+    sitemapLocCount: sitemapLocs.length,
     brokenLinks,
     linksToNoindex,
     linksToRedirect,
     hreflangErrors,
     schemaErrors,
     imgAltMissing,
+    sitemapMissingInDist,
+    sitemapForbidden,
+    sitemapDuplicates,
+    sitemapPointsToNoindex,
+    indexableMissingFromSitemap,
+    ogTwitterMissing,
+    mojibake,
+    secretsLeaked,
   };
 
   const out = path.join(ROOT, 'tech-audit-report.json');
@@ -261,13 +340,33 @@ async function main(): Promise<void> {
   console.log(`Pages scanned:        ${report.pages}`);
   console.log(`  Indexable:          ${report.indexable}`);
   console.log(`  Noindex:            ${report.noindex}`);
+  console.log(`Sitemap <loc> count:   ${report.sitemapLocCount}`);
   console.log(`Broken internal links: ${report.brokenLinks.length}`);
   console.log(`Links to noindex:      ${report.linksToNoindex.length}`);
   console.log(`Links to redirects:    ${report.linksToRedirect.length}`);
   console.log(`Hreflang issues:       ${report.hreflangErrors.length}`);
   console.log(`Schema issues:         ${report.schemaErrors.length}`);
   console.log(`<img> without alt:     ${report.imgAltMissing.length}`);
+  console.log(`Sitemap missing-in-dist:    ${report.sitemapMissingInDist.length}`);
+  console.log(`Sitemap forbidden paths:    ${report.sitemapForbidden.length}`);
+  console.log(`Sitemap duplicates:         ${report.sitemapDuplicates.length}`);
+  console.log(`Sitemap -> noindex:         ${report.sitemapPointsToNoindex.length}`);
+  console.log(`Indexable not in sitemap:   ${report.indexableMissingFromSitemap.length}`);
+  console.log(`OG/Twitter missing:    ${report.ogTwitterMissing.length}`);
+  console.log(`Mojibake pages:        ${report.mojibake.length}`);
+  console.log(`Secrets leaked:        ${report.secretsLeaked.length}`);
   console.log(`Full report → ${out}`);
+
+  // Gate CI on P0 issues.
+  const p0 = report.brokenLinks.length + report.linksToNoindex.length + report.linksToRedirect.length
+    + report.hreflangErrors.length + report.schemaErrors.length
+    + report.sitemapMissingInDist.length + report.sitemapForbidden.length
+    + report.sitemapDuplicates.length + report.sitemapPointsToNoindex.length
+    + report.mojibake.length + report.secretsLeaked.length;
+  if (p0 > 0) {
+    console.error(`\n[tech-audit] ${p0} P0 issue(s) — failing.`);
+    process.exit(1);
+  }
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

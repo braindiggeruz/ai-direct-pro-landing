@@ -2,10 +2,19 @@
   "pages": 49,
   "indexable": 48,
   "noindex": 1,
+  "sitemapLocCount": 48,
   "brokenLinks": [],
   "linksToNoindex": [],
   "linksToRedirect": [],
   "hreflangErrors": [],
   "schemaErrors": [],
-  "imgAltMissing": []
+  "imgAltMissing": [],
+  "sitemapMissingInDist": [],
+  "sitemapForbidden": [],
+  "sitemapDuplicates": [],
+  "sitemapPointsToNoindex": [],
+  "indexableMissingFromSitemap": [],
+  "ogTwitterMissing": [],
+  "mojibake": [],
+  "secretsLeaked": []
 }
