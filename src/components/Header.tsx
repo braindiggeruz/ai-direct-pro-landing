@@ -37,7 +37,7 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
         <a href="#top" data-testid="brand-logo" className="flex items-center gap-2.5 group shrink-0">
           <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-xl bg-grad-cta shadow-glow">
             <span className="absolute inset-0 rounded-xl bg-grad-cta opacity-60 blur-md group-hover:opacity-90 transition" />
-            <img src="/assets/landing/2.png" alt="" className="relative h-7 w-7 rounded-lg object-cover" loading="eager" width={28} height={28} />
+            <img src="/assets/landing/2.png" alt="Логотип GPTBot" className="relative h-7 w-7 rounded-lg object-cover" loading="eager" width={28} height={28} />
           </span>
           <span className="font-display font-extrabold tracking-tight text-white text-base sm:text-lg">
             {t.nav.brand}
