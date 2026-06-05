@@ -83,14 +83,6 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
       <p><a href="/ru/blog/">Все статьи блога</a></p>
       <ul>${blogList}</ul>
     </section>
-
-    <section aria-label="Языки">
-      <h2>На других языках</h2>
-      <ul>
-        <li><a href="/?lang=ru" hreflang="ru">Русский</a></li>
-        <li><a href="/?lang=uz" hreflang="uz">Oʻzbekcha</a></li>
-      </ul>
-    </section>
   </main>
 
   <footer>

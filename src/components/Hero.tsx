@@ -145,7 +145,7 @@ export default function Hero({ t, ctaUrl }: Props) {
                 fetchPriority="high"
               />
               <div className="absolute -bottom-3 -left-3 sm:-left-6 glass-strong px-4 py-3 flex items-center gap-3 animate-pop-in" style={{ animationDelay: '350ms' }}>
-                <img src="/assets/landing/2.png" alt="" className="h-8 w-8 rounded-lg" width={32} height={32} />
+                <img src="/assets/landing/2.png" alt="Логотип GPTBot" className="h-8 w-8 rounded-lg" width={32} height={32} />
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-white/50">AI Sales Assistant</div>
                   <div className="text-xs font-semibold text-white">online · 24/7</div>

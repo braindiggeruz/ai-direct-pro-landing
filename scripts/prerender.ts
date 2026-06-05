@@ -237,8 +237,8 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm">
-      <a href="/ru/" class="text-white/70 hover:text-white">RU</a>
-      <a href="/uz/" class="text-white/70 hover:text-white">UZ</a>
+      ${hrefRu ? `<a href="${escapeHtml(hrefRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
+      ${hrefUz ? `<a href="${escapeHtml(hrefUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
       <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeHtml(page.ctaPrimaryLabel || global.defaultCTA.label)}
       </a>

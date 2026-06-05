@@ -14,7 +14,7 @@ export default function HowItWorks({ t }: { t: Dict }) {
             <div className="absolute -inset-6 bg-brand-blue/20 blur-3xl rounded-[40%]" />
             <img
               src="/assets/landing/5.png"
-              alt=""
+              alt="GPTBot AI-менеджер автоматизирует ответы клиентам в Instagram и Telegram"
               className="relative w-full h-auto rounded-3xl"
               loading="lazy"
               width={900}
