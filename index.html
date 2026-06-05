@@ -108,19 +108,11 @@
     <!-- End Meta Pixel Code -->
 
     <!-- Ahrefs Web Analytics — public pages only.
-         Skipped on /admin-tools/* and /api/* because the admin SPA is served
-         from the same index.html via the Pages catch-all. -->
-    <script>
-      (function(){
-        var p = location.pathname;
-        if (p.indexOf('/admin-tools/')===0 || p.indexOf('/api/')===0) return;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://analytics.ahrefs.com/analytics.js';
-        s.setAttribute('data-key', 'Nnyl6F9bFd2XBzhizTHSVg');
-        document.head.appendChild(s);
-      })();
-    </script>
+         Raw <script> tag in <head> so the Ahrefs verifier (which does not
+         execute JS) can detect it. The admin SPA is served from the same
+         index.html via functions/admin-tools/[[path]].ts, which strips this
+         tag from the response via HTMLRewriter. -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="Nnyl6F9bFd2XBzhizTHSVg" async></script>
 
     <!-- Google Analytics (gtag.js) — auto-skipped on /admin-tools/* and /api/*
          so the admin SPA (served from the same index.html via the catch-all
