@@ -52,6 +52,7 @@ export const onRequest: PagesFunction<{ ASSETS: AssetsBinding }> = async ({ requ
     .on('script[data-tag="gtm"]', { element(el) { el.remove(); } })
     .on('script[data-tag="ga"]', { element(el) { el.remove(); } })
     .on('script[data-tag="meta"]', { element(el) { el.remove(); } })
+    .on('noscript[data-tag="meta"]', { element(el) { el.remove(); } })
     .on('script[data-tag="ahrefs"]', { element(el) { el.remove(); } })
     .on('noscript[data-tag="gtm"]', { element(el) { el.remove(); } });
   return rewriter.transform(new Response(res.body, { status: 200, statusText: 'OK', headers }));
