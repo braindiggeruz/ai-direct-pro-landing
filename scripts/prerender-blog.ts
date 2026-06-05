@@ -280,6 +280,10 @@ function renderBlogIndex(articles: BlogArticle[], global: GlobalSEO, cssHref: st
 <meta property="og:title" content="Блог GPTBot — AI-боты и автоматизация заявок" />
 <meta property="og:description" content="Статьи о AI-ботах и автоматизации заявок в Telegram и Instagram для бизнеса в Узбекистане." />
 <meta property="og:image" content="${global.defaultOgImage}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Блог GPTBot — AI-боты и автоматизация заявок" />
+<meta name="twitter:description" content="Статьи о AI-ботах и автоматизации заявок в Telegram и Instagram для бизнеса в Узбекистане." />
+<meta name="twitter:image" content="${global.defaultOgImage}" />
 
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
