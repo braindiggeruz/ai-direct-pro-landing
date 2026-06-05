@@ -47,4 +47,5 @@ export const ANALYTICS_HEAD = `<script>
     }
   }, true);
 })();
-</script>`;
+</script>
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="Nnyl6F9bFd2XBzhizTHSVg" async></script>`;
