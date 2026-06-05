@@ -40,12 +40,12 @@ export const onRequest: PagesFunction<{ ASSETS: AssetsBinding }> = async ({ requ
   headers.set('Cache-Control', 'no-store');
   headers.set('X-Robots-Tag', 'noindex, nofollow');
 
-  // Strip the Ahrefs Web Analytics tag from the admin response so /admin-tools/*
-  // is never tracked. The public homepage keeps the raw <script> tag in <head>
-  // so the Ahrefs verifier (which does not execute JS) can detect it.
-  const rewriter = new HTMLRewriter().on(
-    'script[src="https://analytics.ahrefs.com/analytics.js"]',
-    { element(el) { el.remove(); } },
-  );
+  // Strip Ahrefs Web Analytics + Google Tag Manager from the admin response
+  // so /admin-tools/* is never tracked. Public pages still ship those tags;
+  // we identify the inline GTM script and its noscript iframe via data-tag="gtm".
+  const rewriter = new HTMLRewriter()
+    .on('script[src="https://analytics.ahrefs.com/analytics.js"]', { element(el) { el.remove(); } })
+    .on('script[data-tag="gtm"]', { element(el) { el.remove(); } })
+    .on('noscript[data-tag="gtm"]', { element(el) { el.remove(); } });
   return rewriter.transform(new Response(res.body, { status: 200, statusText: 'OK', headers }));
 };

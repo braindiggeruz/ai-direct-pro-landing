@@ -141,6 +141,7 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
   return `<!doctype html>
 <html lang="ru">
 <head>
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
@@ -172,6 +173,7 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 ${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
+<noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
@@ -258,6 +260,7 @@ function renderBlogIndex(articles: BlogArticle[], global: GlobalSEO, cssHref: st
   return `<!doctype html>
 <html lang="ru">
 <head>
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
@@ -281,6 +284,7 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 ${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
+<noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
