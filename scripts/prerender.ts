@@ -89,20 +89,23 @@ function renderInternalLinks(page: Page): string {
       <div class="text-white font-medium">${escapeHtml(l.anchor)}</div>
     </a>
   `).join('');
-  return `<section data-testid="related-pages" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">Смотрите также</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+  const heading = page.locale === 'uz' ? 'Shuningdek o\u2018qing' : 'Смотрите также';
+  return `<section data-testid="related-pages" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeHtml(heading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
 function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
   const related = articles.filter((a) => a.targetMoneyPage === page.url).slice(0, 3);
   if (!related.length) return '';
+  const badge = page.locale === 'uz' ? 'Maqola' : 'Статья';
   const items = related.map((a) => `
     <a href="${escapeHtml(a.url)}" data-testid="related-article" class="block bg-bg-surface border border-white/10 rounded-xl p-5 hover:border-brand-cyan/40 transition-colors group">
-      <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">Статья</div>
+      <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">${escapeHtml(badge)}</div>
       <div class="text-white font-medium leading-snug group-hover:text-brand-cyan transition-colors">${escapeHtml(a.h1)}</div>
       <div class="text-white/55 text-sm mt-2 line-clamp-3">${escapeHtml(a.description)}</div>
     </a>
   `).join('');
-  return `<section data-testid="related-articles" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">Полезные статьи</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+  const heading = page.locale === 'uz' ? 'Foydali maqolalar' : 'Полезные статьи';
+  return `<section data-testid="related-articles" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeHtml(heading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
 function buildJsonLd(page: Page, global: GlobalSEO): string {
