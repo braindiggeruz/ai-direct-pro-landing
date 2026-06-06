@@ -39,15 +39,27 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
   const liveMoney = pages
     .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage')
     .sort((a, b) => a.url.localeCompare(b.url));
+  const liveMoneyUz = pages
+    .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'uz' && p.pageType !== 'homepage')
+    .sort((a, b) => a.url.localeCompare(b.url));
   const liveBlog = blog
     .filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'ru')
+    .sort((a, b) => (b.datePublished || '').localeCompare(a.datePublished || ''));
+  const liveBlogUz = blog
+    .filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'uz')
     .sort((a, b) => (b.datePublished || '').localeCompare(a.datePublished || ''));
 
   const moneyList = liveMoney
     .map((p) => `<li><a href="${escapeHtml(p.url)}">${escapeHtml(p.h1 || p.title)}</a></li>`)
     .join('');
+  const moneyListUz = liveMoneyUz
+    .map((p) => `<li><a href="${escapeHtml(p.url)}" hreflang="uz">${escapeHtml(p.h1 || p.title)}</a></li>`)
+    .join('');
   const blogList = liveBlog
     .map((a) => `<li><a href="${escapeHtml(a.url)}">${escapeHtml(a.title || a.h1)}</a></li>`)
+    .join('');
+  const blogListUz = liveBlogUz
+    .map((a) => `<li><a href="${escapeHtml(a.url)}" hreflang="uz">${escapeHtml(a.title || a.h1)}</a></li>`)
     .join('');
 
   const cta = global.defaultCTA || { label: 'Запустить демо в Telegram', href: 'https://t.me/XGame_changerx' };
@@ -82,6 +94,17 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
       <h2>Полезные материалы и блог</h2>
       <p><a href="/ru/blog/">Все статьи блога</a></p>
       <ul>${blogList}</ul>
+    </section>
+
+    <section aria-label="Biznes uchun yechimlar (UZ)" lang="uz">
+      <h2>Biznes uchun yechimlar — O&#8216;zbekiston</h2>
+      <p>O&#8216;zbek tilida: <a href="/uz/blog/" hreflang="uz">GPTBot blogi (UZ)</a></p>
+      <ul>${moneyListUz}</ul>
+    </section>
+
+    <section aria-label="GPTBot blogi (UZ)" lang="uz">
+      <h2>GPTBot blogi — o&#8216;zbek tilida</h2>
+      <ul>${blogListUz}</ul>
     </section>
   </main>
 
