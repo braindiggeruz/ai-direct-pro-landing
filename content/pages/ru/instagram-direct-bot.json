@@ -13,13 +13,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "Instagram Direct бот для бизнеса",
-  "title": "Instagram Direct бот — AI-ответы 24/7 | GPTBot",
-  "description": "Instagram Direct бот автоматизирует общение в Instagram: отвечает на сообщения и комментарии 24/7, собирает заявки и передаёт клиентские данные менеджеру в Tel.",
+  "title": "Instagram Direct бот — AI-ответы и заявки 24/7 | GPTBot",
+  "description": "Instagram Direct бот автоматизирует общение в Direct и комментариях: отвечает 24/7, собирает имя и телефон, передаёт горячую заявку менеджеру в Telegram или CRM.",
   "canonical": "https://gptbot.uz/ru/instagram-direct-bot/",
   "hreflangRu": "/ru/instagram-direct-bot/",
   "hreflangUz": "/uz/instagram-bot-biznes-uchun/",
-  "ogTitle": "Instagram Direct бот — AI-ответы 24/7 | GPTBot",
-  "ogDescription": "Instagram Direct бот автоматизирует общение в Instagram: отвечает на сообщения и комментарии 24/7, собирает заявки и передаёт клиентские данные менеджеру в Tel.",
+  "ogTitle": "Instagram Direct бот — AI-ответы и заявки 24/7 | GPTBot",
+  "ogDescription": "Instagram Direct бот автоматизирует общение в Direct и комментариях: отвечает 24/7, собирает имя и телефон, передаёт горячую заявку менеджеру в Telegram или CRM.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -147,7 +147,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-05-25",
+  "lastReviewedAt": "2026-06-06",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-05-25T09:39:29.501Z"
+  "updatedAt": "2026-06-06T02:50:10.411789+00:00"
 }

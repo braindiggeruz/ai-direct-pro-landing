@@ -3,9 +3,9 @@
   "locale": "ru",
   "slug": "avtomatizatsiya-zayavok-instruktsiya",
   "url": "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
-  "title": "Автоматизация заявок: пошаговая инструкция для бизнеса",
-  "description": "Как внедрить автоматизацию заявок в малом и среднем бизнесе: каналы, сценарий, передача в CRM, метрики и типичные ошибки.",
-  "h1": "Автоматизация заявок: пошаговая инструкция",
+  "title": "Автоматизация заявок: пошаговый разбор воронки и сценария",
+  "description": "Пошаговый разбор: как внедрить автоматизацию заявок в малом и среднем бизнесе. Каналы, сценарий, передача в CRM, метрики и типичные ошибки.",
+  "h1": "Автоматизация заявок: пошаговый разбор воронки",
   "topicCluster": "avtomatizatsiya-zayavok",
   "targetMoneyPage": "/ru/avtomatizatsiya-zayavok/",
   "keywords": [
@@ -174,8 +174,8 @@
       "type": "contextual"
     }
   ],
-  "ogTitle": "Автоматизация заявок: пошаговая инструкция для бизнеса",
-  "ogDescription": "Как внедрить автоматизацию заявок в малом и среднем бизнесе: каналы, сценарий, передача в CRM, метрики и типичные ошибки.",
+  "ogTitle": "Автоматизация заявок: пошаговый разбор воронки и сценария",
+  "ogDescription": "Пошаговый разбор: как внедрить автоматизацию заявок в малом и среднем бизнесе. Каналы, сценарий, передача в CRM, метрики и типичные ошибки.",
   "ogImage": "https://gptbot.uz/assets/landing/1.png",
   "canonical": "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
   "hreflangRu": "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
@@ -183,7 +183,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-06-06T02:50:10.411789+00:00",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -191,6 +191,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-06-06T02:50:10.411789+00:00",
   "createdAt": "2026-05-25T00:00:00Z"
 }
