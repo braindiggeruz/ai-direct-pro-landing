@@ -2,11 +2,15 @@
 //
 // Build-time blog prerender. Reads /content/blog/**/*.json (BlogArticle
 // shape), renders static HTML for each published article into
-// /dist/ru/blog/<slug>/index.html, and emits a blog landing page at
-// /dist/ru/blog/index.html with cards for all published articles.
+// /dist/<locale>/blog/<slug>/index.html, and emits blog landing pages at
+// /dist/ru/blog/index.html and /dist/uz/blog/index.html.
 //
 // Articles use Article + FAQPage + BreadcrumbList schemas (Service is NOT
 // used here, since blog content is informational rather than commercial).
+//
+// Locale-aware: <html lang>, breadcrumb labels, FAQ heading, "Обновлено"
+// label, og:locale, inLanguage, and reciprocal RU↔UZ hreflang are all
+// driven from the article's `locale` + `hreflangRu` / `hreflangUz` fields.
 //
 import fs from 'node:fs';
 import path from 'node:path';
@@ -38,6 +42,40 @@ function escapeHtml(s: string): string {
   return (s || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 }
 
+// Localised UI strings used in blog templates.
+const STRINGS = {
+  ru: {
+    blog: 'Блог',
+    blogTitle: 'Блог GPTBot',
+    blogIndexTitle: 'Блог GPTBot — AI-боты и автоматизация заявок | GPTBot',
+    blogIndexDesc: 'Статьи о AI-ботах, GPT-консультантах, автоматизации заявок и продаж в Telegram и Instagram. Подходит малому и среднему бизнесу в Узбекистане.',
+    blogIndexOgTitle: 'Блог GPTBot — AI-боты и автоматизация заявок',
+    blogIndexOgDesc: 'Статьи о AI-ботах и автоматизации заявок в Telegram и Instagram для бизнеса в Узбекистане.',
+    blogIndexH1Subtitle: 'Реальные сценарии, ограничения и шаги внедрения AI-ботов для бизнеса в Узбекистане. Без обещаний топ-3 и без выдуманных кейсов.',
+    faqHeading: 'Частые вопросы',
+    relatedHeading: 'Смотрите также',
+    updated: 'Обновлено',
+    read: 'Читать →',
+  },
+  uz: {
+    blog: 'Blog',
+    blogTitle: 'GPTBot blogi',
+    blogIndexTitle: 'GPTBot blogi — AI botlar va arizalarni avtomatlashtirish | GPTBot',
+    blogIndexDesc: 'O\u2018zbekistondagi biznes uchun AI-botlar, GPT-konsultantlar, Telegram va Instagram orqali arizalar va savdoni avtomatlashtirish haqida maqolalar.',
+    blogIndexOgTitle: 'GPTBot blogi — AI botlar va arizalarni avtomatlashtirish',
+    blogIndexOgDesc: 'O\u2018zbekistondagi biznes uchun Telegram va Instagram orqali AI-botlar va arizalarni avtomatlashtirish haqida maqolalar.',
+    blogIndexH1Subtitle: 'O\u2018zbekistondagi biznes uchun AI-botlarni joriy etishning amaliy ssenariylari, cheklovlari va qadamlari. Yolg\u2018on top-3 va\u2019dalarsiz, soxta keyssiz.',
+    faqHeading: 'Tez-tez beriladigan savollar',
+    relatedHeading: 'Shuningdek o\u2018qing',
+    updated: 'Yangilangan',
+    read: 'O\u2018qish →',
+  },
+} as const;
+
+function L(a: { locale?: string }): typeof STRINGS.ru {
+  return a.locale === 'uz' ? STRINGS.uz : STRINGS.ru;
+}
+
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
     case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeHtml(b.text || '')}</h2>`;
@@ -50,7 +88,7 @@ function renderBlock(b: BodyBlock): string {
   }
 }
 
-function renderFaq(faq: FaqItem[]): string {
+function renderFaq(faq: FaqItem[], a: BlogArticle): string {
   if (!faq?.length) return '';
   const items = faq.map((f) => `
     <details class="group bg-bg-surface border border-white/10 rounded-2xl p-6 mb-3 open:border-brand-cyan/30">
@@ -61,7 +99,7 @@ function renderFaq(faq: FaqItem[]): string {
       <p class="text-white/80 mt-4 leading-relaxed">${escapeHtml(f.a)}</p>
     </details>
   `).join('');
-  return `<section data-testid="article-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">Частые вопросы</h2>${items}</section>`;
+  return `<section data-testid="article-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">${escapeHtml(L(a).faqHeading)}</h2>${items}</section>`;
 }
 
 function renderInternalLinks(a: BlogArticle): string {
@@ -72,11 +110,13 @@ function renderInternalLinks(a: BlogArticle): string {
       <div class="text-white font-medium">${escapeHtml(l.anchor)}</div>
     </a>
   `).join('');
-  return `<section data-testid="article-related" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">Смотрите также</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+  return `<section data-testid="article-related" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeHtml(L(a).relatedHeading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
 function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   const fullUrl = `${global.siteUrl}${a.url}`;
+  const blogIndexUrl = `${global.siteUrl}/${a.locale === 'uz' ? 'uz' : 'ru'}/blog/`;
+  const blogIndexName = L(a).blog;
   const graph: Record<string, unknown>[] = [];
   graph.push({
     '@type': 'Organization',
@@ -97,7 +137,7 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: global.siteName, item: global.siteUrl },
-      { '@type': 'ListItem', position: 2, name: 'Блог', item: `${global.siteUrl}/ru/blog/` },
+      { '@type': 'ListItem', position: 2, name: blogIndexName, item: blogIndexUrl },
       { '@type': 'ListItem', position: 3, name: a.h1, item: fullUrl },
     ],
   });
@@ -137,13 +177,23 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
   const ogTitle = a.ogTitle || a.title;
   const ogDesc = a.ogDescription || a.description;
   const ogImg = a.ogImage || global.defaultOgImage;
+  const lang = a.locale === 'uz' ? 'uz' : 'ru';
+  const ogLocale = a.locale === 'uz' ? 'uz_UZ' : 'ru_RU';
+  const t = L(a);
   const robotsContent = [
     a.robotsIndex && a.status !== 'noindex' ? 'index' : 'noindex',
     a.robotsFollow ? 'follow' : 'nofollow',
     'max-image-preview:large',
   ].join(', ');
+  const blogIndexHref = `/${lang}/blog/`;
+
+  // Build hreflang block from explicit fields. If hreflangRu / hreflangUz
+  // are missing, fall back to self for the current locale only.
+  const hrefRu = a.hreflangRu ? (a.hreflangRu.startsWith('http') ? a.hreflangRu : `${global.siteUrl}${a.hreflangRu}`) : (lang === 'ru' ? fullUrl : '');
+  const hrefUz = a.hreflangUz ? (a.hreflangUz.startsWith('http') ? a.hreflangUz : `${global.siteUrl}${a.hreflangUz}`) : (lang === 'uz' ? fullUrl : '');
+
   return `<!doctype html>
-<html lang="ru">
+<html lang="${lang}">
 <head>
 <script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
@@ -153,12 +203,13 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
 <meta name="description" content="${escapeHtml(a.description)}" />
 <meta name="robots" content="${robotsContent}" />
 <link rel="canonical" href="${escapeHtml(a.canonical || fullUrl)}" />
-<link rel="alternate" hreflang="ru" href="${escapeHtml(fullUrl)}" />
+${hrefRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(hrefRu)}" />` : ''}
+${hrefUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(hrefUz)}" />` : ''}
 <link rel="alternate" hreflang="x-default" href="${escapeHtml(global.siteUrl)}/" />
 
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="${escapeHtml(global.siteName)}" />
-<meta property="og:locale" content="ru_RU" />
+<meta property="og:locale" content="${ogLocale}" />
 <meta property="og:url" content="${escapeHtml(fullUrl)}" />
 <meta property="og:title" content="${escapeHtml(ogTitle)}" />
 <meta property="og:description" content="${escapeHtml(ogDesc)}" />
@@ -182,7 +233,7 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
-      <a href="/ru/blog/" data-testid="header-blog" class="text-white/70 hover:text-white">Блог</a>
+      <a href="${blogIndexHref}" data-testid="header-blog" class="text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeHtml(a.cta?.label || global.defaultCTA.label)}
       </a>
@@ -194,7 +245,7 @@ ${ANALYTICS_HEAD}
   <nav aria-label="Breadcrumb" data-testid="article-breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
-    <a href="/ru/blog/" class="hover:text-white">Блог</a>
+    <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
     <span class="px-2">/</span>
     <span class="text-white/70">${escapeHtml(a.h1.slice(0, 50))}${a.h1.length > 50 ? '…' : ''}</span>
   </nav>
@@ -202,14 +253,14 @@ ${ANALYTICS_HEAD}
   <article>
     <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeHtml(a.h1)}</h1>
     <p data-testid="article-meta" class="text-sm text-white/50 mb-2">${escapeHtml(a.author || 'GPTBot Team')} · ${escapeHtml(a.datePublished || '')}</p>
-    ${(a.dateModified || a.updatedAt) ? `<p data-testid="article-updated" class="text-xs uppercase tracking-wider text-white/40 mb-10">Обновлено <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></p>` : '<div class="mb-10"></div>'}
+    ${(a.dateModified || a.updatedAt) ? `<p data-testid="article-updated" class="text-xs uppercase tracking-wider text-white/40 mb-10">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></p>` : '<div class="mb-10"></div>'}
     <div class="prose-invert">
       ${(a.body || []).map(renderBlock).join('\n')}
     </div>
   </article>
 
   ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
-  ${renderFaq(a.faq || [])}
+  ${renderFaq(a.faq || [], a)}
   ${renderInternalLinks(a)}
 </main>
 
@@ -217,7 +268,7 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex gap-4">
-      <a href="/ru/blog/" class="hover:text-white">Блог</a>
+      <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
     </div>
   </div>
@@ -227,13 +278,17 @@ ${ANALYTICS_HEAD}
 `;
 }
 
-function renderBlogIndex(articles: BlogArticle[], global: GlobalSEO, cssHref: string | null): string {
+function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: GlobalSEO, cssHref: string | null): string {
+  const t = STRINGS[locale];
+  const ogLocale = locale === 'uz' ? 'uz_UZ' : 'ru_RU';
+  const indexUrl = `${global.siteUrl}/${locale}/blog/`;
+
   const cards = articles.map((a) => `
     <a href="${escapeHtml(a.url)}" data-testid="blog-card" class="block bg-bg-surface border border-white/10 rounded-2xl p-6 hover:border-brand-cyan/40 transition-colors group">
-      <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">${escapeHtml(a.topicCluster || 'Блог')}</div>
+      <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">${escapeHtml(a.topicCluster || t.blog)}</div>
       <h2 class="font-display text-xl text-white mb-3 group-hover:text-brand-cyan transition-colors">${escapeHtml(a.h1)}</h2>
       <p class="text-sm text-white/70 leading-relaxed mb-4">${escapeHtml(a.description)}</p>
-      <span class="text-sm text-brand-cyan">Читать →</span>
+      <span class="text-sm text-brand-cyan">${escapeHtml(t.read)}</span>
     </a>
   `).join('');
 
@@ -249,40 +304,42 @@ function renderBlogIndex(articles: BlogArticle[], global: GlobalSEO, cssHref: st
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: global.siteName, item: global.siteUrl },
-        { '@type': 'ListItem', position: 2, name: 'Блог', item: `${global.siteUrl}/ru/blog/` },
+        { '@type': 'ListItem', position: 2, name: t.blog, item: indexUrl },
       ],
     },
     {
       '@type': 'CollectionPage',
-      url: `${global.siteUrl}/ru/blog/`,
-      name: 'Блог GPTBot',
-      description: 'Статьи о AI-ботах, автоматизации заявок и продажах в Telegram и Instagram для бизнеса в Узбекистане.',
-      inLanguage: 'ru',
+      url: indexUrl,
+      name: t.blogTitle,
+      description: t.blogIndexDesc,
+      inLanguage: locale,
     },
   ];
 
   return `<!doctype html>
-<html lang="ru">
+<html lang="${locale}">
 <head>
 <script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
-<title>Блог GPTBot — AI-боты и автоматизация заявок | GPTBot</title>
-<meta name="description" content="Статьи о AI-ботах, GPT-консультантах, автоматизации заявок и продаж в Telegram и Instagram. Подходит малому и среднему бизнесу в Узбекистане." />
+<title>${escapeHtml(t.blogIndexTitle)}</title>
+<meta name="description" content="${escapeHtml(t.blogIndexDesc)}" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
-<link rel="canonical" href="${global.siteUrl}/ru/blog/" />
+<link rel="canonical" href="${indexUrl}" />
 <link rel="alternate" hreflang="ru" href="${global.siteUrl}/ru/blog/" />
+<link rel="alternate" hreflang="uz" href="${global.siteUrl}/uz/blog/" />
 <link rel="alternate" hreflang="x-default" href="${global.siteUrl}/" />
 
 <meta property="og:type" content="website" />
-<meta property="og:url" content="${global.siteUrl}/ru/blog/" />
-<meta property="og:title" content="Блог GPTBot — AI-боты и автоматизация заявок" />
-<meta property="og:description" content="Статьи о AI-ботах и автоматизации заявок в Telegram и Instagram для бизнеса в Узбекистане." />
+<meta property="og:locale" content="${ogLocale}" />
+<meta property="og:url" content="${indexUrl}" />
+<meta property="og:title" content="${escapeHtml(t.blogIndexOgTitle)}" />
+<meta property="og:description" content="${escapeHtml(t.blogIndexOgDesc)}" />
 <meta property="og:image" content="${global.defaultOgImage}" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Блог GPTBot — AI-боты и автоматизация заявок" />
-<meta name="twitter:description" content="Статьи о AI-ботах и автоматизации заявок в Telegram и Instagram для бизнеса в Узбекистане." />
+<meta name="twitter:title" content="${escapeHtml(t.blogIndexOgTitle)}" />
+<meta name="twitter:description" content="${escapeHtml(t.blogIndexOgDesc)}" />
 <meta name="twitter:image" content="${global.defaultOgImage}" />
 
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
@@ -297,7 +354,7 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
-      <a href="/ru/blog/" data-testid="header-blog-active" class="text-brand-cyan">Блог</a>
+      <a href="/${locale}/blog/" data-testid="header-blog-active" class="text-brand-cyan">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(global.defaultCTA.href)}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">${escapeHtml(global.defaultCTA.label)}</a>
     </nav>
   </div>
@@ -307,10 +364,10 @@ ${ANALYTICS_HEAD}
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
-    <span class="text-white/70">Блог</span>
+    <span class="text-white/70">${escapeHtml(t.blog)}</span>
   </nav>
-  <h1 data-testid="blog-h1" class="font-display text-4xl sm:text-5xl text-white mb-4">Блог GPTBot</h1>
-  <p data-testid="blog-subtitle" class="text-white/70 mb-12 max-w-2xl">Реальные сценарии, ограничения и шаги внедрения AI-ботов для бизнеса в Узбекистане. Без обещаний топ-3 и без выдуманных кейсов.</p>
+  <h1 data-testid="blog-h1" class="font-display text-4xl sm:text-5xl text-white mb-4">${escapeHtml(t.blogTitle)}</h1>
+  <p data-testid="blog-subtitle" class="text-white/70 mb-12 max-w-2xl">${escapeHtml(t.blogIndexH1Subtitle)}</p>
   <section data-testid="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
     ${cards}
   </section>
@@ -340,13 +397,17 @@ async function main() {
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }
-  // Blog index — sorted by datePublished desc.
-  const sorted = [...published].sort((x, y) => (y.datePublished || '').localeCompare(x.datePublished || ''));
-  const indexPath = path.join(DIST_DIR, 'ru', 'blog', 'index.html');
-  fs.mkdirSync(path.dirname(indexPath), { recursive: true });
-  fs.writeFileSync(indexPath, renderBlogIndex(sorted, global, cssHref), 'utf-8');
-  console.log(`  + dist/ru/blog/index.html (${published.length} cards)`);
-  console.log(`Prerendered ${written} article(s), 1 blog index, skipped ${articles.length - published.length} draft(s).`);
+  // Blog indexes — one per locale, sorted by datePublished desc.
+  for (const locale of ['ru', 'uz'] as const) {
+    const localeArticles = published.filter((a) => (a.locale === 'uz' ? 'uz' : 'ru') === locale);
+    if (localeArticles.length === 0) continue;
+    const sorted = [...localeArticles].sort((x, y) => (y.datePublished || '').localeCompare(x.datePublished || ''));
+    const indexPath = path.join(DIST_DIR, locale, 'blog', 'index.html');
+    fs.mkdirSync(path.dirname(indexPath), { recursive: true });
+    fs.writeFileSync(indexPath, renderBlogIndex(sorted, locale, global, cssHref), 'utf-8');
+    console.log(`  + dist/${locale}/blog/index.html (${localeArticles.length} cards)`);
+  }
+  console.log(`Prerendered ${written} article(s), skipped ${articles.length - published.length} draft(s).`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

@@ -20,11 +20,21 @@ const eligibleArticles = articles.filter((a) => a.status === 'published' && a.ro
 
 const today = new Date().toISOString().split('T')[0];
 
+const ruArticles = eligibleArticles.filter((a) => (a.locale === 'uz' ? 'uz' : 'ru') === 'ru');
+const uzArticles = eligibleArticles.filter((a) => a.locale === 'uz');
+
 const entries = [
   // Homepage
   { url: '/', lastmod: today, hrefRu: '/?lang=ru', hrefUz: '/?lang=uz', priority: '1.0' },
-  // Blog index (only if there is at least one published article)
-  ...(eligibleArticles.length > 0 ? [{ url: '/ru/blog/', lastmod: today, hrefRu: '/ru/blog/', hrefUz: undefined as string | undefined, priority: '0.7' }] : []),
+  // Blog indexes — emit one per locale that has at least one published article.
+  // When both locales have articles, the RU index also advertises its UZ pair
+  // (and vice versa) for hreflang reciprocity.
+  ...(ruArticles.length > 0
+    ? [{ url: '/ru/blog/', lastmod: today, hrefRu: '/ru/blog/', hrefUz: uzArticles.length > 0 ? '/uz/blog/' : undefined, priority: '0.7' }]
+    : []),
+  ...(uzArticles.length > 0
+    ? [{ url: '/uz/blog/', lastmod: today, hrefRu: ruArticles.length > 0 ? '/ru/blog/' : undefined, hrefUz: '/uz/blog/', priority: '0.7' }]
+    : []),
   // Money pages
   ...eligible.map((p) => ({
     url: p.url,
