@@ -1,24 +1,26 @@
 # GPTBot — Google Search Console Indexing Action Plan
 
-**Domain:** https://gptbot.uz  
-**Status:** Indexation emergency audit completed. Site is technically ready for indexing.  
-**Last audit:** 2026-05-30
+**Domain:** https://gptbot.uz
+**Status:** Indexation forensic audit completed 2026-06-06. All 62 sitemap URLs serve HTTP 200 with prerendered SEO content.
+**Last audit:** 2026-06-06
+**Sitemap count:** 62 URLs (1 homepage + 1 RU blog index + 15 RU money + 1 UZ blog index + 15 UZ money + 21 RU blog articles + 8 UZ blog articles)
 
 ---
 
 ## TL;DR
 
-Все опубликованные URLs (15 шт.) технически индексируемы: HTTP 200, корректные `title`, `description`, `canonical`, `hreflang`, schema, без `noindex`, без mojibake. Sitemap отдаётся как `application/xml` и содержит ровно эти 15 URLs.
+Sitemap содержит 62 URLs, **62/62 → HTTP 200**. Все опубликованные URLs (money + blog) предрендерены статически (полный body с H1, контентом, FAQ, JSON-LD) и индексируемы. Homepage `/` имеет SSR-fallback внутри `<div id="root">` с навигацией и списком всех money / blog страниц для краулера. Каноникалы self-pointing, hreflang RU↔UZ установлен на всех 30 money pages и 8 UZ blog статьях. Random URL → 404. `/admin-tools/` → `noindex, nofollow` + `Cache-Control: no-store`.
 
-Главное исправление этого аудита: **draft / неопубликованные URLs больше не отдают 200 SPA-shell** (они возвращают `HTTP 410 Gone`), а случайные несуществующие URLs естественно возвращают `404`. Это устраняет риск массового "Crawled — currently not indexed" / "Soft 404" в GSC.
+Текущая слабая GSC-динамика (≈6 показов / 0 кликов / позиция ≈23 за 24h) — **нормальная фаза после deploy**, не структурная проблема. Реальные блокеры:
 
-Дальше — действия владельца сайта в GSC.
+1. **GSC API выключен в Cloud project `ai-direct-pro`** (project 437053139475) — нужно включить `Search Console API` в `https://console.developers.google.com/apis/api/searchconsole.googleapis.com/overview?project=437053139475`.
+2. **Service account `nextbot-sheets@ai-direct-pro.iam.gserviceaccount.com`** должен быть добавлен в GSC property `sc-domain:gptbot.uz` (или URL-prefix `https://gptbot.uz/`) с правом **Restricted** (read).
+3. **Sitemap homepage entry** ранее имел phantom hreflang `?lang=ru/?lang=uz` — исправлено в этом deploy.
+4. **Локальные гео money pages** (`/ru/chat-bot-tashkent/`, `/ru/telegram-bot-uzbekistan/`, UZ-эквиваленты) **отсутствуют** — это P1 контент-задача для следующей итерации, ключевая для топа по Tashkent/Uzbekistan.
 
 ---
 
 ## 1. Sitemap to submit
-
-URL для submission в Search Console → Sitemaps:
 
 ```
 https://gptbot.uz/sitemap.xml
@@ -26,16 +28,23 @@ https://gptbot.uz/sitemap.xml
 
 Если в GSC статус `Не получено / Couldn't fetch` — удалить старую запись и отправить ещё раз. Sitemap отдаётся `Content-Type: application/xml`, доступен и для `Googlebot/2.1`, и не блокируется в robots.txt.
 
-Содержит 15 URLs:
-
-- `/` (homepage)
-- `/ru/blog/`
-- 8 опубликованных money-страниц (`/ru/...`, `/uz/...`)
-- 5 опубликованных blog-статей (`/ru/blog/<slug>/`)
+После этого deploy sitemap содержит 62 entries, ровно столько же на production live.
 
 ---
 
-## 2. URLs to inspect & request indexing — manual queue
+## 2. Owner action — включить GSC API
+
+1. Открыть `https://console.developers.google.com/apis/api/searchconsole.googleapis.com/overview?project=437053139475`.
+2. Нажать **Enable**.
+3. В GSC (`https://search.google.com/search-console`) → `Settings → Users and permissions` → `Add user` → ввести `nextbot-sheets@ai-direct-pro.iam.gserviceaccount.com` с правом **Restricted**.
+4. Подождать 5–10 минут до propagation.
+5. После этого автоматический GSC analytics через service account станет возможен.
+
+Без этого следующий аудит будет полагаться на ручной CSV-экспорт из GSC UI вместо API.
+
+---
+
+## 3. URLs to inspect & request indexing — priority queue
 
 В **URL Inspection** для каждого URL ниже сделать:
 
@@ -44,200 +53,203 @@ https://gptbot.uz/sitemap.xml
 3. Если live test зелёный — нажать **Request indexing**.
 4. Подождать 1–3 дня, проверить статус снова.
 
-**За 1 сессию в GSC можно запросить ~10 URLs (квота на 24 часа). Делать по очереди.**
+**Квота: ~10 URLs в сутки. Делать по очереди в течение 7 дней.**
 
-### Priority 1 — Homepage + 5 RU money pages
+### Priority 1 (день 0) — Homepage + 5 core RU money pages
 
 ```
 https://gptbot.uz/
 https://gptbot.uz/ru/ai-bot-dlya-biznesa/
 https://gptbot.uz/ru/gpt-bot-dlya-biznesa/
 https://gptbot.uz/ru/telegram-bot-dlya-biznesa/
-https://gptbot.uz/ru/instagram-direct-bot/
 https://gptbot.uz/ru/chat-bot-dlya-biznesa/
+https://gptbot.uz/ru/ai-menedzher-dlya-instagram/
 ```
 
-### Priority 2 — Blog hub + 4 blog articles
+### Priority 2 (день 1) — RU blog hub + 4 evergreen blog articles
 
 ```
 https://gptbot.uz/ru/blog/
 https://gptbot.uz/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/
 https://gptbot.uz/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/
 https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/
-```
-
-### Priority 3 — Remaining blog + UZ money pages
-
-```
 https://gptbot.uz/ru/blog/gpt-bot-vs-chat-bot/
-https://gptbot.uz/ru/blog/telegram-bot-dlya-biznesa/
+```
+
+### Priority 3 (день 2) — UZ core money + UZ blog hub
+
+```
 https://gptbot.uz/uz/biznes-uchun-ai-bot/
+https://gptbot.uz/uz/gpt-bot-biznes-uchun/
 https://gptbot.uz/uz/telegram-bot-biznes-uchun/
-https://gptbot.uz/uz/instagram-bot-biznes-uchun/
+https://gptbot.uz/uz/chat-bot-biznes-uchun/
+https://gptbot.uz/uz/blog/
+```
+
+### Priority 4 (день 3) — RU niche money pages
+
+```
+https://gptbot.uz/ru/ai-bot-dlya-kliniki/
+https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/
+https://gptbot.uz/ru/ai-bot-dlya-uchebnogo-tsentra/
+https://gptbot.uz/ru/ai-bot-dlya-magazina/
+https://gptbot.uz/ru/avtomatizatsiya-zayavok/
+```
+
+### Priority 5 (день 4) — UZ niche money pages
+
+```
+https://gptbot.uz/uz/klinika-uchun-ai-bot/
+https://gptbot.uz/uz/salon-uchun-ai-bot/
+https://gptbot.uz/uz/oquv-markazi-uchun-ai-bot/
+https://gptbot.uz/uz/dokon-uchun-ai-bot/
+https://gptbot.uz/uz/arizalarni-avtomatlashtirish/
+```
+
+### Priority 6 (день 5) — recent RU blog (Stage 2/3)
+
+```
+https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/
+https://gptbot.uz/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/
+https://gptbot.uz/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/
+https://gptbot.uz/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/
+https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/
+```
+
+### Priority 7 (день 6) — recent UZ blog (Stage 2/3 переводы)
+
+```
+https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/
+https://gptbot.uz/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/
+https://gptbot.uz/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/
+https://gptbot.uz/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/
+https://gptbot.uz/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/
 ```
 
 ---
 
-## 3. What to check in URL Inspection
+## 4. Что проверять в URL Inspection
 
-Для каждого инспектированного URL зелёные галочки должны быть на:
+Для каждого URL зелёные индикаторы должны быть:
 
-- **URL is on Google** (после индексации) — или статус "URL is not on Google" до индекса.
+- **URL is on Google** (после индексации) — или "URL is not on Google" до индекса.
 - **Page fetch:** `Successful`.
 - **Indexing allowed:** `Yes`.
-- **User-declared canonical:** совпадает с инспектируемым URL.
-- **Google-selected canonical:** тоже совпадает с инспектируемым URL (если отличается → Google считает страницу дубликатом другого URL, надо исправлять).
+- **User-declared canonical** = инспектируемый URL.
+- **Google-selected canonical** = инспектируемый URL (если отличается → Google считает страницу дубликатом).
 - **Crawled as:** `Googlebot smartphone`.
-- **Last crawl:** дата свежее, чем submission.
-- **Referring page:** хотя бы один внутренний или внешний реферрер.
 
-Если что-то красное / отсутствует → см. раздел 4.
+Если что-то красное → см. секцию 5.
 
 ---
 
-## 4. Расшифровка GSC статусов и действия
+## 5. Расшифровка статусов и действия
 
-### 4.1 "Discovered — currently not indexed"
+### 5.1 "Discovered — currently not indexed"
+Подождать 3–14 дней (нормальный backlog). Усилить внутренние ссылки. Manual Request indexing.
 
-Google узнал об URL из sitemap / ссылок, но не успел / не захотел его сейчас обходить.
+### 5.2 "Crawled — currently not indexed"
+Слабый или каннибализирующий контент. **Особое внимание на следующие пары blog ↔ money:**
+- `/ru/blog/telegram-bot-dlya-biznesa/` ↔ `/ru/telegram-bot-dlya-biznesa/`
+- `/ru/blog/ai-menedzher-dlya-instagram/` ↔ `/ru/ai-menedzher-dlya-instagram/` (H1 в blog обновлён 2026-06-06 на "AI-менеджер для Instagram на практике: разбор задач" — это де-каннибализация).
+- `/ru/blog/instagram-direct-bot-kak-rabotaet/` ↔ `/ru/instagram-direct-bot/`
+- `/ru/blog/avtomatizatsiya-zayavok-instruktsiya/` ↔ `/ru/avtomatizatsiya-zayavok/`
 
-**Что делать:**
+Если Google-selected canonical отличается от user-declared — это значит Google склеил blog с money. В этом случае ослабить blog (добавить supporting angle в H1/title), а не money page.
 
-1. Подождать **3–14 дней** — это нормальный backlog для новых сайтов.
-2. Усилить **внутренние ссылки** на этот URL (homepage / blog index / соседние money pages).
-3. **Manual Request indexing** в URL Inspection.
-4. Получить **внешние упоминания** (Telegram-каналы Узбекистана, бизнес-форумы, локальные каталоги).
-5. Убедиться, что страница есть в `sitemap.xml`.
+### 5.3 "Page with redirect"
+Не должно быть на money pages.
 
-### 4.2 "Crawled — currently not indexed"
+### 5.4 "Excluded by 'noindex' tag"
+Не должно быть на опубликованных страницах. Проверить `meta name="robots"` после deploy.
 
-Google обошёл URL, но не добавил в индекс. Обычно это:
+### 5.5 "Blocked by robots.txt"
+robots.txt позволяет Googlebot всё, кроме `/admin-tools/` и `/api/`. AI-боты (`GPTBot`, `Google-Extended`, `ClaudeBot`, `Bytespider`, etc.) заблокированы Cloudflare Managed — это **не влияет** на обычный Googlebot для поиска.
 
-- слабый / неуникальный контент,
-- внутренняя каннибализация (несколько URL про одно и то же),
-- дубликат другого URL по canonical,
-- мало внутренних ссылок.
+### 5.6 "Not found (404)"
+Должно быть только на random URLs. Если 404 на одной из 62 sitemap URLs — срочно проверить prerender.
 
-**Что делать:**
-
-1. Проверить **уникальность контента** (минимум 500–800 слов своего текста).
-2. Добавить **FAQ-блок** (если ещё нет) — на этом сайте уже есть на всех money/blog страницах.
-3. Добавить минимум **2–3 входящих** внутренних ссылки с других страниц.
-4. Убедиться, что **title / description уникальны** относительно других страниц (audit показал 0 дубликатов).
-5. Проверить, что **canonical указывает на сам URL** (audit OK).
-6. Если canonical в GSC = другой URL → пересмотреть, какой URL должен быть caconical, и убрать слабый URL из sitemap.
-
-### 4.3 "Excluded by 'noindex' tag"
-
-Не должно быть на опубликованных страницах. Если случилось → проверь `meta name="robots"` в HTML страницы (после деплоя audit показывает только `index, follow`).
-
-### 4.4 "Blocked by robots.txt"
-
-Проверить `https://gptbot.uz/robots.txt`. На момент аудита:
-
-```
-User-agent: *
-Allow: /
-Disallow: /admin-tools/
-Disallow: /api/
-Sitemap: https://gptbot.uz/sitemap.xml
-```
-
-Cloudflare также добавляет content-signals для AI-ботов (`Bytespider`, `GPTBot`, `ClaudeBot`, `Google-Extended`, и т.д. — все `Disallow`). Это **не блокирует** обычный `Googlebot` для классической поисковой индексации — заблокирован только `Google-Extended` (AI training), что является осознанным выбором владельца.
-
-### 4.5 "Not found (404)"
-
-Должно быть только на:
-
-- случайных рандомных URLs (`/typo/`, `/random/`),
-- ранее удалённых страницах.
-
-Если 404 на одной из 15 sitemap-URL → срочно проверить prerender / deployment.
-
-### 4.6 "Page with redirect"
-
-Не должно быть на canonical URLs (canonical URL должен отдавать 200, не редирект).
-
-### 4.7 "Soft 404"
-
-Раньше был риск из-за SPA fallback. Теперь устранён: draft URLs → 410, неизвестные URLs → 404.
-
-### 4.8 "Duplicate without user-selected canonical" / "Alternate page with proper canonical tag"
-
-Audit показывает 0 дубликатов по title и 0 по description. Canonical на каждой странице self-pointing. Если GSC всё равно жалуется — это hreflang-альтернативы (RU/UZ), это нормально.
+### 5.7 "Duplicate without user-selected canonical" / "Alternate page with proper canonical tag"
+Hreflang-альтернативы RU/UZ — это нормально. Если Google жалуется на дубликаты внутри одного locale — это каннибализация blog↔money (см. 5.2).
 
 ---
 
-## 5. Технические факты по сайту (что GSC увидит)
+## 6. Метрики, которые надо снимать в Performance каждые 7 дней
+
+| Период | Метрики |
+|---|---|
+| 7 дней | total impressions, total clicks, avg CTR, avg position |
+| 7 дней | top 20 queries (поделить на branded vs non-branded) |
+| 7 дней | top 20 pages |
+| 7 дней | queries position 8–30 (квази-топ, ближе всего к росту) |
+| 28 дней | то же, для тренда |
+| 90 дней | то же, для long-term direction |
+
+**Что искать:**
+- Queries с impressions ≥10 и CTR <1% → улучшать title/description.
+- Queries position 11–20 → усиливать внутренние ссылки + расширить контент целевой страницы.
+- Pages с impressions ≥5 и 0 кликов → проверять snippet и H1.
+- Pages с 0 impressions через 21+ день после Request indexing → проверять Crawled/Discovered статус.
+
+---
+
+## 7. Технические факты по сайту (что увидит GSC после этого deploy)
 
 | Параметр | Статус |
 |---|---|
 | `robots.txt` HTTP | 200, text/plain |
 | `sitemap.xml` HTTP | 200, application/xml |
-| Sitemap URL count | 15 |
-| Published pages | 8 money + 5 blog + 1 blog index + 1 home = **15** |
-| Draft pages | 17 money + 10 blog = **27 → все возвращают 410 Gone** |
-| Random unknown URLs | **404** (Cloudflare Pages default) |
-| Canonical | self-pointing на всех 15 |
-| `<meta name="robots">` | `index, follow, max-image-preview:large` на всех публичных |
-| Hreflang | RU↔UZ bidirectional на 10 парах, x-default → `/`, self на blog (нет UZ-блога) |
-| JSON-LD | Organization + WebSite + Service + FAQPage + BreadcrumbList (money), Article + FAQPage + BreadcrumbList (blog) |
-| Mojibake | 0 |
-| Mobile viewport | OK на всех |
-| Googlebot fetch | 200 на всех 17 проверенных URLs |
-| Cloudflare WAF | Не блокирует `Googlebot/2.1` |
-| Build | `yarn build` → 0 critical SEO issues |
+| Sitemap URL count | 62 |
+| Sitemap URLs 200/200 | 62/62 ✓ |
+| Random URL | 404 ✓ |
+| `/admin-tools/` | `x-robots-tag: noindex, nofollow` + `Cache-Control: no-store` ✓ |
+| Canonical | self-pointing на всех 62 ✓ |
+| Hreflang RU↔UZ | 15 пар money + 8 пар UZ-блог + блог-индексы ✓ |
+| Homepage hreflang | `x-default` only (намеренно — нет отдельного `/uz/` сейчас) |
+| JSON-LD | Org + WebSite + Service (home) / + BreadcrumbList + Service + FAQPage (money) / + Article + FAQPage + BreadcrumbList (blog) |
+| Homepage SSR shell | 5K+ chars с H1 + nav + 15 RU money + 15 UZ money + 21 RU blog + 8 UZ blog ссылок (2026-06-06 расширен) |
+| Word count (money) | 279–483 (тонко — план: расширить до 800–1200 в P1) |
+| Word count (blog) | 273–1373 (5 RU blog и 5 UZ blog — тонкие <500w, план в P1) |
 
 ---
 
-## 6. Расширенная очередь индексации (на 2 недели)
+## 8. Что НЕ делать
 
-| День | Действие |
-|---|---|
-| 0 | Submit sitemap. Request indexing для Priority 1 (6 URLs). |
-| 1 | Request indexing для Priority 2 (4 URLs). |
-| 2 | Request indexing для Priority 3 (5 URLs). |
-| 3–4 | Проверить URL Inspection для Priority 1 — должны появиться "URL is on Google". |
-| 5–7 | Проверить Coverage / Indexed pages — должно быть ≥10 URLs. |
-| 7 | Если какие-то URLs всё ещё "Discovered — not indexed" → re-submit + добавить внутренние ссылки. |
-| 14 | Все 15 URLs должны быть в индексе. Если нет → анализ Crawled-not-indexed по разделу 4.2. |
-
----
-
-## 7. Что НЕ делать
-
-- ❌ Не запрашивать индексацию draft URLs (они отдают 410 — это правильно).
-- ❌ Не публиковать новые странички без `status: 'published'` в `content/pages/` или `content/blog/`.
-- ❌ Не править hreflang вручную в HTML — он генерируется из `content/pages/*.json` через prerender.
+- ❌ Не запрашивать индексацию /admin-tools/, /api/* (они noindex по дизайну).
+- ❌ Не публиковать новые странички без `status: 'published'` в `content/*.json`.
+- ❌ Не править hreflang вручную в HTML — генерируется из JSON через prerender.
 - ❌ Не блокировать `/sitemap.xml`, `/assets/*` или `Googlebot` в robots.txt.
-- ❌ Не менять canonical, чтобы он указывал не на сам URL.
+- ❌ Не менять canonical на не-self URL без 301-редиректа со старого URL.
+- ❌ Не отправлять `Request indexing` для одного и того же URL чаще одного раза в 24h.
 
 ---
 
-## 8. Контроль качества — повторный аудит
-
-После каждого нового деплоя:
+## 9. Контроль качества — после каждого deploy
 
 ```bash
-# В корне репо:
-yarn build          # включает scripts/seo-audit.ts — fail если critical issue
-yarn seo:audit      # только аудит
+yarn build           # включает scripts/seo-audit.ts — fail если critical issue
+yarn seo:audit       # только аудит
 ```
 
 И вручную:
 
 ```bash
-curl -I https://gptbot.uz/sitemap.xml         # 200 application/xml
-curl -A "Googlebot/2.1" -I https://gptbot.uz/  # 200
-curl -I https://gptbot.uz/ru/ai-bot-dlya-magazina/  # 410 (draft)
-curl -I https://gptbot.uz/typo-url/            # 404
+curl -I https://gptbot.uz/sitemap.xml
+curl -A "Googlebot/2.1" -I https://gptbot.uz/
+curl -I https://gptbot.uz/random-typo-url-xyz/   # 404
+curl -I https://gptbot.uz/admin-tools/            # 200 + noindex header
 ```
 
 ---
 
-## 9. Что улучшать дальше (вне emergency-аудита)
+## 10. Следующие шаги (после 14 дней)
 
-- Постепенно публиковать оставшиеся 17 draft money + 10 draft blog (валидным контентом, не пустыми shells).
-- Добавлять обратные ссылки с UZ-форумов / Telegram-каналов на 4–5 главных money pages.
-- Через 30 дней проверить **Performance → Queries** в GSC — какие запросы уже приносят показы, и докрутить title/description под них.
-- Если конверсия в Telegram-CTA важна — настроить **conversion tracking** через GA4 + Meta Pixel (уже на сайте).
+Если через 14 дней индекс ≥40 URLs:
+- Проверить Performance → Queries, поднять title/description под реальные запросы.
+- Расширить тонкие money pages до 800–1200 слов.
+- Создать **локальные гео money pages**: `/ru/chat-bot-tashkent/`, `/ru/telegram-bot-uzbekistan/`, UZ-эквиваленты. Это критично для Top-3 по Tashkent/Uzbekistan.
+
+Если через 14 дней индекс <20 URLs:
+- Проверить Crawled/Discovered отчёт.
+- Усилить внешние сигналы (Telegram-каналы, локальные каталоги, бизнес-форумы Узбекистана).
+- Сделать review каннибализационных пар (см. 5.2).

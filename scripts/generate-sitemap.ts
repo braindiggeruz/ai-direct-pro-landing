@@ -24,8 +24,13 @@ const ruArticles = eligibleArticles.filter((a) => (a.locale === 'uz' ? 'uz' : 'r
 const uzArticles = eligibleArticles.filter((a) => a.locale === 'uz');
 
 const entries = [
-  // Homepage
-  { url: '/', lastmod: today, hrefRu: '/?lang=ru', hrefUz: '/?lang=uz', priority: '1.0' },
+  // Homepage. We deliberately do NOT emit hreflang alternates here:
+  //  • There is no separate /uz/ landing today — emitting hreflang="uz"
+  //    pointing to /?lang=uz creates a phantom URL Google can't use.
+  //  • The homepage IS the RU entry, but emitting hreflang="ru" → "/"
+  //    is redundant with the canonical/self-referential URL.
+  // When a real /uz/ landing ships, add reciprocal RU↔UZ pair here.
+  { url: '/', lastmod: today, hrefRu: undefined, hrefUz: undefined, priority: '1.0' },
   // Blog indexes — emit one per locale that has at least one published article.
   // When both locales have articles, the RU index also advertises its UZ pair
   // (and vice versa) for hreflang reciprocity.
