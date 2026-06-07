@@ -3,9 +3,9 @@
   "locale": "ru",
   "slug": "telegram-bot-dlya-biznesa",
   "url": "/ru/blog/telegram-bot-dlya-biznesa/",
-  "title": "Telegram-бот для бизнеса: что он реально умеет в 2026",
-  "description": "Что должен уметь Telegram-бот для бизнеса: каталог, заявки, рассылки, оплата, аналитика, AI-консультант и интеграция с CRM.",
-  "h1": "Telegram-бот для бизнеса в 2026",
+  "title": "Telegram-бот для бизнеса: разбор возможностей в 2026",
+  "description": "Что реально умеет Telegram-бот для бизнеса в 2026: каталог, заявки, рассылки, оплата, аналитика, AI-консультант, CRM. Разбор для Узбекистана.",
+  "h1": "Telegram-бот для бизнеса в 2026: разбор возможностей",
   "topicCluster": "telegram-bot-dlya-biznesa",
   "targetMoneyPage": "/ru/telegram-bot-dlya-biznesa/",
   "keywords": [
@@ -175,7 +175,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-06-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
