@@ -2,6 +2,22 @@
   "version": 1,
   "runs": [
     {
+      "runId": "8c5411da-1d3d-4c79-abba-5a9859a64494",
+      "query": "Instagram uchun AI menejer",
+      "locale": "uz",
+      "gl": "uz",
+      "hl": "uz",
+      "location": "Tashkent, Uzbekistan",
+      "forUrl": "/uz/instagram-uchun-ai-menejer/",
+      "status": "queried",
+      "cached": false,
+      "resultPositions": 10,
+      "rankFound": true,
+      "rankPosition": 3,
+      "createdAt": "2026-06-08T07:12:04.291Z",
+      "credits": 1
+    },
+    {
       "runId": "91b634af-2d4f-4fe6-86f6-870b0a4f0af1",
       "query": "AI-бот для бизнеса",
       "locale": "ru",
