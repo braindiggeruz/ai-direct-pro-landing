@@ -2,6 +2,21 @@
   "version": 1,
   "runs": [
     {
+      "runId": "91b634af-2d4f-4fe6-86f6-870b0a4f0af1",
+      "query": "AI-бот для бизнеса",
+      "locale": "ru",
+      "gl": "uz",
+      "hl": "ru",
+      "location": "Tashkent, Uzbekistan",
+      "forUrl": "/ru/ai-bot-dlya-biznesa/",
+      "status": "cached",
+      "cached": true,
+      "resultPositions": 10,
+      "rankFound": false,
+      "createdAt": "2026-06-08T06:58:53.059Z",
+      "credits": 0
+    },
+    {
       "runId": "e5aafffc-395c-4934-a2fd-a0435bfe502d",
       "query": "автоматизация заявок",
       "locale": "ru",
