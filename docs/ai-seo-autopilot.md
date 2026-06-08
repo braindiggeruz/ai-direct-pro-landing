@@ -18,6 +18,31 @@ White-hat assistant inside `/admin-tools/seo-booster`. Generates **draft patches
 - `POST /api/seo/ai/apply-patch`     — appends approved fields to `content/seo/ai-runs.json` (admin JWT)
 - `GET  /api/seo/ai/logs`            — returns ledger of past runs (admin JWT)
 - `GET  /api/seo/ai/patch?runId=…`   — Editor Bridge: returns approved-field snapshot for a single run so the Page/Blog editor can prefill local draft state (admin JWT)
+- `GET  /api/seo/serper/status`      — Serper provider status (configured / cached snapshots / queriesToday)
+- `POST /api/seo/serper/query`       — raw query with cache-first + 7d TTL
+- `POST /api/seo/serper/analyze-url` — analyze a GPTBot URL → SerpDigest
+- `POST /api/seo/serper/batch`       — up to 5 URLs sequentially
+- `GET  /api/seo/serper/logs`        — SerpRunLog ledger (last 200 entries)
+
+## SERP Intelligence (P1)
+
+Backend-only Serper client (`functions/lib/serper/*`). Compact SerpDigest is
+forwarded to AI Autopilot as inspirational context — **never** copied verbatim
+and the API key never reaches the browser.
+
+Hard limits:
+- cache-first, 7-day TTL keyed by `locale|gl|hl|location|query`
+- top 10 organic only, title trimmed to 140 chars, snippet to 220
+- digest payload ≤ 4 KB
+- max batch = 5
+- no auto-query on tab open; manual buttons only
+- `SERPER_API_KEY` missing → status reports `configured=false` and the rest
+  of SEO Booster keeps working unchanged
+
+UI: new **SERP Intelligence** tab in `/admin-tools/seo-booster`. Pick a URL,
+click **Run SERP Snapshot** (or **Force refresh**), review competitors / FAQ
+ideas / content gaps / rank spot-check, click **Generate AI patch from SERP
+context** to hand off to AI Autopilot with the digest pre-loaded.
 
 ## Editor Bridge (P0)
 

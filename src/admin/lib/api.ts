@@ -85,4 +85,15 @@ export const api = {
       skipped: string[];
       error?: string;
     }>('GET', `/api/seo/ai/patch?runId=${encodeURIComponent(runId)}`),
+  // Serper SERP Intelligence
+  serperStatus: () =>
+    request<import('../../shared/serp').SerperProviderStatus>('GET', '/api/seo/serper/status'),
+  serperQuery: (req: import('../../shared/serp').SerperQueryRequest) =>
+    request<import('../../shared/serp').SerperQueryResult>('POST', '/api/seo/serper/query', req),
+  serperAnalyzeUrl: (req: import('../../shared/serp').SerperAnalyzeUrlRequest) =>
+    request<import('../../shared/serp').SerperQueryResult>('POST', '/api/seo/serper/analyze-url', req),
+  serperBatch: (req: import('../../shared/serp').SerperBatchRequest) =>
+    request<import('../../shared/serp').SerperBatchResult>('POST', '/api/seo/serper/batch', req),
+  serperLogs: () =>
+    request<{ runs: import('../../shared/serp').SerpRunLog[] }>('GET', '/api/seo/serper/logs'),
 };
