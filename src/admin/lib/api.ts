@@ -57,4 +57,13 @@ export const api = {
   // rejects admin/api/draft/noindex/mojibake/duplicate/host-mismatch entries.
   indexnowSubmit: (urls: string[]) =>
     request<{ ok: boolean; submitted?: number; safeUrls?: string[]; rejected?: { url: string; reason: string }[]; upstreamStatus?: number; upstreamBody?: string; error?: string }>('POST', '/api/seo/indexnow', { urls }),
+  // AI SEO Autopilot — Free LLM (Puter/Mock primary, Gemini optional backend).
+  aiProviderStatus: () =>
+    request<{ providers: import('../../shared/ai-seo').AiProviderStatus[]; serper: { configured: boolean; note: string }; generatedAt: string }>('GET', '/api/seo/ai/provider-status'),
+  aiValidatePatch: (candidate: import('../../shared/ai-seo').AiSeoPatchCandidate) =>
+    request<{ patch: import('../../shared/ai-seo').AiSeoPatch }>('POST', '/api/seo/ai/validate-patch', { candidate }),
+  aiApplyPatch: (patch: import('../../shared/ai-seo').AiSeoPatch, approvedFieldIds: string[]) =>
+    request<{ ok: boolean; runId?: string; appliedFieldCount?: number; error?: string }>('POST', '/api/seo/ai/apply-patch', { patch, approvedFieldIds }),
+  aiLogs: () =>
+    request<{ runs: import('../../shared/ai-seo').AiSeoRunLog[] }>('GET', '/api/seo/ai/logs'),
 };
