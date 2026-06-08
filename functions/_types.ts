@@ -36,5 +36,12 @@ export interface Env {
   OPENROUTER_MODEL_QUALITY?: string;
   OPENROUTER_SITE_URL?: string;
   OPENROUTER_APP_TITLE?: string;
+  // AI SEO Autopilot — Free LLM stack. Puter loads client-side and needs no key.
+  // GEMINI_API_KEY is an OPTIONAL backend fallback. If missing, provider-status
+  // simply reports "missing" and the rest of the Autopilot keeps working with
+  // Puter + Mock providers. SERPER_API_KEY is reserved for the upcoming SERP
+  // Intelligence layer (P1 follow-up branch).
+  GEMINI_API_KEY?: string;
+  SERPER_API_KEY?: string;
   LOGIN_ATTEMPTS?: KVNamespace;
 }
