@@ -9,14 +9,15 @@ import { useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, ScoreBadge, StatTile, Input, Select } from '../components/ui';
-import { ArrowUpRight, BrainCircuit, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, BrainCircuit, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles, Search } from 'lucide-react';
 import type { BoosterReport, ClusterReport, CannibalizationPair } from '../../shared/booster';
 // AI Autopilot tab is the only surface that may load Puter.js. We code-split
 // it into its own chunk so neither the puter URL nor the autopilot prompts
 // land in the public landing-page bundle.
 const AiAutopilotTab = lazy(() => import('./SeoAutopilot/AiAutopilotTab'));
+const SerpIntelligenceTab = lazy(() => import('./SeoAutopilot/SerpIntelligenceTab'));
 
-type Tab = 'indexation' | 'links' | 'clusters' | 'cannibalization' | 'ai-autopilot';
+type Tab = 'indexation' | 'links' | 'clusters' | 'cannibalization' | 'serp-intel' | 'ai-autopilot';
 
 function tone(score: number): 'success' | 'info' | 'warning' | 'danger' {
   if (score >= 80) return 'success';
@@ -38,6 +39,7 @@ function HeaderTabs({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
     { id: 'links',           label: 'Internal Link Booster', icon: Link2 },
     { id: 'clusters',        label: 'Clusters', icon: Layers },
     { id: 'cannibalization', label: 'Cannibalization Radar', icon: GitMerge },
+    { id: 'serp-intel',      label: 'SERP Intelligence', icon: Search },
     { id: 'ai-autopilot',    label: 'AI Autopilot', icon: BrainCircuit },
   ];
   return (
@@ -343,6 +345,10 @@ function CannibalizationTab({ pairs }: { pairs: CannibalizationPair[] }) {
 export default function SeoBooster() {
   const [report, setReport] = useState<BoosterReport | null>(null);
   const [tab, setTab] = useState<Tab>('indexation');
+  // SERP → AI Autopilot handoff: when the admin clicks "Generate AI patch
+  // from SERP context" we preselect the URL inside AiAutopilotTab so the
+  // operator does not have to repick it.
+  const [serpAutopilotUrl, setSerpAutopilotUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -405,9 +411,14 @@ export default function SeoBooster() {
       {tab === 'links'           && <LinksTab report={report}/>}
       {tab === 'clusters'        && <ClustersTab clusters={report.clusters}/>}
       {tab === 'cannibalization' && <CannibalizationTab pairs={report.cannibalization}/>}
+      {tab === 'serp-intel' && (
+        <Suspense fallback={<div className="p-6 text-white/60" data-testid="serp-intel-loading">Loading SERP Intelligence…</div>}>
+          <SerpIntelligenceTab report={report} onSendToAutopilot={(url) => { setSerpAutopilotUrl(url); setTab('ai-autopilot'); }}/>
+        </Suspense>
+      )}
       {tab === 'ai-autopilot'    && (
         <Suspense fallback={<div className="p-6 text-white/60" data-testid="ai-autopilot-loading">Loading AI Autopilot…</div>}>
-          <AiAutopilotTab report={report}/>
+          <AiAutopilotTab report={report} preselectedUrl={serpAutopilotUrl}/>
         </Suspense>
       )}
     </div>
