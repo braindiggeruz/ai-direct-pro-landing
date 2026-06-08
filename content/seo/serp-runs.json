@@ -2,6 +2,21 @@
   "version": 1,
   "runs": [
     {
+      "runId": "e5aafffc-395c-4934-a2fd-a0435bfe502d",
+      "query": "автоматизация заявок",
+      "locale": "ru",
+      "gl": "uz",
+      "hl": "ru",
+      "location": "Tashkent, Uzbekistan",
+      "forUrl": "/ru/avtomatizatsiya-zayavok/",
+      "status": "queried",
+      "cached": false,
+      "resultPositions": 10,
+      "rankFound": false,
+      "createdAt": "2026-06-08T06:41:09.490Z",
+      "credits": 1
+    },
+    {
       "runId": "c2487875-da3f-413b-996e-4c95524f926a",
       "query": "AI-бот для бизнеса",
       "locale": "ru",
