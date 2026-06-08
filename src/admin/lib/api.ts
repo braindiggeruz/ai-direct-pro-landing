@@ -51,4 +51,10 @@ export const api = {
     request<{ ok: true; url: string; committed: boolean }>('POST', '/api/images/upload', payload),
   suggestLinks: (slug: string, locale: string) =>
     request<{ ok: true; suggestions: { target: string; anchor: string; reason: string; score: number }[] }>('GET', `/api/seo/suggest-links?locale=${locale}&slug=${encodeURIComponent(slug)}`),
+  // SEO Booster Engine — read-only report (items + clusters + cannibalization + summary).
+  booster: () => request<import('../../shared/booster').BoosterReport>('GET', '/api/seo/booster'),
+  // Submit URLs to IndexNow. Server validates every URL against /content/* and
+  // rejects admin/api/draft/noindex/mojibake/duplicate/host-mismatch entries.
+  indexnowSubmit: (urls: string[]) =>
+    request<{ ok: boolean; submitted?: number; safeUrls?: string[]; rejected?: { url: string; reason: string }[]; upstreamStatus?: number; upstreamBody?: string; error?: string }>('POST', '/api/seo/indexnow', { urls }),
 };

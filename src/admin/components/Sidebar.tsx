@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge } from 'lucide-react';
 import { setToken } from '../lib/api';
 
 const items = [
@@ -7,6 +7,7 @@ const items = [
   { to: '/admin-tools/pages', label: 'Pages', icon: FileText, testId: 'nav-pages' },
   { to: '/admin-tools/blog', label: 'Blog', icon: BookOpen, testId: 'nav-blog' },
   { to: '/admin-tools/internal-links', label: 'Internal links', icon: Link2, testId: 'nav-internal-links' },
+  { to: '/admin-tools/seo-booster', label: 'SEO Booster', icon: Gauge, testId: 'nav-seo-booster' },
   { to: '/admin-tools/redirects', label: 'Redirects', icon: ArrowRightLeft, testId: 'nav-redirects' },
   { to: '/admin-tools/settings', label: 'Global SEO', icon: Settings, testId: 'nav-settings' },
 ];
