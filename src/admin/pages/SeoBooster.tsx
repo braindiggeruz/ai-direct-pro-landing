@@ -5,14 +5,18 @@
 //   2) Copy GSC manual queue        (clipboard only; no server effect)
 //
 // Everything else is pure UI on top of /api/seo/booster.
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, ScoreBadge, StatTile, Input, Select } from '../components/ui';
-import { ArrowUpRight, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, BrainCircuit, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles } from 'lucide-react';
 import type { BoosterReport, ClusterReport, CannibalizationPair } from '../../shared/booster';
+// AI Autopilot tab is the only surface that may load Puter.js. We code-split
+// it into its own chunk so neither the puter URL nor the autopilot prompts
+// land in the public landing-page bundle.
+const AiAutopilotTab = lazy(() => import('./SeoAutopilot/AiAutopilotTab'));
 
-type Tab = 'indexation' | 'links' | 'clusters' | 'cannibalization';
+type Tab = 'indexation' | 'links' | 'clusters' | 'cannibalization' | 'ai-autopilot';
 
 function tone(score: number): 'success' | 'info' | 'warning' | 'danger' {
   if (score >= 80) return 'success';
@@ -34,6 +38,7 @@ function HeaderTabs({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
     { id: 'links',           label: 'Internal Link Booster', icon: Link2 },
     { id: 'clusters',        label: 'Clusters', icon: Layers },
     { id: 'cannibalization', label: 'Cannibalization Radar', icon: GitMerge },
+    { id: 'ai-autopilot',    label: 'AI Autopilot', icon: BrainCircuit },
   ];
   return (
     <div className="flex flex-wrap gap-2" data-testid="booster-tabs">
@@ -400,6 +405,11 @@ export default function SeoBooster() {
       {tab === 'links'           && <LinksTab report={report}/>}
       {tab === 'clusters'        && <ClustersTab clusters={report.clusters}/>}
       {tab === 'cannibalization' && <CannibalizationTab pairs={report.cannibalization}/>}
+      {tab === 'ai-autopilot'    && (
+        <Suspense fallback={<div className="p-6 text-white/60" data-testid="ai-autopilot-loading">Loading AI Autopilot…</div>}>
+          <AiAutopilotTab report={report}/>
+        </Suspense>
+      )}
     </div>
   );
 }
