@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Label, ScoreBadge, Select, Textarea } from '../components/ui';
 import { SerpPreview } from '../components/SerpPreview';
+import { AiDraftBanner } from '../components/AiDraftBanner';
+import { useAiDraftBridge } from '../hooks/useAiDraftBridge';
 import { Save, Trash2, ExternalLink, Plus, X, AlertCircle, ChevronLeft, Sparkles, Upload, Wand2 } from 'lucide-react';
 import type { Page, FaqItem, BodyBlock, InternalLink as InternalLinkT, SchemaType } from '../../shared/types';
 import { auditPage } from '../../shared/audit';
@@ -64,6 +66,28 @@ export default function PageEditor() {
   }, [params.locale, params.slug, isNew]);
 
   const auditResult = useMemo(() => loaded ? auditPage(page, { allPages }) : null, [page, allPages, loaded]);
+
+  // AI SEO Editor Bridge — ?aiPatch=<runId> applies approved field snapshot.
+  const aiDraft = useAiDraftBridge({
+    currentUrl: page.url || (isNew ? '' : `/${params.locale}/${params.slug}/`),
+    target: 'page',
+    ready: loaded && !!page.url,
+  });
+
+  const applyAiDraft = () => {
+    if (aiDraft.status !== 'ready') return;
+    setPage((p) => {
+      const next: Page = { ...p };
+      for (const [k, v] of Object.entries(aiDraft.applied)) {
+        // AI bridge only emits keys that exist in P0_BRIDGE_FIELDS.page; type
+        // is checked at runtime by the backend validator, so a runtime cast
+        // is safe here.
+        (next as unknown as Record<string, unknown>)[k] = v;
+      }
+      return next;
+    });
+    aiDraft.markApplied();
+  };
 
   const set = <K extends keyof Page>(k: K, v: Page[K]) => setPage((p) => ({ ...p, [k]: v }));
 
@@ -139,6 +163,8 @@ export default function PageEditor() {
 
       {toast && <div data-testid="toast-success" className="bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 rounded-lg p-3 text-sm">{toast}</div>}
       {err && <div data-testid="toast-error" className="bg-red-500/15 border border-red-500/30 text-red-300 rounded-lg p-3 text-sm">{err}</div>}
+
+      <AiDraftBanner state={aiDraft} onApply={applyAiDraft} />
 
       <AiFillPanel page={page} onApply={(patch) => setPage((p) => ({ ...p, ...patch }))} />
 

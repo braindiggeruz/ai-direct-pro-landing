@@ -27,6 +27,11 @@ import { buildMockPatch, MockProvider } from '../src/admin/lib/aiProviders/mock'
 import { parsePatchJson } from '../src/admin/pages/SeoAutopilot/prompt';
 import type { AiPatchContext, AiSeoPatchCandidate } from '../src/shared/ai-seo';
 import type { Page, BlogArticle } from '../src/shared/types';
+import {
+  parseEditorRoute,
+  mapApprovedFieldsToEditorDraft,
+  BRIDGE_FORBIDDEN_FIELDS,
+} from '../src/shared/ai-seo-bridge';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT = path.join(ROOT, 'content');
@@ -257,6 +262,89 @@ function check(name: string, ok: boolean, detail?: string) {
   ctx.title = 'Короткий'; // < 45
   const { fields } = buildMockPatch('improve_article_seo', ctx);
   check('mock buildMockPatch generates fields for short title', fields.length > 0);
+}
+
+// -------------------------------------------------------------------------
+// 11. Editor Bridge — parseEditorRoute basics
+// -------------------------------------------------------------------------
+{
+  const page = parseEditorRoute('/ru/ai-bot-dlya-biznesa/');
+  check('bridge: page URL parsed to PageEditor route',
+    !!page && page.target === 'page' && page.locale === 'ru' && page.slug === 'ai-bot-dlya-biznesa' && page.path === '/admin-tools/pages/ru/ai-bot-dlya-biznesa');
+
+  const blog = parseEditorRoute('/uz/blog/biznes-uchun-ai-bot/');
+  check('bridge: blog URL parsed to BlogEditor route',
+    !!blog && blog.target === 'blog' && blog.locale === 'uz' && blog.slug === 'biznes-uchun-ai-bot' && blog.path === '/admin-tools/blog/uz/biznes-uchun-ai-bot');
+
+  const bad1 = parseEditorRoute('/admin-tools/seo-booster');
+  const bad2 = parseEditorRoute('/api/seo/booster');
+  const bad3 = parseEditorRoute('/draft/some-thing/');
+  const bad4 = parseEditorRoute('/en/random-page/'); // wrong locale
+  check('bridge: admin/api/draft/random URLs rejected',
+    bad1 === null && bad2 === null && bad3 === null && bad4 === null);
+}
+
+// -------------------------------------------------------------------------
+// 12. Editor Bridge — approved snapshot → safe editor draft
+// -------------------------------------------------------------------------
+{
+  const applied: Record<string, unknown> = {
+    title: 'AI-бот для бизнеса в Узбекистане — Telegram и Instagram 24/7',
+    description: 'AI-бот отвечает клиентам круглосуточно и собирает заявки.',
+    h1: 'AI-бот для бизнеса',
+    faq: [{ q: 'Что это?', a: 'AI-бот.' }],
+    internalLinks: [{ target: '/ru/ai-bot-dlya-kliniki/', anchor: 'AI для клиники', locale: 'ru', type: 'contextual' }],
+    // forbidden / unsupported on purpose:
+    slug: 'evil',
+    canonical: 'https://attacker.example/',
+    status: 'noindex',
+    robotsIndex: false,
+    unsupportedField: 'x',
+    topicCluster: 'ai-bot-business', // unsupported on PAGE, supported on BLOG
+  };
+
+  const pageMap = mapApprovedFieldsToEditorDraft(applied, 'page');
+  check('bridge: page draft includes safe fields',
+    pageMap.patch.title === applied.title &&
+    pageMap.patch.description === applied.description &&
+    pageMap.patch.h1 === applied.h1 &&
+    Array.isArray(pageMap.patch.faq) &&
+    Array.isArray(pageMap.patch.internalLinks),
+  );
+  check('bridge: page draft drops slug/canonical/status/robotsIndex/topicCluster/unsupported',
+    !('slug' in pageMap.patch) && !('canonical' in pageMap.patch) &&
+    !('status' in pageMap.patch) && !('robotsIndex' in pageMap.patch) &&
+    !('topicCluster' in pageMap.patch) && !('unsupportedField' in pageMap.patch) &&
+    pageMap.skipped.includes('slug') &&
+    pageMap.skipped.includes('canonical') &&
+    pageMap.skipped.includes('topicCluster'),
+  );
+
+  const blogMap = mapApprovedFieldsToEditorDraft(applied, 'blog');
+  check('bridge: blog draft accepts topicCluster, drops slug/canonical',
+    blogMap.patch.topicCluster === 'ai-bot-business' &&
+    !('slug' in blogMap.patch) && !('canonical' in blogMap.patch) &&
+    blogMap.skipped.includes('slug'),
+  );
+}
+
+// -------------------------------------------------------------------------
+// 13. Editor Bridge — empty / null inputs do not throw
+// -------------------------------------------------------------------------
+{
+  const emptyA = mapApprovedFieldsToEditorDraft(null, 'page');
+  const emptyB = mapApprovedFieldsToEditorDraft({}, 'blog');
+  check('bridge: null/empty applied snapshot maps to empty patch',
+    Object.keys(emptyA.patch).length === 0 && Object.keys(emptyB.patch).length === 0);
+}
+
+// -------------------------------------------------------------------------
+// 14. Editor Bridge — forbidden set covers slug/canonical/status/robots*
+// -------------------------------------------------------------------------
+{
+  const must = ['slug', 'url', 'canonical', 'status', 'robotsIndex', 'robotsFollow'];
+  const allCovered = must.every((k) => BRIDGE_FORBIDDEN_FIELDS.has(k));
+  check('bridge: BRIDGE_FORBIDDEN_FIELDS covers immutable fields', allCovered);
 }
 
 // -------------------------------------------------------------------------

@@ -66,4 +66,23 @@ export const api = {
     request<{ ok: boolean; runId?: string; appliedFieldCount?: number; error?: string }>('POST', '/api/seo/ai/apply-patch', { patch, approvedFieldIds }),
   aiLogs: () =>
     request<{ runs: import('../../shared/ai-seo').AiSeoRunLog[] }>('GET', '/api/seo/ai/logs'),
+  // Editor Bridge — fetch approved-fields snapshot for a previously applied run
+  // so the Page/Blog editor can prefill its local draft.
+  aiGetPatch: (runId: string) =>
+    request<{
+      ok: boolean;
+      runId: string;
+      url: string;
+      target: 'page' | 'blog';
+      locale: 'ru' | 'uz';
+      slug: string;
+      action: string;
+      provider: string;
+      model?: string;
+      createdAt: string;
+      approvedFields: string[];
+      applied: Record<string, unknown>;
+      skipped: string[];
+      error?: string;
+    }>('GET', `/api/seo/ai/patch?runId=${encodeURIComponent(runId)}`),
 };
