@@ -31,6 +31,14 @@ HARD RULES — read every rule before answering:
 7. Keep every \`reason\` field <= 200 characters, factual, in the locale.
 8. Output language must match locale strictly. RU = Cyrillic, UZ = Uzbek
    Latin. Do NOT mix scripts inside a single value.
+9. If the user message includes \`serpDigest\`, treat it as INSPIRATION ONLY.
+   - Use \`intent\`, \`relatedSearches\`, \`faqIdeas\`, \`contentGaps\` to
+     refine title/description/FAQ angles and internal-link choices.
+   - NEVER copy competitor titles or snippets verbatim. Reword in our
+     locale and brand voice.
+   - NEVER mention competitor brands or domains.
+   - \`serpDigest\` is informational; if it conflicts with rules 3–5, the
+     rules win.
 
 JSON schema you MUST produce:
 {
@@ -116,6 +124,7 @@ export function buildUserPrompt(action: AiSeoAction, ctx: AiPatchContext): strin
     allowedSlugs: ctx.allowedSlugs.slice(0, 80),
     clusterPeers: ctx.clusterPeers.slice(0, 8),
     clusterMoneyUrls: ctx.clusterMoneyUrls.slice(0, 8),
+    serpDigest: ctx.serpDigest, // optional — inspiration only, NEVER copy verbatim
     knownClusters: [
       'ai-bot-business','telegram-bot','instagram-direct','lead-processing',
       'sales-automation','niche-clinic','niche-beauty','niche-edu','niche-shop','niche-horeca',

@@ -39,9 +39,15 @@ import {
   draftStorageKey,
   type DraftHandoff,
 } from '../../../shared/ai-seo-bridge';
+import { readDigestFromSession } from './serpHandoff';
+import type { SerpDigest } from '../../../shared/serp';
 
 interface Props {
   report: BoosterReport;
+  /** When the SERP Intelligence tab handed off a URL, AiAutopilotTab opens
+   *  with that URL preselected and the latest SerpDigest already wired into
+   *  the prompt context. */
+  preselectedUrl?: string | null;
 }
 
 function previewValue(v: unknown): string {
@@ -51,7 +57,18 @@ function previewValue(v: unknown): string {
   try { return JSON.stringify(v, null, 2).slice(0, 600); } catch { return '[unserializable]'; }
 }
 
-function buildContext(item: BoosterItem, report: BoosterReport): AiPatchContext {
+function compactSerpDigest(d: SerpDigest | null) {
+  if (!d) return undefined;
+  return {
+    intent: d.intent,
+    topCompetitorTitles: d.topCompetitors.slice(0, 5).map((c) => c.title),
+    relatedSearches: d.relatedSearches.slice(0, 5),
+    faqIdeas: d.faqIdeas.slice(0, 5).map((f) => f.question),
+    contentGaps: d.contentGaps.slice(0, 7).map((g) => g.topic),
+  };
+}
+
+function buildContext(item: BoosterItem, report: BoosterReport, serpDigest: SerpDigest | null): AiPatchContext {
   const allUrls = report.items.map((i) => i.url);
   const clusterId =
     CLUSTERS.find((c) => c.money.ru.includes(item.url) || c.money.uz.includes(item.url))?.id
@@ -78,6 +95,7 @@ function buildContext(item: BoosterItem, report: BoosterReport): AiPatchContext 
     allowedSlugs: allUrls,
     clusterPeers: peers,
     clusterMoneyUrls,
+    serpDigest: compactSerpDigest(serpDigest),
   };
 }
 
@@ -101,7 +119,7 @@ function ProviderStatusCard({ s }: { s: AiProviderStatus }) {
   );
 }
 
-export default function AiAutopilotTab({ report }: Props) {
+export default function AiAutopilotTab({ report, preselectedUrl }: Props) {
   // Orphan candidates first — that's the primary use-case we ship in MVP.
   const orphans = useMemo(
     () => report.items
@@ -116,7 +134,15 @@ export default function AiAutopilotTab({ report }: Props) {
     [report],
   );
 
-  const [selectedUrl, setSelectedUrl] = useState<string>(orphans[0]?.url || allCandidates[0]?.url || '');
+  const [selectedUrl, setSelectedUrl] = useState<string>(preselectedUrl || orphans[0]?.url || allCandidates[0]?.url || '');
+
+  // When the SERP tab hands off a URL after we are already mounted, follow
+  // that selection so the operator sees the same URL pre-picked.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (preselectedUrl && preselectedUrl !== selectedUrl) setSelectedUrl(preselectedUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preselectedUrl]);
   const [action, setAction] = useState<AiSeoAction>('fix_orphan_article');
   const [providerChoice, setProviderChoice] = useState<ProviderChoice>('auto');
   const [providers, setProviders] = useState<AiProviderStatus[]>([]);
@@ -149,7 +175,8 @@ export default function AiAutopilotTab({ report }: Props) {
     setApproved(new Set());
     setApplyResult(null);
     try {
-      const ctx = buildContext(selectedItem, report);
+      const serpDigest = readDigestFromSession(selectedItem.url);
+      const ctx = buildContext(selectedItem, report, serpDigest);
       const sys = buildSystemPrompt(action, ctx);
       const user = buildUserPrompt(action, ctx);
       const provider = await pickProvider(providerChoice);
