@@ -17,11 +17,12 @@
 //   - Mock provider is used when Puter is unavailable.
 
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card, Select } from '../../components/ui';
 import { api } from '../../lib/api';
 import { pickProvider, type ProviderChoice } from '../../lib/aiProviders';
 import { buildSystemPrompt, buildUserPrompt, parsePatchJson } from './prompt';
-import { AlertTriangle, CheckCircle2, RefreshCw, Sparkles, X, ShieldCheck, Loader2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, RefreshCw, Sparkles, X, ShieldCheck, Loader2, ArrowRight } from 'lucide-react';
 import type { BoosterReport, BoosterItem } from '../../../shared/booster';
 import type {
   AiSeoAction,
@@ -32,6 +33,12 @@ import type {
 } from '../../../shared/ai-seo';
 import { AI_SEO_ACTIONS, AI_SEO_ACTION_LABELS } from '../../../shared/ai-seo';
 import { CLUSTERS } from '../../../shared/booster';
+import {
+  parseEditorRoute,
+  mapApprovedFieldsToEditorDraft,
+  draftStorageKey,
+  type DraftHandoff,
+} from '../../../shared/ai-seo-bridge';
 
 interface Props {
   report: BoosterReport;
@@ -120,6 +127,7 @@ export default function AiAutopilotTab({ report }: Props) {
   const [approved, setApproved] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string | null>(null);
   const [applyResult, setApplyResult] = useState<{ ok: boolean; runId?: string; appliedFieldCount?: number; error?: string } | null>(null);
+  const nav = useNavigate();
 
   useEffect(() => {
     void (async () => {
@@ -392,21 +400,109 @@ export default function AiAutopilotTab({ report }: Props) {
           </div>
 
           {applyResult && (
-            <div
-              className={`mt-3 rounded-lg border px-3 py-2 text-sm ${
-                applyResult.ok
-                  ? 'border-emerald-500/30 bg-emerald-500/5 text-emerald-200'
-                  : 'border-red-500/30 bg-red-500/5 text-red-300'
-              }`}
-              data-testid="ai-apply-result"
-            >
-              {applyResult.ok
-                ? `Recorded ${applyResult.appliedFieldCount} approved field(s) to AI ledger (runId ${applyResult.runId?.slice(0, 8)}). Live URLs unchanged.`
-                : `Apply failed: ${applyResult.error}`}
-            </div>
+            <ApplyResultPanel
+              result={applyResult}
+              patch={patch}
+              approvedIds={approved}
+              onNavigate={(p) => nav(p)}
+            />
           )}
         </Card>
       )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Editor Bridge — "Send to Page/Blog Editor" panel
+// ---------------------------------------------------------------------------
+interface ApplyResultPanelProps {
+  result: { ok: boolean; runId?: string; appliedFieldCount?: number; error?: string };
+  patch: AiSeoPatch;
+  approvedIds: Set<string>;
+  onNavigate: (path: string) => void;
+}
+
+function ApplyResultPanel({ result, patch, approvedIds, onNavigate }: ApplyResultPanelProps) {
+  if (!result.ok) {
+    return (
+      <div
+        className="mt-3 rounded-lg border border-red-500/30 bg-red-500/5 text-red-300 px-3 py-2 text-sm"
+        data-testid="ai-apply-result"
+      >
+        Apply failed: {result.error}
+      </div>
+    );
+  }
+
+  const route = parseEditorRoute(patch.url);
+  // Snapshot approved field values from patch, mirroring what backend wrote.
+  const appliedSnapshot: Record<string, unknown> = {};
+  for (const f of patch.fields) {
+    if (approvedIds.has(f.id) && !f.blocked) {
+      appliedSnapshot[f.field] = f.after;
+    }
+  }
+  const { patch: bridgePatch, skipped } = route
+    ? mapApprovedFieldsToEditorDraft(appliedSnapshot, route.target)
+    : { patch: {} as Record<string, unknown>, skipped: [] };
+
+  const targetLabel = route?.target === 'blog' ? 'Blog Editor' : 'Page Editor';
+  const canSend = !!route && Object.keys(bridgePatch).length > 0 && !!result.runId;
+
+  const sendToEditor = () => {
+    if (!canSend || !route || !result.runId) return;
+    const handoff: DraftHandoff = {
+      runId: result.runId,
+      url: patch.url,
+      target: route.target,
+      locale: route.locale,
+      slug: route.slug,
+      applied: bridgePatch,
+      approvedFields: Object.keys(bridgePatch),
+      createdAt: new Date().toISOString(),
+    };
+    // Hybrid handoff: backend ledger is source of truth (?aiPatch=runId),
+    // sessionStorage is the offline fallback for fast UX / reload survival.
+    try { sessionStorage.setItem(draftStorageKey(result.runId), JSON.stringify(handoff)); }
+    catch { /* sessionStorage can be unavailable in private mode; safe to ignore */ }
+    onNavigate(`${route.path}?aiPatch=${encodeURIComponent(result.runId)}`);
+  };
+
+  return (
+    <div
+      className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/5 text-emerald-200 px-3 py-2 text-sm space-y-2"
+      data-testid="ai-apply-result"
+    >
+      <div>
+        Recorded {result.appliedFieldCount} approved field(s) to AI ledger
+        (runId <code className="text-white/80">{result.runId?.slice(0, 8)}</code>).
+        Live URLs unchanged.
+      </div>
+      <div className="flex items-center justify-between gap-3 flex-wrap pt-2 border-t border-emerald-500/15">
+        <div className="text-xs text-white/60">
+          {route
+            ? <>Target: <code className="text-white/80">{route.target}</code> · <code className="text-white/80">{route.locale}/{route.slug}</code></>
+            : <span className="text-amber-300">URL is not editable (admin/api/non-content).</span>}
+          {skipped.length > 0 && (
+            <span className="block text-amber-300 mt-1">
+              Skipped (unsupported in editor draft): {skipped.join(', ')}
+            </span>
+          )}
+        </div>
+        <Button
+          size="sm"
+          variant="primary"
+          onClick={sendToEditor}
+          disabled={!canSend}
+          data-testid="ai-send-to-editor-btn"
+        >
+          <ArrowRight size={14} /> Send to {targetLabel}
+        </Button>
+      </div>
+      <div className="text-xs text-white/40 leading-snug">
+        Draft only — you still need to save and Publish to GitHub in the editor.
+      </div>
     </div>
   );
 }

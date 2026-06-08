@@ -45,6 +45,16 @@ export async function appendRun(env: Env, run: AiSeoRunLog): Promise<void> {
     `chore(ai-seo): ${run.status} ${run.action} ${run.url} via admin`);
 }
 
+/**
+ * Find a single run by id. Used by the editor bridge endpoint
+ * (GET /api/seo/ai/patch?runId=…) so the editor can prefill approved fields.
+ */
+export async function findRun(env: Env, runId: string): Promise<AiSeoRunLog | null> {
+  if (!runId || typeof runId !== 'string') return null;
+  const ledger = await readLedger(env);
+  return ledger.runs.find((r) => r.runId === runId) || null;
+}
+
 export function makeRunId(): string {
   // Cloudflare Workers runtime has crypto.randomUUID.
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
