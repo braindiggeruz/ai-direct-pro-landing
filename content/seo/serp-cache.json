@@ -2,6 +2,92 @@
   "version": 1,
   "entries": [
     {
+      "key": "ru|uz|ru|Tashkent, Uzbekistan|автоматизация заявок",
+      "snapshot": {
+        "query": "автоматизация заявок",
+        "locale": "ru",
+        "gl": "uz",
+        "hl": "ru",
+        "location": "Tashkent, Uzbekistan",
+        "checkedAt": "2026-06-08T06:41:08.201Z",
+        "organic": [
+          {
+            "position": 1,
+            "domain": "itsm365.com",
+            "url": "https://itsm365.com/blog/avtomatizacziya-zayavok/",
+            "title": "Автоматизация заявок: от хаоса к эффективному бизнесу",
+            "snippet": "Итак, ITSM 365 — простая и удобная система для автоматизации заявок, которая включает в себя сбор запросов из различных каналов, прием и ..."
+          },
+          {
+            "position": 2,
+            "domain": "blog.albato.ru",
+            "url": "https://blog.albato.ru/kak-ne-teryat-zayavki-s-sajta-avtomatizacziya-obrabotki/",
+            "title": "Как не терять заявки с сайта: автоматизация обработки",
+            "snippet": "С чего начать: чек-лист запуска за один день · 1. Проведите аудит. Отправьте тестовую заявку с каждой формы на вашем сайте. · 2. Определите ..."
+          },
+          {
+            "position": 3,
+            "domain": "sbercrm.com",
+            "url": "https://sbercrm.com/blog/sales/tpost/z8cgv4ogt1-kak-avtomatizirovat-protsess-obrabotki-z",
+            "title": "Как автоматизировать процесс обработки заявок в CRM ...",
+            "snippet": "Автоматизация не просто экономит часы, она делает бизнес конкурентоспособным. SberCRM — эффективное решение для обработки заявок. SberCRM ..."
+          },
+          {
+            "position": 4,
+            "domain": "cyberleninka.ru",
+            "url": "https://cyberleninka.ru/article/n/avtomatizatsiya-protsessa-priema-i-obrabotki-zayavok-na-avtotransportnye-sredstva",
+            "title": "Автоматизация процесса приема и обработки заявок на ...",
+            "snippet": "Данная статья посвящена проблеме организации процесса грузоперевозок в организации. С этой целью было разработано приложение «Заявки на автотранспорт», ..."
+          },
+          {
+            "position": 5,
+            "domain": "habr.com",
+            "url": "https://habr.com/ru/companies/latera/articles/301548/",
+            "title": "Как автоматизировать бизнес-процессы от заявки до ...",
+            "snippet": "Избежать подобных проблем можно с помощью автоматизации бизнес-процессов. Для организации работы с заявками используются специальные OMS-системы ..."
+          },
+          {
+            "position": 6,
+            "domain": "simpleone.ru",
+            "url": "https://simpleone.ru/blog/request-management-system-from-it-best-practices-to-a-universal-business-tool",
+            "title": "Система управления заявками: что такое, как внедрить ...",
+            "snippet": "Система управления заявками — это цифровой инструмент для приема, обработки и контроля обращений пользователей."
+          },
+          {
+            "position": 7,
+            "domain": "digdes.ru",
+            "url": "https://digdes.ru/products/korporativnye-servisy",
+            "title": "Автоматизация системы обработки и согласования заявок",
+            "snippet": "Автоматизируем системы согласования и обработки заявок. Сделаем электронное согласование заявок в СЭД удобным. Заявки на пропуска, заявки в службу ..."
+          },
+          {
+            "position": 8,
+            "domain": "callibri.ru",
+            "url": "https://callibri.ru/blog/kak-avtomatizirovat-rabotu-s-zayavkami",
+            "title": "Как автоматизировать работу с заявками",
+            "snippet": "Узнайте, как оптимизировать процессы обработки заявок с помощью современных инструментов. Статья содержит полезные советы для бизнеса."
+          },
+          {
+            "position": 9,
+            "domain": "blog.sailet.kz",
+            "url": "https://blog.sailet.kz/automation_of_order_processing/",
+            "title": "Автоматизация процессов обработки заказов от приема ...",
+            "snippet": "А для оптимизации этих процессов можно использовать различные практические инструменты, такие как: Интеграция CRM-системы: Наиболее популярными ..."
+          },
+          {
+            "position": 10,
+            "domain": "elib.pnzgu.ru",
+            "url": "https://elib.pnzgu.ru/files/eb/doc/d7YSRCmG1JSY.pdf",
+            "title": "Автоматизированная информационная система ...",
+            "snippet": "Цель работы: разработать информационную систему, позволяющую обслуживать заявки покупателей на оптовых предприятиях торговли. Объект исследований: система ..."
+          }
+        ],
+        "related": [],
+        "questions": []
+      },
+      "expiresAt": "2026-06-15T06:41:08.568Z"
+    },
+    {
       "key": "ru|uz|ru|Tashkent, Uzbekistan|AI-бот для бизнеса",
       "snapshot": {
         "query": "AI-бот для бизнеса",
