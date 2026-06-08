@@ -17,6 +17,38 @@ White-hat assistant inside `/admin-tools/seo-booster`. Generates **draft patches
 - `POST /api/seo/ai/validate-patch`  — validates a candidate against current `content/*` (admin JWT)
 - `POST /api/seo/ai/apply-patch`     — appends approved fields to `content/seo/ai-runs.json` (admin JWT)
 - `GET  /api/seo/ai/logs`            — returns ledger of past runs (admin JWT)
+- `GET  /api/seo/ai/patch?runId=…`   — Editor Bridge: returns approved-field snapshot for a single run so the Page/Blog editor can prefill local draft state (admin JWT)
+
+## Editor Bridge (P0)
+
+After an admin approves AI fields and `apply-patch` records them in
+`content/seo/ai-runs.json`, the **Send to Page/Blog Editor** button hands the
+approved snapshot off to the existing PageEditor / BlogEditor:
+
+1. AI Autopilot detects the target editor from the patch URL
+   (`parseEditorRoute` in `src/shared/ai-seo-bridge.ts`).
+2. Approved field snapshot is mirrored into `sessionStorage` (key
+   `aiSeoDraft:<runId>`) as an offline fallback.
+3. Navigation goes to `/admin-tools/pages/:locale/:slug?aiPatch=<runId>` (or
+   `/admin-tools/blog/:locale/:slug?aiPatch=<runId>`).
+4. The editor’s `useAiDraftBridge` hook fetches the snapshot via
+   `GET /api/seo/ai/patch?runId=…` (source of truth) and falls back to
+   sessionStorage if the backend call fails.
+5. A safety filter (`mapApprovedFieldsToEditorDraft`) strips any field that is
+   not in `P0_BRIDGE_FIELDS[target]` — slug, canonical, status, robotsIndex,
+   robotsFollow, hreflang*, and unsupported keys are **never** applied.
+6. The editor shows a banner: _“AI SEO draft loaded. Review changes before
+   saving. Nothing is published yet.”_  with a list of fields that will be
+   prefilled. The admin clicks **Apply to draft** and the local form state is
+   updated. **No auto-save. No auto-publish.** Existing **Save** and
+   **Publish to GitHub** stay manual.
+
+P0 forwardable fields:
+
+- `page`: `title`, `description`, `h1`, `heroSubtitle`, `ogTitle`,
+  `ogDescription`, `faq`, `internalLinks`
+- `blog`: `title`, `description`, `h1`, `intro`, `ogTitle`, `ogDescription`,
+  `faq`, `internalLinks`, `topicCluster`, `targetMoneyPage`, `keywords`
 
 All endpoints require an admin Bearer token. Unauthenticated requests → `401`.
 

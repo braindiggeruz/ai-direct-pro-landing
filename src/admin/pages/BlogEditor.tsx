@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Label, ScoreBadge, Select, Textarea } from '../components/ui';
 import { SerpPreview } from '../components/SerpPreview';
+import { AiDraftBanner } from '../components/AiDraftBanner';
+import { useAiDraftBridge } from '../hooks/useAiDraftBridge';
 import { Save, Trash2, ExternalLink, Plus, X, ChevronLeft, Upload, Copy } from 'lucide-react';
 import type { BlogArticle, Page, FaqItem, BodyBlock, InternalLink as InternalLinkT, SchemaType, Locale } from '../../shared/types';
 import { detectMojibake } from '../../shared/audit';
@@ -134,6 +136,25 @@ export default function BlogEditor() {
   const auditResult = useMemo(() => loaded ? auditBlog(a, others, moneyPages) : null, [a, others, moneyPages, loaded]);
   const set = <K extends keyof BlogArticle>(k: K, v: BlogArticle[K]) => setA((cur) => ({ ...cur, [k]: v }));
 
+  // AI SEO Editor Bridge — ?aiPatch=<runId> applies approved field snapshot.
+  const aiDraft = useAiDraftBridge({
+    currentUrl: a.url || (isNew ? '' : `/${params.locale}/blog/${params.slug}/`),
+    target: 'blog',
+    ready: loaded && !!a.url,
+  });
+
+  const applyAiDraft = () => {
+    if (aiDraft.status !== 'ready') return;
+    setA((cur) => {
+      const next: BlogArticle = { ...cur };
+      for (const [k, v] of Object.entries(aiDraft.applied)) {
+        (next as unknown as Record<string, unknown>)[k] = v;
+      }
+      return next;
+    });
+    aiDraft.markApplied();
+  };
+
   const save = async (newStatus?: 'draft' | 'published' | 'noindex') => {
     setBusy(true); setErr(null); setToast(null);
     try {
@@ -218,6 +239,8 @@ export default function BlogEditor() {
 
       {err && <Card className="border-red-500/30 bg-red-500/5"><div className="text-red-300 text-sm" data-testid="blog-error">{err}</div></Card>}
       {toast && <Card className="border-emerald-500/30 bg-emerald-500/5"><div className="text-emerald-300 text-sm" data-testid="blog-toast">{toast}</div></Card>}
+
+      <AiDraftBanner state={aiDraft} onApply={applyAiDraft} />
 
       {/* === Core === */}
       <Card>
