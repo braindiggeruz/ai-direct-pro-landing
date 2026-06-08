@@ -2,6 +2,92 @@
   "version": 1,
   "entries": [
     {
+      "key": "uz|uz|uz|Tashkent, Uzbekistan|Instagram uchun AI menejer",
+      "snapshot": {
+        "query": "Instagram uchun AI menejer",
+        "locale": "uz",
+        "gl": "uz",
+        "hl": "uz",
+        "location": "Tashkent, Uzbekistan",
+        "checkedAt": "2026-06-08T07:12:03.007Z",
+        "organic": [
+          {
+            "position": 1,
+            "domain": "instagram.com",
+            "url": "https://www.instagram.com/reel/DWRN6G6jHX1/",
+            "title": "DeepSales'da endi AI chat bor. Menejer mijoz bilan ... - Instagram",
+            "snippet": "DeepSales'da endi AI chat bor. · Ko'p ishlash emas — to'g'ri ishlash muhim. · AI Sotuvchi · AI Call loyihasi · Har oy sotuvni oshirish uchun ..."
+          },
+          {
+            "position": 2,
+            "domain": "instagram.com",
+            "url": "https://www.instagram.com/p/DVVW4QCCDI7/",
+            "title": "bir xil savollar, kechikishlar, yo'qotilgan mijozlar va daromad. 🖥️ AI ...",
+            "snippet": "🖥️ AI-menejer Riabot — bu savdo jarayonlariga integratsiya qilingan va МойСклад ma'lumotlari asosida ishlaydigan raqamli xodim. U mijoz so'rovi ..."
+          },
+          {
+            "position": 3,
+            "domain": "gptbot.uz",
+            "url": "https://gptbot.uz/uz/instagram-uchun-ai-menejer/",
+            "title": "Instagram uchun AI-menejer — Direct'da avtomatik javob - GPTBot",
+            "snippet": "Instagram uchun AI-menejer Direct'da 24/7 javob beradi, ism va telefonni yig'adi, tayyor lidni sizning menejeringizga uzatadi."
+          },
+          {
+            "position": 4,
+            "domain": "munamedia.me",
+            "url": "https://www.munamedia.me/uz/ai",
+            "title": "O'zbekistonda biznes uchun Instagramni avtomatlashtirish | Muna AI",
+            "snippet": "Muna AI - bu Instagramni avtomatlashtirish uchun aqlli yechim bo'lib, u biznesga xabarlarga darhol javob berish, ishtirokni oshirish va sotuvlarni ..."
+          },
+          {
+            "position": 5,
+            "domain": "lynx-ai.uz",
+            "url": "https://lynx-ai.uz/articles/telegram-instagram-bots",
+            "title": "Biznes uchun chatbot: Telegram va Instagram - Lynx AI",
+            "snippet": "Biznes uchun chatbot Telegram va Instagramni haqiqiy sales kanalga aylantiradi: lead qualification, booking, FAQ, handoff va CRM sync."
+          },
+          {
+            "position": 6,
+            "domain": "mpost.io",
+            "url": "https://mpost.io/uz/best-ai-tools-for-instagram/",
+            "title": "10 yilda o'sish va avtomatlashtirish uchun 2026 ta eng yaxshi bepul ...",
+            "snippet": "Meta AI (Instagram ilovasi). Meta AI Instagramning kuchli, oʻrnatilgan AI yordamchisi boʻlib, toʻgʻridan-toʻgʻri DM va Stories bilan integratsiyalangan. Xabar ..."
+          },
+          {
+            "position": 7,
+            "domain": "instagram.com",
+            "url": "https://www.instagram.com/p/DYHgCzksIAv/?__d=1%252F",
+            "title": "Shaxsan manga yoqdi bu Ai Ads manager yangilanishlarida ...",
+            "snippet": "Ko'rishingiz mumkin SmartBoost deb nomlanadi. Hozir man profilga, ko'rishingiz mumkin o'zim Instagramimni ulab qo'yganman va AI Coachdan qanaqa ..."
+          },
+          {
+            "position": 8,
+            "domain": "repli.uz",
+            "url": "https://repli.uz/",
+            "title": "Repli AI — Instagram, Telegram, WhatsApp uchun AI chatbot ...",
+            "snippet": "Repli AI — bu bizneslar uchun AI chatbot platformasi. Instagram DM, Telegram, WhatsApp va website orqali kelgan mijoz xabarlarini boshqarish, avtomatik javob ..."
+          },
+          {
+            "position": 9,
+            "domain": "play.google.com",
+            "url": "https://play.google.com/store/apps/details?id=io.mysocial.creators&hl=uz",
+            "title": "Mysocial: AI Creator Manager – Google Play ilovalari",
+            "snippet": "Mysocial is your AI Influencer Manager for Instagram, TikTok, and YouTube. It helps creators and influencers create content, find brand deals, analyze ..."
+          },
+          {
+            "position": 10,
+            "domain": "seapik.com",
+            "url": "https://seapik.com/uz-UZ/ai-writer/generator-of-captions-for-instagram",
+            "title": "AI Instagram uchun taglavhalar generatori - Seapik",
+            "snippet": "Bir necha soniya ichida matn yaratish uchun AI Instagram uchun taglavhalar generatori asbobimizni sinab ko'ring. Ehtiyojlaringizni yozing va bizning ..."
+          }
+        ],
+        "related": [],
+        "questions": []
+      },
+      "expiresAt": "2026-06-15T07:12:03.190Z"
+    },
+    {
       "key": "ru|uz|ru|Tashkent, Uzbekistan|автоматизация заявок",
       "snapshot": {
         "query": "автоматизация заявок",
