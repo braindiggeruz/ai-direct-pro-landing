@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "key": "ru|uz|ru|Tashkent, Uzbekistan|AI-бот для бизнеса",
+      "snapshot": {
+        "query": "AI-бот для бизнеса",
+        "locale": "ru",
+        "gl": "uz",
+        "hl": "ru",
+        "location": "Tashkent, Uzbekistan",
+        "checkedAt": "2026-06-08T06:40:24.318Z",
+        "organic": [
+          {
+            "position": 1,
+            "domain": "chatme.ai",
+            "url": "https://chatme.ai/blog/ii-chat-bot-chto-eto-i-kak-ego-sozdat-dlya-biznesa/",
+            "title": "Как создать ИИ чат-бота под бизнес-задачи - Chatme.ai",
+            "snippet": "Как создать ИИ чат-бота для бизнеса? · 1. Определите задачи, которые решает бот · 2. Выберите платформу для создания бота · 3. Разработайте ..."
+          },
+          {
+            "position": 2,
+            "domain": "smartbotpro.ru",
+            "url": "https://www.smartbotpro.ru/products/smartbot-ai-bot-na-osnove-chatgpt-dlya-biznesa",
+            "title": "Чат-боты для бизнеса: автоматизация продаж, поддержки и ...",
+            "snippet": "Создавайте AI-ботов без кода: отвечайте 24/7, подключайте CRM и платёжные системы, запускайте интернет-магазины и рассылки. Работает в Telegram, VK, ..."
+          },
+          {
+            "position": 3,
+            "domain": "twin24.ai",
+            "url": "https://twin24.ai/company/articles/chto-takoe-ai-bot-i-kak-on-mozhet-pomoch-vashemu-biznesu/",
+            "title": "AI бот для бизнеса: полное руководство по внедрению и ...",
+            "snippet": "ИИ-боты помогают автоматизировать рутинные задачи, обеспечивая быстрый поиск информации, управляя базами знаний, и могут интегрироваться с ..."
+          },
+          {
+            "position": 4,
+            "domain": "voxys.ru",
+            "url": "https://www.voxys.ru/cifrovye-reshenija/chat-bot/ai-bot-dlja-biznesa.html",
+            "title": "Разработка ИИ чат-ботов для бизнеса | AI Chat-bot - Voxys",
+            "snippet": "Преимущества ИИ чат-ботов VOXYS для бизнеса · Автоматизация процессов и снижение издержек. · Круглосуточная поддержка и оперативность. · Персонализация и ..."
+          },
+          {
+            "position": 5,
+            "domain": "respond.io",
+            "url": "https://respond.io/ru/blog/best-ai-chatbot-for-customer-service",
+            "title": "7 лучших ИИ-чат-ботов для обслуживания клиентов в 2026 году",
+            "snippet": "Откройте для себя 7 лучших ИИ-чат-ботов для обслуживания клиентов в 2026 году. Сравните respond.io, Freshchat, Intercom, Zendesk и другие, ..."
+          },
+          {
+            "position": 6,
+            "domain": "youtube.com",
+            "url": "https://www.youtube.com/watch?v=1x_1-6qEVVc",
+            "title": "ИИ чат-бот для бизнеса и блогеров в Instagram* и Telegram",
+            "snippet": "Разработка и внедрение AI чат-ботов в ваш бизнес → https://digitalkir.ru/ai_bots?utm_source=yt_11.10 Авторский опыт, мнения и ..."
+          },
+          {
+            "position": 7,
+            "domain": "umnico.com",
+            "url": "https://umnico.com/ru/chatbot-builder/",
+            "title": "Конструктор чат-ботов для бизнеса на базе GPT-4 - Umnico",
+            "snippet": "Umnico Chatbot на базе ChatGPT автоматически отвечает на вопросы, собирает контакты, принимает оплату и рекомендует товары, освобождая ваших операторов от ..."
+          },
+          {
+            "position": 8,
+            "domain": "amsales.ru",
+            "url": "https://amsales.ru/journal/ai-chat-bot-neuroseti-gpt",
+            "title": "Создание чат-бота с нейросетью GPT для бизнеса",
+            "snippet": "Как создать умного чат-бота с нейросетью GPT: пошаговый разбор технологий, интеграция с CRM (Битрикс24), автоматизация продаж и клиентского сервиса."
+          },
+          {
+            "position": 9,
+            "domain": "intellectdialog.com",
+            "url": "https://intellectdialog.com/glossary/ai-chat-bot",
+            "title": "Что такое AI чат-бот и чем он может помочь вашему бизнесу?",
+            "snippet": "AI чат-бот (англ. диалоговый бот с искусственным интеллектом) — это программа, способная имитировать реальное общение с людьми."
+          },
+          {
+            "position": 10,
+            "domain": "botcreators.ru",
+            "url": "https://botcreators.ru/blog/5-tipov-chat-botov-dlja-rosta-biznesa/",
+            "title": "5 типов чат-ботов для роста бизнеса - BotCreators",
+            "snippet": "Чат-боты с поддержкой искусственного интеллекта сочетают в себе возможности машинного обучения (ML) и обработки естественного языка (NLP), чтобы понять контекст ..."
+          }
+        ],
+        "related": [],
+        "questions": []
+      },
+      "expiresAt": "2026-06-15T06:40:24.487Z"
+    }
+  ]
+}
