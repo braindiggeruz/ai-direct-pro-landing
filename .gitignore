@@ -27,3 +27,6 @@ build/
 coverage/
 playwright-report/
 test-results/
+
+# Local-only secret handoff staging — never committed
+.secrets/
