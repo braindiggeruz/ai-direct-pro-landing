@@ -1,2 +1,2 @@
-Redeploy trigger after ADMIN_PASSWORD_HASH rotation.
-Timestamp: 2026-06-21T11:30:00+05:00
+Redeploy trigger after adding ADMIN_EMAIL to Cloudflare Production.
+Date: 2026-06-21
