@@ -6,6 +6,7 @@ import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
 import { getFile, putFile, deleteFile, readContentBulk } from '../../lib/github';
 import { detectMojibake } from '../../../src/shared/audit';
+import { withErrorHandler, errorResponse } from '../../lib/api-errors';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -25,13 +26,11 @@ function pathFor(kind: string, locale?: string, slug?: string): string {
   }
 }
 
-export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestGet: PagesFunction<Env> = withErrorHandler('content.get', async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
   // Single-subrequest bulk read of the whole content/ tree.
-  // Replaces the prior 5×listDir + N×getFile path that exceeded the
-  // Cloudflare Workers Free runtime 50-subrequest cap once corpus > 40.
   const all = await readContentBulk(env);
   const pages: unknown[] = [];
   const blog: unknown[] = [];
@@ -50,45 +49,43 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   return json({ pages, blog, global: globalObj, redirects, internalLinks });
-};
+});
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env> = withErrorHandler('content.post', async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   let body: { kind: string; locale?: string; slug?: string; data: unknown; message?: string };
-  try { body = await request.json(); } catch { return json({ error: 'Invalid body' }, 400); }
-  if (!body.kind || !body.data) return json({ error: 'Missing kind/data' }, 400);
+  try { body = await request.json(); } catch { return errorResponse('content.post', 'BAD_REQUEST', 'Invalid JSON body'); }
+  if (!body.kind || !body.data) return errorResponse('content.post', 'BAD_REQUEST', 'Missing kind/data');
   // PUBLISH GUARD: block save of pages/blog with mojibake when status=published.
   if ((body.kind === 'page' || body.kind === 'blog') && body.data && typeof body.data === 'object') {
     const d = body.data as Record<string, unknown>;
     if (d.status === 'published') {
       const hit = detectMojibake(d);
       if (hit) {
-        return json({ error: `Encoding issue detected: "${hit.field}" contains mojibake characters (${hit.sample}). Publish blocked. Fix the text before publishing.` }, 400);
+        return errorResponse('content.post', 'BAD_REQUEST',
+          `Encoding issue: field "${hit.field}" contains mojibake (${hit.sample}). Fix the text before publishing.`,
+          { detail: { field: hit.field } });
       }
     }
   }
-  try {
-    const file = pathFor(body.kind, body.locale, body.slug);
-    const content = JSON.stringify(body.data, null, 2) + '\n';
-    const message = body.message || `chore(seo): update ${body.kind}${body.slug ? ` ${body.locale}/${body.slug}` : ''} via admin`;
-    await putFile(env, file, content, message);
-    return json({ ok: true, file });
-  } catch (e) {
-    return json({ error: (e as Error).message }, 500);
-  }
-};
+  const file = pathFor(body.kind, body.locale, body.slug);
+  const content = JSON.stringify(body.data, null, 2) + '\n';
+  const message = body.message || `chore(seo): update ${body.kind}${body.slug ? ` ${body.locale}/${body.slug}` : ''} via admin`;
+  await putFile(env, file, content, message);
+  return json({ ok: true, file });
+});
 
-export const onRequestDelete: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestDelete: PagesFunction<Env> = withErrorHandler('content.delete', async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   let body: { kind: string; locale?: string; slug?: string; message?: string };
-  try { body = await request.json(); } catch { return json({ error: 'Invalid body' }, 400); }
-  try {
-    const file = pathFor(body.kind, body.locale, body.slug);
-    await deleteFile(env, file, body.message || `chore(seo): delete ${body.kind} ${body.locale}/${body.slug}`);
-    return json({ ok: true });
-  } catch (e) {
-    return json({ error: (e as Error).message }, 500);
-  }
-};
+  try { body = await request.json(); } catch { return errorResponse('content.delete', 'BAD_REQUEST', 'Invalid JSON body'); }
+  if (!body.kind) return errorResponse('content.delete', 'BAD_REQUEST', 'Missing kind');
+  const file = pathFor(body.kind, body.locale, body.slug);
+  await deleteFile(env, file, body.message || `chore(seo): delete ${body.kind} ${body.locale}/${body.slug}`);
+  return json({ ok: true });
+});
+
+// Used by tests as a smoke endpoint.
+export { getFile };

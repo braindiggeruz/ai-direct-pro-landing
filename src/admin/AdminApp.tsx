@@ -14,6 +14,7 @@ import AiDraftsList from './pages/AiDraftsList';
 import AiDraftDetail from './pages/AiDraftDetail';
 import SeoAutopilotControlCenter from './pages/SeoAutopilotControlCenter';
 import { Sidebar } from './components/Sidebar';
+import { AdminErrorBoundary } from './components/AdminErrorBoundary';
 import { api, getToken } from './lib/api';
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
@@ -49,23 +50,25 @@ function Shell({ children }: { children: React.ReactNode }) {
 // Paths here are RELATIVE to the parent `/admin-tools/*` route mounted in main.tsx.
 export default function AdminApp() {
   return (
-    <Routes>
-      <Route path="login" element={<Login />} />
-      <Route index element={<RequireAuth><Shell><Cockpit/></Shell></RequireAuth>} />
-      <Route path="pages" element={<RequireAuth><Shell><PagesList/></Shell></RequireAuth>} />
-      <Route path="pages/new" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
-      <Route path="pages/:locale/:slug" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
-      <Route path="blog" element={<RequireAuth><Shell><BlogList/></Shell></RequireAuth>} />
-      <Route path="blog/new" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
-      <Route path="blog/:locale/:slug" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
-      <Route path="ai-drafts" element={<RequireAuth><Shell><AiDraftsList/></Shell></RequireAuth>} />
-      <Route path="ai-drafts/:id" element={<RequireAuth><Shell><AiDraftDetail/></Shell></RequireAuth>} />
-      <Route path="seo-autopilot" element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
-      <Route path="internal-links" element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
-      <Route path="seo-booster" element={<RequireAuth><Shell><SeoBooster/></Shell></RequireAuth>} />
-      <Route path="redirects" element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
-      <Route path="settings" element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
-      <Route path="*" element={<Navigate to="/admin-tools" replace/>} />
-    </Routes>
+    <AdminErrorBoundary>
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route index element={<RequireAuth><Shell><Cockpit/></Shell></RequireAuth>} />
+        <Route path="pages" element={<RequireAuth><Shell><PagesList/></Shell></RequireAuth>} />
+        <Route path="pages/new" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
+        <Route path="pages/:locale/:slug" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
+        <Route path="blog" element={<RequireAuth><Shell><BlogList/></Shell></RequireAuth>} />
+        <Route path="blog/new" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
+        <Route path="blog/:locale/:slug" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
+        <Route path="ai-drafts" element={<RequireAuth><Shell><AiDraftsList/></Shell></RequireAuth>} />
+        <Route path="ai-drafts/:id" element={<RequireAuth><Shell><AiDraftDetail/></Shell></RequireAuth>} />
+        <Route path="seo-autopilot" element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
+        <Route path="internal-links" element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
+        <Route path="seo-booster" element={<RequireAuth><Shell><SeoBooster/></Shell></RequireAuth>} />
+        <Route path="redirects" element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
+        <Route path="settings" element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
+        <Route path="*" element={<Navigate to="/admin-tools" replace/>} />
+      </Routes>
+    </AdminErrorBoundary>
   );
 }

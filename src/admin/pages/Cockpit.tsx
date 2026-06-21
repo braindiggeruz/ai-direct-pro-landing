@@ -1,313 +1,572 @@
-import { useEffect, useMemo, useState } from 'react';
-import { api } from '../lib/api';
-import { Card, StatTile, ScoreBadge, Badge, Button } from '../components/ui';
-import { Link } from 'react-router-dom';
-import { AlertTriangle, CheckCircle2, RefreshCw, Eye, Pencil, XCircle, Inbox, PlayCircle } from 'lucide-react';
+// GPTBot Admin — SEO Mission Control (formerly "Cockpit").
+//
+// Single-page operator dashboard:
+//   1. Next Best Actions (top, ranked)
+//   2. KPI tiles with click-through to queues
+//   3. Health strip (live probes + integration status)
+//   4. Section panels — each renders independently, errors don't blank the page
+//
+// All data comes from one /api/admin/cockpit call which returns a
+// partial-success envelope: each section reports its own ok/error.
 
-function HealthRow({ ok, label, detail }: { ok: boolean; label: string; detail?: string }) {
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { api } from '../lib/api';
+import { Badge, Button, Card } from '../components/ui';
+import {
+  AlertOctagon, AlertTriangle, CheckCircle2, ChevronRight, Clock, Inbox,
+  Loader2, PlayCircle, RefreshCw, ShieldCheck, XCircle,
+  Activity, FileText, ListChecks, Zap,
+} from 'lucide-react';
+import type { CockpitResponse, CockpitSection } from '../../shared/cockpit';
+import type { NextBestAction } from '../../shared/next-actions';
+
+type ApiError = Error & { code?: string; requestId?: string; endpoint?: string; retryable?: boolean; status?: number };
+
+function riskTone(r: NextBestAction['risk']): 'success' | 'warning' | 'danger' {
+  return r === 'low' ? 'success' : r === 'medium' ? 'warning' : 'danger';
+}
+
+function HealthRow({ ok, label, detail }: { ok: boolean | undefined; label: string; detail?: string }) {
+  const okv = ok ?? undefined;
+  const cls = okv === undefined
+    ? 'border-white/10 bg-white/[0.02]'
+    : okv ? 'border-emerald-500/20 bg-emerald-500/5' : 'border-red-500/30 bg-red-500/5';
   return (
-    <div data-testid={`seo-health-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className={`flex items-center justify-between rounded-lg px-3 py-2 border ${ok ? 'border-emerald-500/20 bg-emerald-500/5' : 'border-red-500/30 bg-red-500/5'}`}>
+    <div
+      data-testid={`health-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+      className={`flex items-center justify-between rounded-lg px-3 py-2 border ${cls}`}
+    >
       <div className="flex items-center gap-2">
-        {ok ? <CheckCircle2 size={14} className="text-emerald-300"/> : <XCircle size={14} className="text-red-300"/>}
-        <span className={ok ? 'text-white/85' : 'text-red-200'}>{label}</span>
+        {okv === undefined
+          ? <Clock size={14} className="text-white/40" />
+          : okv ? <CheckCircle2 size={14} className="text-emerald-300" />
+                : <XCircle size={14} className="text-red-300" />}
+        <span className={okv === false ? 'text-red-200' : 'text-white/85'}>{label}</span>
       </div>
       {detail && <span className="text-xs text-white/50">{detail}</span>}
     </div>
   );
 }
 
-type PageAudit = {
-  url: string;
-  locale: string;
-  pageType: string;
-  status: string;
-  score: number;
-  issues: { level: string; rule: string; message: string }[];
-};
-type Stats = {
-  totalPages: number; publishedPages: number; draftPages: number; noindexPages: number;
-  pagesInSitemap: number; missingTitle: number; missingDescription: number; missingH1: number;
-  missingCanonical: number; missingJsonLd: number; duplicateTitle: number; duplicateDescription: number;
-  orphanPages: number; brokenInternalLinks: number; missingFaq: number; missingHreflang: number;
-  missingOg: number; ruUzPairsOk: number; ruUzPairsMissing: number; avgMoneyScore: number; avgBlogScore: number;
-  mojibakePages?: number;
-  pages: PageAudit[];
-  // blog stats — added by /api/audit (additive, optional for back-compat)
-  totalBlog?: number; publishedBlog?: number; blogInSitemap?: number;
-  blogMissingFaq?: number; blogMissingTitle?: number; blogMissingDescription?: number;
-  blogDuplicateTitle?: number;
-  // live HTTP probes
-  live?: {
-    randomUrl404: boolean; randomUrlStatus: number;
-    adminNoindex: boolean; adminStatus: number;
-    sitemap200Xml: boolean; sitemapStatus: number;
-    robots200: boolean; faviconLive: boolean; sampleImageLive: boolean;
-    probedAt: string;
-  };
-};
-
-type Mismatch = { level: 'error' | 'warning'; message: string; url?: string };
-
-function buildMismatches(stats: Stats, fullPages: any[]): Mismatch[] {
-  const out: Mismatch[] = [];
-  const byUrl = new Map(fullPages.map((p) => [p.url, p]));
-  for (const p of stats.pages) {
-    const full = byUrl.get(p.url);
-    if (!full) continue;
-    const inSitemap = full.status === 'published' && full.robotsIndex !== false;
-    // Draft with high score (publish-ready)
-    if (full.status === 'draft' && p.score >= 80) {
-      out.push({ level: 'warning', message: `Draft "${p.url}" has score ${p.score}/100 — ready to publish.`, url: p.url });
-    }
-    // Published but excluded from sitemap
-    if (full.status === 'published' && !inSitemap) {
-      out.push({ level: 'error', message: `"${p.url}" is published but robotsIndex=false → not in sitemap.`, url: p.url });
-    }
-    // Noindex but no body content
-    if (full.status === 'noindex' && (full.bodyBlocks || []).length === 0) {
-      out.push({ level: 'warning', message: `"${p.url}" is noindex with no body — consider deleting.`, url: p.url });
-    }
-    // Published but empty body / placeholder
-    if (full.status === 'published' && (full.bodyBlocks || []).length === 0) {
-      out.push({ level: 'error', message: `Published "${p.url}" has empty body — placeholder content live.`, url: p.url });
-    }
-    // No FAQ for money page that is published
-    if (full.status === 'published' && full.pageType === 'money' && (full.faq || []).length < 4) {
-      out.push({ level: 'warning', message: `Money page "${p.url}" has only ${(full.faq || []).length} FAQ items (recommended 4+).`, url: p.url });
-    }
-  }
-  return out;
+function SectionError({ section, error, onRetry }: {
+  section: string;
+  error: { code: string; message: string };
+  onRetry: () => void;
+}) {
+  return (
+    <div
+      data-testid={`section-error-${section}`}
+      className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-2.5"
+    >
+      <div className="flex items-start gap-2">
+        <AlertTriangle size={14} className="text-amber-300 mt-0.5" />
+        <div className="flex-1 min-w-0">
+          <div className="text-amber-200 text-sm font-medium">
+            "{section}" failed to load
+          </div>
+          <div className="text-white/65 text-xs mt-0.5 break-words">
+            <code className="text-amber-200">{error.code}</code> · {error.message}
+          </div>
+        </div>
+        <button
+          className="text-white/60 hover:text-white text-xs inline-flex items-center gap-1"
+          onClick={onRetry}
+          data-testid={`section-error-${section}-retry`}
+        >
+          <RefreshCw size={12} /> Retry
+        </button>
+      </div>
+    </div>
+  );
 }
 
+function Kpi({ label, value, tone, hint, to, testId }: {
+  label: string;
+  value: string | number;
+  tone: 'neutral' | 'success' | 'warning' | 'danger' | 'info';
+  hint?: string;
+  to?: string;
+  testId: string;
+}) {
+  const accent =
+    tone === 'success' ? 'border-emerald-500/30' :
+    tone === 'warning' ? 'border-amber-500/30' :
+    tone === 'danger' ? 'border-red-500/30' :
+    tone === 'info' ? 'border-brand-blue/30' :
+    'border-white/10';
+  const content = (
+    <div
+      data-testid={testId}
+      className={`bg-bg-surface border ${accent} rounded-2xl p-4 hover:border-white/20 transition`}
+    >
+      <div className="text-[11px] uppercase tracking-wide text-white/50">{label}</div>
+      <div className="font-display text-2xl text-white mt-1">{value}</div>
+      {hint && <div className="text-white/40 text-[11px] mt-0.5">{hint}</div>}
+    </div>
+  );
+  return to ? <Link to={to}>{content}</Link> : content;
+}
+
+// ─── Component ─────────────────────────────────────────────────────────
+
 export default function Cockpit() {
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [fullPages, setFullPages] = useState<any[]>([]);
-  const [aiDraftsPending, setAiDraftsPending] = useState<number | null>(null);
-  const [aiDraftsNeedsRevision, setAiDraftsNeedsRevision] = useState<number | null>(null);
-  const [err, setErr] = useState<string | null>(null);
+  const [data, setData] = useState<CockpitResponse | null>(null);
+  const [topLevelError, setTopLevelError] = useState<ApiError | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const load = async () => {
-    setLoading(true); setErr(null);
+  const load = useCallback(async (initial = false): Promise<void> => {
+    if (initial) setLoading(true);
+    else setRefreshing(true);
+    setTopLevelError(null);
     try {
-      const [a, c] = await Promise.all([api.audit(), api.getContent()]);
-      setStats(a as Stats);
-      setFullPages(c.pages || []);
-      // AI Draft Inbox stats (best-effort, never blocks the cockpit).
-      try {
-        const [pending, needsRev] = await Promise.all([
-          api.aiDraftsList({ status: 'pending_review', limit: 1000 }),
-          api.aiDraftsList({ status: 'needs_revision', limit: 1000 }),
-        ]);
-        setAiDraftsPending((pending.drafts || []).length);
-        setAiDraftsNeedsRevision((needsRev.drafts || []).length);
-      } catch {
-        setAiDraftsPending(null);
-        setAiDraftsNeedsRevision(null);
-      }
-    } catch (e) { setErr((e as Error).message); }
-    setLoading(false);
-  };
+      const r = await api.cockpit();
+      setData(r);
+    } catch (e) {
+      setTopLevelError(e as ApiError);
+    } finally {
+      if (initial) setLoading(false);
+      else setRefreshing(false);
+    }
+  }, []);
 
-  useEffect(() => { void load(); }, []);
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => { void load(true); }, [load]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
-  const mismatches = useMemo(() => (stats ? buildMismatches(stats, fullPages) : []), [stats, fullPages]);
+  const audit  = data?.audit;
+  const drafts = data?.drafts;
+  const ap     = data?.autopilot;
+  const health = data?.health;
+  const sys    = data?.system;
+  const nba    = data?.next_best_actions || [];
 
-  if (loading) return <div className="p-8 text-white/60">Loading cockpit…</div>;
-  if (err) return <div className="p-8 text-red-300">Failed: {err}</div>;
-  if (!stats) return null;
+  const integrationStrip = useMemo(() => {
+    if (!sys) return [];
+    return [
+      { ok: sys.github_token_configured, label: 'GitHub PAT' },
+      { ok: sys.jwt_secret_configured,    label: 'JWT secret' },
+      { ok: sys.drafts_db_configured,     label: 'D1 (drafts)' },
+      { ok: sys.n8n_webhook_secret_configured, label: 'n8n webhook' },
+      { ok: !!sys.openrouter_configured,  label: 'OpenRouter' },
+      { ok: !!sys.serper_configured,      label: 'Serper' },
+      { ok: !!sys.gemini_configured,      label: 'Gemini (opt)' },
+    ];
+  }, [sys]);
+
+  if (loading) {
+    return (
+      <div className="p-6 sm:p-8 space-y-6" data-testid="cockpit-loading">
+        <div className="text-xs uppercase tracking-widest text-white/40">Dashboard</div>
+        <h1 className="font-display text-3xl text-white">SEO Mission Control</h1>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" aria-hidden>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-bg-surface border border-white/10 rounded-2xl p-4 animate-pulse">
+              <div className="h-2 w-16 bg-white/10 rounded" />
+              <div className="h-7 w-12 bg-white/10 rounded mt-3" />
+            </div>
+          ))}
+        </div>
+        <div className="text-white/40 text-sm">Loading cockpit…</div>
+      </div>
+    );
+  }
+
+  // Top-level failure means the WHOLE endpoint threw (auth, JWT, or
+  // unexpected runtime crash). Show actionable error + Retry. The rest
+  // of the admin (sidebar nav, other pages) remains usable.
+  if (topLevelError && !data) {
+    const e = topLevelError;
+    return (
+      <div className="p-6 sm:p-8" data-testid="cockpit-fatal">
+        <header className="mb-4">
+          <div className="text-xs uppercase tracking-widest text-white/40">Dashboard</div>
+          <h1 className="font-display text-3xl text-white mt-1">SEO Mission Control</h1>
+        </header>
+        <Card className="border-red-500/40 bg-red-500/5">
+          <div className="flex items-start gap-3">
+            <AlertOctagon size={20} className="text-red-300 mt-0.5" />
+            <div className="flex-1">
+              <div className="text-red-200 font-medium" data-testid="cockpit-fatal-message">
+                Cockpit data could not load
+              </div>
+              <div className="text-white/80 text-sm mt-2">{e.message}</div>
+              <div className="text-white/40 text-xs mt-2 font-mono">
+                {e.code && <>code: <span className="text-white/60">{e.code}</span> · </>}
+                {e.requestId && <>request_id: <span className="text-white/60">{e.requestId}</span> · </>}
+                {e.endpoint && <>endpoint: <span className="text-white/60">{e.endpoint}</span> · </>}
+                {e.status && <>http: <span className="text-white/60">{e.status}</span></>}
+              </div>
+              <div className="flex gap-2 mt-4">
+                <Button variant="primary" size="sm" onClick={() => void load(true)} data-testid="cockpit-fatal-retry">
+                  <RefreshCw size={14} /> Retry
+                </Button>
+                <Link to="/admin-tools/seo-autopilot">
+                  <Button variant="secondary" size="sm" data-testid="cockpit-fatal-autopilot">Open SEO Autopilot</Button>
+                </Link>
+                <Link to="/admin-tools/ai-drafts">
+                  <Button variant="ghost" size="sm" data-testid="cockpit-fatal-drafts">Open AI Draft Inbox</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!data) return null;
 
   return (
     <div className="p-6 sm:p-8 space-y-6" data-testid="cockpit-page">
+      {/* Header */}
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <div className="text-xs uppercase tracking-widest text-white/40">Dashboard</div>
-          <h1 className="font-display text-3xl text-white mt-1">SEO Cockpit</h1>
-          <p className="text-white/60 text-sm mt-1">Real-time health across every page. Drafts are <strong>not live</strong>; only Published + robotsIndex pages appear in the sitemap.</p>
+          <div className="text-xs uppercase tracking-widest text-white/40 flex items-center gap-2">
+            <Activity size={11}/> SEO Mission Control
+          </div>
+          <h1 className="font-display text-3xl text-white mt-1">Dashboard</h1>
+          <p className="text-white/55 text-sm mt-1">
+            Live status across pages, blog, AI Draft Inbox and SEO Autopilot.
+            Drafts stay unpublished until you click <strong>Publish to GitHub</strong>.
+          </p>
         </div>
-        <Button variant="secondary" onClick={load} data-testid="cockpit-refresh"><RefreshCw size={14}/> Refresh</Button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="text-xs text-white/40">
+            updated {new Date(data.generated_at).toLocaleTimeString()}
+            <span className="ml-2 font-mono text-white/30">{data.request_id}</span>
+          </div>
+          <Button variant="secondary" size="sm" onClick={() => void load(false)} disabled={refreshing} data-testid="cockpit-refresh">
+            {refreshing ? <Loader2 size={14} className="animate-spin"/> : <RefreshCw size={14}/>} Refresh
+          </Button>
+        </div>
       </header>
 
-      {/* Top KPI tiles */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <StatTile testId="stat-total" label="Total" value={stats.totalPages}/>
-        <StatTile testId="stat-published" label="Published" value={stats.publishedPages} tone="success"/>
-        <StatTile testId="stat-draft" label="Drafts (not live)" value={stats.draftPages} tone="warning"/>
-        <StatTile testId="stat-noindex" label="Noindex" value={stats.noindexPages}/>
-        <StatTile testId="stat-sitemap" label="In sitemap" value={stats.pagesInSitemap} tone="info"/>
-        <StatTile testId="stat-money-score" label="Avg money score" value={`${stats.avgMoneyScore}`} tone={stats.avgMoneyScore >= 80 ? 'success' : 'warning'}/>
-      </div>
-
-      {/* AI Draft Inbox quick link */}
-      {(aiDraftsPending !== null || aiDraftsNeedsRevision !== null) && (
-        <Card data-testid="cockpit-ai-drafts-card" className={(aiDraftsPending ?? 0) > 0 ? 'border-brand-blue/40 bg-brand-blue/5' : ''}>
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-3">
-              <Inbox size={18} className="text-brand-cyan"/>
-              <div>
-                <div className="text-white/85 font-medium">AI Draft Inbox</div>
-                <div className="text-white/55 text-xs mt-0.5" data-testid="cockpit-ai-drafts-counts">
-                  {aiDraftsPending ?? 0} pending review · {aiDraftsNeedsRevision ?? 0} need revision
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              <Link to="/admin-tools/seo-autopilot" data-testid="cockpit-seo-autopilot-open">
-                <Button variant="primary" size="sm"><PlayCircle size={14}/> Запустить SEO Автопилот</Button>
-              </Link>
-              <Link to="/admin-tools/ai-drafts" data-testid="cockpit-ai-drafts-open">
-                <Button variant={(aiDraftsPending ?? 0) > 0 ? 'secondary' : 'ghost'} size="sm">Open inbox →</Button>
-              </Link>
-            </div>
-          </div>
-        </Card>
-      )}
-
-      {/* SEO Health — single-glance pass/fail across the most damaging
-          regressions we historically hit on gptbot.uz. Live probes run on
-          the Cloudflare zone via /api/audit (random URL 404, admin noindex,
-          sitemap XML, robots.txt, favicon, sample blog image). */}
-      <Card>
+      {/* ─── Next Best Actions ──────────────────────────────────────── */}
+      <Card data-testid="next-best-actions">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <h2 className="font-display text-lg text-white">SEO Health</h2>
-            {stats.live?.probedAt && (
-              <span className="text-xs text-white/40">last probe {new Date(stats.live.probedAt).toLocaleTimeString()}</span>
-            )}
+            <Zap size={16} className="text-brand-cyan"/>
+            <h2 className="font-display text-lg text-white">Next Best Actions</h2>
+            <span className="text-xs text-white/40">({nba.length})</span>
           </div>
-          <Button variant="secondary" size="sm" onClick={load} data-testid="seo-health-run"><RefreshCw size={14}/> Run SEO Health Check</Button>
+          {nba.length === 0 && (
+            <span className="text-emerald-300 text-xs inline-flex items-center gap-1">
+              <ShieldCheck size={12}/> Nothing urgent — admin is clean.
+            </span>
+          )}
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm" data-testid="seo-health-grid">
-          <HealthRow ok={(stats.live?.sitemap200Xml ?? true)} label="Sitemap 200 (XML)" detail={stats.live ? `${stats.pagesInSitemap + (stats.blogInSitemap ?? 0)} URLs · HTTP ${stats.live.sitemapStatus}` : `${stats.pagesInSitemap + (stats.blogInSitemap ?? 0)} URLs in sitemap`} />
-          <HealthRow ok={(stats.live?.robots200 ?? true)} label="Robots.txt 200" />
-          <HealthRow ok={(stats.live?.randomUrl404 ?? true)} label="Random URL → 404" detail={stats.live ? `HTTP ${stats.live.randomUrlStatus}` : undefined} />
-          <HealthRow ok={(stats.live?.adminNoindex ?? true)} label="/admin-tools/ noindex" detail={stats.live ? `HTTP ${stats.live.adminStatus}` : undefined} />
-          <HealthRow ok={(stats.live?.faviconLive ?? true)} label="Favicon live" />
-          <HealthRow ok={(stats.live?.sampleImageLive ?? true)} label="Sample image live" />
-          <HealthRow ok={stats.missingTitle === 0} label="Titles" detail={`${stats.missingTitle} missing`} />
-          <HealthRow ok={stats.missingDescription === 0} label="Descriptions" detail={`${stats.missingDescription} missing`} />
-          <HealthRow ok={stats.missingH1 === 0} label="H1" detail={`${stats.missingH1} missing`} />
-          <HealthRow ok={stats.duplicateTitle === 0} label="Duplicate titles" detail={`${stats.duplicateTitle} dup`} />
-          <HealthRow ok={stats.duplicateDescription === 0} label="Duplicate descriptions" detail={`${stats.duplicateDescription} dup`} />
-          <HealthRow ok={stats.missingCanonical === 0} label="Canonical" detail={`${stats.missingCanonical} missing`} />
-          <HealthRow ok={stats.ruUzPairsMissing === 0} label="RU↔UZ pairs" detail={`${stats.ruUzPairsOk} ok / ${stats.ruUzPairsMissing} missing`} />
-          <HealthRow ok={stats.missingJsonLd === 0} label="Schema (JSON-LD)" detail={`${stats.missingJsonLd} missing`} />
-          <HealthRow ok={(stats.mojibakePages ?? 0) === 0} label="Mojibake" detail={`${stats.mojibakePages ?? 0} pages`} />
-          <HealthRow ok={stats.brokenInternalLinks === 0} label="Internal links" detail={`${stats.brokenInternalLinks} broken`} />
-          <HealthRow ok={stats.orphanPages === 0} label="Orphan pages" detail={`${stats.orphanPages} orphan`} />
-          <HealthRow ok={(stats.blogMissingFaq ?? 0) === 0} label="Blog FAQ" detail={`${stats.publishedBlog ?? 0} blog · ${stats.blogMissingFaq ?? 0} need FAQ`} />
-        </div>
+        {nba.length === 0 ? (
+          <div className="text-white/50 text-sm" data-testid="nba-empty">
+            All SEO health checks pass and the Inbox is empty. Run SEO Autopilot to generate a fresh draft.
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {nba.map((a) => (
+              <div
+                key={a.id}
+                data-testid={`nba-${a.id}`}
+                className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition px-3 py-3"
+              >
+                <div className="mt-0.5">
+                  <Badge tone={riskTone(a.risk)}>{a.risk}</Badge>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white font-medium" data-testid={`nba-${a.id}-title`}>{a.title}</div>
+                  <div className="text-white/60 text-xs mt-1" data-testid={`nba-${a.id}-reason`}>{a.reason}</div>
+                  <div className="text-emerald-300/80 text-[11px] mt-1.5" data-testid={`nba-${a.id}-effect`}>
+                    <span className="text-white/40 mr-1">Expected effect:</span>
+                    {a.effect}
+                  </div>
+                </div>
+                <Link to={a.action_path} data-testid={`nba-${a.id}-action`}>
+                  <Button variant="secondary" size="sm">
+                    {a.action_label} <ChevronRight size={14}/>
+                  </Button>
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
       </Card>
 
-      {/* Mismatch warnings */}
-      {mismatches.length > 0 && (
-        <Card>
-          <div className="flex items-center gap-2 mb-3">
-            <AlertTriangle size={16} className="text-amber-300"/>
-            <h2 className="font-display text-lg text-white">Reality check ({mismatches.length})</h2>
-          </div>
-          <ul data-testid="cockpit-mismatches" className="space-y-2 text-sm">
-            {mismatches.map((m, i) => (
-              <li key={i} className={`flex items-start gap-2 ${m.level === 'error' ? 'text-red-300' : 'text-amber-300'}`}>
-                <span className="mt-0.5">{m.level === 'error' ? '✕' : '⚠'}</span>
-                <span className="flex-1">{m.message}</span>
-                {m.url && (
-                  <Link to={`/admin-tools/pages/${m.url.split('/')[1]}/${m.url.replace(/^\/(ru|uz)\//, '').replace(/\/$/, '')}`} className="text-white/60 hover:text-white text-xs underline">Fix →</Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </Card>
-      )}
-
-      {/* Problem counters */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <Card><div className="text-sm text-white/60">Missing fields</div>
-          <ul className="mt-3 text-sm space-y-1">
-            <li className="flex justify-between"><span>Title</span><span data-testid="miss-title" className="text-amber-300">{stats.missingTitle}</span></li>
-            <li className="flex justify-between"><span>Description</span><span className="text-amber-300">{stats.missingDescription}</span></li>
-            <li className="flex justify-between"><span>H1</span><span className="text-amber-300">{stats.missingH1}</span></li>
-            <li className="flex justify-between"><span>Canonical</span><span className="text-amber-300">{stats.missingCanonical}</span></li>
-            <li className="flex justify-between"><span>JSON-LD</span><span className="text-amber-300">{stats.missingJsonLd}</span></li>
-          </ul>
-        </Card>
-        <Card><div className="text-sm text-white/60">Duplicates & links</div>
-          <ul className="mt-3 text-sm space-y-1">
-            <li className="flex justify-between"><span>Duplicate titles</span><span className={stats.duplicateTitle ? 'text-red-300' : 'text-white/60'}>{stats.duplicateTitle}</span></li>
-            <li className="flex justify-between"><span>Duplicate descriptions</span><span className={stats.duplicateDescription ? 'text-red-300' : 'text-white/60'}>{stats.duplicateDescription}</span></li>
-            <li className="flex justify-between"><span>Orphan pages</span><span className="text-amber-300">{stats.orphanPages}</span></li>
-            <li className="flex justify-between"><span>Broken internal links</span><span className={stats.brokenInternalLinks ? 'text-red-300' : 'text-white/60'}>{stats.brokenInternalLinks}</span></li>
-            <li className="flex justify-between"><span>Missing FAQ</span><span className="text-amber-300">{stats.missingFaq}</span></li>
-          </ul>
-        </Card>
-        <Card><div className="text-sm text-white/60">RU / UZ pairing</div>
-          <ul className="mt-3 text-sm space-y-1">
-            <li className="flex justify-between"><span>OK pairs</span><span className="text-emerald-300">{stats.ruUzPairsOk}</span></li>
-            <li className="flex justify-between"><span>Missing pairs</span><span className="text-amber-300">{stats.ruUzPairsMissing}</span></li>
-            <li className="flex justify-between"><span>Missing hreflang field</span><span className="text-amber-300">{stats.missingHreflang}</span></li>
-            <li className="flex justify-between"><span>Missing OG</span><span className="text-amber-300">{stats.missingOg}</span></li>
-          </ul>
-        </Card>
+      {/* ─── KPI tiles ──────────────────────────────────────────────── */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        {audit?.ok && audit.data ? (
+          <>
+            <Kpi testId="kpi-published-pages" label="Published pages" value={audit.data.publishedPages} tone="success" to="/admin-tools/pages"/>
+            <Kpi testId="kpi-published-blog" label="Published blog" value={audit.data.publishedBlog ?? 0} tone="success" to="/admin-tools/blog"/>
+            <Kpi testId="kpi-in-sitemap" label="In sitemap" value={(audit.data.pagesInSitemap ?? 0) + (audit.data.blogInSitemap ?? 0)} tone="info"/>
+            <Kpi testId="kpi-orphan" label="Orphan pages" value={audit.data.orphanPages} tone={audit.data.orphanPages > 0 ? 'warning' : 'neutral'} to="/admin-tools/internal-links"/>
+            <Kpi testId="kpi-broken-links" label="Broken links" value={audit.data.brokenInternalLinks} tone={audit.data.brokenInternalLinks > 0 ? 'danger' : 'neutral'} to="/admin-tools/internal-links"/>
+            <Kpi testId="kpi-mojibake" label="Mojibake" value={audit.data.mojibakePages ?? 0} tone={(audit.data.mojibakePages ?? 0) > 0 ? 'danger' : 'neutral'} to="/admin-tools/pages"/>
+          </>
+        ) : (
+          <Kpi testId="kpi-audit-failed" label="Audit" value="—" tone="warning" hint="failed to load"/>
+        )}
       </div>
 
-      {/* Per-page table */}
-      <Card>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-display text-xl text-white">All pages</h2>
-          <Link to="/admin-tools/pages"><Button variant="ghost" size="sm">Manage →</Button></Link>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {drafts?.ok && drafts.data ? (
+          <>
+            <Kpi testId="kpi-pending-drafts" label="Pending drafts" value={drafts.data.pending_review} tone={drafts.data.pending_review > 0 ? 'info' : 'neutral'} to="/admin-tools/ai-drafts"/>
+            <Kpi testId="kpi-needs-revision" label="Needs revision" value={drafts.data.needs_revision} tone={drafts.data.needs_revision > 0 ? 'warning' : 'neutral'} to="/admin-tools/ai-drafts"/>
+          </>
+        ) : <Kpi testId="kpi-drafts-fail" label="Drafts" value="—" tone="warning"/>}
+        {ap?.ok && ap.data ? (
+          <>
+            <Kpi testId="kpi-autopilot-in-flight" label="Autopilot in flight" value={ap.data.in_flight} tone={ap.data.in_flight > 0 ? 'info' : 'neutral'} to="/admin-tools/seo-autopilot"/>
+            <Kpi testId="kpi-autopilot-failed" label="Autopilot failed" value={ap.data.failed} tone={ap.data.failed > 0 ? 'warning' : 'neutral'} to="/admin-tools/seo-autopilot"/>
+          </>
+        ) : <Kpi testId="kpi-autopilot-fail" label="Autopilot" value="—" tone="warning"/>}
+      </div>
+
+      {/* ─── Integration / Health strip ─────────────────────────────── */}
+      <Card data-testid="cockpit-health-strip">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <ListChecks size={16} className="text-brand-cyan"/>
+            <h2 className="font-display text-lg text-white">System health</h2>
+            {health?.data?.probedAt && (
+              <span className="text-xs text-white/40">probed {new Date(health.data.probedAt).toLocaleTimeString()}</span>
+            )}
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm" data-testid="cockpit-pages-table">
-            <thead>
-              <tr className="text-left text-white/40 border-b border-white/5">
-                <th className="py-2 px-2 font-medium">URL</th>
-                <th className="py-2 px-2 font-medium">Type</th>
-                <th className="py-2 px-2 font-medium">Status</th>
-                <th className="py-2 px-2 font-medium">Live</th>
-                <th className="py-2 px-2 font-medium">Sitemap</th>
-                <th className="py-2 px-2 font-medium">Score</th>
-                <th className="py-2 px-2 font-medium">Issues</th>
-                <th className="py-2 px-2 font-medium"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {stats.pages.map((p) => {
-                const full = fullPages.find((q) => q.url === p.url);
-                const isLive = full && full.status === 'published' && full.robotsIndex !== false;
-                const inSitemap = !!isLive;
-                const slug = p.url.replace(/^\/(ru|uz)\//, '').replace(/\/$/, '');
-                const errors = p.issues.filter((i) => i.level === 'error').length;
-                const warnings = p.issues.filter((i) => i.level === 'warning').length;
-                return (
-                  <tr key={p.url} className="border-b border-white/5 hover:bg-white/[0.02]">
-                    <td className="py-2 px-2"><Link to={`/admin-tools/pages/${p.locale}/${slug}`} className="text-brand-cyan hover:underline">{p.url}</Link></td>
-                    <td className="py-2 px-2 text-white/60">{p.pageType}</td>
-                    <td className="py-2 px-2">
-                      <Badge tone={p.status === 'published' ? 'success' : p.status === 'noindex' ? 'warning' : 'neutral'}>{p.status}</Badge>
-                    </td>
-                    <td className="py-2 px-2">
-                      {isLive ? <span className="text-emerald-300">● Live</span> : full?.status === 'noindex' ? <span className="text-amber-300">noindex</span> : <span className="text-white/40">— draft —</span>}
-                    </td>
-                    <td className="py-2 px-2 text-center">{inSitemap ? <span className="text-emerald-300">yes</span> : <span className="text-white/40">no</span>}</td>
-                    <td className="py-2 px-2"><ScoreBadge score={p.score}/></td>
-                    <td className="py-2 px-2 text-white/60">
-                      {errors > 0 && <span className="text-red-300 mr-2">{errors}E</span>}
-                      {warnings > 0 && <span className="text-amber-300">{warnings}W</span>}
-                      {p.issues.length === 0 && <span className="text-emerald-300 flex items-center gap-1"><CheckCircle2 size={14}/> all good</span>}
-                    </td>
-                    <td className="py-2 px-2">
-                      <div className="flex gap-2">
-                        <Link to={`/admin-tools/pages/${p.locale}/${slug}`} className="text-white/40 hover:text-white"><Pencil size={14}/></Link>
-                        {isLive && <a href={p.url} target="_blank" rel="noreferrer" className="text-white/40 hover:text-white"><Eye size={14}/></a>}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        {!health?.ok && health?.error && (
+          <SectionError section="health" error={health.error} onRetry={() => void load(false)} />
+        )}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-2" data-testid="health-grid">
+          <HealthRow ok={health?.data?.sitemap200Xml} label="Sitemap 200 (XML)" detail={health?.data ? `HTTP ${health.data.sitemapStatus}` : undefined} />
+          <HealthRow ok={health?.data?.robots200} label="Robots.txt 200" detail={health?.data ? `HTTP ${health.data.robotsStatus}` : undefined} />
+          <HealthRow ok={health?.data?.randomUrl404} label="Random URL → 404" detail={health?.data ? `HTTP ${health.data.randomUrlStatus}` : undefined} />
+          <HealthRow ok={health?.data?.adminNoindex} label="/admin-tools/ noindex" detail={health?.data ? `HTTP ${health.data.adminStatus}` : undefined} />
+          <HealthRow ok={health?.data?.faviconLive} label="Favicon" detail={health?.data ? `HTTP ${health.data.faviconStatus}` : undefined} />
+          <HealthRow ok={health?.data?.sampleImageLive} label="Sample blog image" detail={health?.data ? `HTTP ${health.data.sampleImageStatus}` : undefined} />
+          {audit?.data && (
+            <>
+              <HealthRow ok={(audit.data.missingTitle ?? 0) === 0} label="Titles complete" detail={`${audit.data.missingTitle} missing`} />
+              <HealthRow ok={(audit.data.missingDescription ?? 0) === 0} label="Descriptions complete" detail={`${audit.data.missingDescription} missing`} />
+              <HealthRow ok={(audit.data.duplicateTitle ?? 0) === 0} label="Unique titles" detail={`${audit.data.duplicateTitle} dup`} />
+              <HealthRow ok={(audit.data.ruUzPairsMissing ?? 0) === 0} label="RU↔UZ pairs" detail={`${audit.data.ruUzPairsOk}/${audit.data.ruUzPairsOk + audit.data.ruUzPairsMissing}`} />
+              <HealthRow ok={(audit.data.missingJsonLd ?? 0) === 0} label="JSON-LD schema" detail={`${audit.data.missingJsonLd} missing`} />
+              <HealthRow ok={(audit.data.missingFaq ?? 0) === 0} label="FAQ blocks" detail={`${audit.data.missingFaq} missing`} />
+            </>
+          )}
+        </div>
+        <div className="text-xs text-white/40 mt-4">
+          <strong className="text-white/60 font-normal">Integrations:</strong>{' '}
+          {integrationStrip.map((i, idx) => (
+            <span key={i.label} className="inline-flex items-center gap-1 mr-3">
+              <span className={`inline-block w-1.5 h-1.5 rounded-full ${i.ok ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+              {i.label}{idx < integrationStrip.length - 1 ? '' : ''}
+            </span>
+          ))}
         </div>
       </Card>
+
+      {/* ─── Drafts + Autopilot row ─────────────────────────────────── */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        <DraftsPanel section={drafts} onRetry={() => void load(false)} />
+        <AutopilotPanel section={ap} onRetry={() => void load(false)} />
+      </div>
+
+      {/* ─── Per-page table ─────────────────────────────────────────── */}
+      <Card data-testid="cockpit-pages-table-card">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <FileText size={16} className="text-brand-cyan"/>
+            <h2 className="font-display text-lg text-white">All pages</h2>
+          </div>
+          <Link to="/admin-tools/pages">
+            <Button variant="ghost" size="sm">Manage →</Button>
+          </Link>
+        </div>
+        {!audit?.ok && audit?.error ? (
+          <SectionError section="audit" error={audit.error} onRetry={() => void load(false)} />
+        ) : audit?.data?.pages.length === 0 ? (
+          <div className="text-white/50 text-sm">No pages yet.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm" data-testid="cockpit-pages-table">
+              <thead>
+                <tr className="text-left text-white/40 border-b border-white/5">
+                  <th className="py-2 px-2 font-medium">URL</th>
+                  <th className="py-2 px-2 font-medium">Type</th>
+                  <th className="py-2 px-2 font-medium">Status</th>
+                  <th className="py-2 px-2 font-medium">Score</th>
+                  <th className="py-2 px-2 font-medium">Issues</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(audit?.data?.pages || []).slice(0, 25).map((p) => {
+                  const errors = p.issues.filter((i) => i.level === 'error').length;
+                  const warnings = p.issues.filter((i) => i.level === 'warning').length;
+                  const slug = p.url.replace(/^\/(ru|uz)\//, '').replace(/\/$/, '');
+                  return (
+                    <tr key={p.url} className="border-b border-white/5 hover:bg-white/[0.02]" data-testid={`cockpit-row-${p.url}`}>
+                      <td className="py-2 px-2">
+                        <Link to={`/admin-tools/pages/${p.locale}/${slug}`} className="text-brand-cyan hover:underline">{p.url}</Link>
+                      </td>
+                      <td className="py-2 px-2 text-white/60">{p.pageType}</td>
+                      <td className="py-2 px-2">
+                        <Badge tone={p.status === 'published' ? 'success' : p.status === 'noindex' ? 'warning' : 'neutral'}>{p.status}</Badge>
+                      </td>
+                      <td className="py-2 px-2 font-mono text-white/70">{p.score}</td>
+                      <td className="py-2 px-2 text-white/60">
+                        {errors > 0 && <span className="text-red-300 mr-2">{errors}E</span>}
+                        {warnings > 0 && <span className="text-amber-300">{warnings}W</span>}
+                        {p.issues.length === 0 && <span className="text-emerald-300">✓</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            {audit?.data?.pages && audit.data.pages.length > 25 && (
+              <div className="text-white/40 text-xs mt-2">
+                Showing 25 of {audit.data.pages.length}. <Link to="/admin-tools/pages" className="text-brand-cyan hover:underline">Manage all →</Link>
+              </div>
+            )}
+          </div>
+        )}
+      </Card>
     </div>
+  );
+}
+
+// ─── Drafts panel ────────────────────────────────────────────────────
+
+function DraftsPanel({ section, onRetry }: { section?: CockpitSection<import('../../shared/cockpit').CockpitDrafts>; onRetry: () => void }) {
+  return (
+    <Card data-testid="cockpit-drafts-panel">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Inbox size={16} className="text-brand-cyan"/>
+          <h2 className="font-display text-lg text-white">AI Draft Inbox</h2>
+        </div>
+        <div className="flex gap-2">
+          <Link to="/admin-tools/seo-autopilot">
+            <Button variant="primary" size="sm" data-testid="drafts-panel-run-autopilot">
+              <PlayCircle size={14}/> Run SEO Autopilot
+            </Button>
+          </Link>
+          <Link to="/admin-tools/ai-drafts">
+            <Button variant="ghost" size="sm" data-testid="drafts-panel-open">Open inbox →</Button>
+          </Link>
+        </div>
+      </div>
+      {!section?.ok && section?.error ? (
+        <SectionError section="drafts" error={section.error} onRetry={onRetry} />
+      ) : section?.data ? (
+        <div className="space-y-3">
+          <div className="grid grid-cols-4 gap-2 text-center text-sm">
+            <div className="rounded-xl border border-brand-blue/30 bg-brand-blue/5 py-2" data-testid="drafts-panel-pending">
+              <div className="font-display text-xl text-white">{section.data.pending_review}</div>
+              <div className="text-white/55 text-[11px]">Pending</div>
+            </div>
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 py-2" data-testid="drafts-panel-needs-revision">
+              <div className="font-display text-xl text-white">{section.data.needs_revision}</div>
+              <div className="text-white/55 text-[11px]">Needs revision</div>
+            </div>
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 py-2" data-testid="drafts-panel-imported">
+              <div className="font-display text-xl text-white">{section.data.imported}</div>
+              <div className="text-white/55 text-[11px]">Imported</div>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/5 py-2" data-testid="drafts-panel-rejected">
+              <div className="font-display text-xl text-white">{section.data.rejected}</div>
+              <div className="text-white/55 text-[11px]">Rejected</div>
+            </div>
+          </div>
+          {section.data.last_pending_admin_url && section.data.last_pending_title && (
+            <Link
+              to={section.data.last_pending_admin_url}
+              className="block rounded-xl border border-brand-blue/30 bg-brand-blue/5 px-3 py-2 hover:bg-brand-blue/10 transition"
+              data-testid="drafts-panel-last-pending"
+            >
+              <div className="text-white/60 text-[11px] uppercase tracking-wide">Latest pending</div>
+              <div className="text-white font-medium text-sm mt-0.5 line-clamp-2">{section.data.last_pending_title}</div>
+              <div className="text-brand-cyan text-xs mt-1 inline-flex items-center gap-1">
+                Open draft <ChevronRight size={12}/>
+              </div>
+            </Link>
+          )}
+          {section.data.pending_review === 0 && section.data.needs_revision === 0 && (
+            <div className="text-white/40 text-xs text-center py-2" data-testid="drafts-panel-empty">
+              Inbox is empty. Click "Run SEO Autopilot" to generate a draft.
+            </div>
+          )}
+        </div>
+      ) : null}
+    </Card>
+  );
+}
+
+// ─── Autopilot panel ─────────────────────────────────────────────────
+
+function AutopilotPanel({ section, onRetry }: { section?: CockpitSection<import('../../shared/cockpit').CockpitAutopilot>; onRetry: () => void }) {
+  return (
+    <Card data-testid="cockpit-autopilot-panel">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <PlayCircle size={16} className="text-brand-cyan"/>
+          <h2 className="font-display text-lg text-white">SEO Autopilot</h2>
+        </div>
+        <Link to="/admin-tools/seo-autopilot">
+          <Button variant="ghost" size="sm" data-testid="autopilot-panel-open">Open →</Button>
+        </Link>
+      </div>
+      {!section?.ok && section?.error ? (
+        <SectionError section="autopilot" error={section.error} onRetry={onRetry} />
+      ) : section?.data ? (
+        <div className="space-y-3">
+          <div className="grid grid-cols-3 gap-2 text-center text-sm">
+            <div className="rounded-xl border border-brand-blue/30 bg-brand-blue/5 py-2" data-testid="autopilot-panel-in-flight">
+              <div className="font-display text-xl text-white">{section.data.in_flight}</div>
+              <div className="text-white/55 text-[11px]">In flight</div>
+            </div>
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 py-2" data-testid="autopilot-panel-completed">
+              <div className="font-display text-xl text-white">{section.data.completed}</div>
+              <div className="text-white/55 text-[11px]">Completed</div>
+            </div>
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 py-2" data-testid="autopilot-panel-failed">
+              <div className="font-display text-xl text-white">{section.data.failed}</div>
+              <div className="text-white/55 text-[11px]">Failed</div>
+            </div>
+          </div>
+          {section.data.last_completed && (
+            <Link
+              to={section.data.last_completed.admin_url || '/admin-tools/ai-drafts'}
+              className="block rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-3 py-2 hover:bg-emerald-500/10 transition"
+              data-testid="autopilot-panel-last-completed"
+            >
+              <div className="text-emerald-300 text-[11px] uppercase tracking-wide">Last successful run</div>
+              <div className="text-white text-sm mt-0.5 font-mono">{section.data.last_completed.draft_id || section.data.last_completed.id}</div>
+              <div className="text-white/55 text-[11px] mt-0.5">
+                {section.data.last_completed.finished_at && new Date(section.data.last_completed.finished_at).toLocaleString()}
+              </div>
+            </Link>
+          )}
+          {section.data.last_failed && (
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-2" data-testid="autopilot-panel-last-failed">
+              <div className="text-amber-300 text-[11px] uppercase tracking-wide">Last failed run</div>
+              <div className="text-white text-sm mt-0.5 break-words">
+                <code className="text-amber-200">{section.data.last_failed.error_code || 'error'}</code>:
+                {' '}
+                {section.data.last_failed.error_message?.slice(0, 110) || 'see job detail'}
+              </div>
+            </div>
+          )}
+          <div className="text-white/40 text-xs flex items-center gap-2 flex-wrap">
+            Schedule: <Badge tone={section.data.schedule_mode === 'disabled' ? 'neutral' : 'success'}>{section.data.schedule_mode.replace('_', ' ')}</Badge>
+            {section.data.stale_swept > 0 && (
+              <span className="text-amber-300" data-testid="autopilot-panel-stale-swept">
+                · auto-recovered {section.data.stale_swept} stale
+              </span>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </Card>
   );
 }

@@ -31,12 +31,32 @@ async function request<T>(method: string, path: string, body?: unknown, opts?: {
     if (res.status === 401) {
       setToken(null);
       window.location.assign('/admin-tools/login');
-      throw new Error('Session expired');
+      throw Object.assign(new Error('Session expired'), { code: 'UNAUTHENTICATED', requestId: res.headers.get('x-request-id') });
     }
     if (!res.ok) {
       let err = `${res.status}`;
-      try { const d = await res.json(); err = d.error || d.detail || d.error_message || err; } catch { /* ignore */ }
-      throw new Error(err);
+      let code: string | undefined;
+      let requestId = res.headers.get('x-request-id') || undefined;
+      let endpoint: string | undefined;
+      let retryable: boolean | undefined;
+      try {
+        const d = await res.json();
+        if (d?.error && typeof d.error === 'object') {
+          // Structured shape from withErrorHandler.
+          err = d.error.message || err;
+          code = d.error.code;
+          requestId = d.error.request_id || requestId;
+          endpoint = d.error.endpoint;
+          retryable = d.error.retryable;
+        } else {
+          err = d.error || d.detail || d.error_message || err;
+        }
+      } catch { /* ignore non-JSON */ }
+      const e = new Error(err) as Error & {
+        code?: string; requestId?: string; endpoint?: string; retryable?: boolean; status?: number;
+      };
+      e.code = code; e.requestId = requestId; e.endpoint = endpoint; e.retryable = retryable; e.status = res.status;
+      throw e;
     }
     return res.json() as Promise<T>;
   } finally {
@@ -54,6 +74,9 @@ export const api = {
   deleteContent: (kind: string, locale: string | undefined, slug: string | undefined, message?: string) =>
     request<{ ok: true }>('DELETE', '/api/content', { kind, locale, slug, message }),
   audit: () => request<any>('GET', '/api/audit'),
+  // SEO Mission Control aggregator — single call, partial-success per
+  // section so the cockpit renders even when one upstream is down.
+  cockpit: () => request<import('../../shared/cockpit').CockpitResponse>('GET', '/api/admin/cockpit'),
   publishToGitHub: (message?: string) => request<{ ok: true; committed: number; commitSha?: string }>('POST', '/api/content/publish-to-github', { message }),
   anchors: () => request<{ ru: string[]; uz: string[] }>('GET', '/api/seo/anchors'),
   aiFill: (payload: { primaryKeyword: string; locale: string; pageType: string; h1?: string }) =>
