@@ -315,8 +315,12 @@ export async function deleteDraft(env: Env, id: string, actor: string): Promise<
   const db = requireDb(env);
   const before = await getDraft(env, id);
   if (!before) return false;
-  // Append delete audit BEFORE removing rows so the audit table doesn't lose
-  // history thanks to ON DELETE CASCADE.
+  // Append a delete audit row first. The FK has ON DELETE CASCADE, so the
+  // history rows for this draft will be removed alongside the row — this
+  // is intentional: hard-delete is only allowed for non-imported drafts
+  // (the admin UI blocks delete otherwise), so the history matters less
+  // than keeping the table tidy. If you ever need a soft-delete instead,
+  // add a `deleted_at` column and drop the CASCADE.
   await appendAudit(env, id, 'delete', actor, {
     bundle_id: before.bundle_id,
     status: before.status,
