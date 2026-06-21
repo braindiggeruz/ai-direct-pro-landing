@@ -12,11 +12,11 @@ interface OpenRouterEnv extends Env {
   OPENROUTER_APP_TITLE?: string;
 }
 
-const DEFAULT_MODEL = 'anthropic/claude-sonnet-4.5';
-const FALLBACK_MODEL = 'openai/gpt-4o-mini';
-const MAX_OUTPUT_TOKENS = 6000;
+const DEFAULT_MODEL = 'openai/gpt-4o-mini';
+const FALLBACK_MODEL = 'openai/gpt-4o';
+const MAX_OUTPUT_TOKENS = 8000;
 const TEMPERATURE = 0.3;
-const TIMEOUT_MS = 90_000;
+const TIMEOUT_MS = 75_000;
 
 interface ChatResp {
   choices?: { message?: { content?: string } }[];
@@ -31,7 +31,7 @@ export interface LlmCallResult {
 }
 
 function pickModel(env: OpenRouterEnv): string {
-  return env.AI_OPTIMIZER_MODEL || env.OPENROUTER_MODEL_QUALITY || DEFAULT_MODEL;
+  return env.AI_OPTIMIZER_MODEL || DEFAULT_MODEL;
 }
 
 async function callOnce(
