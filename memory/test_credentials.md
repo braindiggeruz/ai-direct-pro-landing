@@ -35,13 +35,22 @@
 | `CRON_SECRET` | Generated server-side this session. Configured as `secret_text` env var on Cloudflare Pages production + preview, and as a GitHub Actions repository secret on `braindiggeruz/ai-direct-pro-landing`. |
 | `EXTERNAL_AUTOPILOT_TRIGGER_ENABLED` | `plain_text` env var, default `false`. Flip to `true` only if you must keep the legacy public bridge open. |
 
-## Token rotation
+## Token rotation (recommended after the 2026-06-21 production PASS)
 
-1. Generate a new value: `openssl rand -hex 32`.
-2. Update the Cloudflare Pages env var via the dashboard or the API:
-   `PATCH /accounts/.../pages/projects/ai-direct-pro-landing` with
-   `deployment_configs.production.env_vars.N8N_INGEST_TOKEN.value`.
-3. Retrigger a Pages deployment so the new secret takes effect.
-4. Update the `GPTBot Ingest Bearer` Header Auth credential in
-   https://braindigger.app.n8n.cloud → Credentials.
-5. The old token stops working as soon as the new Pages deployment is live.
+The Cloudflare full-access tokens and the GitHub PAT supplied during this run were used **only** via server-side environment variables — never echoed in chat, logs, commits, scripts, or screenshots. After the production end-to-end PASS (`draft_f88ade213e744f1c99397b` ingested, no auto-publish), the safe rotation order is:
+
+1. **GitHub PAT** (`braindiggeruz` → Developer settings → Personal access tokens → Tokens (classic) → Generate new token).
+   * New PAT scope: `repo` is enough; `workflow` only if you want it to keep dispatching the SEO Autopilot scheduler from the API.
+   * Update the Cloudflare Pages env var `GITHUB_TOKEN` with the new value, trigger a redeploy, then revoke the old PAT.
+2. **N8N_INGEST_TOKEN** (Cloudflare Pages → Settings → Environment variables).
+   * Generate: `openssl rand -hex 32`.
+   * Update the env var, redeploy, then update the `GPTBot Ingest Bearer` Header Auth credential on n8n in the same window so there's no gap.
+3. **N8N_WEBHOOK_SECRET** (the value the n8n `Validate Safety Rules` node expects).
+   * Coordinate with n8n: change the n8n side first (or simultaneously), then the Cloudflare env var. Run one SEO Autopilot afterwards to prove the new secret end-to-end.
+4. **CRON_SECRET** (also lives as a GitHub Actions repo secret on `braindiggeruz/ai-direct-pro-landing`).
+   * Generate, update Cloudflare Pages env, update GitHub Actions secret, run one workflow_dispatch to prove it.
+5. **Cloudflare API tokens** (the two `cfut_…` values supplied with this run).
+   * Once everything else is done, rotate these last. The CF dashboard lets you delete a token immediately after creating a replacement.
+6. **JWT_SECRET** and **ADMIN_PASSWORD_HASH**: do NOT rotate as part of this maintenance unless you also want every existing admin session invalidated. The owner password is OWNER-OWNED — this run did not change it.
+
+Do not include the new values in the PRD, commit messages, chat transcripts, or screenshots.
