@@ -8,14 +8,9 @@
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
-import {
-  constantTimeEqual,
-  DraftsDbMissingError,
-  insertOrReuseDraft,
-  listDrafts,
-} from '../../../lib/ai-drafts/store';
-import { validateIncomingBundle } from '../../../lib/ai-drafts/validators';
-import type { AiDraftIngestResponse, AiDraftStatus } from '../../../../src/shared/ai-drafts';
+import { constantTimeEqual, listDrafts } from '../../../lib/ai-drafts/store';
+import { ingestRawBundle } from '../../../lib/ai-drafts/ingest';
+import type { AiDraftStatus } from '../../../../src/shared/ai-drafts';
 
 const MAX_BODY_BYTES = 256 * 1024;
 
@@ -72,26 +67,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   let parsed: unknown;
   try { parsed = JSON.parse(raw); } catch { return json({ error: 'Invalid JSON body' }, 400); }
 
-  const result = validateIncomingBundle(parsed);
-  if (!result.ok || !result.bundle) {
-    return json({ error: 'Validation failed', issues: result.errors.slice(0, 50) }, 400);
-  }
-
-  try {
-    const { record, deduplicated } = await insertOrReuseDraft(env, result.bundle);
-    const body: AiDraftIngestResponse = {
-      success: true,
-      draft_id: record.id,
-      bundle_id: record.bundle_id,
-      status: record.status,
-      admin_url: `/admin-tools/ai-drafts/${record.id}`,
-      deduplicated,
-    };
-    return json(body, 200);
-  } catch (e) {
-    if (e instanceof DraftsDbMissingError) return json({ error: 'Draft storage not configured.' }, 503);
-    return json({ error: 'Failed to persist draft', detail: (e as Error).message }, 500);
-  }
+  const result = await ingestRawBundle(env, parsed);
+  if (!result.ok) return json(result.body, result.http);
+  return json(result.response, 200);
 };
 
 // -- GET = admin list (JWT auth) -------------------------------------------
