@@ -14,23 +14,34 @@ export function setToken(t: string | null): void {
   else localStorage.removeItem(TOKEN_KEY);
 }
 
-async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
+async function request<T>(method: string, path: string, body?: unknown, opts?: { timeoutMs?: number }): Promise<T> {
   const url = `${BASE}${path}`;
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   const token = getToken();
   if (token) headers.Authorization = `Bearer ${token}`;
-  const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
-  if (res.status === 401) {
-    setToken(null);
-    window.location.assign('/admin-tools/login');
-    throw new Error('Session expired');
+  let signal: AbortSignal | undefined;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  if (opts?.timeoutMs && opts.timeoutMs > 0) {
+    const ctrl = new AbortController();
+    signal = ctrl.signal;
+    timer = setTimeout(() => ctrl.abort(), opts.timeoutMs);
   }
-  if (!res.ok) {
-    let err = `${res.status}`;
-    try { const d = await res.json(); err = d.error || d.detail || err; } catch { /* ignore */ }
-    throw new Error(err);
+  try {
+    const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined, signal });
+    if (res.status === 401) {
+      setToken(null);
+      window.location.assign('/admin-tools/login');
+      throw new Error('Session expired');
+    }
+    if (!res.ok) {
+      let err = `${res.status}`;
+      try { const d = await res.json(); err = d.error || d.detail || d.error_message || err; } catch { /* ignore */ }
+      throw new Error(err);
+    }
+    return res.json() as Promise<T>;
+  } finally {
+    if (timer) clearTimeout(timer);
   }
-  return res.json() as Promise<T>;
 }
 
 export const api = {
@@ -130,27 +141,16 @@ export const api = {
     request<{ ok: boolean }>('DELETE', `/api/admin/ai-drafts/${encodeURIComponent(id)}`),
   // -- SEO Autopilot Control Center -----------------------------------------
   seoAutopilotLaunch: (overrides: Record<string, unknown> = {}) =>
-    request<{
-      success: boolean;
-      job_id: string;
-      run_id: string;
-      status: string;
-      status_url: string;
-      polling: { retry_after_seconds: number; max_polls: number; expected_completion_seconds: number };
-      source: string;
-      requested_by: string;
-      manual_approval_required: boolean;
-      ready_for_publish: boolean;
-    }>('POST', '/api/admin/seo-autopilot/run', overrides),
+    request<import('../../shared/seo-autopilot').AutopilotLaunchResult>(
+      'POST',
+      '/api/admin/seo-autopilot/run',
+      overrides,
+      { timeoutMs: 5 * 60 * 1000 }, // n8n full generation can take 1–4 min
+    ),
   seoAutopilotJobs: () =>
     request<{
       jobs: import('../../shared/seo-autopilot').AutopilotJobRow[];
-      system: {
-        n8n_webhook_secret_configured: boolean;
-        cron_secret_configured: boolean;
-        drafts_db_configured: boolean;
-        external_trigger_enabled: boolean;
-      };
+      system: import('../../shared/seo-autopilot').AutopilotSystemFlags;
     }>('GET', '/api/admin/seo-autopilot/jobs'),
   seoAutopilotJob: (id: string) =>
     request<import('../../shared/seo-autopilot').AutopilotJobDetail>(
