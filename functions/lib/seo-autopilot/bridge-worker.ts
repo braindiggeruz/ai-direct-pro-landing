@@ -79,7 +79,10 @@ export async function processN8nResponseInBackground(
     await updateJob(env, jobId, { status: 'normalising' });
     const norm = normaliseN8nResponse(n8nBody, { jobId, requestId: null });
     if (!norm.ok) {
-      await failJob(env, jobId, startedAt, 'n8n_response_invalid', norm.reason, norm.detail || null);
+      await failJob(env, jobId, startedAt, 'n8n_response_invalid', norm.reason, {
+        ...(norm.detail || {}),
+        n8n_excerpt: n8nRaw.slice(0, 4096),
+      });
       return;
     }
     await updateJob(env, jobId, {
@@ -95,6 +98,7 @@ export async function processN8nResponseInBackground(
     if (!ingest.ok) {
       await failJob(env, jobId, startedAt, 'ingest_validation_failed', ingest.body.error, {
         issues: ingest.body.issues || null,
+        n8n_excerpt: n8nRaw.slice(0, 6144),
       });
       return;
     }
