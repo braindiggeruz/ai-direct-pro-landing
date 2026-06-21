@@ -128,4 +128,44 @@ export const api = {
     ),
   aiDraftsDelete: (id: string) =>
     request<{ ok: boolean }>('DELETE', `/api/admin/ai-drafts/${encodeURIComponent(id)}`),
+  // -- SEO Autopilot Control Center -----------------------------------------
+  seoAutopilotLaunch: (overrides: Record<string, unknown> = {}) =>
+    request<{
+      success: boolean;
+      job_id: string;
+      run_id: string;
+      status: string;
+      status_url: string;
+      polling: { retry_after_seconds: number; max_polls: number; expected_completion_seconds: number };
+      source: string;
+      requested_by: string;
+      manual_approval_required: boolean;
+      ready_for_publish: boolean;
+    }>('POST', '/api/admin/seo-autopilot/run', overrides),
+  seoAutopilotJobs: () =>
+    request<{
+      jobs: import('../../shared/seo-autopilot').AutopilotJobRow[];
+      system: {
+        n8n_webhook_secret_configured: boolean;
+        cron_secret_configured: boolean;
+        drafts_db_configured: boolean;
+        external_trigger_enabled: boolean;
+      };
+    }>('GET', '/api/admin/seo-autopilot/jobs'),
+  seoAutopilotJob: (id: string) =>
+    request<import('../../shared/seo-autopilot').AutopilotJobDetail>(
+      'GET',
+      `/api/seo-autopilot/jobs/${encodeURIComponent(id)}`,
+    ),
+  seoAutopilotGetSchedule: () =>
+    request<{
+      schedule: { mode: 'disabled' | 'weekly' | 'twice_weekly'; active_days: number[]; updated_at?: string; updated_by?: string };
+      system: { n8n_webhook_secret_configured: boolean; cron_secret_configured: boolean; external_trigger_enabled: boolean; drafts_db_configured: boolean };
+    }>('GET', '/api/admin/seo-autopilot/schedule'),
+  seoAutopilotSetSchedule: (mode: 'disabled' | 'weekly' | 'twice_weekly') =>
+    request<{ schedule: { mode: string; active_days: number[]; updated_at?: string; updated_by?: string } }>(
+      'POST',
+      '/api/admin/seo-autopilot/schedule',
+      { mode },
+    ),
 };
