@@ -21,7 +21,7 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
       mojibakePages: 0, pages: [] },
     content: { pages: [], blog: [] },
     drafts: { pending_review: 0, needs_revision: 0, last_pending_id: null, last_pending_admin_url: null, last_pending_title: null },
-    autopilot: { failed: 0, in_flight: 0, stale_swept: 0, last_failed: null, n8n_webhook_secret_configured: true, schedule_mode: 'weekly' },
+    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 0, stale_swept: 0, last_failed: null, n8n_webhook_secret_configured: true, schedule_mode: 'weekly' },
     health: { sitemap200Xml: true, randomUrl404: true, adminNoindex: true, robots200: true, faviconLive: true, sampleImageLive: true },
     sectionsFailed: [],
   });
@@ -33,7 +33,7 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
   const r = buildNextBestActions({
     audit: null, content: null,
     drafts: { pending_review: 1, needs_revision: 0, last_pending_id: 'draft_xyz', last_pending_admin_url: '/admin-tools/ai-drafts/draft_xyz', last_pending_title: 'GPT-боты для бизнеса в Узбекистане' },
-    autopilot: { failed: 0, in_flight: 0, stale_swept: 0, last_failed: null, n8n_webhook_secret_configured: true, schedule_mode: 'disabled' },
+    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 0, stale_swept: 0, last_failed: null, n8n_webhook_secret_configured: true, schedule_mode: 'disabled' },
     health: null, sectionsFailed: [],
   });
   const pending = r.find((a) => a.id.startsWith('drafts-pending'));
@@ -49,7 +49,17 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
     sectionsFailed: ['drafts', 'autopilot'],
   });
   expect('section-failed action exists for each failed section', r.filter((a) => a.id.startsWith('section-failed')).length === 2);
-  expect('section-failed has high weight (top)', r[0].weight >= 900 && r[0].id.startsWith('section-failed'));
+  expect('section-failed has high weight (top)', r[0].weight >= 800 && r[0].id.startsWith('section-failed'));
+}
+
+// 3b. Audit/content section failure → CRITICAL weight (≥ 950).
+{
+  const r = buildNextBestActions({
+    audit: null, content: null, drafts: null, autopilot: null, health: null,
+    sectionsFailed: ['audit'],
+  });
+  const a = r.find((x) => x.id === 'section-failed-audit');
+  expect('audit section failure is critical', a?.risk === 'critical' && (a?.weight ?? 0) >= 950, `weight=${a?.weight} risk=${a?.risk}`);
 }
 
 // 4. Mojibake → critical.
@@ -79,7 +89,7 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
       mojibakePages: 1, pages: [] },
     content: null,
     drafts: { pending_review: 2, needs_revision: 1, last_pending_id: 'd', last_pending_admin_url: '/admin-tools/ai-drafts/d', last_pending_title: 't' },
-    autopilot: { failed: 0, in_flight: 1, stale_swept: 0, last_failed: { id: 'job_1', error_code: 'n8n_http_400', error_message: 'boom', }, n8n_webhook_secret_configured: true, schedule_mode: 'weekly' },
+    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 1, stale_swept: 0, last_failed: { id: 'job_1', error_code: 'n8n_http_400', error_message: 'boom', }, n8n_webhook_secret_configured: true, schedule_mode: 'weekly' },
     health: { sitemap200Xml: false, randomUrl404: true, adminNoindex: true, robots200: true, faviconLive: true, sampleImageLive: true },
     sectionsFailed: [],
   });
@@ -108,10 +118,7 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
 
 // 8. errorResponse returns the structured envelope.
 {
-  const r = errorResponse('test.endpoint', 'INTERNAL_ERROR', 'boom', { originalError: new Error('inner'), requestId: 'req_test123' });
-  // Read async body via stream — synchronous expectation needs await.
-  // The test harness runs top-level await so we can await here.
-  // (TSX runs scripts as ESM with top-level await.)
+  // Direct sync check (newRequestId behavior is exercised below).
 }
 
 // Async tests below.

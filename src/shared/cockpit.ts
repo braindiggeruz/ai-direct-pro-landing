@@ -43,10 +43,13 @@ export interface CockpitAutopilot {
   total: number;
   in_flight: number;
   completed: number;
-  failed: number;
+  active_failed: number;
+  failed_24h: number;
+  failed_total: number;
   stale_swept: number;
   last_completed: { id: string; draft_id: string | null; admin_url: string | null; finished_at: string | null } | null;
   last_failed: { id: string; error_code: string | null; error_message: string | null; created_at: string } | null;
+  last_run: { id: string; status: string; created_at: string } | null;
   schedule_mode: 'disabled' | 'weekly' | 'twice_weekly';
   n8n_webhook_secret_configured: boolean;
   cron_secret_configured: boolean;
@@ -62,6 +65,24 @@ export interface CockpitHealth {
   probedAt: string;
 }
 
+export interface CockpitGitHubHealth {
+  ok: boolean;
+  level: 'healthy' | 'limited' | 'failed' | 'not_configured';
+  owner: string;
+  repo: string;
+  branch: string;
+  details: {
+    token_present: boolean;
+    auth_ok: boolean | null;
+    repo_reachable: boolean | null;
+    branch_reachable: boolean | null;
+    content_readable: boolean | null;
+    sample_file: string | null;
+    sample_bytes: number | null;
+    error: string | null;
+  };
+}
+
 export interface CockpitResponse {
   success: true;
   request_id: string;
@@ -71,6 +92,7 @@ export interface CockpitResponse {
   drafts: CockpitSection<CockpitDrafts>;
   autopilot: CockpitSection<CockpitAutopilot>;
   health: CockpitSection<CockpitHealth>;
+  github_health: CockpitGitHubHealth;
   next_best_actions: NextBestAction[];
   system: {
     github_token_configured: boolean;
@@ -80,5 +102,6 @@ export interface CockpitResponse {
     serper_configured: boolean;
     openrouter_configured: boolean;
     gemini_configured: boolean;
+    github: { owner: string; repo: string; branch: string };
   };
 }
