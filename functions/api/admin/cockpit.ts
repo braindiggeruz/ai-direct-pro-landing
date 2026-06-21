@@ -24,7 +24,7 @@
 
 import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
-import { readContentBulk } from '../../lib/github';
+import { readContentBulk, checkGitHubHealth, type GitHubHealth, ghOwner, ghRepo, ghBranch } from '../../lib/github';
 import { buildCockpit } from '../../../src/shared/audit';
 import type { Page, BlogArticle, GlobalSEO, CockpitStats } from '../../../src/shared/types';
 import { markStaleJobsAsFailed } from '../../lib/seo-autopilot/jobs';
@@ -187,10 +187,16 @@ interface AutopilotSummary {
   total: number;
   in_flight: number;
   completed: number;
-  failed: number;
+  /** Active failure: most recent run is failed AND younger than 24h. */
+  active_failed: number;
+  /** Failures within the rolling 24h window (active + recent terminal). */
+  failed_24h: number;
+  /** All failures ever recorded. */
+  failed_total: number;
   stale_swept: number;
   last_completed: { id: string; draft_id: string | null; admin_url: string | null; finished_at: string | null } | null;
   last_failed: { id: string; error_code: string | null; error_message: string | null; created_at: string } | null;
+  last_run: { id: string; status: string; created_at: string } | null;
   schedule_mode: 'disabled' | 'weekly' | 'twice_weekly';
   n8n_webhook_secret_configured: boolean;
   cron_secret_configured: boolean;
@@ -205,12 +211,18 @@ async function loadAutopilotSummary(env: Env): Promise<AutopilotSummary> {
     .all<{ status: string; cnt: number }>();
   const tally: Record<string, number> = {};
   for (const row of counts.results || []) tally[row.status] = Number(row.cnt) || 0;
+  const failed24Row = await env.GPTBOT_DRAFTS_DB
+    .prepare(`SELECT COUNT(*) AS cnt FROM seo_autopilot_jobs WHERE status='failed' AND datetime(created_at) > datetime('now','-24 hours')`)
+    .first<{ cnt: number }>();
   const lastCompleted = await env.GPTBOT_DRAFTS_DB
     .prepare(`SELECT id, draft_id, admin_url, finished_at FROM seo_autopilot_jobs WHERE status='completed' AND draft_id IS NOT NULL ORDER BY finished_at DESC LIMIT 1`)
     .first<{ id: string; draft_id: string | null; admin_url: string | null; finished_at: string | null }>();
   const lastFailed = await env.GPTBOT_DRAFTS_DB
     .prepare(`SELECT id, error_code, error_message, created_at FROM seo_autopilot_jobs WHERE status='failed' ORDER BY created_at DESC LIMIT 1`)
     .first<{ id: string; error_code: string | null; error_message: string | null; created_at: string }>();
+  const lastRun = await env.GPTBOT_DRAFTS_DB
+    .prepare(`SELECT id, status, created_at FROM seo_autopilot_jobs ORDER BY created_at DESC LIMIT 1`)
+    .first<{ id: string; status: string; created_at: string }>();
   let scheduleMode: 'disabled' | 'weekly' | 'twice_weekly' = 'disabled';
   try {
     const setting = await env.GPTBOT_DRAFTS_DB
@@ -223,17 +235,29 @@ async function loadAutopilotSummary(env: Env): Promise<AutopilotSummary> {
     }
   } catch { /* default disabled */ }
   const inFlight = (tally.pending ?? 0) + (tally.forwarding ?? 0) + (tally.normalising ?? 0) + (tally.ingesting ?? 0);
+  // "Active failure" = the most recent run is a failed run AND it happened
+  // recently (within 24h). This is the count the operator cares about; a
+  // historical failure from a previous fix iteration must NOT inflate it.
+  const activeFailed =
+    lastRun?.status === 'failed'
+    && new Date(lastRun.created_at).getTime() > Date.now() - 24 * 60 * 60 * 1000
+      ? 1 : 0;
   return {
     total: Object.values(tally).reduce((a, b) => a + b, 0),
     in_flight: inFlight,
     completed: tally.completed ?? 0,
-    failed: tally.failed ?? 0,
+    active_failed: activeFailed,
+    failed_24h: Number(failed24Row?.cnt ?? 0),
+    failed_total: tally.failed ?? 0,
     stale_swept: staleSwept,
     last_completed: lastCompleted
       ? { id: lastCompleted.id, draft_id: lastCompleted.draft_id, admin_url: lastCompleted.admin_url, finished_at: lastCompleted.finished_at }
       : null,
     last_failed: lastFailed
       ? { id: lastFailed.id, error_code: lastFailed.error_code, error_message: lastFailed.error_message, created_at: lastFailed.created_at }
+      : null,
+    last_run: lastRun
+      ? { id: lastRun.id, status: lastRun.status, created_at: lastRun.created_at }
       : null,
     schedule_mode: scheduleMode,
     n8n_webhook_secret_configured: !!env.N8N_WEBHOOK_SECRET,
@@ -250,6 +274,7 @@ export interface CockpitResponse {
   drafts: Section<DraftsSummary>;
   autopilot: Section<AutopilotSummary>;
   health: Section<HealthProbe>;
+  github_health: GitHubHealth;
   next_best_actions: NextBestAction[];
   system: {
     github_token_configured: boolean;
@@ -259,6 +284,7 @@ export interface CockpitResponse {
     serper_configured: boolean;
     openrouter_configured: boolean;
     gemini_configured: boolean;
+    github: { owner: string; repo: string; branch: string };
   };
 }
 
@@ -268,11 +294,19 @@ export const onRequestGet = withErrorHandler('admin.cockpit', async ({ request, 
 
   const requestId = newRequestId();
   // Run every section in parallel; partial failures are reported per-section.
-  const [contentAudit, drafts, autopilot, health] = await Promise.all([
+  const [contentAudit, drafts, autopilot, health, githubHealth] = await Promise.all([
     timeit(() => loadContentAndAudit(env)),
     timeit(() => loadDraftsSummary(env)),
     timeit(() => loadAutopilotSummary(env)),
     timeit(() => runLiveProbes()),
+    // Functional GitHub probe — auth + repo + branch + read one real blob.
+    checkGitHubHealth(env).catch((e) => ({
+      ok: false, level: 'failed' as const,
+      owner: ghOwner(env), repo: ghRepo(env), branch: ghBranch(env),
+      details: { token_present: !!env.GITHUB_TOKEN, auth_ok: null, repo_reachable: null,
+                 branch_reachable: null, content_readable: null, sample_file: null,
+                 sample_bytes: null, error: (e as Error)?.message?.slice(0, 240) || 'probe failed' },
+    } as GitHubHealth)),
   ]);
 
   // Split the merged content+audit into two presented sections.
@@ -307,6 +341,7 @@ export const onRequestGet = withErrorHandler('admin.cockpit', async ({ request, 
     drafts,
     autopilot,
     health,
+    github_health: githubHealth,
     next_best_actions: next,
     system: {
       github_token_configured: !!env.GITHUB_TOKEN,
@@ -316,6 +351,7 @@ export const onRequestGet = withErrorHandler('admin.cockpit', async ({ request, 
       serper_configured: !!env.SERPER_API_KEY,
       openrouter_configured: !!env.OPENROUTER_API_KEY,
       gemini_configured: !!env.GEMINI_API_KEY,
+      github: { owner: ghOwner(env), repo: ghRepo(env), branch: ghBranch(env) },
     },
   };
 

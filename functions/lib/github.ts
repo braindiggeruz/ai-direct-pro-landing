@@ -4,6 +4,19 @@ import type { Env } from '../_types';
 
 const GH_API = 'https://api.github.com';
 
+// Sane defaults used when the corresponding env var was forgotten in the
+// Cloudflare Pages deployment config. This is exactly what hit production
+// on 2026-06-21: only GITHUB_TOKEN was set, GITHUB_OWNER/REPO/BRANCH were
+// missing, so every GitHub call went to /repos/undefined/undefined and
+// the cockpit went red. Defaults make the deploy self-healing.
+const DEFAULT_OWNER  = 'braindiggeruz';
+const DEFAULT_REPO   = 'ai-direct-pro-landing';
+const DEFAULT_BRANCH = 'main';
+
+export function ghOwner(env: Env): string  { return env.GITHUB_OWNER  || DEFAULT_OWNER; }
+export function ghRepo(env: Env): string   { return env.GITHUB_REPO   || DEFAULT_REPO; }
+export function ghBranch(env: Env): string { return env.GITHUB_BRANCH || DEFAULT_BRANCH; }
+
 function headers(env: Env): Record<string, string> {
   return {
     Authorization: `Bearer ${env.GITHUB_TOKEN}`,
@@ -14,7 +27,7 @@ function headers(env: Env): Record<string, string> {
 }
 
 export async function getFile(env: Env, filePath: string): Promise<{ content: string; sha: string } | null> {
-  const url = `${GH_API}/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${filePath}?ref=${env.GITHUB_BRANCH}`;
+  const url = `${GH_API}/repos/${ghOwner(env)}/${ghRepo(env)}/contents/${filePath}?ref=${ghBranch(env)}`;
   const res = await fetch(url, { headers: headers(env) });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GitHub getFile ${filePath} failed: ${res.status} ${await res.text()}`);
@@ -35,7 +48,7 @@ export async function getFile(env: Env, filePath: string): Promise<{ content: st
 }
 
 export async function listDir(env: Env, dirPath: string): Promise<string[]> {
-  const url = `${GH_API}/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${dirPath}?ref=${env.GITHUB_BRANCH}`;
+  const url = `${GH_API}/repos/${ghOwner(env)}/${ghRepo(env)}/contents/${dirPath}?ref=${ghBranch(env)}`;
   const res = await fetch(url, { headers: headers(env) });
   if (res.status === 404) return [];
   if (!res.ok) throw new Error(`GitHub listDir ${dirPath} failed: ${res.status}`);
@@ -53,7 +66,7 @@ export async function listDir(env: Env, dirPath: string): Promise<string[]> {
 
 export async function putFile(env: Env, filePath: string, content: string, message: string): Promise<void> {
   const existing = await getFile(env, filePath);
-  const url = `${GH_API}/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${filePath}`;
+  const url = `${GH_API}/repos/${ghOwner(env)}/${ghRepo(env)}/contents/${filePath}`;
   // CRITICAL: Encode content as UTF-8 bytes, then base64. Cloudflare runtime has btoa()
   // but it only works on Latin-1 strings. Using TextEncoder ensures Cyrillic /
   // Uzbek Latin characters survive the round-trip without mojibake.
@@ -64,7 +77,7 @@ export async function putFile(env: Env, filePath: string, content: string, messa
   const body = JSON.stringify({
     message,
     content: encoded,
-    branch: env.GITHUB_BRANCH,
+    branch: ghBranch(env),
     sha: existing?.sha,
   });
   const res = await fetch(url, { method: 'PUT', headers: { ...headers(env), 'Content-Type': 'application/json' }, body });
@@ -74,8 +87,8 @@ export async function putFile(env: Env, filePath: string, content: string, messa
 export async function deleteFile(env: Env, filePath: string, message: string): Promise<void> {
   const existing = await getFile(env, filePath);
   if (!existing) return;
-  const url = `${GH_API}/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${filePath}`;
-  const body = JSON.stringify({ message, sha: existing.sha, branch: env.GITHUB_BRANCH });
+  const url = `${GH_API}/repos/${ghOwner(env)}/${ghRepo(env)}/contents/${filePath}`;
+  const body = JSON.stringify({ message, sha: existing.sha, branch: ghBranch(env) });
   const res = await fetch(url, { method: 'DELETE', headers: { ...headers(env), 'Content-Type': 'application/json' }, body });
   if (!res.ok) throw new Error(`GitHub deleteFile ${filePath} failed: ${res.status} ${await res.text()}`);
 }
@@ -137,7 +150,7 @@ export async function readContentBulk(env: Env): Promise<Record<string, string>>
   const res = await fetch(`${GH_API}/graphql`, {
     method: 'POST',
     headers: { ...headers(env), 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, variables: { owner: env.GITHUB_OWNER, repo: env.GITHUB_REPO, expr: `${env.GITHUB_BRANCH}:content` } }),
+    body: JSON.stringify({ query, variables: { owner: ghOwner(env), repo: ghRepo(env), expr: `${ghBranch(env)}:content` } }),
   });
   if (!res.ok) throw new Error(`GitHub graphql failed: ${res.status} ${await res.text()}`);
   const data = await res.json() as { data?: { repository?: { object?: Tree } }; errors?: unknown[] };
@@ -145,4 +158,101 @@ export async function readContentBulk(env: Env): Promise<Record<string, string>>
   const out: Record<string, string> = {};
   flatten('content', data.data?.repository?.object?.entries, out);
   return out;
+}
+
+/**
+ * Functional health check used by /api/admin/cockpit health section.
+ *
+ * Performs a *real* round-trip: auth → repo → branch → read one blob.
+ * Catches every failure mode separately so the cockpit can report "limited"
+ * (token works, can list repo, but `content/global/site.json` is missing)
+ * vs. "down" (token rejected, repo unreachable, GraphQL errors).
+ */
+export interface GitHubHealth {
+  ok: boolean;
+  level: 'healthy' | 'limited' | 'failed' | 'not_configured';
+  owner: string;
+  repo: string;
+  branch: string;
+  details: {
+    token_present: boolean;
+    auth_ok: boolean | null;
+    repo_reachable: boolean | null;
+    branch_reachable: boolean | null;
+    content_readable: boolean | null;
+    sample_file: string | null;
+    sample_bytes: number | null;
+    error: string | null;
+  };
+}
+
+export async function checkGitHubHealth(env: Env): Promise<GitHubHealth> {
+  const owner = ghOwner(env);
+  const repo = ghRepo(env);
+  const branch = ghBranch(env);
+  const baseDetail = {
+    token_present: !!env.GITHUB_TOKEN,
+    auth_ok: null as boolean | null,
+    repo_reachable: null as boolean | null,
+    branch_reachable: null as boolean | null,
+    content_readable: null as boolean | null,
+    sample_file: null as string | null,
+    sample_bytes: null as number | null,
+    error: null as string | null,
+  };
+
+  if (!env.GITHUB_TOKEN) {
+    return { ok: false, level: 'not_configured', owner, repo, branch, details: baseDetail };
+  }
+
+  // Combined GraphQL: viewer → repository → ref → known blob, single subrequest.
+  const query = `query($owner:String!,$repo:String!,$expr:String!){
+    viewer { login }
+    repository(owner:$owner,name:$repo){
+      name
+      defaultBranchRef { name }
+      ref(qualifiedName:$expr){ name target { oid } }
+      object(expression:"HEAD:content/global/site.json"){ ... on Blob { byteSize } }
+    }
+  }`;
+  try {
+    const res = await fetch(`${GH_API}/graphql`, {
+      method: 'POST',
+      headers: { ...headers(env), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, variables: { owner, repo, expr: `refs/heads/${branch}` } }),
+    });
+    const detail = { ...baseDetail };
+    if (res.status === 401) {
+      detail.auth_ok = false;
+      detail.error = 'GitHub PAT rejected (401)';
+      return { ok: false, level: 'failed', owner, repo, branch, details: detail };
+    }
+    if (!res.ok) {
+      detail.error = `GitHub HTTP ${res.status}`;
+      return { ok: false, level: 'failed', owner, repo, branch, details: detail };
+    }
+    const body = await res.json() as {
+      data?: { viewer?: { login: string }; repository?: { name: string; defaultBranchRef?: { name: string }; ref?: { name: string }; object?: { byteSize?: number } } };
+      errors?: Array<{ message: string }>;
+    };
+    detail.auth_ok = !!body.data?.viewer?.login;
+    detail.repo_reachable = !!body.data?.repository?.name;
+    detail.branch_reachable = !!body.data?.repository?.ref?.name;
+    detail.content_readable = (body.data?.repository?.object?.byteSize ?? 0) > 0;
+    detail.sample_file = 'content/global/site.json';
+    detail.sample_bytes = body.data?.repository?.object?.byteSize ?? null;
+    if (body.errors?.length) {
+      detail.error = body.errors.map((e) => e.message).join('; ').slice(0, 240);
+    }
+    if (!detail.auth_ok) return { ok: false, level: 'failed', owner, repo, branch, details: detail };
+    if (!detail.repo_reachable) return { ok: false, level: 'failed', owner, repo, branch, details: detail };
+    if (!detail.branch_reachable) return { ok: false, level: 'limited', owner, repo, branch, details: detail };
+    if (!detail.content_readable) return { ok: false, level: 'limited', owner, repo, branch, details: detail };
+    return { ok: true, level: 'healthy', owner, repo, branch, details: detail };
+  } catch (e) {
+    return {
+      ok: false, level: 'failed', owner, repo, branch,
+      details: { ...baseDetail, error: (e as Error)?.message?.slice(0, 240) || 'fetch failed' },
+    };
+  }
 }

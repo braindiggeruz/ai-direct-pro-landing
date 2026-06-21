@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { AlertOctagon, RefreshCw } from 'lucide-react';
+import { ru } from '../i18n/ru';
 
 interface State { error: Error | null; info: string | null; key: number }
 
@@ -40,10 +41,10 @@ export class AdminErrorBoundary extends React.Component<
           <div className="max-w-xl w-full bg-bg-surface border border-red-500/40 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-3">
               <AlertOctagon size={20} className="text-red-300" />
-              <h1 className="font-display text-xl">Что-то сломалось в админке</h1>
+              <h1 className="font-display text-xl">{ru.boundary.title}</h1>
             </div>
             <p className="text-white/80 text-sm mb-3">
-              SPA поймал необработанное исключение. Остальная часть сайта продолжает работать — пострадал только этот экран.
+              {ru.boundary.description}
             </p>
             <div className="rounded-xl border border-white/10 bg-bg-base p-3 mb-4">
               <div className="text-red-300 text-xs font-mono break-words" data-testid="admin-error-boundary-message">
@@ -51,7 +52,7 @@ export class AdminErrorBoundary extends React.Component<
               </div>
               {this.state.info && (
                 <details className="mt-2">
-                  <summary className="text-white/40 text-xs cursor-pointer hover:text-white/70">technical detail</summary>
+                  <summary className="text-white/40 text-xs cursor-pointer hover:text-white/70">{ru.boundary.detail}</summary>
                   <pre className="text-white/50 text-[10px] mt-1 whitespace-pre-wrap">{this.state.info}</pre>
                 </details>
               )}
@@ -62,14 +63,14 @@ export class AdminErrorBoundary extends React.Component<
                 onClick={this.retry}
                 data-testid="admin-error-boundary-retry"
               >
-                <RefreshCw size={14} /> Try again
+                <RefreshCw size={14} /> {ru.boundary.try_again}
               </button>
               <a
                 href="/admin-tools"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-white hover:bg-white/10 transition"
                 data-testid="admin-error-boundary-home"
               >
-                Back to Cockpit
+                {ru.boundary.back_home}
               </a>
             </div>
           </div>
