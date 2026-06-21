@@ -329,6 +329,84 @@ export async function deleteDraft(env: Env, id: string, actor: string): Promise<
   return true;
 }
 
+/**
+ * Replace a single locale article on an existing draft.
+ *
+ * Hard rules (non-negotiable, defence in depth):
+ *   • Status stays pending_review (never auto-publish).
+ *   • ru_imported_at / uz_imported_at / imported_at are NOT touched.
+ *   • bundle_id, schema_version, source are NOT touched.
+ *   • The previous article body and validation are snapshotted into the
+ *     existing `ai_draft_audit` table BEFORE the UPDATE runs — this is the
+ *     existing audit trail; we do not introduce a new revisions table.
+ *
+ * Returns the refreshed record, or null when the draft does not exist.
+ */
+export async function replaceDraftArticle(
+  env: Env,
+  id: string,
+  locale: 'ru' | 'uz',
+  next: AiDraftArticle,
+  validation: { passed: boolean; issues: Array<{ level?: string; rule?: string; message?: string; field?: string }> },
+  actor: string,
+  meta: Record<string, unknown>,
+): Promise<AiDraftRecord | null> {
+  const db = requireDb(env);
+  const before = await getDraft(env, id);
+  if (!before) return null;
+  if (locale === 'ru' && !before.has_ru) throw new Error('Draft does not contain a RU article');
+  if (locale === 'uz' && !before.has_uz) throw new Error('Draft does not contain a UZ article');
+
+  const now = nowIso();
+  const prevArticle = locale === 'ru' ? before.ru_article : before.uz_article;
+
+  // Snapshot the previous version + new validation into the audit trail.
+  await appendAudit(env, id, 'ai_optimize', actor, {
+    ...meta,
+    locale,
+    bundle_id: before.bundle_id,
+    previous_article: prevArticle,
+    previous_validation: before.validation,
+    new_validation: validation,
+  });
+
+  // Refresh primary_title from the new article when we just updated RU
+  // (RU is canonical for the inbox preview). Re-derive validation counters
+  // from the merged set so the list view stays accurate.
+  const ruNext = locale === 'ru' ? next : before.ru_article;
+  const uzNext = locale === 'uz' ? next : before.uz_article;
+  const primary = ruNext || uzNext!;
+
+  await db
+    .prepare(
+      `UPDATE ai_drafts SET
+        ru_article_json = ?,
+        uz_article_json = ?,
+        validation_json = ?,
+        validation_passed = ?,
+        validation_issue_count = ?,
+        primary_title = ?,
+        primary_slug = ?,
+        status = CASE WHEN status IN ('rejected','imported') THEN status ELSE 'pending_review' END,
+        updated_at = ?
+       WHERE id = ?`,
+    )
+    .bind(
+      ruNext ? JSON.stringify(ruNext) : null,
+      uzNext ? JSON.stringify(uzNext) : null,
+      JSON.stringify(validation),
+      validation.passed ? 1 : 0,
+      validation.issues.length,
+      primary.meta_title,
+      primary.slug,
+      now,
+      id,
+    )
+    .run();
+
+  return getDraft(env, id);
+}
+
 /** Constant-time string compare to defeat timing oracles. */
 export function constantTimeEqual(a: string, b: string): boolean {
   if (typeof a !== 'string' || typeof b !== 'string') return false;

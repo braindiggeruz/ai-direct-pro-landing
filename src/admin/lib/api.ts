@@ -162,6 +162,37 @@ export const api = {
     ),
   aiDraftsDelete: (id: string) =>
     request<{ ok: boolean }>('DELETE', `/api/admin/ai-drafts/${encodeURIComponent(id)}`),
+  // Optimize a single locale of an AI draft via OpenRouter. Returns a
+  // preview only — the operator must call aiDraftsApplyOptimization to save.
+  aiDraftsOptimize: (id: string, locale: 'ru' | 'uz') =>
+    request<{
+      ok: true;
+      locale: 'ru' | 'uz';
+      model: string;
+      original: import('../../shared/ai-drafts').AiDraftArticle;
+      optimized_article: import('../../shared/ai-drafts').AiDraftArticle;
+      changes: string[];
+      kept: string[];
+      validation_before: { passed: boolean; issues: { path: string; message: string }[] };
+      validation_after:  { passed: boolean; issues: { path: string; message: string }[] };
+      warnings: string[];
+    }>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/optimize`,
+      { locale },
+      { timeoutMs: 2 * 60 * 1000 }, // OpenRouter calls can take 30-90s
+    ),
+  aiDraftsApplyOptimization: (
+    id: string,
+    locale: 'ru' | 'uz',
+    optimized_article: import('../../shared/ai-drafts').AiDraftArticle,
+    model?: string,
+  ) =>
+    request<{ ok: true; draft: import('../../shared/ai-drafts').AiDraftRecord }>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/apply-optimization`,
+      { locale, optimized_article, model },
+    ),
   // -- SEO Autopilot Control Center -----------------------------------------
   seoAutopilotLaunch: (overrides: Record<string, unknown> = {}) =>
     request<import('../../shared/seo-autopilot').AutopilotLaunchResult>(
