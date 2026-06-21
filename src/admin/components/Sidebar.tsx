@@ -1,9 +1,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle } from 'lucide-react';
 import { setToken } from '../lib/api';
 
 const items = [
   { to: '/admin-tools/', label: 'Cockpit', icon: LayoutDashboard, end: true, testId: 'nav-cockpit' },
+  { to: '/admin-tools/seo-autopilot', label: 'SEO Autopilot', icon: PlayCircle, testId: 'nav-seo-autopilot' },
   { to: '/admin-tools/pages', label: 'Pages', icon: FileText, testId: 'nav-pages' },
   { to: '/admin-tools/blog', label: 'Blog', icon: BookOpen, testId: 'nav-blog' },
   { to: '/admin-tools/ai-drafts', label: 'AI Draft Inbox', icon: Inbox, testId: 'nav-ai-drafts' },

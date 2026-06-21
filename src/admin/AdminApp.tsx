@@ -12,6 +12,7 @@ import Redirects from './pages/Redirects';
 import Settings from './pages/Settings';
 import AiDraftsList from './pages/AiDraftsList';
 import AiDraftDetail from './pages/AiDraftDetail';
+import SeoAutopilotControlCenter from './pages/SeoAutopilotControlCenter';
 import { Sidebar } from './components/Sidebar';
 import { api, getToken } from './lib/api';
 
@@ -59,6 +60,7 @@ export default function AdminApp() {
       <Route path="blog/:locale/:slug" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
       <Route path="ai-drafts" element={<RequireAuth><Shell><AiDraftsList/></Shell></RequireAuth>} />
       <Route path="ai-drafts/:id" element={<RequireAuth><Shell><AiDraftDetail/></Shell></RequireAuth>} />
+      <Route path="seo-autopilot" element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
       <Route path="internal-links" element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
       <Route path="seo-booster" element={<RequireAuth><Shell><SeoBooster/></Shell></RequireAuth>} />
       <Route path="redirects" element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />

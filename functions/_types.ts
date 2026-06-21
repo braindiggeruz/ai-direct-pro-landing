@@ -51,4 +51,16 @@ export interface Env {
   // D1 database that stores incoming drafts pending human review.
   // See /app/migrations/0001_ai_drafts.sql for the schema.
   GPTBOT_DRAFTS_DB?: D1Database;
+  // Server-side secret the bridge attaches as `x-runable-secret` when
+  // calling the existing n8n production webhook. Set this to the same value
+  // the n8n `Validate Safety Rules` node expects.
+  N8N_WEBHOOK_SECRET?: string;
+  // Bearer for the GitHub Actions cron worker. Authenticates
+  // /api/internal/seo-autopilot/scheduled-run.
+  CRON_SECRET?: string;
+  // Feature flag — when "true" the public Runable-compatible bridge
+  // POST /api/seo-autopilot/run remains callable. Default and recommended
+  // value is "false" since the GPTBot Control Center now drives runs
+  // server-to-server.
+  EXTERNAL_AUTOPILOT_TRIGGER_ENABLED?: string;
 }

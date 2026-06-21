@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { api } from '../lib/api';
 import { Card, StatTile, ScoreBadge, Badge, Button } from '../components/ui';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, CheckCircle2, RefreshCw, Eye, Pencil, XCircle, Inbox } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, RefreshCw, Eye, Pencil, XCircle, Inbox, PlayCircle } from 'lucide-react';
 
 function HealthRow({ ok, label, detail }: { ok: boolean; label: string; detail?: string }) {
   return (
@@ -151,9 +151,14 @@ export default function Cockpit() {
                 </div>
               </div>
             </div>
-            <Link to="/admin-tools/ai-drafts" data-testid="cockpit-ai-drafts-open">
-              <Button variant={(aiDraftsPending ?? 0) > 0 ? 'primary' : 'secondary'} size="sm">Open inbox →</Button>
-            </Link>
+            <div className="flex gap-2 flex-wrap">
+              <Link to="/admin-tools/seo-autopilot" data-testid="cockpit-seo-autopilot-open">
+                <Button variant="primary" size="sm"><PlayCircle size={14}/> Запустить SEO Автопилот</Button>
+              </Link>
+              <Link to="/admin-tools/ai-drafts" data-testid="cockpit-ai-drafts-open">
+                <Button variant={(aiDraftsPending ?? 0) > 0 ? 'secondary' : 'ghost'} size="sm">Open inbox →</Button>
+              </Link>
+            </div>
           </div>
         </Card>
       )}
