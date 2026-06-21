@@ -198,6 +198,95 @@ function expect(name: string, cond: boolean, detail?: string): void {
   expect('execution_id sanitised in bundle_id', r.ok && r.bundle.bundle_id === 'n8n-bridge-hasspaceweirdchars');
 }
 
+// 14. body_blocks type alias "paragraph" → "p" (real n8n output).
+{
+  const r = normaliseN8nResponse({
+    ru_article: makeRuArticle({ body_blocks: [
+      { type: 'paragraph', text: 'AI-бот реально автоматизирует ответы клиентам.' },
+      { type: 'heading_2', text: 'Возможности' },
+      { type: 'bullet_list', items: ['ответы 24/7', 'crm-интеграция'] },
+    ] }),
+    validation: { passed: true, issues: [] },
+  }, { jobId: 'job_block_alias', requestId: null });
+  if (r.ok) {
+    const a = r.bundle.articles[0] as Record<string, unknown>;
+    const blocks = a.body_blocks as Array<{ type: string }>;
+    expect('paragraph → p', blocks[0].type === 'p', JSON.stringify(blocks[0]));
+    expect('heading_2 → h2', blocks[1].type === 'h2', JSON.stringify(blocks[1]));
+    expect('bullet_list → list', blocks[2].type === 'list', JSON.stringify(blocks[2]));
+    // Round-trip through strict validator now passes.
+    const v = validateIncomingBundle(r.bundle);
+    expect('normalised paragraph blocks pass strict validator', v.ok, (v.errors || []).map((e) => `${e.path}:${e.message}`).join('; '));
+  } else {
+    expect('paragraph alias normalisation ok', false);
+  }
+}
+
+// 15. FAQ alias {question, answer} → {q, a}.
+{
+  const r = normaliseN8nResponse({
+    ru_article: makeRuArticle({ faq: [
+      { question: 'Сколько стоит?', answer: 'От 3 000 000 сум.' },
+      { Q: 'Как быстро?', A: 'За неделю.' },
+    ] }),
+    validation: { passed: true, issues: [] },
+  }, { jobId: 'job_faq_alias', requestId: null });
+  if (r.ok) {
+    const a = r.bundle.articles[0] as Record<string, unknown>;
+    const faq = a.faq as Array<{ q: string; a: string }>;
+    expect('question/answer → q/a', faq[0].q === 'Сколько стоит?' && faq[0].a === 'От 3 000 000 сум.', JSON.stringify(faq[0]));
+    expect('Q/A → q/a', faq[1].q === 'Как быстро?' && faq[1].a === 'За неделю.', JSON.stringify(faq[1]));
+    const v = validateIncomingBundle(r.bundle);
+    expect('normalised faq passes strict validator', v.ok, (v.errors || []).map((e) => `${e.path}:${e.message}`).join('; '));
+  } else {
+    expect('faq alias normalisation ok', false);
+  }
+}
+
+// 16. Internal links alias {url, anchor} / {href, label} / {link, text} → {target, anchor}.
+{
+  const r = normaliseN8nResponse({
+    ru_article: makeRuArticle({ internal_links: [
+      { url: '/ru/ai-bot-dlya-horeca/', anchor: 'HoReCa' },
+      { href: '/ru/ai-bot-instagram/', label: 'Instagram bot' },
+      { link: '/ru/ai-bot-telegram/', text: 'Telegram bot' },
+      'https://gptbot.uz/ru/ai-bot-dlya-klinik/',
+    ] }),
+    validation: { passed: true, issues: [] },
+  }, { jobId: 'job_link_alias', requestId: null });
+  if (r.ok) {
+    const a = r.bundle.articles[0] as Record<string, unknown>;
+    const links = a.internal_links as Array<{ target: string; anchor: string }>;
+    expect('url/anchor → target/anchor', links[0].target === '/ru/ai-bot-dlya-horeca/' && links[0].anchor === 'HoReCa', JSON.stringify(links[0]));
+    expect('href/label → target/anchor', links[1].target === '/ru/ai-bot-instagram/' && links[1].anchor === 'Instagram bot', JSON.stringify(links[1]));
+    expect('link/text → target/anchor', links[2].target === '/ru/ai-bot-telegram/' && links[2].anchor === 'Telegram bot', JSON.stringify(links[2]));
+    expect('absolute gptbot.uz URL → relative', links[3].target === '/ru/ai-bot-dlya-klinik/', JSON.stringify(links[3]));
+    const v = validateIncomingBundle(r.bundle);
+    expect('normalised links pass strict validator', v.ok, (v.errors || []).map((e) => `${e.path}:${e.message}`).join('; '));
+  } else {
+    expect('link alias normalisation ok', false);
+  }
+}
+
+// 17. target_money_page absolute URL → relative, and locale-rescoping.
+{
+  const r = normaliseN8nResponse({
+    ru_article: makeRuArticle({ target_money_page: 'https://gptbot.uz/services' }),
+    uz_article: makeUzArticle({ target_money_page: 'https://gptbot.uz/services' }),
+    validation: { passed: true, issues: [] },
+  }, { jobId: 'job_mp', requestId: null });
+  if (r.ok) {
+    const ru = r.bundle.articles[0] as Record<string, unknown>;
+    const uz = r.bundle.articles[1] as Record<string, unknown>;
+    expect('RU money_page rescoped under /ru/', ru.target_money_page === '/ru/services', String(ru.target_money_page));
+    expect('UZ money_page rescoped under /uz/', uz.target_money_page === '/uz/services', String(uz.target_money_page));
+    const v = validateIncomingBundle(r.bundle);
+    expect('rescoped money_page passes strict validator', v.ok, (v.errors || []).map((e) => `${e.path}:${e.message}`).join('; '));
+  } else {
+    expect('money_page rescoping ok', false);
+  }
+}
+
 // ---- report ----------------------------------------------------------------
 let fail = 0;
 for (const r of results) {

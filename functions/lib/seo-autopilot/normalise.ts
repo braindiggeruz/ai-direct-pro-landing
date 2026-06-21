@@ -1,24 +1,33 @@
 // Normalises the n8n SEO Autopilot Respond Success response into the
 // gptbot.article-draft.v1 ingestion contract.
 //
-// n8n today returns approximately:
+// n8n returns approximately:
 //   {
-//     "status": "ok" | "manual_approval_required" | ...,
+//     "status": "ready_for_manual_approval" | "manual_approval_required" | "ok",
 //     "manual_approval_required": true,
 //     "ready_for_publish": false,
-//     "ru_article":   { slug, meta_title, meta_description, h1, excerpt, body_blocks, faq, internal_links, ... },
-//     "uz_article":   { ...same shape, locale=uz },
+//     "ru_article":   { slug, meta_title, meta_description, h1, excerpt,
+//                       body_blocks: [{type, text|...}],
+//                       faq: [{q|question, a|answer}],
+//                       internal_links: [{target|url|href, anchor|text|label}],
+//                       target_money_page: "https://gptbot.uz/services" | "/ru/...",
+//                       ... },
+//     "uz_article":   { ... },
 //     "seo_brief":    { ... },
 //     "validation":   { passed: boolean, issues: [...] },
 //     "execution_id": "<n8n execution id>"
 //   }
 //
-// The exact field names vary slightly across SEO Autopilot iterations
-// (`ru_article` vs `article_ru`, `body_blocks` vs `body`, etc.) — we accept
-// both and let the downstream validator enforce the strict contract.
+// Each field has multiple naming conventions across SEO Autopilot
+// iterations — this module translates them to the canonical names the
+// strict validator (`functions/lib/ai-drafts/validators.ts`) accepts.
+// The validator itself stays strict; the normaliser only renames /
+// rescopes safe inputs.
 
 import type { AiDraftBundle } from '../../../src/shared/ai-drafts';
 import { AI_DRAFT_SCHEMA_VERSION } from '../../../src/shared/ai-drafts';
+
+const SITE_ORIGIN = 'https://gptbot.uz';
 
 function isObj(x: unknown): x is Record<string, unknown> {
   return !!x && typeof x === 'object' && !Array.isArray(x);
@@ -34,6 +43,132 @@ function pickArticle(payload: Record<string, unknown>, primary: string, ...alias
   return null;
 }
 
+// "paragraph" → "p", "heading_2"/"h_2"/"H2" → "h2", "bullet_list" → "list", etc.
+const BODY_TYPE_ALIASES: Record<string, string> = {
+  paragraph: 'p',
+  para: 'p',
+  text: 'p',
+  heading: 'h2',
+  heading_2: 'h2',
+  heading2: 'h2',
+  h_2: 'h2',
+  H2: 'h2',
+  heading_3: 'h3',
+  heading3: 'h3',
+  h_3: 'h3',
+  H3: 'h3',
+  bullet_list: 'list',
+  bulletlist: 'list',
+  ul: 'list',
+  ol: 'list',
+  unordered_list: 'list',
+  ordered_list: 'list',
+  call_to_action: 'cta',
+  callout: 'cta',
+  blockquote: 'quote',
+  img: 'image',
+};
+
+function normaliseBlockType(rawType: unknown): string {
+  const t = typeof rawType === 'string' ? rawType.trim() : '';
+  if (!t) return '';
+  const lower = t.toLowerCase();
+  return BODY_TYPE_ALIASES[t] || BODY_TYPE_ALIASES[lower] || lower;
+}
+
+function normaliseBodyBlocks(raw: unknown): unknown[] {
+  const list = Array.isArray(raw) ? raw : [];
+  return list.map((b) => {
+    if (!isObj(b)) return b;
+    const out: Record<string, unknown> = { ...b };
+    const t = normaliseBlockType(b.type);
+    if (t) out.type = t;
+    // Some n8n flows embed the body text under "content" instead of "text".
+    if (typeof out.text !== 'string') {
+      const alt = (b as Record<string, unknown>).content ?? (b as Record<string, unknown>).body;
+      if (typeof alt === 'string') out.text = alt;
+    }
+    // Items may arrive as `points`, `bullets`, or `entries`.
+    if (!Array.isArray(out.items)) {
+      const alt = (b as Record<string, unknown>).points
+        ?? (b as Record<string, unknown>).bullets
+        ?? (b as Record<string, unknown>).entries;
+      if (Array.isArray(alt)) out.items = alt;
+    }
+    // CTA might use `url`/`link` for href.
+    if (typeof out.href !== 'string') {
+      const alt = (b as Record<string, unknown>).url ?? (b as Record<string, unknown>).link;
+      if (typeof alt === 'string') out.href = alt;
+    }
+    return out;
+  });
+}
+
+function normaliseFaq(raw: unknown): unknown[] {
+  const list = Array.isArray(raw) ? raw : [];
+  return list.map((item) => {
+    if (!isObj(item)) return item;
+    // Accept {q, a}, {question, answer}, {Q, A}, {q_text, a_text}.
+    const q = asStr(item.q) || asStr((item as Record<string, unknown>).question) || asStr((item as Record<string, unknown>).Q) || asStr((item as Record<string, unknown>).q_text) || asStr((item as Record<string, unknown>).query);
+    const a = asStr(item.a) || asStr((item as Record<string, unknown>).answer) || asStr((item as Record<string, unknown>).A) || asStr((item as Record<string, unknown>).a_text) || asStr((item as Record<string, unknown>).response);
+    return q || a ? { q, a } : item;
+  });
+}
+
+function stripSiteOrigin(value: string): string {
+  if (!value) return value;
+  if (value.startsWith(SITE_ORIGIN)) return value.slice(SITE_ORIGIN.length) || '/';
+  // Tolerate http or www variants.
+  const m = value.match(/^https?:\/\/(?:www\.)?gptbot\.uz(\/.*)?$/i);
+  if (m) return m[1] || '/';
+  return value;
+}
+
+function normaliseInternalLinks(raw: unknown, locale: 'ru' | 'uz'): unknown[] {
+  const list = Array.isArray(raw) ? raw : [];
+  return list.map((item) => {
+    if (typeof item === 'string') {
+      const target = stripSiteOrigin(item.trim());
+      return { target, anchor: target, locale, type: 'contextual' };
+    }
+    if (!isObj(item)) return item;
+    // Accept {target,anchor}, {url,anchor}, {href,anchor}, {link,label},
+    // {url,text}, {target,text}, {href,label}.
+    const rawTarget =
+      asStr(item.target) ||
+      asStr((item as Record<string, unknown>).url) ||
+      asStr((item as Record<string, unknown>).href) ||
+      asStr((item as Record<string, unknown>).link) ||
+      asStr((item as Record<string, unknown>).to);
+    const anchor =
+      asStr(item.anchor) ||
+      asStr((item as Record<string, unknown>).text) ||
+      asStr((item as Record<string, unknown>).label) ||
+      asStr((item as Record<string, unknown>).title);
+    const target = rawTarget ? stripSiteOrigin(rawTarget) : '';
+    if (!target && !anchor) return item;
+    return {
+      target,
+      anchor: anchor || target,
+      locale,
+      type: typeof item.type === 'string' ? item.type : 'contextual',
+    };
+  });
+}
+
+function normaliseMoneyPage(raw: unknown, locale: 'ru' | 'uz'): string {
+  const s = asStr(raw);
+  if (!s) return s;
+  const rel = stripSiteOrigin(s);
+  // If it ended up at `/services` or any other locale-agnostic root,
+  // scope it under the article's locale so the validator's locale-tree
+  // rule still passes.
+  if (rel.startsWith('/') && !rel.startsWith(`/${locale}/`) && !rel.startsWith('/ru/') && !rel.startsWith('/uz/')) {
+    return `/${locale}${rel}`;
+  }
+  return rel;
+}
+
 function normaliseArticle(raw: Record<string, unknown>, locale: 'ru' | 'uz'): Record<string, unknown> {
   // Pass-through with name normalisation so the validator sees consistent keys.
   return {
@@ -44,13 +179,22 @@ function normaliseArticle(raw: Record<string, unknown>, locale: 'ru' | 'uz'): Re
     h1:                asStr(raw.h1),
     excerpt:           asStr(raw.excerpt) || asStr(raw.intro),
     target_keyword:    asStr(raw.target_keyword) || asStr((raw as { primary_keyword?: unknown }).primary_keyword),
-    target_money_page: asStr(raw.target_money_page) || asStr((raw as { money_page?: unknown }).money_page),
+    target_money_page: normaliseMoneyPage(raw.target_money_page || (raw as { money_page?: unknown }).money_page, locale),
     author:            asStr(raw.author) || 'GPTBot',
-    body_blocks:       Array.isArray(raw.body_blocks) ? raw.body_blocks
-                       : (Array.isArray(raw.body) ? raw.body : []),
-    faq:               Array.isArray(raw.faq) ? raw.faq : [],
-    internal_links:    Array.isArray(raw.internal_links) ? raw.internal_links
-                       : (Array.isArray((raw as { internalLinks?: unknown }).internalLinks) ? (raw as { internalLinks: unknown[] }).internalLinks : []),
+    body_blocks:       normaliseBodyBlocks(
+                         Array.isArray(raw.body_blocks) ? raw.body_blocks
+                         : (Array.isArray(raw.body) ? raw.body : []),
+                       ),
+    faq:               normaliseFaq(Array.isArray(raw.faq) ? raw.faq : (Array.isArray((raw as { faqs?: unknown }).faqs) ? (raw as { faqs: unknown[] }).faqs : [])),
+    internal_links:    normaliseInternalLinks(
+                         Array.isArray(raw.internal_links) ? raw.internal_links
+                         : (Array.isArray((raw as { internalLinks?: unknown }).internalLinks)
+                             ? (raw as { internalLinks: unknown[] }).internalLinks
+                             : (Array.isArray((raw as { links?: unknown }).links)
+                                 ? (raw as { links: unknown[] }).links
+                                 : [])),
+                         locale,
+                       ),
     schemas:           Array.isArray(raw.schemas) ? raw.schemas : ['Article', 'FAQPage', 'BreadcrumbList'],
     keywords:          Array.isArray(raw.keywords) ? raw.keywords : [],
     og_title:          asStr((raw as { og_title?: unknown }).og_title) || asStr((raw as { ogTitle?: unknown }).ogTitle),
