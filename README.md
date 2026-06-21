@@ -52,3 +52,4 @@ Outputs to `dist/`. Deploy with `wrangler pages deploy dist --project-name=ai-di
 | `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` | optional | enables captcha on login |
 | `OPENROUTER_API_KEY` | optional | enables AI-fill in editor (OpenRouter, server-side only) |
 | KV binding `LOGIN_ATTEMPTS` | optional | durable brute-force lockout |
+<!-- redeploy after N8N_WEBHOOK_SECRET update -->
