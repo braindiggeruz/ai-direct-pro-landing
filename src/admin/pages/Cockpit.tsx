@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { api } from '../lib/api';
 import { Card, StatTile, ScoreBadge, Badge, Button } from '../components/ui';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, CheckCircle2, RefreshCw, Eye, Pencil, XCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, RefreshCw, Eye, Pencil, XCircle, Inbox } from 'lucide-react';
 
 function HealthRow({ ok, label, detail }: { ok: boolean; label: string; detail?: string }) {
   return (
@@ -82,6 +82,8 @@ function buildMismatches(stats: Stats, fullPages: any[]): Mismatch[] {
 export default function Cockpit() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [fullPages, setFullPages] = useState<any[]>([]);
+  const [aiDraftsPending, setAiDraftsPending] = useState<number | null>(null);
+  const [aiDraftsNeedsRevision, setAiDraftsNeedsRevision] = useState<number | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -91,6 +93,18 @@ export default function Cockpit() {
       const [a, c] = await Promise.all([api.audit(), api.getContent()]);
       setStats(a as Stats);
       setFullPages(c.pages || []);
+      // AI Draft Inbox stats (best-effort, never blocks the cockpit).
+      try {
+        const [pending, needsRev] = await Promise.all([
+          api.aiDraftsList({ status: 'pending_review', limit: 1000 }),
+          api.aiDraftsList({ status: 'needs_revision', limit: 1000 }),
+        ]);
+        setAiDraftsPending((pending.drafts || []).length);
+        setAiDraftsNeedsRevision((needsRev.drafts || []).length);
+      } catch {
+        setAiDraftsPending(null);
+        setAiDraftsNeedsRevision(null);
+      }
     } catch (e) { setErr((e as Error).message); }
     setLoading(false);
   };
@@ -123,6 +137,26 @@ export default function Cockpit() {
         <StatTile testId="stat-sitemap" label="In sitemap" value={stats.pagesInSitemap} tone="info"/>
         <StatTile testId="stat-money-score" label="Avg money score" value={`${stats.avgMoneyScore}`} tone={stats.avgMoneyScore >= 80 ? 'success' : 'warning'}/>
       </div>
+
+      {/* AI Draft Inbox quick link */}
+      {(aiDraftsPending !== null || aiDraftsNeedsRevision !== null) && (
+        <Card data-testid="cockpit-ai-drafts-card" className={(aiDraftsPending ?? 0) > 0 ? 'border-brand-blue/40 bg-brand-blue/5' : ''}>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-3">
+              <Inbox size={18} className="text-brand-cyan"/>
+              <div>
+                <div className="text-white/85 font-medium">AI Draft Inbox</div>
+                <div className="text-white/55 text-xs mt-0.5" data-testid="cockpit-ai-drafts-counts">
+                  {aiDraftsPending ?? 0} pending review · {aiDraftsNeedsRevision ?? 0} need revision
+                </div>
+              </div>
+            </div>
+            <Link to="/admin-tools/ai-drafts" data-testid="cockpit-ai-drafts-open">
+              <Button variant={(aiDraftsPending ?? 0) > 0 ? 'primary' : 'secondary'} size="sm">Open inbox →</Button>
+            </Link>
+          </div>
+        </Card>
+      )}
 
       {/* SEO Health — single-glance pass/fail across the most damaging
           regressions we historically hit on gptbot.uz. Live probes run on

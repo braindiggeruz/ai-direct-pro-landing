@@ -2,16 +2,18 @@
 // Mirrors src/admin/pages/PageEditor.tsx patterns (FAQ, body blocks, internal
 // links editors are inlined here on purpose so PageEditor stays untouched).
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Label, ScoreBadge, Select, Textarea } from '../components/ui';
 import { SerpPreview } from '../components/SerpPreview';
 import { AiDraftBanner } from '../components/AiDraftBanner';
 import { useAiDraftBridge } from '../hooks/useAiDraftBridge';
-import { Save, Trash2, ExternalLink, Plus, X, ChevronLeft, Upload, Copy } from 'lucide-react';
+import { Save, Trash2, ExternalLink, Plus, X, ChevronLeft, Upload, Copy, Sparkles } from 'lucide-react';
 import type { BlogArticle, Page, FaqItem, BodyBlock, InternalLink as InternalLinkT, SchemaType, Locale } from '../../shared/types';
 import { detectMojibake } from '../../shared/audit';
 import { SITE_URL } from '../../shared/site-config';
+import { clearAiDraftHandoff, readAiDraftHandoff } from '../lib/aiDraftImport';
+import type { AiDraftArticle } from '../../shared/ai-drafts';
 
 const EMPTY: Partial<BlogArticle> = {
   status: 'draft',
@@ -95,10 +97,49 @@ function auditBlog(a: BlogArticle, others: BlogArticle[], moneyPages: Page[]): {
 }
 
 // ============================================================================
+function articleFromAiDraft(d: AiDraftArticle, suggestedSlug?: string): BlogArticle {
+  // Use suggestedSlug if provided (it comes from the inbox URL), otherwise
+  // use the slug from the AI draft. Either way, the reviewer can still
+  // change the slug in the editor before saving.
+  const slug = (suggestedSlug || d.slug || '').replace(/[^a-z0-9-]/g, '').toLowerCase();
+  const url = slug ? `/${d.locale}/blog/${slug}/` : '';
+  return {
+    status: 'draft',
+    locale: d.locale,
+    slug,
+    url,
+    title: d.meta_title || '',
+    description: d.meta_description || '',
+    h1: d.h1 || '',
+    intro: d.excerpt || '',
+    targetMoneyPage: d.target_money_page || '',
+    topicCluster: d.target_keyword || '',
+    keywords: Array.isArray(d.keywords) && d.keywords.length ? d.keywords : (d.target_keyword ? [d.target_keyword] : []),
+    body: Array.isArray(d.body_blocks) ? d.body_blocks : [],
+    faq: Array.isArray(d.faq) ? d.faq : [],
+    internalLinks: Array.isArray(d.internal_links) ? d.internal_links : [],
+    ogTitle: d.og_title || '',
+    ogDescription: d.og_description || '',
+    ogImage: d.og_image || '',
+    canonical: slug ? `${SITE_URL}/${d.locale}/blog/${slug}/` : '',
+    robotsIndex: true,
+    robotsFollow: true,
+    author: d.author || 'GPTBot',
+    schemaTypes: (d.schemas && d.schemas.length > 0 ? d.schemas : ['Article', 'FAQPage', 'BreadcrumbList']) as SchemaType[],
+  };
+}
+
 export default function BlogEditor() {
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const nav = useNavigate();
   const isNew = !params.locale || !params.slug;
+
+  // AI Draft handoff (from /admin-tools/ai-drafts → here).
+  const aiDraftImportId = searchParams.get('aiDraftImport');
+  const aiDraftLocaleParam = searchParams.get('aiDraftLocale');
+  const aiDraftSuggestedSlug = searchParams.get('aiDraftSlug') || undefined;
+  const aiDraftLocale: 'ru' | 'uz' | null = aiDraftLocaleParam === 'ru' || aiDraftLocaleParam === 'uz' ? aiDraftLocaleParam : null;
 
   const [allArticles, setAllArticles] = useState<BlogArticle[]>([]);
   const [moneyPages, setMoneyPages] = useState<Page[]>([]);
@@ -107,12 +148,42 @@ export default function BlogEditor() {
   const [loaded, setLoaded] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  // AI draft import banner state — separate from useAiDraftBridge (that hook
+  // is for the existing per-field SEO Booster patches, which never apply to
+  // brand-new articles).
+  const [aiDraftImported, setAiDraftImported] = useState<null | { draftId: string; locale: 'ru' | 'uz'; conflict?: string }>(null);
 
   useEffect(() => {
     void (async () => {
       const c = await api.getContent();
       setAllArticles((c.blog || []) as BlogArticle[]);
       setMoneyPages((c.pages || []) as Page[]);
+
+      // AI Draft Inbox handoff — only applies to /admin-tools/blog/new?aiDraftImport=...
+      if (isNew && aiDraftImportId && aiDraftLocale) {
+        const handoff = readAiDraftHandoff(aiDraftImportId, aiDraftLocale);
+        if (handoff) {
+          const draft = articleFromAiDraft(handoff.article, aiDraftSuggestedSlug);
+          // Detect a duplicate slug in the same locale.
+          const dup = (c.blog || []).find((x: BlogArticle) => x.locale === draft.locale && x.slug === draft.slug);
+          setA(draft);
+          setAiDraftImported({
+            draftId: aiDraftImportId,
+            locale: aiDraftLocale,
+            conflict: dup
+              ? `An article with locale=${draft.locale} and slug=${draft.slug} already exists ("${dup.title}"). Change the slug before saving to avoid silently overwriting it.`
+              : undefined,
+          });
+          // Keep the handoff in sessionStorage until the user saves or
+          // clears, so an accidental reload doesn't wipe the data.
+        } else {
+          setErr(`AI draft handoff missing for ${aiDraftImportId}/${aiDraftLocale}. Open the inbox and click Import again.`);
+          setA({ ...(EMPTY as BlogArticle), locale: aiDraftLocale });
+        }
+        setLoaded(true);
+        return;
+      }
+
       if (!isNew) {
         const found = (c.blog || []).find((x: BlogArticle) => x.locale === params.locale && x.slug === params.slug);
         if (found) setA(found);
@@ -122,7 +193,7 @@ export default function BlogEditor() {
       }
       setLoaded(true);
     })();
-  }, [params.locale, params.slug, isNew]);
+  }, [params.locale, params.slug, isNew, aiDraftImportId, aiDraftLocale, aiDraftSuggestedSlug]);
 
   // auto-sync url + canonical when slug/locale change in NEW mode
   useEffect(() => {
@@ -178,6 +249,14 @@ export default function BlogEditor() {
         `chore(blog): ${newStatus || toSave.status} ${toSave.locale}/${toSave.slug} via admin`);
       setA(toSave);
       setToast(newStatus === 'published' ? 'Published & committed' : 'Saved');
+      // After a successful save, the AI-draft handoff is no longer needed.
+      if (aiDraftImported) {
+        clearAiDraftHandoff(aiDraftImported.draftId, aiDraftImported.locale);
+        const next = new URLSearchParams(searchParams);
+        next.delete('aiDraftImport'); next.delete('aiDraftLocale'); next.delete('aiDraftSlug');
+        setSearchParams(next, { replace: true });
+        setAiDraftImported(null);
+      }
       if (isNew) nav(`/admin-tools/blog/${toSave.locale}/${toSave.slug}`, { replace: true });
     } catch (e) {
       setErr((e as Error).message);
@@ -239,6 +318,38 @@ export default function BlogEditor() {
 
       {err && <Card className="border-red-500/30 bg-red-500/5"><div className="text-red-300 text-sm" data-testid="blog-error">{err}</div></Card>}
       {toast && <Card className="border-emerald-500/30 bg-emerald-500/5"><div className="text-emerald-300 text-sm" data-testid="blog-toast">{toast}</div></Card>}
+
+      {aiDraftImported && (
+        <Card className="border-brand-blue/40 bg-brand-blue/10" data-testid="ai-draft-import-banner">
+          <div className="flex items-start gap-3 flex-wrap">
+            <Sparkles size={18} className="text-brand-cyan mt-0.5"/>
+            <div className="min-w-0 flex-1">
+              <div className="text-white font-medium">
+                Imported <span className="text-brand-cyan">{aiDraftImported.locale.toUpperCase()}</span> from AI Draft Inbox.
+                Review and click <strong>Save draft</strong>. Nothing is published yet.
+              </div>
+              <div className="text-white/60 text-xs mt-1">
+                Source draft: <code className="text-white/80">{aiDraftImported.draftId}</code>
+              </div>
+              {aiDraftImported.conflict && (
+                <div className="text-amber-200 text-sm mt-2 flex items-start gap-1.5" data-testid="ai-draft-slug-conflict">
+                  ⚠ {aiDraftImported.conflict}
+                </div>
+              )}
+            </div>
+            <Button size="sm" variant="ghost" data-testid="ai-draft-import-clear" onClick={() => {
+              if (!aiDraftImported) return;
+              clearAiDraftHandoff(aiDraftImported.draftId, aiDraftImported.locale);
+              const next = new URLSearchParams(searchParams);
+              next.delete('aiDraftImport'); next.delete('aiDraftLocale'); next.delete('aiDraftSlug');
+              setSearchParams(next, { replace: true });
+              setAiDraftImported(null);
+            }}>
+              <X size={14}/> Clear
+            </Button>
+          </div>
+        </Card>
+      )}
 
       <AiDraftBanner state={aiDraft} onApply={applyAiDraft} />
 

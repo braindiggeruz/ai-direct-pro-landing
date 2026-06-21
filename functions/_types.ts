@@ -44,4 +44,11 @@ export interface Env {
   GEMINI_API_KEY?: string;
   SERPER_API_KEY?: string;
   LOGIN_ATTEMPTS?: KVNamespace;
+  // AI Draft Inbox — n8n SEO Autopilot delivers RU/UZ article packages here.
+  // The shared secret bearer the n8n HTTP node must send in Authorization.
+  // Server-only. NEVER referenced from the SPA bundle.
+  N8N_INGEST_TOKEN?: string;
+  // D1 database that stores incoming drafts pending human review.
+  // See /app/migrations/0001_ai_drafts.sql for the schema.
+  GPTBOT_DRAFTS_DB?: D1Database;
 }

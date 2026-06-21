@@ -96,4 +96,36 @@ export const api = {
     request<import('../../shared/serp').SerperBatchResult>('POST', '/api/seo/serper/batch', req),
   serperLogs: () =>
     request<{ runs: import('../../shared/serp').SerpRunLog[] }>('GET', '/api/seo/serper/logs'),
+  // AI Draft Inbox — n8n SEO Autopilot delivers RU/UZ bundles into D1.
+  aiDraftsList: (filters: { status?: string; locale?: string; source?: string; limit?: number } = {}) => {
+    const q = new URLSearchParams();
+    if (filters.status) q.set('status', filters.status);
+    if (filters.locale) q.set('locale', filters.locale);
+    if (filters.source) q.set('source', filters.source);
+    if (filters.limit) q.set('limit', String(filters.limit));
+    const qs = q.toString();
+    return request<{ drafts: import('../../shared/ai-drafts').AiDraftListRow[]; error?: string }>(
+      'GET',
+      `/api/admin/ai-drafts${qs ? `?${qs}` : ''}`,
+    );
+  },
+  aiDraftsGet: (id: string) =>
+    request<{
+      draft: import('../../shared/ai-drafts').AiDraftRecord;
+      audit: import('../../shared/ai-drafts').AiDraftAuditEntry[];
+    }>('GET', `/api/admin/ai-drafts/${encodeURIComponent(id)}`),
+  aiDraftsStatus: (id: string, status: 'needs_revision' | 'rejected' | 'pending_review', note?: string) =>
+    request<{ draft: import('../../shared/ai-drafts').AiDraftRecord }>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/status`,
+      { status, note },
+    ),
+  aiDraftsImport: (id: string, locale: 'ru' | 'uz') =>
+    request<{ draft: import('../../shared/ai-drafts').AiDraftRecord }>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/import`,
+      { locale },
+    ),
+  aiDraftsDelete: (id: string) =>
+    request<{ ok: boolean }>('DELETE', `/api/admin/ai-drafts/${encodeURIComponent(id)}`),
 };
