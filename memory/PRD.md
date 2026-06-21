@@ -1,109 +1,84 @@
-# GPTBot — Product Requirements Document (Working)
+# GPTBot.uz — Product Requirements (Live)
 
-## Original Problem Statement (this session)
+## Original problem statement
 
-Continue from where the previous Emergent agent stopped (Ahrefs technical
-cleanup) and ship a production-ready SEO content drop:
+Connect the existing **n8n SEO Autopilot** (`GPTBot SEO Topic Hunter MVP` on `braindigger.app.n8n.cloud`) to the **GPTBot admin panel** (`https://gptbot.uz/admin-tools/`) so generated bilingual RU/UZ article packages automatically arrive in the admin as **unpublished AI drafts**.
 
-- Verify the previous Ahrefs technical cleanup is actually live.
-- Add 5 new RU articles + 5 UZ (Uzbek Latin) adaptations from the research
-  handoff DOCX.
-- Wire them through Blog Admin.
-- Configure canonical, hreflang, schema, sitemap.
-- Strengthen money pages with internal linking.
-- Deploy to the existing Cloudflare Pages project `ai-direct-pro-landing`.
-- Do not break admin, sitemap, robots, random 404/noindex.
+Hard rules:
 
-## Architecture
+* Nothing auto-publishes.
+* No incoming draft commits to GitHub.
+* No incoming draft pings IndexNow.
+* No incoming draft triggers a Cloudflare deployment.
+* The reviewer manually imports each side into the existing Blog Editor.
+* The existing **Publish to GitHub** flow remains the only path that puts an article live.
 
-- React 19 + Vite + Tailwind landing.
-- Build pipeline (`yarn build`):
-  - `scripts/seo-audit.ts` → critical issue gate
-  - `vite build`
-  - `scripts/prerender.ts` → money/niche page static HTML
-  - `scripts/prerender-blog.ts` → blog article static HTML + per-locale blog index
-  - `scripts/prerender-home.ts` → SEO shell into root index.html
-  - `scripts/generate-sitemap.ts` → dist/sitemap.xml
-  - `scripts/generate-robots.ts` → dist/robots.txt
-- Content store: JSON files in `content/{pages,blog}/{ru,uz}/*.json`
-  conforming to `src/shared/types.ts` (`Page` and `BlogArticle`).
-- Admin SPA at `/admin-tools/*` (Cloudflare Pages Function catch-all in
-  `functions/admin-tools/[[path]].ts`) edits the JSON files via the
-  GitHub commit API. Tracking is stripped from admin HTML via HTMLRewriter.
-- Static assets and Pages Functions deploy through Wrangler to the
-  existing Cloudflare Pages project `ai-direct-pro-landing`.
+## Users
 
-## Tracking
+* **GPTBot owner / SEO operator** — uses `https://gptbot.uz/admin-tools/` to review drafts, edit/publish blog and money pages, and monitor SEO health.
+* **n8n SEO Autopilot** — automated workflow that delivers RU/UZ article bundles to the admin via the new ingestion API.
+* **Cloudflare Pages** — hosts the static landing + admin SPA + Pages Functions API.
 
-- GTM: GTM-NLR4WFX8 (public pages only)
-- GA4: G-V87YFL96C7 (public pages only, gated by path check in
-  `scripts/analytics-snippet.ts`)
-- Ahrefs Web Analytics: present on public pages, stripped from admin.
+## Architecture (current)
 
-## Personas
+* Vite + React 19 + TypeScript SPA (`/`, `/ru/*`, `/uz/*`, `/admin-tools/*`).
+* Cloudflare Pages Functions (`functions/api/**`) provide the API surface.
+* GitHub Contents API for production content storage (`/content/pages/**`, `/content/blog/**`, etc.).
+* JWT-based single-admin auth (existing).
+* OpenRouter for in-editor AI fill (existing).
+* Serper for SERP intelligence (existing).
+* **New:** Cloudflare D1 (`gptbot-ai-drafts`) for the AI Draft Inbox.
 
-1. Owner — reviews the admin cockpit, edits content, deploys.
-2. SMB owner in Uzbekistan — lands on a money page from search, reads
-   either RU or UZ, opens Telegram demo.
-3. SEO/AhrefsBot — crawls public pages with valid hreflang, schema and
-   sitemap; never reaches admin / API.
+## What has been implemented
 
-## Static Requirements (carry-over, unchanged)
+### 2026-06-21 — AI Draft Inbox (n8n → admin handoff)
+* **D1 database** `gptbot-ai-drafts` (uuid `97ef0372-…`) with `ai_drafts` + `ai_draft_audit` tables (`migrations/0001_ai_drafts.sql`).
+* **Ingestion API** `POST /api/admin/ai-drafts` (Bearer `N8N_INGEST_TOKEN`, constant-time compare, payload-size cap, schema validation, locale/slug/body-block/internal-link sanitisation, idempotent on `bundle_id`, forces `pending_review`).
+* **Admin API**:
+  * `GET /api/admin/ai-drafts` — list
+  * `GET /api/admin/ai-drafts/[id]` — detail + audit
+  * `POST /api/admin/ai-drafts/[id]/status` — `needs_revision|rejected|pending_review`
+  * `POST /api/admin/ai-drafts/[id]/import` — per-locale import marker
+  * `DELETE /api/admin/ai-drafts/[id]` — only when not imported
+* **Admin SPA**:
+  * `/admin-tools/ai-drafts` — list (filters: status, locale, source, search; KPI tiles).
+  * `/admin-tools/ai-drafts/:id` — detail with RU/UZ tabs, validation banner, body/FAQ/links preview, SEO brief, audit trail, reviewer actions.
+  * **Import → Blog Editor** bridge via `sessionStorage` handoff + `?aiDraftImport=...&aiDraftLocale=...` URL.
+  * Sidebar nav entry "AI Draft Inbox".
+  * Cockpit gains an "AI Draft Inbox" quick card with counts and deep link.
+* **BlogEditor** consumes the handoff: pre-fills title/description/h1/excerpt/body/FAQ/internal-links/target money page/keywords/schemas, leaves status=`draft`, warns on duplicate slug, runs existing audit. Save flow unchanged.
+* **Documentation**: `docs/AI_DRAFT_INBOX.md` + `docs/AI_DRAFT_INBOX/n8n-delivery-patch.json` + `docs/AI_DRAFT_INBOX/smoke-payload.json`.
+* **Unit tests**: 15 validator cases in `scripts/test-ai-drafts.ts` (all green).
+* **Production smoke test**: 2 POSTs to `/api/admin/ai-drafts` (success + idempotent) verified; row inspected via D1 API; row cleaned up after verification. No GitHub commit, no IndexNow, no Pages auto-deploy triggered.
 
-- All public pages: canonical, og/twitter, valid JSON-LD, hreflang
-  reciprocity, no mojibake.
-- All admin pages: `x-robots-tag: noindex, nofollow` and stripped of GA /
-  Meta / GTM / Ahrefs.
-- Sitemap: only indexable money + blog pages, never admin/api/draft.
-- Robots.txt: blocks `/admin-tools/` and `/api/`, allows everything else
-  that is indexable.
+### Cloudflare configuration
+* New env var `N8N_INGEST_TOKEN` (`secret_text`) on production + preview.
+* New D1 binding `GPTBOT_DRAFTS_DB` on production + preview.
+* Existing env vars / KV binding (`LOGIN_ATTEMPTS`) preserved.
 
-## Implemented Timeline
+## Prioritized backlog
 
-- **2026-01-06 (this session)**
-  - Verified the previous agent's commit `63e6b39` is live, sitemap=48,
-    all live smoke checks green.
-  - Added 5 RU + 5 UZ blog articles (10 JSON files) under `content/blog/`.
-  - Locale-aware blog prerender: `<html lang>`, `og:locale`, breadcrumb
-    labels, FAQ heading, "Обновлено / Yangilangan" label, reciprocal
-    `hreflang` driven from article JSON.
-  - New UZ blog index at `/uz/blog/` (RU blog index unchanged path).
-  - Sitemap now emits both blog indexes with reciprocal hreflang.
-  - Money pages auto-pick up new articles via the existing
-    `targetMoneyPage` → related-articles loop in `scripts/prerender.ts`
-    (no template change).
-  - Local audit: 0 broken links, 0 hreflang errors, 0 schema issues,
-    0 mojibake, 0 secrets.
-  - Live audit post-deploy: 10/10 new URLs 200, sitemap 48→59, admin
-    still noindex, random URLs still 404.
-  - IndexNow submitted (all 59 URLs, HTTP 200) using the existing key
-    file `public/mrutks6jdnrob4r70zp8u7868a83lnim.txt`.
+### P1 — Operational nice-to-haves
+* Server-side per-bundle dedupe-by-slug check (block accepting a new bundle whose RU slug already exists in `/content/blog/ru/`). Currently the admin UI warns on duplicate slug at import time; an upstream gate would save reviewer time.
+* In-app token rotation page (Settings → "Rotate N8N_INGEST_TOKEN") that calls a server endpoint to generate + persist a new secret. Today the rotation is done via the Cloudflare API.
+* AI Draft Inbox export: XLSX/JSON download of a single draft (optional file fallback per the spec's Phase 8).
+* Inbox bulk actions: select N drafts and bulk-reject.
 
-- **Before this session (previous agent)**
-  - Commit `63e6b39` — stripped Meta Pixel noscript iframe from admin SPA.
-  - Commit `1a1afd2` — stripped GA/Meta from admin raw HTML, extended
-    tech-audit with sitemap parity, OG/Twitter, mojibake, secrets-leak.
-  - 30 money/niche pages + 16 RU blog articles + RU blog index live.
+### P2 — SEO Mission Control polish
+* Cockpit live KPI: average time-to-import per bundle.
+* Auto-archive of `imported` drafts older than 30 days into a separate `ai_drafts_archive` table.
 
-## Prioritised Backlog
+## Hard safety guarantees (never to weaken)
 
-P1:
-- Translate the remaining 16 RU blog articles into UZ.
-- Localise the money-page related-articles heading on UZ pages (currently
-  shows Russian "Полезные статьи"). The articles themselves switch
-  correctly; only the section heading on UZ money pages is RU.
+* Ingest **forces** `status=pending_review`, `manual_approval_required=true`, `ready_for_publish=false`, `published=false` regardless of what the upstream sends.
+* Ingest never writes to `/content/blog/**` and never commits to GitHub.
+* Ingest never calls IndexNow.
+* The bearer token is verified with a constant-time compare and never logged.
+* The endpoint refuses non-JSON payloads, payloads > 256 KB, requests without a bearer.
+* The `_routes.json` (existing) scopes Functions to `/api/*` and `/admin-tools/*` only.
 
-P2:
-- Add a sitemap-index (split into per-locale sitemaps when count > 100).
-- Add a blog category / cluster landing for `targetMoneyPage` clusters.
-- Add author bio pages for E-E-A-T.
+## Next action items
 
-## Owner Next Actions
-
-1. Resubmit `https://gptbot.uz/sitemap.xml` in Google Search Console and
-   Bing Webmaster Tools.
-2. Request indexing in GSC for the 10 new URLs (URL Inspection → Request
-   indexing).
-3. Re-run the Ahrefs Site Audit on `gptbot.uz` and wait for Health Score
-   recalculation.
-4. Continue off-page placements per `docs/OFFPAGE_TOP3_UZ_PLAN.md`.
+* OWNER: verify the AI Draft Inbox list visually at `https://gptbot.uz/admin-tools/ai-drafts` after logging in.
+* OWNER: paste the n8n nodes from `docs/AI_DRAFT_INBOX/n8n-delivery-patch.json` into `GPTBot SEO Topic Hunter MVP`, attach the `GPTBot Ingest Bearer` Header Auth credential, and run one production execution.
+* OWNER: confirm the inbox now shows the bundle and import-to-Blog-Editor flow works as expected.

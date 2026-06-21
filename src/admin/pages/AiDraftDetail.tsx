@@ -341,7 +341,7 @@ export default function AiDraftDetail() {
           </ul>
         )}
         <div className="text-white/40 text-[11px] mt-4">
-          Stored in <code>ai_draft_audit</code>. Even <em>Delete</em> writes an audit row before the deletion runs (FK cascades, but the audit entry is committed first).
+          Stored in <code>ai_draft_audit</code>. <em>Delete</em> writes an audit row, then removes the draft and (via FK ON DELETE CASCADE) its history — that path is only available for non-imported drafts.
         </div>
       </Card>
 
