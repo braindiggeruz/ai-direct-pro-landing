@@ -22,9 +22,20 @@
 | Admin inbox URL | https://gptbot.uz/admin-tools/ai-drafts |
 | D1 binding | `GPTBOT_DRAFTS_DB` → database `gptbot-ai-drafts` (uuid `97ef0372-d937-406f-8871-755368d9afff`) |
 
-## Token rotation
+## SEO Autopilot Control Center
 
-If the `N8N_INGEST_TOKEN` is ever suspected of leaking:
+| Field | Value |
+| ----- | ----- |
+| Admin launch URL | https://gptbot.uz/admin-tools/seo-autopilot |
+| Launch endpoint | `POST /api/admin/seo-autopilot/run` (admin JWT) |
+| Schedule endpoint | `POST /api/admin/seo-autopilot/schedule` (admin JWT) |
+| Scheduled-run endpoint | `POST /api/internal/seo-autopilot/scheduled-run` (Bearer `CRON_SECRET`) |
+| External Runable-compatible endpoint | `POST /api/seo-autopilot/run` — **deprecated and DISABLED by default** (gated by `EXTERNAL_AUTOPILOT_TRIGGER_ENABLED`) |
+| `N8N_WEBHOOK_SECRET` | **One-time owner input.** Set in Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables. Value = whatever the n8n `Validate Safety Rules` node expects (same as the legacy `x-runable-secret`). |
+| `CRON_SECRET` | Generated server-side this session. Configured as `secret_text` env var on Cloudflare Pages production + preview, and as a GitHub Actions repository secret on `braindiggeruz/ai-direct-pro-landing`. |
+| `EXTERNAL_AUTOPILOT_TRIGGER_ENABLED` | `plain_text` env var, default `false`. Flip to `true` only if you must keep the legacy public bridge open. |
+
+## Token rotation
 
 1. Generate a new value: `openssl rand -hex 32`.
 2. Update the Cloudflare Pages env var via the dashboard or the API:
