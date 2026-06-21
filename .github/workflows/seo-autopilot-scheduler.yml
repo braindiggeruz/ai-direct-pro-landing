@@ -20,7 +20,7 @@ concurrency:
 jobs:
   trigger:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: Call GPTBot scheduled-run endpoint
         env:
@@ -36,7 +36,7 @@ jobs:
             -X POST "https://gptbot.uz/api/internal/seo-autopilot/scheduled-run" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
-            --max-time 60)
+            --max-time 360)
           echo "HTTP $HTTP"
           # Pretty-print the response; redact nothing — the endpoint never
           # echoes the bearer or any secret.

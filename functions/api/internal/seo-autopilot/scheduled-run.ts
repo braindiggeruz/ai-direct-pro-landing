@@ -72,6 +72,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     runableSecret: env.N8N_WEBHOOK_SECRET || '',
     requestId: runId,
     blockOnOverlap: true,
+    // Sync-await mode so the cron caller (GitHub Actions curl) gets the
+    // final job state in the same HTTP response. Without this, the
+    // background processor is killed by CF Pages lifecycle limits before
+    // n8n returns and the job stays stuck in 'forwarding' forever.
+    awaitCompletion: true,
   });
 
   if (!result.ok) {
@@ -87,6 +92,42 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
       });
     }
     return json({ error: result.message, reason: result.reason }, result.http);
+  }
+
+  // awaitCompletion === true → result.job is populated with the final
+  // state (completed | failed) — surface it so the cron run logs the
+  // outcome directly.
+  if (result.awaited) {
+    const job = result.job;
+    const isSuccess = job.status === 'completed' && !!job.draft_id;
+    return json(
+      {
+        success: isSuccess,
+        accepted: true,
+        job_id: result.jobId,
+        run_id: runId,
+        status: job.status,
+        status_url: `/api/seo-autopilot/jobs/${result.jobId}`,
+        source: 'schedule',
+        schedule_mode: schedule.mode,
+        draft_id: job.draft_id,
+        bundle_id: job.bundle_id,
+        admin_url: job.admin_url,
+        n8n_status: job.n8n_status,
+        n8n_execution_id: job.n8n_execution_id,
+        validation_status: job.validation_status,
+        validation_passed: job.validation_passed,
+        validation_issue_count: job.validation_issue_count,
+        ingestion_success: job.ingestion_success,
+        deduplicated: job.deduplicated,
+        duration_ms: job.duration_ms,
+        error_code: job.error_code,
+        error_message: job.error_message,
+        manual_approval_required: true,
+        ready_for_publish: false,
+      },
+      200,
+    );
   }
 
   return json(
