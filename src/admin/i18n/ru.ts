@@ -357,6 +357,37 @@ export const ru = {
     try_again:   'Попробовать снова',
     back_home:   'К SEO-пульту',
   },
+
+  // ─── AI Optimize modal ─────────────────────────────────────────────
+  aiOptimize: {
+    button:            'Оптимизировать с AI',
+    buttonRunning:     'Оптимизируем…',
+    modalTitle:        'AI-оптимизация статьи',
+    modelLabel:        'Модель',
+    changesHeading:    'Что улучшил AI',
+    noChanges:         'AI не выделил конкретных правок — сравните вручную.',
+    keptHeading:       'Сохранено без изменений',
+    validationBefore:  'Валидация: до',
+    validationAfter:   'Валидация: после',
+    warningsHeading:   'Предупреждения',
+    fieldDiffHeading:  'Сравнение по полям',
+    bodyDiffHeading:   'Блоки тела статьи изменены — сравните слева/справа.',
+    bodyBlocksBefore:  'Блоки: было',
+    bodyBlocksAfter:   'Блоки: стало',
+    faqDiffHeading:    'FAQ обновлён — сравните вопросы и ответы.',
+    linksDiffHeading:  'Внутренние ссылки обновлены.',
+    before:            'Было',
+    after:             'Стало',
+    apply:             'Применить улучшения',
+    applying:          'Применяем…',
+    cancel:            'Отмена',
+    retry:             'Повторить оптимизацию',
+    applySuccess:      'Улучшенная версия сохранена. Статус остаётся «на проверке».',
+    applyFailed:       'Не удалось применить улучшения',
+    loadFailed:        'Не удалось получить ответ от OpenRouter',
+    noLocale:          'У черновика нет статьи на выбранной локали.',
+    lockedStatus:      'Оптимизация недоступна: черновик отклонён или уже импортирован.',
+  },
 } as const;
 
 // Helper: pluralize Russian-style with simple substitutions used in nba strings.

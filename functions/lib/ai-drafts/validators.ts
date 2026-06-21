@@ -165,7 +165,7 @@ function validateInternalLink(l: unknown, path: string, locale: Locale, errors: 
   return { target, anchor, locale, type };
 }
 
-function validateArticle(raw: unknown, path: string, errors: ValidationError[]): AiDraftArticle | null {
+export function validateArticle(raw: unknown, path: string, errors: ValidationError[]): AiDraftArticle | null {
   if (!isPlainObject(raw)) { errors.push({ path, message: 'article must be an object' }); return null; }
 
   const locale = raw.locale === 'ru' || raw.locale === 'uz' ? (raw.locale as Locale) : null;

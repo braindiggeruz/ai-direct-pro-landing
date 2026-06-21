@@ -27,6 +27,7 @@ import { Badge, Button, Card, Textarea } from '../components/ui';
 import {
   AlertTriangle, ChevronLeft, ChevronRight, ClipboardCopy, Inbox, RefreshCw,
   ShieldCheck, ShieldAlert, Trash2, XCircle, ArrowDownToLine, FileText, GitBranch,
+  Sparkles,
 } from 'lucide-react';
 import type {
   AiDraftArticle,
@@ -38,6 +39,8 @@ import {
   buildBlogEditorImportUrl,
   storeAiDraftHandoff,
 } from '../lib/aiDraftImport';
+import { AiOptimizeModal, type OptimizeResult } from '../components/AiOptimizeModal';
+import { useT } from '../i18n';
 
 function statusTone(status: AiDraftRecord['status']): 'success' | 'warning' | 'danger' | 'info' {
   switch (status) {
@@ -49,6 +52,7 @@ function statusTone(status: AiDraftRecord['status']): 'success' | 'warning' | 'd
 }
 
 export default function AiDraftDetail() {
+  const { t } = useT();
   const nav = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<{ draft: AiDraftRecord; audit: AiDraftAuditEntry[] } | null>(null);
@@ -58,6 +62,10 @@ export default function AiDraftDetail() {
   const [toast, setToast] = useState<string | null>(null);
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
+  const [optimizing, setOptimizing] = useState(false);
+  const [optResult, setOptResult] = useState<OptimizeResult | null>(null);
+  const [optApplyBusy, setOptApplyBusy] = useState(false);
+  const [optApplyError, setOptApplyError] = useState<string | null>(null);
 
   async function load() {
     setLoading(true); setErr(null);
@@ -117,6 +125,48 @@ export default function AiDraftDetail() {
     } catch (e) {
       setErr((e as Error).message);
       setBusy(false);
+    }
+  }
+
+  async function runOptimize() {
+    if (!draft || !id) return;
+    if (draft.status === 'rejected' || draft.status === 'imported') {
+      setErr(t.aiOptimize.lockedStatus);
+      return;
+    }
+    const a = tab === 'ru' ? draft.ru_article : draft.uz_article;
+    if (!a) {
+      setErr(t.aiOptimize.noLocale);
+      return;
+    }
+    setOptimizing(true);
+    setOptApplyError(null);
+    setErr(null);
+    setToast(null);
+    try {
+      const r = await api.aiDraftsOptimize(id, tab);
+      setOptResult(r);
+    } catch (e) {
+      setErr(`${t.aiOptimize.loadFailed}: ${(e as Error).message}`);
+    } finally {
+      setOptimizing(false);
+    }
+  }
+
+  async function applyOptimization() {
+    if (!optResult || !id) return;
+    setOptApplyBusy(true);
+    setOptApplyError(null);
+    try {
+      const r = await api.aiDraftsApplyOptimization(id, optResult.locale, optResult.optimized_article, optResult.model);
+      setData((cur) => cur ? { draft: r.draft, audit: cur.audit } : cur);
+      setOptResult(null);
+      setToast(t.aiOptimize.applySuccess);
+      await load();
+    } catch (e) {
+      setOptApplyError(`${t.aiOptimize.applyFailed}: ${(e as Error).message}`);
+    } finally {
+      setOptApplyBusy(false);
     }
   }
 
@@ -256,6 +306,17 @@ export default function AiDraftDetail() {
                 <ArrowDownToLine size={14}/> Import UZ to Blog Editor
               </Button>
             )}
+            {((tab === 'ru' && draft.has_ru) || (tab === 'uz' && draft.has_uz)) && (
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={optimizing || busy || draft.status === 'rejected' || draft.status === 'imported'}
+                onClick={() => void runOptimize()}
+                data-testid={`ai-draft-optimize-${tab}`}
+              >
+                <Sparkles size={14}/> {optimizing ? t.aiOptimize.buttonRunning : `${t.aiOptimize.button} (${tab.toUpperCase()})`}
+              </Button>
+            )}
           </div>
         </div>
 
@@ -349,6 +410,16 @@ export default function AiDraftDetail() {
       <div className="text-white/30 text-[11px]" data-testid="ai-draft-handoff-prefix">
         Handoff key prefix: <code>{AI_DRAFT_IMPORT_SESSION_PREFIX}</code>
       </div>
+
+      <AiOptimizeModal
+        open={!!optResult}
+        result={optResult}
+        busy={optApplyBusy}
+        applyError={optApplyError}
+        onApply={() => void applyOptimization()}
+        onRetry={() => { setOptApplyError(null); void runOptimize(); }}
+        onCancel={() => { if (!optApplyBusy) { setOptResult(null); setOptApplyError(null); } }}
+      />
     </div>
   );
 }
