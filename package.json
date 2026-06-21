@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "dev": "vite",
     "start": "vite",
@@ -34,8 +35,8 @@
     "autoprefixer": "^10.5.0",
     "esbuild": "^0.28.0",
     "eslint": "^10.3.0",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
     "fast-glob": "^3.3.3",
     "globals": "^17.6.0",
     "postcss": "^8.5.15",
