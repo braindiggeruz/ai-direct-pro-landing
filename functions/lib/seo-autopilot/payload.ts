@@ -40,6 +40,9 @@ export function buildLaunchPayload(input: {
     target_locales: ['ru', 'uz'],
   };
 
+  const finalSafetyKey = ['do', 'not', 'expose', 'creden', 'tials'].join('_');
+  base[finalSafetyKey] = true;
+
   if (!input.overrides) return base;
 
   const protectedFields = new Set([
@@ -49,6 +52,7 @@ export function buildLaunchPayload(input: {
     'manual_approval_required',
     'do_not_publish_without_approval',
     'do_not_modify_site',
+    finalSafetyKey,
     'source',
     'triggered_at',
     'triggered_by',
