@@ -1,28 +1,17 @@
 import type { Env } from '../_types';
 import { requireAuth } from '../lib/jwt';
 import { readContentBulk } from '../lib/github';
-// Run the same audit rules used everywhere else.
-// We import compiled-from-src module path; Cloudflare bundles automatically.
 import { buildCockpit } from '../../src/shared/audit';
 import type { Page, BlogArticle, GlobalSEO } from '../../src/shared/types';
+import { withErrorHandler, jsonResponse } from '../lib/api-errors';
 
 const SITE_BASE = 'https://gptbot.uz';
 
-// Live SEO Health probes — fired from the same Cloudflare zone, so each
-// fetch is regional and ~free. We probe one URL per category and report
-// only HTTP status + content-type (no body parsing) to keep the call fast.
-async function probe(url: string, method: 'GET' | 'HEAD' = 'HEAD'): Promise<{ url: string; status: number; xRobots: string | null; contentType: string | null }> {
+async function probe(url: string): Promise<{ status: number; xRobots: string | null; contentType: string | null }> {
   try {
-    const res = await fetch(url, { method, redirect: 'manual' });
-    return {
-      url,
-      status: res.status,
-      xRobots: res.headers.get('x-robots-tag'),
-      contentType: res.headers.get('content-type'),
-    };
-  } catch {
-    return { url, status: 0, xRobots: null, contentType: null };
-  }
+    const res = await fetch(url, { method: 'HEAD', redirect: 'manual' });
+    return { status: res.status, xRobots: res.headers.get('x-robots-tag'), contentType: res.headers.get('content-type') };
+  } catch { return { status: 0, xRobots: null, contentType: null }; }
 }
 
 async function runLiveProbes(): Promise<Record<string, unknown>> {
@@ -48,13 +37,15 @@ async function runLiveProbes(): Promise<Record<string, unknown>> {
   };
 }
 
-export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+// Legacy audit endpoint. Kept for backwards compatibility with the v1
+// Cockpit; the new Cockpit reads /api/admin/cockpit which aggregates this
+// + content + drafts + autopilot + health in a single partial-success call.
+// Wrapped in `withErrorHandler` so any unexpected throw becomes a
+// structured error response with a request_id instead of a raw 500.
+export const onRequestGet: PagesFunction<Env> = withErrorHandler('audit', async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
-  // Single-subrequest bulk read (see lib/github.ts readContentBulk).
-  // The audit previously did ~50 getFile() calls and hit the Workers
-  // Free 50-subrequest cap once corpus passed 40 files.
   const all = await readContentBulk(env);
   const pages: Page[] = [];
   const blog: BlogArticle[] = [];
@@ -69,9 +60,6 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     } catch { /* skip unparsable */ }
   }
   const cockpit = buildCockpit(pages, global);
-
-  // Aggregate blog stats — pages-only buildCockpit doesn't see blog, so we
-  // derive blog counters separately. Keeps the existing shape additive.
   const publishedBlog = blog.filter((a) => a.status === 'published');
   const blogStats = {
     totalBlog: blog.length,
@@ -82,10 +70,6 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     blogMissingDescription: publishedBlog.filter((a) => !a.description).length,
     blogDuplicateTitle: publishedBlog.length - new Set(publishedBlog.map((a) => a.title)).size,
   };
-
   const live = await runLiveProbes();
-
-  return new Response(JSON.stringify({ ...cockpit, ...blogStats, live }), {
-    headers: { 'Content-Type': 'application/json' },
-  });
-};
+  return jsonResponse({ ...cockpit, ...blogStats, live });
+});
