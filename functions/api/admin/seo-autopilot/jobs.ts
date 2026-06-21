@@ -1,10 +1,13 @@
 // GET /api/admin/seo-autopilot/jobs
 //
 // JWT-authenticated list of the most recent SEO Autopilot jobs for the
-// Control Center "Recent runs" panel.
+// Control Center "Recent runs" panel. Performs a stale-job sweep before
+// returning the list so jobs whose background worker was terminated by
+// the CF Pages Functions lifecycle no longer appear as forever-running.
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
+import { markStaleJobsAsFailed } from '../../../lib/seo-autopilot/jobs';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -22,12 +25,21 @@ function parseErrorDetail(value: unknown): Record<string, unknown> | null {
   }
 }
 
+// Same threshold as launch.ts SYNC_STALE_THRESHOLD_MS — see that file for
+// rationale. A jobs in `forwarding` older than 6 minutes is, in practice,
+// a terminated bridge worker and must be surfaced to the admin as failed.
+const STALE_THRESHOLD_MS = 6 * 60 * 1000;
+
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   if (!env.GPTBOT_DRAFTS_DB) return json({ jobs: [], error: 'Storage not configured.' });
   const url = new URL(request.url);
   const limit = Math.min(Math.max(Number(url.searchParams.get('limit') || '20'), 1), 100);
+
+  // Stale sweep — single UPDATE, idempotent, only touches truly-stale rows.
+  let staleSwept = 0;
+  try { staleSwept = await markStaleJobsAsFailed(env, STALE_THRESHOLD_MS); } catch { /* best-effort */ }
 
   const r = await env.GPTBOT_DRAFTS_DB
     .prepare(
@@ -77,13 +89,33 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     };
   });
 
-  // Also surface system flags so the Control Center can render the
-  // pre-flight status (e.g. "N8N_WEBHOOK_SECRET missing — click here to fix").
+  // Latest completed draft for the "Open last draft" shortcut in the UI.
+  type LastDraftRow = { draft_id: string | null; admin_url: string | null; finished_at: string | null };
+  const lastCompleted = await env.GPTBOT_DRAFTS_DB
+    .prepare(
+      `SELECT draft_id, admin_url, finished_at
+       FROM seo_autopilot_jobs
+       WHERE status='completed' AND draft_id IS NOT NULL
+       ORDER BY finished_at DESC LIMIT 1`,
+    )
+    .first<LastDraftRow>();
+
+  // Pending drafts (awaiting human approval) — useful KPI in the header.
+  const pendingDraftsRow = await env.GPTBOT_DRAFTS_DB
+    .prepare(`SELECT COUNT(*) AS cnt FROM ai_drafts WHERE status='pending_review'`)
+    .first<{ cnt: number }>();
+  const pendingDrafts = Number(pendingDraftsRow?.cnt ?? 0);
+
   const system = {
     n8n_webhook_secret_configured: !!env.N8N_WEBHOOK_SECRET,
     cron_secret_configured: !!env.CRON_SECRET,
     drafts_db_configured: !!env.GPTBOT_DRAFTS_DB,
     external_trigger_enabled: (env.EXTERNAL_AUTOPILOT_TRIGGER_ENABLED || 'false').toLowerCase() === 'true',
+    stale_jobs_swept: staleSwept,
+    pending_drafts: pendingDrafts,
+    last_completed: lastCompleted
+      ? { draft_id: lastCompleted.draft_id, admin_url: lastCompleted.admin_url, finished_at: lastCompleted.finished_at }
+      : null,
   };
 
   return json({ jobs, system });

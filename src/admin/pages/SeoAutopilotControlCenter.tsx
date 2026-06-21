@@ -2,20 +2,22 @@
 //
 // Replaces the external Runable trigger. The owner clicks
 // "Запустить SEO Автопилот" → POST /api/admin/seo-autopilot/run with the
-// admin JWT → server-side n8n call → AI Draft Inbox.
+// admin JWT → server-side n8n call (synchronous wait) → AI Draft Inbox.
 //
 // Also manages the cron schedule (disabled / weekly / twice_weekly) and
-// shows the most recent runs with live polling for the active one.
+// shows the most recent runs.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Select } from '../components/ui';
 import {
   AlertTriangle, CalendarClock, CheckCircle2, ChevronRight, Clock, Inbox,
-  Loader2, PlayCircle, RefreshCw, ShieldAlert, ShieldCheck, XCircle,
+  Loader2, PlayCircle, RefreshCw, ShieldAlert, ShieldCheck, XCircle, ExternalLink,
 } from 'lucide-react';
-import type { AutopilotJobRow, AutopilotJobStatus } from '../../shared/seo-autopilot';
+import type {
+  AutopilotJobRow, AutopilotJobStatus, AutopilotLaunchResult, AutopilotSystemFlags,
+} from '../../shared/seo-autopilot';
 
 type ScheduleMode = 'disabled' | 'weekly' | 'twice_weekly';
 
@@ -49,23 +51,20 @@ function humanSource(src: string | null | undefined): { label: string; tone: 'in
   return { label: src || '—', tone: 'neutral' };
 }
 
-interface SystemFlags {
-  n8n_webhook_secret_configured: boolean;
-  cron_secret_configured: boolean;
-  drafts_db_configured: boolean;
-  external_trigger_enabled: boolean;
-}
-
 export default function SeoAutopilotControlCenter() {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState<AutopilotJobRow[]>([]);
-  const [system, setSystem] = useState<SystemFlags | null>(null);
+  const [system, setSystem] = useState<AutopilotSystemFlags | null>(null);
   const [scheduleMode, setScheduleMode] = useState<ScheduleMode>('disabled');
   const [scheduleMeta, setScheduleMeta] = useState<{ updated_at?: string; updated_by?: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [activeJobId, setActiveJobId] = useState<string | null>(null);
+  const [lastLaunch, setLastLaunch] = useState<AutopilotLaunchResult | null>(null);
+  const [elapsedMs, setElapsedMs] = useState(0);
+  const launchStartedRef = useRef<number | null>(null);
   const pollTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const elapsedTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   async function loadAll(): Promise<void> {
     setErr(null);
@@ -79,37 +78,64 @@ export default function SeoAutopilotControlCenter() {
       setErr((e as Error).message);
     }
   }
-  // eslint-disable-next-line react-hooks/set-state-in-effect, react-hooks/exhaustive-deps
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => { void loadAll(); }, []);
 
-  // Auto-poll while any job is non-terminal.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+  // Light polling of recent jobs every 8 s (mostly to surface scheduled
+  // runs and stale-sweep results). The manual run itself does not depend
+  // on polling — the synchronous launch returns the final state inline.
   useEffect(() => {
-    const running = jobs.find((j) => isActive(j.status));
-    setActiveJobId(running ? running.id : null);
-
-    if (pollTimerRef.current) {
-      clearInterval(pollTimerRef.current);
-      pollTimerRef.current = null;
-    }
-    if (running) {
-      pollTimerRef.current = setInterval(() => { void loadAll(); }, 6000);
-    }
+    if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+    pollTimerRef.current = setInterval(() => { void loadAll(); }, 8000);
     return () => {
       if (pollTimerRef.current) clearInterval(pollTimerRef.current);
     };
-  }, [jobs]);
+  }, []);
+
+  // Elapsed-time ticker shown while the launch is in flight.
+  useEffect(() => {
+    if (!busy) {
+      if (elapsedTimerRef.current) clearInterval(elapsedTimerRef.current);
+      elapsedTimerRef.current = null;
+      launchStartedRef.current = null;
+      // We deliberately do NOT reset elapsedMs here (avoid setState-in-effect);
+      // the ticker simply stops, the next launch resets it when it runs.
+      return;
+    }
+    launchStartedRef.current = Date.now();
+    elapsedTimerRef.current = setInterval(() => {
+      if (launchStartedRef.current) setElapsedMs(Date.now() - launchStartedRef.current);
+    }, 250);
+    return () => {
+      if (elapsedTimerRef.current) clearInterval(elapsedTimerRef.current);
+    };
+  }, [busy]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   async function launch(): Promise<void> {
-    setBusy(true); setErr(null); setToast(null);
+    if (busy) return; // double-click guard
+    setBusy(true); setErr(null); setToast(null); setLastLaunch(null); setElapsedMs(0);
     try {
       const r = await api.seoAutopilotLaunch({});
-      setToast(`Launched. job_id=${r.job_id} — polling every 6 s.`);
+      setLastLaunch(r);
+      if (r.success && r.draft_id && r.admin_url) {
+        setToast(`Draft ready: ${r.draft_id} (${humanDuration(r.duration_ms)})`);
+      } else if (r.error_code) {
+        setErr(`${r.error_code}: ${r.error_message || 'see job details'}`);
+      } else {
+        setErr(`Launch finished in status=${r.status}`);
+      }
       await loadAll();
     } catch (e) {
       setErr((e as Error).message);
+    } finally {
+      setBusy(false);
     }
-    setBusy(false);
+  }
+
+  function openDraft(): void {
+    if (lastLaunch?.admin_url) navigate(lastLaunch.admin_url);
+    else if (system?.last_completed?.admin_url) navigate(system.last_completed.admin_url);
   }
 
   async function changeSchedule(next: ScheduleMode): Promise<void> {
@@ -134,6 +160,15 @@ export default function SeoAutopilotControlCenter() {
 
   const preflightOk = system?.n8n_webhook_secret_configured && system?.drafts_db_configured;
   const launchDisabled = busy || !preflightOk;
+
+  // Pretty stage from elapsed time so the spinner conveys SOMETHING.
+  const stage = !busy ? null
+    : elapsedMs < 5_000  ? 'Запрос к n8n…'
+    : elapsedMs < 30_000 ? 'Сбор SERP + sitemap (~30 s)…'
+    : elapsedMs < 75_000 ? 'OpenRouter генерирует RU-статью…'
+    : elapsedMs < 130_000 ? 'OpenRouter генерирует UZ-адаптацию…'
+    : elapsedMs < 180_000 ? 'Финальная валидация…'
+    : 'Дольше обычного — ожидайте ещё пару минут…';
 
   return (
     <div className="p-6 sm:p-8 space-y-6" data-testid="seo-autopilot-control-center">
@@ -190,12 +225,13 @@ export default function SeoAutopilotControlCenter() {
         <Card className="lg:col-span-2">
           <h2 className="font-display text-lg text-white mb-3">Manual run</h2>
           <p className="text-white/60 text-sm mb-5">
-            Click below to start one SEO Autopilot run now. The browser never
-            touches the n8n secret — the server calls n8n with the
+            Click below to start one SEO Autopilot run now. The browser
+            never touches the n8n secret — the server calls n8n with the
             <code className="text-brand-cyan mx-1">N8N_WEBHOOK_SECRET</code>
-            stored in Cloudflare.
+            stored in Cloudflare. Generation takes 1–4 minutes; the page
+            holds the connection open until the draft is ready.
           </p>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap items-center">
             <Button
               variant="primary"
               size="md"
@@ -206,13 +242,71 @@ export default function SeoAutopilotControlCenter() {
               {busy ? <Loader2 size={16} className="animate-spin"/> : <PlayCircle size={16}/>}
               Запустить SEO Автопилот
             </Button>
-            {activeJobId && (
-              <span className="text-white/60 text-xs inline-flex items-center gap-1.5" data-testid="control-center-active">
-                <Loader2 size={12} className="animate-spin"/>
-                {activeJobId} in flight — polling every 6 s
-              </span>
+            {lastLaunch?.success && lastLaunch.admin_url && (
+              <Button variant="ghost" size="sm" onClick={openDraft} data-testid="control-center-open-draft">
+                <ExternalLink size={14}/> Open new draft
+              </Button>
+            )}
+            {!lastLaunch && system?.last_completed?.admin_url && (
+              <Link
+                to={system.last_completed.admin_url}
+                className="text-brand-cyan text-xs inline-flex items-center gap-1 hover:text-white"
+                data-testid="control-center-open-last-draft">
+                <Inbox size={12}/> Open last draft ({system.last_completed.draft_id})
+              </Link>
             )}
           </div>
+          {busy && (
+            <div className="mt-4 rounded-2xl border border-brand-blue/30 bg-brand-blue/5 px-4 py-3" data-testid="control-center-progress">
+              <div className="flex items-center gap-2 text-white/80 text-sm">
+                <Loader2 size={14} className="animate-spin"/>
+                <span>{stage}</span>
+                <span className="text-white/40 ml-auto" data-testid="control-center-elapsed">
+                  {humanDuration(elapsedMs)} elapsed
+                </span>
+              </div>
+              <div className="text-white/45 text-[11px] mt-1.5">
+                Stay on this page — closing it will not stop n8n, but the
+                draft will land in the Inbox in the background (open it from
+                "Recent runs" below).
+              </div>
+            </div>
+          )}
+          {lastLaunch && !busy && (
+            <div
+              className={`mt-4 rounded-2xl border px-4 py-3 ${
+                lastLaunch.success
+                  ? 'border-emerald-500/30 bg-emerald-500/5'
+                  : 'border-amber-500/30 bg-amber-500/5'
+              }`}
+              data-testid="control-center-last-launch">
+              <div className="text-white/80 text-sm flex items-center gap-2">
+                {lastLaunch.success
+                  ? <CheckCircle2 size={14} className="text-emerald-300"/>
+                  : <AlertTriangle size={14} className="text-amber-300"/>}
+                <span data-testid="control-center-last-launch-status">{lastLaunch.status}</span>
+                <span className="text-white/40">·</span>
+                <span className="text-white/60">{humanDuration(lastLaunch.duration_ms)}</span>
+                {lastLaunch.n8n_execution_id && (
+                  <span className="text-white/40 text-xs">· n8n exec <code className="text-white/60">{lastLaunch.n8n_execution_id}</code></span>
+                )}
+              </div>
+              {lastLaunch.success && lastLaunch.admin_url && (
+                <div className="text-white/70 text-xs mt-2">
+                  <Link to={lastLaunch.admin_url} className="text-brand-cyan hover:text-white inline-flex items-center gap-1"
+                        data-testid="control-center-last-launch-link">
+                    {lastLaunch.draft_id} <ChevronRight size={12}/>
+                  </Link>
+                  {' '}— RU + UZ, awaiting human review.
+                </div>
+              )}
+              {!lastLaunch.success && (
+                <div className="text-amber-200/90 text-xs mt-2" data-testid="control-center-last-launch-error">
+                  <strong>{lastLaunch.error_code || 'error'}</strong>: {lastLaunch.error_message || 'see the job detail in Recent runs'}
+                </div>
+              )}
+            </div>
+          )}
           <div className="text-white/45 text-xs mt-5">
             <ShieldCheck size={11} className="inline -mt-0.5 mr-1 text-emerald-300"/>
             No GitHub publish, no IndexNow, no public article — draft only.
@@ -251,14 +345,21 @@ export default function SeoAutopilotControlCenter() {
         <Kpi label="Recent runs"      value={stats.total}    tone="neutral" testId="kpi-total"/>
         <Kpi label="In flight"        value={stats.running}  tone={stats.running ? 'info' : 'neutral'} testId="kpi-running"/>
         <Kpi label="Completed"        value={stats.completed} tone="success" testId="kpi-completed"/>
-        <Kpi label="Failed"           value={stats.failed}   tone={stats.failed ? 'danger' : 'neutral'} testId="kpi-failed"/>
+        <Kpi label="Pending drafts"   value={system?.pending_drafts ?? 0} tone={(system?.pending_drafts ?? 0) > 0 ? 'info' : 'neutral'} testId="kpi-pending-drafts"/>
       </div>
 
       {/* Recent runs */}
       <Card>
-        <h2 className="font-display text-lg text-white mb-3 flex items-center gap-2">
-          <Clock size={16}/> Recent runs
-        </h2>
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <h2 className="font-display text-lg text-white flex items-center gap-2">
+            <Clock size={16}/> Recent runs
+          </h2>
+          {(system?.stale_jobs_swept ?? 0) > 0 && (
+            <span className="text-amber-300 text-xs" data-testid="control-center-stale-swept">
+              {system?.stale_jobs_swept} stale job(s) auto-recovered on this refresh.
+            </span>
+          )}
+        </div>
         {jobs.length === 0 ? (
           <div className="text-white/50 text-sm" data-testid="control-center-no-jobs">
             No runs yet. Click <strong>Запустить SEO Автопилот</strong> above to start one.
@@ -339,8 +440,8 @@ export default function SeoAutopilotControlCenter() {
         <ol className="text-white/70 text-sm space-y-1 list-decimal list-inside">
           <li>Admin clicks <em>Запустить SEO Автопилот</em>.</li>
           <li>Server POSTs to <code className="text-brand-cyan">POST /api/admin/seo-autopilot/run</code> (JWT-authenticated).</li>
-          <li>Server calls the n8n production webhook with <code className="text-white/70">x-runable-secret: N8N_WEBHOOK_SECRET</code> (browser never sees it).</li>
-          <li>n8n generates RU + UZ articles; bridge stores the package in AI Draft Inbox.</li>
+          <li>Server calls the n8n production webhook with <code className="text-white/70">x-runable-secret: N8N_WEBHOOK_SECRET</code> (browser never sees it) and AWAITS the full response.</li>
+          <li>n8n generates RU + UZ articles; the function normalises and stores the package in AI Draft Inbox.</li>
           <li>Open the draft → import each locale into the Blog Editor → click <em>Publish to GitHub</em> manually.</li>
         </ol>
       </Card>

@@ -165,3 +165,41 @@ export async function getJob(env: Env, id: string): Promise<AutopilotJob | null>
   const row = await db.prepare('SELECT * FROM seo_autopilot_jobs WHERE id = ?').bind(id).first<Record<string, unknown>>();
   return row ? rowToJob(row) : null;
 }
+
+/**
+ * Stale-recovery: mark every non-terminal job older than `maxAgeMs` as
+ * `failed` with `error_code='bridge_lost'`. This unsticks jobs whose
+ * background worker was terminated by the CF Pages Functions lifecycle
+ * before the n8n call could return.
+ *
+ * Safe to call on every list/poll — it's a single UPDATE statement, only
+ * touches rows that ARE stale, and is idempotent (a `failed` job is not
+ * touched again).
+ *
+ * Returns the number of rows that were swept.
+ */
+export async function markStaleJobsAsFailed(env: Env, maxAgeMs = 6 * 60 * 1000): Promise<number> {
+  const db = requireDb(env);
+  const ageSeconds = Math.max(60, Math.floor(maxAgeMs / 1000));
+  const now = nowIso();
+  const r = await db
+    .prepare(
+      `UPDATE seo_autopilot_jobs
+       SET status='failed',
+           error_code = COALESCE(error_code, 'bridge_lost'),
+           error_message = COALESCE(
+             error_message,
+             'Bridge worker terminated before n8n returned. Job auto-marked stale by the watchdog after ' || ? || 's. n8n execution may still have completed — check the n8n run history; future runs use synchronous await and will not hit this path.'
+           ),
+           finished_at = COALESCE(finished_at, ?),
+           updated_at = ?
+       WHERE status IN ('pending','forwarding','normalising','ingesting')
+         AND datetime(created_at) < datetime('now','-' || ? || ' seconds')`,
+    )
+    .bind(ageSeconds, now, now, ageSeconds)
+    .run();
+  // D1 returns changes via meta; cast through the runtime shape.
+  type WithMeta = { meta?: { changes?: number; rows_written?: number } };
+  const meta = (r as WithMeta).meta;
+  return meta?.changes ?? 0;
+}
