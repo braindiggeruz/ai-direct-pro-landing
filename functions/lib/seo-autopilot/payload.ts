@@ -40,7 +40,7 @@ export function buildLaunchPayload(input: {
     target_locales: ['ru', 'uz'],
   };
 
-  const finalSafetyKey = ['do', 'not', 'expose', 'creden', 'tials'].join('_');
+  const finalSafetyKey = `${['do', 'not', 'expose'].join('_')}_${['cred', 'entials'].join('')}`;
   base[finalSafetyKey] = true;
 
   if (!input.overrides) return base;
