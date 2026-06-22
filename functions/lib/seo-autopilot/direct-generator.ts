@@ -38,8 +38,8 @@ const FALLBACK_MODEL = '@cf/meta/llama-3.1-70b-instruct';
 const DEFAULT_MONEY_PAGE_RU = '/ru/ai-bot-dlya-biznesa/';
 const DEFAULT_MONEY_PAGE_UZ = '/uz/biznes-uchun-ai-bot/';
 const SITE_URL = 'https://gptbot.uz';
-const MAX_OUTPUT_TOKENS = 7500;
-const TEMPERATURE = 0.35;
+const MAX_OUTPUT_TOKENS = 4500;
+const TEMPERATURE = 0.25;
 
 export interface DirectGenerationTopic {
   /** Planned RU/UZ-language title surfaced to the user. */
@@ -322,43 +322,39 @@ async function generateOneArticle(
     ) => Promise<ChatResponse>;
   };
 
+  // ONE attempt per locale total — CF Pages Functions edge has a hard ~95s
+  // request budget. Two locales × 1 attempt × ~25s ≈ 50s, well within
+  // the budget. The fallback model is reached only if the primary throws
+  // outright (network/model unavailable), not on parse failure.
   for (const candidateModel of [model, FALLBACK_MODEL]) {
-    // Attempt 1: strict json_schema if the model supports it (recent llama-3.x).
-    for (const useJsonMode of [true, false]) {
-      try {
-        const input: Parameters<typeof aiRunner.run>[1] = {
-          messages: [
-            { role: 'system', content: system },
-            { role: 'user', content: user },
-          ],
-          max_tokens: MAX_OUTPUT_TOKENS,
-          temperature: TEMPERATURE,
-        };
-        if (useJsonMode) {
-          input.response_format = { type: 'json_object' };
-        }
-        const r = await aiRunner.run(candidateModel, input);
-        const txt =
-          r.response ||
-          r.result?.response ||
-          r.result?.choices?.[0]?.message?.content ||
-          r.choices?.[0]?.message?.content ||
-          '';
-        rawTextExcerpt = String(txt).slice(0, 800);
-        // Validate parseability before accepting
-        const parsedQuick = parseStrictJson(String(txt));
-        if (parsedQuick && typeof parsedQuick === 'object') {
-          raw = r;
-          break;
-        }
-        lastErr = `model=${candidateModel} json_mode=${useJsonMode} returned unparseable text (${txt.length} chars)`;
-      } catch (e) {
-        lastErr = `model=${candidateModel} json_mode=${useJsonMode} threw: ${(e as Error).message || 'unknown'}`;
+    try {
+      const input: Parameters<typeof aiRunner.run>[1] = {
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user },
+        ],
+        max_tokens: MAX_OUTPUT_TOKENS,
+        temperature: TEMPERATURE,
+        response_format: { type: 'json_object' },
+      };
+      const r = await aiRunner.run(candidateModel, input);
+      const txt =
+        r.response ||
+        r.result?.response ||
+        r.result?.choices?.[0]?.message?.content ||
+        r.choices?.[0]?.message?.content ||
+        '';
+      rawTextExcerpt = String(txt).slice(0, 600);
+      if (txt) {
+        raw = r;
+        break;
       }
+      lastErr = `model=${candidateModel} returned empty content`;
+    } catch (e) {
+      lastErr = `model=${candidateModel} threw: ${(e as Error).message || 'unknown'}`;
     }
-    if (raw) break;
   }
-  if (!raw) return { ok: false, error: `Workers AI call failed: ${lastErr || 'unknown error'} | excerpt=${rawTextExcerpt.slice(0, 400).replace(/\s+/g, ' ')}` };
+  if (!raw) return { ok: false, error: `Workers AI call failed: ${lastErr || 'unknown error'}` };
 
   const text =
     raw.response ||
@@ -481,15 +477,50 @@ function buildUserPrompt(
 
 function parseStrictJson(text: string): unknown {
   if (typeof text !== 'string') return null;
-  const trimmed = text.trim()
-    .replace(/^```(?:json)?\s*/i, '')
-    .replace(/```\s*$/i, '')
+  let s = text.trim()
+    // Strip Markdown code fences.
+    .replace(/^```(?:json|JSON)?\s*/, '')
+    .replace(/```\s*$/, '')
     .trim();
-  try { return JSON.parse(trimmed); } catch { /* fall through */ }
-  const start = trimmed.indexOf('{');
-  const end = trimmed.lastIndexOf('}');
-  if (start >= 0 && end > start) {
-    try { return JSON.parse(trimmed.slice(start, end + 1)); } catch { /* ignore */ }
+  // Strip any prefatory commentary the model sometimes prepends
+  // ("Here is the JSON:", "Below is your article:", etc.).
+  // Cheaper than NLP: find the first '{' or '[' and lop everything before.
+  const firstBrace = s.indexOf('{');
+  const firstBracket = s.indexOf('[');
+  let start = -1;
+  if (firstBrace >= 0 && firstBracket >= 0) start = Math.min(firstBrace, firstBracket);
+  else if (firstBrace >= 0) start = firstBrace;
+  else if (firstBracket >= 0) start = firstBracket;
+  if (start > 0) s = s.slice(start);
+
+  try { return JSON.parse(s); } catch { /* fall through to brace-matching */ }
+
+  // Brace-counting: find the longest balanced { ... } block at the start.
+  if (s.startsWith('{')) {
+    let depth = 0;
+    let inString = false;
+    let escape = false;
+    let endIdx = -1;
+    for (let i = 0; i < s.length; i++) {
+      const ch = s.charCodeAt(i);
+      if (escape) { escape = false; continue; }
+      if (ch === 92 /* \\ */) { escape = true; continue; }
+      if (ch === 34 /* " */) { inString = !inString; continue; }
+      if (inString) continue;
+      if (ch === 123 /* { */) depth++;
+      else if (ch === 125 /* } */) {
+        depth--;
+        if (depth === 0) { endIdx = i + 1; break; }
+      }
+    }
+    if (endIdx > 0) {
+      try { return JSON.parse(s.slice(0, endIdx)); } catch { /* ignore */ }
+    }
+  }
+  // Last-ditch: lastIndex of } pairing.
+  const end = s.lastIndexOf('}');
+  if (start < 0 && end > 0) {
+    try { return JSON.parse(s.slice(0, end + 1)); } catch { /* ignore */ }
   }
   return null;
 }
