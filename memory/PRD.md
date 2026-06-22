@@ -6,6 +6,8 @@ Connect the existing **n8n SEO Autopilot** (`GPTBot SEO Topic Hunter MVP` on `br
 
 **2026-06-22 update**: OpenRouter credits were exhausted and the production "Запустить одну" flow hit n8n `HTTP 400 Validation failed` consistently. Owner instructed to drop n8n entirely and generate articles directly in the admin via a free/quality AI alternative.
 
+**2026-06-22 (afternoon) update**: the initial direct path was wired to Cloudflare Workers AI (`@cf/meta/llama-3.1-8b-instruct-fast`). The pipeline worked end-to-end but the model produced shallow, thin articles. Owner instructed to replace the writer with Google Gemini Flash, keeping every other moving part (Intent Guard, AI Draft Inbox, manual approval, no auto-publish, no automatic IndexNow) intact. Done in commits `666d2d7` → `02c8795` on `main`.
+
 Hard rules:
 
 * Nothing auto-publishes.
@@ -18,7 +20,10 @@ Hard rules:
 ## Users
 
 * **GPTBot owner / SEO operator** — uses `https://gptbot.uz/admin-tools/` to review drafts, edit/publish blog and money pages, and monitor SEO health.
-* **Cloudflare Workers AI** — direct AI generator (replaces n8n; default model `@cf/meta/llama-3.1-8b-instruct-fast`, fallback `@cf/meta/llama-3.1-70b-instruct`).
+* **Google Gemini 2.5 Flash** — direct AI generator via Google AI Studio REST
+  (replaces n8n and the earlier Cloudflare Workers AI / Llama 8b-fast path).
+  Free tier 15 RPM / 1500 RPD / 1M ctx on `gemini-2.5-flash`. Strict JSON via
+  `responseMimeType=application/json`. Fallback `gemini-2.5-flash-lite`.
 * **Cloudflare Pages** — hosts the static landing + admin SPA + Pages Functions API.
 * **n8n bridge** — still in the codebase behind `SEO_AUTOPILOT_USE_DIRECT_AI=false`; reachable if the owner ever needs to re-enable.
 
@@ -26,7 +31,7 @@ Hard rules:
 
 * Vite + React 19 + TypeScript SPA (`/`, `/ru/*`, `/uz/*`, `/admin-tools/*`).
 * Cloudflare Pages Functions (`functions/api/**`) provide the API surface.
-* **Cloudflare Workers AI** (`env.AI.run(model, …)`) generates RU + UZ articles directly inside the Pages Function. No n8n round-trip, no OpenRouter, no external webhook.
+* **Google Gemini 2.5 Flash** (`generativelanguage.googleapis.com/v1beta`) generates RU + UZ articles directly inside the Pages Function via REST (no SDK, no proxy). One-step fallback to `gemini-2.5-flash-lite` on transient upstream failure. No n8n round-trip. No Cloudflare Workers AI / Llama call on the critical path (binding kept for back-compat only).
 * Cloudflare D1 (`gptbot-ai-drafts`) for the AI Draft Inbox + job log.
 * GitHub Contents API for production content storage.
 * JWT-based single-admin auth.
@@ -34,6 +39,69 @@ Hard rules:
 * OpenRouter for in-editor AI fill — separate from the SEO Autopilot generator, still configured for ad-hoc usage.
 
 ## What has been implemented
+
+### 2026-06-22 (afternoon) — Swap Llama 8b-fast → Gemini 2.5 Flash for the direct generator
+
+* **Problem with the previous setup**: the n8n bridge was already removed and the
+  direct pipeline was working end-to-end (topic → RU/UZ generation → Intent
+  Guard → AI Draft Inbox), but the model was `@cf/meta/llama-3.1-8b-instruct-fast`
+  — contractually valid but shallow output. Articles came in with 4–6 short
+  paragraphs, weak FAQ, weak Uzbek Latin, and obvious AI-cliché openings. The
+  reviewer would have to rewrite each draft top-to-bottom. The whole point of
+  the autopilot is to land a draft a human can publish in one pass, and that
+  bar was not being met.
+* **Fix — direct Google Gemini Flash via Google AI Studio (REST)**:
+  * `functions/lib/seo-autopilot/gemini-client.ts` (new) — minimal HTTPS
+    client to `generativelanguage.googleapis.com/v1beta/models/{model}:generateContent`.
+    Calls `gemini-2.5-flash` by default, one-step fallback to
+    `gemini-2.5-flash-lite` on timeout / 5xx / 408 / 429. Hard 70 s wall so the
+    ~95 s CF Pages Function budget is never blown. Strict JSON via
+    `responseMimeType=application/json`. Handles Google-specific failure
+    modes: empty `candidates[]` + `promptFeedback.blockReason`,
+    SAFETY/RECITATION/PROHIBITED_CONTENT finish reasons producing empty
+    content on a 200 OK.
+  * `functions/lib/seo-autopilot/direct-generator.ts` — `env.AI.run()` replaced
+    with `callGemini()`. `MAX_OUTPUT_TOKENS` 4500 → 8000 (Gemini 2.5 Flash
+    output budget). Temperature 0.25 → 0.4 — natural prose without breaking
+    JSON discipline. Pre-flight check now requires `env.GEMINI_API_KEY`.
+  * **Prompt rewritten end-to-end to demand depth.** The system prompt now
+    requires 18–28 body_blocks, 6+ distinct h2 sections, each h2 supported by
+    2–4 child blocks. Mandatory sections: UZ business scenarios (Tashkent
+    retail, Samarkand services, local payment habits — Click/Payme/Humo),
+    Telegram + Instagram Direct integration, lead handling and manager
+    handoff, real limitations (where the bot will fail), common
+    implementation mistakes, final implementation-CTA h2. 6–10 FAQ items with
+    2–4-sentence answers. 4–7 internal_links with natural-language anchors.
+    Explicit anti-AI-cliché list for RU and UZ.
+  * `seo_brief.generated_by` switched from `cloudflare-workers-ai` to
+    `gemini-flash-via-google-ai-studio` so the audit trail reflects reality.
+  * `_types.ts`: added `GEMINI_API_KEY`, `GEMINI_MODEL`,
+    `GEMINI_FALLBACK_MODEL` to the `Env` interface. `CF_AI_MODEL` + `env.AI`
+    kept as no-op back-compat (Llama path no longer the default).
+  * Cloudflare Pages env vars (Production):
+    `GEMINI_API_KEY` (secret_text), `GEMINI_MODEL=gemini-2.5-flash`,
+    `GEMINI_FALLBACK_MODEL=gemini-2.5-flash-lite`.
+* **Why a brief detour through the Emergent universal-key proxy did not stick**:
+  the proxy works locally but returns
+  `HTTP 403 FREE_USER_EXTERNAL_ACCESS_DENIED` when called from `gptbot.uz`
+  (universal keys are only callable from inside the Emergent platform
+  runtime). Switched to Google's API directly, which works from any origin
+  and has a free tier (15 RPM / 1500 RPD / 1M ctx on `gemini-2.5-flash`)
+  generous enough for the autopilot cadence.
+* **Production smoke test (2026-06-22 16:39 UTC, commit `02c8795`)**:
+  topic "AI-бот для салона красоты в Узбекистане". Job `job_8171fcc6…11`,
+  draft `draft_8eaee83e…1f`, 81 s wall, ru+uz both validated `passed`,
+  `validation_issue_count=0`. RU: 25 body_blocks (7 h2, 9 p, 5 list, 2 h3,
+  1 quote, 1 cta), 8 FAQ, 5 internal_links, 12 keywords, 661 body words.
+  UZ: 24 body_blocks (7 h2, 10 p, 5 list, 1 quote, 1 cta), 8 FAQ, 5
+  internal_links, 12 keywords, 665 body words, pure Latin script, natural
+  not-calqued Uzbek. Draft sits at `status=pending_review`, `imported_at=null`,
+  audit log contains only the `created` event — auto-publish OFF, automatic
+  IndexNow OFF, GitHub publish NOT triggered.
+* **Untouched on purpose**: validators, ingest, AI Draft Inbox, Blog Editor,
+  Topic Plan, Intent Guard, D1 schema, manual-approval enforcement, audit
+  trail, the `pending_review` status sink. n8n bridge stays disabled.
+
 
 ### 2026-06-22 — Drop n8n bridge, direct Cloudflare Workers AI generation
 
