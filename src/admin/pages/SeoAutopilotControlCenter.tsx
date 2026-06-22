@@ -18,6 +18,7 @@ import {
 import type {
   AutopilotJobRow, AutopilotJobStatus, AutopilotLaunchResult, AutopilotSystemFlags,
 } from '../../shared/seo-autopilot';
+import { TopicPlanPanel } from '../components/TopicPlanPanel';
 
 type ScheduleMode = 'disabled' | 'weekly' | 'twice_weekly';
 
@@ -219,6 +220,9 @@ export default function SeoAutopilotControlCenter() {
 
       {err && <Card className="border-red-500/30 bg-red-500/5"><div className="text-red-300 text-sm" data-testid="control-center-error">{err}</div></Card>}
       {toast && <Card className="border-emerald-500/30 bg-emerald-500/5"><div className="text-emerald-300 text-sm" data-testid="control-center-toast">{toast}</div></Card>}
+
+      {/* Intent Guard Topic Plan — "10 unique topics per day" planner. */}
+      <TopicPlanPanel testIdPrefix="topic-plan"/>
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Launch card */}

@@ -222,4 +222,115 @@ export const api = {
       '/api/admin/seo-autopilot/schedule',
       { mode },
     ),
+
+  // ─── Intent Guard / Anti-cannibalization ─────────────────────────────────
+  contentInventory: () =>
+    request<{
+      generated_at: string;
+      counts: import('../../shared/intent-guard').ContentInventory['counts'];
+      items: Array<{
+        id: string; source_type: string; url: string | null; locale: 'ru' | 'uz';
+        title: string; slug: string; status: string; target_keyword: string;
+        target_money_page: string | null; intent_key: string;
+        fingerprint: import('../../shared/intent-guard').IntentFingerprint;
+      }>;
+    }>('GET', '/api/admin/seo/content-inventory'),
+  cannibalizationAnalyze: (body: {
+    source: 'draft' | 'editor' | 'plan_item';
+    draftId?: string;
+    locale?: 'ru' | 'uz';
+    article?: import('../../shared/ai-drafts').AiDraftArticle;
+    planItemId?: string;
+    useSerper?: boolean | 'auto';
+    useSemantic?: boolean | 'auto';
+  }) => request<{
+    ok: true;
+    analysis_id: string | null;
+    locale: 'ru' | 'uz';
+    risk_score: number;
+    risk_level: 'low' | 'medium' | 'high';
+    fingerprint: import('../../shared/intent-guard').IntentFingerprint;
+    intent_key: string;
+    conflicts: import('../../shared/intent-guard').IntentConflict[];
+    inventory_counts: import('../../shared/intent-guard').ContentInventory['counts'];
+    recommendation: import('../../shared/intent-guard').SemanticVerdict['recommendation'];
+    serper: { used: boolean; queries_run: number; overlap_score: number };
+    semantic: { used: boolean; summary: string; model?: string };
+  }>('POST', '/api/admin/seo/cannibalization/analyze', body, { timeoutMs: 2 * 60 * 1000 }),
+  cannibalizationRetarget: (body: {
+    source: 'draft' | 'editor';
+    draftId?: string;
+    locale?: 'ru' | 'uz';
+    article?: import('../../shared/ai-drafts').AiDraftArticle;
+    userHint?: string;
+  }) => request<{
+    ok: true;
+    analysis_id: string | null;
+    proposal: import('../../shared/intent-guard').RetargetProposal;
+    risk_score_before: number;
+    risk_level_before: 'low' | 'medium' | 'high';
+    conflicts: import('../../shared/intent-guard').IntentConflict[];
+    fingerprint_before: import('../../shared/intent-guard').IntentFingerprint;
+    semantic_used: boolean;
+  }>('POST', '/api/admin/seo/cannibalization/retarget', body, { timeoutMs: 3 * 60 * 1000 }),
+  cannibalizationApplyRetarget: (body: {
+    draftId: string;
+    locale: 'ru' | 'uz';
+    optimized_article: import('../../shared/ai-drafts').AiDraftArticle;
+    analysis_id?: string;
+    model?: string;
+    decision?: string;
+    strategy?: string;
+  }) => request<{
+    ok: true;
+    draft: import('../../shared/ai-drafts').AiDraftRecord;
+    recheck: {
+      analysis_id: string | null;
+      risk_score_after: number;
+      risk_level_after: 'low' | 'medium' | 'high';
+      conflicts: import('../../shared/intent-guard').IntentConflict[];
+      fingerprint: import('../../shared/intent-guard').IntentFingerprint;
+      semantic_used: boolean;
+    };
+  }>('POST', '/api/admin/seo/cannibalization/apply-retarget', body, { timeoutMs: 2 * 60 * 1000 }),
+  topicPlanCreate: (body: {
+    name?: string;
+    count?: number;
+    locale_mode?: 'ru' | 'uz' | 'ru+uz';
+    params?: Record<string, unknown>;
+  }) => request<{ ok: true; plan: import('../../shared/intent-guard').TopicPlan }>(
+    'POST', '/api/admin/seo/topic-plans', body, { timeoutMs: 60_000 },
+  ),
+  topicPlanList: () => request<{ plans: import('../../shared/intent-guard').TopicPlan[] }>('GET', '/api/admin/seo/topic-plans'),
+  topicPlanGet: (id: string) => request<{ plan: import('../../shared/intent-guard').TopicPlan }>(
+    'GET', `/api/admin/seo/topic-plans/${encodeURIComponent(id)}`,
+  ),
+  topicPlanPatch: (id: string, body: { name?: string; status?: import('../../shared/intent-guard').TopicPlanStatus }) =>
+    request<{ plan: import('../../shared/intent-guard').TopicPlan }>(
+      'PATCH', `/api/admin/seo/topic-plans/${encodeURIComponent(id)}`, body,
+    ),
+  topicPlanItemReplace: (planId: string, itemId: string) =>
+    request<{ ok: true; item: import('../../shared/intent-guard').TopicPlanItem }>(
+      'POST',
+      `/api/admin/seo/topic-plans/${encodeURIComponent(planId)}/items/${encodeURIComponent(itemId)}/replace`,
+    ),
+  topicPlanItemDelete: (planId: string, itemId: string) =>
+    request<{ ok: true }>(
+      'DELETE',
+      `/api/admin/seo/topic-plans/${encodeURIComponent(planId)}/items/${encodeURIComponent(itemId)}`,
+    ),
+  topicPlanItemLaunch: (planId: string, itemId: string) =>
+    request<{
+      ok: true;
+      item_id: string;
+      plan_id: string;
+      draft_id: string | null;
+      job_id: string | null;
+      risk_results: Array<{ locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }>;
+    }>(
+      'POST',
+      `/api/admin/seo/topic-plans/${encodeURIComponent(planId)}/items/${encodeURIComponent(itemId)}/launch`,
+      {},
+      { timeoutMs: 5 * 60 * 1000 },
+    ),
 };
