@@ -44,47 +44,71 @@ const MATRIX: MatrixSlot[] = [
   { audience: 'clinic-owner', industry: 'clinic', channel: 'instagram', modifier: 'speed',      content_type: 'listicle',   funnel_stage: 'middle' },
   { audience: 'clinic-owner', industry: 'clinic', channel: 'telegram', modifier: 'case-study',  content_type: 'case-study', funnel_stage: 'bottom' },
   { audience: 'clinic-owner', industry: 'clinic', channel: 'web',      modifier: 'comparison',  content_type: 'comparison', funnel_stage: 'middle' },
+  { audience: 'clinic-owner', industry: 'clinic', channel: 'whatsapp', modifier: 'pricing',     content_type: 'review',     funnel_stage: 'bottom' },
+  { audience: 'clinic-owner', industry: 'clinic', channel: 'omni',     modifier: 'security',    content_type: 'guide',      funnel_stage: 'top' },
   // -- restaurant
   { audience: 'restaurant-owner', industry: 'restaurant', channel: 'telegram', modifier: 'guide',       content_type: 'guide',     funnel_stage: 'middle' },
   { audience: 'restaurant-owner', industry: 'restaurant', channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',    funnel_stage: 'middle' },
   { audience: 'restaurant-owner', industry: 'restaurant', channel: 'instagram', modifier: 'speed',      content_type: 'listicle',  funnel_stage: 'middle' },
   { audience: 'restaurant-owner', industry: 'restaurant', channel: 'telegram', modifier: 'case-study',  content_type: 'case-study',funnel_stage: 'bottom' },
+  { audience: 'restaurant-owner', industry: 'restaurant', channel: 'web',      modifier: 'pricing',     content_type: 'review',    funnel_stage: 'bottom' },
+  { audience: 'restaurant-owner', industry: 'restaurant', channel: 'instagram', modifier: 'comparison', content_type: 'comparison',funnel_stage: 'middle' },
   // -- retail
   { audience: 'retail-owner', industry: 'retail', channel: 'telegram', modifier: 'guide',       content_type: 'guide',      funnel_stage: 'middle' },
   { audience: 'retail-owner', industry: 'retail', channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',     funnel_stage: 'middle' },
   { audience: 'retail-owner', industry: 'retail', channel: 'instagram', modifier: 'speed',      content_type: 'listicle',   funnel_stage: 'middle' },
   { audience: 'retail-owner', industry: 'retail', channel: 'web',      modifier: 'comparison',  content_type: 'comparison', funnel_stage: 'middle' },
+  { audience: 'retail-owner', industry: 'retail', channel: 'telegram', modifier: 'pricing',     content_type: 'review',     funnel_stage: 'bottom' },
+  { audience: 'retail-owner', industry: 'retail', channel: 'whatsapp', modifier: 'case-study',  content_type: 'case-study', funnel_stage: 'bottom' },
+  { audience: 'retail-owner', industry: 'retail', channel: 'omni',     modifier: 'security',    content_type: 'guide',      funnel_stage: 'top' },
   // -- fitness
   { audience: 'small-business', industry: 'fitness',    channel: 'telegram', modifier: 'guide',       content_type: 'guide',     funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'fitness',    channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',    funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'fitness',    channel: 'instagram', modifier: 'speed',      content_type: 'listicle',  funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'fitness',    channel: 'web',      modifier: 'pricing',     content_type: 'review',    funnel_stage: 'bottom' },
+  { audience: 'small-business', industry: 'fitness',    channel: 'telegram', modifier: 'case-study',  content_type: 'case-study',funnel_stage: 'bottom' },
   // -- beauty
   { audience: 'small-business', industry: 'beauty',     channel: 'telegram', modifier: 'guide',       content_type: 'guide',     funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'beauty',     channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',    funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'beauty',     channel: 'instagram', modifier: 'speed',      content_type: 'listicle',  funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'beauty',     channel: 'instagram', modifier: 'case-study', content_type: 'case-study',funnel_stage: 'bottom' },
+  { audience: 'small-business', industry: 'beauty',     channel: 'web',      modifier: 'comparison',  content_type: 'comparison',funnel_stage: 'middle' },
   // -- realestate
   { audience: 'small-business', industry: 'realestate', channel: 'telegram', modifier: 'guide',       content_type: 'guide',     funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'realestate', channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',    funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'realestate', channel: 'web',      modifier: 'comparison',  content_type: 'comparison',funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'realestate', channel: 'instagram', modifier: 'case-study', content_type: 'case-study',funnel_stage: 'bottom' },
   // -- education
   { audience: 'small-business', industry: 'education',  channel: 'telegram', modifier: 'guide',       content_type: 'guide',     funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'education',  channel: 'instagram', modifier: 'speed',      content_type: 'listicle',  funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'education',  channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',    funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'education',  channel: 'web',      modifier: 'pricing',     content_type: 'review',    funnel_stage: 'bottom' },
   // -- ecommerce
   { audience: 'ecommerce', industry: 'retail',     channel: 'telegram', modifier: 'integration', content_type: 'guide',      funnel_stage: 'middle' },
   { audience: 'ecommerce', industry: 'retail',     channel: 'whatsapp', modifier: 'speed',       content_type: 'how-to',     funnel_stage: 'middle' },
   { audience: 'ecommerce', industry: 'retail',     channel: 'instagram', modifier: 'comparison', content_type: 'comparison', funnel_stage: 'middle' },
+  { audience: 'ecommerce', industry: 'retail',     channel: 'web',      modifier: 'pricing',     content_type: 'review',     funnel_stage: 'bottom' },
+  { audience: 'ecommerce', industry: 'retail',     channel: 'omni',     modifier: 'case-study',  content_type: 'case-study', funnel_stage: 'bottom' },
   // -- marketer
   { audience: 'marketer',  industry: 'b2c',        channel: 'telegram', modifier: 'comparison',  content_type: 'comparison', funnel_stage: 'top' },
   { audience: 'marketer',  industry: 'b2b',        channel: 'web',      modifier: 'pricing',     content_type: 'review',     funnel_stage: 'bottom' },
+  { audience: 'marketer',  industry: 'b2c',        channel: 'instagram', modifier: 'speed',      content_type: 'listicle',   funnel_stage: 'top' },
+  { audience: 'marketer',  industry: 'b2b',        channel: 'telegram', modifier: 'guide',       content_type: 'guide',      funnel_stage: 'middle' },
   // -- sales
   { audience: 'sales-manager', industry: 'b2b',    channel: 'telegram', modifier: 'integration', content_type: 'how-to',     funnel_stage: 'middle' },
   { audience: 'sales-manager', industry: 'b2b',    channel: 'whatsapp', modifier: 'speed',       content_type: 'guide',      funnel_stage: 'middle' },
+  { audience: 'sales-manager', industry: 'b2c',    channel: 'web',      modifier: 'pricing',     content_type: 'review',     funnel_stage: 'bottom' },
   // -- logistics
   { audience: 'small-business', industry: 'logistics',  channel: 'telegram', modifier: 'guide',       content_type: 'guide',     funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'logistics',  channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',    funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'logistics',  channel: 'web',      modifier: 'pricing',     content_type: 'review',    funnel_stage: 'bottom' },
   // -- general small-business
   { audience: 'small-business', industry: 'b2c',    channel: 'omni',     modifier: 'security',    content_type: 'guide',     funnel_stage: 'top' },
   { audience: 'small-business', industry: 'b2c',    channel: 'omni',     modifier: 'integration', content_type: 'guide',     funnel_stage: 'middle' },
   { audience: 'small-business', industry: 'b2c',    channel: 'web',      modifier: 'pricing',     content_type: 'review',    funnel_stage: 'bottom' },
+  { audience: 'small-business', industry: 'b2c',    channel: 'telegram', modifier: 'guide',       content_type: 'guide',     funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'b2c',    channel: 'whatsapp', modifier: 'integration', content_type: 'how-to',    funnel_stage: 'middle' },
+  { audience: 'small-business', industry: 'b2c',    channel: 'instagram', modifier: 'speed',      content_type: 'listicle',  funnel_stage: 'middle' },
 ];
 
 const AUDIENCE_TITLE_RU: Record<string, string> = {
@@ -130,13 +154,13 @@ function planTitleRu(slot: MatrixSlot): string {
     case 'how-to':
       return `Как настроить AI-бота для ${industry}: ${modifier} (${channel})`;
     case 'listicle':
-      return `7 сценариев AI-бота для ${audience} в ${channel}`;
+      return `7 сценариев AI-бота для ${audience} в ${channel}: ${modifier}`;
     case 'comparison':
-      return `AI-бот или живой менеджер: что выбрать для ${industry}`;
+      return `AI-бот или живой менеджер: что выбрать для ${industry} (${modifier})`;
     case 'case-study':
-      return `Кейс: как AI-бот обрабатывает заявки ${industry} в ${channel}`;
+      return `Кейс: как AI-бот обрабатывает заявки ${industry} в ${channel} — ${modifier}`;
     case 'review':
-      return `Стоимость AI-бота для ${industry}: на чём строится цена`;
+      return `Стоимость AI-бота для ${industry}: на чём строится ${modifier}`;
     case 'guide':
     default:
       return `AI-бот для ${industry} в ${channel}: ${modifier}`;
@@ -147,31 +171,35 @@ function planTitleUz(slot: MatrixSlot): string {
   const aud = AUDIENCE_TITLE_UZ[slot.audience] || 'kichik biznes uchun';
   const industry = slot.industry;
   const channel = slot.channel;
+  const modifier = slot.modifier;
   // simple Uzbek heuristic — gets refined by the n8n UZ adaptation later
   switch (slot.content_type) {
     case 'how-to':
-      return `${industry} biznesi uchun AI-botni qanday sozlash kerak (${channel})`;
+      return `${industry} biznesi uchun AI-botni qanday sozlash kerak (${channel}, ${modifier})`;
     case 'listicle':
-      return `${aud} uchun AI-botning 7 ish stsenariysi: ${channel}`;
+      return `${aud} uchun AI-botning 7 ish stsenariysi: ${channel} — ${modifier}`;
     case 'comparison':
-      return `AI-bot yoki menejer: ${industry} biznesi uchun qaysi yaxshiroq`;
+      return `AI-bot yoki menejer: ${industry} biznesi uchun qaysi yaxshiroq (${modifier})`;
     case 'case-study':
-      return `Tajriba: ${industry} biznesida AI-bot ${channel} arizalarini qanday qabul qiladi`;
+      return `Tajriba: ${industry} biznesida AI-bot ${channel} arizalarini qanday qabul qiladi — ${modifier}`;
     case 'review':
-      return `${industry} biznesi uchun AI-bot narxi nimaga bog'liq`;
+      return `${industry} biznesi uchun AI-bot narxi: ${modifier} nimaga bog'liq`;
     case 'guide':
     default:
-      return `${industry} biznesi uchun AI-bot: ${channel}`;
+      return `${industry} biznesi uchun AI-bot: ${channel} (${modifier})`;
   }
 }
 
 function planKeywordRu(slot: MatrixSlot): string {
   const industry = INDUSTRY_TITLE_RU[slot.industry] || 'бизнеса';
-  return `AI-бот для ${industry}`;
+  const modifier = MODIFIER_TITLE_RU[slot.modifier] || '';
+  return modifier
+    ? `AI-бот для ${industry} — ${modifier}`
+    : `AI-бот для ${industry}`;
 }
 
 function planKeywordUz(slot: MatrixSlot): string {
-  return `AI-bot ${slot.industry} biznesi uchun`;
+  return `AI-bot ${slot.industry} biznesi uchun (${slot.modifier})`;
 }
 
 export interface ProposeTopicsParams {
@@ -252,53 +280,74 @@ export function proposeTopics(params: ProposeTopicsParams): ProposedTopic[] {
     : ['ru'];
 
   const out: ProposedTopic[] = [];
-  // Score-then-pick: prefer slots that match the filter; rotate audience+industry
-  // so we don't pile up similar topics.
-  const slots = MATRIX.filter((s) => matchesFilter(s, params.filters));
-  for (const slot of slots) {
+
+  // Bounded replenishment: try strict filter first, then progressively
+  // relax until we either hit the requested count or exhaust the matrix.
+  // Each pass uses the same MATRIX so deterministic order is preserved.
+  const passes: Array<ProposeTopicsParams['filters']> = [params.filters || {}];
+  // Pass 2: drop channel restriction.
+  if (params.filters?.channel) {
+    passes.push({ ...params.filters, channel: undefined });
+  }
+  // Pass 3: drop funnel_stage restriction.
+  if (params.filters?.funnel_stage) {
+    passes.push({ ...passes[passes.length - 1], funnel_stage: undefined });
+  }
+  // Pass 4: drop industry restriction (last resort — still respects cluster).
+  if (params.filters?.industry) {
+    passes.push({ ...passes[passes.length - 1], industry: undefined });
+  }
+  // Pass 5: drop everything except target_money_page.
+  passes.push({ target_money_page: params.filters?.target_money_page });
+
+  for (const filter of passes) {
     if (out.length >= params.count) break;
-    for (const locale of locales) {
+    const slots = MATRIX.filter((s) => matchesFilter(s, filter));
+    for (const slot of slots) {
       if (out.length >= params.count) break;
-      const title = locale === 'ru' ? planTitleRu(slot) : planTitleUz(slot);
-      const keyword = locale === 'ru' ? planKeywordRu(slot) : planKeywordUz(slot);
-      const money = params.filters?.target_money_page
-        ? params.filters.target_money_page
-        : pickMoneyPageFor(slot, params.inventory, locale);
-      const fp = buildFingerprint({
-        locale, meta_title: title, h1: title,
-        target_keyword: keyword, target_money_page: money, slug: '',
-      });
-      const key = intentKeyOf(fp);
-      if (used.has(key)) continue;
-      used.add(key);
-      // For pre-launch risk estimate, find the strongest deterministic
-      // peer in the inventory with the same locale.
-      let topScore = 0;
-      for (const it of params.inventory.items) {
-        if (it.locale !== locale) continue;
-        if (it.fingerprint.industry === fp.industry && it.fingerprint.audience === fp.audience) topScore = Math.max(topScore, 28);
-        if (it.fingerprint.industry === fp.industry && it.fingerprint.channel  === fp.channel)  topScore = Math.max(topScore, 22);
+      for (const locale of locales) {
+        if (out.length >= params.count) break;
+        const title = locale === 'ru' ? planTitleRu(slot) : planTitleUz(slot);
+        const keyword = locale === 'ru' ? planKeywordRu(slot) : planKeywordUz(slot);
+        const money = params.filters?.target_money_page
+          ? params.filters.target_money_page
+          : pickMoneyPageFor(slot, params.inventory, locale);
+        const fp = buildFingerprint({
+          locale, meta_title: title, h1: title,
+          target_keyword: keyword, target_money_page: money, slug: '',
+        });
+        const key = intentKeyOf(fp);
+        if (used.has(key)) continue;
+        used.add(key);
+        // For pre-launch risk estimate, find the strongest deterministic
+        // peer in the inventory with the same locale.
+        let topScore = 0;
+        for (const it of params.inventory.items) {
+          if (it.locale !== locale) continue;
+          if (it.fingerprint.industry === fp.industry && it.fingerprint.audience === fp.audience) topScore = Math.max(topScore, 28);
+          if (it.fingerprint.industry === fp.industry && it.fingerprint.channel  === fp.channel)  topScore = Math.max(topScore, 22);
+        }
+        out.push({
+          locale,
+          planned_title: title,
+          primary_keyword: keyword,
+          intent_key: key,
+          fingerprint: fp,
+          cluster_key: clusterFromSlot(slot),
+          funnel_stage: slot.funnel_stage,
+          audience: slot.audience,
+          industry: slot.industry,
+          channel: slot.channel,
+          modifier: slot.modifier,
+          content_type: slot.content_type,
+          reason_unique: locale === 'ru'
+            ? `Уникальное сочетание аудитории, отрасли, канала, формата и угла (${slot.audience}/${slot.industry}/${slot.channel}/${slot.content_type}/${slot.modifier}).`
+            : `Audience+industry+channel+content_type+modifier unique slot (${slot.audience}/${slot.industry}/${slot.channel}/${slot.content_type}/${slot.modifier}).`,
+          supports_url: money,
+          risk_score: topScore,
+          risk_level: riskLevelFromScore(topScore),
+        });
       }
-      out.push({
-        locale,
-        planned_title: title,
-        primary_keyword: keyword,
-        intent_key: key,
-        fingerprint: fp,
-        cluster_key: clusterFromSlot(slot),
-        funnel_stage: slot.funnel_stage,
-        audience: slot.audience,
-        industry: slot.industry,
-        channel: slot.channel,
-        modifier: slot.modifier,
-        content_type: slot.content_type,
-        reason_unique: locale === 'ru'
-          ? `Уникальное сочетание аудитории, отрасли, канала и формата (${slot.audience}/${slot.industry}/${slot.channel}/${slot.content_type}).`
-          : `Audience+industry+channel+content_type unique slot (${slot.audience}/${slot.industry}/${slot.channel}/${slot.content_type}).`,
-        supports_url: money,
-        risk_score: topScore,
-        risk_level: riskLevelFromScore(topScore),
-      });
     }
   }
   return out.slice(0, params.count);

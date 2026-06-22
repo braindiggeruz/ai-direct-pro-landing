@@ -17,6 +17,7 @@ import type { Env } from '../../../_types';
 import { constantTimeEqual } from '../../../lib/ai-drafts/store';
 import { getSchedule, shouldRunOnDate } from '../../../lib/seo-autopilot/schedule';
 import { startSeoAutopilotJob } from '../../../lib/seo-autopilot/launch';
+import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../lib/seo-autopilot/direct-launch';
 import { buildLaunchPayload } from '../../../lib/seo-autopilot/payload';
 
 function json(data: unknown, status = 200): Response {
@@ -57,18 +58,25 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   }
 
   const runId = `gptbot-schedule-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-  const payload = buildLaunchPayload({
-    source: 'schedule',
-    requestedBy: 'system:schedule',
-    runId,
-  });
+  const useDirectAi = isDirectAiEnabled(env);
+  // Direct path needs no canonical n8n payload — pass an empty body so the
+  // generator falls back to default topic. Legacy path still needs the
+  // strict task_type/site_url wrapper.
+  const rawBody = useDirectAi
+    ? JSON.stringify({ source: 'schedule', triggered_at: new Date().toISOString() })
+    : JSON.stringify(buildLaunchPayload({
+        source: 'schedule',
+        requestedBy: 'system:schedule',
+        runId,
+      }));
 
-  const result = await startSeoAutopilotJob({
+  const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
+  const result = await launchFn({
     env,
     waitUntil,
     source: 'schedule',
     requestedBy: 'system:schedule',
-    rawBody: JSON.stringify(payload),
+    rawBody,
     runableSecret: env.N8N_WEBHOOK_SECRET || '',
     requestId: runId,
     blockOnOverlap: true,

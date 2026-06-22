@@ -99,7 +99,12 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
       });
       setPlan(r.plan);
       await loadList();
-      setToast(`Собрано тем: ${r.plan.items.length}`);
+      const got = r.plan.items.length;
+      if (got < count) {
+        setToast(`Собрано тем: ${got} из ${count}. Сужающие фильтры или дубликаты предыдущих планов ограничили выдачу — снимите фильтр или подождите, пока активные резервации завершатся.`);
+      } else {
+        setToast(`Собрано тем: ${got}`);
+      }
     } catch (e) {
       setErr((e as Error).message);
     }
@@ -136,8 +141,17 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
       await api.topicPlanItemLaunch(plan.id, itemId);
       const fresh = await api.topicPlanGet(plan.id);
       setPlan(fresh.plan);
-    } catch (e) { setErr((e as Error).message); }
+    } catch (e) {
+      const err = e as Error & { code?: string; requestId?: string; status?: number };
+      const lines = [err.message];
+      if (err.code) lines.unshift(`[${err.code}]`);
+      if (err.status) lines.push(`HTTP ${err.status}`);
+      if (err.requestId) lines.push(`req=${err.requestId}`);
+      setErr(lines.join(' · '));
+    }
     setLaunchingItemId(null);
+    // Always refresh — failure may have stamped the row with error_message.
+    try { const fresh = await api.topicPlanGet(plan.id); setPlan(fresh.plan); } catch { /* */ }
   }
 
   async function launchAll() {
@@ -316,6 +330,11 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
                     <td className="py-2 px-2 max-w-md">
                       <div className="text-white/90 truncate" title={it.planned_title} data-testid={`${testIdPrefix}-row-${it.id}-title`}>{it.planned_title}</div>
                       <div className="text-white/45 text-[11px] mt-0.5">{it.reason_unique}</div>
+                      {it.status === 'failed' && it.error_message && (
+                        <div className="text-amber-300/90 text-[11px] mt-1 break-words" data-testid={`${testIdPrefix}-row-${it.id}-error`}>
+                          ⚠ {it.error_message}
+                        </div>
+                      )}
                     </td>
                     <td className="py-2 px-2 text-white/80">
                       <div className="text-xs">{it.primary_keyword}</div>

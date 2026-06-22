@@ -28,6 +28,7 @@ export interface AutopilotJobRow {
   ingestion_success: boolean;
   error_code: string | null;
   error_message: string | null;
+  error_detail: Record<string, unknown> | null;
   created_at: string;
   updated_at: string;
   finished_at: string | null;
@@ -81,6 +82,9 @@ export interface AutopilotSystemFlags {
   cron_secret_configured: boolean;
   drafts_db_configured: boolean;
   external_trigger_enabled: boolean;
+  /** True when SEO_AUTOPILOT_USE_DIRECT_AI=true and a Workers AI binding is available. */
+  direct_ai_enabled?: boolean;
+  ai_binding_configured?: boolean;
   stale_jobs_swept?: number;
   pending_drafts?: number;
   last_completed?: { draft_id: string | null; admin_url: string | null; finished_at: string | null } | null;

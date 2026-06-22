@@ -20,6 +20,8 @@ import { requireAuth } from '../../../../../../../lib/jwt';
 import { getItem, updateItem } from '../../../../../../../lib/intent-guard/plans';
 import { reserveTopic, transitionReservation } from '../../../../../../../lib/intent-guard/reservations';
 import { startSeoAutopilotJob } from '../../../../../../../lib/seo-autopilot/launch';
+import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../../../../../lib/seo-autopilot/direct-launch';
+import { buildLaunchPayload } from '../../../../../../../lib/seo-autopilot/payload';
 import { analyzeCandidate } from '../../../../../../../lib/intent-guard/analyze';
 import { saveAnalysis, logAuditEvent } from '../../../../../../../lib/intent-guard/audit';
 import { getDraft } from '../../../../../../../lib/ai-drafts/store';
@@ -68,9 +70,14 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
   }
   await updateItem(ctx.env, itemId, { status: 'reserved', reservation_id: reserve.reservation.id });
 
-  // Step 2: launch the existing n8n run synchronously. We pass a small
-  // topic hint as an override field; n8n may or may not honour it.
-  // Either way the resulting draft will go through Intent Guard below.
+  // Step 2: launch the existing pipeline synchronously. Two paths:
+  //   * Direct AI (default, fast, no n8n round-trip) — pass overrides
+  //     directly to the direct launcher's topic decoder.
+  //   * Legacy n8n bridge — overrides MUST be wrapped in the canonical
+  //     `buildLaunchPayload` envelope (task_type, site_url, manual
+  //     approval flags). The previous version of this endpoint sent
+  //     the raw overrides JSON, which caused n8n to reject every
+  //     single-topic run with HTTP 400 in ~1.8s.
   const overrides = {
     planned_title: item.planned_title,
     primary_keyword: item.primary_keyword,
@@ -86,18 +93,28 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
     plan_item_id: itemId,
     intent_key: item.intent_key,
   };
-  const rawBody = JSON.stringify(overrides);
+  const useDirectAi = isDirectAiEnabled(ctx.env);
+  const runId = `gptbot-plan-${planId}-${itemId}-${Date.now().toString(36)}`;
+  const rawBody = useDirectAi
+    ? JSON.stringify(overrides)
+    : JSON.stringify(buildLaunchPayload({
+        source: 'admin',
+        requestedBy: auth.email,
+        runId,
+        overrides,
+      }));
   await updateItem(ctx.env, itemId, { status: 'generating' });
   await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
 
-  const launch = await startSeoAutopilotJob({
+  const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
+  const launch = await launchFn({
     env: ctx.env,
     waitUntil: (p: Promise<unknown>) => ctx.waitUntil(p),
     source: 'admin',
     requestedBy: auth.email,
     rawBody,
     runableSecret: ctx.env.N8N_WEBHOOK_SECRET || '',
-    requestId: null,
+    requestId: runId,
     blockOnOverlap: false,
     awaitCompletion: true,
   });
@@ -111,7 +128,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
   // launch.awaited path returns the final job state inline. Find the
   // draft_id and run Intent Guard analysis automatically.
   let draftId: string | null = null;
-  let jobId: string | null = null;
+  let jobId: string;
   if (launch.awaited && launch.job) {
     draftId = launch.job.draft_id || null;
     jobId = launch.job.id || launch.jobId;

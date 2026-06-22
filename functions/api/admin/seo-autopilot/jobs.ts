@@ -111,6 +111,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     cron_secret_configured: !!env.CRON_SECRET,
     drafts_db_configured: !!env.GPTBOT_DRAFTS_DB,
     external_trigger_enabled: (env.EXTERNAL_AUTOPILOT_TRIGGER_ENABLED || 'false').toLowerCase() === 'true',
+    direct_ai_enabled: (env.SEO_AUTOPILOT_USE_DIRECT_AI || 'true').toLowerCase() !== 'false',
+    ai_binding_configured: !!env.AI,
     stale_jobs_swept: staleSwept,
     pending_drafts: pendingDrafts,
     last_completed: lastCompleted

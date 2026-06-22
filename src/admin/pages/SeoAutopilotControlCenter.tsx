@@ -159,17 +159,28 @@ export default function SeoAutopilotControlCenter() {
     failed: jobs.filter((j) => j.status === 'failed').length,
   }), [jobs]);
 
-  const preflightOk = system?.n8n_webhook_secret_configured && system?.drafts_db_configured;
+  const preflightOk = system?.direct_ai_enabled
+    ? (system?.ai_binding_configured && system?.drafts_db_configured)
+    : (system?.n8n_webhook_secret_configured && system?.drafts_db_configured);
   const launchDisabled = busy || !preflightOk;
 
   // Pretty stage from elapsed time so the spinner conveys SOMETHING.
+  // Direct-AI mode is much faster (15–60 s typical) than the legacy
+  // n8n bridge (60–240 s) — stages reflect that.
+  const directAi = !!system?.direct_ai_enabled;
   const stage = !busy ? null
-    : elapsedMs < 5_000  ? 'Запрос к n8n…'
-    : elapsedMs < 30_000 ? 'Сбор SERP + sitemap (~30 s)…'
-    : elapsedMs < 75_000 ? 'OpenRouter генерирует RU-статью…'
-    : elapsedMs < 130_000 ? 'OpenRouter генерирует UZ-адаптацию…'
-    : elapsedMs < 180_000 ? 'Финальная валидация…'
-    : 'Дольше обычного — ожидайте ещё пару минут…';
+    : directAi
+      ? (elapsedMs < 3_000   ? 'Подготовка темы…'
+        : elapsedMs < 25_000 ? 'Cloudflare Workers AI генерирует RU-статью…'
+        : elapsedMs < 50_000 ? 'Cloudflare Workers AI генерирует UZ-адаптацию…'
+        : elapsedMs < 70_000 ? 'Финальная валидация контракта…'
+        : 'Дольше обычного — проверьте баланс Workers AI Neurons…')
+      : (elapsedMs < 5_000  ? 'Запрос к n8n…'
+        : elapsedMs < 30_000 ? 'Сбор SERP + sitemap (~30 s)…'
+        : elapsedMs < 75_000 ? 'OpenRouter генерирует RU-статью…'
+        : elapsedMs < 130_000 ? 'OpenRouter генерирует UZ-адаптацию…'
+        : elapsedMs < 180_000 ? 'Финальная валидация…'
+        : 'Дольше обычного — ожидайте ещё пару минут…');
 
   return (
     <div className="p-6 sm:p-8 space-y-6" data-testid="seo-autopilot-control-center">
@@ -182,8 +193,8 @@ export default function SeoAutopilotControlCenter() {
             SEO Autopilot
           </h1>
           <p className="text-white/60 text-sm mt-2 max-w-2xl">
-            Launches the existing n8n generation engine and stores the RU/UZ
-            article package in the AI Draft Inbox. Drafts stay unpublished
+            Generates RU + UZ articles using Cloudflare Workers AI and stores
+            the package in the AI Draft Inbox. Drafts stay unpublished
             until you click <strong>Publish to GitHub</strong> in the Blog
             Editor.
           </p>
@@ -203,7 +214,15 @@ export default function SeoAutopilotControlCenter() {
             <div>
               <div className="text-amber-200 font-medium">Configuration required</div>
               <ul className="text-white/80 text-sm mt-2 space-y-1">
-                {!system.n8n_webhook_secret_configured && (
+                {system.direct_ai_enabled && !system.ai_binding_configured && (
+                  <li data-testid="preflight-missing-ai-binding">
+                    • <code className="text-amber-200">Cloudflare Workers AI</code> binding "AI" is not configured.
+                    Open <em>Cloudflare Pages → ai-direct-pro-landing → Settings → Functions → AI bindings</em>{' '}
+                    and add a binding named <strong>AI</strong> (any account-wide model is fine — the code
+                    selects <code className="text-amber-200">@cf/meta/llama-3.3-70b-instruct-fp8-fast</code> by default).
+                  </li>
+                )}
+                {!system.direct_ai_enabled && !system.n8n_webhook_secret_configured && (
                   <li data-testid="preflight-missing-webhook">
                     • <code className="text-amber-200">N8N_WEBHOOK_SECRET</code> is not set in Cloudflare Pages.
                     Set it to the value the n8n "Validate Safety Rules" node expects (same as the legacy Runable header value).
@@ -214,6 +233,15 @@ export default function SeoAutopilotControlCenter() {
                 )}
               </ul>
             </div>
+          </div>
+        </Card>
+      )}
+
+      {system?.direct_ai_enabled && system?.ai_binding_configured && (
+        <Card className="border-brand-blue/20 bg-brand-blue/5" data-testid="control-center-direct-ai-banner">
+          <div className="flex items-center gap-2 text-white/80 text-sm">
+            <ShieldCheck size={14} className="text-brand-cyan"/>
+            <span><strong>Direct AI mode active.</strong> Generation runs in Cloudflare Workers AI (no n8n round-trip). Typical run: 15–60 s.</span>
           </div>
         </Card>
       )}
@@ -229,11 +257,10 @@ export default function SeoAutopilotControlCenter() {
         <Card className="lg:col-span-2">
           <h2 className="font-display text-lg text-white mb-3">Manual run</h2>
           <p className="text-white/60 text-sm mb-5">
-            Click below to start one SEO Autopilot run now. The browser
-            never touches the n8n secret — the server calls n8n with the
-            <code className="text-brand-cyan mx-1">N8N_WEBHOOK_SECRET</code>
-            stored in Cloudflare. Generation takes 1–4 minutes; the page
-            holds the connection open until the draft is ready.
+            Click below to generate a fresh RU + UZ article package now.
+            {system?.direct_ai_enabled
+              ? ' Generation runs inside Cloudflare Workers AI (account-level binding) — no external webhook, no extra API key. Typical run: 15–60 s.'
+              : <> The server calls n8n with the <code className="text-brand-cyan mx-1">N8N_WEBHOOK_SECRET</code> stored in Cloudflare. Generation takes 1–4 minutes; the page holds the connection open until the draft is ready.</>}
           </p>
           <div className="flex gap-2 flex-wrap items-center">
             <Button
@@ -345,10 +372,11 @@ export default function SeoAutopilotControlCenter() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
         <Kpi label="Recent runs"      value={stats.total}    tone="neutral" testId="kpi-total"/>
         <Kpi label="In flight"        value={stats.running}  tone={stats.running ? 'info' : 'neutral'} testId="kpi-running"/>
         <Kpi label="Completed"        value={stats.completed} tone="success" testId="kpi-completed"/>
+        <Kpi label="Errors"           value={stats.failed}   tone={stats.failed > 0 ? 'danger' : 'neutral'} testId="kpi-failed"/>
         <Kpi label="Pending drafts"   value={system?.pending_drafts ?? 0} tone={(system?.pending_drafts ?? 0) > 0 ? 'info' : 'neutral'} testId="kpi-pending-drafts"/>
       </div>
 
@@ -386,7 +414,7 @@ export default function SeoAutopilotControlCenter() {
                 {jobs.map((j) => {
                   const src = humanSource(j.source);
                   return (
-                    <tr key={j.id} className="border-b border-white/5 hover:bg-white/[0.02]"
+                    <tr key={j.id} className="border-b border-white/5 hover:bg-white/[0.02] align-top"
                         data-testid={`control-center-job-${j.id}`}>
                       <td className="py-2 px-2">
                         <Badge tone={statusTone(j.status)}>
@@ -413,18 +441,15 @@ export default function SeoAutopilotControlCenter() {
                           <span className="text-white/40 text-xs">—</span>
                         )}
                       </td>
-                      <td className="py-2 px-2">
+                      <td className="py-2 px-2 max-w-md">
                         {j.draft_id && j.admin_url ? (
                           <Link to={j.admin_url}
                                 className="text-brand-cyan hover:text-white text-xs inline-flex items-center gap-1"
                                 data-testid={`control-center-job-${j.id}-open`}>
                             <Inbox size={11}/> {j.draft_id} <ChevronRight size={11}/>
                           </Link>
-                        ) : j.error_message ? (
-                          <span className="text-amber-300/90 text-xs"
-                                title={j.error_message}>
-                            {j.error_code || 'error'}: {j.error_message.slice(0, 70)}{j.error_message.length > 70 ? '…' : ''}
-                          </span>
+                        ) : j.error_message || j.error_code ? (
+                          <JobErrorCell job={j}/>
                         ) : (
                           <span className="text-white/40 text-xs">…</span>
                         )}
@@ -442,10 +467,13 @@ export default function SeoAutopilotControlCenter() {
       <Card>
         <h2 className="font-display text-base text-white mb-2">How this works</h2>
         <ol className="text-white/70 text-sm space-y-1 list-decimal list-inside">
-          <li>Admin clicks <em>Запустить SEO Автопилот</em>.</li>
-          <li>Server POSTs to <code className="text-brand-cyan">POST /api/admin/seo-autopilot/run</code> (JWT-authenticated).</li>
-          <li>Server calls the n8n production webhook with <code className="text-white/70">x-runable-secret: N8N_WEBHOOK_SECRET</code> (browser never sees it) and AWAITS the full response.</li>
-          <li>n8n generates RU + UZ articles; the function normalises and stores the package in AI Draft Inbox.</li>
+          <li>Admin clicks <em>Запустить SEO Автопилот</em> or <em>Запустить одну</em> on a topic.</li>
+          <li>Server POSTs to <code className="text-brand-cyan">/api/admin/seo-autopilot/run</code> (JWT-authenticated).</li>
+          <li>{system?.direct_ai_enabled
+              ? <>Cloudflare Workers AI generates RU + UZ articles directly (<code className="text-white/70">@cf/meta/llama-3.3-70b-instruct-fp8-fast</code>). No external webhook — typical run 15–60 s.</>
+              : <>Server calls the n8n production webhook (sync await) and stores the RU+UZ package in the AI Draft Inbox.</>}
+          </li>
+          <li>The function validates the bundle and stores it in the AI Draft Inbox as <strong>pending_review</strong>.</li>
           <li>Open the draft → import each locale into the Blog Editor → click <em>Publish to GitHub</em> manually.</li>
         </ol>
       </Card>
@@ -464,6 +492,82 @@ function Kpi({ label, value, tone, testId }: { label: string; value: number; ton
     <div data-testid={testId} className={`bg-bg-surface border ${accent} rounded-2xl px-4 py-3`}>
       <div className="text-[11px] uppercase tracking-wide text-white/50">{label}</div>
       <div className="font-display text-2xl text-white mt-0.5">{value}</div>
+    </div>
+  );
+}
+
+function JobErrorCell({ job }: { job: AutopilotJobRow }) {
+  const [open, setOpen] = useState(false);
+  const msg = job.error_message || 'Unknown failure';
+  const code = job.error_code || 'error';
+  const detail = job.error_detail || null;
+  const issues = Array.isArray(detail?.issues) ? (detail!.issues as Array<{ path?: string; message?: string }>) : null;
+  const perLocaleErrors = Array.isArray(detail?.per_locale_errors)
+    ? (detail!.per_locale_errors as Array<{ locale?: string; error?: string }>)
+    : null;
+  const excerpt = typeof detail?.excerpt === 'string' ? detail.excerpt : null;
+  const n8nExcerpt = typeof detail?.n8n_excerpt === 'string' ? detail.n8n_excerpt : null;
+  const hasDetail = !!issues?.length || !!perLocaleErrors?.length || !!excerpt || !!n8nExcerpt;
+  return (
+    <div className="text-xs text-amber-300/90"
+         data-testid={`control-center-job-${job.id}-error`}>
+      <div className="flex items-start gap-1.5">
+        <span className="font-mono text-amber-200/80 shrink-0">{code}:</span>
+        <span className="break-words">{msg}</span>
+      </div>
+      {hasDetail && (
+        <button
+          type="button"
+          className="text-brand-cyan/80 hover:text-brand-cyan text-[11px] mt-1 inline-flex items-center gap-1"
+          onClick={() => setOpen((v) => !v)}
+          data-testid={`control-center-job-${job.id}-error-toggle`}>
+          {open ? '▾ hide details' : '▸ show details'}
+        </button>
+      )}
+      {open && hasDetail && (
+        <div className="mt-2 space-y-2 rounded-lg border border-white/10 bg-black/30 p-2"
+             data-testid={`control-center-job-${job.id}-error-detail`}>
+          {issues && issues.length > 0 && (
+            <div>
+              <div className="text-white/40 text-[10px] uppercase tracking-wider">Validation issues</div>
+              <ul className="text-white/75 text-[11px] mt-1 space-y-0.5">
+                {issues.slice(0, 12).map((it, i) => (
+                  <li key={i}>
+                    <code className="text-amber-200/80">{it.path || '·'}</code>
+                    {' — '}{it.message || ''}
+                  </li>
+                ))}
+                {issues.length > 12 && <li className="text-white/40">+{issues.length - 12} more</li>}
+              </ul>
+            </div>
+          )}
+          {perLocaleErrors && perLocaleErrors.length > 0 && (
+            <div>
+              <div className="text-white/40 text-[10px] uppercase tracking-wider">Per-locale errors</div>
+              <ul className="text-white/75 text-[11px] mt-1 space-y-0.5">
+                {perLocaleErrors.map((it, i) => (
+                  <li key={i}><code className="text-amber-200/80">{it.locale || '?'}</code> — {it.error || ''}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {excerpt && (
+            <div>
+              <div className="text-white/40 text-[10px] uppercase tracking-wider">Upstream response excerpt</div>
+              <pre className="text-white/65 text-[10px] mt-1 max-h-40 overflow-auto whitespace-pre-wrap break-all">{excerpt}</pre>
+            </div>
+          )}
+          {n8nExcerpt && (
+            <div>
+              <div className="text-white/40 text-[10px] uppercase tracking-wider">n8n raw response</div>
+              <pre className="text-white/65 text-[10px] mt-1 max-h-40 overflow-auto whitespace-pre-wrap break-all">{n8nExcerpt}</pre>
+            </div>
+          )}
+          <div className="text-white/40 text-[10px]">
+            job_id: <code>{job.id}</code>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
