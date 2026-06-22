@@ -33,7 +33,8 @@ import { ingestRawBundle } from '../ai-drafts/ingest';
 import type { IngestResult } from '../ai-drafts/ingest';
 import { validateIncomingBundle } from '../ai-drafts/validators';
 
-const DEFAULT_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+const DEFAULT_MODEL = '@cf/meta/llama-3.1-8b-instruct-fast';
+const QUALITY_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 const FALLBACK_MODEL = '@cf/meta/llama-3.1-70b-instruct';
 const DEFAULT_MONEY_PAGE_RU = '/ru/ai-bot-dlya-biznesa/';
 const DEFAULT_MONEY_PAGE_UZ = '/uz/biznes-uchun-ai-bot/';
@@ -122,17 +123,24 @@ export async function generateAndIngestDirectly(
   const locales: Array<'ru' | 'uz'> = resolveTargetLocales(topic);
   const model = env.CF_AI_MODEL || DEFAULT_MODEL;
 
-  // ── 1. Per-locale generation. We generate sequentially so a failure
-  //       on locale A surfaces before we waste neurons on locale B.
+  // ── 1. Per-locale generation runs in PARALLEL. CF Pages Functions has
+  //       a ~95 s edge budget; sequential generation of two locales easily
+  //       exceeds that with a 70b model, while parallel keeps us under it.
+  const settled = await Promise.allSettled(
+    locales.map((locale) => generateOneArticle(env, model, topic, locale)),
+  );
   const articles: AiDraftArticle[] = [];
   const perLocaleErrors: Array<{ locale: 'ru' | 'uz'; error: string }> = [];
-  for (const locale of locales) {
-    const gen = await generateOneArticle(env, model, topic, locale);
-    if (!gen.ok) {
-      perLocaleErrors.push({ locale, error: gen.error });
-      continue;
+  for (let i = 0; i < locales.length; i++) {
+    const locale = locales[i]!;
+    const res = settled[i]!;
+    if (res.status === 'fulfilled' && res.value.ok) {
+      articles.push(res.value.article);
+    } else if (res.status === 'fulfilled') {
+      perLocaleErrors.push({ locale, error: res.value.error });
+    } else {
+      perLocaleErrors.push({ locale, error: `unhandled exception: ${(res.reason as Error)?.message || 'unknown'}` });
     }
-    articles.push(gen.article);
   }
 
   if (articles.length === 0) {
