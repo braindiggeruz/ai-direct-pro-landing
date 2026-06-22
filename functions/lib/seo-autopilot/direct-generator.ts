@@ -123,11 +123,20 @@ export async function generateAndIngestDirectly(
   const locales: Array<'ru' | 'uz'> = resolveTargetLocales(topic);
   const model = env.CF_AI_MODEL || DEFAULT_MODEL;
 
-  // ── 1. Per-locale generation runs in PARALLEL. CF Pages Functions has
-  //       a ~95 s edge budget; sequential generation of two locales easily
-  //       exceeds that with a 70b model, while parallel keeps us under it.
+  // ── 1. Per-locale generation runs in PARALLEL with up to 2 attempts
+  //       per locale (retry on parse failure). CF Pages Functions has
+  //       a ~95 s edge budget; with the 8b-fast model two locales × two
+  //       attempts × ~12-30 s ≈ 24-60 s wall time, fits the budget.
   const settled = await Promise.allSettled(
-    locales.map((locale) => generateOneArticle(env, model, topic, locale)),
+    locales.map(async (locale) => {
+      let lastErr = 'no attempt';
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        const r = await generateOneArticle(env, model, topic, locale);
+        if (r.ok) return r;
+        lastErr = r.error;
+      }
+      return { ok: false as const, error: lastErr };
+    }),
   );
   const articles: AiDraftArticle[] = [];
   const perLocaleErrors: Array<{ locale: 'ru' | 'uz'; error: string }> = [];
@@ -216,6 +225,9 @@ export async function generateAndIngestDirectly(
     locales: articles.map((a) => a.locale),
     duration_ms: Date.now() - startedAt,
     model,
+    error_detail: perLocaleErrors.length > 0
+      ? { partial_success: true, per_locale_errors: perLocaleErrors, model }
+      : null,
   };
 }
 

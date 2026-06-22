@@ -144,7 +144,7 @@ export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<
     deduplicated: !!result.deduplicated,
     error_code: null,
     error_message: null,
-    error_detail: null,
+    error_detail: result.error_detail || null,
     finished_at: finishedAt,
     duration_ms: result.duration_ms ?? null,
   });
