@@ -379,9 +379,12 @@ export const ru = {
     btnCheckCannibalization: 'Проверить каннибализацию',
     btnRefineWithAi:     'Уточнить интент с AI',
     btnSeparateIntents:  'Развести интенты с AI',
+    btnOptimizeWithAi:   'Оптимизировать с ИИ',
     btnCreateAnotherVariant: 'Создать другой вариант',
     btnBatchPrepareFixes:    'Подготовить исправления для всех конфликтов',
     btnBatchApplyFixes:      'Применить выбранные исправления',
+
+    readyToPublish:      'Готово к публикации — статья больше не конфликтует. Можно нажать Publish.',
 
     drawerTitle:         'Анализ каннибализации',
     drawerSubtitle:      'Низкий риск — статья имеет собственный интент. Средний/высокий — рекомендуется развести.',

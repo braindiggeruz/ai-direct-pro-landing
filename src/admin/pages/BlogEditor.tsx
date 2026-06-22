@@ -414,15 +414,56 @@ export default function BlogEditor() {
       <AiDraftBanner state={aiDraft} onApply={applyAiDraft} />
 
       {/* Intent Guard for the article currently in the editor.
-          Drives the publish-time guard. We do NOT auto-run analyze on
-          page load — only when the operator explicitly clicks the panel
-          button OR when they hit Publish. */}
+          - Analyses the in-memory form (no draft DB row needed).
+          - On Apply we merge the optimised AiDraftArticle BACK into the
+            BlogArticle form state so the operator can immediately Save +
+            Publish without bouncing through AI Draft Detail.
+          - The Publish Guard below still re-runs analyze right before
+            publication (server-side enforced too). */}
       {loaded && (a.locale === 'ru' || a.locale === 'uz') && (
         <IntentGuardPanel
           mode="editor"
           locale={a.locale as 'ru' | 'uz'}
           article={blogToAiDraftArticle(a)}
           testIdPrefix="blog-intent-guard"
+          onApplyToEditor={(optimised) => {
+            // Merge the AI-optimised fields BACK into the BlogArticle form.
+            // Slug + locale + URL + canonical + publication metadata are
+            // INTENTIONALLY preserved — those belong to the editor / GitHub
+            // commit pipeline, not to the AI optimiser.
+            const next: BlogArticle = {
+              ...a,
+              title: optimised.meta_title || a.title,
+              description: optimised.meta_description || a.description,
+              h1: optimised.h1 || a.h1,
+              intro: optimised.excerpt || a.intro,
+              keywords: optimised.keywords && optimised.keywords.length > 0 ? optimised.keywords : a.keywords,
+              body: optimised.body_blocks && optimised.body_blocks.length > 0
+                ? optimised.body_blocks.map((blk) => ({ ...blk }))
+                : a.body,
+              faq: optimised.faq && optimised.faq.length > 0
+                ? optimised.faq.map((f) => ({ q: f.q, a: f.a }))
+                : a.faq,
+              internalLinks: optimised.internal_links && optimised.internal_links.length > 0
+                ? optimised.internal_links.map((l) => ({
+                    target: l.target,
+                    anchor: l.anchor,
+                    type: (l.type || 'contextual'),
+                    locale: l.locale || a.locale,
+                  }))
+                : a.internalLinks,
+              targetMoneyPage: optimised.target_money_page || a.targetMoneyPage,
+              ogTitle: optimised.og_title || a.ogTitle,
+              ogDescription: optimised.og_description || a.ogDescription,
+              schemaTypes: optimised.schemas && optimised.schemas.length > 0
+                ? optimised.schemas as BlogArticle['schemaTypes']
+                : a.schemaTypes,
+            };
+            setA(next);
+            setToast('Статья оптимизирована и обновлена в редакторе. Можно сохранить и опубликовать.');
+            setTimeout(() => setToast(null), 4500);
+            return blogToAiDraftArticle(next);
+          }}
         />
       )}
       {intentGuardRisk && (
