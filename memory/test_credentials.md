@@ -8,9 +8,9 @@
 | ----- | ----- |
 | Admin URL | https://gptbot.uz/admin-tools/login |
 | Email | `admin@gptbot.uz` |
-| Password | **OWNER-OWNED** — stored only as `ADMIN_PASSWORD_HASH` in the Cloudflare Pages env. This agent did NOT change it and did NOT receive it. |
-| Auth | Single-admin JWT (12h sessions), 5-attempt IP lockout via `LOGIN_ATTEMPTS` KV. |
-| Password rotation | `yarn hash-password "<new-password>"` → paste the PHC string into `ADMIN_PASSWORD_HASH` env var. |
+| Password | **`tja358iGCYicxr7e`** — set by agent on 2026-06-22 at owner request (previous hash was unknown / forgotten). 16 chars, no ambiguous glyphs (no `0/O`, `1/l/I`). Verified working: production login `POST /api/auth/login` returns a JWT. |
+| Auth | Single-admin JWT (12 h sessions), 5-attempt IP lockout via `LOGIN_ATTEMPTS` KV. |
+| Password rotation | `yarn hash-password "<new-password>"` → paste the PHC string into Cloudflare Pages env var `ADMIN_PASSWORD_HASH` (production + preview). DELETE any `ADMIN_PASSWORD` plaintext env var if present. Owner is encouraged to rotate this in the dashboard within 24 h of receiving it from the agent. |
 
 ## AI Draft Inbox
 
