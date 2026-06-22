@@ -110,7 +110,12 @@ export function IntentGuardPanel(props: IntentGuardPanelProps) {
           ? { source: 'draft', draftId: props.draftId, locale: props.locale, userHint }
           : { source: 'editor', article: props.article, draftId: props.draftId, userHint }
       );
-      setRetarget({ proposal: r.proposal, risk_score_before: r.risk_score_before });
+      setRetarget({
+        proposal: r.proposal,
+        risk_score_before: r.risk_score_before,
+        provisional_risk_score: r.provisional_risk_score,
+        attempts_summary: r.attempts_summary,
+      });
       setApplyResult(null);
       setOpen(true);
     } catch (e) {

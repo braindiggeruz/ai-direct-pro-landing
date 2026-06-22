@@ -191,6 +191,64 @@ describe('topic suggester', () => {
   });
 });
 
+describe('retarget constraints', () => {
+  test('title/keyword too similar fails iteration 1', async () => {
+    const { validateRetargetConstraints } = await import('../functions/lib/intent-guard/retarget-constraints.ts');
+    const original = {
+      locale: 'ru' as const, slug: 'x', meta_title: 'AI-бот для клиники в Telegram',
+      meta_description: 'desc desc desc desc desc desc desc desc desc desc desc desc desc',
+      h1: 'AI-бот для клиники в Telegram', excerpt: '', target_keyword: 'ai бот для клиники telegram',
+      target_money_page: '/ru/ai-bot/', author: 'X', body_blocks: [], faq: [], internal_links: [],
+      schemas: ['Article'] as ('Article')[], keywords: [],
+    };
+    const fpOld: IntentFingerprint = { locale: 'ru', primary_entity: 'ai-bot', search_intent: 'commercial-service', funnel_stage: 'middle', audience: 'clinic-owner', industry: 'clinic', channel: 'telegram', geo: 'uzbekistan', modifier: 'integration', content_type: 'how-to' };
+    // Optimised article: only renamed AI-бот -> GPT-бот. Title trigram still very high.
+    const optimised = { ...original, meta_title: 'GPT-бот для клиники в Telegram', h1: 'GPT-бот для клиники в Telegram', target_keyword: 'gpt бот для клиники telegram' };
+    const fpNew: IntentFingerprint = { ...fpOld, primary_entity: 'gpt-bot' };
+    const report = validateRetargetConstraints({
+      original, originalFingerprint: fpOld, optimized: optimised, optimizedFingerprint: fpNew,
+      conflicts: [{
+        source_type: 'money_page', id: '/ru/ai-bot/', url: '/ru/ai-bot/',
+        title: 'AI-боты для клиники', locale: 'ru' as const, intent_key: '',
+        fingerprint: fpOld,
+        similarity: { keyword_overlap: 1, title_similarity: 1, h1_similarity: 1, slug_similarity: 1, heading_overlap: 0, same_intent: true, same_funnel: true, same_audience: true, same_industry: true, same_target_money_page: true, score: 100 },
+        reason: '',
+      }],
+      iteration: 1,
+    });
+    assert.equal(report.passed, false, `expected failure, got passed=${report.passed}`);
+    assert.ok(report.failures.find((f) => f.code === 'title_too_similar'), 'expected title_too_similar failure');
+  });
+  test('iteration 2 with proper change_audience passes the constraint set', async () => {
+    const { validateRetargetConstraints } = await import('../functions/lib/intent-guard/retarget-constraints.ts');
+    const original = {
+      locale: 'ru' as const, slug: 'x', meta_title: 'AI-бот для клиники в Telegram',
+      meta_description: 'd', h1: 'AI-бот для клиники в Telegram', excerpt: '',
+      target_keyword: 'ai бот для клиники telegram', target_money_page: '/ru/ai-bot/',
+      author: 'X',
+      body_blocks: [{ type: 'h2', text: 'Запись пациентов' }, { type: 'h2', text: 'Ответы 24/7' }],
+      faq: [], internal_links: [], schemas: ['Article'] as ('Article')[], keywords: [],
+    };
+    const fpOld: IntentFingerprint = { locale: 'ru', primary_entity: 'ai-bot', search_intent: 'commercial-service', funnel_stage: 'middle', audience: 'clinic-owner', industry: 'clinic', channel: 'telegram', geo: 'uzbekistan', modifier: 'integration', content_type: 'how-to' };
+    // Properly differentiated: different audience, channel, modifier, content_type, intent.
+    const optimised = {
+      ...original,
+      meta_title: 'Как ресторан использует WhatsApp-бота для приёма заказов',
+      h1: 'Ресторанный WhatsApp-бот: 7 сценариев приёма заказов',
+      target_keyword: 'whatsapp бот для ресторана сценарии',
+      body_blocks: [{ type: 'h2', text: 'Сценарии WhatsApp в ресторане' }, { type: 'h2', text: 'Ночные заказы и доставка' }],
+    };
+    const fpNew: IntentFingerprint = { locale: 'ru', primary_entity: 'whatsapp-bot', search_intent: 'informational-list', funnel_stage: 'top', audience: 'restaurant-owner', industry: 'restaurant', channel: 'whatsapp', geo: 'uzbekistan', modifier: 'guide', content_type: 'listicle' };
+    const report = validateRetargetConstraints({
+      original, originalFingerprint: fpOld, optimized: optimised, optimizedFingerprint: fpNew,
+      conflicts: [],
+      iteration: 2,
+    });
+    assert.ok(report.fingerprintDimsChanged >= 2, `expected ≥2 dims changed, got ${report.fingerprintDimsChanged}`);
+    assert.equal(report.passed, true, `expected passed, got failures: ${JSON.stringify(report.failures)}`);
+  });
+});
+
 describe('intent key determinism', () => {
   test('intentKeyOf is deterministic and prefixed with locale', () => {
     const fp: IntentFingerprint = {

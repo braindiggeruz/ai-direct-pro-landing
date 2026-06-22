@@ -272,7 +272,10 @@ export const api = {
     conflicts: import('../../shared/intent-guard').IntentConflict[];
     fingerprint_before: import('../../shared/intent-guard').IntentFingerprint;
     semantic_used: boolean;
-  }>('POST', '/api/admin/seo/cannibalization/retarget', body, { timeoutMs: 3 * 60 * 1000 }),
+    provisional_risk_score?: number;
+    attempts_summary?: Array<{ iteration: number; risk_score: number; accepted: boolean; rejection_reason?: string; strategy: string }>;
+    best_attempt_index?: number;
+  }>('POST', '/api/admin/seo/cannibalization/retarget', body, { timeoutMs: 4 * 60 * 1000 }),
   cannibalizationApplyRetarget: (body: {
     draftId: string;
     locale: 'ru' | 'uz';
