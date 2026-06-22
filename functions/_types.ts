@@ -77,5 +77,23 @@ export interface Env {
   AI?: Ai;
   // Model identifier passed to env.AI.run(). Defaults to a long-context
   // llama-3.3-70b instance suitable for full SEO articles.
+  //
+  // NOTE: CF_AI_MODEL and the env.AI binding are kept for backwards
+  // compatibility (Llama path) but are no longer the default route.
+  // The direct-generator now calls Google Gemini Flash via the Emergent
+  // integrations proxy. See GEMINI_MODEL / EMERGENT_LLM_KEY below.
   CF_AI_MODEL?: string;
+  // ─── Gemini Flash via Emergent integrations proxy ───────────────────
+  // Universal LLM key (OpenAI + Anthropic + Gemini text). Server-only.
+  // Required for the direct-generator to call Gemini Flash. Configured
+  // in Cloudflare Pages → Settings → Environment variables as
+  // EMERGENT_LLM_KEY (secret_text).
+  EMERGENT_LLM_KEY?: string;
+  // Primary Gemini model id. Defaults to "gemini-2.5-flash" — the best
+  // free-tier balance of quality, speed (~25-40 s/article), 1M ctx,
+  // strict JSON, Russian + Uzbek Latin fluency.
+  GEMINI_MODEL?: string;
+  // Fallback model used on timeout / 5xx / 429 from the primary.
+  // Defaults to "gemini-2.5-flash-lite".
+  GEMINI_FALLBACK_MODEL?: string;
 }
