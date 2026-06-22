@@ -149,10 +149,24 @@ describe('risk', () => {
   test('money page conflict gets a meaningful score boost over a blog conflict', () => {
     const blog  = inventoryItem({ locale: 'ru', id: 'b1', title: 'X', source_type: 'blog' });
     const money = inventoryItem({ locale: 'ru', id: 'm1', title: 'X', source_type: 'money_page' });
+    // Same-intent path: both conflicts share intent + funnel + audience + industry + money_page,
+    // so the money-page direct-commercial boost (+15) applies, blog gets only +6.
     const sim = { keyword_overlap: 0.7, title_similarity: 0.5, h1_similarity: 0.5, slug_similarity: 0.5, heading_overlap: 0.3, same_intent: true, same_funnel: true, same_audience: true, same_industry: true, same_target_money_page: true, score: 60 };
     const blogRisk  = computeRiskScore({ conflicts: [{ ...blog,  similarity: sim, reason: '' }] });
     const moneyRisk = computeRiskScore({ conflicts: [{ ...money, similarity: sim, reason: '' }] });
     assert.ok(moneyRisk.risk_score > blogRisk.risk_score, `money(${moneyRisk.risk_score}) should be > blog(${blogRisk.risk_score})`);
+  });
+  test('successful retarget — supporting article (different intent + funnel) gets very low score boost', () => {
+    // This is the post-retarget scenario: the article now targets a
+    // DIFFERENT search intent + funnel than the money page, but still
+    // links to it (same_target_money_page=true). The money-page conflict
+    // should hardly contribute to risk — the article is supporting, not
+    // competing.
+    const money = inventoryItem({ locale: 'ru', id: 'm1', title: 'X', source_type: 'money_page' });
+    const sim = { keyword_overlap: 0.2, title_similarity: 0.2, h1_similarity: 0.2, slug_similarity: 0.1, heading_overlap: 0.1, same_intent: false, same_funnel: false, same_audience: false, same_industry: false, same_target_money_page: true, score: 30 };
+    const r = computeRiskScore({ conflicts: [{ ...money, similarity: sim, reason: '' }] });
+    assert.ok(r.risk_score < 40, `expected risk_score < 40 for a supporting article, got ${r.risk_score}`);
+    assert.equal(r.risk_level, r.risk_score < 30 ? 'low' : 'medium');
   });
   test('empty conflicts return risk 0/low', () => {
     const r = computeRiskScore({ conflicts: [] });
