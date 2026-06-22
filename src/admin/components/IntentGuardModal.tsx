@@ -39,6 +39,8 @@ export interface IntentGuardAnalysisView {
 export interface RetargetState {
   proposal: RetargetProposal;
   risk_score_before: number;
+  provisional_risk_score?: number;
+  attempts_summary?: Array<{ iteration: number; risk_score: number; accepted: boolean; rejection_reason?: string; strategy: string }>;
 }
 
 export interface ApplyResult {
@@ -202,6 +204,21 @@ export function IntentGuardModal({
                 <Badge tone="info">{localiseStrategy(retarget.proposal.strategy, t)}</Badge>
               </div>
               <div className="text-white/80 text-sm whitespace-pre-line" data-testid="intent-guard-proposal-reason">{retarget.proposal.reason}</div>
+              {/* Attempts summary — visible only when AI iterated. */}
+              {retarget.attempts_summary && retarget.attempts_summary.length > 1 && (
+                <div className="mt-3 border border-white/10 rounded-lg p-2 text-xs" data-testid="intent-guard-attempts">
+                  <div className="text-white/65 mb-1">
+                    AI сделал <strong className="text-white">{retarget.attempts_summary.length}</strong> {retarget.attempts_summary.length > 1 ? 'попытки' : 'попытку'} разведения интентов:
+                  </div>
+                  <ul className="space-y-0.5">
+                    {retarget.attempts_summary.map((a) => (
+                      <li key={a.iteration} className={a.accepted ? 'text-emerald-300' : 'text-amber-300/90'}>
+                        Попытка {a.iteration}: риск {a.risk_score}, стратегия {a.strategy}{a.accepted ? ' — принята' : ` — ${a.rejection_reason || 'отклонена'}`}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {retarget.proposal.changes.length > 0 && (
                 <div className="mt-3">
                   <div className="text-white/70 text-xs mb-1">{t.intentGuard.proposalIntroduced}</div>

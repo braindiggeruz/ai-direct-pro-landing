@@ -89,18 +89,39 @@ const HARD_PROHIBITIONS = `Нельзя:
 - удалять блок FAQ;
 - возвращать поля вне схемы.`;
 
-export function buildRetargetSystemPrompt(locale: 'ru' | 'uz'): string {
+export function buildRetargetSystemPrompt(locale: 'ru' | 'uz', iteration = 1): string {
+  const ITERATION_NOTE = iteration === 1
+    ? ''
+    : iteration === 2
+      ? 'ЭТО ВТОРАЯ ПОПЫТКА. Первая попытка НЕ снизила риск каннибализации. Сейчас необходимо СИЛЬНО изменить угол — недостаточно перефразировать заголовок. Смени минимум 2 оси: audience+industry ИЛИ industry+channel ИЛИ funnel_stage+modifier.'
+      : 'ЭТО ТРЕТЬЯ ПОПЫТКА. Предыдущие версии всё ещё конкурируют. Сейчас обязан изменить минимум 3 оси одновременно и предложить уникальный длинный хвост keyword из 4+ слов. Если самостоятельного интента нет — честно верни decision="merge" или "reject".';
+
+  const HARD_OUTPUT_RULES = `ЖЁСТКИЕ ТРЕБОВАНИЯ К ВЫХОДУ (проверяются программно после твоего ответа):
+1) Новый fingerprint должен отличаться от старого минимум на ${iteration === 1 ? '1' : iteration === 2 ? '2' : '3'} ось из набора (audience, industry, channel, funnel_stage, modifier, content_type, search_intent).
+2) Новый meta_title не должен быть trigram-похож на старый более чем на ${iteration === 1 ? '55' : iteration === 2 ? '45' : '35'}%. То есть это должен быть РАЗНЫЙ заголовок, а не перефразированный.
+3) Новый target_keyword не должен пересекаться со старым по словам более чем на ${iteration === 1 ? '45' : iteration === 2 ? '35' : '25'}%. Бери длинный хвост из 3-5 слов с УНИКАЛЬНЫМИ модификаторами.
+4) Структура H2/H3 должна быть пересобрана: минимум половина заголовков разделов должна отражать новый угол.
+5) Если в конфликте есть money_page и search_intent="commercial-buy" — обязательно переведи статью в informational (informational-howto, informational-list или informational-explain), money page сохраняет коммерческий интент. Статья должна ПОДДЕРЖИВАТЬ money page внутренней ссылкой, а не конкурировать.
+6) В optimized_article должны быть ВСЕ поля схемы. body_blocks должен содержать минимум 6 блоков (h2 + p + h3 + p + list + cta).
+7) В internal_links обязательно одна ссылка на target_money_page с человекочитаемым anchor (не "тут" / "здесь").
+
+Если ты НЕ можешь выполнить эти требования (например, у статьи нет самостоятельного интента) — честно верни decision="merge" + reason="нет самостоятельного интента, нужно объединить со страницей X" или decision="reject" + reason="нет уникального запроса".`;
+
   return [
     'Ты — senior SEO-стратег GPTBot.uz и эксперт по разведению поисковых интентов (anti-cannibalization).',
     'Твоя задача: переориентировать переданную статью в собственную смысловую территорию так, чтобы она перестала конкурировать с money page и опубликованными материалами, но при этом усиливала кластер.',
+    ITERATION_NOTE,
     locale === 'ru' ? RU_BLOCK : UZ_BLOCK,
     'Доступные стратегии (выбрать ровно одну): ' + ALLOWED_STRATEGIES.join(', ') + '.',
-    'Если самостоятельного интента не существует — честно предложи decision="merge" или "reject", а не насильно меняй фразу "AI бот" на "GPT бот". Это НЕ разведение интентов.',
+    iteration <= 1
+      ? 'Если самостоятельного интента не существует — честно предложи decision="merge" или "reject", а не насильно меняй фразу "AI бот" на "GPT бот". Это НЕ разведение интентов.'
+      : 'На этой итерации стратегии "keep" и "narrow" ЗАПРЕЩЕНЫ. Используй change_audience / change_industry / change_channel / change_funnel_stage / change_modifier / change_content_format / merge / reject.',
     'Money page всегда приоритетнее блога. Если возникает конфликт с money page — перевести БЛОГ в informational/middle-funnel и добавить ссылку на money page.',
     HARD_PROHIBITIONS,
+    HARD_OUTPUT_RULES,
     'Сохрани slug, локаль и target_money_page если они не противоречат стратегии. Если меняешь target_money_page — оставь его в рамках того же locale-каталога.',
     RESPONSE_SCHEMA,
-  ].join('\n\n');
+  ].filter(Boolean).join('\n\n');
 }
 
 export interface RetargetUserContext {
@@ -117,14 +138,24 @@ export interface RetargetUserContext {
     recommended_target_money_page?: string;
   };
   user_hint?: string;
+  /** Optional: feedback from a failed previous iteration's constraint check. */
+  previous_failure_feedback?: string;
+  /** Optional: list of last attempt summaries to discourage repetition. */
+  prior_attempts?: Array<{ meta_title: string; target_keyword: string; fingerprint: IntentFingerprint; risk_score: number }>;
 }
 
 export function buildRetargetUserPrompt(ctx: RetargetUserContext): string {
   const conflictsLines = ctx.conflicts.slice(0, 5).map((c, i) => {
-    const headings = (c.fingerprint.search_intent || '');
     return `${i + 1}. [${c.source_type}] id=${c.id} url=${c.url || '(draft)'} title="${c.title}" det_score=${c.similarity.score} intent_key=${c.intent_key} same_money=${c.similarity.same_target_money_page}`;
-    void headings;
   }).join('\n');
+
+  const priorBlock = ctx.prior_attempts && ctx.prior_attempts.length > 0
+    ? [
+        '',
+        'ТВОИ ПРЕДЫДУЩИЕ ПОПЫТКИ (нельзя повторять):',
+        ...ctx.prior_attempts.map((p, i) => `  Попытка ${i + 1}: title="${p.meta_title}" keyword="${p.target_keyword}" fp=${JSON.stringify(p.fingerprint)} risk=${p.risk_score}`),
+      ].join('\n')
+    : '';
 
   return [
     `Локаль: ${ctx.article.locale}`,
@@ -132,6 +163,9 @@ export function buildRetargetUserPrompt(ctx: RetargetUserContext): string {
     `Risk score сейчас: ${ctx.risk_score_before}/100`,
     `Рекомендация AI-судьи: action=${ctx.recommendation.action}; reason="${ctx.recommendation.reason}"; angle="${ctx.recommendation.recommended_angle || ''}"; keyword="${ctx.recommendation.recommended_keyword || ''}"; funnel="${ctx.recommendation.recommended_funnel_stage || ''}"; money_page="${ctx.recommendation.recommended_target_money_page || ''}"`,
     ctx.user_hint ? `Подсказка администратора: ${ctx.user_hint}` : '',
+    ctx.previous_failure_feedback ? '' : '',
+    ctx.previous_failure_feedback || '',
+    priorBlock,
     '',
     `Конфликтующие документы (shortlist):`,
     conflictsLines || '(пусто)',

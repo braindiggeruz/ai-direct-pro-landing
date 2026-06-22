@@ -16,6 +16,7 @@ import { runRetarget } from '../../../../lib/intent-guard/retarget-client';
 import { saveAnalysis, logAuditEvent } from '../../../../lib/intent-guard/audit';
 import type { AiDraftArticle } from '../../../../../src/shared/ai-drafts';
 import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
+import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
 
 interface OptimizerEnv extends Env { OPENROUTER_API_KEY?: string }
 
@@ -79,12 +80,15 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
     return jsonResponse({ error: 'Another retarget run for this article is already in flight.' }, 429);
   }
   try {
-    // Re-analyze to get fresh deterministic shortlist (always on; SERP+sem optional)
+    // Re-analyze to get fresh deterministic shortlist (always on; SERP+sem optional).
+    // We REUSE the analysis inventory across all retarget iterations so we
+    // don't pay GitHub bulk-read 3 times.
+    const inventory = await buildContentInventory(env);
     const analysis = await analyzeCandidate(env, {
       id: candidate.id,
       source_type: 'ai_draft',
       article: candidate.article,
-    }, { useSerper: 'auto', useSemantic: true });
+    }, { useSerper: 'auto', useSemantic: true, inventory });
 
     const retarget = await runRetarget(env, {
       article: candidate.article,
@@ -93,6 +97,8 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
       risk_score_before: analysis.risk_score,
       recommendation: analysis.semantic.recommendation,
       user_hint: body.userHint,
+      inventory,
+      candidateId: candidate.id,
     });
 
     if (!retarget.ok || !retarget.proposal) {
@@ -101,6 +107,7 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
         error: retarget.upstream_error || 'Retarget did not produce a valid proposal.',
         validation_errors: retarget.validation_errors,
         raw_excerpt: retarget.raw_excerpt,
+        attempts: retarget.attempts,
       }, 502);
     }
 
@@ -130,6 +137,8 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
       await logAuditEvent(env, draftId, 'cannibalization_retarget_proposed', auth.email, {
         analysis_id: analysisId,
         risk_score_before: analysis.risk_score,
+        provisional_risk_after: retarget.provisional_risk_score,
+        attempts_count: retarget.attempts?.length ?? 1,
         strategy: retarget.proposal.strategy,
         decision: retarget.proposal.decision,
         model: retarget.proposal.model,
@@ -145,6 +154,15 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
       conflicts: analysis.conflicts,
       fingerprint_before: analysis.fingerprint,
       semantic_used: analysis.semantic.used,
+      provisional_risk_score: retarget.provisional_risk_score,
+      attempts_summary: (retarget.attempts || []).map((a) => ({
+        iteration: a.iteration,
+        risk_score: a.provisional_risk_score,
+        accepted: a.accepted,
+        rejection_reason: a.rejection_reason,
+        strategy: a.proposal.strategy,
+      })),
+      best_attempt_index: retarget.best_attempt_index,
     });
   } finally {
     releaseLock(lockKey);
