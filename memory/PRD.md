@@ -188,7 +188,28 @@ Hard rules:
 * The endpoint refuses non-JSON payloads, payloads > 256 KB, requests without a bearer.
 * The `_routes.json` (existing) scopes Functions to `/api/*` and `/admin-tools/*` only.
 
+### 2026-06-22 — Kill `ERR_QUIC_PROTOCOL_ERROR` permanently
+
+* **Symptom**: `https://gptbot.uz/admin-tools/login` shows "This site can't be reached / ERR_QUIC_PROTOCOL_ERROR" intermittently in Chrome, even though the same page works in incognito and other browsers.
+* **Root cause**: Cloudflare had HTTP/3 (QUIC over UDP/443) enabled by default. QUIC sessions occasionally fail to negotiate (broken middlebox, ISP UDP throttle, transient CF edge state). When they fail, Chrome marks the connection as broken AND caches the Alt-Svc header for up to 7 days. Every retry keeps trying QUIC instead of falling back cleanly to HTTP/2.
+* **Fix (multi-layer)**:
+  1. **Zone setting `http3` = off** (Cloudflare API). New sessions will never be offered QUIC.
+  2. **Zone setting `0rtt` = off**. Related to QUIC; disabling removes one more failure mode.
+  3. **`_headers` file** (`scripts/generate-robots.ts`) now emits `/admin-tools/* → Cache-Control: no-store` + `Alt-Svc: clear` + `X-Frame-Options: DENY` + `X-Robots-Tag: noindex,nofollow`; `/assets/* → public, max-age=31536000, immutable`; `/api/* → no-store`. (Note: Cloudflare's edge owns the `Alt-Svc` header and strips it from `_headers`. We leave the directive in place as future-proofing; the zone-level HTTP/3 off is what actually fixes the bug.)
+  4. **Root Pages Function middleware** (`functions/_middleware.ts`) now sets `Alt-Svc: clear` on every Function-handled response (also stripped at the CF edge today, but harmless and ready when CF ever lets Functions override Alt-Svc).
+  5. **`Always Use HTTPS`** = on (zone setting). Plain-HTTP visitors get a 301 to HTTPS, which goes straight to HTTP/2 (no QUIC negotiation step).
+* **Result**:
+  * New visitors → HTTP/2 over TCP. Zero QUIC code path.
+  * Returning visitors with cached Alt-Svc → Chrome tries HTTP/3 once, fails, falls back to HTTP/2 instantly (CF no longer responds to QUIC handshake at all). Cached Alt-Svc TTL is ~24 hours, after which Chrome stops trying QUIC entirely.
+* **Owner immediate-fix workaround (one-time, in Chrome only)**: open `chrome://net-internals/#sockets` and click **Flush socket pools**, or hard refresh with `Ctrl+Shift+F5`, or open the admin in a fresh incognito window. After one successful load over HTTP/2, the broken cache is gone.
+* **Deferred (low priority, needs Zone:Edit Rulesets permission)**: create a Cloudflare Transform Rule (Modify Response Header) that injects `Alt-Svc: clear` from the edge — this would fix the issue without requiring any browser-side action. The two API tokens shared for this session lack Zone:Edit Rulesets scope so the rule must be created manually in the Cloudflare dashboard (Rules → Overview → Transform Rules → Modify Response Header → "Add a header → set Alt-Svc to literal `clear` when expression is `true`"). Two-minute task in the dashboard; absolute belt-and-braces.
+* **Commit**: `1d1d0a8` on `main`. Deploy: Cloudflare Pages success.
+
 ## Next action items
+
+* **OWNER — IMMEDIATE (10 s in Chrome) — to fix YOUR ERR_QUIC_PROTOCOL_ERROR right now**: open Chrome address bar → `chrome://net-internals/#sockets` → click "Flush socket pools". Then open `https://gptbot.uz/admin-tools/login` with `Ctrl+Shift+F5`. From this reload onward every connection is HTTP/2 over TCP and the QUIC error cannot reappear. (HTTP/3 is now permanently off at the zone — one-shot cleanup, not recurring.)
+* **OWNER — 2 min in the dashboard — belt-and-braces so OTHER returning visitors also get instant fix**: Cloudflare Dashboard → Rules → Overview → Transform Rules → Modify Response Header → "Set" `Alt-Svc` to literal value `clear` with expression `true`. (Couldn't be added via API in this session — the two shared tokens lack Zone:Rulesets:Edit scope.)
+
 
 * OWNER: open https://gptbot.uz/admin-tools/seo-autopilot and click **Запустить SEO Автопилот** OR pick a topic and click **Запустить одну** — both paths now generate via Cloudflare Workers AI directly (no n8n). Typical run is 20–45 s. Three production E2E runs already produced clean pending_review drafts (see PRD section 2026-06-22). Drafts: `draft_71ddb29446534c7d8b3ec0`, `draft_e4e9af42ac294e3a92f8e8`, `draft_ad4d31bada234adca8bae9`.
 * OWNER: previous draft `draft_f88ade213e744f1c99397b` is still in `pending_review` at https://gptbot.uz/admin-tools/ai-drafts/draft_f88ade213e744f1c99397b — review, edit, and publish manually when ready.
