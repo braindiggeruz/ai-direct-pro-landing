@@ -1,9 +1,9 @@
 // Google Gemini Flash client for direct AI content generation.
 //
-// Calls Google Gemini via the Emergent Integrations proxy (an
-// OpenAI-compatible HTTPS endpoint). This is the only external HTTP
-// dependency the direct-generator pipeline has — everything else
-// (validators, ingest, D1) runs in-cluster.
+// Calls Google's Generative Language API directly (REST) — no SDK, no
+// proxy. The Cloudflare Pages Function runtime supports the native
+// fetch() to https://generativelanguage.googleapis.com so this stays
+// inside the existing edge runtime.
 //
 // Why Gemini Flash instead of the previous Workers AI / Llama 8b-fast:
 //   * Llama 8b-fast produced thin, short articles (4–6 short paragraphs,
@@ -11,17 +11,16 @@
 //     content was not publish-ready and required heavy human rewriting.
 //   * Gemini 2.5 Flash gives a step change in instruction-following,
 //     Russian fluency, and Uzbek Latin naturalness, with the same
-//     strict-JSON output guarantee (response_format=json_object).
+//     strict-JSON output guarantee (responseMimeType=application/json).
 //
-// Why the Emergent proxy and not Google AI Studio directly:
-//   * No additional API key required — the project already has
-//     EMERGENT_LLM_KEY as an env var (universal key for OpenAI /
-//     Anthropic / Gemini text).
-//   * Stable rate-limits and quota accounting through a single key,
-//     billed to the user's universal-key balance, not Google's
-//     free-tier daily quota (which would silently 429 in production).
-//   * OpenAI-compatible chat-completions surface keeps the contract
-//     identical to the rest of the system.
+// Why Google AI Studio (direct) and not OpenRouter / Emergent proxy:
+//   * The free tier (15 RPM, 1500 RPD, 1M ctx) on gemini-2.5-flash is
+//     more than enough for the SEO Autopilot's manual cadence and the
+//     scheduled cron (≤ a few articles per hour).
+//   * Direct call removes one moving part: no middleman, no extra
+//     rate-limit accounting, no proxy outages on the critical path.
+//   * Strict JSON via responseMimeType is honoured by Google's API
+//     natively and removes the brittle "salvage from markdown" branch.
 //
 // Safety:
 //   * Never throws to the caller — all failures surface via
@@ -29,17 +28,18 @@
 //     report something actionable.
 //   * Hard timeout (default 70 s) so a slow upstream cannot exhaust
 //     the ~95 s Cloudflare Pages Function budget.
-//   * Optional fallback to gemini-2.5-flash-lite on timeout / 5xx /
-//     429. The lite model is faster (avg ~15 s) but slightly shallower
+//   * One-step fallback to gemini-2.5-flash-lite on timeout / 5xx /
+//     429. The lite model is faster (avg ~25 s) but slightly shallower
 //     output — used only as a recovery, never the default.
 //
 // References:
 //   functions/lib/seo-autopilot/direct-generator.ts (sole caller)
 //   functions/_types.ts                              (Env binding)
+//   https://ai.google.dev/api/generate-content       (REST contract)
 
 import type { Env } from '../../_types';
 
-const PROXY_URL = 'https://integrations.emergentagent.com/llm/chat/completions';
+const API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 
 /** Default Gemini Flash model. Override with env.GEMINI_MODEL. */
 export const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
@@ -48,34 +48,34 @@ export const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
 export const FALLBACK_GEMINI_MODEL = 'gemini-2.5-flash-lite';
 
 export interface GeminiCallInput {
-  /** System message — sets persona, JSON contract, hard constraints. */
+  /** System instruction — sets persona, JSON contract, hard constraints. */
   system: string;
   /** User message — topic brief + writing directives. */
   user: string;
-  /** Max tokens for the model output. Gemini 2.5 Flash caps at 8192. */
+  /** Max output tokens. Gemini 2.5 Flash caps at 8192. */
   maxTokens?: number;
-  /** Sampling temperature. Default 0.35 — coherent but not robotic. */
+  /** Sampling temperature. Default 0.4 — coherent but not robotic. */
   temperature?: number;
   /** Hard wall-clock timeout. Default 70 000 ms, fits CF Pages budget. */
   timeoutMs?: number;
-  /** When true, sends response_format=json_object to enforce strict JSON. */
+  /** When true (default), enforces strict-JSON output via responseMimeType. */
   jsonObject?: boolean;
 }
 
 export interface GeminiCallSuccess {
   ok: true;
-  /** Raw assistant content (a JSON string when jsonObject=true). */
+  /** Raw model output (a JSON string when jsonObject=true). */
   content: string;
   /** The model the call actually completed on (primary or fallback). */
   model: string;
-  /** OpenAI-style finish reason ("stop" | "length" | "tool_calls"…). */
+  /** Google finish reason: "STOP" | "MAX_TOKENS" | "SAFETY" | … */
   finishReason?: string;
-  /** Token usage if the proxy returned it. */
+  /** Token usage. */
   usage?: {
-    prompt_tokens?: number;
-    completion_tokens?: number;
-    total_tokens?: number;
-    completion_tokens_details?: Record<string, unknown>;
+    promptTokenCount?: number;
+    candidatesTokenCount?: number;
+    totalTokenCount?: number;
+    thoughtsTokenCount?: number;
   };
   /** Wall-clock duration in ms. */
   durationMs: number;
@@ -87,7 +87,7 @@ export interface GeminiCallFailure {
   error: string;
   /** The model the failure occurred on. */
   model: string;
-  /** HTTP status when the proxy responded with a non-2xx body. */
+  /** HTTP status when the API responded with a non-2xx body. */
   status?: number;
   /** Excerpt of the upstream body (truncated to 600 chars). */
   rawExcerpt?: string;
@@ -98,20 +98,20 @@ export interface GeminiCallFailure {
 export type GeminiCallResult = GeminiCallSuccess | GeminiCallFailure;
 
 /**
- * Call Gemini Flash via the Emergent proxy. Retries once to the fallback
- * model on transient upstream failures (timeout, 5xx, 408, 429). Never
- * throws.
+ * Call Gemini Flash via Google's Generative Language API (direct REST).
+ * Retries once to the fallback model on transient upstream failures
+ * (timeout, 5xx, 408, 429). Never throws.
  */
 export async function callGemini(
   env: Env,
   input: GeminiCallInput,
 ): Promise<GeminiCallResult> {
-  const apiKey = env.EMERGENT_LLM_KEY;
+  const apiKey = env.GEMINI_API_KEY;
   if (!apiKey) {
     return {
       ok: false,
       error:
-        'EMERGENT_LLM_KEY is not configured. Add it under Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables (secret_text).',
+        'GEMINI_API_KEY is not configured. Add it under Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables (secret_text). Generate the key for free at https://aistudio.google.com/app/apikey.',
       model: env.GEMINI_MODEL || DEFAULT_GEMINI_MODEL,
       durationMs: 0,
     };
@@ -130,7 +130,7 @@ export async function callGemini(
     // user's contract — same prompt would fail again.
     const status = r.status ?? 0;
     const transient =
-      status === 0 || // network/abort
+      status === 0 || // network / abort
       status === 408 ||
       status === 429 ||
       status >= 500;
@@ -157,33 +157,30 @@ async function callOnce(
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
-  // Emergent proxy expects gemini models prefixed with "gemini/" for
-  // litellm-style routing. We normalise once here so callers can pass a
-  // bare model id like "gemini-2.5-flash".
-  const wireModel = model.includes('/') ? model : `gemini/${model}`;
+  const url = `${API_BASE}/${encodeURIComponent(model)}:generateContent`;
 
-  // Build the request body. response_format=json_object is supported by
-  // the proxy and enforced by Gemini's JSON mode — the model returns a
-  // JSON string we can JSON.parse directly.
+  // Google's request body — distinct from OpenAI's chat-completions
+  // shape. systemInstruction carries the persona and JSON contract;
+  // contents is the user message. responseMimeType=application/json
+  // forces strict-JSON output (Gemini's JSON mode).
   const body: Record<string, unknown> = {
-    model: wireModel,
-    messages: [
-      { role: 'system', content: input.system },
-      { role: 'user', content: input.user },
-    ],
-    max_tokens: input.maxTokens ?? 8000,
-    temperature: input.temperature ?? 0.35,
+    contents: [{ role: 'user', parts: [{ text: input.user }] }],
+    systemInstruction: { role: 'system', parts: [{ text: input.system }] },
+    generationConfig: {
+      temperature: input.temperature ?? 0.4,
+      maxOutputTokens: input.maxTokens ?? 8000,
+      ...(input.jsonObject !== false
+        ? { responseMimeType: 'application/json' }
+        : {}),
+    },
   };
-  if (input.jsonObject !== false) {
-    body.response_format = { type: 'json_object' };
-  }
 
   try {
-    const res = await fetch(PROXY_URL, {
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
+        'x-goog-api-key': apiKey,
       },
       body: JSON.stringify(body),
       signal: controller.signal,
@@ -195,34 +192,63 @@ async function callOnce(
       const text = await res.text().catch(() => '');
       return {
         ok: false,
-        error: `Gemini proxy HTTP ${res.status}`,
+        error: `Gemini API HTTP ${res.status}`,
         model,
         status: res.status,
         rawExcerpt: text.slice(0, 600),
         durationMs,
       };
     }
-    const json = (await res.json()) as {
-      choices?: Array<{ message?: { content?: string }; finish_reason?: string }>;
-      usage?: GeminiCallSuccess['usage'];
+
+    type GeminiResponse = {
+      candidates?: Array<{
+        content?: { parts?: Array<{ text?: string }>; role?: string };
+        finishReason?: string;
+        safetyRatings?: unknown;
+      }>;
+      promptFeedback?: {
+        blockReason?: string;
+        safetyRatings?: unknown;
+      };
+      usageMetadata?: GeminiCallSuccess['usage'];
     };
-    const choice = json.choices?.[0];
-    const content = choice?.message?.content;
-    if (typeof content !== 'string' || !content.trim()) {
+    const json = (await res.json()) as GeminiResponse;
+
+    // Hard refusals show up as no candidates + promptFeedback.blockReason.
+    if (!json.candidates || json.candidates.length === 0) {
+      const reason = json.promptFeedback?.blockReason || 'no_candidates';
       return {
         ok: false,
-        error: 'Gemini proxy returned empty content',
+        error: `Gemini returned no candidates (${reason})`,
         model,
         rawExcerpt: JSON.stringify(json).slice(0, 600),
         durationMs,
       };
     }
+
+    const cand = json.candidates[0]!;
+    const finishReason = cand.finishReason;
+    const parts = cand.content?.parts ?? [];
+    const content = parts.map((p) => p?.text || '').join('');
+
+    if (!content.trim()) {
+      // A SAFETY / RECITATION / PROHIBITED_CONTENT finish reason will
+      // produce empty content even on 200 OK — surface it explicitly.
+      return {
+        ok: false,
+        error: `Gemini returned empty content (finishReason=${finishReason || 'unknown'})`,
+        model,
+        rawExcerpt: JSON.stringify(json).slice(0, 600),
+        durationMs,
+      };
+    }
+
     return {
       ok: true,
       content,
       model,
-      finishReason: choice?.finish_reason,
-      usage: json.usage,
+      finishReason,
+      usage: json.usageMetadata,
       durationMs,
     };
   } catch (e) {
@@ -234,7 +260,7 @@ async function callOnce(
       ok: false,
       error: isAbort
         ? `Gemini call timed out after ${timeoutMs} ms`
-        : err.message || 'Gemini proxy network error',
+        : err.message || 'Gemini API network error',
       model,
       durationMs,
     };

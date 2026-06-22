@@ -112,7 +112,7 @@ export interface DirectGenerationResult {
 }
 
 /**
- * Generate RU and/or UZ articles directly via Cloudflare Workers AI and
+ * Generate RU and/or UZ articles directly via Google Gemini Flash and
  * persist as a pending_review draft. Never throws.
  */
 export async function generateAndIngestDirectly(
@@ -130,13 +130,13 @@ export async function generateAndIngestDirectly(
       error_message: 'Draft storage not configured (GPTBOT_DRAFTS_DB).',
     };
   }
-  if (!env.EMERGENT_LLM_KEY) {
+  if (!env.GEMINI_API_KEY) {
     return {
       ok: false,
       generation_status: 'failed',
       error_code: 'gemini_key_missing',
       error_message:
-        'EMERGENT_LLM_KEY is not configured. Open Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables and add EMERGENT_LLM_KEY (secret_text) — this is the universal key that grants Gemini Flash access through the Emergent integrations proxy.',
+        'GEMINI_API_KEY is not configured. Open Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables and add GEMINI_API_KEY (secret_text). Generate a free key at https://aistudio.google.com/app/apikey — Gemini 2.5 Flash free tier is 15 RPM / 1500 RPD, which is more than enough for the SEO Autopilot cadence.',
     };
   }
 
@@ -181,7 +181,7 @@ export async function generateAndIngestDirectly(
       ok: false,
       generation_status: 'failed',
       error_code: 'ai_generation_failed',
-      error_message: `Workers AI produced no usable article for any requested locale (${locales.join(',')}).`,
+      error_message: `Gemini Flash produced no usable article for any requested locale (${locales.join(',')}).`,
       error_detail: { per_locale_errors: perLocaleErrors, model },
       duration_ms: Date.now() - startedAt,
       model,
@@ -299,7 +299,7 @@ function buildBundlePayload(input: {
     seo_brief: {
       requested_by: input.requestedBy,
       source: input.source,
-      generated_by: 'gemini-flash-via-emergent-proxy',
+      generated_by: 'gemini-flash-via-google-ai-studio',
       generated_at: new Date().toISOString(),
     },
     validation: {
