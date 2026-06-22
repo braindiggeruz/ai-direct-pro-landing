@@ -9,22 +9,31 @@
 // Pipeline (server-side, inside Cloudflare Pages Functions):
 //   1. Resolve a topic descriptor (title, primary_keyword, locale, money page,
 //      industry, channel, intent, etc.) from caller overrides + defaults.
-//   2. Call Cloudflare Workers AI (`env.AI.run(model, …)`) twice — once per
-//      locale (ru / uz). Each call returns a strict JSON article matching
-//      the existing `validateIncomingBundle` contract (slug, meta_*,
-//      body_blocks, faq, internal_links, …).
+//   2. Call Google Gemini 2.5 Flash via the Emergent integrations proxy
+//      (OpenAI-compatible HTTPS endpoint) — once per locale (ru / uz).
+//      Each call returns a strict JSON article matching the existing
+//      `validateIncomingBundle` contract (slug, meta_*, body_blocks,
+//      faq, internal_links, …).
 //   3. Wrap both articles into a bundle (schema_version, source, bundle_id),
 //      run `validateIncomingBundle`, then `insertOrReuseDraft`.
 //   4. Always lands as status='pending_review' with manual_approval_required
 //      forced server-side. No auto-publish, no GitHub commit, no IndexNow.
+//
+// Why Gemini Flash (was Llama 3.1 8b-fast via Workers AI):
+//   * Llama produced thin, short articles — paragraphs of 30–50 words,
+//     2–3 FAQ items, weak Uzbek Latin. Validation passed but content
+//     was not publish-ready.
+//   * Gemini 2.5 Flash gives a step change in instruction-following,
+//     section depth, Russian fluency, and Uzbek Latin naturalness with
+//     the same strict-JSON guarantee (response_format=json_object).
 //
 // Safety:
 //   * Never throws to the caller — failures return { ok: false, … } so the
 //     job row + UI both surface an actionable diagnostic.
 //   * Strict JSON parsing with multi-pass salvage so partial model output
 //     still produces a usable article when possible.
-//   * Cloudflare Workers AI is a same-account binding — no API key is
-//     surfaced through env vars, the binding itself is the auth.
+//   * Hard per-call timeout (70 s) so a slow upstream cannot exhaust the
+//     ~95 s Cloudflare Pages Functions request budget.
 
 import type { Env } from '../../_types';
 import type { AiDraftArticle } from '../../../src/shared/ai-drafts';
@@ -32,15 +41,26 @@ import { AI_DRAFT_SCHEMA_VERSION } from '../../../src/shared/ai-drafts';
 import { ingestRawBundle } from '../ai-drafts/ingest';
 import type { IngestResult } from '../ai-drafts/ingest';
 import { validateIncomingBundle } from '../ai-drafts/validators';
+import {
+  callGemini,
+  DEFAULT_GEMINI_MODEL,
+} from './gemini-client';
 
-const DEFAULT_MODEL = '@cf/meta/llama-3.1-8b-instruct-fast';
-const QUALITY_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
-const FALLBACK_MODEL = '@cf/meta/llama-3.1-70b-instruct';
 const DEFAULT_MONEY_PAGE_RU = '/ru/ai-bot-dlya-biznesa/';
 const DEFAULT_MONEY_PAGE_UZ = '/uz/biznes-uchun-ai-bot/';
 const SITE_URL = 'https://gptbot.uz';
-const MAX_OUTPUT_TOKENS = 4500;
-const TEMPERATURE = 0.25;
+// Gemini 2.5 Flash supports up to 8192 output tokens. We reserve a small
+// margin so the model has room to close the JSON cleanly even with the
+// long-form structure (≈ 18-28 body blocks).
+const MAX_OUTPUT_TOKENS = 8000;
+// Temperature 0.4 — coherent and not robotic, but disciplined enough
+// for strict JSON. Empirically Gemini Flash starts to drop required
+// fields above 0.6.
+const TEMPERATURE = 0.4;
+// 70s hard wall for a single locale. With two locales in parallel the
+// total observed wall time is dominated by max(ru, uz) ≈ 30-50 s, well
+// under the 95 s CF Pages budget.
+const TIMEOUT_MS = 70_000;
 
 export interface DirectGenerationTopic {
   /** Planned RU/UZ-language title surfaced to the user. */
@@ -110,23 +130,27 @@ export async function generateAndIngestDirectly(
       error_message: 'Draft storage not configured (GPTBOT_DRAFTS_DB).',
     };
   }
-  if (!env.AI) {
+  if (!env.EMERGENT_LLM_KEY) {
     return {
       ok: false,
       generation_status: 'failed',
-      error_code: 'ai_binding_missing',
+      error_code: 'gemini_key_missing',
       error_message:
-        'Cloudflare Workers AI binding "AI" is not configured. Open Cloudflare Pages → ai-direct-pro-landing → Settings → Functions → AI bindings and add a binding named "AI".',
+        'EMERGENT_LLM_KEY is not configured. Open Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables and add EMERGENT_LLM_KEY (secret_text) — this is the universal key that grants Gemini Flash access through the Emergent integrations proxy.',
     };
   }
 
   const locales: Array<'ru' | 'uz'> = resolveTargetLocales(topic);
-  const model = env.CF_AI_MODEL || DEFAULT_MODEL;
+  const model = env.GEMINI_MODEL || DEFAULT_GEMINI_MODEL;
 
   // ── 1. Per-locale generation runs in PARALLEL with up to 2 attempts
-  //       per locale (retry on parse failure). CF Pages Functions has
-  //       a ~95 s edge budget; with the 8b-fast model two locales × two
-  //       attempts × ~12-30 s ≈ 24-60 s wall time, fits the budget.
+  //       per locale (retry only on parse failure — the gemini-client
+  //       already retries upstream HTTP errors against the fallback
+  //       model). CF Pages Functions has a ~95 s edge budget; with
+  //       Gemini 2.5 Flash two locales × one attempt × ~30-40 s ≈
+  //       max(35,35) = 35 s wall time. A second parse-retry adds up to
+  //       another 35 s only on the (rare) JSON failure, still within
+  //       budget.
   const settled = await Promise.allSettled(
     locales.map(async (locale) => {
       let lastErr = 'no attempt';
@@ -275,7 +299,7 @@ function buildBundlePayload(input: {
     seo_brief: {
       requested_by: input.requestedBy,
       source: input.source,
-      generated_by: 'cloudflare-workers-ai',
+      generated_by: 'gemini-flash-via-emergent-proxy',
       generated_at: new Date().toISOString(),
     },
     validation: {
@@ -316,91 +340,37 @@ async function generateOneArticle(
     notes: topic.notes ?? null,
   });
 
-  // Workers AI binding signature: env.AI.run(model, { messages, max_tokens, temperature, … })
-  // We try response_format=json_schema first (newer models honour it); on
-  // ANY failure we fall back to messages-only on the fallback model.
-  type ChatResponse = {
-    response?: string;
-    result?: { response?: string; choices?: Array<{ message?: { content?: string } }> };
-    choices?: Array<{ message?: { content?: string } }>;
-  };
-  const ai = env.AI;
-  if (!ai) return { ok: false, error: 'AI binding missing at runtime' };
+  // Single call to Gemini Flash via the Emergent integrations proxy.
+  // The client itself handles a one-step fallback (gemini-2.5-flash →
+  // gemini-2.5-flash-lite) on transient upstream failures.
+  const result = await callGemini(env, {
+    system,
+    user,
+    maxTokens: MAX_OUTPUT_TOKENS,
+    temperature: TEMPERATURE,
+    timeoutMs: TIMEOUT_MS,
+    jsonObject: true,
+  });
 
-  let raw: ChatResponse | null = null;
-  let lastErr: string | null = null;
-  let rawTextExcerpt = '';
-  const aiRunner = ai as unknown as {
-    run: (
-      model: string,
-      input: {
-        messages: Array<{ role: string; content: string }>;
-        max_tokens: number;
-        temperature: number;
-        response_format?: { type: 'json_object' | 'json_schema'; json_schema?: unknown };
-      },
-    ) => Promise<ChatResponse>;
-  };
-
-  // ONE attempt per locale total — CF Pages Functions edge has a hard ~95s
-  // request budget. Two locales × 1 attempt × ~25s ≈ 50s, well within
-  // the budget. The fallback model is reached only if the primary throws
-  // outright (network/model unavailable), not on parse failure.
-  for (const candidateModel of [model, FALLBACK_MODEL]) {
-    try {
-      const input: Parameters<typeof aiRunner.run>[1] = {
-        messages: [
-          { role: 'system', content: system },
-          { role: 'user', content: user },
-        ],
-        max_tokens: MAX_OUTPUT_TOKENS,
-        temperature: TEMPERATURE,
-        response_format: { type: 'json_object' },
-      };
-      const r = await aiRunner.run(candidateModel, input);
-      // With response_format=json_object, some Workers AI models return
-      // the response field as an already-parsed object. Detect that and
-      // keep `raw` populated; the parse step downstream skips JSON.parse
-      // in that case.
-      const rawAny: unknown =
-        r.response ??
-        r.result?.response ??
-        r.result?.choices?.[0]?.message?.content ??
-        r.choices?.[0]?.message?.content;
-      if (rawAny != null) {
-        if (typeof rawAny === 'string') {
-          rawTextExcerpt = rawAny.slice(0, 600);
-        } else if (typeof rawAny === 'object') {
-          rawTextExcerpt = JSON.stringify(rawAny).slice(0, 600);
-        }
-        raw = r;
-        // Attach the parsed object hint so we don't re-stringify -> re-parse.
-        (raw as ChatResponse & { _parsed?: unknown })._parsed = rawAny;
-        break;
-      }
-      lastErr = `model=${candidateModel} returned empty content`;
-    } catch (e) {
-      lastErr = `model=${candidateModel} threw: ${(e as Error).message || 'unknown'}`;
-    }
+  // The caller's retry loop expects { ok: false, error } on parse-style
+  // failures and { ok: false, error: '<...>' } on upstream issues. Both
+  // shapes are produced below; the loop in generateAndIngestDirectly
+  // retries once on parse failure (not on hard upstream errors — those
+  // are already retried inside callGemini against the fallback model).
+  if (!result.ok) {
+    return {
+      ok: false,
+      error: `Gemini call failed: ${result.error}${result.status ? ` (HTTP ${result.status})` : ''}${result.rawExcerpt ? ` | excerpt=${result.rawExcerpt.replace(/\s+/g, ' ').slice(0, 200)}` : ''}`,
+    };
   }
-  if (!raw) return { ok: false, error: `Workers AI call failed: ${lastErr || 'unknown error'}` };
+  void model; // primary model id was just a hint — the client picks the wire model
 
-  // Use already-parsed object if available, else parse the text response.
-  const parsedHint = (raw as ChatResponse & { _parsed?: unknown })._parsed;
-  let parsed: unknown;
-  if (parsedHint && typeof parsedHint === 'object') {
-    parsed = parsedHint;
-  } else {
-    const text =
-      (typeof raw.response === 'string' ? raw.response : '') ||
-      (typeof raw.result?.response === 'string' ? raw.result.response : '') ||
-      (typeof raw.result?.choices?.[0]?.message?.content === 'string' ? raw.result.choices[0]!.message!.content! : '') ||
-      (typeof raw.choices?.[0]?.message?.content === 'string' ? raw.choices[0]!.message!.content! : '');
-    if (!text) return { ok: false, error: 'Workers AI returned empty content' };
-    parsed = parseStrictJson(text);
-    if (!parsed || typeof parsed !== 'object') {
-      return { ok: false, error: `Workers AI output was not parsable JSON | excerpt=${text.slice(0, 400).replace(/\s+/g, ' ')}` };
-    }
+  const parsed = parseStrictJson(result.content);
+  if (!parsed || typeof parsed !== 'object') {
+    return {
+      ok: false,
+      error: `Gemini output was not parsable JSON | finish=${result.finishReason || 'unknown'} | excerpt=${result.content.slice(0, 300).replace(/\s+/g, ' ')}`,
+    };
   }
   const article = coerceArticle(parsed as Record<string, unknown>, locale, {
     planned_title: planned,
@@ -408,59 +378,121 @@ async function generateOneArticle(
     target_money_page: moneyPage,
   });
   if (!article) {
-    return { ok: false, error: `Workers AI output was missing required fields after coercion | keys=${Object.keys(parsed as object).slice(0, 20).join(',')} | excerpt=${rawTextExcerpt.slice(0, 300).replace(/\s+/g, ' ')}` };
+    return {
+      ok: false,
+      error: `Gemini output missing required fields after coercion | keys=${Object.keys(parsed as object).slice(0, 20).join(',')} | excerpt=${result.content.slice(0, 300).replace(/\s+/g, ' ')}`,
+    };
   }
   return { ok: true, article };
 }
 
 // ── 5. Prompts -------------------------------------------------------
+//
+// The prompt is the single biggest lever on output quality. The
+// previous Llama 8b-fast configuration produced "valid but shallow"
+// articles (4-6 short paragraphs, 2-3 FAQ items, weak Uzbek). Gemini
+// 2.5 Flash follows long, structured prompts much better — so this
+// version is intentionally verbose and demands a deep structure:
+//
+//   * 18-28 body_blocks, with 6+ distinct h2 sections.
+//   * Each h2 must be supported by 2-4 child blocks (p, list, h3, quote).
+//   * One h2 must cover Uzbekistan-specific scenarios (Tashkent retail,
+//     Samarkand services, etc.). Concrete operator detail, not generic.
+//   * One h2 must cover Telegram + Instagram Direct integration.
+//   * One h2 must cover lead handling + handoff to a human manager.
+//   * One h2 must cover real limitations (where the AI bot will fail).
+//   * One h2 must cover common implementation mistakes.
+//   * FAQ: 6-10 items, real operator questions, 2-4-sentence answers.
+//   * internal_links: 4-7 distinct, anchors in natural language.
+//
+// The "FORBIDDEN PHRASES" list is the owner's explicit anti-AI-cliché
+// requirement. Do not soften it — these phrases trigger immediate
+// rejection by a human reviewer.
 
 function buildSystemPrompt(locale: 'ru' | 'uz'): string {
-  const langName = locale === 'ru' ? 'Russian (русский)' : 'Uzbek Latin (o\'zbek tilida, lotin yozuvi)';
+  const langName = locale === 'ru'
+    ? 'Russian (русский)'
+    : 'Uzbek Latin (o\'zbek tilida, lotin yozuvi)';
+  const forbiddenSection = locale === 'ru' ? RU_FORBIDDEN_PHRASES : UZ_FORBIDDEN_PHRASES;
   return [
-    `You are a senior SEO content writer for GPTBot.uz, an AI-bot SaaS for small businesses in Uzbekistan.`,
-    `Write a complete blog article in ${langName}. The output MUST be a single strict JSON object (no Markdown, no commentary, no code fences).`,
-    `The article must read as a human-written, helpful, fact-checked piece — not a thin SEO doorway page.`,
+    `You are a senior SEO content writer and practitioner consultant for GPTBot.uz, an AI-bot SaaS for small and medium businesses in Uzbekistan.`,
+    `Write a complete, expert-level blog article in ${langName}. The output MUST be a single strict JSON object — no Markdown, no commentary, no code fences, no leading or trailing text.`,
+    `The article must read as a human-written piece by an experienced automation specialist who works with Uzbekistan SMBs every day. Concrete, useful, operator-level — never a thin SEO doorway page.`,
     ``,
     `STRICT JSON SHAPE (every key required, no extra keys allowed):`,
     `{`,
     `  "locale": "${locale}",`,
-    `  "slug": "kebab-case-slug-max-80-chars",   // a-z 0-9 -, must match /^[a-z0-9-]{1,80}$/`,
+    `  "slug": "kebab-case-slug-max-80-chars",        // a-z 0-9 -, must match /^[a-z0-9-]{1,80}$/`,
     `  "meta_title": "string up to 220 chars",`,
     `  "meta_description": "string up to 320 chars",`,
-    `  "h1": "string up to 220 chars",`,
+    `  "h1": "string up to 220 chars",                 // ONE h1, distinct from meta_title`,
     `  "excerpt": "string up to 800 chars (one paragraph, plain text)",`,
-    `  "target_keyword": "primary keyword string",`,
-    `  "target_money_page": "/${locale}/...",     // absolute path on gptbot.uz, must start with /${locale}/`,
+    `  "target_keyword": "primary search keyword",`,
+    `  "target_money_page": "/${locale}/...",         // absolute path on gptbot.uz, must start with /${locale}/`,
     `  "author": "GPTBot",`,
     `  "body_blocks": [`,
     `    { "type": "h2", "text": "Section heading" },`,
-    `    { "type": "p",  "text": "Paragraph ~ 80-160 words" },`,
-    `    { "type": "list", "items": ["item one", "item two", "item three"] },`,
+    `    { "type": "p",  "text": "Paragraph 100-180 words of substantive insight" },`,
     `    { "type": "h3", "text": "Sub-heading" },`,
-    `    { "type": "quote", "text": "short pull quote" },`,
-    `    { "type": "cta", "text": "Optional call-to-action sentence", "href": "/${locale}/..." }`,
+    `    { "type": "p",  "text": "Supporting paragraph" },`,
+    `    { "type": "list", "items": ["concrete operational item 1", "item 2", "item 3"] },`,
+    `    { "type": "quote", "text": "short pull quote from a practitioner perspective" },`,
+    `    { "type": "cta", "text": "Optional CTA sentence", "href": "/${locale}/..." }`,
     `  ],`,
-    `  "faq": [{ "q": "Question?", "a": "Helpful 1-2 sentence answer." }],`,
+    `  "faq": [{ "q": "Real operator question?", "a": "Helpful 2-4 sentence answer." }],`,
     `  "internal_links": [`,
-    `    { "target": "/${locale}/blog/...", "anchor": "Anchor text", "type": "contextual" }`,
+    `    { "target": "/${locale}/...", "anchor": "Anchor text in natural language", "type": "contextual" }`,
     `  ],`,
     `  "schemas": ["Article", "FAQPage", "BreadcrumbList"],`,
     `  "keywords": ["primary keyword", "secondary keyword", "..."]`,
     `}`,
     ``,
-    `HARD CONSTRAINTS:`,
-    `* body_blocks: 12–24 blocks. At least 4 h2 sections, at least one list, no empty blocks.`,
-    `* faq: 5–8 items. Questions natural-language, answers 1–2 sentences each.`,
-    `* internal_links: 3–6 distinct items. Every target MUST start with /${locale}/ (no http(s)://, no '?' or '#').`,
-    `* keywords: 6–12 items, lowercase, comma-free.`,
+    `DEPTH REQUIREMENTS (this is the difference between a publish-ready article and another thin draft):`,
+    `* body_blocks: 18-28 blocks total. At least 6 distinct h2 sections. Each h2 must be supported by 2-4 child blocks (paragraphs, lists, occasional h3 or quote).`,
+    `* Each paragraph: 100-180 words of real insight — no filler, no throat-clearing, no transitions like "перейдём к следующему разделу". Cut every sentence that does not introduce a new fact or recommendation.`,
+    `* Lists: items must be concrete, operational, and specific. "Подключить мессенджер" is too generic; "Подключить Telegram Business API через @BotFather и привязать к CRM по webhook" is the right level.`,
+    `* At least one h2 must cover REAL Uzbekistan business scenarios — Tashkent retail, Samarkand услуги, Bukhara b2b, regional logistics, local payment habits (наличные при доставке, Click, Payme, Humo). Name actual cities, channels, and behaviours; do NOT invent client names, statistics, or guarantees.`,
+    `* At least one h2 must cover Telegram + Instagram Direct integration — these are the dominant messaging channels in Uzbekistan. Cover both, including how each channel is configured and how leads are unified.`,
+    `* At least one h2 must cover lead handling: triage logic, escalation criteria, how the AI bot hands a conversation to a human manager, what context it passes along.`,
+    `* At least one h2 must cover REAL limitations — where the AI bot will fail (complex disputes, payment reconciliation, kasaba edge cases, multi-step manual quoting, etc.). Be honest; this builds trust with the operator.`,
+    `* At least one h2 must cover the most common implementation mistakes operators make in the first month, with the exact correction for each.`,
+    `* Final h2 must be a practical implementation CTA pointing readers to target_money_page. The cta block + an internal_links entry both link there.`,
+    `* faq: 6-10 items. Real questions an operator actually asks (cost, timeline, integration with CRM, who maintains the bot, what happens if internet drops, etc.). Answers 2-4 sentences each, concrete.`,
+    `* internal_links: 4-7 distinct items. Every target MUST start with /${locale}/. Anchors must be natural ${locale === 'ru' ? 'Russian' : 'Uzbek Latin'} phrases — never "click here" or "подробнее". Distinct anchor texts for distinct targets.`,
+    `* keywords: 8-14 items, lowercase, comma-free.`,
+    `* No empty blocks. No placeholder text. No Lorem ipsum. No "ваш текст здесь".`,
     `* No mojibake, no Unicode replacement chars, no curly placeholders like {{ … }}.`,
     `* Stay strictly within ${langName}. Do not switch languages mid-sentence.`,
-    `* The article must reference and link to the target_money_page at least once via internal_links.`,
-    `* Do not invent statistics or laws; speak in concrete operational terms ("AI-bot отвечает в Telegram 24/7", etc.).`,
-    `* Output ONLY the JSON object. Do not wrap in code fences. Do not prepend or append any text.`,
+    `* Do not invent statistics, client names, market shares, or guarantees. Speak in concrete operational terms.`,
+    ``,
+    `FORBIDDEN PHRASES (zero tolerance — these instantly mark the text as AI-generated):`,
+    forbiddenSection,
+    ``,
+    `OUTPUT FORMAT:`,
+    `* Output ONLY the JSON object. Do not wrap in code fences. Do not prepend "Here is the article" or any other commentary. Do not append anything after the closing brace.`,
+    `* The JSON must be valid and parseable by JSON.parse.`,
   ].join('\n');
 }
+
+const RU_FORBIDDEN_PHRASES = [
+  `* "в современном мире", "в наше время", "в сегодняшнем быстро меняющемся мире"`,
+  `* "новая эра автоматизации", "революционное решение", "трансформация бизнеса"`,
+  `* "эффективность без компромиссов", "не имеет аналогов", "уникальное решение на рынке"`,
+  `* "поднимет ваш бизнес на новый уровень", "позволит вашему бизнесу процветать"`,
+  `* "в условиях стремительно растущей конкуренции", "в эпоху цифровой трансформации"`,
+  `* Any sentence that starts with "Сегодня", "В современных условиях", "В наши дни"`,
+  `* Any vague filler like "очень важно", "необходимо отметить", "следует подчеркнуть"`,
+].join('\n');
+
+const UZ_FORBIDDEN_PHRASES = [
+  `* "zamonaviy dunyoda", "hozirgi kunda", "bugungi kunda" sifatida ochiluvchi har qanday gap`,
+  `* "inqilobiy yechim", "biznesni transformatsiya qiluvchi", "tengsiz samaradorlik"`,
+  `* "biznesingizni yangi bosqichga olib chiqadi", "raqamli transformatsiya davrida"`,
+  `* "raqobat keskinlashayotgan sharoitda", "AI inqilobi davri"`,
+  `* Russian word order or direct calque from Russian — write idiomatic Uzbek Latin.`,
+  `* Cyrillic characters anywhere in the output — only Latin letters and standard punctuation.`,
+  `* Vague filler: "juda muhim", "ta'kidlash kerak", "shuni unutmaslik kerak"`,
+].join('\n');
 
 function buildUserPrompt(
   locale: 'ru' | 'uz',
@@ -479,15 +511,15 @@ function buildUserPrompt(
   },
 ): string {
   const langDirective = locale === 'ru'
-    ? 'Пиши на русском языке. Все заголовки, FAQ и тексты — только на русском.'
-    : 'O\'zbek tilida, lotin yozuvida yoz. Barcha sarlavhalar, FAQ va matn faqat lotin yozuvi bilan.';
+    ? 'Пиши на русском языке как опытный специалист по автоматизации SMB в Узбекистане. Тон: уверенный, практичный, без хайпа. Обращайся к оператору, который ведёт бизнес каждый день.'
+    : 'O\'zbek tilida, lotin yozuvida yoz. Tajribali O\'zbekiston SMB avtomatlashtirish mutaxassisi sifatida yoz. Ohang: ishonchli, amaliy, hech qanday balandparvozliksiz. Har kuni biznesni boshqaradigan operatorga murojaat qil.';
   const lines: string[] = [
     langDirective,
     ``,
     `TOPIC BRIEF`,
     `* planned_title: ${ctx.planned_title}`,
     `* primary_keyword: ${ctx.primary_keyword}`,
-    `* target_money_page: ${ctx.target_money_page}   (must appear in internal_links)`,
+    `* target_money_page: ${ctx.target_money_page}   (must appear in internal_links AND in a cta block)`,
     ctx.cluster        ? `* cluster: ${ctx.cluster}` : '',
     ctx.industry       ? `* industry: ${ctx.industry}` : '',
     ctx.audience       ? `* audience: ${ctx.audience}` : '',
@@ -498,11 +530,14 @@ function buildUserPrompt(
     ctx.notes          ? `* notes: ${ctx.notes}` : '',
     ``,
     `WRITING DIRECTIVES`,
-    `* Tone: confident, practical, no hype. Address the operator who runs the business.`,
-    `* Anchor every claim in concrete steps the reader can take within a week.`,
-    `* The CTA / final h2 must point readers to ${ctx.target_money_page} via an internal_links entry.`,
-    `* Use the slug derived from the planned_title (transliterated to ASCII, kebab-case, no diacritics).`,
-    `* Return EXACTLY one JSON object. No prose, no Markdown fences, no leading whitespace.`,
+    `* Open with a concrete problem the reader recognises from the first sentence — not a definition, not a market overview.`,
+    `* Anchor every claim in a step the reader can take within a week. If you cannot translate a paragraph into an action item, delete it.`,
+    `* Use ${locale === 'ru' ? 'Узбекистан' : "O'zbekiston"}-specific detail: real cities, real channels (Telegram, Instagram Direct, Click, Payme, Humo), real operator habits (наличные при доставке, ручной учёт в Excel, и т.д.). Do NOT invent client names or statistics.`,
+    `* Show a concrete end-to-end scenario in one of the sections: from the customer's first message through bot triage to manager handoff, including the exact information the bot collects and passes along.`,
+    `* Be honest about limitations: there should be a full h2 about what the bot cannot do. This is non-negotiable.`,
+    `* The slug is derived from the planned_title (transliterated to ASCII, kebab-case, no diacritics). Use that slug.`,
+    `* The final h2 is the implementation CTA — a short, specific section about taking the next step, with a cta block (href=${ctx.target_money_page}) and a matching internal_links entry.`,
+    `* Return EXACTLY one JSON object. No prose before, no prose after, no Markdown fences, no leading whitespace.`,
   ];
   return lines.filter(Boolean).join('\n');
 }

@@ -120,7 +120,7 @@ export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<
       validation_issue_count: result.validation_issue_count ?? 0,
       error_code: result.error_code || 'ai_direct_failed',
       error_message: (result.error_message || 'Direct AI generation failed').slice(0, 1000),
-      error_detail: { ...(result.error_detail || {}), model: result.model, runtime: 'cloudflare-workers-ai' },
+      error_detail: { ...(result.error_detail || {}), model: result.model, runtime: 'gemini-flash-via-emergent-proxy' },
       finished_at: finishedAt,
       duration_ms: result.duration_ms ?? null,
     });
