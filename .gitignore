@@ -30,3 +30,4 @@ test-results/
 
 # Local-only secret handoff staging — never committed
 .secrets/
+node_modules/@cloudflare/workerd-linux-arm64/bin/workerd

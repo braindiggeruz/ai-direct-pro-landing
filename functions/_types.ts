@@ -63,4 +63,19 @@ export interface Env {
   // value is "false" since the GPTBot Control Center now drives runs
   // server-to-server.
   EXTERNAL_AUTOPILOT_TRIGGER_ENABLED?: string;
+  // ─── Direct AI generation (replaces n8n for SEO Autopilot) ──────────────
+  // When "true" (default), the SEO Autopilot launcher generates RU+UZ
+  // articles directly via Cloudflare Workers AI instead of forwarding to
+  // n8n. This removes the n8n validation contract surface that was
+  // rejecting the single-topic "Run one" payload with HTTP 400.
+  // The n8n bridge code remains intact and is selected by setting this
+  // flag to "false".
+  SEO_AUTOPILOT_USE_DIRECT_AI?: string;
+  // Optional Workers AI binding (Cloudflare Pages → Settings → Functions
+  // → AI binding). Set to "AI". When absent, direct generation is
+  // refused with a clear error message.
+  AI?: Ai;
+  // Model identifier passed to env.AI.run(). Defaults to a long-context
+  // llama-3.3-70b instance suitable for full SEO articles.
+  CF_AI_MODEL?: string;
 }

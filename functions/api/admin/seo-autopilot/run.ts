@@ -20,6 +20,7 @@
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
 import { startSeoAutopilotJob } from '../../../lib/seo-autopilot/launch';
+import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../lib/seo-autopilot/direct-launch';
 import { buildLaunchPayload } from '../../../lib/seo-autopilot/payload';
 
 function json(data: unknown, status = 200): Response {
@@ -47,19 +48,28 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
 
   // run_id is a per-launch correlation id surfaced into the n8n payload.
   const runId = `gptbot-admin-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-  const payload = buildLaunchPayload({
-    source: 'admin',
-    requestedBy: auth.email,
-    runId,
-    overrides,
-  });
+  const useDirectAi = isDirectAiEnabled(env);
 
-  const result = await startSeoAutopilotJob({
+  // When direct AI is enabled (default), forward the overrides as-is so
+  // the direct launcher can read planned_title/primary_keyword/locale.
+  // When legacy n8n bridge is selected, wrap them into the canonical
+  // safety-locked launch payload.
+  const rawBody = useDirectAi
+    ? JSON.stringify(overrides)
+    : JSON.stringify(buildLaunchPayload({
+        source: 'admin',
+        requestedBy: auth.email,
+        runId,
+        overrides,
+      }));
+
+  const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
+  const result = await launchFn({
     env,
     waitUntil,
     source: 'admin',
     requestedBy: auth.email,
-    rawBody: JSON.stringify(payload),
+    rawBody,
     runableSecret: env.N8N_WEBHOOK_SECRET || '',
     requestId: runId,
     // Admins clicking the button override the overlap lock; the UI shows
