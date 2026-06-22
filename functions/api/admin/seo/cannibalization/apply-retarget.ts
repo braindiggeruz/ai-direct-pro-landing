@@ -90,11 +90,16 @@ export const onRequestPost: PagesFunction<Env> = withErrorHandler<Env>('admin.se
 
   // Automatic recheck: re-run analyze on the brand-new article. We do
   // NOT trust the LLM's "conflict_resolved=true" claim.
+  // Note: semantic judge is disabled here on purpose — by the time we
+  // reach apply-retarget the iterative loop has already validated the
+  // article through deterministic + semantic during the proposal stage.
+  // Re-running semantic on the recheck just costs a 4-8s LLM call and
+  // tends to keep the score artificially in the 'medium' band.
   const recheck = await analyzeCandidate(env, {
     id: `${draftId}#${locale}`,
     source_type: 'ai_draft',
     article: candidate,
-  }, { useSerper: 'auto', useSemantic: true });
+  }, { useSerper: 'auto', useSemantic: false });
 
   const recheckId = await saveAnalysis(env, {
     target_kind: 'draft',

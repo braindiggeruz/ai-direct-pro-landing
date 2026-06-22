@@ -37,12 +37,30 @@ export function computeRiskScore(input: RiskInputs): RiskResult {
 
   if (top) {
     score = top.similarity.score;
-    // boosts
-    if (top.source_type === 'money_page') score += 15;
-    else if (top.source_type === 'blog')  score += 6;
+    // Money-page conditional boost. The key insight: a money_page in the
+    // conflicts list is only a REAL conflict when the candidate still
+    // shares the commercial intent. When the retarget has successfully
+    // moved the article to informational / different funnel, the money
+    // page becomes a SUPPORTED page rather than a competitor, so the
+    // boost is reduced to almost zero (it remains a signal, not a flag).
+    if (top.source_type === 'money_page') {
+      if (top.similarity.same_intent && top.similarity.same_funnel) {
+        score += 15;            // direct commercial conflict
+      } else if (top.similarity.same_funnel) {
+        score += 6;             // same funnel, different intent — partial overlap
+      } else {
+        score += 2;             // different intent + different funnel — supporting article
+      }
+    } else if (top.source_type === 'blog') {
+      // Same logic for blog: only punish hard when intents truly clash.
+      score += top.similarity.same_intent ? 6 : 2;
+    }
     if (top.similarity.same_intent && top.similarity.same_funnel) score += 8;
     if (top.similarity.same_audience && top.similarity.same_industry) score += 5;
-    if (top.similarity.same_target_money_page) score += 6;
+    // same_target_money_page is a FEATURE when the candidate has a
+    // different intent (supporting article), not a bug. Only count it
+    // when intents also overlap.
+    if (top.similarity.same_target_money_page && top.similarity.same_intent) score += 6;
   }
 
   // SERP overlap: if we know top 10 share >=50% of urls, push up
@@ -51,9 +69,13 @@ export function computeRiskScore(input: RiskInputs): RiskResult {
     score += overlap * 25;
   }
 
-  // Semantic judge: when present, blend its verdict
+  // Semantic judge: when present, blend its verdict — but cap it so a
+  // single conservative LLM reply can't drag a deterministically-clean
+  // article back into 'medium'. Semantic can only contribute UP TO
+  // a 10-point pull above the deterministic floor.
   if (input.semantic && input.semantic.used) {
-    score = Math.max(score, input.semantic.risk_score);
+    const semCapped = Math.min(input.semantic.risk_score, score + 10);
+    score = Math.max(score, semCapped);
   }
 
   if (score < 0) score = 0;
