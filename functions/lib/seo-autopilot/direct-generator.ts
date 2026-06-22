@@ -297,9 +297,8 @@ async function generateOneArticle(
   });
 
   // Workers AI binding signature: env.AI.run(model, { messages, max_tokens, temperature, … })
-  // The runtime is typed as `unknown` here because @cloudflare/workers-types
-  // models the response as `Response | ReadableStream | object` depending on
-  // input. We cast through the well-known chat-completion shape.
+  // We try response_format=json_schema first (newer models honour it); on
+  // ANY failure we fall back to messages-only on the fallback model.
   type ChatResponse = {
     response?: string;
     result?: { response?: string; choices?: Array<{ message?: { content?: string } }> };
@@ -310,29 +309,56 @@ async function generateOneArticle(
 
   let raw: ChatResponse | null = null;
   let lastErr: string | null = null;
+  let rawTextExcerpt = '';
+  const aiRunner = ai as unknown as {
+    run: (
+      model: string,
+      input: {
+        messages: Array<{ role: string; content: string }>;
+        max_tokens: number;
+        temperature: number;
+        response_format?: { type: 'json_object' | 'json_schema'; json_schema?: unknown };
+      },
+    ) => Promise<ChatResponse>;
+  };
+
   for (const candidateModel of [model, FALLBACK_MODEL]) {
-    try {
-      const r = await (ai as unknown as {
-        run: (
-          model: string,
-          input: { messages: Array<{ role: string; content: string }>; max_tokens: number; temperature: number },
-        ) => Promise<ChatResponse>;
-      }).run(candidateModel, {
-        messages: [
-          { role: 'system', content: system },
-          { role: 'user', content: user },
-        ],
-        max_tokens: MAX_OUTPUT_TOKENS,
-        temperature: TEMPERATURE,
-      });
-      raw = r;
-      break;
-    } catch (e) {
-      lastErr = (e as Error).message || 'AI.run threw';
-      // try the fallback model
+    // Attempt 1: strict json_schema if the model supports it (recent llama-3.x).
+    for (const useJsonMode of [true, false]) {
+      try {
+        const input: Parameters<typeof aiRunner.run>[1] = {
+          messages: [
+            { role: 'system', content: system },
+            { role: 'user', content: user },
+          ],
+          max_tokens: MAX_OUTPUT_TOKENS,
+          temperature: TEMPERATURE,
+        };
+        if (useJsonMode) {
+          input.response_format = { type: 'json_object' };
+        }
+        const r = await aiRunner.run(candidateModel, input);
+        const txt =
+          r.response ||
+          r.result?.response ||
+          r.result?.choices?.[0]?.message?.content ||
+          r.choices?.[0]?.message?.content ||
+          '';
+        rawTextExcerpt = String(txt).slice(0, 800);
+        // Validate parseability before accepting
+        const parsedQuick = parseStrictJson(String(txt));
+        if (parsedQuick && typeof parsedQuick === 'object') {
+          raw = r;
+          break;
+        }
+        lastErr = `model=${candidateModel} json_mode=${useJsonMode} returned unparseable text (${txt.length} chars)`;
+      } catch (e) {
+        lastErr = `model=${candidateModel} json_mode=${useJsonMode} threw: ${(e as Error).message || 'unknown'}`;
+      }
     }
+    if (raw) break;
   }
-  if (!raw) return { ok: false, error: `Workers AI call failed: ${lastErr || 'unknown error'}` };
+  if (!raw) return { ok: false, error: `Workers AI call failed: ${lastErr || 'unknown error'} | excerpt=${rawTextExcerpt.slice(0, 400).replace(/\s+/g, ' ')}` };
 
   const text =
     raw.response ||
@@ -344,7 +370,7 @@ async function generateOneArticle(
 
   const parsed = parseStrictJson(text);
   if (!parsed || typeof parsed !== 'object') {
-    return { ok: false, error: 'Workers AI output was not parsable JSON' };
+    return { ok: false, error: `Workers AI output was not parsable JSON | excerpt=${text.slice(0, 400).replace(/\s+/g, ' ')}` };
   }
   const article = coerceArticle(parsed as Record<string, unknown>, locale, {
     planned_title: planned,
@@ -352,7 +378,7 @@ async function generateOneArticle(
     target_money_page: moneyPage,
   });
   if (!article) {
-    return { ok: false, error: 'Workers AI output was missing required fields after coercion' };
+    return { ok: false, error: `Workers AI output was missing required fields after coercion | keys=${Object.keys(parsed).slice(0, 20).join(',')}` };
   }
   return { ok: true, article };
 }
