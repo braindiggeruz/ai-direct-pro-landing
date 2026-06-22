@@ -14,6 +14,8 @@ import { detectMojibake } from '../../shared/audit';
 import { SITE_URL } from '../../shared/site-config';
 import { clearAiDraftHandoff, readAiDraftHandoff } from '../lib/aiDraftImport';
 import type { AiDraftArticle } from '../../shared/ai-drafts';
+import { IntentGuardPanel } from '../components/IntentGuardPanel';
+import { useT } from '../i18n';
 
 const EMPTY: Partial<BlogArticle> = {
   status: 'draft',
@@ -153,6 +155,15 @@ export default function BlogEditor() {
   // brand-new articles).
   const [aiDraftImported, setAiDraftImported] = useState<null | { draftId: string; locale: 'ru' | 'uz'; conflict?: string }>(null);
 
+  // ── Intent Guard (Publish Guard) ────────────────────────────────────────
+  // Cached Intent Guard verdict for the article currently in the editor.
+  // Drives the publish-guard inside save('published'). High risk blocks the
+  // standard Publish click; the operator can override after an explicit
+  // confirm — both choices write an audit event server-side.
+  const [intentGuardRisk, setIntentGuardRisk] = useState<{ score: number; level: 'low' | 'medium' | 'high' } | null>(null);
+  const [allowHighRiskPublish, setAllowHighRiskPublish] = useState(false);
+  const { t: tI18n } = useT();
+
   useEffect(() => {
     void (async () => {
       const c = await api.getContent();
@@ -244,10 +255,35 @@ export default function BlogEditor() {
       if (toSave.status === 'published') {
         const moji = detectMojibake(toSave as unknown);
         if (moji) throw new Error(`Cannot publish — mojibake in "${moji.field}". Fix encoding first.`);
+        // Intent Guard publish guard. We MUST already have an analysis when
+        // the article is in the editor; if not, run one now (server-side).
+        try {
+          const draftArticle = blogToAiDraftArticle(toSave);
+          const r = await api.cannibalizationAnalyze({ source: 'editor', article: draftArticle });
+          setIntentGuardRisk({ score: r.risk_score, level: r.risk_level });
+          if (r.risk_level === 'high' && !allowHighRiskPublish) {
+            setBusy(false);
+            const overrideConfirmed = window.confirm(`${tI18n.intentGuard.publishGuardHigh}\n\n${tI18n.intentGuard.publishGuardConfirmHigh}`);
+            if (!overrideConfirmed) {
+              setErr(tI18n.intentGuard.publishGuardHigh);
+              return;
+            }
+            setAllowHighRiskPublish(true);
+            // Continue with publish — proceed below.
+          } else if (r.risk_level === 'medium' && !allowHighRiskPublish) {
+            const proceed = window.confirm(`${tI18n.intentGuard.publishGuardMedium}\n\n${tI18n.intentGuard.publishGuardConfirmMedium}`);
+            if (!proceed) { setBusy(false); return; }
+          }
+        } catch (igErr) {
+          // Intent Guard probe failure must not block legitimate publish —
+          // log and continue (the server validators still enforce schema).
+          console.warn('[Intent Guard] publish-time analyze failed:', igErr);
+        }
       }
       await api.saveContent('blog', toSave.locale, toSave.slug, toSave,
         `chore(blog): ${newStatus || toSave.status} ${toSave.locale}/${toSave.slug} via admin`);
       setA(toSave);
+      setAllowHighRiskPublish(false);
       setToast(newStatus === 'published' ? 'Published & committed' : 'Saved');
       // After a successful save, the AI-draft handoff is no longer needed.
       if (aiDraftImported) {
@@ -264,6 +300,30 @@ export default function BlogEditor() {
     setBusy(false);
     setTimeout(() => setToast(null), 3500);
   };
+
+  // Builds an AiDraftArticle from the BlogArticle currently in the editor
+  // so we can call /api/admin/seo/cannibalization/analyze with source='editor'.
+  function blogToAiDraftArticle(b: BlogArticle): AiDraftArticle {
+    return {
+      locale: b.locale,
+      slug: b.slug,
+      meta_title: b.title || '',
+      meta_description: b.description || '',
+      h1: b.h1 || '',
+      excerpt: b.intro || '',
+      target_keyword: (b.keywords || [])[0] || b.topicCluster || b.title || '',
+      target_money_page: b.targetMoneyPage || '',
+      author: b.author || 'GPTBot',
+      body_blocks: (b.body || []).map((blk) => ({ ...blk })),
+      faq: (b.faq || []).map((f) => ({ q: f.q, a: f.a })),
+      internal_links: (b.internalLinks || []).map((l) => ({ target: l.target, anchor: l.anchor, type: l.type, locale: l.locale })),
+      schemas: (b.schemaTypes && b.schemaTypes.length > 0 ? b.schemaTypes : ['Article', 'FAQPage', 'BreadcrumbList']) as ('Article' | 'FAQPage' | 'BreadcrumbList' | 'Organization' | 'WebSite' | 'Service')[],
+      keywords: b.keywords || [],
+      og_title: b.ogTitle || '',
+      og_description: b.ogDescription || '',
+      og_image: b.ogImage || '',
+    };
+  }
 
   const del = async () => {
     if (!confirm(`Delete article ${a.locale}/${a.slug}? This will remove the JSON file from the repo.`)) return;
@@ -352,6 +412,34 @@ export default function BlogEditor() {
       )}
 
       <AiDraftBanner state={aiDraft} onApply={applyAiDraft} />
+
+      {/* Intent Guard for the article currently in the editor.
+          Drives the publish-time guard. We do NOT auto-run analyze on
+          page load — only when the operator explicitly clicks the panel
+          button OR when they hit Publish. */}
+      {loaded && (a.locale === 'ru' || a.locale === 'uz') && (
+        <IntentGuardPanel
+          mode="editor"
+          locale={a.locale as 'ru' | 'uz'}
+          article={blogToAiDraftArticle(a)}
+          testIdPrefix="blog-intent-guard"
+        />
+      )}
+      {intentGuardRisk && (
+        <Card className={
+          intentGuardRisk.level === 'low' ? 'border-emerald-500/30 bg-emerald-500/5'
+          : intentGuardRisk.level === 'medium' ? 'border-amber-500/30 bg-amber-500/5'
+          : 'border-red-500/30 bg-red-500/5'
+        } data-testid="blog-publish-guard">
+          <div className="text-sm">
+            <strong className="text-white">Publish Guard:</strong>{' '}
+            {intentGuardRisk.level === 'low' ? tI18n.intentGuard.publishGuardLow
+             : intentGuardRisk.level === 'medium' ? tI18n.intentGuard.publishGuardMedium
+             : tI18n.intentGuard.publishGuardHigh}
+            <span className="text-white/60 ml-2">({intentGuardRisk.score}/100)</span>
+          </div>
+        </Card>
+      )}
 
       {/* === Core === */}
       <Card>

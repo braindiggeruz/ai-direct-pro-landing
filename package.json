@@ -16,7 +16,8 @@
     "seo:prerender": "tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts",
     "seo:sitemap": "tsx scripts/generate-sitemap.ts",
     "seo:blog": "tsx scripts/apply-blog.ts --write && tsx scripts/prerender-blog.ts",
-    "hash-password": "tsx scripts/hash-password.ts"
+    "hash-password": "tsx scripts/hash-password.ts",
+    "test:intent-guard": "node --import tsx --test tests/intent-guard.test.ts"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",
@@ -27,6 +28,7 @@
     "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260621.1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.14",

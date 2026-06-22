@@ -40,6 +40,7 @@ import {
   storeAiDraftHandoff,
 } from '../lib/aiDraftImport';
 import { AiOptimizeModal, type OptimizeResult } from '../components/AiOptimizeModal';
+import { IntentGuardPanel } from '../components/IntentGuardPanel';
 import { useT } from '../i18n';
 
 function statusTone(status: AiDraftRecord['status']): 'success' | 'warning' | 'danger' | 'info' {
@@ -326,6 +327,18 @@ export default function AiDraftDetail() {
           </div>
         )}
       </Card>
+
+      {/* Intent Guard panel for the currently selected locale tab */}
+      {article && (
+        <IntentGuardPanel
+          mode="draft"
+          draftId={draft.id}
+          locale={tab}
+          article={article}
+          onDraftUpdated={(d) => setData((cur) => cur ? { draft: d, audit: cur.audit } : cur)}
+          testIdPrefix={`intent-guard-${tab}`}
+        />
+      )}
 
       {/* SEO brief (if provided) */}
       {draft.seo_brief && Object.keys(draft.seo_brief).length > 0 && (
