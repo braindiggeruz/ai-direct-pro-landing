@@ -83,15 +83,17 @@ export interface Env {
   // The direct-generator now calls Google Gemini Flash via the Emergent
   // integrations proxy. See GEMINI_MODEL / EMERGENT_LLM_KEY below.
   CF_AI_MODEL?: string;
-  // ─── Gemini Flash via Emergent integrations proxy ───────────────────
-  // Universal LLM key (OpenAI + Anthropic + Gemini text). Server-only.
-  // Required for the direct-generator to call Gemini Flash. Configured
-  // in Cloudflare Pages → Settings → Environment variables as
-  // EMERGENT_LLM_KEY (secret_text).
-  EMERGENT_LLM_KEY?: string;
+  // ─── Gemini Flash via Google Generative Language API (direct REST) ─
+  // Google AI Studio API key (free tier: 15 RPM, 1500 RPD, 1M ctx on
+  // gemini-2.5-flash). Server-only. Required for the direct-generator.
+  // Configured in Cloudflare Pages → Settings → Environment variables
+  // as GEMINI_API_KEY (secret_text). Generate at
+  // https://aistudio.google.com/app/apikey.
+  GEMINI_API_KEY?: string;
   // Primary Gemini model id. Defaults to "gemini-2.5-flash" — the best
-  // free-tier balance of quality, speed (~25-40 s/article), 1M ctx,
-  // strict JSON, Russian + Uzbek Latin fluency.
+  // free-tier balance of quality, speed (~30-40 s/article), 1M ctx,
+  // strict JSON (responseMimeType=application/json), Russian + Uzbek
+  // Latin fluency.
   GEMINI_MODEL?: string;
   // Fallback model used on timeout / 5xx / 429 from the primary.
   // Defaults to "gemini-2.5-flash-lite".
