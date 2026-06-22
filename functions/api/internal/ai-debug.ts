@@ -60,6 +60,12 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
       r.choices?.[0]?.message?.content ||
       '',
     );
+    // If the model returned an already-parsed object (json_object mode),
+    // serialise it so we can see it.
+    if (out === '[object Object]') {
+      const obj = r.response ?? r.result?.response ?? r.result?.choices?.[0]?.message?.content ?? r.choices?.[0]?.message?.content;
+      out = JSON.stringify(obj);
+    }
   } catch (e) {
     errMsg = (e as Error).message || 'AI.run threw';
   }
