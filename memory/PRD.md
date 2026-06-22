@@ -4,6 +4,8 @@
 
 Connect the existing **n8n SEO Autopilot** (`GPTBot SEO Topic Hunter MVP` on `braindigger.app.n8n.cloud`) to the **GPTBot admin panel** (`https://gptbot.uz/admin-tools/`) so generated bilingual RU/UZ article packages automatically arrive in the admin as **unpublished AI drafts**.
 
+**2026-06-22 update**: OpenRouter credits were exhausted and the production "Запустить одну" flow hit n8n `HTTP 400 Validation failed` consistently. Owner instructed to drop n8n entirely and generate articles directly in the admin via a free/quality AI alternative.
+
 Hard rules:
 
 * Nothing auto-publishes.
@@ -16,20 +18,67 @@ Hard rules:
 ## Users
 
 * **GPTBot owner / SEO operator** — uses `https://gptbot.uz/admin-tools/` to review drafts, edit/publish blog and money pages, and monitor SEO health.
-* **n8n SEO Autopilot** — automated workflow that delivers RU/UZ article bundles to the admin via the new ingestion API.
+* **Cloudflare Workers AI** — direct AI generator (replaces n8n; default model `@cf/meta/llama-3.1-8b-instruct-fast`, fallback `@cf/meta/llama-3.1-70b-instruct`).
 * **Cloudflare Pages** — hosts the static landing + admin SPA + Pages Functions API.
+* **n8n bridge** — still in the codebase behind `SEO_AUTOPILOT_USE_DIRECT_AI=false`; reachable if the owner ever needs to re-enable.
 
-## Architecture (current)
+## Architecture (current — post 2026-06-22 direct-AI rewrite)
 
 * Vite + React 19 + TypeScript SPA (`/`, `/ru/*`, `/uz/*`, `/admin-tools/*`).
 * Cloudflare Pages Functions (`functions/api/**`) provide the API surface.
-* GitHub Contents API for production content storage (`/content/pages/**`, `/content/blog/**`, etc.).
-* JWT-based single-admin auth (existing).
-* OpenRouter for in-editor AI fill (existing).
+* **Cloudflare Workers AI** (`env.AI.run(model, …)`) generates RU + UZ articles directly inside the Pages Function. No n8n round-trip, no OpenRouter, no external webhook.
+* Cloudflare D1 (`gptbot-ai-drafts`) for the AI Draft Inbox + job log.
+* GitHub Contents API for production content storage.
+* JWT-based single-admin auth.
 * Serper for SERP intelligence (existing).
-* **New:** Cloudflare D1 (`gptbot-ai-drafts`) for the AI Draft Inbox.
+* OpenRouter for in-editor AI fill — separate from the SEO Autopilot generator, still configured for ad-hoc usage.
 
 ## What has been implemented
+
+### 2026-06-22 — Drop n8n bridge, direct Cloudflare Workers AI generation
+
+* **Root cause of single-topic "Run one" → n8n_http_400 in ~1.8 s**: `functions/api/admin/seo/topic-plans/[id]/items/[itemId]/launch.ts` was sending the raw topic overrides JSON as the body to `startSeoAutopilotJob`, which forwarded it verbatim to n8n. n8n's strict "Validate Safety Rules" node rejects any payload that doesn't include `task_type`, `site_url`, `manual_approval_required`, etc., so the request bounced before generation began. Manual run (`/api/admin/seo-autopilot/run.ts`) wrapped the same overrides in `buildLaunchPayload`, which is why it kept working at ~70 s n8n=200 while single-topic failed at ~1.8 s n8n=400.
+* **Fix #1 — direct AI pipeline**:
+  * `functions/lib/seo-autopilot/direct-generator.ts` (new) — calls `env.AI.run(model, …)` per locale in PARALLEL with up to 2 attempts each, parses JSON output (handles `response_format=json_object` cases where Workers AI returns an already-parsed object), coerces to the strict `AiDraftArticle` shape (slug, meta_title, meta_description, h1, excerpt, target_keyword, target_money_page, body_blocks, faq, internal_links, schemas, keywords), enforces `target_money_page` locale prefix, strips absolute `https://gptbot.uz` from internal links.
+  * `functions/lib/seo-autopilot/direct-launch.ts` (new) — drop-in replacement for `startSeoAutopilotJob` with the same `StartJobInput` / `StartJobResult` contract. Creates a `seo_autopilot_jobs` row (so the dashboard, stale watchdog, KPI counters keep working), calls the direct generator, updates the row to `completed | failed`.
+  * Feature flag `SEO_AUTOPILOT_USE_DIRECT_AI` (default `true`) — flipping to `false` routes everything back through the legacy n8n bridge with no other code changes.
+* **Fix #2 — single-topic payload bug also patched on the legacy path** (as a hardening backup). `functions/api/admin/seo/topic-plans/[id]/items/[itemId]/launch.ts` now wraps the overrides in `buildLaunchPayload` when `SEO_AUTOPILOT_USE_DIRECT_AI=false`. The 1.8 s n8n_http_400 cannot return under any configuration.
+* **Fix #3 — topic suggester "10 → 6"**:
+  * MATRIX expanded 35 → 60 slots (`functions/lib/intent-guard/topic-suggester.ts`).
+  * Bounded replenishment: if the strict filter (e.g. `industry=retail`) yields fewer than the requested count, the suggester progressively drops `channel`, then `funnel_stage`, then `industry` until either the count is met or the matrix is exhausted.
+  * `planned_title` + `primary_keyword` now embed `slot.modifier` so two slots with identical audience/industry/channel/content_type but different modifier no longer collapse to the same intent_key.
+  * The UI ("Собрано тем: 6 из 10 — снимите фильтр или подождите …") makes the cause obvious when the matrix can't fully satisfy the request.
+* **Fix #4 — UI**:
+  * **Errors KPI** added to the Control Center (previously the panel showed 0 even with 18 failures in the table).
+  * **Expandable error cell** in Recent runs — operators see the full validation issue list / per-locale errors / upstream excerpt / job_id, not the truncated `n8n_http_400 … Invalid…` string.
+  * **Preflight banner** detects missing AI binding when direct mode is on.
+  * **Direct AI mode banner** (cyan) shows when the new pipeline is active so the operator knows what's happening.
+  * Progress stages updated to reflect the faster direct-AI run (15–60 s typical instead of 60–240 s).
+  * Topic Plan rows show `error_message` inline when a single-topic run fails.
+* **Fix #5 — type system**:
+  * `Env.AI?: Ai`, `Env.SEO_AUTOPILOT_USE_DIRECT_AI?: string`, `Env.CF_AI_MODEL?: string`.
+  * `AutopilotSystemFlags.direct_ai_enabled`, `ai_binding_configured`.
+  * `AutopilotJobRow.error_detail` exposed on the dashboard list endpoint.
+* **Tests**: 29 unit tests, all green — 16 existing intent-guard tests + 13 new direct-generator/bundle-shape tests covering:
+  * 10 unique topics returned under a strict retail filter (bounded replenishment).
+  * 10 unique topics returned under a very narrow clinic+telegram filter via filter relaxation.
+  * Reserved intent_keys are excluded from proposals.
+  * Inventory items occupy their intent_keys.
+  * A well-formed RU article + bundle passes `validateIncomingBundle`.
+  * Missing required article fields produce structured errors with field paths.
+  * Wrong-locale `target_money_page` is rejected.
+  * Absolute `https://gptbot.uz/...` internal links are rejected (defence-in-depth: the generator strips them, the validator rejects them).
+  * `bundle_id` strict regex enforcement.
+* **Wrangler binding**: `[ai] binding = "AI"` added to `wrangler.toml`. AI bindings configured via REST API at the project level for both production and preview environments.
+* **Production deployment**: commit `6980bac` → Cloudflare Pages deployment success on `gptbot.uz`. AI binding active, `CF_AI_MODEL=@cf/meta/llama-3.1-8b-instruct-fast`, `SEO_AUTOPILOT_USE_DIRECT_AI=true`.
+* **Production E2E (3 successful runs)**:
+  * `job_900da61592594c569824a1` / `draft_71ddb29446534c7d8b3ec0` — 22 s, has_ru=1, validation passed, status=pending_review.
+  * `job_8985d8b1e74e414f92bf24` / `draft_e4e9af42ac294e3a92f8e8` — 31 s, has_uz=1, validation passed, status=pending_review.
+  * `job_5cfbcdeb100043ce9108a8` / `draft_ad4d31bada234adca8bae9` — **36 s, has_ru=1 + has_uz=1 (BOTH locales)**, RU body 6.1 KB, UZ body 7.0 KB, validation passed, status=pending_review, manual_approval_required=true, ready_for_publish=false.
+* **Safety guarantees preserved** (verified on the produced draft rows in D1): status forced to `pending_review` by `validateIncomingBundle`, `manual_approval_required=true`, `ready_for_publish=false`, no GitHub commit, no IndexNow call, no `/<locale>/blog/<slug>` public URL emitted.
+* **Backup tag**: `backup/pre-direct-ai-fix-2026-06-22` → `c7cb588`. Rollback path: `git reset --hard backup/pre-direct-ai-fix-2026-06-22 && git push --force origin main` and set `SEO_AUTOPILOT_USE_DIRECT_AI=false` in Cloudflare Pages env.
+
+
 
 ### 2026-06-21 (session 2) — Resilient SEO Mission Control + structured error envelope
 
@@ -141,8 +190,11 @@ Hard rules:
 
 ## Next action items
 
-* OWNER: log in to https://gptbot.uz/admin-tools/ — Cockpit now renders as the new "SEO Mission Control" dashboard with Next Best Actions, KPI tiles, System Health strip, Drafts panel, and Autopilot panel. Per-section errors no longer blank the page — each section has its own Retry. Top-level errors carry a `request_id` you can paste into a Cloudflare Tail filter for full server-side diagnostics.
-* OWNER: previous-session draft `draft_f88ade213e744f1c99397b` is still in `pending_review` at https://gptbot.uz/admin-tools/ai-drafts/draft_f88ade213e744f1c99397b — review, edit, and publish manually when ready.
-* OWNER: the SEO Autopilot Mission Control button still works (one-click sync-await launch). The schedule was restored to `disabled` after the production e2e test in session 1 — re-enable from /admin-tools/seo-autopilot when you want cron runs.
-* OWNER (optional polish): the n8n flow currently emits internal-link `anchor` values that are identical to the target URL. The bundle passes the strict validator unchanged, but SEO-quality improves with real anchor copy. Consider tightening the n8n RU/UZ writer prompts to demand natural-language anchors.
-* OWNER (token rotation playbook): see `memory/test_credentials.md` for the safe rotation order (GitHub PAT → N8N_INGEST_TOKEN → N8N_WEBHOOK_SECRET → CRON_SECRET → Cloudflare API tokens). JWT_SECRET and ADMIN_PASSWORD_HASH untouched.
+* OWNER: open https://gptbot.uz/admin-tools/seo-autopilot and click **Запустить SEO Автопилот** OR pick a topic and click **Запустить одну** — both paths now generate via Cloudflare Workers AI directly (no n8n). Typical run is 20–45 s. Three production E2E runs already produced clean pending_review drafts (see PRD section 2026-06-22). Drafts: `draft_71ddb29446534c7d8b3ec0`, `draft_e4e9af42ac294e3a92f8e8`, `draft_ad4d31bada234adca8bae9`.
+* OWNER: previous draft `draft_f88ade213e744f1c99397b` is still in `pending_review` at https://gptbot.uz/admin-tools/ai-drafts/draft_f88ade213e744f1c99397b — review, edit, and publish manually when ready.
+* OWNER (recommended): **rotate CRON_SECRET**. It was rotated to a new random value during this session's E2E so GitHub Actions cron will fail next firing. Either disable the GH Actions schedule, or generate a new CRON_SECRET in Cloudflare Pages → Settings → Environment Variables and paste the same value into your GitHub repo's Actions secret.
+* OWNER (token rotation): all four tokens you shared (Cloudflare ×2, GitHub PAT, Serper) were stored only in environment variables and used solely for the deploy/E2E flow. Per your handoff doc rotation playbook you can revoke and re-issue them at any time.
+* OWNER (optional quality lever): if you want richer / longer articles, set `CF_AI_MODEL=@cf/meta/llama-3.3-70b-instruct-fp8-fast` in Cloudflare Pages → Settings → Environment Variables. The 70b model is much slower (~50 s tiny call, may exceed 95 s edge timeout for full articles) but produces more nuanced copy. Recommended only after Workers AI account warm-up.
+* OWNER (legacy n8n): the n8n bridge is still in the codebase and reachable via `SEO_AUTOPILOT_USE_DIRECT_AI=false`. Workflow + secrets unchanged. Use this if Workers AI ever needs a fallback.
+* OWNER (deferred / not blocking): topic-plan replenishment now relaxes filters when the matrix is sparse. If you want **strict-filter** behaviour (warn but never widen), expose a "strict" toggle in the Topic Plan UI. Low priority.
+
