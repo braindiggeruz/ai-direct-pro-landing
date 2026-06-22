@@ -346,15 +346,24 @@ async function generateOneArticle(
         response_format: { type: 'json_object' },
       };
       const r = await aiRunner.run(candidateModel, input);
-      const txt =
-        r.response ||
-        r.result?.response ||
-        r.result?.choices?.[0]?.message?.content ||
-        r.choices?.[0]?.message?.content ||
-        '';
-      rawTextExcerpt = String(txt).slice(0, 600);
-      if (txt) {
+      // With response_format=json_object, some Workers AI models return
+      // the response field as an already-parsed object. Detect that and
+      // keep `raw` populated; the parse step downstream skips JSON.parse
+      // in that case.
+      const rawAny: unknown =
+        r.response ??
+        r.result?.response ??
+        r.result?.choices?.[0]?.message?.content ??
+        r.choices?.[0]?.message?.content;
+      if (rawAny != null) {
+        if (typeof rawAny === 'string') {
+          rawTextExcerpt = rawAny.slice(0, 600);
+        } else if (typeof rawAny === 'object') {
+          rawTextExcerpt = JSON.stringify(rawAny).slice(0, 600);
+        }
         raw = r;
+        // Attach the parsed object hint so we don't re-stringify -> re-parse.
+        (raw as ChatResponse & { _parsed?: unknown })._parsed = rawAny;
         break;
       }
       lastErr = `model=${candidateModel} returned empty content`;
@@ -364,17 +373,22 @@ async function generateOneArticle(
   }
   if (!raw) return { ok: false, error: `Workers AI call failed: ${lastErr || 'unknown error'}` };
 
-  const text =
-    raw.response ||
-    raw.result?.response ||
-    raw.result?.choices?.[0]?.message?.content ||
-    raw.choices?.[0]?.message?.content ||
-    '';
-  if (!text) return { ok: false, error: 'Workers AI returned empty content' };
-
-  const parsed = parseStrictJson(text);
-  if (!parsed || typeof parsed !== 'object') {
-    return { ok: false, error: `Workers AI output was not parsable JSON | excerpt=${text.slice(0, 400).replace(/\s+/g, ' ')}` };
+  // Use already-parsed object if available, else parse the text response.
+  const parsedHint = (raw as ChatResponse & { _parsed?: unknown })._parsed;
+  let parsed: unknown;
+  if (parsedHint && typeof parsedHint === 'object') {
+    parsed = parsedHint;
+  } else {
+    const text =
+      (typeof raw.response === 'string' ? raw.response : '') ||
+      (typeof raw.result?.response === 'string' ? raw.result.response : '') ||
+      (typeof raw.result?.choices?.[0]?.message?.content === 'string' ? raw.result.choices[0]!.message!.content! : '') ||
+      (typeof raw.choices?.[0]?.message?.content === 'string' ? raw.choices[0]!.message!.content! : '');
+    if (!text) return { ok: false, error: 'Workers AI returned empty content' };
+    parsed = parseStrictJson(text);
+    if (!parsed || typeof parsed !== 'object') {
+      return { ok: false, error: `Workers AI output was not parsable JSON | excerpt=${text.slice(0, 400).replace(/\s+/g, ' ')}` };
+    }
   }
   const article = coerceArticle(parsed as Record<string, unknown>, locale, {
     planned_title: planned,
@@ -382,7 +396,7 @@ async function generateOneArticle(
     target_money_page: moneyPage,
   });
   if (!article) {
-    return { ok: false, error: `Workers AI output was missing required fields after coercion | keys=${Object.keys(parsed).slice(0, 20).join(',')}` };
+    return { ok: false, error: `Workers AI output was missing required fields after coercion | keys=${Object.keys(parsed as object).slice(0, 20).join(',')} | excerpt=${rawTextExcerpt.slice(0, 300).replace(/\s+/g, ' ')}` };
   }
   return { ok: true, article };
 }
