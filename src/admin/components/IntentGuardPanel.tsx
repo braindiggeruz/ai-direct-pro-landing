@@ -14,7 +14,7 @@
 //                     becomes a publish guard.
 
 import { useEffect, useState } from 'react';
-import { ShieldAlert, ShieldCheck, AlertTriangle, Wand2, RefreshCw } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, AlertTriangle, Wand2, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { Button, Card } from './ui';
 import { IntentGuardBadge } from './IntentGuardBadge';
 import { IntentGuardModal, type IntentGuardAnalysisView, type RetargetState, type ApplyResult } from './IntentGuardModal';
@@ -41,6 +41,15 @@ interface EditorModeProps extends BaseProps {
   mode: 'editor';
   article: AiDraftArticle | null;
   draftId?: string;
+  /**
+   * Called when the operator clicks Apply on a retarget proposal in
+   * editor mode. The parent (Blog Editor) is expected to:
+   *   - copy the optimized fields into its form state
+   *   - keep the user on the page so they can save / publish
+   *   - return the *current* article so we can re-analyze it
+   * If omitted, Apply is disabled in editor mode (publish-guard only).
+   */
+  onApplyToEditor?: (optimised: AiDraftArticle) => AiDraftArticle | Promise<AiDraftArticle>;
 }
 
 export type IntentGuardPanelProps = DraftModeProps | EditorModeProps;
@@ -113,30 +122,58 @@ export function IntentGuardPanel(props: IntentGuardPanelProps) {
 
   async function doApply() {
     if (!retarget || !analysis) return;
-    if (props.mode !== 'draft') { setErr(t.intentGuard.applyFailedEditor); return; }
     setBusyApply(true); setErr(null);
     try {
-      const r = await api.cannibalizationApplyRetarget({
-        draftId: props.draftId,
-        locale: props.locale,
-        optimized_article: retarget.proposal.optimized_article,
-        decision: retarget.proposal.decision,
-        strategy: retarget.proposal.strategy,
-        model: retarget.proposal.model,
-      });
-      setApplyResult({
-        risk_score_after: r.recheck.risk_score_after,
-        risk_level_after: r.recheck.risk_level_after,
-      });
-      // Refresh the analysis snapshot to mirror what's now persisted.
-      setAnalysis((cur) => cur ? ({
-        ...cur,
-        risk_score: r.recheck.risk_score_after,
-        risk_level: r.recheck.risk_level_after,
-        conflicts: r.recheck.conflicts,
-        fingerprint: r.recheck.fingerprint,
-      }) : cur);
-      if (props.onDraftUpdated) props.onDraftUpdated(r.draft);
+      if (props.mode === 'draft') {
+        const r = await api.cannibalizationApplyRetarget({
+          draftId: props.draftId,
+          locale: props.locale,
+          optimized_article: retarget.proposal.optimized_article,
+          decision: retarget.proposal.decision,
+          strategy: retarget.proposal.strategy,
+          model: retarget.proposal.model,
+        });
+        setApplyResult({
+          risk_score_after: r.recheck.risk_score_after,
+          risk_level_after: r.recheck.risk_level_after,
+        });
+        // Refresh the analysis snapshot to mirror what's now persisted.
+        setAnalysis((cur) => cur ? ({
+          ...cur,
+          risk_score: r.recheck.risk_score_after,
+          risk_level: r.recheck.risk_level_after,
+          conflicts: r.recheck.conflicts,
+          fingerprint: r.recheck.fingerprint,
+        }) : cur);
+        if (props.onDraftUpdated) props.onDraftUpdated(r.draft);
+      } else if (props.mode === 'editor') {
+        // Editor flow: hand the optimized article off to the host
+        // (Blog Editor), then re-analyze the freshly-applied article.
+        if (!props.onApplyToEditor) {
+          setErr(t.intentGuard.applyFailedEditor);
+          setBusyApply(false);
+          return;
+        }
+        const merged = await props.onApplyToEditor(retarget.proposal.optimized_article);
+        const recheck = await api.cannibalizationAnalyze({
+          source: 'editor', article: merged, draftId: props.draftId,
+        });
+        setApplyResult({
+          risk_score_after: recheck.risk_score,
+          risk_level_after: recheck.risk_level,
+        });
+        setAnalysis({
+          risk_score: recheck.risk_score,
+          risk_level: recheck.risk_level,
+          fingerprint: recheck.fingerprint,
+          intent_key: recheck.intent_key,
+          conflicts: recheck.conflicts,
+          inventory_counts: recheck.inventory_counts,
+          recommendation: recheck.recommendation,
+          serper: recheck.serper,
+          semantic: recheck.semantic,
+        });
+      }
     } catch (e) {
       setErr(`${t.intentGuard.applyFailed}: ${(e as Error).message}`);
     } finally {
@@ -196,17 +233,36 @@ export function IntentGuardPanel(props: IntentGuardPanelProps) {
      : 'border-red-500/30 bg-red-500/5')
     : 'border-white/10';
 
+  // Editor mode supports Apply iff parent supplied a callback.
+  const editorCanApply = props.mode === 'editor' && !!(props as EditorModeProps).onApplyToEditor;
+  const canRetarget = analysis && level !== 'low' && (props.mode === 'draft' || editorCanApply);
+  const readyToPublish = !!applyResult && applyResult.risk_level_after === 'low';
+
   return (
     <>
       <Card className={`${tone} ${props.className || ''}`} data-testid={prefix}>
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="flex-1 min-w-0">{statusBlock(level)}</div>
-          {analysis && <IntentGuardBadge level={level} score={analysis.risk_score} testId={`${prefix}-badge`}/>}
+          {analysis && <IntentGuardBadge level={level} score={analysis.risk_score} size="md" testId={`${prefix}-badge`}/>}
         </div>
+
+        {/* "Ready to publish" success banner shown after a successful Apply
+            brings the risk level down to low. Sized so it's hard to miss. */}
+        {readyToPublish && (
+          <div
+            className="mt-3 flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-emerald-200 text-sm"
+            data-testid={`${prefix}-ready-to-publish`}
+          >
+            <CheckCircle2 size={16}/>
+            <span>{t.intentGuard.readyToPublish}</span>
+          </div>
+        )}
+
         {err && <div className="text-red-300 text-xs mt-3" data-testid={`${prefix}-error`}>{err}</div>}
+
         <div className="flex gap-2 flex-wrap mt-4">
           {!analysis && (
-            <Button size="sm" variant="primary"
+            <Button size="md" variant="primary"
               disabled={busyAnalyze || !props.article}
               onClick={() => void doAnalyze()}
               data-testid={`${prefix}-check`}>
@@ -216,27 +272,33 @@ export function IntentGuardPanel(props: IntentGuardPanelProps) {
           )}
           {analysis && (
             <>
-              <Button size="sm" variant="secondary"
+              {/* Primary CTA — single big button when there IS a conflict.
+                  Visible in BOTH draft and editor (when onApplyToEditor is wired).
+                  One click → analyze, retarget, open diff modal, then Apply. */}
+              {canRetarget && (
+                <Button size="md" variant="primary"
+                  className="font-semibold shadow-lg shadow-brand-cyan/15"
+                  disabled={busyRetarget || busyAnalyze || !props.article}
+                  onClick={() => void doRetarget()}
+                  data-testid={`${prefix}-optimize-with-ai`}
+                  aria-label={t.intentGuard.btnOptimizeWithAi}
+                >
+                  {busyRetarget ? <RefreshCw size={14} className="animate-spin"/> : <Wand2 size={14}/>}
+                  {t.intentGuard.btnOptimizeWithAi}
+                </Button>
+              )}
+              <Button size="sm" variant="ghost"
+                onClick={() => setOpen(true)}
+                data-testid={`${prefix}-open-analysis`}>
+                {t.intentGuard.btnAnalyze}
+              </Button>
+              <Button size="sm" variant="ghost"
                 disabled={busyAnalyze || !props.article}
                 onClick={() => void doAnalyze()}
                 data-testid={`${prefix}-recheck`}>
                 {busyAnalyze ? <RefreshCw size={14} className="animate-spin"/> : <ShieldCheck size={14}/>}
                 {t.intentGuard.btnCheckCannibalization}
               </Button>
-              <Button size="sm" variant="ghost"
-                onClick={() => setOpen(true)}
-                data-testid={`${prefix}-open-analysis`}>
-                {t.intentGuard.btnAnalyze}
-              </Button>
-              {level !== 'low' && props.mode === 'draft' && (
-                <Button size="sm" variant="primary"
-                  disabled={busyRetarget || !props.article}
-                  onClick={() => void doRetarget()}
-                  data-testid={`${prefix}-retarget`}>
-                  {busyRetarget ? <RefreshCw size={14} className="animate-spin"/> : <Wand2 size={14}/>}
-                  {level === 'medium' ? t.intentGuard.btnRefineWithAi : t.intentGuard.btnSeparateIntents}
-                </Button>
-              )}
             </>
           )}
         </div>
@@ -251,11 +313,12 @@ export function IntentGuardPanel(props: IntentGuardPanelProps) {
         busyAnalyze={busyAnalyze}
         busyRetarget={busyRetarget}
         busyApply={busyApply}
+        canApply={props.mode === 'draft' || editorCanApply}
         error={err}
         onRefineWithAi={() => void doRetarget()}
         onApply={() => void doApply()}
         onAnotherVariant={() => void doRetarget('Создай другой вариант разведения интентов.')}
-        onCancel={() => { if (!busyApply) { setOpen(false); setApplyResult(null); } }}
+        onCancel={() => { if (!busyApply) { setOpen(false); /* keep applyResult so the green banner stays */ } }}
       />
     </>
   );

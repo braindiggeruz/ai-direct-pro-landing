@@ -55,6 +55,9 @@ interface Props {
   busyAnalyze: boolean;
   busyRetarget: boolean;
   busyApply: boolean;
+  /** Whether the Apply button is enabled. False for editor mode without
+      an onApply callback (publish-guard only). */
+  canApply?: boolean;
   error: string | null;
   onRefineWithAi: () => void;          // request a retarget proposal
   onApply: () => void;                  // commit current proposal
@@ -91,7 +94,7 @@ function localiseSource(s: IntentConflict['source_type'], t: ReturnType<typeof u
 
 export function IntentGuardModal({
   open, locale, analysis, retarget, applyResult,
-  busyAnalyze, busyRetarget, busyApply, error,
+  busyAnalyze, busyRetarget, busyApply, canApply = true, error,
   onRefineWithAi, onApply, onAnotherVariant, onCancel,
 }: Props) {
   const { t, tpl } = useT();
@@ -292,7 +295,7 @@ export function IntentGuardModal({
               <Button variant="secondary" size="sm" onClick={onAnotherVariant} disabled={busyRetarget || busyApply} data-testid="intent-guard-another-variant">
                 <RefreshCw size={14}/> {t.intentGuard.btnCreateAnotherVariant}
               </Button>
-              <Button variant="primary" size="sm" onClick={onApply} disabled={busyApply || retarget.proposal.decision === 'reject'} data-testid="intent-guard-apply">
+              <Button variant="primary" size="sm" onClick={onApply} disabled={busyApply || !canApply || retarget.proposal.decision === 'reject'} data-testid="intent-guard-apply">
                 <CheckCircle2 size={14}/> {busyApply ? t.intentGuard.applyApplying : t.intentGuard.applyHeading}
               </Button>
             </>
