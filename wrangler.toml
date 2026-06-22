@@ -21,3 +21,10 @@ pages_build_output_dir = "dist"
 binding = "GPTBOT_DRAFTS_DB"
 database_name = "gptbot-ai-drafts"
 database_id = "97ef0372-d937-406f-8871-755368d9afff"
+
+# Workers AI binding (Cloudflare Pages Functions).
+# Powers the direct-AI SEO Autopilot generator. The binding name "AI"
+# is referenced via env.AI.run(model, …) in
+# functions/lib/seo-autopilot/direct-generator.ts.
+[ai]
+binding = "AI"
