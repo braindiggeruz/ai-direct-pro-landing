@@ -8,6 +8,7 @@ import BlogList from './pages/BlogList';
 import BlogEditor from './pages/BlogEditor';
 import InternalLinksPage from './pages/InternalLinks';
 import SeoBooster from './pages/SeoBooster';
+import IndexNowPanel from './pages/IndexNowPanel';
 import Redirects from './pages/Redirects';
 import Settings from './pages/Settings';
 import AiDraftsList from './pages/AiDraftsList';
@@ -65,6 +66,7 @@ export default function AdminApp() {
         <Route path="seo-autopilot" element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
         <Route path="internal-links" element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
         <Route path="seo-booster" element={<RequireAuth><Shell><SeoBooster/></Shell></RequireAuth>} />
+        <Route path="indexnow" element={<RequireAuth><Shell><IndexNowPanel/></Shell></RequireAuth>} />
         <Route path="redirects" element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
         <Route path="settings" element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
         <Route path="*" element={<Navigate to="/admin-tools" replace/>} />

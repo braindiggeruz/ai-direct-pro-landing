@@ -18,9 +18,13 @@ import { requireAuth } from '../../lib/jwt';
 import { readContentBulk } from '../../lib/github';
 import { buildBoosterReport, filterSafeForIndexNow } from '../../../src/shared/booster';
 import type { Page, BlogArticle, GlobalSEO } from '../../../src/shared/types';
+import { writeAudit } from '../../lib/indexnow/audit';
 
 const SITE_HOST = 'gptbot.uz';
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow';
+// Server-side key location. Returned by functions/api/indexnow/key.ts.
+// Bing/Yandex/Seznam fetch this URL to verify the submission.
+const KEY_LOCATION = `https://${SITE_HOST}/api/indexnow/key`;
 
 interface IndexNowEnv extends Env {
   INDEXNOW_KEY?: string;
@@ -76,13 +80,13 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
 
   // Verify the key file is reachable. We do a HEAD; if it 404s we ABORT
   // because IndexNow will reject the whole batch with "key not found".
-  const keyLocation = `https://${SITE_HOST}/${key}.txt`;
+  const keyLocation = KEY_LOCATION;
   try {
     const keyProbe = await fetch(keyLocation, { method: 'HEAD' });
     if (keyProbe.status !== 200) {
       return json({
         ok: false,
-        error: `Key file at ${keyLocation} returned HTTP ${keyProbe.status}. Deploy the file at public/${key}.txt first.`,
+        error: `Key file at ${keyLocation} returned HTTP ${keyProbe.status}. Verify INDEXNOW_KEY env binding is set.`,
       }, 400);
     }
   } catch (e) {
@@ -91,8 +95,12 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
 
   // Submit. IndexNow accepts up to 10k URLs; we cap at 1k in the validator.
   const payload = { host: SITE_HOST, key, keyLocation, urlList: safe };
+  const startedAt = Date.now();
+  const submittedAtIso = new Date(startedAt).toISOString();
+  const batchId = `bn_${startedAt}_${crypto.randomUUID().slice(0, 8)}`;
   let upstreamStatus = 0;
   let upstreamBody = '';
+  let networkError: string | null = null;
   try {
     const res = await fetch(INDEXNOW_ENDPOINT, {
       method: 'POST',
@@ -102,11 +110,31 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     upstreamStatus = res.status;
     upstreamBody = (await res.text()).slice(0, 1000);
   } catch (e) {
-    return json({ ok: false, error: `IndexNow fetch failed: ${(e as Error).message}`, submitted: safe.length, rejected }, 502);
+    networkError = (e as Error).message;
+  }
+  const durationMs = Date.now() - startedAt;
+  const ok = upstreamStatus === 200 || upstreamStatus === 202;
+
+  // Write per-URL audit rows so /admin-tools/indexnow can show
+  // "last submitted" badges. Best-effort: any D1 error is swallowed.
+  await writeAudit(
+    env,
+    safe.map((url) => ({
+      submitted_at: submittedAtIso,
+      actor_email: auth.email,
+      url,
+      upstream_status: upstreamStatus,
+      upstream_ok: ok,
+      batch_id: batchId,
+      duration_ms: durationMs,
+      error: networkError ?? (ok ? null : (upstreamBody || `HTTP ${upstreamStatus}`).slice(0, 240)),
+    })),
+  ).catch(() => undefined);
+
+  if (networkError) {
+    return json({ ok: false, error: `IndexNow fetch failed: ${networkError}`, submitted: safe.length, rejected, batchId }, 502);
   }
 
-  // 200 OK / 202 Accepted = success per spec.
-  const ok = upstreamStatus === 200 || upstreamStatus === 202;
   return json({
     ok,
     submitted: safe.length,
@@ -114,6 +142,8 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     rejected,
     upstreamStatus,
     upstreamBody,
-    submittedAt: new Date().toISOString(),
+    batchId,
+    submittedAt: submittedAtIso,
+    durationMs,
   }, ok ? 200 : 502);
 };
