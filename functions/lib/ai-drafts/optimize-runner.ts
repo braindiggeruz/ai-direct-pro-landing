@@ -262,6 +262,14 @@ async function callGeminiPass(env: Env, system: string, user: string, temperatur
     temperature,
     timeoutMs: TIMEOUT_MS,
     jsonObject: true,
+    // Disable Gemini's hidden reasoning step. With 4 calls fanned out
+    // from /optimize-both, reasoning tokens were eating through the
+    // 8000-token output budget and the JSON came back truncated. The
+    // article we're rewriting is already in front of the model — it
+    // doesn't need to "think" to copy structure, just to vary wording.
+    // Disabling reasoning also shaves ~5-10 s off each pass under
+    // burst load, keeping wall time inside the CF Pages budget.
+    thinkingBudget: 0,
   });
   if (r.ok) return { ok: true, content: r.content, model: r.model, durationMs: r.durationMs };
   return { ok: false, content: '', model: r.model, error: r.error, status: r.status, durationMs: r.durationMs };

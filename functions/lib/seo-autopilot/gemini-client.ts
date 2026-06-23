@@ -52,7 +52,7 @@ export interface GeminiCallInput {
   system: string;
   /** User message — topic brief + writing directives. */
   user: string;
-  /** Max output tokens. Gemini 2.5 Flash caps at 8192. */
+  /** Max output tokens. Gemini 2.5 Flash caps at 8192 without thinking, 65536 with. */
   maxTokens?: number;
   /** Sampling temperature. Default 0.4 — coherent but not robotic. */
   temperature?: number;
@@ -60,6 +60,17 @@ export interface GeminiCallInput {
   timeoutMs?: number;
   /** When true (default), enforces strict-JSON output via responseMimeType. */
   jsonObject?: boolean;
+  /**
+   * Reasoning ("thinking") budget. Gemini 2.5 Flash counts thinking
+   * tokens against maxOutputTokens unless capped here. Use 0 to
+   * disable thinking entirely — faster responses and the full
+   * maxTokens budget reserved for the visible JSON (critical when
+   * many requests run concurrently and the response would otherwise
+   * truncate mid-JSON). Use undefined (default) for the model's
+   * dynamic thinking, which gives the strongest single-call quality
+   * but is risky under burst load.
+   */
+  thinkingBudget?: number;
 }
 
 export interface GeminiCallSuccess {
@@ -163,16 +174,24 @@ async function callOnce(
   // shape. systemInstruction carries the persona and JSON contract;
   // contents is the user message. responseMimeType=application/json
   // forces strict-JSON output (Gemini's JSON mode).
+  const generationConfig: Record<string, unknown> = {
+    temperature: input.temperature ?? 0.4,
+    maxOutputTokens: input.maxTokens ?? 8000,
+    ...(input.jsonObject !== false
+      ? { responseMimeType: 'application/json' }
+      : {}),
+  };
+  if (typeof input.thinkingBudget === 'number') {
+    // 0 disables Gemini's hidden reasoning step; positive values cap
+    // it. Costs are not affected by this setting on the free tier;
+    // it's purely a knob for output-token economy.
+    generationConfig.thinkingConfig = { thinkingBudget: input.thinkingBudget };
+  }
+
   const body: Record<string, unknown> = {
     contents: [{ role: 'user', parts: [{ text: input.user }] }],
     systemInstruction: { role: 'system', parts: [{ text: input.system }] },
-    generationConfig: {
-      temperature: input.temperature ?? 0.4,
-      maxOutputTokens: input.maxTokens ?? 8000,
-      ...(input.jsonObject !== false
-        ? { responseMimeType: 'application/json' }
-        : {}),
-    },
+    generationConfig,
   };
 
   try {
