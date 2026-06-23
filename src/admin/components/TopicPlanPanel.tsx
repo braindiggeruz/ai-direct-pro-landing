@@ -16,6 +16,7 @@ import { api } from '../lib/api';
 import { useT } from '../i18n';
 import {
   RefreshCw, Sparkles, Trash2, PlayCircle, ChevronRight, ListFilter, Loader2,
+  Globe, AlertTriangle, CheckCircle2, X,
 } from 'lucide-react';
 import type {
   TopicPlan, TopicPlanItem, TopicPlanItemStatus,
@@ -56,6 +57,75 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
   const [channel, setChannel] = useState('');
   const [funnel, setFunnel] = useState('');
   const [moneyPage, setMoneyPage] = useState('');
+
+  // Yandex demand intelligence (yandex.uz SERP analysis)
+  const [yxOpen, setYxOpen] = useState(false);
+  const [yxBusy, setYxBusy] = useState(false);
+  const [yxSeedsText, setYxSeedsText] = useState('');
+  const [yxResults, setYxResults] = useState<Array<{
+    query: string;
+    yandex_found_total: number;
+    difficulty_score: number;
+    top_domains: string[];
+    weak_competition: boolean;
+    already_ranking: boolean;
+    reasons: string[];
+    warnings: string[];
+  }>>([]);
+  const [yxStats, setYxStats] = useState<{ api_calls: number; cache_hits: number } | null>(null);
+  const [yxErr, setYxErr] = useState<string | null>(null);
+
+  // Build sensible default seeds from the current Topic Plan params.
+  function buildDefaultSeeds(): string[] {
+    const out = new Set<string>();
+    const i = industry.trim().toLowerCase();
+    const c = channel.trim().toLowerCase();
+    const f = funnel.trim().toLowerCase();
+    const baseTerms = ['AI-бот', 'чат-бот', 'Telegram-бот', 'бот для бизнеса'];
+    if (i) baseTerms.forEach((b) => out.add(`${b} для ${i}`));
+    if (c && i) out.add(`${c} бот для ${i}`);
+    if (f === 'top') out.add('что такое ai-бот для бизнеса');
+    if (f === 'middle') out.add('как внедрить ai-бот в бизнес');
+    if (f === 'bottom') out.add('заказать ai-бот для бизнеса');
+    if (out.size === 0) {
+      // Reasonable Uzbekistan-focused defaults so the operator gets something
+      // useful even without any params.
+      ['AI-бот для бизнеса', 'чат-бот для бизнеса', 'Telegram-бот Узбекистан',
+       'AI-продавец', 'бот для заявок', 'автоматизация продаж'].forEach((b) => out.add(b));
+    }
+    return Array.from(out).slice(0, 10);
+  }
+
+  function openYandex() {
+    if (yxSeedsText.trim().length === 0) setYxSeedsText(buildDefaultSeeds().join('\n'));
+    setYxOpen(true);
+    setYxErr(null);
+  }
+
+  async function runYandex() {
+    const seeds = yxSeedsText.split(/\r?\n/).map((s) => s.trim()).filter((s) => s.length >= 2).slice(0, 20);
+    if (seeds.length === 0) { setYxErr('Нужно минимум один seed (≥ 2 символа)'); return; }
+    const yxLocale: 'ru' | 'uz' = localeMode === 'uz' ? 'uz' : 'ru';
+    setYxBusy(true); setYxErr(null);
+    try {
+      const r = await api.yandexResearch(seeds, yxLocale);
+      setYxResults(r.topics);
+      setYxStats({ api_calls: r.api_calls, cache_hits: r.cache_hits });
+    } catch (e) {
+      setYxErr((e as Error).message);
+    }
+    setYxBusy(false);
+  }
+
+  function useAsSeed(query: string) {
+    // Push the picked Yandex query into the moneyPage hint OR industry as
+    // a seed for the next "Собрать темы" run. Most operators want to use
+    // it as the topic angle, so we drop it into industry where it shapes
+    // the AI prompt.
+    setIndustry((cur) => cur ? `${cur}, ${query}` : query);
+    setToast(`Добавлено в "Отрасль" как seed: ${query.slice(0, 60)}…`);
+    setYxOpen(false);
+  }
 
   async function loadList() {
     try {
@@ -279,7 +349,88 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
             {t.topicPlan.btnLaunchAll}
           </Button>
         )}
+        <Button size="sm" variant="ghost" onClick={openYandex} disabled={busy} data-testid={`${testIdPrefix}-yandex-open`}>
+          <Globe size={14}/> Спрос Яндекса
+        </Button>
       </div>
+
+      {/* Yandex demand intelligence panel — collapsible */}
+      {yxOpen && (
+        <Card className="border-emerald-500/20" data-testid={`${testIdPrefix}-yandex`}>
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <div className="flex items-center gap-2">
+              <Globe size={14} className="text-emerald-300" />
+              <span className="font-display text-white">Yandex.uz · реальный спрос и сложность SERP</span>
+            </div>
+            <button type="button" className="text-white/50 hover:text-white p-1" onClick={() => setYxOpen(false)} aria-label="Close">
+              <X size={16}/>
+            </button>
+          </div>
+          <p className="text-white/55 text-xs mb-3">
+            Анализирует <code className="text-white/75">yandex.uz</code> SERP по seed-фразам, считает difficulty-score 0–100 (ниже = легче пробиться), показывает top-домены и предупреждения.
+            Результаты кешируются на 24 ч — повторные запросы той же фразы не сжигают квоту.
+          </p>
+          <div className="grid sm:grid-cols-[1fr_auto] gap-3 items-stretch">
+            <textarea
+              value={yxSeedsText}
+              onChange={(e) => setYxSeedsText(e.target.value)}
+              placeholder={'AI-бот для бизнеса\nчат-бот для салонов красоты\nTelegram-бот Узбекистан'}
+              rows={5}
+              className="bg-bg-base border border-white/10 rounded px-3 py-2 text-sm text-white/90 font-mono focus:outline-none focus:ring-1 focus:ring-emerald-400/40"
+              data-testid={`${testIdPrefix}-yandex-seeds`}
+            />
+            <div className="flex flex-col gap-2 justify-start">
+              <Button size="sm" variant="primary" onClick={() => void runYandex()} disabled={yxBusy} data-testid={`${testIdPrefix}-yandex-run`}>
+                {yxBusy ? <RefreshCw size={14} className="animate-spin"/> : <Sparkles size={14}/>}
+                {yxBusy ? 'Анализ…' : 'Получить'}
+              </Button>
+              <div className="text-white/40 text-xs">
+                Локаль: <code>{localeMode === 'uz' ? 'uz' : 'ru'}</code><br/>
+                Seeds (макс 20): <strong className="text-white/70">{yxSeedsText.split(/\r?\n/).filter((s) => s.trim().length >= 2).length}</strong>
+              </div>
+            </div>
+          </div>
+          {yxErr && (
+            <div className="mt-3 text-red-300 text-sm flex items-start gap-2" data-testid={`${testIdPrefix}-yandex-error`}>
+              <AlertTriangle size={14} className="mt-0.5 shrink-0"/> {yxErr}
+            </div>
+          )}
+          {yxStats && (
+            <div className="mt-3 text-white/55 text-xs">
+              API-вызовов: <strong className="text-white/80">{yxStats.api_calls}</strong> · из кеша: <strong className="text-white/80">{yxStats.cache_hits}</strong>
+            </div>
+          )}
+          {yxResults.length > 0 && (
+            <div className="mt-4 space-y-2" data-testid={`${testIdPrefix}-yandex-results`}>
+              {yxResults.map((r, i) => (
+                <div key={i} className="border border-white/10 rounded-lg px-3 py-2.5 hover:border-white/20 transition-colors">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <code className="text-white font-medium">{r.query}</code>
+                    <Badge tone={r.difficulty_score <= 35 ? 'success' : r.difficulty_score <= 65 ? 'info' : 'warning'}>
+                      сложность {r.difficulty_score}
+                    </Badge>
+                    <Badge tone="neutral">найдено: {r.yandex_found_total > 1000 ? `${(r.yandex_found_total/1000).toFixed(1)}k` : r.yandex_found_total}</Badge>
+                    {r.weak_competition && <Badge tone="success"><CheckCircle2 size={10}/> слабая конкуренция</Badge>}
+                    {r.already_ranking && <Badge tone="warning">gptbot.uz уже в выдаче</Badge>}
+                    <Button size="sm" variant="ghost" onClick={() => useAsSeed(r.query)} data-testid={`${testIdPrefix}-yandex-use-${i}`} className="ml-auto">
+                      Использовать
+                    </Button>
+                  </div>
+                  {r.top_domains.length > 0 && (
+                    <div className="text-white/45 text-xs mt-1.5">Top: <code className="text-white/65">{r.top_domains.join(' · ')}</code></div>
+                  )}
+                  {r.reasons.map((rs, j) => (
+                    <div key={`r-${j}`} className="text-emerald-200/80 text-xs mt-0.5">✓ {rs}</div>
+                  ))}
+                  {r.warnings.map((w, j) => (
+                    <div key={`w-${j}`} className="text-amber-200/80 text-xs mt-0.5">! {w}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+      )}
 
       {err && <div className="text-red-300 text-sm" data-testid={`${testIdPrefix}-error`}>{err}</div>}
       {toast && <div className="text-emerald-300 text-sm" data-testid={`${testIdPrefix}-toast`}>{toast}</div>}
