@@ -40,6 +40,73 @@ Hard rules:
 
 ## What has been implemented
 
+### 2026-06-22 (late evening) — One-click «Оптимизировать обе версии (RU + UZ)»
+
+* **Owner request**: «Сделай чтобы можно было одним кликом оптимизировать
+  обе версии RU + UZ — продумай так, чтобы было удобно, понятно,
+  эффективно».
+* **Implementation**:
+  * `functions/lib/ai-drafts/optimize-runner.ts` (new): extracted the
+    balanced+aggressive parallel-pass logic out of `optimize.ts` so
+    both endpoints (`/optimize` single-locale and `/optimize-both`
+    dual-locale) share one implementation. Defence-in-depth lock of
+    `slug`, `target_money_page`, `target_keyword` and the rewrite-
+    ratio scoring stay inside the runner.
+  * `functions/api/admin/ai-drafts/[id]/optimize-both.ts` (new): POST
+    endpoint that runs the runner for each locale the bundle carries
+    (2 locales × balanced + aggressive = up to 4 Gemini calls fanned
+    out in parallel via `Promise.allSettled`). Per-locale failures
+    surface inside `results.<locale>` so the modal renders the
+    successful side and a clear error on the failed side. Returns 5xx
+    only if EVERY locale failed. In-flight lock is per-draft (not
+    per-locale) since both run together.
+  * `functions/api/admin/ai-drafts/[id]/optimize.ts`: simplified to a
+    thin handler delegating to the shared runner. No behaviour change.
+  * `functions/lib/seo-autopilot/gemini-client.ts`: new
+    `thinkingBudget` option mapped to Gemini's `generationConfig.
+    thinkingConfig`. `0` disables Gemini's hidden reasoning — critical
+    for the optimizer's burst load. The direct-generator path is
+    unchanged (still uses dynamic reasoning, which it needs for
+    building articles from scratch).
+  * `src/admin/components/AiOptimizeBothModal.tsx` (new): tabbed
+    modal with per-tab depth badge (green ≥ 55%, amber ≥ 35%, red
+    below), reuses the existing diff renderers (`FieldDiff`,
+    `BodyDiff`, `FaqDiff`, `LinksDiff`, `ValidationCol`, `buildDiff`)
+    now exported from `AiOptimizeModal.tsx`. Footer adapts to the
+    success pattern: «Применить обе версии» (primary) only when both
+    succeeded, plus «Применить только RU» / «Применить только UZ»
+    secondaries; if only one side succeeded the modal shows just that
+    side and a single apply button.
+  * `src/admin/pages/AiDraftDetail.tsx`: new primary
+    **«Оптимизировать обе версии (RU + UZ)»** button rendered whenever
+    the bundle carries both locales. Per-locale buttons stay for
+    fine-grained control. `applyOptimizeBoth(only?)` calls
+    `/apply-optimization` per locale in parallel via
+    `Promise.allSettled` — partial failure shows a precise per-locale
+    error and reloads so the successful side is reflected immediately.
+* **Bug found during smoke**: first /optimize-both call failed both
+  locales with empty validation errors. Diagnostic pass showed Gemini
+  was returning content that started as valid JSON but was truncated
+  mid-string (4 concurrent calls + reasoning tokens consuming the
+  8000-token output budget). Fix: disable `thinkingConfig.
+  thinkingBudget` for the optimizer (set to 0). Article is already in
+  front of the model — it doesn't need to think to copy structure,
+  only to vary wording, and the prompt now carries all depth
+  requirements explicitly. Side benefit: ~5-10 s faster per pass.
+* **Production smoke (commits `f174179`, `17be198`, `a243a9d`)**:
+  Dual-optimise `draft_8eaee83e2f0542b3a90c1f` (both locales).
+  Wall **36 s** (vs ~75 s for sequential single-locale × 2). 2/2 OK.
+  RU **depth 0.616, 0 of 25 blocks unchanged** — every single block
+  rewritten meaningfully. UZ depth 0.288 (fell back to flash-lite
+  under burst — modal shows a red badge so the operator can spot it
+  immediately and «Повторить» if needed). 14 explicit change items per
+  locale, validation passed, 0 issues.
+* **UI verified visually**: the new primary button «Оптимизировать
+  обе версии (RU + UZ)» renders next to the per-locale buttons in the
+  draft action bar. After click, the dual modal opens with depth-coded
+  tabs and the full diff. Footer shows «Применить обе» + «Только RU»
+  + «Только UZ» when both succeeded.
+
 ### 2026-06-22 (evening) — Deep block-by-block rewrite for «Оптимизировать с AI»
 
 * **Owner-reported issue**: the AI Optimisation modal showed cosmetic
