@@ -162,8 +162,9 @@ export const api = {
     ),
   aiDraftsDelete: (id: string) =>
     request<{ ok: boolean }>('DELETE', `/api/admin/ai-drafts/${encodeURIComponent(id)}`),
-  // Optimize a single locale of an AI draft via OpenRouter. Returns a
-  // preview only — the operator must call aiDraftsApplyOptimization to save.
+  // Optimize a single locale of an AI draft via Gemini Flash. Returns
+  // a preview only — the operator must call aiDraftsApplyOptimization
+  // to save.
   aiDraftsOptimize: (id: string, locale: 'ru' | 'uz') =>
     request<{
       ok: true;
@@ -176,11 +177,73 @@ export const api = {
       validation_before: { passed: boolean; issues: { path: string; message: string }[] };
       validation_after:  { passed: boolean; issues: { path: string; message: string }[] };
       warnings: string[];
+      rewrite_stats?: {
+        overall_diff_ratio: number;
+        unchanged_blocks: number;
+        compared_blocks: number;
+        retried: boolean;
+        retry_reason: string | null;
+      };
     }>(
       'POST',
       `/api/admin/ai-drafts/${encodeURIComponent(id)}/optimize`,
       { locale },
-      { timeoutMs: 2 * 60 * 1000 }, // OpenRouter calls can take 30-90s
+      { timeoutMs: 2 * 60 * 1000 }, // Gemini calls can take 30-60s per locale
+    ),
+  // Optimize BOTH locales of a bundle in parallel. Returns per-locale
+  // preview results (including per-locale failures) so the dual modal
+  // can render each side independently. Wall ≈ 45-55 s.
+  aiDraftsOptimizeBoth: (id: string, locales?: Array<'ru' | 'uz'>) =>
+    request<{
+      ok: boolean;
+      ok_count: number;
+      fail_count: number;
+      attempted_locales: Array<'ru' | 'uz'>;
+      results: {
+        ru?: {
+          ok: true;
+          locale: 'ru';
+          model: string;
+          original: import('../../shared/ai-drafts').AiDraftArticle;
+          optimized_article: import('../../shared/ai-drafts').AiDraftArticle;
+          changes: string[];
+          kept: string[];
+          validation_before: { passed: boolean; issues: { path: string; message: string }[] };
+          validation_after:  { passed: boolean; issues: { path: string; message: string }[] };
+          warnings: string[];
+          rewrite_stats?: {
+            overall_diff_ratio: number;
+            unchanged_blocks: number;
+            compared_blocks: number;
+            retried: boolean;
+            retry_reason: string | null;
+          };
+        } | { ok: false; locale: 'ru'; status: 'upstream' | 'validation'; error: string; detail?: string };
+        uz?: {
+          ok: true;
+          locale: 'uz';
+          model: string;
+          original: import('../../shared/ai-drafts').AiDraftArticle;
+          optimized_article: import('../../shared/ai-drafts').AiDraftArticle;
+          changes: string[];
+          kept: string[];
+          validation_before: { passed: boolean; issues: { path: string; message: string }[] };
+          validation_after:  { passed: boolean; issues: { path: string; message: string }[] };
+          warnings: string[];
+          rewrite_stats?: {
+            overall_diff_ratio: number;
+            unchanged_blocks: number;
+            compared_blocks: number;
+            retried: boolean;
+            retry_reason: string | null;
+          };
+        } | { ok: false; locale: 'uz'; status: 'upstream' | 'validation'; error: string; detail?: string };
+      };
+    }>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/optimize-both`,
+      locales ? { locales } : {},
+      { timeoutMs: 2 * 60 * 1000 }, // 4 parallel Gemini calls; ≈ 45-55s wall
     ),
   aiDraftsApplyOptimization: (
     id: string,
