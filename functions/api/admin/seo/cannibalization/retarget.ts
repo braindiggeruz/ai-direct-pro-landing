@@ -36,7 +36,13 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
-  if (!env.OPENROUTER_API_KEY) return jsonResponse({ error: 'OPENROUTER_API_KEY not configured.' }, 503);
+  // At least one LLM provider must be configured for the retarget loop.
+  // The router itself returns the same diagnostic, but a 503 here saves
+  // a wasted GitHub inventory read.
+  const anyConfigured =
+    !!env.MISTRAL_API_KEY || !!env.GEMINI_API_KEY || !!env.GROQ_API_KEY ||
+    !!env.CEREBRAS_API_KEY || !!env.OPENROUTER_API_KEY;
+  if (!anyConfigured) return jsonResponse({ error: 'No LLM provider configured. Add MISTRAL_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, or CEREBRAS_API_KEY.' }, 503);
 
   const body = (await request.json().catch(() => null)) as null | {
     source?: 'draft' | 'editor';

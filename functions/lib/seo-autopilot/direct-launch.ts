@@ -85,8 +85,10 @@ export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<
     input.requestId ||
     `${source}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
   // The dashboard still reads `n8n_url` — keep a sentinel value so the
-  // UI shows where the work is happening.
-  const sentinelUrl = 'cloudflare://workers-ai/seo-autopilot-direct';
+  // UI shows where the work is happening. Multi-provider router selects
+  // the actual upstream per call; the per-job llm_provider/llm_model
+  // columns carry the truth.
+  const sentinelUrl = 'cloudflare://llm-router/seo-autopilot-direct';
 
   await createJob(env, { id: jobId, request_id: runId, n8n_url: sentinelUrl });
   await env.GPTBOT_DRAFTS_DB
@@ -120,12 +122,15 @@ export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<
       validation_issue_count: result.validation_issue_count ?? 0,
       error_code: result.error_code || 'ai_direct_failed',
       error_message: (result.error_message || 'Direct AI generation failed').slice(0, 1000),
-      error_detail: { ...(result.error_detail || {}), model: result.model, runtime: 'gemini-flash-via-google-ai-studio' },
+      error_detail: { ...(result.error_detail || {}), model: result.model, runtime: 'multi-provider-llm-router' },
       finished_at: finishedAt,
       duration_ms: result.duration_ms ?? null,
+      llm_provider: result.llm_provider || null,
+      llm_model: result.llm_model || null,
+      llm_fallback_used: !!result.llm_fallback_used,
     });
     const job = await getJob(env, jobId);
-    return { ok: true, jobId, status: job?.status ?? 'failed', awaited: true, job: job || fallbackJob(jobId, runId, sentinelUrl, 'failed', result) };
+    return { ok: true, jobId, status: job?.status ?? 'failed', awaited: true, job: job || fallbackJob(jobId, runId, sentinelUrl, 'failed', { ...result, llm_provider: result.llm_provider, llm_model: result.llm_model, llm_fallback_used: result.llm_fallback_used }) };
   }
 
   await updateJob(env, jobId, { status: 'ingesting' });
@@ -147,9 +152,12 @@ export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<
     error_detail: result.error_detail || null,
     finished_at: finishedAt,
     duration_ms: result.duration_ms ?? null,
+    llm_provider: result.llm_provider || null,
+    llm_model: result.llm_model || null,
+    llm_fallback_used: !!result.llm_fallback_used,
   });
   const job = await getJob(env, jobId);
-  return { ok: true, jobId, status: job?.status ?? 'completed', awaited: true, job: job || fallbackJob(jobId, runId, sentinelUrl, 'completed', result) };
+  return { ok: true, jobId, status: job?.status ?? 'completed', awaited: true, job: job || fallbackJob(jobId, runId, sentinelUrl, 'completed', { ...result, llm_provider: result.llm_provider, llm_model: result.llm_model, llm_fallback_used: result.llm_fallback_used }) };
 }
 
 function fallbackJob(
@@ -157,7 +165,7 @@ function fallbackJob(
   requestId: string,
   url: string,
   status: AutopilotJob['status'],
-  result: { error_code?: string; error_message?: string; draft_id?: string; bundle_id?: string; admin_url?: string; duration_ms?: number },
+  result: { error_code?: string; error_message?: string; draft_id?: string; bundle_id?: string; admin_url?: string; duration_ms?: number; llm_provider?: string; llm_model?: string; llm_fallback_used?: boolean },
 ): AutopilotJob {
   const now = new Date().toISOString();
   return {
@@ -183,6 +191,9 @@ function fallbackJob(
     updated_at: now,
     finished_at: now,
     duration_ms: result.duration_ms ?? null,
+    llm_provider: result.llm_provider || null,
+    llm_model: result.llm_model || null,
+    llm_fallback_used: !!result.llm_fallback_used,
   };
 }
 

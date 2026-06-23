@@ -8,6 +8,7 @@
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
 import { markStaleJobsAsFailed } from '../../../lib/seo-autopilot/jobs';
+import { whichProvidersConfigured } from '../../../lib/llm/router';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -47,7 +48,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
               generation_status, validation_status, validation_issue_count,
               draft_id, bundle_id, admin_url, deduplicated, ingestion_success,
               error_code, error_message, error_detail_json,
-              created_at, updated_at, finished_at, duration_ms
+              created_at, updated_at, finished_at, duration_ms,
+              llm_provider, llm_model, llm_fallback_used
        FROM seo_autopilot_jobs
        ORDER BY created_at DESC
        LIMIT ?`,
@@ -86,6 +88,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       updated_at: row.updated_at,
       finished_at: row.finished_at,
       duration_ms: row.duration_ms,
+      // Multi-provider router truth — what actually produced this draft.
+      llm_provider: (row.llm_provider as string) || null,
+      llm_model: (row.llm_model as string) || null,
+      llm_fallback_used: (row.llm_fallback_used as number) === 1,
     };
   });
 
@@ -118,6 +124,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     last_completed: lastCompleted
       ? { draft_id: lastCompleted.draft_id, admin_url: lastCompleted.admin_url, finished_at: lastCompleted.finished_at }
       : null,
+    // Multi-provider router status — which provider keys are set.
+    llm_providers: whichProvidersConfigured(env),
   };
 
   return json({ jobs, system });

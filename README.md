@@ -52,4 +52,15 @@ Outputs to `dist/`. Deploy with `wrangler pages deploy dist --project-name=ai-di
 | `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` | optional | enables captcha on login |
 | `OPENROUTER_API_KEY` | optional | enables AI-fill in editor (OpenRouter, server-side only) |
 | KV binding `LOGIN_ATTEMPTS` | optional | durable brute-force lockout |
+
+### Multi-provider LLM router env vars (any one ENABLES the autopilot)
+
+The SEO Autopilot routes through `functions/lib/llm/router.ts`. Each provider is independent — set whichever keys you have; the router skips the rest. Recommended: configure at least 2 so 429 from one falls back to another.
+
+| Variable | Source | Notes |
+|---|---|---|
+| `MISTRAL_API_KEY` | https://console.mistral.ai/api-keys/ | Pay-as-you-go. Mistral large = best RU primary. |
+| `GEMINI_API_KEY` | https://aistudio.google.com/app/apikey | Free tier 15 RPM / 1500 RPD / 1M ctx. Strongest UZ Latin. |
+| `GROQ_API_KEY` | https://console.groq.com/keys | Free tier. ~1 s latency. Best for judge / json_repair. |
+| `CEREBRAS_API_KEY` | https://cloud.cerebras.ai/ | Free tier. Ultrafast light-task helper. |
 <!-- redeploy after N8N_WEBHOOK_SECRET new update -->
