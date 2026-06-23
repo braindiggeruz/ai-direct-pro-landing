@@ -40,6 +40,63 @@ Hard rules:
 
 ## What has been implemented
 
+### 2026-06-22 (evening) — Deep block-by-block rewrite for «Оптимизировать с AI»
+
+* **Owner-reported issue**: the AI Optimisation modal showed cosmetic
+  edits only — meta_title, h1 and excerpt were updated but
+  `body_blocks` returned with 23 → 23 blocks and the first paragraph
+  byte-for-byte identical on both diff panes (screenshot received).
+* **Root cause**:
+  1. The optimiser called OpenRouter `openai/gpt-4o-mini`. Small model,
+     biased toward minimal edits when the prompt says "preserve intent".
+  2. The system prompt was a conservative copyedit checklist (trim meta,
+     fix brand spelling, light polish) with NOTHING demanding the body
+     be rewritten end-to-end.
+  3. Temperature 0.3 reinforced "stay close to source" behaviour.
+* **Fix**:
+  * Optimiser model swapped from OpenRouter `gpt-4o-mini` to Google
+    Gemini 2.5 Flash via the existing `seo-autopilot/gemini-client.ts`
+    (Google AI Studio REST, free tier). Drops one external dependency
+    from the optimise critical path. Other OpenRouter consumers
+    (`semantic-judge.ts`, `retarget-client.ts`) keep their wiring —
+    they were not affected by the bug.
+  * Prompt rewritten in `functions/lib/ai-drafts/optimizer-prompt.ts`:
+    new `DEEP_REWRITE_MANDATE` section requires every paragraph
+    rewritten end-to-end (≥ 60% trigrams different), every list item
+    replaced with operator-level specificity, every h2/h3 reworded
+    into action-led headlines, every FAQ q/a rephrased. New
+    `DEPTH_TARGETS` per block type. Banned-phrase list for RU and UZ.
+    User prompt now ships a block-by-block index so the model sees
+    exactly how many blocks it must touch.
+  * `optimize.ts` rewritten to run TWO Gemini passes in parallel — a
+    balanced pass (temperature 0.55) and an aggressive pass
+    (temperature 0.85 + an explicit "rewrite EVERY block" suffix).
+    The server picks whichever produced the higher Jaccard distance on
+    `body_blocks`. Tie-breaker prefers the aggressive pass. Wall time
+    = max(balanced, aggressive) ≈ 35-45 s, well inside the ~95 s CF
+    Pages Function budget. Cost = 2 Gemini calls per click; with the
+    1500 RPD free-tier quota, ~750 clicks/day headroom.
+  * Response now carries `rewrite_stats { overall_diff_ratio,
+    unchanged_blocks, compared_blocks, retried, retry_reason }`. The
+    modal renders a depth badge in the header (green ≥ 55%, amber ≥
+    35%, red below) so the operator can SEE how deeply the body
+    actually changed, and a warning lists how many blocks barely
+    changed.
+  * Defence in depth: lock `target_keyword` + `target_money_page` in
+    addition to `slug` so SEO intent never moves silently.
+* **Production smoke test (commit `b55f4c1`, deploy success)**:
+  Optimised `draft_8eaee83e2f0542b3a90c1f` (RU). 75 s wall, `model`
+  reported `gemini-2.5-flash-lite (aggressive)` (the primary aggressive
+  call hit the fallback model on a transient timeout, which is exactly
+  what the gemini-client retry policy is designed for). Rewrite ratio
+  **0.50** overall (vs. ~0.05 in the screenshot incident), **23 of 25
+  blocks meaningfully rewritten**. Balanced returned 0.38; aggressive
+  returned 0.50; system picked aggressive. 16 explicit `changes`
+  entries (each named the specific block it touched). Validation
+  passed, 0 issues. First 4 paragraphs visibly different with new
+  concrete operator detail (Ташкент / Самарканд / Бухара, Bitrix24,
+  AmoCRM, 1C, Excel ручной учёт).
+
 ### 2026-06-22 (afternoon) — Swap Llama 8b-fast → Gemini 2.5 Flash for the direct generator
 
 * **Problem with the previous setup**: the n8n bridge was already removed and the
