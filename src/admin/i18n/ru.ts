@@ -20,6 +20,7 @@ export const ru = {
     ai_drafts:      'AI-черновики',
     internal_links: 'Внутренние ссылки',
     seo_booster:    'SEO Booster',
+    indexnow:       'IndexNow',
     redirects:      'Редиректы',
     global_seo:     'Глобальный SEO',
     publish_github: 'Опубликовать в GitHub',

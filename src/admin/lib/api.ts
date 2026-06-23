@@ -295,6 +295,67 @@ export const api = {
       `/api/admin/ai-drafts/${encodeURIComponent(id)}/apply-links`,
       { locale, accepted },
     ),
+  // ── IndexNow bulk submission ─────────────────────────────────────────
+  // Read recently published URLs joined with the audit log so the UI can
+  // render "last submitted" badges + skip already-pushed URLs.
+  indexnowRecent: (days = 30, onlyUnsubmitted = false) =>
+    request<{
+      ok: true;
+      total: number;
+      days: number;
+      items: Array<{
+        url: string;
+        locale: 'ru' | 'uz';
+        type: 'money' | 'blog';
+        title: string;
+        published: boolean;
+        last_modified: string | null;
+        last_submitted_at: string | null;
+        last_status: number | null;
+        last_ok: boolean;
+      }>;
+    }>(
+      'GET',
+      `/api/admin/indexnow/recent?days=${encodeURIComponent(days)}${onlyUnsubmitted ? '&onlyUnsubmitted=1' : ''}`,
+    ),
+  indexnowHistory: (limit = 100) =>
+    request<{
+      ok: true;
+      total: number;
+      batches: Array<{
+        batch_id: string;
+        submitted_at: string;
+        actor_email: string;
+        upstream_status: number;
+        upstream_ok: boolean;
+        duration_ms: number;
+        url_count: number;
+        error: string | null;
+      }>;
+    }>(
+      'GET',
+      `/api/admin/indexnow/history?limit=${encodeURIComponent(limit)}`,
+    ),
+  // Reuse the existing /api/seo/indexnow endpoint — it already does
+  // booster validation, key probe, audit write, and triple-checks the
+  // URL list against published content. POST { urls: string[] }.
+  indexnowSubmit: (urls: string[]) =>
+    request<{
+      ok: boolean;
+      submitted: number;
+      safeUrls?: string[];
+      rejected?: Array<{ url: string; reason: string }>;
+      upstreamStatus: number;
+      upstreamBody?: string;
+      batchId: string;
+      submittedAt: string;
+      durationMs: number;
+    }>(
+      'POST',
+      '/api/seo/indexnow',
+      { urls },
+      { timeoutMs: 30_000 },
+    ),
   // -- SEO Autopilot Control Center -----------------------------------------
   seoAutopilotLaunch: (overrides: Record<string, unknown> = {}) =>
     request<import('../../shared/seo-autopilot').AutopilotLaunchResult>(
