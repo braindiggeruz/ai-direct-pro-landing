@@ -382,6 +382,8 @@ export async function replaceDraftArticle(
       `UPDATE ai_drafts SET
         ru_article_json = ?,
         uz_article_json = ?,
+        has_ru = ?,
+        has_uz = ?,
         validation_json = ?,
         validation_passed = ?,
         validation_issue_count = ?,
@@ -394,6 +396,8 @@ export async function replaceDraftArticle(
     .bind(
       ruNext ? JSON.stringify(ruNext) : null,
       uzNext ? JSON.stringify(uzNext) : null,
+      ruNext ? 1 : 0,
+      uzNext ? 1 : 0,
       JSON.stringify(validation),
       validation.passed ? 1 : 0,
       validation.issues.length,
@@ -453,6 +457,8 @@ export async function addDraftLocaleArticle(
       `UPDATE ai_drafts SET
         ru_article_json = ?,
         uz_article_json = ?,
+        has_ru = ?,
+        has_uz = ?,
         validation_json = ?,
         validation_passed = ?,
         validation_issue_count = ?,
@@ -465,6 +471,8 @@ export async function addDraftLocaleArticle(
     .bind(
       ruNext ? JSON.stringify(ruNext) : null,
       uzNext ? JSON.stringify(uzNext) : null,
+      ruNext ? 1 : 0,
+      uzNext ? 1 : 0,
       JSON.stringify(validation),
       validation.passed ? 1 : 0,
       validation.issues.length,
