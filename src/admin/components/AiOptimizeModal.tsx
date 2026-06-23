@@ -203,7 +203,7 @@ export function AiOptimizeModal({ open, result, busy, applyError, onApply, onRet
   );
 }
 
-function ValidationCol({ label, status, testId }: {
+export function ValidationCol({ label, status, testId }: {
   label: string;
   status: { passed: boolean; issues: { path: string; message: string }[] };
   testId: string;
@@ -232,14 +232,14 @@ function ValidationCol({ label, status, testId }: {
   );
 }
 
-interface FieldDiffEntry {
+export interface FieldDiffEntry {
   label: string;
   before: string;
   after: string;
   changed: boolean;
 }
 
-function buildDiff(a: AiDraftArticle, b: AiDraftArticle): {
+export function buildDiff(a: AiDraftArticle, b: AiDraftArticle): {
   fields: FieldDiffEntry[];
   bodyChanged: boolean;
   faqChanged: boolean;
@@ -268,7 +268,7 @@ function buildDiff(a: AiDraftArticle, b: AiDraftArticle): {
   };
 }
 
-function FieldDiff({ field }: { field: FieldDiffEntry }) {
+export function FieldDiff({ field }: { field: FieldDiffEntry }) {
   if (!field.changed) {
     return (
       <div className="border border-white/5 rounded-lg px-3 py-2 text-xs" data-testid={`ai-opt-field-${field.label}`}>
@@ -301,7 +301,7 @@ function FieldDiff({ field }: { field: FieldDiffEntry }) {
   );
 }
 
-function BodyDiff({ before, after, labels }: {
+export function BodyDiff({ before, after, labels }: {
   before: BodyBlock[];
   after: BodyBlock[];
   labels: { heading: string; blocksBefore: string; blocksAfter: string };
@@ -343,7 +343,7 @@ function BlockList({ label, blocks, tone }: { label: string; blocks: BodyBlock[]
   );
 }
 
-function FaqDiff({ before, after, labels }: {
+export function FaqDiff({ before, after, labels }: {
   before: FaqItem[];
   after: FaqItem[];
   labels: { heading: string; before: string; after: string };
@@ -379,7 +379,7 @@ function FaqList({ label, faq, tone }: { label: string; faq: FaqItem[]; tone: 'r
   );
 }
 
-function LinksDiff({ before, after, labels }: {
+export function LinksDiff({ before, after, labels }: {
   before: InternalLink[];
   after: InternalLink[];
   labels: { heading: string; before: string; after: string };

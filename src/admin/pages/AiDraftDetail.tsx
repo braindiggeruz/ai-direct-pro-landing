@@ -40,6 +40,7 @@ import {
   storeAiDraftHandoff,
 } from '../lib/aiDraftImport';
 import { AiOptimizeModal, type OptimizeResult } from '../components/AiOptimizeModal';
+import { AiOptimizeBothModal, type OptimizeBothResult } from '../components/AiOptimizeBothModal';
 import { IntentGuardPanel } from '../components/IntentGuardPanel';
 import { useT } from '../i18n';
 
@@ -67,6 +68,13 @@ export default function AiDraftDetail() {
   const [optResult, setOptResult] = useState<OptimizeResult | null>(null);
   const [optApplyBusy, setOptApplyBusy] = useState(false);
   const [optApplyError, setOptApplyError] = useState<string | null>(null);
+  // Dual-locale ("Optimise both") state — separate so the operator can
+  // run a per-locale and a dual call at different moments without state
+  // collisions.
+  const [optBothBusy, setOptBothBusy] = useState(false);
+  const [optBothResult, setOptBothResult] = useState<OptimizeBothResult | null>(null);
+  const [optBothApplyBusy, setOptBothApplyBusy] = useState(false);
+  const [optBothApplyError, setOptBothApplyError] = useState<string | null>(null);
 
   async function load() {
     setLoading(true); setErr(null);
@@ -168,6 +176,75 @@ export default function AiDraftDetail() {
       setOptApplyError(`${t.aiOptimize.applyFailed}: ${(e as Error).message}`);
     } finally {
       setOptApplyBusy(false);
+    }
+  }
+
+  async function runOptimizeBoth() {
+    if (!draft || !id) return;
+    if (draft.status === 'rejected' || draft.status === 'imported') {
+      setErr(t.aiOptimize.lockedStatus);
+      return;
+    }
+    if (!draft.has_ru && !draft.has_uz) {
+      setErr(t.aiOptimize.noLocale);
+      return;
+    }
+    setOptBothBusy(true);
+    setOptBothApplyError(null);
+    setErr(null);
+    setToast(null);
+    try {
+      const r = await api.aiDraftsOptimizeBoth(id);
+      setOptBothResult(r);
+    } catch (e) {
+      setErr(`${t.aiOptimize.loadFailed}: ${(e as Error).message}`);
+    } finally {
+      setOptBothBusy(false);
+    }
+  }
+
+  async function applyOptimizeBoth(only?: 'ru' | 'uz') {
+    if (!optBothResult || !id) return;
+    setOptBothApplyBusy(true);
+    setOptBothApplyError(null);
+    try {
+      const ru = optBothResult.results.ru;
+      const uz = optBothResult.results.uz;
+      // Build the apply calls: skip the failed/missing side, and skip
+      // the OTHER side when `only` is specified.
+      const calls: Array<Promise<{ draft: unknown }>> = [];
+      const appliedLocales: Array<'ru' | 'uz'> = [];
+      if ((!only || only === 'ru') && ru && ru.ok) {
+        calls.push(api.aiDraftsApplyOptimization(id, 'ru', ru.optimized_article, ru.model));
+        appliedLocales.push('ru');
+      }
+      if ((!only || only === 'uz') && uz && uz.ok) {
+        calls.push(api.aiDraftsApplyOptimization(id, 'uz', uz.optimized_article, uz.model));
+        appliedLocales.push('uz');
+      }
+      if (calls.length === 0) {
+        setOptBothApplyError('Нет успешно переписанных версий для применения.');
+        return;
+      }
+      // Run in parallel — each apply hits its own per-locale lock.
+      const settled = await Promise.allSettled(calls);
+      const failures = settled
+        .map((s, i) => ({ s, locale: appliedLocales[i]! }))
+        .filter((x) => x.s.status === 'rejected');
+      if (failures.length > 0) {
+        const msg = failures.map((f) => `${f.locale.toUpperCase()}: ${(f.s as PromiseRejectedResult).reason?.message || 'unknown'}`).join('; ');
+        setOptBothApplyError(`${t.aiOptimize.applyFailed}: ${msg}`);
+        // Reload anyway — the successful side may already be persisted.
+        await load();
+        return;
+      }
+      setOptBothResult(null);
+      setToast(appliedLocales.length === 2 ? t.aiOptimize.applySuccessBoth : t.aiOptimize.applySuccess);
+      await load();
+    } catch (e) {
+      setOptBothApplyError(`${t.aiOptimize.applyFailed}: ${(e as Error).message}`);
+    } finally {
+      setOptBothApplyBusy(false);
     }
   }
 
@@ -311,11 +388,23 @@ export default function AiDraftDetail() {
               <Button
                 variant="secondary"
                 size="sm"
-                disabled={optimizing || busy || draft.status === 'rejected' || draft.status === 'imported'}
+                disabled={optimizing || optBothBusy || busy || draft.status === 'rejected' || draft.status === 'imported'}
                 onClick={() => void runOptimize()}
                 data-testid={`ai-draft-optimize-${tab}`}
               >
                 <Sparkles size={14}/> {optimizing ? t.aiOptimize.buttonRunning : `${t.aiOptimize.button} (${tab.toUpperCase()})`}
+              </Button>
+            )}
+            {draft.has_ru && draft.has_uz && (
+              <Button
+                variant="primary"
+                size="sm"
+                disabled={optimizing || optBothBusy || busy || draft.status === 'rejected' || draft.status === 'imported'}
+                onClick={() => void runOptimizeBoth()}
+                title={t.aiOptimize.buttonBothHint}
+                data-testid="ai-draft-optimize-both"
+              >
+                <Sparkles size={14}/> {optBothBusy ? t.aiOptimize.buttonBothRunning : t.aiOptimize.buttonBoth}
               </Button>
             )}
           </div>
@@ -432,6 +521,17 @@ export default function AiDraftDetail() {
         onApply={() => void applyOptimization()}
         onRetry={() => { setOptApplyError(null); void runOptimize(); }}
         onCancel={() => { if (!optApplyBusy) { setOptResult(null); setOptApplyError(null); } }}
+      />
+
+      <AiOptimizeBothModal
+        open={!!optBothResult}
+        result={optBothResult}
+        busy={optBothApplyBusy}
+        applyError={optBothApplyError}
+        onApplyBoth={() => void applyOptimizeBoth()}
+        onApplyOne={(loc) => void applyOptimizeBoth(loc)}
+        onRetry={() => { setOptBothApplyError(null); void runOptimizeBoth(); }}
+        onCancel={() => { if (!optBothApplyBusy) { setOptBothResult(null); setOptBothApplyError(null); } }}
       />
     </div>
   );
