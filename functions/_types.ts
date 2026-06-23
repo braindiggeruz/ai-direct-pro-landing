@@ -37,11 +37,8 @@ export interface Env {
   OPENROUTER_SITE_URL?: string;
   OPENROUTER_APP_TITLE?: string;
   // AI SEO Autopilot — Free LLM stack. Puter loads client-side and needs no key.
-  // GEMINI_API_KEY is an OPTIONAL backend fallback. If missing, provider-status
-  // simply reports "missing" and the rest of the Autopilot keeps working with
-  // Puter + Mock providers. SERPER_API_KEY is reserved for the upcoming SERP
-  // Intelligence layer (P1 follow-up branch).
-  GEMINI_API_KEY?: string;
+  // GEMINI_API_KEY is declared lower (with full Gemini Flash documentation).
+  // SERPER_API_KEY is reserved for the upcoming SERP Intelligence layer.
   SERPER_API_KEY?: string;
   LOGIN_ATTEMPTS?: KVNamespace;
   // AI Draft Inbox — n8n SEO Autopilot delivers RU/UZ article packages here.
@@ -98,4 +95,42 @@ export interface Env {
   // Fallback model used on timeout / 5xx / 429 from the primary.
   // Defaults to "gemini-2.5-flash-lite".
   GEMINI_FALLBACK_MODEL?: string;
+
+  // ─── Multi-provider LLM router (2026-06-23) ────────────────────────
+  // The router (functions/lib/llm/router.ts) walks model-registry.ts in
+  // priority order, skipping unconfigured providers (no key) and
+  // unhealthy ones (circuit-breaker open). Each provider is independent
+  // — adding/removing a key only changes routing, not behaviour.
+  //
+  // Mistral La Plateforme: server-only. Pay-as-you-go.
+  // Generate the key at https://console.mistral.ai/api-keys/.
+  MISTRAL_API_KEY?: string;
+  /** Optional override of the default Mistral model id (default: registry pick). */
+  MISTRAL_MODEL?: string;
+
+  // Groq Cloud: server-only. Free tier with daily token caps.
+  // Generate at https://console.groq.com/keys.
+  GROQ_API_KEY?: string;
+  GROQ_MODEL?: string;
+
+  // Cerebras Inference: server-only. Free tier.
+  // Generate at https://cloud.cerebras.ai/.
+  CEREBRAS_API_KEY?: string;
+  CEREBRAS_MODEL?: string;
+
+  // ─── xAI Grok (optional, OpenAI-compatible) ────────────────────────
+  // When the operator provides an xAI key (https://x.ai/api), the multi-
+  // provider router can pick Grok models for heavy generation. The router
+  // skips this provider entirely when the key is absent.
+  XAI_API_KEY?: string;
+  XAI_MODEL?: string;
+
+  // ─── Yandex Cloud Search API (Demand Intelligence layer) ───────────
+  // Powers «Собрать темы из Яндекса» in the SEO Mission Control. Server-
+  // only. Generate the key at https://console.yandex.cloud → Service
+  // accounts → API keys.
+  YANDEX_SEARCH_API_KEY?: string;
+  // Optional folder scoping — when set, the Yandex client passes folderId
+  // in the body so the call is billed against a specific folder.
+  YANDEX_CLOUD_FOLDER_ID?: string;
 }

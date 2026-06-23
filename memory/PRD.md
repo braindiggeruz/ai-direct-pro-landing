@@ -40,6 +40,58 @@ Hard rules:
 
 ## What has been implemented
 
+### 2026-06-23 — Multi-provider LLM router (Mistral / Gemini / Groq / Cerebras / OpenRouter)
+
+* **Root cause**: production was hitting recurring Gemini `429 RESOURCE_EXHAUSTED`. A single RU+UZ pack can fan out into 30–60 API calls (RU + UZ × balanced + aggressive optimiser × translate × judge × retarget). Even the generous Gemini Flash free tier (15 RPM / 1500 RPD) cannot absorb 4-call concurrent bursts.
+* **Fix shipped** — minimal, additive `functions/lib/llm/` provider abstraction. Gemini stays in place; Mistral / Groq / Cerebras / OpenRouter wired as parallel adapters; a feature-aware router walks the registry in priority order with circuit breaker + heavy-queue + idempotency cache.
+* **New files** (all under `functions/lib/llm/`):
+  * `types.ts` — `LlmFeature`, `LlmProviderId`, `LlmErrorClass`, `LlmCallInput/Result/Metadata`, `LlmProvider` adapter contract.
+  * `model-registry.ts` — single source of truth for which model serves which feature, with priority/timeout/output caps. Live-benchmark verified on 2026-06-23 (Mistral large/medium/small ✓, Groq llama-3.3-70b ✓ 1.3 s, Groq gpt-oss-120b ✓ 1.3 s, Cerebras gpt-oss-120b ✓ with `max_output ≥ 2 000`).
+  * `providers/openai-compatible.ts` — shared OpenAI-compatible chat-completions caller (Mistral, Groq, Cerebras, OpenRouter all expose the same surface; one helper, three thin adapters).
+  * `providers/gemini.ts` — wraps the existing `seo-autopilot/gemini-client.ts`. Classifies the legacy client's error strings into the new `LlmErrorClass` taxonomy.
+  * `providers/mistral.ts`, `providers/groq.ts`, `providers/cerebras.ts`, `providers/openrouter.ts` — one ~25-line adapter per provider.
+  * `circuit-breaker.ts` — D1-backed per-`provider|model` breaker (3 transient failures in 60 s → open for 60 s → half-open probe). Non-transient classes (auth, bad_request, safety_blocked, invalid_json, truncated) do NOT count toward tripping.
+  * `queue.ts` — global heavy-task queue, concurrency 1. Burst of 10 topics no longer instantiates 40 concurrent Gemini calls.
+  * `usage-store.ts` — append-only D1 `llm_usage` ledger + `llm_idempotency` cache (10-min TTL). Telemetry is best-effort and never blocks the call.
+  * `router.ts` — single `routeLlmCall(env, input)` entry point. Skips unconfigured providers, skips open breakers, runs heavy features through the queue, consults idempotency cache. Continues across providers on `auth` failures (different key on each provider), stops on `bad_request` (our payload bug). `auth → next provider`, `rate_limit / 5xx / timeout → next provider`, `invalid_json / truncated → next provider once`, `safety_blocked → next provider` (different vendor may behave differently).
+* **D1 migration** `migrations/0005_llm_router.sql` — three new tables (`llm_usage`, `llm_provider_health`, `llm_idempotency`) + three new columns on `seo_autopilot_jobs` (`llm_provider`, `llm_model`, `llm_fallback_used`). Backward-compatible; the router code also creates the tables via `CREATE TABLE IF NOT EXISTS` so any deploy order works.
+* **Refactored callers**:
+  * `functions/lib/seo-autopilot/direct-generator.ts` — `callGemini()` replaced with `routeLlmCall({feature: 'ru_article'|'uz_article', locale, ...})`. Single-key preflight (`!env.GEMINI_API_KEY → 503`) replaced with "any provider configured" check. Idempotency key per `runId:locale:attempt` so a double-clicked launch returns the cached body.
+  * `functions/lib/ai-drafts/optimize-runner.ts` — both balanced+aggressive passes route through `feature: 'optimizer'`. Heavy queue means 4-call burst from `/optimize-both` (2 locales × 2 passes) now serialises automatically.
+  * `functions/lib/ai-drafts/translate-runner.ts` — single call through `feature: 'translate'`.
+  * `functions/lib/intent-guard/semantic-judge.ts` — `optimiseWithOpenRouter()` replaced with `routeLlmCall({feature: 'judge'})`. Default cap 1 500 tokens so reasoning-heavy models don't burn the budget.
+  * `functions/lib/intent-guard/retarget-client.ts` — same, `feature: 'retarget'`.
+  * `functions/api/admin/seo/cannibalization/retarget.ts` — preflight relaxed: "OPENROUTER_API_KEY required" → "at least one LLM provider configured".
+  * `functions/lib/seo-autopilot/jobs.ts` — `AutopilotJob` row gains `llm_provider / llm_model / llm_fallback_used`.
+  * `functions/lib/seo-autopilot/direct-launch.ts` — captures the chosen provider/model/fallback into the job row so the UI can show the truth.
+  * `functions/api/admin/seo-autopilot/jobs.ts` — returns the new columns and a `system.llm_providers` array (each provider + `configured: bool`).
+* **Env vars** (Cloudflare Pages → Settings → Environment variables, all secret_text, all optional — the router enables only the providers whose keys are set):
+  * `MISTRAL_API_KEY` — https://console.mistral.ai/api-keys/
+  * `GROQ_API_KEY` — https://console.groq.com/keys
+  * `CEREBRAS_API_KEY` — https://cloud.cerebras.ai/
+  * `GEMINI_API_KEY` — already configured
+  * `OPENROUTER_API_KEY` — already configured (kept for editor AI-fill backward compat)
+* **UI** (`src/admin/pages/SeoAutopilotControlCenter.tsx`):
+  * Banner renamed "Direct AI mode active" → "Multi-provider AI router active" with a row of provider pills (each green ✓ when configured, white — when not).
+  * Recent runs table: column `n8n` renamed to **`AI`** — shows actual `provider/model` instead of HTTP status. Adds an amber `fb` flag when fallback was used. Legacy n8n status still surfaces for any pre-router rows.
+  * Preflight check now requires "at least one LLM provider configured" instead of the obsolete Workers AI binding.
+  * Stage progress messages reflect the new architecture (heavy queue, automatic fallback).
+* **Tests**: 36 unit tests, all green (29 existing + 7 new `tests/llm-router.test.ts`):
+  * `routes()` returns priority-ordered candidates.
+  * Locale filter excludes RU-only models from UZ routes.
+  * Feature filter is honoured (`json_repair` includes Groq llama, excludes Mistral large).
+  * Heavy queue serialises concurrent tasks (asserts strict ordering of start/end logs across 3 tasks).
+  * Rejected task does not poison subsequent tasks in the queue.
+  * `isHeavyFeature()` classification is correct.
+  * Fake-adapter helper records the model id per call.
+* **Live end-to-end smoke** (`scripts/llm-router-e2e.ts`, ran against the four real keys provided by owner):
+  1. RU + UZ both produced valid JSON via Mistral medium/large (queue serialised, total wall 3 s for two locales).
+  2. Mistral key sabotaged → router fell back across providers: `mistral-large:auth → mistral-medium:auth → groq/llama-3.3-70b ✓` in 1 s.
+  3. Every key sabotaged → graceful failure with full `attempts` trace and `error_class` per attempt.
+* **Build**: `yarn build:fast` ✓ — prerender + sitemap + redirects + headers all clean.
+* **TypeScript**: 22 baseline errors (all pre-existing in `cockpit.ts`, `status.ts`, `normalise.ts`, `optimize-runner.ts:AiDraftArticleBlock`); my router code added ZERO new errors and the frontend (`tsconfig.app.json`) compiles 100% clean.
+* **Branch / commit / deploy**: branch `feat/multi-provider-llm-router-2026-06-23`. NOT merged into `main` — owner reviews and merges. Cloudflare auto-deploys on merge.
+
 ### 2026-06-23 — Translate-locale flow + Topic Plan defaults to both locales
 
 * **Owner-reported issue**: drafts launched via «Запустить одну» from

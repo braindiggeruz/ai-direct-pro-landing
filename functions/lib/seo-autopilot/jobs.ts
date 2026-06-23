@@ -36,6 +36,10 @@ export interface AutopilotJob {
   updated_at: string;
   finished_at: string | null;
   duration_ms: number | null;
+  /** LLM provider that finally produced the bundle (or last-failed). */
+  llm_provider: string | null;
+  llm_model: string | null;
+  llm_fallback_used: boolean;
 }
 
 export class JobsDbMissingError extends Error {
@@ -86,6 +90,9 @@ function rowToJob(row: Record<string, unknown>): AutopilotJob {
     updated_at: row.updated_at as string,
     finished_at: (row.finished_at as string) || null,
     duration_ms: row.duration_ms === null || row.duration_ms === undefined ? null : Number(row.duration_ms),
+    llm_provider: (row.llm_provider as string) || null,
+    llm_model: (row.llm_model as string) || null,
+    llm_fallback_used: (row.llm_fallback_used as number) === 1,
   };
 }
 
@@ -126,6 +133,9 @@ export async function updateJob(
     error_detail: Record<string, unknown> | null;
     finished_at: string | null;
     duration_ms: number | null;
+    llm_provider: string | null;
+    llm_model: string | null;
+    llm_fallback_used: boolean;
   }>,
 ): Promise<void> {
   const db = requireDb(env);
@@ -153,6 +163,9 @@ export async function updateJob(
   set('error_detail', 'error_detail_json', (v) => (v ? JSON.stringify(v) : null));
   set('finished_at', 'finished_at');
   set('duration_ms', 'duration_ms');
+  set('llm_provider', 'llm_provider');
+  set('llm_model', 'llm_model');
+  set('llm_fallback_used', 'llm_fallback_used', (v) => (v ? 1 : 0));
   fields.push('updated_at = ?');
   args.push(nowIso());
   args.push(id);

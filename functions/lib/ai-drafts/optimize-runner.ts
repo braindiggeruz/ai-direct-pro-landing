@@ -21,8 +21,9 @@ import type { Env } from '../../_types';
 import { validateArticle, type ValidationError } from './validators';
 import { buildSystemPrompt, buildUserPrompt } from './optimizer-prompt';
 import { parseStrictJson } from './optimizer-client';
-import { callGemini } from '../seo-autopilot/gemini-client';
-import type { AiDraftArticle, AiDraftArticleBlock, AiDraftRecord } from '../../../src/shared/ai-drafts';
+import { routeLlmCall } from '../llm/router';
+import type { AiDraftArticle, AiDraftRecord } from '../../../src/shared/ai-drafts';
+import type { BodyBlock } from '../../../src/shared/types';
 
 const MAX_OUTPUT_TOKENS = 8000;
 const TEMPERATURE_BALANCED = 0.55;
@@ -107,8 +108,8 @@ export async function runOptimizeForLocale(
   ].join('\n');
 
   const [balancedResult, aggressiveResult] = await Promise.all([
-    callGeminiPass(env, system, userBase, TEMPERATURE_BALANCED),
-    callGeminiPass(env, system, userAggressive, TEMPERATURE_AGGRESSIVE),
+    callGeminiPass(env, system, userBase, TEMPERATURE_BALANCED, locale),
+    callGeminiPass(env, system, userAggressive, TEMPERATURE_AGGRESSIVE, locale),
   ]);
 
   type Pass = 'balanced' | 'aggressive';
@@ -254,28 +255,31 @@ interface GeminiPassResult {
   durationMs: number;
 }
 
-async function callGeminiPass(env: Env, system: string, user: string, temperature: number): Promise<GeminiPassResult> {
-  const r = await callGemini(env, {
+async function callGeminiPass(env: Env, system: string, user: string, temperature: number, locale: 'ru' | 'uz'): Promise<GeminiPassResult> {
+  // Route through the multi-provider router. The router's heavy queue
+  // serialises calls so balanced+aggressive passes for 2 locales (up to
+  // 4 heavy calls) no longer burst the Gemini quota. Mistral medium and
+  // Gemini flash are both candidates; the router picks based on health
+  // and priority.
+  const r = await routeLlmCall(env, {
+    feature: 'optimizer',
+    locale,
     system,
     user,
     maxTokens: MAX_OUTPUT_TOKENS,
     temperature,
     timeoutMs: TIMEOUT_MS,
     jsonObject: true,
-    // Disable Gemini's hidden reasoning step. With 4 calls fanned out
-    // from /optimize-both, reasoning tokens were eating through the
-    // 8000-token output budget and the JSON came back truncated. The
-    // article we're rewriting is already in front of the model — it
+    // Disable hidden reasoning where the provider supports it (Gemini).
+    // The article we're rewriting is already in front of the model — it
     // doesn't need to "think" to copy structure, just to vary wording.
-    // Disabling reasoning also shaves ~5-10 s off each pass under
-    // burst load, keeping wall time inside the CF Pages budget.
     thinkingBudget: 0,
   });
-  if (r.ok) return { ok: true, content: r.content, model: r.model, durationMs: r.durationMs };
-  return { ok: false, content: '', model: r.model, error: r.error, status: r.status, durationMs: r.durationMs };
+  if (r.ok) return { ok: true, content: r.content, model: `${r.meta.provider}/${r.meta.model}`, durationMs: r.meta.duration_ms };
+  return { ok: false, content: '', model: `${r.meta.provider}/${r.meta.model}`, error: r.error, status: r.status, durationMs: r.meta.duration_ms };
 }
 
-function blockText(b: AiDraftArticleBlock | undefined | null): string {
+function blockText(b: BodyBlock | undefined | null): string {
   if (!b) return '';
   const t = (b as { text?: string }).text || '';
   const items = Array.isArray((b as { items?: unknown[] }).items)
