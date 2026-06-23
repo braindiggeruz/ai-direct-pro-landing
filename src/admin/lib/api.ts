@@ -295,6 +295,41 @@ export const api = {
       `/api/admin/ai-drafts/${encodeURIComponent(id)}/apply-links`,
       { locale, accepted },
     ),
+  // ── Yandex demand intelligence (yandex.uz SERP analysis) ────────────
+  // Status probe — returns { configured, web_search_available, ... }.
+  yandexStatus: () =>
+    request<{
+      configured: boolean;
+      web_search_available: boolean;
+      cache_present: boolean;
+      last_call_at: string | null;
+    }>('GET', '/api/admin/seo/yandex/status'),
+  // Run topic research for up to 20 seeds — sequential calls so we never
+  // burst the Yandex quota. Returns normalised candidates with reasons +
+  // warnings for the operator to pick from.
+  yandexResearch: (seeds: string[], locale: 'ru' | 'uz', forceRefresh = false) =>
+    request<{
+      ok: true;
+      topics: Array<{
+        query: string;
+        locale: 'ru' | 'uz';
+        yandex_found_total: number;
+        difficulty_score: number;
+        top_domains: string[];
+        weak_competition: boolean;
+        already_ranking: boolean;
+        signals: { commercial_pages: number; informational_pages: number; aggregator_pages: number; local_uz_pages: number };
+        reasons: string[];
+        warnings: string[];
+      }>;
+      api_calls: number;
+      cache_hits: number;
+    }>(
+      'POST',
+      '/api/admin/seo/yandex/research',
+      { seeds, locale, forceRefresh },
+      { timeoutMs: 90_000 },
+    ),
   // ── IndexNow bulk submission ─────────────────────────────────────────
   // Read recently published URLs joined with the audit log so the UI can
   // render "last submitted" badges + skip already-pushed URLs.
@@ -336,9 +371,11 @@ export const api = {
       'GET',
       `/api/admin/indexnow/history?limit=${encodeURIComponent(limit)}`,
     ),
-  // Reuse the existing /api/seo/indexnow endpoint — it already does
-  // booster validation, key probe, audit write, and triple-checks the
-  // URL list against published content. POST { urls: string[] }.
+  // Reuse the lightweight admin submit endpoint (skips the heavy
+  // booster recompute that can timeout on Cloudflare Pages with a
+  // 50+ URL batch). Validates host/path-prefix server-side, probes
+  // the key file, hits api.indexnow.org, writes per-URL audit.
+  // POST { urls: string[] }.
   indexnowSubmit: (urls: string[]) =>
     request<{
       ok: boolean;
@@ -352,7 +389,7 @@ export const api = {
       durationMs: number;
     }>(
       'POST',
-      '/api/seo/indexnow',
+      '/api/admin/indexnow/submit',
       { urls },
       { timeoutMs: 30_000 },
     ),
