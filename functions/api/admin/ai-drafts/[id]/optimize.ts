@@ -19,11 +19,12 @@
 //     semantic judge and retarget client — those are unchanged.
 //
 // Quality enforcement:
-//   * After Gemini returns, we compare the optimised body_blocks against
-//     the original. If the rewrite-rate is below an empirical threshold
-//     (the writer played it safe again), we retry ONCE at higher
-//     temperature with an "aggressive" suffix appended to the user
-//     message. The retry is bounded by the per-request timeout budget.
+//   * Two parallel Gemini passes per click — balanced (temp 0.55) and
+//     aggressive (temp 0.85, with a "rewrite EVERY block" suffix). The
+//     server picks whichever produced the higher Jaccard-distance score
+//     on the body blocks. Total wall = max(b, a) ≈ 35-45 s, well inside
+//     the ~95 s CF Pages budget. Cost = 2 Gemini calls per click,
+//     comfortably within the 1500 RPD free-tier quota.
 //
 // Hard rules:
 //   • JWT auth required.
@@ -52,25 +53,25 @@ const INFLIGHT_TTL_MS = 120_000;
 // articles are typically 6-8k tokens of JSON, so we give the full
 // budget to ensure no truncation.
 const MAX_OUTPUT_TOKENS = 8000;
-// First pass: a creative-but-disciplined temperature. The user prompt
-// already demands a deep rewrite; we don't need to push temperature
-// up further unless the model played it safe and the post-check fails.
-const TEMPERATURE_FIRST = 0.55;
-// Retry pass: turn the dial up to break out of "stay close to source"
-// mode. Still bounded so JSON discipline holds.
-const TEMPERATURE_RETRY = 0.8;
-// Per-call wall. Total budget for the endpoint is the same as the rest
-// of the pipeline (~95 s CF Pages). One call ≈ 30-50 s; we leave room
-// for one retry without blowing the budget.
-const TIMEOUT_MS = 45_000;
+// We run TWO parallel Gemini calls and pick whichever produced the
+// deeper rewrite. The balanced call uses a moderate temperature so the
+// model still respects structure; the aggressive call uses higher
+// temperature + an explicit "rewrite EVERY block" suffix in the user
+// message. Wall time = max(balanced, aggressive) ≈ 35-45 s, well inside
+// the ~95 s CF Pages Function budget. Cost = 2 calls per optimisation,
+// well inside the 1500 RPD free-tier quota.
+const TEMPERATURE_BALANCED = 0.55;
+const TEMPERATURE_AGGRESSIVE = 0.85;
+// Per-call wall. The balanced pass is slightly more disciplined and
+// usually finishes first; the aggressive pass needs the same budget.
+const TIMEOUT_MS = 55_000;
 
-// Empirical similarity threshold below which we consider the rewrite
-// "shallow" and trigger one retry. 0.55 means at least 55% of the
-// trimmed/lowercased body text must differ between original and rewrite.
-// Tuned to catch the failure mode in the owner's screenshot (where the
-// first paragraph was byte-for-byte the same) while not retrying on
-// genuinely good rewrites that happen to preserve some technical terms.
-const REWRITE_RATIO_MIN = 0.55;
+// Empirical similarity threshold below which we tag the rewrite as
+// "shallow" in the warnings list. 0.55 means at least 55% of trigrams
+// must differ between original and rewrite. We do NOT block on this
+// (the reviewer can always trigger «Повторить оптимизацию»), but we
+// surface the number prominently in the modal so they can decide.
+const REWRITE_RATIO_TARGET = 0.55;
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -211,102 +212,98 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
       seoBrief: draft.seo_brief,
       validationIssues: draft.validation?.issues || [],
     });
+    const userAggressive = [
+      userBase,
+      '',
+      '⚠️ AGGRESSIVE PASS — this run is paired with a balanced pass; the system will pick whichever produced the deeper rewrite. Push the rewrite as far as you can while staying truthful:',
+      '* Rewrite EVERY single body block end-to-end. Pair each output block with the input block at the same index, but the wording, sentence rhythm, and concrete examples MUST be substantively different.',
+      '* If you find yourself outputting a paragraph that shares more than 40% of its trigrams with the original, start that paragraph over from scratch with a different opening verb and a different concrete operator detail.',
+      '* Every list item must be replaced with a sharper, operator-level instruction (a CRM field name, a button label, a webhook path, a city, a workflow step).',
+      '* Every FAQ question rephrased the way a Tashkent operator actually asks it; every answer must include a concrete channel, CRM, or workflow step.',
+      '* Same constraints: same slug, same target_money_page, same target_keyword, same locale, no invented stats, no invented clients.',
+    ].join('\n');
 
-    // ── Pass 1 ──────────────────────────────────────────────────────
-    let llm = await callOptimiser(env, system, userBase, TEMPERATURE_FIRST);
-    let retried = false;
-    let retryReason: string | null = null;
+    // ── Parallel passes ─────────────────────────────────────────────
+    // Run balanced + aggressive in parallel. Wall time = max(b, a),
+    // typically ~35-45 s. Both share the per-key Gemini quota; the
+    // 15 RPM free-tier limit comfortably absorbs the 2-calls-per-click
+    // pattern (a click every ~10 s would still fit).
+    const [balancedResult, aggressiveResult] = await Promise.all([
+      callOptimiser(env, system, userBase, TEMPERATURE_BALANCED),
+      callOptimiser(env, system, userAggressive, TEMPERATURE_AGGRESSIVE),
+    ]);
 
-    if (!llm.ok) {
-      return json({
-        error: `LLM upstream failed (${llm.status || 'network'})`,
-        detail: llm.error?.slice(0, 500),
-        excerpt: llm.rawExcerpt?.slice(0, 300),
-      }, 502);
+    interface Candidate {
+      ok: true;
+      article: AiDraftArticle;
+      ratio: { overall: number; unchangedCount: number; comparedCount: number };
+      summary?: { changes?: unknown; kept?: unknown };
+      afterErrors: ValidationError[];
+      content: string;
+      model: string;
+      pass: 'balanced' | 'aggressive';
+    }
+    interface CandidateFailure {
+      ok: false;
+      pass: 'balanced' | 'aggressive';
+      reason: string;
     }
 
-    let parsed = parseStrictJson(llm.content);
-    let rawArticle = (parsed as Record<string, unknown> | null)?.article;
-    let summary = (parsed as Record<string, unknown> | null)?.summary as
-      | { changes?: unknown; kept?: unknown }
-      | undefined;
-
-    let afterErrors: ValidationError[] = [];
-    let optimised = rawArticle ? validateArticle(rawArticle, 'after', afterErrors) : null;
-
-    // Compute the rewrite ratio when we have a valid optimised article.
-    // If the model played it safe (too few changes), retry once with
-    // higher temperature + an explicit "you copied too much" suffix.
-    let ratio = { overall: 0, unchangedCount: 0, comparedCount: 0 };
-    if (optimised) {
-      ratio = bodyRewriteRatio(article, optimised);
-    }
-
-    const shouldRetry =
-      !optimised ||
-      (optimised && ratio.overall < REWRITE_RATIO_MIN);
-
-    if (shouldRetry) {
-      retried = true;
-      retryReason = !optimised
-        ? 'first-pass-validation-failed'
-        : `shallow-rewrite ratio=${ratio.overall.toFixed(2)} unchanged_blocks=${ratio.unchangedCount}/${ratio.comparedCount}`;
-
-      const userRetry = [
-        userBase,
-        '',
-        '⚠️ RETRY — your previous attempt was rejected because it left too many body blocks untouched (or failed schema validation). This time:',
-        '* Rewrite EVERY single body block. Pair each output block with the input block at the same index, but the wording, sentence rhythm, and concrete examples MUST be substantively different.',
-        '* If you find yourself outputting a paragraph that shares more than 40% of its trigrams with the original, you have NOT done the job — start that paragraph over from scratch with a different opening verb and a different concrete operator detail.',
-        '* Every list item must be replaced with a sharper, operator-level instruction.',
-        '* Every FAQ question must be rephrased the way a Tashkent operator actually asks it; every answer must include a concrete channel, CRM, or workflow step.',
-        '* Same constraints as before: same slug, same target_money_page, same target_keyword, same locale, no invented stats.',
-      ].join('\n');
-
-      llm = await callOptimiser(env, system, userRetry, TEMPERATURE_RETRY);
-      if (!llm.ok) {
-        // Second-pass upstream failure: surface a 502 only if the FIRST
-        // pass also produced nothing usable. If the first pass at least
-        // gave us a valid (if shallow) rewrite, return it with a warning.
-        if (!optimised) {
-          return json({
-            error: `LLM upstream failed on retry (${llm.status || 'network'})`,
-            detail: llm.error?.slice(0, 500),
-            excerpt: llm.rawExcerpt?.slice(0, 300),
-          }, 502);
-        }
-        // fall through with the first-pass result
-      } else {
-        const retryParsed = parseStrictJson(llm.content);
-        const retryRaw = (retryParsed as Record<string, unknown> | null)?.article;
-        const retrySummary = (retryParsed as Record<string, unknown> | null)?.summary as
-          | { changes?: unknown; kept?: unknown }
-          | undefined;
-        const retryAfterErrors: ValidationError[] = [];
-        const retryOptimised = retryRaw ? validateArticle(retryRaw, 'after', retryAfterErrors) : null;
-        if (retryOptimised) {
-          const retryRatio = bodyRewriteRatio(article, retryOptimised);
-          // Only take the retry if it actually rewrote more than the
-          // first pass. If the retry came back even shallower, prefer
-          // whatever the first pass gave us (better than nothing).
-          if (!optimised || retryRatio.overall >= ratio.overall) {
-            parsed = retryParsed;
-            optimised = retryOptimised;
-            afterErrors = retryAfterErrors;
-            summary = retrySummary;
-            ratio = retryRatio;
-          }
-        }
+    function digest(
+      pass: 'balanced' | 'aggressive',
+      raw: Awaited<ReturnType<typeof callOptimiser>>,
+    ): Candidate | CandidateFailure {
+      if (!raw.ok) {
+        return { ok: false, pass, reason: `${pass} upstream ${raw.status || 'network'}: ${(raw.error || '').slice(0, 200)}` };
       }
+      const parsed = parseStrictJson(raw.content);
+      const rawArticle = (parsed as Record<string, unknown> | null)?.article;
+      const summary = (parsed as Record<string, unknown> | null)?.summary as
+        | { changes?: unknown; kept?: unknown }
+        | undefined;
+      const errors: ValidationError[] = [];
+      const opt = rawArticle ? validateArticle(rawArticle, 'after', errors) : null;
+      if (!opt) {
+        return { ok: false, pass, reason: `${pass} validation failed: ${errors.slice(0, 3).map((e) => e.message).join('; ').slice(0, 200)}` };
+      }
+      const r = bodyRewriteRatio(article, opt);
+      return { ok: true, article: opt, ratio: r, summary, afterErrors: errors, content: raw.content, model: raw.model, pass };
     }
 
-    if (!optimised) {
+    const candidates: Array<Candidate | CandidateFailure> = [
+      digest('balanced', balancedResult),
+      digest('aggressive', aggressiveResult),
+    ];
+    const successes = candidates.filter((c): c is Candidate => c.ok);
+
+    if (successes.length === 0) {
+      // Both passes failed. Surface the most informative error.
+      const reasons = candidates
+        .filter((c): c is CandidateFailure => !c.ok)
+        .map((c) => c.reason)
+        .join(' | ');
+      // If both failed upstream, return 502; otherwise 422.
+      const upstream = !balancedResult.ok && !aggressiveResult.ok;
       return json({
-        error: 'AI returned an article that failed local schema validation.',
-        validation_errors: afterErrors.slice(0, 30),
-        raw_excerpt: llm.ok ? llm.content.slice(0, 600) : (llm.rawExcerpt || '').slice(0, 600),
-      }, 422);
+        error: upstream
+          ? 'Both LLM passes failed upstream.'
+          : 'AI returned articles that failed local schema validation.',
+        detail: reasons.slice(0, 800),
+      }, upstream ? 502 : 422);
     }
+
+    // Pick the candidate with the higher rewrite ratio. Tie-breaker:
+    // prefer the aggressive pass (operator clicked Optimise specifically
+    // to get a stronger rewrite).
+    successes.sort((a, b) => {
+      if (b.ratio.overall !== a.ratio.overall) return b.ratio.overall - a.ratio.overall;
+      return a.pass === 'aggressive' ? -1 : 1;
+    });
+    const winner = successes[0]!;
+    const optimised = winner.article;
+    const summary = winner.summary;
+    const afterErrors = winner.afterErrors;
+    const ratio = winner.ratio;
 
     // Defence in depth: force the locale to the requested one (the LLM
     // might emit the wrong tag) and keep the slug stable when the model
@@ -334,8 +331,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     if (locale === 'uz' && /[А-Яа-яЁё]/.test(JSON.stringify(optimised))) {
       warnings.push('UZ article contains Cyrillic characters — please review.');
     }
-    if (ratio.overall < 0.4) {
-      warnings.push(`Body rewrite ratio is low (${(ratio.overall * 100).toFixed(0)}%, ${ratio.unchangedCount}/${ratio.comparedCount} blocks barely changed) — consider running «Повторить оптимизацию» if the result still feels shallow.`);
+    if (ratio.overall < REWRITE_RATIO_TARGET) {
+      warnings.push(`Body rewrite ratio is ${(ratio.overall * 100).toFixed(0)}% (${ratio.unchangedCount}/${ratio.comparedCount} blocks barely changed). Consider running «Повторить оптимизацию» if the result still feels shallow.`);
     }
 
     const changes = Array.isArray(summary?.changes)
@@ -348,7 +345,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     return json({
       ok: true,
       locale,
-      model: llm.ok ? llm.model : 'gemini-flash',
+      model: `${winner.model} (${winner.pass})`,
       original: article,
       optimized_article: optimised,
       changes,
@@ -360,8 +357,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
         overall_diff_ratio: Number(ratio.overall.toFixed(3)),
         unchanged_blocks: ratio.unchangedCount,
         compared_blocks: ratio.comparedCount,
-        retried,
-        retry_reason: retryReason,
+        retried: successes.length > 1, // both passes returned
+        retry_reason: successes.length > 1
+          ? `picked ${winner.pass} (balanced=${successes.find((s) => s.pass === 'balanced')?.ratio.overall.toFixed(2) ?? 'n/a'}, aggressive=${successes.find((s) => s.pass === 'aggressive')?.ratio.overall.toFixed(2) ?? 'n/a'})`
+          : `only ${winner.pass} pass returned a valid article`,
       },
     });
   } catch (e) {
