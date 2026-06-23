@@ -40,6 +40,40 @@ Hard rules:
 
 ## What has been implemented
 
+### 2026-06-23 — Translate-locale flow + Topic Plan defaults to both locales
+
+* **Owner-reported issue**: drafts launched via «Запустить одну» from
+  the Topic Plan came back with only the RU side. UZ tab inactive,
+  Optimise-both button hidden, Import UZ unavailable.
+* **Two fixes shipped in one commit (`25a8ed1`)**:
+  1. `launch.ts` now ships `target_locales: ['ru', 'uz']` in the
+     overrides, so future Plan-launched drafts produce both sides.
+     The plan item's `locale` remains the canonical/primary locale.
+  2. New `/api/admin/ai-drafts/:id/translate-locale` endpoint +
+     `lib/ai-drafts/translate-runner.ts` for existing single-locale
+     drafts: Gemini localises the existing article into the missing
+     locale (structure preserved, /ru/↔/uz/ paths rewritten, slug
+     re-derived, target_money_page swapped to the target-locale
+     default, no Cyrillic in UZ). One Gemini call, thinkingBudget=0,
+     ~30-40 s. Persists straight via new `addDraftLocaleArticle`
+     store helper, audit row `ai_translate_locale`.
+* **Cosmetic bug found+fixed (`00936ea`)**: both `replaceDraftArticle`
+  and the new `addDraftLocaleArticle` updated the JSON columns but
+  forgot to update the boolean `has_ru` / `has_uz` flags, so the UI
+  still showed «UZ missing» after a successful translation. Now both
+  helpers set `has_ru = ru_article IS NOT NULL`, `has_uz = uz_article
+  IS NOT NULL` on every write. Bug self-heals on the next click for
+  already-affected drafts.
+* **Frontend**: new primary buttons «✨ Создать UZ-версию (из RU)» and
+  «Создать RU-версию (из UZ)» — visible when one locale is missing.
+  Auto-switches to the newly created locale tab and toasts success.
+  After completion the dual-optimise + Import UZ buttons become
+  available on the same render.
+* **Production smoke (clean draft)**: 37 s wall, has_uz flipped to
+  `true`, status stayed `pending_review`, validation passed, 23
+  body_blocks, 7 FAQ, pure Latin script. Confirmed end-to-end on
+  `draft_a4be5ca2bd4b45a9b6951f`.
+
 ### 2026-06-22 (late evening) — One-click «Оптимизировать обе версии (RU + UZ)»
 
 * **Owner request**: «Сделай чтобы можно было одним кликом оптимизировать
