@@ -4,9 +4,9 @@
 // Used by the /admin-tools/indexnow page to render the audit table
 // underneath the bulk-submit checklist.
 
-import type { Env } from '../../../../_types';
-import { requireAuth } from '../../../../lib/jwt';
-import { readRecentHistory } from '../../../../lib/indexnow/audit';
+import type { Env } from '../../../_types';
+import { requireAuth } from '../../../lib/jwt';
+import { readRecentHistory } from '../../../lib/indexnow/audit';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
