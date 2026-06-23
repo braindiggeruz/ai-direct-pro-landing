@@ -26,9 +26,19 @@ Disallow: /admin-tools/
 Disallow: /api/
 
 Sitemap: ${SITE_URL}/sitemap.xml
+
+# AI / LLM grounding manifest (https://llmstxt.org)
+# Tells AI assistants where to find canonical site context.
+# X-LLM-Grounding: ${SITE_URL}/llms.txt
 `;
 fs.writeFileSync(path.join(DIST_DIR, 'robots.txt'), robots, 'utf-8');
 console.log('robots.txt → dist/robots.txt');
+
+// ---------- llms.txt static copy ----------
+// /public/llms.txt is already copied to /dist/ by Vite. We add a sibling
+// /llms route below (in _redirects) so the file is reachable without
+// the .txt extension, matching the common "/llms" link pattern many
+// LLM assistants try first.
 
 // ---------- _redirects ----------
 const userRedirects: Redirect[] = fs.existsSync(REDIRECTS_FILE)
@@ -59,6 +69,10 @@ lines.push('# Source: content/seo/redirects.json + draft pages list.');
 lines.push('');
 lines.push('# 1) Admin SPA');
 lines.push('/admin-tools/*  /index.html  200');
+lines.push('');
+lines.push('# 1b) /llms (no extension) — rewrite to /llms.txt so AI assistants');
+lines.push('#     that probe for the bare path get the same llms.txt grounding file.');
+lines.push('/llms  /llms.txt  200');
 lines.push('');
 if (userRedirects.length) {
   lines.push('# 2) User-defined redirects (content/seo/redirects.json)');
@@ -142,6 +156,10 @@ headers.push('  Cache-Control: public, max-age=300');
 headers.push('  Content-Type: application/xml; charset=utf-8');
 headers.push('/robots.txt');
 headers.push('  Cache-Control: public, max-age=300');
+headers.push('/llms.txt');
+headers.push('  Cache-Control: public, max-age=21600');
+headers.push('  Content-Type: text/plain; charset=utf-8');
+headers.push('  X-Robots-Tag: noindex');
 headers.push('/_redirects');
 headers.push('  Cache-Control: no-store');
 headers.push('');
