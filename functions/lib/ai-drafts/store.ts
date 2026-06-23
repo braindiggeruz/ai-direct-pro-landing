@@ -350,6 +350,13 @@ export async function replaceDraftArticle(
   validation: { passed: boolean; issues: Array<{ level?: string; rule?: string; message?: string; field?: string }> },
   actor: string,
   meta: Record<string, unknown>,
+  /**
+   * Audit action label written to ai_draft_audit. Defaults to
+   * 'ai_optimize' for backwards compatibility with the existing
+   * /apply-optimization callers; CTR Boost passes 'ctr_boost_apply'
+   * so the audit trail is filterable.
+   */
+  auditAction = 'ai_optimize',
 ): Promise<AiDraftRecord | null> {
   const db = requireDb(env);
   const before = await getDraft(env, id);
@@ -361,7 +368,7 @@ export async function replaceDraftArticle(
   const prevArticle = locale === 'ru' ? before.ru_article : before.uz_article;
 
   // Snapshot the previous version + new validation into the audit trail.
-  await appendAudit(env, id, 'ai_optimize', actor, {
+  await appendAudit(env, id, auditAction, actor, {
     ...meta,
     locale,
     bundle_id: before.bundle_id,

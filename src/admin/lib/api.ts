@@ -275,6 +275,26 @@ export const api = {
       { target_locale },
       { timeoutMs: 2 * 60 * 1000 },
     ),
+  // CTR Boost — build a list of internal-link suggestions for a draft.
+  // Returns deterministic candidates with LLM-rewritten anchor text.
+  // The reviewer accepts a subset and applies them via aiDraftsApplyCtrBoost.
+  aiDraftsSuggestLinks: (id: string, locale: 'ru' | 'uz') =>
+    request<import('../components/CtrBoostModal').CtrBoostPlan>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/suggest-links`,
+      { locale },
+      { timeoutMs: 60_000 },
+    ),
+  aiDraftsApplyCtrBoost: (
+    id: string,
+    locale: 'ru' | 'uz',
+    accepted: Array<{ target: string; anchor: string; type: 'money' | 'cluster' | 'sibling' }>,
+  ) =>
+    request<{ ok: true; draft: import('../../shared/ai-drafts').AiDraftRecord; added: number }>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/apply-links`,
+      { locale, accepted },
+    ),
   // -- SEO Autopilot Control Center -----------------------------------------
   seoAutopilotLaunch: (overrides: Record<string, unknown> = {}) =>
     request<import('../../shared/seo-autopilot').AutopilotLaunchResult>(
