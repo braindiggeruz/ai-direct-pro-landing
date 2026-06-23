@@ -128,14 +128,30 @@ export async function runOptimizeForLocale(
       return { ok: false, pass, reason: `${pass} upstream ${raw.status || 'network'}: ${(raw.error || '').slice(0, 200)}` };
     }
     const parsed = parseStrictJson(raw.content);
-    const rawArticle = (parsed as Record<string, unknown> | null)?.article;
-    const summary = (parsed as Record<string, unknown> | null)?.summary as
+    if (!parsed || typeof parsed !== 'object') {
+      return {
+        ok: false,
+        pass,
+        reason: `${pass} returned non-JSON content (len=${raw.content.length}): ${raw.content.slice(0, 200).replace(/\s+/g, ' ')}`,
+      };
+    }
+    const rawArticle = (parsed as Record<string, unknown>).article;
+    if (!rawArticle || typeof rawArticle !== 'object') {
+      const topKeys = Object.keys(parsed as Record<string, unknown>).slice(0, 10).join(',');
+      return {
+        ok: false,
+        pass,
+        reason: `${pass} JSON has no .article field. Top keys=[${topKeys}]. Excerpt: ${raw.content.slice(0, 200).replace(/\s+/g, ' ')}`,
+      };
+    }
+    const summary = (parsed as Record<string, unknown>).summary as
       | { changes?: unknown; kept?: unknown }
       | undefined;
     const errors: ValidationError[] = [];
-    const opt = rawArticle ? validateArticle(rawArticle, 'after', errors) : null;
+    const opt = validateArticle(rawArticle, 'after', errors);
     if (!opt) {
-      return { ok: false, pass, reason: `${pass} validation failed: ${errors.slice(0, 3).map((e) => e.message).join('; ').slice(0, 200)}` };
+      const errSummary = errors.slice(0, 5).map((e) => `${e.path || '?'}=${e.message}`).join('; ').slice(0, 300);
+      return { ok: false, pass, reason: `${pass} schema validation failed (${errors.length} errors): ${errSummary || 'no errors recorded'}` };
     }
     const r = bodyRewriteRatio(article!, opt);
     return { ok: true, article: opt, ratio: r, summary, afterErrors: errors, model: raw.model, pass };
