@@ -163,6 +163,7 @@ export async function startSeoAutopilotJob(input: StartJobInput): Promise<StartJ
           error_detail: null,
           created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
           finished_at: new Date().toISOString(), duration_ms: 0,
+          llm_provider: null, llm_model: null, llm_fallback_used: false,
         },
       };
     }

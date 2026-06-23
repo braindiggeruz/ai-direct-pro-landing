@@ -33,6 +33,10 @@ export interface AutopilotJobRow {
   updated_at: string;
   finished_at: string | null;
   duration_ms: number | null;
+  /** LLM provider that finally produced the bundle. Server-side fact, not UI choice. */
+  llm_provider: string | null;
+  llm_model: string | null;
+  llm_fallback_used: boolean;
 }
 
 export interface AutopilotJobDetail extends AutopilotJobRow {
@@ -88,4 +92,6 @@ export interface AutopilotSystemFlags {
   stale_jobs_swept?: number;
   pending_drafts?: number;
   last_completed?: { draft_id: string | null; admin_url: string | null; finished_at: string | null } | null;
+  /** Multi-provider LLM router — list of providers and whether each key is set. */
+  llm_providers?: Array<{ provider: string; configured: boolean }>;
 }

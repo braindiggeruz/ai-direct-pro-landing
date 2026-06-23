@@ -159,22 +159,28 @@ export default function SeoAutopilotControlCenter() {
     failed: jobs.filter((j) => j.status === 'failed').length,
   }), [jobs]);
 
+  // Preflight: in direct-AI mode we need (a) drafts DB and (b) at least
+  // one LLM provider key configured (multi-provider router). The old
+  // Workers AI binding is no longer required — the router routes through
+  // Mistral / Gemini / Groq / Cerebras REST instead.
+  const anyLlmProvider = (system?.llm_providers || []).some((p) => p.configured);
   const preflightOk = system?.direct_ai_enabled
-    ? (system?.ai_binding_configured && system?.drafts_db_configured)
+    ? (anyLlmProvider && system?.drafts_db_configured)
     : (system?.n8n_webhook_secret_configured && system?.drafts_db_configured);
   const launchDisabled = busy || !preflightOk;
 
   // Pretty stage from elapsed time so the spinner conveys SOMETHING.
-  // Direct-AI mode is much faster (15–60 s typical) than the legacy
-  // n8n bridge (60–240 s) — stages reflect that.
+  // Multi-provider mode is fast — typical Mistral medium + queue
+  // concurrency=1 gives ~5 s per locale, ~15-30 s end-to-end for two
+  // locales. Slower providers stretch this but never block.
   const directAi = !!system?.direct_ai_enabled;
   const stage = !busy ? null
     : directAi
       ? (elapsedMs < 3_000   ? 'Подготовка темы…'
-        : elapsedMs < 25_000 ? 'Cloudflare Workers AI генерирует RU-статью…'
-        : elapsedMs < 50_000 ? 'Cloudflare Workers AI генерирует UZ-адаптацию…'
+        : elapsedMs < 20_000 ? 'AI router пишет RU-статью (heavy queue, concurrency=1)…'
+        : elapsedMs < 45_000 ? 'AI router пишет UZ-адаптацию…'
         : elapsedMs < 70_000 ? 'Финальная валидация контракта…'
-        : 'Дольше обычного — проверьте баланс Workers AI Neurons…')
+        : 'Дольше обычного — возможно, primary провайдер недоступен, fallback в работе…')
       : (elapsedMs < 5_000  ? 'Запрос к n8n…'
         : elapsedMs < 30_000 ? 'Сбор SERP + sitemap (~30 s)…'
         : elapsedMs < 75_000 ? 'OpenRouter генерирует RU-статью…'
@@ -193,10 +199,10 @@ export default function SeoAutopilotControlCenter() {
             SEO Autopilot
           </h1>
           <p className="text-white/60 text-sm mt-2 max-w-2xl">
-            Generates RU + UZ articles using Cloudflare Workers AI and stores
-            the package in the AI Draft Inbox. Drafts stay unpublished
-            until you click <strong>Publish to GitHub</strong> in the Blog
-            Editor.
+            Generates RU + UZ articles using a multi-provider LLM router
+            (Mistral, Gemini, Groq, Cerebras) with automatic fallback and
+            heavy-queue concurrency=1. Drafts stay unpublished until you
+            click <strong>Publish to GitHub</strong> in the Blog Editor.
           </p>
         </div>
         <div className="flex gap-2 items-center flex-wrap">
@@ -214,12 +220,18 @@ export default function SeoAutopilotControlCenter() {
             <div>
               <div className="text-amber-200 font-medium">Configuration required</div>
               <ul className="text-white/80 text-sm mt-2 space-y-1">
-                {system.direct_ai_enabled && !system.ai_binding_configured && (
-                  <li data-testid="preflight-missing-ai-binding">
-                    • <code className="text-amber-200">Cloudflare Workers AI</code> binding "AI" is not configured.
-                    Open <em>Cloudflare Pages → ai-direct-pro-landing → Settings → Functions → AI bindings</em>{' '}
-                    and add a binding named <strong>AI</strong> (any account-wide model is fine — the code
-                    selects <code className="text-amber-200">@cf/meta/llama-3.3-70b-instruct-fp8-fast</code> by default).
+                {system.direct_ai_enabled && !anyLlmProvider && (
+                  <li data-testid="preflight-missing-llm-provider">
+                    • No LLM provider configured. Add at least ONE of{' '}
+                    <code className="text-amber-200">MISTRAL_API_KEY</code>,{' '}
+                    <code className="text-amber-200">GEMINI_API_KEY</code>,{' '}
+                    <code className="text-amber-200">GROQ_API_KEY</code>, or{' '}
+                    <code className="text-amber-200">CEREBRAS_API_KEY</code> under{' '}
+                    <em>Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables</em>{' '}
+                    (secret_text). Mistral: <a className="text-brand-cyan underline" href="https://console.mistral.ai/api-keys/" target="_blank" rel="noreferrer">console.mistral.ai/api-keys</a>{' '}
+                    · Gemini: <a className="text-brand-cyan underline" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer">aistudio.google.com</a>{' '}
+                    · Groq: <a className="text-brand-cyan underline" href="https://console.groq.com/keys" target="_blank" rel="noreferrer">console.groq.com/keys</a>{' '}
+                    · Cerebras: <a className="text-brand-cyan underline" href="https://cloud.cerebras.ai/" target="_blank" rel="noreferrer">cloud.cerebras.ai</a>.
                   </li>
                 )}
                 {!system.direct_ai_enabled && !system.n8n_webhook_secret_configured && (
@@ -237,11 +249,21 @@ export default function SeoAutopilotControlCenter() {
         </Card>
       )}
 
-      {system?.direct_ai_enabled && system?.ai_binding_configured && (
+      {system?.direct_ai_enabled && (system?.llm_providers?.some((p) => p.configured) || system?.ai_binding_configured) && (
         <Card className="border-brand-blue/20 bg-brand-blue/5" data-testid="control-center-direct-ai-banner">
-          <div className="flex items-center gap-2 text-white/80 text-sm">
+          <div className="flex items-center gap-2 text-white/80 text-sm flex-wrap">
             <ShieldCheck size={14} className="text-brand-cyan"/>
-            <span><strong>Direct AI mode active.</strong> Generation runs in Cloudflare Workers AI (no n8n round-trip). Typical run: 15–60 s.</span>
+            <span><strong>Multi-provider AI router active.</strong> Heavy queue concurrency=1, automatic fallback across providers, no n8n round-trip.</span>
+            <span className="ml-auto flex gap-2 flex-wrap text-[11px]" data-testid="control-center-providers">
+              {(system.llm_providers || []).map((p) => (
+                <span
+                  key={p.provider}
+                  className={`px-2 py-0.5 rounded-full border ${p.configured ? 'border-emerald-500/40 text-emerald-300' : 'border-white/15 text-white/40'}`}
+                  data-testid={`provider-${p.provider}`}>
+                  {p.provider}{p.configured ? ' ✓' : ' —'}
+                </span>
+              ))}
+            </span>
           </div>
         </Card>
       )}
@@ -259,7 +281,7 @@ export default function SeoAutopilotControlCenter() {
           <p className="text-white/60 text-sm mb-5">
             Click below to generate a fresh RU + UZ article package now.
             {system?.direct_ai_enabled
-              ? ' Generation runs inside Cloudflare Workers AI (account-level binding) — no external webhook, no extra API key. Typical run: 15–60 s.'
+              ? ' Multi-provider AI router selects the best available model (Mistral / Gemini / Groq / Cerebras), with automatic fallback. Heavy queue concurrency=1 so a batch of 10 topics never bursts the upstream quota. Typical run: 15–60 s.'
               : <> The server calls n8n with the <code className="text-brand-cyan mx-1">N8N_WEBHOOK_SECRET</code> stored in Cloudflare. Generation takes 1–4 minutes; the page holds the connection open until the draft is ready.</>}
           </p>
           <div className="flex gap-2 flex-wrap items-center">
@@ -405,7 +427,7 @@ export default function SeoAutopilotControlCenter() {
                   <th className="py-2 px-2 font-medium">Source</th>
                   <th className="py-2 px-2 font-medium">Started</th>
                   <th className="py-2 px-2 font-medium">Duration</th>
-                  <th className="py-2 px-2 font-medium">n8n</th>
+                  <th className="py-2 px-2 font-medium">AI</th>
                   <th className="py-2 px-2 font-medium">Validation</th>
                   <th className="py-2 px-2 font-medium">Draft / Error</th>
                 </tr>
@@ -429,8 +451,21 @@ export default function SeoAutopilotControlCenter() {
                         {new Date(j.created_at).toLocaleString()}
                       </td>
                       <td className="py-2 px-2 text-white/70 text-xs">{humanDuration(j.duration_ms)}</td>
-                      <td className="py-2 px-2 text-white/60 text-xs">
-                        {j.n8n_status ?? <span className="text-white/30">—</span>}
+                      <td className="py-2 px-2 text-white/60 text-xs whitespace-nowrap" data-testid={`control-center-job-${j.id}-ai`}>
+                        {j.llm_provider && j.llm_model ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span className="text-brand-cyan">{j.llm_provider}</span>
+                            <span className="text-white/40">/</span>
+                            <span className="text-white/75">{j.llm_model.replace(/.*\//, '').replace(/-latest$/, '')}</span>
+                            {j.llm_fallback_used && (
+                              <span title="Fallback used" className="ml-1 text-amber-300/90 text-[10px] uppercase">fb</span>
+                            )}
+                          </span>
+                        ) : j.n8n_status ? (
+                          <span title="Legacy n8n bridge">n8n {j.n8n_status}</span>
+                        ) : (
+                          <span className="text-white/30">—</span>
+                        )}
                       </td>
                       <td className="py-2 px-2">
                         {j.validation_status === 'passed' ? (
@@ -470,7 +505,7 @@ export default function SeoAutopilotControlCenter() {
           <li>Admin clicks <em>Запустить SEO Автопилот</em> or <em>Запустить одну</em> on a topic.</li>
           <li>Server POSTs to <code className="text-brand-cyan">/api/admin/seo-autopilot/run</code> (JWT-authenticated).</li>
           <li>{system?.direct_ai_enabled
-              ? <>Cloudflare Workers AI generates RU + UZ articles directly (<code className="text-white/70">@cf/meta/llama-3.3-70b-instruct-fp8-fast</code>). No external webhook — typical run 15–60 s.</>
+              ? <>Multi-provider AI router writes RU + UZ articles. Heavy tasks run sequentially (concurrency=1) — no burst. Per-feature priority: Mistral → Gemini → Groq → Cerebras, with automatic fallback on 429/5xx. Typical run 15–60 s.</>
               : <>Server calls the n8n production webhook (sync await) and stores the RU+UZ package in the AI Draft Inbox.</>}
           </li>
           <li>The function validates the bundle and stores it in the AI Draft Inbox as <strong>pending_review</strong>.</li>

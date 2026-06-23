@@ -1,4 +1,4 @@
-// Optional OpenRouter semantic judge for the Intent Guard.
+// Optional semantic judge for the Intent Guard.
 //
 // Called only after the deterministic shortlist returned at least one
 // medium-grade conflict. The judge receives:
@@ -9,9 +9,14 @@
 //
 // It returns a strict JSON object validated server-side. Anything that
 // doesn't parse falls back to "used:false, risk_score: deterministic".
+//
+// Powered by the multi-provider LLM router (Groq primary on llama-3.3-70b
+// for sub-second latency; Mistral medium / Cerebras as fallbacks).
 
 import type { Env } from '../../_types';
-import { optimiseWithOpenRouter, parseStrictJson } from '../ai-drafts/optimizer-client';
+import { parseStrictJson } from '../ai-drafts/optimizer-client';
+import { routeLlmCall } from '../llm/router';
+import { whichProvidersConfigured } from '../llm/router';
 import type {
   IntentConflict, IntentFingerprint, SemanticVerdict, IntentRiskLevel,
 } from '../../../src/shared/intent-guard';
@@ -90,10 +95,24 @@ function buildUserPrompt(ctx: JudgeContext): string {
 }
 
 export async function judgeSemantic(env: Env, ctx: JudgeContext): Promise<SemanticVerdict> {
-  if (!env.OPENROUTER_API_KEY) return defaultVerdict(ctx);
+  // At least one provider must be configured to actually run the judge.
+  const anyConfigured = whichProvidersConfigured(env).some((p) => p.configured);
+  if (!anyConfigured) return defaultVerdict(ctx);
   const system = SYSTEM_PROMPT_RU;
   const user = buildUserPrompt(ctx);
-  const llm = await optimiseWithOpenRouter(env, system, user);
+  const llm = await routeLlmCall(env, {
+    feature: 'judge',
+    locale: ctx.locale,
+    system,
+    user,
+    jsonObject: true,
+    // Judge is a light task with a short JSON envelope. Use a small cap
+    // so reasoning-heavy models (Cerebras/gpt-oss) don't exhaust the
+    // budget on irrelevant chain-of-thought.
+    maxTokens: 1500,
+    temperature: 0.2,
+    timeoutMs: 25_000,
+  });
   if (!llm.ok) return defaultVerdict(ctx);
   const parsed = parseStrictJson(llm.content) as Record<string, unknown> | null;
   if (!parsed || typeof parsed !== 'object') return defaultVerdict(ctx);
@@ -138,7 +157,7 @@ export async function judgeSemantic(env: Env, ctx: JudgeContext): Promise<Semant
       recommended_funnel_stage: typeof rec.recommended_funnel_stage === 'string' ? rec.recommended_funnel_stage.slice(0, 40) : '',
       recommended_target_money_page: typeof rec.recommended_target_money_page === 'string' ? rec.recommended_target_money_page.slice(0, 400) : '',
     },
-    model: llm.model,
+    model: `${llm.meta.provider}/${llm.meta.model}`,
   };
 }
 
