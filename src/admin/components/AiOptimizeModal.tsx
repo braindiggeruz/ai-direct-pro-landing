@@ -22,6 +22,17 @@ export interface OptimizeResult {
   validation_before: { passed: boolean; issues: { path: string; message: string }[] };
   validation_after:  { passed: boolean; issues: { path: string; message: string }[] };
   warnings: string[];
+  // Sent by /optimize since the Llama → Gemini switch. Tells the reviewer
+  // how deeply the body was actually rewritten (Jaccard distance over
+  // trigrams of block text). Older API responses won't carry this field,
+  // so the modal renders the badge defensively (only when present).
+  rewrite_stats?: {
+    overall_diff_ratio: number;
+    unchanged_blocks: number;
+    compared_blocks: number;
+    retried: boolean;
+    retry_reason: string | null;
+  };
 }
 
 interface Props {
@@ -56,8 +67,24 @@ export function AiOptimizeModal({ open, result, busy, applyError, onApply, onRet
               <h2 className="font-display text-lg text-white">
                 {t.aiOptimize.modalTitle} · {localeLabel}
               </h2>
-              <div className="text-white/40 text-xs mt-0.5">
-                {t.aiOptimize.modelLabel}: <code className="text-white/70">{result.model}</code>
+              <div className="text-white/40 text-xs mt-0.5 flex items-center gap-3 flex-wrap">
+                <span>{t.aiOptimize.modelLabel}: <code className="text-white/70">{result.model}</code></span>
+                {result.rewrite_stats && result.rewrite_stats.compared_blocks > 0 && (
+                  <span
+                    className={
+                      result.rewrite_stats.overall_diff_ratio >= 0.55
+                        ? 'text-emerald-300/90'
+                        : result.rewrite_stats.overall_diff_ratio >= 0.35
+                          ? 'text-amber-300/90'
+                          : 'text-red-300/90'
+                    }
+                    data-testid="ai-optimize-rewrite-depth"
+                    title={`${result.rewrite_stats.unchanged_blocks} of ${result.rewrite_stats.compared_blocks} blocks barely changed${result.rewrite_stats.retried ? ' · retried at higher temperature' : ''}`}
+                  >
+                    · Глубина переписывания: {Math.round(result.rewrite_stats.overall_diff_ratio * 100)}%
+                    {result.rewrite_stats.retried ? ' · retry' : ''}
+                  </span>
+                )}
               </div>
             </div>
           </div>
