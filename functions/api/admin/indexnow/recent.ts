@@ -18,11 +18,11 @@
 // Hard rules: never publishes anything, never calls api.indexnow.org,
 // never modifies content. Read-only.
 
-import type { Env } from '../../../../_types';
-import { requireAuth } from '../../../../lib/jwt';
-import { readContentBulk } from '../../../../lib/github';
-import type { Page, BlogArticle } from '../../../../../src/shared/types';
-import { readLatestPerUrl } from '../../../../lib/indexnow/audit';
+import type { Env } from '../../../_types';
+import { requireAuth } from '../../../lib/jwt';
+import { readContentBulk } from '../../../lib/github';
+import type { Page, BlogArticle } from '../../../../src/shared/types';
+import { readLatestPerUrl } from '../../../lib/indexnow/audit';
 
 interface IndexNowRecentItem {
   url: string;
