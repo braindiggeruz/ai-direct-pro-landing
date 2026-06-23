@@ -570,6 +570,14 @@ export const ru = {
     depthBadge:        'Глубина переписывания',
     perLocaleFailed:   'Не удалось переписать эту версию',
     onlyOneLocaleAvailable: 'У этого черновика только одна локаль — нажмите обычную кнопку оптимизации.',
+    // Translate-locale flow ("Создать UZ-версию из RU" / "Создать RU-версию из UZ")
+    translateRuToUz:        'Создать UZ-версию (из RU)',
+    translateUzToRu:        'Создать RU-версию (из UZ)',
+    translateRunning:       'Создаём недостающую версию…',
+    translateHint:          'Gemini локализует существующую статью под второй язык — структура сохраняется, контент пишется заново на естественном языке. ≈ 30–40 секунд.',
+    translateSuccessUz:     'UZ-версия создана и сохранена. Теперь доступны Optimise обе версии и Import UZ.',
+    translateSuccessRu:     'RU-версия создана и сохранена. Теперь доступны Optimise обе версии и Import RU.',
+    translateFailed:        'Не удалось создать недостающую локаль',
   },
 } as const;
 

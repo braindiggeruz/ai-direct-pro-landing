@@ -78,11 +78,21 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
   //     approval flags). The previous version of this endpoint sent
   //     the raw overrides JSON, which caused n8n to reject every
   //     single-topic run with HTTP 400 in ~1.8s.
+  // Single-topic launch from the Topic Plan defaults to producing
+  // BOTH locales (RU + UZ) so the resulting draft is ready for the
+  // dual-optimise + bilingual import workflow without a separate
+  // translate step. The plan item's `locale` field is kept as the
+  // primary/canonical locale (used for slug + meta) but the generator
+  // produces both sides via target_locales: ['ru','uz']. Operators
+  // who genuinely want a single-locale draft can still set this
+  // explicitly upstream (the direct-launch interpreter respects
+  // target_locales when present).
   const overrides = {
     planned_title: item.planned_title,
     primary_keyword: item.primary_keyword,
     target_money_page: item.target_money_page,
     locale: item.locale,
+    target_locales: ['ru', 'uz'] as const,
     cluster: item.cluster_key,
     funnel_stage: item.funnel_stage,
     audience: item.audience,

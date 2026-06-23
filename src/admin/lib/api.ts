@@ -256,6 +256,25 @@ export const api = {
       `/api/admin/ai-drafts/${encodeURIComponent(id)}/apply-optimization`,
       { locale, optimized_article, model },
     ),
+  // Translate-and-localise the missing locale of a draft from the
+  // existing one. Persists the result directly (no preview step) —
+  // status stays pending_review, audit row written.
+  aiDraftsTranslateLocale: (id: string, target_locale: 'ru' | 'uz') =>
+    request<{
+      ok: true;
+      draft: import('../../shared/ai-drafts').AiDraftRecord;
+      source_locale: 'ru' | 'uz';
+      target_locale: 'ru' | 'uz';
+      model: string;
+      validation: { passed: boolean; issues: { path: string; message: string }[] };
+      warnings: string[];
+      duration_ms: number;
+    }>(
+      'POST',
+      `/api/admin/ai-drafts/${encodeURIComponent(id)}/translate-locale`,
+      { target_locale },
+      { timeoutMs: 2 * 60 * 1000 },
+    ),
   // -- SEO Autopilot Control Center -----------------------------------------
   seoAutopilotLaunch: (overrides: Record<string, unknown> = {}) =>
     request<import('../../shared/seo-autopilot').AutopilotLaunchResult>(

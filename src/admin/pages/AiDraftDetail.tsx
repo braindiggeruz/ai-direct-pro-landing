@@ -75,6 +75,10 @@ export default function AiDraftDetail() {
   const [optBothResult, setOptBothResult] = useState<OptimizeBothResult | null>(null);
   const [optBothApplyBusy, setOptBothApplyBusy] = useState(false);
   const [optBothApplyError, setOptBothApplyError] = useState<string | null>(null);
+  // Cross-locale translator state — used by «Создать UZ-версию (из RU)»
+  // / «Создать RU-версию (из UZ)» buttons. The result is persisted
+  // directly by the endpoint, so we only track busy + error here.
+  const [translateBusy, setTranslateBusy] = useState<'ru' | 'uz' | null>(null);
 
   async function load() {
     setLoading(true); setErr(null);
@@ -200,6 +204,36 @@ export default function AiDraftDetail() {
       setErr(`${t.aiOptimize.loadFailed}: ${(e as Error).message}`);
     } finally {
       setOptBothBusy(false);
+    }
+  }
+
+  async function runTranslateLocale(target: 'ru' | 'uz') {
+    if (!draft || !id) return;
+    if (draft.status === 'rejected' || draft.status === 'imported') {
+      setErr(t.aiOptimize.lockedStatus);
+      return;
+    }
+    // Block when the target locale already exists — the optimise
+    // button is the right tool for that case.
+    if ((target === 'ru' && draft.has_ru) || (target === 'uz' && draft.has_uz)) {
+      setErr(t.aiOptimize.onlyOneLocaleAvailable);
+      return;
+    }
+    setTranslateBusy(target);
+    setErr(null);
+    setToast(null);
+    try {
+      const r = await api.aiDraftsTranslateLocale(id, target);
+      setData((cur) => cur ? { draft: r.draft, audit: cur.audit } : cur);
+      setToast(target === 'uz' ? t.aiOptimize.translateSuccessUz : t.aiOptimize.translateSuccessRu);
+      // Auto-switch to the newly created locale tab so the operator
+      // sees the result immediately.
+      setTab(target);
+      await load();
+    } catch (e) {
+      setErr(`${t.aiOptimize.translateFailed}: ${(e as Error).message}`);
+    } finally {
+      setTranslateBusy(null);
     }
   }
 
@@ -399,12 +433,39 @@ export default function AiDraftDetail() {
               <Button
                 variant="primary"
                 size="sm"
-                disabled={optimizing || optBothBusy || busy || draft.status === 'rejected' || draft.status === 'imported'}
+                disabled={optimizing || optBothBusy || busy || !!translateBusy || draft.status === 'rejected' || draft.status === 'imported'}
                 onClick={() => void runOptimizeBoth()}
                 title={t.aiOptimize.buttonBothHint}
                 data-testid="ai-draft-optimize-both"
               >
                 <Sparkles size={14}/> {optBothBusy ? t.aiOptimize.buttonBothRunning : t.aiOptimize.buttonBoth}
+              </Button>
+            )}
+            {/* Cross-locale translator buttons.
+                Visible only when one locale exists and the OTHER is missing —
+                this is the dominant "Plan launch produced only RU" path. */}
+            {draft.has_ru && !draft.has_uz && (
+              <Button
+                variant="primary"
+                size="sm"
+                disabled={optimizing || optBothBusy || busy || !!translateBusy || draft.status === 'rejected' || draft.status === 'imported'}
+                onClick={() => void runTranslateLocale('uz')}
+                title={t.aiOptimize.translateHint}
+                data-testid="ai-draft-translate-to-uz"
+              >
+                <Sparkles size={14}/> {translateBusy === 'uz' ? t.aiOptimize.translateRunning : t.aiOptimize.translateRuToUz}
+              </Button>
+            )}
+            {!draft.has_ru && draft.has_uz && (
+              <Button
+                variant="primary"
+                size="sm"
+                disabled={optimizing || optBothBusy || busy || !!translateBusy || draft.status === 'rejected' || draft.status === 'imported'}
+                onClick={() => void runTranslateLocale('ru')}
+                title={t.aiOptimize.translateHint}
+                data-testid="ai-draft-translate-to-ru"
+              >
+                <Sparkles size={14}/> {translateBusy === 'ru' ? t.aiOptimize.translateRunning : t.aiOptimize.translateUzToRu}
               </Button>
             )}
           </div>

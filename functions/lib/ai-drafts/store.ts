@@ -407,6 +407,77 @@ export async function replaceDraftArticle(
   return getDraft(env, id);
 }
 
+/**
+ * Add a locale article to a draft that did NOT previously carry it.
+ * Used by the "Сгенерировать UZ-версию" / "Сгенерировать RU-версию"
+ * flow when the original generation produced only one locale and the
+ * reviewer wants to fill in the missing side.
+ *
+ * Symmetric to replaceDraftArticle but the precondition is inverted:
+ * the target locale slot MUST be empty. The audit row carries action
+ * 'ai_translate_locale' so the trail is distinguishable from optimise.
+ */
+export async function addDraftLocaleArticle(
+  env: Env,
+  id: string,
+  locale: 'ru' | 'uz',
+  next: AiDraftArticle,
+  validation: { passed: boolean; issues: Array<{ level?: string; rule?: string; message?: string; field?: string }> },
+  actor: string,
+  meta: Record<string, unknown>,
+): Promise<AiDraftRecord | null> {
+  const db = requireDb(env);
+  const before = await getDraft(env, id);
+  if (!before) return null;
+  if (locale === 'ru' && before.has_ru) throw new Error('Draft already contains a RU article; use replaceDraftArticle');
+  if (locale === 'uz' && before.has_uz) throw new Error('Draft already contains a UZ article; use replaceDraftArticle');
+  if (before.status === 'rejected' || before.status === 'imported') {
+    throw new Error(`Draft is ${before.status} — cannot add a new locale article`);
+  }
+
+  const now = nowIso();
+  await appendAudit(env, id, 'ai_translate_locale', actor, {
+    ...meta,
+    locale,
+    bundle_id: before.bundle_id,
+    new_validation: validation,
+  });
+
+  const ruNext = locale === 'ru' ? next : before.ru_article;
+  const uzNext = locale === 'uz' ? next : before.uz_article;
+  // RU stays canonical for the inbox preview if present.
+  const primary = ruNext || uzNext!;
+
+  await db
+    .prepare(
+      `UPDATE ai_drafts SET
+        ru_article_json = ?,
+        uz_article_json = ?,
+        validation_json = ?,
+        validation_passed = ?,
+        validation_issue_count = ?,
+        primary_title = ?,
+        primary_slug = ?,
+        status = CASE WHEN status IN ('rejected','imported') THEN status ELSE 'pending_review' END,
+        updated_at = ?
+       WHERE id = ?`,
+    )
+    .bind(
+      ruNext ? JSON.stringify(ruNext) : null,
+      uzNext ? JSON.stringify(uzNext) : null,
+      JSON.stringify(validation),
+      validation.passed ? 1 : 0,
+      validation.issues.length,
+      primary.meta_title,
+      primary.slug,
+      now,
+      id,
+    )
+    .run();
+
+  return getDraft(env, id);
+}
+
 /** Constant-time string compare to defeat timing oracles. */
 export function constantTimeEqual(a: string, b: string): boolean {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
