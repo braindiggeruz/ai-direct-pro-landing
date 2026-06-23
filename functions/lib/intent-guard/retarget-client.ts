@@ -21,7 +21,8 @@ import type {
   ContentInventory, IntentConflict, IntentFingerprint, RetargetProposal,
 } from '../../../src/shared/intent-guard';
 import { validateArticle, type ValidationError } from '../ai-drafts/validators';
-import { optimiseWithOpenRouter, parseStrictJson } from '../ai-drafts/optimizer-client';
+import { parseStrictJson } from '../ai-drafts/optimizer-client';
+import { routeLlmCall, whichProvidersConfigured } from '../llm/router';
 import { buildRetargetSystemPrompt, buildRetargetUserPrompt } from './retarget-prompt';
 import { validateRetargetConstraints, failuresAsFeedback, type ConstraintReport } from './retarget-constraints';
 import { buildFingerprint, intentKeyOf } from './fingerprint';
@@ -107,8 +108,17 @@ async function runSingleAttempt(
     })),
   });
 
-  const llm = await optimiseWithOpenRouter(env, system, user);
-  if (!llm.ok) return { ok: false, error: llm.error || 'OpenRouter call failed' };
+  const llm = await routeLlmCall(env, {
+    feature: 'retarget',
+    locale: input.article.locale,
+    system,
+    user,
+    jsonObject: true,
+    maxTokens: 8000,
+    temperature: 0.4,
+    timeoutMs: 70_000,
+  });
+  if (!llm.ok) return { ok: false, error: llm.error || 'LLM router call failed' };
   const parsed = parseStrictJson(llm.content) as Record<string, unknown> | null;
   if (!parsed) return { ok: false, error: 'LLM did not return JSON', raw_excerpt: (llm.content || '').slice(0, 600) };
 
@@ -210,7 +220,7 @@ async function runSingleAttempt(
       supports_url: typeof expected.supports_url === 'string' ? expected.supports_url : (article.target_money_page || ''),
       new_funnel_role: typeof expected.new_funnel_role === 'string' ? expected.new_funnel_role : recomputedFingerprint.funnel_stage,
     },
-    model: llm.model,
+    model: `${llm.meta.provider}/${llm.meta.model}`,
   };
   void fp;
   void intentKeyOf; // imported for use in surrounding logic but not in this fn
@@ -219,8 +229,9 @@ async function runSingleAttempt(
 }
 
 export async function runRetarget(env: Env, input: RetargetInput): Promise<RetargetResult> {
-  if (!env.OPENROUTER_API_KEY) {
-    return { ok: false, upstream_error: 'OPENROUTER_API_KEY not configured' };
+  const anyConfigured = whichProvidersConfigured(env).some((p) => p.configured);
+  if (!anyConfigured) {
+    return { ok: false, upstream_error: 'No LLM provider configured. Add at least one of MISTRAL_API_KEY, GEMINI_API_KEY, GROQ_API_KEY in Cloudflare Pages env.' };
   }
 
   const attempts: RetargetAttempt[] = [];

@@ -33,7 +33,7 @@
 
 import type { Env } from '../../_types';
 import type { AiDraftArticle } from '../../../src/shared/ai-drafts';
-import { callGemini } from '../seo-autopilot/gemini-client';
+import { routeLlmCall } from '../llm/router';
 import { validateArticle, type ValidationError } from './validators';
 import { parseStrictJson } from './optimizer-client';
 
@@ -103,7 +103,9 @@ export async function runTranslateLocale(
   const system = buildSystemPrompt(targetLocale);
   const user = buildUserPrompt(source, sourceLocale, targetLocale, suggestedMoneyPage);
 
-  const r = await callGemini(env, {
+  const r = await routeLlmCall(env, {
+    feature: 'translate',
+    locale: targetLocale,
     system,
     user,
     maxTokens: MAX_OUTPUT_TOKENS,
@@ -118,7 +120,7 @@ export async function runTranslateLocale(
       source_locale: sourceLocale,
       target_locale: targetLocale,
       status: 'upstream',
-      error: `Gemini call failed: ${r.error}${r.status ? ` (HTTP ${r.status})` : ''}`,
+      error: `LLM router failed (provider=${r.meta.provider} model=${r.meta.model}): ${r.error}${r.status ? ` (HTTP ${r.status})` : ''}`,
       detail: r.rawExcerpt?.slice(0, 600),
     };
   }
@@ -192,11 +194,11 @@ export async function runTranslateLocale(
     ok: true,
     source_locale: sourceLocale,
     target_locale: targetLocale,
-    model: r.model,
+    model: `${r.meta.provider}/${r.meta.model}`,
     article,
     validation: { passed: errors.length === 0, issues: errors.slice(0, 50) },
     warnings,
-    durationMs: r.durationMs,
+    durationMs: r.meta.duration_ms,
   };
 }
 

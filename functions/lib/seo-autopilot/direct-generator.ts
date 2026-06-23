@@ -42,9 +42,10 @@ import { ingestRawBundle } from '../ai-drafts/ingest';
 import type { IngestResult } from '../ai-drafts/ingest';
 import { validateIncomingBundle } from '../ai-drafts/validators';
 import {
-  callGemini,
   DEFAULT_GEMINI_MODEL,
 } from './gemini-client';
+import { routeLlmCall } from '../llm/router';
+import type { LlmCallMetadata } from '../llm/types';
 
 const DEFAULT_MONEY_PAGE_RU = '/ru/ai-bot-dlya-biznesa/';
 const DEFAULT_MONEY_PAGE_UZ = '/uz/biznes-uchun-ai-bot/';
@@ -100,6 +101,12 @@ export interface DirectGenerationResult {
   validation_passed?: boolean;
   validation_issue_count?: number;
   model?: string;
+  /** Final LLM provider that produced the bundle (or last-failed). */
+  llm_provider?: string;
+  /** Final LLM model the bundle was generated on. */
+  llm_model?: string;
+  /** True when a provider/model other than the primary was used. */
+  llm_fallback_used?: boolean;
   duration_ms?: number;
   deduplicated?: boolean;
   /** Failure surface — populated when ok === false. */
@@ -130,47 +137,66 @@ export async function generateAndIngestDirectly(
       error_message: 'Draft storage not configured (GPTBOT_DRAFTS_DB).',
     };
   }
-  if (!env.GEMINI_API_KEY) {
+  // Router preflight: at least ONE of Gemini / Mistral / Groq / Cerebras /
+  // OpenRouter must have a key configured. Each adapter is independent;
+  // missing one simply removes it from the route table.
+  const hasAnyProvider =
+    !!env.GEMINI_API_KEY ||
+    !!env.MISTRAL_API_KEY ||
+    !!env.GROQ_API_KEY ||
+    !!env.CEREBRAS_API_KEY ||
+    !!env.OPENROUTER_API_KEY;
+  if (!hasAnyProvider) {
     return {
       ok: false,
       generation_status: 'failed',
-      error_code: 'gemini_key_missing',
+      error_code: 'llm_provider_missing',
       error_message:
-        'GEMINI_API_KEY is not configured. Open Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables and add GEMINI_API_KEY (secret_text). Generate a free key at https://aistudio.google.com/app/apikey — Gemini 2.5 Flash free tier is 15 RPM / 1500 RPD, which is more than enough for the SEO Autopilot cadence.',
+        'No LLM provider configured. Add at least ONE of MISTRAL_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, CEREBRAS_API_KEY under Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables (secret_text). Mistral keys at https://console.mistral.ai/api-keys/; Gemini at https://aistudio.google.com/app/apikey; Groq at https://console.groq.com/keys; Cerebras at https://cloud.cerebras.ai/.',
     };
   }
 
   const locales: Array<'ru' | 'uz'> = resolveTargetLocales(topic);
+  // We no longer pin the model upfront — the router picks per-locale based
+  // on registry priority. Keep `model` for the legacy `job_row.model`
+  // column for backward compatibility; the new llm_provider/llm_model
+  // fields carry the truth.
   const model = env.GEMINI_MODEL || DEFAULT_GEMINI_MODEL;
 
-  // ── 1. Per-locale generation runs in PARALLEL with up to 2 attempts
-  //       per locale (retry only on parse failure — the gemini-client
-  //       already retries upstream HTTP errors against the fallback
-  //       model). CF Pages Functions has a ~95 s edge budget; with
-  //       Gemini 2.5 Flash two locales × one attempt × ~30-40 s ≈
-  //       max(35,35) = 35 s wall time. A second parse-retry adds up to
-  //       another 35 s only on the (rare) JSON failure, still within
-  //       budget.
+  // ── 1. Per-locale generation runs through the multi-provider router.
+  //       The router's heavy queue serialises heavy calls (concurrency=1)
+  //       so RU and UZ run sequentially — this is what stopped the
+  //       Gemini 429 burst that 10-topic batches used to trigger. Each
+  //       call retries across providers (Mistral → Gemini → Groq) before
+  //       giving up. Idempotency keys are scoped to the runId so a
+  //       double-clicked launch returns the cached result.
   const settled = await Promise.allSettled(
     locales.map(async (locale) => {
       let lastErr = 'no attempt';
+      let lastMeta: LlmCallMetadata | undefined;
       for (let attempt = 1; attempt <= 2; attempt++) {
-        const r = await generateOneArticle(env, model, topic, locale);
+        const r = await generateOneArticle(env, model, topic, locale, options.runId, attempt);
         if (r.ok) return r;
         lastErr = r.error;
+        lastMeta = r.meta;
       }
-      return { ok: false as const, error: lastErr };
+      return { ok: false as const, error: lastErr, meta: lastMeta };
     }),
   );
   const articles: AiDraftArticle[] = [];
-  const perLocaleErrors: Array<{ locale: 'ru' | 'uz'; error: string }> = [];
+  const perLocaleErrors: Array<{ locale: 'ru' | 'uz'; error: string; provider?: string; model?: string }> = [];
+  let chosenMeta: LlmCallMetadata | undefined;
   for (let i = 0; i < locales.length; i++) {
     const locale = locales[i]!;
     const res = settled[i]!;
-    if (res.status === 'fulfilled' && res.value.ok) {
-      articles.push(res.value.article);
-    } else if (res.status === 'fulfilled') {
-      perLocaleErrors.push({ locale, error: res.value.error });
+    if (res.status === 'fulfilled') {
+      const v = res.value;
+      if (v.ok) {
+        articles.push(v.article);
+        if (!chosenMeta) chosenMeta = v.meta;
+      } else {
+        perLocaleErrors.push({ locale, error: v.error, provider: v.meta?.provider, model: v.meta?.model });
+      }
     } else {
       perLocaleErrors.push({ locale, error: `unhandled exception: ${(res.reason as Error)?.message || 'unknown'}` });
     }
@@ -181,10 +207,13 @@ export async function generateAndIngestDirectly(
       ok: false,
       generation_status: 'failed',
       error_code: 'ai_generation_failed',
-      error_message: `Gemini Flash produced no usable article for any requested locale (${locales.join(',')}).`,
-      error_detail: { per_locale_errors: perLocaleErrors, model },
+      error_message: `AI router produced no usable article for any requested locale (${locales.join(',')}).`,
+      error_detail: { per_locale_errors: perLocaleErrors, model, attempted_providers: perLocaleErrors.map((e) => `${e.locale}:${e.provider}/${e.model}`).filter(Boolean) },
       duration_ms: Date.now() - startedAt,
       model,
+      llm_provider: chosenMeta?.provider,
+      llm_model: chosenMeta?.model,
+      llm_fallback_used: chosenMeta?.fallback_used,
     };
   }
 
@@ -248,7 +277,10 @@ export async function generateAndIngestDirectly(
     deduplicated: ingest.response.deduplicated,
     locales: articles.map((a) => a.locale),
     duration_ms: Date.now() - startedAt,
-    model,
+    model: chosenMeta?.model || model,
+    llm_provider: chosenMeta?.provider,
+    llm_model: chosenMeta?.model,
+    llm_fallback_used: chosenMeta?.fallback_used,
     error_detail: perLocaleErrors.length > 0
       ? { partial_success: true, per_locale_errors: perLocaleErrors, model }
       : null,
@@ -299,7 +331,7 @@ function buildBundlePayload(input: {
     seo_brief: {
       requested_by: input.requestedBy,
       source: input.source,
-      generated_by: 'gemini-flash-via-google-ai-studio',
+      generated_by: 'multi-provider-llm-router',
       generated_at: new Date().toISOString(),
     },
     validation: {
@@ -312,8 +344,8 @@ function buildBundlePayload(input: {
 
 // ── 4. AI call -------------------------------------------------------
 
-interface OneArticleSuccess { ok: true; article: AiDraftArticle }
-interface OneArticleFailure { ok: false; error: string }
+interface OneArticleSuccess { ok: true; article: AiDraftArticle; meta: LlmCallMetadata }
+interface OneArticleFailure { ok: false; error: string; meta?: LlmCallMetadata }
 type OneArticleResult = OneArticleSuccess | OneArticleFailure;
 
 async function generateOneArticle(
@@ -321,6 +353,8 @@ async function generateOneArticle(
   model: string,
   topic: DirectGenerationTopic,
   locale: 'ru' | 'uz',
+  runId: string,
+  attempt: number,
 ): Promise<OneArticleResult> {
   const moneyPage = moneyPageFor(locale, topic);
   const planned = sanitisePlannedTitle(topic.planned_title, topic.primary_keyword, locale);
@@ -340,36 +374,39 @@ async function generateOneArticle(
     notes: topic.notes ?? null,
   });
 
-  // Single call to Gemini Flash via the Emergent integrations proxy.
-  // The client itself handles a one-step fallback (gemini-2.5-flash →
-  // gemini-2.5-flash-lite) on transient upstream failures.
-  const result = await callGemini(env, {
+  // Route through the multi-provider LLM router. Feature is picked based
+  // on locale so the registry can prefer Gemini for UZ (best Latin Uzbek)
+  // and Mistral for RU (high RU quality + strict JSON). Attempt count
+  // produces a distinct idempotency key per parse-retry so the second
+  // attempt actually calls upstream instead of returning the cached
+  // failure from the first.
+  const result = await routeLlmCall(env, {
+    feature: locale === 'ru' ? 'ru_article' : 'uz_article',
+    locale,
     system,
     user,
     maxTokens: MAX_OUTPUT_TOKENS,
     temperature: TEMPERATURE,
     timeoutMs: TIMEOUT_MS,
     jsonObject: true,
+    idempotencyKey: `direct-${runId}:${locale}:a${attempt}`,
   });
 
-  // The caller's retry loop expects { ok: false, error } on parse-style
-  // failures and { ok: false, error: '<...>' } on upstream issues. Both
-  // shapes are produced below; the loop in generateAndIngestDirectly
-  // retries once on parse failure (not on hard upstream errors — those
-  // are already retried inside callGemini against the fallback model).
   if (!result.ok) {
     return {
       ok: false,
-      error: `Gemini call failed: ${result.error}${result.status ? ` (HTTP ${result.status})` : ''}${result.rawExcerpt ? ` | excerpt=${result.rawExcerpt.replace(/\s+/g, ' ').slice(0, 200)}` : ''}`,
+      error: `LLM router failed (provider=${result.meta.provider} model=${result.meta.model}): ${result.error}${result.status ? ` (HTTP ${result.status})` : ''}${result.rawExcerpt ? ` | excerpt=${result.rawExcerpt.replace(/\s+/g, ' ').slice(0, 200)}` : ''}`,
+      meta: result.meta,
     };
   }
-  void model; // primary model id was just a hint — the client picks the wire model
+  void model; // legacy hint; the router selects the actual wire model
 
   const parsed = parseStrictJson(result.content);
   if (!parsed || typeof parsed !== 'object') {
     return {
       ok: false,
-      error: `Gemini output was not parsable JSON | finish=${result.finishReason || 'unknown'} | excerpt=${result.content.slice(0, 300).replace(/\s+/g, ' ')}`,
+      error: `LLM output was not parsable JSON | provider=${result.meta.provider}/${result.meta.model} | finish=${result.finishReason || 'unknown'} | excerpt=${result.content.slice(0, 300).replace(/\s+/g, ' ')}`,
+      meta: result.meta,
     };
   }
   const article = coerceArticle(parsed as Record<string, unknown>, locale, {
@@ -380,10 +417,11 @@ async function generateOneArticle(
   if (!article) {
     return {
       ok: false,
-      error: `Gemini output missing required fields after coercion | keys=${Object.keys(parsed as object).slice(0, 20).join(',')} | excerpt=${result.content.slice(0, 300).replace(/\s+/g, ' ')}`,
+      error: `LLM output missing required fields after coercion | provider=${result.meta.provider}/${result.meta.model} | keys=${Object.keys(parsed as object).slice(0, 20).join(',')} | excerpt=${result.content.slice(0, 300).replace(/\s+/g, ' ')}`,
+      meta: result.meta,
     };
   }
-  return { ok: true, article };
+  return { ok: true, article, meta: result.meta };
 }
 
 // ── 5. Prompts -------------------------------------------------------
