@@ -27,7 +27,7 @@ import { Badge, Button, Card, Textarea } from '../components/ui';
 import {
   AlertTriangle, ChevronLeft, ChevronRight, ClipboardCopy, Inbox, RefreshCw,
   ShieldCheck, ShieldAlert, Trash2, XCircle, ArrowDownToLine, FileText, GitBranch,
-  Sparkles,
+  Sparkles, TrendingUp,
 } from 'lucide-react';
 import type {
   AiDraftArticle,
@@ -41,6 +41,7 @@ import {
 } from '../lib/aiDraftImport';
 import { AiOptimizeModal, type OptimizeResult } from '../components/AiOptimizeModal';
 import { AiOptimizeBothModal, type OptimizeBothResult } from '../components/AiOptimizeBothModal';
+import { CtrBoostModal, type CtrBoostPlan } from '../components/CtrBoostModal';
 import { IntentGuardPanel } from '../components/IntentGuardPanel';
 import { useT } from '../i18n';
 
@@ -79,6 +80,13 @@ export default function AiDraftDetail() {
   // / «Создать RU-версию (из UZ)» buttons. The result is persisted
   // directly by the endpoint, so we only track busy + error here.
   const [translateBusy, setTranslateBusy] = useState<'ru' | 'uz' | null>(null);
+  // CTR Boost state — fetches link suggestions, then commits the
+  // operator's selection via /apply-links. The modal handles the
+  // selection UI; we only track the in-flight states + result here.
+  const [ctrLoading, setCtrLoading] = useState(false);
+  const [ctrPlan, setCtrPlan] = useState<CtrBoostPlan | null>(null);
+  const [ctrApplyBusy, setCtrApplyBusy] = useState(false);
+  const [ctrApplyError, setCtrApplyError] = useState<string | null>(null);
 
   async function load() {
     setLoading(true); setErr(null);
@@ -293,6 +301,46 @@ export default function AiDraftDetail() {
     setBusy(false);
   }
 
+  async function runCtrBoost() {
+    if (!draft || !id) return;
+    if (draft.status === 'rejected' || draft.status === 'imported') {
+      setErr(t.aiOptimize.lockedStatus);
+      return;
+    }
+    const a = tab === 'ru' ? draft.ru_article : draft.uz_article;
+    if (!a) { setErr(t.aiOptimize.noLocale); return; }
+    setCtrLoading(true);
+    setCtrApplyError(null);
+    setErr(null);
+    setToast(null);
+    setCtrPlan(null);
+    try {
+      const r = await api.aiDraftsSuggestLinks(id, tab);
+      setCtrPlan(r);
+    } catch (e) {
+      setErr(`CTR Boost: ${(e as Error).message}`);
+    } finally {
+      setCtrLoading(false);
+    }
+  }
+
+  async function applyCtrBoost(accepted: Array<{ target: string; anchor: string; type: 'money' | 'cluster' | 'sibling' }>) {
+    if (!ctrPlan || !id) return;
+    setCtrApplyBusy(true);
+    setCtrApplyError(null);
+    try {
+      const r = await api.aiDraftsApplyCtrBoost(id, ctrPlan.locale, accepted);
+      setData((cur) => cur ? { draft: r.draft, audit: cur.audit } : cur);
+      setCtrPlan(null);
+      setToast(`CTR Boost: добавлено ${r.added} ссыл${r.added === 1 ? 'ка' : r.added < 5 ? 'ки' : 'ок'}.`);
+      await load();
+    } catch (e) {
+      setCtrApplyError(`Не удалось применить: ${(e as Error).message}`);
+    } finally {
+      setCtrApplyBusy(false);
+    }
+  }
+
   async function copyJson() {
     const blob = JSON.stringify({
       id: draft.id,
@@ -422,11 +470,23 @@ export default function AiDraftDetail() {
               <Button
                 variant="secondary"
                 size="sm"
-                disabled={optimizing || optBothBusy || busy || draft.status === 'rejected' || draft.status === 'imported'}
+                disabled={optimizing || optBothBusy || busy || ctrLoading || ctrApplyBusy || draft.status === 'rejected' || draft.status === 'imported'}
                 onClick={() => void runOptimize()}
                 data-testid={`ai-draft-optimize-${tab}`}
               >
                 <Sparkles size={14}/> {optimizing ? t.aiOptimize.buttonRunning : `${t.aiOptimize.button} (${tab.toUpperCase()})`}
+              </Button>
+            )}
+            {((tab === 'ru' && draft.has_ru) || (tab === 'uz' && draft.has_uz)) && (
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={optimizing || optBothBusy || busy || ctrLoading || ctrApplyBusy || draft.status === 'rejected' || draft.status === 'imported'}
+                onClick={() => void runCtrBoost()}
+                title="Подобрать внутренние ссылки для повышения CTR (Groq, ~1s)"
+                data-testid={`ai-draft-ctr-boost-${tab}`}
+              >
+                <TrendingUp size={14}/> {ctrLoading ? 'CTR Boost…' : `CTR Boost (${tab.toUpperCase()})`}
               </Button>
             )}
             {draft.has_ru && draft.has_uz && (
@@ -593,6 +653,17 @@ export default function AiDraftDetail() {
         onApplyOne={(loc) => void applyOptimizeBoth(loc)}
         onRetry={() => { setOptBothApplyError(null); void runOptimizeBoth(); }}
         onCancel={() => { if (!optBothApplyBusy) { setOptBothResult(null); setOptBothApplyError(null); } }}
+      />
+
+      <CtrBoostModal
+        open={ctrLoading || !!ctrPlan}
+        plan={ctrPlan}
+        loading={ctrLoading}
+        applyError={ctrApplyError}
+        applyBusy={ctrApplyBusy}
+        onApply={(accepted) => void applyCtrBoost(accepted)}
+        onRetry={() => { setCtrApplyError(null); void runCtrBoost(); }}
+        onCancel={() => { if (!ctrApplyBusy) { setCtrPlan(null); setCtrApplyError(null); } }}
       />
     </div>
   );
