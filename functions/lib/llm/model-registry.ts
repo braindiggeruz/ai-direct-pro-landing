@@ -205,9 +205,10 @@ export const MODEL_REGISTRY: ModelDescriptor[] = [
   },
 
   // ── xAI Grok (optional, OpenAI-compatible) ─────────────────────────
-  // Only routed when XAI_API_KEY is configured. Used as a high-quality
-  // fallback for RU long-form when Mistral/Gemini are exhausted, and
-  // as an optimiser candidate for deep rewrites.
+  // Only routed when XAI_API_KEY is configured AND has credits. The
+  // adapter is wired in but the registry entry is enabled=false until
+  // credits are added — once enabled, the router will use Grok as a
+  // high-quality RU long-form fallback.
   {
     provider: 'xai',
     model: 'grok-2-latest',
@@ -219,8 +220,8 @@ export const MODEL_REGISTRY: ModelDescriptor[] = [
     default_temperature: 0.4,
     locales: ['ru'],
     priority_by_feature: { ru_article: 60, optimizer: 60, retarget: 60 },
-    notes: 'High-quality RU long-form; pay-as-you-go (xAI key required).',
-    enabled: true,
+    notes: 'High-quality RU long-form; pay-as-you-go (xAI key required). Disabled until credits are purchased on console.x.ai.',
+    enabled: false,
   },
 ];
 
