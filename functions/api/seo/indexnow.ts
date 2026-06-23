@@ -22,9 +22,14 @@ import { writeAudit } from '../../lib/indexnow/audit';
 
 const SITE_HOST = 'gptbot.uz';
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow';
-// Server-side key location. Returned by functions/api/indexnow/key.ts.
-// Bing/Yandex/Seznam fetch this URL to verify the submission.
-const KEY_LOCATION = `https://${SITE_HOST}/api/indexnow/key`;
+// Standard root-level keyLocation. The static file already lives in
+// public/{key}.txt → dist/{key}.txt and is served by Cloudflare Pages.
+// Bing/Yandex require keyLocation to be at the host root or at a path
+// level above every URL being submitted; an /api/* path would have
+// failed verification with 422 "URLs not related to your site".
+function buildKeyLocation(key: string): string {
+  return `https://${SITE_HOST}/${key}.txt`;
+}
 
 interface IndexNowEnv extends Env {
   INDEXNOW_KEY?: string;
@@ -80,13 +85,13 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
 
   // Verify the key file is reachable. We do a HEAD; if it 404s we ABORT
   // because IndexNow will reject the whole batch with "key not found".
-  const keyLocation = KEY_LOCATION;
+  const keyLocation = buildKeyLocation(key);
   try {
     const keyProbe = await fetch(keyLocation, { method: 'HEAD' });
     if (keyProbe.status !== 200) {
       return json({
         ok: false,
-        error: `Key file at ${keyLocation} returned HTTP ${keyProbe.status}. Verify INDEXNOW_KEY env binding is set.`,
+        error: `Key file at ${keyLocation} returned HTTP ${keyProbe.status}. Verify public/${key}.txt is committed and deployed.`,
       }, 400);
     }
   } catch (e) {
