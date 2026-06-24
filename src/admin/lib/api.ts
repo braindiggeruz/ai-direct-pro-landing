@@ -382,13 +382,20 @@ export const api = {
   }) =>
     request<{
       ok: boolean;
-      mode: 'launched' | 'cannibalization_risk' | 'launch_failed';
+      // 2026-06-24 — the endpoint now returns 'launching' immediately
+      // (synchronous flow was timing out at the Cloudflare edge 100 s
+      // walltime). The SPA polls /api/admin/seo-autopilot/jobs and
+      // matches on request_id to surface the final draft_id + provider.
+      mode: 'launching' | 'cannibalization_risk' | 'launch_failed' | 'bad_request' | 'reservation_failed' | 'unavailable' | 'server_error';
       query: string;
       locale: 'ru' | 'uz';
       intent_key: string;
-      // launched + launch_failed
+      // launching + reservation_failed
       plan_id?: string;
       item_id?: string;
+      request_id?: string;
+      poll?: { jobs_url: string; match_field: string; interval_ms: number; timeout_ms: number };
+      // launch_failed
       job_id?: string;
       draft_id?: string | null;
       provider?: string | null;
@@ -396,7 +403,6 @@ export const api = {
       fallback_used?: boolean;
       risk_results?: Array<{ locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }>;
       draft_links?: { review: string } | null;
-      // launch_failed
       error?: string;
       reason?: string;
       // cannibalization_risk
@@ -408,10 +414,8 @@ export const api = {
       'POST',
       '/api/admin/seo/yandex/quick-launch',
       input,
-      // Heavy generation: provider chain + validators + Intent Guard
-      // analyze. Worst case ~120s on first cold-start. Operators see
-      // the spinner with stage messages; the request stays open.
-      { timeoutMs: 180_000 },
+      // Fast reservation step only — the heavy work runs in background.
+      { timeoutMs: 20_000 },
     ),
   // ── IndexNow bulk submission ─────────────────────────────────────────
   // Read recently published URLs joined with the audit log so the UI can
