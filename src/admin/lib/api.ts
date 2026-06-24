@@ -330,6 +330,68 @@ export const api = {
       { seeds, locale, forceRefresh },
       { timeoutMs: 90_000 },
     ),
+
+  // One-click "Сгенерировать статью" from a Yandex Demand row. Goes
+  // through the same launch pipeline as the Topic Plan per-item launch
+  // (OpenRouter primary → fallback chain → AI Draft Inbox), but
+  // synthesises a sandbox Topic Plan + item from the raw Yandex query.
+  // Modes returned:
+  //   * launched               — draft created in AI Draft Inbox
+  //   * cannibalization_risk   — query already covered or reservation conflict
+  //   * launch_failed          — generation failed (provider chain, validator)
+  yandexQuickLaunch: (input: {
+    query: string;
+    locale?: 'ru' | 'uz';
+    yandex_context?: {
+      difficulty_score?: number | null;
+      found_total?: number | null;
+      top_domains?: string[];
+      gptbot_present?: boolean;
+      gptbot_url?: string | null;
+      recommendations?: string[];
+      intent_label?: string | null;
+    };
+    target_money_page?: string | null;
+    cluster?: string | null;
+    funnel_stage?: string | null;
+    audience?: string | null;
+    industry?: string | null;
+    channel?: string | null;
+    content_type?: string | null;
+  }) =>
+    request<{
+      ok: boolean;
+      mode: 'launched' | 'cannibalization_risk' | 'launch_failed';
+      query: string;
+      locale: 'ru' | 'uz';
+      intent_key: string;
+      // launched + launch_failed
+      plan_id?: string;
+      item_id?: string;
+      job_id?: string;
+      draft_id?: string | null;
+      provider?: string | null;
+      model?: string | null;
+      fallback_used?: boolean;
+      risk_results?: Array<{ locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }>;
+      draft_links?: { review: string } | null;
+      // launch_failed
+      error?: string;
+      reason?: string;
+      // cannibalization_risk
+      existing_url?: string | null;
+      existing_title?: string | null;
+      existing_reservation?: unknown;
+      suggestions?: Array<{ action: string; label: string; url?: string | null }>;
+    }>(
+      'POST',
+      '/api/admin/seo/topic-plans/quick-launch',
+      input,
+      // Heavy generation: provider chain + validators + Intent Guard
+      // analyze. Worst case ~120s on first cold-start. Operators see
+      // the spinner with stage messages; the request stays open.
+      { timeoutMs: 180_000 },
+    ),
   // ── IndexNow bulk submission ─────────────────────────────────────────
   // Read recently published URLs joined with the audit log so the UI can
   // render "last submitted" badges + skip already-pushed URLs.
