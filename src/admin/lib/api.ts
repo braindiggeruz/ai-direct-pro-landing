@@ -385,7 +385,7 @@ export const api = {
       suggestions?: Array<{ action: string; label: string; url?: string | null }>;
     }>(
       'POST',
-      '/api/admin/seo/topic-plans/quick-launch',
+      '/api/admin/seo/yandex/quick-launch',
       input,
       // Heavy generation: provider chain + validators + Intent Guard
       // analyze. Worst case ~120s on first cold-start. Operators see

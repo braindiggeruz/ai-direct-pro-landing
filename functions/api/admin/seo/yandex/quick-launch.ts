@@ -1,6 +1,10 @@
-// POST /api/admin/seo/topic-plans/quick-launch
+// POST /api/admin/seo/yandex/quick-launch
 //
 // One-click "Сгенерировать статью" from the Yandex Demand panel.
+// Lives in the yandex/ namespace so it does NOT collide with the
+// dynamic /topic-plans/[id] route in Cloudflare Pages Functions
+// routing (the previous location matched the [id] dynamic segment
+// and returned HTTP 405).
 //
 // The operator hits the green "Сгенерировать статью" button next to a
 // Yandex SERP result row. This endpoint:
@@ -41,20 +45,20 @@
 //   * No n8n in the active path. Direct AI router only.
 //   * No IndexNow automatic trigger.
 
-import type { Env } from '../../../../../_types';
-import { requireAuth } from '../../../../../lib/jwt';
-import { createPlan, getPlan, listPlans, listItems, updateItem } from '../../../../../lib/intent-guard/plans';
-import { reserveTopic, transitionReservation } from '../../../../../lib/intent-guard/reservations';
-import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../../../lib/seo-autopilot/direct-launch';
-import { startSeoAutopilotJob } from '../../../../../lib/seo-autopilot/launch';
-import { buildLaunchPayload } from '../../../../../lib/seo-autopilot/payload';
-import { analyzeCandidate } from '../../../../../lib/intent-guard/analyze';
-import { saveAnalysis, logAuditEvent } from '../../../../../lib/intent-guard/audit';
-import { getDraft } from '../../../../../lib/ai-drafts/store';
-import { buildFingerprint, intentKeyOf } from '../../../../../lib/intent-guard/fingerprint';
-import { buildContentInventory } from '../../../../../lib/intent-guard/inventory';
-import { withErrorHandler, jsonResponse } from '../../../../../lib/api-errors';
-import type { TopicPlan } from '../../../../../../src/shared/intent-guard';
+import type { Env } from '../../../../_types';
+import { requireAuth } from '../../../../lib/jwt';
+import { createPlan, getPlan, listPlans, listItems, updateItem } from '../../../../lib/intent-guard/plans';
+import { reserveTopic, transitionReservation } from '../../../../lib/intent-guard/reservations';
+import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../../lib/seo-autopilot/direct-launch';
+import { startSeoAutopilotJob } from '../../../../lib/seo-autopilot/launch';
+import { buildLaunchPayload } from '../../../../lib/seo-autopilot/payload';
+import { analyzeCandidate } from '../../../../lib/intent-guard/analyze';
+import { saveAnalysis, logAuditEvent } from '../../../../lib/intent-guard/audit';
+import { getDraft } from '../../../../lib/ai-drafts/store';
+import { buildFingerprint, intentKeyOf } from '../../../../lib/intent-guard/fingerprint';
+import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
+import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
+import type { TopicPlan } from '../../../../../src/shared/intent-guard';
 
 interface CtxEnv extends Env { OPENROUTER_API_KEY?: string }
 
