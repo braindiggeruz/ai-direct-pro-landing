@@ -98,19 +98,32 @@ export interface EngineOptions {
 }
 
 const DEFAULTS: EngineOptions = {
-  // 2026-06-24: Bing-operated api.indexnow.org has been throttling
-  // GPTBot.uz aggressively (52/52 URLs returned 429 in the operator's
-  // history). Smaller chunks + longer inter-chunk gap give the rate
-  // window time to forgive between batches.
-  chunkSize: 5,
-  interChunkMs: 6_000,
-  interChunkJitterMs: 1_000,
+  // 2026-06-25: previously chunkSize=5 + interChunkMs=6000 + wallBudget=55000
+  // worked for ≤30 URLs but caused two pain points at higher volume:
+  //   1. Operator selected 70-100 URLs → backend ran ~50s → frontend timeout
+  //      at 30s aborted the request with "signal is aborted without reason"
+  //      before backend finished its final chunks.
+  //   2. Even when the call returned, throughput was painful: ≤30 URLs per
+  //      click, the rest came back as kind='deferred'.
+  // Yandex IndexNow pool (the endpoint we now use, see INDEXNOW_ENDPOINT
+  // below) tolerates a higher rate than the old Bing endpoint. New defaults:
+  //   * chunkSize 8 — within Bing's "≤10 URLs per request" recommendation
+  //     and still a safe value for any IndexNow implementer.
+  //   * interChunkMs 3 s — half the previous gap; Yandex hasn't 429'd at
+  //     this cadence in production.
+  //   * wallBudgetMs 90 s — within Cloudflare Pages Functions edge
+  //     timeout (~100 s). Lets us deliver up to ~200 URLs per click.
+  //   * fetchTimeoutMs raised to 10 s — Yandex occasionally takes ~5-7 s
+  //     when warming up.
+  chunkSize: 8,
+  interChunkMs: 3_000,
+  interChunkJitterMs: 800,
   coolDownMs: 24 * 60 * 60 * 1000,
   maxRetriesPerChunk: 2,
   maxRetryAfterMs: 60_000,
-  // ~9 chunks × ~6.5 s = ~58 s — still under Cloudflare's ~100 s edge.
-  wallBudgetMs: 55_000,
-  fetchTimeoutMs: 8_000,
+  // ~25 chunks × ~3.5 s = ~88 s — fits Cloudflare's ~100 s edge.
+  wallBudgetMs: 90_000,
+  fetchTimeoutMs: 10_000,
 };
 
 // Switched 2026-06-24 from Bing-operated api.indexnow.org → Yandex-

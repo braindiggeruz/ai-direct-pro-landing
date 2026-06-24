@@ -462,12 +462,13 @@ export const api = {
   // recompute that can timeout on Cloudflare Pages with a 50+ URL batch.
   // Server-side: validates host/path-prefix, probes the key file, partitions
   // the selection into ready vs. cooling-down (skips URLs that succeeded
-  // within the last 24 h), chunks the rest into groups of ≤10, parses
-  // upstream Retry-After on 429 and respects it (up to 30 s), retries 429/5xx
+  // within the last 24 h), chunks the rest into groups of ≤8, parses
+  // upstream Retry-After on 429 and respects it (up to 60 s), retries 429/5xx
   // with exponential backoff up to 2 times per chunk, writes per-URL audit.
-  // POST { urls: string[] }. Hard cap: 100 URLs per call (overflow → deferred,
-  // operator clicks "Повторить неуспешные" to continue).
-  indexnowSubmitAdmin: (urls: string[]) =>
+  // POST { urls: string[], force?: boolean }. Hard cap: 200 URLs per call.
+  // `force: true` bypasses the 24h cool-down filter — used when the operator
+  // explicitly wants to re-push a URL.
+  indexnowSubmitAdmin: (urls: string[], force = false) =>
     request<{
       ok: boolean;
       submitted: number;
@@ -510,10 +511,11 @@ export const api = {
     }>(
       'POST',
       '/api/admin/indexnow/submit',
-      { urls },
-      // Allow up to 28 s — engine cap is 25 s, the extra 3 s covers the
-      // pre-flight key probe + audit batch insert.
-      { timeoutMs: 30_000 },
+      { urls, force },
+      // Backend engine has wallBudgetMs=90s. Frontend timeout must exceed
+      // it to receive the final response, including the audit write and
+      // JSON serialisation. 120s gives a safe 30s headroom.
+      { timeoutMs: 120_000 },
     ),
   // -- SEO Autopilot Control Center -----------------------------------------
   seoAutopilotLaunch: (overrides: Record<string, unknown> = {}) =>
