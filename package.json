@@ -19,7 +19,7 @@
     "hash-password": "tsx scripts/hash-password.ts",
     "test:intent-guard": "node --import tsx --test tests/intent-guard.test.ts",
     "test:direct-generator": "node --import tsx --test tests/direct-generator.test.ts",
-    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts"
+    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts tests/indexnow-engine.test.ts"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",

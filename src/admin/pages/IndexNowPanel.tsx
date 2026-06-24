@@ -51,6 +51,8 @@ interface HistoryBatch {
 
 const DAY_OPTIONS = [7, 14, 30, 60, 90, 180, 365];
 const ENGINES = ['Bing', 'Yandex', 'Seznam', 'Naver', 'Yep'];
+const COOL_DOWN_MS = 24 * 60 * 60 * 1000;
+const HARD_CAP_PER_CLICK = 100;
 
 function timeAgo(iso: string | null): string {
   if (!iso) return '—';
@@ -165,8 +167,30 @@ export default function IndexNowPanel() {
     const total = items.length;
     const submittedOk = items.filter((i) => i.last_ok).length;
     const never = items.filter((i) => !i.last_submitted_at).length;
-    return { total, submittedOk, never };
+    // Cool-down: URLs that succeeded within the last 24 h — server WILL skip
+    // them, so the UI surfaces the count so operators don't waste a click
+    // (engine still returns kind='skipped_duplicate' if they do).
+    const nowMs = Date.now();
+    const coolingDown = items.filter((i) => {
+      if (!i.last_ok || !i.last_submitted_at) return false;
+      const ts = Date.parse(i.last_submitted_at);
+      return Number.isFinite(ts) && nowMs - ts < COOL_DOWN_MS;
+    }).length;
+    // Failed = last submit known-bad. These are the candidates for the
+    // "Повторить неуспешные" button.
+    const failed = items.filter((i) => i.last_submitted_at && !i.last_ok).length;
+    return { total, submittedOk, never, coolingDown, failed };
   }, [items]);
+
+  function selectAllFailed() {
+    const failed = items.filter((i) => i.last_submitted_at && !i.last_ok).map((i) => i.url);
+    if (failed.length === 0) {
+      setToast({ tone: 'warn', text: 'Нет URL с предыдущей неуспешной попыткой в текущем фильтре.' });
+      return;
+    }
+    setSelected(new Set(failed.slice(0, HARD_CAP_PER_CLICK)));
+    setToast({ tone: 'warn', text: `Выбрано ${Math.min(failed.length, HARD_CAP_PER_CLICK)} URL с last_status≠ok. Нажмите «Отправить выбранное».${failed.length > HARD_CAP_PER_CLICK ? ` (${failed.length - HARD_CAP_PER_CLICK} остаются на следующую попытку)` : ''}` });
+  }
 
   return (
     <div className="p-6 sm:p-8 space-y-6 max-w-6xl" data-testid="indexnow-panel">
@@ -195,9 +219,24 @@ export default function IndexNowPanel() {
           <Badge tone="neutral">всего published: {counts.total}</Badge>
           <Badge tone="success">отправлено OK: {counts.submittedOk}</Badge>
           <Badge tone="warning">никогда не отправлялось: {counts.never}</Badge>
+          {counts.coolingDown > 0 && (
+            <Badge tone="info" data-testid="indexnow-cooling-down">
+              в cool-down 24h (будут пропущены): {counts.coolingDown}
+            </Badge>
+          )}
+          {counts.failed > 0 && (
+            <Badge tone="danger" data-testid="indexnow-failed-count">
+              последняя попытка не OK: {counts.failed}
+            </Badge>
+          )}
           <Button variant="ghost" size="sm" onClick={() => { void load(); void probeKey(); }} data-testid="indexnow-refresh">
             <RefreshCw size={14}/> Обновить
           </Button>
+          {counts.failed > 0 && (
+            <Button variant="secondary" size="sm" onClick={selectAllFailed} data-testid="indexnow-retry-failed">
+              <RefreshCw size={14}/> Повторить неуспешные ({counts.failed})
+            </Button>
+          )}
         </div>
       </Card>
 
