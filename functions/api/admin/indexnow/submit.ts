@@ -7,25 +7,46 @@
 // entire GitHub content tree). With a 50-URL batch that easily blows
 // the Pages Function CPU budget and Cloudflare returns a generic 502.
 //
-// This endpoint trusts that the operator picked URLs from
-// /api/admin/indexnow/recent — which itself only ever returns
-// published URLs from /content/blog and /content/pages. We just
-// cheap-check that every URL belongs to gptbot.uz and isn't an admin
-// or API path before calling api.indexnow.org.
+// 2026-06-24 fix: Bing's IndexNow endpoint federates to all engines
+// but rate-limits the per-host POSTs aggressively. The previous version
+// sent every selected URL in ONE POST and a 30+ URL batch came back as
+// HTTP 429 across the board (the /admin-tools/indexnow screenshot from
+// 2026-06-24 showed 52/52 URLs marked 429). Now we:
+//
+//   * partition the selection into ready vs. cooling-down (skip URLs
+//     that succeeded within the last 24 h);
+//   * chunk the ready set into groups of ≤10 URLs;
+//   * wait ≥1.5 s (+ jitter) between chunks;
+//   * parse upstream Retry-After on 429 and honour it (up to 30 s);
+//   * retry 429 / 5xx up to 2 times per chunk with exponential backoff;
+//   * write a per-URL audit row carrying the chunk-level outcome plus
+//     a kind tag (ok | rate_limited | http_error | network_error |
+//     skipped_duplicate | deferred) encoded in the audit `error` column
+//     so the existing /admin-tools/indexnow history reader can colour
+//     the badges correctly.
 //
 // Hard rules unchanged:
 //   * Manual only (admin clicks).
-//   * Key file probed every time.
+//   * Key file probed once per call (HEAD).
 //   * Append-only audit log per URL.
 //   * No mutation of /content, no GitHub publish.
+//   * Walltime capped at 25 s so Cloudflare never kills us mid-batch;
+//     any URLs that didn't fit return kind='deferred' and the operator
+//     can click "Повторить неуспешные" to continue.
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
-import { writeAudit } from '../../../lib/indexnow/audit';
+import { writeAudit, readLatestPerUrl } from '../../../lib/indexnow/audit';
+import { runChunkedSubmit, INDEXNOW_ENDPOINT, type IndexNowKind, type PerUrlResult, type ChunkResult } from '../../../lib/indexnow/submit-engine';
 
 const SITE_HOST = 'gptbot.uz';
 const SITE_URL = `https://${SITE_HOST}`;
-const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow';
+// Cap a single operator click at this many URLs. Bing's IndexNow limit
+// is ~10 URLs / minute / host; 100 with chunking + Retry-After fits in
+// the 25 s walltime budget comfortably. Anything above this comes back
+// as kind='deferred' and the operator re-submits with another click.
+const SELECTION_HARD_CAP = 100;
+const COOL_DOWN_MS = 24 * 60 * 60 * 1000;
 
 interface IndexNowEnv extends Env {
   INDEXNOW_KEY?: string;
@@ -60,8 +81,20 @@ function lightValidate(urls: string[]): { safe: string[]; rejected: { url: strin
     seen.add(u);
     safe.push(u);
   }
-  // IndexNow allows up to 10k; we keep the same 1k cap as the legacy path.
-  return { safe: safe.slice(0, 1000), rejected };
+  return { safe: safe.slice(0, SELECTION_HARD_CAP), rejected };
+}
+
+function kindForAudit(kind: IndexNowKind): string {
+  // Encoded in the audit `error` text column so the existing UI badge
+  // logic (last_ok 1/0) doesn't change but operators can grep history.
+  switch (kind) {
+    case 'ok': return 'ok';
+    case 'rate_limited': return 'rate_limited';
+    case 'http_error': return 'http_error';
+    case 'network_error': return 'network_error';
+    case 'skipped_duplicate': return 'skipped_duplicate';
+    case 'deferred': return 'deferred';
+  }
 }
 
 export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }) => {
@@ -86,7 +119,8 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     return json({ ok: false, error: 'No safe URLs to submit after validation.', rejected }, 400);
   }
 
-  // Verify the key file is reachable. HEAD is enough; we never read its body.
+  // Verify the key file is reachable once per call. HEAD is enough; we
+  // never read its body, IndexNow only checks existence.
   const keyLocation = `${SITE_URL}/${key}.txt`;
   try {
     const probe = await fetch(keyLocation, { method: 'HEAD' });
@@ -100,63 +134,71 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     return json({ ok: false, error: `Key file probe failed: ${(e as Error).message}` }, 502);
   }
 
-  // Submit to api.indexnow.org. The endpoint federates to Bing, Yandex,
-  // Seznam, Naver and Yep so a single POST is enough.
-  const payload = { host: SITE_HOST, key, keyLocation, urlList: safe };
-  const startedAt = Date.now();
+  // 24-hour cool-down lookup. Only count rows with upstream_ok=1 —
+  // a stale 429 row should NOT block a retry.
+  const nowMs = Date.now();
+  const latestMap = await readLatestPerUrl(env, safe).catch(() => new Map());
+  const recentSuccess = new Map<string, { submittedAt: string; ageMs: number }>();
+  for (const url of safe) {
+    const row = latestMap.get(url);
+    if (!row || row.upstream_ok !== 1) continue;
+    const ts = Date.parse(row.submitted_at);
+    if (!Number.isFinite(ts)) continue;
+    const ageMs = nowMs - ts;
+    if (ageMs >= 0 && ageMs < COOL_DOWN_MS) {
+      recentSuccess.set(url, { submittedAt: row.submitted_at, ageMs });
+    }
+  }
+
+  const startedAt = nowMs;
   const submittedAtIso = new Date(startedAt).toISOString();
   const batchId = `bn_${startedAt}_${crypto.randomUUID().slice(0, 8)}`;
-  let upstreamStatus = 0;
-  let upstreamBody = '';
-  let networkError: string | null = null;
-  try {
-    const res = await fetch(INDEXNOW_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify(payload),
-    });
-    upstreamStatus = res.status;
-    upstreamBody = (await res.text()).slice(0, 1000);
-  } catch (e) {
-    networkError = (e as Error).message;
-  }
+
+  // Run the chunked engine.
+  const result = await runChunkedSubmit({
+    urls: safe,
+    recentSuccess,
+    buildPayload: (chunkUrls) => ({ host: SITE_HOST, key, keyLocation, urlList: chunkUrls }),
+  });
   const durationMs = Date.now() - startedAt;
-  const ok = upstreamStatus === 200 || upstreamStatus === 202;
 
-  // Per-URL audit. Best-effort: any D1 error is swallowed so the
-  // operator still sees the upstream status in the response.
-  await writeAudit(
-    env,
-    safe.map((url) => ({
-      submitted_at: submittedAtIso,
-      actor_email: auth.email,
-      url,
-      upstream_status: upstreamStatus,
-      upstream_ok: ok,
-      batch_id: batchId,
-      duration_ms: durationMs,
-      error: networkError ?? (ok ? null : (upstreamBody || `HTTP ${upstreamStatus}`).slice(0, 240)),
-    })),
-  ).catch(() => undefined);
+  // Per-URL audit. The audit table doesn't have a kind column; we
+  // encode it into the `error` text field as `KIND[: detail]`. The
+  // existing /admin-tools/indexnow recent reader treats upstream_ok=1
+  // as success, so OK rows stay clean.
+  const auditRows = result.perUrl.map((r: PerUrlResult) => ({
+    submitted_at: submittedAtIso,
+    actor_email: auth.email,
+    url: r.url,
+    upstream_status: r.upstreamStatus,
+    upstream_ok: r.kind === 'ok',
+    batch_id: batchId,
+    duration_ms: durationMs,
+    error: r.kind === 'ok' ? null : [kindForAudit(r.kind), r.error].filter(Boolean).join(': ').slice(0, 480),
+  }));
+  await writeAudit(env, auditRows).catch(() => undefined);
 
-  if (networkError) {
-    return json({
-      ok: false,
-      error: `IndexNow fetch failed: ${networkError}`,
-      submitted: safe.length,
-      rejected,
-      batchId,
-    }, 502);
-  }
+  // Aggregate response. Operators see the totals + per-URL list in UI.
+  const overallOk = result.succeeded > 0 && result.failed === 0 && result.rateLimited === 0;
   return json({
-    ok,
+    ok: overallOk,
     submitted: safe.length,
+    succeeded: result.succeeded,
+    rateLimited: result.rateLimited,
+    failed: result.failed,
+    skippedDuplicate: result.skippedDuplicate,
+    deferred: result.deferred,
     safeUrls: safe,
     rejected,
-    upstreamStatus,
-    upstreamBody,
+    // Back-compat: legacy clients (older code path) read these fields.
+    upstreamStatus: result.chunks[0]?.upstreamStatus ?? (result.skippedDuplicate === safe.length ? 200 : 0),
+    upstreamBody: result.chunks.map((c: ChunkResult) => `chunk ${c.index}: HTTP ${c.upstreamStatus} (${c.attempts}× attempts)`).join(' | ').slice(0, 800),
     batchId,
     submittedAt: submittedAtIso,
     durationMs,
-  }, ok ? 200 : 502);
+    chunks: result.chunks,
+    perUrl: result.perUrl,
+    budgetExhausted: result.budgetExhausted,
+    endpoint: INDEXNOW_ENDPOINT,
+  }, 200);
 };

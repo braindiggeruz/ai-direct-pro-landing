@@ -372,26 +372,61 @@ export const api = {
       `/api/admin/indexnow/history?limit=${encodeURIComponent(limit)}`,
     ),
   // Lightweight admin IndexNow submit (replaces /api/seo/indexnow for batches
-  // of approved URLs from the new IndexNow panel). Reuse the lightweight admin
-  // submit endpoint (skips the heavy booster recompute that can timeout on
-  // Cloudflare Pages with a 50+ URL batch). Validates host/path-prefix
-  // server-side, probes the key file, hits api.indexnow.org, writes per-URL
-  // audit. POST { urls: string[] }.
+  // of approved URLs from the new IndexNow panel). Skips the heavy booster
+  // recompute that can timeout on Cloudflare Pages with a 50+ URL batch.
+  // Server-side: validates host/path-prefix, probes the key file, partitions
+  // the selection into ready vs. cooling-down (skips URLs that succeeded
+  // within the last 24 h), chunks the rest into groups of ≤10, parses
+  // upstream Retry-After on 429 and respects it (up to 30 s), retries 429/5xx
+  // with exponential backoff up to 2 times per chunk, writes per-URL audit.
+  // POST { urls: string[] }. Hard cap: 100 URLs per call (overflow → deferred,
+  // operator clicks "Повторить неуспешные" to continue).
   indexnowSubmitAdmin: (urls: string[]) =>
     request<{
       ok: boolean;
       submitted: number;
+      // New fields from the chunked engine — every kind has its own count.
+      succeeded: number;
+      rateLimited: number;
+      failed: number;
+      skippedDuplicate: number;
+      deferred: number;
       safeUrls?: string[];
       rejected?: Array<{ url: string; reason: string }>;
+      // Back-compat aggregate fields. New code should prefer `chunks` and `perUrl`.
       upstreamStatus: number;
       upstreamBody?: string;
       batchId: string;
       submittedAt: string;
       durationMs: number;
+      chunks?: Array<{
+        index: number;
+        urlCount: number;
+        upstreamStatus: number;
+        upstreamBody: string;
+        attempts: number;
+        retryAfterMs: number;
+        durationMs: number;
+        ok: boolean;
+      }>;
+      perUrl?: Array<{
+        url: string;
+        kind: 'ok' | 'rate_limited' | 'http_error' | 'network_error' | 'skipped_duplicate' | 'deferred';
+        upstreamStatus: number;
+        retryAfterMs: number;
+        attempts: number;
+        chunkIndex: number | null;
+        error: string | null;
+        lastSubmittedAt: string | null;
+      }>;
+      budgetExhausted?: boolean;
+      endpoint?: string;
     }>(
       'POST',
       '/api/admin/indexnow/submit',
       { urls },
+      // Allow up to 28 s — engine cap is 25 s, the extra 3 s covers the
+      // pre-flight key probe + audit batch insert.
       { timeoutMs: 30_000 },
     ),
   // -- SEO Autopilot Control Center -----------------------------------------
