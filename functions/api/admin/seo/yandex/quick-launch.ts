@@ -341,16 +341,16 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   //    so we go through the same LLM router (OpenRouter primary), the
   //    same validators, and the same draft-insert path.
   //
-  //    2026-06-24 — flipped to async. Cloudflare Pages Functions HTTP
-  //    handlers are capped at ~100 s edge walltime + ~30 s after the
-  //    response is sent. The synchronous awaitCompletion path the per-
-  //    item launch uses regularly exceeds that for full RU + UZ packs.
-  //    We now reserve the topic + create the plan item synchronously
-  //    (fast, ≤ 2 s) and detach the heavy LLM + validator + Intent
-  //    Guard work into ctx.waitUntil. The SPA receives mode='launching'
-  //    with job_id + item_id and polls /api/admin/seo-autopilot/jobs
-  //    for status. Worst case the worker is killed mid-flight — the
-  //    stale watchdog on the next request flips the job to failed.
+  //    2026-06-24 — back to sync awaitCompletion. With
+  //    google/gemini-2.5-flash-lite as the OpenRouter primary, a full
+  //    RU + UZ pack completes in ~30 s including normaliser + validators
+  //    + Intent Guard analyze. Cloudflare Pages Functions HTTP edge
+  //    walltime is ~100 s, so the sync path has plenty of headroom and
+  //    the response itself returns the final draft_id + provider/model.
+  //    The earlier async ctx.waitUntil approach had to be abandoned
+  //    because waitUntil consistently terminated mid-LLM-call (worker
+  //    lifetime ≪ 30 s on Pages Functions), leaving jobs stuck in
+  //    `normalising` status. Empirical, not theoretical.
   const overrides = {
     planned_title: query,
     primary_keyword: query,
@@ -379,122 +379,111 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   await updateItem(ctx.env, itemId, { status: 'generating' });
   await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
 
-  // Schedule the heavy work in the background and return immediately.
-  // The frontend polls /api/admin/seo-autopilot/jobs?limit=20 (existing
-  // endpoint) and matches by request_id (runId here) to surface the
-  // final provider/model/draft_id once the job row completes.
   const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
-  ctx.waitUntil((async () => {
-    try {
-      const launch = await launchFn({
-        env: ctx.env,
-        waitUntil: (p: Promise<unknown>) => ctx.waitUntil(p),
-        source: 'admin',
-        requestedBy: auth.email,
-        rawBody,
-        runableSecret: ctx.env.N8N_WEBHOOK_SECRET || '',
-        requestId: runId,
-        blockOnOverlap: false,
-        awaitCompletion: true,
-      });
-      if (!launch.ok) {
-        await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
-        await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(() => undefined);
-        return;
-      }
-      let draftId: string | null = null;
-      let jobId: string;
-      let provider: string | null = null;
-      let model: string | null = null;
-      let fallbackUsed = false;
-      if (launch.awaited && launch.job) {
-        draftId = launch.job.draft_id || null;
-        jobId = launch.job.id || launch.jobId;
-        provider = (launch.job as { llm_provider?: string }).llm_provider || null;
-        model = (launch.job as { llm_model?: string }).llm_model || null;
-        fallbackUsed = !!(launch.job as { llm_fallback_used?: number | boolean }).llm_fallback_used;
-        if (launch.job.status === 'failed') {
-          await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'Generation failed', source_job_id: jobId });
-          await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
-          return;
-        }
-      } else {
-        jobId = launch.jobId;
-      }
-      await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });
-      await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(() => undefined);
+  const launch = await launchFn({
+    env: ctx.env,
+    waitUntil: (p: Promise<unknown>) => ctx.waitUntil(p),
+    source: 'admin',
+    requestedBy: auth.email,
+    rawBody,
+    runableSecret: ctx.env.N8N_WEBHOOK_SECRET || '',
+    requestId: runId,
+    blockOnOverlap: false,
+    awaitCompletion: true,
+  });
+  if (!launch.ok) {
+    await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(() => undefined);
+    return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.message, reason: launch.reason, plan_id: planId, item_id: itemId, request_id: runId }, 200);
+  }
 
-      // 7. Intent Guard analyze on both locales (best-effort).
-      const analysisResults: Array<{ locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }> = [];
-      if (draftId) {
-        const draft = await getDraft(ctx.env, draftId);
-        if (draft) {
-          const locales: Array<'ru' | 'uz'> = [];
-          if (draft.has_ru) locales.push('ru');
-          if (draft.has_uz) locales.push('uz');
-          for (const loc of locales) {
-            const article = loc === 'ru' ? draft.ru_article : draft.uz_article;
-            if (!article) continue;
-            try {
-              const ar = await analyzeCandidate(ctx.env, { id: `${draftId}#${loc}`, source_type: 'ai_draft', article }, { useSerper: 'auto', useSemantic: 'auto' });
-              await saveAnalysis(ctx.env, {
-                target_kind: 'draft', draft_id: draftId, plan_item_id: itemId, locale: loc,
-                fingerprint: ar.fingerprint, intent_key: ar.intent_key,
-                deterministic: { conflicts: ar.conflicts, inventory_counts: ar.inventory_counts as unknown as Record<string, number> },
-                serper: ar.serper, semantic: ar.semantic, conflicts: ar.conflicts,
-                risk_score: ar.risk_score, risk_level: ar.risk_level,
-                recommendation: ar.semantic.recommendation, actor: auth.email,
-              }).catch(() => null);
-              analysisResults.push({ locale: loc, risk_score: ar.risk_score, risk_level: ar.risk_level });
-            } catch { /* per-locale guard is best-effort */ }
-          }
-        }
-      }
-      const worst = analysisResults.reduce<null | { locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }>(
-        (acc, r) => (!acc || r.risk_score > acc.risk_score ? r : acc), null,
-      );
-      if (worst) {
-        await updateItem(ctx.env, itemId, {
-          status: worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget',
-          risk_score: worst.risk_score, risk_level: worst.risk_level,
-        });
-        await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(() => undefined);
-      } else {
-        await updateItem(ctx.env, itemId, { status: 'ready_for_review' });
-        await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(() => undefined);
-      }
-      if (draftId) {
-        await logAuditEvent(ctx.env, draftId, 'yandex_quick_launch', auth.email, {
-          plan_id: planId, plan_item_id: itemId, job_id: jobId, query, locale,
-          yandex_context: body.yandex_context || null, risk_results: analysisResults,
-          provider, model, fallback_used: fallbackUsed,
-        });
-      }
-    } catch (e) {
-      const err = e as Error;
-      console.error(`[quick-launch:async] [${runId}] uncaught: ${err?.message || String(e)}`);
-      await updateItem(ctx.env, itemId, { status: 'failed', error_message: (err?.message || 'unexpected async failure').slice(0, 240) }).catch(() => undefined);
-      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: 'async exception' }).catch(() => undefined);
+  let draftId: string | null = null;
+  let jobId: string;
+  let provider: string | null = null;
+  let model: string | null = null;
+  let fallbackUsed = false;
+  if (launch.awaited && launch.job) {
+    draftId = launch.job.draft_id || null;
+    jobId = launch.job.id || launch.jobId;
+    provider = (launch.job as { llm_provider?: string }).llm_provider || null;
+    model = (launch.job as { llm_model?: string }).llm_model || null;
+    fallbackUsed = !!(launch.job as { llm_fallback_used?: number | boolean }).llm_fallback_used;
+    if (launch.job.status === 'failed') {
+      await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'Generation failed', source_job_id: jobId });
+      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
+      return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.job.error_message || 'Generation failed', provider, model, plan_id: planId, item_id: itemId, job_id: jobId, request_id: runId }, 200);
     }
-  })());
+  } else {
+    jobId = launch.jobId;
+  }
+  await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(() => undefined);
 
-  // Immediate response — the SPA polls jobs?limit=20 and matches on
-  // request_id == runId. draft_links omitted on purpose; the SPA fills
-  // it in once the polled job_row exposes draft_id.
+  // 7. Intent Guard analyze on both locales (best-effort, runs inline so
+  // the operator sees the final risk_level in the success response).
+  const analysisResults: Array<{ locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }> = [];
+  if (draftId) {
+    const draft = await getDraft(ctx.env, draftId);
+    if (draft) {
+      const locales: Array<'ru' | 'uz'> = [];
+      if (draft.has_ru) locales.push('ru');
+      if (draft.has_uz) locales.push('uz');
+      for (const loc of locales) {
+        const article = loc === 'ru' ? draft.ru_article : draft.uz_article;
+        if (!article) continue;
+        try {
+          const ar = await analyzeCandidate(ctx.env, { id: `${draftId}#${loc}`, source_type: 'ai_draft', article }, { useSerper: 'auto', useSemantic: 'auto' });
+          await saveAnalysis(ctx.env, {
+            target_kind: 'draft', draft_id: draftId, plan_item_id: itemId, locale: loc,
+            fingerprint: ar.fingerprint, intent_key: ar.intent_key,
+            deterministic: { conflicts: ar.conflicts, inventory_counts: ar.inventory_counts as unknown as Record<string, number> },
+            serper: ar.serper, semantic: ar.semantic, conflicts: ar.conflicts,
+            risk_score: ar.risk_score, risk_level: ar.risk_level,
+            recommendation: ar.semantic.recommendation, actor: auth.email,
+          }).catch(() => null);
+          analysisResults.push({ locale: loc, risk_score: ar.risk_score, risk_level: ar.risk_level });
+        } catch { /* per-locale guard is best-effort */ }
+      }
+    }
+  }
+  const worst = analysisResults.reduce<null | { locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }>(
+    (acc, r) => (!acc || r.risk_score > acc.risk_score ? r : acc), null,
+  );
+  if (worst) {
+    await updateItem(ctx.env, itemId, {
+      status: worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget',
+      risk_score: worst.risk_score, risk_level: worst.risk_level,
+    });
+    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(() => undefined);
+  } else {
+    await updateItem(ctx.env, itemId, { status: 'ready_for_review' });
+    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(() => undefined);
+  }
+  if (draftId) {
+    await logAuditEvent(ctx.env, draftId, 'yandex_quick_launch', auth.email, {
+      plan_id: planId, plan_item_id: itemId, job_id: jobId, query, locale,
+      yandex_context: body.yandex_context || null, risk_results: analysisResults,
+      provider, model, fallback_used: fallbackUsed,
+    });
+  }
+
   return jsonResponse({
     ok: true,
-    mode: 'launching',
+    mode: 'launched',
     query,
     locale,
     intent_key,
     plan_id: planId,
     item_id: itemId,
+    job_id: jobId,
     request_id: runId,
-    poll: {
-      jobs_url: '/api/admin/seo-autopilot/jobs?limit=20',
-      match_field: 'request_id',
-      interval_ms: 5_000,
-      timeout_ms: 360_000,
-    },
+    draft_id: draftId,
+    provider,
+    model,
+    fallback_used: fallbackUsed,
+    risk_results: analysisResults,
+    draft_links: draftId ? {
+      review: `/admin-tools/ai-drafts/${draftId}`,
+    } : null,
   });
 };
