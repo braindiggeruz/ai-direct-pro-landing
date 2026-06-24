@@ -34,6 +34,16 @@ export interface Env {
   OPENROUTER_API_KEY?: string;
   OPENROUTER_MODEL_ECONOMY?: string;
   OPENROUTER_MODEL_QUALITY?: string;
+  // Feature-specific OpenRouter model overrides (router picks these when
+  // OPENROUTER_API_KEY is configured). Operators can swap models without
+  // a code redeploy. Defaults live in functions/lib/llm/model-registry.ts.
+  OPENROUTER_MODEL_ARTICLE?: string;
+  OPENROUTER_MODEL_UZ?: string;
+  OPENROUTER_MODEL_OPTIMIZER?: string;
+  OPENROUTER_MODEL_RETARGET?: string;
+  OPENROUTER_MODEL_JUDGE?: string;
+  // Per-call wallclock cap for OpenRouter requests (ms). Defaults to 75 000.
+  OPENROUTER_TIMEOUT_MS?: string;
   OPENROUTER_SITE_URL?: string;
   OPENROUTER_APP_TITLE?: string;
   // AI SEO Autopilot — Free LLM stack. Puter loads client-side and needs no key.

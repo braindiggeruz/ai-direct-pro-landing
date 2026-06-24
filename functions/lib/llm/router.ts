@@ -184,7 +184,7 @@ export async function routeLlmCall(env: Env, input: LlmCallInput): Promise<LlmCa
 
 /** Filter candidates down to healthy + configured providers. */
 async function selectHealthyCandidates(env: Env, input: LlmCallInput): Promise<RouteCandidate[]> {
-  const all = routes(input.feature, input.locale);
+  const all = routes(env, input.feature, input.locale);
   const out: RouteCandidate[] = [];
   for (const c of all) {
     const provider = PROVIDERS[c.provider];
