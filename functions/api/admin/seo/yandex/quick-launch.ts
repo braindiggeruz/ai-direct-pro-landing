@@ -57,7 +57,7 @@ import { saveAnalysis, logAuditEvent } from '../../../../lib/intent-guard/audit'
 import { getDraft } from '../../../../lib/ai-drafts/store';
 import { buildFingerprint, intentKeyOf } from '../../../../lib/intent-guard/fingerprint';
 import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
-import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
+import { withErrorHandler, jsonResponse, newRequestId } from '../../../../lib/api-errors';
 import type { TopicPlan } from '../../../../../src/shared/intent-guard';
 
 interface CtxEnv extends Env { OPENROUTER_API_KEY?: string }
@@ -145,7 +145,7 @@ async function insertSandboxItem(env: Env, planId: string, input: {
   const existing = await listItems(env, planId).catch(() => []);
   const position = existing.length + 1;
   await env.GPTBOT_DRAFTS_DB.prepare(
-    `INSERT INTO topic_plan_items
+    `INSERT INTO seo_topic_plan_items
       (id, plan_id, position, locale, planned_title, primary_keyword, intent_key,
        fingerprint_json, cluster_key, funnel_stage, audience, industry, channel,
        geo, modifier, content_type, target_money_page, reason_unique, supports_url,
@@ -173,16 +173,67 @@ async function insertSandboxItem(env: Env, planId: string, input: {
   return { id: itemId };
 }
 
-export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('admin.seo.topic-plans.quick-launch', async (ctx) => {
+export const onRequestPost: PagesFunction<CtxEnv> = async (ctx) => {
+  // 2026-06-24 — all responses use HTTP 200 with a structured body so
+  // Cloudflare's custom-domain edge layer cannot swap a 5xx response
+  // body for a generic "error code: 502" plain-text page (the exact
+  // symptom the Yandex Demand flow used to produce). The SPA branches
+  // on `r.ok` / `r.mode`, not on res.status.
+  //
+  // The 401-only path keeps its native status because requireAuth is
+  // a separate concern and the SPA already handles 401 by redirecting
+  // to the login page; the body is never read in that branch.
+  const requestId = newRequestId();
+  const handler: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>(
+    'admin.seo.topic-plans.quick-launch',
+    quickLaunchHandler,
+  );
+  try {
+    const res = await handler(ctx);
+    // If the inner withErrorHandler produced a 5xx response, rewrite it
+    // as HTTP 200 with the same body so the custom domain cannot mask
+    // the JSON envelope. 2xx, 3xx and 4xx responses pass through.
+    if (res.status >= 500 && res.status <= 599) {
+      const text = await res.text().catch(() => '');
+      let body: unknown = {};
+      try { body = text ? JSON.parse(text) : {}; } catch { body = { raw: text.slice(0, 240) }; }
+      const wrapped = {
+        ok: false,
+        mode: 'server_error',
+        request_id: requestId,
+        original_status: res.status,
+        ...(body && typeof body === 'object' ? body : {}),
+      };
+      const out = jsonResponse(wrapped, 200);
+      out.headers.set('x-request-id', requestId);
+      out.headers.set('x-original-status', String(res.status));
+      return out;
+    }
+    return res;
+  } catch (e) {
+    const err = e as Error;
+    console.error(`[quick-launch] [${requestId}] uncaught: ${err?.message || String(e)}`);
+    const out = jsonResponse({
+      ok: false,
+      mode: 'server_error',
+      error: err?.message?.slice(0, 240) || 'Unexpected server error',
+      request_id: requestId,
+    }, 200);
+    out.headers.set('x-request-id', requestId);
+    return out;
+  }
+};
+
+const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   const auth = await requireAuth(ctx.request, ctx.env);
   if (auth instanceof Response) return auth;
-  if (!ctx.env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
+  if (!ctx.env.GPTBOT_DRAFTS_DB) return jsonResponse({ ok: false, mode: 'unavailable', error: 'Draft storage not configured.' }, 200);
 
   let body: QuickLaunchBody;
-  try { body = await ctx.request.json<QuickLaunchBody>(); } catch { return jsonResponse({ error: 'Invalid JSON body' }, 400); }
+  try { body = await ctx.request.json<QuickLaunchBody>(); } catch { return jsonResponse({ ok: false, mode: 'bad_request', error: 'Invalid JSON body' }, 200); }
   const query = (body.query || '').trim();
-  if (!query || query.length < 3) return jsonResponse({ error: 'query is required (min 3 chars)' }, 400);
-  if (query.length > 200) return jsonResponse({ error: 'query too long (max 200 chars)' }, 400);
+  if (!query || query.length < 3) return jsonResponse({ ok: false, mode: 'bad_request', error: 'query is required (min 3 chars)' }, 200);
+  if (query.length > 200) return jsonResponse({ ok: false, mode: 'bad_request', error: 'query too long (max 200 chars)' }, 200);
   const locale: 'ru' | 'uz' = body.locale === 'uz' ? 'uz' : 'ru';
 
   // 1. Build intent fingerprint from the Yandex query.
@@ -282,7 +333,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
         ],
       }, 200);
     }
-    return jsonResponse({ ok: false, error: 'Failed to reserve intent', reason: reserve.reason }, 503);
+    return jsonResponse({ ok: false, mode: 'reservation_failed', error: 'Failed to reserve intent', reason: reserve.reason }, 200);
   }
   await updateItem(ctx.env, itemId, { status: 'reserved', reservation_id: reserve.reservation.id });
 
@@ -332,7 +383,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
   if (!launch.ok) {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
     await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(() => undefined);
-    return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.message, reason: launch.reason, plan_id: planId, item_id: itemId }, launch.http);
+    return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.message, reason: launch.reason, plan_id: planId, item_id: itemId }, 200);
   }
 
   let draftId: string | null = null;
@@ -349,7 +400,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
     if (launch.job.status === 'failed') {
       await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'Generation failed', source_job_id: jobId });
       await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
-      return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.job.error_message || 'Generation failed', provider, model, plan_id: planId, item_id: itemId, job_id: jobId }, 502);
+      return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.job.error_message || 'Generation failed', provider, model, plan_id: planId, item_id: itemId, job_id: jobId }, 200);
     }
   } else {
     jobId = launch.jobId;
@@ -422,4 +473,4 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
       review: `/admin-tools/ai-drafts/${draftId}`,
     } : null,
   });
-});
+};
