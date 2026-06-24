@@ -17,33 +17,117 @@
   ],
   "intro": "Agar Direct, Telegram va menejerlik chatlari alohida yashasa, biznes javob tezligi, kontekst va ishlov berish intizomini yo'qotadi.",
   "body": [
-    { "type": "h2", "text": "Muammo lead kamligida emas" },
-    { "type": "p", "text": "Ko'p biznesda muammo lead kamligida emas, leadning turli joyda yurishida. Kimdir Direct'ga yozadi, kimdir Telegram'ga, kimdir saytda qoldiradi. Menejer esa hammasini alohida ko'rib chiqadi. Shu yerda ariza yo'qola boshlaydi." },
-    { "type": "h2", "text": "Bitta voronka nima degani" },
-    { "type": "p", "text": "Bitta voronka degani — istalgan kanal bir xil asosiy yo'lga tushadi. Bot tez javob beradi, minimal kerakli ma'lumotni oladi, lid kartasini shakllantiradi va keyin uni menejerga yoki CRM'ga tartibli uzatadi. Bu kartada kanal, kontakt, qiziqish va suhbat konteksti bo'lishi kerak." },
-    { "type": "h2", "text": "Instagram, Telegram va CRM rolllari" },
-    { "type": "p", "text": "Instagram ko'pincha birinchi eshik bo'ladi. Telegram esa ko'pincha ko'proq boshqariladigan ichki qatlam. CRM esa oqim kattalashganda tartib beradi. Muhimi — bular uchta alohida dunyo bo'lib qolmasin, balki bir-biriga ulangan ishchi tizim sifatida ishlasin." },
-    { "type": "h2", "text": "Birinchi qadamda kam savol berish" },
-    { "type": "p", "text": "Birinchi qadamda ko'p savol berish — eng katta xato. Mijoz hali ishonmadi, biznes esa uni uzun anketaga aylantirib yuboradi. To'g'risi: kontakt, qiziqish, kanal va marshrutlash uchun zarur minimum. Qolgani — keyingi follow-up vazifasi." }
+    {
+      "type": "h2",
+      "text": "Muammo lead kamligida emas"
+    },
+    {
+      "type": "p",
+      "text": "Ko'p biznesda muammo lead kamligida emas, leadning turli joyda yurishida. Kimdir Direct'ga yozadi, kimdir Telegram'ga, kimdir saytda qoldiradi. Menejer esa hammasini alohida ko'rib chiqadi. Shu yerda ariza yo'qola boshlaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Bitta voronka nima degani"
+    },
+    {
+      "type": "p",
+      "text": "Bitta voronka degani — istalgan kanal bir xil asosiy yo'lga tushadi. Bot tez javob beradi, minimal kerakli ma'lumotni oladi, lid kartasini shakllantiradi va keyin uni menejerga yoki CRM'ga tartibli uzatadi. Bu kartada kanal, kontakt, qiziqish va suhbat konteksti bo'lishi kerak."
+    },
+    {
+      "type": "h2",
+      "text": "Instagram, Telegram va CRM rolllari"
+    },
+    {
+      "type": "p",
+      "text": "Instagram ko'pincha birinchi eshik bo'ladi. Telegram esa ko'pincha ko'proq boshqariladigan ichki qatlam. CRM esa oqim kattalashganda tartib beradi. Muhimi — bular uchta alohida dunyo bo'lib qolmasin, balki bir-biriga ulangan ishchi tizim sifatida ishlasin."
+    },
+    {
+      "type": "h2",
+      "text": "Birinchi qadamda kam savol berish"
+    },
+    {
+      "type": "p",
+      "text": "Birinchi qadamda ko'p savol berish — eng katta xato. Mijoz hali ishonmadi, biznes esa uni uzun anketaga aylantirib yuboradi. To'g'risi: kontakt, qiziqish, kanal va marshrutlash uchun zarur minimum. Qolgani — keyingi follow-up vazifasi."
+    }
   ],
   "faq": [
-    { "q": "CRM'siz ishlaydimi?", "a": "Ha, kichik oqimda ishlaydi." },
-    { "q": "Instagram va Telegram uchun alohida ssenariy kerakmi?", "a": "Umumiy logika bitta, lekin birinchi qadam va muloqot temp boshqacha bo'lgani ma'qul." },
-    { "q": "Lid kartasida nima bo'lsin?", "a": "Ism, kontakt, qiziqish, kanal va suhbat konteksti." },
-    { "q": "Filiallar bo'lsa ham ishlaydimi?", "a": "Ha, agar ssenariyga filial yoki tuman maydoni qo'shilgan bo'lsa." },
-    { "q": "Birinchi qadamda ko'p savol berish kerakmi?", "a": "Yo'q. Avval tezlik, keyin qisqa va foydali kvalifikatsiya." },
-    { "q": "Direct'dan Telegram'ga o'tkazish kerakmi?", "a": "Faqat agar bu keyingi qadamni soddalashtirsa, qo'shimcha ishqalanish keltirib chiqarmasa." }
+    {
+      "q": "CRM'siz ishlaydimi?",
+      "a": "Ha, kichik oqimda ishlaydi."
+    },
+    {
+      "q": "Instagram va Telegram uchun alohida ssenariy kerakmi?",
+      "a": "Umumiy logika bitta, lekin birinchi qadam va muloqot temp boshqacha bo'lgani ma'qul."
+    },
+    {
+      "q": "Lid kartasida nima bo'lsin?",
+      "a": "Ism, kontakt, qiziqish, kanal va suhbat konteksti."
+    },
+    {
+      "q": "Filiallar bo'lsa ham ishlaydimi?",
+      "a": "Ha, agar ssenariyga filial yoki tuman maydoni qo'shilgan bo'lsa."
+    },
+    {
+      "q": "Birinchi qadamda ko'p savol berish kerakmi?",
+      "a": "Yo'q. Avval tezlik, keyin qisqa va foydali kvalifikatsiya."
+    },
+    {
+      "q": "Direct'dan Telegram'ga o'tkazish kerakmi?",
+      "a": "Faqat agar bu keyingi qadamni soddalashtirsa, qo'shimcha ishqalanish keltirib chiqarmasa."
+    }
   ],
   "cta": {
     "label": "Telegram demoni ochish",
     "href": "https://t.me/XGame_changerx"
   },
   "internalLinks": [
-    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual", "priority": 1 },
-    { "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI-menejer", "locale": "uz", "type": "contextual", "priority": 2 },
-    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual", "priority": 3 },
-    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual", "priority": 4 },
-    { "target": "/uz/chat-bot-biznes-uchun/", "anchor": "chat-bot biznes uchun", "locale": "uz", "type": "contextual", "priority": 5 }
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/instagram-uchun-ai-menejer/",
+      "anchor": "Instagram uchun AI-menejer",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/chat-bot-biznes-uchun/",
+      "anchor": "chat-bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/whatsapp-bot-biznes-uchun/",
+      "anchor": "WhatsApp bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 bilan AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",
   "ogDescription": "Instagram va Telegram'dan kelgan murojaatlarni bitta voronkaga yig'ish: tez javob, lid kartasi va to'g'ri handoff.",
@@ -55,8 +139,14 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-01-06",
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "updatedAt": "2026-01-06T00:00:00.000Z",
+  "dateModified": "2026-06-24",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "updatedAt": "2026-06-24T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z"
 }

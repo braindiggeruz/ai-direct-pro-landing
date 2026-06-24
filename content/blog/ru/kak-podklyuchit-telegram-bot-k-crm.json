@@ -162,6 +162,18 @@
       "anchor": "AI-ботов для салона красоты",
       "type": "contextual",
       "locale": "ru"
+    },
+    {
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "anchor": "AI-бот с интеграцией AmoCRM и Bitrix24",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/whatsapp-bot-dlya-biznesa/",
+      "anchor": "WhatsApp-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI-бот для поддержки клиентов в e-commerce Узбекистана",
@@ -178,5 +190,5 @@
   ],
   "datePublished": "2026-06-24",
   "dateModified": "2026-06-24",
-  "updatedAt": "2026-06-24T10:57:49.035Z"
+  "updatedAt": "2026-06-24T00:00:00.000Z"
 }

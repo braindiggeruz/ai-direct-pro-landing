@@ -163,6 +163,18 @@
       "anchor": "Instagram Direct бот",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/whatsapp-bot-dlya-biznesa/",
+      "anchor": "WhatsApp-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+      "anchor": "квалификация заявок в недвижимости",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Как AI-бот помогает не терять клиентов после рекламы",
@@ -174,7 +186,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-06-24",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -182,6 +194,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T05:56:59.149Z",
+  "updatedAt": "2026-06-24T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

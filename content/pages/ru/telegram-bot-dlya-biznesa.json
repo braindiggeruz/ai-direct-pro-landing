@@ -152,6 +152,18 @@
       "anchor": "бот для HoReCa",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/whatsapp-bot-dlya-biznesa/",
+      "anchor": "WhatsApp-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "anchor": "Telegram-бот с AmoCRM и Bitrix24",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

@@ -120,6 +120,18 @@
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "anchor": "интеграция AI-бота с AmoCRM и Bitrix24",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/whatsapp-bot-dlya-biznesa/",
+      "anchor": "WhatsApp-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

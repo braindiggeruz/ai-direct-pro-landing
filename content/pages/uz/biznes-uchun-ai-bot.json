@@ -159,6 +159,24 @@
       "anchor": "Do'kon uchun AI bot",
       "locale": "uz",
       "type": "niche"
+    },
+    {
+      "target": "/uz/whatsapp-bot-biznes-uchun/",
+      "anchor": "WhatsApp bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+      "anchor": "Ko'chmas mulk agentligi uchun AI bot",
+      "locale": "uz",
+      "type": "niche"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 bilan AI bot",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

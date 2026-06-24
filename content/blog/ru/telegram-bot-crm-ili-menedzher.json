@@ -172,6 +172,12 @@
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "anchor": "AI-бот с AmoCRM или Bitrix24",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Telegram-бот, CRM или менеджер: что выбрать малому бизнесу",
@@ -184,7 +190,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-06-24",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -192,6 +198,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-06-24T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

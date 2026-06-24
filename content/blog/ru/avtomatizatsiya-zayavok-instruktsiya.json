@@ -172,6 +172,18 @@
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "anchor": "передача заявок в AmoCRM или Bitrix24",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+      "anchor": "AI-бот для агентства недвижимости",
+      "locale": "ru",
+      "type": "niche"
     }
   ],
   "ogTitle": "Автоматизация заявок: пошаговый разбор воронки и сценария",
@@ -183,7 +195,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-06-06T02:50:10.411789+00:00",
+  "dateModified": "2026-06-24",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -191,6 +203,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-06T02:50:10.411789+00:00",
+  "updatedAt": "2026-06-24T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }
