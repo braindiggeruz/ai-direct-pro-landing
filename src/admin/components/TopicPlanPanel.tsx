@@ -74,6 +74,16 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
   }>>([]);
   const [yxStats, setYxStats] = useState<{ api_calls: number; cache_hits: number } | null>(null);
   const [yxErr, setYxErr] = useState<string | null>(null);
+  // Per-seed failures returned by the endpoint envelope. Lets the
+  // operator click "Повторить только неуспешные" instead of re-running
+  // the whole batch.
+  const [yxFailedSeeds, setYxFailedSeeds] = useState<Array<{
+    seed: string; error_code: string; error: string; retryable: boolean;
+    http_status?: number; retry_after_seconds?: number;
+  }>>([]);
+  const [yxWarnings, setYxWarnings] = useState<string[]>([]);
+  const [yxPartial, setYxPartial] = useState(false);
+  const [yxRequestId, setYxRequestId] = useState<string | null>(null);
 
   // Per-Yandex-row "Сгенерировать статью" state. Keyed by row index so
   // multiple operators / multiple rows don't trample each other.
@@ -207,17 +217,55 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
     setYxErr(null);
   }
 
-  async function runYandex() {
-    const seeds = yxSeedsText.split(/\r?\n/).map((s) => s.trim()).filter((s) => s.length >= 2).slice(0, 20);
+  async function runYandex(retryOnlyFailed = false) {
+    let seeds: string[];
+    if (retryOnlyFailed && yxFailedSeeds.length > 0) {
+      // "Повторить только неуспешные" — keep existing successful results
+      // and only re-issue the failed seeds.
+      seeds = yxFailedSeeds.map((f) => f.seed);
+    } else {
+      seeds = yxSeedsText.split(/\r?\n/).map((s) => s.trim()).filter((s) => s.length >= 2).slice(0, 20);
+    }
     if (seeds.length === 0) { setYxErr('Нужно минимум один seed (≥ 2 символа)'); return; }
     const yxLocale: 'ru' | 'uz' = localeMode === 'uz' ? 'uz' : 'ru';
     setYxBusy(true); setYxErr(null);
     try {
       const r = await api.yandexResearch(seeds, yxLocale);
-      setYxResults(r.topics);
+      // Merge results when retrying only failed seeds — successful
+      // topics from the previous run stay visible.
+      if (retryOnlyFailed) {
+        setYxResults((prev) => {
+          const next = [...prev];
+          for (const t of r.topics) {
+            const idx = next.findIndex((x) => x.query === t.query);
+            if (idx >= 0) next[idx] = t;
+            else next.push(t);
+          }
+          return next;
+        });
+      } else {
+        setYxResults(r.topics);
+      }
       setYxStats({ api_calls: r.api_calls, cache_hits: r.cache_hits });
+      setYxFailedSeeds(r.failed_seeds || []);
+      setYxWarnings(r.warnings || []);
+      setYxPartial(!!r.partial);
+      setYxRequestId(r.request_id || null);
+      if (!r.ok && r.topics.length === 0) {
+        // Hard failure — no successful topics at all.
+        const msg = r.error?.message || 'Yandex временно не ответил. Повторите запрос.';
+        setYxErr(msg);
+      } else if (r.partial) {
+        // Partial success — successful topics are shown; warnings already
+        // listed via the panel summary. Keep the inline error area clear
+        // so the operator notices the actionable retry button instead.
+        setYxErr(null);
+      }
     } catch (e) {
-      setYxErr((e as Error).message);
+      // Genuine client-side failure (network, abort). The new envelope
+      // makes this rare because the endpoint returns HTTP 200 even when
+      // upstream Yandex is down.
+      setYxErr(`Yandex временно не ответил: ${(e as Error).message}`);
     }
     setYxBusy(false);
   }
@@ -503,6 +551,47 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
           {yxStats && (
             <div className="mt-3 text-white/55 text-xs">
               API-вызовов: <strong className="text-white/80">{yxStats.api_calls}</strong> · из кеша: <strong className="text-white/80">{yxStats.cache_hits}</strong>
+              {yxRequestId && (
+                <> · req=<code className="text-white/60">{yxRequestId.slice(0, 12)}</code></>
+              )}
+            </div>
+          )}
+          {yxWarnings.length > 0 && (
+            <div className="mt-3 space-y-1" data-testid={`${testIdPrefix}-yandex-warnings`}>
+              {yxWarnings.map((w, i) => (
+                <div key={`yx-w-${i}`} className="flex items-start gap-2 text-amber-200/85 text-xs">
+                  <AlertTriangle size={12} className="mt-0.5 shrink-0"/> {w}
+                </div>
+              ))}
+            </div>
+          )}
+          {yxFailedSeeds.length > 0 && (
+            <div className="mt-3 border border-amber-500/30 bg-amber-500/[0.04] rounded-md px-3 py-2" data-testid={`${testIdPrefix}-yandex-failed-seeds`}>
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div className="text-amber-200/95 text-sm font-medium flex items-center gap-2">
+                  <AlertTriangle size={14}/> {yxFailedSeeds.length} запрос(а) не успели ответить
+                </div>
+                {yxFailedSeeds.every((f) => f.retryable) && (
+                  <Button size="sm" variant="ghost" onClick={() => void runYandex(true)} disabled={yxBusy} data-testid={`${testIdPrefix}-yandex-retry-failed`}>
+                    {yxBusy ? <RefreshCw size={12} className="animate-spin"/> : <RefreshCw size={12}/>}
+                    Повторить только неуспешные
+                  </Button>
+                )}
+              </div>
+              <ul className="mt-1 space-y-0.5 text-amber-200/70 text-[11px]">
+                {yxFailedSeeds.map((f, i) => (
+                  <li key={`yx-f-${i}`}>
+                    <code className="text-amber-200/90">{f.seed}</code>
+                    <span className="text-amber-200/55"> · {f.error_code}</span>
+                    {f.http_status ? <span className="text-amber-200/55"> · HTTP {f.http_status}</span> : null}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {yxPartial && yxResults.length > 0 && (
+            <div className="mt-2 text-emerald-300/80 text-xs" data-testid={`${testIdPrefix}-yandex-partial`}>
+              Показаны {yxResults.length} удачных запрос(а). Их можно использовать для кнопки «Сгенерировать статью».
             </div>
           )}
           {yxResults.length > 0 && (
