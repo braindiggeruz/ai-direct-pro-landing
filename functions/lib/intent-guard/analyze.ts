@@ -81,7 +81,18 @@ export async function analyzeCandidate(
   const linkTargets = (article.internal_links || []).map((l) => l.target).filter(Boolean);
 
   const excludeSet = new Set<string>([candidate.id, ...(options.excludeIds || [])]);
-  const inventoryFiltered = inventory.items.filter((it) => !excludeSet.has(it.id));
+  // 2026-06-24 — when analysing a draft, exclude ALL OTHER drafts from
+  // the inventory. The operator's complaint: the cannibalisation dialog
+  // was flagging high risk against sibling drafts (also pending_review
+  // and not yet published). Drafts vs. drafts is noise — none of them
+  // are "live" SERP competitors yet, and each one will be retargeted
+  // independently. Only published money pages + blog articles + active
+  // topic reservations should count as real conflicts here.
+  const inventoryFiltered = inventory.items.filter((it) => {
+    if (excludeSet.has(it.id)) return false;
+    if (candidate.source_type === 'ai_draft' && it.source_type === 'ai_draft') return false;
+    return true;
+  });
 
   const detResult = shortlistConflicts({
     locale: article.locale,
