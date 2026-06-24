@@ -1,7 +1,85 @@
 # GPTBot.uz — Product Requirements (Live)
 
 
-## 2026-06-24 — Yandex 502 root-cause fix + quick-launch async refactor
+## 2026-06-24 (later session) — Quick-launch fully working E2E
+
+Two final commits closed the OpenRouter primary-model task:
+
+### `bc943384/f0fef36` — diag(jobs): expose effective OpenRouter routes
+
+The /api/admin/seo-autopilot/jobs system payload now includes
+`llm_routes` — the resolved per-feature OpenRouter models from
+`getDynamicRegistry(env)`. Lets the operator confirm env-var overrides
+reached the worker without needing a code change.
+
+### `6b7aaf4` — Sync awaitCompletion + gemini-2.5-flash-lite primary
+
+**Empirical findings:**
+
+* Sync `/api/admin/seo-autopilot/run` with awaitCompletion=true and the
+  new OpenRouter primary finishes a full RU + UZ + validators + Intent
+  Guard pack in **33 s** (single RU article in **18 s**). Cloudflare
+  HTTP edge gives ~100 s walltime — plenty of headroom.
+* The previous async ctx.waitUntil refactor *never* completed in
+  production. Jobs consistently stuck in `normalising` for 90+ s.
+  Pages Functions waitUntil window dies mid-LLM-call. Sync mode wins.
+
+**Cloudflare Production Secrets (set via Pages REST API as secret_text):**
+
+```
+OPENROUTER_MODEL_ARTICLE   = google/gemini-2.5-flash-lite
+OPENROUTER_MODEL_UZ        = google/gemini-2.5-flash-lite
+OPENROUTER_MODEL_OPTIMIZER = google/gemini-2.5-flash-lite
+OPENROUTER_MODEL_RETARGET  = google/gemini-2.5-flash-lite
+OPENROUTER_MODEL_JUDGE     = google/gemini-2.5-flash-lite
+OPENROUTER_TIMEOUT_MS      = 25000
+```
+
+> Note: `plain_text` env vars set via the Cloudflare Pages REST API
+> are NOT exposed to Pages Function runtime in this account — confirmed
+> empirically by reading `getDynamicRegistry(env).model` after deploy.
+> `secret_text` env vars WERE exposed. This is the working configuration.
+
+**Pricing for google/gemini-2.5-flash-lite (per 1M tokens):**
+
+* prompt: $0.10
+* completion: $0.40
+* context: 1,048,576 tokens
+* max_output: 65,535 tokens
+* supports response_format=json + structured_outputs
+
+**Cost estimate per RU+UZ pair (~3K prompt + ~5K completion tokens):**
+
+* per call: ~$0.0023
+* 10 pairs/day = ~$0.7/month
+* 100 pairs/day = ~$7/month
+
+Well under the $5/month target for typical operator volume.
+
+### Production E2E proof
+
+| Step | Endpoint / action | Result |
+|------|---|---|
+| 1 | `POST /api/admin/seo/yandex/research` `seeds=["чат-бот для бизнеса Ташкент"]` | HTTP 200, 1 topic, request_id=`req_ad695baee307445d`, 2.5 s |
+| 2 | `POST /api/admin/seo/yandex/quick-launch` supporting-angle query | HTTP 200, **mode=launched**, 67 s |
+| 2a | provider | `openrouter` |
+| 2b | model | `google/gemini-2.5-flash-lite` |
+| 2c | fallback_used | `false` |
+| 2d | job_id | `job_15be8752d876429da8d3ea` |
+| 2e | draft_id | `draft_5c331dd8391943e08818c6` |
+| 3 | Draft fetch | RU 1010 words / 21 blocks / 7 FAQ / 4 internal links · UZ 1176 words / 25 blocks / 7 FAQ / 4 internal links (Uzbek Latin, **no Cyrillic**) |
+| 4 | Draft status | `pending_review`, `manual_approval_required=true`, `ready_for_publish=false`, `published=false` |
+| 5 | validation_passed | `true` |
+| 6 | Intent Guard | RU risk_level=high (similar inventory), UZ=medium |
+| 7 | Second click on same query | `mode=cannibalization_risk`, `reason="A generation job for this exact query is already in flight or completed"` (no duplicate draft) |
+| 8 | gptbot.uz-already-in-SERP click | `mode=cannibalization_risk`, 4 actionable suggestions |
+
+Deployment IDs: `c55440f7`, `78a8e3c3`, `f766ef2f`, `00094ae8`,
+`bc943384`, `6b2b66db` (all deploy/success).
+
+Final commit on `main`: `6b7aaf4`.
+
+
 
 Three production fixes shipped in commits `3913292`, `5681b62`, `0d29570`.
 
