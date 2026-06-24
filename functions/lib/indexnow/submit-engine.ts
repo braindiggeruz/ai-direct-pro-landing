@@ -98,17 +98,28 @@ export interface EngineOptions {
 }
 
 const DEFAULTS: EngineOptions = {
-  chunkSize: 10,
-  interChunkMs: 1_500,
-  interChunkJitterMs: 500,
+  // 2026-06-24: Bing-operated api.indexnow.org has been throttling
+  // GPTBot.uz aggressively (52/52 URLs returned 429 in the operator's
+  // history). Smaller chunks + longer inter-chunk gap give the rate
+  // window time to forgive between batches.
+  chunkSize: 5,
+  interChunkMs: 6_000,
+  interChunkJitterMs: 1_000,
   coolDownMs: 24 * 60 * 60 * 1000,
   maxRetriesPerChunk: 2,
-  maxRetryAfterMs: 30_000,
-  wallBudgetMs: 25_000,
+  maxRetryAfterMs: 60_000,
+  // ~9 chunks × ~6.5 s = ~58 s — still under Cloudflare's ~100 s edge.
+  wallBudgetMs: 55_000,
   fetchTimeoutMs: 8_000,
 };
 
-export const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow';
+// Switched 2026-06-24 from Bing-operated api.indexnow.org → Yandex-
+// operated endpoint. Both federate per IndexNow spec, but the Bing
+// pool was hard-throttling the operator's account (52/52 → 429). The
+// Yandex pool has a separate rate-limit budget and is forgiving enough
+// to actually deliver our daily volume. Bing still receives the
+// notifications via the federated network.
+export const INDEXNOW_ENDPOINT = 'https://yandex.com/indexnow';
 
 function parseRetryAfter(raw: string | null): number {
   if (!raw) return 0;
