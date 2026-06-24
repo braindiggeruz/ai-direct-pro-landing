@@ -3,190 +3,115 @@
   "locale": "uz",
   "slug": "chat-gpt-uzbek-biznes-uchun",
   "url": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
-  "title": "Chat GPT Uzbek: Biznesga AI Botlar bilan samaradorlik - GPTBot.uz",
-  "description": "O'zbekistonda bizneslar uchun Chat GPT asosidagi AI botlar joriy etish. Mijozlar xizmati, savdo, marketingni avtomatlashtirish. Telegram, Instagram, WhatsApp uchun yechimlar.",
-  "h1": "Chat GPT va AI Botlar: O'zbekistonlik Tadbirkorlar uchun Amaliy Yordamchi",
-  "intro": "Toshkentdagi kichik do'kon yoki Buxorodagi servis markazi bo'lasizmi, mijozlarning savollariga vaqtida javob berish, ayniqsa ishdan tashqari paytlarda, biznes uchun jiddiy muammo. Ko'p murabbiylar Excel'da ma'lumotlarni qo'lda yuritadi, bu esa katta vaqt yo'qotish va xatolarga olib keladi. GPTBot.uz orqali Chat GPT texnologiyasiga asoslangan AI botlar bilan bu muammolarni hal qilish mumkin. Ushbu qo'llanmada biz O'zbekistondagi KOB'lar uchun AI botlarning amaliy qo'llanilishini, ularning qanday qilib savdo va xizmatni avtomatlashtirishini ko'rib chiqamiz.",
+  "title": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish | GPTBot.uz",
+  "description": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma. GPTBot.uz yordamida murakkab AI yechimlarini tushuning.",
+  "h1": "AI Botlar: O'zbekistonda Dasturchilar Uchun Texnik Qo'llanma",
+  "intro": "AI botlar texnologiyasining rivojlanishi O'zbekistondagi IT sohasi uchun yangi imkoniyatlar ochmoqda. Ushbu maqolada biz dasturchilar va texnik mutaxassislar uchun AI botlarni yaratish, ularni turli platformalarga integratsiyalash va murakkab funksiyalarni joriy etish bo'yicha texnik jihatlarni ko'rib chiqamiz. GPTBot.uz platformasi sizning loyihalaringiz uchun texnik yechimlarni taqdim etadi.",
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
   "topicCluster": "chat gpt uzbek",
   "keywords": [
-    "chat gpt uzbek",
-    "ai bot o'zbekiston",
-    "suniy intellekt biznes",
-    "telegram bot o'zbek",
-    "instagram bot o'zbek",
-    "chat gpt narxi o'zbekiston",
-    "biznesni avtomatlashtirish",
-    "mijoz xizmati bot",
-    "gptbot uz",
-    "toshkent biznes",
-    "samarqand biznes",
-    "buxoro biznes",
-    "andijon biznes",
-    "o'zbekiston ai"
+    "ai bot yaratish o'zbekiston",
+    "ai bot texnik qo'llanma",
+    "dasturchilar uchun ai bot",
+    "nlp o'zbekiston",
+    "ml o'zbekiston",
+    "gptbot uz texnik",
+    "telegram bot api",
+    "veb-saytga ai bot integratsiyasi",
+    "ai bot arxitekturasi"
   ],
   "body": [
     {
       "type": "h2",
-      "text": "Mijozlarning savollariga javob berishdagi kundalik muammolar"
+      "text": "AI Botlarining Texnik Arxitekturasi va Ishlash Prinsiplari"
     },
     {
       "type": "p",
-      "text": "Toshkent shahridagi kiyim-kechak do'koni yoki Samarqanddagi servis markazi bo'ladimi, O'zbekistondagi ko'plab kichik va o'rta bizneslar mijozlarning savollariga o'z vaqtida javob bera olmaslikdek bir muammoga duch kelishadi. Ish vaqtidan keyin, kechasi yoki dam olish kunlari kelgan murojaatlar ko'pincha javobsiz qoladi, bu esa potentsial xaridorning boshqa raqobatchiga o'tishiga olib kelishi mumkin. Savdo menejerlari bir paytning o'zida bir nechta mijoz bilan suhbatlashishga majbur bo'lishi natijasida aloqa sifati pasayadi va xatolar ko'payadi. Mijozlar ma'lumotlarini Excel jadvallarida qo'lda yuritish, ularning xaridlariga nazar solish va shaxsiy takliflar tayyorlash juda ham ko'p vaqtni oladi, bu esa biznesni kengaytirishga to'sqinlik qiladi va operatsion xarajatlarni oshiradi. Tez-tez beriladigan savollarga bir necha bor javob berish xodimlarning asosiy vazifalaridan chalg'itadi va ularning samaradorligini pasaytiradi."
-    },
-    {
-      "type": "h2",
-      "text": "Chat GPT texnologiyasi biznesingizga qanday foyda keltiradi?"
-    },
-    {
-      "type": "p",
-      "text": "Chat GPT — bu OpenAI tomonidan ishlab chiqilgan ilg'or til modeli bo'lib, u inson tilini tushunish va tabiiy, mazmunli javoblar yaratish qobiliyatiga ega. Bizneslar uchun bu texnologiyani avtomatlashtirilgan AI botlar orqali joriy etish mumkin. Misol uchun, mijoz Telegramda yoki Instagram Direct'da mahsulot haqida so'raganda, AI bot darhol javob beradi. Bu javoblar nafaqat tayyor ma'lumotlar, balki mijozning savoliga moslashtirilgan, aniq va tushunarli bo'ladi. Botlar kunu-tun, haftaning yetti kuni ishlay oladi, bu mijozlarning istalgan paytda yordam olishini ta'minlaydi. Bundan tashqari, botlar mijozning ismi, qiziqishlari va savolining mohiyati kabi ma'lumotlarni to'plab, keyinchalik ularni savdo menejeriga to'liq kontekst bilan taqdim etishi mumkin. Bu esa menejerlarning mijoz bilan suhbatni yanada samarali boshlashiga va umumiy mijoz xizmati sifatini oshirishga yordam beradi."
+      "text": "AI botlarining asosini tushunish uchun ularning texnik arxitekturasini o'rganish muhim. Ko'pincha NLP (Natural Language Processing) va ML (Machine Learning) modellaridan foydalaniladi. Ushbu modellar foydalanuvchi kiritgan matnni tahlil qilib, ma'noli javoblar shakllantiradi. Dasturchilar uchun bu modellar bilan ishlash, ularni o'qitish va optimallashtirish asosiy vazifalardan biridir. GPTBot.uz platformasi bu jarayonlarni soddalashtirish uchun API va SDK lar taqdim etadi."
     },
     {
       "type": "h3",
-      "text": "O'zbekistonda eng ko'p ishlatiladigan messenjerlar va ularni AI bot bilan bog'lash"
+      "text": "AI Botlarni Platformalarga Integratsiyalash: Qadamlar"
     },
     {
       "type": "p",
-      "text": "O'zbekistonda Telegram va Instagram Direct messenjerlari biznes aloqasi uchun eng muhim platformalar hisoblanadi. Ko'plab mijozlar aynan shu kanallar orqali mahsulotlar va xizmatlar haqida so'rashadi. GPTBot.uz kabi platformalar orqali siz ushbu messenjerlarni AI bot bilan osongina integratsiya qila olasiz. Telegramda bot yaratish uchun @BotFather yordamida API tokenini olib, uni GPTBot.uz platformasiga ulashingiz kerak. Instagram Direct uchun esa Instagram Business sahifangizni Facebook Developer Account orqali bog'lash talab etiladi. Bunday integratsiya mijozlarning har qanday platformadan yuborgan xabarlarini yagona tizimda qabul qilish imkonini beradi. Bot avtomatik ravishda kelgan xabarlarni tahlil qiladi, standart savollarga javob beradi yoki ma'lumotlarni yig'ib, keyinchalik inson operatoriga yo'naltiradi. Bu esa mijozlarga tezkor javob berishni ta'minlaydi va ularning qoniqishini oshiradi."
-    },
-    {
-      "type": "h2",
-      "text": "AI botdan menejerga: Mijozlar bilan ishlash jarayonini avtomatlashtirish"
-    },
-    {
-      "type": "p",
-      "text": "AI botning asosiy vazifalaridan biri mijozlar bilan dastlabki muloqotni olib borish, ularning ehtiyojlarini aniqlash va zarur ma'lumotlarni to'plashdir. Masalan, mijoz Toshkentdagi do'kondagi kiyim-kechak haqida so'raganda, bot uning ismini, qiziqayotgan mahsulot turini, kerakli o'lchamni va yetkazib berish sanasini so'rashi mumkin. Agar mijozning murakkab savoli bo'lsa yoki maxsus taklif so'rasa, bot suhbatni tegishli bo'lim menejeriga yo'naltiradi. Bu jarayonda bot to'plagan barcha ma'lumotlar — mijozning ismi, telefon raqami, qiziqqan mahsuloti, savolining mohiyati — menejerga bir vaqtda taqdim etiladi. Bu esa menejerning mijoz bilan suhbatni boshlashdan oldin to'liq ma'lumotga ega bo'lishini va mijozga shaxsiy yondashuvni taqdim etishini osonlashtiradi. Ushbu tizim savdo jarayonini tezlashtiradi va mijozlarning umumiy qoniqishini sezilarli darajada oshiradi."
+      "text": "AI botlarni Telegram, WhatsApp yoki veb-sayt kabi platformalarga integratsiyalash uchun maxsus API interfeyslari ishlatiladi. Ushbu jarayon quyidagilarni o'z ichiga oladi: API kalitlarini olish, server-side mantiqni sozlash, xabar almashish protokollarini tushunish va xatoliklarni bartaraf etish. Har bir platformaning o'ziga xos talablari mavjud bo'lib, ularga rioya qilish zarur. Masalan, Telegram bot API'si webhook yoki polling usullarini qo'llab-quvvatlaydi."
     },
     {
       "type": "list",
       "items": [
-        "Mijozning ismi va telefon raqamini 'contact_name' va 'contact_phone' maydonlariga yozish.",
-        "Mahsulot yoki xizmatga qiziqish 'product_interest' maydoniga belgilash.",
-        "Mijozning joylashuvi (Toshkent, Buxoro, Andijon) haqida ma'lumotni 'customer_city' maydoniga kiritish.",
-        "Mijozning savoliga mos keladigan standart javobni 'standard_response_id' orqali taqdim etish.",
-        "Murakkab savollar yoki maxsus so'rovlarni 'lead_transfer_to_manager' tugmasi orqali inson operatoriga yo'naltirish."
+        "API orqali ma'lumot almashishni sozlash.",
+        "Xabar formatlarini tahlil qilish va qayta ishlash.",
+        "Xavfsizlik protokollarini joriy etish.",
+        "Botning ish faoliyatini monitoring qilish."
       ]
     },
     {
       "type": "h2",
-      "text": "O'zbekistonda tadbirkorlarning AI botlarni joriy etishdagi keng tarqalgan xatolari va ularning yechimlari"
+      "text": "Murakkab AI Funksiyalari: Mashinani O'rganish va Chuqur O'rganish"
     },
     {
       "type": "p",
-      "text": "Ko'plab O'zbekistonlik kichik va o'rta biznes egalari AI botlarni joriy etishda ba'zi keng tarqalgan xatolarga yo'l qo'yishadi. Birinchidan, botni faqatgina mijozlar savollariga javob beradigan vosita deb bilishadi. Aslida, bot savdo jarayonini boshqarishda, mijozlarni kvalifikatsiya qilishda va hatto Click yoki Payme orqali to'lovlarni qabul qilishda ham yordam berishi mumkin. Ikkinchidan, botga to'liq avtonomiyani berib qo'yish. Murakkab yoki nozik vaziyatlarda, masalan, norozi mijoz bilan muloqotda, inson aralashuvi zarur. Botning imkoniyatlari chegaralanganligini tushunib, uni inson operatori bilan uyg'unlashtirish muhim. Uchinchi xato — botni muntazam yangilamaslik. Bozor o'zgaradi, mijozlar talablari o'zgaradi, shuning uchun botning javoblarini va ish jarayonini doimiy ravishda optimallashtirish kerak. Masalan, agar Humo kartasi orqali to'lov qabul qilishni boshlasangiz, bot bu haqda mijozni darhol xabardor qilishi lozim."
-    },
-    {
-      "type": "list",
-      "items": [
-        "Xato: Botni faqat savol-javob uchun ishlatish. Yechim: Botni savdo jarayonining barcha bosqichlariga, jumladan to'lov qabul qilishga ham integratsiya qilish.",
-        "Xato: Botga to'liq avtonomiya berish. Yechim: Murakkab vaziyatlarda (masalan, shikoyat) suhbatni 'transfer_to_live_agent' tugmasi orqali menejerga o'tkazish mexanizmini yaratish.",
-        "Xato: Botni joriy qilingandan so'ng yangilamaslik. Yechim: Botning javoblarini va ish jarayonini mijozlar fikr-mulohazalari asosida muntazam ravishda optimallashtirish ('bot_analytics_review' jarayoni).",
-        "Xato: Mijozning shaxsiy ma'lumotlarini to'plashda qonunbuzarlik. Yechim: O'zbekiston qonunchiligiga rioya qilgan holda, mijoz roziligi bilan va xavfsiz tarzda ma'lumotlarni 'gdpr_compliance_checkbox' orqali himoyalash."
-      ]
+      "text": "AI botlariga qo'shimcha intellektual qobiliyatlar berish uchun mashinani o'rganish (ML) va chuqur o'rganish (DL) texnologiyalaridan foydalaniladi. Bu esa botlarga nafaqat savollarga javob berish, balki ma'lumotlarni tahlil qilish, prognozlash va hatto ijodiy vazifalarni bajarish imkonini beradi. Dasturchilar uchun bu texnologiyalarni tushunish va ularni o'z loyihalarida qo'llash muhim ahamiyatga ega. GPTBot.uz bu borada sizga kerakli vositalarni taqdim etadi."
     },
     {
       "type": "h2",
-      "text": "AI botning cheklovlari: Nimalarni bot bajarolmaydi?"
+      "text": "O'zbekistonda AI Bot Ishlab Chiqish Ekosistemasi"
     },
     {
       "type": "p",
-      "text": "Sun'iy intellekt kuchli vosita bo'lsa-da, uning o'ziga yarasha cheklovlari bor. Chat GPT kabi modellar hammasini ham qila olmaydi. Misol uchun, botlar murakkab moliyaviy hisob-kitoblar, bank operatsiyalarini bajarish yoki huquqiy maslahatlar berish uchun mo'ljallanmagan. Agar mijozning murakkab texnik muammosi bo'lsa, masalan, apparat nosozligi, bot uni to'g'ridan-to'g'ri hal qila olmaydi, balki uni tegishli texnik mutaxassisga yo'naltiradi. Shuningdek, botlar insoniy empatiya, nozik hissiy munosabatlar yoki strategik qaror qabul qilishni talab qiladigan vaziyatlarda ojiz qoladi. Masalan, ikki tomonlama kelishmovchiliklarni hal qilish, mijoz uchun maxsus chegirma berish yoki mijozning shaxsiy hayotidagi muammolariga yordam berish botning imkoniyatidan tashqaridir. Shuning uchun, AI botni qo'llashda uning qobiliyatlarini to'g'ri tushunish va uni inson resurslari bilan to'ldirish zarur."
-    },
-    {
-      "type": "quote",
-      "text": "AI botlar tezkor javoblar va oddiy vazifalar uchun ajoyib, lekin insoniy aloqa va murakkab qarorlar uchun menejerlar kerak."
-    },
-    {
-      "type": "h2",
-      "text": "Keyingi qadam: Biznesingiz uchun AI botni joriy etish jarayoni"
-    },
-    {
-      "type": "p",
-      "text": "Agar siz ham mijozlarga ko'rsatilayotgan xizmatni yaxshilashni, savdo jarayonlarini to'liq avtomatlashtirishni va biznesingizning umumiy samaradorligini oshirishni istasangiz, AI bot yordamga kelishi mumkin. GPTBot.uz O'zbekistondagi kichik va o'rta bizneslar uchun maxsus ishlab chiqilgan yechimlarni taqdim etadi. Bizning AI botlarimiz Telegram, Instagram Direct kabi mashhur kanallarga osongina integratsiya qilinadi va sizning biznesingizning o'ziga xos ehtiyojlariga moslashtiriladi. Jarayonni boshlash uchun bizning mutaxassislarimiz bilan bog'laning. Ular sizning biznesingizni batafsil tahlil qilib, eng maqbul yechimni taklif etishadi va botni joriy etishda har qadamda qo'llab-quvvatlashadi. Bugun bizning saytimizga tashrif buyuring va biznesingizni keyingi bosqichga olib chiqish imkoniyatlarini o'rganing."
+      "text": "O'zbekistonda IT sohasi jadal rivojlanmoqda va AI botlar sohasida ham ko'plab imkoniyatlar mavjud. Dasturchilar uchun mahalliy va xalqaro platformalar bilan ishlash, yangi texnologiyalarni o'rganish va o'z mahoratlarini oshirish uchun qulay sharoitlar yaratilmoqda. GPTBot.uz kabi platformalar bu ekotizimni qo'llab-quvvatlab, texnik yechimlar va resurslar bilan ta'minlaydi."
     },
     {
       "type": "cta",
-      "text": "Biznesingiz uchun AI bot yechimlarini o'rganish uchun bugun bizning mutaxassislarimiz bilan bog'laning.",
+      "text": "AI botlarni yaratish va integratsiyalash bo'yicha texnik maslahat uchun bizning mutaxassislarimiz bilan bog'laning.",
       "href": "/uz/biznes-uchun-ai-bot/"
     }
   ],
   "faq": [
     {
-      "q": "AI botni O'zbekistonda joriy etish qancha vaqt oladi?",
-      "a": "Joriy etish jarayoni biznesning murakkabligiga bog'liq. Oddiy integratsiyalar bir-ikki kun ichida, masalan, Telegram messenjeri uchun, amalga oshirilishi mumkin. To'liq moslashtirish esa bir necha hafta talab qilishi mumkin, ayniqsa CRM tizimlari bilan chuqur integratsiya qilinayotgan bo'lsa."
+      "q": "AI botlarni yaratish uchun qanday dasturlash tillari ishlatiladi?",
+      "a": "AI botlarni yaratishda Python eng keng tarqalgan til hisoblanadi. Shuningdek, JavaScript, Java va C++ kabi tillar ham qo'llanilishi mumkin. NLP va ML kutubxonalari (TensorFlow, PyTorch, NLTK) muhim rol o'ynaydi."
     },
     {
-      "q": "AI botlar qanday to'lov tizimlari bilan ishlay oladi?",
-      "a": "AI botlar Click, Payme, Humo kabi O'zbekistonda keng tarqalgan to'lov tizimlari bilan to'g'ridan-to'g'ri integratsiya qilinishi mumkin. Bu esa mijozlarga to'lov jarayonini bot orqali amalga oshirish imkonini beradi."
+      "q": "O'zbekistonda AI bot rivojlanishi uchun qanday imkoniyatlar bor?",
+      "a": "O'zbekistonda IT sektorining o'sishi bilan AI botlar sohasida ham katta imkoniyatlar mavjud. Dasturchilar uchun yangi texnologiyalarni o'rganish, loyihalarda ishtirok etish va o'z mahoratlarini oshirish uchun ko'plab yo'nalishlar ochilmoqda."
     },
     {
-      "q": "Agar bot ishlamay qolsa yoki internet uzilib qolsa nima bo'ladi?",
-      "a": "Agar texnik nosozlik yuzaga kelsa yoki internet uzilib qolsa, barcha kiruvchi murojaatlar avtomatik ravishda sizning savdo menejerlaringizga Telegram yoki boshqa belgilangan aloqa kanali orqali yo'naltiriladi. Bu mijozlarning javobsiz qolmasligini kafolatlaydi."
+      "q": "AI botlarining texnik xavfsizligini qanday ta'minlash mumkin?",
+      "a": "Texnik xavfsizlikni ta'minlash uchun API kalitlarini himoyalash, ma'lumotlarni shifrlash, xavfsizlik protokollarini qo'llash va muntazam ravishda tizimni tekshirish muhim. GPTBot.uz xavfsizlik standartlariga rioya qiladi."
     },
     {
-      "q": "Botni kim boshqaradi va yangilaydi? O'zimiz ham o'zgartira olamizmi?",
-      "a": "GPTBot.uz platformasi botlarning texnik ishlashini va asosiy funksionalligini ta'minlaydi. Sizning biznesingizga mos kontent va ish jarayonlarini yangilash uchun bizning mutaxassislarimiz yordam beradi. Shuningdek, siz o'zingiz platforma interfeysi orqali sodda o'zgarishlarni amalga oshirishingiz mumkin."
+      "q": "AI botlarni veb-saytga integratsiyalash jarayoni qanday?",
+      "a": "Veb-saytga integratsiyalash uchun odatda JavaScript kutubxonalari yoki iframe elementlaridan foydalaniladi. Ba'zi hollarda maxsus API orqali ham amalga oshirilishi mumkin. Bu jarayon veb-saytning texnik tuzilishiga bog'liq."
     },
     {
-      "q": "AI botni 1C yoki Bitrix24 kabi CRM tizimiga ulash mumkinmi?",
-      "a": "Albatta. Ko'pchilik zamonaviy CRM tizimlari, jumladan 1C, Bitrix24 va AmoCRM bilan AI botlarni integratsiya qilish mumkin. Bu esa mijozlar ma'lumotlarini yagona bazada yuritish va savdo jarayonini yanada samarali boshqarishga imkon beradi."
-    },
-    {
-      "q": "Chat GPT asosidagi botlarni O'zbekiston sharoitida qo'llashning asosiy afzalliklari nimalarda?",
-      "a": "Asosiy afzalliklari: mijozlarga 24/7 tezkor javob berish, ishchi kuchini tejash, savdo jarayonini avtomatlashtirish, reklama kampaniyalari natijadorligini oshirish va mijozlarning umumiy qoniqishini ko'tarish. Ayniqsa, Telegram va Instagram kabi mahalliy kanallarda samarali ishlaydi."
-    },
-    {
-      "q": "Agar biznesimda bir nechta filiall var?",
-      "a": "AI botni bir nechta filial uchun ham moslashtirish mumkin. Bot har bir filialning o'ziga xos ish grafigi, operatorlari va qabul qilish tartibini hisobga olgan holda sozlanishi mumkin. Mijozdan kelgan so'rov avtomatik ravishda tegishli filial operatoriga yo'naltiriladi."
+      "q": "GPTBot.uz platformasi dasturchilarga qanday yordam beradi?",
+      "a": "GPTBot.uz platformasi dasturchilarga AI botlarni yaratish, ularni turli kanallarga integratsiyalash va murakkab funksiyalarni joriy etish uchun API, SDK va texnik dokumentatsiyani taqdim etadi. Bu esa rivojlanish jarayonini tezlashtiradi."
     }
   ],
   "internalLinks": [
     {
       "target": "/uz/biznes-uchun-ai-bot/",
-      "anchor": "AI bot yechimlarini o'rganish uchun bugun bizning mutaxassislarimiz bilan bog'laning",
-      "locale": "uz",
-      "type": "contextual"
+      "anchor": "AI botlarni yaratish va integratsiyalash bo'yicha texnik maslahat",
+      "type": "contextual",
+      "locale": "uz"
     },
     {
-      "target": "/uz/telegram-bot-yaratish/",
-      "anchor": "Telegramda bot yaratish uchun",
-      "locale": "uz",
-      "type": "contextual"
+      "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "anchor": "AI botlarining biznesdagi o'rni",
+      "type": "contextual",
+      "locale": "uz"
     },
     {
-      "target": "/uz/instagram-bot-yordam/",
-      "anchor": "Instagram Direct sahifangizni",
-      "locale": "uz",
-      "type": "contextual"
-    },
-    {
-      "target": "/uz/crm-integratsiyasi/",
-      "anchor": "CRM tizimlari, jumladan 1C, Bitrix24 va AmoCRM",
-      "locale": "uz",
-      "type": "contextual"
-    },
-    {
-      "target": "/uz/dokon-uchun-ai-bot/",
-      "anchor": "do'kon uchun AI botlar bilan savdo avtomatlashtirish",
-      "locale": "uz",
-      "type": "contextual"
-    },
-    {
-      "target": "/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
-      "anchor": "O'zbekistonda AI botlarni qaysi sohalarda ishlatish mumkin",
-      "locale": "uz",
-      "type": "contextual"
-    },
-    {
-      "target": "/uz/savdoni-avtomatlashtirish/",
-      "anchor": "savdoni avtomatlashtirish va mijozlar bilan aloqa",
-      "locale": "uz",
-      "type": "contextual"
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram botlarining texnik imkoniyatlari",
+      "type": "contextual",
+      "locale": "uz"
     }
   ],
-  "ogTitle": "Chat GPT Uzbek: Biznesga AI Botlar bilan samaradorlik - GPTBot.uz",
-  "ogDescription": "O'zbekistonda bizneslar uchun Chat GPT asosidagi AI botlar joriy etish. Mijozlar xizmati, savdo, marketingni avtomatlashtirish. Telegram, Instagram, WhatsApp uchun yechimlar.",
+  "ogTitle": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish | GPTBot.uz",
+  "ogDescription": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma. GPTBot.uz yordamida murakkab AI yechimlarini tushuning.",
   "ogImage": "",
   "canonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
   "robotsIndex": true,
@@ -199,5 +124,5 @@
   ],
   "datePublished": "2026-06-24",
   "dateModified": "2026-06-24",
-  "updatedAt": "2026-06-24T12:37:28.448Z"
+  "updatedAt": "2026-06-24T12:40:39.063Z"
 }
