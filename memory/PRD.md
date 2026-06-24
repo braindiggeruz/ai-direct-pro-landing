@@ -1,5 +1,83 @@
 # GPTBot.uz — Product Requirements (Live)
 
+
+## 2026-06-24 — Yandex 502 root-cause fix + quick-launch async refactor
+
+Three production fixes shipped in commits `3913292`, `5681b62`, `0d29570`.
+
+### Yandex Demand 502 fix (commit 3913292)
+
+* Per-call timeout lowered 25 s → 12 s in `functions/lib/yandex/client.ts`.
+* Seeds now run in parallel via `Promise.allSettled` with concurrency cap = 3
+  in `functions/lib/yandex/research.ts`. A single failing seed never destroys
+  the successful ones (`partial_success` envelope).
+* One bounded retry per retryable failure (timeout / 429 / 5xx / network).
+  Auth / config / bad-request errors short-circuit immediately.
+* Endpoint `functions/api/admin/seo/yandex/research.ts` ALWAYS returns HTTP
+  200 with a structured JSON envelope so Cloudflare's custom-domain edge
+  layer cannot swap the body for a generic `error code: 502` plain-text page.
+* Frontend `TopicPlanPanel.tsx` renders warnings, failed_seeds list,
+  partial-success banner, "Повторить только неуспешные" button.
+* 11 new tests in `tests/yandex-research.test.ts` (parallel execution,
+  partial success, error classification, timeout isolation).
+
+Production verified:
+* Single seed → HTTP 200 + JSON envelope in 0.5 s.
+* 3 fresh seeds → HTTP 200 + 3 topics in 2.0 s (was previously 50-75 s + 502).
+
+### Quick-launch SQL typo + HTTP 200 envelope (commit 5681b62)
+
+* `functions/api/admin/seo/yandex/quick-launch.ts` referenced a non-existent
+  table `topic_plan_items`. The actual D1 schema uses `seo_topic_plan_items`.
+  Every quick-launch click produced `D1_QUERY_FAILED: no such table`.
+* All non-2xx responses now return HTTP 200 with `{ ok: false, mode, error }`
+  so Cloudflare's custom domain cannot mask the JSON envelope. Verified via
+  curl: `curl … quick-launch -d '{"query":"x"}'` returns HTTP 200 instead
+  of HTTP 400 with the generic Cloudflare error page.
+
+### Quick-launch async refactor (commit 0d29570)
+
+* The synchronous `awaitCompletion: true` pattern was structurally
+  incompatible with Cloudflare Pages Functions' ~100 s edge walltime. Full
+  RU + UZ generation regularly took 2+ minutes, so every click died with
+  HTTP 524 and the plan_item was stuck in `generating` forever.
+* The endpoint now returns immediately with `{ mode: 'launching', request_id,
+  plan_id, item_id, poll: { jobs_url, match_field, interval_ms, timeout_ms } }`
+  after the synchronous reservation + cannibalization pre-check.
+* The heavy work runs via `ctx.waitUntil`.
+* `functions/api/admin/seo-autopilot/jobs.ts` now exposes `request_id` so
+  the SPA can match its locally-known runId.
+* Frontend `TopicPlanPanel.tsx` switched from fake `setInterval` stage
+  ticks to real polling every 5 s. Stage label reflects the polled
+  `job.status` (pending → forwarding → normalising → ingesting → completed).
+* `src/shared/seo-autopilot.ts:AutopilotJobRow` extended with `request_id`.
+
+### Known limitation (architectural, OUT OF SCOPE for this fix)
+
+`ctx.waitUntil` on Cloudflare Pages Functions extends worker lifetime
+~30 s past the HTTP response. The current `deepseek/deepseek-chat`
+article model + RU + UZ + normaliser + Intent Guard chain regularly
+exceeds this. To make the full E2E reliably finish in production, EITHER:
+
+a) Switch heavy generation to a faster model that fits the worker
+   lifecycle (e.g. Groq llama-3.3-70b for RU only, Mistral medium for
+   both locales). Trade-off: changes the OpenRouter primary the previous
+   agent established. Operator must approve.
+
+b) Move heavy generation to Cloudflare Queues + a Workers (not Pages)
+   consumer that supports minutes-long execution. Cleanest long-term
+   solution but a separate project.
+
+c) Use the existing GitHub-Actions cron worker
+   (`/api/internal/seo-autopilot/scheduled-run`) as the heavy executor —
+   the quick-launch endpoint enqueues; the cron picks up the next item.
+
+Cleaning up: every stuck `seo_autopilot_jobs` row with
+`status='normalising'` older than 6 minutes is auto-failed by the
+stale-job watchdog on the next read of `/api/admin/seo-autopilot/jobs`,
+so the system is self-healing.
+
+
 ## Original problem statement
 
 Connect the existing **n8n SEO Autopilot** (`GPTBot SEO Topic Hunter MVP` on `braindigger.app.n8n.cloud`) to the **GPTBot admin panel** (`https://gptbot.uz/admin-tools/`) so generated bilingual RU/UZ article packages automatically arrive in the admin as **unpublished AI drafts**.
