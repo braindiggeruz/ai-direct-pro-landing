@@ -44,7 +44,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
 
   const r = await env.GPTBOT_DRAFTS_DB
     .prepare(
-      `SELECT id, source, requested_by, status, n8n_status, n8n_execution_id,
+      `SELECT id, request_id, source, requested_by, status, n8n_status, n8n_execution_id,
               generation_status, validation_status, validation_issue_count,
               draft_id, bundle_id, admin_url, deduplicated, ingestion_success,
               error_code, error_message, error_detail_json,
@@ -64,6 +64,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
 
     return {
       id: row.id,
+      // 2026-06-24: surface request_id so the quick-launch async flow
+      // can match its locally-known runId against the polled job row.
+      request_id: row.request_id,
       source: row.source,
       requested_by: row.requested_by,
       status: row.status,

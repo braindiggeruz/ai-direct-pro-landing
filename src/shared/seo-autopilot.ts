@@ -13,6 +13,8 @@ export type AutopilotJobSource = 'admin' | 'schedule' | 'external';
 
 export interface AutopilotJobRow {
   id: string;
+  /** request_id used by the launcher; quick-launch polls by this. */
+  request_id?: string | null;
   source: AutopilotJobSource | string;
   requested_by: string | null;
   status: AutopilotJobStatus;
