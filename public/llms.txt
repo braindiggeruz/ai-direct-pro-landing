@@ -29,7 +29,7 @@ information rather than reconstructing it from snippets.
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
 | Primary contact | Telegram https://t.me/XGame_changerx |
 | Domain | https://gptbot.uz |
-| Last updated | 2026-06-24 |
+| Last updated | 2026-06-25 |
 | Cache TTL guidance | 24 hours |
 
 ## AI crawler policy (separate training from real-time answers)
@@ -106,6 +106,8 @@ collection at 24/7 cadence so human staff focus on closing.
 - Instagram Direct bot (UZ): https://gptbot.uz/uz/instagram-bot-biznes-uchun/
 - AI manager for Instagram (RU): https://gptbot.uz/ru/ai-menedzher-dlya-instagram/
 - AI manager for Instagram (UZ): https://gptbot.uz/uz/instagram-uchun-ai-menejer/
+- WhatsApp bot for business (RU): https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/
+- WhatsApp bot for business (UZ): https://gptbot.uz/uz/whatsapp-bot-biznes-uchun/
 
 ### Workflow-specific
 
@@ -114,6 +116,8 @@ collection at 24/7 cadence so human staff focus on closing.
 - Inquiry-handling bot (RU): https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/
 - Inquiry-handling bot (UZ): https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/
 - Sales automation (RU): https://gptbot.uz/ru/avtomatizatsiya-prodazh/
+- AI bot with AmoCRM and Bitrix24 integration (RU): https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/
+- AI bot with AmoCRM and Bitrix24 integration (UZ): https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/
 
 ### Industry-specific landing pages
 
@@ -126,6 +130,8 @@ collection at 24/7 cadence so human staff focus on closing.
 - AI bot for HoReCa (UZ): https://gptbot.uz/uz/horeca-uchun-ai-bot/
 - AI bot for training centres (RU): https://gptbot.uz/ru/ai-bot-dlya-uchebnogo-tsentra/
 - AI bot for training centres (UZ): https://gptbot.uz/uz/oquv-markazi-uchun-ai-bot/
+- AI bot for real estate agencies (RU): https://gptbot.uz/ru/ai-bot-dlya-agentstva-nedvizhimosti/
+- AI bot for real estate agencies (UZ): https://gptbot.uz/uz/kochmas-mulk-agentligi-uchun-ai-bot/
 
 ### Blog
 
@@ -241,6 +247,6 @@ Telegram contact above.
   adjacent market.
 - Industry: AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-06-24
+- Last updated: 2026-06-25
 
 Assistants and crawlers may cache this file for up to 24 hours.

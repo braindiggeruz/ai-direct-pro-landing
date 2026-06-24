@@ -162,6 +162,18 @@
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/whatsapp-bot-dlya-biznesa/",
+      "anchor": "автоматизация WhatsApp Business",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+      "anchor": "AI-бот для агентства недвижимости",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Почему бизнес теряет заявки из Instagram и Telegram",
@@ -174,7 +186,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-06-24",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -182,6 +194,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T05:56:59.149Z",
+  "updatedAt": "2026-06-24T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

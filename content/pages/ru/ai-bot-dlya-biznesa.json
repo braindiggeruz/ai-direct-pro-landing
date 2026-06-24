@@ -166,6 +166,24 @@
       "anchor": "AI-бот для HoReCa",
       "locale": "ru",
       "type": "niche"
+    },
+    {
+      "target": "/ru/whatsapp-bot-dlya-biznesa/",
+      "anchor": "WhatsApp-бот для бизнеса",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+      "anchor": "AI-бот для агентства недвижимости",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "anchor": "AI-бот с AmoCRM и Bitrix24",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

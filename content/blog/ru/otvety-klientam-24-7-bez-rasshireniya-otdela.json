@@ -169,6 +169,12 @@
       "anchor": "AI-менеджер для Instagram",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/whatsapp-bot-dlya-biznesa/",
+      "anchor": "круглосуточные ответы в WhatsApp",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Ответы клиентам 24/7 без расширения отдела продаж",
@@ -180,7 +186,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-06-24",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -188,6 +194,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-06-24T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }
