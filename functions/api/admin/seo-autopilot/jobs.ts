@@ -9,6 +9,7 @@ import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
 import { markStaleJobsAsFailed } from '../../../lib/seo-autopilot/jobs';
 import { whichProvidersConfigured } from '../../../lib/llm/router';
+import { getDynamicRegistry } from '../../../lib/llm/model-registry';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -129,6 +130,17 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       : null,
     // Multi-provider router status — which provider keys are set.
     llm_providers: whichProvidersConfigured(env),
+    // 2026-06-24: surface the effective per-feature OpenRouter model so
+    // the operator can confirm env-var overrides reached the worker.
+    llm_routes: getDynamicRegistry(env)
+      .filter((m) => m.provider === 'openrouter' && m.enabled)
+      .map((m) => ({
+        provider: m.provider,
+        model: m.model,
+        features: m.features,
+        locales: m.locales,
+        timeout_ms: m.default_timeout_ms,
+      })),
   };
 
   return json({ jobs, system });
