@@ -304,12 +304,14 @@ export const api = {
       cache_present: boolean;
       last_call_at: string | null;
     }>('GET', '/api/admin/seo/yandex/status'),
-  // Run topic research for up to 20 seeds — sequential calls so we never
-  // burst the Yandex quota. Returns normalised candidates with reasons +
-  // warnings for the operator to pick from.
+  // Run topic research for up to 20 seeds — Yandex seeds run in parallel
+  // (concurrency=3) with a 12 s per-call timeout and one bounded retry
+  // per retryable failure. The endpoint ALWAYS returns HTTP 200 with a
+  // structured envelope so Cloudflare's edge layer never replaces the
+  // body with an HTML 502 page. Branch on `ok` / `partial` / `error`.
   yandexResearch: (seeds: string[], locale: 'ru' | 'uz', forceRefresh = false) =>
     request<{
-      ok: true;
+      ok: boolean;
       topics: Array<{
         query: string;
         locale: 'ru' | 'uz';
@@ -322,13 +324,32 @@ export const api = {
         reasons: string[];
         warnings: string[];
       }>;
+      warnings: string[];
+      failed_seeds: Array<{
+        seed: string;
+        error_code: string;
+        error: string;
+        retryable: boolean;
+        http_status?: number;
+        retry_after_seconds?: number;
+      }>;
+      partial: boolean;
       api_calls: number;
       cache_hits: number;
+      request_id: string;
+      error?: {
+        code: string;
+        message: string;
+        retryable: boolean;
+        upstream_status?: number;
+      };
     }>(
       'POST',
       '/api/admin/seo/yandex/research',
       { seeds, locale, forceRefresh },
-      { timeoutMs: 90_000 },
+      // Generous client-side timeout: 3 parallel seeds × 12 s + retry +
+      // network overhead. The endpoint itself caps at 25 s wallclock.
+      { timeoutMs: 45_000 },
     ),
 
   // One-click "Сгенерировать статью" from a Yandex Demand row. Goes
