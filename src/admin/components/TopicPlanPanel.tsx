@@ -98,27 +98,33 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
   const [qlResultByIdx, setQlResultByIdx] = useState<Record<number, QlResult>>({});
 
   // Run the quick-launch flow for a single Yandex row.
-  // 2026-06-24 — the endpoint now returns mode='launching' immediately
-  // after the reservation step (Cloudflare Pages Functions cannot keep
-  // an HTTP connection open long enough for full LLM generation). We
-  // then poll /api/admin/seo-autopilot/jobs?limit=20 every ~5 s and
-  // match the row by request_id. The stage label tracks the polled
-  // job_row.status so the operator always sees the truth.
+  // 2026-06-24 — back to sync. With OpenRouter primary = gemini-2.5-flash-lite,
+  // RU+UZ + normaliser + validators + Intent Guard finish in ~30 s — well
+  // within Cloudflare's HTTP edge ~100 s walltime. The earlier async
+  // ctx.waitUntil refactor had to be abandoned because waitUntil
+  // consistently terminated mid-LLM-call on Pages Functions, leaving
+  // jobs stuck in `normalising`. Empirical, not theoretical.
   async function quickLaunch(rowIndex: number) {
     const row = yxResults[rowIndex];
     if (!row || qlBusyIdx !== null) return; // global guard against double-click on any row
     setQlBusyIdx(rowIndex);
     setQlResultByIdx((prev) => ({ ...prev, [rowIndex]: undefined as unknown as QlResult }));
-    setQlStageByIdx((prev) => ({ ...prev, [rowIndex]: 'Резервируем тему…' }));
-
-    const statusToStage: Record<string, string> = {
-      pending: 'Запускаем пайплайн…',
-      forwarding: 'Отправляем в LLM…',
-      normalising: 'Генерируем RU + Uzbek Latin…',
-      ingesting: 'Сохраняем черновик…',
-      completed: 'Готово',
-      failed: 'Ошибка',
-    };
+    // Stage label tick — every ~5 s flip to the next message so the
+    // operator sees progress while the sync request is open. Real stage
+    // tracking lives server-side; this is purely UX-side animation.
+    const stages = [
+      'Резервируем тему…',
+      'Генерируем RU…',
+      'Готовим Uzbek Latin…',
+      'Проверяем качество…',
+      'Сохраняем черновик…',
+    ];
+    let stageIdx = 0;
+    setQlStageByIdx((prev) => ({ ...prev, [rowIndex]: stages[0] }));
+    const tickTimer = setInterval(() => {
+      stageIdx = Math.min(stageIdx + 1, stages.length - 1);
+      setQlStageByIdx((prev) => ({ ...prev, [rowIndex]: stages[stageIdx] }));
+    }, 6_000);
 
     try {
       const locale: 'ru' | 'uz' = localeMode === 'uz' ? 'uz' : 'ru';
@@ -137,8 +143,28 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
         funnel_stage: funnel || null,
         target_money_page: moneyPage || null,
       });
+      clearInterval(tickTimer);
+      setQlStageByIdx((prev) => { const n = { ...prev }; delete n[rowIndex]; return n; });
 
-      if (r.mode === 'cannibalization_risk') {
+      if (r.mode === 'launched') {
+        const worst = (r.risk_results || []).reduce<{ locale: 'ru' | 'uz'; risk_level: string; risk_score: number } | null>(
+          (acc, x) => (!acc || x.risk_score > acc.risk_score ? x : acc), null,
+        );
+        setQlResultByIdx((prev) => ({
+          ...prev,
+          [rowIndex]: {
+            kind: 'launched',
+            provider: r.provider || null,
+            model: r.model || null,
+            fallback_used: !!r.fallback_used,
+            draftId: r.draft_id || null,
+            jobId: r.job_id || null,
+            risk: worst,
+            draftLink: r.draft_links?.review || (r.draft_id ? `/admin-tools/ai-drafts/${r.draft_id}` : null),
+          },
+        }));
+        void loadList();
+      } else if (r.mode === 'cannibalization_risk') {
         setQlResultByIdx((prev) => ({
           ...prev,
           [rowIndex]: {
@@ -149,85 +175,14 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
             suggestions: r.suggestions || [],
           },
         }));
-        setQlStageByIdx((prev) => { const n = { ...prev }; delete n[rowIndex]; return n; });
-        setQlBusyIdx(null);
-        return;
-      }
-      if (r.mode !== 'launching') {
-        // bad_request / launch_failed / reservation_failed / server_error
+      } else {
         setQlResultByIdx((prev) => ({
           ...prev,
           [rowIndex]: { kind: 'failed', error: r.error || 'Generation failed', reason: r.reason },
         }));
-        setQlStageByIdx((prev) => { const n = { ...prev }; delete n[rowIndex]; return n; });
-        setQlBusyIdx(null);
-        return;
       }
-
-      // Polling phase. Match jobs[] by request_id == r.request_id.
-      const requestId = r.request_id;
-      const intervalMs = r.poll?.interval_ms || 5_000;
-      const timeoutMs = r.poll?.timeout_ms || 360_000;
-      const startedAt = Date.now();
-      setQlStageByIdx((prev) => ({ ...prev, [rowIndex]: 'Запускаем пайплайн…' }));
-
-      while (Date.now() - startedAt < timeoutMs) {
-        await new Promise((res) => setTimeout(res, intervalMs));
-        try {
-          const jobs = await api.seoAutopilotJobs();
-          const match = (jobs.jobs || []).find((j) => j.request_id === requestId);
-          if (match) {
-            setQlStageByIdx((prev) => ({
-              ...prev,
-              [rowIndex]: statusToStage[match.status] || match.status,
-            }));
-            if (match.status === 'completed') {
-              const draftId = match.draft_id;
-              setQlResultByIdx((prev) => ({
-                ...prev,
-                [rowIndex]: {
-                  kind: 'launched',
-                  provider: match.llm_provider || null,
-                  model: match.llm_model || null,
-                  fallback_used: !!match.llm_fallback_used,
-                  draftId: draftId || null,
-                  jobId: match.id || null,
-                  risk: null,
-                  draftLink: draftId ? `/admin-tools/ai-drafts/${draftId}` : null,
-                },
-              }));
-              setQlStageByIdx((prev) => { const n = { ...prev }; delete n[rowIndex]; return n; });
-              setQlBusyIdx(null);
-              void loadList();
-              return;
-            }
-            if (match.status === 'failed') {
-              setQlResultByIdx((prev) => ({
-                ...prev,
-                [rowIndex]: {
-                  kind: 'failed',
-                  error: match.error_message || match.error_code || 'Generation failed',
-                  reason: match.llm_provider ? `provider=${match.llm_provider}` : undefined,
-                },
-              }));
-              setQlStageByIdx((prev) => { const n = { ...prev }; delete n[rowIndex]; return n; });
-              setQlBusyIdx(null);
-              return;
-            }
-          }
-        } catch { /* poll error tolerated — try again on next tick */ }
-      }
-      // Polling timeout — surface a soft error; the backend may still
-      // finish and the operator can reload to see the draft.
-      setQlResultByIdx((prev) => ({
-        ...prev,
-        [rowIndex]: {
-          kind: 'failed',
-          error: 'Время ожидания истекло. Откройте список AI-черновиков, чтобы проверить, появился ли черновик.',
-        },
-      }));
-      setQlStageByIdx((prev) => { const n = { ...prev }; delete n[rowIndex]; return n; });
     } catch (e) {
+      clearInterval(tickTimer);
       setQlStageByIdx((prev) => { const n = { ...prev }; delete n[rowIndex]; return n; });
       setQlResultByIdx((prev) => ({ ...prev, [rowIndex]: { kind: 'failed', error: (e as Error).message } }));
     }

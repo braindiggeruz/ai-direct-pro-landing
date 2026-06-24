@@ -382,20 +382,18 @@ export const api = {
   }) =>
     request<{
       ok: boolean;
-      // 2026-06-24 — the endpoint now returns 'launching' immediately
-      // (synchronous flow was timing out at the Cloudflare edge 100 s
-      // walltime). The SPA polls /api/admin/seo-autopilot/jobs and
-      // matches on request_id to surface the final draft_id + provider.
-      mode: 'launching' | 'cannibalization_risk' | 'launch_failed' | 'bad_request' | 'reservation_failed' | 'unavailable' | 'server_error';
+      // 2026-06-24 — back to sync. With OpenRouter primary on
+      // google/gemini-2.5-flash-lite, full RU + UZ + validators +
+      // Intent Guard finishes in ~30 s — well within Cloudflare's
+      // HTTP edge ~100 s walltime. The SPA holds the request open.
+      mode: 'launched' | 'cannibalization_risk' | 'launch_failed' | 'bad_request' | 'reservation_failed' | 'unavailable' | 'server_error';
       query: string;
       locale: 'ru' | 'uz';
       intent_key: string;
-      // launching + reservation_failed
+      // launched + launch_failed
       plan_id?: string;
       item_id?: string;
       request_id?: string;
-      poll?: { jobs_url: string; match_field: string; interval_ms: number; timeout_ms: number };
-      // launch_failed
       job_id?: string;
       draft_id?: string | null;
       provider?: string | null;
@@ -414,8 +412,9 @@ export const api = {
       'POST',
       '/api/admin/seo/yandex/quick-launch',
       input,
-      // Fast reservation step only — the heavy work runs in background.
-      { timeoutMs: 20_000 },
+      // Sync awaitCompletion — Cloudflare HTTP edge allows ~100 s. The
+      // server-side flow finishes in ~30 s with gemini-2.5-flash-lite.
+      { timeoutMs: 95_000 },
     ),
   // ── IndexNow bulk submission ─────────────────────────────────────────
   // Read recently published URLs joined with the audit log so the UI can
