@@ -11,6 +11,13 @@ import fg from 'fast-glob';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { SITE_URL } from '../src/shared/site-config';
 import { ANALYTICS_HEAD } from './analytics-snippet';
+import {
+  buildOrganizationLd,
+  buildWebSiteLd,
+  buildBreadcrumbLd,
+  buildServiceLd,
+  buildWebPageLd,
+} from './jsonld-helpers';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -111,54 +118,52 @@ function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
 function buildJsonLd(page: Page, global: GlobalSEO): string {
   const graph: Record<string, unknown>[] = [];
   const types = new Set<SchemaType>(page.schemaTypes || []);
+  const fullUrl = `${global.siteUrl}${page.url}`;
+  const dateModified = page.lastReviewedAt || page.updatedAt;
+  const dateModifiedIso = dateModified ? new Date(dateModified).toISOString().slice(0, 10) : undefined;
 
-  if (types.has('Organization')) {
-    graph.push({
-      '@type': 'Organization',
-      '@id': `${global.siteUrl}/#org`,
-      name: global.organizationName,
-      url: global.siteUrl,
-      logo: global.logo,
-      sameAs: global.sameAs,
-    });
-  }
-  if (types.has('WebSite')) {
-    graph.push({
-      '@type': 'WebSite',
-      '@id': `${global.siteUrl}/#site`,
-      url: global.siteUrl,
-      name: global.siteName,
-      inLanguage: ['ru', 'uz'],
-    });
-  }
+  // Always emit Organization + WebSite when the page declares Organization or
+  // WebSite in its schemaTypes — they are the entity backbone and the rest of
+  // the graph references them via @id. We never duplicate or shorten them.
+  if (types.has('Organization')) graph.push(buildOrganizationLd(global));
+  if (types.has('WebSite')) graph.push(buildWebSiteLd(global));
+
   if (types.has('BreadcrumbList')) {
-    graph.push({
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: global.siteName, item: global.siteUrl },
-        { '@type': 'ListItem', position: 2, name: page.breadcrumbLabel || page.h1, item: `${global.siteUrl}${page.url}` },
-      ],
-    });
+    graph.push(buildBreadcrumbLd([
+      { name: global.siteName, item: `${global.siteUrl}/` },
+      { name: page.breadcrumbLabel || page.h1, item: fullUrl },
+    ]));
   }
+
+  // WebPage anchors the page in the entity graph. Always emit on money pages
+  // so AI engines can resolve "this page is part of GPTBot.uz site, about the
+  // GPTBot organisation" with one document.
+  graph.push(buildWebPageLd({
+    global,
+    url: page.url,
+    name: page.h1 || page.title,
+    description: page.description,
+    locale: page.locale === 'uz' ? 'uz' : 'ru',
+    primaryImage: page.ogImage || global.defaultOgImage,
+    dateModified: dateModifiedIso,
+    datePublished: page.createdAt ? new Date(page.createdAt).toISOString().slice(0, 10) : undefined,
+  }));
+
   if (types.has('Service') || page.pageType === 'money') {
-    const dateModified = page.lastReviewedAt || page.updatedAt;
-    graph.push({
-      '@type': 'Service',
+    graph.push(buildServiceLd({
+      global,
+      url: page.url,
       name: page.h1 || page.title,
       description: page.description,
-      provider: { '@id': `${global.siteUrl}/#org` },
-      areaServed: [
-        { '@type': 'Country', name: 'Uzbekistan' },
-        { '@type': 'City', name: 'Tashkent' },
-      ],
       serviceType: page.primaryKeyword,
-      url: `${global.siteUrl}${page.url}`,
-      ...(dateModified ? { dateModified: new Date(dateModified).toISOString().slice(0, 10) } : {}),
-    });
+      dateModified: dateModifiedIso,
+      locale: page.locale === 'uz' ? 'uz' : 'ru',
+    }));
   }
   if (types.has('FAQPage') && page.faq?.length) {
     graph.push({
       '@type': 'FAQPage',
+      '@id': `${fullUrl}#faq`,
       mainEntity: page.faq.map((f) => ({
         '@type': 'Question',
         name: f.q,

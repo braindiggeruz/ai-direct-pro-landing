@@ -371,12 +371,13 @@ export const api = {
       'GET',
       `/api/admin/indexnow/history?limit=${encodeURIComponent(limit)}`,
     ),
-  // Reuse the lightweight admin submit endpoint (skips the heavy
-  // booster recompute that can timeout on Cloudflare Pages with a
-  // 50+ URL batch). Validates host/path-prefix server-side, probes
-  // the key file, hits api.indexnow.org, writes per-URL audit.
-  // POST { urls: string[] }.
-  indexnowSubmit: (urls: string[]) =>
+  // Lightweight admin IndexNow submit (replaces /api/seo/indexnow for batches
+  // of approved URLs from the new IndexNow panel). Reuse the lightweight admin
+  // submit endpoint (skips the heavy booster recompute that can timeout on
+  // Cloudflare Pages with a 50+ URL batch). Validates host/path-prefix
+  // server-side, probes the key file, hits api.indexnow.org, writes per-URL
+  // audit. POST { urls: string[] }.
+  indexnowSubmitAdmin: (urls: string[]) =>
     request<{
       ok: boolean;
       submitted: number;

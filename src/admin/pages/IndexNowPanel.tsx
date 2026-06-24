@@ -145,7 +145,7 @@ export default function IndexNowPanel() {
     setSubmitting(true);
     setToast(null);
     try {
-      const r = await api.indexnowSubmit(Array.from(selected));
+      const r = await api.indexnowSubmitAdmin(Array.from(selected));
       if (r.ok) {
         setToast({ tone: 'ok', text: `Отправлено: ${r.submitted}. HTTP ${r.upstreamStatus} · batch ${r.batchId.slice(0, 14)}…` });
         setSelected(new Set());

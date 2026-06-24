@@ -22,6 +22,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, BlogArticle, GlobalSEO } from '../src/shared/types';
+import {
+  buildOrganizationLd,
+  buildWebSiteLd,
+  buildServiceLd,
+  buildWebPageLd,
+} from './jsonld-helpers';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -124,21 +130,58 @@ async function main(): Promise<void> {
   const pages = load<Page>('pages/**/*.json');
   const blog = load<BlogArticle>('blog/**/*.json');
 
-  const html = fs.readFileSync(DIST_INDEX, 'utf-8');
+  let html = fs.readFileSync(DIST_INDEX, 'utf-8');
   const shell = buildSeoShell(global, pages, blog);
 
-  // Replace exactly <div id="root"></div> with <div id="root">{shell}</div>.
-  // Be conservative: if the marker is not exactly that, do nothing.
+  // 1) Inject the SEO content shell INSIDE <div id="root">.
   const marker = '<div id="root"></div>';
   if (!html.includes(marker)) {
-    console.warn('prerender-home: marker <div id="root"></div> not found — skipping (no change).');
-    return;
+    console.warn('prerender-home: marker <div id="root"></div> not found — skipping shell injection.');
+  } else {
+    html = html.replace(marker, `<div id="root">${shell}\n</div>`);
   }
-  const next = html.replace(marker, `<div id="root">${shell}\n</div>`);
-  fs.writeFileSync(DIST_INDEX, next, 'utf-8');
+
+  // 2) Replace the minimal homepage JSON-LD with the production-grade
+  //    @graph (Organization+ProfessionalService, WebSite, WebPage, Service).
+  //    Keeps @id stable across every page so AI/search engines collapse the
+  //    triples into a single canonical entity.
+  const richGraph: Record<string, unknown>[] = [
+    buildOrganizationLd(global),
+    buildWebSiteLd(global),
+    buildWebPageLd({
+      global,
+      url: '/',
+      name: global.siteName,
+      description: global.defaultDescription,
+      locale: 'ru',
+      primaryImage: global.defaultOgImage,
+    }),
+    buildServiceLd({
+      global,
+      url: '/',
+      name: 'AI-бот для бизнеса в Узбекистане',
+      description: 'AI/GPT-менеджер для Instagram Direct и Telegram, который отвечает клиентам 24/7 на русском и узбекском, собирает имя и телефон и передаёт горячую заявку менеджеру через CRM или Telegram-уведомление.',
+      serviceType: 'AI-бот для бизнеса',
+      locale: 'ru',
+    }),
+  ];
+  const richLdScript = `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': richGraph })}</script>`;
+  // Match the exact block emitted by /index.html — start at the marker
+  // comment, end at the closing </script> that follows.
+  const ldStart = html.indexOf('<!-- JSON-LD:');
+  const ldEnd = ldStart === -1 ? -1 : html.indexOf('</script>', ldStart);
+  if (ldStart === -1 || ldEnd === -1) {
+    console.warn('prerender-home: JSON-LD marker not found in index.html — skipping schema upgrade.');
+  } else {
+    html = html.slice(0, ldStart)
+      + `<!-- JSON-LD: Organization (ProfessionalService), WebSite, WebPage, Service. Upgraded by scripts/prerender-home.ts -->\n    ${richLdScript}`
+      + html.slice(ldEnd + '</script>'.length);
+  }
+
+  fs.writeFileSync(DIST_INDEX, html, 'utf-8');
   const liveMoneyCount = pages.filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage').length;
   const liveBlogCount = blog.filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'ru').length;
-  console.log(`Homepage SEO shell injected: ${liveMoneyCount} money links + ${liveBlogCount} blog links.`);
+  console.log(`Homepage SEO shell injected: ${liveMoneyCount} money links + ${liveBlogCount} blog links. JSON-LD upgraded to @graph(Organization+WebSite+WebPage+Service).`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

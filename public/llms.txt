@@ -13,6 +13,40 @@ exists so AI assistants, search agents, and retrieval systems can
 ground their answers about GPTBot.uz in canonical, verifiable
 information rather than reconstructing it from snippets.
 
+## Key facts (machine-readable)
+
+| Field | Value |
+| --- | --- |
+| Canonical brand name | GPTBot.uz |
+| Legal display name | GPTBot |
+| Category | AI / GPT chatbot studio for SMB |
+| Country | Uzbekistan (UZ) |
+| City | Tashkent |
+| Time zone | Asia/Tashkent (UTC+5) |
+| Languages of service | Russian (ru), Uzbek Latin (uz) |
+| Primary channels | Telegram (Bot API + Business API), Instagram Direct (Meta), WhatsApp, on-site web widget |
+| CRM integrations | AmoCRM, Bitrix24, 1C |
+| Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
+| Primary contact | Telegram https://t.me/XGame_changerx |
+| Domain | https://gptbot.uz |
+| Last updated | 2026-06-24 |
+| Cache TTL guidance | 24 hours |
+
+## AI crawler policy (separate training from real-time answers)
+
+- AI **training** crawlers are blocked (GPTBot, Google-Extended, ClaudeBot,
+  Applebot-Extended, CCBot, Amazonbot, Bytespider, meta-externalagent).
+- AI **search / answer** crawlers are explicitly **allowed**, including
+  OAI-SearchBot, ChatGPT-User, PerplexityBot, Perplexity-User, Claude-Web,
+  Claude-SearchBot, MistralAI-User, Applebot, DuckAssistBot, YouBot.
+- Traditional search crawlers (Googlebot, Bingbot, YandexBot) are allowed.
+- Sensitive paths `/admin-tools/` and `/api/` are disallowed for every
+  agent — they hold authenticated admin UIs and JSON endpoints.
+
+This split means AI assistants may freely cite and link to GPTBot.uz in
+real-time answers, but no current content may be used to train future
+foundation models without explicit licensing.
+
 ## Canonical sources
 
 - Homepage (locale picker): https://gptbot.uz/
@@ -207,6 +241,6 @@ Telegram contact above.
   adjacent market.
 - Industry: AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-06-23
+- Last updated: 2026-06-24
 
 Assistants and crawlers may cache this file for up to 24 hours.

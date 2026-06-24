@@ -128,11 +128,28 @@ export interface GlobalSEO {
   defaultDescription: string;
   defaultOgImage: string;
   organizationName: string;
+  /** Legal short name used when the canonical display name carries the .uz TLD. */
+  organizationLegalName?: string;
+  /** Long-form entity description for Organization.description in JSON-LD and llms.txt. */
+  organizationDescription?: string;
+  /** Single-sentence variant — used in OG fallbacks and shorter JSON-LD blocks. */
+  organizationShortDescription?: string;
+  /** Topics the organisation is an expert on — surfaces as Organization.knowsAbout. */
+  knowsAbout?: string[];
   logo: string;
   phone?: string;
   telegram?: string;
   instagram?: string;
+  /** Human-readable single-line address (footer + JSON-LD short form). */
   address?: string;
+  /** Locality used in Organization.address.PostalAddress. */
+  addressLocality?: string;
+  /** ISO 3166-1 alpha-2 country code used in Organization.address.PostalAddress. */
+  addressCountry?: string;
+  /** Languages the organisation conducts business in (Schema.org Language codes). */
+  availableLanguage?: string[];
+  /** Geographic regions the organisation serves — drives Organization.areaServed. */
+  areaServed?: Array<{ type: 'Country' | 'City' | 'State' | 'AdministrativeArea'; name: string }>;
   sameAs: string[];
   defaultCTA: { label: string; href: string };
 }
