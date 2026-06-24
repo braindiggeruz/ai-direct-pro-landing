@@ -52,7 +52,7 @@ interface HistoryBatch {
 const DAY_OPTIONS = [7, 14, 30, 60, 90, 180, 365];
 const ENGINES = ['Bing', 'Yandex', 'Seznam', 'Naver', 'Yep'];
 const COOL_DOWN_MS = 24 * 60 * 60 * 1000;
-const HARD_CAP_PER_CLICK = 100;
+const HARD_CAP_PER_CLICK = 200;
 
 function timeAgo(iso: string | null): string {
   if (!iso) return '—';
@@ -67,6 +67,24 @@ function timeAgo(iso: string | null): string {
   return new Date(iso).toLocaleDateString();
 }
 
+function isCoolDown(item: RecentItem): boolean {
+  if (!item.last_ok || !item.last_submitted_at) return false;
+  const ts = Date.parse(item.last_submitted_at);
+  return Number.isFinite(ts) && Date.now() - ts < COOL_DOWN_MS;
+}
+
+function coolDownRemaining(item: RecentItem): string {
+  if (!item.last_submitted_at) return '';
+  const ts = Date.parse(item.last_submitted_at);
+  if (!Number.isFinite(ts)) return '';
+  const remainingMs = COOL_DOWN_MS - (Date.now() - ts);
+  if (remainingMs <= 0) return '';
+  const h = Math.floor(remainingMs / 3_600_000);
+  const m = Math.floor((remainingMs % 3_600_000) / 60_000);
+  if (h >= 1) return `cool-down: ещё ${h}ч ${m}м`;
+  return `cool-down: ещё ${m}м`;
+}
+
 export default function IndexNowPanel() {
   const [items, setItems] = useState<RecentItem[]>([]);
   const [history, setHistory] = useState<HistoryBatch[]>([]);
@@ -76,6 +94,14 @@ export default function IndexNowPanel() {
   const [filterLocale, setFilterLocale] = useState<'all' | 'ru' | 'uz'>('all');
   const [filterType, setFilterType] = useState<'all' | 'money' | 'blog'>('all');
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  // When true, "Выбрать все" includes cool-down URLs (otherwise excluded
+  // so the operator doesn't unknowingly burn a click on URLs that will
+  // be skipped server-side).
+  const [includeCoolDown, setIncludeCoolDown] = useState(false);
+  // When true, the next submit() call passes `force: true` to the API so
+  // the server bypasses its 24h cool-down filter. Used to push URLs that
+  // were submitted today but didn't actually get indexed.
+  const [forceMode, setForceMode] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ tone: 'ok' | 'err' | 'warn'; text: string } | null>(null);
   const [keyStatus, setKeyStatus] = useState<'unknown' | 'ok' | 'fail'>('unknown');
@@ -119,17 +145,53 @@ export default function IndexNowPanel() {
     (filterType === 'all' || i.type === filterType),
   ), [items, filterLocale, filterType]);
 
-  const allSelected = filtered.length > 0 && filtered.every((i) => selected.has(i.url));
+  // Operator-visible breakdown of the current selection: how many will
+  // actually go through the engine, how many will be skipped server-side
+  // by the 24h cool-down filter (unless forceMode is on). This lets the
+  // submit button reflect the truth rather than the raw checkbox count.
+  const selectionBreakdown = useMemo(() => {
+    let sendable = 0;
+    let coolDown = 0;
+    for (const u of selected) {
+      const it = items.find((x) => x.url === u);
+      if (!it) { sendable++; continue; }
+      if (isCoolDown(it)) coolDown++;
+      else sendable++;
+    }
+    return {
+      sendable,
+      coolDown,
+      effectiveSendable: forceMode ? sendable + coolDown : sendable,
+    };
+  }, [selected, items, forceMode]);
+
+  // "Выбрать все" picks every visible row, optionally excluding cool-down
+  // items (default) so the operator doesn't accidentally hit the API with
+  // URLs that will be skipped anyway.
+  const selectableRows = useMemo(
+    () => (includeCoolDown ? filtered : filtered.filter((i) => !isCoolDown(i))),
+    [filtered, includeCoolDown],
+  );
+  const allSelectableSelected =
+    selectableRows.length > 0 && selectableRows.every((i) => selected.has(i.url));
 
   function toggleAll() {
     setSelected((cur) => {
-      if (allSelected) {
+      if (allSelectableSelected) {
         const next = new Set(cur);
-        for (const i of filtered) next.delete(i.url);
+        for (const i of selectableRows) next.delete(i.url);
         return next;
       }
       const next = new Set(cur);
-      for (const i of filtered) next.add(i.url);
+      // Respect the per-click cap so the operator can't queue more than
+      // the backend will accept in one call.
+      let added = 0;
+      for (const i of selectableRows) {
+        if (next.has(i.url)) continue;
+        if (added + next.size >= HARD_CAP_PER_CLICK) break;
+        next.add(i.url);
+        added++;
+      }
       return next;
     });
   }
@@ -143,24 +205,82 @@ export default function IndexNowPanel() {
 
   async function submit() {
     if (selected.size === 0) return;
-    if (!confirm(`Отправить ${selected.size} URL в IndexNow?\nКлючевые поисковики (${ENGINES.join(', ')}) получат сигнал на индексацию.\n\nПовторная отправка не запрещена, но не делайте чаще 1 раза в день для одного и того же URL.`)) return;
+    const { sendable, coolDown, effectiveSendable } = selectionBreakdown;
+    if (effectiveSendable === 0) {
+      setToast({
+        tone: 'warn',
+        text: `Все ${selected.size} выбранных URL в cool-down (24h). Включи «Force re-submit», чтобы отправить их повторно, или выбери другие URL.`,
+      });
+      return;
+    }
+    const confirmLines = [
+      `Отправить ${effectiveSendable} URL в IndexNow.`,
+      `Поисковики: ${ENGINES.join(', ')}.`,
+    ];
+    if (forceMode) {
+      confirmLines.push('');
+      confirmLines.push(`⚠️ Force-режим включён: 24-часовой cool-down игнорируется. Используй с умом — IndexNow не индексирует один URL чаще раза в сутки.`);
+    } else if (coolDown > 0) {
+      confirmLines.push('');
+      confirmLines.push(`Из выбранных: ${sendable} будут отправлены, ${coolDown} в cool-down — пропустим. Включи «Force», если действительно надо отправить их сейчас.`);
+    }
+    if (!confirm(confirmLines.join('\n'))) return;
     setSubmitting(true);
     setToast(null);
     try {
-      const r = await api.indexnowSubmitAdmin(Array.from(selected));
-      if (r.ok) {
-        setToast({ tone: 'ok', text: `Отправлено: ${r.submitted}. HTTP ${r.upstreamStatus} · batch ${r.batchId.slice(0, 14)}…` });
-        setSelected(new Set());
+      const r = await api.indexnowSubmitAdmin(Array.from(selected), forceMode);
+      // The chunked engine returns per-kind counters. Build a transparent
+      // multi-line toast so the operator sees exactly what happened.
+      const parts: string[] = [];
+      if (r.succeeded > 0) parts.push(`✓ Отправлено: ${r.succeeded}`);
+      if (r.skippedDuplicate > 0) parts.push(`⏸ В cool-down: ${r.skippedDuplicate}`);
+      if (r.rateLimited > 0) parts.push(`⏳ Rate-limit: ${r.rateLimited}`);
+      if (r.failed > 0) parts.push(`✗ Ошибки: ${r.failed}`);
+      if (r.deferred > 0) parts.push(`⌛ Отложено (нужен ещё клик): ${r.deferred}`);
+      const rejectedCount = r.rejected?.length ?? 0;
+      if (rejectedCount > 0) parts.push(`✗ Отклонено валидацией: ${rejectedCount}`);
+
+      const tone: 'ok' | 'warn' | 'err' =
+        r.succeeded > 0 && r.failed === 0 && r.rateLimited === 0 && r.deferred === 0
+          ? 'ok'
+          : r.succeeded > 0
+            ? 'warn'
+            : 'err';
+
+      let text = parts.join(' · ');
+      if (r.batchId) text += `  ·  batch ${r.batchId.slice(0, 14)}`;
+      if (r.durationMs) text += `  ·  ${(r.durationMs / 1000).toFixed(1)}s`;
+      if (r.budgetExhausted) text += '\n\nВремя на бэкенде закончилось — кликни «Повторить незавершённые» чтобы продолжить.';
+
+      setToast({ tone, text });
+      // Clear selection of items we actually sent OK; keep the ones that
+      // were deferred / rate-limited so the operator can retry them.
+      if (r.perUrl && r.perUrl.length) {
+        const completed = new Set(r.perUrl.filter((x) => x.kind === 'ok' || x.kind === 'http_error' || x.kind === 'skipped_duplicate').map((x) => x.url));
+        setSelected((cur) => {
+          const next = new Set<string>();
+          for (const u of cur) if (!completed.has(u)) next.add(u);
+          return next;
+        });
       } else {
-        const detail = (r as unknown as { rejected?: Array<{ url: string; reason: string }> }).rejected
-          ?.slice(0, 3).map((x) => `${x.url} (${x.reason})`).join('; ') || '';
-        setToast({ tone: 'warn', text: `Частично: HTTP ${r.upstreamStatus}. Отказано в ${(r as unknown as { rejected?: unknown[] }).rejected?.length || 0}. ${detail}` });
+        setSelected(new Set());
       }
-      await load();
+      // Reset force mode after each call so the operator must opt in
+      // intentionally each time.
+      setForceMode(false);
     } catch (e) {
-      setToast({ tone: 'err', text: `Ошибка: ${(e as Error).message}` });
+      const msg = (e as Error).message || String(e);
+      // "signal is aborted without reason" used to leak through here when
+      // the client timeout was shorter than the backend walltime. The new
+      // 120s client timeout + 90s backend walltime should eliminate it,
+      // but keep a friendlier hint just in case.
+      const friendly = /aborted|abort/i.test(msg)
+        ? `Запрос прерван (${msg}). Возможно, бэкенд ещё работает — обнови через 30 секунд и проверь «Последняя отправка» в таблице.`
+        : `Ошибка: ${msg}`;
+      setToast({ tone: 'err', text: friendly });
     }
     setSubmitting(false);
+    await load();
   }
 
   const counts = useMemo(() => {
@@ -183,13 +303,20 @@ export default function IndexNowPanel() {
   }, [items]);
 
   function selectAllFailed() {
+    // "Failed" = last attempt was not OK (rate_limit / http_error /
+    // network_error) OR last submit was never attempted (deferred from
+    // a previous click → no audit row → last_submitted_at is null and we
+    // already cover that case via the "never" badge column).
     const failed = items.filter((i) => i.last_submitted_at && !i.last_ok).map((i) => i.url);
     if (failed.length === 0) {
-      setToast({ tone: 'warn', text: 'Нет URL с предыдущей неуспешной попыткой в текущем фильтре.' });
+      setToast({ tone: 'warn', text: 'Нет URL с предыдущей неуспешной попыткой.' });
       return;
     }
     setSelected(new Set(failed.slice(0, HARD_CAP_PER_CLICK)));
-    setToast({ tone: 'warn', text: `Выбрано ${Math.min(failed.length, HARD_CAP_PER_CLICK)} URL с last_status≠ok. Нажмите «Отправить выбранное».${failed.length > HARD_CAP_PER_CLICK ? ` (${failed.length - HARD_CAP_PER_CLICK} остаются на следующую попытку)` : ''}` });
+    setToast({
+      tone: 'warn',
+      text: `Выбрано ${Math.min(failed.length, HARD_CAP_PER_CLICK)} URL с last_status≠ok. Жми «Отправить выбранное».${failed.length > HARD_CAP_PER_CLICK ? ` (${failed.length - HARD_CAP_PER_CLICK} остаются на следующий клик)` : ''}`,
+    });
   }
 
   return (
@@ -295,21 +422,47 @@ export default function IndexNowPanel() {
 
       {/* Submit bar */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="text-white/70 text-sm">
-          Найдено: <strong className="text-white">{filtered.length}</strong> · Выбрано: <strong className="text-white" data-testid="indexnow-selected-count">{selected.size}</strong>
+        <div className="text-white/70 text-sm space-y-0.5">
+          <div>
+            Найдено: <strong className="text-white">{filtered.length}</strong>
+            {' · '}Выбрано: <strong className="text-white" data-testid="indexnow-selected-count">{selected.size}</strong>
+            {selectionBreakdown.coolDown > 0 && !forceMode && (
+              <span className="text-amber-300/80"> · из них в cool-down (пропустим): {selectionBreakdown.coolDown}</span>
+            )}
+          </div>
+          {selected.size > 0 && (
+            <div className="text-xs text-white/50">
+              Будет отправлено сейчас: <strong className="text-emerald-300">{selectionBreakdown.effectiveSendable}</strong>
+              {forceMode && selectionBreakdown.coolDown > 0 && (
+                <span className="text-amber-300/80"> · force включён → cool-down игнорируется</span>
+              )}
+            </div>
+          )}
         </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" size="sm" onClick={toggleAll} disabled={filtered.length === 0} data-testid="indexnow-toggle-all">
-            {allSelected ? 'Снять выделение' : `Выбрать все (${filtered.length})`}
+        <div className="flex gap-2 items-center flex-wrap">
+          <label className="flex items-center gap-1.5 text-xs text-white/70 cursor-pointer" title="Включить cool-down URL в «Выбрать все» и игнорировать 24h cool-down на бэкенде">
+            <input
+              type="checkbox"
+              checked={forceMode}
+              onChange={(e) => { setForceMode(e.target.checked); setIncludeCoolDown(e.target.checked); }}
+              className="h-3.5 w-3.5 accent-amber-400 cursor-pointer"
+              data-testid="indexnow-force-mode"
+            />
+            Force re-submit (игнорировать 24h)
+          </label>
+          <Button variant="secondary" size="sm" onClick={toggleAll} disabled={selectableRows.length === 0} data-testid="indexnow-toggle-all">
+            {allSelectableSelected
+              ? 'Снять выделение'
+              : `Выбрать все (${Math.min(selectableRows.length, HARD_CAP_PER_CLICK)}${selectableRows.length > HARD_CAP_PER_CLICK ? ` из ${selectableRows.length}` : ''})`}
           </Button>
           <Button
             variant="primary"
             size="sm"
             onClick={() => void submit()}
-            disabled={selected.size === 0 || submitting || keyStatus === 'fail'}
+            disabled={selected.size === 0 || submitting || keyStatus === 'fail' || selectionBreakdown.effectiveSendable === 0}
             data-testid="indexnow-submit"
           >
-            <Send size={14}/> {submitting ? 'Отправляю…' : `Отправить выбранное (${selected.size})`}
+            <Send size={14}/> {submitting ? 'Отправляю…' : `Отправить выбранное (${selectionBreakdown.effectiveSendable})`}
           </Button>
         </div>
       </div>
@@ -379,6 +532,11 @@ export default function IndexNowPanel() {
                           <div className="flex flex-col gap-0.5">
                             <span className="text-white/70">{timeAgo(it.last_submitted_at)}</span>
                             <Badge tone={it.last_ok ? 'success' : 'danger'}>HTTP {it.last_status}</Badge>
+                            {isCoolDown(it) && (
+                              <span className="text-amber-300/80 text-[10px]" data-testid={`indexnow-cooldown-${it.url}`}>
+                                {coolDownRemaining(it)}
+                              </span>
+                            )}
                           </div>
                         ) : (
                           <Badge tone="warning">никогда</Badge>

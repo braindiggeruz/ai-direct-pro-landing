@@ -41,11 +41,11 @@ import { runChunkedSubmit, INDEXNOW_ENDPOINT, type IndexNowKind, type PerUrlResu
 
 const SITE_HOST = 'gptbot.uz';
 const SITE_URL = `https://${SITE_HOST}`;
-// Cap a single operator click at this many URLs. Bing's IndexNow limit
-// is ~10 URLs / minute / host; 100 with chunking + Retry-After fits in
-// the 25 s walltime budget comfortably. Anything above this comes back
-// as kind='deferred' and the operator re-submits with another click.
-const SELECTION_HARD_CAP = 100;
+// Cap per-click submission. With the chunked engine (chunkSize=8,
+// interChunkMs=3s, wallBudget=90s) ~200 URLs comfortably fit one click.
+// URLs beyond the cap are returned in `rejected` with reason="selection_capped"
+// so the operator can submit the rest in a follow-up click.
+const SELECTION_HARD_CAP = 200;
 const COOL_DOWN_MS = 24 * 60 * 60 * 1000;
 
 interface IndexNowEnv extends Env {
@@ -81,6 +81,15 @@ function lightValidate(urls: string[]): { safe: string[]; rejected: { url: strin
     seen.add(u);
     safe.push(u);
   }
+  // Make selection-cap explicit so the UI shows the user "X URLs не вошли
+  // в этот клик — отправь их следующим кликом" rather than silently
+  // truncating.
+  if (safe.length > SELECTION_HARD_CAP) {
+    const overflow = safe.slice(SELECTION_HARD_CAP);
+    for (const u of overflow) {
+      rejected.push({ url: u, reason: `selection_capped_at_${SELECTION_HARD_CAP}` });
+    }
+  }
   return { safe: safe.slice(0, SELECTION_HARD_CAP), rejected };
 }
 
@@ -109,10 +118,14 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     }, 400);
   }
 
-  let body: { urls?: unknown };
+  let body: { urls?: unknown; force?: unknown };
   try { body = await request.json(); } catch { return json({ ok: false, error: 'Invalid JSON body' }, 400); }
   const rawUrls = Array.isArray(body.urls) ? body.urls.filter((u): u is string => typeof u === 'string') : [];
   if (rawUrls.length === 0) return json({ ok: false, error: 'urls must be a non-empty string[]' }, 400);
+  // `force: true` lets the operator re-submit URLs that are still in the
+  // 24h cool-down window. Used by the per-row "повторить" action when an
+  // operator wants to push a specific URL again before cool-down expires.
+  const force = body.force === true;
 
   const { safe, rejected } = lightValidate(rawUrls);
   if (safe.length === 0) {
@@ -136,17 +149,21 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
 
   // 24-hour cool-down lookup. Only count rows with upstream_ok=1 —
   // a stale 429 row should NOT block a retry.
+  // When `force` is true we skip the lookup entirely so every URL goes
+  // through the engine.
   const nowMs = Date.now();
-  const latestMap = await readLatestPerUrl(env, safe).catch(() => new Map());
   const recentSuccess = new Map<string, { submittedAt: string; ageMs: number }>();
-  for (const url of safe) {
-    const row = latestMap.get(url);
-    if (!row || row.upstream_ok !== 1) continue;
-    const ts = Date.parse(row.submitted_at);
-    if (!Number.isFinite(ts)) continue;
-    const ageMs = nowMs - ts;
-    if (ageMs >= 0 && ageMs < COOL_DOWN_MS) {
-      recentSuccess.set(url, { submittedAt: row.submitted_at, ageMs });
+  if (!force) {
+    const latestMap = await readLatestPerUrl(env, safe).catch(() => new Map());
+    for (const url of safe) {
+      const row = latestMap.get(url);
+      if (!row || row.upstream_ok !== 1) continue;
+      const ts = Date.parse(row.submitted_at);
+      if (!Number.isFinite(ts)) continue;
+      const ageMs = nowMs - ts;
+      if (ageMs >= 0 && ageMs < COOL_DOWN_MS) {
+        recentSuccess.set(url, { submittedAt: row.submitted_at, ageMs });
+      }
     }
   }
 
