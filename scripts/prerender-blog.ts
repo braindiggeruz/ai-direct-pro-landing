@@ -17,6 +17,11 @@ import path from 'node:path';
 import fg from 'fast-glob';
 import type { BlogArticle, GlobalSEO, FaqItem, BodyBlock } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
+import {
+  buildOrganizationLd,
+  buildWebSiteLd,
+  buildBreadcrumbLd,
+} from './jsonld-helpers';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -118,50 +123,36 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   const blogIndexUrl = `${global.siteUrl}/${a.locale === 'uz' ? 'uz' : 'ru'}/blog/`;
   const blogIndexName = L(a).blog;
   const graph: Record<string, unknown>[] = [];
-  graph.push({
-    '@type': 'Organization',
-    '@id': `${global.siteUrl}/#org`,
-    name: global.organizationName,
-    url: global.siteUrl,
-    logo: global.logo,
-    sameAs: global.sameAs,
-  });
-  graph.push({
-    '@type': 'WebSite',
-    '@id': `${global.siteUrl}/#site`,
-    url: global.siteUrl,
-    name: global.siteName,
-    inLanguage: ['ru', 'uz'],
-  });
-  graph.push({
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: global.siteName, item: global.siteUrl },
-      { '@type': 'ListItem', position: 2, name: blogIndexName, item: blogIndexUrl },
-      { '@type': 'ListItem', position: 3, name: a.h1, item: fullUrl },
-    ],
-  });
+  graph.push(buildOrganizationLd(global));
+  graph.push(buildWebSiteLd(global));
+  graph.push(buildBreadcrumbLd([
+    { name: global.siteName, item: `${global.siteUrl}/` },
+    { name: blogIndexName, item: blogIndexUrl },
+    { name: a.h1, item: fullUrl },
+  ]));
   graph.push({
     '@type': 'Article',
+    '@id': `${fullUrl}#article`,
     headline: a.title,
+    name: a.h1,
     description: a.description,
     inLanguage: a.locale === 'uz' ? 'uz' : 'ru',
-    author: { '@type': 'Organization', name: a.author || global.organizationName, url: global.siteUrl },
-    publisher: {
-      '@type': 'Organization',
-      name: global.organizationName,
-      logo: { '@type': 'ImageObject', url: global.logo },
-    },
+    isPartOf: { '@id': `${global.siteUrl}/#site` },
+    about: { '@id': `${global.siteUrl}/#org` },
+    author: { '@type': 'Organization', '@id': `${global.siteUrl}/#org`, name: a.author || global.organizationName, url: `${global.siteUrl}/` },
+    publisher: { '@id': `${global.siteUrl}/#org` },
     datePublished: a.datePublished || a.createdAt,
     dateModified: a.dateModified || a.updatedAt || a.datePublished,
     mainEntityOfPage: fullUrl,
     image: a.ogImage || global.defaultOgImage,
     keywords: (a.keywords || []).join(', '),
     articleSection: a.topicCluster,
+    audience: { '@type': 'BusinessAudience', audienceType: 'Small and medium business in Uzbekistan' },
   });
   if (a.faq?.length) {
     graph.push({
       '@type': 'FAQPage',
+      '@id': `${fullUrl}#faq`,
       mainEntity: a.faq.map((f) => ({
         '@type': 'Question',
         name: f.q,
@@ -293,26 +284,33 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
   `).join('');
 
   const ldGraph: Record<string, unknown>[] = [
-    {
-      '@type': 'Organization',
-      '@id': `${global.siteUrl}/#org`,
-      name: global.organizationName,
-      url: global.siteUrl,
-      logo: global.logo,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: global.siteName, item: global.siteUrl },
-        { '@type': 'ListItem', position: 2, name: t.blog, item: indexUrl },
-      ],
-    },
+    buildOrganizationLd(global),
+    buildWebSiteLd(global),
+    buildBreadcrumbLd([
+      { name: global.siteName, item: `${global.siteUrl}/` },
+      { name: t.blog, item: indexUrl },
+    ]),
     {
       '@type': 'CollectionPage',
+      '@id': `${indexUrl}#collection`,
       url: indexUrl,
       name: t.blogTitle,
       description: t.blogIndexDesc,
       inLanguage: locale,
+      isPartOf: { '@id': `${global.siteUrl}/#site` },
+      about: { '@id': `${global.siteUrl}/#org` },
+      publisher: { '@id': `${global.siteUrl}/#org` },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListOrder: 'https://schema.org/ItemListOrderDescending',
+        numberOfItems: articles.length,
+        itemListElement: articles.slice(0, 30).map((a, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${global.siteUrl}${a.url}`,
+          name: a.h1,
+        })),
+      },
     },
   ];
 
