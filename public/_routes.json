@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/*", "/admin-tools/*"],
+  "include": ["/api/*", "/admin-tools/*", "/robots.txt"],
   "exclude": []
 }
