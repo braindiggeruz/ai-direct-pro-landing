@@ -1,0 +1,73 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/sayt-uchun-ai-bot/",
+  "slug": "sayt-uchun-ai-bot",
+  "pageType": "money",
+  "primaryKeyword": "sayt uchun AI bot",
+  "secondaryKeywords": [
+    "sayt uchun chat-bot",
+    "saytga chat-bot vidjeti",
+    "saytga onlayn-konsultant",
+    "saytda ariza yig'uvchi bot",
+    "sayt uchun AI konsultant"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Sayt uchun AI bot: onlayn-konsultant va ariza qabul qilish",
+  "title": "Sayt uchun AI bot — vidjet-konsultant va arizalar 24/7 2026 | GPTBot",
+  "description": "Sayt uchun AI bot: vidjet tashrif buyuruvchilarga javob beradi, tovar va xizmatlar bo'yicha konsultatsiya beradi, arizalarni yig'adi va Telegram yoki CRM'ga 24/7 uzatadi. Rus va o'zbek tilida. O'zbekistondagi biznes uchun.",
+  "canonical": "https://gptbot.uz/uz/sayt-uchun-ai-bot/",
+  "hreflangRu": "/ru/ai-bot-dlya-sayta/",
+  "hreflangUz": "/uz/sayt-uchun-ai-bot/",
+  "ogTitle": "Sayt uchun AI bot — vidjet-konsultant va arizalar 24/7 | GPTBot",
+  "ogDescription": "Saytdagi vidjet tashrif buyuruvchilarga javob beradi, konsultatsiya beradi va arizalarni Telegram yoki CRM'ga uzatadi. Rus va o'zbek tilida.",
+  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Sayt uchun AI bot",
+  "heroTitle": "Sayt uchun AI bot",
+  "heroSubtitle": "Vidjet-konsultant tashrif buyuruvchilarga javob beradi, tovar va xizmatlar bo'yicha konsultatsiya beradi, arizalarni yig'adi va Telegram yoki CRM'ga uzatadi — kechayu kunduz.",
+  "ctaPrimaryLabel": "Saytga bot qo'yish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Saytdagi bot nima qiladi",
+  "ctaSecondaryHref": "#nima-qiladi",
+  "bodyBlocks": [
+    { "type": "p", "text": "Qisqacha: sayt uchun AI bot — bu sahifa burchagidagi vidjet bo'lib, tashrif buyuruvchilarga 24/7 javob beradi, tovar va xizmatlar bo'yicha konsultatsiya beradi, tanlashga yordam beradi, ism va telefonni yig'adi va arizani Telegram yoki CRM'ga uzatadi. U aks holda xaridsiz ketadigan tashrif buyuruvchini ushlab qoladi va sayt trafigini arizaga aylantiradi. GPT'da ishlaydi, rus va o'zbek tilidagi erkin savollarni tushunadi. Bazaviy vidjet — 3 mln so'mdan, integratsiyali GPT-bot — 7 mln so'mdan. Yangilandi: 2026 iyun." },
+    { "type": "h2", "text": "Saytdagi AI bot nima qiladi", "id": "nima-qiladi" },
+    { "type": "list", "items": [
+      "Tashrif buyuruvchilarga javob beradi: tovar, xizmat, narx va yetkazib berish bo'yicha savollarga bir zumda reaksiya qiladi.",
+      "Konsultatsiya beradi va tanlaydi: mijoz so'roviga mos tovar yoki xizmatni tanlashga yordam beradi.",
+      "Arizalarni yig'adi: ism, telefon va vazifani to'g'ridan-to'g'ri saytda oladi, boshqa kanalga o'tmasdan.",
+      "Lidlarni uzatadi: arizani operatorga Telegram'da yoki CRM'ga (AmoCRM, Bitrix24) yuboradi.",
+      "24/7 ishlaydi: tunda va dam olish kunlari tashrif buyuruvchi javob oladi va kontakt qoldiradi.",
+      "Tillar: brendingiz ohangida rus va o'zbek tilida muloqot qiladi."
+    ] },
+    { "type": "h2", "text": "Saytga nega chat-bot kerak" },
+    { "type": "p", "text": "Sayt tashrif buyuruvchilarining ko'pchiligi qo'ng'iroq qilmasdan va yozmasdan ketadi: ularga kontakt qidirib javob kutgandan ko'ra, oynani yopish osonroq. AI-vidjet bu lahzani ushlaydi — savolga shu yerda va shu zahoti javob beradi, tanlashga yordam beradi va darhol kontaktni oladi. Shunday qilib reklama va SEO uchun allaqachon to'lagan trafigingiz raqobatchilarga oqib ketmasdan, arizaga aylanadi." },
+    { "type": "h2", "text": "Saytdagi bot messenjerlar bilan qanday bog'liq" },
+    { "type": "p", "text": "Saytdagi bot — yagona tizimning bir qismi: o'sha AI-dvigatel Telegram, Instagram Direct va WhatsApp'da ham ishlaydi, barcha arizalar esa yagona voronkada to'planadi. Tashrif buyuruvchi suhbatni saytda boshlab, kontekstni yo'qotmasdan messenjerda davom ettirishi mumkin. Operator barcha murojaatlarni bir joyda ko'radi." },
+    { "type": "h2", "text": "Sayt uchun AI bot qancha turadi" },
+    { "type": "p", "text": "Bitta sayt uchun bazaviy vidjet — 3 mln so'mdan, tanlov va arizalarni CRM'ga uzatuvchi GPT-bot — 7 mln so'mdan, katalog va murakkab integratsiyali yechim — 15 mln so'mdan. Aniq smetani brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida." },
+    { "type": "cta", "text": "Saytga bot qo'yish", "href": "https://t.me/XGame_changerx" }
+  ],
+  "faq": [
+    { "q": "Sayt uchun AI bot nima qiladi?", "a": "Saytdagi vidjet tashrif buyuruvchilarga 24/7 javob beradi, tovar va xizmatlar bo'yicha konsultatsiya beradi, tanlashga yordam beradi, ism va telefonni yig'adi va arizani Telegram yoki CRM'ga uzatadi. GPT'da ishlaydi va rus hamda o'zbek tilidagi erkin savollarni tushunadi." },
+    { "q": "Bot saytga qanday o'rnatiladi?", "a": "Bot saytga sahifa burchagidagi vidjet sifatida kichik kod-vstavka orqali qo'shiladi. Ko'pchilik saytlar va konstruktorlarga mos keladi; sozlash va integratsiyalarni biz qilamiz." },
+    { "q": "Bot arizalarni to'g'ridan-to'g'ri saytda yig'adimi?", "a": "Ha. Bot ism, telefon va vazifani saytdagi suhbatda, boshqa kanalga o'tmasdan oladi va tayyor kontaktni operatorga Telegram'da yoki CRM'ga (AmoCRM, Bitrix24) uzatadi." },
+    { "q": "Bot saytda tunda ishlaydimi?", "a": "Ha, bot 24/7 javob beradi. Tunda va dam olish kunlari tashrif buyuruvchi javob oladi va kontakt qoldiradi, operator esa ish kuni boshiga arizani ko'radi." },
+    { "q": "Saytdagi bot messenjerlar bilan bog'liqmi?", "a": "Ha. O'sha AI-dvigatel Telegram, Instagram Direct va WhatsApp'da ishlaydi, barcha arizalar yagona voronkada to'planadi. Tashrif buyuruvchi kontekstni yo'qotmasdan suhbatni messenjerda davom ettirishi mumkin." },
+    { "q": "Sayt uchun bot qancha turadi?", "a": "Bazaviy vidjet — 3 mln so'mdan, tanlov va CRM'li GPT-bot — 7 mln so'mdan, katalog va integratsiyali yechim — 15 mln so'mdan. Aniq narxni brifdan keyin hisoblaymiz." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/gpt-bot-biznes-uchun/", "anchor": "GPT-bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/ai-sotuvchi/", "anchor": "AI sotuvchi", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/chat-bot-narxi/", "anchor": "chat-bot narxi", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/chat-bot-biznes-uchun/", "anchor": "biznes uchun chat-bot", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-06-25",
+  "createdAt": "2026-06-25T00:00:00Z",
+  "updatedAt": "2026-06-25"
+}
