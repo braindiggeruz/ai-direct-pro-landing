@@ -37,6 +37,12 @@ function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 }
 
+// For visible element text content. Apostrophes are legitimate in Uzbek Latin and
+// must NOT become &#39; — only & and < are unsafe inside text nodes.
+function escapeText(s: string): string {
+  return (s || '').replace(/[&<]/g, (c) => ({ '&': '&amp;', '<': '&lt;' }[c]!));
+}
+
 function load<T>(glob: string): T[] {
   return fg.sync(glob, { cwd: CONTENT_DIR, absolute: true }).map((f) => JSON.parse(fs.readFileSync(f, 'utf-8'))) as T[];
 }
@@ -56,16 +62,16 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     .sort((a, b) => (b.datePublished || '').localeCompare(a.datePublished || ''));
 
   const moneyList = liveMoney
-    .map((p) => `<li><a href="${escapeHtml(p.url)}">${escapeHtml(p.h1 || p.title)}</a></li>`)
+    .map((p) => `<li><a href="${escapeHtml(p.url)}">${escapeText(p.h1 || p.title)}</a></li>`)
     .join('');
   const moneyListUz = liveMoneyUz
-    .map((p) => `<li><a href="${escapeHtml(p.url)}" hreflang="uz">${escapeHtml(p.h1 || p.title)}</a></li>`)
+    .map((p) => `<li><a href="${escapeHtml(p.url)}" hreflang="uz">${escapeText(p.h1 || p.title)}</a></li>`)
     .join('');
   const blogList = liveBlog
-    .map((a) => `<li><a href="${escapeHtml(a.url)}">${escapeHtml(a.title || a.h1)}</a></li>`)
+    .map((a) => `<li><a href="${escapeHtml(a.url)}">${escapeText(a.title || a.h1)}</a></li>`)
     .join('');
   const blogListUz = liveBlogUz
-    .map((a) => `<li><a href="${escapeHtml(a.url)}" hreflang="uz">${escapeHtml(a.title || a.h1)}</a></li>`)
+    .map((a) => `<li><a href="${escapeHtml(a.url)}" hreflang="uz">${escapeText(a.title || a.h1)}</a></li>`)
     .join('');
 
   const cta = global.defaultCTA || { label: 'Запустить демо в Telegram', href: 'https://t.me/XGame_changerx' };
@@ -81,7 +87,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
       <a href="/ru/ai-bot-dlya-biznesa/">Решения</a>
       <a href="/ru/ai-bot-dlya-kliniki/">Ниши</a>
       <a href="/ru/blog/">Блог</a>
-      <a href="${escapeHtml(cta.href)}">${escapeHtml(cta.label)}</a>
+      <a href="${escapeHtml(cta.href)}">${escapeText(cta.label)}</a>
     </nav>
   </header>
 
@@ -89,7 +95,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     <h1>GPTBot — AI-бот для бизнеса в Узбекистане, который не теряет заявки</h1>
     <p>AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя и телефон, передаёт горячие заявки вашему менеджеру. Демо под вашу нишу.</p>
 
-    <p><a href="${escapeHtml(cta.href)}" rel="noopener">${escapeHtml(cta.label)}</a></p>
+    <p><a href="${escapeHtml(cta.href)}" rel="noopener">${escapeText(cta.label)}</a></p>
 
     <section aria-label="Решения">
       <h2>AI-бот для бизнеса — решения по нишам</h2>

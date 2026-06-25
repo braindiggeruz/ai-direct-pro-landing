@@ -75,6 +75,58 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "Salonga yozish ssenariysi"
+    },
+    {
+      "type": "p",
+      "text": "Mijoz Direct yoki Telegram'ga yozadi, bot xizmatlar va bo'sh oynalarni ko'rsatadi, ustaga va xizmatga yozadi, kontaktni qayd etib tashrifni tasdiqlaydi. Bir kun oldin bot eslatma yuboradi — bu usta o'rindig'i bo'sh qolishidan kelib chiqadigan kelmaslarni kamaytiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Bot o'zi olib boradigan xizmatlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Manikyur, pedikyur, qo'shimcha qo'yish",
+        "Soch olish, bo'yash, ukladka",
+        "Yuz va tana kosmetologiyasi",
+        "Qosh, kiprik, doimiy makiyaj",
+        "Depilyatsiya va massaj"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ustalar va jadval bo'yicha yozuv"
+    },
+    {
+      "type": "p",
+      "text": "Bot aniq ustalar bandligini hisobga oladi: faqat haqiqatan bo'sh oynalarni taklif qiladi, ikki marta yozishga yo'l qo'ymaydi va yukni taqsimlaydi. Bekor qilinganda oyna avtomatik bo'shaydi va yana yozuv uchun ochiq bo'ladi."
+    },
+    {
+      "type": "h2",
+      "text": "Mijozlarni qaytarish va takroriy tashrif"
+    },
+    {
+      "type": "p",
+      "text": "Bot tashriflar tarixini saqlaydi va yumshoq eslatishi mumkin: «manikyurni yangilash vaqti keldi» yoki «bo'yashdan bir oy o'tdi». Bu reklama'siz mijozlarni qaytaradi va bitta mijozdan tushumni oshiradi. Baza bo'yicha aksiya tarqatmasini sozlash mumkin."
+    },
+    {
+      "type": "h2",
+      "text": "Kimlar uchun mos"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Alohida usta va kabinetlar",
+        "Salon va barbershoplar",
+        "Bir necha nuqtali salon tarmoqlari",
+        "Manikyur va qosh studiyalari",
+        "Spa va massaj studiyalari"
+      ]
+    },
+    {
       "type": "cta",
       "text": "Salon uchun bot olish",
       "href": "https://t.me/XGame_changerx"
@@ -100,6 +152,18 @@
     {
       "q": "Salonlar tarmog'iga mos keladimi?",
       "a": "Ha, har xil jadvallar va xizmatlar bilan bir nechta nuqtalarni ulash mumkin."
+    },
+    {
+      "q": "Salon uchun bot qancha turadi?",
+      "a": "Narx ustalar, xizmatlar va kanallar soniga bog'liq. Instagram va Telegram orqali oddiy yozuv kamroq turadi. Salongizga qarab hisoblaymiz — Telegram'ga yozing."
+    },
+    {
+      "q": "Bot takroriy yozuvni eslatadimi?",
+      "a": "Ha. U oxirgi tashrif sanasini eslaydi va mijozга xizmatni yangilash vaqti kelganini eslatishi mumkin."
+    },
+    {
+      "q": "Bot Instagram'dan ishlay oladimi?",
+      "a": "Ha, go'zallik sohasida Instagram Direct — asosiy kanal. Bot Direct'da, jumladan postlar ostida javob beradi va darhol yozadi."
     }
   ],
   "internalLinks": [
@@ -129,7 +193,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-05-30",
+  "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00"
+  "updatedAt": "2026-06-25"
 }

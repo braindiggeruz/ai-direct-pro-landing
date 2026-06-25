@@ -8,7 +8,7 @@ export default function Offer({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
         <div className="grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-5 relative reveal">
             <div className="absolute -inset-6 bg-brand-blue/20 blur-3xl rounded-[40%]" />
-            <img src="/assets/landing/6.png" alt="Преимущества GPTBot: AI-консультант 24/7, сбор заявок, передача менеджеру" className="relative w-full h-auto rounded-3xl" loading="lazy" width={900} height={900} />
+            <img src="/assets/landing/6.webp" alt="Преимущества GPTBot: AI-консультант 24/7, сбор заявок, передача менеджеру" className="relative w-full h-auto rounded-3xl" loading="lazy" width={900} height={900} />
           </div>
 
           <div className="lg:col-span-7 reveal">
