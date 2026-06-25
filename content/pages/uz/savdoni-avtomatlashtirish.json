@@ -75,6 +75,58 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "Savdoni avtomatlashtirishga nima kiradi"
+    },
+    {
+      "type": "p",
+      "text": "Savdoni avtomatlashtirish — bu tartibsiz yozishmani boshqariladigan voronkaga aylantirish: kiruvchiga darhol javob, lidni saralash, kontaktni yig'ish, arizani CRM'ga uzatish va eslatmalar. AI bot voronka tepasini yopadi, menejerlar esa faqat tayyor lidlar bilan ishlaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes savdoda qayerda pul yo'qotadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sekin birinchi javob — lid raqobatchiga ketadi",
+        "Arizalar chat va menejerlar orasida yo'qoladi",
+        "Saralash yo'q — menejerlar nomaqsadlilarga vaqt sarflaydi",
+        "Eslatma yo'q — bitimlar osilib qoladi",
+        "Tahlil yo'q — mijozlar qayerda yo'qolishi noma'lum"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI bot voronkani qanday tezlashtiradi"
+    },
+    {
+      "type": "p",
+      "text": "Bot istalgan vaqtda soniyalarda javob beradi, darhol ehtiyoj va byudjetni aniqlaydi va saralangan arizani manba tegi bilan CRM'ga uzatadi. Menejer «sovuq» kontakt emas, balki kontekstli tayyor lid oladi — bu bitim siklini qisqartiradi."
+    },
+    {
+      "type": "h2",
+      "text": "CRM bilan integratsiya"
+    },
+    {
+      "type": "p",
+      "text": "Arizalar AmoCRM, Bitrix24 yoki boshqa tizimga avtomatik tushadi: bitim yaratiladi, manba qayd etiladi, menejerga vazifa qo'yiladi. Hech narsa yo'qolmaydi, rahbar esa voronka va kanallar bo'yicha real manzarani ko'radi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi javob vaqtini soniyalargacha qisqartirish",
+        "Ko'proq bitimga yetkazilgan lid",
+        "Shaffof voronka va manbalar bo'yicha tahlil",
+        "Menejerlarning qo'l mehnati kamayadi",
+        "Trafikni oshirmasdan konversiya o'sishi"
+      ]
+    },
+    {
       "type": "cta",
       "text": "Avtomatlashtirishni joriy etish",
       "href": "https://t.me/XGame_changerx"
@@ -100,6 +152,18 @@
     {
       "q": "Qanday boshlash kerak?",
       "a": "Telegramga yozing. Nishingiz uchun пример sсенарий tayyorlaymiz: https://t.me/XGame_changerx."
+    },
+    {
+      "q": "Yechim qaysi CRM bilan integratsiyalashadi?",
+      "a": "AmoCRM, Bitrix24 va boshqa mashhur tizimlar bilan. Arizalar manba bilan voronkaga avtomatik tushadi."
+    },
+    {
+      "q": "Savdoni avtomatlashtirish qancha turadi?",
+      "a": "Narx kanallar soni va CRM integratsiyasi chuqurligiga bog'liq. Bazaviy yig'ish va uzatish arzonroq. Jarayoningizga qarab hisoblaymiz — Telegram'ga yozing."
+    },
+    {
+      "q": "Bu kichik biznesga mos keladimi?",
+      "a": "Ha. Oddiydan boshlash mumkin: darhol javob va arizalarni Telegram'ga uzatish, keyin o'sish bilan CRM va tahlil qo'shish."
     }
   ],
   "internalLinks": [
@@ -129,7 +193,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-05-30",
+  "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00"
+  "updatedAt": "2026-06-25"
 }

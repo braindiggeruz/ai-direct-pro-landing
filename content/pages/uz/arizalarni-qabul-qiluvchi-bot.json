@@ -76,6 +76,58 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "Arizalarni qabul qiluvchi bot nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Arizalarni qabul qiluvchi bot birinchi liniya virtual operatori sifatida ishlaydi: kiruvchi murojaatni qabul qiladi, tipik savollarga javob beradi, kerakli ma'lumotlarni yig'adi va tayyor arizani mas'ul xodimga uzatadi. U operatorlarni rutindan ozod qiladi va qayta ishlashni tezlashtiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Bot qaysi arizalarni qabul qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xizmat yoki maslahat uchun arizalar",
+        "Buyurtma va bronlar",
+        "Qo'llab-quvvatlovga murojaat",
+        "Qabul yoki uchrashuvga yozuv",
+        "Hisob-kitob va taklif so'rovlari"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Arizalarni yo'naltirish"
+    },
+    {
+      "type": "p",
+      "text": "Bot arizani mavzuga qarab kerakli xodim yoki bo'limga yo'naltirishi mumkin: savdo, qo'llab-quvvatlov, aniq filial. Bu qayta ishlash vaqtini qisqartiradi va arizaning mas'ulsiz «osilib qolishi»ni yo'qotadi."
+    },
+    {
+      "type": "h2",
+      "text": "Ustuvorlik va tezlik"
+    },
+    {
+      "type": "p",
+      "text": "Issiq arizalarni bot belgilab birinchi navbatda uzatadi, tipik savollarga esa o'zi javob beradi. Natijada operatorlar faqat haqiqatan odam talab qiladigan ish bilan shug'ullanadi, mijoz esa navbatda kutmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Kimlar uchun mos"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Servis kompaniyalari va xizmatlar",
+        "Internet-do'kon va yetkazib berish",
+        "Klinikalar va yozuv markazlari",
+        "Agentlik va B2B savdo",
+        "Kiruvchi arizalar oqimli istalgan biznes"
+      ]
+    },
+    {
       "type": "cta",
       "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
@@ -101,6 +153,18 @@
     {
       "q": "Narxi qancha?",
       "a": "Narx ssenariy murakkabligi va ulanadigan kanallar/CRM soniga bog'liq. Bepul demo: https://t.me/XGame_changerx."
+    },
+    {
+      "q": "Bot operatorni almashtiradimi?",
+      "a": "Yo'q, uni yengillashtiradi. Bot tipik murojaatlarni yopadi va ma'lumot yig'adi, operator esa tayyor kontekst bilan murakkab holatlarga ulanadi."
+    },
+    {
+      "q": "Arizalarni bo'limlar bo'yicha taqsimlash mumkinmi?",
+      "a": "Ha. Bot arizani murojaat mavzusiga qarab kerakli xodim yoki bo'limga yo'naltiradi."
+    },
+    {
+      "q": "Arizalarni qabul qiluvchi bot qancha turadi?",
+      "a": "Narx kanallar soni, ssenariy va integratsiyalarga bog'liq. Jarayoningizga qarab hisoblaymiz — Telegram'ga yozing."
     }
   ],
   "internalLinks": [
@@ -136,7 +200,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-03",
+  "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-06-03T00:00:00Z",
-  "updatedAt": "2026-06-03T00:00:00Z"
+  "updatedAt": "2026-06-25"
 }

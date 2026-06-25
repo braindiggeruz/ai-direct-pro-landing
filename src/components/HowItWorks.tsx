@@ -13,7 +13,7 @@ export default function HowItWorks({ t }: { t: Dict }) {
           <div className="lg:col-span-5 relative reveal">
             <div className="absolute -inset-6 bg-brand-blue/20 blur-3xl rounded-[40%]" />
             <img
-              src="/assets/landing/5.png"
+              src="/assets/landing/5.webp"
               alt="GPTBot AI-менеджер автоматизирует ответы клиентам в Instagram и Telegram"
               className="relative w-full h-auto rounded-3xl"
               loading="lazy"

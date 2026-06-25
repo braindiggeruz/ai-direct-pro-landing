@@ -47,6 +47,12 @@ function escapeHtml(s: string): string {
   return (s || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 }
 
+// For visible element text content. Apostrophes are legitimate in Uzbek Latin and
+// must NOT become &#39; — only & and < are unsafe inside text nodes.
+function escapeText(s: string): string {
+  return (s || '').replace(/[&<]/g, (c) => ({ '&': '&amp;', '<': '&lt;' }[c]!));
+}
+
 // Localised UI strings used in blog templates.
 const STRINGS = {
   ru: {
@@ -83,12 +89,12 @@ function L(a: { locale?: string }): typeof STRINGS.ru {
 
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
-    case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeHtml(b.text || '')}</h2>`;
-    case 'h3': return `<h3 class="font-display text-2xl mt-10 mb-4 text-white">${escapeHtml(b.text || '')}</h3>`;
-    case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-5">${escapeHtml(b.text || '')}</p>`;
-    case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan shrink-0">→</span><span>${escapeHtml(i)}</span></li>`).join('')}</ul>`;
-    case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-5 italic text-white/85 my-8 text-lg">${escapeHtml(b.text || '')}</blockquote>`;
-    case 'cta': return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-7 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeHtml(b.text || 'Запустить')}</a></div>`;
+    case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeText(b.text || '')}</h2>`;
+    case 'h3': return `<h3 class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
+    case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-5">${escapeText(b.text || '')}</p>`;
+    case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan shrink-0">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
+    case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-5 italic text-white/85 my-8 text-lg">${escapeText(b.text || '')}</blockquote>`;
+    case 'cta': return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-7 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`;
     default: return '';
   }
 }
@@ -98,13 +104,13 @@ function renderFaq(faq: FaqItem[], a: BlogArticle): string {
   const items = faq.map((f) => `
     <details class="group bg-bg-surface border border-white/10 rounded-2xl p-6 mb-3 open:border-brand-cyan/30">
       <summary class="cursor-pointer font-display text-lg text-white flex justify-between items-center">
-        <span>${escapeHtml(f.q)}</span>
+        <span>${escapeText(f.q)}</span>
         <span class="text-brand-cyan group-open:rotate-45 transition-transform">+</span>
       </summary>
-      <p class="text-white/80 mt-4 leading-relaxed">${escapeHtml(f.a)}</p>
+      <p class="text-white/80 mt-4 leading-relaxed">${escapeText(f.a)}</p>
     </details>
   `).join('');
-  return `<section data-testid="article-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">${escapeHtml(L(a).faqHeading)}</h2>${items}</section>`;
+  return `<section data-testid="article-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">${escapeText(L(a).faqHeading)}</h2>${items}</section>`;
 }
 
 function renderInternalLinks(a: BlogArticle): string {
@@ -112,10 +118,10 @@ function renderInternalLinks(a: BlogArticle): string {
   const items = a.internalLinks.map((l) => `
     <a href="${escapeHtml(l.target)}" data-testid="article-related-link" class="block bg-bg-surface border border-white/10 rounded-xl p-4 hover:border-brand-cyan/40 transition-colors">
       <div class="text-brand-cyan text-sm mb-1">→</div>
-      <div class="text-white font-medium">${escapeHtml(l.anchor)}</div>
+      <div class="text-white font-medium">${escapeText(l.anchor)}</div>
     </a>
   `).join('');
-  return `<section data-testid="article-related" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeHtml(L(a).relatedHeading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+  return `<section data-testid="article-related" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeText(L(a).relatedHeading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
 function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
@@ -186,11 +192,11 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
   return `<!doctype html>
 <html lang="${lang}">
 <head>
-<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});loadGTM();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(loadGTM,4000);}else{w.addEventListener('load',function(){setTimeout(loadGTM,4000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
-<title>${escapeHtml(a.title)}</title>
+<title>${escapeText(a.title)}</title>
 <meta name="description" content="${escapeHtml(a.description)}" />
 <meta name="robots" content="${robotsContent}" />
 <link rel="canonical" href="${escapeHtml(a.canonical || fullUrl)}" />
@@ -238,11 +244,11 @@ ${ANALYTICS_HEAD}
     <span class="px-2">/</span>
     <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
     <span class="px-2">/</span>
-    <span class="text-white/70">${escapeHtml(a.h1.slice(0, 50))}${a.h1.length > 50 ? '…' : ''}</span>
+    <span class="text-white/70">${escapeText(a.h1.slice(0, 50))}${a.h1.length > 50 ? '…' : ''}</span>
   </nav>
 
   <article>
-    <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeHtml(a.h1)}</h1>
+    <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeText(a.h1)}</h1>
     <p data-testid="article-meta" class="text-sm text-white/50 mb-2">${escapeHtml(a.author || 'GPTBot Team')} · ${escapeHtml(a.datePublished || '')}</p>
     ${(a.dateModified || a.updatedAt) ? `<p data-testid="article-updated" class="text-xs uppercase tracking-wider text-white/40 mb-10">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></p>` : '<div class="mb-10"></div>'}
     <div class="prose-invert">
@@ -277,8 +283,8 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
   const cards = articles.map((a) => `
     <a href="${escapeHtml(a.url)}" data-testid="blog-card" class="block bg-bg-surface border border-white/10 rounded-2xl p-6 hover:border-brand-cyan/40 transition-colors group">
       <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">${escapeHtml(a.topicCluster || t.blog)}</div>
-      <h2 class="font-display text-xl text-white mb-3 group-hover:text-brand-cyan transition-colors">${escapeHtml(a.h1)}</h2>
-      <p class="text-sm text-white/70 leading-relaxed mb-4">${escapeHtml(a.description)}</p>
+      <h2 class="font-display text-xl text-white mb-3 group-hover:text-brand-cyan transition-colors">${escapeText(a.h1)}</h2>
+      <p class="text-sm text-white/70 leading-relaxed mb-4">${escapeText(a.description)}</p>
       <span class="text-sm text-brand-cyan">${escapeHtml(t.read)}</span>
     </a>
   `).join('');
@@ -317,11 +323,11 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
   return `<!doctype html>
 <html lang="${locale}">
 <head>
-<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});loadGTM();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(loadGTM,4000);}else{w.addEventListener('load',function(){setTimeout(loadGTM,4000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
-<title>${escapeHtml(t.blogIndexTitle)}</title>
+<title>${escapeText(t.blogIndexTitle)}</title>
 <meta name="description" content="${escapeHtml(t.blogIndexDesc)}" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <link rel="canonical" href="${indexUrl}" />
@@ -364,8 +370,8 @@ ${ANALYTICS_HEAD}
     <span class="px-2">/</span>
     <span class="text-white/70">${escapeHtml(t.blog)}</span>
   </nav>
-  <h1 data-testid="blog-h1" class="font-display text-4xl sm:text-5xl text-white mb-4">${escapeHtml(t.blogTitle)}</h1>
-  <p data-testid="blog-subtitle" class="text-white/70 mb-12 max-w-2xl">${escapeHtml(t.blogIndexH1Subtitle)}</p>
+  <h1 data-testid="blog-h1" class="font-display text-4xl sm:text-5xl text-white mb-4">${escapeText(t.blogTitle)}</h1>
+  <p data-testid="blog-subtitle" class="text-white/70 mb-12 max-w-2xl">${escapeText(t.blogIndexH1Subtitle)}</p>
   <section data-testid="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
     ${cards}
   </section>
