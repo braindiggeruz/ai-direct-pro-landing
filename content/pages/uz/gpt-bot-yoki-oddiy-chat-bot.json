@@ -1,0 +1,73 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/gpt-bot-yoki-oddiy-chat-bot/",
+  "slug": "gpt-bot-yoki-oddiy-chat-bot",
+  "pageType": "money",
+  "primaryKeyword": "GPT-bot yoki oddiy chat-bot",
+  "secondaryKeywords": [
+    "GPT-bot va oddiy bot farqi",
+    "AI bot tugmali botdan nimasi bilan farq qiladi",
+    "GPT-bot va ssenariyli bot",
+    "aqlli chat-bot yoki tugmali",
+    "biznes uchun qaysi botni tanlash"
+  ],
+  "searchIntent": "informational",
+  "h1": "GPT-bot yoki oddiy chat-bot: farqi nimada",
+  "title": "GPT-bot yoki oddiy chat-bot — farqi va nimani tanlash 2026 | GPTBot",
+  "description": "GPT-bot yoki oddiy chat-bot: aqlli AI bot tugmali ssenariyli botdan nimasi bilan farq qiladi. Moslashuvchanlik, savollarni tushunish, narx va vazifalar bo'yicha solishtirish. O'zbekistondagi biznes uchun.",
+  "canonical": "https://gptbot.uz/uz/gpt-bot-yoki-oddiy-chat-bot/",
+  "hreflangRu": "/ru/gpt-bot-ili-obychnyy-chat-bot/",
+  "hreflangUz": "/uz/gpt-bot-yoki-oddiy-chat-bot/",
+  "ogTitle": "GPT-bot yoki oddiy chat-bot — farqi nimada | GPTBot",
+  "ogDescription": "Aqlli GPT-bot tugmali ssenariyli botdan nimasi bilan farq qiladi: moslashuvchanlik, savollarni tushunish, narx va vazifalar.",
+  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "GPT-bot yoki oddiy",
+  "heroTitle": "GPT-bot yoki oddiy chat-bot",
+  "heroSubtitle": "Aqlli GPT-bot tugmali ssenariyli botdan nimasi bilan farq qiladi — va vazifalaringizga qaysi birini tanlash kerak.",
+  "ctaPrimaryLabel": "Vazifaga bot tanlash",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Ikki turni solishtirish",
+  "ctaSecondaryHref": "#solishtirish",
+  "bodyBlocks": [
+    { "type": "p", "text": "Qisqacha: oddiy (tugmali, ssenariyli) chat-bot mijozni qat'iy oldindan belgilangan tugmalar va shoxlar bo'yicha yo'naltiradi — u arzon va oldindan aytib bo'ladigan, lekin erkin savollarni tushunmaydi va ssenariydan chetga chiqilganda yo'qoladi. GPT-bot tirik nutqni tushunadi, o'z so'zlari bilan berilgan savollarga javob beradi, suhbat kontekstini ushlab turadi va tabiiy eshitiladi. FAQ va oddiy menyular uchun oddiy bot yetadi; sotuv, konsultatsiya va murakkab savollar uchun GPT-bot kerak. Oddiy bot — 3 mln so'mdan, GPT-bot — 7 mln so'mdan. Yangilandi: 2026 iyun." },
+    { "type": "h2", "text": "GPT-bot va oddiy bot: asosiy farqlar", "id": "solishtirish" },
+    { "type": "list", "items": [
+      "Savollarni tushunish: oddiy bot — faqat tugmalar va aniq iboralar bo'yicha; GPT-bot o'z so'zlari bilan berilgan savolni tushunadi.",
+      "Moslashuvchanlik: oddiy bot ssenariydan chetga chiqilganda yo'qoladi; GPT-bot suhbatni tabiiy davom ettiradi.",
+      "Kontekst: oddiy bot oldingi gaplarni eslamaydi; GPT-bot suhbat kontekstini ushlab turadi.",
+      "Tillar va ohang: GPT-bot rus va o'zbek tilida kerakli ohangda erkin javob beradi, oddiy — tayyor iboralar bilan.",
+      "Narx: oddiy bot arzonroq (3 mln so'mdan), GPT-bot — 7 mln so'mdan.",
+      "Vazifalar: oddiy — FAQ va oddiy menyular; GPT — sotuv, konsultatsiya, nostandart savollar."
+    ] },
+    { "type": "h2", "text": "Oddiy bot qachon yetarli" },
+    { "type": "p", "text": "Agar vazifalar oddiy bo'lsa — menyu ko'rsatish, bir nechta tez-tez beriladigan savolga javob, qat'iy shakl bo'yicha ariza qabul qilish, kerakli bo'limga yo'naltirish — oddiy tugmali bot yetarli. U arzonroq, tez ishga tushadi va oldindan aytib bo'ladi. Kamchiligi: mijoz savolni o'z so'zlari bilan yoki ssenariydan tashqari yozsa, bunday bot tupikka tushadi." },
+    { "type": "h2", "text": "GPT-bot qachon kerak" },
+    { "type": "p", "text": "Agar bot sotishi, konsultatsiya berishi, erkin savollarga javob berishi va tirik suhbatdoshdek eshitilishi kerak bo'lsa — GPT-bot kerak. U mijozning ifodalarini tushunadi, kontekstni ushlab turadi, tovar yoki xizmatni tanlab beradi va menejerlardan asosiy yukni oladi. Bu endi tugmalar bo'yicha ma'lumotnoma emas, balki sizning ma'lumotlaringizda o'qitilgan to'liq qiymatli AI-yordamchi." },
+    { "type": "h2", "text": "Nimani tanlash va qancha turadi" },
+    { "type": "p", "text": "FAQ va oddiy ssenariylar uchun oddiy botni oling — 3 mln so'mdan. Sotuv va konsultatsiya uchun — GPT-botni 7 mln so'mdan, CRM va katalogli yechim esa — 15 mln so'mdan. Ko'pincha bazaviy botdan boshlab keyinroq GPT-dvigatelni qo'shish oqilona. Batafsil — chat-bot narxi sahifasida." },
+    { "type": "cta", "text": "Vazifaga bot tanlash", "href": "https://t.me/XGame_changerx" }
+  ],
+  "faq": [
+    { "q": "GPT-bot oddiy chat-botdan nimasi bilan farq qiladi?", "a": "Oddiy bot tugmalar va aniq iboralar bo'yicha yo'naltiradi va ssenariydan chetga chiqilganda yo'qoladi. GPT-bot erkin savollarni tushunadi, suhbat kontekstini ushlab turadi va tabiiy javob beradi — bu tugmalar ma'lumotnomasi emas, to'liq AI-yordamchi." },
+    { "q": "Qaysi arzonroq — GPT-bot yoki oddiy?", "a": "Oddiy tugmali bot arzonroq — 3 mln so'mdan. GPT-bot murakkabroq va 7 mln so'mdan turadi, CRM va katalogli yechim esa — 15 mln so'mdan. Tanlov vazifalarga bog'liq." },
+    { "q": "Oddiy bot qachon yetarli?", "a": "Vazifalar oddiy bo'lganda: menyu ko'rsatish, bir nechta tez-tez beriladigan savolga javob, qat'iy shakl bo'yicha ariza qabul qilish yoki bo'limga yo'naltirish. Erkin savollar va sotuv uchun u mos kelmaydi." },
+    { "q": "Aynan GPT-bot qachon kerak?", "a": "Bot sotishi, konsultatsiya berishi, savollarga o'z so'zlari bilan javob berishi va tirik suhbatdoshdek eshitilishi kerak bo'lganda. GPT-bot mijoz ifodalarini tushunadi va menejerlardan asosiy yukni oladi." },
+    { "q": "Oddiydan boshlab GPT'ga o'tish mumkinmi?", "a": "Ha. Ko'pincha 3 mln so'mdan bazaviy botdan boshlab, keyin o'sish bilan GPT-dvigatel, ikkinchi kanal va CRM integratsiyasini qo'shish oqilona." },
+    { "q": "GPT-bot rus va o'zbek tilini tushunadimi?", "a": "Ha, GPT-bot rus va o'zbek tilida kerakli ohangda erkin javob beradi va kontekstni ushlab turadi. Oddiy bot oldindan tayyorlangan iboralar bilan ishlaydi." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/ai-bot-yoki-menejer/", "anchor": "AI bot yoki menejer", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/gpt-bot-biznes-uchun/", "anchor": "GPT-bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/chat-bot-narxi/", "anchor": "chat-bot narxi", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/chat-bot-biznes-uchun/", "anchor": "biznes uchun chat-bot", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/ai-sotuvchi/", "anchor": "AI sotuvchi", "locale": "uz", "type": "contextual" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-06-25",
+  "createdAt": "2026-06-25T00:00:00Z",
+  "updatedAt": "2026-06-25"
+}
