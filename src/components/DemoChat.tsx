@@ -72,7 +72,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
           <div className="lg:col-span-7 reveal">
             <div className="glass-strong p-4 sm:p-6 shadow-card">
               <div className="flex items-center gap-3 pb-4 border-b border-white/10">
-                <img src="/assets/landing/2.png" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
+                <img src="/assets/landing/2.webp" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
                 <div>
                   <div className="text-sm font-semibold text-white">AI Sales Assistant</div>
                   <div className="text-[11px] text-brand-cyan flex items-center gap-1.5">

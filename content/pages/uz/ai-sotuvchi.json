@@ -76,6 +76,59 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "AI sotuvchi qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI sotuvchi mijozni messenjerda kutib oladi, ehtiyojni aniqlaydi, mahsulot yoki xizmat tanlashga yordam beradi, tipik e'tirozlarni ishlab chiqadi va arizagacha olib boradi: kontaktni yig'adi va issiq lidni menejerga uzatadi. U hech qachon charchamaydigan eng yaxshi sotuvchi kabi ishlaydi."
+    },
+    {
+      "type": "h2",
+      "text": "AI sotuvchi nimani uddalaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Lidni saralaydi: byudjet, ehtiyoj, muddat",
+        "Assortimentdan tanlashga yordam beradi",
+        "Narx va shartlar bo'yicha e'tirozlarga javob beradi",
+        "Qo'shimchalar taklif qilib o'rtacha chekni oshiradi",
+        "Kontaktni yig'adi va arizani qayd etadi",
+        "Issiq lidni menejer yoki CRM'ga uzatadi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Oddiy botdan nimasi bilan farq qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Oddiy bot shunchaki savollarga javob beradi. AI sotuvchi mijozni voronka bo'ylab olib boradi: to'g'ri savollar beradi, ehtiyojni aniqlaydi va xaridga yetaklaydi. Ichida erkin shakllarni tushunadigan va kontekstni saqlaydigan GPT-dvigatel ishlashi mumkin."
+    },
+    {
+      "type": "h2",
+      "text": "Qayerda ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI sotuvchi Telegram, Instagram Direct va WhatsApp'da — mijozlaringiz muloqot qiladigan joyda ishlaydi. Barcha kanaldan arizalar bitta joyda yig'iladi: menejerda Telegram'da yoki CRM'da."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi biznes uchun mos"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xizmat va konsalting",
+        "Internet-do'kon va chakana savdo",
+        "Ko'chmas mulk va avtobiznes",
+        "Ta'lim va kurslar",
+        "Kiruvchi murojaatli istalgan biznes"
+      ]
+    },
+    {
       "type": "cta",
       "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
@@ -101,6 +154,18 @@
     {
       "q": "Narxi qancha?",
       "a": "Narx ssenariy murakkabligi va kanallar soniga bog'liq. Nishingiz uchun bepul demo oling: https://t.me/XGame_changerx."
+    },
+    {
+      "q": "AI sotuvchi savdo bo'limini almashtiradimi?",
+      "a": "Yo'q, uni kuchaytiradi. Bot birinchi aloqa, saralash va rutinni oladi, menejerlar esa allaqachon iliq, tayyor lidlar bilan bitimlarni yopadi."
+    },
+    {
+      "q": "U e'tirozlar bilan ishlay oladimi?",
+      "a": "Ha. Bot narx, muddat va shartlar bo'yicha tipik e'tirozlarni oldindan belgilangan ssenariy bo'yicha ishlaydi, murakkablarini menejerga uzatadi."
+    },
+    {
+      "q": "AI sotuvchi qancha turadi?",
+      "a": "Narx kanallar soni, ssenariy murakkabligi va CRM integratsiyasiga bog'liq. Voronkangizga qarab hisoblaymiz — Telegram'ga yozing."
     }
   ],
   "internalLinks": [
@@ -136,7 +201,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-03",
+  "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-06-03T00:00:00Z",
-  "updatedAt": "2026-06-03T00:00:00Z"
+  "updatedAt": "2026-06-25"
 }
