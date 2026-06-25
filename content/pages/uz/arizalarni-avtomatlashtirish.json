@@ -75,6 +75,58 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "Arizalarni avtomatlashtirish nima"
+    },
+    {
+      "type": "p",
+      "text": "Arizalarni avtomatlashtirish — bu messenjerlardan kelgan har bir murojaat darhol javob olib, tartibli arizaga (ism, telefon, mohiyat) aylanib, menejer yoki CRM'ga tushishi. Hech bir xabar javobsiz qolmaydi va yo'qolmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Qo'lda arizalar nega yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xabarlar turli kanallarga keladi va yo'qoladi",
+        "Tunda va dam olish kunlari javob beradigan odam yo'q",
+        "Menejer cho'qqi vaqtida ulgurmaydi",
+        "Arizalar qog'oz va chatlarda qayd etiladi",
+        "Barcha murojaat ko'rinadigan yagona joy yo'q"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Avtomatlashtirish qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "Mijoz Telegram, Instagram yoki WhatsApp'ga yozadi → bot darhol javob beradi, aniqlovchi savollar berib kontaktni yig'adi → arizani shakllantirib menejerga Telegram yoki CRM'ga yuboradi. Barcha kanal bitta nuqtaga keltiriladi."
+    },
+    {
+      "type": "h2",
+      "text": "Yagona ariza oynasi"
+    },
+    {
+      "type": "p",
+      "text": "Bir necha chat va akkaunt o'rniga — bitta ariza oqimi. Rahbar qancha murojaat kelganini, qaysi kanaldan va ular bilan nima bo'lganini ko'radi. Bu ilgari mijoz va pul yo'qolgan «ko'r nuqtalar»ni yo'qotadi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nol yo'qolgan murojaat",
+        "Barcha kanalda 24/7 darhol javob",
+        "Kontaktli tartibli arizalar",
+        "Qo'lda kiritishsiz CRM'ga uzatish",
+        "Kiruvchilar bo'yicha shaffof statistika"
+      ]
+    },
+    {
       "type": "cta",
       "text": "Avtomatlashtirishni olish",
       "href": "https://t.me/XGame_changerx"
@@ -100,6 +152,18 @@
     {
       "q": "Nishimga mos keladimi?",
       "a": "Ssenariyni nishingizga moslab tuzamiz. Telegramga yozing, sсенарий misolini muhokama qilamiz."
+    },
+    {
+      "q": "Arizalarni avtomatlashtirish qaysi kanallarda ishlaydi?",
+      "a": "Telegram, Instagram Direct va WhatsApp'da. Bitta yoki barcha kanalni ulash mumkin — arizalar bitta joyda yig'iladi."
+    },
+    {
+      "q": "Arizalarni avtomatlashtirish qancha turadi?",
+      "a": "Narx kanallar soni va CRM integratsiyasiga bog'liq. Bazaviy yig'ish va uzatish tez va arzon ishga tushadi. Vazifangizga qarab hisoblaymiz — Telegram'ga yozing."
+    },
+    {
+      "q": "Arizalar CRM'ga avtomatik tushadimi?",
+      "a": "Ha. Bot arizani AmoCRM, Bitrix24 yoki boshqa tizimga qo'lda kiritishsiz uzatadi, murojaat manbasini qayd etadi."
     }
   ],
   "internalLinks": [
@@ -129,7 +193,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-05-30",
+  "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00"
+  "updatedAt": "2026-06-25"
 }

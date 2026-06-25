@@ -61,15 +61,22 @@ function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 }
 
+// For visible element text content (title, h1/h2/p/li, anchors). Apostrophes are
+// legitimate characters in Uzbek Latin (O'zbekiston, do'kon) and must NOT be turned
+// into &#39; — only & and < are unsafe inside text nodes.
+function escapeText(s: string): string {
+  return (s || '').replace(/[&<]/g, (c) => ({ '&': '&amp;', '<': '&lt;' }[c]!));
+}
+
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
-    case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white">${escapeHtml(b.text || '')}</h2>`;
-    case 'h3': return `<h3 class="font-display text-2xl mt-10 mb-4 text-white">${escapeHtml(b.text || '')}</h3>`;
-    case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-4">${escapeHtml(b.text || '')}</p>`;
-    case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan">→</span><span>${escapeHtml(i)}</span></li>`).join('')}</ul>`;
-    case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeHtml(b.text || '')}</blockquote>`;
+    case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white">${escapeText(b.text || '')}</h2>`;
+    case 'h3': return `<h3 class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
+    case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-4">${escapeText(b.text || '')}</p>`;
+    case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
+    case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeText(b.text || '')}</blockquote>`;
     case 'image': return `<img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}" class="rounded-2xl my-6" loading="lazy" />`;
-    case 'cta': return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeHtml(b.text || 'Запустить')}</a></div>`;
+    case 'cta': return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`;
     default: return '';
   }
 }
@@ -79,10 +86,10 @@ function renderFaq(faq: FaqItem[]): string {
   const items = faq.map((f) => `
     <details class="group bg-bg-surface border border-white/10 rounded-2xl p-6 mb-3 open:border-brand-cyan/30">
       <summary class="cursor-pointer font-display text-lg text-white flex justify-between items-center">
-        <span>${escapeHtml(f.q)}</span>
+        <span>${escapeText(f.q)}</span>
         <span class="text-brand-cyan group-open:rotate-45 transition-transform">+</span>
       </summary>
-      <p class="text-white/80 mt-4 leading-relaxed">${escapeHtml(f.a)}</p>
+      <p class="text-white/80 mt-4 leading-relaxed">${escapeText(f.a)}</p>
     </details>
   `).join('');
   return `<section data-testid="page-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">FAQ</h2>${items}</section>`;
@@ -93,11 +100,11 @@ function renderInternalLinks(page: Page): string {
   const items = page.internalLinks.map((l) => `
     <a href="${escapeHtml(l.target)}" class="block bg-bg-surface border border-white/10 rounded-xl p-4 hover:border-brand-cyan/40 transition-colors">
       <div class="text-brand-cyan text-sm mb-1">→</div>
-      <div class="text-white font-medium">${escapeHtml(l.anchor)}</div>
+      <div class="text-white font-medium">${escapeText(l.anchor)}</div>
     </a>
   `).join('');
   const heading = page.locale === 'uz' ? 'Shuningdek o\u2018qing' : 'Смотрите также';
-  return `<section data-testid="related-pages" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeHtml(heading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+  return `<section data-testid="related-pages" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeText(heading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
 function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
@@ -107,8 +114,8 @@ function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
   const items = related.map((a) => `
     <a href="${escapeHtml(a.url)}" data-testid="related-article" class="block bg-bg-surface border border-white/10 rounded-xl p-5 hover:border-brand-cyan/40 transition-colors group">
       <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">${escapeHtml(badge)}</div>
-      <div class="text-white font-medium leading-snug group-hover:text-brand-cyan transition-colors">${escapeHtml(a.h1)}</div>
-      <div class="text-white/55 text-sm mt-2 line-clamp-3">${escapeHtml(a.description)}</div>
+      <div class="text-white font-medium leading-snug group-hover:text-brand-cyan transition-colors">${escapeText(a.h1)}</div>
+      <div class="text-white/55 text-sm mt-2 line-clamp-3">${escapeText(a.description)}</div>
     </a>
   `).join('');
   const heading = page.locale === 'uz' ? 'Foydali maqolalar' : 'Полезные статьи';
@@ -202,16 +209,16 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   const trustChips = page.locale === 'uz'
     ? ['RU + UZ', 'Telegram demo', 'Murakkab sozlash yo\u2018q', 'Lid menejerga uzatiladi']
     : ['RU + UZ', 'Telegram demo', 'Без сложной настройки', 'Передаёт обращение менеджеру'];
-  const trustHtml = `<ul aria-label="${page.locale === 'uz' ? 'Ishonch belgilari' : 'Trust-маркеры'}" class="flex flex-wrap gap-2 text-xs text-white/70 mt-4 mb-10">${trustChips.map((c) => `<li class="px-3 py-1 rounded-full border border-white/10 bg-white/5">${escapeHtml(c)}</li>`).join('')}</ul>`;
+  const trustHtml = `<ul aria-label="${page.locale === 'uz' ? 'Ishonch belgilari' : 'Trust-маркеры'}" class="flex flex-wrap gap-2 text-xs text-white/70 mt-4 mb-10">${trustChips.map((c) => `<li class="px-3 py-1 rounded-full border border-white/10 bg-white/5">${escapeText(c)}</li>`).join('')}</ul>`;
 
   return `<!doctype html>
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
 <head>
-<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});loadGTM();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(loadGTM,4000);}else{w.addEventListener('load',function(){setTimeout(loadGTM,4000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#05070D" />
-<title>${escapeHtml(page.title)}</title>
+<title>${escapeText(page.title)}</title>
 <meta name="description" content="${escapeHtml(page.description)}" />
 <meta name="robots" content="${robotsContent}" />
 <link rel="canonical" href="${escapeHtml(page.canonical || fullUrl)}" />
@@ -248,7 +255,7 @@ ${ANALYTICS_HEAD}
       ${hrefRu ? `<a href="${escapeHtml(hrefRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${hrefUz ? `<a href="${escapeHtml(hrefUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
       <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
-        ${escapeHtml(page.ctaPrimaryLabel || global.defaultCTA.label)}
+        ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
       </a>
     </nav>
   </div>
@@ -258,18 +265,18 @@ ${ANALYTICS_HEAD}
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
-    <span class="text-white/70">${escapeHtml(page.breadcrumbLabel || page.h1)}</span>
+    <span class="text-white/70">${escapeText(page.breadcrumbLabel || page.h1)}</span>
   </nav>
 
-  <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeHtml(page.h1)}</h1>
+  <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeText(page.h1)}</h1>
   ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
-  ${page.heroSubtitle ? `<p class="text-lg text-white/80 mb-8 max-w-2xl">${escapeHtml(page.heroSubtitle)}</p>` : ''}
+  ${page.heroSubtitle ? `<p class="text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
 
   ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
     <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
-      ${escapeHtml(page.ctaPrimaryLabel || 'Демо')}
+      ${escapeText(page.ctaPrimaryLabel || 'Демо')}
     </a>
-    ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="border border-white/15 text-white px-8 py-4 rounded-full hover:bg-white/5">${escapeHtml(page.ctaSecondaryLabel || '')}</a>` : ''}
+    ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="border border-white/15 text-white px-8 py-4 rounded-full hover:bg-white/5">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
   </div>
   ${trustHtml}` : ''}
 

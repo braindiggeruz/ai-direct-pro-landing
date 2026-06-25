@@ -8,7 +8,7 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-7 reveal">
             <div className="flex items-center gap-3">
-              <img src="/assets/landing/2.png" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
+              <img src="/assets/landing/2.webp" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
               <div className="chip">AI Sales Assistant</div>
             </div>
             <h2 className="h-display mt-5 text-3xl sm:text-4xl lg:text-5xl text-white">
@@ -54,7 +54,7 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             <div className="absolute -inset-6 bg-brand-cyan/15 blur-3xl rounded-[40%]" />
             <div className="relative">
               <img
-                src="/assets/landing/4.png"
+                src="/assets/landing/4.webp"
                 alt="Карточка горячего лида: имя клиента и телефон, переданные менеджеру"
                 className="w-full h-auto rounded-3xl"
                 loading="lazy"

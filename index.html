@@ -1,12 +1,24 @@
 <!doctype html>
 <html lang="ru">
   <head>
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (deferred: loads after first interaction or 4s idle
+         to keep it off the critical rendering path; events still fire before any
+         conversion because interaction always precedes a CTA click) -->
     <script data-tag="gtm">
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      var started=false;
+      function loadGTM(){
+        if(started)return;started=true;
+        w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+        var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      }
+      var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
+      function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});loadGTM();}
+      evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});
+      if(d.readyState==='complete'){setTimeout(loadGTM,4000);}else{w.addEventListener('load',function(){setTimeout(loadGTM,4000)});}
     })(window,document,'script','dataLayer','GTM-NLR4WFX8');
     </script>
     <!-- End Google Tag Manager -->
@@ -48,7 +60,7 @@
     <!-- Preconnect / preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="image" href="/assets/landing/1.png" />
+    <link rel="preload" as="image" type="image/webp" href="/assets/landing/1.webp" fetchpriority="high" />
 
     <!-- JSON-LD: Organization, WebSite, Service -->
     <script type="application/ld+json">
@@ -107,16 +119,24 @@
       (function(){
         var p = location.pathname;
         if (p.indexOf('/admin-tools/')===0 || p.indexOf('/api/')===0) return;
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '780400781706074');
-        fbq('track', 'PageView');
+        var started=false;
+        function loadPixel(){
+          if(started)return;started=true;
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '780400781706074');
+          fbq('track', 'PageView');
+        }
+        var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
+        function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});loadPixel();}
+        evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
+        if(document.readyState==='complete'){setTimeout(loadPixel,4000);}else{window.addEventListener('load',function(){setTimeout(loadPixel,4000)});}
       })();
     </script>
     <!-- End Meta Pixel Code -->
@@ -136,14 +156,26 @@
       (function(){
         var p = location.pathname;
         if (p.indexOf('/admin-tools/')===0 || p.indexOf('/api/')===0) return;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-V87YFL96C7';
-        document.head.appendChild(s);
+        // Install gtag stub immediately so events fired before the network
+        // script loads are queued into dataLayer and flushed on load.
         window.dataLayer = window.dataLayer || [];
         window.gtag = function(){ dataLayer.push(arguments); };
         gtag('js', new Date());
         gtag('config', 'G-V87YFL96C7');
+        // Defer the gtag.js network request off the critical path. The stub
+        // above keeps queuing events; they all flush once this loads.
+        var loaded=false;
+        function loadGtag(){
+          if(loaded)return;loaded=true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-V87YFL96C7';
+          document.head.appendChild(s);
+        }
+        var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
+        function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});loadGtag();}
+        evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
+        if(document.readyState==='complete'){setTimeout(loadGtag,4000);}else{window.addEventListener('load',function(){setTimeout(loadGtag,4000)});}
         // SPA route change -> page_view
         var last = location.pathname;
         function fire(){ if(window.gtag){ gtag('event','page_view',{page_path:location.pathname,page_title:document.title}); } }

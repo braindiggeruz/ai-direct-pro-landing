@@ -8,7 +8,7 @@ export default function Pain({ t }: { t: Dict }) {
           <div className="lg:col-span-5 relative reveal">
             <div className="absolute -inset-6 bg-brand-violet/20 blur-3xl rounded-[40%]" />
             <img
-              src="/assets/landing/3.png"
+              src="/assets/landing/3.webp"
               alt="Бизнес теряет заявки в Instagram Direct без AI-менеджера"
               className="relative w-full h-auto rounded-3xl"
               loading="lazy"
