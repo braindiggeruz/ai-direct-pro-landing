@@ -1,0 +1,72 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/fitnes-klub-uchun-ai-bot/",
+  "slug": "fitnes-klub-uchun-ai-bot",
+  "pageType": "money",
+  "primaryKeyword": "fitnes klub uchun AI bot",
+  "secondaryKeywords": [
+    "fitnes klub uchun chat-bot",
+    "sport zal uchun bot",
+    "mashg'ulotga yozish uchun bot",
+    "fitnes klubni avtomatlashtirish",
+    "abonement uzaytirish uchun bot"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Fitnes klub va sport zal uchun AI bot",
+  "title": "Fitnes klub uchun AI bot — yozuv va abonement 24/7 2026 | GPTBot",
+  "description": "Fitnes klub uchun AI bot: sinov mashg'ulotiga yozadi, abonement va jadval bo'yicha javob beradi, uzaytirish va mashg'ulot haqida eslatadi — 24/7. O'zbekistondagi fitnes biznes uchun.",
+  "canonical": "https://gptbot.uz/uz/fitnes-klub-uchun-ai-bot/",
+  "hreflangRu": "/ru/ai-bot-dlya-fitnes-kluba/",
+  "hreflangUz": "/uz/fitnes-klub-uchun-ai-bot/",
+  "ogTitle": "Fitnes klub uchun AI bot — yozuv va abonement 24/7 | GPTBot",
+  "ogDescription": "Bot sinov mashg'ulotiga yozadi, abonement va jadval bo'yicha javob beradi, uzaytirish haqida eslatadi. O'zbekiston uchun.",
+  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Fitnes klub uchun AI bot",
+  "heroTitle": "Fitnes klub va sport zal uchun AI bot",
+  "heroSubtitle": "Sinov mashg'ulotiga yozadi, abonement va jadval bo'yicha javob beradi, uzaytirish va mashg'ulot haqida eslatadi — kechayu kunduz.",
+  "ctaPrimaryLabel": "Telegram'da botni ishga tushirish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bot nima qiladi",
+  "ctaSecondaryHref": "#nima-qiladi",
+  "bodyBlocks": [
+    { "type": "p", "text": "Qisqacha: fitnes klub uchun AI bot yangi mijozlarni sinov mashg'ulotiga yozadi, abonement, narx va jadval bo'yicha javob beradi, abonement uzaytirish va mashg'ulot haqida eslatadi, kontaktlarni yig'adi va arizalarni administratorga 24/7 uzatadi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Bir necha kunda ishga tushadi, narxi — 3 mln so'mdan. Yangilandi: 2026 iyun." },
+    { "type": "h2", "text": "Fitnes klub uchun AI bot nima qiladi", "id": "nima-qiladi" },
+    { "type": "list", "items": [
+      "Sinovga yozish: bot vaqt taklif qiladi va yangi mijoz kontaktini qayd etadi.",
+      "Abonement bo'yicha javoblar: turlari, narxlari, muzlatish, shartlar — administratorsiz.",
+      "Jadval: guruh mashg'ulotlari, murabbiyga bo'sh slotlar, jadvaldagi o'zgarishlar.",
+      "Abonement uzaytirish: bot tugashi haqida eslatadi va uzaytirishga yordam beradi.",
+      "Mashg'ulot haqida eslatma: kelmaslik sonini kamaytiradi.",
+      "Tun va dam olish kunlari: reklamadan keyin va ish vaqtidan tashqari arizalar yo'qolmaydi."
+    ] },
+    { "type": "h2", "text": "Fitnes klubga nega chat-bot kerak" },
+    { "type": "p", "text": "Fitnes klubga ko'p murojaatlar tipik: abonement qancha, jadval qanday, sinovga bo'ladimi. Administrator bularga vaqt sarflaydi va doim ham tez javob bera olmaydi, ayniqsa kechqurun va dam olish kunlari, aynan odamlar yozilishga qaror qilganda. AI bot darhol javob beradi, yozuvga olib keladi va uzaytirish haqida eslatadi — bu ham yangi mijozlar, ham mavjudlarni ushlab qolish." },
+    { "type": "h2", "text": "Kanallar va tillar" },
+    { "type": "p", "text": "Bot Telegram, Instagram Direct va WhatsApp'da ishlaydi, rus va o'zbek tilida javob beradi, arizalarni administratorga Telegram'da yoki CRM'da uzatadi. Bitta bot bir nechta kanalni yagona voronkada yuritadi." },
+    { "type": "h2", "text": "Fitnes klub uchun AI bot qancha turadi" },
+    { "type": "p", "text": "Bitta kanal uchun bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM, abonement to'lovi va tahlilli yechim — 15 mln so'mdan. Aniq smetani brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida." },
+    { "type": "cta", "text": "Telegram'da botni ishga tushirish", "href": "https://t.me/XGame_changerx" }
+  ],
+  "faq": [
+    { "q": "Fitnes klub uchun AI bot nima qiladi?", "a": "Sinov mashg'ulotiga yozadi, abonement, narx va jadval bo'yicha javob beradi, abonement uzaytirish va mashg'ulot haqida eslatadi, kontaktlarni yig'adi va arizalarni administratorga 24/7 uzatadi." },
+    { "q": "Bot abonement uzaytirish haqida eslata oladimi?", "a": "Ha. Bot abonement tugashini kuzatadi, mijozga eslatadi va uzaytirishga yordam beradi — bu oqimni kamaytiradi va mavjud mijozlarni ushlab qoladi." },
+    { "q": "Bot guruh mashg'ulotlariga yozishda yordam beradimi?", "a": "Ha. Bot jadval va bo'sh slotlarni ko'rsatadi, guruh mashg'ulotlariga yoki muayyan murabbiyga yozadi va kontaktni qayd etadi." },
+    { "q": "Bot qaysi kanallarda ishlaydi?", "a": "Telegram, Instagram Direct va WhatsApp'da, rus va o'zbek tilida. Arizalar administratorga Telegram'da yoki CRM'da tushadi." },
+    { "q": "Fitnes klub uchun bot qancha turadi?", "a": "Bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM va to'lovli yechim — 15 mln so'mdan. Aniq narxni brifdan keyin hisoblaymiz." },
+    { "q": "Qanchalik tez ishga tushadi?", "a": "Fitnes klub uchun bazaviy bot bir necha kunda ishga tushadi. CRM va abonement to'lovli yechim uzoqroq, ssenariy hajmiga bog'liq." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/chat-bot-narxi/", "anchor": "chat-bot narxi", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/salon-uchun-ai-bot/", "anchor": "salon uchun AI bot", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/instagram-bot-biznes-uchun/", "anchor": "Instagram bot biznes uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-06-25",
+  "createdAt": "2026-06-25T00:00:00Z",
+  "updatedAt": "2026-06-25"
+}
