@@ -206,19 +206,19 @@
       "type": "contextual"
     },
     {
-      "target": "/uz/telegram-bot-yaratish/",
+      "target": "/uz/telegram-bot-biznes-uchun/",
       "anchor": "Telegramda bot yaratish jarayoni",
       "locale": "uz",
       "type": "contextual"
     },
     {
-      "target": "/uz/crm-integratsiyasi/",
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
       "anchor": "CRM tizimlari bilan integratsiya afzalliklari",
       "locale": "uz",
       "type": "contextual"
     },
     {
-      "target": "/uz/avtomatlashtirish-xizmatlari/",
+      "target": "/uz/savdoni-avtomatlashtirish/",
       "anchor": "biznes jarayonlarini avtomatlashtirish bo'yicha xizmatlar",
       "locale": "uz",
       "type": "contextual"
