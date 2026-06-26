@@ -14,8 +14,8 @@
   ],
   "searchIntent": "informational",
   "h1": "Biznes nega arizalarni yo'qotadi va buni qanday to'xtatish kerak",
-  "title": "Biznes nega arizalarni yo'qotadi — 4 sabab va yechim 2026 | GPTBot",
-  "description": "Biznes nega arizalarni yo'qotadi: sekin javoblar, tun va dam olish kunlari, reklamadan keyingi cho'qqilar, tipik savollar. 4 asosiy sabab va AI bot ularni qanday yopishi. O'zbekistondagi biznes uchun.",
+  "title": "Biznes nega arizalarni yo'qotadi — 4 sabab va yechim 2026",
+  "description": "Biznes nega arizalarni yo'qotadi: sekin javoblar, tun va dam olish kunlari, reklamadan keyingi cho'qqilar, tipik savollar.",
   "canonical": "https://gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/",
   "hreflangRu": "/ru/pochemu-biznes-teryaet-zayavki/",
   "hreflangUz": "/uz/biznes-nega-arizalarni-yoqotadi/",
@@ -32,45 +32,131 @@
   "ctaSecondaryLabel": "Sabablarni ko'rib chiqish",
   "ctaSecondaryHref": "#sabablar",
   "bodyBlocks": [
-    { "type": "p", "text": "Qisqacha: biznes arizalarni to'rtta sabab bo'yicha yo'qotadi — sekin javoblar (mijoz daqiqalar ichida raqobatchiga ketadi), tun va dam olish kunlari (javob beradigan odam yo'q), reklamadan keyingi cho'qqilar (menejerlar ulgurmaydi), tipik savollar (sotuv o'rniga ularga vaqt ketadi). AI bot to'rttasini ham yopadi: 24/7 bir zumda javob beradi, istalgan oqimni parallel qayta ishlaydi va menejerlardan rutinani oladi. Ko'pincha bot 1–2 oyda o'zini oqlaydi. Yangilandi: 2026 iyun." },
-    { "type": "h2", "text": "Arizalar yo'qolishining 4 sababi", "id": "sabablar" },
-    { "type": "list", "items": [
-      "Sekin javoblar: mijoz bir nechta joyga yozadi va birinchi javob berganga ketadi. Tezlik yechimi — botning bir zumdagi javobi.",
-      "Tun va dam olish kunlari: murojaatlarning yarmi ish vaqtidan tashqari keladi, menejer ularni faqat ertalab ko'radi, mijoz esa sovib bo'lgan.",
-      "Reklamadan keyingi cho'qqilar: reklama xabarlar to'lqinini keltiradi, menejerlar ulgurmaydi, arizalarning bir qismi oqimda yo'qoladi.",
-      "Tipik savollar: narx, mavjudlik, manzil, ish vaqti — menejerlar bitimlarni yopish o'rniga ularga vaqt sarflaydi."
-    ] },
-    { "type": "h2", "text": "Bu biznesga qancha tushadi" },
-    { "type": "p", "text": "Har bir qabul qilinmagan ariza — bu boy berilgan bitim va reklamaga behuda sarflangan pul. Agar 100 murojaatdan hatto 20 tasini sekin javoblar va ish vaqtidan tashqari sabab yo'qotsangiz, o'rtacha chek 1 mln so'm bo'lganda bu oyiga millionlab boy berilgan tushum demakdir. Muammo mijozlar yetishmasligida emas, balki ularning bir qismi menejergacha yetib bormasligida." },
-    { "type": "h2", "text": "AI bot to'rtta sababni qanday yopadi" },
-    { "type": "list", "items": [
-      "Bir zumdagi javob: bot soniyalar ichida javob beradi, mijoz raqobatchiga ketishga ulgurmaydi.",
-      "24/7 ishlash: tunda va dam olish kunlari bot arizalarni o'zi qabul qiladi va saralaydi.",
-      "Istalgan oqim: bot hammani parallel qayta ishlaydi, reklamadan keyingi cho'qqi qo'rqinchli emas.",
-      "Rutinani olish: bot tipik savollarni yopadi, menejerlar bitimlar bilan shug'ullanadi.",
-      "Qaynoq lidlar: bot ism, telefon va vazifani yig'ib, tayyor kontaktni menejerga uzatadi."
-    ] },
-    { "type": "h2", "text": "Nimadan boshlash kerak" },
-    { "type": "p", "text": "Bitta kanal uchun bazaviy botdan boshlash mumkin — 3 mln so'mdan, arizalarni tez yo'qotishni to'xtatish uchun, keyin esa GPT-dvigatel, ikkinchi kanal va CRM qo'shish mumkin. O'zini oqlash bo'yicha batafsil tahlil — chat-bot o'zini oqlashi sahifasida, narxlar esa — narx sahifasida." },
-    { "type": "cta", "text": "Arizalarni yo'qotishni to'xtatish", "href": "https://t.me/XGame_changerx" }
+    {
+      "type": "p",
+      "text": "Qisqacha: biznes arizalarni to'rtta sabab bo'yicha yo'qotadi — sekin javoblar (mijoz daqiqalar ichida raqobatchiga ketadi), tun va dam olish kunlari (javob beradigan odam yo'q), reklamadan keyingi cho'qqilar (menejerlar ulgurmaydi), tipik savollar (sotuv o'rniga ularga vaqt ketadi). AI bot to'rttasini ham yopadi: 24/7 bir zumda javob beradi, istalgan oqimni parallel qayta ishlaydi va menejerlardan rutinani oladi. Ko'pincha bot 1–2 oyda o'zini oqlaydi. Yangilandi: 2026 iyun."
+    },
+    {
+      "type": "h2",
+      "text": "Arizalar yo'qolishining 4 sababi",
+      "id": "sabablar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sekin javoblar: mijoz bir nechta joyga yozadi va birinchi javob berganga ketadi. Tezlik yechimi — botning bir zumdagi javobi.",
+        "Tun va dam olish kunlari: murojaatlarning yarmi ish vaqtidan tashqari keladi, menejer ularni faqat ertalab ko'radi, mijoz esa sovib bo'lgan.",
+        "Reklamadan keyingi cho'qqilar: reklama xabarlar to'lqinini keltiradi, menejerlar ulgurmaydi, arizalarning bir qismi oqimda yo'qoladi.",
+        "Tipik savollar: narx, mavjudlik, manzil, ish vaqti — menejerlar bitimlarni yopish o'rniga ularga vaqt sarflaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu biznesga qancha tushadi"
+    },
+    {
+      "type": "p",
+      "text": "Har bir qabul qilinmagan ariza — bu boy berilgan bitim va reklamaga behuda sarflangan pul. Agar 100 murojaatdan hatto 20 tasini sekin javoblar va ish vaqtidan tashqari sabab yo'qotsangiz, o'rtacha chek 1 mln so'm bo'lganda bu oyiga millionlab boy berilgan tushum demakdir. Muammo mijozlar yetishmasligida emas, balki ularning bir qismi menejergacha yetib bormasligida."
+    },
+    {
+      "type": "h2",
+      "text": "AI bot to'rtta sababni qanday yopadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bir zumdagi javob: bot soniyalar ichida javob beradi, mijoz raqobatchiga ketishga ulgurmaydi.",
+        "24/7 ishlash: tunda va dam olish kunlari bot arizalarni o'zi qabul qiladi va saralaydi.",
+        "Istalgan oqim: bot hammani parallel qayta ishlaydi, reklamadan keyingi cho'qqi qo'rqinchli emas.",
+        "Rutinani olish: bot tipik savollarni yopadi, menejerlar bitimlar bilan shug'ullanadi.",
+        "Qaynoq lidlar: bot ism, telefon va vazifani yig'ib, tayyor kontaktni menejerga uzatadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Nimadan boshlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "Bitta kanal uchun bazaviy botdan boshlash mumkin — 3 mln so'mdan, arizalarni tez yo'qotishni to'xtatish uchun, keyin esa GPT-dvigatel, ikkinchi kanal va CRM qo'shish mumkin. O'zini oqlash bo'yicha batafsil tahlil — chat-bot o'zini oqlashi sahifasida, narxlar esa — narx sahifasida."
+    },
+    {
+      "type": "cta",
+      "text": "Arizalarni yo'qotishni to'xtatish",
+      "href": "https://t.me/XGame_changerx"
+    }
   ],
   "faq": [
-    { "q": "Biznes nega Instagram va Telegram'da arizalarni yo'qotadi?", "a": "To'rtta sabab tufayli: sekin javoblar (mijoz raqobatchiga ketadi), tun va dam olish kunlari (javob beradigan odam yo'q), reklamadan keyingi cho'qqilar (menejerlar ulgurmaydi) va vaqt ketadigan tipik savollar. AI bot to'rttasini ham yopadi." },
-    { "q": "Aslida qancha ariza yo'qoladi?", "a": "Ko'pincha murojaatlarning 20–40% sekin javoblar va ish vaqtidan tashqari sabab bitimga yetib bormaydi. Faol reklama va tungi trafikda yo'qotishlar yanada yuqori — bu to'g'ridan-to'g'ri boy berilgan pul." },
-    { "q": "Tunda va dam olish kunlari arizalarni qanday yo'qotmaslik mumkin?", "a": "24/7 javob beradigan AI bot qo'yish kerak: u murojaatlarni istalgan vaqtda qabul qilib saralaydi, kontaktni yig'adi va ish kuni boshiga qaynoq lidni menejerga uzatadi." },
-    { "q": "Bot reklamadan keyingi gavjum paytda yordam beradimi?", "a": "Ha. Bot istalgan miqdordagi xabarni parallel va bir zumda qayta ishlaydi, shuning uchun reklamadan keyingi arizalar to'lqini cheklangan menejerlardan farqli o'laroq yo'qolmaydi." },
-    { "q": "Bot menejerlarni almashtiradimi?", "a": "Yo'q, bot ularni yengillashtiradi. U tipik savollarni yopadi va qaynoq lidlarni yig'adi, menejerlar esa bitimlarni yopishga va murakkab holatlarga ulanadi — birgalikda samaraliroq." },
-    { "q": "Arizalarni yo'qotmaslik uchun nimadan boshlash kerak?", "a": "Bitta kanal uchun 3 mln so'mdan boshlanadigan bazaviy botdan — u yo'qotishlarni tez to'xtatadi. Keyin o'sish bilan GPT-dvigatel, ikkinchi kanal va CRM qo'shish mumkin." }
+    {
+      "q": "Biznes nega Instagram va Telegram'da arizalarni yo'qotadi?",
+      "a": "To'rtta sabab tufayli: sekin javoblar (mijoz raqobatchiga ketadi), tun va dam olish kunlari (javob beradigan odam yo'q), reklamadan keyingi cho'qqilar (menejerlar ulgurmaydi) va vaqt ketadigan tipik savollar. AI bot to'rttasini ham yopadi."
+    },
+    {
+      "q": "Aslida qancha ariza yo'qoladi?",
+      "a": "Ko'pincha murojaatlarning 20–40% sekin javoblar va ish vaqtidan tashqari sabab bitimga yetib bormaydi. Faol reklama va tungi trafikda yo'qotishlar yanada yuqori — bu to'g'ridan-to'g'ri boy berilgan pul."
+    },
+    {
+      "q": "Tunda va dam olish kunlari arizalarni qanday yo'qotmaslik mumkin?",
+      "a": "24/7 javob beradigan AI bot qo'yish kerak: u murojaatlarni istalgan vaqtda qabul qilib saralaydi, kontaktni yig'adi va ish kuni boshiga qaynoq lidni menejerga uzatadi."
+    },
+    {
+      "q": "Bot reklamadan keyingi gavjum paytda yordam beradimi?",
+      "a": "Ha. Bot istalgan miqdordagi xabarni parallel va bir zumda qayta ishlaydi, shuning uchun reklamadan keyingi arizalar to'lqini cheklangan menejerlardan farqli o'laroq yo'qolmaydi."
+    },
+    {
+      "q": "Bot menejerlarni almashtiradimi?",
+      "a": "Yo'q, bot ularni yengillashtiradi. U tipik savollarni yopadi va qaynoq lidlarni yig'adi, menejerlar esa bitimlarni yopishga va murakkab holatlarga ulanadi — birgalikda samaraliroq."
+    },
+    {
+      "q": "Arizalarni yo'qotmaslik uchun nimadan boshlash kerak?",
+      "a": "Bitta kanal uchun 3 mln so'mdan boshlanadigan bazaviy botdan — u yo'qotishlarni tez to'xtatadi. Keyin o'sish bilan GPT-dvigatel, ikkinchi kanal va CRM qo'shish mumkin."
+    }
   ],
   "internalLinks": [
-    { "target": "/uz/arizalarni-qabul-qiluvchi-bot/", "anchor": "arizalarni qabul qiluvchi bot", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/chat-bot-narxi/", "anchor": "chat-bot narxi", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/chat-bot-biznes-uchun/", "anchor": "biznes uchun chat-bot", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI menejer", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/ai-sotuvchi/", "anchor": "AI sotuvchi", "locale": "uz", "type": "contextual" }
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "arizalarni qabul qiluvchi bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/chat-bot-narxi/",
+      "anchor": "chat-bot narxi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/chat-bot-biznes-uchun/",
+      "anchor": "biznes uchun chat-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-uchun-ai-menejer/",
+      "anchor": "Instagram uchun AI menejer",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-sotuvchi/",
+      "anchor": "AI sotuvchi",
+      "locale": "uz",
+      "type": "contextual"
+    }
   ],
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-06-25T00:00:00Z",
   "updatedAt": "2026-06-25"
