@@ -81,6 +81,29 @@ Site is in strong technical health. The one real weakness (665KB bundle) is
 fixed and live. Scores are near-perfect on desktop, solid on mobile. Sitemap
 fully indexable, zero errors.
 
-### Optional next wins (low effort, low urgency)
-1. Trim ~41 KiB unused JS in vendor chunk (tree-shake icon/util imports).
-2. Preload the LCP hero image with `fetchpriority="high"` to shave mobile LCP.
+---
+
+## E) LCP Font Fix — DONE & LIVE (commit `b9b0c74`)
+
+**Problem:** Google Fonts (Manrope + Unbounded) were loaded via `@import` inside
+`src/index.css`. That creates a render-blocking chain: CSS downloads → parses →
+*then* discovers the font → fetches it → only then the LCP H1 text paints.
+
+**Fix:** Moved font loading to `index.html` `<head>` as `preload` + async
+stylesheet (`media="print"` → `onload this.media='all'`) with `<noscript>`
+fallback. Removed the CSS `@import`.
+
+### Mobile Lighthouse — before vs after font fix
+| Metric | Before | After |
+|---|---|---|
+| Performance | 87 | **91** |
+| FCP | 2.1 s | **1.1–2.0 s** |
+| LCP | 3.8 s | **1.8–3.2 s** |
+| Render-blocking resources | yes (fonts) | **none** |
+
+(Hero LCP element is the H1 *text*, not an image — so there was no hero image
+to preload; the font chain was the real bottleneck.)
+
+### Remaining (very low priority)
+- ~41 KiB "unused JS" lives in the React framework `vendor` chunk — not
+  trimmable without breaking; safe to ignore.
