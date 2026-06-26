@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi",
   "url": "/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
-  "title": "Logistika uchun AI-bot: O'zbekiston kichik bizneslari uchun qadam-ba-qadam qo'llanma",
-  "description": "O'zbekistondagi logistika kompaniyalari uchun Telegramda AI-botni qanday joriy qilish bo'yicha amaliy qo'llanma. Operatsion samaradorlikni oshiring, mijozlarga xizmatni yaxshilang.",
+  "title": "Logistika uchun AI-bot: O'zbekiston kichik bizneslari uchun",
+  "description": "O'zbekistondagi logistika kompaniyalari uchun Telegramda AI-botni qanday joriy qilish bo'yicha amaliy qo'llanma.",
   "h1": "Logistika jarayonlarini Telegram AI-boti bilan avtomatlashtirish: O'zbekiston uchun amaliy qo'llanma",
   "intro": "O'zbekistondagi ko'plab logistika kompaniyalari hali ham qo'lda buyurtmalarni qabul qilish, kuzatish va mijozlar bilan aloqada bo'lish kabi jarayonlar bilan kurashmoqda. Bu esa xatoliklarga, kechikishlarga va mijozlar noroziligiga olib kelishi mumkin. Ushbu qo'llanma sizning logistika biznesingiz uchun Telegramda AI-botni qanday samarali joriy qilish va operatsion yukni kamaytirish bo'yicha amaliy qadamlarni taqdim etadi.",
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
@@ -224,8 +224,8 @@
       "type": "contextual"
     }
   ],
-  "ogTitle": "Logistika jarayonlarini Telegram AI-boti bilan avtomatlashtirish: O'zbekiston uchun amaliy qo'llanma",
-  "ogDescription": "O'zbekistondagi logistika kompaniyalari uchun Telegramda AI-botni qanday joriy qilish bo'yicha amaliy qo'llanma. Operatsion samaradorlikni oshiring, mijozlarga xizmatni yaxshilang.",
+  "ogTitle": "Logistika jarayonlarini Telegram AI-boti bilan",
+  "ogDescription": "O'zbekistondagi logistika kompaniyalari uchun Telegramda AI-botni qanday joriy qilish bo'yicha amaliy qo'llanma.",
   "ogImage": "",
   "canonical": "https://gptbot.uz/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
   "robotsIndex": true,

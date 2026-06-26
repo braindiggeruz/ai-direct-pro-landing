@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "chat-gpt-uzbek-biznes-uchun",
   "url": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
-  "title": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish | GPTBot.uz",
-  "description": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma. GPTBot.uz yordamida murakkab AI yechimlarini tushuning.",
+  "title": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab",
+  "description": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma.",
   "h1": "AI Botlar: O'zbekistonda Dasturchilar Uchun Texnik Qo'llanma",
   "intro": "AI botlar texnologiyasining rivojlanishi O'zbekistondagi IT sohasi uchun yangi imkoniyatlar ochmoqda. Ushbu maqolada biz dasturchilar va texnik mutaxassislar uchun AI botlarni yaratish, ularni turli platformalarga integratsiyalash va murakkab funksiyalarni joriy etish bo'yicha texnik jihatlarni ko'rib chiqamiz. GPTBot.uz platformasi sizning loyihalaringiz uchun texnik yechimlarni taqdim etadi.",
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
@@ -110,8 +110,8 @@
       "locale": "uz"
     }
   ],
-  "ogTitle": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish | GPTBot.uz",
-  "ogDescription": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma. GPTBot.uz yordamida murakkab AI yechimlarini tushuning.",
+  "ogTitle": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish",
+  "ogDescription": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma.",
   "ogImage": "",
   "canonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
   "robotsIndex": true,
