@@ -107,6 +107,8 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
             <h3 className="text-white font-semibold text-sm mb-4">{lResources}</h3>
             <ul className="space-y-2.5 text-sm mb-6">
               <li><a href="/ru/blog/" data-testid="footer-blog" className="text-white/65 hover:text-brand-cyan transition">{lBlog}</a></li>
+              <li><a href={isUz ? '/uz/biz-haqimizda/' : '/ru/o-kompanii/'} data-testid="footer-about" className="text-white/65 hover:text-brand-cyan transition">{isUz ? 'Biz haqimizda' : 'О компании'}</a></li>
+              <li><a href={isUz ? '/uz/jamoa/' : '/ru/komanda/'} data-testid="footer-team" className="text-white/65 hover:text-brand-cyan transition">{isUz ? 'Jamoa' : 'Команда'}</a></li>
               <li><a href="/sitemap.xml" data-testid="footer-sitemap" className="text-white/65 hover:text-brand-cyan transition">{lSitemap}</a></li>
               <li><a href="#faq" className="text-white/65 hover:text-brand-cyan transition">FAQ</a></li>
             </ul>
@@ -123,7 +125,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
 
         <div className="mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between text-xs text-white/40">
           <span>© {new Date().getFullYear()} {t.footer.brand}. {t.footer.consent}</span>
-          <a href="#" className="hover:text-white/70 transition">{t.footer.privacy}</a>
+          <a href={isUz ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/'} data-testid="footer-privacy" className="hover:text-white/70 transition">{t.footer.privacy}</a>
         </div>
       </div>
     </footer>

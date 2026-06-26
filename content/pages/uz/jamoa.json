@@ -1,0 +1,124 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/jamoa/",
+  "slug": "jamoa",
+  "pageType": "legal",
+  "primaryKeyword": "GPTBot jamoasi",
+  "secondaryKeywords": [
+    "AI botlarni kim yaratadi",
+    "Toshkentdagi chat-bot ishlab chiquvchilar",
+    "avtomatlashtirish mutaxassislari"
+  ],
+  "searchIntent": "informational",
+  "h1": "GPTBot.uz jamoasi",
+  "title": "GPTBot.uz jamoasi — AI-botlarni kim ishlab chiqadi",
+  "description": "GPTBot.uz jamoasi: Toshkentdagi ishlab chiquvchilar va avtomatlashtirish mutaxassislari. Telegram, Instagram va WhatsApp botlarini CRM bilan yaratamiz.",
+  "canonical": "https://gptbot.uz/uz/jamoa/",
+  "hreflangRu": "/ru/komanda/",
+  "hreflangUz": "/uz/jamoa/",
+  "ogTitle": "GPTBot.uz jamoasi — AI-botlarni kim ishlab chiqadi",
+  "ogDescription": "GPTBot.uz jamoasi: Toshkentdagi ishlab chiquvchilar va avtomatlashtirish mutaxassislari. Telegram, Instagram va WhatsApp botlarini CRM bilan yaratamiz.",
+  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Jamoa",
+  "heroTitle": "GPTBot.uz jamoasi",
+  "heroSubtitle": "Toshkentdagi ishlab chiquvchilar va avtomatlashtirish mutaxassislari — botni goyadan ishlaydigan voronkagacha yetkazadi.",
+  "ctaPrimaryLabel": "Jamoaga yozish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Biz haqimizda",
+  "ctaSecondaryHref": "/uz/biz-haqimizda/",
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Botingiz ustida kim ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz ning har bir loyihasi ortida Toshkentdagi jamoa turadi: botni yigib, ulaydigan ishlab chiquvchilar va nishangizga moslab dialog ssenariysini loyihalashtiradigan avtomatlashtirish mutaxassislari. Biz loyihani birinchi qongiroqdan ishga tushirish va qollab-quvvatlashgacha olib boramiz."
+    },
+    {
+      "type": "h2",
+      "text": "Jamoa nima bilan shugullanadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nishani tahlil qilish va dialog ssenariysini loyihalashtirish",
+        "Botni ishlab chiqish va messenjerlarga ulash",
+        "AmoCRM, Bitrix24 va boshqa CRM bilan integratsiya",
+        "Botni haqiqiy savollarda sinash va orgatish",
+        "Ishga tushirilgandan keyin qollab-quvvatlash va takomillashtirish"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Loyiha ustida qanday ishlaymiz"
+    },
+    {
+      "type": "p",
+      "text": "Avval savdo jarayoningiz va mijozlarning odatiy savollarini organamiz, keyin ssenariyni yigamiz va kanallarni ulaymiz. Ishga tushirilgandan song haqiqiy dialoglarni korib, botni koproq ariza yopishi uchun takomillashtiramiz. Muloqot va kelishuv Telegramda boradi."
+    },
+    {
+      "type": "h2",
+      "text": "Nega shablon emas, jamoa muhim"
+    },
+    {
+      "type": "p",
+      "text": "Tayyor shablon nishaning xususiyatlari va auditoriyangiz tilini hisobga olmaydi. Bizning jamoamiz aniqlovchi savollar, ohang va lidni uzatish mantigini aniq biznesga moslaydi — bu menejergacha qancha ariza yetib borishiga tasir qiladi."
+    },
+    {
+      "type": "cta",
+      "text": "Loyihani jamoa bilan muhokama qilish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Loyihamni kim olib boradi?",
+      "a": "Loyiha uchun Toshkentdagi GPTBot.uz jamoasi — ishlab chiquvchi va avtomatlashtirish mutaxassisi javobgar. Muloqot Telegramda boradi."
+    },
+    {
+      "q": "Start oldidan jamoa bilan gaplashish mumkinmi?",
+      "a": "Ha. Telegramda yozing, nishangiz va vazifalaringizni muhokama qilamiz hamda ssenariy namunasini bepul tayyorlaymiz."
+    },
+    {
+      "q": "Ishga tushgandan keyin botni kim qollab-quvvatlaydi?",
+      "a": "Ayni jamoa: biz haqiqiy dialoglarni korib, ssenariyni takomillashtiramiz va integratsiyalarda yordam beramiz."
+    },
+    {
+      "q": "Qaysi tillarda muloqot qilasiz?",
+      "a": "Biz rus va ozbek tillarida ishlaymiz, botlar ham mijozlar bilan shu tillarda muloqot qiladi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biz-haqimizda/",
+      "anchor": "GPTBot.uz haqida",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "nishangiz uchun bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "CRM bilan integratsiya",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-26",
+  "createdAt": "2026-06-26T00:00:00Z",
+  "updatedAt": "2026-06-26"
+}
