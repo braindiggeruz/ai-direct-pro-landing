@@ -166,7 +166,7 @@
       "locale": "ru"
     },
     {
-      "target": "/ru/integratsiya-telegram-instagram/",
+      "target": "/ru/ai-menedzher-dlya-instagram/",
       "anchor": "интеграция с Telegram и Instagram",
       "type": "contextual",
       "locale": "ru"
@@ -178,7 +178,7 @@
       "locale": "ru"
     },
     {
-      "target": "/ru/chatbot-dlya-crm/",
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
       "anchor": "интеграция чат-бота с CRM",
       "type": "contextual",
       "locale": "ru"

@@ -133,19 +133,19 @@
       "type": "contextual"
     },
     {
-      "target": "/uz/crm-integratsiyasi/",
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
       "anchor": "CRM tizimlari bilan integratsiya",
       "locale": "uz",
       "type": "contextual"
     },
     {
-      "target": "/uz/telegram-bot-yordami/",
+      "target": "/uz/telegram-bot-biznes-uchun/",
       "anchor": "Telegram bot orqali mijozlar bilan samarali muloqot",
       "locale": "uz",
       "type": "contextual"
     },
     {
-      "target": "/uz/instagram-direct-avtomatizatsiya/",
+      "target": "/uz/instagram-uchun-ai-menejer/",
       "anchor": "Instagram Direct avtomatizatsiyasi",
       "locale": "uz",
       "type": "contextual"

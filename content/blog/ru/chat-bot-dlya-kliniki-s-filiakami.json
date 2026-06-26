@@ -151,13 +151,13 @@
       "locale": "ru"
     },
     {
-      "target": "/ru/instagram-bot/",
+      "target": "/ru/instagram-direct-bot/",
       "anchor": "автоматизация в Instagram Direct",
       "type": "contextual",
       "locale": "ru"
     },
     {
-      "target": "/ru/crm-integraciya/",
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
       "anchor": "интеграция с CRM-системами",
       "type": "contextual",
       "locale": "ru"
