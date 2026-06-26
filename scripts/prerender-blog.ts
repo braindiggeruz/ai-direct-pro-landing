@@ -218,6 +218,11 @@ ${ogImg ? `<meta property="og:image" content="${escapeHtml(ogImg)}" />` : ''}
 <meta name="twitter:description" content="${escapeHtml(ogDesc)}" />
 ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" /></noscript>
+<link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
@@ -225,6 +230,7 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 ${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${lang === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -238,7 +244,7 @@ ${ANALYTICS_HEAD}
   </div>
 </header>
 
-<main class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+<main id="main" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
   <nav aria-label="Breadcrumb" data-testid="article-breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
@@ -346,6 +352,11 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <meta name="twitter:description" content="${escapeHtml(t.blogIndexOgDesc)}" />
 <meta name="twitter:image" content="${global.defaultOgImage}" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" /></noscript>
+<link rel="llms" href="${global.siteUrl}/llms.txt" />
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
@@ -353,6 +364,7 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 ${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -364,7 +376,7 @@ ${ANALYTICS_HEAD}
   </div>
 </header>
 
-<main class="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+<main id="main" class="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>

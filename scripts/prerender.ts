@@ -211,6 +211,12 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
     : ['RU + UZ', 'Telegram demo', 'Без сложной настройки', 'Передаёт обращение менеджеру'];
   const trustHtml = `<ul aria-label="${page.locale === 'uz' ? 'Ishonch belgilari' : 'Trust-маркеры'}" class="flex flex-wrap gap-2 text-xs text-white/70 mt-4 mb-10">${trustChips.map((c) => `<li class="px-3 py-1 rounded-full border border-white/10 bg-white/5">${escapeText(c)}</li>`).join('')}</ul>`;
 
+  // Derive the in-page anchor id from ctaSecondaryHref (e.g. "#how" / "#chto-umeet")
+  // so the secondary CTA scrolls to the main content article instead of a dead fragment.
+  const contentAnchor = (page.ctaSecondaryHref || '').startsWith('#')
+    ? page.ctaSecondaryHref.slice(1).trim()
+    : '';
+
   return `<!doctype html>
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
 <head>
@@ -240,6 +246,9 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" /></noscript>
+<link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
@@ -247,6 +256,7 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 ${ANALYTICS_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -261,7 +271,7 @@ ${ANALYTICS_HEAD}
   </div>
 </header>
 
-<main class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+<main id="main" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
@@ -280,7 +290,7 @@ ${ANALYTICS_HEAD}
   </div>
   ${trustHtml}` : ''}
 
-  <article class="prose-invert">
+  <article${contentAnchor ? ` id="${escapeHtml(contentAnchor)}"` : ''} class="prose-invert scroll-mt-24">
     ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
   </article>
 
