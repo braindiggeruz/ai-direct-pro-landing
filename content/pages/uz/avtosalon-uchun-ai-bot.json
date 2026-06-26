@@ -15,7 +15,7 @@
   "searchIntent": "commercial",
   "h1": "Avtosalon va avtoservis uchun AI bot",
   "title": "Avtosalon uchun AI bot — 24/7 arizalar 2026 | GPTBot",
-  "description": "Avtosalon va avtoservis uchun AI bot: avtomobil arizalarini saralaydi, model, narx va treyd-in bo'yicha javob beradi, test-drayv va servisga yozadi — 24/7. O'zbekistondagi biznes uchun.",
+  "description": "Avtosalon va avtoservis uchun AI bot: avtomobil arizalarini saralaydi, model, narx va treyd-in bo'yicha javob beradi, test-drayv va servisga yozadi — 24/7.",
   "canonical": "https://gptbot.uz/uz/avtosalon-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-avtosalona/",
   "hreflangUz": "/uz/avtosalon-uchun-ai-bot/",
@@ -32,40 +32,121 @@
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
-    { "type": "p", "text": "Qisqacha: avtosalon uchun AI bot avtomobil sotib olish arizalarini 24/7 qabul qiladi va saralaydi, model, komplektatsiya, narx, kredit va treyd-in bo'yicha javob beradi, test-drayv va avtoservisga yozadi, kontaktlarni yig'adi va qaynoq lidlarni menejerga uzatadi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Bir necha kunda ishga tushadi, narxi — 3 mln so'mdan. Yangilandi: 2026 iyun." },
-    { "type": "h2", "text": "Avtosalon uchun AI bot nima qiladi", "id": "nima-qiladi" },
-    { "type": "list", "items": [
-      "Arizani saralash: qaysi model, byudjet, mavjudlik, kredit yoki treyd-in — menejer tayyor qaynoq lid oladi.",
-      "Avtomobil bo'yicha javoblar: modellar, komplektatsiyalar, narxlar, yetkazib berish muddatlari, kredit va bo'lib to'lash shartlari.",
-      "Test-drayvga yozish: bot bo'sh vaqtni taklif qiladi va kontaktni qayd etadi.",
-      "Avtoservis: TX va ta'mirga yozish, xizmat va narx bo'yicha javoblar, tashrif haqida eslatma.",
-      "Treyd-in: bot mijoz avtomobili ma'lumotlarini dastlabki baholash uchun yig'adi.",
-      "Tun va dam olish kunlari: reklamadan keyin va ish vaqtidan tashqari arizalar yo'qolmaydi."
-    ] },
-    { "type": "h2", "text": "Avtosalonga nega chat-bot kerak" },
-    { "type": "p", "text": "Avtomobil tanlash uzoq jarayon, mijoz istalgan vaqtda yozadi: kechqurun, tunda, dam olish kunlari, reklamadan keyin darhol. Agar menejer bir necha daqiqada javob bermasa, odam raqobatchiga ketadi. AI bot darhol javob beradi, arizani saralaydi va mijozni menejer bilan bog'langunicha ushlab turadi. Avtoservis uchun bot TX'ga yozish va tipik savollarni yopadi, qabulxonani yengillashtiradi." },
-    { "type": "h2", "text": "Kanallar va tillar" },
-    { "type": "p", "text": "Bot mijozlaringiz qayerda bo'lsa — o'sha yerda ishlaydi: Telegram, Instagram Direct va WhatsApp. Rus va o'zbek tilida javob beradi, arizalarni menejerga Telegram'da yoki CRM'da (AmoCRM, Bitrix24) uzatadi. Bitta bot bir nechta kanalni bitta voronkada yuritadi." },
-    { "type": "h2", "text": "Avtosalon uchun AI bot qancha turadi" },
-    { "type": "p", "text": "Bitta kanal uchun bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM, treyd-in baholash va tahlilli yechim — 15 mln so'mdan. Aniq smetani qisqa brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida." },
-    { "type": "cta", "text": "Telegram'da botni ishga tushirish", "href": "https://t.me/XGame_changerx" }
+    {
+      "type": "p",
+      "text": "Qisqacha: avtosalon uchun AI bot avtomobil sotib olish arizalarini 24/7 qabul qiladi va saralaydi, model, komplektatsiya, narx, kredit va treyd-in bo'yicha javob beradi, test-drayv va avtoservisga yozadi, kontaktlarni yig'adi va qaynoq lidlarni menejerga uzatadi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Bir necha kunda ishga tushadi, narxi — 3 mln so'mdan. Yangilandi: 2026 iyun."
+    },
+    {
+      "type": "h2",
+      "text": "Avtosalon uchun AI bot nima qiladi",
+      "id": "nima-qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizani saralash: qaysi model, byudjet, mavjudlik, kredit yoki treyd-in — menejer tayyor qaynoq lid oladi.",
+        "Avtomobil bo'yicha javoblar: modellar, komplektatsiyalar, narxlar, yetkazib berish muddatlari, kredit va bo'lib to'lash shartlari.",
+        "Test-drayvga yozish: bot bo'sh vaqtni taklif qiladi va kontaktni qayd etadi.",
+        "Avtoservis: TX va ta'mirga yozish, xizmat va narx bo'yicha javoblar, tashrif haqida eslatma.",
+        "Treyd-in: bot mijoz avtomobili ma'lumotlarini dastlabki baholash uchun yig'adi.",
+        "Tun va dam olish kunlari: reklamadan keyin va ish vaqtidan tashqari arizalar yo'qolmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Avtosalonga nega chat-bot kerak"
+    },
+    {
+      "type": "p",
+      "text": "Avtomobil tanlash uzoq jarayon, mijoz istalgan vaqtda yozadi: kechqurun, tunda, dam olish kunlari, reklamadan keyin darhol. Agar menejer bir necha daqiqada javob bermasa, odam raqobatchiga ketadi. AI bot darhol javob beradi, arizani saralaydi va mijozni menejer bilan bog'langunicha ushlab turadi. Avtoservis uchun bot TX'ga yozish va tipik savollarni yopadi, qabulxonani yengillashtiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Kanallar va tillar"
+    },
+    {
+      "type": "p",
+      "text": "Bot mijozlaringiz qayerda bo'lsa — o'sha yerda ishlaydi: Telegram, Instagram Direct va WhatsApp. Rus va o'zbek tilida javob beradi, arizalarni menejerga Telegram'da yoki CRM'da (AmoCRM, Bitrix24) uzatadi. Bitta bot bir nechta kanalni bitta voronkada yuritadi."
+    },
+    {
+      "type": "h2",
+      "text": "Avtosalon uchun AI bot qancha turadi"
+    },
+    {
+      "type": "p",
+      "text": "Bitta kanal uchun bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM, treyd-in baholash va tahlilli yechim — 15 mln so'mdan. Aniq smetani qisqa brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida."
+    },
+    {
+      "type": "cta",
+      "text": "Telegram'da botni ishga tushirish",
+      "href": "https://t.me/XGame_changerx"
+    }
   ],
   "faq": [
-    { "q": "Avtosalon uchun AI bot nima qiladi?", "a": "Avtomobil sotib olish arizalarini saralaydi (model, byudjet, kredit, treyd-in), modellar va narxlar bo'yicha javob beradi, test-drayv va avtoservisga yozadi, kontaktlarni yig'adi va qaynoq lidlarni menejerga uzatadi — 24/7." },
-    { "q": "Bot avtoservis uchun mosmi?", "a": "Ha. Bot TX va ta'mirga yozadi, xizmat va narxlar bo'yicha javob beradi, tashrif haqida eslatadi va qabulxonani tipik qo'ng'iroq hamda xabarlardan yengillashtiradi." },
-    { "q": "Bot kredit va treyd-in bilan ishlay oladimi?", "a": "Ha. Bot kredit va bo'lib to'lash shartlarini aytadi va mijoz avtomobili ma'lumotlarini treyd-in dastlabki baholash uchun yig'adi, so'ng arizani menejerga uzatadi." },
-    { "q": "Bot qaysi kanallarda ishlaydi?", "a": "Telegram, Instagram Direct va WhatsApp'da, rus va o'zbek tilida. Arizalar menejerga Telegram'da yoki CRM'da (AmoCRM, Bitrix24) tushadi." },
-    { "q": "Avtosalon uchun bot qancha turadi?", "a": "Bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM va tahlilli yechim — 15 mln so'mdan. Aniq narxni brifdan keyin hisoblaymiz." },
-    { "q": "Qanchalik tez ishga tushadi?", "a": "Avtosalon uchun bazaviy bot bir necha kunda ishga tushadi. CRM va integratsiyali yechim uzoqroq, ssenariy va modellar bazasi hajmiga bog'liq." }
+    {
+      "q": "Avtosalon uchun AI bot nima qiladi?",
+      "a": "Avtomobil sotib olish arizalarini saralaydi (model, byudjet, kredit, treyd-in), modellar va narxlar bo'yicha javob beradi, test-drayv va avtoservisga yozadi, kontaktlarni yig'adi va qaynoq lidlarni menejerga uzatadi — 24/7."
+    },
+    {
+      "q": "Bot avtoservis uchun mosmi?",
+      "a": "Ha. Bot TX va ta'mirga yozadi, xizmat va narxlar bo'yicha javob beradi, tashrif haqida eslatadi va qabulxonani tipik qo'ng'iroq hamda xabarlardan yengillashtiradi."
+    },
+    {
+      "q": "Bot kredit va treyd-in bilan ishlay oladimi?",
+      "a": "Ha. Bot kredit va bo'lib to'lash shartlarini aytadi va mijoz avtomobili ma'lumotlarini treyd-in dastlabki baholash uchun yig'adi, so'ng arizani menejerga uzatadi."
+    },
+    {
+      "q": "Bot qaysi kanallarda ishlaydi?",
+      "a": "Telegram, Instagram Direct va WhatsApp'da, rus va o'zbek tilida. Arizalar menejerga Telegram'da yoki CRM'da (AmoCRM, Bitrix24) tushadi."
+    },
+    {
+      "q": "Avtosalon uchun bot qancha turadi?",
+      "a": "Bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM va tahlilli yechim — 15 mln so'mdan. Aniq narxni brifdan keyin hisoblaymiz."
+    },
+    {
+      "q": "Qanchalik tez ishga tushadi?",
+      "a": "Avtosalon uchun bazaviy bot bir necha kunda ishga tushadi. CRM va integratsiyali yechim uzoqroq, ssenariy va modellar bazasi hajmiga bog'liq."
+    }
   ],
   "internalLinks": [
-    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/chat-bot-narxi/", "anchor": "chat-bot narxi", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/amocrm-bitrix24-bilan-ai-bot/", "anchor": "AmoCRM va Bitrix24 bilan integratsiya", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" }
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/chat-bot-narxi/",
+      "anchor": "chat-bot narxi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 bilan integratsiya",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    }
   ],
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-06-25T00:00:00Z",
   "updatedAt": "2026-06-25"

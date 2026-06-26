@@ -14,8 +14,8 @@
   ],
   "searchIntent": "commercial",
   "h1": "Yurist va yuridik kompaniya uchun AI bot",
-  "title": "Yurist uchun AI bot — arizalar va konsultatsiya 24/7 2026 | GPTBot",
-  "description": "Yurist va yuridik kompaniya uchun AI bot: murojaatni saralaydi, tipik savollarga javob beradi, konsultatsiyaga yozadi va arizalarni 24/7 yig'adi. O'zbekistondagi yuridik biznes uchun.",
+  "title": "Yurist uchun AI bot — arizalar va konsultatsiya 24/7 2026",
+  "description": "Yurist va yuridik kompaniya uchun AI bot: murojaatni saralaydi, tipik savollarga javob beradi, konsultatsiyaga yozadi va arizalarni 24/7 yig'adi.",
   "canonical": "https://gptbot.uz/uz/yurist-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-yurista/",
   "hreflangUz": "/uz/yurist-uchun-ai-bot/",
@@ -32,40 +32,121 @@
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
-    { "type": "p", "text": "Qisqacha: yurist uchun AI bot mijoz murojaatini saralaydi (savol turi, shoshilinchlik, kontakt), xizmatlar va konsultatsiya narxi bo'yicha tipik savollarga javob beradi, uchrashuvga yozadi va arizalarni 24/7 yig'adi. Bot yuridik xulosa bermaydi, balki qaynoq lid tayyorlab yuristga uzatadi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Narxi — 3 mln so'mdan. Yangilandi: 2026 iyun." },
-    { "type": "h2", "text": "Yurist uchun AI bot nima qiladi", "id": "nima-qiladi" },
-    { "type": "list", "items": [
-      "Murojaatni saralash: savol turi, shoshilinchlik, kontakt — yurist tayyor qaynoq lid oladi.",
-      "Xizmatlar bo'yicha javoblar: yo'nalishlar, ish formatlari, konsultatsiya narxi va tartibi.",
-      "Konsultatsiyaga yozish: bot vaqt taklif qiladi va arizani qayd etadi.",
-      "Dastlabki yo'naltirish: bot murojaatni mavzu bo'yicha kerakli mutaxassisga yo'naltiradi.",
-      "Hujjatlarni yig'ish: bot konsultatsiyaga qanday ma'lumot tayyorlashni aytadi.",
-      "Tun va dam olish kunlari: shoshilinch murojaatlar yo'qolmaydi, mijoz darhol javob oladi."
-    ] },
-    { "type": "h2", "text": "Yuristga nega chat-bot kerak" },
-    { "type": "p", "text": "Yuridik savolli mijoz ko'pincha stress holatida yozadi va tez javob kutadi — javob bo'lmasa, boshqa yuristga ketadi. AI bot darhol javob beradi, murojaatni yumshoq saralaydi va konsultatsiyaga yozadi, bunda yuridik xulosa bermaydi. Bu mutaxassislar vaqtini tipik savollarda tejaydi va birorta ariza tunda yoki dam olish kunlari yo'qolmasligini kafolatlaydi." },
-    { "type": "h2", "text": "Kanallar va tillar" },
-    { "type": "p", "text": "Bot Telegram, Instagram Direct va WhatsApp'da ishlaydi, rus va o'zbek tilida javob beradi, arizalarni yuristga Telegram'da yoki CRM'da uzatadi. Barcha murojaatlar yagona voronkada to'planadi." },
-    { "type": "h2", "text": "Yurist uchun AI bot qancha turadi" },
-    { "type": "p", "text": "Bitta kanal uchun bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM, mavzular bo'yicha yo'naltirish va tahlilli yechim — 15 mln so'mdan. Aniq smetani brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida." },
-    { "type": "cta", "text": "Telegram'da botni ishga tushirish", "href": "https://t.me/XGame_changerx" }
+    {
+      "type": "p",
+      "text": "Qisqacha: yurist uchun AI bot mijoz murojaatini saralaydi (savol turi, shoshilinchlik, kontakt), xizmatlar va konsultatsiya narxi bo'yicha tipik savollarga javob beradi, uchrashuvga yozadi va arizalarni 24/7 yig'adi. Bot yuridik xulosa bermaydi, balki qaynoq lid tayyorlab yuristga uzatadi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Narxi — 3 mln so'mdan. Yangilandi: 2026 iyun."
+    },
+    {
+      "type": "h2",
+      "text": "Yurist uchun AI bot nima qiladi",
+      "id": "nima-qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Murojaatni saralash: savol turi, shoshilinchlik, kontakt — yurist tayyor qaynoq lid oladi.",
+        "Xizmatlar bo'yicha javoblar: yo'nalishlar, ish formatlari, konsultatsiya narxi va tartibi.",
+        "Konsultatsiyaga yozish: bot vaqt taklif qiladi va arizani qayd etadi.",
+        "Dastlabki yo'naltirish: bot murojaatni mavzu bo'yicha kerakli mutaxassisga yo'naltiradi.",
+        "Hujjatlarni yig'ish: bot konsultatsiyaga qanday ma'lumot tayyorlashni aytadi.",
+        "Tun va dam olish kunlari: shoshilinch murojaatlar yo'qolmaydi, mijoz darhol javob oladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yuristga nega chat-bot kerak"
+    },
+    {
+      "type": "p",
+      "text": "Yuridik savolli mijoz ko'pincha stress holatida yozadi va tez javob kutadi — javob bo'lmasa, boshqa yuristga ketadi. AI bot darhol javob beradi, murojaatni yumshoq saralaydi va konsultatsiyaga yozadi, bunda yuridik xulosa bermaydi. Bu mutaxassislar vaqtini tipik savollarda tejaydi va birorta ariza tunda yoki dam olish kunlari yo'qolmasligini kafolatlaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Kanallar va tillar"
+    },
+    {
+      "type": "p",
+      "text": "Bot Telegram, Instagram Direct va WhatsApp'da ishlaydi, rus va o'zbek tilida javob beradi, arizalarni yuristga Telegram'da yoki CRM'da uzatadi. Barcha murojaatlar yagona voronkada to'planadi."
+    },
+    {
+      "type": "h2",
+      "text": "Yurist uchun AI bot qancha turadi"
+    },
+    {
+      "type": "p",
+      "text": "Bitta kanal uchun bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM, mavzular bo'yicha yo'naltirish va tahlilli yechim — 15 mln so'mdan. Aniq smetani brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida."
+    },
+    {
+      "type": "cta",
+      "text": "Telegram'da botni ishga tushirish",
+      "href": "https://t.me/XGame_changerx"
+    }
   ],
   "faq": [
-    { "q": "Yurist uchun AI bot nima qiladi?", "a": "Murojaatni saralaydi (savol turi, shoshilinchlik, kontakt), xizmatlar va narx bo'yicha tipik savollarga javob beradi, konsultatsiyaga yozadi va arizalarni 24/7 yig'adi, qaynoq lidni yuristga uzatadi." },
-    { "q": "Bot yuridik konsultatsiya beradimi?", "a": "Yo'q. Bot yuridik xulosa bermaydi va yuristni almashtirmaydi. U murojaatni qabul qilib saralaydi, tipik tashkiliy savollarga javob beradi va mutaxassisga konsultatsiyaga yozadi." },
-    { "q": "Bot murojaatni qanday saralaydi?", "a": "Bot savol turi, shoshilinchlik va mijoz kontaktini aniqlaydi, kerak bo'lsa murojaatni mavzu bo'yicha kerakli mutaxassisga yo'naltiradi va tayyor qaynoq lidni yuristga uzatadi." },
-    { "q": "Bot qaysi kanallarda ishlaydi?", "a": "Telegram, Instagram Direct va WhatsApp'da, rus va o'zbek tilida. Arizalar yuristga Telegram'da yoki CRM'da tushadi." },
-    { "q": "Yurist uchun bot qancha turadi?", "a": "Bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM va yo'naltirishli yechim — 15 mln so'mdan. Aniq narxni brifdan keyin hisoblaymiz." },
-    { "q": "Qanchalik tez ishga tushadi?", "a": "Bazaviy bot bir necha kunda ishga tushadi. CRM va mavzular bo'yicha yo'naltirishli yechim uzoqroq, ssenariy hajmiga bog'liq." }
+    {
+      "q": "Yurist uchun AI bot nima qiladi?",
+      "a": "Murojaatni saralaydi (savol turi, shoshilinchlik, kontakt), xizmatlar va narx bo'yicha tipik savollarga javob beradi, konsultatsiyaga yozadi va arizalarni 24/7 yig'adi, qaynoq lidni yuristga uzatadi."
+    },
+    {
+      "q": "Bot yuridik konsultatsiya beradimi?",
+      "a": "Yo'q. Bot yuridik xulosa bermaydi va yuristni almashtirmaydi. U murojaatni qabul qilib saralaydi, tipik tashkiliy savollarga javob beradi va mutaxassisga konsultatsiyaga yozadi."
+    },
+    {
+      "q": "Bot murojaatni qanday saralaydi?",
+      "a": "Bot savol turi, shoshilinchlik va mijoz kontaktini aniqlaydi, kerak bo'lsa murojaatni mavzu bo'yicha kerakli mutaxassisga yo'naltiradi va tayyor qaynoq lidni yuristga uzatadi."
+    },
+    {
+      "q": "Bot qaysi kanallarda ishlaydi?",
+      "a": "Telegram, Instagram Direct va WhatsApp'da, rus va o'zbek tilida. Arizalar yuristga Telegram'da yoki CRM'da tushadi."
+    },
+    {
+      "q": "Yurist uchun bot qancha turadi?",
+      "a": "Bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM va yo'naltirishli yechim — 15 mln so'mdan. Aniq narxni brifdan keyin hisoblaymiz."
+    },
+    {
+      "q": "Qanchalik tez ishga tushadi?",
+      "a": "Bazaviy bot bir necha kunda ishga tushadi. CRM va mavzular bo'yicha yo'naltirishli yechim uzoqroq, ssenariy hajmiga bog'liq."
+    }
   ],
   "internalLinks": [
-    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/chat-bot-narxi/", "anchor": "chat-bot narxi", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/amocrm-bitrix24-bilan-ai-bot/", "anchor": "AmoCRM va Bitrix24 bilan integratsiya", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual" }
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/chat-bot-narxi/",
+      "anchor": "chat-bot narxi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 bilan integratsiya",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    }
   ],
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-06-25T00:00:00Z",
   "updatedAt": "2026-06-25"

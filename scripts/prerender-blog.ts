@@ -71,9 +71,9 @@ const STRINGS = {
   uz: {
     blog: 'Blog',
     blogTitle: 'GPTBot blogi',
-    blogIndexTitle: 'GPTBot blogi — AI botlar va arizalarni avtomatlashtirish | GPTBot',
+    blogIndexTitle: 'GPTBot blogi — AI botlar va arizalar avtomatlashtirish',
     blogIndexDesc: 'O\u2018zbekistondagi biznes uchun AI-botlar, GPT-konsultantlar, Telegram va Instagram orqali arizalar va savdoni avtomatlashtirish haqida maqolalar.',
-    blogIndexOgTitle: 'GPTBot blogi — AI botlar va arizalarni avtomatlashtirish',
+    blogIndexOgTitle: 'GPTBot blogi — AI botlar va arizalar avtomatlashtirish',
     blogIndexOgDesc: 'O\u2018zbekistondagi biznes uchun Telegram va Instagram orqali AI-botlar va arizalarni avtomatlashtirish haqida maqolalar.',
     blogIndexH1Subtitle: 'O\u2018zbekistondagi biznes uchun AI-botlarni joriy etishning amaliy ssenariylari, cheklovlari va qadamlari. Yolg\u2018on top-3 va\u2019dalarsiz, soxta keyssiz.',
     faqHeading: 'Tez-tez beriladigan savollar',
