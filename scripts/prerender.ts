@@ -22,6 +22,62 @@ import {
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
 const DIST_DIR = path.join(ROOT, 'dist');
+const PUBLIC_DIR = path.join(ROOT, 'public');
+
+// Read intrinsic dimensions of a local PNG/JPEG without external deps.
+// Returns null when the file cannot be resolved locally (e.g. remote-only asset)
+// so we never emit incorrect og:image:width/height.
+const _ogDimCache = new Map<string, { w: number; h: number } | null>();
+function getImageDims(src: string | undefined): { w: number; h: number } | null {
+  if (!src) return null;
+  if (_ogDimCache.has(src)) return _ogDimCache.get(src)!;
+  let rel = src;
+  try {
+    if (/^https?:\/\//i.test(src)) rel = new URL(src).pathname;
+  } catch {
+    /* keep rel */
+  }
+  rel = rel.replace(/^\/+/, '');
+  const candidates = [path.join(PUBLIC_DIR, rel), path.join(DIST_DIR, rel)];
+  for (const file of candidates) {
+    try {
+      const buf = fs.readFileSync(file);
+      const dims = parseImageDims(buf);
+      if (dims) {
+        _ogDimCache.set(src, dims);
+        return dims;
+      }
+    } catch {
+      /* try next candidate */
+    }
+  }
+  _ogDimCache.set(src, null);
+  return null;
+}
+
+function parseImageDims(buf: Buffer): { w: number; h: number } | null {
+  // PNG: signature then IHDR (width/height as 4-byte big-endian at offsets 16/20)
+  if (buf.length > 24 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) {
+    return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+  }
+  // JPEG: scan SOF markers for height/width
+  if (buf.length > 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+    let off = 2;
+    while (off + 9 < buf.length) {
+      if (buf[off] !== 0xff) {
+        off++;
+        continue;
+      }
+      const marker = buf[off + 1];
+      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+        return { w: buf.readUInt16BE(off + 7), h: buf.readUInt16BE(off + 5) };
+      }
+      const len = buf.readUInt16BE(off + 2);
+      off += 2 + len;
+    }
+  }
+  return null;
+}
 
 function loadGlobal(): GlobalSEO {
   return JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, 'global', 'site.json'), 'utf-8'));
@@ -187,6 +243,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   const ogTitle = page.ogTitle || page.title;
   const ogDesc = page.ogDescription || page.description;
   const ogImg = page.ogImage || global.defaultOgImage;
+  const ogDims = getImageDims(ogImg);
   const robotsContent = [
     page.robotsIndex && page.status !== 'noindex' ? 'index' : 'noindex',
     page.robotsFollow ? 'follow' : 'nofollow',
@@ -239,6 +296,8 @@ ${hrefUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(hrefUz)}" />`
 <meta property="og:title" content="${escapeHtml(ogTitle)}" />
 <meta property="og:description" content="${escapeHtml(ogDesc)}" />
 ${ogImg ? `<meta property="og:image" content="${escapeHtml(ogImg)}" />` : ''}
+${ogImg && ogDims ? `<meta property="og:image:width" content="${ogDims.w}" />` : ''}
+${ogImg && ogDims ? `<meta property="og:image:height" content="${ogDims.h}" />` : ''}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${escapeHtml(ogTitle)}" />
 <meta name="twitter:description" content="${escapeHtml(ogDesc)}" />
