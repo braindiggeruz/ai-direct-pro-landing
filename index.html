@@ -60,6 +60,25 @@
     <!-- Preconnect / preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts loaded here (not via CSS @import) to avoid a render-blocking
+         request chain and speed up LCP text paint. Preload + async-apply. -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
+      />
+    </noscript>
     <link rel="preload" as="image" type="image/webp" href="/assets/landing/1.webp" fetchpriority="high" />
 
     <!-- JSON-LD: Organization, WebSite, Service -->
