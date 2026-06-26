@@ -95,6 +95,17 @@ export function buildWebSiteLd(global: GlobalSEO): Record<string, unknown> {
     publisher: { '@id': `${global.siteUrl}/#org` },
     inLanguage: global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'],
     description: global.defaultDescription,
+    // SearchAction enables the Google sitelinks searchbox and signals an
+    // on-site search entry point to AI/search crawlers (fixes audit
+    // schema-website-search warning). Target uses the blog search page.
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${global.siteUrl}/ru/blog/?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
   };
 }
 

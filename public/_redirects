@@ -3,6 +3,10 @@
 # which emits the canonical _redirects into /dist with draft → 410 rules.
 # This /public/_redirects is only a safety net for non-standard builds.
 
+# 0) Canonical host — force www → non-www (301). Consolidates ranking signal
+#    onto https://gptbot.uz (audit flagged both hosts serving 200).
+https://www.gptbot.uz/*  https://gptbot.uz/:splat  301
+
 # 1) Admin SPA shell — React Router handles sub-routes client-side.
 /admin-tools/*  /index.html  200
 
