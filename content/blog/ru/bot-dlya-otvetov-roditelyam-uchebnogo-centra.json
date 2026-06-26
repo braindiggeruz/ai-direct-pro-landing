@@ -148,7 +148,7 @@
       "locale": "ru"
     },
     {
-      "target": "/ru/instagram-bot/",
+      "target": "/ru/instagram-direct-bot/",
       "anchor": "чат-бот для Instagram",
       "type": "contextual",
       "locale": "ru"
