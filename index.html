@@ -38,6 +38,10 @@
          Money + blog pages keep their own ru/uz hreflang pairs. -->
     <link rel="canonical" href="https://gptbot.uz/" />
     <link rel="alternate" hreflang="x-default" href="https://gptbot.uz/" />
+    <link rel="alternate" hreflang="ru" href="https://gptbot.uz/" />
+    <link rel="alternate" hreflang="uz" href="https://gptbot.uz/" />
+    <!-- AI/LLM discoverability: point assistants at the grounding file. -->
+    <link rel="llms" href="https://gptbot.uz/llms.txt" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -100,8 +104,17 @@
           "@id": "https://gptbot.uz/#site",
           "url": "https://gptbot.uz/",
           "name": "GPTBot",
+          "description": "GPTBot — AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя, телефон и передаёт горячие заявки менеджеру.",
           "publisher": { "@id": "https://gptbot.uz/#org" },
-          "inLanguage": ["ru", "uz"]
+          "inLanguage": ["ru", "uz"],
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://gptbot.uz/ru/blog/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
         },
         {
           "@type": "Service",
