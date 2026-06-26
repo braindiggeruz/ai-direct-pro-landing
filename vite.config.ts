@@ -18,5 +18,21 @@ export default defineConfig({
     target: 'es2019',
     sourcemap: false,
     minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (
+              id.includes('react-router') ||
+              id.includes('/react-dom/') ||
+              id.includes('/react/') ||
+              id.includes('/scheduler/')
+            ) {
+              return 'vendor'
+            }
+          }
+        },
+      },
+    },
   },
 })
