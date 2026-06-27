@@ -8,7 +8,7 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-7 reveal">
             <div className="flex items-center gap-3">
-              <img src="/assets/landing/2.webp" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
+              <img src="/assets/landing/logo-sq.webp" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
               <div className="chip">AI Sales Assistant</div>
             </div>
             <h2 className="h-display mt-5 text-3xl sm:text-4xl lg:text-5xl text-white">
