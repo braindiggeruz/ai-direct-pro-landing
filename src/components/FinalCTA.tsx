@@ -6,7 +6,9 @@ export default function FinalCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
     <section data-testid="final-cta" className="relative py-24 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <img
-          src="/assets/landing/8.webp"
+          src="/assets/landing/8-800.webp"
+          srcSet="/assets/landing/8-480.webp 480w, /assets/landing/8-800.webp 800w, /assets/landing/8.webp 1000w"
+          sizes="100vw"
           alt="Фоновое изображение раздела «запустить демо в Telegram»"
           className="w-full h-full object-cover opacity-40"
           loading="lazy"

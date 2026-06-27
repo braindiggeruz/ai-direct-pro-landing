@@ -54,7 +54,9 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             <div className="absolute -inset-6 bg-brand-cyan/15 blur-3xl rounded-[40%]" />
             <div className="relative">
               <img
-                src="/assets/landing/4.webp"
+                src="/assets/landing/4-800.webp"
+                srcSet="/assets/landing/4-480.webp 480w, /assets/landing/4-800.webp 800w, /assets/landing/4.webp 1000w"
+                sizes="(max-width: 1024px) 90vw, 40vw"
                 alt="Карточка горячего лида: имя клиента и телефон, переданные менеджеру"
                 className="w-full h-auto rounded-3xl"
                 loading="lazy"

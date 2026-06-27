@@ -13,7 +13,9 @@ export default function HowItWorks({ t }: { t: Dict }) {
           <div className="lg:col-span-5 relative reveal">
             <div className="absolute -inset-6 bg-brand-blue/20 blur-3xl rounded-[40%]" />
             <img
-              src="/assets/landing/5.webp"
+              src="/assets/landing/5-800.webp"
+              srcSet="/assets/landing/5-480.webp 480w, /assets/landing/5-800.webp 800w, /assets/landing/5.webp 1000w"
+              sizes="(max-width: 1024px) 90vw, 40vw"
               alt="GPTBot AI-менеджер автоматизирует ответы клиентам в Instagram и Telegram"
               className="relative w-full h-auto rounded-3xl"
               loading="lazy"
