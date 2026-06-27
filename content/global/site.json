@@ -3,7 +3,7 @@
   "siteUrl": "https://gptbot.uz",
   "titleTemplate": "%s | GPTBot",
   "defaultDescription": "AI/GPT-менеджер для Instagram и Telegram в Узбекистане. Отвечает клиентам 24/7, собирает контакты и передаёт горячие заявки менеджеру.",
-  "defaultOgImage": "https://gptbot.uz/assets/landing/1.png",
+  "defaultOgImage": "https://gptbot.uz/assets/landing/og.jpg",
   "organizationName": "GPTBot.uz",
   "organizationLegalName": "GPTBot",
   "organizationDescription": "GPTBot.uz — студия из Ташкента, которая запускает производственные AI/GPT-боты для малого и среднего бизнеса в Узбекистане. Каждый бот отвечает в Telegram, Instagram Direct и WhatsApp на русском и узбекском, собирает имя + телефон + потребность и передаёт квалифицированную заявку менеджеру через CRM или Telegram-уведомление.",
@@ -30,7 +30,7 @@
     "передача обращения менеджеру",
     "AI-автоматизация бизнеса в Узбекистане"
   ],
-  "logo": "https://gptbot.uz/assets/landing/2.png",
+  "logo": "https://gptbot.uz/assets/landing/og.jpg",
   "phone": "",
   "telegram": "https://t.me/XGame_changerx",
   "instagram": "",

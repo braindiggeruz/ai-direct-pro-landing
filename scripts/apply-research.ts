@@ -34,7 +34,7 @@ const WRITE = process.argv.includes('--write');
 
 const SITE = 'https://gptbot.uz';
 const TG_PRIMARY = 'https://t.me/XGame_changerx';
-const DEFAULT_OG = `${SITE}/assets/landing/1.png`;
+const DEFAULT_OG = `${SITE}/assets/landing/og.jpg`;
 
 const BATCH_A = new Set([
   '/ru/ai-bot-dlya-biznesa/',

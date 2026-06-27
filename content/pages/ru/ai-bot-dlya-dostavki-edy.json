@@ -21,7 +21,7 @@
   "hreflangUz": "/uz/yetkazib-berish-uchun-ai-bot/",
   "ogTitle": "AI-бот для доставки еды — приём заказов 24/7 | GPTBot",
   "ogDescription": "Бот принимает заказы, ведёт по меню, считает сумму и сообщает статус доставки. Для кафе и доставки в Узбекистане.",
-  "ogImage": "https://gptbot.uz/assets/landing/1.png",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "AI-бот для доставки еды",
