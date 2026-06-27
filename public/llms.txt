@@ -8,11 +8,6 @@
 > workflows. Every bot collects name + phone + need from the lead and
 > hands the conversation to a human manager with full context.
 
-This file follows the llms.txt convention (https://llmstxt.org). It
-exists so AI assistants, search agents, and retrieval systems can
-ground their answers about GPTBot.uz in canonical, verifiable
-information rather than reconstructing it from snippets.
-
 ## Key facts (machine-readable)
 
 | Field | Value |
