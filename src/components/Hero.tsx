@@ -136,7 +136,9 @@ export default function Hero({ t, ctaUrl }: Props) {
             <div className="relative mx-auto max-w-sm lg:max-w-none">
               <div className="absolute -inset-6 bg-grad-cta opacity-25 blur-3xl rounded-[50%] animate-float" />
               <img
-                src="/assets/landing/1.webp"
+                src="/assets/landing/1-800.webp"
+                srcSet="/assets/landing/1-480.webp 480w, /assets/landing/1-800.webp 800w, /assets/landing/1.webp 1000w"
+                sizes="(max-width: 1024px) 90vw, 40vw"
                 alt="AI chat assistant"
                 className="relative w-full h-auto rounded-3xl object-cover"
                 width={900}

@@ -56,7 +56,7 @@ export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
             <p className="mt-4 text-white/65 max-w-md">{t.niches.sub}</p>
             <div className="mt-8 relative">
               <div className="absolute -inset-6 bg-brand-cyan/15 blur-3xl rounded-[40%]" />
-              <img src="/assets/landing/7.webp" alt="AI-боты GPTBot для разных ниш: клиники, магазины, салоны, HoReCa, учебные центры" className="relative w-full h-auto rounded-3xl" loading="lazy" width={900} height={900} />
+              <img src="/assets/landing/7-800.webp" srcSet="/assets/landing/7-480.webp 480w, /assets/landing/7-800.webp 800w, /assets/landing/7.webp 1000w" sizes="(max-width: 1024px) 90vw, 40vw" alt="AI-боты GPTBot для разных ниш: клиники, магазины, салоны, HoReCa, учебные центры" className="relative w-full h-auto rounded-3xl" loading="lazy" width={900} height={900} />
             </div>
           </div>
 
