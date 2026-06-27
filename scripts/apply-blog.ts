@@ -21,7 +21,7 @@ const BLOG_DIR = path.join(ROOT, 'content', 'blog', 'ru');
 const WRITE = process.argv.includes('--write');
 const SITE = 'https://gptbot.uz';
 const TG = 'https://t.me/XGame_changerx';
-const DEFAULT_OG = `${SITE}/assets/landing/1.png`;
+const DEFAULT_OG = `${SITE}/assets/landing/og.jpg`;
 
 interface RawArticle {
   slug: string;

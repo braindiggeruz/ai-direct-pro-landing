@@ -68,7 +68,7 @@ function stubFor(url: string, locale: 'ru' | 'uz'): Record<string, unknown> {
     hreflangUz: locale === 'uz' ? url : pair,
     ogTitle: meta?.title ?? '',
     ogDescription: meta?.description ?? '',
-    ogImage: 'https://gptbot.uz/assets/landing/1.png',
+    ogImage: 'https://gptbot.uz/assets/landing/og.jpg',
     robotsIndex: true,
     robotsFollow: true,
     breadcrumbLabel: meta?.keyword ?? slug,

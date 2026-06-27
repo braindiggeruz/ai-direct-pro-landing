@@ -159,13 +159,14 @@ headers.push('  Permissions-Policy: geolocation=(), microphone=(), camera=(), pa
 // ─── Security baseline added 2026-06-26 (SEO audit: 60 critical findings) ───
 // HSTS forces HTTPS for 1 year (+ preload-eligible). X-Frame-Options +
 // frame-ancestors block clickjacking on EVERY page (previously only the admin
-// shell). CSP ships in Report-Only first so it cannot break the live site — it
-// only collects violation reports. Promote to enforcing
-// `Content-Security-Policy` once reports are verified clean.
+// shell). CSP was validated in Report-Only with zero violations on the live
+// domain, so it is now ENFORCED. `upgrade-insecure-requests` works in an
+// enforced policy (it is ignored — and logs a console warning — in
+// report-only), and an enforced CSP improves the Best-Practices XSS audit.
 headers.push('  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 headers.push('  X-Frame-Options: SAMEORIGIN');
 headers.push('  Cross-Origin-Opener-Policy: same-origin');
-headers.push("  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://analytics.ahrefs.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.ahrefs.com https://connect.facebook.net https://www.facebook.com; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests");
+headers.push("  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://analytics.ahrefs.com https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.ahrefs.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests");
 headers.push('');
 
 headers.push('# ─── Admin SPA — never cache the shell ───');
