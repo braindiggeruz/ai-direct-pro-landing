@@ -15,7 +15,9 @@ export default defineConfig({
     allowedHosts: true,
   },
   build: {
-    target: 'es2019',
+    // Modern browsers only — drops legacy transforms/polyfills that Lighthouse
+    // flags as "legacy JavaScript" (~33 KiB). All target browsers support ES2022.
+    target: 'es2022',
     sourcemap: false,
     minify: 'esbuild',
     rollupOptions: {
