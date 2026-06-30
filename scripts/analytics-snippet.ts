@@ -55,5 +55,4 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
     }
   }, true);
 })();
-</script>
-<script src="https://analytics.ahrefs.com/analytics.js" data-key="Nnyl6F9bFd2XBzhizTHSVg" async data-tag="ahrefs"></script>`;
+</script>`;
