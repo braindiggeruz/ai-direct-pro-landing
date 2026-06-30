@@ -13,12 +13,14 @@ Competitors (Media Solutions, UPSOFT, iCORP, Lynx AI, Muna AI, aisolution.uz, Ai
 ## Articles
 | # | slug | h1 | status |
 |---|------|----|--------|
-| 1 | ai-bot-uzbekskiy-yazyk-kak-rabotaet | Как AI-бот понимает узбекский язык | TODO |
-| 2 | priem-oplaty-payme-click-v-telegram-bote | Приём оплаты Payme и Click в Telegram-боте | TODO |
-| 3 | skolko-zayavok-teryaet-biznes-bez-ai-bota | Сколько заявок теряет бизнес без AI-бота | TODO |
+| 1 | ai-bot-uzbekskiy-yazyk-kak-rabotaet | Как AI-бот понимает узбекский язык | DONE ✓ |
+| 2 | priem-oplaty-payme-click-v-telegram-bote | Приём оплаты Payme и Click в Telegram-боте | DONE ✓ |
+| 3 | skolko-zayavok-teryaet-biznes-bez-ai-bota | Сколько заявок теряет бизнес без AI-бота | DONE ✓ |
 
 ## Schema (match existing content/blog/ru/*.json)
 status, locale:"ru", slug, url, title, description, h1, intro, targetMoneyPage:"/ru/ai-bot-dlya-biznesa/", topicCluster, keywords[8], body[](h2/h3/p/cta), faq[5], internalLinks[4], ogTitle, ogDescription, canonical, robotsIndex:true, robotsFollow:true, author:"GPTBot", schemaTypes:["Article","FAQPage","BreadcrumbList"], datePublished:"2026-06-30", dateModified, updatedAt.
 
 ## Build/deploy
 yarn build:fast → verify prerender → atomic commits → push main → CF Pages autodeploy.
+
+## DONE 2026-06-30: 3 articles live, commit 48bd937, sitemap 126 URLs, IndexNow batch pinged (HTTP 200). 0 broken internal links.
