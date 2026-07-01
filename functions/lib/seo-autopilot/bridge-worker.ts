@@ -32,7 +32,8 @@ export async function processN8nResponseInBackground(
     const timer = setTimeout(() => controller.abort('n8n_timeout'), N8N_TIMEOUT_MS);
     let response: Response;
     try {
-      response = await fetch('https://braindigger.app.n8n.cloud/webhook/runable-seo-autopilot', {
+      const webhookUrl = env.N8N_WEBHOOK_URL || 'https://braindigger.app.n8n.cloud/webhook/runable-seo-autopilot';
+      response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

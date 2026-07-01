@@ -124,7 +124,7 @@ export async function startSeoAutopilotJob(input: StartJobInput): Promise<StartJ
   const requestId =
     input.requestId ||
     `${source}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-  const n8nUrl = 'https://braindigger.app.n8n.cloud/webhook/runable-seo-autopilot';
+  const n8nUrl = env.N8N_WEBHOOK_URL || 'https://braindigger.app.n8n.cloud/webhook/runable-seo-autopilot';
 
   await createJob(env, { id: jobId, request_id: requestId, n8n_url: n8nUrl });
   // Stamp source + requested_by (added by migration 0003).

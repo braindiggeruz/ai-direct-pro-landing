@@ -1,8 +1,10 @@
-// Adds CORS + connection-stabilising headers globally.
+// Adds CORS + connection-stabilising + security headers globally.
 //
 // - CORS: the admin and the landing are both served from the same
 //   Cloudflare Pages project, so cross-origin is rarely needed — but
 //   during preview deploys the admin may be on a *.pages.dev subdomain.
+//   We derive the allowed origin from the incoming request so that
+//   same-origin requests work while foreign origins are rejected.
 // - Alt-Svc: clear forces every visiting browser to discard any cached
 //   HTTP/3 (QUIC) advertisement for this origin. Together with the zone
 //   setting `http3 = off`, this guarantees that returning visitors will
@@ -15,31 +17,53 @@
 //   still be trying to reuse from a previous broken QUIC session.
 //   Note: we intentionally do NOT clear "cookies" — that would log out
 //   an already-authenticated admin.
+
+const ALLOWED_ORIGINS = [
+  'https://gptbot.uz',
+  'https://www.gptbot.uz',
+];
+
+function corsOrigin(request: Request): string {
+  const origin = request.headers.get('Origin') || '';
+  if (!origin) return 'https://gptbot.uz';
+  if (ALLOWED_ORIGINS.includes(origin)) return origin;
+  if (/^https:\/\/[\w-]+\.pages\.dev$/.test(origin)) return origin;
+  if (/^https?:\/\/localhost(:\d+)?$/.test(origin)) return origin;
+  return 'https://gptbot.uz';
+}
+
 export const onRequest: PagesFunction = async ({ request, next }) => {
   const url = new URL(request.url);
   const isLoginPage =
     url.pathname === '/admin-tools/login' ||
     url.pathname === '/admin-tools/login/';
+  const allowedOrigin = corsOrigin(request);
 
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': allowedOrigin,
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Max-Age': '86400',
+        'Vary': 'Origin',
         'Alt-Svc': 'clear',
       },
     });
   }
   const res = await next();
   const headers = new Headers(res.headers);
-  headers.set('Access-Control-Allow-Origin', '*');
+  headers.set('Access-Control-Allow-Origin', allowedOrigin);
   headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  headers.append('Vary', 'Origin');
   headers.set('Alt-Svc', 'clear');
   // Pin HTTPS for 1 year (no preload — owner controls preload submission).
   headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  headers.set('X-Content-Type-Options', 'nosniff');
+  headers.set('X-Frame-Options', 'DENY');
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   if (isLoginPage) {
     // Browser flushes its HTTP cache + service-worker registrations for
     // this origin. Helps recover from ERR_CONNECTION_RESET caused by a

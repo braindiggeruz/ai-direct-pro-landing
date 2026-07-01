@@ -26,15 +26,18 @@ function isEnabled(env: Env): boolean {
   return (env.EXTERNAL_AUTOPILOT_TRIGGER_ENABLED || 'false').toLowerCase() === 'true';
 }
 
-export const onRequestOptions: PagesFunction<Env> = async () =>
-  new Response(null, {
+export const onRequestOptions: PagesFunction<Env> = async ({ request }) => {
+  const origin = request.headers.get('Origin') || '';
+  return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': origin || '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': `Content-Type, ${RUNABLE_HEADER}, ${REQUEST_ID_HEADER}`,
+      'Vary': 'Origin',
     },
   });
+};
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   if (!isEnabled(env)) return json({ error: 'Not Found' }, 404);
