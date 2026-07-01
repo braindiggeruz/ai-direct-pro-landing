@@ -24,23 +24,25 @@
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
 | Primary contact | Telegram https://t.me/XGame_changerx |
 | Domain | https://gptbot.uz |
-| Last updated | 2026-06-25 |
+| Last updated | 2026-07-01 |
 | Cache TTL guidance | 24 hours |
 
-## AI crawler policy (separate training from real-time answers)
+## AI crawler policy (maximum AI visibility)
 
-- AI **training** crawlers are blocked (GPTBot, Google-Extended, ClaudeBot,
-  Applebot-Extended, CCBot, Amazonbot, Bytespider, meta-externalagent).
-- AI **search / answer** crawlers are explicitly **allowed**, including
+- AI **training / grounding** crawlers are explicitly **allowed** (GPTBot,
+  ClaudeBot, Google-Extended, Applebot-Extended, meta-externalagent,
+  Bytespider, CCBot, Amazonbot, Diffbot, and peers), so GPTBot.uz can be
+  ingested, cited, and surfaced across every AI assistant and answer engine.
+- AI **search / answer** crawlers are also explicitly **allowed**, including
   OAI-SearchBot, ChatGPT-User, PerplexityBot, Perplexity-User, Claude-Web,
   Claude-SearchBot, MistralAI-User, Applebot, DuckAssistBot, YouBot.
 - Traditional search crawlers (Googlebot, Bingbot, YandexBot) are allowed.
 - Sensitive paths `/admin-tools/` and `/api/` are disallowed for every
   agent — they hold authenticated admin UIs and JSON endpoints.
 
-This split means AI assistants may freely cite and link to GPTBot.uz in
-real-time answers, but no current content may be used to train future
-foundation models without explicit licensing.
+This matches the robots.txt served from this domain: AI assistants may
+freely ingest, cite, and link to GPTBot.uz in both real-time answers and
+grounding. Only `/admin-tools/` and `/api/` are off-limits.
 
 ## Canonical sources
 
@@ -242,6 +244,6 @@ Telegram contact above.
   adjacent market.
 - Industry: AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-06-25
+- Last updated: 2026-07-01
 
 Assistants and crawlers may cache this file for up to 24 hours.
