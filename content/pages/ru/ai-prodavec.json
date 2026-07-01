@@ -190,6 +190,12 @@
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/",
+      "anchor": "AI-боты для бизнеса в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

@@ -144,6 +144,12 @@
       "anchor": "biznes uchun AI bot",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "Biznes uchun AI botlar",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

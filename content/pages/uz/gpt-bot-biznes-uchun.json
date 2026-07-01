@@ -192,6 +192,12 @@
       "anchor": "chat-bot narxi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "Biznes uchun AI botlar",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

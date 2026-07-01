@@ -293,6 +293,12 @@
       "anchor": "Telegram-бот с CRM или менеджер",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/",
+      "anchor": "AI-боты для бизнеса в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
