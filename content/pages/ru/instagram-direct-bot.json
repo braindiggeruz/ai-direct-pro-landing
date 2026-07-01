@@ -202,6 +202,12 @@
       "anchor": "AI-бот для учебного центра",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/",
+      "anchor": "Все AI-решения GPTBot.uz",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

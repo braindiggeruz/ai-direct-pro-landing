@@ -287,6 +287,12 @@
       "anchor": "Telegram bot CRM yoki menejer",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "Biznes uchun AI botlar",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
