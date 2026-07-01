@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam",
   "url": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
@@ -74,8 +74,9 @@
   "ogDescription": "Telegram va Instagram botdan kelgan arizalarni AmoCRM yoki Bitrix24 ga qanday ulash: bosqichlar, maydonlar moslashuvi va tez-tez uchraydigan xatolar.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+  "hreflangRu": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
   "hreflangUz": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
