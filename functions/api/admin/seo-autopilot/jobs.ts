@@ -10,13 +10,7 @@ import { requireAuth } from '../../../lib/jwt';
 import { markStaleJobsAsFailed } from '../../../lib/seo-autopilot/jobs';
 import { whichProvidersConfigured } from '../../../lib/llm/router';
 import { getDynamicRegistry } from '../../../lib/llm/model-registry';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 function parseErrorDetail(value: unknown): Record<string, unknown> | null {
   if (typeof value !== 'string' || !value) return null;
@@ -35,7 +29,7 @@ const STALE_THRESHOLD_MS = 6 * 60 * 1000;
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
-  if (!env.GPTBOT_DRAFTS_DB) return json({ jobs: [], error: 'Storage not configured.' });
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ jobs: [], error: 'Storage not configured.' });
   const url = new URL(request.url);
   const limit = Math.min(Math.max(Number(url.searchParams.get('limit') || '20'), 1), 100);
 
@@ -143,5 +137,5 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       })),
   };
 
-  return json({ jobs, system });
+  return jsonResponse({ jobs, system });
 };

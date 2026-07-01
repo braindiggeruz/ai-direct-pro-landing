@@ -15,9 +15,10 @@
 // Spec: https://www.indexnow.org/documentation
 import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
+import { jsonResponse } from '../../lib/api-errors';
 import { readContentBulk } from '../../lib/github';
+import { parseContentBulk } from '../../lib/content-parse';
 import { buildBoosterReport, filterSafeForIndexNow } from '../../../src/shared/booster';
-import type { Page, BlogArticle, GlobalSEO } from '../../../src/shared/types';
 import { writeAudit } from '../../lib/indexnow/audit';
 
 const SITE_HOST = 'gptbot.uz';
@@ -35,52 +36,34 @@ interface IndexNowEnv extends Env {
   INDEXNOW_KEY?: string;
 }
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
-
 export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
   const key = env.INDEXNOW_KEY;
   if (!key || !/^[A-Za-z0-9-]{8,64}$/.test(key)) {
-    return json({
+    return jsonResponse({
       ok: false,
       error: 'INDEXNOW_KEY env binding not configured. Set it in Cloudflare Pages → Settings → Environment to the same value as the public key file at /<key>.txt.',
     }, 400);
   }
 
   let body: { urls?: unknown };
-  try { body = await request.json(); } catch { return json({ ok: false, error: 'Invalid JSON body' }, 400); }
+  try { body = await request.json(); } catch { return jsonResponse({ ok: false, error: 'Invalid JSON body' }, 400); }
   const rawUrls = Array.isArray(body.urls) ? body.urls.filter((u): u is string => typeof u === 'string') : [];
-  if (rawUrls.length === 0) return json({ ok: false, error: 'urls must be a non-empty string[]' }, 400);
+  if (rawUrls.length === 0) return jsonResponse({ ok: false, error: 'urls must be a non-empty string[]' }, 400);
 
   // Recompute the booster report so we validate against the **current** content.
   // This is one extra GH subrequest but it is the only way to guarantee the
   // server is not tricked into pushing a URL that just became noindex/draft
   // between the time the SPA loaded and the operator clicked submit.
   const all = await readContentBulk(env);
-  const pages: Page[] = [];
-  const blog: BlogArticle[] = [];
-  let globalObj: GlobalSEO | undefined;
-  for (const [path, text] of Object.entries(all)) {
-    if (!path.endsWith('.json')) continue;
-    try {
-      const parsed = JSON.parse(text);
-      if (path.startsWith('content/pages/')) pages.push(parsed as Page);
-      else if (path.startsWith('content/blog/')) blog.push(parsed as BlogArticle);
-      else if (path === 'content/global/site.json') globalObj = parsed as GlobalSEO;
-    } catch { /* skip */ }
-  }
+  const { pages, blog, global: globalObj } = parseContentBulk(all);
   const report = buildBoosterReport(pages, blog, globalObj);
   const { safe, rejected } = filterSafeForIndexNow(rawUrls, report.items);
 
   if (safe.length === 0) {
-    return json({ ok: false, error: 'No safe URLs to submit after validation.', rejected }, 400);
+    return jsonResponse({ ok: false, error: 'No safe URLs to submit after validation.', rejected }, 400);
   }
 
   // Verify the key file is reachable. We do a HEAD; if it 404s we ABORT
@@ -89,13 +72,13 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
   try {
     const keyProbe = await fetch(keyLocation, { method: 'HEAD' });
     if (keyProbe.status !== 200) {
-      return json({
+      return jsonResponse({
         ok: false,
         error: `Key file at ${keyLocation} returned HTTP ${keyProbe.status}. Verify public/${key}.txt is committed and deployed.`,
       }, 400);
     }
   } catch (e) {
-    return json({ ok: false, error: `Key file probe failed: ${(e as Error).message}` }, 502);
+    return jsonResponse({ ok: false, error: `Key file probe failed: ${(e as Error).message}` }, 502);
   }
 
   // Submit. IndexNow accepts up to 10k URLs; we cap at 1k in the validator.
@@ -137,10 +120,10 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
   ).catch(() => undefined);
 
   if (networkError) {
-    return json({ ok: false, error: `IndexNow fetch failed: ${networkError}`, submitted: safe.length, rejected, batchId }, 502);
+    return jsonResponse({ ok: false, error: `IndexNow fetch failed: ${networkError}`, submitted: safe.length, rejected, batchId }, 502);
   }
 
-  return json({
+  return jsonResponse({
     ok,
     submitted: safe.length,
     safeUrls: safe,

@@ -5,15 +5,9 @@
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
+import { jsonResponse } from '../../../lib/api-errors';
 import { readCache, readRuns, countQueriesToday } from '../../../lib/serper/store';
 import type { SerperProviderStatus } from '../../../../src/shared/serp';
-
-function json(d: unknown, status = 200): Response {
-  return new Response(JSON.stringify(d), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
@@ -31,5 +25,5 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       ? 'Serper configured. Manual checks only — cached 7d to save credits.'
       : 'SERPER_API_KEY missing. Add it in Cloudflare Pages env to enable SERP Intelligence.',
   };
-  return json(out);
+  return jsonResponse(out);
 };

@@ -2,6 +2,7 @@
 // Heuristic: shares keywords + cross page-type boost + under-linked targets.
 import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
+import { jsonResponse } from '../../lib/api-errors';
 import { getFile, listDir } from '../../lib/github';
 import type { Page } from '../../../src/shared/types';
 
@@ -11,7 +12,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const url = new URL(request.url);
   const locale = url.searchParams.get('locale') || 'ru';
   const slug = url.searchParams.get('slug') || '';
-  if (!slug) return new Response(JSON.stringify({ error: 'slug required' }), { status: 400 });
+  if (!slug) return jsonResponse({ error: 'slug required' }, 400);
 
   const files = await listDir(env, 'content/pages').catch(() => []);
   const allPages: Page[] = [];
@@ -21,7 +22,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   }
   const targetUrl = `/${locale}/${slug}/`;
   const target = allPages.find((p) => p.url === targetUrl);
-  if (!target) return new Response(JSON.stringify({ ok: true, suggestions: [] }), { headers: { 'Content-Type': 'application/json' } });
+  if (!target) return jsonResponse({ ok: true, suggestions: [] });
 
   const existing = new Set((target.internalLinks || []).map((l) => l.target));
   const primary = (target.primaryKeyword || '').toLowerCase();
@@ -46,5 +47,5 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     out.push({ target: p.url, anchor: p.h1 || p.title || p.url, reason: reasons.join('; ') || 'topical match', score: s });
   }
   out.sort((a, b) => b.score - a.score);
-  return new Response(JSON.stringify({ ok: true, suggestions: out.slice(0, 5) }), { headers: { 'Content-Type': 'application/json' } });
+  return jsonResponse({ ok: true, suggestions: out.slice(0, 5) });
 };

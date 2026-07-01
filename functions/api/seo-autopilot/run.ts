@@ -10,17 +10,11 @@
 
 import type { Env } from '../../_types';
 import { startSeoAutopilotJob } from '../../lib/seo-autopilot/launch';
+import { jsonResponse } from '../../lib/api-errors';
 
 const MAX_BODY_BYTES = 256 * 1024;
 const RUNABLE_HEADER = 'x-runable-secret';
 const REQUEST_ID_HEADER = 'x-request-id';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 function isEnabled(env: Env): boolean {
   return (env.EXTERNAL_AUTOPILOT_TRIGGER_ENABLED || 'false').toLowerCase() === 'true';
@@ -37,35 +31,35 @@ export const onRequestOptions: PagesFunction<Env> = async () =>
   });
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
-  if (!isEnabled(env)) return json({ error: 'Not Found' }, 404);
-  return json({ error: 'Method Not Allowed', detail: 'POST application/json with x-runable-secret' }, 405);
+  if (!isEnabled(env)) return jsonResponse({ error: 'Not Found' }, 404);
+  return jsonResponse({ error: 'Method Not Allowed', detail: 'POST application/json with x-runable-secret' }, 405);
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   if (!isEnabled(env)) {
     // Safe 404 — the external Runable trigger is disabled. The Control
     // Center is the supported entry point.
-    return json({ error: 'Not Found' }, 404);
+    return jsonResponse({ error: 'Not Found' }, 404);
   }
   if (!env.GPTBOT_DRAFTS_DB) {
-    return json({ error: 'Bridge unavailable (storage not configured).' }, 503);
+    return jsonResponse({ error: 'Bridge unavailable (storage not configured).' }, 503);
   }
 
   const runableSecret = request.headers.get(RUNABLE_HEADER) || request.headers.get(RUNABLE_HEADER.toUpperCase());
-  if (!runableSecret) return json({ error: `Missing ${RUNABLE_HEADER} header` }, 401);
+  if (!runableSecret) return jsonResponse({ error: `Missing ${RUNABLE_HEADER} header` }, 401);
 
   const ctype = request.headers.get('Content-Type') || '';
   if (!ctype.toLowerCase().includes('application/json')) {
-    return json({ error: 'Content-Type must be application/json' }, 415);
+    return jsonResponse({ error: 'Content-Type must be application/json' }, 415);
   }
 
   const len = Number(request.headers.get('Content-Length') || 0);
   if (Number.isFinite(len) && len > MAX_BODY_BYTES) {
-    return json({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
+    return jsonResponse({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
   }
   const rawBody = await request.text();
-  if (rawBody.length > MAX_BODY_BYTES) return json({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
-  if (rawBody.trim() === '') return json({ error: 'Empty body' }, 400);
+  if (rawBody.length > MAX_BODY_BYTES) return jsonResponse({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
+  if (rawBody.trim() === '') return jsonResponse({ error: 'Empty body' }, 400);
 
   const requestId =
     request.headers.get(REQUEST_ID_HEADER) ||
@@ -84,10 +78,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   });
 
   if (!result.ok) {
-    return json({ error: result.message, reason: result.reason }, result.http);
+    return jsonResponse({ error: result.message, reason: result.reason }, result.http);
   }
 
-  return json(
+  return jsonResponse(
     {
       success: true,
       accepted: true,

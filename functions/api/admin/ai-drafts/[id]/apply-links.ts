@@ -25,41 +25,36 @@ import { getDraft, replaceDraftArticle } from '../../../../lib/ai-drafts/store';
 import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
 import { validateArticle, type ValidationError } from '../../../../lib/ai-drafts/validators';
 import type { InternalLink } from '../../../../../src/shared/types';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../../lib/api-errors';
+import { buildSeoWarnings } from '../../../../lib/seo-validation';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   const id = String(params.id || '');
-  if (!id) return json({ error: 'Missing draft id' }, 400);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
+  if (!id) return jsonResponse({ error: 'Missing draft id' }, 400);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
 
   const body = (await request.json().catch(() => null)) as null | {
     locale?: string;
     accepted?: Array<{ target?: unknown; anchor?: unknown; type?: unknown }>;
   };
   const locale = body?.locale === 'ru' || body?.locale === 'uz' ? body.locale : null;
-  if (!locale) return json({ error: 'locale must be "ru" or "uz"' }, 400);
+  if (!locale) return jsonResponse({ error: 'locale must be "ru" or "uz"' }, 400);
   if (!Array.isArray(body?.accepted) || body.accepted.length === 0) {
-    return json({ error: 'accepted[] required (at least 1 link).' }, 400);
+    return jsonResponse({ error: 'accepted[] required (at least 1 link).' }, 400);
   }
   if (body.accepted.length > 12) {
-    return json({ error: 'too many links (max 12).' }, 400);
+    return jsonResponse({ error: 'too many links (max 12).' }, 400);
   }
 
   const draft = await getDraft(env, id);
-  if (!draft) return json({ error: 'Draft not found' }, 404);
+  if (!draft) return jsonResponse({ error: 'Draft not found' }, 404);
   if (draft.status === 'rejected' || draft.status === 'imported') {
-    return json({ error: `Draft is ${draft.status} — cannot apply CTR boost.` }, 409);
+    return jsonResponse({ error: `Draft is ${draft.status} — cannot apply CTR boost.` }, 409);
   }
   const article = locale === 'ru' ? draft.ru_article : draft.uz_article;
-  if (!article) return json({ error: `Draft does not contain a ${locale.toUpperCase()} article.` }, 400);
+  if (!article) return jsonResponse({ error: `Draft does not contain a ${locale.toUpperCase()} article.` }, 400);
 
   // Build the set of allowed targets (inventory URLs + current money page).
   const inventory = await buildContentInventory(env);
@@ -85,7 +80,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     incoming.push({ target, anchor, locale, type: 'contextual' });
   }
   if (incoming.length === 0) {
-    return json({ error: 'No valid links accepted (all duplicates, unknown URLs, or malformed).' }, 422);
+    return jsonResponse({ error: 'No valid links accepted (all duplicates, unknown URLs, or malformed).' }, 422);
   }
 
   // Build the candidate article + re-validate end-to-end.
@@ -96,20 +91,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
   const errors: ValidationError[] = [];
   const validated = validateArticle(candidate, 'article', errors);
   if (!validated) {
-    return json({ error: 'Validation failed after merge.', validation_errors: errors.slice(0, 50) }, 422);
+    return jsonResponse({ error: 'Validation failed after merge.', validation_errors: errors.slice(0, 50) }, 422);
   }
   // Force locale and slug — never let the merge change either.
   validated.locale = locale;
   validated.slug = article.slug;
 
-  const validation = { passed: true, issues: [] as Array<{ level: string; rule: string; field?: string; message: string }> };
-  if (validated.meta_title.length < 30 || validated.meta_title.length > 70) {
-    validation.issues.push({ level: 'warn', rule: 'meta_title_length', field: 'meta_title', message: `length ${validated.meta_title.length}` });
-  }
-  if (validated.meta_description.length < 110 || validated.meta_description.length > 170) {
-    validation.issues.push({ level: 'warn', rule: 'meta_description_length', field: 'meta_description', message: `length ${validated.meta_description.length}` });
-  }
-  validation.passed = validation.issues.length === 0;
+  const issues = buildSeoWarnings(validated, { locale });
+  const validation = { passed: issues.length === 0, issues };
 
   try {
     const updated = await replaceDraftArticle(
@@ -126,9 +115,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
       },
       'ctr_boost_apply',
     );
-    if (!updated) return json({ error: 'Draft vanished mid-update.' }, 404);
-    return json({ ok: true, draft: updated, added: incoming.length });
+    if (!updated) return jsonResponse({ error: 'Draft vanished mid-update.' }, 404);
+    return jsonResponse({ ok: true, draft: updated, added: incoming.length });
   } catch (e) {
-    return json({ error: (e as Error).message || 'apply failed' }, 500);
+    return jsonResponse({ error: (e as Error).message || 'apply failed' }, 500);
   }
 };

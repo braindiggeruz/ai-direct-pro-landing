@@ -22,13 +22,7 @@ import { requireAuth } from '../../../lib/jwt';
 import { startSeoAutopilotJob } from '../../../lib/seo-autopilot/launch';
 import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../lib/seo-autopilot/direct-launch';
 import { buildLaunchPayload } from '../../../lib/seo-autopilot/payload';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   const auth = await requireAuth(request, env);
@@ -43,7 +37,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
       if (raw.trim()) overrides = JSON.parse(raw) as Record<string, unknown>;
     }
   } catch {
-    return json({ error: 'Invalid JSON body' }, 400);
+    return jsonResponse({ error: 'Invalid JSON body' }, 400);
   }
 
   // run_id is a per-launch correlation id surfaced into the n8n payload.
@@ -82,7 +76,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   });
 
   if (!result.ok) {
-    return json(
+    return jsonResponse(
       {
         error: result.message,
         reason: result.reason,
@@ -95,7 +89,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // awaitCompletion === true → result.job is populated.
   if (!result.awaited) {
     // Defensive: should never hit because we set awaitCompletion=true.
-    return json(
+    return jsonResponse(
       {
         success: true,
         accepted: true,
@@ -118,7 +112,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // Always 200 with full job state — the SPA inspects `success` + the
   // structured fields below. Returning 5xx here would force the api
   // client to discard the body, which would hide the actionable diagnostic.
-  return json(
+  return jsonResponse(
     {
       success: isSuccess,
       accepted: true,
@@ -155,4 +149,4 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
 };
 
 export const onRequestGet: PagesFunction<Env> = async () =>
-  json({ error: 'Method Not Allowed', detail: 'POST with admin JWT to launch.' }, 405);
+  jsonResponse({ error: 'Method Not Allowed', detail: 'POST with admin JWT to launch.' }, 405);
