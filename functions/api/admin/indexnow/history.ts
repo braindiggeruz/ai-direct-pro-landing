@@ -7,13 +7,7 @@
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
 import { readRecentHistory } from '../../../lib/indexnow/audit';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
@@ -53,5 +47,5 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     }
   }
   const out = Array.from(batches.values()).sort((a, b) => Date.parse(b.submitted_at) - Date.parse(a.submitted_at));
-  return json({ ok: true, total: out.length, batches: out });
+  return jsonResponse({ ok: true, total: out.length, batches: out });
 };

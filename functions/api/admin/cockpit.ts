@@ -25,6 +25,7 @@
 import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
 import { readContentBulk, checkGitHubHealth, type GitHubHealth, ghOwner, ghRepo, ghBranch } from '../../lib/github';
+import { parseContentBulk } from '../../lib/content-parse';
 import { buildCockpit } from '../../../src/shared/audit';
 import type { Page, BlogArticle, GlobalSEO, CockpitStats } from '../../../src/shared/types';
 import { markStaleJobsAsFailed } from '../../lib/seo-autopilot/jobs';
@@ -77,26 +78,21 @@ async function loadContentAndAudit(env: Env): Promise<{
   };
 }> {
   const all = await readContentBulk(env);
-  const pages: Page[] = [];
-  const blog: BlogArticle[] = [];
-  let globalObj: GlobalSEO | null = null;
+  const { pages, blog, global: globalObj } = parseContentBulk(all);
   let redirects: unknown[] = [];
   let internalLinks: unknown[] = [];
   for (const [path, text] of Object.entries(all)) {
     if (!path.endsWith('.json')) continue;
     try {
       const parsed = JSON.parse(text);
-      if (path.startsWith('content/pages/')) pages.push(parsed as Page);
-      else if (path.startsWith('content/blog/')) blog.push(parsed as BlogArticle);
-      else if (path === 'content/global/site.json') globalObj = parsed as GlobalSEO;
-      else if (path === 'content/seo/redirects.json') redirects = (parsed as unknown[]) || [];
+      if (path === 'content/seo/redirects.json') redirects = (parsed as unknown[]) || [];
       else if (path === 'content/seo/internal-links.json') internalLinks = (parsed as unknown[]) || [];
     } catch { /* skip unparseable */ }
   }
-  const cockpit = buildCockpit(pages, globalObj ?? undefined);
+  const cockpit = buildCockpit(pages, globalObj);
   const publishedBlog = blog.filter((a) => a.status === 'published');
   return {
-    content: { pages, blog, global: globalObj, redirects, internalLinks },
+    content: { pages, blog, global: globalObj ?? null, redirects, internalLinks },
     audit: {
       ...cockpit,
       totalBlog: blog.length,

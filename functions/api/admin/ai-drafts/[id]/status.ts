@@ -15,13 +15,7 @@ import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft, updateDraftStatus } from '../../../../lib/ai-drafts/store';
 import type { AiDraftStatus } from '../../../../../src/shared/ai-drafts';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../../lib/api-errors';
 
 const ALLOWED: Record<AiDraftStatus, AiDraftStatus[]> = {
   pending_review: ['needs_revision', 'rejected'],
@@ -34,29 +28,29 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   const id = String(params.id || '');
-  if (!id) return json({ error: 'Missing draft id' }, 400);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
+  if (!id) return jsonResponse({ error: 'Missing draft id' }, 400);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
 
   let body: { status?: string; note?: string };
-  try { body = await request.json(); } catch { return json({ error: 'Invalid JSON body' }, 400); }
+  try { body = await request.json(); } catch { return jsonResponse({ error: 'Invalid JSON body' }, 400); }
 
   const next = body.status as AiDraftStatus;
   if (!next || !(['pending_review', 'needs_revision', 'rejected'] as const).includes(next)) {
-    return json({ error: 'status must be pending_review | needs_revision | rejected' }, 400);
+    return jsonResponse({ error: 'status must be pending_review | needs_revision | rejected' }, 400);
   }
 
   const current = await getDraft(env, id);
-  if (!current) return json({ error: 'Draft not found' }, 404);
+  if (!current) return jsonResponse({ error: 'Draft not found' }, 404);
   const allowed = ALLOWED[current.status] || [];
   if (next !== current.status && !allowed.includes(next)) {
-    return json({ error: `Transition not allowed: ${current.status} → ${next}` }, 409);
+    return jsonResponse({ error: `Transition not allowed: ${current.status} → ${next}` }, 409);
   }
 
   const note = typeof body.note === 'string' ? body.note.trim().slice(0, 2000) : undefined;
   try {
     const updated = await updateDraftStatus(env, id, next, auth.email, note);
-    return json({ draft: updated });
+    return jsonResponse({ draft: updated });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    return jsonResponse({ error: (e as Error).message }, 500);
   }
 };

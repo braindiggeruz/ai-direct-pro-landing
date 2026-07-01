@@ -11,13 +11,7 @@
 //   We still require auth so an unauthenticated client cannot probe it.
 import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  });
-}
+import { jsonResponse } from '../../lib/api-errors';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
@@ -25,5 +19,5 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   // No-op: per-save commits already go through /api/content POST. There is
   // nothing local to flush, so report committed=0 and ok=true so the admin
   // UI confirms the action succeeded.
-  return json({ ok: true, committed: 0 });
+  return jsonResponse({ ok: true, committed: 0 });
 };

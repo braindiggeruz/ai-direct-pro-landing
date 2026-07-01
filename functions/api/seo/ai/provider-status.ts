@@ -15,6 +15,7 @@
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
+import { jsonResponse } from '../../../lib/api-errors';
 import type { AiProviderStatus } from '../../../../src/shared/ai-seo';
 
 interface AiEnv extends Env {
@@ -53,7 +54,5 @@ export const onRequestGet: PagesFunction<AiEnv> = async ({ request, env }) => {
       : 'Optional. Add SERPER_API_KEY in Cloudflare Pages env to enable SERP Intelligence (P1).',
   };
 
-  return new Response(JSON.stringify({ providers, serper, generatedAt: new Date().toISOString() }), {
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
+  return jsonResponse({ providers, serper, generatedAt: new Date().toISOString() });
 };

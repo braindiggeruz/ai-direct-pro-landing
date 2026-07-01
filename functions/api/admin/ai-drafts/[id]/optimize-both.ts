@@ -28,34 +28,19 @@ import {
   runOptimizeForLocale,
   type OptimizeRunResult,
 } from '../../../../lib/ai-drafts/optimize-runner';
+import { jsonResponse } from '../../../../lib/api-errors';
+import { createInflightLock } from '../../../../lib/inflight-lock';
 
-const inflight = new Map<string, number>();
-const INFLIGHT_TTL_MS = 120_000;
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
-
-function takeLock(id: string): boolean {
-  const now = Date.now();
-  const prev = inflight.get(id);
-  if (prev && now - prev < INFLIGHT_TTL_MS) return false;
-  inflight.set(id, now);
-  return true;
-}
-function releaseLock(id: string): void { inflight.delete(id); }
+const lock = createInflightLock(120_000);
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   const id = String(params.id || '');
-  if (!id) return json({ error: 'Missing draft id' }, 400);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
+  if (!id) return jsonResponse({ error: 'Missing draft id' }, 400);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
   if (!env.GEMINI_API_KEY) {
-    return json({
+    return jsonResponse({
       error: 'GEMINI_API_KEY not configured on the server. Add it under Cloudflare Pages → ai-direct-pro-landing → Settings → Environment variables (secret_text). Free key: https://aistudio.google.com/app/apikey.',
     }, 503);
   }
@@ -67,14 +52,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     ? body!.locales!.filter((l): l is 'ru' | 'uz' => l === 'ru' || l === 'uz')
     : null;
 
-  if (!takeLock(id)) {
-    return json({ error: 'Another optimisation for this draft is already running.' }, 429);
+  if (!lock.take(id)) {
+    return jsonResponse({ error: 'Another optimisation for this draft is already running.' }, 429);
   }
   try {
     const draft = await getDraft(env, id);
-    if (!draft) return json({ error: 'Draft not found' }, 404);
+    if (!draft) return jsonResponse({ error: 'Draft not found' }, 404);
     if (draft.status === 'rejected' || draft.status === 'imported') {
-      return json({ error: `Draft is ${draft.status} — optimisation disabled.` }, 409);
+      return jsonResponse({ error: `Draft is ${draft.status} — optimisation disabled.` }, 409);
     }
 
     // Resolve which locales to attempt. If the caller asked for
@@ -86,7 +71,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     const targets = explicit ? explicit.filter((l) => available.includes(l)) : available;
 
     if (targets.length === 0) {
-      return json({ error: 'Bundle has no RU or UZ article to optimise.' }, 400);
+      return jsonResponse({ error: 'Bundle has no RU or UZ article to optimise.' }, 400);
     }
 
     // Parallel fan-out. Promise.all keeps the wall time at
@@ -123,7 +108,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     if (okCount === 0) {
       // All-fail: aggregate the upstream/validation classification.
       const allUpstream = Object.values(results).every((r) => r && !r.ok && r.status === 'upstream');
-      return json({
+      return jsonResponse({
         ok: false,
         results,
         ok_count: 0,
@@ -132,7 +117,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
       }, allUpstream ? 502 : 422);
     }
 
-    return json({
+    return jsonResponse({
       ok: true,
       results,
       ok_count: okCount,
@@ -140,8 +125,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
       attempted_locales: targets,
     });
   } catch (e) {
-    return json({ error: (e as Error).message || 'optimize-both failed' }, 500);
+    return jsonResponse({ error: (e as Error).message || 'optimize-both failed' }, 500);
   } finally {
-    releaseLock(id);
+    lock.release(id);
   }
 };

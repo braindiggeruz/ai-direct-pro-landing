@@ -20,18 +20,12 @@
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
+import { jsonResponse } from '../../../lib/api-errors';
 import { findRun } from '../../../lib/ai-seo/store';
 import {
   parseEditorRoute,
   mapApprovedFieldsToEditorDraft,
 } from '../../../../src/shared/ai-seo-bridge';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
@@ -39,22 +33,22 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
 
   const url = new URL(request.url);
   const runId = url.searchParams.get('runId') || '';
-  if (!runId) return json({ ok: false, error: 'runId required' }, 400);
+  if (!runId) return jsonResponse({ ok: false, error: 'runId required' }, 400);
 
   const run = await findRun(env, runId);
-  if (!run) return json({ ok: false, error: 'run not found' }, 404);
+  if (!run) return jsonResponse({ ok: false, error: 'run not found' }, 404);
   if (run.status !== 'applied') {
-    return json({ ok: false, error: 'run is not in applied status' }, 409);
+    return jsonResponse({ ok: false, error: 'run is not in applied status' }, 409);
   }
 
   const route = parseEditorRoute(run.url);
   if (!route) {
-    return json({ ok: false, error: 'run URL is not editable (admin/api/non-content URL)' }, 422);
+    return jsonResponse({ ok: false, error: 'run URL is not editable (admin/api/non-content URL)' }, 422);
   }
 
   const { patch, skipped } = mapApprovedFieldsToEditorDraft(run.applied || {}, route.target);
 
-  return json({
+  return jsonResponse({
     ok: true,
     runId: run.runId,
     url: run.url,

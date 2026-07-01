@@ -1,8 +1,8 @@
 import type { Env } from '../_types';
 import { requireAuth } from '../lib/jwt';
 import { readContentBulk } from '../lib/github';
+import { parseContentBulk } from '../lib/content-parse';
 import { buildCockpit } from '../../src/shared/audit';
-import type { Page, BlogArticle, GlobalSEO } from '../../src/shared/types';
 import { withErrorHandler, jsonResponse } from '../lib/api-errors';
 
 const SITE_BASE = 'https://gptbot.uz';
@@ -47,18 +47,7 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler('audit', async 
   if (auth instanceof Response) return auth;
 
   const all = await readContentBulk(env);
-  const pages: Page[] = [];
-  const blog: BlogArticle[] = [];
-  let global: GlobalSEO | undefined;
-  for (const [path, text] of Object.entries(all)) {
-    if (!path.endsWith('.json')) continue;
-    try {
-      const parsed = JSON.parse(text);
-      if (path.startsWith('content/pages/')) pages.push(parsed as Page);
-      else if (path.startsWith('content/blog/')) blog.push(parsed as BlogArticle);
-      else if (path === 'content/global/site.json') global = parsed as GlobalSEO;
-    } catch { /* skip unparsable */ }
-  }
+  const { pages, blog, global } = parseContentBulk(all);
   const cockpit = buildCockpit(pages, global);
   const publishedBlog = blog.filter((a) => a.status === 'published');
   const blogStats = {

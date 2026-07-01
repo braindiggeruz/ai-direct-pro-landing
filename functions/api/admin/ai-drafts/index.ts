@@ -8,18 +8,12 @@
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
+import { jsonResponse } from '../../../lib/api-errors';
 import { constantTimeEqual, listDrafts } from '../../../lib/ai-drafts/store';
 import { ingestRawBundle } from '../../../lib/ai-drafts/ingest';
 import type { AiDraftStatus } from '../../../../src/shared/ai-drafts';
 
 const MAX_BODY_BYTES = 256 * 1024;
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 function extractBearer(req: Request): string | null {
   const h = req.headers.get('Authorization') || req.headers.get('authorization');
@@ -41,35 +35,35 @@ export const onRequestOptions: PagesFunction<Env> = async () =>
 
 // -- POST = n8n ingestion (Bearer auth) ------------------------------------
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  if (!env.N8N_INGEST_TOKEN) return json({ error: 'Ingestion endpoint not configured.' }, 503);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
+  if (!env.N8N_INGEST_TOKEN) return jsonResponse({ error: 'Ingestion endpoint not configured.' }, 503);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
 
   const token = extractBearer(request);
-  if (!token) return json({ error: 'Missing Authorization bearer token' }, 401);
+  if (!token) return jsonResponse({ error: 'Missing Authorization bearer token' }, 401);
   if (!constantTimeEqual(token, env.N8N_INGEST_TOKEN)) {
-    return json({ error: 'Invalid Authorization token' }, 401);
+    return jsonResponse({ error: 'Invalid Authorization token' }, 401);
   }
 
   const ctype = request.headers.get('Content-Type') || '';
   if (!ctype.toLowerCase().includes('application/json')) {
-    return json({ error: 'Content-Type must be application/json' }, 415);
+    return jsonResponse({ error: 'Content-Type must be application/json' }, 415);
   }
 
   const len = Number(request.headers.get('Content-Length') || 0);
   if (Number.isFinite(len) && len > MAX_BODY_BYTES) {
-    return json({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
+    return jsonResponse({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
   }
 
   const raw = await request.text();
   if (raw.length > MAX_BODY_BYTES) {
-    return json({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
+    return jsonResponse({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
   }
   let parsed: unknown;
-  try { parsed = JSON.parse(raw); } catch { return json({ error: 'Invalid JSON body' }, 400); }
+  try { parsed = JSON.parse(raw); } catch { return jsonResponse({ error: 'Invalid JSON body' }, 400); }
 
   const result = await ingestRawBundle(env, parsed);
-  if (!result.ok) return json(result.body, result.http);
-  return json(result.response, 200);
+  if (!result.ok) return jsonResponse(result.body, result.http);
+  return jsonResponse(result.response, 200);
 };
 
 // -- GET = admin list (JWT auth) -------------------------------------------
@@ -77,7 +71,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   if (!env.GPTBOT_DRAFTS_DB) {
-    return json({ drafts: [], error: 'Draft storage not configured.' }, 200);
+    return jsonResponse({ drafts: [], error: 'Draft storage not configured.' }, 200);
   }
   const url = new URL(request.url);
   const status = (url.searchParams.get('status') || 'all') as AiDraftStatus | 'all';
@@ -86,8 +80,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const limit = Number(url.searchParams.get('limit') || '100');
   try {
     const drafts = await listDrafts(env, { status, locale, source, limit });
-    return json({ drafts });
+    return jsonResponse({ drafts });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    return jsonResponse({ error: (e as Error).message }, 500);
   }
 };

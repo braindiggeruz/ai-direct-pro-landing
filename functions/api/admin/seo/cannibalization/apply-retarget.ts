@@ -20,6 +20,7 @@ import { validateArticle, type ValidationError } from '../../../../lib/ai-drafts
 import { analyzeCandidate } from '../../../../lib/intent-guard/analyze';
 import { saveAnalysis, updateAnalysisApplied, logAuditEvent } from '../../../../lib/intent-guard/audit';
 import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
+import { buildSeoWarnings } from '../../../../lib/seo-validation';
 
 const MAX_BODY_BYTES = 300_000;
 
@@ -66,17 +67,7 @@ export const onRequestPost: PagesFunction<Env> = withErrorHandler<Env>('admin.se
   candidate.locale = locale;
   if (original && candidate.slug !== original.slug) candidate.slug = original.slug;
 
-  // Build warnings the way /apply-optimization does.
-  const warnings: Array<{ level: string; rule: string; field?: string; message: string }> = [];
-  if (candidate.meta_title.length < 30 || candidate.meta_title.length > 70) {
-    warnings.push({ level: 'warn', rule: 'meta_title_length', field: 'meta_title', message: `length ${candidate.meta_title.length}` });
-  }
-  if (candidate.meta_description.length < 110 || candidate.meta_description.length > 170) {
-    warnings.push({ level: 'warn', rule: 'meta_description_length', field: 'meta_description', message: `length ${candidate.meta_description.length}` });
-  }
-  if (locale === 'uz' && /[А-Яа-яЁё]/.test(JSON.stringify(candidate))) {
-    warnings.push({ level: 'warn', rule: 'uz_cyrillic', message: 'Cyrillic characters detected in UZ article.' });
-  }
+  const warnings = buildSeoWarnings(candidate, { locale });
   const validation = { passed: warnings.length === 0, issues: warnings };
 
   const updated = await replaceDraftArticle(env, draftId, locale, candidate, validation, auth.email, {
