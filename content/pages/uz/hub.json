@@ -58,6 +58,12 @@
     { "target": "/uz/horeca-uchun-ai-bot/", "anchor": "HoReCa uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/oquv-markazi-uchun-ai-bot/", "anchor": "O'quv markazi uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/", "anchor": "Ko'chmas mulk uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/avtosalon-uchun-ai-bot/", "anchor": "Avtosalon uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/fitnes-klub-uchun-ai-bot/", "anchor": "Fitnes klub uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/yetkazib-berish-uchun-ai-bot/", "anchor": "Yetkazib berish uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/yurist-uchun-ai-bot/", "anchor": "Yurist uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/sharhlar/", "anchor": "Mijozlar sharhlari va keyslari", "locale": "uz", "type": "block" },
     { "target": "/uz/chat-bot-narxi/", "anchor": "Chat-bot narxi", "locale": "uz", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList"],
