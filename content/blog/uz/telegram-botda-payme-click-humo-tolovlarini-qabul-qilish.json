@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "telegram-botda-payme-click-humo-tolovlarini-qabul-qilish",
   "url": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
@@ -80,8 +80,9 @@
   "ogDescription": "O'zbekistonda Telegram yoki Instagram botga Payme, Click va Humo to'lovlarini qanday ulash mumkin: oqim, xavfsizlik va amaliy maslahatlar.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+  "hreflangRu": "/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
   "hreflangUz": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
