@@ -19,37 +19,31 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft, markImported } from '../../../../lib/ai-drafts/store';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../../lib/api-errors';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   const id = String(params.id || '');
-  if (!id) return json({ error: 'Missing draft id' }, 400);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
+  if (!id) return jsonResponse({ error: 'Missing draft id' }, 400);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
 
   let body: { locale?: string };
-  try { body = await request.json(); } catch { return json({ error: 'Invalid JSON body' }, 400); }
+  try { body = await request.json(); } catch { return jsonResponse({ error: 'Invalid JSON body' }, 400); }
 
   const locale = body.locale === 'ru' ? 'ru' : body.locale === 'uz' ? 'uz' : null;
-  if (!locale) return json({ error: 'locale must be "ru" or "uz"' }, 400);
+  if (!locale) return jsonResponse({ error: 'locale must be "ru" or "uz"' }, 400);
 
   const draft = await getDraft(env, id);
-  if (!draft) return json({ error: 'Draft not found' }, 404);
-  if (locale === 'ru' && !draft.has_ru) return json({ error: 'Bundle has no RU article' }, 400);
-  if (locale === 'uz' && !draft.has_uz) return json({ error: 'Bundle has no UZ article' }, 400);
-  if (draft.status === 'rejected') return json({ error: 'Cannot import a rejected draft. Un-reject first.' }, 409);
+  if (!draft) return jsonResponse({ error: 'Draft not found' }, 404);
+  if (locale === 'ru' && !draft.has_ru) return jsonResponse({ error: 'Bundle has no RU article' }, 400);
+  if (locale === 'uz' && !draft.has_uz) return jsonResponse({ error: 'Bundle has no UZ article' }, 400);
+  if (draft.status === 'rejected') return jsonResponse({ error: 'Cannot import a rejected draft. Un-reject first.' }, 409);
 
   try {
     const updated = await markImported(env, id, locale, auth.email);
-    return json({ draft: updated });
+    return jsonResponse({ draft: updated });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    return jsonResponse({ error: (e as Error).message }, 500);
   }
 };

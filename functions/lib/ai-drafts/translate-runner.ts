@@ -36,6 +36,7 @@ import type { AiDraftArticle } from '../../../src/shared/ai-drafts';
 import { routeLlmCall } from '../llm/router';
 import { validateArticle, type ValidationError } from './validators';
 import { parseStrictJson } from './optimizer-client';
+import { buildSeoWarnings } from '../seo-validation';
 
 const MAX_OUTPUT_TOKENS = 8000;
 const TEMPERATURE = 0.5;
@@ -179,16 +180,7 @@ export async function runTranslateLocale(
     article.target_money_page = suggestedMoneyPage;
   }
 
-  const warnings: string[] = [];
-  if (article.meta_title.length < 30 || article.meta_title.length > 70) {
-    warnings.push(`meta_title length ${article.meta_title.length} (recommended 45-65)`);
-  }
-  if (article.meta_description.length < 110 || article.meta_description.length > 170) {
-    warnings.push(`meta_description length ${article.meta_description.length} (recommended 120-160)`);
-  }
-  if (targetLocale === 'uz' && /[А-Яа-яЁё]/.test(JSON.stringify(article))) {
-    warnings.push('UZ article contains Cyrillic characters — please review.');
-  }
+  const warnings: string[] = buildSeoWarnings(article, { locale: targetLocale, asStrings: true, articleJson: JSON.stringify(article) });
 
   return {
     ok: true,

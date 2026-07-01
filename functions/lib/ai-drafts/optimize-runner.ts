@@ -24,6 +24,7 @@ import { parseStrictJson } from './optimizer-client';
 import { routeLlmCall } from '../llm/router';
 import type { AiDraftArticle, AiDraftRecord } from '../../../src/shared/ai-drafts';
 import type { BodyBlock } from '../../../src/shared/types';
+import { buildSeoWarnings } from '../seo-validation';
 
 const MAX_OUTPUT_TOKENS = 8000;
 const TEMPERATURE_BALANCED = 0.55;
@@ -199,16 +200,7 @@ export async function runOptimizeForLocale(
   }
 
   const ratio = winner.ratio;
-  const warnings: string[] = [];
-  if (optimised.meta_title.length < 30 || optimised.meta_title.length > 70) {
-    warnings.push(`meta_title length ${optimised.meta_title.length} (recommended 45-65)`);
-  }
-  if (optimised.meta_description.length < 110 || optimised.meta_description.length > 170) {
-    warnings.push(`meta_description length ${optimised.meta_description.length} (recommended 120-160)`);
-  }
-  if (locale === 'uz' && /[А-Яа-яЁё]/.test(JSON.stringify(optimised))) {
-    warnings.push('UZ article contains Cyrillic characters — please review.');
-  }
+  const warnings: string[] = buildSeoWarnings(optimised, { locale, asStrings: true, articleJson: JSON.stringify(optimised) });
   if (ratio.overall < REWRITE_RATIO_TARGET) {
     warnings.push(`Body rewrite ratio is ${(ratio.overall * 100).toFixed(0)}% (${ratio.unchangedCount}/${ratio.comparedCount} blocks barely changed). Consider running «Повторить оптимизацию» if the result still feels shallow.`);
   }

@@ -34,17 +34,7 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { researchTopicsViaYandex } from '../../../../lib/yandex/research';
-import { newRequestId } from '../../../../lib/api-errors';
-
-function json(d: unknown, status = 200): Response {
-  return new Response(JSON.stringify(d), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store',
-    },
-  });
-}
+import { newRequestId, jsonResponse } from '../../../../lib/api-errors';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const requestId = newRequestId();
@@ -55,7 +45,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   try {
     body = (await request.json()) as Record<string, unknown>;
   } catch {
-    return json({
+    return jsonResponse({
       ok: false,
       topics: [],
       warnings: [],
@@ -72,7 +62,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     ? (body.seeds as unknown[]).map((s) => (typeof s === 'string' ? s : '')).filter((s) => s.length > 0)
     : [];
   if (seeds.length === 0) {
-    return json({
+    return jsonResponse({
       ok: false,
       topics: [],
       warnings: [],
@@ -86,7 +76,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
   const locale = body.locale === 'uz' ? 'uz' : body.locale === 'ru' ? 'ru' : null;
   if (!locale) {
-    return json({
+    return jsonResponse({
       ok: false,
       topics: [],
       warnings: [],
@@ -109,7 +99,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     // letting the runtime emit a 1101.
     const err = e as Error;
     console.error(`[yandex.research] [${requestId}] unexpected throw: ${err?.message || String(e)}`);
-    return json({
+    return jsonResponse({
       ok: false,
       topics: [],
       warnings: [],
@@ -149,7 +139,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         },
       }),
   };
-  const res = json(envelope, 200);
+  const res = jsonResponse(envelope, 200);
   res.headers.set('x-request-id', requestId);
   return res;
 };

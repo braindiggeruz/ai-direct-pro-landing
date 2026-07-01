@@ -21,8 +21,9 @@
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
 import { readContentBulk } from '../../../lib/github';
-import type { Page, BlogArticle } from '../../../../src/shared/types';
+import { parseContentBulk } from '../../../lib/content-parse';
 import { readLatestPerUrl } from '../../../lib/indexnow/audit';
+import { jsonResponse } from '../../../lib/api-errors';
 
 interface IndexNowRecentItem {
   url: string;
@@ -34,13 +35,6 @@ interface IndexNowRecentItem {
   last_submitted_at: string | null;
   last_status: number | null;
   last_ok: boolean;
-}
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
 }
 
 const SITE_HOST = 'gptbot.uz';
@@ -58,16 +52,12 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     // Read content from GitHub. Cached via the existing readContentBulk
     // GraphQL bulk reader → ≤ 1 subrequest.
     const all = await readContentBulk(env);
+    const { pages, blog } = parseContentBulk(all);
     const items: IndexNowRecentItem[] = [];
     const cutoffMs = Date.now() - days * 86_400_000;
 
-    for (const [path, text] of Object.entries(all)) {
-      if (!path.endsWith('.json')) continue;
-      let parsed: Page | BlogArticle;
-      try { parsed = JSON.parse(text) as Page | BlogArticle; } catch { continue; }
-      const isPage = path.startsWith('content/pages/');
-      const isBlog = path.startsWith('content/blog/');
-      if (!isPage && !isBlog) continue;
+    for (const parsed of [...pages, ...blog]) {
+      const isPage = 'pageType' in parsed;
       if (parsed.status !== 'published') continue;
       if (!parsed.url) continue;
       if (parsed.locale !== 'ru' && parsed.locale !== 'uz') continue;
@@ -113,7 +103,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       return aTs - bTs;
     });
 
-    return json({ ok: true, total: filtered.length, days, items: filtered });
+    return jsonResponse({ ok: true, total: filtered.length, days, items: filtered });
   } catch (e) {
     // 2026-06-24 — never let GitHub/D1 transients return a generic
     // Cloudflare 500 page (custom domain replaces the body with
@@ -122,7 +112,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     // "Не удалось загрузить: 500".
     const err = e as Error;
     console.error(`[indexnow.recent] ${err?.message || String(e)}`);
-    return json({
+    return jsonResponse({
       ok: false,
       total: 0,
       items: [],

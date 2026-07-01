@@ -16,21 +16,12 @@ import { runRetarget } from '../../../../lib/intent-guard/retarget-client';
 import { saveAnalysis, logAuditEvent } from '../../../../lib/intent-guard/audit';
 import type { AiDraftArticle } from '../../../../../src/shared/ai-drafts';
 import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
+import { createInflightLock } from '../../../../lib/inflight-lock';
 import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
 
 interface OptimizerEnv extends Env { OPENROUTER_API_KEY?: string }
 
-// In-flight lock per (source, id, locale)
-const inflight = new Map<string, number>();
-const INFLIGHT_TTL_MS = 180_000;
-function takeLock(k: string): boolean {
-  const now = Date.now();
-  const prev = inflight.get(k);
-  if (prev && now - prev < INFLIGHT_TTL_MS) return false;
-  inflight.set(k, now);
-  return true;
-}
-function releaseLock(k: string): void { inflight.delete(k); }
+const lock = createInflightLock(180_000);
 
 export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<OptimizerEnv>('admin.seo.cannibalization.retarget', async ({ request, env }) => {
   const auth = await requireAuth(request, env);
@@ -82,7 +73,7 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
   if (!candidate) return jsonResponse({ error: 'no candidate' }, 400);
 
   const lockKey = `${body.source}::${candidate.id}`;
-  if (!takeLock(lockKey)) {
+  if (!lock.take(lockKey)) {
     return jsonResponse({ error: 'Another retarget run for this article is already in flight.' }, 429);
   }
   try {
@@ -171,6 +162,6 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
       best_attempt_index: retarget.best_attempt_index,
     });
   } finally {
-    releaseLock(lockKey);
+    lock.release(lockKey);
   }
 });

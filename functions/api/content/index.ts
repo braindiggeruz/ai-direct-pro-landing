@@ -6,14 +6,7 @@ import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
 import { getFile, putFile, deleteFile, readContentBulk } from '../../lib/github';
 import { detectMojibake } from '../../../src/shared/audit';
-import { withErrorHandler, errorResponse } from '../../lib/api-errors';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  });
-}
+import { withErrorHandler, errorResponse, jsonResponse } from '../../lib/api-errors';
 
 function pathFor(kind: string, locale?: string, slug?: string): string {
   switch (kind) {
@@ -48,7 +41,7 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler('content.get', 
     else if (path === 'content/seo/internal-links.json') internalLinks = (parsed as unknown[]) || [];
   }
 
-  return json({ pages, blog, global: globalObj, redirects, internalLinks });
+  return jsonResponse({ pages, blog, global: globalObj, redirects, internalLinks });
 });
 
 export const onRequestPost: PagesFunction<Env> = withErrorHandler('content.post', async ({ request, env }) => {
@@ -73,7 +66,7 @@ export const onRequestPost: PagesFunction<Env> = withErrorHandler('content.post'
   const content = JSON.stringify(body.data, null, 2) + '\n';
   const message = body.message || `chore(seo): update ${body.kind}${body.slug ? ` ${body.locale}/${body.slug}` : ''} via admin`;
   await putFile(env, file, content, message);
-  return json({ ok: true, file });
+  return jsonResponse({ ok: true, file });
 });
 
 export const onRequestDelete: PagesFunction<Env> = withErrorHandler('content.delete', async ({ request, env }) => {
@@ -84,7 +77,7 @@ export const onRequestDelete: PagesFunction<Env> = withErrorHandler('content.del
   if (!body.kind) return errorResponse('content.delete', 'BAD_REQUEST', 'Missing kind');
   const file = pathFor(body.kind, body.locale, body.slug);
   await deleteFile(env, file, body.message || `chore(seo): delete ${body.kind} ${body.locale}/${body.slug}`);
-  return json({ ok: true });
+  return jsonResponse({ ok: true });
 });
 
 // Used by tests as a smoke endpoint.

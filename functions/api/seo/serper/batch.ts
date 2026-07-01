@@ -9,6 +9,7 @@
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
+import { jsonResponse } from '../../../lib/api-errors';
 import type {
   SerperAnalyzeUrlRequest,
   SerperBatchRequest,
@@ -21,13 +22,6 @@ import { buildDigest, digestWithinCap } from '../../../lib/serper/digest';
 import {
   appendRun, buildRunLog, cacheKey, getCached, putCached,
 } from '../../../lib/serper/store';
-
-function json(d: unknown, status = 200): Response {
-  return new Response(JSON.stringify(d), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 async function runOne(env: Env, b: SerperAnalyzeUrlRequest): Promise<
   { url: string; ok: true; digest: SerpDigest } | { url: string; ok: false; error: string }
@@ -88,17 +82,17 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   let body: SerperBatchRequest;
   try { body = (await request.json()) as SerperBatchRequest; }
-  catch { return json({ ok: false, error: 'invalid JSON body' }, 400); }
+  catch { return jsonResponse({ ok: false, error: 'invalid JSON body' }, 400); }
 
   if (!body || !Array.isArray(body.items)) {
-    return json({ ok: false, error: 'items[] required' }, 400);
+    return jsonResponse({ ok: false, error: 'items[] required' }, 400);
   }
-  if (body.items.length === 0) return json({ ok: false, error: 'items[] empty' }, 400);
+  if (body.items.length === 0) return jsonResponse({ ok: false, error: 'items[] empty' }, 400);
   if (body.items.length > SERPER_LIMITS.maxBatch) {
-    return json({ ok: false, error: `max batch is ${SERPER_LIMITS.maxBatch}` }, 400);
+    return jsonResponse({ ok: false, error: `max batch is ${SERPER_LIMITS.maxBatch}` }, 400);
   }
   if (!env.SERPER_API_KEY) {
-    return json({ ok: false, error: 'SERPER_API_KEY not configured' }, 503);
+    return jsonResponse({ ok: false, error: 'SERPER_API_KEY not configured' }, 503);
   }
 
   const results: SerperBatchResult['results'] = [];
@@ -107,5 +101,5 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     results.push(await runOne(env, item));
   }
   const out: SerperBatchResult = { ok: true, results };
-  return json(out);
+  return jsonResponse(out);
 };

@@ -6,20 +6,14 @@
 
 import type { Env } from '../../../_types';
 import { getJob } from '../../../lib/seo-autopilot/jobs';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 export const onRequestGet: PagesFunction<Env> = async ({ env, params }) => {
   const id = String(params.id || '');
-  if (!id) return json({ error: 'Missing job id' }, 400);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Bridge unavailable (storage not configured).' }, 503);
+  if (!id) return jsonResponse({ error: 'Missing job id' }, 400);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Bridge unavailable (storage not configured).' }, 503);
   const job = await getJob(env, id);
-  if (!job) return json({ error: 'Job not found' }, 404);
+  if (!job) return jsonResponse({ error: 'Job not found' }, 404);
 
   // Build a Runable-friendly response shape that mirrors the success
   // payload spec when the job is complete.
@@ -58,5 +52,5 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, params }) => {
   } else {
     body.next_action = 'Poll this status_url in ~30 s; expected completion within 120 s.';
   }
-  return json(body);
+  return jsonResponse(body);
 };
