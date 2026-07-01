@@ -208,6 +208,12 @@
       "anchor": "разработка AI-бота в Ташкенте: цена",
       "locale": "ru",
       "type": "blog"
+    },
+    {
+      "target": "/ru/",
+      "anchor": "Все AI-решения GPTBot.uz",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

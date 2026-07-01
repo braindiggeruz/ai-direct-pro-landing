@@ -202,6 +202,12 @@
       "anchor": "GPT bot biznes uchun",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "GPTBot.uz AI yechimlari",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
