@@ -114,7 +114,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
         overrides,
       }));
   await updateItem(ctx.env, itemId, { status: 'generating' });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch((e) => console.warn(`[topic-plan-launch] transitionReservation(generating) failed:`, (e as Error).message));
 
   const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
   const launch = await launchFn({
@@ -131,7 +131,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
 
   if (!launch.ok) {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch((e) => console.warn(`[topic-plan-launch] transitionReservation(failed) failed:`, (e as Error).message));
     return jsonResponse({ ok: false, error: launch.message, reason: launch.reason }, launch.http);
   }
 
@@ -144,7 +144,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
     jobId = launch.job.id || launch.jobId;
     if (launch.job.status === 'failed') {
       await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'n8n launch failed', source_job_id: jobId });
-      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
+      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch((e) => console.warn(`[topic-plan-launch] transitionReservation(failed/job) failed:`, (e as Error).message));
       return jsonResponse({ ok: false, error: launch.job.error_message || 'launch failed', job: launch.job }, 502);
     }
   } else {
@@ -152,7 +152,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
   }
 
   await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch((e) => console.warn(`[topic-plan-launch] transitionReservation(generated) failed:`, (e as Error).message));
 
   // Step 3: Intent Guard analyze the produced draft (RU + UZ, where available).
   const analysisResults: Array<{ locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }> = [];
@@ -186,9 +186,9 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
             risk_level: ar.risk_level,
             recommendation: ar.semantic.recommendation,
             actor: auth.email,
-          }).catch(() => null);
+          }).catch((e) => { console.warn(`[topic-plan-launch] saveAnalysis failed for ${loc}:`, (e as Error).message); return null; });
           analysisResults.push({ locale: loc, risk_score: ar.risk_score, risk_level: ar.risk_level });
-        } catch { /* per-locale failure does not break others */ }
+        } catch (igErr) { console.warn(`[topic-plan-launch] Intent Guard analysis failed for ${loc}:`, (igErr as Error).message); }
       }
     }
   }
@@ -201,10 +201,10 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
       risk_score: worst.risk_score,
       risk_level: worst.risk_level,
     });
-    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch((e) => console.warn(`[topic-plan-launch] transitionReservation(post-guard) failed:`, (e as Error).message));
   } else {
     await updateItem(ctx.env, itemId, { status: 'ready_for_review' });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch((e) => console.warn(`[topic-plan-launch] transitionReservation(ready_for_review) failed:`, (e as Error).message));
   }
   if (draftId) {
     await logAuditEvent(ctx.env, draftId, 'topic_plan_item_launched', auth.email, {

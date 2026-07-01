@@ -59,7 +59,9 @@ export async function processN8nResponseInBackground(
       try {
         const txt = (await response.text()).slice(0, 2048);
         detail = { excerpt: txt };
-      } catch { /* ignore */ }
+      } catch (readErr) {
+        console.warn(`[bridge] failed to read n8n error body for job ${jobId}:`, (readErr as Error).message);
+      }
       await failJob(env, jobId, startedAt, `n8n_http_${n8nStatus}`,
         `n8n returned HTTP ${n8nStatus}`, detail);
       return;
@@ -70,7 +72,8 @@ export async function processN8nResponseInBackground(
     try {
       n8nRaw = await response.text();
       n8nBody = JSON.parse(n8nRaw);
-    } catch {
+    } catch (parseErr) {
+      console.warn(`[bridge] n8n response JSON parse failed for job ${jobId}:`, (parseErr as Error).message);
       await failJob(env, jobId, startedAt, 'n8n_invalid_json',
         'n8n responded with invalid JSON', { excerpt: n8nRaw.slice(0, 1024) });
       return;
@@ -110,7 +113,9 @@ export async function processN8nResponseInBackground(
         n8n_status: n8nStatus,
         deduplicated: ingest.response.deduplicated,
       });
-    } catch { /* audit is best-effort */ }
+    } catch (auditErr) {
+      console.warn(`[bridge] audit append best-effort failure for job ${jobId}:`, (auditErr as Error).message);
+    }
 
     const finishedAt = Date.now();
     await updateJob(env, jobId, {
@@ -146,8 +151,9 @@ async function failJob(
       finished_at: new Date(finishedAt).toISOString(),
       duration_ms: finishedAt - startedAt,
     });
-  } catch {
+  } catch (updateErr) {
     // Last-ditch — if we can't even update D1, the row stays in its prior
     // state. waitUntil will exit cleanly.
+    console.error(`[bridge] failJob D1 update failed for job ${jobId}: ${(updateErr as Error).message}`);
   }
 }

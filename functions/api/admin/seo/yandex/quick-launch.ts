@@ -377,7 +377,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
     ? JSON.stringify(overrides)
     : JSON.stringify(buildLaunchPayload({ source: 'admin', requestedBy: auth.email, runId, overrides }));
   await updateItem(ctx.env, itemId, { status: 'generating' });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch((e) => console.warn('[yandex-quick-launch] transitionReservation(generating) failed:', (e as Error).message));
 
   const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
   const launch = await launchFn({
@@ -393,7 +393,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   });
   if (!launch.ok) {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch((e) => console.warn('[yandex-quick-launch] transitionReservation(failed) failed:', (e as Error).message));
     return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.message, reason: launch.reason, plan_id: planId, item_id: itemId, request_id: runId }, 200);
   }
 
@@ -410,14 +410,14 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
     fallbackUsed = !!(launch.job as { llm_fallback_used?: number | boolean }).llm_fallback_used;
     if (launch.job.status === 'failed') {
       await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'Generation failed', source_job_id: jobId });
-      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
+      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch((e) => console.warn('[yandex-quick-launch] transitionReservation(failed/job) failed:', (e as Error).message));
       return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.job.error_message || 'Generation failed', provider, model, plan_id: planId, item_id: itemId, job_id: jobId, request_id: runId }, 200);
     }
   } else {
     jobId = launch.jobId;
   }
   await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch((e) => console.warn('[yandex-quick-launch] transitionReservation(generated) failed:', (e as Error).message));
 
   // 7. Intent Guard analyze on both locales (best-effort, runs inline so
   // the operator sees the final risk_level in the success response).
@@ -440,9 +440,9 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
             serper: ar.serper, semantic: ar.semantic, conflicts: ar.conflicts,
             risk_score: ar.risk_score, risk_level: ar.risk_level,
             recommendation: ar.semantic.recommendation, actor: auth.email,
-          }).catch(() => null);
+          }).catch((e) => { console.warn(`[yandex-quick-launch] saveAnalysis failed for ${loc}:`, (e as Error).message); return null; });
           analysisResults.push({ locale: loc, risk_score: ar.risk_score, risk_level: ar.risk_level });
-        } catch { /* per-locale guard is best-effort */ }
+        } catch (igErr) { console.warn(`[yandex-quick-launch] Intent Guard analysis failed for ${loc}:`, (igErr as Error).message); }
       }
     }
   }
@@ -454,10 +454,10 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
       status: worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget',
       risk_score: worst.risk_score, risk_level: worst.risk_level,
     });
-    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch((e) => console.warn('[yandex-quick-launch] transitionReservation(post-guard) failed:', (e as Error).message));
   } else {
     await updateItem(ctx.env, itemId, { status: 'ready_for_review' });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch((e) => console.warn('[yandex-quick-launch] transitionReservation(ready_for_review) failed:', (e as Error).message));
   }
   if (draftId) {
     await logAuditEvent(ctx.env, draftId, 'yandex_quick_launch', auth.email, {

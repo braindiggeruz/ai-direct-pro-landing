@@ -26,7 +26,7 @@ export default function Login() {
 
   useEffect(() => {
     if (getToken()) { nav('/admin-tools/', { replace: true }); return; }
-    void api.config().then((c) => setSiteKey(c.turnstileSiteKey || null)).catch(() => { /* ignore */ });
+    void api.config().then((c) => setSiteKey(c.turnstileSiteKey || null)).catch((e) => { console.warn('[Login] turnstile config fetch failed:', (e as Error).message); });
   }, [nav]);
 
   // Load Turnstile script once we know there is a site key

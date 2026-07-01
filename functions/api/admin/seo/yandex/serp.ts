@@ -59,6 +59,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (!r.ok) {
     return json({ ok: false, error: r.error, http_status: r.http_status }, r.http_status === 401 || r.http_status === 403 ? 502 : 502);
   }
-  await writeCached(env, cacheKey, r.snapshot).catch(() => undefined);
+  await writeCached(env, cacheKey, r.snapshot).catch((e) => console.warn('[yandex-serp] writeCached best-effort failure:', (e as Error).message));
   return json({ ok: true, snapshot: r.snapshot, cached: false, duration_ms: r.duration_ms });
 };

@@ -31,10 +31,10 @@ async function ensureTable(db: D1Database): Promise<void> {
        idempotency_key     TEXT,
        attempts_json       TEXT
      )`.replace(/\s+/g, ' '),
-  ).catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_usage_created_at ON llm_usage(created_at_ms)').catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_usage_feature ON llm_usage(feature)').catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_usage_provider ON llm_usage(provider)').catch(() => undefined);
+  ).catch((e) => console.warn('[usage-store] ensureTable CREATE TABLE failed:', (e as Error).message));
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_usage_created_at ON llm_usage(created_at_ms)').catch((e) => console.warn('[usage-store] ensureTable idx_created_at failed:', (e as Error).message));
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_usage_feature ON llm_usage(feature)').catch((e) => console.warn('[usage-store] ensureTable idx_feature failed:', (e as Error).message));
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_usage_provider ON llm_usage(provider)').catch((e) => console.warn('[usage-store] ensureTable idx_provider failed:', (e as Error).message));
 }
 
 function rowId(): string {
@@ -81,7 +81,7 @@ export async function recordUsage(
       JSON.stringify(meta.attempts).slice(0, 4000),
     )
     .run()
-    .catch(() => undefined);
+    .catch((e) => console.warn('[usage-store] recordUsage insert failed:', (e as Error).message));
 }
 
 export interface UsageSummaryRow {
@@ -154,8 +154,8 @@ async function ensureIdempotencyTable(db: D1Database): Promise<void> {
        created_at_ms   INTEGER NOT NULL,
        expires_at_ms   INTEGER NOT NULL
      )`.replace(/\s+/g, ' '),
-  ).catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_idempotency_expires ON llm_idempotency(expires_at_ms)').catch(() => undefined);
+  ).catch((e) => console.warn('[usage-store] ensureIdempotencyTable CREATE TABLE failed:', (e as Error).message));
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_llm_idempotency_expires ON llm_idempotency(expires_at_ms)').catch((e) => console.warn('[usage-store] ensureIdempotencyTable idx_expires failed:', (e as Error).message));
 }
 
 const IDEMPOTENCY_TTL_MS = 10 * 60_000; // 10 min
@@ -170,7 +170,10 @@ export async function readIdempotent(env: Env, key: string): Promise<unknown | n
     .first<Record<string, unknown>>();
   if (!row) return null;
   if (Number(row.expires_at_ms || 0) < Date.now()) return null;
-  try { return JSON.parse(row.result_json as string); } catch { return null; }
+  try { return JSON.parse(row.result_json as string); } catch (e) {
+    console.warn(`[usage-store] corrupt idempotency cache for key ${key}:`, (e as Error).message);
+    return null;
+  }
 }
 
 export async function writeIdempotent(env: Env, key: string, feature: LlmFeature, result: LlmCallResult): Promise<void> {
@@ -193,7 +196,7 @@ export async function writeIdempotent(env: Env, key: string, feature: LlmFeature
     )
     .bind(key, feature, safeJson, now, now + IDEMPOTENCY_TTL_MS)
     .run()
-    .catch(() => undefined);
+    .catch((e) => console.warn(`[usage-store] writeIdempotent failed for key ${key}:`, (e as Error).message));
 }
 
 /** Cast for the small subset of LlmCallMetadata that lives in the row. */

@@ -301,7 +301,9 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
       try {
         const r = await api.topicPlanGet(plan.id);
         setPlan(r.plan);
-      } catch { /* ignore one-off polling errors */ }
+      } catch (pollErr) {
+        console.debug('[TopicPlanPanel] polling error (non-critical):', (pollErr as Error).message);
+      }
     }, 6000);
     return () => { if (pollTimer.current) clearInterval(pollTimer.current); };
   }, [plan, launchingItemId]);
@@ -373,7 +375,7 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
     }
     setLaunchingItemId(null);
     // Always refresh — failure may have stamped the row with error_message.
-    try { const fresh = await api.topicPlanGet(plan.id); setPlan(fresh.plan); } catch { /* */ }
+    try { const fresh = await api.topicPlanGet(plan.id); setPlan(fresh.plan); } catch (refreshErr) { console.debug('[TopicPlanPanel] post-launch refresh error:', (refreshErr as Error).message); }
   }
 
   async function launchAll() {
@@ -390,7 +392,7 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
         // do not break — continue with the next item per spec
       }
       // Refresh plan state so the UI updates between launches.
-      try { const fresh = await api.topicPlanGet(plan.id); setPlan(fresh.plan); } catch { /* */ }
+      try { const fresh = await api.topicPlanGet(plan.id); setPlan(fresh.plan); } catch (refreshErr) { console.debug('[TopicPlanPanel] launchAll refresh error:', (refreshErr as Error).message); }
     }
     setLaunchingItemId(null);
   }

@@ -228,7 +228,10 @@ async function loadReservationItems(env: Env): Promise<ContentInventoryItem[]> {
 
 /** Heavy: 1 GraphQL + ≤ 2 D1 reads. ≤ 50 ms typical in production. */
 export async function buildContentInventory(env: Env): Promise<ContentInventory> {
-  const githubContent = await readContentBulk(env).catch((): Record<string, string> => ({}));
+  const githubContent = await readContentBulk(env).catch((e): Record<string, string> => {
+    console.warn('[intent-guard] readContentBulk failed, proceeding with empty content:', (e as Error).message);
+    return {};
+  });
   const pages: Page[] = [];
   const blog: BlogArticle[] = [];
   for (const [path, text] of Object.entries(githubContent)) {
@@ -237,12 +240,20 @@ export async function buildContentInventory(env: Env): Promise<ContentInventory>
       const parsed = JSON.parse(text);
       if (path.startsWith('content/pages/')) pages.push(parsed as Page);
       else if (path.startsWith('content/blog/')) blog.push(parsed as BlogArticle);
-    } catch { /* skip */ }
+    } catch (parseErr) {
+      console.warn(`[intent-guard] skipped malformed JSON at ${path}:`, (parseErr as Error).message);
+    }
   }
   const pageItems = pages.filter((p) => p.status === 'published').map(pageToItem);
   const blogItems = blog.filter((b) => b.status === 'published').map(blogToItem);
-  const draftItems = await loadDraftItems(env).catch(() => []);
-  const reservationItems = await loadReservationItems(env).catch(() => []);
+  const draftItems = await loadDraftItems(env).catch((e) => {
+    console.warn('[intent-guard] loadDraftItems failed, proceeding with empty list:', (e as Error).message);
+    return [];
+  });
+  const reservationItems = await loadReservationItems(env).catch((e) => {
+    console.warn('[intent-guard] loadReservationItems failed, proceeding with empty list:', (e as Error).message);
+    return [];
+  });
 
   return {
     generated_at: new Date().toISOString(),
