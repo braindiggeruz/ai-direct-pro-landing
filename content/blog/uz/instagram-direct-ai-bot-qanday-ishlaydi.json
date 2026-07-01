@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "instagram-direct-ai-bot-qanday-ishlaydi",
   "url": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
@@ -69,8 +69,9 @@
   "ogDescription": "Instagram Direct'da AI-bot qanday ishlaydi: xabarlarga javob, kommentlardan Direct'ga o'tkazish, kvalifikatsiya va CRM'ga uzatish.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+  "hreflangRu": "/ru/blog/instagram-direct-bot-kak-rabotaet/",
   "hreflangUz": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",

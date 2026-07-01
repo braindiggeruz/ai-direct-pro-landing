@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "ai-bot-okupaemost-roi-qanday-hisoblash",
   "url": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
@@ -73,8 +73,9 @@
   "ogDescription": "AI yoki chat-botning okupaemostini o'z raqamlaringiz asosida qanday hisoblash: formula, misol tuzilishi va nimalarni hisobga olish kerak.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+  "hreflangRu": "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
   "hreflangUz": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",

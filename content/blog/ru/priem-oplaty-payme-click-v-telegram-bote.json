@@ -54,6 +54,8 @@
   "ogTitle": "Приём оплаты Payme и Click в Telegram-боте: как настроить",
   "ogDescription": "Как принимать оплату через Payme, Click и Uzum прямо в Telegram-боте бизнеса в Узбекистане. Схема работы, чеки, безопасность и типичные ошибки.",
   "canonical": "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+  "hreflangRu": "/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+  "hreflangUz": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",

@@ -179,6 +179,8 @@
   "ogTitle": "AI-бот для поддержки клиентов в e-commerce Узбекистана",
   "ogDescription": "Узнайте, как AI-боты автоматизируют поддержку клиентов в e-commerce Узбекистана, улучшая сервис и снижая затраты. Примеры и сценарии.",
   "canonical": "https://gptbot.uz/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+  "hreflangRu": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+  "hreflangUz": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",
