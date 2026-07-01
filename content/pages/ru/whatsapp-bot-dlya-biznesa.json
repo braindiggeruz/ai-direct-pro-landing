@@ -292,6 +292,12 @@
       "anchor": "как выбрать канал для чат-бота",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/",
+      "anchor": "Все AI-решения GPTBot.uz",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

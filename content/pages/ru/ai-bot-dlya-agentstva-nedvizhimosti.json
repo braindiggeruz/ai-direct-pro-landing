@@ -264,6 +264,12 @@
       "anchor": "почему бизнес теряет заявки из Instagram и Telegram",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/",
+      "anchor": "AI-боты для бизнеса в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

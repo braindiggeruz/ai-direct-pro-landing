@@ -292,6 +292,12 @@
       "anchor": "chat bot uchun qaysi kanalni tanlash",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "GPTBot.uz AI yechimlari",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
