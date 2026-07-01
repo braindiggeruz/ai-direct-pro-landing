@@ -58,6 +58,13 @@
     { "target": "/ru/ai-bot-dlya-horeca/", "anchor": "AI-бот для HoReCa", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-bot-dlya-uchebnogo-tsentra/", "anchor": "AI-бот для учебного центра", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/", "anchor": "AI-бот для агентства недвижимости", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-bot-dlya-avtosalona/", "anchor": "AI-бот для автосалона", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-bot-dlya-dostavki-edy/", "anchor": "AI-бот для доставки еды", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-bot-dlya-fitnes-kluba/", "anchor": "AI-бот для фитнес-клуба", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-bot-dlya-sayta/", "anchor": "AI-бот для сайта", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-bot-dlya-yurista/", "anchor": "AI-бот для юриста", "locale": "ru", "type": "block" },
+    { "target": "/ru/kak-sdelat-ai-bota-telegram-instagram/", "anchor": "Как сделать AI-бота для Telegram и Instagram", "locale": "ru", "type": "block" },
+    { "target": "/ru/otzyvy/", "anchor": "Отзывы и кейсы клиентов", "locale": "ru", "type": "block" },
     { "target": "/ru/stoimost-chat-bota/", "anchor": "Стоимость чат-бота", "locale": "ru", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList"],
