@@ -28,16 +28,19 @@ function extractBearer(req: Request): string | null {
   return t || null;
 }
 
-export const onRequestOptions: PagesFunction<Env> = async () =>
-  new Response(null, {
+export const onRequestOptions: PagesFunction<Env> = async ({ request }) => {
+  const origin = request.headers.get('Origin') || '';
+  return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': origin || 'https://gptbot.uz',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Max-Age': '86400',
+      'Vary': 'Origin',
     },
   });
+};
 
 // -- POST = n8n ingestion (Bearer auth) ------------------------------------
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {

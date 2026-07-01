@@ -33,12 +33,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return json({ error: 'Invalid credentials' }, 401);
   }
 
-  // Password check: prefer hash, fall back to plain (dev only)
+  // Password check: hash only. Plain-text ADMIN_PASSWORD is rejected.
   let ok = false;
   if (env.ADMIN_PASSWORD_HASH) {
     ok = await verifyPassword(password, env.ADMIN_PASSWORD_HASH);
-  } else if (env.ADMIN_PASSWORD) {
-    ok = password === env.ADMIN_PASSWORD;
+  } else {
+    // No hash configured — always reject. Log so the operator notices.
+    console.error('[auth.login] ADMIN_PASSWORD_HASH is not configured. Login is disabled until a hash is set.');
   }
   if (!ok) {
     const r = await registerFailure(env, key);
