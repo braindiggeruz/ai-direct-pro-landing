@@ -120,7 +120,7 @@ async function runSeed(
     });
     if (first.ok) {
       snapshot = first.snapshot;
-      await writeCached(env, cacheKey, snapshot).catch(() => undefined);
+      await writeCached(env, cacheKey, snapshot).catch((e) => console.warn(`[yandex-research] writeCached failed for seed "${seed}":`, (e as Error).message));
     } else if (
       first.retryable
       && Date.now() < deadlineAt - PER_CALL_TIMEOUT_MS
@@ -143,7 +143,7 @@ async function runSeed(
       });
       if (second.ok) {
         snapshot = second.snapshot;
-        await writeCached(env, cacheKey, snapshot).catch(() => undefined);
+        await writeCached(env, cacheKey, snapshot).catch((e) => console.warn(`[yandex-research] writeCached (retry) failed for seed "${seed}":`, (e as Error).message));
         retryWarning = `«${seed}»: первый запрос ${first.error_code}, второй удался`;
       } else {
         return {

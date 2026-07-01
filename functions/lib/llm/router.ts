@@ -100,7 +100,7 @@ export async function routeLlmCall(env: Env, input: LlmCallInput): Promise<LlmCa
       });
 
       if (r.ok) {
-        await recordSuccess(env, cand.provider, cand.model).catch(() => undefined);
+        await recordSuccess(env, cand.provider, cand.model).catch((e) => console.warn(`[llm-router] recordSuccess failed for ${cand.provider}/${cand.model}:`, (e as Error).message));
         const success: LlmCallSuccess = {
           ok: true,
           content: r.content,
@@ -117,13 +117,13 @@ export async function routeLlmCall(env: Env, input: LlmCallInput): Promise<LlmCa
             attempts,
           },
         };
-        if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, success).catch(() => undefined);
-        await recordUsage(env, input.feature, success, input.idempotencyKey).catch(() => undefined);
+        if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, success).catch((e) => console.warn('[llm-router] writeIdempotent failed:', (e as Error).message));
+        await recordUsage(env, input.feature, success, input.idempotencyKey).catch((e) => console.warn('[llm-router] recordUsage failed:', (e as Error).message));
         return success;
       }
 
       // Record failure regardless of retry decision.
-      await recordFailure(env, cand.provider, cand.model, r.error_class).catch(() => undefined);
+      await recordFailure(env, cand.provider, cand.model, r.error_class).catch((e) => console.warn(`[llm-router] recordFailure failed for ${cand.provider}/${cand.model}:`, (e as Error).message));
       lastFailure = {
         error: r.error,
         cls: r.error_class,
@@ -169,8 +169,8 @@ export async function routeLlmCall(env: Env, input: LlmCallInput): Promise<LlmCa
         attempts,
       },
     };
-    if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, failure).catch(() => undefined);
-    await recordUsage(env, input.feature, failure, input.idempotencyKey).catch(() => undefined);
+    if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, failure).catch((e) => console.warn('[llm-router] writeIdempotent (failure) failed:', (e as Error).message));
+    await recordUsage(env, input.feature, failure, input.idempotencyKey).catch((e) => console.warn('[llm-router] recordUsage (failure) failed:', (e as Error).message));
     return failure;
   };
 
@@ -189,7 +189,10 @@ async function selectHealthyCandidates(env: Env, input: LlmCallInput): Promise<R
   for (const c of all) {
     const provider = PROVIDERS[c.provider];
     if (!provider || !provider.isConfigured(env)) continue;
-    const breaker = await readBreaker(env, c.provider, c.model).catch(() => null);
+    const breaker = await readBreaker(env, c.provider, c.model).catch((e) => {
+      console.warn(`[llm-router] readBreaker failed for ${c.provider}/${c.model}:`, (e as Error).message);
+      return null;
+    });
     if (breaker && isOpen(breaker)) continue;
     out.push(c);
   }

@@ -152,7 +152,10 @@ export function withErrorHandler<E = unknown>(
       try {
         // Only mutate headers if we still control the response — clone if needed.
         if (res && !res.headers.has('x-request-id')) res.headers.set('x-request-id', requestId);
-      } catch { /* immutable response, ignore */ }
+      } catch (headerErr) {
+        // Response headers are immutable (e.g. cloned / redirect response).
+        console.debug(`[api-errors] could not set x-request-id header: ${(headerErr as Error).message}`);
+      }
       return res;
     } catch (e) {
       const code = classifyError(e);

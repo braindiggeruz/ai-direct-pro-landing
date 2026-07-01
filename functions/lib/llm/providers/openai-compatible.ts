@@ -69,7 +69,7 @@ export async function callOpenAiCompatible(opts: OpenAiCompatibleCallOptions): P
     const dt = Date.now() - startedAt;
 
     if (!res.ok) {
-      const text = await res.text().catch(() => '');
+      const text = await res.text().catch((e) => { console.warn(`[openai-compat] failed to read error response body:`, (e as Error).message); return ''; });
       return classifyHttpFailure(res.status, text, dt);
     }
 

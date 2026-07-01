@@ -74,7 +74,9 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
       if (path.startsWith('content/pages/')) pages.push(parsed as Page);
       else if (path.startsWith('content/blog/')) blog.push(parsed as BlogArticle);
       else if (path === 'content/global/site.json') globalObj = parsed as GlobalSEO;
-    } catch { /* skip */ }
+    } catch (parseErr) {
+      console.warn(`[indexnow] skipped malformed JSON at ${path}:`, (parseErr as Error).message);
+    }
   }
   const report = buildBoosterReport(pages, blog, globalObj);
   const { safe, rejected } = filterSafeForIndexNow(rawUrls, report.items);
@@ -134,7 +136,7 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
       duration_ms: durationMs,
       error: networkError ?? (ok ? null : (upstreamBody || `HTTP ${upstreamStatus}`).slice(0, 240)),
     })),
-  ).catch(() => undefined);
+  ).catch((e) => console.warn('[indexnow] writeAudit best-effort failure:', (e as Error).message));
 
   if (networkError) {
     return json({ ok: false, error: `IndexNow fetch failed: ${networkError}`, submitted: safe.length, rejected, batchId }, 502);
