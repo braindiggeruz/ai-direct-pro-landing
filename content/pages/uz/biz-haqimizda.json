@@ -39,6 +39,10 @@
       "text": "GPTBot.uz — Toshkentdagi AI-bot ishlab chiqish studiyasi. Biz Ozbekistondagi biznes uchun chat-botlar yaratamiz: ular mijozlarga Telegram, Instagram Direct va WhatsAppda javob beradi, lidni kvalifikatsiya qiladi va tayyor arizani menejerga yoki CRM ga uzatadi. Rus va ozbek tillarida ishlaymiz."
     },
     {
+      "type": "p",
+      "text": "GPTBot.uz — Boss Digital digital-agentligining biznesni AI-avtomatlashtirish bo'yicha ixtisoslashgan yo'nalishi. Boss Digital Toshkentda ishlaydi va AI-botlardan tashqari biznes uchun saytlar hamda raqamli yechimlar ishlab chiqadi."
+    },
+    {
       "type": "h2",
       "text": "Biz nima qilamiz"
     },
@@ -116,6 +120,12 @@
     {
       "target": "/uz/chat-bot-biznes-uchun/",
       "anchor": "biznes uchun chat-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/boss-digital/",
+      "anchor": "Boss Digital — Toshkentdagi digital-agentlik",
       "locale": "uz",
       "type": "contextual"
     }
