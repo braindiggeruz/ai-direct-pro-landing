@@ -108,6 +108,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
             <ul className="space-y-2.5 text-sm mb-6">
               <li><a href="/ru/blog/" data-testid="footer-blog" className="text-white/65 hover:text-brand-cyan transition">{lBlog}</a></li>
               <li><a href={isUz ? '/uz/biz-haqimizda/' : '/ru/o-kompanii/'} data-testid="footer-about" className="text-white/65 hover:text-brand-cyan transition">{isUz ? 'Biz haqimizda' : 'О компании'}</a></li>
+              <li><a href={isUz ? '/uz/boss-digital/' : '/boss-digital/'} data-testid="footer-boss-digital" className="text-white/65 hover:text-brand-cyan transition">Boss Digital</a></li>
               <li><a href={isUz ? '/uz/jamoa/' : '/ru/komanda/'} data-testid="footer-team" className="text-white/65 hover:text-brand-cyan transition">{isUz ? 'Jamoa' : 'Команда'}</a></li>
               <li><a href={isUz ? '/uz/sharhlar/' : '/ru/otzyvy/'} data-testid="footer-reviews" className="text-white/65 hover:text-brand-cyan transition">{isUz ? 'Sharhlar' : 'Отзывы'}</a></li>
               <li><a href="/sitemap.xml" data-testid="footer-sitemap" className="text-white/65 hover:text-brand-cyan transition">{lSitemap}</a></li>
