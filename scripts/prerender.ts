@@ -235,6 +235,13 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
     });
   }
 
+  // Page-scoped extra entities (e.g. the Boss Digital agency node on
+  // /boss-digital/ that references the GPTBot org via department @id).
+  // Emitted verbatim from the page JSON — data-driven, never invented here.
+  if (Array.isArray(page.extraJsonLd) && page.extraJsonLd.length > 0) {
+    graph.push(...page.extraJsonLd);
+  }
+
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 }
 
