@@ -13,7 +13,7 @@ Schema: узел `ProfessionalService`/`Organization` `@id=https://gptbot.uz/bos
 | Название | Boss Digital | Boss Digital | `name: Boss Digital` | ✅ Совпадает | — |
 | Категория | Маркетинговое агентство (Marketing agency, gcid:marketing_agency) | «маркетинговое агентство / digital-агентство» | `@type: ProfessionalService, Organization` | ✅ Согласовано | Не менять основную категорию карточки без владельца |
 | Адрес | Kichik Xalqa Yo'li 57, Tashkent, Узбекистан | Kichik Xalqa Yo'li 57, Ташкент, Узбекистан | `streetAddress: Kichik Xalqa Yo'li 57, addressLocality: Tashkent, addressCountry: UZ` | ✅ Совпадает | — |
-| Телефон | +998 93 122 00 60 | +998 93 122 00 60 | `telephone: +998931220060` (E.164) | ✅ Совпадает | — |
+| Телефон | +998 93 122 00 60 (в карточке) | +998 50 587 07 20 (актуальный, подтверждён владельцем) | `telephone: +998505870720` (E.164) | ❌ Расхождение | Владелец: обновить телефон в карточке Google на +998 50 587 07 20 |
 | Город | Ташкент | Ташкент | `addressLocality: Tashkent` | ✅ Совпадает | — |
 | Часы работы | Подтверждено частично: чт 10:00–19:00; «откроется в 10:00 (пт)». Полная неделя в ограниченном виде карточки не видна | «10:00–19:00 (актуальный график — в карточке Google)» + ссылка на карточку | `openingHours` НЕ добавлен (неполное подтверждение) | ⚠️ Частично | Владелец: подтвердить график на всю неделю; после подтверждения можно добавить openingHoursSpecification |
 | Сайт | canonical.uz (устаревшее значение) | gptbot.uz / boss-digital | `url: https://gptbot.uz/boss-digital/` | ❌ Расхождение | Владелец: обновить поле website в карточке на https://gptbot.uz/boss-digital/ после проверки production |

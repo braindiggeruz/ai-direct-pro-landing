@@ -203,7 +203,7 @@
         "Nomi: Boss Digital",
         "Kategoriya: marketing agentligi / digital-agentlik",
         "Manzil: Kichik Xalqa Yo'li 57, Toshkent, O'zbekiston",
-        "Telefon: +998 93 122 00 60",
+        "Telefon: +998 50 587 07 20",
         "Ish vaqti: 10:00–19:00 (dolzarb jadval — Google kartochkasida)",
         "Xizmat hududi: Toshkent va butun O'zbekiston (masofadan)"
       ]
@@ -221,7 +221,7 @@
       "type": "list",
       "items": [
         "Boss Digital, Toshkent, O'zbekiston",
-        "Telefon: +998 93 122 00 60",
+        "Telefon: +998 50 587 07 20",
         "Telegram: t.me/XGame_changerx",
         "Manzil: Kichik Xalqa Yo'li 57, Toshkent",
         "Ish vaqti: 10:00–19:00",
@@ -265,7 +265,7 @@
     },
     {
       "q": "Ishni qanday boshlash mumkin?",
-      "a": "Telegram orqali yozing (t.me/XGame_changerx) yoki +998 93 122 00 60 raqamiga qo'ng'iroq qiling. Vazifani muhokama qilamiz, murojaatlar bilan ishlash jarayonini ko'rib chiqamiz va aniq yechim taklif qilamiz."
+      "a": "Telegram orqali yozing (t.me/XGame_changerx) yoki +998 50 587 07 20 raqamiga qo'ng'iroq qiling. Vazifani muhokama qilamiz, murojaatlar bilan ishlash jarayonini ko'rib chiqamiz va aniq yechim taklif qilamiz."
     }
   ],
   "internalLinks": [
@@ -328,7 +328,7 @@
       "url": "https://gptbot.uz/boss-digital/",
       "description": "Boss Digital — Toshkentdagi digital-agentlik: saytlar, raqamli yechimlar va biznesni avtomatlashtirish tizimlari. GPTBot.uz — kompaniyaning biznesni AI-avtomatlashtirish bo'yicha ixtisoslashgan yo'nalishi.",
       "image": "https://gptbot.uz/assets/landing/og.jpg",
-      "telephone": "+998931220060",
+      "telephone": "+998505870720",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Kichik Xalqa Yo'li 57",
@@ -353,7 +353,7 @@
         {
           "@type": "ContactPoint",
           "contactType": "customer support",
-          "telephone": "+998931220060",
+          "telephone": "+998505870720",
           "availableLanguage": [
             "ru",
             "uz"
