@@ -83,6 +83,14 @@ export interface Page {
   faq: FaqItem[];
   internalLinks: InternalLink[];
   schemaTypes: SchemaType[];
+  /**
+   * Optional page-scoped JSON-LD nodes appended verbatim to the prerendered
+   * @graph. Used for entity pages whose main subject is NOT the GPTBot
+   * organization itself (e.g. /boss-digital/ describes the Boss Digital
+   * agency and links it to the GPTBot org via department). Content-driven;
+   * prerender never invents fields.
+   */
+  extraJsonLd?: Record<string, unknown>[];
 
   lastReviewedAt?: string; // ISO date
   updatedAt?: string;
