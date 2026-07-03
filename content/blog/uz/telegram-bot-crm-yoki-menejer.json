@@ -12,7 +12,9 @@
     "Telegram bot vs CRM",
     "biznes uchun nima tanlash",
     "avtomatlashtirish vs menejer",
-    "kichik biznes avtomatlashtirish"
+    "kichik biznes avtomatlashtirish",
+    "Telegram bot yoki CRM",
+    "Telegram bot yoki menejer"
   ],
   "intro": "Kichik biznesga ko'pincha hamma narsani birdaniga sotishadi: Telegram bot ham, CRM ham, AI menejer ham. Amalda hammasini birdaniga boshlash shart emas. Ushbu bog'lamani qaysi tartibda qurish kerakligini va \"bizga endi vaqti keldi\" deyish belgilarini ko'rib chiqamiz.",
   "body": [

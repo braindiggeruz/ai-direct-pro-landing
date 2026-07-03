@@ -153,6 +153,11 @@ headers.push('# producing ERR_QUIC_PROTOCOL_ERROR. Alt-Svc: clear flushes that')
 headers.push('# cache on the first response over HTTP/2.');
 headers.push('/*');
 headers.push('  Alt-Svc: clear');
+// Edge-cache prerendered HTML for 1 h (stale-while-revalidate 24 h) — audit
+// found cf-cache-status: DYNAMIC on every page. Browsers still revalidate
+// (max-age=0); only the Cloudflare edge serves cached copies. Overridden
+// below for /admin-tools/*, /assets/*, SEO files and /api/*.
+headers.push('  Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400');
 headers.push('  X-Content-Type-Options: nosniff');
 headers.push('  Referrer-Policy: strict-origin-when-cross-origin');
 headers.push('  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()');

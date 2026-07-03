@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "blog-no-locale-prefix",
+    "from": "/blog/*",
+    "to": "/ru/blog/:splat",
+    "statusCode": 301,
+    "reason": "Unprefixed /blog/[slug] URLs returned 404 — recover link equity from legacy/external/AI-generated links (seo-technical-audit-2026-07)",
+    "createdAt": "2026-07-03"
+  }
+]

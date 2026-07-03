@@ -49,6 +49,11 @@
     {
       "type": "p",
       "text": "Umumiy ramka barcha nishalar uchun bir xil: tez javob, minimal kerakli maydonlar, handoff va RU + UZ. Lekin majburiy maydonlar va birinchi savollar har xil. Aynan shu tafsilotlar bot \"klinika uchun\", \"salon uchun\" yoki \"HoReCa uchun\" deb chinakam ishlashini ta'minlaydi."
+    },
+    {
+      "type": "cta",
+      "text": "Bu sizning biznesingizda qanday ishlashini bilib oling",
+      "href": "/uz/biznes-uchun-ai-bot/"
     }
   ],
   "faq": [

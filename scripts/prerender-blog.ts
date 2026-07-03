@@ -21,6 +21,7 @@ import {
   buildOrganizationLd,
   buildWebSiteLd,
   buildBreadcrumbLd,
+  buildAuthorPersonLd,
 } from './jsonld-helpers';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -181,6 +182,8 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   const graph: Record<string, unknown>[] = [];
   graph.push(buildOrganizationLd(global));
   graph.push(buildWebSiteLd(global));
+  const authorPerson = buildAuthorPersonLd(global);
+  if (authorPerson) graph.push(authorPerson);
   graph.push(buildBreadcrumbLd([
     { name: global.siteName, item: `${global.siteUrl}/` },
     { name: blogIndexName, item: blogIndexUrl },
@@ -195,7 +198,11 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
     inLanguage: a.locale === 'uz' ? 'uz' : 'ru',
     isPartOf: { '@id': `${global.siteUrl}/#site` },
     about: { '@id': `${global.siteUrl}/#org` },
-    author: { '@type': 'Organization', '@id': `${global.siteUrl}/#org`, name: a.author || global.organizationName, url: `${global.siteUrl}/` },
+    // E-E-A-T: attribute articles to the named expert Person when configured;
+    // fall back to the Organization for installs without a named author.
+    author: authorPerson
+      ? { '@id': `${global.siteUrl}/#author` }
+      : { '@type': 'Organization', '@id': `${global.siteUrl}/#org`, name: a.author || global.organizationName, url: `${global.siteUrl}/` },
     publisher: { '@id': `${global.siteUrl}/#org` },
     datePublished: a.datePublished || a.createdAt,
     dateModified: a.dateModified || a.updatedAt || a.datePublished,
@@ -308,7 +315,7 @@ ${ANALYTICS_HEAD}
 
   <article>
     <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeText(a.h1)}</h1>
-    <p data-testid="article-meta" class="text-sm text-white/50 mb-2">${escapeHtml(a.author || 'GPTBot Team')} · ${escapeHtml(a.datePublished || '')}</p>
+    <p data-testid="article-meta" class="text-sm text-white/50 mb-2">${escapeHtml(global.authorName || a.author || 'GPTBot Team')} · ${escapeHtml(a.datePublished || '')}</p>
     ${(a.dateModified || a.updatedAt) ? `<p data-testid="article-updated" class="text-xs uppercase tracking-wider text-white/40 mb-10">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></p>` : '<div class="mb-10"></div>'}
     <div class="prose-invert">
       ${(a.body || []).map(renderBlock).join('\n')}

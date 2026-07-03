@@ -10,6 +10,10 @@ https://www.gptbot.uz/*  https://gptbot.uz/:splat  301
 # 1) Admin SPA shell — React Router handles sub-routes client-side.
 /admin-tools/*  /index.html  200
 
+# 1a) Unprefixed blog URLs — 301 to the Russian locale so legacy/external
+#     links and AI-generated citations without a language prefix don't 404.
+/blog/*  /ru/blog/:splat  301
+
 # 2) NO wildcard `/*` fallback by design. Unknown URLs must return 404 so they
 #    don't get indexed as soft-duplicates of the homepage. Real money/blog
 #    pages are served from their prerendered /dist/<path>/index.html files.
