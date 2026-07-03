@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "oquv-markazi-uchun-ai-bot-ota-onalarga-javob",
   "url": "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
@@ -73,7 +73,7 @@
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
   "hreflangUz": "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
