@@ -188,8 +188,7 @@
           "@type": "ContactPoint",
           "contactType": "customer support",
           "telephone": "+998505870720",
-          "availableLanguage": ["ru", "uz"],
-          "areaServed": "UZ"
+          "availableLanguage": ["Russian", "Uzbek"]
         }
       ],
       "sameAs": ["https://maps.google.com/?cid=15658123710081809529"],
