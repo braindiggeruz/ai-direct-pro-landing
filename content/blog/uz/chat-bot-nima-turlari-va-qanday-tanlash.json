@@ -1,0 +1,83 @@
+{
+  "status": "draft",
+  "locale": "uz",
+  "slug": "chat-bot-nima-turlari-va-qanday-tanlash",
+  "url": "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+  "title": "Chat-bot nima: turlari va qanday tanlash",
+  "description": "Chat-bot oddiy so'zlar bilan: bu nima, qanday turlari bor — tugmali, AI, ovozli, — chat-botlar qayerda ishlatiladi va o'z vazifangizga qaysi birini tanlash kerak.",
+  "h1": "Chat-bot nima: turlari va qanday tanlash",
+  "topicCluster": "ai-bot-basics",
+  "targetMoneyPage": "/uz/chat-bot-biznes-uchun/",
+  "keywords": [
+    "chat bot nima",
+    "chat-bot turlari",
+    "chatbot",
+    "chat bot qanday ishlaydi",
+    "biznes uchun chat bot",
+    "chat bot tanlash"
+  ],
+  "intro": "Chat-bot — bu messenjerda, saytda yoki ilovada inson bilan yozishma olib boradigan dastur: savollarga javob beradi, buyruqlarni bajaradi va ma'lumot yig'adi. Ushbu qo'llanmada — ta'rif, chat-botlarning asosiy turlari va tanlash uchun amaliy mezonlar.",
+  "body": [
+    { "type": "h2", "text": "Chat-bot nima: ta'rif" },
+    { "type": "p", "text": "Chat-bot — bu inson bilan matnli yoki ovozli chatda muloqot qiladigan dastur: xabarni qabul qiladi, suhbatdoshga nima kerakligini aniqlaydi va javob qaytaradi — matn, tugmalar, rasm yoki amal (yozilish, buyurtma, to'lov) bilan. Chat-botlar Telegram, Instagram, WhatsApp, saytlar va ilovalarda ishlaydi." },
+    { "type": "p", "text": "Asosiy g'oya: bot bir zumda va kechayu kunduz javob beradi. Mijoz istalgan kanalda soniyalar ichida javob oladi, bot egasi esa — xodim aralashuvisiz qayta ishlangan murojaatni." },
+    { "type": "h2", "text": "Chat-botlarning 4 asosiy turi" },
+    { "type": "h3", "text": "1. Tugmali (stsenariyli) botlar" },
+    { "type": "p", "text": "Qat'iy stsenariy bo'yicha ishlaydi: foydalanuvchi tugmalarni bosadi, bot uni menyu bo'ylab olib boradi. Sodda va bashorat qilinadigan, lekin odam erkin matn yozishi bilan chalkashib qoladi. Navigatsiya, oddiy arizalar va xabarnomalar uchun mos." },
+    { "type": "h3", "text": "2. AI-botlar (til modellari asosida)" },
+    { "type": "p", "text": "Erkin matnni tushunadi: mijoz oddiy so'zlar bilan yozadi, bot esa kompaniya bilimlar bazasiga tayanib, ma'no bo'yicha javob beradi. Bu eng tez o'sayotgan tur — aynan shunday botlarni AI-bot yoki GPT-bot deb atashadi. Batafsil — «Biznes uchun AI-bot nima» maqolasida." },
+    { "type": "h3", "text": "3. Ovozli botlar va assistentlar" },
+    { "type": "p", "text": "Ovoz bilan muloqot qiladi: qo'ng'iroqlarni qabul qiladi, javoblarni ovozga aylantiradi, nutqni matnga o'giradi. Call-markazlarda va aqlli kolonkalarda (Alisa, Siri, Google Assistant) ishlatiladi." },
+    { "type": "h3", "text": "4. Ko'ngilochar va shaxsiy botlar" },
+    { "type": "p", "text": "Suhbatdosh-botlar, anonim chatlar, o'yin botlari. Bu biznes vazifalarisiz alohida toifa — ularni ariza uchun emas, muloqot uchun tanlashadi." },
+    { "type": "h2", "text": "Chat-botlar qayerda ishlatiladi" },
+    { "type": "list", "items": [
+      "Savdo va arizalar: bot mahsulot yoki xizmat haqidagi savollarga javob berib, kontaktlarni yig'adi — biznesdagi eng keng tarqalgan qo'llanish.",
+      "Mijozlarni qo'llab-quvvatlash: tipik savollarga 24/7 javob, operatorlar yukini kamaytirish.",
+      "Yozilish va bron qilish: klinikalar, salonlar, restoranlar, fitnes.",
+      "To'lov va buyurtmalar: chatning o'zida to'lov qabul qilish — O'zbekistonda Payme va Click orqali.",
+      "Ichki vazifalar: HR-botlar, xodimlar uchun botlar, bildirishnomalar."
+    ] },
+    { "type": "h2", "text": "Chat-botni qanday tanlash: 5 amaliy mezon" },
+    { "type": "list", "items": [
+      "Vazifa: navigatsiya va xabarnomalar uchun tugmali bot yetadi; mijozlar bilan jonli muloqot uchun AI-bot kerak.",
+      "Kanallar: mijozlaringiz qayerda yozadi? O'zbekistonda bu birinchi navbatda Telegram va Instagram Direct.",
+      "Tillar: auditoriya ikki tilli bo'lsa, bot rus va o'zbek tillarida to'g'ri ishlashi shart.",
+      "Integratsiyalar: arizani menejerga uzatish, CRM (AmoCRM, Bitrix24), to'lovlar.",
+      "Kim qiladi va qo'llab-quvvatlaydi: konstruktorda o'zingiz yoki studiya orqali kalit topshirig'i asosida — ikkala yondashuvni alohida taqqoslaganmiz."
+    ] },
+    { "type": "h2", "text": "Chat-bot qancha turadi" },
+    { "type": "p", "text": "Diapazon keng: oddiy tugmali bepul konstruktorlardan CRM va to'lovlar bilan buyurtma asosida ishlab chiqilgan AI-botgacha. Oddiy qoida: bot qancha ko'p qo'l mehnatini o'z zimmasiga olsa, shuncha tez o'zini oqlaydi." },
+    { "type": "cta", "text": "Biznesingiz vazifalariga mos chat-botni tanlash", "href": "/uz/chat-bot-biznes-uchun/" }
+  ],
+  "cta": {
+    "label": "Telegramda muhokama qilish",
+    "href": "https://t.me/XGame_changerx",
+    "note": "Qaysi turdagi chat-bot kerakligiga ishonchingiz komil emasmi? Bizga yozing — bepul maslahat beramiz va demo ko'rsatamiz."
+  },
+  "faq": [
+    { "q": "Chat-bot nima, oddiy so'zlar bilan?", "a": "Bu chatda inson bilan muloqot qiladigan dastur: savollarga javob beradi, buyruqlarni bajaradi va ma'lumot yig'adi. Messenjerlar, saytlar va ilovalarda kechayu kunduz ishlaydi." },
+    { "q": "Chat-bot AI-botdan nimasi bilan farq qiladi?", "a": "Chat-bot — umumiy nom. AI-bot — til modeli asosidagi chat-bot turi bo'lib, faqat tugma bosishni emas, erkin matnni ham tushunadi." },
+    { "q": "Biznes uchun qaysi chat-botni tanlash kerak?", "a": "Faqat menyu va xabarnomalar kerak bo'lsa — tugmali. Mijozlar erkin matnda yozsa va arizalarni yo'qotmaslik muhim bo'lsa — biznesingiz bilimlar bazasiga ega, arizani menejerga yoki CRM ga uzatadigan AI-bot." },
+    { "q": "Chat-bot yasash qancha turadi?", "a": "Noldan (oddiy konstruktorlarda o'zingiz) buyurtma asosidagi ishlab chiqishgacha. Narx bot turi, kanallar, tillar va integratsiyalarga — CRM, Payme va Click to'lovlariga bog'liq." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/chat-bot-biznes-uchun/", "anchor": "biznes uchun chat-bot", "locale": "uz", "type": "contextual", "priority": 1 },
+    { "target": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/", "anchor": "biznes uchun AI-bot nima", "locale": "uz", "type": "contextual", "priority": 2 },
+    { "target": "/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/", "anchor": "konstruktor yoki studiya", "locale": "uz", "type": "contextual", "priority": 3 }
+  ],
+  "ogTitle": "Chat-bot nima: turlari va qanday tanlash",
+  "ogDescription": "Chat-bot oddiy so'zlar bilan: bu nima, qanday turlari bor — tugmali, AI, ovozli, — chat-botlar qayerda ishlatiladi va o'z vazifangizga qaysi birini tanlash kerak.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+  "hreflangRu": "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
+  "hreflangUz": "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot",
+  "datePublished": "2026-07-03",
+  "dateModified": "2026-07-03",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-07-03T00:00:00Z",
+  "updatedAt": "2026-07-03"
+}
