@@ -355,10 +355,9 @@
           "contactType": "customer support",
           "telephone": "+998505870720",
           "availableLanguage": [
-            "ru",
-            "uz"
-          ],
-          "areaServed": "UZ"
+            "Russian",
+            "Uzbek"
+          ]
         }
       ],
       "sameAs": [

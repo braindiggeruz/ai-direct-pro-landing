@@ -5,9 +5,14 @@
 // /scripts/prerender-home.ts. Centralising the entity layer here means:
 //
 //   * One canonical Organization across every page (same @id, same
-//     description, same areaServed, same knowsAbout). AI assistants
+//     description, same areaServed). AI assistants
 //     and Knowledge Graph builders treat repeated equivalent triples
 //     as a strong signal of entity stability.
+//
+//   * Only schema.org-valid properties are emitted for each type.
+//     Organization must NOT carry inLanguage / slogan / knowsAbout
+//     (SEMrush flags them as invalid structured data), and ContactPoint
+//     must NOT carry url / areaServed.
 //
 //   * One canonical WebSite — same name, same inLanguage, same
 //     publisher reference.
@@ -23,28 +28,31 @@ import type { GlobalSEO } from '../src/shared/types';
 
 const TASHKENT_TIMEZONE = 'Asia/Tashkent';
 
+// ContactPoint.availableLanguage reads better (and validates cleaner) as
+// full language names rather than BCP-47 codes.
+const LANGUAGE_NAMES: Record<string, string> = { ru: 'Russian', uz: 'Uzbek', en: 'English' };
+
 export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> {
+  // NOTE: inLanguage, legalName, alternateName, slogan and knowsAbout are
+  // intentionally NOT emitted — they are not valid Organization properties
+  // (inLanguage/slogan/knowsAbout) or are redundant (legalName/alternateName
+  // duplicating name), and SEMrush marks them as invalid structured data.
   const org: Record<string, unknown> = {
     '@type': ['Organization', 'ProfessionalService'],
     '@id': `${global.siteUrl}/#org`,
     name: global.organizationName,
     url: `${global.siteUrl}/`,
+    // logo must be an ImageObject with url + width/height to validate.
     logo: {
       '@type': 'ImageObject',
       url: global.logo,
-      caption: `${global.organizationName} logo`,
+      width: 1200,
+      height: 630,
     },
     image: global.defaultOgImage,
-    inLanguage: global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'],
   };
-  if (global.organizationLegalName && global.organizationLegalName !== global.organizationName) {
-    org.legalName = global.organizationLegalName;
-    org.alternateName = global.organizationLegalName;
-  }
   if (global.organizationDescription) org.description = global.organizationDescription;
   else if (global.organizationShortDescription) org.description = global.organizationShortDescription;
-  if (global.organizationShortDescription) org.slogan = global.organizationShortDescription;
-  if (global.knowsAbout && global.knowsAbout.length > 0) org.knowsAbout = global.knowsAbout;
 
   // areaServed — list of countries / cities. Falls back to Uzbekistan + Tashkent.
   const areas = (global.areaServed && global.areaServed.length > 0
@@ -63,18 +71,14 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
     };
   }
 
-  // contactPoint — Telegram-first since that is the published primary channel.
-  if (global.telegram) {
-    org.contactPoint = [
-      {
-        '@type': 'ContactPoint',
-        contactType: 'customer support',
-        url: global.telegram,
-        availableLanguage: global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'],
-        areaServed: 'UZ',
-      },
-    ];
-  }
+  // contactPoint — ContactPoint has no `url` or `areaServed` properties on
+  // schema.org, so only contactType + availableLanguage are emitted.
+  const langCodes = global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'];
+  org.contactPoint = {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    availableLanguage: langCodes.map((code) => LANGUAGE_NAMES[code] || code),
+  };
 
   // sameAs — every confirmed external profile.
   if (global.sameAs && global.sameAs.length > 0) org.sameAs = global.sameAs;
