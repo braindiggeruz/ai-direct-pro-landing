@@ -12,7 +12,9 @@
     "Toshkentda biznes uchun chat-bot",
     "Toshkentda biznes uchun chat bot",
     "Telegram yoki Instagram biznes uchun",
-    "AI bot Toshkent"
+    "AI bot Toshkent",
+    "Toshkentda chat-bot narxi",
+    "biznes uchun qaysi kanal"
   ],
   "intro": "Chat-bot tanlashda to'g'ri savol: \"Qaysi kanalda u tezroq natija beradi?\"",
   "body": [
@@ -47,6 +49,11 @@
     {
       "type": "p",
       "text": "Eng yaxshi yechim ko'pincha \"yoki-yoki\" emas, balki \"qayerda interest tug'iladi va qayerda jarayon boshqariladi\" degan bog'lamadir. Avval bitta asosiy kirish nuqtasini ishga tushirib, keyin ikkinchi kanalni ulash eng sog'lom yondashuv bo'ladi."
+    },
+    {
+      "type": "cta",
+      "text": "Bu sizning biznesingizda qanday ishlashini bilib oling",
+      "href": "/uz/chat-bot-biznes-uchun/"
     }
   ],
   "faq": [

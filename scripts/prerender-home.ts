@@ -27,6 +27,7 @@ import {
   buildWebSiteLd,
   buildServiceLd,
   buildWebPageLd,
+  buildAuthorPersonLd,
 } from './jsonld-helpers';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -151,8 +152,10 @@ async function main(): Promise<void> {
   //    @graph (Organization+ProfessionalService, WebSite, WebPage, Service).
   //    Keeps @id stable across every page so AI/search engines collapse the
   //    triples into a single canonical entity.
+  const homeAuthor = buildAuthorPersonLd(global);
   const richGraph: Record<string, unknown>[] = [
     buildOrganizationLd(global),
+    ...(homeAuthor ? [homeAuthor] : []),
     buildWebSiteLd(global),
     buildWebPageLd({
       global,
