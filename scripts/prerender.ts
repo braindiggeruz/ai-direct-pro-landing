@@ -17,6 +17,7 @@ import {
   buildBreadcrumbLd,
   buildServiceLd,
   buildWebPageLd,
+  buildAuthorPersonLd,
 } from './jsonld-helpers';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -188,7 +189,13 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   // Always emit Organization + WebSite when the page declares Organization or
   // WebSite in its schemaTypes — they are the entity backbone and the rest of
   // the graph references them via @id. We never duplicate or shorten them.
-  if (types.has('Organization')) graph.push(buildOrganizationLd(global));
+  if (types.has('Organization')) {
+    graph.push(buildOrganizationLd(global));
+    // Named expert Person rides along with the Organization node — E-E-A-T
+    // anchor referenced by Article.author on blog pages.
+    const authorPerson = buildAuthorPersonLd(global);
+    if (authorPerson) graph.push(authorPerson);
+  }
   if (types.has('WebSite')) graph.push(buildWebSiteLd(global));
 
   if (types.has('BreadcrumbList')) {
@@ -210,6 +217,9 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
     primaryImage: page.ogImage || global.defaultOgImage,
     dateModified: dateModifiedIso,
     datePublished: page.createdAt ? new Date(page.createdAt).toISOString().slice(0, 10) : undefined,
+    // Speakable: tell voice/AI assistants which parts of a money page carry
+    // the answer — the H1 and the hero subtitle (rendered with .speakable-intro).
+    speakableSelectors: page.pageType === 'money' || types.has('Service') ? ['h1', '.speakable-intro'] : undefined,
   }));
 
   if (types.has('Service') || page.pageType === 'money') {
@@ -346,7 +356,7 @@ ${ANALYTICS_HEAD}
 
   <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeText(page.h1)}</h1>
   ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
-  ${page.heroSubtitle ? `<p class="text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
+  ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
 
   ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
     <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">

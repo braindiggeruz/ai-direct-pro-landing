@@ -48,6 +48,11 @@
     {
       "type": "p",
       "text": "Birinchi qadamda ko'p savol berish — eng katta xato. Mijoz hali ishonmadi, biznes esa uni uzun anketaga aylantirib yuboradi. To'g'risi: kontakt, qiziqish, kanal va marshrutlash uchun zarur minimum. Qolgani — keyingi follow-up vazifasi."
+    },
+    {
+      "type": "cta",
+      "text": "Bu sizning biznesingizda qanday ishlashini bilib oling",
+      "href": "/uz/arizalarni-avtomatlashtirish/"
     }
   ],
   "faq": [
