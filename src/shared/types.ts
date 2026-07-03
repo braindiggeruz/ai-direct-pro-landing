@@ -146,6 +146,10 @@ export interface GlobalSEO {
   knowsAbout?: string[];
   logo: string;
   phone?: string;
+  /** Named expert/founder used as Article author (Person) for E-E-A-T. */
+  authorName?: string;
+  /** Public profile URL for the named author (e.g. the About page). */
+  authorUrl?: string;
   telegram?: string;
   instagram?: string;
   /** Human-readable single-line address (footer + JSON-LD short form). */

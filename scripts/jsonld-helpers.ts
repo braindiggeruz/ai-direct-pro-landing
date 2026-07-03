@@ -72,13 +72,16 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
   }
 
   // contactPoint — ContactPoint has no `url` or `areaServed` properties on
-  // schema.org, so only contactType + availableLanguage are emitted.
+  // schema.org, so only contactType + telephone + availableLanguage are emitted.
+  // telephone appears once global.phone is filled in content/global/site.json.
   const langCodes = global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'];
   org.contactPoint = {
     '@type': 'ContactPoint',
     contactType: 'customer support',
+    ...(global.phone ? { telephone: global.phone } : {}),
     availableLanguage: langCodes.map((code) => LANGUAGE_NAMES[code] || code),
   };
+  if (global.phone) org.telephone = global.phone;
 
   // sameAs — every confirmed external profile.
   if (global.sameAs && global.sameAs.length > 0) org.sameAs = global.sameAs;
@@ -88,6 +91,22 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
   // not the studio's office hours.
 
   return org;
+}
+
+// Named expert Person node — E-E-A-T anchor for Article.author and the
+// About/team pages. Only emitted when the author is configured in
+// content/global/site.json (never invented).
+export function buildAuthorPersonLd(global: GlobalSEO): Record<string, unknown> | null {
+  if (!global.authorName) return null;
+  return {
+    '@type': 'Person',
+    '@id': `${global.siteUrl}/#author`,
+    name: global.authorName,
+    ...(global.authorUrl ? { url: global.authorUrl } : {}),
+    worksFor: { '@id': `${global.siteUrl}/#org` },
+    jobTitle: 'Founder',
+    knowsLanguage: ['ru', 'uz'],
+  };
 }
 
 export function buildWebSiteLd(global: GlobalSEO): Record<string, unknown> {
@@ -173,6 +192,8 @@ export function buildWebPageLd(input: {
   dateModified?: string;
   datePublished?: string;
   breadcrumbId?: string;
+  /** CSS selectors for SpeakableSpecification (voice/AI answer extraction). */
+  speakableSelectors?: string[];
 }): Record<string, unknown> {
   const obj: Record<string, unknown> = {
     '@type': 'WebPage',
@@ -193,6 +214,12 @@ export function buildWebPageLd(input: {
   }
   if (input.datePublished) obj.datePublished = input.datePublished;
   if (input.dateModified) obj.dateModified = input.dateModified;
+  if (input.speakableSelectors && input.speakableSelectors.length > 0) {
+    obj.speakable = {
+      '@type': 'SpeakableSpecification',
+      cssSelector: input.speakableSelectors,
+    };
+  }
   return obj;
 }
 
