@@ -21,14 +21,17 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
   // GSC fix: strip ?lang= query-parameter variants.
   // Google was crawling /?lang=ru and /?lang=uz as separate URLs and marking
   // them as "Alternate page with proper canonical tag" (29 pages in GSC report
-  // dated 2026-07-04). Cloudflare Pages _redirects does not support
-  // query-string matching, so we handle it here in the edge middleware.
+  // dated 2026-07-04).
+  //
+  // NOTE: The primary fix is via Cloudflare Zone-level Page Rules (created
+  // 2026-07-04 via API): gptbot.uz/?lang=ru → 301 → /ru/ and
+  // gptbot.uz/?lang=uz → 301 → /uz/. Page Rules fire BEFORE static assets
+  // and before Functions, so they work where _middleware.ts cannot.
+  //
+  // This middleware code handles any remaining ?lang= variants on non-root
+  // paths (e.g. /ru/blog/...?lang=ru) that the Page Rules don't cover.
   // Redirect: /?lang=ru → /ru/  |  /?lang=uz → /uz/  |  other ?lang= → /
   const langParam = url.searchParams.get('lang');
-  // DEBUG: temporary header to confirm middleware is invoked (remove after fix verified)
-  if (langParam === '__mw_check__') {
-    return new Response('middleware_active', { status: 200, headers: { 'X-Middleware': 'active', 'Cache-Control': 'no-store' } });
-  }
   if (langParam) {
     // If already on a localized path (/ru/... or /uz/...), just strip the param.
     const alreadyLocalized =
