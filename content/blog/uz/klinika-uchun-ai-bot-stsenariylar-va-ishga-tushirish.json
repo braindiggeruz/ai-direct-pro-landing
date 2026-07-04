@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish",
   "url": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
@@ -73,7 +73,7 @@
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
   "hreflangUz": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",

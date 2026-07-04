@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "salon-uchun-ai-bot-yozilish-va-eslatmalar",
   "url": "/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
@@ -72,7 +72,7 @@
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
   "hreflangUz": "/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",

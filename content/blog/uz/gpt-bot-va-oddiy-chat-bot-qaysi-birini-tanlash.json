@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "slug": "gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash",
   "url": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
@@ -71,7 +71,7 @@
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
   "hreflangUz": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
-  "robotsIndex": false,
+  "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
