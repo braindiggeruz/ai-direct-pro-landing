@@ -10,6 +10,13 @@
 # **Report-Only** mode (no breakage, only reports) and promote it to enforcing
 # once verified clean. All other headers are enforced immediately.
 
+# Root path must NOT be CDN-cached: Cloudflare CDN serves cached responses
+# without invoking Functions middleware, so /?lang=ru would return HTTP 200
+# instead of 301 (GSC canonical fix). Setting no-store forces every request
+# through the edge Function which handles the ?lang= redirect.
+/
+  Cache-Control: no-store
+
 /*
   Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
