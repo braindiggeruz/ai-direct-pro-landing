@@ -222,6 +222,10 @@
       "anchor": "biznes jarayonlarini avtomatlashtirish bo'yicha xizmatlar",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/horeca-uchun-ai-bot/",
+      "anchor": "HoReCa uchun AI-bot"
     }
   ],
   "ogTitle": "Logistika jarayonlarini Telegram AI-boti bilan",

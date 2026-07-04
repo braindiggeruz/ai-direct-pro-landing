@@ -120,6 +120,10 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "Sayt uchun AI-bot"
     }
   ],
   "ogTitle": "GPT-botni ishga tushirishdan oldin biznesni qanday tayyorlash",

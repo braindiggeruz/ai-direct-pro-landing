@@ -311,6 +311,10 @@
       "anchor": "AmoCRM va Bitrix24 bilan integratsiya",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/avtosalon-uchun-ai-bot/",
+      "anchor": "Avtosalon uchun AI-bot"
     }
   ],
   "ogTitle": "AI botni biznes uchun qanday tanlash: ishga tushirish chek-listi",
