@@ -1,0 +1,102 @@
+{
+  "status": "draft",
+  "locale": "uz",
+  "url": "/uz/mijozlar-fikrlari/",
+  "slug": "mijozlar-fikrlari",
+  "pageType": "faq",
+  "primaryKeyword": "gptbot fikrlar",
+  "secondaryKeywords": [
+    "gptbot.uz sharhlar",
+    "chat-bot ishlab chiqish fikrlar",
+    "ai bot mijozlar fikrlari",
+    "bot yasash o'zbekiston sharhlar"
+  ],
+  "searchIntent": "commercial",
+  "h1": "GPTBot.uz haqida mijozlar fikrlari",
+  "title": "Mijozlar fikrlari — GPTBot.uz AI-botlari haqida",
+  "description": "GPTBot.uz haqida haqiqiy mijozlar fikrlari: O'zbekistondagi biznes egalari Telegram, Instagram va saytdagi AI-botlarni joriy etish haqida nima deydi — baholar va natijalar bilan.",
+  "canonical": "https://gptbot.uz/uz/mijozlar-fikrlari/",
+  "hreflangRu": "/ru/otzyvy/",
+  "hreflangUz": "/uz/mijozlar-fikrlari/",
+  "ogTitle": "Mijozlar fikrlari — GPTBot.uz AI-botlari haqida",
+  "ogDescription": "GPTBot.uz haqida haqiqiy mijozlar fikrlari: O'zbekistondagi biznes egalari Telegram, Instagram va saytdagi AI-botlarni joriy etish haqida nima deydi — baholar va natijalar bilan.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Fikrlar",
+  "heroTitle": "GPTBot.uz haqida mijozlar fikrlari",
+  "heroSubtitle": "O'zbekistondagi biznes egalari AI-botlarni joriy etish haqida nima deydi: haqiqiy baholar, sohalar va natijalar.",
+  "ctaPrimaryLabel": "Xuddi shunday natija olish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Xizmatlarni ko'rish",
+  "ctaSecondaryHref": "/uz/biznes-uchun-ai-bot/",
+  "bodyBlocks": [
+    { "type": "p", "text": "Quyida — biz Telegram, Instagram Direct va saytlarga AI-bot joriy etgan mijozlarning fikrlari. Har bir fikr — haqiqiy loyihadan: biznes sohasi va bot ishga tushgandan keyin nima o'zgargani ko'rsatilgan." },
+    { "type": "h2", "text": "[NAMUNA] Fikr 1 — klinika, Toshkent" },
+    { "type": "quote", "text": "[NAMUNA — haqiqiy fikr bilan almashtiriladi] Bot bemorlarga kechasi va dam olish kunlari javob beradi, qabulga o'zi yozadi. Administratorlar endi telefon bilan emas, klinikadagi bemorlar bilan band. — Ism, «Nomi» klinikasi, Toshkent. Baho: 5/5" },
+    { "type": "h2", "text": "[NAMUNA] Fikr 2 — o'quv markazi" },
+    { "type": "quote", "text": "[NAMUNA — haqiqiy fikr bilan almashtiriladi] Ota-onalar Telegramga istalgan vaqtda yozadi — bot jadval va narxlar haqida bir zumda javob beradi, arizalar yo'qolmay qo'ydi. — Ism, «Nomi» o'quv markazi. Baho: 5/5" },
+    { "type": "h2", "text": "[NAMUNA] Fikr 3 — internet-do'kon" },
+    { "type": "quote", "text": "[NAMUNA — haqiqiy fikr bilan almashtiriladi] Payme to'lovini to'g'ridan-to'g'ri botga uladik. Mijoz bitta chatda so'raydi, tanlaydi va to'laydi. — Ism, «Nomi» do'koni. Baho: 5/5" },
+    { "type": "h2", "text": "Fikrlarni qanday yig'amiz" },
+    { "type": "p", "text": "Ushbu sahifadagi barcha fikrlar — GPTBot.uz ning amaldagi mijozlaridan. Fikrni faqat mijozning roziligi bilan, biznes sohasini ko'rsatgan holda joylaymiz. So'rov bo'yicha sizni o'z sohangizdagi mijoz bilan tanishtiramiz — savollarni bevosita berasiz." },
+    { "type": "h2", "text": "Xuddi shunday natija xohlaysizmi?" },
+    { "type": "p", "text": "Telegramda bizga yozing — sohangizga mos AI-bot demosini ko'rsatamiz va murojaatlar oqimingiz uchun qanday natijalar realligini aytamiz." },
+    { "type": "cta", "text": "Loyihani Telegramda muhokama qilish", "href": "https://t.me/XGame_changerx" }
+  ],
+  "faq": [
+    { "q": "Bular haqiqiy mijozlar fikrlarimi?", "a": "Ha, biz faqat amaldagi mijozlarning fikrlarini, ularning roziligi bilan va biznes sohasini ko'rsatgan holda joylaymiz. So'rov bo'yicha sizni o'z sohangizdagi mijoz bilan bevosita tanishtiramiz." },
+    { "q": "Mijozlarning ishlayotgan botlarini ko'rish mumkinmi?", "a": "Ha. Telegramda bizga yozing — sohangizdagi jonli bot namunalarini va vazifangizga mos demo-stsenariyni ko'rsatamiz." },
+    { "q": "GPTBot.uz haqida fikr qanday qoldiriladi?", "a": "Telegramda bizga yozing — fikringizni ushbu sahifaga kompaniyangiz yoki sohangiz nomi bilan (o'zingiz tanlaysiz) qo'shamiz." },
+    { "q": "Bot natija bermasa nima bo'ladi?", "a": "Ishga tushirishdan oldin stsenariy va kutilayotgan ko'rsatkichlarni kelishib olamiz. Keyin bilimlar bazasini haqiqiy suhbatlar asosida bot tipik murojaatlarni barqaror yopa boshlaguncha takomillashtiramiz." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI-bot", "locale": "uz", "type": "contextual", "priority": 1 },
+    { "target": "/uz/ai-sotuvchi/", "anchor": "AI-sotuvchi", "locale": "uz", "type": "contextual", "priority": 2 },
+    { "target": "/uz/biz-haqimizda/", "anchor": "Biz haqimizda", "locale": "uz", "type": "contextual", "priority": 3 }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
+  "extraJsonLd": [
+    {
+      "@type": "Product",
+      "@id": "https://gptbot.uz/uz/mijozlar-fikrlari/#service-reviews",
+      "name": "Biznes uchun AI-bot ishlab chiqish (kalit topshirig'i asosida)",
+      "description": "Telegram, Instagram Direct, WhatsApp va saytga AI-bot joriy etish: stsenariy, bilimlar bazasi, CRM va Payme/Click to'lov integratsiyalari.",
+      "brand": { "@id": "https://gptbot.uz/#org" },
+      "url": "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "3",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "[NAMUNA Mijoz ismi 1]" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "[NAMUNA — haqiqiy mijoz fikri matni: klinika, Toshkent]",
+          "datePublished": "2026-07-03"
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "[NAMUNA Mijoz ismi 2]" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "[NAMUNA — haqiqiy mijoz fikri matni: o'quv markazi]",
+          "datePublished": "2026-07-03"
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "[NAMUNA Mijoz ismi 3]" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "[NAMUNA — haqiqiy mijoz fikri matni: internet-do'kon]",
+          "datePublished": "2026-07-03"
+        }
+      ]
+    }
+  ],
+  "lastReviewedAt": "2026-07-03",
+  "createdAt": "2026-07-03T00:00:00Z",
+  "updatedAt": "2026-07-03"
+}
