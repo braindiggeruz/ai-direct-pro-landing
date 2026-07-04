@@ -311,6 +311,10 @@
       "anchor": "интеграция AI-бота с AmoCRM и Bitrix24",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-fitnes-kluba/",
+      "anchor": "AI-бот для фитнес-клуба"
     }
   ],
   "ogTitle": "Как выбрать AI-бота для бизнеса: чек-лист запуска",

@@ -133,6 +133,10 @@
       "anchor": "автоматизации через Telegram",
       "type": "contextual",
       "locale": "ru"
+    },
+    {
+      "target": "/ru/stoimost-chat-bota/",
+      "anchor": "Сколько стоит чат-бот для бизнеса"
     }
   ],
   "ogTitle": "Основы разработки AI-ботов: Понимание принципов",

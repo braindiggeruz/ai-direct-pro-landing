@@ -223,4 +223,39 @@ export function buildWebPageLd(input: {
   return obj;
 }
 
+export function buildArticleLd(input: {
+  global: GlobalSEO;
+  url: string;
+  headline: string;
+  description: string;
+  locale: 'ru' | 'uz';
+  datePublished?: string;
+  dateModified?: string;
+  primaryImage?: string;
+  authorName?: string;
+}): Record<string, unknown> {
+  const obj: Record<string, unknown> = {
+    '@type': 'Article',
+    '@id': `${input.global.siteUrl}${input.url}#article`,
+    headline: input.headline,
+    description: input.description,
+    url: `${input.global.siteUrl}${input.url}`,
+    inLanguage: input.locale,
+    isPartOf: { '@id': `${input.global.siteUrl}${input.url}#webpage` },
+    publisher: { '@id': `${input.global.siteUrl}/#org` },
+    author: input.global.authorName
+      ? { '@id': `${input.global.siteUrl}/#author` }
+      : { '@type': 'Organization', '@id': `${input.global.siteUrl}/#org` },
+  };
+  if (input.datePublished) obj.datePublished = input.datePublished;
+  if (input.dateModified) obj.dateModified = input.dateModified;
+  if (input.primaryImage) {
+    obj.image = {
+      '@type': 'ImageObject',
+      url: input.primaryImage,
+    };
+  }
+  return obj;
+}
+
 export const TIMEZONE = TASHKENT_TIMEZONE;

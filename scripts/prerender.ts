@@ -133,7 +133,7 @@ function renderBlock(b: BodyBlock): string {
     case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeText(b.text || '')}</blockquote>`;
     case 'image': return `<img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}" class="rounded-2xl my-6" loading="lazy" />`;
-    case 'cta': return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`;
+    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`; }
     default: return '';
   }
 }
@@ -340,7 +340,7 @@ ${ANALYTICS_HEAD}
     <nav class="flex gap-3 text-sm">
       ${hrefRu ? `<a href="${escapeHtml(hrefRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${hrefUz ? `<a href="${escapeHtml(hrefUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
-      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
       </a>
     </nav>
@@ -359,7 +359,7 @@ ${ANALYTICS_HEAD}
   ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
 
   ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
-    <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
+    <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
       ${escapeText(page.ctaPrimaryLabel || 'Демо')}
     </a>
     ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="border border-white/15 text-white px-8 py-4 rounded-full hover:bg-white/5">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
@@ -378,7 +378,7 @@ ${ANALYTICS_HEAD}
 <footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
-    <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
+    <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="hover:text-white">Telegram</a>
   </div>
 </footer>
 

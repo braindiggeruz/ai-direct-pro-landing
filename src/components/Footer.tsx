@@ -58,7 +58,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
               data-testid="footer-cta"
               href={ctaUrl}
               target="_blank"
-              rel="noopener"
+              rel="nofollow noopener"
               onClick={() => track('click_footer_cta')}
               className="btn-primary !py-2.5 !px-4 text-sm"
             >
@@ -117,7 +117,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
             <h3 className="text-white font-semibold text-sm mb-4">{lContacts}</h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="https://t.me/XGame_changerx" target="_blank" rel="noopener" data-testid="footer-telegram" className="text-white/65 hover:text-brand-cyan transition">
+                <a href="https://t.me/XGame_changerx" target="_blank" rel="nofollow noopener" data-testid="footer-telegram" className="text-white/65 hover:text-brand-cyan transition">
                   Telegram bot
                 </a>
               </li>

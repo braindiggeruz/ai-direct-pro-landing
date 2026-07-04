@@ -186,6 +186,10 @@
       "anchor": "интеграция с CRM-системами",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/stoimost-chat-bota/",
+      "anchor": "Стоимость чат-бота для бизнеса"
     }
   ],
   "ogTitle": "AI-бот для B2C-бизнеса: цены и тарифы в Узбекистане. Расчет",

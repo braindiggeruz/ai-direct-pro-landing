@@ -171,6 +171,10 @@
       "anchor": "Telegram-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-bot-ili-obychnyy-chat-bot/",
+      "anchor": "GPT-бот или обычный чат-бот: что выбрать"
     }
   ],
   "ogTitle": "GPT-бот vs обычный чат-бот: в чём разница и что выбрать",
