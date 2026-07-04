@@ -157,6 +157,16 @@ headers.push('# Browsers (Chrome, Edge) cache the Alt-Svc header for up to 7 day
 headers.push('# and will keep trying HTTP/3 even after the zone disables it,');
 headers.push('# producing ERR_QUIC_PROTOCOL_ERROR. Alt-Svc: clear flushes that');
 headers.push('# cache on the first response over HTTP/2.');
+// GSC fix 2026-07-04: root path must NOT be CDN-cached.
+// Cloudflare CDN serves cached responses without invoking Functions middleware.
+// /?lang=ru was returning HTTP 200 instead of 301 because the CDN hit the
+// cached index.html before the middleware could redirect it.
+// no-store forces every request through the edge Function.
+headers.push('# ─── Root path: no CDN cache (required for ?lang= redirect middleware) ───');
+headers.push('/');
+headers.push('  Cache-Control: no-store');
+headers.push('  Alt-Svc: clear');
+headers.push('');
 headers.push('/*');
 headers.push('  Alt-Svc: clear');
 // Edge-cache prerendered HTML for 1 h (stale-while-revalidate 24 h) — audit
