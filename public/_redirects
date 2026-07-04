@@ -7,6 +7,10 @@
 #    onto https://gptbot.uz (audit flagged both hosts serving 200).
 https://www.gptbot.uz/*  https://gptbot.uz/:splat  301
 
+# 0b) ?lang= query-parameter variants — handled by functions/_middleware.ts
+#     (Cloudflare Pages _redirects does not support query-string matching).
+#     /?lang=ru → 301 → /ru/  |  /?lang=uz → 301 → /uz/
+#     GSC reported 29 pages as "Alternate page with proper canonical tag" (2026-07-04).
 # 1) Admin SPA shell — React Router handles sub-routes client-side.
 /admin-tools/*  /index.html  200
 

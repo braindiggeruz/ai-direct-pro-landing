@@ -96,6 +96,12 @@ lines.push('');
 lines.push('# 0) Canonical host — www → non-www (301)');
 lines.push('https://www.gptbot.uz/*  https://gptbot.uz/:splat  301');
 lines.push('');
+// 0b) Strip ?lang= query-parameter variants — Google was crawling
+//     /?lang=ru and /?lang=uz as separate URLs, marking them as
+//     "Alternate page with proper canonical tag" in GSC (29 pages affected).
+//     Cloudflare Pages _redirects does NOT support query-string matching,
+//     so we handle this at the edge via a Pages Function instead.
+//     This comment is kept here as the authoritative record of the fix.
 lines.push('# 1) Admin SPA');
 lines.push('/admin-tools/*  /index.html  200');
 lines.push('');

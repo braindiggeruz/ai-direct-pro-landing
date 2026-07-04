@@ -17,6 +17,29 @@
 //   an already-authenticated admin.
 export const onRequest: PagesFunction = async ({ request, next }) => {
   const url = new URL(request.url);
+
+  // GSC fix: strip ?lang= query-parameter variants.
+  // Google was crawling /?lang=ru and /?lang=uz as separate URLs and marking
+  // them as "Alternate page with proper canonical tag" (29 pages in GSC report
+  // dated 2026-07-04). Cloudflare Pages _redirects does not support
+  // query-string matching, so we handle it here in the edge middleware.
+  // Redirect: /?lang=ru → /ru/  |  /?lang=uz → /uz/  |  other ?lang= → /
+  const langParam = url.searchParams.get('lang');
+  if (langParam) {
+    // If already on a localized path (/ru/... or /uz/...), just strip the param.
+    const alreadyLocalized =
+      url.pathname.startsWith('/ru/') || url.pathname.startsWith('/uz/') ||
+      url.pathname === '/ru' || url.pathname === '/uz';
+    const target = alreadyLocalized
+      ? `https://gptbot.uz${url.pathname}`
+      : langParam === 'ru'
+        ? `https://gptbot.uz/ru${url.pathname === '/' ? '/' : url.pathname}`
+        : langParam === 'uz'
+          ? `https://gptbot.uz/uz${url.pathname === '/' ? '/' : url.pathname}`
+          : `https://gptbot.uz${url.pathname}`;
+    return Response.redirect(target, 301);
+  }
+
   const isLoginPage =
     url.pathname === '/admin-tools/login' ||
     url.pathname === '/admin-tools/login/';
