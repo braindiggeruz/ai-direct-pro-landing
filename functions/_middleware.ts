@@ -25,6 +25,10 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
   // query-string matching, so we handle it here in the edge middleware.
   // Redirect: /?lang=ru → /ru/  |  /?lang=uz → /uz/  |  other ?lang= → /
   const langParam = url.searchParams.get('lang');
+  // DEBUG: temporary header to confirm middleware is invoked (remove after fix verified)
+  if (langParam === '__mw_check__') {
+    return new Response('middleware_active', { status: 200, headers: { 'X-Middleware': 'active', 'Cache-Control': 'no-store' } });
+  }
   if (langParam) {
     // If already on a localized path (/ru/... or /uz/...), just strip the param.
     const alreadyLocalized =
