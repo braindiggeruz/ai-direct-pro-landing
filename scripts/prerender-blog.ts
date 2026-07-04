@@ -145,7 +145,7 @@ function renderBlock(b: BodyBlock): string {
     case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-5">${escapeText(b.text || '')}</p>`;
     case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan shrink-0">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-5 italic text-white/85 my-8 text-lg">${escapeText(b.text || '')}</blockquote>`;
-    case 'cta': return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-7 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`;
+    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-7 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`; }
     default: return '';
   }
 }
@@ -297,7 +297,7 @@ ${ANALYTICS_HEAD}
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeHtml(a.cta?.label || global.defaultCTA.label)}
       </a>
     </nav>
@@ -322,7 +322,7 @@ ${ANALYTICS_HEAD}
     </div>
   </article>
 
-  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
+  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}" rel="nofollow noopener" target="_blank" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
   ${renderFaq(a.faq || [], a)}
   ${renderInternalLinks(a)}
 </main>
@@ -332,7 +332,7 @@ ${ANALYTICS_HEAD}
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex gap-4">
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
+      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="hover:text-white">Telegram</a>
     </div>
   </div>
 </footer>

@@ -164,6 +164,10 @@
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/ai-bot-ili-menedzher/",
+      "anchor": "AI-бот или менеджер по продажам"
     }
   ],
   "ogTitle": "AI-продавец и отдел продаж: как они работают вместе",

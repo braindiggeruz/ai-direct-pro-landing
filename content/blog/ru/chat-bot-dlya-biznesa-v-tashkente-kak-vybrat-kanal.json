@@ -123,6 +123,10 @@
       "anchor": "AI-бот в WhatsApp",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/chat-bot-po-uzbekistanu/",
+      "anchor": "Чат-бот для бизнеса по всему Узбекистану"
     }
   ],
   "ogTitle": "Чат-бот для бизнеса в Ташкенте: как выбрать канал",

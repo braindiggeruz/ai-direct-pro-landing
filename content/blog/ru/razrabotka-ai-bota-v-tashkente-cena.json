@@ -129,6 +129,10 @@
       "anchor": "автоматизация заявок",
       "type": "contextual",
       "locale": "ru"
+    },
+    {
+      "target": "/ru/stoimost-chat-bota/",
+      "anchor": "Стоимость чат-бота — полный расчёт"
     }
   ],
   "ogTitle": "Преимущества AI-ботов для e-commerce в Узбекистане",
