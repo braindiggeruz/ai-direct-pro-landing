@@ -132,6 +132,10 @@
       "anchor": "AmoCRM va Bitrix24 bilan AI bot",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "Arizalarni qabul qiluvchi bot"
     }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",

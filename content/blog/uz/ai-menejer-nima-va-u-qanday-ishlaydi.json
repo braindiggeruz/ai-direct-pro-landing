@@ -18,31 +18,74 @@
   ],
   "intro": "AI-menejer — bu aniq biznesga sozlangan sun'iy intellekt bo'lib, messenjerlardagi kiruvchi murojaatlarni birinchi qator xodimi kabi qayta ishlaydi: suhbat olib boradi, mijozni saralaydi va arizani jonli menejerga topshiradi. Ta'rif, farqlar va qo'llash chegaralarini ko'rib chiqamiz.",
   "body": [
-    { "type": "h2", "text": "Ta'rif: AI-menejer nima" },
-    { "type": "p", "text": "AI-menejer — bu til modeli asosidagi dastur bo'lib, mijozlar bilan yozishmalarda birinchi qator xodimi rolini o'z zimmasiga oladi: Telegram, Instagram Direct yoki WhatsApp'dagi kiruvchi xabarni o'qiydi, kompaniyaning bilimlar bazasi bo'yicha javob beradi, aniqlashtiruvchi savollar beradi, ism va telefonni yig'adi hamda saralangan arizani jonli menejerga yoki CRM'ga topshiradi." },
-    { "type": "p", "text": "Bu yerda «menejer» so'zi lavozimni emas, funksiyani anglatadi: AI-menejer savdo menejeri ishining birinchi kontakt va odatiy yumushlar bilan bog'liq qismini bajaradi — muzokaralar, chegirmalar va bitimni yopishga da'vo qilmaydi." },
-    { "type": "h2", "text": "AI-menejer, AI-bot va avtojavob: farqi nimada" },
-    { "type": "list", "items": [
-      "Avtojavob bitta shablon xabar yuboradi («keyinroq javob beramiz») va shu bilan tugaydi.",
-      "Oddiy chat-bot mijozni tugmalar va qat'iy stsenariy bo'ylab yetaklaydi; bir qadam chetga — va suhbat buziladi.",
-      "AI-bot va AI-menejer — mohiyatan bitta texnologiya; «AI-menejer» rolni ta'kidlaydi: menyu emas, balki saralash va arizani insonga topshirish bilan to'laqonli suhbat."
-    ] },
-    { "type": "p", "text": "Amalda O'zbekistonda «AI-bot» va «AI-menejer» atamalari sinonim sifatida ishlatiladi. Agar vosita erkin matnni tushunsa, bilimlar bazasi bo'yicha javob bersa va murojaatni arizagacha yetkazsa — qanday nomlanishidan qat'i nazar, bu AI-menejer." },
-    { "type": "h2", "text": "AI-menejer arizani qanday qayta ishlaydi: bosqichma-bosqich" },
-    { "type": "list", "items": [
-      "Mijoz istalgan vaqtda — kechasi, dam olish kunida, eng band soatda — kompaniya messenjeriga yozadi.",
-      "AI-menejer soniyalar ichida javob beradi: salomlashadi, savolga bilimlar bazasi bo'yicha javob beradi (narxlar, xizmatlar, manzillar).",
-      "2-4 ta aniqlashtiruvchi savol beradi: nima kerak, qachon, qaysi filialda, qanday byudjet.",
-      "Ism va telefonni yig'ib, arizaga qayd etadi.",
-      "Suhbatni menejerga topshiradi: to'liq yozishma va yig'ilgan maydonlar bilan Telegram-xabarnoma yoki CRM'dagi vazifa.",
-      "Menejer suhbatga kontekst bilan kirishadi — noldan boshlamaydi."
-    ] },
-    { "type": "h2", "text": "AI-menejer nimani yaxshi bajaradi, nimani unga ishonib bo'lmaydi" },
-    { "type": "p", "text": "Yaxshi bajaradi: 24/7 tezkor birinchi javob, odatiy savollar, kontakt yig'ish, saralash, vaqtga yozish, ikki tilda ishlash. Aynan shu vazifalarda, ular faqat odamlar tomonidan bajarilganda, eng ko'p ariza yo'qoladi." },
-    { "type": "p", "text": "Ishonib bo'lmaydi: individual chegirmalar, murakkab e'tirozlar, nizoli vaziyatlar, yuridik va tibbiy maslahatlar. To'g'ri sozlangan AI-menejer bunday hollarda javob to'qimaydi, balki suhbatni insonga topshiradi." },
-    { "type": "h2", "text": "AI-menejer qachon o'zini oqlaydi" },
-    { "type": "p", "text": "O'zbekistondagi biznes uchun mo'ljal: agar messenjerlarga oyiga bir necha o'nlab murojaat kelsa va bir qismi 10-15 daqiqadan ortiq javobsiz qolsa — AI-menejer odatda qutqarilgan arizalar hisobiga o'z narxini qaytaradi. O'rtacha chek qancha yuqori bo'lsa, o'zini oqlash shuncha tez. Batafsil hisob-kitob — chat-bot ROI haqidagi maqolada." },
-    { "type": "cta", "text": "AI-menejer biznesingiz arizalarini qanday qayta ishlashini bilib oling", "href": "/uz/ai-sotuvchi/" }
+    {
+      "type": "h2",
+      "text": "Ta'rif: AI-menejer nima"
+    },
+    {
+      "type": "p",
+      "text": "AI-menejer — bu til modeli asosidagi dastur bo'lib, mijozlar bilan yozishmalarda birinchi qator xodimi rolini o'z zimmasiga oladi: Telegram, Instagram Direct yoki WhatsApp'dagi kiruvchi xabarni o'qiydi, kompaniyaning bilimlar bazasi bo'yicha javob beradi, aniqlashtiruvchi savollar beradi, ism va telefonni yig'adi hamda saralangan arizani jonli menejerga yoki CRM'ga topshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Bu yerda «menejer» so'zi lavozimni emas, funksiyani anglatadi: AI-menejer savdo menejeri ishining birinchi kontakt va odatiy yumushlar bilan bog'liq qismini bajaradi — muzokaralar, chegirmalar va bitimni yopishga da'vo qilmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "AI-menejer, AI-bot va avtojavob: farqi nimada"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Avtojavob bitta shablon xabar yuboradi («keyinroq javob beramiz») va shu bilan tugaydi.",
+        "Oddiy chat-bot mijozni tugmalar va qat'iy stsenariy bo'ylab yetaklaydi; bir qadam chetga — va suhbat buziladi.",
+        "AI-bot va AI-menejer — mohiyatan bitta texnologiya; «AI-menejer» rolni ta'kidlaydi: menyu emas, balki saralash va arizani insonga topshirish bilan to'laqonli suhbat."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Amalda O'zbekistonda «AI-bot» va «AI-menejer» atamalari sinonim sifatida ishlatiladi. Agar vosita erkin matnni tushunsa, bilimlar bazasi bo'yicha javob bersa va murojaatni arizagacha yetkazsa — qanday nomlanishidan qat'i nazar, bu AI-menejer."
+    },
+    {
+      "type": "h2",
+      "text": "AI-menejer arizani qanday qayta ishlaydi: bosqichma-bosqich"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz istalgan vaqtda — kechasi, dam olish kunida, eng band soatda — kompaniya messenjeriga yozadi.",
+        "AI-menejer soniyalar ichida javob beradi: salomlashadi, savolga bilimlar bazasi bo'yicha javob beradi (narxlar, xizmatlar, manzillar).",
+        "2-4 ta aniqlashtiruvchi savol beradi: nima kerak, qachon, qaysi filialda, qanday byudjet.",
+        "Ism va telefonni yig'ib, arizaga qayd etadi.",
+        "Suhbatni menejerga topshiradi: to'liq yozishma va yig'ilgan maydonlar bilan Telegram-xabarnoma yoki CRM'dagi vazifa.",
+        "Menejer suhbatga kontekst bilan kirishadi — noldan boshlamaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI-menejer nimani yaxshi bajaradi, nimani unga ishonib bo'lmaydi"
+    },
+    {
+      "type": "p",
+      "text": "Yaxshi bajaradi: 24/7 tezkor birinchi javob, odatiy savollar, kontakt yig'ish, saralash, vaqtga yozish, ikki tilda ishlash. Aynan shu vazifalarda, ular faqat odamlar tomonidan bajarilganda, eng ko'p ariza yo'qoladi."
+    },
+    {
+      "type": "p",
+      "text": "Ishonib bo'lmaydi: individual chegirmalar, murakkab e'tirozlar, nizoli vaziyatlar, yuridik va tibbiy maslahatlar. To'g'ri sozlangan AI-menejer bunday hollarda javob to'qimaydi, balki suhbatni insonga topshiradi."
+    },
+    {
+      "type": "h2",
+      "text": "AI-menejer qachon o'zini oqlaydi"
+    },
+    {
+      "type": "p",
+      "text": "O'zbekistondagi biznes uchun mo'ljal: agar messenjerlarga oyiga bir necha o'nlab murojaat kelsa va bir qismi 10-15 daqiqadan ortiq javobsiz qolsa — AI-menejer odatda qutqarilgan arizalar hisobiga o'z narxini qaytaradi. O'rtacha chek qancha yuqori bo'lsa, o'zini oqlash shuncha tez. Batafsil hisob-kitob — chat-bot ROI haqidagi maqolada."
+    },
+    {
+      "type": "cta",
+      "text": "AI-menejer biznesingiz arizalarini qanday qayta ishlashini bilib oling",
+      "href": "/uz/ai-sotuvchi/"
+    }
   ],
   "cta": {
     "label": "Telegram'da muhokama qilish",
@@ -50,15 +93,49 @@
     "note": "Sohangiz haqida gapirib bering — AI-menejer mijoz bilan birinchi xabardan arizagacha qanday suhbat olib borishini ko'rsatamiz."
   },
   "faq": [
-    { "q": "AI-menejer oddiy tilda nima?", "a": "Bu aniq biznesga sozlangan sun'iy intellekt bo'lib, messenjerlarda mijozlarga birinchi qator xodimi kabi javob beradi: suhbat olib boradi, kontakt yig'adi va arizani jonli menejerga topshiradi." },
-    { "q": "AI-menejer AI-botdan nimasi bilan farq qiladi?", "a": "Texnologiya bir xil. «AI-menejer» rolni ta'kidlaydi: tugmali menyu emas, balki mijozni saralash va arizani insonga topshirish bilan to'laqonli suhbat." },
-    { "q": "AI-menejer o'zi sota oladimi?", "a": "U mijozni arizagacha yetkazadi: savollarga javob beradi, asosiy ikkilanishlarni bartaraf etadi, kontakt yig'adi. Yakuniy muzokaralar va bitimni yopish jonli menejerda qoladi." },
-    { "q": "AI-menejer foydali bo'lishi uchun qancha murojaat kerak?", "a": "Mo'ljal — messenjerlarda oyiga bir necha o'nlab murojaat. Agar oqim kamroq bo'lsa va menejerlar hammaga daqiqalar ichida javob bersa, samara kuchsiz bo'ladi." }
+    {
+      "q": "AI-menejer oddiy tilda nima?",
+      "a": "Bu aniq biznesga sozlangan sun'iy intellekt bo'lib, messenjerlarda mijozlarga birinchi qator xodimi kabi javob beradi: suhbat olib boradi, kontakt yig'adi va arizani jonli menejerga topshiradi."
+    },
+    {
+      "q": "AI-menejer AI-botdan nimasi bilan farq qiladi?",
+      "a": "Texnologiya bir xil. «AI-menejer» rolni ta'kidlaydi: tugmali menyu emas, balki mijozni saralash va arizani insonga topshirish bilan to'laqonli suhbat."
+    },
+    {
+      "q": "AI-menejer o'zi sota oladimi?",
+      "a": "U mijozni arizagacha yetkazadi: savollarga javob beradi, asosiy ikkilanishlarni bartaraf etadi, kontakt yig'adi. Yakuniy muzokaralar va bitimni yopish jonli menejerda qoladi."
+    },
+    {
+      "q": "AI-menejer foydali bo'lishi uchun qancha murojaat kerak?",
+      "a": "Mo'ljal — messenjerlarda oyiga bir necha o'nlab murojaat. Agar oqim kamroq bo'lsa va menejerlar hammaga daqiqalar ichida javob bersa, samara kuchsiz bo'ladi."
+    }
   ],
   "internalLinks": [
-    { "target": "/uz/ai-sotuvchi/", "anchor": "AI-sotuvchi", "locale": "uz", "type": "contextual", "priority": 1 },
-    { "target": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/", "anchor": "biznes uchun AI-bot nima", "locale": "uz", "type": "contextual", "priority": 2 },
-    { "target": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/", "anchor": "chat-bot ROI hisoblash", "locale": "uz", "type": "contextual", "priority": 3 }
+    {
+      "target": "/uz/ai-sotuvchi/",
+      "anchor": "AI-sotuvchi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+      "anchor": "biznes uchun AI-bot nima",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+      "anchor": "chat-bot ROI hisoblash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/ai-bot-yoki-menejer/",
+      "anchor": "AI-bot yoki menejer: qaysi biri samaraliroq"
+    }
   ],
   "ogTitle": "AI-menejer nima va u savdoda qanday ishlaydi",
   "ogDescription": "AI-menejer nima ekanini oddiy tilda tushuntiramiz: messenjerlardagi arizalarni qanday qayta ishlaydi, AI-bot va avtojavobdan farqi, O'zbekistonda qachon o'zini oqlaydi.",
@@ -71,7 +148,13 @@
   "author": "GPTBot",
   "datePublished": "2026-07-03",
   "dateModified": "2026-07-03",
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
   "createdAt": "2026-07-03T00:00:00Z",
   "updatedAt": "2026-07-03"
 }

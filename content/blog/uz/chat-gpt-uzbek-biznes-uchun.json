@@ -108,6 +108,10 @@
       "anchor": "Telegram botlarining texnik imkoniyatlari",
       "type": "contextual",
       "locale": "uz"
+    },
+    {
+      "target": "/uz/fitnes-klub-uchun-ai-bot/",
+      "anchor": "Fitnes-klub uchun AI-bot"
     }
   ],
   "ogTitle": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish",

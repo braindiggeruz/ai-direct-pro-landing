@@ -123,6 +123,10 @@
       "anchor": "WhatsApp Business uchun bot",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/ozbekiston-boylab-chat-bot/",
+      "anchor": "O'zbekiston bo'ylab chat-bot"
     }
   ],
   "ogTitle": "Toshkentda biznes uchun chat-bot: qaysi kanal to'g'ri",
