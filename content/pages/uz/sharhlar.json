@@ -177,7 +177,196 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-26",
+  "lastReviewedAt": "2026-07-03",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-06-26"
+  "updatedAt": "2026-07-03",
+  "extraJsonLd": [
+    {
+      "@type": "Product",
+      "@id": "https://gptbot.uz/uz/sharhlar/#service-reviews",
+      "name": "Biznes uchun AI-bot ishlab chiqish (kalit topshirig'i asosida)",
+      "description": "Telegram, Instagram Direct va WhatsApp ga AI-bot joriy etish: stsenariy, bilimlar bazasi, CRM va Payme/Click to'lov integratsiyalari.",
+      "brand": {
+        "@id": "https://gptbot.uz/#org"
+      },
+      "url": "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "12",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Dilyor"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Bot paydo bolgunga qadar biz kechqurun Instagram Direct dan arizalarni yoqotardik: administrator ertalab javob berardi, mijoz esa allaqachon boshqa salonga yozilgan bolardi. Endi GPTBot darhol javob beradi, xizmat va qulay vaqtni aniqlaydi va kontaktni administratorga yuboradi.",
+          "datePublished": "2026-03-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Shahzod"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Ilgari menejerlar mavjudlik va narx haqidagi bir xil savollarga gark bolardi. Telegram dagi bot dastlabki savollarni oz zimmasiga oldi va model va kontakt bilan ariza yigadi. Endi menejerlar faqat issiq mijozlar bilan ishlaydi.",
+          "datePublished": "2026-02-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Nigora"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Bizda buyurtmalarning asosiy oqimi WhatsApp orqali keladi. Bot buyurtmani qabul qiladi, manzil va vaqtni aniqlaydi va hammasini operatorga tushunarli korinishda yetkazadi. Eng band soatlarda chalkashlik kamaydi.",
+          "datePublished": "2026-04-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Aziz"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Bemorlar asosan kechqurun va dam olish kunlari yozadi. AI-bot xizmatlar haqidagi savollarga javob beradi va konsultatsiyaga yozadi, administrator esa ertalab tayyor arizalar royxatini koradi. Ilgari murojaatlarning bir qismi shunchaki yoqolardi.",
+          "datePublished": "2026-01-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Kamila"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Instagram dagi bot arizalarni saralaydi: daraja, oquvchi yoshi va qulay vaqtni aniqlaydi. Menejerga tayyor lidlar yetib boradi, narxni qiziqish uchun soraydiganlarga vaqt sarflash kerak emas.",
+          "datePublished": "2026-03-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Rustam"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Mijozlar modellar va komplektatsiyalar boyicha kop takrorlanadigan savollar beradi. Bot ularga javob beradi va test-drayv uchun kontakt yigadi. Jamoa uni tez ulab berdi va sssenariyni bizning avtomobillarga moslashtirishga yordam berdi.",
+          "datePublished": "2026-02-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Madina"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Direct dagi xabarlar oqimi boshqarib bolmaydigan darajada edi. Endi bot mavjudlik va yetkazib berish haqidagi savollarga javob beradi va buyurtmalarni yigadi. Eng muhimi — mijoz bir necha soatdan keyin emas, balki darhol javob oladi.",
+          "datePublished": "2026-04-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Bobur"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Bot abonementlar, jadval haqida gapiradi va sinov mashgulotiga yozadi. Administrator kuniga yuz marta bir xil savollarga javob berishni toxtatdi va zaldagi mijozlarga etibor qaratdi.",
+          "datePublished": "2026-03-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Zuhra"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Biz uchun bot ham rus, ham ozbek tilida muloqot qilishi muhim edi. GPTBot buni uddalaydi va bemorlar oz tilida javob oladi. Arizalar bizga darhol Telegram ga keladi, hech narsa yoqolmaydi.",
+          "datePublished": "2026-01-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Jasur"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Bot sorov boyicha dastlabki malumotni yigadi: tuman, byudjet, uy turi. Rieltor tayyor tafsilotlar bilan ariza oladi va nima bilan ishlashni darhol tushunadi. Bu vaqtni katta tejaydi.",
+          "datePublished": "2026-02-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Lola"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Tushlik paytida xabarlar uzluksiz oqim bolardi va bir qismi yoqolardi. Endi bot buyurtmani qabul qiladi va tafsilotlarni aniqlaydi, operator esa faqat kerak joyda ulanadi. «Javob bermadingiz» degan shikoyatlar kamaydi.",
+          "datePublished": "2026-04-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sardor"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Kurslarga qabul oldidan dastur va narxlar haqida savollar koplab keladi. Bot ularga javob beradi va sinov darsiga yozadi. Jamoa ssenariyni shunday yozishga yordam berdiki, bot robot emas, inson kabi jaranglaydi.",
+          "datePublished": "2026-03-01"
+        }
+      ]
+    }
+  ]
 }
