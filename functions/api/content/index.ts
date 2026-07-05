@@ -15,10 +15,20 @@ function json(data: unknown, status = 200): Response {
   });
 }
 
+// Reject anything that could escape the content/ tree. locale and slug are
+// interpolated straight into the repo path, so a value like "../../wrangler"
+// would let an authenticated caller write outside content/. Slugs across the
+// repo are lowercase kebab-case; locales are only ru/uz.
+const SLUG_RE = /^[a-z0-9-]+$/;
+function assertPathSafe(locale?: string, slug?: string): void {
+  if (locale !== 'ru' && locale !== 'uz') throw new Error(`Invalid locale: ${locale}`);
+  if (!slug || !SLUG_RE.test(slug)) throw new Error(`Invalid slug: ${slug}`);
+}
+
 function pathFor(kind: string, locale?: string, slug?: string): string {
   switch (kind) {
-    case 'page': return `content/pages/${locale}/${slug}.json`;
-    case 'blog': return `content/blog/${locale}/${slug}.json`;
+    case 'page': assertPathSafe(locale, slug); return `content/pages/${locale}/${slug}.json`;
+    case 'blog': assertPathSafe(locale, slug); return `content/blog/${locale}/${slug}.json`;
     case 'global': return `content/global/site.json`;
     case 'redirects': return `content/seo/redirects.json`;
     case 'internal-links': return `content/seo/internal-links.json`;
