@@ -49,7 +49,7 @@
   ],
   "internalLinks": [
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "type": "contextual", "locale": "ru" },
-    { "target": "/ru/blog/chat-bot-na-russkom-i-uzbekskom-yazyke/", "anchor": "чат-бот на русском и узбекском языке", "type": "contextual", "locale": "ru" },
+    { "target": "/ru/chat-bot-dlya-biznesa/", "anchor": "чат-бот для бизнеса на русском и узбекском", "type": "contextual", "locale": "ru" },
     { "target": "/ru/instagram-direct-bot/", "anchor": "Instagram Direct бот", "type": "contextual", "locale": "ru" },
     { "target": "/ru/telegram-bot-dlya-biznesa/", "anchor": "Telegram-бот для бизнеса", "type": "contextual", "locale": "ru" }
   ],
