@@ -337,7 +337,8 @@ ${ANALYTICS_HEAD}
 <footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
-    <div class="flex gap-4">
+    <div class="flex items-center gap-4">
+      <iframe src="https://yandex.ru/sprav/widget/rating-badge/109235624736?type=rating&theme=dark" width="150" height="50" frameborder="0" loading="lazy" title="Рейтинг GPTBot.uz на Яндексе"></iframe>
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="hover:text-white">Telegram</a>
     </div>
@@ -462,7 +463,10 @@ ${ANALYTICS_HEAD}
 <footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
-    <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
+    <div class="flex items-center gap-4">
+      <iframe src="https://yandex.ru/sprav/widget/rating-badge/109235624736?type=rating&theme=dark" width="150" height="50" frameborder="0" loading="lazy" title="Рейтинг GPTBot.uz на Яндексе"></iframe>
+      <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
+    </div>
   </div>
 </footer>
 </body>
