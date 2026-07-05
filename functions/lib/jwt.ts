@@ -19,7 +19,7 @@ export async function signToken(env: Env, payload: { email: string; role: string
 export async function verifyToken(env: Env, token: string): Promise<{ email: string; role: string } | null> {
   try {
     const secret = new TextEncoder().encode(env.JWT_SECRET);
-    const { payload } = await jose.jwtVerify(token, secret, { issuer: ISSUER });
+    const { payload } = await jose.jwtVerify(token, secret, { issuer: ISSUER, algorithms: [ALG] });
     return { email: payload.email as string, role: payload.role as string };
   } catch {
     return null;
