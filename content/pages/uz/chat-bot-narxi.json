@@ -26,7 +26,7 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Chat-bot narxi",
   "heroTitle": "Biznes uchun chat-bot narxi",
-  "heroSubtitle": "Shaffof tariflar 3 mln so'mdan. Soha, kanallar va integratsiyalarga qarab aniq smeta hisoblaymiz.",
+  "heroSubtitle": "Shaffof tariflar 990 000 so'mdan. Soha, kanallar va integratsiyalarga qarab aniq smeta hisoblaymiz.",
   "ctaPrimaryLabel": "Telegram'da narxni bilish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Qanday ishlaydi",
@@ -34,7 +34,7 @@
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "Qisqacha: O'zbekistonda biznes uchun chat-bot bitta kanaldagi bazaviy bot (Telegram yoki Instagram) uchun 3 mln so'mdan, ko'p kanalli GPT-bot uchun 7 mln so'mdan, CRM, to'lov va katalogli yechim uchun 15 mln so'mdan turadi. Murakkab loyihalar 25 mln so'm va undan yuqorigacha boradi. Aniq narxni qisqa brifdan keyin qayd etamiz, yashirin to'lovlarsiz. Yangilandi: 2026 iyun."
+      "text": "Qisqacha: O'zbekistonda biznes uchun chat-bot Telegram'dagi bazaviy bot uchun 990 000 so'mdan, Instagram Direct bot uchun 1 190 000 so'mdan va to'laqonli AI-voronka uchun 1 990 000 so'mdan turadi. CRM integratsiyali murakkab sohaviy loyihalar 4-5 mln so'mgacha boradi. Aniq narxni qisqa brifdan keyin qayd etamiz, yashirin to'lovlarsiz. Yangilandi: 2026 iyul."
     },
     {
       "type": "h2",
@@ -53,12 +53,56 @@
       "text": "Chat-bot tariflari jadvali 2026"
     },
     {
-      "type": "list",
-      "items": [
-        "Start — 3 mln so'mdan: 1 kanal (Telegram yoki Instagram), ssenariy bo'yicha arizalarni qabul qilish, ism va telefonni yig'ish, menejerga uzatish. Bir necha kunda ishga tushadi.",
-        "Biznes — 7 mln so'mdan: Telegram + Instagram, erkin savollar uchun GPT-dvigatel, sohaga moslangan bilim bazasi, arizalarni Telegram'ga uzatish, bazaviy tahlil.",
-        "Pro — 15 mln so'mdan: bir necha kanal, GPT-bot, AmoCRM/Bitrix24 integratsiyasi, to'lov qabuli, tarqatma, katalogli bot-vitrina, kengaytirilgan tahlil.",
-        "Murakkab loyihalar — 25 mln so'mdan va undan yuqori: individual mantiq, nostandart integratsiyalar, yuqori yuklama."
+      "type": "table",
+      "headers": [
+        "Xizmat",
+        "Tavsif",
+        "Muddat",
+        "Narx (so'm)"
+      ],
+      "rows": [
+        [
+          "Telegram-bot Start",
+          "Bazaviy AI-bot, arizalar yig'ish, FAQ",
+          "3 kun",
+          "990 000 dan"
+        ],
+        [
+          "Telegram-bot Biznes",
+          "Sotuv voronkasi, CRM-integratsiya",
+          "7 kun",
+          "2 490 000 dan"
+        ],
+        [
+          "Instagram Direct bot",
+          "Avtojavoblar, Instagram'da voronka",
+          "5 kun",
+          "1 190 000 dan"
+        ],
+        [
+          "WhatsApp-bot Start",
+          "Avtojavoblar, WhatsApp'da lidlar yig'ish",
+          "5 kun",
+          "1 490 000 dan"
+        ],
+        [
+          "AI-voronka Bazaviy",
+          "Telegram + Instagram bir vaqtda",
+          "10 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "AmoCRM/Bitrix24 integratsiyasi",
+          "Bitim va vazifalarni avtomatik yaratish",
+          "2 kun",
+          "790 000 dan"
+        ],
+        [
+          "Sohaviy AI-bot",
+          "Klinika, salon, do'kon, HoReCa uchun",
+          "14 kun",
+          "1 990 000 dan"
+        ]
       ]
     },
     {
@@ -225,5 +269,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-05"
 }

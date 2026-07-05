@@ -134,6 +134,13 @@ function renderBlock(b: BodyBlock): string {
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeText(b.text || '')}</blockquote>`;
     case 'image': return `<img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}" class="rounded-2xl my-6" loading="lazy" />`;
     case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`; }
+    case 'table': {
+      const headers = b.headers || [];
+      const rows = b.rows || [];
+      const thead = headers.length ? `<thead><tr>${headers.map(h => `<th class="px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-white/10">${escapeText(h)}</th>`).join('')}</tr></thead>` : '';
+      const tbody = `<tbody>${rows.map((row, ri) => `<tr class="${ri % 2 === 0 ? 'bg-white/[0.02]' : ''} hover:bg-white/[0.05] transition-colors">${row.map(cell => `<td class="px-4 py-3 text-white/80 text-sm border-b border-white/5">${escapeText(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10"><table class="w-full">${thead}${tbody}</table></div>`;
+    }
     default: return '';
   }
 }
