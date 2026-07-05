@@ -11,12 +11,17 @@ export interface FaqItem {
 }
 
 export interface BodyBlock {
-  type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'quote';
+  type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'quote' | 'table';
   text?: string;
   items?: string[];
   href?: string;
   src?: string;
   alt?: string;
+  id?: string;
+  /** table: column headers */
+  headers?: string[];
+  /** table: rows of cells */
+  rows?: string[][];
 }
 
 export interface InternalLink {
