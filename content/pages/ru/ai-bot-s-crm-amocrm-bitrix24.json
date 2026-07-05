@@ -277,12 +277,6 @@
       "type": "niche"
     },
     {
-      "target": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
-      "anchor": "как подключить Telegram-бот к CRM",
-      "locale": "ru",
-      "type": "contextual"
-    },
-    {
       "target": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
       "anchor": "единая воронка заявок из Instagram и Telegram в CRM",
       "locale": "ru",
