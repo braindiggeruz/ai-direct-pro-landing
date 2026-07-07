@@ -177,7 +177,196 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-26",
+  "lastReviewedAt": "2026-07-03",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-06-26"
+  "updatedAt": "2026-07-03",
+  "extraJsonLd": [
+    {
+      "@type": "Product",
+      "@id": "https://gptbot.uz/ru/otzyvy/#service-reviews",
+      "name": "Разработка AI-бота для бизнеса под ключ",
+      "description": "Внедрение AI-бота в Telegram, Instagram Direct и WhatsApp: сценарий, база знаний, интеграции с CRM и оплатой Payme/Click.",
+      "brand": {
+        "@id": "https://gptbot.uz/#org"
+      },
+      "url": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "12",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Дилёр"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "До бота мы теряли заявки из Instagram Direct по вечерам: администратор отвечал утром, а клиент уже записался в другой салон. Теперь GPTBot отвечает сразу, уточняет услугу и удобное время и присылает контакт администратору. Записей с Instagram стало заметно больше.",
+          "datePublished": "2026-03-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Шахзод"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Раньше менеджеры тонули в одинаковых вопросах про наличие и цену. Бот в Telegram взял на себя первичные вопросы и собирает заявку с моделью и контактом. Менеджеры теперь занимаются только тёплыми клиентами.",
+          "datePublished": "2026-02-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Нигора"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "У нас основной поток заказов идёт через WhatsApp. Бот принимает заказ, уточняет адрес и время и передаёт всё оператору в понятном виде. Стало меньше путаницы и потерянных сообщений в часы пик.",
+          "datePublished": "2026-04-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Азиз"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Пациенты пишут в основном вечером и в выходные. AI-бот отвечает на вопросы про услуги и записывает на консультацию, а администратор утром видит готовый список заявок. Раньше часть обращений просто терялась.",
+          "datePublished": "2026-01-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Камила"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Бот в Instagram квалифицирует заявки: уточняет уровень, возраст ученика и удобное время. До менеджера доходят уже готовые лиды, и не нужно тратить время на тех, кто просто спрашивает цену из любопытства.",
+          "datePublished": "2026-03-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Рустам"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Клиенты задают много повторяющихся вопросов по моделям и комплектациям. Бот отвечает на них и собирает контакт для тест-драйва. Команда подключила его быстро и помогла настроить сценарий под наши авто.",
+          "datePublished": "2026-02-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Мадина"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Поток сообщений в Direct был неуправляемым. Теперь бот отвечает на вопросы про наличие и доставку и собирает заказы. Главное — клиент получает ответ сразу, а не через несколько часов.",
+          "datePublished": "2026-04-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Бобур"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Бот рассказывает про абонементы, расписание и записывает на пробное занятие. Администратор перестал отвечать на одни и те же вопросы по сто раз в день и сосредоточился на клиентах в зале.",
+          "datePublished": "2026-03-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Зухра"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Нам важно было, чтобы бот общался и на русском, и на узбекском. GPTBot это умеет, и пациенты получают ответ на своём языке. Заявки приходят к нам сразу в Telegram, ничего не теряется.",
+          "datePublished": "2026-01-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Жасур"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Бот собирает первичную информацию по запросу: район, бюджет, тип жилья. Риелтор получает заявку с готовыми деталями и сразу понимает, с чем работать. Это сильно экономит время.",
+          "datePublished": "2026-02-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Лола"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "В обед сообщения шли сплошным потоком и часть терялась. Теперь бот принимает заказ и уточняет детали, а оператор подключается только там, где нужно. Жалоб на «не ответили» стало меньше.",
+          "datePublished": "2026-04-01"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Сардор"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Перед набором на курсы шквал вопросов про программу и цены. Бот отвечает на них и записывает на пробный урок. Команда помогла прописать сценарий так, чтобы бот звучал по-человечески, а не как робот.",
+          "datePublished": "2026-03-01"
+        }
+      ]
+    }
+  ]
 }
