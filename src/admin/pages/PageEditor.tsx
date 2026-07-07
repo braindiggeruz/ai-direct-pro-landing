@@ -118,8 +118,12 @@ export default function PageEditor() {
 
   const del = async () => {
     if (!confirm(`Delete ${page.locale}/${page.slug}? This will remove the JSON file from the repo.`)) return;
-    await api.deleteContent('page', page.locale, page.slug);
-    nav('/admin-tools/pages');
+    try {
+      await api.deleteContent('page', page.locale, page.slug);
+      nav('/admin-tools/pages');
+    } catch (e) {
+      setErr(`Delete failed: ${(e as Error).message}`);
+    }
   };
 
   if (!loaded) return <div className="p-8 text-white/60">Loading…</div>;

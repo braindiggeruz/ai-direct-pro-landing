@@ -57,7 +57,7 @@ async function ensureTable(db: D1Database): Promise<void> {
        last_failure_at_ms  INTEGER,
        updated_at_ms       INTEGER NOT NULL
      )`.replace(/\s+/g, ' '),
-  ).catch(() => undefined);
+  ).catch((e) => console.warn('[circuit-breaker] ensureTable failed:', (e as Error).message));
 }
 
 export async function readBreaker(env: Env, provider: LlmProviderId, model: string): Promise<BreakerStatus> {
@@ -86,7 +86,7 @@ export async function readBreaker(env: Env, provider: LlmProviderId, model: stri
   // Auto-transition open → half_open after cooldown.
   if (status.state === 'open' && nowMs() >= status.open_until_ms) {
     status.state = 'half_open';
-    await persist(db, status).catch(() => undefined);
+    await persist(db, status).catch((e) => console.warn(`[circuit-breaker] persist failed for ${provider}/${model}:`, (e as Error).message));
   }
   return status;
 }
@@ -109,7 +109,7 @@ export async function recordSuccess(env: Env, provider: LlmProviderId, model: st
     last_failure_at_ms: null,
     updated_at_ms: nowMs(),
   };
-  await persist(db, status).catch(() => undefined);
+  await persist(db, status).catch((e) => console.warn(`[circuit-breaker] persist (success) failed for ${provider}/${model}:`, (e as Error).message));
 }
 
 export async function recordFailure(
@@ -136,7 +136,7 @@ export async function recordFailure(
       last_failure_at_ms: nowMs(),
       updated_at_ms: nowMs(),
     };
-    await persist(db, status).catch(() => undefined);
+    await persist(db, status).catch((e) => console.warn(`[circuit-breaker] persist (non-transient) failed for ${provider}/${model}:`, (e as Error).message));
     return status;
   }
   // Sliding-window count: if last failure was > TRIP_WINDOW_MS ago, reset.
@@ -152,7 +152,7 @@ export async function recordFailure(
     last_failure_at_ms: nowMs(),
     updated_at_ms: nowMs(),
   };
-  await persist(db, status).catch(() => undefined);
+  await persist(db, status).catch((e) => console.warn(`[circuit-breaker] persist (failure) failed for ${provider}/${model}:`, (e as Error).message));
   return status;
 }
 

@@ -208,7 +208,7 @@ async function callOnce(
     const durationMs = Date.now() - startedAt;
 
     if (!res.ok) {
-      const text = await res.text().catch(() => '');
+      const text = await res.text().catch((e) => { console.warn('[gemini] failed to read error response body:', (e as Error).message); return ''; });
       return {
         ok: false,
         error: `Gemini API HTTP ${res.status}`,

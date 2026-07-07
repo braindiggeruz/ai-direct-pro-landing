@@ -125,7 +125,7 @@ export const onRequestPost: PagesFunction<Env> = withErrorHandler<Env>('admin.se
       after_risk_score: recheck.risk_score,
       after_risk_level: recheck.risk_level,
       applied: true,
-    }).catch(() => undefined);
+    }).catch((e) => console.warn('[apply-retarget] updateAnalysisApplied best-effort failure:', (e as Error).message));
   }
   await logAuditEvent(env, draftId, 'cannibalization_retarget_applied', auth.email, {
     locale,

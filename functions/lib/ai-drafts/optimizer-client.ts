@@ -64,7 +64,7 @@ async function callOnce(
       }),
     });
     if (!resp.ok) {
-      const detail = (await resp.text().catch(() => '')).slice(0, 600);
+      const detail = (await resp.text().catch((e) => { console.warn('[optimizer] failed to read error response body:', (e as Error).message); return ''; })).slice(0, 600);
       return { ok: false, model, content: '', status: resp.status, error: detail || `HTTP ${resp.status}` };
     }
     const data = (await resp.json()) as ChatResp;
@@ -97,12 +97,16 @@ export async function optimiseWithOpenRouter(
 export function parseStrictJson(text: string): unknown {
   if (typeof text !== 'string') return null;
   const cleaned = text.trim().replace(/^```(?:json)?/i, '').replace(/```$/i, '').trim();
-  try { return JSON.parse(cleaned); } catch { /* fall through */ }
+  try { return JSON.parse(cleaned); } catch (e) {
+    console.warn('[optimizer] primary JSON.parse failed, attempting salvage:', (e as Error).message);
+  }
   // Salvage path — find the largest {...} substring.
   const start = text.indexOf('{');
   const end = text.lastIndexOf('}');
   if (start >= 0 && end > start) {
-    try { return JSON.parse(text.slice(start, end + 1)); } catch { /* ignore */ }
+    try { return JSON.parse(text.slice(start, end + 1)); } catch (e) {
+      console.warn('[optimizer] salvage JSON.parse failed:', (e as Error).message);
+    }
   }
   return null;
 }

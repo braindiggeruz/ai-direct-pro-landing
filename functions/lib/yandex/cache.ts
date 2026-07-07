@@ -26,8 +26,8 @@ async function ensureTable(db: D1Database): Promise<void> {
        cached_at_ms   INTEGER NOT NULL,
        expires_at_ms  INTEGER NOT NULL
      )`.replace(/\s+/g, ' '),
-  ).catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_yandex_serp_expires ON yandex_serp_cache(expires_at_ms)').catch(() => undefined);
+  ).catch((e) => console.warn('[yandex-cache] ensureTable CREATE TABLE failed:', (e as Error).message));
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_yandex_serp_expires ON yandex_serp_cache(expires_at_ms)').catch((e) => console.warn('[yandex-cache] ensureTable CREATE INDEX failed:', (e as Error).message));
 }
 
 export function makeCacheKey(input: { query: string; locale: 'ru' | 'uz'; search_type: string; region?: number | null }): string {
@@ -48,7 +48,8 @@ export async function readCached(env: Env, cacheKey: string): Promise<YandexSerp
   if (Number(row.expires_at_ms || 0) < Date.now()) return null;
   try {
     return JSON.parse(row.snapshot_json) as YandexSerpSnapshot;
-  } catch {
+  } catch (parseErr) {
+    console.warn(`[yandex-cache] corrupt JSON in cache for key ${cacheKey}:`, (parseErr as Error).message);
     return null;
   }
 }
@@ -79,7 +80,7 @@ export async function writeCached(env: Env, cacheKey: string, snapshot: YandexSe
       now + TTL_MS,
     )
     .run()
-    .catch(() => undefined);
+    .catch((e) => console.warn(`[yandex-cache] writeCached failed for key ${cacheKey}:`, (e as Error).message));
 }
 
 export async function lastCallAt(env: Env): Promise<string | null> {

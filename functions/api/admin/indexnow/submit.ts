@@ -193,7 +193,7 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     duration_ms: durationMs,
     error: r.kind === 'ok' ? null : [kindForAudit(r.kind), r.error].filter(Boolean).join(': ').slice(0, 480),
   }));
-  await writeAudit(env, auditRows).catch(() => undefined);
+  await writeAudit(env, auditRows).catch((e) => console.warn('[indexnow-submit] writeAudit best-effort failure:', (e as Error).message));
 
   // Aggregate response. Operators see the totals + per-URL list in UI.
   const overallOk = result.succeeded > 0 && result.failed === 0 && result.rateLimited === 0;
