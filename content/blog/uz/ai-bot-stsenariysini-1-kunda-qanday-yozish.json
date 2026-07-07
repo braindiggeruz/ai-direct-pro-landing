@@ -1,0 +1,253 @@
+{
+  "status": "draft",
+  "locale": "uz",
+  "slug": "ai-bot-stsenariysini-1-kunda-qanday-yozish",
+  "url": "/uz/blog/ai-bot-stsenariysini-1-kunda-qanday-yozish/",
+  "title": "AI-bot ssenariysi 1 kunda: bosqichma-bosqich yo'riqnoma",
+  "description": "Biznes uchun AI-bot ssenariysini bir kunda o'zingiz qanday yozasiz: dialog tuzilmasi, bilim bazasi, lidni saralash, menejerga uzatish. 7 blokli shablon.",
+  "h1": "AI-bot ssenariysini o'zingiz 1 kunda qanday yozasiz: bosqichma-bosqich reja",
+  "topicCluster": "ai-bot-launch-checklist",
+  "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
+  "keywords": [
+    "AI-bot ssenariysi",
+    "chat-bot ssenariysini qanday yozish",
+    "biznes uchun bot ssenariysi",
+    "chat-bot dialog tuzilmasi",
+    "AI-bot uchun bilim bazasi",
+    "Telegram bot skripti",
+    "bot ssenariysi namunasi"
+  ],
+  "intro": "Yaxshi ssenariy «aqlli» modeldan muhimroq: puxta o'ylangan ssenariyli bot oddiy dvigatelda ham nima qilishni tushuntirilmagan GPT-botdan yaxshiroq sotadi. Mijozlar uchun ssenariylarni loyihalashda ishlatadigan metodimizni ko'rsatamiz — uni bir ish kunida mustaqil o'tish real.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Yaxshi ssenariy «aqlli» modeldan muhimroq: puxta o'ylangan ssenariyli bot oddiy dvigatelda ham nima qilishni tushuntirilmagan GPT-botdan yaxshiroq sotadi. Mijozlar uchun ssenariylarni loyihalashda ishlatadigan metodimizni ko'rsatamiz — uni bir ish kunida mustaqil o'tish real."
+    },
+    {
+      "type": "h2",
+      "text": "Ssenariy nima va nega usiz bot «valdiraydi»"
+    },
+    {
+      "type": "p",
+      "text": "Ssenariy — qattiq tugmalar daraxti emas, balki dialog maqsadi, unga qarab harakat bosqichlari va bot xulq-atvori qoidalarining tavsifi. Ssenariysiz GPT-model hamma narsaga muloyim javob beradi, lekin mijozni arizaga olib bormaydi. Ssenariy bilan — har bir javob kontaktga va menejerga uzatishga yaqinlashtiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Ertalab: poydevorga 3 soat"
+    },
+    {
+      "type": "h3",
+      "text": "1-qadam. Botning bitta maqsadini shakllantiring (30 daqiqa)"
+    },
+    {
+      "type": "p",
+      "text": "Bitta maqsad — bitta o'lchanadigan harakat: «ism, telefon va ehtiyojni yig'ib menejerga uzatish». «Savollarga javob berish» yoki «sodiqlikni oshirish» emas. Ssenariydagi hamma narsa shu maqsadga bo'ysunadi."
+    },
+    {
+      "type": "h3",
+      "text": "2-qadam. Mijozlarning 20 ta real savolini yozib chiqing (1 soat)"
+    },
+    {
+      "type": "p",
+      "text": "Oxirgi oydagi yozishmalarni oching va eng tez-tez uchraydigan 20 ta savolni so'zma-so'z yozib oling — mijozlar iboralari bilan, ruscha va aralash yozilganlarini ham. Bu bo'lajak bilim bazasi. Savollarni xayoldan o'ylab topmang: real iboralar har doim farq qiladi."
+    },
+    {
+      "type": "h3",
+      "text": "3-qadam. Etalon javoblarni yozing (1,5 soat)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Har bir javob — 2–4 gap, rasmiyatchiliksiz, eng yaxshi menejeringiz yozganidek",
+        "Aniq narx detallarga bog'liq bo'lsa, narxlarni oraliq bilan bering",
+        "Har bir javob oxirida — keyingi qadamga ko'prik: «Vaziyatingizga qarab maslahat beraymi? Nima kerakligini yozing»",
+        "Alohida: bot NIMANI va'da qilmasligi kerak (chegirma, muddat, menejer roziligisiz kafolatlar)"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Kunduzi: dialog tuzilmasiga 3 soat"
+    },
+    {
+      "type": "h3",
+      "text": "4-qadam. 7 blokli asosiy yo'lni loyihalang (1,5 soat)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-blok. Salomlashish: biz kimmiz va qanday yordam beramiz — bitta qisqa xabar, darhol mijozga savol",
+        "2-blok. Ehtiyojni aniqlash: «sizni nima qiziqtiradi?» ochiq savoli + tipik mavzularni tanish",
+        "3-blok. 2–3 asosiy parametrni aniqlashtirish (nisha belgilaydi: xizmat/obyekt/sanalar/byudjet)",
+        "4-blok. Ehtiyojga mos yechimning mini-taqdimoti — 2–3 gap, uzun matnsiz",
+        "5-blok. Kontakt yig'ish: nima uchunligini tushuntirib ism va telefon («menejer variantlarni tanlab qo'ng'iroq qiladi»)",
+        "6-blok. Tasdiqlash: keyin nima bo'ladi va javobni qachon kutish kerak",
+        "7-blok. Menejerga uzatish: ehtiyoj, parametrlar va kontaktli kartochka"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "5-qadam. Aylanma tarmoqlarni yozib chiqing (1 soat)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz birinchi xabarda narx so'raydi — oraliqni berib, ehtiyojni aniqlashga qaytish",
+        "Mijoz telefon qoldirishni istamaydi — botda davom etishni taklif qilib, keyinroq eslatish",
+        "Vakolatdan tashqari savol — mutaxassisdan aniqlashtirishni halol aytib, kontakt yig'ish",
+        "Negativ yoki shikoyat — uzr so'rab, darhol jonli xodimga uzatish",
+        "Ruscha xabar — dialogni avtomatik rus tilida davom ettirish"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "6-qadam. Ohang qoidalarini belgilang (30 daqiqa)"
+    },
+    {
+      "type": "p",
+      "text": "Uch-besh qoida yetarli: «siz»lab murojaat, qisqa xatboshilar, smaylik-spamisiz, har doim savol yoki keyingi qadam bilan tugatish, mijoz bilan bahslashmaslik. Bu qoidalar GPT-botning tizimli promptiga aylanadi."
+    },
+    {
+      "type": "h2",
+      "text": "Kechqurun: tekshiruvga 2 soat"
+    },
+    {
+      "type": "h3",
+      "text": "7-qadam. 10 ta sinov dialogini o'tkazing (2 soat)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Qiyin mijoz» rolini o'ynang: bir so'zli javoblar, mavzudan tashqari savollar, savdolashish",
+        "Tekshiring: har bir dialog kontakt yoki aniq keyingi qadam bilan tugayaptimi",
+        "Uzunlikni o'lchang: kontakt yig'ishgacha — botning 6–8 tadan ortiq bo'lmagan xabari",
+        "Yozishda qatnashmagan hamkasbga sinash uchun bering",
+        "Bot «adashgan» barcha joylarni yozib olib, bilim bazasini to'ldiring"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "O'zi yozilgan ssenariylarning tez-tez uchraydigan xatolari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bot mijozga birinchi savoldan oldin kompaniya haqida uch xatboshi gapiradi",
+        "Mijozga biror foyda berilmasdan 10 savollik anketa",
+        "Dialogning istalgan joyidagi «qancha turadi»ga reaksiya yo'q",
+        "Kontakt mijoz evaziga nima olishini tushuntirmasdan so'raladi",
+        "Ssenariy bir marta yozilgan va real dialoglar bo'yicha yangilanmaydi"
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Ssenariy — tirik hujjat. Haftada bir marta botning 20 ta real dialogini o'qing va bilim bazasini to'ldiring: bir oydan keyin bot sezilarli aniqroq javob beradi."
+    },
+    {
+      "type": "h2",
+      "text": "Ssenariyni qachon professionallarga topshirgan ma'qul"
+    },
+    {
+      "type": "p",
+      "text": "Mustaqil ssenariy — bitta mahsulotli oddiy nishalar uchun ishlaydigan variant. Agar sizda bir nechta yo'nalish, CRM integratsiyasi, botda to'lov yoki turli iboralarli ikki til bo'lsa — loyihalashni buyurtma qilish arzonroq: muvaffaqiyatsiz startni qayta qilish odatda birdaniga to'g'ri qilishdan qimmatroq."
+    },
+    {
+      "type": "h2",
+      "text": "Ssenariyning ishga tushirishga tayyorligi cheklisti"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bot maqsadi bitta o'lchanadigan harakat bilan shakllantirilgan",
+        "Bilim bazasi: ikki tilda etalon javobli kamida 20 ta real savol",
+        "7 blokli asosiy yo'l 6–8 xabarda kontaktgacha olib boradi",
+        "Aylanma tarmoqlar yozilgan: birinchi xabarda narx, telefondan bosh tortish, negativ, mavzudan tashqari savol",
+        "Ohang qoidalari va bot va'da qilishi mumkin bo'lmagan narsalar ro'yxati belgilangan",
+        "10 ta sinov dialogi, jumladan «qiyin mijoz» testi va chetdan hamkasb testi o'tkazilgan",
+        "Birinchi 4 hafta dialoglarni o'qib bazani to'ldiradigan mas'ul tayinlangan"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yettala band yopilgan bo'lsa — ssenariy dvigatelga ulash va jangovar trafikka tayyor. Kamida ikkita band oqsasa, yana yarim kun sarflagan ma'qul: ishga tushirilgandan keyin tuzatish qog'ozda qayta ishlashdan qimmatroq tushadi."
+    },
+    {
+      "type": "cta",
+      "text": "Ssenariyingiz tahlilini olish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "p",
+      "text": "Telegram'ga yozing — ssenariy qoralamangizni bepul ko'rib chiqamiz va ishga tushirishdan oldin nimani kuchaytirish kerakligini aytamiz."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bot ssenariysini bir kunda yozish realmi?",
+      "a": "Ha, bitta nisha va bitta maqsad uchun — maqoladagi reja bo'yicha bu 8 ish soati: 3 soat bilim bazasiga, 3 soat dialog tuzilmasiga, 2 soat testlarga. CRM va to'lovli murakkab multissenariylar ko'proq vaqt talab qiladi."
+    },
+    {
+      "q": "Bilim bazasida nechta savol bo'lishi kerak?",
+      "a": "Start uchun etalon javobli 20 ta real savol yetarli. Keyin baza dialog loglari bo'yicha haftalik to'ldiriladi — birinchi oy oxiriga odatda 40–60 mavzu bo'ladi."
+    },
+    {
+      "q": "GPT-bot ssenariysi tugmali botdan nimasi bilan farq qiladi?",
+      "a": "Tugmali bot — qattiq o'tishlar daraxti. GPT-bot maqsad, qoidalar va bilim bazasi bo'yicha ishlaydi: erkin iboralarni tushunadi va kontakt yig'ishga o'zi olib boradi, ssenariy esa chegara va taqiqlarni belgilaydi."
+    },
+    {
+      "q": "O'zbekiston uchun ssenariyni qaysi tilda yozish kerak?",
+      "a": "Bilim bazasi o'zbek (lotin) va rus tillarida kerak — mashina tarjimasi emas, mijozlar real yozadigan iboralar. Bot tilni birinchi xabar bo'yicha aniqlaydi."
+    },
+    {
+      "q": "Bot noto'g'ri javob bersa nima qilish kerak?",
+      "a": "Loglardan dialogni topib, qaysi bilim yetishmaganini tushunish va bazani yoki qoidalarni to'ldirish kerak. Bu normal sikl: ssenariy birinchi 2–4 haftada real dialoglar bo'yicha sayqallanadi."
+    }
+  ],
+  "cta": {
+    "label": "Telegram'da demo so'rash",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/gpt-bot-yoki-oddiy-chat-bot/",
+      "anchor": "GPT-bot yoki oddiy chat-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-bot-yoki-menejer/",
+      "anchor": "AI-bot yoki menejer",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram-bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "AI-bot ssenariysi 1 kunda: bosqichma-bosqich yo'riqnoma",
+  "ogDescription": "7 qadamli metod: bilim bazasi, 7 blokli dialog tuzilmasi, aylanma tarmoqlar va testlash. Bot ssenariysini o'zingiz qanday yozasiz.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/ai-bot-stsenariysini-1-kunda-qanday-yozish/",
+  "hreflangRu": "/ru/blog/stsenariy-ai-bota-za-1-den-poshagovo/",
+  "hreflangUz": "/uz/blog/ai-bot-stsenariysini-1-kunda-qanday-yozish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-07-03",
+  "dateModified": "2026-07-03",
+  "schemaTypes": [
+    "Organization",
+    "WebSite"
+  ],
+  "updatedAt": "2026-07-03T10:00:00.000Z",
+  "createdAt": "2026-07-03T10:00:00.000Z"
+}
