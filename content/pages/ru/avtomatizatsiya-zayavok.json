@@ -168,6 +168,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/razrabotka-saytov-tashkent/",
+      "anchor": "сайт для заявок",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/avtomatizatsiya-prodazh/",
       "anchor": "автоматизация продаж",
       "locale": "ru",

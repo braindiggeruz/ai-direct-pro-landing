@@ -218,6 +218,20 @@
       { "token": "aibiz", "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-ботом для бизнеса" }
     ] },
 
+    { "type": "h2", "text": "Полезные страницы по разработке сайтов" },
+    { "type": "linkp", "text": "Разбираем формат «под ключ» подробно на странице {podkl} — что именно вы получаете и что входит в работу.", "links": [
+      { "token": "podkl", "target": "/ru/razrabotka-sayta-pod-klyuch/", "anchor": "разработка сайта под ключ" }
+    ] },
+    { "type": "linkp", "text": "Не знаете, какой сайт нужен? Поможет страница {biz}: как выбрать между лендингом, сайтом услуг, корпоративным сайтом и магазином.", "links": [
+      { "token": "biz", "target": "/ru/sozdanie-sayta-dlya-biznesa/", "anchor": "создание сайта для бизнеса" }
+    ] },
+    { "type": "linkp", "text": "Наше уникальное решение — {aibot}: сайт со встроенным AI-консультантом, который отвечает клиентам и собирает заявки 24/7.", "links": [
+      { "token": "aibot", "target": "/ru/sayt-s-ai-botom/", "anchor": "сайт с AI-ботом" }
+    ] },
+    { "type": "linkp", "text": "Если главная цель — обращения, смотрите {zayav}: сайт, построенный под лидогенерацию.", "links": [
+      { "token": "zayav", "target": "/ru/sayt-dlya-zayavok/", "anchor": "сайт для заявок" }
+    ] },
+
     { "type": "h2", "text": "Хотите сайт, который приносит заявки?", "id": "consult" },
     { "type": "p", "text": "Оставьте заявку или напишите в Telegram. Разберём задачу, предложим тип сайта и структуру и подскажем, нужен ли вам лендинг, корпоративный сайт или интернет-магазин — и стоит ли сразу встроить AI-бота для заявок." },
     { "type": "cta", "text": "Получить бесплатную консультацию", "href": "https://t.me/XGame_changerx" }
@@ -256,6 +270,10 @@
     { "target": "/ru/instagram-direct-bot/", "anchor": "Instagram Direct бот", "locale": "ru", "type": "contextual" },
     { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизация заявок", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "интеграция с CRM", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/razrabotka-sayta-pod-klyuch/", "anchor": "разработка сайта под ключ", "locale": "ru", "type": "block" },
+    { "target": "/ru/sozdanie-sayta-dlya-biznesa/", "anchor": "создание сайта для бизнеса", "locale": "ru", "type": "block" },
+    { "target": "/ru/sayt-s-ai-botom/", "anchor": "сайт с AI-ботом", "locale": "ru", "type": "block" },
+    { "target": "/ru/sayt-dlya-zayavok/", "anchor": "сайт для заявок", "locale": "ru", "type": "block" },
     { "target": "/ru/stoimost-chat-bota/", "anchor": "стоимость чат-бота", "locale": "ru", "type": "contextual" },
     { "target": "/ru/politika-konfidentsialnosti/", "anchor": "политика конфиденциальности", "locale": "ru", "type": "contextual" },
     { "target": "/ru/", "anchor": "AI-боты для бизнеса в Узбекистане", "locale": "ru", "type": "contextual" }

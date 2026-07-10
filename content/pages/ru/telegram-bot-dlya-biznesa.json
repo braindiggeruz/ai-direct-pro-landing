@@ -157,6 +157,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/razrabotka-saytov-tashkent/",
+      "anchor": "сайт и Telegram-бот для заявок",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/razrabotka-telegram-bota-tashkent/",
       "anchor": "разработка Telegram-бота в Ташкенте",
       "locale": "ru",

@@ -154,6 +154,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/razrabotka-saytov-tashkent/",
+      "anchor": "сайт с AI-ботом",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/gpt-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
