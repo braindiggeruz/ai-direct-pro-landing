@@ -11,17 +11,25 @@ export interface FaqItem {
 }
 
 export interface BodyBlock {
-  type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'quote' | 'table';
+  type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'quote' | 'table' | 'toc' | 'linkp';
   text?: string;
   items?: string[];
   href?: string;
   src?: string;
   alt?: string;
+  /** h2/h3: anchor id for in-page navigation (rendered as id attr). */
   id?: string;
   /** table: column headers */
   headers?: string[];
   /** table: rows of cells */
   rows?: string[][];
+  /**
+   * toc: in-page anchor nav — items are { anchor, label } linking to heading ids.
+   * linkp: contextual in-text links — { token, target, anchor } where each
+   * {token} placeholder in `text` is replaced by an <a href="target">anchor</a>.
+   * Only trusted, build-time content is used here (no user HTML injection).
+   */
+  links?: { anchor?: string; label?: string; token?: string; target?: string }[];
 }
 
 export interface InternalLink {
