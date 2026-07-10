@@ -11,12 +11,19 @@ export interface FaqItem {
 }
 
 export interface BodyBlock {
-  type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'quote' | 'table' | 'toc' | 'linkp';
+  type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'figure' | 'quote' | 'table' | 'toc' | 'linkp';
   text?: string;
   items?: string[];
   href?: string;
   src?: string;
   alt?: string;
+  /** image/figure: intrinsic pixel dimensions — emitted as width/height to reserve space and prevent CLS. */
+  width?: number;
+  height?: number;
+  /** figure: visible <figcaption> text (real HTML, aids SEO + a11y). */
+  caption?: string;
+  /** image/figure: 'eager' + fetchpriority=high for above-the-fold; defaults to 'lazy'. */
+  loading?: 'lazy' | 'eager';
   /** h2/h3: anchor id for in-page navigation (rendered as id attr). */
   id?: string;
   /** table: column headers */
@@ -91,6 +98,10 @@ export interface Page {
   ctaPrimaryHref?: string;
   ctaSecondaryLabel?: string;
   ctaSecondaryHref?: string;
+  /** Optional hero image rendered beside the H1 (desktop) / below CTA (mobile). */
+  heroImage?: { src: string; alt: string; width: number; height: number };
+  /** Optional page-scoped trust chips under the primary CTA; falls back to the global default set. */
+  heroTrust?: string[];
 
   bodyBlocks: BodyBlock[];
   faq: FaqItem[];
