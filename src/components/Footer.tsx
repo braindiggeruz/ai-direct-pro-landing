@@ -13,6 +13,8 @@ const SOLUTION_LINKS = [
   { ru: '/ru/telegram-bot-dlya-biznesa/', uz: '/uz/telegram-bot-biznes-uchun/', ruLabel: 'Telegram-бот', uzLabel: 'Telegram bot' },
   { ru: '/ru/razrabotka-telegram-bota-tashkent/', uz: undefined, ruLabel: 'Разработка Telegram-бота (Ташкент)', uzLabel: 'Telegram bot yaratish (Toshkent)' },
   { ru: '/ru/razrabotka-saytov-tashkent/', uz: undefined, ruLabel: 'Разработка сайтов (Ташкент)', uzLabel: 'Sayt yaratish (Toshkent)' },
+  { ru: '/ru/sayt-s-ai-botom/', uz: undefined, ruLabel: 'Сайт с AI-ботом', uzLabel: 'AI-botli sayt' },
+  { ru: '/ru/sayt-dlya-zayavok/', uz: undefined, ruLabel: 'Сайт для заявок', uzLabel: 'Arizalar uchun sayt' },
   { ru: '/ru/instagram-direct-bot/', uz: '/uz/instagram-bot-biznes-uchun/', ruLabel: 'Instagram Direct бот', uzLabel: 'Instagram Direct bot' },
   { ru: '/ru/chat-bot-dlya-biznesa/', uz: undefined, ruLabel: 'Чат-бот', uzLabel: 'Chatbot' },
   { ru: '/ru/avtomatizatsiya-zayavok/', uz: '/uz/arizalarni-avtomatlashtirish/', ruLabel: 'Автоматизация заявок', uzLabel: 'Arizalarni avtomatlashtirish' },

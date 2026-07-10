@@ -229,6 +229,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/razrabotka-saytov-tashkent/",
+      "anchor": "сайт с CRM и AI-ботом",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
