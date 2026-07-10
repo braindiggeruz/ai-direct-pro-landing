@@ -306,6 +306,7 @@
   ],
   "internalLinks": [
     { "target": "/ru/telegram-bot-dlya-biznesa/", "anchor": "Telegram-бот для бизнеса", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов в Ташкенте", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual" },
     { "target": "/ru/instagram-direct-bot/", "anchor": "Instagram Direct бот", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "интеграция с CRM (amoCRM, Bitrix24)", "locale": "ru", "type": "contextual" },

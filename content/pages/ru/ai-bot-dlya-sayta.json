@@ -110,6 +110,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/razrabotka-saytov-tashkent/",
+      "anchor": "разработка сайтов в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/gpt-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
