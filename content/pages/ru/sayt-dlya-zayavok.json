@@ -137,6 +137,12 @@
     { "q": "Можно ли начать с простой версии?", "a": "Да. Можно запустить MVP-страницу с формой и Telegram-уведомлениями, а позже добавить CRM, AI-бота, аналитику и новые блоки." }
   ],
   "internalLinks": [
+    {
+      "target": "/ru/internet-reklama-tashkent/",
+      "anchor": "реклама для заявок",
+      "locale": "ru",
+      "type": "contextual"
+    },
     { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов в Ташкенте", "locale": "ru", "type": "contextual" },
     { "target": "/ru/sozdanie-sayta-dlya-biznesa/", "anchor": "создание сайта для бизнеса", "locale": "ru", "type": "contextual" },
     { "target": "/ru/razrabotka-sayta-pod-klyuch/", "anchor": "разработка сайта под ключ", "locale": "ru", "type": "contextual" },

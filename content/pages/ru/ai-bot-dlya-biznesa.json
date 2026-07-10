@@ -154,6 +154,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/internet-reklama-tashkent/",
+      "anchor": "AI-бот после рекламы",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/razrabotka-saytov-tashkent/",
       "anchor": "сайт с AI-ботом",
       "locale": "ru",

@@ -168,6 +168,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/internet-reklama-tashkent/",
+      "anchor": "реклама и автоматизация заявок",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/razrabotka-saytov-tashkent/",
       "anchor": "сайт для заявок",
       "locale": "ru",

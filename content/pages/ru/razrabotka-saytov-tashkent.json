@@ -278,6 +278,12 @@
     { "q": "Можно ли заказать сайт под ключ?", "a": "Да, мы делаем сайты под ключ: от разбора задачи и дизайна до вёрстки, наполнения, настройки SEO и запуска." }
   ],
   "internalLinks": [
+    {
+      "target": "/ru/internet-reklama-tashkent/",
+      "anchor": "интернет-реклама для сайта",
+      "locale": "ru",
+      "type": "contextual"
+    },
     { "target": "/ru/ai-bot-dlya-sayta/", "anchor": "AI-бот для сайта", "locale": "ru", "type": "contextual" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "разработка Telegram-бота в Ташкенте", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual" },

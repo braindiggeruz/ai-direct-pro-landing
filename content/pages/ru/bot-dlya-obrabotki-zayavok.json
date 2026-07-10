@@ -167,6 +167,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/internet-reklama-tashkent/",
+      "anchor": "интернет-реклама с обработкой заявок",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/avtomatizatsiya-zayavok/",
       "anchor": "автоматизация заявок",
       "locale": "ru",
