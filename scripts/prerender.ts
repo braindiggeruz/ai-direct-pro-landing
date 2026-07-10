@@ -125,10 +125,38 @@ function escapeText(s: string): string {
   return (s || '').replace(/[&<]/g, (c) => ({ '&': '&amp;', '<': '&lt;' }[c]!));
 }
 
+// Slugify a heading into an ASCII-safe anchor id (fallback when no explicit id).
+function slugifyId(s: string): string {
+  return (s || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9а-яё\s-]/gi, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .slice(0, 60);
+}
+
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
-    case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white">${escapeText(b.text || '')}</h2>`;
-    case 'h3': return `<h3 class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
+    case 'h2': { const _id = b.id || slugifyId(b.text || ''); return `<h2 id="${escapeHtml(_id)}" class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white scroll-mt-24">${escapeText(b.text || '')}</h2>`; }
+    case 'h3': { const _id = b.id || slugifyId(b.text || ''); return `<h3 id="${escapeHtml(_id)}" class="font-display text-2xl mt-10 mb-4 text-white scroll-mt-24">${escapeText(b.text || '')}</h3>`; }
+    case 'toc': {
+      const links = (b.links || []).filter((l) => l.anchor && l.label);
+      if (!links.length) return '';
+      const items = links.map((l) => `<li><a href="#${escapeHtml(l.anchor!)}" class="text-brand-cyan hover:underline">${escapeText(l.label!)}</a></li>`).join('');
+      const heading = b.text ? `<div class="font-display text-lg text-white mb-3">${escapeText(b.text)}</div>` : '';
+      return `<nav aria-label="${escapeHtml(b.text || 'На этой странице')}" class="my-8 rounded-2xl border border-white/10 bg-bg-surface p-6">${heading}<ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm list-disc pl-5 marker:text-brand-cyan">${items}</ul></nav>`;
+    }
+    case 'linkp': {
+      // Escape the prose first, then substitute {token} placeholders with anchors.
+      let html = escapeText(b.text || '');
+      for (const l of (b.links || [])) {
+        if (!l.token || !l.target || !l.anchor) continue;
+        const _ext = l.target.startsWith('http');
+        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener" target="_blank"' : ''} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
+        html = html.split(`{${l.token}}`).join(a);
+      }
+      return `<p class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
+    }
     case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-4">${escapeText(b.text || '')}</p>`;
     case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeText(b.text || '')}</blockquote>`;
@@ -156,7 +184,7 @@ function renderFaq(faq: FaqItem[]): string {
       <p class="text-white/80 mt-4 leading-relaxed">${escapeText(f.a)}</p>
     </details>
   `).join('');
-  return `<section data-testid="page-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">FAQ</h2>${items}</section>`;
+  return `<section id="faq" data-testid="page-faq" class="mt-16 scroll-mt-24"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">FAQ</h2>${items}</section>`;
 }
 
 function renderInternalLinks(page: Page): string {
