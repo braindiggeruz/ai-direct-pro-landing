@@ -157,6 +157,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/razrabotka-telegram-bota-tashkent/",
+      "anchor": "разработка Telegram-бота в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
