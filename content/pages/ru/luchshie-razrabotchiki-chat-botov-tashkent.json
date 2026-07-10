@@ -115,6 +115,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/razrabotka-telegram-bota-tashkent/",
+      "anchor": "разработка Telegram-бота в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/stoimost-chat-bota/",
       "anchor": "стоимость чат-бота",
       "locale": "ru",
