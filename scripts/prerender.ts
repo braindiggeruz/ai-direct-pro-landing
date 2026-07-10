@@ -160,7 +160,18 @@ function renderBlock(b: BodyBlock): string {
     case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-4">${escapeText(b.text || '')}</p>`;
     case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeText(b.text || '')}</blockquote>`;
-    case 'image': return `<img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}" class="rounded-2xl my-6" loading="lazy" />`;
+    case 'image': {
+      const _dim = `${b.width ? ` width="${b.width}"` : ''}${b.height ? ` height="${b.height}"` : ''}`;
+      const _ld = b.loading === 'eager' ? ' loading="eager" fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"';
+      return `<img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}"${_dim} class="rounded-2xl my-6 w-full h-auto"${_ld} />`;
+    }
+    case 'figure': {
+      const _dim = `${b.width ? ` width="${b.width}"` : ''}${b.height ? ` height="${b.height}"` : ''}`;
+      const _ld = b.loading === 'eager' ? ' loading="eager" fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"';
+      const _ar = b.width && b.height ? ` style="aspect-ratio:${b.width}/${b.height}"` : '';
+      const _cap = b.caption ? `<figcaption class="text-sm text-white/55 mt-3 leading-relaxed">${escapeText(b.caption)}</figcaption>` : '';
+      return `<figure class="my-10"><img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}"${_dim}${_ar} class="rounded-2xl border border-white/10 w-full h-auto"${_ld} />${_cap}</figure>`;
+    }
     case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`; }
     case 'table': {
       const headers = b.headers || [];
@@ -315,7 +326,8 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 
   // Trust microcopy chips — copy-only, no fake guarantees. Reused below the
   // primary CTA on every money page. Localised per page.locale.
-  const trustChips = page.locale === 'uz'
+  const trustChips = (page.heroTrust && page.heroTrust.length) ? page.heroTrust
+    : page.locale === 'uz'
     ? ['RU + UZ', 'Telegram demo', 'Murakkab sozlash yo\u2018q', 'Lid menejerga uzatiladi']
     : ['RU + UZ', 'Telegram demo', 'Без сложной настройки', 'Передаёт обращение менеджеру'];
   const trustHtml = `<ul aria-label="${page.locale === 'uz' ? 'Ishonch belgilari' : 'Trust-маркеры'}" class="flex flex-wrap gap-2 text-xs text-white/70 mt-4 mb-10">${trustChips.map((c) => `<li class="px-3 py-1 rounded-full border border-white/10 bg-white/5">${escapeText(c)}</li>`).join('')}</ul>`;
@@ -389,17 +401,21 @@ ${ANALYTICS_HEAD}
     <span class="text-white/70">${escapeText(page.breadcrumbLabel || page.h1)}</span>
   </nav>
 
-  <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeText(page.h1)}</h1>
-  ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
-  ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
-
-  ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
-    <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
-      ${escapeText(page.ctaPrimaryLabel || 'Демо')}
-    </a>
-    ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="border border-white/15 text-white px-8 py-4 rounded-full hover:bg-white/5">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
+  <div class="${page.heroImage ? 'lg:grid lg:grid-cols-2 lg:gap-10 lg:items-center ' : ''}mb-4">
+    <div>
+      <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeText(page.h1)}</h1>
+      ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
+      ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
+      ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
+        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
+          ${escapeText(page.ctaPrimaryLabel || 'Демо')}
+        </a>
+        ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="border border-white/15 text-white px-8 py-4 rounded-full hover:bg-white/5">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
+      </div>
+      ${trustHtml}` : ''}
+    </div>
+    ${page.heroImage ? `<div class="mt-8 lg:mt-0"><img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" class="rounded-2xl border border-white/10 w-full h-auto" loading="eager" fetchpriority="high" decoding="async" /></div>` : ''}
   </div>
-  ${trustHtml}` : ''}
 
   <article${contentAnchor ? ` id="${escapeHtml(contentAnchor)}"` : ''} class="prose-invert scroll-mt-24">
     ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
