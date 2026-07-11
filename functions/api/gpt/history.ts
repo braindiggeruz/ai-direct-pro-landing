@@ -4,9 +4,14 @@
 import type { Env } from '../../_types';
 import { ensureSchema } from '../../lib/gpt-chat/schema';
 import { json, fail } from '../../lib/gpt-chat/http';
+import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const url = new URL(request.url);
+  // Railway history is auth-based (user sessions); forward query + Authorization.
+  const g = await proxyToRailway(env, request, `/v1/gpt/history${url.search}`, { method: 'GET' });
+  if (g.proxied && g.response) return relay(g.response);
+
   const sessionId = (url.searchParams.get('sessionId') || '').slice(0, 64);
   if (!sessionId) return fail('missing_session', 'sessionId is required');
 

@@ -13,6 +13,7 @@ import { readUsage, recordUsage, decideQuota } from '../../lib/gpt-chat/quota';
 import { buildMessages, type ChatMessage } from '../../lib/gpt-chat/prompt';
 import { chatComplete } from '../../lib/gpt-chat/openrouter-chat';
 import { verifyTurnstile } from '../../lib/turnstile';
+import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
 
 interface ChatBody {
   sessionId?: string;
@@ -23,6 +24,12 @@ interface ChatBody {
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+  // Prefer the Railway backend (Supabase-backed) when configured. On any
+  // transport failure or 5xx, fall through to the local D1 implementation so
+  // production chat never fully breaks.
+  const g = await proxyToRailway(env, request, '/v1/gpt/chat');
+  if (g.proxied && g.response) return relay(g.response);
+
   const cfg = resolveConfig(env);
   const body = await readJson<ChatBody>(request);
   if (!body) return fail('bad_json', 'Invalid JSON body');

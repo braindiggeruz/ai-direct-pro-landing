@@ -5,8 +5,12 @@ import { resolveConfig } from '../../lib/gpt-chat/config';
 import { ensureSchema } from '../../lib/gpt-chat/schema';
 import { json, fail, readJson, genId } from '../../lib/gpt-chat/http';
 import { validateLead, type LeadInput } from '../../lib/gpt-chat/validate';
+import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+  const g = await proxyToRailway(env, request, '/v1/gpt/lead');
+  if (g.proxied && g.response) return relay(g.response);
+
   resolveConfig(env); // reserved for future rate-limiting of lead spam
   const body = await readJson<LeadInput>(request);
   if (!body) return fail('bad_json', 'Invalid JSON body');

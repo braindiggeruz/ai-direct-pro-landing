@@ -167,6 +167,17 @@ export interface Env {
   // If unset, hashing still runs with an empty salt (weaker; set in prod).
   GPT_HASH_SALT?: string;
 
+  // ─── Railway backend gateway (optional) ───────────────────────────────
+  // When BOTH are set, /api/gpt/* proxies to the Railway production backend
+  // (Fastify + Supabase). When absent or the proxy fails, the Cloudflare
+  // Functions fall back to the existing D1 implementation. The internal
+  // secret authenticates the gateway → Railway hop; NEVER exposed to browser.
+  RAILWAY_GPT_API_URL?: string;
+  GPTBOT_INTERNAL_API_SECRET?: string;
+  // Public Supabase values (safe to expose to the island for Auth later).
+  SUPABASE_URL?: string;
+  SUPABASE_PUBLISHABLE_KEY?: string;
+
   // ─── Payments (subscription — scaffold only for MVP) ──────────────────
   // PAYMENT_PROVIDER selects the adapter: "lemonsqueezy" | "paddle" |
   // "globalpay" | "freedompay" | "" (manual mode — no live checkout).
