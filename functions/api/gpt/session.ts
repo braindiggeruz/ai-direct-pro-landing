@@ -7,8 +7,13 @@ import { ensureSchema } from '../../lib/gpt-chat/schema';
 import { hashIp, getClientIp } from '../../lib/gpt-chat/hash';
 import { json, fail, readJson, genId } from '../../lib/gpt-chat/http';
 import { normLocale } from '../../lib/gpt-chat/validate';
+import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+  // Prefer the Railway backend when configured; fall back to D1 below.
+  const g = await proxyToRailway(env, request, '/v1/gpt/session');
+  if (g.proxied && g.response) return relay(g.response);
+
   const cfg = resolveConfig(env);
   const body = (await readJson<{ locale?: string; source?: string }>(request)) || {};
   const locale = normLocale(body.locale);

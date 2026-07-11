@@ -20,8 +20,9 @@
     "test:intent-guard": "node --import tsx --test tests/intent-guard.test.ts",
     "test:direct-generator": "node --import tsx --test tests/direct-generator.test.ts",
     "test:yandex-research": "node --import tsx --test tests/yandex-research.test.ts",
-    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts tests/indexnow-engine.test.ts tests/yandex-research.test.ts tests/gpt-chat.test.ts",
-    "test:gpt-chat": "node --import tsx --test tests/gpt-chat.test.ts"
+    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts tests/indexnow-engine.test.ts tests/yandex-research.test.ts tests/gpt-chat.test.ts tests/gpt-backend.test.ts",
+    "test:gpt-chat": "node --import tsx --test tests/gpt-chat.test.ts",
+    "test:gpt-backend": "node --import tsx --test tests/gpt-backend.test.ts"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",

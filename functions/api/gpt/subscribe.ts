@@ -5,6 +5,7 @@ import type { Env } from '../../_types';
 import { ensureSchema } from '../../lib/gpt-chat/schema';
 import { json, fail, readJson, genId } from '../../lib/gpt-chat/http';
 import { createCheckout, activeProvider } from '../../lib/gpt-chat/payments';
+import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
 
 interface SubBody {
   plan?: string; // 'plus' | 'business'
@@ -12,6 +13,9 @@ interface SubBody {
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+  const g = await proxyToRailway(env, request, '/v1/gpt/subscribe');
+  if (g.proxied && g.response) return relay(g.response);
+
   const body = (await readJson<SubBody>(request)) || {};
   const plan = body.plan === 'business' ? 'business' : 'plus';
   const db = env.GPTBOT_DRAFTS_DB;
