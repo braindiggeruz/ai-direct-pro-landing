@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { fileURLToPath } from 'node:url'
+
+const here = (p: string) => fileURLToPath(new URL(p, import.meta.url))
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -21,6 +24,15 @@ export default defineConfig({
     sourcemap: false,
     minify: 'esbuild',
     rollupOptions: {
+      // Two entries:
+      //   index     → landing SPA (index.html), chunk stays "index-[hash].js"
+      //   gpt-chat  → standalone AI-chat island, emitted as
+      //               "assets/gpt-chat-[hash].js" and injected ONLY on
+      //               pageType === 'gpt-chat' pages by scripts/prerender.ts.
+      input: {
+        index: here('./index.html'),
+        'gpt-chat': here('./src/gpt-chat/main.tsx'),
+      },
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {

@@ -1,0 +1,82 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "url": "/ru/tarify-ai-chat/",
+  "slug": "tarify-ai-chat",
+  "pageType": "money",
+  "primaryKeyword": "тарифы AI-чата",
+  "secondaryKeywords": ["цена ai чата", "ai чат подписка", "gpt подписка", "ai чат plus"],
+  "searchIntent": "commercial",
+  "h1": "Тарифы AI-чата",
+  "title": "Тарифы AI-чата — Free, Plus и Business | GPTBot.uz",
+  "description": "Тарифы AI-чата GPTBot.uz: бесплатный Free с дневным лимитом, Plus за $5/мес и Business-внедрение. Сравнение лимитов, истории и шаблонов.",
+  "canonical": "https://gptbot.uz/ru/tarify-ai-chat/",
+  "hreflangRu": "/ru/tarify-ai-chat/",
+  "ogTitle": "Тарифы AI-чата — Free, Plus и Business | GPTBot.uz",
+  "ogDescription": "Сравнение тарифов AI-чата: Free, Plus $5/мес и Business-внедрение.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Тарифы AI-чата",
+  "heroTitle": "Тарифы AI-чата",
+  "heroSubtitle": "Начните бесплатно, расширьтесь до Plus за $5/мес или закажите Business-внедрение AI-чата в бизнес.",
+  "ctaPrimaryLabel": "Открыть AI-чат",
+  "ctaPrimaryHref": "/ru/gpt-chat/",
+  "ctaSecondaryLabel": "Сравнить тарифы",
+  "ctaSecondaryHref": "#sravnenie",
+  "bodyBlocks": [
+    { "type": "p", "text": "GPTBot.uz — независимый AI-сервис. Не является официальным продуктом OpenAI, ChatGPT или NVIDIA. Упоминания брендов используются только в описательном контексте." },
+    { "type": "h2", "text": "Сравнение тарифов" },
+    { "type": "table", "headers": ["Возможность", "Free", "Plus ($5/мес)", "Business"], "rows": [
+      ["Сообщения", "Дневной лимит", "Расширенный лимит (fair-use)", "Под задачу"],
+      ["История чатов", "Текущая сессия", "Полная история", "По проекту"],
+      ["Шаблоны промтов", "—", "Да", "Свои сценарии"],
+      ["Языки RU / UZ", "Да", "Да", "Да"],
+      ["Файлы", "—", "По мере развития", "По задаче"],
+      ["AI-чат на сайт / Telegram / CRM", "—", "—", "Да, внедрение"],
+      ["Поддержка", "База знаний", "Приоритетная", "Персональная"]
+    ] },
+    { "type": "p", "text": "Оплата тарифа Plus скоро будет доступна. Пока можно оставить заявку — мы подключим тариф вручную и сообщим о запуске онлайн-оплаты." },
+    { "type": "h2", "text": "Что выбрать" },
+    { "type": "list", "items": [
+      "Free — попробовать и решать повседневные задачи",
+      "Plus — для активной работы с текстами, рекламой и учёбой",
+      "Business — когда нужен AI-чат на сайте, в Telegram или CRM"
+    ] },
+    { "type": "linkp", "text": "Попробовать бесплатно: {chat}. Про внедрение: {biz} и {sait}.", "links": [
+      { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн" },
+      { "token": "biz", "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI для бизнеса" },
+      { "token": "sait", "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта" }
+    ] }
+  ],
+  "faq": [
+    { "q": "Сколько стоит Plus?", "a": "Ориентировочно $5 в месяц. Онлайн-оплата подключается — пока тариф активируется по заявке вручную." },
+    { "q": "Есть ли бесплатный тариф?", "a": "Да, Free с дневным и часовым лимитом сообщений без сложной регистрации." },
+    { "q": "Что входит в Business?", "a": "Внедрение AI-чата на сайт, Telegram-бот, CRM-интеграция, приём заявок, база знаний и white-label под задачи компании." },
+    { "q": "Как оплатить сейчас?", "a": "Оставьте заявку — мы свяжемся и подключим тариф. Онлайн-оплата картой появится позже." }
+  ],
+  "internalLinks": [
+    { "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI-чат для бизнеса", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "block" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
+  "extraJsonLd": [
+    {
+      "@type": "Product",
+      "name": "AI-чат GPTBot.uz — Plus",
+      "description": "Тариф Plus для AI-чата GPTBot.uz: расширенный лимит сообщений, история чатов, шаблоны, RU/UZ.",
+      "brand": { "@type": "Brand", "name": "GPTBot.uz" },
+      "offers": {
+        "@type": "Offer",
+        "price": "5",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder",
+        "url": "https://gptbot.uz/ru/tarify-ai-chat/"
+      }
+    }
+  ],
+  "lastReviewedAt": "2026-07-11",
+  "createdAt": "2026-07-11T00:00:00Z",
+  "updatedAt": "2026-07-11"
+}

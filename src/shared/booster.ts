@@ -22,7 +22,7 @@
 //  - IndexNow protocol:   https://www.indexnow.org/documentation
 //  - Hreflang reciprocity: https://developers.google.com/search/docs/specialty/international/localized-versions
 
-import type { Page, BlogArticle, GlobalSEO, Locale } from './types';
+import type { Page, BlogArticle, GlobalSEO, Locale, PageType } from './types';
 import { hasMojibake } from './audit';
 import { HREFLANG_PAIRS, SITE_URL } from './site-config';
 
@@ -35,7 +35,7 @@ export interface BoosterItem {
   kind: ContentKind;
   url: string;
   locale: Locale;
-  pageType: 'homepage' | 'money' | 'niche' | 'blog' | 'faq' | 'legal';
+  pageType: PageType;
   title: string;
   h1: string;
   description: string;
