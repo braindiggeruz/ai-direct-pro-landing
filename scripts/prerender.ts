@@ -115,6 +115,15 @@ function findJsAsset(): string | null {
   return file ? `/assets/${file}` : null;
 }
 
+// Standalone AI-chat island bundle (separate Vite entry). Injected ONLY on
+// pageType === 'gpt-chat' pages so static money pages stay JS-free.
+function findChatAsset(): string | null {
+  const assetsDir = path.join(DIST_DIR, 'assets');
+  if (!fs.existsSync(assetsDir)) return null;
+  const file = fs.readdirSync(assetsDir).find((f) => f.startsWith('gpt-chat-') && f.endsWith('.js'));
+  return file ? `/assets/${file}` : null;
+}
+
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 }
@@ -302,7 +311,27 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = []): string {
+// AI-chat island block: brand-safe disclaimer + mount root with a no-JS
+// fallback. Rendered above the SEO article on pageType === 'gpt-chat'.
+function renderChatConsole(page: Page): string {
+  const uz = page.locale === 'uz';
+  const disclaimer = uz
+    ? 'GPTBot.uz — mustaqil AI-xizmat. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas. Brendlar faqat tavsif uchun eslatiladi.'
+    : 'GPTBot.uz — независимый AI-сервис. Не является официальным продуктом OpenAI, ChatGPT или NVIDIA. Упоминания брендов используются только в описательном контексте.';
+  const noscript = uz
+    ? 'AI-chatdan foydalanish uchun JavaScript’ni yoqing yoki Telegram’da bizga yozing.'
+    : 'Включите JavaScript, чтобы пользоваться AI-чатом, или напишите нам в Telegram.';
+  const label = uz ? 'AI-chat konsoli' : 'AI-чат консоль';
+  return `<section aria-label="${escapeHtml(label)}" class="mb-10">
+    <p data-testid="ai-disclaimer" class="text-xs text-white/50 border border-white/10 rounded-xl px-4 py-3 mb-5 leading-relaxed">${escapeText(disclaimer)}</p>
+    <div id="gpt-chat-root" data-locale="${page.locale === 'uz' ? 'uz' : 'ru'}" data-api-base="" class="min-h-[360px]">
+      <noscript><p class="text-white/70 text-sm rounded-xl border border-white/10 p-6">${escapeText(noscript)}</p></noscript>
+      <div class="text-white/40 text-sm rounded-xl border border-white/10 p-6 animate-pulse">${uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…'}</div>
+    </div>
+  </section>`;
+}
+
+function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null): string {
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
   const ogDesc = page.ogDescription || page.description;
@@ -419,6 +448,8 @@ ${ANALYTICS_HEAD}
     ${page.heroImage ? `<div class="mt-8 lg:mt-0"><img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" class="rounded-2xl border border-white/10 w-full h-auto" loading="eager" fetchpriority="high" decoding="async" /></div>` : ''}
   </div>
 
+  ${page.pageType === 'gpt-chat' ? renderChatConsole(page) : ''}
+
   <article${contentAnchor ? ` id="${escapeHtml(contentAnchor)}"` : ''} class="prose-invert scroll-mt-24">
     ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
   </article>
@@ -442,6 +473,7 @@ ${ANALYTICS_HEAD}
 </footer>
 
 ${jsHref ? `<!-- React landing bundle is intentionally not loaded on money pages to keep them static and fast. -->` : ''}
+${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
 </body>
 </html>
 `;
@@ -453,12 +485,13 @@ async function main() {
   const articles = loadPublishedArticles();
   const cssHref = findCssAsset();
   const jsHref = findJsAsset();
+  const chatHref = findChatAsset();
   let written = 0, skipped = 0;
   for (const page of pages) {
     if (page.status === 'draft') { skipped++; continue; }
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderPage(page, global, cssHref, jsHref, articles), 'utf-8');
+    fs.writeFileSync(outPath, renderPage(page, global, cssHref, jsHref, articles, chatHref), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }

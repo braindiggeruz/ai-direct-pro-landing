@@ -143,4 +143,37 @@ export interface Env {
   // Optional folder scoping — when set, the Yandex client passes folderId
   // in the body so the call is billed against a specific folder.
   YANDEX_CLOUD_FOLDER_ID?: string;
+
+  // ─── Consumer AI-chat (/ru/gpt-chat/, /uz/gpt-uzbek-tilida/) ───────────
+  // Server-side OpenRouter proxy for the public AI-chat product. All model
+  // routing lives in env so operators can swap models without a redeploy.
+  // The OPENROUTER_API_KEY above is reused. Never exposed to the client.
+  //
+  // Free acquisition tier — primary + comma-separated fallbacks.
+  OPENROUTER_MODEL_FREE?: string;
+  OPENROUTER_MODEL_FREE_FALLBACKS?: string;
+  // Paid tier (Plus/Business) — primary + comma-separated fallbacks.
+  OPENROUTER_MODEL_PAID?: string;
+  OPENROUTER_MODEL_PAID_FALLBACKS?: string;
+  // Public canonical site URL (SITE_URL in the brief). Defaults to
+  // https://gptbot.uz. Sent as OpenRouter HTTP-Referer attribution.
+  SITE_URL?: string;
+  // Anti-abuse quotas. Strings (env vars are strings); parsed with defaults.
+  GPT_FREE_DAILY_LIMIT?: string;   // default 15
+  GPT_FREE_HOURLY_LIMIT?: string;  // default 5
+  GPT_PAID_MONTHLY_LIMIT?: string; // default 600
+  GPT_MAX_INPUT_CHARS?: string;    // default 3000
+  // Salt for SHA-256(CF-Connecting-IP + salt). NEVER store raw IPs.
+  // If unset, hashing still runs with an empty salt (weaker; set in prod).
+  GPT_HASH_SALT?: string;
+
+  // ─── Payments (subscription — scaffold only for MVP) ──────────────────
+  // PAYMENT_PROVIDER selects the adapter: "lemonsqueezy" | "paddle" |
+  // "globalpay" | "freedompay" | "" (manual mode — no live checkout).
+  PAYMENT_PROVIDER?: string;
+  PAYMENT_WEBHOOK_SECRET?: string;
+  LEMONSQUEEZY_API_KEY?: string;
+  PADDLE_API_KEY?: string;
+  GLOBALPAY_API_KEY?: string;
+  FREEDOMPAY_API_KEY?: string;
 }
