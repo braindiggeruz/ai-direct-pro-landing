@@ -220,6 +220,15 @@ headers.push('  Cache-Control: public, max-age=300');
 headers.push('/llms.txt');
 headers.push('  Cache-Control: public, max-age=21600');
 headers.push('  Content-Type: text/plain; charset=utf-8');
+headers.push('/llms-full.txt');
+headers.push('  Cache-Control: public, max-age=21600');
+headers.push('  Content-Type: text/plain; charset=utf-8');
+// Markdown twins for LLM agents: correct content-type + noindex so search
+// engines never treat them as duplicate HTML pages (anti-cannibalisation).
+headers.push('/*.md');
+headers.push('  Content-Type: text/markdown; charset=utf-8');
+headers.push('  X-Robots-Tag: noindex, follow');
+headers.push('  Cache-Control: public, max-age=3600');
 headers.push('/_redirects');
 headers.push('  Cache-Control: no-store');
 headers.push('');
