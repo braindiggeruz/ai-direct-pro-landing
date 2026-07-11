@@ -11,6 +11,7 @@ import fg from 'fast-glob';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { SITE_URL } from '../src/shared/site-config';
 import { ANALYTICS_HEAD } from './analytics-snippet';
+import { LLM_MARKDOWN_URLS } from './llm-pages';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -372,6 +373,7 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" media="print" onload="this.media='all'" />
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" /></noscript>
 <link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
+${LLM_MARKDOWN_URLS.has(page.url) ? `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}${escapeHtml(page.url)}index.html.md" />` : ''}
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
