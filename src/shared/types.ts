@@ -3,7 +3,7 @@
 
 export type Locale = 'ru' | 'uz';
 export type Status = 'draft' | 'published' | 'noindex';
-export type PageType = 'homepage' | 'money' | 'niche' | 'blog' | 'faq' | 'legal';
+export type PageType = 'homepage' | 'money' | 'niche' | 'blog' | 'faq' | 'legal' | 'gpt-chat';
 
 export interface FaqItem {
   q: string;
