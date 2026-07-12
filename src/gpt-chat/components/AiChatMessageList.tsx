@@ -1,16 +1,47 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ChatMessage } from '../types';
 import type { ChatStrings } from '../i18n';
 import { renderMarkdown } from '../markdown';
 
+function MessageActions({ content, isLast, onRetry, t }: { content: string; isLast: boolean; onRetry?: () => void; t: ChatStrings }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard blocked — ignore */
+    }
+  };
+  return (
+    <div className="flex gap-3 mt-2 text-xs text-white/40">
+      <button type="button" onClick={copy} className="hover:text-brand-cyan transition-colors">
+        {copied ? t.copied : t.copy}
+      </button>
+      {isLast && onRetry && (
+        <button type="button" onClick={onRetry} className="hover:text-brand-cyan transition-colors">
+          {t.retry}
+        </button>
+      )}
+    </div>
+  );
+}
+
 export function AiChatMessageList({
   messages,
   t,
+  onRetry,
 }: {
   messages: ChatMessage[];
   t: ChatStrings;
+  onRetry?: () => void;
 }) {
   const endRef = useRef<HTMLDivElement>(null);
+  const lastAssistant = (() => {
+    for (let i = messages.length - 1; i >= 0; i--) if (messages[i].role === 'assistant') return i;
+    return -1;
+  })();
 
   // Auto-scroll to the latest message.
   useEffect(() => {
@@ -44,7 +75,10 @@ export function AiChatMessageList({
                 <span className="animate-pulse">●</span> {t.thinking}
               </span>
             ) : m.role === 'assistant' && !m.error ? (
-              <div className="leading-relaxed" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
+              <>
+                <div className="leading-relaxed" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
+                <MessageActions content={m.content} isLast={i === lastAssistant} onRetry={onRetry} t={t} />
+              </>
             ) : (
               <span className="whitespace-pre-wrap">{m.content}</span>
             )}

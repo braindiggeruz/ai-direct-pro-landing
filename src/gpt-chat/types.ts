@@ -26,4 +26,6 @@ export interface ChatApiResponse {
   code?: string;
   message?: string;
   reason?: string;
+  plan?: string;
+  leadHint?: string;
 }
