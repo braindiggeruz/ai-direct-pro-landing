@@ -19,6 +19,7 @@ import {
   buildServiceLd,
   buildWebPageLd,
   buildAuthorPersonLd,
+  buildArticleLd,
 } from './jsonld-helpers';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -147,8 +148,8 @@ function slugifyId(s: string): string {
 
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
-    case 'h2': { const _id = b.id || slugifyId(b.text || ''); return `<h2 id="${escapeHtml(_id)}" class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white scroll-mt-24">${escapeText(b.text || '')}</h2>`; }
-    case 'h3': { const _id = b.id || slugifyId(b.text || ''); return `<h3 id="${escapeHtml(_id)}" class="font-display text-2xl mt-10 mb-4 text-white scroll-mt-24">${escapeText(b.text || '')}</h3>`; }
+    case 'h2': { const _id = b.id || slugifyId(b.text || ''); return `<h2 id="${escapeHtml(_id)}" class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white scroll-mt-24 break-words">${escapeText(b.text || '')}</h2>`; }
+    case 'h3': { const _id = b.id || slugifyId(b.text || ''); return `<h3 id="${escapeHtml(_id)}" class="font-display text-2xl mt-10 mb-4 text-white scroll-mt-24 break-words">${escapeText(b.text || '')}</h3>`; }
     case 'toc': {
       const links = (b.links || []).filter((l) => l.anchor && l.label);
       if (!links.length) return '';
@@ -287,6 +288,18 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
       serviceType: page.primaryKeyword,
       dateModified: dateModifiedIso,
       locale: page.locale === 'uz' ? 'uz' : 'ru',
+    }));
+  }
+  if (types.has('Article')) {
+    graph.push(buildArticleLd({
+      global,
+      url: page.url,
+      headline: page.h1 || page.title,
+      description: page.description,
+      locale: page.locale === 'uz' ? 'uz' : 'ru',
+      datePublished: page.createdAt ? new Date(page.createdAt).toISOString().slice(0, 10) : undefined,
+      dateModified: dateModifiedIso,
+      primaryImage: page.ogImage || global.defaultOgImage,
     }));
   }
   if (types.has('FAQPage') && page.faq?.length) {
