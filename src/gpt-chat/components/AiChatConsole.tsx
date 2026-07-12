@@ -23,6 +23,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [remaining, setRemaining] = useState<number>(-1);
   const [busy, setBusy] = useState(false);
   const [limitReached, setLimitReached] = useState(false);
+  const [plan, setPlan] = useState<string>('anonymous_free');
   const startedRef = useRef(false);
 
   // One-time page-view + lazy session bootstrap.
@@ -69,6 +70,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     });
 
     const base = withUser.filter((m) => !m.pending);
+    if (res.plan) setPlan(res.plan);
     if (res.ok && res.answer) {
       if (typeof res.remaining === 'number') setRemaining(res.remaining);
       if (res.sessionId && res.sessionId !== sid) {
@@ -100,10 +102,24 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setLimitReached(false);
   };
 
+  // Retry: re-ask the last user message as a fresh turn. Safe — reuses doSend,
+  // no state race with the async message update.
+  const onRetry = () => {
+    if (busy || limitReached) return;
+    let lastUser = '';
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === 'user') { lastUser = messages[i].content; break; }
+    }
+    if (lastUser) void doSend(lastUser);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
-        <AiUsageBadge remaining={remaining} t={t} />
+        <div className="flex items-center gap-2">
+          <span className="text-xs px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90">{t.planBadge(plan)}</span>
+          <AiUsageBadge remaining={remaining} t={t} />
+        </div>
         {messages.length > 0 && (
           <button type="button" onClick={onNewChat} className="text-xs text-white/50 hover:text-white underline underline-offset-2">
             {t.newChat}
@@ -112,7 +128,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-bg-base/60 p-4 sm:p-5 flex flex-col min-h-[360px] max-h-[560px] overflow-y-auto">
-        <AiChatMessageList messages={messages} t={t} />
+        <AiChatMessageList messages={messages} t={t} onRetry={onRetry} />
       </div>
 
       {limitReached ? (

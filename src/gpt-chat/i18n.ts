@@ -23,6 +23,10 @@ export interface ChatStrings {
   leadSuccess: string;
   leadIntro: string;
   newChat: string;
+  copy: string;
+  copied: string;
+  retry: string;
+  planBadge: (plan: string) => string;
 }
 
 const RU: ChatStrings = {
@@ -58,6 +62,10 @@ const RU: ChatStrings = {
   leadSuccess: 'Заявка принята — мы свяжемся с вами.',
   leadIntro: 'Нужен такой AI-чат на сайт, в Telegram или CRM? Оставьте контакт.',
   newChat: 'Новый чат',
+  copy: 'Копировать',
+  copied: 'Скопировано',
+  retry: 'Повторить',
+  planBadge: (plan) => ({ anonymous_free: 'Гость', registered_free: 'Free', plus: 'Plus', business: 'Business' }[plan] || plan),
 };
 
 const UZ: ChatStrings = {
@@ -93,6 +101,10 @@ const UZ: ChatStrings = {
   leadSuccess: 'Ariza qabul qilindi — tez orada bog‘lanamiz.',
   leadIntro: 'Shunday AI-chat sayt, Telegram yoki CRM uchun kerakmi? Kontakt qoldiring.',
   newChat: 'Yangi chat',
+  copy: 'Nusxa olish',
+  copied: 'Nusxalandi',
+  retry: 'Qayta urinish',
+  planBadge: (plan) => ({ anonymous_free: 'Mehmon', registered_free: 'Free', plus: 'Plus', business: 'Business' }[plan] || plan),
 };
 
 export function strings(locale: Locale): ChatStrings {
