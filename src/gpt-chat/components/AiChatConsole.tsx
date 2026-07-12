@@ -170,6 +170,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         ) : (
           <>
             {showB2B && <div className="mb-3"><AiBusinessUpsell t={t} onDismiss={() => setB2bDismissed(true)} /></div>}
+            {remaining >= 0 && remaining <= 2 && (
+              <div className="mb-2 flex items-center gap-2 text-[12px] text-amber-200/90 rounded-xl border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2" role="status">
+                <span aria-hidden="true">⚡</span>
+                <span>{t.lowWarning(remaining)}</span>
+                <a href={pricingHref} className="ml-auto text-brand-cyan hover:underline whitespace-nowrap">{t.paywallCta}</a>
+              </div>
+            )}
             <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
           </>
         )}

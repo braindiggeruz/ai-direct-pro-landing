@@ -19,6 +19,7 @@ export interface ChatStrings {
   thinking: string;
   errorGeneric: string;
   remaining: (n: number) => string;
+  lowWarning: (n: number) => string;
   charsLeft: (n: number) => string;
   emptyTitle: string;
   emptyHint: string;
@@ -64,6 +65,7 @@ const RU: ChatStrings = {
   thinking: 'AI думает…',
   errorGeneric: 'Модель временно перегружена, попробуйте ещё раз.',
   remaining: (n) => `Осталось ${n} сообщений сегодня`,
+  lowWarning: (n) => `Осталось ${n} ${n === 1 ? 'сообщение' : 'сообщения'} на сегодня. Дальше — тариф Plus.`,
   charsLeft: (n) => `${n} символов до лимита`,
   emptyTitle: 'Спросите AI на русском или узбекском',
   emptyHint: 'Тексты, реклама, Telegram, учёба, продажи и бизнес-идеи — в одном чате',
@@ -125,6 +127,7 @@ const UZ: ChatStrings = {
   thinking: 'AI o‘ylayapti…',
   errorGeneric: 'Model vaqtincha band, yana urinib ko‘ring.',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
+  lowWarning: (n) => `Bugun ${n} ta xabar qoldi. Keyin — Plus tarifi.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
   emptyTitle: 'O‘zbek yoki rus tilida savol bering',
   emptyHint: 'Matn, reklama, Telegram, o‘qish, savdo va biznes g‘oyalari — bitta chatda',
