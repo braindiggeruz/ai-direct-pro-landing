@@ -1,0 +1,87 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "url": "/ru/gpt-vs-chatgpt-sravnenie/",
+  "slug": "gpt-vs-chatgpt-sravnenie",
+  "pageType": "blog",
+  "primaryKeyword": "GPT vs ChatGPT",
+  "secondaryKeywords": [
+    "чем GPT отличается от ChatGPT",
+    "GPT и ChatGPT разница",
+    "ChatGPT отличие",
+    "Generative Pre-trained Transformer",
+    "что такое GPT и ChatGPT"
+  ],
+  "searchIntent": "informational",
+  "h1": "GPT vs ChatGPT: в чём разница между технологией и продуктом",
+  "title": "GPT vs ChatGPT: в чём разница простыми словами | GPTBot.uz",
+  "description": "Чем GPT отличается от ChatGPT: GPT — это технология (языковая модель), ChatGPT — продукт на её основе. Разбираем термины, различия и место независимых AI-сервисов.",
+  "canonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+  "hreflangRu": "/ru/gpt-vs-chatgpt-sravnenie/",
+  "ogTitle": "GPT vs ChatGPT: в чём разница между технологией и продуктом",
+  "ogDescription": "Понятное сравнение: GPT — генеративная языковая модель, ChatGPT — чат-продукт на её основе. Плюс место независимых AI-сервисов.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "GPT vs ChatGPT",
+  "heroSubtitle": "Разбираем разницу между GPT как технологией и ChatGPT как продуктом, и объясняем, где место независимых AI-сервисов вроде GPTBot.uz.",
+  "ctaPrimaryLabel": "Попробуйте GPTBot.uz AI-чат",
+  "ctaPrimaryHref": "/ru/gpt-chat/",
+  "ctaSecondaryLabel": "Разница простыми словами",
+  "ctaSecondaryHref": "#raznica",
+  "heroTrust": ["Термины простыми словами", "Без брендовых заявлений", "Русский и Uzbek Latin"],
+  "bodyBlocks": [
+    { "type": "p", "text": "Вокруг AI часто путают термины: одни говорят «GPT», другие — «ChatGPT», и кажется, что это разные вещи. На деле они связаны, но означают разное: GPT — это технология (языковая модель), а ChatGPT — конкретный продукт на её основе. Разберёмся по порядку." },
+    { "type": "p", "text": "ChatGPT и OpenAI упоминаются как известные примеры технологий. GPTBot.uz — независимый AI-сервис на базе языковых моделей и не является официальным продуктом OpenAI или ChatGPT." },
+    { "type": "toc", "text": "Содержание", "links": [
+      { "anchor": "terminy", "label": "Расшифровка терминов" },
+      { "anchor": "raznica", "label": "Чем отличаются" },
+      { "anchor": "dostup", "label": "Доступ и языки" },
+      { "anchor": "gptbot", "label": "Где независимые сервисы" }
+    ] },
+
+    { "type": "h2", "id": "terminy", "text": "Расшифровка терминов: GPT и ChatGPT" },
+    { "type": "p", "text": "GPT расшифровывается как Generative Pre-trained Transformer — «генеративный предварительно обученный трансформер». Это тип языковой модели: большая нейросеть, обученная на объёмных текстовых данных, чтобы генерировать текст. GPT — это семейство моделей разных версий и поколений." },
+    { "type": "p", "text": "ChatGPT — это конкретный чат-продукт компании OpenAI, построенный на моделях GPT. Проще говоря, GPT — технология внутри, а ChatGPT — интерфейс и бренд поверх неё. Название продукта, модель под ним и компания-разработчик — три разных понятия." },
+
+    { "type": "h2", "id": "raznica", "text": "Чем GPT отличается от ChatGPT" },
+    { "type": "table", "headers": ["Критерий", "GPT (технология)", "ChatGPT (продукт)"], "rows": [
+      ["Что это", "Тип языковой модели, семейство моделей", "Чат-продукт OpenAI на основе GPT"],
+      ["Уровень", "Ядро/архитектура", "Интерфейс и бренд"],
+      ["Кто создаёт", "Разные разработчики и версии", "OpenAI"],
+      ["Как используют", "Внутри разных сервисов и приложений", "Через сайт и приложения OpenAI"]
+    ] },
+    { "type": "p", "text": "Отсюда простое правило: «GPT» — это про технологию, «ChatGPT» — про конкретный сервис. Другие AI-чаты тоже могут работать на языковых моделях, но это не делает их продуктом OpenAI." },
+
+    { "type": "h2", "id": "dostup", "text": "Доступ, языки и проверка ответов" },
+    { "type": "p", "text": "Продукты вроде ChatGPT обычно требуют аккаунта и имеют свои условия доступа и лимиты. Независимые AI-чаты могут отличаться языком интерфейса, доступом и адаптацией под регион. При этом у любой языковой модели есть общее свойство: она может ошибаться и не всегда указывает источник, поэтому важные факты нужно проверять." },
+
+    { "type": "h2", "id": "gptbot", "text": "Где место независимых AI-сервисов" },
+    { "type": "p", "text": "GPTBot.uz — независимый AI-сервис на базе языковых моделей. Он не выдаёт себя за ChatGPT и не заявляет о связи с OpenAI. Его задача — удобный AI-чат для русскоязычной и узбекской аудитории Узбекистана: интерфейс на русском и узбекском (Uzbek Latin), локальный контекст и возможность внедрения для бизнеса." },
+    { "type": "linkp", "text": "Базовое объяснение технологии — в статье {basics}. Попробовать AI-чат можно в {chat}; условия — на странице {tariffs}.", "links": [
+      { "token": "basics", "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "anchor": "что такое GPT" },
+      { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "GPT-чат онлайн" },
+      { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата" }
+    ] },
+    { "type": "cta", "text": "Попробуйте GPTBot.uz AI-чат", "href": "/ru/gpt-chat/" }
+  ],
+  "faq": [
+    { "q": "GPT и ChatGPT — это одно и то же?", "a": "Нет. GPT — это технология и семейство языковых моделей, а ChatGPT — конкретный чат-продукт OpenAI на их основе. GPT — ядро, ChatGPT — интерфейс и бренд." },
+    { "q": "Что такое Generative Pre-trained Transformer?", "a": "Это расшифровка GPT: генеративный предварительно обученный трансформер — тип нейросети, обученной на больших текстовых данных для генерации текста." },
+    { "q": "GPTBot.uz — это ChatGPT?", "a": "Нет. GPTBot.uz — независимый AI-сервис на базе языковых моделей и не является официальным продуктом OpenAI или ChatGPT. Эти бренды упоминаются как известные примеры технологий." },
+    { "q": "Можно ли называть любой AI-чат «ChatGPT»?", "a": "Нет. ChatGPT — конкретный продукт OpenAI. Другие сервисы могут работать на языковых моделях, но называть их ChatGPT некорректно." },
+    { "q": "Чем пользоваться — ChatGPT или независимым сервисом?", "a": "Зависит от задачи. Для мультиязычных задач подойдёт официальный продукт; для русского и узбекского языков, локального контекста и внедрения в бизнес удобнее независимый AI-чат." },
+    { "q": "Можно ли доверять ответам GPT и ChatGPT?", "a": "Не без проверки. Любая языковая модель может ошибаться и придумывать детали, поэтому важные факты сверяйте с первоисточниками." }
+  ],
+  "internalLinks": [
+    { "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "anchor": "Что такое GPT", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/gpt-chat/", "anchor": "GPT-чат онлайн", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/gpt-na-russkom/", "anchor": "GPT на русском", "locale": "ru", "type": "contextual" },
+    { "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida", "locale": "ru", "type": "block" },
+    { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "block" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "lastReviewedAt": "2026-07-12",
+  "createdAt": "2026-07-12T00:00:00Z",
+  "updatedAt": "2026-07-12"
+}
