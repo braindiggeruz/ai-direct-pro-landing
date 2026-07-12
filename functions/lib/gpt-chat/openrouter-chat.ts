@@ -34,6 +34,9 @@ export function buildChatBody(model: string, messages: ChatMessage[], maxTokens:
     messages,
     temperature: 0.6,
     max_tokens: maxTokens,
+    // Penalties curb degenerate loops (small free models repeating a line).
+    frequency_penalty: 0.5,
+    presence_penalty: 0.3,
     // No response_format — this is free-form conversational output.
   };
 }

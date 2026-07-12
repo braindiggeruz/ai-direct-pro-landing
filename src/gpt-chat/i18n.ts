@@ -69,8 +69,8 @@ const RU: ChatStrings = {
   emptyHint: 'Тексты, реклама, Telegram, учёба, продажи и бизнес-идеи — в одном чате',
   tryFree: 'Попробовать бесплатно',
   emptyPrompt: 'Что хотите сделать?',
-  feedbackUp: 'Полезный ответ',
-  feedbackDown: 'Плохой ответ',
+  feedbackUp: 'Полезно',
+  feedbackDown: 'Бесполезно',
   feedbackThanks: 'Спасибо за отзыв',
   disclaimer:
     'GPTBot.uz — независимый AI-сервис. Не является официальным продуктом OpenAI, ChatGPT или NVIDIA.',
@@ -130,8 +130,8 @@ const UZ: ChatStrings = {
   emptyHint: 'Matn, reklama, Telegram, o‘qish, savdo va biznes g‘oyalari — bitta chatda',
   tryFree: 'Bepul sinab ko‘rish',
   emptyPrompt: 'Nima qilmoqchisiz?',
-  feedbackUp: 'Foydali javob',
-  feedbackDown: 'Yomon javob',
+  feedbackUp: 'Foydali',
+  feedbackDown: 'Foydasiz',
   feedbackThanks: 'Fikr uchun rahmat',
   disclaimer:
     'GPTBot.uz — mustaqil AI-xizmat. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas.',

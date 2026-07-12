@@ -109,27 +109,32 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   return (
     <div className="glass-strong rounded-[28px] overflow-hidden" style={{ boxShadow: '0 30px 80px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(47,230,209,0.08) inset' }} data-testid="ai-console">
-      {/* ── Header bar ── */}
-      <div className="flex items-center gap-2 px-4 sm:px-5 py-3 border-b border-white/8 flex-wrap">
-        <div className="flex items-center gap-2 mr-1">
+      {/* ── Header bar — wraps into clean rows on mobile (no squeeze) ── */}
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-2 px-3.5 sm:px-5 py-3 border-b border-white/8">
+        {/* Row 1 group: brand + Online (takes the left, pushes rest right on desktop) */}
+        <div className="flex items-center gap-2 mr-auto">
           <span className="grid place-items-center w-7 h-7 rounded-lg text-[#04101A] bg-grad-cta font-bold text-sm" aria-hidden="true">G</span>
           <span className="font-semibold text-white text-[15px]">{t.brand}</span>
+          <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/90 ml-1">
+            <span className="status-dot" aria-hidden="true" />{t.online}
+          </span>
         </div>
-        <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/90">
-          <span className="status-dot" aria-hidden="true" />{t.online}
-        </span>
-        <div className="ml-auto flex items-center gap-1.5">
+        {/* Row 2 group: RU/UZ · plan · usage */}
+        <div className="flex items-center gap-1.5">
           <div className="flex items-center rounded-full border border-white/10 overflow-hidden text-[11px]" role="group" aria-label="Язык">
             <span className={config.locale === 'ru' ? 'px-2 py-1 bg-white/10 text-white' : 'px-2 py-1 text-white/50'}>RU</span>
             <a href={otherHref} className={config.locale === 'uz' ? 'px-2 py-1 bg-white/10 text-white' : 'px-2 py-1 text-white/50 hover:text-white'}>UZ</a>
           </div>
-          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90">{t.planBadge(plan)}</span>
+          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90 whitespace-nowrap">{t.planBadge(plan)}</span>
           <AiUsageBadge remaining={remaining} t={t} />
-          <button type="button" onClick={() => setShowHistory((v) => !v)} aria-label={t.history} className="text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors">
+        </div>
+        {/* Row 3 group: actions */}
+        <div className="flex items-center gap-1.5">
+          <button type="button" onClick={() => setShowHistory((v) => !v)} aria-label={t.history} className="text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors whitespace-nowrap">
             {t.history}
           </button>
           {!empty && (
-            <button type="button" onClick={onNewChat} aria-label={t.newChat} className="text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors">
+            <button type="button" onClick={onNewChat} aria-label={t.newChat} className="text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors whitespace-nowrap">
               {t.newChat}
             </button>
           )}
