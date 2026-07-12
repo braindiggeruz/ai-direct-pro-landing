@@ -1,6 +1,6 @@
 // Fastify bootstrap for the GPTBot AI Chat production backend (Railway).
 import Fastify from 'fastify';
-import { logger } from './logger.js';
+import { logger, loggerOptions } from './logger.js';
 import { buildContext } from './context.js';
 import { configStatus } from './env.js';
 import { healthRoutes } from './routes/health.js';
@@ -13,7 +13,7 @@ import { adminRoutes } from './routes/admin.js';
 
 async function main() {
   const ctx = buildContext();
-  const app = Fastify({ logger, bodyLimit: 256 * 1024, trustProxy: true });
+  const app = Fastify({ logger: loggerOptions, bodyLimit: 256 * 1024, trustProxy: true });
 
   // CORS — reflect only allow-listed origins. No wildcard with credentials.
   app.addHook('onRequest', async (req, reply) => {
