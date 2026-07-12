@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ChatMessage, MountConfig } from '../types';
 import { strings } from '../i18n';
 import { createSession, sendChat } from '../api';
@@ -7,12 +7,15 @@ import { track, EV } from '../analytics';
 import { AiChatMessageList } from './AiChatMessageList';
 import { AiChatInput } from './AiChatInput';
 import { AiPromptChips } from './AiPromptChips';
+import { AiQuickActions } from './AiQuickActions';
 import { AiUsageBadge } from './AiUsageBadge';
 import { AiPaywallCard } from './AiPaywallCard';
 import { AiSafetyNotice } from './AiSafetyNotice';
 import { AiChatLeadForm } from './AiChatLeadForm';
+import { AiBusinessUpsell } from './AiBusinessUpsell';
 
 const MAX_INPUT = 3000;
+const B2B_AFTER = 3; // show B2B card after this many assistant answers
 
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
@@ -24,12 +27,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [busy, setBusy] = useState(false);
   const [limitReached, setLimitReached] = useState(false);
   const [plan, setPlan] = useState<string>('anonymous_free');
+  const [b2bDismissed, setB2bDismissed] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const startedRef = useRef(false);
 
-  // One-time page-view + lazy session bootstrap.
-  useEffect(() => {
-    track(EV.pageView, { locale: config.locale });
-  }, [config.locale]);
+  useEffect(() => { track(EV.pageView, { locale: config.locale }); }, [config.locale]);
+
+  const assistantCount = useMemo(() => messages.filter((m) => m.role === 'assistant' && !m.pending && !m.error).length, [messages]);
+  const empty = messages.length === 0;
 
   const ensureSession = async (): Promise<string | null> => {
     if (sessionId) return sessionId;
@@ -37,18 +42,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (id) {
       setSessionId(id);
       saveSessionId(id);
-      if (!startedRef.current) {
-        startedRef.current = true;
-        track(EV.sessionStarted, {});
-      }
+      if (!startedRef.current) { startedRef.current = true; track(EV.sessionStarted, {}); }
     }
     return id;
   };
 
-  const persist = (next: ChatMessage[]) => {
-    setMessages(next);
-    saveHistory(next);
-  };
+  const persist = (next: ChatMessage[]) => { setMessages(next); saveHistory(next); };
 
   const doSend = async (text: string) => {
     const trimmed = text.trim();
@@ -56,34 +55,21 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setBusy(true);
     setInput('');
     const sid = await ensureSession();
-
     const history = messages.filter((m) => !m.pending && !m.error);
     const withUser: ChatMessage[] = [...history, { role: 'user', content: trimmed }, { role: 'assistant', content: '', pending: true }];
     setMessages(withUser);
     track(EV.messageSent, {});
 
-    const res = await sendChat(config.apiBase, {
-      sessionId: sid,
-      message: trimmed,
-      locale: config.locale,
-      history,
-    });
-
+    const res = await sendChat(config.apiBase, { sessionId: sid, message: trimmed, locale: config.locale, history });
     const base = withUser.filter((m) => !m.pending);
     if (res.plan) setPlan(res.plan);
     if (res.ok && res.answer) {
       if (typeof res.remaining === 'number') setRemaining(res.remaining);
-      if (res.sessionId && res.sessionId !== sid) {
-        setSessionId(res.sessionId);
-        saveSessionId(res.sessionId);
-      }
+      if (res.sessionId && res.sessionId !== sid) { setSessionId(res.sessionId); saveSessionId(res.sessionId); }
       persist([...base, { role: 'assistant', content: res.answer, model: res.modelUsed ?? null }]);
       track(EV.answerReceived, { model: res.modelUsed });
     } else if (res.code === 'limit_reached') {
-      setLimitReached(true);
-      setRemaining(0);
-      setMessages(base);
-      track(EV.limitReached, { reason: res.reason });
+      setLimitReached(true); setRemaining(0); setMessages(base); track(EV.limitReached, { reason: res.reason });
     } else {
       persist([...base, { role: 'assistant', content: res.message || t.errorGeneric, error: true }]);
       track(EV.providerError, { code: res.code });
@@ -91,58 +77,90 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setBusy(false);
   };
 
-  const onPickChip = (chip: string) => {
+  const onPick = (prompt: string) => {
     if (busy || limitReached) return;
-    void doSend(chip);
+    // Prompts ending with ": " expect user text → prefill the composer.
+    if (prompt.trim().endsWith(':')) { setInput(prompt); return; }
+    void doSend(prompt);
   };
 
-  const onNewChat = () => {
-    clearHistory();
-    setMessages([]);
-    setLimitReached(false);
-  };
+  const onNewChat = () => { clearHistory(); setMessages([]); setLimitReached(false); setB2bDismissed(false); };
 
-  // Retry: re-ask the last user message as a fresh turn. Safe — reuses doSend,
-  // no state race with the async message update.
   const onRetry = () => {
     if (busy || limitReached) return;
     let lastUser = '';
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === 'user') { lastUser = messages[i].content; break; }
-    }
+    for (let i = messages.length - 1; i >= 0; i--) { if (messages[i].role === 'user') { lastUser = messages[i].content; break; } }
     if (lastUser) void doSend(lastUser);
   };
 
+  const showB2B = assistantCount >= B2B_AFTER && !b2bDismissed && !limitReached;
+  const otherHref = config.locale === 'uz' ? '/ru/gpt-chat/' : '/uz/gpt-uzbek-tilida/';
+
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xs px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90">{t.planBadge(plan)}</span>
-          <AiUsageBadge remaining={remaining} t={t} />
+    <div className="glass-strong rounded-[28px] overflow-hidden" style={{ boxShadow: '0 30px 80px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(47,230,209,0.08) inset' }} data-testid="ai-console">
+      {/* ── Header bar ── */}
+      <div className="flex items-center gap-2 px-4 sm:px-5 py-3 border-b border-white/8 flex-wrap">
+        <div className="flex items-center gap-2 mr-1">
+          <span className="grid place-items-center w-7 h-7 rounded-lg text-[#04101A] bg-grad-cta font-bold text-sm" aria-hidden="true">G</span>
+          <span className="font-semibold text-white text-[15px]">{t.brand}</span>
         </div>
-        {messages.length > 0 && (
-          <button type="button" onClick={onNewChat} className="text-xs text-white/50 hover:text-white underline underline-offset-2">
-            {t.newChat}
+        <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/90">
+          <span className="status-dot" aria-hidden="true" />{t.online}
+        </span>
+        <div className="ml-auto flex items-center gap-1.5">
+          <div className="flex items-center rounded-full border border-white/10 overflow-hidden text-[11px]" role="group" aria-label="Язык">
+            <span className={config.locale === 'ru' ? 'px-2 py-1 bg-white/10 text-white' : 'px-2 py-1 text-white/50'}>RU</span>
+            <a href={otherHref} className={config.locale === 'uz' ? 'px-2 py-1 bg-white/10 text-white' : 'px-2 py-1 text-white/50 hover:text-white'}>UZ</a>
+          </div>
+          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90">{t.planBadge(plan)}</span>
+          <AiUsageBadge remaining={remaining} t={t} />
+          <button type="button" onClick={() => setShowHistory((v) => !v)} aria-label={t.history} className="text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors">
+            {t.history}
           </button>
+          {!empty && (
+            <button type="button" onClick={onNewChat} aria-label={t.newChat} className="text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors">
+              {t.newChat}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {showHistory && (
+        <div className="px-4 sm:px-5 py-3 border-b border-white/8 bg-white/[0.02] text-sm text-white/55" role="region" aria-label={t.history}>
+          {t.loginToSave}
+        </div>
+      )}
+
+      {/* ── Viewport ── */}
+      <div className="neural-grid px-4 sm:px-6 py-5 min-h-[380px] max-h-[58vh] overflow-y-auto">
+        {empty ? (
+          <div className="relative z-[1] py-4">
+            <h2 className="h-display text-2xl sm:text-[28px] text-white mb-2 max-w-xl"><span className="text-grad">{t.emptyTitle}</span></h2>
+            <p className="text-white/55 text-sm mb-5 max-w-lg leading-relaxed">{t.emptyHint}</p>
+            <div className="mb-5"><AiQuickActions actions={t.quickActions} onPick={onPick} disabled={busy} /></div>
+            <AiPromptChips categories={t.categories} onPick={onPick} disabled={busy} />
+          </div>
+        ) : (
+          <AiChatMessageList messages={messages} t={t} onRetry={onRetry} />
         )}
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-bg-base/60 p-4 sm:p-5 flex flex-col min-h-[360px] max-h-[560px] overflow-y-auto">
-        <AiChatMessageList messages={messages} t={t} onRetry={onRetry} />
+      {/* ── Composer + inline cards ── */}
+      <div className="px-4 sm:px-6 pb-5 pt-1">
+        {limitReached ? (
+          <AiPaywallCard t={t} apiBase={config.apiBase} sessionId={sessionId} pricingHref={pricingHref} />
+        ) : (
+          <>
+            {showB2B && <div className="mb-3"><AiBusinessUpsell t={t} onDismiss={() => setB2bDismissed(true)} /></div>}
+            <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} />
+          </>
+        )}
+        <div className="mt-3"><AiSafetyNotice t={t} /></div>
+        <p className="mt-2 text-[11px] text-white/35 leading-relaxed">{t.disclaimer}</p>
       </div>
 
-      {limitReached ? (
-        <AiPaywallCard t={t} pricingHref={pricingHref} onCta={() => track(EV.subscribeIntent, { from: 'paywall' })} />
-      ) : (
-        <>
-          <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} maxChars={MAX_INPUT} t={t} />
-          {messages.length === 0 && <AiPromptChips chips={t.promptChips} onPick={onPickChip} disabled={busy} />}
-        </>
-      )}
-
-      <AiSafetyNotice t={t} />
-
-      <div className="pt-2">
+      {/* Lead form lives below the console — B2B capture without crowding chat. */}
+      <div className="px-4 sm:px-6 pb-5">
         <AiChatLeadForm t={t} apiBase={config.apiBase} sessionId={sessionId} />
       </div>
     </div>

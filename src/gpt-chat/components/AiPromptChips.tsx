@@ -1,17 +1,32 @@
-export function AiPromptChips({ chips, onPick, disabled }: { chips: string[]; onPick: (c: string) => void; disabled?: boolean }) {
+import type { PromptCategory } from '../i18n';
+
+export function AiPromptChips({
+  categories,
+  onPick,
+  disabled,
+}: {
+  categories: PromptCategory[];
+  onPick: (prompt: string) => void;
+  disabled?: boolean;
+}) {
   return (
-    <div className="flex flex-wrap gap-2" role="list" aria-label="Примеры запросов">
-      {chips.map((c) => (
-        <button
-          key={c}
-          type="button"
-          role="listitem"
-          disabled={disabled}
-          onClick={() => onPick(c)}
-          className="text-sm px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/80 hover:border-brand-cyan/40 hover:text-white transition-colors disabled:opacity-40"
-        >
-          {c}
-        </button>
+    <div className="space-y-3" role="list" aria-label="Категории запросов">
+      {categories.map((cat) => (
+        <div key={cat.label} className="flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-white/40 min-w-[92px]">{cat.label}</span>
+          {cat.prompts.map((prompt) => (
+            <button
+              key={prompt}
+              type="button"
+              role="listitem"
+              disabled={disabled}
+              onClick={() => onPick(prompt)}
+              className="text-[13px] px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-white/75 hover:border-brand-cyan/40 hover:text-white hover:bg-white/[0.06] transition-colors disabled:opacity-40"
+            >
+              {prompt}
+            </button>
+          ))}
+        </div>
       ))}
     </div>
   );

@@ -112,3 +112,74 @@ section { position: relative; z-index: 1; }
 
 /* selection */
 ::selection { background: rgba(47,230,209,0.35); color: #04101A; }
+
+/* ─── AI-chat console (src/gpt-chat) ─────────────────────────────────
+   Signature "neural operator panel" primitives. Pure CSS — no assets,
+   no libraries. All motion respects prefers-reduced-motion below. */
+
+/* Neural mesh behind the message viewport: faint grid + soft cyan nodes. */
+.neural-grid {
+  position: relative;
+}
+.neural-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(520px 260px at 80% -10%, rgba(47,230,209,0.10), transparent 60%),
+    radial-gradient(420px 220px at 5% 110%, rgba(34,158,217,0.10), transparent 60%),
+    linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 0%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(120% 100% at 50% 0%, #000 55%, transparent 100%);
+}
+
+/* Neural typing indicator — three signal bars pulsing (not "..."). */
+.neural-typing { display: inline-flex; align-items: center; gap: 4px; }
+.neural-typing span {
+  width: 4px; height: 14px; border-radius: 2px;
+  background: linear-gradient(180deg, #2FE6D1, #229ED9);
+  animation: neuralPulse 1s ease-in-out infinite;
+}
+.neural-typing span:nth-child(2) { animation-delay: 0.15s; }
+.neural-typing span:nth-child(3) { animation-delay: 0.30s; }
+@keyframes neuralPulse {
+  0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* Assistant answer entrance. */
+.msg-in { animation: msgIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes msgIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Online status dot with soft breathing halo. */
+.status-dot {
+  width: 8px; height: 8px; border-radius: 9999px; background: #34E6A8;
+  box-shadow: 0 0 0 0 rgba(52,230,168,0.6);
+  animation: statusPulse 2.4s ease-in-out infinite;
+}
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52,230,168,0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(52,230,168,0); }
+}
+
+/* Scan line on the command bar while sending. */
+.scan-active { position: relative; overflow: hidden; }
+.scan-active::after {
+  content: '';
+  position: absolute; left: -30%; top: 0; bottom: 0; width: 30%;
+  background: linear-gradient(90deg, transparent, rgba(47,230,209,0.18), transparent);
+  animation: scanMove 1.1s linear infinite;
+}
+@keyframes scanMove { to { left: 130%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .neural-typing span, .msg-in, .status-dot, .scan-active::after { animation: none !important; }
+  .msg-in { opacity: 1; transform: none; }
+}
