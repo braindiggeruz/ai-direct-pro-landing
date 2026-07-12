@@ -17,36 +17,29 @@ function MessageActions({ content, isLast, onRetry, t }: { content: string; isLa
       /* clipboard blocked — ignore */
     }
   };
+  const pill = 'px-2.5 py-1 rounded-full border border-white/10 text-white/55 hover:text-white hover:border-brand-cyan/40 transition-colors';
   return (
-    <div className="flex items-center gap-3 mt-2.5 text-xs text-white/40">
-      <button type="button" onClick={copy} aria-label={t.copy} className="hover:text-brand-cyan transition-colors">
+    <div className="flex flex-wrap items-center gap-2 mt-3 text-[12px]">
+      <button type="button" onClick={copy} aria-label={t.copy} className={pill}>
         {copied ? t.copied : t.copy}
       </button>
       {isLast && onRetry && (
-        <button type="button" onClick={onRetry} aria-label={t.retry} className="hover:text-brand-cyan transition-colors">
+        <button type="button" onClick={onRetry} aria-label={t.retry} className={pill}>
           {t.retry}
         </button>
       )}
-      <span className="w-px h-3 bg-white/10" aria-hidden="true" />
-      <button
-        type="button"
-        onClick={() => setRating('up')}
-        aria-label={t.feedbackUp}
-        aria-pressed={rating === 'up'}
-        className={`transition-colors ${rating === 'up' ? 'text-brand-cyan' : 'hover:text-white/70'}`}
-      >
-        ▲
-      </button>
-      <button
-        type="button"
-        onClick={() => setRating('down')}
-        aria-label={t.feedbackDown}
-        aria-pressed={rating === 'down'}
-        className={`transition-colors ${rating === 'down' ? 'text-red-300' : 'hover:text-white/70'}`}
-      >
-        ▼
-      </button>
-      {rating && <span className="text-white/30">{t.feedbackThanks}</span>}
+      {rating ? (
+        <span className="px-2.5 py-1 text-brand-cyan/80">{t.feedbackThanks}</span>
+      ) : (
+        <>
+          <button type="button" onClick={() => setRating('up')} aria-label={t.feedbackUp} className={pill}>
+            {t.feedbackUp}
+          </button>
+          <button type="button" onClick={() => setRating('down')} aria-label={t.feedbackDown} className={pill}>
+            {t.feedbackDown}
+          </button>
+        </>
+      )}
     </div>
   );
 }
@@ -78,8 +71,8 @@ export function AiChatMessageList({
           <div
             className={
               m.role === 'user'
-                ? 'max-w-[85%] rounded-2xl rounded-br-md px-4 py-3 text-white text-[15px] leading-relaxed'
-                : `max-w-[92%] rounded-2xl rounded-bl-md border px-4 py-3.5 text-[15px] ${
+                ? 'max-w-[85%] rounded-2xl rounded-br-md px-3.5 py-2.5 sm:px-4 sm:py-3 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere]'
+                : `max-w-[92%] rounded-2xl rounded-bl-md border px-3.5 py-3 sm:px-4 sm:py-3.5 text-[15px] break-words [overflow-wrap:anywhere] ${
                     m.error ? 'border-red-500/40 bg-red-500/10 text-red-200' : 'border-white/10 msg-in'
                   }`
             }
@@ -98,7 +91,7 @@ export function AiChatMessageList({
               </span>
             ) : m.role === 'assistant' && !m.error ? (
               <>
-                <div className="leading-relaxed" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
+                <div className="leading-relaxed break-words [overflow-wrap:anywhere]" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
                 <MessageActions content={m.content} isLast={i === lastAssistant} onRetry={onRetry} t={t} />
               </>
             ) : (

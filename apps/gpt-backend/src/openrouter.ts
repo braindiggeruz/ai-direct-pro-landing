@@ -24,7 +24,8 @@ export type ChatResult = ChatOk | ChatErr;
 
 /** PURE — request body builder (unit-tested). No response_format (free-form). */
 export function buildBody(model: string, messages: ChatMessage[], maxTokens: number, stream = false) {
-  return { model, messages, temperature: 0.6, max_tokens: maxTokens, stream };
+  // frequency/presence penalties curb degenerate loops in small free models.
+  return { model, messages, temperature: 0.6, max_tokens: maxTokens, stream, frequency_penalty: 0.5, presence_penalty: 0.3 };
 }
 
 function headers(cfg: BackendConfig) {
