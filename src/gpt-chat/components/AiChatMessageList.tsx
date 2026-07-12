@@ -5,6 +5,9 @@ import { renderMarkdown } from '../markdown';
 
 function MessageActions({ content, isLast, onRetry, t }: { content: string; isLast: boolean; onRetry?: () => void; t: ChatStrings }) {
   const [copied, setCopied] = useState(false);
+  // Feedback is a UI scaffold: stored locally, aria-labelled. Wired to the
+  // backend /feedback endpoint in a later pass (needs message id in response).
+  const [rating, setRating] = useState<'up' | 'down' | null>(null);
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(content);
@@ -15,15 +18,35 @@ function MessageActions({ content, isLast, onRetry, t }: { content: string; isLa
     }
   };
   return (
-    <div className="flex gap-3 mt-2 text-xs text-white/40">
-      <button type="button" onClick={copy} className="hover:text-brand-cyan transition-colors">
+    <div className="flex items-center gap-3 mt-2.5 text-xs text-white/40">
+      <button type="button" onClick={copy} aria-label={t.copy} className="hover:text-brand-cyan transition-colors">
         {copied ? t.copied : t.copy}
       </button>
       {isLast && onRetry && (
-        <button type="button" onClick={onRetry} className="hover:text-brand-cyan transition-colors">
+        <button type="button" onClick={onRetry} aria-label={t.retry} className="hover:text-brand-cyan transition-colors">
           {t.retry}
         </button>
       )}
+      <span className="w-px h-3 bg-white/10" aria-hidden="true" />
+      <button
+        type="button"
+        onClick={() => setRating('up')}
+        aria-label={t.feedbackUp}
+        aria-pressed={rating === 'up'}
+        className={`transition-colors ${rating === 'up' ? 'text-brand-cyan' : 'hover:text-white/70'}`}
+      >
+        ▲
+      </button>
+      <button
+        type="button"
+        onClick={() => setRating('down')}
+        aria-label={t.feedbackDown}
+        aria-pressed={rating === 'down'}
+        className={`transition-colors ${rating === 'down' ? 'text-red-300' : 'hover:text-white/70'}`}
+      >
+        ▼
+      </button>
+      {rating && <span className="text-white/30">{t.feedbackThanks}</span>}
     </div>
   );
 }

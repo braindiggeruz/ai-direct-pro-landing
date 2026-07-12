@@ -30,6 +30,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [b2bDismissed, setB2bDismissed] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const startedRef = useRef(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const focusInput = () => { inputRef.current?.focus(); };
 
   useEffect(() => { track(EV.pageView, { locale: config.locale }); }, [config.locale]);
 
@@ -79,9 +82,17 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const onPick = (prompt: string) => {
     if (busy || limitReached) return;
-    // Prompts ending with ": " expect user text → prefill the composer.
-    if (prompt.trim().endsWith(':')) { setInput(prompt); return; }
+    // Prompts ending with ":" expect user text → prefill the composer.
+    if (prompt.trim().endsWith(':')) { setInput(prompt); focusInput(); return; }
     void doSend(prompt);
+  };
+
+  // Quick-action cards carry [placeholder] templates the user must fill →
+  // always prefill the composer and focus, never auto-send.
+  const onQuickPick = (prompt: string) => {
+    if (busy || limitReached) return;
+    setInput(prompt);
+    focusInput();
   };
 
   const onNewChat = () => { clearHistory(); setMessages([]); setLimitReached(false); setB2bDismissed(false); };
@@ -136,8 +147,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         {empty ? (
           <div className="relative z-[1] py-4">
             <h2 className="h-display text-2xl sm:text-[28px] text-white mb-2 max-w-xl"><span className="text-grad">{t.emptyTitle}</span></h2>
-            <p className="text-white/55 text-sm mb-5 max-w-lg leading-relaxed">{t.emptyHint}</p>
-            <div className="mb-5"><AiQuickActions actions={t.quickActions} onPick={onPick} disabled={busy} /></div>
+            <p className="text-white/55 text-sm mb-4 max-w-lg leading-relaxed">{t.emptyHint}</p>
+            <button type="button" onClick={focusInput} className="btn-primary text-[14px] mb-6">{t.tryFree}</button>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40 mb-3">{t.emptyPrompt}</p>
+            <div className="mb-5"><AiQuickActions actions={t.quickActions} onPick={onQuickPick} disabled={busy} /></div>
             <AiPromptChips categories={t.categories} onPick={onPick} disabled={busy} />
           </div>
         ) : (
@@ -152,7 +165,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         ) : (
           <>
             {showB2B && <div className="mb-3"><AiBusinessUpsell t={t} onDismiss={() => setB2bDismissed(true)} /></div>}
-            <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} />
+            <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
           </>
         )}
         <div className="mt-3"><AiSafetyNotice t={t} /></div>

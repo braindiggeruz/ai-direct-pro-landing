@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import type { RefObject } from 'react';
 import type { ChatStrings } from '../i18n';
 
 export function AiChatInput({
@@ -9,6 +10,7 @@ export function AiChatInput({
   busy,
   maxChars,
   t,
+  inputRef,
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -17,8 +19,9 @@ export function AiChatInput({
   busy?: boolean;
   maxChars: number;
   t: ChatStrings;
+  inputRef: RefObject<HTMLTextAreaElement | null>;
 }) {
-  const ref = useRef<HTMLTextAreaElement>(null);
+  const ref = inputRef;
 
   // Auto-grow the textarea up to a max height.
   useEffect(() => {
@@ -26,7 +29,7 @@ export function AiChatInput({
     if (!el) return;
     el.style.height = 'auto';
     el.style.height = Math.min(el.scrollHeight, 160) + 'px';
-  }, [value]);
+  }, [value, ref]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
