@@ -22,6 +22,11 @@ export interface ChatStrings {
   charsLeft: (n: number) => string;
   emptyTitle: string;
   emptyHint: string;
+  tryFree: string;
+  emptyPrompt: string;
+  feedbackUp: string;
+  feedbackDown: string;
+  feedbackThanks: string;
   disclaimer: string;
   safetyWarning: string;
   quickActions: QuickAction[];
@@ -53,24 +58,29 @@ export interface ChatStrings {
 const RU: ChatStrings = {
   brand: 'GPTBot AI',
   online: 'Online',
-  inputPlaceholder: 'Спросите что угодно…  (Enter — отправить, Shift+Enter — новая строка)',
+  inputPlaceholder: 'Напишите задачу: текст, перевод, реклама, Telegram, учёба…',
   inputMicrocopy: 'Не вводите пароли, карты и секретные данные',
   send: 'Отправить',
-  thinking: 'AI отвечает',
-  errorGeneric: 'Не удалось получить ответ. Попробуйте ещё раз.',
-  remaining: (n) => `Осталось ${n} сегодня`,
+  thinking: 'AI думает…',
+  errorGeneric: 'Модель временно перегружена, попробуйте ещё раз.',
+  remaining: (n) => `Осталось ${n} сообщений сегодня`,
   charsLeft: (n) => `${n} символов до лимита`,
   emptyTitle: 'Спросите AI на русском или узбекском',
   emptyHint: 'Тексты, реклама, Telegram, учёба, продажи и бизнес-идеи — в одном чате',
+  tryFree: 'Попробовать бесплатно',
+  emptyPrompt: 'Что хотите сделать?',
+  feedbackUp: 'Полезный ответ',
+  feedbackDown: 'Плохой ответ',
+  feedbackThanks: 'Спасибо за отзыв',
   disclaimer:
     'GPTBot.uz — независимый AI-сервис. Не является официальным продуктом OpenAI, ChatGPT или NVIDIA.',
   safetyWarning:
     'AI может ошибаться — проверяйте важные факты. Не вводите пароли, номера карт и коммерческие тайны.',
   quickActions: [
-    { label: 'Напиши оффер для рекламы', prompt: 'Напиши цепляющий рекламный оффер для моего бизнеса. Спроси, чего не хватает.' },
-    { label: 'Переведи на узбекский', prompt: 'Переведи следующий текст на узбекский язык (o‘zbek tilida): ' },
-    { label: 'Составь план Telegram-бота', prompt: 'Составь пошаговый план Telegram-бота для приёма заявок в моём бизнесе.' },
-    { label: 'Улучши описание товара', prompt: 'Улучши описание товара, чтобы оно лучше продавало. Вот текущее описание: ' },
+    { label: 'Напиши оффер для рекламы', prompt: 'Напиши 5 вариантов рекламного оффера для Instagram. Продукт: [укажите продукт]. Аудитория: клиенты в Узбекистане. Стиль: уверенный, без агрессии.' },
+    { label: 'Переведи на узбекский', prompt: 'Переведи текст на узбекский Latin и сделай его естественным для аудитории Узбекистана: [вставьте текст].' },
+    { label: 'Составь план Telegram-бота', prompt: 'Составь структуру Telegram-бота для бизнеса: приветствие, меню, сбор заявки, ответы на вопросы и передача менеджеру. Ниша: [укажите нишу].' },
+    { label: 'Улучши описание товара', prompt: 'Улучши описание товара для сайта или маркетплейса. Сделай текст понятным, продающим и без лишней воды. Товар: [укажите товар].' },
   ],
   categories: [
     { label: 'Маркетинг', prompts: ['Придумай 5 идей рекламных креативов', 'Напиши УТП для моего продукта'] },
@@ -109,24 +119,29 @@ const RU: ChatStrings = {
 const UZ: ChatStrings = {
   brand: 'GPTBot AI',
   online: 'Online',
-  inputPlaceholder: 'Istalgan narsani so‘rang…  (Enter — yuborish, Shift+Enter — yangi qator)',
+  inputPlaceholder: 'Vazifa yozing: matn, tarjima, reklama, Telegram, o‘qish…',
   inputMicrocopy: 'Parol, karta va maxfiy ma’lumotlarni kiritmang',
   send: 'Yuborish',
-  thinking: 'AI javob yozmoqda',
-  errorGeneric: 'Javob olinmadi. Yana urinib ko‘ring.',
-  remaining: (n) => `Bugun ${n} ta qoldi`,
+  thinking: 'AI o‘ylayapti…',
+  errorGeneric: 'Model vaqtincha band, yana urinib ko‘ring.',
+  remaining: (n) => `Bugun ${n} ta xabar qoldi`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
   emptyTitle: 'O‘zbek yoki rus tilida savol bering',
-  emptyHint: 'Reklama, matn, Telegram, o‘qish va biznes g‘oyalari — bitta chatda',
+  emptyHint: 'Matn, reklama, Telegram, o‘qish, savdo va biznes g‘oyalari — bitta chatda',
+  tryFree: 'Bepul sinab ko‘rish',
+  emptyPrompt: 'Nima qilmoqchisiz?',
+  feedbackUp: 'Foydali javob',
+  feedbackDown: 'Yomon javob',
+  feedbackThanks: 'Fikr uchun rahmat',
   disclaimer:
     'GPTBot.uz — mustaqil AI-xizmat. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas.',
   safetyWarning:
     'AI xato qilishi mumkin — muhim faktlarni tekshiring. Parol, karta raqami va tijorat sirlarini kiritmang.',
   quickActions: [
-    { label: 'Reklama uchun offer yoz', prompt: 'Biznesim uchun jozibali reklama offerini yoz. Nima yetishmasligini so‘ra.' },
-    { label: 'Rus tiliga tarjima qil', prompt: 'Quyidagi matnni rus tiliga tarjima qil: ' },
-    { label: 'Telegram-bot rejasini tuz', prompt: 'Biznesimda arizalarni qabul qilish uchun Telegram-bot rejasini bosqichma-bosqich tuz.' },
-    { label: 'Mahsulot tavsifini yaxshila', prompt: 'Mahsulot tavsifini yaxshiroq sotadigan qilib yaxshila. Joriy tavsif: ' },
+    { label: 'Reklama uchun offer yoz', prompt: 'Instagram uchun 5 xil reklama offerini yoz. Mahsulot: [mahsulotni kiriting]. Auditoriya: O‘zbekistondagi mijozlar. Uslub: ishonchli, tajovuzsiz.' },
+    { label: 'Rus tiliga tarjima qil', prompt: 'Matnni rus tiliga tarjima qil va O‘zbekiston auditoriyasi uchun tabiiy qil: [matnni kiriting].' },
+    { label: 'Telegram-bot rejasini tuz', prompt: 'Biznes uchun Telegram-bot tuzilishini tuz: salomlashuv, menyu, ariza yig‘ish, savollarga javob va menejerga uzatish. Nisha: [nishani kiriting].' },
+    { label: 'Mahsulot tavsifini yaxshila', prompt: 'Sayt yoki marketpleys uchun mahsulot tavsifini yaxshila. Matnni tushunarli, sotadigan va ortiqcha suvsiz qil. Mahsulot: [mahsulotni kiriting].' },
   ],
   categories: [
     { label: 'Marketing', prompts: ['5 ta reklama krieativ g‘oyasini o‘yla', 'Mahsulotim uchun UTP yoz'] },
