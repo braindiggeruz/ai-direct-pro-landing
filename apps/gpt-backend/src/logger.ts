@@ -1,7 +1,10 @@
-// pino logger with redaction of any secret-ish fields. Never log token values.
-import pino from 'pino';
+// pino logger options with redaction of secret-ish fields. Passed to Fastify
+// as OPTIONS (not an instance) so Fastify keeps its default FastifyBaseLogger
+// typing across route registrars. A standalone `logger` is exported for use
+// before the Fastify app exists (fatal boot errors).
+import pino, { type LoggerOptions } from 'pino';
 
-export const logger = pino({
+export const loggerOptions: LoggerOptions = {
   level: process.env.LOG_LEVEL || 'info',
   redact: {
     paths: [
@@ -17,4 +20,6 @@ export const logger = pino({
     censor: '[redacted]',
   },
   base: { service: 'gptbot-ai-chat-backend' },
-});
+};
+
+export const logger = pino(loggerOptions);
