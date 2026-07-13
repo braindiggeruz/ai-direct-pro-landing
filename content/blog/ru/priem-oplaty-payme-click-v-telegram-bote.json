@@ -62,7 +62,8 @@
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "type": "contextual", "locale": "ru" },
     { "target": "/ru/telegram-bot-dlya-biznesa/", "anchor": "Telegram-бот для бизнеса", "type": "contextual", "locale": "ru" },
     { "target": "/ru/blog/ai-bot-dlya-internet-magazina-zadachi/", "anchor": "AI-бот для интернет-магазина", "type": "contextual", "locale": "ru" },
-    { "target": "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/", "anchor": "автоматизация заявок", "type": "contextual", "locale": "ru" }
+    { "target": "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/", "anchor": "автоматизация заявок", "type": "contextual", "locale": "ru" },
+    { "target": "/ru/blog/telegram-bot-s-oplatoy-payme-click/", "anchor": "Telegram-бот с оплатой Payme и Click", "locale": "ru", "type": "contextual", "priority": 6 }
   ],
   "ogTitle": "Приём оплаты Payme и Click в Telegram-боте: как настроить",
   "ogDescription": "Как принимать оплату через Payme, Click и Uzum прямо в Telegram-боте бизнеса в Узбекистане. Схема работы, чеки, безопасность и типичные ошибки.",
