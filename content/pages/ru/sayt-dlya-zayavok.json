@@ -99,7 +99,7 @@
 
     { "type": "h2", "text": "Доверие, безопасность и политика конфиденциальности", "id": "privacy" },
     { "type": "linkp", "text": "Сбор заявок требует работы с персональными данными клиентов (имя, телефон). Сайт должен вызывать доверие: нужен SSL-сертификат для безопасной передачи данных, прозрачные условия работы и обязательная {privacy}. Без этого конверсия падает, так как пользователи боятся спама.", "links": [
-      { "token": "privacy", "target": "/ru/privacy/", "anchor": "политика конфиденциальности" }
+      { "token": "privacy", "target": "/ru/politika-konfidentsialnosti/", "anchor": "политика конфиденциальности" }
     ] },
 
     { "type": "h2", "text": "SEO и аналитика", "id": "seo-analytics" },
@@ -151,7 +151,7 @@
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с CRM", "locale": "ru", "type": "contextual" },
     { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизацию заявок", "locale": "ru", "type": "contextual" },
     { "target": "/ru/telegram-bot-dlya-biznesa/", "anchor": "Telegram-бот для бизнеса", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/privacy/", "anchor": "политика конфиденциальности", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/politika-konfidentsialnosti/", "anchor": "политика конфиденциальности", "locale": "ru", "type": "contextual" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "lastReviewedAt": "2026-07-10",

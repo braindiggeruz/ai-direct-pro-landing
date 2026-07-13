@@ -64,7 +64,21 @@
       "Ваши сообщения могут обрабатываться через сторонних AI-провайдеров по API.",
       "Сервис независимый и не является официальным продуктом OpenAI, ChatGPT или NVIDIA."
     ] },
-    { "type": "linkp", "text": "Подробнее — в {privacy}.", "links": [ { "token": "privacy", "target": "/ru/politika-konfidentsialnosti/", "anchor": "политике конфиденциальности" } ] }
+    { "type": "linkp", "text": "Подробнее — в {privacy}.", "links": [ { "token": "privacy", "target": "/ru/politika-konfidentsialnosti/", "anchor": "политике конфиденциальности" } ] },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT-чат GPTBot.uz — независимый AI-чат на русском и узбекском.",
+        "Помогает с текстами, идеями, учёбой, переводом и рабочими задачами.",
+        "Базовый доступ бесплатный, без сложной регистрации.",
+        "Не является официальным продуктом OpenAI, ChatGPT или NVIDIA.",
+        "Для бизнеса тот же движок внедряется как бот в Telegram, Instagram и на сайт."
+      ]
+    }
   ],
   "faq": [
     { "q": "Это официальный ChatGPT?", "a": "Нет. Это независимый AI-чат от GPTBot.uz, который использует сторонние модели и API-провайдеров. Сервис не связан с OpenAI, ChatGPT или NVIDIA." },
@@ -91,7 +105,25 @@
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-бота", "locale": "ru", "type": "block" },
     { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "Автоматизация заявок", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с AmoCRM и Bitrix24", "locale": "ru", "type": "block" },
-    { "target": "/ru/politika-konfidentsialnosti/", "anchor": "Политика конфиденциальности", "locale": "ru", "type": "footer" }
+    { "target": "/ru/politika-konfidentsialnosti/", "anchor": "Политика конфиденциальности", "locale": "ru", "type": "footer" },
+    {
+      "target": "/ru/gde-polzovatsya-gpt-besplatno/",
+      "anchor": "где пользоваться GPT бесплатно",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-dlya-ucheby/",
+      "anchor": "GPT для учёбы",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-vs-chatgpt-sravnenie/",
+      "anchor": "чем GPT отличается от ChatGPT",
+      "locale": "ru",
+      "type": "contextual"
+    }
   ],
   "schemaTypes": [
     "Organization",
