@@ -205,7 +205,8 @@
       "anchor": "AI-боты для бизнеса в Узбекистане",
       "locale": "ru",
       "type": "contextual"
-    }
+    },
+    { "target": "/ru/blog/telegram-bot-dlya-zapisi-klientov/", "anchor": "Telegram-бот для записи клиентов", "locale": "ru", "type": "contextual" }
   ],
   "schemaTypes": [
     "Organization",
