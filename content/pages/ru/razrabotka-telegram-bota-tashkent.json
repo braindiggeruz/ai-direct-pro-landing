@@ -52,6 +52,7 @@
       { "anchor": "included", "label": "Что входит в создание бота" },
       { "anchor": "integrations", "label": "Интеграции: CRM, сайт, оплата, API" },
       { "anchor": "formats", "label": "Как выбрать формат: обычный, AI, гибрид" },
+      { "anchor": "ai", "label": "Telegram-бот + AI" },
       { "anchor": "process", "label": "Этапы создания" },
       { "anchor": "terms", "label": "Сроки и стоимость" },
       { "anchor": "data", "label": "Персональные данные и согласие" },
@@ -174,6 +175,26 @@
     ] },
     { "type": "p", "text": "На бесплатной консультации поможем выбрать формат под вашу задачу: простой бот, AI-бот или гибрид." },
 
+    { "type": "h2", "text": "Telegram-бот + AI: чем AI-бот усиливает сценарии", "id": "ai" },
+    { "type": "p", "text": "Обычный Telegram-бот работает по заранее заданным кнопкам и сценариям. AI-бот на базе языковых моделей понимает свободный вопрос клиента и отвечает естественным языком. GPTBot.uz — независимый AI-сервис и не является официальным продуктом OpenAI, ChatGPT или Telegram; мы внедряем такие боты под задачи бизнеса." },
+    { "type": "list", "items": [
+      "Отвечает естественным языком, а не только по кнопкам",
+      "Помогает клиенту выбрать услугу или товар",
+      "Объясняет условия, цены и детали простыми словами",
+      "Квалифицирует заявку и уточняет потребность",
+      "Готовит структурированный ответ и данные для менеджера",
+      "Работает с базой знаний компании — отвечает по вашим услугам и правилам"
+    ] },
+    { "type": "p", "text": "AI-бот не заменяет менеджера полностью: он снижает нагрузку на менеджеров и помогает быстрее обрабатывать типовые обращения, а сложные вопросы передаёт человеку." },
+    { "type": "linkp", "text": "Попробовать AI-ответы можно в {chat}. Для сайта подойдёт {sitechat}, а как из диалога рождается заявка — показывает {leads}. Общий обзор — {business}, локальные сценарии — {uz}, тарифы AI-чата — {tariffs}.", "links": [
+      { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "AI-чате GPTBot" },
+      { "token": "sitechat", "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта" },
+      { "token": "leads", "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/", "anchor": "AI-чат и заявки" },
+      { "token": "business", "target": "/ru/gpt-dlya-biznesa/", "anchor": "GPT для бизнеса" },
+      { "token": "uz", "target": "/ru/gpt-dlya-biznesa-v-uzbekistane/", "anchor": "GPT для бизнеса в Узбекистане" },
+      { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата" }
+    ] },
+
     { "type": "h2", "text": "Этапы разработки и создания Telegram-бота", "id": "process" },
     { "type": "p", "text": "Создание бота идёт по прозрачному процессу — от бесплатной консультации и технического задания до запуска, внедрения и поддержки. На каждом шаге вы видите результат: после консультации — понимание задачи, после ТЗ — согласованный объём, после проектирования — карту сценариев, после запуска — готовый Telegram-бот." },
     { "type": "h3", "text": "Бесплатная консультация" },
@@ -276,6 +297,16 @@
       { "token": "bot", "target": "/ru/bot-dlya-obrabotki-zayavok/", "anchor": "бот для приёма заявок" }
     ] },
 
+    { "type": "h2", "text": "Коротко о главном" },
+    { "type": "list", "items": [
+      "Разработка Telegram-бота в Ташкенте — это внедрение инструмента под задачу бизнеса, а не «бот ради бота».",
+      "Бот принимает заявки 24/7, записывает клиентов, показывает каталог и передаёт данные менеджеру или в CRM.",
+      "Форматы: обычный бот на кнопках, AI-бот на базе языковых моделей или гибрид — выбираем под задачу.",
+      "AI-бот снижает нагрузку на менеджеров и ускоряет типовые ответы, но не заменяет человека полностью.",
+      "Интеграции: amoCRM, Bitrix24, Google Sheets, сайт, онлайн-оплата и API — при наличии технической возможности.",
+      "Работаем на русском и Uzbek Latin по всему Ташкенту и Узбекистану; точную цену и сроки называем после разбора задачи."
+    ] },
+
     { "type": "h2", "text": "Хотите понять, какой Telegram-бот нужен вашему бизнесу", "id": "consult" },
     { "type": "p", "text": "Оставьте заявку или напишите нам в Telegram. Мы разберём вашу задачу, покажем возможную структуру бота и подскажем, с чего лучше начать: простой бот, AI-бот или интеграция с CRM." },
     { "type": "cta", "text": "Получить бесплатную консультацию", "href": "https://t.me/XGame_changerx" }
@@ -315,6 +346,12 @@
     { "target": "/ru/bot-dlya-obrabotki-zayavok/", "anchor": "бот для приёма заявок", "locale": "ru", "type": "contextual" },
     { "target": "/ru/stoimost-chat-bota/", "anchor": "стоимость чат-бота", "locale": "ru", "type": "contextual" },
     { "target": "/ru/politika-konfidentsialnosti/", "anchor": "политика конфиденциальности", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/gpt-dlya-biznesa/", "anchor": "GPT для бизнеса", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/", "anchor": "AI-чат для сайта: заявки", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/gpt-dlya-biznesa-v-uzbekistane/", "anchor": "GPT для бизнеса в Узбекистане", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "contextual" },
     { "target": "/ru/", "anchor": "AI-боты для бизнеса в Узбекистане", "locale": "ru", "type": "contextual" }
   ],
   "schemaTypes": [
@@ -324,7 +361,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-07-10",
+  "lastReviewedAt": "2026-07-13",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-10"
+  "updatedAt": "2026-07-13"
 }
