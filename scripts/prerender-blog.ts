@@ -162,7 +162,7 @@ function renderFaq(faq: FaqItem[], a: BlogArticle): string {
   const items = faq.map((f) => `
     <details class="group bg-bg-surface border border-white/10 rounded-2xl p-6 mb-3 open:border-brand-cyan/30">
       <summary class="cursor-pointer font-display text-lg text-white flex justify-between items-center">
-        <span>${escapeText(f.q)}</span>
+        <h3 class="font-display text-lg text-white m-0 font-inherit flex-1">${escapeText(f.q)}</h3>
         <span class="text-brand-cyan group-open:rotate-45 transition-transform">+</span>
       </summary>
       <p class="text-white/80 mt-4 leading-relaxed">${escapeText(f.a)}</p>

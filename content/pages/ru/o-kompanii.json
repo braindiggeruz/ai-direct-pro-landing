@@ -30,6 +30,7 @@
   "ctaSecondaryLabel": "Посмотреть кейсы по нишам",
   "ctaSecondaryHref": "/ru/ai-bot-dlya-nishi/",
   "bodyBlocks": [
+    { "type": "p", "text": "GPTBot.uz — это студия из Ташкента, которая внедряет AI/GPT-ботов для бизнеса в Узбекистане на русском и узбекском языках." },
     {
       "type": "h2",
       "text": "Кто мы"

@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Instagram Direct бот — это AI-помощник, который автоматически отвечает в директе Instagram, квалифицирует клиента и передаёт заявку менеджеру." },
     {
       "type": "h2",
       "text": "Что делает Instagram Direct бот"
