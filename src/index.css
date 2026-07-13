@@ -94,6 +94,76 @@ body::before {
     border-color: rgba(47,230,209,0.35);
     box-shadow: 0 18px 50px -16px rgba(34,158,217,0.35);
   }
+
+  /* ─── Prerendered SEO/commercial page primitives ──────────────────────
+     Used by scripts/prerender.ts + prerender-blog.ts so the 90+ static
+     pages share the landing's premium glass look. No new assets/libs. */
+  .link-card {
+    display: block;
+    padding: 1rem 1.15rem;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.10);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  }
+  .link-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(47,230,209,0.38);
+    box-shadow: 0 18px 50px -16px rgba(34,158,217,0.38);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  }
+  .faq-item {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 18px;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .faq-item[open] {
+    border-color: rgba(47,230,209,0.28);
+    background: linear-gradient(180deg, rgba(47,230,209,0.05), rgba(255,255,255,0.015));
+  }
+  .faq-item[open] .faq-a { animation: faqReveal 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(47,230,209,0.85);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 18px; height: 1px;
+    background: linear-gradient(90deg, #2FE6D1, transparent);
+  }
+  /* Mobile sticky conversion bar for commercial prerendered pages. */
+  .sticky-cta {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(5,7,13,0.86);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(255,255,255,0.09);
+  }
+}
+
+@keyframes faqReveal {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-card,
+  .faq-item,
+  .faq-item[open] .faq-a {
+    animation: none;
+    transition: none;
+  }
+  .link-card:hover { transform: none; }
 }
 
 /* Scroll-triggered reveal */

@@ -169,7 +169,7 @@ function renderBlock(b: BodyBlock): string {
       return `<p class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
     }
     case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-4">${escapeText(b.text || '')}</p>`;
-    case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
+    case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3 items-start"><span class="mt-1 shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-cyan/12 border border-brand-cyan/30"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeText(b.text || '')}</blockquote>`;
     case 'image': {
       const _dim = `${b.width ? ` width="${b.width}"` : ''}${b.height ? ` height="${b.height}"` : ''}`;
@@ -183,7 +183,7 @@ function renderBlock(b: BodyBlock): string {
       const _cap = b.caption ? `<figcaption class="text-sm text-white/55 mt-3 leading-relaxed">${escapeText(b.caption)}</figcaption>` : '';
       return `<figure class="my-10"><img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}"${_dim}${_ar} class="rounded-2xl border border-white/10 w-full h-auto"${_ld} />${_cap}</figure>`;
     }
-    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`; }
+    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
     case 'table': {
       const headers = b.headers || [];
       const rows = b.rows || [];
@@ -195,30 +195,35 @@ function renderBlock(b: BodyBlock): string {
   }
 }
 
-function renderFaq(faq: FaqItem[]): string {
+function renderFaq(faq: FaqItem[], locale: 'ru' | 'uz' = 'ru'): string {
   if (!faq?.length) return '';
   const items = faq.map((f) => `
-    <details class="group bg-bg-surface border border-white/10 rounded-2xl p-6 mb-3 open:border-brand-cyan/30">
-      <summary class="cursor-pointer font-display text-lg text-white flex justify-between items-center">
-        <h3 class="font-display text-lg text-white m-0 font-inherit flex-1">${escapeText(f.q)}</h3>
-        <span class="text-brand-cyan group-open:rotate-45 transition-transform">+</span>
+    <details class="faq-item group p-5 sm:p-6 mb-3">
+      <summary class="cursor-pointer list-none font-display text-lg text-white flex justify-between items-center gap-4">
+        <h3 class="font-display text-base sm:text-lg text-white m-0 font-inherit flex-1 leading-snug">${escapeText(f.q)}</h3>
+        <span class="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-full border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan text-lg group-open:rotate-45 transition-transform">+</span>
       </summary>
-      <p class="text-white/80 mt-4 leading-relaxed">${escapeText(f.a)}</p>
+      <p class="faq-a text-white/75 mt-4 leading-relaxed">${escapeText(f.a)}</p>
     </details>
   `).join('');
-  return `<section id="faq" data-testid="page-faq" class="mt-16 scroll-mt-24"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">FAQ</h2>${items}</section>`;
+  const label = locale === 'uz' ? 'Ko‘p beriladigan savollar' : 'Частые вопросы';
+  const eyebrow = locale === 'uz' ? 'FAQ' : 'Вопрос-ответ';
+  return `<section id="faq" data-testid="page-faq" class="mt-16 scroll-mt-24"><div class="eyebrow mb-3">${escapeHtml(eyebrow)}</div><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">${escapeText(label)}</h2>${items}</section>`;
 }
 
 function renderInternalLinks(page: Page): string {
   if (!page.internalLinks?.length) return '';
   const items = page.internalLinks.map((l) => `
-    <a href="${escapeHtml(l.target)}" class="block bg-bg-surface border border-white/10 rounded-xl p-4 hover:border-brand-cyan/40 transition-colors">
-      <div class="text-brand-cyan text-sm mb-1">→</div>
-      <div class="text-white font-medium">${escapeText(l.anchor)}</div>
+    <a href="${escapeHtml(l.target)}" class="link-card group flex items-start gap-3">
+      <span class="mt-0.5 shrink-0 inline-flex h-6 w-6 items-center justify-center rounded-md bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan group-hover:bg-brand-cyan/20 transition-colors">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="text-white font-medium leading-snug group-hover:text-brand-cyan transition-colors">${escapeText(l.anchor)}</span>
     </a>
   `).join('');
   const heading = page.locale === 'uz' ? 'Shuningdek o\u2018qing' : 'Смотрите также';
-  return `<section data-testid="related-pages" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeText(heading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+  const eyebrow = page.locale === 'uz' ? 'Havolalar' : 'Разделы';
+  return `<section data-testid="related-pages" class="mt-16"><div class="eyebrow mb-3">${escapeHtml(eyebrow)}</div><h2 class="font-display text-2xl mb-6 text-white">${escapeText(heading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
 function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
@@ -226,7 +231,7 @@ function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
   if (!related.length) return '';
   const badge = page.locale === 'uz' ? 'Maqola' : 'Статья';
   const items = related.map((a) => `
-    <a href="${escapeHtml(a.url)}" data-testid="related-article" class="block bg-bg-surface border border-white/10 rounded-xl p-5 hover:border-brand-cyan/40 transition-colors group">
+    <a href="${escapeHtml(a.url)}" data-testid="related-article" class="link-card group">
       <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">${escapeHtml(badge)}</div>
       <div class="text-white font-medium leading-snug group-hover:text-brand-cyan transition-colors">${escapeText(a.h1)}</div>
       <div class="text-white/55 text-sm mt-2 line-clamp-3">${escapeText(a.description)}</div>
@@ -381,6 +386,15 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
     ? `<p data-testid="page-author" class="text-xs text-white/50 mb-4">${escapeHtml(authorLabel)}: <a href="${escapeHtml(authorUrl)}" class="text-white/70 hover:text-white underline underline-offset-2">${escapeText(authorName)}</a> · ${escapeText(orgReviewLabel)}</p>`
     : '';
 
+  // Mobile sticky conversion bar — commercial pages only, hidden ≥lg.
+  const showStickyCta = showByline && !!(page.ctaPrimaryHref || global.defaultCTA.href);
+  const stickyCtaHref = page.ctaPrimaryHref || global.defaultCTA.href;
+  const stickyCtaLabel = page.ctaPrimaryLabel || global.defaultCTA.label;
+  const stickyCtaExternal = stickyCtaHref.startsWith('http');
+  const stickyCtaHtml = showStickyCta
+    ? `<div class="sticky-cta lg:hidden"><a data-testid="sticky-cta" href="${escapeHtml(stickyCtaHref)}"${stickyCtaExternal ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary w-full text-base">${escapeText(stickyCtaLabel)}</a></div>`
+    : '';
+
   // Trust microcopy chips — copy-only, no fake guarantees. Reused below the
   // primary CTA on every money page. Localised per page.locale.
   const trustChips = (page.heroTrust && page.heroTrust.length) ? page.heroTrust
@@ -436,7 +450,7 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
 ${ANALYTICS_HEAD}
 </head>
-<body class="bg-bg-base text-white antialiased">
+<body class="bg-bg-base text-white antialiased ${showStickyCta ? 'pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
@@ -461,15 +475,15 @@ ${ANALYTICS_HEAD}
 
   <div class="${page.heroImage ? 'lg:grid lg:grid-cols-2 lg:gap-10 lg:items-center ' : ''}mb-4">
     <div>
-      <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeText(page.h1)}</h1>
+      <h1 data-testid="page-h1" class="font-display text-[2rem] sm:text-5xl lg:text-6xl text-white mb-6 leading-tight break-words hyphens-auto">${escapeText(page.h1)}</h1>
       ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
       ${bylineHtml}
       ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
-      ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
-        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
+      ${page.ctaPrimaryHref ? `<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
+        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" rel="nofollow noopener" target="_blank" class="btn-primary text-base w-full sm:w-auto">
           ${escapeText(page.ctaPrimaryLabel || 'Демо')}
         </a>
-        ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="border border-white/15 text-white px-8 py-4 rounded-full hover:bg-white/5">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
+        ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="btn-secondary w-full sm:w-auto">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
       </div>
       ${trustHtml}` : ''}
     </div>
@@ -482,7 +496,7 @@ ${ANALYTICS_HEAD}
     ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
   </article>
 
-  ${renderFaq(page.faq || [])}
+  ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
   ${renderInternalLinks(page)}
   ${renderRelatedArticles(page, articles)}
 </main>
@@ -500,6 +514,7 @@ ${ANALYTICS_HEAD}
   </div>
 </footer>
 
+${stickyCtaHtml}
 ${jsHref ? `<!-- React landing bundle is intentionally not loaded on money pages to keep them static and fast. -->` : ''}
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
 </body>

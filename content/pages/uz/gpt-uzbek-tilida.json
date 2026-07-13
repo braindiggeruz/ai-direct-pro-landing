@@ -56,7 +56,7 @@
     { "type": "h2", "text": "O‘zbek va rus tilida" },
     { "type": "p", "text": "Xizmat O‘zbekistonning o‘zbek va rus tilli auditoriyasi uchun mo‘ljallangan. Qulay tilda yozing — AI sizning tilingizda javob beradi. Bu Toshkent, Samarqand, Buxoro va butun mamlakat bo‘ylab biznes va o‘qish uchun qulay." },
     { "type": "h2", "text": "Tariflar: bepul, Plus va Business" },
-    { "type": "linkp", "text": "Har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tishsiz. Faol ish uchun — kengaytirilgan limit, tarix va shablonlar bilan Plus. Kompaniyalar uchun — {tariffs} va biznesga AI chat joriy etish.", "links": [ { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari" } ] },
+    { "type": "linkp", "text": "Har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tishsiz. Kengaytirilgan limit va qo‘shimcha imkoniyatli Plus tarifi ishga tushirishga tayyorlanmoqda. Kompaniyalar uchun B2B joriy etish mavjud — tafsilotlar {tariffs} sahifasida.", "links": [ { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari" } ] },
     { "type": "h2", "text": "Biznes uchun shunday AI chat kerakmi?" },
     { "type": "linkp", "text": "Saytingizga, Telegram’ga yoki CRM’ga shunday AI chat kerakmi? GPTBot.uz {aibot}, {tgbot} va {zayavki}ni to‘liq joriy etadi.", "links": [
       { "token": "aibot", "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot" },

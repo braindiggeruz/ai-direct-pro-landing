@@ -36,5 +36,8 @@ export function getRoles(locale: Locale): AiRole[] {
 export function applyRole(prompt: string, roleId: RoleId, locale: Locale): string {
   const role = ROLE_COPY[locale].find((item) => item.id === roleId) ?? ROLE_COPY[locale][0];
   const taskLabel = locale === 'uz' ? 'Vazifa' : 'Задача';
-  return `${role.instruction}\n\n${taskLabel}: ${prompt.trim()}`;
+  const languageGuard = locale === 'uz'
+    ? 'Javobni tabiiy Uzbek Latin tilida yozing. Inglizcha so‘zlarni faqat API, CRM, SMM kabi odatiy atamalar uchun ishlating.'
+    : 'Отвечай на естественном русском языке. Не смешивай русский с английским, кроме привычных терминов вроде API, CRM и SMM.';
+  return `${role.instruction}\n${languageGuard}\n\n${taskLabel}: ${prompt.trim()}`;
 }

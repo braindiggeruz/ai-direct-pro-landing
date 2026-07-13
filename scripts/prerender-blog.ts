@@ -143,9 +143,9 @@ function renderBlock(b: BodyBlock): string {
     case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeText(b.text || '')}</h2>`;
     case 'h3': return `<h3 class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
     case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-5">${escapeText(b.text || '')}</p>`;
-    case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3"><span class="text-brand-cyan shrink-0">→</span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
+    case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3 items-start"><span class="mt-1 shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-cyan/12 border border-brand-cyan/30"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-5 italic text-white/85 my-8 text-lg">${escapeText(b.text || '')}</blockquote>`;
-    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-7 py-4 rounded-full shadow-glow hover:scale-105 transition-transform">${escapeText(b.text || 'Запустить')}</a></div>`; }
+    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
     case 'table': {
       const headers = b.headers || [];
       const rows = b.rows || [];
@@ -160,12 +160,12 @@ function renderBlock(b: BodyBlock): string {
 function renderFaq(faq: FaqItem[], a: BlogArticle): string {
   if (!faq?.length) return '';
   const items = faq.map((f) => `
-    <details class="group bg-bg-surface border border-white/10 rounded-2xl p-6 mb-3 open:border-brand-cyan/30">
-      <summary class="cursor-pointer font-display text-lg text-white flex justify-between items-center">
-        <h3 class="font-display text-lg text-white m-0 font-inherit flex-1">${escapeText(f.q)}</h3>
-        <span class="text-brand-cyan group-open:rotate-45 transition-transform">+</span>
+    <details class="faq-item group p-5 sm:p-6 mb-3">
+      <summary class="cursor-pointer list-none font-display text-lg text-white flex justify-between items-center gap-4">
+        <h3 class="font-display text-base sm:text-lg text-white m-0 font-inherit flex-1 leading-snug">${escapeText(f.q)}</h3>
+        <span class="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-full border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan text-lg group-open:rotate-45 transition-transform">+</span>
       </summary>
-      <p class="text-white/80 mt-4 leading-relaxed">${escapeText(f.a)}</p>
+      <p class="faq-a text-white/75 mt-4 leading-relaxed">${escapeText(f.a)}</p>
     </details>
   `).join('');
   return `<section data-testid="article-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">${escapeText(L(a).faqHeading)}</h2>${items}</section>`;
@@ -174,9 +174,11 @@ function renderFaq(faq: FaqItem[], a: BlogArticle): string {
 function renderInternalLinks(a: BlogArticle): string {
   if (!a.internalLinks?.length) return '';
   const items = a.internalLinks.map((l) => `
-    <a href="${escapeHtml(l.target)}" data-testid="article-related-link" class="block bg-bg-surface border border-white/10 rounded-xl p-4 hover:border-brand-cyan/40 transition-colors">
-      <div class="text-brand-cyan text-sm mb-1">→</div>
-      <div class="text-white font-medium">${escapeText(l.anchor)}</div>
+    <a href="${escapeHtml(l.target)}" data-testid="article-related-link" class="link-card group flex items-start gap-3">
+      <span class="mt-0.5 shrink-0 inline-flex h-6 w-6 items-center justify-center rounded-md bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan group-hover:bg-brand-cyan/20 transition-colors">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="text-white font-medium leading-snug group-hover:text-brand-cyan transition-colors">${escapeText(l.anchor)}</span>
     </a>
   `).join('');
   return `<section data-testid="article-related" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeText(L(a).relatedHeading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
@@ -358,11 +360,11 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
   const indexUrl = `${global.siteUrl}/${locale}/blog/`;
 
   const cards = articles.map((a) => `
-    <a href="${escapeHtml(a.url)}" data-testid="blog-card" class="block bg-bg-surface border border-white/10 rounded-2xl p-6 hover:border-brand-cyan/40 transition-colors group">
+    <a href="${escapeHtml(a.url)}" data-testid="blog-card" class="link-card group !p-6">
       <div class="text-xs uppercase tracking-wider text-brand-cyan mb-2">${escapeHtml(a.topicCluster || t.blog)}</div>
       <h2 class="font-display text-xl text-white mb-3 group-hover:text-brand-cyan transition-colors">${escapeText(a.h1)}</h2>
       <p class="text-sm text-white/70 leading-relaxed mb-4">${escapeText(a.description)}</p>
-      <span class="text-sm text-brand-cyan">${escapeHtml(t.read)}</span>
+      <span class="text-sm text-brand-cyan inline-flex items-center gap-1.5">${escapeHtml(t.read)}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </a>
   `).join('');
 
