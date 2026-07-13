@@ -340,9 +340,9 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex items-center gap-4">
-      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="GPTBot.uz на Яндекс Картах">
+      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${a.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
-        Яндекс Карты
+        ${a.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="hover:text-white">Telegram</a>
@@ -469,9 +469,9 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex items-center gap-4">
-      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="GPTBot.uz на Яндекс Картах">
+      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
-        Яндекс Карты
+        ${locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
       <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
     </div>
