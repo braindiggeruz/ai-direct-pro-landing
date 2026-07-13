@@ -44,6 +44,15 @@
       "Tarjima: rus ↔ o‘zbek",
       "Biznes: g‘oya, reja, vazifalarni tuzish"
     ] },
+    { "type": "h2", "text": "AI kabinet: bo‘sh chat o‘rniga tayyor ssenariylar" },
+    { "type": "p", "text": "GPTBot.uz ichida rol va kerakli bo‘limni tanlash mumkin: Chat, Images, SMM, Business yoki Study. Tayyor shablon bir daqiqada boshlashga yordam beradi, so‘rovni esa mahsulot, auditoriya yoki o‘qish mavzusiga moslashtirish mumkin." },
+    { "type": "list", "items": [
+      "AI SMM: Instagram va Telegram uchun post, stories, reklama matni va kontent reja.",
+      "AI bilan o‘qish: mavzuni tushuntirish, konspekt, test, tarjima va matn tekshirish — foydalanuvchi o‘rniga ishni bajarish va’dasisiz.",
+      "AI biznes: mijoz javobi, FAQ, mahsulot tavsifi, sotuv skripti va Telegram-bot ssenariysi.",
+      "Images MVP: post, banner, mahsulot, Telegram muqovasi yoki maqola uchun batafsil image prompt generatori.",
+      "Limitlar joriy chat API ma’lumotiga asoslanadi; haqiqiy tasvir generatsiyasi va image credits faqat xavfsiz backend tayyor bo‘lgandan keyin qo‘shiladi."
+    ] },
     { "type": "h2", "text": "O‘zbek va rus tilida" },
     { "type": "p", "text": "Xizmat O‘zbekistonning o‘zbek va rus tilli auditoriyasi uchun mo‘ljallangan. Qulay tilda yozing — AI sizning tilingizda javob beradi. Bu Toshkent, Samarqand, Buxoro va butun mamlakat bo‘ylab biznes va o‘qish uchun qulay." },
     { "type": "h2", "text": "Tariflar: bepul, Plus va Business" },
@@ -75,7 +84,7 @@
     { "q": "Qanday ma’lumotlarni kiritmaslik kerak?", "a": "Parol, karta raqami, bank ma’lumotlari, tijorat siri, tibbiy va yuridik hujjatlarni kiritmang." }
   ],
   "internalLinks": [
-    { "target": "/ru/gpt-chat/", "anchor": "AI-чат на русском", "locale": "uz", "type": "contextual" },
+    { "target": "/ru/gpt-chat/", "anchor": "Rus tilidagi AI chat", "locale": "uz", "type": "contextual" },
     { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
     { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "Arizalarni avtomatlashtirish", "locale": "uz", "type": "block" },

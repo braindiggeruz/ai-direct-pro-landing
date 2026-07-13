@@ -138,7 +138,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-clip">
       <Header t={t} lang={lang} onSwitchLang={switchLang} ctaUrl={ctaUrl} />
       <main>
         <Hero t={t} ctaUrl={ctaUrl} />

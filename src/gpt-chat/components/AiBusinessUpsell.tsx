@@ -19,13 +19,13 @@ export function AiBusinessUpsell({ t, onDismiss }: { t: ChatStrings; onDismiss: 
         type="button"
         onClick={onDismiss}
         aria-label="Скрыть"
-        className="absolute top-3 right-3 text-white/40 hover:text-white text-sm"
+        className="absolute top-1.5 right-1.5 grid h-11 w-11 place-items-center rounded-xl text-white/45 hover:text-white hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan text-sm"
       >
         ✕
       </button>
       <p className="text-white font-medium pr-6 mb-3 leading-snug">{t.b2bTitle}</p>
       <div className="flex flex-wrap gap-2">
-        <a href="https://t.me/XGame_changerx" onClick={() => track(EV.leadIntent, { from: 'b2b_card', where: 'discuss' })} rel="nofollow noopener" target="_blank" className="btn-primary text-[13px] px-4 py-2.5">
+        <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.leadIntent, { from: 'b2b_card', where: 'discuss' }); track(EV.telegramClick, { from: 'b2b_card' }); }} rel="nofollow noopener" target="_blank" className="btn-primary text-[13px] px-4 py-2.5 min-h-12">
           {t.b2bDiscuss}
         </a>
         <button type="button" onClick={() => go('site_chat', '/ru/ai-chat-dlya-sayta/')} className="btn-secondary text-[13px] px-4 py-2.5">

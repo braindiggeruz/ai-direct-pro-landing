@@ -10,6 +10,8 @@ import { buildMessages } from '../functions/lib/gpt-chat/prompt';
 import { buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
+import { applyRole, getRoles } from '../src/gpt-chat/roles';
+import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 
 type AnyEnv = Parameters<typeof resolveConfig>[0];
 
@@ -122,4 +124,28 @@ test('renderMarkdown: escapes HTML (no XSS), keeps bold + lists', () => {
   assert.ok(html.includes('&lt;script&gt;'));
   assert.ok(html.includes('<strong>bold</strong>'));
   assert.ok(html.includes('<li>one</li>'));
+});
+
+test('AI cabinet roles are localized and affect the request without user data', () => {
+  assert.equal(getRoles('ru').length, 7);
+  assert.equal(getRoles('uz').length, 7);
+  const prompt = applyRole('Напиши пост', 'smm', 'ru');
+  assert.match(prompt, /SMM-специалист/);
+  assert.match(prompt, /Задача: Напиши пост/);
+  const uz = applyRole('Post yoz', 'teacher', 'uz');
+  assert.match(uz, /Uzbek Latin/);
+  assert.match(uz, /Vazifa: Post yoz/);
+});
+
+test('AI cabinet templates cover SMM, business, study and image prompt MVP', () => {
+  assert.ok(getTemplates('smm', 'ru').length >= 4);
+  assert.ok(getTemplates('business', 'ru').length >= 7);
+  assert.ok(getTemplates('study', 'uz').length >= 6);
+  assert.ok(getTemplates('images', 'ru').length >= 3);
+  const imagePrompt = buildImagePromptRequest('кофейня в Ташкенте', 'banner', 'ru');
+  assert.match(imagePrompt, /Не создавай изображение/);
+  assert.match(imagePrompt, /16:9/);
+  const uzImagePrompt = buildImagePromptRequest('kafe', 'instagram', 'uz');
+  assert.match(uzImagePrompt, /faqat prompt/i);
+  assert.doesNotMatch(uzImagePrompt, /[А-Яа-яЁё]/);
 });

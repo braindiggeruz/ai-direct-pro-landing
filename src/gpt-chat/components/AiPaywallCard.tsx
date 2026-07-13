@@ -20,6 +20,7 @@ export function AiPaywallCard({
   const onPlus = async () => {
     setState('loading');
     track(EV.subscribeIntent, { from: 'paywall' });
+    track(EV.upgradeClick, { from: 'paywall', plan: 'plus' });
     const r = await subscribe(apiBase, 'plus', sessionId);
     // Never fake active subscription — manual mode returns a note.
     setNote(r.message || t.plusManualNote);
@@ -59,7 +60,7 @@ export function AiPaywallCard({
           <button type="button" onClick={onPlus} disabled={state === 'loading'} className="btn-primary text-[14px] disabled:opacity-60">
             {t.paywallCta}
           </button>
-          <a href={pricingHref} className="btn-secondary text-[14px]">
+          <a href={pricingHref} onClick={() => track(EV.viewPricing, { from: 'paywall' })} className="btn-secondary text-[14px]">
             {t.planBadge('plus')} · Business
           </a>
         </div>

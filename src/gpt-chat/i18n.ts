@@ -49,6 +49,11 @@ export interface ChatStrings {
   copy: string;
   copied: string;
   retry: string;
+  shorter: string;
+  forInstagram: string;
+  toUzbekLatin: string;
+  botScenario: string;
+  implementBot: string;
   planBadge: (plan: string) => string;
   b2bTitle: string;
   b2bDiscuss: string;
@@ -95,7 +100,7 @@ const RU: ChatStrings = {
     { label: 'Бизнес', prompts: ['Придумай идею бизнеса в Узбекистане', 'Составь план запуска за 30 дней'] },
   ],
   paywallTitle: 'Free-лимит закончился',
-  paywallBody: 'Оформите Plus за $5/мес и продолжайте без ограничений.',
+  paywallBody: 'Оформите Plus за $5/мес и продолжайте с расширенным лимитом.',
   paywallCta: 'Хочу Plus',
   paywallBenefits: ['Больше сообщений', 'История чатов', 'Длиннее контекст', 'Приоритетные модели'],
   plusManualNote: 'Оплата скоро будет доступна. Оставьте заявку — подключим тариф вручную.',
@@ -111,6 +116,11 @@ const RU: ChatStrings = {
   copy: 'Копировать',
   copied: 'Скопировано',
   retry: 'Повторить',
+  shorter: 'Сделать короче',
+  forInstagram: 'Для Instagram',
+  toUzbekLatin: 'На Uzbek Latin',
+  botScenario: 'Сценарий бота',
+  implementBot: 'Внедрить AI-бота',
   planBadge: (plan) => ({ anonymous_free: 'Гость', registered_free: 'Free', plus: 'Plus', business: 'Business' }[plan] || plan),
   b2bTitle: 'Нужен такой AI-чат для сайта, Telegram или CRM?',
   b2bDiscuss: 'Обсудить внедрение',
@@ -157,7 +167,7 @@ const UZ: ChatStrings = {
     { label: 'Biznes', prompts: ['O‘zbekistonda biznes g‘oyasini o‘yla', '30 kunlik ishga tushirish rejasi'] },
   ],
   paywallTitle: 'Bepul limit tugadi',
-  paywallBody: 'Plus’ni $5/oy’ga oling va cheklovsiz davom eting.',
+  paywallBody: 'Plus’ni $5/oy’ga oling va kengaytirilgan limit bilan davom eting.',
   paywallCta: 'Plus kerak',
   paywallBenefits: ['Ko‘proq xabar', 'Chat tarixi', 'Uzun kontekst', 'Tez modellar'],
   plusManualNote: 'To‘lov tez orada. Ariza qoldiring — tarifni qo‘lda ulaymiz.',
@@ -173,6 +183,11 @@ const UZ: ChatStrings = {
   copy: 'Nusxa olish',
   copied: 'Nusxalandi',
   retry: 'Qayta urinish',
+  shorter: 'Qisqartirish',
+  forInstagram: 'Instagram uchun',
+  toUzbekLatin: 'Uzbek Latin',
+  botScenario: 'Bot ssenariysi',
+  implementBot: 'AI-botni joriy etish',
   planBadge: (plan) => ({ anonymous_free: 'Mehmon', registered_free: 'Free', plus: 'Plus', business: 'Business' }[plan] || plan),
   b2bTitle: 'Biznesingiz uchun shunday AI chat kerakmi?',
   b2bDiscuss: 'Joriy etishni muhokama qilish',
