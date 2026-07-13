@@ -109,6 +109,19 @@
       "type": "cta",
       "text": "Arizalarni avtomatlashtirishni ulash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Asosiy sabab — sekin birinchi javob: menejer bir soatdan keyin javob beradi.",
+        "Shu vaqt ichida ariza sovib qoladi.",
+        "AI-bot soniyalarda javob berib, lidni qayd etadi.",
+        "Tez javob reklama byudjetini va mijozni saqlaydi."
+      ]
     }
   ],
   "faq": [

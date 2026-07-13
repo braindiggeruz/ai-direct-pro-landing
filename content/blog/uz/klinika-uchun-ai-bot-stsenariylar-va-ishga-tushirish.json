@@ -51,7 +51,20 @@
       "Botni sinovdan o'tkazing va real murojaatlarda kuzating."
     ]},
     { "type": "p", "text": "To'g'ri sozlangan klinika boti registraturaning yukini yengillashtiradi, yozilishlarni tartibga soladi va bemor bilan birinchi aloqani professional darajada ushlab turadi. Bu esa marketingga sarflangan pulni behuda ketkazmaslik va jadvalni to'ldirish uchun eng amaliy qadamlardan biri." },
-    { "type": "cta", "text": "Klinikangiz uchun bot stsenariysini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Klinikangiz uchun bot stsenariysini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Klinikada bemorlar Instagram va Telegram orqali bir xil savol beradi.",
+        "AI-bot narx, jadval va shifokor bo‘yicha 24/7 javob beradi.",
+        "Qabulga yozib, kontaktni administratorga uzatadi.",
+        "Murakkab tibbiy savol jonli xodimga o‘tadi."
+      ]
+    }
   ],
   "faq": [
     { "q": "Bot tashxis qo'ya oladimi yoki dori tavsiya qiladimi?", "a": "Yo'q. Bot faqat yozilish, ma'lumot va yo'naltirish uchun. Tashxis va davolashni faqat shifokor belgilaydi — bot bunday savollarni mutaxassisga uzatadi." },

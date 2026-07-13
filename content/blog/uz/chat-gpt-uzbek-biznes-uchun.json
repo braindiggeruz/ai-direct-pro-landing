@@ -66,6 +66,19 @@
       "type": "cta",
       "text": "AI botlarni yaratish va integratsiyalash bo'yicha texnik maslahat uchun bizning mutaxassislarimiz bilan bog'laning.",
       "href": "/uz/biznes-uchun-ai-bot/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-botlar O‘zbekiston IT sohasiga yangi imkoniyatlar ochmoqda.",
+        "Qo‘llanma dasturchilar uchun AI-bot yaratishning texnik jihatlarini yoritadi.",
+        "Til modeli, integratsiya va stsenariy asosiy komponentlar.",
+        "To‘g‘ri arxitektura ishonchli va kengaytiriladigan bot beradi."
+      ]
     }
   ],
   "faq": [

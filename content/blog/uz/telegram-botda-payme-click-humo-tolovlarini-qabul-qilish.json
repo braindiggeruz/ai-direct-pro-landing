@@ -59,7 +59,20 @@
     ]},
     { "type": "h2", "text": "To'lovni ulash biznesga nima beradi" },
     { "type": "p", "text": "Botga to'lovni ulash nafaqat qulaylik — bu konversiyaga bevosita ta'sir qiladi. Mijoz \"issiq\" holatida, ya'ni qaror qabul qilgan zahoti to'lay oladi. Bundan tashqari, menejerlar karta raqami tashlash va cheklarni tekshirish o'rniga haqiqiy sotuvga vaqt ajratadi. Bu Telegram va Instagram Direct orqali keladigan arizalar oqimini yaxlit tizimga aylantiradi." },
-    { "type": "cta", "text": "Sizning biznesingiz uchun to'lov oqimini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Sizning biznesingiz uchun to'lov oqimini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Botdan tashqari to‘lov har safar buyurtmaning bir qismini yo‘qotadi.",
+        "Payme, Click va Humo ni Telegram botda ulash mumkin.",
+        "Mijoz chatdan chiqmasdan buyurtma berib to‘laydi.",
+        "Ulash to‘lov tizimi texnik tayyorligiga bog‘liq."
+      ]
+    }
   ],
   "faq": [
     { "q": "To'lovni ulash uchun qanday hujjatlar kerak?", "a": "Odatda yuridik shaxs yoki YATT sifatida rasmiylashtirilgan biznes va to'lov provayderida ochilgan merchant akkaunti kerak. Aniq talablar tanlagan tizimga (Payme, Click, Humo) bog'liq." },

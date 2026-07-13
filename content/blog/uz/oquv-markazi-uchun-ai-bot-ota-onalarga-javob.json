@@ -51,7 +51,20 @@
       "Botni sinab, birinchi murojaatlarni kuzating."
     ]},
     { "type": "p", "text": "To'g'ri sozlangan o'quv markazi boti qabul mavsumidagi yukni yengillashtiradi, qiziqqan ota-onalarni sinov darsga olib keladi va administrator vaqtini tejaydi. Bu esa reklamadan kelgan har bir murojaatni yo'qotmaslik uchun amaliy yechim." },
-    { "type": "cta", "text": "O'quv markazingiz uchun bot stsenariysini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "O'quv markazingiz uchun bot stsenariysini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘quv markazlarida ota-onalar bir xil savollarni beradi.",
+        "AI-bot kurs, narx va jadval bo‘yicha javob beradi.",
+        "Sinov darsiga yozib, kontaktni yig‘adi.",
+        "Administrator vaqtini jonli muloqot uchun bo‘shatadi."
+      ]
+    }
   ],
   "faq": [
     { "q": "Bot sinov darsga yoza oladimi?", "a": "Ha. Bot yo'nalish va qulay vaqtni so'rab, sinov darsga yoki konsultatsiyaga yozib qo'yadi va ma'lumotlarni administratorga yetkazadi." },

@@ -50,7 +50,20 @@
       "Botni sinab ko'ring va birinchi haftada javoblarni kuzating."
     ]},
     { "type": "p", "text": "To'g'ri sozlangan salon boti Instagram'dagi qiziqishni real yozilishlarga aylantiradi, jadvalni to'ldiradi va administrator vaqtini tejaydi. Bu esa reklama byudjetini samarali ishlatish va mijozni yo'qotmaslikning eng oddiy yo'llaridan biri." },
-    { "type": "cta", "text": "Saloningiz uchun bot yozilish oqimini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Saloningiz uchun bot yozilish oqimini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Salonlarda mijozlar deyarli har doim Instagram Direct orqali yozadi.",
+        "Kech javob mijozni raqibga yuboradi.",
+        "AI-bot xizmatga yozib, narx va bo‘sh vaqt bo‘yicha javob beradi.",
+        "Yozuv va kontakt administratorga uzatiladi."
+      ]
+    }
   ],
   "faq": [
     { "q": "Bot har bir ustaning jadvaliga alohida yoza oladimi?", "a": "Ha. Bot xizmat va ustani so'rab, uning bo'sh vaqtiga yozadi, shunda jadvallar chalkashmaydi." },

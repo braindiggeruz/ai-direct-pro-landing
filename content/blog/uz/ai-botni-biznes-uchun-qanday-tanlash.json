@@ -224,6 +224,19 @@
       "type": "cta",
       "text": "Telegram'da demoni ochish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-botni tanlash texnologiyadan emas, ssenariylardan boshlanadi.",
+        "Tipik xatolardan qochish muhim.",
+        "Bot arizani yig‘ib, menejerga uzatishi kerak.",
+        "Oddiy yechimdan boshlab, keyin rivojlantirish mumkin."
+      ]
     }
   ],
   "faq": [

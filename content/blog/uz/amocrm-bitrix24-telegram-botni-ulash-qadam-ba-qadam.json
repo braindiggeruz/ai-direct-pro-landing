@@ -53,7 +53,20 @@
     ]},
     { "type": "h2", "text": "Ulashdan keyin nima o'zgaradi" },
     { "type": "p", "text": "To'g'ri ulangan bot + CRM bog'lamasi arizalarni yaxlit tizimga aylantiradi: har bir lid kuzatiladi, konversiya ko'rinadi, menejerlar mas'uliyatni his qiladi. Bu esa Telegram va Instagram orqali keladigan oqimni boshqariladigan sotuv voronkasiga aylantiradi va o'sishni rejalashtirish imkonini beradi." },
-    { "type": "cta", "text": "Sizning CRM ingiz uchun ulash sxemasini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Sizning CRM ingiz uchun ulash sxemasini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalar menejer chatida qolsa, voronka va tahlil bo‘lmaydi.",
+        "AmoCRM yoki Bitrix24 ga ulash har bir lidni kuzatadi.",
+        "Ariza avtomatik status va mas’ul menejerga ega bo‘ladi.",
+        "Ulash bosqichma-bosqich sozlanadi."
+      ]
+    }
   ],
   "faq": [
     { "q": "Qaysi CRM yaxshiroq — AmoCRM yoki Bitrix24?", "a": "Ikkalasi ham bot bilan ishlaydi. AmoCRM sotuvga yo'naltirilgan va soddaroq, Bitrix24 kengroq (loyihalar, hujjatlar). Tanlov jamoangiz jarayonlariga bog'liq." },

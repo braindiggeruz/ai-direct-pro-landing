@@ -98,6 +98,19 @@
       "type": "cta",
       "text": "AI-bot sizning biznesingizda qanday ishlashini ko'ring",
       "href": "/uz/biznes-uchun-ai-bot/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznes uchun AI-bot — kompaniya nomidan yozishma olib boruvchi dastur.",
+        "Savollarga javob berib, kontakt yig‘adi va arizani menejerga uzatadi.",
+        "Messenjerlarda 24/7 rus va o‘zbek tilida ishlaydi.",
+        "Menejerni almashtirmaydi — maydalikni oladi."
+      ]
     }
   ],
   "cta": {

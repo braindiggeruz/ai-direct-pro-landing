@@ -88,6 +88,19 @@
       "type": "cta",
       "text": "Biznesingiz uchun kalit topshirish shartidagi AI-botni muhokama qiling",
       "href": "/uz/biznes-uchun-ai-bot/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ikki yo‘l bor: konstruktorda o‘zi yig‘ish yoki studiyadan buyurtma.",
+        "Botmother va SendPulse arzonroq, lekin vaqt va sozlash talab qiladi.",
+        "GPTBot.uz vazifa ostida sozlangan AI-bot beradi.",
+        "Tanlov resurs, muddat va murakkablikka bog‘liq."
+      ]
     }
   ],
   "cta": {

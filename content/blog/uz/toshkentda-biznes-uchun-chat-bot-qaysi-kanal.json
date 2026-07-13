@@ -54,6 +54,19 @@
       "type": "cta",
       "text": "Bu sizning biznesingizda qanday ishlashini bilib oling",
       "href": "/uz/chat-bot-biznes-uchun/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "To‘g‘ri savol — bot qaysi kanalda tezroq natija beradi.",
+        "Kanal mijoz allaqachon yozadigan joyga qarab tanlanadi.",
+        "Bitta kanaldan boshlab, o‘sish bilan kengaytirish mumkin.",
+        "Barcha arizalarni bir joyda yig‘ish qulay."
+      ]
     }
   ],
   "faq": [

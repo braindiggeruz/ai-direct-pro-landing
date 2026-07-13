@@ -38,7 +38,20 @@
     { "type": "p", "text": "WhatsApp bot narxi to'rt qismdan iborat: ssenariy ishlab chiqish, WhatsApp Business API ulash, API provayderdagi suhbat narxi va oylik qo'llab-quvvatlash. Telegramdan farqli, WhatsAppda platforma darajasida tarif bor: Meta ayrim biznes-suhbatlar uchun haq oladi. Buni okupaemost hisobiga oldindan kiritish kerak. Botning o'zi, ariza yig'ish va CRM'ga uzatish esa boshqa kanallardagi kabi taxminan bir xil turadi. Ortiqcha to'lamaslik uchun smeta so'rashdan oldin voronkani tasvirlang." },
     { "type": "h2", "text": "Joriy etishni nimadan boshlash kerak" },
     { "type": "p", "text": "Bitta savoldan boshlang: hozir arizalar qayerda yo'qolyapti? Agar mijozlar WhatsAppga kechqurun va dam olish kunlari yozsa-yu, javob ertalab kelsa, bot avval shu teshikni yopadi. Keyin material tayyorlang: tez-tez beriladigan savollar, narxlar, shartlar, yozilish ssenariysi. Startda GPT va murakkab integratsiyali maksimal paket shart emas. Tez javob, kontakt yig'ish va menejerga uzatishdan iborat ixcham ssenariy tezroq ishga tushadi va osonroq qoplanadi. Oqim o'sganda CRM, ikkinchi kanal va chuqurroq kvalifikatsiya qo'shiladi." },
-    { "type": "cta", "text": "Bu sizning biznesingizda qanday ishlashini bilib oling", "href": "/uz/whatsapp-bot-biznes-uchun/" }
+    { "type": "cta", "text": "Bu sizning biznesingizda qanday ishlashini bilib oling", "href": "/uz/whatsapp-bot-biznes-uchun/" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "WhatsApp bot WhatsApp Business API orqali ishlaydi.",
+        "Mijozlarga darrov javob berib, ariza yig‘adi.",
+        "Arizani menejerga yoki CRMga uzatadi.",
+        "Auditoriyasi WhatsAppda bo‘lgan biznes uchun mos."
+      ]
+    }
   ],
   "faq": [
     { "q": "Bot uchun WhatsApp Business API shartmi?", "a": "Ha. Barqaror va qonuniy WhatsApp bot faqat rasmiy WhatsApp Business API orqali ishlaydi. Shaxsiy ilova orqali yechimlar raqam bloklanishi xavfini tug'diradi va biznesga mos emas." },

@@ -53,6 +53,19 @@
       "type": "cta",
       "text": "Bu sizning biznesingizda qanday ishlashini bilib oling",
       "href": "/uz/arizalarni-avtomatlashtirish/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Alohida Direct, Telegram va chatlar tezlik va kontekstni yo‘qotadi.",
+        "Yagona voronka barcha murojaatlarni bir joyga yig‘adi.",
+        "Bot lidni qayd etib, CRMga avtomatik kiritadi.",
+        "Shunda ishlov berish intizomi boshqariladi."
+      ]
     }
   ],
   "faq": [

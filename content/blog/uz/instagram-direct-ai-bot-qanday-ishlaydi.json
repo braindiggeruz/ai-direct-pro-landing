@@ -97,6 +97,19 @@
       "type": "cta",
       "text": "Instagram uchun AI-bot demosini Telegram'da ko'rish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘zbekistonda ko‘p biznes uchun Instagram — asosiy sotuv kanali.",
+        "Direct va kommentlar tez javob talab qiladi, aks holda mijoz sovib qoladi.",
+        "AI-bot rasmiy Meta API orqali javob berib, kontakt yig‘adi.",
+        "Ariza menejerga yoki CRMga uzatiladi."
+      ]
     }
   ],
   "faq": [

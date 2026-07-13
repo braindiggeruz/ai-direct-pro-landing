@@ -166,6 +166,19 @@
       "type": "cta",
       "text": "Biznesingiz uchun moslashtirilgan AI-bot yechimini topish uchun hoziroq bog'laning!",
       "href": "/uz/biznes-uchun-ai-bot/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Logistika kompaniyalari buyurtma va kuzatuvni ko‘pincha qo‘lda boshqaradi.",
+        "Telegram AI-bot buyurtma qabul qilish va holatni avtomatlashtiradi.",
+        "Mijoz yuk holatini botda ko‘radi, menejer yuki kamayadi.",
+        "Joriy etish bosqichma-bosqich, jarayonlarni tahlil qilishdan boshlanadi."
+      ]
     }
   ],
   "faq": [

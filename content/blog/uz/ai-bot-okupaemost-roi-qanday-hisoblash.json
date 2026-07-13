@@ -52,7 +52,20 @@
       "Bot menejerni butunlay almashtirmaydi — u rutinani oladi, sotuvni odam yopadi.",
       "Raqamlarni 2–3 oydan keyin qayta o'lchang va taqqoslang."
     ]},
-    { "type": "cta", "text": "O'z raqamlaringiz bo'yicha hisobni Telegram'da birga ko'rib chiqamiz", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "O'z raqamlaringiz bo'yicha hisobni Telegram'da birga ko'rib chiqamiz", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Muhim savol — bot o‘zini qancha vaqtda oqlashi.",
+        "ROI saqlangan arizalar va joriy etish narxidan hisoblanadi.",
+        "Ko‘pincha bot 2–4 oyda o‘zini oqlaydi.",
+        "Hisob real murojaat oqimiga bog‘liq."
+      ]
+    }
   ],
   "faq": [
     { "q": "Bot o'rtacha qancha vaqtda o'zini oqlaydi?", "a": "Universal javob yo'q — bu sizning ariza hajmingiz, konversiyangiz va o'rtacha chekingizga bog'liq. Maqoladagi formulaga o'z raqamlaringizni qo'ysangiz, aniq muddatni ko'rasiz." },

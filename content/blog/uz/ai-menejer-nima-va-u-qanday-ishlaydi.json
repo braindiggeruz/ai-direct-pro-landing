@@ -85,6 +85,19 @@
       "type": "cta",
       "text": "AI-menejer biznesingiz arizalarini qanday qayta ishlashini bilib oling",
       "href": "/uz/ai-sotuvchi/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-menejer — biznesga sozlangan sun’iy intellekt, birinchi qator xodimi kabi.",
+        "Suhbat olib boradi, mijozni saralaydi va ma’lumot yig‘adi.",
+        "Iliq lidni menejerga kontekst bilan uzatadi.",
+        "Messenjerlarda va saytda 24/7 ishlaydi."
+      ]
     }
   ],
   "cta": {
