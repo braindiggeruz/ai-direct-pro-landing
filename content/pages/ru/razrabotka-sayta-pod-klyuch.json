@@ -24,12 +24,12 @@
   ],
   "searchIntent": "transactional",
   "h1": "Разработка сайта под ключ для бизнеса",
-  "title": "Разработка сайта под ключ: создание сайтов для бизнеса | GPTBot.uz",
-  "description": "Профессиональная разработка сайта под ключ. Создание корпоративных сайтов, лендингов и интернет-магазинов с уникальным дизайном, CMS, SEO и адаптивной вёрсткой. Заказать сайт под ключ в Ташкенте.",
+  "title": "Разработка сайта под ключ для бизнеса | GPTBot.uz",
+  "description": "Разработка сайтов под ключ в Ташкенте: корпоративные сайты, лендинги и интернет-магазины с дизайном, CMS, SEO и адаптивной вёрсткой.",
   "canonical": "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/",
   "hreflangRu": "/ru/razrabotka-sayta-pod-klyuch/",
   "ogTitle": "Разработка сайта под ключ: создание сайтов | GPTBot.uz",
-  "ogDescription": "Профессиональная разработка сайта под ключ. Создание корпоративных сайтов, лендингов и интернет-магазинов с уникальным дизайном, CMS, SEO и адаптивной вёрсткой.",
+  "ogDescription": "Разработка сайтов под ключ в Ташкенте: корпоративные сайты, лендинги и интернет-магазины с дизайном, CMS, SEO и адаптивной вёрсткой.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -399,7 +399,7 @@
       "links": [
         {
           "token": "privacy",
-          "target": "/ru/privacy/",
+          "target": "/ru/politika-konfidentsialnosti/",
           "anchor": "политика конфиденциальности"
         }
       ]
@@ -579,7 +579,7 @@
       "type": "contextual"
     },
     {
-      "target": "/ru/privacy/",
+      "target": "/ru/politika-konfidentsialnosti/",
       "anchor": "политика конфиденциальности",
       "locale": "ru",
       "type": "contextual"

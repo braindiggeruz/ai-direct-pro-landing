@@ -47,7 +47,21 @@
       { "token": "tg", "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "разработка Telegram-бота" },
       { "token": "zayavki", "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизация заявок" },
       { "token": "saity", "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов" }
-    ] }
+    ] },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT для бизнеса — это AI-чат, Telegram, CRM и сбор заявок в одном решении.",
+        "Отвечает клиентам 24/7 на русском и узбекском.",
+        "Квалифицирует лида и передаёт заявку менеджеру.",
+        "Независимый сервис, не официальный ChatGPT.",
+        "Внедрение начинается с аудита бизнес-процесса."
+      ]
+    }
   ],
   "faq": [
     { "q": "Чем это отличается от AI-бота для бизнеса?", "a": "Эта страница — про связку личного AI-чата и внедрения. Отдельная страница AI-бота для бизнеса описывает именно внедрение бота в мессенджеры и CRM." },
@@ -62,7 +76,19 @@
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-бота", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с AmoCRM и Bitrix24", "locale": "ru", "type": "block" },
     { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "Автоматизация заявок", "locale": "ru", "type": "block" },
-    { "target": "/ru/tarify-ai-chat/", "anchor": "Тарифы AI-чата", "locale": "ru", "type": "block" }
+    { "target": "/ru/tarify-ai-chat/", "anchor": "Тарифы AI-чата", "locale": "ru", "type": "block" },
+    {
+      "target": "/ru/gpt-dlya-biznesa-v-uzbekistane/",
+      "anchor": "GPT для бизнеса в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-v-marketinge-smm/",
+      "anchor": "GPT в маркетинге и SMM",
+      "locale": "ru",
+      "type": "contextual"
+    }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "lastReviewedAt": "2026-07-11",

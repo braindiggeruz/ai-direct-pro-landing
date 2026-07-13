@@ -181,7 +181,19 @@
     { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "block" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-бота", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с CRM", "locale": "ru", "type": "block" },
-    { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "Автоматизация заявок", "locale": "ru", "type": "block" }
+    { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "Автоматизация заявок", "locale": "ru", "type": "block" },
+    {
+      "target": "/ru/gpt-vs-chatgpt-sravnenie/",
+      "anchor": "GPT и ChatGPT — в чём разница",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gde-polzovatsya-gpt-besplatno/",
+      "anchor": "где пользоваться GPT бесплатно",
+      "locale": "ru",
+      "type": "contextual"
+    }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
   "lastReviewedAt": "2026-07-12",

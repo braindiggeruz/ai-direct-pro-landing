@@ -15,7 +15,7 @@
   "searchIntent": "informational",
   "h1": "GPT vs ChatGPT: в чём разница между технологией и продуктом",
   "title": "GPT vs ChatGPT: в чём разница простыми словами | GPTBot.uz",
-  "description": "Чем GPT отличается от ChatGPT: GPT — это технология (языковая модель), ChatGPT — продукт на её основе. Разбираем термины, различия и место независимых AI-сервисов.",
+  "description": "Чем GPT отличается от ChatGPT: GPT — это языковая модель (технология), ChatGPT — продукт на её основе. Разбираем термины и различия простыми словами.",
   "canonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
   "hreflangRu": "/ru/gpt-vs-chatgpt-sravnenie/",
   "ogTitle": "GPT vs ChatGPT: в чём разница между технологией и продуктом",
@@ -63,7 +63,21 @@
       { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "GPT-чат онлайн" },
       { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата" }
     ] },
-    { "type": "cta", "text": "Попробуйте GPTBot.uz AI-чат", "href": "/ru/gpt-chat/" }
+    { "type": "cta", "text": "Попробуйте GPTBot.uz AI-чат", "href": "/ru/gpt-chat/" },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT — это языковая модель (технология), ChatGPT — продукт на её основе.",
+        "Одну модель используют разные продукты и независимые сервисы.",
+        "Для русского и узбекского удобны локальные AI-чаты.",
+        "GPTBot.uz — независимый AI-сервис, не связанный с OpenAI.",
+        "Выбор зависит от задачи: общий чат или внедрение в бизнес."
+      ]
+    }
   ],
   "faq": [
     { "q": "GPT и ChatGPT — это одно и то же?", "a": "Нет. GPT — это технология и семейство языковых моделей, а ChatGPT — конкретный чат-продукт OpenAI на их основе. GPT — ядро, ChatGPT — интерфейс и бренд." },

@@ -8,7 +8,7 @@
   "secondaryKeywords": ["чат для сайта с ии", "онлайн-консультант ai", "виджет ai чата", "ai чат бот для сайта"],
   "searchIntent": "transactional",
   "h1": "AI-чат для сайта",
-  "title": "AI-чат для сайта — онлайн-консультант, заявки и CRM | GPTBot.uz",
+  "title": "AI-чат для сайта: умный онлайн-консультант | GPTBot.uz",
   "description": "Встроенный AI-чат для сайта: отвечает посетителям 24/7, собирает заявки и передаёт лиды менеджеру или в CRM. Внедрение под ключ, GPTBot.uz.",
   "canonical": "https://gptbot.uz/ru/ai-chat-dlya-sayta/",
   "hreflangRu": "/ru/ai-chat-dlya-sayta/",
@@ -42,7 +42,21 @@
       { "token": "crm", "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "интеграция с CRM" },
       { "token": "zayavki", "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизация заявок" },
       { "token": "saity", "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов" }
-    ] }
+    ] },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-чат для сайта — умный онлайн-консультант, отвечающий 24/7.",
+        "Собирает заявки и передаёт лиды менеджеру или в CRM.",
+        "Внедряется под ключ: сценарий, база знаний, интеграции.",
+        "Работает на русском и узбекском без ожидания оператора.",
+        "Помогает превращать трафик сайта в обращения."
+      ]
+    }
   ],
   "faq": [
     { "q": "Чат встраивается на любой сайт?", "a": "Да, виджет можно установить на большинство сайтов. Детали интеграции обсуждаем под вашу платформу." },
@@ -55,7 +69,13 @@
     { "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI-чат для бизнеса", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с AmoCRM и Bitrix24", "locale": "ru", "type": "block" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-бота", "locale": "ru", "type": "block" },
-    { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "Разработка сайтов", "locale": "ru", "type": "block" }
+    { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "Разработка сайтов", "locale": "ru", "type": "block" },
+    {
+      "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
+      "anchor": "как AI-чат превращает диалоги в заявки",
+      "locale": "ru",
+      "type": "contextual"
+    }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "lastReviewedAt": "2026-07-11",

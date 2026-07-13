@@ -41,7 +41,21 @@
       { "token": "biz", "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI-чат для бизнеса" }
     ] },
     { "type": "h2", "text": "Безопасность" },
-    { "type": "p", "text": "AI может ошибаться — проверяйте важные факты. Не вводите пароли, номера карт, коммерческие тайны, медицинские и юридические документы. Сообщения могут обрабатываться через сторонних AI-провайдеров по API." }
+    { "type": "p", "text": "AI может ошибаться — проверяйте важные факты. Не вводите пароли, номера карт, коммерческие тайны, медицинские и юридические документы. Сообщения могут обрабатываться через сторонних AI-провайдеров по API." },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT на русском отвечает на тексты, идеи, учёбу и рабочие задачи.",
+        "GPTBot.uz — независимый AI-чат на русском и узбекском.",
+        "Базовый доступ бесплатный, без сложной регистрации.",
+        "Качество ответа зависит от того, как задан запрос.",
+        "Тот же движок внедряется в бизнес как бот."
+      ]
+    }
   ],
   "faq": [
     { "q": "Это официальный ChatGPT?", "a": "Нет. Это независимый AI-чат от GPTBot.uz, не связанный с OpenAI или ChatGPT." },
@@ -53,7 +67,19 @@
     { "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн", "locale": "ru", "type": "contextual" },
     { "target": "/uz/gpt-uzbek-tilida/", "anchor": "O‘zbek tilida AI chat", "locale": "ru", "type": "contextual" },
     { "target": "/ru/tarify-ai-chat/", "anchor": "Тарифы AI-чата", "locale": "ru", "type": "block" },
-    { "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI-чат для бизнеса", "locale": "ru", "type": "block" }
+    { "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI-чат для бизнеса", "locale": "ru", "type": "block" },
+    {
+      "target": "/ru/gpt-dlya-ucheby/",
+      "anchor": "GPT для учёбы",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-v-marketinge-smm/",
+      "anchor": "GPT в маркетинге и SMM",
+      "locale": "ru",
+      "type": "contextual"
+    }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
   "extraJsonLd": [

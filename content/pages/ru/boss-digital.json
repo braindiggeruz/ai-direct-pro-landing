@@ -14,13 +14,13 @@
   ],
   "searchIntent": "navigational",
   "h1": "Boss Digital — digital-агентство и AI-автоматизация бизнеса в Ташкенте",
-  "title": "Boss Digital — digital-агентство и AI-автоматизация в Ташкенте",
-  "description": "Boss Digital создаёт сайты, AI- и Telegram-ботов, CRM-интеграции и решения для автоматизации бизнеса в Ташкенте и Узбекистане. GPTBot.uz — AI-направление компании.",
+  "title": "Digital-агентство в Ташкенте | Boss Digital",
+  "description": "Boss Digital создаёт сайты, AI- и Telegram-ботов и CRM-интеграции для бизнеса в Узбекистане. GPTBot.uz — AI-направление агентства.",
   "canonical": "https://gptbot.uz/boss-digital/",
   "hreflangRu": "/boss-digital/",
   "hreflangUz": "/uz/boss-digital/",
   "ogTitle": "Boss Digital — digital-агентство и AI-автоматизация в Ташкенте",
-  "ogDescription": "Boss Digital создаёт сайты, AI- и Telegram-ботов, CRM-интеграции и решения для автоматизации бизнеса в Ташкенте и Узбекистане. GPTBot.uz — AI-направление компании.",
+  "ogDescription": "Boss Digital создаёт сайты, AI- и Telegram-ботов и CRM-интеграции для бизнеса в Узбекистане. GPTBot.uz — AI-направление агентства.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -116,7 +116,21 @@
       "Часы работы: 10:00–19:00",
       "Сайт AI-направления: gptbot.uz"
     ] },
-    { "type": "cta", "text": "Обсудить проект в Telegram", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Обсудить проект в Telegram", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Boss Digital — digital-агентство из Ташкента.",
+        "Создаёт сайты, AI- и Telegram-ботов и CRM-интеграции.",
+        "GPTBot.uz — AI-направление агентства по автоматизации бизнеса.",
+        "Работает с бизнесом в Узбекистане на русском и узбекском.",
+        "Проекты ведутся под ключ: от задачи до запуска."
+      ]
+    }
   ],
   "faq": [
     {

@@ -140,6 +140,12 @@
       "anchor": "Boss Digital — Toshkentdagi digital-agentlik",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/jamoa/",
+      "anchor": "GPTBot.uz jamoasi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

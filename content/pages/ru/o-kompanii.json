@@ -96,6 +96,20 @@
       "type": "cta",
       "text": "Обсудить проект в Telegram",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPTBot.uz — студия из Ташкента, которая внедряет AI/GPT-ботов для бизнеса.",
+        "Команда объединяет разработку и знание воронок продаж.",
+        "Работаем с русскоязычной и Uzbek Latin аудиторией в Узбекистане.",
+        "Внедряем ботов в Telegram, Instagram, на сайт и в CRM.",
+        "Старт начинается с бесплатного аудита задачи."
+      ]
     }
   ],
   "faq": [
@@ -138,6 +152,12 @@
     {
       "target": "/boss-digital/",
       "anchor": "Boss Digital — digital-агентство в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/komanda/",
+      "anchor": "команда GPTBot.uz",
       "locale": "ru",
       "type": "contextual"
     }

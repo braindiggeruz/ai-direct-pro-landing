@@ -367,6 +367,20 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   const modifiedIso = rawModified ? new Date(rawModified).toISOString().slice(0, 10) : '';
   const modifiedLabel = page.locale === 'uz' ? 'Yangilangan' : 'Обновлено';
 
+  // E-E-A-T author byline. Named expert from global config (Person schema anchor).
+  // Rendered under the H1 on money/niche pages so crawlers and AI engines see a
+  // real, attributable author + reviewing organisation. Copy-only, no fake claims.
+  const authorName = global.authorName || global.organizationName;
+  const authorUrl = page.locale === 'uz' ? '/uz/jamoa/' : (global.authorUrl || '/ru/o-kompanii/');
+  const authorLabel = page.locale === 'uz' ? 'Muallif' : 'Автор';
+  const orgReviewLabel = page.locale === 'uz'
+    ? `${global.siteName} jamoasi tomonidan tekshirilgan`
+    : `Проверено командой ${global.siteName}`;
+  const showByline = page.pageType === 'money' || page.pageType === 'niche';
+  const bylineHtml = showByline
+    ? `<p data-testid="page-author" class="text-xs text-white/50 mb-4">${escapeHtml(authorLabel)}: <a href="${escapeHtml(authorUrl)}" class="text-white/70 hover:text-white underline underline-offset-2">${escapeText(authorName)}</a> · ${escapeText(orgReviewLabel)}</p>`
+    : '';
+
   // Trust microcopy chips — copy-only, no fake guarantees. Reused below the
   // primary CTA on every money page. Localised per page.locale.
   const trustChips = (page.heroTrust && page.heroTrust.length) ? page.heroTrust
@@ -449,6 +463,7 @@ ${ANALYTICS_HEAD}
     <div>
       <h1 data-testid="page-h1" class="font-display text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">${escapeText(page.h1)}</h1>
       ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
+      ${bylineHtml}
       ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
       ${page.ctaPrimaryHref ? `<div class="flex flex-wrap gap-3 mb-4">
         <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">
