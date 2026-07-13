@@ -33,6 +33,7 @@
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "AI-бот с CRM — это бот, который передаёт заявки и контакты напрямую в AmoCRM или Bitrix24, создавая сделку в воронке автоматически." },
     {
       "type": "h2",
       "text": "Что даёт связка AI-бот + AmoCRM или Bitrix24"

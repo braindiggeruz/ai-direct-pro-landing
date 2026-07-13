@@ -30,6 +30,7 @@
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "AI-менеджер для Instagram — это бот, который отвечает в директе и на комментарии, квалифицирует лида и собирает контакт для менеджера." },
     {
       "type": "h2",
       "text": "Что делает AI-менеджер для Instagram"
