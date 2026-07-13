@@ -12,6 +12,7 @@ import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
 import { applyRole, getRoles } from '../src/gpt-chat/roles';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
+import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
 
 type AnyEnv = Parameters<typeof resolveConfig>[0];
 
@@ -132,9 +133,36 @@ test('AI cabinet roles are localized and affect the request without user data', 
   const prompt = applyRole('Напиши пост', 'smm', 'ru');
   assert.match(prompt, /SMM-специалист/);
   assert.match(prompt, /Задача: Напиши пост/);
+  assert.match(prompt, /естественном русском языке/);
   const uz = applyRole('Post yoz', 'teacher', 'uz');
   assert.match(uz, /Uzbek Latin/);
   assert.match(uz, /Vazifa: Post yoz/);
+});
+
+test('AI cabinet persists quota separately by locale and clears only chat session', () => {
+  const values = new Map<string, string>();
+  const previous = globalThis.localStorage;
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    value: {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => { values.set(key, value); },
+      removeItem: (key: string) => { values.delete(key); },
+    },
+  });
+  try {
+    assert.equal(loadRemaining('ru'), -1);
+    saveRemaining(14, 'ru');
+    saveRemaining(8, 'uz');
+    assert.equal(loadRemaining('ru'), 14);
+    assert.equal(loadRemaining('uz'), 8);
+    saveSessionId('session-1', 'ru');
+    clearSessionId('ru');
+    assert.equal(loadRemaining('ru'), 14);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: previous });
+    else delete (globalThis as { localStorage?: Storage }).localStorage;
+  }
 });
 
 test('AI cabinet templates cover SMM, business, study and image prompt MVP', () => {

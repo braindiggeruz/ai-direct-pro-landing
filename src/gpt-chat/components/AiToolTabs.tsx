@@ -1,36 +1,58 @@
+import { useRef } from 'react';
 import type { Locale } from '../types';
 import type { AiToolId } from '../templates';
 
-const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string }> = [
-  { id: 'chat', ru: 'Chat', uz: 'Chat', icon: 'M4 5h16v11H9l-5 4V5z' },
-  { id: 'images', ru: 'Images', uz: 'Images', icon: 'M4 5h16v14H4zM7 15l3-3 2 2 3-4 3 5' },
-  { id: 'smm', ru: 'SMM', uz: 'SMM', icon: 'M5 18V9m7 9V5m7 13v-6' },
-  { id: 'business', ru: 'Business', uz: 'Biznes', icon: 'M4 8h16v11H4zM9 8V5h6v3m-2 5h-2' },
-  { id: 'study', ru: 'Study', uz: 'O‘qish', icon: 'M3 9l9-5 9 5-9 5-9-5zm4 3v4c3 2 7 2 10 0v-4' },
+const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string; helperRu: string; helperUz: string }> = [
+  { id: 'chat', ru: 'Chat', uz: 'Chat', icon: 'M4 5h16v11H9l-5 4V5z', helperRu: 'Свободный запрос и быстрые действия.', helperUz: 'Erkin so‘rov va tezkor amallar.' },
+  { id: 'images', ru: 'Промты', uz: 'Promptlar', icon: 'M4 5h16v14H4zM7 15l3-3 2 2 3-4 3 5', helperRu: 'Создаёт текстовый промт для изображения. Генерация картинок ещё не запущена.', helperUz: 'Tasvir uchun matnli prompt tayyorlaydi. Tasvir generatsiyasi hali ishga tushmagan.' },
+  { id: 'smm', ru: 'SMM', uz: 'SMM', icon: 'M5 18V9m7 9V5m7 13v-6', helperRu: 'Готовые сценарии для Instagram и Telegram внутри AI-чата.', helperUz: 'AI chat ichida Instagram va Telegram uchun tayyor ssenariylar.' },
+  { id: 'business', ru: 'Бизнес', uz: 'Biznes', icon: 'M4 8h16v11H4zM9 8V5h6v3m-2 5h-2', helperRu: 'Шаблоны для клиентов, продаж и плана AI-бота.', helperUz: 'Mijoz, sotuv va AI-bot rejasi uchun shablonlar.' },
+  { id: 'study', ru: 'Учёба', uz: 'O‘qish', icon: 'M3 9l9-5 9 5-9 5-9-5zm4 3v4c3 2 7 2 10 0v-4', helperRu: 'Сценарии для объяснения, проверки и подготовки.', helperUz: 'Tushunish, tekshirish va tayyorlanish ssenariylari.' },
 ];
 
 export function AiToolTabs({ locale, active, onChange }: { locale: Locale; active: AiToolId; onChange: (tool: AiToolId) => void }) {
+  const refs = useRef<Array<HTMLButtonElement | null>>([]);
+  const activeTool = TOOLS.find((tool) => tool.id === active) ?? TOOLS[0];
+  const onKeyDown = (event: React.KeyboardEvent, index: number) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    let next: number;
+    if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = TOOLS.length - 1;
+    else next = (index + (event.key === 'ArrowRight' ? 1 : -1) + TOOLS.length) % TOOLS.length;
+    onChange(TOOLS[next].id);
+    refs.current[next]?.focus();
+  };
   return (
-    <div className="grid grid-cols-5 gap-1.5 p-2 border-b border-white/8 bg-black/10" role="tablist" aria-label={locale === 'uz' ? 'AI kabinet bo‘limlari' : 'Разделы AI-кабинета'}>
-      {TOOLS.map((tool) => {
-        const selected = tool.id === active;
-        return (
-          <button
-            key={tool.id}
-            type="button"
-            role="tab"
-            aria-selected={selected}
-            aria-controls={`ai-tool-${tool.id}`}
-            onClick={() => onChange(tool.id)}
-            className={`min-h-12 rounded-xl px-1 py-2 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-[10px] sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${
-              selected ? 'bg-brand-cyan/12 border border-brand-cyan/35 text-white' : 'border border-transparent text-white/55 hover:text-white hover:bg-white/[0.05]'
-            }`}
-          >
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={tool.icon} /></svg>
-            <span>{locale === 'uz' ? tool.uz : tool.ru}</span>
-          </button>
-        );
-      })}
+    <div className="border-b border-white/8 bg-black/10">
+      <div className="overflow-x-auto overscroll-x-contain p-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={locale === 'uz' ? 'AI kabinet bo‘limlari' : 'Разделы AI-кабинета'}>
+        <div className="flex min-w-max gap-1.5 sm:grid sm:min-w-0 sm:grid-cols-5">
+          {TOOLS.map((tool, index) => {
+            const selected = tool.id === active;
+            return (
+              <button
+                ref={(element) => { refs.current[index] = element; }}
+                id={`ai-tool-tab-${tool.id}`}
+                key={tool.id}
+                type="button"
+                role="tab"
+                tabIndex={selected ? 0 : -1}
+                aria-selected={selected}
+                aria-controls={`ai-tool-${tool.id}`}
+                onKeyDown={(event) => onKeyDown(event, index)}
+                onClick={() => onChange(tool.id)}
+                className={`min-h-12 min-w-[74px] rounded-xl px-2 py-2 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${
+                  selected ? 'bg-brand-cyan/12 border border-brand-cyan/40 text-white shadow-[inset_0_-2px_0_rgba(47,230,209,0.55)]' : 'border border-transparent text-white/60 hover:text-white hover:bg-white/[0.05]'
+                }`}
+              >
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={tool.icon} /></svg>
+                <span>{locale === 'uz' ? tool.uz : tool.ru}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <p className="px-4 pb-3 text-xs leading-relaxed text-white/55" role="status">{locale === 'uz' ? activeTool.helperUz : activeTool.helperRu}</p>
     </div>
   );
 }

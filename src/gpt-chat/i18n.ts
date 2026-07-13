@@ -43,6 +43,8 @@ export interface ChatStrings {
   leadSubmit: string;
   leadSuccess: string;
   leadIntro: string;
+  leadValidation: string;
+  leadError: string;
   newChat: string;
   history: string;
   loginToSave: string;
@@ -54,6 +56,11 @@ export interface ChatStrings {
   toUzbekLatin: string;
   botScenario: string;
   implementBot: string;
+  moreActions: string;
+  lessActions: string;
+  actionRunning: string;
+  feedbackQuestion: string;
+  plusBadge: string;
   planBadge: (plan: string) => string;
   b2bTitle: string;
   b2bDiscuss: string;
@@ -100,9 +107,9 @@ const RU: ChatStrings = {
     { label: 'Бизнес', prompts: ['Придумай идею бизнеса в Узбекистане', 'Составь план запуска за 30 дней'] },
   ],
   paywallTitle: 'Free-лимит закончился',
-  paywallBody: 'Оформите Plus за $5/мес и продолжайте с расширенным лимитом.',
-  paywallCta: 'Хочу Plus',
-  paywallBenefits: ['Больше сообщений', 'История чатов', 'Длиннее контекст', 'Приоритетные модели'],
+  paywallBody: 'Plus готовится к запуску. Оставьте заявку — сообщим условия и подключим вручную, если тариф доступен.',
+  paywallCta: 'Оставить заявку на Plus',
+  paywallBenefits: ['Планируется больше сообщений', 'История после запуска аккаунтов', 'Все шаблоны', 'Приоритетная поддержка'],
   plusManualNote: 'Оплата скоро будет доступна. Оставьте заявку — подключим тариф вручную.',
   leadName: 'Ваше имя',
   leadContact: 'Телефон или Telegram',
@@ -110,9 +117,11 @@ const RU: ChatStrings = {
   leadSubmit: 'Оставить заявку',
   leadSuccess: 'Заявка принята — мы свяжемся с вами.',
   leadIntro: 'Нужен такой AI-чат на сайт, в Telegram или CRM? Оставьте контакт.',
+  leadValidation: 'Укажите контакт и подтвердите согласие на обработку данных.',
+  leadError: 'Не удалось отправить форму. Попробуйте ещё раз или напишите нам в Telegram.',
   newChat: 'Новый чат',
   history: 'История',
-  loginToSave: 'Войдите, чтобы сохранять историю чатов. Скоро будет доступно.',
+  loginToSave: 'Гостевая история хранится только в этом браузере. Аккаунты и синхронизация между устройствами появятся позже.',
   copy: 'Копировать',
   copied: 'Скопировано',
   retry: 'Повторить',
@@ -121,6 +130,11 @@ const RU: ChatStrings = {
   toUzbekLatin: 'На Uzbek Latin',
   botScenario: 'Сценарий бота',
   implementBot: 'Внедрить AI-бота',
+  moreActions: 'Ещё',
+  lessActions: 'Скрыть',
+  actionRunning: 'Выполняется…',
+  feedbackQuestion: 'Ответ был полезен?',
+  plusBadge: 'Plus · скоро',
   planBadge: (plan) => ({ anonymous_free: 'Гость', registered_free: 'Free', plus: 'Plus', business: 'Business' }[plan] || plan),
   b2bTitle: 'Нужен такой AI-чат для сайта, Telegram или CRM?',
   b2bDiscuss: 'Обсудить внедрение',
@@ -167,9 +181,9 @@ const UZ: ChatStrings = {
     { label: 'Biznes', prompts: ['O‘zbekistonda biznes g‘oyasini o‘yla', '30 kunlik ishga tushirish rejasi'] },
   ],
   paywallTitle: 'Bepul limit tugadi',
-  paywallBody: 'Plus’ni $5/oy’ga oling va kengaytirilgan limit bilan davom eting.',
-  paywallCta: 'Plus kerak',
-  paywallBenefits: ['Ko‘proq xabar', 'Chat tarixi', 'Uzun kontekst', 'Tez modellar'],
+  paywallBody: 'Plus ishga tushirishga tayyorlanmoqda. Ariza qoldiring — tarif mavjud bo‘lsa, shartlarni aytamiz va qo‘lda ulaymiz.',
+  paywallCta: 'Plus uchun ariza',
+  paywallBenefits: ['Ko‘proq xabar rejalashtirilgan', 'Akkauntdan keyin chat tarixi', 'Barcha shablonlar', 'Ustuvor yordam'],
   plusManualNote: 'To‘lov tez orada. Ariza qoldiring — tarifni qo‘lda ulaymiz.',
   leadName: 'Ismingiz',
   leadContact: 'Telefon yoki Telegram',
@@ -177,9 +191,11 @@ const UZ: ChatStrings = {
   leadSubmit: 'Ariza qoldirish',
   leadSuccess: 'Ariza qabul qilindi — tez orada bog‘lanamiz.',
   leadIntro: 'Shunday AI-chat sayt, Telegram yoki CRM uchun kerakmi? Kontakt qoldiring.',
+  leadValidation: 'Kontaktni kiriting va ma’lumotlarni qayta ishlashga rozilik bering.',
+  leadError: 'Forma yuborilmadi. Yana urinib ko‘ring yoki Telegram orqali yozing.',
   newChat: 'Yangi chat',
   history: 'Tarix',
-  loginToSave: 'Tarixni saqlash uchun kiring. Tez orada ishga tushadi.',
+  loginToSave: 'Mehmon tarixi faqat shu brauzerda saqlanadi. Akkaunt va qurilmalararo sinxronlash keyinroq ishga tushadi.',
   copy: 'Nusxa olish',
   copied: 'Nusxalandi',
   retry: 'Qayta urinish',
@@ -188,6 +204,11 @@ const UZ: ChatStrings = {
   toUzbekLatin: 'Uzbek Latin',
   botScenario: 'Bot ssenariysi',
   implementBot: 'AI-botni joriy etish',
+  moreActions: 'Yana',
+  lessActions: 'Yopish',
+  actionRunning: 'Bajarilmoqda…',
+  feedbackQuestion: 'Javob foydali bo‘ldimi?',
+  plusBadge: 'Plus · tez orada',
   planBadge: (plan) => ({ anonymous_free: 'Mehmon', registered_free: 'Free', plus: 'Plus', business: 'Business' }[plan] || plan),
   b2bTitle: 'Biznesingiz uchun shunday AI chat kerakmi?',
   b2bDiscuss: 'Joriy etishni muhokama qilish',

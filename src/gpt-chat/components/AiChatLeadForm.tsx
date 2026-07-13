@@ -15,12 +15,12 @@ export function AiChatLeadForm({
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [consent, setConsent] = useState(false);
-  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'validation' | 'server_error'>('idle');
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contact.trim() || !consent) {
-      setState('error');
+      setState('validation');
       return;
     }
     setState('sending');
@@ -39,7 +39,7 @@ export function AiChatLeadForm({
       track(EV.leadSubmitted, {});
       track(EV.businessLeadSubmitted, { from: 'compact_lead' });
     } else {
-      setState('error');
+      setState('server_error');
     }
   };
 
@@ -57,22 +57,26 @@ export function AiChatLeadForm({
       <label className="block text-xs text-white/65">{t.leadName}<input
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value.slice(0, 200))}
           placeholder={t.leadName}
+          autoComplete="name"
           className="mt-1.5 w-full min-h-12 rounded-xl bg-bg-base border border-white/10 px-3 text-white text-sm focus-visible:ring-2 focus-visible:ring-brand-cyan outline-none"
         /></label>
       <label className="block text-xs text-white/65">{t.leadContact}<input
           type="text"
           value={contact}
-          onChange={(e) => setContact(e.target.value)}
+          onChange={(e) => { setContact(e.target.value.slice(0, 200)); if (state === 'validation') setState('idle'); }}
           placeholder="+998… / @username"
           required
+          autoComplete="tel"
           className="mt-1.5 w-full min-h-12 rounded-xl bg-bg-base border border-white/10 px-3 text-white text-sm focus-visible:ring-2 focus-visible:ring-brand-cyan outline-none"
         /></label>
       <label className="flex min-h-12 items-start gap-3 rounded-xl p-2 text-xs text-white/60 cursor-pointer">
-        <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-5 w-5 accent-cyan-400" />
+        <input type="checkbox" checked={consent} onChange={(e) => { setConsent(e.target.checked); if (state === 'validation') setState('idle'); }} className="mt-0.5 h-5 w-5 accent-cyan-400" />
         <span>{t.leadConsent}</span>
       </label>
+      {state === 'validation' && <p className="text-sm text-red-300" role="alert">{t.leadValidation}</p>}
+      {state === 'server_error' && <div className="rounded-xl border border-red-300/25 bg-red-300/[0.06] p-3 text-sm text-red-100" role="alert"><p>{t.leadError}</p><a href="https://t.me/XGame_changerx" target="_blank" rel="nofollow noopener" onClick={() => track(EV.telegramClick, { from: 'compact_lead_error' })} className="mt-2 inline-flex min-h-12 items-center text-brand-cyan underline underline-offset-4">Telegram</a></div>}
       <button
         type="submit"
         disabled={state === 'sending'}

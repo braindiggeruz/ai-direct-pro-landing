@@ -4,6 +4,7 @@ import type { ChatMessage, Locale } from './types';
 
 const SID_KEY = 'gptchat_sid';
 const HIST_KEY = 'gptchat_history';
+const REMAINING_KEY = 'gptchat_remaining';
 
 function localeKey(base: string, locale: Locale): string {
   return `${base}_${locale}`;
@@ -20,6 +21,37 @@ export function loadSessionId(locale: Locale): string | null {
 export function saveSessionId(id: string, locale: Locale): void {
   try {
     localStorage.setItem(localeKey(SID_KEY, locale), id);
+  } catch {
+    /* noop */
+  }
+}
+
+export function clearSessionId(locale: Locale): void {
+  try {
+    localStorage.removeItem(localeKey(SID_KEY, locale));
+    if (locale === 'ru') localStorage.removeItem(SID_KEY);
+  } catch {
+    /* noop */
+  }
+}
+
+export function loadRemaining(locale: Locale): number {
+  try {
+    const raw = localStorage.getItem(localeKey(REMAINING_KEY, locale));
+    if (raw === null) return -1;
+    const parsed = JSON.parse(raw) as { value?: unknown; date?: unknown };
+    if (parsed.date !== new Date().toISOString().slice(0, 10)) return -1;
+    const value = Number(parsed.value);
+    return Number.isInteger(value) && value >= 0 ? value : -1;
+  } catch {
+    return -1;
+  }
+}
+
+export function saveRemaining(remaining: number, locale: Locale): void {
+  if (!Number.isInteger(remaining) || remaining < 0) return;
+  try {
+    localStorage.setItem(localeKey(REMAINING_KEY, locale), JSON.stringify({ value: remaining, date: new Date().toISOString().slice(0, 10) }));
   } catch {
     /* noop */
   }

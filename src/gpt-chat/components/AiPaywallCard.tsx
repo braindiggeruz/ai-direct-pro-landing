@@ -39,7 +39,7 @@ export function AiPaywallCard({
       role="alert"
     >
       <div className="flex items-center gap-2 mb-2">
-        <span className="chip">Plus · $5/мес</span>
+        <span className="chip">{t.plusBadge}</span>
       </div>
       <h3 className="h-display text-2xl text-white mb-1.5">{t.paywallTitle}</h3>
       <p className="text-white/70 text-sm mb-4 leading-relaxed">{t.paywallBody}</p>
