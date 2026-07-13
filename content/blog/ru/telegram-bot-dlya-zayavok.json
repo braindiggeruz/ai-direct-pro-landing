@@ -308,7 +308,8 @@
     { "target": "/ru/telegram-bot-dlya-biznesa/", "anchor": "Telegram-бот для бизнеса", "locale": "ru", "type": "contextual", "priority": 4 },
     { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "contextual", "priority": 5 },
     { "target": "/ru/gpt-dlya-biznesa/", "anchor": "GPT для бизнеса", "locale": "ru", "type": "contextual", "priority": 6 },
-    { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "contextual", "priority": 7 }
+    { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "contextual", "priority": 7 },
+    { "target": "/ru/blog/telegram-bot-dlya-zapisi-klientov/", "anchor": "Telegram-бот для записи клиентов", "locale": "ru", "type": "contextual", "priority": 6 }
   ],
   "ogTitle": "Telegram-бот для заявок: как не терять клиентов из рекламы, сайта и Instagram",
   "ogDescription": "Как Telegram-бот собирает заявки из рекламы, сайта и Instagram, передаёт лиды менеджеру, в CRM или Google Sheets и помогает не терять обращения.",
