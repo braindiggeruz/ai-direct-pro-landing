@@ -131,6 +131,20 @@
       "type": "cta",
       "text": "Bemorlarni qabul qilishni avtomatlashtirish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Klinika uchun AI-bot qabulga 24/7 yozadi.",
+        "Shifokorlar, xizmatlar, narx va jadval bo‘yicha javob beradi.",
+        "Ism va telefonni yig‘ib, yozuvni administratorga uzatadi.",
+        "Tunda va dam olish kunlari yo‘qotilgan murojaatlarni kamaytiradi.",
+        "Telegram va Instagramda ikki tilda ishlaydi."
+      ]
     }
   ],
   "faq": [

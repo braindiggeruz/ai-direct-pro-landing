@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Shaharlar va ish formati",
   "ctaSecondaryHref": "#shaharlar",
   "bodyBlocks": [
+    { "type": "p", "text": "O‘zbekiston bo‘ylab chat-bot — bu mahalliy biznes uchun masofadan joriy etiladigan, rus va o‘zbek tilida 24/7 javob beradigan AI-yordamchi." },
     {
       "type": "p",
       "text": "Qisqacha: biz butun O'zbekiston bo'ylab biznes uchun AI chat-botlarni ishlab chiqamiz — masofadan, shaharga bog'lanmasdan. Toshkent, Samarqand, Buxoro, Namangan, Andijon, Farg'ona, Nukus va boshqa shaharlar bilan ishlaymiz. Botlar Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida 24/7 arizalarni qabul qiladi va sotadi. Bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan. Yangilandi: 2026 iyun."

@@ -113,6 +113,20 @@
       "type": "cta",
       "text": "Telegram da demo ishga tushirish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sharhlar va keyslar GPTBot.uz botlari turli sohalarda qanday ishlashini ko‘rsatadi.",
+        "Mijozlar uchun asosiy natija — kamroq yo‘qotilgan ariza.",
+        "Botlar Telegram, Instagram va saytlarga joriy etilgan.",
+        "Rus va o‘zbek tilida biznes vazifalari ostida ishlaydi.",
+        "Sohangiz uchun stsenariy namunasini bepul tayyorlaymiz."
+      ]
     }
   ],
   "faq": [

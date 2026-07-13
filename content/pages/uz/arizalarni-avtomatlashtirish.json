@@ -130,6 +130,20 @@
       "type": "cta",
       "text": "Avtomatlashtirishni olish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalarni avtomatlashtirish barcha murojaatlarni bitta joyga yig‘adi.",
+        "AI-bot darhol javob berib, har bir lidni qayd etadi.",
+        "Ariza qo‘lda ko‘chirmasdan menejerga yoki CRMga uzatiladi.",
+        "Yozishmalarda va ish vaqtidan tashqarida hech narsa yo‘qolmaydi.",
+        "Murojaatlar oqimi bo‘yicha shaffof tahlil beradi."
+      ]
     }
   ],
   "faq": [

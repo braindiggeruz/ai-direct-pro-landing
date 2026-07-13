@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Bot va menejerni solishtirish",
   "ctaSecondaryHref": "#solishtirish",
   "bodyBlocks": [
+    { "type": "p", "text": "AI-bot yoki menejer — bu odamni almashtirish emas, balki vazifalarni taqsimlash: bot birinchi kontakt va maydalikni, menejer murakkab bitimlarni oladi." },
     {
       "type": "p",
       "text": "Qisqacha: AI bot tezlik, narx va 24/7 ishlashda yutadi — u bir zumda javob beradi, istalgan oqimni parallel qayta ishlaydi va charchamaydi. Menejer murakkab muzokaralar, nostandart so'rovlar va hissiy aloqada kuchliroq. Shuning uchun eng yaxshi variant — «yoki-yoki» emas, balki bog'lama: bot birinchi kontakt, tipik savollar va qaynoq lidlar yig'ishni 24/7 yopadi, menejer esa bitimlarni yopishga ulanadi. Bot — 3 mln so'mdan, bu odatda oyiga bitta operatordan arzon. Yangilandi: 2026 iyun."

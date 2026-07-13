@@ -191,6 +191,20 @@
         "Klinika: yozuv va eslatmalar, tashriflar tarixi",
         "B2B xizmatlar: uzun bitim tsikli — voronka bosqichi va yozishmalar tarixi bilan kartochka"
       ]
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "CRM bilan AI-bot arizani to‘g‘ridan-to‘g‘ri amoCRM yoki Bitrix24 ga uzatadi.",
+        "Bitim voronkada avtomatik yaratiladi, qo‘lda ko‘chirishsiz.",
+        "Menejer yangi lid haqida bildirishnoma oladi.",
+        "CRM bo‘lmasa — Google Sheets yoki Telegram bildirishnomasidan boshlash mumkin.",
+        "Telegram, Instagram va saytda ishlaydi."
+      ]
     }
   ],
   "faq": [

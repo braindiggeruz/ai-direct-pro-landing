@@ -123,6 +123,20 @@
       "type": "cta",
       "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznes uchun AI-bot — messenjerlarda menejer o‘rniga javob beruvchi virtual xodim.",
+        "Ism, telefon va ehtiyojni yig‘ib, arizani menejerga uzatadi.",
+        "24/7 rus va o‘zbek tilida ishlaydi.",
+        "Har bir soha uchun alohida stsenariy sozlanadi.",
+        "Menejerni almashtirmaydi — maydalikni oladi va tez javob beradi."
+      ]
     }
   ],
   "faq": [

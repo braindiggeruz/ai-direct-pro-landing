@@ -33,6 +33,7 @@
   "ctaSecondaryLabel": "Saralash ssenariysi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Ko‘chmas mulk agentligi uchun AI-bot — bu mijozni byudjet va tuman bo‘yicha baholaydigan hamda ko‘rikka yozadigan virtual menejer." },
     {
       "type": "h2",
       "text": "Ko'chmas mulk agentligi uchun AI bot nima qiladi"
@@ -177,6 +178,20 @@
         "Shahar tashqarisi va atrof: format, tuman, byudjet, infratuzilma",
         "Ikkilamchi uy-joy: tuman, uy turi, maydon, ta'mir",
         "Aniq turar-joy majmuasi uchun Instagram reklamadan kelgan so'rovlar — ob'ektga nuqtali saralash"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ko‘chmas mulk agentligi uchun AI-bot mijozni byudjet va tuman bo‘yicha baholaydi.",
+        "Ob’ektlar bo‘yicha javob berib, ko‘rikka yozadi.",
+        "Rieltorga tayyor, iliq arizani uzatadi.",
+        "Telegram, Instagram va saytda ishlaydi.",
+        "Menejer vaqtini nishonli bo‘lmagan murojaatlarda tejaydi."
       ]
     }
   ],

@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Do‘kon uchun AI-bot — bu mahsulot tanlash, buyurtma rasmiylashtirish va yetkazish holatiga 24/7 javob beradigan virtual konsultant." },
     {
       "type": "h2",
       "text": "do'kon uchun AI bot nima qiladi"
@@ -131,6 +132,20 @@
       "type": "cta",
       "text": "Do'kon uchun bot buyurtma qilish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Do‘kon uchun AI-bot mahsulot tanlash va buyurtmani rasmiylashtirishga yordam beradi.",
+        "Mavjudlik va yetkazish holati bo‘yicha 24/7 javob beradi.",
+        "Tez javob bilan tashlab ketilgan savatlarni kamaytiradi.",
+        "Ariza va kontaktni menejerga yoki CRMga uzatadi.",
+        "Telegram, Instagram va saytda ikki tilda ishlaydi."
+      ]
     }
   ],
   "faq": [

@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "O‘quv markazi uchun AI-bot — bu sinov darsiga yozadigan, ota-onalarga javob beradigan va arizani qabul komissiyasiga uzatadigan yordamchi." },
     {
       "type": "h2",
       "text": "o'quv markazi uchun AI bot nima qiladi"
@@ -131,6 +132,20 @@
       "type": "cta",
       "text": "Markaz uchun bot sozlash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘quv markazi uchun AI-bot sinov darsiga yozadi va ota-onalarga javob beradi.",
+        "Kurslar, jadval va narxlar bo‘yicha ma’lumot beradi.",
+        "Kontaktni yig‘ib, arizani qabul komissiyasiga uzatadi.",
+        "Reklamadan kelgan arizalarni yo‘qotmaydi.",
+        "Rus va o‘zbek tilida ishlaydi."
+      ]
     }
   ],
   "faq": [

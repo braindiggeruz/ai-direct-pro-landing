@@ -30,6 +30,7 @@
   "ctaSecondaryLabel": "Nishalar boyicha korish",
   "ctaSecondaryHref": "/uz/biznes-uchun-ai-bot/",
   "bodyBlocks": [
+    { "type": "p", "text": "GPTBot.uz — bu Toshkentdagi studiya, u O‘zbekistonda biznes uchun AI/GPT botlarni rus va o‘zbek tilida joriy etadi." },
     {
       "type": "h2",
       "text": "Biz kimmiz"
@@ -96,6 +97,20 @@
       "type": "cta",
       "text": "Loyihani Telegramda muhokama qilish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPTBot.uz — Toshkentdagi studiya, biznes uchun AI/GPT botlar joriy etadi.",
+        "Jamoa ishlab chiqish va savdo voronkasini biladi.",
+        "Rus va o‘zbek auditoriya bilan ishlaymiz.",
+        "Botlarni Telegram, Instagram, sayt va CRMga joriy etamiz.",
+        "Boshlash bepul vazifa auditidan boshlanadi."
+      ]
     }
   ],
   "faq": [

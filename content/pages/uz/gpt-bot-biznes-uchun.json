@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Biznes uchun GPT-bot — bu til modeli asosidagi AI-chatbot: mijozning erkin savolini tushunadi va messenjerlarda arizalarni yig‘adi." },
     {
       "type": "h2",
       "text": "GPT bot oddiy botdan nimasi bilan farq qiladi"
@@ -122,6 +123,20 @@
       "type": "cta",
       "text": "Telegram'da GPT botni muhokama qilish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznes uchun GPT-bot — murakkab savollarni tushunadigan AI-chatbot.",
+        "Tugmalarga emas, erkin savollarga ham javob beradi.",
+        "Telegram, Instagram va saytda arizalarni yig‘adi.",
+        "Malakali lidni menejerga yoki CRMga uzatadi.",
+        "Xizmatlar, narxlar va tone of voice ostida sozlanadi."
+      ]
     }
   ],
   "faq": [

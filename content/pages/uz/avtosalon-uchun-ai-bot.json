@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
+    { "type": "p", "text": "Avtosalon uchun AI-bot — bu mijozni byudjet va model bo‘yicha baholaydigan, test-drayvga yozadigan va arizani menejerga uzatadigan virtual menejer." },
     {
       "type": "p",
       "text": "Qisqacha: avtosalon uchun AI bot avtomobil sotib olish arizalarini 24/7 qabul qiladi va saralaydi, model, komplektatsiya, narx, kredit va treyd-in bo'yicha javob beradi, test-drayv va avtoservisga yozadi, kontaktlarni yig'adi va qaynoq lidlarni menejerga uzatadi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Bir necha kunda ishga tushadi, narxi — 3 mln so'mdan. Yangilandi: 2026 iyun."

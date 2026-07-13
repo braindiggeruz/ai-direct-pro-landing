@@ -31,6 +31,7 @@
   "ctaSecondaryHref": "#misollar",
   "heroTrust": ["Uzbek Latin", "Telegram va Instagram", "Toshkent va O‘zbekiston"],
   "bodyBlocks": [
+    { "type": "p", "text": "Telegram va Instagram uchun GPT — bu post g‘oyalari, reklama matni va kontent-rejani tayyorlaydigan til modeli yordamchisi." },
     { "type": "p", "text": "GPT — til modeli asosidagi AI chat bo‘lib, u Telegram va Instagram uchun kontent tayyorlashda yordam beradi: post g‘oyalari, reklama matni, mahsulot tavsifi, story va kontent-reja. Siz vazifani Uzbek Latin yozuvida aniq tushuntirasiz, model esa qoralama yaratadi. Natijani nashr qilishdan oldin tekshirib chiqing." },
     { "type": "p", "text": "ChatGPT va OpenAI mashhur texnologiyalar sifatida tilga olinadi. GPTBot.uz — til modellari asosidagi mustaqil AI servis; u OpenAI yoki ChatGPTning rasmiy mahsuloti emas." },
     { "type": "toc", "text": "Maqola mazmuni", "links": [
@@ -79,7 +80,21 @@
       { "token": "uzchat", "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida" },
       { "token": "rus", "target": "/ru/gpt-na-russkom-kak-zadavat-zaprosy/", "anchor": "so‘rov yozish bo‘yicha qo‘llanma" }
     ] },
-    { "type": "cta", "text": "GPTBot.uz AI chatni sinab ko‘ring", "href": "/uz/gpt-uzbek-tilida/" }
+    { "type": "cta", "text": "GPTBot.uz AI chatni sinab ko‘ring", "href": "/uz/gpt-uzbek-tilida/" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT Telegram va Instagram uchun post g‘oyalari va reklama matnini tayyorlaydi.",
+        "Mahsulot tavsifi, story va kontent-reja tuzishga yordam beradi.",
+        "Matnni brend ostida tekshirib, moslash kerak.",
+        "Rus va o‘zbek tilida ishlaydi.",
+        "Biznes uchun xuddi shu dvigatel bot sifatida joriy etiladi."
+      ]
+    }
   ],
   "faq": [
     { "q": "GPT Telegram va Instagram uchun foydalimi?", "a": "Ha. GPT post g‘oyalari, reklama matni, mahsulot tavsifi, story va kontent-reja tayyorlashda yordam beradi. Natijani nashrdan oldin tekshirish kerak." },

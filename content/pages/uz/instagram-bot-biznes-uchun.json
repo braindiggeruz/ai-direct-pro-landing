@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Instagram bot biznes uchun — bu direktda soniyalarda javob berib, kontakt yig‘adigan va arizani menejerga uzatadigan AI-yordamchi." },
     {
       "type": "h2",
       "text": "Instagram bot biznes uchun nima qiladi"
@@ -130,6 +131,20 @@
       "type": "cta",
       "text": "Instagram botni ulash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Instagram bot direktda soniyalarda javob berib, lidni sovushiga yo‘l qo‘ymaydi.",
+        "Rasmiy Meta API orqali ishlaydi, foydalanuvchini taqlid qilmaydi.",
+        "Ism va telefonni yig‘ib, arizani menejerga uzatadi.",
+        "Yozgan yoki izoh qoldirganlarga stsenariy bo‘yicha javob beradi.",
+        "Nisha va xizmatlar ostida sozlanadi."
+      ]
     }
   ],
   "faq": [

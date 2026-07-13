@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "AI-sotuvchi — bu mijozni xaridga yetaklaydigan GPT-konsultant: mahsulot bo‘yicha javob beradi, tavsiya qiladi va arizani sotuv bo‘limiga uzatadi." },
     {
       "type": "h2",
       "text": "AI-sotuvchi nima qiladi"
@@ -132,6 +133,20 @@
       "type": "cta",
       "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-sotuvchi — mijozni xaridga yetaklaydigan GPT-konsultant.",
+        "Mahsulot bo‘yicha savollarga javob beradi va tavsiya qiladi.",
+        "Kontaktni yig‘ib, arizani sotuv bo‘limiga uzatadi.",
+        "24/7 rus va o‘zbek tilida ishlaydi.",
+        "Menejerlarni birinchi kontakt maydaligidan xalos qiladi."
+      ]
     }
   ],
   "faq": [
