@@ -353,7 +353,8 @@
     { "target": "/ru/gpt-dlya-biznesa-v-uzbekistane/", "anchor": "GPT для бизнеса в Узбекистане", "locale": "ru", "type": "contextual" },
     { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "contextual" },
     { "target": "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/", "anchor": "сколько стоит разработка Telegram-бота", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/", "anchor": "AI-боты для бизнеса в Узбекистане", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/", "anchor": "AI-боты для бизнеса в Узбекистане", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/telegram-bot-dlya-zayavok/", "anchor": "Telegram-бот для заявок", "locale": "ru", "type": "contextual" }
   ],
   "schemaTypes": [
     "Organization",
