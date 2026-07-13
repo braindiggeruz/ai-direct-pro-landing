@@ -48,6 +48,8 @@ export interface LeadPayload {
   sessionId?: string | null;
   consent: boolean;
   pageUrl?: string;
+  /** Structured, non-message business context accepted by the existing lead endpoint. */
+  utm?: Record<string, string>;
 }
 
 export async function sendLead(apiBase: string, payload: LeadPayload): Promise<{ ok: boolean }> {

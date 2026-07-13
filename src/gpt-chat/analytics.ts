@@ -28,4 +28,19 @@ export const EV = {
   pricingViewed: 'GPTChatPricingViewed',
   subscribeIntent: 'GPTChatSubscribeIntent',
   providerError: 'GPTChatProviderError',
+  // Product-cabinet funnel. Payloads contain only UI metadata — never prompts
+  // or generated answers.
+  visitChat: 'VisitChat',
+  startChat: 'StartChat',
+  sendPrompt: 'SendPrompt',
+  useTemplate: 'UseTemplate',
+  selectRole: 'SelectRole',
+  generateImagePrompt: 'GenerateImagePrompt',
+  viewPricing: 'ViewPricing',
+  limitReachedProduct: 'LimitReached',
+  upgradeClick: 'UpgradeClick',
+  businessDemoStarted: 'BusinessDemoStarted',
+  businessLeadSubmitted: 'BusinessLeadSubmitted',
+  telegramClick: 'TelegramClick',
+  copyAnswer: 'CopyAnswer',
 } as const;

@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import type { ChatMessage } from '../types';
 import type { ChatStrings } from '../i18n';
 import { renderMarkdown } from '../markdown';
+import { track, EV } from '../analytics';
 
-function MessageActions({ content, isLast, onRetry, t }: { content: string; isLast: boolean; onRetry?: () => void; t: ChatStrings }) {
+export type AnswerAction = 'shorter' | 'instagram' | 'uzbek' | 'bot';
+
+function MessageActions({ content, isLast, onRetry, onAnswerAction, t }: { content: string; isLast: boolean; onRetry?: () => void; onAnswerAction?: (action: AnswerAction, content: string) => void; t: ChatStrings }) {
   const [copied, setCopied] = useState(false);
   // Feedback is a UI scaffold: stored locally, aria-labelled. Wired to the
   // backend /feedback endpoint in a later pass (needs message id in response).
@@ -12,12 +15,13 @@ function MessageActions({ content, isLast, onRetry, t }: { content: string; isLa
     try {
       await navigator.clipboard.writeText(content);
       setCopied(true);
+      track(EV.copyAnswer, { surface: 'answer_actions' });
       setTimeout(() => setCopied(false), 1500);
     } catch {
       /* clipboard blocked — ignore */
     }
   };
-  const pill = 'px-2.5 py-1 rounded-full border border-white/10 text-white/55 hover:text-white hover:border-brand-cyan/40 transition-colors';
+  const pill = 'min-h-11 px-3 py-2 rounded-xl border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan';
   return (
     <div className="flex flex-wrap items-center gap-2 mt-3 text-[12px]">
       <button type="button" onClick={copy} aria-label={t.copy} className={pill}>
@@ -27,6 +31,15 @@ function MessageActions({ content, isLast, onRetry, t }: { content: string; isLa
         <button type="button" onClick={onRetry} aria-label={t.retry} className={pill}>
           {t.retry}
         </button>
+      )}
+      {isLast && onAnswerAction && (
+        <>
+          <button type="button" onClick={() => onAnswerAction('shorter', content)} className={pill}>{t.shorter}</button>
+          <button type="button" onClick={() => onAnswerAction('instagram', content)} className={pill}>{t.forInstagram}</button>
+          <button type="button" onClick={() => onAnswerAction('uzbek', content)} className={pill}>{t.toUzbekLatin}</button>
+          <button type="button" onClick={() => onAnswerAction('bot', content)} className={pill}>{t.botScenario}</button>
+          <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.telegramClick, { from: 'answer_actions' }); track(EV.leadIntent, { from: 'answer_actions' }); }} rel="nofollow noopener" target="_blank" className={pill}>{t.implementBot}</a>
+        </>
       )}
       {rating ? (
         <span className="px-2.5 py-1 text-brand-cyan/80">{t.feedbackThanks}</span>
@@ -48,10 +61,12 @@ export function AiChatMessageList({
   messages,
   t,
   onRetry,
+  onAnswerAction,
 }: {
   messages: ChatMessage[];
   t: ChatStrings;
   onRetry?: () => void;
+  onAnswerAction?: (action: AnswerAction, content: string) => void;
 }) {
   const endRef = useRef<HTMLDivElement>(null);
   const lastAssistant = (() => {
@@ -92,7 +107,7 @@ export function AiChatMessageList({
             ) : m.role === 'assistant' && !m.error ? (
               <>
                 <div className="leading-relaxed break-words [overflow-wrap:anywhere]" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
-                <MessageActions content={m.content} isLast={i === lastAssistant} onRetry={onRetry} t={t} />
+                <MessageActions content={m.content} isLast={i === lastAssistant} onRetry={onRetry} onAnswerAction={onAnswerAction} t={t} />
               </>
             ) : (
               <span className="whitespace-pre-wrap">{m.content}</span>
