@@ -132,6 +132,20 @@
       "type": "cta",
       "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "HoReCa uchun AI-bot bron va yetkazish buyurtmalarini 24/7 qabul qiladi.",
+        "Menyu, ish vaqti va manzil bo‘yicha javob beradi.",
+        "Buyurtmani qayd etib, oshxonaga yoki menejerga uzatadi.",
+        "Band vaqtda ham buyurtmalar yo‘qolmaydi.",
+        "Telegram, Instagram va WhatsAppda ikki tilda ishlaydi."
+      ]
     }
   ],
   "faq": [

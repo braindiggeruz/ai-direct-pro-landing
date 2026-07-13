@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
+    { "type": "p", "text": "Yetkazib berish uchun AI-bot — bu buyurtmalarni 24/7 qabul qiladigan, menyu bo‘yicha javob beradigan va buyurtmani oshxonaga uzatadigan bot." },
     {
       "type": "p",
       "text": "Qisqacha: ovqat yetkazib berish uchun AI bot buyurtmalarni 24/7 qabul qiladi, mijozni menyu bo'yicha yo'naltiradi, summani hisoblaydi, manzil va vaqtni aniqlaydi, aksiyalar va yetkazib berish hududi bo'yicha javob beradi hamda buyurtma holatini xabar qiladi. Bot operatorlarni eng gavjum payt (rush) da yengillashtiradi va tunda hamda dam olish kunlari buyurtmalarni yo'qotmaydi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Narxi — 3 mln so'mdan. Yangilandi: 2026 iyun."

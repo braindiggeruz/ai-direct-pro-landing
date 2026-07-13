@@ -71,6 +71,20 @@
       "type": "cta",
       "text": "Loyihani jamoa bilan muhokama qilish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPTBot.uz jamoasi — Toshkentdagi ishlab chiquvchilar va voronka me’morlari.",
+        "Rollar: avtomatlashtirish me’mori, AI-muhandis, backend, QA.",
+        "Koddan oldin savdo auditini o‘tkazamiz.",
+        "Ishga tushgach real suhbatlarni tahlil qilib, modelni sozlaymiz.",
+        "Mahalliy jamoa aralash rus-o‘zbek tilini hisobga oladi."
+      ]
     }
   ],
   "faq": [

@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Instagram uchun AI-menejer — bu direkt va izohlarga avtomatik javob beradigan, lidni baholaydigan va kontakt yig‘adigan bot." },
     {
       "type": "h2",
       "text": "Instagram uchun AI-menejer nima qiladi"
@@ -132,6 +133,20 @@
       "type": "cta",
       "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Instagram uchun AI-menejer direkt va izohlarga avtomatik javob beradi.",
+        "Lidni baholab, menejer uchun kontakt yig‘adi.",
+        "Instagram qoidalarini buzmasdan ishlaydi.",
+        "Rus va o‘zbek tilida yagona uslubda javob beradi.",
+        "Arizalar Telegram yoki CRMda yig‘iladi."
+      ]
     }
   ],
   "faq": [

@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Telegram bot biznes uchun — bu Telegram ichida savollarga javob beradigan, kontakt yig‘adigan va arizani menejerga uzatadigan tizim." },
     {
       "type": "h2",
       "text": "Biznesga Telegram bot nega kerak"
@@ -122,6 +123,20 @@
       "type": "cta",
       "text": "Telegram bot so'rash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Telegram bot biznes uchun — Telegram ichida ariza qabul qiluvchi tizim.",
+        "Savollarga javob berib, kontaktni yig‘adi va menejerga uzatadi.",
+        "24/7 ishlaydi, tunda va dam olish kunlari yo‘qotmaydi.",
+        "Oddiy bot, AI-bot yoki gibrid qilish mumkin.",
+        "Rus va o‘zbek tilida ishlaydi."
+      ]
     }
   ],
   "faq": [

@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Ikki turni solishtirish",
   "ctaSecondaryHref": "#solishtirish",
   "bodyBlocks": [
+    { "type": "p", "text": "GPT-bot — bu erkin savollarni tushunadigan bot, oddiy chat-bot esa faqat tugma va stsenariylar bo‘yicha ishlaydi." },
     {
       "type": "p",
       "text": "Qisqacha: oddiy (tugmali, ssenariyli) chat-bot mijozni qat'iy oldindan belgilangan tugmalar va shoxlar bo'yicha yo'naltiradi — u arzon va oldindan aytib bo'ladigan, lekin erkin savollarni tushunmaydi va ssenariydan chetga chiqilganda yo'qoladi. GPT-bot tirik nutqni tushunadi, o'z so'zlari bilan berilgan savollarga javob beradi, suhbat kontekstini ushlab turadi va tabiiy eshitiladi. FAQ va oddiy menyular uchun oddiy bot yetadi; sotuv, konsultatsiya va murakkab savollar uchun GPT-bot kerak. Oddiy bot — 3 mln so'mdan, GPT-bot — 7 mln so'mdan. Yangilandi: 2026 iyun."

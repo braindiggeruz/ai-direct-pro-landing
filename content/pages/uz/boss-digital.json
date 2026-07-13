@@ -31,6 +31,7 @@
   "ctaSecondaryLabel": "GPTBot.uz yechimlarini ko'rish",
   "ctaSecondaryHref": "/",
   "bodyBlocks": [
+    { "type": "p", "text": "Boss Digital — bu Toshkentdagi digital-agentlik: saytlar, AI- va Telegram-botlar va CRM integratsiyalari; GPTBot.uz — uning AI-yo‘nalishi." },
     {
       "type": "h2",
       "text": "Boss Digital haqida"
@@ -232,6 +233,20 @@
       "type": "cta",
       "text": "Telegram'da loyihani muhokama qilish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Boss Digital — Toshkentdagi digital-agentlik.",
+        "Saytlar, AI- va Telegram-botlar hamda CRM integratsiyalarini yaratadi.",
+        "GPTBot.uz — agentlikning AI-yo‘nalishi.",
+        "O‘zbekistondagi biznes bilan rus va o‘zbek tilida ishlaydi.",
+        "Loyihalar vazifadan ishga tushirishgacha olib boriladi."
+      ]
     }
   ],
   "faq": [

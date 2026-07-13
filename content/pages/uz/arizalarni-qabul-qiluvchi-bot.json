@@ -131,6 +131,20 @@
       "type": "cta",
       "text": "Telegram'da demo so'rash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalarni qabul qiluvchi bot har bir murojaatga 24/7 darhol javob beradi.",
+        "Kontakt va ehtiyojni tartibli ko‘rinishda yig‘adi.",
+        "Arizani Telegramda menejerga yoki CRMga uzatadi.",
+        "Yozishmalarda va tunda arizalar yo‘qolmaydi.",
+        "Sizning xizmatlaringiz va stsenariyingiz ostida sozlanadi."
+      ]
     }
   ],
   "faq": [

@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    { "type": "p", "text": "Chat-bot narxi — bu aniq vazifa ostidagi smeta: u stsenariylar, integratsiyalar, AI-funksiyalar va CRM mavjudligiga bog‘liq." },
     {
       "type": "p",
       "text": "Qisqacha: O'zbekistonda biznes uchun chat-bot Telegram'dagi bazaviy bot uchun 990 000 so'mdan, Instagram Direct bot uchun 1 190 000 so'mdan va to'laqonli AI-voronka uchun 1 990 000 so'mdan turadi. CRM integratsiyali murakkab sohaviy loyihalar 4-5 mln so'mgacha boradi. Aniq narxni qisqa brifdan keyin qayd etamiz, yashirin to'lovlarsiz. Yangilandi: 2026 iyul."

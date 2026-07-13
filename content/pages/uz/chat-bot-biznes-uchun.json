@@ -122,6 +122,20 @@
       "type": "cta",
       "text": "Telegram'da chat-bot so'rash",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznes uchun chat-bot messenjerlarda 24/7 mijozlarni qo‘llab-quvvatlaydi.",
+        "Tipik savollarga javob berib, arizalarni yig‘adi.",
+        "Murojaatni menejerga yoki CRMga uzatadi.",
+        "Rus va o‘zbek tilida ishlaydi.",
+        "Kompaniya xizmatlari va stsenariysi ostida sozlanadi."
+      ]
     }
   ],
   "faq": [

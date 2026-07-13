@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
+    { "type": "p", "text": "Yurist uchun AI-bot — bu konsultatsiyaga arizalarni 24/7 qabul qiladigan, savol turini aniqlaydigan va kontaktni yuristga uzatadigan yordamchi." },
     {
       "type": "p",
       "text": "Qisqacha: yurist uchun AI bot mijoz murojaatini saralaydi (savol turi, shoshilinchlik, kontakt), xizmatlar va konsultatsiya narxi bo'yicha tipik savollarga javob beradi, uchrashuvga yozadi va arizalarni 24/7 yig'adi. Bot yuridik xulosa bermaydi, balki qaynoq lid tayyorlab yuristga uzatadi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Narxi — 3 mln so'mdan. Yangilandi: 2026 iyun."

@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Tariflar",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
+    { "type": "p", "text": "GPT o‘zbek tilida — bu o‘zbek tilidagi so‘rovlarni tushunib javob beradigan til modeli; GPTBot.uz mustaqil AI-xizmat, rasmiy ChatGPT emas." },
     { "type": "h2", "text": "AI chat nima qila oladi" },
     { "type": "p", "text": "GPTBot.uz AI chati — brauzeringizda ishlaydigan mustaqil yordamchi. U matn yozadi va tahrirlaydi, g‘oya o‘ylaydi, ijtimoiy tarmoqlar uchun kontent tayyorlaydi, o‘qish va rezyumega yordam beradi, savollarga javob beradi hamda rus va o‘zbek tillari o‘rtasida tarjima qiladi. Yuqoridagi misoldan boshlang — chatga savolingizni yozing." },
     { "type": "list", "items": [
@@ -69,7 +70,21 @@
       "Parol, karta raqami, tijorat siri, tibbiy va yuridik hujjatlarni kiritmang.",
       "Xabarlaringiz uchinchi tomon AI-provayderlari orqali qayta ishlanishi mumkin.",
       "Xizmat mustaqil va OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas."
-    ] }
+    ] },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT o‘zbek tilida so‘rovlarni tushunib, o‘zbek tilida javob beradi.",
+        "Matn, g‘oya, o‘qish va ish vazifalari uchun yordamchi.",
+        "Bazaviy foydalanish bepul, murakkab ro‘yxatdan o‘tishsiz.",
+        "Javob sifati so‘rov aniqligiga bog‘liq.",
+        "Biznes uchun xuddi shu dvigatel bot sifatida joriy etiladi."
+      ]
+    }
   ],
   "faq": [
     { "q": "Bu rasmiy ChatGPTmi?", "a": "Yo‘q. Bu GPTBot.uz’ning mustaqil AI chati bo‘lib, uchinchi tomon modellari va API-provayderlaridan foydalanadi. Xizmat OpenAI, ChatGPT yoki NVIDIA bilan bog‘liq emas." },

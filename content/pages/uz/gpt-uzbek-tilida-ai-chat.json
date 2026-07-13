@@ -127,7 +127,21 @@
       { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari" },
       { "token": "business", "target": "/ru/gpt-dlya-biznesa/", "anchor": "biznes uchun GPT" }
     ] },
-    { "type": "cta", "text": "GPTBot.uz AI chatni sinab ko‘ring", "href": "/uz/gpt-uzbek-tilida/" }
+    { "type": "cta", "text": "GPTBot.uz AI chatni sinab ko‘ring", "href": "/uz/gpt-uzbek-tilida/" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT o‘zbek tilida — Uzbek Latin so‘rovlarni tushunadigan AI-chat.",
+        "Matn, tarjima, o‘qish, marketing va biznes uchun yordam beradi.",
+        "So‘rovni aniq yozganda javob sifatli bo‘ladi.",
+        "GPTBot.uz — mustaqil AI-xizmat, rasmiy ChatGPT emas.",
+        "Biznes uchun bot sifatida joriy etiladi."
+      ]
+    }
   ],
   "faq": [
     { "q": "GPT o‘zbek tilida ishlaydimi?", "a": "Ha. Vazifani Uzbek Latin yozuvida bering, kerakli ohang va formatni ko‘rsating. Model o‘zbekcha savolni tushunadi, matn yozadi va tarjima qiladi; natijani til va faktlar bo‘yicha tekshirish tavsiya etiladi." },

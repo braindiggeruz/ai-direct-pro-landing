@@ -130,6 +130,20 @@
       "type": "cta",
       "text": "Avtomatlashtirishni joriy etish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Savdoni avtomatlashtirish AI-chat, CRM va bildirishnomalarni bitta voronkaga bog‘laydi.",
+        "Bot lidni baholab, bitimni CRMda avtomatik yaratadi.",
+        "Menejer faqat iliq arizalar bilan ishlaydi.",
+        "Birinchi javob vaqtini soniyalargacha qisqartiradi.",
+        "Murojaatlar bo‘yicha shaffof tahlil beradi."
+      ]
     }
   ],
   "faq": [

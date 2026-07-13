@@ -130,6 +130,20 @@
       "type": "cta",
       "text": "Salon uchun bot olish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Salon uchun AI-bot xizmatlarga 24/7 yozadi.",
+        "Ustalar, narxlar va bo‘sh vaqt bo‘yicha javob beradi.",
+        "Ism va telefonni yig‘ib, yozuvni administratorga uzatadi.",
+        "Instagram va Telegramdagi javobsiz murojaatlarni kamaytiradi.",
+        "Muayyan salon ostida sozlanadi."
+      ]
     }
   ],
   "faq": [

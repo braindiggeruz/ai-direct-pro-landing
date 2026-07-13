@@ -196,6 +196,20 @@
         "Texnika do'koni: model, mavjudligi, to'lov usuli (Click, Payme, Humo, naqd), yetkazib berish",
         "Salon: xizmat, master, qulay vaqt, kun oldin eslatma"
       ]
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "WhatsApp bot rasmiy WhatsApp Business API orqali ishlaydi.",
+        "Mijozlarga javob berib, arizalarni yig‘adi va lidni menejerga uzatadi.",
+        "Ish vaqtidan tashqari WhatsApp murojaatlarini yo‘qotmaydi.",
+        "Ulash biznes-verifikatsiya va shablonlarni talab qiladi.",
+        "Rus va o‘zbek tilida ishlaydi."
+      ]
     }
   ],
   "faq": [

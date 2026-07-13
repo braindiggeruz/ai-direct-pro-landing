@@ -32,6 +32,7 @@
   "ctaSecondaryLabel": "Qanday ishlaymiz",
   "ctaSecondaryHref": "#qanday-ishlaymiz",
   "bodyBlocks": [
+    { "type": "p", "text": "Samarqandda chat-bot — bu mahalliy biznes uchun rus va o‘zbek tilida 24/7 javob berib, arizalarni yig‘adigan AI-yordamchi." },
     {
       "type": "p",
       "text": "Qisqacha: biz Samarqandda biznes uchun AI chat-botlarni ishlab chiqamiz — arizalarni qabul qilish, savollarga javob berish va 24/7 sotuv uchun Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida. Butun O'zbekiston bo'ylab masofadan ishlaymiz: brif, ishlab chiqish, ishga tushirish va qo'llab-quvvatlash onlayn boradi, shaxsan tashrif kerak emas. Bazaviy bot — 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan. Yangilandi: 2026 iyun."
