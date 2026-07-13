@@ -184,7 +184,8 @@
     { "target": "/ru/gpt-v-marketinge-smm/", "anchor": "GPT в маркетинге и SMM", "locale": "ru", "type": "block" },
     { "target": "/ru/gde-polzovatsya-gpt-besplatno/", "anchor": "Где пользоваться GPT бесплатно", "locale": "ru", "type": "block" },
     { "target": "/ru/gpt-vs-chatgpt-sravnenie/", "anchor": "GPT vs ChatGPT — разница", "locale": "ru", "type": "block" },
-    { "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/", "anchor": "AI-чат для сайта: заявки", "locale": "ru", "type": "block" }
+    { "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/", "anchor": "AI-чат для сайта: заявки", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
   "lastReviewedAt": "2026-07-01",
