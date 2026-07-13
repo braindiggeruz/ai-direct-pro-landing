@@ -121,6 +121,19 @@
       "type": "cta",
       "text": "Sizning holatingizda nimadan boshlashni muhokama qilish",
       "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hammasini birdaniga — bot, CRM, AI-menejer — joriy etish shart emas.",
+        "Bog‘lamani real oqim ostida bosqichma-bosqich qurish oqilona.",
+        "Bot va bildirishnomadan boshlab, keyin CRM qo‘shiladi.",
+        "Har qadam murojaat hajmi bilan oqlanadi."
+      ]
     }
   ],
   "faq": [

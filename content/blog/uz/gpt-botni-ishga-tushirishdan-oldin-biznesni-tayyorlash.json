@@ -53,6 +53,19 @@
       "type": "cta",
       "text": "Bu sizning biznesingizda qanday ishlashini bilib oling",
       "href": "/uz/gpt-bot-biznes-uchun/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT-bot biznes fakturani oldindan tayyorlaganda yaxshi ishlaydi.",
+        "Xizmatlar, narxlar, tez-tez beriladigan savollar kerak.",
+        "Muloqot doirasini belgilash muhim: bot nimaga javob beradi.",
+        "Tayyorgarlik ishga tushirishni tezlashtiradi."
+      ]
     }
   ],
   "faq": [

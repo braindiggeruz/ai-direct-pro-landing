@@ -93,6 +93,19 @@
       "type": "cta",
       "text": "Bugunoq bizning AI-bot yechimlarimiz haqida batafsil ma'lumot oling va biznesingizni avtomatlashtirishni boshlang!",
       "href": "/uz/biznes-uchun-ai-bot/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-bot narxi ssenariy, kanallar va AI-funksiyalarga bog‘liq.",
+        "B2C biznes uchun bot pik vaqtdagi arizalarni yo‘qotmaydi.",
+        "Bazaviy tarifdan boshlab, imkoniyatlarni kengaytirish mumkin.",
+        "Aniq smetani vazifani ko‘rib chiqqach aytamiz."
+      ]
     }
   ],
   "faq": [

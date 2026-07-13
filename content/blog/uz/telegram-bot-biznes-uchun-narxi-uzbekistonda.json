@@ -25,7 +25,20 @@
     { "type": "p", "text": "Kichik biznesga ko'pincha birinchi bosqichda murakkab tizim kerak emas. Avval yo'qolayotgan arizalarni ushlaydigan minimal ishchi ssenariy foydaliroq: tez javob, kontakt yig'ish, qisqa kvalifikatsiya va menejerga uzatish. Bu start barqaror bo'lganda, keyin CRM, ikkinchi kanal yoki murakkab kvalifikatsiya qo'shiladi." },
     { "type": "h2", "text": "Smeta so'rashdan oldin voronkani tasvirlash" },
     { "type": "p", "text": "To'g'ri yondashuv — smeta so'rashdan oldin voronkani aniq tasvirlash. Ariza qayerdan keladi? Bot nimani yig'ishi kerak? Qaysi tilda gaplashadi? Qayerda jonli menejer kerak? Shu savollar aniqlansa, narx ham ancha tushunarli bo'ladi va siz \"bot narxi\"ni emas, balki aniq ishlovchi ssenariy narxini taqqoslaysiz." },
-    { "type": "cta", "text": "Bu sizning biznesingizda qanday ishlashini bilib oling", "href": "/uz/telegram-bot-biznes-uchun/" }
+    { "type": "cta", "text": "Bu sizning biznesingizda qanday ishlashini bilib oling", "href": "/uz/telegram-bot-biznes-uchun/" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Telegram botning aniq «to‘g‘ri» narxi yo‘q.",
+        "Narx ssenariy, kanallar, GPT qatlami va integratsiyalarga bog‘liq.",
+        "Handoff va CRM smetaga ta’sir qiladi.",
+        "Aniq narx vazifani ko‘rib chiqqach aytiladi."
+      ]
+    }
   ],
   "faq": [
     { "q": "Faqat Telegramdan boshlasa bo'ladimi?", "a": "Ha. Ko'p kompaniyalar uchun bu eng oqilona birinchi bosqich." },

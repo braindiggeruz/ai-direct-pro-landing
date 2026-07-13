@@ -54,6 +54,19 @@
       "type": "cta",
       "text": "Bu sizning biznesingizda qanday ishlashini bilib oling",
       "href": "/uz/biznes-uchun-ai-bot/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Klinika, salon, markaz, do‘kon va HoReCa da birinchi aloqa mantig‘i har xil.",
+        "Demak, bot stsenariysi ham har xil bo‘lishi kerak.",
+        "Umumiy tamoyil: tez javob, kontakt yig‘ish, arizani uzatish.",
+        "Asosiy nishalar uchun tayyor stsenariylar bor."
+      ]
     }
   ],
   "faq": [

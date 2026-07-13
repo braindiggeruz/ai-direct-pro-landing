@@ -49,7 +49,20 @@
       "Instagram va Telegram'dagi \"issiq\" mijozlar bilan ishlashda GPT-bot sezilarli ustunlik beradi."
     ]},
     { "type": "p", "text": "Xulosa: agar maqsad shunchaki tez-tez beriladigan savollarga tugma bilan javob bo'lsa — oddiy bot yetadi. Ammo agar bot mijozni tushunib, sotuvga olib borishi kerak bo'lsa — GPT-bot to'g'ri tanlov. Aynan qaysi biri sizga kerakligini biznes turingiz va mijozlar yozish uslubiga qarab aniqlash mumkin." },
-    { "type": "cta", "text": "Biznesingizga qaysi bot mosligini Telegram'da aniqlash", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Biznesingizga qaysi bot mosligini Telegram'da aniqlash", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Bot» ostida ikki xil narsa: tugmali chat-bot va GPT-bot.",
+        "GPT-bot erkin savollarni tushunadi, tugmali bot — belgilangan variantlarni.",
+        "Ular narx va muloqot sifati bilan farq qiladi.",
+        "Tanlov vazifa murakkabligi va xato narxiga bog‘liq."
+      ]
+    }
   ],
   "faq": [
     { "q": "Oddiy chat-bot GPT-botdan qanchalik arzon?", "a": "Tugmali bot sodda bo'lgani uchun odatda arzonroq va tez sozlanadi, lekin u erkin savollarni tushunmaydi. GPT-bot ko'proq imkoniyat evaziga qimmatroq bo'ladi. Aniq narxni biznes vazifasiga qarab hisoblash kerak." },

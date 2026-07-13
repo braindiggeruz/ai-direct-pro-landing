@@ -85,6 +85,19 @@
       "type": "cta",
       "text": "Biznesingiz mijozlari uchun AI-chat ulash",
       "href": "/uz/gpt-bot-biznes-uchun/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-chat — matn oynasida sun’iy intellekt bilan muloqot.",
+        "Siz oddiy so‘z bilan yozasiz, model ma’no bo‘yicha javob beradi.",
+        "Universal va vazifaga ixtisoslashgan turlari bor.",
+        "GPTBot.uz — rus va o‘zbek tilidagi mustaqil AI-chat."
+      ]
     }
   ],
   "cta": {

@@ -106,6 +106,19 @@
       "type": "cta",
       "text": "Biznesingiz vazifalariga mos chat-botni tanlash",
       "href": "/uz/chat-bot-biznes-uchun/"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Chat-bot — messenjer, sayt yoki ilovada yozishma olib boruvchi dastur.",
+        "Tugmali (skriptli) va AI-bot turlari bor.",
+        "Tanlov vazifaga bog‘liq: FAQ va ariza yoki erkin savollar.",
+        "Ko‘pincha gibrid eng qulay: tugma, AI va menejerga uzatish."
+      ]
     }
   ],
   "cta": {
