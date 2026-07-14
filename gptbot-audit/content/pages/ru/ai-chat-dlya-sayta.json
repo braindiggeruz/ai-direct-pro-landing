@@ -1,0 +1,91 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "url": "/ru/ai-chat-dlya-sayta/",
+  "slug": "ai-chat-dlya-sayta",
+  "pageType": "money",
+  "primaryKeyword": "AI-чат для сайта",
+  "secondaryKeywords": ["чат для сайта с ии", "онлайн-консультант ai", "виджет ai чата", "ai чат бот для сайта"],
+  "searchIntent": "transactional",
+  "h1": "AI-чат для сайта",
+  "title": "AI-чат для сайта: умный онлайн-консультант | GPTBot.uz",
+  "description": "Встроенный AI-чат для сайта: отвечает посетителям 24/7, собирает заявки и передаёт лиды менеджеру или в CRM. Внедрение под ключ, GPTBot.uz.",
+  "canonical": "https://gptbot.uz/ru/ai-chat-dlya-sayta/",
+  "hreflangRu": "/ru/ai-chat-dlya-sayta/",
+  "ogTitle": "AI-чат для сайта — онлайн-консультант, заявки и CRM | GPTBot.uz",
+  "ogDescription": "Встроенный AI-чат для сайта с приёмом заявок и передачей лидов в CRM.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "AI-чат для сайта",
+  "heroTitle": "AI-чат для сайта",
+  "heroSubtitle": "Встроенный AI-чат-консультант для вашего сайта: отвечает 24/7, собирает заявки и передаёт горячих лидов менеджеру или в CRM.",
+  "ctaPrimaryLabel": "Получить демо в Telegram",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Как это работает",
+  "ctaSecondaryHref": "#kak-rabotaet",
+  "bodyBlocks": [
+    { "type": "p", "text": "AI-чат для сайта — это встроенный онлайн-консультант, который отвечает посетителям 24/7, собирает заявки и передаёт лиды менеджеру или в CRM." },
+    { "type": "p", "text": "GPTBot.uz — независимый AI-сервис. Не является официальным продуктом OpenAI, ChatGPT или NVIDIA. Упоминания брендов используются только в описательном контексте." },
+    { "type": "h2", "text": "Зачем сайту AI-чат" },
+    { "type": "p", "text": "AI-чат на сайте отвечает посетителям мгновенно и круглосуточно, помогает выбрать услугу или товар, отвечает на частые вопросы и, главное, собирает заявку: имя и контакт. Готовый лид сразу уходит менеджеру в Telegram или в CRM, чтобы обращения не терялись." },
+    { "type": "h2", "text": "Как это работает" },
+    { "type": "list", "items": [
+      "Виджет чата встраивается на ваш сайт",
+      "AI отвечает на русском и узбекском по вашей базе знаний",
+      "Квалифицирует запрос и собирает контакт",
+      "Передаёт заявку менеджеру в Telegram или в CRM",
+      "Вы видите обращения и не теряете лидов"
+    ] },
+    { "type": "linkp", "text": "Личный AI-чат можно попробовать здесь: {chat}. Смежные решения: {tg}, {crm}, {zayavki} и {saity}.", "links": [
+      { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн" },
+      { "token": "tg", "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Telegram-бот" },
+      { "token": "crm", "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "интеграция с CRM" },
+      { "token": "zayavki", "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизация заявок" },
+      { "token": "saity", "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов" }
+    ] },
+    {
+      "type": "h2",
+      "text": "Коротко о главном"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI-чат для сайта — умный онлайн-консультант, отвечающий 24/7.",
+        "Собирает заявки и передаёт лиды менеджеру или в CRM.",
+        "Внедряется под ключ: сценарий, база знаний, интеграции.",
+        "Работает на русском и узбекском без ожидания оператора.",
+        "Помогает превращать трафик сайта в обращения."
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "Чат встраивается на любой сайт?", "a": "Да, виджет можно установить на большинство сайтов. Детали интеграции обсуждаем под вашу платформу." },
+    { "q": "Заявки уходят в CRM?", "a": "Да. Лиды можно передавать в AmoCRM, Bitrix24 или в Telegram менеджеру." },
+    { "q": "На каких языках отвечает чат?", "a": "На русском и узбекском, по вашей базе знаний." },
+    { "q": "Это официальный ChatGPT?", "a": "Нет. GPTBot.uz — независимый сервис, не связанный с OpenAI или ChatGPT." }
+  ],
+  "internalLinks": [
+    { "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI-чат для бизнеса", "locale": "ru", "type": "block" },
+    { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с AmoCRM и Bitrix24", "locale": "ru", "type": "block" },
+    { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-бота", "locale": "ru", "type": "block" },
+    { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "Разработка сайтов", "locale": "ru", "type": "block" },
+    {
+      "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
+      "anchor": "как AI-чат превращает диалоги в заявки",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+      "anchor": "почему сайт не приносит заявки",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-07-11",
+  "createdAt": "2026-07-11T00:00:00Z",
+  "updatedAt": "2026-07-14"
+}
