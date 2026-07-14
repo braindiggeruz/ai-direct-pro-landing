@@ -12,7 +12,6 @@ const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string; helperR
 
 export function AiToolTabs({ locale, active, onChange }: { locale: Locale; active: AiToolId; onChange: (tool: AiToolId) => void }) {
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
-  const activeTool = TOOLS.find((tool) => tool.id === active) ?? TOOLS[0];
   const onKeyDown = (event: React.KeyboardEvent, index: number) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
@@ -25,8 +24,8 @@ export function AiToolTabs({ locale, active, onChange }: { locale: Locale; activ
   };
   return (
     <div className="border-b border-white/8 bg-black/10">
-      <div className="overflow-x-auto overscroll-x-contain p-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={locale === 'uz' ? 'AI kabinet bo‘limlari' : 'Разделы AI-кабинета'}>
-        <div className="flex min-w-max gap-1.5 sm:grid sm:min-w-0 sm:grid-cols-5">
+      <div className="overflow-x-auto overscroll-x-contain px-2 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={locale === 'uz' ? 'AI kabinet bo‘limlari' : 'Разделы AI-кабинета'}>
+        <div className="flex min-w-max gap-0.5 sm:grid sm:min-w-0 sm:grid-cols-5">
           {TOOLS.map((tool, index) => {
             const selected = tool.id === active;
             return (
@@ -39,20 +38,21 @@ export function AiToolTabs({ locale, active, onChange }: { locale: Locale; activ
                 tabIndex={selected ? 0 : -1}
                 aria-selected={selected}
                 aria-controls={`ai-tool-${tool.id}`}
+                title={locale === 'uz' ? tool.helperUz : tool.helperRu}
                 onKeyDown={(event) => onKeyDown(event, index)}
                 onClick={() => onChange(tool.id)}
-                className={`min-h-12 min-w-[74px] rounded-xl px-2 py-2 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${
-                  selected ? 'bg-brand-cyan/12 border border-brand-cyan/40 text-white shadow-[inset_0_-2px_0_rgba(47,230,209,0.55)]' : 'border border-transparent text-white/60 hover:text-white hover:bg-white/[0.05]'
+                className={`relative min-h-12 min-w-[78px] rounded-lg px-2.5 py-2 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${
+                  selected ? 'text-white' : 'text-white/55 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={tool.icon} /></svg>
                 <span>{locale === 'uz' ? tool.uz : tool.ru}</span>
+                {selected && <span className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full bg-brand-cyan" aria-hidden="true" />}
               </button>
             );
           })}
         </div>
       </div>
-      <p className="px-4 pb-3 text-xs leading-relaxed text-white/55" role="status">{locale === 'uz' ? activeTool.helperUz : activeTool.helperRu}</p>
     </div>
   );
 }

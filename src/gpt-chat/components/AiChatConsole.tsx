@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ChatMessage, MountConfig } from '../types';
 import { strings } from '../i18n';
 import { createSession, sendChat } from '../api';
-import { loadHistory, saveHistory, loadSessionId, saveSessionId, clearSessionId, clearHistory, loadRemaining, saveRemaining } from '../storage';
+import { loadHistory, saveHistory, loadSessionId, saveSessionId, loadRemaining, saveRemaining } from '../storage';
 import { track, trackOnce, EV } from '../analytics';
 import { AiChatMessageList } from './AiChatMessageList';
 import type { AnswerAction } from './AiChatMessageList';
@@ -37,7 +37,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [limitReached, setLimitReached] = useState(() => loadRemaining(config.locale) === 0);
   const [plan, setPlan] = useState<string>('anonymous_free');
   const [b2bDismissed, setB2bDismissed] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
   const [activeTool, setActiveTool] = useState<AiToolId>('chat');
   const [role, setRole] = useState<RoleId>('general');
   const startedRef = useRef(false);
@@ -156,8 +155,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     void doSend(`${instructions[action]}\n\n${source}`, { answerAction: action, tool: activeTool });
   };
 
-  const onNewChat = () => { clearHistory(config.locale); clearSessionId(config.locale); setSessionId(null); setMessages([]); setLimitReached(remaining === 0); setB2bDismissed(false); setShowHistory(false); setInput(''); focusInput(); };
-
   const onRetry = () => {
     if (busy || limitReached) return;
     let lastUser = '';
@@ -197,55 +194,33 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   );
 
   return (
-    <div className="glass-strong rounded-[28px] overflow-hidden" style={{ boxShadow: '0 30px 80px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(47,230,209,0.08) inset' }} data-testid="ai-console">
-      {/* ── Header bar — wraps into clean rows on mobile (no squeeze) ── */}
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-2 px-3.5 sm:px-5 py-3 border-b border-white/8">
-        {/* Row 1 group: brand + Online (takes the left, pushes rest right on desktop) */}
+    <div className="glass-strong rounded-[20px] sm:rounded-[28px] overflow-hidden" style={{ boxShadow: '0 30px 80px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(47,230,209,0.08) inset' }} data-testid="ai-console">
+      {/* ── Top bar: brand + online | lang + plan + credits + upgrade ── */}
+      <div className="flex items-center gap-2 px-3.5 sm:px-5 py-2.5 border-b border-white/8 bg-black/20">
         <div className="flex items-center gap-2 mr-auto">
           <span className="grid place-items-center w-7 h-7 rounded-lg text-[#04101A] bg-grad-cta font-bold text-sm" aria-hidden="true">G</span>
-          <span className="font-semibold text-white text-[15px]">{t.brand}</span>
-          <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/90 ml-1">
+          <span className="font-semibold text-white text-[15px] hidden sm:inline">{t.brand}</span>
+          <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/90 ml-0.5">
             <span className="status-dot" aria-hidden="true" />{t.online}
           </span>
         </div>
-        {/* Row 2 group: RU/UZ · plan · usage */}
         <div className="flex items-center gap-1.5">
           <div className="flex items-center rounded-xl border border-white/10 overflow-hidden text-[11px]" role="group" aria-label={config.locale === 'uz' ? 'Til' : 'Язык'}>
             <span className={`min-h-11 min-w-11 grid place-items-center ${config.locale === 'ru' ? 'bg-white/10 text-white' : 'text-white/50'}`}>RU</span>
             <a href={otherHref} className={`min-h-11 min-w-11 grid place-items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan ${config.locale === 'uz' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}>UZ</a>
           </div>
-          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90 whitespace-nowrap" title={config.locale === 'uz' ? 'Mehmon rejimi: akkaunt talab qilinmaydi' : 'Гостевой режим: аккаунт не требуется'}>{t.planBadge(plan)}</span>
+          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90 whitespace-nowrap hidden sm:inline" title={config.locale === 'uz' ? 'Mehmon rejimi' : 'Гостевой режим'}>{t.planBadge(plan)}</span>
           <AiUsageBadge remaining={remaining} t={t} />
-        </div>
-        {/* Row 3 group: actions */}
-        <div className="flex items-center gap-1.5">
-          <button type="button" onClick={() => setShowHistory((v) => !v)} aria-label={t.history} aria-expanded={showHistory} aria-controls="guest-history-note" className="min-h-12 text-[11px] px-3 py-2 rounded-xl border border-white/10 text-white/65 hover:text-white hover:border-brand-cyan/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan transition-colors whitespace-nowrap">
-            {t.history}
-          </button>
-          {!empty && (
-            <button type="button" onClick={onNewChat} aria-label={t.newChat} className="min-h-12 text-[11px] px-3 py-2 rounded-xl border border-white/10 text-white/65 hover:text-white hover:border-brand-cyan/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan transition-colors whitespace-nowrap">
-              {t.newChat}
-            </button>
-          )}
+          <a href={pricingHref} onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); }} className="min-h-11 inline-flex items-center gap-1 text-[11px] font-semibold px-3 py-2 rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan/20 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">↑ Plus</a>
         </div>
       </div>
 
       <AiToolTabs locale={config.locale} active={activeTool} onChange={onToolChange} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 px-4 sm:px-6 py-4 border-b border-white/8 bg-white/[0.015]">
-        <RoleSelector locale={config.locale} value={role} onChange={onRoleChange} disabled={busy} />
-        <CreditBalance locale={config.locale} remaining={remaining} limitReached={limitReached} onUpgrade={() => { track(EV.upgradeClick, { from: 'credit_balance', status: 'pricing' }); track(EV.viewPricing, { from: 'credit_balance' }); window.location.href = pricingHref; }} />
-      </div>
-
-      {showHistory && (
-        <div id="guest-history-note" className="px-4 sm:px-5 py-3 border-b border-white/8 bg-white/[0.02] text-sm leading-relaxed text-white/65" role="region" aria-label={t.history}>
-          {t.loginToSave}
-        </div>
-      )}
 
       {/* ── Viewport ── */}
-      <div className="neural-grid px-4 sm:px-6 py-5 min-h-[380px] max-h-[58vh] overflow-y-auto">
+      <div className="neural-grid px-4 sm:px-6 py-5 min-h-[420px] sm:min-h-[460px] max-h-[60vh] overflow-y-auto">
         {empty ? (
-          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="relative z-[1] py-4">
+          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="relative z-[1] py-2">
             <h2 className="h-display text-2xl sm:text-[28px] text-white mb-2 max-w-xl"><span className="text-grad">{t.emptyTitle}</span></h2>
             <p className="text-white/55 text-sm mb-4 max-w-lg leading-relaxed">{t.emptyHint}</p>
             <button type="button" onClick={focusInput} className="btn-primary text-[14px] mb-6">{t.tryFree}</button>
@@ -257,6 +232,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <AiChatMessageList messages={messages} t={t} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} />
           </div>
         )}
+      </div>
+
+      {/* ── Role selector + credits (compact, inline above composer) ── */}
+      <div className="flex items-center gap-2 px-4 sm:px-6 py-2.5 border-t border-white/8 bg-black/10">
+        <RoleSelector locale={config.locale} value={role} onChange={onRoleChange} disabled={busy} />
+        <CreditBalance locale={config.locale} remaining={remaining} limitReached={limitReached} onUpgrade={() => { track(EV.upgradeClick, { from: 'credit_balance', status: 'pricing' }); track(EV.viewPricing, { from: 'credit_balance' }); window.location.href = pricingHref; }} />
       </div>
 
       {/* ── Composer + inline cards ── */}
@@ -277,7 +258,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           </>
         )}
         <div className="mt-3"><AiSafetyNotice t={t} /></div>
-        <p className="mt-2 text-[11px] text-white/35 leading-relaxed">{t.disclaimer}</p>
+        <p className="mt-2 text-[11px] text-white/35 leading-relaxed text-center">{t.disclaimer}</p>
       </div>
 
       {/* Lead form lives below the console — B2B capture without crowding chat. */}
