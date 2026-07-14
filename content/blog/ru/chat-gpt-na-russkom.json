@@ -182,11 +182,12 @@
   ],
   "internalLinks": [
     { "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн на русском", "locale": "ru", "type": "contextual", "priority": 1 },
-    { "target": "/ru/gpt-na-russkom/", "anchor": "GPT на русском", "locale": "ru", "type": "contextual", "priority": 2 },
-    { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "contextual", "priority": 3 },
-    { "target": "/ru/gpt-dlya-biznesa/", "anchor": "GPT для бизнеса", "locale": "ru", "type": "contextual", "priority": 4 },
-    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "contextual", "priority": 5 },
-    { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "разработка Telegram-бота в Ташкенте", "locale": "ru", "type": "contextual", "priority": 6 }
+    { "target": "/ru/blog/chat-gpt-online/", "anchor": "чат GPT онлайн", "locale": "ru", "type": "contextual", "priority": 2 },
+    { "target": "/ru/gpt-na-russkom/", "anchor": "GPT на русском", "locale": "ru", "type": "contextual", "priority": 3 },
+    { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "contextual", "priority": 4 },
+    { "target": "/ru/gpt-dlya-biznesa/", "anchor": "GPT для бизнеса", "locale": "ru", "type": "contextual", "priority": 5 },
+    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "contextual", "priority": 6 },
+    { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "разработка Telegram-бота в Ташкенте", "locale": "ru", "type": "contextual", "priority": 7 }
   ],
   "ogTitle": "Chat GPT на русском — AI-чат онлайн для текста, учёбы и бизнеса",
   "ogDescription": "Как пользоваться Chat GPT на русском: задать вопрос, получить ответ, написать текст, сделать план. Учёба, SMM, бизнес, переводы RU/UZ. GPTBot.uz — независимый AI-чат.",
