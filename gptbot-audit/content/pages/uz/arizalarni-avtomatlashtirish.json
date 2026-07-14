@@ -1,0 +1,219 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/arizalarni-avtomatlashtirish/",
+  "slug": "arizalarni-avtomatlashtirish",
+  "pageType": "money",
+  "primaryKeyword": "arizalarni avtomatlashtirish",
+  "secondaryKeywords": [
+    "AI bot arizalar",
+    "lid avtomatlashtirish",
+    "ariza bot",
+    "CRM arizalar"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Arizalarni avtomatlashtirish",
+  "title": "Arizalarni avtomatlashtirish — AI bot 24/7 | GPTBot",
+  "description": "Arizalarni avtomatlashtirish: AI bot Telegram va Instagram'da 24/7 javob beradi, ma'lumot yig'adi va lidni menejerga uzatadi.",
+  "canonical": "https://gptbot.uz/uz/arizalarni-avtomatlashtirish/",
+  "hreflangRu": "/ru/avtomatizatsiya-zayavok/",
+  "hreflangUz": "/uz/arizalarni-avtomatlashtirish/",
+  "ogTitle": "Arizalarni avtomatlashtirish — AI bot 24/7 | GPTBot",
+  "ogDescription": "Arizalarni avtomatlashtirish: AI bot Telegram va Instagram'da 24/7 javob beradi, ism va telefonni yig'adi, issiq lidlarni menejerga yoki CRM'ga uzatadi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Arizalarni avtomatlashtirish",
+  "heroTitle": "Arizalarni avtomatlashtirish",
+  "heroSubtitle": "AI bot arizalarga zudlik bilan javob beradi, ma'lumot yig'adi va issiq mijozlarni menejerga uzatadi.",
+  "ctaPrimaryLabel": "Avtomatlashtirishni olish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "arizalarni avtomatlashtirish nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "AI bot barcha dastlabki murojaatlarni o'z zimmasiga oladi va menejer vaqtini tejaydi. Tizim har bir arizani baholaydi va issiq lidlarni avtomatik ravishda sotuv bo'limiga uzatadi."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun arizalar yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalar 'yozdi → kech javob → yo'qotildi' tartibida tushib ketadi",
+        "Menejerlar kech javob beradi va mijoz yo'qotiladi",
+        "Avtomatik malakalash yo'q",
+        "Arizalar CRM'ga yetib bormaydi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalar konversiyasini oshirish",
+        "Xodimlar uchun tejash",
+        "Murojaatlarni qayta ishlash tezkorligi",
+        "Birinchi javob muddatini qisqartirish",
+        "Sovuq arizalar sonini kamaytirish"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Arizalarni avtomatlashtirish nima"
+    },
+    {
+      "type": "p",
+      "text": "Arizalarni avtomatlashtirish — bu messenjerlardan kelgan har bir murojaat darhol javob olib, tartibli arizaga (ism, telefon, mohiyat) aylanib, menejer yoki CRM'ga tushishi. Hech bir xabar javobsiz qolmaydi va yo'qolmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Qo'lda arizalar nega yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xabarlar turli kanallarga keladi va yo'qoladi",
+        "Tunda va dam olish kunlari javob beradigan odam yo'q",
+        "Menejer cho'qqi vaqtida ulgurmaydi",
+        "Arizalar qog'oz va chatlarda qayd etiladi",
+        "Barcha murojaat ko'rinadigan yagona joy yo'q"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Avtomatlashtirish qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "Mijoz Telegram, Instagram yoki WhatsApp'ga yozadi → bot darhol javob beradi, aniqlovchi savollar berib kontaktni yig'adi → arizani shakllantirib menejerga Telegram yoki CRM'ga yuboradi. Barcha kanal bitta nuqtaga keltiriladi."
+    },
+    {
+      "type": "h2",
+      "text": "Yagona ariza oynasi"
+    },
+    {
+      "type": "p",
+      "text": "Bir necha chat va akkaunt o'rniga — bitta ariza oqimi. Rahbar qancha murojaat kelganini, qaysi kanaldan va ular bilan nima bo'lganini ko'radi. Bu ilgari mijoz va pul yo'qolgan «ko'r nuqtalar»ni yo'qotadi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nol yo'qolgan murojaat",
+        "Barcha kanalda 24/7 darhol javob",
+        "Kontaktli tartibli arizalar",
+        "Qo'lda kiritishsiz CRM'ga uzatish",
+        "Kiruvchilar bo'yicha shaffof statistika"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Avtomatlashtirishni olish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalarni avtomatlashtirish barcha murojaatlarni bitta joyga yig‘adi.",
+        "AI-bot darhol javob berib, har bir lidni qayd etadi.",
+        "Ariza qo‘lda ko‘chirmasdan menejerga yoki CRMga uzatiladi.",
+        "Yozishmalarda va ish vaqtidan tashqarida hech narsa yo‘qolmaydi.",
+        "Murojaatlar oqimi bo‘yicha shaffof tahlil beradi."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Arizalarni avtomatlashtirishning turlari qanday?",
+      "a": "Birinchi xabarga avtojavob, kontakt yig'ish, lidni malakalash, CRM'ga uzatish, xabarnoma tizimlari bilan integratsiya."
+    },
+    {
+      "q": "Avtomatlashtirish uchun CRM kerakmi?",
+      "a": "Shart emas — arizalarni Telegram yoki e-mail orqali yuborish mumkin. CRM (Bitrix24, AmoCRM) integratsiyasi voronka bilan ishlashni qulayroq qiladi."
+    },
+    {
+      "q": "Avtomatlashtirishni qanday sozlash kerak?",
+      "a": "Ssenariyni tavsiflaymiz (manbalar, maydonlar, marshrutlash), Telegram va Instagram'da botni ishga tushiramiz, test murojaatlarda tekshiramiz."
+    },
+    {
+      "q": "Saytdagi arizalarni avtomatlashtirish mumkinmi?",
+      "a": "Ha. Saytdan murojaat vidjet orqali Telegram-botga yoki to'g'ridan-to'g'ri CRM'ga uzatilishi mumkin."
+    },
+    {
+      "q": "Nishimga mos keladimi?",
+      "a": "Ssenariyni nishingizga moslab tuzamiz. Telegramga yozing, sсенарий misolini muhokama qilamiz."
+    },
+    {
+      "q": "Arizalarni avtomatlashtirish qaysi kanallarda ishlaydi?",
+      "a": "Telegram, Instagram Direct va WhatsApp'da. Bitta yoki barcha kanalni ulash mumkin — arizalar bitta joyda yig'iladi."
+    },
+    {
+      "q": "Arizalarni avtomatlashtirish qancha turadi?",
+      "a": "Narx kanallar soni va CRM integratsiyasiga bog'liq. Bazaviy yig'ish va uzatish tez va arzon ishga tushadi. Vazifangizga qarab hisoblaymiz — Telegram'ga yozing."
+    },
+    {
+      "q": "Arizalar CRM'ga avtomatik tushadimi?",
+      "a": "Ha. Bot arizani AmoCRM, Bitrix24 yoki boshqa tizimga qo'lda kiritishsiz uzatadi, murojaat manbasini qayd etadi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/savdoni-avtomatlashtirish/",
+      "anchor": "savdoni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "GPTBot.uz AI yechimlari",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-06-25"
+}

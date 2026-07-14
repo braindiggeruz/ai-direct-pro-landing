@@ -1,0 +1,300 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+  "slug": "kochmas-mulk-agentligi-uchun-ai-bot",
+  "pageType": "money",
+  "primaryKeyword": "ko'chmas mulk agentligi uchun AI bot",
+  "secondaryKeywords": [
+    "rieltor uchun chat bot",
+    "rieltor uchun AI bot",
+    "O'zbekistonda ko'chmas mulkni avtomatlashtirish",
+    "qurilish kompaniyasi uchun AI bot",
+    "ko'chmas mulk lidlarini saralash",
+    "Toshkentda ko'chmas mulk agentligi uchun bot"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Ko'chmas mulk agentligi va rieltorlar uchun AI bot",
+  "title": "Ko'chmas mulk agentligi uchun AI bot | GPTBot",
+  "description": "Ko'chmas mulk agentligi va rieltorlar uchun AI bot O'zbekistonda: arizalarga 24/7 javob beradi, kontaktlarni yig'adi va xaridorlarni saralaydi.",
+  "canonical": "https://gptbot.uz/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+  "hreflangRu": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+  "hreflangUz": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+  "ogTitle": "Ko'chmas mulk agentligi va rieltorlar uchun AI bot O'zbekistonda",
+  "ogDescription": "AI bot mijozlarni byudjet, tuman va format bo'yicha saralaydi, kontaktni yig'adi va issiq xaridor yoki ijarachini rieltorga uzatadi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Ko'chmas mulk agentligi uchun AI bot",
+  "heroTitle": "Ko'chmas mulk agentligi va rieltorlar uchun AI bot",
+  "heroSubtitle": "AI-menejer mijozni byudjet, tuman, format va muddat bo'yicha saralaydi, kontaktni yig'adi va issiq xaridor yoki ijarachini rieltorga uzatadi. Telegram, Instagram Direct va WhatsApp — rus va o'zbek tillarida.",
+  "ctaPrimaryLabel": "Agentlik uchun botni muhokama qilish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Saralash ssenariysi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    { "type": "p", "text": "Ko‘chmas mulk agentligi uchun AI-bot — bu mijozni byudjet va tuman bo‘yicha baholaydigan hamda ko‘rikka yozadigan virtual menejer." },
+    {
+      "type": "h2",
+      "text": "Ko'chmas mulk agentligi uchun AI bot nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Ko'chmas mulk agentligi va rieltorlar uchun AI bot mijozga birinchi soniyalarda javob beradi, uchta asosiy parametrni — byudjet, tuman va ob'ekt formatini — aniqlaydi va saralangan lidni allaqachon yig'ilgan kontakt bilan rieltorga uzatadi. Telegram, Instagram Direct va WhatsApp'da ishlaydi, rus va o'zbek tilida suhbat olib boradi."
+    },
+    {
+      "type": "p",
+      "text": "O'zbekiston ko'chmas mulk bozorida mijoz bir vaqtda bir nechta agentlikka yozadi — birinchi javob bergan va to'g'ri segmentga tushgan g'olib bo'ladi. AI bot shu daqiqani yopadi: menejer ko'rikda bo'lganda, bot allaqachon so'rovni tushunib, rieltor navbatiga qo'ygan bo'ladi."
+    },
+    {
+      "type": "h2",
+      "text": "Qanday muammolarni hal qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Instagram, Telegram va OLX reklamasidan murojaatlar oqimi kechikib ishlanadi — mijoz raqobatchiga ketadi",
+        "Rieltorlar vaqtining 60% nomaqsadli so'rovlarga sarflaydi (byudjet, tuman, format mos kelmaydi)",
+        "Arizalar «assalomu alaykum, variantlarni yuboring» ko'rinishida keladi — kontakt va ehtiyojsiz",
+        "Dam olish kunlari va kechqurun ariza oqimi bor, lekin hech kim javob bermaydi — lidlar yo'qoladi",
+        "Mijozlar bazasi tarqoq — ob'ekt bo'yicha yozishmalar xodimlarning shaxsiy messendjerlarida yashaydi",
+        "Qaysi e'lonlar maqsadli mijoz keltirishi, qaysilari axlat ekanligi tushunarsiz"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi biznes uchun mos"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Toshkent, Samarqand, Buxoro va O'zbekistonning boshqa shaharlaridagi ko'chmas mulk agentliklari",
+        "Qurilish kompaniyalari — aniq turar-joy majmuasi uchun reklamadan arizalarni saralash",
+        "5–50 kishilik rieltorlar jamoasi — ariza oqimi 1–2 menejer eplay olmaydigan darajada katta",
+        "Xususiy rieltorlar — e'lonlardan murojaat oladi va hammaga javob berishga ulgurmaydi",
+        "Turar va tijorat ko'chmas mulkini ijaraga berish — uzun qisqa suhbatlar oqimi",
+        "Shahar tashqarisi va tijorat ob'ektlari — uzun tsikl, darhol saralash muhim"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi biznes uchun mos kelmaydi"
+    },
+    {
+      "type": "p",
+      "text": "Agar sizda yiliga 1–2 ta ob'ekt bo'lsa va barcha murojaatlarni yuzma-yuz bilsangiz — bot natija bermaydi. AI bot oqimda qaytariladi: o'nlab yoki yuzlab haftalik murojaat bo'lganda va bir qismi obyektiv yo'qolayotganda. Shuningdek, bot yakuniy bitimni yopmaydi va shartnoma imzolamaydi — uning vazifasi sifatli lid yig'ish va rieltorga uzatish."
+    },
+    {
+      "type": "h2",
+      "text": "Mijoz ssenariysi qanday ko'rinadi"
+    },
+    {
+      "type": "p",
+      "text": "Mijoz e'lon bo'yicha Direct yoki WhatsApp'ga yozadi. AI bot bir necha soniyada javob beradi, murojaat uchun rahmat aytadi va 3–5 ta qisqa savol beradi: nima qidiramiz (kvartira, uy, tijorat), qaysi format (yangi bino/ikkilamchi, ijara/sotib olish), byudjet va afzalkor tuman, qachon ko'chib o'tish rejalashtirilgan. Bot javoblarni qayd qiladi, ism va telefonni yig'adi, arizani tasdiqlaydi va darhol uni bo'sh rieltorga tayyor kartochka bilan uzatadi. Menejer suhbatni allaqachon tushunarli so'rov bilan ochadi."
+    },
+    {
+      "type": "h2",
+      "text": "AI nima qiladi, rieltor qachon ishlaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI: bir necha soniyada birinchi javob, suhbatni olib borish, byudjet va tuman bo'yicha saralash",
+        "AI: tuzilgan mijoz kartochkasini yozadi, ism va telefonni yig'adi",
+        "AI: agentlik ish shartlari, komissiya va ko'rik formatiga oid tipik savollarga javob beradi",
+        "AI: nomaqsadli murojaatlarni filtrlaydi (byudjet yo'q, mintaqa boshqacha, format boshqacha)",
+        "Rieltor: aniq ob'ektlarni tanlash, ko'rikni kelishish, muzokara, bitim",
+        "Rieltor: murakkab almashtirishlar, ipoteka, yuridik nuancelar"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bot qanday ma'lumotlarni yig'adi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ism va aloqa telefoni",
+        "Bitim turi: sotib olish, ijara, almashtirish, sotish",
+        "Ob'ekt formati: kvartira, uy, yer uchastkasi, tijorat, yangi bino/ikkilamchi",
+        "Byudjet: so'm yoki dollarda diapazon",
+        "Afzalkor tuman yoki turar-joy majmuasi",
+        "Qaror muddati: «shoshilinch», «1–3 oy», «bozorni o'rganaman»",
+        "Ariza manbai: e'lon, reklama, tavsiya"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Kanallar va integratsiyalar"
+    },
+    {
+      "type": "p",
+      "text": "AI bot mijozlaringiz qayerda bo'lsa, o'sha yerda ishlaydi: Telegram, Instagram Direct va WhatsApp. Tayyor lid kartochkasi avtomatik ravishda Telegram bildirishnomasi, AmoCRM, Bitrix24, 1C yoki Google Sheets'ga tushadi. Agentlikning yoki qurilish kompaniyasining ichki CRM'i bo'lsa — integratsiyani alohida muhokama qilamiz."
+    },
+    {
+      "type": "h2",
+      "text": "Joriy etish qanday o'tadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-qadam. Voronka tahlili: arizalar qayerdan keladi, kim javob beradi, qayerda yo'qotamiz",
+        "2-qadam. Saralash strukturasi: agentligingizda lid sifatiga real ta'sir qiladigan parametrlar",
+        "3-qadam. Suhbat ssenariysi va rieltorga eskalatsiya regulamenti",
+        "4-qadam. Kanallarni ulash: Telegram bot, Instagram, WhatsApp Business",
+        "5-qadam. CRM bilan integratsiya, haqiqiy suhbatlarda sinov",
+        "6-qadam. Ishga tushirish, sifat nazorati, bozorga nuqtali tuzatish"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ko'chmas mulkda botni ishga tushirishda tipik xatoliklar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "So'rov juda uzun — mijoz 7-savolda ketadi. Asosiy minimum — 3–5 savol",
+        "Bot agentlik regulamentida yo'q narx va va'dalarni tarqatadi",
+        "Taqsimot qoidasi yo'q: bitta ariza 5 ta rieltorga tushadi",
+        "O'zbek tilini e'tiborga olmaslik — mijozlar oqimining yarmi to'g'ri javob olmaydi",
+        "Bot «bitimni yopishga» harakat qiladi — uning vazifasi faqat saralash"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Agentlik uchun AI botni muhokama qilish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "O'zbekiston bozori uchun ssenariylar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Toshkent yangi binolari: turar-joy majmuasi, maydon, byudjet, bo'lib-bo'lib to'lash shartlari bo'yicha saralash",
+        "Turar-joy ijarasi: tuman, muddat, format, ko'chib o'tish sanasi",
+        "Tijorat ko'chmas mulki: format, metraj, joylashuv, byudjet, biznes turi",
+        "Shahar tashqarisi va atrof: format, tuman, byudjet, infratuzilma",
+        "Ikkilamchi uy-joy: tuman, uy turi, maydon, ta'mir",
+        "Aniq turar-joy majmuasi uchun Instagram reklamadan kelgan so'rovlar — ob'ektga nuqtali saralash"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ko‘chmas mulk agentligi uchun AI-bot mijozni byudjet va tuman bo‘yicha baholaydi.",
+        "Ob’ektlar bo‘yicha javob berib, ko‘rikka yozadi.",
+        "Rieltorga tayyor, iliq arizani uzatadi.",
+        "Telegram, Instagram va saytda ishlaydi.",
+        "Menejer vaqtini nishonli bo‘lmagan murojaatlarda tejaydi."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bot agentlikdagi rieltorlarni almashtiradimi?",
+      "a": "Yo'q. Bot birinchi kontakt va saralashni yopadi: byudjet, tuman, format, kontakt. Rieltor allaqachon tayyorlangan kartochkani oladi va darhol ob'ekt tanlaydi va muzokara olib boradi. Rieltorning eng qimmatli ishi — odamlarda, rutin saralash esa AI'da."
+    },
+    {
+      "q": "Bot maqsadli mijoz ekanligini qanday tushunadi?",
+      "a": "Maqsadli lid mezonlarini agentligingiz uchun sozlaymiz: minimal byudjet, ishchi tumanlar, ishchi formatlar. Agar mijoz javoblari mezonlarga tushmasa — bot suhbatni xushmuomalalik bilan tugatadi yoki murojaatni nomaqsadli deb belgilaydi, rieltorni chalg'itmasdan."
+    },
+    {
+      "q": "CRM'imizga ulash mumkinmi?",
+      "a": "Ha. AmoCRM, Bitrix24, 1C, Google Sheets va shaxsiy integratsiyalarni qo'llab-quvvatlaymiz. Bot yozishmalar tarixi bilan tayyor kartochkani to'g'ridan-to'g'ri CRM'ga uzatadi."
+    },
+    {
+      "q": "Bot faqat Telegram'da ishlaydimi?",
+      "a": "Yo'q. Agentlik uchun AI botni Telegram, Instagram Direct va WhatsApp'ga ulash mumkin. Ko'pchilik agentliklar bir nechta kanalni bir vaqtda ulaydi, arizalarni yo'qotmaslik uchun."
+    },
+    {
+      "q": "Ko'chmas mulk agentligi uchun bot qancha turadi?",
+      "a": "Narx kanallar soniga, CRM bilan integratsiya chuqurligiga va saralash ssenariysiga bog'liq. Telegram'ga yozing — ariza oqimingizni ko'rib chiqamiz va shaxsiy smeta yuboramiz: https://t.me/XGame_changerx."
+    },
+    {
+      "q": "Bot o'zbek tilini tushunadimi?",
+      "a": "Ha. AI bot rus va o'zbek (UZ Latin) tilida to'g'ri suhbat olib boradi. Bu ayniqsa ijara va o'rta narx segmentidagi ko'chmas mulk uchun muhim, bu yerda auditoriyaning katta qismi o'zbek tilida muloqot qiladi."
+    },
+    {
+      "q": "Agar mijoz aniq manzil yoki ob'ekt narxini so'rasa-chi?",
+      "a": "Bot regulamentga ko'ra bunday suhbatlarni rieltorga uzatadi. Aniq narxlar, aniq kvartira mavjudligi va bitim shartlari — bu odamning, AI'ning emas. Bu xavflarni kamaytiradi va rieltor qiymatini saqlab qoladi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-sotuvchi/",
+      "anchor": "AI sotuvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/whatsapp-bot-biznes-uchun/",
+      "anchor": "WhatsApp bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 bilan integratsiya",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
+      "anchor": "biznes Instagram va Telegramdan arizalarni nega yo'qotadi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "anchor": "messendjerlardan bitta ariza voronkasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "Biznes uchun AI botlar",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-24",
+  "createdAt": "2026-06-24T00:00:00Z",
+  "updatedAt": "2026-06-24T00:00:00Z"
+}
