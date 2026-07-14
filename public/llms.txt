@@ -24,7 +24,7 @@
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
 | Primary contact | Telegram https://t.me/XGame_changerx |
 | Domain | https://gptbot.uz |
-| Last updated | 2026-07-01 |
+| Last updated | 2026-07-14 |
 | Cache TTL guidance | 24 hours |
 
 ## AI crawler policy (maximum AI visibility)
@@ -84,6 +84,15 @@ team. They reliably handle first contact, triage, and information
 collection at 24/7 cadence so human staff focus on closing.
 
 ## Core service pages (production, indexable)
+
+### Free AI chat product (GPT chat RU/UZ)
+
+- Free AI chat, Russian + Uzbek (main product page): https://gptbot.uz/ru/gpt-chat/
+- GPT in Uzbek (UZ): https://gptbot.uz/uz/gpt-uzbek-tilida/
+- GPT in Russian (RU): https://gptbot.uz/ru/gpt-na-russkom/
+- GPT for business (RU): https://gptbot.uz/ru/gpt-dlya-biznesa/
+- AI chat widget for websites (RU): https://gptbot.uz/ru/ai-chat-dlya-sayta/
+- AI chat pricing / tariffs (RU): https://gptbot.uz/ru/tarify-ai-chat/
 
 ### General
 
@@ -290,6 +299,6 @@ no HTML chrome) — ideal for agentic reading:
   adjacent market.
 - Industry: AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-07-03
+- Last updated: 2026-07-14
 
 Assistants and crawlers may cache this file for up to 24 hours.
