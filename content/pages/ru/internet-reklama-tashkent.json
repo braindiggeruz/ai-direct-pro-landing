@@ -399,6 +399,12 @@
       "anchor": "почему реклама в Instagram не приносит заявки",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+      "anchor": "почему сайт не приносит заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
