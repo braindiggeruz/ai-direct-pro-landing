@@ -7,6 +7,11 @@ const here = (p: string) => fileURLToPath(new URL(p, import.meta.url))
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': here('./src'),
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: 3000,
