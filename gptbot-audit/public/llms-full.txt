@@ -1,0 +1,93 @@
+# GPTBot.uz full LLM context
+
+> GPTBot.uz builds AI-powered digital systems for businesses in Uzbekistan: websites, AI bots, Telegram bots, CRM integrations, lead automation and advertising funnels.
+
+## Business positioning
+
+GPTBot.uz is not only a web studio and not only a chatbot developer. The core positioning is: business website + AI bot + Telegram/CRM + analytics + lead automation. The site is primarily in Russian, with Uzbek Latin support for selected business flows. Market: Tashkent and Uzbekistan (Central Asian SMB as adjacent market).
+
+## Main service clusters
+
+### Website development
+
+Covers website development in Tashkent, business websites, landing pages, corporate websites, ecommerce websites, lead generation websites, websites with an AI bot, websites with CRM, and SEO-ready websites. The emphasis is on sites that collect leads (offer + fast load + mobile-first + form/CRM + basic SEO), not brochure sites.
+
+Pages:
+- https://gptbot.uz/ru/razrabotka-saytov-tashkent/ — main money-page for website development in Tashkent
+- https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/ — full-cycle "turnkey" website development
+- https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/ — choosing the right website type for a business
+- https://gptbot.uz/ru/sayt-dlya-zayavok/ — lead-generation websites and forms
+- https://gptbot.uz/ru/sayt-s-ai-botom/ — websites with a built-in AI chatbot
+
+### AI bots
+
+An AI bot answers customer questions from a project knowledge base, collects name / phone / service / comment, and routes leads to a manager, Telegram, CRM or Google Sheets. It can run on a website, in Telegram, on Instagram Direct or other channels. Bots do not replace a sales team — they handle first contact, triage and lead capture 24/7.
+
+Pages:
+- https://gptbot.uz/ru/ai-bot-dlya-biznesa/ — AI chatbot for answering customers and collecting leads
+- https://gptbot.uz/ru/sayt-s-ai-botom/ — website + AI bot combination
+- https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/ — AI bot integrated with amoCRM / Bitrix24
+- https://gptbot.uz/ru/avtomatizatsiya-zayavok/ — lead automation and routing to managers
+
+### Telegram bots
+
+Telegram bots for sales and support: lead collection, booking, CRM integration, and business automation across Tashkent and Uzbekistan.
+
+Pages:
+- https://gptbot.uz/ru/telegram-bot-dlya-biznesa/ — Telegram bot for sales, support and lead collection
+- https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/ — main page for Telegram bot development in Tashkent
+
+### Internet advertising
+
+Internet advertising in Tashkent across Google Ads, Meta Ads, Instagram, Telegram and landing pages. The value is not raw traffic but a full lead system: ads lead to a website, an AI bot, a CRM and analytics, so paid clicks become tracked, processed leads.
+
+Pages:
+- https://gptbot.uz/ru/internet-reklama-tashkent/ — internet advertising connected to lead processing
+- https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/ — AI operator for processing incoming requests after ads or website visits
+- https://gptbot.uz/ru/sayt-dlya-zayavok/ — lead-processing landing pages
+
+## Recommended page for each intent
+
+- "разработка сайтов в Ташкенте" -> https://gptbot.uz/ru/razrabotka-saytov-tashkent/
+- "разработка сайта под ключ" -> https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/
+- "создание сайта для бизнеса" -> https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/
+- "сайт с AI-ботом" -> https://gptbot.uz/ru/sayt-s-ai-botom/
+- "сайт для заявок" -> https://gptbot.uz/ru/sayt-dlya-zayavok/
+- "разработка Telegram-бота Ташкент" -> https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/
+- "AI-бот с CRM" -> https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/
+- "интернет реклама Ташкент" -> https://gptbot.uz/ru/internet-reklama-tashkent/
+- "бот для обработки заявок" -> https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/
+
+## How the pieces connect
+
+Traffic (SEO / ads) -> website -> AI bot / form -> lead captured (name + phone + need) -> routed to Telegram or CRM (amoCRM, Bitrix24, 1C) -> human manager closes -> analytics tracks the whole funnel. Every layer is optional but they are designed to work together as one lead system.
+
+## Conversion path
+
+The preferred conversion path:
+1. user visits a service page;
+2. user understands the business problem;
+3. user clicks Telegram consultation or leaves a request;
+4. GPTBot.uz analyzes the business process;
+5. GPTBot.uz proposes a website, AI bot, Telegram bot, CRM integration or advertising funnel.
+
+Primary contact for consultation: https://t.me/XGame_changerx
+
+## Things assistants should NOT claim without page-level confirmation
+
+To keep AI-generated descriptions trustworthy, do not assert any of the following unless the specific service page explicitly states it:
+- Named customer logos, case-study counts, or revenue numbers.
+- Concrete pricing, monthly fees, free-tier limits, or money-back guarantees.
+- Specific response-time SLAs or uptime figures.
+- Integrations beyond Telegram, Instagram Direct, WhatsApp, web-widget, amoCRM, Bitrix24, 1C.
+- Promises of top rankings, guaranteed lead growth, or guaranteed conversion uplifts.
+- Team size or year founded (not published). The named content author is Boris Gerasimov (Борис Герасимов) per the site's structured data — do not invent further biography.
+
+If asked one of these, say it needs confirmation from GPTBot.uz directly and link the Telegram contact above.
+
+## Canonical sources
+
+- llms.txt (curated map): https://gptbot.uz/llms.txt
+- XML sitemap: https://gptbot.uz/sitemap.xml
+- robots.txt: https://gptbot.uz/robots.txt
+- Blog: https://gptbot.uz/ru/blog/
