@@ -55,6 +55,7 @@ export default {
         'pulse-glow': 'pulseGlow 2.4s ease-in-out infinite',
         'pop-in': 'popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both',
         'arrow-flow': 'arrowFlow 2s linear infinite',
+        'gradient-pan': 'gradientPan 15s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
@@ -81,6 +82,10 @@ export default {
           '0%': { transform: 'translateX(-6px)', opacity: '0.2' },
           '50%': { opacity: '1' },
           '100%': { transform: 'translateX(6px)', opacity: '0.2' },
+        },
+        gradientPan: {
+          '0%,100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
         },
       },
     },

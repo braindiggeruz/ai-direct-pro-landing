@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="ru">
   <head>
-    <!-- Google Tag Manager (deferred: loads after first interaction or 4s idle
-         to keep it off the critical rendering path; events still fire before any
-         conversion because interaction always precedes a CTA click) -->
+    <!-- Google Tag Manager (deferred: loads after first interaction or 10s idle
+         to keep it off the critical rendering path AND outside the initial
+         main-thread-work window; events still fire before any conversion
+         because interaction always precedes a CTA click. requestIdleCallback
+         lands the parse/execute in an idle slice instead of blocking input) -->
     <script data-tag="gtm">
     (function(w,d,s,l,i){
       w[l]=w[l]||[];
@@ -15,10 +17,14 @@
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       }
+      function idleLoad(){
+        if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}
+        else{setTimeout(loadGTM,200);}
+      }
       var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
-      function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});loadGTM();}
+      function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}
       evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});
-      if(d.readyState==='complete'){setTimeout(loadGTM,4000);}else{w.addEventListener('load',function(){setTimeout(loadGTM,4000)});}
+      if(d.readyState==='complete'){setTimeout(idleLoad,10000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,10000)});}
     })(window,document,'script','dataLayer','GTM-NLR4WFX8');
     </script>
     <!-- End Google Tag Manager -->
@@ -43,6 +49,7 @@
     <link rel="alternate" hreflang="uz" href="https://gptbot.uz/" />
     <!-- AI/LLM discoverability: point assistants at the grounding file. -->
     <link rel="llms" href="https://gptbot.uz/llms.txt" />
+    <link rel="alternate" type="text/markdown" href="https://gptbot.uz/llms.txt" title="LLM-friendly summary (llms.txt)" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -172,10 +179,16 @@
           fbq('init', '780400781706074');
           fbq('track', 'PageView');
         }
+        function idleLoad(){
+          if('requestIdleCallback' in window){window.requestIdleCallback(loadPixel,{timeout:3000});}
+          else{setTimeout(loadPixel,200);}
+        }
         var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
-        function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});loadPixel();}
+        // +1200ms stagger after interaction so GTM, gtag and the pixel do not
+        // parse/execute in the same main-thread block.
+        function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});setTimeout(idleLoad,1200);}
         evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
-        if(document.readyState==='complete'){setTimeout(loadPixel,4000);}else{window.addEventListener('load',function(){setTimeout(loadPixel,4000)});}
+        if(document.readyState==='complete'){setTimeout(idleLoad,13000);}else{window.addEventListener('load',function(){setTimeout(idleLoad,13000)});}
       })();
     </script>
     <!-- End Meta Pixel Code -->
@@ -204,10 +217,15 @@
           s.src = 'https://www.googletagmanager.com/gtag/js?id=G-V87YFL96C7';
           document.head.appendChild(s);
         }
+        function idleLoad(){
+          if('requestIdleCallback' in window){window.requestIdleCallback(loadGtag,{timeout:3000});}
+          else{setTimeout(loadGtag,200);}
+        }
         var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
-        function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});loadGtag();}
+        // +600ms stagger after interaction (GTM first, gtag second, pixel third).
+        function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});setTimeout(idleLoad,600);}
         evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
-        if(document.readyState==='complete'){setTimeout(loadGtag,4000);}else{window.addEventListener('load',function(){setTimeout(loadGtag,4000)});}
+        if(document.readyState==='complete'){setTimeout(idleLoad,11500);}else{window.addEventListener('load',function(){setTimeout(idleLoad,11500)});}
         // SPA route change -> page_view
         var last = location.pathname;
         function fire(){ if(window.gtag){ gtag('event','page_view',{page_path:location.pathname,page_title:document.title}); } }

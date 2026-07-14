@@ -27,10 +27,14 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
     s.src = 'https://www.googletagmanager.com/gtag/js?id=G-V87YFL96C7';
     document.head.appendChild(s);
   }
+  function idleLoad(){
+    if('requestIdleCallback' in window){window.requestIdleCallback(loadGtag,{timeout:3000});}
+    else{setTimeout(loadGtag,200);}
+  }
   var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
-  function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});loadGtag();}
+  function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});setTimeout(idleLoad,600);}
   evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
-  if(document.readyState==='complete'){setTimeout(loadGtag,4000);}else{window.addEventListener('load',function(){setTimeout(loadGtag,4000)});}
+  if(document.readyState==='complete'){setTimeout(idleLoad,11500);}else{window.addEventListener('load',function(){setTimeout(idleLoad,11500)});}
   var last = location.pathname;
   function fire(){ if(window.gtag){ gtag('event','page_view',{page_path:location.pathname,page_title:document.title}); } }
   ['pushState','replaceState'].forEach(function(m){

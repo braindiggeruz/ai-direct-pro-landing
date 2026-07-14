@@ -41,8 +41,9 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            // react-router deliberately NOT here: only the lazy admin chunk
+            // uses it, so it must stay out of the landing-critical vendor.
             if (
-              id.includes('react-router') ||
               id.includes('/react-dom/') ||
               id.includes('/react/') ||
               id.includes('/scheduler/')
