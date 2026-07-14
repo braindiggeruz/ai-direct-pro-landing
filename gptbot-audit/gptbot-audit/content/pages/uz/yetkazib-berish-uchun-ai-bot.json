@@ -1,0 +1,166 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/yetkazib-berish-uchun-ai-bot/",
+  "slug": "yetkazib-berish-uchun-ai-bot",
+  "pageType": "money",
+  "primaryKeyword": "yetkazib berish uchun AI bot",
+  "secondaryKeywords": [
+    "ovqat yetkazib berish uchun chat-bot",
+    "buyurtma qabul qilish uchun bot",
+    "kafe uchun yetkazib berish bot",
+    "restoran uchun yetkazib berish bot",
+    "buyurtmalarni avtomatlashtirish"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Ovqat yetkazib berish uchun AI bot",
+  "title": "Yetkazib berish uchun AI bot — buyurtma 24/7 2026 | GPTBot",
+  "description": "Yetkazib berish uchun AI-bot buyurtmani qabul qiladi, manzilni aniqlaydi va yetkazib berish holatini kuzatadi. Telegram va Instagramda.",
+  "canonical": "https://gptbot.uz/uz/yetkazib-berish-uchun-ai-bot/",
+  "hreflangRu": "/ru/ai-bot-dlya-dostavki-edy/",
+  "hreflangUz": "/uz/yetkazib-berish-uchun-ai-bot/",
+  "ogTitle": "Ovqat yetkazib berish uchun AI bot — buyurtma 24/7 | GPTBot",
+  "ogDescription": "Bot buyurtmalarni qabul qiladi, menyu bo'yicha yo'naltiradi, summani hisoblaydi va holatni xabar qiladi. Kafe va yetkazib berish uchun O'zbekistonda.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Yetkazib berish uchun AI bot",
+  "heroTitle": "Ovqat yetkazib berish uchun AI bot",
+  "heroSubtitle": "Buyurtmalarni qabul qiladi, menyu bo'yicha yo'naltiradi, summani hisoblaydi, manzilni aniqlaydi va yetkazib berish holatini xabar qiladi — kechayu kunduz.",
+  "ctaPrimaryLabel": "Telegram'da botni ishga tushirish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bot nima qiladi",
+  "ctaSecondaryHref": "#nima-qiladi",
+  "bodyBlocks": [
+    { "type": "p", "text": "Yetkazib berish uchun AI-bot — bu buyurtmalarni 24/7 qabul qiladigan, menyu bo‘yicha javob beradigan va buyurtmani oshxonaga uzatadigan bot." },
+    {
+      "type": "p",
+      "text": "Qisqacha: ovqat yetkazib berish uchun AI bot buyurtmalarni 24/7 qabul qiladi, mijozni menyu bo'yicha yo'naltiradi, summani hisoblaydi, manzil va vaqtni aniqlaydi, aksiyalar va yetkazib berish hududi bo'yicha javob beradi hamda buyurtma holatini xabar qiladi. Bot operatorlarni eng gavjum payt (rush) da yengillashtiradi va tunda hamda dam olish kunlari buyurtmalarni yo'qotmaydi. Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tilida ishlaydi. Narxi — 3 mln so'mdan. Yangilandi: 2026 iyun."
+    },
+    {
+      "type": "h2",
+      "text": "Yetkazib berish uchun AI bot nima qiladi",
+      "id": "nima-qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Buyurtma qabul qilish: bot menyu bo'yicha yo'naltiradi, pozitsiyalarni yig'adi va yakuniy summani hisoblaydi.",
+        "Tafsilotlarni aniqlash: manzil, yetkazib berish vaqti, to'lov usuli, buyurtmaga izohlar.",
+        "Menyu va aksiyalar bo'yicha javoblar: taom tarkibi, narxlar, maxsus takliflar, yetkazish hududi va narxi.",
+        "Buyurtma holati: bot buyurtma qabul qilindi, tayyorlanmoqda va kuryerga topshirildi deb xabar qiladi.",
+        "Eng gavjum payt: bot hammani bir vaqtning o'zida qayta ishlaydi, operatorlar ko'milib qolmaydi.",
+        "Tun va dam olish kunlari: buyurtmalar yo'qolmaydi, bot ularni istalgan vaqtda qabul qiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yetkazib berishga nega chat-bot kerak"
+    },
+    {
+      "type": "p",
+      "text": "Yetkazib berishda tezlik hamma narsani hal qiladi: operator bitta xabarga javob bergunicha navbatda yana o'ntasi turadi, och mijoz esa kutmaydi. AI bot buyurtmalarni parallel va bir zumda qabul qiladi, menyu bo'yicha yo'naltiradi va summani hisoblaydi, operatorlar esa faqat nostandart holatlarga ulanadi. Tunda, dam olish kunlari va reklamadan keyingi eng gavjum paytda bot birorta buyurtmani yo'qotmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Kanallar va tillar"
+    },
+    {
+      "type": "p",
+      "text": "Bot Telegram, Instagram Direct va WhatsApp'da ishlaydi, rus va o'zbek tilida javob beradi, buyurtmalarni oshxonaga yoki operatorga Telegram'da yoki CRM'ga uzatadi. Barcha kanallardagi buyurtmalar yagona voronkada to'planadi."
+    },
+    {
+      "type": "h2",
+      "text": "Yetkazib berish uchun AI bot qancha turadi"
+    },
+    {
+      "type": "p",
+      "text": "Bitta kanal uchun bazaviy bot — 3 mln so'mdan, menyuli ko'p kanalli GPT-bot — 7 mln so'mdan, katalog, to'lov qabul qilish va tahlilli yechim — 15 mln so'mdan. Aniq smetani brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida."
+    },
+    {
+      "type": "cta",
+      "text": "Telegram'da botni ishga tushirish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Yetkazib berish uchun AI bot nima qiladi?",
+      "a": "Buyurtmalarni 24/7 qabul qiladi, mijozni menyu bo'yicha yo'naltiradi, summani hisoblaydi, manzil va vaqtni aniqlaydi, aksiyalar va hudud bo'yicha javob beradi hamda buyurtma holatini xabar qiladi, operatorlarni gavjum paytda yengillashtiradi."
+    },
+    {
+      "q": "Bot to'lovni qabul qila oladimi?",
+      "a": "Ha, kengaytirilgan versiyada bot to'lov qabul qilishga ulanadi. Bazaviy bot buyurtma va kontaktni yig'adi, to'lovni esa mijoz sozlamaga qarab yetkazib berishda yoki onlayn tanlaydi."
+    },
+    {
+      "q": "Bot gavjum paytda eplay oladimi?",
+      "a": "Ha. Bot istalgan miqdordagi buyurtmani parallel va bir zumda qayta ishlaydi, shuning uchun gavjum paytda va reklamadan keyin hech narsa yo'qolmaydi, operatorlar esa faqat nostandart holatlarga ulanadi."
+    },
+    {
+      "q": "Bot qaysi kanallarda ishlaydi?",
+      "a": "Telegram, Instagram Direct va WhatsApp'da, rus va o'zbek tilida. Buyurtmalar oshxonaga yoki operatorga Telegram'da yoki CRM'da tushadi."
+    },
+    {
+      "q": "Yetkazib berish uchun bot qancha turadi?",
+      "a": "Bazaviy bot — 3 mln so'mdan, menyuli ko'p kanalli GPT-bot — 7 mln so'mdan, katalog va to'lovli yechim — 15 mln so'mdan. Aniq narxni brifdan keyin hisoblaymiz."
+    },
+    {
+      "q": "Qanchalik tez ishga tushadi?",
+      "a": "Yetkazib berish uchun bazaviy bot bir necha kunda ishga tushadi. Katalog, to'lov va integratsiyali yechim uzoqroq, menyu hajmi va ssenariyga bog'liq."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/horeca-uchun-ai-bot/",
+      "anchor": "HoReCa uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/klinika-uchun-ai-bot/",
+      "anchor": "klinika uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/chat-bot-narxi/",
+      "anchor": "chat-bot narxi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/dokon-uchun-ai-bot/",
+      "anchor": "do'kon uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/savdoni-avtomatlashtirish/",
+      "anchor": "savdoni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "Biznes uchun AI botlar",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-25",
+  "createdAt": "2026-06-25T00:00:00Z",
+  "updatedAt": "2026-06-25"
+}

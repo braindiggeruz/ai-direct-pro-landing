@@ -1,0 +1,32 @@
+# Cloudflare Pages edge response headers.
+# Applied to every response. Docs: https://developers.cloudflare.com/pages/configuration/headers/
+#
+# Security baseline added 2026-06-26 to fix missing HSTS / X-Frame-Options /
+# CSP / nosniff flagged by SEO audit (60 critical security findings).
+#
+# NOTE on CSP: the site loads several third-party scripts (GTM, GA gtag,
+# Facebook Pixel, Ahrefs) plus inline bootstrap scripts, so a strict CSP with
+# nonces is not feasible without refactoring. We therefore ship CSP first in
+# **Report-Only** mode (no breakage, only reports) and promote it to enforcing
+# once verified clean. All other headers are enforced immediately.
+
+# Root path must NOT be CDN-cached: Cloudflare CDN serves cached responses
+# without invoking Functions middleware, so /?lang=ru would return HTTP 200
+# instead of 301 (GSC canonical fix). Setting no-store forces every request
+# through the edge Function which handles the ?lang= redirect.
+/
+  Cache-Control: no-store
+
+/*
+  Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://connect.facebook.net https://www.facebook.com https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+
+# Long-cache immutable build assets (hashed filenames).
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

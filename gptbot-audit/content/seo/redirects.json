@@ -1,0 +1,66 @@
+[
+  {
+    "id": "blog-no-locale-prefix",
+    "from": "/blog/*",
+    "to": "/ru/blog/:splat",
+    "statusCode": 301,
+    "reason": "Unprefixed /blog/[slug] URLs returned 404 — recover link equity from legacy/external/AI-generated links (seo-technical-audit-2026-07)",
+    "createdAt": "2026-07-03"
+  },
+  {
+    "id": "cannib-tashkent-chat-bot-biznes",
+    "from": "/ru/blog/chat-bot-dlya-biznesa-tashkent/",
+    "to": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+    "statusCode": 301,
+    "reason": "Slug/content mismatch (body about graphic design) + cannibalized Tashkent commercial money page — consolidate (seo-cannibalization-fix-2026-07-05)",
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "cannib-tashkent-razrabotka-cena",
+    "from": "/ru/blog/razrabotka-ai-bota-v-tashkente-cena/",
+    "to": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+    "statusCode": 301,
+    "reason": "Slug/content mismatch (body generic e-commerce filler) + cannibalized Tashkent commercial money page — consolidate (seo-cannibalization-fix-2026-07-05)",
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "cannib-tashkent-telegram-tsena",
+    "from": "/ru/blog/telegram-bot-biznes-tsena-tashkent/",
+    "to": "/ru/telegram-bot-dlya-biznesa/",
+    "statusCode": 301,
+    "reason": "Slug/content mismatch (body generic NLP filler) + cannibalized Telegram money page — consolidate (seo-cannibalization-fix-2026-07-05)",
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "cannib-tashkent-telegram-biznes",
+    "from": "/ru/blog/telegram-bot-dlya-biznesa-tashkent/",
+    "to": "/ru/telegram-bot-dlya-biznesa/",
+    "statusCode": 301,
+    "reason": "Slug/content mismatch (body generic AI-revolution filler) + cannibalized Telegram money page — consolidate (seo-cannibalization-fix-2026-07-05)",
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "cannib-ru-uz-language",
+    "from": "/ru/blog/chat-bot-na-russkom-i-uzbekskom-yazyke/",
+    "to": "/ru/chat-bot-dlya-biznesa/",
+    "statusCode": 301,
+    "reason": "Slug/content mismatch (body generic technical-architecture filler) — consolidate to chat-bot money page (seo-cannibalization-fix-2026-07-05)",
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "cannib-telegram-crm",
+    "from": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+    "to": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+    "statusCode": 301,
+    "reason": "Slug/content mismatch (body generic e-commerce filler) — consolidate to CRM-integration money page (seo-cannibalization-fix-2026-07-05)",
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "cannib-luchshie-gpt",
+    "from": "/ru/blog/luchshie-gpt-dlya-biznesa-uzbekistana/",
+    "to": "/ru/gpt-bot-dlya-biznesa/",
+    "statusCode": 301,
+    "reason": "Slug/content mismatch (body generic technical filler) + cannibalized GPT money page — consolidate (seo-cannibalization-fix-2026-07-05)",
+    "createdAt": "2026-07-05"
+  }
+]

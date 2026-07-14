@@ -1,0 +1,136 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/gpt-uzbek-tilida/",
+  "slug": "gpt-uzbek-tilida",
+  "pageType": "gpt-chat",
+  "primaryKeyword": "o‘zbek tilida AI chat",
+  "secondaryKeywords": [
+    "gpt uzbek tilida",
+    "ai chat uzbekistan",
+    "chat gpt uzbek",
+    "bepul ai chat",
+    "sun'iy intellekt chat"
+  ],
+  "searchIntent": "informational",
+  "h1": "O‘zbek tilida AI chat online",
+  "title": "O‘zbek tilida AI chat — bepul sinab ko‘ring | GPTBot.uz",
+  "description": "O‘zbek va rus tillarida ishlaydigan AI chat: matn, reklama, o‘qish, biznes va kundalik vazifalar uchun. Bepul limit va Plus tarifi mavjud.",
+  "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+  "hreflangRu": "/ru/gpt-chat/",
+  "hreflangUz": "/uz/gpt-uzbek-tilida/",
+  "ogTitle": "O‘zbek tilida AI chat — bepul sinab ko‘ring | GPTBot.uz",
+  "ogDescription": "O‘zbek va rus tilida AI chat: matn, reklama, o‘qish, rezyume, biznes. Bepul limit va Plus tarifi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "O‘zbek tilida AI chat",
+  "heroTitle": "O‘zbek tilida AI chat online",
+  "heroSubtitle": "GPTBot.uz’ning mustaqil AI chati: matn, g‘oya, reklama, o‘qish va biznes uchun. O‘zbek va rus tilida ishlaydi, bepul limit bor.",
+  "ctaPrimaryLabel": "AI chatni ochish",
+  "ctaPrimaryHref": "#ai-console",
+  "ctaSecondaryLabel": "Tariflar",
+  "ctaSecondaryHref": "#nima-qiladi",
+  "bodyBlocks": [
+    { "type": "p", "text": "GPT o‘zbek tilida — bu o‘zbek tilidagi so‘rovlarni tushunib javob beradigan til modeli; GPTBot.uz mustaqil AI-xizmat, rasmiy ChatGPT emas." },
+    { "type": "h2", "text": "AI chat nima qila oladi" },
+    { "type": "p", "text": "GPTBot.uz AI chati — brauzeringizda ishlaydigan mustaqil yordamchi. U matn yozadi va tahrirlaydi, g‘oya o‘ylaydi, ijtimoiy tarmoqlar uchun kontent tayyorlaydi, o‘qish va rezyumega yordam beradi, savollarga javob beradi hamda rus va o‘zbek tillari o‘rtasida tarjima qiladi. Yuqoridagi misoldan boshlang — chatga savolingizni yozing." },
+    { "type": "list", "items": [
+      "Marketing: offer, e’lon, sotuv ssenariylari",
+      "Reklama: Instagram va Telegram uchun matnlar",
+      "Sotuv: mijozga javob, skript, e’tirozlar bilan ishlash",
+      "O‘qish: konspekt, oddiy tilda tushuntirish, reja",
+      "Rezyume: kuchaytirish, vakansiyaga moslash",
+      "Matn: post, xat, tavsif, rerayt",
+      "Tarjima: rus ↔ o‘zbek",
+      "Biznes: g‘oya, reja, vazifalarni tuzish"
+    ] },
+    { "type": "h2", "text": "AI kabinet: bo‘sh chat o‘rniga tayyor ssenariylar" },
+    { "type": "p", "text": "GPTBot.uz ichida rol va kerakli bo‘limni tanlash mumkin: Chat, Images, SMM, Business yoki Study. Tayyor shablon bir daqiqada boshlashga yordam beradi, so‘rovni esa mahsulot, auditoriya yoki o‘qish mavzusiga moslashtirish mumkin." },
+    { "type": "list", "items": [
+      "AI SMM: Instagram va Telegram uchun post, stories, reklama matni va kontent reja.",
+      "AI bilan o‘qish: mavzuni tushuntirish, konspekt, test, tarjima va matn tekshirish — foydalanuvchi o‘rniga ishni bajarish va’dasisiz.",
+      "AI biznes: mijoz javobi, FAQ, mahsulot tavsifi, sotuv skripti va Telegram-bot ssenariysi.",
+      "Images MVP: post, banner, mahsulot, Telegram muqovasi yoki maqola uchun batafsil image prompt generatori.",
+      "Limitlar joriy chat API ma’lumotiga asoslanadi; haqiqiy tasvir generatsiyasi va image credits faqat xavfsiz backend tayyor bo‘lgandan keyin qo‘shiladi."
+    ] },
+    { "type": "h2", "text": "O‘zbek va rus tilida" },
+    { "type": "p", "text": "Xizmat O‘zbekistonning o‘zbek va rus tilli auditoriyasi uchun mo‘ljallangan. Qulay tilda yozing — AI sizning tilingizda javob beradi. Bu Toshkent, Samarqand, Buxoro va butun mamlakat bo‘ylab biznes va o‘qish uchun qulay." },
+    { "type": "h2", "text": "Tariflar: bepul, Plus va Business" },
+    { "type": "linkp", "text": "Har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tishsiz. Kengaytirilgan limit va qo‘shimcha imkoniyatli Plus tarifi ishga tushirishga tayyorlanmoqda. Kompaniyalar uchun B2B joriy etish mavjud — tafsilotlar {tariffs} sahifasida.", "links": [ { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari" } ] },
+    { "type": "h2", "text": "Biznes uchun shunday AI chat kerakmi?" },
+    { "type": "linkp", "text": "Saytingizga, Telegram’ga yoki CRM’ga shunday AI chat kerakmi? GPTBot.uz {aibot}, {tgbot} va {zayavki}ni to‘liq joriy etadi.", "links": [
+      { "token": "aibot", "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot" },
+      { "token": "tgbot", "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot" },
+      { "token": "zayavki", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" }
+    ] },
+    { "type": "h2", "text": "Maxfiylik va xavfsizlik" },
+    { "type": "list", "items": [
+      "AI xato qilishi mumkin — muhim faktlarni tekshiring.",
+      "Parol, karta raqami, tijorat siri, tibbiy va yuridik hujjatlarni kiritmang.",
+      "Xabarlaringiz uchinchi tomon AI-provayderlari orqali qayta ishlanishi mumkin.",
+      "Xizmat mustaqil va OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas."
+    ] },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPT o‘zbek tilida so‘rovlarni tushunib, o‘zbek tilida javob beradi.",
+        "Matn, g‘oya, o‘qish va ish vazifalari uchun yordamchi.",
+        "Bazaviy foydalanish bepul, murakkab ro‘yxatdan o‘tishsiz.",
+        "Javob sifati so‘rov aniqligiga bog‘liq.",
+        "Biznes uchun xuddi shu dvigatel bot sifatida joriy etiladi."
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "Bu rasmiy ChatGPTmi?", "a": "Yo‘q. Bu GPTBot.uz’ning mustaqil AI chati bo‘lib, uchinchi tomon modellari va API-provayderlaridan foydalanadi. Xizmat OpenAI, ChatGPT yoki NVIDIA bilan bog‘liq emas." },
+    { "q": "AI chat bepulmi?", "a": "Ha, har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tishsiz. Ko‘proq hajm uchun Plus tarifi mavjud." },
+    { "q": "Qanday limitlar bor?", "a": "Bepul tarifda kunlik va soatlik xabar limiti amal qiladi. Aniq qiymatlar chatda ko‘rsatiladi. Plus limitni kengaytiradi." },
+    { "q": "O‘zbek tilida yozsa bo‘ladimi?", "a": "Ha. AI o‘zbek tilida (lotin) ishlaydi va javob beradi." },
+    { "q": "Rus tilida yozsa bo‘ladimi?", "a": "Ha, AI rus tilini ham tushunadi va javob beradi." },
+    { "q": "Reklama uchun ishlatsa bo‘ladimi?", "a": "Ha: offer, e’lon, Instagram va Telegram postlari, sotuv ssenariylari." },
+    { "q": "O‘qish uchun ishlatsa bo‘ladimi?", "a": "Ha: konspekt, oddiy tushuntirish, reja, tarjima. Muhim faktlarni tekshiring — AI xato qilishi mumkin." },
+    { "q": "Saytga shunday AI chatni ulash mumkinmi?", "a": "Ha. GPTBot.uz sayt uchun AI chatni ariza qabul qilish va menejerga/CRM’ga uzatish bilan joriy etadi." },
+    { "q": "AI xato qiladimi?", "a": "Ha. Bu barcha til modellariga xos. Ish, o‘qish, yuridik, tibbiy va moliyaviy holatlarda muhim faktlarni tekshiring." },
+    { "q": "Qanday ma’lumotlarni kiritmaslik kerak?", "a": "Parol, karta raqami, bank ma’lumotlari, tijorat siri, tibbiy va yuridik hujjatlarni kiritmang." }
+  ],
+  "internalLinks": [
+    { "target": "/ru/gpt-chat/", "anchor": "Rus tilidagi AI chat", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "Arizalarni avtomatlashtirish", "locale": "uz", "type": "block" },
+    { "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari", "locale": "uz", "type": "block" },
+    { "target": "/uz/maxfiylik-siyosati/", "anchor": "Maxfiylik siyosati", "locale": "uz", "type": "footer" },
+    {
+      "target": "/uz/gpt-telegram-instagram-ideya/",
+      "anchor": "Telegram va Instagram uchun GPT",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI chat",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "O‘zbek va rus tilida mustaqil AI chat. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "inLanguage": ["uz", "ru"]
+    }
+  ],
+  "lastReviewedAt": "2026-07-11",
+  "createdAt": "2026-07-11T00:00:00Z",
+  "updatedAt": "2026-07-11"
+}

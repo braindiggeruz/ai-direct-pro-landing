@@ -1,0 +1,106 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam",
+  "url": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+  "title": "AmoCRM va Bitrix24 ga Telegram botni ulash: qadam-ba-qadam",
+  "description": "Telegram va Instagram botdan kelgan arizalarni AmoCRM yoki Bitrix24 ga qanday ulash: bosqichlar, maydonlar moslashuvi va tez-tez uchraydigan xatolar.",
+  "h1": "Telegram/Instagram botni AmoCRM yoki Bitrix24 ga qanday ulash",
+  "topicCluster": "amocrm-bitrix24-bilan-ai-bot",
+  "targetMoneyPage": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+  "keywords": [
+    "AmoCRM Telegram bot",
+    "Bitrix24 bot integratsiya",
+    "botni CRM ga ulash",
+    "arizalar CRM ga",
+    "O'zbekiston CRM integratsiya",
+    "lead CRM voronka"
+  ],
+  "intro": "Bot arizalarni qabul qiladi, lekin ular menejer chatida qolib ketsa, voronka va tahlil bo'lmaydi. Arizalar AmoCRM yoki Bitrix24 ga tushganda esa har bir lid kuzatiladi, statusga ega bo'ladi va hech biri yo'qolmaydi. Ushbu qo'llanmada Telegram va Instagram botni CRM ga ulash bosqichlarini, maydonlarni qanday moslashtirishni va nimalarga e'tibor berishni ko'rib chiqamiz.",
+  "body": [
+    { "type": "p", "text": "CRM siz bot — bu shunchaki xabarlar to'plami. Menejer chatidagi arizani izlash, kim javob berganini eslash, konversiyani hisoblash qiyin. CRM ulanganda har bir ariza avtomatik karta bo'lib tushadi va voronkaning aniq bosqichida turadi." },
+    { "type": "h2", "text": "Ulashdan oldin: nima tayyor bo'lishi kerak" },
+    { "type": "list", "items": [
+      "Faol AmoCRM yoki Bitrix24 akkaunti va unga administrator huquqi.",
+      "Voronka bosqichlari aniqlangan (masalan: yangi ariza → aloqa → taklif → to'lov → yopildi).",
+      "Lid kartasida qanday maydonlar bo'lishi kerakligi ro'yxati (ism, telefon, kanal, mahsulot).",
+      "Botni boshqaruvchi jamoa yoki mutaxassis bilan kelishuv."
+    ]},
+    { "type": "h2", "text": "1-qadam: manba kanallarini belgilang" },
+    { "type": "p", "text": "Avval qaysi kanallardan arizalar keladi — Telegram, Instagram Direct, WhatsApp — shularni aniqlang. Har bir kanal CRM da alohida manba (source) sifatida belgilanishi kerak, shunda qaysi kanal ko'proq lid berayotganini ko'rasiz." },
+    { "type": "h2", "text": "2-qadam: lid maydonlarini moslashtiring" },
+    { "type": "list", "items": [
+      "Botdagi savollar CRM maydonlariga mos kelishi kerak: ism → Ism, telefon → Telefon, va h.k.",
+      "Kanal nomi manba maydoniga yoziladi.",
+      "Mahsulot yoki xizmat tanlovi alohida maydonga tushadi — bu tahlil uchun muhim.",
+      "Ortida qolgan savollar keyingi bosqichga izoh sifatida qo'shiladi."
+    ]},
+    { "type": "h2", "text": "3-qadam: voronka bosqichlarini bog'lang" },
+    { "type": "p", "text": "Bot yangi arizani \"yangi lid\" bosqichiga qo'yadi. Keyin menejer yoki AI kvalifikatsiyadan so'ng lidni keyingi bosqichga suradi. To'g'ri sozlangan integratsiyada ba'zi statuslar avtomatik o'zgaradi — masalan, to'lov qabul qilinganda lid \"to'landi\" bosqichiga o'tadi." },
+    { "type": "h2", "text": "4-qadam: mas'ul menejerlarni tayinlang" },
+    { "type": "list", "items": [
+      "Yangi lidlar navbat bilan yoki kanal bo'yicha menejerlarga taqsimlanadi.",
+      "Har bir lidda mas'ul shaxs ko'rinadi — javobgarlik yo'qolmaydi.",
+      "Javob berilmagan lidlar uchun eslatma (notifikatsiya) sozlanadi."
+    ]},
+    { "type": "quote", "text": "CRM ga ulanmagan bot — bu teshik chelak: suv quyasiz, lekin qancha oqib ketayotganini ko'rmaysiz." },
+    { "type": "h2", "text": "Tez-tez uchraydigan xatolar" },
+    { "type": "list", "items": [
+      "Barcha kanallarni bitta manbaga qo'shib yuborish — keyin tahlil qilib bo'lmaydi.",
+      "Voronka bosqichlarini haddan tashqari murakkablashtirish — menejerlar ishlatmaydi.",
+      "Dublikat lidlar — bir mijoz ikki kanaldan yozsa, ikkita karta paydo bo'ladi (deduplikatsiyani sozlang).",
+      "Botni ulab, menejerlarni CRM da ishlashga o'rgatmaslik."
+    ]},
+    { "type": "h2", "text": "Ulashdan keyin nima o'zgaradi" },
+    { "type": "p", "text": "To'g'ri ulangan bot + CRM bog'lamasi arizalarni yaxlit tizimga aylantiradi: har bir lid kuzatiladi, konversiya ko'rinadi, menejerlar mas'uliyatni his qiladi. Bu esa Telegram va Instagram orqali keladigan oqimni boshqariladigan sotuv voronkasiga aylantiradi va o'sishni rejalashtirish imkonini beradi." },
+    { "type": "cta", "text": "Sizning CRM ingiz uchun ulash sxemasini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalar menejer chatida qolsa, voronka va tahlil bo‘lmaydi.",
+        "AmoCRM yoki Bitrix24 ga ulash har bir lidni kuzatadi.",
+        "Ariza avtomatik status va mas’ul menejerga ega bo‘ladi.",
+        "Ulash bosqichma-bosqich sozlanadi."
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "Qaysi CRM yaxshiroq — AmoCRM yoki Bitrix24?", "a": "Ikkalasi ham bot bilan ishlaydi. AmoCRM sotuvga yo'naltirilgan va soddaroq, Bitrix24 kengroq (loyihalar, hujjatlar). Tanlov jamoangiz jarayonlariga bog'liq." },
+    { "q": "Bir botni bir vaqtda ikkita CRM ga ulash mumkinmi?", "a": "Texnik jihatdan mumkin, lekin tavsiya etilmaydi — ma'lumot bo'linadi va tahlil chalkashadi. Bitta asosiy CRM tanlagan ma'qul." },
+    { "q": "Instagram Direct arizalari ham CRM ga tushadimi?", "a": "Ha, agar Instagram kanali botga ulangan bo'lsa, Direct arizalari ham Telegram bilan bir xil CRM voronkasiga tushadi." },
+    { "q": "Eski arizalarni CRM ga ko'chirish kerakmi?", "a": "Odatda yo'q — integratsiya ulangan paytdan boshlab yangi arizalar tushadi. Eski ma'lumotni ko'chirish alohida vazifa." },
+    { "q": "Bu qancha vaqt oladi va qancha turadi?", "a": "Muddat va narx voronka murakkabligi va integratsiya to'plamiga bog'liq. Aniq holatni Telegram'da muhokama qilamiz." }
+  ],
+  "cta": { "label": "Telegram'da ulashni muhokama qilish", "href": "https://t.me/XGame_changerx" },
+  "internalLinks": [
+    { "target": "/uz/amocrm-bitrix24-bilan-ai-bot/", "anchor": "AmoCRM yoki Bitrix24 bilan AI bot", "locale": "uz", "type": "contextual", "priority": 1 },
+    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual", "priority": 2 },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual", "priority": 3 },
+    { "target": "/uz/savdoni-avtomatlashtirish/", "anchor": "savdoni avtomatlashtirish", "locale": "uz", "type": "contextual", "priority": 4 },
+    { "target": "/uz/", "anchor": "Biznes uchun AI botlar", "locale": "uz", "type": "contextual" }
+  ],
+  "ogTitle": "AmoCRM va Bitrix24 ga Telegram botni ulash: qadam-ba-qadam",
+  "ogDescription": "Telegram va Instagram botdan kelgan arizalarni AmoCRM yoki Bitrix24 ga qanday ulash: bosqichlar, maydonlar moslashuvi va tez-tez uchraydigan xatolar.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "canonical": "https://gptbot.uz/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+  "hreflangRu": "",
+  "hreflangUz": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-07-01",
+  "dateModified": "2026-07-01",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "updatedAt": "2026-07-01T00:00:00.000Z",
+  "createdAt": "2026-07-01T00:00:00.000Z"
+}
