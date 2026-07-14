@@ -23,9 +23,9 @@ export function AiToolTabs({ locale, active, onChange }: { locale: Locale; activ
     refs.current[next]?.focus();
   };
   return (
-    <div className="border-b border-white/8 bg-black/10">
-      <div className="overflow-x-auto overscroll-x-contain px-2 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={locale === 'uz' ? 'AI kabinet bo‘limlari' : 'Разделы AI-кабинета'}>
-        <div className="flex min-w-max gap-0.5 sm:grid sm:min-w-0 sm:grid-cols-5">
+    <div className="border-b border-white/[0.06]">
+      <div className="overflow-x-auto overscroll-x-contain px-3 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={locale === 'uz' ? 'AI kabinet bo‘limlari' : 'Разделы AI-кабинета'}>
+        <div className="flex min-w-max gap-1 sm:grid sm:min-w-0 sm:grid-cols-5">
           {TOOLS.map((tool, index) => {
             const selected = tool.id === active;
             return (
@@ -41,13 +41,13 @@ export function AiToolTabs({ locale, active, onChange }: { locale: Locale; activ
                 title={locale === 'uz' ? tool.helperUz : tool.helperRu}
                 onKeyDown={(event) => onKeyDown(event, index)}
                 onClick={() => onChange(tool.id)}
-                className={`relative min-h-12 min-w-[78px] rounded-lg px-2.5 py-2 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${
-                  selected ? 'text-white' : 'text-white/55 hover:text-white hover:bg-white/[0.04]'
+                className={`relative min-h-12 min-w-[80px] rounded-xl px-3 py-2.5 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-[12px] sm:text-[13px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${
+                  selected ? 'text-white bg-white/[0.04]' : 'text-white/45 hover:text-white/80 hover:bg-white/[0.02]'
                 }`}
               >
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={tool.icon} /></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={tool.icon} /></svg>
                 <span>{locale === 'uz' ? tool.uz : tool.ru}</span>
-                {selected && <span className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full bg-brand-cyan" aria-hidden="true" />}
+                {selected && <span className="absolute bottom-0 left-3 right-3 h-[2px] rounded-full bg-brand-cyan" aria-hidden="true" />}
               </button>
             );
           })}

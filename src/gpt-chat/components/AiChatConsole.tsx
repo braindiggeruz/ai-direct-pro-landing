@@ -194,61 +194,61 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   );
 
   return (
-    <div className="glass-strong rounded-[20px] sm:rounded-[28px] overflow-hidden" style={{ boxShadow: '0 30px 80px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(47,230,209,0.08) inset' }} data-testid="ai-console">
+    <div className="glass-strong rounded-[24px] sm:rounded-[32px] overflow-hidden" style={{ boxShadow: '0 40px 100px -30px rgba(0,0,0,0.6), 0 0 80px -20px rgba(34,158,217,0.15), 0 0 0 1px rgba(47,230,209,0.06) inset' }} data-testid="ai-console">
       {/* ── Top bar: brand + online | lang + plan + credits + upgrade ── */}
-      <div className="flex items-center gap-2 px-3.5 sm:px-5 py-2.5 border-b border-white/8 bg-black/20">
-        <div className="flex items-center gap-2 mr-auto">
-          <span className="grid place-items-center w-7 h-7 rounded-lg text-[#04101A] bg-grad-cta font-bold text-sm" aria-hidden="true">G</span>
+      <div className="flex items-center gap-2 px-4 sm:px-6 py-3.5 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2.5 mr-auto">
+          <span className="grid place-items-center w-8 h-8 rounded-xl text-[#04101A] bg-grad-cta font-bold text-sm" aria-hidden="true">G</span>
           <span className="font-semibold text-white text-[15px] hidden sm:inline">{t.brand}</span>
-          <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/90 ml-0.5">
+          <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/80 ml-0.5">
             <span className="status-dot" aria-hidden="true" />{t.online}
           </span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="flex items-center rounded-xl border border-white/10 overflow-hidden text-[11px]" role="group" aria-label={config.locale === 'uz' ? 'Til' : 'Язык'}>
-            <span className={`min-h-11 min-w-11 grid place-items-center ${config.locale === 'ru' ? 'bg-white/10 text-white' : 'text-white/50'}`}>RU</span>
-            <a href={otherHref} className={`min-h-11 min-w-11 grid place-items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan ${config.locale === 'uz' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}>UZ</a>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center rounded-xl bg-white/[0.04] overflow-hidden text-[11px]" role="group" aria-label={config.locale === 'uz' ? 'Til' : 'Язык'}>
+            <span className={`min-h-11 min-w-11 grid place-items-center ${config.locale === 'ru' ? 'bg-white/10 text-white' : 'text-white/45'}`}>RU</span>
+            <a href={otherHref} className={`min-h-11 min-w-11 grid place-items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan ${config.locale === 'uz' ? 'bg-white/10 text-white' : 'text-white/45 hover:text-white/80'}`}>UZ</a>
           </div>
-          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/40 text-brand-violet/90 whitespace-nowrap hidden sm:inline" title={config.locale === 'uz' ? 'Mehmon rejimi' : 'Гостевой режим'}>{t.planBadge(plan)}</span>
+          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/25 bg-brand-violet/[0.06] text-brand-violet/80 whitespace-nowrap hidden sm:inline" title={config.locale === 'uz' ? 'Mehmon rejimi' : 'Гостевой режим'}>{t.planBadge(plan)}</span>
           <AiUsageBadge remaining={remaining} t={t} />
-          <a href={pricingHref} onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); }} className="min-h-11 inline-flex items-center gap-1 text-[11px] font-semibold px-3 py-2 rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan/20 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">↑ Plus</a>
+          <a href={pricingHref} onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); }} className="min-h-11 inline-flex items-center gap-1 text-[11px] font-semibold px-3.5 py-2 rounded-xl bg-brand-cyan/[0.08] text-brand-cyan hover:bg-brand-cyan/[0.14] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">↑ Plus</a>
         </div>
       </div>
 
       <AiToolTabs locale={config.locale} active={activeTool} onChange={onToolChange} />
 
       {/* ── Viewport ── */}
-      <div className="neural-grid px-4 sm:px-6 py-5 min-h-[420px] sm:min-h-[460px] max-h-[60vh] overflow-y-auto">
+      <div className="neural-grid px-4 sm:px-6 py-6 min-h-[460px] sm:min-h-[480px] max-h-[60vh] overflow-y-auto">
         {empty ? (
-          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="relative z-[1] py-2">
-            <h2 className="h-display text-2xl sm:text-[28px] text-white mb-2 max-w-xl"><span className="text-grad">{t.emptyTitle}</span></h2>
-            <p className="text-white/55 text-sm mb-4 max-w-lg leading-relaxed">{t.emptyHint}</p>
-            <button type="button" onClick={focusInput} className="btn-primary text-[14px] mb-6">{t.tryFree}</button>
+          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="relative z-[1] py-4">
+            <h2 className="h-display text-2xl sm:text-[32px] text-white mb-3 max-w-xl leading-tight"><span className="text-grad">{t.emptyTitle}</span></h2>
+            <p className="text-white/50 text-[15px] mb-5 max-w-lg leading-relaxed">{t.emptyHint}</p>
+            <button type="button" onClick={focusInput} className="btn-primary text-[14px] mb-8">{t.tryFree}</button>
             {toolkit}
           </div>
         ) : (
-          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="space-y-5">
-            {activeTool !== 'chat' && <div className="rounded-2xl border border-white/8 bg-black/10 p-3 sm:p-4">{toolkit}</div>}
+          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="space-y-6">
+            {activeTool !== 'chat' && <div className="rounded-2xl bg-white/[0.025] p-4 sm:p-5">{toolkit}</div>}
             <AiChatMessageList messages={messages} t={t} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} />
           </div>
         )}
       </div>
 
       {/* ── Role selector + credits (compact, inline above composer) ── */}
-      <div className="flex items-center gap-2 px-4 sm:px-6 py-2.5 border-t border-white/8 bg-black/10">
+      <div className="flex items-start gap-3 px-4 sm:px-6 py-3.5 border-t border-white/[0.06]">
         <RoleSelector locale={config.locale} value={role} onChange={onRoleChange} disabled={busy} />
         <CreditBalance locale={config.locale} remaining={remaining} limitReached={limitReached} onUpgrade={() => { track(EV.upgradeClick, { from: 'credit_balance', status: 'pricing' }); track(EV.viewPricing, { from: 'credit_balance' }); window.location.href = pricingHref; }} />
       </div>
 
       {/* ── Composer + inline cards ── */}
-      <div className="px-4 sm:px-6 pb-5 pt-1">
+      <div className="px-4 sm:px-6 pb-6 pt-1">
         {limitReached ? (
           <AiPaywallCard t={t} apiBase={config.apiBase} sessionId={sessionId} pricingHref={pricingHref} />
         ) : (
           <>
             {showB2B && <div className="mb-3"><AiBusinessUpsell t={t} onDismiss={() => setB2bDismissed(true)} /></div>}
             {remaining >= 0 && remaining <= 2 && (
-              <div className="mb-2 flex items-center gap-2 text-[12px] text-amber-200/90 rounded-xl border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2" role="status">
+              <div className="mb-3 flex items-center gap-2 text-[12px] text-amber-200/80 rounded-2xl bg-amber-300/[0.05] px-4 py-3" role="status">
                 <span aria-hidden="true">⚡</span>
                 <span>{t.lowWarning(remaining)}</span>
                 <a href={pricingHref} onClick={() => { track(EV.viewPricing, { from: 'low_limit' }); track(EV.upgradeClick, { from: 'low_limit' }); }} className="ml-auto min-h-12 inline-flex items-center text-brand-cyan hover:underline whitespace-nowrap">{t.paywallCta}</a>
@@ -257,12 +257,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
           </>
         )}
-        <div className="mt-3"><AiSafetyNotice t={t} /></div>
-        <p className="mt-2 text-[11px] text-white/35 leading-relaxed text-center">{t.disclaimer}</p>
+        <div className="mt-4"><AiSafetyNotice t={t} /></div>
+        <p className="mt-2 text-[11px] text-white/30 leading-relaxed text-center">{t.disclaimer}</p>
       </div>
 
       {/* Lead form lives below the console — B2B capture without crowding chat. */}
-      <div className="px-4 sm:px-6 pb-5">
+      <div className="px-4 sm:px-6 pb-6">
         {activeTool !== 'business' && <AiChatLeadForm t={t} apiBase={config.apiBase} sessionId={sessionId} />}
       </div>
     </div>

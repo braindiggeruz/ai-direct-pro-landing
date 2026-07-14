@@ -340,12 +340,12 @@ function renderChatConsole(page: Page): string {
     ? 'AI-chatdan foydalanish uchun JavaScript’ni yoqing yoki Telegram’da bizga yozing.'
     : 'Включите JavaScript, чтобы пользоваться AI-чатом, или напишите нам в Telegram.';
   const label = uz ? 'AI-chat konsoli' : 'AI-чат консоль';
-  return `<section aria-label="${escapeHtml(label)}" id="ai-console" class="mb-10">
-    <div id="gpt-chat-root" data-locale="${page.locale === 'uz' ? 'uz' : 'ru'}" data-api-base="" class="min-h-[420px]">
-      <noscript><p class="text-white/70 text-sm rounded-xl border border-white/10 p-6">${escapeText(noscript)}</p></noscript>
-      <div class="text-white/40 text-sm rounded-xl border border-white/10 p-6 animate-pulse">${uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…'}</div>
+  return `<section aria-label="${escapeHtml(label)}" id="ai-console" class="mb-16">
+    <div id="gpt-chat-root" data-locale="${page.locale === 'uz' ? 'uz' : 'ru'}" data-api-base="" class="min-h-[460px]">
+      <noscript><p class="text-white/70 text-sm rounded-2xl p-6">${escapeText(noscript)}</p></noscript>
+      <div class="text-white/40 text-sm rounded-2xl p-8 animate-pulse text-center">${uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…'}</div>
     </div>
-    <p data-testid="ai-disclaimer" class="text-[11px] text-white/35 mt-3 leading-relaxed text-center">${escapeText(disclaimer)}</p>
+    <p data-testid="ai-disclaimer" class="text-[11px] text-white/30 mt-4 leading-relaxed text-center">${escapeText(disclaimer)}</p>
   </section>`;
 }
 
@@ -387,7 +387,7 @@ function renderGptChatMain(
         { icon: 'M5 12.5l4.5 4.5L19 7.5', title: 'Быстрый старт', desc: 'Пишите без регистрации' },
       ];
 
-  const valueCardsHtml = valueCards.map((c) => `<div class="link-card"><span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan mb-2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${c.icon}"/></svg></span><h3 class="text-white font-medium text-sm leading-snug">${escapeText(c.title)}</h3><p class="text-white/50 text-xs mt-1 leading-snug">${escapeText(c.desc)}</p></div>`).join('');
+  const valueCardsHtml = valueCards.map((c) => `<div class="link-card group"><span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/[0.08] border border-brand-cyan/15 text-brand-cyan mb-3 group-hover:bg-brand-cyan/[0.12] group-hover:border-brand-cyan/25 transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${c.icon}"/></svg></span><h3 class="text-white font-medium text-[15px] leading-snug">${escapeText(c.title)}</h3><p class="text-white/45 text-[13px] mt-1.5 leading-relaxed">${escapeText(c.desc)}</p></div>`).join('');
 
   const pricingTiers = uz
     ? [
@@ -401,25 +401,30 @@ function renderGptChatMain(
         { badge: 'Business', desc: 'AI-бот под ключ', features: ['CRM интеграция', 'Telegram + Instagram'] },
       ];
 
-  const pricingHtml = pricingTiers.map((t, i) => `<div class="link-card ${i === 2 ? 'border-brand-cyan/30' : ''}"><span class="chip">${escapeText(t.badge)}</span><p class="text-white/80 text-sm mt-3">${escapeText(t.desc)}</p><ul class="mt-2 space-y-1">${t.features.map((f) => `<li class="flex items-center gap-1.5 text-xs text-white/55"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${escapeText(f)}</li>`).join('')}</ul></div>`).join('');
+  const pricingHtml = pricingTiers.map((t, i) => `<div class="link-card ${i === 2 ? 'border-brand-cyan/20 bg-brand-cyan/[0.03]' : ''}"><span class="chip ${i === 2 ? 'border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan' : ''}">${escapeText(t.badge)}</span><p class="text-white/80 text-[15px] mt-4 font-light">${escapeText(t.desc)}</p><ul class="mt-3 space-y-2">${t.features.map((f) => `<li class="flex items-center gap-2 text-[13px] text-white/50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${escapeText(f)}</li>`).join('')}</ul></div>`).join('');
 
   const finalCtaTitle = uz ? 'Boshlashga tayyormisiz?' : 'Готовы начать?';
   const finalCtaChatLabel = uz ? 'AI-chatni ochish' : 'Открыть AI-чат';
   const finalCtaB2bLabel = uz ? 'AI-bot buyurtma berish' : 'Заказать AI-бота';
 
-  return `<main id="main" class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-  <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
-    <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
+  return `<main id="main" class="relative max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px] overflow-hidden -z-10" aria-hidden="true">
+    <div class="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full opacity-60" style="background:radial-gradient(ellipse at center, rgba(34,158,217,0.12), transparent 70%)"></div>
+    <div class="absolute right-0 top-40 h-[400px] w-[500px] rounded-full opacity-50" style="background:radial-gradient(ellipse at center, rgba(47,230,209,0.08), transparent 70%)"></div>
+  </div>
+
+  <nav aria-label="Breadcrumb" class="text-sm text-white/40 mb-8">
+    <a href="/" class="hover:text-white/70 transition-colors">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
-    <span class="text-white/70">${escapeText(page.breadcrumbLabel || page.h1)}</span>
+    <span class="text-white/60">${escapeText(page.breadcrumbLabel || page.h1)}</span>
   </nav>
 
-  <div class="mb-8">
-    <h1 data-testid="page-h1" class="font-display text-[1.75rem] sm:text-4xl lg:text-5xl text-white mb-4 leading-tight break-words hyphens-auto">${escapeText(page.h1)}</h1>
-    ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-3">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
+  <div class="mb-10">
+    <h1 data-testid="page-h1" class="font-display text-[2rem] sm:text-5xl lg:text-[3.25rem] text-white mb-5 leading-[1.1] break-words hyphens-auto tracking-tight">${escapeText(page.h1)}</h1>
+    ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/30 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
     ${bylineHtml}
-    ${page.heroSubtitle ? `<p class="speakable-intro text-base sm:text-lg text-white/80 mb-6 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
-    <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
+    ${page.heroSubtitle ? `<p class="speakable-intro text-lg sm:text-xl text-white/70 mb-8 max-w-2xl leading-relaxed font-light">${escapeText(page.heroSubtitle)}</p>` : ''}
+    <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-6">
       <a data-testid="page-cta-primary" href="${escapeHtml(primaryHref)}"${primaryExternal ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">
         ${escapeText(primaryLabel)}
       </a>
@@ -432,25 +437,25 @@ function renderGptChatMain(
 
   ${renderChatConsole(page)}
 
-  <section class="mt-10" data-testid="value-cards">
+  <section class="mt-16" data-testid="value-cards">
     <div class="eyebrow mb-3">${uz ? 'Imkoniyatlar' : 'Возможности'}</div>
-    <h2 class="font-display text-xl sm:text-2xl mb-5 text-white">${uz ? "Bitta AI-chatda hammasi" : 'Всё в одном AI-чате'}</h2>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">${valueCardsHtml}</div>
+    <h2 class="font-display text-2xl sm:text-3xl mb-8 text-white tracking-tight">${uz ? "Bitta AI-chatda hammasi" : 'Всё в одном AI-чате'}</h2>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">${valueCardsHtml}</div>
   </section>
 
-  <section class="mt-10" data-testid="pricing-teaser">
+  <section class="mt-16" data-testid="pricing-teaser">
     <div class="eyebrow mb-3">${uz ? 'Tariflar' : 'Тарифы'}</div>
-    <h2 class="font-display text-xl sm:text-2xl mb-5 text-white">${uz ? 'Oddiy tariflar' : 'Простые тарифы'}</h2>
-    <div class="grid sm:grid-cols-3 gap-3">${pricingHtml}</div>
-    <a href="${escapeHtml(pricingHref)}" class="btn-secondary mt-4 text-sm">${uz ? "Tariflarni ko‘rish" : 'Смотреть тарифы'}</a>
+    <h2 class="font-display text-2xl sm:text-3xl mb-8 text-white tracking-tight">${uz ? 'Oddiy tariflar' : 'Простые тарифы'}</h2>
+    <div class="grid sm:grid-cols-3 gap-4">${pricingHtml}</div>
+    <a href="${escapeHtml(pricingHref)}" class="btn-secondary mt-6 text-sm">${uz ? "Tariflarni ko‘rish" : 'Смотреть тарифы'}</a>
   </section>
 
-  <details open class="mt-10 rounded-2xl border border-white/10 bg-bg-surface/50">
-    <summary class="cursor-pointer list-none p-5 font-display text-lg text-white flex items-center justify-between gap-4">
+  <details open class="mt-16 rounded-3xl border border-white/[0.06] bg-white/[0.02]">
+    <summary class="cursor-pointer list-none p-6 font-display text-lg text-white flex items-center justify-between gap-4">
       <span>${escapeText(detailsLabel)}</span>
-      <span class="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-full border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan text-lg transition-transform">+</span>
+      <span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.08] text-brand-cyan text-lg transition-transform">+</span>
     </summary>
-    <div class="px-5 pb-5">
+    <div class="px-6 pb-6">
       <article${contentAnchor ? ` id="${escapeHtml(contentAnchor)}"` : ''} class="prose-invert scroll-mt-24">
         ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
       </article>
@@ -461,8 +466,8 @@ function renderGptChatMain(
   ${renderInternalLinks(page)}
   ${renderRelatedArticles(page, articles)}
 
-  <section class="mt-16 text-center" data-testid="final-cta">
-    <h2 class="font-display text-2xl sm:text-3xl text-white mb-5">${escapeText(finalCtaTitle)}</h2>
+  <section class="mt-24 text-center" data-testid="final-cta">
+    <h2 class="font-display text-3xl sm:text-4xl text-white mb-6 tracking-tight">${escapeText(finalCtaTitle)}</h2>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
       <a href="#ai-console" class="btn-primary text-base">${escapeText(finalCtaChatLabel)}</a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="btn-secondary text-base">${escapeText(finalCtaB2bLabel)}</a>

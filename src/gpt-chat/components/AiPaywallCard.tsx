@@ -34,7 +34,7 @@ export function AiPaywallCard({
   return (
     <div
       className="glass-strong rounded-3xl p-6 sm:p-7 msg-in"
-      style={{ borderColor: 'rgba(47,230,209,0.30)', boxShadow: '0 20px 60px -20px rgba(34,158,217,0.4)' }}
+      style={{ boxShadow: '0 20px 60px -20px rgba(34,158,217,0.3)' }}
       data-testid="ai-paywall"
       role="alert"
     >

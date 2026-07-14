@@ -64,7 +64,7 @@ export function RoleSelector({ locale, value, onChange, disabled }: { locale: Lo
         aria-activedescendant={open ? `${listboxId}-${roles[activeIndex].id}` : undefined}
         aria-describedby={descriptionId}
         onClick={() => { setActiveIndex(selectedIndex); setOpen((current) => !current); }}
-        className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-white/12 bg-[#0b101b] px-3 text-left text-sm text-white transition-colors hover:border-brand-cyan/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50"
+        className="flex min-h-12 w-full items-center gap-3 rounded-xl bg-white/[0.03] px-3.5 text-left text-sm text-white transition-colors hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50"
       >
         <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-brand-cyan/25 bg-brand-cyan/[0.08] text-brand-cyan" aria-hidden="true">✦</span>
         <span className="min-w-0 flex-1 truncate font-medium">{selected.label}</span>
@@ -77,7 +77,7 @@ export function RoleSelector({ locale, value, onChange, disabled }: { locale: Lo
           role="listbox"
           aria-label={label}
           tabIndex={-1}
-          className="absolute left-0 right-0 top-[76px] z-30 max-h-72 overflow-y-auto rounded-2xl border border-white/15 bg-[#0b101b] p-1.5 shadow-2xl shadow-black/60"
+          className="absolute left-0 right-0 top-[76px] z-30 max-h-72 overflow-y-auto rounded-2xl bg-[#0b101b] p-1.5 shadow-2xl shadow-black/60"
         >
           {roles.map((role, index) => {
             const isSelected = role.id === value;

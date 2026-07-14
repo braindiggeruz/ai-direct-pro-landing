@@ -21,7 +21,7 @@ export function AiPromptChips({
               role="listitem"
               disabled={disabled}
               onClick={() => onPick(prompt)}
-              className="min-h-11 text-[13px] px-3 py-2 rounded-xl border border-white/10 bg-white/[0.03] text-white/75 hover:border-brand-cyan/40 hover:text-white hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40"
+              className="min-h-11 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.03] text-white/65 hover:text-white hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40"
             >
               {prompt}
             </button>
