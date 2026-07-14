@@ -188,6 +188,12 @@
       "anchor": "квалификация заявок в недвижимости",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "anchor": "почему реклама в Instagram не приносит заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Как AI-бот помогает не терять клиентов после рекламы",
@@ -199,7 +205,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-14",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -207,6 +213,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
+  "updatedAt": "2026-07-14T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

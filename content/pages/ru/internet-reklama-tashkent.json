@@ -393,6 +393,12 @@
       "anchor": "как не терять клиентов после рекламы",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "anchor": "почему реклама в Instagram не приносит заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -401,5 +407,6 @@
     "BreadcrumbList",
     "Service",
     "FAQPage"
-  ]
+  ],
+  "updatedAt": "2026-07-14"
 }

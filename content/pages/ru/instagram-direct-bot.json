@@ -223,6 +223,12 @@
       "anchor": "Все AI-решения GPTBot.uz",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "anchor": "почему реклама в Instagram не приносит заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -234,5 +240,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-14"
 }
