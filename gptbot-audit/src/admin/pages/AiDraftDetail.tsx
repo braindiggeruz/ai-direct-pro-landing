@@ -24,11 +24,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Textarea } from '../components/ui';
-import {
-  AlertTriangle, ChevronLeft, ChevronRight, ClipboardCopy, Inbox, RefreshCw,
-  ShieldCheck, ShieldAlert, Trash2, XCircle, ArrowDownToLine, FileText, GitBranch,
-  Sparkles, TrendingUp,
-} from 'lucide-react';
+import { TriangleAlert as AlertTriangle, ChevronLeft, ChevronRight, ClipboardCopy, Inbox, RefreshCw, ShieldCheck, ShieldAlert, Trash2, Circle as XCircle, ArrowDownToLine, FileText, GitBranch, Sparkles, TrendingUp } from 'lucide-react';
 import type {
   AiDraftArticle,
   AiDraftAuditEntry,

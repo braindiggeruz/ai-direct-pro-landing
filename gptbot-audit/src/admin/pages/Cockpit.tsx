@@ -7,11 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card } from '../components/ui';
-import {
-  AlertOctagon, AlertTriangle, CheckCircle2, ChevronRight, Clock, Inbox,
-  Loader2, PlayCircle, RefreshCw, ShieldCheck, XCircle,
-  Activity, FileText, ListChecks, Zap,
-} from 'lucide-react';
+import { OctagonAlert as AlertOctagon, TriangleAlert as AlertTriangle, CircleCheck as CheckCircle2, ChevronRight, Clock, Inbox, Loader as Loader2, CirclePlay as PlayCircle, RefreshCw, ShieldCheck, Circle as XCircle, Activity, FileText, ListChecks, Zap } from 'lucide-react';
 import type { CockpitResponse, CockpitSection, CockpitGitHubHealth } from '../../shared/cockpit';
 import type { NextBestAction } from '../../shared/next-actions';
 import { useT, localiseError } from '../i18n';

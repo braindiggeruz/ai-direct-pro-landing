@@ -24,16 +24,7 @@ import type {
   SerpDigest,
   SerperQueryResult,
 } from '../../../shared/serp';
-import {
-  Search,
-  RefreshCw,
-  Globe,
-  Target,
-  Sparkles,
-  ShieldCheck,
-  AlertTriangle,
-  Loader2,
-} from 'lucide-react';
+import { Search, RefreshCw, Globe, Target, Sparkles, ShieldCheck, TriangleAlert as AlertTriangle, Loader as Loader2 } from 'lucide-react';
 import { writeDigestToSession } from './serpHandoff';
 
 interface Props {

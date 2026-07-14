@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDown as ChevronDownIcon } from 'lucide-react';
 
 import {
   Accordion as AccordionPrimitive,
@@ -85,3 +85,6 @@ export {
   type AccordionTriggerProps,
   type AccordionPanelProps,
 };
+
+
+export { Accordion, AccordionItem, AccordionTrigger, AccordionPanel }

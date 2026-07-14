@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, CirclePlay as PlayCircle, Send } from 'lucide-react';
 import { setToken } from '../lib/api';
 import { useT } from '../i18n';
 

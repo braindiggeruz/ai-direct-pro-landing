@@ -5,7 +5,7 @@
 // useAiDraftBridge hook, an `onApply` callback that prefills the editor's
 // local state, and a `onClear` callback that exits AI-draft mode.
 
-import { Sparkles, ShieldCheck, X, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ShieldCheck, X, TriangleAlert as AlertTriangle, CircleCheck as CheckCircle2 } from 'lucide-react';
 import { Button } from './ui';
 import type { AiDraftState } from '../hooks/useAiDraftBridge';
 

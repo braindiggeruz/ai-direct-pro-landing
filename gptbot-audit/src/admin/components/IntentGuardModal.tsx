@@ -14,7 +14,7 @@
 //                       recheck risk score (before → after).
 
 import { useMemo } from 'react';
-import { X, CheckCircle2, RefreshCw, Wand2, ChevronRight } from 'lucide-react';
+import { X, CircleCheck as CheckCircle2, RefreshCw, Wand as Wand2, ChevronRight } from 'lucide-react';
 import { Badge, Button, Card } from './ui';
 import { IntentGuardBadge } from './IntentGuardBadge';
 import { useT } from '../i18n';

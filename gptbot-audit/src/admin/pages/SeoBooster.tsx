@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, ScoreBadge, StatTile, Input, Select } from '../components/ui';
-import { ArrowUpRight, BrainCircuit, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles, Search } from 'lucide-react';
+import { ArrowUpRight, BrainCircuit, Copy, ExternalLink, ListFilter as Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles, Search } from 'lucide-react';
 import type { BoosterReport, ClusterReport, CannibalizationPair } from '../../shared/booster';
 // AI Autopilot tab is the only surface that may load Puter.js. We code-split
 // it into its own chunk so neither the puter URL nor the autopilot prompts

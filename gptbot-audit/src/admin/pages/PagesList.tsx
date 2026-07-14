@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, ScoreBadge, Select } from '../components/ui';
-import { Plus, Copy, Eye, Pencil, AlertTriangle } from 'lucide-react';
+import { Plus, Copy, Eye, Pencil, TriangleAlert as AlertTriangle } from 'lucide-react';
 import { auditPage, hasMojibake } from '../../shared/audit';
 
 type Filter = 'all' | 'published' | 'draft' | 'noindex' | 'low-score' | 'missing-faq' | 'missing-hreflang' | 'orphan' | 'in-sitemap' | 'not-in-sitemap' | 'mojibake';

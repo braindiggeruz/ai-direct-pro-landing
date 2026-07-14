@@ -6,7 +6,7 @@
 // draft directly — Apply calls the dedicated /apply-optimization endpoint.
 
 import { useMemo } from 'react';
-import { X, CheckCircle2, AlertTriangle, RefreshCw, Sparkles } from 'lucide-react';
+import { X, CircleCheck as CheckCircle2, TriangleAlert as AlertTriangle, RefreshCw, Sparkles } from 'lucide-react';
 import { Badge, Button, Card } from './ui';
 import { useT } from '../i18n';
 import type { AiDraftArticle } from '../../shared/ai-drafts';

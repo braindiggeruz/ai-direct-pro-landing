@@ -11,10 +11,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Select } from '../components/ui';
-import {
-  AlertTriangle, CalendarClock, CheckCircle2, ChevronRight, Clock, Inbox,
-  Loader2, PlayCircle, RefreshCw, ShieldAlert, ShieldCheck, XCircle, ExternalLink,
-} from 'lucide-react';
+import { TriangleAlert as AlertTriangle, CalendarClock, CircleCheck as CheckCircle2, ChevronRight, Clock, Inbox, Loader as Loader2, CirclePlay as PlayCircle, RefreshCw, ShieldAlert, ShieldCheck, Circle as XCircle, ExternalLink } from 'lucide-react';
 import type {
   AutopilotJobRow, AutopilotJobStatus, AutopilotLaunchResult, AutopilotSystemFlags,
 } from '../../shared/seo-autopilot';

@@ -22,7 +22,7 @@
 //   * No automatic submission anywhere on the site.
 
 import { useEffect, useMemo, useState } from 'react';
-import { Send, RefreshCw, ShieldCheck, ShieldAlert, ExternalLink, Filter, Globe, History as HistoryIcon } from 'lucide-react';
+import { Send, RefreshCw, ShieldCheck, ShieldAlert, ExternalLink, ListFilter as Filter, Globe, History as HistoryIcon } from 'lucide-react';
 import { Badge, Button, Card } from '../components/ui';
 import { api } from '../lib/api';
 

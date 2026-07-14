@@ -3,7 +3,7 @@
 // distinct background tone.
 
 import type { JSX } from 'react';
-import { CheckCircle2, AlertTriangle, ShieldAlert, HelpCircle } from 'lucide-react';
+import { CircleCheck as CheckCircle2, TriangleAlert as AlertTriangle, ShieldAlert, Circle as HelpCircle } from 'lucide-react';
 import type { IntentRiskLevel } from '../../shared/intent-guard';
 
 type Tone = 'unknown' | IntentRiskLevel;

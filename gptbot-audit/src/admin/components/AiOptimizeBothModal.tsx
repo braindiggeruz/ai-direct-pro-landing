@@ -22,7 +22,7 @@
 //   * "Повторить для обеих" — re-runs /optimize-both.
 
 import { useMemo, useState } from 'react';
-import { X, CheckCircle2, AlertTriangle, RefreshCw, Sparkles, XCircle } from 'lucide-react';
+import { X, CircleCheck as CheckCircle2, TriangleAlert as AlertTriangle, RefreshCw, Sparkles, Circle as XCircle } from 'lucide-react';
 import { Badge, Button, Card } from './ui';
 import { useT } from '../i18n';
 import type { AiDraftArticle } from '../../shared/ai-drafts';
