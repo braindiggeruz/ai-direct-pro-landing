@@ -42,11 +42,20 @@ export function AiChatInput({
   const nearLimit = left <= 200;
 
   return (
-    <div className="mt-3">
+    <div className="mt-3 sticky bottom-0 z-10">
       <div
-        className={`glass-strong flex items-end gap-2 p-2 pl-4 rounded-3xl border-white/12 ${busy ? 'scan-active' : ''}`}
+        className={`glass-strong flex items-end gap-2 p-2 pl-3 sm:pl-4 rounded-3xl border-white/12 ${busy ? 'scan-active' : ''}`}
         style={{ borderColor: 'rgba(47,230,209,0.18)' }}
       >
+        <button
+          type="button"
+          onClick={() => ref.current?.focus()}
+          aria-label={t.emptyPrompt}
+          title={t.emptyPrompt}
+          className="shrink-0 grid place-items-center w-11 h-11 rounded-full text-white/55 hover:text-brand-cyan hover:bg-white/[0.05] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" /></svg>
+        </button>
         <textarea
           ref={ref}
           value={value}

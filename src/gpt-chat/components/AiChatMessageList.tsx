@@ -9,8 +9,6 @@ export type AnswerAction = 'shorter' | 'instagram' | 'uzbek' | 'bot';
 function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: { content: string; isLast: boolean; busy?: boolean; onRetry?: () => void; onAnswerAction?: (action: AnswerAction, content: string) => void; t: ChatStrings }) {
   const [copied, setCopied] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  // Feedback is a UI scaffold: stored locally, aria-labelled. Wired to the
-  // backend /feedback endpoint in a later pass (needs message id in response).
   const [rating, setRating] = useState<'up' | 'down' | null>(null);
   const copy = async () => {
     try {
@@ -22,28 +20,40 @@ function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: {
       /* clipboard blocked — ignore */
     }
   };
-  const pill = 'min-h-12 inline-flex items-center justify-center px-3 py-2 rounded-xl border border-white/10 text-white/65 hover:text-white hover:border-brand-cyan/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-45 disabled:pointer-events-none';
+  const iconBtn = 'min-h-11 w-11 inline-flex items-center justify-center rounded-xl border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-45 disabled:pointer-events-none';
   return (
-    <div className="mt-3 text-[12px]">
-      <div className="flex flex-wrap items-center gap-2">
-        <button type="button" onClick={copy} aria-label={t.copy} className={pill}>{copied ? t.copied : t.copy}</button>
-        {isLast && onRetry && <button type="button" onClick={onRetry} disabled={busy} aria-label={t.retry} className={pill}>{t.retry}</button>}
-        {isLast && onAnswerAction && <button type="button" onClick={() => onAnswerAction('shorter', content)} disabled={busy} aria-label={t.shorter} className={pill}>{busy ? t.actionRunning : t.shorter}</button>}
-        {isLast && onAnswerAction && <button type="button" onClick={() => setMoreOpen((current) => !current)} aria-expanded={moreOpen} className={pill}>{moreOpen ? t.lessActions : t.moreActions}</button>}
+    <div className="mt-2.5 text-[12px]">
+      <div className="flex flex-wrap items-center gap-1.5">
+        <button type="button" onClick={copy} aria-label={t.copy} title={t.copy} className={iconBtn}>
+          {copied ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>}
+        </button>
+        {isLast && onRetry && <button type="button" onClick={onRetry} disabled={busy} aria-label={t.retry} title={t.retry} className={iconBtn}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
+        </button>}
+        {isLast && onAnswerAction && <button type="button" onClick={() => onAnswerAction('shorter', content)} disabled={busy} aria-label={t.shorter} title={t.shorter} className={iconBtn}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
+        </button>}
+        {isLast && onAnswerAction && <button type="button" onClick={() => setMoreOpen((current) => !current)} aria-expanded={moreOpen} aria-label={t.moreActions} title={t.moreActions} className={iconBtn}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+        </button>}
       </div>
       {isLast && onAnswerAction && moreOpen && (
-        <div className="mt-2 flex flex-wrap gap-2 rounded-2xl border border-white/8 bg-black/10 p-2">
-          <button type="button" onClick={() => onAnswerAction('instagram', content)} disabled={busy} aria-label={t.forInstagram} className={pill}>{t.forInstagram}</button>
-          <button type="button" onClick={() => onAnswerAction('uzbek', content)} disabled={busy} aria-label={t.toUzbekLatin} className={pill}>{t.toUzbekLatin}</button>
-          <button type="button" onClick={() => onAnswerAction('bot', content)} disabled={busy} aria-label={t.botScenario} className={pill}>{t.botScenario}</button>
-          <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.telegramClick, { from: 'answer_actions' }); track(EV.leadIntent, { from: 'answer_actions' }); }} rel="nofollow noopener" target="_blank" className={pill}>{t.implementBot}</a>
+        <div className="mt-2 flex flex-wrap gap-1.5 rounded-2xl border border-white/8 bg-black/10 p-2">
+          <button type="button" onClick={() => onAnswerAction('instagram', content)} disabled={busy} aria-label={t.forInstagram} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><span className="text-[12px]">{t.forInstagram}</span></button>
+          <button type="button" onClick={() => onAnswerAction('uzbek', content)} disabled={busy} aria-label={t.toUzbekLatin} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7h16M8 7v10m8-10v10M4 17h16"/></svg><span className="text-[12px]">{t.toUzbekLatin}</span></button>
+          <button type="button" onClick={() => onAnswerAction('bot', content)} disabled={busy} aria-label={t.botScenario} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M9 8V5h6v3"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/></svg><span className="text-[12px]">{t.botScenario}</span></button>
+          <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.telegramClick, { from: 'answer_actions' }); track(EV.leadIntent, { from: 'answer_actions' }); }} rel="nofollow noopener" target="_blank" className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4L2 11l6 2 2 6 3-4 5 4 4-15z"/></svg><span className="text-[12px]">{t.implementBot}</span></a>
         </div>
       )}
-      <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-white/8 pt-3" aria-label={t.feedbackQuestion}>
-        <span className="text-white/45">{t.feedbackQuestion}</span>
+      <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-white/8 pt-2.5" aria-label={t.feedbackQuestion}>
+        <span className="text-white/45 text-[12px] mr-1">{t.feedbackQuestion}</span>
         {rating ? <span className="text-brand-cyan/85" role="status">{t.feedbackThanks}</span> : <>
-          <button type="button" onClick={() => setRating('up')} aria-label={t.feedbackUp} className={pill}>{t.feedbackUp}</button>
-          <button type="button" onClick={() => setRating('down')} aria-label={t.feedbackDown} className={pill}>{t.feedbackDown}</button>
+          <button type="button" onClick={() => setRating('up')} aria-label={t.feedbackUp} title={t.feedbackUp} className={iconBtn}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M7 10v11M7 10l4-7a2 2 0 0 1 4 0v5h5a2 2 0 0 1 2 2l-2 8a2 2 0 0 1-2 2H7"/></svg>
+          </button>
+          <button type="button" onClick={() => setRating('down')} aria-label={t.feedbackDown} title={t.feedbackDown} className={iconBtn}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M17 14V3M17 14l-4 7a2 2 0 0 1-4 0v-5H4a2 2 0 0 1-2-2l2-8a2 2 0 0 1 2-2h11"/></svg>
+          </button>
         </>}
       </div>
     </div>
