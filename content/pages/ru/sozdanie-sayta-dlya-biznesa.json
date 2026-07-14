@@ -154,10 +154,11 @@
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот", "locale": "ru", "type": "contextual" },
     { "target": "/ru/telegram-bot-dlya-biznesa/", "anchor": "Telegram", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "CRM-систему", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизацию заявок", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизацию заявок", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "anchor": "почему сайт не приносит заявки", "locale": "ru", "type": "contextual" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "lastReviewedAt": "2026-07-10",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-10"
+  "updatedAt": "2026-07-14"
 }

@@ -925,6 +925,12 @@
       "anchor": "AI-боты для бизнеса в Узбекистане",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+      "anchor": "почему сайт не приносит заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -936,7 +942,7 @@
   ],
   "lastReviewedAt": "2026-07-10",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-10",
+  "updatedAt": "2026-07-14",
   "heroImage": {
     "src": "/images/seo/website-development/website-development-tashkent-hero.webp",
     "alt": "Разработка сайтов в Ташкенте с AI-ботом, заявками, CRM и аналитикой",

@@ -76,10 +76,16 @@
       "anchor": "как AI-чат превращает диалоги в заявки",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+      "anchor": "почему сайт не приносит заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "lastReviewedAt": "2026-07-11",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-07-11"
+  "updatedAt": "2026-07-14"
 }
