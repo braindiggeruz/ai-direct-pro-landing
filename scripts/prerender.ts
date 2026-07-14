@@ -146,10 +146,37 @@ function slugifyId(s: string): string {
     .slice(0, 60);
 }
 
-function renderBlock(b: BodyBlock): string {
+// Heading ids must be unique per page: the first occurrence keeps the base slug
+// (so explicit toc anchors stay valid), repeats get -2/-3… suffixes. Empty slugs
+// (symbol-only headings) fall back to "section".
+function uniqueHeadingId(raw: string, seen: Map<string, number>): string {
+  const base = raw || 'section';
+  const n = (seen.get(base) || 0) + 1;
+  seen.set(base, n);
+  return n === 1 ? base : `${base}-${n}`;
+}
+
+function renderBlocks(blocks: BodyBlock[]): string {
+  const seen = new Map<string, number>();
+  return blocks.map((b) => renderBlock(b, seen)).join('\n');
+}
+
+// Article wrapper for body blocks. The in-page anchor (from ctaSecondaryHref)
+// goes on the wrapper ONLY when no body heading already carries that id —
+// otherwise the page would contain duplicate DOM ids and the anchor scroll
+// target would be ambiguous. When a heading owns the id, the CTA scrolls to it.
+function renderArticle(blocks: BodyBlock[], anchor: string): string {
+  const bodyHtml = renderBlocks(blocks);
+  const idAttr = anchor && !bodyHtml.includes(` id="${anchor}"`) ? ` id="${escapeHtml(anchor)}"` : '';
+  return `<article${idAttr} class="prose-invert scroll-mt-24">
+    ${bodyHtml}
+  </article>`;
+}
+
+function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()): string {
   switch (b.type) {
-    case 'h2': { const _id = b.id || slugifyId(b.text || ''); return `<h2 id="${escapeHtml(_id)}" class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white scroll-mt-24 break-words">${escapeText(b.text || '')}</h2>`; }
-    case 'h3': { const _id = b.id || slugifyId(b.text || ''); return `<h3 id="${escapeHtml(_id)}" class="font-display text-2xl mt-10 mb-4 text-white scroll-mt-24 break-words">${escapeText(b.text || '')}</h3>`; }
+    case 'h2': { const _id = uniqueHeadingId(b.id || slugifyId(b.text || ''), headingIds); return `<h2 id="${escapeHtml(_id)}" class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white scroll-mt-24 break-words">${escapeText(b.text || '')}</h2>`; }
+    case 'h3': { const _id = uniqueHeadingId(b.id || slugifyId(b.text || ''), headingIds); return `<h3 id="${escapeHtml(_id)}" class="font-display text-2xl mt-10 mb-4 text-white scroll-mt-24 break-words">${escapeText(b.text || '')}</h3>`; }
     case 'toc': {
       const links = (b.links || []).filter((l) => l.anchor && l.label);
       if (!links.length) return '';
@@ -456,9 +483,7 @@ function renderGptChatMain(
       <span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.08] text-brand-cyan text-lg transition-transform">+</span>
     </summary>
     <div class="px-6 pb-6">
-      <article${contentAnchor ? ` id="${escapeHtml(contentAnchor)}"` : ''} class="prose-invert scroll-mt-24">
-        ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
-      </article>
+      ${renderArticle(page.bodyBlocks || [], contentAnchor)}
     </div>
   </details>
 
@@ -586,7 +611,7 @@ ${ANALYTICS_HEAD}
     <nav class="flex gap-3 text-sm">
       ${hrefRu ? `<a href="${escapeHtml(hrefRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${hrefUz ? `<a href="${escapeHtml(hrefUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
-      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${(page.ctaPrimaryHref || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
       </a>
     </nav>
@@ -609,7 +634,7 @@ ${page.pageType === 'gpt-chat'
       ${bylineHtml}
       ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
       ${page.ctaPrimaryHref ? `<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
-        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}" rel="nofollow noopener" target="_blank" class="btn-primary text-base w-full sm:w-auto">
+        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}"${page.ctaPrimaryHref.startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">
           ${escapeText(page.ctaPrimaryLabel || 'Демо')}
         </a>
         ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="btn-secondary w-full sm:w-auto">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
@@ -619,9 +644,7 @@ ${page.pageType === 'gpt-chat'
     ${page.heroImage ? `<div class="mt-8 lg:mt-0"><img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" class="rounded-2xl border border-white/10 w-full h-auto" loading="eager" fetchpriority="high" decoding="async" /></div>` : ''}
   </div>
 
-  <article${contentAnchor ? ` id="${escapeHtml(contentAnchor)}"` : ''} class="prose-invert scroll-mt-24">
-    ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
-  </article>
+  ${renderArticle(page.bodyBlocks || [], contentAnchor)}
 
   ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
   ${renderInternalLinks(page)}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Dict } from '../i18n';
 import type { Lang } from '../i18n';
 import { track } from '../lib/cta';
@@ -9,13 +9,12 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  if (typeof window !== 'undefined') {
-    window.addEventListener(
-      'scroll',
-      () => setScrolled(window.scrollY > 8),
-      { passive: true, once: false },
-    );
-  }
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const isUz = lang === 'uz';
   const navItems = [

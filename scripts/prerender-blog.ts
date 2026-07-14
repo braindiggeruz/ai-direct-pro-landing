@@ -306,7 +306,7 @@ ${ANALYTICS_HEAD}
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta" rel="nofollow noopener" target="_blank" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta"${(a.cta?.href || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeHtml(a.cta?.label || global.defaultCTA.label)}
       </a>
     </nav>
@@ -331,7 +331,7 @@ ${ANALYTICS_HEAD}
     </div>
   </article>
 
-  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}" rel="nofollow noopener" target="_blank" class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
+  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}"${a.cta.href.startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
   ${renderFaq(a.faq || [], a)}
   ${renderInternalLinks(a)}
 </main>
