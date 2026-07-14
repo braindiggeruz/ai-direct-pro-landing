@@ -13,7 +13,7 @@ export function ImagePromptTool({ locale, onGenerate, disabled }: { locale: Loca
     onGenerate(buildImagePromptRequest(description, preset, locale), preset);
   };
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-brand-violet/25 bg-brand-violet/[0.05] p-4 sm:p-5">
+    <form onSubmit={submit} className="rounded-2xl bg-brand-violet/[0.04] p-4 sm:p-5">
       <span className="inline-flex rounded-full border border-brand-violet/35 px-2.5 py-1 text-[11px] text-brand-violet/95">{locale === 'uz' ? 'Prompt generator' : 'Генератор промтов'}</span>
       <h3 className="mt-3 text-lg font-semibold text-white">{locale === 'uz' ? 'Tasvir uchun professional prompt yarating' : 'Создайте профессиональный промт для изображения'}</h3>
       <p className="mt-1 text-sm leading-relaxed text-white/60">{locale === 'uz' ? 'AI tavsifingizni boshqa tasvir generatorida ishlatish mumkin bo‘lgan aniq promptga aylantiradi.' : 'AI превратит описание в точный промт, который можно скопировать в генератор изображений.'}</p>

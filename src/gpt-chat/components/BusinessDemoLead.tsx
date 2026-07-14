@@ -31,7 +31,7 @@ export function BusinessDemoLead({ locale, apiBase, sessionId }: { locale: Local
   };
   if (state === 'done') return <div className="rounded-2xl border border-brand-cyan/30 bg-brand-cyan/[0.06] p-5 text-sm text-white/85" role="status">{ru ? 'Заявка принята. Мы изучим задачу и свяжемся с вами.' : 'Ariza qabul qilindi. Vazifani o‘rganib, siz bilan bog‘lanamiz.'}</div>;
   return (
-    <form onSubmit={submit} className="mt-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/[0.04] p-4 sm:p-5 space-y-3" data-testid="business-demo-lead">
+    <form onSubmit={submit} className="mt-4 rounded-2xl bg-brand-cyan/[0.03] p-4 sm:p-5 space-y-3" data-testid="business-demo-lead">
       <div>
         <span className="text-[11px] uppercase tracking-wider text-brand-cyan">{ru ? 'B2B лидмагнит' : 'B2B taklif'}</span>
         <h3 className="mt-1 text-lg font-semibold text-white">{ru ? 'Получить план внедрения AI-бота' : 'AI-botni joriy etish rejasini olish'}</h3>

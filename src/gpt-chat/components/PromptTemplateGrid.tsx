@@ -28,7 +28,7 @@ export function PromptTemplateGrid({ locale, tool, onPick, disabled }: { locale:
               disabled={disabled}
               aria-pressed={selected}
               onClick={() => { setSelectedId(item.id); onPick(item, item.localizedPrompt); }}
-              className={`min-h-[84px] text-left rounded-2xl border p-3.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-45 ${selected ? 'border-brand-cyan/45 bg-brand-cyan/[0.09]' : 'border-white/10 bg-white/[0.03] hover:border-brand-cyan/35 hover:bg-brand-cyan/[0.06]'}`}
+              className={`min-h-[88px] text-left rounded-2xl bg-white/[0.025] p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40 ${selected ? 'bg-brand-cyan/[0.06]' : 'hover:bg-white/[0.05]'}`}
             >
               <span className="flex items-start gap-2"><span className="block min-w-0 flex-1 text-sm font-medium text-white leading-snug">{item.localizedLabel}</span>{selected && <span className="text-brand-cyan" aria-hidden="true">✓</span>}</span>
               <span className="block mt-1.5 text-xs text-white/55 leading-snug line-clamp-2">{item.localizedDescription}</span>

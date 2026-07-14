@@ -18,11 +18,11 @@ export function AiQuickActions({
           role="listitem"
           disabled={disabled}
           onClick={() => onPick(a.prompt)}
-          className="card-hover group text-left rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 flex items-center gap-3 disabled:opacity-40"
+          className="card-hover group text-left rounded-2xl bg-white/[0.03] hover:bg-white/[0.05] p-4 flex items-center gap-3.5 disabled:opacity-40 transition-colors"
         >
           <span
             className="shrink-0 grid place-items-center w-9 h-9 rounded-xl text-brand-cyan"
-            style={{ background: 'rgba(47,230,209,0.10)', border: '1px solid rgba(47,230,209,0.25)' }}
+            style={{ background: 'rgba(47,230,209,0.08)' }}
             aria-hidden="true"
           >
             <ActionIcon i={i} />

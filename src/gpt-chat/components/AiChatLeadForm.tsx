@@ -52,7 +52,7 @@ export function AiChatLeadForm({
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-white/10 bg-bg-surface p-5 space-y-3" data-testid="ai-lead-form">
+    <form onSubmit={submit} className="rounded-2xl bg-white/[0.025] p-5 space-y-3" data-testid="ai-lead-form">
       <p className="text-sm text-white/70">{t.leadIntro}</p>
       <label className="block text-xs text-white/65">{t.leadName}<input
           type="text"

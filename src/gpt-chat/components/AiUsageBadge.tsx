@@ -5,8 +5,8 @@ export function AiUsageBadge({ remaining, t }: { remaining: number; t: ChatStrin
   const low = remaining <= 3;
   return (
     <div
-      className={`text-xs px-3 py-1 rounded-full border ${
-        low ? 'border-brand-cyan/50 text-brand-cyan' : 'border-white/10 text-white/60'
+      className={`text-xs px-3 py-1.5 rounded-full ${
+        low ? 'bg-brand-cyan/[0.08] text-brand-cyan' : 'bg-white/[0.04] text-white/45'
       }`}
       aria-live="polite"
     >

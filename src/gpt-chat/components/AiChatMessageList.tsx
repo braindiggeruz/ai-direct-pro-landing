@@ -20,7 +20,7 @@ function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: {
       /* clipboard blocked — ignore */
     }
   };
-  const iconBtn = 'min-h-11 w-11 inline-flex items-center justify-center rounded-xl border border-white/10 text-white/60 hover:text-white hover:border-brand-cyan/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-45 disabled:pointer-events-none';
+  const iconBtn = 'min-h-11 w-11 inline-flex items-center justify-center rounded-xl text-white/40 hover:text-white hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-30 disabled:pointer-events-none';
   return (
     <div className="mt-2.5 text-[12px]">
       <div className="flex flex-wrap items-center gap-1.5">
@@ -38,14 +38,14 @@ function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: {
         </button>}
       </div>
       {isLast && onAnswerAction && moreOpen && (
-        <div className="mt-2 flex flex-wrap gap-1.5 rounded-2xl border border-white/8 bg-black/10 p-2">
+        <div className="mt-2 flex flex-wrap gap-1.5 rounded-2xl bg-white/[0.03] p-2">
           <button type="button" onClick={() => onAnswerAction('instagram', content)} disabled={busy} aria-label={t.forInstagram} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><span className="text-[12px]">{t.forInstagram}</span></button>
           <button type="button" onClick={() => onAnswerAction('uzbek', content)} disabled={busy} aria-label={t.toUzbekLatin} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7h16M8 7v10m8-10v10M4 17h16"/></svg><span className="text-[12px]">{t.toUzbekLatin}</span></button>
           <button type="button" onClick={() => onAnswerAction('bot', content)} disabled={busy} aria-label={t.botScenario} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M9 8V5h6v3"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/></svg><span className="text-[12px]">{t.botScenario}</span></button>
           <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.telegramClick, { from: 'answer_actions' }); track(EV.leadIntent, { from: 'answer_actions' }); }} rel="nofollow noopener" target="_blank" className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4L2 11l6 2 2 6 3-4 5 4 4-15z"/></svg><span className="text-[12px]">{t.implementBot}</span></a>
         </div>
       )}
-      <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-white/8 pt-2.5" aria-label={t.feedbackQuestion}>
+      <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-white/[0.04] pt-3" aria-label={t.feedbackQuestion}>
         <span className="text-white/45 text-[12px] mr-1">{t.feedbackQuestion}</span>
         {rating ? <span className="text-brand-cyan/85" role="status">{t.feedbackThanks}</span> : <>
           <button type="button" onClick={() => setRating('up')} aria-label={t.feedbackUp} title={t.feedbackUp} className={iconBtn}>
@@ -91,16 +91,16 @@ export function AiChatMessageList({
           <div
             className={
               m.role === 'user'
-                ? 'max-w-[85%] rounded-2xl rounded-br-md px-3.5 py-2.5 sm:px-4 sm:py-3 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere]'
-                : `max-w-[92%] rounded-2xl rounded-bl-md border px-3.5 py-3 sm:px-4 sm:py-3.5 text-[15px] break-words [overflow-wrap:anywhere] ${
-                    m.error ? 'border-red-500/40 bg-red-500/10 text-red-200' : 'border-white/10 msg-in'
+                ? 'max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 sm:px-5 sm:py-3 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere]'
+                : `max-w-[92%] rounded-2xl rounded-bl-md px-4 py-3 sm:px-5 sm:py-3.5 text-[15px] break-words [overflow-wrap:anywhere] ${
+                    m.error ? 'bg-red-500/[0.08] text-red-200' : 'msg-in'
                   }`
             }
             style={
               m.role === 'user'
-                ? { background: 'linear-gradient(135deg, rgba(34,158,217,0.22), rgba(47,230,209,0.12))', border: '1px solid rgba(47,230,209,0.22)' }
+                ? { background: 'linear-gradient(135deg, rgba(34,158,217,0.18), rgba(47,230,209,0.10))' }
                 : m.role === 'assistant' && !m.error
-                  ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))' }
+                  ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01))' }
                   : undefined
             }
           >

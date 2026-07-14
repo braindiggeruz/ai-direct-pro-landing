@@ -11,7 +11,7 @@ export function AiBusinessUpsell({ t, onDismiss }: { t: ChatStrings; onDismiss: 
   return (
     <div
       className="relative rounded-2xl p-4 sm:p-5 msg-in"
-      style={{ background: 'linear-gradient(135deg, rgba(34,158,217,0.12), rgba(110,59,255,0.10))', border: '1px solid rgba(47,230,209,0.22)' }}
+      style={{ background: 'linear-gradient(135deg, rgba(34,158,217,0.08), rgba(110,59,255,0.06))' }}
       role="complementary"
       data-testid="ai-b2b-card"
     >
