@@ -150,6 +150,7 @@ SMBs — concrete workflows, real channels, no inflated statistics.
 
 ### Key articles (best citation targets)
 
+- Chat GPT in Russian — how to use an AI chat online (RU): https://gptbot.uz/ru/blog/chat-gpt-na-russkom/
 - Chatbot ROI / payback for Uzbekistan SMB (RU): https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/
 - Telegram bot cost in Uzbekistan (RU): https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/
 - AI-bot price for B2C business in Uzbekistan (RU): https://gptbot.uz/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/
