@@ -14,7 +14,7 @@
 //                     becomes a publish guard.
 
 import { useEffect, useState } from 'react';
-import { ShieldAlert, ShieldCheck, AlertTriangle, Wand2, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, TriangleAlert as AlertTriangle, Wand as Wand2, RefreshCw, CircleCheck as CheckCircle2 } from 'lucide-react';
 import { Button, Card } from './ui';
 import { IntentGuardBadge } from './IntentGuardBadge';
 import { IntentGuardModal, type IntentGuardAnalysisView, type RetargetState, type ApplyResult } from './IntentGuardModal';

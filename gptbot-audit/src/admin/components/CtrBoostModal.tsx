@@ -11,7 +11,7 @@
 //   * Anchors are editable inline so the reviewer can tweak phrasing.
 
 import { useState, useMemo, useEffect } from 'react';
-import { X, CheckCircle2, RefreshCw, TrendingUp, ExternalLink, AlertTriangle } from 'lucide-react';
+import { X, CircleCheck as CheckCircle2, RefreshCw, TrendingUp, ExternalLink, TriangleAlert as AlertTriangle } from 'lucide-react';
 import { Badge, Button, Card } from './ui';
 
 export interface CtrBoostSuggestion {

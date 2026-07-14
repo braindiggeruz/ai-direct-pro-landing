@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Select } from '../components/ui';
-import { ExternalLink, AlertTriangle, RefreshCw, Plus, Edit3, Copy } from 'lucide-react';
+import { ExternalLink, TriangleAlert as AlertTriangle, RefreshCw, Plus, CreditCard as Edit3, Copy } from 'lucide-react';
 import { hasMojibake } from '../../shared/audit';
 import type { BlogArticle, Locale } from '../../shared/types';
 

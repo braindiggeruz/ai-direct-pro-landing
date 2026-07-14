@@ -6,7 +6,7 @@
 // the entire dashboard.
 
 import React from 'react';
-import { AlertOctagon, RefreshCw } from 'lucide-react';
+import { OctagonAlert as AlertOctagon, RefreshCw } from 'lucide-react';
 import { ru } from '../i18n/ru';
 
 interface State { error: Error | null; info: string | null; key: number }

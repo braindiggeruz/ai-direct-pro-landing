@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Select } from '../components/ui';
-import { AlertTriangle, Inbox, RefreshCw, ShieldCheck, Filter, Eye } from 'lucide-react';
+import { TriangleAlert as AlertTriangle, Inbox, RefreshCw, ShieldCheck, ListFilter as Filter, Eye } from 'lucide-react';
 import type { AiDraftListRow, AiDraftStatus } from '../../shared/ai-drafts';
 
 type StatusFilter = 'all' | AiDraftStatus;

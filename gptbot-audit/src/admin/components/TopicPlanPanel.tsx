@@ -14,10 +14,7 @@ import { Badge, Button, Card, Input, Select } from './ui';
 import { IntentGuardBadge } from './IntentGuardBadge';
 import { api } from '../lib/api';
 import { useT } from '../i18n';
-import {
-  RefreshCw, Sparkles, Trash2, PlayCircle, ChevronRight, ListFilter, Loader2,
-  Globe, AlertTriangle, CheckCircle2, X,
-} from 'lucide-react';
+import { RefreshCw, Sparkles, Trash2, CirclePlay as PlayCircle, ChevronRight, ListFilter, Loader as Loader2, Globe, TriangleAlert as AlertTriangle, CircleCheck as CheckCircle2, X } from 'lucide-react';
 import type {
   TopicPlan, TopicPlanItem, TopicPlanItemStatus,
 } from '../../shared/intent-guard';

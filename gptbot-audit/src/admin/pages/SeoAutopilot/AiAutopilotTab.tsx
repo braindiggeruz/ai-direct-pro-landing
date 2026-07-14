@@ -22,7 +22,7 @@ import { Badge, Button, Card, Select } from '../../components/ui';
 import { api } from '../../lib/api';
 import { pickProvider, type ProviderChoice } from '../../lib/aiProviders';
 import { buildSystemPrompt, buildUserPrompt, parsePatchJson } from './prompt';
-import { AlertTriangle, CheckCircle2, RefreshCw, Sparkles, X, ShieldCheck, Loader2, ArrowRight } from 'lucide-react';
+import { TriangleAlert as AlertTriangle, CircleCheck as CheckCircle2, RefreshCw, Sparkles, X, ShieldCheck, Loader as Loader2, ArrowRight } from 'lucide-react';
 import type { BoosterReport, BoosterItem } from '../../../shared/booster';
 import type {
   AiSeoAction,

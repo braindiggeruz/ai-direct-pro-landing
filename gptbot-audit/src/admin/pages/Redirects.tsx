@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import { Button, Card, Input, Select } from '../components/ui';
 import type { Redirect } from '../../shared/types';
-import { Plus, Save, X, AlertTriangle } from 'lucide-react';
+import { Plus, Save, X, TriangleAlert as AlertTriangle } from 'lucide-react';
 
 export default function Redirects() {
   const [items, setItems] = useState<Redirect[]>([]);
