@@ -1,5 +1,6 @@
 import type { Dict } from '../i18n';
 import { track } from '../lib/cta';
+import { GradientBackground } from './animate-ui/components/backgrounds/gradient';
 
 type Props = { t: Dict; ctaUrl: string };
 
@@ -31,6 +32,12 @@ export default function Hero({ t, ctaUrl }: Props) {
 
   return (
     <section id="top" data-testid="hero" className="relative pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 overflow-hidden">
+      {/* animated gradient wash */}
+      <GradientBackground
+        className="pointer-events-none absolute inset-0 opacity-[0.16] blur-3xl from-brand-blue via-brand-violet to-brand-cyan"
+        aria-hidden
+      />
+
       {/* glow blobs */}
       <div className="pointer-events-none absolute -top-24 -right-24 h-[420px] w-[420px] rounded-full bg-brand-blue/20 blur-3xl" />
       <div className="pointer-events-none absolute top-40 -left-32 h-[360px] w-[360px] rounded-full bg-brand-violet/20 blur-3xl" />
