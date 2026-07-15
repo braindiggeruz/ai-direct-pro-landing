@@ -1,0 +1,103 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish",
+  "url": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+  "title": "Klinika uchun AI-bot: stsenariylar va ishga tushirish",
+  "description": "Klinika yoki tibbiy markaz uchun AI-bot qanday ishlaydi: qabulga yozilish, tipik savollarga javob, eslatmalar va nimalarga e'tibor berish kerak.",
+  "h1": "Klinika uchun AI-bot: qabulga yozilish, savollar va ishga tushirish",
+  "topicCluster": "klinika-uchun-ai-bot",
+  "targetMoneyPage": "/uz/klinika-uchun-ai-bot/",
+  "keywords": [
+    "klinika uchun bot",
+    "tibbiy markaz AI bot",
+    "qabulga yozilish bot",
+    "klinika Instagram bot",
+    "shifoxona chat bot",
+    "bemor savollari avtomatlashtirish"
+  ],
+  "intro": "Klinika va tibbiy markazlarda bemorlar ko'pincha Instagram Direct yoki Telegram orqali yozadi: \"narxi qancha?\", \"qaysi kunlar bo'sh?\", \"qaysi shifokor qabul qiladi?\". Ular tez javob kutadi, aks holda boshqa klinikaga murojaat qiladi. AI-bot bu savollarga 24/7 javob berib, qabulga yozilishni avtomatlashtiradi. Ushbu qo'llanmada klinika uchun bot qanday stsenariylarda ishlashini va ishga tushirishda nimalarga e'tibor berishni ko'rib chiqamiz.",
+  "body": [
+    { "type": "p", "text": "Tibbiyotda birinchi kontakt ko'pincha registratura yoki administrator zimmasida bo'ladi. Pik soatlarda yoki ish vaqtidan tashqari qo'ng'iroq va xabarlar javobsiz qoladi — bu esa yo'qolgan bemor va yo'qolgan daromad. AI-bot administratordan rutinani olib, unga faqat murakkab holatlarni qoldiradi." },
+    { "type": "h2", "text": "Klinika botining asosiy stsenariylari" },
+    { "type": "list", "items": [
+      "Qabulga yozilish: bemor xizmat va qulay vaqtni tanlaydi, bot yozib qo'yadi.",
+      "Tipik savollarga javob: manzil, ish vaqti, narxlar diapazoni, tayyorgarlik qoidalari.",
+      "Shifokorlar va xizmatlar bo'yicha yo'naltirish.",
+      "Qabuldan oldin eslatma yuborish — kelmay qolish (no-show) kamayadi.",
+      "Murakkab yoki nozik savollarni administratorga yoki shifokorga uzatish."
+    ]},
+    { "type": "h2", "text": "Nima uchun bu klinikaga foyda" },
+    { "type": "list", "items": [
+      "Ish vaqtidan tashqari (kechqurun, dam olish kuni) kelgan murojaatlar yo'qolmaydi.",
+      "Administrator bir vaqtda ko'p suhbatni yurita olmaydi — bot esa cheklovsiz.",
+      "Yozilishlar tartibli bo'lib, jadval to'ladi.",
+      "Bemor darhol javob olgani uchun ishonch oshadi."
+    ]},
+    { "type": "quote", "text": "Bemor javobni bir necha daqiqada kutadi. Kim tez javob bersa — o'sha qabulga yozib oladi." },
+    { "type": "h2", "text": "Nozik nuqtalar: nimaga e'tibor berish kerak" },
+    { "type": "list", "items": [
+      "Bot tashxis qo'ymaydi va davolash tayinlamaydi — bu faqat shifokor vazifasi. Bot yozilish va ma'lumot uchun.",
+      "Shaxsiy va tibbiy ma'lumotlarga ehtiyotkorlik bilan munosabatda bo'lish kerak.",
+      "Nozik savollarda bot suhbatni jonli xodimga uzatishi lozim.",
+      "Javoblar ohangi xotirjam va hurmatli bo'lishi muhim."
+    ]},
+    { "type": "h2", "text": "Ishga tushirish bosqichlari" },
+    { "type": "list", "items": [
+      "Eng ko'p beriladigan savollar va xizmatlar ro'yxatini tuzing.",
+      "Yozilish oqimini belgilang: qanday ma'lumot so'raladi, jadval qayerda yuritiladi.",
+      "Qaysi holatlar administratorga uzatilishini aniqlang.",
+      "Eslatma matnlari va vaqtini sozlang.",
+      "Botni sinovdan o'tkazing va real murojaatlarda kuzating."
+    ]},
+    { "type": "p", "text": "To'g'ri sozlangan klinika boti registraturaning yukini yengillashtiradi, yozilishlarni tartibga soladi va bemor bilan birinchi aloqani professional darajada ushlab turadi. Bu esa marketingga sarflangan pulni behuda ketkazmaslik va jadvalni to'ldirish uchun eng amaliy qadamlardan biri." },
+    { "type": "cta", "text": "Klinikangiz uchun bot stsenariysini Telegram'da muhokama qilish", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Klinikada bemorlar Instagram va Telegram orqali bir xil savol beradi.",
+        "AI-bot narx, jadval va shifokor bo‘yicha 24/7 javob beradi.",
+        "Qabulga yozib, kontaktni administratorga uzatadi.",
+        "Murakkab tibbiy savol jonli xodimga o‘tadi."
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "Bot tashxis qo'ya oladimi yoki dori tavsiya qiladimi?", "a": "Yo'q. Bot faqat yozilish, ma'lumot va yo'naltirish uchun. Tashxis va davolashni faqat shifokor belgilaydi — bot bunday savollarni mutaxassisga uzatadi." },
+    { "q": "Bot Instagram va Telegram'da bir vaqtda ishlay oladimi?", "a": "Ha. Ikkala kanaldan kelgan murojaatlar bitta tizimda jamlanadi va yozilishlar bir joyda ko'rinadi." },
+    { "q": "Kelmay qolgan bemorlar (no-show) muammosini hal qiladimi?", "a": "Bot qabuldan oldin avtomatik eslatma yuboradi, bu esa kelmay qolish holatlarini sezilarli kamaytiradi." },
+    { "q": "Filiallari ko'p klinika uchun mos keladimi?", "a": "Ha, bot xizmat va filialni so'rab, bemorni to'g'ri joyga yo'naltiradi." },
+    { "q": "Ishga tushirish qancha vaqt oladi?", "a": "Muddat stsenariylar soni va jadval tizimiga bog'liq. Aniq holatni Telegram'da muhokama qilib bosqichlarni belgilaymiz." }
+  ],
+  "cta": { "label": "Telegram'da klinika boti bo'yicha maslahat", "href": "https://t.me/XGame_changerx" },
+  "internalLinks": [
+    { "target": "/uz/klinika-uchun-ai-bot/", "anchor": "klinika uchun AI-bot", "locale": "uz", "type": "contextual", "priority": 1 },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual", "priority": 2 },
+    { "target": "/uz/instagram-bot-biznes-uchun/", "anchor": "Instagram bot biznes uchun", "locale": "uz", "type": "contextual", "priority": 3 },
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual", "priority": 4 },
+    { "target": "/uz/", "anchor": "GPTBot.uz AI yechimlari", "locale": "uz", "type": "contextual" }
+  ],
+  "ogTitle": "Klinika uchun AI-bot: stsenariylar va ishga tushirish",
+  "ogDescription": "Klinika yoki tibbiy markaz uchun AI-bot qanday ishlaydi: qabulga yozilish, tipik savollarga javob, eslatmalar va nimalarga e'tibor berish kerak.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "canonical": "https://gptbot.uz/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+  "hreflangUz": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-07-01",
+  "dateModified": "2026-07-01",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "updatedAt": "2026-07-01T00:00:00.000Z",
+  "createdAt": "2026-07-01T00:00:00.000Z"
+}

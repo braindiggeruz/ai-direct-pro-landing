@@ -32,6 +32,3 @@ test-results/
 .secrets/
 node_modules/@cloudflare/workerd-linux-arm64/bin/workerd
 AUDIT_WORKSPACE/
-
-# Nested working clones — never commit
-gptbot-audit/
