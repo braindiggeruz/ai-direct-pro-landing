@@ -1,0 +1,76 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "telegram-bot-biznes-uchun-narxi-uzbekistonda",
+  "url": "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+  "title": "Telegram bot narxi nimaga bog'liq | GPTBot.uz",
+  "description": "Telegram bot narxiga ssenariy, GPT-logika, CRM, kanallar, RU + UZ va qo'llab-quvvatlash qanday ta'sir qilishini amaliy ko'rib chiqamiz.",
+  "h1": "O'zbekistonda biznes uchun Telegram bot narxi nimaga bog'liq",
+  "topicCluster": "telegram-bot-pricing",
+  "targetMoneyPage": "/uz/telegram-bot-biznes-uchun/",
+  "keywords": [
+    "O'zbekistonda biznes uchun Telegram bot narxi",
+    "narxi Telegram bot Toshkent",
+    "narxi Telegram bot biznes",
+    "Telegram bot narxi O'zbekiston",
+    "bot narxi"
+  ],
+  "intro": "Telegram botning aniq \"to'g'ri\" narxi yo'q: narx ssenariy, kanallar, GPT qatlami, handoff va integratsiyalarga bog'liq.",
+  "body": [
+    { "type": "h2", "text": "\"Telegram bot qancha turadi?\" savoliga bitta javob yo'q" },
+    { "type": "p", "text": "\"Telegram bot qancha turadi?\" degan savol juda tabiiy. Lekin bitta javob yo'q, chunki \"bot\" degan nom ostida bir nechta mutlaqo boshqa yechim yashaydi. Ba'zi bot faqat FAQ'ga javob beradi. Boshqasi ism va telefon yig'ib, tayyor arizani menejerga uzatadi. Yana biri esa erkin yozilgan savollarni tushunadi, ikki tilda gapiradi va CRM bilan ishlaydi." },
+    { "type": "h2", "text": "Narxni belgilovchi beshta omil" },
+    { "type": "p", "text": "Narx odatda besh narsaga bog'liq bo'ladi: ssenariy chuqurligi, kanallar soni, GPT kerakmi yo'qmi, RU + UZ ishlashi va handoff qayerga ketishi. Har bir omil alohida vaqt va tayyorgarlik talab qiladi, shuning uchun \"narx ro'yxati\" emas, balki aniq vazifa uchun smeta bo'lishi kerak." },
+    { "type": "h2", "text": "Kichik biznes uchun birinchi qadam" },
+    { "type": "p", "text": "Kichik biznesga ko'pincha birinchi bosqichda murakkab tizim kerak emas. Avval yo'qolayotgan arizalarni ushlaydigan minimal ishchi ssenariy foydaliroq: tez javob, kontakt yig'ish, qisqa kvalifikatsiya va menejerga uzatish. Bu start barqaror bo'lganda, keyin CRM, ikkinchi kanal yoki murakkab kvalifikatsiya qo'shiladi." },
+    { "type": "h2", "text": "Smeta so'rashdan oldin voronkani tasvirlash" },
+    { "type": "p", "text": "To'g'ri yondashuv — smeta so'rashdan oldin voronkani aniq tasvirlash. Ariza qayerdan keladi? Bot nimani yig'ishi kerak? Qaysi tilda gaplashadi? Qayerda jonli menejer kerak? Shu savollar aniqlansa, narx ham ancha tushunarli bo'ladi va siz \"bot narxi\"ni emas, balki aniq ishlovchi ssenariy narxini taqqoslaysiz." },
+    { "type": "cta", "text": "Bu sizning biznesingizda qanday ishlashini bilib oling", "href": "/uz/telegram-bot-biznes-uchun/" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Telegram botning aniq «to‘g‘ri» narxi yo‘q.",
+        "Narx ssenariy, kanallar, GPT qatlami va integratsiyalarga bog‘liq.",
+        "Handoff va CRM smetaga ta’sir qiladi.",
+        "Aniq narx vazifani ko‘rib chiqqach aytiladi."
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "Faqat Telegramdan boshlasa bo'ladimi?", "a": "Ha. Ko'p kompaniyalar uchun bu eng oqilona birinchi bosqich." },
+    { "q": "CRM darrov kerakmi?", "a": "Har doim emas. Kichik oqimda Telegram chat yetarli bo'lishi mumkin." },
+    { "q": "Uzbek Latin qo'shilsa narx o'zgaradimi?", "a": "Ha, chunki bu alohida tayyorgarlik, oddiy tarjima emas." },
+    { "q": "GPT har doim shartmi?", "a": "Yo'q. Qisqa va tipik savollarga oddiyroq ssenariy ko'pincha yetadi." },
+    { "q": "FAQ va javoblarni kim tayyorlaydi?", "a": "Materialni biznes beradi, joriy etish jamoasi uni ssenariyga aylantiradi." },
+    { "q": "Keyin Instagram qo'shsa bo'ladimi?", "a": "Ha, agar start arxitekturasi shunga mos qurilsa." }
+  ],
+  "cta": {
+    "label": "Telegram demoni ochish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual", "priority": 1 },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual", "priority": 2 },
+    { "target": "/uz/gpt-bot-biznes-uchun/", "anchor": "GPT bot biznes uchun", "locale": "uz", "type": "contextual", "priority": 3 },
+    { "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI-menejer", "locale": "uz", "type": "contextual", "priority": 4 },
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual", "priority": 5 }
+  ],
+  "ogTitle": "O'zbekistonda biznes uchun Telegram bot narxi nimaga bog'liq",
+  "ogDescription": "Telegram bot narxiga ssenariy, GPT-logika, CRM, kanallar, RU + UZ va qo'llab-quvvatlash qanday ta'sir qilishini amaliy ko'rib chiqamiz.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.svg",
+  "canonical": "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+  "hreflangRu": "/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+  "hreflangUz": "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-01-06",
+  "dateModified": "2026-01-06",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "updatedAt": "2026-01-06T00:00:00.000Z",
+  "createdAt": "2026-01-06T00:00:00.000Z"
+}
