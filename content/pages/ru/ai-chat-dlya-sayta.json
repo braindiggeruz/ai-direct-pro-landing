@@ -71,6 +71,7 @@
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с AmoCRM и Bitrix24", "locale": "ru", "type": "block" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-бота", "locale": "ru", "type": "block" },
     { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "Разработка сайтов", "locale": "ru", "type": "block" },
+    { "target": "/ru/blog/chat-bot-dlya-sayta/", "anchor": "Чат-бот для сайта: как собирать заявки", "locale": "ru", "type": "block" },
     {
       "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
       "anchor": "как AI-чат превращает диалоги в заявки",
