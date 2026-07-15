@@ -1,0 +1,175 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/biz-haqimizda/",
+  "slug": "biz-haqimizda",
+  "pageType": "legal",
+  "primaryKeyword": "GPTBot haqida",
+  "secondaryKeywords": [
+    "Toshkentdagi chat-bot studiyasi",
+    "AI bot ishlab chiqish Ozbekiston",
+    "GPTBot kim"
+  ],
+  "searchIntent": "informational",
+  "h1": "GPTBot.uz haqida",
+  "title": "GPTBot.uz haqida — Toshkentdagi AI-bot studiyasi",
+  "description": "GPTBot.uz — Toshkentdagi studiya, Ozbekiston biznesi uchun AI-botlar: Telegram, Instagram, WhatsApp, CRM integratsiyasi, rus va ozbek tilida qollab-quvvatlash.",
+  "canonical": "https://gptbot.uz/uz/biz-haqimizda/",
+  "hreflangRu": "/ru/o-kompanii/",
+  "hreflangUz": "/uz/biz-haqimizda/",
+  "ogTitle": "GPTBot.uz haqida — Toshkentdagi AI-bot studiyasi",
+  "ogDescription": "GPTBot.uz — Toshkentdagi studiya, Ozbekiston biznesi uchun AI-botlar: Telegram, Instagram, WhatsApp, CRM integratsiyasi, rus va ozbek tilida qollab-quvvatlash.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Biz haqimizda",
+  "heroTitle": "GPTBot.uz haqida",
+  "heroSubtitle": "Toshkentdagi studiya — Ozbekistondagi biznes uchun AI-botlarni joriy qiladi: birinchi xabardan CRM dagi bitimgacha.",
+  "ctaPrimaryLabel": "Biz bilan boglaning",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Nishalar boyicha korish",
+  "ctaSecondaryHref": "/uz/biznes-uchun-ai-bot/",
+  "bodyBlocks": [
+    { "type": "p", "text": "GPTBot.uz — bu Toshkentdagi studiya, u O‘zbekistonda biznes uchun AI/GPT botlarni rus va o‘zbek tilida joriy etadi." },
+    {
+      "type": "h2",
+      "text": "Biz kimmiz"
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — Toshkentdagi AI-bot ishlab chiqish studiyasi. Biz Ozbekistondagi biznes uchun chat-botlar yaratamiz: ular mijozlarga Telegram, Instagram Direct va WhatsAppda javob beradi, lidni kvalifikatsiya qiladi va tayyor arizani menejerga yoki CRM ga uzatadi. Rus va ozbek tillarida ishlaymiz."
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — Boss Digital digital-agentligining biznesni AI-avtomatlashtirish bo'yicha ixtisoslashgan yo'nalishi. Boss Digital Toshkentda ishlaydi va AI-botlardan tashqari biznes uchun saytlar hamda raqamli yechimlar ishlab chiqadi."
+    },
+    {
+      "type": "h2",
+      "text": "Sifat uchun kim javob beradi"
+    },
+    {
+      "type": "p",
+      "text": "Yo'nalish asoschisi va rahbari — Boris Gerasimov. U AI-botlar arxitekturasi, suhbat stsenariylari hamda rus va o'zbek tillaridagi javoblar sifatiga shaxsan javob beradi. GPTBot.uz blogidagi barcha materiallar uning tahriri ostida chiqadi: maqolalardagi tavsiyalar tarjima qo'llanmalarga emas, O'zbekistondagi biznes uchun joriy etish amaliyotiga asoslangan."
+    },
+    {
+      "type": "p",
+      "text": "Boris bilan to'g'ridan-to'g'ri Telegram orqali bog'lanish mumkin: https://t.me/XGame_changerx — u kiruvchi loyihalarni o'zi ko'rib chiqadi va nishaga mos stsenariy taklif qiladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biz nima qilamiz"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznes nishasiga moslab AI-botlarni ishlab chiqish va joriy qilish",
+        "Telegram, Instagram Direct va WhatsAppni ulash",
+        "AmoCRM, Bitrix24 va boshqa tizimlar bilan integratsiya",
+        "Lidlarni kvalifikatsiya qilish va arizalarni avtomatlashtirish",
+        "Ishga tushirilgandan keyin qollab-quvvatlash va takomillashtirish"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Nega biznes bizni tanlaydi"
+    },
+    {
+      "type": "p",
+      "text": "Biz aynan Ozbekiston bozori bilan ishlaymiz va uning xususiyatlarini tushunamiz: ikki tilli auditoriya, asosiy savdo kanali sifatida messenjerlar, mahalliy nishalar — gozallik salonlaridan klinikalargacha, avtosalonlardan yetkazib berishgacha. Botlar shablonga emas, balki haqiqiy savdo jarayoniga moslab sozlanadi."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi nishalar bilan ishlaymiz"
+    },
+    {
+      "type": "p",
+      "text": "Biz gozallik salonlari, klinikalar, fitnes-klublar, dokonlar, avtosalonlar, kochmas mulk agentliklari, ovqat yetkazib berish, HoReCa, oquv markazlari va yuridik xizmatlar uchun botlar joriy qildik. Har bir nishaga oz dialog ssenariysi va aniqlovchi savollar toplami."
+    },
+    {
+      "type": "h2",
+      "text": "Biz qayerda ishlaymiz"
+    },
+    {
+      "type": "p",
+      "text": "Toshkentda joylashganmiz va butun Ozbekiston boylab biznes bilan ishlaymiz — jumladan Samarqand va Buxoroda. Joriy qilish va qollab-quvvatlash masofadan amalga oshiriladi, muloqotni Telegramda olib boramiz."
+    },
+    {
+      "type": "cta",
+      "text": "Loyihani Telegramda muhokama qilish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPTBot.uz — Toshkentdagi studiya, biznes uchun AI/GPT botlar joriy etadi.",
+        "Jamoa ishlab chiqish va savdo voronkasini biladi.",
+        "Rus va o‘zbek auditoriya bilan ishlaymiz.",
+        "Botlarni Telegram, Instagram, sayt va CRMga joriy etamiz.",
+        "Boshlash bepul vazifa auditidan boshlanadi."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "GPTBot.uz qayerda joylashgan?",
+      "a": "Biz Toshkentda joylashganmiz va butun Ozbekiston boylab, jumladan Samarqand va Buxoroda biznes bilan ishlaymiz."
+    },
+    {
+      "q": "Botlaringiz qaysi tillarda ishlaydi?",
+      "a": "Botlar mijozlar bilan rus va ozbek tillarida muloqot qiladi. Ssenariy auditoriyangiz tiliga moslab sozlanadi."
+    },
+    {
+      "q": "Qaysi kanallarni ulaysiz?",
+      "a": "Telegram, Instagram Direct va WhatsApp. Sorovga kora sayt va boshqa kanallarni ulash mumkin."
+    },
+    {
+      "q": "Siz bilan qanday boglanish mumkin?",
+      "a": "Bizga Telegramda yozing: https://t.me/XGame_changerx. Nishangizni muhokama qilamiz va ssenariy namunasini tayyorlaymiz."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "CRM bilan integratsiya",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/chat-bot-biznes-uchun/",
+      "anchor": "biznes uchun chat-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/boss-digital/",
+      "anchor": "Boss Digital — Toshkentdagi digital-agentlik",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/jamoa/",
+      "anchor": "GPTBot.uz jamoasi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-26",
+  "createdAt": "2026-06-26T00:00:00Z",
+  "updatedAt": "2026-06-26"
+}

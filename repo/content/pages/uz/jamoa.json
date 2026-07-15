@@ -1,0 +1,137 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/jamoa/",
+  "slug": "jamoa",
+  "pageType": "legal",
+  "primaryKeyword": "GPTBot jamoasi",
+  "secondaryKeywords": [
+    "AI botlarni kim yaratadi",
+    "Toshkentdagi chat-bot ishlab chiquvchilar",
+    "avtomatlashtirish mutaxassislari"
+  ],
+  "searchIntent": "informational",
+  "h1": "GPTBot.uz jamoasi",
+  "title": "GPTBot.uz jamoasi — AI-botlarni kim ishlab chiqadi",
+  "description": "GPTBot.uz jamoasi: Toshkentdagi ishlab chiquvchilar va savdo voronkasi me'morlari. CRM bilan integratsiyalashgan AI-botlarni yaratamiz.",
+  "canonical": "https://gptbot.uz/uz/jamoa/",
+  "hreflangRu": "/ru/komanda/",
+  "hreflangUz": "/uz/jamoa/",
+  "ogTitle": "GPTBot.uz jamoasi — AI-botlarni kim ishlab chiqadi",
+  "ogDescription": "GPTBot.uz jamoasi: Toshkentdagi ishlab chiquvchilar va savdo voronkasi me'morlari. CRM bilan integratsiyalashgan AI-botlarni yaratamiz.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Jamoa",
+  "heroTitle": "GPTBot.uz jamoasi",
+  "heroSubtitle": "Toshkentdagi ixtisoslashgan ishlab chiquvchilar va biznes-jarayonlar me'morlari jamoasi. Biz shunchaki kod yozmaymiz — biz ishlaydigan savdo voronkalarini quramiz.",
+  "ctaPrimaryLabel": "Jamoaga yozish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Biz haqimizda",
+  "ctaSecondaryHref": "/uz/biz-haqimizda/",
+  "bodyBlocks": [
+    {
+      "type": "h2",
+      "text": "Ishlab chiqish va savdo chorrahasidagi tajriba"
+    },
+    {
+      "type": "p",
+      "text": "Samarali AI-bot yaratish ikkita turli xil vakolatni talab qiladi: dasturiy kodni chuqur tushunish va savdo psixologiyasini bilish. GPTBot.uz jamoasida ikkala sohaning mutaxassislari ishlaydi. Biz Toshkentda joylashganmiz va O'zbekiston bozorining o'ziga xos xususiyatlarini, mahalliy mentalitetni va platformalarning texnik cheklovlarini yaxshi tushunamiz."
+    },
+    {
+      "type": "h2",
+      "text": "Jamoamizdagi rollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Avtomatlashtirish me'mori — sizning joriy voronkangizni tahlil qiladi, zaif nuqtalarni topadi va mijozni maqsadli harakatga olib boradigan dialog mantiqini loyihalashtiradi.",
+        "AI-muhandis — til modelini (LLM) sozlaydi, uni kompaniyangiz bilimlar bazasida o'qitadi va tone of voice'ga aniq rioya qilish uchun tizim promptlarini yozadi.",
+        "Backend-ishlab chiquvchi — botni AmoCRM, Bitrix24, to'lov tizimlari (Payme, Click) va ichki ma'lumotlar bazalari bilan uzluksiz integratsiyasini ta'minlaydi.",
+        "Sifat mutaxassisi (QA) — neyrotarmoq gallyutsinatsiyalari va texnik nosozliklarni oldini olish uchun botni yuzlab nostandart savollarda sinovdan o'tkazadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Loyihaga yondashuvimiz"
+    },
+    {
+      "type": "p",
+      "text": "Biz konveyer yondashuvi va shablonli yechimlardan voz kechganmiz. Birinchi qator kodni yozishdan oldin, jamoa savdolaringiz auditini o'tkazadi: menejerlar hozir qanday javob berishmoqda, lidlar qayerda yo'qolmoqda, qanday e'tirozlar tez-tez uchramoqda. Shundan keyingina biz AI-ssenariyni yig'ishga kirishamiz. Botni ishga tushirish bu ishning oxiri emas, balki boshi: biz birinchi haftalardagi haqiqiy dialoglarni tahlil qilamiz va konversiyani oshirish uchun model xatti-harakatini moslashtiramiz."
+    },
+    {
+      "type": "h2",
+      "text": "Nega mahalliy jamoa muhim"
+    },
+    {
+      "type": "p",
+      "text": "O'zbekistondagi biznes o'ziga xos xususiyatlarga ega: mijozlar ko'pincha aralash tildan (rus + o'zbek) foydalanadilar, ma'lum darajadagi xushmuomalalikni kutadilar va so'rovlarni o'ziga xos tarzda shakllantiradilar. Bizning jamoamiz AI-modellarni mahalliy kontekstni, slengni va madaniy nuanslarni tushunadigan qilib sozlaydi — bunga xorijiy quti yechimlaridan foydalanganda erishib bo'lmaydi."
+    },
+    {
+      "type": "cta",
+      "text": "Loyihani jamoa bilan muhokama qilish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "GPTBot.uz jamoasi — Toshkentdagi ishlab chiquvchilar va voronka me’morlari.",
+        "Rollar: avtomatlashtirish me’mori, AI-muhandis, backend, QA.",
+        "Koddan oldin savdo auditini o‘tkazamiz.",
+        "Ishga tushgach real suhbatlarni tahlil qilib, modelni sozlaymiz.",
+        "Mahalliy jamoa aralash rus-o‘zbek tilini hisobga oladi."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Loyihamni kim olib boradi?",
+      "a": "Har bir loyiha uchun ajratilgan guruh javobgar: avtomatlashtirish me'mori va texnik mutaxassis. Aloqa va bosqichlarni kelishish to'g'ridan-to'g'ri Telegram'da olib boriladi."
+    },
+    {
+      "q": "Start oldidan jamoa bilan gaplashish mumkinmi?",
+      "a": "Ha. Bizga yozing, va biz vazifalaringizning dastlabki auditini o'tkazamiz, shuningdek, nishangiz uchun ssenariy namunasini bepul tayyorlaymiz."
+    },
+    {
+      "q": "Ishga tushgandan keyin botni kim qollab-quvvatlaydi?",
+      "a": "Uni ishlab chiqqan o'sha jamoa. Biz dialoglar metrikalarini kuzatib boramiz, ssenariylarni moslashtiramiz va integratsiyalarni kengaytirishga yordam beramiz."
+    },
+    {
+      "q": "Qaysi tillarda botlarni o'qitasiz?",
+      "a": "Biz botlarni rus va o'zbek tillarida, shu jumladan aralash nutq va mahalliy dialektlarni aniqlashda erkin tushunish va muloqot qilishga moslashtiramiz."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biz-haqimizda/",
+      "anchor": "GPTBot.uz haqida",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "nishangiz uchun bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "CRM bilan integratsiya",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-07-04",
+  "createdAt": "2026-06-26T00:00:00Z",
+  "updatedAt": "2026-07-04"
+}
