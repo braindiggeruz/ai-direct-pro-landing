@@ -1044,6 +1044,12 @@
       "type": "contextual"
     },
     {
+      "target": "/ru/blog/bot-dlya-zayavok/",
+      "anchor": "бот для заявок: каналы и сценарии",
+      "locale": "ru",
+      "type": "block"
+    },
+    {
       "target": "/ru/blog/telegram-bot-dlya-zayavok/",
       "anchor": "Telegram-бот для заявок",
       "locale": "ru",
