@@ -309,6 +309,7 @@
 
     { "type": "h2", "text": "Хотите понять, какой Telegram-бот нужен вашему бизнесу", "id": "consult" },
     { "type": "p", "text": "Оставьте заявку или напишите нам в Telegram. Мы разберём вашу задачу, покажем возможную структуру бота и подскажем, с чего лучше начать: простой бот, AI-бот или интеграция с CRM." },
+    { "type": "linkp", "text": "Если вы ещё не определились с подрядчиком, читайте наш гайд про {blog1} — там разобраны критерии выбора, ценовые сегменты и чек-лист для проверки бота перед запуском.", "links": [{ "token": "blog1", "target": "/ru/blog/zakazat-telegram-bota/", "anchor": "как заказать Telegram-бота" }] },
     { "type": "cta", "text": "Получить бесплатную консультацию", "href": "https://t.me/XGame_changerx" }
   ],
   "faq": [
@@ -355,7 +356,8 @@
     { "target": "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/", "anchor": "сколько стоит разработка Telegram-бота", "locale": "ru", "type": "contextual" },
     { "target": "/ru/", "anchor": "AI-боты для бизнеса в Узбекистане", "locale": "ru", "type": "contextual" },
     { "target": "/ru/blog/telegram-bot-dlya-zayavok/", "anchor": "Telegram-бот для заявок", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/blog/telegram-bot-s-oplatoy-payme-click/", "anchor": "Telegram-бот с оплатой Payme и Click", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/blog/telegram-bot-s-oplatoy-payme-click/", "anchor": "Telegram-бот с оплатой Payme и Click", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/zakazat-telegram-bota/", "anchor": "как заказать Telegram-бота", "locale": "ru", "type": "contextual" }
   ],
   "schemaTypes": [
     "Organization",
