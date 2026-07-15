@@ -5,7 +5,7 @@ import { Badge, Button, Card, Input, Label, ScoreBadge, Select, Textarea } from 
 import { SerpPreview } from '../components/SerpPreview';
 import { AiDraftBanner } from '../components/AiDraftBanner';
 import { useAiDraftBridge } from '../hooks/useAiDraftBridge';
-import { Save, Trash2, ExternalLink, Plus, X, AlertCircle, ChevronLeft, Sparkles, Upload, Wand2 } from 'lucide-react';
+import { Save, Trash2, ExternalLink, Plus, X, CircleAlert as AlertCircle, ChevronLeft, Sparkles, Upload, Wand as Wand2 } from 'lucide-react';
 import type { Page, FaqItem, BodyBlock, InternalLink as InternalLinkT, SchemaType } from '../../shared/types';
 import { auditPage } from '../../shared/audit';
 import { SITE_URL, ANCHORS } from '../../shared/site-config';
