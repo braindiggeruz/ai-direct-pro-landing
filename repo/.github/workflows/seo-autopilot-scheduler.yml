@@ -1,0 +1,54 @@
+name: SEO Autopilot scheduler
+
+# Fires twice a week at 09:00 UTC (Mon + Thu).
+# The server-side endpoint reads the schedule mode from the
+# `system_settings` D1 table and decides whether to actually launch
+# (mode = disabled | weekly | twice_weekly). This way the owner can
+# change frequency from the admin UI without editing this workflow.
+on:
+  schedule:
+    - cron: '0 9 * * 1,4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-autopilot-scheduler
+  cancel-in-progress: false
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Call GPTBot scheduled-run endpoint
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "::error::CRON_SECRET missing from GitHub Actions secrets"
+            exit 1
+          fi
+          RESP=$(mktemp)
+          HTTP=$(curl -sS -o "$RESP" -w "%{http_code}" \
+            -X POST "https://gptbot.uz/api/internal/seo-autopilot/scheduled-run" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 360)
+          echo "HTTP $HTTP"
+          # Pretty-print the response; redact nothing — the endpoint never
+          # echoes the bearer or any secret.
+          if command -v jq >/dev/null 2>&1; then
+            jq . < "$RESP" || cat "$RESP"
+          else
+            cat "$RESP"
+          fi
+          # The endpoint returns 200 for "skipped" (off-day or disabled),
+          # 202 for "accepted" (job enqueued). Anything else is a hard
+          # failure.
+          if [ "$HTTP" != "200" ] && [ "$HTTP" != "202" ]; then
+            echo "::error::Scheduled run rejected with HTTP $HTTP"
+            exit 1
+          fi
