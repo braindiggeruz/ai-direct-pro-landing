@@ -1,0 +1,156 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/",
+  "slug": "uz",
+  "pageType": "niche",
+  "primaryKeyword": "biznes uchun AI botlar",
+  "secondaryKeywords": [
+    "O'zbekistonda biznes uchun AI bot",
+    "chat-bot Toshkent",
+    "biznes uchun GPT bot",
+    "arizalarni avtomatlashtirish"
+  ],
+  "searchIntent": "navigational",
+  "h1": "O'zbekistonda biznes uchun AI botlar",
+  "title": "Biznes uchun AI botlar O'zbekistonda | GPTBot.uz",
+  "description": "O'zbekistonda biznes uchun AI botlar: Telegram, Instagram Direct va WhatsApp. Mijozlarga 24/7 rus va o'zbek tilida javob berib, arizani menejerga uzatamiz.",
+  "canonical": "https://gptbot.uz/uz/",
+  "hreflangRu": "/ru/",
+  "hreflangUz": "/uz/",
+  "ogTitle": "O'zbekistonda biznes uchun AI botlar — GPTBot.uz",
+  "ogDescription": "Telegram, Instagram Direct va WhatsApp botlar mijozlarga 24/7 javob beradi va arizani menejerga uzatadi.",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "O'zbekcha bo'lim",
+  "heroSubtitle": "GPTBot.uz — Toshkentdagi studiya. Kichik va o'rta biznes uchun AI/GPT botlar ishlab chiqamiz: Telegram, Instagram Direct, WhatsApp va sayt, rus va o'zbek tillarida.",
+  "ctaPrimaryLabel": "Telegram'da demoni ishga tushirish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Blog",
+  "ctaSecondaryHref": "/uz/blog/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "GPTBot.uz — Toshkentdagi studiya. O'zbekistonda kichik va o'rta biznes uchun AI/GPT botlar ishga tushiramiz. Botlar mijozlarga Telegram, Instagram Direct va WhatsApp'da rus va o'zbek tillarida kunu tun javob beradi, ism va telefonni yig'ib, tayyor arizani menejerga uzatadi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes uchun AI bot nima"
+    },
+    {
+      "type": "p",
+      "text": "Biznes uchun AI bot — bu GPT tilida ishlaydigan virtual xodim. U mijozning savolini tabiiy tilda tushunadi, messenjerlarda menejer o'rniga javob beradi va suhbatni arizaga aylantiradi. Oddiy tugmali botdan farqi — u erkin yozilgan savollarga ham javob beradi, faqat oldindan belgilangan variantlarga emas."
+    },
+    {
+      "type": "h2",
+      "text": "AI bot nima qiladi: qisqa va aniq"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijozga bir necha soniyada 24/7 javob beradi — dam olish kunlarisiz.",
+        "Rus va o'zbek tilida, aralash nutqni ham tushunib suhbatlashadi.",
+        "Ism, telefon va ehtiyojni tartibli ko'rinishda yig'adi.",
+        "Arizani baholab, menejerga Telegram yoki CRM orqali uzatadi.",
+        "Narx, xizmat, manzil, ish vaqti kabi tez-tez beriladigan savollarga javob beradi.",
+        "Menejerlarni maydalikdan xalos qiladi — ular faqat tayyor lidlar bilan ishlaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI bot qaysi sohalarda qo'llaniladi"
+    },
+    {
+      "type": "table",
+      "headers": ["Soha", "Bot qanday vazifani hal qiladi", "Biznes uchun natija"],
+      "rows": [
+        ["Klinikalar", "Qabulga yozilish, shifokor va narxlar bo'yicha javob", "Kechasi ham yozilish, kamroq yo'qotilgan murojaat"],
+        ["Go'zallik salonlari", "Xizmatga bron, eslatmalar, usta bo'yicha javob", "Administrator qo'lda yozishmasdan to'la jadval"],
+        ["Internet-do'konlar", "Buyurtma rasmiylashtirish, yetkazish holati", "Tez javob va kamroq tashlab ketilgan savat"],
+        ["HoReCa", "Bron va yetkazishni qabul qilish, menyu bo'yicha javob", "Eng band vaqtda ham buyurtmalar yo'qolmaydi"],
+        ["O'quv markazlari", "Sinov darsiga yozilish, ota-onalarga javob", "Instagram va Telegram reklamadan ko'proq yozilish"]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Joriy etish qanday o'tadi"
+    },
+    {
+      "type": "p",
+      "text": "Joriy etish shaffof sxema bo'yicha boradi: vazifa auditi → stsenariy loyihalash → bot va bilim bazasini yig'ish → CRM va to'lov integratsiyasi → nostandart savollarda test → ishga tushirish va real suhbatlar bo'yicha sozlash. GPTBot.uz — mustaqil AI-xizmat va Toshkentdagi joriy etish jamoasi, tayyor konstruktor emas."
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznes uchun AI bot mijozga 24/7 javob berib, murojaatni menejer uchun arizaga aylantiradi.",
+        "Telegram, Instagram Direct, WhatsApp va saytdagi AI-chatda ishlaydi — rus va o'zbek tilida.",
+        "Har bir soha uchun alohida stsenariy: klinika, salon, do'kon, HoReCa, o'quv markazi.",
+        "Arizalar bir joyda yig'iladi: Telegram yoki CRM (AmoCRM, Bitrix24).",
+        "GPTBot.uz — Toshkentdagi mustaqil joriy etish jamoasi.",
+        "Boshlash uchun bepul vazifa auditi va stsenariy namunasi beriladi."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Biznes uchun AI bot nima?",
+      "a": "Biznes uchun AI bot — bu GPT asosidagi virtual xodim. U messenjerlarda va saytda mijozga javob beradi, savolni tabiiy tilda tushunadi, kontaktlarni yig'adi va arizani menejerga uzatadi. Tugmali botdan farqi — erkin yozilgan savollarga javob beradi."
+    },
+    {
+      "q": "Bot qaysi kanallarda ishlaydi?",
+      "a": "Telegram, Instagram Direct va WhatsApp, shuningdek saytdagi AI-chat. Bitta yoki bir nechta kanalni ulash mumkin — barcha arizalar Telegram yoki CRM'da yig'iladi."
+    },
+    {
+      "q": "Bot qaysi tillarda javob beradi?",
+      "a": "Rus va o'zbek tilida, aralash nutqni ham tushunadi. Model kompaniyangiz konteksti va tone of voice'iga moslanadi."
+    },
+    {
+      "q": "Bot menejerlar o'rnini bosadimi?",
+      "a": "Yo'q. Bot birinchi kontakt, tipik savollar va baholashni o'z zimmasiga oladi, menejer esa tayyor iliq lid bilan ishlaydi. Bu shtatni kengaytirmasdan savdoni oshiradi."
+    },
+    {
+      "q": "Nimadan boshlash kerak?",
+      "a": "Bizga Telegram'da yozing. Vazifangizni bepul tahlil qilib, sohangiz uchun stsenariy namunasini tayyorlaymiz."
+    }
+  ],
+  "internalLinks": [
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/gpt-bot-biznes-uchun/", "anchor": "Biznes uchun GPT bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/chat-bot-biznes-uchun/", "anchor": "Biznes uchun chat-bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/ai-sotuvchi/", "anchor": "AI-sotuvchi", "locale": "uz", "type": "block" },
+    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
+    { "target": "/uz/instagram-bot-biznes-uchun/", "anchor": "Instagram Direct bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI-menejer", "locale": "uz", "type": "block" },
+    { "target": "/uz/whatsapp-bot-biznes-uchun/", "anchor": "WhatsApp bot biznes uchun", "locale": "uz", "type": "block" },
+    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "Arizalarni avtomatlashtirish", "locale": "uz", "type": "block" },
+    { "target": "/uz/savdoni-avtomatlashtirish/", "anchor": "Savdoni avtomatlashtirish", "locale": "uz", "type": "block" },
+    { "target": "/uz/arizalarni-qabul-qiluvchi-bot/", "anchor": "Arizalarni qabul qiluvchi bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/amocrm-bitrix24-bilan-ai-bot/", "anchor": "AmoCRM va Bitrix24 integratsiyasi", "locale": "uz", "type": "block" },
+    { "target": "/uz/klinika-uchun-ai-bot/", "anchor": "Klinika uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/salon-uchun-ai-bot/", "anchor": "Salon uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/dokon-uchun-ai-bot/", "anchor": "Do'kon uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/horeca-uchun-ai-bot/", "anchor": "HoReCa uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/oquv-markazi-uchun-ai-bot/", "anchor": "O'quv markazi uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/", "anchor": "Ko'chmas mulk uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/avtosalon-uchun-ai-bot/", "anchor": "Avtosalon uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/fitnes-klub-uchun-ai-bot/", "anchor": "Fitnes klub uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/yetkazib-berish-uchun-ai-bot/", "anchor": "Yetkazib berish uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/yurist-uchun-ai-bot/", "anchor": "Yurist uchun AI bot", "locale": "uz", "type": "block" },
+    { "target": "/uz/sharhlar/", "anchor": "Mijozlar sharhlari va keyslari", "locale": "uz", "type": "block" },
+    { "target": "/uz/chat-bot-narxi/", "anchor": "Chat-bot narxi", "locale": "uz", "type": "block" },
+    { "target": "/uz/biz-haqimizda/", "anchor": "Biz haqimizda", "locale": "uz", "type": "block" },
+    { "target": "/uz/jamoa/", "anchor": "GPTBot.uz jamoasi", "locale": "uz", "type": "block" },
+    { "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o'zbek tilida", "locale": "uz", "type": "block" },
+    { "target": "/uz/gpt-uzbek-tilida-ai-chat/", "anchor": "GPT o'zbek tilida — AI-chat", "locale": "uz", "type": "block" },
+    { "target": "/uz/gpt-telegram-instagram-ideya/", "anchor": "Telegram va Instagram uchun GPT", "locale": "uz", "type": "block" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
+  "lastReviewedAt": "2026-07-01",
+  "updatedAt": "2026-07-01",
+  "createdAt": "2026-07-01"
+}
