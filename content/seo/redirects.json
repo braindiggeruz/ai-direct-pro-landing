@@ -8,6 +8,14 @@
     "createdAt": "2026-07-03"
   },
   {
+    "id": "blog-chat-bot-dlya-sayta-slug-rename",
+    "from": "/ru/blog/chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit/",
+    "to": "/ru/blog/chat-bot-dlya-sayta/",
+    "statusCode": 301,
+    "reason": "Slug shortened to match target keyword «чат бот для сайта» — old URL was indexed, preserve link equity (seo-indexation-audit-2026-07-15)",
+    "createdAt": "2026-07-15"
+  },
+  {
     "id": "cannib-tashkent-chat-bot-biznes",
     "from": "/ru/blog/chat-bot-dlya-biznesa-tashkent/",
     "to": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",

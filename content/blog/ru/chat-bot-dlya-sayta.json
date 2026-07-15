@@ -1,11 +1,11 @@
 {
   "status": "published",
   "locale": "ru",
-  "slug": "chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit",
-  "url": "/ru/blog/chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit/",
-  "title": "Чат-бот для сайта: как добавить и сколько стоит",
-  "description": "Как добавить чат-бота на сайт: виджет, AI-бот или кнопка в Telegram. Что выбрать бизнесу в Узбекистане, сколько это стоит и какие ошибки убивают конверсию.",
-  "h1": "Чат-бот для сайта: как добавить и сколько стоит",
+  "slug": "chat-bot-dlya-sayta",
+  "url": "/ru/blog/chat-bot-dlya-sayta/",
+  "title": "Чат-бот для сайта — заявки, AI-чат, Telegram и CRM",
+  "description": "Как добавить чат-бота на сайт: виджет, AI-чат или кнопка в Telegram. Что выбрать бизнесу в Узбекистане, сколько это стоит и какие ошибки убивают конверсию.",
+  "h1": "Чат-бот для сайта: как собирать заявки и отвечать клиентам быстрее",
   "topicCluster": "ai-bot-basics",
   "targetMoneyPage": "/ru/ai-bot-dlya-sayta/",
   "keywords": [
@@ -70,20 +70,21 @@
     { "q": "Может ли чат-бот на сайте отвечать на узбекском?", "a": "Да. AI-бот определяет язык посетителя и отвечает на русском или узбекском в одном диалоге — для двуязычной аудитории Узбекистана это обязательное требование." }
   ],
   "internalLinks": [
+    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "contextual", "priority": 1 },
     { "target": "/ru/ai-bot-dlya-sayta/", "anchor": "AI-бот для сайта", "locale": "ru", "type": "contextual", "priority": 1 },
     { "target": "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/", "anchor": "виды чат-ботов", "locale": "ru", "type": "contextual", "priority": 2 },
     { "target": "/ru/telegram-bot-dlya-biznesa/", "anchor": "Telegram-бот для бизнеса", "locale": "ru", "type": "contextual", "priority": 3 }
   ],
-  "ogTitle": "Чат-бот для сайта: как добавить и сколько стоит",
-  "ogDescription": "Как добавить чат-бота на сайт: виджет, AI-бот или кнопка в Telegram. Что выбрать бизнесу в Узбекистане, сколько это стоит и какие ошибки убивают конверсию.",
+  "ogTitle": "Чат-бот для сайта — заявки, AI-чат, Telegram и CRM",
+  "ogDescription": "Как добавить чат-бота на сайт: виджет, AI-чат или кнопка в Telegram. Что выбрать бизнесу в Узбекистане, сколько это стоит и какие ошибки убивают конверсию.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
-  "canonical": "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit/",
+  "canonical": "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-03",
+  "dateModified": "2026-07-15",
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-03"
+  "updatedAt": "2026-07-15"
 }

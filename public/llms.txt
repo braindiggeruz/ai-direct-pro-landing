@@ -152,6 +152,10 @@ SMBs — concrete workflows, real channels, no inflated statistics.
 
 - Chat GPT in Russian — how to use an AI chat online (RU): https://gptbot.uz/ru/blog/chat-gpt-na-russkom/
 - GPT chat online — quick access and usage guide (RU): https://gptbot.uz/ru/blog/chat-gpt-online/
+- How to order a Telegram bot — price, scenarios, mistakes (RU): https://gptbot.uz/ru/blog/zakazat-telegram-bota/
+- Lead-capture bot for Telegram, Instagram and websites (RU): https://gptbot.uz/ru/blog/bot-dlya-zayavok/
+- Chatbot development for business — Telegram, web, AI, CRM (RU): https://gptbot.uz/ru/blog/razrabotka-chat-bota/
+- Chatbot for a website — leads, AI chat, Telegram, CRM (RU): https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/
 - Chatbot ROI / payback for Uzbekistan SMB (RU): https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/
 - Telegram bot cost in Uzbekistan (RU): https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/
 - AI-bot price for B2C business in Uzbekistan (RU): https://gptbot.uz/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/
