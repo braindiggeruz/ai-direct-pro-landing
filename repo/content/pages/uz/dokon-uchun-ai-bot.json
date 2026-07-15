@@ -1,0 +1,221 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/dokon-uchun-ai-bot/",
+  "slug": "dokon-uchun-ai-bot",
+  "pageType": "money",
+  "primaryKeyword": "do'kon uchun AI bot",
+  "secondaryKeywords": [
+    "internet-do'kon bot",
+    "ecommerce AI bot",
+    "sotuv chatbot",
+    "Telegram do'kon bot"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Internet-do'kon uchun AI bot: virtual maslahatchi",
+  "title": "Do'kon uchun AI bot — 24/7 buyurtma qabuli | GPTBot",
+  "description": "Do'kon uchun AI-bot tovarlar va yetkazib berish haqida savollarga javob beradi, buyurtmalarni qabul qiladi va konversiyani oshiradi.",
+  "canonical": "https://gptbot.uz/uz/dokon-uchun-ai-bot/",
+  "hreflangRu": "/ru/ai-bot-dlya-magazina/",
+  "hreflangUz": "/uz/dokon-uchun-ai-bot/",
+  "ogTitle": "Do'kon uchun AI bot — 24/7 buyurtma | GPTBot | GPTBot",
+  "ogDescription": "Internet-do'kon uchun AI bot Telegram va Instagram'da mahsulotlarni ko'rsatadi, mavjudlik va yetkazib berish haqida savollarga javob beradi va buyurtmalarni",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Internet-do'kon uchun AI bot",
+  "heroTitle": "Internet-do'kon uchun AI bot: virtual maslahatchi",
+  "heroSubtitle": "Mahsulotlarni ko'rsatadi, mavjudlik va yetkazib berish haqida javob beradi va buyurtmalarni 24/7 rasmiylashtiradi.",
+  "ctaPrimaryLabel": "Do'kon uchun bot buyurtma qilish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Bu qanday ishlaydi",
+  "ctaSecondaryHref": "#how",
+  "bodyBlocks": [
+    { "type": "p", "text": "Do‘kon uchun AI-bot — bu mahsulot tanlash, buyurtma rasmiylashtirish va yetkazish holatiga 24/7 javob beradigan virtual konsultant." },
+    {
+      "type": "h2",
+      "text": "do'kon uchun AI bot nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "AI bot virtual maslahatchi vazifasini bajaradi: katalogni ko'rsatadi, parametrlarga ko'ra mahsulotlarni tanlaydi, mavjudlik va yetkazib berish haqidagi savollarga javob beradi va buyurtmani rasmiylashtiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Nima uchun arizalar yo'qoladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijozlar kerakli mahsulotni topa olmaydi",
+        "Maslahatchisiz mahsulot tanlash qiyin",
+        "Direct'da tezkor javob yo'q",
+        "Buyurtmalar chatlar orasida yo'qoladi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bu qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Internet-do'kon konversiyasini oshirish",
+        "Xaridor uchun qulaylik",
+        "Mahsulot tanlash va buyurtma berishni avtomatlashtirish",
+        "24/7 ishlash",
+        "Shaxsiylashtirilgan tavsiyalar"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Maslahat va buyurtma ssenariysi"
+    },
+    {
+      "type": "p",
+      "text": "Xaridor post ostida yoki Telegram'ga yozadi, bot mahsulot haqidagi savollarga javob beradi, mavjudligini tekshiradi, tanlashga yordam beradi va buyurtmani rasmiylashtiradi: mahsulot, miqdor, yetkazib berish manzili, kontakt. Tayyor buyurtma menejer yoki CRM'ga ketadi, xaridor esa tasdiqni oladi."
+    },
+    {
+      "type": "h2",
+      "text": "Bot qaysi savollarni yopadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mahsulot mavjudligi va o'lchamlari",
+        "Narx, chegirma, bo'lib to'lash shartlari",
+        "Yetkazib berish muddati va narxi",
+        "Qaytarish va almashtirish shartlari",
+        "To'lov usullari",
+        "Rasmiylashtirilgan buyurtma holati"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qo'shimcha savdo va o'rtacha chek"
+    },
+    {
+      "type": "p",
+      "text": "Bot tanlangan mahsulotga mos keluvchi tovar va aksessuarlarni taklif qiladi, joriy aksiyalar haqida xabar beradi va bepul yetkazib berishgacha to'ldirishga yordam beradi. Bu o'rtacha chek va savoldan buyurtmagacha konversiyani oshiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Xaridorlarni qaytarish"
+    },
+    {
+      "type": "p",
+      "text": "Bot xaridorlar bazasini yig'adi va tarqatma ishga tushirish imkonini beradi: yangiliklar, chegirmalar, tashlab ketilgan savatcha haqida eslatma. Bu pullik reklama'siz mijozlarni qaytaradi va takroriy savdoni oshiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi do'konlar uchun mos"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kiyim va poyabzal internet-do'konlari",
+        "Elektronika va texnika do'konlari",
+        "Kosmetika va parfyumeriya",
+        "Uy-ro'zg'or va bolalar mahsulotlari",
+        "Shahar bo'ylab yetkazadigan mahalliy do'konlar"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Do'kon uchun bot buyurtma qilish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Do‘kon uchun AI-bot mahsulot tanlash va buyurtmani rasmiylashtirishga yordam beradi.",
+        "Mavjudlik va yetkazish holati bo‘yicha 24/7 javob beradi.",
+        "Tez javob bilan tashlab ketilgan savatlarni kamaytiradi.",
+        "Ariza va kontaktni menejerga yoki CRMga uzatadi.",
+        "Telegram, Instagram va saytda ikki tilda ishlaydi."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Qanday to'lov tizimlari qo'llab-quvvatlanadi?",
+      "a": "O'zbekistondagi mashhur shlyuzlar (Payme, Click, Apelsin Pay va h.k.) bilan integratsiya. Aniq to'plamni do'koningiz uchun tanlaymiz."
+    },
+    {
+      "q": "Bot katalogni qanday ko'rsatadi?",
+      "a": "Telegram'da — mahsulot kartochkalari va tugmalar bilan xabarlar katalogi. Instagram'da — Direct'ga tegishli pozitsiyalarni yuborish."
+    },
+    {
+      "q": "Qaytishlarni boshqara oladimi?",
+      "a": "Ha. Bot qaytarish uchun arizani qabul qiladi va uni 'qaytarish' tegi bilan dialog tarixi bilan menejerga uzatadi."
+    },
+    {
+      "q": "Savdo maydonchalari bilan integratsiyalanadimi?",
+      "a": "Asosiy savdo maydonchalarini API orqali qo'llab-quvvatlaymiz. Kam uchraydiganlari uchun integratsiyani alohida muhokama qilamiz."
+    },
+    {
+      "q": "Mahsulotni qanday tavsiya qiladi?",
+      "a": "Mijoz parametrlari (byudjet, kategoriya, mavjudlik) va, agar ma'lumot bo'lsa, xaridlar tarixi bo'yicha."
+    },
+    {
+      "q": "Internet-do'kon uchun bot qancha turadi?",
+      "a": "Narx katalog, kanallar soni va integratsiyalarga bog'liq. Telegram va Instagram orqali maslahat va buyurtma qabuli kamroq turadi. Do'koningizga qarab hisoblaymiz — Telegram'ga yozing."
+    },
+    {
+      "q": "Bot mahsulot katalogini ko'rsata oladimi?",
+      "a": "Ha. Telegram'da bot katalog, mahsulot kartochkalari va chatda buyurtma qabuli bilan vitrina sifatida ishlashi mumkin."
+    },
+    {
+      "q": "Bot to'lovni qabul qiladimi?",
+      "a": "Telegram'da to'lovni chat ichida qabul qilish mumkin. Xaridor messenjerdan chiqmasdan buyurtmani rasmiylashtiradi va to'laydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "Biznes uchun AI botlar",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-06-25",
+  "createdAt": "2026-02-01T00:00:00Z",
+  "updatedAt": "2026-06-25"
+}

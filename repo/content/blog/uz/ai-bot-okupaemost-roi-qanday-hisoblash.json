@@ -1,0 +1,105 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "ai-bot-okupaemost-roi-qanday-hisoblash",
+  "url": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+  "title": "AI-bot o'zini qancha vaqtda oqlaydi: ROI ni qanday hisoblash",
+  "description": "AI yoki chat-botning okupaemostini (ROI) o'z raqamlaringiz asosida qanday hisoblash: formula, misol tuzilishi va nimalarni hisobga olish kerak.",
+  "h1": "AI-bot okupaemosti: ROI ni o'z raqamlaringiz bilan qanday hisoblash",
+  "topicCluster": "chat-bot-narxi",
+  "targetMoneyPage": "/uz/chat-bot-narxi/",
+  "keywords": [
+    "AI bot okupaemost",
+    "chat bot ROI",
+    "bot o'zini oqlashi",
+    "avtomatlashtirish foydasi",
+    "O'zbekiston biznes ROI",
+    "bot narxi va foydasi"
+  ],
+  "intro": "\"Bot qancha turadi?\" degan savoldan muhimroq savol bor: \"Bot o'zini qancha vaqtda oqlaydi?\" Narxning o'zi hech narsa aytmaydi — u faqat foyda bilan solishtirilganda ma'noga ega bo'ladi. Ushbu qo'llanmada tayyor raqamlar yoki va'dalar bermaymiz; buning o'rniga o'z biznesingiz raqamlari asosida okupaemostni (ROI) qanday hisoblashni bosqichma-bosqich ko'rsatamiz.",
+  "body": [
+    { "type": "p", "text": "Har bir biznesning raqamlari har xil, shuning uchun \"bot 2 oyda o'zini oqlaydi\" kabi umumiy va'dalar aldamchi. To'g'ri yondashuv — o'z arizalaringiz, konversiyangiz va o'rtacha chekingizni formulaga qo'yish. Quyida shuni qanday qilishni ko'rsatamiz." },
+    { "type": "h2", "text": "1-qadam: hozirgi holatni o'lchang" },
+    { "type": "list", "items": [
+      "Oyiga nechta ariza (lid) kelayapti — Telegram, Instagram Direct, WhatsApp bo'yicha.",
+      "Ulardan nechtasi mijozga aylanadi (konversiya %).",
+      "O'rtacha chek — bitta mijoz o'rtacha qancha to'laydi.",
+      "Menejer bitta arizaga qancha vaqt sarflaydi.",
+      "Ish vaqtidan tashqari (kechqurun, dam olish kuni) kelgan va javobsiz qolgan arizalar ulushi."
+    ]},
+    { "type": "p", "text": "Bu beshta raqam — hisobning poydevori. Ular sizda taxminan bo'lsa ham bor; aniqroq bo'lsa, natija ham aniqroq bo'ladi." },
+    { "type": "h2", "text": "2-qadam: bot nimani o'zgartiradi" },
+    { "type": "list", "items": [
+      "Javob tezligi: bot 24/7 darhol javob beradi, ish vaqtidan tashqari yo'qolgan arizalar qaytadi.",
+      "Qamrov: bot bir vaqtda cheksiz suhbatni olib boradi, pik yuklamada ariza yo'qolmaydi.",
+      "Kvalifikatsiya: bot kerakli savollarni beradi, menejerga tayyor lid uzatadi.",
+      "Menejer vaqti: rutina kamayadi, sotuvchi yopishga ko'proq vaqt ajratadi."
+    ]},
+    { "type": "h2", "text": "3-qadam: qo'shimcha foydani hisoblang" },
+    { "type": "p", "text": "Asosiy g'oya oddiy: agar bot ilgari yo'qolgan arizalarning bir qismini qaytarsa, bu qo'shimcha mijozlar va qo'shimcha daromad demakdir. Masalan, oyiga 100 ariza kelib, ularning 20 tasi kechqurun javobsiz qolsa va konversiya 25% bo'lsa — bu oyiga 5 potentsial mijoz yo'qolayapti degani. Ularning yarmini qaytarish ham o'rtacha chekka ko'paytirilganda sezilarli summa beradi." },
+    { "type": "quote", "text": "ROI ni tayyor holda sotib bo'lmaydi — uni faqat o'z raqamlaringiz bilan hisoblash mumkin. Shuning uchun har qanday \"kafolatlangan foyda\" va'dasiga shubha bilan qarang." },
+    { "type": "h2", "text": "4-qadam: oddiy ROI formulasi" },
+    { "type": "list", "items": [
+      "Oylik qo'shimcha foyda = (qaytarilgan arizalar × konversiya × o'rtacha chek) + tejalgan menejer vaqti qiymati.",
+      "Okupaemost muddati (oy) = botning boshlang'ich xarajati ÷ oylik qo'shimcha foyda.",
+      "ROI (%) = (yillik qo'shimcha foyda − yillik xarajat) ÷ yillik xarajat × 100."
+    ]},
+    { "type": "p", "text": "E'tibor bering: bu formulaga siz o'z raqamlaringizni qo'yasiz. Biz bu yerda hech qanday tayyor foiz yoki summa taqdim etmaymiz — chunki ular sizning nishangiz, chekingiz va oqimingizga bog'liq." },
+    { "type": "h2", "text": "Nimalarni unutmaslik kerak" },
+    { "type": "list", "items": [
+      "Botning oylik qo'llab-quvvatlash xarajatini ham hisobga oling, nafaqat ishga tushirishni.",
+      "Konversiyaning oshishi darhol emas, sozlash va o'rgatishdan keyin bo'ladi.",
+      "Bot menejerni butunlay almashtirmaydi — u rutinani oladi, sotuvni odam yopadi.",
+      "Raqamlarni 2–3 oydan keyin qayta o'lchang va taqqoslang."
+    ]},
+    { "type": "cta", "text": "O'z raqamlaringiz bo'yicha hisobni Telegram'da birga ko'rib chiqamiz", "href": "https://t.me/XGame_changerx" },
+    {
+      "type": "h2",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Muhim savol — bot o‘zini qancha vaqtda oqlashi.",
+        "ROI saqlangan arizalar va joriy etish narxidan hisoblanadi.",
+        "Ko‘pincha bot 2–4 oyda o‘zini oqlaydi.",
+        "Hisob real murojaat oqimiga bog‘liq."
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "Bot o'rtacha qancha vaqtda o'zini oqlaydi?", "a": "Universal javob yo'q — bu sizning ariza hajmingiz, konversiyangiz va o'rtacha chekingizga bog'liq. Maqoladagi formulaga o'z raqamlaringizni qo'ysangiz, aniq muddatni ko'rasiz." },
+    { "q": "Agar arizalar kam bo'lsa, bot foydali bo'ladimi?", "a": "Kam arizada ham javob tezligi va ish vaqtidan tashqari qamrov foyda beradi, lekin okupaemost sekinroq bo'lishi mumkin. Formulani hisoblab, o'zingiz ko'rasiz." },
+    { "q": "ROI hisobida eng ko'p qilinadigan xato nima?", "a": "Faqat ishga tushirish narxini hisoblab, oylik qo'llab-quvvatlashni va konversiya sozlanishiga ketadigan vaqtni unutish." },
+    { "q": "Bot konversiyani qancha oshiradi?", "a": "Biz aniq foiz va'da qilmaymiz — bu nishaga va oqimga bog'liq. To'g'ri yondashuv: joriy konversiyani o'lchab, botdan keyin qayta o'lchash." },
+    { "q": "Narx qancha? U ROI ga qanday ta'sir qiladi?", "a": "Narx integratsiya to'plamiga bog'liq va uni Telegram'da muhokama qilamiz. Formulada narx maxrajda turadi: xarajat qancha aniq bo'lsa, ROI shuncha real bo'ladi." }
+  ],
+  "cta": { "label": "Telegram'da hisobni ko'rib chiqish", "href": "https://t.me/XGame_changerx" },
+  "internalLinks": [
+    { "target": "/uz/chat-bot-narxi/", "anchor": "chat-bot narxi", "locale": "uz", "type": "contextual", "priority": 1 },
+    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "contextual", "priority": 2 },
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot", "locale": "uz", "type": "contextual", "priority": 3 },
+    { "target": "/uz/savdoni-avtomatlashtirish/", "anchor": "savdoni avtomatlashtirish", "locale": "uz", "type": "contextual", "priority": 4 },
+    { "target": "/uz/", "anchor": "GPTBot.uz AI yechimlari", "locale": "uz", "type": "contextual" }
+  ],
+  "ogTitle": "AI-bot o'zini qancha vaqtda oqlaydi: ROI ni qanday hisoblash",
+  "ogDescription": "AI yoki chat-botning okupaemostini o'z raqamlaringiz asosida qanday hisoblash: formula, misol tuzilishi va nimalarni hisobga olish kerak.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+  "hreflangRu": "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+  "hreflangUz": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-07-01",
+  "dateModified": "2026-07-01",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "updatedAt": "2026-07-01T00:00:00.000Z",
+  "createdAt": "2026-07-01T00:00:00.000Z"
+}
