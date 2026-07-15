@@ -85,6 +85,3 @@ export {
   type AccordionTriggerProps,
   type AccordionPanelProps,
 };
-
-
-export { Accordion, AccordionItem, AccordionTrigger, AccordionPanel }
