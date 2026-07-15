@@ -531,6 +531,7 @@
     { "target": "/ru/gpt-dlya-biznesa/", "anchor": "GPT для бизнеса: задачи и сценарии" },
     { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта: заявки с сайта 24/7" },
     { "target": "/ru/tarify-ai-chat/", "anchor": "Тарифы AI-чата" },
+    { "target": "/ru/blog/razrabotka-chat-bota/", "anchor": "Разработка чат-бота: виды, цены и этапы" },
     { "target": "/ru/blog/chat-gpt-online/", "anchor": "Чат GPT онлайн: как пользоваться" },
     { "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "Chat GPT на русском" }
   ],

@@ -598,7 +598,8 @@
     { "target": "/ru/stoimost-chat-bota/", "anchor": "Стоимость чат-бота: из чего складывается цена" },
     { "target": "/ru/tarify-ai-chat/", "anchor": "Тарифы AI-чата" },
     { "target": "/ru/blog/zakazat-telegram-bota/", "anchor": "Как заказать Telegram-бота: гайд" },
-    { "target": "/ru/blog/telegram-bot-dlya-zayavok/", "anchor": "Telegram-бот для заявок: подробный разбор канала" }
+    { "target": "/ru/blog/telegram-bot-dlya-zayavok/", "anchor": "Telegram-бот для заявок: подробный разбор канала" },
+    { "target": "/ru/blog/razrabotka-chat-bota/", "anchor": "Разработка чат-бота: виды, цены и этапы" }
   ],
   "ogTitle": "Бот для заявок — Telegram, сайт, CRM и автоматизация клиентов",
   "ogDescription": "Как бот собирает заявки из Telegram, сайта и рекламы, передаёт их менеджеру, в CRM или Google Sheets. Сценарии, цены, ошибки — GPTBot.uz, Ташкент.",

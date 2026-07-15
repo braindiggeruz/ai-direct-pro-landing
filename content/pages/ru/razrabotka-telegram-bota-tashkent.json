@@ -1050,6 +1050,12 @@
       "type": "block"
     },
     {
+      "target": "/ru/blog/razrabotka-chat-bota/",
+      "anchor": "разработка чат-бота для бизнеса",
+      "locale": "ru",
+      "type": "block"
+    },
+    {
       "target": "/ru/blog/telegram-bot-dlya-zayavok/",
       "anchor": "Telegram-бот для заявок",
       "locale": "ru",
