@@ -36,7 +36,7 @@
     ] },
     { "type": "h2", "text": "Misollar" },
     { "type": "h3", "text": "Mijoz ovozli xabar yubordi" },
-    { "type": "p", "text": "5 daqiqagacha bo‘lgan ovozli xabarni uzating — Javob ruscha yoki o‘zbekcha nutqni aniqlab, vaziyatni qisqacha ko‘rsatadi va tayyor javob yozadi. Yozuvni to‘liq tinglash va javobni qo‘lda terish shart emas." },
+    { "type": "p", "text": "5 daqiqagacha bo‘lgan ovozli xabarni uzating — Javob ruscha yoki o‘zbekcha nutqni aniqlab, to‘liq transkriptni ko‘rsatadi va tayyor javob yozadi. Yozuvni to‘liq tinglash va javobni qo‘lda terish shart emas." },
     { "type": "h3", "text": "Mijoz narx so‘rayapti" },
     { "type": "p", "text": "«Samarqandga yetkazib berish qancha turadi?» → Javob buyurtma tafsilotlarini aniqlashtiruvchi muloyim javob tayyorlaydi. Bot narx va muddatlarni o‘ylab topmaydi — ma’lumot bo‘lmasa, aniqlashtiradi." },
     { "type": "h3", "text": "Rahbar hisobot so‘rayapti" },

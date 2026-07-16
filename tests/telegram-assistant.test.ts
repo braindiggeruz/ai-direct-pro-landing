@@ -213,6 +213,7 @@ test('config: assistant secrets separate from lead bot', () => {
   const cfg = resolveTelegramConfig({ TELEGRAM_ASSISTANT_BOT_TOKEN: 't', TELEGRAM_ASSISTANT_WEBHOOK_SECRET: 's' } as never);
   assert.equal(cfg.token, 't');
   assert.equal(cfg.webhookSecret, 's');
+  assert.equal(cfg.voiceMaxTranscriptChars, 12_000);
   assert.equal(telegramConfigured({ TELEGRAM_ASSISTANT_BOT_TOKEN: 't' } as never), false);
   assert.equal(telegramConfigured({ TELEGRAM_ASSISTANT_BOT_TOKEN: 't', TELEGRAM_ASSISTANT_WEBHOOK_SECRET: 's' } as never), true);
 });
@@ -678,7 +679,7 @@ test('AI provider hard failure → friendly error, retry keyboard', async () => 
 
 // ═══ Voice-to-Reply P0 ═══════════════════════════════════════════════════════
 
-test('voice → acknowledgement, STT, summary, validated reply and voice keyboard', async () => {
+test('voice → temporary acknowledgement, full transcript, recommended reply and voice keyboard', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const transcript = 'Здравствуйте, когда будет готов мой заказ?';
   const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY], sttText: transcript, sttLanguage: 'russian' };
@@ -705,9 +706,21 @@ test('voice → acknowledgement, STT, summary, validated reply and voice keyboar
 
   const sends = rec.tg.filter((c) => c.method === 'sendMessage');
   assert.ok(sends.some((s) => /Слушаю/.test(s.body.text) && /0:47/.test(s.body.text)), 'localized duration acknowledgement');
-  assert.ok(sends.some((s) => /В голосовом/.test(s.body.text)), 'situation summary sent separately');
+  const transcriptMessage = sends.find((s) => /Расшифровка/.test(s.body.text));
+  assert.ok(transcriptMessage, 'full transcript sent to the user');
+  assert.match(transcriptMessage.body.text, /0:47/);
+  assert.ok(transcriptMessage.body.text.includes(transcript));
+  assert.ok(sends.some((s) => /Рекомендуемый ответ/.test(s.body.text)), 'recommended reply is clearly labelled');
+  assert.ok(!sends.some((s) => /В голосовом —/.test(s.body.text)), 'generic situation summary removed');
+  assert.ok(rec.tg.some((c) => c.method === 'deleteMessage'), 'temporary processing message removed');
   const reply = sends.find((s) => s.body.text === RU_REPLY);
   assert.ok(reply, 'clean generated reply sent');
+  const processingIndex = rec.tg.findIndex((c) => c.method === 'sendMessage' && /Слушаю/.test(c.body.text));
+  const deleteIndex = rec.tg.findIndex((c) => c.method === 'deleteMessage');
+  const transcriptIndex = rec.tg.findIndex((c) => c.method === 'sendMessage' && /Расшифровка/.test(c.body.text));
+  const labelIndex = rec.tg.findIndex((c) => c.method === 'sendMessage' && /Рекомендуемый ответ/.test(c.body.text));
+  const replyIndex = rec.tg.findIndex((c) => c.method === 'sendMessage' && c.body.text === RU_REPLY);
+  assert.ok(processingIndex < deleteIndex && deleteIndex < transcriptIndex && transcriptIndex < labelIndex && labelIndex < replyIndex);
   const buttons = reply.body.reply_markup.inline_keyboard.flat();
   assert.equal(buttons.length, 4);
   assert.ok(buttons.some((b: any) => b.callback_data?.includes(':shorter:')));
@@ -768,6 +781,7 @@ test('voice rejects an oversized downloaded body when Telegram omits file size',
   assert.equal(rec.tg.filter((c) => c.method === 'getFile').length, 1);
   assert.equal(rec.sttCalls, undefined);
   assert.equal((db as any)._t.items.length, 0);
+  assert.ok(rec.tg.some((c) => c.method === 'deleteMessage'));
   assert.ok(rec.tg.some((c) => c.method === 'sendMessage' && /20 МБ/.test(c.body.text)));
 });
 
@@ -800,6 +814,7 @@ test('empty voice transcript fails safely without item or quota consumption', as
   assert.equal(t.ledger.length, 0);
   assert.equal(rec.ai, 0);
   assert.ok(t.events.some((e: any) => e.event === 'stt_failed'));
+  assert.ok(rec.tg.some((c) => c.method === 'deleteMessage'));
   assert.ok(rec.tg.some((c) => c.method === 'sendMessage' && /не удалось разобрать|не расслышал/i.test(c.body.text)));
 });
 

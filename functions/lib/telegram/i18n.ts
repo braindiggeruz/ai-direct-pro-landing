@@ -3,7 +3,6 @@
 // never the source text (ownership is verified server-side by item id).
 import type { InlineKeyboard } from './client';
 import type { Locale, TgAction } from './store';
-import type { SituationType } from './classify';
 
 export const START: Record<Locale, string> = {
   ru: 'GPTBot Javob превращает текст и голосовые в готовый ответ.\n\nПерешлите сообщение или голосовое из любого Telegram-чата — я распознаю смысл и подготовлю ответ в нужном тоне и на нужном языке.\n\nПоддерживаются русский и Uzbek Latin. Аудио не хранится.\n\nПопробуйте прямо сейчас ↓',
@@ -84,6 +83,16 @@ export function voiceProcessing(locale: Locale, seconds: number): string {
   const label = locale === 'ru' ? 'Слушаю…' : 'Eshitayapman…';
   return `🎧 ${label} (${formatVoiceDuration(seconds)})`;
 }
+
+export function voiceTranscript(locale: Locale, seconds: number, transcript: string): string {
+  const title = locale === 'ru' ? 'Расшифровка' : 'Transkript';
+  return `📝 ${title} (${formatVoiceDuration(seconds)})\n\n${transcript}`;
+}
+
+export const RECOMMENDED_REPLY: Record<Locale, string> = {
+  ru: '💬 Рекомендуемый ответ:',
+  uz: '💬 Tavsiya etilgan javob:',
+};
 
 export const LIMIT_REACHED: Record<Locale, string> = {
   ru: 'Бесплатный лимит на сегодня закончился. Продолжить работу можно на тарифе GPTBot.',
@@ -178,30 +187,6 @@ export function voiceResultKeyboard(locale: Locale, itemId: string, outputLangua
     ],
     [language],
   ];
-}
-
-export function voiceSituationSummary(locale: Locale, situation: SituationType): string {
-  const ru: Record<SituationType, string> = {
-    question: 'В голосовом — вопрос собеседника.',
-    request: 'В голосовом — просьба собеседника.',
-    complaint: 'В голосовом — жалоба; лучше ответить спокойно.',
-    objection: 'В голосовом — возражение собеседника.',
-    offer: 'В голосовом — предложение собеседника.',
-    greeting: 'В голосовом — приветствие.',
-    confirmation: 'В голосовом — подтверждение договорённости.',
-    information: 'В голосовом — информация, на которую нужен ответ.',
-  };
-  const uz: Record<SituationType, string> = {
-    question: 'Ovozli xabarda suhbatdosh savol berdi.',
-    request: 'Ovozli xabarda suhbatdosh iltimos bildirdi.',
-    complaint: 'Ovozli xabarda shikoyat bor; xotirjam javob ma’qul.',
-    objection: 'Ovozli xabarda e’tiroz bildirildi.',
-    offer: 'Ovozli xabarda taklif bor.',
-    greeting: 'Ovozli xabarda salomlashildi.',
-    confirmation: 'Ovozli xabarda kelishuv tasdiqlandi.',
-    information: 'Ovozli xabarda javob kerak bo‘lgan ma’lumot bor.',
-  };
-  return (locale === 'ru' ? ru : uz)[situation];
 }
 
 export const CLARIFY: Record<Locale, string> = {

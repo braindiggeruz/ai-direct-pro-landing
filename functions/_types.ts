@@ -202,6 +202,7 @@ export interface Env {
   TELEGRAM_VOICE_MIN_SECONDS?: string;  // default 3
   TELEGRAM_VOICE_MAX_SECONDS?: string;  // default 300
   TELEGRAM_VOICE_MAX_BYTES?: string;    // default 20 MiB (Bot API limit)
+  TELEGRAM_VOICE_MAX_TRANSCRIPT_CHARS?: string; // default 12000
   // GPTBot Javob billing feature flags — all default OFF. Payments stay
   // disabled until official Click/Payme merchant docs + credentials arrive.
   JAVOB_BILLING_ENABLED?: string;

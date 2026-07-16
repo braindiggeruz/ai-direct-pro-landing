@@ -36,6 +36,10 @@ export interface TelegramFile {
   file_path?: string;
 }
 
+export interface TelegramMessage {
+  message_id: number;
+}
+
 function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -102,15 +106,19 @@ export class TelegramClient {
     return this.call('sendChatAction', { chat_id: chatId, action });
   }
 
+  deleteMessage(chatId: number, messageId: number) {
+    return this.call('deleteMessage', { chat_id: chatId, message_id: messageId }, { timeoutMs: 3_000, maxRetries: 0 });
+  }
+
   /** Send text, auto-splitting past Telegram's 4096-char limit. Plain text by
    *  default — AI output is NEVER given a parse_mode, so it cannot inject
    *  markup. Returns the last message result. */
   async sendMessage(chatId: number, text: string, opts: { keyboard?: InlineKeyboard; parseMode?: 'HTML' } = {}) {
     const chunks = splitMessage(text);
-    let last: TgResult = { ok: false };
+    let last: TgResult<TelegramMessage> = { ok: false };
     for (let i = 0; i < chunks.length; i++) {
       const isLast = i === chunks.length - 1;
-      last = await this.call('sendMessage', {
+      last = await this.call<TelegramMessage>('sendMessage', {
         chat_id: chatId,
         text: chunks[i],
         disable_web_page_preview: true,
