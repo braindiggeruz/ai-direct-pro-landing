@@ -1,2 +1,2 @@
-Redeploy trigger after adding ADMIN_EMAIL to Cloudflare Production.
-Date: 2026-06-21
+Redeploy trigger after rotating the GPTBot Javob webhook secret in Cloudflare Production.
+Date: 2026-07-16
