@@ -40,6 +40,7 @@ export interface ChatStrings {
   collapseMenu: string;
   expandMenu: string;
   b2bLine: string;
+  telegramCta: string;
   remaining: (n: number) => string;
   lowWarning: (n: number) => string;
   charsLeft: (n: number) => string;
@@ -118,6 +119,7 @@ const RU: ChatStrings = {
   collapseMenu: 'Свернуть меню',
   expandMenu: 'Развернуть меню',
   b2bLine: 'Нужен AI-бот для сайта или Telegram?',
+  telegramCta: 'Открыть в Telegram',
   remaining: (n) => `Осталось ${n} сообщений сегодня`,
   lowWarning: (n) => `Осталось ${n} ${n === 1 ? 'сообщение' : 'сообщения'} на сегодня. Дальше — тариф Plus.`,
   charsLeft: (n) => `${n} символов до лимита`,
@@ -212,6 +214,7 @@ const UZ: ChatStrings = {
   collapseMenu: 'Menyuni yig‘ish',
   expandMenu: 'Menyuni yoyish',
   b2bLine: 'Sayt yoki Telegram uchun AI-bot kerakmi?',
+  telegramCta: 'Telegramda ochish',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi. Keyin — Plus tarifi.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,

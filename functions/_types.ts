@@ -178,6 +178,29 @@ export interface Env {
   SUPABASE_URL?: string;
   SUPABASE_PUBLISHABLE_KEY?: string;
 
+  // ─── Telegram "Smart Forward" assistant (/api/telegram/assistant) ─────
+  // Dedicated bot, SEPARATE from the lead-capture bot at /api/telegram/webhook
+  // (which uses TELEGRAM_BOT_TOKEN). Server-only; never exposed to the client.
+  // Set via `wrangler pages secret put`. Feature is dormant until the token
+  // is present. Reuses OPENROUTER_API_KEY + GPT_HASH_SALT + SITE_URL above and
+  // the GPTBOT_DRAFTS_DB D1 binding.
+  TELEGRAM_ASSISTANT_BOT_TOKEN?: string;
+  TELEGRAM_ASSISTANT_WEBHOOK_SECRET?: string;
+  // Public bot @username (no secret). Used only for server-built share links;
+  // the site reads its own build-time VITE_TELEGRAM_BOT_USERNAME.
+  TELEGRAM_ASSISTANT_BOT_USERNAME?: string;
+  TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
+  TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
+  TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000
+  TELEGRAM_ITEM_TTL_HOURS?: string;     // default 24 (source-text retention)
+  // GPTBot Javob billing feature flags — all default OFF. Payments stay
+  // disabled until official Click/Payme merchant docs + credentials arrive.
+  JAVOB_BILLING_ENABLED?: string;
+  JAVOB_CLICK_ENABLED?: string;
+  JAVOB_PAYME_ENABLED?: string;
+  JAVOB_DAY_PASS_ENABLED?: string;
+  JAVOB_PLUS_ENABLED?: string;
+
   // ─── Payments (subscription — scaffold only for MVP) ──────────────────
   // PAYMENT_PROVIDER selects the adapter: "lemonsqueezy" | "paddle" |
   // "globalpay" | "freedompay" | "" (manual mode — no live checkout).

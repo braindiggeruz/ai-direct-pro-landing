@@ -20,9 +20,15 @@
     "test:intent-guard": "node --import tsx --test tests/intent-guard.test.ts",
     "test:direct-generator": "node --import tsx --test tests/direct-generator.test.ts",
     "test:yandex-research": "node --import tsx --test tests/yandex-research.test.ts",
-    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts tests/indexnow-engine.test.ts tests/yandex-research.test.ts tests/gpt-chat.test.ts tests/gpt-backend.test.ts",
+    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts tests/indexnow-engine.test.ts tests/yandex-research.test.ts tests/gpt-chat.test.ts tests/gpt-backend.test.ts tests/telegram-assistant.test.ts",
     "test:gpt-chat": "node --import tsx --test tests/gpt-chat.test.ts",
-    "test:gpt-backend": "node --import tsx --test tests/gpt-backend.test.ts"
+    "test:gpt-backend": "node --import tsx --test tests/gpt-backend.test.ts",
+    "test:telegram": "node --import tsx --test tests/telegram-assistant.test.ts",
+    "telegram:setup": "tsx scripts/telegram-setup.ts setup",
+    "telegram:status": "tsx scripts/telegram-setup.ts status",
+    "telegram:remove-webhook": "tsx scripts/telegram-setup.ts remove-webhook",
+    "javob:eval": "tsx scripts/javob-eval.ts",
+    "javob:eval:live": "tsx scripts/javob-eval.ts --live"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",
