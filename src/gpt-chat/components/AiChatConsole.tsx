@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ChatMessage, MountConfig } from '../types';
 import { strings } from '../i18n';
-import { createSession, sendChat } from '../api';
+import { createSession, sendChatStream } from '../api';
+import type { ChatApiResponse } from '../types';
 import { loadHistory, saveHistory, loadSessionId, saveSessionId, loadRemaining, saveRemaining } from '../storage';
 import { track, trackOnce, EV } from '../analytics';
 import { AiChatMessageList } from './AiChatMessageList';
@@ -25,7 +26,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const uz = config.locale === 'uz';
   const pricingHref = uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/';
   const businessHref = uz ? '/uz/biznes-uchun-ai-bot/' : '/ru/gpt-dlya-biznesa/';
-  const otherHref = uz ? '/ru/gpt-chat/' : '/uz/gpt-uzbek-tilida/';
   const [messages, setMessages] = useState<ChatMessage[]>(() => loadHistory(config.locale));
   const [input, setInput] = useState('');
   const [sessionId, setSessionId] = useState<string | null>(() => loadSessionId(config.locale));
@@ -39,6 +39,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const startedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   const focusInput = () => { inputRef.current?.focus(); };
 
@@ -83,28 +84,75 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
     const requestMessage = applyRole(trimmed, role, config.locale).slice(0, MAX_INPUT);
     track(EV.sendPrompt, { source: meta.templateId ? 'template' : meta.answerAction ? 'answer_action' : 'composer', tool: meta.tool || activeTool, roleId: role, templateId: meta.templateId || undefined });
-    const res = await sendChat(config.apiBase, { sessionId: sid, message: requestMessage, locale: config.locale, history });
+
     const base = withUser.filter((m) => !m.pending);
-    if (res.ok && res.answer) {
-      if (typeof res.remaining === 'number' && res.remaining >= 0) { setRemaining(res.remaining); saveRemaining(res.remaining, config.locale); }
-      if (res.sessionId && res.sessionId !== sid) { setSessionId(res.sessionId); saveSessionId(res.sessionId, config.locale); }
-      persist([...base, { role: 'assistant', content: res.answer, model: res.modelUsed ?? null }]);
-      track(EV.answerReceived, { model: res.modelUsed });
-      track(EV.aiResponseSuccess, { model: res.modelUsed, messageNumber });
-    } else if (res.code === 'limit_reached') {
-      setLimitReached(true); setRemaining(0); saveRemaining(0, config.locale); setMessages(base); track(EV.limitReached, { reason: res.reason, status: 'blocked' }); track(EV.limitReachedProduct, { reason: res.reason, status: 'blocked' });
-      track(EV.aiResponseError, { code: 'limit_reached', messageNumber });
+    const handleJson = (res: ChatApiResponse) => {
+      if (res.ok && res.answer) {
+        if (typeof res.remaining === 'number' && res.remaining >= 0) { setRemaining(res.remaining); saveRemaining(res.remaining, config.locale); }
+        if (res.sessionId && res.sessionId !== sid) { setSessionId(res.sessionId); saveSessionId(res.sessionId, config.locale); }
+        persist([...base, { role: 'assistant', content: res.answer, model: res.modelUsed ?? null }]);
+        track(EV.answerReceived, { model: res.modelUsed });
+        track(EV.aiResponseSuccess, { model: res.modelUsed, messageNumber });
+      } else if (res.code === 'limit_reached') {
+        setLimitReached(true); setRemaining(0); saveRemaining(0, config.locale); setMessages(base); track(EV.limitReached, { reason: res.reason, status: 'blocked' }); track(EV.limitReachedProduct, { reason: res.reason, status: 'blocked' });
+        track(EV.aiResponseError, { code: 'limit_reached', messageNumber });
+      } else {
+        // Curated copy only — never surface raw backend/provider strings.
+        const friendly = res.code === 'network' ? t.errorNetwork : t.errorGeneric;
+        persist([...base, { role: 'assistant', content: friendly, error: true }]);
+        track(EV.providerError, { code: res.code });
+        track(EV.aiResponseError, { code: res.code, messageNumber });
+      }
+    };
+
+    // Streaming-first: deltas render as they arrive. If the server (or the
+    // Railway gateway) answers with plain JSON, handleJson takes over.
+    const controller = new AbortController();
+    abortRef.current = controller;
+    let acc = '';
+    const outcome = await sendChatStream(
+      config.apiBase,
+      { sessionId: sid, message: requestMessage, locale: config.locale, history },
+      {
+        onMeta: (m) => { if (m.sessionId && m.sessionId !== sid) { setSessionId(m.sessionId); saveSessionId(m.sessionId, config.locale); } },
+        onDelta: (text) => {
+          acc += text;
+          setMessages([...base, { role: 'assistant', content: acc }]);
+        },
+      },
+      controller.signal,
+    );
+    abortRef.current = null;
+
+    if (outcome.mode === 'json') {
+      handleJson(outcome.res);
+    } else if (outcome.ok) {
+      if (typeof outcome.remaining === 'number' && outcome.remaining >= 0) { setRemaining(outcome.remaining); saveRemaining(outcome.remaining, config.locale); }
+      persist([...base, { role: 'assistant', content: acc, model: outcome.modelUsed ?? null }]);
+      track(EV.answerReceived, { model: outcome.modelUsed });
+      track(EV.aiResponseSuccess, { model: outcome.modelUsed, messageNumber });
+    } else if (outcome.aborted) {
+      // User pressed Stop: keep whatever was generated, never an error state.
+      if (acc) persist([...base, { role: 'assistant', content: acc, model: null }]);
+      else setMessages(base);
+      track(EV.generationStopped, { locale: config.locale, messageNumber });
+    } else if (acc) {
+      // Stream broke mid-answer — the partial text is still useful.
+      persist([...base, { role: 'assistant', content: acc, model: null }]);
+      track(EV.providerError, { code: outcome.code });
+      track(EV.aiResponseError, { code: outcome.code, messageNumber });
     } else {
-      // Curated copy only — never surface raw backend/provider strings.
-      const friendly = res.code === 'network' ? t.errorNetwork : t.errorGeneric;
+      const friendly = outcome.code === 'network' ? t.errorNetwork : t.errorGeneric;
       persist([...base, { role: 'assistant', content: friendly, error: true }]);
-      track(EV.providerError, { code: res.code });
-      track(EV.aiResponseError, { code: res.code, messageNumber });
+      track(EV.providerError, { code: outcome.code });
+      track(EV.aiResponseError, { code: outcome.code, messageNumber });
     }
     setBusy(false);
     // Keep the composer ready for the next message (spec: composer stays focused).
     focusInput();
   };
+
+  const onStop = () => { abortRef.current?.abort(); };
 
   // Prompt chips always prefill the composer and focus — never auto-send.
   const onChipPick = (chip: PromptChip) => {
@@ -238,10 +286,18 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           <span className="font-display text-[15px] text-white lg:hidden">{t.brand}</span>
           <div className="ml-auto flex items-center gap-2">
             <AiUsageBadge remaining={remaining} t={t} />
-            <div className="flex items-center overflow-hidden rounded-xl bg-white/[0.04] text-[11px]" role="group" aria-label={uz ? 'Til' : 'Язык'}>
-              <span className={`grid min-h-11 min-w-11 place-items-center ${!uz ? 'bg-white/10 text-white' : 'text-white/45'}`}>RU</span>
-              <a href={otherHref} className={`grid min-h-11 min-w-11 place-items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan ${uz ? 'bg-white/10 text-white' : 'text-white/45 hover:text-white/80'}`}>UZ</a>
-            </div>
+            <nav className="flex items-center overflow-hidden rounded-xl bg-white/[0.04] text-[11px]" aria-label={uz ? 'Til' : 'Язык'}>
+              {([
+                { code: 'RU', href: '/ru/gpt-chat/', lang: 'ru', active: !uz },
+                { code: 'UZ', href: '/uz/gpt-uzbek-tilida/', lang: 'uz', active: uz },
+              ] as const).map((l) =>
+                l.active ? (
+                  <span key={l.code} aria-current="page" className="grid min-h-11 min-w-11 place-items-center bg-white/10 text-white">{l.code}</span>
+                ) : (
+                  <a key={l.code} href={l.href} hrefLang={l.lang} data-testid={`lang-${l.lang}`} className="grid min-h-11 min-w-11 place-items-center text-white/45 hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan">{l.code}</a>
+                ),
+              )}
+            </nav>
             <a
               href={pricingHref}
               onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); track(EV.pricingClicked, { from: 'topbar' }); }}
@@ -298,7 +354,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     <a href={pricingHref} onClick={() => { track(EV.viewPricing, { from: 'low_limit' }); track(EV.upgradeClick, { from: 'low_limit' }); track(EV.pricingClicked, { from: 'low_limit' }); }} className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline">{t.paywallCta}</a>
                   </div>
                 )}
-                <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
+                <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} onStop={onStop} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
               </>
             )}
           </div>

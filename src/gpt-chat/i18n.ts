@@ -26,6 +26,7 @@ export interface ChatStrings {
   thinking: string;
   errorGeneric: string;
   errorNetwork: string;
+  stop: string;
   regenerate: string;
   pricingLink: string;
   chips: PromptChip[];
@@ -98,6 +99,7 @@ const RU: ChatStrings = {
   thinking: 'AI думает…',
   errorGeneric: 'AI-сервис временно недоступен. Попробуйте немного позже.',
   errorNetwork: 'Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.',
+  stop: 'Остановить',
   regenerate: 'Повторить ответ',
   pricingLink: 'Тарифы',
   chips: [
@@ -191,6 +193,7 @@ const UZ: ChatStrings = {
   thinking: 'AI o‘ylayapti…',
   errorGeneric: 'AI xizmati vaqtincha ishlamayapti. Birozdan keyin qayta urinib ko‘ring.',
   errorNetwork: 'Javobni olish imkoni bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.',
+  stop: 'To‘xtatish',
   regenerate: 'Javobni qayta yaratish',
   pricingLink: 'Tariflar',
   chips: [
