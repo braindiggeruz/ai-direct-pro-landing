@@ -84,6 +84,7 @@ export const EV = {
   aiResponseError: 'ai_response_error',
   messageCopied: 'message_copied',
   responseRegenerated: 'response_regenerated',
+  generationStopped: 'generation_stopped',
   pricingClicked: 'pricing_clicked',
   b2bCtaClicked: 'b2b_cta_clicked',
   businessClicked: 'business_clicked',
