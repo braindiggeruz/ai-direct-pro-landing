@@ -4,6 +4,7 @@
 //   TELEGRAM_ASSISTANT_BOT_TOKEN=... TELEGRAM_ASSISTANT_WEBHOOK_SECRET=... \
 //     npx tsx scripts/telegram-setup.ts setup
 //   npx tsx scripts/telegram-setup.ts status
+//   npx tsx scripts/telegram-setup.ts identity
 //   npx tsx scripts/telegram-setup.ts remove-webhook [--drop]
 //
 // `setup` configures commands + descriptions (RU default + UZ language_code),
@@ -54,18 +55,18 @@ const COMMANDS_UZ = [
   { command: 'delete_me', description: 'ma’lumotlarimni o‘chirish' },
 ];
 
-const SHORT_RU = 'Перешлите сообщение — GPTBot подготовит готовый ответ на русском или Uzbek Latin.';
-const SHORT_UZ = 'Xabarni yuboring — GPTBot ruscha yoki Uzbek Latin tilida tayyor javob yozadi.';
-const DESC_RU = `GPTBot Javob — помощник по переписке в Telegram.
+const SHORT_RU = 'Перешлите текст или голосовое — получите готовый ответ на русском или Uzbek Latin.';
+const SHORT_UZ = 'Matn yoki ovozli xabar yuboring — ruscha yoki Uzbek Latin tilida tayyor javob oling.';
+const DESC_RU = `GPTBot Javob — помощник для текста и голосовых в Telegram.
 
-Перешлите сообщение от клиента, коллеги или руководителя — бот подготовит ответ в нужном тоне и на нужном языке.
+Перешлите текст или голосовое от клиента, коллеги или руководителя — бот распознает смысл и подготовит ответ в нужном тоне и на нужном языке.
 
-Поддерживает русский, Uzbek Latin и смешанную речь.`;
-const DESC_UZ = `GPTBot Javob — Telegram yozishmalari uchun yordamchi.
+Поддерживает русский, Uzbek Latin и смешанную речь. Аудио не хранится.`;
+const DESC_UZ = `GPTBot Javob — Telegram matn va ovozli xabarlari uchun yordamchi.
 
-Mijoz, hamkasb yoki rahbardan kelgan xabarni yuboring — bot kerakli ohang va tilda javob tayyorlaydi.
+Mijoz, hamkasb yoki rahbardan kelgan matn yoki ovozli xabarni yuboring — bot mazmunini aniqlab, kerakli ohang va tilda javob tayyorlaydi.
 
-Rus tili, Uzbek Latin va aralash nutqni qo‘llab-quvvatlaydi.`;
+Rus tili, Uzbek Latin va aralash nutqni qo‘llab-quvvatlaydi. Audio saqlanmaydi.`;
 
 interface BotIdentity {
   id: number;
@@ -133,17 +134,26 @@ function guardProtectedBot(username: string): void {
   }
 }
 
+async function identity(): Promise<BotIdentity> {
+  const bot = await getBotIdentity();
+  if (!bot || !bot.username) {
+    console.error('✗ getMe failed or returned no username — check the token.');
+    process.exit(1);
+  }
+  const username = bot.username;
+  guardProtectedBot(username);
+  printBotIdentity(bot);
+  return bot;
+}
+
 async function setup(): Promise<void> {
   if (!SECRET) {
     console.error('✗ TELEGRAM_ASSISTANT_WEBHOOK_SECRET is not set. It must match the Cloudflare secret, or Telegram calls will be rejected. Aborting.');
     process.exit(1);
   }
   console.log('→ Verifying bot…');
-  const bot = await getBotIdentity();
-  const username = bot?.username;
-  if (!bot || !username) { console.error('✗ getMe failed or returned no username — check the token.'); process.exit(1); }
-  guardProtectedBot(username);
-  printBotIdentity(bot);
+  const bot = await identity();
+  const username = bot.username!;
 
   console.log('→ Checking production endpoint…');
   try {
@@ -207,7 +217,8 @@ const cmd = process.argv[2] || 'status';
 (async () => {
   console.log(`Telegram assistant — ${cmd}\n`);
   if (cmd === 'setup') await setup();
+  else if (cmd === 'identity') await identity();
   else if (cmd === 'status') { if (!await printStatus(WEBHOOK_URL)) process.exit(1); }
   else if (cmd === 'remove-webhook') await removeWebhook();
-  else { console.error(`Unknown command "${cmd}". Use: setup | status | remove-webhook`); process.exit(1); }
+  else { console.error(`Unknown command "${cmd}". Use: setup | identity | status | remove-webhook`); process.exit(1); }
 })().catch((e) => { console.error('Fatal:', (e as Error).message); process.exit(1); });

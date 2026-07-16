@@ -13,6 +13,10 @@ export interface TelegramConfig {
   maxOutputChars: number;
   itemTtlMs: number;
   hashSalt: string;
+  sttTimeoutMs: number;
+  voiceMinSeconds: number;
+  voiceMaxSeconds: number;
+  voiceMaxBytes: number;
 }
 
 function num(v: string | undefined, def: number): number {
@@ -21,6 +25,7 @@ function num(v: string | undefined, def: number): number {
 }
 
 export function resolveTelegramConfig(env: Env): TelegramConfig {
+  const voiceMinSeconds = Math.min(num(env.TELEGRAM_VOICE_MIN_SECONDS, 3), 30);
   return {
     token: env.TELEGRAM_ASSISTANT_BOT_TOKEN || '',
     webhookSecret: env.TELEGRAM_ASSISTANT_WEBHOOK_SECRET || '',
@@ -34,6 +39,10 @@ export function resolveTelegramConfig(env: Env): TelegramConfig {
     // Source text retained only long enough for follow-up buttons (24h).
     itemTtlMs: num(env.TELEGRAM_ITEM_TTL_HOURS, 24) * 60 * 60 * 1000,
     hashSalt: env.GPT_HASH_SALT || '',
+    sttTimeoutMs: Math.min(Math.max(num(env.TELEGRAM_STT_TIMEOUT_MS, 10_000), 1_000), 10_000),
+    voiceMinSeconds,
+    voiceMaxSeconds: Math.max(voiceMinSeconds, Math.min(num(env.TELEGRAM_VOICE_MAX_SECONDS, 300), 300)),
+    voiceMaxBytes: Math.min(num(env.TELEGRAM_VOICE_MAX_BYTES, 20 * 1024 * 1024), 20 * 1024 * 1024),
   };
 }
 

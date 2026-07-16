@@ -9,6 +9,11 @@ const SAFE_CHUNK = 3900; // headroom under the hard limit
 const DEFAULT_TIMEOUT_MS = 12_000;
 const MAX_RETRIES = 3;
 
+interface TelegramCallOptions {
+  timeoutMs?: number;
+  maxRetries?: number;
+}
+
 export interface TgResult<T = unknown> {
   ok: boolean;
   result?: T;
@@ -24,6 +29,13 @@ export interface InlineButton {
 }
 export type InlineKeyboard = InlineButton[][];
 
+export interface TelegramFile {
+  file_id: string;
+  file_unique_id: string;
+  file_size?: number;
+  file_path?: string;
+}
+
 function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -32,11 +44,13 @@ export class TelegramClient {
   constructor(private token: string) {}
 
   /** Low-level call with retry/backoff. Never throws; returns TgResult. */
-  async call<T = unknown>(method: string, body: Record<string, unknown> = {}): Promise<TgResult<T>> {
+  async call<T = unknown>(method: string, body: Record<string, unknown> = {}, options: TelegramCallOptions = {}): Promise<TgResult<T>> {
     let attempt = 0;
+    const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+    const maxRetries = options.maxRetries ?? MAX_RETRIES;
     for (;;) {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
       try {
         const res = await fetch(`${API_BASE}/bot${this.token}/${method}`, {
           method: 'POST',
@@ -49,7 +63,7 @@ export class TelegramClient {
         if (res.ok && data.ok) return data;
 
         const retriable = res.status === 429 || res.status >= 500;
-        if (retriable && attempt < MAX_RETRIES) {
+        if (retriable && attempt < maxRetries) {
           const retryAfter = data.parameters?.retry_after;
           const backoff = retryAfter ? retryAfter * 1000 : Math.min(2000 * 2 ** attempt, 8000);
           attempt++;
@@ -61,7 +75,7 @@ export class TelegramClient {
         return data.ok !== undefined ? data : { ok: false, error_code: res.status };
       } catch (e) {
         clearTimeout(timer);
-        if (attempt < MAX_RETRIES) {
+        if (attempt < maxRetries) {
           attempt++;
           await sleep(Math.min(1000 * 2 ** attempt, 6000));
           continue;
@@ -73,6 +87,12 @@ export class TelegramClient {
   }
 
   getMe() { return this.call<{ id: number; username?: string; first_name?: string }>('getMe'); }
+
+  getFile(fileId: string) {
+    // Voice processing must stay inside the Worker's background lifecycle;
+    // fail fast here so the handler can send localized retry guidance.
+    return this.call<TelegramFile>('getFile', { file_id: fileId }, { timeoutMs: 5_000, maxRetries: 0 });
+  }
 
   answerCallbackQuery(id: string, text?: string) {
     return this.call('answerCallbackQuery', { callback_query_id: id, ...(text ? { text } : {}) });

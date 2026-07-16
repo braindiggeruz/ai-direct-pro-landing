@@ -19,6 +19,7 @@ const DDL: string[] = [
     source_type TEXT NOT NULL,
     source_text TEXT,
     source_language TEXT,
+    voice_duration_sec INTEGER,
     created_at TEXT NOT NULL,
     expires_at TEXT NOT NULL
   )`,
@@ -111,6 +112,7 @@ const DDL: string[] = [
 // separately with per-statement tolerance (SQLite has no IF NOT EXISTS here).
 const DDL_ALTERS: string[] = [
   `ALTER TABLE telegram_items ADD COLUMN detected_context TEXT`,
+  `ALTER TABLE telegram_items ADD COLUMN voice_duration_sec INTEGER`,
   `ALTER TABLE telegram_results ADD COLUMN output_language TEXT`,
   `ALTER TABLE telegram_results ADD COLUMN latency_ms INTEGER`,
 ];
