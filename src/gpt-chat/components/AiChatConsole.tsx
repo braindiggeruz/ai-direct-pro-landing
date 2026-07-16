@@ -8,11 +8,8 @@ import { AiChatMessageList } from './AiChatMessageList';
 import type { AnswerAction } from './AiChatMessageList';
 import { AiChatInput } from './AiChatInput';
 import { AiPromptChips } from './AiPromptChips';
-import { AiQuickActions } from './AiQuickActions';
 import { AiUsageBadge } from './AiUsageBadge';
 import { AiPaywallCard } from './AiPaywallCard';
-import { AiSafetyNotice } from './AiSafetyNotice';
-import { AiChatLeadForm } from './AiChatLeadForm';
 import { AiBusinessUpsell } from './AiBusinessUpsell';
 import { AiToolTabs } from './AiToolTabs';
 import { RoleSelector } from './RoleSelector';
@@ -22,6 +19,7 @@ import { ImagePromptTool } from './ImagePromptTool';
 import { BusinessDemoLead } from './BusinessDemoLead';
 import { applyRole, type RoleId } from '../roles';
 import type { AiToolId, PromptTemplate } from '../templates';
+import type { PromptChip } from '../i18n';
 
 const MAX_INPUT = 3000;
 const B2B_AFTER = 3; // show B2B card after this many assistant answers
@@ -47,6 +45,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   useEffect(() => {
     trackOnce(EV.pageView, { locale: config.locale });
     trackOnce(EV.visitChat, { locale: config.locale });
+    trackOnce(EV.chatOpened, { locale: config.locale, anonymous: true });
   }, [config.locale]);
 
   const assistantCount = useMemo(() => messages.filter((m) => m.role === 'assistant' && !m.pending && !m.error).length, [messages]);
@@ -79,6 +78,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     const withUser: ChatMessage[] = [...history, { role: 'user', content: trimmed }, { role: 'assistant', content: '', pending: true }];
     setMessages(withUser);
     track(EV.messageSent, { source: meta.templateId ? 'template' : meta.answerAction ? 'answer_action' : 'composer' });
+    const messageNumber = history.filter((m) => m.role === 'user').length + 1;
+    track(EV.messageSentN, { messageNumber, locale: config.locale, anonymous: true });
 
     const requestMessage = applyRole(trimmed, role, config.locale).slice(0, MAX_INPUT);
     track(EV.sendPrompt, { source: meta.templateId ? 'template' : meta.answerAction ? 'answer_action' : 'composer', tool: meta.tool || activeTool, roleId: role, templateId: meta.templateId || undefined });
@@ -90,29 +91,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       if (res.sessionId && res.sessionId !== sid) { setSessionId(res.sessionId); saveSessionId(res.sessionId, config.locale); }
       persist([...base, { role: 'assistant', content: res.answer, model: res.modelUsed ?? null }]);
       track(EV.answerReceived, { model: res.modelUsed });
+      track(EV.aiResponseSuccess, { model: res.modelUsed, messageNumber });
     } else if (res.code === 'limit_reached') {
       setLimitReached(true); setRemaining(0); saveRemaining(0, config.locale); setMessages(base); track(EV.limitReached, { reason: res.reason, status: 'blocked' }); track(EV.limitReachedProduct, { reason: res.reason, status: 'blocked' });
+      track(EV.aiResponseError, { code: 'limit_reached', messageNumber });
     } else {
-      persist([...base, { role: 'assistant', content: res.message || t.errorGeneric, error: true }]);
+      // Curated copy only — never surface raw backend/provider strings.
+      const friendly = res.code === 'network' ? t.errorNetwork : t.errorGeneric;
+      persist([...base, { role: 'assistant', content: friendly, error: true }]);
       track(EV.providerError, { code: res.code });
+      track(EV.aiResponseError, { code: res.code, messageNumber });
     }
     setBusy(false);
   };
 
-  const onPick = (prompt: string) => {
+  // Prompt chips always prefill the composer and focus — never auto-send.
+  const onChipPick = (chip: PromptChip) => {
     if (busy || limitReached) return;
-    // Prompts ending with ":" expect user text → prefill the composer.
-    if (prompt.trim().endsWith(':')) { setInput(prompt); focusInput(); return; }
-    track(EV.useTemplate, { templateId: 'legacy_chip', tool: 'chat', mode: 'send' });
-    void doSend(prompt, { tool: 'chat' });
-  };
-
-  // Quick-action cards carry [placeholder] templates the user must fill →
-  // always prefill the composer and focus, never auto-send.
-  const onQuickPick = (prompt: string) => {
-    if (busy || limitReached) return;
-    setInput(prompt);
-    track(EV.useTemplate, { templateId: 'quick_action', tool: 'chat', mode: 'prefill' });
+    setInput(chip.insert);
+    track(EV.promptChipClicked, { chipId: chip.id, locale: config.locale });
+    track(EV.useTemplate, { templateId: `chip_${chip.id}`, tool: 'chat', mode: 'prefill' });
     focusInput();
   };
 
@@ -155,11 +153,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     void doSend(`${instructions[action]}\n\n${source}`, { answerAction: action, tool: activeTool });
   };
 
+  // "New chat": clears the visible conversation + stored history, but keeps
+  // the server session and remaining quota — limits must survive a reset.
+  const onNewChat = () => {
+    if (busy) return;
+    persist([]);
+    setInput('');
+    setB2bDismissed(false);
+    startedRef.current = false;
+    track(EV.newChat, { status: 'cleared' });
+    focusInput();
+  };
+
   const onRetry = () => {
     if (busy || limitReached) return;
     let lastUser = '';
     for (let i = messages.length - 1; i >= 0; i--) { if (messages[i].role === 'user') { lastUser = messages[i].content; break; } }
-    if (lastUser) void doSend(lastUser);
+    if (lastUser) {
+      track(EV.responseRegenerated, { locale: config.locale });
+      void doSend(lastUser);
+    }
   };
 
   const showB2B = assistantCount >= B2B_AFTER && !b2bDismissed && !limitReached;
@@ -177,11 +190,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       };
 
   const toolkit = activeTool === 'chat' ? (
-    <>
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40 mb-3">{t.emptyPrompt}</p>
-      <div className="mb-5"><AiQuickActions actions={t.quickActions} onPick={onQuickPick} disabled={busy || limitReached} /></div>
-      <AiPromptChips categories={t.categories} onPick={onPick} disabled={busy || limitReached} />
-    </>
+    <AiPromptChips chips={t.chips} onPick={onChipPick} disabled={busy || limitReached} label={t.emptyPrompt} />
   ) : activeTool === 'images' ? (
     <ImagePromptTool locale={config.locale} onGenerate={onImagePrompt} disabled={busy || limitReached} />
   ) : (
@@ -209,21 +218,25 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <span className={`min-h-11 min-w-11 grid place-items-center ${config.locale === 'ru' ? 'bg-white/10 text-white' : 'text-white/45'}`}>RU</span>
             <a href={otherHref} className={`min-h-11 min-w-11 grid place-items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan ${config.locale === 'uz' ? 'bg-white/10 text-white' : 'text-white/45 hover:text-white/80'}`}>UZ</a>
           </div>
+          {!empty && (
+            <button type="button" onClick={onNewChat} disabled={busy} title={t.newChat} className="min-h-11 inline-flex items-center gap-1 text-[11px] px-3 py-2 rounded-xl bg-white/[0.04] text-white/55 hover:text-white hover:bg-white/[0.08] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50" data-testid="ai-new-chat">
+              <span aria-hidden="true">+</span> {t.newChat}
+            </button>
+          )}
           <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/25 bg-brand-violet/[0.06] text-brand-violet/80 whitespace-nowrap hidden sm:inline" title={config.locale === 'uz' ? 'Mehmon rejimi' : 'Гостевой режим'}>{t.planBadge(plan)}</span>
           <AiUsageBadge remaining={remaining} t={t} />
-          <a href={pricingHref} onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); }} className="min-h-11 inline-flex items-center gap-1 text-[11px] font-semibold px-3.5 py-2 rounded-xl bg-brand-cyan/[0.08] text-brand-cyan hover:bg-brand-cyan/[0.14] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">↑ Plus</a>
+          <a href={pricingHref} onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); track(EV.pricingClicked, { from: 'topbar' }); }} className="min-h-11 inline-flex items-center gap-1 text-[11px] font-semibold px-3.5 py-2 rounded-xl bg-brand-cyan/[0.08] text-brand-cyan hover:bg-brand-cyan/[0.14] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">{t.pricingLink}</a>
         </div>
       </div>
 
       <AiToolTabs locale={config.locale} active={activeTool} onChange={onToolChange} />
 
       {/* ── Viewport ── */}
-      <div className="neural-grid px-4 sm:px-6 py-6 min-h-[460px] sm:min-h-[480px] max-h-[60vh] overflow-y-auto">
+      <div className="neural-grid px-4 sm:px-6 py-6 min-h-[420px] sm:min-h-[480px] max-h-[60vh] overflow-y-auto" style={{ maxHeight: '62dvh' }}>
         {empty ? (
           <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="relative z-[1] py-4">
-            <h2 className="h-display text-2xl sm:text-[32px] text-white mb-3 max-w-xl leading-tight"><span className="text-grad">{t.emptyTitle}</span></h2>
-            <p className="text-white/50 text-[15px] mb-5 max-w-lg leading-relaxed">{t.emptyHint}</p>
-            <button type="button" onClick={focusInput} className="btn-primary text-[14px] mb-8">{t.tryFree}</button>
+            <h2 className="h-display text-[22px] sm:text-[26px] text-white mb-2 max-w-xl leading-tight">{t.emptyTitle}</h2>
+            <p className="text-white/50 text-[15px] mb-6 max-w-lg leading-relaxed">{t.emptyHint}</p>
             {toolkit}
           </div>
         ) : (
@@ -257,13 +270,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
           </>
         )}
-        <div className="mt-4"><AiSafetyNotice t={t} /></div>
-        <p className="mt-2 text-[11px] text-white/30 leading-relaxed text-center">{t.disclaimer}</p>
-      </div>
-
-      {/* Lead form lives below the console — B2B capture without crowding chat. */}
-      <div className="px-4 sm:px-6 pb-6">
-        {activeTool !== 'business' && <AiChatLeadForm t={t} apiBase={config.apiBase} sessionId={sessionId} />}
       </div>
     </div>
   );

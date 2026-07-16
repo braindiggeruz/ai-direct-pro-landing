@@ -28,7 +28,7 @@ export default function StickyCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
         data-testid="sticky-cta-btn"
         href={ctaUrl}
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
         onClick={() => track('click_sticky_cta')}
         className="btn-primary w-full text-base !py-4 animate-pulse-glow"
       >

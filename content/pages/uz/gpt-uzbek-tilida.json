@@ -26,9 +26,9 @@
   "robotsFollow": true,
   "breadcrumbLabel": "O‘zbek tilida AI chat",
   "heroTitle": "O‘zbek tilida AI chat online",
-  "heroSubtitle": "GPTBot.uz’ning mustaqil AI chati: matn, g‘oya, reklama, o‘qish va biznes uchun. O‘zbek va rus tilida ishlaydi, bepul limit bor.",
-  "ctaPrimaryLabel": "AI chatni ochish",
-  "ctaPrimaryHref": "#ai-console",
+  "heroSubtitle": "Savollar yozing, matnlar yarating va g'oyalarni GPTBot bilan birga toping.",
+  "ctaPrimaryLabel": "Tariflar",
+  "ctaPrimaryHref": "/uz/chat-bot-narxi/",
   "ctaSecondaryLabel": "Biznes uchun AI-bot buyurtma qilish",
   "ctaSecondaryHref": "https://t.me/XGame_changerx",
   "bodyBlocks": [

@@ -317,7 +317,7 @@ ${ANALYTICS_HEAD}
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta"${(a.cta?.href || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta"${(a.cta?.href || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeHtml(a.cta?.label || global.defaultCTA.label)}
       </a>
     </nav>
@@ -342,7 +342,7 @@ ${ANALYTICS_HEAD}
     </div>
   </article>
 
-  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}"${a.cta.href.startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
+  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}"${a.cta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
   ${renderFaq(a.faq || [], a)}
   ${renderInternalLinks(a)}
 </main>
@@ -351,12 +351,12 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex items-center gap-4">
-      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${a.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
+      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener noreferrer" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${a.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${a.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="hover:text-white">Telegram</a>
+      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
     </div>
   </div>
 </footer>
@@ -481,7 +481,7 @@ ${ANALYTICS_HEAD}
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex items-center gap-4">
-      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
+      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener noreferrer" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>

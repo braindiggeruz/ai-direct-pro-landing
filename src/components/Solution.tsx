@@ -39,7 +39,7 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
                 data-testid="solution-cta"
                 href={ctaUrl}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 onClick={() => track('click_demo_cta', { source: 'solution' })}
                 className="btn-primary"
               >

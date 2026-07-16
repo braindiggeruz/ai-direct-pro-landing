@@ -5,7 +5,7 @@ type Payload = Record<string, unknown>;
 const SAFE_KEYS = new Set([
   'route', 'lang', 'locale', 'tool', 'templateId', 'roleId', 'status', 'source',
   'from', 'where', 'mode', 'channel', 'presetId', 'plan', 'reason', 'code',
-  'model', 'surface',
+  'model', 'surface', 'messageNumber', 'anonymous', 'chipId',
 ]);
 const onceKeys = new Set<string>();
 
@@ -73,4 +73,18 @@ export const EV = {
   businessLeadSubmitted: 'BusinessLeadSubmitted',
   telegramClick: 'TelegramClick',
   copyAnswer: 'CopyAnswer',
+  newChat: 'NewChat',
+  // Normalized product-funnel events (2026-07 UX sprint). Snake_case set used
+  // for cross-product dashboards; legacy PascalCase events above stay for GA
+  // continuity. message_sent carries messageNumber instead of _1/_2/_3 names.
+  chatOpened: 'chat_opened',
+  promptChipClicked: 'prompt_chip_clicked',
+  messageSentN: 'message_sent',
+  aiResponseSuccess: 'ai_response_success',
+  aiResponseError: 'ai_response_error',
+  messageCopied: 'message_copied',
+  responseRegenerated: 'response_regenerated',
+  pricingClicked: 'pricing_clicked',
+  b2bCtaClicked: 'b2b_cta_clicked',
+  telegramClicked: 'telegram_clicked',
 } as const;

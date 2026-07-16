@@ -165,7 +165,7 @@ export default function BlogList() {
                           <Copy size={12}/>
                         </button>
                         {a.status === 'published' && (
-                          <a href={a.url} target="_blank" rel="noopener"
+                          <a href={a.url} target="_blank" rel="noopener noreferrer"
                             data-testid={`blog-view-${a.slug}`}
                             className="text-white/50 hover:text-white px-2 py-1 inline-flex items-center gap-1 text-xs">
                             <ExternalLink size={12}/>

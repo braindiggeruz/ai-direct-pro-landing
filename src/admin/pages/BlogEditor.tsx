@@ -364,7 +364,7 @@ export default function BlogEditor() {
             <div className="text-white/50 text-xs flex items-center gap-2 mt-0.5">
               <Badge tone={a.status === 'published' ? 'success' : a.status === 'draft' ? 'warning' : 'neutral'}>{a.status}</Badge>
               {auditResult && <ScoreBadge score={auditResult.score}/>}
-              {a.url && !isNew && <a href={a.url} target="_blank" rel="noopener" className="text-brand-cyan hover:underline inline-flex items-center gap-1" data-testid="blog-view-live">view live <ExternalLink size={11}/></a>}
+              {a.url && !isNew && <a href={a.url} target="_blank" rel="noopener noreferrer" className="text-brand-cyan hover:underline inline-flex items-center gap-1" data-testid="blog-view-live">view live <ExternalLink size={11}/></a>}
             </div>
           </div>
         </div>

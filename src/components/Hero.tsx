@@ -84,7 +84,7 @@ export default function Hero({ t, ctaUrl }: Props) {
                 data-testid="hero-cta-primary"
                 href={ctaUrl}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 onClick={() => track('click_hero_cta')}
                 className="btn-primary animate-pulse-glow text-base !py-4 sm:!py-3.5 w-full sm:w-auto"
               >

@@ -67,7 +67,7 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
             data-testid="header-cta"
             href={ctaUrl}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             onClick={() => track('click_header_cta')}
             className="btn-primary !py-2.5 !px-4 text-sm hidden sm:inline-flex"
           >
@@ -113,7 +113,7 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
               <a
                 href={ctaUrl}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 data-testid="header-cta-mobile"
                 onClick={() => { setMobileOpen(false); track('click_header_cta_mobile'); }}
                 className="btn-primary mt-2 w-full justify-center"

@@ -32,7 +32,7 @@ export default function FinalCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             data-testid="final-cta-btn"
             href={ctaUrl}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             onClick={() => track('click_final_cta')}
             className="btn-primary animate-pulse-glow text-base sm:text-lg !px-7 !py-4"
           >
