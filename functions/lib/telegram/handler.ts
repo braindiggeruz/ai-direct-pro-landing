@@ -3,13 +3,13 @@
 // No action menu before the result. Runs in the background (waitUntil);
 // the webhook has already returned 200.
 import type { Env } from '../../_types';
-import { TelegramClient, escapeHtml } from './client';
+import { TelegramClient } from './client';
 import type { TelegramConfig } from './config';
 import * as S from './store';
 import type { Locale } from './store';
 import * as C from './i18n';
 import { buildJavobReplyPrompt, buildJavobModifierPrompt, guessLanguage, JAVOB_PROMPT_VERSION, type JavobModifier } from './prompts';
-import { classifyMessage, type SituationType } from './classify';
+import { classifyMessage } from './classify';
 import { runJavobValidated } from './service';
 import { decideUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM } from './billing';
 import { downloadTelegramFile, transcribeAudio, VoicePipelineError } from './transcription';
@@ -182,7 +182,8 @@ async function handleVoiceMessage(
     return;
   }
 
-  await tg.sendMessage(chatId, C.voiceProcessing(locale, duration));
+  const processing = await tg.sendMessage(chatId, C.voiceProcessing(locale, duration));
+  const processingMessageId = processing.result?.message_id;
 
   let downloaded: Awaited<ReturnType<typeof downloadTelegramFile>>;
   try {
@@ -193,6 +194,7 @@ async function handleVoiceMessage(
   } catch (error) {
     const code = error instanceof VoicePipelineError ? error.code : 'download_failed';
     await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'download', code });
+    if (processingMessageId) await tg.deleteMessage(chatId, processingMessageId);
     await tg.sendMessage(chatId, code === 'too_large' ? C.VOICE_TOO_LARGE[locale] : C.VOICE_UNAVAILABLE[locale]);
     return;
   }
@@ -211,16 +213,20 @@ async function handleVoiceMessage(
   } catch (error) {
     const code = error instanceof VoicePipelineError ? error.code : 'stt_failed';
     await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'transcription', code });
+    if (processingMessageId) await tg.deleteMessage(chatId, processingMessageId);
     await tg.sendMessage(chatId, code === 'empty_transcript' ? C.VOICE_UNCLEAR[locale] : C.VOICE_UNAVAILABLE[locale]);
     return;
   }
 
-  const sourceText = transcript.text.replace(/\s+/g, ' ').trim().slice(0, cfg.maxInputChars);
+  const sourceText = transcript.text.replace(/\s+/g, ' ').trim().slice(0, cfg.voiceMaxTranscriptChars);
   if (!sourceText) {
     await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'transcription', code: 'empty_transcript' });
+    if (processingMessageId) await tg.deleteMessage(chatId, processingMessageId);
     await tg.sendMessage(chatId, C.VOICE_UNCLEAR[locale]);
     return;
   }
+  if (processingMessageId) await tg.deleteMessage(chatId, processingMessageId);
+  await tg.sendMessage(chatId, C.voiceTranscript(locale, duration, sourceText));
   await S.logEvent(db, 'stt_completed', pseudo, {
     locale, provider: transcript.provider, lang: transcript.language, latencyBucket: latencyBucket(transcript.latencyMs),
   });
@@ -243,7 +249,6 @@ async function handleVoiceMessage(
     source_language: classification.language,
     source_type: 'voice',
     voice_duration_sec: duration,
-    voice_summary: C.voiceSituationSummary(locale, classification.situation),
     voice_started_at: voiceStartedAt,
     stt_provider: transcript.provider,
   }, `gen:${updateId}`);
@@ -298,7 +303,6 @@ interface ItemLike {
   source_type?: string;
   voice_duration_sec?: number | null;
   detected_context?: string | null;
-  voice_summary?: string;
   voice_started_at?: number;
   stt_provider?: string;
 }
@@ -363,9 +367,7 @@ async function generateReply(
       durationBucket: durationBucket(item.voice_duration_sec || 0),
       totalLatencyBucket: latencyBucket(item.voice_started_at ? Date.now() - item.voice_started_at : res.latencyMs),
     });
-    const situation = item.detected_context as SituationType | undefined;
-    const summary = item.voice_summary || (situation ? C.voiceSituationSummary(locale, situation) : undefined);
-    if (summary) await tg.sendMessage(chatId, `📝 <i>${escapeHtml(summary)}</i>`, { parseMode: 'HTML' });
+    await tg.sendMessage(chatId, C.RECOMMENDED_REPLY[locale]);
   }
 
   // The reply text is the whole message — clean for long-press copy.

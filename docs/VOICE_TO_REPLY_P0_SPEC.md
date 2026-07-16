@@ -25,7 +25,7 @@ Success means a user can forward a supported voice message, see an immediate pro
 - Download the media through the official Telegram Bot API, enforcing the 20 MB Bot API download limit before and after download.
 - Transcribe multilingual RU/Uzbek speech with Groq Whisper as the primary provider and an optional OpenAI transcription fallback.
 - Pass the transcript through the existing classifier, prompt, safety validator, quota, storage, and modifier pipeline.
-- Produce a short deterministic situation summary followed by a clean copyable reply.
+- Show the full transcription followed by a clearly labelled, clean copyable recommended reply.
 - Show voice-specific buttons: shorter, softer, more confident, and RU/UZ language switch.
 - Keep text-message behavior byte-for-byte compatible at the public API level.
 - Record privacy-safe operational events and latency buckets without raw audio or transcript data.
@@ -80,7 +80,7 @@ Audio MUST be held only in request memory as an `ArrayBuffer`/`Blob`. The applic
 
 - FR-7: **Transcript handling.**
 
-An empty or whitespace-only transcript MUST be treated as unrecognized speech. A successful transcript MUST be normalized, bounded to the existing source-text limit, classified by the existing classifier, and stored as `source_text` under the same approximately 24-hour retention behavior as text inputs.
+An empty or whitespace-only transcript MUST be treated as unrecognized speech. A successful transcript MUST be normalized, bounded to the dedicated voice transcript limit (12,000 characters by default), classified by the existing classifier, and stored as `source_text` under the same approximately 24-hour retention behavior as text inputs.
 
 - FR-8: **Reply generation and validation.**
 
@@ -88,7 +88,7 @@ The transcript MUST use the existing validated Javob reply engine. When the tran
 
 - FR-9: **Voice result UX.**
 
-On initial success, the bot MUST send a separate short, escaped, deterministic situation summary and then the clean generated reply. The result keyboard MUST contain four voice-relevant actions: shorter, softer, more confident, and the opposite RU/UZ output language. The generic `Другой`/alternative button MUST be omitted for voice results.
+On successful transcription, the bot MUST remove the temporary processing message and show the complete normalized transcript with its duration. It MUST then send a localized `Recommended reply` label followed by the clean generated reply as a separate copyable message. The result keyboard MUST contain four voice-relevant actions: shorter, softer, more confident, and the opposite RU/UZ output language. The generic `Другой`/alternative button MUST be omitted for voice results.
 
 - FR-10: **Quota and modifiers.**
 
@@ -198,6 +198,7 @@ TELEGRAM_STT_TIMEOUT_MS?: string;
 TELEGRAM_VOICE_MIN_SECONDS?: string;
 TELEGRAM_VOICE_MAX_SECONDS?: string;
 TELEGRAM_VOICE_MAX_BYTES?: string;
+TELEGRAM_VOICE_MAX_TRANSCRIPT_CHARS?: string;
 ```
 
 ## Data Models
@@ -220,7 +221,7 @@ ALTER TABLE telegram_items ADD COLUMN voice_duration_sec INTEGER;
 ## Edge Cases
 
 - EC-1: Telegram omits `file_size`: proceed only after validating duration, then enforce actual downloaded byte length.
-- EC-2: Telegram reports a valid size but returns more than the limit: abort before STT and show the localized size error.
+- EC-2: Telegram reports a valid size but returns more than the limit: abort before STT, remove the processing message, and show the localized size error.
 - EC-3: `getFile` succeeds without `file_path`: treat as a retriable download failure without exposing Telegram's response.
 - EC-4: The voice has music, silence, or only noise: empty/whitespace STT output follows the unrecognized-speech path.
 - EC-5: Provider language is missing or unfamiliar: fall back to the existing text language guesser and the user's locale.
@@ -228,13 +229,13 @@ ALTER TABLE telegram_items ADD COLUMN voice_duration_sec INTEGER;
 - EC-7: Groq times out after receiving audio: reuse the in-memory blob once for optional OpenAI fallback; never redownload or persist it.
 - EC-8: Telegram retries the same update: existing update deduplication prevents duplicate STT cost and replies.
 - EC-9: A modifier callback is retried: existing callback answer and item ownership rules apply; no new main generation is consumed.
-- EC-10: HTML-like content appears in the transcript: summary text is escaped and the generated reply continues through existing output validation.
+- EC-10: HTML-like content appears in the transcript: it is sent as plain text and the generated reply continues through existing output validation.
 
 ## Acceptance Criteria
 
 ### AC-1: Voice success (FR-1, FR-3, FR-4, FR-5, FR-8, FR-9)
 
-Given an eligible private-chat `voice` update and working Groq, when the update is handled, then the bot acknowledges processing, sends a summary and validated reply, and shows the four voice buttons.
+Given an eligible private-chat `voice` update and working Groq, when the update is handled, then the bot temporarily acknowledges processing, replaces that state with the full transcript, labels and sends the validated recommended reply, and shows the four voice buttons.
 
 ### AC-2: Audio success (FR-1, FR-4, FR-5)
 
@@ -284,7 +285,7 @@ Given the implementation is complete, when unit/integration tests, TypeScript, l
 
 - OS-1: Recording or composing voice replies.
 - OS-2: Video, video-note, screenshot, document, or OCR ingestion.
-- OS-3: Speaker diarization, word-level timestamps, or a full verbatim transcript UI.
+- OS-3: Speaker diarization, word-level timestamps, transcript editing, or downloadable transcript files.
 - OS-4: Team workspaces, CRM integrations, auto-send, or autonomous replies.
 - OS-5: New payment rails, peer-to-peer payments, or enabling paid plans.
 - OS-6: A guaranteed 15-second end-to-end SLA; external providers and the Workers execution window make this a measured target, not a promise.
@@ -297,7 +298,7 @@ Given the implementation is complete, when unit/integration tests, TypeScript, l
 | FR-1, AC-1..3 | Telegram handler tests with voice, audio, text, and callback fixtures |
 | FR-2, AC-4 | Boundary tests for duration, declared size, downloaded size, and preflight quota |
 | FR-4..6, AC-5..8 | Mocked `fetch` tests for getFile, download, timeouts, provider fallback, and memory-only contracts |
-| FR-7..10, AC-1, AC-6, AC-7, AC-9 | Handler/service tests for empty STT, language override, summary, reply keyboard, modifiers, and quota |
+| FR-7..10, AC-1, AC-6, AC-7, AC-9 | Handler/service tests for empty STT, language override, full transcript, temporary-status cleanup, reply label/keyboard, modifiers, and quota |
 | FR-11, AC-11 | Local schema test plus remote D1 migration apply/list before production release |
 | FR-12, AC-8 | Analytics assertion tests using allowlisted metadata only |
 | FR-13, AC-10 | Copy snapshot/string assertions and Telegram setup dry checks |

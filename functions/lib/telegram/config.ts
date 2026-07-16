@@ -17,6 +17,7 @@ export interface TelegramConfig {
   voiceMinSeconds: number;
   voiceMaxSeconds: number;
   voiceMaxBytes: number;
+  voiceMaxTranscriptChars: number;
 }
 
 function num(v: string | undefined, def: number): number {
@@ -43,6 +44,7 @@ export function resolveTelegramConfig(env: Env): TelegramConfig {
     voiceMinSeconds,
     voiceMaxSeconds: Math.max(voiceMinSeconds, Math.min(num(env.TELEGRAM_VOICE_MAX_SECONDS, 300), 300)),
     voiceMaxBytes: Math.min(num(env.TELEGRAM_VOICE_MAX_BYTES, 20 * 1024 * 1024), 20 * 1024 * 1024),
+    voiceMaxTranscriptChars: Math.min(num(env.TELEGRAM_VOICE_MAX_TRANSCRIPT_CHARS, 12_000), 16_000),
   };
 }
 
