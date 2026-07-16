@@ -76,7 +76,7 @@ export function AiChatLeadForm({
         <span>{t.leadConsent}</span>
       </label>
       {state === 'validation' && <p className="text-sm text-red-300" role="alert">{t.leadValidation}</p>}
-      {state === 'server_error' && <div className="rounded-xl border border-red-300/25 bg-red-300/[0.06] p-3 text-sm text-red-100" role="alert"><p>{t.leadError}</p><a href="https://t.me/XGame_changerx" target="_blank" rel="nofollow noopener" onClick={() => track(EV.telegramClick, { from: 'compact_lead_error' })} className="mt-2 inline-flex min-h-12 items-center text-brand-cyan underline underline-offset-4">Telegram</a></div>}
+      {state === 'server_error' && <div className="rounded-xl border border-red-300/25 bg-red-300/[0.06] p-3 text-sm text-red-100" role="alert"><p>{t.leadError}</p><a href="https://t.me/XGame_changerx" target="_blank" rel="nofollow noopener noreferrer" onClick={() => track(EV.telegramClick, { from: 'compact_lead_error' })} className="mt-2 inline-flex min-h-12 items-center text-brand-cyan underline underline-offset-4">Telegram</a></div>}
       <button
         type="submit"
         disabled={state === 'sending'}

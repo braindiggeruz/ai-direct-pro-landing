@@ -9,7 +9,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
-import { SITE_URL } from '../src/shared/site-config';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import {
@@ -190,7 +189,7 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
       for (const l of (b.links || [])) {
         if (!l.token || !l.target || !l.anchor) continue;
         const _ext = l.target.startsWith('http');
-        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener" target="_blank"' : ''} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
+        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener noreferrer" target="_blank"' : ''} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
         html = html.split(`{${l.token}}`).join(a);
       }
       return `<p class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
@@ -210,7 +209,7 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
       const _cap = b.caption ? `<figcaption class="text-sm text-white/55 mt-3 leading-relaxed">${escapeText(b.caption)}</figcaption>` : '';
       return `<figure class="my-10"><img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}"${_dim}${_ar} class="rounded-2xl border border-white/10 w-full h-auto"${_ld} />${_cap}</figure>`;
     }
-    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
+    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
     case 'table': {
       const headers = b.headers || [];
       const rows = b.rows || [];
@@ -386,17 +385,9 @@ function renderGptChatMain(
   articles: BlogArticle[],
   modifiedIso: string,
   modifiedLabel: string,
-  bylineHtml: string,
-  trustHtml: string,
   contentAnchor: string,
 ): string {
   const uz = page.locale === 'uz';
-  const primaryHref = page.ctaPrimaryHref || '#ai-console';
-  const primaryLabel = page.ctaPrimaryLabel || (uz ? 'AI-chatni ochish' : 'Открыть AI-чат');
-  const primaryExternal = primaryHref.startsWith('http');
-  const secondaryHref = page.ctaSecondaryHref || global.defaultCTA.href;
-  const secondaryLabel = page.ctaSecondaryLabel || (uz ? 'AI-bot buyurtma berish' : 'Заказать AI-бота');
-  const secondaryExternal = secondaryHref.startsWith('http');
   const detailsLabel = uz ? "AI-chat haqida batafsil" : 'Подробнее об AI-чате';
   const pricingHref = uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/';
 
@@ -416,20 +407,6 @@ function renderGptChatMain(
 
   const valueCardsHtml = valueCards.map((c) => `<div class="link-card group"><span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/[0.08] border border-brand-cyan/15 text-brand-cyan mb-3 group-hover:bg-brand-cyan/[0.12] group-hover:border-brand-cyan/25 transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${c.icon}"/></svg></span><h3 class="text-white font-medium text-[15px] leading-snug">${escapeText(c.title)}</h3><p class="text-white/45 text-[13px] mt-1.5 leading-relaxed">${escapeText(c.desc)}</p></div>`).join('');
 
-  const pricingTiers = uz
-    ? [
-        { badge: 'Free', desc: '10 xabar kuniga', features: ['Barcha shablonlar', 'RU + UZ'] },
-        { badge: 'Plus · tez orada', desc: 'Ko‘proq xabarlar', features: ['Chat tarixi', 'Ustuvor yordam'] },
-        { badge: 'Business', desc: 'AI-bot kaliti bilan', features: ['CRM integratsiya', 'Telegram + Instagram'] },
-      ]
-    : [
-        { badge: 'Free', desc: '10 сообщений в день', features: ['Все шаблоны', 'RU + UZ'] },
-        { badge: 'Plus · скоро', desc: 'Больше сообщений', features: ['История чата', 'Приоритетная поддержка'] },
-        { badge: 'Business', desc: 'AI-бот под ключ', features: ['CRM интеграция', 'Telegram + Instagram'] },
-      ];
-
-  const pricingHtml = pricingTiers.map((t, i) => `<div class="link-card ${i === 2 ? 'border-brand-cyan/20 bg-brand-cyan/[0.03]' : ''}"><span class="chip ${i === 2 ? 'border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan' : ''}">${escapeText(t.badge)}</span><p class="text-white/80 text-[15px] mt-4 font-light">${escapeText(t.desc)}</p><ul class="mt-3 space-y-2">${t.features.map((f) => `<li class="flex items-center gap-2 text-[13px] text-white/50"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${escapeText(f)}</li>`).join('')}</ul></div>`).join('');
-
   const finalCtaTitle = uz ? 'Boshlashga tayyormisiz?' : 'Готовы начать?';
   const finalCtaChatLabel = uz ? 'AI-chatni ochish' : 'Открыть AI-чат';
   const finalCtaB2bLabel = uz ? 'AI-bot buyurtma berish' : 'Заказать AI-бота';
@@ -446,20 +423,9 @@ function renderGptChatMain(
     <span class="text-white/60">${escapeText(page.breadcrumbLabel || page.h1)}</span>
   </nav>
 
-  <div class="mb-10">
-    <h1 data-testid="page-h1" class="font-display text-[2rem] sm:text-5xl lg:text-[3.25rem] text-white mb-5 leading-[1.1] break-words hyphens-auto tracking-tight">${escapeText(page.h1)}</h1>
-    ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/30 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
-    ${bylineHtml}
-    ${page.heroSubtitle ? `<p class="speakable-intro text-lg sm:text-xl text-white/70 mb-8 max-w-2xl leading-relaxed font-light">${escapeText(page.heroSubtitle)}</p>` : ''}
-    <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-6">
-      <a data-testid="page-cta-primary" href="${escapeHtml(primaryHref)}"${primaryExternal ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">
-        ${escapeText(primaryLabel)}
-      </a>
-      <a data-testid="page-cta-secondary" href="${escapeHtml(secondaryHref)}"${secondaryExternal ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-secondary w-full sm:w-auto">
-        ${escapeText(secondaryLabel)}
-      </a>
-    </div>
-    ${trustHtml}
+  <div class="mb-6">
+    <h1 data-testid="page-h1" class="font-display text-[1.75rem] sm:text-[2.25rem] text-white mb-2 leading-tight break-words tracking-tight">${escapeText(page.h1)}</h1>
+    ${page.heroSubtitle ? `<p class="speakable-intro text-[15px] sm:text-base text-white/60 max-w-2xl leading-relaxed">${escapeText(page.heroSubtitle)}</p>` : ''}
   </div>
 
   ${renderChatConsole(page)}
@@ -470,14 +436,21 @@ function renderGptChatMain(
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">${valueCardsHtml}</div>
   </section>
 
-  <section class="mt-16" data-testid="pricing-teaser">
-    <div class="eyebrow mb-3">${uz ? 'Tariflar' : 'Тарифы'}</div>
-    <h2 class="font-display text-2xl sm:text-3xl mb-8 text-white tracking-tight">${uz ? 'Oddiy tariflar' : 'Простые тарифы'}</h2>
-    <div class="grid sm:grid-cols-3 gap-4">${pricingHtml}</div>
-    <a href="${escapeHtml(pricingHref)}" class="btn-secondary mt-6 text-sm">${uz ? "Tariflarni ko‘rish" : 'Смотреть тарифы'}</a>
+  <section class="mt-16 grid sm:grid-cols-2 gap-4" data-testid="pricing-b2b">
+    <div class="link-card">
+      <h2 class="font-display text-xl text-white mb-2">${uz ? 'Tariflar' : 'Тарифы'}</h2>
+      <p class="text-white/55 text-sm leading-relaxed mb-4">${uz ? 'Har kuni bepul limit. Katta vazifalar uchun — Plus va Business.' : 'Бесплатный лимит каждый день. Для больших задач — Plus и Business.'}</p>
+      <a href="${escapeHtml(pricingHref)}" data-testid="pricing-link" class="btn-secondary text-sm">${uz ? "Tariflarni ko‘rish" : 'Посмотреть тарифы'}</a>
+    </div>
+    <div class="link-card">
+      <h2 class="font-display text-xl text-white mb-2">${uz ? 'Biznes uchun AI-bot kerakmi?' : 'Нужен AI-бот для бизнеса?'}</h2>
+      <p class="text-white/55 text-sm leading-relaxed mb-4">${uz ? 'Sayt uchun AI-chat, Telegram-bot va arizalarni avtomatlashtirishni joriy etamiz.' : 'Внедрим AI-чат для сайта, Telegram-бота и автоматизацию заявок.'}</p>
+      <a href="${escapeHtml(global.telegram || 'https://t.me/XGame_changerx')}" data-testid="b2b-cta" rel="nofollow noopener noreferrer" target="_blank" class="btn-primary text-sm">${uz ? 'Loyihani muhokama qilish' : 'Обсудить проект'}</a>
+    </div>
   </section>
 
-  <details open class="mt-16 rounded-3xl border border-white/[0.06] bg-white/[0.02]">
+  ${modifiedIso ? `<p data-testid="page-updated" class="mt-16 mb-4 text-xs uppercase tracking-wider text-white/30">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
+  <details open class="${modifiedIso ? 'mt-2' : 'mt-16'} rounded-3xl border border-white/[0.06] bg-white/[0.02]">
     <summary class="cursor-pointer list-none p-6 font-display text-lg text-white flex items-center justify-between gap-4">
       <span>${escapeText(detailsLabel)}</span>
       <span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.08] text-brand-cyan text-lg transition-transform">+</span>
@@ -495,7 +468,7 @@ function renderGptChatMain(
     <h2 class="font-display text-3xl sm:text-4xl text-white mb-6 tracking-tight">${escapeText(finalCtaTitle)}</h2>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
       <a href="#ai-console" class="btn-primary text-base">${escapeText(finalCtaChatLabel)}</a>
-      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="btn-secondary text-base">${escapeText(finalCtaB2bLabel)}</a>
+      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="btn-secondary text-base">${escapeText(finalCtaB2bLabel)}</a>
     </div>
   </section>
 </main>`;
@@ -544,7 +517,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   const stickyCtaLabel = page.ctaPrimaryLabel || global.defaultCTA.label;
   const stickyCtaExternal = stickyCtaHref.startsWith('http');
   const stickyCtaHtml = showStickyCta
-    ? `<div class="sticky-cta lg:hidden"><a data-testid="sticky-cta" href="${escapeHtml(stickyCtaHref)}"${stickyCtaExternal ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary w-full text-base">${escapeText(stickyCtaLabel)}</a></div>`
+    ? `<div class="sticky-cta lg:hidden"><a data-testid="sticky-cta" href="${escapeHtml(stickyCtaHref)}"${stickyCtaExternal ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary w-full text-base">${escapeText(stickyCtaLabel)}</a></div>`
     : '';
 
   // Trust microcopy chips — copy-only, no fake guarantees. Reused below the
@@ -613,7 +586,7 @@ ${ANALYTICS_HEAD}
     <nav class="flex gap-3 text-sm">
       ${hrefRu ? `<a href="${escapeHtml(hrefRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${hrefUz ? `<a href="${escapeHtml(hrefUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
-      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${(page.ctaPrimaryHref || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${(page.ctaPrimaryHref || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
       </a>
     </nav>
@@ -621,7 +594,7 @@ ${ANALYTICS_HEAD}
 </header>
 
 ${page.pageType === 'gpt-chat'
-  ? renderGptChatMain(page, global, articles, modifiedIso, modifiedLabel, bylineHtml, trustHtml, contentAnchor)
+  ? renderGptChatMain(page, global, articles, modifiedIso, modifiedLabel, contentAnchor)
   : `<main id="main" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
@@ -636,7 +609,7 @@ ${page.pageType === 'gpt-chat'
       ${bylineHtml}
       ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
       ${page.ctaPrimaryHref ? `<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
-        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}"${page.ctaPrimaryHref.startsWith('http') ? ' rel="nofollow noopener" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">
+        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}"${page.ctaPrimaryHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">
           ${escapeText(page.ctaPrimaryLabel || 'Демо')}
         </a>
         ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="btn-secondary w-full sm:w-auto">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
@@ -658,11 +631,11 @@ ${page.pageType === 'gpt-chat'
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex items-center gap-4">
-      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${page.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
+      <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener noreferrer" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${page.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${page.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
-      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener" target="_blank" class="hover:text-white">Telegram</a>
+      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
     </div>
   </div>
 </footer>

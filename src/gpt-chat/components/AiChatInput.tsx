@@ -42,7 +42,7 @@ export function AiChatInput({
   const nearLimit = left <= 200;
 
   return (
-    <div className="mt-4 sticky bottom-0 z-10">
+    <div className="mt-4 sticky bottom-0 z-10 pb-[env(safe-area-inset-bottom)]">
       <div
         className={`glass-strong flex items-end gap-2 p-2.5 pl-3.5 sm:pl-5 rounded-[28px] ${busy ? 'scan-active' : ''}`}
       >

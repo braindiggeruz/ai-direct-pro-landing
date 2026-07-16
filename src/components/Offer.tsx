@@ -30,7 +30,7 @@ export default function Offer({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
               data-testid="offer-cta"
               href={ctaUrl}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               onClick={() => track('click_demo_cta', { source: 'offer' })}
               className="btn-primary mt-7"
             >

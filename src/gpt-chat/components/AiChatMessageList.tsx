@@ -15,6 +15,7 @@ function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: {
       await navigator.clipboard.writeText(content);
       setCopied(true);
       track(EV.copyAnswer, { surface: 'answer_actions' });
+      track(EV.messageCopied, { surface: 'answer_actions' });
       setTimeout(() => setCopied(false), 1500);
     } catch {
       /* clipboard blocked — ignore */
@@ -27,7 +28,7 @@ function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: {
         <button type="button" onClick={copy} aria-label={t.copy} title={t.copy} className={iconBtn}>
           {copied ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>}
         </button>
-        {isLast && onRetry && <button type="button" onClick={onRetry} disabled={busy} aria-label={t.retry} title={t.retry} className={iconBtn}>
+        {isLast && onRetry && <button type="button" onClick={onRetry} disabled={busy} aria-label={t.regenerate} title={t.regenerate} className={iconBtn}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
         </button>}
         {isLast && onAnswerAction && <button type="button" onClick={() => onAnswerAction('shorter', content)} disabled={busy} aria-label={t.shorter} title={t.shorter} className={iconBtn}>
@@ -42,7 +43,7 @@ function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: {
           <button type="button" onClick={() => onAnswerAction('instagram', content)} disabled={busy} aria-label={t.forInstagram} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><span className="text-[12px]">{t.forInstagram}</span></button>
           <button type="button" onClick={() => onAnswerAction('uzbek', content)} disabled={busy} aria-label={t.toUzbekLatin} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7h16M8 7v10m8-10v10M4 17h16"/></svg><span className="text-[12px]">{t.toUzbekLatin}</span></button>
           <button type="button" onClick={() => onAnswerAction('bot', content)} disabled={busy} aria-label={t.botScenario} className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M9 8V5h6v3"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/></svg><span className="text-[12px]">{t.botScenario}</span></button>
-          <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.telegramClick, { from: 'answer_actions' }); track(EV.leadIntent, { from: 'answer_actions' }); }} rel="nofollow noopener" target="_blank" className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4L2 11l6 2 2 6 3-4 5 4 4-15z"/></svg><span className="text-[12px]">{t.implementBot}</span></a>
+          <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.telegramClick, { from: 'answer_actions' }); track(EV.leadIntent, { from: 'answer_actions' }); }} rel="nofollow noopener noreferrer" target="_blank" className={`${iconBtn} w-auto px-3 gap-1.5`}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4L2 11l6 2 2 6 3-4 5 4 4-15z"/></svg><span className="text-[12px]">{t.implementBot}</span></a>
         </div>
       )}
       <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-white/[0.04] pt-3" aria-label={t.feedbackQuestion}>
@@ -85,7 +86,7 @@ export function AiChatMessageList({
   }, [messages]);
 
   return (
-    <div className="relative z-[1] flex-1 space-y-4" data-testid="ai-chat-messages">
+    <div className="relative z-[1] flex-1 space-y-4" data-testid="ai-chat-messages" aria-live="polite">
       {messages.map((m, i) => (
         <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
           <div
@@ -113,6 +114,18 @@ export function AiChatMessageList({
               <>
                 <div className="leading-relaxed break-words [overflow-wrap:anywhere]" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
                 <MessageActions content={m.content} isLast={i === lastAssistant} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} t={t} />
+              </>
+            ) : m.role === 'assistant' && m.error ? (
+              <>
+                <span className="whitespace-pre-wrap" role="alert">{m.content}</span>
+                {i === messages.length - 1 && onRetry && (
+                  <div className="mt-2.5">
+                    <button type="button" onClick={onRetry} disabled={busy} className="min-h-11 inline-flex items-center gap-1.5 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
+                      {t.retry}
+                    </button>
+                  </div>
+                )}
               </>
             ) : (
               <span className="whitespace-pre-wrap">{m.content}</span>

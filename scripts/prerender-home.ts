@@ -96,7 +96,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     <h1>GPTBot — AI-бот для бизнеса в Узбекистане, который не теряет заявки</h1>
     <p>AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя и телефон, передаёт горячие заявки вашему менеджеру. Демо под вашу нишу.</p>
 
-    <p><a href="${escapeHtml(cta.href)}" rel="noopener">${escapeText(cta.label)}</a></p>
+    <p><a href="${escapeHtml(cta.href)}" rel="noopener noreferrer">${escapeText(cta.label)}</a></p>
 
     <section aria-label="Решения">
       <h2>AI-бот для бизнеса — решения по нишам</h2>
@@ -123,7 +123,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
 
   <footer>
     <p>GPTBot · ${escapeHtml(global.address || 'Tashkent, Uzbekistan')}</p>
-    <p><a href="${escapeHtml(global.telegram || '#')}" rel="noopener">Telegram</a></p>
+    <p><a href="${escapeHtml(global.telegram || '#')}" rel="noopener noreferrer">Telegram</a></p>
   </footer>
 </div>`;
 }

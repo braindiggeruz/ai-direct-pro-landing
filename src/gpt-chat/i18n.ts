@@ -10,6 +10,13 @@ export interface PromptCategory {
   prompts: string[];
 }
 
+export interface PromptChip {
+  id: string;
+  label: string;
+  /** Text prefilled into the composer — never auto-sent. */
+  insert: string;
+}
+
 export interface ChatStrings {
   brand: string;
   online: string;
@@ -18,6 +25,10 @@ export interface ChatStrings {
   send: string;
   thinking: string;
   errorGeneric: string;
+  errorNetwork: string;
+  regenerate: string;
+  pricingLink: string;
+  chips: PromptChip[];
   remaining: (n: number) => string;
   lowWarning: (n: number) => string;
   charsLeft: (n: number) => string;
@@ -71,16 +82,27 @@ export interface ChatStrings {
 const RU: ChatStrings = {
   brand: 'GPTBot AI',
   online: 'Online',
-  inputPlaceholder: 'Напишите задачу: текст, перевод, реклама, Telegram, учёба…',
-  inputMicrocopy: 'Не вводите пароли, карты и секретные данные',
+  inputPlaceholder: 'Напишите сообщение…',
+  inputMicrocopy: 'AI может ошибаться. Важные данные лучше проверять.',
   send: 'Отправить',
   thinking: 'AI думает…',
-  errorGeneric: 'Модель временно перегружена, попробуйте ещё раз.',
+  errorGeneric: 'AI-сервис временно недоступен. Попробуйте немного позже.',
+  errorNetwork: 'Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.',
+  regenerate: 'Повторить ответ',
+  pricingLink: 'Тарифы',
+  chips: [
+    { id: 'post', label: 'Написать пост', insert: 'Напиши пост для Instagram или Telegram. Тема: ' },
+    { id: 'translate', label: 'Перевести на Uzbek Latin', insert: 'Переведи на Uzbek Latin, естественно для аудитории Узбекистана: ' },
+    { id: 'offer', label: 'Придумать оффер', insert: 'Придумай 3 варианта рекламного оффера. Продукт: ' },
+    { id: 'explain', label: 'Объяснить простыми словами', insert: 'Объясни простыми словами: ' },
+    { id: 'plan', label: 'Составить контент-план', insert: 'Составь контент-план на неделю. Ниша: ' },
+    { id: 'reply', label: 'Ответить клиенту', insert: 'Помоги вежливо ответить клиенту. Его сообщение: ' },
+  ],
   remaining: (n) => `Осталось ${n} сообщений сегодня`,
   lowWarning: (n) => `Осталось ${n} ${n === 1 ? 'сообщение' : 'сообщения'} на сегодня. Дальше — тариф Plus.`,
   charsLeft: (n) => `${n} символов до лимита`,
-  emptyTitle: 'Спросите AI на русском или узбекском',
-  emptyHint: 'Тексты, реклама, Telegram, учёба, продажи и бизнес-идеи — в одном чате',
+  emptyTitle: 'Чем помочь сегодня?',
+  emptyHint: 'Напишите вопрос или выберите готовый пример.',
   tryFree: 'Попробовать бесплатно',
   emptyPrompt: 'Что хотите сделать?',
   feedbackUp: 'Полезно',
@@ -145,16 +167,27 @@ const RU: ChatStrings = {
 const UZ: ChatStrings = {
   brand: 'GPTBot AI',
   online: 'Online',
-  inputPlaceholder: 'Vazifa yozing: matn, tarjima, reklama, Telegram, o‘qish…',
-  inputMicrocopy: 'Parol, karta va maxfiy ma’lumotlarni kiritmang',
+  inputPlaceholder: 'Xabar yozing…',
+  inputMicrocopy: 'AI xato qilishi mumkin. Muhim ma’lumotlarni tekshiring.',
   send: 'Yuborish',
   thinking: 'AI o‘ylayapti…',
-  errorGeneric: 'Model vaqtincha band, yana urinib ko‘ring.',
+  errorGeneric: 'AI xizmati vaqtincha ishlamayapti. Birozdan keyin qayta urinib ko‘ring.',
+  errorNetwork: 'Javobni olish imkoni bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.',
+  regenerate: 'Javobni qayta yaratish',
+  pricingLink: 'Tariflar',
+  chips: [
+    { id: 'post', label: 'Post yozish', insert: 'Instagram yoki Telegram uchun post yoz. Mavzu: ' },
+    { id: 'translate', label: 'Rus tiliga tarjima', insert: 'Rus tiliga tabiiy qilib tarjima qil: ' },
+    { id: 'offer', label: 'Taklif yaratish', insert: '3 xil reklama taklifini yoz. Mahsulot: ' },
+    { id: 'explain', label: 'Oddiy tushuntirish', insert: 'Oddiy tilda tushuntir: ' },
+    { id: 'plan', label: 'Kontent-reja tuzish', insert: 'Bir haftalik kontent-reja tuz. Nisha: ' },
+    { id: 'reply', label: 'Mijozga javob yozish', insert: 'Mijozga xushmuomala javob yozishga yordam ber. Uning xabari: ' },
+  ],
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi. Keyin — Plus tarifi.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
-  emptyTitle: 'O‘zbek yoki rus tilida savol bering',
-  emptyHint: 'Matn, reklama, Telegram, o‘qish, savdo va biznes g‘oyalari — bitta chatda',
+  emptyTitle: 'Bugun sizga qanday yordam beray?',
+  emptyHint: 'Savolingizni yozing yoki tayyor misolni tanlang.',
   tryFree: 'Bepul sinab ko‘rish',
   emptyPrompt: 'Nima qilmoqchisiz?',
   feedbackUp: 'Foydali',
@@ -196,7 +229,7 @@ const UZ: ChatStrings = {
   newChat: 'Yangi chat',
   history: 'Tarix',
   loginToSave: 'Mehmon tarixi faqat shu brauzerda saqlanadi. Akkaunt va qurilmalararo sinxronlash keyinroq ishga tushadi.',
-  copy: 'Nusxa olish',
+  copy: 'Nusxalash',
   copied: 'Nusxalandi',
   retry: 'Qayta urinish',
   shorter: 'Qisqartirish',

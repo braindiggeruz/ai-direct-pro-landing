@@ -27,9 +27,9 @@
   "robotsFollow": true,
   "breadcrumbLabel": "AI-чат онлайн",
   "heroTitle": "AI-чат онлайн на русском и узбекском",
-  "heroSubtitle": "Независимый AI-чат от GPTBot.uz для текстов, идей, учёбы, рекламы и бизнеса. Работает на русском и узбекском, есть бесплатный лимит.",
-  "ctaPrimaryLabel": "Открыть AI-чат",
-  "ctaPrimaryHref": "#ai-console",
+  "heroSubtitle": "Пишите вопросы, создавайте тексты и находите идеи вместе с GPTBot.",
+  "ctaPrimaryLabel": "Тарифы",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
   "ctaSecondaryLabel": "Заказать AI-бота для бизнеса",
   "ctaSecondaryHref": "https://t.me/XGame_changerx",
   "bodyBlocks": [
@@ -152,7 +152,7 @@
       "inLanguage": ["ru", "uz"]
     }
   ],
-  "lastReviewedAt": "2026-07-11",
+  "lastReviewedAt": "2026-07-16",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-07-11"
+  "updatedAt": "2026-07-16"
 }

@@ -147,7 +147,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
                 data-testid="demo-cta"
                 href={ctaUrl}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 onClick={() => track('click_demo_cta', { source: 'demo_block' })}
                 className="btn-primary mt-6 w-full text-sm"
               >

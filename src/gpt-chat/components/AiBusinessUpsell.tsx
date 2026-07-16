@@ -6,6 +6,7 @@ import { track, EV } from '../analytics';
 export function AiBusinessUpsell({ t, onDismiss }: { t: ChatStrings; onDismiss: () => void }) {
   const go = (where: string, href: string) => {
     track(EV.leadIntent, { from: 'b2b_card', where });
+    track(EV.b2bCtaClicked, { from: 'b2b_card', where });
     window.location.href = href;
   };
   return (
@@ -25,7 +26,7 @@ export function AiBusinessUpsell({ t, onDismiss }: { t: ChatStrings; onDismiss: 
       </button>
       <p className="text-white font-medium pr-6 mb-3 leading-snug">{t.b2bTitle}</p>
       <div className="flex flex-wrap gap-2">
-        <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.leadIntent, { from: 'b2b_card', where: 'discuss' }); track(EV.telegramClick, { from: 'b2b_card' }); }} rel="nofollow noopener" target="_blank" className="btn-primary text-[13px] px-4 py-2.5 min-h-12">
+        <a href="https://t.me/XGame_changerx" onClick={() => { track(EV.leadIntent, { from: 'b2b_card', where: 'discuss' }); track(EV.telegramClick, { from: 'b2b_card' }); track(EV.b2bCtaClicked, { from: 'b2b_card', where: 'discuss' }); track(EV.telegramClicked, { from: 'b2b_card' }); }} rel="nofollow noopener noreferrer" target="_blank" className="btn-primary text-[13px] px-4 py-2.5 min-h-12">
           {t.b2bDiscuss}
         </a>
         <button type="button" onClick={() => go('site_chat', '/ru/ai-chat-dlya-sayta/')} className="btn-secondary text-[13px] px-4 py-2.5">
