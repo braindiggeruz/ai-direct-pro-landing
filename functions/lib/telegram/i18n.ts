@@ -3,10 +3,11 @@
 // never the source text (ownership is verified server-side by item id).
 import type { InlineKeyboard } from './client';
 import type { Locale, TgAction } from './store';
+import type { SituationType } from './classify';
 
 export const START: Record<Locale, string> = {
-  ru: 'GPTBot Javob — готовый ответ за несколько секунд.\n\nПерешлите мне сообщение из любого Telegram-чата.\nЯ подготовлю ответ в нужном тоне и на нужном языке.\n\nКлиенту, коллеге или руководителю — просто перешлите сообщение.\n\nПопробуйте прямо сейчас ↓',
-  uz: 'GPTBot Javob — bir necha soniyada tayyor javob.\n\nMenga istalgan Telegram chatidan xabar yuboring.\nKerakli ohang va tilda javob tayyorlayman.\n\nMijozga, hamkasbga yoki rahbarga — shunchaki xabarni yuboring.\n\nHoziroq sinab ko‘ring ↓',
+  ru: 'GPTBot Javob превращает текст и голосовые в готовый ответ.\n\nПерешлите сообщение или голосовое из любого Telegram-чата — я распознаю смысл и подготовлю ответ в нужном тоне и на нужном языке.\n\nПоддерживаются русский и Uzbek Latin. Аудио не хранится.\n\nПопробуйте прямо сейчас ↓',
+  uz: 'GPTBot Javob matn va ovozli xabarni tayyor javobga aylantiradi.\n\nIstalgan Telegram chatidan xabar yoki ovozli xabar yuboring — mazmunini aniqlab, kerakli ohang va tilda javob tayyorlayman.\n\nRus tili va Uzbek Latin qo‘llab-quvvatlanadi. Audio saqlanmaydi.\n\nHoziroq sinab ko‘ring ↓',
 };
 
 export const CHOOSE_LANG: Record<Locale, string> = {
@@ -15,8 +16,8 @@ export const CHOOSE_LANG: Record<Locale, string> = {
 };
 
 export const LANG_SET: Record<Locale, string> = {
-  ru: 'Готово. Язык интерфейса — русский. Перешлите сообщение или задайте вопрос.',
-  uz: 'Tayyor. Interfeys tili — o‘zbek. Xabar yuboring yoki savol bering.',
+  ru: 'Готово. Язык интерфейса — русский. Перешлите текст или голосовое.',
+  uz: 'Tayyor. Interfeys tili — o‘zbek. Matn yoki ovozli xabar yuboring.',
 };
 
 export const ASK_ACTION: Record<Locale, string> = {
@@ -49,6 +50,41 @@ export const ERR_TOO_LONG: Record<Locale, (max: number) => string> = {
   uz: (max) => `Matn juda uzun (limit ${max} belgi). Uni qismlarga bo‘lib yuboring.`,
 };
 
+export const VOICE_TOO_SHORT: Record<Locale, (min: number) => string> = {
+  ru: (min) => `Голосовое слишком короткое. Отправьте запись длительностью от ${min} секунд.`,
+  uz: (min) => `Ovozli xabar juda qisqa. Kamida ${min} soniyalik yozuv yuboring.`,
+};
+
+export const VOICE_TOO_LONG: Record<Locale, string> = {
+  ru: 'Пока можно отправлять голосовые длительностью до 5 минут.',
+  uz: 'Hozircha 5 daqiqagacha bo‘lgan ovozli xabarlarni yuborish mumkin.',
+};
+
+export const VOICE_TOO_LARGE: Record<Locale, string> = {
+  ru: 'Аудиофайл слишком большой. Лимит Telegram для бота — 20 МБ.',
+  uz: 'Audiofayl juda katta. Telegram bot limiti — 20 MB.',
+};
+
+export const VOICE_UNAVAILABLE: Record<Locale, string> = {
+  ru: 'Сейчас не удалось обработать голосовое. Попробуйте ещё раз или отправьте текст.',
+  uz: 'Hozir ovozli xabarni qayta ishlab bo‘lmadi. Qayta urinib ko‘ring yoki matn yuboring.',
+};
+
+export const VOICE_UNCLEAR: Record<Locale, string> = {
+  ru: 'Не удалось разобрать речь. Попробуйте запись без шума или отправьте текст.',
+  uz: 'Nutqni aniqlab bo‘lmadi. Shovqinsiz yozuv yoki matn yuboring.',
+};
+
+export function formatVoiceDuration(seconds: number): string {
+  const safe = Math.max(0, Math.floor(seconds));
+  return `${Math.floor(safe / 60)}:${String(safe % 60).padStart(2, '0')}`;
+}
+
+export function voiceProcessing(locale: Locale, seconds: number): string {
+  const label = locale === 'ru' ? 'Слушаю…' : 'Eshitayapman…';
+  return `🎧 ${label} (${formatVoiceDuration(seconds)})`;
+}
+
 export const LIMIT_REACHED: Record<Locale, string> = {
   ru: 'Бесплатный лимит на сегодня закончился. Продолжить работу можно на тарифе GPTBot.',
   uz: 'Bugungi bepul limit tugadi. GPTBot tarifida davom ettirishingiz mumkin.',
@@ -59,9 +95,14 @@ export const HELP: Record<Locale, string> = {
   uz: 'GPTBot Javob — istalgan xabarga tayyor javob.\n\nJavob berish kerak bo‘lgan xabarni yuboring (yoki joylashtiring) — darhol javob matnini tayyorlayman. Tugmalar orqali uni qisqartirish, yumshatish, ishonchliroq qilish, boshqa variant olish yoki RU/UZ tilini almashtirish mumkin.\n\nBuyruqlar:\n/new — yangi so‘rov\n/lang — til\n/plans — tariflar\n/privacy — maxfiylik\n/delete_me — ma’lumotlarimni o‘chirish',
 };
 
-export const PRIVACY: Record<Locale, string> = {
+const PRIVACY_BASE: Record<Locale, string> = {
   ru: 'GPTBot видит только сообщения, которые вы сами отправили или переслали боту. Бот не получает доступ к остальным чатам Telegram.\n\nПересланный текст временно хранится (около суток) для обработки и повторных действий, затем очищается. Не отправляйте данные, на обработку которых у вас нет права.\n\nКоманда /delete_me удаляет ваши данные.',
   uz: 'GPTBot faqat siz yuborgan yoki unga uzatgan xabarlarni ko‘radi. Bot boshqa Telegram chatlaringizga kira olmaydi.\n\nUzatilgan matn qayta ishlash va takroriy amallar uchun vaqtincha (taxminan bir kun) saqlanadi, so‘ng o‘chiriladi. O‘zingizda huquqi bo‘lmagan ma’lumotlarni yubormang.\n\n/delete_me buyrug‘i ma’lumotlaringizni o‘chiradi.',
+};
+
+export const PRIVACY: Record<Locale, string> = {
+  ru: `${PRIVACY_BASE.ru}\n\nГолосовые и аудиофайлы обрабатываются только в памяти и не сохраняются. Расшифровка хранится как обычный текст около суток для кнопок-повторов.`,
+  uz: `${PRIVACY_BASE.uz}\n\nOvozli xabar va audiofayl faqat xotirada qayta ishlanadi va saqlanmaydi. Tugmalar ishlashi uchun matnli transkript taxminan bir kun saqlanadi.`,
 };
 
 export const DELETED: Record<Locale, string> = {
@@ -119,6 +160,48 @@ export function resultKeyboard(locale: Locale, itemId: string, outputLanguage: '
   ];
   if (withShare) rows.push([{ text: locale === 'ru' ? 'Поделиться GPTBot' : 'GPTBot’ni ulashish', callback_data: 'share' }]);
   return rows;
+}
+
+/** Voice result keeps only high-intent free edits; no paid alternative CTA. */
+export function voiceResultKeyboard(locale: Locale, itemId: string, outputLanguage: 'ru' | 'uz' | 'other'): InlineKeyboard {
+  const labels = locale === 'ru'
+    ? { shorter: 'Короче', softer: 'Мягче', confident: 'Увереннее' }
+    : { shorter: 'Qisqaroq', softer: 'Yumshoqroq', confident: 'Ishonchliroq' };
+  const language = outputLanguage === 'uz'
+    ? { text: 'RU', callback_data: `jmod:to_ru:${itemId}` }
+    : { text: 'UZ', callback_data: `jmod:to_uz:${itemId}` };
+  return [
+    [
+      { text: labels.shorter, callback_data: `jmod:shorter:${itemId}` },
+      { text: labels.softer, callback_data: `jmod:softer:${itemId}` },
+      { text: labels.confident, callback_data: `jmod:confident:${itemId}` },
+    ],
+    [language],
+  ];
+}
+
+export function voiceSituationSummary(locale: Locale, situation: SituationType): string {
+  const ru: Record<SituationType, string> = {
+    question: 'В голосовом — вопрос собеседника.',
+    request: 'В голосовом — просьба собеседника.',
+    complaint: 'В голосовом — жалоба; лучше ответить спокойно.',
+    objection: 'В голосовом — возражение собеседника.',
+    offer: 'В голосовом — предложение собеседника.',
+    greeting: 'В голосовом — приветствие.',
+    confirmation: 'В голосовом — подтверждение договорённости.',
+    information: 'В голосовом — информация, на которую нужен ответ.',
+  };
+  const uz: Record<SituationType, string> = {
+    question: 'Ovozli xabarda suhbatdosh savol berdi.',
+    request: 'Ovozli xabarda suhbatdosh iltimos bildirdi.',
+    complaint: 'Ovozli xabarda shikoyat bor; xotirjam javob ma’qul.',
+    objection: 'Ovozli xabarda e’tiroz bildirildi.',
+    offer: 'Ovozli xabarda taklif bor.',
+    greeting: 'Ovozli xabarda salomlashildi.',
+    confirmation: 'Ovozli xabarda kelishuv tasdiqlandi.',
+    information: 'Ovozli xabarda javob kerak bo‘lgan ma’lumot bor.',
+  };
+  return (locale === 'ru' ? ru : uz)[situation];
 }
 
 export const CLARIFY: Record<Locale, string> = {

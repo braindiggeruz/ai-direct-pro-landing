@@ -16,7 +16,7 @@ import { classifyMessage } from '../functions/lib/telegram/classify';
 import { validateReply, validateModifier } from '../functions/lib/telegram/validator';
 import { resolveTelegramConfig, isProtectedBotUsername, telegramConfigured } from '../functions/lib/telegram/config';
 import { localeFromCode, isForward, handleUpdate } from '../functions/lib/telegram/handler';
-import { resultKeyboard, clarifyKeyboard, feedbackKeyboard, langKeyboard, limitKeyboard, plansText } from '../functions/lib/telegram/i18n';
+import { START, PRIVACY, resultKeyboard, clarifyKeyboard, feedbackKeyboard, langKeyboard, limitKeyboard, plansText } from '../functions/lib/telegram/i18n';
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
 import { claimUpdate, pseudoUser } from '../functions/lib/telegram/store';
 import { decideUsage, consumeUsage, grantEntitlement, resolveBillingFlags, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
@@ -65,6 +65,16 @@ test('setup guard refuses aidirectprobot', () => {
   const script = fs.readFileSync('scripts/telegram-setup.ts', 'utf8');
   assert.match(script, /guardProtectedBot\(username\)/);
   assert.match(script, /--i-know-this-kills-the-lead-bot/);
+  assert.match(script, /голосовое/);
+  assert.match(script, /ovozli/);
+});
+
+test('voice onboarding and privacy copy make the product boundary explicit', () => {
+  assert.match(START.ru, /голосовое/);
+  assert.match(START.uz, /ovozli/);
+  assert.match(PRIVACY.ru, /не сохраняются/);
+  assert.match(PRIVACY.uz, /saqlanmaydi/);
+  assert.ok(!/15 секунд|15 soniya/.test(`${START.ru} ${START.uz}`));
 });
 
 test('splitMessage: short intact, long under Telegram limit', () => {
@@ -234,7 +244,15 @@ function makeD1() {
       if (u) { u.total_actions += 1; u.daily_usage_count = u.daily_usage_date === a[1] ? u.daily_usage_count + 1 : 1; u.daily_usage_date = a[0]; }
       return { meta: { changes: 1 } };
     }
-    if (/INSERT INTO telegram_items/.test(sql)) { t.items.push({ id: a[0], telegram_user_id: a[1], source_type: a[2], source_text: a[3], source_language: a[4], expires_at: a[6], detected_context: null }); return { meta: { changes: 1 } }; }
+    if (/INSERT INTO telegram_items/.test(sql)) {
+      const withVoiceDuration = /voice_duration_sec/.test(sql);
+      t.items.push({
+        id: a[0], telegram_user_id: a[1], source_type: a[2], source_text: a[3], source_language: a[4],
+        voice_duration_sec: withVoiceDuration ? a[5] : null,
+        expires_at: withVoiceDuration ? a[7] : a[6], detected_context: null,
+      });
+      return { meta: { changes: 1 } };
+    }
     if (/UPDATE telegram_items SET detected_context/.test(sql)) { const i = t.items.find((x) => x.id === a[1]); if (i) i.detected_context = a[0]; return { meta: { changes: 1 } }; }
     if (/INSERT INTO telegram_results/.test(sql)) { t.results.push({ id: a[0], item_id: a[1], action: a[2], modifier: a[3], result_text: a[4], model: a[6], prompt_version: a[7], created_at: a[8] + Math.random(), output_language: a[9], latency_ms: a[10] }); return { meta: { changes: 1 } }; }
     if (/INSERT INTO telegram_events/.test(sql)) { t.events.push({ event: a[1], pseudo_user: a[2], meta_json: a[3] }); return { meta: { changes: 1 } }; }
@@ -297,16 +315,45 @@ function makeD1() {
 
 function jsonRes(obj: any) { return { ok: true, status: 200, headers: { get: () => 'application/json' }, json: async () => obj, text: async () => JSON.stringify(obj) } as any; }
 
-interface Rec { tg: any[]; ai: number; aiReplies?: string[] }
+interface Rec {
+  tg: any[];
+  ai: number;
+  aiReplies?: string[];
+  audioBytes?: Uint8Array;
+  tgFilePath?: string;
+  tgFileSize?: number;
+  sttText?: string;
+  sttLanguage?: string;
+  sttCalls?: string[];
+  groqFail?: boolean;
+  openaiText?: string;
+}
 function installFetch(rec: Rec) {
-  (globalThis as any).fetch = async (url: string, init?: any) => {
-    const body = init?.body ? JSON.parse(init.body) : {};
-    if (url.includes('api.telegram.org')) {
-      const method = url.split('/').pop();
+  (globalThis as any).fetch = async (url: string | URL, init?: any) => {
+    const href = String(url);
+    const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+    if (href.includes('api.telegram.org/file/bot')) {
+      const bytes = rec.audioBytes ?? new Uint8Array([1, 2, 3, 4]);
+      return new Response(bytes, { status: 200, headers: { 'content-type': 'audio/ogg', 'content-length': String(bytes.byteLength) } });
+    }
+    if (href.includes('api.telegram.org')) {
+      const method = href.split('/').pop();
       rec.tg.push({ method, body });
+      if (method === 'getFile') {
+        return jsonRes({ ok: true, result: { file_id: body.file_id, file_unique_id: 'unique', file_size: rec.tgFileSize ?? 4, file_path: rec.tgFilePath ?? 'voice/file.oga' } });
+      }
       return jsonRes({ ok: true, result: { message_id: rec.tg.length, username: 'javob_test_bot' } });
     }
-    if (url.includes('openrouter.ai')) {
+    if (href.includes('api.groq.com/openai/v1/audio/transcriptions')) {
+      rec.sttCalls = [...(rec.sttCalls ?? []), 'groq'];
+      if (rec.groqFail) return new Response('{}', { status: 503, headers: { 'content-type': 'application/json' } });
+      return Response.json({ text: rec.sttText ?? 'Здравствуйте, когда будет готов мой заказ?', language: rec.sttLanguage ?? 'russian' });
+    }
+    if (href.includes('api.openai.com/v1/audio/transcriptions')) {
+      rec.sttCalls = [...(rec.sttCalls ?? []), 'openai'];
+      return Response.json({ text: rec.openaiText ?? rec.sttText ?? '', language: rec.sttLanguage ?? 'russian' });
+    }
+    if (href.includes('openrouter.ai')) {
       const reply = rec.aiReplies?.[rec.ai] ?? 'Rahmat! Buyurtmangiz yo‘lda, tez orada yetkazamiz.';
       rec.ai++;
       return jsonRes({ choices: [{ message: { content: reply } }], usage: { prompt_tokens: 5, completion_tokens: 5 } });
@@ -627,4 +674,144 @@ test('AI provider hard failure → friendly error, retry keyboard', async () => 
   const send = rec.tg.find((c) => c.method === 'sendMessage');
   assert.match(send.body.text, /не удалось/i);
   assert.ok(send.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data?.startsWith('retry:')));
+});
+
+// ═══ Voice-to-Reply P0 ═══════════════════════════════════════════════════════
+
+test('voice → acknowledgement, STT, summary, validated reply and voice keyboard', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const transcript = 'Здравствуйте, когда будет готов мой заказ?';
+  const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY], sttText: transcript, sttLanguage: 'russian' };
+  installFetch(rec);
+
+  await handleUpdate(deps(db, { GROQ_API_KEY: 'groq-test' }), {
+    update_id: 100,
+    message: {
+      chat: { id: 100, type: 'private' },
+      from: { id: 100, language_code: 'ru' },
+      voice: { file_id: 'voice-file-secret', file_unique_id: 'voice-unique', duration: 47, mime_type: 'audio/ogg', file_size: 4 },
+    },
+  } as any);
+
+  const t = (db as any)._t;
+  assert.deepEqual(rec.sttCalls, ['groq']);
+  assert.equal(rec.ai, 1);
+  assert.equal(t.items.length, 1);
+  assert.equal(t.items[0].source_type, 'voice');
+  assert.equal(t.items[0].source_text, transcript);
+  assert.equal(t.items[0].source_language, 'ru');
+  assert.equal(t.items[0].voice_duration_sec, 47);
+  assert.equal(t.ledger.filter((l: any) => l.usage_type === 'main_generation').length, 1);
+
+  const sends = rec.tg.filter((c) => c.method === 'sendMessage');
+  assert.ok(sends.some((s) => /Слушаю/.test(s.body.text) && /0:47/.test(s.body.text)), 'localized duration acknowledgement');
+  assert.ok(sends.some((s) => /В голосовом/.test(s.body.text)), 'situation summary sent separately');
+  const reply = sends.find((s) => s.body.text === RU_REPLY);
+  assert.ok(reply, 'clean generated reply sent');
+  const buttons = reply.body.reply_markup.inline_keyboard.flat();
+  assert.equal(buttons.length, 4);
+  assert.ok(buttons.some((b: any) => b.callback_data?.includes(':shorter:')));
+  assert.ok(buttons.some((b: any) => b.callback_data?.includes(':to_uz:')));
+  assert.ok(!buttons.some((b: any) => b.callback_data?.includes(':alternative:')));
+
+  for (const event of t.events) {
+    assert.ok(!event.meta_json.includes(transcript));
+    assert.ok(!event.meta_json.includes('voice-file-secret'));
+    assert.ok(!event.meta_json.includes('voice/file.oga'));
+  }
+  for (const name of ['voice_received', 'stt_started', 'stt_completed', 'voice_reply_generated']) {
+    assert.ok(t.events.some((e: any) => e.event === name), `missing ${name}`);
+  }
+});
+
+test('audio attachment uses the voice pipeline and a safe multipart file', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY], sttText: 'Подскажите, встреча сегодня?', sttLanguage: 'ru' };
+  installFetch(rec);
+  await handleUpdate(deps(db, { GROQ_API_KEY: 'groq-test' }), {
+    update_id: 101,
+    message: {
+      chat: { id: 101, type: 'private' }, from: { id: 101, language_code: 'ru' },
+      audio: { file_id: 'audio-id', duration: 30, mime_type: 'audio/mpeg', file_size: 4, file_name: '../../unsafe.mp3' },
+    },
+  } as any);
+  assert.deepEqual(rec.sttCalls, ['groq']);
+  assert.equal((db as any)._t.items[0].source_type, 'voice');
+  assert.equal((db as any)._t.items[0].voice_duration_sec, 30);
+});
+
+test('voice validation rejects duration and declared size before download/STT', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+  const d = deps(db, { GROQ_API_KEY: 'groq-test' });
+  const media = (duration: number, fileSize: number) => ({ file_id: `f-${duration}`, duration, mime_type: 'audio/ogg', file_size: fileSize });
+  await handleUpdate(d, { update_id: 102, message: { chat: { id: 102, type: 'private' }, from: { id: 102 }, voice: media(2, 4) } } as any);
+  await handleUpdate(d, { update_id: 103, message: { chat: { id: 102, type: 'private' }, from: { id: 102 }, voice: media(301, 4) } } as any);
+  await handleUpdate(d, { update_id: 104, message: { chat: { id: 102, type: 'private' }, from: { id: 102 }, voice: media(30, 20 * 1024 * 1024 + 1) } } as any);
+  assert.equal((db as any)._t.items.length, 0);
+  assert.equal(rec.sttCalls, undefined);
+  assert.equal(rec.tg.filter((c) => c.method === 'getFile').length, 0);
+  const sentText = rec.tg.filter((c) => c.method === 'sendMessage').map((c) => c.body.text).join('\n');
+  assert.match(sentText, /3 секунд/);
+  assert.match(sentText, /5 минут/);
+  assert.match(sentText, /20 МБ/);
+});
+
+test('voice rejects an oversized downloaded body when Telegram omits file size', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, tgFileSize: 0, audioBytes: new Uint8Array([1, 2, 3, 4]) };
+  installFetch(rec);
+  await handleUpdate(deps(db, { GROQ_API_KEY: 'groq-test', TELEGRAM_VOICE_MAX_BYTES: '3' }), {
+    update_id: 108,
+    message: { chat: { id: 108, type: 'private' }, from: { id: 108 }, voice: { file_id: 'size-unknown', duration: 20 } },
+  } as any);
+  assert.equal(rec.tg.filter((c) => c.method === 'getFile').length, 1);
+  assert.equal(rec.sttCalls, undefined);
+  assert.equal((db as any)._t.items.length, 0);
+  assert.ok(rec.tg.some((c) => c.method === 'sendMessage' && /20 МБ/.test(c.body.text)));
+});
+
+test('voice STT falls back from Groq to OpenAI without redownloading', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = {
+    tg: [], ai: 0, aiReplies: [RU_REPLY], groqFail: true,
+    openaiText: 'Здравствуйте, можно перенести встречу?', sttLanguage: 'russian',
+  };
+  installFetch(rec);
+  await handleUpdate(deps(db, { GROQ_API_KEY: 'groq-test', OPENAI_API_KEY: 'openai-test' }), {
+    update_id: 105,
+    message: { chat: { id: 105, type: 'private' }, from: { id: 105, language_code: 'ru' }, voice: { file_id: 'fallback-id', duration: 12, file_size: 4 } },
+  } as any);
+  assert.deepEqual(rec.sttCalls, ['groq', 'openai']);
+  assert.equal(rec.tg.filter((c) => c.method === 'getFile').length, 1);
+  assert.equal(rec.ai, 1);
+  assert.equal((db as any)._t.items.length, 1);
+});
+
+test('empty voice transcript fails safely without item or quota consumption', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, sttText: '   ' }; installFetch(rec);
+  await handleUpdate(deps(db, { GROQ_API_KEY: 'groq-test' }), {
+    update_id: 106,
+    message: { chat: { id: 106, type: 'private' }, from: { id: 106, language_code: 'ru' }, voice: { file_id: 'silence-id', duration: 8, file_size: 4 } },
+  } as any);
+  const t = (db as any)._t;
+  assert.equal(t.items.length, 0);
+  assert.equal(t.ledger.length, 0);
+  assert.equal(rec.ai, 0);
+  assert.ok(t.events.some((e: any) => e.event === 'stt_failed'));
+  assert.ok(rec.tg.some((c) => c.method === 'sendMessage' && /не удалось разобрать|не расслышал/i.test(c.body.text)));
+});
+
+test('voice checks main-generation quota before Telegram download and STT', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  for (let i = 0; i < 3; i++) await consumeUsage(db, 107, 'main_generation', `pre:${i}`);
+  const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+  await handleUpdate(deps(db, { GROQ_API_KEY: 'groq-test' }), {
+    update_id: 107,
+    message: { chat: { id: 107, type: 'private' }, from: { id: 107, language_code: 'ru' }, voice: { file_id: 'over-limit', duration: 20, file_size: 4 } },
+  } as any);
+  assert.equal(rec.tg.filter((c) => c.method === 'getFile').length, 0);
+  assert.equal(rec.sttCalls, undefined);
+  assert.ok((db as any)._t.events.some((e: any) => e.event === 'javob_limit_reached'));
 });

@@ -3,15 +3,16 @@
 // No action menu before the result. Runs in the background (waitUntil);
 // the webhook has already returned 200.
 import type { Env } from '../../_types';
-import { TelegramClient } from './client';
+import { TelegramClient, escapeHtml } from './client';
 import type { TelegramConfig } from './config';
 import * as S from './store';
 import type { Locale } from './store';
 import * as C from './i18n';
 import { buildJavobReplyPrompt, buildJavobModifierPrompt, guessLanguage, JAVOB_PROMPT_VERSION, type JavobModifier } from './prompts';
-import { classifyMessage } from './classify';
+import { classifyMessage, type SituationType } from './classify';
 import { runJavobValidated } from './service';
 import { decideUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM } from './billing';
+import { downloadTelegramFile, transcribeAudio, VoicePipelineError } from './transcription';
 
 interface Deps {
   env: Env;
@@ -21,10 +22,20 @@ interface Deps {
 }
 
 interface TgFrom { id: number; language_code?: string; is_bot?: boolean }
+interface TgMedia {
+  file_id: string;
+  file_unique_id?: string;
+  duration: number;
+  mime_type?: string;
+  file_size?: number;
+  file_name?: string;
+}
 interface TgMessage {
   chat: { id: number; type: string };
   from?: TgFrom;
   text?: string;
+  voice?: TgMedia;
+  audio?: TgMedia;
   forward_origin?: unknown;
   forward_date?: number;
   forward_from?: unknown;
@@ -84,6 +95,9 @@ async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Prom
 
   if (text.startsWith('/')) return await handleCommand(deps, chatId, from.id, locale, text, pseudo);
 
+  const media = msg.voice || msg.audio;
+  if (media) return await handleVoiceMessage(deps, chatId, from.id, locale, pseudo, media, msg.audio ? 'audio' : 'voice', updateId);
+
   if (!text) {
     await tg.sendMessage(chatId, C.START[locale]);
     return;
@@ -111,6 +125,128 @@ async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Prom
   }
 
   await generateReply(deps, chatId, from.id, locale, pseudo, { id: itemId, source_text: text, source_language: cls.language }, `gen:${updateId}`);
+}
+
+function durationBucket(seconds: number): string {
+  if (seconds < 15) return '<15s';
+  if (seconds < 60) return '15-60s';
+  if (seconds < 180) return '1-3m';
+  return '3-5m';
+}
+
+function sizeBucket(bytes: number): string {
+  if (!bytes) return 'unknown';
+  if (bytes < 1024 * 1024) return '<1mb';
+  if (bytes < 5 * 1024 * 1024) return '1-5mb';
+  if (bytes < 10 * 1024 * 1024) return '5-10mb';
+  return '10-20mb';
+}
+
+async function handleVoiceMessage(
+  deps: Deps,
+  chatId: number,
+  userId: number,
+  locale: Locale,
+  pseudo: string,
+  media: TgMedia,
+  mediaKind: 'voice' | 'audio',
+  updateId: number,
+): Promise<void> {
+  const { db, cfg, tg, env } = deps;
+  const duration = Math.max(0, Math.floor(Number(media.duration) || 0));
+  const declaredSize = Math.max(0, Math.floor(Number(media.file_size) || 0));
+  const voiceStartedAt = Date.now();
+
+  await S.logEvent(db, 'voice_received', pseudo, {
+    locale, mediaKind, durationBucket: durationBucket(duration), sizeBucket: sizeBucket(declaredSize),
+  });
+
+  if (duration < cfg.voiceMinSeconds) {
+    await tg.sendMessage(chatId, C.VOICE_TOO_SHORT[locale](cfg.voiceMinSeconds));
+    return;
+  }
+  if (duration > cfg.voiceMaxSeconds) {
+    await tg.sendMessage(chatId, C.VOICE_TOO_LONG[locale]);
+    return;
+  }
+  if (declaredSize > cfg.voiceMaxBytes) {
+    await tg.sendMessage(chatId, C.VOICE_TOO_LARGE[locale]);
+    return;
+  }
+
+  // Avoid paying for download/STT when the user's generation quota is gone.
+  const usage = await decideUsage(db, userId);
+  if (!usage.allowed) {
+    await S.logEvent(db, 'javob_limit_reached', pseudo, { locale, plan: usage.planCode, reason: usage.reason || 'period' });
+    await tg.sendMessage(chatId, C.LIMIT_REACHED[locale], { keyboard: C.limitKeyboard(locale) });
+    return;
+  }
+
+  await tg.sendMessage(chatId, C.voiceProcessing(locale, duration));
+
+  let downloaded: Awaited<ReturnType<typeof downloadTelegramFile>>;
+  try {
+    const file = await tg.getFile(media.file_id);
+    if (!file.ok || !file.result?.file_path) throw new VoicePipelineError('download_failed');
+    if ((file.result.file_size || 0) > cfg.voiceMaxBytes) throw new VoicePipelineError('too_large');
+    downloaded = await downloadTelegramFile(cfg.token, file.result.file_path, cfg.voiceMaxBytes, 6_000);
+  } catch (error) {
+    const code = error instanceof VoicePipelineError ? error.code : 'download_failed';
+    await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'download', code });
+    await tg.sendMessage(chatId, code === 'too_large' ? C.VOICE_TOO_LARGE[locale] : C.VOICE_UNAVAILABLE[locale]);
+    return;
+  }
+
+  await S.logEvent(db, 'stt_started', pseudo, {
+    locale, durationBucket: durationBucket(duration), sizeBucket: sizeBucket(downloaded.bytes.byteLength),
+  });
+
+  let transcript: Awaited<ReturnType<typeof transcribeAudio>>;
+  try {
+    transcript = await transcribeAudio(env, downloaded.bytes, {
+      mimeType: media.mime_type || downloaded.mimeType,
+      fileName: media.file_name,
+      timeoutMs: Math.min(cfg.sttTimeoutMs, 10_000),
+    });
+  } catch (error) {
+    const code = error instanceof VoicePipelineError ? error.code : 'stt_failed';
+    await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'transcription', code });
+    await tg.sendMessage(chatId, code === 'empty_transcript' ? C.VOICE_UNCLEAR[locale] : C.VOICE_UNAVAILABLE[locale]);
+    return;
+  }
+
+  const sourceText = transcript.text.replace(/\s+/g, ' ').trim().slice(0, cfg.maxInputChars);
+  if (!sourceText) {
+    await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'transcription', code: 'empty_transcript' });
+    await tg.sendMessage(chatId, C.VOICE_UNCLEAR[locale]);
+    return;
+  }
+  await S.logEvent(db, 'stt_completed', pseudo, {
+    locale, provider: transcript.provider, lang: transcript.language, latencyBucket: latencyBucket(transcript.latencyMs),
+  });
+
+  const classification = classifyMessage(sourceText, transcript.language);
+  const itemId = await S.createItem(db, userId, 'voice', sourceText, classification.language, cfg.itemTtlMs, duration);
+  await S.setItemContext(db, itemId, classification.situation);
+  await S.logEvent(db, 'javob_context_detected', pseudo, { locale, situation: classification.situation, sourceType: 'voice' });
+  void S.cleanupExpired(db);
+
+  if (classification.needsClarification) {
+    await S.logEvent(db, 'javob_clarification_shown', pseudo, { locale, sourceType: 'voice' });
+    await tg.sendMessage(chatId, C.CLARIFY[locale], { keyboard: C.clarifyKeyboard(locale, itemId) });
+    return;
+  }
+
+  await generateReply(deps, chatId, userId, locale, pseudo, {
+    id: itemId,
+    source_text: sourceText,
+    source_language: classification.language,
+    source_type: 'voice',
+    voice_duration_sec: duration,
+    voice_summary: C.voiceSituationSummary(locale, classification.situation),
+    voice_started_at: voiceStartedAt,
+    stt_provider: transcript.provider,
+  }, `gen:${updateId}`);
 }
 
 async function handleCommand(deps: Deps, chatId: number, userId: number, locale: Locale, text: string, pseudo: string): Promise<void> {
@@ -155,7 +291,17 @@ async function handleCommand(deps: Deps, chatId: number, userId: number, locale:
 }
 
 // ── Reply generation ───────────────────────────────────────────────────────
-interface ItemLike { id: string; source_text: string; source_language: string | null }
+interface ItemLike {
+  id: string;
+  source_text: string;
+  source_language: string | null;
+  source_type?: string;
+  voice_duration_sec?: number | null;
+  detected_context?: string | null;
+  voice_summary?: string;
+  voice_started_at?: number;
+  stt_provider?: string;
+}
 
 async function totalActions(db: D1Database, userId: number): Promise<number> {
   const row = await db.prepare('SELECT total_actions AS t FROM telegram_users WHERE telegram_user_id = ?').bind(userId).first<{ t: number }>();
@@ -184,11 +330,12 @@ async function generateReply(
 
   await tg.sendChatAction(chatId);
   const srcLang = (item.source_language === 'ru' || item.source_language === 'uz') ? item.source_language : null;
-  const prompt = buildJavobReplyPrompt(item.source_text, audience);
+  const prompt = buildJavobReplyPrompt(item.source_text, audience, item.source_type === 'voice' ? srcLang : null);
   const res = await runJavobValidated(env, prompt, cfg.maxOutputChars, {
     source: item.source_text,
     expectedLanguage: srcLang,
     mode: 'reply',
+    ...(item.source_type === 'voice' ? { timeoutMs: 8_000, maxModels: 1, validationRetry: false } : {}),
   });
   if (!res.ok || !res.text) {
     await S.logEvent(db, 'javob_reply_failed', pseudo, { locale, code: res.errorCode || 'unknown' });
@@ -207,12 +354,27 @@ async function generateReply(
   await S.logEvent(db, 'javob_reply_generated', pseudo, {
     locale, lang: item.source_language || 'other', outLang, model: res.model || '', latencyBucket: latencyBucket(res.latencyMs),
   });
+  if (item.source_type === 'voice') {
+    await S.logEvent(db, 'voice_reply_generated', pseudo, {
+      locale,
+      lang: item.source_language || 'other',
+      outLang,
+      provider: item.stt_provider || 'stored',
+      durationBucket: durationBucket(item.voice_duration_sec || 0),
+      totalLatencyBucket: latencyBucket(item.voice_started_at ? Date.now() - item.voice_started_at : res.latencyMs),
+    });
+    const situation = item.detected_context as SituationType | undefined;
+    const summary = item.voice_summary || (situation ? C.voiceSituationSummary(locale, situation) : undefined);
+    if (summary) await tg.sendMessage(chatId, `📝 <i>${escapeHtml(summary)}</i>`, { parseMode: 'HTML' });
+  }
 
   // The reply text is the whole message — clean for long-press copy.
   // (Bot API has no generic "copy arbitrary text" inline button; a fake one
   // is worse than none.)
   await tg.sendMessage(chatId, res.text, {
-    keyboard: C.resultKeyboard(locale, item.id, outLang === 'uz' ? 'uz' : outLang === 'ru' ? 'ru' : 'other', !!cfg.botUsername && total > 0 && total % SHARE_EVERY === 0),
+    keyboard: item.source_type === 'voice'
+      ? C.voiceResultKeyboard(locale, item.id, outLang === 'uz' ? 'uz' : outLang === 'ru' ? 'ru' : 'other')
+      : C.resultKeyboard(locale, item.id, outLang === 'uz' ? 'uz' : outLang === 'ru' ? 'ru' : 'other', !!cfg.botUsername && total > 0 && total % SHARE_EVERY === 0),
   });
 
   if (total === FEEDBACK_AT || (total > FEEDBACK_AT && total % FEEDBACK_EVERY === 0)) {
@@ -298,6 +460,10 @@ async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Pro
   }
 
   if (kind === 'jmod' && MODIFIERS.has(parts[1])) {
+    if (item.source_type === 'voice' && parts[1] === 'alternative') {
+      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+      return;
+    }
     return await runModifier(deps, chatId, userId, locale, pseudo, item, parts[1] as JavobModifier, updateId);
   }
 
@@ -368,6 +534,8 @@ async function runModifier(
   await S.logEvent(db, 'javob_reply_generated', pseudo, { locale, modifier, model: res.model || '', latencyBucket: latencyBucket(res.latencyMs) });
 
   await tg.sendMessage(chatId, res.text, {
-    keyboard: C.resultKeyboard(locale, item.id, outLang === 'uz' ? 'uz' : outLang === 'ru' ? 'ru' : 'other', !!cfg.botUsername && total > 0 && total % SHARE_EVERY === 0),
+    keyboard: item.source_type === 'voice'
+      ? C.voiceResultKeyboard(locale, item.id, outLang === 'uz' ? 'uz' : outLang === 'ru' ? 'ru' : 'other')
+      : C.resultKeyboard(locale, item.id, outLang === 'uz' ? 'uz' : outLang === 'ru' ? 'ru' : 'other', !!cfg.botUsername && total > 0 && total % SHARE_EVERY === 0),
   });
 }

@@ -122,6 +122,11 @@ export interface Env {
   // Generate at https://console.groq.com/keys.
   GROQ_API_KEY?: string;
   GROQ_MODEL?: string;
+  // Optional speech-to-text model override for Telegram Voice-to-Reply.
+  GROQ_STT_MODEL?: string;
+  // Optional secondary speech-to-text provider. Not used for chat routing.
+  OPENAI_API_KEY?: string;
+  OPENAI_STT_MODEL?: string;
 
   // Cerebras Inference: server-only. Free tier.
   // Generate at https://cloud.cerebras.ai/.
@@ -193,6 +198,10 @@ export interface Env {
   TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
   TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000
   TELEGRAM_ITEM_TTL_HOURS?: string;     // default 24 (source-text retention)
+  TELEGRAM_STT_TIMEOUT_MS?: string;     // default/max 10000 total across STT providers
+  TELEGRAM_VOICE_MIN_SECONDS?: string;  // default 3
+  TELEGRAM_VOICE_MAX_SECONDS?: string;  // default 300
+  TELEGRAM_VOICE_MAX_BYTES?: string;    // default 20 MiB (Bot API limit)
   // GPTBot Javob billing feature flags — all default OFF. Payments stay
   // disabled until official Click/Payme merchant docs + credentials arrive.
   JAVOB_BILLING_ENABLED?: string;

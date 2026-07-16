@@ -25,6 +25,7 @@
     "test:gpt-backend": "node --import tsx --test tests/gpt-backend.test.ts",
     "test:telegram": "node --import tsx --test tests/telegram-assistant.test.ts",
     "telegram:setup": "tsx scripts/telegram-setup.ts setup",
+    "telegram:identity": "tsx scripts/telegram-setup.ts identity",
     "telegram:status": "tsx scripts/telegram-setup.ts status",
     "telegram:remove-webhook": "tsx scripts/telegram-setup.ts remove-webhook",
     "javob:eval": "tsx scripts/javob-eval.ts",

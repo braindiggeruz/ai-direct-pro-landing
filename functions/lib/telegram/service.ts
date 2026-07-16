@@ -20,19 +20,25 @@ export interface ServiceResult {
  * tight and cheap. On provider failure returns ok:false with a machine code —
  * the handler maps it to friendly, localized copy.
  */
-export async function runAssistant(env: Env, prompt: BuiltPrompt, maxOutputChars: number): Promise<ServiceResult> {
+export async function runAssistant(
+  env: Env,
+  prompt: BuiltPrompt,
+  maxOutputChars: number,
+  options: { timeoutMs?: number; maxModels?: number } = {},
+): Promise<ServiceResult> {
   const cfg = resolveConfig(env);
   // ~4 chars/token heuristic; clamp so long answers still fit Telegram.
   const maxTokens = Math.min(1200, Math.max(200, Math.floor(maxOutputChars / 3)));
   const result = await chatComplete(
     env,
     cfg,
-    modelChain(cfg, 'free'),
+    modelChain(cfg, 'free').slice(0, options.maxModels ?? Number.POSITIVE_INFINITY),
     [
       { role: 'system', content: prompt.system },
       { role: 'user', content: prompt.user },
     ],
     maxTokens,
+    options.timeoutMs,
   );
   if (!result.ok || !result.content) {
     return { ok: false, provider: 'openrouter', errorCode: result.errorCode || 'provider_error' };
@@ -63,10 +69,21 @@ export async function runJavobValidated(
   env: Env,
   prompt: BuiltPrompt,
   maxOutputChars: number,
-  check: { source: string; previous?: string; expectedLanguage: 'ru' | 'uz' | null; mode: 'reply' | 'modifier' },
+  check: {
+    source: string;
+    previous?: string;
+    expectedLanguage: 'ru' | 'uz' | null;
+    mode: 'reply' | 'modifier';
+    timeoutMs?: number;
+    maxModels?: number;
+    validationRetry?: boolean;
+  },
 ): Promise<JavobRunResult> {
   const started = Date.now();
-  const attempt = async (p: BuiltPrompt) => runAssistant(env, p, maxOutputChars);
+  const attempt = async (p: BuiltPrompt) => runAssistant(env, p, maxOutputChars, {
+    timeoutMs: check.timeoutMs,
+    maxModels: check.maxModels,
+  });
 
   let res = await attempt(prompt);
   let retried = false;
@@ -75,6 +92,9 @@ export async function runJavobValidated(
       ? validateModifier(check.source, check.previous, res.text)
       : validateReply(check.source, res.text, check.expectedLanguage);
     if (!v.ok) {
+      if (check.validationRetry === false) {
+        return { ok: false, provider: res.provider, errorCode: 'validation_failed', latencyMs: Date.now() - started, retried };
+      }
       retried = true;
       res = await attempt({ ...prompt, system: prompt.system + STRICTER_RETRY });
       if (res.ok && res.text) {

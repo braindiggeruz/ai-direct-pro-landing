@@ -91,23 +91,26 @@ export interface TgItemRow {
   source_type: string;
   source_text: string | null;
   source_language: string | null;
+  voice_duration_sec: number | null;
+  detected_context?: string | null;
   expires_at: string;
 }
 
 export async function createItem(
   db: D1Database,
   userId: number,
-  sourceType: 'forward' | 'direct',
+  sourceType: 'forward' | 'direct' | 'voice',
   sourceText: string,
   sourceLanguage: string,
   ttlMs: number,
+  voiceDurationSec: number | null = null,
 ): Promise<string> {
   const id = shortId();
   const created = new Date();
   const expires = new Date(created.getTime() + ttlMs);
   await db
-    .prepare('INSERT INTO telegram_items (id, telegram_user_id, source_type, source_text, source_language, created_at, expires_at) VALUES (?,?,?,?,?,?,?)')
-    .bind(id, userId, sourceType, sourceText, sourceLanguage, created.toISOString(), expires.toISOString())
+    .prepare('INSERT INTO telegram_items (id, telegram_user_id, source_type, source_text, source_language, voice_duration_sec, created_at, expires_at) VALUES (?,?,?,?,?,?,?,?)')
+    .bind(id, userId, sourceType, sourceText, sourceLanguage, voiceDurationSec, created.toISOString(), expires.toISOString())
     .run();
   return id;
 }
@@ -116,7 +119,7 @@ export async function createItem(
 export async function getOwnedItem(db: D1Database, itemId: string, userId: number): Promise<TgItemRow | null> {
   if (!itemId || itemId.length > 32) return null;
   const row = await db
-    .prepare('SELECT id, telegram_user_id, source_type, source_text, source_language, expires_at FROM telegram_items WHERE id = ? AND telegram_user_id = ?')
+    .prepare('SELECT id, telegram_user_id, source_type, source_text, source_language, voice_duration_sec, detected_context, expires_at FROM telegram_items WHERE id = ? AND telegram_user_id = ?')
     .bind(itemId, userId)
     .first<TgItemRow>();
   if (!row) return null;
