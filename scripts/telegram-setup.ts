@@ -54,19 +54,43 @@ const COMMANDS_UZ = [
   { command: 'delete_me', description: 'ma’lumotlarimni o‘chirish' },
 ];
 
-const SHORT_RU = 'Перешлите сообщение — получите готовый ответ в нужном тоне и на нужном языке.';
-const SHORT_UZ = 'Xabarni yuboring — kerakli ohang va tilda tayyor javob oling.';
-const DESC_RU = 'GPTBot Javob — помощник по переписке на русском и Uzbek Latin. Перешлите сообщение из любого чата — получите готовый ответ клиенту, коллеге или руководителю. Кнопками: короче, мягче, увереннее, другой вариант, RU/UZ.';
-const DESC_UZ = 'GPTBot Javob — rus va Uzbek Latin tilidagi yozishmalar yordamchisi. Istalgan chatdan xabar yuboring — mijoz, hamkasb yoki rahbarga tayyor javob oling. Tugmalar: qisqaroq, yumshoqroq, ishonchliroq, boshqa variant, RU/UZ.';
+const SHORT_RU = 'Перешлите сообщение — GPTBot подготовит готовый ответ на русском или Uzbek Latin.';
+const SHORT_UZ = 'Xabarni yuboring — GPTBot ruscha yoki Uzbek Latin tilida tayyor javob yozadi.';
+const DESC_RU = `GPTBot Javob — помощник по переписке в Telegram.
 
-async function getUsername(): Promise<string | null> {
-  const me = await tg<{ username?: string; first_name?: string }>('getMe');
-  return me.ok ? me.result?.username ?? null : null;
+Перешлите сообщение от клиента, коллеги или руководителя — бот подготовит ответ в нужном тоне и на нужном языке.
+
+Поддерживает русский, Uzbek Latin и смешанную речь.`;
+const DESC_UZ = `GPTBot Javob — Telegram yozishmalari uchun yordamchi.
+
+Mijoz, hamkasb yoki rahbardan kelgan xabarni yuboring — bot kerakli ohang va tilda javob tayyorlaydi.
+
+Rus tili, Uzbek Latin va aralash nutqni qo‘llab-quvvatlaydi.`;
+
+interface BotIdentity {
+  id: number;
+  first_name: string;
+  username?: string;
+  can_join_groups?: boolean;
+  supports_inline_queries?: boolean;
+}
+
+async function getBotIdentity(): Promise<BotIdentity | null> {
+  const me = await tg<BotIdentity>('getMe');
+  return me.ok && me.result ? me.result : null;
+}
+
+function printBotIdentity(bot: BotIdentity | null): void {
+  console.log(`  bot id:                  ${bot?.id ?? '(unknown)'}`);
+  console.log(`  first name:              ${bot?.first_name ?? '(unknown)'}`);
+  console.log(`  username:                @${bot?.username ?? '(unknown)'}`);
+  console.log(`  can join groups:         ${bot?.can_join_groups ?? '(unknown)'}`);
+  console.log(`  supports inline queries: ${bot?.supports_inline_queries ?? '(unknown)'}`);
 }
 
 async function printStatus(expectedUrl?: string): Promise<boolean> {
-  const username = await getUsername();
-  console.log(`  bot: @${username ?? '(unknown)'}`);
+  const bot = await getBotIdentity();
+  printBotIdentity(bot);
   const info = await tg<{ url?: string; pending_update_count?: number; last_error_message?: string; last_error_date?: number; max_connections?: number; allowed_updates?: string[] }>('getWebhookInfo');
   if (info.ok && info.result) {
     const r = info.result;
@@ -115,16 +139,24 @@ async function setup(): Promise<void> {
     process.exit(1);
   }
   console.log('→ Verifying bot…');
-  const username = await getUsername();
-  if (!username) { console.error('✗ getMe failed — check the token.'); process.exit(1); }
+  const bot = await getBotIdentity();
+  const username = bot?.username;
+  if (!bot || !username) { console.error('✗ getMe failed or returned no username — check the token.'); process.exit(1); }
   guardProtectedBot(username);
-  console.log(`  ✓ @${username}`);
+  printBotIdentity(bot);
 
   console.log('→ Checking production endpoint…');
   try {
-    const probe = await fetch(WEBHOOK_URL);
-    if (!probe.ok) { console.error(`✗ ${WEBHOOK_URL} responded ${probe.status} — deploy first, then set the webhook.`); process.exit(1); }
-    console.log('  ✓ endpoint reachable');
+    const probe = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+    });
+    if (probe.status !== 401) {
+      console.error(`✗ ${WEBHOOK_URL} responded ${probe.status} without a secret header; expected 401. Deploy/configure the endpoint before setting the webhook.`);
+      process.exit(1);
+    }
+    console.log('  ✓ endpoint is reachable and requires the Telegram secret header');
   } catch {
     console.error(`✗ ${WEBHOOK_URL} is unreachable — deploy first, then set the webhook.`);
     process.exit(1);

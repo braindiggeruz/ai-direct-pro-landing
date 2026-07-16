@@ -20,6 +20,7 @@ import { resultKeyboard, clarifyKeyboard, feedbackKeyboard, langKeyboard, limitK
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
 import { claimUpdate, pseudoUser } from '../functions/lib/telegram/store';
 import { decideUsage, consumeUsage, grantEntitlement, resolveBillingFlags, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
+import { onRequestGet as assistantGet, onRequestPost as assistantPost } from '../functions/api/telegram/assistant';
 
 // ═══ Pure units ════════════════════════════════════════════════════════════
 
@@ -28,6 +29,33 @@ test('old lead bot route is untouched and uses its own token', () => {
   assert.match(src, /TELEGRAM_BOT_TOKEN/);
   assert.ok(!src.includes('TELEGRAM_ASSISTANT_BOT_TOKEN'), 'lead bot must not share the assistant token');
   assert.match(src, /lead-capture/i);
+});
+
+test('assistant endpoint is POST-only and rejects missing or wrong secret headers', async () => {
+  const get = await assistantGet({} as never);
+  assert.equal(get.status, 405);
+  assert.equal(get.headers.get('Allow'), 'POST');
+
+  const env = {
+    TELEGRAM_ASSISTANT_BOT_TOKEN: 'assistant-token',
+    TELEGRAM_ASSISTANT_WEBHOOK_SECRET: 'expected-secret',
+  };
+  const call = (secret?: string) => assistantPost({
+    request: new Request('https://gptbot.uz/api/telegram/assistant', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(secret ? { 'x-telegram-bot-api-secret-token': secret } : {}),
+      },
+      body: '{}',
+    }),
+    env,
+    waitUntil: () => undefined,
+  } as never);
+
+  assert.equal((await call()).status, 401);
+  assert.equal((await call('wrong-secret')).status, 401);
+  assert.equal((await call('expected-secret')).status, 200);
 });
 
 test('setup guard refuses aidirectprobot', () => {

@@ -58,8 +58,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   return ok();
 };
 
-// Health probe for setWebhook verification / manual checks. No token exposure.
-export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
-  const status = telegramConfigured(env) ? 'configured' : 'dormant';
-  return new Response(`GPTBot Telegram assistant webhook: ${status}`, { status: 200 });
-};
+// Telegram webhooks are POST-only. Keep an explicit response so probes do not
+// fall through to the SPA and accidentally return a misleading 200 page.
+export const onRequestGet: PagesFunction<Env> = async () =>
+  new Response('method not allowed', {
+    status: 405,
+    headers: { Allow: 'POST', 'Cache-Control': 'no-store' },
+  });
