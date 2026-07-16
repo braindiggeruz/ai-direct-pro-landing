@@ -1,0 +1,77 @@
+{
+  "status": "draft",
+  "_draft_note": "Javob bot yaratilgach: REPLACE_WITH_JAVOB_BOT ni haqiqiy username bilan almashtiring, status → published.",
+  "locale": "uz",
+  "url": "/uz/javob/",
+  "slug": "javob",
+  "pageType": "money",
+  "primaryKeyword": "xabarga tayyor javob",
+  "secondaryKeywords": ["mijozga qanday javob berish", "telegram xabarga javob", "yozishmalar yordamchisi"],
+  "searchIntent": "transactional",
+  "h1": "GPTBot Javob — bir necha soniyada tayyor javob",
+  "title": "GPTBot Javob — Telegramda xabarga tayyor javob | GPTBot.uz",
+  "description": "Telegramdan xabarni yuboring — GPTBot Javob mijozga, hamkasbga yoki rahbarga kerakli tilda tayyor javob tayyorlaydi. Har kuni bepul limit.",
+  "canonical": "https://gptbot.uz/uz/javob/",
+  "hreflangRu": "/ru/javob/",
+  "hreflangUz": "/uz/javob/",
+  "ogTitle": "GPTBot Javob — Telegramda xabarga tayyor javob",
+  "ogDescription": "Xabarni yuboring — kerakli ohang va tilda tayyor javob oling.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "GPTBot Javob",
+  "heroTitle": "Bir necha soniyada tayyor javob",
+  "heroSubtitle": "Telegramdan xabarni yuboring — GPTBot mijozga, hamkasbga yoki rahbarga kerakli tilda javob tayyorlaydi.",
+  "ctaPrimaryLabel": "Telegramda bepul sinab ko‘rish",
+  "ctaPrimaryHref": "https://t.me/REPLACE_WITH_JAVOB_BOT?start=site_uz",
+  "ctaSecondaryLabel": "Tariflar",
+  "ctaSecondaryHref": "#tariflar",
+  "heroTrust": ["RU + Uzbek Latin", "Ro‘yxatdan o‘tishsiz", "Har kuni bepul limit", "Javobni tugmalar bilan tahrirlash"],
+  "bodyBlocks": [
+    { "type": "h2", "text": "Qanday ishlaydi" },
+    { "type": "list", "items": [
+      "Javob berish kerak bo‘lgan xabarni botga yuboring — istalgan Telegram chatidan.",
+      "GPTBot tilni, kontekstni va ohangni o‘zi aniqlab, darhol tayyor javob matnini beradi.",
+      "Natijani tugmalar bilan sozlang: qisqaroq, yumshoqroq, ishonchliroq, boshqa variant, RU/UZ.",
+      "Javobni nusxalab suhbatdoshingizga yuboring. Bot hech qachon sizning nomingizdan hech kimga yozmaydi."
+    ] },
+    { "type": "h2", "text": "Misollar" },
+    { "type": "h3", "text": "Mijoz narx so‘rayapti" },
+    { "type": "p", "text": "«Samarqandga yetkazib berish qancha turadi?» → Javob buyurtma tafsilotlarini aniqlashtiruvchi muloyim javob tayyorlaydi. Bot narx va muddatlarni o‘ylab topmaydi — ma’lumot bo‘lmasa, aniqlashtiradi." },
+    { "type": "h3", "text": "Rahbar hisobot so‘rayapti" },
+    { "type": "p", "text": "«Kun oxirigacha loyiha bo‘yicha status kerak» → tayyor aniq javob: nima tayyor, nima jarayonda, qachon bo‘ladi." },
+    { "type": "h3", "text": "Rus tilidagi xabar" },
+    { "type": "p", "text": "«Здравствуйте, когда будет доставка?» → javob tabiiy rus tilida keladi. RU/UZ tugmasi javob tilini almashtiradi — ma’no, summa va sanalar saqlanadi." },
+    { "type": "h2", "text": "Tariflar", "id": "tariflar" },
+    { "type": "table", "headers": ["Tarif", "Narx", "Nima kiradi"], "rows": [
+      ["Free", "0 UZS", "Kuniga 3 ta javob, oyiga 30 tagacha, asosiy tugmalar, RU/UZ"],
+      ["Day Pass", "2 900 UZS", "24 soat ichida 25 tagacha javob, bir martalik to‘lov"],
+      ["Plus", "24 900 UZS/oy", "Oyiga 250 tagacha javob, uzun xabarlar"]
+    ] },
+    { "type": "p", "text": "Onlayn to‘lov ulanmoqda. «Cheksiz» so‘zini ishlatmaymiz: har bir tarifda limitlar halol ko‘rsatilgan." },
+    { "type": "h2", "text": "Maxfiylik" },
+    { "type": "list", "items": [
+      "Bot faqat siz unga yuborgan yoki uzatgan xabarlarni ko‘radi.",
+      "Uzatilgan matn vaqtincha (taxminan bir kun) saqlanadi — faqat tahrir tugmalari ishlashi uchun, so‘ng o‘chiriladi.",
+      "/delete_me buyrug‘i ma’lumotlaringizni o‘chiradi.",
+      "GPTBot.uz — mustaqil xizmat, OpenAI, ChatGPT yoki Telegram’ning rasmiy mahsuloti emas."
+    ] }
+  ],
+  "faq": [
+    { "q": "Bot javobni suhbatdoshimga o‘zi yuboradimi?", "a": "Yo‘q. Javob faqat matn tayyorlaydi. Yuborishni siz qilasiz — javobni kerakli chatga nusxalab. Uchinchi shaxslarga avtomatik yuborish yo‘q." },
+    { "q": "Qaysi tillarda ishlaydi?", "a": "Rus, Uzbek Latin va aralash rus-o‘zbek nutqi. Javob kiruvchi xabar tilida keladi, RU/UZ tugmasi tilni almashtiradi." },
+    { "q": "Bot narx yoki muddat o‘ylab topishi mumkinmi?", "a": "Yo‘q. Xabarda narx, mavjudlik yoki muddat bo‘lmasa, Javob raqam o‘ylab topmaydi — aniqlashtiruvchi muloyim javob tayyorlaydi. Bu mahsulotning qat’iy qoidasi." },
+    { "q": "Bepulmi?", "a": "Bepul limit bor: kuniga 3 ta javob, oyiga 30 tagacha. Ko‘proq kerak bo‘lsa — Day Pass (24 soatga 2 900 UZS) yoki Plus (oyiga 250 tagacha javob)." },
+    { "q": "Yozishmalarim saqlanadimi?", "a": "Uzatilgan matn tahrir tugmalari uchun vaqtincha (taxminan bir kun) saqlanadi, so‘ng o‘chiriladi. MVP’da doimiy tarix yo‘q. /delete_me ma’lumotlarni o‘chiradi." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/gpt-uzbek-tilida/", "anchor": "O‘zbek tilida AI chat", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/chat-bot-narxi/", "anchor": "Tariflar", "locale": "uz", "type": "block" },
+    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI", "locale": "uz", "type": "block" },
+    { "target": "/uz/maxfiylik-siyosati/", "anchor": "Maxfiylik siyosati", "locale": "uz", "type": "footer" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "lastReviewedAt": "2026-07-16",
+  "createdAt": "2026-07-16T00:00:00Z",
+  "updatedAt": "2026-07-16"
+}

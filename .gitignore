@@ -9,7 +9,14 @@ build/
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
 *.local
+
+# Local coding-agent state and connector configuration
+.agents/
+.claude/
+.mcp.json
 
 # Cloudflare
 .wrangler/

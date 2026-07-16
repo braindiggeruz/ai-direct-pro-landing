@@ -89,4 +89,6 @@ export const EV = {
   b2bCtaClicked: 'b2b_cta_clicked',
   businessClicked: 'business_clicked',
   telegramClicked: 'telegram_clicked',
+  telegramCtaClicked: 'telegram_cta_clicked',
+  websiteTelegramClicked: 'website_telegram_clicked',
 } as const;
