@@ -10,33 +10,33 @@ import { AiChatInput } from './AiChatInput';
 import { AiPromptChips } from './AiPromptChips';
 import { AiUsageBadge } from './AiUsageBadge';
 import { AiPaywallCard } from './AiPaywallCard';
-import { AiBusinessUpsell } from './AiBusinessUpsell';
-import { AiToolTabs } from './AiToolTabs';
-import { RoleSelector } from './RoleSelector';
+import { AiSidebar } from './AiSidebar';
 import { PromptTemplateGrid } from './PromptTemplateGrid';
-import { CreditBalance } from './CreditBalance';
 import { ImagePromptTool } from './ImagePromptTool';
-import { BusinessDemoLead } from './BusinessDemoLead';
 import { applyRole, type RoleId } from '../roles';
 import type { AiToolId, PromptTemplate } from '../templates';
 import type { PromptChip } from '../i18n';
 
 const MAX_INPUT = 3000;
-const B2B_AFTER = 3; // show B2B card after this many assistant answers
+const B2B_AFTER = 3; // show the B2B line after this many assistant answers
 
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
-  const pricingHref = '/ru/tarify-ai-chat/';
+  const uz = config.locale === 'uz';
+  const pricingHref = uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/';
+  const businessHref = uz ? '/uz/biznes-uchun-ai-bot/' : '/ru/gpt-dlya-biznesa/';
+  const otherHref = uz ? '/ru/gpt-chat/' : '/uz/gpt-uzbek-tilida/';
   const [messages, setMessages] = useState<ChatMessage[]>(() => loadHistory(config.locale));
   const [input, setInput] = useState('');
   const [sessionId, setSessionId] = useState<string | null>(() => loadSessionId(config.locale));
   const [remaining, setRemaining] = useState<number>(() => loadRemaining(config.locale));
   const [busy, setBusy] = useState(false);
   const [limitReached, setLimitReached] = useState(() => loadRemaining(config.locale) === 0);
-  const [plan, setPlan] = useState<string>('anonymous_free');
   const [b2bDismissed, setB2bDismissed] = useState(false);
   const [activeTool, setActiveTool] = useState<AiToolId>('chat');
   const [role, setRole] = useState<RoleId>('general');
+  const [collapsed, setCollapsed] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const startedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -85,7 +85,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     track(EV.sendPrompt, { source: meta.templateId ? 'template' : meta.answerAction ? 'answer_action' : 'composer', tool: meta.tool || activeTool, roleId: role, templateId: meta.templateId || undefined });
     const res = await sendChat(config.apiBase, { sessionId: sid, message: requestMessage, locale: config.locale, history });
     const base = withUser.filter((m) => !m.pending);
-    if (res.plan) setPlan(res.plan);
     if (res.ok && res.answer) {
       if (typeof res.remaining === 'number' && res.remaining >= 0) { setRemaining(res.remaining); saveRemaining(res.remaining, config.locale); }
       if (res.sessionId && res.sessionId !== sid) { setSessionId(res.sessionId); saveSessionId(res.sessionId, config.locale); }
@@ -103,6 +102,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       track(EV.aiResponseError, { code: res.code, messageNumber });
     }
     setBusy(false);
+    // Keep the composer ready for the next message (spec: composer stays focused).
+    focusInput();
   };
 
   // Prompt chips always prefill the composer and focus — never auto-send.
@@ -127,7 +128,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const onToolChange = (tool: AiToolId) => {
     setActiveTool(tool);
-    if (tool === 'business') track(EV.businessDemoStarted, { from: 'tool_tab', status: 'opened' });
+    if (tool === 'business') track(EV.businessDemoStarted, { from: 'sidebar', status: 'opened' });
   };
 
   const onImagePrompt = (prompt: string, presetId: string) => {
@@ -137,7 +138,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const onAnswerAction = (action: AnswerAction, content: string) => {
     const source = content.slice(0, 1900);
-    const instructions: Record<AnswerAction, string> = config.locale === 'uz'
+    const instructions: Record<AnswerAction, string> = uz
       ? {
           shorter: 'Quyidagi javobni qisqartir, asosiy ma’noni saqla:',
           instagram: 'Quyidagi javobni Instagram posti uchun moslashtir. Sarlavha va yumshoq CTA qo‘sh:',
@@ -176,8 +177,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   };
 
   const showB2B = assistantCount >= B2B_AFTER && !b2bDismissed && !limitReached;
-  const otherHref = config.locale === 'uz' ? '/ru/gpt-chat/' : '/uz/gpt-uzbek-tilida/';
-  const toolCopy: Record<Exclude<AiToolId, 'chat' | 'images'>, { title: string; body: string }> = config.locale === 'uz'
+  const toolCopy: Record<Exclude<AiToolId, 'chat' | 'images'>, { title: string; body: string }> = uz
     ? {
         smm: { title: 'AI SMM kabinet', body: 'Instagram va Telegram uchun post, stories, reklama va kontent reja.' },
         business: { title: 'AI biznes vositalari', body: 'Mijoz javobi, FAQ, sotuv skripti va AI-bot pilot rejasi.' },
@@ -189,87 +189,120 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         study: { title: 'AI для учёбы', body: 'Разобраться в теме, сделать конспект, тест, перевод или проверить текст.' },
       };
 
-  const toolkit = activeTool === 'chat' ? (
-    <AiPromptChips chips={t.chips} onPick={onChipPick} disabled={busy || limitReached} label={t.emptyPrompt} />
-  ) : activeTool === 'images' ? (
-    <ImagePromptTool locale={config.locale} onGenerate={onImagePrompt} disabled={busy || limitReached} />
-  ) : (
-    <div>
-      <h3 className="text-xl font-semibold text-white">{toolCopy[activeTool].title}</h3>
-      <p className="mt-1 mb-4 text-sm leading-relaxed text-white/50">{toolCopy[activeTool].body}</p>
-      <PromptTemplateGrid key={`${config.locale}-${activeTool}`} locale={config.locale} tool={activeTool} onPick={onTemplatePick} disabled={busy || limitReached} />
-      {activeTool === 'business' && <BusinessDemoLead locale={config.locale} apiBase={config.apiBase} sessionId={sessionId} />}
+  const toolPanel = activeTool === 'images' ? (
+    <div className="mb-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+      <ImagePromptTool locale={config.locale} onGenerate={onImagePrompt} disabled={busy || limitReached} />
     </div>
-  );
+  ) : activeTool !== 'chat' ? (
+    <div className="mb-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+      <h2 className="text-lg font-semibold text-white">{toolCopy[activeTool].title}</h2>
+      <p className="mb-4 mt-1 text-sm leading-relaxed text-white/50">{toolCopy[activeTool].body}</p>
+      <PromptTemplateGrid key={`${config.locale}-${activeTool}`} locale={config.locale} tool={activeTool} onPick={onTemplatePick} disabled={busy || limitReached} />
+      {activeTool === 'business' && (
+        <p className="mt-4 text-[13px] text-white/45">
+          <a href={businessHref} onClick={() => track(EV.businessClicked, { from: 'business_tab' })} className="text-brand-cyan hover:underline underline-offset-4">{t.businessLink}</a>
+        </p>
+      )}
+    </div>
+  ) : null;
 
   return (
-    <div className="glass-strong rounded-[24px] sm:rounded-[32px] overflow-hidden" style={{ boxShadow: '0 40px 100px -30px rgba(0,0,0,0.6), 0 0 80px -20px rgba(34,158,217,0.15), 0 0 0 1px rgba(47,230,209,0.06) inset' }} data-testid="ai-console">
-      {/* ── Top bar: brand + online | lang + plan + credits + upgrade ── */}
-      <div className="flex items-center gap-2 px-4 sm:px-6 py-3.5 border-b border-white/[0.06]">
-        <div className="flex items-center gap-2.5 mr-auto">
-          <span className="grid place-items-center w-8 h-8 rounded-xl text-[#04101A] bg-grad-cta font-bold text-sm" aria-hidden="true">G</span>
-          <span className="font-semibold text-white text-[15px] hidden sm:inline">{t.brand}</span>
-          <span className="flex items-center gap-1.5 text-[11px] text-emerald-300/80 ml-0.5">
-            <span className="status-dot" aria-hidden="true" />{t.online}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-xl bg-white/[0.04] overflow-hidden text-[11px]" role="group" aria-label={config.locale === 'uz' ? 'Til' : 'Язык'}>
-            <span className={`min-h-11 min-w-11 grid place-items-center ${config.locale === 'ru' ? 'bg-white/10 text-white' : 'text-white/45'}`}>RU</span>
-            <a href={otherHref} className={`min-h-11 min-w-11 grid place-items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan ${config.locale === 'uz' ? 'bg-white/10 text-white' : 'text-white/45 hover:text-white/80'}`}>UZ</a>
+    <div className="flex h-full min-h-0 bg-bg-base text-white" data-testid="ai-console">
+      <AiSidebar
+        locale={config.locale}
+        t={t}
+        activeTool={activeTool}
+        onToolChange={onToolChange}
+        onNewChat={onNewChat}
+        role={role}
+        onRoleChange={onRoleChange}
+        busy={busy}
+        collapsed={collapsed}
+        onToggleCollapsed={() => setCollapsed((c) => !c)}
+        mobileOpen={drawerOpen}
+        onCloseMobile={() => setDrawerOpen(false)}
+      />
+
+      <div className="flex h-full min-w-0 flex-1 flex-col">
+        {/* App header */}
+        <header className="flex h-14 shrink-0 items-center gap-2 border-b border-white/[0.06] px-3 sm:px-4">
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            aria-label={t.menuOpen}
+            className="grid h-11 w-11 place-items-center rounded-xl text-white/60 hover:text-white hover:bg-white/[0.05] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan lg:hidden"
+            data-testid="ai-menu-button"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+          <span className="font-display text-[15px] text-white lg:hidden">{t.brand}</span>
+          <div className="ml-auto flex items-center gap-2">
+            <AiUsageBadge remaining={remaining} t={t} />
+            <div className="flex items-center overflow-hidden rounded-xl bg-white/[0.04] text-[11px]" role="group" aria-label={uz ? 'Til' : 'Язык'}>
+              <span className={`grid min-h-11 min-w-11 place-items-center ${!uz ? 'bg-white/10 text-white' : 'text-white/45'}`}>RU</span>
+              <a href={otherHref} className={`grid min-h-11 min-w-11 place-items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan ${uz ? 'bg-white/10 text-white' : 'text-white/45 hover:text-white/80'}`}>UZ</a>
+            </div>
+            <a
+              href={pricingHref}
+              onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); track(EV.pricingClicked, { from: 'topbar' }); }}
+              className="hidden sm:inline-flex min-h-11 items-center rounded-xl bg-brand-cyan/[0.08] px-3.5 py-2 text-[11px] font-semibold text-brand-cyan hover:bg-brand-cyan/[0.14] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
+            >
+              {t.pricingLink}
+            </a>
           </div>
-          {!empty && (
-            <button type="button" onClick={onNewChat} disabled={busy} title={t.newChat} className="min-h-11 inline-flex items-center gap-1 text-[11px] px-3 py-2 rounded-xl bg-white/[0.04] text-white/55 hover:text-white hover:bg-white/[0.08] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50" data-testid="ai-new-chat">
-              <span aria-hidden="true">+</span> {t.newChat}
-            </button>
-          )}
-          <span className="text-[11px] px-2.5 py-1 rounded-full border border-brand-violet/25 bg-brand-violet/[0.06] text-brand-violet/80 whitespace-nowrap hidden sm:inline" title={config.locale === 'uz' ? 'Mehmon rejimi' : 'Гостевой режим'}>{t.planBadge(plan)}</span>
-          <AiUsageBadge remaining={remaining} t={t} />
-          <a href={pricingHref} onClick={() => { track(EV.upgradeClick, { from: 'topbar', status: 'pricing' }); track(EV.viewPricing, { from: 'topbar' }); track(EV.pricingClicked, { from: 'topbar' }); }} className="min-h-11 inline-flex items-center gap-1 text-[11px] font-semibold px-3.5 py-2 rounded-xl bg-brand-cyan/[0.08] text-brand-cyan hover:bg-brand-cyan/[0.14] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">{t.pricingLink}</a>
-        </div>
-      </div>
+        </header>
 
-      <AiToolTabs locale={config.locale} active={activeTool} onChange={onToolChange} />
-
-      {/* ── Viewport ── */}
-      <div className="neural-grid px-4 sm:px-6 py-6 min-h-[420px] sm:min-h-[480px] max-h-[60vh] overflow-y-auto" style={{ maxHeight: '62dvh' }}>
-        {empty ? (
-          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="relative z-[1] py-4">
-            <h2 className="h-display text-[22px] sm:text-[26px] text-white mb-2 max-w-xl leading-tight">{t.emptyTitle}</h2>
-            <p className="text-white/50 text-[15px] mb-6 max-w-lg leading-relaxed">{t.emptyHint}</p>
-            {toolkit}
-          </div>
-        ) : (
-          <div id={`ai-tool-${activeTool}`} role="tabpanel" aria-labelledby={`ai-tool-tab-${activeTool}`} className="space-y-6">
-            {activeTool !== 'chat' && <div className="rounded-2xl bg-white/[0.025] p-4 sm:p-5">{toolkit}</div>}
-            <AiChatMessageList messages={messages} t={t} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} />
-          </div>
-        )}
-      </div>
-
-      {/* ── Role selector + credits (compact, inline above composer) ── */}
-      <div className="flex items-start gap-3 px-4 sm:px-6 py-3.5 border-t border-white/[0.06]">
-        <RoleSelector locale={config.locale} value={role} onChange={onRoleChange} disabled={busy} />
-        <CreditBalance locale={config.locale} remaining={remaining} limitReached={limitReached} onUpgrade={() => { track(EV.upgradeClick, { from: 'credit_balance', status: 'pricing' }); track(EV.viewPricing, { from: 'credit_balance' }); window.location.href = pricingHref; }} />
-      </div>
-
-      {/* ── Composer + inline cards ── */}
-      <div className="px-4 sm:px-6 pb-6 pt-1">
-        {limitReached ? (
-          <AiPaywallCard t={t} apiBase={config.apiBase} sessionId={sessionId} pricingHref={pricingHref} />
-        ) : (
-          <>
-            {showB2B && <div className="mb-3"><AiBusinessUpsell t={t} onDismiss={() => setB2bDismissed(true)} /></div>}
-            {remaining >= 0 && remaining <= 2 && (
-              <div className="mb-3 flex items-center gap-2 text-[12px] text-amber-200/80 rounded-2xl bg-amber-300/[0.05] px-4 py-3" role="status">
-                <span aria-hidden="true">⚡</span>
-                <span>{t.lowWarning(remaining)}</span>
-                <a href={pricingHref} onClick={() => { track(EV.viewPricing, { from: 'low_limit' }); track(EV.upgradeClick, { from: 'low_limit' }); }} className="ml-auto min-h-12 inline-flex items-center text-brand-cyan hover:underline whitespace-nowrap">{t.paywallCta}</a>
+        {/* Messages area */}
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="mx-auto w-full max-w-[760px] px-4 py-6 sm:px-6">
+            {toolPanel}
+            {empty && activeTool === 'chat' ? (
+              <div className="flex min-h-[45vh] flex-col items-center justify-center text-center">
+                <h2 className="h-display mb-2 text-[22px] leading-tight text-white sm:text-[26px]">{t.emptyTitle}</h2>
+                <p className="mb-6 max-w-sm text-[15px] leading-relaxed text-white/50">{t.emptyHint}</p>
+                <div className="w-full max-w-md">
+                  <AiPromptChips chips={t.chips} onPick={onChipPick} disabled={busy || limitReached} label={t.emptyPrompt} />
+                </div>
               </div>
+            ) : (
+              <AiChatMessageList messages={messages} t={t} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} />
             )}
-            <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
-          </>
-        )}
+            {showB2B && (
+              <p className="mt-6 flex items-center justify-center gap-2 text-center text-[13px] text-white/40" data-testid="ai-b2b-line">
+                <a
+                  href="https://t.me/XGame_changerx"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  onClick={() => { track(EV.b2bCtaClicked, { from: 'chat_line' }); track(EV.telegramClicked, { from: 'chat_line' }); track(EV.telegramClick, { from: 'chat_line' }); }}
+                  className="hover:text-brand-cyan underline underline-offset-4"
+                >
+                  {t.b2bLine}
+                </a>
+                <button type="button" onClick={() => setB2bDismissed(true)} aria-label="✕" title="✕" className="grid h-8 w-8 place-items-center rounded-lg text-white/30 hover:text-white hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">✕</button>
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Composer */}
+        <div className="shrink-0">
+          <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
+            {limitReached ? (
+              <div className="py-3"><AiPaywallCard t={t} apiBase={config.apiBase} sessionId={sessionId} pricingHref={pricingHref} /></div>
+            ) : (
+              <>
+                {remaining >= 0 && remaining <= 2 && (
+                  <div className="mb-2 flex items-center gap-2 rounded-2xl bg-amber-300/[0.05] px-4 py-2.5 text-[12px] text-amber-200/80" role="status">
+                    <span aria-hidden="true">⚡</span>
+                    <span>{t.lowWarning(remaining)}</span>
+                    <a href={pricingHref} onClick={() => { track(EV.viewPricing, { from: 'low_limit' }); track(EV.upgradeClick, { from: 'low_limit' }); track(EV.pricingClicked, { from: 'low_limit' }); }} className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline">{t.paywallCta}</a>
+                  </div>
+                )}
+                <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
