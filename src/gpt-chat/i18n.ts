@@ -29,6 +29,16 @@ export interface ChatStrings {
   regenerate: string;
   pricingLink: string;
   chips: PromptChip[];
+  menuOpen: string;
+  menuClose: string;
+  sidebarTools: string;
+  sidebarLinks: string;
+  guideLink: string;
+  businessLink: string;
+  aboutLink: string;
+  collapseMenu: string;
+  expandMenu: string;
+  b2bLine: string;
   remaining: (n: number) => string;
   lowWarning: (n: number) => string;
   charsLeft: (n: number) => string;
@@ -83,7 +93,7 @@ const RU: ChatStrings = {
   brand: 'GPTBot AI',
   online: 'Online',
   inputPlaceholder: 'Напишите сообщение…',
-  inputMicrocopy: 'AI может ошибаться. Важные данные лучше проверять.',
+  inputMicrocopy: 'AI может ошибаться. Проверяйте важные данные.',
   send: 'Отправить',
   thinking: 'AI думает…',
   errorGeneric: 'AI-сервис временно недоступен. Попробуйте немного позже.',
@@ -91,18 +101,26 @@ const RU: ChatStrings = {
   regenerate: 'Повторить ответ',
   pricingLink: 'Тарифы',
   chips: [
-    { id: 'post', label: 'Написать пост', insert: 'Напиши пост для Instagram или Telegram. Тема: ' },
+    { id: 'text', label: 'Написать текст', insert: 'Напиши текст. Формат и тема: ' },
     { id: 'translate', label: 'Перевести на Uzbek Latin', insert: 'Переведи на Uzbek Latin, естественно для аудитории Узбекистана: ' },
     { id: 'offer', label: 'Придумать оффер', insert: 'Придумай 3 варианта рекламного оффера. Продукт: ' },
-    { id: 'explain', label: 'Объяснить простыми словами', insert: 'Объясни простыми словами: ' },
-    { id: 'plan', label: 'Составить контент-план', insert: 'Составь контент-план на неделю. Ниша: ' },
-    { id: 'reply', label: 'Ответить клиенту', insert: 'Помоги вежливо ответить клиенту. Его сообщение: ' },
+    { id: 'explain', label: 'Объяснить тему', insert: 'Объясни простыми словами: ' },
   ],
+  menuOpen: 'Открыть меню',
+  menuClose: 'Закрыть меню',
+  sidebarTools: 'Инструменты',
+  sidebarLinks: 'Разделы',
+  guideLink: 'Гайд по AI-чату',
+  businessLink: 'AI для бизнеса',
+  aboutLink: 'О сервисе',
+  collapseMenu: 'Свернуть меню',
+  expandMenu: 'Развернуть меню',
+  b2bLine: 'Нужен AI-бот для сайта или Telegram?',
   remaining: (n) => `Осталось ${n} сообщений сегодня`,
   lowWarning: (n) => `Осталось ${n} ${n === 1 ? 'сообщение' : 'сообщения'} на сегодня. Дальше — тариф Plus.`,
   charsLeft: (n) => `${n} символов до лимита`,
   emptyTitle: 'Чем помочь сегодня?',
-  emptyHint: 'Напишите вопрос или выберите готовый пример.',
+  emptyHint: 'Напишите вопрос или выберите пример.',
   tryFree: 'Попробовать бесплатно',
   emptyPrompt: 'Что хотите сделать?',
   feedbackUp: 'Полезно',
@@ -176,18 +194,26 @@ const UZ: ChatStrings = {
   regenerate: 'Javobni qayta yaratish',
   pricingLink: 'Tariflar',
   chips: [
-    { id: 'post', label: 'Post yozish', insert: 'Instagram yoki Telegram uchun post yoz. Mavzu: ' },
+    { id: 'text', label: 'Matn yozish', insert: 'Matn yoz. Format va mavzu: ' },
     { id: 'translate', label: 'Rus tiliga tarjima', insert: 'Rus tiliga tabiiy qilib tarjima qil: ' },
     { id: 'offer', label: 'Taklif yaratish', insert: '3 xil reklama taklifini yoz. Mahsulot: ' },
-    { id: 'explain', label: 'Oddiy tushuntirish', insert: 'Oddiy tilda tushuntir: ' },
-    { id: 'plan', label: 'Kontent-reja tuzish', insert: 'Bir haftalik kontent-reja tuz. Nisha: ' },
-    { id: 'reply', label: 'Mijozga javob yozish', insert: 'Mijozga xushmuomala javob yozishga yordam ber. Uning xabari: ' },
+    { id: 'explain', label: 'Mavzuni tushuntirish', insert: 'Oddiy tilda tushuntir: ' },
   ],
+  menuOpen: 'Menyuni ochish',
+  menuClose: 'Menyuni yopish',
+  sidebarTools: 'Vositalar',
+  sidebarLinks: 'Bo‘limlar',
+  guideLink: 'AI-chat qo‘llanmasi',
+  businessLink: 'Biznes uchun AI',
+  aboutLink: 'Xizmat haqida',
+  collapseMenu: 'Menyuni yig‘ish',
+  expandMenu: 'Menyuni yoyish',
+  b2bLine: 'Sayt yoki Telegram uchun AI-bot kerakmi?',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi. Keyin — Plus tarifi.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
   emptyTitle: 'Bugun sizga qanday yordam beray?',
-  emptyHint: 'Savolingizni yozing yoki tayyor misolni tanlang.',
+  emptyHint: 'Savolingizni yozing yoki misolni tanlang.',
   tryFree: 'Bepul sinab ko‘rish',
   emptyPrompt: 'Nima qilmoqchisiz?',
   feedbackUp: 'Foydali',

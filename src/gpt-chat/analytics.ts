@@ -86,5 +86,6 @@ export const EV = {
   responseRegenerated: 'response_regenerated',
   pricingClicked: 'pricing_clicked',
   b2bCtaClicked: 'b2b_cta_clicked',
+  businessClicked: 'business_clicked',
   telegramClicked: 'telegram_clicked',
 } as const;

@@ -44,17 +44,9 @@ export function AiChatInput({
   return (
     <div className="mt-4 sticky bottom-0 z-10 pb-[env(safe-area-inset-bottom)]">
       <div
-        className={`glass-strong flex items-end gap-2 p-2.5 pl-3.5 sm:pl-5 rounded-[28px] ${busy ? 'scan-active' : ''}`}
+        aria-busy={busy}
+        className="flex items-end gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-2 pl-3.5 transition-colors focus-within:border-brand-cyan/40"
       >
-        <button
-          type="button"
-          onClick={() => ref.current?.focus()}
-          aria-label={t.emptyPrompt}
-          title={t.emptyPrompt}
-          className="shrink-0 grid place-items-center w-11 h-11 rounded-full text-white/40 hover:text-brand-cyan hover:bg-white/[0.04] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" /></svg>
-        </button>
         <textarea
           ref={ref}
           value={value}
@@ -70,7 +62,7 @@ export function AiChatInput({
           onClick={onSend}
           disabled={disabled || !value.trim()}
           aria-label={t.send}
-          className="shrink-0 grid place-items-center w-11 h-11 rounded-full bg-grad-cta text-[#04101A] shadow-glow disabled:opacity-30 disabled:shadow-none transition-all hover:scale-105 active:scale-95"
+          className="shrink-0 grid place-items-center w-11 h-11 rounded-xl bg-grad-cta text-[#04101A] disabled:opacity-30 transition-opacity"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 12l16-8-6 8 6 8-16-8z" fill="currentColor" />

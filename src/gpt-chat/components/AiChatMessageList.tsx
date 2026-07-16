@@ -86,23 +86,16 @@ export function AiChatMessageList({
   }, [messages]);
 
   return (
-    <div className="relative z-[1] flex-1 space-y-4" data-testid="ai-chat-messages" aria-live="polite">
+    <div className="relative z-[1] flex-1 space-y-6" data-testid="ai-chat-messages" aria-live="polite">
       {messages.map((m, i) => (
         <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
           <div
             className={
               m.role === 'user'
-                ? 'max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 sm:px-5 sm:py-3 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere]'
-                : `max-w-[92%] rounded-2xl rounded-bl-md px-4 py-3 sm:px-5 sm:py-3.5 text-[15px] break-words [overflow-wrap:anywhere] ${
-                    m.error ? 'bg-red-500/[0.08] text-red-200' : 'msg-in'
-                  }`
-            }
-            style={
-              m.role === 'user'
-                ? { background: 'linear-gradient(135deg, rgba(34,158,217,0.18), rgba(47,230,209,0.10))' }
-                : m.role === 'assistant' && !m.error
-                  ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01))' }
-                  : undefined
+                ? 'max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere] bg-white/[0.06]'
+                : m.error
+                  ? 'max-w-[92%] rounded-2xl px-4 py-3 text-[15px] break-words [overflow-wrap:anywhere] bg-red-500/[0.08] text-red-200'
+                  : 'w-full text-[15px] break-words [overflow-wrap:anywhere]'
             }
           >
             {m.pending ? (

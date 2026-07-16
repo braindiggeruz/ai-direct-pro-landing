@@ -355,123 +355,57 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 }
 
-// AI-chat island block: brand-safe disclaimer + mount root with a no-JS
-// fallback. Rendered above the SEO article on pageType === 'gpt-chat'.
-function renderChatConsole(page: Page): string {
+// Full-viewport app shell for pageType === 'gpt-chat'. The chat island owns
+// the entire first screen (sidebar + header + messages + composer). Indexable
+// content is a compact, VISIBLE summary <section> + mini footer BELOW the app
+// — the long-form material lives on the dedicated guide page.
+function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const uz = page.locale === 'uz';
-  const disclaimer = uz
-    ? 'GPTBot.uz — mustaqil AI-xizmat. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas.'
-    : 'GPTBot.uz — независимый AI-сервис. Не является официальным продуктом OpenAI, ChatGPT или NVIDIA.';
   const noscript = uz
     ? 'AI-chatdan foydalanish uchun JavaScript’ni yoqing yoki Telegram’da bizga yozing.'
     : 'Включите JavaScript, чтобы пользоваться AI-чатом, или напишите нам в Telegram.';
-  const label = uz ? 'AI-chat konsoli' : 'AI-чат консоль';
-  return `<section aria-label="${escapeHtml(label)}" id="ai-console" class="mb-16">
-    <div id="gpt-chat-root" data-locale="${page.locale === 'uz' ? 'uz' : 'ru'}" data-api-base="" class="min-h-[460px]">
-      <noscript><p class="text-white/70 text-sm rounded-2xl p-6">${escapeText(noscript)}</p></noscript>
-      <div class="text-white/40 text-sm rounded-2xl p-8 animate-pulse text-center">${uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…'}</div>
-    </div>
-    <p data-testid="ai-disclaimer" class="text-[11px] text-white/30 mt-4 leading-relaxed text-center">${escapeText(disclaimer)}</p>
-  </section>`;
-}
-
-// Premium product layout for pageType === 'gpt-chat'. Inverts the page:
-// compact hero → chat console (hero) → value cards → pricing teaser →
-// SEO article in <details open> → FAQ → internal links → final CTA.
-// All SEO content stays in the HTML, visible to crawlers and users.
-function renderGptChatMain(
-  page: Page,
-  global: GlobalSEO,
-  articles: BlogArticle[],
-  modifiedIso: string,
-  modifiedLabel: string,
-  contentAnchor: string,
-): string {
-  const uz = page.locale === 'uz';
-  const detailsLabel = uz ? "AI-chat haqida batafsil" : 'Подробнее об AI-чате';
-  const pricingHref = uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/';
-
-  const valueCards = uz
+  const loading = uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…';
+  const appLabel = uz ? 'AI-chat ilovasi' : 'Приложение AI-чата';
+  const navLabel = uz ? 'Foydali sahifalar' : 'Полезные страницы';
+  const links = uz
     ? [
-        { icon: 'M3 5h18M3 12h18M3 19h12', title: 'RU + UZ', desc: 'Rus va o‘zbek tilida tabiiy javoblar' },
-        { icon: 'M4 6h16M4 12h16M4 18h10', title: 'Shablonlar', desc: 'SMM, biznes, o‘qish va savdo uchun' },
-        { icon: 'M4 8h16v11H4zM9 8V5h6v3', title: 'Telegram + CRM', desc: 'Arizani menejerga uzatadi' },
-        { icon: 'M5 12.5l4.5 4.5L19 7.5', title: 'Tez boshlash', desc: 'Ro‘yxatdan o‘tmasdan darhol yozing' },
+        { href: '/uz/gpt-chat-qollanma/', text: 'AI-chat qo‘llanmasi' },
+        { href: '/uz/chat-bot-narxi/', text: 'Tariflar' },
+        { href: '/uz/biznes-uchun-ai-bot/', text: 'Biznes uchun AI' },
+        { href: '/uz/blog/', text: 'Blog' },
       ]
     : [
-        { icon: 'M3 5h18M3 12h18M3 19h12', title: 'RU + UZ', desc: 'Ответы на русском и узбекском' },
-        { icon: 'M4 6h16M4 12h16M4 18h10', title: 'Шаблоны', desc: 'Для SMM, бизнеса, учёбы и продаж' },
-        { icon: 'M4 8h16v11H4zM9 8V5h6v3', title: 'Telegram + CRM', desc: 'Передаёт заявку менеджеру' },
-        { icon: 'M5 12.5l4.5 4.5L19 7.5', title: 'Быстрый старт', desc: 'Пишите без регистрации' },
+        { href: '/ru/gpt-chat-guide/', text: 'Гайд по AI-чату' },
+        { href: '/ru/tarify-ai-chat/', text: 'Тарифы' },
+        { href: '/ru/gpt-dlya-biznesa/', text: 'AI для бизнеса' },
+        { href: '/ru/blog/', text: 'Блог' },
       ];
 
-  const valueCardsHtml = valueCards.map((c) => `<div class="link-card group"><span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/[0.08] border border-brand-cyan/15 text-brand-cyan mb-3 group-hover:bg-brand-cyan/[0.12] group-hover:border-brand-cyan/25 transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${c.icon}"/></svg></span><h3 class="text-white font-medium text-[15px] leading-snug">${escapeText(c.title)}</h3><p class="text-white/45 text-[13px] mt-1.5 leading-relaxed">${escapeText(c.desc)}</p></div>`).join('');
-
-  const finalCtaTitle = uz ? 'Boshlashga tayyormisiz?' : 'Готовы начать?';
-  const finalCtaChatLabel = uz ? 'AI-chatni ochish' : 'Открыть AI-чат';
-  const finalCtaB2bLabel = uz ? 'AI-bot buyurtma berish' : 'Заказать AI-бота';
-
-  return `<main id="main" class="relative max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px] overflow-hidden -z-10" aria-hidden="true">
-    <div class="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full opacity-60" style="background:radial-gradient(ellipse at center, rgba(34,158,217,0.12), transparent 70%)"></div>
-    <div class="absolute right-0 top-40 h-[400px] w-[500px] rounded-full opacity-50" style="background:radial-gradient(ellipse at center, rgba(47,230,209,0.08), transparent 70%)"></div>
+  return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
+  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" class="h-full">
+    <noscript><p class="p-6 text-sm text-white/70">${escapeText(noscript)}</p></noscript>
+    <div class="flex h-full items-center justify-center text-sm text-white/40">${loading}</div>
   </div>
+</main>
 
-  <nav aria-label="Breadcrumb" class="text-sm text-white/40 mb-8">
-    <a href="/" class="hover:text-white/70 transition-colors">${escapeHtml(global.siteName)}</a>
-    <span class="px-2">/</span>
-    <span class="text-white/60">${escapeText(page.breadcrumbLabel || page.h1)}</span>
-  </nav>
-
-  <div class="mb-6">
-    <h1 data-testid="page-h1" class="font-display text-[1.75rem] sm:text-[2.25rem] text-white mb-2 leading-tight break-words tracking-tight">${escapeText(page.h1)}</h1>
-    ${page.heroSubtitle ? `<p class="speakable-intro text-[15px] sm:text-base text-white/60 max-w-2xl leading-relaxed">${escapeText(page.heroSubtitle)}</p>` : ''}
+<section data-testid="seo-summary" class="border-t border-white/[0.06]">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+    <h1 data-testid="page-h1" class="font-display text-xl text-white mb-4">${escapeText(page.h1)}</h1>
+    <div class="prose-invert">
+      ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
+    </div>
+    <nav aria-label="${escapeHtml(navLabel)}" class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+      ${links.map((l) => `<a href="${escapeHtml(l.href)}" class="text-brand-cyan hover:underline underline-offset-4">${escapeText(l.text)}</a>`).join('\n      ')}
+    </nav>
   </div>
+</section>
 
-  ${renderChatConsole(page)}
-
-  <section class="mt-16" data-testid="value-cards">
-    <div class="eyebrow mb-3">${uz ? 'Imkoniyatlar' : 'Возможности'}</div>
-    <h2 class="font-display text-2xl sm:text-3xl mb-8 text-white tracking-tight">${uz ? "Bitta AI-chatda hammasi" : 'Всё в одном AI-чате'}</h2>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">${valueCardsHtml}</div>
-  </section>
-
-  <section class="mt-16 grid sm:grid-cols-2 gap-4" data-testid="pricing-b2b">
-    <div class="link-card">
-      <h2 class="font-display text-xl text-white mb-2">${uz ? 'Tariflar' : 'Тарифы'}</h2>
-      <p class="text-white/55 text-sm leading-relaxed mb-4">${uz ? 'Har kuni bepul limit. Katta vazifalar uchun — Plus va Business.' : 'Бесплатный лимит каждый день. Для больших задач — Plus и Business.'}</p>
-      <a href="${escapeHtml(pricingHref)}" data-testid="pricing-link" class="btn-secondary text-sm">${uz ? "Tariflarni ko‘rish" : 'Посмотреть тарифы'}</a>
-    </div>
-    <div class="link-card">
-      <h2 class="font-display text-xl text-white mb-2">${uz ? 'Biznes uchun AI-bot kerakmi?' : 'Нужен AI-бот для бизнеса?'}</h2>
-      <p class="text-white/55 text-sm leading-relaxed mb-4">${uz ? 'Sayt uchun AI-chat, Telegram-bot va arizalarni avtomatlashtirishni joriy etamiz.' : 'Внедрим AI-чат для сайта, Telegram-бота и автоматизацию заявок.'}</p>
-      <a href="${escapeHtml(global.telegram || 'https://t.me/XGame_changerx')}" data-testid="b2b-cta" rel="nofollow noopener noreferrer" target="_blank" class="btn-primary text-sm">${uz ? 'Loyihani muhokama qilish' : 'Обсудить проект'}</a>
-    </div>
-  </section>
-
-  ${modifiedIso ? `<p data-testid="page-updated" class="mt-16 mb-4 text-xs uppercase tracking-wider text-white/30">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
-  <details open class="${modifiedIso ? 'mt-2' : 'mt-16'} rounded-3xl border border-white/[0.06] bg-white/[0.02]">
-    <summary class="cursor-pointer list-none p-6 font-display text-lg text-white flex items-center justify-between gap-4">
-      <span>${escapeText(detailsLabel)}</span>
-      <span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.08] text-brand-cyan text-lg transition-transform">+</span>
-    </summary>
-    <div class="px-6 pb-6">
-      ${renderArticle(page.bodyBlocks || [], contentAnchor)}
-    </div>
-  </details>
-
-  ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
-  ${renderInternalLinks(page)}
-  ${renderRelatedArticles(page, articles)}
-
-  <section class="mt-24 text-center" data-testid="final-cta">
-    <h2 class="font-display text-3xl sm:text-4xl text-white mb-6 tracking-tight">${escapeText(finalCtaTitle)}</h2>
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="#ai-console" class="btn-primary text-base">${escapeText(finalCtaChatLabel)}</a>
-      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="btn-secondary text-base">${escapeText(finalCtaB2bLabel)}</a>
-    </div>
-  </section>
-</main>`;
+<footer class="border-t border-white/[0.06] py-6">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 text-xs text-white/40">
+    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
+    <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
+  </div>
+</footer>`;
 }
 
 function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null): string {
@@ -580,7 +514,7 @@ ${ANALYTICS_HEAD}
 <body class="bg-bg-base text-white antialiased ${showStickyCta ? 'pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
+${page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm">
@@ -591,10 +525,10 @@ ${ANALYTICS_HEAD}
       </a>
     </nav>
   </div>
-</header>
+</header>`}
 
 ${page.pageType === 'gpt-chat'
-  ? renderGptChatMain(page, global, articles, modifiedIso, modifiedLabel, contentAnchor)
+  ? renderGptChatMain(page, global)
   : `<main id="main" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
@@ -627,7 +561,7 @@ ${page.pageType === 'gpt-chat'
 </main>`
 }
 
-<footer class="border-t border-white/5 mt-20 py-10">
+${page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex items-center gap-4">
@@ -638,7 +572,7 @@ ${page.pageType === 'gpt-chat'
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
     </div>
   </div>
-</footer>
+</footer>`}
 
 ${stickyCtaHtml}
 ${jsHref ? `<!-- React landing bundle is intentionally not loaded on money pages to keep them static and fast. -->` : ''}
