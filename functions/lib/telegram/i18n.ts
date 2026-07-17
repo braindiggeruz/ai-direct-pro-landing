@@ -5,8 +5,8 @@ import type { InlineKeyboard } from './client';
 import type { Locale, TgAction } from './store';
 
 export const START: Record<Locale, string> = {
-  ru: 'GPTBot Javob превращает текст и голосовые в готовый ответ.\n\nПерешлите сообщение или голосовое из любого Telegram-чата — я распознаю смысл и подготовлю ответ в нужном тоне и на нужном языке.\n\nПоддерживаются русский и Uzbek Latin. Аудио не хранится.\n\nПопробуйте прямо сейчас ↓',
-  uz: 'GPTBot Javob matn va ovozli xabarni tayyor javobga aylantiradi.\n\nIstalgan Telegram chatidan xabar yoki ovozli xabar yuboring — mazmunini aniqlab, kerakli ohang va tilda javob tayyorlayman.\n\nRus tili va Uzbek Latin qo‘llab-quvvatlanadi. Audio saqlanmaydi.\n\nHoziroq sinab ko‘ring ↓',
+  ru: 'GPTBot Javob превращает текст и голосовые в готовый ответ.\n\nПерешлите сообщение или голосовое из любого Telegram-чата — я покажу расшифровку и подготовлю ответ в нужном тоне и на нужном языке. Для голосового можно открыть Tahlil: утверждения, противоречия и вопросы для проверки. Это не детектор лжи.\n\nПоддерживаются русский и Uzbek Latin. Аудио не хранится.\n\nПопробуйте прямо сейчас ↓',
+  uz: 'GPTBot Javob matn va ovozli xabarni tayyor javobga aylantiradi.\n\nIstalgan Telegram chatidan xabar yoki ovozli xabar yuboring — transkript va kerakli ohangdagi javobni tayyorlayman. Ovozli xabar uchun Tahlil bayonotlar, qarama-qarshiliklar va tekshirish savollarini ko‘rsatadi. Bu yolg‘on detektori emas.\n\nRus tili va Uzbek Latin qo‘llab-quvvatlanadi. Audio saqlanmaydi.\n\nHoziroq sinab ko‘ring ↓',
 };
 
 export const CHOOSE_LANG: Record<Locale, string> = {
@@ -100,8 +100,8 @@ export const LIMIT_REACHED: Record<Locale, string> = {
 };
 
 export const HELP: Record<Locale, string> = {
-  ru: 'GPTBot Javob — готовый ответ на любое сообщение.\n\nПерешлите (или вставьте) сообщение, на которое нужно ответить, — я сразу подготовлю текст ответа. Кнопками можно сделать его короче, мягче, увереннее, получить другой вариант или сменить язык RU/UZ.\n\nКоманды:\n/new — новый запрос\n/lang — язык\n/plans — тарифы\n/privacy — конфиденциальность\n/delete_me — удалить мои данные',
-  uz: 'GPTBot Javob — istalgan xabarga tayyor javob.\n\nJavob berish kerak bo‘lgan xabarni yuboring (yoki joylashtiring) — darhol javob matnini tayyorlayman. Tugmalar orqali uni qisqartirish, yumshatish, ishonchliroq qilish, boshqa variant olish yoki RU/UZ tilini almashtirish mumkin.\n\nBuyruqlar:\n/new — yangi so‘rov\n/lang — til\n/plans — tariflar\n/privacy — maxfiylik\n/delete_me — ma’lumotlarimni o‘chirish',
+  ru: 'GPTBot Javob — готовый ответ на любое сообщение.\n\nПерешлите текст или голосовое — я подготовлю ответ. Кнопками можно сделать его короче, мягче, увереннее или сменить язык RU/UZ. Под голосовым есть «Анализ содержания»: он выделяет проверяемые утверждения, внутренние противоречия и вопросы, но не определяет ложь.\n\nКоманды:\n/new — новый запрос\n/lang — язык\n/plans — тарифы\n/privacy — конфиденциальность\n/delete_me — удалить мои данные',
+  uz: 'GPTBot Javob — istalgan xabarga tayyor javob.\n\nMatn yoki ovozli xabar yuboring — javob tayyorlayman. Tugmalar orqali uni qisqartirish, yumshatish, ishonchliroq qilish yoki RU/UZ tilini almashtirish mumkin. Ovozli xabar ostidagi «Mazmun tahlili» bayonotlar, ichki qarama-qarshiliklar va savollarni ko‘rsatadi, lekin yolg‘onni aniqlamaydi.\n\nBuyruqlar:\n/new — yangi so‘rov\n/lang — til\n/plans — tariflar\n/privacy — maxfiylik\n/delete_me — ma’lumotlarimni o‘chirish',
 };
 
 const PRIVACY_BASE: Record<Locale, string> = {
@@ -110,8 +110,8 @@ const PRIVACY_BASE: Record<Locale, string> = {
 };
 
 export const PRIVACY: Record<Locale, string> = {
-  ru: `${PRIVACY_BASE.ru}\n\nГолосовые и аудиофайлы обрабатываются только в памяти и не сохраняются. Расшифровка хранится как обычный текст около суток для кнопок-повторов.`,
-  uz: `${PRIVACY_BASE.uz}\n\nOvozli xabar va audiofayl faqat xotirada qayta ishlanadi va saqlanmaydi. Tugmalar ishlashi uchun matnli transkript taxminan bir kun saqlanadi.`,
+  ru: `${PRIVACY_BASE.ru}\n\nГолосовые и аудиофайлы обрабатываются только в памяти и не сохраняются. Расшифровка, таймкоды и отчёт Tahlil хранятся около суток и могут быть удалены кнопкой в отчёте.`,
+  uz: `${PRIVACY_BASE.uz}\n\nOvozli xabar va audiofayl faqat xotirada qayta ishlanadi va saqlanmaydi. Transkript, taymkod va Tahlil hisoboti taxminan bir kun saqlanadi hamda hisobot tugmasi orqali o‘chirilishi mumkin.`,
 };
 
 export const DELETED: Record<Locale, string> = {
@@ -186,8 +186,103 @@ export function voiceResultKeyboard(locale: Locale, itemId: string, outputLangua
       { text: labels.confident, callback_data: `jmod:confident:${itemId}` },
     ],
     [language],
+    [{ text: locale === 'ru' ? '🔎 Анализ содержания' : '🔎 Mazmun tahlili', callback_data: `analyze:${itemId}` }],
   ];
 }
+
+// ── GPTBot Tahlil ─────────────────────────────────────────────────────────
+
+export const ANALYSIS_CONSENT: Record<Locale, string> = {
+  ru: '🔎 GPTBot Tahlil\n\nЯ отмечу проверяемые утверждения, внутренние противоречия, неясные обещания и предложу вопросы для уточнения.\n\nЭто НЕ детектор лжи: анализ не определяет правду, намерения, эмоции или личность и не является доказательством. Результат и расшифровка хранятся около 24 часов, затем удаляются. Аудиофайл не сохраняется.\n\nПродолжить?',
+  uz: '🔎 Transkript mazmunini tahlil qilish\n\nMen tekshiriladigan bayonotlar, ichki qarama-qarshiliklar va noaniq va’dalarni belgilayman hamda aniqlashtiruvchi savollar taklif qilaman.\n\nBu yolg‘on detektori EMAS: tahlil rostlik, niyat, hissiyot yoki shaxsni aniqlamaydi va dalil hisoblanmaydi. Natija va transkript taxminan 24 soat saqlanadi, keyin o‘chiriladi. Audiofayl saqlanmaydi.\n\nDavom etamizmi?',
+};
+
+export function analysisConsentKeyboard(locale: Locale, itemId: string): InlineKeyboard {
+  return [[
+    { text: locale === 'ru' ? 'Продолжить' : 'Davom etish', callback_data: `analysis_consent:accept:${itemId}` },
+    { text: locale === 'ru' ? 'Отмена' : 'Bekor qilish', callback_data: `analysis_consent:cancel:${itemId}` },
+  ]];
+}
+
+export const ANALYSIS_CANCELED: Record<Locale, string> = {
+  ru: 'Анализ отменён. Расшифровка останется доступна для обычных кнопок около суток.',
+  uz: 'Tahlil bekor qilindi. Transkript oddiy tugmalar uchun taxminan bir kun mavjud bo‘ladi.',
+};
+
+export function analysisProcessing(locale: Locale, seconds: number): string {
+  return locale === 'ru'
+    ? `🔎 Анализирую содержание (${formatVoiceDuration(seconds)})…`
+    : `🔎 Mazmun tahlil qilinmoqda (${formatVoiceDuration(seconds)})…`;
+}
+
+export const ANALYSIS_TOO_SHORT: Record<Locale, string> = {
+  ru: 'Для содержательного анализа нужна запись от 10 секунд. Расшифровка и готовый ответ по-прежнему доступны.',
+  uz: 'Mazmunli tahlil uchun kamida 10 soniyalik yozuv kerak. Transkript va tayyor javobdan foydalanish mumkin.',
+};
+
+export const ANALYSIS_LIMIT: Record<Locale, string> = {
+  ru: 'Бесплатный анализ на сегодня уже использован. Завтра снова будет доступен 1 анализ.',
+  uz: 'Bugungi bepul tahlil ishlatildi. Ertaga yana 1 ta tahlil mavjud bo‘ladi.',
+};
+
+export const ANALYSIS_FAILED: Record<Locale, string> = {
+  ru: 'Сейчас не удалось выполнить анализ. Лимит не списан — попробуйте ещё раз позже.',
+  uz: 'Hozir tahlilni bajarib bo‘lmadi. Limit sarflanmadi — keyinroq qayta urinib ko‘ring.',
+};
+
+export const ANALYSIS_INSUFFICIENT: Record<Locale, string> = {
+  ru: 'В записи недостаточно конкретных утверждений для надёжного разбора. Лимит не списан. Это не подтверждает и не опровергает сказанное.',
+  uz: 'Yozuvda ishonchli tahlil uchun yetarli aniq bayonot yo‘q. Limit sarflanmadi. Bu aytilgan gapni tasdiqlamaydi ham, inkor etmaydi ham.',
+};
+
+export const ANALYSIS_LIE_BOUNDARY: Record<Locale, string> = {
+  ru: 'По голосу или тексту нельзя надёжно определить, врёт человек или говорит правду. GPTBot не определяет ложь, намерения и личность. Я могу вместо этого разобрать конкретные утверждения, противоречия и вопросы, которыми их можно проверить.',
+  uz: 'Ovoz yoki matndan odam yolg‘on gapiryaptimi, ishonchli aniqlab bo‘lmaydi. GPTBot yolg‘on, niyat yoki shaxsni aniqlamaydi. Buning o‘rniga aniq bayonotlar, qarama-qarshiliklar va ularni tekshirish savollarini tahlil qila olaman.',
+};
+
+export function analysisHarmRefusal(locale: Locale, category: 'child' | 'legal' | 'employment' | 'infidelity'): string {
+  if (locale === 'uz') {
+    if (category === 'legal') return 'Bu tahlildan sud uchun dalil yoki ayblov sifatida foydalanishga yordam bera olmayman. U dalil emas. Yuridik masala bo‘lsa, birlamchi hujjatlar va malakali mutaxassisga tayaning.';
+    return 'Bu tahlil bilan odamni ayblash, jazolash yoki unga zarar yetkazishga yordam bera olmayman. U yolg‘on detektori ham, dalil ham emas. Faqat neytral tekshirish savollarini tuzishga yordam beraman.';
+  }
+  if (category === 'legal') return 'Не могу помогать использовать такой анализ как доказательство для суда или обвинение. Он не является доказательством. Для юридических решений опирайтесь на первичные документы и квалифицированного специалиста.';
+  return 'Не могу помогать обвинять, наказывать или причинять вред человеку на основании такого анализа. Это не детектор лжи и не доказательство. Могу помочь только составить нейтральные вопросы для проверки фактов.';
+}
+
+export function analysisReportKeyboard(locale: Locale, itemId: string): InlineKeyboard {
+  return [
+    [{ text: locale === 'ru' ? '❓ Вопросы для проверки' : '❓ Tekshirish savollari', callback_data: `analysis_questions:${itemId}` }],
+    [{ text: locale === 'ru' ? '📋 Подробнее' : '📋 Batafsil', callback_data: `analysis_details:${itemId}` }],
+    [{ text: locale === 'ru' ? '🗑 Удалить анализ' : '🗑 Tahlilni o‘chirish', callback_data: `analysis_delete:${itemId}` }],
+  ];
+}
+
+export const ANALYSIS_PAYWALL: Record<Locale, string> = {
+  ru: '📋 Подробный разбор\n\nВ следующей версии здесь будут расширенные пояснения и дополнительные вопросы. Day Pass — 4 900 UZS на 24 часа.\n\nОнлайн-оплата пока подключается: сейчас кнопка только фиксирует интерес и ничего не списывает.',
+  uz: '📋 Batafsil tahlil\n\nKeyingi versiyada kengaytirilgan izohlar va qo‘shimcha savollar bo‘ladi. Day Pass — 4 900 UZS, 24 soatga.\n\nOnlayn to‘lov hozir ulanmoqda: tugma faqat qiziqishni qayd etadi va pul yechmaydi.',
+};
+
+export function analysisPaywallKeyboard(locale: Locale, itemId: string): InlineKeyboard {
+  return [[
+    { text: locale === 'ru' ? 'Day Pass · 4 900 UZS' : 'Day Pass · 4 900 UZS', callback_data: `analysis_pay_intent:${itemId}` },
+    { text: locale === 'ru' ? 'Позже' : 'Keyinroq', callback_data: `analysis_later:${itemId}` },
+  ]];
+}
+
+export const ANALYSIS_PAYMENT_PENDING: Record<Locale, string> = {
+  ru: 'Спасибо! Интерес записан. Онлайн-оплата подключается — мы ничего не списали и не создавали заказ.',
+  uz: 'Rahmat! Qiziqish qayd etildi. Onlayn to‘lov ulanmoqda — hech narsa yechilmadi va buyurtma yaratilmadi.',
+};
+
+export const ANALYSIS_LATER: Record<Locale, string> = {
+  ru: 'Хорошо. К текущему бесплатному отчёту можно вернуться в течение примерно 24 часов.',
+  uz: 'Mayli. Joriy bepul hisobotga taxminan 24 soat ichida qaytish mumkin.',
+};
+
+export const ANALYSIS_DELETED: Record<Locale, string> = {
+  ru: 'Анализ и связанная расшифровка удалены. Запись об использованном дневном лимите сохранена без текста.',
+  uz: 'Tahlil va unga tegishli transkript o‘chirildi. Ishlatilgan kunlik limit qaydi matnsiz saqlandi.',
+};
 
 export const CLARIFY: Record<Locale, string> = {
   ru: 'Кому отвечаем?',

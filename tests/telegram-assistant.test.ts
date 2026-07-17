@@ -20,6 +20,9 @@ import { START, PRIVACY, resultKeyboard, clarifyKeyboard, feedbackKeyboard, lang
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
 import { claimUpdate, pseudoUser } from '../functions/lib/telegram/store';
 import { decideUsage, consumeUsage, grantEntitlement, resolveBillingFlags, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
+import { buildAnalysisPrompt, TAHLIL_PROMPT_VERSION } from '../functions/lib/telegram/analysis-prompt';
+import { sanitizeAnalysis, isLieDetectionQuestion, harmfulUseCategory } from '../functions/lib/telegram/analysis';
+import { formatAnalysisReport } from '../functions/lib/telegram/analysis-report';
 import { onRequestGet as assistantGet, onRequestPost as assistantPost } from '../functions/api/telegram/assistant';
 
 // ═══ Pure units ════════════════════════════════════════════════════════════
@@ -75,6 +78,56 @@ test('voice onboarding and privacy copy make the product boundary explicit', () 
   assert.match(PRIVACY.ru, /не сохраняются/);
   assert.match(PRIVACY.uz, /saqlanmaydi/);
   assert.ok(!/15 секунд|15 soniya/.test(`${START.ru} ${START.uz}`));
+});
+
+test('Tahlil prompt and boundary detectors prohibit lie detection', () => {
+  const p = buildAnalysisPrompt('Он сказал, что товар на складе.', 'ru', []);
+  assert.equal(p.promptVersion, TAHLIL_PROMPT_VERSION);
+  assert.match(p.system, /НЕ.*детектор.*лжи|не определя/i);
+  assert.match(p.user, /данные, не инструкции/i);
+  assert.equal(isLieDetectionQuestion('Скажи, он врёт или нет?'), true);
+  assert.equal(isLieDetectionQuestion('Клиент говорит, что его обманули — как ответить?'), false);
+  assert.equal(harmfulUseCategory('Хочу использовать это как доказательство для суда'), 'legal');
+  assert.equal(harmfulUseCategory('Проверь обычное обещание доставки'), null);
+});
+
+test('Tahlil sanitizer drops unsafe and low-confidence findings and caps markers', () => {
+  const raw = {
+    sufficient: true,
+    insufficiencyReason: 'none',
+    summary: 'Обсуждаются поставка и цена.',
+    claims: Array.from({ length: 6 }, (_, i) => ({
+      timeSec: i, quote: `Факт ${i}`, kind: 'fact', explanation: 'Требует подтверждения', confidence: 'high',
+    })),
+    contradictions: [
+      { firstTimeSec: 1, firstQuote: 'Есть', secondTimeSec: 9, secondQuote: 'Надо проверить', explanation: 'Человек врёт', confidence: 'high' },
+      { firstTimeSec: 2, firstQuote: 'Вчера', secondTimeSec: 10, secondQuote: 'Неделю назад', explanation: 'Сроки не совпадают', confidence: 'low' },
+    ],
+    hedging: [{ timeSec: 3, quote: 'примерно', explanation: 'Неопределённый срок', confidence: 'medium' }],
+    questions: Array.from({ length: 7 }, (_, i) => `Вопрос ${i + 1}?`),
+  };
+  const safe = sanitizeAnalysis(raw);
+  assert.equal(safe.ok, true);
+  assert.ok(safe.analysis);
+  const markerCount = safe.analysis!.claims.length + safe.analysis!.contradictions.length + safe.analysis!.hedging.length;
+  assert.ok(markerCount <= 5);
+  assert.equal(safe.analysis!.contradictions.length, 0, 'unsafe/low contradictions removed');
+  assert.ok(safe.analysis!.questions.length <= 5);
+  assert.ok(!JSON.stringify(safe.analysis).includes('врёт'));
+});
+
+test('Tahlil report is deterministic, bounded and always contains disclaimer', () => {
+  const safe = sanitizeAnalysis({
+    sufficient: true, insufficiencyReason: 'none', summary: 'Обсуждаются сроки поставки.',
+    claims: [{ timeSec: 12, quote: 'Доставим в четверг', kind: 'promise', explanation: 'Обещание срока', confidence: 'high' }],
+    contradictions: [], hedging: [], questions: ['Это гарантированный срок или ориентир?'],
+  });
+  assert.equal(safe.ok, true);
+  const report = formatAnalysisReport(safe.analysis!, 'ru', 47);
+  assert.match(report, /Анализ содержания/);
+  assert.match(report, /00:12/);
+  assert.match(report, /не является доказательством/i);
+  assert.ok(report.length <= 3900);
 });
 
 test('splitMessage: short intact, long under Telegram limit', () => {
@@ -223,7 +276,7 @@ test('config: assistant secrets separate from lead bot', () => {
 function makeD1() {
   const t = {
     users: [] as any[], items: [] as any[], results: [] as any[], updates: [] as any[],
-    events: [] as any[], ledger: [] as any[], ents: [] as any[],
+    events: [] as any[], ledger: [] as any[], ents: [] as any[], analyses: [] as any[],
     subs: [] as any[], orders: [] as any[], txs: [] as any[], prefs: [] as any[], refs: [] as any[],
     plans: [
       { code: 'free', name_ru: 'Free', name_uz: 'Free', price_uzs: 0, billing_type: 'none', duration_hours: null, monthly_limit: 30, daily_limit: 3, features_json: null, is_active: 1, display_order: 1 },
@@ -251,12 +304,30 @@ function makeD1() {
         id: a[0], telegram_user_id: a[1], source_type: a[2], source_text: a[3], source_language: a[4],
         voice_duration_sec: withVoiceDuration ? a[5] : null,
         expires_at: withVoiceDuration ? a[7] : a[6], detected_context: null,
+        transcript_segments_json: withVoiceDuration ? (a[8] ?? null) : null,
       });
       return { meta: { changes: 1 } };
     }
     if (/UPDATE telegram_items SET detected_context/.test(sql)) { const i = t.items.find((x) => x.id === a[1]); if (i) i.detected_context = a[0]; return { meta: { changes: 1 } }; }
+    if (/UPDATE telegram_items SET transcript_segments_json/.test(sql)) { const i = t.items.find((x) => x.id === a[1] && x.telegram_user_id === a[2]); if (i) i.transcript_segments_json = a[0]; return { meta: { changes: i ? 1 : 0 } }; }
+    if (/UPDATE telegram_items SET source_text = NULL, transcript_segments_json = NULL/.test(sql)) { const i = t.items.find((x) => x.id === a[0] && x.telegram_user_id === a[1]); if (i) { i.source_text = null; i.transcript_segments_json = null; } return { meta: { changes: i ? 1 : 0 } }; }
     if (/INSERT INTO telegram_results/.test(sql)) { t.results.push({ id: a[0], item_id: a[1], action: a[2], modifier: a[3], result_text: a[4], model: a[6], prompt_version: a[7], created_at: a[8] + Math.random(), output_language: a[9], latency_ms: a[10] }); return { meta: { changes: 1 } }; }
     if (/INSERT INTO telegram_events/.test(sql)) { t.events.push({ event: a[1], pseudo_user: a[2], meta_json: a[3] }); return { meta: { changes: 1 } }; }
+    if (/INSERT INTO user_preferences/.test(sql)) {
+      let p = t.prefs.find((x) => x.telegram_user_id === a[0]);
+      if (!p) { p = { telegram_user_id: a[0] }; t.prefs.push(p); }
+      p.analysis_consent_version = a[1]; p.analysis_consent_at = a[2];
+      return { meta: { changes: 1 } };
+    }
+    if (/INSERT (OR IGNORE )?INTO analysis_reports/.test(sql)) {
+      if (t.analyses.some((x) => x.item_id === a[2])) return { meta: { changes: 0 } };
+      t.analyses.push({
+        id: a[0], telegram_user_id: a[1], item_id: a[2], language: a[3], summary: a[4],
+        transcript_with_timestamps: a[5], claims_json: a[6], contradictions_json: a[7], hedging_json: a[8], questions_json: a[9],
+        quality_assessment: a[10], provider: a[11], model: a[12], prompt_version: a[13], latency_ms: a[14], created_at: a[15], expires_at: a[16],
+      });
+      return { meta: { changes: 1 } };
+    }
     if (/INSERT OR IGNORE INTO usage_ledger/.test(sql)) {
       if (t.ledger.some((l) => l.idempotency_key === a[8])) return { meta: { changes: 0 } };
       t.ledger.push({ id: a[0], telegram_user_id: a[1], usage_type: a[2], item_id: a[4], result_id: a[5], entitlement_id: a[6], created_at: a[7], idempotency_key: a[8] });
@@ -271,6 +342,9 @@ function makeD1() {
     if (/DELETE FROM entitlements/.test(sql)) { t.ents = t.ents.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM subscriptions/.test(sql)) { t.subs = t.subs.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM user_preferences/.test(sql)) { t.prefs = t.prefs.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
+    if (/DELETE FROM analysis_reports WHERE telegram_user_id/.test(sql)) { t.analyses = t.analyses.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
+    if (/DELETE FROM analysis_reports WHERE item_id = \? AND telegram_user_id/.test(sql)) { const n = t.analyses.length; t.analyses = t.analyses.filter((x) => !(x.item_id === a[0] && x.telegram_user_id === a[1])); return { meta: { changes: n - t.analyses.length } }; }
+    if (/DELETE FROM analysis_reports WHERE expires_at/.test(sql)) { t.analyses = t.analyses.filter((x) => x.expires_at >= a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM referrals/.test(sql)) { t.refs = t.refs.filter((x) => x.referrer_user_id !== a[0] && x.referred_user_id !== a[1]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM telegram_results/.test(sql)) { const ids = new Set(t.items.filter((x) => x.telegram_user_id === a[0]).map((x) => x.id)); t.results = t.results.filter((x) => !ids.has(x.item_id)); return { meta: { changes: 1 } }; }
     if (/DELETE FROM telegram_users/.test(sql)) { t.users = t.users.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
@@ -281,6 +355,8 @@ function makeD1() {
     if (/SELECT telegram_user_id, locale/.test(sql)) { return t.users.find((x) => x.telegram_user_id === a[0]) || null; }
     if (/SELECT total_actions AS t/.test(sql)) { const u = t.users.find((x) => x.telegram_user_id === a[0]); return u ? { t: u.total_actions } : null; }
     if (/FROM telegram_items WHERE id = \? AND telegram_user_id/.test(sql)) { return t.items.find((x) => x.id === a[0] && x.telegram_user_id === a[1]) || null; }
+    if (/SELECT analysis_consent_version/.test(sql) && /FROM user_preferences/.test(sql)) { return t.prefs.find((x) => x.telegram_user_id === a[0]) || null; }
+    if (/FROM analysis_reports WHERE item_id = \? AND telegram_user_id/.test(sql)) { return t.analyses.find((x) => x.item_id === a[0] && x.telegram_user_id === a[1] && x.expires_at > a[2]) || null; }
     if (/FROM telegram_results r\s+JOIN telegram_items i/.test(sql)) {
       const r = t.results.find((x) => x.id === a[0]);
       if (!r) return null;
@@ -328,6 +404,12 @@ interface Rec {
   sttCalls?: string[];
   groqFail?: boolean;
   openaiText?: string;
+  sttSegments?: any[];
+  sttForms?: FormData[];
+  analysisAi?: number;
+  analysisResults?: any[];
+  analysisBodies?: any[];
+  analysisFail?: boolean;
 }
 function installFetch(rec: Rec) {
   (globalThis as any).fetch = async (url: string | URL, init?: any) => {
@@ -347,14 +429,27 @@ function installFetch(rec: Rec) {
     }
     if (href.includes('api.groq.com/openai/v1/audio/transcriptions')) {
       rec.sttCalls = [...(rec.sttCalls ?? []), 'groq'];
+      rec.sttForms = [...(rec.sttForms ?? []), init?.body as FormData];
       if (rec.groqFail) return new Response('{}', { status: 503, headers: { 'content-type': 'application/json' } });
-      return Response.json({ text: rec.sttText ?? 'Здравствуйте, когда будет готов мой заказ?', language: rec.sttLanguage ?? 'russian' });
+      return Response.json({ text: rec.sttText ?? 'Здравствуйте, когда будет готов мой заказ?', language: rec.sttLanguage ?? 'russian', segments: rec.sttSegments ?? [] });
     }
     if (href.includes('api.openai.com/v1/audio/transcriptions')) {
       rec.sttCalls = [...(rec.sttCalls ?? []), 'openai'];
       return Response.json({ text: rec.openaiText ?? rec.sttText ?? '', language: rec.sttLanguage ?? 'russian' });
     }
     if (href.includes('openrouter.ai')) {
+      if (body.response_format?.type === 'json_schema') {
+        rec.analysisBodies = [...(rec.analysisBodies ?? []), body];
+        rec.analysisAi = (rec.analysisAi ?? 0) + 1;
+        if (rec.analysisFail) return new Response('{}', { status: 503, headers: { 'content-type': 'application/json' } });
+        const value = rec.analysisResults?.[(rec.analysisAi ?? 1) - 1] ?? {
+          sufficient: true, insufficiencyReason: 'none', summary: 'Обсуждаются наличие товара и срок доставки.',
+          claims: [{ timeSec: 5, quote: 'товар на складе', kind: 'availability', explanation: 'Утверждение о наличии требует подтверждения', confidence: 'high' }],
+          contradictions: [], hedging: [{ timeSec: 12, quote: 'примерно в четверг', explanation: 'Срок назван ориентировочно', confidence: 'medium' }],
+          questions: ['Можете подтвердить наличие товара на складе?', 'Четверг — гарантированный срок или ориентир?'],
+        };
+        return jsonRes({ choices: [{ message: { content: JSON.stringify(value) } }], usage: { prompt_tokens: 50, completion_tokens: 100 } });
+      }
       const reply = rec.aiReplies?.[rec.ai] ?? 'Rahmat! Buyurtmangiz yo‘lda, tez orada yetkazamiz.';
       rec.ai++;
       return jsonRes({ choices: [{ message: { content: reply } }], usage: { prompt_tokens: 5, completion_tokens: 5 } });
@@ -682,7 +777,10 @@ test('AI provider hard failure → friendly error, retry keyboard', async () => 
 test('voice → temporary acknowledgement, full transcript, recommended reply and voice keyboard', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const transcript = 'Здравствуйте, когда будет готов мой заказ?';
-  const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY], sttText: transcript, sttLanguage: 'russian' };
+  const rec: Rec = {
+    tg: [], ai: 0, aiReplies: [RU_REPLY], sttText: transcript, sttLanguage: 'russian',
+    sttSegments: [{ start: 0, end: 4.5, text: 'Здравствуйте, когда будет готов мой заказ?', avg_logprob: -0.1, no_speech_prob: 0.01, tokens: [1, 2, 3] }],
+  };
   installFetch(rec);
 
   await handleUpdate(deps(db, { GROQ_API_KEY: 'groq-test' }), {
@@ -702,6 +800,11 @@ test('voice → temporary acknowledgement, full transcript, recommended reply an
   assert.equal(t.items[0].source_text, transcript);
   assert.equal(t.items[0].source_language, 'ru');
   assert.equal(t.items[0].voice_duration_sec, 47);
+  assert.match(t.items[0].transcript_segments_json, /"start":0/);
+  assert.ok(!t.items[0].transcript_segments_json.includes('tokens'));
+  const sttForm = rec.sttForms?.[0];
+  assert.equal(sttForm?.get('response_format'), 'verbose_json');
+  assert.equal(sttForm?.get('timestamp_granularities[]'), 'segment');
   assert.equal(t.ledger.filter((l: any) => l.usage_type === 'main_generation').length, 1);
 
   const sends = rec.tg.filter((c) => c.method === 'sendMessage');
@@ -722,10 +825,11 @@ test('voice → temporary acknowledgement, full transcript, recommended reply an
   const replyIndex = rec.tg.findIndex((c) => c.method === 'sendMessage' && c.body.text === RU_REPLY);
   assert.ok(processingIndex < deleteIndex && deleteIndex < transcriptIndex && transcriptIndex < labelIndex && labelIndex < replyIndex);
   const buttons = reply.body.reply_markup.inline_keyboard.flat();
-  assert.equal(buttons.length, 4);
+  assert.equal(buttons.length, 5);
   assert.ok(buttons.some((b: any) => b.callback_data?.includes(':shorter:')));
   assert.ok(buttons.some((b: any) => b.callback_data?.includes(':to_uz:')));
   assert.ok(!buttons.some((b: any) => b.callback_data?.includes(':alternative:')));
+  assert.ok(buttons.some((b: any) => b.callback_data === `analyze:${t.items[0].id}`));
 
   for (const event of t.events) {
     assert.ok(!event.meta_json.includes(transcript));
@@ -829,4 +933,130 @@ test('voice checks main-generation quota before Telegram download and STT', asyn
   assert.equal(rec.tg.filter((c) => c.method === 'getFile').length, 0);
   assert.equal(rec.sttCalls, undefined);
   assert.ok((db as any)._t.events.some((e: any) => e.event === 'javob_limit_reached'));
+});
+
+// ═══ GPTBot Tahlil P0 ═══════════════════════════════════════════════════════
+
+test('Tahlil first-use consent → structured report → cached questions/paywall → delete', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const transcript = 'Товар точно на складе. Доставим примерно в четверг, но наличие нужно уточнить.';
+  const rec: Rec = {
+    tg: [], ai: 0, aiReplies: [RU_REPLY], analysisAi: 0, sttText: transcript, sttLanguage: 'russian',
+    sttSegments: [
+      { start: 0, end: 7, text: 'Товар точно на складе.', avg_logprob: -0.1, no_speech_prob: 0.01 },
+      { start: 7, end: 18, text: 'Доставим примерно в четверг, но наличие нужно уточнить.', avg_logprob: -0.12, no_speech_prob: 0.01 },
+    ],
+  };
+  installFetch(rec);
+  const d = deps(db, { GROQ_API_KEY: 'groq-test' });
+  await handleUpdate(d, {
+    update_id: 200,
+    message: { chat: { id: 200, type: 'private' }, from: { id: 200, language_code: 'ru' }, voice: { file_id: 'analysis-voice', duration: 18, file_size: 4 } },
+  } as any);
+  const t = (db as any)._t;
+  const itemId = t.items[0].id;
+  assert.equal(rec.ai, 1, 'existing reply still generated');
+
+  await handleUpdate(d, { update_id: 201, callback_query: { id: 'cq-consent', from: { id: 200, language_code: 'ru' }, data: `analyze:${itemId}`, message: { chat: { id: 200 }, message_id: 10 } } } as any);
+  assert.equal(rec.analysisAi, 0, 'analysis waits for explicit consent');
+  assert.equal(t.analyses.length, 0);
+  assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 0);
+  const consent = rec.tg.filter((x) => x.method === 'sendMessage').find((x) => /не является доказательством|НЕ является доказательством/i.test(x.body.text) && x.body.reply_markup);
+  assert.ok(consent, 'localized consent screen shown');
+  assert.ok(consent.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data === `analysis_consent:accept:${itemId}`));
+
+  await handleUpdate(d, { update_id: 202, callback_query: { id: 'cq-accept', from: { id: 200, language_code: 'ru' }, data: `analysis_consent:accept:${itemId}`, message: { chat: { id: 200 }, message_id: 11 } } } as any);
+  assert.equal(rec.analysisAi, 1);
+  assert.equal(t.prefs[0].analysis_consent_version.length > 0, true);
+  assert.equal(t.analyses.length, 1);
+  assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 1);
+  assert.equal(rec.analysisBodies?.[0].response_format.type, 'json_schema');
+  assert.equal(rec.analysisBodies?.[0].provider.require_parameters, true);
+  const reportSend = rec.tg.filter((x) => x.method === 'sendMessage').find((x) => /Анализ содержания/.test(x.body.text));
+  assert.ok(reportSend);
+  assert.match(reportSend.body.text, /не является доказательством/i);
+  assert.ok(reportSend.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data === `analysis_questions:${itemId}`));
+
+  await handleUpdate(d, { update_id: 203, callback_query: { id: 'cq-questions', from: { id: 200 }, data: `analysis_questions:${itemId}`, message: { chat: { id: 200 }, message_id: 12 } } } as any);
+  assert.equal(rec.analysisAi, 1, 'stored questions do not call LLM');
+  assert.ok(rec.tg.some((x) => x.method === 'sendMessage' && /гарантированный срок|подтвердить наличие/i.test(x.body.text)));
+
+  await handleUpdate(d, { update_id: 204, callback_query: { id: 'cq-details', from: { id: 200 }, data: `analysis_details:${itemId}`, message: { chat: { id: 200 }, message_id: 13 } } } as any);
+  assert.ok(rec.tg.some((x) => x.method === 'sendMessage' && /4[\s\u00a0]?900/.test(x.body.text)));
+  await handleUpdate(d, { update_id: 205, callback_query: { id: 'cq-pay', from: { id: 200 }, data: `analysis_pay_intent:${itemId}`, message: { chat: { id: 200 }, message_id: 14 } } } as any);
+  assert.equal(t.orders.length, 0);
+  assert.equal(t.ents.length, 0);
+  assert.ok(t.events.some((x: any) => x.event === 'payment_intent'));
+
+  await handleUpdate(d, { update_id: 206, callback_query: { id: 'cq-cached', from: { id: 200 }, data: `analyze:${itemId}`, message: { chat: { id: 200 }, message_id: 15 } } } as any);
+  assert.equal(rec.analysisAi, 1, 'cached report avoids provider');
+  assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 1);
+
+  await handleUpdate(d, { update_id: 207, callback_query: { id: 'cq-delete', from: { id: 200 }, data: `analysis_delete:${itemId}`, message: { chat: { id: 200 }, message_id: 16 } } } as any);
+  assert.equal(t.analyses.length, 0);
+  assert.equal(t.items[0].source_text, null);
+  assert.equal(t.items[0].transcript_segments_json, null);
+  assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 1, 'quota ledger survives per-item delete');
+  for (const e of t.events) {
+    assert.ok(!e.meta_json.includes(transcript));
+    assert.ok(!e.meta_json.includes('Товар точно'));
+  }
+});
+
+test('Tahlil quota is separate, one successful analysis per UTC day', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, analysisAi: 0 }; installFetch(rec);
+  const d = deps(db);
+  await handleUpdate(d, { update_id: 210, message: { chat: { id: 210, type: 'private' }, from: { id: 210 }, text: '/start' } } as any);
+  const expires = new Date(Date.now() + 864e5).toISOString();
+  const now = new Date().toISOString();
+  const t = (db as any)._t;
+  t.prefs.push({ telegram_user_id: 210, analysis_consent_version: 'tahlil-consent-v1', analysis_consent_at: now });
+  t.items.push({ id: 'item-one', telegram_user_id: 210, source_type: 'voice', source_text: 'Товар на складе и доставка в четверг.', source_language: 'ru', voice_duration_sec: 20, transcript_segments_json: '[]', expires_at: expires });
+  t.items.push({ id: 'item-two', telegram_user_id: 210, source_type: 'voice', source_text: 'Цена окончательная, но возможны дополнительные расходы.', source_language: 'ru', voice_duration_sec: 20, transcript_segments_json: '[]', expires_at: expires });
+  await handleUpdate(d, { update_id: 211, callback_query: { id: 'q1', from: { id: 210 }, data: 'analyze:item-one', message: { chat: { id: 210 }, message_id: 1 } } } as any);
+  assert.equal(rec.analysisAi, 1);
+  await handleUpdate(d, { update_id: 212, callback_query: { id: 'q2', from: { id: 210 }, data: 'analyze:item-two', message: { chat: { id: 210 }, message_id: 2 } } } as any);
+  assert.equal(rec.analysisAi, 1, 'second item blocked before provider');
+  assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 1);
+  assert.equal(t.ledger.filter((x: any) => x.usage_type === 'main_generation').length, 0, 'reply quota untouched');
+  assert.ok(t.events.some((x: any) => x.event === 'analysis_limit_reached'));
+});
+
+test('Tahlil abstains on short voice and provider failure without charging', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, analysisAi: 0, analysisFail: true }; installFetch(rec);
+  const d = deps(db);
+  await handleUpdate(d, { update_id: 220, message: { chat: { id: 220, type: 'private' }, from: { id: 220 }, text: '/start' } } as any);
+  const t = (db as any)._t;
+  t.prefs.push({ telegram_user_id: 220, analysis_consent_version: 'tahlil-consent-v1', analysis_consent_at: new Date().toISOString() });
+  const expires = new Date(Date.now() + 864e5).toISOString();
+  t.items.push({ id: 'short-item', telegram_user_id: 220, source_type: 'voice', source_text: 'Привет.', source_language: 'ru', voice_duration_sec: 9, transcript_segments_json: '[]', expires_at: expires });
+  t.items.push({ id: 'failed-item', telegram_user_id: 220, source_type: 'voice', source_text: 'Товар на складе и доставка будет в четверг.', source_language: 'ru', voice_duration_sec: 20, transcript_segments_json: '[]', expires_at: expires });
+  await handleUpdate(d, { update_id: 221, callback_query: { id: 'short', from: { id: 220 }, data: 'analyze:short-item', message: { chat: { id: 220 }, message_id: 1 } } } as any);
+  assert.equal(rec.analysisAi, 0);
+  await handleUpdate(d, { update_id: 222, callback_query: { id: 'failed', from: { id: 220 }, data: 'analyze:failed-item', message: { chat: { id: 220 }, message_id: 2 } } } as any);
+  assert.equal(rec.analysisAi, 1);
+  assert.equal(t.analyses.length, 0);
+  assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 0);
+});
+
+test('Tahlil fixed boundary and harmful-use refusal bypass the reply LLM', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, analysisAi: 0 }; installFetch(rec);
+  const d = deps(db);
+  await handleUpdate(d, { update_id: 230, message: { chat: { id: 230, type: 'private' }, from: { id: 230 }, text: 'Он врёт или говорит правду?' } } as any);
+  await handleUpdate(d, { update_id: 231, message: { chat: { id: 230, type: 'private' }, from: { id: 230 }, text: 'Нужно доказательство для суда, что он обманывает' } } as any);
+  assert.equal(rec.ai, 0);
+  assert.equal(rec.analysisAi, 0);
+  const texts = rec.tg.filter((x) => x.method === 'sendMessage').map((x) => x.body.text).join('\n');
+  assert.match(texts, /нельзя надёжно определить|не определяет/i);
+  assert.match(texts, /не могу помогать.*суда|не используйте.*суда/i);
+  const t = (db as any)._t;
+  assert.equal(t.items.length, 0);
+  assert.ok(t.events.some((x: any) => x.event === 'lie_question_detected'));
+  const harmful = t.events.find((x: any) => x.event === 'harmful_use_detected');
+  assert.ok(harmful);
+  assert.match(harmful.meta_json, /legal/);
+  assert.ok(!harmful.meta_json.includes('доказательство'));
 });

@@ -11,8 +11,17 @@ import * as C from './i18n';
 import { buildJavobReplyPrompt, buildJavobModifierPrompt, guessLanguage, JAVOB_PROMPT_VERSION, type JavobModifier } from './prompts';
 import { classifyMessage } from './classify';
 import { runJavobValidated } from './service';
-import { decideUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM } from './billing';
+import { decideUsage, decideAnalysisUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM } from './billing';
 import { downloadTelegramFile, transcribeAudio, VoicePipelineError } from './transcription';
+import {
+  analyzeTranscript,
+  harmfulUseCategory,
+  isLieDetectionQuestion,
+  parseStoredSegments,
+  TAHLIL_CONSENT_VERSION,
+  type TranscriptAnalysis,
+} from './analysis';
+import { analysisFromStored, formatAnalysisReport, formatVerificationQuestions } from './analysis-report';
 
 interface Deps {
   env: Env;
@@ -105,6 +114,21 @@ async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Prom
 
   if (text.length > cfg.maxInputChars) {
     await tg.sendMessage(chatId, C.ERR_TOO_LONG[locale](cfg.maxInputChars));
+    return;
+  }
+
+  // Fixed local safety responses bypass every AI provider. A user asking for
+  // a lie verdict or a harmful high-stakes use must never receive a generated
+  // accusation disguised as analysis.
+  const harmful = harmfulUseCategory(text);
+  if (harmful) {
+    await S.logEvent(db, 'harmful_use_detected', pseudo, { locale, category: harmful });
+    await tg.sendMessage(chatId, C.analysisHarmRefusal(locale, harmful));
+    return;
+  }
+  if (isLieDetectionQuestion(text)) {
+    await S.logEvent(db, 'lie_question_detected', pseudo, { locale });
+    await tg.sendMessage(chatId, C.ANALYSIS_LIE_BOUNDARY[locale]);
     return;
   }
 
@@ -209,6 +233,7 @@ async function handleVoiceMessage(
       mimeType: media.mime_type || downloaded.mimeType,
       fileName: media.file_name,
       timeoutMs: Math.min(cfg.sttTimeoutMs, 10_000),
+      durationSeconds: duration,
     });
   } catch (error) {
     const code = error instanceof VoicePipelineError ? error.code : 'stt_failed';
@@ -232,7 +257,16 @@ async function handleVoiceMessage(
   });
 
   const classification = classifyMessage(sourceText, transcript.language);
-  const itemId = await S.createItem(db, userId, 'voice', sourceText, classification.language, cfg.itemTtlMs, duration);
+  const itemId = await S.createItem(
+    db,
+    userId,
+    'voice',
+    sourceText,
+    classification.language,
+    cfg.itemTtlMs,
+    duration,
+    JSON.stringify(transcript.segments || []),
+  );
   await S.setItemContext(db, itemId, classification.situation);
   await S.logEvent(db, 'javob_context_detected', pseudo, { locale, situation: classification.situation, sourceType: 'voice' });
   void S.cleanupExpired(db);
@@ -302,6 +336,7 @@ interface ItemLike {
   source_language: string | null;
   source_type?: string;
   voice_duration_sec?: number | null;
+  transcript_segments_json?: string | null;
   detected_context?: string | null;
   voice_started_at?: number;
   stt_provider?: string;
@@ -451,6 +486,92 @@ async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Pro
     return;
   }
 
+  // GPTBot Tahlil callbacks. Cached reports are always checked before consent
+  // and quota so reopening a report is instant and free.
+  if (kind === 'analyze') {
+    await S.logEvent(db, 'analysis_requested', pseudo, {
+      locale, sourceType: item.source_type, durationBucket: durationBucket(item.voice_duration_sec || 0),
+    });
+    const cached = await S.getOwnedAnalysis(db, item.id, userId);
+    if (cached) return await sendStoredAnalysis(deps, chatId, locale, pseudo, item, cached, true);
+    if (item.source_type !== 'voice') {
+      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+      return;
+    }
+    if (!await S.hasAnalysisConsent(db, userId, TAHLIL_CONSENT_VERSION)) {
+      await S.logEvent(db, 'analysis_consent_shown', pseudo, { locale });
+      await tg.sendMessage(chatId, C.ANALYSIS_CONSENT[locale], { keyboard: C.analysisConsentKeyboard(locale, item.id) });
+      return;
+    }
+    return await runAnalysis(deps, chatId, userId, locale, pseudo, item);
+  }
+
+  if (kind === 'analysis_consent') {
+    if (parts[1] === 'cancel') {
+      await S.logEvent(db, 'analysis_consent_cancelled', pseudo, { locale });
+      await tg.sendMessage(chatId, C.ANALYSIS_CANCELED[locale]);
+      return;
+    }
+    if (parts[1] === 'accept') {
+      await S.setAnalysisConsent(db, userId, TAHLIL_CONSENT_VERSION);
+      await S.logEvent(db, 'analysis_consent_accepted', pseudo, { locale, version: TAHLIL_CONSENT_VERSION });
+      return await runAnalysis(deps, chatId, userId, locale, pseudo, item);
+    }
+  }
+
+  if (kind === 'analysis_questions') {
+    const report = await S.getOwnedAnalysis(db, item.id, userId);
+    const analysis = report ? analysisFromStored(report) : null;
+    if (!report || !analysis) {
+      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+      return;
+    }
+    await S.logEvent(db, 'analysis_questions_opened', pseudo, { locale, count: analysis.questions.length });
+    await tg.sendMessage(chatId, formatVerificationQuestions(analysis.questions, locale));
+    return;
+  }
+
+  if (kind === 'analysis_details') {
+    const report = await S.getOwnedAnalysis(db, item.id, userId);
+    if (!report) {
+      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+      return;
+    }
+    await S.logEvent(db, 'analysis_details_viewed', pseudo, { locale });
+    await tg.sendMessage(chatId, C.ANALYSIS_PAYWALL[locale], { keyboard: C.analysisPaywallKeyboard(locale, item.id) });
+    return;
+  }
+
+  if (kind === 'analysis_pay_intent') {
+    const report = await S.getOwnedAnalysis(db, item.id, userId);
+    if (!report) {
+      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+      return;
+    }
+    // P0 measures demand only. No payment order, entitlement or fake checkout.
+    await S.logEvent(db, 'payment_intent', pseudo, { locale, product: 'tahlil_day_pass', amountUzs: 4900 });
+    await tg.sendMessage(chatId, C.ANALYSIS_PAYMENT_PENDING[locale]);
+    return;
+  }
+
+  if (kind === 'analysis_later') {
+    await S.logEvent(db, 'analysis_paywall_dismissed', pseudo, { locale });
+    await tg.sendMessage(chatId, C.ANALYSIS_LATER[locale]);
+    return;
+  }
+
+  if (kind === 'analysis_delete') {
+    const report = await S.getOwnedAnalysis(db, item.id, userId);
+    if (!report) {
+      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+      return;
+    }
+    await S.deleteAnalysisData(db, item.id, userId);
+    await S.logEvent(db, 'analysis_deleted', pseudo, { locale });
+    await tg.sendMessage(chatId, C.ANALYSIS_DELETED[locale]);
+    return;
+  }
+
   // Clarification answer → generate with audience context.
   if (kind === 'ctx' && ['client', 'colleague', 'manager', 'personal'].includes(parts[1])) {
     await S.setItemContext(db, itemId, parts[1]);
@@ -470,6 +591,130 @@ async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Pro
   }
 
   await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+}
+
+function timestampedTranscript(segments: ReturnType<typeof parseStoredSegments>): string | null {
+  if (!segments.length) return null;
+  return segments
+    .map((segment) => `[${C.formatVoiceDuration(segment.start)}-${C.formatVoiceDuration(segment.end)}] ${segment.text}`)
+    .join('\n')
+    .slice(0, 16_000);
+}
+
+async function sendStoredAnalysis(
+  deps: Deps,
+  chatId: number,
+  locale: Locale,
+  pseudo: string,
+  item: S.TgItemRow,
+  row: S.AnalysisReportRow,
+  cached: boolean,
+): Promise<void> {
+  const analysis = analysisFromStored(row);
+  if (!analysis) {
+    await deps.tg.sendMessage(chatId, C.ANALYSIS_FAILED[locale]);
+    return;
+  }
+  await S.logEvent(deps.db, cached ? 'analysis_cached_opened' : 'analysis_report_shown', pseudo, {
+    locale,
+    claimCount: analysis.claims.length,
+    contradictionCount: analysis.contradictions.length,
+    hedgingCount: analysis.hedging.length,
+    questionCount: analysis.questions.length,
+  });
+  await deps.tg.sendMessage(chatId, formatAnalysisReport(analysis, locale, item.voice_duration_sec || 0), {
+    keyboard: C.analysisReportKeyboard(locale, item.id),
+  });
+}
+
+async function runAnalysis(
+  deps: Deps,
+  chatId: number,
+  userId: number,
+  locale: Locale,
+  pseudo: string,
+  item: S.TgItemRow,
+): Promise<void> {
+  const { db, cfg, tg, env } = deps;
+  if (item.source_type !== 'voice') {
+    await tg.sendMessage(chatId, C.ERR_STALE[locale]);
+    return;
+  }
+
+  const cached = await S.getOwnedAnalysis(db, item.id, userId);
+  if (cached) return await sendStoredAnalysis(deps, chatId, locale, pseudo, item, cached, true);
+
+  const duration = Math.max(0, Number(item.voice_duration_sec) || 0);
+  if (duration < 10) {
+    await S.logEvent(db, 'analysis_abstained', pseudo, { locale, reason: 'too_short', durationBucket: durationBucket(duration) });
+    await tg.sendMessage(chatId, C.ANALYSIS_TOO_SHORT[locale]);
+    return;
+  }
+
+  const quota = await decideAnalysisUsage(db, userId, cfg.analysisFreeDaily);
+  if (!quota.allowed) {
+    await S.logEvent(db, 'analysis_limit_reached', pseudo, { locale, limit: cfg.analysisFreeDaily });
+    await tg.sendMessage(chatId, C.ANALYSIS_LIMIT[locale]);
+    return;
+  }
+
+  const progress = await tg.sendMessage(chatId, C.analysisProcessing(locale, duration));
+  const progressMessageId = progress.result?.message_id;
+  await tg.sendChatAction(chatId);
+  const segments = parseStoredSegments(item.transcript_segments_json);
+  const language: 'ru' | 'uz' | 'other' = item.source_language === 'ru' || item.source_language === 'uz'
+    ? item.source_language
+    : 'other';
+  const result = await analyzeTranscript(env, item.source_text!, language, segments, cfg.analysisTimeoutMs);
+  if (progressMessageId) await tg.deleteMessage(chatId, progressMessageId);
+
+  if (!result.ok || !result.analysis) {
+    const abstained = result.errorCode === 'insufficient_content';
+    await S.logEvent(db, abstained ? 'analysis_abstained' : 'analysis_failed', pseudo, {
+      locale,
+      code: result.errorCode || 'unknown',
+      provider: result.provider,
+      latencyBucket: latencyBucket(result.latencyMs),
+      durationBucket: durationBucket(duration),
+    });
+    await tg.sendMessage(chatId, abstained ? C.ANALYSIS_INSUFFICIENT[locale] : C.ANALYSIS_FAILED[locale]);
+    return;
+  }
+
+  const analysis: TranscriptAnalysis = result.analysis;
+  const saved = await S.saveAnalysis(db, {
+    telegram_user_id: userId,
+    item_id: item.id,
+    language,
+    summary: analysis.summary,
+    transcript_with_timestamps: timestampedTranscript(segments),
+    claims_json: JSON.stringify(analysis.claims),
+    contradictions_json: JSON.stringify(analysis.contradictions),
+    hedging_json: JSON.stringify(analysis.hedging),
+    questions_json: JSON.stringify(analysis.questions),
+    quality_assessment: segments.length ? 'timestamped_transcript' : 'transcript_only',
+    provider: result.provider,
+    model: result.model || null,
+    prompt_version: result.promptVersion,
+    latency_ms: result.latencyMs,
+  }, cfg.analysisTtlMs, item.expires_at);
+
+  if (saved.created) {
+    await consumeUsage(db, userId, 'analysis', `analysis:${saved.id}`, { itemId: item.id, resultId: saved.id });
+  }
+  await S.logEvent(db, saved.created ? 'analysis_completed' : 'analysis_race_cached', pseudo, {
+    locale,
+    provider: result.provider,
+    model: result.model || '',
+    promptVersion: result.promptVersion,
+    latencyBucket: latencyBucket(result.latencyMs),
+    durationBucket: durationBucket(duration),
+    claimCount: analysis.claims.length,
+    contradictionCount: analysis.contradictions.length,
+    hedgingCount: analysis.hedging.length,
+    questionCount: analysis.questions.length,
+  });
+  await sendStoredAnalysis(deps, chatId, locale, pseudo, item, saved.row, false);
 }
 
 async function runModifier(

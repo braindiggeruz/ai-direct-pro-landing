@@ -18,6 +18,9 @@ export interface TelegramConfig {
   voiceMaxSeconds: number;
   voiceMaxBytes: number;
   voiceMaxTranscriptChars: number;
+  analysisTimeoutMs: number;
+  analysisTtlMs: number;
+  analysisFreeDaily: number;
 }
 
 function num(v: string | undefined, def: number): number {
@@ -45,6 +48,9 @@ export function resolveTelegramConfig(env: Env): TelegramConfig {
     voiceMaxSeconds: Math.max(voiceMinSeconds, Math.min(num(env.TELEGRAM_VOICE_MAX_SECONDS, 300), 300)),
     voiceMaxBytes: Math.min(num(env.TELEGRAM_VOICE_MAX_BYTES, 20 * 1024 * 1024), 20 * 1024 * 1024),
     voiceMaxTranscriptChars: Math.min(num(env.TELEGRAM_VOICE_MAX_TRANSCRIPT_CHARS, 12_000), 16_000),
+    analysisTimeoutMs: Math.min(Math.max(num(env.TELEGRAM_ANALYSIS_TIMEOUT_MS, 12_000), 1_000), 15_000),
+    analysisTtlMs: Math.min(num(env.TELEGRAM_ANALYSIS_TTL_HOURS, 24), 24) * 60 * 60 * 1000,
+    analysisFreeDaily: Math.min(num(env.TELEGRAM_ANALYSIS_FREE_DAILY, 1), 1),
   };
 }
 

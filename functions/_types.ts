@@ -203,6 +203,11 @@ export interface Env {
   TELEGRAM_VOICE_MAX_SECONDS?: string;  // default 300
   TELEGRAM_VOICE_MAX_BYTES?: string;    // default 20 MiB (Bot API limit)
   TELEGRAM_VOICE_MAX_TRANSCRIPT_CHARS?: string; // default 12000
+  // GPTBot Tahlil P0 — transcript-only content analysis. No audio retention.
+  OPENROUTER_MODEL_ANALYSIS?: string;       // default openai/gpt-4o-mini
+  TELEGRAM_ANALYSIS_TIMEOUT_MS?: string;    // default 12000, hard max 15000
+  TELEGRAM_ANALYSIS_TTL_HOURS?: string;     // default/max 24
+  TELEGRAM_ANALYSIS_FREE_DAILY?: string;    // default/max 1 during validation
   // GPTBot Javob billing feature flags — all default OFF. Payments stay
   // disabled until official Click/Payme merchant docs + credentials arrive.
   JAVOB_BILLING_ENABLED?: string;

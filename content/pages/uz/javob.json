@@ -7,30 +7,31 @@
   "primaryKeyword": "xabarga tayyor javob",
   "secondaryKeywords": ["mijozga qanday javob berish", "telegram xabarga javob", "yozishmalar yordamchisi"],
   "searchIntent": "transactional",
-  "h1": "GPTBot Javob — ovozli xabardan tayyor javob",
-  "title": "Telegram ovozli va matnli xabariga javob — GPTBot Javob",
-  "description": "Telegramdan matn yoki ovozli xabar yuboring — GPTBot Javob mazmunini aniqlab, ruscha yoki Uzbek Latin tilida tayyor javob beradi. Audio saqlanmaydi.",
+  "h1": "GPTBot Javob — ovozli xabarga javob va mazmun tahlili",
+  "title": "Telegram ovozli xabariga javob va tahlil — GPTBot Javob",
+  "description": "Ovozli xabar yuboring: GPTBot transkript, tayyor javob hamda bayonotlar, qarama-qarshiliklar va noaniq va’dalar tahlilini beradi. Audio saqlanmaydi.",
   "canonical": "https://gptbot.uz/uz/javob/",
   "hreflangRu": "/ru/javob/",
   "hreflangUz": "/uz/javob/",
-  "ogTitle": "GPTBot Javob — ovozli xabarni tinglamasdan javob bering",
-  "ogDescription": "Matn yoki ovozli xabarni yuboring — kerakli ohang va tilda tayyor javob oling.",
+  "ogTitle": "GPTBot Javob — ovozli xabarga javob va xavfsiz tahlil",
+  "ogDescription": "Ovozli xabarni yuboring — transkript, tayyor javob va kelishuvlarni tekshirish savollarini oling.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "GPTBot Javob",
-  "heroTitle": "Ovozli xabar keldi — javob tayyor",
-  "heroSubtitle": "Telegramdan matn yoki ovozli xabar yuboring. GPTBot mazmunini aniqlab, mijoz, hamkasb yoki rahbarga ruscha yoki Uzbek Latin tilida javob tayyorlaydi.",
+  "heroTitle": "Ovozli xabar keldi — javob va muhim nuqtalar tayyor",
+  "heroSubtitle": "Telegramdan ovozli xabar yuboring. GPTBot transkript va javob tayyorlaydi, so‘rovingiz bo‘yicha tekshiriladigan bayonotlar, qarama-qarshiliklar va noaniq va’dalarni ajratadi.",
   "ctaPrimaryLabel": "Telegramda bepul sinab ko‘rish",
   "ctaPrimaryHref": "https://t.me/gptbot_javob_bot?start=site_uz",
   "ctaSecondaryLabel": "Tariflar",
   "ctaSecondaryHref": "#tariflar",
-  "heroTrust": ["5 daqiqagacha matn + ovoz", "RU + Uzbek Latin", "Audio saqlanmaydi", "Har kuni bepul limit"],
+  "heroTrust": ["5 daqiqagacha matn + ovoz", "RU + Uzbek Latin", "Audio saqlanmaydi", "Kuniga 1 tahlil bepul"],
   "bodyBlocks": [
     { "type": "h2", "text": "Qanday ishlaydi" },
     { "type": "list", "items": [
       "Javob berish kerak bo‘lgan matn yoki ovozli xabarni botga yuboring — istalgan Telegram chatidan.",
-      "Ovozli xabar uchun GPTBot nutqni, tilni va vaziyatni aniqlab, tayyor javob matnini beradi.",
+      "Ovozli xabar uchun GPTBot transkriptni ko‘rsatadi, til va vaziyatni aniqlab, tayyor javob matnini beradi.",
+      "Tekshiriladigan bayonotlar, ichki qarama-qarshiliklar, noaniq va’dalar va aniqlashtiruvchi savollar uchun «Mazmun tahlili»ni bosing.",
       "Natijani tugmalar bilan sozlang: qisqaroq, yumshoqroq, ishonchliroq yoki RU/UZ. Matn uchun boshqa variant ham bor.",
       "Javobni nusxalab suhbatdoshingizga yuboring. Bot hech qachon sizning nomingizdan hech kimga yozmaydi."
     ] },
@@ -43,6 +44,14 @@
     { "type": "p", "text": "«Kun oxirigacha loyiha bo‘yicha status kerak» → tayyor aniq javob: nima tayyor, nima jarayonda, qachon bo‘ladi." },
     { "type": "h3", "text": "Rus tilidagi xabar" },
     { "type": "p", "text": "«Здравствуйте, когда будет доставка?» → javob tabiiy rus tilida keladi. RU/UZ tugmasi javob tilini almashtiradi — ma’no, summa va sanalar saqlanadi." },
+    { "type": "h2", "text": "GPTBot Tahlil: mazmun tahlili, «yolg‘on detektori» emas" },
+    { "type": "p", "text": "Ovozli xabar transkriptidan keyin «Mazmun tahlili»ni bosing. GPTBot taymkod bilan beshtagacha aniq nuqtani ko‘rsatadi: tekshiriladigan bayonotlar, bir-biriga mos kelmaydigan gaplar va aniqlashtirish kerak bo‘lgan iboralar. Alohida tugma kelishuvlarni tekshirish uchun neytral savollarni beradi." },
+    { "type": "list", "items": [
+      "Tahlil faqat transkriptdagi so‘zlarni tahlil qiladi — ovoz, hissiyot, pauza yoki shaxsni emas.",
+      "U yolg‘on, rostlik, niyat yoki aybdorlikni aniqlamaydi va «ishonchlilik» foizini bermaydi.",
+      "Natija dalil emas va ayblash, sud, ishdan bo‘shatish yoki jazolash uchun ishlatilmasligi kerak.",
+      "Birinchi tahlildan oldin tushunarli rozilik olinadi; kuniga 1 muvaffaqiyatli tahlil bepul. Xato yoki ma’lumot yetishmasa limit sarflanmaydi."
+    ] },
     { "type": "h2", "text": "Tariflar", "id": "tariflar" },
     { "type": "table", "headers": ["Tarif", "Narx", "Nima kiradi"], "rows": [
       ["Free", "0 UZS", "Matn yoki ovoz uchun kuniga 3 ta javob, oyiga 30 tagacha, RU/UZ"],
@@ -54,6 +63,7 @@
     { "type": "list", "items": [
       "Bot faqat siz unga yuborgan yoki uzatgan xabarlarni ko‘radi.",
       "Audio faqat xotirada qayta ishlanadi va saqlanmaydi. Matnli transkript tugmalar ishlashi uchun vaqtincha (taxminan bir kun) saqlanadi, so‘ng o‘chiriladi.",
+      "Tahlil hisoboti va taymkodlar tegishli transkriptdan uzoqroq saqlanmaydi — taxminan bir kun. Tahlildan keyin ularni alohida tugma bilan darhol o‘chirish mumkin.",
       "/delete_me buyrug‘i ma’lumotlaringizni o‘chiradi.",
       "GPTBot.uz — mustaqil xizmat, OpenAI, ChatGPT yoki Telegram’ning rasmiy mahsuloti emas."
     ] }
@@ -62,6 +72,8 @@
     { "q": "Ovozli xabarni o‘zim tinglashim kerakmi?", "a": "Yo‘q. 3 soniyadan 5 daqiqagacha bo‘lgan ovozli xabar yoki audioni uzating — Javob nutqni aniqlab, javob matnini tayyorlaydi. Kuchli shovqin bo‘lsa, bot qayta yuborishni yoki matn jo‘natishni so‘raydi." },
     { "q": "Bot javobni suhbatdoshimga o‘zi yuboradimi?", "a": "Yo‘q. Javob faqat matn tayyorlaydi. Yuborishni siz qilasiz — javobni kerakli chatga nusxalab. Uchinchi shaxslarga avtomatik yuborish yo‘q." },
     { "q": "Qaysi tillarda ishlaydi?", "a": "Rus, Uzbek Latin va aralash rus-o‘zbek nutqi. Javob kiruvchi xabar tilida keladi, RU/UZ tugmasi tilni almashtiradi." },
+    { "q": "Tahlil odam yolg‘on gapirayotganini aniqlaydimi?", "a": "Yo‘q. Ovoz yoki matndan yolg‘onni ishonchli aniqlab bo‘lmaydi. Tahlil faqat transkript mazmunini ko‘radi: bayonotlar, ichki qarama-qarshiliklar, noaniq iboralar va tekshirish savollari. Hisobot dalil emas." },
+    { "q": "Nechta tahlil bepul?", "a": "Kuniga bitta muvaffaqiyatli mazmun tahlili. Yozuv 10 soniyadan qisqa bo‘lsa, aniq bayonotlar yetishmasa yoki xizmat vaqtincha ishlamasa, limit sarflanmaydi." },
     { "q": "Bot narx yoki muddat o‘ylab topishi mumkinmi?", "a": "Yo‘q. Xabarda narx, mavjudlik yoki muddat bo‘lmasa, Javob raqam o‘ylab topmaydi — aniqlashtiruvchi muloyim javob tayyorlaydi. Bu mahsulotning qat’iy qoidasi." },
     { "q": "Bepulmi?", "a": "Bepul limit bor: kuniga 3 ta javob, oyiga 30 tagacha. Ko‘proq kerak bo‘lsa — Day Pass (24 soatga 2 900 UZS) yoki Plus (oyiga 250 tagacha javob)." },
     { "q": "Yozishmalarim saqlanadimi?", "a": "Audio saqlanmaydi. Matn va transkript tahrir tugmalari uchun vaqtincha (taxminan bir kun) saqlanadi, so‘ng o‘chiriladi. MVP’da doimiy tarix yo‘q. /delete_me ma’lumotlarni o‘chiradi." }
@@ -73,7 +85,7 @@
     { "target": "/uz/maxfiylik-siyosati/", "anchor": "Maxfiylik siyosati", "locale": "uz", "type": "footer" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
-  "lastReviewedAt": "2026-07-16",
+  "lastReviewedAt": "2026-07-17",
   "createdAt": "2026-07-16T00:00:00Z",
-  "updatedAt": "2026-07-16"
+  "updatedAt": "2026-07-17"
 }
