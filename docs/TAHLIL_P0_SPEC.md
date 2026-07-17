@@ -64,9 +64,11 @@ P0 is a seven-day validation product. It includes a one-time consent acknowledge
 - FR-31: `/delete_me` MUST delete consent preferences and all owned analysis reports in addition to the existing Javob user data.
 - FR-32: A direct text question asking whether someone is lying MUST receive a fixed localized scientific-boundary response and MUST NOT call the reply LLM.
 - FR-33: Direct text requests explicitly seeking child interrogation, court evidence, firing/punishment, or proof of infidelity MUST receive a fixed refusal and emit `harmful_use_detected` without storing the request text in analytics.
-- FR-34: The service MUST emit `analysis_requested`, `analysis_consent_shown`, `disclaimer_understood`, `analysis_cancelled`, `analysis_started`, `analysis_completed`, `analysis_failed`, `analysis_questions_opened`, `paywall_shown`, `payment_intent`, `analysis_deleted`, `analysis_limit_reached`, `harmful_use_detected`, and `lie_question_detected` as applicable.
-- FR-35: Analysis event metadata MUST be allowlisted and MAY include locale, language, duration bucket, finding counts, model, and latency bucket; it MUST NOT include transcripts, quotes, questions, Telegram IDs, usernames, file IDs, or secrets.
+- FR-34: The service MUST emit `analysis_requested`, `analysis_consent_shown`, `disclaimer_understood`, `analysis_cancelled`, `analysis_started`, `analysis_completed`, `analysis_failed`, `analysis_questions_opened`, `paywall_shown`, `payment_intent`, `analysis_deleted`, `analysis_limit_reached`, `analysis_rated_useful`, `analysis_rated_useless`, `harmful_use_detected`, and `lie_question_detected` as applicable.
+- FR-35: Analysis event metadata MUST be allowlisted and MAY include locale, language, duration bucket, timeline quality, finding counts, model, and latency bucket; it MUST NOT include transcripts, quotes, questions, Telegram IDs, usernames, file IDs, or secrets.
 - FR-36: Existing text replies, voice transcript/reply order, update deduplication, modifier quota, lead-capture webhook, and webhook authentication MUST remain backward compatible.
+- FR-37: A displayed marker time MUST be recomputed locally from a quote matched to a normalized STT segment; model-suggested times MUST NOT be trusted. When STT provides no useful multi-segment timeline, marker times MUST be omitted and the report MUST explain that only coarse or unavailable timing was returned.
+- FR-38: The basic report MUST surface up to two stored verification questions immediately, retain the callback for all stored questions, and provide owned `Useful`/`Not useful` feedback callbacks that emit content-free validation events without calling an LLM.
 
 ## Non-Functional Requirements
 
@@ -222,6 +224,18 @@ When the Telegram suite, complete repository tests, TypeScript, scoped ESLint, s
 Then all feature-scoped checks pass before production promotion
 And the old lead webhook remains untouched.
 
+### AC-19: Grounded timestamp display (FR-37)
+Given the provider suggests marker times that do not come from useful STT segmentation
+When the report is assembled
+Then each time is replaced by the start of a quote-matching STT segment
+And a single coarse segment or unmatched quote produces no displayed marker time instead of repeated `00:00`.
+
+### AC-20: Action-first questions and validation feedback (FR-38)
+Given a completed owned report contains verification questions
+When the basic report is shown
+Then up to two stored questions are visible without another tap
+And owned useful/useless feedback records only a pseudonymous event and never transcript or question text.
+
 ## Edge Cases
 
 - EC-1: Voice duration is 3-9 seconds → normal reply remains, analysis callback returns `too short`, no quota.
@@ -238,10 +252,12 @@ And the old lead webhook remains untouched.
 - EC-12: Report text exceeds one Telegram message → existing splitter sends safe chunks; keyboard appears on the final report message.
 - EC-13: No questions are returned → questions callback sends localized `no questions` copy and never invents questions.
 - EC-14: D1 is temporarily unavailable → Telegram webhook remains acknowledged; background processing logs a content-free error and does not charge usage.
-- EC-15: Direct message contains the word `обман` as a customer complaint but does not ask for lie detection or punishment → normal Javob reply flow remains; safety interception requires explicit detector/adverse-action intent.
-- EC-16: Expired item/report callback → normal stale response; no provider call.
-- EC-17: A non-owner replays any analysis callback → normal stale response; no existence disclosure.
-- EC-18: Payment-intent callback is replayed → analytics may dedupe by Telegram update; no financial state changes exist in P0.
+- EC-15: STT returns one segment spanning the whole recording → analyze the transcript but hide per-finding `00:00` labels and disclose coarse timing.
+- EC-16: Feedback callback is replayed → content-free duplicate events are acceptable for P0 validation, but it MUST NOT call a provider, charge quota, or expose report text.
+- EC-17: Direct message contains the word `обман` as a customer complaint but does not ask for lie detection or punishment → normal Javob reply flow remains; safety interception requires explicit detector/adverse-action intent.
+- EC-18: Expired item/report callback → normal stale response; no provider call.
+- EC-19: A non-owner replays any analysis callback → normal stale response; no existence disclosure.
+- EC-20: Payment-intent callback is replayed → analytics may dedupe by Telegram update; no financial state changes exist in P0.
 
 ## API Contracts
 
@@ -255,6 +271,8 @@ type TahlilCallbackData =
   | `analysis_consent:accept:${string}`
   | `analysis_consent:cancel:${string}`
   | `analysis_questions:${string}`
+  | `analysis_feedback:useful:${string}`
+  | `analysis_feedback:useless:${string}`
   | `analysis_details:${string}`
   | `analysis_pay_intent:${string}`
   | `analysis_later:${string}`
@@ -364,7 +382,7 @@ interface Env {
 | `contradictions_json` | TEXT | Sanitized JSON array |
 | `hedging_json` | TEXT | Sanitized JSON array |
 | `questions_json` | TEXT | Sanitized JSON array |
-| `quality_assessment` | TEXT | `sufficient` or bounded abstention reason |
+| `quality_assessment` | TEXT | `granular_timestamps`, `coarse_timestamps`, or `transcript_only` |
 | `provider` | TEXT | `openrouter` |
 | `model` | TEXT | Nullable provider model ID |
 | `prompt_version` | TEXT | Not null |
@@ -413,5 +431,7 @@ Deletion:
 | FR-26..FR-31 | Questions, paywall intent, deletion, expiry, and `/delete_me` tests |
 | FR-32..FR-35 | Fixed lie-question/refusal copy and content-free analytics assertions |
 | FR-36, NFR-3..5 | Existing full suite, TypeScript, scoped ESLint, build, migration, and production smoke |
+| FR-37 | Unit and integration tests for local quote-to-segment grounding, coarse-segment omission, and cached-report re-grounding |
+| FR-38 | Integration tests for inline top questions and owned useful/useless feedback without provider or quota use |
 
 Production promotion requires: migration 0012 applied remotely; no pending migrations; RU and Uzbek voice reply regression; first-use consent; one successful Tahlil report; cached reopen; questions; deletion; second-item daily-limit path; unauthenticated webhook still 401; old lead webhook unchanged; and aggregate events inspected without raw content.

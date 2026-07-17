@@ -4,7 +4,7 @@ import type { Env } from '../../_types';
 import type { TranscriptSegment } from './transcription';
 import { buildAnalysisPrompt, TAHLIL_PROMPT_VERSION } from './analysis-prompt';
 
-export const TAHLIL_CONSENT_VERSION = 'tahlil-consent-v1';
+export const TAHLIL_CONSENT_VERSION = 'tahlil-consent-v2';
 
 export type FindingConfidence = 'high' | 'medium' | 'low';
 export type ClaimKind = 'fact' | 'promise' | 'price' | 'date' | 'availability' | 'other';
@@ -186,6 +186,52 @@ export function parseStoredSegments(raw: string | null | undefined): TranscriptS
   } catch { return []; }
 }
 
+function normalizedQuote(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[’‘`]/g, "'")
+    .replace(/[^\p{L}\p{N}'\s]+/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function segmentStartForQuote(quote: string, segments: TranscriptSegment[]): number | null {
+  const needle = normalizedQuote(quote);
+  if (!needle) return null;
+  for (const segment of segments) {
+    const haystack = normalizedQuote(segment.text);
+    if (haystack.includes(needle) || (haystack.length >= 12 && needle.includes(haystack))) return segment.start;
+  }
+  const words = needle.split(' ').filter((word) => word.length >= 3);
+  if (words.length < 2) return null;
+  let best: { start: number; coverage: number } | null = null;
+  for (const segment of segments) {
+    const haystackWords = new Set(normalizedQuote(segment.text).split(' '));
+    const coverage = words.filter((word) => haystackWords.has(word)).length / words.length;
+    if (coverage >= 0.8 && (!best || coverage > best.coverage)) best = { start: segment.start, coverage };
+  }
+  return best?.start ?? null;
+}
+
+/** Replace every model-suggested time with a position grounded in STT data.
+ *  One coarse segment is not enough to locate individual claims, so all
+ *  marker times are omitted instead of displaying a misleading 00:00. */
+export function groundAnalysisTimestamps(analysis: TranscriptAnalysis, segments: TranscriptSegment[]): TranscriptAnalysis {
+  const distinctStarts = new Set(segments.map((segment) => Math.round(segment.start * 10) / 10));
+  const useful = segments.length > 1 && distinctStarts.size > 1;
+  const at = (quote: string): number | null => useful ? segmentStartForQuote(quote, segments) : null;
+  return {
+    ...analysis,
+    claims: analysis.claims.map((item) => ({ ...item, timeSec: at(item.quote) })),
+    contradictions: analysis.contradictions.map((item) => ({
+      ...item,
+      firstTimeSec: at(item.firstQuote),
+      secondTimeSec: at(item.secondQuote),
+    })),
+    hedging: analysis.hedging.map((item) => ({ ...item, timeSec: at(item.quote) })),
+  };
+}
+
 export function isLieDetectionQuestion(text: string): boolean {
   const t = text.trim();
   const ru = /(?:^|\b)(?:он|она|они|человек|клиент|муж|жена|как понять|определи|скажи).{0,45}(?:вр[её]т|лж[её]т|говорит правду|обманывает).*(?:\?|или|ли\b|правд)/i;
@@ -265,6 +311,7 @@ export async function analyzeTranscript(
     let parsed: unknown;
     try { parsed = JSON.parse(content); } catch { return { ok: false, provider: 'openrouter', model, latencyMs: Date.now() - startedAt, promptVersion: prompt.promptVersion, errorCode: 'invalid_json' }; }
     const safe = sanitizeAnalysis(parsed);
+    if (safe.analysis) safe.analysis = groundAnalysisTimestamps(safe.analysis, segments);
     return { ...safe, provider: 'openrouter', model, latencyMs: Date.now() - startedAt, promptVersion: prompt.promptVersion };
   } catch (error) {
     return {

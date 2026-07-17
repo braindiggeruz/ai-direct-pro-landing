@@ -193,8 +193,8 @@ export function voiceResultKeyboard(locale: Locale, itemId: string, outputLangua
 // ── GPTBot Tahlil ─────────────────────────────────────────────────────────
 
 export const ANALYSIS_CONSENT: Record<Locale, string> = {
-  ru: '🔎 GPTBot Tahlil\n\nЯ отмечу проверяемые утверждения, внутренние противоречия, неясные обещания и предложу вопросы для уточнения.\n\nЭто НЕ детектор лжи: анализ не определяет правду, намерения, эмоции или личность и не является доказательством. Результат и расшифровка хранятся около 24 часов, затем удаляются. Аудиофайл не сохраняется.\n\nПродолжить?',
-  uz: '🔎 Transkript mazmunini tahlil qilish\n\nMen tekshiriladigan bayonotlar, ichki qarama-qarshiliklar va noaniq va’dalarni belgilayman hamda aniqlashtiruvchi savollar taklif qilaman.\n\nBu yolg‘on detektori EMAS: tahlil rostlik, niyat, hissiyot yoki shaxsni aniqlamaydi va dalil hisoblanmaydi. Natija va transkript taxminan 24 soat saqlanadi, keyin o‘chiriladi. Audiofayl saqlanmaydi.\n\nDavom etamizmi?',
+  ru: '🔎 GPTBot Tahlil\n\nЯ отмечу проверяемые утверждения, внутренние противоречия, неясные обещания и предложу вопросы для уточнения.\n\nЭто НЕ детектор лжи: анализ не определяет правду, намерения, эмоции или личность и не является доказательством. Не используйте его для обвинений, суда или наказания. Результат и расшифровка хранятся около 24 часов, затем удаляются. Аудиофайл не сохраняется.\n\nНажимая «Продолжить», вы подтверждаете, что имеете право анализировать это аудио.',
+  uz: '🔎 Transkript mazmunini tahlil qilish\n\nMen tekshiriladigan bayonotlar, ichki qarama-qarshiliklar va noaniq va’dalarni belgilayman hamda aniqlashtiruvchi savollar taklif qilaman.\n\nBu yolg‘on detektori EMAS: tahlil rostlik, niyat, hissiyot yoki shaxsni aniqlamaydi va dalil hisoblanmaydi. Uni ayblash, sud yoki jazolash uchun ishlatmang. Natija va transkript taxminan 24 soat saqlanadi, keyin o‘chiriladi. Audiofayl saqlanmaydi.\n\n«Davom etish»ni bosib, bu audioni tahlil qilish huquqiga ega ekaningizni tasdiqlaysiz.',
 };
 
 export function analysisConsentKeyboard(locale: Locale, itemId: string): InlineKeyboard {
@@ -211,8 +211,8 @@ export const ANALYSIS_CANCELED: Record<Locale, string> = {
 
 export function analysisProcessing(locale: Locale, seconds: number): string {
   return locale === 'ru'
-    ? `🔎 Анализирую содержание (${formatVoiceDuration(seconds)})…`
-    : `🔎 Mazmun tahlil qilinmoqda (${formatVoiceDuration(seconds)})…`;
+    ? `🔎 Анализирую содержание (${formatVoiceDuration(seconds)})…\nИщу проверяемые утверждения, противоречия и неясные условия.`
+    : `🔎 Mazmun tahlil qilinmoqda (${formatVoiceDuration(seconds)})…\nTekshiriladigan bayonotlar, qarama-qarshiliklar va noaniq shartlar izlanmoqda.`;
 }
 
 export const ANALYSIS_TOO_SHORT: Record<Locale, string> = {
@@ -254,8 +254,17 @@ export function analysisReportKeyboard(locale: Locale, itemId: string): InlineKe
     [{ text: locale === 'ru' ? '❓ Вопросы для проверки' : '❓ Tekshirish savollari', callback_data: `analysis_questions:${itemId}` }],
     [{ text: locale === 'ru' ? '📋 Подробнее' : '📋 Batafsil', callback_data: `analysis_details:${itemId}` }],
     [{ text: locale === 'ru' ? '🗑 Удалить анализ' : '🗑 Tahlilni o‘chirish', callback_data: `analysis_delete:${itemId}` }],
+    [
+      { text: locale === 'ru' ? '👍 Полезно' : '👍 Foydali', callback_data: `analysis_feedback:useful:${itemId}` },
+      { text: locale === 'ru' ? '👎 Не помогло' : '👎 Yordam bermadi', callback_data: `analysis_feedback:useless:${itemId}` },
+    ],
   ];
 }
+
+export const ANALYSIS_FEEDBACK_THANKS: Record<Locale, string> = {
+  ru: 'Спасибо за оценку. Она поможет сделать Tahlil точнее и полезнее.',
+  uz: 'Baholaganingiz uchun rahmat. Bu Tahlil’ni aniqroq va foydaliroq qilishga yordam beradi.',
+};
 
 export const ANALYSIS_PAYWALL: Record<Locale, string> = {
   ru: '📋 Подробный разбор\n\nВ следующей версии здесь будут расширенные пояснения и дополнительные вопросы. Day Pass — 4 900 UZS на 24 часа.\n\nОнлайн-оплата пока подключается: сейчас кнопка только фиксирует интерес и ничего не списывает.',

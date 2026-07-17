@@ -21,7 +21,7 @@ import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
 import { claimUpdate, pseudoUser } from '../functions/lib/telegram/store';
 import { decideUsage, consumeUsage, grantEntitlement, resolveBillingFlags, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
 import { buildAnalysisPrompt, TAHLIL_PROMPT_VERSION } from '../functions/lib/telegram/analysis-prompt';
-import { sanitizeAnalysis, isLieDetectionQuestion, harmfulUseCategory } from '../functions/lib/telegram/analysis';
+import { sanitizeAnalysis, groundAnalysisTimestamps, isLieDetectionQuestion, harmfulUseCategory, TAHLIL_CONSENT_VERSION } from '../functions/lib/telegram/analysis';
 import { formatAnalysisReport } from '../functions/lib/telegram/analysis-report';
 import { onRequestGet as assistantGet, onRequestPost as assistantPost } from '../functions/api/telegram/assistant';
 
@@ -128,6 +128,22 @@ test('Tahlil report is deterministic, bounded and always contains disclaimer', (
   assert.match(report, /00:12/);
   assert.match(report, /не является доказательством/i);
   assert.ok(report.length <= 3900);
+});
+
+test('Tahlil timestamps are grounded in useful STT segments or omitted', () => {
+  const safe = sanitizeAnalysis({
+    sufficient: true, insufficiencyReason: 'none', summary: 'Поставка.',
+    claims: [{ timeSec: 99, quote: 'Доставим в четверг', kind: 'promise', explanation: 'Срок', confidence: 'high' }],
+    contradictions: [], hedging: [], questions: [],
+  });
+  assert.ok(safe.analysis);
+  const coarse = groundAnalysisTimestamps(safe.analysis!, [{ start: 0, end: 32, text: 'Доставим в четверг' }]);
+  assert.equal(coarse.claims[0].timeSec, null, 'single coarse segment must not become repeated 00:00');
+  const useful = groundAnalysisTimestamps(safe.analysis!, [
+    { start: 0, end: 8, text: 'Обсуждаем поставку.' },
+    { start: 12.4, end: 18, text: 'Доставим в четверг.' },
+  ]);
+  assert.equal(useful.claims[0].timeSec, 12.4, 'provider time is replaced by the matching STT segment');
 });
 
 test('splitMessage: short intact, long under Telegram limit', () => {
@@ -963,34 +979,54 @@ test('Tahlil first-use consent → structured report → cached questions/paywal
   assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 0);
   const consent = rec.tg.filter((x) => x.method === 'sendMessage').find((x) => /не является доказательством|НЕ является доказательством/i.test(x.body.text) && x.body.reply_markup);
   assert.ok(consent, 'localized consent screen shown');
+  assert.match(consent.body.text, /право анализировать|right to analyze/i);
   assert.ok(consent.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data === `analysis_consent:accept:${itemId}`));
 
   await handleUpdate(d, { update_id: 202, callback_query: { id: 'cq-accept', from: { id: 200, language_code: 'ru' }, data: `analysis_consent:accept:${itemId}`, message: { chat: { id: 200 }, message_id: 11 } } } as any);
   assert.equal(rec.analysisAi, 1);
   assert.equal(t.prefs[0].analysis_consent_version.length > 0, true);
   assert.equal(t.analyses.length, 1);
+  assert.equal(t.analyses[0].quality_assessment, 'granular_timestamps');
   assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 1);
+  assert.ok(t.events.some((x: any) => x.event === 'disclaimer_understood'));
+  assert.ok(t.events.some((x: any) => x.event === 'analysis_started'));
   assert.equal(rec.analysisBodies?.[0].response_format.type, 'json_schema');
   assert.equal(rec.analysisBodies?.[0].provider.require_parameters, true);
   const reportSend = rec.tg.filter((x) => x.method === 'sendMessage').find((x) => /Анализ содержания/.test(x.body.text));
   assert.ok(reportSend);
   assert.match(reportSend.body.text, /не является доказательством/i);
+  assert.match(reportSend.body.text, /Можете подтвердить наличие|гарантированный срок/i, 'top verification questions are immediately actionable');
   assert.ok(reportSend.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data === `analysis_questions:${itemId}`));
+  assert.ok(reportSend.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data === `analysis_feedback:useful:${itemId}`));
 
   await handleUpdate(d, { update_id: 203, callback_query: { id: 'cq-questions', from: { id: 200 }, data: `analysis_questions:${itemId}`, message: { chat: { id: 200 }, message_id: 12 } } } as any);
   assert.equal(rec.analysisAi, 1, 'stored questions do not call LLM');
   assert.ok(rec.tg.some((x) => x.method === 'sendMessage' && /гарантированный срок|подтвердить наличие/i.test(x.body.text)));
 
+  await handleUpdate(d, { update_id: 2031, callback_query: { id: 'cq-useful', from: { id: 200 }, data: `analysis_feedback:useful:${itemId}`, message: { chat: { id: 200 }, message_id: 121 } } } as any);
+  assert.equal(rec.analysisAi, 1, 'feedback does not call the analysis provider');
+  assert.ok(t.events.some((x: any) => x.event === 'analysis_rated_useful'));
+
+  await handleUpdate(d, { update_id: 2032, callback_query: { id: 'cq-useless', from: { id: 200 }, data: `analysis_feedback:useless:${itemId}`, message: { chat: { id: 200 }, message_id: 122 } } } as any);
+  assert.equal(rec.analysisAi, 1, 'negative feedback does not call the analysis provider');
+  assert.ok(t.events.some((x: any) => x.event === 'analysis_rated_useless'));
+
   await handleUpdate(d, { update_id: 204, callback_query: { id: 'cq-details', from: { id: 200 }, data: `analysis_details:${itemId}`, message: { chat: { id: 200 }, message_id: 13 } } } as any);
   assert.ok(rec.tg.some((x) => x.method === 'sendMessage' && /4[\s\u00a0]?900/.test(x.body.text)));
+  assert.ok(t.events.some((x: any) => x.event === 'paywall_shown'));
   await handleUpdate(d, { update_id: 205, callback_query: { id: 'cq-pay', from: { id: 200 }, data: `analysis_pay_intent:${itemId}`, message: { chat: { id: 200 }, message_id: 14 } } } as any);
   assert.equal(t.orders.length, 0);
   assert.equal(t.ents.length, 0);
   assert.ok(t.events.some((x: any) => x.event === 'payment_intent'));
 
+  t.items[0].transcript_segments_json = JSON.stringify([{ start: 0, end: 18, text: transcript }]);
   await handleUpdate(d, { update_id: 206, callback_query: { id: 'cq-cached', from: { id: 200 }, data: `analyze:${itemId}`, message: { chat: { id: 200 }, message_id: 15 } } } as any);
   assert.equal(rec.analysisAi, 1, 'cached report avoids provider');
   assert.equal(t.ledger.filter((x: any) => x.usage_type === 'analysis').length, 1);
+  const analysisMessages = rec.tg.filter((x) => x.method === 'sendMessage' && /Анализ содержания/.test(x.body.text));
+  const cachedReport = analysisMessages[analysisMessages.length - 1].body.text;
+  assert.doesNotMatch(cachedReport, /• 00:00 ·/, 'cached provider times are re-grounded instead of trusted');
+  assert.match(cachedReport, /одним крупным фрагментом/i);
 
   await handleUpdate(d, { update_id: 207, callback_query: { id: 'cq-delete', from: { id: 200 }, data: `analysis_delete:${itemId}`, message: { chat: { id: 200 }, message_id: 16 } } } as any);
   assert.equal(t.analyses.length, 0);
@@ -1011,7 +1047,7 @@ test('Tahlil quota is separate, one successful analysis per UTC day', async () =
   const expires = new Date(Date.now() + 864e5).toISOString();
   const now = new Date().toISOString();
   const t = (db as any)._t;
-  t.prefs.push({ telegram_user_id: 210, analysis_consent_version: 'tahlil-consent-v1', analysis_consent_at: now });
+  t.prefs.push({ telegram_user_id: 210, analysis_consent_version: TAHLIL_CONSENT_VERSION, analysis_consent_at: now });
   t.items.push({ id: 'item-one', telegram_user_id: 210, source_type: 'voice', source_text: 'Товар на складе и доставка в четверг.', source_language: 'ru', voice_duration_sec: 20, transcript_segments_json: '[]', expires_at: expires });
   t.items.push({ id: 'item-two', telegram_user_id: 210, source_type: 'voice', source_text: 'Цена окончательная, но возможны дополнительные расходы.', source_language: 'ru', voice_duration_sec: 20, transcript_segments_json: '[]', expires_at: expires });
   await handleUpdate(d, { update_id: 211, callback_query: { id: 'q1', from: { id: 210 }, data: 'analyze:item-one', message: { chat: { id: 210 }, message_id: 1 } } } as any);
@@ -1029,7 +1065,7 @@ test('Tahlil abstains on short voice and provider failure without charging', asy
   const d = deps(db);
   await handleUpdate(d, { update_id: 220, message: { chat: { id: 220, type: 'private' }, from: { id: 220 }, text: '/start' } } as any);
   const t = (db as any)._t;
-  t.prefs.push({ telegram_user_id: 220, analysis_consent_version: 'tahlil-consent-v1', analysis_consent_at: new Date().toISOString() });
+  t.prefs.push({ telegram_user_id: 220, analysis_consent_version: TAHLIL_CONSENT_VERSION, analysis_consent_at: new Date().toISOString() });
   const expires = new Date(Date.now() + 864e5).toISOString();
   t.items.push({ id: 'short-item', telegram_user_id: 220, source_type: 'voice', source_text: 'Привет.', source_language: 'ru', voice_duration_sec: 9, transcript_segments_json: '[]', expires_at: expires });
   t.items.push({ id: 'failed-item', telegram_user_id: 220, source_type: 'voice', source_text: 'Товар на складе и доставка будет в четверг.', source_language: 'ru', voice_duration_sec: 20, transcript_segments_json: '[]', expires_at: expires });

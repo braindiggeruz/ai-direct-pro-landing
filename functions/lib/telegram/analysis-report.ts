@@ -35,20 +35,29 @@ function claimLine(item: AnalysisClaim, locale: Locale): string {
     availability: { ru: 'наличие', uz: 'mavjudlik' },
     other: { ru: 'утверждение', uz: 'bayonot' },
   };
-  return `• ${time(item.timeSec)} · ${kind[item.kind][locale]}: ${quote(item.quote)} — ${item.explanation}`;
+  const position = item.timeSec === null ? '' : `${time(item.timeSec)} · `;
+  return `• ${position}${kind[item.kind][locale]}: ${quote(item.quote)} — ${item.explanation}`;
 }
 
 function contradictionLine(item: AnalysisContradiction, locale: Locale): string {
   const separator = locale === 'ru' ? 'против' : 'qarshi';
-  return `• ${time(item.firstTimeSec)} ${quote(item.firstQuote)} ${separator} ${time(item.secondTimeSec)} ${quote(item.secondQuote)} — ${item.explanation}`;
+  const first = item.firstTimeSec === null ? quote(item.firstQuote) : `${time(item.firstTimeSec)} ${quote(item.firstQuote)}`;
+  const second = item.secondTimeSec === null ? quote(item.secondQuote) : `${time(item.secondTimeSec)} ${quote(item.secondQuote)}`;
+  return `• ${first} ${separator} ${second} — ${item.explanation}`;
 }
 
 function hedgingLine(item: AnalysisHedging): string {
-  return `• ${time(item.timeSec)} · ${quote(item.quote)} — ${item.explanation}`;
+  const position = item.timeSec === null ? '' : `${time(item.timeSec)} · `;
+  return `• ${position}${quote(item.quote)} — ${item.explanation}`;
 }
 
 /** Render a safe Telegram report and always preserve the scientific disclaimer. */
-export function formatAnalysisReport(analysis: TranscriptAnalysis, locale: Locale, durationSeconds: number): string {
+export function formatAnalysisReport(
+  analysis: TranscriptAnalysis,
+  locale: Locale,
+  durationSeconds: number,
+  qualityAssessment?: string,
+): string {
   const ru = locale === 'ru';
   const lines: string[] = [
     ru ? `🔎 Анализ содержания (${formatVoiceDuration(durationSeconds)})` : `🔎 Mazmun tahlili (${formatVoiceDuration(durationSeconds)})`,
@@ -70,6 +79,24 @@ export function formatAnalysisReport(analysis: TranscriptAnalysis, locale: Local
     lines.push('', ru
       ? 'Явных проверяемых маркеров не найдено. Это не подтверждает и не опровергает сказанное.'
       : 'Aniq tekshiriladigan belgilar topilmadi. Bu aytilgan gapni tasdiqlamaydi ham, inkor etmaydi ham.');
+  }
+
+  if (analysis.questions.length) {
+    lines.push(
+      '',
+      ru ? 'Что спросить сначала:' : 'Avval nima so‘rash kerak:',
+      ...analysis.questions.slice(0, 2).map((question, index) => `${index + 1}. ${question}`),
+    );
+  }
+
+  if (qualityAssessment === 'coarse_timestamps') {
+    lines.push('', ru
+      ? 'Примечание: запись распознана одним крупным фрагментом, поэтому неточные метки 00:00 скрыты.'
+      : 'Izoh: yozuv bitta katta bo‘lak sifatida tanildi, shuning uchun noaniq 00:00 belgilari yashirildi.');
+  } else if (qualityAssessment === 'transcript_only') {
+    lines.push('', ru
+      ? 'Примечание: провайдер не вернул таймкоды; анализ выполнен только по тексту.'
+      : 'Izoh: provayder taymkodlarni qaytarmadi; tahlil faqat matn bo‘yicha bajarildi.');
   }
 
   const footer = `\n\n${DISCLAIMER[locale]}`;
