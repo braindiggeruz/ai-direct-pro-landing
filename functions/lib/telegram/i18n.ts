@@ -253,11 +253,11 @@ export function analysisReportKeyboard(locale: Locale, itemId: string): InlineKe
   return [
     [{ text: locale === 'ru' ? '❓ Вопросы для проверки' : '❓ Tekshirish savollari', callback_data: `analysis_questions:${itemId}` }],
     [{ text: locale === 'ru' ? '📋 Подробнее' : '📋 Batafsil', callback_data: `analysis_details:${itemId}` }],
-    [{ text: locale === 'ru' ? '🗑 Удалить анализ' : '🗑 Tahlilni o‘chirish', callback_data: `analysis_delete:${itemId}` }],
     [
       { text: locale === 'ru' ? '👍 Полезно' : '👍 Foydali', callback_data: `analysis_feedback:useful:${itemId}` },
       { text: locale === 'ru' ? '👎 Не помогло' : '👎 Yordam bermadi', callback_data: `analysis_feedback:useless:${itemId}` },
     ],
+    [{ text: locale === 'ru' ? '🗑 Удалить анализ' : '🗑 Tahlilni o‘chirish', callback_data: `analysis_delete:${itemId}` }],
   ];
 }
 

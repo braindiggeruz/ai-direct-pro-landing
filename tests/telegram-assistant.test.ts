@@ -127,6 +127,7 @@ test('Tahlil report is deterministic, bounded and always contains disclaimer', (
   assert.match(report, /Анализ содержания/);
   assert.match(report, /00:12/);
   assert.match(report, /не является доказательством/i);
+  assert.ok(report.indexOf('Что спросить сначала') < report.indexOf('Что можно проверить'), 'questions appear before diagnostic findings');
   assert.ok(report.length <= 3900);
 });
 
