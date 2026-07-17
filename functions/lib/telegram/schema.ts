@@ -20,6 +20,7 @@ const DDL: string[] = [
     source_text TEXT,
     source_language TEXT,
     voice_duration_sec INTEGER,
+    transcript_segments_json TEXT,
     created_at TEXT NOT NULL,
     expires_at TEXT NOT NULL
   )`,
@@ -86,7 +87,8 @@ const DDL: string[] = [
   )`,
   `CREATE TABLE IF NOT EXISTS user_preferences (
     telegram_user_id INTEGER PRIMARY KEY, default_tone TEXT, preferred_language TEXT,
-    formality TEXT, emoji_preference TEXT, created_at TEXT NOT NULL, updated_at TEXT
+    formality TEXT, emoji_preference TEXT, analysis_consent_version TEXT,
+    analysis_consent_at TEXT, created_at TEXT NOT NULL, updated_at TEXT
   )`,
   `CREATE TABLE IF NOT EXISTS referrals (
     id TEXT PRIMARY KEY, referrer_user_id INTEGER NOT NULL, referred_user_id INTEGER NOT NULL,
@@ -100,6 +102,16 @@ const DDL: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_orders_external ON payment_orders (provider, external_order_id)`,
   `CREATE UNIQUE INDEX IF NOT EXISTS idx_tx_external ON payment_transactions (provider, external_transaction_id)`,
   `CREATE UNIQUE INDEX IF NOT EXISTS idx_ref_pair ON referrals (referrer_user_id, referred_user_id)`,
+  `CREATE TABLE IF NOT EXISTS analysis_reports (
+    id TEXT PRIMARY KEY, telegram_user_id INTEGER NOT NULL, item_id TEXT NOT NULL UNIQUE,
+    language TEXT NOT NULL, summary TEXT NOT NULL, transcript_with_timestamps TEXT,
+    claims_json TEXT NOT NULL, contradictions_json TEXT NOT NULL, hedging_json TEXT NOT NULL,
+    questions_json TEXT NOT NULL, quality_assessment TEXT NOT NULL, provider TEXT NOT NULL,
+    model TEXT, prompt_version TEXT NOT NULL, latency_ms INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL, expires_at TEXT NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_analysis_user_expiry ON analysis_reports (telegram_user_id, expires_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_analysis_expiry ON analysis_reports (expires_at)`,
   `INSERT OR IGNORE INTO plans (id, code, name_ru, name_uz, price_uzs, billing_type, duration_hours, monthly_limit, daily_limit, features_json, is_active, display_order, created_at) VALUES
     ('plan_free','free','Free','Free',0,'none',NULL,30,3,'{"modifiers":"basic"}',1,1,'2026-07-16T00:00:00Z'),
     ('plan_day_pass','day_pass','Day Pass','Day Pass',2900,'one_time',24,25,NULL,'{}',1,2,'2026-07-16T00:00:00Z'),
@@ -115,6 +127,9 @@ const DDL_ALTERS: string[] = [
   `ALTER TABLE telegram_items ADD COLUMN voice_duration_sec INTEGER`,
   `ALTER TABLE telegram_results ADD COLUMN output_language TEXT`,
   `ALTER TABLE telegram_results ADD COLUMN latency_ms INTEGER`,
+  `ALTER TABLE telegram_items ADD COLUMN transcript_segments_json TEXT`,
+  `ALTER TABLE user_preferences ADD COLUMN analysis_consent_version TEXT`,
+  `ALTER TABLE user_preferences ADD COLUMN analysis_consent_at TEXT`,
 ];
 
 const _bootstrapped = new WeakMap<D1Database, Promise<void>>();

@@ -92,6 +92,7 @@ export interface TgItemRow {
   source_text: string | null;
   source_language: string | null;
   voice_duration_sec: number | null;
+  transcript_segments_json: string | null;
   detected_context?: string | null;
   expires_at: string;
 }
@@ -104,13 +105,14 @@ export async function createItem(
   sourceLanguage: string,
   ttlMs: number,
   voiceDurationSec: number | null = null,
+  transcriptSegmentsJson: string | null = null,
 ): Promise<string> {
   const id = shortId();
   const created = new Date();
   const expires = new Date(created.getTime() + ttlMs);
   await db
-    .prepare('INSERT INTO telegram_items (id, telegram_user_id, source_type, source_text, source_language, voice_duration_sec, created_at, expires_at) VALUES (?,?,?,?,?,?,?,?)')
-    .bind(id, userId, sourceType, sourceText, sourceLanguage, voiceDurationSec, created.toISOString(), expires.toISOString())
+    .prepare('INSERT INTO telegram_items (id, telegram_user_id, source_type, source_text, source_language, voice_duration_sec, created_at, expires_at, transcript_segments_json) VALUES (?,?,?,?,?,?,?,?,?)')
+    .bind(id, userId, sourceType, sourceText, sourceLanguage, voiceDurationSec, created.toISOString(), expires.toISOString(), transcriptSegmentsJson)
     .run();
   return id;
 }
@@ -119,7 +121,7 @@ export async function createItem(
 export async function getOwnedItem(db: D1Database, itemId: string, userId: number): Promise<TgItemRow | null> {
   if (!itemId || itemId.length > 32) return null;
   const row = await db
-    .prepare('SELECT id, telegram_user_id, source_type, source_text, source_language, voice_duration_sec, detected_context, expires_at FROM telegram_items WHERE id = ? AND telegram_user_id = ?')
+    .prepare('SELECT id, telegram_user_id, source_type, source_text, source_language, voice_duration_sec, transcript_segments_json, detected_context, expires_at FROM telegram_items WHERE id = ? AND telegram_user_id = ?')
     .bind(itemId, userId)
     .first<TgItemRow>();
   if (!row) return null;
@@ -190,6 +192,99 @@ export async function logEvent(db: D1Database, event: string, pseudo: string | n
   } catch { /* analytics are best-effort */ }
 }
 
+// ── GPTBot Tahlil consent + reports ────────────────────────────────────────
+
+export interface AnalysisReportRow {
+  id: string;
+  telegram_user_id: number;
+  item_id: string;
+  language: string;
+  summary: string;
+  transcript_with_timestamps: string | null;
+  claims_json: string;
+  contradictions_json: string;
+  hedging_json: string;
+  questions_json: string;
+  quality_assessment: string;
+  provider: string;
+  model: string | null;
+  prompt_version: string;
+  latency_ms: number;
+  created_at: string;
+  expires_at: string;
+}
+
+export async function hasAnalysisConsent(db: D1Database, userId: number, version: string): Promise<boolean> {
+  const row = await db
+    .prepare('SELECT analysis_consent_version, analysis_consent_at FROM user_preferences WHERE telegram_user_id = ?')
+    .bind(userId)
+    .first<{ analysis_consent_version: string | null; analysis_consent_at: string | null }>();
+  return !!row?.analysis_consent_at && row.analysis_consent_version === version;
+}
+
+export async function setAnalysisConsent(db: D1Database, userId: number, version: string): Promise<void> {
+  const now = nowIso();
+  await db.prepare(
+    `INSERT INTO user_preferences (telegram_user_id, analysis_consent_version, analysis_consent_at, created_at, updated_at)
+     VALUES (?,?,?,?,?)
+     ON CONFLICT(telegram_user_id) DO UPDATE SET
+       analysis_consent_version = excluded.analysis_consent_version,
+       analysis_consent_at = excluded.analysis_consent_at,
+       updated_at = excluded.updated_at`,
+  ).bind(userId, version, now, now, now).run();
+}
+
+export async function getOwnedAnalysis(db: D1Database, itemId: string, userId: number): Promise<AnalysisReportRow | null> {
+  if (!itemId || itemId.length > 32) return null;
+  const row = await db
+    .prepare(`SELECT id, telegram_user_id, item_id, language, summary, transcript_with_timestamps,
+                     claims_json, contradictions_json, hedging_json, questions_json, quality_assessment,
+                     provider, model, prompt_version, latency_ms, created_at, expires_at
+              FROM analysis_reports WHERE item_id = ? AND telegram_user_id = ? AND expires_at > ?`)
+    .bind(itemId, userId, nowIso())
+    .first<AnalysisReportRow>();
+  return row || null;
+}
+
+export async function saveAnalysis(
+  db: D1Database,
+  input: Omit<AnalysisReportRow, 'id' | 'created_at' | 'expires_at'>,
+  ttlMs: number,
+  parentExpiresAt: string,
+): Promise<{ id: string; created: boolean; row: AnalysisReportRow }> {
+  const id = shortId();
+  const createdAt = new Date();
+  const configuredExpiry = new Date(createdAt.getTime() + ttlMs);
+  const parentExpiry = new Date(parentExpiresAt);
+  const expiresAt = new Date(Math.min(configuredExpiry.getTime(), parentExpiry.getTime())).toISOString();
+  const res = await db.prepare(
+    `INSERT OR IGNORE INTO analysis_reports
+      (id, telegram_user_id, item_id, language, summary, transcript_with_timestamps,
+       claims_json, contradictions_json, hedging_json, questions_json, quality_assessment,
+       provider, model, prompt_version, latency_ms, created_at, expires_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+  ).bind(
+    id, input.telegram_user_id, input.item_id, input.language, input.summary,
+    input.transcript_with_timestamps, input.claims_json, input.contradictions_json,
+    input.hedging_json, input.questions_json, input.quality_assessment, input.provider,
+    input.model, input.prompt_version, input.latency_ms, createdAt.toISOString(), expiresAt,
+  ).run();
+  const created = (res.meta?.changes ?? 0) > 0;
+  const row = created
+    ? { ...input, id, created_at: createdAt.toISOString(), expires_at: expiresAt }
+    : await getOwnedAnalysis(db, input.item_id, input.telegram_user_id);
+  if (!row) throw new Error('analysis_report_not_available');
+  return { id: row.id, created, row };
+}
+
+/** Remove report + retained transcript/segments. Usage ledger stays for quota integrity. */
+export async function deleteAnalysisData(db: D1Database, itemId: string, userId: number): Promise<void> {
+  await db.batch([
+    db.prepare('DELETE FROM analysis_reports WHERE item_id = ? AND telegram_user_id = ?').bind(itemId, userId),
+    db.prepare("UPDATE telegram_items SET source_text = NULL, transcript_segments_json = NULL WHERE id = ? AND telegram_user_id = ? AND source_type = 'voice'").bind(itemId, userId),
+  ]);
+}
+
 // ── Retention / GDPR ─────────────────────────────────────────────────────
 /** Opportunistic cleanup: clear expired source_text + prune old rows. */
 export async function cleanupExpired(db: D1Database): Promise<void> {
@@ -197,6 +292,7 @@ export async function cleanupExpired(db: D1Database): Promise<void> {
   try {
     await db.batch([
       db.prepare('DELETE FROM telegram_results WHERE item_id IN (SELECT id FROM telegram_items WHERE expires_at < ?)').bind(now),
+      db.prepare('DELETE FROM analysis_reports WHERE expires_at < ?').bind(now),
       db.prepare('DELETE FROM telegram_items WHERE expires_at < ?').bind(now),
       db.prepare("DELETE FROM telegram_updates WHERE processed_at < ?").bind(new Date(Date.now() - 7 * 864e5).toISOString()),
     ]);
@@ -213,6 +309,7 @@ export async function deleteUserData(db: D1Database, userId: number): Promise<vo
     db.prepare('DELETE FROM subscriptions WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM user_preferences WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM referrals WHERE referrer_user_id = ? OR referred_user_id = ?').bind(userId, userId),
+    db.prepare('DELETE FROM analysis_reports WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM telegram_results WHERE item_id IN (SELECT id FROM telegram_items WHERE telegram_user_id = ?)').bind(userId),
     db.prepare('DELETE FROM telegram_items WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM telegram_users WHERE telegram_user_id = ?').bind(userId),

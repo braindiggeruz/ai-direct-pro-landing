@@ -10,7 +10,7 @@
 // counters are derived, never authoritative.
 import { shortId } from './store';
 
-export type UsageType = 'main_generation' | 'modifier';
+export type UsageType = 'main_generation' | 'modifier' | 'analysis';
 
 export interface PlanRow {
   code: string;
@@ -95,6 +95,17 @@ export async function decideUsage(db: D1Database, userId: number): Promise<Usage
   if (usedMonth >= free.monthly) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: 0, reason: 'period' };
   if (usedToday >= free.daily) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: free.monthly - usedMonth, reason: 'daily' };
   return { allowed: true, planCode: 'free', remainingToday: free.daily - usedToday, remainingPeriod: free.monthly - usedMonth };
+}
+
+/** P0 Tahlil quota is deliberately separate from Javob reply entitlements. */
+export async function decideAnalysisUsage(
+  db: D1Database,
+  userId: number,
+  dailyLimit = 1,
+): Promise<{ allowed: boolean; remainingToday: number }> {
+  const limit = Math.max(1, Math.min(Math.floor(dailyLimit), 1));
+  const used = await ledgerCount(db, userId, 'analysis', `${utcDate()}T00:00:00.000Z`);
+  return { allowed: used < limit, remainingToday: Math.max(0, limit - used) };
 }
 
 /**

@@ -29,12 +29,22 @@ export interface TranscriptionResult {
   provider: 'groq' | 'openai';
   model: string;
   latencyMs: number;
+  segments: TranscriptSegment[];
+}
+
+export interface TranscriptSegment {
+  start: number;
+  end: number;
+  text: string;
+  avgLogprob?: number;
+  noSpeechProb?: number;
 }
 
 interface TranscriptionOptions {
   mimeType?: string;
   fileName?: string;
   timeoutMs: number;
+  durationSeconds?: number;
 }
 
 function withTimeout(timeoutMs: number): { signal: AbortSignal; clear: () => void } {
@@ -117,6 +127,7 @@ async function transcribeWithProvider(
   form.append('model', model);
   form.append('response_format', provider === 'groq' ? 'verbose_json' : 'json');
   form.append('temperature', '0');
+  if (provider === 'groq') form.append('timestamp_granularities[]', 'segment');
 
   const timer = withTimeout(options.timeoutMs);
   try {
@@ -127,15 +138,34 @@ async function transcribeWithProvider(
       signal: timer.signal,
     });
     if (!response.ok) throw new Error('provider_failed');
-    const data = await response.json() as { text?: unknown; language?: unknown };
+    const data = await response.json() as { text?: unknown; language?: unknown; segments?: unknown };
     const text = typeof data.text === 'string' ? data.text.replace(/\s+/g, ' ').trim() : '';
     if (!text) throw new VoicePipelineError('empty_transcript');
+    const maxTime = Math.max(1, (options.durationSeconds ?? Number.POSITIVE_INFINITY) + 1);
+    const segments: TranscriptSegment[] = [];
+    if (Array.isArray(data.segments)) {
+      for (const raw of data.segments.slice(0, 500)) {
+        if (!raw || typeof raw !== 'object') continue;
+        const value = raw as Record<string, unknown>;
+        const start = Number(value.start);
+        const end = Number(value.end);
+        const segmentText = typeof value.text === 'string' ? value.text.replace(/\s+/g, ' ').trim().slice(0, 600) : '';
+        if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0 || end < start || end > maxTime || !segmentText) continue;
+        const segment: TranscriptSegment = { start: Math.round(start * 100) / 100, end: Math.round(end * 100) / 100, text: segmentText };
+        const avgLogprob = Number(value.avg_logprob);
+        const noSpeechProb = Number(value.no_speech_prob);
+        if (Number.isFinite(avgLogprob) && avgLogprob >= -10 && avgLogprob <= 1) segment.avgLogprob = Math.round(avgLogprob * 1000) / 1000;
+        if (Number.isFinite(noSpeechProb) && noSpeechProb >= 0 && noSpeechProb <= 1) segment.noSpeechProb = Math.round(noSpeechProb * 1000) / 1000;
+        segments.push(segment);
+      }
+    }
     return {
       text,
       language: normalizedLanguage(data.language, text),
       provider,
       model,
       latencyMs: Date.now() - startedAt,
+      segments,
     };
   } finally {
     timer.clear();

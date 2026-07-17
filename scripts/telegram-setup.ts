@@ -55,16 +55,16 @@ const COMMANDS_UZ = [
   { command: 'delete_me', description: 'ma’lumotlarimni o‘chirish' },
 ];
 
-const SHORT_RU = 'Перешлите текст или голосовое — получите готовый ответ на русском или Uzbek Latin.';
-const SHORT_UZ = 'Matn yoki ovozli xabar yuboring — ruscha yoki Uzbek Latin tilida tayyor javob oling.';
+const SHORT_RU = 'Перешлите текст или голосовое — получите готовый ответ и безопасный анализ содержания.';
+const SHORT_UZ = 'Matn yoki ovozli xabar yuboring — tayyor javob va xavfsiz mazmun tahlilini oling.';
 const DESC_RU = `GPTBot Javob — помощник для текста и голосовых в Telegram.
 
-Перешлите текст или голосовое от клиента, коллеги или руководителя — бот распознает смысл и подготовит ответ в нужном тоне и на нужном языке.
+Перешлите текст или голосовое от клиента, коллеги или руководителя — бот покажет расшифровку и подготовит ответ. Для голосового доступен Tahlil: проверяемые утверждения, противоречия и вопросы для уточнения. Это не детектор лжи и не доказательство.
 
 Поддерживает русский, Uzbek Latin и смешанную речь. Аудио не хранится.`;
 const DESC_UZ = `GPTBot Javob — Telegram matn va ovozli xabarlari uchun yordamchi.
 
-Mijoz, hamkasb yoki rahbardan kelgan matn yoki ovozli xabarni yuboring — bot mazmunini aniqlab, kerakli ohang va tilda javob tayyorlaydi.
+Mijoz, hamkasb yoki rahbardan kelgan matn yoki ovozli xabarni yuboring — bot transkript va javob tayyorlaydi. Ovozli xabar uchun Tahlil bayonotlar, qarama-qarshiliklar va aniqlashtiruvchi savollarni ko‘rsatadi. Bu yolg‘on detektori ham, dalil ham emas.
 
 Rus tili, Uzbek Latin va aralash nutqni qo‘llab-quvvatlaydi. Audio saqlanmaydi.`;
 
