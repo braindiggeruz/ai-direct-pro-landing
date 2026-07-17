@@ -66,6 +66,14 @@ export function formatAnalysisReport(
     analysis.summary || (ru ? 'В записи обсуждаются конкретные условия, которые стоит проверить.' : 'Yozuvda tekshirish kerak bo‘lgan aniq shartlar muhokama qilinadi.'),
   ];
 
+  if (analysis.questions.length) {
+    lines.push(
+      '',
+      ru ? 'Что спросить сначала:' : 'Avval nima so‘rash kerak:',
+      ...analysis.questions.slice(0, 2).map((question, index) => `${index + 1}. ${question}`),
+    );
+  }
+
   if (analysis.claims.length) {
     lines.push('', ru ? 'Что можно проверить:' : 'Nimani tekshirish mumkin:', ...analysis.claims.map((item) => claimLine(item, locale)));
   }
@@ -79,14 +87,6 @@ export function formatAnalysisReport(
     lines.push('', ru
       ? 'Явных проверяемых маркеров не найдено. Это не подтверждает и не опровергает сказанное.'
       : 'Aniq tekshiriladigan belgilar topilmadi. Bu aytilgan gapni tasdiqlamaydi ham, inkor etmaydi ham.');
-  }
-
-  if (analysis.questions.length) {
-    lines.push(
-      '',
-      ru ? 'Что спросить сначала:' : 'Avval nima so‘rash kerak:',
-      ...analysis.questions.slice(0, 2).map((question, index) => `${index + 1}. ${question}`),
-    );
   }
 
   if (qualityAssessment === 'coarse_timestamps') {
