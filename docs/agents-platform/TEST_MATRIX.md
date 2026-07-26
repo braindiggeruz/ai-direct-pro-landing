@@ -32,3 +32,12 @@
 | tests/agent-boundaries.test.ts | 10 | ✅ | границы platform/agents/channels + негативные fixtures + registry |
 Команда чекера: `npx tsx scripts/check-agent-boundaries.ts` (exit 0).
 Typecheck платформы: `npx tsc -p tsconfig.functions.json --noEmit` — допустимы ТОЛЬКО 27 известных legacy-ошибок (KNOWN_ISSUES), 0 в functions/{platform,agents,channels}.
+
+## Добавлено P0.2
+| Файл | Кол-во | Статус | Что покрывает |
+|---|---:|---|---|
+| `tests/telegram-channel-compat.test.ts` | 1 | ✅ | старый shim и новый channel path экспортируют одинаковые runtime values и совместимую type surface без сетевых side effects |
+
+Post-change baseline: `tsc -b` exit 0; boundaries 10/10; telegram-assistant 60/60;
+gpt-chat 15/15; functions-config = ровно 27 legacy-ошибок и 0 в
+`functions/{platform,agents,channels}`; scoped P0.2 eslint = 0.

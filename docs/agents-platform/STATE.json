@@ -1,21 +1,21 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P0.1",
+  "current_stage": "P0.2",
   "stage_status": "completed",
-  "last_completed_stage": "P0.1",
-  "next_stage": "P0.2",
-  "last_commit": "abd8192f2f7475d34a87d464d041e5aa8e5126b8",
+  "last_completed_stage": "P0.2",
+  "next_stage": "P0.3",
+  "last_commit": "1159226b5cec26176704d2da36e9dfaaa6407edc",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
-  "previous_stage": { "stage": "P0.0", "last_commit": "50ff0ac62e75fdc4b05da95fc5939b1a86d36e34", "state_commit": "c83728fee303d0d90b47fff539a00c6d811e24d5", "alignment_commit": "45839a5" },
-  "updated_at": "2026-07-17",
+  "previous_stage": { "stage": "P0.1", "last_commit": "abd8192f2f7475d34a87d464d041e5aa8e5126b8", "state_commit": "954bf44dcb9a1ce7e1ebc19a7715f5ddd9a96078", "alignment_commit": "45839a5" },
+  "updated_at": "2026-07-26",
   "blocked": false,
   "blockers": [],
   "baseline": {
-    "build": "not run this stage (src untouched; tsc -b green covers vite graph)",
-    "tests": "pass: boundaries 10/10 (new), telegram-assistant 60/60, gpt-chat 15/15",
+    "build": "not run this stage (src untouched; tsc -b exit 0 covers the unchanged vite graph)",
+    "tests": "pass: boundaries 10/10, telegram-channel-compat 1/1 (new), telegram-assistant 60/60, gpt-chat 15/15",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "new files eslint 0; global eslint legacy-red 84 (KNOWN_ISSUES)"
+    "lint": "P0.2 files eslint 0; global eslint legacy-red 84 (KNOWN_ISSUES)"
   }
 }
