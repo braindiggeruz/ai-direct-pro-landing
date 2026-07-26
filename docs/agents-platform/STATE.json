@@ -6,6 +6,8 @@
   "last_completed_stage": "P0.0",
   "next_stage": "P0.1",
   "last_commit": "50ff0ac62e75fdc4b05da95fc5939b1a86d36e34",
+  "state_commit": "c83728fee303d0d90b47fff539a00c6d811e24d5",
+  "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit; max 2 commits per stage",
   "updated_at": "2026-07-17",
   "blocked": false,
   "blockers": [],
