@@ -5,3 +5,5 @@
 // boundary checker enforces it.
 export * from './contracts';
 export * from './events';
+export * from './identity';
+export * from './orgs';
