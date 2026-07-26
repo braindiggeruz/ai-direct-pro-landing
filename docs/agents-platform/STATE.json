@@ -1,0 +1,18 @@
+{
+  "project": "gptbot-agents",
+  "architecture_version": "2026-07-17",
+  "current_stage": "P0.0",
+  "stage_status": "completed",
+  "last_completed_stage": "P0.0",
+  "next_stage": "P0.1",
+  "last_commit": null,
+  "updated_at": "2026-07-17",
+  "blocked": false,
+  "blockers": [],
+  "baseline": {
+    "build": "pass (vite build exit 0)",
+    "tests": "pass 143/143 (file-by-file; см. TEST_MATRIX.md)",
+    "typecheck": "pass (tsc -b exit 0)",
+    "lint": "legacy-red: eslint . = 84 problems (71 errors) — существовало до платформы, KNOWN_ISSUES.md"
+  }
+}

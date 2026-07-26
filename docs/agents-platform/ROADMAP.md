@@ -1,0 +1,37 @@
+# GPTBot Agents — карта этапов (один этап = одна сессия агента)
+
+Источник направления: ARCHITECTURE.md (утв. 2026-07-17) + SOTUVCHI_PLAN.md (утв. аудит MVP).
+Текущий этап — всегда `STATE.json.next_stage`. Не выполняй больше одного этапа за сессию.
+
+## P0 — фундамент
+- **P0.0 Baseline и эстафета** — AGENTS.md, docs/agents-platform, STATE.json, baseline-проверки, handoff-протокол. Без кода платформы.
+- **P0.1 Границы модулей** — scaffold `functions/{platform,agents,channels}`, минимальные contracts (типы), import-boundary проверка (lint-правило или тест на import-graph). Без продуктовой логики.
+- **P0.2 Telegram channel extraction** — move `functions/lib/telegram/client.ts` → `functions/channels/telegram/api.ts` + re-export shim на старом пути; нулевое изменение поведения; полный legacy-suite зелёный.
+- **P0.3 Events foundation** — in-process bus (`platform/events`), durable outbox (миграция: таблица `events`: id, org_id NULL, agent_id NULL, type, aggregate, payload_json БЕЗ PII, created_at, processed_at NULL), мост из ОДНОГО существующего потока (Javob logEvent дублирует в events), idempotency-тесты.
+- **P0.4 Identity/Orgs/Tenancy** — миграция: identities, organizations, memberships, contacts (persons — только если реально нужно); repository-слой `platform/{identity,orgs}/store.ts`; негативные тесты изоляции.
+- **P0.5 Platform AI façade** — `platform/ai`: интерфейс complete/stream/structured/transcribe + адаптеры поверх существующих реализаций (lib/llm, gpt-chat/openrouter-*, telegram/service); модельная политика из конфига; legacy НЕ переключаем массово; structured-выход валидируется схемой.
+
+## P1 — движки
+- **P1.1 Knowledge Engine minimum** — knowledge_collections/items (+search_text, numeric-индексы), schema-валидация payload, детерминированный поиск (normalize+LIKE+скоринг), tenant-тесты. Ревизии — только если нужны Sotuvchi.
+- **P1.2 Workflow Engine minimum** — декларативные FSM, persistent `workflow_instances` (переживают isolate), идемпотентные actions, restart-тест. Без cron (таймеры не нужны Sotuvchi v0).
+- **P1.3 Agent Runtime minimum** — AgentManifest-типы, `agents/registry.ts`, tools с Facts-контрактом, deterministic-first turn-цикл, grounding fail-closed, demo-агент (echo+1 knowledge-вопрос).
+- **P1.4 Telegram agent webhook** — `functions/api/telegram/agents.ts` (или sotuvchi.ts): свой токен/секрет (`TELEGRAM_SOTUVCHI_*`), secret-header, dedup, `?start=`-deep-links, нормализация inbound/outbound через channels/telegram; demo-агент отвечает end-to-end. ГАРД: username ≠ aidirectprobot ≠ gptbot_javob_bot.
+
+## P2 — Sotuvchi (критерии из SOTUVCHI_PLAN.md §18)
+- **P2.1 Onboarding магазина** — org+owner membership, имя/язык/доставка/оплата, storefront-код.
+- **P2.2 Каталог** — ≤20 товаров, фото=tg file_id, цена/остаток/варианты-текст, редактирование/скрытие, изоляция.
+- **P2.3 Buyer Q&A** — deep-link, RU/UZ/mix intents, детерминированный lookup, карточки, цена/наличие только из facts, fail-closed, handoff при неопределённости.
+- **P2.4 Checkout workflow** — 1 товар × qty, имя/телефон/адрес/подтверждение, персистентное состояние, идемпотентное создание заказа.
+- **P2.5 Orders/inventory** — orders/order_items/inventory_moves, уведомление продавцу, confirm/cancel/done, защита от двойного списания.
+- **P2.6 Human handoff** — очередь, уведомление, reply-мост, TTL текста вопроса, закрытие, события.
+- **P2.7 Analytics/pilot readiness** — события (§13 SOTUVCHI_PLAN), /stats, RU/UZ лендинги, setup-скрипт, runbook. Без платёжных интеграций.
+
+## P3 — пилот (без симуляции рынка в коде)
+Onboarding runbook, pilot dashboard, feedback-форма, incident handling, weekly metrics.
+
+## Критерий готовности MVP (15 пунктов)
+1 магазин с телефона · 2 пять товаров ≤10 мин · 3 deep-link входа · 4 цена/наличие только из БД ·
+5 неизвестный вопрос ≠ выдумка · 6 checkout переживает isolate-restart · 7 повторный update ≠ второй заказ ·
+8 остаток не списывается дважды · 9 продавец получает заказ · 10 handoff в обе стороны ·
+11 изоляция магазинов · 12 legacy без регрессий · 13 события без PII · 14 tests+build зелёные ·
+15 актуальный HANDOFF.md.
