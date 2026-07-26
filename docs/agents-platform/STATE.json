@@ -5,7 +5,7 @@
   "stage_status": "completed",
   "last_completed_stage": "P0.1",
   "next_stage": "P0.2",
-  "last_commit": "PENDING_P0.1_CODE_COMMIT",
+  "last_commit": "abd8192f2f7475d34a87d464d041e5aa8e5126b8",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
   "previous_stage": { "stage": "P0.0", "last_commit": "50ff0ac62e75fdc4b05da95fc5939b1a86d36e34", "state_commit": "c83728fee303d0d90b47fff539a00c6d811e24d5", "alignment_commit": "45839a5" },
