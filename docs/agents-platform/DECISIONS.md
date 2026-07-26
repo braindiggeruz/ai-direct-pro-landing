@@ -1,5 +1,8 @@
 # DECISIONS — журнал архитектурных решений (ADR-стиль, только принятые)
 
+## D-008 (2026-07-26, P0.3) События: durable-first, безопасный payload и точечный bridge
+Канонический outbox платформы — additive D1-таблица `events`; envelope остаётся существующим `PlatformEvent` с nullable `orgId`/`agentId`, обязательным aggregate reference и рекурсивным `PiiSafePayload`. Один обязательный idempotency key создаёт максимум одну строку и duplicate не вызывает повторный emit. Сервис сначала валидирует runtime PII guard, затем сохраняет событие, затем последовательно вызывает in-process subscribers в порядке регистрации; bus запускает оставшихся subscribers после ошибки и в конце выбрасывает `EventDispatchError` с агрегированными причинами, не удаляя durable event. На P0.3 dual-write включён только для legacy `javob_message_received` direct-message потока: legacy `logEvent` выполняется первым, platform payload содержит только `channel/locale/language/sourceType`, а сбой bootstrap/outbox логируется без контента и не ломает ответ Javob. Остальные legacy-события, dispatcher, retries, queue и cron не мигрированы.
+
 ## D-006 (2026-07-17, P0.1-pre) Правило фиксации SHA этапа (устраняет рекурсию P0.0)
 `STATE.json.last_commit` = SHA коммита С КОДОМ завершённого этапа. Если за ним следует
 metadata-only коммит (обновление STATE/HANDOFF), он фиксируется в поле `state_commit`

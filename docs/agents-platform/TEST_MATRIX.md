@@ -41,3 +41,18 @@ Typecheck платформы: `npx tsc -p tsconfig.functions.json --noEmit` — 
 Post-change baseline: `tsc -b` exit 0; boundaries 10/10; telegram-assistant 60/60;
 gpt-chat 15/15; functions-config = ровно 27 legacy-ошибок и 0 в
 `functions/{platform,agents,channels}`; scoped P0.2 eslint = 0.
+
+## Добавлено P0.3
+| Файл | Кол-во | Статус | Что покрывает |
+|---|---:|---|---|
+| `tests/platform-events.test.ts` | 20 | ✅ | порядок и ошибки in-process bus; durable append; duplicate/idempotency; unprocessed/processed; recursive PII guard; fail-closed JSON; durable-first service; один PII-safe Javob bridge и сохранение legacy logging |
+
+Post-change baseline P0.3:
+- `npx tsc -b` → exit 0;
+- `tests/platform-events.test.ts` → 20/20;
+- `tests/agent-boundaries.test.ts` → 10/10;
+- `tests/telegram-channel-compat.test.ts` → 1/1;
+- `tests/telegram-assistant.test.ts` → 60/60;
+- `tests/gpt-chat.test.ts` → 15/15;
+- `npx tsc -p tsconfig.functions.json --noEmit` → ровно 27 legacy-ошибок, 0 в `functions/{platform,agents,channels}`;
+- scoped ESLint для `functions/platform/events`, новых/изменённых Javob-файлов и затронутых тестов → exit 0.

@@ -1,23 +1,38 @@
-# CURRENT_STATE — фактическое состояние репозитория (снято 2026-07-17, HEAD 5bf3d56)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-26, P0.3)
 
-## Продукты в проде (не ломать)
-- SEO-фабрика: content/**(JSON) → scripts/prerender*.ts → ~183 стат. страниц; sitemap 186; llms.txt; seo-audit — build-гейт.
-- Веб AI-чат: `/ru/gpt-chat/`, `/uz/gpt-uzbek-tilida/` — app-shell island `src/gpt-chat/` + `functions/api/gpt/*` (SSE-стриминг, квоты hashed-IP, D1-fallback gateway на Railway-код).
-- **Javob** `@gptbot_javob_bot`: `functions/api/telegram/assistant.ts` + `functions/lib/telegram/**` (15 модулей): zero-prompt reply, voice→Whisper(Groq→OpenAI)→транскрипт→ответ, Tahlil-анализ (consent, strict-JSON, sanitize, grounded timestamps), биллинг-леджер, миграции 0009–0012.
-- Lead-бот `@aidirectprobot`: `functions/api/telegram/webhook.ts` — in-memory лид-форма Ads. ЗАМОРОЖЕН.
-- Админка `/admin-tools/` + `/api/admin/**` (JWT), контент коммитится в GitHub Octokit'ом.
+## Продукты в production (не ломать)
+- SEO-фабрика: `content/**` → `scripts/prerender*.ts` → статические страницы, sitemap, `llms.txt`, SEO build-gates.
+- Веб AI-чат: `/ru/gpt-chat/`, `/uz/gpt-uzbek-tilida/` — `src/gpt-chat/**` + `functions/api/gpt/**`.
+- Javob `@gptbot_javob_bot`: `functions/api/telegram/assistant.ts` + `functions/lib/telegram/**`; zero-prompt reply, voice transcription/reply, Tahlil, billing ledger, privacy/grounding guards.
+- Lead-бот `@aidirectprobot`: `functions/api/telegram/webhook.ts`; заморожен и на P0.3 не изменялся.
+- Админка `/admin-tools/` + `/api/admin/**`.
 
-## Инфраструктура (подтверждено кодом/конфигом)
-- Cloudflare Pages + Pages Functions; D1 единственная (`GPTBOT_DRAFTS_DB`), Workers AI binding; KV `LOGIN_ATTEMPTS`. R2/Durable Objects/Queues/cron — НЕТ.
-- Деплой: push main → CF `build:cf`. Тестов в CI нет (только seo-audit-гейт).
-- env-каталог: `functions/_types.ts` (единственный источник имён).
+## Инфраструктура
+- Cloudflare Pages + Pages Functions; основное хранилище D1 `GPTBOT_DRAFTS_DB`; Workers AI binding; KV `LOGIN_ATTEMPTS`.
+- R2, Durable Objects, Queues и cron отсутствуют. P0.3 их не добавлял.
+- Push в `main` запускает Cloudflare deploy, поэтому push/deploy разрешены только отдельной явной командой владельца.
+- Каталог env-имён — `functions/_types.ts`. В P0.3 новые env/secrets не добавлены.
 
-## Платформа GPTBot Agents
-- Статус: этап P0.0 (этот). Каталогов `functions/{platform,agents,channels}` ещё НЕ существует.
-- Переиспользуемые образцы для ядра: TelegramClient (`lib/telegram/client.ts`), webhook-скелет (`api/telegram/assistant.ts`), идемпотентный леджер (`lib/telegram/billing.ts`), schema-bootstrap (`lib/telegram/schema.ts`), pseudoUser/logEvent (`lib/telegram/store.ts`), guard-валидаторы (`lib/telegram/{validator,analysis}.ts`), i18n-паттерн, `lib/llm/*` (роутер+circuit-breaker), тест-фейк D1 (`tests/telegram-assistant.test.ts`).
+## GPTBot Agents Platform
+- Завершены P0.1 boundaries/contracts/registry, P0.2 Telegram client extraction и P0.3 Events foundation.
+- `functions/platform/events/**` содержит request-local `EventBus`, runtime PII guard, service, D1 store и runtime schema bootstrap.
+- Канонический durable outbox — additive таблица `events` из `migrations/0013_platform_events.sql`: `id`, unique `idempotency_key`, nullable `org_id`/`agent_id`, `type`, `aggregate_ref`, `payload_json`, `occurred_at`, `created_at`, nullable `processed_at`.
+- Publish-порядок: validate → durable append → последовательный in-process emit. Duplicate возвращает существующее событие и повторно не emit.
+- Bus не имеет singleton/import-time registration. Все subscribers выполняются в порядке регистрации; ошибки агрегируются в `EventDispatchError` после запуска остальных subscribers.
+- PII guard рекурсивно разрешает только JSON-safe значения, запрещает PII/content-ключи без учёта регистра, включая составные snake_case/camelCase ключи, ограничивает глубину до 5 и encoded size до 8192 bytes. Это guardrail, не DLP.
+- Единственный legacy bridge находится в `functions/lib/telegram/platform-events.ts`: direct `javob_message_received` dual-write. Legacy `telegram_events` остаётся действующим; platform payload не содержит raw message, Telegram user/chat/file identifiers или username.
+- Platform outbox failure для этого аналитического bridge логируется безопасной константой и не прерывает Javob user flow. Queue/dispatcher/retry/DLQ на P0.3 отсутствуют.
+- `functions/channels/telegram/api.ts` остаётся реализацией Telegram client, старый `functions/lib/telegram/client.ts` — compatibility shim.
+- Boundary rule сохраняется: agents/channels могут зависеть от platform; platform не импортирует agents/channels/legacy.
 
-## Baseline (см. TEST_MATRIX.md, снят на этом этапе)
-tsc 0 · tests 143/143 (file-by-file) · vite build OK · javob:eval offline OK · `eslint .` КРАСНЫЙ: 84 problems (71 err) — весь красняк legacy, не относится к платформе (список в KNOWN_ISSUES.md).
+## Проверенный baseline P0.3
+- `npx tsc -b` — exit 0.
+- Platform events 20/20; boundaries 10/10; Telegram compatibility 1/1; Telegram assistant 60/60; gpt-chat 15/15.
+- `npx tsc -p tsconfig.functions.json --noEmit` — ровно 27 известных legacy-ошибок, 0 в `functions/{platform,agents,channels}`.
+- Scoped ESLint новых platform events и изменённых Javob-файлов — exit 0. Глобальный legacy lint остаётся известным долгом из `KNOWN_ISSUES.md`.
 
-## Известные особенности машины разработки
-Windows, PowerShell 5.1, node OOM при открытом Chrome (лечение: NODE_OPTIONS=--max-old-space-size=1400, тесты по одному файлу, ждать free RAM ≥2GB).
+## Следующий этап
+Только P0.4 — Identity/Orgs/Tenancy: additive schema для identities, organizations, memberships и contacts (persons — только при доказанной необходимости), repository-слой `functions/platform/{identity,orgs}` и негативные tenant-isolation tests. Не начинать P0.5 AI façade, Runtime, Knowledge, Workflow, Sotuvchi, dashboard или миграцию остальных legacy events.
+
+## Рабочая среда
+Windows + PowerShell. При OOM использовать `NODE_OPTIONS=--max-old-space-size=1400` и запускать тесты по одному файлу. Pre-existing untracked `apps/gpt-backend/package-lock.json` не относится к платформенным этапам: не добавлять, не удалять и не изменять.
