@@ -16,7 +16,7 @@ export type {
   Outbound,
   OutboundChoice,
 } from './channel';
-export type { EventScalar, PlatformEvent } from './events';
+export type { EventScalar, EventValue, PiiSafePayload, PlatformEvent } from './events';
 export type {
   WorkflowDefinition,
   WorkflowStateDefinition,

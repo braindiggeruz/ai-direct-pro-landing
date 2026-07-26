@@ -23,6 +23,7 @@ import {
   type TranscriptAnalysis,
 } from './analysis';
 import { analysisFromStored, formatAnalysisReport, formatVerificationQuestions } from './analysis-report';
+import { logJavobMessageReceived } from './platform-events';
 
 interface Deps {
   env: Env;
@@ -139,7 +140,17 @@ async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Prom
   const cls = classifyMessage(text);
   const itemId = await S.createItem(db, from.id, forwarded ? 'forward' : 'direct', text, cls.language, cfg.itemTtlMs);
   await S.setItemContext(db, itemId, cls.situation);
-  await S.logEvent(db, forwarded ? 'javob_forward_received' : 'javob_message_received', pseudo, { locale, lang: cls.language });
+  if (forwarded) {
+    await S.logEvent(db, 'javob_forward_received', pseudo, { locale, lang: cls.language });
+  } else {
+    await logJavobMessageReceived(db, {
+      updateId,
+      itemId,
+      pseudo,
+      locale,
+      language: cls.language,
+    });
+  }
   await S.logEvent(db, 'javob_context_detected', pseudo, { locale, situation: cls.situation });
   void S.cleanupExpired(db);
 

@@ -1,8 +1,12 @@
-// Platform contract: PII-safe event envelope. The durable outbox and the
-// in-process bus arrive in P0.3; this stage defines only the shape.
-// Payload values are scalars by type so raw user text cannot be attached.
+// Platform contract: PII-safe event envelope. TypeScript describes the
+// allowed JSON shape; platform/events/pii.ts enforces it at runtime.
 
 export type EventScalar = string | number | boolean | null;
+export type EventValue =
+  | EventScalar
+  | readonly EventValue[]
+  | Readonly<{ [key: string]: EventValue }>;
+export type PiiSafePayload = Readonly<Record<string, EventValue>>;
 
 export interface PlatformEvent {
   id: string;
@@ -15,5 +19,5 @@ export interface PlatformEvent {
   agentId: string | null;
   /** Aggregate reference, e.g. 'conversation:abc123'. */
   aggregate: string;
-  payload: Readonly<Record<string, EventScalar>>;
+  payload: PiiSafePayload;
 }

@@ -294,6 +294,7 @@ function makeD1() {
   const t = {
     users: [] as any[], items: [] as any[], results: [] as any[], updates: [] as any[],
     events: [] as any[], ledger: [] as any[], ents: [] as any[], analyses: [] as any[],
+    platformEvents: [] as any[],
     subs: [] as any[], orders: [] as any[], txs: [] as any[], prefs: [] as any[], refs: [] as any[],
     plans: [
       { code: 'free', name_ru: 'Free', name_uz: 'Free', price_uzs: 0, billing_type: 'none', duration_hours: null, monthly_limit: 30, daily_limit: 3, features_json: null, is_active: 1, display_order: 1 },
@@ -303,6 +304,22 @@ function makeD1() {
     ] as any[],
   };
   function run(sql: string, a: any[]) {
+    if (/INSERT OR IGNORE INTO events/.test(sql)) {
+      if (t.platformEvents.some((event) => event.id === a[0] || event.idempotency_key === a[1])) {
+        return { meta: { changes: 0 } };
+      }
+      t.platformEvents.push({
+        id: a[0], idempotency_key: a[1], org_id: a[2], agent_id: a[3],
+        type: a[4], aggregate_ref: a[5], payload_json: a[6],
+        occurred_at: a[7], created_at: a[8], processed_at: null,
+      });
+      return { meta: { changes: 1 } };
+    }
+    if (/UPDATE events SET processed_at/.test(sql)) {
+      const event = t.platformEvents.find((row) => row.id === a[1] && row.processed_at === null);
+      if (event) event.processed_at = a[0];
+      return { meta: { changes: event ? 1 : 0 } };
+    }
     if (/INSERT OR IGNORE INTO telegram_updates/.test(sql)) {
       if (t.updates.some((u) => u.update_id === a[0])) return { meta: { changes: 0 } };
       t.updates.push({ update_id: a[0] }); return { meta: { changes: 1 } };
@@ -369,6 +386,12 @@ function makeD1() {
     return { meta: { changes: 0 } };
   }
   function first(sql: string, a: any[]) {
+    if (/FROM events WHERE idempotency_key = \?/.test(sql)) {
+      return t.platformEvents.find((event) => event.idempotency_key === a[0]) || null;
+    }
+    if (/FROM events WHERE id = \?/.test(sql)) {
+      return t.platformEvents.find((event) => event.id === a[0]) || null;
+    }
     if (/SELECT telegram_user_id, locale/.test(sql)) { return t.users.find((x) => x.telegram_user_id === a[0]) || null; }
     if (/SELECT total_actions AS t/.test(sql)) { const u = t.users.find((x) => x.telegram_user_id === a[0]); return u ? { t: u.total_actions } : null; }
     if (/FROM telegram_items WHERE id = \? AND telegram_user_id/.test(sql)) { return t.items.find((x) => x.id === a[0] && x.telegram_user_id === a[1]) || null; }
@@ -393,13 +416,22 @@ function makeD1() {
     if (/usage_type = 'modifier'/.test(sql)) { return { c: t.ledger.filter((l) => l.telegram_user_id === a[0] && l.item_id === a[1] && l.usage_type === 'modifier').length }; }
     return null;
   }
-  function all(sql: string) {
+  function all(sql: string, a: any[]) {
+    if (/FROM events\s+WHERE processed_at IS NULL/.test(sql)) {
+      return {
+        results: t.platformEvents
+          .filter((event) => event.processed_at === null)
+          .sort((left, right) =>
+            left.created_at.localeCompare(right.created_at) || left.id.localeCompare(right.id))
+          .slice(0, Number(a[0])),
+      };
+    }
     if (/FROM plans/.test(sql)) {
       return { results: t.plans };
     }
     return { results: [] };
   }
-  const stmt = (sql: string) => ({ _sql: sql, _a: [] as any[], bind(...a: any[]) { this._a = a; return this; }, run() { return Promise.resolve(run(sql, this._a)); }, first() { return Promise.resolve(first(sql, this._a)); }, all() { return Promise.resolve(all(sql)); } });
+  const stmt = (sql: string) => ({ _sql: sql, _a: [] as any[], bind(...a: any[]) { this._a = a; return this; }, run() { return Promise.resolve(run(sql, this._a)); }, first() { return Promise.resolve(first(sql, this._a)); }, all() { return Promise.resolve(all(sql, this._a)); } });
   return {
     _t: t,
     prepare: (sql: string) => stmt(sql),
@@ -517,6 +549,16 @@ test('direct/copied text → reply too (no menu)', async () => {
   await handleUpdate(deps(db), { update_id: 11, message: { chat: { id: 6, type: 'private' }, from: { id: 6, language_code: 'ru' }, text: 'Добрый день! Можно перенести встречу на завтра?' } } as any);
   assert.equal(rec.ai, 1);
   assert.equal(rec.tg.filter((c) => c.method === 'sendMessage')[0].body.text, RU_REPLY);
+  assert.equal((db as any)._t.platformEvents.length, 1);
+  const event = (db as any)._t.platformEvents[0];
+  assert.equal(event.idempotency_key, 'telegram:update:11:message.received');
+  assert.deepEqual(JSON.parse(event.payload_json), {
+    channel: 'telegram',
+    locale: 'ru',
+    language: 'ru',
+    sourceType: 'direct',
+  });
+  assert.ok(!event.payload_json.includes((db as any)._t.items[0].source_text));
 });
 
 test('group chats are ignored', async () => {

@@ -4,3 +4,4 @@
 // via onRequest* exports; this module must never export such names — the
 // boundary checker enforces it.
 export * from './contracts';
+export * from './events';
