@@ -56,3 +56,20 @@ Post-change baseline P0.3:
 - `tests/gpt-chat.test.ts` → 15/15;
 - `npx tsc -p tsconfig.functions.json --noEmit` → ровно 27 legacy-ошибок, 0 в `functions/{platform,agents,channels}`;
 - scoped ESLint для `functions/platform/events`, новых/изменённых Javob-файлов и затронутых тестов → exit 0.
+
+## Добавлено P0.4
+| Файл | Кол-во | Статус | Что покрывает |
+|---|---:|---|---|
+| `tests/platform-tenancy.test.ts` | 31 | ✅ | provider-neutral identity и race-safe getOrCreate; organization/slug/status; atomic org+owner; owner/staff memberships; PII-minimal contacts; negative org A/org B read/list/update isolation; runtime bootstrap |
+
+Post-change baseline P0.4:
+- `npx tsc -b` → exit 0;
+- `tests/platform-tenancy.test.ts` → 31/31;
+- `tests/platform-events.test.ts` → 20/20;
+- `tests/agent-boundaries.test.ts` → 10/10;
+- `tests/telegram-channel-compat.test.ts` → 1/1;
+- `tests/telegram-assistant.test.ts` → 60/60;
+- `tests/gpt-chat.test.ts` → 15/15;
+- `npx tsc -p tsconfig.functions.json --noEmit` → ровно 27 legacy-ошибок, 0 в `functions/{platform,agents,channels}`;
+- scoped ESLint для identity/orgs, platform-tenancy test и platform index → exit 0;
+- `0014_platform_identity_orgs.sql` дважды выполнена локальным Wrangler D1 по 7/7 statements; production D1 не затрагивалась.
