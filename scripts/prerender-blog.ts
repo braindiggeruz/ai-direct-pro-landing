@@ -176,9 +176,11 @@ function renderBlock(b: BodyBlock): string {
       if (!b.src || !b.alt) return '';
       const width = b.width ? ` width="${b.width}"` : '';
       const height = b.height ? ` height="${b.height}"` : '';
+      const srcSet = b.srcSet ? ` srcset="${escapeHtml(b.srcSet)}"` : '';
+      const sizes = b.srcSet && b.sizes ? ` sizes="${escapeHtml(b.sizes)}"` : '';
       const loading = b.loading === 'eager' ? 'eager' : 'lazy';
       const priority = b.loading === 'eager' ? ' fetchpriority="high"' : '';
-      const image = `<img src="${escapeHtml(b.src)}" alt="${escapeHtml(b.alt)}"${width}${height} loading="${loading}" decoding="async"${priority} class="w-full h-auto rounded-2xl border border-white/10" />`;
+      const image = `<img src="${escapeHtml(b.src)}"${srcSet}${sizes} alt="${escapeHtml(b.alt)}"${width}${height} loading="${loading}" decoding="async"${priority} class="w-full h-auto rounded-2xl border border-white/10" />`;
       if (b.type === 'figure' || b.caption) {
         return `<figure class="my-10">${image}${b.caption ? `<figcaption class="mt-3 text-sm text-white/55 leading-relaxed">${escapeText(b.caption)}</figcaption>` : ''}</figure>`;
       }

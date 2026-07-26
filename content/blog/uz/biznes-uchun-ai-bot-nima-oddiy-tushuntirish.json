@@ -47,6 +47,17 @@
       "text": "Bilimlar bazasi — asosiy qism. Bazasiz AI-bot oddiy ChatGPT kabi umumiy iboralar bilan javob beradi. Sozlangan bazaga ega AI-bot esa aynan sizning kompaniyangiz narxnomasi, filiallar jadvali va yozilish tartibini biladigan xodimdek javob beradi."
     },
     {
+      "type": "linkp",
+      "text": "Shaxsiy chatdan boshlamoqchi bo'lsangiz, avval {access} bo'yicha yangilangan qo'llanmani ko'ring; biznes kanallariga avtomatik javob berish esa alohida integratsiyani talab qiladi.",
+      "links": [
+        {
+          "token": "access",
+          "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "anchor": "ChatGPT'dan O'zbekistonda foydalanish"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "AI-bot oddiy chat-botdan nimasi bilan farq qiladi"
     },
@@ -161,6 +172,12 @@
     {
       "target": "/uz/yurist-uchun-ai-bot/",
       "anchor": "Yurist uchun AI-bot"
+    },
+    {
+      "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "anchor": "ChatGPT'dan O'zbekistonda foydalanish",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Biznes uchun AI-bot nima: oddiy tushuntirish",

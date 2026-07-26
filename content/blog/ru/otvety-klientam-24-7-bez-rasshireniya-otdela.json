@@ -88,6 +88,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "До внедрения проведите {audit}: он отделяет измеримую выручку под риском от предположений и даёт базовую линию для пилота.",
+      "links": [
+        {
+          "token": "audit",
+          "target": "/ru/blog/biznes-teryaet-zayavki-nochyu/",
+          "anchor": "аудит ночных обращений"
+        }
+      ]
+    },
+    {
       "type": "quote",
       "text": "«Ночной менеджер» — это часто эвфемизм для «недовольный сотрудник, который через два месяца уволится». AI-бот решает ту же задачу без турбулентности."
     },
@@ -186,6 +197,12 @@
     {
       "target": "/ru/whatsapp-bot-dlya-biznesa/",
       "anchor": "круглосуточные ответы в WhatsApp",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/biznes-teryaet-zayavki-nochyu/",
+      "anchor": "аудит ночных обращений",
       "locale": "ru",
       "type": "contextual"
     }

@@ -26,6 +26,10 @@ export interface BodyBlock {
   href?: string;
   src?: string;
   alt?: string;
+  /** image/figure: responsive candidates, emitted as the img srcset attribute. */
+  srcSet?: string;
+  /** image/figure: responsive slot sizing, emitted only when srcSet is present. */
+  sizes?: string;
   /** image/figure: intrinsic pixel dimensions — emitted as width/height to reserve space and prevent CLS. */
   width?: number;
   height?: number;
