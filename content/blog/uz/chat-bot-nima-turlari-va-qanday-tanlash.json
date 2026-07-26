@@ -19,6 +19,17 @@
   "intro": "Chat-bot — bu messenjerda, saytda yoki ilovada inson bilan yozishma olib boradigan dastur: savollarga javob beradi, buyruqlarni bajaradi va ma'lumot yig'adi. Ushbu qo'llanmada — ta'rif, chat-botlarning asosiy turlari va tanlash uchun amaliy mezonlar.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chat-bot-nima-turlari-va-qanday-tanlash-1200.webp",
+      "srcSet": "/assets/blog/chat-bot-nima-turlari-va-qanday-tanlash-480.webp 480w, /assets/blog/chat-bot-nima-turlari-va-qanday-tanlash-800.webp 800w, /assets/blog/chat-bot-nima-turlari-va-qanday-tanlash-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Biznes uchun tugmali, AI, gibrid va tranzaksion chat-botlarning taqqoslanishi",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "Chat-bot nima: ta'rif"
     },
@@ -173,7 +184,7 @@
   ],
   "ogTitle": "Chat-bot nima: turlari va to‘g‘ri tanlash mezonlari",
   "ogDescription": "Tugmali, AI va ovozli chat-botlar qanday farq qiladi, qayerda ishlatiladi va biznes vazifasi uchun mos variantni qanday tanlash mumkin.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/chat-bot-nima-turlari-va-qanday-tanlash-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
   "hreflangRu": "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
   "hreflangUz": "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
@@ -181,7 +192,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -190,5 +201,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

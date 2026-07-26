@@ -18,6 +18,17 @@
   "intro": "Agar Direct, Telegram va menejerlik chatlari alohida yashasa, biznes javob tezligi, kontekst va ishlov berish intizomini yo'qotadi.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/instagram-telegram-crm-bitta-ariza-voronkasi-1200.webp",
+      "srcSet": "/assets/blog/instagram-telegram-crm-bitta-ariza-voronkasi-480.webp 480w, /assets/blog/instagram-telegram-crm-bitta-ariza-voronkasi-800.webp 800w, /assets/blog/instagram-telegram-crm-bitta-ariza-voronkasi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Ijtimoiy kanallardan murojaatlar yagona CRM voronkasi va menejer navbatiga birlashmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "Muammo lead kamligida emas"
     },
@@ -184,7 +195,7 @@
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",
   "ogDescription": "Instagram va Telegram'dan kelgan murojaatlarni bitta voronkaga yig'ish: tez javob, lid kartasi va to'g'ri handoff. Birorta arizani yo'qotmaslik uchun sxema.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/instagram-telegram-crm-bitta-ariza-voronkasi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
   "hreflangRu": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
   "hreflangUz": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
@@ -192,7 +203,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -200,7 +211,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z",
   "sources": [
     {

@@ -23,6 +23,17 @@
   "intro": "Maqolada biznesga AI botni qanday tanlashni ko'rib chiqamiz: qaysi ssenariylarni tayyorlash kerak, qaysi xatolardan saqlanish kerak, Telegram botni va arizalarni menejerga uzatishni qanday sozlash kerak.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-botni-biznes-uchun-qanday-tanlash-1200.webp",
+      "srcSet": "/assets/blog/ai-botni-biznes-uchun-qanday-tanlash-480.webp 480w, /assets/blog/ai-botni-biznes-uchun-qanday-tanlash-800.webp 800w, /assets/blog/ai-botni-biznes-uchun-qanday-tanlash-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "O‘zbekistonlik biznes egasi kanallar, CRM va menejerga uzatish bilan AI-botni rejalashtirmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "Nima uchun \"shunchaki Telegramda javob berish\" yetarli emas"
     },
@@ -332,7 +343,7 @@
   ],
   "ogTitle": "AI botni biznes uchun qanday tanlash: ishga tushirish chek-listi",
   "ogDescription": "O'zbekistondagi biznes uchun AI botni qanday tanlash kerak: ssenariy, integratsiyalar, xatolar, mezonlar va Telegram bot startidan oldingi tayyorgarlik.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-botni-biznes-uchun-qanday-tanlash-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
   "hreflangRu": "/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/",
   "hreflangUz": "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
@@ -340,7 +351,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -348,7 +359,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z",
   "sources": [
     {

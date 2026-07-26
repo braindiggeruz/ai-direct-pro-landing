@@ -19,6 +19,17 @@
   "intro": "Медицина — это та сфера, где «робот вместо регистратора» звучит страшнее всего. Разбираем, что AI-бот в клинике реально делает, чего он не делает категорически, и почему он не заменяет регистратуру, а разгружает её.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-dlya-kliniki-zadachi-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-dlya-kliniki-zadachi-480.webp 480w, /assets/blog/ai-bot-dlya-kliniki-zadachi-800.webp 800w, /assets/blog/ai-bot-dlya-kliniki-zadachi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-ассистент клиники принимает вопросы, помогает с записью и передаёт диалог администратору",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Медицина — это та сфера, где «робот вместо регистратора» звучит страшнее всего. Разбираем, что AI-бот в клинике реально делает, чего он не делает категорически, и почему он не заменяет регистратуру, а разгружает её."
     },
@@ -182,14 +193,14 @@
   ],
   "ogTitle": "AI-бот для клиники: какие задачи он реально закрывает",
   "ogDescription": "Запись на приём, типовые вопросы, напоминания и эскалация: что должен и не должен делать AI-бот в медицинской клинике в Узбекистане.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-dlya-kliniki-zadachi-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-bot-dlya-kliniki-zadachi/",
   "hreflangRu": "/ru/blog/ai-bot-dlya-kliniki-zadachi/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -197,6 +208,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

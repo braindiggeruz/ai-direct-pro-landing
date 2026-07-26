@@ -19,6 +19,17 @@
   "intro": "Klinika, salon, o'quv markazi, do'kon va HoReCa uchun birinchi aloqa mantig'i har xil — demak, bot ham har xil bo'lishi kerak.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda-1200.webp",
+      "srcSet": "/assets/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda-480.webp 480w, /assets/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda-800.webp 800w, /assets/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "O‘zbekistonlik biznes egasi kanallar, CRM va menejerga uzatish bilan AI-botni rejalashtirmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "Bitta ssenariy hamma nishaga mos kelmaydi"
     },
@@ -182,7 +193,7 @@
   ],
   "ogTitle": "O'zbekistonda qaysi AI bot qaysi nishaga mos",
   "ogDescription": "Klinika, salon, o'quv markazi, do'kon va HoReCa uchun bot ssenariylari farqini taqqoslaymiz va har bir nishaga mos yechimni tanlashga yordam beramiz.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
   "hreflangRu": "/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",
   "hreflangUz": "/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
@@ -190,7 +201,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -198,6 +209,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z"
 }

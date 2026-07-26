@@ -19,6 +19,17 @@
   "intro": "Учебные центры в Узбекистане сталкиваются с потоком одинаковых вопросов: цены, расписание, программа, формат, скидки. Большая часть этого потока приходит в Direct и Telegram. AI-бот разгружает приёмную комиссию и не даёт теряться абитуриентам.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi-480.webp 480w, /assets/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi-800.webp 800w, /assets/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-бот учебного центра квалифицирует обращения родителей и передаёт заявки администратору",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Учебные центры в Узбекистане сталкиваются с потоком одинаковых вопросов: цены, расписание, программа, формат, скидки. Большая часть этого потока приходит в Direct и Telegram. AI-бот разгружает приёмную комиссию и не даёт теряться абитуриентам."
     },
@@ -182,14 +193,14 @@
   ],
   "ogTitle": "AI-бот для учебного центра: ответы абитуриентам и запись",
   "ogDescription": "Что AI-бот закрывает в учебном центре: ответы на типовые вопросы абитуриентов, запись на пробный урок, рассылки о наборах и работа с родителями.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
   "hreflangRu": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -197,6 +208,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

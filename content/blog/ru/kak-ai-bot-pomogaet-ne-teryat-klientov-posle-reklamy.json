@@ -18,6 +18,17 @@
   "intro": "Реклама работает, клик стоит денег, клиент перешёл — а дальше всё зависит от того, что произойдёт в первые секунды. AI-бот — это «дежурный» в воронке: он встречает каждого пришедшего, не уходит на обед, не забывает и не отвечает «здравствуйте» через 2 часа.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy-1200.webp",
+      "srcSet": "/assets/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy-480.webp 480w, /assets/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy-800.webp 800w, /assets/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Необработанные сообщения выпадают из воронки, а AI-бот сохраняет заявки для менеджера",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Реклама работает, клик стоит денег, клиент перешёл — а дальше всё зависит от того, что произойдёт в первые секунды. AI-бот — это «дежурный» в воронке: он встречает каждого пришедшего, не уходит на обед, не забывает и не отвечает «здравствуйте» через 2 часа."
     },
@@ -198,14 +209,14 @@
   ],
   "ogTitle": "Как AI-бот помогает не терять клиентов после рекламы",
   "ogDescription": "Что делает AI-бот в первые секунды после клика по рекламе: квалификация лида, сбор контакта, передача менеджеру и аккуратное напоминание.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/",
   "hreflangRu": "/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-07-14",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -213,6 +224,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-14T00:00:00.000Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

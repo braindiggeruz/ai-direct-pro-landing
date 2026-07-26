@@ -18,6 +18,17 @@
   "intro": "На рынке Узбекистана продают и «AI-ботов» по 100 долларов, и «GPT-ботов» по нескольку тысяч. Внутри это разные продукты с разной логикой и разной ценой ошибки. Разбираемся, чем отличается классический скриптовый чат-бот от GPT-бота и в каких случаях имеет смысл переплачивать.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/gpt-bot-vs-chat-bot-1200.webp",
+      "srcSet": "/assets/blog/gpt-bot-vs-chat-bot-480.webp 480w, /assets/blog/gpt-bot-vs-chat-bot-800.webp 800w, /assets/blog/gpt-bot-vs-chat-bot-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Сравнение свободного диалога GPT-бота и предсказуемого кнопочного сценария",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "На рынке Узбекистана продают и «AI-ботов» по 100 долларов, и «GPT-ботов» по нескольку тысяч. Внутри это разные продукты с разной логикой и разной ценой ошибки. Разбираемся, чем отличается классический скриптовый чат-бот от GPT-бота и в каких случаях имеет смысл переплачивать."
     },
@@ -209,14 +220,14 @@
   ],
   "ogTitle": "GPT-бот vs обычный чат-бот: в чём разница и что выбрать",
   "ogDescription": "Сравнение GPT-бота и скриптового чат-бота: когда хватит дерева кнопок, а когда нужен GPT, какие ограничения у каждого подхода.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-bot-vs-chat-bot-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/gpt-bot-vs-chat-bot/",
   "hreflangRu": "/ru/blog/gpt-bot-vs-chat-bot/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -224,7 +235,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z",
   "hreflangUz": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
   "sources": [

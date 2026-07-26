@@ -28,6 +28,17 @@
   ],
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-narxlari-va-tariflari-b2c-uchun-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-narxlari-va-tariflari-b2c-uchun-480.webp 480w, /assets/blog/ai-bot-narxlari-va-tariflari-b2c-uchun-800.webp 800w, /assets/blog/ai-bot-narxlari-va-tariflari-b2c-uchun-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Chat-bot rentabelligi xarajat, vaqt tejalishi va qo‘shimcha bitimlar orqali hisoblanmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "AI-bot narxini aniqlovchi asosiy omillar"
     },
@@ -166,7 +177,7 @@
   ],
   "ogTitle": "B2C uchun AI-bot narxlari va tariflari: Har qadamda aniqlik",
   "ogDescription": "B2C bizneslar uchun AI-bot narxlarini aniqlash omillari. Tarif rejalarini tushuning va GPTBot.uz bilan eng yaxshi yechimni tanlang.",
-  "ogImage": "",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-narxlari-va-tariflari-b2c-uchun-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -176,7 +187,7 @@
     "FAQPage",
     "BreadcrumbList"
   ],
-  "updatedAt": "2026-06-23T11:10:23.888Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "datePublished": "2026-06-23",
-  "dateModified": "2026-06-23"
+  "dateModified": "2026-07-27"
 }

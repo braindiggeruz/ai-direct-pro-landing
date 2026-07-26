@@ -23,6 +23,17 @@
   ],
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chat-bot-dlya-kliniki-s-filiakami-1200.webp",
+      "srcSet": "/assets/blog/chat-bot-dlya-kliniki-s-filiakami-480.webp 480w, /assets/blog/chat-bot-dlya-kliniki-s-filiakami-800.webp 800w, /assets/blog/chat-bot-dlya-kliniki-s-filiakami-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-ассистент клиники принимает вопросы, помогает с записью и передаёт диалог администратору",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Архитектура AI-бота для масштабирования в медицинских сетях"
     },
@@ -194,6 +205,7 @@
     "BreadcrumbList"
   ],
   "datePublished": "2026-06-24",
-  "dateModified": "2026-06-24",
-  "updatedAt": "2026-06-24T10:39:26.571Z"
+  "dateModified": "2026-07-27",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "ogImage": "https://gptbot.uz/assets/blog/chat-bot-dlya-kliniki-s-filiakami-1200.webp"
 }

@@ -18,6 +18,17 @@
   ],
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya-480.webp 480w, /assets/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya-800.webp 800w, /assets/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-бот подключён к салону красоты и связывает сообщения клиентов с администратором",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Преимущества использования AI-бота в салонах красоты"
     },
@@ -160,7 +171,7 @@
   ],
   "ogTitle": "Как использовать AI-бота для салона красоты в Узбекистане",
   "ogDescription": "Как AI-бот помогает салону красоты в Узбекистане: запись клиентов, напоминания, ответы в Direct 24/7, сценарии подключения и реальные ограничения автоматизации.",
-  "ogImage": "",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -171,8 +182,8 @@
     "BreadcrumbList"
   ],
   "datePublished": "2026-06-23",
-  "dateModified": "2026-07-26",
-  "updatedAt": "2026-07-26",
+  "dateModified": "2026-07-27",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "hreflangRu": "/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
   "hreflangUz": "/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
   "sources": [

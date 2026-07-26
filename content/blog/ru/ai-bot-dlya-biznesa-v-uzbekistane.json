@@ -19,6 +19,17 @@
   "intro": "AI-бот — это уже не «технология будущего», а рабочий инструмент малого и среднего бизнеса в Узбекистане. Разберём, какой бот реально нужен бизнесу в Ташкенте и регионах, какие каналы важны и какие ожидания будут адекватными в 2026 году.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-dlya-biznesa-v-uzbekistane-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-dlya-biznesa-v-uzbekistane-480.webp 480w, /assets/blog/ai-bot-dlya-biznesa-v-uzbekistane-800.webp 800w, /assets/blog/ai-bot-dlya-biznesa-v-uzbekistane-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Владелец бизнеса в Узбекистане проектирует AI-бота с каналами, CRM и передачей менеджеру",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "AI-бот — это уже не «технология будущего», а рабочий инструмент малого и среднего бизнеса в Узбекистане. Разберём, какой бот реально нужен бизнесу в Ташкенте и регионах, какие каналы важны и какие ожидания будут адекватными в 2026 году."
     },
@@ -190,14 +201,14 @@
   ],
   "ogTitle": "AI-бот для бизнеса в Узбекистане: что выбрать и как запустить",
   "ogDescription": "Какой AI-бот подойдёт малому и среднему бизнесу в Узбекистане в 2026 году: каналы, языки, интеграции и реалистичные ожидания.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-dlya-biznesa-v-uzbekistane-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
   "hreflangRu": "/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -205,6 +216,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

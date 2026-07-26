@@ -19,6 +19,17 @@
   "intro": "Go'zallik salonlarida mijozlar deyarli har doim Instagram Direct orqali yozadi: \"manikürga yozilsam bo'ladimi?\", \"narxi qancha?\", \"ertaga bo'sh vaqt bormi?\". Agar javob kech kelsa, mijoz boshqa salonga o'tadi. AI-bot bu savollarga darhol javob berib, mijozni ustaning bo'sh oynasiga yozib qo'yadi. Ushbu maqolada salon uchun bot qanday ishlashini ko'rib chiqamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar-1200.webp",
+      "srcSet": "/assets/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar-480.webp 480w, /assets/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar-800.webp 800w, /assets/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Salon AI-boti mutaxassis tanlash, yozilish va tashrif eslatmasini olishga yordam bermoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Salon biznesida vaqt — bu tom ma'noda pul: ustaning bo'sh qolgan oynasi qaytmaydigan yo'qotishdir. Administrator yoki ustaning o'zi Direct'ga har doim ham tez javob berolmaydi, ayniqsa ish paytida yoki dam olish kunlari. AI-bot bu bo'shliqni yopadi."
     },
@@ -193,14 +204,14 @@
   ],
   "ogTitle": "Go'zallik saloni uchun AI-bot: yozilish va eslatmalar",
   "ogDescription": "Go'zallik saloni uchun AI-bot qanday ishlaydi: xizmatga yozilish, narx va vaqt savollari, avtomatik eslatmalar va bo'sh oynalarni to'ldirish.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
   "hreflangUz": "/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -208,7 +219,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z",
   "hreflangRu": "/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
   "sources": [

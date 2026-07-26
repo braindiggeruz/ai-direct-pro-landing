@@ -19,6 +19,17 @@
   "intro": "Чат-бот окупается, когда возвращённые заявки за месяц превышают стоимость внедрения и поддержки. Для малого бизнеса в Узбекистане это часто 2-4 месяца при потоке от 150 обращений.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/okupaemost-chat-bota-dlya-biznesa-1200.webp",
+      "srcSet": "/assets/blog/okupaemost-chat-bota-dlya-biznesa-480.webp 480w, /assets/blog/okupaemost-chat-bota-dlya-biznesa-800.webp 800w, /assets/blog/okupaemost-chat-bota-dlya-biznesa-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Расчёт окупаемости чат-бота по стоимости, экономии времени и дополнительным сделкам",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "За сколько окупается чат-бот для бизнеса"
     },
@@ -180,7 +191,7 @@
   ],
   "ogTitle": "Окупаемость чат-бота: как считать ROI и срок возврата",
   "ogDescription": "Формула ROI, срок возврата и метрики окупаемости чат-бота для бизнеса в Узбекистане. Сколько заявок надо вернуть, чтобы выйти в плюс.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/okupaemost-chat-bota-dlya-biznesa-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
   "hreflangRu": "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
   "hreflangUz": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
@@ -188,7 +199,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-06-26",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -196,6 +207,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-06-26T00:00:00.000Z"
 }

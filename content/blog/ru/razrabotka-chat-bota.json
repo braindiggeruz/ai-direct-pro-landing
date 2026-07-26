@@ -56,11 +56,13 @@
     },
     {
       "type": "figure",
-      "src": "/assets/blog/ai-bot-launch-checklist-1024.webp",
+      "src": "/assets/blog/razrabotka-chat-bota-1200.webp",
+      "srcSet": "/assets/blog/razrabotka-chat-bota-480.webp 480w, /assets/blog/razrabotka-chat-bota-800.webp 800w, /assets/blog/razrabotka-chat-bota-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
       "alt": "Схема запуска AI-бота: диалог, квалификация заявки и передача менеджеру",
-      "width": 1024,
-      "height": 539,
-      "loading": "lazy",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
       "caption": "Рабочий контур: клиент пишет, бот уточняет задачу и контакты, затем передаёт квалифицированную заявку ответственному менеджеру."
     },
     {
@@ -856,20 +858,20 @@
   ],
   "ogTitle": "Разработка чат-бота для бизнеса: AI, CRM и Telegram",
   "ogDescription": "Как спроектировать чат-бота для заявок, записи и продаж: сценарии, конструктор или API, AI, CRM, оплата, этапы разработки и ограничения.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/razrabotka-chat-bota-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/razrabotka-chat-bota/",
   "hreflangRu": "/ru/blog/razrabotka-chat-bota/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot.uz",
   "datePublished": "2026-07-15",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-15",
   "sources": [
     {

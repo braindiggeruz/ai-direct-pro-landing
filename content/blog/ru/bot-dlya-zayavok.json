@@ -26,6 +26,17 @@
   "intro": "Что такое бот для заявок, как он собирает обращения из Telegram, сайта и рекламы, куда передаёт данные — менеджеру, в CRM или Google Sheets, сколько стоит и какие ошибки мешают ему работать. Практический разбор для бизнеса в Ташкенте и Узбекистане.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/bot-dlya-zayavok-1200.webp",
+      "srcSet": "/assets/blog/bot-dlya-zayavok-480.webp 480w, /assets/blog/bot-dlya-zayavok-800.webp 800w, /assets/blog/bot-dlya-zayavok-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Бот собирает заявку, контакт и согласие, затем создаёт запись в CRM для менеджера",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Бизнес теряет клиентов не только из-за слабой рекламы. Чаще проблема прозаичнее: заявка пришла, но менеджер ответил через три часа, забыл уточнить детали или потерял обращение в потоке переписки. Клиент за это время уже написал конкуренту. Бот для заявок закрывает именно этот разрыв: он принимает клиента сразу, задаёт нужные вопросы, сохраняет контакт и передаёт заявку туда, где менеджер её точно увидит — в Telegram, CRM или Google Sheets."
     },
@@ -773,20 +784,20 @@
   ],
   "ogTitle": "Бот для заявок: Telegram, сайт, CRM и автоматизация",
   "ogDescription": "Как бот собирает заявки из Telegram, сайта и рекламы, уточняет данные и передаёт обращение менеджеру, в CRM или таблицу без потери контекста.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/bot-dlya-zayavok-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/bot-dlya-zayavok/",
   "hreflangRu": "/ru/blog/bot-dlya-zayavok/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot.uz",
   "datePublished": "2026-07-15",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-15",
   "sources": [
     {

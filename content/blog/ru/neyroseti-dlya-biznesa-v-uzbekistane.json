@@ -19,6 +19,17 @@
   "intro": "В 2026 году нейросети в Узбекистане — это уже не эксперимент, а рабочий инструмент. Малый бизнес использует ИИ для ответов клиентам в Telegram и Instagram, обработки заявок, записи на услуги, генерации контента и аналитики продаж. Стартовые решения обходятся от 500 000 – 1 500 000 сумов в месяц и окупаются, если бизнес получает от 10–15 обращений в день.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/neyroseti-dlya-biznesa-v-uzbekistane-1200.webp",
+      "srcSet": "/assets/blog/neyroseti-dlya-biznesa-v-uzbekistane-480.webp 480w, /assets/blog/neyroseti-dlya-biznesa-v-uzbekistane-800.webp 800w, /assets/blog/neyroseti-dlya-biznesa-v-uzbekistane-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Владелец бизнеса в Узбекистане проектирует AI-бота с каналами, CRM и передачей менеджеру",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "В 2026 году нейросети в Узбекистане — это уже не эксперимент, а рабочий инструмент. Малый бизнес использует ИИ для ответов клиентам в Telegram и Instagram, обработки заявок, записи на услуги, генерации контента и аналитики продаж. Стартовые решения обходятся от 500 000 – 1 500 000 сумов в месяц и окупаются, если бизнес получает от 10–15 обращений в день. Ниже — 12 конкретных задач, которые можно передать нейросети уже сейчас, с ценами и планом внедрения."
     },
@@ -316,14 +327,14 @@
   ],
   "ogTitle": "Нейросети для бизнеса в Узбекистане: 12 задач для ИИ",
   "ogDescription": "12 задач, которые бизнес в Узбекистане уже отдаёт нейросетям: заявки, запись, оплата, контент. Цены в сумах и план внедрения на 30 дней.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/neyroseti-dlya-biznesa-v-uzbekistane-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
   "hreflangRu": "/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-08",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -332,7 +343,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-08T00:00:00.000Z",
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI API — модели и возможности",

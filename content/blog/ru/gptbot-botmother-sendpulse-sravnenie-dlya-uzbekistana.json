@@ -19,6 +19,17 @@
   "intro": "Бизнесу в Узбекистане доступны два пути: собрать бота самому в конструкторе (Botmother, SendPulse) или заказать настроенного AI-бота у локальной студии (GPTBot.uz). Сравниваем честно: по цене, языкам, интеграциям и трудозатратам — и объясняем, кому какой вариант подходит.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana-1200.webp",
+      "srcSet": "/assets/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana-480.webp 480w, /assets/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana-800.webp 800w, /assets/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Владелец бизнеса сравнивает три платформы чат-ботов по функциям и интеграциям",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Главное отличие: конструктор против готового решения"
     },
@@ -151,7 +162,7 @@
   ],
   "ogTitle": "GPTBot, Botmother или SendPulse: что выбрать в Узбекистане",
   "ogDescription": "Честное сравнение GPTBot.uz, Botmother и SendPulse для бизнеса в Узбекистане: конструктор или студия, узбекский язык, Payme и Click, CRM, кому что подходит.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
   "hreflangRu": "/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
   "hreflangUz": "/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
@@ -159,7 +170,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -168,5 +179,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

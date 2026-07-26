@@ -28,6 +28,17 @@
   "intro": "Как заказать Telegram-бота для бизнеса: задачи, сценарии, цена разработки, интеграции с CRM и Google Sheets, типичные ошибки и чек-лист подготовки. Практический гайд для бизнеса в Ташкенте и Узбекистане.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/zakazat-telegram-bota-1200.webp",
+      "srcSet": "/assets/blog/zakazat-telegram-bota-480.webp 480w, /assets/blog/zakazat-telegram-bota-800.webp 800w, /assets/blog/zakazat-telegram-bota-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Смета Telegram-бота складывается из сценария, интеграций, тестирования и поддержки",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Запрос «заказать телеграм бота» бизнес обычно набирает не из любопытства. За ним стоит конкретная боль: заявки из Telegram и Instagram теряются, менеджеры отвечают медленно, клиенты каждый день задают одни и те же вопросы, а данные о заказах разбросаны по личным перепискам. Telegram-бот для бизнеса решает эти задачи системно: он принимает обращения 24/7, собирает заявки в структурированном виде, отвечает на частые вопросы, записывает клиентов и мгновенно отправляет уведомления менеджеру."
     },
@@ -672,20 +683,20 @@
   ],
   "ogTitle": "Заказать Telegram-бота: сценарии, цена и разработка",
   "ogDescription": "Что подготовить перед заказом Telegram-бота: задачи, сценарии заявок и записи, интеграции с CRM, критерии приёмки, поддержка и оценка стоимости.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/zakazat-telegram-bota-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/zakazat-telegram-bota/",
   "hreflangRu": "/ru/blog/zakazat-telegram-bota/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot.uz",
   "datePublished": "2026-07-15",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-15",
   "sources": [
     {

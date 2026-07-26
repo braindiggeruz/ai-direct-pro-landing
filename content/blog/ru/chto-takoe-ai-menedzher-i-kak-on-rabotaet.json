@@ -19,6 +19,17 @@
   "intro": "AI-менеджер — это настроенный на конкретный бизнес искусственный интеллект, который обрабатывает входящие обращения в мессенджерах как сотрудник первой линии: ведёт диалог, квалифицирует клиента и передаёт заявку живому менеджеру. Разбираем определение, отличия и границы применения.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet-1200.webp",
+      "srcSet": "/assets/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet-480.webp 480w, /assets/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet-800.webp 800w, /assets/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-менеджер обрабатывает поток сообщений и передаёт сотруднику подготовленный контекст",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Определение: что такое AI-менеджер"
     },
@@ -152,7 +163,7 @@
   ],
   "ogTitle": "Что такое AI-менеджер и как он работает в продажах",
   "ogDescription": "Что такое AI-менеджер простыми словами: как он обрабатывает заявки в мессенджерах, чем отличается от AI-бота и автоответчика, когда он окупается в Узбекистане.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
   "hreflangRu": "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
   "hreflangUz": "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
@@ -160,7 +171,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -169,5 +180,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

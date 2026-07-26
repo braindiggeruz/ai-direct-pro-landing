@@ -19,6 +19,17 @@
   "intro": "AI-менеджер для Instagram — это не «робот, который пишет посты». Это виртуальный сотрудник, который закрывает входящий поток в Direct и комментариях и работает 24/7 на тон вашего бренда. Разбираемся, что он реально умеет и где остаётся живой SMM.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-menedzher-dlya-instagram-1200.webp",
+      "srcSet": "/assets/blog/ai-menedzher-dlya-instagram-480.webp 480w, /assets/blog/ai-menedzher-dlya-instagram-800.webp 800w, /assets/blog/ai-menedzher-dlya-instagram-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-менеджер сортирует обращения из Instagram и передаёт квалифицированные заявки сотруднику",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "AI-менеджер для Instagram — это не «робот, который пишет посты». Это виртуальный сотрудник, который закрывает входящий поток в Direct и комментариях и работает 24/7 на тон вашего бренда. Разбираемся, что он реально умеет и где остаётся живой SMM."
     },
@@ -183,14 +194,14 @@
   ],
   "ogTitle": "AI-менеджер для Instagram: что он делает на практике",
   "ogDescription": "Чем AI-менеджер отличается от обычного Direct-бота, какие задачи SMM-команды он снимает и где обязательно остаётся живой человек.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-menedzher-dlya-instagram-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/",
   "hreflangRu": "/ru/blog/ai-menedzher-dlya-instagram/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-06-07",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -198,6 +209,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

@@ -19,6 +19,17 @@
   "intro": "\"Bot\" so'zi ostida ikki xil narsa yashiringan: oddiy tugmali (skriptli) chat-bot va sun'iy intellektga asoslangan GPT-bot. Ular narxi, imkoniyatlari va mijoz bilan muloqot sifati bo'yicha jiddiy farq qiladi. Ushbu maqolada ikkalasi o'rtasidagi farqni ochib beramiz va qaysi holatda qaysi biri to'g'riroq ekanini ko'rsatamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash-1200.webp",
+      "srcSet": "/assets/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash-480.webp 480w, /assets/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash-800.webp 800w, /assets/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Biznes uchun tugmali, AI, gibrid va tranzaksion chat-botlarning taqqoslanishi",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Ko'p tadbirkorlar botni sinab ko'rib, hafsalasi pir bo'ladi: \"bot savolimni tushunmadi\". Aksariyat hollarda bu oddiy tugmali bot bo'lgan — u faqat oldindan yozilgan tugmalar bo'yicha ishlaydi. GPT-bot esa jonli savolni tushunib, erkin javob bera oladi. Farqni bilish — noto'g'ri tanlovdan qutqaradi."
     },
@@ -192,14 +203,14 @@
   ],
   "ogTitle": "GPT-bot va oddiy chat-bot: qaysi birini tanlash kerak",
   "ogDescription": "GPT-bot bilan oddiy tugmali chat-bot o'rtasidagi farq: qaysi biri jonli savollarga javob beradi, qaysi biri arzon va qachon qaysi biri kerak.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
   "hreflangUz": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -207,7 +218,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z",
   "hreflangRu": "/ru/blog/gpt-bot-vs-chat-bot/",
   "sources": [

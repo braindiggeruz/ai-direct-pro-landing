@@ -21,6 +21,17 @@
   "intro": "Telegram-бот с оплатой помогает довести клиента от заказа до платежа: выбрать товар или услугу, увидеть сумму, оплатить через Payme или Click и передать заказ менеджеру, в CRM или таблицу. Разбираем сценарии, статусы, безопасность и ошибки интеграции.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/telegram-bot-s-oplatoy-payme-click-1200.webp",
+      "srcSet": "/assets/blog/telegram-bot-s-oplatoy-payme-click-480.webp 480w, /assets/blog/telegram-bot-s-oplatoy-payme-click-800.webp 800w, /assets/blog/telegram-bot-s-oplatoy-payme-click-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Безопасный сценарий оплаты в Telegram-боте с заказом, статусом и подтверждением",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Telegram-бот с оплатой — это не просто кнопка «оплатить». Он помогает бизнесу довести клиента до действия: выбрать товар, услугу или тариф, получить сумму, перейти к оплате через Payme, Click или банковскую карту, подтвердить заказ и передать данные менеджеру, в CRM или таблицу. Так путь от интереса до оплаты становится короче, а ручных действий — меньше."
     },
@@ -841,14 +852,14 @@
   ],
   "ogTitle": "Telegram-бот с оплатой Payme и Click: как работает",
   "ogDescription": "Сценарий заказа и оплаты в Telegram-боте: Payme и Click, статусы, уведомления, CRM, проверка платежа, безопасность и типичные ошибки интеграции.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/telegram-bot-s-oplatoy-payme-click-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/",
   "hreflangRu": "/ru/blog/telegram-bot-s-oplatoy-payme-click/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-13",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -856,7 +867,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-13T00:00:00.000Z",
   "sources": [
     {

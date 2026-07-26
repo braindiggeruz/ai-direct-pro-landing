@@ -19,6 +19,17 @@
   "intro": "O'zbekistondagi biznes uchun ikki yo'l bor: botni konstruktorda o'zi yig'ish (Botmother, SendPulse) yoki mahalliy studiyadan sozlangan AI-bot buyurtma qilish (GPTBot.uz). Halol taqqoslaymiz: narx, tillar, integratsiyalar va mehnat sarfi bo'yicha — va kimga qaysi variant mosligini tushuntiramiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun-1200.webp",
+      "srcSet": "/assets/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun-480.webp 480w, /assets/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun-800.webp 800w, /assets/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Biznes egasi uchta chat-bot platformasini funksiyalar va integratsiyalar bo‘yicha taqqoslamoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "Asosiy farq: konstruktor va tayyor yechim"
     },
@@ -155,7 +166,7 @@
   ],
   "ogTitle": "GPTBot, Botmother va SendPulse: qaysi biri mos",
   "ogDescription": "O‘zbekiston biznesi uchun studiya va konstruktorlarni taqqoslash: o‘zbek tili, CRM, Payme va Click, sozlash, nazorat va umumiy xarajatlar.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
   "hreflangRu": "/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
   "hreflangUz": "/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
@@ -163,7 +174,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -172,5 +183,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

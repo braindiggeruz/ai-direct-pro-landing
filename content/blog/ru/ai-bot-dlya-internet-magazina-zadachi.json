@@ -18,6 +18,17 @@
   "intro": "Интернет-магазин в Узбекистане часто живёт без полноценного сайта — товары показывают в Instagram, заказы принимают в Direct и Telegram. AI-бот в этой схеме становится не просто чат-ботом, а полноценной витриной с консультантом.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-dlya-internet-magazina-zadachi-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-dlya-internet-magazina-zadachi-480.webp 480w, /assets/blog/ai-bot-dlya-internet-magazina-zadachi-800.webp 800w, /assets/blog/ai-bot-dlya-internet-magazina-zadachi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-бот интернет-магазина помогает выбрать товар, оформить заказ и передать его менеджеру",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Интернет-магазин в Узбекистане часто живёт без полноценного сайта — товары показывают в Instagram, заказы принимают в Direct и Telegram. AI-бот в этой схеме становится не просто чат-ботом, а полноценной витриной с консультантом."
     },
@@ -180,14 +191,14 @@
   ],
   "ogTitle": "AI-бот для интернет-магазина: каталог, выбор, доставка",
   "ogDescription": "Что AI-бот делает в интернет-магазине: показ каталога, подбор по параметрам, ответы про доставку и оплату, оформление заказа в Telegram и Direct.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-dlya-internet-magazina-zadachi-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
   "hreflangRu": "/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -195,6 +206,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

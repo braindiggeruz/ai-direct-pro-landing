@@ -19,6 +19,17 @@
   "intro": "Biznes uchun AI-bot — bu kompaniya nomidan messenjerlarda mijozlar bilan yozishmalar olib boradigan dastur: savollarga javob beradi, kontakt yig'adi va tayyor arizani menejerga topshiradi. Maqolada — ta'rif, ishlash tamoyili va oddiy chat-botdan farqlari.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish-1200.webp",
+      "srcSet": "/assets/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish-480.webp 480w, /assets/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish-800.webp 800w, /assets/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "O‘zbekistonlik biznes egasi kanallar, CRM va menejerga uzatish bilan AI-botni rejalashtirmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "Ta'rif: biznes uchun AI-bot nima"
     },
@@ -182,7 +193,7 @@
   ],
   "ogTitle": "Biznes uchun AI-bot nima: oddiy tushuntirish",
   "ogDescription": "Biznes uchun AI-bot nima ekanini oddiy tilda tushuntiramiz: qanday ishlaydi, oddiy chat-botdan farqi nimada, O'zbekistonda qaysi vazifalarni hal qiladi.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
   "hreflangRu": "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
   "hreflangUz": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
@@ -190,7 +201,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -199,5 +210,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

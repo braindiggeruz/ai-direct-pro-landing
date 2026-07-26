@@ -19,6 +19,17 @@
   "intro": "Да, чат-бота можно сделать бесплатно: конструкторы дают бесплатные тарифы, а простого Telegram-бота можно собрать за вечер. Но у «бесплатно» есть чёткие границы. Разбираем честно: что реально получить за ноль, где начинаются скрытые расходы и когда бесплатный бот обходится дороже платного.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/besplatnyy-chat-bot-chto-realno-besplatno-1200.webp",
+      "srcSet": "/assets/blog/besplatnyy-chat-bot-chto-realno-besplatno-480.webp 480w, /assets/blog/besplatnyy-chat-bot-chto-realno-besplatno-800.webp 800w, /assets/blog/besplatnyy-chat-bot-chto-realno-besplatno-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Базовый бесплатный чат-бот отделён от платных AI-функций, CRM и интеграций",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Что можно получить бесплатно"
     },
@@ -169,13 +180,13 @@
   ],
   "ogTitle": "Бесплатный чат-бот: возможности и реальные ограничения",
   "ogDescription": "Что дают бесплатные конструкторы чат-ботов, где появляются лимиты и расходы, и когда бизнесу нужна индивидуальная разработка вместо шаблона.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/besplatnyy-chat-bot-chto-realno-besplatno-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -184,7 +195,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "sources": [
     {
       "title": "Telegram Bot API — официальная документация",

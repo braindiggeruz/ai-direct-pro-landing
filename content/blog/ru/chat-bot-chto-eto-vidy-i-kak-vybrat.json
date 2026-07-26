@@ -20,6 +20,17 @@
   "intro": "Чат-бот — это программа, которая ведёт диалог с человеком в мессенджере, на сайте или в приложении: отвечает на вопросы, выполняет команды и собирает данные. В этом гиде — определение, основные виды чат-ботов и практические критерии выбора.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chat-bot-chto-eto-vidy-i-kak-vybrat-1200.webp",
+      "srcSet": "/assets/blog/chat-bot-chto-eto-vidy-i-kak-vybrat-480.webp 480w, /assets/blog/chat-bot-chto-eto-vidy-i-kak-vybrat-800.webp 800w, /assets/blog/chat-bot-chto-eto-vidy-i-kak-vybrat-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Сравнение кнопочного, AI, гибридного и транзакционного чат-ботов для бизнеса",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Что такое чат-бот: определение"
     },
@@ -181,7 +192,7 @@
   ],
   "ogTitle": "Чат-бот: что это, какие бывают и как выбрать",
   "ogDescription": "Чат-бот простыми словами: что это такое, какие виды бывают — кнопочный, AI, голосовой, — где чат-боты используются и как выбрать чат-бота для своих задач.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/chat-bot-chto-eto-vidy-i-kak-vybrat-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
   "hreflangRu": "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
   "hreflangUz": "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
@@ -189,7 +200,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -198,5 +209,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

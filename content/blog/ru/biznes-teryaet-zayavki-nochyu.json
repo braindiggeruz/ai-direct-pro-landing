@@ -22,8 +22,8 @@
   "body": [
     {
       "type": "figure",
-      "src": "/assets/blog/biznes-zayavki-nochyu-1200.webp",
-      "srcSet": "/assets/blog/biznes-zayavki-nochyu-480.webp 480w, /assets/blog/biznes-zayavki-nochyu-800.webp 800w, /assets/blog/biznes-zayavki-nochyu-1200.webp 1200w",
+      "src": "/assets/blog/biznes-teryaet-zayavki-nochyu-1200.webp",
+      "srcSet": "/assets/blog/biznes-teryaet-zayavki-nochyu-480.webp 480w, /assets/blog/biznes-teryaet-zayavki-nochyu-800.webp 800w, /assets/blog/biznes-teryaet-zayavki-nochyu-1200.webp 1200w",
       "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
       "alt": "AI-бот ночью принимает сообщения, квалифицирует заявки и передаёт их в CRM",
       "width": 1200,
@@ -386,7 +386,7 @@
   ],
   "ogTitle": "Бизнес теряет заявки ночью: как посчитать потери",
   "ogDescription": "Аудит ночных обращений, прозрачная формула потенциальных потерь и сравнение решений: менеджер, instant reply, кнопочный или AI-бот.",
-  "ogImage": "https://gptbot.uz/assets/blog/biznes-zayavki-nochyu-1200.webp",
+  "ogImage": "https://gptbot.uz/assets/blog/biznes-teryaet-zayavki-nochyu-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/biznes-teryaet-zayavki-nochyu/",
   "hreflangRu": "/ru/blog/biznes-teryaet-zayavki-nochyu/",
   "robotsIndex": true,

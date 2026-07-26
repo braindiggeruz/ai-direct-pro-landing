@@ -27,6 +27,17 @@
   "intro": "Если сайт получает трафик, клики и переходы, но не приносит заявки, проблема не всегда в рекламе или SEO. Часто ломается путь от первого экрана и оффера до формы, AI-чата, Telegram, CRM и ответа менеджера. Разбираем 17 причин и практический способ найти слабое место воронки.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/pochemu-sayt-ne-prinosit-zayavki-1200.webp",
+      "srcSet": "/assets/blog/pochemu-sayt-ne-prinosit-zayavki-480.webp 480w, /assets/blog/pochemu-sayt-ne-prinosit-zayavki-800.webp 800w, /assets/blog/pochemu-sayt-ne-prinosit-zayavki-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Чат-бот на сайте отвечает посетителю и передаёт структурированную заявку в CRM",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Если сайт получает трафик, но не приносит заявки, проблема не всегда в рекламе или SEO. Пользователь может открыть страницу и не понять оффер, не увидеть следующий шаг, столкнуться с неудобной мобильной версией или длинной формой. Даже отправленное обращение может потеряться, если оно остаётся в почте, не уходит в Telegram или CRM, а менеджер отвечает поздно."
     },
@@ -551,14 +562,14 @@
   ],
   "ogTitle": "Почему сайт не приносит заявки: проверка воронки",
   "ogDescription": "Пошаговая диагностика сайта без заявок: оффер, первый экран, мобильная версия, формы, скорость ответа, CRM, аналитика и работа менеджеров.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/pochemu-sayt-ne-prinosit-zayavki-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
   "hreflangRu": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-14",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -566,7 +577,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-14T00:00:00.000Z",
   "sources": [
     {

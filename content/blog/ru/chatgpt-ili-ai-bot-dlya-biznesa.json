@@ -22,8 +22,8 @@
   "body": [
     {
       "type": "figure",
-      "src": "/assets/blog/chatgpt-vs-ai-bot-1200.webp",
-      "srcSet": "/assets/blog/chatgpt-vs-ai-bot-480.webp 480w, /assets/blog/chatgpt-vs-ai-bot-800.webp 800w, /assets/blog/chatgpt-vs-ai-bot-1200.webp 1200w",
+      "src": "/assets/blog/chatgpt-ili-ai-bot-dlya-biznesa-1200.webp",
+      "srcSet": "/assets/blog/chatgpt-ili-ai-bot-dlya-biznesa-480.webp 480w, /assets/blog/chatgpt-ili-ai-bot-dlya-biznesa-800.webp 800w, /assets/blog/chatgpt-ili-ai-bot-dlya-biznesa-1200.webp 1200w",
       "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
       "alt": "Сравнение персонального AI-чата и бизнес-бота, который обрабатывает клиентские обращения",
       "width": 1200,
@@ -403,7 +403,7 @@
   ],
   "ogTitle": "ChatGPT или AI-бот для бизнеса: что выбрать",
   "ogDescription": "Честное сравнение ChatGPT и AI-бота: задачи, клиентские каналы, CRM, безопасность, стоимость владения и критерии внедрения.",
-  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-vs-ai-bot-1200.webp",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ili-ai-bot-dlya-biznesa-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
   "hreflangRu": "/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
   "robotsIndex": true,

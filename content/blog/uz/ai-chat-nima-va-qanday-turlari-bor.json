@@ -19,6 +19,17 @@
   "intro": "AI-chat — bu matn oynasida sun'iy intellekt bilan muloqot: siz savolni oddiy so'zlar bilan yozasiz, til modeli esa ma'no bo'yicha javob beradi. Maqolada — AI-chat nima, O'zbekistonda qaysi AI-chatlar mavjud va biznes AI-chatni qanday qilib savdo kanaliga aylantiradi.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-chat-nima-va-qanday-turlari-bor-1200.webp",
+      "srcSet": "/assets/blog/ai-chat-nima-va-qanday-turlari-bor-480.webp 480w, /assets/blog/ai-chat-nima-va-qanday-turlari-bor-800.webp 800w, /assets/blog/ai-chat-nima-va-qanday-turlari-bor-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Foydalanuvchi noutbuk va smartfonda universal AI-chat bilan ishlamoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "AI-chat nima: ta'rif"
     },
@@ -169,7 +180,7 @@
   ],
   "ogTitle": "AI-chat nima: turlari, vazifalari va tanlash mezonlari",
   "ogDescription": "AI-chat qanday ishlaydi, uning asosiy turlari nimasi bilan farq qiladi va O‘zbekistondagi biznes uchun mos variantni qanday tanlash kerak.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-chat-nima-va-qanday-turlari-bor-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
   "hreflangRu": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
   "hreflangUz": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
@@ -177,7 +188,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -186,7 +197,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI API — модели и возможности",

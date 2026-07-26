@@ -21,6 +21,17 @@
   "intro": "Telegram-бот для заявок — это сценарий внутри Telegram, который собирает контакт и задачу клиента и передаёт готовую заявку менеджеру, в CRM или Google Sheets. Разбираем, как он помогает не терять обращения из рекламы, сайта и Instagram.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/telegram-bot-dlya-zayavok-1200.webp",
+      "srcSet": "/assets/blog/telegram-bot-dlya-zayavok-480.webp 480w, /assets/blog/telegram-bot-dlya-zayavok-800.webp 800w, /assets/blog/telegram-bot-dlya-zayavok-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Бот собирает заявку, контакт и согласие, затем создаёт запись в CRM для менеджера",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Бизнес часто теряет заявки не потому, что реклама плохая, а потому что клиенту неудобно оставить обращение: менеджер отвечает поздно, данные теряются в переписках, а источник заявки не фиксируется. Клиент пишет в Direct, Telegram и форму сайта одновременно, ждёт того, кто ответит первым, — и уходит к конкуренту."
     },
@@ -841,14 +852,14 @@
   ],
   "ogTitle": "Telegram-бот для заявок: приём и передача в CRM",
   "ogDescription": "Как Telegram-бот принимает обращения из рекламы и сайта, уточняет потребность и передаёт заявку менеджеру, в CRM или рабочую таблицу.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/telegram-bot-dlya-zayavok-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zayavok/",
   "hreflangRu": "/ru/blog/telegram-bot-dlya-zayavok/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-13",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -856,7 +867,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-13T00:00:00.000Z",
   "sources": [
     {

@@ -22,6 +22,17 @@
   ],
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra-1200.webp",
+      "srcSet": "/assets/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra-480.webp 480w, /assets/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra-800.webp 800w, /assets/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-бот учебного центра квалифицирует обращения родителей и передаёт заявки администратору",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Почему автоматизация ответов важна для учебных центров"
     },
@@ -169,7 +180,7 @@
   ],
   "ogTitle": "AI-бот для учебных центров: примеры использования",
   "ogDescription": "Рассмотрите практические примеры применения AI-ботов в учебных центрах Узбекистана для автоматизации ответов родителям и улучшения клиентского сервиса.",
-  "ogImage": "",
+  "ogImage": "https://gptbot.uz/assets/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -179,7 +190,7 @@
     "FAQPage",
     "BreadcrumbList"
   ],
-  "updatedAt": "2026-06-24T10:48:56.619Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "datePublished": "2026-06-24",
-  "dateModified": "2026-06-24"
+  "dateModified": "2026-07-27"
 }

@@ -19,6 +19,17 @@
   "intro": "\"Bot qancha turadi?\" degan savoldan muhimroq savol bor: \"Bot o'zini qancha vaqtda oqlaydi?\" Narxning o'zi hech narsa aytmaydi — u faqat foyda bilan solishtirilganda ma'noga ega bo'ladi. Ushbu qo'llanmada tayyor raqamlar yoki va'dalar bermaymiz; buning o'rniga o'z biznesingiz raqamlari asosida okupaemostni (ROI) qanday hisoblashni bosqichma-bosqich ko'rsatamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-okupaemost-roi-qanday-hisoblash-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-okupaemost-roi-qanday-hisoblash-480.webp 480w, /assets/blog/ai-bot-okupaemost-roi-qanday-hisoblash-800.webp 800w, /assets/blog/ai-bot-okupaemost-roi-qanday-hisoblash-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Chat-bot rentabelligi xarajat, vaqt tejalishi va qo‘shimcha bitimlar orqali hisoblanmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Har bir biznesning raqamlari har xil, shuning uchun \"bot 2 oyda o'zini oqlaydi\" kabi umumiy va'dalar aldamchi. To'g'ri yondashuv — o'z arizalaringiz, konversiyangiz va o'rtacha chekingizni formulaga qo'yish. Quyida shuni qanday qilishni ko'rsatamiz."
     },
@@ -177,7 +188,7 @@
   ],
   "ogTitle": "AI-bot o'zini qancha vaqtda oqlaydi: ROI ni qanday hisoblash",
   "ogDescription": "AI yoki chat-botning okupaemostini o'z raqamlaringiz asosida qanday hisoblash: formula, misol tuzilishi va nimalarni hisobga olish kerak.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-okupaemost-roi-qanday-hisoblash-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
   "hreflangRu": "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
   "hreflangUz": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
@@ -185,7 +196,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -193,6 +204,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z"
 }

@@ -18,6 +18,17 @@
   "intro": "Бюджет на рекламу сжигается, клиент пишет в Direct, но менеджер отвечает через час — и заявка остыла. Это самая распространённая дыра в воронке локального бизнеса в Узбекистане. Разберём, где именно теряются заявки и что с этим можно сделать без расширения штата.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram-1200.webp",
+      "srcSet": "/assets/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram-480.webp 480w, /assets/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram-800.webp 800w, /assets/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Необработанные сообщения выпадают из воронки, а AI-бот сохраняет заявки для менеджера",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Бюджет на рекламу сжигается, клиент пишет в Direct, но менеджер отвечает через час — и заявка остыла. Это самая распространённая дыра в воронке локального бизнеса в Узбекистане. Разберём, где именно теряются заявки и что с этим можно сделать без расширения штата."
     },
@@ -191,7 +202,7 @@
   ],
   "ogTitle": "Почему бизнес теряет заявки из Instagram и Telegram",
   "ogDescription": "Разбираем, где именно теряются заявки между рекламой и менеджером: задержка ответа, разные чаты, ночные обращения и потерянный контакт.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
   "hreflangRu": "/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
   "hreflangUz": "/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
@@ -199,7 +210,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -207,6 +218,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

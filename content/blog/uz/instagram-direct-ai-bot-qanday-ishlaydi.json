@@ -19,6 +19,17 @@
   "intro": "O'zbekistonda ko'plab biznes uchun Instagram — asosiy sotuv kanali. Ammo Direct'ga kelgan xabarlar va postlardagi kommentlar tez javob talab qiladi, aks holda mijoz sovib qoladi. AI-bot Instagram Direct'da aynan shu ishni bajaradi: darhol javob beradi, savollarni beradi va tayyor lidni menejerga uzatadi. Ushbu maqolada bu qanday ishlashini bosqichma-bosqich ko'rib chiqamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/instagram-direct-ai-bot-qanday-ishlaydi-1200.webp",
+      "srcSet": "/assets/blog/instagram-direct-ai-bot-qanday-ishlaydi-480.webp 480w, /assets/blog/instagram-direct-ai-bot-qanday-ishlaydi-800.webp 800w, /assets/blog/instagram-direct-ai-bot-qanday-ishlaydi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-menejer Instagram murojaatlarini saralab, tayyor arizalarni xodimga uzatmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Instagram'da sotuvning asosiy muammosi — tezlik. Mijoz postni ko'rib, Direct'ga yozadi yoki kommentda \"narxi qancha?\" deb so'raydi. Agar javob 10–15 daqiqada kelmasa, u boshqa sahifaga o'tadi. Odam bu tezlikni doim ushlab turolmaydi, ayniqsa kechqurun va dam olish kunlari. AI-bot esa 24/7 darhol javob beradi."
     },
@@ -180,7 +191,7 @@
   ],
   "ogTitle": "Instagram Direct uchun AI-bot qanday ishlaydi",
   "ogDescription": "Instagram Direct'da AI-bot qanday ishlaydi: xabarlarga javob, kommentlardan Direct'ga o'tkazish, kvalifikatsiya va CRM'ga uzatish.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/instagram-direct-ai-bot-qanday-ishlaydi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
   "hreflangRu": "/ru/blog/instagram-direct-bot-kak-rabotaet/",
   "hreflangUz": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
@@ -188,7 +199,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -196,7 +207,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z",
   "sources": [
     {

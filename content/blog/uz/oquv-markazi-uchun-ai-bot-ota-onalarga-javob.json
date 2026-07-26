@@ -19,6 +19,17 @@
   "intro": "O'quv markazlarida ota-onalar va o'quvchilar Instagram yoki Telegram orqali bir xil savollarni beradi: \"qaysi kurslar bor?\", \"narxi qancha?\", \"dars jadvali qanday?\", \"sinov darsga yozilsa bo'ladimi?\". Bu savollarga tez javob bermaslik — bu yo'qolgan o'quvchi. AI-bot bu oqimni 24/7 ushlab turadi va sinovga yozilishni avtomatlashtiradi.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob-1200.webp",
+      "srcSet": "/assets/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob-480.webp 480w, /assets/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob-800.webp 800w, /assets/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "O‘quv markazi AI-boti ota-onalar murojaatlarini saralab, administratorga ariza uzatmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Ta'lim biznesida qabul mavsumida murojaatlar keskin ko'payadi. Administrator hammasiga ulgurmaydi, ba'zi xabarlar javobsiz qoladi. Ota-ona esa javobni kutib o'tirmaydi — u boshqa markazga yozadi. AI-bot bu bosqichda birinchi aloqani ushlab, qiziqqan odamni sinov darsga olib keladi."
     },
@@ -194,14 +205,14 @@
   ],
   "ogTitle": "O'quv markazi uchun AI-bot: ota-onalarga javob va yozilish",
   "ogDescription": "O'quv markazi uchun AI-bot qanday ishlaydi: kurslar, narx va jadval savollariga javob, sinovga yozilish va ota-onalar bilan aloqani avtomatlashtirish.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
   "hreflangUz": "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -209,6 +220,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z"
 }

@@ -19,6 +19,17 @@
   "intro": "WhatsApp-бот для бизнеса в Узбекистане работает через WhatsApp Business API: он мгновенно отвечает на сообщения, собирает заявки и передаёт их менеджеру или в CRM. Подходит бизнесу, чья аудитория живёт именно в WhatsApp.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane-1200.webp",
+      "srcSet": "/assets/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane-480.webp 480w, /assets/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane-800.webp 800w, /assets/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "WhatsApp-бот отвечает клиентам бизнеса в Узбекистане и передаёт заявки менеджеру",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Что такое WhatsApp-бот для бизнеса"
     },
@@ -172,7 +183,7 @@
   ],
   "ogTitle": "WhatsApp-бот для бизнеса в Узбекистане: как внедрить",
   "ogDescription": "WhatsApp Business API, сценарии, интеграция с CRM, цена и отличия от Telegram-бота. Как запустить WhatsApp-бота для бизнеса в Узбекистане.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
   "hreflangRu": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
   "hreflangUz": "/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
@@ -180,7 +191,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-06-26",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -188,7 +199,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-06-26T00:00:00.000Z",
   "sources": [
     {

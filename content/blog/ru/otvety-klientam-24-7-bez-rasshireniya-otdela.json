@@ -18,6 +18,17 @@
   "intro": "«Нам нужны ночные менеджеры» — типичный ответ на проблему ночных и выходных обращений. Но почти всегда проблему дешевле и стабильнее решает AI-бот. Разбираем, как обеспечить круглосуточные ответы без расширения штата.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/otvety-klientam-24-7-bez-rasshireniya-otdela-1200.webp",
+      "srcSet": "/assets/blog/otvety-klientam-24-7-bez-rasshireniya-otdela-480.webp 480w, /assets/blog/otvety-klientam-24-7-bez-rasshireniya-otdela-800.webp 800w, /assets/blog/otvety-klientam-24-7-bez-rasshireniya-otdela-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Необработанные сообщения выпадают из воронки, а AI-бот сохраняет заявки для менеджера",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "«Нам нужны ночные менеджеры» — типичный ответ на проблему ночных и выходных обращений. Но почти всегда проблему дешевле и стабильнее решает AI-бот. Разбираем, как обеспечить круглосуточные ответы без расширения штата."
     },
@@ -209,14 +220,14 @@
   ],
   "ogTitle": "Ответы клиентам 24/7 без расширения отдела продаж",
   "ogDescription": "Как закрыть нерабочие часы и поток обращений, не нанимая ночных менеджеров: AI-бот, эскалация и аккуратные напоминания клиентам.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/otvety-klientam-24-7-bez-rasshireniya-otdela-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/",
   "hreflangRu": "/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -224,6 +235,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

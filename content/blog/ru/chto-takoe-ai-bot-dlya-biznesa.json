@@ -22,6 +22,17 @@
   "intro": "AI-бот (ИИ-бот) для бизнеса — это программа, которая ведёт диалог с клиентами в мессенджерах от имени компании: отвечает на вопросы, собирает контакты и передаёт готовую заявку менеджеру. В статье — определение, принцип работы и отличия от обычного чат-бота.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chto-takoe-ai-bot-dlya-biznesa-1200.webp",
+      "srcSet": "/assets/blog/chto-takoe-ai-bot-dlya-biznesa-480.webp 480w, /assets/blog/chto-takoe-ai-bot-dlya-biznesa-800.webp 800w, /assets/blog/chto-takoe-ai-bot-dlya-biznesa-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Владелец бизнеса в Узбекистане проектирует AI-бота с каналами, CRM и передачей менеджеру",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Определение: что такое AI-бот для бизнеса"
     },
@@ -181,7 +192,7 @@
   ],
   "ogTitle": "Что такое AI-бот для бизнеса: простое объяснение",
   "ogDescription": "Что такое AI-бот для бизнеса простыми словами: как он работает, чем отличается от обычного чат-бота, какие задачи решает в Узбекистане и когда он нужен.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/chto-takoe-ai-bot-dlya-biznesa-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
   "hreflangRu": "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
   "hreflangUz": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
@@ -189,7 +200,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -198,5 +209,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

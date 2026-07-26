@@ -22,8 +22,8 @@
   "body": [
     {
       "type": "figure",
-      "src": "/assets/blog/chatgpt-uzbekistonda-1200.webp",
-      "srcSet": "/assets/blog/chatgpt-uzbekistonda-480.webp 480w, /assets/blog/chatgpt-uzbekistonda-800.webp 800w, /assets/blog/chatgpt-uzbekistonda-1200.webp 1200w",
+      "src": "/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
+      "srcSet": "/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-480.webp 480w, /assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-800.webp 800w, /assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp 1200w",
       "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
       "alt": "Toshkent manzarasi fonida noutbuk va telefondagi sun'iy intellekt chatlari",
       "width": 1200,
@@ -312,7 +312,7 @@
   ],
   "ogTitle": "ChatGPT O'zbekistonda VPNsiz ishlaydimi? 2026",
   "ogDescription": "ChatGPT O'zbekistonda rasman mavjud. VPN, akkaunt, to'lov, o'zbek tili, xavfsizlik va alternativalarni tekshirilgan manbalar bilan ko'ring.",
-  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbekistonda-1200.webp",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
   "hreflangUz": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
   "robotsIndex": true,

@@ -26,6 +26,17 @@
   "intro": "Чат GPT онлайн ищут, когда ответ нужен прямо сейчас: задать вопрос нейросети, получить ответ, быстро написать текст, план или идею. Хорошая новость — для этого не нужны установка программ и сложная регистрация: chat gpt онлайн открывается в обычном браузере с телефона или компьютера. В этой статье — как пользоваться GPT онлайн, что у него спросить и какие задачи он закрывает в учёбе, SMM и бизнесе. Попробовать можно сразу: GPTBot.uz — это AI-чат на русском и Uzbek Latin, который работает онлайн. При этом GPTBot.uz — независимый AI-сервис: он не является официальным продуктом ChatGPT или OpenAI, а предоставляет удобный доступ к AI-чату на базе языковых моделей.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chat-gpt-online-1200.webp",
+      "srcSet": "/assets/blog/chat-gpt-online-480.webp 480w, /assets/blog/chat-gpt-online-800.webp 800w, /assets/blog/chat-gpt-online-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Пользователь работает с универсальным AI-чатом на ноутбуке и смартфоне",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Что такое чат GPT онлайн"
     },
@@ -460,13 +471,13 @@
   ],
   "ogTitle": "Чат GPT онлайн: вопросы, тексты и идеи на русском",
   "ogDescription": "Как работать с AI-чатом онлайн: формулировать запросы, получать ответы, писать тексты и проверять факты. GPTBot.uz — независимый AI-сервис.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/chat-gpt-online-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/chat-gpt-online/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-14",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -475,7 +486,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-14T00:00:00Z",
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI API — модели и возможности",

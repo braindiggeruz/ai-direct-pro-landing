@@ -19,6 +19,17 @@
   "intro": "Малому бизнесу часто продают сразу всё: и Telegram-бота, и CRM, и AI-менеджера. На практике начинать со всего сразу не нужно. Разбираем, в каком порядке имеет смысл строить эту связку и какие признаки указывают на «нам уже пора».",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/telegram-bot-crm-ili-menedzher-1200.webp",
+      "srcSet": "/assets/blog/telegram-bot-crm-ili-menedzher-480.webp 480w, /assets/blog/telegram-bot-crm-ili-menedzher-800.webp 800w, /assets/blog/telegram-bot-crm-ili-menedzher-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Обращения из социальных каналов сходятся в единую CRM-воронку и очередь менеджера",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Малому бизнесу часто продают сразу всё: и Telegram-бота, и CRM, и AI-менеджера. На практике начинать со всего сразу не нужно. Разбираем, в каком порядке имеет смысл строить эту связку и какие признаки указывают на «нам уже пора»."
     },
@@ -197,7 +208,7 @@
   ],
   "ogTitle": "Telegram-бот, CRM или менеджер: что выбрать малому бизнесу",
   "ogDescription": "Когда хватит Telegram-бота, когда нужна CRM, а когда — живой менеджер. Реалистичная схема выбора для бизнеса в Узбекистане.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/telegram-bot-crm-ili-menedzher-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/telegram-bot-crm-ili-menedzher/",
   "hreflangRu": "/ru/blog/telegram-bot-crm-ili-menedzher/",
   "hreflangUz": "/uz/blog/telegram-bot-crm-yoki-menejer/",
@@ -205,7 +216,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -213,7 +224,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z",
   "sources": [
     {

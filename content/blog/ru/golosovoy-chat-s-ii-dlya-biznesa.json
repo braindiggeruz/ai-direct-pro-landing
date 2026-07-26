@@ -19,6 +19,17 @@
   "intro": "Голосовой чат с ИИ — это общение с искусственным интеллектом голосом: вы говорите, модель распознаёт речь, отвечает и озвучивает ответ. Разбираем, где голосовой ИИ уже полезен бизнесу, что с русским и узбекским языком и почему начинать автоматизацию всё же стоит с текста.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/golosovoy-chat-s-ii-dlya-biznesa-1200.webp",
+      "srcSet": "/assets/blog/golosovoy-chat-s-ii-dlya-biznesa-480.webp 480w, /assets/blog/golosovoy-chat-s-ii-dlya-biznesa-800.webp 800w, /assets/blog/golosovoy-chat-s-ii-dlya-biznesa-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Голосовой AI-ассистент преобразует обращение клиента в задачу для бизнес-команды",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Что такое голосовой чат с ИИ"
     },
@@ -158,13 +169,13 @@
   ],
   "ogTitle": "Голосовой чат с ИИ: как бизнес использует голос",
   "ogDescription": "Голосовой чат с ИИ: как работают голосовые ассистенты и боты, где они полезны бизнесу в Узбекистане, что с русским и узбекским языком и с чего начинать.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/golosovoy-chat-s-ii-dlya-biznesa-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -173,5 +184,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

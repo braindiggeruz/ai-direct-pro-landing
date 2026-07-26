@@ -22,6 +22,17 @@
   ],
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp",
+      "srcSet": "/assets/blog/chat-gpt-uzbek-biznes-uchun-480.webp 480w, /assets/blog/chat-gpt-uzbek-biznes-uchun-800.webp 800w, /assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-bot ruscha, o‘zbekcha va aralash xabarlarni tekshirilgan javobga birlashtirmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "AI Botlarining Texnik Arxitekturasi va Ishlash Prinsiplari"
     },
@@ -129,7 +140,7 @@
   ],
   "ogTitle": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish",
   "ogDescription": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma.",
-  "ogImage": "",
+  "ogImage": "https://gptbot.uz/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -140,6 +151,6 @@
     "BreadcrumbList"
   ],
   "datePublished": "2026-06-24",
-  "dateModified": "2026-06-24",
-  "updatedAt": "2026-06-24T12:40:39.063Z"
+  "dateModified": "2026-07-27",
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

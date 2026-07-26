@@ -19,6 +19,17 @@
   "intro": "Аналоги ChatGPT, доступные в Узбекистане: Gemini от Google, Claude, YandexGPT (Алиса), DeepSeek, Copilot от Microsoft и другие. Все понимают русский язык и имеют бесплатный доступ. Разбираем, чем они различаются и что выбрать под конкретную задачу.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane-1200.webp",
+      "srcSet": "/assets/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane-480.webp 480w, /assets/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane-800.webp 800w, /assets/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Пользователь сравнивает несколько AI-чатов по доступу, языкам и безопасности в Узбекистане",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "h2",
       "text": "Зачем искать аналог ChatGPT"
     },
@@ -186,13 +197,13 @@
   ],
   "ogTitle": "Аналоги ChatGPT, которые работают в Узбекистане",
   "ogDescription": "Обзор аналогов ChatGPT, доступных в Узбекистане: Gemini, Claude, YandexGPT, DeepSeek и другие. Чем различаются, что бесплатно и что выбрать под свою задачу.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -201,5 +212,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

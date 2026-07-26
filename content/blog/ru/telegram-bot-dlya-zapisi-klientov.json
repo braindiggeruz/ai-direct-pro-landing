@@ -21,6 +21,17 @@
   "intro": "Telegram-бот для записи клиентов — это сценарий внутри Telegram, который помогает выбрать услугу, дату и время, собрать контакт и передать запись администратору, в Google Sheets или CRM. Разбираем, как он снижает хаос в записи для салона, клиники и учебного центра.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/telegram-bot-dlya-zapisi-klientov-1200.webp",
+      "srcSet": "/assets/blog/telegram-bot-dlya-zapisi-klientov-480.webp 480w, /assets/blog/telegram-bot-dlya-zapisi-klientov-800.webp 800w, /assets/blog/telegram-bot-dlya-zapisi-klientov-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Telegram-бот проводит клиента через выбор услуги, времени и подтверждение записи",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Бизнес теряет клиентов не только из-за плохой рекламы, но и из-за хаоса в записи: администратор не ответил вовремя, клиент не указал услугу, нужное время уже занято, запись потерялась в переписке, а напоминания нет — и клиент просто не пришёл. В салонах, клиниках и учебных центрах это ежедневная боль."
     },
@@ -952,14 +963,14 @@
   ],
   "ogTitle": "Telegram-бот для записи клиентов: сценарий и запуск",
   "ogDescription": "Как бот организует запись клиента: услуга, специалист, дата, время, подтверждение, напоминание, уведомление администратору и передача в CRM.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/telegram-bot-dlya-zapisi-klientov-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/",
   "hreflangRu": "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-13",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -967,7 +978,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-13T00:00:00.000Z",
   "sources": [
     {

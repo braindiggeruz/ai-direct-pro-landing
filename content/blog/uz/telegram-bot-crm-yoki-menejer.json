@@ -19,6 +19,17 @@
   "intro": "Kichik biznesga ko'pincha hamma narsani birdaniga sotishadi: Telegram bot ham, CRM ham, AI menejer ham. Amalda hammasini birdaniga boshlash shart emas. Ushbu bog'lamani qaysi tartibda qurish kerakligini va \"bizga endi vaqti keldi\" deyish belgilarini ko'rib chiqamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/telegram-bot-crm-yoki-menejer-1200.webp",
+      "srcSet": "/assets/blog/telegram-bot-crm-yoki-menejer-480.webp 480w, /assets/blog/telegram-bot-crm-yoki-menejer-800.webp 800w, /assets/blog/telegram-bot-crm-yoki-menejer-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Ijtimoiy kanallardan murojaatlar yagona CRM voronkasi va menejer navbatiga birlashmoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Kichik biznesga ko'pincha hamma narsani birdaniga sotishadi: Telegram bot ham, CRM ham, AI menejer ham. Amalda hammasini birdaniga boshlash shart emas. Ushbu bog'lamani qaysi tartibda qurish kerakligini va \"bizga endi vaqti keldi\" deyish belgilarini ko'rib chiqamiz."
     },
@@ -207,7 +218,7 @@
   ],
   "ogTitle": "Telegram bot, CRM yoki menejer: kichik biznes nimani tanlasin",
   "ogDescription": "Telegram bot yetadigan, CRM kerak bo'ladigan va jonli menejer zarur bo'ladigan holatlar. O'zbekiston biznesi uchun real tanlov sxemasi.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/telegram-bot-crm-yoki-menejer-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/telegram-bot-crm-yoki-menejer/",
   "hreflangRu": "/ru/blog/telegram-bot-crm-ili-menedzher/",
   "hreflangUz": "/uz/blog/telegram-bot-crm-yoki-menejer/",
@@ -215,7 +226,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -223,7 +234,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z",
   "sources": [
     {

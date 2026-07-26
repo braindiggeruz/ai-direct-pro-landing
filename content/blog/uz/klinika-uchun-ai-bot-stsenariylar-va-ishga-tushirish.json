@@ -19,6 +19,17 @@
   "intro": "Klinika va tibbiy markazlarda bemorlar ko'pincha Instagram Direct yoki Telegram orqali yozadi: \"narxi qancha?\", \"qaysi kunlar bo'sh?\", \"qaysi shifokor qabul qiladi?\". Ular tez javob kutadi, aks holda boshqa klinikaga murojaat qiladi. AI-bot bu savollarga 24/7 javob berib, qabulga yozilishni avtomatlashtiradi. Ushbu qo'llanmada klinika uchun bot qanday stsenariylarda ishlashini va ishga tushirishda nimalarga e'tibor berishni ko'rib chiqamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish-1200.webp",
+      "srcSet": "/assets/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish-480.webp 480w, /assets/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish-800.webp 800w, /assets/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Klinika AI-assistenti savollarni qabul qilib, yozilish va administratorga uzatishda yordam bermoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Tibbiyotda birinchi kontakt ko'pincha registratura yoki administrator zimmasida bo'ladi. Pik soatlarda yoki ish vaqtidan tashqari qo'ng'iroq va xabarlar javobsiz qoladi — bu esa yo'qolgan bemor va yo'qolgan daromad. AI-bot administratordan rutinani olib, unga faqat murakkab holatlarni qoldiradi."
     },
@@ -194,14 +205,14 @@
   ],
   "ogTitle": "Klinika uchun AI-bot: stsenariylar va ishga tushirish",
   "ogDescription": "Klinika yoki tibbiy markaz uchun AI-bot qanday ishlaydi: qabulga yozilish, tipik savollarga javob, eslatmalar va nimalarga e'tibor berish kerak.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
   "hreflangUz": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -209,6 +220,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z"
 }

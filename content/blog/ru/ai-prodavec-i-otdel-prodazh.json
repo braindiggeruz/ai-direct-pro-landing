@@ -20,6 +20,17 @@
   "intro": "«AI-продавец заменит менеджеров» — главный страх отделов продаж. На практике AI-продавец работает в связке с командой, а не вместо неё. Разбираемся, как именно делить роли и где проходит граница.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-prodavec-i-otdel-prodazh-1200.webp",
+      "srcSet": "/assets/blog/ai-prodavec-i-otdel-prodazh-480.webp 480w, /assets/blog/ai-prodavec-i-otdel-prodazh-800.webp 800w, /assets/blog/ai-prodavec-i-otdel-prodazh-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-продавец квалифицирует лиды и работает вместе с человеческим отделом продаж",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "«AI-продавец заменит менеджеров» — главный страх отделов продаж. На практике AI-продавец работает в связке с командой, а не вместо неё. Разбираемся, как именно делить роли и где проходит граница."
     },
@@ -186,14 +197,14 @@
   ],
   "ogTitle": "AI-продавец и отдел продаж: как они работают вместе",
   "ogDescription": "Где AI-продавец помогает живому отделу продаж, а где остаётся человек: квалификация лидов, обработка возражений, передача и контроль.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-prodavec-i-otdel-prodazh-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-prodavec-i-otdel-prodazh/",
   "hreflangRu": "/ru/blog/ai-prodavec-i-otdel-prodazh/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -201,6 +212,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

@@ -18,6 +18,17 @@
   "intro": "Салоны красоты в Узбекистане в основном живут через Instagram Direct. Запись на маникюр, стрижку, косметологию — почти всё проходит через личные сообщения. AI-бот закрывает эту часть работы за администратора и в нерабочие часы.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-bot-dlya-salona-krasoty-zadachi-1200.webp",
+      "srcSet": "/assets/blog/ai-bot-dlya-salona-krasoty-zadachi-480.webp 480w, /assets/blog/ai-bot-dlya-salona-krasoty-zadachi-800.webp 800w, /assets/blog/ai-bot-dlya-salona-krasoty-zadachi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-бот салона помогает выбрать мастера, записаться и получить напоминание о визите",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Салоны красоты в Узбекистане в основном живут через Instagram Direct. Запись на маникюр, стрижку, косметологию — почти всё проходит через личные сообщения. AI-бот закрывает эту часть работы за администратора и в нерабочие часы."
     },
@@ -180,14 +191,14 @@
   ],
   "ogTitle": "AI-бот для салона красоты: запись, напоминания и Direct",
   "ogDescription": "Какие задачи AI-бот закрывает в салоне красоты: запись через Direct, напоминания, отмены, работа с мастерами и сезонные кампании.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-bot-dlya-salona-krasoty-zadachi-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
   "hreflangRu": "/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -195,6 +206,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z"
 }

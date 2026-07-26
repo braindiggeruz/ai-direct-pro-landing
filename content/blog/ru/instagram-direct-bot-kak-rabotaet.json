@@ -20,6 +20,17 @@
   "intro": "Instagram Direct в Узбекистане — это сердце B2C-продаж. Бьюти, мода, обучение, медицина, доставка — почти всё идёт через личные сообщения и комментарии. Разбираемся, как устроен Instagram Direct бот в 2026 году и что важно настроить, чтобы он реально работал.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/instagram-direct-bot-kak-rabotaet-1200.webp",
+      "srcSet": "/assets/blog/instagram-direct-bot-kak-rabotaet-480.webp 480w, /assets/blog/instagram-direct-bot-kak-rabotaet-800.webp 800w, /assets/blog/instagram-direct-bot-kak-rabotaet-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-менеджер сортирует обращения из Instagram и передаёт квалифицированные заявки сотруднику",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Instagram Direct в Узбекистане — это сердце B2C-продаж. Бьюти, мода, обучение, медицина, доставка — почти всё идёт через личные сообщения и комментарии. Разбираемся, как устроен Instagram Direct бот в 2026 году и что важно настроить, чтобы он реально работал."
     },
@@ -185,7 +196,7 @@
   ],
   "ogTitle": "Instagram Direct бот: как работает и что важно настроить",
   "ogDescription": "Что должен уметь Instagram Direct бот: автоответы, реакция на комментарии, сбор контактов и перевод диалога в Telegram или CRM.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/instagram-direct-bot-kak-rabotaet-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/",
   "hreflangRu": "/ru/blog/instagram-direct-bot-kak-rabotaet/",
   "hreflangUz": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
@@ -193,7 +204,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -201,7 +212,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z",
   "sources": [
     {

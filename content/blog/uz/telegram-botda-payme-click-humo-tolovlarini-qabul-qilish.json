@@ -20,6 +20,17 @@
   "intro": "O'zbekistonda mijoz Telegram yoki Instagram Direct orqali buyurtma bergach, ko'pincha keyingi qadam — to'lov — qo'lda hal qilinadi: menejer karta raqamini tashlaydi, chek so'raydi, tasdiqlaydi. Bu sekin va xatolarga moyil. Payme, Click va Humo to'lovlarini bevosita botga ulash bu jarayonni avtomatlashtiradi. Ushbu qo'llanmada integratsiya qanday tuzilishini, qanday ketma-ketlik ishonchli ishlashini va nimalarga e'tibor berish kerakligini ko'rib chiqamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish-1200.webp",
+      "srcSet": "/assets/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish-480.webp 480w, /assets/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish-800.webp 800w, /assets/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Telegram-botda buyurtma, holat va tasdiqlash bilan xavfsiz to‘lov stsenariysi",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Mesendjer orqali sotuvda eng ko'p ariza yo'qoladigan joy — bu buyurtma bilan to'lov o'rtasidagi bo'shliq. Mijoz \"olaman\" deydi, lekin karta raqamini kutayotib, boshqa ishga chalg'iydi yoki raqobatchiga o'tadi. Botga to'lovni ulash bu bo'shliqni yopadi: mijoz dialogdan chiqmasdan to'lay oladi."
     },
@@ -190,7 +201,7 @@
   ],
   "ogTitle": "Telegram botda Payme, Click va Humo to‘lovlari",
   "ogDescription": "Telegram bot orqali Payme, Click va Humo to‘lovlarini tashkil qilish: to‘lov oqimi, provayder talablari, statuslar, xavfsizlik va ishga tushirish.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
   "hreflangRu": "/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
   "hreflangUz": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
@@ -198,7 +209,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -206,7 +217,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z",
   "sources": [
     {

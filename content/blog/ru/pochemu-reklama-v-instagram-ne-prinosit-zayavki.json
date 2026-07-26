@@ -31,6 +31,17 @@
   "intro": "Если реклама в Instagram даёт клики, но не приносит заявки, проблема не всегда находится в рекламном кабинете. Часто ломается вся цепочка: оффер, креатив, Instagram-аккаунт или лендинг, Direct, скорость ответа менеджера, CRM и аналитика. Этот разбор поможет проверить воронку от Instagram Ads до продажи и найти слабое место без обещаний гарантированного результата.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki-1200.webp",
+      "srcSet": "/assets/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki-480.webp 480w, /assets/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki-800.webp 800w, /assets/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-менеджер сортирует обращения из Instagram и передаёт квалифицированные заявки сотруднику",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Если реклама в Instagram даёт клики, но не приносит заявки, проблема не всегда находится в рекламном кабинете Meta Ads. Часто ломается вся цепочка: оффер непонятен, креатив обещает одно, Instagram-аккаунт или лендинг не подтверждает доверие, Direct не обрабатывается вовремя, менеджер не фиксирует контакт, а CRM и аналитика не показывают, где именно теряется клиент. Поэтому такую ситуацию нужно разбирать как воронку, а не как одну ошибку таргета."
     },
@@ -842,14 +853,14 @@
   ],
   "ogTitle": "Почему реклама в Instagram не приносит заявки",
   "ogDescription": "Почему клики из Instagram не превращаются в заявки: проверяем оффер, креатив, профиль, Direct, скорость ответа, CRM и аналитику по шагам.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
   "hreflangRu": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-14",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -857,7 +868,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-14T00:00:00.000Z",
   "sources": [
     {

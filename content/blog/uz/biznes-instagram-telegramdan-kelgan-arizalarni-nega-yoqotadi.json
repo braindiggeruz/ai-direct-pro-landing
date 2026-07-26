@@ -18,6 +18,17 @@
   "intro": "Reklama byudjeti yonadi, mijoz Direct'ga yozadi, menejer esa bir soatdan keyin javob beradi — va ariza sovib qoladi. Bu O'zbekistondagi lokal biznes voronkasidagi eng keng tarqalgan teshik. Arizalar aynan qayerda yo'qolishini va shtatni kengaytirmasdan nima qilish mumkinligini ko'rib chiqamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi-1200.webp",
+      "srcSet": "/assets/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi-480.webp 480w, /assets/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi-800.webp 800w, /assets/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Javobsiz xabarlar voronkadan chiqib ketmoqda, AI-bot esa arizalarni menejer uchun saqlamoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "p",
       "text": "Reklama byudjeti yonadi, mijoz Direct'ga yozadi, menejer esa bir soatdan keyin javob beradi — va ariza sovib qoladi. Bu O'zbekistondagi lokal biznes voronkasidagi eng keng tarqalgan teshik. Arizalar aynan qayerda yo'qolishini va shtatni kengaytirmasdan nima qilish mumkinligini ko'rib chiqamiz."
     },
@@ -201,7 +212,7 @@
   ],
   "ogTitle": "Biznes Instagram va Telegram'dan kelgan arizalarni nega yo'qotadi",
   "ogDescription": "Reklama va menejer o'rtasida arizalar aniq qayerda yo'qoladi: kech javob, turli chatlar, kechki murojaatlar va kontaktning yo'qolishi.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
   "hreflangRu": "/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
   "hreflangUz": "/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
@@ -209,7 +220,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -217,6 +228,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z"
 }

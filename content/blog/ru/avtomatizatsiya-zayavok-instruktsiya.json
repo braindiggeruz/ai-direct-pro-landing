@@ -19,6 +19,17 @@
   "intro": "Автоматизация заявок — это не одна кнопка, а связка из нескольких шагов: источники, сценарий, квалификация, передача, повторные касания. Разбираем, как пройти этот путь, не сломав ничего, и не потратив бюджет на лишние интеграции.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/avtomatizatsiya-zayavok-instruktsiya-1200.webp",
+      "srcSet": "/assets/blog/avtomatizatsiya-zayavok-instruktsiya-480.webp 480w, /assets/blog/avtomatizatsiya-zayavok-instruktsiya-800.webp 800w, /assets/blog/avtomatizatsiya-zayavok-instruktsiya-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Путь заявки от первого сообщения через квалификацию до CRM и уведомления менеджера",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "Автоматизация заявок — это не одна кнопка, а связка из нескольких шагов: источники, сценарий, квалификация, передача, повторные касания. Разбираем, как пройти этот путь, не сломав ничего, и не потратив бюджет на лишние интеграции."
     },
@@ -202,14 +213,14 @@
   ],
   "ogTitle": "Автоматизация заявок: пошаговый разбор воронки и сценария",
   "ogDescription": "Пошаговый разбор: как внедрить автоматизацию заявок в малом и среднем бизнесе. Каналы, сценарий, передача в CRM, метрики и типичные ошибки.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/avtomatizatsiya-zayavok-instruktsiya-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
   "hreflangRu": "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -217,7 +228,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z",
   "sources": [
     {

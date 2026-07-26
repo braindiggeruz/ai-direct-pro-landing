@@ -21,6 +21,17 @@
   "intro": "Цена Telegram-бота зависит не от самого факта «сделать бота», а от логики сценариев, интеграций, CRM, AI-функций, оплаты, каталога, уведомлений и аналитики. Разбираем, из чего складывается стоимость и какой бот нужен вашему бизнесу.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente-1200.webp",
+      "srcSet": "/assets/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente-480.webp 480w, /assets/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente-800.webp 800w, /assets/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Смета Telegram-бота складывается из сценария, интеграций, тестирования и поддержки",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "«Сколько стоит Telegram-бот?» — первый вопрос, который задаёт бизнес в Ташкенте. Но точной цены «за бота» не существует, потому что под словом «бот» скрываются очень разные решения. Одному бизнесу достаточно простого бота для заявок: показать услуги, собрать имя и телефон, передать обращение менеджеру. Другому нужен Telegram Mini App с каталогом, корзиной, онлайн-оплатой и личным кабинетом. Это разный объём работы — и разная стоимость."
     },
@@ -896,14 +907,14 @@
   ],
   "ogTitle": "Стоимость Telegram-бота в Ташкенте: этапы и функции",
   "ogDescription": "От чего зависит стоимость Telegram-бота в Ташкенте: сценарии, CRM, AI, приём заявок, оплата, тестирование и поддержка после запуска.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
   "hreflangRu": "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-13",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -911,7 +922,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-13T00:00:00.000Z",
   "sources": [
     {

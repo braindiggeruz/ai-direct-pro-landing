@@ -19,6 +19,17 @@
   "intro": "AI-menejer — bu aniq biznesga sozlangan sun'iy intellekt bo'lib, messenjerlardagi kiruvchi murojaatlarni birinchi qator xodimi kabi qayta ishlaydi: suhbat olib boradi, mijozni saralaydi va arizani jonli menejerga topshiradi. Ta'rif, farqlar va qo'llash chegaralarini ko'rib chiqamiz.",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/ai-menejer-nima-va-u-qanday-ishlaydi-1200.webp",
+      "srcSet": "/assets/blog/ai-menejer-nima-va-u-qanday-ishlaydi-480.webp 480w, /assets/blog/ai-menejer-nima-va-u-qanday-ishlaydi-800.webp 800w, /assets/blog/ai-menejer-nima-va-u-qanday-ishlaydi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "AI-sotuvchi lidlarni saralab, insonlardan iborat savdo bo‘limi bilan birga ishlamoqda",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
+    },
+    {
       "type": "h2",
       "text": "Ta'rif: AI-menejer nima"
     },
@@ -152,7 +163,7 @@
   ],
   "ogTitle": "AI-menejer nima va savdoda qanday ishlaydi",
   "ogDescription": "AI-menejer messenjerlardagi arizalarni qanday qayta ishlaydi, avtojavobdan nimasi bilan farq qiladi va uni joriy etishda nimalarni tekshirish kerak.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-menejer-nima-va-u-qanday-ishlaydi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
   "hreflangRu": "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
   "hreflangUz": "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
@@ -160,7 +171,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -169,5 +180,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-27T00:00:00.000Z"
 }

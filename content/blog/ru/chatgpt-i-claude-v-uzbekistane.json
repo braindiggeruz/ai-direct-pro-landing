@@ -19,6 +19,17 @@
   "intro": "ChatGPT и Claude официально работают в Узбекистане — без VPN, посредников и «серых» схем. Регистрация занимает две минуты, номер +998 принимается, подписка оплачивается картой Visa или Mastercard любого узбекского банка напрямую. Самый доступный вход — тариф ChatGPT Go за $5 в месяц (около 61 000 сумов).",
   "body": [
     {
+      "type": "figure",
+      "src": "/assets/blog/chatgpt-i-claude-v-uzbekistane-1200.webp",
+      "srcSet": "/assets/blog/chatgpt-i-claude-v-uzbekistane-480.webp 480w, /assets/blog/chatgpt-i-claude-v-uzbekistane-800.webp 800w, /assets/blog/chatgpt-i-claude-v-uzbekistane-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Сравнение двух универсальных AI-ассистентов по задачам, доступу и безопасности",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая редакционная иллюстрация GPTBot.uz."
+    },
+    {
       "type": "p",
       "text": "ChatGPT и Claude официально работают в Узбекистане — без VPN, посредников и «серых» схем. Регистрация занимает две минуты, номер +998 принимается, подписка оплачивается картой Visa или Mastercard любого узбекского банка напрямую. Самый доступный вход — тариф ChatGPT Go за $5 в месяц (≈61 000 сумов), запущенный для Узбекистана в октябре 2025 года. Покупать подписки у перекупщиков на маркетплейсах или через российские сервисы-посредники не нужно: вы переплатите 20–40% за то, что доступно напрямую."
     },
@@ -392,14 +403,14 @@
   ],
   "ogTitle": "ChatGPT и Claude в Узбекистане 2026: регистрация, оплата, внедрение",
   "ogDescription": "Тарифы в сумах, оплата картой узбекского банка без VPN и посредников, сравнение ChatGPT, Claude и Gemini, внедрение нейросетей в бизнес.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-i-claude-v-uzbekistane-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
   "hreflangRu": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-08",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -408,7 +419,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-08T00:00:00.000Z",
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI API — модели и возможности",
