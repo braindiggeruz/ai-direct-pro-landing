@@ -19,7 +19,7 @@ export default function FinalCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center reveal">
         <div className="chip mx-auto">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-cyan animate-pulse" />
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-cyan" />
           {t.nav.brand}
         </div>
         <h2 className="h-display mt-5 text-4xl sm:text-5xl lg:text-6xl text-white">
@@ -34,7 +34,7 @@ export default function FinalCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => track('click_final_cta')}
-            className="btn-primary animate-pulse-glow text-base sm:text-lg !px-7 !py-4"
+            className="btn-primary text-base sm:text-lg !px-7 !py-4"
           >
             {t.final.cta}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 3 2.5 10.5c-.9.35-.88 1.65.05 1.95l4.7 1.5L9.5 21c.4 1.05 1.8 1.2 2.4.25l2.95-4.55 5.3 3.9c.95.7 2.3.15 2.5-1.05L23 4.3c.2-1.1-.95-2-1.95-1.3Z" fill="#04101A"/></svg>

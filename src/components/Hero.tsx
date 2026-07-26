@@ -32,7 +32,7 @@ export default function Hero({ t, ctaUrl }: Props) {
 
   return (
     <section id="top" data-testid="hero" className="relative pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 overflow-hidden">
-      {/* animated gradient wash */}
+      {/* static gradient wash */}
       <GradientBackground
         className="pointer-events-none absolute inset-0 opacity-[0.16] blur-3xl from-brand-blue via-brand-violet to-brand-cyan"
         aria-hidden
@@ -46,13 +46,13 @@ export default function Hero({ t, ctaUrl }: Props) {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           <div className="lg:col-span-7 animate-fade-up">
             <div className="chip" data-testid="hero-badge">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-cyan animate-pulse" />
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-cyan" />
               {t.hero.badge}
             </div>
 
             <h1
               data-testid="hero-h1"
-              className="h-display mt-4 text-[2.25rem] leading-[1.05] sm:text-5xl lg:text-6xl xl:text-[4.25rem] text-white"
+              className="h-display mt-4 min-h-[7.1rem] sm:min-h-[9.5rem] lg:min-h-[12rem] text-[2.25rem] leading-[1.05] sm:text-5xl lg:text-6xl xl:text-[4.25rem] text-white"
             >
               {t.hero.h1a}{' '}
               <span className="text-grad">{t.hero.h1b}</span>
@@ -86,7 +86,7 @@ export default function Hero({ t, ctaUrl }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => track('click_hero_cta')}
-                className="btn-primary animate-pulse-glow text-base !py-4 sm:!py-3.5 w-full sm:w-auto"
+                className="btn-primary text-base !py-4 sm:!py-3.5 w-full sm:w-auto"
               >
                 {t.hero.cta}
                 <TgIcon />
@@ -141,7 +141,7 @@ export default function Hero({ t, ctaUrl }: Props) {
           {/* Hero image */}
           <div className="lg:col-span-5 relative animate-fade-up" style={{ animationDelay: '120ms' }}>
             <div className="relative mx-auto max-w-sm lg:max-w-none">
-              <div className="absolute -inset-6 bg-grad-cta opacity-25 blur-3xl rounded-[50%] animate-float" />
+              <div className="absolute -inset-6 bg-grad-cta opacity-25 blur-3xl rounded-[50%]" />
               <img
                 src="/assets/landing/1-800.webp"
                 srcSet="/assets/landing/1-480.webp 480w, /assets/landing/1-800.webp 800w, /assets/landing/1.webp 1000w"
@@ -154,7 +154,14 @@ export default function Hero({ t, ctaUrl }: Props) {
                 fetchPriority="high"
               />
               <div className="absolute -bottom-3 -left-3 sm:-left-6 glass-strong px-4 py-3 flex items-center gap-3 animate-pop-in" style={{ animationDelay: '350ms' }}>
-                <img src="/assets/landing/logo-sq.webp" alt="Логотип GPTBot" className="h-8 w-8 rounded-lg" width={32} height={32} />
+                <img
+                  src="/assets/landing/logo-sq-40.webp"
+                  srcSet="/assets/landing/logo-sq-40.webp 1x, /assets/landing/logo-sq-80.webp 2x"
+                  alt="Логотип GPTBot"
+                  className="h-8 w-8 rounded-lg"
+                  width={32}
+                  height={32}
+                />
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-white/50">AI Sales Assistant</div>
                   <div className="text-xs font-semibold text-white">online · 24/7</div>

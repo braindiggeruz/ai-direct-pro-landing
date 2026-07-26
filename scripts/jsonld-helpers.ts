@@ -46,8 +46,8 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
     logo: {
       '@type': 'ImageObject',
       url: global.logo,
-      width: 1200,
-      height: 630,
+      width: 256,
+      height: 256,
     },
     image: global.defaultOgImage,
   };

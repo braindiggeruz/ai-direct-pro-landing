@@ -30,7 +30,10 @@
   "ctaSecondaryLabel": "Nishalar boyicha korish",
   "ctaSecondaryHref": "/uz/biznes-uchun-ai-bot/",
   "bodyBlocks": [
-    { "type": "p", "text": "GPTBot.uz — bu Toshkentdagi studiya, u O‘zbekistonda biznes uchun AI/GPT botlarni rus va o‘zbek tilida joriy etadi." },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — bu Toshkentdagi studiya, u O‘zbekistonda biznes uchun AI/GPT botlarni rus va o‘zbek tilida joriy etadi."
+    },
     {
       "type": "h2",
       "text": "Biz kimmiz"
@@ -50,6 +53,27 @@
     {
       "type": "p",
       "text": "Yo'nalish asoschisi va rahbari — Boris Gerasimov. U AI-botlar arxitekturasi, suhbat stsenariylari hamda rus va o'zbek tillaridagi javoblar sifatiga shaxsan javob beradi. GPTBot.uz blogidagi barcha materiallar uning tahriri ostida chiqadi: maqolalardagi tavsiyalar tarjima qo'llanmalarga emas, O'zbekistondagi biznes uchun joriy etish amaliyotiga asoslangan."
+    },
+    {
+      "type": "h2",
+      "text": "Tahririyat tamoyillari"
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz blogi — O‘zbekistondagi biznes uchun chat-botlar, arizalarni avtomatlashtirish va integratsiyalar haqida mustaqil AI-servisning tahririy bo‘limi. Texnik fikrlarni rasmiy platforma hujjatlari orqali tekshiramiz va natija kanal, tarif yoki biznes sozlamalariga bog‘liq bo‘lsa, cheklovlarni ko‘rsatamiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Soxta keyslar, reytinglar, raqamlar yoki natija kafolatlarini e’lon qilmaymiz.",
+        "API, to‘lov va platforma funksiyalari uchun birlamchi rasmiy manbalardan foydalanamiz.",
+        "Tasdiqlangan faktlar, amaliy tavsiyalar va taxminiy ssenariylarni ajratamiz.",
+        "Maqolaning nashr va yangilanish sanasini ko‘rsatamiz; tuzatishlarni qayta tekshiruvdan so‘ng kiritamiz."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Maqola bo‘yicha savol yoki tuzatishni Telegram orqali yuborish mumkin: https://t.me/XGame_changerx. Tahririyat tamoyillari oxirgi marta 2026-yil 26-iyulda tekshirildi."
     },
     {
       "type": "p",
@@ -169,7 +193,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-26",
+  "lastReviewedAt": "2026-07-26",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-06-26"
+  "updatedAt": "2026-07-26"
 }

@@ -66,6 +66,37 @@
         "Bot lidni qayd etib, CRMga avtomatik kiritadi.",
         "Shunda ishlov berish intizomi boshqariladi."
       ]
+    },
+    {
+      "type": "h2",
+      "text": "Ishga tushirishdan oldingi tekshiruv"
+    },
+    {
+      "type": "p",
+      "text": "Instagram, Telegram va CRM: bitta ariza voronkasi mavzusida yechim tanlashdan oldin kanal nomiga emas, mijoz yo‘liga qarang. Kiruvchi xabar qayerdan keladi, bot qaysi ma’lumotlarni so‘raydi, javob qaysi manbadan olinadi va qachon suhbat menejerga o‘tishi yozma ravishda belgilanishi kerak. Shunda demo chiroyli ko‘rinish bilan cheklanmaydi va real jarayon bilan solishtiriladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta asosiy maqsadni belgilang: maslahat, ariza, yozilish yoki buyurtma.",
+        "Rus va o‘zbek tilidagi kamida 20 ta haqiqiy savol bilan javoblarni sinang.",
+        "Majburiy maydonlar, rozilik va shaxsiy ma’lumotlarni saqlash qoidalarini yozing.",
+        "Bot javob bermasligi kerak bo‘lgan mavzular va menejerga o‘tish shartlarini belgilang.",
+        "CRM yoki jadvalda dublikat, status va mas’ul xodim qanday yuritilishini tekshiring.",
+        "Ishga tushgandan keyin javobsiz savollar, xatolar va ariza sifatini haftalik ko‘rib chiqing."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Cheklovlar va natijani baholash"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot savdoni o‘zi kafolatlamaydi: natija reklama sifati, taklif, narx, javob bazasi va menejerning keyingi ishiga bog‘liq. Dastlab kichik pilot tanlang va boshlang‘ich ko‘rsatkichlarni yozib oling: birinchi javob vaqti, to‘liq arizalar ulushi, menejerga o‘tgan suhbatlar va xatolar. Bir necha hafta davomida aynan bir xil ta’rif bilan o‘lchang. Shundagina avtomatlashtirish qayerda foyda bergani va qayerda ssenariy yoki ma’lumot bazasini tuzatish kerakligi ko‘rinadi."
+    },
+    {
+      "type": "p",
+      "text": "Bitta voronkada kanal manbasini yo‘qotmang: Instagram reklama kampaniyasi, Telegram havolasi va sayt formasidan kelgan ariza alohida belgi bilan CRMga tushishi kerak. Telefon raqami yoki boshqa barqaror identifikator bo‘yicha dublikatni tekshiring. Aks holda bir mijoz bir necha kartaga bo‘linadi va konversiya hisoboti noto‘g‘ri ko‘rinadi."
     }
   ],
   "faq": [
@@ -161,7 +192,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -169,6 +200,23 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
-  "createdAt": "2026-01-06T00:00:00.000Z"
+  "updatedAt": "2026-07-26",
+  "createdAt": "2026-01-06T00:00:00.000Z",
+  "sources": [
+    {
+      "title": "Telegram Bot API — официальная документация",
+      "url": "https://core.telegram.org/bots/api",
+      "note": "Telegram bot metodlari, yangilanishlar, webhook va cheklovlar."
+    },
+    {
+      "title": "Meta — Instagram Messaging API",
+      "url": "https://developers.facebook.com/docs/messenger-platform/instagram/",
+      "note": "Instagram xabarlari uchun rasmiy talab va imkoniyatlar."
+    },
+    {
+      "title": "amoCRM — документация для разработчиков",
+      "url": "https://www.amocrm.ru/developers/content/crm_platform/platform-abilities",
+      "note": "Integratsiya turlari, API, webhooks va tashqi tizimlar bilan ishlash."
+    }
+  ]
 }

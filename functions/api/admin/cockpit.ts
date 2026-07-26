@@ -133,7 +133,7 @@ async function runLiveProbes(): Promise<HealthProbe> {
     probe(`${SITE_BASE}/sitemap.xml`),
     probe(`${SITE_BASE}/robots.txt`),
     probe(`${SITE_BASE}/favicon.svg`),
-    probe(`${SITE_BASE}/assets/blog/1.png`),
+    probe(`${SITE_BASE}/assets/blog/ai-bot-launch-checklist-1024.webp`),
   ]);
   return {
     randomUrl404: random.status === 404,

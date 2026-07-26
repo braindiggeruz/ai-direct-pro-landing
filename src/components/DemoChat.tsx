@@ -21,6 +21,22 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
   const started = useRef<boolean>(false);
 
   useEffect(() => {
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    const runSequence = async () => {
+      for (let i = 0; i < SEQUENCE.length; i++) {
+        const step = SEQUENCE[i];
+        if (step.type === 'msg' && step.from === 'ai') {
+          setTyping(true);
+          await sleep(900);
+          setTyping(false);
+        } else {
+          await sleep(700);
+        }
+        setVisible((value) => value + 1);
+        await sleep(500);
+      }
+    };
+
     if (!sectionRef.current) return;
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -34,24 +50,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
     );
     io.observe(sectionRef.current);
     return () => io.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const runSequence = async () => {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    for (let i = 0; i < SEQUENCE.length; i++) {
-      const step = SEQUENCE[i];
-      if (step.type === 'msg' && step.from === 'ai') {
-        setTyping(true);
-        await sleep(900);
-        setTyping(false);
-      } else {
-        await sleep(700);
-      }
-      setVisible((v) => v + 1);
-      await sleep(500);
-    }
-  };
 
   return (
     <section
@@ -72,11 +71,11 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
           <div className="lg:col-span-7 reveal">
             <div className="glass-strong p-4 sm:p-6 shadow-card">
               <div className="flex items-center gap-3 pb-4 border-b border-white/10">
-                <img src="/assets/landing/logo-sq.webp" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
+                <img src="/assets/landing/logo-sq-40.webp" srcSet="/assets/landing/logo-sq-40.webp 1x, /assets/landing/logo-sq-80.webp 2x" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
                 <div>
                   <div className="text-sm font-semibold text-white">AI Sales Assistant</div>
                   <div className="text-[11px] text-brand-cyan flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" />
                     online · {typing ? t.demo.typing : '24/7'}
                   </div>
                 </div>
@@ -133,7 +132,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
                   </span>
                   <span className="text-xs font-semibold tracking-wider uppercase text-brand-cyan">{t.demo.lead.title}</span>
                 </div>
-                <span className="text-[10px] font-semibold text-rose-300 bg-rose-400/10 border border-rose-400/30 px-2 py-1 rounded-full animate-pulse">● LIVE</span>
+                <span className="text-[10px] font-semibold text-rose-300 bg-rose-400/10 border border-rose-400/30 px-2 py-1 rounded-full">● LIVE</span>
               </div>
 
               <dl className="mt-5 grid gap-3">
@@ -169,7 +168,7 @@ function Row({ k, v, mono, pill }: { k: string; v: string; mono?: boolean; pill?
       <dd className={`text-sm text-white ${mono ? 'font-mono' : 'font-semibold'} ${pill ? '!font-semibold' : ''}`}>
         {pill ? (
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/30 px-2.5 py-1 rounded-full">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan animate-pulse" />
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" />
             {v}
           </span>
         ) : (

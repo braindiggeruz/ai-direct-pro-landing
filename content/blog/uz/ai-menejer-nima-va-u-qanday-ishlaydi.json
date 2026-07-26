@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "ai-menejer-nima-va-u-qanday-ishlaydi",
   "url": "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
-  "title": "AI-menejer nima va u savdoda qanday ishlaydi",
-  "description": "AI-menejer nima ekanini oddiy tilda tushuntiramiz: messenjerlardagi arizalarni qanday qayta ishlaydi, AI-bot va avtojavobdan farqi, O'zbekistonda qachon o'zini oqlaydi.",
+  "title": "AI-menejer nima va savdoda qanday ishlaydi",
+  "description": "AI-menejer messenjerlardagi arizalarni qanday qayta ishlaydi, avtojavobdan nimasi bilan farq qiladi va uni joriy etishda nimalarni tekshirish kerak.",
   "h1": "AI-menejer nima va u qanday ishlaydi",
   "topicCluster": "ai-bot-basics",
   "targetMoneyPage": "/uz/ai-sotuvchi/",
@@ -150,8 +150,8 @@
       "anchor": "AI-bot yoki menejer: qaysi biri samaraliroq"
     }
   ],
-  "ogTitle": "AI-menejer nima va u savdoda qanday ishlaydi",
-  "ogDescription": "AI-menejer nima ekanini oddiy tilda tushuntiramiz: messenjerlardagi arizalarni qanday qayta ishlaydi, AI-bot va avtojavobdan farqi, O'zbekistonda qachon o'zini oqlaydi.",
+  "ogTitle": "AI-menejer nima va savdoda qanday ishlaydi",
+  "ogDescription": "AI-menejer messenjerlardagi arizalarni qanday qayta ishlaydi, avtojavobdan nimasi bilan farq qiladi va uni joriy etishda nimalarni tekshirish kerak.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
   "hreflangRu": "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
@@ -160,7 +160,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-03",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -169,5 +169,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-03"
+  "updatedAt": "2026-07-26"
 }

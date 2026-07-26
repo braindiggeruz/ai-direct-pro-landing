@@ -15,7 +15,7 @@ Live check after deploy of commit `b888310` to Cloudflare Pages project
 | `/assets/landing/6.png`          | Offer section (lazy)                            | 200         | yes     | yes     | OK     |
 | `/assets/landing/7.png`          | Niches section (lazy)                           | 200         | yes     | yes     | OK     |
 | `/assets/landing/8.png`          | FinalCTA section (lazy)                         | 200         | yes     | yes     | OK     |
-| `/assets/blog/1.png`             | Blog ogImage (1 article)                        | 200         | yes     | yes     | RESTORED (was 404) |
+| `/assets/blog/ai-bot-launch-checklist-1024.webp` | Blog visual health probe (responsive WebP) | 200 | yes | yes | Optimized from 1.56 MB PNG to 46 KB WebP |
 | `/favicon.svg`                   | <link rel="icon">                               | 200         | yes     | yes     | RESTORED (was 404) |
 | `/icons.svg`                     | Inline SVG sprite                               | 200         | yes     | yes     | RESTORED (was 404) |
 

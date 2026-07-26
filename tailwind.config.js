@@ -35,8 +35,8 @@ export default {
         outline: 'var(--ring)',
       },
       fontFamily: {
-        sans: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['Unbounded', 'Manrope', 'sans-serif'],
+        sans: ['Geist', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Geist', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         glow: '0 0 40px rgba(34,158,217,0.45), 0 0 80px rgba(47,230,209,0.18)',

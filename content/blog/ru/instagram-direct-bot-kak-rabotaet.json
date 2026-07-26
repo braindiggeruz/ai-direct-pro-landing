@@ -9,6 +9,7 @@
   "topicCluster": "instagram-direct-bot",
   "targetMoneyPage": "/ru/instagram-direct-bot/",
   "keywords": [
+    "как работает Instagram Direct бот",
     "Instagram Direct бот",
     "Instagram автоответы",
     "бот Direct Узбекистан",
@@ -192,7 +193,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -200,6 +201,13 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
-  "createdAt": "2026-05-25T00:00:00Z"
+  "updatedAt": "2026-07-26",
+  "createdAt": "2026-05-25T00:00:00Z",
+  "sources": [
+    {
+      "title": "Meta — Instagram Messaging API",
+      "url": "https://developers.facebook.com/docs/messenger-platform/instagram/",
+      "note": "Официальные требования и возможности сообщений Instagram."
+    }
+  ]
 }

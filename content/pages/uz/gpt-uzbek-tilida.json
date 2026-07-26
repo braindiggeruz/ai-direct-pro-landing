@@ -32,26 +32,132 @@
   "ctaSecondaryLabel": "Biznes uchun AI-bot buyurtma qilish",
   "ctaSecondaryHref": "https://t.me/XGame_changerx",
   "bodyBlocks": [
-    { "type": "p", "text": "GPTBot.uz AI-chati — O‘zbekiston uchun o‘zbek va rus tillarida ishlaydigan mustaqil onlayn-yordamchi. U matn yozadi va tahrirlaydi, Instagram va Telegram uchun offer va postlar o‘ylaydi, mijozlarga javob tayyorlaydi, o‘qish uchun konspekt va reja tuzadi, rus va o‘zbek tillari o‘rtasida tarjima qiladi. Har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tish shart emas: yuqoridagi chatni oching va birinchi so‘rovni yozing." },
-    { "type": "p", "text": "Xizmat OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas va uchinchi tomon til modellaridan API orqali foydalanadi. AI xato qilishi mumkin — muhim faktlarni tekshiring. Parol, karta raqami va boshqa maxfiy ma’lumotlarni kiritmang." },
-    { "type": "linkp", "text": "Imkoniyatlar, tillar, limitlar va xavfsizlik bo‘yicha batafsil ma’lumot — {guide}da. Shartlar va rejalar — {tariffs} sahifasida. Kompaniyalar uchun GPTBot.uz {b2b}ni joriy etadi: sayt uchun AI-chat, Telegram-bot va arizalarni avtomatlashtirish.", "links": [
-      { "token": "guide", "target": "/uz/gpt-chat-qollanma/", "anchor": "AI-chat qo‘llanmasi" },
-      { "token": "tariffs", "target": "/uz/chat-bot-narxi/", "anchor": "tariflar" },
-      { "token": "b2b", "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI" }
-    ] }
+    {
+      "type": "p",
+      "text": "GPTBot.uz AI-chati — O‘zbekiston uchun o‘zbek va rus tillarida ishlaydigan mustaqil onlayn-yordamchi. U matn yozadi va tahrirlaydi, Instagram va Telegram uchun offer va postlar o‘ylaydi, mijozlarga javob tayyorlaydi, o‘qish uchun konspekt va reja tuzadi, rus va o‘zbek tillari o‘rtasida tarjima qiladi. Har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tish shart emas: yuqoridagi chatni oching va birinchi so‘rovni yozing."
+    },
+    {
+      "type": "p",
+      "text": "Xizmat OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas va uchinchi tomon til modellaridan API orqali foydalanadi. AI xato qilishi mumkin — muhim faktlarni tekshiring. Parol, karta raqami va boshqa maxfiy ma’lumotlarni kiritmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Imkoniyatlar, tillar, limitlar va xavfsizlik bo‘yicha batafsil ma’lumot — {guide}da. Shartlar va rejalar — {tariffs} sahifasida. Kompaniyalar uchun GPTBot.uz {b2b}ni joriy etadi: sayt uchun AI-chat, Telegram-bot va arizalarni avtomatlashtirish.",
+      "links": [
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI-chat qo‘llanmasi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "tariflar"
+        },
+        {
+          "token": "b2b",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "biznes uchun AI"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI-chat qaysi vazifalarga mos"
+    },
+    {
+      "type": "p",
+      "text": "AI-chat matn qoralamasini tayyorlash, mavzuni tushuntirish, hujjat tuzilmasini yaratish, mijozga javob variantlarini taklif qilish yoki kodni tahlil qilishda yordam beradi. Maqsad, kontekst, format va cheklovlarni aniq yozsangiz, natija foydaliroq bo‘ladi. Biznes so‘rovlarida parol, to‘lov ma’lumoti, tibbiy ma’lumot va boshqa maxfiy axborotni yubormang."
+    },
+    {
+      "type": "h2",
+      "text": "Aniqroq javob olish usuli"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta vazifa va kutilgan natijani aniq yozing.",
+        "Maxfiy va shaxsiy ma’lumotsiz zarur kontekstni qo‘shing.",
+        "Taxminlar va tekshirilishi kerak bo‘lgan joylarni ko‘rsatishni so‘rang.",
+        "Muhim faktlarni rasmiy yoki birlamchi manba bilan solishtiring.",
+        "Kontekst yetarli bo‘lmasa, keyingi so‘rovda aniqlik kiriting."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPTning rasmiy mahsuloti emas. Model javobida xato bo‘lishi mumkin; yuridik, tibbiy, moliyaviy va boshqa muhim qarorlarni mutaxassis hamda birlamchi hujjatlarsiz qabul qilmang."
+    }
   ],
-  "faq": [],
+  "faq": [
+    {
+      "q": "AI-chatdan bepul foydalanish mumkinmi?",
+      "a": "Kirish va limitlar amaldagi tarifga bog‘liq. Ishni boshlashdan oldin chat sahifasidagi shartlarni tekshiring; limitlar o‘zgarishi mumkin."
+    },
+    {
+      "q": "Maxfiy ma’lumot yuborish mumkinmi?",
+      "a": "Yo‘q. Parol, karta ma’lumoti, hujjat va boshqa maxfiy ma’lumotni yubormang. Ish misollarini anonimlashtiring."
+    },
+    {
+      "q": "Nega AI xato qilishi mumkin?",
+      "a": "Model so‘rov konteksti asosida javob yaratadi va faktni noto‘g‘ri talqin qilishi yoki mavjud bo‘lmagan detalni qo‘shishi mumkin. Muhim fikrlarni tekshiring."
+    },
+    {
+      "q": "Chat qaysi tillarda ishlaydi?",
+      "a": "Interfeys va so‘rovlar o‘zbek hamda rus tillarini qo‘llaydi; sifat so‘rov aniqligi va vazifa murakkabligiga bog‘liq."
+    }
+  ],
   "internalLinks": [
-    { "target": "/ru/gpt-chat/", "anchor": "Rus tilidagi AI chat", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/gpt-chat-qollanma/", "anchor": "AI-chat qo‘llanmasi", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
-    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "Arizalarni avtomatlashtirish", "locale": "uz", "type": "block" },
-    { "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari", "locale": "uz", "type": "block" },
-    { "target": "/uz/maxfiylik-siyosati/", "anchor": "Maxfiylik siyosati", "locale": "uz", "type": "footer" },
+    {
+      "target": "/ru/gpt-chat/",
+      "anchor": "Rus tilidagi AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    },
     {
       "target": "/uz/gpt-telegram-instagram-ideya/",
       "anchor": "Telegram va Instagram uchun GPT",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/javob/",
+      "anchor": "Telegramdagi GPTBot Javob",
       "locale": "uz",
       "type": "contextual"
     }
@@ -68,12 +174,19 @@
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "description": "O‘zbek va rus tilida mustaqil AI chat. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas.",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
       "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
-      "inLanguage": ["uz", "ru"]
+      "inLanguage": [
+        "uz",
+        "ru"
+      ]
     }
   ],
-  "lastReviewedAt": "2026-07-16",
+  "lastReviewedAt": "2026-07-26",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-07-16"
+  "updatedAt": "2026-07-26"
 }

@@ -10,6 +10,15 @@ export interface FaqItem {
   a: string;
 }
 
+export interface SourceReference {
+  /** Visible source title; should name the primary publisher or document. */
+  title: string;
+  /** Canonical URL of the primary source. Editorial links remain follow. */
+  url: string;
+  /** Optional short note explaining which claim the source supports. */
+  note?: string;
+}
+
 export interface BodyBlock {
   type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'figure' | 'quote' | 'table' | 'toc' | 'linkp';
   text?: string;
@@ -146,6 +155,8 @@ export interface BlogArticle {
   robotsIndex: boolean;
   robotsFollow: boolean;
   author?: string;
+  /** Visible primary sources used to verify technical or factual claims. */
+  sources?: SourceReference[];
   datePublished?: string;
   dateModified?: string;
   schemaTypes: SchemaType[];

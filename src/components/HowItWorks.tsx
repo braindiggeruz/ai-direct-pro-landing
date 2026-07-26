@@ -43,7 +43,7 @@ export default function HowItWorks({ t }: { t: Dict }) {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg sm:text-xl font-semibold text-white">{s.t}</h3>
-                    <span className="inline-flex items-center text-brand-cyan animate-arrow-flow">
+                    <span className="inline-flex items-center text-brand-cyan">
                       <svg width="20" height="14" viewBox="0 0 28 14" fill="none">
                         <path d="M2 7h22M18 2l6 5-6 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>

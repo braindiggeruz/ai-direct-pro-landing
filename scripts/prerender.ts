@@ -392,7 +392,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
     <h1 data-testid="page-h1" class="font-display text-xl text-white mb-4">${escapeText(page.h1)}</h1>
     <div class="prose-invert">
-      ${(page.bodyBlocks || []).map(renderBlock).join('\n')}
+      ${(page.bodyBlocks || []).map((block) => renderBlock(block)).join('\n')}
     </div>
     <nav aria-label="${escapeHtml(navLabel)}" class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
       ${links.map((l) => `<a href="${escapeHtml(l.href)}" class="text-brand-cyan hover:underline underline-offset-4">${escapeText(l.text)}</a>`).join('\n      ')}
@@ -471,8 +471,8 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   return `<!doctype html>
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
 <head>
-<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,10000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,10000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#05070D" />
 <title>${escapeText(page.title)}</title>
@@ -497,10 +497,7 @@ ${ogImg && ogDims ? `<meta property="og:image:height" content="${ogDims.h}" />` 
 <meta name="twitter:description" content="${escapeHtml(ogDesc)}" />
 ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" /></noscript>
+<link rel="preload" href="/assets/fonts/geist-${page.locale === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
 ${LLM_MARKDOWN_URLS.has(page.url)
   ? `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}${escapeHtml(page.url)}index.html.md" />`

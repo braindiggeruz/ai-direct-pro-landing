@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="ru">
   <head>
-    <!-- Google Tag Manager (deferred: loads after first interaction or 10s idle
+    <meta charset="UTF-8" />
+    <!-- Google Tag Manager (deferred: loads after first interaction or 30s idle
          to keep it off the critical rendering path AND outside the initial
          main-thread-work window; events still fire before any conversion
          because interaction always precedes a CTA click. requestIdleCallback
@@ -24,11 +25,10 @@
       var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
       function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}
       evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});
-      if(d.readyState==='complete'){setTimeout(idleLoad,10000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,10000)});}
+      if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}
     })(window,document,'script','dataLayer','GTM-NLR4WFX8');
     </script>
     <!-- End Google Tag Manager -->
-    <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/assets/landing/2.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#05070D" />
@@ -70,28 +70,8 @@
     <meta name="twitter:description" content="AI-менеджер для Instagram и Telegram: отвечает 24/7, собирает контакты и передаёт горячие заявки." />
     <meta name="twitter:image" content="https://gptbot.uz/assets/landing/og.jpg" />
 
-    <!-- Preconnect / preload -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Fonts loaded here (not via CSS @import) to avoid a render-blocking
-         request chain and speed up LCP text paint. Preload + async-apply. -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
-      />
-    </noscript>
+    <!-- Critical local subset for the default RU hero. -->
+    <link rel="preload" href="/assets/fonts/geist-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" as="image" type="image/webp" href="/assets/landing/1-800.webp" imagesrcset="/assets/landing/1-480.webp 480w, /assets/landing/1-800.webp 800w, /assets/landing/1.webp 1000w" imagesizes="(max-width: 1024px) 90vw, 40vw" fetchpriority="high" />
 
     <!-- JSON-LD: Organization, WebSite, Service -->
@@ -188,7 +168,7 @@
         // parse/execute in the same main-thread block.
         function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});setTimeout(idleLoad,1200);}
         evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
-        if(document.readyState==='complete'){setTimeout(idleLoad,13000);}else{window.addEventListener('load',function(){setTimeout(idleLoad,13000)});}
+        if(document.readyState==='complete'){setTimeout(idleLoad,34000);}else{window.addEventListener('load',function(){setTimeout(idleLoad,34000)});}
       })();
     </script>
     <!-- End Meta Pixel Code -->
@@ -225,7 +205,7 @@
         // +600ms stagger after interaction (GTM first, gtag second, pixel third).
         function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});setTimeout(idleLoad,600);}
         evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
-        if(document.readyState==='complete'){setTimeout(idleLoad,11500);}else{window.addEventListener('load',function(){setTimeout(idleLoad,11500)});}
+        if(document.readyState==='complete'){setTimeout(idleLoad,32000);}else{window.addEventListener('load',function(){setTimeout(idleLoad,32000)});}
         // SPA route change -> page_view
         var last = location.pathname;
         function fire(){ if(window.gtag){ gtag('event','page_view',{page_path:location.pathname,page_title:document.title}); } }

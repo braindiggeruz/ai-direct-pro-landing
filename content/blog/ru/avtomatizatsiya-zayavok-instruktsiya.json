@@ -9,6 +9,7 @@
   "topicCluster": "avtomatizatsiya-zayavok",
   "targetMoneyPage": "/ru/avtomatizatsiya-zayavok/",
   "keywords": [
+    "как автоматизировать заявки пошагово",
     "автоматизация заявок",
     "лид-автоматизация",
     "бот для заявок",
@@ -208,7 +209,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -216,6 +217,13 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
-  "createdAt": "2026-05-25T00:00:00Z"
+  "updatedAt": "2026-07-26",
+  "createdAt": "2026-05-25T00:00:00Z",
+  "sources": [
+    {
+      "title": "amoCRM — документация для разработчиков",
+      "url": "https://www.amocrm.ru/developers/content/crm_platform/platform-abilities",
+      "note": "Типы интеграций, API, webhooks и работа с внешними системами."
+    }
+  ]
 }

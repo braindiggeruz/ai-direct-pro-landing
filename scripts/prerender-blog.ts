@@ -117,6 +117,10 @@ const STRINGS = {
     faqHeading: 'Частые вопросы',
     relatedHeading: 'Смотрите также',
     updated: 'Обновлено',
+    published: 'Опубликовано',
+    author: 'Автор',
+    sourcesHeading: 'Первичные источники',
+    sourcesIntro: 'Документы, по которым проверены технические и продуктовые утверждения статьи.',
     read: 'Читать →',
   },
   uz: {
@@ -130,6 +134,10 @@ const STRINGS = {
     faqHeading: 'Tez-tez beriladigan savollar',
     relatedHeading: 'Shuningdek o\u2018qing',
     updated: 'Yangilangan',
+    published: 'Nashr etilgan',
+    author: 'Muallif',
+    sourcesHeading: 'Birlamchi manbalar',
+    sourcesIntro: 'Maqoladagi texnik va mahsulotga oid fikrlarni tekshirish uchun ishlatilgan hujjatlar.',
     read: 'O\u2018qish →',
   },
 } as const;
@@ -140,8 +148,8 @@ function L(a: { locale?: string }): typeof STRINGS.ru {
 
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
-    case 'h2': return `<h2 class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeText(b.text || '')}</h2>`;
-    case 'h3': return `<h3 class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
+    case 'h2': return `<h2${b.id ? ` id="${escapeHtml(b.id)}"` : ''} class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeText(b.text || '')}</h2>`;
+    case 'h3': return `<h3${b.id ? ` id="${escapeHtml(b.id)}"` : ''} class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
     case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-5">${escapeText(b.text || '')}</p>`;
     case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3 items-start"><span class="mt-1 shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-cyan/12 border border-brand-cyan/30"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-5 italic text-white/85 my-8 text-lg">${escapeText(b.text || '')}</blockquote>`;
@@ -162,6 +170,19 @@ function renderBlock(b: BodyBlock): string {
       const thead = headers.length ? `<thead><tr>${headers.map(h => `<th class="px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-white/10">${escapeText(h)}</th>`).join('')}</tr></thead>` : '';
       const tbody = `<tbody>${rows.map((row, ri) => `<tr class="${ri % 2 === 0 ? 'bg-white/[0.02]' : ''} hover:bg-white/[0.05] transition-colors">${row.map(cell => `<td class="px-4 py-3 text-white/80 text-sm border-b border-white/5">${escapeText(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
       return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10"><table class="w-full">${thead}${tbody}</table></div>`;
+    }
+    case 'image':
+    case 'figure': {
+      if (!b.src || !b.alt) return '';
+      const width = b.width ? ` width="${b.width}"` : '';
+      const height = b.height ? ` height="${b.height}"` : '';
+      const loading = b.loading === 'eager' ? 'eager' : 'lazy';
+      const priority = b.loading === 'eager' ? ' fetchpriority="high"' : '';
+      const image = `<img src="${escapeHtml(b.src)}" alt="${escapeHtml(b.alt)}"${width}${height} loading="${loading}" decoding="async"${priority} class="w-full h-auto rounded-2xl border border-white/10" />`;
+      if (b.type === 'figure' || b.caption) {
+        return `<figure class="my-10">${image}${b.caption ? `<figcaption class="mt-3 text-sm text-white/55 leading-relaxed">${escapeText(b.caption)}</figcaption>` : ''}</figure>`;
+      }
+      return `<div class="my-10">${image}</div>`;
     }
     default: return '';
   }
@@ -194,6 +215,22 @@ function renderInternalLinks(a: BlogArticle): string {
   return `<section data-testid="article-related" class="mt-16"><h2 class="font-display text-2xl mb-6 text-white">${escapeText(L(a).relatedHeading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
 }
 
+function renderSources(a: BlogArticle): string {
+  if (!a.sources?.length) return '';
+  const t = L(a);
+  const items = a.sources.map((source) => `
+    <li class="link-card">
+      <a href="${escapeHtml(source.url)}" rel="noopener noreferrer" class="text-brand-cyan hover:underline font-medium">${escapeText(source.title)}</a>
+      ${source.note ? `<p class="mt-2 mb-0 text-sm text-white/65 leading-relaxed">${escapeText(source.note)}</p>` : ''}
+    </li>
+  `).join('');
+  return `<section data-testid="article-sources" class="mt-16" aria-labelledby="article-sources-heading">
+    <h2 id="article-sources-heading" class="font-display text-2xl sm:text-3xl mb-3 text-white">${escapeText(t.sourcesHeading)}</h2>
+    <p class="text-sm text-white/60 mb-5">${escapeText(t.sourcesIntro)}</p>
+    <ol class="grid gap-3 list-none p-0">${items}</ol>
+  </section>`;
+}
+
 function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   const fullUrl = `${global.siteUrl}${a.url}`;
   const blogIndexUrl = `${global.siteUrl}/${a.locale === 'uz' ? 'uz' : 'ru'}/blog/`;
@@ -202,6 +239,7 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   graph.push(buildOrganizationLd(global));
   graph.push(buildWebSiteLd(global));
   const authorPerson = buildAuthorPersonLd(global);
+  if (authorPerson && a.locale === 'uz') authorPerson.url = `${global.siteUrl}/uz/biz-haqimizda/`;
   if (authorPerson) graph.push(authorPerson);
   graph.push(buildBreadcrumbLd([
     { name: global.siteName, item: `${global.siteUrl}/` },
@@ -230,6 +268,7 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
     keywords: (a.keywords || []).join(', '),
     articleSection: a.topicCluster,
     audience: { '@type': 'BusinessAudience', audienceType: 'Small and medium business in Uzbekistan' },
+    ...(a.sources?.length ? { citation: a.sources.map((source) => source.url) } : {}),
   });
   if (a.faq?.length) {
     graph.push({
@@ -260,6 +299,7 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
     'max-image-preview:large',
   ].join(', ');
   const blogIndexHref = `/${lang}/blog/`;
+  const authorProfileHref = lang === 'uz' ? '/uz/biz-haqimizda/' : (global.authorUrl || '/ru/o-kompanii/');
 
   // Build hreflang block from explicit fields. If hreflangRu / hreflangUz
   // are missing, fall back to self for the current locale only.
@@ -269,8 +309,8 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
   return `<!doctype html>
 <html lang="${lang}">
 <head>
-<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,10000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,10000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
 <title>${escapeText(a.title)}</title>
@@ -297,10 +337,7 @@ ${ogImg && ogDims ? `<meta property="og:image:height" content="${ogDims.h}" />` 
 <meta name="twitter:description" content="${escapeHtml(ogDesc)}" />
 ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" /></noscript>
+<link rel="preload" href="/assets/fonts/geist-${lang === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
 <link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
@@ -335,8 +372,11 @@ ${ANALYTICS_HEAD}
 
   <article>
     <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeText(a.h1)}</h1>
-    <p data-testid="article-meta" class="text-sm text-white/50 mb-2">${escapeHtml(global.authorName || a.author || 'GPTBot Team')} · ${escapeHtml(a.datePublished || '')}</p>
-    ${(a.dateModified || a.updatedAt) ? `<p data-testid="article-updated" class="text-xs uppercase tracking-wider text-white/40 mb-10">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></p>` : '<div class="mb-10"></div>'}
+    <div data-testid="article-meta" class="mb-10 rounded-2xl border border-white/10 bg-white/[0.025] px-4 py-3 text-sm text-white/60">
+      <span>${escapeHtml(t.author)}: <a href="${escapeHtml(authorProfileHref)}" rel="author" class="text-white/85 hover:text-brand-cyan">${escapeHtml(global.authorName || a.author || (lang === 'uz' ? 'GPTBot.uz tahririyati' : 'Редакция GPTBot.uz'))}</a></span>
+      ${a.datePublished ? `<span class="mx-2" aria-hidden="true">·</span><span>${escapeHtml(t.published)} <time datetime="${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}</time></span>` : ''}
+      ${(a.dateModified || a.updatedAt) ? `<span class="mx-2" aria-hidden="true">·</span><span data-testid="article-updated">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></span>` : ''}
+    </div>
     <div class="prose-invert">
       ${(a.body || []).map(renderBlock).join('\n')}
     </div>
@@ -344,6 +384,7 @@ ${ANALYTICS_HEAD}
 
   ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}"${a.cta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
   ${renderFaq(a.faq || [], a)}
+  ${renderSources(a)}
   ${renderInternalLinks(a)}
 </main>
 
@@ -413,8 +454,8 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
   return `<!doctype html>
 <html lang="${locale}">
 <head>
-<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,10000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,10000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta charset="UTF-8" />
+<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
 <title>${escapeText(t.blogIndexTitle)}</title>
@@ -439,10 +480,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <meta name="twitter:description" content="${escapeHtml(t.blogIndexOgDesc)}" />
 <meta name="twitter:image" content="${global.defaultOgImage}" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" /></noscript>
+<link rel="preload" href="/assets/fonts/geist-${locale === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${global.siteUrl}/llms.txt" />
 <link rel="alternate" type="text/markdown" href="${global.siteUrl}/llms.txt" title="LLM-friendly summary (llms.txt)" />
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />

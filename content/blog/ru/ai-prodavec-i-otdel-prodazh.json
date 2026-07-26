@@ -9,6 +9,7 @@
   "topicCluster": "ai-prodavec",
   "targetMoneyPage": "/ru/ai-prodavec/",
   "keywords": [
+    "как AI-продавец дополняет отдел продаж",
     "AI-продавец",
     "AI отдел продаж",
     "автоматизация продаж",
@@ -192,7 +193,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -200,6 +201,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T14:14:41.556193+00:00",
+  "updatedAt": "2026-07-26",
   "createdAt": "2026-05-25T00:00:00Z"
 }

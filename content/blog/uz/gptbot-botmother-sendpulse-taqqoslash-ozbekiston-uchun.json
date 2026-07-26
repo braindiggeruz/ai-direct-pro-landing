@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun",
   "url": "/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
-  "title": "GPTBot, Botmother yoki SendPulse: O'zbekistonda nimani tanlash",
-  "description": "GPTBot.uz, Botmother va SendPulse'ni O'zbekiston biznesi uchun halol taqqoslash: konstruktor yoki studiya, o'zbek tili, Payme va Click, CRM, kimga nima mos.",
+  "title": "GPTBot, Botmother va SendPulse: qaysi biri mos",
+  "description": "O‘zbekiston biznesi uchun studiya va konstruktorlarni taqqoslash: o‘zbek tili, CRM, Payme va Click, sozlash, nazorat va umumiy xarajatlar.",
   "h1": "GPTBot, Botmother yoki SendPulse: O'zbekiston biznesi uchun taqqoslash",
   "topicCluster": "comparison-choice",
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
@@ -153,8 +153,8 @@
       "anchor": "Savdoni avtomatlashtirish"
     }
   ],
-  "ogTitle": "GPTBot, Botmother yoki SendPulse: O'zbekistonda nimani tanlash",
-  "ogDescription": "GPTBot.uz, Botmother va SendPulse'ni O'zbekiston biznesi uchun halol taqqoslash: konstruktor yoki studiya, o'zbek tili, Payme va Click, CRM, kimga nima mos.",
+  "ogTitle": "GPTBot, Botmother va SendPulse: qaysi biri mos",
+  "ogDescription": "O‘zbekiston biznesi uchun studiya va konstruktorlarni taqqoslash: o‘zbek tili, CRM, Payme va Click, sozlash, nazorat va umumiy xarajatlar.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
   "hreflangRu": "/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
@@ -163,7 +163,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-03",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -172,5 +172,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-03"
+  "updatedAt": "2026-07-26"
 }

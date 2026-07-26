@@ -30,7 +30,7 @@ export default function StickyCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => track('click_sticky_cta')}
-        className="btn-primary w-full text-base !py-4 animate-pulse-glow"
+        className="btn-primary w-full text-base !py-4"
       >
         {t.sticky}
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 3 2.5 10.5c-.9.35-.88 1.65.05 1.95l4.7 1.5L9.5 21c.4 1.05 1.8 1.2 2.4.25l2.95-4.55 5.3 3.9c.95.7 2.3.15 2.5-1.05L23 4.3c.2-1.1-.95-2-1.95-1.3Z" fill="#04101A"/></svg>

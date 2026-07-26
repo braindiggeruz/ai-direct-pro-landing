@@ -3,8 +3,8 @@
   "locale": "ru",
   "slug": "skolko-zayavok-teryaet-biznes-bez-ai-bota",
   "url": "/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/",
-  "title": "Сколько заявок теряет бизнес без AI-бота: расчёт потерь",
-  "description": "Где и сколько заявок теряет бизнес в Узбекистане без AI-бота: медленный ответ, нерабочее время, потерянные диалоги в Instagram и Telegram. Как посчитать потери и закрыть дыру.",
+  "title": "Потери заявок без AI-бота: как посчитать",
+  "description": "Как оценить потерянные заявки из-за медленного ответа, нерабочего времени и пропущенных диалогов в Instagram и Telegram без выдуманных цифр.",
   "h1": "Сколько заявок теряет бизнес без AI-бота и как это посчитать",
   "intro": "Вы платите за рекламу, заявки приходят — а продаж меньше, чем должно быть. Чаще всего деньги утекают не в рекламе, а на отрезке между «клиент написал» и «менеджер ответил». Разбираем, где именно бизнес в Узбекистане теряет заявки без AI-бота, как посчитать эти потери в деньгах и что реально закрывает дыру.",
   "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
@@ -163,8 +163,8 @@
       "anchor": "Почему бизнес теряет заявки без AI-бота"
     }
   ],
-  "ogTitle": "Сколько заявок теряет бизнес без AI-бота: расчёт потерь",
-  "ogDescription": "Где и сколько заявок теряет бизнес в Узбекистане без AI-бота: медленный ответ, нерабочее время, потерянные диалоги. Как посчитать потери и закрыть дыру.",
+  "ogTitle": "Потери заявок без AI-бота: как посчитать",
+  "ogDescription": "Как оценить потерянные заявки из-за медленного ответа, нерабочего времени и пропущенных диалогов в Instagram и Telegram без выдуманных цифр.",
   "canonical": "https://gptbot.uz/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -175,6 +175,18 @@
     "BreadcrumbList"
   ],
   "datePublished": "2026-06-30",
-  "dateModified": "2026-06-30",
-  "updatedAt": "2026-06-30T10:10:00.000Z"
+  "dateModified": "2026-07-26",
+  "updatedAt": "2026-07-26",
+  "sources": [
+    {
+      "title": "Telegram Bot API — официальная документация",
+      "url": "https://core.telegram.org/bots/api",
+      "note": "Методы, обновления, webhook и ограничения Telegram-ботов."
+    },
+    {
+      "title": "Meta — Instagram Messaging API",
+      "url": "https://developers.facebook.com/docs/messenger-platform/instagram/",
+      "note": "Официальные требования и возможности сообщений Instagram."
+    }
+  ]
 }

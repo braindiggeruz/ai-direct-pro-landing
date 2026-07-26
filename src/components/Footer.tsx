@@ -46,7 +46,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
           <div className="col-span-2 md:col-span-4">
             <div className="flex items-center gap-3 mb-4">
               <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-xl bg-grad-cta">
-                <img src="/assets/landing/logo-sq.webp" alt="Логотип GPTBot" className="h-7 w-7 rounded-lg" width={28} height={28} loading="lazy" />
+                <img src="/assets/landing/logo-sq-40.webp" srcSet="/assets/landing/logo-sq-40.webp 1x, /assets/landing/logo-sq-80.webp 2x" alt="Логотип GPTBot" className="h-7 w-7 rounded-lg" width={28} height={28} loading="lazy" />
               </span>
               <div>
                 <div className="font-display font-extrabold text-white">{t.footer.brand}</div>

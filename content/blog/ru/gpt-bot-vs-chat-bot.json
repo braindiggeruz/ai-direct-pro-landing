@@ -199,7 +199,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-05-30",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -207,6 +207,14 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-05-30T05:56:59.149Z",
-  "createdAt": "2026-05-25T00:00:00Z"
+  "updatedAt": "2026-07-26",
+  "createdAt": "2026-05-25T00:00:00Z",
+  "hreflangUz": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
+  "sources": [
+    {
+      "title": "OpenAI API — модели и возможности",
+      "url": "https://developers.openai.com/api/docs/models",
+      "note": "Актуальные модели и заявленные возможности API."
+    }
+  ]
 }

@@ -157,16 +157,9 @@ headers.push('# Browsers (Chrome, Edge) cache the Alt-Svc header for up to 7 day
 headers.push('# and will keep trying HTTP/3 even after the zone disables it,');
 headers.push('# producing ERR_QUIC_PROTOCOL_ERROR. Alt-Svc: clear flushes that');
 headers.push('# cache on the first response over HTTP/2.');
-// GSC fix 2026-07-04: root path must NOT be CDN-cached.
-// Cloudflare CDN serves cached responses without invoking Functions middleware.
-// /?lang=ru was returning HTTP 200 instead of 301 because the CDN hit the
-// cached index.html before the middleware could redirect it.
-// no-store forces every request through the edge Function.
-headers.push('# ─── Root path: no CDN cache (required for ?lang= redirect middleware) ───');
-headers.push('/');
-headers.push('  Cache-Control: no-store');
-headers.push('  Alt-Svc: clear');
-headers.push('');
+// Root follows the public HTML edge-cache policy below. The previous blanket
+// no-store rule made the canonical homepage permanently DYNAMIC and produced
+// conflicting Cache-Control values at the edge.
 headers.push('/*');
 headers.push('  Alt-Svc: clear');
 // Edge-cache prerendered HTML for 1 h (stale-while-revalidate 24 h) — audit
@@ -187,7 +180,7 @@ headers.push('  Permissions-Policy: geolocation=(), microphone=(), camera=(), pa
 headers.push('  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 headers.push('  X-Frame-Options: SAMEORIGIN');
 headers.push('  Cross-Origin-Opener-Policy: same-origin');
-headers.push("  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests");
+headers.push("  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests");
 headers.push('');
 
 headers.push('# ─── Admin SPA — never cache the shell ───');

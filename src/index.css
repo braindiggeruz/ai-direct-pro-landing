@@ -1,5 +1,24 @@
-/* Fonts are loaded from index.html (preload + async stylesheet) to avoid a
-   render-blocking @import chain that delayed LCP text paint on mobile. */
+/* Self-hosted variable font: one small critical Cyrillic subset plus Latin.
+   This removes the Google Fonts connection chain from every HTML page. */
+@font-face {
+  font-family: 'Geist';
+  src: url('/assets/fonts/geist-cyrillic-wght-normal.woff2') format('woff2-variations');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/assets/fonts/geist-latin-wght-normal.woff2') format('woff2-variations');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 @tailwind base;
 @tailwind components;
@@ -14,7 +33,8 @@ html, body, #root {
   color: #E6EEF7;
   min-height: 100%;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Manrope', 'Inter', system-ui, sans-serif;
+  font-family: 'Geist', 'Inter', system-ui, sans-serif;
+  font-synthesis: none;
 }
 
 body {
@@ -75,7 +95,7 @@ body::before {
     color: #6FE7DA;
   }
   .h-display {
-    font-family: 'Unbounded', 'Manrope', sans-serif;
+    font-family: 'Geist', 'Inter', system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1.05;
@@ -164,6 +184,10 @@ body::before {
     transition: none;
   }
   .link-card:hover { transform: none; }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Scroll-triggered reveal */
@@ -175,6 +199,25 @@ body::before {
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Continuous decorative effects are expensive on small GPUs and provide no
+   content value. Mobile keeps the same visual composition as a static frame. */
+@media (max-width: 767px) {
+  .animate-gradient-pan,
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-arrow-flow,
+  .animate-pulse,
+  .animate-bounce {
+    animation: none !important;
+  }
+
+  .glass,
+  .glass-strong {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 /* Section base */

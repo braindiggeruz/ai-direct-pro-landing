@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "chat-bot-nima-turlari-va-qanday-tanlash",
   "url": "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
-  "title": "Chat-bot nima: turlari va qanday tanlash",
-  "description": "Chat-bot oddiy so'zlar bilan: bu nima, qanday turlari bor — tugmali, AI, ovozli, — chat-botlar qayerda ishlatiladi va o'z vazifangizga qaysi birini tanlash kerak.",
+  "title": "Chat-bot nima: turlari va to‘g‘ri tanlash mezonlari",
+  "description": "Tugmali, AI va ovozli chat-botlar qanday farq qiladi, qayerda ishlatiladi va biznes vazifasi uchun mos variantni qanday tanlash mumkin.",
   "h1": "Chat-bot nima: turlari va qanday tanlash",
   "topicCluster": "ai-bot-basics",
   "targetMoneyPage": "/uz/chat-bot-biznes-uchun/",
@@ -171,8 +171,8 @@
       "anchor": "Ko'chmas mulk agentligi uchun AI-bot"
     }
   ],
-  "ogTitle": "Chat-bot nima: turlari va qanday tanlash",
-  "ogDescription": "Chat-bot oddiy so'zlar bilan: bu nima, qanday turlari bor — tugmali, AI, ovozli, — chat-botlar qayerda ishlatiladi va o'z vazifangizga qaysi birini tanlash kerak.",
+  "ogTitle": "Chat-bot nima: turlari va to‘g‘ri tanlash mezonlari",
+  "ogDescription": "Tugmali, AI va ovozli chat-botlar qanday farq qiladi, qayerda ishlatiladi va biznes vazifasi uchun mos variantni qanday tanlash mumkin.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
   "hreflangRu": "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
@@ -181,7 +181,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-03",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -190,5 +190,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-03"
+  "updatedAt": "2026-07-26"
 }

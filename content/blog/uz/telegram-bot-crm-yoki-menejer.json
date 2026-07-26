@@ -215,7 +215,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-06-24",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -223,6 +223,18 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-06-24T00:00:00.000Z",
-  "createdAt": "2026-01-06T00:00:00.000Z"
+  "updatedAt": "2026-07-26",
+  "createdAt": "2026-01-06T00:00:00.000Z",
+  "sources": [
+    {
+      "title": "Telegram Bot API — официальная документация",
+      "url": "https://core.telegram.org/bots/api",
+      "note": "Telegram bot metodlari, yangilanishlar, webhook va cheklovlar."
+    },
+    {
+      "title": "amoCRM — документация для разработчиков",
+      "url": "https://www.amocrm.ru/developers/content/crm_platform/platform-abilities",
+      "note": "Integratsiya turlari, API, webhooks va tashqi tizimlar bilan ishlash."
+    }
+  ]
 }

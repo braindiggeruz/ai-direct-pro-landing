@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "ai-chat-nima-va-qanday-turlari-bor",
   "url": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
-  "title": "AI-chat nima va qanday turlari bor",
-  "description": "AI-chat oddiy so'zlar bilan: bu nima, O'zbekistonda qaysi AI-chatlar rus va o'zbek tillarida ishlaydi, ular nimasi bilan farq qiladi va biznes AI-chatdan qanday foydalanadi.",
+  "title": "AI-chat nima: turlari, vazifalari va tanlash mezonlari",
+  "description": "AI-chat qanday ishlaydi, uning asosiy turlari nimasi bilan farq qiladi va O‘zbekistondagi biznes uchun mos variantni qanday tanlash kerak.",
   "h1": "AI-chat nima va qanday turlari bor",
   "topicCluster": "ai-bot-basics",
   "targetMoneyPage": "/uz/gpt-bot-biznes-uchun/",
@@ -150,8 +150,8 @@
       "anchor": "Yetkazib berish uchun AI-bot"
     }
   ],
-  "ogTitle": "AI-chat nima va qanday turlari bor",
-  "ogDescription": "AI-chat oddiy so'zlar bilan: bu nima, O'zbekistonda qaysi AI-chatlar rus va o'zbek tillarida ishlaydi, ular nimasi bilan farq qiladi va biznes AI-chatdan qanday foydalanadi.",
+  "ogTitle": "AI-chat nima: turlari, vazifalari va tanlash mezonlari",
+  "ogDescription": "AI-chat qanday ishlaydi, uning asosiy turlari nimasi bilan farq qiladi va O‘zbekistondagi biznes uchun mos variantni qanday tanlash kerak.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
   "hreflangRu": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
@@ -160,7 +160,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-03",
+  "dateModified": "2026-07-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -169,5 +169,12 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-03"
+  "updatedAt": "2026-07-26",
+  "sources": [
+    {
+      "title": "OpenAI API — модели и возможности",
+      "url": "https://developers.openai.com/api/docs/models",
+      "note": "API modellari va ularning rasmiy imkoniyatlari."
+    }
+  ]
 }
