@@ -3,7 +3,7 @@
 ## 1. Состояние
 - Дата: 2026-07-17
 - Ветка: main
-- HEAD: см. STATE.json.last_commit (заполняется фиксирующим коммитом)
+- HEAD: `50ff0ac` (chore(agents-platform): establish staged development baseline) + фиксирующий SHA-коммит
 - Завершённый этап: **P0.0 — Baseline и эстафета**
 - Следующий этап: **P0.1 — Границы модулей**
 - Рабочее дерево: clean (кроме давнего untracked `apps/gpt-backend/package-lock.json` — чужой артефакт, не трогать)
