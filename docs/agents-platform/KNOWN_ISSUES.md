@@ -21,3 +21,7 @@ scripts/{apply-research,seo-audit,tech-audit,test-control-center-sync}.ts (+unus
 
 ## Внешние блокеры (НЕ считать доступными)
 Click/Payme merchant API (нет доков/credentials) · фискальные чеки/my.soliq · Instagram/WhatsApp Business API · Uzum/OLX.
+
+## Обнаружено на P0.1 (существовало до платформы)
+- tsconfig.functions.json НЕ входит в tsc -b (references = app+node only) — functions/** исторически без typecheck-гейта.
+- `npx tsc -p tsconfig.functions.json --noEmit` = 27 ошибок в 6 legacy-файлах: api/admin/ai-drafts/[id]/status.ts, api/admin/cockpit.ts, api/admin/seo/yandex/quick-launch.ts, lib/seo-autopilot/normalise.ts, lib/telegram/analysis.ts, lib/telegram/handler.ts. Платформенные пространства обязаны держать 0 (D-007); глобальное подключение functions в tsc -b — отдельный будущий этап.

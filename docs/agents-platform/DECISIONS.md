@@ -33,3 +33,6 @@ TEST_MATRIX фиксирует эталонные числа; этап не мо
 - Sotuvchi MVP: общий бот + витрины `?start=shop_<code>`; фото товаров = telegram file_id; чекаут-FSM в D1; без Mini App/оплат в v0 (SOTUVCHI_PLAN).
 
 Новые решения добавляются сверху с номером, датой, этапом и одним абзацем обоснования.
+
+## D-007 (2026-07-17, P0.1) Typecheck-гейт платформенных пространств
+Официальный `tsc -b` не покрывает functions/** (исторически). Гейт платформы: `npx tsc -p tsconfig.functions.json --noEmit` с требованием 0 ошибок в functions/{platform,agents,channels}; 27 legacy-ошибок зафиксированы и не должны расти. Включение functions в tsc -b — отдельный этап после починки legacy.

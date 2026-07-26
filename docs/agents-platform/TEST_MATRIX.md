@@ -27,3 +27,8 @@
 ## Правило для последующих этапов
 Каждый этап добавляет строку(и) сюда и НЕ имеет права уменьшить ни одно число pass.
 Красный `eslint .` — legacy-долг; новые файлы этапа обязаны давать `npx eslint <файлы>` = 0.
+
+## Добавлено P0.1
+| tests/agent-boundaries.test.ts | 10 | ✅ | границы platform/agents/channels + негативные fixtures + registry |
+Команда чекера: `npx tsx scripts/check-agent-boundaries.ts` (exit 0).
+Typecheck платформы: `npx tsc -p tsconfig.functions.json --noEmit` — допустимы ТОЛЬКО 27 известных legacy-ошибок (KNOWN_ISSUES), 0 в functions/{platform,agents,channels}.

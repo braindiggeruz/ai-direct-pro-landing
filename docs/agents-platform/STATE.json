@@ -1,20 +1,21 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P0.0",
+  "current_stage": "P0.1",
   "stage_status": "completed",
-  "last_completed_stage": "P0.0",
-  "next_stage": "P0.1",
-  "last_commit": "50ff0ac62e75fdc4b05da95fc5939b1a86d36e34",
-  "state_commit": "c83728fee303d0d90b47fff539a00c6d811e24d5",
-  "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit; max 2 commits per stage",
+  "last_completed_stage": "P0.1",
+  "next_stage": "P0.2",
+  "last_commit": "PENDING_P0.1_CODE_COMMIT",
+  "state_commit": "HEAD",
+  "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
+  "previous_stage": { "stage": "P0.0", "last_commit": "50ff0ac62e75fdc4b05da95fc5939b1a86d36e34", "state_commit": "c83728fee303d0d90b47fff539a00c6d811e24d5", "alignment_commit": "45839a5" },
   "updated_at": "2026-07-17",
   "blocked": false,
   "blockers": [],
   "baseline": {
-    "build": "pass (vite build exit 0)",
-    "tests": "pass 143/143 (file-by-file; см. TEST_MATRIX.md)",
-    "typecheck": "pass (tsc -b exit 0)",
-    "lint": "legacy-red: eslint . = 84 problems (71 errors) — существовало до платформы, KNOWN_ISSUES.md"
+    "build": "not run this stage (src untouched; tsc -b green covers vite graph)",
+    "tests": "pass: boundaries 10/10 (new), telegram-assistant 60/60, gpt-chat 15/15",
+    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
+    "lint": "new files eslint 0; global eslint legacy-red 84 (KNOWN_ISSUES)"
   }
 }
