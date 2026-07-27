@@ -177,6 +177,12 @@
       "anchor": "связка GPT-бота с CRM",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+      "anchor": "подключение ChatGPT к Telegram-боту",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Как подготовить бизнес в Узбекистане к запуску GPT-бота",

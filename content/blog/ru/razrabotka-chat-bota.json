@@ -858,6 +858,18 @@
     {
       "target": "/ru/blog/kak-sozdat-telegram-bota/",
       "anchor": "Как создать Telegram-бота: инструкция для начинающих"
+    },
+    {
+      "target": "/ru/blog/telegram-bot-na-python/",
+      "anchor": "Разработка Telegram-бота на Python"
+    },
+    {
+      "target": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+      "anchor": "Подключение ChatGPT к Telegram-боту"
+    },
+    {
+      "target": "/ru/blog/hosting-dlya-telegram-bota/",
+      "anchor": "Хостинг и запуск Telegram-бота 24/7"
     }
   ],
   "ogTitle": "Разработка чат-бота для бизнеса: AI, CRM и Telegram",

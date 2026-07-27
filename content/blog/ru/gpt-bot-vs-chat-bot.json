@@ -216,6 +216,12 @@
       "anchor": "ChatGPT или AI-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+      "anchor": "Как подключить ChatGPT к Telegram-боту",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "GPT-бот vs обычный чат-бот: в чём разница и что выбрать",

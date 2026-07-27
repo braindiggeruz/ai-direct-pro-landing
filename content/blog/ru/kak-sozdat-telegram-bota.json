@@ -271,6 +271,17 @@
       "text": "Программа получает обновления Telegram, определяет тип события, вызывает обработчик и отправляет ответ. Python часто выбирают из-за понятного синтаксиса и развитых библиотек; Node.js удобен командам, уже использующим JavaScript или TypeScript. Telegram Bot API не требует конкретного языка: важнее архитектура, тесты и способность команды поддерживать код."
     },
     {
+      "type": "linkp",
+      "text": "Практическая структура проекта, выбор aiogram, состояния и обработка повторных событий разобраны отдельно в руководстве {python}.",
+      "links": [
+        {
+          "token": "python",
+          "target": "/ru/blog/telegram-bot-na-python/",
+          "anchor": "по Telegram-боту на Python"
+        }
+      ]
+    },
+    {
       "type": "h3",
       "id": "arhitektura-koda",
       "text": "Минимальная архитектура проекта"
@@ -399,7 +410,7 @@
     },
     {
       "type": "linkp",
-      "text": "Подробное сравнение логики по кнопкам и генеративных ответов смотрите в материале {comparison}; требования к подготовке данных — в {prepare}.",
+      "text": "Подробное сравнение логики по кнопкам и генеративных ответов смотрите в материале {comparison}; требования к данным — в {prepare}, а техническую связку Telegram с OpenAI API — в инструкции {openai}.",
       "links": [
         {
           "token": "comparison",
@@ -410,6 +421,11 @@
           "token": "prepare",
           "target": "/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",
           "anchor": "чек-листе подготовки бизнеса к GPT-боту"
+        },
+        {
+          "token": "openai",
+          "target": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+          "anchor": "по подключению ChatGPT к Telegram-боту"
         }
       ]
     },
@@ -473,6 +489,17 @@
     {
       "type": "p",
       "text": "Бесплатный хостинг подходит для обучения, но может останавливать приложение, ограничивать запросы или менять условия. Перед запуском рекламы проверьте холодный старт, лимиты, регион, журналирование и поведение после ошибки. Цена инфраструктуры обычно менее опасна, чем потерянные заявки из-за нестабильного бесплатного тарифа."
+    },
+    {
+      "type": "linkp",
+      "text": "Сравнение VPS, PaaS и serverless, а также production-чек-лист доступны в материале {hosting}.",
+      "links": [
+        {
+          "token": "hosting",
+          "target": "/ru/blog/hosting-dlya-telegram-bota/",
+          "anchor": "про хостинг Telegram-бота 24/7"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -787,6 +814,18 @@
     {
       "target": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
       "anchor": "Единая воронка Instagram, Telegram и CRM"
+    },
+    {
+      "target": "/ru/blog/telegram-bot-na-python/",
+      "anchor": "Telegram-бот на Python: структура и запуск"
+    },
+    {
+      "target": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+      "anchor": "Как подключить ChatGPT к Telegram-боту"
+    },
+    {
+      "target": "/ru/blog/hosting-dlya-telegram-bota/",
+      "anchor": "Хостинг для Telegram-бота 24/7"
     }
   ],
   "ogTitle": "Как создать Telegram-бота: пошаговая инструкция 2026",
