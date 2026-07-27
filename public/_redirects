@@ -3,8 +3,12 @@
 # which emits the canonical _redirects into /dist with draft → 410 rules.
 # This /public/_redirects is only a safety net for non-standard builds.
 
-# 0) Canonical host — force www → non-www (301). Consolidates ranking signal
-#    onto https://gptbot.uz (audit flagged both hosts serving 200).
+# 0) Collapse the fallback's legacy /blog/* rule in one hop when the request
+#    also uses www. Production builds generate equivalent rules for every
+#    entry in content/seo/redirects.json.
+https://www.gptbot.uz/blog/*  https://gptbot.uz/ru/blog/:splat  301
+
+# 0a) Canonical host — force all other www URLs → non-www (301).
 https://www.gptbot.uz/*  https://gptbot.uz/:splat  301
 
 # 0b) ?lang= query-parameter variants — handled by functions/_middleware.ts

@@ -4,6 +4,8 @@ import path from 'node:path';
 import test from 'node:test';
 
 import { onRequest as rootRequestHandler } from '../functions/index';
+import { buildDirectWwwLegacyRules } from '../scripts/redirect-rules';
+import type { Redirect } from '../src/shared/types';
 
 const ROOT = process.cwd();
 
@@ -43,4 +45,19 @@ test('fallback sitemap exposes canonical locale URLs only', () => {
   assert.doesNotMatch(sitemap, /\?lang=/);
   assert.match(sitemap, /hreflang="ru" href="https:\/\/gptbot\.uz\/ru\/"/);
   assert.match(sitemap, /hreflang="uz" href="https:\/\/gptbot\.uz\/uz\/"/);
+});
+
+test('www variants of legacy redirects collapse directly to final targets', () => {
+  const redirects = JSON.parse(
+    fs.readFileSync(path.join(ROOT, 'content', 'seo', 'redirects.json'), 'utf8'),
+  ) as Redirect[];
+  const rules = buildDirectWwwLegacyRules(redirects);
+
+  assert.equal(rules.length, redirects.length);
+  assert.ok(rules.includes(
+    'https://www.gptbot.uz/ru/blog/chat-bot-na-russkom-i-uzbekskom-yazyke/  https://gptbot.uz/ru/chat-bot-dlya-biznesa/  301',
+  ));
+  assert.ok(rules.includes(
+    'https://www.gptbot.uz/ru/blog/kak-podklyuchit-telegram-bot-k-crm/  https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/  301',
+  ));
 });
