@@ -29,12 +29,14 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | P1.2 | `tests/platform-workflow.test.ts` | 39 | schema bootstrap; definition/payload validation; create/transition/history; idempotency; optimistic version conflict; guards/actions; terminal/cancel; restart persistence; corrupt JSON; negative tenant isolation |
 | P1.3 | `tests/platform-runtime.test.ts` | 49 | manifest/registry validation; deterministic-first routing; closed-list AI/tool execution; Facts/grounding; workflow port; demo RU/UZ/mixed; tenant isolation; content-free failures |
 | P1.4 | `tests/telegram-agents-webhook.test.ts` | 41 | methods/secret/body security; isolated D1 dedup; strict deep links; identity/context normalization; renderer; offline Runtime E2E RU/UZ/mixed; tenant/setup guards |
+| P2.1 | `tests/sotuvchi-onboarding.test.ts` | 28 | store validation; migration/bootstrap parity; persistent FSM; organization/owner/store/route linkage; opaque collision-safe codes; duplicate/restart; tenant isolation; Telegram seller RU/UZ/mixed and buyer route separation |
 
-## Post-change baseline P1.4
+## Post-change baseline P2.1
 
 | Проверка | Команда | Результат |
 |---|---|---|
 | App typecheck | `npx tsc -b` | exit 0 |
+| Sotuvchi onboarding | `node --import tsx --test tests/sotuvchi-onboarding.test.ts` | 28/28 |
 | Telegram Agents | `node --import tsx --test tests/telegram-agents-webhook.test.ts` | 41/41 |
 | Agent Runtime | `node --import tsx --test tests/platform-runtime.test.ts` | 49/49 |
 | Workflow | `node --import tsx --test tests/platform-workflow.test.ts` | 39/39 |
@@ -47,24 +49,24 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | Telegram assistant | `node --import tsx --test tests/telegram-assistant.test.ts` | 60/60 |
 | Web gpt-chat | `node --import tsx --test tests/gpt-chat.test.ts` | 15/15 |
 | Functions typecheck | `npx tsc -p tsconfig.functions.json --noEmit` | exit 2; exactly 27 legacy errors in 6 old files; 0 in platform/agents/channels |
-| P1.4 scoped lint | `node --jitless --max-old-space-size=384 --max-semi-space-size=2 node_modules/eslint/bin/eslint.js functions/api/telegram/agents.ts functions/channels/telegram/deep-link.ts functions/channels/telegram/identity.ts functions/channels/telegram/ingest.ts functions/channels/telegram/render.ts functions/channels/telegram/schema.ts functions/channels/telegram/setup.ts functions/channels/telegram/store.ts functions/channels/telegram/webhook.ts functions/channels/telegram/index.ts functions/_types.ts scripts/telegram-agents-setup.ts tests/telegram-agents-webhook.test.ts` | exit 0 |
+| P2.1 scoped lint | `npx eslint functions/agents/sotuvchi functions/agents/index.ts functions/agents/registry.ts functions/api/telegram/agents.ts functions/channels/telegram functions/platform/contracts/agent.ts functions/platform/contracts/index.ts functions/platform/contracts/workflow.ts functions/platform/runtime/manifest.ts functions/platform/workflow/engine.ts functions/platform/workflow/validation.ts tests/sotuvchi-onboarding.test.ts tests/agent-boundaries.test.ts tests/telegram-agents-webhook.test.ts` | exit 0 |
 | Boundary gate | `node --import tsx --test tests/agent-boundaries.test.ts` | 10/10, current tree has 0 violations |
 
-## P1.4 static verification
-- Runtime `telegram_agent_updates` DDL и migration содержат одинаковые table/
-  index names; store test подтверждает reserve/duplicate/completed/failed.
-- Boundary checker: 0 violations; platform/runtime не менялся и не импортирует
-  channel/API/demo.
-- Existing `functions/api/telegram/{assistant,webhook}.ts`,
-  `functions/lib/telegram/**` и старый setup script не входят в code diff.
-- Credential/token/private-key/email/phone/dynamic-code scans: 0.
-  `.env` и старые env names совпали только как `process.env`,
-  comments/negative assertions.
+## P2.1 static verification
+
+- Runtime schema и migration `0018` имеют одинаковые table/index/constraint
+  surfaces; actual SQLite tests подтверждают foreign keys, unique/check
+  constraints, repeated bootstrap и отсутствие destructive SQL.
+- Boundary checker: 0 violations; Sotuvchi не импортирует channel/Telegram/
+  legacy/Javob/lead paths, Platform не импортирует Sotuvchi.
+- Store + trusted route создаются одним tested D1 batch; collision retry не
+  оставляет orphan store/route.
+- Credential/token/private-key/email/phone/env scans staged diff: 0.
 - Migration не применялась local/production; setup script, push и deploy не
   запускались.
 
 ## Правило следующего этапа
-P2.1 не имеет права уменьшить ни одно число выше. Functions gate допускает только
+P2.2 не имеет права уменьшить ни одно число выше. Functions gate допускает только
 те же 27 известных legacy errors и требует 0 ошибок в
-`functions/{platform,agents,channels}`. Новые/изменённые P2.1 файлы должны иметь
+`functions/{platform,agents,channels}`. Новые/изменённые P2.2 файлы должны иметь
 scoped ESLint exit 0; direct boundary checker и все suites выше остаются зелёными.

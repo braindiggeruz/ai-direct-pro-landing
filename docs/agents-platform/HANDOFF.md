@@ -1,199 +1,191 @@
 # GPTBot Agents — Handoff
 
 ## 1. Состояние
+
 - Дата: 2026-07-27.
 - Ветка: `main`.
-- Исходный HEAD P1.3: `3e12d1c934a88fc15a69eac7f026438ae736b57a`.
-- Code commit P1.4:
+- Исходный HEAD / P1.4 relay:
+  `c04ae463a403287e6d81d9eac8db116c721705a9`.
+- Подтверждённый P1.4 code commit:
   `539525410f086ef1c705c221950b29d808982899`.
-- HEAD после relay: последний metadata-only commit в `git log`; по D-006
-  `STATE.json.state_commit = "HEAD"` и не хранит собственный SHA.
-- Завершённый этап: **P1.4 — Telegram agent webhook**.
-- Следующий этап: **P2.1 — Onboarding магазина**.
-- P1.3 подтверждён в ancestry: code
-  `854a3cf63d860f8f930ad8f66fc1d3c87a132036`, relay/source
-  `3e12d1c934a88fc15a69eac7f026438ae736b57a`.
-- После relay рабочее дерево должно содержать только pre-existing untracked
-  `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`; они не изменялись,
-  не удалялись и не добавлялись в коммиты.
-- `origin/main` во время P1.4 оставался
+- P2.1 code commit:
+  `6b7f68e1a3c644dab7d762704332d636d321c133`.
+- HEAD после relay определяется последним metadata-only commit в `git log`;
+  согласно D-006 `STATE.json.state_commit = "HEAD"` и не хранит собственный SHA.
+- Завершённый этап: **P2.1 — Sotuvchi Store Onboarding**.
+- Следующий этап: **P2.2 — Sotuvchi Catalog**.
+- Рабочее дерево после relay должно содержать только два pre-existing untracked
+  объекта: `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`.
+- `origin/main` перед P2.1 был
   `93fab390733d3d5ffbf052e211d95b6038ee4bbd`.
-- Push, deploy, Telegram setup и применение migration отсутствуют.
+- Push, deploy, Telegram setup и production/local migration не выполнялись.
 
 ## 2. Что сделано
-1. До изменений подтверждены STATE/git gate, исходный HEAD, P1.3 ancestry,
-   чистый tracked tree, два pre-existing untracked объекта и полный baseline.
-2. Добавлен отдельный endpoint `POST /api/telegram/agents`; остальные HTTP
-   методы возвращают controlled 405.
-3. Введены только отдельные env names:
-   `TELEGRAM_AGENTS_BOT_TOKEN`,
-   `TELEGRAM_AGENTS_WEBHOOK_SECRET`,
-   `TELEGRAM_AGENTS_BOT_USERNAME`.
-   Значения не документируются и не логируются.
-4. Endpoint fail-closed возвращает 503 при неполной конфигурации, недоступной
-   D1 binding или protected username.
-5. Exact `X-Telegram-Bot-Api-Secret-Token` проверяется до чтения JSON и D1.
-   Missing/wrong имеют разные внутренние safe codes и одинаковый внешний 401.
-6. Body ограничен 64 KiB. Malformed JSON/supported update возвращает 400;
-   unsupported update, media и group chat — 200 ignored.
-7. Добавлен строгий Telegram ingest: private text, `/start` и safe callback;
-   Telegram user id валидируется как positive safe integer и сразу становится
-   string. Profile, username, raw update и Telegram objects не идут в Runtime.
-8. Deep-link grammar ограничена `agent_<routeCode>`: payload не более 64,
-   route code не более 32, только lowercase ASCII/digits/hyphen. URL проверяет
-   exact expected bot и единственный `start` query.
-9. Payload не содержит org/agent. Только server-side resolver преобразует
-   `(bot username, route code)` в trusted `orgId/agentId/locale`.
-10. P1.4 route-local mapping содержит только
-    `agent_demo → org-demo/demo`. Endpoint создаёт локальный registry с
-    `demoAgentManifest`; global production registry остаётся пустым.
-11. Identity service вызывается с provider `telegram` и provider id string.
-    Runtime получает только platform `identityId`, trusted org/agent/locale и
-    normalized `text` либо `action`.
-12. Добавлен isolated D1 dedup store `telegram_agent_updates` с состояниями
-    `reserved|completed|failed` и ключом
-    `agents:<bot_username>:<update_id>`.
-13. Reserve происходит до Identity/Runtime/send. Duplicate не вызывает Runtime
-    и не отправляет второй ответ. Processing/send failure терминален: политика
-    at-most-once исключает скрытый повтор после неопределённого send.
-14. Долгая обработка запускается через `waitUntil` только после durable reserve.
-    Logger принимает только allowlisted safe code, без body/profile/secret.
-15. Renderer преобразует channel-neutral Runtime output в plain-text вызовы
-    существующего `TelegramClient`, безопасно делит длинный текст, формирует
-    callback `agent:<choiceId>` и даёт deterministic RU/UZ fallback.
-16. Добавлен guarded setup helper/script: `getMe`, exact expected username,
-    запрет `aidirectprobot`/`gptbot_javob_bot`, exact webhook route, обязательный
-    secret и dry-run. Скрипт не запускается автоматически и не печатает secrets.
-17. Добавлена additive migration `0017_telegram_agents_transport.sql`, но она не
-    применялась local или production.
-18. Добавлен 41 offline test для HTTP/security/dedup/deep links/identity/
-    normalization/rendering/setup и E2E Runtime на RU/UZ/mixed.
+
+1. Подтверждены STATE/git gate, P1.4 ancestry, исходный clean tracked tree и
+   полный baseline до изменений.
+2. Создан production `AgentManifest` `sotuvchi` `1.0.0` с локалями RU/UZ,
+   capability только `store.onboarding`, пустым tool allowlist и отключённым AI.
+3. Добавлена D1 migration `0018_sotuvchi_store_onboarding.sql` и эквивалентный
+   идемпотентный runtime bootstrap.
+4. Добавлен durable identity claim `sotuvchi_onboardings`, чтобы повторный start
+   продолжал одну organization/workflow и не создавал tenant/store дубль.
+5. Переиспользован P0.4 atomic
+   `OrganizationStore.createOrganizationWithOwner`; owner membership не
+   дублируется вручную.
+6. P1.2 Workflow Engine расширен optional trusted `reducePayload`; reducer
+   работает только внутри trusted TypeScript definition, а результат повторно
+   валидируется до durable transition.
+7. Реализован persistent FSM
+   `start → awaiting_name → awaiting_locale → awaiting_delivery →
+   awaiting_payment → review → completed` и `cancelled`.
+8. Workflow payload ограничен четырьмя draft-полями: `storeName`, `locale`,
+   `deliveryMode`, `paymentMethods`.
+9. Реализован `StoreProfile` с tenant root `orgId`, строгими RU/UZ,
+   delivery/payment allowlists и статусом `draft|active|suspended`.
+10. Confirmation проверяет owner и одним D1 batch создаёт store + trusted route.
+    Unique collision откатывает batch, storefront code генерируется заново,
+    максимум 5 попыток.
+11. Storefront code генерируется только сервером: `s-` + 16 символов
+    lowercase RFC 4648 base32 (`a-z2-7`), 80 бит entropy, length 18.
+12. Добавлена trusted route table с unique `(bot, route)` и
+    `(bot, org, agent)`, FK к store и owner membership.
+13. Seller entry `agent_seller` запускает/продолжает onboarding; buyer payload
+    `agent_<storefrontCode>` разрешается только через D1 и никогда не запускает
+    seller setup.
+14. `/api/telegram/agents` подключает production Sotuvchi registry и narrow
+    workflow port. Endpoint остаётся без business SQL, Runtime —
+    channel-neutral.
+15. Telegram trusted context получил только internal `entryActionId` и workflow
+    coordinates; idempotency берётся из durable channel dedup key.
+16. Добавлено 28 offline D1/Runtime/Telegram тестов validation, persistence,
+    atomic linkage, collisions, duplicates, tenant isolation, RU/UZ/mixed и
+    buyer/seller route separation.
 
 ## 3. Изменённые файлы
-- `functions/api/telegram/agents.ts` — отдельный Pages Function endpoint.
-- `functions/channels/telegram/deep-link.ts` — строгий payload/URL parser и
-  server-side route resolution.
-- `functions/channels/telegram/identity.ts` — Telegram-to-platform identity
-  adapter и trusted context resolver.
-- `functions/channels/telegram/ingest.ts` — strict update normalization.
-- `functions/channels/telegram/render.ts` — outbound text/chunk/choice renderer.
-- `functions/channels/telegram/schema.ts` — isolated dedup DDL.
-- `functions/channels/telegram/store.ts` — reserve/status D1 store.
-- `functions/channels/telegram/webhook.ts` — secure orchestration и at-most-once
-  lifecycle.
-- `functions/channels/telegram/setup.ts` — guarded setup logic.
-- `functions/channels/telegram/index.ts` — channel exports.
-- `functions/_types.ts` — отдельные optional Agents env bindings.
-- `migrations/0017_telegram_agents_transport.sql` — additive dedup table/index.
-- `scripts/telegram-agents-setup.ts` — explicit guarded CLI entrypoint.
-- `tests/telegram-agents-webhook.test.ts` — 41 offline tests.
+
+- `functions/agents/sotuvchi/**` — manifest, types, deterministic rules,
+  validation, schema, repository, service, FSM и Runtime workflow port.
+- `functions/agents/{index.ts,registry.ts}` — production registration/export.
+- `functions/platform/contracts/{agent.ts,index.ts,workflow.ts}` — onboarding
+  capability и trusted payload reducer contract.
+- `functions/platform/workflow/{engine.ts,validation.ts}` — reducer validation
+  and application; duplicate idempotency key подтверждает тот же trigger.
+- `functions/platform/runtime/manifest.ts` — capability allowlist.
+- `functions/channels/telegram/{deep-link.ts,webhook.ts}` — trusted entry action,
+  workflow coordinates и channel-derived idempotency context.
+- `functions/api/telegram/agents.ts` — Sotuvchi resolver/registry/workflow wiring.
+- `migrations/0018_sotuvchi_store_onboarding.sql` — три additive tables и три
+  индекса.
+- `tests/sotuvchi-onboarding.test.ts` — 28 новых offline тестов.
+- `tests/{agent-boundaries.test.ts,telegram-agents-webhook.test.ts}` —
+  registration/compatibility assertions без уменьшения suite counts.
 - `docs/agents-platform/{HANDOFF.md,STATE.json,CURRENT_STATE.md,TEST_MATRIX.md,DECISIONS.md}`
-  — P1.4 relay и D-014.
+  — P2.1 relay и D-015.
 
 ## 4. Архитектурные решения
-- **D-014:** Telegram Agents — новый изолированный transport, а не расширение
-  Javob или lead bot.
-- Secret-header проверяется раньше body parsing/D1; config и bot identity
-  fail-closed.
-- Dedup durable-first и at-most-once. Failed reservation остаётся terminal,
-  потому что повтор после возможного успешного Telegram send опаснее пропуска.
-- Deep link — только короткий opaque route code; tenant/agent/locale приходят
-  исключительно из server-side allowlisted mapping.
-- Channel adapter владеет Telegram schema/ids/rendering. Platform Runtime не
-  получает Telegram client, update, chat id, callback object, token или secret.
-- Production global registry остаётся пустым. Demo подключён только route-local,
-  чтобы P1.4 можно было доказать E2E без объявления product behavior.
-- Renderer остаётся channel-specific, Runtime output — channel-neutral.
-- Setup — отдельное явное действие с identity guard; code commit ничего не
-  настраивает и не публикует.
-- Durable identity-to-org/storefront mapping сознательно отложен до P2.1.
+
+- **D-015:** Sotuvchi onboarding использует recoverable two-phase orchestration.
+  Unique identity claim закрепляет одну provisional organization; organization
+  + owner создаются атомарно существующим tenancy service. Финальный store +
+  route создаются вторым атомарным D1 batch.
+- Workflow требует tenant до первого instance, поэтому organization создаётся
+  перед сбором draft. Interruption не создаёт store/route; повторный start
+  продолжает тот же durable claim.
+- Недопустимы store без owner и route без store. Strict insert/unique/FK/check
+  constraints закрывают partial completion и collision races.
+- Одна owner identity имеет максимум один Sotuvchi store — явная MVP policy.
+- Deep-link code — opaque lookup key, не tenant source. Tenant определяется
+  только server-side route lookup.
+- Agent не получает произвольного update tool: P2.1 mutations доступны только
+  через injected trusted workflow port.
+- Events не добавлены: без атомарной связки domain write + outbox нельзя честно
+  обещать exactly-once. Это зафиксированное отложенное решение.
 
 ## 5. Что сознательно не сделано
-- Не начат P2.1: нет реального onboarding, storefront, owner binding или
-  постоянного Telegram identity-to-org mapping.
-- Не начат P2.2: нет catalog, checkout, orders, inventory, seller handoff,
-  payment integration или Mini App.
-- Demo не зарегистрирован в global production registry.
-- Новая migration не применена local/production.
-- Setup script, webhook mutation, push и deploy не выполнялись.
-- Не изменялись Javob endpoints/store/config/setup и lead bot
-  `@aidirectprobot`.
-- Не изменялись gpt-chat, SEO, billing, Knowledge/Workflow production behavior.
-- Не исправлялись 27 известных legacy Functions errors и global legacy lint.
+
+- Не начат P2.2 и не добавлены products, categories, photos, prices, stock,
+  catalog search или public storefront page.
+- Не добавлены buyer chat, cart, checkout, orders, delivery address, customer
+  phone, operator/CRM, payments API/links, Click/Payme, Mini App, Instagram,
+  custom bot, R2, CSV import или AI store description.
+- Payment methods в store profile — только декларация доступных способов.
+- P2.1 domain events не публикуются; outbox/retry policy не имитируется.
+- Migration `0018` не применялась. Webhook setup, push и deploy не выполнялись.
+- Javob, lead bot, gpt-chat, SEO, billing и unrelated production paths не
+  изменялись.
+- 27 legacy Functions errors и global legacy-red ESLint не исправлялись.
 
 ## 6. Проверки
-- До изменений `tsc -b` — exit 0.
-- До изменений: Runtime 49/49, Workflow 39/39, Knowledge 33/33, AI 15/15,
-  tenancy 31/31, Events 20/20, boundaries 10/10, Telegram compatibility 1/1,
-  Telegram assistant 60/60, gpt-chat 15/15.
-- После изменений Telegram Agents — 41/41.
-- После изменений все прежние suites сохранили те же значения:
-  Runtime 49/49, Workflow 39/39, Knowledge 33/33, AI 15/15, tenancy 31/31,
-  Events 20/20, boundaries 10/10, Telegram compatibility 1/1,
-  Telegram assistant 60/60, gpt-chat 15/15.
-- Финальный `tsc -b` — exit 0.
-- До и после Functions typecheck — exit 2, ровно 27 legacy errors в тех же
-  6 старых файлах; 0 в P1.4 endpoint и `functions/{platform,agents,channels}`.
-- Scoped P1.4 ESLint — exit 0.
-- Direct boundary checker — 0 violations; suite — 10/10.
-- Schema/migration parity, duplicate/terminal-failure и no-second-send покрыты
-  тестами.
-- Credential/token/private-key/email/phone/Bearer/dynamic-code scans — 0.
-  `.env` совпал только как `process.env`; старые env names — только в
-  comments/negative assertions.
-- `git diff --cached --check` перед code commit — clean.
-- На машине с низкой virtual memory проверки выполнялись последовательно через
-  `node --jitless` с ограниченным heap; пользовательские процессы не завершались.
+
+- До изменений: `npx tsc -b` exit 0; Telegram Agents 41/41; Runtime 49/49;
+  Workflow 39/39; Knowledge 33/33; AI 15/15; tenancy 31/31; Events 20/20;
+  boundaries 10/10; Telegram compatibility 1/1; Telegram assistant 60/60;
+  gpt-chat 15/15.
+- До изменений Functions typecheck: ровно 27 legacy errors в 6 старых файлах.
+- После изменений:
+  - Sotuvchi onboarding 28/28.
+  - Telegram Agents 41/41.
+  - Runtime 49/49; Workflow 39/39; Knowledge 33/33; AI 15/15.
+  - Tenancy 31/31; Events 20/20; boundaries 10/10.
+  - Telegram compatibility 1/1; Telegram assistant 60/60; gpt-chat 15/15.
+  - `npx tsc -b` exit 0.
+  - Functions typecheck exit 2, ровно те же 27 legacy errors в тех же 6
+    файлах; новых P2.1/platform/agents/channels errors 0.
+  - Расширенный scoped ESLint exit 0.
+  - Boundary suite 10/10; direct forbidden-import checks 0.
+  - Migration/bootstrap parity, constraints, repeated bootstrap и no
+    destructive SQL покрыты тестами.
+  - Staged token/API-key/private-key/email/phone/env scan 0.
+  - `git diff --cached --check` перед code commit clean.
 
 ## 7. Известные проблемы
+
 - Сохраняются 27 Functions legacy errors в 6 старых файлах, global legacy-red
-  ESLint и риск Node OOM; полный список — `KNOWN_ISSUES.md`.
-- At-most-once может оставить update в `failed` после ошибки отправки. Это
-  намеренная безопасная политика P1.4, но durable recovery/outbox отсутствует.
-- Static `agent_demo` route — техническая E2E интеграция, не production
-  storefront discovery.
-- Реальный пользователь пока не получает durable owner/org context: это P2.1.
-- Global production registry пуст, поэтому новые production agents должны
-  подключаться только следующим явным этапом.
-- Renderer не отправляет `mediaRef`: сохраняется deterministic text-only
-  degradation.
+  ESLint и Node OOM risk; полный список в `KNOWN_ISSUES.md`.
+- Onboarding orchestration двухфазная: после успешного owner setup и аварии до
+  workflow/store может остаться provisional organization. Durable identity
+  claim делает её resumable и не позволяет создать вторую, но автоматического
+  garbage collection нет.
+- P1.4 at-most-once delivery может оставить Telegram update terminal `failed`
+  после send uncertainty; durable recovery/outbox отсутствует.
+- Sotuvchi domain events отсутствуют до согласованной atomic outbox policy.
+- Buyer storefront route уже безопасно разрешается, но buyer product behavior
+  сознательно отсутствует до последующих этапов.
 - Pre-existing untracked package-lock/audit artifacts намеренно не тронуты.
 
 ## 8. Следующая задача
-Только **P2.1 — Onboarding магазина**:
 
-1. Создать organization и owner membership через существующий tenancy service.
-2. Собрать минимальные поля магазина: имя, язык, условия доставки и оплаты.
-3. Выдать безопасный opaque storefront code.
-4. Создать durable trusted mapping storefront/Telegram identity → org/agent/
-   locale без прямого доверия deep-link payload.
-5. Подключить mapping к существующему `/api/telegram/agents`, не смешивая env,
-   dedup или setup с Javob/lead bot.
+Только **P2.2 — Sotuvchi Catalog**.
 
-Не начинать P2.2 catalog, checkout, orders, inventory, handoff, payments или
-Mini App.
+1. Сначала прочитать все обязательные platform docs и проверить:
+   `last_completed_stage == P2.1`, `next_stage == P2.2`,
+   `last_commit == 6b7f68e1a3c644dab7d762704332d636d321c133`.
+2. Проверить P1.4 relay/code и P2.1 code/relay в ancestry, tracked tree и два
+   pre-existing untracked объекта.
+3. Запустить полный baseline, включая Sotuvchi 28/28, до любых изменений.
+4. Реализовывать только catalog scope, определённый ROADMAP/новой инструкцией,
+   поверх trusted organization/store/route, не обходя owner и tenant checks.
+5. Не начинать checkout, orders, inventory, payment integration, human handoff,
+   Mini App, deploy, webhook setup или production migration.
 
 ## 9. Acceptance criteria следующего этапа
-1. Подтверждены `STATE.next_stage == "P2.1"`, P1.4 code/relay ancestry,
-   исходный tree и два pre-existing untracked объекта.
-2. Organization + owner membership создаются атомарно существующим tenancy
-   слоем; cross-tenant reads/writes маскируются/отклоняются.
-3. Onboarding строго валидирует name/language/delivery/payment и не сохраняет
-   Telegram profile/raw update как бизнес-данные.
-4. Storefront code opaque, bounded, collision-safe и не кодирует orgId/agentId.
-5. Deep link не может напрямую подменить org/agent; mapping берётся из D1 после
-   tenant-scoped проверки.
-6. Identity-to-org binding durable, idempotent и не позволяет одной Telegram
-   identity получить чужой tenant context.
-7. `/api/telegram/agents`, его `TELEGRAM_AGENTS_*`, dedup namespace и setup
-   остаются отдельными от Javob и `aidirectprobot`.
-8. P1.4 Telegram Agents 41/41 и все прежние baseline suites не уменьшаются.
-9. Functions остаётся ровно 27 legacy errors и 0 в platform/agents/channels/
-   новом P2.1 scope; scoped lint, boundary и secret/PII scans зелёные.
-10. P2.2 catalog/checkout/orders не добавлены; migration/setup/push/deploy не
-    выполняются без отдельной явной команды владельца.
+
+1. Source gate P2.1 подтверждён фактическими SHA и `STATE`.
+2. Все P2.1 store/owner/route invariants и 28 Sotuvchi тестов сохранены.
+3. Новый catalog tenant-scoped к existing store и не принимает user-supplied
+   `orgId`/owner/storefront code как authority.
+4. Telegram/Runtime boundaries, P1.4 dedup и buyer/seller route separation не
+   ослаблены.
+5. Functions errors не превышают 27 и новых scoped errors/lint/boundary/security
+   нарушений нет.
+6. Checkout, order placement, inventory reservation, payments, handoff и Mini
+   App не появляются без отдельного этапа.
+7. Migration/setup/push/deploy выполняются только по отдельной явной команде
+   владельца.
 
 ## 10. Команды для старта
+
 ```powershell
 cd F:\Claude\gptbot-repo
 Get-Content -Raw -Encoding utf8 AGENTS.md
@@ -210,41 +202,49 @@ git branch --show-current
 git rev-parse HEAD
 git log -12 --oneline
 git diff
-node --jitless --max-old-space-size=384 --max-semi-space-size=2 node_modules\typescript\bin\tsc -b
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/telegram-agents-webhook.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/platform-runtime.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/platform-workflow.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/platform-knowledge.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/platform-ai.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/platform-tenancy.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/platform-events.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/agent-boundaries.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/telegram-channel-compat.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/telegram-assistant.test.ts
-node --jitless --max-old-space-size=192 --max-semi-space-size=2 --import tsx --test tests/gpt-chat.test.ts
+$env:NODE_OPTIONS='--max-old-space-size=1400'
+npx tsc -b
+node --import tsx --test tests/sotuvchi-onboarding.test.ts
+node --import tsx --test tests/telegram-agents-webhook.test.ts
+node --import tsx --test tests/platform-runtime.test.ts
+node --import tsx --test tests/platform-workflow.test.ts
+node --import tsx --test tests/platform-knowledge.test.ts
+node --import tsx --test tests/platform-ai.test.ts
+node --import tsx --test tests/platform-tenancy.test.ts
+node --import tsx --test tests/platform-events.test.ts
+node --import tsx --test tests/agent-boundaries.test.ts
+node --import tsx --test tests/telegram-channel-compat.test.ts
+node --import tsx --test tests/telegram-assistant.test.ts
+node --import tsx --test tests/gpt-chat.test.ts
 npx tsc -p tsconfig.functions.json --noEmit
 ```
 
 ## 11. Риски
-- Не принимать orgId/agentId/locale из deep-link payload или Telegram profile.
-- Не создавать параллельные identity/tenancy contracts вместо существующих
-  platform services.
-- Не передавать raw update, chat id, token, secret или D1 handle в Runtime,
-  manifest, rules и tools.
-- Не менять at-most-once семантику без отдельного durable outbox/recovery design.
-- Не импортировать channel/API/demo в platform runtime и не регистрировать demo
-  глобально как production product.
-- Не смешивать Agents env, webhook, dedup table/key и setup с Javob/lead bot.
-- Не запускать setup до `getMe`/exact username/protected-bot guard.
-- Не применять migration и не push/deploy без отдельной явной команды владельца.
+
+- Не принимать `orgId`, owner identity или storefront code из agent/user input
+  как trusted authority.
+- Не удалять unique/FK/check constraints и не разделять store/route batch.
+- Не обходить `OrganizationStore.createOrganizationWithOwner` собственной
+  tenancy SQL.
+- Не переносить Telegram API/profile/raw update в Sotuvchi domain или Platform
+  Runtime.
+- Не превращать `reducePayload` в dynamic/untrusted reducer и не пропускать
+  payload validation после него.
+- Не добавлять non-idempotent events/actions без durable outbox/recovery policy.
+- Не смешивать Agents env/webhook/dedup/setup с Javob или lead bot.
+- Не применять migration и не выполнять push/deploy без отдельной явной команды.
 
 ## 12. Rollback
-1. Если relay commit создан, сначала `git revert <P1.4-relay-SHA>`.
-2. Затем `git revert 539525410f086ef1c705c221950b29d808982899`.
-3. Migration P1.4 не применялась, поэтому текущему production schema rollback не
+
+1. Если relay commit создан, сначала `git revert <P2.1-relay-SHA>`.
+2. Затем `git revert 6b7f68e1a3c644dab7d762704332d636d321c133`.
+3. Migration P2.1 не применялась, поэтому текущему production schema rollback не
    нужен.
-4. Если migration когда-либо была применена отдельно, сначала отключить новый
-   endpoint, затем отдельным согласованным ops change удалить только index/table
-   `telegram_agent_updates`; не затрагивать legacy `telegram_updates`.
-5. Revert не должен затрагивать P1.3 commits, два pre-existing untracked объекта,
-   Javob/lead bot или unrelated production history.
+4. Если `0018` когда-либо применена отдельно, сначала отключить Sotuvchi route,
+   сохранить необходимые данные и согласованным ops change удалить в обратном
+   порядке три индекса, затем `telegram_agent_routes`, `sotuvchi_stores`,
+   `sotuvchi_onboardings`.
+5. Не удалять shared `organizations`, `memberships`, `workflow_instances` или
+   legacy Telegram tables: они не принадлежат migration `0018`.
+6. Revert не должен затрагивать P1.4 commits, Javob/lead bot, unrelated
+   production history и два pre-existing untracked объекта.

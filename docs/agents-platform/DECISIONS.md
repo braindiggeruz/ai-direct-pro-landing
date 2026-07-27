@@ -1,5 +1,58 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-015 (2026-07-27, P2.1) Recoverable Sotuvchi onboarding, opaque routes и один owner-store
+
+P2.1 добавляет первый production manifest `sotuvchi` только с capability
+`store.onboarding`, RU/UZ, deterministic rules, trusted workflow port и пустым
+tool allowlist. AI и arbitrary update tool отсутствуют. Catalog, checkout,
+orders, inventory, payments integration, handoff и Mini App не входят в этап.
+
+Onboarding хранится в P1.2 Workflow Engine. Trusted TypeScript definition может
+использовать optional `reducePayload`, но reducer output всегда повторно проходит
+payload validation до commit. FSM:
+`start → awaiting_name → awaiting_locale → awaiting_delivery →
+awaiting_payment → review → completed`, плюс `cancelled`; payload содержит
+только `storeName`, `locale`, `deliveryMode`, `paymentMethods`.
+
+Поскольку workflow tenant-scoped уже при создании instance, orchestration
+двухфазная и recoverable. `sotuvchi_onboardings` сначала атомарно закрепляет
+уникальный platform identity claim, затем существующий P0.4
+`createOrganizationWithOwner` создаёт organization + owner membership одним
+D1 batch. После owner check финальный D1 batch создаёт `sotuvchi_stores` и
+`telegram_agent_routes`. Foreign keys запрещают store без organization/owner и
+route без store; strict inserts и unique constraints откатывают collision.
+Interruption до completion оставляет максимум resumable provisional
+organization, а не второй tenant/store. Автоматический GC provisional
+organizations отсутствует.
+
+MVP policy: одна owner identity имеет максимум один Sotuvchi store. Повторный
+start возвращает active onboarding или existing store; completed confirmation и
+duplicate Telegram update не повторяют side effects. Store profile хранит
+validated name, `ru|uz`, `pickup|delivery|both`, декларативные `cash`,
+`card_transfer`, `cash_on_delivery`, status и timestamps. Telegram profile,
+phone/address, raw update, payment details и user-supplied org/storefront code
+не сохраняются.
+
+Storefront code генерируется сервером как `s-` + 16 lowercase RFC 4648 base32
+символов (`a-z2-7`): 80 бит entropy, bounded length, unique constraint и до 5
+collision retries. Он не кодирует org/identity/name/phone и служит только lookup
+key. Seller входит через allowlisted `agent_seller`; buyer deep-link
+`agent_<storefrontCode>` разрешается exact server-side lookup
+`(bot_username, route_code) → org/agent/locale`. Buyer route никогда не
+запускает seller onboarding.
+
+Tenant-sensitive store API принимает trusted identity context. Owner membership
+проверяется на read/write, workflow instance scoped к org, user/agent input не
+может передать другой orgId. Endpoint связывает Telegram channel и Runtime, но
+business SQL остаётся в Sotuvchi domain, а Runtime остаётся channel-neutral.
+
+P2.1 events не публикуются: согласованной atomic domain-write/outbox policy для
+этого completion нет, поэтому exactly-once не заявляется. Migration
+`0018_sotuvchi_store_onboarding.sql` additive и не применялась. Rollback code —
+relay revert, затем P2.1 code revert; если migration применена отдельно, после
+отключения route удаляются только её три индекса и таблицы в обратном порядке,
+без удаления shared organizations/memberships/workflow data.
+
 ## D-014 (2026-07-27, P1.4) Изолированный Telegram Agents transport и at-most-once update policy
 P1.4 использует только новый env namespace `TELEGRAM_AGENTS_BOT_TOKEN`,
 `TELEGRAM_AGENTS_WEBHOOK_SECRET`, `TELEGRAM_AGENTS_BOT_USERNAME`. Он не
