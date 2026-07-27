@@ -1,5 +1,53 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-017 (2026-07-27, P2.3) Deterministic Buyer Q&A, grounded cards и минимальный follow-up
+
+P2.3 оставляет Catalog единственным source-of-truth и не добавляет LLM intent:
+buyer parser полностью deterministic-first. Closed intents:
+`catalog.list`, `catalog.search`, `product.price`, `product.availability`,
+`product.details`, `catalog.filter_price`, `catalog.help`, `unknown`. Порядок
+фиксирован: bounded/control validation, public Knowledge normalization,
+conservative typo repair, exact phrases, integer price extraction, contextual
+follow-up, RU/Uzbek Latin/mixed patterns, bounded plain product-name search,
+unknown. Транслитерация, float/currency conversion и profile recommendations
+запрещены.
+
+Buyer authority существует только после trusted deep-link route lookup и
+durable identity→org/store session. Read path всегда повторно проверяет active
+route/store, published product и active category. User text/tool input не
+задаёт org/store/agent/storefront code; buyer не получает seller mutation
+authority. Opaque product ID разрешён как bounded action ref, потому что он
+server-generated и каждый callback revalidated внутри current storefront.
+
+Для card output Platform расширен generic `OutboundCard` и trusted deterministic
+tool composer. Это channel-neutral contract, не Sotuvchi import: Runtime
+валидирует bounds/controls/action IDs, затем grounding требует, чтобы card
+title, description и field values буквально присутствовали в scalar Facts;
+claims и numeric scan сохраняются. Telegram только рендерит card plain text и
+safe buttons. Разрешены `Подробнее`, `Следующие товары`, `Назад к каталогу`;
+Buy/checkout/order/handoff actions отсутствуют.
+
+Facts namespaced по result index и содержат только opaque id, name, integer
+price/source+localized display, currency, declarative availability/source+
+localized display, bounded description, optional category и result metadata.
+Raw rows, org/store/SKU/version/media/storefront code не доходят до renderer.
+Unknown/help не содержит product claims. Price filter принимает только bounded
+integer UZS и сортирует price asc → normalized name → opaque ID.
+
+Для одного безопасного pronoun follow-up существующая
+`sotuvchi_storefront_sessions` получает additive nullable
+`last_product_id`, `last_intent`, `selection_request_key`, `selected_at`.
+Сохраняются только exact single-product result и trusted request ID; raw
+message/query/transcript/profile/contact не сохраняются. Conditional session
+update идемпотентен, stale/unpublished/foreign product fail-closed. Conversation
+table и TTL/profile memory не создаются.
+
+Migration `0020` не применялась. Safe code rollback оставляет nullable columns;
+их физическое удаление требует отдельного SQLite table rebuild change. Events
+не добавлены до atomic outbox policy. Cart, checkout, order, quantity,
+inventory, payments, seller notification, CRM/operator/human bridge, public
+storefront и Mini App переходят только в отдельные этапы.
+
 ## D-016 (2026-07-27, P2.2) Catalog source-of-truth, deterministic domain search и trusted domain port
 
 P2.2 хранит каталог в собственных tenant-scoped domain tables migration `0019`:

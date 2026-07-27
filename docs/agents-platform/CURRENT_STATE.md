@@ -1,149 +1,166 @@
-# CURRENT_STATE — фактическое состояние репозитория (2026-07-27, P2.2)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-27, P2.3)
 
-## Продукты в production (не ломать)
+## Production boundary
 
-- SEO-фабрика, web AI-chat, админка и существующие API продолжают работать по
-  прежним контрактам.
-- Javob `@gptbot_javob_bot` и lead-бот `@aidirectprobot` не изменялись.
-- Agents webhook, Sotuvchi migrations и новый bot setup не публиковались и не
+- SEO-фабрика, web AI-chat, админка, Javob `@gptbot_javob_bot` и lead-бот
+  `@aidirectprobot` не изменялись.
+- Agents webhook, Sotuvchi migrations и setup не публиковались и не
   применялись. Push/deploy отсутствуют.
+- Cloudflare Pages/Functions, D1 `GPTBOT_DRAFTS_DB`, Workers AI и KV остаются
+  без инфраструктурных изменений.
+- Добавлены, но не применены migrations `0018`, `0019`, `0020`.
 
-## Инфраструктура и migrations
+## Sotuvchi manifest и routing
 
-- Cloudflare Pages + Pages Functions; D1 `GPTBOT_DRAFTS_DB`; Workers AI и KV
-  остаются без изменений.
-- Добавлены, но не применены migrations
-  `0018_sotuvchi_store_onboarding.sql` и `0019_sotuvchi_catalog.sql`.
-- P2.2 migration/bootstrap добавляют tenant-aware
-  `sotuvchi_categories`, `sotuvchi_products`,
-  `sotuvchi_catalog_operations`, `sotuvchi_storefront_sessions`, восемь
-  catalog/parent indexes, composite FKs, unique/check constraints.
-- Runtime bootstrap повторяемый и структурно эквивалентен migration; destructive
-  SQL отсутствует. R2, Durable Objects, Queues, cron и второй backend не
-  добавлены.
+- Production manifest `sotuvchi` версии `1.2.0`; локали `ru`, `uz`;
+  capabilities `store.onboarding`, `store.catalog`.
+- AI selection disabled. Routing deterministic-first.
+- Seller tools P2.2 сохранены. Buyer closed-list:
+  `catalog.list`, `catalog.search`, `catalog.product.get`,
+  `catalog.filter_price`.
+- `agent_<opaque storefront code>` разрешается только trusted route lookup.
+  Durable session связывает platform identity с org/store; follow-up не
+  принимает tenant authority из текста/action.
+- Endpoint orchestration-only; Platform не импортирует Sotuvchi; Telegram
+  renderer не содержит buyer business logic.
 
-## Sotuvchi Agent
+## Buyer parser
 
-- Production manifest `sotuvchi` версии `1.1.0` зарегистрирован в единственном
-  production registry.
-- Локали: `ru`, `uz`; capabilities: `store.onboarding`, `store.catalog`.
-- Closed-list содержит 12 catalog tools: category create/list/update/archive;
-  product create/list/update/publish/unpublish/archive/search/get. Единого
-  unrestricted `catalog.execute` нет.
-- Runtime использует optional agent-neutral `AgentDomainServicePort`; manifest
-  выбирает agent/operation, а tenant берётся только из trusted `OrgContext`.
-  Platform не импортирует Sotuvchi.
-- AI selection отключён. Seller и buyer routing deterministic-first.
+Порядок:
 
-## Category и product model
+1. type/length/control validation;
+2. public Knowledge NFKC/lowercase/apostrophe/punctuation/space normalization;
+3. conservative typo repair;
+4. exact help/list;
+5. integer price extraction;
+6. one-product contextual follow-up;
+7. RU, Uzbek Latin и mixed patterns;
+8. explicit/bounded product-name search;
+9. fail-closed `unknown`.
 
-- Category: server-generated opaque `id` и `slug`, trusted `orgId/storeId`,
-  Unicode name, `active|archived`, bounded `sortOrder`, timestamps. Slug unique
-  внутри store; archive вместо delete. Category version на P2.2 не добавлена.
-- Product: opaque `id`, trusted `orgId/storeId`, optional same-store category и
-  SKU, Unicode name, bounded plain description, integer `priceMinor`,
-  `currency = UZS`, declarative availability
-  `available|unavailable|preorder`, opaque media refs, status, version и
-  timestamps.
-- SKU trim/canonical uppercase/safe charset, unique только внутри store при
-  non-NULL. Media refs — максимум пять opaque safe strings; URL/file upload и
-  Telegram file object не входят в domain contract.
-- Цена хранится без float: `100000` сум = `price_minor 100000`; допустимы только
-  bounded non-negative integers. Форматирование пробелов deterministic; AI цену
-  не создаёт.
+Closed intents:
 
-## Lifecycle, concurrency и idempotency
+- `catalog.list`;
+- `catalog.search`;
+- `product.price`;
+- `product.availability`;
+- `product.details`;
+- `catalog.filter_price`;
+- `catalog.help`;
+- `unknown`.
 
-- Product transitions:
-  `draft → published`, `published → draft`,
-  `draft|published → archived`.
-- Archived product immutable, restore отсутствует. Draft/archived не видны
-  buyer. Product в archived category остаётся в БД, но скрывается.
-- Publication требует active store, active category при её наличии, valid
-  product fields. Product mutation использует conditional
-  `org_id + store_id + version`; stale version даёт content-free
-  `CatalogVersionConflictError` без silent retry.
-- Trusted channel/runtime `requestId` — store-scoped idempotency key.
-  Catalog operation хранит SHA-256 fingerprint и target/version; mutation и
-  operation row выполняются одним D1 batch. Duplicate create/update/publish не
-  повторяет side effect и не повышает version второй раз; reuse ключа с другим
-  input отклоняется.
-- Active owner membership и принадлежность store проверяются в service и
-  непосредственно в mutation SQL. User tool input не может задавать org/store;
-  storefront code и buyer identity не дают mutation authority.
+Product query ограничен 120 символами и восемью unique tokens. Raw сообщение в
+Catalog/DB/error не передаётся. Поддержаны:
 
-## Поиск, Facts и buyer route
+- RU: list, «сколько стоит/какая цена», «есть ли/в наличии»,
+  «расскажи/покажи», `до/дешевле`;
+- UZ: `nima bor`, `qancha turadi`, `narxi qancha`, `bormi/mavjudmi`,
+  `haqida ayting/ko‘rsating`, `arzonroq/gacha`, варианты апострофа;
+- mixed: `Samsung bormi`, `Samsung естьmi`, `narxi сколько`,
+  `qancha стоит`.
 
-- Product/category остаются catalog source-of-truth. Knowledge projection не
-  создаётся, потому что без atomic catalog+Knowledge outbox она могла бы стать
-  stale.
-- Catalog переиспользует публичную RU/Uzbek Latin normalization/tokenization
-  Knowledge Engine. Search order:
-  exact normalized name → prefix → all tokens → partial tokens → stable
-  normalized name/id tie-break.
-- Query, token count, candidate/result count ограничены. Search возвращает
-  только published products active store с active category или без категории.
-- Existing deep-link `agent_<storefrontCode>` разрешает exact trusted route.
-  После входа минимальная durable session привязывает platform identity к
-  org/store; каждый follow-up повторно проверяет active store/route.
-- Buyer output строится из scalar catalog Facts: id/name, integer price,
-  display price, currency, availability, description и result metadata. Raw
-  product row в renderer не передаётся; unsupported exact price/status не
-  проходит grounding.
+## Query и catalog invariants
 
-## Telegram scope
+- Category/product model, lifecycle, owner authorization, optimistic version,
+  mutation idempotency и 20-product MVP limit P2.2 не ослаблены.
+- Buyer видит только published product active store с active category или без
+  category. Draft/archived/inactive/foreign rows скрыты.
+- Catalog ranking: exact → prefix → all tokens → partial; stable normalized
+  name/opaque ID tie-break.
+- Price filter — только bounded non-negative integer UZS, без float, negative,
+  currency conversion и USD assumptions. Stable order:
+  price asc → normalized name → opaque ID.
+- Search/list/filter выдают максимум пять cards за ответ. Exact strong result
+  даёт одну полную card.
 
-- Seller после completed onboarding получает действия: «Добавить товар»,
-  «Мои товары», «Категории», «Опубликовать товар», «Скрыть товар».
-- P2.2 использует короткие deterministic structured commands, без нового
-  workflow/wizard. Создание даёт draft, публикация/скрытие требуют product id и
-  expected version.
-- Buyer поддерживает «что у вас есть», поиск по названию,
-  «сколько стоит X», «есть ли X», а также RU/UZ/mixed текст.
-- Ответ показывает только опубликованный товар текущего storefront: название,
-  integer UZS price, availability и bounded description. Заказ не начинается.
-- Endpoint остаётся orchestration-only без SQL. Raw update, profile, chat,
-  token/secret и D1 handle не попадают в Runtime/domain.
+## Channel-neutral cards
 
-## Tenant isolation, privacy и events
+- Platform `OutboundCard` содержит opaque ref, title, optional description,
+  bounded fields и safe actions.
+- Buyer card показывает только name, localized price, availability, bounded
+  description и optional category.
+- Не показывает org/store/SKU/version/media/raw row/storefront code.
+- Допустимы только `Подробнее`, `Следующие товары`, `Назад к каталогу`.
+  Buy/checkout/order actions отсутствуют.
+- Telegram generic renderer создаёт plain text и safe callback buttons без
+  HTML/Markdown.
 
-- Все catalog reads/writes содержат `org_id + store_id`; category assignment
-  проверяет тот же store, SKU unique scoped к store.
-- Org/owner A не читает и не меняет product B; buyer route A не ищет B;
-  cross-store product/category и storefront-as-owner fail-closed.
-- Operation/session rows не хранят product name/description/SKU/price,
-  storefront code, Telegram raw update, phone/email/address или payment data.
-- P2.2 domain events не публикуются: atomic outbox policy не согласована,
-  поэтому exactly-once не заявляется.
+## Facts и grounding
+
+- Product Facts scalar-only и namespaced:
+  `catalog.results.<n>.{id,name,price_minor,price_display,currency,
+  availability,availability_display,description,category_name}`.
+- Metadata: `catalog.query.intent`, result count/has-more/next-offset/full-card
+  и safe result state.
+- Exact card также получает singular `catalog.product.*`.
+- RU price `100 000 сум`; UZ `100 000 so‘m`.
+- Availability source:
+  `available|unavailable|preorder`; localized display фиксирован кодом.
+- Runtime structured composer валидирует message/card/action bounds. Card
+  title, description и field values должны точно присутствовать в Facts;
+  exact claims и числа проходят существующий strict grounding.
+- Unsupported price/status/card field/number → rejected response; Telegram
+  использует controlled channel fallback.
+- Unknown/help не утверждает product/price/availability и показывает только
+  допустимые примеры вопросов.
+
+## Durable follow-up
+
+- Migration/bootstrap `0020` добавляет только nullable:
+  `last_product_id`, `last_intent`, `selection_request_key`, `selected_at`.
+- Exact single-product result сохраняет opaque product ref и closed intent.
+  Raw query/message/transcript/profile/contact/address не сохраняются.
+- Session update идемпотентен по trusted request ID.
+- Pronoun follow-up повторно проверяет route, store, category и published
+  product в том же org/store. Missing/stale/foreign ref fail-closed.
+- Conversation messages table и TTL/profile memory отсутствуют.
+
+## Tenant, privacy и events
+
+- Tenant source только Runtime `OrgContext` + stored session. Tool input с
+  org/store override отклоняется общей Runtime guard.
+- Buyer не имеет owner mutation authority; seller authorization остаётся
+  membership/store-scoped.
+- Product ref — server-generated opaque ID, bounded callback data и повторная
+  same-store validation.
+- Events P2.3 не добавлены до atomic outbox policy.
+- Error classes content-free; tests используют только вымышленные fixtures.
+
+## Migration и rollback
+
+- `0020_sotuvchi_buyer_qa.sql` additive; runtime bootstrap повторяемый;
+  destructive SQL отсутствует.
+- Migration не применялась.
+- Code rollback: relay revert, затем P2.3 code revert. Nullable columns можно
+  безопасно оставить; физическое удаление требует отдельного SQLite table
+  rebuild change.
+
+## Проверенный baseline P2.3
+
+- `npx tsc -b` — exit 0.
+- Buyer Q&A 39/39; Catalog 54/54; Onboarding 28/28; Telegram Agents 41/41;
+  Runtime 49/49; Workflow 39/39; Knowledge 33/33; AI 15/15; Tenancy 31/31;
+  Events 20/20; Boundaries 10/10; compatibility 1/1; assistant 60/60;
+  gpt-chat 15/15. Всего **435/435**.
+- Functions typecheck: ровно 27 baseline legacy errors в шести старых файлах;
+  новых platform/agents/channels/endpoint errors 0.
+- Scoped ESLint exit 0; boundary violations 0; staged secret/PII/env scan 0;
+  cached diff check clean.
 
 ## Сознательно отсутствует
 
-- Cart, checkout, quantity, orders/order items, stock ledger/reservation,
-  delivery/address/phone, payments, operator/CRM, human handoff, sales
-  analytics, public web catalog, Mini App, R2 upload, CSV import и AI-generated
-  descriptions.
-- `availability` — только декларативный catalog status, не inventory.
-
-## Проверенный baseline P2.2
-
-- `npx tsc -b` — exit 0.
-- Sotuvchi catalog 54/54; onboarding 28/28; Telegram Agents 41/41; Runtime
-  49/49; Workflow 39/39; Knowledge 33/33; AI 15/15; tenancy 31/31; Events
-  20/20; boundaries 10/10; Telegram compatibility 1/1; Telegram assistant
-  60/60; gpt-chat 15/15. Всего обязательных тестов: 396/396.
-- Functions typecheck — ровно прежние 27 legacy errors в тех же 6 файлах; 0 в
-  P2.2/platform/agents/channels/endpoint scope.
-- Scoped ESLint — exit 0; boundary violations — 0; staged secret/PII/env scan —
-  0; migration/bootstrap parity и repeated bootstrap подтверждены actual SQLite.
+- Cart, checkout, quantity, order/order items, inventory/reservation, buyer
+  contact, address/delivery, payment, seller notification, operator/CRM,
+  human handoff/reply bridge, analytics, public storefront и Mini App.
+- AI fallback, recommendations by buyer profile, currency conversion,
+  `100k/ming` parsing, catalog events и Knowledge product projection.
 
 ## Следующий этап
 
-Только **P2.3 — Buyer Q&A** после проверки
-`STATE.next_stage == "P2.3"`. Расширять deterministic RU/UZ/mixed intents,
-карточки и fail-closed buyer answers поверх готового catalog, не меняя его
-source-of-truth/tenant authority. Не начинать checkout/orders/inventory,
-payments, P2.6 human reply bridge, Mini App, deploy или production migration без
-отдельного явного задания.
+Только **P2.4 — Checkout workflow** после нового задания и проверки
+`STATE.next_stage == "P2.4"`. P2.4 должен начинаться с PII/idempotency/FSM
+design и полного 435-test baseline. Не начинать P2.5 inventory/seller order
+operations, P2.6 human bridge, payments, CRM, deploy или production migration.
 
 ## Рабочая среда
 
