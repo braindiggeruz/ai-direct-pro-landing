@@ -4,7 +4,7 @@
   "slug": "chatgpt-ozbekistonda-vpnsiz-ishlaydimi",
   "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
   "title": "ChatGPT O'zbekistonda VPNsiz ishlaydimi? 2026 qo'llanma",
-  "description": "2026-yilda ChatGPT O'zbekistonda rasmiy ishlaydi. VPN, ro'yxatdan o'tish, to'lov, o'zbek tili va xavfsiz alternativalarni amaliy solishtiramiz.",
+  "description": "ChatGPT O'zbekistonda: VPNsiz kirish, ro'yxatdan o'tish, o'zbek tili, to'lov va 2026-yilgi rasmiy yangiliklar. Xavfsiz foydalanish qo'llanmasi.",
   "h1": "ChatGPT O'zbekistonda: VPN kerakmi, kirish va alternativalar",
   "topicCluster": "chatgpt-ozbekistonda",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
@@ -18,7 +18,7 @@
     "ChatGPT alternativalari",
     "AI chat o'zbekcha"
   ],
-  "intro": "2026-yil iyul holatiga ko'ra, ChatGPT O'zbekistonda rasmiy qo'llab-quvvatlanadi: OpenAI mamlakatni web va mobil ilova uchun mavjud hududlar ro'yxatiga kiritgan. Demak, odatiy foydalanish uchun VPN shart emas. Ushbu qo'llanma kirish, akkaunt, to'lov, o'zbek tili va biznes uchun alohida AI-bot kerak bo'ladigan holatlarni tushuntiradi.",
+  "intro": "ChatGPT — OpenAI tomonidan yaratilgan sun'iy intellekt yordamchisi. 2026-yil iyul holatiga ko'ra, ChatGPT O'zbekistonda rasmiy qo'llab-quvvatlanadi: mamlakat web va mobil ilova mavjud hududlar ro'yxatiga kiritilgan. Demak, odatiy foydalanish uchun VPN shart emas. Ushbu qo'llanma servis nima ekanini, ro'yxatdan o'tish, kirish, to'lov, o'zbek tili va xavfsiz alternativalarni rasmiy manbalar asosida tushuntiradi.",
   "body": [
     {
       "type": "figure",
@@ -30,6 +30,23 @@
       "height": 630,
       "loading": "eager",
       "caption": "ChatGPT va boshqa AI-chatlardan O'zbekistonda brauzer yoki mobil qurilma orqali foydalanish mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "chatgpt-nima",
+      "text": "ChatGPT nima va sun'iy intellekt qanday ishlaydi?"
+    },
+    {
+      "type": "p",
+      "text": "ChatGPT — OpenAI tomonidan yaratilgan, foydalanuvchilar bilan tabiiy tilda muloqot qiladigan sun’iy intellekt yordamchisi. U savollarga javob berish, matn yozish, tarjima, reja tuzish, kodni tushuntirish va fayllarni tahlil qilish kabi turli vazifalarda yordam beradi. Servis qidiruv tizimi yoki inson mutaxassisi emas: u berilgan topshiriq va mavjud kontekst asosida javob yaratadi."
+    },
+    {
+      "type": "p",
+      "text": "Javob ishonchli eshitilsa ham, unda xato yoki eskirgan ma’lumot bo‘lishi mumkin. Shu sababli yangiliklar, qonun, tibbiyot, moliya va boshqa muhim mavzularda birlamchi manbani ochib tekshirish kerak. Oddiy savollarga aniq maqsad, kontekst va kerakli formatni yozish esa natijani yaxshilaydi."
+    },
+    {
+      "type": "quote",
+      "text": "ChatGPT foydalanuvchining savoliga matn yaratib javob beradi; u har bir faktni avtomatik ravishda tasdiqlaydigan markaziy ma’lumotlar bazasi emas."
     },
     {
       "type": "h2",
@@ -57,18 +74,61 @@
     },
     {
       "type": "h2",
-      "id": "kirish",
-      "text": "ChatGPT'ga VPNsiz qanday kiriladi?"
+      "id": "openai-royxatdan-otishi",
+      "text": "OpenAI O'zbekistonda ro'yxatdan o'tganmi?"
     },
     {
       "type": "p",
-      "text": "Eng xavfsiz yo'l — brauzerda chatgpt.com manzilini qo'lda ochish yoki rasmiy mobil ilovani ilovalar do'konidan o'rnatish. OpenAI nomidan foydalanadigan norasmiy klonlar, Telegram akkauntiga kirish kodi so'raydigan botlar va «umrbod Plus» sotuvchilaridan ehtiyot bo'ling. Rasmiy servisga kirishda domen, ilova ishlab chiquvchisi va to'lov oynasini tekshirish muhim."
+      "text": "Ha, lekin ikki xil holatni aralashtirmaslik kerak. Gazeta.uz 2025-yilning 9-aprelida Soliq qo‘mitasi ma’lumotiga tayangan holda OpenAI O‘zbekistonda elektron xizmat ko‘rsatuvchi QQS to‘lovchisi sifatida ro‘yxatdan o‘tganini xabar qilgan. Bu soliq ro‘yxati bo‘lib, O‘zbekistonda alohida OpenAI ofisi ochilganini yoki har bir pulli funksiya va karta ishlashini anglatmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Sana",
+        "Muhim voqea",
+        "Foydalanuvchi uchun ma'nosi"
+      ],
+      "rows": [
+        [
+          "2022-yil noyabr",
+          "ChatGPT ommaga taqdim etildi",
+          "OpenAI sun’iy intellekt yordamchisini alohida servis sifatida ishga tushirdi"
+        ],
+        [
+          "2023-yil noyabr",
+          "O‘zbekistonlik foydalanuvchilar uchun ro‘yxatdan o‘tish imkoniyati ochilgani haqida mahalliy OAV xabar berdi",
+          "Akkaunt bilan foydalanish bo‘yicha eski cheklovlar yumshadi"
+        ],
+        [
+          "2025-yil aprel",
+          "OpenAI elektron xizmatlar bo‘yicha QQS to‘lovchisi sifatida ro‘yxatdan o‘tdi",
+          "Bu soliq maqomi, servis funksiyalari kafolati emas"
+        ],
+        [
+          "2026-yil iyul",
+          "OpenAI markaziy yordam sahifasida Uzbekistan qo‘llab-quvvatlanadigan hudud sifatida ko‘rsatilgan",
+          "Oddiy web va mobil kirish uchun VPN talab qilinmaydi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "ChatGPT haqidagi so‘nggi yangiliklar tez o‘zgaradi. Hududiy mavjudlikni OpenAI Supported Countries sahifasidan, yangi funksiyalarni esa rasmiy Release Notes orqali tekshiring. Mahalliy yangiliklar saytida berilgan xabarni ham imkon qadar Soliq qo‘mitasi yoki servisning markaziy rasmiy hujjati bilan solishtirish foydali."
+    },
+    {
+      "type": "h2",
+      "id": "kirish",
+      "text": "ChatGPT'ga VPNsiz kirish va ro'yxatdan o'tish qanday bajariladi?"
+    },
+    {
+      "type": "p",
+      "text": "Eng xavfsiz yo'l — brauzerda chatgpt.com saytiga kiring yoki rasmiy mobil ilovani ilovalar do'konidan o'rnating. Bosh sahifada mavjud kirish usulini tanlab, elektron pochta yoki taklif etilgan akkaunt orqali ro‘yxatdan o‘ting. OpenAI nomidan foydalanadigan norasmiy klonlar, Telegram akkauntiga kirish kodi so'raydigan botlar va «umrbod Plus» sotuvchilaridan ehtiyot bo'ling."
     },
     {
       "type": "list",
       "items": [
-        "Brauzerda aynan chatgpt.com domenini oching.",
-        "Akkaunt yaratishda ishlaydigan email yoki taklif etilgan boshqa kirish usulidan foydalaning.",
+        "Rasmiy saytga kiring: brauzerda aynan chatgpt.com domenini oching va bosh sahifadagi Log in yoki Sign up tugmasini tanlang.",
+        "Ro‘yxatdan o‘tishda ishlaydigan elektron pochta yoki taklif etilgan boshqa kirish usulidan foydalaning.",
         "Ikki bosqichli himoyani yoqing va parolni begona servisga bermang.",
         "VPN faqat lokal tarmoq muammosini diagnostika qilish vositasi bo'lishi mumkin; rasmiy hududiy talab emas."
       ]
@@ -115,11 +175,20 @@
     {
       "type": "h2",
       "id": "ozbek-tili",
-      "text": "ChatGPT o'zbek tilini tushunadimi?"
+      "text": "ChatGPT o'zbek tilini biladimi va qanday ishlaydi?"
     },
     {
       "type": "p",
-      "text": "ChatGPT o'zbek tilidagi oddiy va ko'plab murakkab so'rovlarni tushunadi, ammo sifat mavzu, yozuv turi va kontekstga bog'liq. Lotin yozuvida aniq topshiriq, kerakli format va misol berish odatda natijani yaxshilaydi. Huquqiy, tibbiy, moliyaviy yoki aniq fakt talab qiladigan javoblarni esa birlamchi manbadan tekshirish shart."
+      "text": "Ha. ChatGPT o'zbek tilidagi oddiy va ko'plab murakkab so'rovlarni tushunadi hamda savollarga o'zbekcha javob bera oladi. Sizning savolingiz aniq bo'lsa, lotin yozuvida topshiriq, kerakli format va misol berish odatda natijani yaxshilaydi. Sifat mavzu, yozuv turi va kontekstga bog'liq; huquqiy, tibbiy, moliyaviy yoki aniq fakt talab qiladigan javoblarni esa birlamchi manbadan tekshirish shart."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqsadni yozing: «Toshkentdagi kichik do‘kon uchun 5 ta reklama g‘oyasi ber».",
+        "Formatni belgilang: jadval, qisqa ro‘yxat, rasmiy xat yoki bosqichma-bosqich yo‘riqnoma.",
+        "Kontekst qo‘shing: auditoriya, shahar, mahsulot, ohang va cheklovlar.",
+        "Javob noaniq bo‘lsa, manbani so‘rang va muhim ma’lumotni rasmiy saytda tekshiring."
+      ]
     },
     {
       "type": "linkp",
@@ -144,7 +213,7 @@
     },
     {
       "type": "p",
-      "text": "Ha, alternativalar bor. Google'ning rasmiy yordam sahifasi Gemini web-ilovasi O'zbekistonda va o'zbek tilida mavjudligini ko'rsatadi. Boshqa servislarning hudud, til va tarif shartlari tez o'zgarishi mumkin, shuning uchun ularni faqat o'z rasmiy availability sahifasi orqali tekshirish kerak. Tanlovni «qaysi model eng aqlli» degan reklama bilan emas, vazifa va maxfiylik talabi bilan qilish to'g'riroq."
+      "text": "Ha, alternativalar bor. Google'ning rasmiy yordam sahifasi Gemini web-ilovasi O'zbekistonda va o'zbek tilida mavjudligini ko'rsatadi. Xitoyda ishlab chiqilgan DeepSeek ham ChatGPT raqobatchilaridan biri, ammo u OpenAI mahsuloti emas. Boshqa servislarning hudud, til, tarif va ma'lumot siyosati tez o'zgarishi mumkin, shuning uchun ularni faqat o'z rasmiy sahifasi orqali tekshirish kerak. Tanlovni «qaysi model eng aqlli» degan reklama bilan emas, vazifa va maxfiylik talabi bilan qilish to'g'riroq."
     },
     {
       "type": "table",
@@ -237,6 +306,10 @@
   ],
   "faq": [
     {
+      "q": "ChatGPT nima?",
+      "a": "ChatGPT — OpenAI tomonidan yaratilgan sun'iy intellekt yordamchisi. U tabiiy tildagi topshiriqni tushunib, savollarga javob, matn, reja, tarjima yoki tahlil yaratadi. Javoblar xato bo'lishi mumkinligi sababli muhim faktlarni manbadan tekshirish kerak."
+    },
+    {
       "q": "ChatGPT O'zbekistonda VPNsiz ishlaydimi?",
       "a": "Ha. 2026-yil iyul holatiga ko'ra, OpenAI O'zbekistonni ChatGPT web va mobil ilovasi qo'llab-quvvatlanadigan mamlakatlar ro'yxatiga kiritgan. Odatdagi kirish uchun VPN shart emas."
     },
@@ -249,8 +322,20 @@
       "a": "Natija karta emitenti va xalqaro onlayn to'lov sozlamasiga bog'liq. OpenAI kartalarni qabul qiladi, ammo har bir Uzcard, Humo, Visa yoki Mastercard uchun universal kafolat bermaydi. To'lovni faqat rasmiy checkout orqali tekshiring."
     },
     {
-      "q": "ChatGPT o'zbek tilida javob beradimi?",
+      "q": "ChatGPT o'zbek tilini biladimi?",
       "a": "Ha, ayniqsa aniq yozilgan Uzbek Latin so'rovlarida javob beradi. Dialekt, aralash yozuv va tor soha terminlarida xato bo'lishi mumkin, shuning uchun muhim natijani qayta tekshirish kerak."
+    },
+    {
+      "q": "ChatGPT'dan bepul foydalanish mumkinmi?",
+      "a": "Ha, ChatGPT'ning bepul rejasi mavjud, lekin funksiyalar va foydalanish limitlari pulli tariflardan farq qiladi. Joriy imkoniyatlar va narxlarni faqat OpenAI'ning rasmiy pricing yoki yordam sahifasidan tekshiring."
+    },
+    {
+      "q": "OpenAI O'zbekistonda ro'yxatdan o'tganmi?",
+      "a": "Gazeta.uz Soliq qo'mitasi ma'lumotiga tayangan holda OpenAI 2025-yil aprelida elektron xizmat ko'rsatuvchi QQS to'lovchisi sifatida ro'yxatdan o'tganini xabar qilgan. Bu soliq maqomi bo'lib, mahalliy ofis yoki barcha to'lov usullari ishlashini anglatmaydi."
+    },
+    {
+      "q": "ChatGPT raqobatchisi DeepSeek O'zbekistonda ishlaydimi?",
+      "a": "DeepSeek alohida sun'iy intellekt servisi va OpenAI mahsuloti emas. Uning hududiy mavjudligi, o'zbek tili sifati, tariflari va ma'lumot siyosatini foydalanish paytida rasmiy DeepSeek sahifalaridan tekshirish kerak."
     },
     {
       "q": "Gemini O'zbekistonda ishlaydimi?",
@@ -311,7 +396,7 @@
     }
   ],
   "ogTitle": "ChatGPT O'zbekistonda VPNsiz ishlaydimi? 2026",
-  "ogDescription": "ChatGPT O'zbekistonda rasman mavjud. VPN, akkaunt, to'lov, o'zbek tili, xavfsizlik va alternativalarni tekshirilgan manbalar bilan ko'ring.",
+  "ogDescription": "ChatGPT O'zbekistonda: nima, VPNsiz kirish, ro'yxatdan o'tish, o'zbek tili, to'lov, rasmiy yangiliklar va xavfsiz alternativalar.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
   "hreflangUz": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
@@ -319,7 +404,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-26",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -327,13 +412,23 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-26T00:00:00.000Z",
+  "updatedAt": "2026-07-27T00:00:00.000Z",
   "createdAt": "2026-07-26T00:00:00.000Z",
   "sources": [
     {
-      "title": "OpenAI Help Center — ChatGPT Supported Countries",
+      "title": "OpenAI markaziy yordam markazi — ChatGPT Supported Countries",
       "url": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
       "note": "O'zbekiston ChatGPT web va mobil ilovasi qo'llab-quvvatlanadigan mamlakatlar ro'yxatida."
+    },
+    {
+      "title": "OpenAI markaziy yordam markazi — What is ChatGPT?",
+      "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq",
+      "note": "ChatGPT nima, undan qayerda va qanday foydalanish mumkinligi haqidagi rasmiy boshlang'ich qo'llanma."
+    },
+    {
+      "title": "OpenAI markaziy yordam markazi — ChatGPT Release Notes",
+      "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+      "note": "ChatGPT funksiyalari bo'yicha so'nggi rasmiy yangiliklar va yangilanishlar."
     },
     {
       "title": "OpenAI Help Center — Multi-currency billing",
@@ -349,6 +444,16 @@
       "title": "OpenAI API — Data controls in the OpenAI platform",
       "url": "https://platform.openai.com/docs/models/default-usage-policies-by-endpoint",
       "note": "API ma'lumotlarini saqlash va data control sozlamalarini tekshirish uchun rasmiy hujjat."
+    },
+    {
+      "title": "Gazeta.uz — ChatGPT O'zbekistonda soliq to'lovchi sifatida ro'yxatdan o'tdi",
+      "url": "https://www.gazeta.uz/oz/2025/04/09/chatgpt/",
+      "note": "Soliq qo'mitasi ma'lumotiga tayangan holda OpenAI'ning 2025-yil aprelidagi QQS ro'yxati haqida xabar."
+    },
+    {
+      "title": "DeepSeek — rasmiy sayt",
+      "url": "https://www.deepseek.com/",
+      "note": "DeepSeek servisi, joriy kirish shartlari va rasmiy hujjatlarni tekshirish uchun asosiy manba."
     }
   ]
 }
