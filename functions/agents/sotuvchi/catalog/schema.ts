@@ -70,6 +70,10 @@ export const SOTUVCHI_CATALOG_DDL = [
     org_id TEXT NOT NULL,
     store_id TEXT NOT NULL,
     status TEXT NOT NULL CHECK (status IN ('active', 'disabled')),
+    last_product_id TEXT,
+    last_intent TEXT,
+    selection_request_key TEXT,
+    selected_at TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
     UNIQUE (bot_username, identity_id),
@@ -92,6 +96,18 @@ export const SOTUVCHI_CATALOG_DDL = [
     ON sotuvchi_storefront_sessions (org_id, store_id, status)`,
 ] as const;
 
+const SOTUVCHI_BUYER_SESSION_UPGRADES = [
+  'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN last_product_id TEXT',
+  'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN last_intent TEXT',
+  'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN selection_request_key TEXT',
+  'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN selected_at TEXT',
+] as const;
+
+function isDuplicateColumn(error: unknown): boolean {
+  return error instanceof Error
+    && /duplicate column name/i.test(error.message);
+}
+
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureSotuvchiCatalogSchema(db: D1Database): Promise<void> {
@@ -101,6 +117,13 @@ export function ensureSotuvchiCatalogSchema(db: D1Database): Promise<void> {
       await ensureSotuvchiOnboardingSchema(db);
       for (const statement of SOTUVCHI_CATALOG_DDL) {
         await db.prepare(statement).run();
+      }
+      for (const statement of SOTUVCHI_BUYER_SESSION_UPGRADES) {
+        try {
+          await db.prepare(statement).run();
+        } catch (error) {
+          if (!isDuplicateColumn(error)) throw error;
+        }
       }
     })().catch((error) => {
       bootstrapped.delete(db);

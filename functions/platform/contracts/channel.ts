@@ -32,9 +32,25 @@ export interface OutboundChoice {
   label: string;
 }
 
+export interface OutboundCardField {
+  label: string;
+  value: string;
+}
+
+/** Channel-neutral structured content. Channel adapters own wire rendering. */
+export interface OutboundCard {
+  /** Opaque reference; never rendered as business text by the platform. */
+  ref: string;
+  title: string;
+  description?: string;
+  fields: readonly OutboundCardField[];
+  actions?: readonly OutboundChoice[];
+}
+
 export interface Outbound {
   text: string;
   choices?: readonly OutboundChoice[];
+  card?: OutboundCard;
   /** Channel-native media reference (e.g. telegram file_id) when reusable. */
   mediaRef?: string;
 }

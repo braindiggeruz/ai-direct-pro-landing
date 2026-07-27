@@ -280,5 +280,4 @@ export const sotuvchiCatalogRules = [
   sotuvchiProductHideCommandRule,
   sotuvchiProductListCommandRule,
   sotuvchiCategoryListCommandRule,
-  sotuvchiBuyerCatalogRule,
 ] as const;

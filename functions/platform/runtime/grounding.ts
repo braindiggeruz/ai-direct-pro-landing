@@ -28,6 +28,7 @@ export function groundResponse(
   try {
     const values = new Map<string, FactValue>();
     const supportedNumbers = new Set<string>();
+    const supportedCardValues = new Set<string>();
     for (const sheet of facts) {
       const validated = validateFactSheet(sheet, sheet.toolName);
       for (const [key, value] of Object.entries(validated.values)) {
@@ -37,6 +38,7 @@ export function groundResponse(
         }
         values.set(key, value);
         for (const token of numberTokens(value)) supportedNumbers.add(token);
+        if (typeof value === 'string') supportedCardValues.add(value);
       }
     }
     for (const claim of response.claims ?? []) {
@@ -51,9 +53,35 @@ export function groundResponse(
       }
     }
     for (const message of response.messages) {
+      if (message.card) {
+        const groundedCardValues = [
+          message.card.title,
+          ...(message.card.description ? [message.card.description] : []),
+          ...message.card.fields.map((field) => field.value),
+        ];
+        if (
+          groundedCardValues.some(
+            (value) => !supportedCardValues.has(value),
+          )
+        ) {
+          throw new AgentGroundingError('unsupported_claim');
+        }
+      }
+      const cardText = message.card
+        ? [
+            message.card.title,
+            message.card.description ?? '',
+            ...message.card.fields.flatMap((field) => [
+              field.label,
+              field.value,
+            ]),
+            ...(message.card.actions ?? []).map((action) => action.label),
+          ]
+        : [];
       const text = [
         message.text,
         ...(message.choices ?? []).map((choice) => choice.label),
+        ...cardText,
       ].join(' ');
       for (const token of text.match(NUMBER) ?? []) {
         if (!supportedNumbers.has(token.replace(',', '.'))) {

@@ -18,6 +18,7 @@ import type {
   ListCatalogProductsFilter,
   StoreOwnerContext,
   StorefrontContext,
+  StorefrontSelection,
   StorefrontSession,
   UpdateCatalogCategoryInput,
   UpdateCatalogProductInput,
@@ -880,6 +881,27 @@ export class SotuvchiCatalogService {
     return product;
   }
 
+  async getPublishedProductResult(
+    rawContext: unknown,
+    productId: unknown,
+  ): Promise<CatalogSearchResult> {
+    const context = await this.resolveStorefrontContext(rawContext);
+    const product = await this.getPublishedProduct(context, productId);
+    const category = product.categoryId
+      ? await this.store.getCategory(
+          context.orgId,
+          context.storeId,
+          product.categoryId,
+        )
+      : null;
+    return {
+      product,
+      categoryName: category?.name ?? null,
+      score: 4_000,
+      matchedTokens: 1,
+    };
+  }
+
   async bindStorefrontSession(input: {
     botUsername: string;
     identityId: string;
@@ -900,6 +922,38 @@ export class SotuvchiCatalogService {
   ): Promise<StorefrontContext | null> {
     await this.ready();
     return this.store.resolveStorefrontSession(
+      requireBotUsername(botUsername),
+      requireCatalogId(identityId),
+    );
+  }
+
+  async recordStorefrontSelection(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    productId: string;
+    intent: string;
+    requestId: string;
+  }): Promise<StorefrontSession> {
+    await this.ready();
+    const context = await this.resolveStorefrontContext(input.context);
+    await this.getPublishedProduct(context, input.productId);
+    return this.store.recordStorefrontSelection({
+      botUsername: requireBotUsername(input.botUsername),
+      identityId: requireCatalogId(input.identityId),
+      context,
+      productId: requireCatalogId(input.productId),
+      intent: input.intent,
+      requestId: input.requestId,
+    });
+  }
+
+  async resolveStoredProductSelection(
+    botUsername: string,
+    identityId: string,
+  ): Promise<StorefrontSelection | null> {
+    await this.ready();
+    return this.store.resolveStorefrontSelection(
       requireBotUsername(botUsername),
       requireCatalogId(identityId),
     );

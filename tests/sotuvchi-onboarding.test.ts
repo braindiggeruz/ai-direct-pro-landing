@@ -865,5 +865,9 @@ test('buyer storefront route resolves the store but never launches seller onboar
     fixture.value('SELECT COUNT(*) FROM sotuvchi_onboardings'),
     beforeOnboardings,
   );
-  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Каталог пока пуст'));
+  assert.ok(
+    harness.delivery.sent.at(-1)?.text.includes(
+      'Не нашёл такой товар в этом магазине',
+    ),
+  );
 });

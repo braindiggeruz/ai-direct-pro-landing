@@ -140,18 +140,6 @@ const productRefSchema: RuntimeSchema<{
   },
 };
 
-const productGetSchema: RuntimeSchema<{ productId: string }> = {
-  parse(value) {
-    if (
-      !isPlainObject(value)
-      || !exactKeys(value, new Set(['productId']))
-    ) {
-      throw new CatalogValidationError('invalid_id');
-    }
-    return { productId: requireCatalogId(value.productId) };
-  },
-};
-
 const productSearchSchema: RuntimeSchema<{
   query?: string;
   limit: number;
@@ -173,6 +161,18 @@ const productSearchSchema: RuntimeSchema<{
       ...(value.query === undefined ? {} : { query: value.query }),
       limit: requireCatalogLimit(value.limit, 5),
     };
+  },
+};
+
+const productGetSchema: RuntimeSchema<{ productId: string }> = {
+  parse(value) {
+    if (
+      !isPlainObject(value)
+      || !exactKeys(value, new Set(['productId']))
+    ) {
+      throw new CatalogValidationError('invalid_id');
+    }
+    return { productId: requireCatalogId(value.productId) };
   },
 };
 
@@ -257,16 +257,6 @@ export const sotuvchiCatalogTools = [
     'catalog.product.archive',
     'Archive one product with an expected version.',
     productRefSchema,
-  )),
-  eraseTool(responseTool(
-    'catalog.product.search',
-    'Search or list published products in the trusted storefront.',
-    productSearchSchema,
-  )),
-  eraseTool(responseTool(
-    'catalog.product.get',
-    'Get one published product in the trusted storefront.',
-    productGetSchema,
   )),
 ] as const;
 

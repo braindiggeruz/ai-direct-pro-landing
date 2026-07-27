@@ -6,6 +6,7 @@ import type {
   CatalogProductStatus,
   ListCatalogProductsFilter,
   StorefrontContext,
+  StorefrontSelection,
   StorefrontSession,
 } from './types';
 import { CatalogPersistenceError } from './errors';
@@ -36,6 +37,7 @@ const PRODUCT_COLUMNS =
   + 'media_refs_json, version, created_at, updated_at';
 const SESSION_COLUMNS =
   'id, bot_username, identity_id, org_id, store_id, status, '
+  + 'last_product_id, last_intent, selection_request_key, selected_at, '
   + 'created_at, updated_at';
 
 interface CategoryRow {
@@ -80,6 +82,10 @@ interface SessionRow {
   org_id: string;
   store_id: string;
   status: string;
+  last_product_id: string | null;
+  last_intent: string | null;
+  selection_request_key: string | null;
+  selected_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -234,6 +240,18 @@ export interface CatalogStore {
     botUsername: string,
     identityId: string,
   ): Promise<StorefrontContext | null>;
+  recordStorefrontSelection(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    productId: string;
+    intent: string;
+    requestId: string;
+  }): Promise<StorefrontSession>;
+  resolveStorefrontSelection(
+    botUsername: string,
+    identityId: string,
+  ): Promise<StorefrontSelection | null>;
 }
 
 function validDate(value: unknown): value is string {
@@ -299,6 +317,13 @@ function fromSessionRow(row: SessionRow): StorefrontSession {
     row.status !== 'active' && row.status !== 'disabled'
     || !validDate(row.created_at)
     || !validDate(row.updated_at)
+    || (row.selected_at !== null && !validDate(row.selected_at))
+    || (
+      (row.last_product_id === null) !== (row.last_intent === null)
+      || (row.last_product_id === null) !== (row.selected_at === null)
+      || (row.last_product_id === null)
+        !== (row.selection_request_key === null)
+    )
   ) {
     throw new CatalogPersistenceError('corrupt_row');
   }
@@ -309,9 +334,34 @@ function fromSessionRow(row: SessionRow): StorefrontSession {
     orgId: requireCatalogId(row.org_id),
     storeId: requireCatalogId(row.store_id),
     status: row.status,
+    lastProductId: row.last_product_id === null
+      ? null
+      : requireCatalogId(row.last_product_id),
+    lastIntent: row.last_intent === null
+      ? null
+      : requireSessionCode(row.last_intent, 48),
+    selectionRequestKey: row.selection_request_key === null
+      ? null
+      : requireSessionCode(row.selection_request_key, 160),
+    selectedAt: row.selected_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
+}
+
+function requireSessionCode(
+  value: unknown,
+  maxLength: number,
+): string {
+  if (
+    typeof value !== 'string'
+    || value.length < 1
+    || value.length > maxLength
+    || !/^[a-zA-Z0-9._:-]+$/.test(value)
+  ) {
+    throw new CatalogPersistenceError('persistence_failed');
+  }
+  return value;
 }
 
 function operationChanges(
@@ -957,6 +1007,26 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
           FROM sotuvchi_stores AS store
           WHERE store.org_id = ? AND store.id = ? AND store.status = 'active'
           ON CONFLICT(bot_username, identity_id) DO UPDATE SET
+            last_product_id = CASE
+              WHEN org_id = excluded.org_id AND store_id = excluded.store_id
+                THEN last_product_id
+              ELSE NULL
+            END,
+            last_intent = CASE
+              WHEN org_id = excluded.org_id AND store_id = excluded.store_id
+                THEN last_intent
+              ELSE NULL
+            END,
+            selection_request_key = CASE
+              WHEN org_id = excluded.org_id AND store_id = excluded.store_id
+                THEN selection_request_key
+              ELSE NULL
+            END,
+            selected_at = CASE
+              WHEN org_id = excluded.org_id AND store_id = excluded.store_id
+                THEN selected_at
+              ELSE NULL
+            END,
             org_id = excluded.org_id,
             store_id = excluded.store_id,
             status = 'active',
@@ -1012,6 +1082,149 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         storeId: requireCatalogId(row.store_id),
         agentId: 'sotuvchi',
         locale: row.locale,
+      };
+    },
+
+    async recordStorefrontSelection(input) {
+      const botUsername = requireBotUsername(input.botUsername);
+      const identityId = requireCatalogId(input.identityId);
+      const productId = requireCatalogId(input.productId);
+      const intent = requireSessionCode(input.intent, 48);
+      const requestId = requireSessionCode(input.requestId, 160);
+      const now = new Date().toISOString();
+      await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions AS session
+                  SET last_product_id = ?,
+                      last_intent = ?,
+                      selection_request_key = ?,
+                      selected_at = ?,
+                      updated_at = ?
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.org_id = ?
+                    AND session.store_id = ?
+                    AND session.status = 'active'
+                    AND session.selection_request_key IS NOT ?
+                    AND EXISTS (
+                      SELECT 1
+                      FROM sotuvchi_products AS product
+                      JOIN sotuvchi_stores AS store
+                        ON store.org_id = product.org_id
+                       AND store.id = product.store_id
+                       AND store.status = 'active'
+                      LEFT JOIN sotuvchi_categories AS category
+                        ON category.org_id = product.org_id
+                       AND category.store_id = product.store_id
+                       AND category.id = product.category_id
+                      JOIN telegram_agent_routes AS route
+                        ON route.org_id = store.org_id
+                       AND route.route_code = store.storefront_code
+                       AND route.bot_username = session.bot_username
+                       AND route.agent_id = 'sotuvchi'
+                       AND route.status = 'active'
+                      WHERE product.org_id = session.org_id
+                        AND product.store_id = session.store_id
+                        AND product.id = ?
+                        AND product.status = 'published'
+                        AND (product.category_id IS NULL
+                          OR category.status = 'active')
+                    )`)
+        .bind(
+          productId,
+          intent,
+          requestId,
+          now,
+          now,
+          botUsername,
+          identityId,
+          input.context.orgId,
+          input.context.storeId,
+          requestId,
+          productId,
+        )
+        .run();
+      const row = await db
+        .prepare(`SELECT ${SESSION_COLUMNS}
+                  FROM sotuvchi_storefront_sessions
+                  WHERE bot_username = ? AND identity_id = ?`)
+        .bind(botUsername, identityId)
+        .first<SessionRow>();
+      if (!row) throw new CatalogPersistenceError('persistence_failed');
+      const session = fromSessionRow(row);
+      if (
+        session.orgId !== input.context.orgId
+        || session.storeId !== input.context.storeId
+        || session.lastProductId !== productId
+        || session.lastIntent !== intent
+        || session.selectionRequestKey !== requestId
+      ) {
+        throw new CatalogPersistenceError('persistence_failed');
+      }
+      return session;
+    },
+
+    async resolveStorefrontSelection(botUsername, identityId) {
+      const row = await db
+        .prepare(`SELECT session.org_id, session.store_id,
+                         session.last_product_id, session.last_intent,
+                         session.selected_at, store.locale
+                  FROM sotuvchi_storefront_sessions AS session
+                  JOIN sotuvchi_stores AS store
+                    ON store.org_id = session.org_id
+                   AND store.id = session.store_id
+                   AND store.status = 'active'
+                  JOIN sotuvchi_products AS product
+                    ON product.org_id = session.org_id
+                   AND product.store_id = session.store_id
+                   AND product.id = session.last_product_id
+                   AND product.status = 'published'
+                  LEFT JOIN sotuvchi_categories AS category
+                    ON category.org_id = product.org_id
+                   AND category.store_id = product.store_id
+                   AND category.id = product.category_id
+                  JOIN telegram_agent_routes AS route
+                    ON route.org_id = store.org_id
+                   AND route.route_code = store.storefront_code
+                   AND route.bot_username = session.bot_username
+                   AND route.agent_id = 'sotuvchi'
+                   AND route.status = 'active'
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.status = 'active'
+                    AND session.last_product_id IS NOT NULL
+                    AND session.last_intent IS NOT NULL
+                    AND session.selected_at IS NOT NULL
+                    AND (product.category_id IS NULL
+                      OR category.status = 'active')`)
+        .bind(
+          requireBotUsername(botUsername),
+          requireCatalogId(identityId),
+        )
+        .first<{
+          org_id: string;
+          store_id: string;
+          last_product_id: string;
+          last_intent: string;
+          selected_at: string;
+          locale: string;
+        }>();
+      if (!row) return null;
+      if (
+        (row.locale !== 'ru' && row.locale !== 'uz')
+        || !validDate(row.selected_at)
+      ) {
+        throw new CatalogPersistenceError('corrupt_row');
+      }
+      return {
+        context: {
+          orgId: requireCatalogId(row.org_id),
+          storeId: requireCatalogId(row.store_id),
+          agentId: 'sotuvchi',
+          locale: row.locale,
+        },
+        productId: requireCatalogId(row.last_product_id),
+        lastIntent: requireSessionCode(row.last_intent, 48),
+        selectedAt: row.selected_at,
       };
     },
   };

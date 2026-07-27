@@ -39,7 +39,10 @@ const FALLBACK = {
 } as const;
 
 function keyboardFromOutbound(outbound: Outbound): InlineKeyboard | undefined {
-  const buttons = (outbound.choices ?? [])
+  const buttons = [
+    ...(outbound.choices ?? []),
+    ...(outbound.card?.actions ?? []),
+  ]
     .filter(
       (choice) =>
         SAFE_CHOICE_ID.test(choice.id)
@@ -53,6 +56,17 @@ function keyboardFromOutbound(outbound: Outbound): InlineKeyboard | undefined {
   return buttons.length > 0 ? buttons : undefined;
 }
 
+function textFromOutbound(outbound: Outbound): string {
+  if (!outbound.card) return outbound.text;
+  const card = outbound.card;
+  return [
+    outbound.text.trim(),
+    card.title,
+    card.description ?? '',
+    ...card.fields.map((field) => `${field.label}: ${field.value}`),
+  ].filter(Boolean).join('\n');
+}
+
 export function renderTelegramRuntimeResult(
   result: RuntimeTurnResult,
   locale: Locale,
@@ -63,7 +77,7 @@ export function renderTelegramRuntimeResult(
   return result.messages.map((message) => {
     const keyboard = keyboardFromOutbound(message);
     return {
-      text: message.text,
+      text: textFromOutbound(message),
       ...(keyboard ? { keyboard } : {}),
     };
   });

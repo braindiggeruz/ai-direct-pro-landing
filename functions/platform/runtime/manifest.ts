@@ -91,8 +91,19 @@ function validateTemplate(
 ): void {
   if (
     !isPlainObject(template)
-    || !hasOnlyKeys(template, new Set(['text']))
-    || !isPlainObject(template.text)
+    || !hasOnlyKeys(template, new Set(['text', 'compose']))
+  ) {
+    throw new AgentManifestValidationError('invalid_tool');
+  }
+  if (typeof template.compose === 'function') {
+    if (template.text !== undefined || Object.keys(template).length !== 1) {
+      throw new AgentManifestValidationError('invalid_tool');
+    }
+    return;
+  }
+  if (
+    !isPlainObject(template.text)
+    || Object.keys(template).length !== 1
     || !Object.keys(template.text).every((locale) => LOCALES.has(locale as Locale))
   ) {
     throw new AgentManifestValidationError('invalid_tool');

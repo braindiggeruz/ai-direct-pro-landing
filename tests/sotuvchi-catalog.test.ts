@@ -961,11 +961,16 @@ test('buyer Runtime response exposes grounded price and availability Facts', asy
     { name: 'Grounded Olma', priceMinor: 222_000, availability: 'preorder' },
   );
   const wiring = createTelegramAgentsRuntimeWiring(fixture.asD1(), BOT);
+  await setup.catalog.bindStorefrontSession({
+    botUsername: BOT,
+    identityId: setup.identity.identityId,
+    context: setup.storefront,
+  });
   const result = await wiring.runtime.run({
     requestId: requestId('runtime'),
     orgId: setup.storefront.orgId,
     agentId: 'sotuvchi',
-    identityId: 'buyer-fixture',
+    identityId: setup.identity.identityId,
     locale: 'ru',
     message: { kind: 'text', text: product.name },
   });
@@ -1266,7 +1271,7 @@ test('Telegram buyer enters storefront and searches in following message', async
   );
   const last = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(last.includes('Buyer Olma'));
-  assert.ok(last.includes('175 000 UZS'));
+  assert.ok(last.includes('175 000 сум'));
   assert.equal(
     fixture.value('SELECT COUNT(*) FROM sotuvchi_storefront_sessions'),
     1,
@@ -1293,7 +1298,7 @@ test('Telegram buyer never receives unpublished product', async () => {
     telegramMessage(700_302, 7992, 'Hidden Telegram item', 'ru'),
   );
   assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes('товар не найден'),
+    harness.delivery.sent.at(-1)?.text.includes('Не нашёл такой товар'),
   );
 });
 
@@ -1319,7 +1324,7 @@ test('Telegram Uzbek Latin storefront flow is deterministic', async () => {
   );
   const last = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(last.includes('O‘rik mahsuloti'));
-  assert.ok(last.includes('mavjud'));
+  assert.ok(last.includes('Mavjud'));
 });
 
 test('Telegram mixed storefront query stays inside trusted store', async () => {

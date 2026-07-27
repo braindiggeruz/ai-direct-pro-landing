@@ -1,6 +1,6 @@
 import type { Outbound } from './channel';
 import type { Locale, OrgContext } from './context';
-import type { Facts, FactValue } from './facts';
+import type { Facts, FactSheet, FactValue } from './facts';
 import type { WorkflowTrigger } from './workflow';
 
 export type RuntimeMessage =
@@ -141,10 +141,23 @@ export interface DeterministicRule {
   ): Promise<RuntimeStepResult>;
 }
 
-export interface ToolResponseTemplate {
-  /** One strict template per supported locale; {{namespace.fact}} placeholders. */
-  text: Readonly<Partial<Record<Locale, string>>>;
-}
+export type ToolResponseTemplate =
+  | {
+      /** One strict template per supported locale; placeholders reference facts. */
+      text: Readonly<Partial<Record<Locale, string>>>;
+      compose?: never;
+    }
+  | {
+      /**
+       * Trusted deterministic composer for channel-neutral structured output.
+       * Runtime validates and grounds the returned draft before delivery.
+       */
+      compose(
+        facts: FactSheet,
+        locale: Locale,
+      ): RuntimeResponseDraft;
+      text?: never;
+    };
 
 export interface ToolExecutionSummary {
   toolName: string;

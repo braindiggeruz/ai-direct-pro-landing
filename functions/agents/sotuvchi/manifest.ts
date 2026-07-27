@@ -8,6 +8,10 @@ import {
   sotuvchiCatalogTools,
 } from './catalog';
 import {
+  sotuvchiBuyerRules,
+  sotuvchiBuyerTools,
+} from './buyer';
+import {
   sotuvchiSellerCancelledRule,
   sotuvchiSellerStatusRule,
   sotuvchiStorefrontPendingRule,
@@ -15,15 +19,16 @@ import {
 
 export const sotuvchiAgentManifest: AgentManifest = {
   id: 'sotuvchi',
-  version: '1.1.0',
+  version: '1.2.0',
   locales: ['ru', 'uz'],
   capabilities: ['store.onboarding', 'store.catalog'],
-  tools: sotuvchiCatalogTools,
+  tools: [...sotuvchiCatalogTools, ...sotuvchiBuyerTools],
   deterministicRules: [
     sotuvchiStorefrontPendingRule,
     sotuvchiSellerStatusRule,
     sotuvchiSellerCancelledRule,
     ...sotuvchiCatalogRules,
+    ...sotuvchiBuyerRules,
   ],
   workflows: [eraseWorkflowDefinition(sotuvchiOnboardingWorkflow)],
   policies: {

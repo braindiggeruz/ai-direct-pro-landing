@@ -129,6 +129,17 @@ export interface StorefrontSession {
   orgId: string;
   storeId: string;
   status: 'active' | 'disabled';
+  lastProductId: string | null;
+  lastIntent: string | null;
+  selectionRequestKey: string | null;
+  selectedAt: string | null;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface StorefrontSelection {
+  context: StorefrontContext;
+  productId: string;
+  lastIntent: string;
+  selectedAt: string;
 }

@@ -10,8 +10,8 @@ export const sotuvchiStorefrontPendingRule: DeterministicRule = {
   async execute() {
     return {
       kind: 'tool',
-      toolName: 'catalog.product.search',
-      input: { limit: 5 },
+      toolName: 'catalog.list',
+      input: { offset: 0 },
     };
   },
 };

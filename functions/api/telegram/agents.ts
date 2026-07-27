@@ -4,8 +4,8 @@
 import type { Env } from '../../_types';
 import { demoAgentManifest } from '../../agents/demo';
 import {
-  createSotuvchiCatalogDomainPort,
   createSotuvchiCatalogService,
+  createSotuvchiDomainPort,
   createSotuvchiOnboardingService,
   createSotuvchiWorkflowPort,
   isStorefrontCode,
@@ -167,7 +167,7 @@ export function createTelegramAgentsRuntimeWiring(
     services: {
       knowledge: createKnowledgeService(db),
       workflow: createSotuvchiWorkflowPort(onboarding, botUsername),
-      agentDomain: createSotuvchiCatalogDomainPort(catalog),
+      agentDomain: createSotuvchiDomainPort(catalog, botUsername),
     },
   });
   return { catalog, contexts, onboarding, runtime };

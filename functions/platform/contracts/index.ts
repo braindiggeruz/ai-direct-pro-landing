@@ -24,6 +24,8 @@ export type {
   Inbound,
   InboundMessage,
   Outbound,
+  OutboundCard,
+  OutboundCardField,
   OutboundChoice,
 } from './channel';
 export type { EventScalar, EventValue, PiiSafePayload, PlatformEvent } from './events';
