@@ -679,6 +679,10 @@
     {
       "target": "/ru/blog/chat-gpt-na-russkom/",
       "anchor": "Chat GPT на русском"
+    },
+    {
+      "target": "/ru/blog/kak-sozdat-telegram-bota/",
+      "anchor": "Как создать Telegram-бота самостоятельно"
     }
   ],
   "ogTitle": "Заказать Telegram-бота: сценарии, цена и разработка",

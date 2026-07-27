@@ -191,6 +191,12 @@
       "anchor": "автоматизация продаж",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-sozdat-telegram-bota/",
+      "anchor": "как создать Telegram-бота с нуля",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Telegram-бот для бизнеса: что он реально умеет в 2026",

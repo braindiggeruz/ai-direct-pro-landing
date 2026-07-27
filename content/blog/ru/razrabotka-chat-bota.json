@@ -854,6 +854,10 @@
     {
       "target": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
       "anchor": "Разработчики чат-ботов в Ташкенте: как выбрать"
+    },
+    {
+      "target": "/ru/blog/kak-sozdat-telegram-bota/",
+      "anchor": "Как создать Telegram-бота: инструкция для начинающих"
     }
   ],
   "ogTitle": "Разработка чат-бота для бизнеса: AI, CRM и Telegram",

@@ -176,6 +176,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/ru/blog/kak-sozdat-telegram-bota/",
+      "anchor": "создать Telegram-бота бесплатно: пошаговая инструкция",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "ogTitle": "Бесплатный чат-бот: возможности и реальные ограничения",
