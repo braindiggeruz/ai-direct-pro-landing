@@ -168,6 +168,12 @@
       "anchor": "Telegram-бот для бизнеса",
       "type": "contextual",
       "locale": "ru"
+    },
+    {
+      "target": "/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/",
+      "anchor": "как работает голосовой чат с ИИ для бизнеса",
+      "type": "contextual",
+      "locale": "ru"
     }
   ],
   "ogTitle": "Как AI-бот понимает узбекский язык и смешанную речь",

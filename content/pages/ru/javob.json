@@ -81,6 +81,7 @@
   ],
   "internalLinks": [
     { "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/", "anchor": "голосовой чат с ИИ для бизнеса", "locale": "ru", "type": "contextual" },
     { "target": "/ru/tarify-ai-chat/", "anchor": "Тарифы GPTBot", "locale": "ru", "type": "block" },
     { "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI для бизнеса", "locale": "ru", "type": "block" },
     { "target": "/ru/politika-konfidentsialnosti/", "anchor": "Политика конфиденциальности", "locale": "ru", "type": "footer" }

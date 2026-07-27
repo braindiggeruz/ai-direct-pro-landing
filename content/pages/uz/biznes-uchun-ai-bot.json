@@ -245,6 +245,12 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/avtosalon-uchun-ai-bot/",
+      "anchor": "avtosalon uchun AI bot",
+      "locale": "uz",
+      "type": "niche"
+    },
+    {
       "target": "/uz/",
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
