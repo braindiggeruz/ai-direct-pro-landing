@@ -41,6 +41,7 @@ export type { SotuvchiCheckoutServiceOptions } from './service';
 export { createSotuvchiCheckoutStore } from './store';
 export type {
   CheckoutContactField,
+  CheckoutNotificationInput,
   CheckoutOperationInput,
   CheckoutOperationRecord,
   CheckoutStore,

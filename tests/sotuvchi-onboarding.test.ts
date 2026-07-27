@@ -648,10 +648,20 @@ test('Sotuvchi manifest keeps onboarding, catalog and one checkout entry', () =>
   );
   assert.ok(sotuvchiAgentManifest.tools.length > 0);
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
-    tool.name.startsWith('catalog.') || tool.name.startsWith('checkout.')));
+    tool.name.startsWith('catalog.')
+    || tool.name.startsWith('checkout.')
+    || tool.name.startsWith('seller.')));
+  // Seller order and inventory tools arrived with P2.5; payment, refund and
+  // human handoff surfaces still must not exist. The onboarding workflow does
+  // declare an `awaiting_payment` step — that step only records the store's
+  // payment-method text, so the scan targets tool names, not the whole tree.
+  const names = sotuvchiAgentManifest.tools.map((tool) => tool.name);
+  for (const forbidden of ['payment', 'refund', 'handoff', 'cart']) {
+    assert.ok(!names.some((name) => name.includes(forbidden)), forbidden);
+  }
   const serialized = JSON.stringify(sotuvchiAgentManifest, (_key, value) =>
-    typeof value === 'function' ? '[function]' : value);
-  for (const forbidden of ['inventory', 'stock', 'seller.order']) {
+    typeof value === 'function' ? '[function]' : value).toLowerCase();
+  for (const forbidden of ['refund', 'human_handoff', 'multi_item']) {
     assert.ok(!serialized.includes(forbidden), forbidden);
   }
 });

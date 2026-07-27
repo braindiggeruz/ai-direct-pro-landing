@@ -17,6 +17,10 @@ import {
   sotuvchiCheckoutWorkflow,
 } from './checkout';
 import {
+  sotuvchiOrdersRules,
+  sotuvchiOrdersTools,
+} from './orders';
+import {
   sotuvchiSellerCancelledRule,
   sotuvchiSellerStatusRule,
   sotuvchiStorefrontPendingRule,
@@ -24,13 +28,14 @@ import {
 
 export const sotuvchiAgentManifest: AgentManifest = {
   id: 'sotuvchi',
-  version: '1.3.0',
+  version: '1.4.0',
   locales: ['ru', 'uz'],
   capabilities: ['store.onboarding', 'store.catalog', 'commerce.order'],
   tools: [
     ...sotuvchiCatalogTools,
     ...sotuvchiBuyerTools,
     ...sotuvchiCheckoutTools,
+    ...sotuvchiOrdersTools,
   ],
   deterministicRules: [
     sotuvchiStorefrontPendingRule,
@@ -38,6 +43,7 @@ export const sotuvchiAgentManifest: AgentManifest = {
     sotuvchiSellerCancelledRule,
     ...sotuvchiCatalogRules,
     ...sotuvchiCheckoutRules,
+    ...sotuvchiOrdersRules,
     ...sotuvchiBuyerRules,
   ],
   workflows: [

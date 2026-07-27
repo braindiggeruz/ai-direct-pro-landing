@@ -63,6 +63,18 @@ export const sotuvchiSellerStatusRule: DeterministicRule = {
                 ? 'Yashirish'
                 : 'Скрыть товар',
             },
+            {
+              id: 'seller-orders',
+              label: context.org.locale === 'uz'
+                ? 'Buyurtmalar'
+                : 'Заказы',
+            },
+            {
+              id: 'seller-inventory',
+              label: context.org.locale === 'uz'
+                ? 'Qoldiqlar'
+                : 'Остатки',
+            },
           ],
         }],
         claims: [],

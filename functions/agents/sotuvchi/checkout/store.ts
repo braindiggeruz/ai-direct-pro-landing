@@ -99,6 +99,15 @@ export interface CreateOrderInput {
 
 export type CheckoutContactField = 'name' | 'phone' | 'address';
 
+/**
+ * Seller notification intent written inside the placement batch. The outbox
+ * row carries no payload, so buyer contact data never leaves sotuvchi_orders.
+ */
+export interface CheckoutNotificationInput {
+  id: string;
+  idempotencyKey: string;
+}
+
 export interface CheckoutStore {
   findActiveBuyerSession(
     botUsername: string,
@@ -144,6 +153,7 @@ export interface CheckoutStore {
     expectedVersion: number,
     placedAt: string,
     operation: CheckoutOperationInput,
+    notification: CheckoutNotificationInput,
   ): Promise<readonly number[]>;
   cancelOrder(
     order: SotuvchiOrder,
@@ -587,7 +597,7 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
       return changesOf(results);
     },
 
-    async placeOrder(order, expectedVersion, placedAt, operation) {
+    async placeOrder(order, expectedVersion, placedAt, operation, notification) {
       const results = await db.batch([
         db.prepare(`UPDATE sotuvchi_orders
                     SET status = 'placed',
@@ -638,6 +648,29 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
             order.buyerSessionId,
           ),
         operationStatement(order, operation),
+        // Durable seller intent, committed with the placement itself: no
+        // Telegram call happens inside a domain mutation.
+        db.prepare(`INSERT INTO sotuvchi_notifications
+                    (id, org_id, store_id, order_id, audience, type, status,
+                     idempotency_key, attempt_count,
+                     created_at, updated_at, sent_at)
+                    SELECT ?, ordered.org_id, ordered.store_id, ordered.id,
+                           'seller', 'order_placed', 'pending', ?, 0, ?, ?, NULL
+                    FROM sotuvchi_orders AS ordered
+                    WHERE ordered.org_id = ? AND ordered.store_id = ?
+                      AND ordered.id = ?
+                      AND ordered.status = 'placed'
+                      AND ordered.last_operation_key = ?`)
+          .bind(
+            notification.id,
+            notification.idempotencyKey,
+            placedAt,
+            placedAt,
+            order.orgId,
+            order.storeId,
+            order.id,
+            operation.idempotencyKey,
+          ),
       ]);
       return changesOf(results);
     },

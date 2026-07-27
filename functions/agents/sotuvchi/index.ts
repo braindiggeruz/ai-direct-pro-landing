@@ -8,6 +8,9 @@ export * from './onboarding';
 export * from './catalog';
 export * from './buyer';
 export * from './checkout';
+export * from './outbox';
+export * from './inventory';
+export * from './orders';
 export {
   SOTUVCHI_ONBOARDING_STATUSES,
   STORE_DELIVERY_MODES,

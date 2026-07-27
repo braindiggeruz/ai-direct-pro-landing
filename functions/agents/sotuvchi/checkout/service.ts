@@ -13,6 +13,7 @@ import {
   type SotuvchiCatalogService,
   type StorefrontContext,
 } from '../catalog';
+import { ensureSotuvchiNotificationsSchema } from '../outbox/schema';
 import {
   CheckoutAuthorizationError,
   CheckoutIdempotencyConflictError,
@@ -22,7 +23,6 @@ import {
   CheckoutValidationError,
   CheckoutVersionConflictError,
 } from './errors';
-import { ensureSotuvchiCheckoutSchema } from './schema';
 import {
   createSotuvchiCheckoutStore,
   type CheckoutContactField,
@@ -64,7 +64,7 @@ export interface SotuvchiCheckoutServiceOptions {
   maxOrderNumberAttempts?: number;
 }
 
-function randomBase32(prefix: 'o' | 'i'): string {
+function randomBase32(prefix: 'o' | 'i' | 'n'): string {
   const bytes = crypto.getRandomValues(new Uint8Array(10));
   let buffer = 0;
   let bits = 0;
@@ -152,7 +152,9 @@ export class SotuvchiCheckoutService {
   }
 
   private async ready(): Promise<void> {
-    await ensureSotuvchiCheckoutSchema(this.db);
+    // Bootstraps the checkout tables and the shared notification outbox that
+    // placement writes in the same batch.
+    await ensureSotuvchiNotificationsSchema(this.db);
   }
 
   /** Trusted authority chain: Telegram identity → storefront session → store. */
@@ -657,11 +659,16 @@ export class SotuvchiCheckoutService {
     const operation = await this.operation(org, 'checkout.confirm', {
       totalMinor: order.totalMinor,
     });
+    const placedAt = new Date().toISOString();
     const changes = await this.store.placeOrder(
       order,
       order.version,
-      new Date().toISOString(),
+      placedAt,
       operation,
+      {
+        id: randomBase32('n'),
+        idempotencyKey: `${operation.idempotencyKey}:placed`,
+      },
     );
     if (changes.some((value) => value !== 1)) {
       throw new CheckoutStateError('product_unavailable');

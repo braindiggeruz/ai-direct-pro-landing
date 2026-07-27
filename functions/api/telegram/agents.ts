@@ -11,9 +11,12 @@ import {
   createSotuvchiCheckoutWorkflowPort,
   createSotuvchiDomainPort,
   createSotuvchiOnboardingService,
+  createSotuvchiOrdersDomainPort,
+  createSotuvchiOrdersService,
   createSotuvchiWorkflowPort,
   isStorefrontCode,
   withSotuvchiCheckoutDomain,
+  withSotuvchiOrdersDomain,
   type SotuvchiOnboardingSnapshot,
 } from '../../agents/sotuvchi';
 import { listAgents } from '../../agents/registry';
@@ -90,6 +93,7 @@ export function createTelegramAgentsRuntimeWiring(
   const onboarding = createSotuvchiOnboardingService(db);
   const catalog = createSotuvchiCatalogService(db);
   const checkout = createSotuvchiCheckoutService(db, catalog, botUsername);
+  const orders = createSotuvchiOrdersService(db, catalog);
   const demoContexts = createStaticTelegramAgentContextResolver([{
     botUsername,
     routeCode: 'demo',
@@ -205,13 +209,16 @@ export function createTelegramAgentsRuntimeWiring(
         createSotuvchiCheckoutWorkflowPort(checkout),
         createSotuvchiWorkflowPort(onboarding, botUsername),
       ]),
-      agentDomain: withSotuvchiCheckoutDomain(
-        createSotuvchiDomainPort(catalog, botUsername),
-        createSotuvchiCheckoutDomainPort(checkout),
+      agentDomain: withSotuvchiOrdersDomain(
+        withSotuvchiCheckoutDomain(
+          createSotuvchiDomainPort(catalog, botUsername),
+          createSotuvchiCheckoutDomainPort(checkout),
+        ),
+        createSotuvchiOrdersDomainPort(orders),
       ),
     },
   });
-  return { catalog, checkout, contexts, onboarding, runtime };
+  return { catalog, checkout, contexts, onboarding, orders, runtime };
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({

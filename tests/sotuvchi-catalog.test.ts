@@ -1122,18 +1122,20 @@ test('manifest exposes catalog closed-list tools with AI mutations disabled', ()
   );
   assert.ok(sotuvchiAgentManifest.tools.length >= 9);
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
-    tool.name.startsWith('catalog.') || tool.name.startsWith('checkout.')));
+    tool.name.startsWith('catalog.')
+    || tool.name.startsWith('checkout.')
+    || tool.name.startsWith('seller.')));
   assert.equal(sotuvchiAgentManifest.policies.aiSelection, 'disabled');
   const names = sotuvchiAgentManifest.tools.map((tool) => tool.name);
   assert.ok(!names.includes('catalog.execute'));
-  // P2.4 adds exactly one checkout entry point; inventory, payment and seller
-  // order management stay out of the manifest.
+  // Still exactly one buyer checkout entry point. P2.5 added the seller order
+  // and inventory tools; payment and handoff remain out of the manifest.
   assert.deepEqual(
     names.filter((name) => name.startsWith('checkout.')),
     ['checkout.start'],
   );
-  for (const forbidden of ['inventory', 'stock', 'payment']) {
-    assert.ok(!names.some((name) => name.includes(forbidden)));
+  for (const forbidden of ['payment', 'refund', 'handoff', 'cart']) {
+    assert.ok(!names.some((name) => name.includes(forbidden)), forbidden);
   }
 });
 
