@@ -6,5 +6,6 @@ export {
   DuplicateAgentIdError,
   getAgent,
   listAgents,
+  requireAgent,
   registerAgent,
 } from './registry';

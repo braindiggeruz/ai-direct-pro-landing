@@ -3,10 +3,20 @@
 // scripts/check-agent-boundaries.ts). Types only: importing this module has
 // no runtime side effects.
 export type { Locale, OrgContext } from './context';
-export type { FactValue, FactSheet } from './facts';
-export type { Tool, ToolInputSchema, UnknownTool } from './tool';
+export type { Facts, FactValue, FactSheet } from './facts';
+export type {
+  RuntimeSchema,
+  Tool,
+  ToolDefinition,
+  ToolInputSchema,
+  UnknownTool,
+} from './tool';
 export { eraseTool } from './tool';
-export type { AgentCapability, AgentManifest } from './agent';
+export type {
+  AgentCapability,
+  AgentManifest,
+  AgentPolicies,
+} from './agent';
 export type {
   ChannelAdapter,
   ChannelCapabilities,
@@ -29,3 +39,24 @@ export type {
   WorkflowTransition,
   WorkflowTrigger,
 } from './workflow';
+export type {
+  DeterministicRule,
+  GroundingResult,
+  KnowledgeServicePort,
+  RuntimeActiveWorkflow,
+  RuntimeExactClaim,
+  RuntimeKnowledgeItem,
+  RuntimeKnowledgeSearchResult,
+  RuntimeMessage,
+  RuntimeReasonCode,
+  RuntimeResponseDraft,
+  RuntimeRuleContext,
+  RuntimeServices,
+  RuntimeStepResult,
+  RuntimeTurnInput,
+  RuntimeTurnResult,
+  ToolContext,
+  ToolExecutionSummary,
+  ToolResponseTemplate,
+  WorkflowServicePort,
+} from './runtime';

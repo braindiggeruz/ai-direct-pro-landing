@@ -1,34 +1,32 @@
-// Agent registry — the single place where agents plug into the platform.
-// Adding a production agent = one registerAgent(manifest) call from this
-// module (a future stage). P0.1 registers nothing: no product agents exist
-// yet, and demo manifests live only inside tests as fixtures.
-//
-// No runtime side effects on import beyond allocating the empty Map; no I/O.
+// The single production registration point. A production agent adds one
+// registerAgent(manifest) call here; no filesystem discovery or dynamic code.
+// P1.3 keeps it empty: the demo agent is offline-only.
 import type { AgentManifest } from '../platform/contracts';
+import {
+  createAgentRegistry,
+  DuplicateAgentIdError,
+} from '../platform/runtime';
 
-const agents = new Map<string, AgentManifest>();
-
-export class DuplicateAgentIdError extends Error {
-  constructor(public readonly agentId: string) {
-    super(`duplicate agent id: ${agentId}`);
-    this.name = 'DuplicateAgentIdError';
-  }
-}
+const productionRegistry = createAgentRegistry();
+export { DuplicateAgentIdError };
 
 export function registerAgent(manifest: AgentManifest): void {
-  if (agents.has(manifest.id)) throw new DuplicateAgentIdError(manifest.id);
-  agents.set(manifest.id, manifest);
+  productionRegistry.register(manifest);
 }
 
 export function getAgent(id: string): AgentManifest | undefined {
-  return agents.get(id);
+  return productionRegistry.find(id);
+}
+
+export function requireAgent(id: string): AgentManifest {
+  return productionRegistry.get(id);
 }
 
 export function listAgents(): readonly AgentManifest[] {
-  return [...agents.values()];
+  return productionRegistry.list();
 }
 
 /** Test-only helper: registries must be resettable between test cases. */
 export function clearAgentsForTests(): void {
-  agents.clear();
+  productionRegistry.clearForTests();
 }

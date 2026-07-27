@@ -119,6 +119,7 @@ const demoManifest = (id: string): AgentManifest => ({
   locales: ['ru'],
   capabilities: ['handoff'],
   tools: [],
+  policies: { grounding: 'strict', aiSelection: 'disabled' },
 });
 
 test('registry: type-safe register/get/list and duplicate detection', () => {

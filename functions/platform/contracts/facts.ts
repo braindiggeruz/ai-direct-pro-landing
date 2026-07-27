@@ -11,3 +11,6 @@ export interface FactSheet {
   toolName: string;
   values: Readonly<Record<string, FactValue>>;
 }
+
+/** Ordered fact sheets collected during one runtime turn. */
+export type Facts = readonly FactSheet[];
