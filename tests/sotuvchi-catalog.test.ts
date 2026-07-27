@@ -1118,15 +1118,21 @@ test('storefront session binds platform identity and resolves trusted store', as
 test('manifest exposes catalog closed-list tools with AI mutations disabled', () => {
   assert.deepEqual(
     sotuvchiAgentManifest.capabilities,
-    ['store.onboarding', 'store.catalog'],
+    ['store.onboarding', 'store.catalog', 'commerce.order'],
   );
   assert.ok(sotuvchiAgentManifest.tools.length >= 9);
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
-    tool.name.startsWith('catalog.')));
+    tool.name.startsWith('catalog.') || tool.name.startsWith('checkout.')));
   assert.equal(sotuvchiAgentManifest.policies.aiSelection, 'disabled');
   const names = sotuvchiAgentManifest.tools.map((tool) => tool.name);
   assert.ok(!names.includes('catalog.execute'));
-  for (const forbidden of ['checkout', 'order', 'inventory']) {
+  // P2.4 adds exactly one checkout entry point; inventory, payment and seller
+  // order management stay out of the manifest.
+  assert.deepEqual(
+    names.filter((name) => name.startsWith('checkout.')),
+    ['checkout.start'],
+  );
+  for (const forbidden of ['inventory', 'stock', 'payment']) {
     assert.ok(!names.some((name) => name.includes(forbidden)));
   }
 });

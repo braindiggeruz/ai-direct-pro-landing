@@ -4,11 +4,16 @@
 import type { Env } from '../../_types';
 import { demoAgentManifest } from '../../agents/demo';
 import {
+  composeSotuvchiWorkflowPorts,
   createSotuvchiCatalogService,
+  createSotuvchiCheckoutDomainPort,
+  createSotuvchiCheckoutService,
+  createSotuvchiCheckoutWorkflowPort,
   createSotuvchiDomainPort,
   createSotuvchiOnboardingService,
   createSotuvchiWorkflowPort,
   isStorefrontCode,
+  withSotuvchiCheckoutDomain,
   type SotuvchiOnboardingSnapshot,
 } from '../../agents/sotuvchi';
 import { listAgents } from '../../agents/registry';
@@ -84,12 +89,40 @@ export function createTelegramAgentsRuntimeWiring(
 ) {
   const onboarding = createSotuvchiOnboardingService(db);
   const catalog = createSotuvchiCatalogService(db);
+  const checkout = createSotuvchiCheckoutService(db, catalog, botUsername);
   const demoContexts = createStaticTelegramAgentContextResolver([{
     botUsername,
     routeCode: 'demo',
     orgId: 'org-demo',
     agentId: 'demo',
   }]);
+
+  // Trusted server-side lookup: an active checkout draft owned by this buyer
+  // identity. The buyer never supplies a workflow instance or version.
+  async function storefrontContext(
+    orgId: string,
+    agentId: string,
+    locale: TelegramAgentContext['locale'],
+    identityId: string,
+    entryActionId?: string,
+  ): Promise<TelegramAgentContext> {
+    const active = await checkout.getActiveWorkflowRef(identityId);
+    return {
+      orgId,
+      agentId,
+      locale,
+      ...(entryActionId ? { entryActionId } : {}),
+      ...(active && active.orgId === orgId
+        ? {
+            workflow: {
+              instanceId: active.instanceId,
+              expectedVersion: active.expectedVersion,
+            },
+          }
+        : {}),
+    };
+  }
+
   const contexts: TelegramAgentContextResolver = {
     async resolve(input) {
       const parsed = parseTelegramStartPayload(input.startPayload);
@@ -122,12 +155,13 @@ export function createTelegramAgentsRuntimeWiring(
           identityId: input.telegramIdentityId,
           context: storefront,
         });
-        return {
-          orgId: storefront.orgId,
-          agentId: storefront.agentId,
-          locale: storefront.locale,
-          entryActionId: 'storefront-start',
-        };
+        return storefrontContext(
+          storefront.orgId,
+          storefront.agentId,
+          storefront.locale,
+          input.telegramIdentityId,
+          'storefront-start',
+        );
       }
       if (parsed.status === 'none') {
         const snapshot = await onboarding.getOnboarding({
@@ -147,11 +181,12 @@ export function createTelegramAgentsRuntimeWiring(
           input.telegramIdentityId,
         );
         if (storefront) {
-          return {
-            orgId: storefront.orgId,
-            agentId: storefront.agentId,
-            locale: storefront.locale,
-          };
+          return storefrontContext(
+            storefront.orgId,
+            storefront.agentId,
+            storefront.locale,
+            input.telegramIdentityId,
+          );
         }
       }
       return demoContexts.resolve(input);
@@ -166,11 +201,17 @@ export function createTelegramAgentsRuntimeWiring(
     registry,
     services: {
       knowledge: createKnowledgeService(db),
-      workflow: createSotuvchiWorkflowPort(onboarding, botUsername),
-      agentDomain: createSotuvchiDomainPort(catalog, botUsername),
+      workflow: composeSotuvchiWorkflowPorts([
+        createSotuvchiCheckoutWorkflowPort(checkout),
+        createSotuvchiWorkflowPort(onboarding, botUsername),
+      ]),
+      agentDomain: withSotuvchiCheckoutDomain(
+        createSotuvchiDomainPort(catalog, botUsername),
+        createSotuvchiCheckoutDomainPort(checkout),
+      ),
     },
   });
-  return { catalog, contexts, onboarding, runtime };
+  return { catalog, checkout, contexts, onboarding, runtime };
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({

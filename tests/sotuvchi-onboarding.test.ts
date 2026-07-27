@@ -640,18 +640,18 @@ test('known route resolves its tenant and unknown route fails closed', async () 
   );
 });
 
-test('Sotuvchi manifest keeps onboarding and adds only P2.2 catalog', () => {
+test('Sotuvchi manifest keeps onboarding, catalog and one checkout entry', () => {
   assert.equal(sotuvchiAgentManifest.id, 'sotuvchi');
   assert.deepEqual(
     sotuvchiAgentManifest.capabilities,
-    ['store.onboarding', 'store.catalog'],
+    ['store.onboarding', 'store.catalog', 'commerce.order'],
   );
   assert.ok(sotuvchiAgentManifest.tools.length > 0);
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
-    tool.name.startsWith('catalog.')));
+    tool.name.startsWith('catalog.') || tool.name.startsWith('checkout.')));
   const serialized = JSON.stringify(sotuvchiAgentManifest, (_key, value) =>
     typeof value === 'function' ? '[function]' : value);
-  for (const forbidden of ['checkout', 'orders', 'inventory']) {
+  for (const forbidden of ['inventory', 'stock', 'seller.order']) {
     assert.ok(!serialized.includes(forbidden), forbidden);
   }
 });

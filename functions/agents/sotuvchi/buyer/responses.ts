@@ -82,6 +82,7 @@ function productCard(
   claim(claims, facts, `${prefix}.availability`);
   const description = stringFact(facts, `${prefix}.description`);
   const category = stringFact(facts, `${prefix}.category_name`);
+  const orderable = stringFact(facts, `${prefix}.availability`) !== 'unavailable';
   if (description) claim(claims, facts, `${prefix}.description`);
   if (category) claim(claims, facts, `${prefix}.category_name`);
   return {
@@ -105,10 +106,20 @@ function productCard(
         : []),
     ],
     actions: full
-      ? [{
-          id: 'buyer-back',
-          label: locale === 'ru' ? 'Назад к каталогу' : 'Katalogga qaytish',
-        }]
+      ? [
+          // P2.4 entry point: checkout starts only from a trusted full card of
+          // an orderable published product, never from free-form buyer text.
+          ...(orderable
+            ? [{
+                id: `buyer-checkout.${productRef}`,
+                label: locale === 'ru' ? 'Оформить' : 'Rasmiylashtirish',
+              }]
+            : []),
+          {
+            id: 'buyer-back',
+            label: locale === 'ru' ? 'Назад к каталогу' : 'Katalogga qaytish',
+          },
+        ]
       : [{
           id: `buyer-details.${productRef}`,
           label: locale === 'ru' ? 'Подробнее' : 'Batafsil',

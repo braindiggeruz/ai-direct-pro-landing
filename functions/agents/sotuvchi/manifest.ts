@@ -12,6 +12,11 @@ import {
   sotuvchiBuyerTools,
 } from './buyer';
 import {
+  sotuvchiCheckoutRules,
+  sotuvchiCheckoutTools,
+  sotuvchiCheckoutWorkflow,
+} from './checkout';
+import {
   sotuvchiSellerCancelledRule,
   sotuvchiSellerStatusRule,
   sotuvchiStorefrontPendingRule,
@@ -19,18 +24,26 @@ import {
 
 export const sotuvchiAgentManifest: AgentManifest = {
   id: 'sotuvchi',
-  version: '1.2.0',
+  version: '1.3.0',
   locales: ['ru', 'uz'],
-  capabilities: ['store.onboarding', 'store.catalog'],
-  tools: [...sotuvchiCatalogTools, ...sotuvchiBuyerTools],
+  capabilities: ['store.onboarding', 'store.catalog', 'commerce.order'],
+  tools: [
+    ...sotuvchiCatalogTools,
+    ...sotuvchiBuyerTools,
+    ...sotuvchiCheckoutTools,
+  ],
   deterministicRules: [
     sotuvchiStorefrontPendingRule,
     sotuvchiSellerStatusRule,
     sotuvchiSellerCancelledRule,
     ...sotuvchiCatalogRules,
+    ...sotuvchiCheckoutRules,
     ...sotuvchiBuyerRules,
   ],
-  workflows: [eraseWorkflowDefinition(sotuvchiOnboardingWorkflow)],
+  workflows: [
+    eraseWorkflowDefinition(sotuvchiOnboardingWorkflow),
+    eraseWorkflowDefinition(sotuvchiCheckoutWorkflow),
+  ],
   policies: {
     grounding: 'strict',
     aiSelection: 'disabled',
