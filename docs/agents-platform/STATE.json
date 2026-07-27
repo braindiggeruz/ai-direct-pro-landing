@@ -1,21 +1,21 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P0.4",
+  "current_stage": "P0.5",
   "stage_status": "completed",
-  "last_completed_stage": "P0.4",
-  "next_stage": "P0.5",
-  "last_commit": "1f683380078629f67c2fef16a6fe68fd8ba96840",
+  "last_completed_stage": "P0.5",
+  "next_stage": "P1.1",
+  "last_commit": "31021442c12fbc24a9c90f6a42422412c0d7cbb2",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
-  "previous_stage": { "stage": "P0.3", "last_commit": "1776679fdbce570b83d7d372d3fe3d4c94528a89", "state_commit": "7ffb4db13096a6983cb3f5febe8d9a33278ad619" },
-  "updated_at": "2026-07-26",
+  "previous_stage": { "stage": "P0.4", "last_commit": "1f683380078629f67c2fef16a6fe68fd8ba96840", "state_commit": "4fcfab36" },
+  "updated_at": "2026-07-27",
   "blocked": false,
   "blockers": [],
   "baseline": {
     "build": "tsc -b exit 0",
-    "tests": "pass: platform-tenancy 31/31 (new), platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15",
+    "tests": "pass: platform-ai 15/15 (new), platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "P0.4 identity/orgs modules, platform-tenancy test and shared platform index eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
+    "lint": "P0.5 platform/ai, platform-ai test, boundary checker/test and shared platform index eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
   }
 }

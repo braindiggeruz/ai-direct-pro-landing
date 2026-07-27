@@ -73,3 +73,21 @@ Post-change baseline P0.4:
 - `npx tsc -p tsconfig.functions.json --noEmit` → ровно 27 legacy-ошибок, 0 в `functions/{platform,agents,channels}`;
 - scoped ESLint для identity/orgs, platform-tenancy test и platform index → exit 0;
 - `0014_platform_identity_orgs.sql` дважды выполнена локальным Wrangler D1 по 7/7 statements; production D1 не затрагивалась.
+
+## Добавлено P0.5
+| Файл | Кол-во | Статус | Что покрывает |
+|---|---:|---|---|
+| `tests/platform-ai.test.ts` | 15 | ✅ | provider-neutral complete/structured façade; deterministic task/tier policy и ordered fallback; strict JSON/schema fail-closed; controlled error/timeout/PII safety; capability unavailable; maxAttempts; OpenRouter и lib/llm legacy adapters без network |
+
+Post-change baseline P0.5:
+- `npx tsc -b` → exit 0;
+- `tests/platform-ai.test.ts` → 15/15;
+- `tests/platform-tenancy.test.ts` → 31/31;
+- `tests/platform-events.test.ts` → 20/20;
+- `tests/agent-boundaries.test.ts` → 10/10, включая exact-path `LEGACY-SHIM`;
+- `tests/telegram-channel-compat.test.ts` → 1/1;
+- `tests/telegram-assistant.test.ts` → 60/60;
+- `tests/gpt-chat.test.ts` → 15/15;
+- `npx tsc -p tsconfig.functions.json --noEmit` → ровно 27 legacy-ошибок в 6 старых файлах, 0 в `functions/{platform,agents,channels}`;
+- scoped ESLint для platform AI, нового теста, boundary checker/test и platform index → exit 0;
+- direct boundary checker, static scope scan, staged secret/PII scan и `git diff --check` → clean.

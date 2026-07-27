@@ -1,102 +1,95 @@
 # GPTBot Agents — Handoff
 
 ## 1. Состояние
-- Дата: 2026-07-26
+- Дата: 2026-07-27
 - Ветка: `main`
-- Исходный HEAD P0.4: `7ffb4db13096a6983cb3f5febe8d9a33278ad619`
-- Code commit P0.4: `1f683380078629f67c2fef16a6fe68fd8ba96840`
+- Исходный HEAD P0.5: `93fab390733d3d5ffbf052e211d95b6038ee4bbd`
+- Code commit P0.5: `31021442c12fbc24a9c90f6a42422412c0d7cbb2`
 - HEAD после relay: последний metadata-only commit в `git log`; по D-006 `STATE.json.state_commit = "HEAD"` и не хранит собственный SHA
-- Завершённый этап: **P0.4 — Identity/Orgs/Tenancy**
-- Следующий этап: **P0.5 — Platform AI façade**
-- Рабочее дерево после relay: только давний pre-existing untracked `apps/gpt-backend/package-lock.json`; файл не изменён, не удалён и не добавлен в коммиты
+- Завершённый этап: **P0.5 — Platform AI façade**
+- Следующий этап: **P1.1 — Knowledge Engine minimum**
+- P0.4 подтверждён в ancestry: code `1f683380078629f67c2fef16a6fe68fd8ba96840`, relay `4fcfab36`; после них сохранена серия SEO-коммитов вплоть до source HEAD `93fab390`
+- Рабочее дерево после relay: только pre-existing untracked `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`; оба объекта не изменены, не удалены и не добавлены в коммиты
 
 ## 2. Что сделано
-1. Проверены source HEAD, branch, STATE gate и baseline P0.3: platform events 20/20, boundaries 10/10, Telegram compatibility 1/1, Telegram assistant 60/60, gpt-chat 15/15, `tsc -b` 0, ровно 27 legacy functions errors и 0 platform-scope.
-2. Проанализированы legacy `users`, `telegram_users`, gpt-chat/admin identity patterns. Они не мигрировались и не связывались с новым platform layer.
-3. Добавлены provider-neutral `identities` с закрытым provider union `telegram|web|email|phone|api`, provider-specific normalization и idempotent/race-safe `(provider, external_id)` resolution.
-4. Telegram external id хранится только строкой. Email lower-case нормализуется, phone приводится к минимальному E.164-подобному виду; значения не логируются и не отправляются в events.
-5. Добавлены `organizations` как tenant roots с safe unique slug, status `active|suspended|archived` и locale `ru|uz`.
-6. Добавлены memberships с ролями `owner|staff` и status `active|disabled`; duplicate create не меняет существующую роль и не может понизить owner до staff.
-7. Добавлены PII-minimal contacts: identity link, tenant, locale и timestamps; phone/display name/raw profile отсутствуют.
-8. Все membership/contact methods инкапсулированы factory store и принимают `orgId` первым бизнес-аргументом. Reads, lists и updates фильтруются по `org_id`; cross-tenant доступ маскируется как not found.
-9. Создан `createOrganizationForOwner`: identity разрешается отдельно, organization+active owner membership записываются атомарным D1 `batch()`.
-10. Добавлена additive migration `0014` и два idempotent runtime bootstraps. Foreign keys обеспечивают целостность, но tenant isolation доказана repository-запросами и негативными тестами.
-11. Добавлен in-memory D1 suite из 31 теста, включая concurrent identity resolution, cross-org reads/lists/updates и rollback tenant batch.
-12. Migration дважды успешно выполнена через локальный Wrangler D1; remote/production D1 не затрагивалась.
+1. Подтверждены branch/source HEAD, STATE gate, ancestry P0.4 и наличие identity/orgs implementation. SEO-коммиты после P0.4 не переписывались и не откатывались.
+2. До изменений зафиксирован baseline: `tsc -b` exit 0; tenancy 31/31, events 20/20, boundaries 10/10, Telegram compatibility 1/1, Telegram assistant 60/60, gpt-chat 15/15; functions-config — ровно 27 legacy errors в 6 старых файлах и 0 platform-scope.
+3. Изучены реальные `lib/llm`, gpt-chat OpenRouter и Telegram AI/STT реализации: provider chains, retries, circuit breaker, JSON mode, streaming, transcription, timeouts, errors, usage и env dependencies.
+4. Добавлены provider-neutral contracts для сообщений, completion/structured requests/results, usage/attempt metadata и capability-based drivers. Streaming и transcription представлены отдельными typed capabilities без принудительной реализации каждым driver.
+5. Добавлен `AiFacade` с `complete` и generic `structured`: deterministic task/tier policy, ordered fallback, ограниченный `maxAttempts`, deadline и нормализация ошибок.
+6. Добавлен strict structured pipeline: `JSON.parse` и затем runtime schema `.parse(unknown)`. Invalid JSON и schema mismatch fail-closed как разные controlled errors.
+7. Добавлена минимальная error model: configuration/provider/timeout/structured/unavailable. Raw provider errors, prompts и user content не копируются; unknown runtime task также не сохраняется в error fields.
+8. Добавлен один узкий compatibility adapter поверх существующих gpt-chat OpenRouter и `lib/llm` structured router. Он переиспользует текущие env/model chains/retry behavior и не копирует production model names.
+9. Boundary checker усилен: `LEGACY-SHIM` разрешён только в точном файле `functions/platform/ai/drivers/legacy.ts`; тот же marker в любом другом platform-файле не обходится.
+10. Добавлены 15 offline fake-driver tests, включая оба legacy adapters через dependency injection. Реальные provider API не вызывались.
+11. Production consumers Javob, gpt-chat и Telegram STT не переключались; prompts, temperatures, token limits, billing, SSE, model/env configuration и production behavior не менялись.
 
 ## 3. Изменённые файлы
-- `migrations/0014_platform_identity_orgs.sql` — четыре additive таблицы, CHECK/UNIQUE/FK constraints, три дополнительных индекса и rollback notes.
-- `functions/platform/identity/types.ts` — provider union и domain/create-result shapes.
-- `functions/platform/identity/store.ts` — весь identity SQL, normalization/validation, idempotent race-safe repository.
-- `functions/platform/identity/schema.ts` — retry-safe per-D1 runtime bootstrap.
-- `functions/platform/identity/service.ts` — тонкая bootstrap-aware service surface.
-- `functions/platform/identity/index.ts` — public identity exports.
-- `functions/platform/orgs/types.ts` — organization/membership/contact unions и domain/input/result types.
-- `functions/platform/orgs/store.ts` — весь organizations/memberships/contacts SQL, tenant-scoped API и atomic organization+owner batch.
-- `functions/platform/orgs/schema.ts` — identity-first retry-safe runtime bootstrap.
-- `functions/platform/orgs/service.ts` — `createOrganizationForOwner` orchestration без прямого SQL.
-- `functions/platform/orgs/index.ts` — public organizations/tenancy exports.
-- `functions/platform/index.ts` — экспорт identity/orgs modules; Pages handler exports не добавлены.
-- `tests/platform-tenancy.test.ts` — 31 test на typed in-memory D1 fake с transactional batch rollback.
-- `docs/agents-platform/{HANDOFF.md,STATE.json,TEST_MATRIX.md,CURRENT_STATE.md,DECISIONS.md}` — P0.4 relay и D-009.
+- `functions/platform/ai/types.ts` — provider-neutral contracts и независимые capability interfaces.
+- `functions/platform/ai/errors.ts` — пять controlled error families с content-free сообщениями.
+- `functions/platform/ai/policy.ts` — валидируемая task/tier policy, ordered routes и ограничение attempts.
+- `functions/platform/ai/structured.ts` — strict JSON + runtime schema fail-closed validation.
+- `functions/platform/ai/facade.ts` — `complete`/`structured`, fallback, timeout и error normalization.
+- `functions/platform/ai/drivers/legacy.ts` — единственная platform→legacy точка: gpt-chat OpenRouter text и `lib/llm` structured adapters.
+- `functions/platform/ai/index.ts` — public AI exports.
+- `functions/platform/index.ts` — экспорт AI module; handler exports не добавлены.
+- `scripts/check-agent-boundaries.ts` — точный allowlist одного legacy adapter вместо глобального marker bypass.
+- `tests/agent-boundaries.test.ts` — доказательство, что marker вне adapter и import без marker отклоняются.
+- `tests/platform-ai.test.ts` — 15 изолированных façade/policy/validation/error/adapter tests.
+- `docs/agents-platform/{HANDOFF.md,STATE.json,TEST_MATRIX.md,CURRENT_STATE.md,DECISIONS.md}` — P0.5 relay и D-010.
 
 ## 4. Архитектурные решения
-- **D-009:** отдельная `persons` на P0.4 не вводится. Identity достаточно для membership/contact linking; identity merge и linking UI отсутствуют, legacy users не backfill.
-- Identity global и provider-scoped; `external_id` всегда string и может храниться только в identity table, но не в analytics/events/logs.
-- Organization — tenant root. Workspace и permission matrix не добавлены.
-- Contacts tenant-scoped и PII-minimal: без phone, display name и raw channel profile.
-- Cross-tenant membership/contact read/update возвращает not found/null и не раскрывает существование строки другого tenant.
-- Global identity создаётся/разрешается отдельно; organization+owner membership — единый transactional D1 batch. При batch failure обе tenant rows откатываются, identity остаётся независимой валидной записью.
+- **D-010:** AI layer — capability façade, а не обязательный giant interface. P0.5 public façade реализует только безопасно объединённые `complete` и `structured`; stream/transcribe пока остаются typed capability contracts.
+- Task/tier policy хранит driver routes и limits в configuration objects. Реальные production model chains по-прежнему читаются существующими adapters из env/config.
+- Structured output никогда не считается domain value без strict JSON parse и runtime schema validation.
+- Fallback выполняется один раз на каждый route в конфигурационном порядке и не превышает `maxAttempts`; внутренние retries legacy drivers не переписываются.
+- Единственный `LEGACY-SHIM` расположен в `functions/platform/ai/drivers/legacy.ts` и защищён exact-path boundary rule.
 
 ## 5. Что сознательно не сделано
-- Не введена `persons`, identity merge, OAuth, password auth, invitations или permissions engine.
-- Не мигрированы и не backfill legacy `users`, `telegram_users`, admin JWT/identities или web-chat auth.
-- В contacts не добавлены phone, display name, consent data или raw Telegram profile.
-- Не реализованы organization delete, suspension behavior, dashboard, billing scope или contact UI.
-- Не добавлены platform events P0.4 и не изменён Javob events bridge P0.3.
-- Не начаты P0.5 AI façade, Knowledge, Workflow, Runtime, agent webhook, Sotuvchi, commerce, scheduling или handoff.
+- Javob, gpt-chat, Tahlil, SSE streaming и Telegram transcription не мигрированы на façade.
+- В `AiFacade` не добавлены `stream()` и `transcribe()`: на P0.5 есть только их typed capability contracts, чтобы не менять streaming/STT semantics.
+- Не изменены prompts, model chains, env names, provider credentials, temperatures, token limits, retries/circuit breaker, quotas или billing ledger.
+- Не добавлены новые provider/model, D1 model-policy storage, dashboard, prompt registry или live provider smoke tests.
+- Не начаты Knowledge Engine, Workflow Engine, Agent Runtime, tools, RAG/vector search, agent webhook или Sotuvchi.
 - Не исправлялись 27 legacy TypeScript errors и глобальный legacy lint.
-- Production migration, push и deploy не выполнялись.
+- Production secrets, database, push и deploy не затрагивались.
 
 ## 6. Проверки
 - Baseline/post-change `npx tsc -b` → exit 0.
-- Post-change `node --import tsx --test tests/platform-tenancy.test.ts` → 31/31.
+- Post-change `node --import tsx --test tests/platform-ai.test.ts` → 15/15.
+- Baseline/post-change `node --import tsx --test tests/platform-tenancy.test.ts` → 31/31.
 - Baseline/post-change `node --import tsx --test tests/platform-events.test.ts` → 20/20.
 - Baseline/post-change `node --import tsx --test tests/agent-boundaries.test.ts` → 10/10.
 - Baseline/post-change `node --import tsx --test tests/telegram-channel-compat.test.ts` → 1/1.
 - Baseline/post-change `node --import tsx --test tests/telegram-assistant.test.ts` → 60/60.
 - Baseline/post-change `node --import tsx --test tests/gpt-chat.test.ts` → 15/15.
-- Baseline/post-change `npx tsc -p tsconfig.functions.json --noEmit` → exit 2, ровно 27 legacy errors, 0 в `functions/{platform,agents,channels}`.
-- `npx eslint functions/platform/identity functions/platform/orgs tests/platform-tenancy.test.ts functions/platform/index.ts` → exit 0.
-- SQL outside new store/schema files → 0; forbidden platform imports → 0; production code/test `any` → 0.
-- `npx wrangler d1 execute GPTBOT_DRAFTS_DB --local --file migrations/0014_platform_identity_orgs.sql` → 7/7 statements, exit 0; повторный запуск → 7/7, exit 0.
-- Local `sqlite_master` verification → 4 tables, UNIQUE autoindexes и `idx_memberships_org_status`, `idx_memberships_identity_status`, `idx_contacts_identity`.
-- Migration scan → 0 executable destructive statements; rollback notes present.
-- Staged secret/PII scan → Telegram token 0, env/dev vars/secrets 0; только разрешённые фиктивные `100000001`, `test@example.invalid`, `+998000000000`; raw profile fields 0.
+- Baseline/post-change `npx tsc -p tsconfig.functions.json --noEmit` → exit 2, ровно 27 legacy errors в 6 старых файлах, 0 в `functions/{platform,agents,channels}`.
+- `npx eslint functions/platform/ai tests/platform-ai.test.ts scripts/check-agent-boundaries.ts tests/agent-boundaries.test.ts functions/platform/index.ts` → exit 0.
+- `npx tsx scripts/check-agent-boundaries.ts` → `agent-boundaries: OK (no violations)`, exit 0.
+- Static scope scan → agents/channels imports 0, Cloudflare handler exports 0, explicit `any` 0; четыре legacy imports только в exact adapter и все с `LEGACY-SHIM`.
+- Staged secret/PII scan → clean; API keys, Telegram tokens, env/dev-vars, email/phone fixtures и реальные user prompts не обнаружены.
 - `git diff --check` и staged `git diff --check` → exit 0.
 
 ## 7. Известные проблемы
-- Существовали до P0.4: 27 functions-config legacy errors; global legacy-red ESLint; OOM-риск машины; остальные пункты `KNOWN_ISSUES.md`.
-- Ограничение P0.4: identity — global independent record. Если transactional org+membership batch падает после создания новой identity, identity остаётся; это безопасная orphan-like запись без tenant data, а не частично созданная organization.
-- Ограничение P0.4: person merge/linking и перенос legacy users отложены до доказанной необходимости.
-- Ограничение P0.4: contacts сознательно не подходят для checkout PII до отдельной retention/consent модели.
-- Новых блокеров и внешних зависимостей нет.
-- Pre-existing untracked `apps/gpt-backend/package-lock.json` намеренно не тронут.
+- Существовали до P0.5: 27 functions-config legacy errors; global legacy-red ESLint; OOM-риск машины; остальные пункты `KNOWN_ISSUES.md`.
+- Ограничение P0.5: facade-level timeout прекращает ожидание, но legacy provider может завершать собственный уже начатый fetch по старой semantics; production consumers не используют новый façade.
+- Ограничение P0.5: stream/transcribe имеют contracts, но не подключены к façade и не адаптированы.
+- Новых production-блокеров и внешних зависимостей нет.
+- Pre-existing untracked `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/` намеренно не тронуты.
 
 ## 8. Следующая задача
-Только **P0.5 — Platform AI façade**: создать provider-neutral contracts `complete`, `stream`, `structured`, `transcribe`, model/provider policy из config и тонкие adapters поверх существующих `lib/llm`, gpt-chat OpenRouter и Telegram AI implementations. Structured output обязан проходить strict runtime schema validation. Legacy consumers не переключать массово и не начинать P1.
+Только **P1.1 — Knowledge Engine minimum**: добавить tenant-scoped `knowledge_collections`/`knowledge_items`, schema validation payload, нормализованный `search_text`, numeric indexes и детерминированный normalize+LIKE+score поиск. `knowledge_revisions` вводить только при доказанной необходимости для Sotuvchi.
 
 ## 9. Acceptance criteria следующего этапа
-1. `STATE.json.next_stage == "P0.5"` и source HEAD/tree подтверждены; pre-existing package-lock не тронут.
-2. `functions/platform/ai/**` не импортирует agents/channels и не создаёт Cloudflare route exports.
-3. Public façade имеет закрытые typed request/result/error contracts для `complete`, `stream`, `structured`, `transcribe`; provider-specific wire formats остаются в adapters/drivers.
-4. Model/provider chain выбирается конфигурацией/policy, а не агентским hardcode; secrets только из env и не попадают в errors/logs.
-5. Structured response валидируется runtime schema и fail-closed; malformed provider output не проходит как domain value.
-6. Existing AI implementations оборачиваются тонкими adapters или совместимыми shims; массовая миграция Javob/gpt-chat и изменение product behavior запрещены.
-7. Streaming cancellation/error semantics и transcribe media limits явно определены и протестированы без реальных network calls.
-8. Все прежние gates не ниже: tenancy 31/31, events 20/20, boundaries 10/10, compatibility 1/1, Telegram 60/60, gpt-chat 15/15, `tsc -b` 0, functions-config ≤27 legacy и 0 platform-scope; новые files ESLint 0.
-9. Не начаты Knowledge, Workflow, Runtime, agent webhook, Sotuvchi или массовая legacy migration.
-10. STATE/HANDOFF/TEST_MATRIX/CURRENT_STATE обновлены; максимум code+relay commits; push/deploy отсутствуют без отдельного разрешения.
+1. Source HEAD, `STATE.json.next_stage == "P1.1"` и два pre-existing untracked объекта подтверждены; P0.5 commits сохранены в ancestry.
+2. Additive migration создаёт `knowledge_collections` и `knowledge_items` с `org_id`, agent/kind/schema metadata, status, validated `payload_json`, normalized `search_text`, numeric index columns, media refs/version/timestamps и нужными индексами.
+3. Store API получает `orgId` первым бизнес-аргументом; cross-tenant create/read/list/search/update не раскрывает и не меняет строки другого tenant.
+4. Payload проходит runtime schema validation до записи; invalid JSON/schema mismatch fail-closed и не оставляют partial row.
+5. Поиск v1 детерминирован: normalize + parameterized LIKE + явный stable scoring/tie-break; embeddings, Vectorize и LLM-ranking отсутствуют.
+6. Tenant tests покрывают org A/org B isolation, invalid payload, normalized search, numeric filters/scoring, idempotency/uniqueness и migration/runtime bootstrap.
+7. `knowledge_revisions` добавляется только при конкретном Sotuvchi requirement, иначе решение об откладывании документируется.
+8. Все текущие gates не ниже: AI 15/15, tenancy 31/31, events 20/20, boundaries 10/10, compatibility 1/1, Telegram 60/60, gpt-chat 15/15, `tsc -b` 0, functions-config ≤27 legacy и 0 platform-scope; scoped ESLint 0.
+9. P1.2 Workflow/Runtime/Sotuvchi не начинаются; production migration, push и deploy не выполняются без отдельного разрешения.
 
 ## 10. Команды для старта
 ```powershell
@@ -113,10 +106,11 @@ Get-Content -Raw -Encoding utf8 docs\agents-platform\DECISIONS.md
 git status --short
 git branch --show-current
 git rev-parse HEAD
-git log -8 --oneline
+git log -12 --oneline
 git diff
 $env:NODE_OPTIONS='--max-old-space-size=1400'
 npx tsc -b
+node --import tsx --test tests/platform-ai.test.ts
 node --import tsx --test tests/platform-tenancy.test.ts
 node --import tsx --test tests/platform-events.test.ts
 node --import tsx --test tests/agent-boundaries.test.ts
@@ -127,17 +121,16 @@ npx tsc -p tsconfig.functions.json --noEmit
 ```
 
 ## 11. Риски
-- Не превращать AI façade в P1 Runtime и не переносить три legacy implementations целиком одним большим refactor.
-- Не ослаблять boundary checker; platform AI не должен зависеть от Telegram types, agents или product UI.
-- Не менять Javob/gpt-chat prompts, model behavior, quotas, billing, auth, routes или SSE contract «заодно».
-- Не логировать prompts, raw outputs, API keys, external identity ids или contact data.
-- Не направлять P0.5 code к новым identity/org stores без явной необходимости: AI policy может принимать safe org/agent ids, но tenancy business logic не входит в этап.
+- Не связывать Knowledge payload со свободным LLM JSON без отдельной runtime schema validation.
+- Не допускать SQL вне knowledge store/schema и запросы без tenant `org_id`.
+- Не использовать embeddings/Vectorize или AI façade для deterministic v1 search.
+- Не мигрировать Javob/gpt-chat на façade «заодно» и не расширять единственный legacy shim.
+- Не менять AI prompts/models/retries/billing, existing identity/org/event contracts или Telegram routes.
 - Lead-бот `aidirectprobot`, его route/token/webhook неприкосновенны.
-- Не исправлять legacy errors, не добавлять package-lock/generated files и не выполнять push.
+- Не исправлять legacy errors, не добавлять pre-existing package-lock/audit artifacts и не выполнять push.
 
 ## 12. Rollback
-- Отменить metadata relay P0.4: `git revert <последний metadata-only SHA из git log>`.
-- Затем отменить code commit: `git revert 1f683380078629f67c2fef16a6fe68fd8ba96840`.
-- Production D1 не изменялась. Локальная Wrangler state не отслеживается git и может быть удалена отдельно при необходимости.
-- Если `0014` позже применят к remote D1 и следующие stages ещё не используют данные, вручную удалить `contacts`, затем `memberships`, `organizations`, `identities`; git revert D1 schema не откатывает.
-- Не использовать `reset --hard` или `clean -fd`; pre-existing package-lock должен сохраниться.
+- Отменить metadata relay P0.5: `git revert <последний metadata-only SHA из git log>`.
+- Затем отменить code commit: `git revert 31021442c12fbc24a9c90f6a42422412c0d7cbb2`.
+- P0.5 не содержит migrations, production state или external side effects; дополнительных ручных rollback-действий нет.
+- Не использовать `reset --hard` или `clean -fd`: pre-existing package-lock и audit directory должны сохраниться.
