@@ -1,5 +1,35 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-013 (2026-07-27, P1.3) Deterministic-first Runtime, explicit Facts и offline demo
+P1.3 уточняет один общий `AgentManifest` вместо параллельного контракта:
+manifest и его declarations runtime-validatable, а schema/rule/tool handlers
+остаются trusted TypeScript-кодом без dynamic loading. Production registration
+имеет одну явную точку в `functions/agents/registry.ts`; registry пуст до
+отдельного product/channel этапа, demo не импортируется production path.
+
+Turn order фиксирован: caller-provided active workflow через narrow injected
+port → deterministic rules по уникальному ascending priority → optional
+closed-list AI selection через существующий Platform AI façade → controlled
+fallback. AI выбирает только manifest tool и structured arguments; tool input
+повторно проходит runtime schema, а tenant override keys запрещены. Runtime
+`orgId` — единственный tenant source.
+
+Tool получает только `OrgContext`, request/locale и narrow Knowledge/Workflow
+service ports: raw D1, channel clients, secrets и unrestricted platform
+container не передаются. Tool output сначала проецируется в namespaced
+scalar-only `FactSheet`, затем deterministic locale template формирует exact
+claims. Grounding P1.3 механический, а не универсальный truth detector:
+template-derived claims должны точно совпасть с Facts, и числа в text/choice
+labels должны встречаться в Fact values. Unsupported claim/number даёт
+`rejected` с пустым outbound.
+
+Demo agent поддерживает только offline echo и один Knowledge lookup на fake
+ports, не регистрируется production и не является Sotuvchi. Workflow
+интеграция ограничена injected stub/port без real D1 product flow. Turn Events
+не добавлены: существующая publish semantics и требуемая best-effort политика
+для сохранения runtime result не согласованы. Conversation history/storage
+также отложены. P1.3 не требует migration.
+
 ## D-012 (2026-07-27, P1.2) Persistent FSM, atomic transition history и ограниченная action policy
 P1.2 хранит tenant-scoped instances и transition history в двух additive D1
 таблицах, а доверенные определения FSM — только в TypeScript. Переход фиксируется
