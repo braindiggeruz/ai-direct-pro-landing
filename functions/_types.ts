@@ -194,6 +194,13 @@ export interface Env {
   // Public bot @username (no secret). Used only for server-built share links;
   // the site reads its own build-time VITE_TELEGRAM_BOT_USERNAME.
   TELEGRAM_ASSISTANT_BOT_USERNAME?: string;
+  // ─── GPTBot Agents Telegram transport (/api/telegram/agents) ─────────
+  // Isolated from both TELEGRAM_BOT_TOKEN and TELEGRAM_ASSISTANT_*.
+  // Token/secret are server-only Pages secrets. Username is public but used
+  // as an exact setup/runtime guard.
+  TELEGRAM_AGENTS_BOT_TOKEN?: string;
+  TELEGRAM_AGENTS_WEBHOOK_SECRET?: string;
+  TELEGRAM_AGENTS_BOT_USERNAME?: string;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
   TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
   TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000
