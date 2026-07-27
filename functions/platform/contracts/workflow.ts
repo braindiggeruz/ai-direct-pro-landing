@@ -1,26 +1,74 @@
-// Platform contract: declarative workflow definitions (data only).
-// The persistent FSM executor arrives in P1.2; nothing here executes.
-// State payloads and timers are intentionally absent until a stage needs them.
+// Platform contract: declarative workflow definitions.
+// Definitions stay in trusted TypeScript code. The P1.2 executor persists
+// instances in D1 and never loads definitions or executable expressions from
+// storage.
+import type { EventValue } from './events';
 
 export type WorkflowTrigger =
   | { on: 'intent'; intent: string }
   | { on: 'action'; actionId: string }
   | { on: 'event'; eventType: string };
 
-export interface WorkflowTransition {
+export type WorkflowJsonValue = EventValue;
+
+export interface WorkflowPayloadSchema<TPayload> {
+  validate(input: unknown): TPayload;
+}
+
+export interface WorkflowActionRef {
+  type: string;
+  input?: WorkflowJsonValue;
+}
+
+export interface WorkflowExecutionContext {
+  orgId: string;
+  instanceId: string;
+  workflowId: string;
+  workflowVersion: number;
+  state: string;
+  instanceVersion: number;
+}
+
+export interface WorkflowGuardTrigger {
   trigger: WorkflowTrigger;
-  to: string;
+  data?: WorkflowJsonValue;
 }
 
-export interface WorkflowStateDefinition {
-  transitions: readonly WorkflowTransition[];
-  /** Marks a state where the instance is complete; no transitions required. */
-  terminal?: boolean;
+/**
+ * Guards receive data only. The engine provides no database, network or AI
+ * capability; guards must remain side-effect free.
+ */
+export type WorkflowGuard<TPayload> = (
+  context: WorkflowExecutionContext,
+  payload: Readonly<TPayload>,
+  trigger: WorkflowGuardTrigger,
+) => boolean | Promise<boolean>;
+
+export interface WorkflowTransition<
+  TPayload = unknown,
+  TState extends string = string,
+> {
+  trigger: WorkflowTrigger;
+  to: TState;
+  guard?: WorkflowGuard<TPayload>;
+  actions?: readonly WorkflowActionRef[];
 }
 
-export interface WorkflowDefinition {
+export interface WorkflowStateDefinition<
+  TPayload = unknown,
+  TState extends string = string,
+> {
+  transitions: readonly WorkflowTransition<TPayload, TState>[];
+}
+
+export interface WorkflowDefinition<
+  TPayload = unknown,
+  TState extends string = string,
+> {
   id: string;
-  version: string;
-  initial: string;
-  states: Readonly<Record<string, WorkflowStateDefinition>>;
+  version: number;
+  initial: TState;
+  terminalStates?: readonly TState[];
+  payload: WorkflowPayloadSchema<TPayload>;
+  states: Readonly<Record<TState, WorkflowStateDefinition<TPayload, TState>>>;
 }

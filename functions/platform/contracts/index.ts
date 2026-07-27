@@ -18,7 +18,13 @@ export type {
 } from './channel';
 export type { EventScalar, EventValue, PiiSafePayload, PlatformEvent } from './events';
 export type {
+  WorkflowActionRef,
   WorkflowDefinition,
+  WorkflowExecutionContext,
+  WorkflowGuard,
+  WorkflowGuardTrigger,
+  WorkflowJsonValue,
+  WorkflowPayloadSchema,
   WorkflowStateDefinition,
   WorkflowTransition,
   WorkflowTrigger,
