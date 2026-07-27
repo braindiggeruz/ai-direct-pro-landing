@@ -9,3 +9,4 @@ export {
   requireAgent,
   registerAgent,
 } from './registry';
+export { sotuvchiAgentManifest } from './sotuvchi';

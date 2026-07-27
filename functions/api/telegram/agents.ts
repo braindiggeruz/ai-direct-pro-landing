@@ -4,6 +4,13 @@
 import type { Env } from '../../_types';
 import { demoAgentManifest } from '../../agents/demo';
 import {
+  createSotuvchiOnboardingService,
+  createSotuvchiWorkflowPort,
+  isStorefrontCode,
+  type SotuvchiOnboardingSnapshot,
+} from '../../agents/sotuvchi';
+import { listAgents } from '../../agents/registry';
+import {
   TelegramClient,
   createStaticTelegramAgentContextResolver,
   createTelegramAgentUpdateStore,
@@ -12,6 +19,10 @@ import {
   handleTelegramAgentsWebhook,
   isProtectedAgentBotUsername,
   normalizeTelegramBotUsername,
+  parseTelegramStartPayload,
+  type TelegramAgentContext,
+  type TelegramAgentContextInput,
+  type TelegramAgentContextResolver,
   type TelegramAgentsSafeLogCode,
 } from '../../channels/telegram';
 import { createIdentityService } from '../../platform/identity';
@@ -36,6 +47,104 @@ function safeLogger() {
   };
 }
 
+function sellerContext(
+  snapshot: SotuvchiOnboardingSnapshot,
+  input: TelegramAgentContextInput,
+  fromStart: boolean,
+): TelegramAgentContext {
+  const active = snapshot.status === 'active';
+  const entryActionId = snapshot.status === 'completed'
+    ? 'seller-status'
+    : snapshot.status === 'cancelled'
+      ? 'seller-cancelled'
+      : fromStart
+        ? 'seller-start'
+        : undefined;
+  return {
+    orgId: snapshot.orgId,
+    agentId: 'sotuvchi',
+    locale: snapshot.draft.locale ?? input.locale,
+    ...(entryActionId ? { entryActionId } : {}),
+    ...(active
+      ? {
+          workflow: {
+            instanceId: snapshot.workflowInstanceId,
+            expectedVersion: snapshot.version,
+          },
+        }
+      : {}),
+  };
+}
+
+export function createTelegramAgentsRuntimeWiring(
+  db: D1Database,
+  botUsername: string,
+) {
+  const onboarding = createSotuvchiOnboardingService(db);
+  const demoContexts = createStaticTelegramAgentContextResolver([{
+    botUsername,
+    routeCode: 'demo',
+    orgId: 'org-demo',
+    agentId: 'demo',
+  }]);
+  const contexts: TelegramAgentContextResolver = {
+    async resolve(input) {
+      const parsed = parseTelegramStartPayload(input.startPayload);
+      if (parsed.status === 'valid' && parsed.routeCode === 'seller') {
+        const snapshot = await onboarding.startOnboarding({
+          identityId: input.telegramIdentityId,
+          botUsername,
+          requestId: input.idempotencyKey,
+          locale: input.locale,
+        });
+        return sellerContext(snapshot, input, true);
+      }
+      if (
+        parsed.status === 'valid'
+        && isStorefrontCode(parsed.routeCode)
+      ) {
+        const route = await onboarding.resolveStorefrontRoute(
+          botUsername,
+          parsed.routeCode,
+        );
+        return route
+          ? {
+              orgId: route.orgId,
+              agentId: route.agentId,
+              locale: route.locale,
+              entryActionId: 'storefront-start',
+            }
+          : null;
+      }
+      if (parsed.status === 'none') {
+        const snapshot = await onboarding.getOnboarding({
+          identityId: input.telegramIdentityId,
+          botUsername,
+          requestId: input.idempotencyKey,
+          locale: input.locale,
+        });
+        if (snapshot?.status === 'active') {
+          return sellerContext(snapshot, input, false);
+        }
+      }
+      return demoContexts.resolve(input);
+    },
+  };
+
+  const registry = createAgentRegistry([
+    demoAgentManifest,
+    ...listAgents(),
+  ]);
+  const runtime = createAgentRuntime({
+    registry,
+    services: {
+      knowledge: createKnowledgeService(db),
+      workflow: createSotuvchiWorkflowPort(onboarding, botUsername),
+    },
+  });
+  return { contexts, onboarding, runtime };
+}
+
 export const onRequestPost: PagesFunction<Env> = async ({
   request,
   env,
@@ -55,19 +164,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
   }
   if (isProtectedAgentBotUsername(botUsername)) return unavailable();
 
-  // Route-local registration: the offline demo is reachable only through the
-  // allowlisted resolver below. The global production registry remains empty.
-  const registry = createAgentRegistry([demoAgentManifest]);
-  const runtime = createAgentRuntime({
-    registry,
-    services: { knowledge: createKnowledgeService(db) },
-  });
-  const contexts = createStaticTelegramAgentContextResolver([{
-    botUsername,
-    routeCode: 'demo',
-    orgId: 'org-demo',
-    agentId: 'demo',
-  }]);
+  const wiring = createTelegramAgentsRuntimeWiring(db, botUsername);
 
   return handleTelegramAgentsWebhook(
     request,
@@ -76,8 +173,8 @@ export const onRequestPost: PagesFunction<Env> = async ({
       webhookSecret: secret,
       updates: createTelegramAgentUpdateStore(db),
       identities: createTelegramIdentityPort(createIdentityService(db)),
-      contexts,
-      runtime,
+      contexts: wiring.contexts,
+      runtime: wiring.runtime,
       delivery: createTelegramDeliveryPort(new TelegramClient(token)),
       logger: safeLogger(),
     },

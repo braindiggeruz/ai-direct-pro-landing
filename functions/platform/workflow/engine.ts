@@ -163,7 +163,7 @@ export class WorkflowEngine {
       idempotencyKey,
     );
     if (prior) {
-      if (prior.instanceId !== id) {
+      if (prior.instanceId !== id || prior.trigger !== triggerKey) {
         throw new WorkflowValidationError('idempotency_conflict');
       }
       return transitionResult('duplicate', prior);
@@ -216,6 +216,23 @@ export class WorkflowEngine {
       if (!allowed) throw new WorkflowGuardRejectedError();
     }
 
+    let nextPayload = payload;
+    if (transition.reducePayload) {
+      try {
+        const reduced = await transition.reducePayload(
+          context,
+          payload.value,
+          {
+            trigger: input.trigger,
+            data: triggerData,
+          },
+        );
+        nextPayload = prepareWorkflowPayload(reduced, definition.payload);
+      } catch {
+        throw new WorkflowValidationError('invalid_payload');
+      }
+    }
+
     const actionRefs = transition.actions ?? [];
     for (const action of actionRefs) {
       if (
@@ -239,7 +256,7 @@ export class WorkflowEngine {
       toState: transition.to,
       trigger: triggerKey,
       idempotencyKey,
-      payloadJson: payload.payloadJson,
+      payloadJson: nextPayload.payloadJson,
       status: initialMetadata.instanceStatus,
       completedAt: completed ? new Date().toISOString() : null,
       metadataJson: serializeWorkflowMetadata(initialMetadata),

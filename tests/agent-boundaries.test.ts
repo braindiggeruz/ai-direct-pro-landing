@@ -16,6 +16,7 @@ import {
   DuplicateAgentIdError,
 } from '../functions/agents/registry';
 import type { AgentManifest } from '../functions/platform/contracts';
+import { sotuvchiAgentManifest } from '../functions/agents/sotuvchi';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 
@@ -133,7 +134,12 @@ test('registry: type-safe register/get/list and duplicate detection', () => {
   assert.equal(listAgents().length, 0);
 });
 
-test('registry starts empty in production (no agents registered at import)', () => {
+test('registry accepts the first production Sotuvchi manifest', () => {
   clearAgentsForTests();
-  assert.equal(listAgents().length, 0);
+  registerAgent(sotuvchiAgentManifest);
+  assert.deepEqual(
+    listAgents().map((agent) => agent.id),
+    ['sotuvchi'],
+  );
+  clearAgentsForTests();
 });

@@ -357,6 +357,12 @@ export function validateWorkflowDefinition<
       ) {
         throw new WorkflowValidationError('invalid_definition');
       }
+      if (
+        transition.reducePayload !== undefined
+        && typeof transition.reducePayload !== 'function'
+      ) {
+        throw new WorkflowValidationError('invalid_definition');
+      }
       const actions = transition.actions ?? [];
       if (
         !Array.isArray(actions)

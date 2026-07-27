@@ -6,8 +6,9 @@ import {
   createAgentRegistry,
   DuplicateAgentIdError,
 } from '../platform/runtime';
+import { sotuvchiAgentManifest } from './sotuvchi';
 
-const productionRegistry = createAgentRegistry();
+const productionRegistry = createAgentRegistry([sotuvchiAgentManifest]);
 export { DuplicateAgentIdError };
 
 export function registerAgent(manifest: AgentManifest): void {

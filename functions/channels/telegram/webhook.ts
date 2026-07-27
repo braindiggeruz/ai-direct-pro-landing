@@ -112,15 +112,35 @@ function runtimeInput(
     orgId: string;
     agentId: string;
     locale: Locale;
+    entryActionId?: string;
+    workflow?: {
+      instanceId: string;
+      expectedVersion: number;
+    };
   },
 ): RuntimeTurnInput {
+  const message = input.runtimeMessage.kind === 'action'
+    && input.runtimeMessage.actionId === 'start'
+    && context.entryActionId
+    ? { kind: 'action' as const, actionId: context.entryActionId }
+    : input.runtimeMessage;
   return {
     requestId: `tg-agents-${input.updateId}`,
     orgId: context.orgId,
     agentId: context.agentId,
     identityId,
     locale: context.locale,
-    message: input.runtimeMessage,
+    message,
+    ...(context.workflow
+      ? {
+          activeWorkflow: {
+            instanceId: context.workflow.instanceId,
+            expectedVersion: context.workflow.expectedVersion,
+            idempotencyKey: `${input.inbound.idempotencyKey}:workflow`,
+            trigger: { on: 'intent', intent: 'continue' },
+          },
+        }
+      : {}),
   };
 }
 
@@ -182,6 +202,7 @@ async function processAccepted(
       startPayload: input.startPayload,
       telegramIdentityId: identityId,
       locale: localeOf(input),
+      idempotencyKey: input.inbound.idempotencyKey,
     });
   } catch {
     await sendFailure(dependencies, input, 'context_failed');

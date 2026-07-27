@@ -842,7 +842,7 @@ test('setup script uses only isolated env names and supports dry-run', () => {
   assert.ok(source.indexOf('verifiedIdentity') < source.indexOf('setWebhook'));
 });
 
-test('route wires a route-local demo registry without changing global registry', () => {
+test('route wires production agents beside the route-local demo registry', () => {
   const source = fs.readFileSync(
     path.join(ROOT, 'functions/api/telegram/agents.ts'),
     'utf8',
@@ -851,7 +851,9 @@ test('route wires a route-local demo registry without changing global registry',
     path.join(ROOT, 'functions/agents/registry.ts'),
     'utf8',
   );
-  assert.match(source, /createAgentRegistry\(\[demoAgentManifest\]\)/);
+  assert.match(source, /demoAgentManifest/);
+  assert.match(source, /\.\.\.listAgents\(\)/);
+  assert.match(registry, /sotuvchiAgentManifest/);
   assert.ok(!registry.includes("from './demo'"));
   assert.ok(!registry.includes('demoAgentManifest'));
 });

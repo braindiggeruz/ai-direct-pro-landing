@@ -34,11 +34,13 @@ export type {
   WorkflowGuard,
   WorkflowGuardTrigger,
   WorkflowJsonValue,
+  WorkflowPayloadReducer,
   WorkflowPayloadSchema,
   WorkflowStateDefinition,
   WorkflowTransition,
   WorkflowTrigger,
 } from './workflow';
+export { eraseWorkflowDefinition } from './workflow';
 export type {
   DeterministicRule,
   GroundingResult,

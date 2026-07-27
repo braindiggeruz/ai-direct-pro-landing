@@ -44,6 +44,17 @@ export type WorkflowGuard<TPayload> = (
   trigger: WorkflowGuardTrigger,
 ) => boolean | Promise<boolean>;
 
+/**
+ * Trusted definitions may derive the next persisted payload from the current
+ * payload and validated transient trigger data. The result is always passed
+ * through the workflow payload schema before the transition is committed.
+ */
+export type WorkflowPayloadReducer<TPayload> = (
+  context: WorkflowExecutionContext,
+  payload: Readonly<TPayload>,
+  trigger: WorkflowGuardTrigger,
+) => TPayload | Promise<TPayload>;
+
 export interface WorkflowTransition<
   TPayload = unknown,
   TState extends string = string,
@@ -51,6 +62,7 @@ export interface WorkflowTransition<
   trigger: WorkflowTrigger;
   to: TState;
   guard?: WorkflowGuard<TPayload>;
+  reducePayload?: WorkflowPayloadReducer<TPayload>;
   actions?: readonly WorkflowActionRef[];
 }
 
@@ -71,4 +83,14 @@ export interface WorkflowDefinition<
   terminalStates?: readonly TState[];
   payload: WorkflowPayloadSchema<TPayload>;
   states: Readonly<Record<TState, WorkflowStateDefinition<TPayload, TState>>>;
+}
+
+/** Type-erased manifest view; execution still validates payload at runtime. */
+export function eraseWorkflowDefinition<
+  TPayload,
+  TState extends string,
+>(
+  definition: WorkflowDefinition<TPayload, TState>,
+): WorkflowDefinition {
+  return definition as unknown as WorkflowDefinition;
 }

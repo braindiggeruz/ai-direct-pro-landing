@@ -18,6 +18,13 @@ export interface TelegramAgentContext {
   orgId: string;
   agentId: string;
   locale: Locale;
+  /** Trusted server-side action replacing the generic /start action. */
+  entryActionId?: string;
+  /** Trusted active workflow resolved outside the user-controlled payload. */
+  workflow?: {
+    instanceId: string;
+    expectedVersion: number;
+  };
 }
 
 export interface TelegramAgentContextInput {
@@ -25,6 +32,7 @@ export interface TelegramAgentContextInput {
   startPayload?: string;
   telegramIdentityId: string;
   locale: Locale;
+  idempotencyKey: string;
 }
 
 export interface TelegramAgentContextResolver {
