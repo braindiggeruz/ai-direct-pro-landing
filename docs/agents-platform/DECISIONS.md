@@ -1,5 +1,43 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-014 (2026-07-27, P1.4) Изолированный Telegram Agents transport и at-most-once update policy
+P1.4 использует только новый env namespace `TELEGRAM_AGENTS_BOT_TOKEN`,
+`TELEGRAM_AGENTS_WEBHOOK_SECRET`, `TELEGRAM_AGENTS_BOT_USERNAME`. Он не
+переиспользует `TELEGRAM_BOT_TOKEN`, Javob credentials или endpoints.
+`POST /api/telegram/agents` проверяет exact Telegram secret-header до чтения
+body и D1; остальные HTTP methods дают 405. Raw update, secret и profile fields
+не логируются.
+
+Update после strict ingest резервируется отдельным ключом
+`agents:<bot_username>:<update_id>` в additive
+`telegram_agent_updates`, не связанной с legacy `telegram_updates`. Статусы
+`reserved|completed|failed` фиксируют at-most-once policy: duplicate не
+повторяет Runtime/send, а send/processing failure остаётся terminal и требует
+операторского разбирательства вместо скрытого повторения side effects. Long
+processing выполняется через `waitUntil` только после durable reserve.
+
+Deep-link grammar P1.4 — `agent_<routeCode>`, где routeCode имеет safe bounded
+charset и разрешается исключительно trusted server-side mapping. Payload не
+содержит и не задаёт `orgId`; arbitrary agent/org и URL отклоняются. Route-local
+registry содержит только demo manifest, global production registry остаётся
+пустым. Реальный business/storefront mapping и durable identity→org channel
+binding не создавались: offline E2E использует injected identity allowlist, а
+route mapping принимает только allowlisted start code. Эта граница переходит к
+P2.1 onboarding.
+
+Telegram user id преобразуется в string и передаётся Identity service; Runtime
+получает только platform `identityId`, trusted org/agent/locale и normalized
+text/action. `chat_id`, `update_id`, token, raw user/profile/callback objects
+остаются в channel adapter. Renderer отправляет plain text через существующий
+`TelegramClient`, делит сообщения, превращает safe choices в bounded callback
+buttons и предсказуемо игнорирует media ref beyond text.
+
+Setup вынесен в неисполняемый автоматически
+`scripts/telegram-agents-setup.ts`: `getMe` и exact expected username guard
+выполняются до mutations; `aidirectprobot` и `gptbot_javob_bot` запрещены;
+webhook path/secret обязательны; поддержан dry-run. Скрипт, migration, webhook
+setup, push и deploy в рамках этапа не запускались.
+
 ## D-013 (2026-07-27, P1.3) Deterministic-first Runtime, explicit Facts и offline demo
 P1.3 уточняет один общий `AgentManifest` вместо параллельного контракта:
 manifest и его declarations runtime-validatable, а schema/rule/tool handlers

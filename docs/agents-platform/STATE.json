@@ -1,25 +1,25 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P1.3",
+  "current_stage": "P1.4",
   "stage_status": "completed",
-  "last_completed_stage": "P1.3",
-  "next_stage": "P1.4",
-  "last_commit": "854a3cf63d860f8f930ad8f66fc1d3c87a132036",
+  "last_completed_stage": "P1.4",
+  "next_stage": "P2.1",
+  "last_commit": "539525410f086ef1c705c221950b29d808982899",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
   "previous_stage": {
-    "stage": "P1.2",
-    "last_commit": "cc4484dc72604060068c016e307a8bc766c94cec",
-    "state_commit": "f554fe843946cf940537f27b8a905342c6894cb4"
+    "stage": "P1.3",
+    "last_commit": "854a3cf63d860f8f930ad8f66fc1d3c87a132036",
+    "state_commit": "3e12d1c934a88fc15a69eac7f026438ae736b57a"
   },
   "updated_at": "2026-07-27",
   "blocked": false,
   "blockers": [],
   "baseline": {
     "build": "tsc -b exit 0",
-    "tests": "pass: platform-runtime 49/49 (new), platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15",
+    "tests": "pass: telegram-agents-webhook 41/41 (new), platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "P1.3 runtime/agents/contracts/tests scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
+    "lint": "P1.4 endpoint/channel/setup/env/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
   }
 }
