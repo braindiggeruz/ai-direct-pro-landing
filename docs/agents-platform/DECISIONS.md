@@ -1,5 +1,93 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-018 (2026-07-27, P2.4) Single-product persistent checkout, immutable Catalog snapshot и PII-minimal order placement
+
+P2.4 добавляет ровно один сценарий: покупатель оформляет **один published
+product × целое quantity**. Корзины, второй позиции, inventory reservation,
+списания остатка, seller order management, уведомления продавцу, платежей,
+CRM, human handoff и Mini App в этапе нет. `ROADMAP.md` P2.4 и master handoff
+§1.3 совпадают, поэтому выбран узкий MVP scope без расширения.
+
+Checkout — declarative FSM `sotuvchi-checkout` v1 на существующем P1.2 Workflow
+Engine: `idle → awaiting_quantity → awaiting_name → awaiting_phone →
+awaiting_address → awaiting_confirmation → completed`, плюс `cancelled` из
+любого нетерминального состояния. Таймеров и `expired` нет: без scheduler
+фиктивный timeout не имитируется. Workflow payload содержит **только**
+`{ orderId }`. Имя, телефон и адрес живут исключительно в `sotuvchi_orders`,
+поэтому platform-таблицы `workflow_instances`/`workflow_transitions` остаются
+PII-free.
+
+Порядок внутри шага: сначала domain write (условный SQL по
+`org+store+id+status='draft'+version+buyer_session_id`), затем workflow
+transition. Падение между ними оставляет prompt на прежнем шаге, а повтор того
+же значения идемпотентен; обратный порядок мог бы дать `placed` заказ без
+данных, поэтому запрещён.
+
+Trusted authority: Telegram identity → `sotuvchi_storefront_sessions` (active
+route + active store) → server-side org/store → собственный draft заказа
+покупателя. Из пользовательского ввода нельзя задать `orgId`, `storeId`,
+`buyerSessionId`, workflow instance, владельца заказа, цену, валюту, статус
+публикации и product authority. Checkout стартует только с trusted full card
+action `buyer-checkout.<opaque productId>`; свободный текст checkout не
+открывает, поэтому P2.3 Q&A не изменился.
+
+Product eligibility проверяется через публичный Catalog API на старте и
+повторно на подтверждении: published, active store, active или отсутствующая
+category, availability `available|preorder`. `unavailable` запрещён, preorder
+явно показывается покупателю. Цена всегда читается из Catalog; callback,
+текст, карточка и tool arguments ценой быть не могут. Если цена изменилась,
+подтверждение не проходит молча: snapshot обновляется, покупатель получает
+новый review с пометкой и обязан подтвердить ещё раз; второй draft при этом не
+создаётся.
+
+Заказ хранится в трёх additive таблицах migration `0021_sotuvchi_checkout.sql`:
+`sotuvchi_orders`, `sotuvchi_order_items`, `sotuvchi_order_operations`. Item
+вынесен в отдельную таблицу ради будущей P2.5, но `UNIQUE (order_id)`
+(`idx_sotuvchi_order_items_single`) делает второй item невозможным, а P2.4 API
+его не принимает. `idx_sotuvchi_orders_active_draft` — partial UNIQUE по
+`buyer_session_id WHERE status='draft'`: один активный checkout на покупателя.
+Старт для другого товара при активном draft возвращает существующий заказ с
+выбором «Продолжить/Отменить» и не создаёт второй. Table-level CHECK запрещает
+`placed` без имени, телефона, адреса, суммы и `placed_at`; conditional UPDATE
+дополнительно требует непустое quantity, совпадение `line_total_minor` с
+`total_minor` и живой published product с той же ценой — placement и запись
+operation выполняются одним D1 batch.
+
+Идемпотентность: trusted `requestId` канала (`tg-agents-<update_id>`) —
+store-scoped ключ в `sotuvchi_order_operations`. Ключ проверяется **до**
+FSM-состояния, поэтому повтор start/quantity/name/phone/address/confirm/cancel
+возвращает сохранённый результат вместо второго эффекта или ошибки состояния.
+Тот же ключ с другим fingerprint fail-closed. Fingerprint покрывает только
+шаг и не-PII значения: имя, телефон и адрес никогда не хешируются в operation
+log.
+
+Order number генерируется сервером: `S-` + 6 символов алфавита
+`23456789ABCDEFGHJKLMNPQRSTUVWXYZ` (30 бит, без 0/1/I/O), `UNIQUE (org_id,
+store_id, order_number)` и до пяти попыток. Он не кодирует org, store, user или
+row id.
+
+Buyer-facing вывод строится только из scalar Facts
+(`checkout.product.*`, `checkout.quantity`, `checkout.total_*`,
+`checkout.customer.phone_masked`, `checkout.customer.address_present`,
+`checkout.order.number/status`). Raw order row в renderer не попадает. Имя и
+адрес не эхо-показываются вовсе, телефон только как `+998 ** *** ** NN`.
+Поддержан один формат номера — Uzbekistan `+998` + девять цифр. Все числа и
+claims проходят существующий strict grounding; unsupported total, цена,
+quantity или order number отклоняются. Разрешённые actions: `Оформить`,
+`Продолжить`, `Подтвердить`, `Отменить`; кнопок оплаты, управления заказом,
+оператора и изменения остатка нет.
+
+Заказ — заявка, а не оплаченная покупка: продавец на P2.4 уведомления и
+интерфейса не получает, остаток не меняется, платёж не создаётся. Events по-
+прежнему не публикуются до atomic outbox policy.
+
+Migration `0021` не применялась ни локально, ни на production. Runtime
+bootstrap `ensureSotuvchiCheckoutSchema` структурно эквивалентен и создаёт те
+же объекты. Rollback кода: relay revert, затем P2.4 code revert. Если `0021`
+была применена отдельно, после отключения checkout traffic удаляются только её
+пять индексов и три таблицы в обратном порядке; shared store/catalog/session/
+workflow/tenant таблицы не трогаются.
+
 ## D-017 (2026-07-27, P2.3) Deterministic Buyer Q&A, grounded cards и минимальный follow-up
 
 P2.3 оставляет Catalog единственным source-of-truth и не добавляет LLM intent:

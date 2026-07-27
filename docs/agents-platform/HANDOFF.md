@@ -6,7 +6,7 @@ readiness и точные инструкции продолжения:
 
 [`GPTBOT_AGENTS_MASTER_HANDOFF_2026-07-27.md`](./GPTBOT_AGENTS_MASTER_HANDOFF_2026-07-27.md)
 
-Этот файл ниже сохраняет stage-specific handoff P2.3. При расхождении
+Этот файл ниже сохраняет stage-specific handoff P2.4. При расхождении
 операционных сведений сначала сверяйте Git tree и `STATE.json`, затем
 используйте master handoff как актуальную карту системы.
 
@@ -18,187 +18,179 @@ readiness и точные инструкции продолжения:
 
 - Дата: 2026-07-27.
 - Ветка: `main`.
-- Исходный HEAD / P2.2 relay:
-  `f6eeb2cdf74a978c4fd35d0c0a13d1315cc5c76b`.
-- P2.2 code commit:
-  `9373af8d0910c360620139e0e6d8913beeefbd0e`.
+- Исходный HEAD этапа (документационный commit после P2.3 relay):
+  `eeece134bf373434dc4e8508c53be408c93b2d96`.
 - P2.3 code commit:
   `70bd1e05a7eb9ad47632933a052a63922c991978`.
+- P2.3 relay commit:
+  `fda702469f88d09768a56a53a7ebd8f41e34d506`.
+- P2.4 code commit:
+  `a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea`.
 - HEAD после relay определяется последним metadata-only commit в `git log`;
   по D-006 `STATE.json.state_commit = "HEAD"` и не хранит собственный SHA.
-- Завершённый этап: **P2.3 — Sotuvchi Buyer Q&A**.
-- Следующий этап: **P2.4 — Checkout workflow**.
+- Завершённый этап: **P2.4 — Sotuvchi Checkout workflow**.
+- Следующий этап: **P2.5 — Orders/inventory**.
 - После relay рабочее дерево должно содержать только два pre-existing untracked
   объекта: `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`.
 - Push, deploy, webhook setup и применение migration не выполнялись.
 
 ## 2. Что реализовано
 
-1. Добавлен полностью deterministic-first closed-list parser:
-   `catalog.list`, `catalog.search`, `product.price`,
-   `product.availability`, `product.details`, `catalog.filter_price`,
-   `catalog.help`, `unknown`.
-2. Порядок parser фиксирован: bounded/control validation → public Knowledge
-   normalization → conservative typo repair → exact list/help → integer price
-   extraction → safe contextual follow-up → RU/UZ/mixed patterns → explicit
-   search → bounded plain product name → unknown.
-3. RU покрывает list, «сколько стоит/какая цена», «есть ли/в наличии»,
-   «расскажи/покажи», «до/дешевле» и один pronoun follow-up.
-4. Uzbek Latin покрывает `nima bor`, `qancha turadi`, `narxi qancha`,
-   `bormi/mavjudmi`, `haqida ayting/ko‘rsating`, `arzonroq/gacha`; варианты
-   `o‘/o'/oʻ` нормализуются существующим Knowledge API.
-5. Mixed покрывает `Samsung bormi`, `Samsung естьmi`, `narxi сколько`,
-   `qancha стоит` и смешанные product names без транслитерации.
-6. Product query очищается до normalized bounded string, максимум 120 символов
-   и восемь unique tokens; raw полное сообщение в Catalog не передаётся.
-   Empty/long/control-bearing input и unsafe цена fail-closed.
-7. Price filter принимает только bounded non-negative integer UZS (`100000`,
-   `100 000`), без float, отрицательных значений, валютной конверсии и
-   предположений о USD. Сортировка: price asc → normalized name → opaque ID.
-8. Buyer read path видит только published products active store с active
-   category или без category. Draft, archived, inactive store/category и
-   foreign tenant скрыты.
-9. Добавлены channel-neutral `OutboundCard`/`ProductCard`: title, bounded
-   description, localized price, availability, optional category и только
-   разрешённые actions `Подробнее`, `Следующие товары`, `Назад к каталогу`.
-10. Generic Telegram renderer переводит card в plain text и safe bounded inline
-    buttons; HTML/Markdown и buyer business logic в adapter отсутствуют.
-11. Manifest версии `1.2.0` использует existing capability `store.catalog`,
-    четыре buyer tools `catalog.list`, `catalog.search`,
-    `catalog.product.get`, `catalog.filter_price`; AI selection остаётся
-    disabled.
-12. Structured tool composer проходит generic Runtime validation до delivery.
-    Card title/description/field values обязаны буквально присутствовать в
-    scalar Facts; claims и все числа продолжают проходить strict grounding.
-13. Facts namespaced по результату:
-    `catalog.results.<n>.{id,name,price_minor,price_display,currency,
-    availability,availability_display,description,category_name}` плюс
-    `catalog.query.intent` и bounded result metadata. Raw product rows нет.
-14. Unknown возвращает только безопасные примеры допустимых вопросов, без цены,
-    наличия, найденного товара, checkout/order или handoff side effect.
-15. Exact single result сохраняет минимальный follow-up state в существующей
-    storefront session: opaque `last_product_id`, closed `last_intent`,
-    trusted request key и timestamp. Raw query/message/profile не сохраняются.
-16. «А он есть?», «сколько он стоит?» и «подробнее» повторно проверяют active
-    route/store/category и published same-store product. Stale/foreign/missing
-    reference даёт safe help/no-result, не cross-tenant lookup.
-17. Session mutation идемпотентна по trusted request ID; повтор Telegram update
-    дополнительно блокируется существующим at-most-once channel dedup.
-18. Добавлена additive migration `0020_sotuvchi_buyer_qa.sql` и runtime
-    bootstrap parity для четырёх nullable columns. Conversation table нет.
-19. Events не добавлены до atomic outbox policy.
-20. Создан новый offline suite `tests/sotuvchi-buyer-qa.test.ts`: 39/39.
+1. Добавлен модуль `functions/agents/sotuvchi/checkout/**`: types, errors,
+   validation, schema, store, workflow, service, facts, responses, runtime
+   port, tools, rules, barrel.
+2. Declarative FSM `sotuvchi-checkout` v1 на существующем P1.2 Workflow Engine:
+   `idle → awaiting_quantity → awaiting_name → awaiting_phone →
+   awaiting_address → awaiting_confirmation → completed`, плюс `cancelled` из
+   любого нетерминального состояния. Таймеров и `expired` нет.
+3. Workflow payload содержит только `{ orderId }`; buyer PII в
+   `workflow_instances`/`workflow_transitions` не попадает.
+4. Additive migration `0021_sotuvchi_checkout.sql` и структурно эквивалентный
+   runtime bootstrap создают `sotuvchi_orders`, `sotuvchi_order_items`,
+   `sotuvchi_order_operations` и пять индексов.
+5. `idx_sotuvchi_order_items_single` (UNIQUE order_id) физически запрещает
+   второй item; `idx_sotuvchi_orders_active_draft` (partial UNIQUE) — один
+   активный draft на buyer session.
+6. Table-level CHECK запрещает `placed` без имени, телефона, адреса, суммы и
+   `placed_at`.
+7. Checkout стартует только с trusted action `buyer-checkout.<productId>` на
+   полной карточке orderable товара; свободный текст его не открывает.
+8. Product eligibility проверяется на старте и повторно на подтверждении:
+   published, active store, active или отсутствующая category, availability
+   `available|preorder`. `unavailable`, draft, archived, чужой store и
+   inactive category fail-closed.
+9. Цена читается только из Catalog. На финальном подтверждении цена
+   перечитывается; при изменении заказ остаётся draft, snapshot обновляется,
+   покупатель получает пометку и подтверждает повторно.
+10. Placement — один D1 batch: conditional UPDATE (`status='draft'`, версия,
+    buyer session, непустые контакты, живой published product с той же ценой)
+    плюс operation insert.
+11. Валидация: quantity целое `1..99` (из текста только ASCII-цифры), имя
+    `2..80` Unicode без control chars, телефон `+998` + девять цифр в E.164,
+    адрес `5..240` символов.
+12. Order number `S-` + шесть символов `23456789ABCDEFGHJKLMNPQRSTUVWXYZ`,
+    unique в пределах store, до пяти попыток, без org/store/user/row id.
+13. Idempotency по trusted `requestId` канала в `sotuvchi_order_operations`;
+    ключ проверяется раньше FSM-состояния, поэтому повтор возвращает
+    сохранённый результат. Тот же ключ с другим fingerprint fail-closed.
+    Fingerprint не содержит PII.
+14. Manifest поднят до `1.3.0`, добавлены capability `commerce.order`, tool
+    `checkout.start`, rule `buyer-checkout-start` (priority 105) и workflow
+    `sotuvchi-checkout`.
+15. Telegram endpoint резолвит active checkout сервером и подставляет
+    `activeWorkflow`; composite workflow port направляет ход владельцу
+    instance, composite domain port — checkout-операции.
+16. Buyer-facing вывод строится из scalar Facts: имя и адрес не
+    эхо-показываются, телефон только `+998 ** *** ** NN`.
+17. Действия ограничены `Оформить`, `Продолжить`, `Подтвердить`, `Отменить`;
+    оплаты, управления заказом, оператора и остатков нет.
+18. Создан offline suite `tests/sotuvchi-checkout.test.ts`: 36/36.
+19. Обновлены два stage-scoped assertion в P2.1/P2.2 suites (capabilities и
+    закрытый список tools) — они прямо описывали отсутствие commerce и
+    заменены на P2.4-реальность без ослабления проверки.
+20. Events не добавлены до atomic outbox policy.
 
-## 3. Архитектурные границы
+## 3. Изменённые файлы
 
-- Buyer business logic находится только в
-  `functions/agents/sotuvchi/buyer/**`.
-- Buyer layer импортирует Platform contracts/Knowledge public APIs и Catalog
-  public service/types; channel, Telegram API, legacy/Javob/lead/gpt-chat и raw
-  platform stores не импортируются.
-- Platform Runtime не импортирует Sotuvchi.
-- Telegram endpoint только связывает catalog/domain/context/runtime; buyer SQL
-  и parser в endpoint отсутствуют.
-- Trusted authority остаётся:
-  `agent_<opaque storefront code>` → server route lookup → durable session →
-  server-side org/store context. User input не задаёт org/store/agent/code.
-- Buyer tools read-only. Seller mutation tools сохранили owner membership,
-  expected version и tenant-scoped conditional SQL.
+- `functions/agents/sotuvchi/checkout/**` — новый домен checkout.
+- `functions/agents/sotuvchi/manifest.ts` — версия, capability, tool, rule,
+  workflow.
+- `functions/agents/sotuvchi/index.ts` — реэкспорт checkout.
+- `functions/agents/sotuvchi/buyer/responses.ts` — действие `Оформить` на
+  полной карточке orderable товара.
+- `functions/api/telegram/agents.ts` — checkout service, composite workflow и
+  domain ports, серверный resolve active checkout.
+- `migrations/0021_sotuvchi_checkout.sql` — additive migration.
+- `tests/sotuvchi-checkout.test.ts` — новый suite.
+- `tests/sotuvchi-catalog.test.ts`, `tests/sotuvchi-onboarding.test.ts` —
+  обновлены только manifest-assertions.
 
-## 4. Cards, Facts и grounding
+## 4. Архитектурные решения
 
-- RU price: `100000 → 100 000 сум`; UZ: `100 000 so‘m`.
-- Availability source allowlist:
-  `available|unavailable|preorder`.
-- RU labels: `В наличии|Нет в наличии|Под заказ`.
-- UZ labels: `Mavjud|Mavjud emas|Buyurtma asosida`.
-- До пяти cards на ответ; description не длиннее 240 символов.
-- Opaque product ID используется только как bounded card/action ref и всегда
-  повторно валидируется внутри trusted storefront. Org/store/SKU/version/media
-  и raw DB fields пользователю не показываются.
-- Unsupported price, status, card field или число без Facts отклоняет response.
-  Telegram получает существующий controlled fallback при Runtime rejection.
+`D-018` в `DECISIONS.md`: single-product persistent checkout, immutable
+Catalog snapshot и PII-minimal order placement.
 
-## 5. Migration `0020`
+## 5. Что сознательно не сделано
 
-Добавлены nullable columns к `sotuvchi_storefront_sessions`:
-
-- `last_product_id`;
-- `last_intent`;
-- `selection_request_key`;
-- `selected_at`.
-
-Migration additive, destructive SQL отсутствует, raw messages и transcript
-таблицы не создаются. Она не применялась local/production. Operational rollback:
-сначала откатить code/relay; nullable columns безопасно оставить. Физическое
-удаление columns в SQLite требует отдельного table rebuild change и не входит в
-rollback P2.3.
+- Корзина и второй item, inventory reservation и списание остатка.
+- Seller order management, уведомление продавцу, confirm/cancel/done
+  продавцом.
+- Payment link и провайдеры (Click/Payme), CRM, human handoff и reply bridge.
+- Mini App, публичная веб-витрина, внешние службы доставки, рекомендации,
+  свободный AI-commerce.
+- Timer/cron и состояние `expired`, analytics events.
+- Применение migrations, webhook setup, push и deploy.
 
 ## 6. Проверки
 
-- Исходный baseline до изменений: прежние 396/396; `npx tsc -b` exit 0;
-  Functions-config ровно 27 legacy errors в шести старых файлах.
-- После изменений:
-  - Buyer Q&A 39/39.
-  - Catalog 54/54; Onboarding 28/28; Telegram Agents 41/41.
-  - Runtime 49/49; Workflow 39/39; Knowledge 33/33; AI 15/15.
-  - Tenancy 31/31; Events 20/20; Boundaries 10/10.
-  - Telegram compatibility 1/1; assistant 60/60; gpt-chat 15/15.
-  - Всего: **435/435**.
-  - `npx tsc -b` exit 0.
-  - Functions typecheck exit 2: ровно 27 legacy errors в прежних шести
-    legacy-файлах; новых platform/agents/channels/endpoint errors 0.
-  - Scoped ESLint exit 0; boundary violations 0.
-  - Staged token/API key/private data/email/phone/env scan 0.
-  - `git diff --cached --check` clean.
-- Из-за общего Windows memory pressure один ранний параллельный launch не
-  стартовал; обязательный gate затем выполнен file-by-file и полностью зелёный.
+- `npx tsc -b` — exit 0 (до и после изменений).
+- Обязательный набор: checkout 36/36 (new), buyer-qa 39/39, catalog 54/54,
+  onboarding 28/28, telegram-agents-webhook 41/41, platform-runtime 49/49,
+  platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15,
+  platform-tenancy 31/31, platform-events 20/20, agent-boundaries 10/10,
+  telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15 —
+  **471/471**.
+- Дополнительные repository suites: intent-guard 16, direct-generator 13,
+  indexnow-engine 11, yandex-research 11, gpt-backend 17,
+  telegram-cost-calculator 6, canonical-url-redirects 4 — 78/78.
+  Полный итог **549/549**.
+- `npx tsc -p tsconfig.functions.json --noEmit` — exit 2, ровно 27 legacy
+  errors в шести прежних файлах; новых errors в platform/agents/channels/
+  endpoint нет.
+- `npx tsx scripts/check-agent-boundaries.ts` — 0 violations.
+- Scoped ESLint по Sotuvchi/endpoint/channel/contracts/runtime/test — exit 0.
+- `git diff --cached --check` — clean; staged secret/PII/env scan — 0;
+  `memory/test_credentials.md` в staged changes отсутствует.
 
-## 7. Что сознательно отсутствует
+## 7. Известные проблемы
 
-- Cart, checkout, quantity, contact collection, order/order items, delivery
-  address, payment, inventory reservation/ledger, notification to seller,
-  operator/CRM, human reply bridge, public storefront и Mini App.
-- Кнопка «Купить» и эквивалент отсутствуют.
-- Profile-based recommendations, AI intent fallback, AI-generated catalog
-  claims, currency conversion и `100k/ming` shorthand отсутствуют.
-- Catalog/Buyer events и Knowledge projection отсутствуют до atomic outbox.
-- Migrations `0018/0019/0020`, webhook setup, push и deploy не выполнялись.
-- Javob, lead bot, gpt-chat, SEO, billing и unrelated production paths не
-  менялись.
+- Существовали до этапа: 27 legacy Functions errors, глобальный ESLint-долг,
+  `gptbot-audit/` и Emergent-скаффолдинг, отсутствие cron, plaintext admin
+  credential в tracked `memory/test_credentials.md` (critical, требует
+  отдельной задачи ротации).
+- Появились в этапе: не выявлено. Прерывание между domain write и workflow
+  transition оставляет prompt на прежнем шаге; повтор того же значения
+  идемпотентен и самовосстанавливается.
+- Внешние блокеры: Click/Payme, фискальные чеки, remote D1 migrations
+  `0013–0021` pending, Agents webhook не настроен.
 
 ## 8. Следующая задача
 
-Только **P2.4 — Checkout workflow** после нового явного задания.
+Только **P2.5 — Orders/inventory** после нового явного задания.
 
 Следующий агент обязан:
 
-1. Прочитать platform docs и проверить:
-   `last_completed_stage == P2.3`, `next_stage == P2.4`,
-   `last_commit == 70bd1e05a7eb9ad47632933a052a63922c991978`.
-2. Проверить code/relay ancestry, clean tracked tree и два сохранённых untracked
-   объекта; до изменений запустить полный 435-test baseline.
-3. Спроектировать отдельный persistent checkout FSM поверх trusted storefront
-   и выбранного published product, не превращая buyer parser/session в order
-   storage.
-4. Явно определить PII policy для имени/телефона/адреса, idempotent order
-   creation и restart/concurrency semantics до добавления write path.
-5. Не начинать P2.5 inventory/order seller operations, P2.6 human reply bridge,
-   payments, CRM, Mini App, deploy или production migration.
+1. Проверить `last_completed_stage == P2.4`, `next_stage == P2.5`,
+   `last_commit == a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea`.
+2. Проверить ancestry code/relay, clean tracked tree и два сохранённых
+   untracked объекта; до изменений выполнить baseline 471/471.
+3. Строить inventory_moves и seller order management поверх существующих
+   `sotuvchi_orders`/`sotuvchi_order_items`, не переписывая checkout FSM.
+4. Заранее определить политику двойного списания остатка, atomic
+   inventory+order write и уведомление продавцу.
+5. Не начинать P2.6 human bridge, payments, CRM, Mini App, deploy или
+   production migration.
 
-## 9. Команды для старта P2.4
+## 9. Acceptance criteria следующего этапа
+
+- Остаток не списывается дважды при повторном подтверждении и duplicate
+  update.
+- Продавец получает заказ и может подтвердить/отменить/завершить его в
+  пределах своего org/store.
+- Все P2.4 числа выше не уменьшены; новый suite зелёный.
+- Functions gate — те же 27 legacy errors; scoped ESLint 0; boundary checker
+  0 violations.
+
+## 10. Команды для старта P2.5
 
 ```powershell
 cd F:\Claude\gptbot-repo
 Get-Content -Raw -Encoding utf8 AGENTS.md
 Get-Content -Raw -Encoding utf8 docs\agents-platform\STATE.json
 Get-Content -Raw -Encoding utf8 docs\agents-platform\HANDOFF.md
-Get-Content -Raw -Encoding utf8 docs\agents-platform\ARCHITECTURE.md
-Get-Content -Raw -Encoding utf8 docs\agents-platform\ROADMAP.md
 Get-Content -Raw -Encoding utf8 docs\agents-platform\CURRENT_STATE.md
-Get-Content -Raw -Encoding utf8 docs\agents-platform\TEST_MATRIX.md
-Get-Content -Raw -Encoding utf8 docs\agents-platform\KNOWN_ISSUES.md
 Get-Content -Raw -Encoding utf8 docs\agents-platform\DECISIONS.md
+Get-Content -Raw -Encoding utf8 docs\agents-platform\TEST_MATRIX.md
 git status --short
 git branch --show-current
 git rev-parse HEAD
@@ -206,6 +198,7 @@ git log -15 --oneline
 git diff
 $env:NODE_OPTIONS='--max-old-space-size=1400'
 npx tsc -b
+node --import tsx --test tests/sotuvchi-checkout.test.ts
 node --import tsx --test tests/sotuvchi-buyer-qa.test.ts
 node --import tsx --test tests/sotuvchi-catalog.test.ts
 node --import tsx --test tests/sotuvchi-onboarding.test.ts
@@ -221,12 +214,23 @@ node --import tsx --test tests/telegram-channel-compat.test.ts
 node --import tsx --test tests/telegram-assistant.test.ts
 node --import tsx --test tests/gpt-chat.test.ts
 npx tsc -p tsconfig.functions.json --noEmit
+npx tsx scripts/check-agent-boundaries.ts
 ```
 
-## 10. Rollback
+## 11. Риски
 
-1. Если P2.3 relay создан, `git revert <P2.3-relay-SHA>`.
-2. Затем `git revert 70bd1e05a7eb9ad47632933a052a63922c991978`.
-3. Migration `0020` не применялась. Если будет применена отдельно, безопасный
-   rollback — оставить nullable columns после code revert; table rebuild только
-   отдельным одобренным operations change.
+- Нельзя ослаблять условный SQL подтверждения: он единственная атомарная
+  защита от placement по устаревшей цене или недоступному товару.
+- Нельзя переносить buyer PII в workflow payload, operation log, события или
+  логи.
+- Нельзя разрешать второй item или второй активный draft: это ломает
+  инварианты P2.4 и будущие inventory-операции.
+- Нельзя менять существующие storefront session и catalog контракты P2.2/P2.3.
+
+## 12. Rollback
+
+1. Если P2.4 relay создан, `git revert <P2.4-relay-SHA>`.
+2. Затем `git revert a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea`.
+3. Migration `0021` не применялась. Если будет применена отдельно, безопасный
+   rollback — отключить checkout traffic и удалить только пять её индексов и
+   три таблицы в обратном порядке.

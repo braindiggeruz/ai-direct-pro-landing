@@ -1,25 +1,25 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P2.3",
+  "current_stage": "P2.4",
   "stage_status": "completed",
-  "last_completed_stage": "P2.3",
-  "next_stage": "P2.4",
-  "last_commit": "70bd1e05a7eb9ad47632933a052a63922c991978",
+  "last_completed_stage": "P2.4",
+  "next_stage": "P2.5",
+  "last_commit": "a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
   "previous_stage": {
-    "stage": "P2.2",
-    "last_commit": "9373af8d0910c360620139e0e6d8913beeefbd0e",
-    "state_commit": "f6eeb2cdf74a978c4fd35d0c0a13d1315cc5c76b"
+    "stage": "P2.3",
+    "last_commit": "70bd1e05a7eb9ad47632933a052a63922c991978",
+    "state_commit": "fda702469f88d09768a56a53a7ebd8f41e34d506"
   },
   "updated_at": "2026-07-27",
   "blocked": false,
   "blockers": [],
   "baseline": {
     "build": "tsc -b exit 0",
-    "tests": "pass: sotuvchi-buyer-qa 39/39 (new), sotuvchi-catalog 54/54, sotuvchi-onboarding 28/28, telegram-agents-webhook 41/41, platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15; total required 435/435",
+    "tests": "pass: sotuvchi-checkout 36/36 (new), sotuvchi-buyer-qa 39/39, sotuvchi-catalog 54/54, sotuvchi-onboarding 28/28, telegram-agents-webhook 41/41, platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15; total required 471/471; full repository 549/549",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "P2.3 Sotuvchi/endpoint/channel/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
+    "lint": "P2.4 Sotuvchi/endpoint/channel/contracts/runtime/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
   }
 }

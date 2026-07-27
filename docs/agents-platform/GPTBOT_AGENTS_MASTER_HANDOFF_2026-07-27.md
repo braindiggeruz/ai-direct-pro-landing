@@ -3,14 +3,19 @@
 Дата фактического аудита: **2026-07-27**
 Рабочая директория: `F:\Claude\gptbot-repo`
 Ветка: `main`
-Аудированный source HEAD: `fda702469f88d09768a56a53a7ebd8f41e34d506`
-P2.3 code commit: `70bd1e05a7eb9ad47632933a052a63922c991978`
-P2.3 relay/current-state commit до этого документа:
+Дата последнего обновления документа: **2026-07-27 (после P2.4)**
+Аудированный source HEAD исходного аудита:
 `fda702469f88d09768a56a53a7ebd8f41e34d506`
-Удалённый `origin/main` на момент аудита:
-`93fab390733d5ffbf052e211d95b6038ee4bbd`
-Последний завершённый этап: **P2.3 — Sotuvchi Buyer Q&A**
-Следующий разрешённый этап: **P2.4 — Checkout workflow**
+HEAD после документационного commit этого файла:
+`eeece134bf373434dc4e8508c53be408c93b2d96`
+P2.3 code commit: `70bd1e05a7eb9ad47632933a052a63922c991978`
+P2.3 relay/current-state commit:
+`fda702469f88d09768a56a53a7ebd8f41e34d506`
+P2.4 code commit: `a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea`
+Удалённый `origin/main` (проверено повторно 2026-07-27):
+`93fab390733d3d5ffbf052e211d95b6038ee4bbd`
+Последний завершённый этап: **P2.4 — Sotuvchi Checkout workflow**
+Следующий разрешённый этап: **P2.5 — Orders/inventory**
 
 > Этот документ — главный технический handoff проекта на указанную дату. Он
 > фиксирует фактическое состояние кода, данных, тестов и production, но сам по
@@ -24,7 +29,7 @@ P2.3 relay/current-state commit до этого документа:
 ### 1.1. Что готово
 
 - В локальной ветке полностью реализованы и проверены этапы Agents Platform
-  `P0.0–P2.3`.
+  `P0.0–P2.4`.
 - Platform построена как modular monolith с channel-neutral контрактами,
   tenant-scoped runtime, deterministic-first обработкой и строгим grounding.
 - Telegram Agents transport изолирован от двух существующих production
@@ -36,18 +41,22 @@ P2.3 relay/current-state commit до этого документа:
   - открывать buyer storefront по opaque deep link;
   - отвечать на ограниченный список RU/UZ/mixed запросов по каталогу;
   - выдавать grounded product cards;
-  - безопасно продолжать один минимальный product follow-up.
-- Все 21 test suite прошли: **513/513**.
+  - безопасно продолжать один минимальный product follow-up;
+  - вести persistent checkout одного товара (quantity, имя, телефон, адрес,
+    явное подтверждение) и создавать один идемпотентный заказ-заявку.
+- Все 22 test suite прошли: **549/549** (обязательный Agents-набор 471/471).
 - Root TypeScript, Railway backend typecheck и обе сборки прошли.
 - Scoped Agents Platform lint и архитектурные boundary tests прошли.
 
 ### 1.2. Что не развернуто
 
 - Локальная ветка до документационного commit была впереди `origin/main` на
-  16 commits и не отставала от него.
+  16 commits и не отставала от него; после документационного commit — 17,
+  после P2.4 code+relay — 19.
 - Production Cloudflare Pages на момент аудита использовал source
   `93fab39…`, то есть удалённый `origin/main`, а не локальный P2.3 relay.
-- Удалённая D1 показывает migrations `0013–0020` как pending.
+- Удалённая D1 показывает migrations `0013–0020` как pending; `0021` также не
+  применялась.
 - Agents Telegram webhook не настроен и Agents bot не должен считаться
   production-ready.
 - Push, deploy, migration apply и webhook setup в ходе этого аудита не
@@ -55,20 +64,16 @@ P2.3 relay/current-state commit до этого документа:
 
 ### 1.3. Жёсткая граница следующей работы
 
-Следующий продуктовый этап — только **P2.4 Checkout workflow**. В его границы
-входят:
+P2.4 завершён в границах: один published product, целое quantity, имя,
+телефон, адрес доставки, явное подтверждение и idempotent persistence одного
+заказа. Оплата, inventory reservation, seller order management, CRM, human
+reply bridge, Mini App, рекомендации, свободный AI-commerce, мультикорзина и
+внешняя доставка в P2.4 не входили и не реализованы.
 
-1. один выбранный published product;
-2. целое положительное quantity;
-3. имя покупателя;
-4. телефон;
-5. адрес доставки;
-6. явное подтверждение;
-7. idempotent persistence заказа.
-
-Не входят в P2.4: оплата, inventory reservation, seller order management,
-CRM, human reply bridge, Mini App, рекомендации, свободный AI-commerce,
-мультикорзина и доставка через стороннего провайдера.
+Следующий продуктовый этап — только **P2.5 Orders/inventory**: inventory
+moves, защита от двойного списания, seller order management и уведомление
+продавцу поверх уже существующих `sotuvchi_orders`/`sotuvchi_order_items`.
+Платежи, human handoff, CRM и Mini App остаются вне этапа.
 
 ### 1.4. Критический security stop
 
@@ -147,10 +152,16 @@ CRM, human reply bridge, Mini App, рекомендации, свободный 
 - Ветка: `main`.
 - Source HEAD до документационного изменения:
   `fda702469f88d09768a56a53a7ebd8f41e34d506`.
+- HEAD после документационного commit (вход в P2.4):
+  `eeece134bf373434dc4e8508c53be408c93b2d96`.
 - `origin/main` и `git ls-remote origin refs/heads/main`:
   `93fab390733d3d5ffbf052e211d95b6038ee4bbd`.
-- Divergence до документационного commit: ahead 16, behind 0.
-- Tracked paths: 2340.
+- Divergence до документационного commit: ahead 16, behind 0; после него —
+  ahead 17, behind 0; после P2.4 code+relay — ahead 19, behind 0.
+- Tracked paths: 2340 на момент исходного аудита.
+- Замечание аудита P2.4: у P2.3 фактически три commit (code, relay и
+  отдельный документационный `eeece134…`), что превышает лимит двух commit по
+  D-006. Зафиксировано как факт истории; P2.4 использует ровно два commit.
 
 ### 3.2. Неавторитетные копии и артефакты
 
@@ -302,12 +313,13 @@ OpenRouter. Cloudflare GPT endpoints предпочитают Railway при н�
 | P2.1 | Sotuvchi onboarding | `6b7f68e1a3c644dab7d762704332d636d321c133` | `2258aa5cc4889f2da6cb856fbc909dac664401ba` |
 | P2.2 | Sotuvchi catalog | `9373af8d0910c360620139e0e6d8913beeefbd0e` | `f6eeb2cdf74a978c4fd35d0c0a13d1315cc5c76b` |
 | P2.3 | Sotuvchi Buyer Q&A | `70bd1e05a7eb9ad47632933a052a63922c991978` | `fda702469f88d09768a56a53a7ebd8f41e34d506` |
+| P2.4 | Sotuvchi checkout | `a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea` | relay HEAD |
 
 `STATE.json` фактически содержит:
 
-- `last_completed_stage = P2.3`;
-- `current_stage = P2.3`;
-- `next_stage = P2.4`;
+- `last_completed_stage = P2.4`;
+- `current_stage = P2.4`;
+- `next_stage = P2.5`;
 - `blocked = false`;
 - state commit следует D-006 и обозначает relay HEAD, а не хранит собственный
   SHA.
@@ -518,14 +530,16 @@ production agent.
 
 ---
 
-## 9. Sotuvchi: состояние P2.1–P2.3
+## 9. Sotuvchi: состояние P2.1–P2.4
 
 ### 9.1. Manifest
 
 - Agent: Sotuvchi.
-- Manifest version: `1.2.0`.
+- Manifest version: `1.3.0`.
 - Locales: RU и Uzbek Latin.
-- Реализованные capabilities: onboarding и catalog.
+- Реализованные capabilities: `store.onboarding`, `store.catalog`,
+  `commerce.order`.
+- Workflows: `sotuvchi-store-onboarding` v1, `sotuvchi-checkout` v1.
 - Strict grounding включён.
 - AI selection выключен.
 
@@ -643,24 +657,36 @@ Minimal follow-up state:
 При follow-up store/product/route проверяются заново. Stale, foreign или
 unpublished reference не приводит к cross-tenant lookup.
 
-### 9.5. Сознательно отсутствует
+### 9.5. P2.4 Checkout
 
-- cart;
-- buy button;
-- checkout;
-- quantity;
-- buyer name/phone/address;
-- orders/order items;
+- Вход: trusted card action `buyer-checkout.<opaque productId>` на полной
+  карточке orderable товара; свободный текст checkout не открывает.
+- FSM `sotuvchi-checkout` v1:
+  `idle → awaiting_quantity → awaiting_name → awaiting_phone →
+  awaiting_address → awaiting_confirmation → completed`, плюс `cancelled`.
+- Один активный draft на buyer session; ровно один item на заказ.
+- Quantity `1..99`; имя `2..80`; телефон `+998` + девять цифр; адрес
+  `5..240`.
+- Подтверждение атомарно перечитывает published product, active store и
+  category, availability и цену; изменение цены требует повторного
+  подтверждения.
+- Order number `S-XXXXXX`, unique в пределах store.
+- Idempotency по trusted `requestId` канала; PII только в `sotuvchi_orders`.
+
+### 9.6. Сознательно отсутствует
+
+- cart и второй item;
 - payment;
-- inventory reservation;
-- seller notification;
+- inventory reservation и списание остатка;
+- seller order management и seller notification;
 - operator/CRM;
 - human reply bridge;
 - Mini App;
 - profile recommendations;
 - AI intent fallback;
 - currency conversion;
-- conversation table.
+- conversation table;
+- timer/cron и состояние `expired`.
 
 ---
 
@@ -668,7 +694,7 @@ unpublished reference не приводит к cross-tenant lookup.
 
 ### 10.1. D1 migrations
 
-В repository 20 D1 migration files:
+В repository 21 D1 migration file:
 
 | Migration | Назначение | Основные таблицы/изменения |
 |---|---|---|
@@ -692,14 +718,17 @@ unpublished reference не приводит к cross-tenant lookup.
 | `0018_sotuvchi_store_onboarding.sql` | store onboarding/routes | 3 tables |
 | `0019_sotuvchi_catalog.sql` | catalog/session | 4 tables |
 | `0020_sotuvchi_buyer_qa.sql` | buyer follow-up | 4 nullable session columns |
+| `0021_sotuvchi_checkout.sql` | checkout/orders | 3 tables, 5 indexes |
 
 Remote read-only command на 2026-07-27 показал, что migrations
-`0013–0020` ожидают применения. В ходе аудита ни одна migration не
-применялась.
+`0013–0020` ожидают применения; добавленная в P2.4 `0021` также не
+применялась. Ни одна migration не применялась ни в ходе аудита, ни в ходе
+P2.4.
 
 ### 10.2. D1 tables
 
-В 20 migration files определены 52 уникальные D1 tables:
+В 21 migration file определены 55 уникальных D1 tables (P2.4 добавила
+`sotuvchi_orders`, `sotuvchi_order_items`, `sotuvchi_order_operations`):
 
 ```text
 ai_draft_audit
@@ -736,6 +765,9 @@ seo_topic_reservations
 sotuvchi_catalog_operations
 sotuvchi_categories
 sotuvchi_onboardings
+sotuvchi_order_items
+sotuvchi_order_operations
+sotuvchi_orders
 sotuvchi_products
 sotuvchi_storefront_sessions
 sotuvchi_stores
@@ -758,7 +790,7 @@ yandex_serp_cache
 
 ### 10.3. Agents/Sotuvchi tables
 
-Migrations `0013–0020` вводят 17 уникальных Agents-related tables:
+Migrations `0013–0021` вводят 20 уникальных Agents-related tables:
 
 ```text
 events
@@ -778,10 +810,13 @@ sotuvchi_categories
 sotuvchi_products
 sotuvchi_catalog_operations
 sotuvchi_storefront_sessions
+sotuvchi_orders
+sotuvchi_order_items
+sotuvchi_order_operations
 ```
 
-Sotuvchi непосредственно использует семь таблиц, если route authority считать
-частью домена:
+Sotuvchi непосредственно использует десять таблиц, если route authority
+считать частью домена:
 
 ```text
 sotuvchi_onboardings
@@ -791,6 +826,9 @@ sotuvchi_categories
 sotuvchi_products
 sotuvchi_catalog_operations
 sotuvchi_storefront_sessions
+sotuvchi_orders
+sotuvchi_order_items
+sotuvchi_order_operations
 ```
 
 ### 10.4. Supabase
@@ -815,9 +853,11 @@ message_feedback
 ### 10.5. Migration/runtime bootstrap mismatch
 
 Platform и Sotuvchi stores имеют runtime schema bootstrap для локальной и
-first-run совместимости. Для `0018/0019` он создаёт недостающие таблицы, а
-для `0020` runtime code выполняет additive `ALTER TABLE` и подавляет ошибку
-duplicate column.
+first-run совместимости. Для `0018/0019/0021` он создаёт недостающие таблицы,
+а для `0020` runtime code выполняет additive `ALTER TABLE` и подавляет ошибку
+duplicate column. P2.4 сознательно не расширяла этот паттерн: новый
+`ensureSotuvchiCheckoutSchema` использует только `CREATE TABLE/INDEX IF NOT
+EXISTS`, без `ALTER`.
 
 Это расходится с операционным комментарием `0020`, где migration не должна
 применяться application code. Риски:
@@ -827,7 +867,7 @@ duplicate column.
 - schema drift трудно диагностировать;
 - rollback и ownership миграций становятся неоднозначными.
 
-Не исправлять это внутри P2.4 «заодно». Сначала требуется отдельное решение:
+Не исправлять это внутри P2.5 «заодно». Сначала требуется отдельное решение:
 либо migrations являются единственным production owner, либо bootstrap
 официально документируется и проверяется parity tooling.
 
@@ -1227,10 +1267,11 @@ Canonical `functions/_types.ts` не охватывает все code-referenced
 $env:NODE_OPTIONS='--max-old-space-size=1400'
 ```
 
-### 13.1. Обязательная Agents/P2.3 матрица
+### 13.1. Обязательная Agents/P2.4 матрица
 
 | Suite | Passed |
 |---|---:|
+| `sotuvchi-checkout.test.ts` | 36 |
 | `sotuvchi-buyer-qa.test.ts` | 39 |
 | `sotuvchi-catalog.test.ts` | 54 |
 | `sotuvchi-onboarding.test.ts` | 28 |
@@ -1245,7 +1286,7 @@ $env:NODE_OPTIONS='--max-old-space-size=1400'
 | `telegram-channel-compat.test.ts` | 1 |
 | `telegram-assistant.test.ts` | 60 |
 | `gpt-chat.test.ts` | 15 |
-| **Subtotal** | **435** |
+| **Subtotal** | **471** |
 
 ### 13.2. Дополнительные repository suites
 
@@ -1260,7 +1301,7 @@ $env:NODE_OPTIONS='--max-old-space-size=1400'
 | `canonical-url-redirects.test.ts` | 4 |
 | **Subtotal** | **78** |
 
-Полный итог: **513/513**.
+Полный итог: **549/549** (21 P2.3-suite + новый checkout suite).
 
 Дополнительно Javob offline eval:
 
@@ -1509,17 +1550,17 @@ Uzbek phone-like literals найдены в семи files:
 
 | Gate | Статус | Обоснование |
 |---|---|---|
-| P2.3 source completeness | Ready | code/relay present, 513 tests pass |
-| Architecture boundaries | Ready | 10/10, scoped lint pass |
+| P2.4 source completeness | Ready | code commit present, 549 tests pass |
+| Architecture boundaries | Ready | 10/10, checker 0 violations, scoped lint pass |
 | Local build/typecheck | Ready with legacy debt | root/backend pass; 27 legacy Functions errors |
 | Security release | **Blocked** | tracked credential + dependency vulnerabilities |
-| D1 migration readiness | Review required | `0013–0020` pending; bootstrap ownership mismatch |
-| Cloudflare production | Not current | production source is `93fab39`, not local P2.3 |
+| D1 migration readiness | Review required | `0013–0021` pending; bootstrap ownership mismatch |
+| Cloudflare production | Not current | production source is `93fab39`, not local P2.4 |
 | Agents webhook | Not ready | live route absent; no setup performed |
-| P2.4 design start | Conditionally ready | only after source gate; privacy/order invariants first |
+| P2.5 design start | Conditionally ready | only after source gate; inventory/double-decrement policy first |
 | Production deploy | **Not authorized** | requires explicit release task and blockers resolution |
 
-Коротко: **P2.3 локально source-ready, но production/release не ready**.
+Коротко: **P2.4 локально source-ready, но production/release не ready**.
 
 ---
 
@@ -1552,49 +1593,40 @@ Uzbek phone-like literals найдены в семи files:
 
 Не выполнять ротацию «молча» в feature commit.
 
-### 18.3. P2.4 design gate
+### 18.3. Реализованный P2.4 (справочно)
+
+- FSM `sotuvchi-checkout` v1:
+  `idle → awaiting_quantity → awaiting_name → awaiting_phone →
+  awaiting_address → awaiting_confirmation → completed`, плюс `cancelled`.
+  Состояние `expired` сознательно не добавлено: scheduler отсутствует.
+- Workflow payload — только `{ orderId }`; PII живёт в `sotuvchi_orders`.
+- Order aggregate — `sotuvchi_orders` + один `sotuvchi_order_items`
+  (`UNIQUE(order_id)`), operations log `sotuvchi_order_operations`.
+- Quantity `1..99`, имя `2..80`, телефон `+998`+9 цифр, адрес `5..240`.
+- Idempotency по trusted `requestId` канала, ключ проверяется раньше
+  FSM-состояния; чужой fingerprint fail-closed.
+- Подтверждение атомарно перечитывает published product и цену, иначе
+  fail-closed; при изменившейся цене требуется повторное подтверждение.
+- Order number `S-XXXXXX`, unique в пределах store, opaque.
+- Buyer-facing текст строится только из scalar Facts; имя и адрес не
+  показываются, телефон маскируется.
+
+### 18.4. P2.5 design gate
 
 Перед кодом оформить:
 
-- checkout FSM states/transitions;
-- order aggregate и order item schema;
-- integer quantity constraints;
-- tenant and seller authorization predicates;
-- exact PII fields и retention;
-- idempotency key semantics;
-- Telegram retry/concurrency behavior;
-- confirmed product snapshot semantics;
-- stale/unpublished/out-of-stock handling;
-- event/outbox decision;
-- safe cancel/restart/resume UX;
-- Russian и Uzbek Latin copy;
-- no payment/inventory scope.
+- inventory model (`inventory_moves` или эквивалент) и связь с
+  `sotuvchi_order_items`;
+- защиту от двойного списания при duplicate confirm/update;
+- атомарность order state change + inventory move;
+- seller order management: список, confirm/cancel/done, tenant-предикаты;
+- уведомление продавцу и его idempotency;
+- политику событий/outbox (всё ещё открыта);
+- поведение при отрицательном/недостаточном остатке;
+- RU и Uzbek Latin copy;
+- отсутствие payments/CRM/handoff в scope.
 
-### 18.4. Suggested P2.4 FSM
-
-Это направление для проектирования, не уже принятое решение:
-
-```text
-idle
-→ awaiting_quantity
-→ awaiting_name
-→ awaiting_phone
-→ awaiting_address
-→ awaiting_confirmation
-→ completed | cancelled | expired
-```
-
-Каждый transition должен быть:
-
-- tenant-scoped;
-- versioned;
-- idempotent по trusted Telegram update/request key;
-- resumable после isolate restart;
-- safe при duplicate delivery;
-- PII-minimized;
-- tested на cross-tenant и stale route.
-
-### 18.5. Что не менять в P2.4
+### 18.5. Что не менять в P2.5
 
 - Lead webhook.
 - Javob webhook и Tahlil.
@@ -1602,8 +1634,9 @@ idle
 - SEO/admin.
 - Payments.
 - Existing bot identities.
+- Реализованный P2.4 checkout FSM и его инварианты.
 - Production migrations/webhooks без отдельного release task.
-- P2.5+ features.
+- P2.6+ features.
 
 ---
 
@@ -1634,6 +1667,7 @@ git log -20 --oneline --decorate
 
 ```powershell
 $env:NODE_OPTIONS='--max-old-space-size=1400'
+node --import tsx --test tests/sotuvchi-checkout.test.ts
 node --import tsx --test tests/sotuvchi-buyer-qa.test.ts
 node --import tsx --test tests/sotuvchi-catalog.test.ts
 node --import tsx --test tests/sotuvchi-onboarding.test.ts
@@ -1717,9 +1751,13 @@ Pop-Location
 
 ### 20.2. Migration rollback
 
-- `0013–0020` на момент аудита remote pending.
+- `0013–0021` remote pending.
 - Для additive `0020` безопасный operational rollback после применения —
   сначала code revert, nullable columns оставить.
+- Для additive `0021` — сначала отключить checkout traffic и code revert,
+  затем при необходимости удалить только пять её индексов и три таблицы
+  (`sotuvchi_order_operations`, `sotuvchi_order_items`, `sotuvchi_orders`) в
+  обратном порядке; shared store/catalog/session/workflow таблицы не трогать.
 - Физическое удаление columns в SQLite/D1 требует отдельного approved table
   rebuild migration.
 - Для tables `0013–0019` destructive rollback не должен выполняться без backup,
@@ -1757,28 +1795,28 @@ release rollback должен включать:
 
 ## 21. Фактическая audit attestation
 
-На 2026-07-27 подтверждено:
+На 2026-07-27 (обновлено после P2.4) подтверждено:
 
 - 1 authoritative Git repository;
 - 9 logical service groups;
 - 2 independently deployable compute targets;
 - 3 изолированных Telegram webhook products;
-- 20 D1 migration files;
-- 52 D1 tables;
+- 21 D1 migration file;
+- 55 D1 tables;
 - 10 Supabase tables;
-- 17 Agents-related D1 tables;
-- 7 Sotuvchi-related D1 tables с route authority;
+- 20 Agents-related D1 tables;
+- 10 Sotuvchi-related D1 tables с route authority;
 - 63 Cloudflare API route modules;
 - 90 explicit Cloudflare handler exports;
 - 13 Railway route handlers;
 - 112 configuration identifiers;
-- 21 automated Node test suites;
-- 513/513 test assertions passed;
+- 22 automated Node test suites;
+- 549/549 test assertions passed (обязательный Agents-набор 471/471);
 - 60-case Javob offline eval;
-- `0013–0020` remote migrations pending;
-- production Pages source не содержит локальный P2.3;
-- production code, secrets, webhook, infra и migrations в ходе аудита не
-  изменялись;
+- `0013–0021` remote migrations pending;
+- production Pages source не содержит локальный P2.4;
+- production code, secrets, webhook, infra и migrations в ходе аудита и P2.4
+  не изменялись;
 - push/deploy не выполнялись.
 
 ---
@@ -1788,16 +1826,21 @@ release rollback должен включать:
 > Продолжай GPTBot Agents Platform только из
 > `F:\Claude\gptbot-repo`, сначала прочитай
 > `docs/agents-platform/GPTBOT_AGENTS_MASTER_HANDOFF_2026-07-27.md`,
-> `AGENTS.md` и весь governance-набор, проверь текущий HEAD, ancestry P2.3
-> `70bd1e05…`/relay `fda70246…`, divergence с `origin/main` и сохрани
-> pre-existing untracked `apps/gpt-backend/package-lock.json` и
-> `gptbot.uz-audit/`; локально P2.3 завершён и 513/513 тестов зелёные, но
-> production всё ещё на `93fab39…`, D1 migrations `0013–0020` pending и
-> Agents webhook не deployed; следующий продуктовый этап — только P2.4
-> Checkout с одним product, quantity, name, phone, address, confirmation и
-> idempotent order persistence, однако до release обязательно вынеси в
-> отдельную одобренную security task ротацию и history cleanup plaintext
-> admin credential из `memory/test_credentials.md`, обновление уязвимых
-> React Router/Fastify chains и исправление Turnstile fail-open; не трогай
+> `AGENTS.md` и весь governance-набор, проверь текущий HEAD, ancestry P2.4
+> code `a418bcb2…` и P2.3 `70bd1e05…`/relay `fda70246…`, divergence с
+> `origin/main` `93fab390733d3d5f…` и сохрани pre-existing untracked
+> `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`; локально
+> завершён P2.4 и 549/549 тестов зелёные (обязательный набор 471/471), но
+> production всё ещё на `93fab39…`, D1 migrations `0013–0021` pending и
+> Agents webhook не deployed; следующий продуктовый этап — только P2.5
+> Orders/inventory: inventory moves, защита от двойного списания, seller
+> order management и уведомление продавцу поверх существующих
+> `sotuvchi_orders`/`sotuvchi_order_items`, без payments, CRM, human handoff и
+> Mini App; не переписывай checkout FSM и его инварианты (один item, один
+> активный draft, atomic conditional placement, PII только в
+> `sotuvchi_orders`); до release обязательно вынеси в отдельную одобренную
+> security task ротацию и history cleanup plaintext admin credential из
+> `memory/test_credentials.md`, обновление уязвимых React Router/Fastify
+> chains и исправление Turnstile fail-open; не трогай
 > Lead/Javob/Tahlil/GPT/SEO/payment paths, не применяй migrations, не
 > настраивай webhook, не deploy и не push без отдельного явного разрешения.

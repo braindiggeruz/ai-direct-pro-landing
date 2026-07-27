@@ -32,12 +32,14 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | P2.1 | `tests/sotuvchi-onboarding.test.ts` | 28 | store validation; migration/bootstrap parity; persistent FSM; organization/owner/store/route linkage; opaque collision-safe codes; duplicate/restart; tenant isolation; Telegram seller RU/UZ/mixed and buyer route separation |
 | P2.2 | `tests/sotuvchi-catalog.test.ts` | 54 | category/product validation; migration/bootstrap parity; integer UZS; lifecycle; optimistic version/idempotency; deterministic RU/UZ/mixed search; Facts/grounding; tenant negatives; offline Telegram seller/storefront |
 | P2.3 | `tests/sotuvchi-buyer-qa.test.ts` | 39 | closed RU/UZ/mixed intents; extraction/price filter; channel-neutral cards; strict card grounding; session follow-up/idempotency; tenant negatives; offline Telegram buyer E2E |
+| P2.4 | `tests/sotuvchi-checkout.test.ts` | 36 | quantity/name/phone/address validation; migration+bootstrap parity; persistent FSM and restart; product eligibility and price revalidation; atomic single-item order; idempotency and fingerprint conflict; tenant negatives; PII-minimal Facts/grounding; offline Telegram RU/UZ checkout |
 
-## Post-change baseline P2.3
+## Post-change baseline P2.4
 
 | Проверка | Команда | Результат |
 |---|---|---|
 | App typecheck | `npx tsc -b` | exit 0 |
+| Sotuvchi checkout | `node --import tsx --test tests/sotuvchi-checkout.test.ts` | 36/36 |
 | Sotuvchi Buyer Q&A | `node --import tsx --test tests/sotuvchi-buyer-qa.test.ts` | 39/39 |
 | Sotuvchi catalog | `node --import tsx --test tests/sotuvchi-catalog.test.ts` | 54/54 |
 | Sotuvchi onboarding | `node --import tsx --test tests/sotuvchi-onboarding.test.ts` | 28/28 |
@@ -53,10 +55,35 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | Telegram assistant | `node --import tsx --test tests/telegram-assistant.test.ts` | 60/60 |
 | Web gpt-chat | `node --import tsx --test tests/gpt-chat.test.ts` | 15/15 |
 | Functions typecheck | `npx tsc -p tsconfig.functions.json --noEmit` | exit 2; exactly 27 legacy errors in 6 old files; 0 in platform/agents/channels |
-| P2.3 scoped lint | `npx eslint functions/agents/sotuvchi functions/api/telegram/agents.ts functions/channels/telegram tests/sotuvchi-buyer-qa.test.ts` | exit 0 |
-| Boundary gate | `node --import tsx --test tests/agent-boundaries.test.ts` | 10/10, current tree has 0 violations |
+| P2.4 scoped lint | `npx eslint functions/agents/sotuvchi functions/api/telegram/agents.ts functions/channels/telegram functions/platform/contracts functions/platform/runtime tests/sotuvchi-checkout.test.ts` | exit 0 |
+| Boundary gate | `node --import tsx --test tests/agent-boundaries.test.ts` + `npx tsx scripts/check-agent-boundaries.ts` | 10/10; checker reports 0 violations |
 
-Обязательный post-P2.3 regression total: **435/435**.
+Обязательный post-P2.4 regression total: **471/471**.
+Полный repository total (21 + 1 suites): **549/549**.
+
+## P2.4 static verification
+
+- Migration/bootstrap `0021` создают `sotuvchi_orders`,
+  `sotuvchi_order_items`, `sotuvchi_order_operations` и пять индексов;
+  repeated bootstrap, отсутствие destructive SQL и отсутствие
+  message/transcript columns подтверждены actual SQLite.
+- `idx_sotuvchi_order_items_single` делает второй item в заказе невозможным;
+  `idx_sotuvchi_orders_active_draft` — один активный draft на buyer session.
+- Placement выполняется одним conditional UPDATE + operation insert в D1 batch
+  и повторно проверяет published product, active store/category, availability
+  и текущую цену.
+- Price change перед подтверждением обновляет snapshot и требует второго
+  явного подтверждения; заказ остаётся draft.
+- Idempotency key канала проверяется раньше FSM-состояния; duplicate confirm
+  даёт один placed order и один order number, чужой fingerprint fail-closed.
+- Facts scalar-only: имя и адрес не эхо-показываются, телефон только masked;
+  workflow payload содержит только `{ orderId }`.
+- Boundary checker: 0 violations; checkout не импортирует channel/Telegram/
+  legacy paths, Platform не импортирует Sotuvchi.
+- Credential/private-key/token/email/env/real-phone scans staged diff: 0;
+  `memory/test_credentials.md` в staged changes отсутствует.
+- Migrations `0018/0019/0020/0021` не применялись local/production; setup
+  script, push и deploy не запускались.
 
 ## P2.3 static verification
 
@@ -78,7 +105,7 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
   deploy не запускались.
 
 ## Правило следующего этапа
-P2.4 не имеет права уменьшить ни одно число выше. Functions gate допускает только
+P2.5 не имеет права уменьшить ни одно число выше. Functions gate допускает только
 те же 27 известных legacy errors и требует 0 ошибок в
-`functions/{platform,agents,channels}`. Новые/изменённые P2.4 файлы должны иметь
+`functions/{platform,agents,channels}`. Новые/изменённые P2.5 файлы должны иметь
 scoped ESLint exit 0; direct boundary checker и все suites выше остаются зелёными.
