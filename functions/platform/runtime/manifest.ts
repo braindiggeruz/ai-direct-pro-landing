@@ -35,6 +35,7 @@ const TOOL_KEYS = new Set([
 const RULE_KEYS = new Set(['id', 'priority', 'match', 'execute']);
 const CAPABILITIES = new Set<AgentCapability>([
   'store.onboarding',
+  'store.catalog',
   'knowledge.query',
   'commerce.order',
   'scheduling.book',

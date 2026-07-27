@@ -640,13 +640,18 @@ test('known route resolves its tenant and unknown route fails closed', async () 
   );
 });
 
-test('Sotuvchi manifest exposes onboarding only and no P2.2 capabilities', () => {
+test('Sotuvchi manifest keeps onboarding and adds only P2.2 catalog', () => {
   assert.equal(sotuvchiAgentManifest.id, 'sotuvchi');
-  assert.deepEqual(sotuvchiAgentManifest.capabilities, ['store.onboarding']);
-  assert.deepEqual(sotuvchiAgentManifest.tools, []);
+  assert.deepEqual(
+    sotuvchiAgentManifest.capabilities,
+    ['store.onboarding', 'store.catalog'],
+  );
+  assert.ok(sotuvchiAgentManifest.tools.length > 0);
+  assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
+    tool.name.startsWith('catalog.')));
   const serialized = JSON.stringify(sotuvchiAgentManifest, (_key, value) =>
     typeof value === 'function' ? '[function]' : value);
-  for (const forbidden of ['catalog', 'checkout', 'orders', 'inventory']) {
+  for (const forbidden of ['checkout', 'orders', 'inventory']) {
     assert.ok(!serialized.includes(forbidden), forbidden);
   }
 });
@@ -860,5 +865,5 @@ test('buyer storefront route resolves the store but never launches seller onboar
     fixture.value('SELECT COUNT(*) FROM sotuvchi_onboardings'),
     beforeOnboardings,
   );
-  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Каталог товаров'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Каталог пока пуст'));
 });

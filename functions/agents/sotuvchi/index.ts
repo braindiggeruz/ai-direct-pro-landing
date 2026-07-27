@@ -5,6 +5,7 @@ export {
   sotuvchiStorefrontPendingRule,
 } from './rules';
 export * from './onboarding';
+export * from './catalog';
 export {
   SOTUVCHI_ONBOARDING_STATUSES,
   STORE_DELIVERY_MODES,

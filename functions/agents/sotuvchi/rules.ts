@@ -1,20 +1,17 @@
 import type { DeterministicRule } from '../../platform/contracts';
 
 export const sotuvchiStorefrontPendingRule: DeterministicRule = {
-  id: 'storefront-pending',
+  id: 'storefront-catalog',
   priority: 10,
   match(input) {
     return input.message.kind === 'action'
       && input.message.actionId === 'storefront-start';
   },
-  async execute(context) {
-    const text = context.org.locale === 'uz'
-      ? 'Vitrina tayyor. Mahsulotlar katalogi keyingi bosqichda qo‘shiladi.'
-      : 'Витрина готова. Каталог товаров будет добавлен на следующем этапе.';
+  async execute() {
     return {
-      kind: 'answer',
-      response: { messages: [{ text }], claims: [] },
-      facts: [],
+      kind: 'tool',
+      toolName: 'catalog.product.search',
+      input: { limit: 5 },
     };
   },
 };
@@ -28,11 +25,48 @@ export const sotuvchiSellerStatusRule: DeterministicRule = {
   },
   async execute(context) {
     const text = context.org.locale === 'uz'
-      ? 'Do‘kon allaqachon yaratilgan.'
-      : 'Магазин уже создан.';
+      ? 'Do‘kon tayyor. Katalog amalini tanlang.'
+      : 'Магазин готов. Выберите действие с каталогом.';
     return {
       kind: 'answer',
-      response: { messages: [{ text }], claims: [] },
+      response: {
+        messages: [{
+          text,
+          choices: [
+            {
+              id: 'catalog-add-product',
+              label: context.org.locale === 'uz'
+                ? 'Mahsulot qo‘shish'
+                : 'Добавить товар',
+            },
+            {
+              id: 'catalog-my-products',
+              label: context.org.locale === 'uz'
+                ? 'Mening mahsulotlarim'
+                : 'Мои товары',
+            },
+            {
+              id: 'catalog-categories',
+              label: context.org.locale === 'uz'
+                ? 'Kategoriyalar'
+                : 'Категории',
+            },
+            {
+              id: 'catalog-publish-product',
+              label: context.org.locale === 'uz'
+                ? 'Nashr qilish'
+                : 'Опубликовать товар',
+            },
+            {
+              id: 'catalog-hide-product',
+              label: context.org.locale === 'uz'
+                ? 'Yashirish'
+                : 'Скрыть товар',
+            },
+          ],
+        }],
+        claims: [],
+      },
       facts: [],
     };
   },

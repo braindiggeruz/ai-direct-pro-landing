@@ -4,6 +4,8 @@
 import type { Env } from '../../_types';
 import { demoAgentManifest } from '../../agents/demo';
 import {
+  createSotuvchiCatalogDomainPort,
+  createSotuvchiCatalogService,
   createSotuvchiOnboardingService,
   createSotuvchiWorkflowPort,
   isStorefrontCode,
@@ -81,6 +83,7 @@ export function createTelegramAgentsRuntimeWiring(
   botUsername: string,
 ) {
   const onboarding = createSotuvchiOnboardingService(db);
+  const catalog = createSotuvchiCatalogService(db);
   const demoContexts = createStaticTelegramAgentContextResolver([{
     botUsername,
     routeCode: 'demo',
@@ -107,14 +110,24 @@ export function createTelegramAgentsRuntimeWiring(
           botUsername,
           parsed.routeCode,
         );
-        return route
-          ? {
-              orgId: route.orgId,
-              agentId: route.agentId,
-              locale: route.locale,
-              entryActionId: 'storefront-start',
-            }
-          : null;
+        if (!route) return null;
+        const storefront = {
+          orgId: route.orgId,
+          storeId: route.storeId,
+          agentId: route.agentId,
+          locale: route.locale,
+        } as const;
+        await catalog.bindStorefrontSession({
+          botUsername,
+          identityId: input.telegramIdentityId,
+          context: storefront,
+        });
+        return {
+          orgId: storefront.orgId,
+          agentId: storefront.agentId,
+          locale: storefront.locale,
+          entryActionId: 'storefront-start',
+        };
       }
       if (parsed.status === 'none') {
         const snapshot = await onboarding.getOnboarding({
@@ -125,6 +138,20 @@ export function createTelegramAgentsRuntimeWiring(
         });
         if (snapshot?.status === 'active') {
           return sellerContext(snapshot, input, false);
+        }
+        if (snapshot?.status === 'completed') {
+          return sellerContext(snapshot, input, false);
+        }
+        const storefront = await catalog.resolveStoredStorefrontContext(
+          botUsername,
+          input.telegramIdentityId,
+        );
+        if (storefront) {
+          return {
+            orgId: storefront.orgId,
+            agentId: storefront.agentId,
+            locale: storefront.locale,
+          };
         }
       }
       return demoContexts.resolve(input);
@@ -140,9 +167,10 @@ export function createTelegramAgentsRuntimeWiring(
     services: {
       knowledge: createKnowledgeService(db),
       workflow: createSotuvchiWorkflowPort(onboarding, botUsername),
+      agentDomain: createSotuvchiCatalogDomainPort(catalog),
     },
   });
-  return { contexts, onboarding, runtime };
+  return { catalog, contexts, onboarding, runtime };
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({

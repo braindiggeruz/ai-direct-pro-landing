@@ -42,6 +42,7 @@ export type {
 } from './workflow';
 export { eraseWorkflowDefinition } from './workflow';
 export type {
+  AgentDomainServicePort,
   DeterministicRule,
   GroundingResult,
   KnowledgeServicePort,

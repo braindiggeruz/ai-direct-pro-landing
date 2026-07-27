@@ -97,9 +97,24 @@ export interface WorkflowServicePort {
   ): Promise<RuntimeStepResult | null>;
 }
 
+/**
+ * Agent-neutral bridge for trusted product-domain operations. Manifests still
+ * expose a closed tool list; tools choose both agentId and operation, while
+ * user input can provide neither tenant authority nor an arbitrary operation.
+ */
+export interface AgentDomainServicePort {
+  execute(input: {
+    agentId: string;
+    operation: string;
+    org: OrgContext;
+    input: unknown;
+  }): Promise<Readonly<Record<string, FactValue>>>;
+}
+
 export interface RuntimeServices {
   knowledge: KnowledgeServicePort;
   workflow?: WorkflowServicePort;
+  agentDomain?: AgentDomainServicePort;
 }
 
 export interface ToolContext {

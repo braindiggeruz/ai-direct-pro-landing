@@ -9,6 +9,7 @@ import type { WorkflowDefinition } from './workflow';
 /** Closed capability list — extended only by a platform stage, never ad-hoc. */
 export type AgentCapability =
   | 'store.onboarding'
+  | 'store.catalog'
   | 'knowledge.query'
   | 'commerce.order'
   | 'scheduling.book'
