@@ -8,3 +8,4 @@ export * from './events';
 export * from './identity';
 export * from './orgs';
 export * from './ai';
+export * from './knowledge';
