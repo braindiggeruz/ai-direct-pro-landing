@@ -1,5 +1,97 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-019 (2026-07-27, P2.5) Inventory ledger, idempotent seller order transitions и durable notification intents
+
+P2.5 добавляет seller-сторону поверх P2.4: управление заказом, количественный
+inventory и durable notification outbox. Payments, refunds, partial
+fulfillment, multi-item cart, multi-warehouse, variant inventory, CRM, human
+handoff и Mini App в этап не входят.
+
+Order lifecycle не получает новую колонку статуса. P2.4 зафиксировал узкий
+`CHECK (status IN ('draft','placed','cancelled'))`, а SQLite не расширяет
+CHECK без полного table rebuild; rebuild живой таблицы заказов — неоправданный
+риск ради трёх значений. Поэтому добавлена одна additive колонка
+`fulfillment_status IN ('none','confirmed','done')`, и фактический seller-статус
+выводится из пары `(status, fulfillment_status)`: `placed`, `confirmed`,
+`cancelled`, `done`. Любая другая пара считается corrupt row, а не новым
+состоянием. Разрешены только `placed → confirmed`, `placed → cancelled`,
+`confirmed → done`. `confirmed → cancelled` запрещён сознательно: компенсирующее
+движение склада создало бы второй путь изменения баланса и риск двойного
+возврата, поэтому compensation-движения не существует вовсе. Отменённый заказ
+всегда сохраняет `fulfillment_status = 'none'`; инвариант держится conditional
+SQL каждого перехода, потому что table-level CHECK к существующей таблице
+SQLite добавить нельзя. Продавцу видны только заказы с `placed_at IS NOT NULL`,
+поэтому отменённые покупателем draft-заказы в seller-скоуп не попадают.
+
+Inventory — отдельный количественный источник истины, а не производная от
+каталога. `sotuvchi_inventory` хранит integer `on_hand` `0..1 000 000` с
+optimistic `version` и PK `(org_id, store_id, product_id)`;
+`sotuvchi_inventory_moves` — append-only ledger с типами `initial`,
+`manual_adjustment`, `order_confirmed`. Декларативное `availability` никогда не
+превращается в число: `available` требует существующую строку баланса и
+`on_hand >= quantity`, отсутствие строки — fail-closed, а не «бесконечный
+остаток»; `preorder` подтверждается без списания и помечается явно;
+`unavailable` подтвердить нельзя. Availability проверяется по живому товару в
+момент подтверждения, поэтому продавец, снявший товар с продажи, обязан сначала
+вернуть его в продажу. Manual arbitrary delta не добавлен: продавец задаёт
+абсолютный остаток, а delta вычисляется сервером.
+
+Подтверждение выполняется одним D1 batch: conditional decrement (по
+`version` и `on_hand >= quantity`, с вложенной проверкой заказа, товара,
+магазина и owner membership), вставка движения, условный переход
+`placed → confirmed`, operation row и notification intent. Guard'ы вложены так,
+что первый statement применяется тогда и только тогда, когда применяются
+остальные; иначе не применяется ничего. Из-за этого недостижимы `confirmed` без
+движения, движение без `confirmed`, отрицательный остаток, двойное списание,
+дублирующее движение и дублирующий notification intent. Двойное списание
+закрыто тремя независимыми барьерами: условием `fulfillment_status = 'none'`,
+условием inventory `version` и partial unique index
+`(order_id, type) WHERE order_id IS NOT NULL`.
+
+Идемпотентность переиспользует существующую `sotuvchi_order_operations` как
+единый store-scoped журнал для buyer checkout и seller операций: trusted
+`requestId`, имя операции, SHA-256 fingerprint без PII, target и версия
+результата. Повтор того же ключа возвращает сохранённый результат; другой
+fingerprint на том же ключе даёт content-free conflict. Повтор перехода с
+другим requestId, когда заказ уже в целевом состоянии, возвращает `unchanged`
+и ничего не пишет; повторная установка того же остатка тоже ничего не пишет.
+
+Notification — durable intent, а не отправка. Domain mutation никогда не
+вызывает Telegram: placement и каждый seller transition пишут строку в
+`sotuvchi_notifications` внутри собственного batch, а `UNIQUE (order_id,
+audience, type)` не даёт создать второй intent. Строка не содержит payload
+вообще: renderer заново читает trusted order, поэтому имя, телефон и адрес
+покупателя физически не попадают в outbox. Таблица вынесена в отдельный модуль
+`functions/agents/sotuvchi/outbox`, потому что у неё два писателя — checkout и
+seller-переходы — и ни один модуль не должен импортировать другой. Delivery
+semantics заявляются честно: durable intent плюс at-least-once попытка плюс
+идемпотентные доменные эффекты; при падении после отправки возможен повторный
+текст. Exactly-once не заявляется. Фактический push продавцу и покупателю в
+P2.5 не реализован: он требует durable mapping identity → chat reference,
+которого в repository нет, а его создание принадлежит транспортному этапу.
+Platform events по-прежнему не публикуются до atomic outbox policy ядра.
+
+Seller authority остаётся server-derived. Closed list из семи операций:
+`seller.orders.list`, `seller.order.get`, `seller.order.confirm`,
+`seller.order.cancel`, `seller.order.done`, `seller.inventory.get`,
+`seller.inventory.set`. Актор берётся только из trusted Runtime
+`OrgContext.actorId`, магазин — из active owner membership через существующий
+`catalog.resolveOwnerContext`, и owner membership дополнительно проверяется
+внутри каждого мутирующего SQL, чтобы авторитет не устарел между чтением и
+записью. Продавец не может передать `orgId`, `storeId`, чужой заказ, баланс или
+авторитет над товаром; покупатель seller tools не получает. PII-политика
+разделена по представлениям: список заказов не содержит имя, телефон и адрес,
+а detail отдаёт их авторизованному владельцу магазина, потому что именно он
+выполняет доставку. Facts остаются scalar и namespaced, ответы собираются
+deterministic composer'ом и проходят существующий strict grounding.
+
+Migration `0022_sotuvchi_orders_inventory.sql` additive и не применялась.
+Safe code rollback: relay revert, затем P2.5 code revert. Если `0022` будет
+применена отдельно, после отключения seller traffic удаляются только её
+индексы и три таблицы в обратном порядке; колонка `fulfillment_status`
+остаётся, потому что её физическое удаление требует отдельного одобренного
+SQLite table rebuild.
+
 ## D-018 (2026-07-27, P2.4) Single-product persistent checkout, immutable Catalog snapshot и PII-minimal order placement
 
 P2.4 добавляет ровно один сценарий: покупатель оформляет **один published
