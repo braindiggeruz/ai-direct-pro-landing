@@ -1,3 +1,17 @@
+# Актуальный master handoff
+
+Полная фактическая карта repository, services, Agents Platform, Telegram,
+Sotuvchi, migrations, API, environment, tests, security, PII, production
+readiness и точные инструкции продолжения:
+
+[`GPTBOT_AGENTS_MASTER_HANDOFF_2026-07-27.md`](./GPTBOT_AGENTS_MASTER_HANDOFF_2026-07-27.md)
+
+Этот файл ниже сохраняет stage-specific handoff P2.3. При расхождении
+операционных сведений сначала сверяйте Git tree и `STATE.json`, затем
+используйте master handoff как актуальную карту системы.
+
+---
+
 # GPTBot Agents — Handoff
 
 ## 1. Состояние
