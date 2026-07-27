@@ -1,21 +1,25 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P1.1",
+  "current_stage": "P1.2",
   "stage_status": "completed",
-  "last_completed_stage": "P1.1",
-  "next_stage": "P1.2",
-  "last_commit": "c7dc64b61ffbff88e58f8ff96a1c4a9a2c81472e",
+  "last_completed_stage": "P1.2",
+  "next_stage": "P1.3",
+  "last_commit": "cc4484dc72604060068c016e307a8bc766c94cec",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
-  "previous_stage": { "stage": "P0.5", "last_commit": "31021442c12fbc24a9c90f6a42422412c0d7cbb2", "state_commit": "fc6b896d522c216839c7f82c2b7de6f1bb681127" },
+  "previous_stage": {
+    "stage": "P1.1",
+    "last_commit": "c7dc64b61ffbff88e58f8ff96a1c4a9a2c81472e",
+    "state_commit": "efe1b2aaf85ebc6f1cf275fc8428e814cfcdbd4e"
+  },
   "updated_at": "2026-07-27",
   "blocked": false,
   "blockers": [],
   "baseline": {
     "build": "tsc -b exit 0",
-    "tests": "pass: platform-knowledge 33/33 (new), platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15",
-    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "P1.1 platform/knowledge, platform-knowledge test and shared platform index eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
+    "tests": "pass: platform-workflow 39/39 (new), platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15",
+    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
+    "lint": "P1.2 workflow/contracts/test/platform index eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
   }
 }

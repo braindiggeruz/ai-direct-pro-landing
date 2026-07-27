@@ -3,104 +3,184 @@
 ## 1. Состояние
 - Дата: 2026-07-27
 - Ветка: `main`
-- Исходный HEAD P1.1: `fc6b896d522c216839c7f82c2b7de6f1bb681127`
-- Code commit P1.1: `c7dc64b61ffbff88e58f8ff96a1c4a9a2c81472e`
-- HEAD после relay: последний metadata-only commit в `git log`; по D-006 `STATE.json.state_commit = "HEAD"` и не хранит собственный SHA
-- Завершённый этап: **P1.1 — Knowledge Engine minimum**
-- Следующий этап: **P1.2 — Workflow Engine minimum**
-- P0.5 подтверждён в ancestry: code `31021442c12fbc24a9c90f6a42422412c0d7cbb2`, relay/source HEAD `fc6b896d522c216839c7f82c2b7de6f1bb681127`; SEO-история после P0.4 сохранена
-- Рабочее дерево после relay: только pre-existing untracked `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`; оба объекта не изменены, не удалены и не добавлены в коммиты
+- Исходный HEAD P1.2: `efe1b2aaf85ebc6f1cf275fc8428e814cfcdbd4e`
+- Code commit P1.2: `cc4484dc72604060068c016e307a8bc766c94cec`
+- HEAD после relay: последний metadata-only commit в `git log`; по D-006
+  `STATE.json.state_commit = "HEAD"` и не хранит собственный SHA.
+- Завершённый этап: **P1.2 — Workflow Engine minimum**
+- Следующий этап: **P1.3 — Agent Runtime minimum**
+- P1.1 подтверждён в ancestry: code
+  `c7dc64b61ffbff88e58f8ff96a1c4a9a2c81472e`, relay/source
+  `efe1b2aaf85ebc6f1cf275fc8428e814cfcdbd4e`.
+- Рабочее дерево после relay должно содержать только pre-existing untracked
+  `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`; оба объекта не
+  изменялись, не удалялись и не добавлялись в коммиты.
+- `origin/main` во время P1.2 оставался
+  `93fab390733d3d5ffbf052e211d95b6038ee4bbd`; push/deploy отсутствуют.
 
 ## 2. Что сделано
-1. До изменений подтверждены STATE/git gate и baseline P0.5: build 0; AI 15/15, tenancy 31/31, events 20/20, boundaries 10/10, Telegram compatibility 1/1, Telegram assistant 60/60, gpt-chat 15/15; functions-config — 27 legacy errors и 0 platform.
-2. Добавлена additive migration `0015_platform_knowledge.sql` с tenant-scoped `knowledge_collections` и `knowledge_items`; legacy/production tables не изменены.
-3. Collection хранит `org_id`, extensible `agent_id`/`kind`, `schema_version`, nullable name, status и timestamps; unique `(org_id, agent_id, kind)`.
-4. Item дублирует `org_id`, хранит structured JSON, normalized `search_text`, channel-neutral media refs, три indexed numeric values, status и optimistic version. Composite FK `(org_id, collection_id)` физически блокирует cross-tenant parent link.
-5. Runtime bootstrap полностью повторяет migration, сначала обеспечивает organizations schema, идемпотентен через per-D1 WeakMap и создаёт 2 tables + 6 indexes.
-6. Добавлен validation-library-neutral `KnowledgePayloadSchema<T>`: `validate(unknown)`, `toSearchText`, optional `toMediaRefs` и `toNumericValues`. Schema не знает D1, Telegram API или AI.
-7. Payload после schema validation дополнительно проверяется как strict JSON-safe value, ограничивается 65,536 bytes и только затем сериализуется. Raw payload не попадает в errors.
-8. Поиск нормализует NFKC/lowercase/whitespace/dash/punctuation для кириллицы и Latin без transliteration, stemming или NLP dependency; Uzbek apostrophe variants схлопываются детерминированно.
-9. Candidate SQL параметризован: exact/prefix/any-token через `json_each(?)`, active collection+item, org/agent/kind и optional numeric bounds. Финальный TypeScript score: exact 4000, prefix 3000, all tokens `2000+n`, partial `1000+n`; tie-break `updated_at DESC`, затем `id ASC`.
-10. Пустой query fail-closed как `invalid_query`; result limit 1–50. Hidden/archived items и archived collections исключаются по умолчанию.
-11. Item начинает с version 1. Payload update и status change требуют `expectedVersion`, увеличивают version на 1 и отклоняют stale write через `KnowledgeVersionConflictError`.
-12. Media refs имеют вид `{source:'channel', channel, ref}` или `{source:'store', store, key}`. Engine только хранит opaque ref; Telegram `file_id` не переносим между ботами и не скачивается/отправляется Knowledge Engine.
-13. Добавлены 33 in-memory D1 tests: collections, payload/limits/media, items/versioning, negative tenant isolation, active visibility, RU/Uzbek/mixed deterministic search, ranking/tie-break/numeric filter/limit.
-14. Migration дважды успешно выполнена только на локальном Wrangler D1; проверены columns/defaults, 6 indexes, composite FK и реальный search SQL. Production D1 не затрагивалась.
+1. До изменений подтверждены STATE/git gate, source HEAD, P1.1 ancestry,
+   неизменность двух pre-existing untracked объектов и baseline всех platform/
+   legacy suites.
+2. Расширен declarative Workflow contract: typed payload schema, initial и
+   terminal states, guards, closed-list action refs, workflow/version/context.
+3. Добавлена additive migration `0016_platform_workflow.sql` с tenant-scoped
+   `workflow_instances`, `workflow_transitions` и 4 indexes. Legacy/production
+   таблицы не изменены.
+4. Definition runtime validation fail-closed проверяет safe IDs, integer version,
+   existing initial/target/terminal states, duplicate triggers, guards/actions,
+   limits и dangerous object keys.
+5. Payload сначала проходит agent-owned runtime schema, затем independent strict
+   JSON-safe/depth/UTF-8-size validation. Trigger data и action input имеют
+   отдельный меньший limit; raw content не включается в ошибки.
+6. Create идемпотентен по `(org_id, idempotency_key)`, создаёт version 1 и
+   `active` либо `completed` для terminal initial state.
+7. Transition history insert и optimistic instance update выполняются одним D1
+   `batch`. Update разрешён только exact org/id/state/version/active и только при
+   существовании вставленного transition id.
+8. Duplicate transition проверяется раньше expected-version conflict, возвращает
+   прежний результат и не выполняет actions второй раз. Повтор ключа для другого
+   instance отклоняется как idempotency conflict.
+9. Guards получают data-only context/payload/trigger и не получают от engine
+   DB/network/AI capabilities. False и exception дают controlled content-free
+   errors без durable transition.
+10. Actions разрешаются только через явный constructor registry. Все refs
+    проверяются до commit, handlers выполняются после commit последовательно;
+    ошибка останавливает следующие actions, но durable state/history сохраняются.
+11. History metadata хранит только `instanceStatus`, aggregate `actionStatus` и
+    action type/status/safe code. Action input, trigger data, exception и workflow
+    payload туда не копируются; metadata дополнительно проходит существующий
+    Events PII guard.
+12. Terminal transition фиксирует `completed/completedAt`; дальнейшие новые
+    transitions запрещены, exact duplicate остаётся безопасным.
+13. `cancel()` разрешён только active instance, записывает audit transition без
+    смены state, увеличивает version ровно один раз и идемпотентен через derived
+    cancel key. Resume не добавлен.
+14. Все store APIs tenant-first; каждый SQL содержит org predicate, composite FK
+    блокирует cross-tenant history, org B не читает/переводит/cancel/history org A.
+15. Новый `WorkflowEngine` object читает и продолжает instance из D1, поэтому
+    state/payload переживают isolate/restart.
+16. Добавлены 39 offline tests, включая validation negatives, concurrency,
+    idempotency, guard/action failures, restart, terminal/cancel, corrupt storage
+    и 4 negative tenant-isolation cases.
+17. Migration дважды выполнена только в local Wrangler D1; проверены schema/FK,
+    4 indexes и реальный conditional transition с exact replay.
 
 ## 3. Изменённые файлы
-- `migrations/0015_platform_knowledge.sql` — две additive tables, constraints, composite tenant FK, search/numeric indexes и rollback notes.
-- `functions/platform/knowledge/constants.ts` — фиксированные безопасные limits без новых env.
-- `functions/platform/knowledge/errors.ts` — controlled validation/not-found/version/duplicate/size/persistence errors без raw data.
-- `functions/platform/knowledge/types.ts` — collections/items/statuses, generic payload schema, media refs, numeric/search contracts.
-- `functions/platform/knowledge/normalize.ts` — deterministic Unicode RU/Uzbek Latin normalization/tokenization без `\b`.
-- `functions/platform/knowledge/validation.ts` — runtime validation, JSON-safe serialization, projections, limits, media/numeric/query checks.
-- `functions/platform/knowledge/schema.ts` — idempotent runtime DDL с organizations prerequisite.
-- `functions/platform/knowledge/store.ts` — весь production SQL, tenant-first repository, composite ownership checks и optimistic updates.
-- `functions/platform/knowledge/search.ts` — чистый deterministic scorer и stable ordering.
-- `functions/platform/knowledge/service.ts` — orchestration schema → projections → store и public search.
-- `functions/platform/knowledge/index.ts` — public Knowledge exports.
-- `functions/platform/index.ts` — экспорт Knowledge module; Cloudflare handlers не добавлены.
-- `tests/platform-knowledge.test.ts` — 33 offline unit/integration tests на отдельном in-memory D1 fake.
-- `docs/agents-platform/{HANDOFF.md,STATE.json,TEST_MATRIX.md,CURRENT_STATE.md,DECISIONS.md}` — P1.1 relay и D-011.
+- `functions/platform/contracts/workflow.ts` — generic FSM/payload/guard/action
+  contract; доверенные definitions остаются TypeScript-кодом.
+- `functions/platform/contracts/index.ts` — type exports нового workflow contract.
+- `functions/platform/index.ts` — экспорт runtime workflow module без handlers.
+- `functions/platform/workflow/errors.ts` — controlled content-free errors.
+- `functions/platform/workflow/types.ts` — instances, transitions, statuses,
+  inputs/results и action registry/context.
+- `functions/platform/workflow/validation.ts` — definition/trigger/payload/
+  metadata validation, limits и safe serialization/parsing.
+- `functions/platform/workflow/schema.ts` — idempotent runtime DDL с organizations
+  prerequisite; normalized parity с migration 6/6 statements.
+- `functions/platform/workflow/store.ts` — весь Workflow SQL, tenant-first reads,
+  create idempotency, atomic transition batch и metadata update.
+- `functions/platform/workflow/engine.ts` — create/get/history/transition/cancel,
+  guards/actions, terminal и optimistic conflict orchestration.
+- `functions/platform/workflow/index.ts` — публичные runtime/type exports.
+- `migrations/0016_platform_workflow.sql` — 2 additive tables, 4 indexes,
+  constraints/composite FK и rollback notes.
+- `tests/platform-workflow.test.ts` — 39 offline unit/integration tests.
+- `docs/agents-platform/{HANDOFF.md,STATE.json,CURRENT_STATE.md,TEST_MATRIX.md,DECISIONS.md}`
+  — P1.2 relay и D-012.
 
 ## 4. Архитектурные решения
-- **D-011:** P1.1 использует две таблицы и optimistic item versions; `knowledge_revisions` отложена до доказанного требования Sotuvchi на audit/rollback.
-- Domain events на P1.1 не emitted: atomic knowledge write не связывается с best-effort event bridge без отдельной idempotency/dispatch policy.
-- Empty query всегда controlled validation error, а не неявный list operation.
-- Search v1 остаётся normalize+parameterized LIKE/`json_each`+fixed scorer; AI façade, embeddings и external indexes не участвуют.
-- Media refs channel-neutral и opaque; доставка/скачивание принадлежит будущему Media/channel driver.
+- **D-012:** definitions находятся в trusted TypeScript; D1 хранит только
+  validated data/state/history.
+- Instance/history commit атомарен через conditional insert + guarded update в
+  одном D1 batch. Optimistic version никогда не silently retried.
+- Idempotency scoped к tenant и имеет приоритет над stale retry, чтобы exact
+  delivery replay был безопасным.
+- Action policy P1.2 — explicit registry и at-most-once post-commit execution.
+  Это предотвращает duplicate side effects, но смерть isolate после commit и до
+  handler может потерять action. Durable action outbox/recovery отложен.
+- Workflow events не emitted: существующий Events outbox нельзя атомарно связать
+  с workflow write без отдельной dispatch/outbox policy. Ложная delivery
+  гарантия не добавлялась.
+- Timer/cron/scheduler API отсутствуют. Nullable `wake_at` — только future
+  extraction field и не означает реализованный scheduling.
+- Payload неизменяем в P1.2 transition cycle: arbitrary reducers и DB/AI code в
+  definitions не допускаются.
 
 ## 5. Что сознательно не сделано
-- Не создана `knowledge_revisions`: Sotuvchi v0 не требует history/rollback, optimistic versioning уже предотвращает lost updates.
-- Не добавлены knowledge events, global dispatcher или analytics bridge.
-- Не созданы product/doctor/dish schemas, agents manifests, ingest wizard, CRUD UI, CSV/PDF/web import.
-- Не добавлены embeddings, Vectorize, RAG, semantic search, chunking, LLM indexing или AI dependency.
-- Не реализованы R2 driver, Telegram media delivery, Mini App или dashboard.
-- Не начаты P1.2 Workflow Engine, Agent Runtime, Sotuvchi, commerce, scheduling или payments.
+- Не начат P1.3 Agent Runtime; не создавались AgentManifest implementations,
+  runtime turn loop или demo agent.
+- Не добавлены Telegram agent webhook, Sotuvchi, product workflows, commerce,
+  checkout, scheduling, notifications, billing или UI.
+- Не добавлены cron/timers/Queues/Durable Objects/R2 и `listDue`.
+- Не добавлены workflow Events bridge, dispatcher, durable action outbox,
+  recovery/retry worker или exactly-once side-effect promise.
+- Не добавлен payload reducer, resume cancelled workflow или API для `failed`.
+- Не менялись Knowledge/AI/Events/Tenancy/Telegram/Javob/gpt-chat/SEO behavior.
 - Не исправлялись 27 legacy TypeScript errors и global legacy lint.
 - Production migration, push и deploy не выполнялись.
 
 ## 6. Проверки
 - Baseline/post-change `npx tsc -b` → exit 0.
-- Post-change `node --import tsx --test tests/platform-knowledge.test.ts` → 33/33.
-- Baseline/post-change `node --import tsx --test tests/platform-ai.test.ts` → 15/15.
-- Baseline/post-change `node --import tsx --test tests/platform-tenancy.test.ts` → 31/31.
-- Baseline/post-change `node --import tsx --test tests/platform-events.test.ts` → 20/20.
-- Baseline/post-change `node --import tsx --test tests/agent-boundaries.test.ts` → 10/10.
-- Baseline/post-change `node --import tsx --test tests/telegram-channel-compat.test.ts` → 1/1.
-- Baseline/post-change `node --import tsx --test tests/telegram-assistant.test.ts` → 60/60.
-- Baseline/post-change `node --import tsx --test tests/gpt-chat.test.ts` → 15/15.
-- Baseline/post-change `npx tsc -p tsconfig.functions.json --noEmit` → exit 2, ровно 27 legacy errors в 6 старых файлах, 0 в `functions/{platform,agents,channels}`.
-- `npx eslint functions/platform/knowledge tests/platform-knowledge.test.ts functions/platform/index.ts` → exit 0.
-- `npx tsx scripts/check-agent-boundaries.ts` → `agent-boundaries: OK (no violations)`, exit 0.
-- Knowledge static scan → forbidden agents/channels/lib/AI imports 0; SQL outside store/schema 0; handler exports 0; explicit `any` 0.
-- Local-only `npx wrangler d1 execute GPTBOT_DRAFTS_DB --local --file migrations/0015_platform_knowledge.sql` → exit 0 два раза после переноса TEMP/log path на F:.
-- Local `sqlite_master` verification → 2 knowledge tables + 6 indexes; `pragma_table_info` подтвердил defaults/status/version/numeric columns; `pragma_foreign_key_list` подтвердил composite collection FK.
-- Реальный local D1 search SQL с `json_each`, active/tenant/numeric predicates → exit 0.
-- Migration/runtime named parity scan, executable destructive-SQL scan, staged secret/PII scan и `git diff --check` → clean.
+- Post-change `tests/platform-workflow.test.ts` → 39/39.
+- Baseline/post-change Knowledge 33/33, AI 15/15, tenancy 31/31, Events 20/20,
+  boundaries 10/10, Telegram compatibility 1/1, Telegram assistant 60/60,
+  gpt-chat 15/15.
+- Baseline/post-change
+  `npx tsc -p tsconfig.functions.json --noEmit` → exit 2, ровно 27 legacy errors
+  в 6 старых файлах и 0 в `functions/{platform,agents,channels}`.
+- Scoped P1.2 ESLint → exit 0.
+- `npx tsx scripts/check-agent-boundaries.ts` → exit 0, no violations.
+- Runtime/migration normalized parity → 6/6 named statements.
+- Local-only migration `0016` → два запуска по 6/6 statements, exit 0; 2 tables,
+  4 indexes, 13/10 columns и composite FK подтверждены.
+- Реальный local D1 transition `draft → review` → version `1 → 2`, одна history
+  row; exact replay → version 2 и всё ещё одна row.
+- Forbidden imports, SQL outside workflow store/schema, destructive runtime SQL,
+  handler exports, explicit `any`, P1.3+/product scope terms → 0.
+- Credential/PII literal scans и `git diff --check` → clean.
 
 ## 7. Известные проблемы
-- Существовали до P1.1: 27 functions-config legacy errors; global legacy-red ESLint; OOM-риск; остальные пункты `KNOWN_ISSUES.md`.
-- Ограничение P1.1: revisions/events отложены по D-011; это сознательная граница, не незавершённая реализация.
-- Ограничение P1.1: deterministic search рассчитан на bounded tenant catalog, а не на documents/full-text corpus; candidate cap 200.
-- Внешняя проблема среды: диск C: имел 0 free bytes, поэтому первый Wrangler local запуск упал `ENOSPC`; проверки успешно завершены с TEMP/TMP/WRANGLER_LOG_PATH на F:. Код/migration причиной не были.
-- Новых production-блокеров нет.
-- Pre-existing untracked `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/` намеренно не тронуты.
+- Существовали до P1.2: 27 functions-config legacy errors, global legacy-red
+  ESLint, OOM-риск; полный перечень — `KNOWN_ISSUES.md`.
+- Ограничение P1.2: post-commit actions at-most-once, но не durable-recoverable.
+  До production non-idempotent side effects нужен action outbox/recovery.
+- Ограничение P1.2: workflow domain events отсутствуют до atomic outbox policy.
+- Ограничение P1.2: `wake_at` не обслуживается runner'ом; timers отсутствуют.
+- Внешняя среда: C: ранее имел 0 free bytes; local Wrangler успешно проверен с
+  TEMP/TMP/WRANGLER_LOG_PATH на F:. Код/migration причиной не были.
+- Новых production blockers нет.
+- Pre-existing untracked package-lock/audit artifacts намеренно не тронуты.
 
 ## 8. Следующая задача
-Только **P1.2 — Workflow Engine minimum**: расширить declarative FSM contracts и добавить tenant-scoped persistent `workflow_instances`, deterministic transitions, idempotent actions и restart/reload test. Cron/timers не нужны Sotuvchi v0 и не входят в этап.
+Только **P1.3 — Agent Runtime minimum**: уточнить AgentManifest types, реализовать
+единую `agents/registry.ts`, tools с Facts-контрактом, deterministic-first
+turn cycle, grounding fail-closed и один demo agent (`echo + 1 knowledge
+question`). Не начинать P1.4 webhook или Sotuvchi.
 
 ## 9. Acceptance criteria следующего этапа
-1. `STATE.json.next_stage == "P1.2"`, source HEAD/tree и два pre-existing untracked объекта подтверждены; P1.1 commits находятся в ancestry.
-2. Следующий additive migration number проверен; `workflow_instances` имеет `org_id`, workflow id/version, current state, JSON-safe payload, idempotency/version metadata и timestamps.
-3. Runtime bootstrap полностью совпадает с migration и повторяется безопасно; production migration не выполняется.
-4. Workflow definition/runtime validation fail-closed: initial/state/transition references существуют, unsafe identifiers/payload отклоняются без raw content в errors.
-5. Store API принимает `orgId` первым бизнес-аргументом; org B не читает, не возобновляет и не переводит instance org A.
-6. Instance переживает новый service/isolate object: после reload продолжается из сохранённого state.
-7. Transition deterministic; action idempotency key не выполняет один action повторно; stale concurrent transition отклоняется.
-8. Без cron/wake timers, LLM, Agent Runtime, Telegram webhook или Sotuvchi behavior.
-9. Все gates не ниже: Knowledge 33/33, AI 15/15, tenancy 31/31, events 20/20, boundaries 10/10, compatibility 1/1, Telegram 60/60, gpt-chat 15/15, `tsc -b` 0, functions-config ≤27 legacy и 0 platform; scoped ESLint 0.
-10. STATE/HANDOFF/TEST_MATRIX/CURRENT_STATE/DECISIONS обновлены; максимум code+relay commits; push/deploy отсутствуют.
+1. Подтверждены `STATE.json.next_stage == "P1.3"`, source HEAD/tree и P1.2 code/
+   relay ancestry; два pre-existing untracked объекта не затронуты.
+2. AgentManifest contract остаётся channel/provider-neutral, runtime-validatable
+   и closed-list по capabilities/tools; новый agent не требует изменения core
+   platform behavior.
+3. `functions/agents/registry.ts` — единственная production registration point;
+   duplicate/unknown agent fail controlled, imports соблюдают boundaries.
+4. Tools принимают `OrgContext`, валидируют input и возвращают structured output
+   плюс явный `Facts`; agent не получает прямой D1/channel/legacy доступ.
+5. Turn cycle сначала выполняет deterministic rule/workflow/tool path. AI, если
+   нужен, может выбрать только closed-list manifest tool и не исполняет raw code.
+6. Response проходит grounding against collected Facts; unsupported exact claims
+   fail-closed и не отправляются как выдуманный ответ.
+7. Demo agent покрывает только echo и один Knowledge question end-to-end на
+   offline fakes; production webhook/token/Telegram behavior не добавляются.
+8. Tenant context не теряется; negative org A/org B tests и content-free
+   errors/logging обязательны.
+9. Все P1.2 baseline gates не ниже TEST_MATRIX; новые P1.3 tests, scoped ESLint и
+   direct boundary checker зелёные; functions-config остаётся ≤27 legacy и 0
+   platform/agents/channels.
+10. Обновлены STATE/HANDOFF/TEST_MATRIX/CURRENT_STATE/DECISIONS; максимум code+
+    relay commits; production migration, push и deploy отсутствуют.
 
 ## 10. Команды для старта
 ```powershell
@@ -121,6 +201,7 @@ git log -12 --oneline
 git diff
 $env:NODE_OPTIONS='--max-old-space-size=1400'
 npx tsc -b
+node --import tsx --test tests/platform-workflow.test.ts
 node --import tsx --test tests/platform-knowledge.test.ts
 node --import tsx --test tests/platform-ai.test.ts
 node --import tsx --test tests/platform-tenancy.test.ts
@@ -133,18 +214,25 @@ npx tsc -p tsconfig.functions.json --noEmit
 ```
 
 ## 11. Риски
-- Не смешивать Workflow Engine с Agent Runtime, Telegram routing или Sotuvchi product flows.
-- Не хранить workflow state в памяти: D1 instance — единственная истина и должен переживать reload.
-- Не добавлять cron/timers на P1.2: ROADMAP явно исключает их для Sotuvchi v0.
-- Не ослаблять tenant-first SQL, expected-version concurrency или action idempotency.
-- Не модифицировать Knowledge schema/migration «заодно»; P1.1 contract уже завершён.
-- Не логировать workflow payload, knowledge payload/media refs или PII.
-- Lead-бот `aidirectprobot`, Javob, gpt-chat, SEO и existing platform gates неприкосновенны.
-- Не добавлять pre-existing package-lock/audit artifacts и не выполнять push.
+- Не смешивать P1.3 runtime с P1.4 Telegram routing или Sotuvchi product flow.
+- Не давать Agent Runtime прямой доступ к D1, channel clients, secrets или
+  legacy libraries; только platform contracts/services/tools.
+- Не позволять AI обходить deterministic path, closed-list tools или Facts
+  grounding.
+- Не объявлять P1.2 actions exactly-once/durable: текущая гарантия уже и явно
+  описана в D-012.
+- Не создавать workflow events отдельным best-effort write и не обещать atomic
+  delivery без общей outbox policy.
+- Не добавлять cron/runner из-за наличия nullable `wake_at`.
+- Не логировать workflow/knowledge payload, inbound text, action input или PII.
+- Lead bot, Javob, gpt-chat, SEO и существующие platform gates неприкосновенны.
 
 ## 12. Rollback
-- Отменить metadata relay P1.1: `git revert <последний metadata-only SHA из git log>`.
-- Затем отменить code commit: `git revert c7dc64b61ffbff88e58f8ff96a1c4a9a2c81472e`.
-- Production D1 не изменялась. Локальная Wrangler D1 содержит `knowledge_items`/`knowledge_collections`; при необходимости удалить только локально в этом порядке.
-- Если `0015` позже применят к production и следующие stages ещё не используют данные, вручную удалить `knowledge_items`, затем `knowledge_collections`; git revert D1 schema не откатывает.
-- Не использовать `reset --hard` или `clean -fd`: pre-existing package-lock и audit directory должны сохраниться.
+1. Если relay commit уже создан, сначала `git revert <P1.2-relay-SHA>`.
+2. Затем `git revert cc4484dc72604060068c016e307a8bc766c94cec`.
+3. Production D1 не мигрировалась, поэтому production schema rollback не нужен.
+4. Для одноразовой очистки только локальной тестовой D1 можно удалить сначала
+   `workflow_transitions`, затем `workflow_instances`; эти destructive SQL не
+   выполнять в production и не включать в runtime migration.
+5. Revert не должен затрагивать P1.1 commits, два pre-existing untracked объекта
+   или unrelated SEO/legacy history.
