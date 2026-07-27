@@ -826,6 +826,10 @@
     {
       "target": "/ru/blog/hosting-dlya-telegram-bota/",
       "anchor": "Хостинг для Telegram-бота 24/7"
+    },
+    {
+      "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "anchor": "Калькулятор стоимости Telegram-бота"
     }
   ],
   "ogTitle": "Как создать Telegram-бота: пошаговая инструкция 2026",

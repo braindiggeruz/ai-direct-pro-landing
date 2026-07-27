@@ -87,7 +87,7 @@ export interface ClusterDef {
 
 export const CLUSTERS: ClusterDef[] = [
   { id: 'ai-bot-business',   label: 'AI/GPT bot for business',  money: { ru: ['/ru/ai-bot-dlya-biznesa/', '/ru/gpt-bot-dlya-biznesa/', '/ru/chat-bot-dlya-biznesa/'], uz: ['/uz/biznes-uchun-ai-bot/', '/uz/gpt-bot-biznes-uchun/'] }, head: '/ru/ai-bot-dlya-biznesa/' },
-  { id: 'telegram-bot',      label: 'Telegram bot for business', money: { ru: ['/ru/telegram-bot-dlya-biznesa/'], uz: ['/uz/telegram-bot-biznes-uchun/'] }, head: '/ru/telegram-bot-dlya-biznesa/' },
+  { id: 'telegram-bot',      label: 'Telegram bot for business', money: { ru: ['/ru/telegram-bot-dlya-biznesa/', '/ru/kalkulyator-stoimosti-telegram-bota/'], uz: ['/uz/telegram-bot-biznes-uchun/'] }, head: '/ru/telegram-bot-dlya-biznesa/' },
   { id: 'instagram-direct',  label: 'Instagram Direct bot',     money: { ru: ['/ru/instagram-direct-bot/', '/ru/ai-menedzher-dlya-instagram/'], uz: ['/uz/instagram-bot-biznes-uchun/'] }, head: '/ru/instagram-direct-bot/' },
   { id: 'lead-processing',   label: 'Lead processing automation', money: { ru: ['/ru/bot-dlya-obrabotki-zayavok/', '/ru/avtomatizatsiya-zayavok/', '/ru/ai-prodavec/'], uz: ['/uz/arizalarni-avtomatlashtirish/'] }, head: '/ru/avtomatizatsiya-zayavok/' },
   { id: 'sales-automation',  label: 'Sales automation',          money: { ru: ['/ru/avtomatizatsiya-prodazh/'], uz: ['/uz/savdoni-avtomatlashtirish/'] }, head: '/ru/avtomatizatsiya-prodazh/' },

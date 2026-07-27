@@ -404,6 +404,10 @@
     {
       "target": "/ru/blog/telegram-bot-crm-ili-menedzher/",
       "anchor": "Telegram-бот, CRM или менеджер"
+    },
+    {
+      "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "anchor": "Рассчитать стоимость Telegram-бота"
     }
   ],
   "ogTitle": "Как создать Telegram-бота на Python с нуля",

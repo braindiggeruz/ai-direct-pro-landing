@@ -230,6 +230,12 @@
       "anchor": "AI-боты для бизнеса в Узбекистане",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "anchor": "расчёт стоимости Telegram-бота",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

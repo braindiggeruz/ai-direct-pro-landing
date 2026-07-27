@@ -426,6 +426,10 @@
     {
       "target": "/ru/blog/razrabotka-chat-bota/",
       "anchor": "Этапы разработки чат-бота"
+    },
+    {
+      "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "anchor": "Рассчитать бюджет Telegram-бота"
     }
   ],
   "ogTitle": "Хостинг для Telegram-бота: запуск 24/7",

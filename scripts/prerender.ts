@@ -124,6 +124,15 @@ function findChatAsset(): string | null {
   return file ? `/assets/${file}` : null;
 }
 
+// Standalone calculator island. Money pages remain static by default; only a
+// page with interactiveTool="telegram-cost-calculator" receives this bundle.
+function findCalculatorAsset(): string | null {
+  const assetsDir = path.join(DIST_DIR, 'assets');
+  if (!fs.existsSync(assetsDir)) return null;
+  const file = fs.readdirSync(assetsDir).find((f) => f.startsWith('telegram-cost-calculator-') && f.endsWith('.js'));
+  return file ? `/assets/${file}` : null;
+}
+
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 }
@@ -408,7 +417,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
 </footer>`;
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null): string {
+function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
   const ogDesc = page.ogDescription || page.description;
@@ -466,6 +475,16 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   // so the secondary CTA scrolls to the main content article instead of a dead fragment.
   const contentAnchor = (page.ctaSecondaryHref || '').startsWith('#')
     ? page.ctaSecondaryHref.slice(1).trim()
+    : '';
+  const calculatorHtml = page.interactiveTool === 'telegram-cost-calculator'
+    ? `<section id="calculator" aria-labelledby="calculator-heading" class="scroll-mt-24 mb-16">
+      <div class="eyebrow mb-3">Интерактивный расчёт</div>
+      <h2 id="calculator-heading" class="font-display text-3xl sm:text-4xl text-white mb-4">Рассчитайте ориентир за 2 минуты</h2>
+      <p class="text-base text-white/70 leading-relaxed mb-8">Выберите задачу и функции. Калькулятор покажет диапазон бюджета, срок и сформирует мини-ТЗ для обсуждения.</p>
+      <div id="telegram-cost-calculator-root">
+        <noscript><p class="rounded-2xl border border-amber-300/20 bg-amber-300/[0.05] p-5 text-amber-100/85">Для интерактивного расчёта включите JavaScript. Таблица ориентиров и методология доступны ниже на странице.</p></noscript>
+      </div>
+    </section>`
     : '';
 
   return `<!doctype html>
@@ -550,6 +569,7 @@ ${page.pageType === 'gpt-chat'
     ${page.heroImage ? `<div class="mt-8 lg:mt-0"><img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" class="rounded-2xl border border-white/10 w-full h-auto" loading="eager" fetchpriority="high" decoding="async" /></div>` : ''}
   </div>
 
+  ${calculatorHtml}
   ${renderArticle(page.bodyBlocks || [], contentAnchor)}
 
   ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
@@ -572,8 +592,9 @@ ${page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt
 </footer>`}
 
 ${stickyCtaHtml}
-${jsHref ? `<!-- React landing bundle is intentionally not loaded on money pages to keep them static and fast. -->` : ''}
+${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money pages. -->` : ''}
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
+${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
 </body>
 </html>
 `;
@@ -586,12 +607,13 @@ async function main() {
   const cssHref = findCssAsset();
   const jsHref = findJsAsset();
   const chatHref = findChatAsset();
+  const calculatorHref = findCalculatorAsset();
   let written = 0, skipped = 0;
   for (const page of pages) {
     if (page.status === 'draft') { skipped++; continue; }
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderPage(page, global, cssHref, jsHref, articles, chatHref), 'utf-8');
+    fs.writeFileSync(outPath, renderPage(page, global, cssHref, jsHref, articles, chatHref, calculatorHref), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }

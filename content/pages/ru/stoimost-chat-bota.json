@@ -41,6 +41,17 @@
       "text": "Коротко: чат-бот для бизнеса в Узбекистане стоит от 990 000 сум за базовый бот в Telegram, от 1 190 000 сум за Instagram Direct бот и от 1 990 000 сум за полноценную AI-воронку. Сложные отраслевые проекты с интеграцией CRM доходят до 4-5 млн сум. Точную цену фиксируем после короткого брифа, без скрытых платежей. Обновлено: июль 2026."
     },
     {
+      "type": "linkp",
+      "text": "Чтобы получить диапазон под конкретный сценарий, используйте {calculator}: выберите задачу, CRM, оплату, языки и нагрузку — инструмент сформирует мини-ТЗ без регистрации.",
+      "links": [
+        {
+          "token": "calculator",
+          "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+          "anchor": "калькулятор стоимости Telegram-бота"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Сколько стоит чат-бот для бизнеса"
     },
@@ -296,6 +307,12 @@
     {
       "target": "/ru/blog/zakazat-telegram-bota/",
       "anchor": "как заказать Telegram-бота",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "anchor": "рассчитать стоимость Telegram-бота",
       "locale": "ru",
       "type": "contextual"
     }

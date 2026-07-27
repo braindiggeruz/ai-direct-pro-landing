@@ -411,6 +411,10 @@
     {
       "target": "/ru/blog/telegram-bot-dlya-zayavok/",
       "anchor": "Telegram-бот для заявок"
+    },
+    {
+      "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "anchor": "Калькулятор стоимости AI Telegram-бота"
     }
   ],
   "ogTitle": "Как подключить ChatGPT к Telegram-боту",

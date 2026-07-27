@@ -1072,6 +1072,12 @@
       "anchor": "как заказать Telegram-бота",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "anchor": "калькулятор стоимости Telegram-бота",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

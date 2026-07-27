@@ -115,6 +115,8 @@ export interface Page {
   heroImage?: { src: string; alt: string; width: number; height: number };
   /** Optional page-scoped trust chips under the primary CTA; falls back to the global default set. */
   heroTrust?: string[];
+  /** Optional client-side island injected only on the page that declares it. */
+  interactiveTool?: 'telegram-cost-calculator';
 
   bodyBlocks: BodyBlock[];
   faq: FaqItem[];
