@@ -64,19 +64,33 @@ test('channels importing agents is flagged', () => {
   assert.match(v[0].rule, /channels must not import agents/);
 });
 
-test('platform importing legacy lib is flagged unless LEGACY-SHIM marked', () => {
+test('platform legacy import is allowed only in the isolated P0.5 adapter', () => {
   const flagged = checkBoundaries([
     fixture('functions/platform/ai/facade.ts', "import { chatComplete } from '../../lib/gpt-chat/openrouter-chat';"),
   ]);
   assert.equal(flagged.length, 1);
   assert.match(flagged[0].rule, /legacy lib/);
-  const allowed = checkBoundaries([
+  const misplacedMarker = checkBoundaries([
     fixture(
       'functions/platform/ai/facade.ts',
-      "import { chatComplete } from '../../lib/gpt-chat/openrouter-chat'; // LEGACY-SHIM: until P0.5 merges drivers",
+      "import { chatComplete } from '../../lib/gpt-chat/openrouter-chat'; // LEGACY-SHIM: misplaced",
+    ),
+  ]);
+  assert.equal(misplacedMarker.length, 1);
+  const allowed = checkBoundaries([
+    fixture(
+      'functions/platform/ai/drivers/legacy.ts',
+      "import { chatComplete } from '../../../lib/gpt-chat/openrouter-chat'; // LEGACY-SHIM: isolated P0.5 adapter",
     ),
   ]);
   assert.deepEqual(allowed, []);
+  const missingMarker = checkBoundaries([
+    fixture(
+      'functions/platform/ai/drivers/legacy.ts',
+      "import { chatComplete } from '../../../lib/gpt-chat/openrouter-chat';",
+    ),
+  ]);
+  assert.equal(missingMarker.length, 1);
 });
 
 test('Cloudflare handler exports are flagged in all three spaces', () => {

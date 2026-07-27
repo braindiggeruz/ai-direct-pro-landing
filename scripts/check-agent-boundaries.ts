@@ -52,6 +52,10 @@ const FORBIDDEN: Record<Space, Array<{ target: string; rule: string }>> = {
   ],
 };
 
+const LEGACY_SHIM_ALLOWLIST = new Set([
+  'functions/platform/ai/drivers/legacy.ts',
+]);
+
 const HANDLER_EXPORT =
   /export\s+(?:const|let|var|function|async\s+function)\s+(onRequest(?:Get|Post|Put|Delete|Patch|Head|Options)?)\b/;
 
@@ -103,7 +107,11 @@ export function checkBoundaries(files: readonly SourceFile[]): Violation[] {
         for (const forbidden of FORBIDDEN[space]) {
           if (!target.includes(forbidden.target.replace(/\/$/, '/')) &&
               !`${target}/`.startsWith(forbidden.target)) continue;
-          if (forbidden.target === 'functions/lib/' && line.includes('LEGACY-SHIM')) continue;
+          if (
+            forbidden.target === 'functions/lib/'
+            && line.includes('LEGACY-SHIM')
+            && LEGACY_SHIM_ALLOWLIST.has(file.path)
+          ) continue;
           violations.push({
             file: `${file.path}:${i + 1}`,
             rule: forbidden.rule,
