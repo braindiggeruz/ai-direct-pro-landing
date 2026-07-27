@@ -1,5 +1,68 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-016 (2026-07-27, P2.2) Catalog source-of-truth, deterministic domain search и trusted domain port
+
+P2.2 хранит каталог в собственных tenant-scoped domain tables migration `0019`:
+`sotuvchi_categories`, `sotuvchi_products`, `sotuvchi_catalog_operations` и
+`sotuvchi_storefront_sessions`. Категории имеют server-generated opaque
+`id`/`slug`, status `active|archived` и deterministic sort order. Category
+version сознательно не добавлена: P2.2 требует optimistic concurrency только
+для продукта; category mutation остаётся owner-only, идемпотентной и
+archive-only вместо delete.
+
+Продукт хранит optional same-store category/SKU, Unicode name, bounded plain
+description, integer `price_minor` в единственной валюте `UZS`, декларативное
+`available|unavailable|preorder`, opaque media refs, status
+`draft|published|archived` и optimistic `version`. Разрешены только
+`draft → published`, `published → draft`, `draft|published → archived`;
+archived immutable и restore отсутствует. Conditional SQL проверяет
+`org_id + store_id + version`, owner membership и active store. Publication
+дополнительно требует active category, если она назначена.
+
+Runtime получает новый agent-neutral optional `AgentDomainServicePort`. Manifest
+по-прежнему задаёт closed-list tool и сам выбирает `agentId`/operation; caller
+не может передать arbitrary operation, `orgId` или store authority. Sotuvchi
+domain port разрешает owner store только из trusted Runtime `OrgContext.actorId`
+и active membership. Buyer store разрешается из trusted storefront route/org.
+Platform не импортирует Sotuvchi, endpoint не содержит catalog SQL, AI selection
+остаётся disabled.
+
+Category/product source-of-truth не проецируется в Knowledge на P2.2. Причина:
+без атомарной связки catalog write + Knowledge write/outbox projection могла бы
+стать stale и выдать неправильный publication/availability. Вместо этого
+catalog переиспользует публичные Knowledge normalization/tokenization, а
+parameterized domain search ранжирует exact normalized name → prefix → all
+tokens → partial tokens → normalized name/id tie-break. Buyer query/result/token
+ограничены; видны только published products активного store в active category
+или без категории. Это решение можно пересмотреть после atomic outbox policy.
+
+Повтор mutation использует channel-derived `requestId` как store-scoped
+idempotency key. `sotuvchi_catalog_operations` хранит только operation,
+SHA-256 fingerprint и target/version; mutation и operation row записываются
+одним D1 batch. Повтор того же input возвращает сохранённый result, повтор ключа
+с другим fingerprint fail-closed. Product name, description, SKU, price и raw
+input в operation log не сохраняются.
+
+Buyer deep-link по-прежнему разрешается существующей trusted route. P2.2
+добавляет минимальную durable binding `(bot_username, platform identity) →
+org/store`, чтобы следующий текст после `/start` остался в том же storefront.
+Binding содержит только internal IDs/status/timestamps и при чтении повторно
+проверяет active store и active route; storefront code не становится seller
+authority. Seller UX — deterministic actions плюс короткие structured commands,
+без нового conversational workflow. Buyer responses создаются из scalar
+catalog Facts; raw row в renderer не передаётся, price/availability проходят
+существующий grounding.
+
+Catalog events не публикуются: atomic domain-write/outbox policy всё ещё не
+согласована, поэтому exactly-once не имитируется. Checkout, orders, quantity,
+inventory reservation/ledger, delivery/address/phone, payment integration,
+human handoff, CRM, analytics, public web storefront, Mini App, R2 upload, CSV
+и AI descriptions отсутствуют. Migration `0019` additive и не применялась.
+Rollback кода: relay revert, затем P2.2 code revert. Если `0019` когда-либо
+применена отдельно, после отключения catalog traffic удаляются только восемь её
+индексов и четыре таблицы в обратном порядке; shared store/onboarding/tenant
+tables не удаляются.
+
 ## D-015 (2026-07-27, P2.1) Recoverable Sotuvchi onboarding, opaque routes и один owner-store
 
 P2.1 добавляет первый production manifest `sotuvchi` только с capability

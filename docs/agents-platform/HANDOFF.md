@@ -4,187 +4,206 @@
 
 - Дата: 2026-07-27.
 - Ветка: `main`.
-- Исходный HEAD / P1.4 relay:
-  `c04ae463a403287e6d81d9eac8db116c721705a9`.
-- Подтверждённый P1.4 code commit:
-  `539525410f086ef1c705c221950b29d808982899`.
-- P2.1 code commit:
+- Исходный HEAD / P2.1 relay:
+  `2258aa5cc4889f2da6cb856fbc909dac664401ba`.
+- Подтверждённый P2.1 code commit:
   `6b7f68e1a3c644dab7d762704332d636d321c133`.
+- P2.2 code commit:
+  `9373af8d0910c360620139e0e6d8913beeefbd0e`.
 - HEAD после relay определяется последним metadata-only commit в `git log`;
   согласно D-006 `STATE.json.state_commit = "HEAD"` и не хранит собственный SHA.
-- Завершённый этап: **P2.1 — Sotuvchi Store Onboarding**.
-- Следующий этап: **P2.2 — Sotuvchi Catalog**.
+- Завершённый этап: **P2.2 — Sotuvchi Catalog**.
+- Следующий этап: **P2.3 — Buyer Q&A**.
 - Рабочее дерево после relay должно содержать только два pre-existing untracked
   объекта: `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`.
-- `origin/main` перед P2.1 был
+- `origin/main` перед P2.2:
   `93fab390733d3d5ffbf052e211d95b6038ee4bbd`.
 - Push, deploy, Telegram setup и production/local migration не выполнялись.
 
 ## 2. Что сделано
 
-1. Подтверждены STATE/git gate, P1.4 ancestry, исходный clean tracked tree и
-   полный baseline до изменений.
-2. Создан production `AgentManifest` `sotuvchi` `1.0.0` с локалями RU/UZ,
-   capability только `store.onboarding`, пустым tool allowlist и отключённым AI.
-3. Добавлена D1 migration `0018_sotuvchi_store_onboarding.sql` и эквивалентный
+1. Подтверждены P2.1 STATE/git/source gate, clean tracked tree и полный baseline
+   до изменений.
+2. Добавлена additive migration `0019_sotuvchi_catalog.sql` и эквивалентный
    идемпотентный runtime bootstrap.
-4. Добавлен durable identity claim `sotuvchi_onboardings`, чтобы повторный start
-   продолжал одну organization/workflow и не создавал tenant/store дубль.
-5. Переиспользован P0.4 atomic
-   `OrganizationStore.createOrganizationWithOwner`; owner membership не
-   дублируется вручную.
-6. P1.2 Workflow Engine расширен optional trusted `reducePayload`; reducer
-   работает только внутри trusted TypeScript definition, а результат повторно
-   валидируется до durable transition.
-7. Реализован persistent FSM
-   `start → awaiting_name → awaiting_locale → awaiting_delivery →
-   awaiting_payment → review → completed` и `cancelled`.
-8. Workflow payload ограничен четырьмя draft-полями: `storeName`, `locale`,
-   `deliveryMode`, `paymentMethods`.
-9. Реализован `StoreProfile` с tenant root `orgId`, строгими RU/UZ,
-   delivery/payment allowlists и статусом `draft|active|suspended`.
-10. Confirmation проверяет owner и одним D1 batch создаёт store + trusted route.
-    Unique collision откатывает batch, storefront code генерируется заново,
-    максимум 5 попыток.
-11. Storefront code генерируется только сервером: `s-` + 16 символов
-    lowercase RFC 4648 base32 (`a-z2-7`), 80 бит entropy, length 18.
-12. Добавлена trusted route table с unique `(bot, route)` и
-    `(bot, org, agent)`, FK к store и owner membership.
-13. Seller entry `agent_seller` запускает/продолжает onboarding; buyer payload
-    `agent_<storefrontCode>` разрешается только через D1 и никогда не запускает
-    seller setup.
-14. `/api/telegram/agents` подключает production Sotuvchi registry и narrow
-    workflow port. Endpoint остаётся без business SQL, Runtime —
-    channel-neutral.
-15. Telegram trusted context получил только internal `entryActionId` и workflow
-    coordinates; idempotency берётся из durable channel dedup key.
-16. Добавлено 28 offline D1/Runtime/Telegram тестов validation, persistence,
-    atomic linkage, collisions, duplicates, tenant isolation, RU/UZ/mixed и
-    buyer/seller route separation.
+3. Созданы tenant-scoped categories с server-generated opaque ID/slug,
+   `active|archived`, bounded sort order, same-store unique slug и archive
+   вместо delete.
+4. Созданы tenant-scoped products с optional same-store category/SKU, Unicode
+   name, bounded plain description, integer UZS price, declarative
+   availability, opaque media refs, publication status и optimistic version.
+5. Реализованы transitions `draft → published`, `published → draft`,
+   `draft|published → archived`; archived immutable и не восстанавливается.
+6. Owner authorization проверяет active membership, organization и active store
+   в service и conditional SQL. User input не задаёт tenant/store authority.
+7. Mutation idempotency использует trusted Runtime/channel request ID,
+   store-scoped operation key и SHA-256 fingerprint. Domain write + operation
+   row записываются одним D1 batch.
+8. Product update/status применяют expected version без silent retry; повтор
+   одного operation не повышает version второй раз.
+9. Реализован deterministic buyer search: exact normalized name → prefix → all
+   tokens → partial tokens → stable normalized name/id tie-break.
+10. Search переиспользует public Knowledge normalization/tokenization, но
+    catalog tables остаются source-of-truth; неатомарная Knowledge projection
+    сознательно не создана.
+11. Добавлен agent-neutral optional `AgentDomainServicePort`; Sotuvchi manifest
+    `1.1.0` расширен только capability `store.catalog` и 12 closed-list tools.
+    AI selection остаётся disabled.
+12. Buyer storefront route создаёт минимальную durable identity→store session,
+    поэтому follow-up text остаётся в trusted store. Active route/store
+    перепроверяются на каждом resolve.
+13. Buyer response строится только из scalar catalog Facts и существующего
+    grounding; raw product row не передаётся renderer.
+14. Telegram seller получил пять deterministic catalog actions и structured
+    command flow; buyer получил list/name/price/availability queries на
+    RU/Uzbek Latin/mixed.
+15. Добавлено 54 offline actual-SQLite/domain/Runtime/Telegram теста, включая
+    migration parity, lifecycle, concurrency, idempotency, tenant negatives и
+    grounded storefront output.
 
 ## 3. Изменённые файлы
 
-- `functions/agents/sotuvchi/**` — manifest, types, deterministic rules,
-  validation, schema, repository, service, FSM и Runtime workflow port.
-- `functions/agents/{index.ts,registry.ts}` — production registration/export.
-- `functions/platform/contracts/{agent.ts,index.ts,workflow.ts}` — onboarding
-  capability и trusted payload reducer contract.
-- `functions/platform/workflow/{engine.ts,validation.ts}` — reducer validation
-  and application; duplicate idempotency key подтверждает тот же trigger.
+- `functions/agents/sotuvchi/catalog/**` — types, content-free errors,
+  validation, schema, D1 store, service, tools, rules и public exports.
+- `functions/agents/sotuvchi/{index.ts,manifest.ts,rules.ts}` — registration,
+  capability/tool/rule wiring и seller/storefront actions.
+- `functions/platform/contracts/{agent.ts,index.ts,runtime.ts}` — capability
+  `store.catalog` и agent-neutral narrow domain port.
 - `functions/platform/runtime/manifest.ts` — capability allowlist.
-- `functions/channels/telegram/{deep-link.ts,webhook.ts}` — trusted entry action,
-  workflow coordinates и channel-derived idempotency context.
-- `functions/api/telegram/agents.ts` — Sotuvchi resolver/registry/workflow wiring.
-- `migrations/0018_sotuvchi_store_onboarding.sql` — три additive tables и три
-  индекса.
-- `tests/sotuvchi-onboarding.test.ts` — 28 новых offline тестов.
-- `tests/{agent-boundaries.test.ts,telegram-agents-webhook.test.ts}` —
-  registration/compatibility assertions без уменьшения suite counts.
+- `functions/api/telegram/agents.ts` — catalog service/port wiring, trusted
+  storefront session и completed seller routing; business SQL отсутствует.
+- `migrations/0019_sotuvchi_catalog.sql` — четыре additive tables и восемь
+  indexes с rollback notes.
+- `tests/sotuvchi-catalog.test.ts` — 54 P2.2 tests.
+- `tests/sotuvchi-onboarding.test.ts` — сохранение P2.1 behavior при новом
+  catalog manifest/storefront response.
 - `docs/agents-platform/{HANDOFF.md,STATE.json,CURRENT_STATE.md,TEST_MATRIX.md,DECISIONS.md}`
-  — P2.1 relay и D-015.
+  — P2.2 relay и D-016.
 
-## 4. Архитектурные решения
+## 4. Модель и архитектурные решения
 
-- **D-015:** Sotuvchi onboarding использует recoverable two-phase orchestration.
-  Unique identity claim закрепляет одну provisional organization; organization
-  + owner создаются атомарно существующим tenancy service. Финальный store +
-  route создаются вторым атомарным D1 batch.
-- Workflow требует tenant до первого instance, поэтому organization создаётся
-  перед сбором draft. Interruption не создаёт store/route; повторный start
-  продолжает тот же durable claim.
-- Недопустимы store без owner и route без store. Strict insert/unique/FK/check
-  constraints закрывают partial completion и collision races.
-- Одна owner identity имеет максимум один Sotuvchi store — явная MVP policy.
-- Deep-link code — opaque lookup key, не tenant source. Tenant определяется
-  только server-side route lookup.
-- Agent не получает произвольного update tool: P2.1 mutations доступны только
-  через injected trusted workflow port.
-- Events не добавлены: без атомарной связки domain write + outbox нельзя честно
-  обещать exactly-once. Это зафиксированное отложенное решение.
+- Category:
+  `id/orgId/storeId/name/slug/status/sortOrder/createdAt/updatedAt`.
+  Category version не добавлена: P2.2 требует optimistic concurrency продукта;
+  category mutation owner-only, idempotent и archive-only.
+- Product:
+  `id/orgId/storeId/categoryId?/sku?/name/description?/priceMinor/currency/
+  availability/status/mediaRefs/version/createdAt/updatedAt`.
+- `price_minor` — bounded non-negative integer; для UZS `100000 сум = 100000`.
+  Float и numeric string domain boundary отклоняются; deterministic formatter
+  добавляет пробелы, AI цену не пишет.
+- Availability `available|unavailable|preorder` — декларативный status, не stock
+  ledger и не inventory reservation.
+- Product limit MVP — 20 non-archived rows на store, проверяется также внутри
+  INSERT, чтобы закрыть race.
+- SKU canonical uppercase и unique только внутри store; несколько NULL
+  разрешены SQLite. Media refs — максимум пять opaque safe strings.
+- Buyer видит только published product active store, если category active или
+  отсутствует. Archive category не удаляет product row.
+- D-016 фиксирует domain search вместо Knowledge projection: без atomic
+  catalog+Knowledge outbox projection могла бы быть stale. Используются только
+  public normalization/tokenization APIs.
+- `AgentDomainServicePort` не расширяет authority: manifest tool фиксирует
+  agent/operation, Runtime фиксирует org/actor/request, domain разрешает store.
+- Seller UX — короткие action/command fixtures без нового workflow. Это
+  сознательно удерживает P2.2 scope.
+- Catalog events не добавлены до согласованной atomic outbox policy; exactly-once
+  не заявляется.
 
-## 5. Что сознательно не сделано
+## 5. Migration `0019`
 
-- Не начат P2.2 и не добавлены products, categories, photos, prices, stock,
-  catalog search или public storefront page.
-- Не добавлены buyer chat, cart, checkout, orders, delivery address, customer
-  phone, operator/CRM, payments API/links, Click/Payme, Mini App, Instagram,
-  custom bot, R2, CSV import или AI store description.
-- Payment methods в store profile — только декларация доступных способов.
-- P2.1 domain events не публикуются; outbox/retry policy не имитируется.
-- Migration `0018` не применялась. Webhook setup, push и deploy не выполнялись.
+Таблицы:
+
+- `sotuvchi_categories`;
+- `sotuvchi_products`;
+- `sotuvchi_catalog_operations`;
+- `sotuvchi_storefront_sessions`.
+
+Indexes:
+
+- unique parent `(sotuvchi_stores.org_id, id)` для composite FKs;
+- category `(store_id, status, sort_order, name, id)` и `(org_id, store_id)`;
+- product `(store_id, status, normalized_name, id)`,
+  `(store_id, category_id, status, id)` и `(org_id, store_id)`;
+- operation `(org_id, store_id, created_at)`;
+- session `(org_id, store_id, status)`.
+
+Checks/uniques/FKs фиксируют status allowlists, integer bounds, JSON array,
+version, same-tenant parentage, store slug/SKU scope и session identity.
+Migration не применялась ни local, ни production.
+
+## 6. Что сознательно не сделано
+
+- Cart, checkout, quantity, order/order items, inventory reservation/ledger,
+  delivery/address/phone, payment integration/details, operator/CRM, human
+  handoff, sales analytics, public web storefront и Mini App отсутствуют.
+- R2 upload, Telegram file object в domain, CSV import и AI-generated
+  descriptions отсутствуют.
+- Buyer Q&A P2.3 не расширялся дальше минимальных list/name/price/availability
+  intents P2.2; карточки и более широкий fail-closed intent set отложены.
+- Knowledge product projection и catalog events отложены до atomic outbox.
+- Migrations `0018/0019`, webhook setup, push и deploy не выполнялись.
 - Javob, lead bot, gpt-chat, SEO, billing и unrelated production paths не
   изменялись.
 - 27 legacy Functions errors и global legacy-red ESLint не исправлялись.
 
-## 6. Проверки
+## 7. Проверки
 
-- До изменений: `npx tsc -b` exit 0; Telegram Agents 41/41; Runtime 49/49;
-  Workflow 39/39; Knowledge 33/33; AI 15/15; tenancy 31/31; Events 20/20;
-  boundaries 10/10; Telegram compatibility 1/1; Telegram assistant 60/60;
+- До изменений: `npx tsc -b` exit 0; onboarding 28/28; Telegram Agents 41/41;
+  Runtime 49/49; Workflow 39/39; Knowledge 33/33; AI 15/15; tenancy 31/31;
+  Events 20/20; boundaries 10/10; compatibility 1/1; assistant 60/60;
   gpt-chat 15/15.
-- До изменений Functions typecheck: ровно 27 legacy errors в 6 старых файлах.
 - После изменений:
-  - Sotuvchi onboarding 28/28.
-  - Telegram Agents 41/41.
-  - Runtime 49/49; Workflow 39/39; Knowledge 33/33; AI 15/15.
-  - Tenancy 31/31; Events 20/20; boundaries 10/10.
-  - Telegram compatibility 1/1; Telegram assistant 60/60; gpt-chat 15/15.
+  - Sotuvchi catalog 54/54; onboarding 28/28.
+  - Telegram Agents 41/41; Runtime 49/49; Workflow 39/39.
+  - Knowledge 33/33; AI 15/15; tenancy 31/31; Events 20/20.
+  - Boundaries 10/10; compatibility 1/1; assistant 60/60; gpt-chat 15/15.
+  - Всего обязательных tests: 396/396.
   - `npx tsc -b` exit 0.
-  - Functions typecheck exit 2, ровно те же 27 legacy errors в тех же 6
-    файлах; новых P2.1/platform/agents/channels errors 0.
-  - Расширенный scoped ESLint exit 0.
-  - Boundary suite 10/10; direct forbidden-import checks 0.
-  - Migration/bootstrap parity, constraints, repeated bootstrap и no
-    destructive SQL покрыты тестами.
-  - Staged token/API-key/private-key/email/phone/env scan 0.
-  - `git diff --cached --check` перед code commit clean.
+  - Functions typecheck exit 2: ровно те же 27 legacy errors в тех же 6 старых
+    файлах; новых P2.2/platform/agents/channels/endpoint errors 0.
+  - Scoped ESLint exit 0; boundary current-tree violations 0.
+  - Actual SQLite подтверждает migration/bootstrap parity, columns, indexes,
+    FKs/check/unique constraints, repeat bootstrap и отсутствие destructive SQL.
+  - Staged credential/private-key/token/email/phone/env/known-real-ID scan 0.
+  - `git diff --cached --check` clean.
+- Один ранний параллельный test запуск превысил общий Windows Node memory limit;
+  все affected suites немедленно перезапущены последовательно и прошли.
 
-## 7. Известные проблемы
+## 8. Известные проблемы и риски
 
 - Сохраняются 27 Functions legacy errors в 6 старых файлах, global legacy-red
   ESLint и Node OOM risk; полный список в `KNOWN_ISSUES.md`.
-- Onboarding orchestration двухфазная: после успешного owner setup и аварии до
-  workflow/store может остаться provisional organization. Durable identity
-  claim делает её resumable и не позволяет создать вторую, но автоматического
-  garbage collection нет.
-- P1.4 at-most-once delivery может оставить Telegram update terminal `failed`
-  после send uncertainty; durable recovery/outbox отсутствует.
-- Sotuvchi domain events отсутствуют до согласованной atomic outbox policy.
-- Buyer storefront route уже безопасно разрешается, но buyer product behavior
-  сознательно отсутствует до последующих этапов.
+- Catalog runtime bootstrap выполняется по уже принятому pattern; migration
+  остаётся неприменённой до отдельного operations change.
+- Domain search ограничен 20 MVP products/store и не использует FTS5. При росте
+  объёма потребуется отдельная search/projection стратегия с atomic outbox.
+- Durable storefront session не содержит TTL; route/store deactivation
+  fail-closes resolution. Lifecycle/expiry session — будущая отдельная policy.
+- Category mutation без version допустима только в P2.2; конкурентный UX может
+  потребовать version в будущем.
+- Catalog events/Knowledge projection отсутствуют до outbox policy.
+- P1.4 at-most-once Telegram delivery может оставить terminal `failed` после
+  send uncertainty.
 - Pre-existing untracked package-lock/audit artifacts намеренно не тронуты.
 
-## 8. Следующая задача
+## 9. Следующая задача
 
-Только **P2.2 — Sotuvchi Catalog**.
+Только **P2.3 — Buyer Q&A**.
 
 1. Сначала прочитать все обязательные platform docs и проверить:
-   `last_completed_stage == P2.1`, `next_stage == P2.2`,
-   `last_commit == 6b7f68e1a3c644dab7d762704332d636d321c133`.
-2. Проверить P1.4 relay/code и P2.1 code/relay в ancestry, tracked tree и два
-   pre-existing untracked объекта.
-3. Запустить полный baseline, включая Sotuvchi 28/28, до любых изменений.
-4. Реализовывать только catalog scope, определённый ROADMAP/новой инструкцией,
-   поверх trusted organization/store/route, не обходя owner и tenant checks.
-5. Не начинать checkout, orders, inventory, payment integration, human handoff,
-   Mini App, deploy, webhook setup или production migration.
+   `last_completed_stage == P2.2`, `next_stage == P2.3`,
+   `last_commit == 9373af8d0910c360620139e0e6d8913beeefbd0e`.
+2. Проверить P2.2 code/relay ancestry, clean tracked tree и два pre-existing
+   untracked объекта; запустить полный 396-test baseline до изменений.
+3. Расширить buyer intents RU/UZ/mixed, deterministic product lookup, карточки,
+   price/availability только из catalog Facts и fail-closed unknown behavior.
+4. Сохранить catalog source-of-truth, trusted storefront context, strict tenant
+   isolation, closed-list tools и existing grounding.
+5. Не начинать P2.4 checkout/orders, inventory, payments, P2.6 human reply
+   bridge, Mini App, deploy, webhook setup или production migration.
 
-## 9. Acceptance criteria следующего этапа
-
-1. Source gate P2.1 подтверждён фактическими SHA и `STATE`.
-2. Все P2.1 store/owner/route invariants и 28 Sotuvchi тестов сохранены.
-3. Новый catalog tenant-scoped к existing store и не принимает user-supplied
-   `orgId`/owner/storefront code как authority.
-4. Telegram/Runtime boundaries, P1.4 dedup и buyer/seller route separation не
-   ослаблены.
-5. Functions errors не превышают 27 и новых scoped errors/lint/boundary/security
-   нарушений нет.
-6. Checkout, order placement, inventory reservation, payments, handoff и Mini
-   App не появляются без отдельного этапа.
-7. Migration/setup/push/deploy выполняются только по отдельной явной команде
-   владельца.
-
-## 10. Команды для старта
+## 10. Команды для старта P2.3
 
 ```powershell
 cd F:\Claude\gptbot-repo
@@ -200,10 +219,11 @@ Get-Content -Raw -Encoding utf8 docs\agents-platform\DECISIONS.md
 git status --short
 git branch --show-current
 git rev-parse HEAD
-git log -12 --oneline
+git log -15 --oneline
 git diff
 $env:NODE_OPTIONS='--max-old-space-size=1400'
 npx tsc -b
+node --import tsx --test tests/sotuvchi-catalog.test.ts
 node --import tsx --test tests/sotuvchi-onboarding.test.ts
 node --import tsx --test tests/telegram-agents-webhook.test.ts
 node --import tsx --test tests/platform-runtime.test.ts
@@ -219,32 +239,32 @@ node --import tsx --test tests/gpt-chat.test.ts
 npx tsc -p tsconfig.functions.json --noEmit
 ```
 
-## 11. Риски
+## 11. Acceptance criteria P2.3
 
-- Не принимать `orgId`, owner identity или storefront code из agent/user input
-  как trusted authority.
-- Не удалять unique/FK/check constraints и не разделять store/route batch.
-- Не обходить `OrganizationStore.createOrganizationWithOwner` собственной
-  tenancy SQL.
-- Не переносить Telegram API/profile/raw update в Sotuvchi domain или Platform
-  Runtime.
-- Не превращать `reducePayload` в dynamic/untrusted reducer и не пропускать
-  payload validation после него.
-- Не добавлять non-idempotent events/actions без durable outbox/recovery policy.
-- Не смешивать Agents env/webhook/dedup/setup с Javob или lead bot.
-- Не применять migration и не выполнять push/deploy без отдельной явной команды.
+1. P2.2 category/product/lifecycle/idempotency/tenant invariants и 54 catalog
+   tests сохранены.
+2. Buyer intents для RU/UZ/mixed deterministic и не требуют AI-generated exact
+   price/availability.
+3. Product card/answer использует только published same-store catalog Facts;
+   draft/archived/foreign store остаются недоступны.
+4. Unknown/ambiguous intent fail-closed и не начинает order/handoff side effect.
+5. Storefront code/session не становятся owner authority или user-selectable org.
+6. Functions errors не превышают 27; scoped lint/boundaries/security clean;
+   полный baseline не уменьшается.
+7. Checkout/orders/inventory/payments/human reply bridge/Mini App отсутствуют
+   без отдельного этапа.
 
 ## 12. Rollback
 
-1. Если relay commit создан, сначала `git revert <P2.1-relay-SHA>`.
-2. Затем `git revert 6b7f68e1a3c644dab7d762704332d636d321c133`.
-3. Migration P2.1 не применялась, поэтому текущему production schema rollback не
-   нужен.
-4. Если `0018` когда-либо применена отдельно, сначала отключить Sotuvchi route,
-   сохранить необходимые данные и согласованным ops change удалить в обратном
-   порядке три индекса, затем `telegram_agent_routes`, `sotuvchi_stores`,
-   `sotuvchi_onboardings`.
-5. Не удалять shared `organizations`, `memberships`, `workflow_instances` или
-   legacy Telegram tables: они не принадлежат migration `0018`.
-6. Revert не должен затрагивать P1.4 commits, Javob/lead bot, unrelated
+1. Если P2.2 relay commit создан, сначала `git revert <P2.2-relay-SHA>`.
+2. Затем `git revert 9373af8d0910c360620139e0e6d8913beeefbd0e`.
+3. Migration `0019` не применялась, поэтому текущему production schema rollback
+   не нужен.
+4. Если `0019` применена отдельно, сначала отключить catalog traffic и
+   сохранить необходимые данные. Затем удалить в обратном порядке session,
+   operation, product и category indexes/tables и только после child objects —
+   `idx_sotuvchi_stores_org_id`.
+5. Не удалять shared `sotuvchi_stores`, routes, onboarding, organizations,
+   memberships, workflow или legacy Telegram tables.
+6. Revert не должен затрагивать P2.1/P1.x history, Javob/lead bot, unrelated
    production history и два pre-existing untracked объекта.

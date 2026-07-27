@@ -1,25 +1,25 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P2.1",
+  "current_stage": "P2.2",
   "stage_status": "completed",
-  "last_completed_stage": "P2.1",
-  "next_stage": "P2.2",
-  "last_commit": "6b7f68e1a3c644dab7d762704332d636d321c133",
+  "last_completed_stage": "P2.2",
+  "next_stage": "P2.3",
+  "last_commit": "9373af8d0910c360620139e0e6d8913beeefbd0e",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
   "previous_stage": {
-    "stage": "P1.4",
-    "last_commit": "539525410f086ef1c705c221950b29d808982899",
-    "state_commit": "c04ae463a403287e6d81d9eac8db116c721705a9"
+    "stage": "P2.1",
+    "last_commit": "6b7f68e1a3c644dab7d762704332d636d321c133",
+    "state_commit": "2258aa5cc4889f2da6cb856fbc909dac664401ba"
   },
   "updated_at": "2026-07-27",
   "blocked": false,
   "blockers": [],
   "baseline": {
     "build": "tsc -b exit 0",
-    "tests": "pass: sotuvchi-onboarding 28/28 (new), telegram-agents-webhook 41/41, platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15",
+    "tests": "pass: sotuvchi-catalog 54/54 (new), sotuvchi-onboarding 28/28, telegram-agents-webhook 41/41, platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15; total required 396/396",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "P2.1 Sotuvchi/endpoint/channel/platform/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
+    "lint": "P2.2 modified Sotuvchi/endpoint/platform/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
   }
 }
