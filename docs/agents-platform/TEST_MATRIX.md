@@ -91,3 +91,23 @@ Post-change baseline P0.5:
 - `npx tsc -p tsconfig.functions.json --noEmit` → ровно 27 legacy-ошибок в 6 старых файлах, 0 в `functions/{platform,agents,channels}`;
 - scoped ESLint для platform AI, нового теста, boundary checker/test и platform index → exit 0;
 - direct boundary checker, static scope scan, staged secret/PII scan и `git diff --check` → clean.
+
+## Добавлено P1.1
+| Файл | Кол-во | Статус | Что покрывает |
+|---|---:|---|---|
+| `tests/platform-knowledge.test.ts` | 33 | ✅ | runtime bootstrap; generic collections; strict payload/media/numeric projections и limits; item CRUD/status/optimistic versions; negative org isolation; active visibility; exact/prefix/all/partial ranking; RU/Uzbek Latin/mixed normalization; stable tie-break, numeric filter, empty query и result limit |
+
+Post-change baseline P1.1:
+- `npx tsc -b` → exit 0;
+- `tests/platform-knowledge.test.ts` → 33/33;
+- `tests/platform-ai.test.ts` → 15/15;
+- `tests/platform-tenancy.test.ts` → 31/31;
+- `tests/platform-events.test.ts` → 20/20;
+- `tests/agent-boundaries.test.ts` → 10/10;
+- `tests/telegram-channel-compat.test.ts` → 1/1;
+- `tests/telegram-assistant.test.ts` → 60/60;
+- `tests/gpt-chat.test.ts` → 15/15;
+- `npx tsc -p tsconfig.functions.json --noEmit` → ровно 27 legacy errors в 6 старых файлах, 0 в `functions/{platform,agents,channels}`;
+- scoped ESLint Knowledge/test/platform index и direct boundary checker → exit 0;
+- migration `0015` дважды выполнена local-only; 2 tables, 6 indexes, schema defaults/composite FK и real search SQL подтверждены;
+- dependency/SQL-scope/destructive/parity/secret-PII scans и `git diff --check` → clean.

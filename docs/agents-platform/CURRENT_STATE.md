@@ -1,46 +1,52 @@
-# CURRENT_STATE — фактическое состояние репозитория (2026-07-27, P0.5)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-27, P1.1)
 
 ## Продукты в production (не ломать)
 - SEO-фабрика: `content/**` → `scripts/prerender*.ts` → статические страницы, sitemap, `llms.txt`, SEO build-gates.
 - Веб AI-чат: `/ru/gpt-chat/`, `/uz/gpt-uzbek-tilida/` — `src/gpt-chat/**` + `functions/api/gpt/**`.
-- Javob `@gptbot_javob_bot`: `functions/api/telegram/assistant.ts` + `functions/lib/telegram/**`; zero-prompt reply, voice transcription/reply, Tahlil, billing ledger, privacy/grounding guards.
-- Lead-бот `@aidirectprobot`: `functions/api/telegram/webhook.ts`; заморожен и на P0.5 не изменялся.
+- Javob `@gptbot_javob_bot`: `functions/api/telegram/assistant.ts` + `functions/lib/telegram/**`; reply, voice/Tahlil, billing и privacy/grounding guards.
+- Lead-бот `@aidirectprobot`: `functions/api/telegram/webhook.ts`; заморожен и на P1.1 не изменялся.
 - Админка `/admin-tools/` + `/api/admin/**`.
 
 ## Инфраструктура
-- Cloudflare Pages + Pages Functions; основное хранилище D1 `GPTBOT_DRAFTS_DB`; Workers AI binding; KV `LOGIN_ATTEMPTS`.
-- R2, Durable Objects, Queues и cron отсутствуют. P0.5 их не добавлял.
-- Push в `main` запускает Cloudflare deploy, поэтому push/deploy разрешены только отдельной явной командой владельца.
-- Каталог env-имён — `functions/_types.ts`. В P0.5 новые env/secrets/model names не добавлены.
+- Cloudflare Pages + Pages Functions; одна D1 `GPTBOT_DRAFTS_DB`; Workers AI binding; KV `LOGIN_ATTEMPTS`.
+- R2, Durable Objects, Queues и cron отсутствуют. P1.1 их не добавлял.
+- Push в `main` запускает Cloudflare deploy; push/deploy только по отдельной явной команде владельца.
+- P1.1 не добавлял env/secrets и не применял migration к production.
 
 ## GPTBot Agents Platform
-- Завершены P0.1 boundaries/contracts/registry, P0.2 Telegram client extraction, P0.3 Events, P0.4 Identity/Orgs/Tenancy и P0.5 Platform AI façade.
-- `functions/platform/ai/**` — provider-neutral AI layer. `AiFacade` предоставляет `complete` и generic `structured`; capability contracts отдельно описывают text, structured, streaming и transcription drivers без обязательной реализации всех методов.
-- `AiPolicyResolver` детерминированно выбирает exact task+tier policy либо default tier, затем идёт по configured driver routes не более `maxAttempts`. Policy может задавать model override/temperature/maxTokens/timeout, но реальные legacy model chains остаются в существующей env/config.
-- Structured result проходит strict `JSON.parse`, затем runtime schema `.parse(unknown)`. Invalid JSON и schema mismatch возвращают controlled fail-closed errors, а raw output не становится domain value.
-- Error model ограничен configuration/provider/timeout/structured/unavailable; raw provider message, prompt и user content не переносятся в ошибки.
-- Единственная platform→legacy точка — `functions/platform/ai/drivers/legacy.ts`: adapters над gpt-chat OpenRouter text helper и `lib/llm` structured router. Boundary checker разрешает `LEGACY-SHIM` только этому exact path.
-- Streaming/STT представлены typed capability contracts, но не включены в façade и не мигрированы. Javob, gpt-chat, Tahlil и transcription по-прежнему используют старые production paths, поэтому поведение не изменено.
-- `functions/platform/identity/**` содержит provider-neutral identities; `functions/platform/orgs/**` — organizations, owner/staff memberships и PII-minimal contacts с tenant-scoped repositories.
-- `functions/platform/events/**` сохраняет request-local bus, PII guard, durable outbox и один direct Javob dual-write bridge.
-- `functions/channels/telegram/api.ts` остаётся реализацией Telegram client, `functions/lib/telegram/client.ts` — compatibility shim.
-- Boundary direction: agents/channels могут зависеть от platform; platform не импортирует agents/channels. Legacy lib разрешён только одному P0.5 adapter-файлу.
+- Завершены P0.1 boundaries/contracts/registry, P0.2 Telegram channel extraction, P0.3 Events, P0.4 Identity/Orgs/Tenancy, P0.5 AI façade и P1.1 Knowledge Engine minimum.
+- `functions/platform/knowledge/**` хранит generic collections per org+agent+kind и structured knowledge items. Движок не знает product/doctor/dish и не импортирует agents/channels/lib/AI.
+- Каноническая migration — `0015_platform_knowledge.sql`; runtime bootstrap идентичен и сначала обеспечивает organizations schema.
+- Collection unique в `(org_id, agent_id, kind)`. Item содержит собственный `org_id`; composite FK `(org_id, collection_id)` усиливает repository tenant checks.
+- Agent schema реализует `validate(unknown)`, `toSearchText`, optional `toMediaRefs`/`toNumericValues`. После validation engine требует strict JSON-safe payload и применяет фиксированные limits.
+- Search v1: Unicode normalization для RU/Uzbek Latin без transliteration/stemming; parameterized exact/prefix/token candidates через SQLite `json_each`; deterministic score и stable tie-break. Empty query отклоняется.
+- `numeric_1..3` имеют tenant indexes и optional range filters. Search работает только по active collections/items; hidden/archived исключаются.
+- Item version начинается с 1; payload/status writes требуют expectedVersion и отвергают stale update.
+- Media refs channel-neutral/opaque. Telegram file_id bot-scoped; Knowledge не выполняет transport/media operations.
+- По D-011 revisions и knowledge events отложены до доказанного продуктового требования/отдельной policy.
+- `functions/platform/ai/**`, identity/orgs/events и Telegram channel extraction остаются без изменений поведения.
 
-## Состояние данных P0.5
-- Новых таблиц и migrations на P0.5 нет.
-- С P0.4 существуют `identities`, `organizations`, `memberships`, `contacts`; remote/production migration в рамках P0.5 не выполнялась.
-- AI policy не хранится в D1, billing ledger не менялся.
+## Таблицы P1.1
+- `knowledge_collections`: tenant+agent+kind schema root, status `active|archived`.
+- `knowledge_items`: tenant child, status `active|hidden|archived`, validated payload/search/media/numeric projections, optimistic version.
+- `knowledge_revisions` не создана по D-011.
 
-## Проверенный baseline P0.5
+## Limits P1.1
+- IDs 120 chars; agent/kind 64; collection name 120.
+- Payload 65,536 UTF-8 bytes; normalized search text 4,096 chars.
+- Media refs 10, opaque value 512 chars.
+- Search query 256 chars / 16 unique tokens; result limit 50; candidate cap 200.
+
+## Проверенный baseline P1.1
 - `npx tsc -b` — exit 0.
-- Platform AI 15/15; tenancy 31/31; events 20/20; boundaries 10/10; Telegram compatibility 1/1; Telegram assistant 60/60; gpt-chat 15/15.
-- `npx tsc -p tsconfig.functions.json --noEmit` — ровно 27 известных legacy-ошибок в 6 старых файлах, 0 в `functions/{platform,agents,channels}`.
-- Scoped ESLint AI/test/boundary/shared index — exit 0; direct boundary checker — exit 0.
-- Secret/PII scan чист; реальные provider network calls в tests отсутствуют.
-- Production database, push и deploy не затрагивались.
+- Knowledge 33/33; AI 15/15; tenancy 31/31; events 20/20; boundaries 10/10; Telegram compatibility 1/1; Telegram assistant 60/60; gpt-chat 15/15.
+- `npx tsc -p tsconfig.functions.json --noEmit` — ровно 27 известных legacy errors в 6 старых файлах, 0 в `functions/{platform,agents,channels}`.
+- Scoped ESLint Knowledge/test/index — exit 0; direct boundary checker — exit 0.
+- Local-only migration `0015` выполнена дважды; 2 tables, 6 indexes, defaults/composite FK/search SQL подтверждены. Production D1 не затронута.
+- Secret/PII, destructive SQL, parity, dependency и SQL-scope scans чисты.
 
 ## Следующий этап
-Только P1.1 — Knowledge Engine minimum: tenant-scoped `knowledge_collections/items`, schema validation payload, normalized `search_text`, numeric indexes и deterministic normalize+LIKE+scoring search. Revisions — только если нужны Sotuvchi. Не начинать Workflow, Runtime, agent webhook или Sotuvchi.
+Только P1.2 — Workflow Engine minimum: declarative persistent FSM, tenant-scoped `workflow_instances`, deterministic transitions, idempotent actions и restart test. Без cron, Agent Runtime, Telegram webhook или Sotuvchi.
 
 ## Рабочая среда
-Windows + PowerShell. При OOM использовать `NODE_OPTIONS=--max-old-space-size=1400` и запускать тесты по одному файлу. Pre-existing untracked `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/` не относятся к P0.5: не добавлять, не удалять и не изменять.
+Windows + PowerShell. При OOM использовать `NODE_OPTIONS=--max-old-space-size=1400`. Диск C: на P1.1 был заполнен; для Wrangler local проверки понадобились TEMP/TMP/WRANGLER_LOG_PATH на F:. Pre-existing untracked `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/` не добавлять, не удалять и не изменять.
