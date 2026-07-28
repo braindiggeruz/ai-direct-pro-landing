@@ -3,7 +3,7 @@
 Дата фактического аудита: **2026-07-27**
 Рабочая директория: `F:\Claude\gptbot-repo`
 Ветка: `main`
-Дата последнего обновления документа: **2026-07-28 (после P2.6)**
+Дата последнего обновления документа: **2026-07-28 (после P2.7)**
 Аудированный source HEAD исходного аудита:
 `fda702469f88d09768a56a53a7ebd8f41e34d506`
 HEAD после документационного commit этого файла:
@@ -16,10 +16,13 @@ P2.4 relay commit: `32112657589983467d31888ad3ec106a8d96b227`
 P2.5 code commit: `0915f059027555665661a1bcb90e8719690bce0c`
 P2.5 relay commit: `593654efc22c14e8877ec83e2ebfe009103997ce`
 P2.6 code commit: `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`
+P2.6 relay commit: `841836a7a3e81e7c2ecb49d86d31297474484c5d`
+P2.7 code commit: `6dccec2095ba483779fbded77c08d8030eca5b4d`
 Удалённый `origin/main` (проверено повторно 2026-07-28):
 `93fab390733d3d5ffbf052e211d95b6038ee4bbd`
-Последний завершённый этап: **P2.6 — Durable Human Handoff Bridge**
-Следующий разрешённый этап: **P2.7 — Analytics и pilot readiness**
+Последний завершённый этап: **P2.7 — Analytics и pilot readiness**
+Следующий этап по ROADMAP: **P3 — пилот** (операционный; заблокирован до
+отдельной одобренной release/security-задачи, см. §17 и §18)
 
 > Этот документ — главный технический handoff проекта на указанную дату. Он
 > фиксирует фактическое состояние кода, данных, тестов и production, но сам по
@@ -33,7 +36,7 @@ P2.6 code commit: `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`
 ### 1.1. Что готово
 
 - В локальной ветке полностью реализованы и проверены этапы Agents Platform
-  `P0.0–P2.6`.
+  `P0.0–P2.7`.
 - Platform построена как modular monolith с channel-neutral контрактами,
   tenant-scoped runtime, deterministic-first обработкой и строгим grounding.
 - Telegram Agents transport изолирован от двух существующих production
@@ -58,8 +61,15 @@ P2.6 code commit: `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`
     workflow-инстансом и принимать ровно один финальный ответ;
   - доставлять seller notice, ответ покупателю с маркером авторства продавца и
     notification-интенты заказов P2.5 через platform-адресную книгу и один
-    grounded send-путь.
-- Все 24 test suite прошли: **626/626** (обязательный Agents-набор 548/548).
+    grounded send-путь;
+  - записывать четыре content-free события воронки в существующий platform
+    outbox `events`;
+  - показывать владельцу магазина owner-only отчёт `/stats` за 7 дней, где
+    точные счётчики читаются из domain-таблиц, а best-effort воронка помечена
+    отдельно.
+- Добавлены публичные страницы продукта `/ru/sotuvchi/` и `/uz/sotuvchi/`,
+  read-only pilot check, pilot runbook и production readiness checklist.
+- Все 25 test suite прошли: **662/662** (обязательный Agents-набор 584/584).
 - Root TypeScript, Railway backend typecheck и обе сборки прошли.
 - Scoped Agents Platform lint и архитектурные boundary tests прошли.
 
@@ -68,7 +78,7 @@ P2.6 code commit: `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`
 - Локальная ветка до документационного commit была впереди `origin/main` на
   16 commits и не отставала от него; после документационного commit — 17,
   после P2.4 code+relay — 19, после P2.5 code+relay — 21, после P2.6
-  code+relay — 23.
+  code+relay — 23, после P2.7 code+relay — 25.
 - Production Cloudflare Pages на момент аудита использовал source
   `93fab39…`, то есть удалённый `origin/main`, а не локальный P2.3 relay.
 - Удалённая D1 показывает migrations `0013–0020` как pending; `0021`, `0022` и
@@ -80,18 +90,27 @@ P2.6 code commit: `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`
 
 ### 1.3. Жёсткая граница следующей работы
 
-P2.6 завершён в границах: явная эскалация покупателя, очередь продавца без
-контента, семидневный TTL текста вопроса и ответа, durable reply-мост с ровно
-одним финальным ответом продавца, platform-адресная книга `channel_addresses`
-и opportunistic dispatcher, который доставляет seller notice, ответ покупателю
-и notification-интенты заказов P2.5. Автоэскалация неизвестного вопроса, CRM,
-ticketing, SLA-таймер, назначение оператору, вложения, голос, платежи, Mini App
-и analytics в P2.6 не входили и не реализованы. Cron/scheduler по-прежнему
-отсутствует, поэтому retention sweep и flush остаются opportunistic.
+P2.7 завершён в границах: закрытый каталог из четырёх content-free событий в
+существующем outbox `events`, owner-only `/stats` с разделением точных
+domain-счётчиков и best-effort воронки, публичные страницы `/ru/sotuvchi/` и
+`/uz/sotuvchi/`, централизованный public bot config, offline read-only
+`scripts/sotuvchi-pilot-check.ts`, pilot runbook и production readiness
+checklist. Новая migration не создавалась. Revenue, средний чек, conversion
+rate, time-to-seller-reply, daily aggregate table, web dashboard, payments,
+CRM, staff-роли, рассылки и Mini App в P2.7 не входили и не реализованы.
+Cron/scheduler по-прежнему отсутствует.
 
-Следующий продуктовый этап — только **P2.7 Analytics и pilot readiness**:
-события этапа без PII, `/stats`, RU/UZ лендинги, setup-скрипт и runbook.
-Платежи, CRM и Mini App остаются вне этапа.
+Следующий этап по ROADMAP — **P3 «пилот»**: onboarding runbook, pilot
+dashboard, feedback-форма, incident handling, weekly metrics. P3 операционный:
+он требует push, deploy, применённых migrations и настроенного webhook, и
+поэтому остаётся заблокированным до отдельной одобренной владельцем
+release/security-задачи.
+
+**Governance gap.** В ROADMAP между P2.7 и P3 нет security/release-фазы, хотя
+release фактически заблокирован tracked credential incident, уязвимыми
+зависимостями и Turnstile fail-open. Эта фаза должна быть определена и
+одобрена владельцем до старта P3; изобретать вместо неё скрытую feature-фазу
+запрещено.
 
 ### 1.4. Критический security stop
 
@@ -333,13 +352,14 @@ OpenRouter. Cloudflare GPT endpoints предпочитают Railway при н�
 | P2.3 | Sotuvchi Buyer Q&A | `70bd1e05a7eb9ad47632933a052a63922c991978` | `fda702469f88d09768a56a53a7ebd8f41e34d506` |
 | P2.4 | Sotuvchi checkout | `a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea` | `32112657589983467d31888ad3ec106a8d96b227` |
 | P2.5 | Sotuvchi orders/inventory | `0915f059027555665661a1bcb90e8719690bce0c` | `593654efc22c14e8877ec83e2ebfe009103997ce` |
-| P2.6 | Sotuvchi human handoff bridge | `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79` | relay HEAD |
+| P2.6 | Sotuvchi human handoff bridge | `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79` | `841836a7a3e81e7c2ecb49d86d31297474484c5d` |
+| P2.7 | Sotuvchi pilot analytics/readiness | `6dccec2095ba483779fbded77c08d8030eca5b4d` | relay HEAD |
 
 `STATE.json` фактически содержит:
 
-- `last_completed_stage = P2.6`;
-- `current_stage = P2.6`;
-- `next_stage = P2.7`;
+- `last_completed_stage = P2.7`;
+- `current_stage = P2.7`;
+- `next_stage = P3` плюс `next_stage_note` и `governance_gap`;
 - `blocked = false`;
 - state commit следует D-006 и обозначает relay HEAD, а не хранит собственный
   SHA.
@@ -1356,10 +1376,11 @@ Canonical `functions/_types.ts` не охватывает все code-referenced
 $env:NODE_OPTIONS='--max-old-space-size=1400'
 ```
 
-### 13.1. Обязательная Agents/P2.6 матрица
+### 13.1. Обязательная Agents/P2.7 матрица
 
 | Suite | Passed |
 |---|---:|
+| `sotuvchi-pilot-readiness.test.ts` | 36 |
 | `sotuvchi-handoff.test.ts` | 40 |
 | `sotuvchi-orders-inventory.test.ts` | 37 |
 | `sotuvchi-checkout.test.ts` | 36 |
@@ -1377,7 +1398,7 @@ $env:NODE_OPTIONS='--max-old-space-size=1400'
 | `telegram-channel-compat.test.ts` | 1 |
 | `telegram-assistant.test.ts` | 60 |
 | `gpt-chat.test.ts` | 15 |
-| **Subtotal** | **548** |
+| **Subtotal** | **584** |
 
 ### 13.2. Дополнительные repository suites
 
@@ -1392,7 +1413,7 @@ $env:NODE_OPTIONS='--max-old-space-size=1400'
 | `canonical-url-redirects.test.ts` | 4 |
 | **Subtotal** | **78** |
 
-Полный итог: **626/626** (23 P2.5-suite + новый handoff suite).
+Полный итог: **662/662** (24 P2.6-suite + новый pilot-readiness suite).
 
 Дополнительно Javob offline eval:
 
@@ -1661,17 +1682,19 @@ Uzbek phone-like literals найдены в семи files:
 
 | Gate | Статус | Обоснование |
 |---|---|---|
-| P2.6 source completeness | Ready | code commit present, 626 tests pass |
+| P2.7 source completeness | Ready | code commit present, 662 tests pass |
 | Architecture boundaries | Ready | 10/10, checker 0 violations, scoped lint pass |
 | Local build/typecheck | Ready with legacy debt | root/backend pass; 27 legacy Functions errors |
 | Security release | **Blocked** | tracked credential + dependency vulnerabilities |
 | D1 migration readiness | Review required | `0013–0023` pending; bootstrap ownership mismatch |
-| Cloudflare production | Not current | production source is `93fab39`, not local P2.6 |
+| Cloudflare production | Not current | production source is `93fab39`, not local P2.7 |
 | Agents webhook | Not ready | live route absent; no setup performed |
-| P2.7 design start | Conditionally ready | only after source gate; PII-free event catalogue first |
+| Public Agents bot identity | Not ready | username not registered; landing CTA falls back to the on-page pilot section |
+| Release/security stage | **Missing** | roadmap jumps from P2.7 to the operational P3; governance gap recorded in STATE.json |
+| P3 pilot start | **Blocked** | requires the release/security stage, then push, deploy, migrations and webhook |
 | Production deploy | **Not authorized** | requires explicit release task and blockers resolution |
 
-Коротко: **P2.6 локально source-ready, но production/release не ready**.
+Коротко: **P2.7 локально source-ready, но production/release не ready**.
 
 ---
 
@@ -1774,19 +1797,42 @@ Uzbek phone-like literals найдены в семи files:
 - Buyer-facing текст строится только из scalar Facts; имя и адрес не
   показываются, телефон маскируется.
 
-### 18.6. P2.7 design gate
+### 18.6. Реализованный P2.7 (справочно)
 
-Перед кодом оформить:
+- Каталог событий закрыт четырьмя именами: `sotuvchi.buyer_started`,
+  `sotuvchi.catalog_answered`, `sotuvchi.catalog_no_result`,
+  `sotuvchi.stats_viewed`. Lifecycle-переходы событиями не дублируются.
+- События пишутся в существующий outbox `events` (migration `0013`); новая
+  migration не создавалась.
+- Payload — только closed-list токены, boolean и bounded счётчики; `intent`
+  валидируется по закрытому buyer-списку.
+- Idempotency key — trusted channel `requestId`. Recorder выполняется после
+  доменной записи, не повторяет её и глушит свои ошибки: аналитика может
+  недосчитать, но не может продублировать доменный эффект.
+- Воронка снимается декоратором domain-порта `withSotuvchiAnalytics` из уже
+  произведённых scalar Facts; `buyer_started` пишется в endpoint при
+  разрешении deep-link витрины.
+- `/stats` owner-only, tool без параметров; окно, tenant и store определяются
+  сервером. Buyer, чужой владелец, disabled membership и другая identity в том
+  же чате получают одинаковый content-free отказ.
+- Точный блок отчёта читается из domain-таблиц, включая
+  `sotuvchi_notifications` как ledger переходов; best-effort воронка помечена
+  отдельно. Revenue, AOV, conversion rate и time-to-seller-reply не считаются.
+- Публичные страницы `/ru/sotuvchi/` и `/uz/sotuvchi/` с взаимным hreflang;
+  `src/shared/sotuvchi-config.ts` — единственный источник ссылки на бота,
+  username пока `null`, CTA ведёт на `#pilot`.
+- `scripts/sotuvchi-pilot-check.ts` offline и read-only; мутация webhook
+  остаётся только за `telegram-agents-setup.ts setup` без `--dry-run`.
 
-- каталог событий этапа без PII и без сырых текстов;
-- политику events/outbox — она всё ещё открыта и блокирует publish;
-- источник чисел `/stats` (только детерминированные счётчики из БД);
-- RU и Uzbek Latin copy лендингов и прохождение seo-audit-гейта;
-- runbook применения migrations `0018–0023` и настройки webhook как отдельных
-  одобряемых операций;
-- отсутствие payments/CRM/Mini App в scope.
+### 18.7. P3 gate
 
-### 18.7. Что не менять в P2.7
+P3 «пилот» операционный. До его старта требуется отдельная одобренная
+владельцем release/security-задача, закрывающая разделы 1–4
+`SOTUVCHI_PRODUCTION_READINESS.md`, и только затем push, deploy, migrations
+`0013–0023` и webhook по `SOTUVCHI_PILOT_RUNBOOK.md`. Скрытую feature-фазу
+вместо release-фазы не изобретать.
+
+### 18.8. Что не менять в следующем этапе
 
 - Lead webhook.
 - Javob webhook и Tahlil.
@@ -1802,10 +1848,14 @@ Uzbek phone-like literals найдены в семи files:
   один финальный ответ продавца, replay раньше проверки состояния сессии,
   очистка контента по `expires_at`, payload-free seller notice,
   `channel_addresses` не является authority, маркер авторства продавца.
+- Реализованные P2.7 инварианты: события не являются authority ни для одного
+  доменного состояния, event-derived число не выдаётся за точное, `/stats`
+  owner-only и не принимает параметров, публичный CTA не содержит угаданного
+  bot username и не смешивает Agents-бота с lead и Javob.
 - `sotuvchi_orders.status` CHECK — расширение требует полного SQLite table
   rebuild отдельным одобренным change.
 - Production migrations/webhooks без отдельного release task.
-- P2.8+ features.
+- Всё, что выходит за границы одобренного этапа.
 
 ---
 
@@ -1906,20 +1956,24 @@ Pop-Location
 
 ## 20. Rollback и recovery
 
-### 20.1. Source rollback P2.6
+### 20.1. Source rollback P2.7
 
-Если P2.6 ещё не deployed:
+Если P2.7 ещё не deployed:
 
-1. revert relay: `git revert <P2.6-relay-SHA>`;
+1. revert relay: `git revert <P2.7-relay-SHA>`;
 2. revert code:
-   `git revert 8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`;
-3. не удалять таблицы и columns автоматически.
+   `git revert 6dccec2095ba483779fbded77c08d8030eca5b4d`;
+3. P2.7 не создавал migration, поэтому изменения схемы не требуются;
+4. пересобрать, чтобы sitemap вернулся к прежнему составу.
 
-Аналогично для более ранних этапов: P2.5 relay
+Аналогично для более ранних этапов: P2.6 relay
+`841836a7a3e81e7c2ecb49d86d31297474484c5d` и code
+`8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`; P2.5 relay
 `593654efc22c14e8877ec83e2ebfe009103997ce` и code
 `0915f059027555665661a1bcb90e8719690bce0c`; P2.3 relay
 `fda702469f88d09768a56a53a7ebd8f41e34d506` и code
-`70bd1e05a7eb9ad47632933a052a63922c991978`.
+`70bd1e05a7eb9ad47632933a052a63922c991978`. Таблицы и columns автоматически
+не удалять.
 
 Перед любым revert проверить, не появились ли более новые commits, и не
 использовать `reset --hard` в shared/user worktree.
@@ -1945,6 +1999,8 @@ Pop-Location
   `sotuvchi_handoffs`, `channel_addresses`) в обратном порядке. Удаление
   `channel_addresses` также останавливает доставку notification-интентов
   P2.5: интенты остаются pending и не теряются.
+- P2.7 migration не добавляет, поэтому его rollback — только два `git revert`
+  и пересборка; схема БД при этом не меняется.
 - Физическое удаление columns в SQLite/D1 требует отдельного approved table
   rebuild migration.
 - Для tables `0013–0019` destructive rollback не должен выполняться без backup,
@@ -1982,7 +2038,7 @@ release rollback должен включать:
 
 ## 21. Фактическая audit attestation
 
-На 2026-07-28 (обновлено после P2.6) подтверждено:
+На 2026-07-28 (обновлено после P2.7) подтверждено:
 
 - 1 authoritative Git repository;
 - 9 logical service groups;
@@ -1997,13 +2053,15 @@ release rollback должен включать:
 - 90 explicit Cloudflare handler exports;
 - 13 Railway route handlers;
 - 112 configuration identifiers;
-- 24 automated Node test suites;
-- 626/626 test assertions passed (обязательный Agents-набор 548/548);
+- 25 automated Node test suites;
+- 662/662 test assertions passed (обязательный Agents-набор 584/584);
 - 60-case Javob offline eval;
-- `0013–0023` remote migrations pending;
-- production Pages source не содержит локальные P2.4, P2.5 и P2.6;
-- production code, secrets, webhook, infra и migrations в ходе аудита, P2.4,
-  P2.5 и P2.6 не изменялись;
+- 105 published content pages (включая `/ru/sotuvchi/` и `/uz/sotuvchi/`),
+  seo-audit 0 critical, orphan 0;
+- `0013–0023` remote migrations pending; P2.7 новой migration не добавляет;
+- production Pages source не содержит локальные P2.4–P2.7;
+- production code, secrets, webhook, infra и migrations в ходе аудита и этапов
+  P2.4–P2.7 не изменялись;
 - push/deploy не выполнялись.
 
 ---
@@ -2013,26 +2071,31 @@ release rollback должен включать:
 > Продолжай GPTBot Agents Platform только из
 > `F:\Claude\gptbot-repo`, сначала прочитай
 > `docs/agents-platform/GPTBOT_AGENTS_MASTER_HANDOFF_2026-07-27.md`,
-> `AGENTS.md` и весь governance-набор, проверь текущий HEAD, ancestry P2.6
-> code `8523d8d8…`, P2.5 code `0915f059…`/relay `593654ef…`, divergence с
+> `AGENTS.md` и весь governance-набор, проверь текущий HEAD, ancestry P2.7
+> code `6dccec20…`, P2.6 code `8523d8d8…`/relay `841836a7…`, divergence с
 > `origin/main` `93fab390733d3d5f…` и сохрани pre-existing untracked
 > `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/`; локально
-> завершён P2.6 и 626/626 тестов зелёные (обязательный набор 548/548), но
+> завершён P2.7 и 662/662 тестов зелёные (обязательный набор 584/584), но
 > production всё ещё на `93fab39…`, D1 migrations `0013–0023` pending и
-> Agents webhook не deployed; следующий продуктовый этап — только P2.7
-> Analytics и pilot readiness: PII-free события этапа, `/stats`, RU/UZ
-> лендинги, setup-скрипт и runbook, без payments, CRM и Mini App; политика
-> events/outbox всё ещё открыта и должна быть решена до первого publish; не
-> переписывай checkout FSM и его инварианты (один item, один активный draft,
-> atomic conditional placement, PII только в `sotuvchi_orders`), инварианты
-> P2.5 (однократное списание, fail-closed inventory для `available`, запрет
-> `confirmed → cancelled`, payload-free notification row) и инварианты P2.6
-> (одна живая переписка на buyer-сессию, ровно один финальный ответ
-> продавца, replay раньше проверки состояния сессии, очистка контента по
-> `expires_at`, `channel_addresses` не является authority, маркер авторства
-> продавца); до release обязательно вынеси в отдельную одобренную
-> security task ротацию и history cleanup plaintext admin credential из
-> `memory/test_credentials.md`, обновление уязвимых React Router/Fastify
-> chains и исправление Turnstile fail-open; не трогай
+> Agents webhook не deployed; следующий этап по ROADMAP — P3 «пилот», но он
+> операционный и заблокирован: сначала нужна отдельная одобренная владельцем
+> release/security-задача, закрывающая разделы 1–4
+> `SOTUVCHI_PRODUCTION_READINESS.md` (эта фаза отсутствует в ROADMAP — см.
+> `governance_gap` в `STATE.json`), и только затем push, deploy, migrations и
+> webhook по `SOTUVCHI_PILOT_RUNBOOK.md`; не изобретай вместо неё скрытую
+> feature-фазу; не переписывай checkout FSM и его инварианты (один item, один
+> активный draft, atomic conditional placement, PII только в
+> `sotuvchi_orders`), инварианты P2.5 (однократное списание, fail-closed
+> inventory для `available`, запрет `confirmed → cancelled`, payload-free
+> notification row), инварианты P2.6 (одна живая переписка на buyer-сессию,
+> ровно один финальный ответ продавца, replay раньше проверки состояния
+> сессии, очистка контента по `expires_at`, `channel_addresses` не является
+> authority, маркер авторства продавца) и инварианты P2.7 (события не
+> являются authority ни для одного доменного состояния, event-derived число
+> не выдаётся за точное, `/stats` owner-only и без параметров, публичный CTA
+> без угаданного bot username); до release обязательно вынеси в отдельную
+> одобренную security task ротацию и history cleanup plaintext admin
+> credential из `memory/test_credentials.md`, обновление уязвимых React
+> Router/Fastify chains и исправление Turnstile fail-open; не трогай
 > Lead/Javob/Tahlil/GPT/SEO/payment paths, не применяй migrations, не
 > настраивай webhook, не deploy и не push без отдельного явного разрешения.

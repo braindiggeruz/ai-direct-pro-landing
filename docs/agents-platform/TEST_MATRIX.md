@@ -34,7 +34,72 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | P2.3 | `tests/sotuvchi-buyer-qa.test.ts` | 39 | closed RU/UZ/mixed intents; extraction/price filter; channel-neutral cards; strict card grounding; session follow-up/idempotency; tenant negatives; offline Telegram buyer E2E |
 | P2.4 | `tests/sotuvchi-checkout.test.ts` | 36 | quantity/name/phone/address validation; migration+bootstrap parity; persistent FSM and restart; product eligibility and price revalidation; atomic single-item order; idempotency and fingerprint conflict; tenant negatives; PII-minimal Facts/grounding; offline Telegram RU/UZ checkout |
 | P2.5 | `tests/sotuvchi-orders-inventory.test.ts` | 37 | stock validation; status-pair derivation and transition table; migration+bootstrap parity; inventory persistence, movements, version conflicts and idempotency; seller list/detail PII separation; atomic confirm with single decrement; insufficient/missing stock fail-closed; unavailable and preorder policy; cancel/done/invalid transitions; notification intents and failure independence; Facts/grounding RU/UZ; tenant negatives; offline Telegram RU/UZ seller flow; no payment/multi-item |
+| P2.7 | `tests/sotuvchi-pilot-readiness.test.ts` | 36 | closed event catalogue; scalar-only payload; buyer text/contact/injection rejection; unknown event name refused; trusted org+request required; duplicate append once; cross-tenant event isolation; analytics failure never repeats the domain call; funnel derived from Facts only; `/stats` owner-only with buyer/foreign/disabled/other-identity negatives; spoofed store, org and window fail closed; empty state; exact counts vs domain tables; seven-day window boundary; funnel kept apart; repeat-safe; RU/UZ rendering with grounding and no PII; unsupported number rejected; command and action routing; RU/UZ landing pair, canonical, hreflang, sitemap eligibility, inbound links, CTA safety, bot-identity guard, no unsafe or fabricated claim; pilot check read-only, no secret output, fails closed, migration order 0013–0023, no new migration; setup never calls setWebhook without an explicit apply; runbook and checklist exist, keep blockers visible and carry no credential material |
 | P2.6 | `tests/sotuvchi-handoff.test.ts` | 40 | channel address bind/update/revoke per bot namespace and namespace isolation; bounded content RU/UZ; retention deadline, content clearing and unanswerable expiry; one open handoff per buyer session; escalation replay; content-free operation log; queue/detail PII separation and tenant negatives; durable unique reply target; repeated reply press; expired target; exactly one final reply, replay and concurrent-answer race; foreign seller negatives; close once and immutability; strict grounding RU/UZ with seller authorship marker; seller notice without question text; push once, buyer answer, failed delivery retry and missing address; P2.5 order intents through the same path; migration/bootstrap parity; offline Telegram RU/UZ E2E; no auto-escalation; no CRM/payment/attachment |
+
+## Post-change baseline P2.7
+
+| Проверка | Команда | Результат |
+|---|---|---|
+| App typecheck | `npx tsc -b` | exit 0 |
+| Production build | `npm run build` | exit 0; `dist/{ru,uz}/sotuvchi/index.html` созданы, обе в `sitemap.xml` |
+| SEO gate | `npx tsx scripts/seo-audit.ts` | 0 critical; 105 published; orphan 0 |
+| Sotuvchi pilot readiness | `node --import tsx --test tests/sotuvchi-pilot-readiness.test.ts` | 36/36 |
+| Sotuvchi handoff | `node --import tsx --test tests/sotuvchi-handoff.test.ts` | 40/40 |
+| Sotuvchi orders/inventory | `node --import tsx --test tests/sotuvchi-orders-inventory.test.ts` | 37/37 |
+| Sotuvchi checkout | `node --import tsx --test tests/sotuvchi-checkout.test.ts` | 36/36 |
+| Sotuvchi Buyer Q&A | `node --import tsx --test tests/sotuvchi-buyer-qa.test.ts` | 39/39 |
+| Sotuvchi catalog | `node --import tsx --test tests/sotuvchi-catalog.test.ts` | 54/54 |
+| Sotuvchi onboarding | `node --import tsx --test tests/sotuvchi-onboarding.test.ts` | 28/28 |
+| Telegram Agents | `node --import tsx --test tests/telegram-agents-webhook.test.ts` | 41/41 |
+| Agent Runtime | `node --import tsx --test tests/platform-runtime.test.ts` | 49/49 |
+| Workflow | `node --import tsx --test tests/platform-workflow.test.ts` | 39/39 |
+| Knowledge | `node --import tsx --test tests/platform-knowledge.test.ts` | 33/33 |
+| AI | `node --import tsx --test tests/platform-ai.test.ts` | 15/15 |
+| Tenancy | `node --import tsx --test tests/platform-tenancy.test.ts` | 31/31 |
+| Events | `node --import tsx --test tests/platform-events.test.ts` | 20/20 |
+| Boundaries | `node --import tsx --test tests/agent-boundaries.test.ts` | 10/10 |
+| Telegram compatibility | `node --import tsx --test tests/telegram-channel-compat.test.ts` | 1/1 |
+| Telegram assistant | `node --import tsx --test tests/telegram-assistant.test.ts` | 60/60 |
+| Web gpt-chat | `node --import tsx --test tests/gpt-chat.test.ts` | 15/15 |
+| Functions typecheck | `npx tsc -p tsconfig.functions.json --noEmit` | exit 2; exactly 27 legacy errors in 6 old files; 0 in platform/agents/channels |
+| P2.7 scoped lint | `npx eslint functions/agents/sotuvchi functions/platform/events functions/api/telegram/agents.ts src/shared/sotuvchi-config.ts scripts/sotuvchi-pilot-check.ts tests/sotuvchi-pilot-readiness.test.ts` | exit 0 |
+| Pilot check | `npx tsx scripts/sotuvchi-pilot-check.ts` | `blocked` (bot и env ещё не заданы); сетевых вызовов нет |
+| Boundary gate | `node --import tsx --test tests/agent-boundaries.test.ts` | 10/10; checker reports 0 violations |
+
+Обязательный post-P2.7 regression total: **584/584**.
+Полный repository total (25 suites): **662/662**.
+
+## P2.7 static verification
+
+- P2.7 не добавляет migration: события пишутся в существующую `events`
+  (migration `0013`), отчёт читает уже существующие domain-таблицы.
+- Каталог событий закрыт четырьмя именами; тест проверяет, что ни одно из них
+  не дублирует lifecycle-переход заказа, остатка или handoff.
+- Payload события — closed-list токены, boolean и bounded счётчики; вопрос
+  покупателя, номер телефона, SQL-подобная строка и слишком длинное значение
+  отклоняются, а таблица `events` при этом остаётся пустой.
+- Idempotency key — trusted channel `requestId`; повторный вызов даёт
+  `duplicate` и ровно одну строку.
+- Тест с падающим recorder подтверждает: доменный вызов выполняется ровно один
+  раз и не повторяется, событие не появляется.
+- `countEventsByType` всегда содержит предикат `org_id`: события одного org не
+  видны другому.
+- `/stats` отклоняет покупателя, чужого владельца, отключённое membership,
+  другую identity в том же чате, а также любой параметр в tool input.
+- Точные счётчики сверены с фактическим содержимым БД; окно 7 дней проверено
+  сдвигом строк за границу.
+- RU и UZ отчёты проходят strict grounding; подделанное число отклоняется;
+  в тексте нет имени, телефона, адреса, названия товара, org и store id.
+- Landing pages: взаимный canonical/hreflang, попадание в sitemap, входящие
+  внутренние ссылки, CTA не ведёт на lead/Javob-бот, отсутствие небезопасных и
+  выдуманных утверждений, наличие явного отказа от аффилиации.
+- `scripts/sotuvchi-pilot-check.ts` не печатает значения секретов, fail-closed
+  на пустой конфигурации, перечисляет `0013–0023` по возрастанию.
+- `telegram-agents-setup.ts setup --dry-run` вызывает `getMe` и никогда
+  `setWebhook`; token в URL логов не появляется.
+- Runbook и checklist существуют, содержат имена env без значений, не имеют
+  ни одного отмеченного пункта и не заявляют production ready.
 
 ## Post-change baseline P2.6
 
@@ -232,7 +297,10 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
   deploy не запускались.
 
 ## Правило следующего этапа
-P2.7 не имеет права уменьшить ни одно число выше. Functions gate допускает только
-те же 27 известных legacy errors и требует 0 ошибок в
-`functions/{platform,agents,channels}`. Новые/изменённые P2.7 файлы должны иметь
-scoped ESLint exit 0; direct boundary checker и все suites выше остаются зелёными.
+Следующий этап не имеет права уменьшить ни одно число выше. Functions gate
+допускает только те же 27 известных legacy errors и требует 0 ошибок в
+`functions/{platform,agents,channels}`. Новые/изменённые файлы должны иметь
+scoped ESLint exit 0; direct boundary checker и все suites выше остаются
+зелёными. Поскольку в репозитории теперь есть публичные страницы Sotuvchi,
+любое изменение `content/` дополнительно обязано проходить
+`npx tsx scripts/seo-audit.ts` без critical issues.
