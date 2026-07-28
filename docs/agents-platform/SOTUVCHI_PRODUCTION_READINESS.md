@@ -2,6 +2,15 @@
 
 Дата документа: 2026-07-28. Этап: P2.7 — Analytics и pilot readiness.
 
+## R0.1 local source evidence
+
+Code commit `6c0f723ccda2725acfd91e76f05276e64fe2fbb4` содержит проверенное
+локальное исправление React Router 7.x applicable advisories и GPT Chat
+Turnstile configured-secret/missing-token bypass, включая private Railway chat
+ingress. Это evidence для будущей human sign-off, но не production verification.
+По правилу checklist пункты ниже остаются `[ ]`: deploy, production smoke,
+Fastify hardening, credential response и CI release gates ещё не выполнены.
+
 > **Статус: RELEASE BLOCKED.** Ни один пункт этого списка не отмечен
 > автоматически. `[ ]` означает «не выполнено», и таким пункт остаётся, пока
 > ответственный человек не выполнит и не проверит его. Наличие кода в ветке не

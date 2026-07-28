@@ -37,6 +37,27 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | P2.7 | `tests/sotuvchi-pilot-readiness.test.ts` | 36 | closed event catalogue; scalar-only payload; buyer text/contact/injection rejection; unknown event name refused; trusted org+request required; duplicate append once; cross-tenant event isolation; analytics failure never repeats the domain call; funnel derived from Facts only; `/stats` owner-only with buyer/foreign/disabled/other-identity negatives; spoofed store, org and window fail closed; empty state; exact counts vs domain tables; seven-day window boundary; funnel kept apart; repeat-safe; RU/UZ rendering with grounding and no PII; unsupported number rejected; command and action routing; RU/UZ landing pair, canonical, hreflang, sitemap eligibility, inbound links, CTA safety, bot-identity guard, no unsafe or fabricated claim; pilot check read-only, no secret output, fails closed, migration order 0013–0023, no new migration; setup never calls setWebhook without an explicit apply; runbook and checklist exist, keep blockers visible and carry no credential material |
 | P2.6 | `tests/sotuvchi-handoff.test.ts` | 40 | channel address bind/update/revoke per bot namespace and namespace isolation; bounded content RU/UZ; retention deadline, content clearing and unanswerable expiry; one open handoff per buyer session; escalation replay; content-free operation log; queue/detail PII separation and tenant negatives; durable unique reply target; repeated reply press; expired target; exactly one final reply, replay and concurrent-answer race; foreign seller negatives; close once and immutability; strict grounding RU/UZ with seller authorship marker; seller notice without question text; push once, buyer answer, failed delivery retry and missing address; P2.5 order intents through the same path; migration/bootstrap parity; offline Telegram RU/UZ E2E; no auto-escalation; no CRM/payment/attachment |
 
+## Post-change baseline R0.1
+
+| Проверка | Команда | Результат |
+|---|---|---|
+| R0.1 web security | `npm run test:web-security` | 13/13 |
+| Railway GPT backend | `npm run test:gpt-backend` | 18/18 |
+| Required Agents baseline | file-by-file по списку P2.7 ниже | 584/584 |
+| Full repository | все `tests/*.test.ts` file-by-file | 676/676, 26 suites |
+| App typecheck | `npx tsc -b` | exit 0 |
+| Production build | `npm run build` | exit 0; SEO gate 0 critical, 105 published, sitemap 198 |
+| Railway backend | `npm --prefix apps/gpt-backend run typecheck` + `build` | exit 0 |
+| Functions typecheck | `npx tsc -p tsconfig.functions.json --noEmit` | exit 2; ровно 27 прежних errors в тех же 6 legacy files; 0 в изменённых/platform/agents/channels |
+| R0.1 scoped lint | changed R0.1 TypeScript/TSX files | exit 0 |
+| Boundary gate | test + direct checker | 10/10; 0 violations |
+| Dependency state | root production audit | Router 7.18.1; только RSC-only `GHSA-qwww-vcr4-c8h2` (current app has no RSC) |
+| Staged security review | code-review + security-guidance + credential scan | approved; 0 real credential patterns |
+
+Обязательный Agents baseline не изменился и остаётся **584/584**. R0.1 добавляет
+13 security regressions и один backend regression, поэтому полный total вырос с
+662 до **676/676**.
+
 ## Post-change baseline P2.7
 
 | Проверка | Команда | Результат |

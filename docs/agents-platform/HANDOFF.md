@@ -1,5 +1,36 @@
 # Актуальный master handoff
 
+## R0.1 relay checkpoint (2026-07-28)
+
+- Завершён этап **R0.1 — Web Security Hardening**.
+- Code commit: `6c0f723ccda2725acfd91e76f05276e64fe2fbb4`.
+- Следующий разрешённый этап: **R0.2 — Backend Dependency Hardening**. R0.3, R0.4,
+  R1 и P3 не начинались.
+- GPT Chat теперь проверяет configured Turnstile до Railway, quota, hashing и
+  provider work; missing/invalid/replayed/oversized token отклоняется, outage
+  закрывается с 503, action и hostname проверяются.
+- GPT Chat и admin login используют разные Turnstile actions (`gpt_chat` и
+  `admin_login`); одноразовый token не передаётся в Railway и не сохраняется.
+- Прямой Railway `/v1/gpt/chat` требует внутренний gateway secret.
+- React Router обновлён с 7.15.1 до 7.18.1 без major migration. Оставшийся
+  `GHSA-qwww-vcr4-c8h2` относится к RSC mode; приложение использует declarative
+  `BrowserRouter` и не использует RSC.
+- Verification: web-security 13/13, required Agents 584/584, весь repository
+  676/676 (26 suites), `npx tsc -b` и root build exit 0, Railway backend
+  typecheck/build exit 0, Functions ровно 27 прежних errors в тех же 6 legacy
+  files и 0 в изменённых/platform/agents/channels, scoped ESLint exit 0,
+  boundaries 10/10 и 0 violations.
+- До начала работы фактический HEAD был
+  `ebb07f5da86b36cba5df04658aedd3dc8df52bef`, `origin/main` и remote main —
+  `93fab390733d3d5ffbf052e211d95b6038ee4bbd`, divergence 25/0.
+- Push, deploy, migrations, webhook, secret rotation и любые другие
+  production-операции не выполнялись. Известные pre-existing untracked
+  `apps/gpt-backend/package-lock.json` и `gptbot.uz-audit/` не изменялись и не
+  staging'овались.
+
+Ниже сохранён подробный P2.7 handoff. При расхождении stage/commit/baseline
+приоритет имеют Git tree, `STATE.json` и этот R0.1 checkpoint.
+
 Полная фактическая карта repository, services, Agents Platform, Telegram,
 Sotuvchi, migrations, API, environment, tests, security, PII, production
 readiness и точные инструкции продолжения:

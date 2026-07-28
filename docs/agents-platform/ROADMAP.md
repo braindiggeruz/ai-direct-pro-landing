@@ -26,6 +26,24 @@
 - **P2.6 Human handoff** — очередь, уведомление, reply-мост, TTL текста вопроса, закрытие, события.
 - **P2.7 Analytics/pilot readiness** — события (§13 SOTUVCHI_PLAN), /stats, RU/UZ лендинги, setup-скрипт, runbook. Без платёжных интеграций.
 
+## R0 — release security gates
+
+- **R0.1 Web Security Hardening — completed locally.** React Router 7.x
+  hardening; GPT Chat/admin Turnstile enforcement, action/hostname isolation
+  and fail-closed client states; private Railway chat ingress. Без deploy,
+  migrations, webhook и secret operations.
+- **R0.2 Backend Dependency Hardening — next.** Railway/Fastify production
+  dependency chain only; не расширять в credential incident или rollout.
+- **R0.3 Credential Incident Response.** Rotation/revocation, tracked material,
+  согласованная history cleanup и downstream coordination.
+- **R0.4 Release Preparation.** CI secret/SAST/dependency gates, release
+  evidence, backups, migration/runbook approval.
+
+## R1 — Production Rollout
+
+Только после R0.1–R0.4: отдельная авторизация на push/deploy, migrations,
+environment/secrets, webhook setup, production smoke и rollback evidence.
+
 ## P3 — пилот (без симуляции рынка в коде)
 Onboarding runbook, pilot dashboard, feedback-форма, incident handling, weekly metrics.
 

@@ -1,27 +1,28 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P2.7",
+  "current_stage": "R0.1",
   "stage_status": "completed",
-  "last_completed_stage": "P2.7",
-  "next_stage": "P3",
-  "next_stage_note": "ROADMAP defines P3 as the pilot phase (onboarding runbook, pilot dashboard, feedback form, incident handling, weekly metrics). P3 is operational: it requires push, deploy, applied migrations and a webhook, all of which stay blocked until a separate owner-approved release/security task exists. See governance_gap.",
-  "governance_gap": "The roadmap has no security/release stage between P2.7 and P3, yet the tracked credential incident, the vulnerable dependency chains and the Turnstile fail-open are hard release blockers. That stage must be defined and approved by the owner before any P3 work starts; do not invent a hidden feature stage instead.",
-  "last_commit": "6dccec2095ba483779fbded77c08d8030eca5b4d",
+  "last_completed_stage": "R0.1",
+  "next_stage": "R0.2",
+  "next_stage_note": "R0.2 is Backend Dependency Hardening only. Do not start R0.3, R0.4, R1 or P3, and do not perform push, deploy, migration, webhook or secret operations without a separately authorized phase.",
+  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 is complete locally; release remains blocked by the later gates.",
+  "last_commit": "6c0f723ccda2725acfd91e76f05276e64fe2fbb4",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
   "previous_stage": {
-    "stage": "P2.6",
-    "last_commit": "8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79",
-    "state_commit": "841836a7a3e81e7c2ecb49d86d31297474484c5d"
+    "stage": "P2.7",
+    "last_commit": "6dccec2095ba483779fbded77c08d8030eca5b4d",
+    "state_commit": "ebb07f5da86b36cba5df04658aedd3dc8df52bef"
   },
   "updated_at": "2026-07-28",
   "blocked": false,
   "blockers": [],
   "baseline": {
-    "build": "tsc -b exit 0; npm run build exit 0 (seo-audit gate, vite, prerender, sitemap)",
-    "tests": "pass: sotuvchi-pilot-readiness 36/36 (new), sotuvchi-handoff 40/40, sotuvchi-orders-inventory 37/37, sotuvchi-checkout 36/36, sotuvchi-buyer-qa 39/39, sotuvchi-catalog 54/54, sotuvchi-onboarding 28/28, telegram-agents-webhook 41/41, platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15; total required 584/584; full repository 662/662",
-    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "P2.7 Sotuvchi/platform-events/endpoint/config/script/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
+    "build": "tsc -b exit 0; npm run build exit 0 (seo-audit gate, Vite 8.0.14, prerender, sitemap); Railway backend typecheck and build exit 0",
+    "tests": "pass: R0.1 web-security-hardening 13/13; gpt-backend 18/18; unchanged required Agents baseline 584/584; full repository 676/676 across 26 suites",
+    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in the same 6 old files, 0 in changed files and 0 in platform/agents/channels (D-007)",
+    "lint": "R0.1 changed-file scoped eslint exit 0; boundaries 10/10 and checker 0 violations; global eslint remains legacy-red per KNOWN_ISSUES",
+    "security": "Turnstile is enforced before GPT Chat Railway/provider work when configured; action/hostname are verified and chat/admin actions are isolated; direct Railway chat requires the internal gateway secret; React Router is 7.18.1. npm audit retains only GHSA-qwww-vcr4-c8h2, an RSC-mode advisory not applicable to this declarative BrowserRouter application. No production operation was performed."
   }
 }

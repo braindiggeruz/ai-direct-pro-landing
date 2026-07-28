@@ -1,5 +1,21 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
+## R0.1 checkpoint
+
+Локально закрыты два исходных web release blockers:
+
+- React Router 7.15.1 обновлён до 7.18.1. В production audit остаётся только
+  `GHSA-qwww-vcr4-c8h2`: advisory относится к React Server Components mode,
+  которого в текущем declarative BrowserRouter приложении нет. Major upgrade
+  ради неприменимого пути в R0.1 не выполнялся.
+- GPT Chat configured-secret/missing-token bypass закрыт. Turnstile идёт до
+  Railway/quota/provider, проверяет action/hostname, fail-closed на
+  invalid/replay/outage; direct Railway chat требует gateway secret.
+
+Не закрыты и не входят в R0.1: Fastify/Railway dependency chain (R0.2),
+credential incident и Git history (R0.3), CI/release preparation (R0.4),
+production rollout (R1). Release остаётся заблокирован.
+
 ## Legacy lint-долг (`npx eslint .` = 84 problems, 71 errors) — файлы:
 apps/gpt-backend/src/routes/{admin,chat}.ts · functions/api/admin/seo/cannibalization/{analyze,retarget}.ts ·
 functions/api/payments/webhook.ts · functions/lib/ai-drafts/ctr-boost-runner.ts ·

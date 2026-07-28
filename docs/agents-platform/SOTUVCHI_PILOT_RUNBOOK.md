@@ -2,6 +2,20 @@
 
 Дата документа: 2026-07-28. Этап: P2.7 — Analytics и pilot readiness.
 
+## R0.1 local source checkpoint
+
+R0.1 локально закрыл React Router 7.x applicable advisories и GPT Chat
+configured-secret/missing-token Turnstile bypass. Direct Railway chat ingress
+также закрыт internal gateway secret. Это только source evidence:
+
+- production не менялся и smoke не выполнялся;
+- Fastify/Railway dependencies остаются R0.2;
+- credential incident остаётся R0.3;
+- CI/release preparation остаётся R0.4;
+- rollout остаётся R1.
+
+Поэтому release по этому runbook по-прежнему заблокирован.
+
 > **Ни один шаг этого документа ещё не выполнен.** Документ описывает, что
 > нужно будет сделать, когда владелец даст отдельное разрешение на release.
 > На момент написания push, deploy, применение migrations и настройка webhook

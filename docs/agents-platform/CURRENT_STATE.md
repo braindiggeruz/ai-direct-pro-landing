@@ -1,4 +1,31 @@
-# CURRENT_STATE — фактическое состояние репозитория (2026-07-28, P2.7)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-28, R0.1)
+
+## R0.1 Web Security Hardening
+
+- R0.1 code commit:
+  `6c0f723ccda2725acfd91e76f05276e64fe2fbb4`.
+- Turnstile enforcement выполняется на Cloudflare edge до Railway/local
+  provider work, если configured server secret объявляет challenge
+  обязательным. Клиент загружает public config, работает fail-closed при
+  config/widget error и отправляет одноразовый token только на edge.
+- Siteverify проверяет success, exact action и request hostname, ограничивает
+  token 2048 символами и timeout 5 секунд. GPT Chat и admin login разделены
+  actions `gpt_chat`/`admin_login`.
+- Direct Railway chat ingress закрыт internal gateway secret до body/provider
+  processing. Turnstile token удаляется из proxy body.
+- Root React Router находится на 7.18.1. Исправленные 7.x advisories больше не
+  присутствуют в production audit; остаётся RSC-only
+  `GHSA-qwww-vcr4-c8h2`, неприменимый к текущему declarative BrowserRouter
+  приложению без RSC.
+- GPT Chat RU/UZ, Sotuvchi RU/UZ, canonical redirects, 404 и public navigation
+  не переведены на Router и не изменены. Admin deep routes и wildcard fallback
+  проверены на 7.18.1.
+- Baseline: required Agents 584/584; весь repository 676/676; R0.1 suite 13/13;
+  root TypeScript/build, backend TypeScript/build и scoped ESLint exit 0;
+  Functions сохраняет ровно 27 legacy errors в тех же 6 файлах и 0 новых;
+  boundaries 10/10, checker 0 violations.
+- Production не изменялся: push/deploy/migrations/webhook/secrets не
+  выполнялись. Следующий этап — только R0.2.
 
 ## Production boundary
 

@@ -1,5 +1,30 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-022 (2026-07-28, R0.1) Edge-first abuse control, isolated Turnstile actions и private Railway ingress
+
+R0.1 сохраняет существующую optional-configuration policy Turnstile, но
+устраняет fail-open при configured secret: объявленный server secret означает,
+что каждый GPT Chat request обязан иметь валидный одноразовый token. Проверка
+выполняется на Cloudflare edge до Railway, quota, IP hashing, D1 и provider
+work. Network/non-2xx Siteverify error не включает fallback provider path.
+
+Siteverify success недостаточен сам по себе: проверяются exact action и request
+hostname. GPT Chat использует `gpt_chat`, admin login — `admin_login`; token
+одного flow не может быть принят другим. Token ограничен по длине, живёт только
+в React state, очищается после попытки и удаляется из Railway proxy body.
+Public config раскрывает только required flag и public site key.
+
+Railway `/v1/gpt/chat` является private costly ingress и до Origin/body/provider
+проверяет constant-time internal gateway secret. Это не меняет Supabase,
+provider, quota или плановую семантику и не является R0.2 dependency upgrade.
+
+React Router обновлён в пределах 7.x до 7.18.1. Admin route constants и deep
+route/wildcard regression связывают тест с реальным `AdminApp`. Public GPT
+Chat/Sotuvchi/404/canonical routing остаётся вне Router. Оставшийся
+`GHSA-qwww-vcr4-c8h2` документирован как RSC-only и неприменимый, пока приложение
+не использует React Server Components; major migration отложена до реальной
+applicability.
+
 ## D-021 (2026-07-28, P2.7) Domain tables как source-of-truth статистики, content-free best-effort события и owner-only `/stats`
 
 P2.7 делает Sotuvchi измеримым и операционно готовым к пилоту. Payments, CRM,
