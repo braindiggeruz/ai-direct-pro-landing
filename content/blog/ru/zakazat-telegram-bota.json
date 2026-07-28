@@ -512,6 +512,32 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Для подготовки используйте четыре практических руководства: {tz} фиксирует требования, {stages} показывает процесс, {testing} помогает принять готовый проект, а {support} определяет работу после запуска.",
+      "links": [
+        {
+          "token": "tz",
+          "target": "/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+          "anchor": "шаблон ТЗ на Telegram-бота"
+        },
+        {
+          "token": "stages",
+          "target": "/ru/blog/etapy-razrabotki-telegram-bota/",
+          "anchor": "этапы разработки Telegram-бота"
+        },
+        {
+          "token": "testing",
+          "target": "/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+          "anchor": "чек-лист тестирования"
+        },
+        {
+          "token": "support",
+          "target": "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+          "anchor": "поддержку после запуска"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Telegram-бот, сайт и CRM: почему лучше думать системой"
     },
@@ -683,6 +709,22 @@
     {
       "target": "/ru/blog/kak-sozdat-telegram-bota/",
       "anchor": "Как создать Telegram-бота самостоятельно"
+    },
+    {
+      "target": "/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+      "anchor": "Техническое задание на Telegram-бота"
+    },
+    {
+      "target": "/ru/blog/etapy-razrabotki-telegram-bota/",
+      "anchor": "Этапы разработки Telegram-бота"
+    },
+    {
+      "target": "/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+      "anchor": "Тестирование Telegram-бота перед запуском"
+    },
+    {
+      "target": "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+      "anchor": "Поддержка Telegram-бота после запуска"
     }
   ],
   "ogTitle": "Заказать Telegram-бота: сценарии, цена и разработка",
@@ -694,13 +736,13 @@
   "robotsFollow": true,
   "author": "GPTBot.uz",
   "datePublished": "2026-07-15",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-07-28",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-07-28T00:00:00.000Z",
   "createdAt": "2026-07-15",
   "sources": [
     {
