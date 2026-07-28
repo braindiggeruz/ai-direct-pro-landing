@@ -32,7 +32,9 @@
     "telegram:status": "tsx scripts/telegram-setup.ts status",
     "telegram:remove-webhook": "tsx scripts/telegram-setup.ts remove-webhook",
     "javob:eval": "tsx scripts/javob-eval.ts",
-    "javob:eval:live": "tsx scripts/javob-eval.ts --live"
+    "javob:eval:live": "tsx scripts/javob-eval.ts --live",
+    "scan:secrets": "tsx scripts/scan-secrets.ts",
+    "test:secret-scan": "node --import tsx --test tests/secret-scan.test.ts"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",

@@ -13,6 +13,16 @@ build/
 .dev.vars.*
 *.local
 
+# Credential notes (R0.3). These are local-only working files. Real values
+# belong in Cloudflare Pages / Railway / Supabase secret storage, never here.
+# Narrow on purpose: this blocks the known credential-note filenames, it is not
+# a blanket rule that would hide an unrelated leak from review.
+test_credentials.md
+**/test_credentials.md
+credentials.md
+**/credentials.md
+*.credentials.md
+
 # Local coding-agent state and connector configuration
 .agents/
 .claude/

@@ -19,8 +19,10 @@ const { loadConfig } = await import('../apps/gpt-backend/src/env.ts');
 const { loggerOptions } = await import('../apps/gpt-backend/src/logger.ts');
 const { Store } = await import('../apps/gpt-backend/src/store.ts');
 
-const GATEWAY_SECRET = 'internal-gateway-secret-value-r02';
-const ADMIN_KEY = 'admin-api-key-value-r02';
+// Synthetic fixtures. Kept digit-free so the repository secret gate does not
+// have to carry an exemption for this file.
+const GATEWAY_SECRET = 'internal-gateway-secret-fixture';
+const ADMIN_KEY = 'admin-api-key-fixture';
 const ORIGIN = 'https://gptbot.uz';
 
 /** Store that records every method call, so "no mutation" can be proven. */
