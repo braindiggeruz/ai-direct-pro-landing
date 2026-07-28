@@ -17,6 +17,7 @@ import SeoAutopilotControlCenter from './pages/SeoAutopilotControlCenter';
 import { Sidebar } from './components/Sidebar';
 import { AdminErrorBoundary } from './components/AdminErrorBoundary';
 import { api, getToken } from './lib/api';
+import { ADMIN_HOME, ADMIN_ROUTE_PATHS } from './routes';
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const [ok, setOk] = useState<null | boolean>(null);
@@ -53,23 +54,23 @@ export default function AdminApp() {
   return (
     <AdminErrorBoundary>
       <Routes>
-        <Route path="login" element={<Login />} />
+        <Route path={ADMIN_ROUTE_PATHS.login} element={<Login />} />
         <Route index element={<RequireAuth><Shell><Cockpit/></Shell></RequireAuth>} />
-        <Route path="pages" element={<RequireAuth><Shell><PagesList/></Shell></RequireAuth>} />
-        <Route path="pages/new" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
-        <Route path="pages/:locale/:slug" element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
-        <Route path="blog" element={<RequireAuth><Shell><BlogList/></Shell></RequireAuth>} />
-        <Route path="blog/new" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
-        <Route path="blog/:locale/:slug" element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
-        <Route path="ai-drafts" element={<RequireAuth><Shell><AiDraftsList/></Shell></RequireAuth>} />
-        <Route path="ai-drafts/:id" element={<RequireAuth><Shell><AiDraftDetail/></Shell></RequireAuth>} />
-        <Route path="seo-autopilot" element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
-        <Route path="internal-links" element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
-        <Route path="seo-booster" element={<RequireAuth><Shell><SeoBooster/></Shell></RequireAuth>} />
-        <Route path="indexnow" element={<RequireAuth><Shell><IndexNowPanel/></Shell></RequireAuth>} />
-        <Route path="redirects" element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
-        <Route path="settings" element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
-        <Route path="*" element={<Navigate to="/admin-tools" replace/>} />
+        <Route path={ADMIN_ROUTE_PATHS.pages} element={<RequireAuth><Shell><PagesList/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.pageNew} element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.pageEdit} element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.blog} element={<RequireAuth><Shell><BlogList/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.blogNew} element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.blogEdit} element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.drafts} element={<RequireAuth><Shell><AiDraftsList/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.draftDetail} element={<RequireAuth><Shell><AiDraftDetail/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.seoAutopilot} element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.internalLinks} element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.seoBooster} element={<RequireAuth><Shell><SeoBooster/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.indexNow} element={<RequireAuth><Shell><IndexNowPanel/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.redirects} element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.settings} element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.fallback} element={<Navigate to={ADMIN_HOME} replace/>} />
       </Routes>
     </AdminErrorBoundary>
   );

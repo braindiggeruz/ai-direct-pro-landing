@@ -40,6 +40,11 @@ export function internalHeader(req: FastifyRequest): string | undefined {
   return Array.isArray(v) ? v[0] : v;
 }
 
+/** Costly Railway ingress is private to the Cloudflare gateway. */
+export function isInternalGatewayRequest(req: FastifyRequest, cfg: BackendConfig): boolean {
+  return hasInternalSecret(internalHeader(req), cfg.internalSecret);
+}
+
 export function adminHeader(req: FastifyRequest): string | undefined {
   const v = req.headers['x-admin-key'] ?? req.headers['x-internal-secret'];
   return Array.isArray(v) ? v[0] : v;

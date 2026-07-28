@@ -3,6 +3,12 @@ import type { Env } from '../../_types';
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   return new Response(JSON.stringify({
+    turnstileRequired: !!env.TURNSTILE_SECRET_KEY,
     turnstileSiteKey: env.TURNSTILE_SITE_KEY || null,
-  }), { headers: { 'Content-Type': 'application/json' } });
+  }), {
+    headers: {
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+    },
+  });
 };

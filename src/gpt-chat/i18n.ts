@@ -26,6 +26,11 @@ export interface ChatStrings {
   thinking: string;
   errorGeneric: string;
   errorNetwork: string;
+  turnstileLoading: string;
+  turnstilePrompt: string;
+  turnstileVerified: string;
+  turnstileRetry: string;
+  turnstileError: string;
   stop: string;
   regenerate: string;
   pricingLink: string;
@@ -100,6 +105,11 @@ const RU: ChatStrings = {
   thinking: 'AI думает…',
   errorGeneric: 'AI-сервис временно недоступен. Попробуйте немного позже.',
   errorNetwork: 'Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.',
+  turnstileLoading: 'Загружаем проверку безопасности…',
+  turnstilePrompt: 'Подтвердите, что вы человек, перед отправкой сообщения.',
+  turnstileVerified: 'Проверка пройдена. Сообщение можно отправить.',
+  turnstileRetry: 'Проверка истекла или уже использована. Выполните её ещё раз.',
+  turnstileError: 'Проверка безопасности недоступна. Обновите страницу.',
   stop: 'Остановить',
   regenerate: 'Повторить ответ',
   pricingLink: 'Тарифы',
@@ -195,6 +205,11 @@ const UZ: ChatStrings = {
   thinking: 'AI o‘ylayapti…',
   errorGeneric: 'AI xizmati vaqtincha ishlamayapti. Birozdan keyin qayta urinib ko‘ring.',
   errorNetwork: 'Javobni olish imkoni bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.',
+  turnstileLoading: 'Xavfsizlik tekshiruvi yuklanmoqda…',
+  turnstilePrompt: 'Xabar yuborishdan oldin inson ekaningizni tasdiqlang.',
+  turnstileVerified: 'Tekshiruv yakunlandi. Xabarni yuborishingiz mumkin.',
+  turnstileRetry: 'Tekshiruv muddati tugagan yoki avval ishlatilgan. Qayta bajaring.',
+  turnstileError: 'Xavfsizlik tekshiruvi ishlamayapti. Sahifani yangilang.',
   stop: 'To‘xtatish',
   regenerate: 'Javobni qayta yaratish',
   pricingLink: 'Tariflar',

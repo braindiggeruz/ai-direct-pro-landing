@@ -13,7 +13,7 @@ import { readUsage, recordUsage, decideQuota } from '../../lib/gpt-chat/quota';
 import { buildMessages, type ChatMessage } from '../../lib/gpt-chat/prompt';
 import { chatComplete } from '../../lib/gpt-chat/openrouter-chat';
 import { chatStreamStart, parseSseChunk } from '../../lib/gpt-chat/openrouter-stream';
-import { verifyTurnstile } from '../../lib/turnstile';
+import { checkTurnstile } from '../../lib/turnstile';
 import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
 
 interface ChatBody {
@@ -28,35 +28,44 @@ interface ChatBody {
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   const cfg = resolveConfig(env);
-  const bodyText = await request.clone().text();
   const body = await readJson<ChatBody>(request);
   if (!body) return fail('bad_json', 'Invalid JSON body');
   const wantStream = body.stream === true;
 
-  // Prefer the Railway backend (Supabase-backed) when configured — JSON mode
-  // only; streaming always runs the local path. On any transport failure or
-  // 5xx, fall through to the local D1 implementation so chat never breaks.
-  if (!wantStream) {
-    const g = await proxyToRailway(env, request, '/v1/gpt/chat', { bodyText });
-    if (g.proxied && g.response) return relay(g.response);
-  }
-
   const msg = validateMessage(body.message, cfg.maxInputChars);
   if (!msg.ok) return fail('invalid_message', msg.error || 'invalid message');
+
+  const ip = getClientIp(request);
+  if (env.TURNSTILE_SECRET_KEY) {
+    const turnstile = await checkTurnstile(env, body.turnstileToken, ip, {
+      expectedAction: 'gpt_chat',
+      expectedHostname: new URL(request.url).hostname,
+    });
+    if (!turnstile.ok) {
+      if (turnstile.reason === 'unavailable') {
+        return fail('turnstile_unavailable', 'Проверка временно недоступна. Попробуйте ещё раз.', 503);
+      }
+      return fail('turnstile_failed', 'Проверка не пройдена. Выполните её ещё раз.', 403);
+    }
+  }
+
+  // Prefer the Railway backend (Supabase-backed) when configured — JSON mode
+  // only; streaming always runs the local path. Turnstile must run first.
+  // The single-use token is edge-only and must not be relayed or logged.
+  if (!wantStream) {
+    const railwayBody = { ...body };
+    delete railwayBody.turnstileToken;
+    const g = await proxyToRailway(env, request, '/v1/gpt/chat', {
+      bodyText: JSON.stringify(railwayBody),
+    });
+    if (g.proxied && g.response) return relay(g.response);
+  }
 
   const locale = normLocale(body.locale);
   const sessionId = typeof body.sessionId === 'string' && body.sessionId ? body.sessionId.slice(0, 64) : genId('sess');
   const plan: 'free' | 'paid' = 'free'; // MVP: anonymous users are free tier
   const db = env.GPTBOT_DRAFTS_DB;
-  const ip = getClientIp(request);
   const hashedIp = await hashIp(ip, cfg.hashSalt);
-
-  // Turnstile is optional; verifyTurnstile returns true when unconfigured.
-  // Only enforced when a token is supplied OR the secret is set.
-  if (env.TURNSTILE_SECRET_KEY && body.turnstileToken) {
-    const okTs = await verifyTurnstile(env, body.turnstileToken, ip);
-    if (!okTs) return fail('turnstile_failed', 'Проверка не пройдена. Обновите страницу.', 403);
-  }
 
   // Quota (DB-backed; skipped only if no D1 binding at all).
   if (db) {

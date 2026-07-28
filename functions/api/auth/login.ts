@@ -24,7 +24,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   // Turnstile (optional)
-  const turnstileOk = await verifyTurnstile(env, turnstileToken, ip);
+  const turnstileOk = await verifyTurnstile(env, turnstileToken, ip, {
+    expectedAction: 'admin_login',
+    expectedHostname: new URL(request.url).hostname,
+  });
   if (!turnstileOk) return json({ error: 'Captcha verification failed' }, 403);
 
   // Email check

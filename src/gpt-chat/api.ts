@@ -10,6 +10,29 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
   return (await res.json()) as T;
 }
 
+export interface TurnstilePublicConfig {
+  required: boolean;
+  siteKey: string | null;
+}
+
+export async function fetchTurnstileConfig(apiBase: string): Promise<TurnstilePublicConfig> {
+  const res = await fetch(`${apiBase}/api/auth/config`, {
+    headers: { Accept: 'application/json' },
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error('turnstile config unavailable');
+  const data = await res.json() as {
+    turnstileRequired?: unknown;
+    turnstileSiteKey?: unknown;
+  };
+  return {
+    required: data.turnstileRequired === true,
+    siteKey: typeof data.turnstileSiteKey === 'string' && data.turnstileSiteKey
+      ? data.turnstileSiteKey
+      : null,
+  };
+}
+
 export async function createSession(apiBase: string, locale: Locale): Promise<string | null> {
   try {
     const data = await postJson<{ ok: boolean; sessionId?: string }>(`${apiBase}/api/gpt/session`, {
@@ -53,7 +76,7 @@ export type StreamOutcome =
 // returned for the regular non-stream handling path.
 export async function sendChatStream(
   apiBase: string,
-  params: { sessionId: string | null; message: string; locale: Locale; history: ChatMessage[] },
+  params: { sessionId: string | null; message: string; locale: Locale; history: ChatMessage[]; turnstileToken?: string },
   cb: StreamCallbacks,
   signal: AbortSignal,
 ): Promise<StreamOutcome> {
@@ -67,6 +90,7 @@ export async function sendChatStream(
         message: params.message,
         locale: params.locale,
         history: params.history.map((m) => ({ role: m.role, content: m.content })),
+        turnstileToken: params.turnstileToken,
         stream: true,
       }),
       signal,

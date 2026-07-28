@@ -9,8 +9,8 @@
 //   ADMIN_PASSWORD_HASH     PBKDF2-SHA256 PHC string. Preferred.
 //   ADMIN_PASSWORD          fallback plain password (DEV ONLY, do NOT set in prod).
 //   JWT_SECRET              random >=32-char string for HS256 signing
-//   TURNSTILE_SECRET_KEY    optional. Server side. Skips verify if unset.
-//   TURNSTILE_SITE_KEY      optional. Public. Exposed by /api/auth/config to the SPA.
+//   TURNSTILE_SECRET_KEY    optional. Server side. Enforced for GPT Chat when set.
+//   TURNSTILE_SITE_KEY      optional. Public. Exposed by /api/auth/config to the SPAs.
 //
 //   OPENROUTER_API_KEY      optional. Server-side LLM key for AI-fill (never exposed to client).
 //   OPENROUTER_MODEL_ECONOMY  optional. Defaults to openai/gpt-4o-mini.

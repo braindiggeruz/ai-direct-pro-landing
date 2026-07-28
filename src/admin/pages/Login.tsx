@@ -3,15 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { api, setToken, getToken } from '../lib/api';
 import { Button, Card, Input, Label } from '../components/ui';
 import { LogIn } from 'lucide-react';
-
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (el: HTMLElement, opts: { sitekey: string; callback: (t: string) => void; 'error-callback'?: () => void; theme?: string }) => string;
-      reset: (id?: string) => void;
-    };
-  }
-}
+import { loadTurnstile, responsiveTurnstileSize } from '../../shared/turnstile';
 
 export default function Login() {
   const nav = useNavigate();
@@ -20,56 +12,97 @@ export default function Login() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [siteKey, setSiteKey] = useState<string | null>(null);
+  const [turnstileRequired, setTurnstileRequired] = useState(false);
+  const [configState, setConfigState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [challengeState, setChallengeState] = useState<'idle' | 'loading' | 'ready' | 'verified' | 'error'>('idle');
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
 
   useEffect(() => {
     if (getToken()) { nav('/admin-tools/', { replace: true }); return; }
-    void api.config().then((c) => setSiteKey(c.turnstileSiteKey || null)).catch(() => { /* ignore */ });
+    void api.config().then((c) => {
+      const nextSiteKey = c.turnstileSiteKey || null;
+      setTurnstileRequired(c.turnstileRequired);
+      setSiteKey(nextSiteKey);
+      setConfigState('ready');
+      setChallengeState(c.turnstileRequired && nextSiteKey ? 'loading' : 'idle');
+      if (c.turnstileRequired && !nextSiteKey) {
+        setErr('Captcha is required but not configured. Contact the administrator.');
+      }
+    }).catch(() => {
+      setTurnstileRequired(true);
+      setConfigState('error');
+      setErr('Security configuration failed to load. Please refresh the page.');
+    });
   }, [nav]);
 
   // Load Turnstile script once we know there is a site key
   useEffect(() => {
-    if (!siteKey) return;
-    if (document.querySelector('script[data-turnstile]')) {
-      tryRender();
-      return;
-    }
-    const s = document.createElement('script');
-    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-    s.async = true; s.defer = true; s.setAttribute('data-turnstile', '1');
-    s.onload = tryRender;
-    document.head.appendChild(s);
-
-    function tryRender() {
-      if (!window.turnstile || !turnstileRef.current || !siteKey) { setTimeout(tryRender, 200); return; }
+    if (!turnstileRequired || !siteKey) return;
+    let cancelled = false;
+    void loadTurnstile().then((turnstile) => {
+      if (cancelled || !turnstileRef.current) return;
       if (widgetId.current) return;
-      widgetId.current = window.turnstile.render(turnstileRef.current, {
+      setChallengeState('ready');
+      widgetId.current = turnstile.render(turnstileRef.current, {
         sitekey: siteKey,
+        action: 'admin_login',
         theme: 'dark',
-        callback: (t: string) => setTurnstileToken(t),
-        'error-callback': () => setTurnstileToken(null),
+        size: responsiveTurnstileSize(),
+        callback: (token: string) => {
+          setTurnstileToken(token);
+          setChallengeState('verified');
+          setErr((current) => current?.startsWith('Captcha expired') ? null : current);
+        },
+        'expired-callback': () => {
+          setTurnstileToken(null);
+          setChallengeState('ready');
+          setErr('Captcha expired. Please complete it again.');
+        },
+        'error-callback': () => {
+          setTurnstileToken(null);
+          setChallengeState('error');
+          setErr('Captcha failed to load. Please refresh the page.');
+        },
       });
-    }
-  }, [siteKey]);
+    }).catch(() => {
+      setChallengeState('error');
+      setErr('Captcha failed to load. Please refresh the page.');
+    });
+    return () => {
+      cancelled = true;
+      if (window.turnstile && widgetId.current) window.turnstile.remove(widgetId.current);
+      widgetId.current = null;
+    };
+  }, [siteKey, turnstileRequired]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setBusy(true); setErr(null);
+    if (configState !== 'ready') {
+      setErr('Security configuration is unavailable. Please refresh the page.');
+      return;
+    }
+    if (turnstileRequired && (!siteKey || challengeState === 'error')) {
+      setErr('Captcha is unavailable. Please refresh the page.');
+      return;
+    }
+    if (turnstileRequired && !turnstileToken) {
+      setErr('Please complete the captcha first.');
+      return;
+    }
+    setBusy(true);
+    setErr(null);
     try {
-      if (siteKey && !turnstileToken) {
-        setErr('Please complete the captcha first.');
-        setBusy(false); return;
-      }
       const r = await api.login(email, password, turnstileToken || undefined);
       setToken(r.token);
       nav('/admin-tools/');
     } catch (e) {
       setErr((e as Error).message);
-      if (siteKey && window.turnstile && widgetId.current) {
+      if (turnstileRequired && window.turnstile && widgetId.current) {
         window.turnstile.reset(widgetId.current);
         setTurnstileToken(null);
+        setChallengeState('ready');
       }
     } finally {
       setBusy(false);
@@ -95,11 +128,25 @@ export default function Login() {
               <Label>Password</Label>
               <Input data-testid="login-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" />
             </div>
-            {siteKey && (
-              <div className="flex justify-center"><div ref={turnstileRef} data-testid="login-turnstile" /></div>
+            {turnstileRequired && siteKey && (
+              <div className="flex w-full min-w-0 flex-col items-center gap-2">
+                <div ref={turnstileRef} data-testid="login-turnstile" className="flex w-full min-w-0 justify-center" />
+                <div className="text-center text-xs text-white/50" role="status" aria-live="polite">
+                  {challengeState === 'loading'
+                    ? 'Loading security check…'
+                    : challengeState === 'verified'
+                      ? 'Security check complete.'
+                      : 'Complete the security check to sign in.'}
+                </div>
+              </div>
             )}
             {err && <div data-testid="login-error" className="text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-sm">{err}</div>}
-            <Button data-testid="login-submit-button" type="submit" disabled={busy} className="w-full justify-center">
+            <Button
+              data-testid="login-submit-button"
+              type="submit"
+              disabled={busy || configState !== 'ready' || (turnstileRequired && (!turnstileToken || challengeState === 'error'))}
+              className="w-full justify-center"
+            >
               <LogIn size={16} /> {busy ? 'Signing in…' : 'Sign in'}
             </Button>
           </form>

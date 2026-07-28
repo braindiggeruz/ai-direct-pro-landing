@@ -65,7 +65,7 @@ async function request<T>(method: string, path: string, body?: unknown, opts?: {
 }
 
 export const api = {
-  config: () => request<{ turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
+  config: () => request<{ turnstileRequired: boolean; turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
   login: (email: string, password: string, turnstileToken?: string) => request<{ token: string; email: string; role: string }>('POST', '/api/auth/login', { email, password, turnstileToken }),
   me: () => request<{ email: string; role: string }>('GET', '/api/auth/me'),
   getContent: () => request<{ pages: any[]; blog: any[]; global: any; redirects: any[]; internalLinks: any[] }>('GET', '/api/content'),

@@ -10,7 +10,7 @@ import { resolvePlan, decideQuota, modelChain, PLANS } from '../apps/gpt-backend
 import { detectIntent, sessionTitle, buildMessages } from '../apps/gpt-backend/src/prompt.ts';
 import { buildBody } from '../apps/gpt-backend/src/openrouter.ts';
 import { hashIp, clientIp, hashToken } from '../apps/gpt-backend/src/hash.ts';
-import { originAllowed, hasInternalSecret, isAdmin, bearer } from '../apps/gpt-backend/src/auth.ts';
+import { originAllowed, hasInternalSecret, isAdmin, bearer, isInternalGatewayRequest } from '../apps/gpt-backend/src/auth.ts';
 import { gatewayConfigured } from '../functions/lib/gpt-chat/gateway.ts';
 
 // ── env mapping ──────────────────────────────────────────
@@ -139,6 +139,17 @@ test('hasInternalSecret / isAdmin: constant-time, reject missing/mismatch', () =
   assert.equal(hasInternalSecret('abc', undefined), false);
   assert.equal(isAdmin('key', 'key'), true);
   assert.equal(isAdmin('x', 'key'), false);
+});
+
+test('Railway costly ingress requires the configured internal gateway secret', () => {
+  const req = (value?: string) => ({
+    headers: value ? { 'x-internal-secret': value } : {},
+  }) as never;
+  const cfg = (secret?: string) => ({ internalSecret: secret }) as never;
+  assert.equal(isInternalGatewayRequest(req('gateway-secret'), cfg('gateway-secret')), true);
+  assert.equal(isInternalGatewayRequest(req('wrong'), cfg('gateway-secret')), false);
+  assert.equal(isInternalGatewayRequest(req(), cfg('gateway-secret')), false);
+  assert.equal(isInternalGatewayRequest(req('gateway-secret'), cfg()), false);
 });
 
 test('bearer: extracts token from Authorization header', () => {

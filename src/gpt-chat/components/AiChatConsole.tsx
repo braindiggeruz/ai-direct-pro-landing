@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ChatMessage, MountConfig } from '../types';
 import { strings } from '../i18n';
-import { createSession, sendChatStream } from '../api';
+import { createSession, fetchTurnstileConfig, sendChatStream } from '../api';
 import type { ChatApiResponse } from '../types';
 import { loadHistory, saveHistory, loadSessionId, saveSessionId, loadRemaining, saveRemaining } from '../storage';
 import { track, trackOnce, EV } from '../analytics';
@@ -14,6 +14,7 @@ import { AiPaywallCard } from './AiPaywallCard';
 import { AiSidebar } from './AiSidebar';
 import { PromptTemplateGrid } from './PromptTemplateGrid';
 import { ImagePromptTool } from './ImagePromptTool';
+import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 import { applyRole, type RoleId } from '../roles';
 import type { AiToolId, PromptTemplate } from '../templates';
 import type { PromptChip } from '../i18n';
@@ -37,11 +38,22 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [role, setRole] = useState<RoleId>('general');
   const [collapsed, setCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [turnstileConfig, setTurnstileConfig] = useState<{ required: boolean; siteKey: string | null } | null>(null);
+  const [turnstileConfigError, setTurnstileConfigError] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileServerError, setTurnstileServerError] = useState<string | null>(null);
   const startedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const turnstileRef = useRef<TurnstileChallengeHandle>(null);
 
   const focusInput = () => { inputRef.current?.focus(); };
+  const onTurnstileTokenChange = useCallback((token: string | null) => {
+    setTurnstileToken(token);
+    if (token) {
+      setTurnstileServerError(null);
+    }
+  }, []);
 
   useEffect(() => {
     trackOnce(EV.pageView, { locale: config.locale });
@@ -49,8 +61,24 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     trackOnce(EV.chatOpened, { locale: config.locale, anonymous: true });
   }, [config.locale]);
 
+  useEffect(() => {
+    let cancelled = false;
+    void fetchTurnstileConfig(config.apiBase)
+      .then((next) => {
+        if (cancelled) return;
+        setTurnstileConfig(next);
+        if (next.required && !next.siteKey) setTurnstileConfigError(true);
+      })
+      .catch(() => {
+        if (!cancelled) setTurnstileConfigError(true);
+      });
+    return () => { cancelled = true; };
+  }, [config.apiBase]);
+
   const assistantCount = useMemo(() => messages.filter((m) => m.role === 'assistant' && !m.pending && !m.error).length, [messages]);
   const empty = messages.length === 0;
+  const turnstileReady = turnstileConfig?.required === false || !!turnstileToken;
+  const sendDisabled = busy || limitReached || !turnstileReady;
 
   const ensureSession = async (): Promise<string | null> => {
     if (sessionId) return sessionId;
@@ -67,9 +95,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const doSend = async (text: string, meta: { templateId?: string; tool?: AiToolId; answerAction?: AnswerAction } = {}) => {
     const trimmed = text.trim();
-    if (!trimmed || busy || limitReached) return;
+    if (!trimmed || sendDisabled) return;
     setBusy(true);
     setInput('');
+    setTurnstileServerError(null);
     if (!startedRef.current) {
       startedRef.current = true;
       track(EV.startChat, { locale: config.locale, tool: meta.tool || activeTool, roleId: role });
@@ -96,6 +125,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       } else if (res.code === 'limit_reached') {
         setLimitReached(true); setRemaining(0); saveRemaining(0, config.locale); setMessages(base); track(EV.limitReached, { reason: res.reason, status: 'blocked' }); track(EV.limitReachedProduct, { reason: res.reason, status: 'blocked' });
         track(EV.aiResponseError, { code: 'limit_reached', messageNumber });
+      } else if (res.code === 'turnstile_failed' || res.code === 'turnstile_unavailable') {
+        setMessages(history);
+        setInput(trimmed);
+        setTurnstileServerError(res.code === 'turnstile_failed' ? t.turnstileRetry : t.turnstileError);
+        track(EV.aiResponseError, { code: res.code, messageNumber });
       } else {
         // Curated copy only — never surface raw backend/provider strings.
         const friendly = res.code === 'network' ? t.errorNetwork : t.errorGeneric;
@@ -112,7 +146,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     let acc = '';
     const outcome = await sendChatStream(
       config.apiBase,
-      { sessionId: sid, message: requestMessage, locale: config.locale, history },
+      {
+        sessionId: sid,
+        message: requestMessage,
+        locale: config.locale,
+        history,
+        turnstileToken: turnstileToken || undefined,
+      },
       {
         onMeta: (m) => { if (m.sessionId && m.sessionId !== sid) { setSessionId(m.sessionId); saveSessionId(m.sessionId, config.locale); } },
         onDelta: (text) => {
@@ -147,9 +187,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       track(EV.providerError, { code: outcome.code });
       track(EV.aiResponseError, { code: outcome.code, messageNumber });
     }
+    if (turnstileConfig?.required) {
+      turnstileRef.current?.reset();
+    }
     setBusy(false);
-    // Keep the composer ready for the next message (spec: composer stays focused).
-    focusInput();
+    // Avoid stealing focus after the asynchronous challenge reset.
+    if (!turnstileConfig?.required) focusInput();
   };
 
   const onStop = () => { abortRef.current?.abort(); };
@@ -164,7 +207,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   };
 
   const onTemplatePick = (template: PromptTemplate, prompt: string) => {
-    if (busy || limitReached) return;
+    if (sendDisabled) return;
     track(EV.useTemplate, { templateId: template.id, tool: template.tool, mode: 'send' });
     void doSend(prompt, { templateId: template.id, tool: template.tool });
   };
@@ -180,6 +223,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   };
 
   const onImagePrompt = (prompt: string, presetId: string) => {
+    if (sendDisabled) return;
     track(EV.generateImagePrompt, { presetId, tool: 'images', status: 'submitted' });
     void doSend(prompt, { templateId: `image-${presetId}`, tool: 'images' });
   };
@@ -215,7 +259,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   };
 
   const onRetry = () => {
-    if (busy || limitReached) return;
+    if (sendDisabled) return;
     let lastUser = '';
     for (let i = messages.length - 1; i >= 0; i--) { if (messages[i].role === 'user') { lastUser = messages[i].content; break; } }
     if (lastUser) {
@@ -239,13 +283,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const toolPanel = activeTool === 'images' ? (
     <div className="mb-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
-      <ImagePromptTool locale={config.locale} onGenerate={onImagePrompt} disabled={busy || limitReached} />
+      <ImagePromptTool locale={config.locale} onGenerate={onImagePrompt} disabled={sendDisabled} />
     </div>
   ) : activeTool !== 'chat' ? (
     <div className="mb-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
       <h2 className="text-lg font-semibold text-white">{toolCopy[activeTool].title}</h2>
       <p className="mb-4 mt-1 text-sm leading-relaxed text-white/50">{toolCopy[activeTool].body}</p>
-      <PromptTemplateGrid key={`${config.locale}-${activeTool}`} locale={config.locale} tool={activeTool} onPick={onTemplatePick} disabled={busy || limitReached} />
+      <PromptTemplateGrid key={`${config.locale}-${activeTool}`} locale={config.locale} tool={activeTool} onPick={onTemplatePick} disabled={sendDisabled} />
       {activeTool === 'business' && (
         <p className="mt-4 text-[13px] text-white/45">
           <a href={businessHref} onClick={() => track(EV.businessClicked, { from: 'business_tab' })} className="text-brand-cyan hover:underline underline-offset-4">{t.businessLink}</a>
@@ -354,7 +398,28 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     <a href={pricingHref} onClick={() => { track(EV.viewPricing, { from: 'low_limit' }); track(EV.upgradeClick, { from: 'low_limit' }); track(EV.pricingClicked, { from: 'low_limit' }); }} className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline">{t.paywallCta}</a>
                   </div>
                 )}
-                <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} onStop={onStop} disabled={busy} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
+                {turnstileConfig?.required && turnstileConfig.siteKey && (
+                  <TurnstileChallenge
+                    ref={turnstileRef}
+                    siteKey={turnstileConfig.siteKey}
+                    loadingText={t.turnstileLoading}
+                    promptText={t.turnstilePrompt}
+                    verifiedText={t.turnstileVerified}
+                    errorText={t.turnstileError}
+                    onTokenChange={onTurnstileTokenChange}
+                  />
+                )}
+                {(!turnstileConfig || turnstileConfigError) && (
+                  <p className={turnstileConfigError ? 'mb-2 text-center text-xs text-red-300' : 'mb-2 text-center text-xs text-white/45'} role="status" aria-live="polite">
+                    {turnstileConfigError ? t.turnstileError : t.turnstileLoading}
+                  </p>
+                )}
+                {turnstileServerError && (
+                  <p className="mb-2 text-center text-xs text-red-300" role="alert">
+                    {turnstileServerError}
+                  </p>
+                )}
+                <AiChatInput value={input} onChange={setInput} onSend={() => doSend(input)} onStop={onStop} disabled={sendDisabled} busy={busy} maxChars={MAX_INPUT} t={t} inputRef={inputRef} />
               </>
             )}
           </div>

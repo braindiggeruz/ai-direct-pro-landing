@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import type { AppContext } from '../context.js';
 import { resolveUser } from '../context.js';
-import { assertOrigin } from '../auth.js';
+import { assertOrigin, isInternalGatewayRequest } from '../auth.js';
 import { hashIp, clientIp } from '../hash.js';
 import { PLANS, resolvePlan, decideQuota, modelChain, type Plan } from '../plans.js';
 import { buildMessages, sessionTitle, detectIntent, type Locale } from '../prompt.js';
@@ -18,6 +18,9 @@ const Body = z.object({
 
 export function chatRoutes(app: FastifyInstance, ctx: AppContext) {
   app.post('/v1/gpt/chat', async (req, reply) => {
+    if (!isInternalGatewayRequest(req, ctx.cfg)) {
+      return reply.code(401).send({ ok: false, code: 'unauthorized' });
+    }
     if (!assertOrigin(req, ctx.cfg)) return reply.code(403).send({ ok: false, code: 'origin' });
     const parsed = Body.safeParse(req.body ?? {});
     if (!parsed.success) return reply.code(400).send({ ok: false, code: 'bad_request', message: 'invalid body' });
@@ -51,7 +54,7 @@ export function chatRoutes(app: FastifyInstance, ctx: AppContext) {
     }
 
     // Ownership: if a sessionId + user, ensure it belongs to the user.
-    let sid = sessionId ?? null;
+    const sid = sessionId ?? null;
     if (sid && user) {
       const owner = await ctx.store.getSessionOwner(sid);
       if (owner && owner.user_id && owner.user_id !== user.id) return reply.code(403).send({ ok: false, code: 'forbidden' });
