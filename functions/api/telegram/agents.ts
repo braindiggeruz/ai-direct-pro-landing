@@ -14,14 +14,19 @@ import {
   createSotuvchiHandoffService,
   createSotuvchiHandoffWorkflowPort,
   createSotuvchiNotificationDispatcher,
+  createSotuvchiAnalytics,
   createSotuvchiOnboardingService,
   createSotuvchiOrdersDomainPort,
   createSotuvchiOrdersService,
+  createSotuvchiStatsDomainPort,
+  createSotuvchiStatsService,
   createSotuvchiWorkflowPort,
   isStorefrontCode,
+  withSotuvchiAnalytics,
   withSotuvchiCheckoutDomain,
   withSotuvchiHandoffDomain,
   withSotuvchiOrdersDomain,
+  withSotuvchiStatsDomain,
   type SotuvchiOnboardingSnapshot,
 } from '../../agents/sotuvchi';
 import { listAgents } from '../../agents/registry';
@@ -111,6 +116,8 @@ export function createTelegramAgentsRuntimeWiring(
   const orders = createSotuvchiOrdersService(db, catalog);
   const handoff = createSotuvchiHandoffService(db, catalog, botUsername);
   const addresses = createChannelAddressService(db);
+  const analytics = createSotuvchiAnalytics(db);
+  const stats = createSotuvchiStatsService(db, catalog, { analytics });
   const demoContexts = createStaticTelegramAgentContextResolver([{
     botUsername,
     routeCode: 'demo',
@@ -176,6 +183,19 @@ export function createTelegramAgentsRuntimeWiring(
           identityId: input.telegramIdentityId,
           context: storefront,
         });
+        // Funnel-only: how often the storefront is opened is the one buyer
+        // signal no domain table keeps. Recording is best effort and never
+        // affects the turn.
+        await analytics.record({
+          orgId: storefront.orgId,
+          storeId: storefront.storeId,
+          requestId: input.idempotencyKey,
+          event: {
+            type: 'sotuvchi.buyer_started',
+            locale: storefront.locale,
+            source: 'deep_link',
+          },
+        });
         return storefrontContext(
           storefront.orgId,
           storefront.agentId,
@@ -235,15 +255,24 @@ export function createTelegramAgentsRuntimeWiring(
         createSotuvchiCheckoutWorkflowPort(checkout),
         createSotuvchiWorkflowPort(onboarding, botUsername),
       ]),
-      agentDomain: withSotuvchiHandoffDomain(
-        withSotuvchiOrdersDomain(
-          withSotuvchiCheckoutDomain(
-            createSotuvchiDomainPort(catalog, botUsername),
-            createSotuvchiCheckoutDomainPort(checkout),
+      // Analytics wraps the composed port from the outside: it observes the
+      // Facts a successful operation already produced and can never change,
+      // retry or repeat a domain call.
+      agentDomain: withSotuvchiAnalytics(
+        withSotuvchiStatsDomain(
+          withSotuvchiHandoffDomain(
+            withSotuvchiOrdersDomain(
+              withSotuvchiCheckoutDomain(
+                createSotuvchiDomainPort(catalog, botUsername),
+                createSotuvchiCheckoutDomainPort(checkout),
+              ),
+              createSotuvchiOrdersDomainPort(orders),
+            ),
+            createSotuvchiHandoffDomainPort(handoff),
           ),
-          createSotuvchiOrdersDomainPort(orders),
+          createSotuvchiStatsDomainPort(stats),
         ),
-        createSotuvchiHandoffDomainPort(handoff),
+        analytics,
       ),
     },
   });
@@ -281,6 +310,7 @@ export function createTelegramAgentsRuntimeWiring(
 
   return {
     addresses,
+    analytics,
     catalog,
     checkout,
     contexts,
@@ -290,6 +320,7 @@ export function createTelegramAgentsRuntimeWiring(
     onboarding,
     orders,
     runtime: dispatchingRuntime,
+    stats,
   };
 }
 

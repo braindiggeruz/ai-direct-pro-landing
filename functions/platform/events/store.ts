@@ -179,6 +179,55 @@ export async function listUnprocessed(
   return (rows.results ?? []).map(fromRow);
 }
 
+export interface CountEventsInput {
+  orgId: string;
+  /** Closed list supplied by the caller; never user input. */
+  types: readonly string[];
+  /** ISO-8601 lower bound, inclusive. */
+  since: string;
+}
+
+/**
+ * Tenant-scoped bounded aggregate read for reporting.
+ *
+ * Every predicate is parameterized, `org_id` is always present so the query
+ * uses idx_events_org_created, and only counts leave the store: no payload,
+ * aggregate reference or event id is returned. Types missing from the result
+ * read as 0.
+ */
+export async function countEventsByType(
+  db: D1Database,
+  input: CountEventsInput,
+): Promise<Readonly<Record<string, number>>> {
+  const types = [...new Set(input.types)].filter(
+    (type) => typeof type === 'string' && type.length > 0 && type.length <= 120,
+  );
+  const counts: Record<string, number> = {};
+  for (const type of types) counts[type] = 0;
+  if (
+    !input.orgId
+    || types.length === 0
+    || types.length > 20
+    || !Number.isFinite(Date.parse(input.since))
+  ) {
+    return counts;
+  }
+  const placeholders = types.map(() => '?').join(', ');
+  const rows = await db
+    .prepare(`SELECT type, COUNT(*) AS total
+              FROM events
+              WHERE org_id = ?
+                AND created_at >= ?
+                AND type IN (${placeholders})
+              GROUP BY type`)
+    .bind(input.orgId, input.since, ...types)
+    .all<{ type: string; total: number }>();
+  for (const row of rows.results ?? []) {
+    if (row.type in counts) counts[row.type] = Number(row.total ?? 0);
+  }
+  return counts;
+}
+
 export async function markProcessed(
   db: D1Database,
   eventId: string,

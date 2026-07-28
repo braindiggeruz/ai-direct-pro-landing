@@ -10,6 +10,7 @@ export { ensurePlatformEventsSchema } from './schema';
 export {
   appendEvent,
   CorruptPlatformEventError,
+  countEventsByType,
   getEventById,
   listUnprocessed,
   markProcessed,
@@ -18,6 +19,7 @@ export {
 export type {
   AppendEventInput,
   AppendEventResult,
+  CountEventsInput,
   MarkProcessedResult,
   StoredPlatformEvent,
 } from './store';

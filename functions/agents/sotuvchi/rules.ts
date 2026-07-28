@@ -81,6 +81,12 @@ export const sotuvchiSellerStatusRule: DeterministicRule = {
                 ? 'Savollar'
                 : 'Вопросы',
             },
+            {
+              id: 'seller-stats',
+              label: context.org.locale === 'uz'
+                ? 'Statistika'
+                : 'Статистика',
+            },
           ],
         }],
         claims: [],

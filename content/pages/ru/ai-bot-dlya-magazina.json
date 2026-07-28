@@ -184,6 +184,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/sotuvchi/",
+      "anchor": "Sotuvchi — магазин в Telegram",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/ai-prodavec/",
       "anchor": "AI-продавец",
       "locale": "ru",

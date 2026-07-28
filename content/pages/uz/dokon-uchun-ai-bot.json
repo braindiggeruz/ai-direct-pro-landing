@@ -184,6 +184,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/uz/sotuvchi/",
+      "anchor": "Sotuvchi — Telegram'da do'kon",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/biznes-uchun-ai-bot/",
       "anchor": "biznes uchun AI bot",
       "locale": "uz",

@@ -13,6 +13,8 @@ export * from './inventory';
 export * from './orders';
 export * from './handoff';
 export * from './delivery';
+export * from './analytics';
+export * from './stats';
 export {
   SOTUVCHI_ONBOARDING_STATUSES,
   STORE_DELIVERY_MODES,
