@@ -283,7 +283,9 @@ export function runReleasePreflight(
           'grep',
           '-n',
           '-E',
-          'routeRSCServerRequest|RSCStaticRouter|unstable_RSC|react-server',
+          'unstable_matchRSCServerRequest|unstable_reactRouterRSC|'
+            + 'RSCStaticRouter|unstable_RSC|entry\\.rsc|react-server-dom|'
+            + "react-server|[\"']use server[\"']",
           '--',
           'src',
           'functions',

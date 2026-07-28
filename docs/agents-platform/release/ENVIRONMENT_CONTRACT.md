@@ -21,6 +21,25 @@ the Railway gateway/backend, OpenRouter, admin authentication, Telegram Lead,
 Javob/Tahlil and Agents/Sotuvchi flows, scheduled automation, payments,
 analytics-adjacent build configuration, and optional SEO integrations.
 
+## Automation runtime boundary
+
+- `AUTOMATION_QUEUE` is a producer binding shared by authenticated Pages
+  Functions and the dedicated automation Worker.
+- `AUTOMATION_DLQ` is a Worker-only dead-letter Queue binding and must be
+  distinct from the primary Queue.
+- `FIRST_PARTY_AUTOMATION_ENABLED` is a closed `true`/`false` flag. Repository
+  defaults are disabled; enabling it requires the controlled stage gates.
+- `N8N_INGEST_ENABLED` is a closed optional legacy flag. Missing or `false`
+  disables the endpoint. `true` is allowed only for a verified legacy
+  ROTATED path.
+- `N8N_INGEST_TOKEN`, `N8N_WEBHOOK_SECRET` and `CRON_SECRET` are optional
+  legacy names after verified retirement. Their absence does not prove
+  retirement; the external RETIRED evidence disposition does.
+
+Bindings are validated by name and shape only. This document neither records
+provider values nor claims that production Queue, DLQ, Worker, Cron or D1
+migration resources exist.
+
 ## Identity boundaries
 
 - Lead uses `TELEGRAM_BOT_TOKEN` and `TELEGRAM_WEBHOOK_SECRET`.
@@ -40,5 +59,5 @@ the local R0.4 preparation.
 `scripts/release/env-contract.ts` validates the contract structure and accepts
 an in-memory environment map for R1 checks. Reports contain only variable names,
 presence state, and safe reasons. Placeholder markers, non-HTTPS URLs, invalid
-Telegram usernames, a production `ADMIN_PASSWORD`, and crossed Telegram
-identities fail closed.
+Telegram usernames, non-boolean feature flags, a production `ADMIN_PASSWORD`,
+and crossed Telegram identities fail closed.

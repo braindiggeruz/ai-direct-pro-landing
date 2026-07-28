@@ -4,6 +4,15 @@
 
 - Authoritative state: `current_stage: R0.3`, `stage_status: in_progress`,
   `last_completed_stage: R0.2`, `next_stage: R0.3B`, `blocked: true`.
+- Parallel local preparation now also contains
+  `first_party_automation_runtime: prepared_locally` and
+  `n8n_retirement: prepared_not_executed`. D1 ledger, Queue/DLQ consumer,
+  Cron handler, strict Queue contract and admin enqueue/replay boundaries are
+  prepared locally. No Worker, Queue, binding, Cron or migration was created
+  in production.
+- n8n is not declared retired. `n8n_ingest` may satisfy the future owner gate
+  through one complete evidence path: ROTATED or RETIRED. Admin remains
+  ROTATED-only.
 - R0.3B automation и owner kit готовы. Замены admin credential и
   `N8N_INGEST_TOKEN` хранятся только в Windows-защищённом vault вне Git, но
   внешняя установка, проверка и отзыв старых значений не выполнены.
@@ -15,12 +24,16 @@
 - `R0.4-prep: completed_locally` в
   `27e7ddbe03695a859c9a7c11e7e93b450309946b`. Этап R0.4 **не завершён**,
   production заблокирован, R1 не начат.
-- Локальная доказательная база: 740/740 по 29 suites; migration и backup/restore
-  rehearsals прошли на synthetic/local data; deployment dry-run и env
-  contract не мутируют внешние сервисы.
-- Root dependency audit: `GHSA-qwww-vcr4-c8h2` остаётся warning для локальной
-  подготовки, потому что текущий SPA не использует затронутые unstable RSC API;
-  это узкое исключение блокирует R1 до отдельного review к 2026-08-11.
+- Финальная локальная доказательная база: targeted baseline 22/22; owner
+  evidence policy 6/6; обязательный Agents baseline 584/584; полный baseline
+  762/762 по 32 suites. Migration и backup/restore rehearsals прошли на
+  synthetic/local data; deployment и Wrangler dry-run не мутируют внешние
+  сервисы.
+- Root dependency audit: установлен React Router 7.18.1, affected range
+  `>=7.12.0 <8.3.0`, fix `8.3.0`. Текущий BrowserRouter SPA не имеет RSC
+  build/runtime dependency или unstable RSC imports. Machine-verified narrow
+  exception разрешает только local prep; blind major upgrade не выполнялся,
+  R1 остаётся blocked до isolated migration spike или нового review.
 - Не выполнялись push/deploy, production D1 migration, webhook mutation или
   pilot.
 

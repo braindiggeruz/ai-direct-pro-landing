@@ -45,7 +45,11 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | Проверка | Результат |
 |---|---|
 | R0.4 release preparation | `tests/release-preparation.test.ts`: 20/20 |
-| Full repository | **740/740, 29 suites**, file-by-file |
+| First-party automation runtime | **13/13** — Queue/D1 state machine, retry, lease, cancel, DLQ, replay, tenant and SEO review boundary |
+| Legacy n8n ingest security | **6/6** — disabled/missing/empty/invalid/oversized/replay/logging |
+| n8n dependency inventory | **3/3** — classification coverage, unknown visibility, names-only |
+| External owner evidence policy | **6/6** — complete ROTATED/RETIRED, partial/old-accepted/admin-retired negatives, executor fail-closed |
+| Full repository | **762/762, 32 suites**, file-by-file |
 | Repository secret scan | clean, redacted findings only, exit 0 |
 | App typecheck / root build | `npx tsc -b` exit 0 / `corepack yarn build` exit 0 |
 | Railway backend | typecheck exit 0 / build exit 0 / production audit 0 findings |

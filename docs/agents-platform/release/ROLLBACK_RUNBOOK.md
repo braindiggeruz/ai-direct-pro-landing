@@ -3,6 +3,26 @@
 This is an approval-time decision tree. It does not contain destructive
 migration SQL and does not authorize a production change.
 
+## First-party automation / n8n cutover
+
+Rollback is a pause and route-selection operation, not data deletion.
+
+1. Disable the first-party producer flag.
+2. Pause Cloudflare Cron and Queue delivery independently.
+3. Preserve `automation_jobs`, `automation_job_events`, DLQ messages and
+   `ai_drafts`; do not purge or delete them.
+4. Confirm no lease remains active before routing new manual work.
+5. Prefer the existing synchronous direct generator as the temporary fallback.
+   It writes only to the AI Draft Inbox and does not require n8n.
+6. If n8n has already been retired, do not restore the revoked credential.
+   Re-enabling n8n requires a new ROTATED disposition and explicit approval.
+7. If migration `0024` causes a database issue, restore the verified D1 backup
+   or apply an approved forward fix. Do not issue destructive SQL.
+8. Keep GitHub publication manual and separate throughout rollback.
+
+Stop if a late worker result attempts to overwrite a terminal job, a duplicate
+draft appears, or the deployment-freeze state is unclear.
+
 ## Stop conditions
 
 Stop the pilot and escalate immediately for cross-tenant visibility, wrong bot

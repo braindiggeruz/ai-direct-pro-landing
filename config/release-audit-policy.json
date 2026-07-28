@@ -10,12 +10,13 @@
       "evidence": [
         "GPTBot uses a client-only Vite SPA",
         "all application imports are from react-router-dom declarative browser APIs",
-        "no React Router RSC API or react-server entry point is imported"
+        "no React Router RSC API, RSC package, use-server directive or react-server entry point is imported",
+        "scripts/release-preflight.ts checks an exact advisory shape and a closed RSC marker set"
       ],
       "temporary_release_effect": "warning_in_r0.4_prep_and_blocker_for_r1",
       "reviewed_on": "2026-07-28",
       "review_by": "2026-08-11",
-      "upgrade_target": "a registry-published patched DOM package compatible with the current SPA"
+      "upgrade_target": "isolated React 19.2.7+ and React Router 8.3.0 migration spike with react-router-dom import removal; no blind major upgrade"
     }
   ]
 }

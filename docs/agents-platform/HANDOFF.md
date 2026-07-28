@@ -4,13 +4,25 @@
 
 - `current_stage: R0.3`, `stage_status: in_progress`, `last_completed_stage: R0.2`,
   `next_stage: R0.3B`, `blocked: true`.
+- Parallel preparation:
+  `R0.4-prep: completed_locally`,
+  `first_party_automation_runtime: prepared_locally`,
+  `n8n_retirement: prepared_not_executed`.
+- Target orchestration is Cloudflare Worker + D1 ledger + Queue/DLQ + Cron.
+  The existing provider router writes only a complete RU/UZ package to the AI
+  Draft Inbox and ends in manual review. Railway remains an optional compute
+  arm; GitHub publication remains a separate admin action.
+- Production cutover has not happened. Legacy n8n activity, scheduler state and
+  live feature flags remain unknown until the owner resolves them through the
+  retirement runbook. n8n is not retired.
 - R0.3C и remediation текущего дерева подтверждены. R0.3B полностью
   автоматизирован, но **не запускался**: live rewrite запрещён до завершения
   двух внешних действий владельца.
 - Замены admin credential и `N8N_INGEST_TOKEN` сгенерированы CSPRNG и хранятся
   только вне Git в Windows DPAPI CurrentUser vault с ACL текущего пользователя.
-  Они ещё не установлены; старые значения ещё не отозваны. Сам
-  `N8N_INGEST_TOKEN` консервативно считается потенциально раскрытым.
+  Они ещё не установлены; старые значения ещё не отозваны. Admin обязан пройти
+  ROTATED. `N8N_INGEST_TOKEN` консервативно считается потенциально раскрытым и
+  должен пройти полный ROTATED или полный RETIRED evidence path.
 - Внешние блокеры: установка/перезапуск/валидация/отзыв обоих credentials;
   подтверждённая пауза Railway auto-deploy и Cloudflare Pages auto-deploy;
   отключение SEO scheduler и иных automation writers; затем live rewrite
@@ -22,10 +34,11 @@
   migration manifest и локальные clean/upgrade/rollback rehearsals,
   backup/restore rehearsal, deployment dry-run, smoke/rollback/pilot runbooks.
   Это не завершение R0.4, не R1 и не production evidence.
-- Проверки локальной подготовки: **740/740** по 29 suites, R0.4 suite 20/20,
-  secret scan clean, root typecheck/build 0, backend typecheck/build/audit 0,
-  Functions — ровно 27 прежних ошибок в тех же 6 legacy-файлах, scoped lint 0,
-  boundaries 10/10.
+- Финальный локальный прогон подтвердил
+  **762/762** по 32 suites, first-party targeted 22/22, R0.4 suite 20/20,
+  owner evidence policy 6/6, secret scan clean по 2503 файлам, root
+  typecheck/build 0, backend typecheck/build/audit 0, Functions — ровно 27
+  прежних ошибок в тех же 6 legacy-файлах, scoped lint 0, boundaries 10/10.
 - Root audit сохраняет ровно одно применимое по dependency range предупреждение:
   `GHSA-qwww-vcr4-c8h2` в `react-router`/`react-router-dom`. Текущий
   declarative SPA не использует затронутые unstable RSC API; узкое исключение

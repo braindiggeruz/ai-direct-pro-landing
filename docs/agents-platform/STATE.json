@@ -5,7 +5,7 @@
   "stage_status": "in_progress",
   "last_completed_stage": "R0.2",
   "next_stage": "R0.3B",
-  "next_stage_note": "R0.3C and current-tree remediation are done in commit 77d46d4. R0.3B is fully automated but must not execute until the two external owner actions complete credential rotation/revocation/validation and freeze every deployment writer. R0.4 preparation completed locally in parallel at 27e7ddbe03695a859c9a7c11e7e93b450309946b; R0.4 itself is NOT complete. Do not start R1 or P3.",
+  "next_stage_note": "R0.3C and current-tree remediation are done. R0.3B is automated but must not execute until admin is fully ROTATED, n8n ingest is fully ROTATED or fully RETIRED, and every deployment/automation freeze gate passes. R0.4-prep and the first-party automation preparation are local-only; R0.4 itself is NOT complete. Do not start R1 or P3.",
   "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; R0.3 is in progress and blocked; R0.4 has only a completed local preparation track; production and R1 remain blocked.",
   "last_commit": "77d46d403cde210b5453214d61296ac261ca51e2",
   "state_commit": "HEAD",
@@ -41,26 +41,41 @@
     "replacements_generated": true,
     "replacement_storage": "Windows DPAPI CurrentUser vault with current-user-only ACL, outside Git",
     "owner_kit": "F:\\Claude\\gptbot-secure-owner-kit\\20260728-195938 (outside Git)",
-    "offline_backup": "F:\\Claude\\gptbot-r0.3-backups\\20260728-2\\gptbot-repo-full-20260728-2.bundle (61 refs, verified complete, outside the repository, never published)"
+    "offline_backup": "F:\\Claude\\gptbot-r0.3-backups\\final-e6cbae3-20260728\\gptbot-repo-full-final-e6cbae3.bundle (verified complete, outside the repository, never published)"
   },
   "updated_at": "2026-07-28",
   "blocked": true,
   "blockers": [
     "Admin replacement credential is generated and secured outside Git, but external installation, consumer restart, validation and old-credential revocation are incomplete.",
-    "N8N_INGEST_TOKEN is conservatively classified as potentially exposed. Its replacement is generated and secured outside Git, but external installation in Cloudflare and n8n, validation and old-token revocation are incomplete.",
+    "N8N_INGEST_TOKEN is conservatively classified as potentially exposed. Its disposition must become fully ROTATED or fully RETIRED with verifier evidence; neither external path has been executed.",
     "Railway GitHub auto-deploy is not confirmed paused.",
     "Cloudflare Pages Git auto-deploy is not confirmed paused.",
     "The SEO scheduler workflow and any other automation writer are not confirmed disabled.",
     "Live remote history rewrite and explicit force-with-lease update of contaminated refs are blocked until credential rotation and deployment freeze both pass."
   ],
   "parallel_preparation": {
-    "stage": "R0.4-prep",
-    "status": "completed_locally",
-    "code_commit": "27e7ddbe03695a859c9a7c11e7e93b450309946b",
-    "production_mutation": false,
+    "R0.4-prep": {
+      "status": "completed_locally",
+      "code_commit": "27e7ddbe03695a859c9a7c11e7e93b450309946b"
+    },
+    "first_party_automation_runtime": {
+      "status": "prepared_locally",
+      "code_commit": "99fa2ad520688e660dd949fcdbc1176951232e26",
+      "source_of_truth": "D1",
+      "delivery": "Cloudflare Queues at-least-once",
+      "worker": "prepared_not_deployed",
+      "tests": "22/22 targeted tests verified",
+      "production_mutation": false
+    },
+    "n8n_retirement": {
+      "status": "prepared_not_executed",
+      "credential_disposition": "pending",
+      "production_workflow_disabled": false,
+      "scheduler_disabled": false,
+      "old_credential_revoked": false
+    },
     "release_status": "prepared_locally_blocked_by_R0.3B",
-    "tests": "740/740 across 29 suites; R0.4 release-preparation 20/20",
-    "root_dependency_audit": "One exact high-severity advisory, GHSA-qwww-vcr4-c8h2, reaches react-router and react-router-dom. The current declarative SPA does not use the affected unstable RSC APIs. The narrow policy permits warning-only R0.4 local preparation and blocks R1 pending review by 2026-08-11.",
+    "root_dependency_audit": "GHSA-qwww-vcr4-c8h2 affects installed React Router 7.18.1 (range >=7.12.0 <8.3.0) only on unstable RSC paths. The current BrowserRouter SPA has no RSC build/runtime dependency or marker. A machine-verified temporary exception permits local prep only; R1 remains blocked pending an isolated 8.3.0 migration spike or renewed review.",
     "remote_d1_migrations_applied": false,
     "deployed": false,
     "webhook_mutated": false,
@@ -68,7 +83,7 @@
   },
   "baseline": {
     "build": "tsc -b exit 0; corepack yarn build exit 0; Railway backend typecheck and build exit 0; backend npm audit --omit=dev 0 findings",
-    "tests": "pass: R0.4 release-preparation 20/20; R0.3C secret-scan 14/14; R0.2 gpt-backend-security 30/30; gpt-backend 18/18; R0.1 web-security-hardening 13/13; unchanged required Agents baseline 584/584; full repository 740/740 across 29 suites",
+    "tests": "pass: first-party automation 22/22; owner evidence policy 6/6; R0.4 release-preparation 20/20; R0.3C secret-scan 14/14; unchanged required Agents baseline 584/584; full repository 762/762 across 32 suites",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in the same 6 old files (D-007)",
     "lint": "R0.3 changed-file scoped eslint exit 0; boundaries 10/10",
     "security": "memory/test_credentials.md and its two gptbot-audit duplicates are removed from the tree and blocked by .gitignore. scripts/scan-secrets.ts is clean and blocks 22 of the 23 historical incident versions; the one it does not flag is the original empty stub with no credential material. Replacement credentials exist only in the Windows-protected owner vault outside Git and have not been installed. GitHub secret scanning and push protection are enabled but generic values remain reachable in Git history and must still be treated as compromised."

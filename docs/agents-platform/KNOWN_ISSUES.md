@@ -2,6 +2,14 @@
 
 ## Текущий release blocker relay (2026-07-28)
 
+- First-party Cloudflare automation runtime подготовлен только локально:
+  additive migration `0024`, D1 ledger, Queue/DLQ Worker, Cron, закрытые
+  контракты и owner-gates. Production Queue/DLQ/Worker/bindings не создавались,
+  migration не применялась, cutover не выполнялся.
+- n8n не выведен из эксплуатации. Допустим только полный доказанный статус
+  ROTATED или RETIRED; текущий owner status остаётся `pending`.
+- Legacy ingest теперь выключен по умолчанию и fail-closed, но этот факт сам по
+  себе не доказывает отключение live workflow, scheduler или credential.
 - R0.3 остаётся `in_progress`, `blocked: true`; следующий этап — R0.3B.
 - Замены admin credential и `N8N_INGEST_TOKEN` сгенерированы и защищены только
   во внешнем Windows DPAPI owner vault. Они не установлены в потребителях,

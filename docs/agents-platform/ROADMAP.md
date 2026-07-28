@@ -56,6 +56,12 @@
   warning разрешён только для local prep, R1 блокируется до review к
   2026-08-11. Применение remote migration, deploy, env/secrets, webhook и
   pilot остаются запрещены до завершения R0.3B и отдельной авторизации R1.
+- **Parallel automation preparation — prepared locally, not a new stage.**
+  n8n dependency inventory and retirement runbook, Cloudflare-first ADR,
+  D1 `automation_jobs` ledger, Queue/DLQ Worker, Cron, closed contracts and
+  fail-closed ingest tests are prepared. n8n retirement is
+  `prepared_not_executed`; R0.3 remains current, R0.3B blocked, R0.4
+  incomplete and R1 not started.
 
 ## R1 — Production Rollout
 
