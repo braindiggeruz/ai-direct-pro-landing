@@ -1,0 +1,200 @@
+{
+  "version": "2.2.4",
+  "seed_keyword": "SEO продвижение сайтов Ташкент",
+  "created_at": "2026-07-28T00:00:00.000Z",
+  "method": {
+    "source": "Web search SERP sampling",
+    "location": "Tashkent, Uzbekistan intent",
+    "notes": "Commercial, pricing, audit, Google and Yandex result sets were sampled separately. Commercial synonyms repeatedly returned the same agency landing pages. Pricing queries mixed service pages and price guides. Audit queries returned dedicated services and checklists. Google and Yandex how-to queries returned different official documentation and local competitors."
+  },
+  "expanded_keywords": [
+    "seo продвижение сайтов ташкент",
+    "seo продвижение ташкент",
+    "seo оптимизация сайта ташкент",
+    "продвижение сайтов ташкент",
+    "продвижение сайта в ташкенте",
+    "заказать seo ташкент",
+    "seo услуги ташкент",
+    "seo агентство ташкент",
+    "раскрутка сайта ташкент",
+    "seo продвижение узбекистан",
+    "продвижение сайтов узбекистан",
+    "seo для бизнеса ташкент",
+    "поисковое продвижение ташкент",
+    "seo компания ташкент",
+    "seo специалист ташкент",
+    "локальное seo ташкент",
+    "стоимость seo продвижения ташкент",
+    "цена seo продвижения ташкент",
+    "сколько стоит seo ташкент",
+    "тарифы seo ташкент",
+    "seo продвижение цена узбекистан",
+    "стоимость seo оптимизации сайта",
+    "бюджет на seo продвижение",
+    "из чего складывается цена seo",
+    "seo аудит сайта ташкент",
+    "технический seo аудит ташкент",
+    "seo анализ сайта ташкент",
+    "проверка сайта на seo ошибки",
+    "seo аудит чек лист",
+    "как провести seo аудит",
+    "аудит индексации сайта",
+    "аудит скорости сайта",
+    "аудит мета тегов",
+    "аудит внутренней перелинковки",
+    "продвижение сайта в google узбекистан",
+    "seo google ташкент",
+    "как выйти в топ google в узбекистане",
+    "оптимизация сайта под google",
+    "индексация сайта в google",
+    "google search console продвижение",
+    "продвижение сайта в яндексе узбекистан",
+    "seo яндекс ташкент",
+    "как выйти в топ яндекса в узбекистане",
+    "оптимизация сайта под яндекс",
+    "индексация сайта в яндексе",
+    "яндекс вебмастер продвижение",
+    "региональность сайта яндекс ташкент"
+  ],
+  "pillar": {
+    "id": "pillar",
+    "title": "SEO-продвижение сайтов в Ташкенте",
+    "keyword": "SEO продвижение сайтов Ташкент",
+    "secondary_keywords": [
+      "SEO оптимизация сайта Ташкент",
+      "продвижение сайтов Узбекистан",
+      "заказать SEO Ташкент"
+    ],
+    "intent": "transactional",
+    "volume": 0,
+    "template": "landing-page",
+    "wordCount": 2800,
+    "url": "/ru/seo-prodvizhenie-saytov-tashkent/",
+    "status": "written"
+  },
+  "clusters": [
+    {
+      "name": "Бюджет и выбор подрядчика",
+      "color": "#4E79A7",
+      "posts": [
+        {
+          "id": "cluster-0-post-0",
+          "title": "Сколько стоит SEO-продвижение сайта в Ташкенте",
+          "keyword": "стоимость SEO продвижения Ташкент",
+          "secondary_keywords": [
+            "цена SEO оптимизации сайта",
+            "бюджет на SEO",
+            "тарифы SEO Ташкент"
+          ],
+          "intent": "commercial",
+          "volume": 0,
+          "template": "explainer",
+          "wordCount": 1700,
+          "url": "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+          "status": "written"
+        }
+      ]
+    },
+    {
+      "name": "Диагностика",
+      "color": "#F28E2B",
+      "posts": [
+        {
+          "id": "cluster-1-post-0",
+          "title": "SEO-аудит сайта: чек-лист для бизнеса",
+          "keyword": "SEO аудит сайта Ташкент",
+          "secondary_keywords": [
+            "технический SEO аудит",
+            "SEO анализ сайта",
+            "проверка сайта на SEO ошибки"
+          ],
+          "intent": "informational-commercial",
+          "volume": 0,
+          "template": "how-to",
+          "wordCount": 1800,
+          "url": "/ru/blog/seo-audit-sayta-chek-list/",
+          "status": "written"
+        }
+      ]
+    },
+    {
+      "name": "Поисковые системы",
+      "color": "#59A14F",
+      "posts": [
+        {
+          "id": "cluster-2-post-0",
+          "title": "Как продвигать сайт в Google в Узбекистане",
+          "keyword": "продвижение сайта в Google Узбекистан",
+          "secondary_keywords": [
+            "SEO Google Ташкент",
+            "как выйти в топ Google",
+            "индексация сайта в Google"
+          ],
+          "intent": "informational-commercial",
+          "volume": 0,
+          "template": "how-to",
+          "wordCount": 1700,
+          "url": "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+          "status": "written"
+        },
+        {
+          "id": "cluster-2-post-1",
+          "title": "Как продвигать сайт в Яндексе в Узбекистане",
+          "keyword": "продвижение сайта в Яндексе Узбекистан",
+          "secondary_keywords": [
+            "SEO Яндекс Ташкент",
+            "как выйти в топ Яндекса",
+            "региональность сайта Яндекс"
+          ],
+          "intent": "informational-commercial",
+          "volume": 0,
+          "template": "how-to",
+          "wordCount": 1700,
+          "url": "/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/",
+          "status": "written"
+        }
+      ]
+    }
+  ],
+  "links": [
+    { "from": "pillar", "to": "cluster-0-post-0", "type": "mandatory", "anchor": "стоимость SEO-продвижения в Ташкенте" },
+    { "from": "cluster-0-post-0", "to": "pillar", "type": "mandatory", "anchor": "SEO-продвижение сайтов в Ташкенте" },
+    { "from": "pillar", "to": "cluster-1-post-0", "type": "mandatory", "anchor": "SEO-аудит сайта" },
+    { "from": "cluster-1-post-0", "to": "pillar", "type": "mandatory", "anchor": "поисковое продвижение сайта" },
+    { "from": "pillar", "to": "cluster-2-post-0", "type": "mandatory", "anchor": "продвижение сайта в Google" },
+    { "from": "cluster-2-post-0", "to": "pillar", "type": "mandatory", "anchor": "комплексное SEO-продвижение" },
+    { "from": "pillar", "to": "cluster-2-post-1", "type": "mandatory", "anchor": "продвижение сайта в Яндексе" },
+    { "from": "cluster-2-post-1", "to": "pillar", "type": "mandatory", "anchor": "SEO для бизнеса в Ташкенте" },
+    { "from": "cluster-0-post-0", "to": "cluster-1-post-0", "type": "recommended", "anchor": "аудит перед расчётом бюджета" },
+    { "from": "cluster-1-post-0", "to": "cluster-0-post-0", "type": "recommended", "anchor": "из чего складывается цена SEO" },
+    { "from": "cluster-2-post-0", "to": "cluster-2-post-1", "type": "recommended", "anchor": "отличия продвижения в Яндексе" },
+    { "from": "cluster-2-post-1", "to": "cluster-2-post-0", "type": "recommended", "anchor": "оптимизация под Google" },
+    { "from": "cluster-0-post-0", "to": "cluster-2-post-0", "type": "optional", "anchor": "работы для Google" },
+    { "from": "cluster-0-post-0", "to": "cluster-2-post-1", "type": "optional", "anchor": "работы для Яндекса" },
+    { "from": "cluster-1-post-0", "to": "cluster-2-post-0", "type": "optional", "anchor": "проверка индексации Google" },
+    { "from": "cluster-1-post-0", "to": "cluster-2-post-1", "type": "optional", "anchor": "диагностика Яндекс Вебмастера" }
+  ],
+  "serp_matrix": {
+    "keywords": [
+      "SEO продвижение сайтов Ташкент",
+      "стоимость SEO продвижения Ташкент",
+      "SEO аудит сайта Ташкент",
+      "продвижение сайта в Google Узбекистан",
+      "продвижение сайта в Яндексе Узбекистан"
+    ],
+    "scores": [
+      [10, 5, 3, 3, 3],
+      [5, 10, 3, 2, 2],
+      [3, 3, 10, 2, 2],
+      [3, 2, 2, 10, 3],
+      [3, 2, 2, 3, 10]
+    ],
+    "note": "Scores are conservative overlap estimates from sampled organic result sets. Zero-volume values indicate that no paid keyword-volume provider was used."
+  },
+  "meta": {
+    "totalPosts": 5,
+    "totalClusters": 3,
+    "totalLinks": 16,
+    "estimatedWords": 9700
+  }
+}

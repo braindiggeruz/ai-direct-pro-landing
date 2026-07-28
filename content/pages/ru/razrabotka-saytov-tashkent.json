@@ -285,6 +285,17 @@
       "text": "Рекомендация: многостраничный SEO-сайт с посадочными страницами под каждую услугу."
     },
     {
+      "type": "linkp",
+      "text": "После запуска техническую основу нужно превратить в стабильную поисковую видимость. Состав работ и критерии результата собраны на странице {seo}.",
+      "links": [
+        {
+          "token": "seo",
+          "target": "/ru/seo-prodvizhenie-saytov-tashkent/",
+          "anchor": "SEO-продвижение сайта после запуска"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Сайт как инструмент продаж"
     },
@@ -931,6 +942,12 @@
       "anchor": "почему сайт не приносит заявки",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "anchor": "SEO-продвижение сайта после запуска",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -942,7 +959,7 @@
   ],
   "lastReviewedAt": "2026-07-10",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-14",
+  "updatedAt": "2026-07-28",
   "heroImage": {
     "src": "/images/seo/website-development/website-development-tashkent-hero.webp",
     "alt": "Разработка сайтов в Ташкенте с AI-ботом, заявками, CRM и аналитикой",

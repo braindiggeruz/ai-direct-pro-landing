@@ -554,6 +554,32 @@
       "text": "Создание бота идёт по прозрачному процессу — от бесплатной консультации и технического задания до запуска, внедрения и поддержки. На каждом шаге вы видите результат: после консультации — понимание задачи, после ТЗ — согласованный объём, после проектирования — карту сценариев, после запуска — готовый Telegram-бот."
     },
     {
+      "type": "linkp",
+      "text": "Подробные рабочие материалы по каждому этапу: {tz}, {stages}, {testing} и {support}. Они помогут подготовиться к оценке, принять результат и заранее определить сопровождение.",
+      "links": [
+        {
+          "token": "tz",
+          "target": "/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+          "anchor": "шаблон ТЗ на Telegram-бота"
+        },
+        {
+          "token": "stages",
+          "target": "/ru/blog/etapy-razrabotki-telegram-bota/",
+          "anchor": "этапы разработки"
+        },
+        {
+          "token": "testing",
+          "target": "/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+          "anchor": "чек-лист тестирования"
+        },
+        {
+          "token": "support",
+          "target": "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+          "anchor": "регламент поддержки после запуска"
+        }
+      ]
+    },
+    {
       "type": "h3",
       "text": "Бесплатная консультация"
     },
@@ -1074,6 +1100,30 @@
       "type": "contextual"
     },
     {
+      "target": "/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+      "anchor": "техническое задание на Telegram-бота",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/etapy-razrabotki-telegram-bota/",
+      "anchor": "этапы разработки Telegram-бота",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+      "anchor": "тестирование Telegram-бота перед запуском",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+      "anchor": "поддержка Telegram-бота после запуска",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/kalkulyator-stoimosti-telegram-bota/",
       "anchor": "калькулятор стоимости Telegram-бота",
       "locale": "ru",
@@ -1087,7 +1137,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-07-13",
+  "lastReviewedAt": "2026-07-28",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-13"
+  "updatedAt": "2026-07-28"
 }
