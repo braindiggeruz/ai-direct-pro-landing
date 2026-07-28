@@ -1,4 +1,46 @@
-# CURRENT_STATE — фактическое состояние репозитория (2026-07-28, R0.1)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-28, R0.2)
+
+## R0.2 Backend Dependency Hardening
+
+- R0.2 code commit:
+  `a364b45dd9355c4ef432951c4c1e88ef8da3bc81`.
+- Repository-sync merge (не commit этапа, D-023):
+  `8f42081598e37bdaa5a072ed7ec8be53a4dc0d38`. Интегрировал два
+  SEO-content-only remote commit'а (`025a217`, `1a68a12`) обычным `--no-ff`
+  merge. 27 локальных stage SHA не переписывались; после merge behind 0.
+- Railway backend работает на **Fastify 5.10.0** (было 4.29.1).
+  `npm audit --omit=dev` в `apps/gpt-backend`: **0 findings** вместо 6 High.
+  Цепочка: `fast-uri` 3.1.4/4.1.1, `find-my-way` 9.7.0,
+  `fast-json-stringify` 7.0.1, `@fastify/ajv-compiler` 4.0.5,
+  `@fastify/fast-json-stringify-compiler` 5.1.0 — всё через поддерживаемый
+  граф Fastify 5, без overrides.
+- Сборка приложения вынесена в `apps/gpt-backend/src/app.ts` (`buildApp()`);
+  `server.ts` остался единственным модулем, который слушает порт. Это позволяет
+  прогонять реальное приложение через `app.inject()` без открытия сокета.
+- Валидация тела по-прежнему на **zod**, route schema Fastify не используется,
+  поэтому ужесточение JSON Schema в v5 неприменимо. Единственное изменение
+  типов: `setErrorHandler` аннотирован `FastifyError` (в v5 ошибка иначе
+  `unknown`).
+- Восстановлен контракт v4 для пустого JSON-тела: Fastify 5 отклоняет
+  `Content-Type: application/json` с пустым телом, а CF-gateway ставит этот
+  заголовок безусловно, поэтому `DELETE /v1/gpt/session/:id` начал бы отвечать
+  400 вместо 401. Точечный content-type parser парсит пустое тело в `undefined`
+  и отдаёт решение route; malformed JSON — controlled 400. Защита от prototype
+  poisoning (`__proto__`/`constructor`), которую давал дефолтный
+  `secure-json-parse`, воспроизведена явно.
+- **npm** подтверждён как deployment package manager (`railway.json` собирает
+  `npm install && npm run build`). `apps/gpt-backend/package-lock.json` теперь
+  tracked и authoritative; `npm ci` в чистой директории вне репозитория
+  воспроизводит дерево, typecheck и build exit 0.
+- Node runtime не менялся: Fastify 5 требует Node ≥ 20, `engines.node` уже
+  `">=20"`, deployment-файлы не трогались.
+- Baseline: R0.2 backend security 30/30; backend 18/18; R0.1 web-security
+  13/13; required Agents 584/584; весь repository **706/706** по 27 suites;
+  root TypeScript/build, backend TypeScript/build и scoped ESLint exit 0;
+  Functions сохраняет ровно 27 legacy errors в тех же 6 файлах и 0 новых;
+  boundaries 10/10.
+- Production не изменялся: push/deploy/migrations/webhook/secrets не
+  выполнялись. Следующий этап — только R0.3 Credential Incident Response.
 
 ## R0.1 Web Security Hardening
 

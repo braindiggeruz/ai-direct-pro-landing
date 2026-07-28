@@ -3,7 +3,7 @@
 Дата фактического аудита: **2026-07-27**
 Рабочая директория: `F:\Claude\gptbot-repo`
 Ветка: `main`
-Дата последнего обновления документа: **2026-07-28 (после P2.7)**
+Дата последнего обновления документа: **2026-07-28 (после R0.2)**
 Аудированный source HEAD исходного аудита:
 `fda702469f88d09768a56a53a7ebd8f41e34d506`
 HEAD после документационного commit этого файла:
@@ -18,11 +18,27 @@ P2.5 relay commit: `593654efc22c14e8877ec83e2ebfe009103997ce`
 P2.6 code commit: `8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79`
 P2.6 relay commit: `841836a7a3e81e7c2ecb49d86d31297474484c5d`
 P2.7 code commit: `6dccec2095ba483779fbded77c08d8030eca5b4d`
-Удалённый `origin/main` (проверено повторно 2026-07-28):
-`93fab390733d3d5ffbf052e211d95b6038ee4bbd`
-Последний завершённый этап: **P2.7 — Analytics и pilot readiness**
-Следующий этап по ROADMAP: **P3 — пилот** (операционный; заблокирован до
-отдельной одобренной release/security-задачи, см. §17 и §18)
+P2.7 relay commit: `ebb07f5da86b36cba5df04658aedd3dc8df52bef`
+R0.1 code commit: `6c0f723ccda2725acfd91e76f05276e64fe2fbb4`
+R0.1 relay commit: `748de36d939e93af4341a175400cfb3cb05facb3`
+Repository-sync merge (не commit этапа, D-023):
+`8f42081598e37bdaa5a072ed7ec8be53a4dc0d38`
+R0.2 code commit: `a364b45dd9355c4ef432951c4c1e88ef8da3bc81`
+Удалённый `origin/main` (проверено повторно 2026-07-28, после fetch):
+`1a68a1291a4c432094ca1022b1e13d2f9ef69c13` — интегрирован в локальную ветку
+merge-коммитом `8f42081`; после merge divergence **behind 0**, ahead — только
+локальные commit'ы этапов.
+Последний завершённый этап: **R0.2 — Backend Dependency Hardening**
+Следующий этап: **R0.3 — Credential Incident Response**. P3 (пилот) остаётся
+операционным и заблокированным до прохождения R0.3 и R0.4, см. §17 и §18.
+
+> **Обновление после R0.2.** Railway backend переведён с Fastify 4.29.1 на
+> 5.10.0; production audit backend — 0 findings вместо 6 High. npm закреплён
+> как deployment package manager, `apps/gpt-backend/package-lock.json` стал
+> tracked и authoritative. Добавлен suite `tests/gpt-backend-security.test.ts`
+> (30), полный repository baseline — **706/706** по 27 suites. Разделы ниже,
+> написанные на дату P2.7, сохраняют исторический контекст; при расхождении
+> приоритет имеют Git tree, `STATE.json`, `HANDOFF.md` и `CURRENT_STATE.md`.
 
 > Этот документ — главный технический handoff проекта на указанную дату. Он
 > фиксирует фактическое состояние кода, данных, тестов и production, но сам по

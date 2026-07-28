@@ -16,6 +16,44 @@
 credential incident и Git history (R0.3), CI/release preparation (R0.4),
 production rollout (R1). Release остаётся заблокирован.
 
+## R0.2 checkpoint
+
+Закрыт backend dependency blocker:
+
+- Railway backend переведён с Fastify 4.29.1 на 5.10.0. `npm audit --omit=dev`
+  в `apps/gpt-backend` даёт **0 findings** вместо прежних 6 High / 0 Critical.
+  Закрыты `GHSA-q3j6-qgpj-74h6`, `GHSA-v39h-62p7-jpjc`, `GHSA-v2hh-gcrm-f6hx`,
+  `GHSA-4c8g-83qw-93j6` (fast-uri), `GHSA-jx2c-rxcm-jvmq` (content-type tab
+  bypass), `GHSA-444r-cwp2-x5xf` (X-Forwarded-Proto/Host spoofing),
+  `GHSA-c96f-x56v-gq3h` (find-my-way HTTP/2) и `GHSA-mrq3-vjjr-p77c`.
+  Overrides не использовались — всё пришло через поддерживаемый Fastify 5 граф.
+- `apps/gpt-backend/package-lock.json` больше не untracked: npm подтверждён как
+  deployment package manager (`railway.json` собирает через `npm install`),
+  lockfile соответствует manifest и воспроизводится `npm ci`.
+
+Остаётся открытым и НЕ входило в R0.2:
+
+- **`memory/test_credentials.md` в Git — critical release blocker.** Этап R0.3.
+- Web-side `GHSA-qwww-vcr4-c8h2` (React Router): относится к RSC mode, которого
+  в declarative BrowserRouter приложении нет. Не применимо, major upgrade ради
+  этого не выполнялся.
+- `trustProxy: true` на Railway остаётся как было. Fastify 5.10.0 закрывает сам
+  парсинг forwarded-заголовков, а авторизация backend не зависит от
+  `req.ip`/`req.protocol`/`req.hostname` вообще (доказано тестами: подменённые
+  X-Forwarded-Host/Proto и произвольный Host не дают доступа). Но `clientIp()`
+  читает `cf-connecting-ip`/`x-forwarded-for` напрямую, поэтому подмена этих
+  заголовков при прямом обращении к Railway по-прежнему позволяет обойти
+  **quota-счётчик** (не авторизацию). Это app-level вопрос, а не advisory;
+  сужение доверия к прокси — отдельное решение владельца.
+- Redact-пути `req.headers[...]` в `logger.ts` фактически не срабатывают:
+  дефолтный request-сериализатор Fastify вообще не пишет заголовки. Секрет в
+  логи не попадает (проверено тестом), так что это не уязвимость, но конфиг
+  выглядит защитнее, чем работает. Оставлен как defence-in-depth.
+- 2 legacy `no-explicit-any` в `apps/gpt-backend/src/routes/admin.ts` не
+  трогались — часть общего lint-долга ниже.
+- Migrations `0013–0023` не применены, Agents webhook не настроен, production
+  не задеплоен. Release остаётся заблокирован.
+
 ## Legacy lint-долг (`npx eslint .` = 84 problems, 71 errors) — файлы:
 apps/gpt-backend/src/routes/{admin,chat}.ts · functions/api/admin/seo/cannibalization/{analyze,retarget}.ts ·
 functions/api/payments/webhook.ts · functions/lib/ai-drafts/ctr-boost-runner.ts ·

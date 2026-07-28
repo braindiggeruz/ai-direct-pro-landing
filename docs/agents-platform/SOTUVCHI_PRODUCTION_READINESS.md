@@ -8,8 +8,26 @@ Code commit `6c0f723ccda2725acfd91e76f05276e64fe2fbb4` содержит пров
 локальное исправление React Router 7.x applicable advisories и GPT Chat
 Turnstile configured-secret/missing-token bypass, включая private Railway chat
 ingress. Это evidence для будущей human sign-off, но не production verification.
+
+## R0.2 local source evidence
+
+Code commit `a364b45dd9355c4ef432951c4c1e88ef8da3bc81` переводит Railway
+backend с Fastify 4.29.1 на 5.10.0 и закрывает всю подтверждённую цепочку:
+`npm audit --omit=dev` в `apps/gpt-backend` даёт **0 findings** вместо прежних
+6 High / 0 Critical. Закрыты `GHSA-q3j6-qgpj-74h6`, `GHSA-v39h-62p7-jpjc`,
+`GHSA-v2hh-gcrm-f6hx`, `GHSA-4c8g-83qw-93j6` (fast-uri),
+`GHSA-jx2c-rxcm-jvmq` (content-type tab bypass), `GHSA-444r-cwp2-x5xf`
+(forwarded-header spoofing), `GHSA-c96f-x56v-gq3h` (find-my-way),
+`GHSA-mrq3-vjjr-p77c`. Добавлен suite `tests/gpt-backend-security.test.ts`
+(30/30), поднимающий реальное приложение без сети. `npm ci` в чистой
+директории вне репозитория воспроизводит дерево, typecheck и build exit 0.
+
+Это **local source evidence**, а не production verification: backend не
+задеплоен, поэтому пункт «Fastify (Railway backend)» ниже остаётся `[ ]` до
+фактического deploy и проверки человеком.
+
 По правилу checklist пункты ниже остаются `[ ]`: deploy, production smoke,
-Fastify hardening, credential response и CI release gates ещё не выполнены.
+credential response и CI release gates ещё не выполнены.
 
 > **Статус: RELEASE BLOCKED.** Ни один пункт этого списка не отмечен
 > автоматически. `[ ]` означает «не выполнено», и таким пункт остаётся, пока

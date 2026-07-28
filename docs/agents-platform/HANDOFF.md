@@ -1,5 +1,101 @@
 # Актуальный master handoff
 
+## R0.2 relay checkpoint (2026-07-28)
+
+- Завершён этап **R0.2 — Backend Dependency Hardening**.
+- Code commit: `a364b45dd9355c4ef432951c4c1e88ef8da3bc81`.
+- Repository-sync merge (не commit этапа, D-023):
+  `8f42081598e37bdaa5a072ed7ec8be53a4dc0d38`.
+- Следующий разрешённый этап: **R0.3 — Credential Incident Response**. R0.4,
+  R1 и P3 не начинались.
+
+### Что было на входе
+
+Фактический HEAD — `748de36`, remote `origin/main` — `1a68a12`, divergence
+ahead 27 / behind 2. Два remote commit'а (`025a217`, `1a68a12`) оказались
+публикациями SEO-кластеров от GPTBot SEO Bot: 45 файлов только в `content/`,
+`public/assets/` и `reports/seo-clusters/`, +4562/−10. Ноль пересечений с
+backend, `functions/`, `src/`, `migrations/`, governance и lockfiles; ноль
+пересечений путей с 27 локальными commit'ами; `git merge-tree` — чистое дерево
+без конфликтов; secret-скан чист. Признаны безопасными и самостоятельными.
+
+### Синхронизация
+
+Создана локальная safety branch `backup/pre-r0.2-748de36` (не запушена).
+Remote интегрирован обычным `--no-ff` merge `8f42081`. Rebase, reset, restore,
+checkout файлов, clean, stash, cherry-pick и любая переписка истории **не
+выполнялись**: все 27 локальных stage SHA, включая R0.1 `6c0f723` и `748de36`,
+остались неизменными. После merge — behind 0.
+
+Post-sync baseline (до любых изменений R0.2) совпал с R0.1 ровно: полный
+репозиторий 676/676 по 26 suites, required Agents 584/584, backend 18/18,
+`tsc -b` и root build exit 0, backend typecheck/build exit 0, Functions ровно
+27 legacy errors в тех же 6 файлах.
+
+### Fastify 5
+
+Railway backend переведён с Fastify 4.29.1 на **5.10.0** по официальному
+migration guide. `npm audit --omit=dev` в `apps/gpt-backend`: **0 findings**
+вместо прежних 6 High / 0 Critical. Закрыты `GHSA-q3j6-qgpj-74h6`,
+`GHSA-v39h-62p7-jpjc`, `GHSA-v2hh-gcrm-f6hx`, `GHSA-4c8g-83qw-93j6` (fast-uri
+2.4.0/3.1.3 → 3.1.4/4.1.1), `GHSA-c96f-x56v-gq3h` (find-my-way 8.2.2 → 9.7.0),
+`GHSA-jx2c-rxcm-jvmq`, `GHSA-444r-cwp2-x5xf`, `GHSA-mrq3-vjjr-p77c`;
+`fast-json-stringify` 5.16.1 → 7.0.1, `@fastify/ajv-compiler` 3.6.0 → 4.0.5,
+`@fastify/fast-json-stringify-compiler` 4.3.0 → 5.1.0. Overrides не
+использовались. Supabase, OpenRouter, jose, pino, zod, root и frontend не
+трогались.
+
+Поверхность миграции узкая, потому что валидация тела — на **zod**, а не на
+route schema Fastify. Потребовалось ровно одно изменение типов
+(`setErrorHandler` в v5 типизирует ошибку как `unknown`) плюс два осознанных
+изменения:
+
+1. Сборка приложения вынесена в новый `apps/gpt-backend/src/app.ts`
+   (`buildApp()`), чтобы прогонять реальное приложение через `app.inject()` без
+   открытия порта. `server.ts` остался единственным слушающим модулем.
+2. v5 отклоняет `Content-Type: application/json` с пустым телом. CF-gateway
+   ставит этот заголовок безусловно, поэтому `DELETE /v1/gpt/session/:id`
+   начал бы отвечать 400 от парсера вместо 401 от auth-guard — подтверждено
+   тестом до исправления. Контракт v4 восстановлен точечным content-type
+   parser; malformed JSON по-прежнему fail-closed 400. Так как parser заменяет
+   дефолтный на `secure-json-parse`, защита от prototype poisoning
+   воспроизведена явно (`__proto__`/`constructor` отклоняются) и закрыта тестом.
+
+Node runtime менять не потребовалось: Fastify 5 требует Node ≥ 20, backend уже
+объявляет `engines.node: ">=20"`, deployment-файлы не трогались.
+
+### Lockfile policy
+
+`railway.json` собирает через `npm install`, значит npm — deployment package
+manager. `apps/gpt-backend/package-lock.json` лежал untracked, но **не был
+gitignored**; он соответствует manifest, без auth-материала, резолвится только
+на `registry.npmjs.org`. Теперь tracked и authoritative. `npm ci` в чистой
+директории **вне репозитория** воспроизводит дерево, typecheck и build — exit 0,
+audit — 0 findings.
+
+### Verification
+
+`tests/gpt-backend-security.test.ts` — новый suite 30/30, поднимает реальное
+приложение через `app.inject()` без сети (Supabase не сконфигурирован,
+provider-ключа нет). Полный репозиторий **706/706** по 27 suites (676 post-sync
++ 30 новых); backend 18/18; R0.1 web-security 13/13; required Agents 584/584;
+`tsc -b` и root build exit 0; backend typecheck/build exit 0; Functions ровно
+27 прежних legacy errors в тех же 6 файлах; scoped ESLint exit 0; boundaries
+10/10; `git diff --check` чист.
+
+### Не выполнялось
+
+Push, deploy, Railway deploy, применение migrations, настройка webhook,
+изменение или ротация secrets, чтение credential-значений, переписка истории,
+force push. `memory/test_credentials.md` не открывался — проверено только
+tracked-наличие. Untracked `gptbot.uz-audit/` не изменялся и не staging'ился.
+
+Ниже сохранён предыдущий R0.1 checkpoint. При расхождении
+stage/commit/baseline приоритет имеют Git tree, `STATE.json` и этот R0.2
+checkpoint.
+
+---
+
 ## R0.1 relay checkpoint (2026-07-28)
 
 - Завершён этап **R0.1 — Web Security Hardening**.

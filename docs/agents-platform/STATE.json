@@ -1,28 +1,34 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "R0.1",
+  "current_stage": "R0.2",
   "stage_status": "completed",
-  "last_completed_stage": "R0.1",
-  "next_stage": "R0.2",
-  "next_stage_note": "R0.2 is Backend Dependency Hardening only. Do not start R0.3, R0.4, R1 or P3, and do not perform push, deploy, migration, webhook or secret operations without a separately authorized phase.",
-  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 is complete locally; release remains blocked by the later gates.",
-  "last_commit": "6c0f723ccda2725acfd91e76f05276e64fe2fbb4",
+  "last_completed_stage": "R0.2",
+  "next_stage": "R0.3",
+  "next_stage_note": "R0.3 is Credential Incident Response only: rotation/revocation, tracked credential material, agreed Git history remediation and downstream clone/fork coordination. Do not start R0.4, R1 or P3, and do not perform push, deploy, migration, webhook or secret operations without a separately authorized phase. blocked:false means R0.3 may be prepared, not that production is open.",
+  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; release remains blocked by the later gates.",
+  "last_commit": "a364b45dd9355c4ef432951c4c1e88ef8da3bc81",
   "state_commit": "HEAD",
-  "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
+  "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage. The repository-sync merge 8f42081 is not an R0.2 stage commit (D-023).",
   "previous_stage": {
-    "stage": "P2.7",
-    "last_commit": "6dccec2095ba483779fbded77c08d8030eca5b4d",
-    "state_commit": "ebb07f5da86b36cba5df04658aedd3dc8df52bef"
+    "stage": "R0.1",
+    "last_commit": "6c0f723ccda2725acfd91e76f05276e64fe2fbb4",
+    "state_commit": "748de36d939e93af4341a175400cfb3cb05facb3"
+  },
+  "repository_sync": {
+    "merge_commit": "8f42081598e37bdaa5a072ed7ec8be53a4dc0d38",
+    "integrated_remote_head": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
+    "remote_commits": ["025a21780c33a899aea877ff6b84ad69249a66a5", "1a68a1291a4c432094ca1022b1e13d2f9ef69c13"],
+    "note": "SEO-content-only remote commits integrated with a non-fast-forward merge before R0.2. No local stage SHA was rewritten, rebased or reset."
   },
   "updated_at": "2026-07-28",
   "blocked": false,
   "blockers": [],
   "baseline": {
-    "build": "tsc -b exit 0; npm run build exit 0 (seo-audit gate, Vite 8.0.14, prerender, sitemap); Railway backend typecheck and build exit 0",
-    "tests": "pass: R0.1 web-security-hardening 13/13; gpt-backend 18/18; unchanged required Agents baseline 584/584; full repository 676/676 across 26 suites",
+    "build": "tsc -b exit 0; corepack yarn build exit 0 (seo-audit gate, prerender, sitemap 207 entries = 106 pages + 98 articles); Railway backend typecheck and build exit 0; npm ci in a clean out-of-repository directory exit 0 followed by typecheck and build exit 0",
+    "tests": "pass: R0.2 gpt-backend-security 30/30; gpt-backend 18/18; R0.1 web-security-hardening 13/13; unchanged required Agents baseline 584/584; full repository 706/706 across 27 suites (post-sync baseline 676/676 plus 30 new backend security tests)",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in the same 6 old files, 0 in changed files and 0 in platform/agents/channels (D-007)",
-    "lint": "R0.1 changed-file scoped eslint exit 0; boundaries 10/10 and checker 0 violations; global eslint remains legacy-red per KNOWN_ISSUES",
-    "security": "Turnstile is enforced before GPT Chat Railway/provider work when configured; action/hostname are verified and chat/admin actions are isolated; direct Railway chat requires the internal gateway secret; React Router is 7.18.1. npm audit retains only GHSA-qwww-vcr4-c8h2, an RSC-mode advisory not applicable to this declarative BrowserRouter application. No production operation was performed."
+    "lint": "R0.2 changed-file scoped eslint exit 0 (apps/gpt-backend/src/app.ts, src/server.ts, tests/gpt-backend-security.test.ts, tests/gpt-backend.test.ts); boundaries 10/10 and checker 0 violations; the 2 pre-existing no-explicit-any errors in apps/gpt-backend/src/routes/admin.ts are untouched legacy debt per KNOWN_ISSUES; global eslint remains legacy-red",
+    "security": "Railway backend runs Fastify 5.10.0. npm audit --omit=dev on apps/gpt-backend reports 0 vulnerabilities, down from 6 High / 0 Critical. The fast-uri, find-my-way, fast-json-stringify and Fastify compiler advisories are closed through the supported Fastify 5 graph with no overrides. Web-side R0.1 controls are unchanged: Turnstile is enforced before GPT Chat Railway/provider work when configured, action/hostname are verified, chat/admin actions are isolated, direct Railway chat requires the internal gateway secret, React Router is 7.18.1 with only the non-applicable RSC advisory GHSA-qwww-vcr4-c8h2 remaining. No production operation was performed."
   }
 }

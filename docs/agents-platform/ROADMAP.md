@@ -32,10 +32,15 @@
   hardening; GPT Chat/admin Turnstile enforcement, action/hostname isolation
   and fail-closed client states; private Railway chat ingress. Без deploy,
   migrations, webhook и secret operations.
-- **R0.2 Backend Dependency Hardening — next.** Railway/Fastify production
-  dependency chain only; не расширять в credential incident или rollout.
-- **R0.3 Credential Incident Response.** Rotation/revocation, tracked material,
-  согласованная history cleanup и downstream coordination.
+- **R0.2 Backend Dependency Hardening — completed locally.** Railway backend
+  переведён с Fastify 4.29.1 на 5.10.0 (SemVer-major по официальному migration
+  guide); production audit backend: 0 findings вместо 6 High; npm закреплён как
+  deployment package manager и `apps/gpt-backend/package-lock.json` стал tracked
+  и authoritative; добавлен suite `tests/gpt-backend-security.test.ts` (30).
+  Без deploy, migrations, webhook и secret operations.
+- **R0.3 Credential Incident Response — next.** Rotation/revocation, tracked material,
+  согласованная history cleanup и downstream coordination. Не расширять в
+  R0.4 или rollout.
 - **R0.4 Release Preparation.** CI secret/SAST/dependency gates, release
   evidence, backups, migration/runbook approval.
 

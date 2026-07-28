@@ -36,6 +36,38 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | P2.5 | `tests/sotuvchi-orders-inventory.test.ts` | 37 | stock validation; status-pair derivation and transition table; migration+bootstrap parity; inventory persistence, movements, version conflicts and idempotency; seller list/detail PII separation; atomic confirm with single decrement; insufficient/missing stock fail-closed; unavailable and preorder policy; cancel/done/invalid transitions; notification intents and failure independence; Facts/grounding RU/UZ; tenant negatives; offline Telegram RU/UZ seller flow; no payment/multi-item |
 | P2.7 | `tests/sotuvchi-pilot-readiness.test.ts` | 36 | closed event catalogue; scalar-only payload; buyer text/contact/injection rejection; unknown event name refused; trusted org+request required; duplicate append once; cross-tenant event isolation; analytics failure never repeats the domain call; funnel derived from Facts only; `/stats` owner-only with buyer/foreign/disabled/other-identity negatives; spoofed store, org and window fail closed; empty state; exact counts vs domain tables; seven-day window boundary; funnel kept apart; repeat-safe; RU/UZ rendering with grounding and no PII; unsupported number rejected; command and action routing; RU/UZ landing pair, canonical, hreflang, sitemap eligibility, inbound links, CTA safety, bot-identity guard, no unsafe or fabricated claim; pilot check read-only, no secret output, fails closed, migration order 0013–0023, no new migration; setup never calls setWebhook without an explicit apply; runbook and checklist exist, keep blockers visible and carry no credential material |
 | P2.6 | `tests/sotuvchi-handoff.test.ts` | 40 | channel address bind/update/revoke per bot namespace and namespace isolation; bounded content RU/UZ; retention deadline, content clearing and unanswerable expiry; one open handoff per buyer session; escalation replay; content-free operation log; queue/detail PII separation and tenant negatives; durable unique reply target; repeated reply press; expired target; exactly one final reply, replay and concurrent-answer race; foreign seller negatives; close once and immutability; strict grounding RU/UZ with seller authorship marker; seller notice without question text; push once, buyer answer, failed delivery retry and missing address; P2.5 order intents through the same path; migration/bootstrap parity; offline Telegram RU/UZ E2E; no auto-escalation; no CRM/payment/attachment |
+| R0.2 | `tests/gpt-backend-security.test.ts` | 30 | реальное приложение через `app.inject()` без сети; internal gateway secret (отсутствует / неверный / валидный / повторный); отсутствие секрета в ответах, заголовках и логах; malformed JSON и schema-invalid body; отклонение лишних свойств вместо доверия им как authority; body limit 413; неподдерживаемый content-type 415; tab-padded content-type (`GHSA-jx2c-rxcm-jvmq`); prototype poisoning `__proto__`/`constructor`; подменённые X-Forwarded-Host/Proto и произвольный Host не дают авторизации; запрещённый Origin 403; encoded/traversal/null-byte пути не доходят до handler; provider error без stack и секретов; отсутствие provider egress и store-мутации при отказе; health presence-only; ping boundary; отдельный admin guard на analytics и cleanup; неизменённый session/history/feedback контракт; DELETE с пустым JSON-телом доходит до auth guard (регрессия Fastify 5) |
+
+## Post-change baseline R0.2
+
+| Проверка | Команда | Результат |
+|---|---|---|
+| R0.2 backend security | `node --import tsx --test tests/gpt-backend-security.test.ts` | 30/30 |
+| Railway GPT backend | `node --import tsx --test tests/gpt-backend.test.ts` | 18/18 |
+| R0.1 web security | `node --import tsx --test tests/web-security-hardening.test.ts` | 13/13 |
+| Required Agents baseline | file-by-file по списку P2.7 ниже | 584/584 |
+| Full repository | все `tests/*.test.ts` file-by-file | **706/706, 27 suites** |
+| App typecheck | `npx tsc -b` | exit 0 |
+| Production build | `corepack yarn build` | exit 0; SEO gate пройден; sitemap 207 (106 pages + 98 articles) |
+| Railway backend | `npm --prefix apps/gpt-backend run typecheck` + `build` | exit 0 |
+| Clean install | `npm ci --ignore-scripts` в директории вне репозитория + typecheck + build | exit 0 / exit 0 / exit 0; `dist/server.js` создан |
+| Backend audit | `npm audit --omit=dev` в `apps/gpt-backend` | **0 findings** (было 6 High / 0 Critical) |
+| Dependency tree | `npm ls fastify @fastify/ajv-compiler @fastify/fast-json-stringify-compiler fast-json-stringify fast-uri find-my-way` | exit 0; fastify 5.10.0, ajv-compiler 4.0.5, fjs-compiler 5.1.0, fast-json-stringify 7.0.1, fast-uri 3.1.4/4.1.1, find-my-way 9.7.0 |
+| Functions typecheck | `npx tsc -p tsconfig.functions.json --noEmit` | exit 2; ровно 27 прежних errors в тех же 6 legacy files; 0 новых |
+| R0.2 scoped lint | `npx eslint apps/gpt-backend/src/app.ts apps/gpt-backend/src/server.ts tests/gpt-backend-security.test.ts tests/gpt-backend.test.ts` | exit 0 |
+| Boundary gate | test + direct checker | 10/10; 0 violations |
+| Whitespace gate | `git diff --cached --check` | exit 0 |
+| Staged secret scan | staged diff по token/key/JWT/private-key паттернам | 0 совпадений |
+
+Post-sync baseline после merge `8f42081` (до изменений R0.2) совпал с R0.1
+ровно: 676/676 по 26 suites. R0.2 добавляет 30 backend security regressions,
+поэтому полный total вырос с 676 до **706/706**. Обязательный Agents baseline
+не изменился и остаётся **584/584**. Ни одно прежнее число не уменьшилось.
+
+Запускать backend security suite отдельным процессом: он поднимает реальное
+Fastify-приложение, поэтому требует установленных зависимостей в
+`apps/gpt-backend/node_modules` (в отличие от `tests/gpt-backend.test.ts`,
+который импортирует только чистые модули с type-only зависимостями).
 
 ## Post-change baseline R0.1
 

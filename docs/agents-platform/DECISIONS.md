@@ -1,5 +1,83 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-023 (2026-07-28, R0.2) Fastify 5 migration, npm lockfile policy и repository-sync merge вне лимита этапа
+
+**Remote integration отдельным merge.** На старте R0.2 фактический `origin/main`
+ушёл вперёд на два commit'а (`025a217`, `1a68a12`) — обе публикации SEO-кластеров
+от GPTBot SEO Bot, затрагивающие только `content/`, `public/assets/` и
+`reports/seo-clusters/`: 45 файлов, +4562/−10, ноль пересечений с backend,
+`functions/`, `src/`, `migrations/`, governance и lockfiles. Пересечения путей с
+27 локальными commit'ами нет вообще, `git merge-tree` дал чистое дерево без
+конфликтов, secret-скан чист. Интеграция выполнена **обычным non-fast-forward
+merge** `8f42081`, потому что 27 локальных stage SHA (включая R0.1 `6c0f723` и
+`748de36`) обязаны остаться неизменными: rebase, reset и любая переписка истории
+запрещены и не выполнялись. Этот merge — repository-sync, **он не входит в лимит
+D-006 «максимум 2 commit'а на этап»**: R0.2 состоит ровно из code commit и relay
+commit.
+
+**Fastify 4 → 5 как контролируемая SemVer-major миграция.** `npm audit fix` и
+широкий upgrade запрещены и не применялись. Fastify 4.29.1 переведён на 5.10.0
+по официальному migration guide, потому что вся цепочка advisory (6 High)
+закрывается только мажором: `fast-uri` 2.4.0/3.1.3 → 3.1.4/4.1.1 (path traversal
+`GHSA-q3j6-qgpj-74h6`; host confusion `GHSA-v39h-62p7-jpjc`,
+`GHSA-v2hh-gcrm-f6hx`, `GHSA-4c8g-83qw-93j6`), `find-my-way` 8.2.2 → 9.7.0
+(`GHSA-c96f-x56v-gq3h`), `fast-json-stringify` 5.16.1 → 7.0.1,
+`@fastify/ajv-compiler` 3.6.0 → 4.0.5, `@fastify/fast-json-stringify-compiler`
+4.3.0 → 5.1.0, плюс сам Fastify (`GHSA-jx2c-rxcm-jvmq` content-type tab bypass,
+`GHSA-444r-cwp2-x5xf` forwarded-header spoofing, `GHSA-mrq3-vjjr-p77c`).
+Overrides для `find-my-way`, `fast-uri` и compiler-пакетов **не** использовались:
+всё пришло через поддерживаемый граф Fastify 5. Supabase, OpenRouter, jose,
+pino, zod, root-пакет и frontend не обновлялись.
+
+**Node runtime.** Fastify 5 требует Node ≥ 20; backend уже объявляет
+`engines.node: ">=20"`, и `railway.json` собирает через NIXPACKS, который это
+объявление читает. Никакой deployment-файл менять не потребовалось и не менялся.
+
+**Поверхность миграции оказалась узкой, потому что валидация — на zod.** Route
+schema Fastify не используется, поэтому ужесточение «full JSON schema required»
+неприменимо. Из удалённого/изменённого API не используется ничего: `routerPath`,
+`routeConfig`, `request.connection`, `reply.redirect`, `getResponseTime`,
+`reply.sent`, custom HEAD, `{version}`, decorator-reference-types,
+нестандартные HTTP-методы. Логгер передаётся **опциями, а не инстансом**, так
+что разделение `logger`/`loggerInstance` тоже не задело. Потребовалось ровно одно
+изменение типов: `setErrorHandler` в v5 типизирует ошибку как `unknown`, пока не
+закреплён generic — аннотирован `FastifyError`.
+
+**Два осознанных изменения кода.** Первое: сборка приложения вынесена из
+`server.ts` в новый `app.ts` с экспортом `buildApp()`, чтобы полностью собранное
+приложение можно было прогонять через `app.inject()` без открытия порта;
+`server.ts` остаётся единственным модулем, который слушает. Фейковые endpoint'ы
+ради тестов запрещены и не создавались.
+
+Второе: v5 отклоняет запрос с `Content-Type: application/json` и пустым телом
+(`FST_ERR_CTP_EMPTY_JSON_BODY`). Cloudflare-gateway (`proxyToRailway`)
+**безусловно** ставит этот заголовок на каждый forwarded-вызов, включая методы
+без тела, поэтому `DELETE /v1/gpt/session/:id` начал бы отвечать 400 от
+body-парсера вместо 401 от собственного auth-guard. Это подтверждено тестом до
+исправления. Контракт v4 восстановлен точечным content-type parser: пустое тело
+парсится в `undefined` и решение принимает route, а malformed JSON по-прежнему
+fail-closed с контролируемым 400. Поскольку этот parser заменяет дефолтный,
+построенный на `secure-json-parse` (`protoAction`/`constructorAction` = `error`),
+его защита от prototype poisoning воспроизведена явно: ключ `__proto__` или
+`constructor` отклоняется. Это единственное место, где миграция могла молча
+ослабить безопасность, и оно закрыто тестом.
+
+**npm как canonical backend package manager, lockfile — tracked.** `railway.json`
+собирает `npm install && npm run build`, значит deployment-менеджер именно npm.
+`apps/gpt-backend/package-lock.json` исторически лежал untracked, но **не был
+gitignored** — его просто никогда не добавляли. Он соответствует manifest
+(lockfileVersion 3), не содержит auth-материала и резолвится только на
+`registry.npmjs.org`. Теперь он tracked и authoritative: `npm ci` в чистой
+директории **вне репозитория** воспроизводит дерево и проходит typecheck и build,
+то есть deploy становится воспроизводимым.
+
+**Границы.** API-контракт сохранён; единственное поведенческое отличие,
+которое внёс мажор, нейтрализовано и закрыто тестом. Push, deploy, Railway
+deploy, применение migrations, настройка webhook, изменение и ротация secrets,
+чтение credential-значений, переписка истории и force push не выполнялись.
+`memory/test_credentials.md` не открывался — проверено только tracked-наличие.
+Следующий этап — R0.3 Credential Incident Response.
+
 ## D-022 (2026-07-28, R0.1) Edge-first abuse control, isolated Turnstile actions и private Railway ingress
 
 R0.1 сохраняет существующую optional-configuration policy Turnstile, но
