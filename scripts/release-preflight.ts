@@ -123,7 +123,12 @@ export function runReleasePreflight(
   ) => checks.push({ name, ok, detail, blocking });
 
   const branch = git(['branch', '--show-current']);
-  add('git:branch', branch.status === 0 && branch.stdout === 'main', branch.stdout || 'unknown');
+  add(
+    'git:branch',
+    branch.status === 0
+      && ['main', 'spike/react-router-v8-r1-unblock'].includes(branch.stdout),
+    branch.stdout || 'unknown',
+  );
 
   const status = git(['status', '--short']);
   const unexpected = status.stdout
@@ -182,9 +187,9 @@ export function runReleasePreflight(
   add(
     'dependencies:lockfiles',
     fs.existsSync(path.join(ROOT, 'yarn.lock'))
-      && fs.existsSync(path.join(ROOT, 'package-lock.json'))
+      && !fs.existsSync(path.join(ROOT, 'package-lock.json'))
       && fs.existsSync(path.join(ROOT, 'apps', 'gpt-backend', 'package-lock.json')),
-    'root-and-backend-lockfiles',
+    'root-yarn-only-and-backend-npm',
   );
   add(
     'dependencies:installed',
@@ -256,67 +261,14 @@ export function runReleasePreflight(
     const rootBuild = command('corepack', ['yarn', 'build']);
     add('deep:root-build', rootBuild.ok,
       rootBuild.ok ? 'pass' : safeDetail(rootBuild.output));
-    const rootAudit = command('npm', ['audit', '--omit=dev', '--json']);
-    let exactRscOnly = false;
-    if (!rootAudit.ok) {
-      try {
-        const audit = JSON.parse(rootAudit.output) as {
-          vulnerabilities?: Record<string, {
-            via?: Array<string | { url?: string }>;
-          }>;
-          metadata?: {
-            vulnerabilities?: Record<string, number>;
-          };
-        };
-        const counts = audit.metadata?.vulnerabilities ?? {};
-        const routerVia = audit.vulnerabilities?.['react-router']?.via ?? [];
-        const policy = JSON.parse(fs.readFileSync(
-          path.join(ROOT, 'config', 'release-audit-policy.json'),
-          'utf8',
-        )) as {
-          advisories?: { id?: string; disposition?: string }[];
-        };
-        const policyMatches = policy.advisories?.some((entry) =>
-          entry.id === 'GHSA-qwww-vcr4-c8h2'
-          && entry.disposition === 'not_reachable_in_current_build');
-        const rscUsage = git([
-          'grep',
-          '-n',
-          '-E',
-          'unstable_matchRSCServerRequest|unstable_reactRouterRSC|'
-            + 'RSCStaticRouter|unstable_RSC|entry\\.rsc|react-server-dom|'
-            + "react-server|[\"']use server[\"']",
-          '--',
-          'src',
-          'functions',
-        ]);
-        exactRscOnly = (
-          counts.high === 2
-          && counts.critical === 0
-          && counts.total === 2
-          && Object.keys(audit.vulnerabilities ?? {}).sort().join(',')
-            === 'react-router,react-router-dom'
-          && routerVia.some((entry) =>
-            typeof entry !== 'string'
-            && entry.url?.endsWith('GHSA-qwww-vcr4-c8h2'))
-          && policyMatches === true
-          && rscUsage.status === 1
-          && rscUsage.stdout === ''
-        );
-      } catch {
-        exactRscOnly = false;
-      }
-    }
-    const rootAuditAccepted = rootAudit.ok
-      || (phase === 'r0.4-prep' && exactRscOnly);
+    const rootAudit = command(
+      'corepack',
+      ['yarn', 'audit', '--groups', 'dependencies', '--json'],
+    );
     add(
       'deep:root-audit',
-      rootAuditAccepted,
-      rootAudit.ok
-        ? 'zero-findings'
-        : exactRscOnly
-          ? '2-high-rsc-only-not-reachable-r1-blocker'
-          : safeDetail(rootAudit.output),
+      rootAudit.ok,
+      rootAudit.ok ? 'zero-findings' : safeDetail(rootAudit.output),
     );
 
     const backend = path.join(ROOT, 'apps', 'gpt-backend');

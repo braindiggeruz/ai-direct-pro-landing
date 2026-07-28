@@ -18,8 +18,8 @@
     "previous_baseline": 740,
     "release_preparation": 20,
     "first_party_automation": 22,
-    "full_total": 762,
-    "suite_total": 32,
+    "full_total": 788,
+    "suite_total": 33,
     "execution": "file-by-file"
   },
   "migration_manifest": "docs/agents-platform/release/MIGRATION_MANIFEST.json",
@@ -91,7 +91,7 @@
     "production D1 migration approval",
     "Cloudflare Queue, DLQ, Worker, Cron and Pages producer binding approval",
     "production deployment and webhook approval",
-    "resolve or re-review GHSA-qwww-vcr4-c8h2 before R1; current SPA does not use the affected unstable RSC APIs"
+    "complete all external R0.3B credential disposition and deployment-freeze gates before any production release"
   ],
   "rollback_references": [
     "docs/agents-platform/release/ROLLBACK_RUNBOOK.md",
@@ -102,7 +102,9 @@
   "parallel_preparation": {
     "R0.4-prep": "completed_locally",
     "first_party_automation_runtime": "prepared_locally",
-    "n8n_retirement": "prepared_not_executed"
+    "n8n_retirement": "prepared_not_executed",
+    "react_router_security_migration": "completed_locally",
+    "local_release_candidate": "prepared_locally"
   },
   "automation": {
     "source_of_truth": "D1 automation_jobs",

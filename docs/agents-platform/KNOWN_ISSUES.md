@@ -22,9 +22,12 @@
 - R0.4-prep завершён только локально в
   `27e7ddbe03695a859c9a7c11e7e93b450309946b`; R0.4 не завершён, R1 не начат,
   production заблокирован.
-- Root audit сохраняет `GHSA-qwww-vcr4-c8h2`. В текущем declarative SPA
-  затронутые unstable RSC API недостижимы; узкое warning-исключение разрешает
-  только R0.4-prep и блокирует R1 до review к 2026-08-11.
+- React Router advisory `GHSA-qwww-vcr4-c8h2` is closed locally through the
+  supported `8.3.0` migration; the exception is removed. The full Yarn audit
+  separately reports unrelated tooling/dev dependency debt (1 low,
+  2 moderate, 17 high across build/lint tooling). Production-only Yarn and
+  npm cross-check audits are zero. Broad dependency modernization remains
+  outside this sprint.
 - Remote D1 migrations, deploy, production credentials/env, webhook и pilot не
   изменялись.
 

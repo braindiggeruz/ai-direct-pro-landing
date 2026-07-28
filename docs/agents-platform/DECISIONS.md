@@ -1,5 +1,34 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-026 (2026-07-28, R0.4-RC1) Поддерживаемая Router lineage без изменения release sequence
+
+**Уязвимая lineage удалена, а не скрыта исключением.** Root web runtime
+переведён на exact React/React DOM `19.2.7` и React Router `8.3.0`.
+`react-router-dom` удалён из manifest, Yarn lock и installed graph. Все 17
+declarative imports механически перенесены в `react-router`; data router,
+framework mode, SSR и RSC не внедрялись. Активное исключение для
+`GHSA-qwww-vcr4-c8h2` удалено, production-only audit обязан быть нулевым.
+
+**Маршрутизация остаётся прежней.** BrowserRouter живёт только в lazy admin
+chunk. Generated parity фиксирует 207 static canonical routes + 17 admin
+patterns = 224/224 без additions/removals или изменения invariant. Public
+catch-all по-прежнему отсутствует, unknown public route остаётся 404, admin
+rewrite ограничен `/admin-tools/*`, protected/auth/redirect/prerender/sitemap
+границы не менялись.
+
+**Package-manager authority уточнён.** Root authoritative lock — только
+`yarn.lock`; неожиданно tracked stale root `package-lock.json` удалён.
+Backend npm authority `apps/gpt-backend/package-lock.json` не менялся.
+Никаких wildcard, broad overrides, audit fix или unrelated dependency upgrade
+не применялось.
+
+**RC локальный и не меняет governance sequence.** Code commit
+`052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0`; полный baseline 788/788 по
+33 suites. `react_router_security_migration: completed_locally` и
+`local_release_candidate: prepared_locally` не означают завершение R0.4.
+R0.3 остаётся `in_progress`, R0.3B blocked, R0.4 incomplete, R1/P3 not started.
+Push, deploy, remote rewrite и production mutation не разрешены.
+
 ## D-025 (2026-07-28, R0.3/R0.4-prep) Безопасная параллельная подготовка, внешний owner vault и строгий live-rewrite gate
 
 **Классификация credentials.** Admin credential подтверждён как затронутый.
@@ -31,6 +60,9 @@ env/secret mutation, webhook mutation и pilot не выполняются.
 declarative SPA не импортирует затронутые unstable RSC API, поэтому локальная
 R0.4-prep может продолжаться с явным warning. Исключение не является общим:
 оно блокирует R1 и требует review не позднее 2026-08-11.
+
+Этот исторический temporary exception superseded решением D-026 после
+доказанной миграции на patched dependency lineage.
 
 ## D-024 (2026-07-28, R0.3) Порядок incident response, repository-local secret gate и incident-исключение из лимита коммитов
 

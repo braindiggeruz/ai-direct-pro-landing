@@ -24,16 +24,19 @@
 - `R0.4-prep: completed_locally` в
   `27e7ddbe03695a859c9a7c11e7e93b450309946b`. Этап R0.4 **не завершён**,
   production заблокирован, R1 не начат.
+- `react_router_security_migration: completed_locally` in
+  `052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0`; local RC1 is
+  `prepared_locally`. React Router is `8.3.0`, the old compatibility package
+  is absent and route parity is 224/224. This does not complete R0.4.
 - Финальная локальная доказательная база: targeted baseline 22/22; owner
   evidence policy 6/6; обязательный Agents baseline 584/584; полный baseline
-  762/762 по 32 suites. Migration и backup/restore rehearsals прошли на
+  788/788 по 33 suites. Migration и backup/restore rehearsals прошли на
   synthetic/local data; deployment и Wrangler dry-run не мутируют внешние
   сервисы.
-- Root dependency audit: установлен React Router 7.18.1, affected range
-  `>=7.12.0 <8.3.0`, fix `8.3.0`. Текущий BrowserRouter SPA не имеет RSC
-  build/runtime dependency или unstable RSC imports. Machine-verified narrow
-  exception разрешает только local prep; blind major upgrade не выполнялся,
-  R1 остаётся blocked до isolated migration spike или нового review.
+- Root dependency audit: React/DOM `19.2.7` and React Router `8.3.0`;
+  `react-router-dom` and `GHSA-qwww-vcr4-c8h2` are absent. Production-only
+  Yarn and npm cross-check audits are zero. Unrelated full-audit tooling/dev
+  findings remain separately recorded and were not broadly upgraded.
 - Не выполнялись push/deploy, production D1 migration, webhook mutation или
   pilot.
 

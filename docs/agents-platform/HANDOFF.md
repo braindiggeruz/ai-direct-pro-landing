@@ -7,7 +7,9 @@
 - Parallel preparation:
   `R0.4-prep: completed_locally`,
   `first_party_automation_runtime: prepared_locally`,
-  `n8n_retirement: prepared_not_executed`.
+  `n8n_retirement: prepared_not_executed`,
+  `react_router_security_migration: completed_locally`,
+  `local_release_candidate: prepared_locally`.
 - Target orchestration is Cloudflare Worker + D1 ledger + Queue/DLQ + Cron.
   The existing provider router writes only a complete RU/UZ package to the AI
   Draft Inbox and ends in manual review. Railway remains an optional compute
@@ -34,16 +36,23 @@
   migration manifest и локальные clean/upgrade/rollback rehearsals,
   backup/restore rehearsal, deployment dry-run, smoke/rollback/pilot runbooks.
   Это не завершение R0.4, не R1 и не production evidence.
+- React Router security migration completed locally in
+  `052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0`: React/DOM `19.2.7`,
+  React Router `8.3.0`, `react-router-dom` removed, declarative lazy admin
+  BrowserRouter preserved, route parity **224/224** and
+  `GHSA-qwww-vcr4-c8h2` absent. Local RC1 is still
+  `prepared_locally_blocked_by_R0.3B`; R0.4 is not complete.
 - Финальный локальный прогон подтвердил
-  **762/762** по 32 suites, first-party targeted 22/22, R0.4 suite 20/20,
+  **788/788** по 33 suites, Router migration 26/26, first-party targeted
+  22/22, R0.4 suite 20/20,
   owner evidence policy 6/6, secret scan clean по 2503 файлам, root
   typecheck/build 0, backend typecheck/build/audit 0, Functions — ровно 27
   прежних ошибок в тех же 6 legacy-файлах, scoped lint 0, boundaries 10/10.
-- Root audit сохраняет ровно одно применимое по dependency range предупреждение:
-  `GHSA-qwww-vcr4-c8h2` в `react-router`/`react-router-dom`. Текущий
-  declarative SPA не использует затронутые unstable RSC API; узкое исключение
-  разрешает только локальную R0.4-prep с warning и блокирует R1 до review
-  не позднее 2026-08-11.
+- Root production audits no longer contain `GHSA-qwww-vcr4-c8h2`; the
+  temporary Router exception is removed. Yarn production audit and the
+  independent npm production cross-check are zero. A full Yarn audit
+  separately reports unrelated tooling/dev dependency debt (1 low,
+  2 moderate, 17 high), which was not changed by a prohibited broad upgrade.
 - Push, deploy, remote D1 migrations, production env/secret mutation, webhook
   mutation и pilot не выполнялись.
 

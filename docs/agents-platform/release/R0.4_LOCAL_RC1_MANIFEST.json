@@ -1,0 +1,128 @@
+{
+  "manifest_version": 1,
+  "release_candidate": "R0.4-RC1",
+  "status": "prepared_locally_blocked_by_R0.3B",
+  "repository_head": {
+    "ref": "HEAD",
+    "resolution": "git rev-parse HEAD after the release-gate commit and local ff-only integration"
+  },
+  "previous_head": "b128772e5375cfee87ad57622d546e7e363acc03",
+  "commit_list": [
+    {
+      "commit": "052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0",
+      "subject": "fix(security): migrate web runtime to patched React Router"
+    },
+    {
+      "commit": "HEAD",
+      "subject": "chore(release-gate): close router advisory for local release candidate"
+    }
+  ],
+  "branch": "main after local ff-only integration",
+  "build_timestamp": "2026-07-28T23:35:09+05:00",
+  "runtime": {
+    "react": "19.2.7",
+    "react_dom": "19.2.7",
+    "react_router": "8.3.0",
+    "react_router_dom": "absent",
+    "node": "24.13.0",
+    "yarn": "1.22.22",
+    "vite": "8.0.14"
+  },
+  "route_evidence": {
+    "route_patterns": 224,
+    "static_canonical_routes": 207,
+    "admin_route_patterns": 17,
+    "published_pages": 106,
+    "published_articles": 98,
+    "sitemap_entries": 207,
+    "parity": "pass"
+  },
+  "tests": {
+    "total": 788,
+    "passed": 788,
+    "failed": 0,
+    "suite_count": 33,
+    "execution": "file-by-file",
+    "react_router_migration": "26/26",
+    "web_security": "13/13",
+    "release_preparation": "20/20",
+    "secret_scan": "14/14"
+  },
+  "functions_baseline": {
+    "status": "unchanged_known_legacy_debt",
+    "exit": 2,
+    "errors": 27,
+    "files": 6,
+    "new_errors": 0
+  },
+  "audits": {
+    "root_yarn_production": {
+      "findings": 0,
+      "status": "pass"
+    },
+    "root_npm_production_crosscheck": {
+      "findings": 0,
+      "status": "pass",
+      "repository_package_lock_created": false
+    },
+    "backend_npm_production": {
+      "findings": 0,
+      "status": "pass"
+    },
+    "full_root_tooling_classification": {
+      "scope": "unrelated tooling/dev dependency debt",
+      "low": 1,
+      "moderate": 2,
+      "high": 17,
+      "critical": 0,
+      "react_router_advisory_present": false,
+      "broad_upgrade_performed": false
+    }
+  },
+  "advisory": {
+    "id": "GHSA-qwww-vcr4-c8h2",
+    "status": "absent",
+    "affected_dependency_present": false,
+    "temporary_exception_active": false,
+    "evidence": "docs/agents-platform/release/REACT_ROUTER_V8_MIGRATION_EVIDENCE.md"
+  },
+  "migration_manifest_checksums": {
+    "source": "docs/agents-platform/release/MIGRATION_MANIFEST.json",
+    "verified": true,
+    "0013_platform_events.sql": "8e68f6339438f27d9ecb036e07eaf9fbcdbc3324fa4d1fd87d4c8e237f7539f0",
+    "0014_platform_identity_orgs.sql": "a345fdeb0c0728bfc37597c68a149753ebb4db46ac0575b3a86593b2f5bfeff3",
+    "0015_platform_knowledge.sql": "cf3fdef6769326ac838e4707e52a63b9c45d5cea12b43462d8b4f54ea0654d78",
+    "0016_platform_workflow.sql": "911eb35b5a87f2c0a076ffce73771152b56c3d9d5786c50a8359447991f3de30",
+    "0017_telegram_agents_transport.sql": "adc7edc57c59afc3193a1c8dc3d8ca1ae53b12492453adc5d9b4aaa4dcad542b",
+    "0018_sotuvchi_store_onboarding.sql": "0a18c65da192499627dd59dd602afc04b97664bf2e6117beb86f370b0688cd25",
+    "0019_sotuvchi_catalog.sql": "15e6289bd0b8b262a3e37c9157a227511745021db3fd2c48de696dee7d1d71fb",
+    "0020_sotuvchi_buyer_qa.sql": "4c7a9fede921de93ca817071134ec14b48d13d471a3b747fa333052d121b0b53",
+    "0021_sotuvchi_checkout.sql": "6102e30502937bd2cc45e762ee87a2b5d1eec8b12ad1a68bd50201c25100a66e",
+    "0022_sotuvchi_orders_inventory.sql": "fd6accdf4cc3224d4fc0d19611b3804833017619bfcfc660c1944539290d69bd",
+    "0023_sotuvchi_handoff.sql": "907704291504ed281ec092bcc61f1a4bafd6c8d432c793be780d7213963bcf42",
+    "0024_first_party_automation.sql": "89d64a59a4ae057f0ec35aa2ced6a72d362ed602ac0221974b3e1db6ca9a7dfd"
+  },
+  "first_party_automation_status": "prepared_locally",
+  "n8n_retirement_status": "prepared_not_executed",
+  "deployment_status": "blocked_no_production_mutation",
+  "remote_status": {
+    "origin_main": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
+    "push_performed": false,
+    "remote_refs_changed": false
+  },
+  "r0_3b_status": "blocked_by_external_credential_disposition_and_deployment_freeze",
+  "r0_4_status": "incomplete",
+  "r1_status": "not_started",
+  "rollback_reference": "docs/agents-platform/release/REACT_ROUTER_V8_ROLLBACK.md",
+  "backup_reference": "F:\\Claude\\gptbot-r0.4-router-backups\\pre-b128772-20260728-230059",
+  "blockers": [
+    "admin replacement installation, consumer validation and old credential revocation",
+    "n8n ingest complete ROTATED or complete RETIRED evidence disposition",
+    "Railway automatic deployment pause",
+    "Cloudflare automatic production and preview deployment pause",
+    "GitHub SEO scheduler and every automation writer pause",
+    "R0.3B allowlisted remote history rewrite and clean-clone verification",
+    "separate authorization for production D1, Queue/DLQ/Worker/Cron, deployment and webhook operations"
+  ],
+  "production_changes_performed": false
+}

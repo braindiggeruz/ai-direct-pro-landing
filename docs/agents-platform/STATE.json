@@ -5,8 +5,8 @@
   "stage_status": "in_progress",
   "last_completed_stage": "R0.2",
   "next_stage": "R0.3B",
-  "next_stage_note": "R0.3C and current-tree remediation are done. R0.3B is automated but must not execute until admin is fully ROTATED, n8n ingest is fully ROTATED or fully RETIRED, and every deployment/automation freeze gate passes. R0.4-prep and the first-party automation preparation are local-only; R0.4 itself is NOT complete. Do not start R1 or P3.",
-  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; R0.3 is in progress and blocked; R0.4 has only a completed local preparation track; production and R1 remain blocked.",
+  "next_stage_note": "R0.3C and current-tree remediation are done. R0.3B is automated but must not execute until admin is fully ROTATED, n8n ingest is fully ROTATED or fully RETIRED, and every deployment/automation freeze gate passes. R0.4-prep, the React Router security migration, local RC1 and the first-party automation preparation are local-only; R0.4 itself is NOT complete. Do not start R1 or P3.",
+  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; R0.3 is in progress and blocked; R0.4 has a completed local preparation track and local RC1 but is not complete; production and R1 remain blocked.",
   "last_commit": "77d46d403cde210b5453214d61296ac261ca51e2",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
@@ -74,8 +74,21 @@
       "scheduler_disabled": false,
       "old_credential_revoked": false
     },
+    "react_router_security_migration": {
+      "status": "completed_locally",
+      "code_commit": "052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0",
+      "react_router": "8.3.0",
+      "react_router_dom": "absent",
+      "route_parity": "224/224",
+      "advisory": "GHSA-qwww-vcr4-c8h2 absent from the dependency graph and production audits"
+    },
+    "local_release_candidate": {
+      "status": "prepared_locally",
+      "manifest": "docs/agents-platform/release/R0.4_LOCAL_RC1_MANIFEST.json",
+      "production_mutation": false
+    },
     "release_status": "prepared_locally_blocked_by_R0.3B",
-    "root_dependency_audit": "GHSA-qwww-vcr4-c8h2 affects installed React Router 7.18.1 (range >=7.12.0 <8.3.0) only on unstable RSC paths. The current BrowserRouter SPA has no RSC build/runtime dependency or marker. A machine-verified temporary exception permits local prep only; R1 remains blocked pending an isolated 8.3.0 migration spike or renewed review.",
+    "root_dependency_audit": "React Router 8.3.0 with React/React DOM 19.2.7 is installed; react-router-dom and GHSA-qwww-vcr4-c8h2 are absent. Yarn production audit and the independent npm production cross-check report zero findings. A separate full Yarn audit reports unrelated tooling/dev dependency debt (1 low, 2 moderate, 17 high); no broad dependency modernization was performed.",
     "remote_d1_migrations_applied": false,
     "deployed": false,
     "webhook_mutated": false,
@@ -83,7 +96,7 @@
   },
   "baseline": {
     "build": "tsc -b exit 0; corepack yarn build exit 0; Railway backend typecheck and build exit 0; backend npm audit --omit=dev 0 findings",
-    "tests": "pass: first-party automation 22/22; owner evidence policy 6/6; R0.4 release-preparation 20/20; R0.3C secret-scan 14/14; unchanged required Agents baseline 584/584; full repository 762/762 across 32 suites",
+    "tests": "pass: React Router migration 26/26; first-party automation 22/22; owner evidence policy 6/6; R0.4 release-preparation 20/20; R0.3C secret-scan 14/14; unchanged required Agents baseline 584/584; full repository 788/788 across 33 suites",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in the same 6 old files (D-007)",
     "lint": "R0.3 changed-file scoped eslint exit 0; boundaries 10/10",
     "security": "memory/test_credentials.md and its two gptbot-audit duplicates are removed from the tree and blocked by .gitignore. scripts/scan-secrets.ts is clean and blocks 22 of the 23 historical incident versions; the one it does not flag is the original empty stub with no credential material. Replacement credentials exist only in the Windows-protected owner vault outside Git and have not been installed. GitHub secret scanning and push protection are enabled but generic values remain reachable in Git history and must still be treated as compromised."

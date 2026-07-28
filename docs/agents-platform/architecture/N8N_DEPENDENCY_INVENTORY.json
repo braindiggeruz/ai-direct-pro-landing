@@ -82,6 +82,21 @@
       "path": "tests/n8n-*.test.ts",
       "classification": "active",
       "reason": "Executable dependency-inventory and fail-closed legacy endpoint regression coverage."
+    },
+    {
+      "path": "reports/release/react-router-route-parity-*.json",
+      "classification": "active",
+      "reason": "Generated local Router route-parity evidence; n8n appears only as an asserted default-off invariant and no runtime call."
+    },
+    {
+      "path": "scripts/release/react-router-route-inventory.ts",
+      "classification": "active",
+      "reason": "Local release evidence generator checks N8N_INGEST_ENABLED default-off; it performs no n8n call or production mutation."
+    },
+    {
+      "path": "tests/react-router-v8-migration.test.ts",
+      "classification": "active",
+      "reason": "Executable migration regression asserts legacy n8n remains disabled-by-default; no production n8n call."
     }
   ],
   "items": [

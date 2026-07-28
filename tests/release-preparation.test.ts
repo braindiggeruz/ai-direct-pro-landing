@@ -358,26 +358,33 @@ test('release manifest keeps blockers, tests and local-only status visible', () 
   };
   assert.equal(manifest.status, 'prepared_locally_blocked_by_R0.3B');
   assert.equal(manifest.production_changes_performed, false);
-  assert.equal(manifest.expected_tests.full_total, 762);
+  assert.equal(manifest.expected_tests.full_total, 788);
   assert.equal(manifest.bot.canonical_start_payload, 'agent_seller');
   assert.ok(manifest.blockers.length >= 7);
   const auditPolicy = JSON.parse(fs.readFileSync(
     path.join(ROOT, 'config', 'release-audit-policy.json'),
     'utf8',
   )) as {
-    advisories: {
+    advisories: unknown[];
+    resolved_advisories: {
       id: string;
       disposition: string;
-      temporary_release_effect: string;
     }[];
+    enforcement: {
+      production_audit_requires_zero_findings: boolean;
+      temporary_router_exception_allowed: boolean;
+    };
   };
-  assert.deepEqual(auditPolicy.advisories.map((entry) => entry.id), [
+  assert.deepEqual(auditPolicy.advisories, []);
+  assert.deepEqual(auditPolicy.resolved_advisories.map((entry) => entry.id), [
     'GHSA-qwww-vcr4-c8h2',
   ]);
   assert.equal(
-    auditPolicy.advisories[0].temporary_release_effect,
-    'warning_in_r0.4_prep_and_blocker_for_r1',
+    auditPolicy.resolved_advisories[0].disposition,
+    'resolved_by_upgrade',
   );
+  assert.equal(auditPolicy.enforcement.production_audit_requires_zero_findings, true);
+  assert.equal(auditPolicy.enforcement.temporary_router_exception_allowed, false);
 });
 
 test('rollback and R1 checklist are complete but grant no approval', () => {

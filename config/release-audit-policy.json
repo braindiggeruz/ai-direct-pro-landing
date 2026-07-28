@@ -1,22 +1,26 @@
 {
-  "version": 1,
-  "advisories": [
+  "version": 2,
+  "advisories": [],
+  "resolved_advisories": [
     {
       "id": "GHSA-qwww-vcr4-c8h2",
       "package": "react-router",
       "severity": "high",
-      "disposition": "not_reachable_in_current_build",
-      "scope": "unstable React Server Components APIs only",
+      "disposition": "resolved_by_upgrade",
+      "resolved_on": "2026-07-28",
+      "resolved_version": "8.3.0",
       "evidence": [
-        "GPTBot uses a client-only Vite SPA",
-        "all application imports are from react-router-dom declarative browser APIs",
-        "no React Router RSC API, RSC package, use-server directive or react-server entry point is imported",
-        "scripts/release-preflight.ts checks an exact advisory shape and a closed RSC marker set"
+        "root Yarn production audit has zero findings",
+        "react-router-dom is absent from the manifest, lockfile and installed graph",
+        "React Router 8.3.0 is installed directly",
+        "RSC, data-router, server-router and SSR runtime surfaces remain absent"
       ],
-      "temporary_release_effect": "warning_in_r0.4_prep_and_blocker_for_r1",
-      "reviewed_on": "2026-07-28",
-      "review_by": "2026-08-11",
-      "upgrade_target": "isolated React 19.2.7+ and React Router 8.3.0 migration spike with react-router-dom import removal; no blind major upgrade"
+      "migration_evidence": "docs/agents-platform/release/REACT_ROUTER_V8_MIGRATION_EVIDENCE.md"
     }
-  ]
+  ],
+  "enforcement": {
+    "root_package_manager": "yarn@1.22.22",
+    "production_audit_requires_zero_findings": true,
+    "temporary_router_exception_allowed": false
+  }
 }

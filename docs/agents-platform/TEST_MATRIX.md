@@ -39,6 +39,7 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | R0.2 | `tests/gpt-backend-security.test.ts` | 30 | реальное приложение через `app.inject()` без сети; internal gateway secret (отсутствует / неверный / валидный / повторный); отсутствие секрета в ответах, заголовках и логах; malformed JSON и schema-invalid body; отклонение лишних свойств вместо доверия им как authority; body limit 413; неподдерживаемый content-type 415; tab-padded content-type (`GHSA-jx2c-rxcm-jvmq`); prototype poisoning `__proto__`/`constructor`; подменённые X-Forwarded-Host/Proto и произвольный Host не дают авторизации; запрещённый Origin 403; encoded/traversal/null-byte пути не доходят до handler; provider error без stack и секретов; отсутствие provider egress и store-мутации при отказе; health presence-only; ping boundary; отдельный admin guard на analytics и cleanup; неизменённый session/history/feedback контракт; DELETE с пустым JSON-телом доходит до auth guard (регрессия Fastify 5) |
 | R0.3C | `tests/secret-scan.test.ts` | 14 | generic high-entropy значение у credential-метки; тот же токен без метки не флагуется; `Authorization: Bearer`; provider-формы как critical; заглушки не флагуются; находка не несёт значение/фрагмент/хеш/длину; **регрессии по форме реального инцидента** — credential-именованный файл флагуется за значение на любой строке, покрытие всех пяти путей инцидента, markdown-таблица «метка + значение», git-SHA в таблицах не секрет, union-тип TypeScript не таблица; список исключений узкий, без wildcard и с обоснованием; правила уникальны; сам репозиторий чист; удалённые пути инцидента больше не tracked |
 | R0.4-prep | `tests/release-preparation.test.ts` | 20 | redacted env contract; migration checksum/order and no destructive SQL; clean/upgrade/rollback rehearsal; backup/restore rehearsal; deployment dry-run; pre/post-deploy smoke separation; setup dry-run by default; R1 and pilot blockers |
+| R0.4-RC1 | `tests/react-router-v8-migration.test.ts` | 26 | exact patched dependency graph; no dual major/RSC/server/data router; declarative BrowserRouter; route/auth/404/redirect/locale/prerender/sitemap parity; automation/n8n boundaries; audit policy; bundle secret scan; rollback |
 
 ## Post-change baseline R0.4 local preparation
 
@@ -49,7 +50,7 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | Legacy n8n ingest security | **6/6** — disabled/missing/empty/invalid/oversized/replay/logging |
 | n8n dependency inventory | **3/3** — classification coverage, unknown visibility, names-only |
 | External owner evidence policy | **6/6** — complete ROTATED/RETIRED, partial/old-accepted/admin-retired negatives, executor fail-closed |
-| Full repository | **762/762, 32 suites**, file-by-file |
+| Full repository | **788/788, 33 suites**, file-by-file |
 | Repository secret scan | clean, redacted findings only, exit 0 |
 | App typecheck / root build | `npx tsc -b` exit 0 / `corepack yarn build` exit 0 |
 | Railway backend | typecheck exit 0 / build exit 0 / production audit 0 findings |
@@ -58,7 +59,8 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | Deployment dry-run | Cloudflare Pages, D1 and Functions plus Railway contracts: pass, no external mutation |
 | Functions typecheck | exit 2; exactly 27 prior errors in the same 6 legacy files |
 | Scoped lint / boundaries | exit 0 / 10/10 |
-| Root production audit | one exact high advisory, `GHSA-qwww-vcr4-c8h2`; affected unstable RSC APIs are not used by this declarative SPA; warning-only for R0.4-prep, blocks R1 pending review by 2026-08-11 |
+| Root production audit | Yarn 0 findings; independent npm production cross-check 0; `GHSA-qwww-vcr4-c8h2` absent and temporary exception removed |
+| Full root audit classification | unrelated tooling/dev debt only: 1 low, 2 moderate, 17 high; no Router advisory; broad modernization out of scope |
 
 Этот baseline подтверждает только локальную подготовку. R0.4 не завершён,
 production заблокирован, R1 не начат; deploy, remote D1 migrations, webhook

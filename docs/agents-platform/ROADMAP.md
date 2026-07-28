@@ -51,10 +51,12 @@
   `27e7ddbe03695a859c9a7c11e7e93b450309946b` добавляет redacted env contract,
   checksummed migration manifest, clean/upgrade/rollback и backup/restore
   rehearsals, deployment dry-run, smoke/rollback/pilot runbooks и release
-  preflight. Результат: `R0.4-prep: completed_locally`, 740/740 по 29 suites.
-  Root advisory `GHSA-qwww-vcr4-c8h2` ограничен неиспользуемым RSC-путём:
-  warning разрешён только для local prep, R1 блокируется до review к
-  2026-08-11. Применение remote migration, deploy, env/secrets, webhook и
+  preflight. Результат: `R0.4-prep: completed_locally`. Local RC1 adds the
+  supported React Router `8.3.0` migration in
+  `052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0`, 224/224 route parity and
+  788/788 tests across 33 suites. `GHSA-qwww-vcr4-c8h2` and its temporary
+  exception are removed. This remains local preparation, not completion of
+  R0.4. Применение remote migration, deploy, env/secrets, webhook и
   pilot остаются запрещены до завершения R0.3B и отдельной авторизации R1.
 - **Parallel automation preparation — prepared locally, not a new stage.**
   n8n dependency inventory and retirement runbook, Cloudflare-first ADR,

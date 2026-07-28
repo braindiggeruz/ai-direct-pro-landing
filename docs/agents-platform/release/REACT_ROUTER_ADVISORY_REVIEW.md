@@ -1,10 +1,12 @@
-# GHSA-qwww-vcr4-c8h2 review
+# GHSA-qwww-vcr4-c8h2 historical review
 
-Reviewed: 2026-07-28.
+Reviewed and superseded: 2026-07-28.
 
-Disposition: not reachable in the current build; temporary R0.4-prep exception
-only. R1 remains blocked until an isolated major-upgrade spike or a fresh
-owner security review closes the advisory.
+Disposition: closed by the exact React Router 8.3.0 migration documented in
+`REACT_ROUTER_V8_MIGRATION_EVIDENCE.md`. This file preserves the reasoning that
+allowed local preparation before the upgrade; it is no longer an active audit
+exception. R1 remains blocked by the existing release sequence and production
+gates, not by this advisory.
 
 ## Verified facts
 
@@ -46,10 +48,10 @@ This is not a claim that the installed package is outside the affected range.
 It is inside the range and root production audit correctly reports the
 advisory.
 
-## Machine-verifiable proof
+## Historical machine-verifiable proof
 
-`scripts/release-preflight.ts --deep` accepts the warning in `r0.4-prep` only
-when all of these are simultaneously true:
+Before the migration, `scripts/release-preflight.ts --deep` accepted the
+warning in `r0.4-prep` only when all of these were simultaneously true:
 
 1. exactly `react-router` and `react-router-dom` are reported;
 2. the only accepted advisory URL ends in `GHSA-qwww-vcr4-c8h2`;
@@ -72,22 +74,16 @@ react-server
 
 Any marker, additional advisory or changed audit shape fails closed.
 
-## Upgrade options
+That exception path has now been removed. The current deep preflight uses the
+canonical Yarn lock and requires a zero-finding production audit.
 
-1. **Safe upgrade now:** rejected. The only patch is React Router 8.3.0, a
-   major upgrade. React Router v8 requires Node 22.22+, React/React DOM
-   19.2.7+ and Vite 7+. Node and Vite already satisfy those minima, but the
-   installed React pair is one patch below the minimum. v8 also removes
-   `react-router-dom`, while this application imports its declarative browser
-   APIs from that package. This is not a dependency-only patch.
-2. **Isolated migration spike:** required before production R1 if the team
-   wants the advisory removed. In a temporary worktree, update React and React
-   DOM to at least 19.2.7, replace `react-router-dom` imports with the v8
-   `react-router`/`react-router/dom` surfaces, install React Router 8.3.0,
-   follow the v7 future-flag guidance, and run all admin deep-route, auth,
-   browser navigation, build and prerender tests. Do not merge on audit output
-   alone.
-3. **Temporary exception with proof:** selected for local R0.4 preparation
-   only. The closed marker scan and exact audit-shape check remain mandatory.
+## Resolution
 
-No blind major upgrade was performed. R1 remains blocked.
+The isolated migration selected React/React DOM 19.2.7 and React Router 8.3.0,
+removed `react-router-dom`, migrated all declarative imports, proved route
+parity, retained the negative RSC/SSR/data-router surface and changed the
+release preflight to require a zero-finding root production audit.
+
+No blind dependency-only upgrade was performed. No production change was
+performed. R0.3 remains in progress, R0.4 remains incomplete and R1 remains
+blocked.
