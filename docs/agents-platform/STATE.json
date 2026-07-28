@@ -1,25 +1,25 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P2.5",
+  "current_stage": "P2.6",
   "stage_status": "completed",
-  "last_completed_stage": "P2.5",
-  "next_stage": "P2.6",
-  "last_commit": "0915f059027555665661a1bcb90e8719690bce0c",
+  "last_completed_stage": "P2.6",
+  "next_stage": "P2.7",
+  "last_commit": "8523d8d84c16b75d8132c88a5bd8ab2d1ecccb79",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage",
   "previous_stage": {
-    "stage": "P2.4",
-    "last_commit": "a418bcb2d9886fa1d9d42cfbcecd39c6f9ac18ea",
-    "state_commit": "32112657589983467d31888ad3ec106a8d96b227"
+    "stage": "P2.5",
+    "last_commit": "0915f059027555665661a1bcb90e8719690bce0c",
+    "state_commit": "593654efc22c14e8877ec83e2ebfe009103997ce"
   },
-  "updated_at": "2026-07-27",
+  "updated_at": "2026-07-28",
   "blocked": false,
   "blockers": [],
   "baseline": {
     "build": "tsc -b exit 0",
-    "tests": "pass: sotuvchi-orders-inventory 37/37 (new), sotuvchi-checkout 36/36, sotuvchi-buyer-qa 39/39, sotuvchi-catalog 54/54, sotuvchi-onboarding 28/28, telegram-agents-webhook 41/41, platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15; total required 508/508; full repository 586/586",
+    "tests": "pass: sotuvchi-handoff 40/40 (new), sotuvchi-orders-inventory 37/37, sotuvchi-checkout 36/36, sotuvchi-buyer-qa 39/39, sotuvchi-catalog 54/54, sotuvchi-onboarding 28/28, telegram-agents-webhook 41/41, platform-runtime 49/49, platform-workflow 39/39, platform-knowledge 33/33, platform-ai 15/15, platform-tenancy 31/31, platform-events 20/20, boundaries 10/10, telegram-channel-compat 1/1, telegram-assistant 60/60, gpt-chat 15/15; total required 548/548; full repository 626/626",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in 6 old files, 0 in platform/agents/channels (D-007)",
-    "lint": "P2.5 Sotuvchi/endpoint/channel/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
+    "lint": "P2.6 Sotuvchi/platform-channels/endpoint/channel/test scoped eslint 0; global eslint remains legacy-red per KNOWN_ISSUES"
   }
 }

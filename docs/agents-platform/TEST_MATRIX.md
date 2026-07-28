@@ -33,7 +33,72 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | P2.2 | `tests/sotuvchi-catalog.test.ts` | 54 | category/product validation; migration/bootstrap parity; integer UZS; lifecycle; optimistic version/idempotency; deterministic RU/UZ/mixed search; Facts/grounding; tenant negatives; offline Telegram seller/storefront |
 | P2.3 | `tests/sotuvchi-buyer-qa.test.ts` | 39 | closed RU/UZ/mixed intents; extraction/price filter; channel-neutral cards; strict card grounding; session follow-up/idempotency; tenant negatives; offline Telegram buyer E2E |
 | P2.4 | `tests/sotuvchi-checkout.test.ts` | 36 | quantity/name/phone/address validation; migration+bootstrap parity; persistent FSM and restart; product eligibility and price revalidation; atomic single-item order; idempotency and fingerprint conflict; tenant negatives; PII-minimal Facts/grounding; offline Telegram RU/UZ checkout |
-| P2.5 | `tests/sotuvchi-orders-inventory.test.ts` | 37 | stock validation; status-pair derivation and transition table; migration+bootstrap parity; inventory persistence, movements, version conflicts and idempotency; seller list/detail PII separation; atomic confirm with single decrement; insufficient/missing stock fail-closed; unavailable and preorder policy; cancel/done/invalid transitions; notification intents and failure independence; Facts/grounding RU/UZ; tenant negatives; offline Telegram RU/UZ seller flow; no payment/handoff/multi-item |
+| P2.5 | `tests/sotuvchi-orders-inventory.test.ts` | 37 | stock validation; status-pair derivation and transition table; migration+bootstrap parity; inventory persistence, movements, version conflicts and idempotency; seller list/detail PII separation; atomic confirm with single decrement; insufficient/missing stock fail-closed; unavailable and preorder policy; cancel/done/invalid transitions; notification intents and failure independence; Facts/grounding RU/UZ; tenant negatives; offline Telegram RU/UZ seller flow; no payment/multi-item |
+| P2.6 | `tests/sotuvchi-handoff.test.ts` | 40 | channel address bind/update/revoke per bot namespace and namespace isolation; bounded content RU/UZ; retention deadline, content clearing and unanswerable expiry; one open handoff per buyer session; escalation replay; content-free operation log; queue/detail PII separation and tenant negatives; durable unique reply target; repeated reply press; expired target; exactly one final reply, replay and concurrent-answer race; foreign seller negatives; close once and immutability; strict grounding RU/UZ with seller authorship marker; seller notice without question text; push once, buyer answer, failed delivery retry and missing address; P2.5 order intents through the same path; migration/bootstrap parity; offline Telegram RU/UZ E2E; no auto-escalation; no CRM/payment/attachment |
+
+## Post-change baseline P2.6
+
+| Проверка | Команда | Результат |
+|---|---|---|
+| App typecheck | `npx tsc -b` | exit 0 |
+| Sotuvchi handoff | `node --import tsx --test tests/sotuvchi-handoff.test.ts` | 40/40 |
+| Sotuvchi orders/inventory | `node --import tsx --test tests/sotuvchi-orders-inventory.test.ts` | 37/37 |
+| Sotuvchi checkout | `node --import tsx --test tests/sotuvchi-checkout.test.ts` | 36/36 |
+| Sotuvchi Buyer Q&A | `node --import tsx --test tests/sotuvchi-buyer-qa.test.ts` | 39/39 |
+| Sotuvchi catalog | `node --import tsx --test tests/sotuvchi-catalog.test.ts` | 54/54 |
+| Sotuvchi onboarding | `node --import tsx --test tests/sotuvchi-onboarding.test.ts` | 28/28 |
+| Telegram Agents | `node --import tsx --test tests/telegram-agents-webhook.test.ts` | 41/41 |
+| Agent Runtime | `node --import tsx --test tests/platform-runtime.test.ts` | 49/49 |
+| Workflow | `node --import tsx --test tests/platform-workflow.test.ts` | 39/39 |
+| Knowledge | `node --import tsx --test tests/platform-knowledge.test.ts` | 33/33 |
+| AI | `node --import tsx --test tests/platform-ai.test.ts` | 15/15 |
+| Tenancy | `node --import tsx --test tests/platform-tenancy.test.ts` | 31/31 |
+| Events | `node --import tsx --test tests/platform-events.test.ts` | 20/20 |
+| Boundaries | `node --import tsx --test tests/agent-boundaries.test.ts` | 10/10 |
+| Telegram compatibility | `node --import tsx --test tests/telegram-channel-compat.test.ts` | 1/1 |
+| Telegram assistant | `node --import tsx --test tests/telegram-assistant.test.ts` | 60/60 |
+| Web gpt-chat | `node --import tsx --test tests/gpt-chat.test.ts` | 15/15 |
+| Functions typecheck | `npx tsc -p tsconfig.functions.json --noEmit` | exit 2; exactly 27 legacy errors in 6 old files; 0 in platform/agents/channels |
+| P2.6 scoped lint | `npx eslint functions/agents/sotuvchi functions/platform/channels functions/channels/telegram functions/api/telegram/agents.ts tests/sotuvchi-handoff.test.ts tests/sotuvchi-orders-inventory.test.ts tests/sotuvchi-catalog.test.ts tests/sotuvchi-onboarding.test.ts` | exit 0 |
+| Boundary gate | `node --import tsx --test tests/agent-boundaries.test.ts` | 10/10; checker reports 0 violations |
+
+Обязательный post-P2.6 regression total: **548/548**.
+Полный repository total (24 suites): **626/626**.
+
+## P2.6 static verification
+
+- Migration/bootstrap `0023` создают `channel_addresses`,
+  `sotuvchi_handoffs`, `sotuvchi_handoff_operations`,
+  `sotuvchi_seller_reply_sessions` и пять индексов; repeated bootstrap,
+  отсутствие destructive SQL и отсутствие transcript/attachment/profile/chat-id
+  columns подтверждены actual SQLite.
+- Partial unique `idx_sotuvchi_handoffs_active (buyer_session_id) WHERE status
+  IN ('open','answered')` делает вторую живую переписку одной buyer-сессии
+  невозможной на уровне хранилища.
+- `question_text`/`reply_text` bounded CHECK ≤1000; после `expires_at` оба
+  читаются как null, статус `expired`, ответ невозможен, строка сохраняется как
+  метаданные.
+- Reply target durable: `workflow_instances` плюс store-scoped
+  `sotuvchi_seller_reply_sessions` с TTL 24 часа; `request_key` guard делает
+  повторное нажатие «Ответить» no-op.
+- Replay ответа проверяется раньше состояния сессии, поэтому повторный
+  Telegram update возвращает сохранённый ответ вместо `no_reply_session`.
+- Conditional answer UPDATE требует `status='open'`, `reply_text IS NULL`,
+  совпадения `version`, непросроченности и owner membership: второй ответ и
+  ответ, проигравший гонку, отклоняются и ничего не перезаписывают.
+- Delivery claim — сам conditional UPDATE `seller_notified_at` /
+  `buyer_delivered_at`; тест подтверждает один push, retry без второго
+  доменного изменения и сохранение ответа при отказе доставки.
+- Pushed-сообщения проходят тот же strict grounding, что и turn-ответы; ответ
+  покупателю всегда содержит маркер авторства продавца.
+- Seller notice и queue не содержат текст вопроса; тест сканирует
+  handoff/notification/address строки на контакты — 0 совпадений.
+- Boundary checker: 0 violations; handoff/delivery не импортируют
+  channel/Telegram/legacy paths, Platform не импортирует Sotuvchi.
+- Credential/private-key/token/email/phone scans staged diff: 0;
+  `memory/test_credentials.md` в staged changes отсутствует.
+- Migrations `0018/0019/0020/0021/0022/0023` не применялись local/production;
+  setup script, push и deploy не запускались.
 
 ## Post-change baseline P2.5
 
@@ -167,7 +232,7 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
   deploy не запускались.
 
 ## Правило следующего этапа
-P2.6 не имеет права уменьшить ни одно число выше. Functions gate допускает только
+P2.7 не имеет права уменьшить ни одно число выше. Functions gate допускает только
 те же 27 известных legacy errors и требует 0 ошибок в
-`functions/{platform,agents,channels}`. Новые/изменённые P2.6 файлы должны иметь
+`functions/{platform,agents,channels}`. Новые/изменённые P2.7 файлы должны иметь
 scoped ESLint exit 0; direct boundary checker и все suites выше остаются зелёными.
