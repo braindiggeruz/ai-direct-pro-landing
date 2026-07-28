@@ -15,7 +15,7 @@
 // can still run if needed).
 
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { api } from '../lib/api';
 import {
   parseEditorRoute,

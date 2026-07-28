@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import Login from './pages/Login';
 import Cockpit from './pages/Cockpit';

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-28",
+  "before_label": "before",
+  "after_label": "after",
+  "status": "pass",
+  "added_static_routes": [],
+  "removed_static_routes": [],
+  "added_admin_routes": [],
+  "removed_admin_routes": [],
+  "changed_invariants": [],
+  "count_deltas": {
+    "static_canonical_routes": 0,
+    "admin_route_patterns": 0,
+    "total_route_patterns": 0,
+    "published_pages": 0,
+    "published_articles": 0,
+    "sitemap_entries": 0
+  }
+}

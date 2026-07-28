@@ -8,7 +8,7 @@
 // shows the most recent runs.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Select } from '../components/ui';
 import {

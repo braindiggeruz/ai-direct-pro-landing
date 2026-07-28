@@ -6,7 +6,7 @@
 //
 // Everything else is pure UI on top of /api/seo/booster.
 import { useEffect, useMemo, useState, lazy, Suspense } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, ScoreBadge, StatTile, Input, Select } from '../components/ui';
 import { ArrowUpRight, BrainCircuit, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles, Search } from 'lucide-react';

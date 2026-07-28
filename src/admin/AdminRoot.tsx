@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router';
 import AdminApp from './AdminApp';
 
 // Router lives inside the lazy admin chunk so react-router never ships in the

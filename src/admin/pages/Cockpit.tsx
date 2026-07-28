@@ -4,7 +4,7 @@
 // — компонент не содержит хардкода английского.
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card } from '../components/ui';
 import {

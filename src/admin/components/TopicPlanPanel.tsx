@@ -9,7 +9,7 @@
 // flight.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Badge, Button, Card, Input, Select } from './ui';
 import { IntentGuardBadge } from './IntentGuardBadge';
 import { api } from '../lib/api';

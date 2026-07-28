@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-28",
+  "baseline_head": "b128772e5375cfee87ad57622d546e7e363acc03",
+  "thresholds": {
+    "unexplained_main_client_bundle_growth_percent": 15
+  },
+  "before": {
+    "react_router": "7.18.1",
+    "dist_total_bytes": 25561576,
+    "js_total_bytes": 827902,
+    "main_js_chunk": {
+      "name": "index-DxujzLuH.js",
+      "bytes": 98455
+    },
+    "router_admin_lazy_chunk": {
+      "name": "AdminRoot-DbCABZcp.js",
+      "bytes": 333246
+    },
+    "route_patterns": 224,
+    "published_pages": 106,
+    "published_articles": 98,
+    "sitemap_entries": 207,
+    "vite_build_seconds": 7.6,
+    "full_build_seconds": 45.051,
+    "prerender_failures": 0,
+    "plugin_timing_warnings": 1,
+    "critical_seo_errors": 0
+  },
+  "after": {
+    "react_router": "8.3.0",
+    "dist_total_bytes": 25554471,
+    "js_total_bytes": 820797,
+    "main_js_chunk": {
+      "name": "index-B_Z0kx-L.js",
+      "bytes": 98455
+    },
+    "router_admin_lazy_chunk": {
+      "name": "AdminRoot-CmxTXTX_.js",
+      "bytes": 354403
+    },
+    "route_patterns": 224,
+    "published_pages": 106,
+    "published_articles": 98,
+    "sitemap_entries": 207,
+    "vite_build_seconds": 5.88,
+    "full_build_seconds": 34.169,
+    "prerender_failures": 0,
+    "plugin_timing_warnings": 1,
+    "critical_seo_errors": 0
+  },
+  "delta": {
+    "dist_total_bytes": -7105,
+    "js_total_bytes": -7105,
+    "main_js_bytes": 0,
+    "main_js_percent": 0,
+    "router_admin_lazy_chunk_bytes": 21157,
+    "router_admin_lazy_chunk_percent": 6.349,
+    "route_patterns": 0,
+    "published_pages": 0,
+    "published_articles": 0,
+    "sitemap_entries": 0,
+    "prerender_failures": 0,
+    "critical_seo_errors": 0
+  },
+  "decision": {
+    "status": "pass",
+    "main_bundle_threshold_exceeded": false,
+    "explanation": "The public entry is byte-identical. The v8 declarative router remains in the lazy admin chunk; its 6.349% growth is below the 15% analysis threshold, while aggregate JS and dist bytes decreased."
+  }
+}

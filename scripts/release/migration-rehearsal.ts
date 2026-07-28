@@ -39,7 +39,8 @@ export interface MigrationRehearsalReport {
 }
 
 export function sha256File(file: string): string {
-  return createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+  const canonicalText = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
+  return createHash('sha256').update(canonicalText, 'utf8').digest('hex');
 }
 
 export function loadMigrationManifest(): MigrationManifest {

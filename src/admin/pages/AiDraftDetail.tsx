@@ -21,7 +21,7 @@
 // IMPORTANT: This page never publishes, commits, or pings IndexNow.
 
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Textarea } from '../components/ui';
 import {

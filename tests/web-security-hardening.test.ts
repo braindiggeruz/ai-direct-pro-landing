@@ -11,7 +11,7 @@ import { fetchTurnstileConfig, sendChatStream } from '../src/gpt-chat/api.ts';
 import { responsiveTurnstileSize } from '../src/shared/turnstile.ts';
 import { ADMIN_HOME, ADMIN_ROUTE_PATHS } from '../src/admin/routes.ts';
 import { chatRoutes } from '../apps/gpt-backend/src/routes/chat.ts';
-import { matchRoutes } from 'react-router-dom';
+import { matchRoutes } from 'react-router';
 
 type ChatEnv = Parameters<typeof verifyTurnstile>[0];
 
@@ -350,7 +350,7 @@ test('Railway chat route rejects missing secret and accepts the gateway before b
   assert.equal((await invoke('gateway-secret')).status, 400);
 });
 
-test('React Router 7.18.1 matches admin deep routes and keeps a wildcard fallback', () => {
+test('React Router 8.3.0 matches admin deep routes and keeps a wildcard fallback', () => {
   const routeObjects = Object.values(ADMIN_ROUTE_PATHS).map((path) => ({ path }));
   assert.equal(matchRoutes(routeObjects, '/login')?.at(-1)?.route.path, ADMIN_ROUTE_PATHS.login);
   assert.equal(matchRoutes(routeObjects, '/pages/ru/home')?.at(-1)?.route.path, ADMIN_ROUTE_PATHS.pageEdit);

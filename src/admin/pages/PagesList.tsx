@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, ScoreBadge, Select } from '../components/ui';
 import { Plus, Copy, Eye, Pencil, AlertTriangle } from 'lucide-react';

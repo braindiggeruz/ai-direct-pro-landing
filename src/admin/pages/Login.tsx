@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { api, setToken, getToken } from '../lib/api';
 import { Button, Card, Input, Label } from '../components/ui';
 import { LogIn } from 'lucide-react';

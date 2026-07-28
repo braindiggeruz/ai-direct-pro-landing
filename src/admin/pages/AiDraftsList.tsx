@@ -4,7 +4,7 @@
 // Drafts never auto-publish — actions live on the detail page.
 
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Select } from '../components/ui';
 import { AlertTriangle, Inbox, RefreshCw, ShieldCheck, Filter, Eye } from 'lucide-react';

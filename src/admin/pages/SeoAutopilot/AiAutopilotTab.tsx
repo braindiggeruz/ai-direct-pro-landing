@@ -17,7 +17,7 @@
 //   - Mock provider is used when Puter is unavailable.
 
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Badge, Button, Card, Select } from '../../components/ui';
 import { api } from '../../lib/api';
 import { pickProvider, type ProviderChoice } from '../../lib/aiProviders';

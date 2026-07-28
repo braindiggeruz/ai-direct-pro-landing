@@ -4,7 +4,7 @@
 //   • Duplicate, View live, status badge, FAQ/link counts, mojibake warning.
 //   • Filters: status / locale / target money page / encoding + free-text search.
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Select } from '../components/ui';
 import { ExternalLink, AlertTriangle, RefreshCw, Plus, Edit3, Copy } from 'lucide-react';

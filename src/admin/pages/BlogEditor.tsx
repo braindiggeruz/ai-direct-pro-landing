@@ -2,7 +2,7 @@
 // Mirrors src/admin/pages/PageEditor.tsx patterns (FAQ, body blocks, internal
 // links editors are inlined here on purpose so PageEditor stays untouched).
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Label, ScoreBadge, Select, Textarea } from '../components/ui';
 import { SerpPreview } from '../components/SerpPreview';
