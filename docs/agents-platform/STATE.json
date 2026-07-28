@@ -1,34 +1,57 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "R0.2",
-  "stage_status": "completed",
+  "current_stage": "R0.3",
+  "stage_status": "in_progress",
   "last_completed_stage": "R0.2",
-  "next_stage": "R0.3",
-  "next_stage_note": "R0.3 is Credential Incident Response only: rotation/revocation, tracked credential material, agreed Git history remediation and downstream clone/fork coordination. Do not start R0.4, R1 or P3, and do not perform push, deploy, migration, webhook or secret operations without a separately authorized phase. blocked:false means R0.3 may be prepared, not that production is open.",
-  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; release remains blocked by the later gates.",
-  "last_commit": "a364b45dd9355c4ef432951c4c1e88ef8da3bc81",
+  "next_stage": "R0.3B",
+  "next_stage_note": "R0.3C (secret prevention gate) and the current-tree half of R0.3 are done in commit 77d46d4. R0.3B (credential rotation, then history rewrite and force-update of the contaminated refs) is NOT done and is blocked: see blockers. Do not start R0.4, R1 or P3.",
+  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; R0.3 is partially complete; release remains blocked.",
+  "last_commit": "77d46d403cde210b5453214d61296ac261ca51e2",
   "state_commit": "HEAD",
-  "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit (identified via git history, does not store itself); max 2 commits per stage. The repository-sync merge 8f42081 is not an R0.2 stage commit (D-023).",
+  "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
-    "stage": "R0.1",
-    "last_commit": "6c0f723ccda2725acfd91e76f05276e64fe2fbb4",
-    "state_commit": "748de36d939e93af4341a175400cfb3cb05facb3"
+    "stage": "R0.2",
+    "last_commit": "a364b45dd9355c4ef432951c4c1e88ef8da3bc81",
+    "state_commit": "f7a6a22686fe6f0509393eb373c1b8ecba0c6784"
   },
   "repository_sync": {
     "merge_commit": "8f42081598e37bdaa5a072ed7ec8be53a4dc0d38",
     "integrated_remote_head": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
-    "remote_commits": ["025a21780c33a899aea877ff6b84ad69249a66a5", "1a68a1291a4c432094ca1022b1e13d2f9ef69c13"],
-    "note": "SEO-content-only remote commits integrated with a non-fast-forward merge before R0.2. No local stage SHA was rewritten, rebased or reset."
+    "note": "SEO-content-only remote commits integrated before R0.2 with a non-fast-forward merge. No local stage SHA was rewritten."
+  },
+  "incident": {
+    "id": "R0.3 credential incident",
+    "severity": "critical",
+    "status": "contained_in_tree_only",
+    "repository_visibility": "public",
+    "paths_affected": 5,
+    "commits_touching_material": 12,
+    "commits_requiring_rewrite": 409,
+    "commits_total": 459,
+    "local_branches_contaminated": "11/11",
+    "remote_branches_contaminated": "38/42",
+    "tags_contaminated": "5/5",
+    "open_prs_on_contaminated_branches": 5,
+    "contaminated_stash_entries": 2,
+    "exposure_window_start": "2026-06-21",
+    "current_tree_remediated": true,
+    "history_rewritten": false,
+    "credentials_rotated": false,
+    "offline_backup": "F:\\Claude\\gptbot-r0.3-backup-20260728\\gptbot-repo-full-20260728.bundle (62 refs, verified complete, outside the repository, never published)"
   },
   "updated_at": "2026-07-28",
-  "blocked": false,
-  "blockers": [],
+  "blocked": true,
+  "blockers": [
+    "Credential rotation has not been performed. No Cloudflare, Railway, Supabase or n8n CLI or token is available in this environment, and using the exposed values to verify access is forbidden, so rotation is an owner action.",
+    "Because rotation is incomplete, the history rewrite and the force-update of 38 remote branches and 5 tags must not run: rewriting first would destroy the evidence trail while the exposed values stay valid.",
+    "The service identity behind the confirmed exposed values still needs owner confirmation. Redacted analysis points at an admin password and N8N_INGEST_TOKEN, but the document's own prose claims that token was never written to the repository, so the two statements conflict and only the owner can settle it."
+  ],
   "baseline": {
-    "build": "tsc -b exit 0; corepack yarn build exit 0 (seo-audit gate, prerender, sitemap 207 entries = 106 pages + 98 articles); Railway backend typecheck and build exit 0; npm ci in a clean out-of-repository directory exit 0 followed by typecheck and build exit 0",
-    "tests": "pass: R0.2 gpt-backend-security 30/30; gpt-backend 18/18; R0.1 web-security-hardening 13/13; unchanged required Agents baseline 584/584; full repository 706/706 across 27 suites (post-sync baseline 676/676 plus 30 new backend security tests)",
-    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in the same 6 old files, 0 in changed files and 0 in platform/agents/channels (D-007)",
-    "lint": "R0.2 changed-file scoped eslint exit 0 (apps/gpt-backend/src/app.ts, src/server.ts, tests/gpt-backend-security.test.ts, tests/gpt-backend.test.ts); boundaries 10/10 and checker 0 violations; the 2 pre-existing no-explicit-any errors in apps/gpt-backend/src/routes/admin.ts are untouched legacy debt per KNOWN_ISSUES; global eslint remains legacy-red",
-    "security": "Railway backend runs Fastify 5.10.0. npm audit --omit=dev on apps/gpt-backend reports 0 vulnerabilities, down from 6 High / 0 Critical. The fast-uri, find-my-way, fast-json-stringify and Fastify compiler advisories are closed through the supported Fastify 5 graph with no overrides. Web-side R0.1 controls are unchanged: Turnstile is enforced before GPT Chat Railway/provider work when configured, action/hostname are verified, chat/admin actions are isolated, direct Railway chat requires the internal gateway secret, React Router is 7.18.1 with only the non-applicable RSC advisory GHSA-qwww-vcr4-c8h2 remaining. No production operation was performed."
+    "build": "tsc -b exit 0; corepack yarn build exit 0; Railway backend typecheck and build exit 0; backend npm audit --omit=dev 0 findings",
+    "tests": "pass: R0.3C secret-scan 14/14; R0.2 gpt-backend-security 30/30; gpt-backend 18/18; R0.1 web-security-hardening 13/13; unchanged required Agents baseline 584/584; full repository 720/720 across 28 suites (706 plus 14 new prevention-gate tests)",
+    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json: exactly 27 legacy errors in the same 6 old files (D-007)",
+    "lint": "R0.3 changed-file scoped eslint exit 0; boundaries 10/10",
+    "security": "memory/test_credentials.md and its two gptbot-audit duplicates are removed from the tree and blocked by .gitignore. scripts/scan-secrets.ts is clean over 2463 tracked files and blocks 22 of the 23 historical incident versions; the one it does not flag is the original empty stub with no credential material. GitHub secret scanning and push protection are already enabled and detected nothing, because the values are generic; non-provider-pattern scanning cannot be enabled through the API on the current plan. The values remain reachable in Git history and must still be treated as compromised."
   }
 }

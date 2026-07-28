@@ -1,4 +1,27 @@
-# CURRENT_STATE — фактическое состояние репозитория (2026-07-28, R0.2)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-28, R0.3 частично)
+
+## R0.3 Credential Incident Response — НЕ ЗАВЕРШЁН
+
+- Code commit: `77d46d403cde210b5453214d61296ac261ca51e2`.
+- Сделано: current-tree remediation + **R0.3C** secret prevention gate.
+- Не сделано: **R0.3B** — ротация, rewrite истории, force-update refs.
+- `memory/test_credentials.md` и два дубликата в `gptbot-audit/` удалены из
+  дерева и заблокированы `.gitignore`. В **истории** материал остаётся.
+- Инцидент: 5 путей, 12 commits с материалом, 409/459 commits под перезапись,
+  11/11 локальных веток, 38/42 remote-веток, 5/5 тегов, 2 stash, 5 открытых PR.
+  Репозиторий публичный, экспозиция с 2026-06-21 → значения считать
+  скомпрометированными.
+- Prevention gate: `scripts/scan-secrets.ts` (redacted-вывод: правило, путь,
+  строка), `tests/secret-scan.test.ts` 14/14, CI workflow, npm-скрипты
+  `scan:secrets` / `test:secret-scan`. Валидирован против реального инцидента:
+  22/23 версий заблокированы, 0 ложных на 2463 файлах.
+- GitHub secret scanning и push protection включены, но за пять недель не дали
+  ни одного алерта: значения generic. `secret_scanning_non_provider_patterns`
+  через API на текущем плане не включается.
+- Offline-bundle всей истории создан вне репозитория, не опубликован.
+- Baseline: **720/720** по 28 suites; остальные гейты зелёные.
+
+## R0.2 Backend Dependency Hardening
 
 ## R0.2 Backend Dependency Hardening
 

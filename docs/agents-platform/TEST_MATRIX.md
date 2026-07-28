@@ -37,6 +37,31 @@ direct-generator 13, indexnow-engine 11, yandex-research 11, gpt-backend 17.
 | P2.7 | `tests/sotuvchi-pilot-readiness.test.ts` | 36 | closed event catalogue; scalar-only payload; buyer text/contact/injection rejection; unknown event name refused; trusted org+request required; duplicate append once; cross-tenant event isolation; analytics failure never repeats the domain call; funnel derived from Facts only; `/stats` owner-only with buyer/foreign/disabled/other-identity negatives; spoofed store, org and window fail closed; empty state; exact counts vs domain tables; seven-day window boundary; funnel kept apart; repeat-safe; RU/UZ rendering with grounding and no PII; unsupported number rejected; command and action routing; RU/UZ landing pair, canonical, hreflang, sitemap eligibility, inbound links, CTA safety, bot-identity guard, no unsafe or fabricated claim; pilot check read-only, no secret output, fails closed, migration order 0013–0023, no new migration; setup never calls setWebhook without an explicit apply; runbook and checklist exist, keep blockers visible and carry no credential material |
 | P2.6 | `tests/sotuvchi-handoff.test.ts` | 40 | channel address bind/update/revoke per bot namespace and namespace isolation; bounded content RU/UZ; retention deadline, content clearing and unanswerable expiry; one open handoff per buyer session; escalation replay; content-free operation log; queue/detail PII separation and tenant negatives; durable unique reply target; repeated reply press; expired target; exactly one final reply, replay and concurrent-answer race; foreign seller negatives; close once and immutability; strict grounding RU/UZ with seller authorship marker; seller notice without question text; push once, buyer answer, failed delivery retry and missing address; P2.5 order intents through the same path; migration/bootstrap parity; offline Telegram RU/UZ E2E; no auto-escalation; no CRM/payment/attachment |
 | R0.2 | `tests/gpt-backend-security.test.ts` | 30 | реальное приложение через `app.inject()` без сети; internal gateway secret (отсутствует / неверный / валидный / повторный); отсутствие секрета в ответах, заголовках и логах; malformed JSON и schema-invalid body; отклонение лишних свойств вместо доверия им как authority; body limit 413; неподдерживаемый content-type 415; tab-padded content-type (`GHSA-jx2c-rxcm-jvmq`); prototype poisoning `__proto__`/`constructor`; подменённые X-Forwarded-Host/Proto и произвольный Host не дают авторизации; запрещённый Origin 403; encoded/traversal/null-byte пути не доходят до handler; provider error без stack и секретов; отсутствие provider egress и store-мутации при отказе; health presence-only; ping boundary; отдельный admin guard на analytics и cleanup; неизменённый session/history/feedback контракт; DELETE с пустым JSON-телом доходит до auth guard (регрессия Fastify 5) |
+| R0.3C | `tests/secret-scan.test.ts` | 14 | generic high-entropy значение у credential-метки; тот же токен без метки не флагуется; `Authorization: Bearer`; provider-формы как critical; заглушки не флагуются; находка не несёт значение/фрагмент/хеш/длину; **регрессии по форме реального инцидента** — credential-именованный файл флагуется за значение на любой строке, покрытие всех пяти путей инцидента, markdown-таблица «метка + значение», git-SHA в таблицах не секрет, union-тип TypeScript не таблица; список исключений узкий, без wildcard и с обоснованием; правила уникальны; сам репозиторий чист; удалённые пути инцидента больше не tracked |
+
+## Post-change baseline R0.3 (частичный этап)
+
+| Проверка | Команда | Результат |
+|---|---|---|
+| R0.3C secret gate | `npm run test:secret-scan` | 14/14 |
+| Repository secret scan | `npm run scan:secrets` | clean, 2463 файла, exit 0 |
+| Gate против реального инцидента | offline-проверка по 23 историческим версиям | блокирует **22/23**; непойманная — исходная пустая заглушка без материала |
+| R0.2 backend security | `node --import tsx --test tests/gpt-backend-security.test.ts` | 30/30 |
+| Full repository | все `tests/*.test.ts` file-by-file | **720/720, 28 suites** |
+| App typecheck | `npx tsc -b` | exit 0 |
+| Production build | `corepack yarn build` | exit 0 |
+| Railway backend | typecheck + build + `npm audit --omit=dev` | exit 0 / exit 0 / 0 findings |
+| Functions typecheck | `npx tsc -p tsconfig.functions.json --noEmit` | exit 2; ровно 27 прежних errors в тех же 6 legacy files |
+| R0.3 scoped lint | `npx eslint scripts/scan-secrets.ts tests/secret-scan.test.ts tests/gpt-backend-security.test.ts` | exit 0 |
+| Boundary gate | test + checker | 10/10 |
+
+Полный total вырос с 706 до **720/720** за счёт 14 тестов prevention gate.
+Обязательный Agents baseline не изменился — **584/584**. Ни одно прежнее число
+не уменьшилось.
+
+Замечание по стабильности: при прогоне пачкой `sotuvchi-orders-inventory` один
+раз дал 36/37, изолированно — стабильные 37/37. Это известный OOM-риск машины
+владельца из AGENTS.md, а не регрессия; suite гонять file-by-file.
 
 ## Post-change baseline R0.2
 

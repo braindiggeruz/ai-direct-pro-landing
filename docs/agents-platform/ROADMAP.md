@@ -38,9 +38,14 @@
   deployment package manager и `apps/gpt-backend/package-lock.json` стал tracked
   и authoritative; добавлен suite `tests/gpt-backend-security.test.ts` (30).
   Без deploy, migrations, webhook и secret operations.
-- **R0.3 Credential Incident Response — next.** Rotation/revocation, tracked material,
-  согласованная history cleanup и downstream coordination. Не расширять в
-  R0.4 или rollout.
+- **R0.3 Credential Incident Response — начат, НЕ завершён.**
+  - *R0.3A (готово)* — assessment + rewrite rehearsal: инцидент найден по пяти
+    путям, 409/459 commits под перезапись, репетиция подтвердила 706/706.
+  - *R0.3C (готово, commit `77d46d4`)* — credential-файлы удалены из дерева,
+    добавлен репозиторный secret gate (22/23 на реальном инциденте, 0 ложных).
+  - *R0.3B (НЕ выполнен, блокер)* — ротация, отзыв, rewrite истории и
+    force-update 38 remote-веток и 5 тегов. Ротация требует доступа к сервисам,
+    которого нет в окружении; rewrite до ротации запрещён. Действие владельца.
 - **R0.4 Release Preparation.** CI secret/SAST/dependency gates, release
   evidence, backups, migration/runbook approval.
 

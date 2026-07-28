@@ -9,6 +9,18 @@ Code commit `6c0f723ccda2725acfd91e76f05276e64fe2fbb4` содержит пров
 Turnstile configured-secret/missing-token bypass, включая private Railway chat
 ingress. Это evidence для будущей human sign-off, но не production verification.
 
+## R0.3 local source evidence (этап НЕ завершён)
+
+Code commit `77d46d403cde210b5453214d61296ac261ca51e2` удаляет credential-файлы
+из текущего дерева (все три живых пути) и добавляет репозиторный secret gate,
+валидированный против реального инцидента: 22 из 23 исторических версий
+блокируются при 0 ложных срабатываниях на 2463 файлах.
+
+**Пункты раздела 1 ниже остаются `[ ]`.** Значения не ротированы, история не
+переписана, материал по-прежнему достижим в публичном репозитории. Наличие
+кода в ветке не закрывает ни одного пункта; закрыть их может только владелец
+после ротации и rewrite.
+
 ## R0.2 local source evidence
 
 Code commit `a364b45dd9355c4ef432951c4c1e88ef8da3bc81` переводит Railway
