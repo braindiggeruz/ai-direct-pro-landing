@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "range": "0013-0023",
+  "database": "GPTBOT_DRAFTS_DB",
+  "policy": {
+    "apply": "ordered_once_with_ledger",
+    "rollback": "restore_backup_or_forward_fix",
+    "production_apply_authorized": false
+  },
+  "migrations": [
+    {
+      "order": 13,
+      "filename": "0013_platform_events.sql",
+      "sha256": "8e68f6339438f27d9ecb036e07eaf9fbcdbc3324fa4d1fd87d4c8e237f7539f0",
+      "depends_on": [],
+      "tables": ["events"],
+      "indexes": ["idx_events_org_created", "idx_events_type_created", "idx_events_unprocessed"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "event metadata only; payload contract forbids user content",
+      "owner": "platform"
+    },
+    {
+      "order": 14,
+      "filename": "0014_platform_identity_orgs.sql",
+      "sha256": "a345fdeb0c0728bfc37597c68a149753ebb4db46ac0575b3a86593b2f5bfeff3",
+      "depends_on": [],
+      "tables": ["identities", "organizations", "memberships", "contacts"],
+      "indexes": ["idx_memberships_org_status", "idx_memberships_identity_status", "idx_contacts_identity"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "identity references and contact fields",
+      "owner": "platform"
+    },
+    {
+      "order": 15,
+      "filename": "0015_platform_knowledge.sql",
+      "sha256": "cf3fdef6769326ac838e4707e52a63b9c45d5cea12b43462d8b4f54ea0654d78",
+      "depends_on": ["0014_platform_identity_orgs.sql"],
+      "tables": ["knowledge_collections", "knowledge_items"],
+      "indexes": ["idx_knowledge_collections_org_status", "idx_knowledge_items_collection_status", "idx_knowledge_items_org_search", "idx_knowledge_items_numeric_1", "idx_knowledge_items_numeric_2", "idx_knowledge_items_numeric_3"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "tenant business content; no credentials",
+      "owner": "platform"
+    },
+    {
+      "order": 16,
+      "filename": "0016_platform_workflow.sql",
+      "sha256": "911eb35b5a87f2c0a076ffce73771152b56c3d9d5786c50a8359447991f3de30",
+      "depends_on": ["0014_platform_identity_orgs.sql"],
+      "tables": ["workflow_instances", "workflow_transitions"],
+      "indexes": ["idx_workflow_instances_org_status", "idx_workflow_instances_workflow_status", "idx_workflow_instances_org_wake", "idx_workflow_transitions_instance"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "workflow state; payload is tenant scoped",
+      "owner": "platform"
+    },
+    {
+      "order": 17,
+      "filename": "0017_telegram_agents_transport.sql",
+      "sha256": "adc7edc57c59afc3193a1c8dc3d8ca1ae53b12492453adc5d9b4aaa4dcad542b",
+      "depends_on": [],
+      "tables": ["telegram_agent_updates"],
+      "indexes": ["idx_telegram_agent_updates_status"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "update identifiers only; no message content",
+      "owner": "agents"
+    },
+    {
+      "order": 18,
+      "filename": "0018_sotuvchi_store_onboarding.sql",
+      "sha256": "0a18c65da192499627dd59dd602afc04b97664bf2e6117beb86f370b0688cd25",
+      "depends_on": ["0014_platform_identity_orgs.sql", "0016_platform_workflow.sql"],
+      "tables": ["sotuvchi_onboardings", "sotuvchi_stores", "telegram_agent_routes"],
+      "indexes": ["idx_sotuvchi_onboardings_status", "idx_sotuvchi_stores_status", "idx_telegram_agent_routes_org_status"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "store configuration and owner identity references",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 19,
+      "filename": "0019_sotuvchi_catalog.sql",
+      "sha256": "15e6289bd0b8b262a3e37c9157a227511745021db3fd2c48de696dee7d1d71fb",
+      "depends_on": ["0018_sotuvchi_store_onboarding.sql"],
+      "tables": ["sotuvchi_categories", "sotuvchi_products", "sotuvchi_catalog_operations", "sotuvchi_storefront_sessions"],
+      "indexes": ["idx_sotuvchi_stores_org_id", "idx_sotuvchi_categories_store_status_sort", "idx_sotuvchi_categories_org_store", "idx_sotuvchi_products_store_status_name", "idx_sotuvchi_products_store_category", "idx_sotuvchi_products_org_store", "idx_sotuvchi_catalog_operations_created", "idx_sotuvchi_storefront_sessions_store"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "catalog data and pseudonymous session references",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 20,
+      "filename": "0020_sotuvchi_buyer_qa.sql",
+      "sha256": "4c7a9fede921de93ca817071134ec14b48d13d471a3b747fa333052d121b0b53",
+      "depends_on": ["0019_sotuvchi_catalog.sql"],
+      "tables": ["sotuvchi_storefront_sessions"],
+      "indexes": [],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "buyer locale/session state; no free-form message retention",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 21,
+      "filename": "0021_sotuvchi_checkout.sql",
+      "sha256": "6102e30502937bd2cc45e762ee87a2b5d1eec8b12ad1a68bd50201c25100a66e",
+      "depends_on": ["0016_platform_workflow.sql", "0019_sotuvchi_catalog.sql"],
+      "tables": ["sotuvchi_orders", "sotuvchi_order_items", "sotuvchi_order_operations"],
+      "indexes": ["idx_sotuvchi_orders_store_status", "idx_sotuvchi_orders_active_draft", "idx_sotuvchi_order_items_single", "idx_sotuvchi_order_items_product", "idx_sotuvchi_order_operations_created"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "buyer name, phone and delivery address in orders",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 22,
+      "filename": "0022_sotuvchi_orders_inventory.sql",
+      "sha256": "fd6accdf4cc3224d4fc0d19611b3804833017619bfcfc660c1944539290d69bd",
+      "depends_on": ["0021_sotuvchi_checkout.sql"],
+      "tables": ["sotuvchi_orders", "sotuvchi_inventory", "sotuvchi_inventory_moves", "sotuvchi_notifications"],
+      "indexes": ["idx_sotuvchi_inventory_moves_order_type", "idx_sotuvchi_inventory_store", "idx_sotuvchi_inventory_moves_product", "idx_sotuvchi_notifications_pending", "idx_sotuvchi_orders_fulfillment"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "order references and notification routing references",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 23,
+      "filename": "0023_sotuvchi_handoff.sql",
+      "sha256": "907704291504ed281ec092bcc61f1a4bafd6c8d432c793be780d7213963bcf42",
+      "depends_on": ["0016_platform_workflow.sql", "0018_sotuvchi_store_onboarding.sql"],
+      "tables": ["channel_addresses", "sotuvchi_handoffs", "sotuvchi_handoff_operations", "sotuvchi_seller_reply_sessions"],
+      "indexes": ["idx_channel_addresses_lookup", "idx_sotuvchi_handoffs_active", "idx_sotuvchi_handoffs_queue", "idx_sotuvchi_handoffs_expiry", "idx_sotuvchi_handoff_operations_created", "idx_sotuvchi_seller_reply_sessions_expiry"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "bounded buyer question and seller reply text",
+      "owner": "sotuvchi"
+    }
+  ]
+}

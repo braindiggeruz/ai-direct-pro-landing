@@ -135,13 +135,14 @@ npx tsx scripts/sotuvchi-pilot-check.ts
 ```bash
 npx tsx scripts/telegram-agents-setup.ts identity
 npx tsx scripts/telegram-agents-setup.ts status
-npx tsx scripts/telegram-agents-setup.ts setup --dry-run
 npx tsx scripts/telegram-agents-setup.ts setup
+npx tsx scripts/telegram-agents-setup.ts setup --apply
 ```
 
 - `identity` обязателен первым: он проверяет `getMe` и точное совпадение с
   `TELEGRAM_AGENTS_BOT_USERNAME`, а также отказывает для lead- и Javob-бота.
-- `setup` без `--dry-run` — единственный шаг, изменяющий webhook.
+- `setup` по умолчанию выполняет только dry-run; только явный `--apply`
+  разрешает изменение команд и webhook.
 - Скрипт никогда не печатает token и secret.
 
 ## 10. Smoke tests

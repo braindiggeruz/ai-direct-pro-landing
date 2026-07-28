@@ -9,8 +9,8 @@
 // Usage:
 //   npx tsx scripts/telegram-agents-setup.ts identity
 //   npx tsx scripts/telegram-agents-setup.ts status
-//   npx tsx scripts/telegram-agents-setup.ts setup --dry-run
 //   npx tsx scripts/telegram-agents-setup.ts setup
+//   npx tsx scripts/telegram-agents-setup.ts setup --apply
 //
 // This script is never invoked by build/deploy and never prints secret values.
 import { pathToFileURL } from 'node:url';
@@ -79,7 +79,10 @@ export async function runTelegramAgentsSetup(
   const token = requireToken(environment);
   const client = new TelegramClient(token);
   const command = argv[0] ?? 'status';
-  const dryRun = argv.includes('--dry-run');
+  const apply = argv.includes('--apply');
+  if (apply && argv.includes('--dry-run')) {
+    throw new Error('telegram agents setup rejected: conflicting_modes');
+  }
 
   // getMe and exact username/protected-bot guards always happen before any
   // command or webhook mutation.
@@ -105,7 +108,7 @@ export async function runTelegramAgentsSetup(
   const secret = requireTelegramAgentsWebhookSecret(
     environment.TELEGRAM_AGENTS_WEBHOOK_SECRET,
   );
-  if (dryRun) {
+  if (!apply) {
     console.log('Telegram Agents setup dry-run: identity and guards passed.');
     console.log('  webhook:', webhookUrl);
     return;

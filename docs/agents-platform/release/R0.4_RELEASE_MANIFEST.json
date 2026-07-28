@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "stage": "R0.4-prep",
+  "status": "prepared_locally_blocked_by_R0.3B",
+  "candidate_head": {
+    "ref": "HEAD",
+    "resolution": "git rev-parse HEAD at preflight and release execution"
+  },
+  "lineage_marker": "89135c6c2556e03ad7a3d21c32067a1c8f98927e",
+  "production_changes_performed": false,
+  "build_commands": {
+    "root": "corepack yarn build",
+    "cloudflare": "corepack yarn build",
+    "railway": "npm ci && npm run typecheck && npm run build",
+    "functions_typecheck": "npx tsc -p tsconfig.functions.json --noEmit"
+  },
+  "expected_tests": {
+    "previous_baseline": 720,
+    "release_preparation": 20,
+    "full_total": 740,
+    "execution": "file-by-file"
+  },
+  "migration_manifest": "docs/agents-platform/release/MIGRATION_MANIFEST.json",
+  "migration_checksums": {
+    "0013_platform_events.sql": "8e68f6339438f27d9ecb036e07eaf9fbcdbc3324fa4d1fd87d4c8e237f7539f0",
+    "0014_platform_identity_orgs.sql": "a345fdeb0c0728bfc37597c68a149753ebb4db46ac0575b3a86593b2f5bfeff3",
+    "0015_platform_knowledge.sql": "cf3fdef6769326ac838e4707e52a63b9c45d5cea12b43462d8b4f54ea0654d78",
+    "0016_platform_workflow.sql": "911eb35b5a87f2c0a076ffce73771152b56c3d9d5786c50a8359447991f3de30",
+    "0017_telegram_agents_transport.sql": "adc7edc57c59afc3193a1c8dc3d8ca1ae53b12492453adc5d9b4aaa4dcad542b",
+    "0018_sotuvchi_store_onboarding.sql": "0a18c65da192499627dd59dd602afc04b97664bf2e6117beb86f370b0688cd25",
+    "0019_sotuvchi_catalog.sql": "15e6289bd0b8b262a3e37c9157a227511745021db3fd2c48de696dee7d1d71fb",
+    "0020_sotuvchi_buyer_qa.sql": "4c7a9fede921de93ca817071134ec14b48d13d471a3b747fa333052d121b0b53",
+    "0021_sotuvchi_checkout.sql": "6102e30502937bd2cc45e762ee87a2b5d1eec8b12ad1a68bd50201c25100a66e",
+    "0022_sotuvchi_orders_inventory.sql": "fd6accdf4cc3224d4fc0d19611b3804833017619bfcfc660c1944539290d69bd",
+    "0023_sotuvchi_handoff.sql": "907704291504ed281ec092bcc61f1a4bafd6c8d432c793be780d7213963bcf42"
+  },
+  "required_env_names": [
+    "GPTBOT_DRAFTS_DB",
+    "LOGIN_ATTEMPTS",
+    "ADMIN_EMAIL",
+    "ADMIN_PASSWORD_HASH",
+    "JWT_SECRET",
+    "GITHUB_TOKEN",
+    "GITHUB_OWNER",
+    "GITHUB_REPO",
+    "GITHUB_BRANCH",
+    "SITE_URL",
+    "GPT_HASH_SALT",
+    "TURNSTILE_SECRET_KEY",
+    "TURNSTILE_SITE_KEY",
+    "OPENROUTER_API_KEY",
+    "OPENROUTER_MODEL_FREE",
+    "OPENROUTER_MODEL_PAID",
+    "RAILWAY_GPT_API_URL",
+    "GPTBOT_INTERNAL_API_SECRET",
+    "N8N_INGEST_TOKEN",
+    "CRON_SECRET",
+    "TELEGRAM_AGENTS_BOT_TOKEN",
+    "TELEGRAM_AGENTS_WEBHOOK_SECRET",
+    "TELEGRAM_AGENTS_BOT_USERNAME",
+    "NODE_ENV",
+    "ALLOWED_ORIGINS",
+    "SUPABASE_URL",
+    "SUPABASE_SECRET_KEY",
+    "SUPABASE_PUBLISHABLE_KEY",
+    "SUPABASE_JWKS_URL"
+  ],
+  "routes_and_domains": {
+    "canonical_origin": "https://gptbot.uz",
+    "agents_webhook": "/api/telegram/agents",
+    "railway_health": "/health",
+    "cloudflare_functions": ["/api/*", "/admin-tools/*", "/robots.txt"]
+  },
+  "bot": {
+    "agents_username_source": "TELEGRAM_AGENTS_BOT_USERNAME",
+    "canonical_start_payload": "agent_seller",
+    "protected_usernames": ["aidirectprobot", "gptbot_javob_bot"],
+    "missing_username_blocks": "R1"
+  },
+  "blockers": [
+    "admin replacement installation, old credential revocation and consumer validation",
+    "N8N ingest replacement installation, old token revocation and consumer validation",
+    "Railway automatic deployment pause",
+    "Cloudflare automatic production and preview deployment pause",
+    "R0.3B allowlisted remote history rewrite and clean-clone verification",
+    "production D1 migration approval",
+    "production deployment and webhook approval",
+    "resolve or re-review GHSA-qwww-vcr4-c8h2 before R1; current SPA does not use the affected unstable RSC APIs"
+  ],
+  "rollback_references": [
+    "docs/agents-platform/release/ROLLBACK_RUNBOOK.md",
+    "docs/agents-platform/release/R1_OWNER_CHECKLIST.md"
+  ]
+}

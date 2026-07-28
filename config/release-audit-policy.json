@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "advisories": [
+    {
+      "id": "GHSA-qwww-vcr4-c8h2",
+      "package": "react-router",
+      "severity": "high",
+      "disposition": "not_reachable_in_current_build",
+      "scope": "unstable React Server Components APIs only",
+      "evidence": [
+        "GPTBot uses a client-only Vite SPA",
+        "all application imports are from react-router-dom declarative browser APIs",
+        "no React Router RSC API or react-server entry point is imported"
+      ],
+      "temporary_release_effect": "warning_in_r0.4_prep_and_blocker_for_r1",
+      "reviewed_on": "2026-07-28",
+      "review_by": "2026-08-11",
+      "upgrade_target": "a registry-published patched DOM package compatible with the current SPA"
+    }
+  ]
+}

@@ -7,8 +7,8 @@
 // variables and boolean "present/absent" results are reported.
 //
 // Applying anything is a separate, explicit step:
-//   npx tsx scripts/telegram-agents-setup.ts setup --dry-run
 //   npx tsx scripts/telegram-agents-setup.ts setup
+//   npx tsx scripts/telegram-agents-setup.ts setup --apply
 //
 // Usage:
 //   npx tsx scripts/sotuvchi-pilot-check.ts

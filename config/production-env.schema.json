@@ -1,0 +1,500 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GPTBot.uz production environment contract",
+  "version": 1,
+  "value_policy": "names_only",
+  "placeholder_markers": [
+    "changeme",
+    "replace_me",
+    "your_",
+    "<",
+    ">",
+    "example"
+  ],
+  "bot_identities": {
+    "lead": {
+      "transport": "TELEGRAM_BOT_TOKEN",
+      "webhook_secret": "TELEGRAM_WEBHOOK_SECRET",
+      "business_flow": "lead_capture"
+    },
+    "javob": {
+      "transport": "TELEGRAM_ASSISTANT_BOT_TOKEN",
+      "webhook_secret": "TELEGRAM_ASSISTANT_WEBHOOK_SECRET",
+      "business_flow": "assistant_reply"
+    },
+    "tahlil": {
+      "transport": "TELEGRAM_ASSISTANT_BOT_TOKEN",
+      "webhook_secret": "TELEGRAM_ASSISTANT_WEBHOOK_SECRET",
+      "business_flow": "transcript_analysis",
+      "shared_transport_with": "javob"
+    },
+    "agents": {
+      "transport": "TELEGRAM_AGENTS_BOT_TOKEN",
+      "webhook_secret": "TELEGRAM_AGENTS_WEBHOOK_SECRET",
+      "business_flow": "sotuvchi",
+      "canonical_start_payload": "agent_seller"
+    }
+  },
+  "variables": [
+    {
+      "name": "GPTBOT_DRAFTS_DB",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "d1_binding",
+      "purpose": "Primary D1 binding for platform and product state",
+      "validation": "binding name exists and targets the approved D1 database",
+      "owner": "platform"
+    },
+    {
+      "name": "LOGIN_ATTEMPTS",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "kv_binding",
+      "purpose": "Durable admin login lockout",
+      "validation": "KV binding exists",
+      "owner": "security"
+    },
+    {
+      "name": "ADMIN_EMAIL",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "email",
+      "purpose": "Single-user admin identity",
+      "validation": "email syntax",
+      "owner": "security"
+    },
+    {
+      "name": "ADMIN_PASSWORD_HASH",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "pbkdf2_hash",
+      "purpose": "Admin authentication verifier",
+      "validation": "pbkdf2_sha256 with 100000 iterations",
+      "owner": "security"
+    },
+    {
+      "name": "ADMIN_PASSWORD",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "forbidden_production_fallback",
+      "purpose": "Development-only legacy fallback",
+      "validation": "must be absent in production",
+      "owner": "security"
+    },
+    {
+      "name": "JWT_SECRET",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Admin session signing",
+      "validation": "minimum 32 characters",
+      "owner": "security"
+    },
+    {
+      "name": "GITHUB_TOKEN",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Approved repository content operations",
+      "validation": "provider secret and least-privilege repository access",
+      "owner": "platform"
+    },
+    {
+      "name": "GITHUB_OWNER",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "identifier",
+      "purpose": "Repository owner",
+      "validation": "GitHub identifier syntax",
+      "owner": "platform"
+    },
+    {
+      "name": "GITHUB_REPO",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "identifier",
+      "purpose": "Repository name",
+      "validation": "GitHub repository identifier syntax",
+      "owner": "platform"
+    },
+    {
+      "name": "GITHUB_BRANCH",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "identifier",
+      "purpose": "Approved content branch",
+      "validation": "non-empty branch name",
+      "owner": "platform"
+    },
+    {
+      "name": "SITE_URL",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "https_url",
+      "purpose": "Canonical public origin",
+      "validation": "absolute HTTPS origin with no credentials",
+      "owner": "platform"
+    },
+    {
+      "name": "GPT_HASH_SALT",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Pseudonymous quota and telemetry hashing",
+      "validation": "non-placeholder secret",
+      "owner": "security"
+    },
+    {
+      "name": "TURNSTILE_SECRET_KEY",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Server-side abuse verification",
+      "validation": "provider secret",
+      "owner": "security"
+    },
+    {
+      "name": "TURNSTILE_SITE_KEY",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "opaque_public",
+      "purpose": "Public Turnstile widget key",
+      "validation": "provider public key",
+      "owner": "frontend"
+    },
+    {
+      "name": "OPENROUTER_API_KEY",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Primary routed LLM access",
+      "validation": "provider secret",
+      "owner": "ai"
+    },
+    {
+      "name": "OPENROUTER_MODEL_FREE",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "model_id",
+      "purpose": "Free-tier chat model",
+      "validation": "non-placeholder provider model identifier",
+      "owner": "ai"
+    },
+    {
+      "name": "OPENROUTER_MODEL_PAID",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "model_id",
+      "purpose": "Paid-tier chat model",
+      "validation": "non-placeholder provider model identifier",
+      "owner": "ai"
+    },
+    {
+      "name": "RAILWAY_GPT_API_URL",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "https_url",
+      "purpose": "Cloudflare-to-Railway gateway origin",
+      "validation": "absolute HTTPS URL",
+      "owner": "backend"
+    },
+    {
+      "name": "GPTBOT_INTERNAL_API_SECRET",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Cloudflare-to-Railway request authentication",
+      "validation": "identical provider secret on both runtimes",
+      "owner": "security"
+    },
+    {
+      "name": "N8N_INGEST_TOKEN",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "n8n draft ingest bearer",
+      "validation": "replacement installed and old value rejected",
+      "owner": "automation"
+    },
+    {
+      "name": "N8N_WEBHOOK_SECRET",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Legacy n8n bridge safety header",
+      "validation": "required only when the legacy bridge is enabled",
+      "owner": "automation"
+    },
+    {
+      "name": "CRON_SECRET",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Scheduled-run endpoint authentication",
+      "validation": "provider secret",
+      "owner": "automation"
+    },
+    {
+      "name": "TELEGRAM_BOT_TOKEN",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "telegram_token",
+      "purpose": "Lead-capture bot transport",
+      "validation": "never reused by Assistant or Agents",
+      "owner": "lead"
+    },
+    {
+      "name": "TELEGRAM_WEBHOOK_SECRET",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Lead-capture webhook verification",
+      "validation": "never reused by Assistant or Agents",
+      "owner": "lead"
+    },
+    {
+      "name": "TELEGRAM_ADMIN_CHAT_ID",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "telegram_chat_id",
+      "purpose": "Lead notification destination",
+      "validation": "integer chat identifier",
+      "owner": "lead"
+    },
+    {
+      "name": "TELEGRAM_ASSISTANT_BOT_TOKEN",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "telegram_token",
+      "purpose": "Javob transport; Tahlil is a distinct flow within this transport",
+      "validation": "never reused by Lead or Agents",
+      "owner": "javob"
+    },
+    {
+      "name": "TELEGRAM_ASSISTANT_WEBHOOK_SECRET",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Javob/Tahlil transport webhook verification",
+      "validation": "never reused by Lead or Agents",
+      "owner": "javob"
+    },
+    {
+      "name": "TELEGRAM_ASSISTANT_BOT_USERNAME",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "telegram_username",
+      "purpose": "Public Javob transport identity",
+      "validation": "Telegram bot username syntax",
+      "owner": "javob"
+    },
+    {
+      "name": "OPENROUTER_MODEL_ANALYSIS",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "model_id",
+      "purpose": "Tahlil transcript-analysis flow model",
+      "validation": "non-placeholder provider model identifier",
+      "owner": "tahlil"
+    },
+    {
+      "name": "TELEGRAM_AGENTS_BOT_TOKEN",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "telegram_token",
+      "purpose": "Isolated Agents/Sotuvchi transport",
+      "validation": "never reused by Lead or Assistant",
+      "owner": "agents"
+    },
+    {
+      "name": "TELEGRAM_AGENTS_WEBHOOK_SECRET",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Agents webhook verification",
+      "validation": "never reused by Lead or Assistant",
+      "owner": "agents"
+    },
+    {
+      "name": "TELEGRAM_AGENTS_BOT_USERNAME",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "telegram_username",
+      "purpose": "Public Agents/Sotuvchi identity",
+      "validation": "Telegram syntax and protected-identity rejection",
+      "owner": "agents"
+    },
+    {
+      "name": "NODE_ENV",
+      "runtime": "railway-backend",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "environment_name",
+      "purpose": "Backend runtime mode",
+      "validation": "production",
+      "owner": "backend"
+    },
+    {
+      "name": "PORT",
+      "runtime": "railway-backend",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "port",
+      "purpose": "Railway-injected listener port",
+      "validation": "integer from 1 to 65535",
+      "owner": "backend"
+    },
+    {
+      "name": "ALLOWED_ORIGINS",
+      "runtime": "railway-backend",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "https_url_list",
+      "purpose": "Backend CORS allowlist",
+      "validation": "comma-separated approved HTTPS origins",
+      "owner": "backend"
+    },
+    {
+      "name": "SUPABASE_URL",
+      "runtime": "railway-backend",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "https_url",
+      "purpose": "Supabase project API origin",
+      "validation": "absolute HTTPS URL",
+      "owner": "backend"
+    },
+    {
+      "name": "SUPABASE_SECRET_KEY",
+      "runtime": "railway-backend",
+      "required_for_r1": true,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Server-only Supabase access",
+      "validation": "provider secret; service-role alias accepted by runtime",
+      "owner": "backend"
+    },
+    {
+      "name": "SUPABASE_PUBLISHABLE_KEY",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "opaque_public",
+      "purpose": "Public Supabase authentication key",
+      "validation": "provider public key; anon alias accepted by backend",
+      "owner": "backend"
+    },
+    {
+      "name": "SUPABASE_JWKS_URL",
+      "runtime": "railway-backend",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "https_url",
+      "purpose": "JWT verification keys",
+      "validation": "absolute HTTPS URL",
+      "owner": "backend"
+    },
+    {
+      "name": "PAYMENT_PROVIDER",
+      "runtime": "shared",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "provider_id",
+      "purpose": "Payment adapter selection; empty keeps checkout disabled",
+      "validation": "closed provider allowlist",
+      "owner": "payments"
+    },
+    {
+      "name": "PAYMENT_WEBHOOK_SECRET",
+      "runtime": "shared",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Payment webhook verification",
+      "validation": "required only with an approved live payment provider",
+      "owner": "payments"
+    },
+    {
+      "name": "INDEXNOW_KEY",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Optional IndexNow submission",
+      "validation": "provider secret",
+      "owner": "seo"
+    },
+    {
+      "name": "SERPER_API_KEY",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Optional SERP intelligence",
+      "validation": "provider secret",
+      "owner": "seo"
+    },
+    {
+      "name": "YANDEX_SEARCH_API_KEY",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Optional Yandex demand intelligence",
+      "validation": "provider secret",
+      "owner": "seo"
+    },
+    {
+      "name": "VITE_TELEGRAM_BOT_USERNAME",
+      "runtime": "vite-build",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "telegram_username",
+      "purpose": "Public lead CTA identity",
+      "validation": "Telegram username syntax",
+      "owner": "frontend"
+    },
+    {
+      "name": "VITE_SITE_URL",
+      "runtime": "vite-build",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "https_url",
+      "purpose": "Admin absolute-link base",
+      "validation": "absolute HTTPS URL",
+      "owner": "frontend"
+    }
+  ]
+}
