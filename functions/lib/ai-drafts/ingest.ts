@@ -22,7 +22,7 @@ export interface IngestSuccess {
 export interface IngestFailure {
   ok: false;
   http: number;
-  body: { error: string; issues?: Array<{ path: string; message: string }>; detail?: string };
+  body: { error: string; issues?: Array<{ path: string; message: string }> };
 }
 
 export type IngestResult = IngestSuccess | IngestFailure;
@@ -58,6 +58,6 @@ export async function ingestRawBundle(env: Env, raw: unknown): Promise<IngestRes
     };
   } catch (e) {
     if (e instanceof DraftsDbMissingError) return { ok: false, http: 503, body: { error: 'Draft storage not configured.' } };
-    return { ok: false, http: 500, body: { error: 'Failed to persist draft', detail: (e as Error).message } };
+    return { ok: false, http: 500, body: { error: 'Failed to persist draft' } };
   }
 }

@@ -125,7 +125,12 @@ export interface DirectGenerationResult {
 export async function generateAndIngestDirectly(
   env: Env,
   topic: DirectGenerationTopic,
-  options: { requestedBy: string; source: 'admin' | 'schedule' | 'external'; runId: string },
+  options: {
+    requestedBy: string;
+    source: 'admin' | 'schedule' | 'external';
+    runId: string;
+    requireLocalePair?: boolean;
+  },
 ): Promise<DirectGenerationResult> {
   const startedAt = Date.now();
 
@@ -209,6 +214,34 @@ export async function generateAndIngestDirectly(
       error_code: 'ai_generation_failed',
       error_message: `AI router produced no usable article for any requested locale (${locales.join(',')}).`,
       error_detail: { per_locale_errors: perLocaleErrors, model, attempted_providers: perLocaleErrors.map((e) => `${e.locale}:${e.provider}/${e.model}`).filter(Boolean) },
+      duration_ms: Date.now() - startedAt,
+      model,
+      llm_provider: chosenMeta?.provider,
+      llm_model: chosenMeta?.model,
+      llm_fallback_used: chosenMeta?.fallback_used,
+    };
+  }
+  if (
+    options.requireLocalePair
+    && locales.includes('ru')
+    && locales.includes('uz')
+    && (
+      !articles.some((article) => article.locale === 'ru')
+      || !articles.some((article) => article.locale === 'uz')
+    )
+  ) {
+    return {
+      ok: false,
+      generation_status: 'failed',
+      validation_status: 'failed',
+      validation_passed: false,
+      validation_issue_count: perLocaleErrors.length,
+      error_code: 'locale_pair_incomplete',
+      error_message: 'The required RU/UZ pair was not produced; no draft was written.',
+      error_detail: {
+        failed_locales: perLocaleErrors.map((item) => item.locale),
+        model,
+      },
       duration_ms: Date.now() - startedAt,
       model,
       llm_provider: chosenMeta?.provider,

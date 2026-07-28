@@ -154,6 +154,8 @@ function validKind(
         .test(value);
     case 'environment_name':
       return value === 'production';
+    case 'boolean_flag':
+      return value === 'true' || value === 'false';
     case 'model_id':
       return /^[a-z0-9._-]+\/[a-z0-9._:-]+$/i.test(value);
     case 'identifier':

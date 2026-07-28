@@ -10,7 +10,7 @@
 #   LOGIN_ATTEMPTS    → KV namespace for the existing login-lockout subsystem.
 #
 # Secrets (NEVER committed; configured in Cloudflare Pages → Settings → Env vars):
-#   N8N_INGEST_TOKEN, JWT_SECRET, GITHUB_TOKEN, ADMIN_PASSWORD_HASH,
+#   JWT_SECRET, GITHUB_TOKEN, ADMIN_PASSWORD_HASH,
 #   OPENROUTER_API_KEY, SERPER_API_KEY, TELEGRAM_*.
 
 name = "ai-direct-pro-landing"
@@ -28,3 +28,9 @@ database_id = "97ef0372-d937-406f-8871-755368d9afff"
 # functions/lib/seo-autopilot/direct-generator.ts.
 [ai]
 binding = "AI"
+
+# Local producer binding for first-party orchestration. Production remains
+# unchanged until the owner creates/attaches the queue during the cutover.
+[[queues.producers]]
+binding = "AUTOMATION_QUEUE"
+queue = "gptbot-automation"

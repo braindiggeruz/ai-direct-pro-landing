@@ -229,11 +229,21 @@
     {
       "name": "N8N_INGEST_TOKEN",
       "runtime": "cloudflare-pages-functions",
-      "required_for_r1": true,
+      "required_for_r1": false,
       "secret": true,
       "kind": "opaque",
-      "purpose": "n8n draft ingest bearer",
-      "validation": "replacement installed and old value rejected",
+      "purpose": "Legacy n8n draft ingest bearer; absent after verified retirement",
+      "validation": "required only for a complete ROTATED disposition; a complete RETIRED disposition requires revocation/rejection instead",
+      "owner": "automation"
+    },
+    {
+      "name": "N8N_INGEST_ENABLED",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": false,
+      "kind": "boolean_flag",
+      "purpose": "Legacy ingest kill switch; false or absent after retirement",
+      "validation": "closed value true or false; production retirement requires false or absent",
       "owner": "automation"
     },
     {
@@ -249,11 +259,41 @@
     {
       "name": "CRON_SECRET",
       "runtime": "cloudflare-pages-functions",
-      "required_for_r1": true,
+      "required_for_r1": false,
       "secret": true,
       "kind": "opaque",
-      "purpose": "Scheduled-run endpoint authentication",
-      "validation": "provider secret",
+      "purpose": "Legacy GitHub scheduled-run endpoint authentication",
+      "validation": "required only while the legacy GitHub scheduler is enabled",
+      "owner": "automation"
+    },
+    {
+      "name": "AUTOMATION_QUEUE",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "identifier",
+      "purpose": "First-party Queue producer binding",
+      "validation": "binding exists and targets the approved automation Queue",
+      "owner": "automation"
+    },
+    {
+      "name": "AUTOMATION_DLQ",
+      "runtime": "cloudflare-worker",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "identifier",
+      "purpose": "First-party dead-letter Queue binding",
+      "validation": "binding exists and is distinct from the primary Queue",
+      "owner": "automation"
+    },
+    {
+      "name": "FIRST_PARTY_AUTOMATION_ENABLED",
+      "runtime": "shared",
+      "required_for_r1": true,
+      "secret": false,
+      "kind": "boolean_flag",
+      "purpose": "First-party automation cutover flag",
+      "validation": "closed value true or false; true only after controlled validation",
       "owner": "automation"
     },
     {

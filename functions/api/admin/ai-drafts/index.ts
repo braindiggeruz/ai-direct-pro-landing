@@ -13,6 +13,7 @@ import { ingestRawBundle } from '../../../lib/ai-drafts/ingest';
 import type { AiDraftStatus } from '../../../../src/shared/ai-drafts';
 
 const MAX_BODY_BYTES = 256 * 1024;
+const MAX_BEARER_CHARS = 512;
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -41,11 +42,23 @@ export const onRequestOptions: PagesFunction<Env> = async () =>
 
 // -- POST = n8n ingestion (Bearer auth) ------------------------------------
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  if (!env.N8N_INGEST_TOKEN) return json({ error: 'Ingestion endpoint not configured.' }, 503);
+  if ((env.N8N_INGEST_ENABLED ?? 'false').toLowerCase() !== 'true') {
+    return json({ error: 'Not Found' }, 404);
+  }
+  if (
+    typeof env.N8N_INGEST_TOKEN !== 'string'
+    || env.N8N_INGEST_TOKEN.trim() === ''
+    || env.N8N_INGEST_TOKEN.length > MAX_BEARER_CHARS
+  ) {
+    return json({ error: 'Ingestion endpoint not configured.' }, 503);
+  }
   if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
 
   const token = extractBearer(request);
   if (!token) return json({ error: 'Missing Authorization bearer token' }, 401);
+  if (token.length > MAX_BEARER_CHARS) {
+    return json({ error: 'Invalid Authorization token' }, 401);
+  }
   if (!constantTimeEqual(token, env.N8N_INGEST_TOKEN)) {
     return json({ error: 'Invalid Authorization token' }, 401);
   }

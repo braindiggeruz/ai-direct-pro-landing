@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "stage": "R0.4-prep",
   "status": "prepared_locally_blocked_by_R0.3B",
   "candidate_head": {
@@ -15,9 +15,11 @@
     "functions_typecheck": "npx tsc -p tsconfig.functions.json --noEmit"
   },
   "expected_tests": {
-    "previous_baseline": 720,
+    "previous_baseline": 740,
     "release_preparation": 20,
-    "full_total": 740,
+    "first_party_automation": 22,
+    "full_total": 762,
+    "suite_total": 32,
     "execution": "file-by-file"
   },
   "migration_manifest": "docs/agents-platform/release/MIGRATION_MANIFEST.json",
@@ -32,7 +34,8 @@
     "0020_sotuvchi_buyer_qa.sql": "4c7a9fede921de93ca817071134ec14b48d13d471a3b747fa333052d121b0b53",
     "0021_sotuvchi_checkout.sql": "6102e30502937bd2cc45e762ee87a2b5d1eec8b12ad1a68bd50201c25100a66e",
     "0022_sotuvchi_orders_inventory.sql": "fd6accdf4cc3224d4fc0d19611b3804833017619bfcfc660c1944539290d69bd",
-    "0023_sotuvchi_handoff.sql": "907704291504ed281ec092bcc61f1a4bafd6c8d432c793be780d7213963bcf42"
+    "0023_sotuvchi_handoff.sql": "907704291504ed281ec092bcc61f1a4bafd6c8d432c793be780d7213963bcf42",
+    "0024_first_party_automation.sql": "89d64a59a4ae057f0ec35aa2ced6a72d362ed602ac0221974b3e1db6ca9a7dfd"
   },
   "required_env_names": [
     "GPTBOT_DRAFTS_DB",
@@ -53,8 +56,9 @@
     "OPENROUTER_MODEL_PAID",
     "RAILWAY_GPT_API_URL",
     "GPTBOT_INTERNAL_API_SECRET",
-    "N8N_INGEST_TOKEN",
-    "CRON_SECRET",
+    "AUTOMATION_QUEUE",
+    "AUTOMATION_DLQ",
+    "FIRST_PARTY_AUTOMATION_ENABLED",
     "TELEGRAM_AGENTS_BOT_TOKEN",
     "TELEGRAM_AGENTS_WEBHOOK_SECRET",
     "TELEGRAM_AGENTS_BOT_USERNAME",
@@ -79,16 +83,36 @@
   },
   "blockers": [
     "admin replacement installation, old credential revocation and consumer validation",
-    "N8N ingest replacement installation, old token revocation and consumer validation",
+    "n8n ingest complete ROTATED or complete RETIRED evidence disposition",
     "Railway automatic deployment pause",
     "Cloudflare automatic production and preview deployment pause",
+    "GitHub SEO scheduler and every automation writer pause",
     "R0.3B allowlisted remote history rewrite and clean-clone verification",
     "production D1 migration approval",
+    "Cloudflare Queue, DLQ, Worker, Cron and Pages producer binding approval",
     "production deployment and webhook approval",
     "resolve or re-review GHSA-qwww-vcr4-c8h2 before R1; current SPA does not use the affected unstable RSC APIs"
   ],
   "rollback_references": [
     "docs/agents-platform/release/ROLLBACK_RUNBOOK.md",
-    "docs/agents-platform/release/R1_OWNER_CHECKLIST.md"
-  ]
+    "docs/agents-platform/release/R1_OWNER_CHECKLIST.md",
+    "docs/agents-platform/architecture/N8N_RETIREMENT_RUNBOOK.md",
+    "docs/agents-platform/architecture/FIRST_PARTY_AUTOMATION_RUNBOOK.md"
+  ],
+  "parallel_preparation": {
+    "R0.4-prep": "completed_locally",
+    "first_party_automation_runtime": "prepared_locally",
+    "n8n_retirement": "prepared_not_executed"
+  },
+  "automation": {
+    "source_of_truth": "D1 automation_jobs",
+    "delivery": "Cloudflare Queues at-least-once",
+    "consumer": "workers/automation-worker.ts",
+    "dlq": "prepared_not_created",
+    "cron": "prepared_not_created",
+    "production_migration_applied": false,
+    "production_bindings_created": false,
+    "n8n_retired": false,
+    "auto_publish": false
+  }
 }

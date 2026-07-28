@@ -77,6 +77,11 @@
       "path": "functions/lib/seo-autopilot/{jobs,payload}.ts",
       "classification": "legacy",
       "reason": "Legacy compatibility job schema and payload envelope."
+    },
+    {
+      "path": "tests/n8n-*.test.ts",
+      "classification": "active",
+      "reason": "Executable dependency-inventory and fail-closed legacy endpoint regression coverage."
     }
   ],
   "items": [

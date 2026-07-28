@@ -206,9 +206,9 @@ export function runMigrationRehearsal(): MigrationRehearsalReport {
   const entries = [...manifest.migrations].sort((a, b) => a.order - b.order);
   const checks: Record<string, boolean> = {
     order: (
-      entries.length === 11
+      entries.length === 12
       && entries[0]?.order === 13
-      && entries.at(-1)?.order === 23
+      && entries.at(-1)?.order === 24
       && entries.every((entry, index) => entry.order === 13 + index)
     ),
     checksums: entries.every((entry) =>
@@ -248,6 +248,8 @@ export function runMigrationRehearsal(): MigrationRehearsalReport {
       'sotuvchi_orders',
       'sotuvchi_inventory',
       'sotuvchi_handoffs',
+      'automation_jobs',
+      'automation_job_events',
     ];
     const tables = schemaObjects(database, 'table');
     checks.application_schema_compatibility = compatibleTables.every(

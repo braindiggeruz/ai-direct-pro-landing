@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "range": "0013-0023",
+  "range": "0013-0024",
   "database": "GPTBOT_DRAFTS_DB",
   "policy": {
     "apply": "ordered_once_with_ledger",
@@ -128,6 +128,17 @@
       "reversibility": "restore_or_forward_fix",
       "pii": "bounded buyer question and seller reply text",
       "owner": "sotuvchi"
+    },
+    {
+      "order": 24,
+      "filename": "0024_first_party_automation.sql",
+      "sha256": "89d64a59a4ae057f0ec35aa2ced6a72d362ed602ac0221974b3e1db6ca9a7dfd",
+      "depends_on": ["0001_ai_drafts.sql"],
+      "tables": ["automation_jobs", "automation_job_events"],
+      "indexes": ["idx_automation_jobs_due", "idx_automation_jobs_tenant_status", "idx_automation_jobs_lease", "idx_automation_events_job"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "bounded job/event references only; no prompts, article content, credentials or personal data",
+      "owner": "platform"
     }
   ]
 }

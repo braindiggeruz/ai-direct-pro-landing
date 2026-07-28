@@ -1,0 +1,32 @@
+# Local deployment descriptor for the first-party automation Worker.
+# This file prepares bindings only; no queue, Worker, secret or cron was
+# created or changed by this repository task.
+name = "gptbot-automation"
+main = "workers/automation-worker.ts"
+compatibility_date = "2026-07-28"
+
+[limits]
+cpu_ms = 300000
+
+[[d1_databases]]
+binding = "GPTBOT_DRAFTS_DB"
+database_name = "gptbot-ai-drafts"
+database_id = "97ef0372-d937-406f-8871-755368d9afff"
+
+[[queues.producers]]
+binding = "AUTOMATION_QUEUE"
+queue = "gptbot-automation"
+
+[[queues.producers]]
+binding = "AUTOMATION_DLQ"
+queue = "gptbot-automation-dlq"
+
+[[queues.consumers]]
+queue = "gptbot-automation"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "gptbot-automation-dlq"
+
+[triggers]
+crons = ["*/15 * * * *"]

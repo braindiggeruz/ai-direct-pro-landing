@@ -55,9 +55,16 @@ export interface Env {
   // The shared secret bearer the n8n HTTP node must send in Authorization.
   // Server-only. NEVER referenced from the SPA bundle.
   N8N_INGEST_TOKEN?: string;
+  // Legacy ingest is disabled unless explicitly enabled during the bounded
+  // migration window. Retirement leaves this false/absent.
+  N8N_INGEST_ENABLED?: string;
   // D1 database that stores incoming drafts pending human review.
   // See /app/migrations/0001_ai_drafts.sql for the schema.
   GPTBOT_DRAFTS_DB?: D1Database;
+  // First-party automation producer. The separate Worker is the consumer;
+  // messages contain job references only, never prompts, content or secrets.
+  AUTOMATION_QUEUE?: Queue<unknown>;
+  FIRST_PARTY_AUTOMATION_ENABLED?: string;
   // Server-side secret the bridge attaches as `x-runable-secret` when
   // calling the existing n8n production webhook. Set this to the same value
   // the n8n `Validate Safety Rules` node expects.

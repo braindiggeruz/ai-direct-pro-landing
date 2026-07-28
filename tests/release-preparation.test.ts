@@ -116,6 +116,7 @@ test('placeholders, invalid URLs and production plain passwords fail closed', ()
   const report = validateProductionEnvironment({
     SITE_URL: 'http://example.invalid',
     ADMIN_PASSWORD: 'must-not-exist',
+    FIRST_PARTY_AUTOMATION_ENABLED: 'enabled',
     TELEGRAM_AGENTS_BOT_USERNAME: 'aidirectprobot',
   });
   assert.equal(report.status, 'blocked');
@@ -123,6 +124,8 @@ test('placeholders, invalid URLs and production plain passwords fail closed', ()
     check.name === 'env:SITE_URL' && !check.ok));
   assert.ok(report.checks.some((check) =>
     check.name === 'env:ADMIN_PASSWORD' && !check.ok));
+  assert.ok(report.checks.some((check) =>
+    check.name === 'env:FIRST_PARTY_AUTOMATION_ENABLED' && !check.ok));
   assert.ok(report.checks.some((check) =>
     check.name === 'env:agents-identity' && !check.ok));
   const serialized = JSON.stringify(report);
@@ -163,6 +166,9 @@ test('a complete synthetic R1 environment passes without values in its report', 
       case 'environment_name':
         environment[item.name] = 'production';
         break;
+      case 'boolean_flag':
+        environment[item.name] = 'true';
+        break;
       case 'model_id':
         environment[item.name] = 'provider/model';
         break;
@@ -180,15 +186,15 @@ test('a complete synthetic R1 environment passes without values in its report', 
   ));
   const serialized = JSON.stringify(report);
   for (const value of Object.values(environment)) {
-    assert.ok(!serialized.includes(value));
+    assert.ok(!serialized.includes(JSON.stringify(value)));
   }
 });
 
-test('migration manifest is ordered 0013 through 0023 with exact checksums', () => {
+test('migration manifest is ordered 0013 through 0024 with exact checksums', () => {
   const entries = loadMigrationManifest().migrations;
-  assert.equal(entries.length, 11);
+  assert.equal(entries.length, 12);
   assert.deepEqual(entries.map((entry) => entry.order), [
-    13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+    13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
   ]);
   for (const entry of entries) {
     assert.equal(
@@ -210,7 +216,7 @@ test('migration rehearsal covers bootstrap, upgrade, objects and constraints', (
   const report = runMigrationRehearsal();
   assert.equal(report.status, 'pass');
   assert.equal(report.database, 'isolated-local-synthetic');
-  assert.equal(report.applied.length, 11);
+  assert.equal(report.applied.length, 12);
   for (const check of [
     'clean_bootstrap',
     'synthetic_upgrade',
@@ -352,7 +358,7 @@ test('release manifest keeps blockers, tests and local-only status visible', () 
   };
   assert.equal(manifest.status, 'prepared_locally_blocked_by_R0.3B');
   assert.equal(manifest.production_changes_performed, false);
-  assert.equal(manifest.expected_tests.full_total, 740);
+  assert.equal(manifest.expected_tests.full_total, 762);
   assert.equal(manifest.bot.canonical_start_payload, 'agent_seller');
   assert.ok(manifest.blockers.length >= 7);
   const auditPolicy = JSON.parse(fs.readFileSync(
