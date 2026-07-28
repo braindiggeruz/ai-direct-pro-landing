@@ -46,8 +46,16 @@
   - *R0.3B (НЕ выполнен, блокер)* — ротация, отзыв, rewrite истории и
     force-update 38 remote-веток и 5 тегов. Ротация требует доступа к сервисам,
     которого нет в окружении; rewrite до ротации запрещён. Действие владельца.
-- **R0.4 Release Preparation.** CI secret/SAST/dependency gates, release
-  evidence, backups, migration/runbook approval.
+- **R0.4 Release Preparation — этап НЕ завершён; local prep completed in
+  parallel while R0.3B is blocked.** Code commit
+  `27e7ddbe03695a859c9a7c11e7e93b450309946b` добавляет redacted env contract,
+  checksummed migration manifest, clean/upgrade/rollback и backup/restore
+  rehearsals, deployment dry-run, smoke/rollback/pilot runbooks и release
+  preflight. Результат: `R0.4-prep: completed_locally`, 740/740 по 29 suites.
+  Root advisory `GHSA-qwww-vcr4-c8h2` ограничен неиспользуемым RSC-путём:
+  warning разрешён только для local prep, R1 блокируется до review к
+  2026-08-11. Применение remote migration, deploy, env/secrets, webhook и
+  pilot остаются запрещены до завершения R0.3B и отдельной авторизации R1.
 
 ## R1 — Production Rollout
 

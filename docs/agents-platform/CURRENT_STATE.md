@@ -1,5 +1,29 @@
 # CURRENT_STATE — фактическое состояние репозитория (2026-07-28, R0.3 частично)
 
+## Текущий release relay: R0.3 заблокирован, R0.4 подготовлен только локально
+
+- Authoritative state: `current_stage: R0.3`, `stage_status: in_progress`,
+  `last_completed_stage: R0.2`, `next_stage: R0.3B`, `blocked: true`.
+- R0.3B automation и owner kit готовы. Замены admin credential и
+  `N8N_INGEST_TOKEN` хранятся только в Windows-защищённом vault вне Git, но
+  внешняя установка, проверка и отзыв старых значений не выполнены.
+  `N8N_INGEST_TOKEN` консервативно считается потенциально раскрытым.
+- До live rewrite необходимо подтвердить freeze всех writers: Railway
+  auto-deploy, Cloudflare Pages auto-deploy, SEO scheduler и другие automation
+  writers. Затем rewrite может обновить только allowlisted загрязнённые refs с
+  точными lease; до этого remote history остаётся неизменной.
+- `R0.4-prep: completed_locally` в
+  `27e7ddbe03695a859c9a7c11e7e93b450309946b`. Этап R0.4 **не завершён**,
+  production заблокирован, R1 не начат.
+- Локальная доказательная база: 740/740 по 29 suites; migration и backup/restore
+  rehearsals прошли на synthetic/local data; deployment dry-run и env
+  contract не мутируют внешние сервисы.
+- Root dependency audit: `GHSA-qwww-vcr4-c8h2` остаётся warning для локальной
+  подготовки, потому что текущий SPA не использует затронутые unstable RSC API;
+  это узкое исключение блокирует R1 до отдельного review к 2026-08-11.
+- Не выполнялись push/deploy, production D1 migration, webhook mutation или
+  pilot.
+
 ## R0.3 Credential Incident Response — НЕ ЗАВЕРШЁН
 
 - Code commit: `77d46d403cde210b5453214d61296ac261ca51e2`.

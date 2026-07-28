@@ -1,5 +1,25 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
+## Текущий release blocker relay (2026-07-28)
+
+- R0.3 остаётся `in_progress`, `blocked: true`; следующий этап — R0.3B.
+- Замены admin credential и `N8N_INGEST_TOKEN` сгенерированы и защищены только
+  во внешнем Windows DPAPI owner vault. Они не установлены в потребителях,
+  consumers не перезапущены/проверены, старые значения не отозваны.
+  `N8N_INGEST_TOKEN` консервативно считается потенциально раскрытым; прежнее
+  утверждение ниже о незакрытой идентификации этим решением D-025 superseded.
+- Railway auto-deploy, Cloudflare Pages auto-deploy и SEO scheduler/иные
+  automation writers ещё не подтверждены как paused. Поэтому live rewrite и
+  force-update remote refs запрещены.
+- R0.4-prep завершён только локально в
+  `27e7ddbe03695a859c9a7c11e7e93b450309946b`; R0.4 не завершён, R1 не начат,
+  production заблокирован.
+- Root audit сохраняет `GHSA-qwww-vcr4-c8h2`. В текущем declarative SPA
+  затронутые unstable RSC API недостижимы; узкое warning-исключение разрешает
+  только R0.4-prep и блокирует R1 до review к 2026-08-11.
+- Remote D1 migrations, deploy, production credentials/env, webhook и pilot не
+  изменялись.
+
 ## R0.3 checkpoint — CREDENTIAL INCIDENT ОСТАЁТСЯ ОТКРЫТЫМ
 
 Сделано (commit `77d46d4`):

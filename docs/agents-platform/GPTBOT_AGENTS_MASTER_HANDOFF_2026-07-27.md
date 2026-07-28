@@ -1,5 +1,30 @@
 # GPTBot Agents Platform — полный master handoff
 
+## Current release relay — 2026-07-28
+
+- Authoritative stage: R0.3 `in_progress`, `blocked: true`; last completed R0.2;
+  next R0.3B.
+- R0.3B fully automated tooling and owner kit are prepared outside Git.
+  Replacement admin and n8n ingest credentials exist only in a Windows DPAPI
+  CurrentUser vault and are not installed or revoked yet. The n8n ingest token
+  is conservatively treated as potentially exposed.
+- Required freeze remains unconfirmed for Railway auto-deploy, Cloudflare Pages
+  auto-deploy, the SEO scheduler and every other automation writer. Live
+  history rewrite is forbidden until credential rotation and freeze both pass.
+- R0.4 local parallel preparation is complete at
+  `27e7ddbe03695a859c9a7c11e7e93b450309946b`; the R0.4 stage is not complete,
+  production remains blocked and R1 has not started.
+- Verified local baseline: 740/740 across 29 suites; release-preparation 20/20;
+  secret scan clean; app/backend builds green; backend production audit clean;
+  exactly 27 unchanged Functions legacy errors; boundaries 10/10.
+- `GHSA-qwww-vcr4-c8h2` is scoped to unstable RSC APIs absent from the current
+  declarative SPA. The exception is warning-only for local R0.4 preparation and
+  blocks R1 pending review by 2026-08-11.
+- No push, deploy, remote D1 migration, production credential/env mutation,
+  webhook mutation or pilot was performed.
+
+This relay supersedes older stage-status prose below when it conflicts.
+
 Дата фактического аудита: **2026-07-27**
 Рабочая директория: `F:\Claude\gptbot-repo`
 Ветка: `main`

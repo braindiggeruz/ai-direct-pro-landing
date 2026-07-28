@@ -2,6 +2,27 @@
 
 Дата документа: 2026-07-28. Этап: P2.7 — Analytics и pilot readiness.
 
+## R0.4 local preparation evidence — production всё ещё заблокирован
+
+Code commit `27e7ddbe03695a859c9a7c11e7e93b450309946b` содержит names-only env
+contract, checksum/order manifest migrations 0013–0023, clean/upgrade/rollback
+и backup/restore rehearsals на synthetic/local data, deployment dry-run,
+pre/post-deploy smoke separation и rollback/pilot runbooks. Полный локальный
+baseline: **740/740** по 29 suites; R0.4 suite 20/20.
+
+Это только `R0.4-prep: completed_locally`. R0.3B остаётся заблокирован внешней
+установкой/валидацией/отзывом admin и n8n credentials, паузой Railway и
+Cloudflare auto-deploy, отключением SEO scheduler/иных writers и последующим
+live history rewrite. R0.4 не завершён, R1 не начат. Все checklist items ниже
+остаются `[ ]`.
+
+Root audit сохраняет `GHSA-qwww-vcr4-c8h2`; текущий declarative SPA не
+использует затронутые unstable RSC APIs. Узкое warning-исключение разрешает
+локальную подготовку и блокирует R1 до review к 2026-08-11.
+
+Push, deploy, remote D1 migrations, production env/secret mutation, webhook
+mutation и pilot не выполнялись.
+
 ## R0.1 local source evidence
 
 Code commit `6c0f723ccda2725acfd91e76f05276e64fe2fbb4` содержит проверенное

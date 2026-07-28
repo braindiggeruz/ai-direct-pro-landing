@@ -1,5 +1,37 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-025 (2026-07-28, R0.3/R0.4-prep) Безопасная параллельная подготовка, внешний owner vault и строгий live-rewrite gate
+
+**Классификация credentials.** Admin credential подтверждён как затронутый.
+`N8N_INGEST_TOKEN` из-за противоречивого исторического описания консервативно
+считается потенциально раскрытым. Для обоих CSPRNG-замены уже сгенерированы, но
+хранятся только вне Git в Windows DPAPI CurrentUser vault с ACL текущего
+пользователя. В репозиторий попадают лишь names/status, никогда не значения,
+фрагменты, хеши или длины. Owner kit также не является repository artifact.
+
+**Порядок R0.3B неизменен.** Live rewrite запрещён, пока владелец не установит
+замены в потребителях, не перезапустит и не проверит их, не отзовёт старые
+credentials и не подтвердит freeze всех writers: Railway auto-deploy,
+Cloudflare Pages auto-deploy, SEO scheduler и другие automation writers.
+Автоматизация затем использует свежий mirror, очищает все пять путей, сохраняет
+remote-only refs, прогоняет полный gate и обновляет только явный allowlist refs
+с точными force-with-lease. `git push --mirror` запрещён.
+
+**R0.4 допускает только обратимую локальную подготовку.** Пока R0.3B
+заблокирован, разрешены names-only env contract, checksum/order validation,
+synthetic local migration и backup/restore rehearsals, deployment dry-run и
+runbooks. Code commit:
+`27e7ddbe03695a859c9a7c11e7e93b450309946b`. Это
+`R0.4-prep: completed_locally`, а не завершение R0.4; production остаётся
+заблокированным, R1 не начат. Remote D1 migration, deploy, production
+env/secret mutation, webhook mutation и pilot не выполняются.
+
+**Root advisory policy узкая и fail-closed для R1.** Root audit сообщает
+`GHSA-qwww-vcr4-c8h2` для `react-router` и `react-router-dom`. Текущий
+declarative SPA не импортирует затронутые unstable RSC API, поэтому локальная
+R0.4-prep может продолжаться с явным warning. Исключение не является общим:
+оно блокирует R1 и требует review не позднее 2026-08-11.
+
 ## D-024 (2026-07-28, R0.3) Порядок incident response, repository-local secret gate и incident-исключение из лимита коммитов
 
 **Инцидент шире, чем предполагалось.** Credential-файл существовал по **пяти**

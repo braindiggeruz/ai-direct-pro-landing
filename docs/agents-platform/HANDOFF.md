@@ -1,5 +1,42 @@
 # Актуальный master handoff
 
+## R0.3B / R0.4-prep relay (2026-07-28) — текущий authoritative checkpoint
+
+- `current_stage: R0.3`, `stage_status: in_progress`, `last_completed_stage: R0.2`,
+  `next_stage: R0.3B`, `blocked: true`.
+- R0.3C и remediation текущего дерева подтверждены. R0.3B полностью
+  автоматизирован, но **не запускался**: live rewrite запрещён до завершения
+  двух внешних действий владельца.
+- Замены admin credential и `N8N_INGEST_TOKEN` сгенерированы CSPRNG и хранятся
+  только вне Git в Windows DPAPI CurrentUser vault с ACL текущего пользователя.
+  Они ещё не установлены; старые значения ещё не отозваны. Сам
+  `N8N_INGEST_TOKEN` консервативно считается потенциально раскрытым.
+- Внешние блокеры: установка/перезапуск/валидация/отзыв обоих credentials;
+  подтверждённая пауза Railway auto-deploy и Cloudflare Pages auto-deploy;
+  отключение SEO scheduler и иных automation writers; затем live rewrite
+  загрязнённых remote refs.
+- Owner kit находится вне репозитория:
+  `F:\Claude\gptbot-secure-owner-kit\20260728-195938`.
+- Параллельный трек `R0.4-prep` **completed_locally** в code commit
+  `27e7ddbe03695a859c9a7c11e7e93b450309946b`: env contract, checksummed
+  migration manifest и локальные clean/upgrade/rollback rehearsals,
+  backup/restore rehearsal, deployment dry-run, smoke/rollback/pilot runbooks.
+  Это не завершение R0.4, не R1 и не production evidence.
+- Проверки локальной подготовки: **740/740** по 29 suites, R0.4 suite 20/20,
+  secret scan clean, root typecheck/build 0, backend typecheck/build/audit 0,
+  Functions — ровно 27 прежних ошибок в тех же 6 legacy-файлах, scoped lint 0,
+  boundaries 10/10.
+- Root audit сохраняет ровно одно применимое по dependency range предупреждение:
+  `GHSA-qwww-vcr4-c8h2` в `react-router`/`react-router-dom`. Текущий
+  declarative SPA не использует затронутые unstable RSC API; узкое исключение
+  разрешает только локальную R0.4-prep с warning и блокирует R1 до review
+  не позднее 2026-08-11.
+- Push, deploy, remote D1 migrations, production env/secret mutation, webhook
+  mutation и pilot не выполнялись.
+
+Раздел R0.3 checkpoint ниже остаётся исторической детализацией; при расхождении
+этот relay и `STATE.json` имеют приоритет.
+
 ## R0.3 checkpoint (2026-07-28) — ЭТАП НЕ ЗАВЕРШЁН
 
 - Code commit: `77d46d403cde210b5453214d61296ac261ca51e2`.
