@@ -42,24 +42,36 @@ function claim(
   return value;
 }
 
+/**
+ * P2.6 adds the escalation hint here instead of auto-creating a handoff for
+ * every unknown question: the buyer decides when a person should read what
+ * they wrote, so no unintended text is ever stored for the seller.
+ */
+const HUMAN_HINT = {
+  ru: 'Если нужен человек — напишите «позвать продавца» и свой вопрос.',
+  uz: 'Odam kerak bo‘lsa — «sotuvchini chaqir» deb savolingizni yozing.',
+} as const;
+
 export function safeBuyerHelpResponse(locale: Locale): RuntimeResponseDraft {
   const text = locale === 'ru'
     ? 'Можно спросить:\n— что есть в магазине;\n— сколько стоит товар;\n'
       + '— есть ли товар в наличии;\n— рассказать о товаре.'
     : 'So‘rashingiz mumkin:\n— do‘konda nima bor;\n— mahsulot narxi;\n'
       + '— mahsulot mavjudmi;\n— mahsulot haqida ma’lumot.';
-  return { messages: [{ text }], claims: [] };
+  return {
+    messages: [{ text: `${text}\n${HUMAN_HINT[locale]}` }],
+    claims: [],
+  };
 }
 
 function noResult(locale: Locale): RuntimeResponseDraft {
+  const text = locale === 'ru'
+    ? 'Не нашёл такой товар в этом магазине. '
+      + 'Попробуйте написать название немного иначе.'
+    : 'Bu do‘konda bunday mahsulot topilmadi. '
+      + 'Nomini boshqacha yozib ko‘ring.';
   return {
-    messages: [{
-      text: locale === 'ru'
-        ? 'Не нашёл такой товар в этом магазине. '
-          + 'Попробуйте написать название немного иначе.'
-        : 'Bu do‘konda bunday mahsulot topilmadi. '
-          + 'Nomini boshqacha yozib ko‘ring.',
-    }],
+    messages: [{ text: `${text}\n${HUMAN_HINT[locale]}` }],
     claims: [],
   };
 }

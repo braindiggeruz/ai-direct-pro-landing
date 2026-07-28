@@ -67,6 +67,19 @@ function textFromOutbound(outbound: Outbound): string {
   ].filter(Boolean).join('\n');
 }
 
+/** Bounded channel rendering shared by turn replies and pushed messages. */
+export function renderTelegramOutbound(
+  messages: readonly Outbound[],
+): readonly TelegramRenderedMessage[] {
+  return messages.map((message) => {
+    const keyboard = keyboardFromOutbound(message);
+    return {
+      text: textFromOutbound(message),
+      ...(keyboard ? { keyboard } : {}),
+    };
+  });
+}
+
 export function renderTelegramRuntimeResult(
   result: RuntimeTurnResult,
   locale: Locale,
@@ -74,13 +87,7 @@ export function renderTelegramRuntimeResult(
   if (result.status !== 'answered' || result.messages.length === 0) {
     return [{ text: FALLBACK[locale].runtime }];
   }
-  return result.messages.map((message) => {
-    const keyboard = keyboardFromOutbound(message);
-    return {
-      text: textFromOutbound(message),
-      ...(keyboard ? { keyboard } : {}),
-    };
-  });
+  return renderTelegramOutbound(result.messages);
 }
 
 export function renderTelegramMappingFailure(

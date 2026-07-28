@@ -489,7 +489,7 @@ export class SotuvchiOrdersService {
   async listPendingNotifications(
     orgId: unknown,
     storeId: unknown,
-    limit = SELLER_ORDER_LIMITS.listLimit,
+    limit: number = SELLER_ORDER_LIMITS.listLimit,
   ): Promise<readonly SotuvchiNotification[]> {
     await this.ready();
     return this.store.listNotifications(

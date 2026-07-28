@@ -3,6 +3,7 @@ import type {
   RuntimeTurnInput,
   RuntimeTurnResult,
 } from '../../platform/contracts';
+import type { TelegramAddressBinder } from './addresses';
 import type {
   TelegramAgentContextResolver,
 } from './deep-link';
@@ -32,6 +33,7 @@ export type TelegramAgentsSafeLogCode =
   | 'context_failed'
   | 'runtime_failed'
   | 'send_failed'
+  | 'address_bind_failed'
   | 'dedup_finalize_failed';
 
 export interface TelegramAgentsSafeLogger {
@@ -50,6 +52,8 @@ export interface TelegramAgentsWebhookDependencies {
   contexts: TelegramAgentContextResolver;
   runtime: TelegramAgentRuntimePort;
   delivery: TelegramDeliveryPort;
+  /** Optional durable "where to reach this identity" binding. */
+  addresses?: TelegramAddressBinder;
   logger?: TelegramAgentsSafeLogger;
 }
 
@@ -193,6 +197,16 @@ async function processAccepted(
   } catch {
     await sendFailure(dependencies, input, 'identity_failed');
     return;
+  }
+
+  // Best effort: a failed address binding must never break the current turn,
+  // it only postpones future pushed messages to this identity.
+  if (dependencies.addresses) {
+    try {
+      await dependencies.addresses.bind(identityId, input.inbound.threadRef);
+    } catch {
+      dependencies.logger?.error('address_bind_failed');
+    }
   }
 
   let context;

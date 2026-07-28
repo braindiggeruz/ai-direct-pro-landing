@@ -75,6 +75,12 @@ export const sotuvchiSellerStatusRule: DeterministicRule = {
                 ? 'Qoldiqlar'
                 : 'Остатки',
             },
+            {
+              id: 'seller-handoffs',
+              label: context.org.locale === 'uz'
+                ? 'Savollar'
+                : 'Вопросы',
+            },
           ],
         }],
         claims: [],

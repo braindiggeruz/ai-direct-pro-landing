@@ -1,5 +1,6 @@
 // Telegram channel public surface. This is a library barrel, not a
 // Cloudflare Pages route; onRequest* exports are intentionally absent.
+export * from './addresses';
 export * from './api';
 export * from './deep-link';
 export * from './identity';

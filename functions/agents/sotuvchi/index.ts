@@ -11,6 +11,8 @@ export * from './checkout';
 export * from './outbox';
 export * from './inventory';
 export * from './orders';
+export * from './handoff';
+export * from './delivery';
 export {
   SOTUVCHI_ONBOARDING_STATUSES,
   STORE_DELIVERY_MODES,

@@ -10,12 +10,17 @@ import {
   createSotuvchiCheckoutService,
   createSotuvchiCheckoutWorkflowPort,
   createSotuvchiDomainPort,
+  createSotuvchiHandoffDomainPort,
+  createSotuvchiHandoffService,
+  createSotuvchiHandoffWorkflowPort,
+  createSotuvchiNotificationDispatcher,
   createSotuvchiOnboardingService,
   createSotuvchiOrdersDomainPort,
   createSotuvchiOrdersService,
   createSotuvchiWorkflowPort,
   isStorefrontCode,
   withSotuvchiCheckoutDomain,
+  withSotuvchiHandoffDomain,
   withSotuvchiOrdersDomain,
   type SotuvchiOnboardingSnapshot,
 } from '../../agents/sotuvchi';
@@ -23,7 +28,9 @@ import { listAgents } from '../../agents/registry';
 import {
   TelegramClient,
   createStaticTelegramAgentContextResolver,
+  createTelegramAddressBinder,
   createTelegramAgentUpdateStore,
+  createTelegramChannelDelivery,
   createTelegramDeliveryPort,
   createTelegramIdentityPort,
   handleTelegramAgentsWebhook,
@@ -34,7 +41,12 @@ import {
   type TelegramAgentContextInput,
   type TelegramAgentContextResolver,
   type TelegramAgentsSafeLogCode,
+  type TelegramDeliveryPort,
 } from '../../channels/telegram';
+import {
+  createChannelAddressBindingPort,
+  createChannelAddressService,
+} from '../../platform/channels';
 import { createIdentityService } from '../../platform/identity';
 import { createKnowledgeService } from '../../platform/knowledge';
 import {
@@ -61,6 +73,7 @@ function sellerContext(
   snapshot: SotuvchiOnboardingSnapshot,
   input: TelegramAgentContextInput,
   fromStart: boolean,
+  replyWorkflow?: { instanceId: string; expectedVersion: number } | null,
 ): TelegramAgentContext {
   const active = snapshot.status === 'active';
   const entryActionId = snapshot.status === 'completed'
@@ -70,30 +83,34 @@ function sellerContext(
       : fromStart
         ? 'seller-start'
         : undefined;
+  // Onboarding owns the workflow slot while it runs; once the store exists the
+  // slot carries the trusted "next message is a handoff reply" binding.
+  const workflow = active
+    ? {
+        instanceId: snapshot.workflowInstanceId,
+        expectedVersion: snapshot.version,
+      }
+    : replyWorkflow ?? undefined;
   return {
     orgId: snapshot.orgId,
     agentId: 'sotuvchi',
     locale: snapshot.draft.locale ?? input.locale,
     ...(entryActionId ? { entryActionId } : {}),
-    ...(active
-      ? {
-          workflow: {
-            instanceId: snapshot.workflowInstanceId,
-            expectedVersion: snapshot.version,
-          },
-        }
-      : {}),
+    ...(workflow ? { workflow } : {}),
   };
 }
 
 export function createTelegramAgentsRuntimeWiring(
   db: D1Database,
   botUsername: string,
+  delivery?: TelegramDeliveryPort,
 ) {
   const onboarding = createSotuvchiOnboardingService(db);
   const catalog = createSotuvchiCatalogService(db);
   const checkout = createSotuvchiCheckoutService(db, catalog, botUsername);
   const orders = createSotuvchiOrdersService(db, catalog);
+  const handoff = createSotuvchiHandoffService(db, catalog, botUsername);
+  const addresses = createChannelAddressService(db);
   const demoContexts = createStaticTelegramAgentContextResolver([{
     botUsername,
     routeCode: 'demo',
@@ -178,7 +195,15 @@ export function createTelegramAgentsRuntimeWiring(
           return sellerContext(snapshot, input, false);
         }
         if (snapshot?.status === 'completed') {
-          return sellerContext(snapshot, input, false);
+          return sellerContext(
+            snapshot,
+            input,
+            false,
+            await handoff.getActiveReplyWorkflowRef(
+              snapshot.orgId,
+              input.telegramIdentityId,
+            ),
+          );
         }
         const storefront = await catalog.resolveStoredStorefrontContext(
           botUsername,
@@ -206,19 +231,66 @@ export function createTelegramAgentsRuntimeWiring(
     services: {
       knowledge: createKnowledgeService(db),
       workflow: composeSotuvchiWorkflowPorts([
+        createSotuvchiHandoffWorkflowPort(handoff),
         createSotuvchiCheckoutWorkflowPort(checkout),
         createSotuvchiWorkflowPort(onboarding, botUsername),
       ]),
-      agentDomain: withSotuvchiOrdersDomain(
-        withSotuvchiCheckoutDomain(
-          createSotuvchiDomainPort(catalog, botUsername),
-          createSotuvchiCheckoutDomainPort(checkout),
+      agentDomain: withSotuvchiHandoffDomain(
+        withSotuvchiOrdersDomain(
+          withSotuvchiCheckoutDomain(
+            createSotuvchiDomainPort(catalog, botUsername),
+            createSotuvchiCheckoutDomainPort(checkout),
+          ),
+          createSotuvchiOrdersDomainPort(orders),
         ),
-        createSotuvchiOrdersDomainPort(orders),
+        createSotuvchiHandoffDomainPort(handoff),
       ),
     },
   });
-  return { catalog, checkout, contexts, onboarding, orders, runtime };
+  // Opportunistic outbound flush. There is no scheduler, so pending intents of
+  // the store touched by this turn are delivered right after it; a delivery
+  // failure never affects the reply the caller already produced.
+  const dispatcher = delivery
+    ? createSotuvchiNotificationDispatcher({
+        handoff,
+        orders,
+        addresses,
+        delivery: createTelegramChannelDelivery(delivery, botUsername),
+      })
+    : null;
+
+  async function flush(orgId: unknown): Promise<void> {
+    if (!dispatcher || typeof orgId !== 'string' || !orgId) return;
+    const store = await catalog
+      .resolveStorefrontByOrg(orgId, 'ru')
+      .catch(() => null);
+    if (!store) return;
+    await dispatcher.flush(orgId, store.storeId).catch(() => undefined);
+  }
+
+  const dispatchingRuntime = {
+    async run(input: unknown) {
+      const result = await runtime.run(input);
+      const orgId = input && typeof input === 'object'
+        ? (input as { orgId?: unknown }).orgId
+        : undefined;
+      await flush(orgId);
+      return result;
+    },
+  };
+
+  return {
+    addresses,
+    catalog,
+    checkout,
+    contexts,
+    dispatcher,
+    flush,
+    handoff,
+    onboarding,
+    orders,
+    runtime: dispatchingRuntime,
+  };
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({
@@ -240,7 +312,8 @@ export const onRequestPost: PagesFunction<Env> = async ({
   }
   if (isProtectedAgentBotUsername(botUsername)) return unavailable();
 
-  const wiring = createTelegramAgentsRuntimeWiring(db, botUsername);
+  const delivery = createTelegramDeliveryPort(new TelegramClient(token));
+  const wiring = createTelegramAgentsRuntimeWiring(db, botUsername, delivery);
 
   return handleTelegramAgentsWebhook(
     request,
@@ -251,7 +324,11 @@ export const onRequestPost: PagesFunction<Env> = async ({
       identities: createTelegramIdentityPort(createIdentityService(db)),
       contexts: wiring.contexts,
       runtime: wiring.runtime,
-      delivery: createTelegramDeliveryPort(new TelegramClient(token)),
+      delivery,
+      addresses: createTelegramAddressBinder(
+        createChannelAddressBindingPort(wiring.addresses),
+        botUsername,
+      ),
       logger: safeLogger(),
     },
     waitUntil,

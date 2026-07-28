@@ -1118,23 +1118,25 @@ test('storefront session binds platform identity and resolves trusted store', as
 test('manifest exposes catalog closed-list tools with AI mutations disabled', () => {
   assert.deepEqual(
     sotuvchiAgentManifest.capabilities,
-    ['store.onboarding', 'store.catalog', 'commerce.order'],
+    ['store.onboarding', 'store.catalog', 'commerce.order', 'handoff'],
   );
   assert.ok(sotuvchiAgentManifest.tools.length >= 9);
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
     tool.name.startsWith('catalog.')
     || tool.name.startsWith('checkout.')
-    || tool.name.startsWith('seller.')));
+    || tool.name.startsWith('seller.')
+    || tool.name.startsWith('handoff.')));
   assert.equal(sotuvchiAgentManifest.policies.aiSelection, 'disabled');
   const names = sotuvchiAgentManifest.tools.map((tool) => tool.name);
   assert.ok(!names.includes('catalog.execute'));
   // Still exactly one buyer checkout entry point. P2.5 added the seller order
-  // and inventory tools; payment and handoff remain out of the manifest.
+  // and inventory tools and P2.6 the human handoff bridge; payment stays out
+  // of the manifest.
   assert.deepEqual(
     names.filter((name) => name.startsWith('checkout.')),
     ['checkout.start'],
   );
-  for (const forbidden of ['payment', 'refund', 'handoff', 'cart']) {
+  for (const forbidden of ['payment', 'refund', 'cart']) {
     assert.ok(!names.some((name) => name.includes(forbidden)), forbidden);
   }
 });

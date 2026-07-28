@@ -1307,7 +1307,7 @@ test('Telegram UZ seller flow and duplicate updates stay single-effect', async (
 
 // ── Scope boundaries ───────────────────────────────────────────────────────
 
-test('P2.5 adds seller tools without payment, handoff or multi-item surface', () => {
+test('P2.5 adds seller tools without payment or multi-item surface', () => {
   const names = sotuvchiAgentManifest.tools.map((tool) => tool.name);
   for (const expected of [
     'seller.orders.list',
@@ -1320,8 +1320,7 @@ test('P2.5 adds seller tools without payment, handoff or multi-item surface', ()
   ]) {
     assert.ok(names.includes(expected), expected);
   }
-  assert.ok(!names.some((name) => /payment|refund|handoff|cart/i.test(name)));
-  assert.ok(!sotuvchiAgentManifest.capabilities.includes('handoff'));
+  assert.ok(!names.some((name) => /payment|refund|cart/i.test(name)));
   assert.equal(sotuvchiAgentManifest.policies.aiSelection, 'disabled');
   const priorities = (sotuvchiAgentManifest.deterministicRules ?? [])
     .map((rule) => rule.priority);
