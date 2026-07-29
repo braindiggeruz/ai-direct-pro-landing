@@ -53,7 +53,8 @@
   "blocked": true,
   "blocked_stage": "R0.4",
   "blockers": [
-    "Railway GitHub auto-deploy was NOT effective during the R0.3B rewrite: the force-push caused railway-app[bot] to create a production deployment for the rewritten main (d1a9517) at 2026-07-29T11:34:59Z. It reported state=failure, so no new backend code went live. The owner has since disabled the GitHub deploy trigger in the Railway service settings; effectiveness is re-verified by observing that a controlled governance push produces no new railway-app[bot] deployment.",
+    "R0.4 production rollout is PARTIALLY complete and blocked on owner-supplied production secrets. Done: D1 backup verified, migrations 0013-0024 applied and verified. Not done: Queue/DLQ/Worker/Cron creation, Pages/Functions deployment, canaries. 24 of the 30 required_env_names are absent from Cloudflare Pages production, including nine secrets that only the owner can provide: GPT_HASH_SALT, TURNSTILE_SECRET_KEY, TURNSTILE_SITE_KEY, GPTBOT_INTERNAL_API_SECRET, TELEGRAM_AGENTS_BOT_TOKEN, TELEGRAM_AGENTS_WEBHOOK_SECRET, SUPABASE_URL, SUPABASE_SECRET_KEY, SUPABASE_PUBLISHABLE_KEY, SUPABASE_JWKS_URL. Deploying the rewritten canonical main before these exist would put production on code whose environment contract is unmet.",
+    "The LOGIN_ATTEMPTS KV binding is absent from Cloudflare Pages production, so the admin login lockout has no backing store there. Pre-existing, unrelated to R0.3B, and worth closing during R0.4.",
     "Railway production deployments have been failing since 2026-07-27; the last successful one is 93fab39. This predates R0.3B and needs its own diagnosis before any Railway deploy is attempted.",
     "R0.4 production rollout has not started: no production D1 backup, no migrations applied, no Queue/Worker/Cron created, no Pages deployment from the rewritten canonical main."
   ],
@@ -141,7 +142,13 @@
     },
     "release_status": "prepared_locally_blocked_by_R0.3B",
     "root_dependency_audit": "React Router 8.3.0 with React/React DOM 19.2.7 is installed; react-router-dom and GHSA-qwww-vcr4-c8h2 are absent. Yarn production audit and the independent npm production cross-check report zero findings. A separate full Yarn audit reports unrelated tooling/dev dependency debt (1 low, 2 moderate, 17 high); no broad dependency modernization was performed.",
-    "remote_d1_migrations_applied": false,
+    "remote_d1_migrations_applied": true,
+    "remote_d1_migrations_applied_at": "2026-07-29",
+    "remote_d1_migrations_applied_set": "0013-0024 (12 additive migrations)",
+    "remote_d1_backup": "F:\\Claude\\gptbot-r0.4-backups\\20260729\\gptbot-ai-drafts-prod-export.sql (verified readable, 37 tables, taken before any mutation)",
+    "remote_d1_tables_before": 37,
+    "remote_d1_tables_after": 67,
+    "remote_d1_existing_rows_preserved": "ai_drafts 42, seo_autopilot_jobs 81",
     "deployed": false,
     "webhook_mutated": false,
     "pilot_started": false
