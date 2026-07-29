@@ -1,4 +1,33 @@
-# CURRENT_STATE — фактическое состояние репозитория (2026-07-28, R0.3 частично)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-29, R0.3 частично)
+
+## Cloudflare Functions type safety — последнее локальное исключение закрыто
+
+- `functions_type_safety: completed_locally`, code commit
+  `df687a457d3619cbc0dd83ec291c1af7e66230f4`.
+- Канонический `npx tsc -p tsconfig.functions.json --noEmit`:
+  было **exit 2 / 27 errors / 6 files**, стало **exit 0 / 0 errors / 0 files**.
+  Исключение D-007 снято.
+- Ни один compiler option не ослаблен, ни один файл не исключён из компиляции,
+  добавлено 0 unsafe suppressions. Удалены 4 необоснованных non-null assertion.
+- Затронутые файлы: `functions/api/admin/ai-drafts/[id]/status.ts`,
+  `functions/api/admin/cockpit.ts`,
+  `functions/api/admin/seo/yandex/quick-launch.ts`,
+  `functions/lib/seo-autopilot/normalise.ts`,
+  `functions/lib/telegram/analysis.ts`, `functions/lib/telegram/handler.ts`,
+  `functions/lib/telegram/store.ts`.
+- Способы исправления: closed-list parsing непроверенного ввода, явный
+  Cloudflare environment interface, типы unvalidated-candidate для ответов
+  провайдера, разделённые closed unions кодов ошибок, type predicate для
+  nullable D1 колонки. Источник несоответствия, а не подавление компилятора.
+- Новый suite `tests/functions-type-safety.test.ts` — 38/38 behavioural тестов
+  против реальных endpoints и in-memory SQLite с каноническим DDL миграций;
+  сеть заглушена deny-by-default.
+- Полный baseline: **826/826 по 34 suites** (788 + 38, ноль регрессий).
+- API contract: `breaking_changes = 0`, `wire_observable_changes = 0`.
+- Паритет неизменен: routes 224/224, pages 106, articles 98, sitemap 207,
+  critical SEO 0, orphan 0.
+- Локальный RC2 подготовлен: `R0.4_LOCAL_RC2_MANIFEST.json`,
+  статус `prepared_locally_blocked_by_R0.3B`. R0.4 **не завершён**.
 
 ## Текущий release relay: R0.3 заблокирован, R0.4 подготовлен только локально
 
@@ -25,14 +54,15 @@
   `27e7ddbe03695a859c9a7c11e7e93b450309946b`. Этап R0.4 **не завершён**,
   production заблокирован, R1 не начат.
 - `react_router_security_migration: completed_locally` in
-  `052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0`; local RC1 is
-  `prepared_locally`. React Router is `8.3.0`, the old compatibility package
-  is absent and route parity is 224/224. This does not complete R0.4.
-- Финальная локальная доказательная база: targeted baseline 22/22; owner
-  evidence policy 6/6; обязательный Agents baseline 584/584; полный baseline
-  788/788 по 33 suites. Migration и backup/restore rehearsals прошли на
-  synthetic/local data; deployment и Wrangler dry-run не мутируют внешние
-  сервисы.
+  `052ba20a1e31ebedd1f584377b78a7ac1cbfb8c0`; local RC1 is superseded by
+  `local_release_candidate: RC2_prepared_locally`. React Router is `8.3.0`, the
+  old compatibility package is absent and route parity is 224/224. This does not
+  complete R0.4.
+- Финальная локальная доказательная база: Functions type-safety 38/38; targeted
+  baseline 22/22; owner evidence policy 6/6; обязательный Agents baseline
+  584/584; полный baseline 826/826 по 34 suites. Migration и backup/restore
+  rehearsals прошли на synthetic/local data; deployment и Wrangler dry-run не
+  мутируют внешние сервисы.
 - Root dependency audit: React/DOM `19.2.7` and React Router `8.3.0`;
   `react-router-dom` and `GHSA-qwww-vcr4-c8h2` are absent. Production-only
   Yarn and npm cross-check audits are zero. Unrelated full-audit tooling/dev

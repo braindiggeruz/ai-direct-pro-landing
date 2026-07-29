@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "label": "Cloudflare Functions public contract — before R0.4-RC2 type-safety work",
+  "source_revision": "200d468dcd045a47b48bebcdb56005b502300aa9",
+  "scope": "The six files that carried the 27 accepted legacy typecheck errors, plus the store module one of them narrows.",
+  "endpoints": [
+    {
+      "route": "/api/admin/ai-drafts/[id]/status",
+      "source": "functions/api/admin/ai-drafts/[id]/status.ts",
+      "methods": ["POST"],
+      "auth": "requireAuth — Bearer HS256 JWT, issuer gptbot-seo-admin",
+      "request_fields": ["status", "note"],
+      "settable_statuses": ["pending_review", "needs_revision", "rejected"],
+      "non_settable_statuses": ["imported"],
+      "allowed_transitions": {
+        "pending_review": ["needs_revision", "rejected"],
+        "needs_revision": ["pending_review", "rejected"],
+        "imported": [],
+        "rejected": ["pending_review"]
+      },
+      "status_codes": [200, 400, 401, 404, 409, 500, 503],
+      "response_fields_success": ["draft"],
+      "error_bodies": {
+        "400_invalid_json": "Invalid JSON body",
+        "400_bad_status": "status must be pending_review | needs_revision | rejected",
+        "400_missing_id": "Missing draft id",
+        "404": "Draft not found",
+        "409": "Transition not allowed: <from> → <to>",
+        "503": "Draft storage not configured."
+      },
+      "note_bounds": { "trimmed": true, "max_chars": 2000 },
+      "env_names": ["JWT_SECRET", "GPTBOT_DRAFTS_DB"],
+      "d1_tables": ["ai_drafts", "ai_draft_audit"],
+      "auto_publish": false
+    },
+    {
+      "route": "/api/admin/cockpit",
+      "source": "functions/api/admin/cockpit.ts",
+      "methods": ["GET"],
+      "auth": "requireAuth — Bearer HS256 JWT",
+      "status_codes": [200, 401, 500],
+      "top_level_fields": [
+        "success", "request_id", "generated_at", "audit", "content", "drafts",
+        "autopilot", "health", "github_health", "next_best_actions", "system"
+      ],
+      "section_shape": ["ok", "data", "error", "duration_ms"],
+      "nullable_fields": [
+        "audit.data", "content.data", "drafts.data", "autopilot.data", "health.data",
+        "drafts.data.last_pending_id", "drafts.data.last_pending_admin_url",
+        "drafts.data.last_pending_title", "autopilot.data.last_completed",
+        "autopilot.data.last_failed", "autopilot.data.last_run"
+      ],
+      "drafts_fields": [
+        "pending_review", "needs_revision", "rejected", "imported",
+        "last_pending_id", "last_pending_admin_url", "last_pending_title"
+      ],
+      "system_fields": [
+        "github_token_configured", "jwt_secret_configured", "drafts_db_configured",
+        "n8n_webhook_secret_configured", "serper_configured", "openrouter_configured",
+        "gemini_configured", "github"
+      ],
+      "schedule_modes": ["disabled", "weekly", "twice_weekly"],
+      "schedule_default": "disabled",
+      "error_codes": [
+        "UNAUTHENTICATED", "FORBIDDEN", "BAD_REQUEST", "NOT_FOUND", "METHOD_NOT_ALLOWED",
+        "CONFLICT", "GITHUB_UNAVAILABLE", "GITHUB_RATE_LIMITED", "GITHUB_AUTH_FAILED",
+        "D1_UNAVAILABLE", "D1_QUERY_FAILED", "INTEGRATION_TIMEOUT",
+        "INTEGRATION_UNAVAILABLE", "COCKPIT_PARTIAL_FAILURE", "INTERNAL_ERROR"
+      ],
+      "env_names": [
+        "GITHUB_TOKEN", "GITHUB_OWNER", "GITHUB_REPO", "GITHUB_BRANCH", "JWT_SECRET",
+        "GPTBOT_DRAFTS_DB", "N8N_WEBHOOK_SECRET", "SERPER_API_KEY", "OPENROUTER_API_KEY",
+        "GEMINI_API_KEY", "CRON_SECRET"
+      ],
+      "d1_tables": ["ai_drafts", "seo_autopilot_jobs", "system_settings"],
+      "partial_failure_is_http_200": true
+    },
+    {
+      "route": "/api/admin/seo/yandex/quick-launch",
+      "source": "functions/api/admin/seo/yandex/quick-launch.ts",
+      "methods": ["POST"],
+      "auth": "requireAuth — Bearer HS256 JWT; admin only",
+      "status_codes": [200, 401],
+      "envelope_always_http_200": true,
+      "modes": [
+        "cannibalization_risk", "bad_request", "unavailable", "reservation_failed",
+        "launch_failed", "launched", "server_error"
+      ],
+      "response_fields": [
+        "ok", "mode", "query", "locale", "intent_key", "plan_id", "item_id", "job_id",
+        "request_id", "draft_id", "provider", "model", "fallback_used", "risk_results",
+        "draft_links", "existing_url", "existing_title", "reason", "suggestions",
+        "existing_reservation", "error", "original_status"
+      ],
+      "query_bounds": { "min_chars": 3, "max_chars": 200 },
+      "cluster_key_source": "request body `cluster` only; absent means NULL",
+      "draft_status_on_success": "pending_review",
+      "auto_publish": false,
+      "github_write": false,
+      "indexnow_trigger": false,
+      "idempotency": "unique active (locale, intent_key) reservation; a duplicate returns mode=cannibalization_risk",
+      "feature_flags": { "SEO_AUTOPILOT_USE_DIRECT_AI": "default true (first-party direct path); n8n bridge only when explicitly false/0/no" },
+      "env_names": [
+        "JWT_SECRET", "GPTBOT_DRAFTS_DB", "OPENROUTER_API_KEY", "N8N_WEBHOOK_SECRET",
+        "SEO_AUTOPILOT_USE_DIRECT_AI"
+      ],
+      "d1_tables": [
+        "seo_topic_plans", "seo_topic_plan_items", "seo_topic_reservations",
+        "seo_autopilot_jobs", "ai_drafts", "ai_draft_audit", "intent_guard_analyses"
+      ]
+    }
+  ],
+  "libraries": [
+    {
+      "module": "functions/lib/seo-autopilot/normalise.ts",
+      "exports": ["normaliseN8nResponse", "NormaliseSuccess", "NormaliseFailure", "NormaliseResult"],
+      "emitted_bundle_fields": [
+        "schema_version", "source", "bundle_id", "execution_id", "status",
+        "manual_approval_required", "ready_for_publish", "published", "seo_brief",
+        "validation", "articles"
+      ],
+      "forced_envelope_values": {
+        "status": "pending_review",
+        "manual_approval_required": true,
+        "ready_for_publish": false,
+        "published": false
+      },
+      "emitted_article_keys": [
+        "locale", "slug", "meta_title", "meta_description", "h1", "excerpt",
+        "target_keyword", "target_money_page", "author", "body_blocks", "faq",
+        "internal_links", "schemas", "keywords", "og_title", "og_description", "og_image"
+      ],
+      "bundle_id_shape": "n8n-bridge-<execution_id|jobId>",
+      "failure_reasons": [
+        "n8n response is not a JSON object",
+        "n8n response missing both ru_article and uz_article",
+        "no articles to normalise"
+      ],
+      "downstream_validator": "validateIncomingBundle (accepts unknown, re-validates from scratch)"
+    },
+    {
+      "module": "functions/lib/telegram/analysis.ts",
+      "sanitizer_error_codes": ["invalid_json", "unsafe_output", "insufficient_content"],
+      "provider_error_codes": ["no_key", "timeout", "provider_error", "invalid_json", "unsafe_output", "insufficient_content"],
+      "insufficiency_reasons": ["none", "no_claims", "unclear_transcript", "unsafe_request"],
+      "claim_kinds": ["fact", "promise", "price", "date", "availability", "other"],
+      "confidence_levels": ["high", "medium", "low"],
+      "bounds": { "summary": 700, "quote": 220, "explanation": 300 },
+      "consent_version": "tahlil-consent-v2",
+      "products_kept_separate": ["GPTBot Agents/Sotuvchi", "Javob", "Tahlil", "legacy lead bot"]
+    },
+    {
+      "module": "functions/lib/telegram/store.ts + handler.ts",
+      "exports_row_types": ["TgItemRow"],
+      "get_owned_item_contract": "returns a row only when it belongs to the user, has not expired, and still has source_text; otherwise null",
+      "source_text_nullability_in_returned_row": "declared string | null, guaranteed non-null at runtime",
+      "telegram_reply_markers": ["jmod:", "ctx:", "retry:", "analysis_delete", "analysis_later"],
+      "webhook_route": "/api/telegram/assistant",
+      "webhook_methods": { "POST": 200, "GET": 405 },
+      "webhook_auth": "x-telegram-bot-api-secret-token must equal TELEGRAM_ASSISTANT_WEBHOOK_SECRET",
+      "replay_guard": "claimUpdate(update_id) — a repeated update_id is a no-op",
+      "env_names": [
+        "TELEGRAM_ASSISTANT_BOT_TOKEN", "TELEGRAM_ASSISTANT_WEBHOOK_SECRET",
+        "GPTBOT_DRAFTS_DB", "GPT_HASH_SALT", "OPENROUTER_API_KEY"
+      ],
+      "d1_tables": [
+        "telegram_users", "telegram_items", "telegram_results", "telegram_updates",
+        "telegram_events", "usage_ledger", "entitlements", "plans", "analysis_reports", "events"
+      ],
+      "bot_identity_separation": "assistant token is distinct from TELEGRAM_BOT_TOKEN (lead bot) and TELEGRAM_AGENTS_BOT_TOKEN; aidirectprobot is refused by isProtectedBotUsername"
+    }
+  ],
+  "compiler_settings": {
+    "config": "tsconfig.functions.json",
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "include": ["functions/**/*.ts", "src/shared/**/*.ts"]
+  }
+}

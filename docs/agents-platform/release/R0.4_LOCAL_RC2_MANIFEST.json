@@ -1,0 +1,187 @@
+{
+  "manifest_version": 2,
+  "release_candidate": "R0.4-RC2",
+  "status": "prepared_locally_blocked_by_R0.3B",
+  "supersedes": "docs/agents-platform/release/R0.4_LOCAL_RC1_MANIFEST.json",
+  "repository_head": {
+    "ref": "HEAD",
+    "resolution": "git rev-parse HEAD after the release-gate commit and local ff-only integration"
+  },
+  "previous_head": "200d468dcd045a47b48bebcdb56005b502300aa9",
+  "commit_list": [
+    {
+      "commit": "df687a457d3619cbc0dd83ec291c1af7e66230f4",
+      "subject": "fix(functions): eliminate legacy typecheck failures"
+    },
+    {
+      "commit": "HEAD",
+      "subject": "chore(release-gate): prepare local R0.4 RC2"
+    }
+  ],
+  "branch": "main after local ff-only integration of spike/functions-type-safety-r0.4-rc2",
+  "build_timestamp": "2026-07-29T07:35:00+05:00",
+  "runtime": {
+    "react": "19.2.7",
+    "react_dom": "19.2.7",
+    "react_router": "8.3.0",
+    "react_router_dom": "absent",
+    "node": "24.13.0",
+    "yarn": "1.22.22",
+    "vite": "8.0.14",
+    "typescript": "6.0.3",
+    "wrangler": "4.103.0"
+  },
+  "route_evidence": {
+    "route_patterns": 224,
+    "static_canonical_routes": 207,
+    "admin_route_patterns": 17,
+    "published_pages": 106,
+    "published_articles": 98,
+    "sitemap_entries": 207,
+    "parity": "pass",
+    "parity_note": "identical to RC1 — this release candidate changed no route, page, article or sitemap entry"
+  },
+  "tests": {
+    "total": 826,
+    "passed": 826,
+    "failed": 0,
+    "suite_count": 34,
+    "execution": "file-by-file",
+    "previous_total": 788,
+    "previous_suite_count": 33,
+    "new_suite": "tests/functions-type-safety.test.ts",
+    "new_tests": 38,
+    "regressions": 0,
+    "functions_type_safety": "38/38",
+    "react_router_migration": "26/26",
+    "web_security": "13/13",
+    "release_preparation": "20/20",
+    "secret_scan": "14/14",
+    "first_party_automation": "13/13",
+    "gpt_backend_security": "30/30",
+    "required_agents_baseline": "584/584"
+  },
+  "functions_baseline": {
+    "status": "legacy_exception_removed",
+    "canonical_command": "npx tsc -p tsconfig.functions.json --noEmit",
+    "exit_before": 2,
+    "errors_before": 27,
+    "files_before": 6,
+    "exit_after": 0,
+    "errors_after": 0,
+    "files_after": 0,
+    "new_errors": 0,
+    "compiler_options_changed": false,
+    "tsconfig_weakened": false,
+    "files_excluded_from_compilation": 0,
+    "unsafe_suppressions_added": 0,
+    "non_null_assertions_removed": 4,
+    "inventory": "docs/agents-platform/release/FUNCTIONS_TYPE_ERROR_INVENTORY.json"
+  },
+  "changed_functions_files": [
+    "functions/api/admin/ai-drafts/[id]/status.ts",
+    "functions/api/admin/cockpit.ts",
+    "functions/api/admin/seo/yandex/quick-launch.ts",
+    "functions/lib/seo-autopilot/normalise.ts",
+    "functions/lib/telegram/analysis.ts",
+    "functions/lib/telegram/handler.ts",
+    "functions/lib/telegram/store.ts"
+  ],
+  "api_contract": {
+    "before": "reports/release/functions-contract-before.json",
+    "after": "reports/release/functions-contract-after.json",
+    "diff": "reports/release/functions-contract-diff.json",
+    "breaking_changes": 0,
+    "wire_observable_changes": 0,
+    "verdict": "no unintended public contract changes"
+  },
+  "builds": {
+    "root_tsc_b": "exit 0",
+    "root_yarn_build": "exit 0",
+    "backend_npm_ci": "exit 0",
+    "backend_typecheck": "exit 0",
+    "backend_build": "exit 0",
+    "wrangler_pages_functions_build": "exit 0",
+    "wrangler_automation_dry_run": "exit 0, --dry-run: exiting now, no resource mutation"
+  },
+  "audits": {
+    "root_yarn_production": {
+      "findings": 0,
+      "packages_audited": 115,
+      "status": "pass"
+    },
+    "backend_npm_production": {
+      "findings": 0,
+      "status": "pass"
+    },
+    "full_root_tooling_classification": {
+      "scope": "unrelated tooling/dev dependency debt, unchanged by this candidate",
+      "react_router_advisory_present": false,
+      "broad_upgrade_performed": false
+    }
+  },
+  "advisory": {
+    "id": "GHSA-qwww-vcr4-c8h2",
+    "status": "absent",
+    "affected_dependency_present": false,
+    "temporary_exception_active": false,
+    "evidence": "docs/agents-platform/release/REACT_ROUTER_V8_MIGRATION_EVIDENCE.md"
+  },
+  "quality_gates": {
+    "seo_audit_critical": 0,
+    "orphan_pages": 0,
+    "broken_international_links": 55,
+    "broken_international_links_note": "pre-existing on the unchanged main tree and verified unchanged by this candidate; not a release blocker per the audit's own gate",
+    "scoped_eslint_changed_files": "exit 0",
+    "architecture_boundaries": "10/10, 0 violations",
+    "secret_scan": "clean, 2512 files checked",
+    "git_diff_check": "clean",
+    "git_fsck_full": "clean"
+  },
+  "rehearsals": {
+    "migration_bootstrap": "pass",
+    "synthetic_upgrade": "pass",
+    "backup_restore": "pass",
+    "deployment_dry_run": "pass",
+    "rollback": "pass — disposable worktree reset to 200d468 reproduced an empty diff and the exact RC1 baseline of 27 errors in the same 6 files; the main repository was not rolled back"
+  },
+  "release_preflight": {
+    "phase": "r0.4-prep",
+    "shallow": "pass on the integrated main branch",
+    "deep": "pass on the integrated main branch",
+    "note": "On the spike branch the preflight correctly reported BLOCK for git:branch and git:clean; both clear after the ff-only integration."
+  },
+  "migration_manifest_checksums": {
+    "source": "docs/agents-platform/release/MIGRATION_MANIFEST.json",
+    "verified": true,
+    "changed_by_this_candidate": false,
+    "note": "migrations/0001–0024 are byte-identical to RC1; 0013–0024 remain unapplied on remote D1"
+  },
+  "first_party_automation_status": "prepared_locally",
+  "n8n_retirement_status": "prepared_not_executed",
+  "n8n_default_off": true,
+  "n8n_default_off_evidence": "SEO_AUTOPILOT_USE_DIRECT_AI defaults to true (first-party direct path); the bridge runs only on an explicit false/0/no. Asserted by tests/functions-type-safety.test.ts.",
+  "deployment_status": "blocked_no_production_mutation",
+  "remote_status": {
+    "origin_main": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
+    "push_performed": false,
+    "remote_refs_changed": false,
+    "divergence": "behind 0 / ahead 41"
+  },
+  "r0_3b_status": "blocked_by_external_credential_disposition_and_deployment_freeze",
+  "r0_4_status": "incomplete",
+  "r1_status": "not_started",
+  "p3_status": "not_started",
+  "rollback_reference": "docs/agents-platform/release/FUNCTIONS_TYPE_SAFETY_ROLLBACK.md",
+  "backup_reference": "F:\\Claude\\gptbot-r0.4-rc2-backups\\pre-200d468-20260729-064535",
+  "blockers": [
+    "admin replacement installation, consumer validation and old credential revocation",
+    "n8n ingest complete ROTATED or complete RETIRED evidence disposition",
+    "Railway automatic deployment pause",
+    "Cloudflare automatic production and preview deployment pause",
+    "GitHub SEO scheduler and every automation writer pause",
+    "R0.3B allowlisted remote history rewrite and clean-clone verification",
+    "separate authorization for production D1, Queue/DLQ/Worker/Cron, deployment and webhook operations"
+  ],
+  "production_changes_performed": false
+}

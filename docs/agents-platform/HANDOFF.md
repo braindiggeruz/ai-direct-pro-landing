@@ -1,6 +1,84 @@
 # Актуальный master handoff
 
-## R0.3B / R0.4-prep relay (2026-07-28) — текущий authoritative checkpoint
+## R0.4 Local RC2 relay (2026-07-29) — текущий authoritative checkpoint
+
+- `current_stage: R0.3`, `stage_status: in_progress`, `last_completed_stage: R0.2`,
+  `next_stage: R0.3B`, `blocked: true`. R0.4 **не завершён**, R1 и P3 не начаты.
+- Parallel preparation:
+  `R0.4-prep: completed_locally`,
+  `first_party_automation_runtime: prepared_locally`,
+  `n8n_retirement: prepared_not_executed`,
+  `react_router_security_migration: completed_locally`,
+  **`functions_type_safety: completed_locally`**,
+  `local_release_candidate: RC2_prepared_locally`.
+- Последнее локальное release exception закрыто. Канонический
+  `npx tsc -p tsconfig.functions.json --noEmit` перешёл с **exit 2 / 27 errors /
+  6 files** на **exit 0 / 0 errors**. Code commit
+  `df687a457d3619cbc0dd83ec291c1af7e66230f4`.
+- Ни один compiler option не ослаблен, ни один файл не исключён из компиляции,
+  не добавлено ни одного `any`, `as any`, `as unknown as T`, `@ts-ignore` или
+  `@ts-expect-error`. Наоборот, удалены четыре необоснованных non-null
+  assertion. Полный error inventory с категориями, runtime risk, security
+  relevance и disposition —
+  [`FUNCTIONS_TYPE_ERROR_INVENTORY.json`](./release/FUNCTIONS_TYPE_ERROR_INVENTORY.json).
+- Что именно исправлено по boundary:
+  1. **AI Draft status** — тело читается как `unknown`, `status` разбирается
+     закрытым списком без cast. `imported` по-прежнему недостижим отсюда, то
+     есть reviewer не может подделать import.
+  2. **Admin cockpit** — передан явный `Env`. Без него окружение handler'а
+     схлопывалось до ambient `{ ASSETS }`, и все bindings выглядели
+     необъявленными.
+  3. **Yandex quick-launch** — `IntentFingerprint` называет ось сущности
+     `primary_entity`; поля `entity` не существовало никогда, поэтому
+     `cluster_key` всегда был `body.cluster || null`. Мёртвое чтение удалено,
+     поведение сохранено байт-в-байт. Переход на `primary_entity` был бы
+     продуктовым решением, а не type fix, и вынесен владельцу.
+  4. **SEO normaliser** — cast к `AiDraftArticle[]` заменён на явные
+     `NormalisedArticleCandidate` / `NormalisedDraftBundle`, где коллекции
+     провайдера остаются `unknown[]` до `validateIncomingBundle`; фильтр
+     заменён настоящим type-guard predicate.
+  5. **Telegram analysis** — коды ошибок разделены на sanitizer-набор,
+     transport-набор и их union; наследование через `Omit`, поэтому надмножество
+     объявлено, а не нарушено.
+  6. **Telegram store/handler** — добавлен `TgOwnedItemRow` и type predicate;
+     `getOwnedItem` возвращает суженную строку, а четыре non-null assertion
+     удалены. Это граница retention: очищенный транскрипт не воспроизводим.
+- Добавлен suite `tests/functions-type-safety.test.ts` — **38/38**. Тесты гоняют
+  реальные endpoints и библиотеки против in-memory SQLite, загруженного
+  каноническим DDL миграций, с `fetch`, заглушённым deny-by-default. Проверяется
+  runtime-поведение, а не молчание компилятора: fail-closed разбор closed list,
+  нейтральный not-found, отсутствие auto-publish, чтение env bindings, null и
+  malformed D1 rows, идемпотентность reservation, first-party direct path
+  default-on при выключенном n8n, принудительные значения draft envelope,
+  ограниченный вывод анализа, безопасность replay после retention purge и
+  отсутствие PII в аналитике.
+- Полный локальный прогон: **826/826 по 34 suites** (788 прежних + 38 новых,
+  ноль регрессий), `tsc -b` exit 0, root build exit 0, backend
+  `npm ci`/typecheck/build/`audit --omit=dev` exit 0 и 0 findings, root Yarn
+  production audit 0 findings на 115 пакетах, scoped ESLint exit 0,
+  boundaries 10/10, secret scan чист по 2512 файлам, `git diff --check` чист,
+  `git fsck --full` чист.
+- Паритет не изменился: routes **224/224**, pages **106**, articles **98**,
+  sitemap **207**, critical SEO 0, orphan 0. `GHSA-qwww-vcr4-c8h2` отсутствует.
+- API contract diff:
+  [`functions-contract-diff.json`](../../reports/release/functions-contract-diff.json)
+  — `breaking_changes = 0`, `wire_observable_changes = 0`,
+  `verdict = no unintended public contract changes`.
+- Wrangler: `pages functions build` компилируется успешно; automation Worker
+  `deploy --dry-run` завершился `--dry-run: exiting now` без создания ресурсов.
+- Rollback отрепетирован в disposable worktree:
+  [`FUNCTIONS_TYPE_SAFETY_ROLLBACK.md`](./release/FUNCTIONS_TYPE_SAFETY_ROLLBACK.md).
+  После `reset --keep` на `200d468` diff пуст и baseline RC1 воспроизводится
+  ровно — 27 errors в тех же 6 файлах. Основной репозиторий не откатывался.
+- Локальный RC2: [`R0.4_LOCAL_RC2_MANIFEST.json`](./release/R0.4_LOCAL_RC2_MANIFEST.json),
+  статус `prepared_locally_blocked_by_R0.3B`. Это **не** production ready.
+- Push, deploy, production D1 migrations, remote history rewrite, webhook
+  mutation, n8n mutation, credential/secret mutation, Cloudflare resource
+  creation и pilot не выполнялись. `gptbot.uz-audit/` не читался и не изменялся.
+
+---
+
+## R0.3B / R0.4-prep relay (2026-07-28) — предыдущий checkpoint
 
 - `current_stage: R0.3`, `stage_status: in_progress`, `last_completed_stage: R0.2`,
   `next_stage: R0.3B`, `blocked: true`.

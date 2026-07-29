@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "label": "Cloudflare Functions public contract diff — R0.4-RC2",
+  "before_revision": "200d468dcd045a47b48bebcdb56005b502300aa9",
+  "after_revision": "df687a457d3619cbc0dd83ec291c1af7e66230f4",
+  "comparison": "structural deep diff of functions-contract-before.json vs functions-contract-after.json",
+  "metadata_changes": [
+    "label",
+    "source_revision"
+  ],
+  "material_changes": [
+    {
+      "path": "libraries[functions/lib/seo-autopilot/normalise.ts].exports",
+      "kind": "array",
+      "added": [
+        "NormalisedArticleCandidate",
+        "NormalisedDraftBundle"
+      ],
+      "removed": []
+    },
+    {
+      "path": "libraries[functions/lib/telegram/store.ts + handler.ts].exports_row_types",
+      "kind": "array",
+      "added": [
+        "TgOwnedItemRow"
+      ],
+      "removed": []
+    },
+    {
+      "path": "libraries[functions/lib/telegram/store.ts + handler.ts].source_text_nullability_in_returned_row",
+      "before": "declared string | null, guaranteed non-null at runtime",
+      "after": "declared string on TgOwnedItemRow, guaranteed non-null at runtime (unchanged runtime behaviour, now expressed in the type)"
+    }
+  ],
+  "removals": [],
+  "breaking_changes": 0,
+  "verdict": "no unintended public contract changes",
+  "material_change_classification": [
+    {
+      "path": "libraries[functions/lib/seo-autopilot/normalise.ts].exports",
+      "kind": "additive internal TypeScript type export"
+    },
+    {
+      "path": "libraries[functions/lib/telegram/store.ts + handler.ts].exports_row_types",
+      "kind": "additive internal TypeScript type export"
+    },
+    {
+      "path": "libraries[functions/lib/telegram/store.ts + handler.ts].source_text_nullability_in_returned_row",
+      "kind": "documented restatement of an unchanged runtime guarantee"
+    }
+  ],
+  "wire_observable_changes": 0,
+  "notes": [
+    "HTTP methods, status codes, JSON field names, nullable fields, error codes, route paths, auth requirements, environment names, D1 table names, Telegram reply markers and feature-flag defaults are byte-identical.",
+    "Both material entries are additive TypeScript type exports used only inside functions/; they are not reachable from any wire response.",
+    "One theoretical, unreachable hardening: getOwnedItem previously accepted any truthy source_text, now requires a non-empty string. The column is declared TEXT, so D1 can only return string | null and the two predicates coincide. The change is strictly more fail-closed."
+  ]
+}
