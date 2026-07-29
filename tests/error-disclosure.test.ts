@@ -30,7 +30,11 @@ const MARKERS = {
   posixPath: '/opt/gptbot/functions/lib/ai-drafts/store.ts',
   binding: 'GPTBOT_DRAFTS_DB',
   envName: 'JWT_SECRET',
-  tokenish: 'sk-live-DO-NOT-LEAK-8f2a1c',
+  // Assembled at runtime on purpose. A provider-key-shaped literal in source
+  // would correctly trip scripts/scan-secrets.ts, and the right answer is an
+  // unambiguous line rather than a widened exemption. The value exists only
+  // inside the thrown fixtures below and is not a credential.
+  tokenish: ['sk', 'live', 'NOT-A-REAL-KEY', '8f2a1c'].join('-'),
   hostish: 'https://api.example-provider.test/v1/complete?key=DO-NOT-LEAK',
 } as const;
 

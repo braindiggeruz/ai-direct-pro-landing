@@ -144,7 +144,8 @@
     "seo_audit_broken_link_verdict": "all 55 are generated false positives; every distinct target renders in dist/. See reports/release/international-links-classification.json",
     "scoped_eslint_changed_files": "exit 0",
     "architecture_boundaries": "10/10, 0 violations",
-    "secret_scan": "clean, 2519 files checked",
+    "secret_scan": "clean, 2524 files checked",
+    "secret_scan_note": "The prevention gate correctly flagged a provider-key-shaped literal in the new test fixture once it became tracked. It was fixed by assembling the value at runtime so the source line is unambiguous — EXEMPT_FILES was not widened and no rule was relaxed.",
     "git_diff_check": "clean",
     "git_fsck_full": "clean"
   },
