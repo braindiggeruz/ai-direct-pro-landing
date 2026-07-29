@@ -669,7 +669,7 @@ async function runAnalysis(
   userId: number,
   locale: Locale,
   pseudo: string,
-  item: S.TgItemRow,
+  item: S.TgOwnedItemRow,
 ): Promise<void> {
   const { db, cfg, tg, env } = deps;
   if (item.source_type !== 'voice') {
@@ -707,7 +707,7 @@ async function runAnalysis(
   const language: 'ru' | 'uz' | 'other' = item.source_language === 'ru' || item.source_language === 'uz'
     ? item.source_language
     : 'other';
-  const result = await analyzeTranscript(env, item.source_text!, language, segments, cfg.analysisTimeoutMs);
+  const result = await analyzeTranscript(env, item.source_text, language, segments, cfg.analysisTimeoutMs);
   if (progressMessageId) await tg.deleteMessage(chatId, progressMessageId);
 
   if (!result.ok || !result.analysis) {
@@ -765,7 +765,7 @@ async function runModifier(
   userId: number,
   locale: Locale,
   pseudo: string,
-  item: S.TgItemRow,
+  item: S.TgOwnedItemRow,
   modifier: JavobModifier,
   updateId: number,
 ): Promise<void> {
@@ -799,12 +799,12 @@ async function runModifier(
   await tg.sendChatAction(chatId);
 
   const prompt = isAlternative
-    ? buildJavobReplyPrompt(item.source_text!)
-    : buildJavobModifierPrompt(modifier, item.source_text!, last.result_text);
+    ? buildJavobReplyPrompt(item.source_text)
+    : buildJavobModifierPrompt(modifier, item.source_text, last.result_text);
   const expected: 'ru' | 'uz' | null =
     modifier === 'to_ru' ? 'ru' : modifier === 'to_uz' ? 'uz' : null;
   const res = await runJavobValidated(env, prompt, cfg.maxOutputChars, {
-    source: item.source_text!,
+    source: item.source_text,
     previous: isAlternative ? undefined : last.result_text,
     expectedLanguage: expected,
     mode: isAlternative ? 'reply' : 'modifier',

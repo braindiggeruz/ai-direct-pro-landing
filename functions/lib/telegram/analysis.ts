@@ -39,17 +39,27 @@ export interface TranscriptAnalysis {
   hedging: AnalysisHedging[];
   questions: string[];
 }
+/** Failures the local sanitizer can decide on its own, from the parsed payload. */
+export type SanitizeErrorCode = 'invalid_json' | 'unsafe_output' | 'insufficient_content';
+/** Failures that happen before there is any payload to sanitize. */
+export type AnalysisTransportErrorCode = 'no_key' | 'timeout' | 'provider_error';
+/** Every code the Tahlil analysis call can surface. Closed list. */
+export type AnalysisErrorCode = SanitizeErrorCode | AnalysisTransportErrorCode;
+
 export interface SanitizedAnalysisResult {
   ok: boolean;
   analysis?: TranscriptAnalysis;
-  errorCode?: 'invalid_json' | 'unsafe_output' | 'insufficient_content';
+  errorCode?: SanitizeErrorCode;
 }
-export interface AnalysisProviderResult extends SanitizedAnalysisResult {
+// `Omit<…, 'errorCode'>` is required, not cosmetic: the provider result is a
+// strict superset on `errorCode` (it can also fail in transport), and an
+// interface member may only narrow — never widen — the one it inherits.
+export interface AnalysisProviderResult extends Omit<SanitizedAnalysisResult, 'errorCode'> {
   model?: string;
   provider: 'openrouter';
   latencyMs: number;
   promptVersion: string;
-  errorCode?: 'no_key' | 'timeout' | 'provider_error' | 'invalid_json' | 'unsafe_output' | 'insufficient_content';
+  errorCode?: AnalysisErrorCode;
 }
 
 const UNSAFE = /(вр[её]т|лж[её]т|обманывает|ложь|обман(?:ывает)?|вероятност.{0,16}(?:лжи|обмана)|lie detected|deception|yolg['‘’]?on|aldaydi|yolg['‘’]?onchi|рекомендуем уволить|не доверяйте|доказано|подтверждено.{0,20}(?:винов|обман)|виновен)/i;

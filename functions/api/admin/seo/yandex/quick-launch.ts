@@ -245,6 +245,15 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   });
   const intent_key = intentKeyOf(fingerprint);
 
+  // `IntentFingerprint` carries the entity axis as `primary_entity`; it has
+  // never had an `entity` field. The original `body.cluster || fingerprint.entity
+  // || null` therefore always collapsed to `body.cluster || null` at runtime.
+  // Reading `primary_entity` here instead would START writing the heuristic
+  // bucket (very often the literal 'none') into the plan item, the reservation
+  // row and the generator brief — a product decision, not a type fix. The dead
+  // read is removed and the existing behaviour is preserved byte-for-byte.
+  const clusterKey = body.cluster || null;
+
   // 2. Cannibalization pre-check. We consider a query "already covered"
   //    when (a) Yandex says GPTBot.uz is in the SERP OR (b) the inventory
   //    has an item with the same locale + intent_key.
@@ -287,7 +296,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
     primary_keyword: query,
     intent_key,
     fingerprint,
-    cluster_key: body.cluster || fingerprint.entity || null,
+    cluster_key: clusterKey,
     funnel_stage: body.funnel_stage || fingerprint.funnel_stage || null,
     audience: body.audience || fingerprint.audience || null,
     industry: body.industry || fingerprint.industry || null,
@@ -305,7 +314,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
     intent_key,
     primary_keyword: query,
     planned_title: query,
-    cluster_key: body.cluster || fingerprint.entity || null,
+    cluster_key: clusterKey,
     funnel_stage: body.funnel_stage || fingerprint.funnel_stage || null,
     audience: body.audience || fingerprint.audience || null,
     industry: body.industry || fingerprint.industry || null,
@@ -359,7 +368,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
     // Single-click "generate article" defaults to BOTH locales so the
     // operator gets a ready-for-review RU + UZ bundle from one click.
     target_locales: ['ru', 'uz'] as const,
-    cluster: body.cluster || fingerprint.entity || null,
+    cluster: clusterKey,
     funnel_stage: body.funnel_stage || fingerprint.funnel_stage || null,
     audience: body.audience || fingerprint.audience || null,
     industry: body.industry || fingerprint.industry || null,

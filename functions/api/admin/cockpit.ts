@@ -288,7 +288,11 @@ export interface CockpitResponse {
   };
 }
 
-export const onRequestGet = withErrorHandler('admin.cockpit', async ({ request, env }) => {
+// The explicit `Env` type argument is required: `withErrorHandler` defaults its
+// environment parameter to `unknown`, and `EventContext` then collapses `env`
+// to the ambient `{ ASSETS }` binding only, hiding every project binding this
+// aggregator reads. Same idiom as every other admin endpoint.
+export const onRequestGet: PagesFunction<Env> = withErrorHandler<Env>('admin.cockpit', async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 

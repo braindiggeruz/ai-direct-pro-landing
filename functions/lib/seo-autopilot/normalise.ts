@@ -169,7 +169,46 @@ function normaliseMoneyPage(raw: unknown, locale: 'ru' | 'uz'): string {
   return rel;
 }
 
-function normaliseArticle(raw: Record<string, unknown>, locale: 'ru' | 'uz'): Record<string, unknown> {
+/**
+ * One article as the normaliser emits it: canonical GPTBot key names, strings
+ * already trimmed, collections already re-keyed — but NOT yet validated.
+ *
+ * `body_blocks`, `faq`, `internal_links`, `schemas` and `keywords` still hold
+ * whatever the provider sent (only renamed), so they stay `unknown[]`. Typing
+ * them as `BodyBlock[]` / `FaqItem[]` / `InternalLink[]` / `SchemaType[]` here
+ * would claim a guarantee only `validateIncomingBundle` is allowed to make.
+ */
+export interface NormalisedArticleCandidate {
+  locale: 'ru' | 'uz';
+  slug: string;
+  meta_title: string;
+  meta_description: string;
+  h1: string;
+  excerpt: string;
+  target_keyword: string;
+  target_money_page: string;
+  author: string;
+  body_blocks: unknown[];
+  faq: unknown[];
+  internal_links: unknown[];
+  schemas: unknown[];
+  keywords: unknown[];
+  og_title: string;
+  og_description: string;
+  og_image: string;
+}
+
+/**
+ * The ingestion-contract envelope with unvalidated article payloads. Every
+ * envelope field the server forces (status, manual_approval_required,
+ * ready_for_publish, published) keeps the `AiDraftBundle` typing; only the
+ * article array is widened to the honest, still-untrusted candidate shape.
+ */
+export interface NormalisedDraftBundle extends Omit<AiDraftBundle, 'articles'> {
+  articles: NormalisedArticleCandidate[];
+}
+
+function normaliseArticle(raw: Record<string, unknown>, locale: 'ru' | 'uz'): NormalisedArticleCandidate {
   // Pass-through with name normalisation so the validator sees consistent keys.
   return {
     locale,
@@ -205,7 +244,11 @@ function normaliseArticle(raw: Record<string, unknown>, locale: 'ru' | 'uz'): Re
 
 export interface NormaliseSuccess {
   ok: true;
-  bundle: AiDraftBundle;
+  /**
+   * Candidate bundle, not a validated one. The only consumer
+   * (`ingestRawBundle`) accepts `unknown` and re-validates from scratch.
+   */
+  bundle: NormalisedDraftBundle;
   meta: {
     n8n_execution_id: string | null;
     generation_status: string | null;
@@ -257,7 +300,7 @@ export function normaliseN8nResponse(
     return { ok: false, reason: 'n8n response missing both ru_article and uz_article' };
   }
 
-  const articles: Record<string, unknown>[] = [];
+  const articles: NormalisedArticleCandidate[] = [];
   if (ru) articles.push(normaliseArticle(ru, 'ru'));
   if (uz) articles.push(normaliseArticle(uz, 'uz'));
 
@@ -291,13 +334,15 @@ function buildBundleFromArticles(
   const validationStatus: 'passed' | 'failed' = validation.passed ? 'passed' : 'failed';
   const generationStatus = asStr((payload as { status?: unknown }).status) || null;
 
-  const articles = rawArticles.map((a) => {
-    if (isObj(a) && (a.locale === 'ru' || a.locale === 'uz')) return normaliseArticle(a, a.locale);
-    if (isObj(a)) return normaliseArticle(a, 'ru'); // n8n is RU-first; fall back if locale missing.
-    return null;
-  }).filter(Boolean) as Array<Record<string, unknown>>;
+  const articles = rawArticles
+    .map((a): NormalisedArticleCandidate | null => {
+      if (isObj(a) && (a.locale === 'ru' || a.locale === 'uz')) return normaliseArticle(a, a.locale);
+      if (isObj(a)) return normaliseArticle(a, 'ru'); // n8n is RU-first; fall back if locale missing.
+      return null;
+    })
+    .filter((a): a is NormalisedArticleCandidate => a !== null);
 
-  const bundle: AiDraftBundle = {
+  const bundle: NormalisedDraftBundle = {
     schema_version: AI_DRAFT_SCHEMA_VERSION,
     source: 'n8n-seo-autopilot-bridge',
     bundle_id: bundleId,
@@ -309,9 +354,9 @@ function buildBundleFromArticles(
     published: false,
     seo_brief: isObj(payload.seo_brief) ? payload.seo_brief : null,
     validation,
-    // Articles are typed loosely here; the downstream validator does the
-    // strict typing + sanitisation pass.
-    articles: articles as AiDraftBundle['articles'],
+    // Articles stay unvalidated candidates; the downstream strict validator
+    // (`validateIncomingBundle`) does the typing + sanitisation pass.
+    articles,
   };
 
   return {

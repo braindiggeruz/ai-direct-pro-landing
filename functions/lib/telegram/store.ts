@@ -117,15 +117,29 @@ export async function createItem(
   return id;
 }
 
+/**
+ * A row that has already passed the ownership + retention gate in
+ * `getOwnedItem`. That gate rejects rows whose `source_text` was cleared by
+ * the voice purge or the TTL sweep, so the field is guaranteed present here.
+ * Callers that read the source text must take this type, not `TgItemRow`.
+ */
+export interface TgOwnedItemRow extends TgItemRow {
+  source_text: string;
+}
+
+function hasSourceText(row: TgItemRow): row is TgOwnedItemRow {
+  return typeof row.source_text === 'string' && row.source_text.length > 0;
+}
+
 /** Read an item ONLY if it belongs to this user and has not expired. */
-export async function getOwnedItem(db: D1Database, itemId: string, userId: number): Promise<TgItemRow | null> {
+export async function getOwnedItem(db: D1Database, itemId: string, userId: number): Promise<TgOwnedItemRow | null> {
   if (!itemId || itemId.length > 32) return null;
   const row = await db
     .prepare('SELECT id, telegram_user_id, source_type, source_text, source_language, voice_duration_sec, transcript_segments_json, detected_context, expires_at FROM telegram_items WHERE id = ? AND telegram_user_id = ?')
     .bind(itemId, userId)
     .first<TgItemRow>();
   if (!row) return null;
-  if (!row.source_text || new Date(row.expires_at).getTime() < Date.now()) return null;
+  if (!hasSourceText(row) || new Date(row.expires_at).getTime() < Date.now()) return null;
   return row;
 }
 
