@@ -1,10 +1,20 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "R0.3B",
-  "stage_status": "completed",
+  "current_stage": "R0.4",
+  "stage_status": "in_progress_deployed_pending_canaries",
   "last_completed_stage": "R0.3B",
-  "next_stage": "R0.4",
+  "next_stage": "R0.4 canaries then R1",
+  "r0_4_progress": {
+    "production_deployment": "43e3e618ee7c378b056fca983db111e68d50fcaa deployed and canonical, aliased to gptbot.uz",
+    "build_fix": "Cloudflare build image ships nodejs 22.16.0; react-router 8.3.0 requires >=22.22.0. Added .node-version pinning 22.22.0. Two builds failed before this was found; production was never affected because a failed build never becomes canonical.",
+    "login_attempts_kv": "gptbot-login-attempts namespace bound as LOGIN_ATTEMPTS on production and preview. Previously an empty-named KV binding occupied the slot, which is why lockout had no store. Verified behaviourally: five failed logins on a throwaway identity accumulated across requests and produced HTTP 429 with a 15 minute window.",
+    "queues_created": ["gptbot-automation", "gptbot-automation-dlq"],
+    "automation_state": "resources created, FIRST_PARTY_AUTOMATION_ENABLED not set so automation stays disabled; Worker and Cron not deployed; automation canary NOT run",
+    "legacy_n8n_ingest": "now returns 404. The deployed code contains the N8N_INGEST_ENABLED kill switch and the variable is absent in production, so legacy ingest is fail-closed by default. Disposition remains ROTATED, not RETIRED. Owner decision required if a live n8n workflow still needs to post drafts.",
+    "canaries_outstanding": "Sotuvchi store/order/handoff canary and first-party automation canary have NOT been run",
+    "backups": "pre-migration and post-migration D1 exports verified, stored outside Git"
+  },
   "next_stage_note": "R0.3B is COMPLETE: admin credential rotated twice with behavioural rejection evidence, n8n ingest ROTATED at both ends, every automation writer and deployment integration frozen, and the allowlisted history rewrite executed and verified from a fresh clone. R0.4 has NOT started. Cloudflare Pages still serves pre-rewrite commit 1a68a12 and its automatic deployments remain disabled. R1 and P3 are not started.",
   "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; R0.3 is in progress and blocked; R0.4 has a completed local preparation track and local RC1 but is not complete; production and R1 remain blocked.",
   "last_commit": "77d46d403cde210b5453214d61296ac261ca51e2",
