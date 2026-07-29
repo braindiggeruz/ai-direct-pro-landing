@@ -14,8 +14,12 @@
       "subject": "fix(functions): eliminate legacy typecheck failures"
     },
     {
-      "commit": "HEAD",
+      "commit": "62d72eb86c735ab74131780057bedf99cd9e970d",
       "subject": "chore(release-gate): prepare local R0.4 RC2"
+    },
+    {
+      "commit": "HEAD",
+      "subject": "chore(architecture): classify RC2 evidence in the n8n inventory"
     }
   ],
   "branch": "main after local ff-only integration of spike/functions-type-safety-r0.4-rc2",
@@ -147,9 +151,9 @@
   },
   "release_preflight": {
     "phase": "r0.4-prep",
-    "shallow": "pass on the integrated main branch",
-    "deep": "pass on the integrated main branch",
-    "note": "On the spike branch the preflight correctly reported BLOCK for git:branch and git:clean; both clear after the ff-only integration."
+    "shallow": "RELEASE_PREFLIGHT=PASS, 16/16 checks on the integrated main branch",
+    "deep": "RELEASE_PREFLIGHT=PASS, 23/23 checks including deep:functions-typecheck pass",
+    "note": "On the spike branch the preflight correctly reported BLOCK for git:branch and git:clean; both cleared after the ff-only integration."
   },
   "migration_manifest_checksums": {
     "source": "docs/agents-platform/release/MIGRATION_MANIFEST.json",
@@ -166,7 +170,7 @@
     "origin_main": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
     "push_performed": false,
     "remote_refs_changed": false,
-    "divergence": "behind 0 / ahead 41"
+    "divergence": "behind 0 / ahead 42"
   },
   "r0_3b_status": "blocked_by_external_credential_disposition_and_deployment_freeze",
   "r0_4_status": "incomplete",
