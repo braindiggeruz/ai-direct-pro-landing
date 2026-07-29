@@ -16,6 +16,7 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft, replaceDraftArticle } from '../../../../lib/ai-drafts/store';
+import { redactedInternalError } from '../../../../lib/api-errors';
 import {
   validateArticle,
   type ValidationError,
@@ -98,6 +99,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     if (!updated) return json({ error: 'Draft vanished mid-update' }, 404);
     return json({ ok: true, draft: updated });
   } catch (e) {
-    return json({ error: (e as Error).message || 'apply failed' }, 500);
+    return redactedInternalError('admin.ai-drafts.apply-optimization', e);
   }
 };

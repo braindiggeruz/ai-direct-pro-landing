@@ -11,6 +11,7 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { deleteDraft, getAuditTrail, getDraft } from '../../../../lib/ai-drafts/store';
+import { redactedInternalError } from '../../../../lib/api-errors';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -31,7 +32,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, params })
     const audit = await getAuditTrail(env, id);
     return json({ draft, audit });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    return redactedInternalError('admin.ai-drafts.get', e);
   }
 };
 
@@ -52,6 +53,6 @@ export const onRequestDelete: PagesFunction<Env> = async ({ request, env, params
     const ok = await deleteDraft(env, id, auth.email);
     return json({ ok });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    return redactedInternalError('admin.ai-drafts.delete', e);
   }
 };

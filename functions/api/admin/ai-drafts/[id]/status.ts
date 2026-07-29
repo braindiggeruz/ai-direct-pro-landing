@@ -14,7 +14,10 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft, updateDraftStatus } from '../../../../lib/ai-drafts/store';
+import { redactedInternalError } from '../../../../lib/api-errors';
 import type { AiDraftStatus } from '../../../../../src/shared/ai-drafts';
+
+const ENDPOINT = 'admin.ai-drafts.status';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -74,18 +77,25 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     return json({ error: 'status must be pending_review | needs_revision | rejected' }, 400);
   }
 
-  const current = await getDraft(env, id);
-  if (!current) return json({ error: 'Draft not found' }, 404);
-  const allowed = ALLOWED[current.status] || [];
-  if (next !== current.status && !allowed.includes(next)) {
-    return json({ error: `Transition not allowed: ${current.status} → ${next}` }, 409);
-  }
-
   const note = typeof payload.note === 'string' ? payload.note.trim().slice(0, 2000) : undefined;
+
+  // The whole storage interaction is protected, not just the write: `getDraft`
+  // sat outside the previous try, so a D1 failure during the read escaped the
+  // handler entirely and let Cloudflare render its own error page instead of a
+  // stable, redacted JSON contract.
   try {
+    const current = await getDraft(env, id);
+    if (!current) return json({ error: 'Draft not found' }, 404);
+    const allowed = ALLOWED[current.status] || [];
+    if (next !== current.status && !allowed.includes(next)) {
+      return json({ error: `Transition not allowed: ${current.status} → ${next}` }, 409);
+    }
     const updated = await updateDraftStatus(env, id, next, auth.email, note);
     return json({ draft: updated });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    // Never echo the thrown value: it can carry D1 SQL, provider text, file
+    // paths or binding names. The caller gets a closed-list token plus the
+    // request_id that correlates with the server log.
+    return redactedInternalError(ENDPOINT, e);
   }
 };

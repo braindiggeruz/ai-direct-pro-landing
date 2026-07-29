@@ -10,6 +10,7 @@ import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
 import { constantTimeEqual, listDrafts } from '../../../lib/ai-drafts/store';
 import { ingestRawBundle } from '../../../lib/ai-drafts/ingest';
+import { redactedInternalError } from '../../../lib/api-errors';
 import type { AiDraftStatus } from '../../../../src/shared/ai-drafts';
 
 const MAX_BODY_BYTES = 256 * 1024;
@@ -101,6 +102,6 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const drafts = await listDrafts(env, { status, locale, source, limit });
     return json({ drafts });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    return redactedInternalError('admin.ai-drafts.list', e);
   }
 };

@@ -23,6 +23,7 @@ import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft, replaceDraftArticle } from '../../../../lib/ai-drafts/store';
 import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
+import { redactedInternalError } from '../../../../lib/api-errors';
 import { validateArticle, type ValidationError } from '../../../../lib/ai-drafts/validators';
 import type { InternalLink } from '../../../../../src/shared/types';
 
@@ -129,6 +130,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     if (!updated) return json({ error: 'Draft vanished mid-update.' }, 404);
     return json({ ok: true, draft: updated, added: incoming.length });
   } catch (e) {
-    return json({ error: (e as Error).message || 'apply failed' }, 500);
+    return redactedInternalError('admin.ai-drafts.apply-links', e);
   }
 };

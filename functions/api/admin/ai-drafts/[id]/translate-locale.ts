@@ -27,6 +27,7 @@ import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { addDraftLocaleArticle, getDraft } from '../../../../lib/ai-drafts/store';
 import { runTranslateLocale } from '../../../../lib/ai-drafts/translate-runner';
+import { redactedInternalError } from '../../../../lib/api-errors';
 
 const inflight = new Map<string, number>();
 const INFLIGHT_TTL_MS = 120_000;
@@ -133,7 +134,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
       duration_ms: result.durationMs,
     });
   } catch (e) {
-    return json({ error: (e as Error).message || 'translate-locale failed' }, 500);
+    return redactedInternalError('admin.ai-drafts.translate-locale', e);
   } finally {
     releaseLock(id, target);
   }

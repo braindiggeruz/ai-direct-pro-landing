@@ -109,11 +109,21 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
   expect('classify unknown', classifyError(new Error('Wat')) === 'INTERNAL_ERROR');
 }
 
-// 7. humanMessageFor never throws + appends original tail.
+// 7. humanMessageFor never throws and is derived from the code ALONE.
 {
-  expect('human message GH auth includes hint', /Rotate GITHUB_TOKEN/.test(humanMessageFor('GITHUB_AUTH_FAILED', new Error('Bad credentials'))));
-  expect('human message D1 has friendly text', /D1/.test(humanMessageFor('D1_QUERY_FAILED', new Error('boom'))));
-  expect('human message INTERNAL has fallback', humanMessageFor('INTERNAL_ERROR', undefined).length > 0);
+  expect('human message GH auth includes hint', /Rotate GITHUB_TOKEN/.test(humanMessageFor('GITHUB_AUTH_FAILED')));
+  expect('human message D1 has friendly text', /D1/.test(humanMessageFor('D1_QUERY_FAILED')));
+  expect('human message INTERNAL has fallback', humanMessageFor('INTERNAL_ERROR').length > 0);
+  // Regression guard: the wire message must not echo any thrown value. Every
+  // code is checked against a marker that would only appear if an excerpt of
+  // the exception were appended, as an earlier revision did.
+  const codes = [
+    'GITHUB_RATE_LIMITED', 'GITHUB_AUTH_FAILED', 'GITHUB_UNAVAILABLE',
+    'D1_UNAVAILABLE', 'D1_QUERY_FAILED', 'INTEGRATION_TIMEOUT',
+    'INTEGRATION_UNAVAILABLE', 'INTERNAL_ERROR',
+  ] as const;
+  const leaked = codes.filter((c) => /no such table|SELECT |secret|\/home\/|C:\\/i.test(humanMessageFor(c)));
+  expect('human message never carries exception detail', leaked.length === 0, leaked.join(','));
 }
 
 // 8. errorResponse returns the structured envelope.

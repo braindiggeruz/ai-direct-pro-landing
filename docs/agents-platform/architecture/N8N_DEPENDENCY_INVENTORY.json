@@ -104,6 +104,11 @@
       "reason": "Local Functions API-contract evidence for R0.4 RC2. n8n appears only as the recorded name of the legacy bridge normaliser and as the asserted SEO_AUTOPILOT_USE_DIRECT_AI default-off invariant; the files perform no call and hold no secret."
     },
     {
+      "path": "tests/error-disclosure.test.ts",
+      "classification": "active",
+      "reason": "Executable internal-error-disclosure regression. The literal n8n appears only as the `n8n-seo-autopilot` source value on a draft fixture row; the suite issues no n8n call, stubs the network deny-by-default and holds no secret."
+    },
+    {
       "path": "tests/functions-type-safety.test.ts",
       "classification": "active",
       "reason": "Executable boundary regression for the eliminated Functions typecheck exception. Asserts the first-party direct path stays default-on, that the n8n bridge is never contacted, and that legacy-bridge payloads land as pending_review; network is stubbed deny-by-default and no production n8n call is made."

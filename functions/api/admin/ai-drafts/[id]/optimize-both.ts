@@ -24,6 +24,7 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft } from '../../../../lib/ai-drafts/store';
+import { redactedInternalError } from '../../../../lib/api-errors';
 import {
   runOptimizeForLocale,
   type OptimizeRunResult,
@@ -104,11 +105,17 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
       if (s.status === 'fulfilled') {
         results[locale] = s.value;
       } else {
+        // A rejected runner is an unhandled exception; its text can carry
+        // provider payloads or D1 detail, so it is logged, never returned.
+        console.error(
+          `[admin.ai-drafts.optimize-both] ${locale} runner rejected: `
+          + `${s.reason instanceof Error ? s.reason.message.slice(0, 240) : String(s.reason).slice(0, 240)}`,
+        );
         results[locale] = {
           ok: false,
           locale,
           status: 'upstream',
-          error: (s.reason as Error)?.message || 'optimize-runner threw',
+          error: 'internal_error',
         };
       }
     });
@@ -140,7 +147,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
       attempted_locales: targets,
     });
   } catch (e) {
-    return json({ error: (e as Error).message || 'optimize-both failed' }, 500);
+    return redactedInternalError('admin.ai-drafts.optimize-both', e);
   } finally {
     releaseLock(id);
   }

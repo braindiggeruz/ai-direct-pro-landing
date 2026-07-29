@@ -17,6 +17,7 @@ import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft } from '../../../../lib/ai-drafts/store';
 import { runOptimizeForLocale } from '../../../../lib/ai-drafts/optimize-runner';
+import { redactedInternalError } from '../../../../lib/api-errors';
 
 const inflight = new Map<string, number>();
 const INFLIGHT_TTL_MS = 120_000;
@@ -75,7 +76,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     // Strip per-locale field that the single-locale UI doesn't need.
     return json({ ...result, ok: true });
   } catch (e) {
-    return json({ error: (e as Error).message || 'optimize failed' }, 500);
+    return redactedInternalError('admin.ai-drafts.optimize', e);
   } finally {
     releaseLock(id, locale);
   }

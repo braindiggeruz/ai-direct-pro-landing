@@ -211,12 +211,15 @@ export const onRequestPost: PagesFunction<CtxEnv> = async (ctx) => {
     }
     return res;
   } catch (e) {
-    const err = e as Error;
-    console.error(`[quick-launch] [${requestId}] uncaught: ${err?.message || String(e)}`);
+    // Uncaught exception text never reaches the wire: it can carry D1 SQL,
+    // provider payloads or file paths. The operator correlates through
+    // request_id, which is already part of this envelope.
+    const detail = e instanceof Error && e.message ? e.message.slice(0, 240) : String(e).slice(0, 240);
+    console.error(`[quick-launch] [${requestId}] uncaught: ${detail}`);
     const out = jsonResponse({
       ok: false,
       mode: 'server_error',
-      error: err?.message?.slice(0, 240) || 'Unexpected server error',
+      error: 'internal_error',
       request_id: requestId,
     }, 200);
     out.headers.set('x-request-id', requestId);

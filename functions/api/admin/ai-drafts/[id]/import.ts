@@ -19,6 +19,7 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft, markImported } from '../../../../lib/ai-drafts/store';
+import { redactedInternalError } from '../../../../lib/api-errors';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -50,6 +51,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
     const updated = await markImported(env, id, locale, auth.email);
     return json({ draft: updated });
   } catch (e) {
-    return json({ error: (e as Error).message }, 500);
+    return redactedInternalError('admin.ai-drafts.import', e);
   }
 };

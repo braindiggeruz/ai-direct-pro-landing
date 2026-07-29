@@ -156,7 +156,7 @@ export function withErrorHandler<E = unknown>(
       return res;
     } catch (e) {
       const code = classifyError(e);
-      const message = humanMessageFor(code, e);
+      const message = humanMessageFor(code);
       return errorResponse(endpoint, code, message, { originalError: e, requestId });
     }
   }) as PagesFunction<E>;
@@ -177,24 +177,73 @@ export function classifyError(e: unknown): ErrorCode {
   return 'INTERNAL_ERROR';
 }
 
-export function humanMessageFor(code: ErrorCode, e?: unknown): string {
-  const tail = e instanceof Error && e.message ? ` (${e.message.slice(0, 140)})` : '';
+/**
+ * Operator-facing text for an error code.
+ *
+ * The returned string goes ON THE WIRE, so it is derived from the code ALONE
+ * and never from the thrown value. An earlier revision appended a 140-character
+ * excerpt of `error.message` to most branches, which put D1 SQL fragments,
+ * upstream provider text and file paths into admin API responses — the exact
+ * leak `errorResponse` documents itself as preventing. The original error stays
+ * available server-side through `errorResponse`'s console log, correlated by
+ * `request_id`.
+ *
+ * Deliberately takes no error argument so the excerpt cannot be reintroduced.
+ */
+export function humanMessageFor(code: ErrorCode): string {
   switch (code) {
     case 'GITHUB_RATE_LIMITED':
       return `GitHub API rate limit reached. Retry in a minute.`;
     case 'GITHUB_AUTH_FAILED':
-      return `GitHub PAT is invalid or expired. Rotate GITHUB_TOKEN in Cloudflare Pages → Settings → Environment variables.${tail}`;
+      return `GitHub PAT is invalid or expired. Rotate GITHUB_TOKEN in Cloudflare Pages → Settings → Environment variables.`;
     case 'GITHUB_UNAVAILABLE':
-      return `GitHub Contents API responded with an error${tail}.`;
+      return `GitHub Contents API responded with an error. Check the server log for this request_id.`;
     case 'D1_UNAVAILABLE':
       return `D1 database binding is missing. Check the GPTBOT_DRAFTS_DB binding in Cloudflare Pages.`;
     case 'D1_QUERY_FAILED':
-      return `D1 query failed${tail}.`;
+      return `D1 query failed. Check the server log for this request_id.`;
     case 'INTEGRATION_TIMEOUT':
-      return `Upstream integration timed out${tail}.`;
+      return `Upstream integration timed out. Check the server log for this request_id.`;
     case 'INTEGRATION_UNAVAILABLE':
-      return `Upstream integration is unreachable${tail}.`;
+      return `Upstream integration is unreachable. Check the server log for this request_id.`;
     default:
-      return `Unexpected server error${tail}.`;
+      return `Unexpected server error. Check the server log for this request_id.`;
   }
+}
+
+/**
+ * Closed list of public error tokens for endpoints that answer with the flat
+ * `{ error: string }` shape (the AI Draft Inbox admin family). Keeping it a
+ * closed list is what makes the value safe to render verbatim in the SPA.
+ */
+export type PublicErrorToken = 'internal_error';
+
+/**
+ * Fail-closed 500 for the flat-shaped admin endpoints.
+ *
+ * The wire body carries a stable closed-list token plus a correlation id and
+ * nothing else — no exception message, no stack, no D1 or provider detail, no
+ * environment or binding name, no request body. The real failure is written to
+ * the server log under the same `request_id`, bounded so a large upstream body
+ * cannot flood the log.
+ */
+export function redactedInternalError(endpoint: string, originalError: unknown): Response {
+  const requestId = newRequestId();
+  const code = classifyError(originalError);
+  const kind = originalError instanceof Error
+    ? (originalError.constructor?.name || 'Error')
+    : typeof originalError;
+  const detail = originalError instanceof Error && originalError.message
+    ? originalError.message.slice(0, 240)
+    : '';
+  console.error(`[${endpoint}] [${requestId}] ${code} ${kind}: ${detail}`);
+  if (originalError instanceof Error && originalError.stack) {
+    console.error(
+      `[${endpoint}] [${requestId}] stack: ${originalError.stack.split('\n').slice(0, 3).join(' | ')}`,
+    );
+  }
+  const token: PublicErrorToken = 'internal_error';
+  const response = jsonResponse({ error: token, request_id: requestId }, 500);
+  response.headers.set('x-request-id', requestId);
+  return response;
 }

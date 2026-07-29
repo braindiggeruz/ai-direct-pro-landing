@@ -51,7 +51,7 @@ async function timeit<T>(load: () => Promise<T>): Promise<Section<T>> {
     return { ok: true, data, error: null, duration_ms: Date.now() - t0 };
   } catch (e) {
     const code = classifyError(e);
-    const message = humanMessageFor(code, e);
+    const message = humanMessageFor(code);
     // Log so the operator can correlate request_id from response headers
     // with the actual stack. `withErrorHandler` adds a top-level request_id
     // header; section-level errors are also logged here.
