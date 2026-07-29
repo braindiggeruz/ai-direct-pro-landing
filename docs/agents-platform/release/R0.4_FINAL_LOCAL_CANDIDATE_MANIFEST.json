@@ -1,0 +1,220 @@
+{
+  "manifest_version": 3,
+  "release_candidate": "R0.4 final local candidate",
+  "status": "prepared_locally_blocked_by_R0.3B",
+  "supersedes": "docs/agents-platform/release/R0.4_LOCAL_RC2_MANIFEST.json",
+  "naming_note": "Not RC3. No release blocker forced a new candidate cycle; this manifest records the same candidate after the final local security closure.",
+  "repository_head": {
+    "ref": "HEAD",
+    "resolution": "git rev-parse HEAD after the release-gate commit and local ff-only integration"
+  },
+  "previous_head": "2022ed22ac4f688fa8767c2d9d8000f02ce16285",
+  "commit_list": [
+    {
+      "commit": "82b6b6f373a98cc85a0c223ef2f8120aa7051bde",
+      "subject": "fix(security): redact internal draft status errors"
+    },
+    {
+      "commit": "HEAD",
+      "subject": "chore(release-gate): prepare owner-assisted R0.3B closure"
+    }
+  ],
+  "branch": "main after local ff-only integration of spike/final-local-security-closure",
+  "build_timestamp": "2026-07-29T09:30:00+05:00",
+  "runtime": {
+    "react": "19.2.7",
+    "react_dom": "19.2.7",
+    "react_router": "8.3.0",
+    "react_router_dom": "absent",
+    "node": "24.13.0",
+    "yarn": "1.22.22",
+    "vite": "8.0.14",
+    "typescript": "6.0.3",
+    "wrangler": "4.103.0"
+  },
+  "security_closure": {
+    "defect": "unhandled internal exception text reaching an HTTP response body",
+    "named_boundary": "functions/api/admin/ai-drafts/[id]/status.ts",
+    "vectors_closed": [
+      {
+        "id": "V-1",
+        "scope": "repository-wide",
+        "site": "functions/lib/api-errors.ts humanMessageFor",
+        "before": "appended a 140-character excerpt of the thrown value to most branches, so every withErrorHandler 5xx response carried exception text",
+        "after": "message derived from the ErrorCode alone; the helper accepts no error argument so the excerpt cannot return",
+        "endpoints_affected": ["admin.cockpit", "content.*", "audit", "admin.seo.topic-plans.*", "admin.seo.cannibalization.*", "admin.seo.content-inventory", "admin.seo.topic-plans.quick-launch"]
+      },
+      {
+        "id": "V-2",
+        "scope": "AI Draft Inbox admin family",
+        "sites": 10,
+        "before": "json({ error: (e as Error).message }, 500)",
+        "after": "redactedInternalError -> { error: 'internal_error', request_id } with an x-request-id header",
+        "files": [
+          "functions/api/admin/ai-drafts/index.ts",
+          "functions/api/admin/ai-drafts/[id]/status.ts",
+          "functions/api/admin/ai-drafts/[id]/index.ts",
+          "functions/api/admin/ai-drafts/[id]/import.ts",
+          "functions/api/admin/ai-drafts/[id]/apply-links.ts",
+          "functions/api/admin/ai-drafts/[id]/apply-optimization.ts",
+          "functions/api/admin/ai-drafts/[id]/optimize.ts",
+          "functions/api/admin/ai-drafts/[id]/optimize-both.ts",
+          "functions/api/admin/ai-drafts/[id]/translate-locale.ts"
+        ]
+      },
+      {
+        "id": "V-3",
+        "scope": "same class, outside the family",
+        "sites": 2,
+        "detail": "quick-launch outer catch returned err.message.slice(0,240); optimize-both surfaced a Promise rejection reason per locale. Both now return the closed-list token."
+      }
+    ],
+    "unprotected_read_fixed": "status.ts called getDraft outside its try, so a D1 read failure escaped the handler and produced a Cloudflare-rendered error page instead of a stable contract",
+    "public_error_tokens": ["internal_error"],
+    "wire_shape_change": "the `error` field keeps its name and string type on the flat endpoints; only the value becomes a closed-list token, and `request_id` is added",
+    "server_side_detail_retained": true,
+    "correlation": "request_id, also emitted as the x-request-id response header",
+    "remaining_bounded_diagnostics_not_changed": [
+      "functions/api/seo/indexnow.ts key-probe failure text (admin-authenticated, HTTP 502)",
+      "functions/api/admin/indexnow/submit.ts key-probe failure text (admin-authenticated, HTTP 502)",
+      "functions/lib/github.ts checkGitHubHealth details.error (bounded to 240 chars)",
+      "functions/api/admin/cockpit.ts github_health probe fallback (bounded to 240 chars)",
+      "functions/lib/seo-autopilot/direct-generator.ts per-locale error stored on the job row",
+      "functions/lib/llm/providers/openai-compatible.ts provider error text in router results"
+    ],
+    "remaining_rationale": "each is code-authored, length-bounded, reachable only behind admin JWT, and is the operator's only signal for that failure. None is an unhandled exception echoed as a generic server error."
+  },
+  "tests": {
+    "total": 842,
+    "passed": 842,
+    "failed": 0,
+    "suite_count": 35,
+    "execution": "file-by-file",
+    "previous_total": 826,
+    "previous_suite_count": 34,
+    "new_suite": "tests/error-disclosure.test.ts",
+    "new_tests": 16,
+    "regressions": 0,
+    "error_disclosure": "16/16",
+    "functions_type_safety": "38/38",
+    "react_router_migration": "26/26",
+    "web_security": "13/13",
+    "release_preparation": "20/20",
+    "secret_scan": "14/14",
+    "gpt_backend_security": "30/30",
+    "required_agents_baseline": "584/584",
+    "mission_control_script": "28/28"
+  },
+  "functions_baseline": {
+    "canonical_command": "npx tsc -p tsconfig.functions.json --noEmit",
+    "exit": 0,
+    "errors": 0,
+    "files": 0,
+    "legacy_exception": "removed in R0.4-RC2 and still absent"
+  },
+  "route_evidence": {
+    "route_patterns": 224,
+    "static_canonical_routes": 207,
+    "admin_route_patterns": 17,
+    "published_pages": 106,
+    "published_articles": 98,
+    "sitemap_entries": 207,
+    "parity": "pass",
+    "parity_note": "unchanged by this closure — no route, page, article or sitemap entry was touched"
+  },
+  "builds": {
+    "root_tsc_b": "exit 0",
+    "root_yarn_build": "exit 0",
+    "backend_npm_ci": "exit 0",
+    "backend_typecheck": "exit 0",
+    "backend_build": "exit 0",
+    "wrangler_pages_functions_build": "exit 0",
+    "wrangler_automation_dry_run": "exit 0, no resource mutation"
+  },
+  "audits": {
+    "root_yarn_production": { "findings": 0, "packages_audited": 115, "status": "pass" },
+    "backend_npm_production": { "findings": 0, "status": "pass" },
+    "advisory_GHSA_qwww_vcr4_c8h2": "absent",
+    "react_router_dom": "absent"
+  },
+  "quality_gates": {
+    "seo_audit_critical": 0,
+    "orphan_pages": 0,
+    "seo_audit_broken_link_metric": 55,
+    "seo_audit_broken_link_verdict": "all 55 are generated false positives; every distinct target renders in dist/. See reports/release/international-links-classification.json",
+    "scoped_eslint_changed_files": "exit 0",
+    "architecture_boundaries": "10/10, 0 violations",
+    "secret_scan": "clean, 2519 files checked",
+    "git_diff_check": "clean",
+    "git_fsck_full": "clean"
+  },
+  "decisions": {
+    "quick_launch_cluster_key": {
+      "status": "no_change_required",
+      "evidence": "docs/agents-platform/release/QUICK_LAUNCH_CLUSTER_KEY_DECISION.md",
+      "runtime_changed": false
+    },
+    "international_links": {
+      "status": "no_change_required",
+      "evidence": "reports/release/international-links-classification.json",
+      "release_critical_findings": 0,
+      "runtime_or_content_changed": false,
+      "backlog": "post-R1 audit-rule fix in buildCockpit"
+    }
+  },
+  "control_plane_readiness": {
+    "snapshot": "docs/agents-platform/release/CONTROL_PLANE_READINESS_SNAPSHOT.json",
+    "github": "verified_blocked",
+    "cloudflare": "verified_blocked",
+    "railway": "verified_blocked",
+    "n8n": "unavailable",
+    "mutations_performed": "none"
+  },
+  "owner_maintenance_pack": {
+    "launcher": "START-R0.3B-MAINTENANCE.ps1",
+    "sequence": "OWNER_MAINTENANCE_SEQUENCE.md",
+    "location": "protected owner kit, outside Git",
+    "read_only_by_default": true,
+    "smoke_test": "REPOSITORY=PASS, VAULT=PASS, ADMIN_CREDENTIAL=INCOMPLETE, N8N_DISPOSITION=INCOMPLETE, freeze gates FAIL, NEXT_OWNER_ACTION=Phase 1",
+    "secrets_in_repository": false
+  },
+  "executor": {
+    "dry_run_by_default": true,
+    "live_switch": "-ApplyRemoteRewrite",
+    "gates": [
+      "exact repository HEAD", "exact and complete checksum set", "clean tracked tree",
+      "protected owner-kit validation", "credential rotation evidence", "deployment freeze verifier",
+      "verified full bundle covering HEAD", "typed confirmation"
+    ],
+    "ref_handling": "explicit allowlist; git push --atomic with per-ref --force-with-lease=<ref>:<expected_old_oid>; refuses if remote refs drifted after the rehearsal",
+    "never": ["git push --mirror", "stash import"],
+    "forbidden_paths_removed": 5,
+    "fresh_clone_verified": true,
+    "secret_scan_in_rehearsal": true
+  },
+  "remote_status": {
+    "origin_main": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
+    "live_github_main": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
+    "push_performed": false,
+    "remote_refs_changed": false,
+    "divergence": "behind 0 / ahead 45"
+  },
+  "r0_3b_status": "blocked_by_external_credential_disposition_and_confirmed_active_deployment_integrations",
+  "r0_4_status": "incomplete",
+  "r1_status": "not_started",
+  "p3_status": "not_started",
+  "rollback_reference": "docs/agents-platform/release/FUNCTIONS_TYPE_SAFETY_ROLLBACK.md",
+  "backup_reference": "F:\\Claude\\gptbot-final-closure-backups\\pre-2022ed2-20260729-085232",
+  "blockers": [
+    "admin replacement installation, consumer validation and old credential revocation",
+    "n8n ingest complete ROTATED or complete RETIRED evidence disposition, which no local read path can establish",
+    "Railway GitHub auto-deploy is confirmed ACTIVE and must be paused",
+    "Cloudflare Pages Git integration is confirmed ACTIVE on main and must be paused for production and preview",
+    "GitHub SEO Autopilot scheduler is confirmed ACTIVE on cron 0 9 * * 1,4 and must be disabled",
+    "explicit owner authorization for the live R0.3B rewrite",
+    "separate authorization for production D1, Queue/DLQ/Worker/Cron, deployment and webhook operations"
+  ],
+  "next_owner_action": "Phase 1 - rotate the admin credential and record evidence (OWNER_INSTALL_CREDENTIALS.md), then run START-R0.3B-MAINTENANCE.ps1 again",
+  "production_changes_performed": false,
+  "further_local_engineering_sprint_justified": false
+}

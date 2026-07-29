@@ -1,6 +1,115 @@
 # Актуальный master handoff
 
-## R0.4 Local RC2 relay (2026-07-29) — текущий authoritative checkpoint
+## R0.3B-CLOSURE-PREP relay (2026-07-29) — текущий authoritative checkpoint
+
+- `current_stage: R0.3`, `stage_status: in_progress`, `last_completed_stage: R0.2`,
+  `next_stage: R0.3B`, `blocked: true`. R0.4 **не завершён**, R1 и P3 не начаты.
+  `production_ready` не объявлен и не может быть объявлен локально.
+- Parallel preparation: `R0.4-prep: completed_locally`,
+  `first_party_automation_runtime: prepared_locally`,
+  `n8n_retirement: prepared_not_executed`,
+  `react_router_security_migration: completed_locally`,
+  `functions_type_safety: completed_locally`,
+  **`internal_error_redaction: completed_locally`**,
+  `local_release_candidate: final_local_candidate_prepared`.
+
+### Закрыт последний известный локальный disclosure
+
+Code commit `82b6b6f373a98cc85a0c223ef2f8120aa7051bde`. Дефект — текст
+необработанного исключения в теле HTTP-ответа. Названная граница была
+`functions/api/admin/ai-drafts/[id]/status.ts`, но фактический анализ нашёл тот
+же дефект дважды, и второй экземпляр был repository-wide.
+
+1. **Канонический helper.** `humanMessageFor` добавлял к большинству веток
+   140-символьный фрагмент брошенного значения, поэтому **любой** endpoint под
+   `withErrorHandler` отдавал наружу фрагменты D1 SQL, текст провайдера и пути.
+   Теперь сообщение выводится **только** из `ErrorCode`, а сам helper не
+   принимает аргумент ошибки — фрагмент нельзя вернуть.
+2. **Семейство AI Draft Inbox.** Десять `catch`-блоков отвечали
+   `json({ error: (e as Error).message }, 500)`. Введён общий
+   `redactedInternalError`: плоский closed-list токен
+   `{ error: "internal_error", request_id }` плюс заголовок `x-request-id`;
+   детализация уходит только в server-side лог. Имя поля `error` и его строковый
+   тип сохранены, меняется лишь значение.
+3. **Тот же класс вне семейства.** Внешний catch quick-launch и per-locale
+   rejection в optimize-both.
+4. `status.ts` дополнительно перенёс `getDraft` внутрь защищённого блока: он
+   стоял вне прежнего `try`, поэтому сбой чтения D1 покидал handler и
+   Cloudflare рисовал собственную страницу ошибки вместо стабильного контракта.
+
+Сознательно **не** изменены ограниченные операторские диагностики на admin-only
+поверхностях (IndexNow key-probe, GitHub health probe detail, текст провайдера в
+LLM router): они code-authored, ограничены по длине и не являются эхом
+необработанного исключения. Полный список — в manifest.
+
+Новый suite `tests/error-disclosure.test.ts` — **16/16**: реальные endpoints и
+канонический wrapper против D1-заглушки, бросающей Error с SQL, Windows- и
+POSIX-путями, именем binding, именем env, токеноподобным значением и вымышленным
+URL провайдера, плюс brosсенные string, object, null, undefined и подкласс D1.
+Каждый ответ проверяется на отсутствие всех маркеров, stack frame и префикса
+исключения; success-путь, отказы 400/401/404/409, запрет auto-publish,
+нейтральный not-found и отсутствие GitHub-вызовов подтверждены неизменными.
+
+### Verification
+
+Полный прогон: **842/842 по 35 suites** (826 + 16, регрессий 0), Functions
+typecheck exit 0 / 0 errors, `tsc -b` 0, root build 0, backend
+`npm ci`/typecheck/build/`audit --omit=dev` 0 и 0 findings, root Yarn production
+audit 0 на 115 пакетах, scoped ESLint 0, boundaries 10/10, secret scan чист по
+2519 файлам, `git diff --check` чист, `git fsck --full` чист. Паритет не
+изменился: routes 224/224, pages 106, articles 98, sitemap 207, critical SEO 0,
+orphan 0. `GHSA-qwww-vcr4-c8h2` отсутствует.
+
+### Два открытых вопроса закрыты evidence, без изменения runtime
+
+- **quick-launch `cluster_key`** — `no_change_required`.
+  [`QUICK_LAUNCH_CLUSTER_KEY_DECISION.md`](./release/QUICK_LAUNCH_CLUSTER_KEY_DECISION.md).
+  `cluster_key` — namespaced planner-метка вида `industry:clinic`;
+  `primary_entity` — голая ось fingerprint. Entity уже используется для
+  группировки — последним и namespaced — в `pickClusterKey`. Fallback записывал
+  бы значения вне словаря, чаще всего литерал `none`.
+- **55 broken links** — `no_change_required`.
+  [`international-links-classification.json`](../../reports/release/international-links-classification.json).
+  Все 55 — generated false positive: `buildCockpit` строит множество известных
+  URL только из `content/pages/**`, поэтому каждая ссылка money-страницы на
+  опубликованную статью считается битой. Все 35 различных целей рендерятся в
+  `dist/`. Метрика называется «broken **internal** links» — `intl.` в выводе это
+  сокращение от *internal*, не *international*; прежние relay называли их
+  международными.
+
+### Read-only control-plane snapshot
+
+[`CONTROL_PLANE_READINESS_SNAPSHOT.json`](./release/CONTROL_PLANE_READINESS_SNAPSHOT.json).
+Три прежде неподтверждённых блокера теперь **подтверждены активными**:
+
+- GitHub workflow *SEO Autopilot scheduler* — `active`, `cron 0 9 * * 1,4`,
+  последние 5 запусков по расписанию завершились ошибкой;
+- Railway auto-deploy — `railway-app[bot]` создал production deployment
+  2026-07-28;
+- Cloudflare Pages Git integration — production собирается из `main`, последняя
+  сборка из `1a68a12`.
+
+Дополнительно: репозиторий публичный, ветка `main` **без branch protection**,
+secret scanning и push protection включены, non-provider patterns выключены.
+n8n — `unavailable`: локально нет ни CLI, ни API-ключа; ничего не угадывалось.
+
+### Owner-assisted maintenance pack
+
+Вне Git, в защищённом owner kit: `START-R0.3B-MAINTENANCE.ps1` (read-only по
+умолчанию, никогда не передаёт `-ApplyRemoteRewrite`) и
+`OWNER_MAINTENANCE_SEQUENCE.md` — одна последовательность Phase 1–9. Launcher
+печатает компактный статус-блок и следующее незавершённое действие владельца.
+Секретов в репозитории нет и не появилось.
+
+**NEXT OWNER ACTION: Phase 1 — ротация admin credential с записью evidence.**
+
+- Push, deploy, production D1 migrations, remote history rewrite, webhook
+  mutation, n8n mutation, credential/secret mutation, Cloudflare resource
+  creation и pilot не выполнялись. `gptbot.uz-audit/` не читался и не изменялся.
+
+---
+
+## R0.4 Local RC2 relay (2026-07-29) — предыдущий checkpoint
 
 - `current_stage: R0.3`, `stage_status: in_progress`, `last_completed_stage: R0.2`,
   `next_stage: R0.3B`, `blocked: true`. R0.4 **не завершён**, R1 и P3 не начаты.

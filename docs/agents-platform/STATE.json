@@ -101,11 +101,39 @@
         "reports/release/functions-contract-diff.json"
       ]
     },
+    "internal_error_redaction": {
+      "status": "completed_locally",
+      "code_commit": "82b6b6f373a98cc85a0c223ef2f8120aa7051bde",
+      "scope": "unhandled exception text reaching an HTTP response body",
+      "sites_closed": 13,
+      "repository_wide_vector": "humanMessageFor appended a 140-character excerpt of the thrown value to every withErrorHandler 5xx response; it now derives its message from the ErrorCode alone and takes no error argument",
+      "endpoint_family_vector": "ten catch blocks in the AI Draft Inbox admin endpoints returned the raw exception message; they now return the closed-list token internal_error plus a request_id",
+      "public_error_token_list": ["internal_error"],
+      "behavioural_tests_added": 16,
+      "unsafe_suppressions_added": 0,
+      "compiler_settings_weakened": false,
+      "remaining_bounded_operator_diagnostics": "IndexNow key-probe text, GitHub health probe detail and LLM router provider text stay on admin-only surfaces; they are length-bounded, code-authored and not derived from an unhandled exception. Recorded, deliberately unchanged."
+    },
     "local_release_candidate": {
-      "status": "RC2_prepared_locally",
-      "manifest": "docs/agents-platform/release/R0.4_LOCAL_RC2_MANIFEST.json",
-      "previous_manifest": "docs/agents-platform/release/R0.4_LOCAL_RC1_MANIFEST.json",
+      "status": "final_local_candidate_prepared",
+      "manifest": "docs/agents-platform/release/R0.4_FINAL_LOCAL_CANDIDATE_MANIFEST.json",
+      "previous_manifest": "docs/agents-platform/release/R0.4_LOCAL_RC2_MANIFEST.json",
       "production_mutation": false
+    },
+    "control_plane_readiness": {
+      "snapshot": "docs/agents-platform/release/CONTROL_PLANE_READINESS_SNAPSHOT.json",
+      "method": "read-only CLI and REST GETs; no mutation",
+      "github": "verified_blocked",
+      "cloudflare": "verified_blocked",
+      "railway": "verified_blocked",
+      "n8n": "unavailable",
+      "note": "The Railway and Cloudflare auto-deploy integrations and the SEO Autopilot scheduler are now CONFIRMED ACTIVE rather than merely unconfirmed. main has no branch protection."
+    },
+    "owner_maintenance_pack": {
+      "location": "outside Git, in the protected owner kit",
+      "launcher": "START-R0.3B-MAINTENANCE.ps1 (read-only by default; never passes -ApplyRemoteRewrite)",
+      "sequence": "OWNER_MAINTENANCE_SEQUENCE.md (Phases 1-9)",
+      "secrets_in_repository": false
     },
     "release_status": "prepared_locally_blocked_by_R0.3B",
     "root_dependency_audit": "React Router 8.3.0 with React/React DOM 19.2.7 is installed; react-router-dom and GHSA-qwww-vcr4-c8h2 are absent. Yarn production audit and the independent npm production cross-check report zero findings. A separate full Yarn audit reports unrelated tooling/dev dependency debt (1 low, 2 moderate, 17 high); no broad dependency modernization was performed.",
@@ -116,7 +144,7 @@
   },
   "baseline": {
     "build": "tsc -b exit 0; corepack yarn build exit 0; Railway backend typecheck and build exit 0; backend npm audit --omit=dev 0 findings",
-    "tests": "pass: Functions type-safety 38/38; React Router migration 26/26; first-party automation 22/22; owner evidence policy 6/6; R0.4 release-preparation 20/20; R0.3C secret-scan 14/14; unchanged required Agents baseline 584/584; full repository 826/826 across 34 suites (788 previous + 38 new, zero regressions)",
+    "tests": "pass: internal error disclosure 16/16; Functions type-safety 38/38; React Router migration 26/26; first-party automation 22/22; owner evidence policy 6/6; R0.4 release-preparation 20/20; R0.3C secret-scan 14/14; unchanged required Agents baseline 584/584; full repository 842/842 across 35 suites (826 previous + 16 new, zero regressions)",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors. The D-007 legacy exception of 27 errors in 6 files is REMOVED: every error was fixed at its source with closed-list parsing, explicit environment interfaces, unvalidated-candidate types, split closed unions and a nullable-row type guard. No compiler option was relaxed, no file was excluded and no unsafe suppression was added.",
     "lint": "R0.3 changed-file scoped eslint exit 0; boundaries 10/10",
     "security": "memory/test_credentials.md and its two gptbot-audit duplicates are removed from the tree and blocked by .gitignore. scripts/scan-secrets.ts is clean and blocks 22 of the 23 historical incident versions; the one it does not flag is the original empty stub with no credential material. Replacement credentials exist only in the Windows-protected owner vault outside Git and have not been installed. GitHub secret scanning and push protection are enabled but generic values remain reachable in Git history and must still be treated as compromised."

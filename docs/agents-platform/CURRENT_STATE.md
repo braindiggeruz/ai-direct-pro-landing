@@ -1,6 +1,40 @@
 # CURRENT_STATE — фактическое состояние репозитория (2026-07-29, R0.3 частично)
 
-## Cloudflare Functions type safety — последнее локальное исключение закрыто
+## Internal error disclosure — последний известный локальный дефект закрыт
+
+- `internal_error_redaction: completed_locally`, code commit
+  `82b6b6f373a98cc85a0c223ef2f8120aa7051bde`.
+- Закрыто 13 мест, где текст необработанного исключения попадал в тело
+  HTTP-ответа: repository-wide вектор в `humanMessageFor` (влиял на каждый
+  endpoint под `withErrorHandler`), 10 catch-блоков семейства AI Draft Inbox,
+  внешний catch quick-launch и per-locale rejection в optimize-both.
+- Публичный контракт: плоское поле `error` сохранило имя и строковый тип;
+  значение стало closed-list токеном `internal_error`, добавлен `request_id` и
+  заголовок `x-request-id`. Детализация остаётся только в server-side логе.
+- `status.ts` перенёс `getDraft` внутрь защищённого блока — прежде сбой чтения
+  D1 покидал handler.
+- Новый suite `tests/error-disclosure.test.ts` — 16/16.
+- Полный baseline: **842/842 по 35 suites** (826 + 16, регрессий 0).
+- Оставлены без изменений ограниченные операторские диагностики на admin-only
+  поверхностях; перечислены в
+  `R0.4_FINAL_LOCAL_CANDIDATE_MANIFEST.json`.
+
+## Два открытых вопроса закрыты evidence, runtime не менялся
+
+- quick-launch `cluster_key` — `no_change_required`
+  (`QUICK_LAUNCH_CLUSTER_KEY_DECISION.md`).
+- 55 broken links — `no_change_required`, все 55 generated false positive; метрика
+  считает **internal**, а не international ссылки
+  (`reports/release/international-links-classification.json`).
+
+## Control plane — read-only snapshot
+
+`CONTROL_PLANE_READINESS_SNAPSHOT.json`: GitHub `verified_blocked`,
+Cloudflare `verified_blocked`, Railway `verified_blocked`, n8n `unavailable`.
+SEO scheduler, Railway auto-deploy и Cloudflare Pages Git integration
+**подтверждены активными**; `main` без branch protection. Мутаций не было.
+
+## Cloudflare Functions type safety — предыдущее локальное исключение закрыто
 
 - `functions_type_safety: completed_locally`, code commit
   `df687a457d3619cbc0dd83ec291c1af7e66230f4`.

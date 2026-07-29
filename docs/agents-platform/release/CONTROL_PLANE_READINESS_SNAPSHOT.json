@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "label": "R0.3B control-plane readiness — read-only snapshot",
+  "captured_at": "2026-07-29",
+  "repository_head": "2022ed22ac4f688fa8767c2d9d8000f02ce16285",
+  "method": "read-only CLI and REST GETs only. No mutation, no deploy, no restart, no env change, no workflow change, no webhook change, no resource creation.",
+  "secret_policy": "names and states only. No token, key, hash, fingerprint, account identifier or vault value is recorded here.",
+  "allowed_statuses": ["verified_pass", "verified_blocked", "unavailable", "unknown"],
+  "github": {
+    "status": "verified_blocked",
+    "access": "gh CLI authenticated as the repository owner account; token scopes read:org, repo, workflow",
+    "repository_visibility": "public",
+    "default_branch": "main",
+    "archived": false,
+    "branch_protection_main": {
+      "status": "verified_blocked",
+      "state": "absent",
+      "evidence": "GET /repos/{owner}/{repo}/branches/main/protection returns 404 Branch not protected",
+      "implication": "nothing at the platform layer would refuse the R0.3B force-update; the ref allowlist and expected-old-SHA leases in the executor are the only guard."
+    },
+    "workflows": [
+      {
+        "name": "SEO Autopilot scheduler",
+        "file": ".github/workflows/seo-autopilot-scheduler.yml",
+        "state": "active",
+        "schedule": "cron 0 9 * * 1,4",
+        "manual_trigger": "workflow_dispatch enabled",
+        "recent_scheduled_runs": "5 of the last 5 scheduled runs completed with conclusion=failure; the most recent fired 2026-07-27",
+        "classification": "automation writer — still firing on schedule and must be disabled before R0.3B"
+      },
+      {
+        "name": "secret-scan",
+        "file": ".github/workflows/secret-scan.yml",
+        "state": "present",
+        "schedule": "none — push/pull_request and workflow_dispatch only",
+        "classification": "prevention gate, not a writer; may stay enabled"
+      }
+    ],
+    "webhooks": {
+      "status": "verified_pass",
+      "count": 0,
+      "evidence": "GET /repos/{owner}/{repo}/hooks returns an empty list"
+    },
+    "environments": {
+      "count": 1,
+      "names": ["strong-exploration / production"],
+      "owner": "created by the Railway GitHub app"
+    },
+    "secret_scanning": {
+      "secret_scanning": "enabled",
+      "push_protection": "enabled",
+      "non_provider_patterns": "disabled",
+      "validity_checks": "disabled",
+      "dependabot_security_updates": "disabled",
+      "note": "matches the R0.3 incident record: provider-pattern scanning cannot see the generic incident values, which is why scripts/scan-secrets.ts exists."
+    }
+  },
+  "cloudflare": {
+    "status": "verified_blocked",
+    "access": "wrangler 4.103.0 authenticated; account-scoped read succeeded",
+    "pages_project": {
+      "name": "ai-direct-pro-landing",
+      "domains": ["ai-direct-pro-landing.pages.dev", "gptbot.uz"]
+    },
+    "git_integration": {
+      "status": "verified_blocked",
+      "state": "active",
+      "evidence": "the four most recent Production deployments list Branch=main with Source commits 1a68a12, 025a217, 025a217 and 93fab39; the newest built 1a68a12 roughly 16 hours before capture",
+      "implication": "Cloudflare Pages builds production from the main branch automatically. Pushing the 43 local commits, or force-updating any contaminated ref, would trigger a production build with no further human step."
+    },
+    "d1": {
+      "binding": "GPTBOT_DRAFTS_DB",
+      "database_name": "gptbot-ai-drafts",
+      "state": "exists",
+      "migrations_0013_0024_applied": false,
+      "note": "existence and binding name only; no query was issued and no migration was applied."
+    },
+    "declared_bindings_names_only": ["GPTBOT_DRAFTS_DB", "AI", "AUTOMATION_QUEUE", "LOGIN_ATTEMPTS"],
+    "queue_dlq_worker_cron": {
+      "state": "not_created",
+      "evidence": "wrangler.automation.toml is a local descriptor only; the automation Worker dry-run reports bindings without creating them."
+    }
+  },
+  "railway": {
+    "status": "verified_blocked",
+    "access": "railway CLI is not installed and no RAILWAY_TOKEN is present in the environment; state was established through the GitHub deployment surface instead",
+    "cli_available": false,
+    "linked_project_service": "GitHub environment \"strong-exploration / production\"",
+    "github_auto_deploy": {
+      "status": "verified_blocked",
+      "state": "active",
+      "evidence": "the five most recent GitHub deployments were all created by railway-app[bot] into \"strong-exploration / production\", the newest on 2026-07-28",
+      "implication": "a push to main would trigger a Railway backend deployment automatically."
+    },
+    "mutations_performed": "none — no deploy, restart, variable or service change"
+  },
+  "n8n": {
+    "status": "unavailable",
+    "reason": "no n8n CLI on PATH, no N8N_API_KEY in the environment and no other authenticated read-only path exists locally. Nothing was guessed.",
+    "workflow_ids": "unavailable",
+    "enabled_state": "unavailable",
+    "schedules": "unavailable",
+    "in_flight_executions": "unavailable",
+    "github_write_or_autopublish_nodes": "unavailable",
+    "credential_attachment_names": "unavailable",
+    "repository_side_state": {
+      "legacy_ingest_flag": "N8N_INGEST_ENABLED absent, so legacy ingest is off",
+      "direct_path_flag": "SEO_AUTOPILOT_USE_DIRECT_AI defaults to true, so the first-party generator is the active path",
+      "retirement": "prepared_not_executed",
+      "credential_disposition": "pending — must become fully ROTATED or fully RETIRED"
+    },
+    "mutations_performed": "none"
+  },
+  "consequences_for_r0_3b": [
+    "Both deployment integrations are confirmed ACTIVE, not merely unconfirmed. The freeze phase is mandatory, not precautionary.",
+    "The SEO Autopilot scheduler is confirmed ACTIVE on cron 0 9 * * 1,4 and must be disabled before any rewrite.",
+    "main has no branch protection, so the platform will not refuse a bad force-update; the executor's ref allowlist and expected-old-SHA leases are the sole safeguard.",
+    "n8n remains the only control plane with no local read path; its disposition must be established by the owner from the n8n side."
+  ],
+  "operations_not_performed": [
+    "no push, deploy, restart or rollback",
+    "no workflow enable/disable",
+    "no webhook create/update/delete",
+    "no environment or secret change",
+    "no Cloudflare resource creation or deletion",
+    "no D1 query or migration",
+    "no Railway mutation",
+    "no n8n access or mutation"
+  ]
+}
