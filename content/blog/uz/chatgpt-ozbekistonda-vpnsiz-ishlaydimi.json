@@ -299,6 +299,16 @@
       "text": "Oddiy shaxsiy vazifalar uchun rasmiy ChatGPT yoki Gemini yetarli. O'zbek tilida tezkor tajriba uchun mahalliylashtirilgan AI-chat qulay. Agar maqsad mijozlarga 24/7 javob berish, ariza yig'ish va CRM'ga uzatish bo'lsa, universal obunaning o'zi emas, nazorat qilinadigan biznes AI-boti kerak. Avval kanal va vazifani aniqlang, keyin texnologiyani tanlang."
     },
     {
+      "type": "linkp",
+      "text": "Keyingi qadam: rasmiy ilovani topish uchun {download}, servislarni taqqoslash uchun {compare}, o'zbekcha topshiriqlar uchun {prompts}. To'lov bo'yicha rus tilidagi alohida qo'llanma — {payment}.",
+      "links": [
+        {"token":"download","target":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/","anchor":"ChatGPTni telefon va kompyuterda xavfsiz ochish"},
+        {"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini taqqoslovi"},
+        {"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta o'zbekcha prompt"},
+        {"token":"payment","target":"/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/","anchor":"ChatGPTni O'zbekistonda to'lash"}
+      ]
+    },
+    {
       "type": "cta",
       "text": "O'zbek tilidagi AI-chatni sinab ko'rish",
       "href": "/uz/gpt-uzbek-tilida/"
@@ -365,6 +375,30 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "anchor": "ChatGPTni xavfsiz yuklash",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "anchor": "ChatGPT, Claude va Gemini",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "O'zbek tilida tayyor promptlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "anchor": "ChatGPT obunasini O'zbekistonda to'lash",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
       "anchor": "AI-chat turlari va vazifalari",
       "locale": "uz",
@@ -404,7 +438,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-26",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-07-30",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -412,7 +446,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-07-30T00:00:00.000Z",
   "createdAt": "2026-07-26T00:00:00.000Z",
   "sources": [
     {

@@ -1,0 +1,37 @@
+{
+  "cluster": "chatgpt-uzbek-tilida",
+  "updatedAt": "2026-07-30",
+  "evidence": {
+    "source": "Yandex Webmaster screenshot supplied by site owner",
+    "queries": [
+      {"query":"chatgpt uzbek tilida","impressions":112,"clicks":5},
+      {"query":"chat gpt uzbek tilida","impressions":39,"clicks":2},
+      {"query":"chatgpt uzbek tilida onlayn","impressions":19,"clicks":2},
+      {"query":"chatgpt uzbek tilida yuklash","impressions":5,"clicks":1},
+      {"query":"claude in uzbekistan","impressions":1,"clicks":1},
+      {"query":"чат gpt онлайн","impressions":50,"clicks":1}
+    ]
+  },
+  "moneyPage": {
+    "url": "/uz/gpt-uzbek-tilida/",
+    "intent": "transactional",
+    "job": "Open an independent Uzbek-language AI chat in the browser"
+  },
+  "supportingPages": [
+    {"url":"/uz/gpt-uzbek-tilida-ai-chat/","intent":"educational","job":"Learn how to use GPT and write prompts"},
+    {"url":"/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/","intent":"access and safety","job":"Verify official availability, VPN and account access"},
+    {"url":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","intent":"templates","job":"Copy ready Uzbek prompts"},
+    {"url":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/","intent":"installation","job":"Use web or install an official app safely"},
+    {"url":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","intent":"comparison","job":"Choose between AI services in Uzbekistan"},
+    {"url":"/uz/blog/chatgpt-talabalar-uchun/","intent":"student use case","job":"Study responsibly with AI"},
+    {"url":"/uz/blog/chat-gpt-uzbek-biznes-uchun/","intent":"business evaluation","job":"Choose between personal AI chat and a business bot"},
+    {"url":"/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/","intent":"payment","job":"Pay for an official subscription safely from Uzbekistan"}
+  ],
+  "cannibalizationRules": [
+    "Only the money page targets the transactional head term and opens a chat.",
+    "The usage guide targets education and prompt construction, not service access.",
+    "The VPN article owns official access and regional availability.",
+    "Installation, comparison, student, payment and business pages use distinct task intents.",
+    "All supporting pages link to the money page with natural, varied anchors."
+  ]
+}

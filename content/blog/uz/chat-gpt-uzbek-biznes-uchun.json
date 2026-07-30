@@ -1,156 +1,76 @@
 {
-  "status": "published",
-  "locale": "uz",
-  "slug": "chat-gpt-uzbek-biznes-uchun",
-  "url": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
-  "title": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab",
-  "description": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma.",
-  "h1": "AI Botlar: O'zbekistonda Dasturchilar Uchun Texnik Qo'llanma",
-  "intro": "AI botlar texnologiyasining rivojlanishi O'zbekistondagi IT sohasi uchun yangi imkoniyatlar ochmoqda. Ushbu maqolada biz dasturchilar va texnik mutaxassislar uchun AI botlarni yaratish, ularni turli platformalarga integratsiyalash va murakkab funksiyalarni joriy etish bo'yicha texnik jihatlarni ko'rib chiqamiz. GPTBot.uz platformasi sizning loyihalaringiz uchun texnik yechimlarni taqdim etadi.",
-  "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
-  "topicCluster": "chat gpt uzbek",
-  "keywords": [
-    "ai bot yaratish o'zbekiston",
-    "ai bot texnik qo'llanma",
-    "dasturchilar uchun ai bot",
-    "nlp o'zbekiston",
-    "ml o'zbekiston",
-    "gptbot uz texnik",
-    "telegram bot api",
-    "veb-saytga ai bot integratsiyasi",
-    "ai bot arxitekturasi"
+  "status":"published",
+  "locale":"uz",
+  "slug":"chat-gpt-uzbek-biznes-uchun",
+  "url":"/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+  "title":"ChatGPT yoki AI-bot biznes uchun: farqi va narxi",
+  "description":"O'zbekiston biznesi uchun ChatGPT va individual AI-bot farqi: vazifalar, Telegram, sayt, CRM, ma'lumot xavfsizligi, narx va joriy etish rejasi.",
+  "h1":"ChatGPT va AI-bot biznes uchun: qaysi yechimni tanlash kerak?",
+  "topicCluster":"chatgpt-uzbek-tilida",
+  "targetMoneyPage":"/uz/biznes-uchun-ai-bot/",
+  "keywords":["chatgpt biznes uchun","ai bot biznes uchun","chat gpt uzbek biznes","sun'iy intellekt biznes","telegram ai bot"],
+  "intro":"Xodimning shaxsiy AI chatda matn tayyorlashi bilan mijozlarga sayt yoki Telegramda avtomatik javob beradigan biznes-bot bir xil yechim emas. Birinchisi individual yordamchi, ikkinchisi esa bilim bazasi, qoidalar, integratsiya, nazorat va mas'ul jarayonga ulanadi.",
+  "body":[
+    {"type":"figure","src":"/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp","srcSet":"/assets/blog/chat-gpt-uzbek-biznes-uchun-480.webp 480w, /assets/blog/chat-gpt-uzbek-biznes-uchun-800.webp 800w, /assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp 1200w","sizes":"(max-width: 768px) 100vw, 768px","alt":"O'zbekiston biznesida AI chat va avtomatlashtirilgan bot jarayonini rejalashtirish","width":1200,"height":630,"loading":"eager","caption":"Biznes-bot faqat javob yozmaydi: u qoidalar, kanal, CRM va mas'ul xodim bilan bir jarayonda ishlaydi."},
+    {"type":"quote","text":"ChatGPT xodimga yordam berishi mumkin. Biznes AI-bot esa mijoz yo'lini boshqarishi, ma'lumotni yig'ishi va kerakli paytda insonni ulashi kerak."},
+    {"type":"toc","text":"Qo'llanma","links":[{"anchor":"farq","label":"Chat va bot farqi"},{"anchor":"vazifa","label":"Vazifalar"},{"anchor":"kanal","label":"Telegram, sayt va CRM"},{"anchor":"narx","label":"Narx"},{"anchor":"xavfsizlik","label":"Xavfsizlik"},{"anchor":"bosqich","label":"Joriy etish"},{"anchor":"kpi","label":"Natijani o'lchash"}]},
+    {"type":"h2","id":"farq","text":"Oddiy AI chat va biznes AI-bot o'rtasidagi farq"},
+    {"type":"table","headers":["Mezon","Oddiy AI chat","Biznes AI-bot"],"rows":[["Foydalanuvchi","Asosan xodimning o'zi","Mijoz va jamoa"],["Bilim","Umumiy model va foydalanuvchi konteksti","Tasdiqlangan kompaniya bilim bazasi"],["Kanal","Servisning o'z interfeysi","Sayt, Telegram yoki boshqa kanal"],["Jarayon","Qo'lda nusxalash va bajarish","Forma, status, CRM va xabarnoma"],["Qoidalar","Foydalanuvchi prompti","Markaziy siyosat, cheklov va eskalatsiya"],["Nazorat","Individual chat tarixi","Log, sifat tekshiruvi va mas'ul xodim"],["Maqsad","Shaxsiy unumdorlik","Mijoz yo'li va operatsion jarayon"]]},
+    {"type":"p","text":"Kichik jamoa avval oddiy AI chat yordamida matn, tarjima va xulosa jarayonini sinashi mumkin. Agar vazifa ko'p xodimda takrorlansa, mijozga javob berish va CRMga yozish kerak bo'lsa, alohida bot arxitekturasi talab qilinadi."},
+    {"type":"h2","id":"vazifa","text":"AI biznesda qaysi vazifalarni bajaradi?"},
+    {"type":"list","items":["Ko'p takrorlanadigan savollarga tasdiqlangan javob berish.","Mijozdan ism, aloqa, ehtiyoj va qulay vaqtni bosqichma-bosqich olish.","Murojaatni xizmat, hudud yoki shoshilinchlik bo'yicha ajratish.","Menejerga qisqa va tuzilgan lead kartasini yuborish.","CRMda yangi ariza yaratish yoki mavjud mijozga bog'lash.","Ish vaqtidan tashqari murojaatni qabul qilib, real javob muddatini aytish.","Xodim uchun xat, taklif, reja va xulosa qoralamasini tayyorlash.","Javob topilmasa, taxmin qilmasdan insonga o'tkazish."]},
+    {"type":"p","text":"Bot savdoni kafolatlamaydi. U javob vaqtini, ma'lumot yig'ish tartibini va nazoratni yaxshilashi mumkin; real natija trafik sifati, taklif, menejer ishi va o'lchovga ham bog'liq."},
+    {"type":"h2","id":"kanal","text":"Telegram, sayt va CRM qanday bog'lanadi?"},
+    {"type":"p","text":"Mijoz reklama yoki qidiruvdan saytga keladi, chatda savol beradi, bot tasdiqlangan ma'lumotga tayangan holda javob beradi va zarur maydonlarni yig'adi. Integratsiya leadni CRMga yozadi, mas'ul menejerga xabar yuboradi va mijozga keyingi qadamni tushuntiradi. Javob topilmasa yoki vaziyat sezgir bo'lsa, suhbat insonga beriladi."},
+    {"type":"table","headers":["Qism","Vazifasi"],"rows":[["Sayt yoki Telegram","Mijoz kiradigan kanal"],["AI qatlami","Savolni tushunish va javob qoralamasini yaratish"],["Bilim bazasi","Narx, xizmat, qoida va tasdiqlangan fakt"],["Biznes qoidalari","Nima so'raladi, nima taqiqlanadi, qachon inson ulanadi"],["CRM","Lead, status, manba va keyingi aloqa"],["Analitika","Dialog, konversiya va xato sabablarini o'lchash"]]},
+    {"type":"linkp","text":"Alohida kanallar bo'yicha {telegram}, {site} va {crm} qo'llanmalarini ko'ring.","links":[{"token":"telegram","target":"/uz/telegram-bot-biznes-uchun/","anchor":"Telegram bot biznes uchun"},{"token":"site","target":"/uz/sayt-uchun-ai-bot/","anchor":"sayt uchun AI-bot"},{"token":"crm","target":"/uz/arizalarni-avtomatlashtirish/","anchor":"arizalarni avtomatlashtirish"}]},
+    {"type":"h2","id":"narx","text":"Biznes uchun AI-bot narxi nimaga bog'liq?"},
+    {"type":"p","text":"Narx «nechta tugma» bilan emas, jarayon va integratsiya murakkabligi bilan shakllanadi. Bir kanaldagi FAQ-bot bilan bir nechta filial, to'lov statusi, CRM va ko'p tilli bilim bazasiga ega yechim hajmi teng emas."},
+    {"type":"list","items":["Kanal soni: sayt, Telegram yoki bir nechta platforma.","Dialog ssenariysi va yig'iladigan maydonlar.","Bilim bazasi hajmi, sifati va yangilash jarayoni.","CRM, calendar, to'lov yoki ichki tizim integratsiyasi.","O'zbek, rus va boshqa tillar.","Admin, log, analitika va ruxsatlar.","Hosting, model sarfi va texnik qo'llab-quvvatlash.","Test, xodimlar uchun instruktsiya va ishga tushirishdan keyingi nazorat."]},
+    {"type":"linkp","text":"Baholash mezonlari va loyiha variantlari {price} sahifasida berilgan.","links":[{"token":"price","target":"/uz/chat-bot-narxi/","anchor":"chat-bot narxi qo'llanmasi"}]},
+    {"type":"h2","id":"xavfsizlik","text":"Ma'lumot va AI javoblari xavfsizligini qanday boshqarish kerak?"},
+    {"type":"p","text":"Mijozning shaxsiy ma'lumotini yig'ishdan oldin nima uchun kerakligi va qayerda saqlanishi aniqlanadi. Promptga parol, karta ma'lumoti yoki ortiqcha hujjat kiritilmaydi. Bot huquqiy, tibbiy va moliyaviy mavzuda qat'iy qaror bermasligi, tasdiqlanmagan narx yoki mavjud bo'lmagan xizmatni o'ylab topmasligi kerak."},
+    {"type":"list","items":["Faqat zarur maydonlarni yig'ish.","Bilim bazasiga kirishni rollar bilan cheklash.","Maxfiy ma'lumotni log va promptdan chiqarish.","Noaniq javob uchun «bilmayman» va eskalatsiya yo'lini berish.","Javob siyosati va taqiqlangan mavzularni hujjatlashtirish.","Real dialoglarda muntazam sifat tekshiruvi o'tkazish."]},
+    {"type":"h2","id":"bosqich","text":"AI-botni 7 bosqichda joriy etish"},
+    {"type":"list","items":["Maqsad va bitta asosiy jarayonni tanlash.","Hozirgi dialoglar va savollarni tahlil qilish.","Bilim bazasi egasi va yangilash tartibini belgilash.","Dialog, forma va insonga o'tish qoidalarini loyihalash.","Kichik test guruhida prototipni tekshirish.","CRM va analitikani ulab, xodimlarga instruktsiya berish.","Xatolarni haftalik ko'rib, keyin trafikni oshirish."]},
+    {"type":"p","text":"Birinchi versiyada hamma jarayonni avtomatlashtirish shart emas. Bitta o'lchanadigan vazifa — masalan, ishdan keyingi arizalarni qabul qilish — xavfni kamaytiradi va real ma'lumot beradi."},
+    {"type":"h2","id":"kpi","text":"AI-bot natijasini qanday o'lchash kerak?"},
+    {"type":"table","headers":["Ko'rsatkich","Nimani bildiradi"],"rows":[["Birinchi javob vaqti","Mijoz qancha kutadi"],["Yakunlangan dialog","Bot kerakli qadamgacha olib bordimi"],["To'liq lead ulushi","Majburiy maydonlar to'g'ri yig'ildimi"],["Insonga o'tkazish","Bot qachon va nega eskalatsiya qiladi"],["Noto'g'ri javob","Bilim bazasi yoki qoida qayerda zaif"],["CRMdagi sifatli lead","Menejer uchun murojaat foydalimi"],["Savdo statusi","Avtomatlashtirish biznes natijasiga qanday bog'langan"]]},
+    {"type":"p","text":"Dastlabki 2–4 hafta bazaviy ko'rsatkichlarni yig'ish davri bo'lishi mumkin. Natijani «AI ishlayapti» degan taassurot bilan emas, eski jarayon bilan bir xil ta'rifdagi metrikalar orqali solishtiring."},
+    {"type":"linkp","text":"Xodim uchun shaxsiy AI chat kerak bo'lsa, {chat}ni sinang. Platformalar o'rtasidagi farqni {compare}, o'zbekcha topshiriqlarni {prompts} orqali tekshiring.","links":[{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"o'zbek tilidagi AI chat"},{"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini taqqoslovi"},{"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta tayyor prompt"}]},
+    {"type":"p","text":"GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT'ning rasmiy mahsuloti emas. Biznes-bot imkoniyati loyiha talabi va integratsiyaga qarab alohida baholanadi."},
+    {"type":"cta","text":"Biznes jarayonini bepul muhokama qilish","href":"https://t.me/XGame_changerx"}
   ],
-  "body": [
-    {
-      "type": "figure",
-      "src": "/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp",
-      "srcSet": "/assets/blog/chat-gpt-uzbek-biznes-uchun-480.webp 480w, /assets/blog/chat-gpt-uzbek-biznes-uchun-800.webp 800w, /assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp 1200w",
-      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
-      "alt": "AI-bot ruscha, o‘zbekcha va aralash xabarlarni tekshirilgan javobga birlashtirmoqda",
-      "width": 1200,
-      "height": 630,
-      "loading": "eager",
-      "caption": "Maqola mavzusiga mos GPTBot.uz tahririy illyustratsiyasi."
-    },
-    {
-      "type": "h2",
-      "text": "AI Botlarining Texnik Arxitekturasi va Ishlash Prinsiplari"
-    },
-    {
-      "type": "p",
-      "text": "AI botlarining asosini tushunish uchun ularning texnik arxitekturasini o'rganish muhim. Ko'pincha NLP (Natural Language Processing) va ML (Machine Learning) modellaridan foydalaniladi. Ushbu modellar foydalanuvchi kiritgan matnni tahlil qilib, ma'noli javoblar shakllantiradi. Dasturchilar uchun bu modellar bilan ishlash, ularni o'qitish va optimallashtirish asosiy vazifalardan biridir. GPTBot.uz platformasi bu jarayonlarni soddalashtirish uchun API va SDK lar taqdim etadi."
-    },
-    {
-      "type": "h3",
-      "text": "AI Botlarni Platformalarga Integratsiyalash: Qadamlar"
-    },
-    {
-      "type": "p",
-      "text": "AI botlarni Telegram, WhatsApp yoki veb-sayt kabi platformalarga integratsiyalash uchun maxsus API interfeyslari ishlatiladi. Ushbu jarayon quyidagilarni o'z ichiga oladi: API kalitlarini olish, server-side mantiqni sozlash, xabar almashish protokollarini tushunish va xatoliklarni bartaraf etish. Har bir platformaning o'ziga xos talablari mavjud bo'lib, ularga rioya qilish zarur. Masalan, Telegram bot API'si webhook yoki polling usullarini qo'llab-quvvatlaydi."
-    },
-    {
-      "type": "list",
-      "items": [
-        "API orqali ma'lumot almashishni sozlash.",
-        "Xabar formatlarini tahlil qilish va qayta ishlash.",
-        "Xavfsizlik protokollarini joriy etish.",
-        "Botning ish faoliyatini monitoring qilish."
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "Murakkab AI Funksiyalari: Mashinani O'rganish va Chuqur O'rganish"
-    },
-    {
-      "type": "p",
-      "text": "AI botlariga qo'shimcha intellektual qobiliyatlar berish uchun mashinani o'rganish (ML) va chuqur o'rganish (DL) texnologiyalaridan foydalaniladi. Bu esa botlarga nafaqat savollarga javob berish, balki ma'lumotlarni tahlil qilish, prognozlash va hatto ijodiy vazifalarni bajarish imkonini beradi. Dasturchilar uchun bu texnologiyalarni tushunish va ularni o'z loyihalarida qo'llash muhim ahamiyatga ega. GPTBot.uz bu borada sizga kerakli vositalarni taqdim etadi."
-    },
-    {
-      "type": "h2",
-      "text": "O'zbekistonda AI Bot Ishlab Chiqish Ekosistemasi"
-    },
-    {
-      "type": "p",
-      "text": "O'zbekistonda IT sohasi jadal rivojlanmoqda va AI botlar sohasida ham ko'plab imkoniyatlar mavjud. Dasturchilar uchun mahalliy va xalqaro platformalar bilan ishlash, yangi texnologiyalarni o'rganish va o'z mahoratlarini oshirish uchun qulay sharoitlar yaratilmoqda. GPTBot.uz kabi platformalar bu ekotizimni qo'llab-quvvatlab, texnik yechimlar va resurslar bilan ta'minlaydi."
-    },
-    {
-      "type": "cta",
-      "text": "AI botlarni yaratish va integratsiyalash bo'yicha texnik maslahat uchun bizning mutaxassislarimiz bilan bog'laning.",
-      "href": "/uz/biznes-uchun-ai-bot/"
-    },
-    {
-      "type": "h2",
-      "text": "Asosiy xulosalar"
-    },
-    {
-      "type": "list",
-      "items": [
-        "AI-botlar O‘zbekiston IT sohasiga yangi imkoniyatlar ochmoqda.",
-        "Qo‘llanma dasturchilar uchun AI-bot yaratishning texnik jihatlarini yoritadi.",
-        "Til modeli, integratsiya va stsenariy asosiy komponentlar.",
-        "To‘g‘ri arxitektura ishonchli va kengaytiriladigan bot beradi."
-      ]
-    }
+  "faq":[
+    {"q":"ChatGPT va biznes AI-bot bir xilmi?","a":"Yo'q. ChatGPT tayyor umumiy mahsulot, biznes-bot esa kompaniya kanali, bilim bazasi, qoidasi va integratsiyasiga moslangan yechim."},
+    {"q":"AI-bot sotuvni oshirishni kafolatlaydimi?","a":"Yo'q. U javob va lead jarayonini yaxshilashi mumkin, lekin savdo trafik, taklif, narx va menejer ishiga ham bog'liq."},
+    {"q":"Telegram botni CRMga ulash mumkinmi?","a":"Ha, agar CRM va loyiha arxitekturasi integratsiyani qo'llasa. Maydonlar, dublikat va xato holati oldindan loyihalanadi."},
+    {"q":"AI-bot o'zbek va rus tilida ishlaydimi?","a":"Ko'p tilli dialog qurish mumkin. Har bir til uchun real savollar, terminlar va sifat tekshiruvi kerak."},
+    {"q":"Biznes AI-bot qancha turadi?","a":"Kanal, ssenariy, bilim bazasi, integratsiya, xavfsizlik va qo'llab-quvvatlashga bog'liq. Aniq narx briefdan keyin hisoblanadi."},
+    {"q":"Bot xato javob bersa nima bo'ladi?","a":"Bilim bazasi, cheklov, noaniqlik qoidasi va insonga o'tish mexanizmi bo'lishi kerak. Dialoglar muntazam tekshiriladi."},
+    {"q":"Birinchi pilot uchun qaysi vazifani tanlash kerak?","a":"Ko'p takrorlanadigan, qoidasi aniq va natijasi o'lchanadigan jarayonni: FAQ, ariza yig'ish yoki status haqida xabar berishni tanlang."}
   ],
-  "faq": [
-    {
-      "q": "AI botlarni yaratish uchun qanday dasturlash tillari ishlatiladi?",
-      "a": "AI botlarni yaratishda Python eng keng tarqalgan til hisoblanadi. Shuningdek, JavaScript, Java va C++ kabi tillar ham qo'llanilishi mumkin. NLP va ML kutubxonalari (TensorFlow, PyTorch, NLTK) muhim rol o'ynaydi."
-    },
-    {
-      "q": "O'zbekistonda AI bot rivojlanishi uchun qanday imkoniyatlar bor?",
-      "a": "O'zbekistonda IT sektorining o'sishi bilan AI botlar sohasida ham katta imkoniyatlar mavjud. Dasturchilar uchun yangi texnologiyalarni o'rganish, loyihalarda ishtirok etish va o'z mahoratlarini oshirish uchun ko'plab yo'nalishlar ochilmoqda."
-    },
-    {
-      "q": "AI botlarining texnik xavfsizligini qanday ta'minlash mumkin?",
-      "a": "Texnik xavfsizlikni ta'minlash uchun API kalitlarini himoyalash, ma'lumotlarni shifrlash, xavfsizlik protokollarini qo'llash va muntazam ravishda tizimni tekshirish muhim. GPTBot.uz xavfsizlik standartlariga rioya qiladi."
-    },
-    {
-      "q": "AI botlarni veb-saytga integratsiyalash jarayoni qanday?",
-      "a": "Veb-saytga integratsiyalash uchun odatda JavaScript kutubxonalari yoki iframe elementlaridan foydalaniladi. Ba'zi hollarda maxsus API orqali ham amalga oshirilishi mumkin. Bu jarayon veb-saytning texnik tuzilishiga bog'liq."
-    },
-    {
-      "q": "GPTBot.uz platformasi dasturchilarga qanday yordam beradi?",
-      "a": "GPTBot.uz platformasi dasturchilarga AI botlarni yaratish, ularni turli kanallarga integratsiyalash va murakkab funksiyalarni joriy etish uchun API, SDK va texnik dokumentatsiyani taqdim etadi. Bu esa rivojlanish jarayonini tezlashtiradi."
-    }
+  "cta":{"label":"AI-bot loyihasini muhokama qilish","href":"https://t.me/XGame_changerx"},
+  "internalLinks":[
+    {"target":"/uz/biznes-uchun-ai-bot/","anchor":"biznes uchun AI-bot","locale":"uz","type":"contextual","priority":1},
+    {"target":"/uz/chat-bot-narxi/","anchor":"chat-bot narxi","locale":"uz","type":"contextual","priority":2},
+    {"target":"/uz/telegram-bot-biznes-uchun/","anchor":"Telegram bot biznes uchun","locale":"uz","type":"contextual","priority":3},
+    {"target":"/uz/sayt-uchun-ai-bot/","anchor":"sayt uchun AI-bot","locale":"uz","type":"contextual","priority":4},
+    {"target":"/uz/arizalarni-avtomatlashtirish/","anchor":"arizalarni avtomatlashtirish","locale":"uz","type":"contextual","priority":5},
+    {"target":"/uz/gpt-uzbek-tilida/","anchor":"o'zbek tilidagi AI chat","locale":"uz","type":"contextual","priority":6},
+    {"target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"AI chatlarni taqqoslash","locale":"uz","type":"contextual","priority":7},
+    {"target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"o'zbekcha AI promptlar","locale":"uz","type":"contextual","priority":8}
   ],
-  "internalLinks": [
-    {
-      "target": "/uz/biznes-uchun-ai-bot/",
-      "anchor": "AI botlarni yaratish va integratsiyalash bo'yicha texnik maslahat",
-      "type": "contextual",
-      "locale": "uz"
-    },
-    {
-      "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
-      "anchor": "AI botlarining biznesdagi o'rni",
-      "type": "contextual",
-      "locale": "uz"
-    },
-    {
-      "target": "/uz/telegram-bot-biznes-uchun/",
-      "anchor": "Telegram botlarining texnik imkoniyatlari",
-      "type": "contextual",
-      "locale": "uz"
-    },
-    {
-      "target": "/uz/fitnes-klub-uchun-ai-bot/",
-      "anchor": "Fitnes-klub uchun AI-bot"
-    }
-  ],
-  "ogTitle": "AI Botlar: Uzbekistonda Texnik Qo'llanmalar va Ishlab Chiqish",
-  "ogDescription": "O'zbekistondagi dasturchilar va IT mutaxassislari uchun AI botlarni yaratish va integratsiyalash bo'yicha texnik qo'llanma.",
-  "ogImage": "https://gptbot.uz/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp",
-  "canonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
-  "robotsIndex": true,
-  "robotsFollow": true,
-  "author": "GPTBot",
-  "schemaTypes": [
-    "Article",
-    "FAQPage",
-    "BreadcrumbList"
-  ],
-  "datePublished": "2026-06-24",
-  "dateModified": "2026-07-27",
-  "updatedAt": "2026-07-27T00:00:00.000Z"
+  "ogTitle":"ChatGPT yoki biznes AI-bot: O'zbekiston uchun qo'llanma",
+  "ogDescription":"Oddiy AI chat, Telegram va sayt boti, CRM, xavfsizlik, narx va natijani o'lchash o'rtasidagi farq.",
+  "ogImage":"https://gptbot.uz/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp",
+  "canonical":"https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+  "hreflangUz":"/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+  "robotsIndex":true,"robotsFollow":true,"author":"GPTBot Team",
+  "datePublished":"2026-07-27","dateModified":"2026-07-30",
+  "schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
+  "createdAt":"2026-07-27T00:00:00.000Z","updatedAt":"2026-07-30T00:00:00.000Z",
+  "sources":[
+    {"title":"OpenAI Help Center — What is ChatGPT?","url":"https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq","note":"ChatGPTning umumiy imkoniyatlari va javoblarni tekshirish zarurati; 2026-07-30 kuni tekshirildi."}
+  ]
 }

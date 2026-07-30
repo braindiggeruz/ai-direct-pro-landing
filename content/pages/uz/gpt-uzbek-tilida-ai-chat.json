@@ -15,8 +15,8 @@
   ],
   "searchIntent": "informational",
   "h1": "GPT o‘zbek tilida: AI chatdan qanday foydalanish mumkin",
-  "title": "GPT o‘zbek tilida: AI chatdan qanday foydalanish | GPTBot.uz",
-  "description": "GPT o‘zbek tilida qanday ishlaydi: AI chatga savol berish, matn yozish, tarjima, o‘qish, marketing va biznes uchun amaliy misollar.",
+  "title": "GPT o‘zbek tilida qanday ishlatiladi: qo‘llanma",
+  "description": "GPT o‘zbek tilida qanday ishlaydi: yaxshi prompt yozish, tarjima, o‘qish, marketing va biznes uchun amaliy misollar hamda xavfsizlik qoidalari.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida-ai-chat/",
   "ogTitle": "GPT o‘zbek tilida: AI chatdan foydalanish qo‘llanmasi",
@@ -121,6 +121,12 @@
 
     { "type": "h2", "text": "GPTBot.uz O‘zbekistondagi foydalanuvchilar uchun nimasi bilan qulay?" },
     { "type": "p", "text": "GPTBot.uz — til modellari asosidagi mustaqil AI servis. U o‘zbek va rus tilida AI chat beradi: talabalar, marketologlar, tadbirkorlar va Telegram hamda Instagram orqali savdo qiluvchilar uchun qulay. Shaxsiy chatdan biznes darajasiga o‘tish mumkin: saytga AI chat qo‘yish, Telegram bot yaratish va arizalarni CRM’ga uzatish." },
+    { "type": "linkp", "text": "Amaliyotni davom ettirish uchun {prompts}ni nusxalang, talabalarga mos yondashuvni {students}dan o‘qing. Telefon va kompyuterda xavfsiz kirish uchun {download}, AI servis tanlash uchun {compare} qo‘llanmalari tayyorlangan.", "links": [
+      { "token": "prompts", "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/", "anchor": "50 ta o‘zbekcha prompt" },
+      { "token": "students", "target": "/uz/blog/chatgpt-talabalar-uchun/", "anchor": "ChatGPT talabalar uchun" },
+      { "token": "download", "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/", "anchor": "ChatGPTni xavfsiz ochish" },
+      { "token": "compare", "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/", "anchor": "ChatGPT, Claude va Gemini taqqoslovi" }
+    ] },
     { "type": "linkp", "text": "Rus tilidagi vazifalar uchun {ruchat} va {russkom}, xizmat shartlarini solishtirish uchun {tariffs} sahifalari mavjud. Biznesga joriy etish bo‘yicha {business}.", "links": [
       { "token": "ruchat", "target": "/ru/gpt-chat/", "anchor": "rus tilidagi GPT chat" },
       { "token": "russkom", "target": "/ru/gpt-na-russkom/", "anchor": "rus tilida GPT" },
@@ -159,6 +165,10 @@
   ],
   "internalLinks": [
     { "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/", "anchor": "O‘zbek tilida 50 ta tayyor prompt", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/blog/chatgpt-talabalar-uchun/", "anchor": "ChatGPT talabalar uchun", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/", "anchor": "ChatGPTni telefon va kompyuterda ochish", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/", "anchor": "ChatGPT, Claude va Gemini", "locale": "uz", "type": "contextual" },
     { "target": "/ru/gpt-chat/", "anchor": "GPT chat online", "locale": "uz", "type": "contextual" },
     { "target": "/ru/gpt-na-russkom/", "anchor": "Rus tilida GPT", "locale": "uz", "type": "contextual" },
     { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
@@ -169,7 +179,7 @@
     { "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari", "locale": "uz", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "lastReviewedAt": "2026-07-12",
+  "lastReviewedAt": "2026-07-30",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-07-12"
+  "updatedAt": "2026-07-30"
 }
