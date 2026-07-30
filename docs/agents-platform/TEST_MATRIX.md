@@ -1,5 +1,39 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## P3.1 production release baseline (2026-07-30)
+
+| Проверка | Результат |
+| --- | --- |
+| Full repository | **925/925**, 36 suites, 0 fail |
+| Owner Control Center | **69/69** |
+| Post-merge critical corpus | **151/151** |
+| Automation runtime + n8n inventory/retirement | **23/23** |
+| React Router route parity | **26/26**, +8 protected Owner routes, public/static delta 0 |
+| Root / Functions TypeScript | pass / pass |
+| Scoped ESLint | pass |
+| Root production build | pass; 111 pages, 109 articles, sitemap 223 |
+| Pages Functions build | pass |
+| Backend typecheck / build | pass / pass |
+| Root / backend production dependency audits | 0 / 0 findings |
+| Repository secret scan | clean over 2630 files |
+| Fresh production D1 backup restore | `integrity_check=ok` |
+| Migration `0025` | only pending migration before; applied; none pending after |
+| Production Owner/API canary | pass |
+| Production Queue replay | pass; synthetic missing ref safely dead-lettered |
+| Production KV lockout | pass across process boundary |
+| Production route/header smoke | pass |
+| Synthetic operational cleanup | 0 rows remaining; 5 bounded audit events retained |
+
+Security verdict: AUTHENTICATION, AUTHORIZATION, LEGACY_ADMIN_BOUNDARY,
+TENANT_ISOLATION, AUDIT_SAFETY, IDEMPOTENCY, MIGRATION_SAFETY,
+NO_IMPERSONATION, NO_N8N, NO_AUTO_PUBLICATION and NO_PUBLIC_MARKETPLACE all
+PASS.
+
+The built-in browser webview did not attach during the release session.
+Production UI evidence is the exact immutable asset, eight live SPA routes,
+route/role/loading/error tests and API enforcement; no visual browser run is
+claimed.
+
 ## Исходный baseline P0.0 (2026-07-17, HEAD `5bf3d56`)
 
 | Проверка | Результат |

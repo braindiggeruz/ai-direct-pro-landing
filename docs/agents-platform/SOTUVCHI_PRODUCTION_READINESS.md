@@ -1,5 +1,17 @@
 # SOTUVCHI — production readiness checklist (P2.7)
 
+## Current readiness update — 2026-07-30
+
+The historical readiness sections below predate the completed R0.4 and P3.1
+production releases. Current authority is
+`release/R1_READINESS_20260730.md` and `release/R1_OWNER_CHECKLIST.md`.
+
+Technical production gates through P3.1 are complete. R1 has not started. Its
+remaining owner/provider prerequisite is a dedicated Telegram Agents bot
+created and owned in BotFather, verified with `getMe`, and installed through
+the protected credential path with a distinct webhook secret. After that, R1
+still requires separate authorization and selection of 1–3 verified stores.
+
 Дата документа: 2026-07-28. Этап: P2.7 — Analytics и pilot readiness.
 
 ## R0.4 local preparation evidence — production всё ещё заблокирован

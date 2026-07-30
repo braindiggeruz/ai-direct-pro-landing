@@ -1,10 +1,10 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "P3.1 Owner Control Center",
-  "stage_status": "completed_on_feature_branch",
-  "last_completed_stage": "P3.1 Owner Control Center (feature branch only)",
-  "next_stage": "P3.1 code review and controlled merge planning",
+  "current_stage": "R1 controlled Sotuvchi pilot readiness",
+  "stage_status": "p3_1_released_r1_waiting_for_owner_provider_identity",
+  "last_completed_stage": "P3.1 Owner Control Center production release",
+  "next_stage": "Owner creates the dedicated Agents bot identity, then a separately authorized R1 pilot starts with 1-3 verified stores",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -21,18 +21,33 @@
     "backups": "pre-migration and post-migration D1 exports verified readable, stored outside Git"
   },
   "p3_1_owner_control_center": {
-    "status": "complete_on_feature_branch",
+    "status": "released_to_production",
     "branch": "feature/p3.1-owner-control-center",
     "feature_branch_status": "PUSHED",
-    "code_test_head": "5f3d64548adb180627e10599396122edb04b85bf",
-    "merged": false,
-    "deployed": false,
-    "migration_0025_applied_remotely": false,
-    "production_mutation": false,
+    "code_test_head": "3d646b95d74e4f84965ea727dcba0a10bbb93bc8",
+    "merge_commit": "9629db58e6b7ec334b680acad053fce161d05137",
+    "merged": true,
+    "deployed": true,
+    "pages_deployment_id": "20d4c6e2-a69f-489a-b662-2d59122ac8ed",
+    "pages_deployment_url": "https://20d4c6e2.ai-direct-pro-landing.pages.dev",
+    "migration_0025_applied_remotely": true,
+    "migration_0025_applied_at": "2026-07-30T10:48:11Z",
+    "production_mutation": true,
     "pilot_started": false,
     "agents_bot_created": false,
     "marketplace_launched": false,
+    "fresh_backup": "F:\\Claude\\gptbot-p3.1-production-backups\\20260730-p3.1-pre0025-9629db5\\gptbot-ai-drafts-prod-pre0025.sql",
+    "fresh_backup_sha256": "2B50D4388B9D9AC458B0AC195B2FBBAEDCDFF686347FEBB2CEFC0D1E61A093F4",
+    "backup_integrity": "PASS: SQLite integrity_check=ok after an in-memory restore",
+    "production_canary": "PASS: owner/support role matrix, legacy-admin boundary, tenant override rejection, exactly-once audit/idempotency, store lifecycle, pilot lifecycle, Queue/DLQ replay, KV lockout persistence, retired endpoint, fail-closed Agents webhook, and synthetic cleanup",
+    "production_canary_audit_events_retained": 5,
+    "synthetic_operational_rows_remaining": 0,
+    "jwt_audience": "not present in the legacy JWT contract; issuer, HS256, expiry, email and role are verified",
+    "cloudflare_auto_deploy": false,
+    "railway_github_deploy_trigger": "disconnected",
+    "seo_scheduler": "disabled_manually",
     "authorization": "PASS",
+    "legacy_admin_boundary": "PASS",
     "tenant_isolation": "PASS",
     "audit_safety": "PASS",
     "idempotency": "PASS",
@@ -40,12 +55,12 @@
     "no_public_marketplace": "PASS",
     "no_n8n": "PASS",
     "no_auto_publication": "PASS",
-    "dedicated_tests": "66/66",
-    "full_tests": "922/922 across 36 suites"
+    "dedicated_tests": "69/69",
+    "full_tests": "925/925 across 36 suites"
   },
-  "next_stage_note": "P3.1 implementation and tests are complete and pushed only to feature/p3.1-owner-control-center. The next task is code review and controlled merge planning. This state is not authorization to merge, deploy, apply migration 0025, create a bot, onboard stores, or start R1. Production remains on the completed R0.4 release; first-party automation is the sole path, n8n is retired, automatic publication is disabled, and GPTBot AI Market is not launched.",
-  "governance_gap": "Resolved for P3.1 by the explicitly authorized feature-only implementation and audit record. Merge, deployment, migration 0025 and the R1 pilot remain separate owner-authorized stages.",
-  "last_commit": "5f3d64548adb180627e10599396122edb04b85bf",
+  "next_stage_note": "P3.1 is reviewed, merged, migrated, manually deployed and canary-verified in production. R1 has not started. The remaining owner/provider prerequisite is a dedicated Telegram Agents bot identity created in BotFather, verified with getMe, and installed through the protected credential path with a distinct webhook secret. After that, select 1-3 verified stores and execute the controlled R1 runbook under separate authorization. First-party automation remains the sole path, n8n is retired, automatic publication and the SEO scheduler remain disabled, Cloudflare and Railway auto-deploy remain off/disconnected, and GPTBot AI Market is not launched.",
+  "governance_gap": "Resolved. P3.1 production release followed review, backup, migration, exact-source manual deployment, canaries, cleanup and rollback evidence. R1 remains a separate owner-authorized pilot.",
+  "last_commit": "9629db58e6b7ec334b680acad053fce161d05137",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -88,9 +103,11 @@
     "offline_backup": "F:\\Claude\\gptbot-r0.3-backups\\final-e6cbae3-20260728\\gptbot-repo-full-final-e6cbae3.bundle (verified complete, outside the repository, never published)"
   },
   "updated_at": "2026-07-30",
-  "blocked": false,
-  "blocked_stage": null,
-  "blockers": [],
+  "blocked": true,
+  "blocked_stage": "R1 controlled Sotuvchi pilot",
+  "blockers": [
+    "Owner/provider action: create and retain ownership of a dedicated Telegram Agents bot in BotFather, then install the verified identity, token and distinct webhook secret through the protected credential path. Do not send credential values in chat."
+  ],
   "parallel_preparation": {
     "R0.4-prep": {
       "status": "completed_locally",
@@ -188,11 +205,11 @@
     "remote_d1_table_accounting": "64 application tables from migrations 0001-0024 + d1_migrations + _cf_KV + sqlite_sequence"
   },
   "baseline": {
-    "build": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0; corepack yarn build exit 0 (207 sitemap entries, 98 articles prerendered); backend typecheck and build exit 0; wrangler pages functions build compiled successfully",
-    "tests": "full repository 922/922 across 36 suites, 0 failures. P3.1 owner-control-center 66/66; react-router migration 26/26 with exactly eight allowlisted protected owner routes and zero public/static route delta.",
+    "build": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0; production build exit 0 (223 sitemap entries, 109 articles and 111 pages prerendered); backend typecheck and build exit 0; wrangler pages functions build compiled successfully",
+    "tests": "full repository 925/925 across 36 suites, 0 failures. P3.1 owner-control-center 69/69; react-router migration 26/26 with exactly eight allowlisted protected owner routes and zero public/static route delta.",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors",
     "lint": "eslint clean on every file changed in R0.4. Six pre-existing no-explicit-any errors remain at src/admin/lib/api.ts:71 and :76, unchanged by this release and confirmed pre-existing by linting the file at the previous HEAD.",
-    "security": "scripts/scan-secrets.ts clean over 2523 files; git diff --check clean; git fsck --full exit 0 with one harmless dangling commit and no corruption; built browser assets contain no credential value. P3.1 authorization, tenant isolation, audit safety, idempotency, no impersonation, no public marketplace, no n8n and no auto-publication all PASS."
+    "security": "scripts/scan-secrets.ts clean over 2630 files; git diff --check clean; git fsck --full exit 0 with only unreachable dangling objects and no corruption; built browser assets contain no credential value. P3.1 authentication, authorization, legacy-admin boundary, tenant isolation, audit safety, idempotency, migration safety, no impersonation, no public marketplace, no n8n and no auto-publication all PASS."
   },
   "n8n_disposition": {
     "value": "RETIRED",

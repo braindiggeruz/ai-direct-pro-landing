@@ -1,163 +1,154 @@
-# P3.1 Owner Control Center — PR implementation record
+# P3.1 Owner Control Center — production release record
 
 Date: 2026-07-30
-Branch: `feature/p3.1-owner-control-center`
-Status: implementation complete; feature branch only; not merged; not deployed.
+
+Feature head: `3d646b95d74e4f84965ea727dcba0a10bbb93bc8`
+
+Merge commit: `9629db58e6b7ec334b680acad053fce161d05137`
+
+Status: reviewed, merged, migrated, manually deployed and canary-verified.
 
 ## Scope
 
-P3.1 adds an internal platform control surface under `/admin-tools/agents`.
-It reuses the existing admin SPA and JWT issuer. It does not add a public
-marketplace, seller impersonation, payment custody, escrow, automatic
-publication, n8n, or a GitHub publication path.
-
-The internal screens are:
+P3.1 adds an internal control surface under `/admin-tools/agents`:
 
 | Screen | Route |
 | --- | --- |
-| Platform overview and runtime policy | `/admin-tools/agents` |
-| Store/onboarding inventory | `/admin-tools/agents/stores` |
+| Platform overview | `/admin-tools/agents` |
+| Store inventory | `/admin-tools/agents/stores` |
 | Safe store detail | `/admin-tools/agents/stores/:storeId` |
-| PII-minimized order projection | `/admin-tools/agents/orders` |
-| Handoff state without conversation text | `/admin-tools/agents/handoffs` |
-| First-party automation ledger and DLQ replay | `/admin-tools/agents/automation` |
-| Append-only owner audit timeline | `/admin-tools/agents/audit` |
+| PII-minimized orders | `/admin-tools/agents/orders` |
+| Content-free handoff status | `/admin-tools/agents/handoffs` |
+| First-party automation and DLQ replay | `/admin-tools/agents/automation` |
+| Append-only owner audit | `/admin-tools/agents/audit` |
 | Controlled pilot roster | `/admin-tools/agents/pilot` |
 
-There are no public navigation links to these routes. GPTBot AI Market is a
-disabled placeholder only.
+It does not add a public marketplace, seller impersonation, payment custody,
+escrow, automatic publication, n8n or a GitHub publication writer.
 
-## Authorization contract
+## Independent review and fixes
 
-All API handlers use the centralized, fail-closed `requirePlatformRole` guard.
-Role and identity come only from the verified JWT. Store organization and
-automation tenant are resolved on the server; request bodies cannot override
-them.
+The final review found and fixed three release defects:
 
-| Caller | Read owner projections | Suspend/restore | Pilot activate/pause | DLQ replay |
-| --- | ---: | ---: | ---: | ---: |
-| no/malformed/expired/foreign token | no | no | no | no |
-| unknown role / seller | no | no | no | no |
-| `support_readonly` | yes | no | no | no |
-| `platform_owner` | yes | yes | yes | yes |
-| legacy `admin` | yes, mapped explicitly to `platform_owner` | yes | yes | yes |
+1. pagination offset is now bounded to `0..100000`;
+2. `support_readonly` can use the shared admin shell and Owner reads but cannot
+   cross into legacy SEO-admin reads or mutations;
+3. the reintroduced retired n8n runtime field was removed from the Owner
+   overview API, UI and tests.
 
-The legacy alias is intentionally limited to the existing signed `admin` claim.
-There is no wildcard or fallback role mapping.
+Final review verdict:
 
-## API inventory
+```text
+AUTHENTICATION=PASS
+AUTHORIZATION=PASS
+LEGACY_ADMIN_BOUNDARY=PASS
+TENANT_ISOLATION=PASS
+AUDIT_SAFETY=PASS
+IDEMPOTENCY=PASS
+MIGRATION_SAFETY=PASS
+NO_IMPERSONATION=PASS
+NO_N8N=PASS
+NO_AUTO_PUBLICATION=PASS
+NO_PUBLIC_MARKETPLACE=PASS
+```
 
-| Method | Path | Minimum role |
-| --- | --- | --- |
-| GET | `/api/admin/agents/overview` | `support_readonly` |
-| GET | `/api/admin/agents/stores` | `support_readonly` |
-| GET | `/api/admin/agents/stores/:storeId` | `support_readonly` |
-| POST | `/api/admin/agents/stores/:storeId/suspend` | `platform_owner` |
-| POST | `/api/admin/agents/stores/:storeId/restore` | `platform_owner` |
-| GET | `/api/admin/agents/orders` | `support_readonly` |
-| GET | `/api/admin/agents/handoffs` | `support_readonly` |
-| GET | `/api/admin/agents/automation` | `support_readonly` |
-| POST | `/api/admin/agents/automation/replay` | `platform_owner` |
-| GET | `/api/admin/agents/audit` | `support_readonly` |
-| GET/POST | `/api/admin/agents/pilot` | read: `support_readonly`; write: `platform_owner` |
+## Authorization and mutation contract
 
-Listings have bounded pagination and closed-list filters. Unknown mutation
-fields are rejected. Mutation bodies are limited to 2 KiB.
+| Caller | Owner reads | Owner mutations | Legacy SEO admin |
+| --- | ---: | ---: | ---: |
+| no/malformed/expired/wrong-issuer token | no | no | no |
+| seller or unknown role | no | no | no |
+| `support_readonly` | yes | no | no |
+| `platform_owner` | yes | yes | yes |
+| signed legacy `admin` | mapped explicitly to `platform_owner` | yes | yes |
 
-## High-impact operation contract
+The legacy JWT contract has no audience claim. It verifies HS256, the
+`gptbot-seo-admin` issuer, expiry and required email/role claims.
 
 Every mutation requires a closed-list reason and a bounded idempotency key.
-Store suspension, pilot activation/pause, and DLQ replay additionally require
-the operator to type the exact target ID. The UI provides the workflow, but
-every condition is independently enforced by the server.
+Suspension, pilot activation/pause and DLQ replay also require exact typed
+confirmation. Request bodies cannot override organization or automation
+tenant authority.
 
-The same idempotency key may replay only the same actor/action/target/org/reason
-tuple. Reusing it for another logical operation returns
+## Migration and audit
+
+Migration `0025_owner_control_center_audit.sql` is additive and creates only:
+
+- `owner_audit_events`;
+- `owner_pilot_stores`;
+- four named indexes.
+
+It contains no `DROP` or `ALTER`. Audit metadata is allowlisted and limited to
+2 KiB in the application and D1. Audit insert and domain transition are one
+guarded D1 batch. A duplicate logical operation has one effect and one audit
+event; reusing its idempotency key for a changed logical operation returns
 `409 idempotency_conflict`.
-
-## Audit model and migration
-
-Additive migration `migrations/0025_owner_control_center_audit.sql` creates:
-
-- `owner_audit_events`, an append-only application table with a globally unique
-  idempotency key;
-- `owner_pilot_stores`, a versioned per-store pilot state;
-- indexes for event time, target, actor, and pilot state.
-
-Audit rows contain only actor email/role, closed action and reason tokens,
-target/org references, request ID, idempotency key, timestamp, and allowlisted
-before/after metadata. The metadata is bounded to 2 KiB in application code and
-the database. Passwords, JWTs, headers, cookies, raw Telegram messages,
-conversation text, buyer contact data, and arbitrary request bodies have no
-audit column or projection.
-
-Audit insert and domain transition are one D1 batch. The domain write depends
-on the newly generated audit event ID. A state/version conflict therefore
-creates neither a domain effect nor a ghost audit. Duplicate requests have one
-logical effect and one audit row.
-
-Automation replay commits the audit row, guarded job transition, and
-`dlq_replayed` ledger event atomically, then sends the bounded queue reference.
-If queue delivery fails, the committed `queued` row remains recoverable by the
-scheduled first-party dispatcher. A duplicate API request does not send again.
 
 ## Verification
 
-The dedicated behavioral suite passes `66/66` and exercises
-authentication, role boundaries, PII-minimized projections, tenant override
-rejection, bounded input, confirmations, exactly-once audit behavior, atomic
-rollback, pilot invariants, DLQ replay, legacy admin compatibility, and absence
-of public marketplace/payment surfaces.
+- Owner Control Center tests: `69/69`.
+- Full repository: `925/925` across 36 suites.
+- Post-merge critical corpus: `151/151`.
+- TypeScript: root and Functions gates pass.
+- Scoped ESLint, production root build, Pages Functions build, backend
+  typecheck/build and both production dependency audits pass.
+- Route parity: `26/26`; exactly eight protected Owner routes, zero public or
+  static route delta.
+- Exact merged build: 111 pages, 109 articles, sitemap 223.
+- Repository and built-asset credential scans pass.
 
-The complete local repository corpus passes `922/922` across 36 suites.
-Functions and SPA TypeScript checks, scoped lint, production build, Pages
-Functions build, backend typecheck/build, migration rehearsal, route parity,
-architecture boundaries, repository secret scan, and built-asset credential
-scan pass.
+## Production release
 
-## Deployment prerequisites
+- Fresh verified backup:
+  `F:\Claude\gptbot-p3.1-production-backups\20260730-p3.1-pre0025-9629db5`.
+- Backup SHA-256:
+  `2B50D4388B9D9AC458B0AC195B2FBBAEDCDFF686347FEBB2CEFC0D1E61A093F4`.
+- Restored SQLite integrity check: `ok`.
+- Only migration `0025` was pending and applied. D1 advanced from 67 to 69
+  tables and from 98 to 102 named indexes; no migration remains pending.
+- Manual exact-source Pages deployment:
+  `20d4c6e2-a69f-489a-b662-2d59122ac8ed`.
+- Immutable URL:
+  `https://20d4c6e2.ai-direct-pro-landing.pages.dev`.
+- Canonical URL: `https://gptbot.uz`.
 
-P3.1 is not authorized for deployment by this record. A later reviewed release
-must, in order:
+Production canaries verified owner/support/seller/unknown roles, token expiry
+and issuer, legacy-admin separation, all Owner read routes, mutation
+validation, tenant override rejection, store and pilot lifecycle,
+idempotency, exactly-once bounded audit, Queue/Worker replay, KV lockout
+persistence, the retired `410` endpoint and fail-closed Agents webhook.
 
-1. merge an approved PR without bypassing branch protection;
-2. take and verify a D1 backup;
-3. apply migration `0025` to the intended non-production environment first;
-4. run migration bootstrap and synthetic upgrade checks;
-5. verify JWT issuer/secret, D1, Queue, and first-party automation bindings;
-6. run owner authorization, audit, tenant, Sotuvchi, order/inventory, and
-   automation smoke suites;
-7. verify Cloudflare and Railway deployment policy before any production
-   action;
-8. perform a separate, explicitly authorized production rollout.
+All synthetic operational rows were removed by exact ID. Five bounded P3.1
+audit events remain as release evidence. Existing production draft rows were
+unchanged and no draft was published.
 
-Do not re-enable the SEO scheduler, n8n, automatic publication, Cloudflare
-auto-deploy, or Railway auto-deploy as part of P3.1.
+The built-in browser webview did not attach. UI evidence is therefore exact
+production asset identity, eight live SPA routes, route/role/loading/error
+behavior tests and API enforcement; no visual browser run is claimed.
 
-## Rollback
+## Freeze and rollback
 
-Before production, rollback is simply abandoning/reverting the feature branch;
-no remote migration has been applied. After a future authorized deployment:
+Cloudflare Pages automatic deployments remain disabled, Railway's GitHub
+trigger remains disconnected and the GitHub SEO scheduler remains
+`disabled_manually`. n8n remains retired and automatic publication remains
+disabled.
 
-1. pause owner mutations and the R1 pilot;
-2. roll back the application to the last reviewed release;
-3. retain `owner_audit_events` and `owner_pilot_stores` for evidence;
-4. do not drop migration `0025` tables;
-5. reconcile queued automation jobs through the first-party runtime;
-6. investigate by `request_id` and audit event ID before resuming.
-
-Tenant isolation failure, PII leakage, duplicate order/inventory effects, or an
-unauthorized mutation is a hard stop, not a routine retry.
+The rollback checkpoint is Pages deployment
+`7fd0e9df-c782-4cc3-a3c4-5ed7270666b0` at source
+`5d4c7e8d1db036e4c04f1a7413b4e442aecc99f0`, plus the verified pre-0025 D1
+export. A code rollback must retain the additive audit/pilot tables and audit
+evidence; do not drop migration `0025`.
 
 ## Explicit state
 
 ```text
 P3.1_IMPLEMENTATION=COMPLETE
 P3.1_TESTS=PASS
-P3.1_FEATURE_BRANCH=PUSHED
-P3.1_MERGED=NO
-P3.1_DEPLOYED=NO
-MIGRATION_0025_APPLIED_REMOTE=NO
+P3.1_MERGED=YES
+P3.1_DEPLOYED=YES
+MIGRATION_0025_APPLIED_REMOTE=YES
+PRODUCTION_CANARIES=PASS
+SYNTHETIC_OPERATIONAL_ROWS_REMAINING=0
 R1_PILOT_STARTED=NO
 AGENTS_BOT_CREATED=NO
 MARKETPLACE_LAUNCHED=NO

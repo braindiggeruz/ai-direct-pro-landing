@@ -1,34 +1,40 @@
 # R1 owner checklist
 
-Nothing is pre-approved or pre-checked.
+Status: technical gates complete; pilot not started.
 
-- [ ] R0.3 credential incident is complete: replacements installed, old
-  credentials revoked, and both real consumers validated.
-- [ ] R0.3B remote rewrite completed through the gated executor.
-- [ ] A fresh canonical clone is clean and all rewritten refs match the
-  allowlisted manifest.
-- [ ] Production environment contract passes without printing values.
-- [ ] Root dependency audit is clean, or the exact temporary RSC-only
-  reachability decision has been re-reviewed before its review-by date and an
-  isolated React Router 8 migration spike has resolved the R1 blocker.
-- [ ] D1 export is complete, checksum recorded outside Git, and restore owner is
-  present.
-- [ ] Migrations 0013–0024 checksums and ordered production application are
-  explicitly approved.
-- [ ] Cloudflare Queue, DLQ, Worker, Cron and Pages producer bindings are
-  created from the approved names-only contract.
-- [ ] A controlled first-party job proves duplicate-safe RU/UZ Draft Inbox
-  creation, `pending_review`, DLQ observability and no automatic publication.
-- [ ] n8n has a complete owner-verifiable disposition: fully ROTATED or fully
-  RETIRED. A generated replacement or repository flag alone is insufficient.
-- [ ] GitHub SEO scheduler, every automation writer and the production n8n
-  workflow are disabled before a RETIRED disposition is accepted.
-- [ ] Cloudflare and Railway deployment artifacts/triggers are approved.
-- [ ] Agents bot username is known, syntactically valid, and not a protected
-  Lead/Javob identity.
-- [ ] Agents webhook mutation is explicitly approved after exact `getMe`
-  identity verification.
-- [ ] Isolated pilot tenant and pilot users are named; no real production order
-  is created by automation.
-- [ ] Rollback owner, last known-good artifacts, incident channel, stop
-  conditions, and restore decision tree are acknowledged.
+## Completed and verified
+
+- [x] Credential incident remediation and clean canonical repository.
+- [x] Production environment names/types checked without printing values.
+- [x] Production dependency audits and secret scans pass.
+- [x] Fresh production D1 export, checksum and restore validation.
+- [x] Migrations through `0025` applied in order; none pending.
+- [x] D1 tables, indexes, CHECK limits and critical row counts verified.
+- [x] Cloudflare Queue/DLQ/Worker and Pages producer bindings verified.
+- [x] First-party automation replay and duplicate suppression verified.
+- [x] n8n retired; legacy ingest permanently `410`.
+- [x] Automatic publication disabled.
+- [x] GitHub SEO scheduler `disabled_manually`.
+- [x] Cloudflare automatic deployments disabled.
+- [x] Railway GitHub deployment trigger disconnected.
+- [x] P3.1 exact-source manual deployment and production canaries pass.
+- [x] Previous Pages deployment and D1 rollback checkpoint recorded.
+- [x] Synthetic canary operational data removed.
+
+## Owner/provider prerequisites
+
+- [ ] Create and retain ownership of a dedicated Telegram Agents bot in
+  BotFather.
+- [ ] Verify the exact identity through `getMe` and confirm it is distinct from
+  protected Lead/Javob identities.
+- [ ] Install its token and a new, distinct webhook secret through the
+  protected credential path; never put values in chat.
+- [ ] Separately authorize and configure the exact webhook.
+- [ ] Name 1–3 consented, verified pilot stores and their owners.
+- [ ] Assign the pilot incident/support owner and communication path.
+- [ ] Separately authorize the controlled R1 start and acknowledge hard stops.
+
+Nothing in this checklist authorizes reconnecting Railway, enabling automatic
+deployment, enabling a scheduler, restoring n8n, enabling automatic
+publication, launching a public marketplace or creating a synthetic provider
+identity.

@@ -1,5 +1,30 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-029 (2026-07-30, P3.1) Owner Control Center released; R1 remains a separate provider-gated pilot
+
+P3.1 was released from merge commit
+`9629db58e6b7ec334b680acad053fce161d05137` only after independent review,
+fresh verified D1 backup, additive migration `0025`, exact-source manual Pages
+deployment and production canaries.
+
+The release preserves these decisions:
+
+- `support_readonly` may read Owner projections but cannot use legacy SEO-admin
+  reads or any mutation;
+- tenant and automation authority are resolved server-side;
+- owner audit and the guarded domain transition are one D1 batch;
+- idempotency binds actor, action, target, organization and reason;
+- the legacy JWT has no audience contract, but requires HS256, the configured
+  issuer, expiry, email and role;
+- first-party D1 + Queue automation is the sole supported automation path;
+- n8n is retired, automatic publication is disabled and the public marketplace
+  remains out of scope.
+
+P3.1 completion is not authorization to start R1. R1 remains gated by
+owner/provider creation and ownership of a dedicated Telegram Agents bot,
+protected credential installation, exact `getMe` verification, separate
+webhook authorization and selection of 1–3 verified stores.
+
 ## D-026 (2026-07-28, R0.4-RC1) Поддерживаемая Router lineage без изменения release sequence
 
 **Уязвимая lineage удалена, а не скрыта исключением.** Root web runtime

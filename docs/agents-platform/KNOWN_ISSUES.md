@@ -1,5 +1,29 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
+## P3.1 release update (2026-07-30)
+
+No open P3.1 correctness or security defect is known after the production
+canary.
+
+Open operational items:
+
+- R1 requires owner/provider creation and ownership of a dedicated Telegram
+  Agents bot, exact `getMe` verification and protected installation of its
+  token plus a distinct webhook secret. No substitute bot was invented.
+- The protected GitHub CLI credential available to `gh` is invalid; therefore
+  the release used the authorized controlled local merge fallback. Normal Git
+  fetch/push remains functional. No credential value was exposed and no
+  credential file was deleted automatically.
+- The automation Worker still has no owner-provided LLM provider secret and
+  fails closed with `llm_provider_missing` for unattended generation. This
+  does not block the Sotuvchi pilot or owner-triggered Pages generation.
+- Pages production still has an unused secret variable named `___`; it is read
+  by no code and was not deleted because that credential mutation was outside
+  the release's reversible scope.
+- The in-app browser webview did not attach during this release session. This
+  is an evidence-tool limitation, not a production UI failure; route, asset,
+  authorization and behavioral UI checks pass.
+
 ## R0.4 (2026-07-30) — что закрыто, что осталось
 
 ### Закрыто
