@@ -68,6 +68,17 @@ export interface RouteParityDiff {
   count_deltas: Record<keyof RouteInventory['counts'], number>;
 }
 
+export const OWNER_CONTROL_CENTER_ADMIN_ROUTES = [
+  '/admin-tools/agents/audit|protected|true',
+  '/admin-tools/agents/automation|protected|true',
+  '/admin-tools/agents/handoffs|protected|true',
+  '/admin-tools/agents/orders|protected|true',
+  '/admin-tools/agents/pilot|protected|true',
+  '/admin-tools/agents/stores/:storeId|protected|true',
+  '/admin-tools/agents/stores|protected|true',
+  '/admin-tools/agents|protected|true',
+] as const;
+
 function read(relative: string): string {
   return fs.readFileSync(path.join(ROOT, relative), 'utf8');
 }
@@ -229,6 +240,7 @@ function difference(left: string[], right: string[]): string[] {
 export function compareRouteInventories(
   before: RouteInventory,
   after: RouteInventory,
+  options: { expectedAdminAdditions?: readonly string[] } = {},
 ): RouteParityDiff {
   const beforeAdmin = before.admin_routes.map((route) =>
     `${route.path}|${route.kind}|${route.protected}`);
@@ -253,14 +265,27 @@ export function compareRouteInventories(
   );
   const addedAdminRoutes = difference(afterAdmin, beforeAdmin);
   const removedAdminRoutes = difference(beforeAdmin, afterAdmin);
+  const expectedAdminAdditions = sorted(options.expectedAdminAdditions ?? []);
+  const actualAdminAdditions = sorted(addedAdminRoutes);
+  const additionsMatch =
+    JSON.stringify(actualAdminAdditions) === JSON.stringify(expectedAdminAdditions);
+  const expectedCountDeltas: Record<keyof RouteInventory['counts'], number> = {
+    static_canonical_routes: 0,
+    admin_route_patterns: expectedAdminAdditions.length,
+    total_route_patterns: expectedAdminAdditions.length,
+    published_pages: 0,
+    published_articles: 0,
+    sitemap_entries: 0,
+  };
   const blocked = [
     addedStaticRoutes,
     removedStaticRoutes,
-    addedAdminRoutes,
     removedAdminRoutes,
     changedInvariants,
   ].some((items) => items.length > 0)
-    || Object.values(countDeltas).some((delta) => delta !== 0);
+    || !additionsMatch
+    || (Object.keys(countDeltas) as Array<keyof RouteInventory['counts']>)
+      .some((key) => countDeltas[key] !== expectedCountDeltas[key]);
 
   return {
     schema_version: 1,
@@ -298,7 +323,10 @@ if (direct) {
     }
     const before = readJson<RouteInventory>(beforePath);
     const after = readJson<RouteInventory>(afterPath);
-    const diff = compareRouteInventories(before, after);
+    const expectedAdminAdditions = args.includes('--allow-owner-control-center')
+      ? OWNER_CONTROL_CENTER_ADMIN_ROUTES
+      : [];
+    const diff = compareRouteInventories(before, after, { expectedAdminAdditions });
     writeJson(outputPath, diff);
     console.log(`ROUTE_PARITY=${diff.status.toUpperCase()}`);
     if (diff.status !== 'pass') process.exitCode = 1;
