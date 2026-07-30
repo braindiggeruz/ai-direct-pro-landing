@@ -106,7 +106,8 @@
   "blocked": true,
   "blocked_stage": "R1 controlled Sotuvchi pilot",
   "blockers": [
-    "Owner/provider action: create and retain ownership of a dedicated Telegram Agents bot in BotFather, then install the verified identity, token and distinct webhook secret through the protected credential path. Do not send credential values in chat."
+    "Owner/provider action: create and retain ownership of a dedicated Telegram Agents bot in BotFather, then install the verified identity, token and distinct webhook secret through the protected credential path. Do not send credential values in chat.",
+    "Owner/business preparation: name 1-3 consented verified stores and seller Telegram identities; approve initial catalogs with integer UZS prices; sign off inventory baselines, seller response SLA, support owner and incident procedure. No real store is onboarded by this release."
   ],
   "parallel_preparation": {
     "R0.4-prep": {

@@ -31,6 +31,11 @@ Status: technical gates complete; pilot not started.
   protected credential path; never put values in chat.
 - [ ] Separately authorize and configure the exact webhook.
 - [ ] Name 1–3 consented, verified pilot stores and their owners.
+- [ ] Verify each seller Telegram identity out of band and bind it only to its
+  own store.
+- [ ] Approve initial categories/catalogs and integer UZS prices.
+- [ ] Sign off opening inventory baselines and name the correction owner.
+- [ ] Agree the seller response SLA and escalation contact.
 - [ ] Assign the pilot incident/support owner and communication path.
 - [ ] Separately authorize the controlled R1 start and acknowledge hard stops.
 

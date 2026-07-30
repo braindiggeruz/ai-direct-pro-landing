@@ -35,6 +35,21 @@ The protected installation sequence is:
 8. separately authorize and execute
    `R1_SOTUVCHI_CONTROLLED_PILOT_RUNBOOK.md`.
 
+## Business and operator inputs not created by this release
+
+Before the separately authorized pilot starts, the owner must also provide:
+
+- 1–3 consented stores with verified legal/business owners;
+- verified seller Telegram identities, each assigned only to its own store;
+- approved initial categories and catalogs;
+- integer UZS prices under the existing Sotuvchi contract;
+- signed opening inventory baselines and a named correction owner;
+- a seller response SLA and escalation contact;
+- a named pilot support owner, incident lead and protected communication path.
+
+These are controlled-pilot inputs, not missing platform implementation. No real
+store or seller was silently created to make the readiness record look green.
+
 ## R1 hard boundaries
 
 R1 does not authorize reconnecting Railway, enabling Cloudflare auto-deploy,
@@ -49,4 +64,7 @@ OWNER_PROVIDER_PREREQUISITE=DEDICATED_BOTFATHER_AGENTS_BOT
 AGENTS_BOT_CREATED=NO
 WEBHOOK_CONFIGURED=NO
 REAL_STORES_SELECTED=NO
+SELLER_IDENTITIES_VERIFIED=NO
+CATALOGS_AND_INVENTORY_BASELINES_APPROVED=NO
+SLA_AND_INCIDENT_OWNERS_ASSIGNED=NO
 ```
