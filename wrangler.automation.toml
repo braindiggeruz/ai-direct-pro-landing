@@ -4,9 +4,14 @@
 name = "gptbot-automation"
 main = "workers/automation-worker.ts"
 compatibility_date = "2026-07-28"
+# No public HTTP surface: the Worker is driven by its cron trigger and its
+# Queue consumer only, and Pages produces straight onto the Queue binding.
+workers_dev = false
 
-[limits]
-cpu_ms = 300000
+# No [limits] block: `cpu_ms` is a paid-plan-only field and the account this
+# Worker is deployed to is on the Workers Free plan, which rejects the whole
+# upload (API error 100328) when it is present. The consumer's work is
+# I/O-bound (D1 and HTTPS), so the default CPU allowance is sufficient.
 
 [[d1_databases]]
 binding = "GPTBOT_DRAFTS_DB"
@@ -30,3 +35,9 @@ dead_letter_queue = "gptbot-automation-dlq"
 
 [triggers]
 crons = ["*/15 * * * *"]
+
+# First-party automation is the sole production automation path as of R0.4.
+# The Worker fails closed when this is absent or not exactly "true": the cron
+# returns immediately and every queue message is retried rather than processed.
+[vars]
+FIRST_PARTY_AUTOMATION_ENABLED = "true"
