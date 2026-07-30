@@ -27,7 +27,7 @@
   "heroTitle": "Sotuvchi — do‘koningiz va sotuvchingiz bitta Telegram botda",
   "heroSubtitle": "Katalogni to‘g‘ridan-to‘g‘ri yozishmada yig‘ing, xaridorga bitta havola bering — bot katalogingiz bo‘yicha javob beradi, buyurtmani rasmiylashtiradi va bilmagan savolini sizga uzatadi.",
   "ctaPrimaryLabel": "Pilotda qatnashish",
-  "ctaPrimaryHref": "#pilot",
+  "ctaPrimaryHref": "https://t.me/gptbot_market_bot?start=agent_seller",
   "ctaSecondaryLabel": "Qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [

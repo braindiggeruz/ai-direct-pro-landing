@@ -138,7 +138,7 @@ test('the migration preserves every public and admin route pattern', () => {
     expectedAdminAdditions: OWNER_CONTROL_CENTER_ADMIN_ROUTES,
   });
   assert.equal(diff.status, 'pass');
-  assert.equal(after.counts.total_route_patterns, 248);
+  assert.equal(after.counts.total_route_patterns, 253);
   assert.deepEqual(diff.added_static_routes, []);
   assert.deepEqual(diff.removed_static_routes, []);
   assert.deepEqual(
@@ -199,10 +199,10 @@ test('prerender generation remains part of the route contract', () => {
   );
 });
 
-test('sitemap generation retains all 223 static canonical entries', () => {
+test('sitemap generation retains all 228 static canonical entries', () => {
   const inventory = collectRouteInventory('migration-test');
   assert.equal(inventory.invariants.sitemap_generation_present, true);
-  assert.equal(inventory.counts.sitemap_entries, 223);
+  assert.equal(inventory.counts.sitemap_entries, 228);
 });
 
 test('first-party automation routes remain present', () => {

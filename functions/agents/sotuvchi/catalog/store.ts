@@ -152,6 +152,7 @@ export interface CatalogStore {
   ): Promise<CatalogOwnerStore | null>;
   findActiveStoreByOrg(orgId: string): Promise<CatalogOwnerStore | null>;
   findActiveStore(orgId: string, storeId: string): Promise<CatalogOwnerStore | null>;
+  isPilotActive(orgId: string, storeId: string): Promise<boolean>;
   getOperation(
     orgId: string,
     storeId: string,
@@ -455,6 +456,16 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         orgId: requireCatalogId(row.org_id),
         locale: row.locale,
       };
+    },
+
+    async isPilotActive(orgId, storeId) {
+      const row = await db
+        .prepare(`SELECT 1 AS active
+                  FROM owner_pilot_stores
+                  WHERE org_id = ? AND store_id = ? AND state = 'active'`)
+        .bind(requireCatalogId(orgId), requireCatalogId(storeId))
+        .first<{ active: number }>();
+      return row?.active === 1;
     },
 
     async getOperation(orgId, storeId, idempotencyKey) {
@@ -928,11 +939,15 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     ON store.org_id = product.org_id
                    AND store.id = product.store_id
                    AND store.status = 'active'
-                  LEFT JOIN sotuvchi_categories AS category
-                    ON category.org_id = product.org_id
-                   AND category.store_id = product.store_id
-                   AND category.id = product.category_id
-                  WHERE product.org_id = ? AND product.store_id = ?
+                   LEFT JOIN sotuvchi_categories AS category
+                     ON category.org_id = product.org_id
+                    AND category.store_id = product.store_id
+                    AND category.id = product.category_id
+                   JOIN owner_pilot_stores AS pilot
+                     ON pilot.org_id = store.org_id
+                    AND pilot.store_id = store.id
+                    AND pilot.state = 'active'
+                   WHERE product.org_id = ? AND product.store_id = ?
                     AND product.status = 'published'
                     AND (product.category_id IS NULL
                       OR category.status = 'active')
@@ -973,11 +988,15 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     ON store.org_id = product.org_id
                    AND store.id = product.store_id
                    AND store.status = 'active'
-                  LEFT JOIN sotuvchi_categories AS category
-                    ON category.org_id = product.org_id
-                   AND category.store_id = product.store_id
-                   AND category.id = product.category_id
-                  WHERE product.org_id = ? AND product.store_id = ?
+                   LEFT JOIN sotuvchi_categories AS category
+                     ON category.org_id = product.org_id
+                    AND category.store_id = product.store_id
+                    AND category.id = product.category_id
+                   JOIN owner_pilot_stores AS pilot
+                     ON pilot.org_id = store.org_id
+                    AND pilot.store_id = store.id
+                    AND pilot.state = 'active'
+                   WHERE product.org_id = ? AND product.store_id = ?
                     AND product.status = 'published'
                     AND (product.category_id IS NULL
                       OR category.status = 'active')
@@ -1003,9 +1022,13 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         .prepare(`INSERT INTO sotuvchi_storefront_sessions
           (id, bot_username, identity_id, org_id, store_id, status,
            created_at, updated_at)
-          SELECT ?, ?, ?, store.org_id, store.id, 'active', ?, ?
-          FROM sotuvchi_stores AS store
-          WHERE store.org_id = ? AND store.id = ? AND store.status = 'active'
+           SELECT ?, ?, ?, store.org_id, store.id, 'active', ?, ?
+           FROM sotuvchi_stores AS store
+           JOIN owner_pilot_stores AS pilot
+             ON pilot.org_id = store.org_id
+            AND pilot.store_id = store.id
+            AND pilot.state = 'active'
+           WHERE store.org_id = ? AND store.id = ? AND store.status = 'active'
           ON CONFLICT(bot_username, identity_id) DO UPDATE SET
             last_product_id = CASE
               WHEN org_id = excluded.org_id AND store_id = excluded.store_id
@@ -1059,13 +1082,17 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     ON store.org_id = session.org_id
                    AND store.id = session.store_id
                    AND store.status = 'active'
-                  JOIN telegram_agent_routes AS route
-                    ON route.org_id = store.org_id
-                   AND route.route_code = store.storefront_code
-                   AND route.bot_username = session.bot_username
-                   AND route.agent_id = 'sotuvchi'
-                   AND route.status = 'active'
-                  WHERE session.bot_username = ?
+                   JOIN telegram_agent_routes AS route
+                     ON route.org_id = store.org_id
+                    AND route.route_code = store.storefront_code
+                    AND route.bot_username = session.bot_username
+                    AND route.agent_id = 'sotuvchi'
+                    AND route.status = 'active'
+                   JOIN owner_pilot_stores AS pilot
+                     ON pilot.org_id = store.org_id
+                    AND pilot.store_id = store.id
+                    AND pilot.state = 'active'
+                   WHERE session.bot_username = ?
                     AND session.identity_id = ?
                     AND session.status = 'active'`)
         .bind(
@@ -1116,13 +1143,17 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                         ON category.org_id = product.org_id
                        AND category.store_id = product.store_id
                        AND category.id = product.category_id
-                      JOIN telegram_agent_routes AS route
-                        ON route.org_id = store.org_id
-                       AND route.route_code = store.storefront_code
-                       AND route.bot_username = session.bot_username
-                       AND route.agent_id = 'sotuvchi'
-                       AND route.status = 'active'
-                      WHERE product.org_id = session.org_id
+                       JOIN telegram_agent_routes AS route
+                         ON route.org_id = store.org_id
+                        AND route.route_code = store.storefront_code
+                        AND route.bot_username = session.bot_username
+                        AND route.agent_id = 'sotuvchi'
+                        AND route.status = 'active'
+                       JOIN owner_pilot_stores AS pilot
+                         ON pilot.org_id = store.org_id
+                        AND pilot.store_id = store.id
+                        AND pilot.state = 'active'
+                       WHERE product.org_id = session.org_id
                         AND product.store_id = session.store_id
                         AND product.id = ?
                         AND product.status = 'published'
@@ -1182,13 +1213,17 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     ON category.org_id = product.org_id
                    AND category.store_id = product.store_id
                    AND category.id = product.category_id
-                  JOIN telegram_agent_routes AS route
-                    ON route.org_id = store.org_id
-                   AND route.route_code = store.storefront_code
-                   AND route.bot_username = session.bot_username
-                   AND route.agent_id = 'sotuvchi'
-                   AND route.status = 'active'
-                  WHERE session.bot_username = ?
+                   JOIN telegram_agent_routes AS route
+                     ON route.org_id = store.org_id
+                    AND route.route_code = store.storefront_code
+                    AND route.bot_username = session.bot_username
+                    AND route.agent_id = 'sotuvchi'
+                    AND route.status = 'active'
+                   JOIN owner_pilot_stores AS pilot
+                     ON pilot.org_id = store.org_id
+                    AND pilot.store_id = store.id
+                    AND pilot.state = 'active'
+                   WHERE session.bot_username = ?
                     AND session.identity_id = ?
                     AND session.status = 'active'
                     AND session.last_product_id IS NOT NULL

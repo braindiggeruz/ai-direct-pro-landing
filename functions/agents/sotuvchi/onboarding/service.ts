@@ -497,6 +497,13 @@ export class SotuvchiOnboardingService {
     await this.ready();
     return this.store.resolveStorefrontRoute(botUsername, storefrontCode);
   }
+
+  async resolveDirectPilotStorefront(
+    botUsername: string,
+  ): Promise<ResolvedSotuvchiStorefront | null> {
+    await this.ready();
+    return this.store.resolveDirectPilotStorefront(botUsername);
+  }
 }
 
 export function createSotuvchiOnboardingService(

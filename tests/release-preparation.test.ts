@@ -266,7 +266,14 @@ test('the Agents webhook setup defaults to no mutation', async () => {
     const method = String(input).split('/').pop() ?? '';
     calls.push(method);
     const result = method === 'getMe'
-      ? { ok: true, result: { username: 'gptbot_sotuvchi_bot' } }
+      ? {
+          ok: true,
+          result: {
+            id: 123456789,
+            is_bot: true,
+            username: 'gptbot_sotuvchi_bot',
+          },
+        }
       : { ok: true, result: {} };
     return new Response(JSON.stringify(result), {
       status: 200,
@@ -276,7 +283,7 @@ test('the Agents webhook setup defaults to no mutation', async () => {
   try {
     await runTelegramAgentsSetup({
       TELEGRAM_AGENTS_BOT_TOKEN: 'synthetic-transport',
-      TELEGRAM_AGENTS_WEBHOOK_SECRET: 'synthetic-webhook',
+      TELEGRAM_AGENTS_WEBHOOK_SECRET: 'REPLACE_ME_WITH_32_CHAR_WEBHOOK_SECRET',
       TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_sotuvchi_bot',
       SITE_URL: 'https://gptbot.uz',
     }, ['setup']);
@@ -293,7 +300,14 @@ test('the Agents webhook setup mutates only with explicit apply', async () => {
     const method = String(input).split('/').pop() ?? '';
     calls.push(method);
     const result = method === 'getMe'
-      ? { ok: true, result: { username: 'gptbot_sotuvchi_bot' } }
+      ? {
+          ok: true,
+          result: {
+            id: 123456789,
+            is_bot: true,
+            username: 'gptbot_sotuvchi_bot',
+          },
+        }
       : method === 'getWebhookInfo'
         ? { ok: true, result: { url: 'https://gptbot.uz/api/telegram/agents' } }
         : { ok: true, result: true };
@@ -305,12 +319,48 @@ test('the Agents webhook setup mutates only with explicit apply', async () => {
   try {
     await runTelegramAgentsSetup({
       TELEGRAM_AGENTS_BOT_TOKEN: 'synthetic-transport',
-      TELEGRAM_AGENTS_WEBHOOK_SECRET: 'synthetic-webhook',
+      TELEGRAM_AGENTS_WEBHOOK_SECRET: 'REPLACE_ME_WITH_32_CHAR_WEBHOOK_SECRET',
       TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_sotuvchi_bot',
       SITE_URL: 'https://gptbot.uz',
     }, ['setup', '--apply']);
     assert.ok(calls.includes('setWebhook'));
     assert.equal(calls.filter((call) => call === 'setMyCommands').length, 2);
+  } finally {
+    globalThis.fetch = original;
+  }
+});
+
+test('the Agents webhook setup rejects a non-bot or invalid bot id before mutation', async () => {
+  const invalidIdentities = [
+    { id: 123456789, is_bot: false, username: 'gptbot_sotuvchi_bot' },
+    { id: 0, is_bot: true, username: 'gptbot_sotuvchi_bot' },
+  ];
+  const original = globalThis.fetch;
+  try {
+    for (const identity of invalidIdentities) {
+      const calls: string[] = [];
+      globalThis.fetch = (async (input: string | URL | Request) => {
+        const method = String(input).split('/').pop() ?? '';
+        calls.push(method);
+        return new Response(JSON.stringify({
+          ok: true,
+          result: identity,
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }) as typeof fetch;
+      await assert.rejects(
+        runTelegramAgentsSetup({
+          TELEGRAM_AGENTS_BOT_TOKEN: 'synthetic-transport',
+          TELEGRAM_AGENTS_WEBHOOK_SECRET: 'REPLACE_ME_WITH_32_CHAR_WEBHOOK_SECRET',
+          TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_sotuvchi_bot',
+          SITE_URL: 'https://gptbot.uz',
+        }, ['setup', '--apply']),
+        /identity_unavailable/,
+      );
+      assert.deepEqual(calls, ['getMe']);
+    }
   } finally {
     globalThis.fetch = original;
   }

@@ -293,13 +293,17 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
                     ON store.org_id = session.org_id
                    AND store.id = session.store_id
                    AND store.status = 'active'
-                  JOIN telegram_agent_routes AS route
-                    ON route.org_id = store.org_id
-                   AND route.route_code = store.storefront_code
-                   AND route.bot_username = session.bot_username
-                   AND route.agent_id = 'sotuvchi'
-                   AND route.status = 'active'
-                  WHERE session.bot_username = ?
+                   JOIN telegram_agent_routes AS route
+                     ON route.org_id = store.org_id
+                    AND route.route_code = store.storefront_code
+                    AND route.bot_username = session.bot_username
+                    AND route.agent_id = 'sotuvchi'
+                    AND route.status = 'active'
+                   JOIN owner_pilot_stores AS pilot
+                     ON pilot.org_id = store.org_id
+                    AND pilot.store_id = store.id
+                    AND pilot.state = 'active'
+                   WHERE session.bot_username = ?
                     AND session.identity_id = ?
                     AND session.status = 'active'`)
         .bind(
@@ -399,13 +403,17 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
             ON store.org_id = session.org_id
            AND store.id = session.store_id
            AND store.status = 'active'
-          JOIN telegram_agent_routes AS route
-            ON route.org_id = store.org_id
-           AND route.route_code = store.storefront_code
-           AND route.bot_username = session.bot_username
-           AND route.agent_id = 'sotuvchi'
-           AND route.status = 'active'
-          JOIN sotuvchi_products AS product
+           JOIN telegram_agent_routes AS route
+             ON route.org_id = store.org_id
+            AND route.route_code = store.storefront_code
+            AND route.bot_username = session.bot_username
+            AND route.agent_id = 'sotuvchi'
+            AND route.status = 'active'
+           JOIN owner_pilot_stores AS pilot
+             ON pilot.org_id = store.org_id
+            AND pilot.store_id = store.id
+            AND pilot.state = 'active'
+           JOIN sotuvchi_products AS product
             ON product.org_id = session.org_id
            AND product.store_id = session.store_id
            AND product.id = ?
@@ -610,9 +618,16 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
                       AND buyer_session_id = ?
                       AND buyer_name IS NOT NULL
                       AND buyer_phone IS NOT NULL
-                      AND buyer_address IS NOT NULL
-                      AND total_minor IS NOT NULL
-                      AND EXISTS (
+                       AND buyer_address IS NOT NULL
+                       AND total_minor IS NOT NULL
+                       AND EXISTS (
+                         SELECT 1
+                         FROM owner_pilot_stores AS pilot
+                         WHERE pilot.org_id = sotuvchi_orders.org_id
+                           AND pilot.store_id = sotuvchi_orders.store_id
+                           AND pilot.state = 'active'
+                       )
+                       AND EXISTS (
                         SELECT 1
                         FROM sotuvchi_order_items AS item
                         JOIN sotuvchi_products AS product

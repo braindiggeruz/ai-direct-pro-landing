@@ -38,6 +38,11 @@ import {
   WorkflowTransitionNotAllowedError,
   WorkflowVersionConflictError,
 } from '../functions/platform/workflow';
+import {
+  activatePilotStore,
+  ensurePilotStoreSchema,
+  setPilotStoreState,
+} from './helpers/pilot-store';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BOT = 'agents_store_bot';
@@ -625,6 +630,11 @@ test('known route resolves its tenant and unknown route fails closed', async () 
     nextRequest(context),
     review.version,
   );
+  await activatePilotStore(
+    db,
+    completed.store.orgId,
+    completed.store.id,
+  );
   assert.deepEqual(
     await service.resolveStorefrontRoute(BOT, completed.store.storefrontCode),
     {
@@ -634,6 +644,26 @@ test('known route resolves its tenant and unknown route fails closed', async () 
       storeId: completed.store.id,
     },
   );
+  assert.deepEqual(
+    await service.resolveDirectPilotStorefront(BOT),
+    {
+      orgId: completed.store.orgId,
+      agentId: 'sotuvchi',
+      locale: 'uz',
+      storeId: completed.store.id,
+    },
+  );
+  await setPilotStoreState(
+    db,
+    completed.store.orgId,
+    completed.store.id,
+    'paused',
+  );
+  assert.equal(
+    await service.resolveStorefrontRoute(BOT, completed.store.storefrontCode),
+    null,
+  );
+  assert.equal(await service.resolveDirectPilotStorefront(BOT), null);
   assert.equal(
     await service.resolveStorefrontRoute(BOT, 's-gggggggggggggggg'),
     null,
@@ -754,7 +784,23 @@ function telegramHarness(
     await Promise.all(scheduled);
     return response;
   }
-  return { delivery, invoke, wiring };
+  async function authorizeSeller(
+    userId: number,
+    locale: 'ru' | 'uz',
+  ): Promise<void> {
+    await ensurePilotStoreSchema(db);
+    const identity = await createIdentityService(db).getOrCreateIdentity(
+      'telegram',
+      String(userId),
+    );
+    await wiring.onboarding.startOnboarding({
+      identityId: identity.identity.id,
+      botUsername: BOT,
+      requestId: `fixture-preauthorize-${userId}`,
+      locale,
+    });
+  }
+  return { authorizeSeller, delivery, invoke, wiring };
 }
 
 async function telegramOnboardingFlow(
@@ -765,6 +811,7 @@ async function telegramOnboardingFlow(
   storeName: string,
 ) {
   let update = firstUpdate;
+  await harness.authorizeSeller(userId, locale);
   await harness.invoke(
     telegramMessage(update++, userId, '/start agent_seller', locale),
   );
@@ -812,6 +859,7 @@ test('Telegram Uzbek Latin flow remains deterministic and persistent', async () 
 test('mixed store name is accepted without leaking Telegram profile data', async () => {
   const fixture = new SqliteD1();
   const harness = telegramHarness(fixture);
+  await harness.authorizeSeller(2003, 'ru');
   await harness.invoke(
     telegramMessage(400, 2003, '/start agent_seller', 'ru'),
   );
@@ -823,6 +871,19 @@ test('mixed store name is accepted without leaking Telegram profile data', async
   )[0];
   assert.equal(JSON.parse(row.payload_json).storeName, 'Orzu Магазин');
   assert.ok(!row.payload_json.includes('2003'));
+});
+
+test('unknown Telegram seller cannot self-provision an organization', async () => {
+  const fixture = new SqliteD1();
+  const harness = telegramHarness(fixture);
+  const response = await harness.invoke(
+    telegramMessage(450, 2099, '/start agent_seller', 'ru'),
+  );
+  assert.equal(response.status, 200);
+  assert.equal(fixture.value('SELECT COUNT(*) FROM sotuvchi_onboardings'), 0);
+  assert.equal(fixture.value('SELECT COUNT(*) FROM organizations'), 0);
+  assert.equal(fixture.value('SELECT COUNT(*) FROM memberships'), 0);
+  assert.equal(fixture.value('SELECT COUNT(*) FROM workflow_instances'), 0);
 });
 
 test('duplicate Telegram confirmation cannot create a second store', async () => {
@@ -861,6 +922,11 @@ test('buyer storefront route resolves the store but never launches seller onboar
   );
   const code = String(
     fixture.value('SELECT storefront_code FROM sotuvchi_stores'),
+  );
+  await activatePilotStore(
+    fixture.asD1(),
+    String(fixture.value('SELECT org_id FROM sotuvchi_stores')),
+    String(fixture.value('SELECT id FROM sotuvchi_stores')),
   );
   const beforeOnboardings = fixture.value(
     'SELECT COUNT(*) FROM sotuvchi_onboardings',

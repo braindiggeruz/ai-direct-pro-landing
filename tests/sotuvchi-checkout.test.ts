@@ -43,6 +43,10 @@ import type { Locale, OrgContext } from '../functions/platform/contracts';
 import { createIdentityService } from '../functions/platform/identity';
 import { groundResponse } from '../functions/platform/runtime';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import {
+  activatePilotStore,
+  setPilotStoreState,
+} from './helpers/pilot-store';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BOT = 'agents_checkout_fixture_bot';
@@ -100,6 +104,7 @@ async function setupStore(
     { ...context, requestId: requestId('onboarding') },
     snapshot.version,
   );
+  await activatePilotStore(db, completed.store.orgId, completed.store.id);
   const catalog = createSotuvchiCatalogService(db);
   const owner = await catalog.resolveOwnerContext({
     identityId: context.identityId,
@@ -421,6 +426,62 @@ test('checkout start creates exactly one draft order with one item', async () =>
   assert.match(snapshot.order.orderNumber, /^S-[2-9A-HJ-NP-Z]{6}$/);
   assert.equal(fixture.value('SELECT COUNT(*) FROM sotuvchi_orders'), 1);
   assert.equal(fixture.value('SELECT COUNT(*) FROM sotuvchi_order_items'), 1);
+});
+
+test('paused pilot blocks new checkout and final placement until resumed', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '810012');
+  const product = await publish(setup);
+  const buyer = await bindBuyer(fixture, setup, '910012');
+  await setPilotStoreState(
+    fixture.asD1(),
+    setup.storefront.orgId,
+    setup.storefront.storeId,
+    'paused',
+  );
+  await assert.rejects(
+    () => setup.checkout.startCheckout(buyerOrg(setup, buyer), product.id),
+    CheckoutAuthorizationError,
+  );
+  assert.equal(fixture.value('SELECT COUNT(*) FROM sotuvchi_orders'), 0);
+
+  await setPilotStoreState(
+    fixture.asD1(),
+    setup.storefront.orgId,
+    setup.storefront.storeId,
+    'active',
+  );
+  await setup.checkout.startCheckout(buyerOrg(setup, buyer), product.id);
+  await setup.checkout.submitQuantity(buyerOrg(setup, buyer), 1);
+  await setup.checkout.submitName(buyerOrg(setup, buyer), 'Dilshod');
+  await setup.checkout.submitPhone(buyerOrg(setup, buyer), '901234567');
+  await setup.checkout.submitAddress(
+    buyerOrg(setup, buyer),
+    'Toshkent, Chilonzor 5',
+  );
+  await setPilotStoreState(
+    fixture.asD1(),
+    setup.storefront.orgId,
+    setup.storefront.storeId,
+    'paused',
+  );
+  await assert.rejects(
+    () => setup.checkout.confirmCheckout(buyerOrg(setup, buyer)),
+    CheckoutAuthorizationError,
+  );
+  assert.equal(fixture.value('SELECT status FROM sotuvchi_orders'), 'draft');
+  assert.equal(fixture.value('SELECT COUNT(*) FROM sotuvchi_notifications'), 0);
+
+  await setPilotStoreState(
+    fixture.asD1(),
+    setup.storefront.orgId,
+    setup.storefront.storeId,
+    'active',
+  );
+  const placed = await setup.checkout.confirmCheckout(
+    buyerOrg(setup, buyer),
+  );
+  assert.equal(placed.order.status, 'placed');
 });
 
 test('start is idempotent per request and resumes the same draft', async () => {

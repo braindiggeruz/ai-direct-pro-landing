@@ -125,6 +125,9 @@ export interface SotuvchiOnboardingStore {
     botUsername: string,
     storefrontCode: string,
   ): Promise<ResolvedSotuvchiStorefront | null>;
+  resolveDirectPilotStorefront(
+    botUsername: string,
+  ): Promise<ResolvedSotuvchiStorefront | null>;
 }
 
 function requireId(value: unknown): string {
@@ -221,6 +224,23 @@ function fromRouteRow(row: RouteRow): SotuvchiStorefrontRoute {
     status: row.status as SotuvchiStorefrontRoute['status'],
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+  };
+}
+
+function fromResolvedStorefrontRow(row: {
+  org_id: string;
+  agent_id: string;
+  locale: string;
+  id: string;
+}): ResolvedSotuvchiStorefront {
+  if (row.agent_id !== 'sotuvchi') {
+    throw new SotuvchiOnboardingError('corrupt_row');
+  }
+  return {
+    orgId: requireId(row.org_id),
+    agentId: 'sotuvchi',
+    locale: normalizeStoreLocale(row.locale),
+    storeId: requireId(row.id),
   };
 }
 
@@ -544,14 +564,18 @@ export function createSotuvchiOnboardingStore(
                     ON store.org_id = route.org_id
                    AND store.storefront_code = route.route_code
                    AND store.status = 'active'
-                  JOIN memberships AS membership
-                    ON membership.org_id = route.org_id
-                   AND membership.identity_id = route.owner_identity_id
-                   AND membership.role = 'owner'
-                   AND membership.status = 'active'
-                  WHERE route.bot_username = ? AND route.route_code = ?
-                    AND route.status = 'active'
-                    AND route.agent_id = 'sotuvchi'`)
+                   JOIN memberships AS membership
+                     ON membership.org_id = route.org_id
+                    AND membership.identity_id = route.owner_identity_id
+                    AND membership.role = 'owner'
+                    AND membership.status = 'active'
+                   JOIN owner_pilot_stores AS pilot
+                     ON pilot.org_id = store.org_id
+                    AND pilot.store_id = store.id
+                    AND pilot.state = 'active'
+                   WHERE route.bot_username = ? AND route.route_code = ?
+                     AND route.status = 'active'
+                     AND route.agent_id = 'sotuvchi'`)
         .bind(bot, routeCode)
         .first<{
           org_id: string;
@@ -560,15 +584,42 @@ export function createSotuvchiOnboardingStore(
           id: string;
         }>();
       if (!row) return null;
-      if (row.agent_id !== 'sotuvchi') {
-        throw new SotuvchiOnboardingError('corrupt_row');
-      }
-      return {
-        orgId: requireId(row.org_id),
-        agentId: 'sotuvchi',
-        locale: normalizeStoreLocale(row.locale),
-        storeId: requireId(row.id),
-      };
+      return fromResolvedStorefrontRow(row);
+    },
+
+    async resolveDirectPilotStorefront(botUsername) {
+      const bot = requireBotUsername(botUsername);
+      const rows = await db
+        .prepare(`SELECT route.org_id, route.agent_id, store.locale, store.id
+                  FROM telegram_agent_routes AS route
+                  JOIN sotuvchi_stores AS store
+                    ON store.org_id = route.org_id
+                   AND store.storefront_code = route.route_code
+                   AND store.status = 'active'
+                  JOIN memberships AS membership
+                    ON membership.org_id = route.org_id
+                   AND membership.identity_id = route.owner_identity_id
+                   AND membership.role = 'owner'
+                   AND membership.status = 'active'
+                  JOIN owner_pilot_stores AS pilot
+                    ON pilot.org_id = store.org_id
+                   AND pilot.store_id = store.id
+                   AND pilot.state = 'active'
+                  WHERE route.bot_username = ?
+                    AND route.status = 'active'
+                    AND route.agent_id = 'sotuvchi'
+                  ORDER BY route.id ASC
+                  LIMIT 2`)
+        .bind(bot)
+        .all<{
+          org_id: string;
+          agent_id: string;
+          locale: string;
+          id: string;
+        }>();
+      const matches = rows.results ?? [];
+      if (matches.length !== 1) return null;
+      return fromResolvedStorefrontRow(matches[0]);
     },
   };
 }

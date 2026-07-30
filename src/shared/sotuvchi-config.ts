@@ -4,10 +4,9 @@
 // the lead bot @aidirectprobot and the Javob bot @gptbot_javob_bot. Nothing in
 // the public site may ever point a seller at those.
 //
-// The final public username of the Agents bot does not exist yet, so it stays
-// `null` here on purpose: a guessed handle would ship as a working link to
-// somebody else's bot. Until the owner registers the bot, the landing CTA
-// resolves to the on-page pilot section instead of a broken deep link.
+// The public username below is the expected identity for the dedicated Agents
+// bot. Release setup must still verify it through Telegram getMe before any
+// secret or webhook mutation.
 //
 // Build requirement before the pilot: set SOTUVCHI_BOT_USERNAME to the exact
 // username of the bot behind TELEGRAM_AGENTS_BOT_USERNAME, run the build and
@@ -22,8 +21,8 @@ export const PROTECTED_TELEGRAM_BOT_USERNAMES = [
   'gptbot_javob_bot',
 ] as const;
 
-/** Exact public username of the Agents bot, or null until it is registered. */
-export const SOTUVCHI_BOT_USERNAME: string | null = null;
+/** Exact expected public username of the dedicated Agents bot. */
+export const SOTUVCHI_BOT_USERNAME: string | null = 'gptbot_market_bot';
 
 /** Safe in-page fallback used while the bot username is unknown. */
 export const SOTUVCHI_PILOT_ANCHOR = '#pilot';

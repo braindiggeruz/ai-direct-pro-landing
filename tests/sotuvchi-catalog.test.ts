@@ -45,6 +45,10 @@ import {
 } from '../functions/channels/telegram';
 import { createIdentityService } from '../functions/platform/identity';
 import { groundResponse } from '../functions/platform/runtime';
+import {
+  activatePilotStore,
+  setPilotStoreState,
+} from './helpers/pilot-store';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BOT = 'agents_catalog_bot';
@@ -231,6 +235,7 @@ async function setupStore(
     { ...context, requestId: requestId('onboarding') },
     snapshot.version,
   );
+  await activatePilotStore(db, completed.store.orgId, completed.store.id);
   const catalog = createSotuvchiCatalogService(db);
   const owner = await catalog.resolveOwnerContext({
     identityId: context.identityId,
@@ -822,6 +827,45 @@ test('inactive store hides all buyer products and blocks owner mutation', async 
   );
 });
 
+test('paused pilot hides catalog and invalidates an existing buyer session', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, 'catalog-3005');
+  await createAndPublish(setup.catalog, setup.owner);
+  const buyer = await createIdentityService(fixture.asD1())
+    .getOrCreateIdentity('telegram', '860030005');
+  await setup.catalog.bindStorefrontSession({
+    botUsername: BOT,
+    identityId: buyer.identity.id,
+    context: setup.storefront,
+  });
+
+  await setPilotStoreState(
+    fixture.asD1(),
+    setup.storefront.orgId,
+    setup.storefront.storeId,
+    'paused',
+  );
+  await assert.rejects(
+    () => setup.catalog.listPublishedProducts(setup.storefront),
+    CatalogNotFoundError,
+  );
+  assert.equal(
+    await setup.catalog.resolveStoredStorefrontContext(BOT, buyer.identity.id),
+    null,
+  );
+
+  await setPilotStoreState(
+    fixture.asD1(),
+    setup.storefront.orgId,
+    setup.storefront.storeId,
+    'active',
+  );
+  assert.equal(
+    (await setup.catalog.listPublishedProducts(setup.storefront)).length,
+    1,
+  );
+});
+
 test('search ranks exact then prefix then all-token matches', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, 'catalog-4001');
@@ -1112,6 +1156,42 @@ test('storefront session binds platform identity and resolves trusted store', as
       buyer.identity.id,
     ),
     setup.storefront,
+  );
+});
+
+test('direct Start resolves only one unambiguous active pilot storefront', async () => {
+  const fixture = new SqliteD1();
+  const first = await setupStore(fixture, 'catalog-6006-owner');
+  const wiring = createTelegramAgentsRuntimeWiring(fixture.asD1(), BOT);
+  const firstBuyer = await createIdentityService(fixture.asD1())
+    .getOrCreateIdentity('telegram', '860060061');
+  const direct = await wiring.contexts.resolve({
+    botUsername: BOT,
+    telegramIdentityId: firstBuyer.identity.id,
+    locale: 'ru',
+    idempotencyKey: requestId('direct-start'),
+  });
+  assert.equal(direct?.orgId, first.storefront.orgId);
+  assert.equal(direct?.entryActionId, 'storefront-start');
+  assert.deepEqual(
+    await first.catalog.resolveStoredStorefrontContext(
+      BOT,
+      firstBuyer.identity.id,
+    ),
+    first.storefront,
+  );
+
+  await setupStore(fixture, 'catalog-6006-other');
+  const secondBuyer = await createIdentityService(fixture.asD1())
+    .getOrCreateIdentity('telegram', '860060062');
+  assert.equal(
+    await wiring.contexts.resolve({
+      botUsername: BOT,
+      telegramIdentityId: secondBuyer.identity.id,
+      locale: 'ru',
+      idempotencyKey: requestId('ambiguous-start'),
+    }),
+    null,
   );
 });
 

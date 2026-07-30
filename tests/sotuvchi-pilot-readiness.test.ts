@@ -60,12 +60,12 @@ import {
 import {
   isUsableSotuvchiBotUsername,
   SOTUVCHI_BOT_USERNAME,
-  SOTUVCHI_PILOT_ANCHOR,
   SOTUVCHI_SELLER_START_PAYLOAD,
   sotuvchiSellerCtaHref,
   sotuvchiSellerStartUrl,
 } from '../src/shared/sotuvchi-config';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { activatePilotStore } from './helpers/pilot-store';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BOT = 'agents_pilot_fixture_bot';
@@ -127,6 +127,7 @@ async function setupStore(
     { ...context, requestId: requestId('onboarding') },
     snapshot.version,
   );
+  await activatePilotStore(db, completed.store.orgId, completed.store.id);
   const catalog = createSotuvchiCatalogService(db);
   const analytics = createSotuvchiAnalytics(db);
   // The outbox is created lazily on first publish; a fixture that asserts an
@@ -910,14 +911,14 @@ test('the landing CTA never points at the lead or Javob bot', () => {
   for (const forbidden of ['aidirectprobot', 'gptbot_javob_bot']) {
     assert.ok(!serialized.includes(forbidden), forbidden);
   }
+  const expected = 'https://t.me/gptbot_market_bot?start=agent_seller';
   for (const locale of ['ru', 'uz'] as const) {
     const page = readPage(locale);
-    assert.equal(page.ctaPrimaryHref, SOTUVCHI_PILOT_ANCHOR);
+    assert.equal(page.ctaPrimaryHref, expected);
   }
-  // Until a real bot exists the CTA must stay an in-page anchor.
-  assert.equal(SOTUVCHI_BOT_USERNAME, null);
-  assert.equal(sotuvchiSellerStartUrl(), null);
-  assert.equal(sotuvchiSellerCtaHref(), SOTUVCHI_PILOT_ANCHOR);
+  assert.equal(SOTUVCHI_BOT_USERNAME, 'gptbot_market_bot');
+  assert.equal(sotuvchiSellerStartUrl(), expected);
+  assert.equal(sotuvchiSellerCtaHref(), expected);
 });
 
 test('a configured bot username produces the seller start deep link', () => {
@@ -1068,7 +1069,14 @@ test('setup never mutates a webhook without an explicit apply', async () => {
     calls.push(url.replace(/bot[^/]+/, 'bot<redacted>'));
     const method = url.split('/').pop() ?? '';
     const result = method === 'getMe'
-      ? { ok: true, result: { username: 'gptbot_sotuvchi_bot' } }
+      ? {
+          ok: true,
+          result: {
+            id: 123456789,
+            is_bot: true,
+            username: 'gptbot_sotuvchi_bot',
+          },
+        }
       : { ok: true, result: {} };
     return new Response(JSON.stringify(result), {
       status: 200,
@@ -1079,7 +1087,7 @@ test('setup never mutates a webhook without an explicit apply', async () => {
     await runTelegramAgentsSetup(
       {
         TELEGRAM_AGENTS_BOT_TOKEN: 'fixture-token',
-        TELEGRAM_AGENTS_WEBHOOK_SECRET: 'fixture-secret',
+        TELEGRAM_AGENTS_WEBHOOK_SECRET: 'REPLACE_ME_WITH_32_CHAR_WEBHOOK_SECRET',
         TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_sotuvchi_bot',
         SITE_URL: 'https://gptbot.uz',
       },
