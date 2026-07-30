@@ -64,6 +64,17 @@ export function safeBuyerHelpResponse(locale: Locale): RuntimeResponseDraft {
   };
 }
 
+export function buyerBudgetPrompt(locale: Locale): RuntimeResponseDraft {
+  return {
+    messages: [{
+      text: locale === 'ru'
+        ? 'Укажите максимальный бюджет в сумах — я подберу подходящие товары.'
+        : 'Maksimal byudjetni so‘mda yozing — mos mahsulotlarni tanlab beraman.',
+    }],
+    claims: [],
+  };
+}
+
 function noResult(locale: Locale): RuntimeResponseDraft {
   const text = locale === 'ru'
     ? 'Не нашёл такой товар в этом магазине. '

@@ -944,8 +944,11 @@ test('buyer storefront route resolves the store but never launches seller onboar
     beforeOnboardings,
   );
   assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes(
-      'Не нашёл такой товар в этом магазине',
+    harness.delivery.sent.at(-1)?.text.includes('Тестовый каталог'),
+  );
+  assert.ok(
+    JSON.stringify(harness.delivery.sent.at(-1)?.keyboard).includes(
+      'buyer-catalog-open',
     ),
   );
 });

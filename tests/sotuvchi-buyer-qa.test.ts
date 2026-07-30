@@ -817,14 +817,24 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   const harness = telegramHarness(fixture);
 
   await harness.invoke(telegramMessage(970_001, 97001, '/start', 'ru'));
+  const firstStart = harness.delivery.sent.at(-1);
+  assert.equal(firstStart?.text.includes('Тестовый каталог'), true);
+  assert.ok(JSON.stringify(firstStart?.keyboard).includes('buyer-catalog-open'));
+  assert.ok(!firstStart?.text.includes('Test Product'));
+
   const afterFirstStart = harness.delivery.sent.length;
   await harness.invoke(telegramMessage(970_002, 97001, '/start', 'ru'));
   const repeatedStart = harness.delivery.sent.slice(afterFirstStart);
-  assert.ok(repeatedStart.some((message) => message.text.includes('Test Product')));
+  assert.equal(repeatedStart.length, 1);
+  assert.ok(repeatedStart[0].text.includes('Тестовый каталог'));
 
   await harness.invoke(
-    telegramMessage(970_003, 97001, 'Need inexpensive test product', 'ru'),
+    telegramMessage(970_003, 97001, 'Нужен недорогой товар для теста', 'ru'),
   );
+  const budgetReply = harness.delivery.sent.at(-1)?.text ?? '';
+  assert.ok(budgetReply.includes('Укажите максимальный бюджет'));
+
+  await harness.invoke(telegramMessage(970_004, 97001, 'до 30000', 'ru'));
   const searchReply = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(searchReply.includes('Test Product'));
   assert.ok(!searchReply.includes('Не удалось подготовить ответ'));

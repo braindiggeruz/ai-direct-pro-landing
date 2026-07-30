@@ -4,7 +4,7 @@ import type {
   RuntimeStepResult,
 } from '../../../platform/contracts';
 import { parseBuyerQuery } from './parser';
-import { safeBuyerHelpResponse } from './responses';
+import { buyerBudgetPrompt, safeBuyerHelpResponse } from './responses';
 
 function help(locale: Locale): RuntimeStepResult {
   return {
@@ -12,6 +12,19 @@ function help(locale: Locale): RuntimeStepResult {
     response: safeBuyerHelpResponse(locale),
     facts: [],
   };
+}
+
+function budgetPrompt(locale: Locale): RuntimeStepResult {
+  return {
+    kind: 'answer',
+    response: buyerBudgetPrompt(locale),
+    facts: [],
+  };
+}
+
+function asksForAffordableOption(value: string): boolean {
+  return /(?:^|\s)(?:недорог\p{L}*|дешев\p{L}*|дешёв\p{L}*|не\s+дорог\p{L}*|arzon\p{L}*)(?=\s|$)/iu
+    .test(value.trim());
 }
 
 export const sotuvchiBuyerActionRule: DeterministicRule = {
@@ -23,6 +36,13 @@ export const sotuvchiBuyerActionRule: DeterministicRule = {
   },
   async execute(context, input) {
     if (input.message.kind !== 'action') return help(context.org.locale);
+    if (input.message.actionId === 'buyer-catalog-open') {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.list',
+        input: { offset: 0 },
+      };
+    }
     if (input.message.actionId === 'buyer-back') {
       return {
         kind: 'tool',
@@ -81,6 +101,12 @@ export const sotuvchiBuyerTextRule: DeterministicRule = {
       parsed = parseBuyerQuery(input.message.text);
     } catch {
       return help(context.org.locale);
+    }
+    if (
+      parsed.intent === 'catalog.search'
+      && asksForAffordableOption(input.message.text)
+    ) {
+      return budgetPrompt(context.org.locale);
     }
     if (parsed.intent === 'unknown' || parsed.intent === 'catalog.help') {
       return help(context.org.locale);
