@@ -1,27 +1,18 @@
 // POST /api/admin/seo-autopilot/run
 //
-// GPTBot Control Center → SEO Autopilot launcher. Requires the existing
-// admin JWT, builds the launch payload server-side, calls the existing n8n
-// production webhook with the server-side `x-runable-secret` header (loaded
-// from the N8N_WEBHOOK_SECRET env var), and stores the result in the AI
-// Draft Inbox.
+// GPTBot Control Center → SEO Autopilot launcher. Requires the existing admin
+// JWT, runs the first-party generation pipeline server-side and stores the
+// result in the AI Draft Inbox as pending_review.
 //
-// The browser never sees N8N_WEBHOOK_SECRET — it lives only in
-// Cloudflare Pages secrets and the server-to-server fetch.
-//
-// IMPORTANT: this endpoint AWAITS the full n8n call before responding.
-// CF Pages Functions stay alive for the duration of an active request,
-// so the fetch to n8n (1–4 min wall time, dominated by I/O wait) is
-// completed reliably. Previously the bridge used `ctx.waitUntil` which is
-// terminated by the CF runtime well before n8n returned — that is why
-// every single end-to-end run before this fix ended in a stuck
-// `forwarding` row with `n8n_status=null`.
+// IMPORTANT: this endpoint AWAITS the full generation run before responding.
+// CF Pages Functions stay alive for the duration of an active request, so the
+// LLM calls (dominated by I/O wait) complete reliably. Do not move this back
+// to `ctx.waitUntil`: the CF runtime terminates that well before generation
+// returns, which is what used to leave rows stuck in `forwarding`.
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
-import { startSeoAutopilotJob } from '../../../lib/seo-autopilot/launch';
-import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../lib/seo-autopilot/direct-launch';
-import { buildLaunchPayload } from '../../../lib/seo-autopilot/payload';
+import { startSeoAutopilotJobDirect } from '../../../lib/seo-autopilot/direct-launch';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -30,7 +21,7 @@ function json(data: unknown, status = 200): Response {
   });
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
@@ -46,39 +37,18 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     return json({ error: 'Invalid JSON body' }, 400);
   }
 
-  // run_id is a per-launch correlation id surfaced into the n8n payload.
+  // run_id is a per-launch correlation id carried into the job row.
   const runId = `gptbot-admin-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-  const useDirectAi = isDirectAiEnabled(env);
 
-  // When direct AI is enabled (default), forward the overrides as-is so
-  // the direct launcher can read planned_title/primary_keyword/locale.
-  // When legacy n8n bridge is selected, wrap them into the canonical
-  // safety-locked launch payload.
-  const rawBody = useDirectAi
-    ? JSON.stringify(overrides)
-    : JSON.stringify(buildLaunchPayload({
-        source: 'admin',
-        requestedBy: auth.email,
-        runId,
-        overrides,
-      }));
-
-  const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
-  const result = await launchFn({
+  const result = await startSeoAutopilotJobDirect({
     env,
-    waitUntil,
     source: 'admin',
     requestedBy: auth.email,
-    rawBody,
-    runableSecret: env.N8N_WEBHOOK_SECRET || '',
+    rawBody: JSON.stringify(overrides),
     requestId: runId,
     // Admins clicking the button override the overlap lock; the UI shows
     // the running job inline instead.
     blockOnOverlap: false,
-    // ★ Critical: sync-await mode. The HTTP handler holds the request
-    // open for the duration of the n8n call (~1–4 min) and returns the
-    // final job state. No polling required from the browser.
-    awaitCompletion: true,
   });
 
   if (!result.ok) {
@@ -89,27 +59,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
         ...(result.reason === 'overlap_blocked' ? { conflicting_job_id: result.conflicting_job_id } : {}),
       },
       result.http,
-    );
-  }
-
-  // awaitCompletion === true → result.job is populated.
-  if (!result.awaited) {
-    // Defensive: should never hit because we set awaitCompletion=true.
-    return json(
-      {
-        success: true,
-        accepted: true,
-        job_id: result.jobId,
-        run_id: runId,
-        status: result.status,
-        status_url: `/api/seo-autopilot/jobs/${result.jobId}`,
-        source: 'admin',
-        requested_by: auth.email,
-        manual_approval_required: true,
-        ready_for_publish: false,
-        note: 'SEO Autopilot launched in async mode. Poll status_url for the draft.',
-      },
-      202,
     );
   }
 

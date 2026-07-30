@@ -84,12 +84,10 @@ export interface AutopilotLaunchResult {
 }
 
 export interface AutopilotSystemFlags {
-  n8n_webhook_secret_configured: boolean;
   cron_secret_configured: boolean;
   drafts_db_configured: boolean;
-  external_trigger_enabled: boolean;
-  /** True when SEO_AUTOPILOT_USE_DIRECT_AI=true and a Workers AI binding is available. */
-  direct_ai_enabled?: boolean;
+  /** True when FIRST_PARTY_AUTOMATION_ENABLED=true on this deployment. */
+  first_party_automation_enabled: boolean;
   ai_binding_configured?: boolean;
   stale_jobs_swept?: number;
   pending_drafts?: number;

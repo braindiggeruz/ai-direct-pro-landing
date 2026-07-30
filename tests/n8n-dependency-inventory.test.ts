@@ -23,6 +23,14 @@ interface Inventory {
     production_activity: string;
     evidence: string;
   }>;
+  retirement?: {
+    disposition: string;
+    release: string;
+    evidence: string;
+    replacement_proven_before_retirement: boolean;
+    removed_files: string[];
+    removed_env_names: string[];
+  };
 }
 
 function expandBraces(pattern: string): string[] {
@@ -79,11 +87,11 @@ test('every tracked literal n8n reference has an inventory classification', () =
   assert.deepEqual(uncovered, []);
 });
 
-test('unknown production activity remains visible and evidence-backed', () => {
+test('after retirement the only unknown left is the deliberately unread audit directory', () => {
   const inventory = load();
   const unknown = inventory.items.filter((item) =>
     item.status === 'unknown' || item.production_activity === 'unknown');
-  assert.ok(unknown.length >= 10);
+  assert.deepEqual(unknown.map((item) => item.id), ['untracked-user-audit']);
   assert.ok(unknown.every((item) => item.evidence.length >= 20));
   assert.deepEqual(inventory.status_values, [
     'active',
@@ -91,6 +99,63 @@ test('unknown production activity remains visible and evidence-backed', () => {
     'unknown',
     'dead',
   ]);
+});
+
+test('every item is evidence-backed, not merely classified', () => {
+  const inventory = load();
+  const thin = inventory.items.filter((item) => item.evidence.length < 20);
+  assert.deepEqual(thin.map((item) => item.id), []);
+});
+
+test('the executed retirement is recorded with its replacement evidence', () => {
+  const inventory = load();
+  assert.ok(inventory.retirement, 'retirement block required');
+  assert.equal(inventory.retirement?.disposition, 'RETIRED');
+  assert.equal(inventory.retirement?.release, 'R0.4');
+  assert.equal(inventory.retirement?.replacement_proven_before_retirement, true);
+  assert.ok(inventory.retirement?.evidence.endsWith('N8N_RETIREMENT_EVIDENCE.md'));
+  for (const name of [
+    'N8N_INGEST_TOKEN',
+    'N8N_WEBHOOK_SECRET',
+    'N8N_INGEST_ENABLED',
+    'EXTERNAL_AUTOPILOT_TRIGGER_ENABLED',
+    'SEO_AUTOPILOT_USE_DIRECT_AI',
+  ]) {
+    assert.ok(
+      inventory.retirement?.removed_env_names.includes(name),
+      `${name} must be recorded as removed`,
+    );
+  }
+});
+
+test('every file the retirement claims to have removed is actually gone', () => {
+  const inventory = load();
+  for (const relative of inventory.retirement?.removed_files ?? []) {
+    assert.equal(
+      fs.existsSync(path.join(ROOT, relative)),
+      false,
+      `${relative} must not exist`,
+    );
+  }
+});
+
+test('every item that describes removed n8n code is classified dead', () => {
+  const inventory = load();
+  const removedIds = [
+    'legacy-ingest-endpoint',
+    'legacy-ingest-token',
+    'legacy-webhook-bridge-secret',
+    'legacy-bridge-launcher',
+    'legacy-bridge-worker',
+    'legacy-normaliser',
+    'deprecated-external-trigger',
+  ];
+  for (const id of removedIds) {
+    const item = inventory.items.find((candidate) => candidate.id === id);
+    assert.ok(item, `${id} must stay in the inventory as an audit record`);
+    assert.equal(item?.status, 'dead', id);
+    assert.equal(item?.production_activity, 'dead', id);
+  }
 });
 
 test('inventory is names-only and contains no secret material', () => {

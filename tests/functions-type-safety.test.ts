@@ -18,9 +18,7 @@ import { onRequestPost as draftStatusPost } from '../functions/api/admin/ai-draf
 import { onRequestGet as cockpitGet } from '../functions/api/admin/cockpit';
 import { onRequestPost as quickLaunchPost } from '../functions/api/admin/seo/yandex/quick-launch';
 
-import { normaliseN8nResponse } from '../functions/lib/seo-autopilot/normalise';
 import { validateIncomingBundle } from '../functions/lib/ai-drafts/validators';
-import { isDirectAiEnabled } from '../functions/lib/seo-autopilot/direct-launch';
 import { buildFingerprint, intentKeyOf } from '../functions/lib/intent-guard/fingerprint';
 
 import { sanitizeAnalysis, type AnalysisProviderResult } from '../functions/lib/telegram/analysis';
@@ -281,7 +279,6 @@ test('cockpit: reads real environment bindings into the system section', async (
     loadMigrations(db, ['0001_ai_drafts.sql', '0002_seo_autopilot_jobs.sql', '0003_seo_autopilot_control_center.sql']);
     const env = adminEnv(db, {
       SERPER_API_KEY: 'serper-present',
-      N8N_WEBHOOK_SECRET: undefined,
       OPENROUTER_API_KEY: undefined,
       GEMINI_API_KEY: 'gemini-present',
     });
@@ -292,7 +289,7 @@ test('cockpit: reads real environment bindings into the system section', async (
       success: true;
       system: {
         github_token_configured: boolean; jwt_secret_configured: boolean;
-        drafts_db_configured: boolean; n8n_webhook_secret_configured: boolean;
+        drafts_db_configured: boolean; first_party_automation_enabled: boolean;
         serper_configured: boolean; openrouter_configured: boolean; gemini_configured: boolean;
         github: { owner: string; repo: string; branch: string };
       };
@@ -304,7 +301,7 @@ test('cockpit: reads real environment bindings into the system section', async (
       github_token_configured: true,
       jwt_secret_configured: true,
       drafts_db_configured: true,
-      n8n_webhook_secret_configured: false,
+      first_party_automation_enabled: false,
       serper_configured: true,
       openrouter_configured: false,
       gemini_configured: true,
@@ -536,7 +533,7 @@ test('quick launch: with no provider binding it fails safely, publishes nothing 
   try {
     const db = new SqliteD1();
     loadMigrations(db, QUICK_LAUNCH_MIGRATIONS);
-    const env = adminEnv(db, { N8N_WEBHOOK_SECRET: 'n8n-secret-value' });
+    const env = adminEnv(db, { SERPER_API_KEY: 'serper-secret-value' });
 
     const res = await callQuickLaunch(env, { query: 'ai бот для клиники ташкент' }, await bearer(env));
     // The endpoint deliberately answers 200 with a structured envelope so the
@@ -547,7 +544,7 @@ test('quick launch: with no provider binding it fails safely, publishes nothing 
     assert.equal(body.ok, false);
     assert.ok(['launch_failed', 'reservation_failed', 'server_error'].includes(body.mode), `unexpected mode ${body.mode}`);
     assert.ok(!body.draft_id);
-    assert.ok(!text.includes('n8n-secret-value'));
+    assert.ok(!text.includes('serper-secret-value'));
     assert.ok(!text.includes(JWT_SECRET));
 
     // Nothing was drafted, so nothing could have been published.
@@ -557,13 +554,12 @@ test('quick launch: with no provider binding it fails safely, publishes nothing 
   } finally { restore(); }
 });
 
-test('quick launch: the first-party direct path is the default and the n8n bridge stays off', async () => {
-  // Default-on for the first-party generator; the legacy bridge only comes back
-  // when an operator explicitly opts out.
-  assert.equal(isDirectAiEnabled({} as Env), true);
-  assert.equal(isDirectAiEnabled({ SEO_AUTOPILOT_USE_DIRECT_AI: 'false' } as Env), false);
-  assert.equal(isDirectAiEnabled({ SEO_AUTOPILOT_USE_DIRECT_AI: '0' } as Env), false);
-  assert.equal(isDirectAiEnabled({ SEO_AUTOPILOT_USE_DIRECT_AI: 'no' } as Env), false);
+test('quick launch: the first-party path is the only path and contacts no external automation', async () => {
+  // There is no launcher selector any more: the module exports exactly one
+  // launcher, so no flag can route generation elsewhere.
+  const launcher = await import('../functions/lib/seo-autopilot/direct-launch');
+  assert.equal(typeof launcher.startSeoAutopilotJobDirect, 'function');
+  assert.equal('isDirectAiEnabled' in launcher, false);
 
   const log: FetchLog[] = [];
   const restore = stubFetch(log);
@@ -576,128 +572,124 @@ test('quick launch: the first-party direct path is the default and the n8n bridg
   } finally { restore(); }
 });
 
-// ═══ 4. SEO autopilot normaliser ═══════════════════════════════════════════
-// Boundary: unvalidated provider payload mapped into the ingestion contract.
+// ═══ 4. AI draft ingestion contract ════════════════════════════════════════
+// Boundary: an article bundle mapped into the ingestion contract. Until R0.4
+// a normaliser re-keyed third-party (n8n) payloads before this point; that
+// layer is deleted, so the strict validator is now the single place where the
+// closed schema is enforced and it is asserted directly.
 
-const RU_ARTICLE = {
-  slug: 'ai-bot-dlya-kliniki',
-  title: 'AI-бот для клиники',
-  description: 'Как AI-бот отвечает пациентам круглосуточно.',
-  h1: 'AI-бот для клиники',
-  intro: 'Короткое вступление про запись пациентов.',
-  target_keyword: 'ai бот для клиники',
-  money_page: 'https://gptbot.uz/ru/services',
-  body: [{ type: 'paragraph', content: 'Первый абзац о задачах клиники.' }],
-  faqs: [{ question: 'Сколько стоит?', answer: 'Зависит от объёма.' }],
-  links: [{ url: 'https://gptbot.uz/ru/services', text: 'Услуги' }],
+const RU_ARTICLE_BUNDLE = {
+  schema_version: 'gptbot.article-draft.v1',
+  source: 'first-party-llm-router',
+  bundle_id: 'contract-bundle-1',
+  execution_id: 'contract-bundle-1',
+  status: 'pending_review',
+  manual_approval_required: true,
+  ready_for_publish: false,
+  published: false,
+  validation: { passed: true, issues: [] },
+  articles: [{
+    locale: 'ru',
+    slug: 'ai-bot-dlya-kliniki',
+    meta_title: 'AI-бот для клиники',
+    meta_description: 'Как AI-бот отвечает пациентам круглосуточно и записывает их на приём.',
+    h1: 'AI-бот для клиники',
+    excerpt: 'Короткое вступление про запись пациентов и круглосуточные ответы.',
+    target_keyword: 'ai бот для клиники',
+    target_money_page: '/ru/services/',
+    author: 'GPTBot',
+    body_blocks: [
+      { type: 'h2', text: 'Задачи клиники' },
+      { type: 'p', text: 'Первый абзац о задачах клиники и потоке обращений.' },
+      { type: 'h2', text: 'Как отвечает бот' },
+      { type: 'p', text: 'Второй абзац о круглосуточных ответах и записи на приём.' },
+      { type: 'h2', text: 'Что получает администратор' },
+      { type: 'p', text: 'Третий абзац о разгрузке администратора и передаче сложных случаев.' },
+    ],
+    faq: [
+      { q: 'Сколько стоит?', a: 'Зависит от объёма обращений и числа интеграций.' },
+      { q: 'Заменяет ли бот администратора?', a: 'Нет, сложные случаи передаются человеку.' },
+    ],
+    internal_links: [{
+      target: '/ru/services/',
+      anchor: 'Услуги GPTBot',
+      locale: 'ru',
+      type: 'contextual',
+    }],
+    schemas: ['Article', 'FAQPage', 'BreadcrumbList'],
+    keywords: ['ai бот для клиники', 'запись пациентов'],
+  }],
 };
-const UZ_ARTICLE = { ...RU_ARTICLE, slug: 'klinika-uchun-ai-bot', title: 'Klinika uchun AI-bot' };
 
-test('normaliser: a valid RU+UZ bundle produces both locales with forced safe envelope values', () => {
-  const result = normaliseN8nResponse(
+function bundleWithArticle(overrides: Record<string, unknown>) {
+  return {
+    ...RU_ARTICLE_BUNDLE,
+    articles: [{ ...RU_ARTICLE_BUNDLE.articles[0], ...overrides }],
+  };
+}
+
+test('ingestion contract: a well-formed single-locale bundle validates', () => {
+  const validated = validateIncomingBundle(RU_ARTICLE_BUNDLE);
+  assert.equal(validated.ok, true, JSON.stringify(validated.errors));
+  assert.equal(validated.bundle?.articles[0].meta_title, 'AI-бот для клиники');
+  assert.equal(validated.bundle?.articles.length, 1);
+});
+
+test('ingestion contract: the validator bounds an oversized title instead of storing it', () => {
+  const validated = validateIncomingBundle(bundleWithArticle({ meta_title: 'т'.repeat(5000) }));
+  const title = validated.bundle?.articles[0].meta_title ?? '';
+  assert.ok(title.length > 0 && title.length <= 220, `validator must bound the title, got ${title.length}`);
+});
+
+test('ingestion contract: a structurally broken slug is refused outright', () => {
+  const validated = validateIncomingBundle(bundleWithArticle({ slug: 'НЕ ВАЛИДНЫЙ СЛАГ' }));
+  assert.equal(validated.ok, false);
+  assert.ok(validated.errors.some((e) => e.path.endsWith('.slug')));
+});
+
+test('ingestion contract: a locale-less bundle is refused', () => {
+  assert.equal(validateIncomingBundle({ ...RU_ARTICLE_BUNDLE, articles: [] }).ok, false);
+  assert.equal(validateIncomingBundle({ seo_brief: {} }).ok, false);
+  for (const raw of [null, undefined, 'text', 7, ['a']]) {
+    assert.equal(validateIncomingBundle(raw).ok, false, JSON.stringify(raw));
+  }
+});
+
+test('ingestion contract: a rejection reason never reflects raw model output', () => {
+  const marker = 'SECRET-MODEL-TEXT-8fd21';
+  const validated = validateIncomingBundle({ leak: marker });
+  assert.equal(validated.ok, false);
+  assert.ok(!JSON.stringify(validated.errors).includes(marker));
+});
+
+test('ingestion contract: a bundle claiming published lands as pending_review anyway', async () => {
+  const db = new SqliteD1();
+  loadMigrations(db, ['0001_ai_drafts.sql']);
+  const { ingestRawBundle } = await import('../functions/lib/ai-drafts/ingest');
+  const result = await ingestRawBundle(
+    { GPTBOT_DRAFTS_DB: db.asD1() } as unknown as Env,
     {
+      ...RU_ARTICLE_BUNDLE,
       status: 'published',
       manual_approval_required: false,
       ready_for_publish: true,
       published: true,
-      ru_article: RU_ARTICLE,
-      uz_article: UZ_ARTICLE,
-      execution_id: 'exec-42',
     },
-    { jobId: 'job_1', requestId: null },
   );
-  assert.equal(result.ok, true);
+  assert.equal(result.ok, true, JSON.stringify(result.ok ? {} : result.body));
   if (!result.ok) return;
+  assert.equal(result.record.status, 'pending_review');
+  assert.equal(db.value('SELECT status FROM ai_drafts'), 'pending_review');
+  assert.equal(db.value('SELECT COUNT(*) FROM ai_drafts'), 1);
 
-  assert.deepEqual(result.bundle.articles.map((a) => a.locale), ['ru', 'uz']);
-  assert.equal(result.bundle.bundle_id, 'n8n-bridge-exec-42');
-  // Upstream cannot talk the server into publishing.
-  assert.equal(result.bundle.status, 'pending_review');
-  assert.equal(result.bundle.manual_approval_required, true);
-  assert.equal(result.bundle.ready_for_publish, false);
-  assert.equal(result.bundle.published, false);
-  // Aliases were re-keyed to the canonical contract names.
-  assert.equal(result.bundle.articles[0].meta_title, 'AI-бот для клиники');
-  assert.equal(result.bundle.articles[0].target_money_page, '/ru/services');
-});
-
-test('normaliser: a single-locale bundle is preserved, a locale-less bundle is refused', () => {
-  const ruOnly = normaliseN8nResponse({ ru_article: RU_ARTICLE }, { jobId: 'job_2', requestId: null });
-  assert.equal(ruOnly.ok, true);
-  if (ruOnly.ok) assert.deepEqual(ruOnly.bundle.articles.map((a) => a.locale), ['ru']);
-
-  const neither = normaliseN8nResponse({ seo_brief: {} }, { jobId: 'job_3', requestId: null });
-  assert.equal(neither.ok, false);
-  if (!neither.ok) assert.match(neither.reason, /missing both ru_article and uz_article/);
-});
-
-test('normaliser: malformed provider responses fail deterministically', () => {
-  for (const raw of [null, undefined, 'a string', 42, [RU_ARTICLE], true]) {
-    const result = normaliseN8nResponse(raw, { jobId: 'job_4', requestId: null });
-    assert.equal(result.ok, false, `payload ${JSON.stringify(raw)} must not normalise`);
-  }
-  const empty = normaliseN8nResponse({ articles: [] }, { jobId: 'job_5', requestId: null });
-  assert.equal(empty.ok, false);
-});
-
-test('normaliser: unknown keys are dropped and the schema stays closed', () => {
-  const result = normaliseN8nResponse(
-    { ru_article: { ...RU_ARTICLE, evil_key: 'x', published: true, status: 'live' } },
-    { jobId: 'job_6', requestId: null },
+  // A replay of the same bundle_id is idempotent, so a retried automation job
+  // can never fork a second draft.
+  const replay = await ingestRawBundle(
+    { GPTBOT_DRAFTS_DB: db.asD1() } as unknown as Env,
+    RU_ARTICLE_BUNDLE,
   );
-  assert.equal(result.ok, true);
-  if (!result.ok) return;
-  const article = result.bundle.articles[0] as unknown as Record<string, unknown>;
-  assert.ok(!('evil_key' in article));
-  assert.ok(!('published' in article));
-  assert.ok(!('status' in article));
-  assert.deepEqual(Object.keys(article).sort(), [
-    'author', 'body_blocks', 'excerpt', 'faq', 'h1', 'internal_links', 'keywords', 'locale',
-    'meta_description', 'meta_title', 'og_description', 'og_image', 'og_title', 'schemas',
-    'slug', 'target_keyword', 'target_money_page',
-  ]);
-});
-
-test('normaliser: the failure reason never reflects raw model output', () => {
-  const marker = 'SECRET-MODEL-TEXT-8fd21';
-  const result = normaliseN8nResponse(`{"leak":"${marker}"}`, { jobId: 'job_7', requestId: null });
-  assert.equal(result.ok, false);
-  if (result.ok) return;
-  assert.ok(!result.reason.includes(marker));
-  assert.ok(!JSON.stringify(result.detail ?? {}).includes(marker));
-});
-
-test('normaliser output still has to clear the strict validator, which bounds oversized fields', () => {
-  const good = normaliseN8nResponse({ ru_article: RU_ARTICLE }, { jobId: 'job_8', requestId: null });
-  assert.equal(good.ok, true);
-  if (!good.ok) return;
-  const validated = validateIncomingBundle(good.bundle);
-  assert.equal(validated.ok, true, JSON.stringify(validated.errors));
-  assert.equal(validated.bundle?.articles[0].meta_title, 'AI-бот для клиники');
-
-  // An oversized title survives normalisation (which only re-keys) and is then
-  // truncated by the validator — the closed schema is enforced in exactly one place.
-  const huge = normaliseN8nResponse(
-    { ru_article: { ...RU_ARTICLE, title: 'т'.repeat(5000) } },
-    { jobId: 'job_9', requestId: null },
-  );
-  assert.equal(huge.ok, true);
-  if (!huge.ok) return;
-  assert.equal(huge.bundle.articles[0].meta_title.length, 5000);
-  const validatedHuge = validateIncomingBundle(huge.bundle);
-  const title = validatedHuge.bundle?.articles[0].meta_title ?? '';
-  assert.ok(title.length > 0 && title.length <= 220, `validator must bound the title, got ${title.length}`);
-
-  // A structurally broken article is refused outright rather than half-imported.
-  const broken = normaliseN8nResponse(
-    { ru_article: { ...RU_ARTICLE, slug: 'НЕ ВАЛИДНЫЙ СЛАГ' } },
-    { jobId: 'job_10', requestId: null },
-  );
-  assert.equal(broken.ok, true);
-  if (!broken.ok) return;
-  const validatedBroken = validateIncomingBundle(broken.bundle);
-  assert.equal(validatedBroken.ok, false);
-  assert.ok(validatedBroken.errors.some((e) => e.path.endsWith('.slug')));
+  assert.equal(replay.ok, true);
+  assert.equal(db.value('SELECT COUNT(*) FROM ai_drafts'), 1);
 });
 
 // ═══ 5. Telegram (Tahlil) analysis ═════════════════════════════════════════

@@ -1,14 +1,17 @@
-// Direct-AI replacement for `startSeoAutopilotJob`.
+// The single SEO Autopilot launcher.
 //
-// Same StartJobInput / StartJobResult contract so every caller (manual,
-// scheduled, single-topic) keeps its existing flow. Internally we:
-//   1. Insert a `seo_autopilot_jobs` row (same table — bridge dashboard
-//      and stale watchdog keep working).
-//   2. Call `generateAndIngestDirectly` (Workers AI → AI Draft Inbox).
+//   1. Insert a `seo_autopilot_jobs` row (the Control Center dashboard and
+//      the stale-job watchdog read this table).
+//   2. Call `generateAndIngestDirectly` (LLM router → AI Draft Inbox).
 //   3. Update the job row with the final state (completed | failed).
 //
-// No n8n call. No bridge worker. Lifecycle is fully contained in the
-// active request — typical runtime is 20–60 s.
+// There is no second launcher. The n8n webhook bridge, its response
+// normaliser and the `SEO_AUTOPILOT_USE_DIRECT_AI` selector were removed in
+// R0.4 when n8n was retired, so this file owns the launch contract that used
+// to live in the deleted `launch.ts`.
+//
+// Lifecycle is fully contained in the active request — typical runtime is
+// 20–60 s.
 
 import type { Env } from '../../_types';
 import {
@@ -24,24 +27,38 @@ import {
   type DirectGenerationTopic,
 } from './direct-generator';
 
-// Re-export so callers don't have to import from two places.
-export type { StartJobResult, JobSource } from './launch';
+export type JobSource = 'admin' | 'schedule';
 
-import type { StartJobInput, StartJobResult } from './launch';
-export type { StartJobInput } from './launch';
+export interface StartJobInput {
+  env: Env;
+  source: JobSource;
+  /** e.g. admin email, "system:schedule". */
+  requestedBy: string;
+  /** JSON topic overrides supplied by the caller. */
+  rawBody: string;
+  requestId?: string | null;
+  /**
+   * When true (default for source='schedule'), refuses to launch if a
+   * non-terminal job exists in the last OVERLAP_WINDOW_MS. Manual runs
+   * default to false: the operator deliberately clicked the button.
+   */
+  blockOnOverlap?: boolean;
+}
+
+export type StartJobResult =
+  | { ok: true; jobId: string; status: AutopilotJob['status']; awaited: true; job: AutopilotJob }
+  | { ok: false; reason: 'storage_missing'; http: 503; message: string }
+  | { ok: false; reason: 'overlap_blocked'; http: 409; message: string; conflicting_job_id: string };
 
 const OVERLAP_WINDOW_MS = 5 * 60 * 1000;
 const SYNC_STALE_THRESHOLD_MS = 6 * 60 * 1000;
 
 /**
- * Drop-in direct-AI replacement for startSeoAutopilotJob. Returns the
- * same shape (`StartJobResult`) so existing endpoints route through it
- * without API changes.
+ * Launch one SEO Autopilot generation run and await it.
  *
- * `awaitCompletion: false` is intentionally NOT supported here. The
- * direct pipeline is sync-only — it's fast enough (20–60 s) that holding
- * the HTTP request open is the right primitive. Callers that pass
- * `awaitCompletion: false` will still get a sync awaited result.
+ * The pipeline is sync-only: it is fast enough (20–60 s) that holding the
+ * HTTP request open is the right primitive, so there is no fire-and-forget
+ * mode and no polling contract to keep alive.
  */
 export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<StartJobResult> {
   const { env, source } = input;
@@ -55,7 +72,7 @@ export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<
   }
 
   // Best-effort stale sweep so the overlap check below isn't confused by
-  // half-dead rows from the legacy bridge.
+  // half-dead rows left behind by an aborted request.
   try { await markStaleJobsAsFailed(env, SYNC_STALE_THRESHOLD_MS); } catch { /* best-effort */ }
 
   const blockOverlap = input.blockOnOverlap ?? source === 'schedule';
@@ -88,6 +105,10 @@ export async function startSeoAutopilotJobDirect(input: StartJobInput): Promise<
   // UI shows where the work is happening. Multi-provider router selects
   // the actual upstream per call; the per-job llm_provider/llm_model
   // columns carry the truth.
+  // The `n8n_url` column predates the retirement and is now a plain
+  // "where did this run" label. Migrating the column name would break the
+  // Control Center's read of historical rows, so the name stays and the
+  // value records the first-party runtime.
   const sentinelUrl = 'cloudflare://llm-router/seo-autopilot-direct';
 
   await createJob(env, { id: jobId, request_id: runId, n8n_url: sentinelUrl });
@@ -198,8 +219,9 @@ function fallbackJob(
 }
 
 /**
- * Decode the raw request body (legacy: { task_type, site_url, … }; new:
- * topic-plan overrides) into a normalised topic descriptor.
+ * Decode the raw request body (older callers send { task_type, site_url, … };
+ * current callers send topic-plan overrides) into a normalised topic
+ * descriptor.
  */
 function decodeTopicFromRawBody(raw: string): DirectGenerationTopic {
   if (!raw || typeof raw !== 'string') return {};
@@ -242,10 +264,4 @@ function stringOrUndefined(v: unknown): string | undefined {
 function stringOrNull(v: unknown): string | null {
   const s = stringOrUndefined(v);
   return s ?? null;
-}
-
-/** True when the SEO Autopilot is configured to use direct AI. */
-export function isDirectAiEnabled(env: Env): boolean {
-  const flag = (env.SEO_AUTOPILOT_USE_DIRECT_AI || 'true').toLowerCase();
-  return flag !== 'false' && flag !== '0' && flag !== 'no';
 }

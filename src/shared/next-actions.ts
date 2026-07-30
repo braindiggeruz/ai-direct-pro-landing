@@ -41,7 +41,7 @@ interface BuildInput {
   }) | null;
   content: { pages: Page[]; blog: BlogArticle[] } | null;
   drafts: { pending_review: number; needs_revision: number; last_pending_id: string | null; last_pending_admin_url: string | null; last_pending_title: string | null } | null;
-  autopilot: { active_failed: number; failed_24h: number; failed_total: number; in_flight: number; stale_swept: number; last_failed: { id: string; error_code: string | null; error_message: string | null; created_at?: string } | null; n8n_webhook_secret_configured: boolean; schedule_mode: string } | null;
+  autopilot: { active_failed: number; failed_24h: number; failed_total: number; in_flight: number; stale_swept: number; last_failed: { id: string; error_code: string | null; error_message: string | null; created_at?: string } | null; first_party_automation_enabled: boolean; schedule_mode: string } | null;
   health: {
     sitemap200Xml?: boolean; randomUrl404?: boolean; adminNoindex?: boolean;
     robots200?: boolean; faviconLive?: boolean; sampleImageLive?: boolean;
@@ -95,17 +95,17 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
   }
 
   // 2. Autopilot config issues — Critical: blocks new content end-to-end.
-  if (input.autopilot && !input.autopilot.n8n_webhook_secret_configured) {
+  if (input.autopilot && !input.autopilot.first_party_automation_enabled) {
     out.push(action({
-      title: 'Не настроен N8N_WEBHOOK_SECRET',
-      reason: 'SEO Автопилот не может вызвать n8n без общего webhook-секрета.',
-      effect: 'Новые AI-черновики не будут генерироваться, пока секрет не задан.',
+      title: 'Отключена собственная автоматизация',
+      reason: 'FIRST_PARTY_AUTOMATION_ENABLED не равен "true", поэтому очередь и Cron не обрабатывают задания.',
+      effect: 'Новые AI-черновики не будут генерироваться по расписанию, пока флаг не включён.',
       risk: 'critical',
       weight: 960,
       action_label: 'Открыть SEO Автопилот',
       action_path: '/admin-tools/seo-autopilot',
       category: 'config',
-    }, 'config-n8n-secret'));
+    }, 'config-first-party-automation'));
   }
 
   // 3. Active autopilot failure (within last 24h with latest run failed).
@@ -115,7 +115,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     const f = input.autopilot.last_failed;
     out.push(action({
       title: `Последний запуск SEO Автопилота завершился ошибкой (${f.error_code || 'error'})`,
-      reason: f.error_message ? f.error_message.slice(0, 200) : 'Подробности в карточке задания (n8n excerpt, validation issues).',
+      reason: f.error_message ? f.error_message.slice(0, 200) : 'Подробности в карточке задания (диагностика провайдера, validation issues).',
       effect: 'Повторите запуск, чтобы получить свежий RU + UZ пакет. Существующие черновики не затрагиваются.',
       risk: 'high',
       weight: 870,

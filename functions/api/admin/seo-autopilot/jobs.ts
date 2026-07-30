@@ -82,8 +82,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       deduplicated: (row.deduplicated as number) === 1,
       ingestion_success: (row.ingestion_success as number) === 1,
       error_code: row.error_code,
-      // Put the actual n8n response first so the existing Control Center table
-      // exposes useful diagnostics instead of only "n8n returned HTTP 400".
+      // Put the recorded upstream excerpt first so the Control Center table
+      // exposes the useful diagnostic rather than only the generic base
+      // message. Historical rows may carry excerpts from the retired bridge.
       error_message: excerpt
         ? `${excerpt}${baseMessage ? ` — ${baseMessage}` : ''}`
         : (baseMessage || null),
@@ -117,11 +118,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const pendingDrafts = Number(pendingDraftsRow?.cnt ?? 0);
 
   const system = {
-    n8n_webhook_secret_configured: !!env.N8N_WEBHOOK_SECRET,
     cron_secret_configured: !!env.CRON_SECRET,
     drafts_db_configured: !!env.GPTBOT_DRAFTS_DB,
-    external_trigger_enabled: (env.EXTERNAL_AUTOPILOT_TRIGGER_ENABLED || 'false').toLowerCase() === 'true',
-    direct_ai_enabled: (env.SEO_AUTOPILOT_USE_DIRECT_AI || 'true').toLowerCase() !== 'false',
+    first_party_automation_enabled:
+      (env.FIRST_PARTY_AUTOMATION_ENABLED || 'false').toLowerCase() === 'true',
     ai_binding_configured: !!env.AI,
     stale_jobs_swept: staleSwept,
     pending_drafts: pendingDrafts,

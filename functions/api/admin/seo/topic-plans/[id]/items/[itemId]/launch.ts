@@ -3,25 +3,20 @@
 // Launches ONE plan item:
 //   1. reserve the intent (D1 unique-index check)
 //   2. mark item status='reserved' / 'generating'
-//   3. call the existing /api/admin/seo-autopilot/run path (via the
-//      shared startSeoAutopilotJob helper) with a small overrides JSON
-//      that hints n8n at the planned topic
-//   4. when the launch resolves, mark the item 'generated' (n8n already
-//      stored the draft via the ingest endpoint) and run Intent Guard
-//      analyze on the RU/UZ pair automatically.
+//   3. run the first-party generation pipeline with the planned topic as
+//      overrides
+//   4. when the launch resolves, mark the item 'generated' and run Intent
+//      Guard analyze on the RU/UZ pair automatically.
 //
-// Note: n8n itself decides whether to honour the topic hint. Even if
-// it ignores the hint and produces its usual research-driven article,
-// the Intent Guard step still saves the conflict score so the operator
-// can decide whether to retarget.
+// The generator receives the planned topic directly, so the produced article
+// matches the plan item. The Intent Guard step still saves the conflict score
+// so the operator can decide whether to retarget.
 
 import type { Env } from '../../../../../../../_types';
 import { requireAuth } from '../../../../../../../lib/jwt';
 import { getItem, updateItem } from '../../../../../../../lib/intent-guard/plans';
 import { reserveTopic, transitionReservation } from '../../../../../../../lib/intent-guard/reservations';
-import { startSeoAutopilotJob } from '../../../../../../../lib/seo-autopilot/launch';
-import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../../../../../lib/seo-autopilot/direct-launch';
-import { buildLaunchPayload } from '../../../../../../../lib/seo-autopilot/payload';
+import { startSeoAutopilotJobDirect } from '../../../../../../../lib/seo-autopilot/direct-launch';
 import { analyzeCandidate } from '../../../../../../../lib/intent-guard/analyze';
 import { saveAnalysis, logAuditEvent } from '../../../../../../../lib/intent-guard/audit';
 import { getDraft } from '../../../../../../../lib/ai-drafts/store';
@@ -103,30 +98,17 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
     plan_item_id: itemId,
     intent_key: item.intent_key,
   };
-  const useDirectAi = isDirectAiEnabled(ctx.env);
   const runId = `gptbot-plan-${planId}-${itemId}-${Date.now().toString(36)}`;
-  const rawBody = useDirectAi
-    ? JSON.stringify(overrides)
-    : JSON.stringify(buildLaunchPayload({
-        source: 'admin',
-        requestedBy: auth.email,
-        runId,
-        overrides,
-      }));
   await updateItem(ctx.env, itemId, { status: 'generating' });
   await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
 
-  const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
-  const launch = await launchFn({
+  const launch = await startSeoAutopilotJobDirect({
     env: ctx.env,
-    waitUntil: (p: Promise<unknown>) => ctx.waitUntil(p),
     source: 'admin',
     requestedBy: auth.email,
-    rawBody,
-    runableSecret: ctx.env.N8N_WEBHOOK_SECRET || '',
+    rawBody: JSON.stringify(overrides),
     requestId: runId,
     blockOnOverlap: false,
-    awaitCompletion: true,
   });
 
   if (!launch.ok) {
@@ -135,20 +117,14 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
     return jsonResponse({ ok: false, error: launch.message, reason: launch.reason }, launch.http);
   }
 
-  // launch.awaited path returns the final job state inline. Find the
-  // draft_id and run Intent Guard analysis automatically.
-  let draftId: string | null = null;
-  let jobId: string;
-  if (launch.awaited && launch.job) {
-    draftId = launch.job.draft_id || null;
-    jobId = launch.job.id || launch.jobId;
-    if (launch.job.status === 'failed') {
-      await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'n8n launch failed', source_job_id: jobId });
-      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
-      return jsonResponse({ ok: false, error: launch.job.error_message || 'launch failed', job: launch.job }, 502);
-    }
-  } else {
-    jobId = launch.jobId;
+  // The launcher awaits the run, so the final job state is inline here. Find
+  // the draft_id and run Intent Guard analysis automatically.
+  const draftId: string | null = launch.job.draft_id || null;
+  const jobId: string = launch.job.id || launch.jobId;
+  if (launch.job.status === 'failed') {
+    await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'generation failed', source_job_id: jobId });
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
+    return jsonResponse({ ok: false, error: launch.job.error_message || 'launch failed', job: launch.job }, 502);
   }
 
   await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });

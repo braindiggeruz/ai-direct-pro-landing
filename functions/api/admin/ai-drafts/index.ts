@@ -1,20 +1,20 @@
 // /api/admin/ai-drafts
 //
-//   POST  — n8n SEO Autopilot ingestion endpoint. Auth: Bearer N8N_INGEST_TOKEN.
-//   GET   — admin list endpoint. Auth: JWT (existing admin auth).
+//   GET  — admin list endpoint. Auth: JWT (existing admin auth).
+//   POST — permanently gone (410). This used to be the n8n SEO Autopilot
+//          ingestion endpoint, authenticated with a Bearer N8N_INGEST_TOKEN.
+//          n8n was retired in R0.4: drafts are now produced only by the
+//          first-party pipeline, which calls the shared ingest service
+//          in-process. There is no token, no feature flag and no environment
+//          variable that can bring this producer back — the code is gone.
 //
-// ALL incoming drafts are forced to status='pending_review' and never
-// auto-publish. Repeated POST with the same bundle_id is idempotent.
+// Drafts still always land as status='pending_review' and never auto-publish.
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
-import { constantTimeEqual, listDrafts } from '../../../lib/ai-drafts/store';
-import { ingestRawBundle } from '../../../lib/ai-drafts/ingest';
+import { listDrafts } from '../../../lib/ai-drafts/store';
 import { redactedInternalError } from '../../../lib/api-errors';
 import type { AiDraftStatus } from '../../../../src/shared/ai-drafts';
-
-const MAX_BODY_BYTES = 256 * 1024;
-const MAX_BEARER_CHARS = 512;
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -23,68 +23,22 @@ function json(data: unknown, status = 200): Response {
   });
 }
 
-function extractBearer(req: Request): string | null {
-  const h = req.headers.get('Authorization') || req.headers.get('authorization');
-  if (!h || !h.startsWith('Bearer ')) return null;
-  const t = h.slice(7).trim();
-  return t || null;
-}
-
 export const onRequestOptions: PagesFunction<Env> = async () =>
   new Response(null, {
     status: 204,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Max-Age': '86400',
     },
   });
 
-// -- POST = n8n ingestion (Bearer auth) ------------------------------------
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  if ((env.N8N_INGEST_ENABLED ?? 'false').toLowerCase() !== 'true') {
-    return json({ error: 'Not Found' }, 404);
-  }
-  if (
-    typeof env.N8N_INGEST_TOKEN !== 'string'
-    || env.N8N_INGEST_TOKEN.trim() === ''
-    || env.N8N_INGEST_TOKEN.length > MAX_BEARER_CHARS
-  ) {
-    return json({ error: 'Ingestion endpoint not configured.' }, 503);
-  }
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
-
-  const token = extractBearer(request);
-  if (!token) return json({ error: 'Missing Authorization bearer token' }, 401);
-  if (token.length > MAX_BEARER_CHARS) {
-    return json({ error: 'Invalid Authorization token' }, 401);
-  }
-  if (!constantTimeEqual(token, env.N8N_INGEST_TOKEN)) {
-    return json({ error: 'Invalid Authorization token' }, 401);
-  }
-
-  const ctype = request.headers.get('Content-Type') || '';
-  if (!ctype.toLowerCase().includes('application/json')) {
-    return json({ error: 'Content-Type must be application/json' }, 415);
-  }
-
-  const len = Number(request.headers.get('Content-Length') || 0);
-  if (Number.isFinite(len) && len > MAX_BODY_BYTES) {
-    return json({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
-  }
-
-  const raw = await request.text();
-  if (raw.length > MAX_BODY_BYTES) {
-    return json({ error: `Payload too large (>${MAX_BODY_BYTES} bytes)` }, 413);
-  }
-  let parsed: unknown;
-  try { parsed = JSON.parse(raw); } catch { return json({ error: 'Invalid JSON body' }, 400); }
-
-  const result = await ingestRawBundle(env, parsed);
-  if (!result.ok) return json(result.body, result.http);
-  return json(result.response, 200);
-};
+// -- POST = retired external ingest ----------------------------------------
+// 410 rather than 404: the route existed, it is deliberately withdrawn, and a
+// permanent status stops any surviving external caller from retrying.
+export const onRequestPost: PagesFunction<Env> = async () =>
+  json({ error: 'Gone', detail: 'External draft ingestion was retired. Drafts are produced by the first-party automation pipeline only.' }, 410);
 
 // -- GET = admin list (JWT auth) -------------------------------------------
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {

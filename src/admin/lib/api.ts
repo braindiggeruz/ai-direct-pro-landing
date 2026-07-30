@@ -130,7 +130,7 @@ export const api = {
     request<import('../../shared/serp').SerperBatchResult>('POST', '/api/seo/serper/batch', req),
   serperLogs: () =>
     request<{ runs: import('../../shared/serp').SerpRunLog[] }>('GET', '/api/seo/serper/logs'),
-  // AI Draft Inbox — n8n SEO Autopilot delivers RU/UZ bundles into D1.
+  // AI Draft Inbox — the SEO Autopilot pipeline lands RU/UZ bundles in D1.
   aiDraftsList: (filters: { status?: string; locale?: string; source?: string; limit?: number } = {}) => {
     const q = new URLSearchParams();
     if (filters.status) q.set('status', filters.status);
@@ -523,7 +523,7 @@ export const api = {
       'POST',
       '/api/admin/seo-autopilot/run',
       overrides,
-      { timeoutMs: 5 * 60 * 1000 }, // n8n full generation can take 1–4 min
+      { timeoutMs: 5 * 60 * 1000 }, // a full RU+UZ generation run takes 1–4 min
     ),
   seoAutopilotJobs: () =>
     request<{
@@ -538,7 +538,7 @@ export const api = {
   seoAutopilotGetSchedule: () =>
     request<{
       schedule: { mode: 'disabled' | 'weekly' | 'twice_weekly'; active_days: number[]; updated_at?: string; updated_by?: string };
-      system: { n8n_webhook_secret_configured: boolean; cron_secret_configured: boolean; external_trigger_enabled: boolean; drafts_db_configured: boolean };
+      system: { cron_secret_configured: boolean; first_party_automation_enabled: boolean; drafts_db_configured: boolean };
     }>('GET', '/api/admin/seo-autopilot/schedule'),
   seoAutopilotSetSchedule: (mode: 'disabled' | 'weekly' | 'twice_weekly') =>
     request<{ schedule: { mode: string; active_days: number[]; updated_at?: string; updated_by?: string } }>(

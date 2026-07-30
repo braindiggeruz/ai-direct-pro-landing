@@ -227,36 +227,6 @@
       "owner": "security"
     },
     {
-      "name": "N8N_INGEST_TOKEN",
-      "runtime": "cloudflare-pages-functions",
-      "required_for_r1": false,
-      "secret": true,
-      "kind": "opaque",
-      "purpose": "Legacy n8n draft ingest bearer; absent after verified retirement",
-      "validation": "required only for a complete ROTATED disposition; a complete RETIRED disposition requires revocation/rejection instead",
-      "owner": "automation"
-    },
-    {
-      "name": "N8N_INGEST_ENABLED",
-      "runtime": "cloudflare-pages-functions",
-      "required_for_r1": false,
-      "secret": false,
-      "kind": "boolean_flag",
-      "purpose": "Legacy ingest kill switch; false or absent after retirement",
-      "validation": "closed value true or false; production retirement requires false or absent",
-      "owner": "automation"
-    },
-    {
-      "name": "N8N_WEBHOOK_SECRET",
-      "runtime": "cloudflare-pages-functions",
-      "required_for_r1": false,
-      "secret": true,
-      "kind": "opaque",
-      "purpose": "Legacy n8n bridge safety header",
-      "validation": "required only when the legacy bridge is enabled",
-      "owner": "automation"
-    },
-    {
       "name": "CRON_SECRET",
       "runtime": "cloudflare-pages-functions",
       "required_for_r1": false,
@@ -536,5 +506,18 @@
       "validation": "absolute HTTPS URL",
       "owner": "frontend"
     }
-  ]
+  ],
+  "retired_variables": {
+    "retired_at": "2026-07-30",
+    "release": "R0.4",
+    "reason": "n8n was retired from GPTBot. The legacy ingest endpoint, the webhook bridge, its response normaliser and the public external trigger were deleted, so none of these names is read by any runtime. Setting one has no effect and must not be treated as a way to re-enable the legacy path.",
+    "names": [
+      "N8N_INGEST_TOKEN",
+      "N8N_INGEST_ENABLED",
+      "N8N_WEBHOOK_SECRET",
+      "EXTERNAL_AUTOPILOT_TRIGGER_ENABLED",
+      "SEO_AUTOPILOT_USE_DIRECT_AI"
+    ],
+    "enforcement": "A production environment carrying any of these names fails the release preflight."
+  }
 }

@@ -198,7 +198,7 @@ interface AutopilotSummary {
   last_failed: { id: string; error_code: string | null; error_message: string | null; created_at: string } | null;
   last_run: { id: string; status: string; created_at: string } | null;
   schedule_mode: 'disabled' | 'weekly' | 'twice_weekly';
-  n8n_webhook_secret_configured: boolean;
+  first_party_automation_enabled: boolean;
   cron_secret_configured: boolean;
 }
 
@@ -260,7 +260,8 @@ async function loadAutopilotSummary(env: Env): Promise<AutopilotSummary> {
       ? { id: lastRun.id, status: lastRun.status, created_at: lastRun.created_at }
       : null,
     schedule_mode: scheduleMode,
-    n8n_webhook_secret_configured: !!env.N8N_WEBHOOK_SECRET,
+    first_party_automation_enabled:
+      (env.FIRST_PARTY_AUTOMATION_ENABLED || 'false').toLowerCase() === 'true',
     cron_secret_configured: !!env.CRON_SECRET,
   };
 }
@@ -280,7 +281,7 @@ export interface CockpitResponse {
     github_token_configured: boolean;
     jwt_secret_configured: boolean;
     drafts_db_configured: boolean;
-    n8n_webhook_secret_configured: boolean;
+    first_party_automation_enabled: boolean;
     serper_configured: boolean;
     openrouter_configured: boolean;
     gemini_configured: boolean;
@@ -351,7 +352,8 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler<Env>('admin.coc
       github_token_configured: !!env.GITHUB_TOKEN,
       jwt_secret_configured: !!env.JWT_SECRET,
       drafts_db_configured: !!env.GPTBOT_DRAFTS_DB,
-      n8n_webhook_secret_configured: !!env.N8N_WEBHOOK_SECRET,
+      first_party_automation_enabled:
+        (env.FIRST_PARTY_AUTOMATION_ENABLED || 'false').toLowerCase() === 'true',
       serper_configured: !!env.SERPER_API_KEY,
       openrouter_configured: !!env.OPENROUTER_API_KEY,
       gemini_configured: !!env.GEMINI_API_KEY,

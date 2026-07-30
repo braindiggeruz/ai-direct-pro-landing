@@ -2,7 +2,7 @@
 //
 // Replaces the external Runable trigger. The owner clicks
 // "Запустить SEO Автопилот" → POST /api/admin/seo-autopilot/run with the
-// admin JWT → server-side n8n call (synchronous wait) → AI Draft Inbox.
+// admin JWT → server-side generation run (synchronous wait) → AI Draft Inbox.
 //
 // Also manages the cron schedule (disabled / weekly / twice_weekly) and
 // shows the most recent runs.
@@ -159,34 +159,24 @@ export default function SeoAutopilotControlCenter() {
     failed: jobs.filter((j) => j.status === 'failed').length,
   }), [jobs]);
 
-  // Preflight: in direct-AI mode we need (a) drafts DB and (b) at least
-  // one LLM provider key configured (multi-provider router). The old
-  // Workers AI binding is no longer required — the router routes through
-  // Mistral / Gemini / Groq / Cerebras REST instead.
+  // Preflight: the pipeline needs (a) the drafts DB and (b) at least one
+  // LLM provider key configured (multi-provider router). The old Workers AI
+  // binding is not required — the router calls Mistral / Gemini / Groq /
+  // Cerebras REST instead.
   const anyLlmProvider = (system?.llm_providers || []).some((p) => p.configured);
-  const preflightOk = system?.direct_ai_enabled
-    ? (anyLlmProvider && system?.drafts_db_configured)
-    : (system?.n8n_webhook_secret_configured && system?.drafts_db_configured);
+  const preflightOk = !!(anyLlmProvider && system?.drafts_db_configured);
   const launchDisabled = busy || !preflightOk;
 
   // Pretty stage from elapsed time so the spinner conveys SOMETHING.
   // Multi-provider mode is fast — typical Mistral medium + queue
   // concurrency=1 gives ~5 s per locale, ~15-30 s end-to-end for two
   // locales. Slower providers stretch this but never block.
-  const directAi = !!system?.direct_ai_enabled;
   const stage = !busy ? null
-    : directAi
-      ? (elapsedMs < 3_000   ? 'Подготовка темы…'
+    : (elapsedMs < 3_000   ? 'Подготовка темы…'
         : elapsedMs < 20_000 ? 'AI router пишет RU-статью (heavy queue, concurrency=1)…'
         : elapsedMs < 45_000 ? 'AI router пишет UZ-адаптацию…'
         : elapsedMs < 70_000 ? 'Финальная валидация контракта…'
-        : 'Дольше обычного — возможно, primary провайдер недоступен, fallback в работе…')
-      : (elapsedMs < 5_000  ? 'Запрос к n8n…'
-        : elapsedMs < 30_000 ? 'Сбор SERP + sitemap (~30 s)…'
-        : elapsedMs < 75_000 ? 'OpenRouter генерирует RU-статью…'
-        : elapsedMs < 130_000 ? 'OpenRouter генерирует UZ-адаптацию…'
-        : elapsedMs < 180_000 ? 'Финальная валидация…'
-        : 'Дольше обычного — ожидайте ещё пару минут…');
+        : 'Дольше обычного — возможно, primary провайдер недоступен, fallback в работе…');
 
   return (
     <div className="p-6 sm:p-8 space-y-6" data-testid="seo-autopilot-control-center">
@@ -220,7 +210,7 @@ export default function SeoAutopilotControlCenter() {
             <div>
               <div className="text-amber-200 font-medium">Configuration required</div>
               <ul className="text-white/80 text-sm mt-2 space-y-1">
-                {system.direct_ai_enabled && !anyLlmProvider && (
+                {!anyLlmProvider && (
                   <li data-testid="preflight-missing-llm-provider">
                     • No LLM provider configured. Add at least ONE of{' '}
                     <code className="text-amber-200">MISTRAL_API_KEY</code>,{' '}
@@ -234,10 +224,10 @@ export default function SeoAutopilotControlCenter() {
                     · Cerebras: <a className="text-brand-cyan underline" href="https://cloud.cerebras.ai/" target="_blank" rel="noreferrer">cloud.cerebras.ai</a>.
                   </li>
                 )}
-                {!system.direct_ai_enabled && !system.n8n_webhook_secret_configured && (
-                  <li data-testid="preflight-missing-webhook">
-                    • <code className="text-amber-200">N8N_WEBHOOK_SECRET</code> is not set in Cloudflare Pages.
-                    Set it to the value the n8n "Validate Safety Rules" node expects (same as the legacy Runable header value).
+                {!system.first_party_automation_enabled && (
+                  <li data-testid="preflight-automation-disabled">
+                    • <code className="text-amber-200">FIRST_PARTY_AUTOMATION_ENABLED</code> is not "true".
+                    Manual runs still work; the Cron trigger and the Queue consumer stay idle until it is set.
                   </li>
                 )}
                 {!system.drafts_db_configured && (
@@ -249,11 +239,11 @@ export default function SeoAutopilotControlCenter() {
         </Card>
       )}
 
-      {system?.direct_ai_enabled && (system?.llm_providers?.some((p) => p.configured) || system?.ai_binding_configured) && (
+      {(system?.llm_providers?.some((p) => p.configured) || system?.ai_binding_configured) && (
         <Card className="border-brand-blue/20 bg-brand-blue/5" data-testid="control-center-direct-ai-banner">
           <div className="flex items-center gap-2 text-white/80 text-sm flex-wrap">
             <ShieldCheck size={14} className="text-brand-cyan"/>
-            <span><strong>Multi-provider AI router active.</strong> Heavy queue concurrency=1, automatic fallback across providers, no n8n round-trip.</span>
+            <span><strong>Multi-provider AI router active.</strong> Heavy queue concurrency=1, automatic fallback across providers, no external round-trip.</span>
             <span className="ml-auto flex gap-2 flex-wrap text-[11px]" data-testid="control-center-providers">
               {(system.llm_providers || []).map((p) => (
                 <span
@@ -280,9 +270,7 @@ export default function SeoAutopilotControlCenter() {
           <h2 className="font-display text-lg text-white mb-3">Manual run</h2>
           <p className="text-white/60 text-sm mb-5">
             Click below to generate a fresh RU + UZ article package now.
-            {system?.direct_ai_enabled
-              ? ' Multi-provider AI router selects the best available model (Mistral / Gemini / Groq / Cerebras), with automatic fallback. Heavy queue concurrency=1 so a batch of 10 topics never bursts the upstream quota. Typical run: 15–60 s.'
-              : <> The server calls n8n with the <code className="text-brand-cyan mx-1">N8N_WEBHOOK_SECRET</code> stored in Cloudflare. Generation takes 1–4 minutes; the page holds the connection open until the draft is ready.</>}
+            {' Multi-provider AI router selects the best available model (Mistral / Gemini / Groq / Cerebras), with automatic fallback. Heavy queue concurrency=1 so a batch of 10 topics never bursts the upstream quota. Typical run: 15–60 s.'}
           </p>
           <div className="flex gap-2 flex-wrap items-center">
             <Button
@@ -504,10 +492,7 @@ export default function SeoAutopilotControlCenter() {
         <ol className="text-white/70 text-sm space-y-1 list-decimal list-inside">
           <li>Admin clicks <em>Запустить SEO Автопилот</em> or <em>Запустить одну</em> on a topic.</li>
           <li>Server POSTs to <code className="text-brand-cyan">/api/admin/seo-autopilot/run</code> (JWT-authenticated).</li>
-          <li>{system?.direct_ai_enabled
-              ? <>Multi-provider AI router writes RU + UZ articles. Heavy tasks run sequentially (concurrency=1) — no burst. Per-feature priority: Mistral → Gemini → Groq → Cerebras, with automatic fallback on 429/5xx. Typical run 15–60 s.</>
-              : <>Server calls the n8n production webhook (sync await) and stores the RU+UZ package in the AI Draft Inbox.</>}
-          </li>
+          <li>Multi-provider AI router writes RU + UZ articles. Heavy tasks run sequentially (concurrency=1) — no burst. Per-feature priority: Mistral → Gemini → Groq → Cerebras, with automatic fallback on 429/5xx. Typical run 15–60 s.</li>
           <li>The function validates the bundle and stores it in the AI Draft Inbox as <strong>pending_review</strong>.</li>
           <li>Open the draft → import each locale into the Blog Editor → click <em>Publish to GitHub</em> manually.</li>
         </ol>

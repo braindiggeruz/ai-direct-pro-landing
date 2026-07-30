@@ -329,8 +329,7 @@
     "locale_redirects_present": true,
     "prerender_generation_present": true,
     "sitemap_generation_present": true,
-    "first_party_automation_routes_present": true,
-    "legacy_n8n_default_off": true
+    "first_party_automation_routes_present": true
   },
   "evidence_files": [
     "src/main.tsx",

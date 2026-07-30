@@ -21,7 +21,7 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
       mojibakePages: 0, pages: [] },
     content: { pages: [], blog: [] },
     drafts: { pending_review: 0, needs_revision: 0, last_pending_id: null, last_pending_admin_url: null, last_pending_title: null },
-    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 0, stale_swept: 0, last_failed: null, n8n_webhook_secret_configured: true, schedule_mode: 'weekly' },
+    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 0, stale_swept: 0, last_failed: null, first_party_automation_enabled: true, schedule_mode: 'weekly' },
     health: { sitemap200Xml: true, randomUrl404: true, adminNoindex: true, robots200: true, faviconLive: true, sampleImageLive: true },
     sectionsFailed: [],
   });
@@ -33,7 +33,7 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
   const r = buildNextBestActions({
     audit: null, content: null,
     drafts: { pending_review: 1, needs_revision: 0, last_pending_id: 'draft_xyz', last_pending_admin_url: '/admin-tools/ai-drafts/draft_xyz', last_pending_title: 'GPT-боты для бизнеса в Узбекистане' },
-    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 0, stale_swept: 0, last_failed: null, n8n_webhook_secret_configured: true, schedule_mode: 'disabled' },
+    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 0, stale_swept: 0, last_failed: null, first_party_automation_enabled: true, schedule_mode: 'disabled' },
     health: null, sectionsFailed: [],
   });
   const pending = r.find((a) => a.id.startsWith('drafts-pending'));
@@ -89,7 +89,7 @@ const expect = (name: string, cond: boolean, detail?: string): void => { results
       mojibakePages: 1, pages: [] },
     content: null,
     drafts: { pending_review: 2, needs_revision: 1, last_pending_id: 'd', last_pending_admin_url: '/admin-tools/ai-drafts/d', last_pending_title: 't' },
-    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 1, stale_swept: 0, last_failed: { id: 'job_1', error_code: 'n8n_http_400', error_message: 'boom', }, n8n_webhook_secret_configured: true, schedule_mode: 'weekly' },
+    autopilot: { active_failed: 0, failed_24h: 0, failed_total: 0, in_flight: 1, stale_swept: 0, last_failed: { id: 'job_1', error_code: 'llm_provider_missing', error_message: 'boom', }, first_party_automation_enabled: true, schedule_mode: 'weekly' },
     health: { sitemap200Xml: false, randomUrl404: true, adminNoindex: true, robots200: true, faviconLive: true, sampleImageLive: true },
     sectionsFailed: [],
   });

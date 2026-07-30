@@ -51,7 +51,7 @@ export interface CockpitAutopilot {
   last_failed: { id: string; error_code: string | null; error_message: string | null; created_at: string } | null;
   last_run: { id: string; status: string; created_at: string } | null;
   schedule_mode: 'disabled' | 'weekly' | 'twice_weekly';
-  n8n_webhook_secret_configured: boolean;
+  first_party_automation_enabled: boolean;
   cron_secret_configured: boolean;
 }
 
@@ -98,7 +98,7 @@ export interface CockpitResponse {
     github_token_configured: boolean;
     jwt_secret_configured: boolean;
     drafts_db_configured: boolean;
-    n8n_webhook_secret_configured: boolean;
+    first_party_automation_enabled: boolean;
     serper_configured: boolean;
     openrouter_configured: boolean;
     gemini_configured: boolean;

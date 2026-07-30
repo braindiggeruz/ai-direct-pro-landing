@@ -3,7 +3,7 @@
 // added later without touching component code.
 //
 // Rules:
-//   * Keep product names in English: GPTBot, SEO, OpenRouter, Serper, n8n,
+//   * Keep product names in English: GPTBot, SEO, OpenRouter, Serper,
 //     GitHub, IndexNow, Cloudflare, AI, JSON-LD.
 //   * Use natural Russian, not literal calques.
 //   * Status / state words are short.
@@ -114,7 +114,7 @@ export const ru = {
       github_label:    'GitHub',
       jwt_label:       'JWT-секрет',
       d1_label:        'D1 (черновики)',
-      n8n_label:       'n8n webhook',
+      automation_label: 'Своя автоматизация',
       openrouter_label:'OpenRouter',
       serper_label:    'Serper',
       gemini_label:    'Gemini (опц.)',
@@ -176,7 +176,7 @@ export const ru = {
       draft:           'черновик',
       noindex:         'noindex',
       pending:         'ожидает',
-      forwarding:      'отправляется в n8n',
+      forwarding:      'генерируется',
       normalising:     'обработка ответа',
       ingesting:       'сохраняется',
       completed:       'готово',
@@ -216,9 +216,9 @@ export const ru = {
   // ─── SEO Autopilot Control Center ──────────────────────────────────
   autopilot: {
     title:              'SEO Автопилот',
-    subtitle:           'Запускает существующий n8n-движок генерации и сохраняет RU/UZ пакет в AI Draft Inbox. Черновики остаются не опубликованными до ручного Publish to GitHub в Blog Editor.',
+    subtitle:           'Запускает собственный движок генерации и сохраняет RU/UZ пакет в AI Draft Inbox. Черновики остаются не опубликованными до ручного Publish to GitHub в Blog Editor.',
     manual_run:         'Ручной запуск',
-    manual_run_hint:    'Браузер никогда не получает n8n-секрет — сервер вызывает n8n с N8N_WEBHOOK_SECRET из Cloudflare. Генерация занимает 1–4 минуты; страница держит соединение открытым, пока черновик не готов.',
+    manual_run_hint:    'Браузер никогда не получает ключи провайдеров — генерация целиком выполняется на сервере. Она занимает 1–4 минуты; страница держит соединение открытым, пока черновик не готов.',
     run:                'Запустить SEO Автопилот',
     open_draft:         'Открыть новый черновик',
     open_last_draft:    'Открыть последний черновик',
@@ -233,20 +233,20 @@ export const ru = {
     recent_runs:        'Недавние запуски',
     stale_swept:        '{n} зависших задач автоматически восстановлены.',
     no_runs:            'Запусков пока нет. Нажмите «Запустить SEO Автопилот» наверху.',
-    progress_request:   'Отправляем запрос в n8n…',
+    progress_request:   'Отправляем запрос генератору…',
     progress_serp:      'Собираем SERP и sitemap (~30 секунд)…',
     progress_ru:        'OpenRouter генерирует RU-статью…',
     progress_uz:        'OpenRouter генерирует UZ-адаптацию…',
     progress_validate:  'Финальная валидация…',
     progress_long:      'Дольше обычного — подождите ещё пару минут…',
-    keep_page:          'Не закрывайте страницу — закрытие не остановит n8n, но черновик появится в Inbox в фоне.',
+    keep_page:          'Не закрывайте страницу — закрытие не остановит генерацию, но черновик появится в Inbox в фоне.',
     no_publish:         'Без GitHub publish, без IndexNow, без публикации — только черновик.',
     table: {
       status:       'Статус',
       source:       'Источник',
       started:      'Начато',
       duration:     'Длительность',
-      n8n:          'n8n',
+      generator:    'Генератор',
       validation:   'Валидация',
       draft_error:  'Черновик / ошибка',
       passed:       'пройдена',
@@ -256,7 +256,7 @@ export const ru = {
       schedule:     'По расписанию',
       external:     'Внешний (устарел)',
     },
-    n8n_secret_missing:'N8N_WEBHOOK_SECRET не настроен. Установите его в Cloudflare Pages → Settings → Environment variables.',
+    automation_disabled:'FIRST_PARTY_AUTOMATION_ENABLED не равен "true". Установите его в Cloudflare Pages → Settings → Environment variables.',
     cron_secret_missing:'CRON_SECRET не настроен — запуски по расписанию будут отклонены.',
     drafts_db_missing:'D1 binding GPTBOT_DRAFTS_DB отсутствует.',
     config_required:  'Требуется настройка',
@@ -269,13 +269,13 @@ export const ru = {
     section_failed_effect: 'Часть KPI и очередей будет пустой, пока внешний сервис не восстановится.',
     section_failed_action: 'Повторить загрузку',
 
-    n8n_secret_title:      'Не настроен N8N_WEBHOOK_SECRET',
-    n8n_secret_reason:     'SEO Автопилот не может вызвать n8n без общего webhook-секрета.',
-    n8n_secret_effect:     'Новые AI-черновики не будут генерироваться, пока секрет не задан.',
-    n8n_secret_action:     'Открыть SEO Автопилот',
+    automation_title:      'Отключена собственная автоматизация',
+    automation_reason:     'FIRST_PARTY_AUTOMATION_ENABLED не равен "true", поэтому очередь и Cron не обрабатывают задания.',
+    automation_effect:     'Новые AI-черновики не будут генерироваться по расписанию, пока флаг не включён.',
+    automation_action:     'Открыть SEO Автопилот',
 
     autopilot_failed_title:  'Последний запуск SEO Автопилота — ошибка ({code})',
-    autopilot_failed_reason: 'Подробности в карточке задания (n8n excerpt, validation issues).',
+    autopilot_failed_reason: 'Подробности в карточке задания (диагностика провайдера, validation issues).',
     autopilot_failed_effect: 'Повторите запуск, чтобы получить свежий RU+UZ-пакет. Существующие черновики не затрагиваются.',
     autopilot_failed_action: 'Открыть Автопилот',
 

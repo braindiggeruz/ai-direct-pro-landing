@@ -158,7 +158,7 @@ export default function Cockpit() {
       { tone: ghLevelTone, label: `${t.cockpit.health.github_label} · ${gh.owner}/${gh.repo}@${gh.branch}` },
       { tone: sys.jwt_secret_configured ? 'ok' : 'fail',    label: t.cockpit.health.jwt_label },
       { tone: sys.drafts_db_configured ? 'ok' : 'fail',     label: t.cockpit.health.d1_label },
-      { tone: sys.n8n_webhook_secret_configured ? 'ok' : 'fail', label: t.cockpit.health.n8n_label },
+      { tone: sys.first_party_automation_enabled ? 'ok' : 'fail', label: t.cockpit.health.automation_label },
       { tone: sys.openrouter_configured ? 'ok' : 'fail',    label: t.cockpit.health.openrouter_label },
       { tone: sys.serper_configured ? 'ok' : 'fail',        label: t.cockpit.health.serper_label },
       { tone: sys.gemini_configured ? 'ok' : 'fail',        label: t.cockpit.health.gemini_label },

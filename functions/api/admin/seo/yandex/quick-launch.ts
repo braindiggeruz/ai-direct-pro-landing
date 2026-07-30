@@ -49,9 +49,7 @@ import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { createPlan, getPlan, listPlans, listItems, updateItem } from '../../../../lib/intent-guard/plans';
 import { reserveTopic, transitionReservation } from '../../../../lib/intent-guard/reservations';
-import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../../lib/seo-autopilot/direct-launch';
-import { startSeoAutopilotJob } from '../../../../lib/seo-autopilot/launch';
-import { buildLaunchPayload } from '../../../../lib/seo-autopilot/payload';
+import { startSeoAutopilotJobDirect } from '../../../../lib/seo-autopilot/direct-launch';
 import { analyzeCandidate } from '../../../../lib/intent-guard/analyze';
 import { saveAnalysis, logAuditEvent } from '../../../../lib/intent-guard/audit';
 import { getDraft } from '../../../../lib/ai-drafts/store';
@@ -383,25 +381,17 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
     // Yandex context surfaces in the brief so the LLM has SERP grounding.
     yandex_context: body.yandex_context || null,
   };
-  const useDirectAi = isDirectAiEnabled(ctx.env);
   const runId = `gptbot-yandex-${itemId}-${Date.now().toString(36)}`;
-  const rawBody = useDirectAi
-    ? JSON.stringify(overrides)
-    : JSON.stringify(buildLaunchPayload({ source: 'admin', requestedBy: auth.email, runId, overrides }));
   await updateItem(ctx.env, itemId, { status: 'generating' });
   await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
 
-  const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
-  const launch = await launchFn({
+  const launch = await startSeoAutopilotJobDirect({
     env: ctx.env,
-    waitUntil: (p: Promise<unknown>) => ctx.waitUntil(p),
     source: 'admin',
     requestedBy: auth.email,
-    rawBody,
-    runableSecret: ctx.env.N8N_WEBHOOK_SECRET || '',
+    rawBody: JSON.stringify(overrides),
     requestId: runId,
     blockOnOverlap: false,
-    awaitCompletion: true,
   });
   if (!launch.ok) {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
@@ -409,24 +399,15 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
     return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.message, reason: launch.reason, plan_id: planId, item_id: itemId, request_id: runId }, 200);
   }
 
-  let draftId: string | null = null;
-  let jobId: string;
-  let provider: string | null = null;
-  let model: string | null = null;
-  let fallbackUsed = false;
-  if (launch.awaited && launch.job) {
-    draftId = launch.job.draft_id || null;
-    jobId = launch.job.id || launch.jobId;
-    provider = (launch.job as { llm_provider?: string }).llm_provider || null;
-    model = (launch.job as { llm_model?: string }).llm_model || null;
-    fallbackUsed = !!(launch.job as { llm_fallback_used?: number | boolean }).llm_fallback_used;
-    if (launch.job.status === 'failed') {
-      await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'Generation failed', source_job_id: jobId });
-      await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
-      return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.job.error_message || 'Generation failed', provider, model, plan_id: planId, item_id: itemId, job_id: jobId, request_id: runId }, 200);
-    }
-  } else {
-    jobId = launch.jobId;
+  const draftId: string | null = launch.job.draft_id || null;
+  const jobId: string = launch.job.id || launch.jobId;
+  const provider = (launch.job as { llm_provider?: string }).llm_provider || null;
+  const model = (launch.job as { llm_model?: string }).llm_model || null;
+  const fallbackUsed = !!(launch.job as { llm_fallback_used?: number | boolean }).llm_fallback_used;
+  if (launch.job.status === 'failed') {
+    await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'Generation failed', source_job_id: jobId });
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
+    return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.job.error_message || 'Generation failed', provider, model, plan_id: planId, item_id: itemId, job_id: jobId, request_id: runId }, 200);
   }
   await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });
   await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(() => undefined);

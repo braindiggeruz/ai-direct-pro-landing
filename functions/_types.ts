@@ -51,13 +51,6 @@ export interface Env {
   // SERPER_API_KEY is reserved for the upcoming SERP Intelligence layer.
   SERPER_API_KEY?: string;
   LOGIN_ATTEMPTS?: KVNamespace;
-  // AI Draft Inbox — n8n SEO Autopilot delivers RU/UZ article packages here.
-  // The shared secret bearer the n8n HTTP node must send in Authorization.
-  // Server-only. NEVER referenced from the SPA bundle.
-  N8N_INGEST_TOKEN?: string;
-  // Legacy ingest is disabled unless explicitly enabled during the bounded
-  // migration window. Retirement leaves this false/absent.
-  N8N_INGEST_ENABLED?: string;
   // D1 database that stores incoming drafts pending human review.
   // See /app/migrations/0001_ai_drafts.sql for the schema.
   GPTBOT_DRAFTS_DB?: D1Database;
@@ -65,26 +58,16 @@ export interface Env {
   // messages contain job references only, never prompts, content or secrets.
   AUTOMATION_QUEUE?: Queue<unknown>;
   FIRST_PARTY_AUTOMATION_ENABLED?: string;
-  // Server-side secret the bridge attaches as `x-runable-secret` when
-  // calling the existing n8n production webhook. Set this to the same value
-  // the n8n `Validate Safety Rules` node expects.
-  N8N_WEBHOOK_SECRET?: string;
   // Bearer for the GitHub Actions cron worker. Authenticates
   // /api/internal/seo-autopilot/scheduled-run.
   CRON_SECRET?: string;
-  // Feature flag — when "true" the public Runable-compatible bridge
-  // POST /api/seo-autopilot/run remains callable. Default and recommended
-  // value is "false" since the GPTBot Control Center now drives runs
-  // server-to-server.
-  EXTERNAL_AUTOPILOT_TRIGGER_ENABLED?: string;
-  // ─── Direct AI generation (replaces n8n for SEO Autopilot) ──────────────
-  // When "true" (default), the SEO Autopilot launcher generates RU+UZ
-  // articles directly via Cloudflare Workers AI instead of forwarding to
-  // n8n. This removes the n8n validation contract surface that was
-  // rejecting the single-topic "Run one" payload with HTTP 400.
-  // The n8n bridge code remains intact and is selected by setting this
-  // flag to "false".
-  SEO_AUTOPILOT_USE_DIRECT_AI?: string;
+  //
+  // R0.4 removed N8N_INGEST_TOKEN, N8N_INGEST_ENABLED, N8N_WEBHOOK_SECRET,
+  // EXTERNAL_AUTOPILOT_TRIGGER_ENABLED and SEO_AUTOPILOT_USE_DIRECT_AI along
+  // with the code that read them. Do not reintroduce any of these names: the
+  // n8n bridge, its normaliser and the public external trigger no longer
+  // exist, so a variable with one of those names would be inert at best and
+  // misleading at worst. First-party automation is the only automation path.
   // Optional Workers AI binding (Cloudflare Pages → Settings → Functions
   // → AI binding). Set to "AI". When absent, direct generation is
   // refused with a clear error message.

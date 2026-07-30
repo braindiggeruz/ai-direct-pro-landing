@@ -25,9 +25,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   return json({
     schedule,
     system: {
-      n8n_webhook_secret_configured: !!env.N8N_WEBHOOK_SECRET,
       cron_secret_configured: !!env.CRON_SECRET,
-      external_trigger_enabled: (env.EXTERNAL_AUTOPILOT_TRIGGER_ENABLED || 'false').toLowerCase() === 'true',
+      first_party_automation_enabled:
+        (env.FIRST_PARTY_AUTOMATION_ENABLED || 'false').toLowerCase() === 'true',
       drafts_db_configured: !!env.GPTBOT_DRAFTS_DB,
     },
   });

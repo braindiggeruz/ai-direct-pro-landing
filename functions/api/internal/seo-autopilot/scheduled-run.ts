@@ -10,15 +10,12 @@
 //     without flagging a failure — this is by design so cron stays green
 //     for "schedule disabled today").
 //
-// Hard-protected: overlap guard prevents double-runs. N8N_WEBHOOK_SECRET
-// missing returns 503 with a clear actionable error.
+// Hard-protected: the overlap guard prevents double-runs.
 
 import type { Env } from '../../../_types';
 import { constantTimeEqual } from '../../../lib/ai-drafts/store';
 import { getSchedule, shouldRunOnDate } from '../../../lib/seo-autopilot/schedule';
-import { startSeoAutopilotJob } from '../../../lib/seo-autopilot/launch';
-import { startSeoAutopilotJobDirect, isDirectAiEnabled } from '../../../lib/seo-autopilot/direct-launch';
-import { buildLaunchPayload } from '../../../lib/seo-autopilot/payload';
+import { startSeoAutopilotJobDirect } from '../../../lib/seo-autopilot/direct-launch';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -34,7 +31,7 @@ function extractBearer(req: Request): string | null {
   return t || null;
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (!env.CRON_SECRET) {
     return json({ error: 'Cron not configured (CRON_SECRET missing).' }, 503);
   }
@@ -58,33 +55,15 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   }
 
   const runId = `gptbot-schedule-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-  const useDirectAi = isDirectAiEnabled(env);
-  // Direct path needs no canonical n8n payload — pass an empty body so the
-  // generator falls back to default topic. Legacy path still needs the
-  // strict task_type/site_url wrapper.
-  const rawBody = useDirectAi
-    ? JSON.stringify({ source: 'schedule', triggered_at: new Date().toISOString() })
-    : JSON.stringify(buildLaunchPayload({
-        source: 'schedule',
-        requestedBy: 'system:schedule',
-        runId,
-      }));
-
-  const launchFn = useDirectAi ? startSeoAutopilotJobDirect : startSeoAutopilotJob;
-  const result = await launchFn({
+  // No topic overrides on a scheduled run: the generator picks the default
+  // topic itself.
+  const result = await startSeoAutopilotJobDirect({
     env,
-    waitUntil,
     source: 'schedule',
     requestedBy: 'system:schedule',
-    rawBody,
-    runableSecret: env.N8N_WEBHOOK_SECRET || '',
+    rawBody: JSON.stringify({ source: 'schedule', triggered_at: new Date().toISOString() }),
     requestId: runId,
     blockOnOverlap: true,
-    // Sync-await mode so the cron caller (GitHub Actions curl) gets the
-    // final job state in the same HTTP response. Without this, the
-    // background processor is killed by CF Pages lifecycle limits before
-    // n8n returns and the job stays stuck in 'forwarding' forever.
-    awaitCompletion: true,
   });
 
   if (!result.ok) {
@@ -102,56 +81,35 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     return json({ error: result.message, reason: result.reason }, result.http);
   }
 
-  // awaitCompletion === true → result.job is populated with the final
-  // state (completed | failed) — surface it so the cron run logs the
-  // outcome directly.
-  if (result.awaited) {
-    const job = result.job;
-    const isSuccess = job.status === 'completed' && !!job.draft_id;
-    return json(
-      {
-        success: isSuccess,
-        accepted: true,
-        job_id: result.jobId,
-        run_id: runId,
-        status: job.status,
-        status_url: `/api/seo-autopilot/jobs/${result.jobId}`,
-        source: 'schedule',
-        schedule_mode: schedule.mode,
-        draft_id: job.draft_id,
-        bundle_id: job.bundle_id,
-        admin_url: job.admin_url,
-        n8n_status: job.n8n_status,
-        n8n_execution_id: job.n8n_execution_id,
-        validation_status: job.validation_status,
-        validation_passed: job.validation_passed,
-        validation_issue_count: job.validation_issue_count,
-        ingestion_success: job.ingestion_success,
-        deduplicated: job.deduplicated,
-        duration_ms: job.duration_ms,
-        error_code: job.error_code,
-        error_message: job.error_message,
-        manual_approval_required: true,
-        ready_for_publish: false,
-      },
-      200,
-    );
-  }
-
+  // The launcher awaits the run, so the cron caller gets the final state
+  // (completed | failed) in the same HTTP response.
+  const job = result.job;
+  const isSuccess = job.status === 'completed' && !!job.draft_id;
   return json(
     {
-      success: true,
+      success: isSuccess,
       accepted: true,
       job_id: result.jobId,
       run_id: runId,
-      status: result.status,
+      status: job.status,
       status_url: `/api/seo-autopilot/jobs/${result.jobId}`,
       source: 'schedule',
       schedule_mode: schedule.mode,
+      draft_id: job.draft_id,
+      bundle_id: job.bundle_id,
+      admin_url: job.admin_url,
+      validation_status: job.validation_status,
+      validation_passed: job.validation_passed,
+      validation_issue_count: job.validation_issue_count,
+      ingestion_success: job.ingestion_success,
+      deduplicated: job.deduplicated,
+      duration_ms: job.duration_ms,
+      error_code: job.error_code,
+      error_message: job.error_message,
       manual_approval_required: true,
       ready_for_publish: false,
     },
-    202,
+    200,
   );
 };
 

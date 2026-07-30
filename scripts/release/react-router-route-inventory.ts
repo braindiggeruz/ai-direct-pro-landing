@@ -50,8 +50,7 @@ export interface RouteInventory {
     prerender_generation_present: boolean;
     sitemap_generation_present: boolean;
     first_party_automation_routes_present: boolean;
-    legacy_n8n_default_off: boolean;
-  };
+    };
   evidence_files: string[];
 }
 
@@ -149,7 +148,6 @@ export function collectRouteInventory(label: string): RouteInventory {
   const main = read('src/main.tsx');
   const adminRoot = read('src/admin/AdminRoot.tsx');
   const functionsRoot = read('functions/index.ts');
-  const envTypes = read('functions/_types.ts');
 
   const rscMarker = /unstable_(?:matchRSCServerRequest|reactRouterRSC|RSC)|RSCStaticRouter|react-server-dom|["']use server["']/i;
   const serverRouterMarker = /\b(?:StaticRouter|createStaticRouter|createRequestHandler|HydratedRouter)\b/;
@@ -205,7 +203,6 @@ export function collectRouteInventory(label: string): RouteInventory {
         'functions/api/admin/automation/jobs.ts',
         'functions/api/admin/automation/replay.ts',
       ].every((file) => fs.existsSync(path.join(ROOT, file))),
-      legacy_n8n_default_off: envTypes.includes('N8N_INGEST_ENABLED?: string'),
     },
     evidence_files: [
       'src/main.tsx',

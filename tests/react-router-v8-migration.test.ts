@@ -204,10 +204,15 @@ test('first-party automation routes remain present', () => {
   );
 });
 
-test('legacy n8n ingest remains default-off', () => {
+test('the route inventory carries no n8n invariant', () => {
+  // n8n retirement is asserted by tests/n8n-retirement.test.ts. Route parity
+  // must not depend on it, or deleting the legacy env declaration would block
+  // the routing gate for a non-routing reason.
+  const invariants = collectRouteInventory('migration-test').invariants as Record<string, unknown>;
+  assert.equal('legacy_n8n_default_off' in invariants, false);
   assert.equal(
-    collectRouteInventory('migration-test').invariants.legacy_n8n_default_off,
-    true,
+    Object.keys(invariants).some((key) => /n8n/i.test(key)),
+    false,
   );
 });
 
