@@ -27,6 +27,8 @@ import { onRequestGet as pilotGet, onRequestPost as pilotPost } from '../functio
 
 import { onRequestGet as cockpitGet } from '../functions/api/admin/cockpit';
 import { onRequestGet as seoJobsGet } from '../functions/api/admin/seo-autopilot/jobs';
+import { onRequestGet as meGet } from '../functions/api/auth/me';
+import { onRequestPost as contentPost } from '../functions/api/content/index';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const JWT_SECRET = 'owner-control-center-test-secret-value';
@@ -432,6 +434,35 @@ describe('authorization fails closed', () => {
     assert.equal(db.value(`SELECT status FROM sotuvchi_stores WHERE id = '${storeId}'`), 'active');
     assert.equal(db.value(`SELECT status FROM automation_jobs WHERE job_id = '${jobId}'`), 'dead_letter');
     assert.equal(db.value('SELECT COUNT(*) FROM owner_audit_events'), 0);
+  });
+
+  test('support_readonly can authenticate the shell but cannot call legacy admin mutations', async () => {
+    const db = new SqliteD1();
+    loadMigrations(db);
+    const token = await tokenFor('support_readonly', 'support@gptbot.uz');
+    const session = await call(meGet, db, '/api/auth/me', { token });
+    assert.equal(session.status, 200);
+    assert.equal(session.body.role, 'support_readonly');
+
+    for (const role of ['support_readonly', 'seller', 'unknown']) {
+      const mutationAttempt = await call(contentPost, db, '/api/content', {
+        method: 'POST',
+        token: await tokenFor(role, `${role}@gptbot.uz`),
+        body: {
+          kind: 'page',
+          locale: 'ru',
+          slug: 'must-not-write',
+          data: {},
+        },
+      });
+      assert.equal(mutationAttempt.status, 403, role);
+      assert.equal(mutationAttempt.body.error, 'Insufficient role', role);
+    }
+
+    const sellerSession = await call(meGet, db, '/api/auth/me', {
+      token: await tokenFor('seller', 'seller@gptbot.uz'),
+    });
+    assert.equal(sellerSession.status, 403);
   });
 });
 
@@ -853,6 +884,17 @@ describe('pagination is bounded and filters are validated', () => {
     });
     assert.equal(res.status, 200);
     assert.deepEqual(res.body.page, { limit: 100, offset: 0 });
+  });
+
+  test('an oversized offset is clamped', async () => {
+    const db = new SqliteD1();
+    loadMigrations(db);
+    const res = await call(storesGet, db, '/api/admin/agents/stores', {
+      token: await tokenFor('platform_owner'),
+      search: '?offset=1000000000000',
+    });
+    assert.equal(res.status, 200);
+    assert.deepEqual(res.body.page, { limit: 25, offset: 100_000 });
   });
 
   test('non-finite pagination falls back to safe bounds', async () => {
@@ -1330,5 +1372,18 @@ describe('existing admin surfaces still work', () => {
     const offenders = publicFiles.filter((file) =>
       fs.readFileSync(file, 'utf8').includes('/admin-tools/agents'));
     assert.deepEqual(offenders, []);
+  });
+
+  test('support_readonly is constrained to the Owner Center shell', () => {
+    const app = fs.readFileSync(path.join(ROOT, 'src', 'admin', 'AdminApp.tsx'), 'utf8');
+    const sidebar = fs.readFileSync(
+      path.join(ROOT, 'src', 'admin', 'components', 'Sidebar.tsx'),
+      'utf8',
+    );
+    assert.ok(app.includes("session.role === 'support_readonly'"));
+    assert.ok(app.includes("location.pathname.startsWith('/admin-tools/agents')"));
+    assert.ok(app.includes("onPublish={session?.role === 'support_readonly' ? undefined : onPublish}"));
+    assert.ok(sidebar.includes("role === 'support_readonly'"));
+    assert.ok(sidebar.includes("item.testId === 'nav-owner-center'"));
   });
 });

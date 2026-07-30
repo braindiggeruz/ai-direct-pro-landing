@@ -42,6 +42,7 @@ export const OWNER_LIMITS = Object.freeze({
   safeJsonBytes: 2_048,
   pageSizeDefault: 25,
   pageSizeMax: 100,
+  pageOffsetMax: 100_000,
 });
 
 const SAFE_IDENTIFIER = /^[A-Za-z0-9][A-Za-z0-9:._-]*$/;
@@ -156,7 +157,9 @@ export function parsePagination(url: URL): Pagination {
   const limit = Number.isFinite(rawLimit)
     ? Math.min(OWNER_LIMITS.pageSizeMax, Math.max(1, Math.floor(rawLimit)))
     : OWNER_LIMITS.pageSizeDefault;
-  const offset = Number.isFinite(rawOffset) ? Math.max(0, Math.floor(rawOffset)) : 0;
+  const offset = Number.isFinite(rawOffset)
+    ? Math.min(OWNER_LIMITS.pageOffsetMax, Math.max(0, Math.floor(rawOffset)))
+    : 0;
   return { limit, offset };
 }
 
