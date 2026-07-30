@@ -48,7 +48,13 @@ async function verifiedIdentity(
   expectedUsername: string | undefined,
 ): Promise<string> {
   const identity = await client.getMe();
-  if (!identity.ok || !identity.result?.username) {
+  if (
+    !identity.ok
+    || !identity.result?.username
+    || !Number.isSafeInteger(identity.result.id)
+    || identity.result.id <= 0
+    || identity.result.is_bot !== true
+  ) {
     throw new Error('telegram agents setup rejected: identity_unavailable');
   }
   return assertTelegramAgentsBotIdentity(

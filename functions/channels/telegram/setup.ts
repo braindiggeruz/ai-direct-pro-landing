@@ -14,6 +14,7 @@ export type TelegramAgentsSetupCode =
   | 'username_mismatch'
   | 'missing_expected_username'
   | 'missing_webhook_secret'
+  | 'invalid_webhook_secret'
   | 'invalid_site_url';
 
 export class TelegramAgentsSetupError extends Error {
@@ -66,6 +67,9 @@ export function requireTelegramAgentsWebhookSecret(
 ): string {
   if (!secret) {
     throw new TelegramAgentsSetupError('missing_webhook_secret');
+  }
+  if (!/^[A-Za-z0-9_-]{32,256}$/.test(secret)) {
+    throw new TelegramAgentsSetupError('invalid_webhook_secret');
   }
   return secret;
 }

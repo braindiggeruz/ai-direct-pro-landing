@@ -200,7 +200,10 @@ export class SotuvchiCatalogService {
   async resolveStorefrontContext(rawContext: unknown): Promise<StorefrontContext> {
     const context = normalizeStorefrontContext(rawContext);
     await this.ready();
-    if (!await this.store.findActiveStore(context.orgId, context.storeId)) {
+    if (
+      !await this.store.findActiveStore(context.orgId, context.storeId)
+      || !await this.store.isPilotActive(context.orgId, context.storeId)
+    ) {
       throw new CatalogNotFoundError('store');
     }
     return context;

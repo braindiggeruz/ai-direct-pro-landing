@@ -27,7 +27,7 @@
   "heroTitle": "Sotuvchi — ваш магазин и продавец в одном Telegram-боте",
   "heroSubtitle": "Соберите каталог прямо в переписке, дайте покупателю одну ссылку — и бот ответит по вашему каталогу, оформит заказ и передаст вам всё, чего не знает.",
   "ctaPrimaryLabel": "Участвовать в пилоте",
-  "ctaPrimaryHref": "#pilot",
+  "ctaPrimaryHref": "https://t.me/gptbot_market_bot?start=agent_seller",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [

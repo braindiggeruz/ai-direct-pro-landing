@@ -30,6 +30,7 @@ import {
 import { createIdentityService } from '../functions/platform/identity';
 import { groundResponse } from '../functions/platform/runtime';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { activatePilotStore } from './helpers/pilot-store';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BOT = 'agents_buyer_fixture_bot';
@@ -87,6 +88,7 @@ async function setupStore(
     { ...context, requestId: requestId('onboarding') },
     snapshot.version,
   );
+  await activatePilotStore(db, completed.store.orgId, completed.store.id);
   const catalog = createSotuvchiCatalogService(db);
   const owner = await catalog.resolveOwnerContext({
     identityId: context.identityId,

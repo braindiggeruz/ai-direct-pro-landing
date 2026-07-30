@@ -90,7 +90,14 @@ export class TelegramClient {
     }
   }
 
-  getMe() { return this.call<{ id: number; username?: string; first_name?: string }>('getMe'); }
+  getMe() {
+    return this.call<{
+      id: number;
+      is_bot: boolean;
+      username?: string;
+      first_name?: string;
+    }>('getMe');
+  }
 
   getFile(fileId: string) {
     // Voice processing must stay inside the Worker's background lifecycle;

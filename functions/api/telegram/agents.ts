@@ -155,12 +155,13 @@ export function createTelegramAgentsRuntimeWiring(
     async resolve(input) {
       const parsed = parseTelegramStartPayload(input.startPayload);
       if (parsed.status === 'valid' && parsed.routeCode === 'seller') {
-        const snapshot = await onboarding.startOnboarding({
+        const snapshot = await onboarding.getOnboarding({
           identityId: input.telegramIdentityId,
           botUsername,
           requestId: input.idempotencyKey,
           locale: input.locale,
         });
+        if (!snapshot) return null;
         return sellerContext(snapshot, input, true);
       }
       if (
@@ -235,6 +236,29 @@ export function createTelegramAgentsRuntimeWiring(
             storefront.agentId,
             storefront.locale,
             input.telegramIdentityId,
+          );
+        }
+        const directPilot = await onboarding.resolveDirectPilotStorefront(
+          botUsername,
+        );
+        if (directPilot) {
+          const directStorefront = {
+            orgId: directPilot.orgId,
+            storeId: directPilot.storeId,
+            agentId: directPilot.agentId,
+            locale: directPilot.locale,
+          } as const;
+          await catalog.bindStorefrontSession({
+            botUsername,
+            identityId: input.telegramIdentityId,
+            context: directStorefront,
+          });
+          return storefrontContext(
+            directStorefront.orgId,
+            directStorefront.agentId,
+            directStorefront.locale,
+            input.telegramIdentityId,
+            'storefront-start',
           );
         }
       }

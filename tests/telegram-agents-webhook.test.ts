@@ -815,6 +815,19 @@ test('setup errors never include secret values', () => {
       error instanceof TelegramAgentsSetupError
       && !error.message.includes(fixture),
   );
+  for (const invalid of [
+    'too-short',
+    'contains whitespace but is long enough',
+    `${'a'.repeat(257)}`,
+  ]) {
+    assert.throws(
+      () => requireTelegramAgentsWebhookSecret(invalid),
+      (error: unknown) =>
+        error instanceof TelegramAgentsSetupError
+        && error.code === 'invalid_webhook_secret'
+        && !error.message.includes(invalid),
+    );
+  }
 });
 
 test('setup webhook URL is locked to the Agents endpoint', () => {
