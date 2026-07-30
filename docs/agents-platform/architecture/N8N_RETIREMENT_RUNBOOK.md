@@ -1,6 +1,17 @@
 # n8n retirement runbook
 
-Status: prepared, not executed.
+Status: **EXECUTED 2026-07-30 (R0.4)**. `N8N_DISPOSITION=RETIRED`.
+
+What was actually observed is recorded in
+[`N8N_RETIREMENT_EVIDENCE.md`](./N8N_RETIREMENT_EVIDENCE.md). This file is kept
+as the standard the execution was held to, and as the rollback contract.
+
+One deviation from the sequence below is recorded rather than hidden: step 4
+("disable the production n8n workflow") could not be executed, because no n8n
+control-plane credential exists. The workflow is documented as isolated instead
+— the route it called is permanently `410`, its bearer is no longer read or
+bound, and GPTBot no longer contains the n8n host, so neither direction can
+carry traffic. §3 of the evidence file states this in full.
 
 Retirement is an external, evidence-bearing security disposition. Repository
 code, a disabled-by-default endpoint or a first-party dry run does not prove
@@ -98,11 +109,10 @@ redacted evidence path/status. A manually edited boolean is insufficient.
 
 | Check | Expected |
 | --- | --- |
-| Legacy endpoint disabled | 404 |
-| Legacy enabled, token binding absent/empty | 503 before body parsing |
-| Missing/empty/invalid/oversized bearer | 401 |
-| Malformed body without valid bearer | 401, body not processed |
-| Replayed valid bundle during isolated legacy test | one draft, duplicate response |
+| Legacy endpoint | 410 Gone, permanently — the handler is deleted, not gated |
+| Any combination of stale `N8N_INGEST_ENABLED`/`N8N_INGEST_TOKEN` | 410; no revival path |
+| Valid legacy bearer | 410 and zero draft rows written |
+| 410 body and console | no credential, no request payload |
 | First-party duplicate Queue delivery | one domain mutation |
 | First-party SEO result | complete RU/UZ pair, `pending_review` |
 | GitHub content commit | none |

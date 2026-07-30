@@ -1,21 +1,20 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-28",
+  "generated_at": "2026-07-30",
   "scope": {
-    "canonical_repository": "F:/Claude/gptbot-repo",
-    "production_control_planes_queried": false,
-    "activity_rule": "Production activity is unknown unless repository or verified external evidence proves it.",
+    "canonical_repository": "F:/Claude/gptbot-repo-clean-20260729-1140",
+    "production_control_planes_queried": true,
+    "activity_rule": "Production activity was resolved against the live Cloudflare, GitHub and D1 control planes on 2026-07-30. Only the deliberately unread user-owned audit directory remains unknown.",
     "excluded_unmodified_path": "gptbot.uz-audit/**"
   },
-  "status_values": ["active", "legacy", "unknown", "dead"],
+  "status_values": [
+    "active",
+    "legacy",
+    "unknown",
+    "dead"
+  ],
   "external_unknowns": [
-    "live n8n workflow identifiers and enabled states",
-    "live n8n-owned schedules and in-flight executions",
-    "live Header Auth credential attachment state",
-    "current Cloudflare legacy/direct feature-flag values",
-    "current GitHub SEO scheduler enabled state",
-    "current production requests selecting the legacy bridge",
-    "any n8n nodes capable of GitHub write or publication outside this repository"
+    "live n8n workflow identifiers and enabled states (no n8n control-plane credential exists; irrelevant to GPTBot because the route is 410 and the bearer is unbound)"
   ],
   "coverage_rules": [
     {
@@ -125,12 +124,12 @@
       "trigger": "HTTP bearer request",
       "data_written_read": "validated gptbot.article-draft.v1 bundle; writes pending_review ai_drafts row",
       "auth_mechanism_name": "N8N_INGEST_TOKEN bearer plus N8N_INGEST_ENABLED kill switch",
-      "production_critical": "unknown",
-      "status": "legacy",
-      "production_activity": "unknown",
-      "replacement_candidate": "Queue consumer calls shared ingest service internally; endpoint remains disabled by default",
-      "migration_risk": "medium",
-      "evidence": "Repository endpoint exists; no production request or n8n control-plane state was queried."
+      "production_critical": false,
+      "status": "dead",
+      "production_activity": "dead",
+      "replacement_candidate": "removed; first-party automation is the sole path",
+      "migration_risk": "none",
+      "evidence": "Handler deleted. POST /api/admin/ai-drafts answers a permanent 410 Gone with no path to the ingest service; tests/n8n-retirement.test.ts proves no stale variable revives it."
     },
     {
       "id": "legacy-ingest-token",
@@ -142,12 +141,12 @@
       "trigger": "legacy endpoint authorization",
       "data_written_read": "credential comparison only; value must never be logged or stored",
       "auth_mechanism_name": "N8N_INGEST_TOKEN",
-      "production_critical": "unknown",
-      "status": "legacy",
-      "production_activity": "unknown",
-      "replacement_candidate": "retired disposition after verified endpoint/workflow shutdown; no replacement credential required",
-      "migration_risk": "high",
-      "evidence": "Binding is declared in code and owner-kit rotation record exists; installation/revocation is externally unverified."
+      "production_critical": false,
+      "status": "dead",
+      "production_activity": "dead",
+      "replacement_candidate": "removed; first-party automation is the sole path",
+      "migration_risk": "none",
+      "evidence": "Removed from Cloudflare Pages production and preview, removed from the Env interface and removed from the environment contract, where it is now listed as forbidden."
     },
     {
       "id": "legacy-webhook-bridge-secret",
@@ -160,11 +159,11 @@
       "data_written_read": "credential comparison/header only",
       "auth_mechanism_name": "N8N_WEBHOOK_SECRET / x-runable-secret",
       "production_critical": false,
-      "status": "legacy",
-      "production_activity": "unknown",
-      "replacement_candidate": "D1 job identity and Queue binding",
-      "migration_risk": "medium",
-      "evidence": "Direct generation is the repository default; production flag value was not queried."
+      "status": "dead",
+      "production_activity": "dead",
+      "replacement_candidate": "removed; first-party automation is the sole path",
+      "migration_risk": "none",
+      "evidence": "Removed from Cloudflare Pages production and preview together with the bridge that read it; the Env declaration and the contract entry are gone."
     },
     {
       "id": "legacy-bridge-launcher",
@@ -177,11 +176,11 @@
       "data_written_read": "seo_autopilot_jobs state and raw launch body",
       "auth_mechanism_name": "caller boundary plus N8N_WEBHOOK_SECRET",
       "production_critical": false,
-      "status": "legacy",
-      "production_activity": "unknown",
-      "replacement_candidate": "functions/platform/automation plus SEO queue handler",
-      "migration_risk": "high",
-      "evidence": "All canonical callers also contain a direct path; production flag value is unknown."
+      "status": "dead",
+      "production_activity": "dead",
+      "replacement_candidate": "removed; first-party automation is the sole path",
+      "migration_risk": "none",
+      "evidence": "File deleted. The four launch callers now import startSeoAutopilotJobDirect only, asserted by tests/n8n-retirement.test.ts."
     },
     {
       "id": "legacy-bridge-worker",
@@ -194,11 +193,11 @@
       "data_written_read": "job state, n8n response and bounded diagnostic excerpt",
       "auth_mechanism_name": "x-runable-secret",
       "production_critical": false,
-      "status": "legacy",
-      "production_activity": "unknown",
-      "replacement_candidate": "Worker queue consumer with redacted code-only events",
-      "migration_risk": "high",
-      "evidence": "Hard-coded webhook target and long timeout exist in repository; direct path bypasses this file."
+      "status": "dead",
+      "production_activity": "dead",
+      "replacement_candidate": "removed; first-party automation is the sole path",
+      "migration_risk": "none",
+      "evidence": "File deleted with its hard-coded webhook target; no runtime file contains an n8n host or the x-runable-secret header."
     },
     {
       "id": "legacy-normaliser",
@@ -211,11 +210,11 @@
       "data_written_read": "third-party article bundle shape",
       "auth_mechanism_name": "none; caller already authenticated",
       "production_critical": false,
-      "status": "legacy",
-      "production_activity": "unknown",
-      "replacement_candidate": "direct generator emits strict internal schema",
-      "migration_risk": "low",
-      "evidence": "Only the legacy bridge imports this translation layer."
+      "status": "dead",
+      "production_activity": "dead",
+      "replacement_candidate": "removed; first-party automation is the sole path",
+      "migration_risk": "none",
+      "evidence": "File deleted. The strict validator is now the single place the closed draft schema is enforced, covered directly by tests/functions-type-safety.test.ts."
     },
     {
       "id": "direct-generator",
@@ -229,10 +228,10 @@
       "auth_mechanism_name": "trusted internal call; provider bindings",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "retained as deterministic SEO pipeline step",
       "migration_risk": "medium",
-      "evidence": "Repository defaults SEO_AUTOPILOT_USE_DIRECT_AI to true and contains no n8n call on this path."
+      "evidence": "Sole generation path. Confirmed in production during the automation canary: with no LLM provider key on the Worker it fails closed with the non-retryable llm_provider_missing and writes no draft."
     },
     {
       "id": "direct-launch-compatibility",
@@ -246,10 +245,10 @@
       "auth_mechanism_name": "caller boundary",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "asynchronous D1 ledger plus Queue consumer",
       "migration_risk": "medium",
-      "evidence": "Code path is repository default but production feature configuration was not queried."
+      "evidence": "Now the only launcher. The SEO_AUTOPILOT_USE_DIRECT_AI selector and the second launcher were both removed, so there is nothing left to select."
     },
     {
       "id": "admin-autopilot-trigger",
@@ -263,10 +262,10 @@
       "auth_mechanism_name": "admin JWT",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "POST /api/admin/automation/jobs then status polling",
       "migration_risk": "medium",
-      "evidence": "JWT is required; current endpoint still waits for the full pipeline."
+      "evidence": "Admin JWT required. Calls the direct launcher unconditionally after the retirement; no flag can reroute it."
     },
     {
       "id": "github-actions-seo-scheduler",
@@ -279,11 +278,11 @@
       "data_written_read": "HTTP status and redacted result envelope",
       "auth_mechanism_name": "CRON_SECRET bearer",
       "production_critical": "unknown",
-      "status": "unknown",
-      "production_activity": "unknown",
+      "status": "legacy",
+      "production_activity": "dead",
       "replacement_candidate": "Cloudflare Cron Trigger",
       "migration_risk": "high",
-      "evidence": "Workflow file is tracked; enabled state and recent executions were not queried. Freeze verifier reports automation writers not yet verified."
+      "evidence": "GitHub workflow state read on 2026-07-30 is disabled_manually. The Cloudflare Cron trigger on the gptbot-automation Worker replaces it, and the D1 seo_autopilot_schedule setting is disabled."
     },
     {
       "id": "internal-scheduled-endpoint",
@@ -296,11 +295,11 @@
       "data_written_read": "schedule setting and SEO job result",
       "auth_mechanism_name": "CRON_SECRET bearer",
       "production_critical": "unknown",
-      "status": "unknown",
-      "production_activity": "unknown",
+      "status": "active",
+      "production_activity": "dead",
       "replacement_candidate": "automation Worker scheduled handler",
       "migration_risk": "high",
-      "evidence": "Endpoint exists; live calls were not inspected."
+      "evidence": "Endpoint exists and still requires the CRON_SECRET bearer, but its only caller was the GitHub scheduler, which is disabled_manually. It now routes to the direct launcher; no n8n branch remains."
     },
     {
       "id": "deprecated-external-trigger",
@@ -313,11 +312,11 @@
       "data_written_read": "raw launch body and legacy job row",
       "auth_mechanism_name": "x-runable-secret",
       "production_critical": false,
-      "status": "legacy",
-      "production_activity": "unknown",
-      "replacement_candidate": "none; keep disabled and remove after rollback window",
-      "migration_risk": "medium",
-      "evidence": "Default EXTERNAL_AUTOPILOT_TRIGGER_ENABLED is false and endpoint returns 404 when disabled."
+      "status": "dead",
+      "production_activity": "dead",
+      "replacement_candidate": "removed; first-party automation is the sole path",
+      "migration_risk": "none",
+      "evidence": "File deleted together with EXTERNAL_AUTOPILOT_TRIGGER_ENABLED; the public route no longer exists rather than being flag-disabled."
     },
     {
       "id": "topic-plan-launch",
@@ -331,10 +330,10 @@
       "auth_mechanism_name": "admin JWT",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "topicItemRequestRef plus Queue; post-generation analysis becomes a later idempotent step",
       "migration_risk": "high",
-      "evidence": "Current path synchronously updates multiple domain records and therefore needs staged cutover."
+      "evidence": "Admin JWT required. Rewired to the direct launcher; the awaited-vs-async branch is gone because the single launcher always awaits."
     },
     {
       "id": "yandex-quick-launch",
@@ -348,10 +347,10 @@
       "auth_mechanism_name": "admin JWT",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "topic plan reference queued through first-party runtime",
       "migration_risk": "high",
-      "evidence": "Current path performs synchronous generation; no n8n-only step is required when direct mode is selected."
+      "evidence": "Admin JWT required. Rewired to the direct launcher; no legacy payload wrapper and no webhook secret are built any more."
     },
     {
       "id": "ai-draft-store-validator",
@@ -365,10 +364,10 @@
       "auth_mechanism_name": "trusted caller boundary",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "retained; internal call replaces public legacy producer",
       "migration_risk": "low",
-      "evidence": "All ingest forces pending_review and bundle_id is unique."
+      "evidence": "Retained and now the only ingest path. Verified in tests/functions-type-safety.test.ts that a bundle claiming published still lands as pending_review and that a replayed bundle_id creates no second draft."
     },
     {
       "id": "manual-github-import",
@@ -382,10 +381,10 @@
       "auth_mechanism_name": "admin JWT and GITHUB_TOKEN server binding",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "retain outside automation runtime",
       "migration_risk": "low",
-      "evidence": "Automation generator and ingest modules do not import GitHub writer; publication is a separate endpoint."
+      "evidence": "Separate admin-authenticated action. The automation canary confirmed automation reaches awaiting_review only and performed no GitHub write and no draft state change."
     },
     {
       "id": "legacy-job-schema",
@@ -399,10 +398,10 @@
       "auth_mechanism_name": "D1 binding",
       "production_critical": true,
       "status": "legacy",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "automation_jobs ledger; retain read compatibility during migration",
       "migration_risk": "high",
-      "evidence": "Column names and error taxonomy are n8n-specific even for direct jobs."
+      "evidence": "seo_autopilot_jobs is retained with its n8n_url, n8n_status and n8n_execution_id columns, which hold real values for historical rows. Nothing writes an n8n value to them; the direct launcher records cloudflare://llm-router/seo-autopilot-direct."
     },
     {
       "id": "first-party-admin-automation-api",
@@ -416,10 +415,10 @@
       "auth_mechanism_name": "admin JWT and trusted server-side SEO tenant",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "target authenticated replacement trigger",
       "migration_risk": "medium",
-      "evidence": "Prepared locally; feature flag is disabled by default and no Pages deployment or binding mutation occurred."
+      "evidence": "FIRST_PARTY_AUTOMATION_ENABLED=true on Pages production. Owner-only replay authorization and replay idempotence were verified against production D1 during the automation canary."
     },
     {
       "id": "first-party-runtime-module",
@@ -433,10 +432,10 @@
       "auth_mechanism_name": "caller boundary and Cloudflare bindings",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "target orchestration core",
       "migration_risk": "medium",
-      "evidence": "Executable tests cover duplicate delivery, leases, retries, terminal guard, DLQ authorization and tenant isolation."
+      "evidence": "Verified against production D1 inside a real Workers runtime: idempotent enqueue, duplicate suppression, retry accounting, retry ceiling, lease exclusivity, lease-expiry recovery, dead-letter and owner-only replay."
     },
     {
       "id": "first-party-resource-descriptors",
@@ -450,10 +449,10 @@
       "auth_mechanism_name": "Cloudflare deployment identity outside repository",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "target resource contract",
       "migration_risk": "high",
-      "evidence": "Wrangler dry-run bundles the Worker; no Queue, Worker, Cron or binding was created."
+      "evidence": "Deployed. The gptbot-automation Worker carries the Queue consumer, the DLQ producer, the D1 ledger binding and the */15 * * * * Cron trigger; Pages production carries the AUTOMATION_QUEUE producer binding."
     },
     {
       "id": "first-party-ledger",
@@ -467,10 +466,10 @@
       "auth_mechanism_name": "Cloudflare binding and trusted tenant context",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "target source of truth",
       "migration_risk": "medium",
-      "evidence": "Prepared locally only; migration was not applied to production."
+      "evidence": "Migration 0024 applied to production D1. The canary confirmed every ledger column is a bounded reference and that no message text, contact or URL can enter automation_jobs or automation_job_events."
     },
     {
       "id": "first-party-queue-worker",
@@ -484,10 +483,10 @@
       "auth_mechanism_name": "Cloudflare resource bindings; no public command endpoint",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "target orchestration runtime",
       "migration_risk": "medium",
-      "evidence": "Worker descriptor is local-only and fetch returns 404."
+      "evidence": "Deployed as gptbot-automation with no public HTTP surface: fetch returns 404 and workers_dev is disabled, so only the Cron trigger and Queue delivery can drive it."
     },
     {
       "id": "serper-and-sitemap-inputs",
@@ -501,10 +500,10 @@
       "auth_mechanism_name": "admin JWT; SERPER_API_KEY server binding where used",
       "production_critical": false,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "idempotent first-party pipeline step; no n8n requirement",
       "migration_risk": "medium",
-      "evidence": "Provider and sitemap collection are callable from repository code without n8n."
+      "evidence": "SERPER_API_KEY is present on Cloudflare Pages production. Callable without n8n; no n8n step exists in the research path."
     },
     {
       "id": "llm-router",
@@ -518,10 +517,10 @@
       "auth_mechanism_name": "provider-specific server secret bindings",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "retain in Cloudflare; Railway only if a provider/runtime incompatibility is demonstrated",
       "migration_risk": "medium",
-      "evidence": "Current direct generator already calls this router and supplies stable per-run idempotency keys."
+      "evidence": "Provider keys are present on Cloudflare Pages production. The router is the generation path for both admin and scheduled runs."
     },
     {
       "id": "admin-control-center-compatibility",
@@ -535,10 +534,10 @@
       "auth_mechanism_name": "admin JWT",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "read automation_jobs and expose provider-neutral labels during staged cutover",
       "migration_risk": "medium",
-      "evidence": "UI and shared types still expose n8n-named compatibility fields."
+      "evidence": "Status APIs now report first_party_automation_enabled instead of n8n_webhook_secret_configured, external_trigger_enabled and direct_ai_enabled."
     },
     {
       "id": "admin-ui-types",
@@ -552,10 +551,10 @@
       "auth_mechanism_name": "admin session",
       "production_critical": true,
       "status": "active",
-      "production_activity": "unknown",
+      "production_activity": "active",
       "replacement_candidate": "provider-neutral automation status vocabulary",
       "migration_risk": "low",
-      "evidence": "n8n labels remain for historical rows; they do not make browser code an n8n consumer."
+      "evidence": "Shared types renamed to first_party_automation_enabled. The remaining n8n names in the UI are read-only renderings of historical job columns, clearly labelled legacy."
     },
     {
       "id": "legacy-docs-and-fixtures",
@@ -572,7 +571,7 @@
       "production_activity": "dead",
       "replacement_candidate": "N8N_RETIREMENT_RUNBOOK and FIRST_PARTY_AUTOMATION_RUNBOOK",
       "migration_risk": "low",
-      "evidence": "Files explicitly describe n8n and are retained as rollback/evidence."
+      "evidence": "Retained as rollback and audit evidence only. Superseded by N8N_RETIREMENT_EVIDENCE.md and FIRST_PARTY_AUTOMATION_RUNBOOK.md."
     },
     {
       "id": "legacy-tests-and-scripts",
@@ -589,7 +588,7 @@
       "production_activity": "dead",
       "replacement_candidate": "retain compatibility coverage and add first-party runtime tests",
       "migration_risk": "low",
-      "evidence": "No production control-plane mutation occurs from default test commands."
+      "evidence": "tests/n8n-ingest-security.test.ts was replaced by tests/n8n-retirement.test.ts. The remaining scripts are local fixtures and mutate no production control plane."
     },
     {
       "id": "production-env-contract",
@@ -603,10 +602,10 @@
       "auth_mechanism_name": "names only",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "make n8n names optional legacy; add Queue/Worker and retirement disposition names",
       "migration_risk": "high",
-      "evidence": "The names-only contract makes n8n bindings optional legacy, requires first-party resource names, and validates feature flags as closed booleans."
+      "evidence": "The three n8n names were removed from variables and recorded under retired_variables, so a stale value fails the release preflight instead of looking like a live switch."
     },
     {
       "id": "release-governance",
@@ -620,10 +619,10 @@
       "auth_mechanism_name": "owner evidence gates",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "accept complete rotated or complete retired n8n disposition",
       "migration_risk": "high",
-      "evidence": "R0.3B remains blocked; prior replacement is protected outside Git and uninstalled."
+      "evidence": "R0.3B is complete and R0.4 records the executed RETIRED disposition with canary evidence rather than the earlier ROTATED placeholder."
     },
     {
       "id": "owner-kit",
@@ -637,10 +636,10 @@
       "auth_mechanism_name": "Windows CurrentUser DPAPI and owner ACL",
       "production_critical": true,
       "status": "active",
-      "production_activity": "dead",
+      "production_activity": "active",
       "replacement_candidate": "add closed-list retired disposition with verifier evidence",
       "migration_risk": "high",
-      "evidence": "Policy tests pass locally; admin and n8n external disposition gates remain incomplete, and full vault validation awaits exact final repository gates."
+      "evidence": "rotation-status.json records the RETIRED disposition. The DPAPI record for the legacy inbound bearer is retained as unused incident evidence; it grants no access to n8n and its value was never printed."
     },
     {
       "id": "tracked-audit-duplicates",
@@ -657,7 +656,7 @@
       "production_activity": "dead",
       "replacement_candidate": "owner-approved future cleanup outside this task",
       "migration_risk": "low",
-      "evidence": "Canonical runtime is repository root; duplicate trees are tracked but not deployed by the root build."
+      "evidence": "Duplicate audit snapshots are tracked but not deployed by the root build; they are not canonical runtime."
     },
     {
       "id": "untracked-user-audit",
@@ -678,15 +677,43 @@
     }
   ],
   "blast_radius": {
-    "functions_impossible_without_n8n": "None proven. Legacy webhook forwarding and legacy external ingest delivery specifically require n8n, but equivalent repository direct generation and internal ingest exist.",
-    "consumers_beyond_seo": "No executable non-SEO n8n consumer was found. GPT Chat, Javob, Tahlil, Agents/Sotuvchi, public site and unrelated admin functions have no n8n runtime import.",
-    "synchronous_production_requests": "Admin run, scheduled-run, topic-plan launch and Yandex quick-launch can synchronously wait for n8n only when the legacy flag selects the bridge. Production flag values are unknown.",
-    "jobs_lost_on_immediate_shutdown": "Any active external n8n execution, enabled GitHub scheduler call routed to legacy mode, and direct legacy ingest delivery would fail. Exact live jobs are unknown.",
+    "functions_impossible_without_n8n": "None. Every path n8n served is served by first-party code, proven by the 56/56 automation canary.",
+    "consumers_beyond_seo": "None. No non-SEO n8n consumer ever existed in this repository.",
+    "synchronous_production_requests": "None. No request path can select an n8n bridge, because the bridge and its selector are deleted.",
+    "jobs_lost_on_immediate_shutdown": "None on the GPTBot side. A surviving external n8n execution can no longer deliver: the route is 410 and its bearer is unbound.",
     "human_in_the_loop": true,
-    "n8n_can_write_github": "Unknown for the uninspected live n8n workflow. No repository call path grants the legacy bridge or ingest endpoint a GitHub write; the only identified repository writer is a separate admin-authenticated draft import endpoint.",
-    "n8n_can_auto_publish": "Unknown for the uninspected live n8n workflow. The repository ingest path always stores pending_review and has no publish call.",
-    "missing_ingest_token": "When legacy ingest is explicitly enabled, missing/empty/misconfigured binding returns 503 before body parsing. With the default disabled switch it returns 404.",
+    "n8n_can_write_github": "No. GPTBot grants no write path, and the only repository writer is a separate admin-authenticated draft import.",
+    "n8n_can_auto_publish": "No. Automation reaches awaiting_review only; publication is a separate manual action.",
+    "missing_ingest_token": "Not applicable. The endpoint answers 410 regardless of any binding.",
     "authorization_undefined_bypass": false,
-    "raw_logging": "No endpoint logging was found; persistence exceptions are now returned as a generic error and tests assert no credential or malformed payload is logged/echoed."
+    "raw_logging": "None. The 410 response and the console carry neither the credential nor the request payload, asserted by tests/n8n-retirement.test.ts."
+  },
+  "retirement": {
+    "disposition": "RETIRED",
+    "executed_at": "2026-07-30",
+    "release": "R0.4",
+    "evidence": "docs/agents-platform/architecture/N8N_RETIREMENT_EVIDENCE.md",
+    "replacement": "Cloudflare Queue + DLQ + Cron + D1 automation ledger (gptbot-automation Worker)",
+    "replacement_proven_before_retirement": true,
+    "sotuvchi_canary": "43/43 PASS against production D1",
+    "automation_canary": "56/56 PASS against production D1 and the real Queue/DLQ bindings",
+    "removed_files": [
+      "functions/lib/seo-autopilot/launch.ts",
+      "functions/lib/seo-autopilot/bridge-worker.ts",
+      "functions/lib/seo-autopilot/normalise.ts",
+      "functions/api/seo-autopilot/run.ts",
+      "tests/n8n-ingest-security.test.ts"
+    ],
+    "removed_env_names": [
+      "N8N_INGEST_TOKEN",
+      "N8N_WEBHOOK_SECRET",
+      "N8N_INGEST_ENABLED",
+      "EXTERNAL_AUTOPILOT_TRIGGER_ENABLED",
+      "SEO_AUTOPILOT_USE_DIRECT_AI"
+    ],
+    "legacy_endpoint_status": "permanent 410 Gone; handler deleted, not gated",
+    "external_workflow": "Isolated, not verified-disabled: no n8n control-plane credential exists. The route it called is permanently 410, its bearer is neither read nor bound, and no GPTBot runtime file contains the n8n host or the x-runable-secret header, so neither direction can carry traffic. The n8n instance was not deleted; unrelated workflows are out of scope.",
+    "regression_suite": "tests/n8n-retirement.test.ts (16 tests)",
+    "rollback": "first-party release rollback only; no n8n reactivation path exists"
   }
 }
