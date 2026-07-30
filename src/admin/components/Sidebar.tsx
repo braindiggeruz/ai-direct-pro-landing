@@ -1,17 +1,18 @@
 import { Link, useLocation, useNavigate } from 'react-router';
-import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck } from 'lucide-react';
 import { setToken } from '../lib/api';
 import { useT } from '../i18n';
 
-export function Sidebar({ onPublish }: { onPublish?: () => void }) {
+export function Sidebar({ onPublish, role }: { onPublish?: () => void; role?: string }) {
   const { t } = useT();
   const loc = useLocation();
   const nav = useNavigate();
   const logout = () => { setToken(null); nav('/admin-tools/login'); };
 
-  const items = [
+  const allItems = [
     { to: '/admin-tools/',                label: t.nav.cockpit,        icon: LayoutDashboard, end: true, testId: 'nav-cockpit' },
     { to: '/admin-tools/seo-autopilot',   label: t.nav.seo_autopilot,  icon: PlayCircle,                  testId: 'nav-seo-autopilot' },
+    { to: '/admin-tools/agents',          label: t.nav.owner_center,   icon: ShieldCheck,                 testId: 'nav-owner-center' },
     { to: '/admin-tools/pages',           label: t.nav.pages,          icon: FileText,                    testId: 'nav-pages' },
     { to: '/admin-tools/blog',            label: t.nav.blog,           icon: BookOpen,                    testId: 'nav-blog' },
     { to: '/admin-tools/ai-drafts',       label: t.nav.ai_drafts,      icon: Inbox,                       testId: 'nav-ai-drafts' },
@@ -21,6 +22,9 @@ export function Sidebar({ onPublish }: { onPublish?: () => void }) {
     { to: '/admin-tools/redirects',       label: t.nav.redirects,      icon: ArrowRightLeft,              testId: 'nav-redirects' },
     { to: '/admin-tools/settings',        label: t.nav.global_seo,     icon: Settings,                    testId: 'nav-settings' },
   ];
+  const items = role === 'support_readonly'
+    ? allItems.filter((item) => item.testId === 'nav-owner-center')
+    : allItems;
 
   return (
     <aside className="w-64 shrink-0 border-r border-white/5 bg-bg-base/60 backdrop-blur-md h-screen sticky top-0 flex flex-col">

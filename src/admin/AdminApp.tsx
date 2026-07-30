@@ -1,5 +1,5 @@
-import { Routes, Route, Navigate, useNavigate } from 'react-router';
-import { useEffect, useState } from 'react';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router';
+import { createContext, useContext, useEffect, useState } from 'react';
 import Login from './pages/Login';
 import Cockpit from './pages/Cockpit';
 import PagesList from './pages/PagesList';
@@ -14,23 +14,46 @@ import Settings from './pages/Settings';
 import AiDraftsList from './pages/AiDraftsList';
 import AiDraftDetail from './pages/AiDraftDetail';
 import SeoAutopilotControlCenter from './pages/SeoAutopilotControlCenter';
+import OwnerOverview from './pages/owner/OwnerOverview';
+import OwnerStores from './pages/owner/OwnerStores';
+import OwnerStoreDetail from './pages/owner/OwnerStoreDetail';
+import OwnerOrders from './pages/owner/OwnerOrders';
+import OwnerHandoffs from './pages/owner/OwnerHandoffs';
+import OwnerAutomation from './pages/owner/OwnerAutomation';
+import OwnerAudit from './pages/owner/OwnerAudit';
+import OwnerPilot from './pages/owner/OwnerPilot';
 import { Sidebar } from './components/Sidebar';
 import { AdminErrorBoundary } from './components/AdminErrorBoundary';
 import { api, getToken } from './lib/api';
 import { ADMIN_HOME, ADMIN_ROUTE_PATHS } from './routes';
 
+interface AdminSession {
+  email: string;
+  role: string;
+}
+
+const AdminSessionContext = createContext<AdminSession | null>(null);
+
 function RequireAuth({ children }: { children: React.ReactNode }) {
-  const [ok, setOk] = useState<null | boolean>(null);
+  const [session, setSession] = useState<AdminSession | null>(null);
   const nav = useNavigate();
+  const location = useLocation();
   useEffect(() => {
     if (!getToken()) { nav('/admin-tools/login', { replace: true }); return; }
-    void api.me().then(() => setOk(true)).catch(() => { nav('/admin-tools/login', { replace: true }); });
+    void api.me().then(setSession).catch(() => { nav('/admin-tools/login', { replace: true }); });
   }, [nav]);
-  if (ok === null) return <div className="min-h-screen bg-bg-base text-white/60 flex items-center justify-center">Authenticating…</div>;
-  return <>{children}</>;
+  if (session === null) return <div className="min-h-screen bg-bg-base text-white/60 flex items-center justify-center">Authenticating…</div>;
+  if (
+    session.role === 'support_readonly'
+    && !location.pathname.startsWith('/admin-tools/agents')
+  ) {
+    return <Navigate to="/admin-tools/agents" replace/>;
+  }
+  return <AdminSessionContext.Provider value={session}>{children}</AdminSessionContext.Provider>;
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
+  const session = useContext(AdminSessionContext);
   const [publishing, setPublishing] = useState(false);
   const onPublish = async () => {
     if (!confirm('Commit all local content/*.json files to GitHub now?')) return;
@@ -43,7 +66,9 @@ function Shell({ children }: { children: React.ReactNode }) {
   };
   return (
     <div className="flex min-h-screen bg-bg-base text-white">
-      <Sidebar onPublish={onPublish}/>
+      <Sidebar
+        onPublish={session?.role === 'support_readonly' ? undefined : onPublish}
+        role={session?.role}/>
       <main className="flex-1 min-w-0">{publishing ? <div className="p-8">Publishing to GitHub…</div> : children}</main>
     </div>
   );
@@ -70,6 +95,17 @@ export default function AdminApp() {
         <Route path={ADMIN_ROUTE_PATHS.indexNow} element={<RequireAuth><Shell><IndexNowPanel/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.redirects} element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.settings} element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
+        {/* P3.1 Owner Control Center. Every route is behind RequireAuth here and
+            behind requirePlatformRole on the server; the client guard is
+            convenience, the server guard is the control. */}
+        <Route path={ADMIN_ROUTE_PATHS.ownerOverview} element={<RequireAuth><Shell><OwnerOverview/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerStores} element={<RequireAuth><Shell><OwnerStores/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerStoreDetail} element={<RequireAuth><Shell><OwnerStoreDetail/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerOrders} element={<RequireAuth><Shell><OwnerOrders/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerHandoffs} element={<RequireAuth><Shell><OwnerHandoffs/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerAutomation} element={<RequireAuth><Shell><OwnerAutomation/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerAudit} element={<RequireAuth><Shell><OwnerAudit/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerPilot} element={<RequireAuth><Shell><OwnerPilot/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.fallback} element={<Navigate to={ADMIN_HOME} replace/>} />
       </Routes>
     </AdminErrorBoundary>
