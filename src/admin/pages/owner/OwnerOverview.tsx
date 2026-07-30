@@ -70,10 +70,9 @@ export default function OwnerOverview() {
 
           <Card data-testid="owner-runtime-policy">
             <h2 className="font-display text-base text-white mb-3">Политика выполнения</h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
               <div><span className="text-white/40">First-party automation:</span> <code>{data.runtime_policy.first_party_automation_enabled ? 'enabled' : 'disabled'}</code></div>
               <div><span className="text-white/40">Путь автоматизации:</span> <code>{data.runtime_policy.first_party_automation_path}</code></div>
-              <div><span className="text-white/40">n8n:</span> <code>{data.runtime_policy.n8n}</code></div>
               <div><span className="text-white/40">Автопубликация:</span> <code>{data.runtime_policy.auto_publication ? 'enabled' : 'disabled'}</code></div>
             </div>
           </Card>

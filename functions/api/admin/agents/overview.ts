@@ -21,7 +21,6 @@ export const onRequestGet = withOwnerRole('support_readonly', async (ctx) => {
       first_party_automation_enabled:
         (ctx.env.FIRST_PARTY_AUTOMATION_ENABLED || 'false').toLowerCase() === 'true',
       first_party_automation_path: 'sole',
-      n8n: 'retired',
       auto_publication: false,
     },
     overview,

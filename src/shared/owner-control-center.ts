@@ -73,7 +73,6 @@ export interface OwnerOverviewResponse {
   runtime_policy: {
     first_party_automation_enabled: boolean;
     first_party_automation_path: 'sole';
-    n8n: 'retired';
     auto_publication: false;
   };
   overview: PlatformOverview;

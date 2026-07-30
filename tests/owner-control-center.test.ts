@@ -398,7 +398,6 @@ describe('authorization fails closed', () => {
     assert.deepEqual(res.body.runtime_policy, {
       first_party_automation_enabled: true,
       first_party_automation_path: 'sole',
-      n8n: 'retired',
       auto_publication: false,
     });
     assert.equal((res.body.marketplace as { enabled: boolean }).enabled, false);
@@ -1335,7 +1334,8 @@ describe('existing admin surfaces still work', () => {
     assert.equal(res.status, 200);
     const system = res.body.system as Record<string, unknown>;
     assert.equal(system.first_party_automation_enabled, true);
-    assert.equal('n8n_webhook_secret_configured' in system, false);
+    assert.equal('external_trigger_enabled' in system, false);
+    assert.equal('direct_ai_enabled' in system, false);
   });
 
   test('an owner endpoint rejects a non-GET verb rather than falling through', async () => {
