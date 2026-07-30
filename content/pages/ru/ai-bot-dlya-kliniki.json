@@ -206,7 +206,30 @@
       "locale": "ru",
       "type": "contextual"
     },
-    { "target": "/ru/blog/telegram-bot-dlya-zapisi-klientov/", "anchor": "Telegram-бот для записи клиентов", "locale": "ru", "type": "contextual" }
+    {
+      "target": "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+      "anchor": "Telegram-бот для записи клиентов",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/",
+      "anchor": "сценарии AI-бота для клиники в Instagram",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-kliniki-zadachi/",
+      "anchor": "задачи AI-бота для клиники",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/blog/chat-bot-dlya-kliniki-s-filiakami/",
+      "anchor": "чат-бот для клиники с филиалами",
+      "locale": "ru",
+      "type": "niche"
+    }
   ],
   "schemaTypes": [
     "Organization",
@@ -217,5 +240,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-30"
 }

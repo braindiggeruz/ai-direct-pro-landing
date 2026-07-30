@@ -31,7 +31,10 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "O‘quv markazi uchun AI-bot — bu sinov darsiga yozadigan, ota-onalarga javob beradigan va arizani qabul komissiyasiga uzatadigan yordamchi." },
+    {
+      "type": "p",
+      "text": "O‘quv markazi uchun AI-bot — bu sinov darsiga yozadigan, ota-onalarga javob beradigan va arizani qabul komissiyasiga uzatadigan yordamchi."
+    },
     {
       "type": "h2",
       "text": "o'quv markazi uchun AI bot nima qiladi"
@@ -206,6 +209,12 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+      "anchor": "o'quv markazida ota-onalarga AI bot javobi",
+      "locale": "uz",
+      "type": "niche"
     }
   ],
   "schemaTypes": [
@@ -217,5 +226,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-30"
 }

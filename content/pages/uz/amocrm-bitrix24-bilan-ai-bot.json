@@ -307,6 +307,12 @@
       "anchor": "Biznes uchun AI botlar",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+      "anchor": "Telegram botni AmoCRM yoki Bitrix24 ga ulash",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -318,5 +324,5 @@
   ],
   "lastReviewedAt": "2026-06-24",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-06-24T00:00:00Z"
+  "updatedAt": "2026-07-30"
 }

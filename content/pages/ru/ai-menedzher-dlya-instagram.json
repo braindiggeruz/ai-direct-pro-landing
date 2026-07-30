@@ -30,7 +30,10 @@
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "AI-менеджер для Instagram — это бот, который отвечает в директе и на комментарии, квалифицирует лида и собирает контакт для менеджера." },
+    {
+      "type": "p",
+      "text": "AI-менеджер для Instagram — это бот, который отвечает в директе и на комментарии, квалифицирует лида и собирает контакт для менеджера."
+    },
     {
       "type": "h2",
       "text": "Что делает AI-менеджер для Instagram"
@@ -210,6 +213,18 @@
       "anchor": "почему реклама в Instagram не приносит заявки",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/ai-menedzher-dlya-instagram/",
+      "anchor": "как работает AI-менеджер для Instagram",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+      "anchor": "что такое AI-менеджер",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -221,6 +236,6 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-07-14",
+  "updatedAt": "2026-07-30",
   "hreflangUz": "/uz/instagram-uchun-ai-menejer/"
 }

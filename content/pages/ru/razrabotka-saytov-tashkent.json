@@ -14,10 +14,8 @@
     "создание лендинга Ташкент",
     "разработка интернет-магазина Ташкент",
     "веб-разработка Ташкент",
-    "создание сайта для бизнеса",
-    "сайт для бизнеса в Ташкенте",
-    "разработка сайта для компании",
-    "сайт под ключ",
+    "веб-студия Ташкент",
+    "заказать разработку сайта",
     "сайт для заявок",
     "сайт с AI-ботом",
     "сайт с CRM"
@@ -35,7 +33,7 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Разработка сайтов в Ташкенте",
   "heroTitle": "Разработка сайтов в Ташкенте для бизнеса",
-  "heroSubtitle": "Создаём сайты, которые приносят заявки, а не просто существуют: лендинги, корпоративные сайты и интернет-магазины с быстрой загрузкой, SEO и встроенным AI-ботом, который отвечает клиентам и собирает заявки 24/7.",
+  "heroSubtitle": "Проектируем сайты как управляемый канал заявок: лендинги, корпоративные сайты и интернет-магазины с быстрой загрузкой, SEO-основой и AI-ботом, который отвечает клиентам и передаёт обращения менеджеру.",
   "ctaPrimaryLabel": "Получить бесплатную консультацию",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Что мы разрабатываем",
@@ -722,6 +720,27 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Перед запросом предложения посмотрите актуальные {price}, сравните {types} и сохраните {developer}. Эти материалы отвечают на информационные вопросы, а эта страница остаётся основной локальной услугой разработки.",
+      "links": [
+        {
+          "token": "price",
+          "target": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+          "anchor": "ориентиры по стоимости сайта в Ташкенте"
+        },
+        {
+          "token": "types",
+          "target": "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+          "anchor": "лендинг, корпоративный сайт и интернет-магазин"
+        },
+        {
+          "token": "developer",
+          "target": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+          "anchor": "чек-лист выбора разработчика"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Хотите сайт, который приносит заявки?",
       "id": "consult"
@@ -954,6 +973,24 @@
       "anchor": "digital-маркетинг после запуска сайта",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+      "anchor": "стоимость разработки сайта в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+      "anchor": "выбор разработчика сайта",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+      "anchor": "сравнение форматов сайта",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -965,7 +1002,7 @@
   ],
   "lastReviewedAt": "2026-07-10",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-28",
+  "updatedAt": "2026-07-30",
   "heroImage": {
     "src": "/images/seo/website-development/website-development-tashkent-hero.webp",
     "alt": "Разработка сайтов в Ташкенте с AI-ботом, заявками, CRM и аналитикой",

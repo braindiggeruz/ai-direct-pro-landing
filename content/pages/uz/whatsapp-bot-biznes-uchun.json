@@ -312,6 +312,12 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
+      "anchor": "O'zbekistonda WhatsApp bot qanday ishlaydi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -323,5 +329,5 @@
   ],
   "lastReviewedAt": "2026-06-24",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-06-24T00:00:00Z"
+  "updatedAt": "2026-07-30"
 }

@@ -268,6 +268,12 @@
       "anchor": "GPT для бизнеса в Узбекистане",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+      "anchor": "нейросети для бизнеса в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -279,5 +285,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-30"
 }

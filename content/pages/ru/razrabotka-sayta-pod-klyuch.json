@@ -437,6 +437,22 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Чтобы отделить комплектацию проекта от рыночного ориентира, используйте разбор {price}. Перед договором проверьте {developer}.",
+      "links": [
+        {
+          "token": "price",
+          "target": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+          "anchor": "сколько стоит разработка сайта в Ташкенте"
+        },
+        {
+          "token": "developer",
+          "target": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+          "anchor": "чек-лист выбора подрядчика"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Хотите сайт под ключ без хаоса и лишних переделок?"
     },
@@ -597,6 +613,18 @@
       "anchor": "политика конфиденциальности",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+      "anchor": "стоимость сайта под ключ",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+      "anchor": "проверка разработчика сайта",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -608,7 +636,7 @@
   ],
   "lastReviewedAt": "2026-07-10",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-10",
+  "updatedAt": "2026-07-30",
   "heroImage": {
     "src": "/images/seo/turnkey-website/turnkey-website-hero.webp",
     "alt": "Разработка сайта под ключ: структура, дизайн, разработка, SEO, CRM и запуск",

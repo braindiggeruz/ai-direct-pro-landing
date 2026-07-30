@@ -255,6 +255,24 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
+      "anchor": "logistika uchun AI bot yo'l xaritasi",
+      "locale": "uz",
+      "type": "niche"
+    },
+    {
+      "target": "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+      "anchor": "AI menejer nima va qanday ishlaydi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
+      "anchor": "biznes nishasi uchun AI bot tanlash",
+      "locale": "uz",
+      "type": "niche"
     }
   ],
   "schemaTypes": [
@@ -266,5 +284,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-30"
 }

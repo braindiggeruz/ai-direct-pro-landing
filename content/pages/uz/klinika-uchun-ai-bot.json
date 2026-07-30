@@ -205,6 +205,12 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+      "anchor": "klinika uchun AI bot stsenariylari",
+      "locale": "uz",
+      "type": "niche"
     }
   ],
   "schemaTypes": [
@@ -216,5 +222,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-30"
 }

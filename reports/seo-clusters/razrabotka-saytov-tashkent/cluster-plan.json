@@ -1,0 +1,204 @@
+{
+  "version": "1.0.0",
+  "seed_keyword": "разработка сайтов в Ташкенте",
+  "generated_at": "2026-07-30T14:00:00Z",
+  "method": {
+    "source": "Google Search Console query evidence plus live SERP sampling",
+    "window": "GSC last 7 days ending 2026-07-28",
+    "location": "Tashkent and Uzbekistan commercial intent",
+    "notes": "The visible GSC query set contained 48 impressions across 11 website-development variants. SERP sampling confirmed a mixed commercial and pricing result set. Existing service URLs were differentiated before adding informational spokes."
+  },
+  "expanded_keywords": [
+    "разработка сайтов",
+    "разработка сайтов Ташкент",
+    "разработка сайтов в Ташкенте",
+    "разработка сайтов Узбекистан",
+    "разработка сайта Узбекистан",
+    "создание сайтов Ташкент",
+    "создание сайтов в Ташкенте",
+    "создание сайта Ташкент",
+    "сайт для бизнеса",
+    "сайт для компании",
+    "сайт под ключ",
+    "разработка сайта под ключ",
+    "создание сайта под ключ",
+    "заказать сайт в Ташкенте",
+    "веб-студия Ташкент",
+    "сколько стоит разработка сайта в Ташкенте",
+    "стоимость сайта Ташкент",
+    "цена создания сайта Ташкент",
+    "стоимость лендинга Ташкент",
+    "цена корпоративного сайта",
+    "сколько стоит интернет-магазин",
+    "как выбрать разработчика сайта",
+    "разработчик сайтов Ташкент",
+    "как проверить веб-студию",
+    "договор на разработку сайта",
+    "портфолио веб-студии",
+    "лендинг или корпоративный сайт",
+    "что выбрать лендинг или сайт",
+    "корпоративный сайт или интернет-магазин",
+    "какой сайт нужен бизнесу",
+    "виды сайтов для бизнеса",
+    "сайт-каталог или интернет-магазин",
+    "сайт для заявок",
+    "сайт с CRM",
+    "сайт с AI-ботом"
+  ],
+  "pillar": {
+    "id": "P",
+    "title": "Разработка сайтов в Ташкенте для бизнеса",
+    "primary_keyword": "разработка сайтов в Ташкенте",
+    "secondary_keywords": [
+      "разработка сайтов Ташкент",
+      "создание сайтов Ташкент",
+      "разработка сайтов Узбекистан"
+    ],
+    "search_volume_estimate": "high",
+    "template": "service-pillar",
+    "word_count_target": 2500,
+    "cluster": "pillar",
+    "intent": "transactional",
+    "url": "/ru/razrabotka-saytov-tashkent/",
+    "status": "updated"
+  },
+  "clusters": [
+    {
+      "name": "Экономика проекта",
+      "intent": "commercial",
+      "color": "#22d3ee",
+      "posts": [
+        {
+          "id": "A1",
+          "title": "Сколько стоит разработка сайта в Ташкенте в 2026 году",
+          "primary_keyword": "сколько стоит разработка сайта в Ташкенте",
+          "secondary_keywords": [
+            "стоимость сайта Ташкент",
+            "цена создания сайта Ташкент",
+            "сайт под ключ цена"
+          ],
+          "search_volume_estimate": "medium",
+          "template": "data-research",
+          "word_count_target": 1200,
+          "url": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+          "links_to": [
+            "P",
+            "A2",
+            "B1"
+          ],
+          "links_from": [
+            "P",
+            "A2",
+            "B1"
+          ],
+          "status": "written"
+        }
+      ]
+    },
+    {
+      "name": "Выбор подрядчика",
+      "intent": "commercial",
+      "color": "#a78bfa",
+      "posts": [
+        {
+          "id": "A2",
+          "title": "Как выбрать разработчика сайта в Ташкенте",
+          "primary_keyword": "как выбрать разработчика сайта в Ташкенте",
+          "secondary_keywords": [
+            "веб-студия Ташкент",
+            "договор на разработку сайта",
+            "как проверить веб-студию"
+          ],
+          "search_volume_estimate": "medium",
+          "template": "how-to-guide",
+          "word_count_target": 1200,
+          "url": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+          "links_to": [
+            "P",
+            "A1",
+            "B1"
+          ],
+          "links_from": [
+            "P",
+            "A1",
+            "B1"
+          ],
+          "status": "written"
+        }
+      ]
+    },
+    {
+      "name": "Выбор формата",
+      "intent": "informational-commercial",
+      "color": "#f59e0b",
+      "posts": [
+        {
+          "id": "B1",
+          "title": "Лендинг, корпоративный сайт или интернет-магазин",
+          "primary_keyword": "лендинг или корпоративный сайт",
+          "secondary_keywords": [
+            "какой сайт нужен бизнесу",
+            "корпоративный сайт или интернет-магазин",
+            "виды сайтов для бизнеса"
+          ],
+          "search_volume_estimate": "medium",
+          "template": "comparison",
+          "word_count_target": 1200,
+          "url": "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+          "links_to": [
+            "P",
+            "A1",
+            "A2"
+          ],
+          "links_from": [
+            "P",
+            "A1",
+            "A2"
+          ],
+          "status": "written"
+        }
+      ]
+    }
+  ],
+  "intent_owners": [
+    {
+      "intent": "local website development service",
+      "url": "/ru/razrabotka-saytov-tashkent/"
+    },
+    {
+      "intent": "turnkey scope, process and handover",
+      "url": "/ru/razrabotka-sayta-pod-klyuch/"
+    },
+    {
+      "intent": "website format for a business",
+      "url": "/ru/sozdanie-sayta-dlya-biznesa/"
+    },
+    {
+      "intent": "public price research",
+      "url": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+    },
+    {
+      "intent": "vendor selection checklist",
+      "url": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/"
+    },
+    {
+      "intent": "landing vs corporate vs ecommerce comparison",
+      "url": "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/"
+    }
+  ],
+  "guardrails": [
+    "The local service pillar owns broad transactional Tashkent variants.",
+    "The turnkey page owns scope, delivery and handover intent.",
+    "The business page owns format-selection intent and no longer targets broad local development terms.",
+    "Price ranges are labeled as dated public examples, not market averages or GPTBot fixed tariffs.",
+    "No guaranteed rankings, leads, conversion rates or sales.",
+    "Each new article has at least four incoming links and at least five outgoing internal links."
+  ],
+  "meta": {
+    "total_posts_in_wave": 4,
+    "new_spokes": 3,
+    "existing_service_pages_differentiated": 3,
+    "responsive_images": 9,
+    "planned_cluster_links": 15
+  }
+}

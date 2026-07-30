@@ -322,6 +322,18 @@
       "anchor": "Политика конфиденциальности",
       "locale": "ru",
       "type": "footer"
+    },
+    {
+      "target": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+      "anchor": "где пообщаться с искусственным интеллектом",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "anchor": "ChatGPT и Claude в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -333,5 +345,5 @@
   ],
   "lastReviewedAt": "2026-07-26",
   "createdAt": "2026-07-16T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-07-30"
 }

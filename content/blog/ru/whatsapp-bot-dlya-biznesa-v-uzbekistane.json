@@ -3,20 +3,20 @@
   "locale": "ru",
   "slug": "whatsapp-bot-dlya-biznesa-v-uzbekistane",
   "url": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
-  "title": "WhatsApp-бот для бизнеса в Узбекистане | GPTBot.uz",
-  "description": "Как работает WhatsApp-бот для бизнеса в Узбекистане: WhatsApp Business API, сценарии, интеграция с CRM, цена и чем он отличается от Telegram-бота.",
-  "h1": "WhatsApp-бот для бизнеса в Узбекистане: как внедрить",
-  "topicCluster": "whatsapp-bot-dlya-biznesa",
+  "title": "Как подключить WhatsApp Business API в Узбекистане",
+  "description": "Подключение WhatsApp Business API в Узбекистане: аккаунт, номер, шаблоны, webhook, CRM, ограничения и этапы технического запуска бота.",
+  "h1": "Как подключить WhatsApp Business API и запустить бота",
+  "topicCluster": "whatsapp-business-api",
   "targetMoneyPage": "/ru/whatsapp-bot-dlya-biznesa/",
   "keywords": [
-    "как внедрить WhatsApp-бота в Узбекистане",
-    "WhatsApp-бот для бизнеса",
-    "WhatsApp бот Узбекистан",
-    "чат-бот для WhatsApp",
+    "как подключить WhatsApp Business API",
+    "WhatsApp Business Platform Узбекистан",
+    "интеграция WhatsApp с CRM",
     "WhatsApp Business API Ташкент",
-    "автоответчик WhatsApp для бизнеса"
+    "webhook WhatsApp Business",
+    "шаблоны сообщений WhatsApp API"
   ],
-  "intro": "WhatsApp-бот для бизнеса в Узбекистане работает через WhatsApp Business API: он мгновенно отвечает на сообщения, собирает заявки и передаёт их менеджеру или в CRM. Подходит бизнесу, чья аудитория живёт именно в WhatsApp.",
+  "intro": "Для технического запуска WhatsApp-бота нужен не обычный личный аккаунт, а WhatsApp Business Platform: бизнес-портфолио, подтверждённый номер, правила шаблонов, webhook и серверная логика. Ниже — последовательность подключения, интеграции с CRM и проверки перед запуском. Заказать готовое внедрение можно на отдельной странице услуги.",
   "body": [
     {
       "type": "figure",
@@ -181,8 +181,8 @@
       "priority": 5
     }
   ],
-  "ogTitle": "WhatsApp-бот для бизнеса в Узбекистане: как внедрить",
-  "ogDescription": "WhatsApp Business API, сценарии, интеграция с CRM, цена и отличия от Telegram-бота. Как запустить WhatsApp-бота для бизнеса в Узбекистане.",
+  "ogTitle": "Как подключить WhatsApp Business API в Узбекистане",
+  "ogDescription": "Аккаунт, номер, шаблоны, webhook, CRM и этапы технического запуска WhatsApp-бота.",
   "ogImage": "https://gptbot.uz/assets/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
   "hreflangRu": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
@@ -191,7 +191,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-06-26",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-07-30",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -199,7 +199,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-07-30T00:00:00.000Z",
   "createdAt": "2026-06-26T00:00:00.000Z",
   "sources": [
     {

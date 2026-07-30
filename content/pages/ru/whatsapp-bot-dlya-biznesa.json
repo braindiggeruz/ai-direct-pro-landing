@@ -312,6 +312,12 @@
       "anchor": "Все AI-решения GPTBot.uz",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
+      "anchor": "как работает WhatsApp-бот в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -323,5 +329,5 @@
   ],
   "lastReviewedAt": "2026-06-24",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-06-24T00:00:00Z"
+  "updatedAt": "2026-07-30"
 }

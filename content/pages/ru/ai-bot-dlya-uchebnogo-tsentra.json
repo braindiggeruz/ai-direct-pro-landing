@@ -31,7 +31,10 @@
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "AI-бот для учебного центра — это виртуальный помощник, который записывает на пробные занятия, отвечает родителям и собирает заявки с рекламы." },
+    {
+      "type": "p",
+      "text": "AI-бот для учебного центра — это виртуальный помощник, который записывает на пробные занятия, отвечает родителям и собирает заявки с рекламы."
+    },
     {
       "type": "h2",
       "text": "Что делает AI-бот для учебного центра"
@@ -206,6 +209,24 @@
       "anchor": "Все AI-решения GPTBot.uz",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+      "anchor": "руководство по AI-боту для учебного центра",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
+      "anchor": "задачи AI-бота в учебном центре",
+      "locale": "ru",
+      "type": "niche"
+    },
+    {
+      "target": "/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
+      "anchor": "бот для ответов родителям",
+      "locale": "ru",
+      "type": "niche"
     }
   ],
   "schemaTypes": [
@@ -217,5 +238,5 @@
   ],
   "lastReviewedAt": "2026-06-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-07-30"
 }

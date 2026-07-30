@@ -3,19 +3,20 @@
   "locale": "uz",
   "slug": "whatsapp-bot-biznes-uchun-ozbekistonda",
   "url": "/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
-  "title": "WhatsApp bot biznes uchun O'zbekistonda | GPTBot.uz",
-  "description": "WhatsApp bot biznes uchun qanday ishlaydi: WhatsApp Business API, ssenariy, CRM bilan integratsiya, narx va Telegram botdan farqi.",
-  "h1": "O'zbekistonda biznes uchun WhatsApp bot qanday joriy etiladi",
-  "topicCluster": "whatsapp-bot-dlya-biznesa",
+  "title": "WhatsApp Business API'ni O'zbekistonda qanday ulash",
+  "description": "O'zbekistonda WhatsApp Business API ulash: akkaunt, raqam, xabar shablonlari, webhook, CRM integratsiyasi va texnik ishga tushirish.",
+  "h1": "WhatsApp Business API'ni ulash va botni ishga tushirish",
+  "topicCluster": "whatsapp-business-api",
   "targetMoneyPage": "/uz/whatsapp-bot-biznes-uchun/",
   "keywords": [
-    "biznes uchun WhatsApp bot",
-    "WhatsApp bot O'zbekiston",
-    "WhatsApp chat bot",
+    "WhatsApp Business API ulash",
+    "WhatsApp Business Platform O'zbekiston",
+    "WhatsApp CRM integratsiyasi",
     "WhatsApp Business API Toshkent",
-    "WhatsApp avtojavob biznes uchun"
+    "WhatsApp webhook sozlash",
+    "WhatsApp xabar shablonlari"
   ],
-  "intro": "WhatsApp bot WhatsApp Business API orqali ishlaydi: u mijozlarga darrov javob beradi, ariza yig'adi va uni menejerga yoki CRM'ga uzatadi. Auditoriyasi WhatsAppda bo'lgan biznes uchun mos keladi.",
+  "intro": "WhatsApp botni texnik ishga tushirish uchun oddiy shaxsiy akkaunt emas, WhatsApp Business Platform kerak: biznes portfeli, tasdiqlangan raqam, xabar shablonlari, webhook va server logikasi. Quyida ulash, CRM bilan integratsiya va ishga tushirishdan oldingi tekshiruvlar ketma-ketligi berilgan.",
   "body": [
     {
       "type": "figure",
@@ -180,8 +181,8 @@
       "priority": 5
     }
   ],
-  "ogTitle": "O'zbekistonda biznes uchun WhatsApp bot qanday joriy etiladi",
-  "ogDescription": "WhatsApp Business API, ssenariy, CRM integratsiyasi, narx va Telegram botdan farqi. WhatsApp botni biznes uchun qanday ishga tushirish kerak.",
+  "ogTitle": "WhatsApp Business API'ni O'zbekistonda ulash",
+  "ogDescription": "Akkaunt, raqam, xabar shablonlari, webhook, CRM va WhatsApp botni texnik ishga tushirish.",
   "ogImage": "https://gptbot.uz/assets/blog/whatsapp-bot-biznes-uchun-ozbekistonda-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
   "hreflangRu": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
@@ -190,7 +191,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-06-26",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-07-30",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -198,7 +199,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-07-30T00:00:00.000Z",
   "createdAt": "2026-06-26T00:00:00.000Z",
   "sources": [
     {

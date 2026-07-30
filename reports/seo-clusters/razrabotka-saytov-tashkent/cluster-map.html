@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Карта кластера: разработка сайтов в Ташкенте</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+    body { margin: 0; background: #070b14; color: #e5eefb; }
+    main { max-width: 1180px; margin: 0 auto; padding: 40px 24px; }
+    h1 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 44px); }
+    p { margin: 0 0 24px; color: #9fb0c7; }
+    svg { width: 100%; height: auto; border: 1px solid #1f2a3c; border-radius: 24px; background: radial-gradient(circle at 50% 42%, #111c32, #080d18 65%); }
+    .edge { stroke: #41516c; stroke-width: 2; }
+    .node rect { stroke-width: 2; transition: filter .2s ease, transform .2s ease; transform-box: fill-box; transform-origin: center; }
+    .node:hover rect { filter: brightness(1.25); transform: scale(1.025); }
+    .node text { fill: #f8fafc; text-anchor: middle; pointer-events: none; }
+    .label { font-size: 18px; font-weight: 700; }
+    .meta { font-size: 13px; fill: #cbd5e1; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Разработка сайтов в Ташкенте</h1>
+    <p>Один транзакционный pillar и три supporting‑интента, подтверждённые запросами GSC.</p>
+    <svg viewBox="0 0 1120 700" role="img" aria-labelledby="map-title map-desc">
+      <title id="map-title">Карта SEO-кластера разработки сайтов в Ташкенте</title>
+      <desc id="map-desc">Центральная страница услуги связана со статьями о стоимости, выборе разработчика и выборе формата сайта.</desc>
+      <line class="edge" x1="560" y1="350" x2="235" y2="170"></line>
+      <line class="edge" x1="560" y1="350" x2="885" y2="170"></line>
+      <line class="edge" x1="560" y1="350" x2="560" y2="575"></line>
+      <line class="edge" x1="235" y1="170" x2="885" y2="170"></line>
+      <line class="edge" x1="235" y1="170" x2="560" y2="575"></line>
+      <line class="edge" x1="885" y1="170" x2="560" y2="575"></line>
+      <g class="node">
+        <title>Основная локальная услуга: /ru/razrabotka-saytov-tashkent/</title>
+        <rect x="385" y="285" width="350" height="130" rx="24" fill="#172554" stroke="#60a5fa"></rect>
+        <text class="label" x="560" y="338">Разработка сайтов</text>
+        <text class="label" x="560" y="365">в Ташкенте</text>
+        <text class="meta" x="560" y="393">transactional pillar</text>
+      </g>
+      <g class="node">
+        <title>Коммерческое исследование цены</title>
+        <rect x="70" y="105" width="330" height="130" rx="24" fill="#083344" stroke="#22d3ee"></rect>
+        <text class="label" x="235" y="155">Сколько стоит сайт</text>
+        <text class="label" x="235" y="182">в Ташкенте</text>
+        <text class="meta" x="235" y="210">commercial research</text>
+      </g>
+      <g class="node">
+        <title>Коммерческий чек-лист выбора подрядчика</title>
+        <rect x="720" y="105" width="330" height="130" rx="24" fill="#2e1065" stroke="#a78bfa"></rect>
+        <text class="label" x="885" y="155">Как выбрать</text>
+        <text class="label" x="885" y="182">разработчика сайта</text>
+        <text class="meta" x="885" y="210">commercial guide</text>
+      </g>
+      <g class="node">
+        <title>Информационно-коммерческое сравнение форматов</title>
+        <rect x="365" y="510" width="390" height="130" rx="24" fill="#451a03" stroke="#f59e0b"></rect>
+        <text class="label" x="560" y="560">Лендинг, корпоративный сайт</text>
+        <text class="label" x="560" y="587">или интернет-магазин</text>
+        <text class="meta" x="560" y="615">comparison intent</text>
+      </g>
+    </svg>
+  </main>
+</body>
+</html>
