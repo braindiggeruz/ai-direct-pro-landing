@@ -1,17 +1,23 @@
 # wrangler config for Cloudflare Pages (`ai-direct-pro-landing`).
 #
-# This file is consumed by `wrangler pages dev` for local development and by
-# the deploy command for reference. The authoritative production bindings
-# are configured in the Cloudflare dashboard / via the Pages REST API and
-# always win at runtime.
+# THIS FILE IS AUTHORITATIVE, not documentation. `wrangler pages deploy`
+# replaces the project's binding and plain-text-variable configuration with
+# whatever is declared here, so a binding that exists only in the Cloudflare
+# dashboard is DELETED by the next deploy. That is how the LOGIN_ATTEMPTS KV
+# binding kept disappearing before R0.4: it was set in the dashboard, and the
+# next direct-upload deploy silently dropped it, leaving the admin login
+# lockout on its in-isolate fallback with no durable store.
 #
-# Bindings:
-#   GPTBOT_DRAFTS_DB  → D1 database "gptbot-ai-drafts" (AI Draft Inbox).
-#   LOGIN_ATTEMPTS    → KV namespace for the existing login-lockout subsystem.
+# Rule: every non-secret binding and variable production needs must be
+# declared in this file. Cloudflare Pages *secrets* (secret_text) are not
+# managed by wrangler and survive a deploy untouched, so they stay in the
+# dashboard.
 #
-# Secrets (NEVER committed; configured in Cloudflare Pages → Settings → Env vars):
-#   JWT_SECRET, GITHUB_TOKEN, ADMIN_PASSWORD_HASH,
-#   OPENROUTER_API_KEY, SERPER_API_KEY, TELEGRAM_*.
+# Secrets (NEVER committed; Cloudflare Pages -> Settings -> Env vars):
+#   JWT_SECRET, GITHUB_TOKEN, ADMIN_PASSWORD_HASH, ADMIN_EMAIL, CRON_SECRET,
+#   OPENROUTER_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, MISTRAL_API_KEY,
+#   CEREBRAS_API_KEY, SERPER_API_KEY, YANDEX_SEARCH_API_KEY, INDEXNOW_KEY,
+#   TELEGRAM_*.
 
 name = "ai-direct-pro-landing"
 compatibility_date = "2024-09-23"
@@ -22,6 +28,14 @@ binding = "GPTBOT_DRAFTS_DB"
 database_name = "gptbot-ai-drafts"
 database_id = "97ef0372-d937-406f-8871-755368d9afff"
 
+# Durable store for the admin login lockout (5 failures / 15 min per IP+email).
+# Without this binding functions/lib/lockout.ts silently falls back to an
+# in-isolate Map, which resets on every cold start and is not shared between
+# isolates, so the lockout degrades to best-effort instead of enforced.
+[[kv_namespaces]]
+binding = "LOGIN_ATTEMPTS"
+id = "c5e30ccbfcbe43f0b22a027b38c225f4"
+
 # Workers AI binding (Cloudflare Pages Functions).
 # Powers the direct-AI SEO Autopilot generator. The binding name "AI"
 # is referenced via env.AI.run(model, …) in
@@ -29,8 +43,16 @@ database_id = "97ef0372-d937-406f-8871-755368d9afff"
 [ai]
 binding = "AI"
 
-# Local producer binding for first-party orchestration. Production remains
-# unchanged until the owner creates/attaches the queue during the cutover.
+# Producer binding for first-party orchestration. The gptbot-automation Worker
+# is the consumer; messages carry job references only, never prompts, content or
+# secrets.
 [[queues.producers]]
 binding = "AUTOMATION_QUEUE"
 queue = "gptbot-automation"
+
+# First-party automation is the sole production automation path as of R0.4.
+# Pages reads this to decide whether the owner-only replay endpoint and the
+# automation status surfaces are live; the Worker reads its own copy from
+# wrangler.automation.toml. Both fail closed when it is not exactly "true".
+[vars]
+FIRST_PARTY_AUTOMATION_ENABLED = "true"
