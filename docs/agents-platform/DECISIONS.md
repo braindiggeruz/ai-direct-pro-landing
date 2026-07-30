@@ -969,3 +969,36 @@ fallback оставил бы KV пустым.
 
 **Секреты Pages (`secret_text`) wrangler не трогает** — они остаются в
 дашборде; при этом деплое все 27 сохранились.
+
+## D-028 — owner mutation и audit образуют одну условную D1-транзакцию (P3.1, 2026-07-30)
+
+**Решение.** Каждая P3.1 mutation записывает audit event и меняет domain state
+в одном атомарном D1 batch. Audit INSERT содержит optimistic guard по
+предыдущему state/version, а domain statement зависит от случайного
+`event_id`, созданного именно этим INSERT. Если guard устарел, не выполняется
+ни одна часть. Отдельные публичные helpers «сначала audit, потом mutation»
+удалены, чтобы будущий caller не мог случайно вернуть ghost audit.
+
+**Идемпотентность описывает логическую операцию, а не только уникальную
+строку.** Глобально уникальный key считается duplicate только при совпадении
+actor, role, action, target type/id, org и reason. Повторное использование key
+для другой операции даёт `409 idempotency_conflict`; второй domain effect и
+второй audit event невозможны.
+
+**Automation replay сохраняет границу внешнего side effect.** Audit, переход
+`dead_letter → queued` и ledger event `dlq_replayed` атомарны в D1. Затем Queue
+получает только bounded job reference. Если Queue временно недоступна, строка
+остаётся `queued` и доступна first-party scheduled dispatcher; API retry с тем
+же key не посылает второе сообщение. Автопубликация и GitHub writer из этого
+пути недостижимы.
+
+**PII и приватный контент не расширены.** Audit schema содержит только закрытые
+tokens, IDs, request ID и allowlisted metadata с двойным лимитом 2 KiB
+(application + D1 CHECK). Buyer contact fields и raw handoff text не
+проецируются. Migration `0025` additive, repeat-safe и в production не
+применялась.
+
+**Rollback.** До deployment — `git revert` P3.1 commits. После будущего
+разрешённого deployment таблицы audit/pilot не удаляются: приложение
+откатывается, pilot ставится на паузу, evidence сохраняется и reconciles по
+request/event IDs.

@@ -1,10 +1,10 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "R0.4",
-  "stage_status": "completed",
-  "last_completed_stage": "R0.4",
-  "next_stage": "P3.1 Owner Control Center, then the R1 Sotuvchi pilot",
+  "current_stage": "P3.1 Owner Control Center",
+  "stage_status": "completed_on_feature_branch",
+  "last_completed_stage": "P3.1 Owner Control Center (feature branch only)",
+  "next_stage": "P3.1 code review and controlled merge planning",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -20,9 +20,32 @@
     "seo_scheduler": "Disabled at both layers. The GitHub Actions workflow is disabled_manually, and the production D1 seo_autopilot_schedule setting was found at twice_weekly with all seven days active, left by an e2e test session on 2026-06-21, and set to disabled before first-party automation was enabled.",
     "backups": "pre-migration and post-migration D1 exports verified readable, stored outside Git"
   },
-  "next_stage_note": "R0.4 is COMPLETE. Production runs the canonical rewritten code, first-party Cloudflare automation is the sole production automation path, n8n is retired with N8N_DISPOSITION=RETIRED, the admin login lockout has a durable KV store for the first time, and both auto-deploy integrations plus the SEO scheduler remain disabled. Automatic publication remains disabled: automation can only reach awaiting_review. Next is P3.1 Owner Control Center, which is implemented on feature/p3.1-owner-control-center and must not be merged or deployed, followed by the controlled R1 Sotuvchi pilot with 1-3 verified stores. The GPTBot AI Market is not launched.",
-  "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; R0.3 is in progress and blocked; R0.4 has a completed local preparation track and local RC1 but is not complete; production and R1 remain blocked.",
-  "last_commit": "the wrangler.toml binding fix (see git log; four R0.4 code/doc commits on top of 87ce72a)",
+  "p3_1_owner_control_center": {
+    "status": "complete_on_feature_branch",
+    "branch": "feature/p3.1-owner-control-center",
+    "feature_branch_status": "PUSHED",
+    "code_test_head": "5f3d64548adb180627e10599396122edb04b85bf",
+    "merged": false,
+    "deployed": false,
+    "migration_0025_applied_remotely": false,
+    "production_mutation": false,
+    "pilot_started": false,
+    "agents_bot_created": false,
+    "marketplace_launched": false,
+    "authorization": "PASS",
+    "tenant_isolation": "PASS",
+    "audit_safety": "PASS",
+    "idempotency": "PASS",
+    "no_impersonation": "PASS",
+    "no_public_marketplace": "PASS",
+    "no_n8n": "PASS",
+    "no_auto_publication": "PASS",
+    "dedicated_tests": "66/66",
+    "full_tests": "922/922 across 36 suites"
+  },
+  "next_stage_note": "P3.1 implementation and tests are complete and pushed only to feature/p3.1-owner-control-center. The next task is code review and controlled merge planning. This state is not authorization to merge, deploy, apply migration 0025, create a bot, onboard stores, or start R1. Production remains on the completed R0.4 release; first-party automation is the sole path, n8n is retired, automatic publication is disabled, and GPTBot AI Market is not launched.",
+  "governance_gap": "Resolved for P3.1 by the explicitly authorized feature-only implementation and audit record. Merge, deployment, migration 0025 and the R1 pilot remain separate owner-authorized stages.",
+  "last_commit": "5f3d64548adb180627e10599396122edb04b85bf",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -166,10 +189,10 @@
   },
   "baseline": {
     "build": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0; corepack yarn build exit 0 (207 sitemap entries, 98 articles prerendered); backend typecheck and build exit 0; wrangler pages functions build compiled successfully",
-    "tests": "full repository 856/856 across 35 suites, 0 failures. Replaced n8n-ingest-security (6 tests, asserted the fail-closed behaviour of a deleted endpoint) with n8n-retirement (16 tests, asserts the removal); functions-type-safety 38/38 after its normaliser section was rewritten against the strict validator; react-router migration 26/26 with route parity 224/224 and zero deltas.",
+    "tests": "full repository 922/922 across 36 suites, 0 failures. P3.1 owner-control-center 66/66; react-router migration 26/26 with exactly eight allowlisted protected owner routes and zero public/static route delta.",
     "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors",
     "lint": "eslint clean on every file changed in R0.4. Six pre-existing no-explicit-any errors remain at src/admin/lib/api.ts:71 and :76, unchanged by this release and confirmed pre-existing by linting the file at the previous HEAD.",
-    "security": "scripts/scan-secrets.ts clean over 2520 files; git diff --check clean; git fsck --full clean with no output; built browser assets contain no credential value (the three matches are UI help text naming SERPER_API_KEY and ADMIN_PASSWORD_HASH, which is the documented names-only policy)"
+    "security": "scripts/scan-secrets.ts clean over 2523 files; git diff --check clean; git fsck --full exit 0 with one harmless dangling commit and no corruption; built browser assets contain no credential value. P3.1 authorization, tenant isolation, audit safety, idempotency, no impersonation, no public marketplace, no n8n and no auto-publication all PASS."
   },
   "n8n_disposition": {
     "value": "RETIRED",
