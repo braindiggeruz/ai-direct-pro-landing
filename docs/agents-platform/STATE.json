@@ -2,22 +2,27 @@
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
   "current_stage": "R0.4",
-  "stage_status": "in_progress_deployed_pending_canaries",
-  "last_completed_stage": "R0.3B",
-  "next_stage": "R0.4 canaries then R1",
+  "stage_status": "completed",
+  "last_completed_stage": "R0.4",
+  "next_stage": "P3.1 Owner Control Center, then the R1 Sotuvchi pilot",
   "r0_4_progress": {
-    "production_deployment": "43e3e618ee7c378b056fca983db111e68d50fcaa deployed and canonical, aliased to gptbot.uz",
-    "build_fix": "Cloudflare build image ships nodejs 22.16.0; react-router 8.3.0 requires >=22.22.0. Added .node-version pinning 22.22.0. Two builds failed before this was found; production was never affected because a failed build never becomes canonical.",
-    "login_attempts_kv": "gptbot-login-attempts namespace bound as LOGIN_ATTEMPTS on production and preview. Previously an empty-named KV binding occupied the slot, which is why lockout had no store. Verified behaviourally: five failed logins on a throwaway identity accumulated across requests and produced HTTP 429 with a 15 minute window.",
-    "queues_created": ["gptbot-automation", "gptbot-automation-dlq"],
-    "automation_state": "resources created, FIRST_PARTY_AUTOMATION_ENABLED not set so automation stays disabled; Worker and Cron not deployed; automation canary NOT run",
-    "legacy_n8n_ingest": "now returns 404. The deployed code contains the N8N_INGEST_ENABLED kill switch and the variable is absent in production, so legacy ingest is fail-closed by default. Disposition remains ROTATED, not RETIRED. Owner decision required if a live n8n workflow still needs to post drafts.",
-    "canaries_outstanding": "Sotuvchi store/order/handoff canary and first-party automation canary have NOT been run",
-    "backups": "pre-migration and post-migration D1 exports verified, stored outside Git"
+    "status": "completed 2026-07-30",
+    "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
+    "deployed_commit": "the wrangler.toml binding fix on top of 28af945",
+    "build_fix": "Retained: .node-version pins 22.22.0 because the Cloudflare build image ships 22.16.0 and react-router 8.3.0 requires >=22.22.0.",
+    "login_attempts_kv": "CLOSED PROPERLY. The binding is now declared in wrangler.toml, not only in the dashboard. Root cause of the earlier regression: `wrangler pages deploy` replaces the project binding configuration with whatever wrangler.toml declares, so a dashboard-only binding is deleted by the next direct upload. The previous behavioural check passed on the in-isolate Map fallback because all five requests hit one isolate. Now verified durably: five failed logins on a throwaway identity return HTTP 429 and write a real login:<ip>:<email> key with a 15 minute TTL into gptbot-login-attempts. The probe key was deleted afterwards.",
+    "preview_test_artifact": "TEST_MERGE_PROBE removed from the preview KV bindings with a merge-safe PATCH. Production config untouched by that call; preview LOGIN_ATTEMPTS retained; preview_deployment_setting stayed none and no preview deployment was created.",
+    "d1_table_reconciliation": "RESOLVED as counting methodology, zero loss. Production sqlite_master holds 67 tables = 64 application tables declared by migrations 0001-0024 + d1_migrations bookkeeping + _cf_KV + sqlite_sequence. The 65 figure came from the post-migration export, which omits the two internal tables; its 65 names match production exactly with zero difference in either direction. 98 declared named indexes, 98 present, 0 missing. Fresh-database bootstrap and the staged 0001-0012 then 0013-0024 upgrade produce an identical object set. Rows preserved: ai_drafts 42, seo_autopilot_jobs 81.",
+    "sotuvchi_canary": "43/43 PASS against production D1 inside a real Workers runtime. Store and ownership, non-owner and cross-tenant denial, catalog grounding with integer UZS price preserved, no fabricated product, one logical order under a repeated idempotency key, exactly one inventory decrement and one order_confirmed movement, no negative inventory, invalid transitions refused, handoff with seller reply session, owner-only stats with buyer and anonymous denied, no raw buyer PII in analytics events. Synthetic data removed; production row counts returned to the exact pre-canary baseline.",
+    "automation_canary": "56/56 PASS against production D1 and the real Queue and DLQ bindings. Idempotent enqueue, duplicate suppression, closed job-type allowlist, retry accounting, backoff respected, retry ceiling to dead_letter, lease exclusivity, lease-expiry recovery, awaiting_review as the only terminal success state, non-retryable failure dead-lettering, DLQ delivery, owner-only replay with member and foreign-tenant denied, replay idempotence, bounded ledger with no message text or contact, cron sweep exactly once, production queue binding accepted a real message.",
+    "automation_state": "LIVE. Worker gptbot-automation deployed with the Queue consumer (batch 10, max_retries 3, DLQ gptbot-automation-dlq), the DLQ producer, the D1 ledger binding and the */15 * * * * Cron trigger. workers_dev disabled and fetch returns 404, so it has no public command endpoint. FIRST_PARTY_AUTOMATION_ENABLED=true on both the Worker and Pages production, set only after both canaries passed.",
+    "n8n": "RETIRED. See docs/agents-platform/architecture/N8N_RETIREMENT_EVIDENCE.md.",
+    "seo_scheduler": "Disabled at both layers. The GitHub Actions workflow is disabled_manually, and the production D1 seo_autopilot_schedule setting was found at twice_weekly with all seven days active, left by an e2e test session on 2026-06-21, and set to disabled before first-party automation was enabled.",
+    "backups": "pre-migration and post-migration D1 exports verified readable, stored outside Git"
   },
-  "next_stage_note": "R0.3B is COMPLETE: admin credential rotated twice with behavioural rejection evidence, n8n ingest ROTATED at both ends, every automation writer and deployment integration frozen, and the allowlisted history rewrite executed and verified from a fresh clone. R0.4 has NOT started. Cloudflare Pages still serves pre-rewrite commit 1a68a12 and its automatic deployments remain disabled. R1 and P3 are not started.",
+  "next_stage_note": "R0.4 is COMPLETE. Production runs the canonical rewritten code, first-party Cloudflare automation is the sole production automation path, n8n is retired with N8N_DISPOSITION=RETIRED, the admin login lockout has a durable KV store for the first time, and both auto-deploy integrations plus the SEO scheduler remain disabled. Automatic publication remains disabled: automation can only reach awaiting_review. Next is P3.1 Owner Control Center, which is implemented on feature/p3.1-owner-control-center and must not be merged or deployed, followed by the controlled R1 Sotuvchi pilot with 1-3 verified stores. The GPTBot AI Market is not launched.",
   "governance_gap": "Resolved by the owner-approved release sequence R0.1 -> R0.2 -> R0.3 -> R0.4 -> R1 -> P3. R0.1 and R0.2 are complete locally; R0.3 is in progress and blocked; R0.4 has a completed local preparation track and local RC1 but is not complete; production and R1 remain blocked.",
-  "last_commit": "77d46d403cde210b5453214d61296ac261ca51e2",
+  "last_commit": "the wrangler.toml binding fix (see git log; four R0.4 code/doc commits on top of 87ce72a)",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -59,35 +64,29 @@
     "owner_kit": "F:\\Claude\\gptbot-secure-owner-kit\\20260728-195938 (outside Git)",
     "offline_backup": "F:\\Claude\\gptbot-r0.3-backups\\final-e6cbae3-20260728\\gptbot-repo-full-final-e6cbae3.bundle (verified complete, outside the repository, never published)"
   },
-  "updated_at": "2026-07-29",
-  "blocked": true,
-  "blocked_stage": "R0.4",
-  "blockers": [
-    "R0.4 production rollout is PARTIALLY complete and blocked on owner-supplied production secrets. Done: D1 backup verified, migrations 0013-0024 applied and verified. Not done: Queue/DLQ/Worker/Cron creation, Pages/Functions deployment, canaries. 24 of the 30 required_env_names are absent from Cloudflare Pages production, including nine secrets that only the owner can provide: GPT_HASH_SALT, TURNSTILE_SECRET_KEY, TURNSTILE_SITE_KEY, GPTBOT_INTERNAL_API_SECRET, TELEGRAM_AGENTS_BOT_TOKEN, TELEGRAM_AGENTS_WEBHOOK_SECRET, SUPABASE_URL, SUPABASE_SECRET_KEY, SUPABASE_PUBLISHABLE_KEY, SUPABASE_JWKS_URL. Deploying the rewritten canonical main before these exist would put production on code whose environment contract is unmet.",
-    "The LOGIN_ATTEMPTS KV binding is absent from Cloudflare Pages production, so the admin login lockout has no backing store there. Pre-existing, unrelated to R0.3B, and worth closing during R0.4.",
-    "Railway production deployments have been failing since 2026-07-27; the last successful one is 93fab39. This predates R0.3B and needs its own diagnosis before any Railway deploy is attempted.",
-    "R0.4 production rollout has not started: no production D1 backup, no migrations applied, no Queue/Worker/Cron created, no Pages deployment from the rewritten canonical main."
-  ],
+  "updated_at": "2026-07-30",
+  "blocked": false,
+  "blocked_stage": null,
+  "blockers": [],
   "parallel_preparation": {
     "R0.4-prep": {
       "status": "completed_locally",
       "code_commit": "27e7ddbe03695a859c9a7c11e7e93b450309946b"
     },
     "first_party_automation_runtime": {
-      "status": "prepared_locally",
-      "code_commit": "99fa2ad520688e660dd949fcdbc1176951232e26",
+      "status": "live_in_production",
       "source_of_truth": "D1",
       "delivery": "Cloudflare Queues at-least-once",
-      "worker": "prepared_not_deployed",
-      "tests": "22/22 targeted tests verified",
-      "production_mutation": false
+      "worker": "deployed",
+      "tests": "56/56 production canary plus 22/22 targeted local tests",
+      "production_mutation": true
     },
     "n8n_retirement": {
-      "status": "prepared_not_executed",
-      "credential_disposition": "pending",
-      "production_workflow_disabled": false,
-      "scheduler_disabled": false,
-      "old_credential_revoked": false
+      "status": "executed",
+      "credential_disposition": "retired",
+      "production_workflow_disabled": "isolated; not verifiable without an n8n control-plane credential",
+      "scheduler_disabled": true,
+      "old_credential_revoked": true
     },
     "react_router_security_migration": {
       "status": "completed_locally",
@@ -123,7 +122,9 @@
       "sites_closed": 13,
       "repository_wide_vector": "humanMessageFor appended a 140-character excerpt of the thrown value to every withErrorHandler 5xx response; it now derives its message from the ErrorCode alone and takes no error argument",
       "endpoint_family_vector": "ten catch blocks in the AI Draft Inbox admin endpoints returned the raw exception message; they now return the closed-list token internal_error plus a request_id",
-      "public_error_token_list": ["internal_error"],
+      "public_error_token_list": [
+        "internal_error"
+      ],
       "behavioural_tests_added": 16,
       "unsafe_suppressions_added": 0,
       "compiler_settings_weakened": false,
@@ -137,12 +138,11 @@
     },
     "control_plane_readiness": {
       "snapshot": "docs/agents-platform/release/CONTROL_PLANE_READINESS_SNAPSHOT.json",
-      "method": "read-only CLI and REST GETs; no mutation",
-      "github": "verified_blocked",
-      "cloudflare": "verified_blocked",
-      "railway": "verified_blocked",
-      "n8n": "unavailable",
-      "note": "The Railway and Cloudflare auto-deploy integrations and the SEO Autopilot scheduler are now CONFIRMED ACTIVE rather than merely unconfirmed. main has no branch protection."
+      "method": "read and write via Wrangler and the Cloudflare REST API during R0.4",
+      "github": "reachable with the protected token; SEO Autopilot scheduler disabled_manually; secret-scan workflow active",
+      "cloudflare": "reachable; Pages Git auto-deploy disabled, production_deployments_enabled false, preview_deployment_setting none",
+      "railway": "GitHub trigger disconnected. Last railway-app[bot] deployment is 2026-07-29T12:05:15Z for c20ccf75; main has advanced past it with zero new Railway deployments.",
+      "n8n": "no control-plane credential; not queried"
     },
     "owner_maintenance_pack": {
       "location": "outside Git, in the protected owner kit",
@@ -150,7 +150,7 @@
       "sequence": "OWNER_MAINTENANCE_SEQUENCE.md (Phases 1-9)",
       "secrets_in_repository": false
     },
-    "release_status": "prepared_locally_blocked_by_R0.3B",
+    "release_status": "R0.4 complete",
     "root_dependency_audit": "React Router 8.3.0 with React/React DOM 19.2.7 is installed; react-router-dom and GHSA-qwww-vcr4-c8h2 are absent. Yarn production audit and the independent npm production cross-check report zero findings. A separate full Yarn audit reports unrelated tooling/dev dependency debt (1 low, 2 moderate, 17 high); no broad dependency modernization was performed.",
     "remote_d1_migrations_applied": true,
     "remote_d1_migrations_applied_at": "2026-07-29",
@@ -159,15 +159,59 @@
     "remote_d1_tables_before": 37,
     "remote_d1_tables_after": 67,
     "remote_d1_existing_rows_preserved": "ai_drafts 42, seo_autopilot_jobs 81",
-    "deployed": false,
+    "deployed": true,
     "webhook_mutated": false,
-    "pilot_started": false
+    "pilot_started": false,
+    "remote_d1_table_accounting": "64 application tables from migrations 0001-0024 + d1_migrations + _cf_KV + sqlite_sequence"
   },
   "baseline": {
-    "build": "tsc -b exit 0; corepack yarn build exit 0; Railway backend typecheck and build exit 0; backend npm audit --omit=dev 0 findings",
-    "tests": "pass: internal error disclosure 16/16; Functions type-safety 38/38; React Router migration 26/26; first-party automation 22/22; owner evidence policy 6/6; R0.4 release-preparation 20/20; R0.3C secret-scan 14/14; unchanged required Agents baseline 584/584; full repository 842/842 across 35 suites (826 previous + 16 new, zero regressions)",
-    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors. The D-007 legacy exception of 27 errors in 6 files is REMOVED: every error was fixed at its source with closed-list parsing, explicit environment interfaces, unvalidated-candidate types, split closed unions and a nullable-row type guard. No compiler option was relaxed, no file was excluded and no unsafe suppression was added.",
-    "lint": "R0.3 changed-file scoped eslint exit 0; boundaries 10/10",
-    "security": "memory/test_credentials.md and its two gptbot-audit duplicates are removed from the tree and blocked by .gitignore. scripts/scan-secrets.ts is clean and blocks 22 of the 23 historical incident versions; the one it does not flag is the original empty stub with no credential material. Replacement credentials exist only in the Windows-protected owner vault outside Git and have not been installed. GitHub secret scanning and push protection are enabled but generic values remain reachable in Git history and must still be treated as compromised."
-  }
+    "build": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0; corepack yarn build exit 0 (207 sitemap entries, 98 articles prerendered); backend typecheck and build exit 0; wrangler pages functions build compiled successfully",
+    "tests": "full repository 856/856 across 35 suites, 0 failures. Replaced n8n-ingest-security (6 tests, asserted the fail-closed behaviour of a deleted endpoint) with n8n-retirement (16 tests, asserts the removal); functions-type-safety 38/38 after its normaliser section was rewritten against the strict validator; react-router migration 26/26 with route parity 224/224 and zero deltas.",
+    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors",
+    "lint": "eslint clean on every file changed in R0.4. Six pre-existing no-explicit-any errors remain at src/admin/lib/api.ts:71 and :76, unchanged by this release and confirmed pre-existing by linting the file at the previous HEAD.",
+    "security": "scripts/scan-secrets.ts clean over 2520 files; git diff --check clean; git fsck --full clean with no output; built browser assets contain no credential value (the three matches are UI help text naming SERPER_API_KEY and ADMIN_PASSWORD_HASH, which is the documented names-only policy)"
+  },
+  "n8n_disposition": {
+    "value": "RETIRED",
+    "recorded_at": "2026-07-30",
+    "supersedes": "ROTATED (R0.3B)",
+    "evidence": "docs/agents-platform/architecture/N8N_RETIREMENT_EVIDENCE.md",
+    "code_removed": [
+      "functions/lib/seo-autopilot/launch.ts",
+      "functions/lib/seo-autopilot/bridge-worker.ts",
+      "functions/lib/seo-autopilot/normalise.ts",
+      "functions/api/seo-autopilot/run.ts"
+    ],
+    "env_names_removed": [
+      "N8N_INGEST_TOKEN",
+      "N8N_WEBHOOK_SECRET",
+      "N8N_INGEST_ENABLED",
+      "EXTERNAL_AUTOPILOT_TRIGGER_ENABLED",
+      "SEO_AUTOPILOT_USE_DIRECT_AI"
+    ],
+    "legacy_endpoint": "POST /api/admin/ai-drafts answers a permanent 410 Gone; the handler is deleted, not gated",
+    "cloudflare_env_vars_containing_n8n": 0,
+    "regression_suite": "tests/n8n-retirement.test.ts (16 tests)",
+    "external_workflow": "Isolated, not verified-disabled. No n8n control-plane credential exists, so the owner-kit gate item workflow_disabled stays unverified rather than being recorded on false evidence. Both directions are closed on the GPTBot side: the route is 410, the bearer is neither read nor bound, and no runtime file contains the n8n host or the x-runable-secret header.",
+    "owner_kit_gate": "N8N_INGEST_GATE=INCOMPLETE for that one item only; see N8N_RETIREMENT_DEVIATION.md in the owner kit",
+    "instance_deleted": false,
+    "rollback": "first-party release rollback only; no n8n reactivation path exists"
+  },
+  "open_items": [
+    {
+      "id": "automation-llm-key",
+      "severity": "medium",
+      "summary": "The automation Worker has no LLM provider key, so a scheduled seo_draft_generation job fails closed with the non-retryable llm_provider_missing and writes no draft. Owner-triggered generation through Pages is unaffected, because Pages holds the provider secrets. Setting one of MISTRAL_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, CEREBRAS_API_KEY or OPENROUTER_API_KEY as a secret on the gptbot-automation Worker completes unattended scheduled generation. Cloudflare secrets cannot be read back, so the value has to come from the owner."
+    },
+    {
+      "id": "pages-var-triple-underscore",
+      "severity": "low",
+      "summary": "Cloudflare Pages production carries a secret_text variable literally named ___ , almost certainly a residue of the earlier empty-named KV binding incident. It is read by no code. Left in place because R0.4 authorised removing only the TEST_MERGE_PROBE preview artifact, and deleting an unread secret is not reversible."
+    },
+    {
+      "id": "n8n-workflow-disabled-evidence",
+      "severity": "low",
+      "summary": "The owner-kit item workflow_disabled requires provider-ui evidence from the n8n interface and stays false. It does not affect GPTBot: the route is 410 and the bearer is unbound. See N8N_RETIREMENT_DEVIATION.md."
+    }
+  ]
 }

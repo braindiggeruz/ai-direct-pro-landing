@@ -1,5 +1,42 @@
 # Актуальный master handoff
 
+## R0.4 COMPLETE relay (2026-07-30) — текущий authoritative checkpoint
+
+`current_stage: R0.4`, `stage_status: completed`, `last_completed_stage: R0.4`,
+`blocked: false`, `next_stage` — P3.1 Owner Control Center, затем R1 pilot.
+
+### Что стало правдой в этом релизе
+
+1. **n8n выведен из GPTBot полностью.** `N8N_DISPOSITION=RETIRED`.
+   Код bridge/normaliser/публичного триггера удалён, legacy ingest отвечает
+   постоянным `410 Gone`, все `N8N_*` имена удалены из `Env`, из контракта
+   окружения и из обоих окружений Cloudflare. Регрессия закреплена
+   `tests/n8n-retirement.test.ts` (16 тестов), которые проверяют, что ни одна
+   устаревшая переменная не возвращает endpoint к жизни.
+2. **First-party automation — единственный production-путь** и он развёрнут:
+   Worker, Queue consumer, DLQ, D1 ledger, Cron, owner-only replay.
+3. **Оба canary прошли против production D1**: Sotuvchi 43/43,
+   automation 56/56. Tenant isolation, идемпотентность заказа и ровно один
+   inventory decrement подтверждены на реальной базе, не на фикстуре.
+4. **Найден и устранён скрытый дефект LOGIN_ATTEMPTS**, из-за которого lockout
+   работал без долговременного хранилища и при этом выглядел здоровым.
+
+### Что осталось владельцу
+
+- Один необязательный секрет: ключ LLM-провайдера на Worker
+  `gptbot-automation`, иначе плановая генерация по Cron честно падает с
+  `llm_provider_missing` и ничего не пишет. Генерация по кнопке администратора
+  работает — секреты провайдеров лежат на Pages.
+- Один необязательный косметический пункт owner-kit: `workflow_disabled`
+  требует evidence из UI n8n, которого нет. Подробности —
+  `N8N_RETIREMENT_DEVIATION.md` в owner kit.
+
+### Чего делать нельзя
+
+Не включать Cloudflare Git auto-deploy, не переподключать Railway, не включать
+автопубликацию, не мержить и не деплоить `feature/p3.1-owner-control-center`.
+
+
 ## R0.3B-CLOSURE-PREP relay (2026-07-29) — текущий authoritative checkpoint
 
 - `current_stage: R0.3`, `stage_status: in_progress`, `last_completed_stage: R0.2`,

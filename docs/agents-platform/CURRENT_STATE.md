@@ -1,4 +1,50 @@
-# CURRENT_STATE — фактическое состояние репозитория (2026-07-29, R0.3 частично)
+# CURRENT_STATE — фактическое состояние репозитория (2026-07-30, R0.4 завершён)
+
+## R0.4 ЗАВЕРШЁН (2026-07-30) — n8n RETIRED, first-party automation в production
+
+- `current_stage: R0.4`, `stage_status: completed`, `blocked: false`.
+  Production deployment `ee530d71`, canonical, alias `gptbot.uz`, direct upload
+  из канонического чистого репозитория. Git auto-deploy остаётся выключен.
+- **n8n выведен полностью.** `N8N_DISPOSITION=RETIRED`. Удалены
+  `launch.ts`, `bridge-worker.ts`, `normalise.ts` и публичный
+  `/api/seo-autopilot/run`. Legacy ingest отвечает постоянным `410 Gone` —
+  handler удалён, а не закрыт флагом. Из Cloudflare Pages (production и preview)
+  удалены `N8N_INGEST_TOKEN`, `N8N_WEBHOOK_SECRET` и
+  `SEO_AUTOPILOT_USE_DIRECT_AI`; `N8N_*` переменных не осталось ни в одном
+  окружении. Evidence:
+  `architecture/N8N_RETIREMENT_EVIDENCE.md`.
+- **Замена доказана ДО вывода n8n, а не после.** Sotuvchi canary 43/43 и
+  automation canary 56/56 — оба против production D1 внутри реального Workers
+  runtime, поэтому семантика D1 batch была продакшновой. Синтетические данные
+  удалены, счётчики строк вернулись к точному baseline.
+- **Automation в production.** Worker `gptbot-automation`: Queue consumer
+  (batch 10, max_retries 3, DLQ `gptbot-automation-dlq`), DLQ producer,
+  D1 ledger, Cron `*/15 * * * *`. Публичного command endpoint нет:
+  `workers_dev` выключен, `fetch` возвращает 404.
+  `FIRST_PARTY_AUTOMATION_ENABLED=true` установлен только после обоих canary.
+- **LOGIN_ATTEMPTS закрыт по-настоящему.** Корневая причина найдена:
+  `wrangler pages deploy` заменяет конфигурацию биндингов проекта тем, что
+  объявлено в `wrangler.toml`, поэтому биндинг, живущий только в дашборде,
+  удаляется следующим direct upload. Прежняя «поведенческая проверка» проходила
+  на in-isolate Map, так как все пять запросов попадали в один isolate. Теперь
+  `LOGIN_ATTEMPTS` объявлен в `wrangler.toml` и durability проверена: пять
+  неудачных входов дают 429 и реальный ключ `login:<ip>:<email>` с TTL 15 минут
+  в KV. Пробный ключ удалён.
+- **D1 расхождение 65 против 67 закрыто как методика подсчёта, потерь нет.**
+  67 = 64 прикладные таблицы миграций 0001-0024 + `d1_migrations` + `_cf_KV`
+  + `sqlite_sequence`. Имена 65 таблиц из post-migration export совпадают с
+  production ровно, расхождений нет ни в одну сторону. Индексов объявлено 98,
+  присутствует 98. `ai_drafts` 42, `seo_autopilot_jobs` 81 сохранены.
+- **SEO scheduler выключен на обоих уровнях.** GitHub Actions —
+  `disabled_manually`. В production D1 настройка `seo_autopilot_schedule`
+  была найдена в состоянии `twice_weekly` со всеми семью активными днями
+  (оставлено e2e-сессией 2026-06-21) и переведена в `disabled` до включения
+  first-party automation.
+- Baseline: 856/856 тестов по 35 suites, оба typecheck и все сборки чистые,
+  secret scan чистый, route parity 224/224 без дельт.
+- Автоматическая публикация по-прежнему выключена: automation достигает только
+  `awaiting_review`, публикация — отдельное действие администратора.
+
 
 ## Internal error disclosure — последний известный локальный дефект закрыт
 

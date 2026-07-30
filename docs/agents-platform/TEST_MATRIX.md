@@ -409,3 +409,81 @@ scoped ESLint exit 0; direct boundary checker и все suites выше оста
 зелёными. Поскольку в репозитории теперь есть публичные страницы Sotuvchi,
 любое изменение `content/` дополнительно обязано проходить
 `npx tsx scripts/seo-audit.ts` без critical issues.
+
+## R0.4 (2026-07-30) — production canary и n8n retirement
+
+### Repository baseline
+
+| Проверка | Результат |
+| --- | --- |
+| Полный набор тестов | **856/856** по 35 suites, 0 падений |
+| `tests/n8n-retirement.test.ts` (новый) | 16/16 |
+| `tests/n8n-ingest-security.test.ts` | удалён — проверял fail-closed поведение удалённого endpoint |
+| `tests/n8n-dependency-inventory.test.ts` | 7/7 после инверсии инварианта «unknown» |
+| `tests/functions-type-safety.test.ts` | 38/38; секция normaliser переписана напрямую против строгого валидатора |
+| `tests/react-router-v8-migration.test.ts` | 26/26; route parity **224/224**, дельт нет |
+| `tsc -b` / `tsc -p tsconfig.functions.json` | exit 0 / exit 0, 0 ошибок |
+| `corepack yarn build` | exit 0; sitemap 207 записей, 98 статей prerender |
+| backend typecheck + build | exit 0 / exit 0 |
+| `wrangler pages functions build` | Compiled Worker successfully |
+| Migration bootstrap | fresh 0001-0024 = 64 таблицы, 98 индексов |
+| Synthetic upgrade | 0001-0012 → 0013-0024 даёт идентичный набор объектов |
+| `scripts/scan-secrets.ts` | clean, 2520 файлов |
+| `git diff --check` / `git fsck --full` | clean / clean |
+| eslint по изменённым файлам | clean (6 предсуществующих `no-explicit-any` в `api.ts` не относятся к релизу) |
+
+### Sotuvchi production canary — 43/43
+
+Реальный код сервисов против production D1 внутри реального Workers runtime,
+поэтому семантика `db.batch()` продакшновая, а не эмуляция.
+
+| Группа | Проверок | Результат |
+| --- | --- | --- |
+| Магазин и владение (A1-A6) | 6 | PASS |
+| Каталог и заземление ответа (B1-B10) | 13 | PASS |
+| Заказ и идемпотентность (C1-C13) | 13 | PASS |
+| Handoff, ответ продавца, статистика, PII (D1-D12) | 12 | PASS |
+
+Ключевые инварианты: три вызова `confirmOrder` с одним idempotency key дали
+**один** логический заказ, **один** декремент (10 → 7) и **одно** движение
+`order_confirmed`; отрицательных остатков нет; арендатор B не может ни читать,
+ни изменять данные арендатора A; поиск по токену, которого нет в каталоге,
+возвращает 0 результатов, а неизвестный id товара отклоняется, а не
+придумывается; в `events` нет ни текста покупателя, ни контакта.
+
+Очистка: все синтетические строки удалены, счётчики вернулись к baseline
+(`events` 1, `ai_drafts` 42, `seo_autopilot_jobs` 81, остальные 0).
+
+### First-party automation canary — 56/56
+
+Разбит на 13 фаз, потому что Workers Free plan ограничивает запрос 50
+subrequests, а каждый оператор D1 — это subrequest. Состояние переносится
+между фазами через production ledger, а не через память isolate.
+
+| Фаза | Что проверено | Результат |
+| --- | --- | --- |
+| a | enqueue принят, отправлен ровно один раз, конверт версионирован, закрытый allowlist типов, дубликат подавлен, одна логическая строка | 11/11 PASS |
+| b, b2, b3 | восстановимая ошибка → `retry_wait`, backoff соблюдён, счётчик попыток, потолок ретраев → `dead_letter` | 10/10 PASS |
+| c | живая аренда блокирует второго потребителя и параллельную доставку | 3/3 PASS |
+| d, d2 | истёкшая аренда восстановлена, задание доходит до `awaiting_review` | 6/6 PASS |
+| e | неретраибельная ошибка сразу в `dead_letter`, DLQ принял сообщение через реальный биндинг | 4/4 PASS |
+| f, f2 | replay только владельцем, чужой tenant отклонён, повторный replay — no-op, вторая строка не создана | 8/8 PASS |
+| g | в ledger нет текста, контактов и URL; все колонки — ограниченные ссылки; типы событий в закрытом списке | 5/5 PASS |
+| h | реальный handler без ключа провайдера падает `llm_provider_missing`, черновик не создан, ни один черновик не выведен из `pending_review` | 5/5 PASS |
+| i | cron sweep берёт каждое готовое задание ровно один раз; production Queue принял реальное сообщение | 4/4 PASS |
+
+### Production health — 26/26
+
+RU и UZ маршруты, money-страницы, blog-индексы, sitemap, robots, 404;
+`auth/config` и `auth/me`; legacy ingest `410` (в том числе с bearer);
+публичный триггер отсутствует; Agents webhook fail-closed `503`;
+`admin-tools` с `noindex, nofollow` и `no-store`; automation jobs, replay и
+cockpit требуют JWT; ни в одном ответе нет имени n8n, имени секрета или
+фрагмента стека.
+
+### LOGIN_ATTEMPTS durability
+
+Пять неудачных входов на выброшенной личности → `429` **и** реальный ключ
+`login:<ip>:<email>` с TTL 15 минут в `gptbot-login-attempts`. Проверка
+durability, а не только кода ответа: in-isolate fallback оставил бы KV пустым.
+Пробный ключ удалён.
