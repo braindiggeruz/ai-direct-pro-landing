@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router';
-import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck } from 'lucide-react';
 import { setToken } from '../lib/api';
 import { useT } from '../i18n';
 
@@ -12,6 +12,7 @@ export function Sidebar({ onPublish }: { onPublish?: () => void }) {
   const items = [
     { to: '/admin-tools/',                label: t.nav.cockpit,        icon: LayoutDashboard, end: true, testId: 'nav-cockpit' },
     { to: '/admin-tools/seo-autopilot',   label: t.nav.seo_autopilot,  icon: PlayCircle,                  testId: 'nav-seo-autopilot' },
+    { to: '/admin-tools/agents',          label: t.nav.owner_center,   icon: ShieldCheck,                 testId: 'nav-owner-center' },
     { to: '/admin-tools/pages',           label: t.nav.pages,          icon: FileText,                    testId: 'nav-pages' },
     { to: '/admin-tools/blog',            label: t.nav.blog,           icon: BookOpen,                    testId: 'nav-blog' },
     { to: '/admin-tools/ai-drafts',       label: t.nav.ai_drafts,      icon: Inbox,                       testId: 'nav-ai-drafts' },

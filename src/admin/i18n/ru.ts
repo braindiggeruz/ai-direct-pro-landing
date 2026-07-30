@@ -15,6 +15,7 @@ export const ru = {
   nav: {
     cockpit:        'SEO-пульт',
     seo_autopilot:  'SEO Автопилот',
+    owner_center:   'Owner Center',
     pages:          'Страницы',
     blog:           'Блог',
     ai_drafts:      'AI-черновики',

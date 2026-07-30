@@ -14,6 +14,14 @@ import Settings from './pages/Settings';
 import AiDraftsList from './pages/AiDraftsList';
 import AiDraftDetail from './pages/AiDraftDetail';
 import SeoAutopilotControlCenter from './pages/SeoAutopilotControlCenter';
+import OwnerOverview from './pages/owner/OwnerOverview';
+import OwnerStores from './pages/owner/OwnerStores';
+import OwnerStoreDetail from './pages/owner/OwnerStoreDetail';
+import OwnerOrders from './pages/owner/OwnerOrders';
+import OwnerHandoffs from './pages/owner/OwnerHandoffs';
+import OwnerAutomation from './pages/owner/OwnerAutomation';
+import OwnerAudit from './pages/owner/OwnerAudit';
+import OwnerPilot from './pages/owner/OwnerPilot';
 import { Sidebar } from './components/Sidebar';
 import { AdminErrorBoundary } from './components/AdminErrorBoundary';
 import { api, getToken } from './lib/api';
@@ -70,6 +78,17 @@ export default function AdminApp() {
         <Route path={ADMIN_ROUTE_PATHS.indexNow} element={<RequireAuth><Shell><IndexNowPanel/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.redirects} element={<RequireAuth><Shell><Redirects/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.settings} element={<RequireAuth><Shell><Settings/></Shell></RequireAuth>} />
+        {/* P3.1 Owner Control Center. Every route is behind RequireAuth here and
+            behind requirePlatformRole on the server; the client guard is
+            convenience, the server guard is the control. */}
+        <Route path={ADMIN_ROUTE_PATHS.ownerOverview} element={<RequireAuth><Shell><OwnerOverview/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerStores} element={<RequireAuth><Shell><OwnerStores/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerStoreDetail} element={<RequireAuth><Shell><OwnerStoreDetail/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerOrders} element={<RequireAuth><Shell><OwnerOrders/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerHandoffs} element={<RequireAuth><Shell><OwnerHandoffs/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerAutomation} element={<RequireAuth><Shell><OwnerAutomation/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerAudit} element={<RequireAuth><Shell><OwnerAudit/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.ownerPilot} element={<RequireAuth><Shell><OwnerPilot/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.fallback} element={<Navigate to={ADMIN_HOME} replace/>} />
       </Routes>
     </AdminErrorBoundary>

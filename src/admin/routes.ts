@@ -14,6 +14,17 @@ export const ADMIN_ROUTE_PATHS = {
   indexNow: 'indexnow',
   redirects: 'redirects',
   settings: 'settings',
+  // P3.1 Owner Control Center. Platform-owner operations live under a distinct
+  // prefix so the SEO admin surface and the platform surface never share a
+  // route or an authorization decision.
+  ownerOverview: 'agents',
+  ownerStores: 'agents/stores',
+  ownerStoreDetail: 'agents/stores/:storeId',
+  ownerOrders: 'agents/orders',
+  ownerHandoffs: 'agents/handoffs',
+  ownerAutomation: 'agents/automation',
+  ownerAudit: 'agents/audit',
+  ownerPilot: 'agents/pilot',
   fallback: '*',
 } as const;
 
