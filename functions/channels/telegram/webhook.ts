@@ -214,6 +214,8 @@ async function processAccepted(
     context = await dependencies.contexts.resolve({
       botUsername: dependencies.botUsername,
       startPayload: input.startPayload,
+      isStartCommand: input.runtimeMessage.kind === 'action'
+        && input.runtimeMessage.actionId === 'start',
       telegramIdentityId: identityId,
       locale: localeOf(input),
       idempotencyKey: input.inbound.idempotencyKey,

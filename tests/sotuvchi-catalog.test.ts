@@ -1167,6 +1167,7 @@ test('direct Start resolves only one unambiguous active pilot storefront', async
     .getOrCreateIdentity('telegram', '860060061');
   const direct = await wiring.contexts.resolve({
     botUsername: BOT,
+    isStartCommand: true,
     telegramIdentityId: firstBuyer.identity.id,
     locale: 'ru',
     idempotencyKey: requestId('direct-start'),
@@ -1187,6 +1188,7 @@ test('direct Start resolves only one unambiguous active pilot storefront', async
   assert.equal(
     await wiring.contexts.resolve({
       botUsername: BOT,
+      isStartCommand: true,
       telegramIdentityId: secondBuyer.identity.id,
       locale: 'ru',
       idempotencyKey: requestId('ambiguous-start'),

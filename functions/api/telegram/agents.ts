@@ -154,6 +154,7 @@ export function createTelegramAgentsRuntimeWiring(
   const contexts: TelegramAgentContextResolver = {
     async resolve(input) {
       const parsed = parseTelegramStartPayload(input.startPayload);
+      const isStartCommand = input.isStartCommand === true;
       if (parsed.status === 'valid' && parsed.routeCode === 'seller') {
         const snapshot = await onboarding.getOnboarding({
           identityId: input.telegramIdentityId,
@@ -236,11 +237,14 @@ export function createTelegramAgentsRuntimeWiring(
             storefront.agentId,
             storefront.locale,
             input.telegramIdentityId,
+            isStartCommand ? 'storefront-start' : undefined,
           );
         }
-        const directPilot = await onboarding.resolveDirectPilotStorefront(
-          botUsername,
-        );
+        // A direct pilot is an explicit owner-controlled canary entry point.
+        // Plain text must never create a storefront binding implicitly.
+        const directPilot = isStartCommand
+          ? await onboarding.resolveDirectPilotStorefront(botUsername)
+          : null;
         if (directPilot) {
           const directStorefront = {
             orgId: directPilot.orgId,

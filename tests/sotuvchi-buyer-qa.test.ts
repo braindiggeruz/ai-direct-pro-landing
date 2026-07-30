@@ -805,6 +805,31 @@ test('Telegram buyer Q&A works RU, UZ and mixed without checkout actions', async
   assert.ok(!/checkout|order|payment|Купить|Sotib olish/i.test(rendered));
 });
 
+test('direct pilot /start can be repeated and buyer search stays in the storefront', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '91012');
+  await createAndPublish(setup, {
+    name: 'Test Product',
+    description: 'Synthetic test catalog item',
+    priceMinor: 18_000,
+    availability: 'available',
+  });
+  const harness = telegramHarness(fixture);
+
+  await harness.invoke(telegramMessage(970_001, 97001, '/start', 'ru'));
+  const afterFirstStart = harness.delivery.sent.length;
+  await harness.invoke(telegramMessage(970_002, 97001, '/start', 'ru'));
+  const repeatedStart = harness.delivery.sent.slice(afterFirstStart);
+  assert.ok(repeatedStart.some((message) => message.text.includes('Test Product')));
+
+  await harness.invoke(
+    telegramMessage(970_003, 97001, 'Need inexpensive test product', 'ru'),
+  );
+  const searchReply = harness.delivery.sent.at(-1)?.text ?? '';
+  assert.ok(searchReply.includes('Test Product'));
+  assert.ok(!searchReply.includes('Не удалось подготовить ответ'));
+});
+
 test('Telegram duplicate update sends once and unknown remains safe', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, '91011');

@@ -30,6 +30,8 @@ export interface TelegramAgentContext {
 export interface TelegramAgentContextInput {
   botUsername: string;
   startPayload?: string;
+  /** True only for an accepted Telegram /start command, never inferred from text. */
+  isStartCommand?: boolean;
   telegramIdentityId: string;
   locale: Locale;
   idempotencyKey: string;
