@@ -849,6 +849,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 11
+    },
+    {
+      "target": "/ru/smm-prodvizhenie-tashkent/",
+      "anchor": "SMM-продвижение в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 12
+    },
+    {
+      "target": "/ru/digital-marketing-tashkent/",
+      "anchor": "единая система digital-маркетинга",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 13
     }
   ],
   "ogTitle": "Почему реклама в Instagram не приносит заявки",

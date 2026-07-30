@@ -563,7 +563,9 @@
     { "target": "/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/", "anchor": "Продвижение сайта в Яндексе" },
     { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "Разработка сайтов в Ташкенте" },
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "Интернет-реклама в Ташкенте" },
-    { "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "anchor": "Почему сайт не приносит заявки" }
+    { "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "anchor": "Почему сайт не приносит заявки" },
+    { "target": "/ru/blog/seo-ili-google-ads-chto-vybrat/", "anchor": "SEO или Google Ads: что выбрать" },
+    { "target": "/ru/digital-marketing-tashkent/", "anchor": "Digital-маркетинг в Ташкенте" }
   ],
   "schemaTypes": [
     "Organization",

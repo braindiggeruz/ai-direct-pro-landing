@@ -948,6 +948,12 @@
       "anchor": "SEO-продвижение сайта после запуска",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/digital-marketing-tashkent/",
+      "anchor": "digital-маркетинг после запуска сайта",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

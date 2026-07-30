@@ -417,6 +417,94 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
 </footer>`;
 }
 
+function renderDigitalCommandHero(
+  page: Page,
+  modifiedIso: string,
+  modifiedLabel: string,
+  bylineHtml: string,
+  trustHtml: string,
+): string {
+  const primaryHref = page.ctaPrimaryHref || '#audit';
+  const secondaryHref = page.ctaSecondaryHref || '#system';
+  return `<section class="dc-hero" aria-labelledby="digital-command-title">
+    <div class="dc-orbit dc-orbit-one" aria-hidden="true"></div>
+    <div class="dc-orbit dc-orbit-two" aria-hidden="true"></div>
+    <div class="dc-hero-copy">
+      <div class="dc-kicker"><span></span> Growth system · Tashkent</div>
+      <h1 id="digital-command-title" data-testid="page-h1">${escapeText(page.h1)}</h1>
+      ${modifiedIso ? `<p data-testid="page-updated" class="dc-updated">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
+      ${bylineHtml}
+      ${page.heroSubtitle ? `<p class="speakable-intro dc-lead">${escapeText(page.heroSubtitle)}</p>` : ''}
+      <div class="dc-actions">
+        <a data-testid="page-cta-primary" href="${escapeHtml(primaryHref)}"${primaryHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary">${escapeText(page.ctaPrimaryLabel || 'Получить разбор')}</a>
+        <a href="${escapeHtml(secondaryHref)}" class="btn-secondary">${escapeText(page.ctaSecondaryLabel || 'Посмотреть систему')}</a>
+      </div>
+      ${trustHtml}
+    </div>
+    <div class="dc-visual" aria-label="Система digital-маркетинга от первого контакта до продажи">
+      ${page.heroImage ? `<img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" loading="eager" fetchpriority="high" decoding="async" />` : ''}
+      <div class="dc-glass">
+        <div class="dc-glass-head"><span>Growth pipeline</span><span class="dc-live">live</span></div>
+        <ol class="dc-pipeline">
+          <li><span>01</span><b>Спрос</b><small>SEO · Ads · Social</small></li>
+          <li><span>02</span><b>Конверсия</b><small>Сайт · Контент · Оффер</small></li>
+          <li><span>03</span><b>Диалог</b><small>AI-бот · Менеджер</small></li>
+          <li><span>04</span><b>Выручка</b><small>CRM · Аналитика</small></li>
+        </ol>
+      </div>
+      <div class="dc-signal dc-signal-a">SEO</div>
+      <div class="dc-signal dc-signal-b">SMM</div>
+      <div class="dc-signal dc-signal-c">CRM</div>
+    </div>
+  </section>
+  <section class="dc-channel-strip" aria-label="Каналы комплексного digital-маркетинга">
+    <span>Стратегия</span><span>SEO</span><span>Google Ads</span><span>Meta</span><span>Telegram</span><span>Контент</span><span>CRM</span><span>AI</span>
+  </section>`;
+}
+
+const DIGITAL_COMMAND_STYLES = `<style>
+  .dc-page{overflow-x:clip;background:
+    radial-gradient(circle at 14% 10%,rgba(47,230,209,.09),transparent 26rem),
+    radial-gradient(circle at 88% 18%,rgba(126,92,255,.14),transparent 30rem),
+    #05070d}
+  .dc-shell{max-width:72rem}
+  .dc-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:3.5rem;align-items:center;padding:3.5rem 0 2rem;overflow:clip;isolation:isolate}
+  .dc-hero-copy,.dc-visual{position:relative;z-index:2}
+  .dc-kicker{display:inline-flex;align-items:center;gap:.65rem;padding:.55rem .85rem;border:1px solid rgba(47,230,209,.22);border-radius:999px;background:rgba(47,230,209,.06);color:#8ff8ec;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em}
+  .dc-kicker span{width:.48rem;height:.48rem;border-radius:50%;background:#2fe6d1;box-shadow:0 0 0 .28rem rgba(47,230,209,.12)}
+  .dc-hero h1{max-width:13ch;margin:1.25rem 0 1.2rem;font-family:Geist,system-ui,sans-serif;font-size:clamp(2.65rem,6vw,5.5rem);font-weight:650;line-height:.94;letter-spacing:-.055em;text-wrap:balance}
+  .dc-lead{max-width:42rem;margin-bottom:1.7rem;color:rgba(255,255,255,.76);font-size:clamp(1.03rem,1.8vw,1.23rem);line-height:1.65}
+  .dc-updated{margin-bottom:.65rem;color:rgba(255,255,255,.42);font-size:.72rem;text-transform:uppercase;letter-spacing:.09em}
+  .dc-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:.35rem}
+  .dc-actions a{min-height:3rem}
+  .dc-visual{min-height:37rem;border:1px solid rgba(255,255,255,.1);border-radius:2rem;overflow:hidden;background:#0b1020;box-shadow:0 2.5rem 6rem rgba(0,0,0,.45)}
+  .dc-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(5,7,13,.3) 58%,rgba(5,7,13,.96));pointer-events:none}
+  .dc-visual>img{width:100%;height:100%;min-height:37rem;object-fit:cover;filter:saturate(.9) contrast(1.04)}
+  .dc-glass{position:absolute;z-index:3;left:1.2rem;right:1.2rem;bottom:1.2rem;padding:1rem;border:1px solid rgba(255,255,255,.13);border-radius:1.25rem;background:rgba(6,10,20,.78);backdrop-filter:blur(18px)}
+  .dc-glass-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;color:rgba(255,255,255,.68);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em}
+  .dc-live{color:#2fe6d1}
+  .dc-live:before{content:"";display:inline-block;width:.45rem;height:.45rem;margin-right:.4rem;border-radius:50%;background:#2fe6d1;box-shadow:0 0 .85rem #2fe6d1}
+  .dc-pipeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem}
+  .dc-pipeline li{min-width:0;padding:.72rem;border:1px solid rgba(255,255,255,.08);border-radius:.9rem;background:rgba(255,255,255,.04)}
+  .dc-pipeline span{display:block;margin-bottom:.45rem;color:#2fe6d1;font-size:.65rem}
+  .dc-pipeline b,.dc-pipeline small{display:block}
+  .dc-pipeline b{font-size:.82rem}
+  .dc-pipeline small{margin-top:.24rem;color:rgba(255,255,255,.45);font-size:.58rem;line-height:1.35}
+  .dc-signal{position:absolute;z-index:4;display:grid;place-items:center;width:3.6rem;height:3.6rem;border:1px solid rgba(255,255,255,.18);border-radius:1rem;background:rgba(5,7,13,.7);box-shadow:0 .8rem 2rem rgba(0,0,0,.35);backdrop-filter:blur(12px);color:#fff;font-size:.72rem;font-weight:750}
+  .dc-signal-a{top:1.2rem;left:1.1rem}.dc-signal-b{top:4.6rem;right:1rem}.dc-signal-c{top:12rem;left:1.3rem}
+  .dc-channel-strip{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));margin:1rem 0 4.5rem;border:1px solid rgba(255,255,255,.08);border-radius:1.25rem;overflow:hidden;background:rgba(255,255,255,.025)}
+  .dc-channel-strip span{padding:1rem .5rem;border-right:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.58);font-size:.72rem;font-weight:650;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+  .dc-channel-strip span:last-child{border-right:0}
+  .dc-orbit{position:absolute;z-index:-1;border:1px solid rgba(47,230,209,.08);border-radius:50%;pointer-events:none}
+  .dc-orbit-one{width:27rem;height:27rem;right:-8rem;top:1rem}.dc-orbit-two{width:18rem;height:18rem;left:-10rem;bottom:-3rem}
+  .dc-page .prose-invert h2{max-width:19ch;text-wrap:balance}
+  .dc-page .prose-invert>h2:before{content:"";display:block;width:2.7rem;height:.2rem;margin-bottom:1rem;border-radius:999px;background:linear-gradient(90deg,#2fe6d1,#7e5cff)}
+  .dc-page .prose-invert>div[class*="overflow-x-auto"],.dc-page .prose-invert>nav{box-shadow:0 1.5rem 4rem rgba(0,0,0,.16)}
+  @media(max-width:900px){.dc-hero{grid-template-columns:1fr;gap:2rem;padding-top:2rem}.dc-hero h1{max-width:16ch}.dc-visual{min-height:31rem}.dc-visual>img{min-height:31rem}.dc-channel-strip{grid-template-columns:repeat(4,1fr)}.dc-channel-strip span:nth-child(4n){border-right:0}}
+  @media(max-width:560px){.dc-hero h1{font-size:2.7rem}.dc-visual{min-height:28rem;border-radius:1.4rem}.dc-visual>img{min-height:28rem}.dc-pipeline{grid-template-columns:repeat(2,1fr)}.dc-signal{display:none}.dc-channel-strip{grid-template-columns:repeat(2,1fr);margin-bottom:3rem}.dc-channel-strip span:nth-child(2n){border-right:0}}
+  @media(prefers-reduced-motion:no-preference){.dc-live:before{animation:dc-pulse 2.2s ease-in-out infinite}.dc-signal{animation:dc-float 5s ease-in-out infinite}.dc-signal-b{animation-delay:-1.5s}.dc-signal-c{animation-delay:-3s}@keyframes dc-pulse{50%{opacity:.35;transform:scale(.75)}}@keyframes dc-float{50%{transform:translateY(-8px)}}}
+</style>`;
+
 function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
@@ -523,11 +611,12 @@ ${LLM_MARKDOWN_URLS.has(page.url)
   : `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />`}
 <link rel="icon" type="image/png" href="/assets/landing/2.png" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
+${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
 ${ANALYTICS_HEAD}
 </head>
-<body class="bg-bg-base text-white antialiased ${showStickyCta ? 'pb-24 lg:pb-0' : ''}">
+<body class="bg-bg-base text-white antialiased ${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta ? 'pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
@@ -545,14 +634,16 @@ ${page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg
 
 ${page.pageType === 'gpt-chat'
   ? renderGptChatMain(page, global)
-  : `<main id="main" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+  : `<main id="main" class="${page.designVariant === 'digital-command-center' ? 'dc-shell' : 'max-w-3xl'} mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
     <span class="text-white/70">${escapeText(page.breadcrumbLabel || page.h1)}</span>
   </nav>
 
-  <div class="${page.heroImage ? 'lg:grid lg:grid-cols-2 lg:gap-10 lg:items-center ' : ''}mb-4">
+  ${page.designVariant === 'digital-command-center'
+    ? renderDigitalCommandHero(page, modifiedIso, modifiedLabel, bylineHtml, trustHtml)
+    : `<div class="${page.heroImage ? 'lg:grid lg:grid-cols-2 lg:gap-10 lg:items-center ' : ''}mb-4">
     <div>
       <h1 data-testid="page-h1" class="font-display text-[2rem] sm:text-5xl lg:text-6xl text-white mb-6 leading-tight break-words hyphens-auto">${escapeText(page.h1)}</h1>
       ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
@@ -567,14 +658,16 @@ ${page.pageType === 'gpt-chat'
       ${trustHtml}` : ''}
     </div>
     ${page.heroImage ? `<div class="mt-8 lg:mt-0"><img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" class="rounded-2xl border border-white/10 w-full h-auto" loading="eager" fetchpriority="high" decoding="async" /></div>` : ''}
-  </div>
+  </div>`}
 
   ${calculatorHtml}
-  ${renderArticle(page.bodyBlocks || [], contentAnchor)}
+  <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
+    ${renderArticle(page.bodyBlocks || [], contentAnchor)}
 
-  ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
-  ${renderInternalLinks(page)}
-  ${renderRelatedArticles(page, articles)}
+    ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
+    ${renderInternalLinks(page)}
+    ${renderRelatedArticles(page, articles)}
+  </div>
 </main>`
 }
 

@@ -576,6 +576,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 11
+    },
+    {
+      "target": "/ru/marketingovyi-audit-tashkent/",
+      "anchor": "маркетинговый аудит всей воронки",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 12
+    },
+    {
+      "target": "/ru/digital-marketing-tashkent/",
+      "anchor": "комплексный digital-маркетинг",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 13
     }
   ],
   "ogTitle": "Почему сайт не приносит заявки: проверка воронки",

@@ -418,6 +418,18 @@
       "anchor": "SEO-продвижение сайтов в Ташкенте",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/performance-marketing-tashkent/",
+      "anchor": "performance-маркетинг с аналитикой лидов",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/digital-marketing-tashkent/",
+      "anchor": "комплексный digital-маркетинг в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
