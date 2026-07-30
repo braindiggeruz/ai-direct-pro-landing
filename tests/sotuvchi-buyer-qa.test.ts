@@ -229,6 +229,10 @@ test('extraction accepts spaced integer UZS', () => {
     parseBuyerQuery('до 100 000').maxPriceMinor,
     100_000,
   );
+  assert.deepEqual(parseBuyerQuery('30 000'), {
+    intent: 'catalog.filter_price',
+    maxPriceMinor: 30_000,
+  });
 });
 
 test('extraction rejects float and negative price filters', () => {
@@ -834,7 +838,7 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   const budgetReply = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(budgetReply.includes('Укажите максимальный бюджет'));
 
-  await harness.invoke(telegramMessage(970_004, 97001, 'до 30000', 'ru'));
+  await harness.invoke(telegramMessage(970_004, 97001, '30 000', 'ru'));
   const searchReply = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(searchReply.includes('Test Product'));
   assert.ok(!searchReply.includes('Не удалось подготовить ответ'));

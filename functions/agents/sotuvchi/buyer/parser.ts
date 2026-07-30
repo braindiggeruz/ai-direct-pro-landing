@@ -100,12 +100,16 @@ function parsePriceDigits(rawDigits: string): number {
 function priceFilter(normalized: string, raw: string): number | null {
   const hasCue =
     /(?:^|\s)(?:до|дешевле|arzonroq|gacha)(?:\s|$)/u.test(normalized);
-  if (!hasCue) return null;
+  // A buyer frequently replies to a preceding budget question with the amount
+  // alone (for example, "30 000"). Treat an otherwise bare, integer amount as
+  // a maximum price instead of searching the catalogue for that number.
+  const bareAmount = /^(\d(?:[\d\s]*\d)?)$/u.exec(normalized);
+  if (!hasCue && !bareAmount) return null;
   if (/(?:-\s*\d|\d+[.,]\d+)/u.test(raw)) {
     throw new BuyerQueryValidationError();
   }
-  const match =
-    /(?:^|\s)(?:до|дешевле|arzonroq)\s+(\d(?:[\d\s]*\d)?)(?:\s|$)/u
+  const match = bareAmount
+    ?? /(?:^|\s)(?:до|дешевле|arzonroq)\s+(\d(?:[\d\s]*\d)?)(?:\s|$)/u
       .exec(normalized)
     ?? /(?:^|\s)(\d(?:[\d\s]*\d)?)\s+gacha(?:\s|$)/u.exec(normalized);
   if (!match) throw new BuyerQueryValidationError();
