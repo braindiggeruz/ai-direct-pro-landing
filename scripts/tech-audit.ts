@@ -40,7 +40,10 @@ function attr(tag: string, name: string): string | null {
 }
 
 function parsePage(absFile: string): PageInfo {
-  const fileRel = path.relative(DIST, absFile);
+  // fast-glob returns native Windows paths. Normalise them before turning a
+  // dist-relative filename into a public URL, otherwise backslashes leak into
+  // the URL and every valid internal link looks broken to the audit.
+  const fileRel = path.relative(DIST, absFile).split(path.sep).join('/');
   const html = fs.readFileSync(absFile, 'utf-8');
   const url = urlForFile(fileRel);
 
@@ -205,6 +208,12 @@ async function main(): Promise<void> {
         ? (parsed as { '@graph': unknown[] })['@graph']
         : Array.isArray(parsed) ? parsed as unknown[]
         : [parsed];
+      const nodesById = new Map<string, Record<string, unknown>>();
+      for (const node of items) {
+        if (!node || typeof node !== 'object') continue;
+        const id = (node as Record<string, unknown>)['@id'];
+        if (typeof id === 'string') nodesById.set(id, node as Record<string, unknown>);
+      }
       for (const item of items) {
         if (!item || typeof item !== 'object') { schemaErrors.push({ from: p.url, detail: 'JSON-LD item is not an object' }); continue; }
         const t = (item as { '@type'?: unknown })['@type'];
@@ -219,7 +228,11 @@ async function main(): Promise<void> {
           if (!i.image) schemaErrors.push({ from: p.url, detail: `${type}: missing image` });
           if (!i.publisher) schemaErrors.push({ from: p.url, detail: `${type}: missing publisher` });
           else {
-            const pub = i.publisher as Record<string, unknown>;
+            const publisherRef = i.publisher as Record<string, unknown>;
+            const publisherId = publisherRef?.['@id'];
+            const pub = typeof publisherId === 'string'
+              ? (nodesById.get(publisherId) || publisherRef)
+              : publisherRef;
             if (!pub.name) schemaErrors.push({ from: p.url, detail: `${type}: publisher.name missing` });
             if (!pub.logo) schemaErrors.push({ from: p.url, detail: `${type}: publisher.logo missing` });
           }

@@ -185,6 +185,12 @@
       "anchor": "GPTBot.uz jamoasi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/muallif-boris-gerasimov/",
+      "anchor": "Boris Gerasimov — GPTBot.uz asoschisi va muharriri",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

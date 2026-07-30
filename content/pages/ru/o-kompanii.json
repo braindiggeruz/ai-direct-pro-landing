@@ -185,6 +185,12 @@
       "anchor": "команда GPTBot.uz",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/avtor-boris-gerasimov/",
+      "anchor": "Борис Герасимов — основатель и редактор GPTBot.uz",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

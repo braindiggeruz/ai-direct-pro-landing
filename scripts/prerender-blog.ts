@@ -241,7 +241,6 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   graph.push(buildOrganizationLd(global));
   graph.push(buildWebSiteLd(global));
   const authorPerson = buildAuthorPersonLd(global);
-  if (authorPerson && a.locale === 'uz') authorPerson.url = `${global.siteUrl}/uz/biz-haqimizda/`;
   if (authorPerson) graph.push(authorPerson);
   graph.push(buildBreadcrumbLd([
     { name: global.siteName, item: `${global.siteUrl}/` },
@@ -301,12 +300,16 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
     'max-image-preview:large',
   ].join(', ');
   const blogIndexHref = `/${lang}/blog/`;
-  const authorProfileHref = lang === 'uz' ? '/uz/biz-haqimizda/' : (global.authorUrl || '/ru/o-kompanii/');
+  const authorProfileHref = lang === 'uz' ? '/uz/muallif-boris-gerasimov/' : (global.authorUrl || '/ru/avtor-boris-gerasimov/');
 
   // Build hreflang block from explicit fields. If hreflangRu / hreflangUz
   // are missing, fall back to self for the current locale only.
   const hrefRu = a.hreflangRu ? (a.hreflangRu.startsWith('http') ? a.hreflangRu : `${global.siteUrl}${a.hreflangRu}`) : (lang === 'ru' ? fullUrl : '');
   const hrefUz = a.hreflangUz ? (a.hreflangUz.startsWith('http') ? a.hreflangUz : `${global.siteUrl}${a.hreflangUz}`) : (lang === 'uz' ? fullUrl : '');
+  // x-default must be a real equivalent of this document, not the unrelated
+  // homepage. Use the Russian member only for complete bilingual clusters;
+  // unpaired articles simply do not need an x-default declaration.
+  const xDefaultHref = hrefRu && hrefUz ? hrefRu : '';
 
   return `<!doctype html>
 <html lang="${lang}">
@@ -321,7 +324,7 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
 <link rel="canonical" href="${escapeHtml(a.canonical || fullUrl)}" />
 ${hrefRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(hrefRu)}" />` : ''}
 ${hrefUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(hrefUz)}" />` : ''}
-<link rel="alternate" hreflang="x-default" href="${escapeHtml(global.siteUrl)}/" />
+${xDefaultHref ? `<link rel="alternate" hreflang="x-default" href="${escapeHtml(xDefaultHref)}" />` : ''}
 
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="${escapeHtml(global.siteName)}" />
@@ -466,7 +469,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <link rel="canonical" href="${indexUrl}" />
 <link rel="alternate" hreflang="ru" href="${global.siteUrl}/ru/blog/" />
 <link rel="alternate" hreflang="uz" href="${global.siteUrl}/uz/blog/" />
-<link rel="alternate" hreflang="x-default" href="${global.siteUrl}/" />
+<link rel="alternate" hreflang="x-default" href="${global.siteUrl}/ru/blog/" />
 
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="${ogLocale}" />

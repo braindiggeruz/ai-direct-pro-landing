@@ -104,31 +104,30 @@ export function buildAuthorPersonLd(global: GlobalSEO): Record<string, unknown> 
     name: global.authorName,
     ...(global.authorUrl ? { url: global.authorUrl } : {}),
     worksFor: { '@id': `${global.siteUrl}/#org` },
-    jobTitle: 'Founder',
+    jobTitle: 'Founder and editor',
     knowsLanguage: ['ru', 'uz'],
+    knowsAbout: [
+      'AI bot architecture',
+      'Telegram bot development',
+      'Business process automation',
+      'Technical SEO',
+    ],
+    ...(global.sameAs?.length ? { sameAs: global.sameAs } : {}),
   };
 }
 
 export function buildWebSiteLd(global: GlobalSEO): Record<string, unknown> {
+  const alternateName = [global.organizationName, 'gptbot.uz']
+    .filter((name, index, all) => name && name !== global.siteName && all.indexOf(name) === index);
   return {
     '@type': 'WebSite',
     '@id': `${global.siteUrl}/#site`,
     url: `${global.siteUrl}/`,
     name: global.siteName,
+    ...(alternateName.length ? { alternateName } : {}),
     publisher: { '@id': `${global.siteUrl}/#org` },
     inLanguage: global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'],
     description: global.defaultDescription,
-    // SearchAction enables the Google sitelinks searchbox and signals an
-    // on-site search entry point to AI/search crawlers (fixes audit
-    // schema-website-search warning). Target uses the blog search page.
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${global.siteUrl}/ru/blog/?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
 }
 

@@ -186,7 +186,7 @@
       "links": [
         {
           "token": "crm",
-          "target": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+          "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
           "anchor": "план интеграции Telegram-бота с CRM"
         },
         {
@@ -434,7 +434,7 @@
       "anchor": "Хостинг для Telegram-бота"
     },
     {
-      "target": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+      "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
       "anchor": "Подключение Telegram-бота к CRM"
     },
     {

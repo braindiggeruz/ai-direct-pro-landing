@@ -519,6 +519,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 
   const hrefRu = page.hreflangRu ? (page.hreflangRu.startsWith('http') ? page.hreflangRu : `${global.siteUrl}${page.hreflangRu}`) : '';
   const hrefUz = page.hreflangUz ? (page.hreflangUz.startsWith('http') ? page.hreflangUz : `${global.siteUrl}${page.hreflangUz}`) : '';
+  const xDefaultHref = hrefRu && hrefUz ? hrefRu : '';
 
   // Freshness layer: prefer lastReviewedAt (human-curated) over updatedAt
   // (auto-touched by every admin save). Falls back gracefully to nothing if
@@ -532,7 +533,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   // Rendered under the H1 on money/niche pages so crawlers and AI engines see a
   // real, attributable author + reviewing organisation. Copy-only, no fake claims.
   const authorName = global.authorName || global.organizationName;
-  const authorUrl = page.locale === 'uz' ? '/uz/jamoa/' : (global.authorUrl || '/ru/o-kompanii/');
+  const authorUrl = page.locale === 'uz' ? '/uz/muallif-boris-gerasimov/' : (global.authorUrl || '/ru/avtor-boris-gerasimov/');
   const authorLabel = page.locale === 'uz' ? 'Muallif' : 'Автор';
   const orgReviewLabel = page.locale === 'uz'
     ? `${global.siteName} jamoasi tomonidan tekshirilgan`
@@ -588,7 +589,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 <link rel="canonical" href="${escapeHtml(page.canonical || fullUrl)}" />
 ${hrefRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(hrefRu)}" />` : ''}
 ${hrefUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(hrefUz)}" />` : ''}
-<link rel="alternate" hreflang="x-default" href="${escapeHtml(global.siteUrl)}/" />
+${xDefaultHref ? `<link rel="alternate" hreflang="x-default" href="${escapeHtml(xDefaultHref)}" />` : ''}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="${escapeHtml(global.siteName)}" />
