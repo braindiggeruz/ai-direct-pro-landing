@@ -404,11 +404,15 @@ test('runtime bootstrap is repeatable and creates catalog objects', async () => 
     'sotuvchi_products',
     'sotuvchi_catalog_operations',
     'sotuvchi_storefront_sessions',
+    'sotuvchi_buyer_presentations',
+    'sotuvchi_buyer_comparisons',
     'idx_sotuvchi_categories_store_status_sort',
     'idx_sotuvchi_categories_org_store',
     'idx_sotuvchi_products_store_status_name',
     'idx_sotuvchi_products_store_category',
     'idx_sotuvchi_products_org_store',
+    'idx_sotuvchi_buyer_presentations_scope',
+    'idx_sotuvchi_buyer_comparisons_scope',
   ]) {
     assert.ok(objects.includes(expected), expected);
   }

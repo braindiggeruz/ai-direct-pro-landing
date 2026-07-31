@@ -274,6 +274,21 @@ export const sotuvchiBuyerTools = [
     'List deterministic similar products from the same trusted store.',
     productRefOnlySchema,
   )),
+  eraseTool(buyerTool(
+    'catalog.compare.add',
+    'Add one revalidated product to the trusted buyer comparison.',
+    productRefOnlySchema,
+  )),
+  eraseTool(buyerTool(
+    'catalog.compare.show',
+    'Show up to three revalidated products selected by this buyer.',
+    emptySchema,
+  )),
+  eraseTool(buyerTool(
+    'catalog.compare.clear',
+    'Clear the current buyer comparison in the trusted store.',
+    emptySchema,
+  )),
 ] as const;
 
 const BUYER_OPERATIONS = new Set(
@@ -361,6 +376,27 @@ export function createSotuvchiBuyerDomainPort(
           const input = productRefOnlySchema.parse(call.input);
           return projectBuyerFacts(
             await service.similar(call.org, input.productRef),
+            call.org.locale,
+          );
+        }
+        case 'catalog.compare.add': {
+          const input = productRefOnlySchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.addComparison(call.org, input.productRef),
+            call.org.locale,
+          );
+        }
+        case 'catalog.compare.show': {
+          emptySchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.showComparison(call.org),
+            call.org.locale,
+          );
+        }
+        case 'catalog.compare.clear': {
+          emptySchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.clearComparison(call.org),
             call.org.locale,
           );
         }

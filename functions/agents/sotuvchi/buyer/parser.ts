@@ -109,6 +109,12 @@ export function parseBuyerQuery(raw: unknown): BuyerParsedQuery {
 
   if (HELP_PHRASES.has(normalized)) return { intent: 'catalog.help' };
   if (LIST_PHRASES.has(normalized)) return { intent: 'catalog.list' };
+  if (
+    /(?:^|\s)(?:сравн\p{L}*|сопостав\p{L}*|solishtir\p{L}*)(?=\s|$)/iu
+      .test(normalized)
+  ) {
+    return { intent: 'catalog.compare' };
+  }
 
   const budget = parseBudget(normalized, raw);
   if (budget.status === 'explicit') {

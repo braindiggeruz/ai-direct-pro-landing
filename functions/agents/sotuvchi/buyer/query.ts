@@ -24,7 +24,13 @@ export interface BuyerQueryResult {
     | 'missing_previous'
     | 'categories'
     | 'budget_prompt'
-    | 'budget_confirmation';
+    | 'budget_confirmation'
+    | 'comparison_waiting'
+    | 'comparison_ready'
+    | 'comparison_duplicate'
+    | 'comparison_full'
+    | 'comparison_empty'
+    | 'comparison_cleared';
   maxPriceMinor?: number;
   categories?: readonly BuyerCatalogCategory[];
   categoryId?: string;
@@ -86,6 +92,24 @@ export class SotuvchiBuyerQueryService {
     });
   }
 
+  private async present(
+    org: OrgContext,
+    identityId: string,
+    context: StorefrontContext,
+    result: BuyerQueryResult,
+  ): Promise<BuyerQueryResult> {
+    if (result.results.length > 0) {
+      await this.catalog.recordStorefrontPresentation({
+        botUsername: this.botUsername,
+        identityId,
+        context,
+        requestId: org.requestId,
+        results: result.results,
+      });
+    }
+    return result;
+  }
+
   async list(
     org: OrgContext,
     offset: number,
@@ -94,14 +118,14 @@ export class SotuvchiBuyerQueryService {
     await this.clearPendingBudget(identityId, context);
     const all = await this.catalog.listPublishedProducts(context, 20);
     const results = all.slice(offset, offset + PAGE_SIZE);
-    return {
+    return this.present(org, identityId, context, {
       intent: 'catalog.list',
       results,
       hasMore: all.length > offset + PAGE_SIZE,
       nextOffset: offset + PAGE_SIZE,
       fullCard: false,
       state: results.length > 0 ? 'ok' : 'not_found',
-    };
+    });
   }
 
   async categories(org: OrgContext): Promise<BuyerQueryResult> {
@@ -133,7 +157,7 @@ export class SotuvchiBuyerQueryService {
       20,
     );
     const results = all.slice(offset, offset + PAGE_SIZE);
-    return {
+    return this.present(org, identityId, context, {
       intent: 'catalog.category',
       results,
       categoryId,
@@ -141,7 +165,7 @@ export class SotuvchiBuyerQueryService {
       nextOffset: offset + PAGE_SIZE,
       fullCard: false,
       state: results.length > 0 ? 'ok' : 'not_found',
-    };
+    });
   }
 
   async similar(
@@ -177,13 +201,96 @@ export class SotuvchiBuyerQueryService {
           || compareText(left.product.id, right.product.id);
       })
       .slice(0, PAGE_SIZE);
-    return {
+    return this.present(org, identityId, context, {
       intent: 'catalog.similar',
       results,
       hasMore: false,
       nextOffset: PAGE_SIZE,
       fullCard: false,
       state: results.length > 0 ? 'ok' : 'not_found',
+    });
+  }
+
+  async addComparison(
+    org: OrgContext,
+    productId: string,
+  ): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    try {
+      const comparison = await this.catalog.addStorefrontComparison({
+        botUsername: this.botUsername,
+        identityId,
+        context,
+        productId,
+      });
+      const state = comparison.outcome === 'duplicate'
+        ? 'comparison_duplicate'
+        : comparison.outcome === 'full'
+          ? 'comparison_full'
+          : comparison.results.length >= 2
+            ? 'comparison_ready'
+            : 'comparison_waiting';
+      return {
+        intent: 'catalog.compare',
+        results: comparison.results,
+        hasMore: false,
+        nextOffset: PAGE_SIZE,
+        fullCard: false,
+        state,
+      };
+    } catch (error) {
+      if (error instanceof CatalogNotFoundError) {
+        return {
+          intent: 'catalog.compare',
+          results: [],
+          hasMore: false,
+          nextOffset: PAGE_SIZE,
+          fullCard: false,
+          state: 'not_found',
+        };
+      }
+      throw error;
+    }
+  }
+
+  async showComparison(org: OrgContext): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    const comparison = await this.catalog.listStorefrontComparison({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+    return {
+      intent: 'catalog.compare',
+      results: comparison.results,
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: comparison.results.length === 0
+        ? 'comparison_empty'
+        : comparison.results.length === 1
+          ? 'comparison_waiting'
+          : 'comparison_ready',
+    };
+  }
+
+  async clearComparison(org: OrgContext): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    await this.catalog.clearStorefrontComparison({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+    return {
+      intent: 'catalog.compare',
+      results: [],
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: 'comparison_cleared',
     };
   }
 
@@ -256,14 +363,14 @@ export class SotuvchiBuyerQueryService {
         results[0].product.id,
       );
     }
-    return {
+    return this.present(org, identityId, context, {
       intent,
       results,
       hasMore: false,
       nextOffset: PAGE_SIZE,
       fullCard: exact,
       state: results.length > 0 ? 'ok' : 'not_found',
-    };
+    });
   }
 
   async get(
@@ -311,14 +418,14 @@ export class SotuvchiBuyerQueryService {
         intent,
         result.product.id,
       );
-      return {
+      return this.present(org, identityId, context, {
         intent,
         results: [result],
         hasMore: false,
         nextOffset: PAGE_SIZE,
         fullCard: true,
         state: 'ok',
-      };
+      });
     } catch (error) {
       if (error instanceof CatalogNotFoundError) {
         return {
@@ -353,7 +460,7 @@ export class SotuvchiBuyerQueryService {
           || compareText(left.product.id, right.product.id),
       );
     const results = all.slice(offset, offset + PAGE_SIZE);
-    return {
+    return this.present(org, identityId, context, {
       intent: 'catalog.filter_price',
       results,
       hasMore: all.length > offset + PAGE_SIZE,
@@ -361,7 +468,7 @@ export class SotuvchiBuyerQueryService {
       fullCard: false,
       state: results.length > 0 ? 'ok' : 'not_found',
       maxPriceMinor,
-    };
+    });
   }
 }
 

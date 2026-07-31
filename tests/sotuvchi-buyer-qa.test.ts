@@ -158,6 +158,7 @@ const parserCases: readonly [
 ][] = [
   ['RU catalog list', 'что у вас есть', { intent: 'catalog.list' }],
   ['RU product list phrase', 'покажи товары', { intent: 'catalog.list' }],
+  ['RU comparison', 'сравнить товары', { intent: 'catalog.compare' }],
   ['RU price', 'сколько стоит Samsung', {
     intent: 'product.price',
     productQuery: 'samsung',
@@ -176,6 +177,9 @@ const parserCases: readonly [
   }],
   ['RU unknown', 'как оформить заказ', { intent: 'unknown' }],
   ['UZ catalog list', 'nima bor', { intent: 'catalog.list' }],
+  ['UZ comparison', 'mahsulotlarni solishtirish', {
+    intent: 'catalog.compare',
+  }],
   ['UZ price', 'Samsung qancha turadi', {
     intent: 'product.price',
     productQuery: 'samsung',
@@ -451,8 +455,37 @@ test('buyer session schema migration is additive and content-free', () => {
     assert.match(experience, new RegExp(`ADD COLUMN ${column}`));
   }
   const statements = `${buyerQa}\n${experience}`.replace(/^--.*$/gm, '');
-  assert.doesNotMatch(statements, /\b(?:DROP|DELETE|TRUNCATE)\b/);
+  assert.doesNotMatch(
+    statements,
+    /(?:^|;)\s*(?:DROP|DELETE|TRUNCATE)\b/i,
+  );
   assert.doesNotMatch(statements, /message|transcript|phone|address/i);
+});
+
+test('comparison migration stores references and content-free relevance only', () => {
+  const comparison = fs.readFileSync(
+    path.join(ROOT, 'migrations/0028_market_product_comparison.sql'),
+    'utf8',
+  );
+  for (const marker of [
+    'sotuvchi_buyer_presentations',
+    'sotuvchi_buyer_comparisons',
+    'relevance_score',
+    'matched_requirement_count',
+    'missing_requirement_count',
+    'UNIQUE (session_id, position)',
+  ]) {
+    assert.ok(comparison.includes(marker), marker);
+  }
+  const statements = comparison.replace(/^--.*$/gm, '');
+  assert.doesNotMatch(
+    statements,
+    /(?:^|;)\s*(?:DROP|DELETE|TRUNCATE)\b/i,
+  );
+  assert.doesNotMatch(
+    statements,
+    /message|transcript|query_text|phone|address|contact/i,
+  );
 });
 
 test('buyer Runtime lists, searches and filters only published products', async () => {
@@ -670,6 +703,226 @@ test('category catalog renders four grounded cards and deterministic similar pro
   assert.equal(details.status, 'answered');
   assert.ok(JSON.stringify(details.messages).includes('128 GB'));
   assert.ok(JSON.stringify(details.messages).includes('Тестовый магазин'));
+});
+
+test('comparison keeps two or three grounded products in the trusted buyer store', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '910012');
+  const leader = await createAndPublish(setup, {
+    name: 'Alpha Test Phone',
+    description: 'Synthetic phone for testing',
+    priceMinor: 60_000,
+    searchTerms: ['gaming'],
+    specifications: [
+      {
+        key: 'memory',
+        labelRu: 'Память',
+        labelUz: 'Xotira',
+        value: '256 GB',
+      },
+      {
+        key: 'color',
+        labelRu: 'Цвет',
+        labelUz: 'Rang',
+        value: 'Чёрный',
+      },
+    ],
+  });
+  const second = await createAndPublish(setup, {
+    name: 'Beta Test Phone',
+    description: 'Synthetic gaming phone',
+    priceMinor: 80_000,
+    specifications: [{
+      key: 'memory',
+      labelRu: 'Память',
+      labelUz: 'Xotira',
+      value: '128 GB',
+    }],
+  });
+  const unavailable = await createAndPublish(setup, {
+    name: 'Gamma Test Phone',
+    description: 'Synthetic gaming phone',
+    priceMinor: 70_000,
+    availability: 'unavailable',
+  });
+  const fourth = await createAndPublish(setup, {
+    name: 'Delta Test Phone',
+    description: 'Synthetic gaming phone',
+    priceMinor: 50_000,
+  });
+  const buyer = await createIdentityService(fixture.asD1())
+    .getOrCreateIdentity('telegram', '919012');
+  await setup.catalog.bindStorefrontSession({
+    botUsername: BOT,
+    identityId: buyer.identity.id,
+    context: setup.storefront,
+  });
+  const runtime = createTelegramAgentsRuntimeWiring(fixture.asD1(), BOT).runtime;
+  const base = {
+    orgId: setup.storefront.orgId,
+    agentId: 'sotuvchi',
+    identityId: buyer.identity.id,
+    locale: 'ru' as const,
+  };
+
+  const searched = await runtime.run({
+    ...base,
+    requestId: requestId('compare-search'),
+    message: { kind: 'text' as const, text: 'найди gaming' },
+  });
+  assert.equal(searched.status, 'answered');
+  assert.equal(searched.facts[0].values['catalog.result.count'], 4);
+
+  const first = await runtime.run({
+    ...base,
+    requestId: requestId('compare-add'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-compare.${leader.id}`,
+    },
+  });
+  assert.equal(first.status, 'answered');
+  assert.equal(
+    first.facts[0].values['catalog.result.state'],
+    'comparison_waiting',
+  );
+  assert.equal(first.facts[0].values['catalog.result.count'], 1);
+
+  const ready = await runtime.run({
+    ...base,
+    requestId: requestId('compare-add'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-compare.${second.id}`,
+    },
+  });
+  assert.equal(ready.status, 'answered', JSON.stringify({
+    status: ready.status,
+    reasonCode: ready.reasonCode,
+    grounding: ready.grounding,
+  }));
+  assert.equal(
+    ready.facts[0].values['catalog.result.state'],
+    'comparison_ready',
+  );
+  assert.equal(ready.facts[0].values['catalog.result.count'], 2);
+  assert.ok(Object.keys(ready.facts[0].values).length <= 64);
+  assert.match(ready.messages[0].text, /Дешевле: Alpha Test Phone/);
+  assert.match(ready.messages[0].text, /Ближе к запросу: Alpha Test Phone/);
+  assert.ok(JSON.stringify(ready.messages).includes('256 GB'));
+  assert.ok(JSON.stringify(ready.messages).includes('Цвет'));
+
+  const duplicate = await runtime.run({
+    ...base,
+    requestId: requestId('compare-duplicate'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-compare.${leader.id}`,
+    },
+  });
+  assert.equal(
+    duplicate.facts[0].values['catalog.result.state'],
+    'comparison_duplicate',
+  );
+  assert.equal(duplicate.facts[0].values['catalog.result.count'], 2);
+
+  const three = await runtime.run({
+    ...base,
+    requestId: requestId('compare-add'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-compare.${unavailable.id}`,
+    },
+  });
+  assert.equal(three.facts[0].values['catalog.result.count'], 3);
+  assert.ok(Object.keys(three.facts[0].values).length <= 64);
+  const unavailableCard = three.messages.find(
+    (message) => message.card?.ref === unavailable.id,
+  )?.card;
+  assert.ok(unavailableCard);
+  assert.ok(!unavailableCard.actions?.some(
+    (action) => action.id === `buyer-checkout.${unavailable.id}`,
+  ));
+
+  const full = await runtime.run({
+    ...base,
+    requestId: requestId('compare-full'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-compare.${fourth.id}`,
+    },
+  });
+  assert.equal(
+    full.facts[0].values['catalog.result.state'],
+    'comparison_full',
+  );
+  assert.equal(full.facts[0].values['catalog.result.count'], 3);
+  assert.ok(!Object.values(full.facts[0].values).includes(fourth.id));
+
+  const shown = await runtime.run({
+    ...base,
+    requestId: requestId('compare-show'),
+    message: { kind: 'text' as const, text: 'сравнить товары' },
+  });
+  assert.equal(shown.status, 'answered');
+  assert.equal(shown.facts[0].values['catalog.result.count'], 3);
+
+  const foreignSetup = await setupStore(fixture, '910013');
+  const foreign = await createAndPublish(foreignSetup, {
+    name: 'Foreign Comparison Product',
+  });
+  const foreignAttempt = await runtime.run({
+    ...base,
+    requestId: requestId('compare-foreign'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-compare.${foreign.id}`,
+    },
+  });
+  assert.equal(foreignAttempt.status, 'answered');
+  assert.equal(foreignAttempt.facts[0].values['catalog.result.count'], 0);
+  assert.ok(!JSON.stringify(foreignAttempt).includes(foreign.name));
+
+  const cleared = await runtime.run({
+    ...base,
+    requestId: requestId('compare-clear'),
+    message: {
+      kind: 'action' as const,
+      actionId: 'buyer-compare-clear',
+    },
+  });
+  assert.equal(
+    cleared.facts[0].values['catalog.result.state'],
+    'comparison_cleared',
+  );
+  const empty = await runtime.run({
+    ...base,
+    requestId: requestId('compare-empty'),
+    message: {
+      kind: 'action' as const,
+      actionId: 'buyer-compare-show',
+    },
+  });
+  assert.equal(
+    empty.facts[0].values['catalog.result.state'],
+    'comparison_empty',
+  );
+  await setup.catalog.unpublishProduct(
+    nextOwner(setup.owner),
+    leader.id,
+    leader.version,
+  );
+  const unpublishedAttempt = await runtime.run({
+    ...base,
+    requestId: requestId('compare-unpublished'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-compare.${leader.id}`,
+    },
+  });
+  assert.equal(unpublishedAttempt.status, 'answered');
+  assert.equal(unpublishedAttempt.facts[0].values['catalog.result.count'], 0);
+  assert.ok(!JSON.stringify(unpublishedAttempt).includes(leader.name));
 });
 
 test('price filter sorting is price, normalized name, then opaque id', async () => {

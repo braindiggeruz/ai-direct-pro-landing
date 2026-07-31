@@ -143,6 +143,36 @@ export interface CatalogProductCandidate {
   normalizedName: string;
 }
 
+export const CATALOG_RELEVANCE_REASONS = [
+  'catalog_listing',
+  'category_match',
+  'exact_name',
+  'exact_alias',
+  'name_prefix',
+  'all_tokens',
+  'partial_tokens',
+  'exact_product_reference',
+] as const;
+
+export type CatalogRelevanceReason =
+  (typeof CATALOG_RELEVANCE_REASONS)[number];
+
+export interface CatalogPresentation {
+  productId: string;
+  relevanceScore: number;
+  matchedRequirementCount: number;
+  missingRequirementCount: number;
+  relevanceReason: CatalogRelevanceReason;
+}
+
+export interface CatalogComparisonCandidate extends CatalogProductCandidate {
+  position: number;
+  relevanceScore: number;
+  matchedRequirementCount: number;
+  missingRequirementCount: number;
+  relevanceReason: CatalogRelevanceReason;
+}
+
 export interface BuyerCatalogCategory {
   id: string;
   name: string;

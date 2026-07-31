@@ -225,3 +225,46 @@ List and search responses intentionally omit specifications from their Facts
 projection; verified specifications remain available on the full product card.
 This keeps the worst-case four-card page below the platform's 64-Fact ceiling
 even when every product stores the maximum rendered specification set.
+
+## Implementation checkpoint: product comparison
+
+The comparison slice adds a bounded two-to-three-product buyer flow:
+
+- every add, show and clear operation resolves the active buyer session from
+  the bot username plus platform identity, then revalidates org, store, route,
+  pilot, product publication and category state;
+- callbacks carry only an opaque product reference and never tenant authority;
+- duplicate selections are idempotent and a fourth valid product is rejected
+  without changing the existing three;
+- recently presented ranking context stores only product references, bounded
+  scores, counts, reason codes and request keys. No query text, message,
+  contact detail or other buyer content is persisted;
+- comparison cards render verified price, availability, category, store and
+  at most two verified specifications. Missing verified fields and unmatched
+  requirement counts are explicit instead of inferred;
+- cheaper and closer-to-request summaries are deterministic. If the verified
+  facts do not establish one leader, the response states that there is no
+  clear leader;
+- an unavailable product remains visible in the comparison but cannot start
+  checkout;
+- the full three-product response stays within four Telegram messages, eight
+  fields per card, four choices and 64 scalar Facts.
+
+Focused security review covered duplicate add, maximum size, stale
+unpublished products, a forged cross-tenant product reference, inactive
+catalog eligibility and clear/show isolation. All fail closed without
+rendering a foreign product.
+
+Evidence at this checkpoint:
+
+- buyer/catalog/checkout targeted corpus: `146/146 PASS`;
+- expanded Sotuvchi, Telegram webhook, Owner Center and release regression:
+  `420/420 PASS`;
+- TypeScript project build: `PASS`;
+- scoped ESLint over all comparison-slice TypeScript and tests: `PASS`;
+- secret scan: `2658 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+`0028_market_product_comparison.sql` is create-only and additive. Production
+migration and deployment remain deferred until the remaining R1.1 slices and
+release gates pass.

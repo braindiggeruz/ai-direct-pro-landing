@@ -119,6 +119,30 @@ export const sotuvchiBuyerActionRule: DeterministicRule = {
         input: { productRef: similar[1] },
       };
     }
+    const compare =
+      /^buyer-compare\.([a-z0-9][a-z0-9._-]{0,31})$/
+        .exec(input.message.actionId);
+    if (compare) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.add',
+        input: { productRef: compare[1] },
+      };
+    }
+    if (input.message.actionId === 'buyer-compare-show') {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.show',
+        input: {},
+      };
+    }
+    if (input.message.actionId === 'buyer-compare-clear') {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.clear',
+        input: {},
+      };
+    }
     const budget = /^buyer-budget\.(\d{1,13})$/.exec(
       input.message.actionId,
     );
@@ -176,6 +200,13 @@ export const sotuvchiBuyerTextRule: DeterministicRule = {
     }
     if (parsed.intent === 'unknown' || parsed.intent === 'catalog.help') {
       return help(context.org.locale);
+    }
+    if (parsed.intent === 'catalog.compare') {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.show',
+        input: {},
+      };
     }
     if (parsed.intent === 'catalog.list') {
       return {

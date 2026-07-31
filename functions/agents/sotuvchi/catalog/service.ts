@@ -12,8 +12,11 @@ import {
 import type {
   CatalogCategory,
   BuyerCatalogCategory,
+  CatalogComparisonCandidate,
   CatalogOwnerSeed,
+  CatalogPresentation,
   CatalogProduct,
+  CatalogRelevanceReason,
   CatalogSearchResult,
   CreateCatalogCategoryInput,
   CreateCatalogProductInput,
@@ -25,6 +28,7 @@ import type {
   UpdateCatalogCategoryInput,
   UpdateCatalogProductInput,
 } from './types';
+import { CATALOG_RELEVANCE_REASONS } from './types';
 import {
   CatalogAuthorizationError,
   CatalogIdempotencyConflictError,
@@ -203,10 +207,68 @@ export function rankCatalogProducts(
   );
 }
 
+export interface StorefrontComparisonResult {
+  outcome: 'added' | 'duplicate' | 'full' | 'shown' | 'cleared';
+  results: readonly CatalogSearchResult[];
+}
+
 function availabilityRank(
   availability: CatalogProduct['availability'],
 ): number {
   return availability === 'available' ? 0 : availability === 'preorder' ? 1 : 2;
+}
+
+function comparisonResult(
+  candidate: CatalogComparisonCandidate,
+): CatalogSearchResult {
+  return {
+    product: candidate.product,
+    categoryName: candidate.categoryName,
+    storeName: candidate.storeName,
+    score: candidate.relevanceScore,
+    matchedTokens: candidate.matchedRequirementCount,
+    matchedConstraints: Array.from(
+      { length: candidate.matchedRequirementCount },
+      () => 'verified_requirement',
+    ),
+    unmatchedConstraints: Array.from(
+      { length: candidate.missingRequirementCount },
+      () => 'missing_requirement',
+    ),
+    confidence: candidate.relevanceScore >= 3_500
+      ? 'high'
+      : candidate.relevanceScore > 0
+        ? 'medium'
+        : 'low',
+    reasonCodes: [candidate.relevanceReason, 'comparison'],
+    sourceProductId: candidate.product.id,
+    sourceStoreId: candidate.product.storeId,
+  };
+}
+
+function presentationFor(
+  result: CatalogSearchResult,
+): CatalogPresentation {
+  const relevanceReason = result.reasonCodes.find((reason) =>
+    CATALOG_RELEVANCE_REASONS.includes(reason as CatalogRelevanceReason));
+  return {
+    productId: result.product.id,
+    relevanceScore: Math.min(
+      4_000,
+      Math.max(0, Number.isInteger(result.score) ? result.score : 0),
+    ),
+    matchedRequirementCount: Math.min(
+      12,
+      Math.max(result.matchedTokens, result.matchedConstraints.length),
+    ),
+    missingRequirementCount: Math.min(
+      12,
+      result.unmatchedConstraints.length,
+    ),
+    relevanceReason:
+      (relevanceReason as CatalogRelevanceReason | undefined)
+      ?? 'catalog_listing',
+  };
 }
 
 export function formatUzsPrice(priceMinor: number): string {
@@ -1029,6 +1091,90 @@ export class SotuvchiCatalogService {
       sourceProductId: product.id,
       sourceStoreId: product.storeId,
     };
+  }
+
+  async recordStorefrontPresentation(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    requestId: string;
+    results: readonly CatalogSearchResult[];
+  }): Promise<void> {
+    await this.ready();
+    if (input.results.length < 1 || input.results.length > 4) {
+      throw new CatalogPersistenceError('persistence_failed');
+    }
+    const context = await this.resolveStorefrontContext(input.context);
+    await this.store.recordStorefrontPresentation({
+      botUsername: requireBotUsername(input.botUsername),
+      identityId: requireCatalogId(input.identityId),
+      context,
+      requestId: input.requestId,
+      presentations: input.results.map(presentationFor),
+    });
+  }
+
+  async addStorefrontComparison(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    productId: string;
+  }): Promise<StorefrontComparisonResult> {
+    await this.ready();
+    const context = await this.resolveStorefrontContext(input.context);
+    const botUsername = requireBotUsername(input.botUsername);
+    const identityId = requireCatalogId(input.identityId);
+    const productId = requireCatalogId(input.productId);
+    await this.getPublishedProduct(context, productId);
+    const outcome = await this.store.addComparisonProduct({
+      botUsername,
+      identityId,
+      context,
+      productId,
+    });
+    if (outcome === 'not_found') throw new CatalogNotFoundError('product');
+    const results = await this.store.listComparisonProducts({
+      botUsername,
+      identityId,
+      context,
+    });
+    return {
+      outcome,
+      results: results.map(comparisonResult),
+    };
+  }
+
+  async listStorefrontComparison(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<StorefrontComparisonResult> {
+    await this.ready();
+    const context = await this.resolveStorefrontContext(input.context);
+    const results = await this.store.listComparisonProducts({
+      botUsername: requireBotUsername(input.botUsername),
+      identityId: requireCatalogId(input.identityId),
+      context,
+    });
+    return {
+      outcome: 'shown',
+      results: results.map(comparisonResult),
+    };
+  }
+
+  async clearStorefrontComparison(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<StorefrontComparisonResult> {
+    await this.ready();
+    const context = await this.resolveStorefrontContext(input.context);
+    await this.store.clearComparisonProducts({
+      botUsername: requireBotUsername(input.botUsername),
+      identityId: requireCatalogId(input.identityId),
+      context,
+    });
+    return { outcome: 'cleared', results: [] };
   }
 
   async bindStorefrontSession(input: {

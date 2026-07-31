@@ -3,6 +3,7 @@ export const BUYER_INTENTS = [
   'catalog.categories',
   'catalog.category',
   'catalog.similar',
+  'catalog.compare',
   'catalog.search',
   'product.price',
   'product.availability',
