@@ -1,6 +1,9 @@
 import type { DeterministicRule } from '../../../platform/contracts';
 import { CHECKOUT_START_ACTION_PREFIX } from './responses';
-import { CHECKOUT_START_OPERATION } from './tools';
+import {
+  BUYER_ORDER_HISTORY_OPERATION,
+  CHECKOUT_START_OPERATION,
+} from './tools';
 
 const START_ACTION = /^buyer-checkout\.([a-z0-9][a-z0-9._-]{0,47})$/;
 
@@ -30,4 +33,23 @@ export const sotuvchiCheckoutStartRule: DeterministicRule = {
   },
 };
 
-export const sotuvchiCheckoutRules = [sotuvchiCheckoutStartRule] as const;
+export const sotuvchiBuyerOrdersRule: DeterministicRule = {
+  id: 'buyer-order-history',
+  priority: 106,
+  match(input) {
+    return input.message.kind === 'action'
+      && input.message.actionId === 'buyer-orders';
+  },
+  async execute() {
+    return {
+      kind: 'tool',
+      toolName: BUYER_ORDER_HISTORY_OPERATION,
+      input: {},
+    };
+  },
+};
+
+export const sotuvchiCheckoutRules = [
+  sotuvchiCheckoutStartRule,
+  sotuvchiBuyerOrdersRule,
+] as const;

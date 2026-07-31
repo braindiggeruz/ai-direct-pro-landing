@@ -38,6 +38,7 @@ const PRODUCT_COLUMNS =
 const SESSION_COLUMNS =
   'id, bot_username, identity_id, org_id, store_id, status, '
   + 'last_product_id, last_intent, selection_request_key, selected_at, '
+  + 'preferred_locale, pending_intent, pending_request_key, pending_at, '
   + 'created_at, updated_at';
 
 interface CategoryRow {
@@ -86,6 +87,10 @@ interface SessionRow {
   last_intent: string | null;
   selection_request_key: string | null;
   selected_at: string | null;
+  preferred_locale: string | null;
+  pending_intent: string | null;
+  pending_request_key: string | null;
+  pending_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -241,6 +246,28 @@ export interface CatalogStore {
     botUsername: string,
     identityId: string,
   ): Promise<StorefrontContext | null>;
+  setStorefrontLocale(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    locale: Locale;
+  }): Promise<StorefrontContext | null>;
+  setPendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    requestId: string;
+  }): Promise<boolean>;
+  consumePendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<boolean>;
+  clearPendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<void>;
   recordStorefrontSelection(input: {
     botUsername: string;
     identityId: string;
@@ -319,12 +346,23 @@ function fromSessionRow(row: SessionRow): StorefrontSession {
     || !validDate(row.created_at)
     || !validDate(row.updated_at)
     || (row.selected_at !== null && !validDate(row.selected_at))
+    || (row.pending_at !== null && !validDate(row.pending_at))
     || (
       (row.last_product_id === null) !== (row.last_intent === null)
       || (row.last_product_id === null) !== (row.selected_at === null)
       || (row.last_product_id === null)
         !== (row.selection_request_key === null)
     )
+    || (
+      (row.pending_intent === null) !== (row.pending_request_key === null)
+      || (row.pending_intent === null) !== (row.pending_at === null)
+    )
+    || (
+      row.preferred_locale !== null
+      && row.preferred_locale !== 'ru'
+      && row.preferred_locale !== 'uz'
+    )
+    || (row.pending_intent !== null && row.pending_intent !== 'budget')
   ) {
     throw new CatalogPersistenceError('corrupt_row');
   }
@@ -345,6 +383,12 @@ function fromSessionRow(row: SessionRow): StorefrontSession {
       ? null
       : requireSessionCode(row.selection_request_key, 160),
     selectedAt: row.selected_at,
+    preferredLocale: row.preferred_locale as Locale | null,
+    pendingIntent: row.pending_intent as 'budget' | null,
+    pendingRequestKey: row.pending_request_key === null
+      ? null
+      : requireSessionCode(row.pending_request_key, 160),
+    pendingAt: row.pending_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -1021,8 +1065,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       await db
         .prepare(`INSERT INTO sotuvchi_storefront_sessions
           (id, bot_username, identity_id, org_id, store_id, status,
-           created_at, updated_at)
-           SELECT ?, ?, ?, store.org_id, store.id, 'active', ?, ?
+           preferred_locale, created_at, updated_at)
+           SELECT ?, ?, ?, store.org_id, store.id, 'active', ?, ?, ?
            FROM sotuvchi_stores AS store
            JOIN owner_pilot_stores AS pilot
              ON pilot.org_id = store.org_id
@@ -1050,6 +1094,14 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                 THEN selected_at
               ELSE NULL
             END,
+            preferred_locale = CASE
+              WHEN org_id = excluded.org_id AND store_id = excluded.store_id
+                THEN COALESCE(preferred_locale, excluded.preferred_locale)
+              ELSE excluded.preferred_locale
+            END,
+            pending_intent = NULL,
+            pending_request_key = NULL,
+            pending_at = NULL,
             org_id = excluded.org_id,
             store_id = excluded.store_id,
             status = 'active',
@@ -1058,6 +1110,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
           sessionId,
           botUsername,
           identityId,
+          input.context.locale,
           now,
           now,
           input.context.orgId,
@@ -1076,7 +1129,9 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
 
     async resolveStorefrontSession(botUsername, identityId) {
       const row = await db
-        .prepare(`SELECT session.org_id, session.store_id, store.locale
+        .prepare(`SELECT session.org_id, session.store_id,
+                         COALESCE(session.preferred_locale, store.locale)
+                           AS locale
                   FROM sotuvchi_storefront_sessions AS session
                   JOIN sotuvchi_stores AS store
                     ON store.org_id = session.org_id
@@ -1110,6 +1165,171 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         agentId: 'sotuvchi',
         locale: row.locale,
       };
+    },
+
+    async setStorefrontLocale(input) {
+      const botUsername = requireBotUsername(input.botUsername);
+      const identityId = requireCatalogId(input.identityId);
+      const locale = input.locale;
+      if (locale !== 'ru' && locale !== 'uz') {
+        throw new CatalogPersistenceError('corrupt_row');
+      }
+      const now = new Date().toISOString();
+      const result = await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions AS session
+                  SET preferred_locale = ?, updated_at = ?
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.org_id = ?
+                    AND session.store_id = ?
+                    AND session.status = 'active'
+                    AND EXISTS (
+                      SELECT 1
+                      FROM sotuvchi_stores AS store
+                      JOIN telegram_agent_routes AS route
+                        ON route.org_id = store.org_id
+                       AND route.route_code = store.storefront_code
+                       AND route.bot_username = session.bot_username
+                       AND route.agent_id = 'sotuvchi'
+                       AND route.status = 'active'
+                      JOIN owner_pilot_stores AS pilot
+                        ON pilot.org_id = store.org_id
+                       AND pilot.store_id = store.id
+                       AND pilot.state = 'active'
+                      WHERE store.org_id = session.org_id
+                        AND store.id = session.store_id
+                        AND store.status = 'active'
+                    )`)
+        .bind(
+          locale,
+          now,
+          botUsername,
+          identityId,
+          input.context.orgId,
+          input.context.storeId,
+        )
+        .run();
+      if ((result.meta?.changes ?? 0) !== 1) return null;
+      return this.resolveStorefrontSession(botUsername, identityId);
+    },
+
+    async setPendingBudget(input) {
+      const botUsername = requireBotUsername(input.botUsername);
+      const identityId = requireCatalogId(input.identityId);
+      const requestId = requireSessionCode(input.requestId, 160);
+      const now = new Date().toISOString();
+      const result = await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions AS session
+                  SET pending_intent = 'budget',
+                      pending_request_key = ?,
+                      pending_at = ?,
+                      updated_at = ?
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.org_id = ?
+                    AND session.store_id = ?
+                    AND session.status = 'active'
+                    AND EXISTS (
+                      SELECT 1 FROM sotuvchi_stores AS store
+                      JOIN owner_pilot_stores AS pilot
+                        ON pilot.org_id = store.org_id
+                       AND pilot.store_id = store.id
+                       AND pilot.state = 'active'
+                      WHERE store.org_id = session.org_id
+                        AND store.id = session.store_id
+                        AND store.status = 'active'
+                    )`)
+        .bind(
+          requestId,
+          now,
+          now,
+          botUsername,
+          identityId,
+          input.context.orgId,
+          input.context.storeId,
+        )
+        .run();
+      return (result.meta?.changes ?? 0) === 1;
+    },
+
+    async consumePendingBudget(input) {
+      const now = new Date();
+      const cutoff = new Date(now.getTime() - 10 * 60_000).toISOString();
+      await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions
+                  SET pending_intent = NULL,
+                      pending_request_key = NULL,
+                      pending_at = NULL
+                  WHERE bot_username = ?
+                    AND identity_id = ?
+                    AND org_id = ?
+                    AND store_id = ?
+                    AND pending_intent = 'budget'
+                    AND pending_at < ?`)
+        .bind(
+          requireBotUsername(input.botUsername),
+          requireCatalogId(input.identityId),
+          input.context.orgId,
+          input.context.storeId,
+          cutoff,
+        )
+        .run();
+      const result = await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions AS session
+                  SET pending_intent = NULL,
+                      pending_request_key = NULL,
+                      pending_at = NULL,
+                      updated_at = ?
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.org_id = ?
+                    AND session.store_id = ?
+                    AND session.status = 'active'
+                    AND session.pending_intent = 'budget'
+                    AND session.pending_request_key IS NOT NULL
+                    AND session.pending_at >= ?
+                    AND EXISTS (
+                      SELECT 1 FROM sotuvchi_stores AS store
+                      JOIN owner_pilot_stores AS pilot
+                        ON pilot.org_id = store.org_id
+                       AND pilot.store_id = store.id
+                       AND pilot.state = 'active'
+                      WHERE store.org_id = session.org_id
+                        AND store.id = session.store_id
+                        AND store.status = 'active'
+                    )`)
+        .bind(
+          now.toISOString(),
+          requireBotUsername(input.botUsername),
+          requireCatalogId(input.identityId),
+          input.context.orgId,
+          input.context.storeId,
+          cutoff,
+        )
+        .run();
+      return (result.meta?.changes ?? 0) === 1;
+    },
+
+    async clearPendingBudget(input) {
+      await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions
+                  SET pending_intent = NULL,
+                      pending_request_key = NULL,
+                      pending_at = NULL,
+                      updated_at = ?
+                  WHERE bot_username = ?
+                    AND identity_id = ?
+                    AND org_id = ?
+                    AND store_id = ?
+                    AND status = 'active'`)
+        .bind(
+          new Date().toISOString(),
+          requireBotUsername(input.botUsername),
+          requireCatalogId(input.identityId),
+          input.context.orgId,
+          input.context.storeId,
+        )
+        .run();
     },
 
     async recordStorefrontSelection(input) {

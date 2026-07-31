@@ -133,6 +133,10 @@ export interface StorefrontSession {
   lastIntent: string | null;
   selectionRequestKey: string | null;
   selectedAt: string | null;
+  preferredLocale: Locale | null;
+  pendingIntent: 'budget' | null;
+  pendingRequestKey: string | null;
+  pendingAt: string | null;
   createdAt: string;
   updatedAt: string;
 }

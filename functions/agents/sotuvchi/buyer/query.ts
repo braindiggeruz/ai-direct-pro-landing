@@ -17,7 +17,12 @@ export interface BuyerQueryResult {
   hasMore: boolean;
   nextOffset: number;
   fullCard: boolean;
-  state: 'ok' | 'not_found' | 'missing_previous';
+  state:
+    | 'ok'
+    | 'not_found'
+    | 'missing_previous'
+    | 'budget_prompt'
+    | 'budget_confirmation';
   maxPriceMinor?: number;
 }
 
@@ -66,11 +71,23 @@ export class SotuvchiBuyerQueryService {
     });
   }
 
+  private async clearPendingBudget(
+    identityId: string,
+    context: StorefrontContext,
+  ): Promise<void> {
+    await this.catalog.clearStorefrontPendingBudget({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+  }
+
   async list(
     org: OrgContext,
     offset: number,
   ): Promise<BuyerQueryResult> {
-    const { context } = await this.trustedContext(org);
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     const all = await this.catalog.listPublishedProducts(context, 20);
     const results = all.slice(offset, offset + PAGE_SIZE);
     return {
@@ -80,6 +97,46 @@ export class SotuvchiBuyerQueryService {
       nextOffset: offset + PAGE_SIZE,
       fullCard: false,
       state: results.length > 0 ? 'ok' : 'not_found',
+    };
+  }
+
+  async requestBudget(org: OrgContext): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.catalog.setStorefrontPendingBudget({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+      requestId: org.requestId,
+    });
+    return {
+      intent: 'catalog.confirm_budget',
+      results: [],
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: 'budget_prompt',
+    };
+  }
+
+  async resolveBudget(
+    org: OrgContext,
+    amountMinor: number,
+  ): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    const pending = await this.catalog.consumeStorefrontPendingBudget({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+    if (pending) return this.filterPrice(org, amountMinor, 0);
+    return {
+      intent: 'catalog.confirm_budget',
+      results: [],
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: 'budget_confirmation',
+      maxPriceMinor: amountMinor,
     };
   }
 
@@ -95,6 +152,7 @@ export class SotuvchiBuyerQueryService {
     productQuery: string,
   ): Promise<BuyerQueryResult> {
     const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     const ranked = await this.catalog.searchPublishedProducts(
       context,
       productQuery,
@@ -130,6 +188,7 @@ export class SotuvchiBuyerQueryService {
     input: { productRef?: string; usePrevious?: boolean },
   ): Promise<BuyerQueryResult> {
     const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     let productRef = input.productRef;
     if (input.usePrevious) {
       const selection = await this.catalog.resolveStoredProductSelection(
@@ -193,7 +252,8 @@ export class SotuvchiBuyerQueryService {
     maxPriceMinor: number,
     offset: number,
   ): Promise<BuyerQueryResult> {
-    const { context } = await this.trustedContext(org);
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     const all = (await this.catalog.listPublishedProducts(context, 20))
       .filter(({ product }) => product.priceMinor <= maxPriceMinor)
       .sort(

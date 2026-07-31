@@ -138,3 +138,46 @@ support-readonly mutation denial are covered by passing tests.
 Every slice must retain the current security invariants: trusted org/store
 scope, exact-product revalidation, scalar Facts grounding, content-free
 analytics, idempotent writes, safe provider errors and zero secret output.
+
+## Implementation checkpoint: buyer product foundation
+
+The first implementation checkpoint closes the entry/navigation, budget
+normalization and buyer order-history blockers without changing the production
+deployment:
+
+- `/start` now produces one localized home message with search, catalog,
+  buyer-order, seller-handoff and language routes.
+- `/catalog`, `/orders`, `/help` and `/language` normalize to bounded,
+  provider-neutral actions; unknown slash commands recover to help.
+- RU and Uzbek Latin buyer navigation/recovery copy is centralized.
+- The buyer locale is persisted in the trusted storefront session and can be
+  changed only for the already resolved bot, identity, organization and store.
+- Budget parsing accepts the approved integer UZS variants. A context-free
+  number requires confirmation; model numbers and quantities remain searches.
+- The one-turn budget expectation is store-scoped, expires after ten minutes,
+  and is cleared by `/start`, navigation or another catalog operation.
+- `/orders` projects at most five placed orders for the current buyer session.
+  Its Facts contain no name, phone or address, and strict grounding covers
+  every displayed number and card value.
+- `0026_market_buyer_experience.sql` is additive and stores only locale and
+  bounded interaction state; it contains no buyer content.
+- The Telegram metadata setup now declares exactly the five implemented
+  commands in RU and Uzbek Latin. It remains dry-run by default.
+
+Focused security review confirmed that callback payloads contain no tenant
+authority, history queries require the trusted buyer session plus org/store,
+locale writes revalidate active route and pilot state, and pending intent
+updates cannot widen tenant scope.
+
+Evidence at this checkpoint:
+
+- buyer/checkout/webhook targeted corpus: `123/123 PASS`;
+- TypeScript project build: `PASS`;
+- expanded Sotuvchi, Owner Center and release regression after pending-state
+  hardening: `411/411 PASS`;
+- secret scan: `2651 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+Production migration, Telegram metadata mutation and deployment remain
+intentionally deferred until all R1.1 slices, full gates and independent
+main-to-feature review pass.

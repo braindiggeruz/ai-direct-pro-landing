@@ -680,6 +680,7 @@ test('Sotuvchi manifest keeps onboarding, catalog and one checkout entry', () =>
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
     tool.name.startsWith('catalog.')
     || tool.name.startsWith('checkout.')
+    || tool.name.startsWith('buyer.')
     || tool.name.startsWith('seller.')
     || tool.name.startsWith('handoff.')));
   // Seller order and inventory tools arrived with P2.5 and the human handoff

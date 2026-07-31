@@ -224,15 +224,40 @@ test('extraction preserves a bounded cleaned product query', () => {
   });
 });
 
-test('extraction accepts spaced integer UZS', () => {
+test('budget extraction accepts RU, UZ and shorthand UZS variants', () => {
   assert.equal(
     parseBuyerQuery('до 100 000').maxPriceMinor,
     100_000,
   );
-  assert.deepEqual(parseBuyerQuery('30 000'), {
-    intent: 'catalog.filter_price',
-    maxPriceMinor: 30_000,
+  for (const input of [
+    '30k',
+    '30 к',
+    '30 ming',
+    '30 minggacha',
+    'до 30 тысяч',
+    'максимум 30000',
+    'бюджет 30 000',
+    'byudjet 30.000',
+  ]) {
+    assert.deepEqual(parseBuyerQuery(input), {
+      intent: 'catalog.filter_price',
+      maxPriceMinor: 30_000,
+    }, input);
+  }
+});
+
+test('a context-free bare number requires confirmation', () => {
+  for (const input of ['30000', '30 000', '30.000', '2024']) {
+    assert.equal(parseBuyerQuery(input).intent, 'catalog.confirm_budget', input);
+  }
+  assert.deepEqual(parseBuyerQuery('Samsung S24'), {
+    intent: 'catalog.search',
+    productQuery: 'samsung s24',
   });
+  assert.equal(
+    parseBuyerQuery('2 штуки кабеля').intent,
+    'catalog.search',
+  );
 });
 
 test('extraction rejects float and negative price filters', () => {
@@ -381,7 +406,7 @@ test('number absent from Facts is rejected', () => {
 });
 
 test('buyer session schema migration is additive and content-free', () => {
-  const sql = fs.readFileSync(
+  const buyerQa = fs.readFileSync(
     path.join(ROOT, 'migrations/0020_sotuvchi_buyer_qa.sql'),
     'utf8',
   );
@@ -391,9 +416,21 @@ test('buyer session schema migration is additive and content-free', () => {
     'selection_request_key',
     'selected_at',
   ]) {
-    assert.match(sql, new RegExp(`ADD COLUMN ${column}`));
+    assert.match(buyerQa, new RegExp(`ADD COLUMN ${column}`));
   }
-  const statements = sql.replace(/^--.*$/gm, '');
+  const experience = fs.readFileSync(
+    path.join(ROOT, 'migrations/0026_market_buyer_experience.sql'),
+    'utf8',
+  );
+  for (const column of [
+    'preferred_locale',
+    'pending_intent',
+    'pending_request_key',
+    'pending_at',
+  ]) {
+    assert.match(experience, new RegExp(`ADD COLUMN ${column}`));
+  }
+  const statements = `${buyerQa}\n${experience}`.replace(/^--.*$/gm, '');
   assert.doesNotMatch(statements, /\b(?:DROP|DELETE|TRUNCATE)\b/);
   assert.doesNotMatch(statements, /message|transcript|phone|address/i);
 });
@@ -741,6 +778,23 @@ function telegramMessage(
   };
 }
 
+function telegramCallback(
+  updateId: number,
+  userId: number,
+  actionId: string,
+  languageCode: string,
+) {
+  return {
+    update_id: updateId,
+    callback_query: {
+      id: `callback-${updateId}`,
+      from: { id: userId, language_code: languageCode },
+      data: `agent:${actionId}`,
+      message: { chat: { id: userId, type: 'private' } },
+    },
+  };
+}
+
 function telegramHarness(fixture: SqliteD1) {
   const db = fixture.asD1();
   const wiring = createTelegramAgentsRuntimeWiring(db, BOT);
@@ -774,7 +828,7 @@ function telegramHarness(fixture: SqliteD1) {
   return { delivery, invoke };
 }
 
-test('Telegram buyer Q&A works RU, UZ and mixed without checkout actions', async () => {
+test('Telegram buyer Q&A works RU, UZ and mixed without payment claims', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, '91010', 'uz');
   await createAndPublish(setup, {
@@ -806,7 +860,7 @@ test('Telegram buyer Q&A works RU, UZ and mixed without checkout actions', async
   assert.ok(rendered.includes('200 000 so‘m'));
   assert.ok(rendered.includes('Mavjud'));
   assert.ok(rendered.includes('Batafsil'));
-  assert.ok(!/checkout|order|payment|Купить|Sotib olish/i.test(rendered));
+  assert.ok(!/payment|оплач|тўлов|Купить|Sotib olish/i.test(rendered));
 });
 
 test('direct pilot /start can be repeated and buyer search stays in the storefront', async () => {
@@ -824,6 +878,14 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   const firstStart = harness.delivery.sent.at(-1);
   assert.equal(firstStart?.text.includes('Тестовый каталог'), true);
   assert.ok(JSON.stringify(firstStart?.keyboard).includes('buyer-catalog-open'));
+  for (const action of [
+    'buyer-find',
+    'buyer-orders',
+    'buyer-seller',
+    'buyer-language',
+  ]) {
+    assert.ok(JSON.stringify(firstStart?.keyboard).includes(action), action);
+  }
   assert.ok(!firstStart?.text.includes('Test Product'));
 
   const afterFirstStart = harness.delivery.sent.length;
@@ -842,6 +904,90 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   const searchReply = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(searchReply.includes('Test Product'));
   assert.ok(!searchReply.includes('Не удалось подготовить ответ'));
+});
+
+test('standalone amount confirms, while a prompted amount filters directly', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '91013');
+  await createAndPublish(setup, {
+    name: 'Budget Product',
+    priceMinor: 29_000,
+  });
+  const harness = telegramHarness(fixture);
+
+  await harness.invoke(telegramMessage(971_001, 97101, '/start', 'ru'));
+  await harness.invoke(telegramMessage(971_002, 97101, '30 000', 'ru'));
+  const confirmation = harness.delivery.sent.at(-1);
+  assert.ok(confirmation?.text.includes('максимальный бюджет'));
+  assert.ok(JSON.stringify(confirmation?.keyboard).includes(
+    'buyer-budget.30000',
+  ));
+
+  await harness.invoke(
+    telegramCallback(971_003, 97101, 'buyer-budget.30000', 'ru'),
+  );
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Budget Product'));
+
+  await harness.invoke(
+    telegramMessage(971_004, 97101, 'Нужен недорогой товар', 'ru'),
+  );
+  await harness.invoke(telegramMessage(971_005, 97101, '30.000', 'ru'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Budget Product'));
+
+  await harness.invoke(
+    telegramMessage(971_006, 97101, 'Нужен недорогой товар', 'ru'),
+  );
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM sotuvchi_storefront_sessions
+       WHERE pending_intent = 'budget' AND pending_at IS NOT NULL`,
+    ),
+    1,
+  );
+  await harness.invoke(telegramMessage(971_007, 97101, '/start', 'ru'));
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM sotuvchi_storefront_sessions
+       WHERE pending_intent IS NOT NULL OR pending_at IS NOT NULL`,
+    ),
+    0,
+  );
+  await harness.invoke(telegramMessage(971_008, 97101, '2024', 'ru'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('максимальный бюджет'));
+});
+
+test('Telegram product commands, language preference and stale recovery work', async () => {
+  const fixture = new SqliteD1();
+  await setupStore(fixture, '91014');
+  const harness = telegramHarness(fixture);
+
+  await harness.invoke(telegramMessage(972_001, 97201, '/start', 'ru'));
+  await harness.invoke(telegramMessage(972_002, 97201, '/language', 'ru'));
+  assert.ok(JSON.stringify(harness.delivery.sent.at(-1)?.keyboard).includes(
+    'buyer-locale-uz',
+  ));
+
+  await harness.invoke(
+    telegramCallback(972_003, 97201, 'buyer-locale-uz', 'ru'),
+  );
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes(
+    'Interfeys tili o‘zgartirildi',
+  ));
+
+  await harness.invoke(telegramMessage(972_004, 97201, '/help', 'ru'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes(
+    'Katalog va kategoriyalarni',
+  ));
+
+  await harness.invoke(telegramMessage(972_005, 97201, '/orders', 'ru'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes(
+    'Hali rasmiylashtirilgan',
+  ));
+
+  await harness.invoke(
+    telegramCallback(972_006, 97201, 'buyer-obsolete-action', 'ru'),
+  );
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('tugma eskirgan'));
 });
 
 test('Telegram duplicate update sends once and unknown remains safe', async () => {

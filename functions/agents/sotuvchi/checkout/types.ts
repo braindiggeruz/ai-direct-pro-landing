@@ -109,3 +109,18 @@ export interface CheckoutWorkflowRef {
 export interface CheckoutWorkflowPayload {
   orderId: string;
 }
+
+export type BuyerOrderStatus =
+  | 'placed'
+  | 'confirmed'
+  | 'done'
+  | 'cancelled';
+
+export interface BuyerOrderSummary {
+  orderNumber: string;
+  productName: string;
+  quantity: number;
+  totalMinor: number;
+  status: BuyerOrderStatus;
+  placedAt: string;
+}

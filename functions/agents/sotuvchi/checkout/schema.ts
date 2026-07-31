@@ -84,6 +84,17 @@ export const SOTUVCHI_CHECKOUT_DDL = [
     ON sotuvchi_order_operations (org_id, store_id, created_at)`,
 ] as const;
 
+const SOTUVCHI_CHECKOUT_UPGRADES = [
+  `ALTER TABLE sotuvchi_orders
+     ADD COLUMN fulfillment_status TEXT NOT NULL DEFAULT 'none'
+       CHECK (fulfillment_status IN ('none', 'confirmed', 'done'))`,
+] as const;
+
+function isDuplicateColumn(error: unknown): boolean {
+  return error instanceof Error
+    && /duplicate column name/i.test(error.message);
+}
+
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureSotuvchiCheckoutSchema(db: D1Database): Promise<void> {
@@ -93,6 +104,13 @@ export function ensureSotuvchiCheckoutSchema(db: D1Database): Promise<void> {
       await ensureSotuvchiCatalogSchema(db);
       for (const statement of SOTUVCHI_CHECKOUT_DDL) {
         await db.prepare(statement).run();
+      }
+      for (const statement of SOTUVCHI_CHECKOUT_UPGRADES) {
+        try {
+          await db.prepare(statement).run();
+        } catch (error) {
+          if (!isDuplicateColumn(error)) throw error;
+        }
       }
     })().catch((error) => {
       bootstrapped.delete(db);

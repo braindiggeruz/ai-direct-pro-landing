@@ -30,10 +30,18 @@ interface SetupEnvironment {
 }
 
 const COMMANDS_RU = [
-  { command: 'start', description: 'начать' },
+  { command: 'start', description: 'главное меню' },
+  { command: 'catalog', description: 'открыть каталог' },
+  { command: 'orders', description: 'мои заказы' },
+  { command: 'help', description: 'помощь' },
+  { command: 'language', description: 'выбрать язык' },
 ];
 const COMMANDS_UZ = [
-  { command: 'start', description: 'boshlash' },
+  { command: 'start', description: 'bosh menyu' },
+  { command: 'catalog', description: 'katalogni ochish' },
+  { command: 'orders', description: 'buyurtmalarim' },
+  { command: 'help', description: 'yordam' },
+  { command: 'language', description: 'tilni tanlash' },
 ];
 
 function requireToken(environment: SetupEnvironment): string {

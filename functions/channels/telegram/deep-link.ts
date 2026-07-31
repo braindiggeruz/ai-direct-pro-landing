@@ -32,6 +32,8 @@ export interface TelegramAgentContextInput {
   startPayload?: string;
   /** True only for an accepted Telegram /start command, never inferred from text. */
   isStartCommand?: boolean;
+  /** Bounded normalized action, used only for trusted session preferences. */
+  actionId?: string;
   telegramIdentityId: string;
   locale: Locale;
   idempotencyKey: string;

@@ -30,6 +30,7 @@ import {
   type CheckoutStore,
 } from './store';
 import type {
+  BuyerOrderSummary,
   CheckoutBuyerSession,
   CheckoutOutcome,
   CheckoutProductSnapshot,
@@ -197,6 +198,22 @@ export class SotuvchiCheckoutService {
       }
       throw error;
     }
+  }
+
+  async listBuyerOrders(
+    org: OrgContext,
+    limit = 5,
+  ): Promise<readonly BuyerOrderSummary[]> {
+    if (!Number.isInteger(limit) || limit < 1 || limit > 10) {
+      throw new CheckoutValidationError('invalid_input');
+    }
+    const session = await this.trustedSession(org);
+    return this.store.listBuyerOrders(
+      session.orgId,
+      session.storeId,
+      session.id,
+      limit,
+    );
   }
 
   private async operation(

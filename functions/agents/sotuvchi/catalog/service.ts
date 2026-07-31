@@ -930,6 +930,74 @@ export class SotuvchiCatalogService {
     );
   }
 
+  async setStoredStorefrontLocale(
+    botUsername: string,
+    identityId: string,
+    locale: Locale,
+  ): Promise<StorefrontContext> {
+    await this.ready();
+    const safeBot = requireBotUsername(botUsername);
+    const safeIdentity = requireCatalogId(identityId);
+    const current = await this.store.resolveStorefrontSession(
+      safeBot,
+      safeIdentity,
+    );
+    if (!current) throw new CatalogNotFoundError('store');
+    const updated = await this.store.setStorefrontLocale({
+      botUsername: safeBot,
+      identityId: safeIdentity,
+      context: current,
+      locale,
+    });
+    if (!updated) throw new CatalogNotFoundError('store');
+    return updated;
+  }
+
+  async setStorefrontPendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    requestId: string;
+  }): Promise<void> {
+    await this.ready();
+    const context = await this.resolveStorefrontContext(input.context);
+    const changed = await this.store.setPendingBudget({
+      botUsername: requireBotUsername(input.botUsername),
+      identityId: requireCatalogId(input.identityId),
+      context,
+      requestId: input.requestId,
+    });
+    if (!changed) throw new CatalogNotFoundError('store');
+  }
+
+  async consumeStorefrontPendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<boolean> {
+    await this.ready();
+    const context = await this.resolveStorefrontContext(input.context);
+    return this.store.consumePendingBudget({
+      botUsername: requireBotUsername(input.botUsername),
+      identityId: requireCatalogId(input.identityId),
+      context,
+    });
+  }
+
+  async clearStorefrontPendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<void> {
+    await this.ready();
+    const context = await this.resolveStorefrontContext(input.context);
+    await this.store.clearPendingBudget({
+      botUsername: requireBotUsername(input.botUsername),
+      identityId: requireCatalogId(input.identityId),
+      context,
+    });
+  }
+
   async recordStorefrontSelection(input: {
     botUsername: string;
     identityId: string;

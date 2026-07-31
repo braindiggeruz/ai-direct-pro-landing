@@ -4,20 +4,15 @@ import type {
   RuntimeStepResult,
 } from '../../../platform/contracts';
 import { parseBuyerQuery } from './parser';
-import { buyerBudgetPrompt, safeBuyerHelpResponse } from './responses';
+import {
+  safeBuyerHelpResponse,
+  staleBuyerActionResponse,
+} from './responses';
 
 function help(locale: Locale): RuntimeStepResult {
   return {
     kind: 'answer',
     response: safeBuyerHelpResponse(locale),
-    facts: [],
-  };
-}
-
-function budgetPrompt(locale: Locale): RuntimeStepResult {
-  return {
-    kind: 'answer',
-    response: buyerBudgetPrompt(locale),
     facts: [],
   };
 }
@@ -84,7 +79,34 @@ export const sotuvchiBuyerActionRule: DeterministicRule = {
         },
       };
     }
-    return help(context.org.locale);
+    const budget = /^buyer-budget\.(\d{1,13})$/.exec(
+      input.message.actionId,
+    );
+    if (budget) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.filter_price',
+        input: { maxPriceMinor: Number(budget[1]), offset: 0 },
+      };
+    }
+    const numberSearch = /^buyer-number-search\.(\d{1,13})$/.exec(
+      input.message.actionId,
+    );
+    if (numberSearch) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.search',
+        input: {
+          intent: 'catalog.search',
+          productQuery: numberSearch[1],
+        },
+      };
+    }
+    return {
+      kind: 'answer',
+      response: staleBuyerActionResponse(context.org.locale),
+      facts: [],
+    };
   },
 };
 
@@ -106,7 +128,11 @@ export const sotuvchiBuyerTextRule: DeterministicRule = {
       parsed.intent === 'catalog.search'
       && asksForAffordableOption(input.message.text)
     ) {
-      return budgetPrompt(context.org.locale);
+      return {
+        kind: 'tool',
+        toolName: 'catalog.budget.request',
+        input: {},
+      };
     }
     if (parsed.intent === 'unknown' || parsed.intent === 'catalog.help') {
       return help(context.org.locale);
@@ -126,6 +152,16 @@ export const sotuvchiBuyerTextRule: DeterministicRule = {
         kind: 'tool',
         toolName: 'catalog.filter_price',
         input: { maxPriceMinor: parsed.maxPriceMinor, offset: 0 },
+      };
+    }
+    if (
+      parsed.intent === 'catalog.confirm_budget'
+      && parsed.maxPriceMinor !== undefined
+    ) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.budget.resolve',
+        input: { amountMinor: parsed.maxPriceMinor },
       };
     }
     if (

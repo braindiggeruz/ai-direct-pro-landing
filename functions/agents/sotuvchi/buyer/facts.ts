@@ -46,6 +46,8 @@ export function projectBuyerFacts(
   };
   if (result.maxPriceMinor !== undefined) {
     values['catalog.query.max_price_minor'] = result.maxPriceMinor;
+    values['catalog.query.max_price_display'] =
+      formatBuyerPrice(result.maxPriceMinor, locale);
   }
   result.results.forEach((item, index) => {
     Object.assign(values, productValues(`catalog.results.${index}`, item, locale));

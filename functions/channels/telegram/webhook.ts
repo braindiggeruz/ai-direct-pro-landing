@@ -216,6 +216,9 @@ async function processAccepted(
       startPayload: input.startPayload,
       isStartCommand: input.runtimeMessage.kind === 'action'
         && input.runtimeMessage.actionId === 'start',
+      ...(input.runtimeMessage.kind === 'action'
+        ? { actionId: input.runtimeMessage.actionId }
+        : {}),
       telegramIdentityId: identityId,
       locale: localeOf(input),
       idempotencyKey: input.inbound.idempotencyKey,

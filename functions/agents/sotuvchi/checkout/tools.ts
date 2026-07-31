@@ -6,11 +6,17 @@ import {
 } from '../../../platform/contracts';
 import { CheckoutAuthorizationError, CheckoutValidationError } from './errors';
 import { projectCheckoutFacts, type CheckoutFactValues } from './facts';
+import {
+  composeBuyerOrderHistoryResponse,
+  projectBuyerOrderHistoryFacts,
+  type BuyerOrderHistoryFacts,
+} from './history';
 import { composeCheckoutResponse } from './responses';
 import type { SotuvchiCheckoutService } from './service';
 import { requireCheckoutId } from './validation';
 
 export const CHECKOUT_START_OPERATION = 'checkout.start';
+export const BUYER_ORDER_HISTORY_OPERATION = 'buyer.orders.list';
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
@@ -28,6 +34,15 @@ const startSchema: RuntimeSchema<{ productRef: string }> = {
       throw new CheckoutValidationError('invalid_input');
     }
     return { productRef: requireCheckoutId(value.productRef) };
+  },
+};
+
+const emptySchema: RuntimeSchema<Record<string, never>> = {
+  parse(value) {
+    if (!isPlainObject(value) || Object.keys(value).length !== 0) {
+      throw new CheckoutValidationError('invalid_input');
+    }
+    return {};
   },
 };
 
@@ -52,9 +67,36 @@ const startTool: Tool<{ productRef: string }, CheckoutFactValues> = {
   response: { compose: composeCheckoutResponse },
 };
 
-export const sotuvchiCheckoutTools = [eraseTool(startTool)] as const;
+const historyTool: Tool<Record<string, never>, BuyerOrderHistoryFacts> = {
+  name: BUYER_ORDER_HISTORY_OPERATION,
+  description:
+    'List the current trusted buyer session placed orders without contact data.',
+  inputSchema: emptySchema,
+  async run(context, input) {
+    const domain = context.services.agentDomain;
+    if (!domain) throw new CheckoutAuthorizationError();
+    return domain.execute({
+      agentId: 'sotuvchi',
+      operation: BUYER_ORDER_HISTORY_OPERATION,
+      org: context.org,
+      input,
+    });
+  },
+  facts(values) {
+    return { toolName: BUYER_ORDER_HISTORY_OPERATION, values };
+  },
+  response: { compose: composeBuyerOrderHistoryResponse },
+};
 
-const CHECKOUT_OPERATIONS = new Set<string>([CHECKOUT_START_OPERATION]);
+export const sotuvchiCheckoutTools = [
+  eraseTool(startTool),
+  eraseTool(historyTool),
+] as const;
+
+const CHECKOUT_OPERATIONS = new Set<string>([
+  CHECKOUT_START_OPERATION,
+  BUYER_ORDER_HISTORY_OPERATION,
+]);
 
 export function createSotuvchiCheckoutDomainPort(
   service: SotuvchiCheckoutService,
@@ -63,6 +105,13 @@ export function createSotuvchiCheckoutDomainPort(
     async execute(call) {
       if (call.agentId !== 'sotuvchi') {
         throw new CheckoutAuthorizationError();
+      }
+      if (call.operation === BUYER_ORDER_HISTORY_OPERATION) {
+        emptySchema.parse(call.input);
+        return projectBuyerOrderHistoryFacts(
+          await service.listBuyerOrders(call.org),
+          call.org.locale,
+        );
       }
       if (call.operation !== CHECKOUT_START_OPERATION) {
         throw new CheckoutAuthorizationError();

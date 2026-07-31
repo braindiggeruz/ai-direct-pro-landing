@@ -21,7 +21,11 @@ export {
   CHECKOUT_START_ACTION_PREFIX,
   composeCheckoutResponse,
 } from './responses';
-export { sotuvchiCheckoutRules, sotuvchiCheckoutStartRule } from './rules';
+export {
+  sotuvchiBuyerOrdersRule,
+  sotuvchiCheckoutRules,
+  sotuvchiCheckoutStartRule,
+} from './rules';
 export {
   ensureSotuvchiCheckoutSchema,
   SOTUVCHI_CHECKOUT_DDL,
@@ -48,17 +52,25 @@ export type {
   CreateOrderInput,
 } from './store';
 export {
+  BUYER_ORDER_HISTORY_OPERATION,
   CHECKOUT_START_OPERATION,
   createSotuvchiCheckoutDomainPort,
   sotuvchiCheckoutTools,
   withSotuvchiCheckoutDomain,
 } from './tools';
 export {
+  composeBuyerOrderHistoryResponse,
+  projectBuyerOrderHistoryFacts,
+} from './history';
+export type { BuyerOrderHistoryFacts } from './history';
+export {
   CHECKOUT_AVAILABILITIES,
   CHECKOUT_ORDER_STATUSES,
   CHECKOUT_STATES,
 } from './types';
 export type {
+  BuyerOrderStatus,
+  BuyerOrderSummary,
   CheckoutAvailability,
   CheckoutBuyerSession,
   CheckoutIdentityContext,

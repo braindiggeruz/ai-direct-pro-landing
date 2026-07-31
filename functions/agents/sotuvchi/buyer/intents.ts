@@ -5,6 +5,7 @@ export const BUYER_INTENTS = [
   'product.availability',
   'product.details',
   'catalog.filter_price',
+  'catalog.confirm_budget',
   'catalog.help',
   'unknown',
 ] as const;

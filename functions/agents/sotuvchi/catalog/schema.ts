@@ -74,6 +74,12 @@ export const SOTUVCHI_CATALOG_DDL = [
     last_intent TEXT,
     selection_request_key TEXT,
     selected_at TEXT,
+    preferred_locale TEXT
+      CHECK (preferred_locale IS NULL OR preferred_locale IN ('ru', 'uz')),
+    pending_intent TEXT
+      CHECK (pending_intent IS NULL OR pending_intent = 'budget'),
+    pending_request_key TEXT,
+    pending_at TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
     UNIQUE (bot_username, identity_id),
@@ -94,6 +100,9 @@ export const SOTUVCHI_CATALOG_DDL = [
     ON sotuvchi_catalog_operations (org_id, store_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_sotuvchi_storefront_sessions_store
     ON sotuvchi_storefront_sessions (org_id, store_id, status)`,
+  `CREATE INDEX IF NOT EXISTS idx_sotuvchi_storefront_pending
+    ON sotuvchi_storefront_sessions
+      (bot_username, identity_id, pending_intent, status)`,
 ] as const;
 
 const SOTUVCHI_BUYER_SESSION_UPGRADES = [
@@ -101,6 +110,12 @@ const SOTUVCHI_BUYER_SESSION_UPGRADES = [
   'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN last_intent TEXT',
   'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN selection_request_key TEXT',
   'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN selected_at TEXT',
+  `ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN preferred_locale TEXT
+    CHECK (preferred_locale IS NULL OR preferred_locale IN ('ru', 'uz'))`,
+  `ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN pending_intent TEXT
+    CHECK (pending_intent IS NULL OR pending_intent = 'budget')`,
+  'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN pending_request_key TEXT',
+  'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN pending_at TEXT',
 ] as const;
 
 function isDuplicateColumn(error: unknown): boolean {

@@ -1206,6 +1206,7 @@ test('manifest exposes catalog closed-list tools with AI mutations disabled', ()
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
     tool.name.startsWith('catalog.')
     || tool.name.startsWith('checkout.')
+    || tool.name.startsWith('buyer.')
     || tool.name.startsWith('seller.')
     || tool.name.startsWith('handoff.')));
   assert.equal(sotuvchiAgentManifest.policies.aiSelection, 'disabled');
@@ -1390,7 +1391,9 @@ test('Telegram buyer never receives unpublished product', async () => {
     telegramMessage(700_302, 7992, 'Hidden Telegram item', 'ru'),
   );
   assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes('Не нашёл такой товар'),
+    harness.delivery.sent.at(-1)?.text.includes(
+      'В этом магазине подходящий товар не найден',
+    ),
   );
 });
 

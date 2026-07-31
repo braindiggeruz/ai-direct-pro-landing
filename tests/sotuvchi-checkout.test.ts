@@ -22,6 +22,8 @@ import {
   normalizeBuyerPhone,
   normalizeCheckoutQuantity,
   parseCheckoutQuantityText,
+  composeBuyerOrderHistoryResponse,
+  projectBuyerOrderHistoryFacts,
   projectCheckoutFacts,
   sotuvchiAgentManifest,
   sotuvchiCheckoutWorkflow,
@@ -706,6 +708,44 @@ test('confirmation places exactly one immutable order', async () => {
   assert.equal(
     fixture.value('SELECT quantity FROM sotuvchi_order_items'),
     2,
+  );
+});
+
+test('buyer order history is tenant-bound, grounded and contains no contact', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '810102');
+  const product = await publish(setup, {
+    name: 'History Product',
+    priceMinor: 75_000,
+  });
+  const buyer = await bindBuyer(fixture, setup, '910102');
+  await completeDraft(setup, buyer, product.id);
+  await setup.checkout.confirmCheckout(buyerOrg(setup, buyer));
+
+  const history = await setup.checkout.listBuyerOrders(
+    buyerOrg(setup, buyer),
+  );
+  assert.equal(history.length, 1);
+  assert.equal(history[0].productName, 'History Product');
+  assert.equal(history[0].totalMinor, 150_000);
+  assert.equal(history[0].status, 'placed');
+  const serialized = JSON.stringify(history);
+  for (const forbidden of ['Дилшод', '901234567', 'Тестовая улица']) {
+    assert.ok(!serialized.includes(forbidden), forbidden);
+  }
+
+  const facts = {
+    toolName: 'buyer.orders.list',
+    values: projectBuyerOrderHistoryFacts(history, 'ru'),
+  };
+  const response = composeBuyerOrderHistoryResponse(facts, 'ru');
+  assert.deepEqual(groundResponse(response, [facts]), { status: 'passed' });
+  assert.ok(JSON.stringify(response).includes('History Product'));
+
+  const foreign = await bindBuyer(fixture, setup, '910103');
+  assert.deepEqual(
+    await setup.checkout.listBuyerOrders(buyerOrg(setup, foreign)),
+    [],
   );
 });
 

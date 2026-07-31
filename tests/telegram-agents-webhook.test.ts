@@ -544,6 +544,28 @@ test('/start is normalized to a provider-neutral action', () => {
   assert.equal(result.value.startPayload, 'agent_demo');
 });
 
+test('product commands normalize to bounded provider-neutral actions', () => {
+  for (const [command, actionId] of [
+    ['/catalog', 'buyer-catalog-open'],
+    ['/orders', 'buyer-orders'],
+    ['/help', 'buyer-help'],
+    ['/language', 'buyer-language'],
+    [`/catalog@${BOT}`, 'buyer-catalog-open'],
+    ['/unknown', 'buyer-help'],
+  ] as const) {
+    const result = ingestTelegramAgentUpdate(
+      telegramMessage(310, command),
+      BOT,
+    );
+    assert.equal(result.status, 'accepted', command);
+    if (result.status !== 'accepted') continue;
+    assert.deepEqual(result.value.runtimeMessage, {
+      kind: 'action',
+      actionId,
+    }, command);
+  }
+});
+
 test('Telegram user id is passed to Identity only as a string', async () => {
   const harness = createHarness();
   await harness.invoke(telegramMessage(32, 'echo: hello', { userId: 101 }));

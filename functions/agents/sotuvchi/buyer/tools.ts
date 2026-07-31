@@ -151,6 +151,27 @@ const filterSchema: RuntimeSchema<{
   },
 };
 
+const emptySchema: RuntimeSchema<Record<string, never>> = {
+  parse(value) {
+    if (!isPlainObject(value) || !exactKeys(value, new Set())) {
+      throw new BuyerQueryValidationError();
+    }
+    return {};
+  },
+};
+
+const budgetSchema: RuntimeSchema<{ amountMinor: number }> = {
+  parse(value) {
+    if (
+      !isPlainObject(value)
+      || !exactKeys(value, new Set(['amountMinor']))
+    ) {
+      throw new BuyerQueryValidationError();
+    }
+    return { amountMinor: normalizePriceMinor(value.amountMinor) };
+  },
+};
+
 function buyerTool<I>(
   name: string,
   description: string,
@@ -197,6 +218,16 @@ export const sotuvchiBuyerTools = [
     'catalog.filter_price',
     'List published products at or below an integer UZS price.',
     filterSchema,
+  )),
+  eraseTool(buyerTool(
+    'catalog.budget.request',
+    'Mark the trusted buyer session as awaiting a bounded UZS budget.',
+    emptySchema,
+  )),
+  eraseTool(buyerTool(
+    'catalog.budget.resolve',
+    'Resolve a numeric reply as a pending budget or request confirmation.',
+    budgetSchema,
   )),
 ] as const;
 
@@ -246,6 +277,20 @@ export function createSotuvchiBuyerDomainPort(
               input.maxPriceMinor,
               input.offset,
             ),
+            call.org.locale,
+          );
+        }
+        case 'catalog.budget.request': {
+          emptySchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.requestBudget(call.org),
+            call.org.locale,
+          );
+        }
+        case 'catalog.budget.resolve': {
+          const input = budgetSchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.resolveBudget(call.org, input.amountMinor),
             call.org.locale,
           );
         }

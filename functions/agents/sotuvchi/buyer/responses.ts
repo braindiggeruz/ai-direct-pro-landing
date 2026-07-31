@@ -8,6 +8,11 @@ import type {
 } from '../../../platform/contracts';
 import type { ProductCard } from './cards';
 import { BuyerGroundingError } from './errors';
+import {
+  BUYER_COPY,
+  recoveryChoices,
+  staleResponse,
+} from '../experience';
 
 function fact(
   facts: FactSheet,
@@ -47,42 +52,41 @@ function claim(
  * every unknown question: the buyer decides when a person should read what
  * they wrote, so no unintended text is ever stored for the seller.
  */
-const HUMAN_HINT = {
-  ru: 'Если нужен человек — напишите «позвать продавца» и свой вопрос.',
-  uz: 'Odam kerak bo‘lsa — «sotuvchini chaqir» deb savolingizni yozing.',
-} as const;
-
 export function safeBuyerHelpResponse(locale: Locale): RuntimeResponseDraft {
-  const text = locale === 'ru'
-    ? 'Можно спросить:\n— что есть в магазине;\n— сколько стоит товар;\n'
-      + '— есть ли товар в наличии;\n— рассказать о товаре.'
-    : 'So‘rashingiz mumkin:\n— do‘konda nima bor;\n— mahsulot narxi;\n'
-      + '— mahsulot mavjudmi;\n— mahsulot haqida ma’lumot.';
-  return {
-    messages: [{ text: `${text}\n${HUMAN_HINT[locale]}` }],
-    claims: [],
-  };
-}
-
-export function buyerBudgetPrompt(locale: Locale): RuntimeResponseDraft {
+  const copy = BUYER_COPY[locale];
   return {
     messages: [{
-      text: locale === 'ru'
-        ? 'Укажите максимальный бюджет в сумах — я подберу подходящие товары.'
-        : 'Maksimal byudjetni so‘mda yozing — mos mahsulotlarni tanlab beraman.',
+      text: `${copy.help}\n\n${copy.humanHint}`,
+      choices: recoveryChoices(locale),
     }],
     claims: [],
   };
 }
 
-function noResult(locale: Locale): RuntimeResponseDraft {
-  const text = locale === 'ru'
-    ? 'Не нашёл такой товар в этом магазине. '
-      + 'Попробуйте написать название немного иначе.'
-    : 'Bu do‘konda bunday mahsulot topilmadi. '
-      + 'Nomini boshqacha yozib ko‘ring.';
+export function buyerBudgetPrompt(locale: Locale): RuntimeResponseDraft {
+  const copy = BUYER_COPY[locale];
   return {
-    messages: [{ text: `${text}\n${HUMAN_HINT[locale]}` }],
+    messages: [{
+      text: copy.budgetPrompt,
+      choices: [{ id: 'buyer-home', label: copy.homeButton }],
+    }],
+    claims: [],
+  };
+}
+
+export function staleBuyerActionResponse(
+  locale: Locale,
+): RuntimeResponseDraft {
+  return staleResponse(locale);
+}
+
+function noResult(locale: Locale): RuntimeResponseDraft {
+  const copy = BUYER_COPY[locale];
+  return {
+    messages: [{
+      text: `${copy.noResult}\n\n${copy.humanHint}`,
+      choices: recoveryChoices(locale),
+    }],
     claims: [],
   };
 }
@@ -158,6 +162,32 @@ export function composeBuyerResponse(
   const state = stringFact(facts, 'catalog.result.state');
   if (!Number.isInteger(count) || count < 0 || count > 5) {
     throw new BuyerGroundingError();
+  }
+  if (state === 'budget_prompt') return buyerBudgetPrompt(locale);
+  if (state === 'budget_confirmation') {
+    const amount = numberFact(facts, 'catalog.query.max_price_minor');
+    const claims: RuntimeExactClaim[] = [];
+    claim(claims, facts, 'catalog.query.max_price_minor');
+    const amountDisplay = claim(
+      claims,
+      facts,
+      'catalog.query.max_price_display',
+    ) as string;
+    const copy = BUYER_COPY[locale];
+    return {
+      messages: [{
+        text: copy.budgetConfirm(amountDisplay),
+        choices: [
+          { id: `buyer-budget.${amount}`, label: copy.budgetUse },
+          {
+            id: `buyer-number-search.${amount}`,
+            label: copy.numberSearch,
+          },
+          { id: 'buyer-home', label: copy.homeButton },
+        ],
+      }],
+      claims,
+    };
   }
   if (count === 0) {
     return state === 'missing_previous'

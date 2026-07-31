@@ -178,7 +178,7 @@ export function createTelegramAgentsRuntimeWiring(
           orgId: route.orgId,
           storeId: route.storeId,
           agentId: route.agentId,
-          locale: route.locale,
+          locale: input.locale,
         } as const;
         await catalog.bindStorefrontSession({
           botUsername,
@@ -227,11 +227,30 @@ export function createTelegramAgentsRuntimeWiring(
             ),
           );
         }
-        const storefront = await catalog.resolveStoredStorefrontContext(
+        let storefront = await catalog.resolveStoredStorefrontContext(
           botUsername,
           input.telegramIdentityId,
         );
         if (storefront) {
+          const requestedLocale = input.actionId === 'buyer-locale-uz'
+            ? 'uz'
+            : input.actionId === 'buyer-locale-ru'
+              ? 'ru'
+              : null;
+          if (requestedLocale) {
+            storefront = await catalog.setStoredStorefrontLocale(
+              botUsername,
+              input.telegramIdentityId,
+              requestedLocale,
+            );
+          }
+          if (isStartCommand || input.actionId) {
+            await catalog.clearStorefrontPendingBudget({
+              botUsername,
+              identityId: input.telegramIdentityId,
+              context: storefront,
+            });
+          }
           return storefrontContext(
             storefront.orgId,
             storefront.agentId,
@@ -250,7 +269,7 @@ export function createTelegramAgentsRuntimeWiring(
             orgId: directPilot.orgId,
             storeId: directPilot.storeId,
             agentId: directPilot.agentId,
-            locale: directPilot.locale,
+            locale: input.locale,
           } as const;
           await catalog.bindStorefrontSession({
             botUsername,

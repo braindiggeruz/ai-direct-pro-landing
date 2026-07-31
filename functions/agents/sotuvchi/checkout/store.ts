@@ -1,5 +1,6 @@
 import { CheckoutPersistenceError } from './errors';
 import type {
+  BuyerOrderSummary,
   CheckoutBuyerSession,
   CheckoutOrderStatus,
   SotuvchiOrder,
@@ -125,6 +126,12 @@ export interface CheckoutStore {
     buyerSessionId: string,
     status: CheckoutOrderStatus,
   ): Promise<SotuvchiOrder | null>;
+  listBuyerOrders(
+    orgId: string,
+    storeId: string,
+    buyerSessionId: string,
+    limit: number,
+  ): Promise<BuyerOrderSummary[]>;
   createOrder(
     input: CreateOrderInput,
     operation: CheckoutOperationInput,
@@ -387,6 +394,80 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
         )
         .first<OrderRow>();
       return row ? fromOrderRow(row) : null;
+    },
+
+    async listBuyerOrders(orgId, storeId, buyerSessionId, limit) {
+      if (!Number.isInteger(limit) || limit < 1 || limit > 10) {
+        throw new CheckoutPersistenceError('corrupt_row');
+      }
+      const rows = await db
+        .prepare(`SELECT ordered.order_number,
+                         ordered.status,
+                         ordered.fulfillment_status,
+                         ordered.total_minor,
+                         ordered.placed_at,
+                         item.product_name_snapshot,
+                         item.quantity
+                  FROM sotuvchi_orders AS ordered
+                  JOIN sotuvchi_order_items AS item
+                    ON item.org_id = ordered.org_id
+                   AND item.order_id = ordered.id
+                  WHERE ordered.org_id = ?
+                    AND ordered.store_id = ?
+                    AND ordered.buyer_session_id = ?
+                    AND ordered.placed_at IS NOT NULL
+                    AND ordered.status IN ('placed', 'cancelled')
+                  ORDER BY ordered.placed_at DESC, ordered.id DESC
+                  LIMIT ?`)
+        .bind(
+          requireCheckoutId(orgId),
+          requireCheckoutId(storeId),
+          requireCheckoutId(buyerSessionId),
+          limit,
+        )
+        .all<{
+          order_number: string;
+          status: string;
+          fulfillment_status: string;
+          total_minor: number | null;
+          placed_at: string | null;
+          product_name_snapshot: string;
+          quantity: number | null;
+        }>();
+      return (rows.results ?? []).map((row) => {
+        if (
+          row.placed_at === null
+          || !validDate(row.placed_at)
+          || row.total_minor === null
+          || !Number.isInteger(row.quantity)
+          || Number(row.quantity) < 1
+          || Number(row.quantity) > 99
+        ) {
+          throw new CheckoutPersistenceError('corrupt_row');
+        }
+        const status = row.status === 'cancelled'
+          ? 'cancelled'
+          : row.status === 'placed'
+              && ['none', 'confirmed', 'done'].includes(
+                row.fulfillment_status,
+              )
+            ? row.fulfillment_status === 'none'
+              ? 'placed'
+              : row.fulfillment_status
+            : null;
+        if (!status) throw new CheckoutPersistenceError('corrupt_row');
+        return {
+          orderNumber: requireOrderNumber(row.order_number),
+          productName: optionalText(row.product_name_snapshot, 120)
+            ?? (() => {
+              throw new CheckoutPersistenceError('corrupt_row');
+            })(),
+          quantity: Number(row.quantity),
+          totalMinor: requireCheckoutTotal(row.total_minor),
+          status,
+          placedAt: row.placed_at,
+        };
+      });
     },
 
     async createOrder(input, operation) {
