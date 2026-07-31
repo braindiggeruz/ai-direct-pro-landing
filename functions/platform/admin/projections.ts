@@ -13,6 +13,34 @@ export interface PlatformOverview {
   products: { total: number; published: number };
   orders: { today: number; last7d: number; placed: number; confirmed: number; done: number; cancelled: number };
   handoffs: { open: number; answered: number; closed: number; expired: number };
+  funnel: {
+    bot_starts: number;
+    searches: number;
+    results_shown: number;
+    zero_results: number;
+    product_views: number;
+    order_starts: number;
+    orders_created: number;
+    handoffs_requested: number;
+  };
+  telegram: {
+    updates_today: number;
+    completed_today: number;
+    failed_today: number;
+    pending: number;
+    duplicate_updates: number;
+    errors_today: number;
+    average_processing_ms: number | null;
+    processing_latency: 'under_250ms' | '250ms_1s' | '1s_3s' | 'over_3s' | 'unknown';
+  };
+  seller_service: {
+    responses_today: number;
+    average_response_seconds: number | null;
+    response_time: 'under_5m' | '5m_15m' | '15m_1h' | 'over_1h' | 'unknown';
+    open_over_15m: number;
+    notification_failures: number;
+    notification_retries: number;
+  };
   automation: { queued: number; running: number; retry_wait: number; awaiting_review: number; dead_letter: number; completed: number };
   drafts: { pending_review: number; total: number };
   audit_events: number;
@@ -21,6 +49,91 @@ export interface PlatformOverview {
 async function scalar(db: D1Database, sql: string, ...binds: unknown[]): Promise<number> {
   const row = await db.prepare(sql).bind(...binds).first<{ n: number }>();
   return Number(row?.n ?? 0);
+}
+
+async function optionalScalar(
+  db: D1Database,
+  sql: string,
+  ...binds: unknown[]
+): Promise<number> {
+  try {
+    return await scalar(db, sql, ...binds);
+  } catch {
+    return 0;
+  }
+}
+
+async function optionalNullableScalar(
+  db: D1Database,
+  sql: string,
+  ...binds: unknown[]
+): Promise<number | null> {
+  try {
+    const row = await db.prepare(sql).bind(...binds).first<{ n: number | null }>();
+    return row?.n === null || row?.n === undefined ? null : Number(row.n);
+  } catch {
+    return null;
+  }
+}
+
+const FUNNEL_EVENTS = {
+  bot_starts: 'sotuvchi.bot_started',
+  searches: 'sotuvchi.search_submitted',
+  results_shown: 'sotuvchi.search_results_shown',
+  zero_results: 'sotuvchi.zero_results',
+  product_views: 'sotuvchi.product_viewed',
+  order_starts: 'sotuvchi.order_started',
+  orders_created: 'sotuvchi.order_created',
+  handoffs_requested: 'sotuvchi.handoff_requested',
+} as const;
+
+async function funnelCounts(
+  db: D1Database,
+  since: string,
+): Promise<Record<keyof typeof FUNNEL_EVENTS, number>> {
+  const empty = Object.fromEntries(
+    Object.keys(FUNNEL_EVENTS).map((key) => [key, 0]),
+  ) as Record<keyof typeof FUNNEL_EVENTS, number>;
+  try {
+    const types = Object.values(FUNNEL_EVENTS);
+    const rows = await db.prepare(
+      `SELECT type, COUNT(*) AS n
+       FROM events
+       WHERE created_at >= ?
+         AND type IN (${types.map(() => '?').join(', ')})
+       GROUP BY type`,
+    ).bind(since, ...types).all<{ type: string; n: number }>();
+    const byType = new Map(
+      (rows.results ?? []).map((row) => [row.type, Number(row.n)]),
+    );
+    for (const [key, type] of Object.entries(FUNNEL_EVENTS)) {
+      empty[key as keyof typeof FUNNEL_EVENTS] = byType.get(type) ?? 0;
+    }
+  } catch {
+    // Events are additive telemetry. An older database must still render the
+    // exact operational overview without fabricating data.
+  }
+  return empty;
+}
+
+function processingLatency(
+  value: number | null,
+): PlatformOverview['telegram']['processing_latency'] {
+  if (value === null) return 'unknown';
+  if (value < 250) return 'under_250ms';
+  if (value < 1_000) return '250ms_1s';
+  if (value < 3_000) return '1s_3s';
+  return 'over_3s';
+}
+
+function responseTime(
+  value: number | null,
+): PlatformOverview['seller_service']['response_time'] {
+  if (value === null) return 'unknown';
+  if (value < 300) return 'under_5m';
+  if (value < 900) return '5m_15m';
+  if (value < 3_600) return '15m_1h';
+  return 'over_1h';
 }
 
 /**
@@ -57,6 +170,21 @@ export async function loadPlatformOverview(db: D1Database, now: Date): Promise<P
 
   const storeTotal = Object.values(storeStates).reduce((a, b) => a + b, 0);
   const draftTotal = Object.values(draftStates).reduce((a, b) => a + b, 0);
+  const funnel = await funnelCounts(db, dayStart);
+  const averageProcessingMs = await optionalNullableScalar(
+    db,
+    `SELECT ROUND(AVG(processing_ms)) AS n
+     FROM telegram_agent_update_metrics
+     WHERE updated_at >= ? AND processing_ms IS NOT NULL`,
+    dayStart,
+  );
+  const averageResponseSeconds = await optionalNullableScalar(
+    db,
+    `SELECT ROUND(AVG((julianday(answered_at) - julianday(created_at)) * 86400)) AS n
+     FROM sotuvchi_handoffs
+     WHERE answered_at >= ?`,
+    dayStart,
+  );
 
   return {
     stores: {
@@ -89,6 +217,73 @@ export async function loadPlatformOverview(db: D1Database, now: Date): Promise<P
       closed: handoffStates.closed ?? 0,
       expired: handoffStates.expired ?? 0,
     },
+    funnel,
+    telegram: {
+      updates_today: await optionalScalar(
+        db,
+        'SELECT COUNT(*) AS n FROM telegram_agent_updates WHERE created_at >= ?',
+        dayStart,
+      ),
+      completed_today: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM telegram_agent_updates
+         WHERE created_at >= ? AND status = 'completed'`,
+        dayStart,
+      ),
+      failed_today: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM telegram_agent_updates
+         WHERE created_at >= ? AND status = 'failed'`,
+        dayStart,
+      ),
+      pending: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM telegram_agent_updates
+         WHERE status = 'reserved'`,
+      ),
+      duplicate_updates: await optionalScalar(
+        db,
+        `SELECT COALESCE(SUM(duplicate_count), 0) AS n
+         FROM telegram_agent_update_metrics
+         WHERE updated_at >= ?`,
+        dayStart,
+      ),
+      errors_today: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM events
+         WHERE created_at >= ? AND type = 'sotuvchi.telegram_error'`,
+        dayStart,
+      ),
+      average_processing_ms: averageProcessingMs,
+      processing_latency: processingLatency(averageProcessingMs),
+    },
+    seller_service: {
+      responses_today: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM sotuvchi_handoffs
+         WHERE answered_at >= ?`,
+        dayStart,
+      ),
+      average_response_seconds: averageResponseSeconds,
+      response_time: responseTime(averageResponseSeconds),
+      open_over_15m: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM sotuvchi_handoffs
+         WHERE status = 'open'
+           AND created_at < ?`,
+        new Date(now.getTime() - 15 * 60 * 1000).toISOString(),
+      ),
+      notification_failures: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM sotuvchi_notifications
+         WHERE status = 'failed'`,
+      ),
+      notification_retries: await optionalScalar(
+        db,
+        `SELECT COUNT(*) AS n FROM sotuvchi_notifications
+         WHERE attempt_count > 1`,
+      ),
+    },
     automation: {
       queued: automationStates.queued ?? 0,
       running: (automationStates.running ?? 0) + (automationStates.leased ?? 0),
@@ -116,8 +311,13 @@ export interface StoreSummary {
   pilotState: string;
   products: number;
   publishedProducts: number;
+  inStockProducts: number;
   orders: number;
   openHandoffs: number;
+  sellerStatus: 'active' | 'inactive';
+  handoffSla: 'ok' | 'due' | 'breached' | 'none';
+  catalogUpdatedAt: string | null;
+  lastActivityAt: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -148,11 +348,62 @@ export async function listStoreSummaries(
             (SELECT COUNT(*) FROM sotuvchi_products p
               WHERE p.org_id = store.org_id AND p.store_id = store.id
                 AND p.status = 'published') AS published_products,
+            (SELECT COUNT(*) FROM sotuvchi_inventory inventory
+              JOIN sotuvchi_products p
+                ON p.org_id = inventory.org_id
+               AND p.store_id = inventory.store_id
+               AND p.id = inventory.product_id
+              WHERE inventory.org_id = store.org_id
+                AND inventory.store_id = store.id
+                AND inventory.on_hand > 0
+                AND p.status = 'published'
+                AND p.availability = 'available') AS in_stock_products,
             (SELECT COUNT(*) FROM sotuvchi_orders o
               WHERE o.org_id = store.org_id AND o.store_id = store.id) AS orders,
             (SELECT COUNT(*) FROM sotuvchi_handoffs h
               WHERE h.org_id = store.org_id AND h.store_id = store.id
-                AND h.status = 'open') AS open_handoffs
+                AND h.status = 'open') AS open_handoffs,
+            CASE WHEN EXISTS (
+              SELECT 1
+              FROM sotuvchi_onboardings AS owner_onboarding
+              JOIN memberships AS owner_membership
+                ON owner_membership.org_id = owner_onboarding.org_id
+               AND owner_membership.identity_id = owner_onboarding.owner_identity_id
+               AND owner_membership.role = 'owner'
+               AND owner_membership.status = 'active'
+              WHERE owner_onboarding.org_id = store.org_id
+                AND owner_onboarding.status = 'completed'
+            ) THEN 'active' ELSE 'inactive' END AS seller_status,
+            CASE
+              WHEN NOT EXISTS (
+                SELECT 1 FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id
+                  AND h.status = 'open'
+              ) THEN 'none'
+              WHEN (
+                SELECT MIN(h.created_at) FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id
+                  AND h.status = 'open'
+              ) >= datetime('now', '-15 minutes') THEN 'ok'
+              WHEN (
+                SELECT MIN(h.created_at) FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id
+                  AND h.status = 'open'
+              ) >= datetime('now', '-1 hour') THEN 'due'
+              ELSE 'breached'
+            END AS handoff_sla,
+            (SELECT MAX(p.updated_at) FROM sotuvchi_products p
+              WHERE p.org_id = store.org_id
+                AND p.store_id = store.id) AS catalog_updated_at,
+            MAX(
+              store.updated_at,
+              COALESCE((SELECT MAX(p.updated_at) FROM sotuvchi_products p
+                WHERE p.org_id = store.org_id AND p.store_id = store.id), store.updated_at),
+              COALESCE((SELECT MAX(o.updated_at) FROM sotuvchi_orders o
+                WHERE o.org_id = store.org_id AND o.store_id = store.id), store.updated_at),
+              COALESCE((SELECT MAX(h.updated_at) FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id), store.updated_at)
+            ) AS last_activity_at
      FROM sotuvchi_stores AS store
      LEFT JOIN owner_pilot_stores AS pilot
        ON pilot.org_id = store.org_id AND pilot.store_id = store.id
@@ -172,8 +423,20 @@ export async function listStoreSummaries(
     pilotState: String(row.pilot_state),
     products: Number(row.products),
     publishedProducts: Number(row.published_products),
+    inStockProducts: Number(row.in_stock_products),
     orders: Number(row.orders),
     openHandoffs: Number(row.open_handoffs),
+    sellerStatus: row.seller_status === 'active' ? 'active' : 'inactive',
+    handoffSla: (
+      ['ok', 'due', 'breached'].includes(String(row.handoff_sla))
+        ? String(row.handoff_sla)
+        : 'none'
+    ) as StoreSummary['handoffSla'],
+    catalogUpdatedAt: row.catalog_updated_at === null
+      || row.catalog_updated_at === undefined
+      ? null
+      : String(row.catalog_updated_at),
+    lastActivityAt: String(row.last_activity_at),
     createdAt: String(row.created_at),
     updatedAt: String(row.updated_at),
   }));
@@ -204,11 +467,62 @@ async function listStoreSummariesById(db: D1Database, storeId: string): Promise<
             (SELECT COUNT(*) FROM sotuvchi_products p
               WHERE p.org_id = store.org_id AND p.store_id = store.id
                 AND p.status = 'published') AS published_products,
+            (SELECT COUNT(*) FROM sotuvchi_inventory inventory
+              JOIN sotuvchi_products p
+                ON p.org_id = inventory.org_id
+               AND p.store_id = inventory.store_id
+               AND p.id = inventory.product_id
+              WHERE inventory.org_id = store.org_id
+                AND inventory.store_id = store.id
+                AND inventory.on_hand > 0
+                AND p.status = 'published'
+                AND p.availability = 'available') AS in_stock_products,
             (SELECT COUNT(*) FROM sotuvchi_orders o
               WHERE o.org_id = store.org_id AND o.store_id = store.id) AS orders,
             (SELECT COUNT(*) FROM sotuvchi_handoffs h
               WHERE h.org_id = store.org_id AND h.store_id = store.id
-                AND h.status = 'open') AS open_handoffs
+                AND h.status = 'open') AS open_handoffs,
+            CASE WHEN EXISTS (
+              SELECT 1
+              FROM sotuvchi_onboardings AS owner_onboarding
+              JOIN memberships AS owner_membership
+                ON owner_membership.org_id = owner_onboarding.org_id
+               AND owner_membership.identity_id = owner_onboarding.owner_identity_id
+               AND owner_membership.role = 'owner'
+               AND owner_membership.status = 'active'
+              WHERE owner_onboarding.org_id = store.org_id
+                AND owner_onboarding.status = 'completed'
+            ) THEN 'active' ELSE 'inactive' END AS seller_status,
+            CASE
+              WHEN NOT EXISTS (
+                SELECT 1 FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id
+                  AND h.status = 'open'
+              ) THEN 'none'
+              WHEN (
+                SELECT MIN(h.created_at) FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id
+                  AND h.status = 'open'
+              ) >= datetime('now', '-15 minutes') THEN 'ok'
+              WHEN (
+                SELECT MIN(h.created_at) FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id
+                  AND h.status = 'open'
+              ) >= datetime('now', '-1 hour') THEN 'due'
+              ELSE 'breached'
+            END AS handoff_sla,
+            (SELECT MAX(p.updated_at) FROM sotuvchi_products p
+              WHERE p.org_id = store.org_id
+                AND p.store_id = store.id) AS catalog_updated_at,
+            MAX(
+              store.updated_at,
+              COALESCE((SELECT MAX(p.updated_at) FROM sotuvchi_products p
+                WHERE p.org_id = store.org_id AND p.store_id = store.id), store.updated_at),
+              COALESCE((SELECT MAX(o.updated_at) FROM sotuvchi_orders o
+                WHERE o.org_id = store.org_id AND o.store_id = store.id), store.updated_at),
+              COALESCE((SELECT MAX(h.updated_at) FROM sotuvchi_handoffs h
+                WHERE h.org_id = store.org_id AND h.store_id = store.id), store.updated_at)
+            ) AS last_activity_at
      FROM sotuvchi_stores AS store
      LEFT JOIN owner_pilot_stores AS pilot
        ON pilot.org_id = store.org_id AND pilot.store_id = store.id
@@ -225,8 +539,20 @@ async function listStoreSummariesById(db: D1Database, storeId: string): Promise<
     pilotState: String(row.pilot_state),
     products: Number(row.products),
     publishedProducts: Number(row.published_products),
+    inStockProducts: Number(row.in_stock_products),
     orders: Number(row.orders),
     openHandoffs: Number(row.open_handoffs),
+    sellerStatus: row.seller_status === 'active' ? 'active' : 'inactive',
+    handoffSla: (
+      ['ok', 'due', 'breached'].includes(String(row.handoff_sla))
+        ? String(row.handoff_sla)
+        : 'none'
+    ) as StoreSummary['handoffSla'],
+    catalogUpdatedAt: row.catalog_updated_at === null
+      || row.catalog_updated_at === undefined
+      ? null
+      : String(row.catalog_updated_at),
+    lastActivityAt: String(row.last_activity_at),
     createdAt: String(row.created_at),
     updatedAt: String(row.updated_at),
   }));

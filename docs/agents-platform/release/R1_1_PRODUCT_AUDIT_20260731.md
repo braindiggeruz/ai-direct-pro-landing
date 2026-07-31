@@ -364,3 +364,42 @@ Evidence at this checkpoint:
 Production deployment remains deferred. Telegram failure telemetry, Owner
 Control Center operational projections, rate limiting and retry/fallback
 hardening belong to the next reliability slice.
+
+## Implementation checkpoint: Owner Control Center product visibility
+
+The existing first-party Owner Control Center now exposes the Market product
+and service health needed for a controlled pilot:
+
+- the overview shows today's bot starts, searches, result/zero-result counts,
+  product views, order starts/creates and handoff requests from the closed
+  analytics event list;
+- Telegram transport health shows accepted, completed, failed, pending and
+  duplicate updates, bounded processing latency and error totals;
+- seller service health shows responses, a response-time bucket, open handoffs
+  older than 15 minutes and notification failures/retries;
+- the non-secret bot identity projection contains only the validated public
+  username, fixed webhook path and a `ready|incomplete` configuration state;
+- store list and detail projections add configured in-stock counts, catalog
+  freshness, verified active-owner status, handoff SLA and last activity;
+- queue/retry/DLQ, pilot state, orders, handoffs, automation and audit remain on
+  their existing first-party surfaces.
+
+All views remain available to `support_readonly`, while every mutation still
+requires the platform-owner role, reason, idempotency key and any applicable
+typed confirmation. SQL projections deliberately omit event payloads,
+aggregate references, Telegram identifiers, messages, profiles, buyer contact
+fields and handoff text. Optional telemetry tables fail to a visible zero or
+`unknown` state without hiding exact domain totals.
+
+Evidence at this checkpoint:
+
+- Owner Control Center behavioural corpus: `71/71 PASS`;
+- TypeScript project build: `PASS`;
+- scoped ESLint over server projections, shared contracts, UI and tests:
+  `PASS`;
+- secret scan: `2660 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+The duplicate and processing-latency fields are wired but remain zero/unknown
+on an older schema. The next additive reliability migration will populate
+them without changing the existing update idempotency key.
