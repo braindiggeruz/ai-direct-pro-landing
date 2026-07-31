@@ -1,4 +1,5 @@
 import type { Locale } from '../../../platform/contracts';
+import { normalizeKnowledgeText } from '../../../platform/knowledge';
 import { ensureSotuvchiCatalogSchema } from './schema';
 import {
   createSotuvchiCatalogStore,
@@ -10,6 +11,7 @@ import {
 } from './store';
 import type {
   CatalogCategory,
+  BuyerCatalogCategory,
   CatalogOwnerSeed,
   CatalogProduct,
   CatalogSearchResult,
@@ -103,6 +105,7 @@ export function rankCatalogProducts(
   candidates: readonly {
     product: CatalogProduct;
     categoryName: string | null;
+    storeName: string;
     normalizedName: string;
   }[],
   normalizedQuery: string,
@@ -110,36 +113,100 @@ export function rankCatalogProducts(
 ): CatalogSearchResult[] {
   const results: CatalogSearchResult[] = [];
   for (const candidate of candidates) {
+    const normalizedAliases = candidate.product.searchTerms.map(
+      (term) => normalizeKnowledgeText(term),
+    );
+    const normalizedCategory = candidate.categoryName
+      ? normalizeKnowledgeText(candidate.categoryName)
+      : '';
+    const normalizedSpecs = candidate.product.specifications.flatMap(
+      (specification) => [
+        normalizeKnowledgeText(specification.labelRu),
+        normalizeKnowledgeText(specification.labelUz),
+        normalizeKnowledgeText(specification.value),
+      ],
+    );
+    const normalizedDescription = candidate.product.description
+      ? normalizeKnowledgeText(candidate.product.description)
+      : '';
+    const searchDocument = [
+      candidate.normalizedName,
+      normalizedDescription,
+      normalizedCategory,
+      ...normalizedAliases,
+      ...normalizedSpecs,
+    ].filter(Boolean).join(' ');
     const matchedTokens = tokens.filter(
-      (token) => candidate.normalizedName.includes(token),
+      (token) => searchDocument.includes(token),
     ).length;
     if (matchedTokens === 0) continue;
     let score: number;
+    const reasonCodes: string[] = [];
     if (candidate.normalizedName === normalizedQuery) {
       score = 4_000;
+      reasonCodes.push('exact_name');
+    } else if (normalizedAliases.includes(normalizedQuery)) {
+      score = 3_500;
+      reasonCodes.push('exact_alias');
     } else if (candidate.normalizedName.startsWith(normalizedQuery)) {
       score = 3_000;
+      reasonCodes.push('name_prefix');
+    } else if (normalizedCategory === normalizedQuery) {
+      score = 2_500;
+      reasonCodes.push('category_match');
     } else if (matchedTokens === tokens.length) {
       score = 2_000 + matchedTokens;
+      reasonCodes.push('all_tokens');
     } else {
       score = 1_000 + matchedTokens;
+      reasonCodes.push('partial_tokens');
     }
+    if (candidate.product.availability === 'available') {
+      reasonCodes.push('available');
+    } else if (candidate.product.availability === 'preorder') {
+      reasonCodes.push('preorder');
+    } else {
+      reasonCodes.push('unavailable');
+    }
+    const unmatchedConstraints = tokens.filter(
+      (token) => !searchDocument.includes(token),
+    );
     results.push({
       product: candidate.product,
       categoryName: candidate.categoryName,
+      storeName: candidate.storeName,
       score,
       matchedTokens,
+      matchedConstraints: ['text'],
+      unmatchedConstraints,
+      confidence: score >= 3_500
+        ? 'high'
+        : matchedTokens === tokens.length
+          ? 'medium'
+          : 'low',
+      reasonCodes,
+      sourceProductId: candidate.product.id,
+      sourceStoreId: candidate.product.storeId,
     });
   }
   return results.sort(
     (left, right) =>
       right.score - left.score
+      || availabilityRank(left.product.availability)
+        - availabilityRank(right.product.availability)
+      || lexicalCompare(right.product.updatedAt, left.product.updatedAt)
       || lexicalCompare(
         normalizedProductName(left.product.name),
         normalizedProductName(right.product.name),
       )
       || lexicalCompare(left.product.id, right.product.id),
   );
+}
+
+function availabilityRank(
+  availability: CatalogProduct['availability'],
+): number {
+  return availability === 'available' ? 0 : availability === 'preorder' ? 1 : 2;
 }
 
 export function formatUzsPrice(priceMinor: number): string {
@@ -537,6 +604,8 @@ export class SotuvchiCatalogService {
       availability: input.availability,
       status: 'draft',
       mediaRefs: input.mediaRefs ?? [],
+      searchTerms: input.searchTerms ?? [],
+      specifications: input.specifications ?? [],
       version: 1,
       createdAt: now,
       updatedAt: now,
@@ -647,6 +716,8 @@ export class SotuvchiCatalogService {
       currency: patch.currency ?? current.currency,
       availability: patch.availability ?? current.availability,
       mediaRefs: patch.mediaRefs ?? current.mediaRefs,
+      searchTerms: patch.searchTerms ?? current.searchTerms,
+      specifications: patch.specifications ?? current.specifications,
       updatedAt: new Date().toISOString(),
     };
     await this.validateProductCategory(
@@ -853,8 +924,51 @@ export class SotuvchiCatalogService {
     return candidates.map((candidate) => ({
       product: candidate.product,
       categoryName: candidate.categoryName,
+      storeName: candidate.storeName,
       score: 0,
       matchedTokens: 0,
+      matchedConstraints: [],
+      unmatchedConstraints: [],
+      confidence: 'low',
+      reasonCodes: ['catalog_listing'],
+      sourceProductId: candidate.product.id,
+      sourceStoreId: candidate.product.storeId,
+    }));
+  }
+
+  async listBuyerCategories(
+    rawContext: unknown,
+  ): Promise<BuyerCatalogCategory[]> {
+    const context = await this.resolveStorefrontContext(rawContext);
+    return this.store.listBuyerCategories(context);
+  }
+
+  async listPublishedProductsByCategory(
+    rawContext: unknown,
+    categoryId: unknown,
+    limit?: unknown,
+  ): Promise<CatalogSearchResult[]> {
+    const context = await this.resolveStorefrontContext(rawContext);
+    const candidates = await this.store.listPublishedByCategory(
+      context,
+      requireCatalogId(categoryId),
+      requireCatalogLimit(limit),
+    );
+    return candidates.map((candidate) => ({
+      product: candidate.product,
+      categoryName: candidate.categoryName,
+      storeName: candidate.storeName,
+      score: 2_500,
+      matchedTokens: 0,
+      matchedConstraints: ['category'],
+      unmatchedConstraints: [],
+      confidence: 'high',
+      reasonCodes: [
+        'category_match',
+        candidate.product.availability,
+      ],
+      sourceProductId: candidate.product.id,
+      sourceStoreId: candidate.product.storeId,
     }));
   }
 
@@ -897,11 +1011,23 @@ export class SotuvchiCatalogService {
           product.categoryId,
         )
       : null;
+    const store = await this.store.findActiveStore(
+      context.orgId,
+      context.storeId,
+    );
+    if (!store) throw new CatalogNotFoundError('store');
     return {
       product,
       categoryName: category?.name ?? null,
+      storeName: store.name,
       score: 4_000,
       matchedTokens: 1,
+      matchedConstraints: ['product_reference'],
+      unmatchedConstraints: [],
+      confidence: 'high',
+      reasonCodes: ['exact_product_reference', product.availability],
+      sourceProductId: product.id,
+      sourceStoreId: product.storeId,
     };
   }
 

@@ -109,6 +109,7 @@ function productCard(
   claim(claims, facts, `${prefix}.availability`);
   const description = stringFact(facts, `${prefix}.description`);
   const category = stringFact(facts, `${prefix}.category_name`);
+  const store = claim(claims, facts, `${prefix}.store_name`) as string;
   const orderable = stringFact(facts, `${prefix}.availability`) !== 'unavailable';
   if (description) claim(claims, facts, `${prefix}.description`);
   if (category) claim(claims, facts, `${prefix}.category_name`);
@@ -131,26 +132,96 @@ function productCard(
             value: category,
           }]
         : []),
+      {
+        label: BUYER_COPY[locale].store,
+        value: store,
+      },
+      ...(full
+        ? Array.from({
+            length: (() => {
+              const count = numberFact(
+                facts,
+                `${prefix}.specification_count`,
+              );
+              if (!Number.isInteger(count) || count < 0 || count > 4) {
+                throw new BuyerGroundingError();
+              }
+              return count;
+            })(),
+          }, (_unused, specificationIndex) => {
+            const label = claim(
+              claims,
+              facts,
+              `${prefix}.specifications.${specificationIndex}.label`,
+            ) as string;
+            const value = claim(
+              claims,
+              facts,
+              `${prefix}.specifications.${specificationIndex}.value`,
+            ) as string;
+            claim(
+              claims,
+              facts,
+              `${prefix}.specifications.${specificationIndex}.key`,
+            );
+            return { label, value };
+          })
+        : []),
     ],
-    actions: full
-      ? [
-          // P2.4 entry point: checkout starts only from a trusted full card of
-          // an orderable published product, never from free-form buyer text.
-          ...(orderable
-            ? [{
-                id: `buyer-checkout.${productRef}`,
-                label: locale === 'ru' ? 'Оформить' : 'Rasmiylashtirish',
-              }]
-            : []),
-          {
-            id: 'buyer-back',
-            label: locale === 'ru' ? 'Назад к каталогу' : 'Katalogga qaytish',
-          },
-        ]
-      : [{
-          id: `buyer-details.${productRef}`,
-          label: locale === 'ru' ? 'Подробнее' : 'Batafsil',
-        }],
+    actions: [
+      ...(!full
+        ? [{
+            id: `buyer-details.${productRef}`,
+            label: BUYER_COPY[locale].details,
+          }]
+        : []),
+      ...(orderable
+        ? [{
+            id: `buyer-checkout.${productRef}`,
+            label: BUYER_COPY[locale].orderAction,
+          }]
+        : []),
+      {
+        id: `buyer-similar.${productRef}`,
+        label: BUYER_COPY[locale].similar,
+      },
+      ...(full
+        ? [{
+            id: 'buyer-seller',
+            label: BUYER_COPY[locale].askSeller,
+          }]
+        : []),
+    ],
+  };
+}
+
+function categoryResponse(
+  facts: FactSheet,
+  locale: Locale,
+): RuntimeResponseDraft {
+  const count = numberFact(facts, 'catalog.category.count');
+  if (!Number.isInteger(count) || count < 1 || count > 10) {
+    throw new BuyerGroundingError();
+  }
+  const claims: RuntimeExactClaim[] = [];
+  const choices = Array.from({ length: count }, (_unused, index) => {
+    const prefix = `catalog.categories.${index}`;
+    const id = stringFact(facts, `${prefix}.id`);
+    const label = claim(claims, facts, `${prefix}.label`) as string;
+    claim(claims, facts, `${prefix}.name`);
+    claim(claims, facts, `${prefix}.product_count`);
+    return { id: `buyer-category.${id}`, label };
+  });
+  choices.push(
+    { id: 'buyer-all-products', label: BUYER_COPY[locale].allProducts },
+    { id: 'buyer-home', label: BUYER_COPY[locale].homeButton },
+  );
+  return {
+    messages: [{
+      text: BUYER_COPY[locale].categoryPrompt,
+      choices,
+    }],
+    claims,
   };
 }
 
@@ -160,9 +231,10 @@ export function composeBuyerResponse(
 ): RuntimeResponseDraft {
   const count = numberFact(facts, 'catalog.result.count');
   const state = stringFact(facts, 'catalog.result.state');
-  if (!Number.isInteger(count) || count < 0 || count > 5) {
+  if (!Number.isInteger(count) || count < 0 || count > 4) {
     throw new BuyerGroundingError();
   }
+  if (state === 'categories') return categoryResponse(facts, locale);
   if (state === 'budget_prompt') return buyerBudgetPrompt(locale);
   if (state === 'budget_confirmation') {
     const amount = numberFact(facts, 'catalog.query.max_price_minor');
@@ -201,6 +273,14 @@ export function composeBuyerResponse(
     const card = productCard(facts, index, locale, full, claims);
     messages.push({
       text: '',
+      ...(!full
+        ? {
+            choices: [{
+              id: 'buyer-seller',
+              label: BUYER_COPY[locale].askSeller,
+            }],
+          }
+        : {}),
       card: {
         ref: card.productRef,
         title: card.title,
@@ -220,14 +300,40 @@ export function composeBuyerResponse(
       ? `buyer-price-next.${
           numberFact(facts, 'catalog.query.max_price_minor')
         }.${nextOffset}`
-      : `buyer-next.${nextOffset}`;
+      : intent === 'catalog.category'
+        ? `buyer-category-next.${
+            stringFact(facts, 'catalog.query.category_id')
+          }.${nextOffset}`
+        : `buyer-next.${nextOffset}`;
     const last = messages[messages.length - 1];
     messages[messages.length - 1] = {
       ...last,
-      choices: [{
-        id: actionId,
-        label: locale === 'ru' ? 'Следующие товары' : 'Keyingi mahsulotlar',
-      }],
+      choices: [
+        ...(!full
+          ? [{
+              id: 'buyer-seller',
+              label: BUYER_COPY[locale].askSeller,
+            }]
+          : []),
+        { id: actionId, label: BUYER_COPY[locale].showMore },
+        { id: 'buyer-back', label: BUYER_COPY[locale].backToCatalog },
+        { id: 'buyer-home', label: BUYER_COPY[locale].homeButton },
+      ],
+    };
+  } else {
+    const last = messages[messages.length - 1];
+    messages[messages.length - 1] = {
+      ...last,
+      choices: [
+        ...(!full
+          ? [{
+              id: 'buyer-seller',
+              label: BUYER_COPY[locale].askSeller,
+            }]
+          : []),
+        { id: 'buyer-back', label: BUYER_COPY[locale].backToCatalog },
+        { id: 'buyer-home', label: BUYER_COPY[locale].homeButton },
+      ],
     };
   }
   return { messages, claims };

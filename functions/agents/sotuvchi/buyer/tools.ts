@@ -50,7 +50,7 @@ function exactKeys(
 }
 
 function requireOffset(value: unknown): number {
-  if (!Number.isInteger(value) || Number(value) < 0 || Number(value) > 15) {
+  if (!Number.isInteger(value) || Number(value) < 0 || Number(value) > 16) {
     throw new BuyerQueryValidationError();
   }
   return Number(value);
@@ -172,6 +172,36 @@ const budgetSchema: RuntimeSchema<{ amountMinor: number }> = {
   },
 };
 
+const categorySchema: RuntimeSchema<{
+  categoryId: string;
+  offset: number;
+}> = {
+  parse(value) {
+    if (
+      !isPlainObject(value)
+      || !exactKeys(value, new Set(['categoryId', 'offset']))
+    ) {
+      throw new BuyerQueryValidationError();
+    }
+    return {
+      categoryId: requireCatalogId(value.categoryId),
+      offset: requireOffset(value.offset),
+    };
+  },
+};
+
+const productRefOnlySchema: RuntimeSchema<{ productRef: string }> = {
+  parse(value) {
+    if (
+      !isPlainObject(value)
+      || !exactKeys(value, new Set(['productRef']))
+    ) {
+      throw new BuyerQueryValidationError();
+    }
+    return { productRef: requireCatalogId(value.productRef) };
+  },
+};
+
 function buyerTool<I>(
   name: string,
   description: string,
@@ -199,6 +229,16 @@ function buyerTool<I>(
 }
 
 export const sotuvchiBuyerTools = [
+  eraseTool(buyerTool(
+    'catalog.categories',
+    'List active categories that contain published products in this store.',
+    emptySchema,
+  )),
+  eraseTool(buyerTool(
+    'catalog.category.products',
+    'List published products in one revalidated store category.',
+    categorySchema,
+  )),
   eraseTool(buyerTool(
     'catalog.list',
     'List published products in the trusted buyer storefront.',
@@ -229,6 +269,11 @@ export const sotuvchiBuyerTools = [
     'Resolve a numeric reply as a pending budget or request confirmation.',
     budgetSchema,
   )),
+  eraseTool(buyerTool(
+    'catalog.similar',
+    'List deterministic similar products from the same trusted store.',
+    productRefOnlySchema,
+  )),
 ] as const;
 
 const BUYER_OPERATIONS = new Set(
@@ -244,6 +289,24 @@ export function createSotuvchiBuyerDomainPort(
         throw new BuyerQueryValidationError();
       }
       switch (call.operation) {
+        case 'catalog.categories': {
+          emptySchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.categories(call.org),
+            call.org.locale,
+          );
+        }
+        case 'catalog.category.products': {
+          const input = categorySchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.category(
+              call.org,
+              input.categoryId,
+              input.offset,
+            ),
+            call.org.locale,
+          );
+        }
         case 'catalog.list': {
           const input = listSchema.parse(call.input);
           return projectBuyerFacts(
@@ -291,6 +354,13 @@ export function createSotuvchiBuyerDomainPort(
           const input = budgetSchema.parse(call.input);
           return projectBuyerFacts(
             await service.resolveBudget(call.org, input.amountMinor),
+            call.org.locale,
+          );
+        }
+        case 'catalog.similar': {
+          const input = productRefOnlySchema.parse(call.input);
+          return projectBuyerFacts(
+            await service.similar(call.org, input.productRef),
             call.org.locale,
           );
         }

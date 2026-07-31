@@ -181,3 +181,47 @@ Evidence at this checkpoint:
 Production migration, Telegram metadata mutation and deployment remain
 intentionally deferred until all R1.1 slices, full gates and independent
 main-to-feature review pass.
+
+## Implementation checkpoint: grounded catalog and search
+
+The catalog-quality slice adds a deterministic, database-grounded catalog
+experience without introducing an AI write path:
+
+- catalog and search pages render at most four product cards;
+- active categories are visible only when they contain a published product,
+  with an all-products fallback and bounded pagination;
+- product aliases and verified bilingual specification labels are validated
+  as closed, bounded JSON structures;
+- search ranks exact names, exact aliases, prefixes, categories, all-token and
+  partial-token matches, then availability and freshness;
+- every internal ranked result carries confidence, matched/unmatched
+  constraints, reason codes and source product/store IDs;
+- cards project the verified store name and at most four verified
+  specifications through scalar Facts;
+- similar-product ranking excludes the source product, prefers the same
+  category and available items, and never leaves the trusted storefront;
+- the product ceiling is raised to 100 so the required 30–50 product
+  synthetic fixture can be created, while a single buyer response remains
+  capped at four cards and the search candidate scan at 200 rows;
+- `0027_market_catalog_quality.sql` additively introduces only validated
+  search aliases and specification JSON. Existing products receive empty
+  arrays.
+
+Security and grounding review confirmed that category and product callback
+references are re-resolved under the current org/store session, archived or
+unpublished rows remain excluded, response drafts stay within the 64-Fact,
+five-message, eight-field and four-card-action platform bounds, and internal
+ranking metadata is not rendered to the buyer.
+
+Evidence at this checkpoint:
+
+- catalog/search/checkout targeted corpus: `142/142 PASS`;
+- expanded Sotuvchi, Telegram webhook, Owner Center and release regression:
+  `416/416 PASS`;
+- TypeScript project build: `PASS`;
+- `git diff --check`: `PASS`.
+
+List and search responses intentionally omit specifications from their Facts
+projection; verified specifications remain available on the full product card.
+This keeps the worst-case four-card page below the platform's 64-Fact ceiling
+even when every product stores the maximum rendered specification set.

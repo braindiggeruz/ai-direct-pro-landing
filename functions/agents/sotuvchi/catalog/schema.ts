@@ -39,6 +39,12 @@ export const SOTUVCHI_CATALOG_DDL = [
     media_refs_json TEXT NOT NULL
       CHECK (json_valid(media_refs_json)
         AND json_type(media_refs_json) = 'array'),
+    search_terms_json TEXT NOT NULL DEFAULT '[]'
+      CHECK (json_valid(search_terms_json)
+        AND json_type(search_terms_json) = 'array'),
+    specifications_json TEXT NOT NULL DEFAULT '[]'
+      CHECK (json_valid(specifications_json)
+        AND json_type(specifications_json) = 'array'),
     version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),
     last_operation_key TEXT NOT NULL,
     created_at TEXT NOT NULL,
@@ -118,6 +124,17 @@ const SOTUVCHI_BUYER_SESSION_UPGRADES = [
   'ALTER TABLE sotuvchi_storefront_sessions ADD COLUMN pending_at TEXT',
 ] as const;
 
+const SOTUVCHI_PRODUCT_QUALITY_UPGRADES = [
+  `ALTER TABLE sotuvchi_products ADD COLUMN search_terms_json TEXT
+    NOT NULL DEFAULT '[]'
+    CHECK (json_valid(search_terms_json)
+      AND json_type(search_terms_json) = 'array')`,
+  `ALTER TABLE sotuvchi_products ADD COLUMN specifications_json TEXT
+    NOT NULL DEFAULT '[]'
+    CHECK (json_valid(specifications_json)
+      AND json_type(specifications_json) = 'array')`,
+] as const;
+
 function isDuplicateColumn(error: unknown): boolean {
   return error instanceof Error
     && /duplicate column name/i.test(error.message);
@@ -134,6 +151,13 @@ export function ensureSotuvchiCatalogSchema(db: D1Database): Promise<void> {
         await db.prepare(statement).run();
       }
       for (const statement of SOTUVCHI_BUYER_SESSION_UPGRADES) {
+        try {
+          await db.prepare(statement).run();
+        } catch (error) {
+          if (!isDuplicateColumn(error)) throw error;
+        }
+      }
+      for (const statement of SOTUVCHI_PRODUCT_QUALITY_UPGRADES) {
         try {
           await db.prepare(statement).run();
         } catch (error) {

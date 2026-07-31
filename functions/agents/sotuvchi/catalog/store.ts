@@ -1,5 +1,6 @@
 import type { Locale } from '../../../platform/contracts';
 import type {
+  BuyerCatalogCategory,
   CatalogCategory,
   CatalogProduct,
   CatalogProductCandidate,
@@ -18,9 +19,11 @@ import {
   normalizeMediaRefs,
   normalizePriceMinor,
   normalizeProductDescription,
+  normalizeProductSpecifications,
   normalizedProductName,
   normalizeProductName,
   normalizeProductStatus,
+  normalizeSearchTerms,
   normalizeSku,
   normalizeSortOrder,
   requireBotUsername,
@@ -28,13 +31,15 @@ import {
   requireCategorySlug,
   requireProductVersion,
 } from './validation';
+import { normalizeStoreName } from '../onboarding/validation';
 
 const CATEGORY_COLUMNS =
   'id, org_id, store_id, name, slug, status, sort_order, created_at, updated_at';
 const PRODUCT_COLUMNS =
   'id, org_id, store_id, category_id, sku, name, normalized_name, '
   + 'description, price_minor, currency, availability, status, '
-  + 'media_refs_json, version, created_at, updated_at';
+  + 'media_refs_json, search_terms_json, specifications_json, '
+  + 'version, created_at, updated_at';
 const SESSION_COLUMNS =
   'id, bot_username, identity_id, org_id, store_id, status, '
   + 'last_product_id, last_intent, selection_request_key, selected_at, '
@@ -67,6 +72,8 @@ interface ProductRow {
   availability: string;
   status: string;
   media_refs_json: string;
+  search_terms_json: string;
+  specifications_json: string;
   version: number;
   created_at: string;
   updated_at: string;
@@ -74,6 +81,7 @@ interface ProductRow {
 
 interface CandidateRow extends ProductRow {
   category_name: string | null;
+  store_name: string;
 }
 
 interface SessionRow {
@@ -109,6 +117,7 @@ export interface CatalogOperationRecord {
 export interface CatalogOwnerStore {
   id: string;
   orgId: string;
+  name: string;
   locale: Locale;
 }
 
@@ -145,6 +154,8 @@ export interface CatalogProductWrite {
   availability: 'available' | 'unavailable' | 'preorder';
   status: CatalogProductStatus;
   mediaRefs: readonly string[];
+  searchTerms: readonly string[];
+  specifications: CatalogProduct['specifications'];
   version: number;
   createdAt: string;
   updatedAt: string;
@@ -237,6 +248,14 @@ export interface CatalogStore {
     context: StorefrontContext,
     limit: number,
   ): Promise<CatalogProductCandidate[]>;
+  listPublishedByCategory(
+    context: StorefrontContext,
+    categoryId: string,
+    limit: number,
+  ): Promise<CatalogProductCandidate[]>;
+  listBuyerCategories(
+    context: StorefrontContext,
+  ): Promise<BuyerCatalogCategory[]>;
   bindStorefrontSession(input: {
     botUsername: string;
     identityId: string;
@@ -331,6 +350,10 @@ function fromProductRow(row: ProductRow): CatalogProduct {
       availability: normalizeAvailability(row.availability),
       status: normalizeProductStatus(row.status),
       mediaRefs: normalizeMediaRefs(JSON.parse(row.media_refs_json)),
+      searchTerms: normalizeSearchTerms(JSON.parse(row.search_terms_json)),
+      specifications: normalizeProductSpecifications(
+        JSON.parse(row.specifications_json),
+      ),
       version: requireProductVersion(row.version),
       createdAt: row.created_at,
       updatedAt: row.updated_at,
@@ -442,7 +465,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       const tenantId = requireCatalogId(orgId);
       const actorId = requireCatalogId(identityId);
       const row = await db
-        .prepare(`SELECT store.id, store.org_id, store.locale
+        .prepare(`SELECT store.id, store.org_id, store.name, store.locale
                   FROM sotuvchi_stores AS store
                   JOIN memberships AS membership
                     ON membership.org_id = store.org_id
@@ -451,7 +474,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                    AND membership.status = 'active'
                   WHERE store.org_id = ? AND store.status = 'active'`)
         .bind(actorId, tenantId)
-        .first<{ id: string; org_id: string; locale: string }>();
+        .first<{ id: string; org_id: string; name: string; locale: string }>();
       if (!row) return null;
       if (row.locale !== 'ru' && row.locale !== 'uz') {
         throw new CatalogPersistenceError('corrupt_row');
@@ -459,6 +482,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return {
         id: requireCatalogId(row.id),
         orgId: requireCatalogId(row.org_id),
+        name: normalizeStoreName(row.name),
         locale: row.locale,
       };
     },
@@ -467,11 +491,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       const tenantId = requireCatalogId(orgId);
       const id = requireCatalogId(storeId);
       const row = await db
-        .prepare(`SELECT id, org_id, locale
+        .prepare(`SELECT id, org_id, name, locale
                   FROM sotuvchi_stores
                   WHERE org_id = ? AND id = ? AND status = 'active'`)
         .bind(tenantId, id)
-        .first<{ id: string; org_id: string; locale: string }>();
+        .first<{ id: string; org_id: string; name: string; locale: string }>();
       if (!row) return null;
       if (row.locale !== 'ru' && row.locale !== 'uz') {
         throw new CatalogPersistenceError('corrupt_row');
@@ -479,6 +503,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return {
         id: requireCatalogId(row.id),
         orgId: requireCatalogId(row.org_id),
+        name: normalizeStoreName(row.name),
         locale: row.locale,
       };
     },
@@ -486,11 +511,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
     async findActiveStoreByOrg(orgId) {
       const tenantId = requireCatalogId(orgId);
       const row = await db
-        .prepare(`SELECT id, org_id, locale
+        .prepare(`SELECT id, org_id, name, locale
                   FROM sotuvchi_stores
                   WHERE org_id = ? AND status = 'active'`)
         .bind(tenantId)
-        .first<{ id: string; org_id: string; locale: string }>();
+        .first<{ id: string; org_id: string; name: string; locale: string }>();
       if (!row) return null;
       if (row.locale !== 'ru' && row.locale !== 'uz') {
         throw new CatalogPersistenceError('corrupt_row');
@@ -498,6 +523,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return {
         id: requireCatalogId(row.id),
         orgId: requireCatalogId(row.org_id),
+        name: normalizeStoreName(row.name),
         locale: row.locale,
       };
     },
@@ -799,9 +825,10 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         db.prepare(`INSERT INTO sotuvchi_products
           (id, org_id, store_id, category_id, sku, name, normalized_name,
            description, price_minor, currency, availability, status,
-           media_refs_json, version, last_operation_key, created_at, updated_at)
+           media_refs_json, search_terms_json, specifications_json,
+           version, last_operation_key, created_at, updated_at)
           SELECT ?, store.org_id, store.id, ?, ?, ?, ?, ?, ?, 'UZS', ?,
-                 'draft', ?, 1, ?, ?, ?
+                 'draft', ?, ?, ?, 1, ?, ?, ?
           FROM sotuvchi_stores AS store
           JOIN memberships AS membership
             ON membership.org_id = store.org_id
@@ -814,7 +841,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
               WHERE existing.org_id = store.org_id
                 AND existing.store_id = store.id
                 AND existing.status <> 'archived'
-            ) < 20`)
+            ) < 100`)
           .bind(
             product.id,
             product.categoryId,
@@ -825,6 +852,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
             product.priceMinor,
             product.availability,
             JSON.stringify(product.mediaRefs),
+            JSON.stringify(product.searchTerms),
+            JSON.stringify(product.specifications),
             operation.idempotencyKey,
             product.createdAt,
             product.updatedAt,
@@ -864,6 +893,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     SET category_id = ?, sku = ?, name = ?,
                         normalized_name = ?, description = ?, price_minor = ?,
                         currency = 'UZS', availability = ?, media_refs_json = ?,
+                        search_terms_json = ?, specifications_json = ?,
                         version = version + 1, last_operation_key = ?,
                         updated_at = ?
                     WHERE org_id = ? AND store_id = ? AND id = ?
@@ -887,6 +917,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
             product.priceMinor,
             product.availability,
             JSON.stringify(product.mediaRefs),
+            JSON.stringify(product.searchTerms),
+            JSON.stringify(product.specifications),
             operation.idempotencyKey,
             product.updatedAt,
             product.orgId,
@@ -974,10 +1006,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return operationChanges(results);
     },
 
-    async findPublishedCandidates(context, normalizedQuery, tokens) {
+    async findPublishedCandidates(context, _normalizedQuery, _tokens) {
       const rows = await db
         .prepare(`SELECT ${qualified(PRODUCT_COLUMNS, 'product')},
-                         category.name AS category_name
+                         category.name AS category_name,
+                         store.name AS store_name
                   FROM sotuvchi_products AS product
                   JOIN sotuvchi_stores AS store
                     ON store.org_id = product.org_id
@@ -995,23 +1028,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     AND product.status = 'published'
                     AND (product.category_id IS NULL
                       OR category.status = 'active')
-                    AND (
-                      product.normalized_name = ?
-                      OR product.normalized_name LIKE ?
-                      OR EXISTS (
-                        SELECT 1 FROM json_each(?) AS query_token
-                        WHERE product.normalized_name
-                          LIKE '%' || query_token.value || '%'
-                      )
-                    )
                   ORDER BY product.normalized_name ASC, product.id ASC
                   LIMIT 200`)
         .bind(
           context.orgId,
           context.storeId,
-          normalizedQuery,
-          `${normalizedQuery}%`,
-          JSON.stringify(tokens),
         )
         .all<CandidateRow>();
       return (rows.results ?? []).map((row) => ({
@@ -1019,6 +1040,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         categoryName: row.category_name === null
           ? null
           : normalizeCategoryName(row.category_name),
+        storeName: normalizeStoreName(row.store_name),
         normalizedName: row.normalized_name,
       }));
     },
@@ -1026,7 +1048,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
     async listPublished(context, limit) {
       const rows = await db
         .prepare(`SELECT ${qualified(PRODUCT_COLUMNS, 'product')},
-                         category.name AS category_name
+                         category.name AS category_name,
+                         store.name AS store_name
                   FROM sotuvchi_products AS product
                   JOIN sotuvchi_stores AS store
                     ON store.org_id = product.org_id
@@ -1053,8 +1076,94 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         categoryName: row.category_name === null
           ? null
           : normalizeCategoryName(row.category_name),
+        storeName: normalizeStoreName(row.store_name),
         normalizedName: row.normalized_name,
       }));
+    },
+
+    async listPublishedByCategory(context, categoryId, limit) {
+      const rows = await db
+        .prepare(`SELECT ${qualified(PRODUCT_COLUMNS, 'product')},
+                         category.name AS category_name,
+                         store.name AS store_name
+                  FROM sotuvchi_products AS product
+                  JOIN sotuvchi_stores AS store
+                    ON store.org_id = product.org_id
+                   AND store.id = product.store_id
+                   AND store.status = 'active'
+                  JOIN sotuvchi_categories AS category
+                    ON category.org_id = product.org_id
+                   AND category.store_id = product.store_id
+                   AND category.id = product.category_id
+                   AND category.status = 'active'
+                  JOIN owner_pilot_stores AS pilot
+                    ON pilot.org_id = store.org_id
+                   AND pilot.store_id = store.id
+                   AND pilot.state = 'active'
+                  WHERE product.org_id = ?
+                    AND product.store_id = ?
+                    AND product.category_id = ?
+                    AND product.status = 'published'
+                  ORDER BY product.normalized_name ASC, product.id ASC
+                  LIMIT ?`)
+        .bind(
+          context.orgId,
+          context.storeId,
+          requireCatalogId(categoryId),
+          limit,
+        )
+        .all<CandidateRow>();
+      return (rows.results ?? []).map((row) => ({
+        product: fromProductRow(row),
+        categoryName: normalizeCategoryName(row.category_name),
+        storeName: normalizeStoreName(row.store_name),
+        normalizedName: row.normalized_name,
+      }));
+    },
+
+    async listBuyerCategories(context) {
+      const rows = await db
+        .prepare(`SELECT category.id,
+                         category.name,
+                         COUNT(product.id) AS product_count
+                  FROM sotuvchi_categories AS category
+                  JOIN sotuvchi_stores AS store
+                    ON store.org_id = category.org_id
+                   AND store.id = category.store_id
+                   AND store.status = 'active'
+                  JOIN owner_pilot_stores AS pilot
+                    ON pilot.org_id = store.org_id
+                   AND pilot.store_id = store.id
+                   AND pilot.state = 'active'
+                  JOIN sotuvchi_products AS product
+                    ON product.org_id = category.org_id
+                   AND product.store_id = category.store_id
+                   AND product.category_id = category.id
+                   AND product.status = 'published'
+                  WHERE category.org_id = ?
+                    AND category.store_id = ?
+                    AND category.status = 'active'
+                  GROUP BY category.id, category.name, category.sort_order
+                  ORDER BY category.sort_order ASC, category.name ASC,
+                           category.id ASC
+                  LIMIT 10`)
+        .bind(context.orgId, context.storeId)
+        .all<{ id: string; name: string; product_count: number }>();
+      return (rows.results ?? []).map((row) => {
+        const productCount = Number(row.product_count);
+        if (
+          !Number.isInteger(productCount)
+          || productCount < 1
+          || productCount > 100
+        ) {
+          throw new CatalogPersistenceError('corrupt_row');
+        }
+        return {
+          id: requireCatalogId(row.id),
+          name: normalizeCategoryName(row.name),
+          productCount,
+        };
+      });
     },
 
     async bindStorefrontSession(input) {

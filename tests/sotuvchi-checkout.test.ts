@@ -1292,7 +1292,7 @@ test('Telegram RU checkout runs card to order without payment surface', async ()
   ));
   await harness.invoke(telegramMessage(970_002, 97001, 'Alpha Phone', 'ru'));
   const card = JSON.stringify(harness.delivery.sent);
-  assert.ok(card.includes('Оформить'));
+  assert.ok(card.includes('Заказать'));
   assert.ok(card.includes(`buyer-checkout.${product.id}`));
 
   await harness.invoke(telegramCallback(
@@ -1353,7 +1353,7 @@ test('Telegram UZ checkout and duplicate update stay single-effect', async () =>
     'uz',
   ));
   await harness.invoke(telegramMessage(980_002, 98001, 'Samsung Sinov', 'uz'));
-  assert.ok(JSON.stringify(harness.delivery.sent).includes('Rasmiylashtirish'));
+  assert.ok(JSON.stringify(harness.delivery.sent).includes('Buyurtma berish'));
   await harness.invoke(telegramCallback(
     980_003,
     98001,

@@ -54,7 +54,9 @@ export {
   normalizeMediaRefs,
   normalizePriceMinor,
   normalizeProductDescription,
+  normalizeProductSpecifications,
   normalizeProductName,
+  normalizeSearchTerms,
   normalizedProductName,
   normalizeSku,
   normalizeStoreOwnerContext,
@@ -73,10 +75,12 @@ export {
 } from './types';
 export type {
   CatalogAvailability,
+  BuyerCatalogCategory,
   CatalogCategory,
   CatalogCategoryStatus,
   CatalogOwnerSeed,
   CatalogProduct,
+  CatalogProductSpecification,
   CatalogProductCandidate,
   CatalogProductStatus,
   CatalogSearchResult,

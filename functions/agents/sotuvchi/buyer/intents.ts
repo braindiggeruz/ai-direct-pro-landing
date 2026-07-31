@@ -1,5 +1,8 @@
 export const BUYER_INTENTS = [
   'catalog.list',
+  'catalog.categories',
+  'catalog.category',
+  'catalog.similar',
   'catalog.search',
   'product.price',
   'product.availability',

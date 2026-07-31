@@ -7,6 +7,7 @@ import { createTelegramAgentsRuntimeWiring } from '../functions/api/telegram/age
 import {
   BuyerQueryValidationError,
   composeBuyerResponse,
+  createSotuvchiBuyerQueryService,
   createSotuvchiCatalogService,
   createSotuvchiOnboardingService,
   formatBuyerAvailability,
@@ -28,7 +29,10 @@ import {
   type TelegramDeliveryPort,
 } from '../functions/channels/telegram';
 import { createIdentityService } from '../functions/platform/identity';
-import { groundResponse } from '../functions/platform/runtime';
+import {
+  groundResponse,
+  validateFactSheet,
+} from '../functions/platform/runtime';
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { activatePilotStore } from './helpers/pilot-store';
 
@@ -122,6 +126,13 @@ async function createAndPublish(
     priceMinor: number;
     availability: 'available' | 'unavailable' | 'preorder';
     categoryId: string | null;
+    searchTerms: readonly string[];
+    specifications: readonly {
+      key: string;
+      labelRu: string;
+      labelUz: string;
+      value: string;
+    }[];
   }> = {},
 ): Promise<CatalogProduct> {
   const draft = await setup.catalog.createProduct(nextOwner(setup.owner), {
@@ -310,6 +321,8 @@ function resultFixture(
     availability: 'available',
     status: 'published',
     mediaRefs: ['opaque-hidden'],
+    searchTerms: [],
+    specifications: [],
     version: 9,
     createdAt: '2026-01-01T00:00:00.000Z',
     updatedAt: '2026-01-01T00:00:00.000Z',
@@ -320,11 +333,18 @@ function resultFixture(
     results: [{
       product,
       categoryName: 'Ichimliklar',
+      storeName: 'Sinov do‘koni',
       score: 4_000,
       matchedTokens: 1,
+      matchedConstraints: ['text'],
+      unmatchedConstraints: [],
+      confidence: 'high',
+      reasonCodes: ['exact_name', 'available'],
+      sourceProductId: product.id,
+      sourceStoreId: product.storeId,
     }],
     hasMore: false,
-    nextOffset: 5,
+    nextOffset: 4,
     fullCard: true,
     state: 'ok',
   };
@@ -461,6 +481,30 @@ test('buyer Runtime lists, searches and filters only published products', async 
     context: setup.storefront,
   });
   const runtime = createTelegramAgentsRuntimeWiring(fixture.asD1(), BOT).runtime;
+  const directList = await createSotuvchiBuyerQueryService(
+    setup.catalog,
+    BOT,
+  ).list({
+    orgId: setup.storefront.orgId,
+    actorId: buyer.identity.id,
+    requestId: requestId('direct'),
+    locale: 'ru',
+  }, 0);
+  const directValues = projectBuyerFacts(directList, 'ru');
+  assert.ok(
+    Object.keys(directValues).length <= 64,
+    String(Object.keys(directValues).length),
+  );
+  assert.deepEqual(
+    Object.keys(directValues).filter(
+      (key) => !/^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$/.test(key),
+    ),
+    [],
+  );
+  assert.doesNotThrow(() => validateFactSheet(
+    { toolName: 'catalog.list', values: directValues },
+    'catalog.list',
+  ));
   const base = {
     orgId: setup.storefront.orgId,
     agentId: 'sotuvchi',
@@ -472,7 +516,15 @@ test('buyer Runtime lists, searches and filters only published products', async 
     requestId: requestId('runtime'),
     message: { kind: 'text' as const, text: 'что у вас есть' },
   });
-  assert.equal(listed.status, 'answered');
+  assert.equal(listed.status, 'answered', JSON.stringify({
+    status: listed.status,
+    reasonCode: listed.reasonCode,
+    toolExecutions: listed.toolExecutions,
+    grounding: listed.grounding,
+    factKeys: listed.facts[0]
+      ? Object.keys(listed.facts[0].values).length
+      : 0,
+  }));
   assert.equal(listed.facts[0].values['catalog.result.count'], 2);
   assert.ok(!JSON.stringify(listed).includes('Hidden Phone'));
 
@@ -497,6 +549,127 @@ test('buyer Runtime lists, searches and filters only published products', async 
     filtered.facts[0].values['catalog.results.0.name'],
     'Alpha Phone',
   );
+});
+
+test('category catalog renders four grounded cards and deterministic similar products', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '910011');
+  const category = await setup.catalog.createCategory(
+    nextOwner(setup.owner),
+    { name: 'Тестовые телефоны', sortOrder: 1 },
+  );
+  const products: CatalogProduct[] = [];
+  for (let index = 1; index <= 6; index += 1) {
+    products.push(await createAndPublish(setup, {
+      name: `Category Phone ${index}`,
+      categoryId: category.id,
+      priceMinor: 100_000 + index * 1_000,
+      specifications: [
+        {
+          key: 'memory',
+          labelRu: 'Память',
+          labelUz: 'Xotira',
+          value: '128 GB',
+        },
+        {
+          key: 'color',
+          labelRu: 'Цвет',
+          labelUz: 'Rang',
+          value: 'Черный',
+        },
+        {
+          key: 'display',
+          labelRu: 'Экран',
+          labelUz: 'Ekran',
+          value: '6.1 inch',
+        },
+        {
+          key: 'warranty',
+          labelRu: 'Гарантия',
+          labelUz: 'Kafolat',
+          value: '12 месяцев',
+        },
+      ],
+    }));
+  }
+  const buyer = await createIdentityService(fixture.asD1())
+    .getOrCreateIdentity('telegram', '919011');
+  await setup.catalog.bindStorefrontSession({
+    botUsername: BOT,
+    identityId: buyer.identity.id,
+    context: setup.storefront,
+  });
+  const runtime = createTelegramAgentsRuntimeWiring(fixture.asD1(), BOT).runtime;
+  const base = {
+    orgId: setup.storefront.orgId,
+    agentId: 'sotuvchi',
+    identityId: buyer.identity.id,
+    locale: 'ru' as const,
+  };
+
+  const categories = await runtime.run({
+    ...base,
+    requestId: requestId('category'),
+    message: { kind: 'action' as const, actionId: 'buyer-catalog-open' },
+  });
+  assert.equal(categories.status, 'answered');
+  assert.ok(categories.messages[0].choices?.some(
+    (choice) => choice.id === `buyer-category.${category.id}`,
+  ));
+
+  const firstPage = await runtime.run({
+    ...base,
+    requestId: requestId('category'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-category.${category.id}`,
+    },
+  });
+  assert.equal(firstPage.status, 'answered');
+  assert.equal(firstPage.facts[0].values['catalog.result.count'], 4);
+  assert.ok(Object.keys(firstPage.facts[0].values).length <= 64);
+  assert.equal(
+    firstPage.facts[0].values['catalog.results.0.specification_count'],
+    0,
+  );
+  assert.equal(firstPage.messages.length, 4);
+  assert.ok(firstPage.messages.every(
+    (message) => (message.card?.actions?.length ?? 0) <= 4,
+  ));
+  assert.ok(firstPage.messages.at(-1)?.choices?.some(
+    (choice) => choice.id === `buyer-category-next.${category.id}.4`,
+  ));
+
+  const similar = await runtime.run({
+    ...base,
+    requestId: requestId('similar'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-similar.${products[0].id}`,
+    },
+  });
+  assert.equal(similar.status, 'answered');
+  assert.ok(
+    Number(similar.facts[0].values['catalog.result.count']) <= 4,
+  );
+  const similarCount = Number(
+    similar.facts[0].values['catalog.result.count'],
+  );
+  assert.ok(Array.from({ length: similarCount }, (_unused, index) =>
+    similar.facts[0].values[`catalog.results.${index}.id`],
+  ).every((productId) => productId !== products[0].id));
+
+  const details = await runtime.run({
+    ...base,
+    requestId: requestId('details'),
+    message: {
+      kind: 'action' as const,
+      actionId: `buyer-details.${products[0].id}`,
+    },
+  });
+  assert.equal(details.status, 'answered');
+  assert.ok(JSON.stringify(details.messages).includes('128 GB'));
+  assert.ok(JSON.stringify(details.messages).includes('Тестовый магазин'));
 });
 
 test('price filter sorting is price, normalized name, then opaque id', async () => {

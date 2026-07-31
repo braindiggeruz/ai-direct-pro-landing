@@ -34,15 +34,45 @@ export const sotuvchiBuyerActionRule: DeterministicRule = {
     if (input.message.actionId === 'buyer-catalog-open') {
       return {
         kind: 'tool',
-        toolName: 'catalog.list',
-        input: { offset: 0 },
+        toolName: 'catalog.categories',
+        input: {},
       };
     }
     if (input.message.actionId === 'buyer-back') {
       return {
         kind: 'tool',
+        toolName: 'catalog.categories',
+        input: {},
+      };
+    }
+    if (input.message.actionId === 'buyer-all-products') {
+      return {
+        kind: 'tool',
         toolName: 'catalog.list',
         input: { offset: 0 },
+      };
+    }
+    const categoryNext =
+      /^buyer-category-next\.([a-z0-9][a-z0-9._-]{0,23})\.(\d{1,2})$/
+        .exec(input.message.actionId);
+    if (categoryNext) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.category.products',
+        input: {
+          categoryId: categoryNext[1],
+          offset: Number(categoryNext[2]),
+        },
+      };
+    }
+    const category =
+      /^buyer-category\.([a-z0-9][a-z0-9._-]{0,31})$/
+        .exec(input.message.actionId);
+    if (category) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.category.products',
+        input: { categoryId: category[1], offset: 0 },
       };
     }
     const details =
@@ -77,6 +107,16 @@ export const sotuvchiBuyerActionRule: DeterministicRule = {
           maxPriceMinor: Number(priceNext[1]),
           offset: Number(priceNext[2]),
         },
+      };
+    }
+    const similar =
+      /^buyer-similar\.([a-z0-9][a-z0-9._-]{0,31})$/
+        .exec(input.message.actionId);
+    if (similar) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.similar',
+        input: { productRef: similar[1] },
       };
     }
     const budget = /^buyer-budget\.(\d{1,13})$/.exec(
