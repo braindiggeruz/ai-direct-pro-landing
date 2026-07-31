@@ -546,3 +546,65 @@ Evidence at this checkpoint:
 
 No remote D1 query/write, migration, Bot API mutation, push or deployment was
 performed.
+
+## Pre-release checkpoint: integrated gates and security review
+
+The feature branch was fetched and integrated with current `origin/main`
+before final review. Two already-merged Search Pulse commits were preserved;
+their ten TypeScript/TSX files and dedicated suite were reviewed separately.
+They add an authenticated, version-aware submission path for already-published
+URLs and do not create or publish content. They do not change the Market
+tenant, order, Telegram or automation boundaries.
+
+The R1.1 review covered all changed runtime, migration, fixture, projection and
+release files. Two defense-in-depth findings were fixed before approval:
+
+1. the isolated Agents webhook secret used an ordinary string comparison; it
+   now uses a fixed-expected-length comparison without an early content exit;
+2. rate-limit scope keys used unkeyed SHA-256 over low-entropy identifiers;
+   they now use HMAC-SHA-256 with the isolated webhook secret as a server-only
+   pepper. Missing/weak keys fail closed and raw identifiers remain absent.
+
+The review also verified:
+
+- webhook method, secret, body-size, update grammar, reservation and terminal
+  replay behavior;
+- user/chat/bot/tenant/callback limits, one-notice suppression, retry ceilings
+  and content-free logs/telemetry;
+- tenant/store authority for catalog, comparison, checkout, history, seller
+  status and handoff;
+- one logical order, one notification and one stock decrement per trusted
+  operation;
+- scalar analytics projection, PII-free OCC aggregates and owner/support role
+  boundaries;
+- deterministic provider-independent buyer paths and strict Facts grounding;
+- ordered additive migrations, append-only fixture SQL and exact target
+  guards;
+- exact bot identity checks, dry-run defaults and RU/UZ metadata restricted to
+  implemented commands.
+
+Integrated gate evidence:
+
+- complete repository corpus in four bounded batches: `979/979 PASS` across
+  39 suites;
+- changed Market TypeScript/TSX: 84 files, ESLint `PASS`;
+- inherited Search Pulse TypeScript/TSX: 10 files, ESLint `PASS`;
+- app TypeScript build and Functions TypeScript build: `PASS`;
+- agent boundary checker: zero violations;
+- production root build: `PASS` with zero critical SEO findings, 113 pages,
+  112 articles and 228 sitemap entries;
+- backend typecheck/build and Pages Functions compile: `PASS`;
+- Yarn production audit: 0 vulnerabilities across 115 packages;
+- backend npm production audit: 0 vulnerabilities;
+- secret scan: `2676 files checked`, clean;
+- `git diff --check` and `git fsck --full`: `PASS` (two harmless dangling
+  objects only).
+
+Repository-wide ESLint remains a documented legacy debt and is not the scoped
+release gate: it reports 62 errors and 12 warnings in old backend, SEO/admin
+and animate-ui files outside this sprint. No R1.1 or inherited Search Pulse
+file contributes an error.
+
+Review verdict: source is ready for exact-SHA merge/retest and read-only
+production preflight. No remote D1 query/write, Bot API mutation, push or
+deployment had occurred at this checkpoint.
