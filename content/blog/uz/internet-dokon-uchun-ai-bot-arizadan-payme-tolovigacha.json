@@ -1,0 +1,231 @@
+{
+  "status": "draft",
+  "locale": "uz",
+  "slug": "internet-dokon-uchun-ai-bot-arizadan-payme-tolovigacha",
+  "url": "/uz/blog/internet-dokon-uchun-ai-bot-arizadan-payme-tolovigacha/",
+  "title": "Do'kon uchun AI-bot: arizadan Payme to'lovigacha",
+  "description": "O'zbekistondagi internet-do'kon uchun AI-botda to'liq savdo sikli: konsultatsiya, buyurtma, Payme/Click to'lovi, yetkazish. Ssenariy, integratsiyalar va xatolar.",
+  "h1": "O'zbekistonda internet-do'kon uchun AI-bot: arizadan Payme orqali to'lovgacha",
+  "topicCluster": "ai-bot-dlya-magazina",
+  "targetMoneyPage": "/uz/dokon-uchun-ai-bot/",
+  "keywords": [
+    "internet-do'kon uchun AI-bot",
+    "Payme to'lovli bot",
+    "Telegram-bot do'kon O'zbekiston",
+    "botda Click to'lovi",
+    "buyurtma qabul qiluvchi bot",
+    "Toshkent do'kon uchun chat-bot",
+    "Telegram-bot orqali savdo"
+  ],
+  "intro": "O'zbekistondagi internet-do'konlar saytdagi savatcha orqali emas, yozishma orqali sotadi: mijoz Telegram yoki Instagram'ga yozadi, mavjudlik va narxni so'raydi — va o'sha yerda sotib oladi. AI-bot bu yozishmani boshqariladigan voronkaga aylantiradi: birinchi savoldan Payme yoki Click orqali to'lovgacha — menejer ishtirokisiz.",
+  "body": [
+    {
+      "type": "p",
+      "text": "O'zbekistondagi internet-do'konlar saytdagi savatcha orqali emas, yozishma orqali sotadi: mijoz Telegram yoki Instagram'ga yozadi, mavjudlik va narxni so'raydi — va o'sha yerda sotib oladi. AI-bot bu yozishmani boshqariladigan voronkaga aylantiradi: birinchi savoldan Payme yoki Click orqali to'lovgacha — menejer ishtirokisiz."
+    },
+    {
+      "type": "h2",
+      "text": "Nega «yozishmadagi do'kon» buyurtmalarni yo'qotadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz «bormi?» deb so'raydi va javobni 40 daqiqa kutadi — shu vaqt ichida raqobatchidan buyurtma qiladi",
+        "Kechqurun va dam olish kunlarida, xarid faolligi cho'qqisida, menejerlar ishlamaydi",
+        "Menejer yetkazish bilan summani qo'lda hisoblaydi va xato qiladi",
+        "Karta rekvizitlari matn bilan yuboriladi — mijozlarning bir qismi ishonmaydi va ketadi",
+        "Buyurtmalar shaxsiy yozishmalarga sochilib ketgan: na statuslar, na statistika, na takroriy savdo"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Messenjerlar orqali ishlaydigan sotuvchilar qayd etadi: mavjudlik va narx haqidagi javob qancha tez bo'lsa, yakunlangan buyurtmalar ulushi shuncha yuqori — yozishmadagi xarid impulsiv va kechikish konversiyani o'ldiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Botdagi to'liq savdo sikli: 6 bosqich"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-bosqich. Konsultatsiya: bot katalog bo'yicha «bormi», «qancha turadi», «qaysi o'lcham/rang bor» savollariga javob beradi",
+        "2-bosqich. Tanlash: ehtiyojni aniqlab, foto va narx bilan 2–3 ta mos mahsulotni taklif qiladi",
+        "3-bosqich. Rasmiylashtirish: buyurtma tarkibi, yetkazish manzili, ism va telefonni yig'adi",
+        "4-bosqich. Hisob: zonalar bo'yicha (Toshkent, viloyatlar) yetkazish bilan jami summani hisoblab aytadi",
+        "5-bosqich. To'lov: to'g'ridan-to'g'ri Telegram'da Payme yoki Click hisobini chiqaradi — yoki «qabul qilishda naqd»ni qayd etadi",
+        "6-bosqich. Tasdiqlash: buyurtma raqami, yetkazish muddati, menejerga xabar va CRM'ga yozuv"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Telegram-botda Payme va Click to'lovi qanday ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "Payme va Click Telegram-botga rasmiy to'lov integratsiyalari orqali ulanadi: mijoz to'lov tugmasini bosadi, ma'lumotlarni to'lov tizimining himoyalangan oynasida kiritadi va chek oladi. Pul yuridik shaxs hisobiga tushadi — ulanish uchun to'lov provayderi bilan shartnoma kerak."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz Telegram'dan chiqmaydi — konversiya saytga o'tishdagidan yuqori",
+        "Hech qanday «kartaga o'tkazing» yo'q: rasmiy shlyuz orqali to'lov ishonchni oshiradi",
+        "Bot to'lov faktini o'zi tekshiradi va buyurtma statusini o'zgartiradi",
+        "Qabul qilishda naqd to'lov opsiya sifatida qoladi — bot arizada to'lov usulini belgilaydi",
+        "Humo va Uzcard to'lov shlyuzlari ichida qo'llab-quvvatlanadi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Katalog: bot mavjudlik va narxlarni qayerdan biladi"
+    },
+    {
+      "type": "p",
+      "text": "Minimal variant — bot bilim bazasi sifatida ishlatadigan mahsulotlar jadvali (nom, narx, mavjudlik, foto). Ilg'or varianti — qoldiqlar va narxlar avtomatik yangilanishi uchun 1C yoki CRM bilan integratsiya. Tez-tez aksiya qiladigan do'konlar uchun ikkinchi variant majburiy: eski narxni aytadigan bot ishonchni yemiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Bitta botda rus va o'zbek tili"
+    },
+    {
+      "type": "p",
+      "text": "Xaridorlar ikkala tilda yozadi va bot mahsulot kartochkalarini mijoz tilida taqdim eta olishi kerak. Bu mexanik tarjima emas: kategoriya nomlari, o'lcham setkalari va yetkazish iboralari sozlashda bir marta lokalizatsiya qilinadi."
+    },
+    {
+      "type": "h2",
+      "text": "Tashlab ketilgan buyurtmalar: bot qaytaradigan pul"
+    },
+    {
+      "type": "p",
+      "text": "Mijoz buyurtma rasmiylashtirib to'lamagan bo'lsa, bot belgilangan vaqtdan keyin eslatadi va to'lovga yordam yoki savollarga javob taklif qiladi. Bir sutka ichidagi yumshoq eslatma «osilib qolgan» buyurtmalarning sezilarli qismini qaytaradi — menejerlar buni qo'lda deyarli hech qachon qilmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Bot-do'kon ishga tushirishdagi tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bot sotadi, lekin yetkazish haqida bilmaydi — mijoz oxirgi qadamda osilib qoladi",
+        "Katalog bir marta yuklangan va yangilanmaydi: bot yo'q narsani taklif qiladi",
+        "Nostandart so'rovlar (ulgurji, qaytarish, kafolat) uchun menejerga uzatish yo'q",
+        "To'lov faqat kartaga o'tkazma orqali — ishonch va avtomatlashtirish ma'nosining yarmi yo'qoladi",
+        "Xabarnomalar sozlanmagan: buyurtma to'landi, ombor esa bu haqda bir soatdan keyin biladi"
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Bot-do'kon — katalogli chat emas, konsultantli kassa: sikldagi birorta zveno (mavjudlik, hisob, to'lov, tasdiq) tushib qolsa, konversiya ikki barobar tushadi."
+    },
+    {
+      "type": "h2",
+      "text": "Ishga tushirilgandan keyin do'kon nima oladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Buyurtmalar 24/7 qabul qilinadi va to'lanadi, shu jumladan cho'qqi kechalar va bayramlarda",
+        "Har bir buyurtma qayd etilgan: status, summa, to'lov usuli, manba",
+        "Menejerlar faqat ulgurji, qaytarish va murakkab holatlar bilan shug'ullanadi",
+        "Takroriy savdo va tarqatmalar uchun xaridorlar bazasi to'planadi",
+        "Shaffof statistika: qancha dialog, qancha buyurtma, qanday konversiya"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Natijani qanday o'lchash: bot-do'konning 5 metrikasi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mavjudlik va narx haqidagi birinchi javob vaqti — ishga tushirishdan oldin va keyin",
+        "Dialogdan rasmiylashtirilgan buyurtmaga konversiya — voronkaning asosiy metrikasi",
+        "Payme/Click orqali onlayn to'langan buyurtmalar ulushi naqdga nisbatan",
+        "Bot eslatmasidan keyin qaytarilgan «tashlab ketilgan» buyurtmalar foizi",
+        "Menejerga uzatilgan dialoglar ulushi — katalog va bilim bazasi to'liqligining indikatori"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Birinchi ikki oy metrikalarni haftama-hafta solishtiring: konversiya o'sishi odatda bilim bazasi to'ldirilishi va katalog yangilanishidan keyin pog'onama-pog'ona boradi. Menejerga uzatishlar ulushi kamaymayotgan bo'lsa, bot assortiment yoki yetkazish shartlarining bir qismini bilmaydi."
+    },
+    {
+      "type": "cta",
+      "text": "Do'kon uchun botni ishga tushirish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "p",
+      "text": "Nishangizga mos katalog va Payme/Click to'lovli ishlaydigan bot demosini ko'rsatamiz — Telegram'ga yozing, ish kuni davomida javob beramiz."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Botga Payme yoki Click ulash uchun nima kerak?",
+      "a": "Yuridik shaxs yoki YaTT va to'lov provayderi bilan shartnoma. Kalitlar olingandan keyin botga integratsiya bir necha kun oladi — to'lov rasmiy himoyalangan oyna orqali ishlaydi."
+    },
+    {
+      "q": "Bot Telegram'da ham, Instagram'da ham ishlay oladimi?",
+      "a": "Ha. To'lovli to'liq sikl eng yaxshi Telegram'da ishlaydi, Instagram-bot esa konsultatsiya qiladi, buyurtma yig'adi va mijozni to'lov uchun Telegram'ga o'tkazadi — yoki arizani menejerga uzatadi."
+    },
+    {
+      "q": "Bot mahsulot qoldiqlarini qayerdan biladi?",
+      "a": "Siz yangilab boradigan mahsulotlar jadvalidan yoki integratsiya orqali 1C/CRM'dan avtomatik. Katta aylanmali do'konlarga avtomatik sinxronizatsiyani tavsiya qilamiz."
+    },
+    {
+      "q": "Mijoz qabul qilishda naqd to'lamoqchi bo'lsa-chi?",
+      "a": "Bot buyurtmani «yetkazib berishda naqd to'lov» usuli bilan rasmiylashtiradi — bu O'zbekiston uchun odatiy ssenariy va u Payme hamda Click bilan bir qatorda to'liq qo'llab-quvvatlanadi."
+    },
+    {
+      "q": "To'lovli bot-do'kon qancha turadi?",
+      "a": "Katalog hajmi, kanallar soni va integratsiyalarga (1C, CRM, to'lov shlyuzi) bog'liq. Bitta kanalda katalog va to'lovli bazaviy bot 1–2 haftada ishga tushadi — aniq smetani brifdan keyin hisoblaymiz."
+    }
+  ],
+  "cta": {
+    "label": "Telegram'da demo so'rash",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/dokon-uchun-ai-bot/",
+      "anchor": "Do'kon uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram-bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 bilan AI-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram Direct bot",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Internet-do'kon uchun AI-bot: arizadan Payme to'lovigacha",
+  "ogDescription": "Botdagi to'liq savdo sikli: katalog bo'yicha konsultatsiya, buyurtma rasmiylashtirish, Payme/Click to'lovi, tasdiqlash. O'zbekiston uchun ssenariy.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/internet-dokon-uchun-ai-bot-arizadan-payme-tolovigacha/",
+  "hreflangRu": "/ru/blog/ai-bot-dlya-internet-magazina-ot-zayavki-do-oplaty-payme/",
+  "hreflangUz": "/uz/blog/internet-dokon-uchun-ai-bot-arizadan-payme-tolovigacha/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-07-03",
+  "dateModified": "2026-07-03",
+  "schemaTypes": [
+    "Organization",
+    "WebSite"
+  ],
+  "updatedAt": "2026-07-03T10:00:00.000Z",
+  "createdAt": "2026-07-03T10:00:00.000Z"
+}

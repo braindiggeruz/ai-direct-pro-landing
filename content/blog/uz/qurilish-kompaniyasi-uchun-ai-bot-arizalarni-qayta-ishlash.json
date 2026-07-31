@@ -1,0 +1,229 @@
+{
+  "status": "draft",
+  "locale": "uz",
+  "slug": "qurilish-kompaniyasi-uchun-ai-bot-arizalarni-qayta-ishlash",
+  "url": "/uz/blog/qurilish-kompaniyasi-uchun-ai-bot-arizalarni-qayta-ishlash/",
+  "title": "Qurilish kompaniyasi uchun AI-bot: arizalar 24/7",
+  "description": "O'zbekistondagi qurilish kompaniyalari sayt va reklamadan kelgan arizalarni AI-bot yordamida qanday yo'qotmasdan qayta ishlaydi: kvalifikatsiya ssenariysi, CRM integratsiyasi, xatolar.",
+  "h1": "O'zbekistonda qurilish kompaniyasi uchun AI-bot: arizalarni yo'qotishni to'xtating",
+  "topicCluster": "ai-dlya-nish",
+  "targetMoneyPage": "/uz/arizalarni-qabul-qiluvchi-bot/",
+  "keywords": [
+    "qurilish kompaniyasi uchun AI-bot",
+    "qurilish arizalarini qayta ishlash boti",
+    "chat-bot qurilish O'zbekiston",
+    "Toshkent qurilish arizalarni avtomatlashtirish",
+    "quruvchi uchun AI-bot",
+    "saytdan ariza qabul qiluvchi bot",
+    "qurilishda lidlarni saralash"
+  ],
+  "intro": "Qurilish kompaniyasiga arizalar to'lqin bo'lib keladi: reklama ishga tushgach, yangi obyekt e'lon qilingach yoki mavsumiy talab paytida. Menejerlar hammaga javob berishga jismonan ulgurmaydi — eng «issiq» mijozlar birinchi javob berganga ketadi. AI-bot bu bo'shliqni qanday yopishini ko'rib chiqamiz: kvalifikatsiya ssenariysidan CRM'ga uzatishgacha.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qurilish kompaniyasiga arizalar to'lqin bo'lib keladi: reklama ishga tushgach, yangi obyekt e'lon qilingach yoki mavsumiy talab paytida. Menejerlar hammaga javob berishga jismonan ulgurmaydi — eng «issiq» mijozlar birinchi javob berganga ketadi. AI-bot bu bo'shliqni qanday yopishini ko'rib chiqamiz: kvalifikatsiya ssenariysidan CRM'ga uzatishgacha."
+    },
+    {
+      "type": "h2",
+      "text": "Nega qurilish biznesi arizalarni boshqalardan ko'proq yo'qotadi"
+    },
+    {
+      "type": "p",
+      "text": "Qurilish va ta'mirlashda bitim sikli uzoq, o'rtacha chek esa O'zbekiston bozoridagi eng yuqorilaridan biri. Shu bilan birga birinchi muloqot deyarli har doim muvaffaqiyatsiz: mijoz saytda ariza qoldiradi yoki reklamani ko'rib Telegram'ga yozadi, javobni esa bir necha soatdan keyin — allaqachon ikkita raqobatchi bilan gaplashib bo'lganida oladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalar bir vaqtda 4–5 kanaldan keladi: sayt, Telegram, Instagram, qo'ng'iroqlar, OLX — va hech qayerda bitta navbatga yig'ilmaydi",
+        "Murojaatlar cho'qqisi kechqurunga to'g'ri keladi — oilalar ta'mir va qurilishni ish vaqtidan keyin muhokama qiladi, ofis esa yopiq",
+        "Menejer-prorablar obyektlarda band va messenjerlarga uzuq-yuluq javob beradi",
+        "Murojaatlarning yarmi — kvadrat metr narxi, muddatlar va materiallar haqidagi tipik savollar",
+        "CRM'da qayd etilmasa, yozishmalarning bir qismi xodimlarning shaxsiy telefonlarida yo'qoladi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Avtomatlashtirishni ulagan kompaniyalar tajribasiga ko'ra, qurilish nishasida kiruvchi murojaatlarning salmoqli qismi ish vaqtidan tashqarida keladi — va aynan shu arizalar ko'pincha javobsiz qoladi."
+    },
+    {
+      "type": "h2",
+      "text": "AI-bot qurilish kompaniyasida nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "AI-bot — shablon iboralar bilan ishlaydigan avtojavob mashinasi emas. GPT dvigatelidagi zamonaviy bot rus va o'zbek tilidagi erkin iboralarni tushunadi, aniqlashtiruvchi savollar beradi va mijozni kontakt qoldirishgacha olib boradi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Saytdagi arizaga yoki Telegram/Instagram'dagi xabarga darhol javob beradi — sutkaning istalgan vaqtida",
+        "Lidni saralaydi: obyekt turi (kvartira, uy, tijorat), maydon, tuman, byudjet, muddatlar",
+        "Tipik savollarga javob beradi: ish bosqichlari, taxminiy narx oralig'i, kafolatlar, portfolio",
+        "Ism va telefonni yig'ib, tartibli arizani menejerga Telegram yoki CRM orqali uzatadi",
+        "Mijoz yo'qolib qolsa, uchrashuv yoki o'lchov haqida eslatadi"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Arizani saralash ssenariysi: 6 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-qadam. Salomlashish va vazifani aniqlash: qurilish, ta'mir, loyihalash yoki pardozlash",
+        "2-qadam. Obyekt turi va maydoni — arizani qaysi bo'lim olishi shunga bog'liq",
+        "3-qadam. Joylashuv: Toshkent, viloyat yoki boshqa hudud — kompaniya ish zonasi bo'yicha filtr",
+        "4-qadam. Byudjet va muddatlar bo'yicha mo'ljal — bot mijozni cho'chitmasdan oraliqni yumshoq aniqlaydi",
+        "5-qadam. Kontakt yig'ish: ism va telefon raqami, qo'ng'iroqqa rozilik bilan",
+        "6-qadam. Lid kartochkasini menejerga uzatish + savdo bo'limi Telegram-guruhiga zudlik bilan xabar"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bunday ssenariy nomaqsad murojaatlarni (boshqa hudud, real bo'lmagan byudjet) menejergacha yetmasdan saralab tashlaydi — sotuvchilar faqat iliq, to'ldirilgan kartochkalar bilan ishlaydi."
+    },
+    {
+      "type": "h2",
+      "text": "CRM va reklama bilan integratsiya"
+    },
+    {
+      "type": "p",
+      "text": "Botdan kelgan arizalar AmoCRM yoki Bitrix24'ga manba belgilari bilan tushadi: mijozni qaysi reklama kampaniyasi olib keldi, uni qaysi obyekt qiziqtiryapti. Bu har bir kanal bo'yicha ariza narxini hisoblash va ishlamayotgan reklamani o'chirish imkonini beradi."
+    },
+    {
+      "type": "p",
+      "text": "CRM hali bo'lmasa, bot arizalarni kompaniyaning Telegram-guruhiga uzatadi — bu kichik pudratchilar uchun ishlaydigan sxema bo'lib, keyinchalik masshtablash mumkin."
+    },
+    {
+      "type": "h2",
+      "text": "Rus va o'zbek tili: bozor uchun majburiy shart"
+    },
+    {
+      "type": "p",
+      "text": "O'zbekiston qurilish nishasida mijozlar ikki tilda, ko'pincha bitta xabarda aralashtirib yozadi. Bot tilni avtomatik aniqlashi va mijoz tilida javob berishi kerak — aks holda auditoriyaning bir qismi muloqotni shunchaki davom ettirmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Ishga tushirishdagi tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bot ko'rikdan oldin m² uchun aniq narx aytadi — keyin menejerga mijozni «qayta ishontirish» to'g'ri keladi",
+        "Juda uzun anketa: kontakt yig'ishgacha 6–7 tadan ortiq savol konversiyani keskin tushiradi",
+        "Menejerga uzatish yo'q: bot javob beradi, lekin ariza qayd etilmaydi va qayta ishlanmaydi",
+        "Bot faqat rus tilida ishlaydi va o'zbek tilida yozadigan mijozlarni yo'qotadi",
+        "Muloqotlarni hech kim o'qimaydi: haftada bir marta yozishmalarni ko'rib, bot bilim bazasini to'ldirish kerak"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qurilish kompaniyasi nima oladi"
+    },
+    {
+      "type": "p",
+      "text": "Asosiy natija — birinchi javob tezligi soatlardan soniyalarga qisqaradi va kompaniya issiq mijoz uchun poygada raqobatchilarga yutqazishni to'xtatadi. Menejerlar to'ldirilgan maydonli, saralangan arizalar oladi, rahbar esa kanallar bo'yicha shaffof statistikaga ega bo'ladi."
+    },
+    {
+      "type": "h2",
+      "text": "2 haftalik joriy etish rejasi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1–2-kunlar: brif — kanallar, ish zonalari, obyekt turlari, narx oraliqlari, arizalarni kim qabul qiladi",
+        "3–5-kunlar: real yozishmalar va kompaniya narx mantig'idan bilim bazasini yig'ish",
+        "6–8-kunlar: saralash ssenariysini sozlash va Telegram, sayt, Instagram'ni ulash",
+        "9–10-kunlar: CRM yoki savdo bo'limi Telegram-guruhi bilan integratsiya, sinov dialoglari",
+        "11–14-kunlar: real trafikda ishga tushirish, dialoglarni kunlik tahlil qilish va sozlash"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kompaniya ichida bot uchun bitta mas'ulni tayinlash muhim: u birinchi ikki hafta dialoglarni ko'rib, bot qayerda noaniq javob berayotganini aytadi. Bu bosqichsiz hatto yaxshi ssenariy ham to'liq aniqlikka sezilarli kechroq chiqadi."
+    },
+    {
+      "type": "cta",
+      "text": "Qurilish kompaniyasi uchun botni muhokama qilish",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "h2",
+      "text": "Bu qancha turadi va qanchada ishga tushadi"
+    },
+    {
+      "type": "p",
+      "text": "Bitta kanal (masalan, Telegram) uchun bazaviy bot bir necha kunda ishga tushadi. Sayt-vidjet, Instagram va CRM integratsiyali yechim ko'proq vaqt oladi — yakuniy smeta kanallar soni va ssenariy murakkabligiga bog'liq. Aniq narxni qisqa brifdan keyin vazifaga qarab hisoblaymiz."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bot o'lchovsiz qurilish narxini ayta oladimi?",
+      "a": "Bot taxminiy oraliqlarni beradi va narx nimadan shakllanishini tushuntiradi, lekin yakuniy smetani har doim menejer obyektni ko'rgandan keyin aytadi. Shunday qilib kompaniya real bo'lmagan va'dalar bilan o'zini bog'lamaydi."
+    },
+    {
+      "q": "Botdan arizalar qayerga tushadi?",
+      "a": "AmoCRM, Bitrix24 yoki savdo bo'limining Telegram-guruhiga — tartibli kartochka ko'rinishida: ism, telefon, obyekt turi, maydon, tuman, byudjet va reklama manbasi."
+    },
+    {
+      "q": "Bot saytdagi arizalar bilan ishlaydimi yoki faqat messenjerlarda?",
+      "a": "Ikkalasi ham: saytga tashrif buyuruvchini muloqotga o'tkazadigan vidjet o'rnatiladi, Telegram va Instagram Direct esa to'g'ridan-to'g'ri ulanadi. Barcha arizalar bitta navbatga yig'iladi."
+    },
+    {
+      "q": "Mijoz bot javobini bilmaydigan savol bersa nima bo'ladi?",
+      "a": "Bot mutaxassisdan aniqlashtirishini halol aytadi, kontaktni yig'adi va muloqotni menejerga uzatadi. Murakkab va nostandart savollar — har doim jonli suhbat uchun sabab."
+    },
+    {
+      "q": "Bot o'zbek tilini tushunadimi?",
+      "a": "Ha, bot rus va o'zbek (lotin) tillarida javob beradi va mijoz tilini xabar bo'yicha avtomatik aniqlaydi."
+    }
+  ],
+  "cta": {
+    "label": "Telegram'da demo so'rash",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "Arizalarni qabul qiluvchi bot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 bilan AI-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+      "anchor": "Ko'chmas mulk agentligi uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Qurilish kompaniyasi uchun AI-bot: arizalarni 24/7 qayta ishlash",
+  "ogDescription": "O'zbekistonda qurilish kompaniyasi sayt va reklamadan kelgan arizalarni qanday yo'qotmaydi: AI-bot ssenariysi, lidlarni saralash, CRM integratsiyasi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/qurilish-kompaniyasi-uchun-ai-bot-arizalarni-qayta-ishlash/",
+  "hreflangRu": "/ru/blog/ai-bot-dlya-stroitelnoy-kompanii-obrabotka-zayavok/",
+  "hreflangUz": "/uz/blog/qurilish-kompaniyasi-uchun-ai-bot-arizalarni-qayta-ishlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-07-03",
+  "dateModified": "2026-07-03",
+  "schemaTypes": [
+    "Organization",
+    "WebSite"
+  ],
+  "updatedAt": "2026-07-03T10:00:00.000Z",
+  "createdAt": "2026-07-03T10:00:00.000Z"
+}
