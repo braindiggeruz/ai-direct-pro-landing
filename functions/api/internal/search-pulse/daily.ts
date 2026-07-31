@@ -42,6 +42,15 @@ export function cronSecretMatches(token: string | null, configured: string): boo
   return Boolean(expectedToken && token && constantTimeEqual(token, expectedToken));
 }
 
+export function searchPulseFailureCode(error: unknown): string {
+  const message = error instanceof Error ? error.message : '';
+  if (message.includes('GitHub graphql')) return 'content_source_unavailable';
+  if (message.includes('GPTBOT_DRAFTS_DB') || message.includes('D1')) {
+    return 'audit_store_unavailable';
+  }
+  return 'search_pulse_runtime_failure';
+}
+
 export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, env }) => {
   if (!env.CRON_SECRET) {
     return json({ ok: false, error: 'CRON_SECRET is not configured.' }, 503);
@@ -51,7 +60,18 @@ export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, en
     return json({ ok: false, error: 'Unauthorized.' }, 401);
   }
 
-  const result = await runSearchPulse(env, 'system:daily-search-pulse');
+  let result: SearchPulseRunResult;
+  try {
+    result = await runSearchPulse(env, 'system:daily-search-pulse');
+  } catch (error) {
+    const code = searchPulseFailureCode(error);
+    console.error('Scheduled Search Pulse failed', { code });
+    return json({
+      ok: false,
+      error: 'search_pulse_failed',
+      code,
+    }, 502);
+  }
   // IndexNow is the required automated notification path. Google OAuth is an
   // optional sitemap re-submission enhancement: without it Google continues
   // discovering the accurate sitemap and the response carries a visible

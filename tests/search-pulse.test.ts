@@ -12,6 +12,7 @@ import {
   cronSecretMatches,
   onRequestPost as dailySearchPulsePost,
   scheduledSearchPulseStatus,
+  searchPulseFailureCode,
 } from '../functions/api/internal/search-pulse/daily.ts';
 import type { SearchPulseEnv } from '../functions/lib/search-pulse/service.ts';
 
@@ -221,5 +222,20 @@ describe('daily Search Pulse endpoint auth', () => {
       ok: false,
       indexNowConfigured: true,
     }), 502);
+  });
+
+  test('maps runtime failures to a closed diagnostic code list', () => {
+    assert.equal(
+      searchPulseFailureCode(new Error('GitHub graphql failed: 401 redacted')),
+      'content_source_unavailable',
+    );
+    assert.equal(
+      searchPulseFailureCode(new Error('Search Pulse requires the GPTBOT_DRAFTS_DB audit binding.')),
+      'audit_store_unavailable',
+    );
+    assert.equal(
+      searchPulseFailureCode(new Error('unexpected failure')),
+      'search_pulse_runtime_failure',
+    );
   });
 });
