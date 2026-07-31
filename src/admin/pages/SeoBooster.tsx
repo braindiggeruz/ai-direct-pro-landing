@@ -123,6 +123,9 @@ function SearchPulseCard({
             <Badge tone={preview?.gscConfigured ? 'success' : 'warning'}>
               Google sitemap: {preview?.gscConfigured ? 'автоматически' : 'нужен OAuth'}
             </Badge>
+            <Badge tone={preview?.automationReady ? 'success' : 'warning'}>
+              Автозапуск: {preview?.automationReady ? 'готов' : 'нужна настройка'}
+            </Badge>
           </div>
         </div>
 

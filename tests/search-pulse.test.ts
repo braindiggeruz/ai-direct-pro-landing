@@ -8,6 +8,8 @@ import {
 import type { BoosterItem } from '../src/shared/booster.ts';
 import { submitSitemapToGsc } from '../functions/lib/gsc/sitemap.ts';
 import type { Env } from '../functions/_types.ts';
+import { onRequestPost as dailySearchPulsePost } from '../functions/api/internal/search-pulse/daily.ts';
+import type { SearchPulseEnv } from '../functions/lib/search-pulse/service.ts';
 
 const NOW = Date.parse('2026-07-31T12:00:00.000Z');
 
@@ -162,5 +164,35 @@ describe('submitSitemapToGsc', () => {
     assert.match(calls[1].url, /https%3A%2F%2Fgptbot\.uz%2Fsitemap\.xml/);
     assert.equal(calls[1].init?.method, 'PUT');
     assert.equal(result.message.includes('fake-'), false);
+  });
+});
+
+describe('daily Search Pulse endpoint auth', () => {
+  type DailyHandler = (context: {
+    request: Request;
+    env: SearchPulseEnv;
+  }) => Promise<Response>;
+  const handler = dailySearchPulsePost as unknown as DailyHandler;
+
+  test('fails closed when CRON_SECRET is not configured', async () => {
+    const response = await handler({
+      request: new Request('https://gptbot.uz/api/internal/search-pulse/daily', {
+        method: 'POST',
+      }),
+      env: {} as SearchPulseEnv,
+    });
+    assert.equal(response.status, 503);
+  });
+
+  test('rejects an invalid bearer before any external work', async () => {
+    const response = await handler({
+      request: new Request('https://gptbot.uz/api/internal/search-pulse/daily', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer wrong-secret' },
+      }),
+      env: { CRON_SECRET: 'correct-secret' } as SearchPulseEnv,
+    });
+    assert.equal(response.status, 401);
+    assert.deepEqual(await response.json(), { ok: false, error: 'Unauthorized.' });
   });
 });

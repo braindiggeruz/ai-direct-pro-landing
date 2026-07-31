@@ -1,7 +1,12 @@
-# Search Pulse: one-click discovery
+# Search Pulse: one-click and unattended discovery
 
 `/admin-tools/seo-booster` contains one primary action:
 **«Ускорить новые страницы»**.
+
+The same version-aware service runs unattended every day at **03:17 UTC**
+from `.github/workflows/search-pulse-daily.yml`. The schedule checks daily,
+but network submission happens only when a new or significantly updated
+content version passes the gate.
 
 It is a discovery assistant, not a ranking guarantee. Each click recomputes
 the queue on the server and performs only supported white-hat actions.
@@ -63,3 +68,39 @@ Secrets are never returned to the browser or written to audit logs.
    use URL Inspection manually.
 
 Re-running with an empty queue is a no-op.
+
+## Daily automation
+
+The scheduler calls:
+
+`POST https://gptbot.uz/api/internal/search-pulse/daily`
+
+with the existing `CRON_SECRET` bearer. The endpoint is not available without
+that secret and does not accept browser/admin authentication.
+
+Required configuration:
+
+1. `CRON_SECRET` in GitHub Actions repository secrets.
+2. The same `CRON_SECRET` in Cloudflare Pages production secrets.
+3. `INDEXNOW_KEY` in Cloudflare Pages for Yandex and the federated IndexNow
+   network.
+4. The three GSC OAuth secrets listed above for automatic Google sitemap
+   submission.
+
+If Google OAuth is absent, IndexNow still runs, but the scheduled workflow
+fails visibly instead of reporting a misleading full success. This gives the
+owner a GitHub Actions notification until Google is connected.
+
+The workflow has a concurrency lock, a five-minute timeout and no automatic
+HTTP retry. Per-URL success is stored in the existing append-only
+`indexnow_submissions` audit, so the next daily run skips an unchanged version.
+
+Official constraints implemented by the service:
+
+- Yandex IndexNow receives only new, changed or deleted URLs:
+  https://yandex.com/support/webmaster/en/indexing-options/index-now
+- Google receives accurate sitemap `lastmod` values and an updated sitemap,
+  not repeated unchanged submissions:
+  https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+- Google's restricted Indexing API is never used for ordinary pages:
+  https://developers.google.com/search/apis/indexing-api/v3/quickstart

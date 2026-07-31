@@ -11,6 +11,8 @@ combines a version-aware quality gate, the existing audited IndexNow engine,
 and optional Google Search Console sitemap submission. It does not use the
 restricted Google Indexing API. Full operating details and environment
 variables are documented in [SEARCH_PULSE_ONE_CLICK.md](./SEARCH_PULSE_ONE_CLICK.md).
+The same service is invoked daily at 03:17 UTC by the protected
+`search-pulse-daily.yml` scheduler; unchanged content is a no-op.
 
 ---
 

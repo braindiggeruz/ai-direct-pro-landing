@@ -44,12 +44,16 @@ export interface SearchPulsePreview {
   freshDays: number;
   hardCap: number;
   gscConfigured: boolean;
+  indexNowConfigured: boolean;
+  automationReady: boolean;
   selection: SearchPulseSelection;
   manualGoogleQueue: string[];
 }
 
 export interface SearchPulseRunResult {
   ok: boolean;
+  gscConfigured: boolean;
+  indexNowConfigured: boolean;
   generatedAt: string;
   selection: SearchPulseSelection;
   indexNow: {

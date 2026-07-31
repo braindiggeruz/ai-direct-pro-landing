@@ -20,6 +20,9 @@
 #   GSC_CLIENT_ID, GSC_CLIENT_SECRET, GSC_REFRESH_TOKEN,
 #   TELEGRAM_AGENTS_BOT_TOKEN, TELEGRAM_AGENTS_WEBHOOK_SECRET, and the
 #   existing product-specific TELEGRAM_* secrets.
+#
+# CRON_SECRET must match the GitHub Actions repository secret used by
+# .github/workflows/search-pulse-daily.yml.
 
 name = "ai-direct-pro-landing"
 compatibility_date = "2024-09-23"

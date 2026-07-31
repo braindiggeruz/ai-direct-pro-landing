@@ -1,0 +1,55 @@
+name: Daily Search Pulse
+
+on:
+  schedule:
+    # 03:17 UTC avoids the common top-of-hour scheduler burst.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-search-pulse
+  cancel-in-progress: false
+
+jobs:
+  notify-search-engines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Run version-aware Search Pulse
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "::error::CRON_SECRET is missing from GitHub Actions secrets"
+            exit 1
+          fi
+
+          response_file="$(mktemp)"
+          status="$(
+            curl \
+              --silent \
+              --show-error \
+              --max-time 180 \
+              --output "$response_file" \
+              --write-out "%{http_code}" \
+              --request POST \
+              "https://gptbot.uz/api/internal/search-pulse/daily" \
+              --header "Authorization: Bearer ${CRON_SECRET}" \
+              --header "Content-Type: application/json"
+          )"
+
+          cat "$response_file"
+          echo
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "::error::Search Pulse returned HTTP ${status}"
+            exit 1
+          fi
+          if ! jq -e '.ok == true and .gscConfigured == true and .indexNowConfigured == true' "$response_file" >/dev/null; then
+            echo "::error::Search Pulse completed only partially"
+            exit 1
+          fi
