@@ -139,6 +139,15 @@ export interface Env {
   // in the body so the call is billed against a specific folder.
   YANDEX_CLOUD_FOLDER_ID?: string;
 
+  // ─── Google Search Console Sitemap API (optional) ───────────────────
+  // Search Pulse uses OAuth only to re-submit sitemap.xml after safe
+  // new/updated URLs are found. It never calls the restricted Indexing API.
+  GSC_CLIENT_ID?: string;
+  GSC_CLIENT_SECRET?: string;
+  GSC_REFRESH_TOKEN?: string;
+  GSC_SITE_PROPERTY?: string; // default: sc-domain:gptbot.uz
+  GSC_SITEMAP_URL?: string;   // default: https://gptbot.uz/sitemap.xml
+
   // ─── Consumer AI-chat (/ru/gpt-chat/, /uz/gpt-uzbek-tilida/) ───────────
   // Server-side OpenRouter proxy for the public AI-chat product. All model
   // routing lives in env so operators can swap models without a redeploy.

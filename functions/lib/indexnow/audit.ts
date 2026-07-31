@@ -104,6 +104,35 @@ export async function readLatestPerUrl(env: Env, urls: string[]): Promise<Map<st
   return out;
 }
 
+/**
+ * Returns the latest successful submission for each URL. A newer failed
+ * attempt must not hide the last success when Search Pulse compares content
+ * lastmod with the version already announced to search engines.
+ */
+export async function readLatestSuccessfulPerUrl(
+  env: Env,
+  urls: string[],
+): Promise<Map<string, IndexNowSubmissionRow>> {
+  const out = new Map<string, IndexNowSubmissionRow>();
+  const db = env.GPTBOT_DRAFTS_DB;
+  if (!db || urls.length === 0) return out;
+  await ensureTable(db);
+  const slice = urls.slice(0, 500);
+  const placeholders = slice.map(() => '?').join(',');
+  const sql = `
+    SELECT i.* FROM indexnow_submissions i
+    INNER JOIN (
+      SELECT url, MAX(submitted_at) AS latest_at
+      FROM indexnow_submissions
+      WHERE upstream_ok = 1 AND url IN (${placeholders})
+      GROUP BY url
+    ) m ON m.url = i.url AND m.latest_at = i.submitted_at
+    WHERE i.upstream_ok = 1`;
+  const r = await db.prepare(sql).bind(...slice).all<IndexNowSubmissionRow>();
+  for (const row of r.results || []) out.set(row.url, row);
+  return out;
+}
+
 /** Recent submission history — newest first. Capped at `limit` rows. */
 export async function readRecentHistory(env: Env, limit = 100): Promise<IndexNowSubmissionRow[]> {
   const db = env.GPTBOT_DRAFTS_DB;
