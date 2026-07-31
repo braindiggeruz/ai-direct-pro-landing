@@ -10,7 +10,10 @@ import {
 import { BuyerSessionError } from './errors';
 import type { BuyerIntent } from './intents';
 
-const PAGE_SIZE = 4;
+// Three cards keep the first useful result set broad enough to compare while
+// avoiding a fourth sequential Telegram API round trip. Further products stay
+// available through the existing deterministic pagination actions.
+const PAGE_SIZE = 3;
 
 export interface BuyerQueryResult {
   intent: BuyerIntent;

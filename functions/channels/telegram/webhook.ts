@@ -261,11 +261,6 @@ async function processAccepted(
   input: TelegramAcceptedInbound,
 ): Promise<void> {
   const startedAt = Date.now();
-  if (input.callbackQueryId) {
-    await dependencies.delivery
-      .answerCallback(input.callbackQueryId)
-      .catch(() => false);
-  }
 
   if (dependencies.rateLimiter) {
     try {
@@ -291,6 +286,15 @@ async function processAccepted(
       await sendFailure(dependencies, input, 'rate_limit_failed');
       return;
     }
+  }
+
+  // Telegram clears this indicator automatically after a few seconds or when
+  // the reply arrives. It is best-effort and runs alongside identity/context
+  // resolution so feedback does not add another network round trip.
+  if (!input.callbackQueryId && dependencies.delivery.showTyping) {
+    void dependencies.delivery
+      .showTyping(input.inbound.threadRef)
+      .catch(() => false);
   }
 
   let identityId: string;
@@ -471,6 +475,15 @@ export async function handleTelegramAgentsWebhook(
   }
   if (reservation.status === 'duplicate') {
     return response('duplicate', 200);
+  }
+  if (ingested.value.callbackQueryId) {
+    // Track the acknowledgement in the Worker lifecycle, but do not serialize
+    // identity, context or Runtime work behind a Telegram network round trip.
+    waitUntil(
+      dependencies.delivery
+        .answerCallback(ingested.value.callbackQueryId)
+        .catch(() => false),
+    );
   }
   waitUntil(processAccepted(dependencies, ingested.value));
   return response('accepted', 200);

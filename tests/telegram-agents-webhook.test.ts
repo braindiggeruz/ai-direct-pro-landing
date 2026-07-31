@@ -180,6 +180,7 @@ class MemoryDelivery implements TelegramDeliveryPort {
     text: string;
     keyboard?: unknown;
   }> = [];
+  readonly typing: string[] = [];
   readonly callbacks: string[] = [];
   succeeds = true;
 
@@ -189,6 +190,11 @@ class MemoryDelivery implements TelegramDeliveryPort {
     keyboard?: never,
   ): Promise<boolean> {
     this.sent.push({ threadRef, text, ...(keyboard ? { keyboard } : {}) });
+    return this.succeeds;
+  }
+
+  async showTyping(threadRef: string): Promise<boolean> {
+    this.typing.push(threadRef);
     return this.succeeds;
   }
 
@@ -854,10 +860,45 @@ test('callback query is normalized to a bounded action and acknowledged', async 
   });
   assert.equal(response.status, 200);
   assert.deepEqual(harness.delivery.callbacks, ['callback-fixture']);
+  assert.deepEqual(harness.delivery.typing, []);
   assert.deepEqual(harness.runtimeCalls[0].message, {
     kind: 'action',
     actionId: 'choose-one',
   });
+});
+
+test('callback acknowledgement is not serialized before Runtime work', async () => {
+  const harness = createHarness();
+  const order: string[] = [];
+  harness.dependencies.delivery.answerCallback = async () => {
+    order.push('acknowledgement-started');
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    order.push('acknowledgement-finished');
+    return true;
+  };
+  const run = harness.dependencies.runtime.run.bind(
+    harness.dependencies.runtime,
+  );
+  harness.dependencies.runtime.run = async (input) => {
+    order.push('runtime-started');
+    return run(input);
+  };
+  const response = await harness.invoke({
+    update_id: 341,
+    callback_query: {
+      id: 'callback-slow-fixture',
+      from: { id: 101, language_code: 'ru' },
+      data: 'agent:choose-one',
+      message: { chat: { id: 101 } },
+    },
+  });
+  assert.equal(response.status, 200);
+  assert.ok(
+    order.indexOf('runtime-started')
+      < order.indexOf('acknowledgement-finished'),
+  );
+  assert.equal(harness.runtimeCalls.length, 1);
+  assert.equal(harness.delivery.sent.length, 1);
 });
 
 test('echo works through endpoint, Runtime and Telegram renderer', async () => {
@@ -990,6 +1031,13 @@ test('channel-neutral choices become bounded Telegram callback buttons', async (
     text: 'First choice',
     callback_data: 'agent:choice-one',
   }]]);
+});
+
+test('accepted updates show non-blocking Telegram typing feedback', async () => {
+  const harness = createHarness();
+  await harness.invoke(telegramMessage(462, 'echo: safe'));
+  assert.deepEqual(harness.delivery.typing, ['101']);
+  assert.equal(harness.delivery.sent.length, 1);
 });
 
 test('Runtime input has no Telegram update, chat, token or callback object', async () => {
