@@ -17,6 +17,7 @@ import {
   assertTelegramAgentsBotIdentity,
   buildTelegramAgentsWebhookUrl,
   createTelegramAgentUpdateStore,
+  createTelegramRateLimiter,
   createStaticTelegramAgentContextResolver,
   handleTelegramAgentsWebhook,
   ingestTelegramAgentUpdate,
@@ -24,6 +25,8 @@ import {
   parseTelegramDeepLink,
   parseTelegramStartCommand,
   requireTelegramAgentsWebhookSecret,
+  TelegramClient,
+  telegramRetryDelayMs,
   telegramAgentUpdateKey,
   verifyTelegramSecretHeader,
   type StaticTelegramAgentMapping,
@@ -32,7 +35,9 @@ import {
   type TelegramAgentUpdateStore,
   type TelegramAgentsSafeLogCode,
   type TelegramAgentsWebhookDependencies,
+  type TelegramAgentsTelemetry,
   type TelegramDeliveryPort,
+  type TelegramRateLimiter,
   type TelegramIdentityPort,
 } from '../functions/channels/telegram';
 import type {
@@ -44,6 +49,7 @@ import {
   createAgentRegistry,
   createAgentRuntime,
 } from '../functions/platform/runtime';
+import { SqliteD1 } from './helpers/sqlite-d1';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BOT = 'agents_demo_bot';
@@ -195,6 +201,8 @@ interface HarnessOptions {
   mappings?: readonly StaticTelegramAgentMapping[];
   runtime?: { run(input: unknown): Promise<RuntimeTurnResult> };
   identityId?: string;
+  rateLimiter?: TelegramRateLimiter;
+  telemetry?: TelegramAgentsTelemetry;
 }
 
 function telegramMessage(
@@ -267,6 +275,8 @@ function createHarness(options: HarnessOptions = {}) {
     ),
     runtime,
     delivery,
+    ...(options.rateLimiter ? { rateLimiter: options.rateLimiter } : {}),
+    ...(options.telemetry ? { telemetry: options.telemetry } : {}),
     logger: { error: (code) => logCodes.push(code) },
   };
   const scheduled: Promise<unknown>[] = [];
@@ -399,6 +409,69 @@ test('duplicate update does not call Runtime or send twice', async () => {
   assert.equal(harness.delivery.sent[0].text, 'once');
 });
 
+test('rate-limited update gets one localized answer and never reaches Runtime', async () => {
+  const limiter: TelegramRateLimiter = {
+    async consume() {
+      return { status: 'limited', retryAfterSeconds: 30, notify: true };
+    },
+    async consumeTenant() {
+      throw new Error('tenant limiter must not run');
+    },
+  };
+  const harness = createHarness({ rateLimiter: limiter });
+  await harness.invoke(telegramMessage(111, 'echo: too many'));
+  assert.equal(harness.runtimeCalls.length, 0);
+  assert.equal(harness.delivery.sent.length, 1);
+  assert.match(harness.delivery.sent[0].text, /много запросов/iu);
+  assert.deepEqual(harness.logCodes, ['rate_limited']);
+  assert.equal(
+    harness.updates.statuses.get(telegramAgentUpdateKey(BOT, 111)),
+    'failed:rate_limited',
+  );
+});
+
+test('tenant rate limit stays content-free and does not inflate error events', async () => {
+  const limiter: TelegramRateLimiter = {
+    async consume() {
+      return { status: 'allowed' };
+    },
+    async consumeTenant() {
+      return { status: 'limited', retryAfterSeconds: 30, notify: true };
+    },
+  };
+  const telemetry: Parameters<TelegramAgentsTelemetry['recordError']>[0][] = [];
+  const harness = createHarness({
+    rateLimiter: limiter,
+    telemetry: {
+      async recordError(input) {
+        telemetry.push(input);
+      },
+    },
+  });
+  await harness.invoke(telegramMessage(112, 'echo: tenant limited'));
+  assert.equal(harness.runtimeCalls.length, 0);
+  assert.equal(telemetry.length, 0);
+  assert.ok(!JSON.stringify(telemetry).includes('tenant limited'));
+  assert.ok(!JSON.stringify(telemetry).includes('101'));
+});
+
+test('rate-limit storage failure fails closed before identity and Runtime', async () => {
+  const limiter: TelegramRateLimiter = {
+    async consume() {
+      throw new Error('database detail must stay private');
+    },
+    async consumeTenant() {
+      return { status: 'allowed' };
+    },
+  };
+  const harness = createHarness({ rateLimiter: limiter });
+  await harness.invoke(telegramMessage(113, 'echo: never run'));
+  assert.equal(harness.identityCalls.length, 0);
+  assert.equal(harness.runtimeCalls.length, 0);
+  assert.deepEqual(harness.logCodes, ['rate_limit_failed']);
+  assert.ok(!JSON.stringify(harness.delivery.sent).includes('database detail'));
+});
+
 test('Agents dedup namespace cannot collide with Javob numeric updates', () => {
   const key = telegramAgentUpdateKey(BOT, 12);
   assert.equal(key, `agents:${BOT}:12`);
@@ -426,6 +499,132 @@ test('D1 dedup store reserves once and keeps terminal status', async () => {
   });
 });
 
+test('D1 update metrics count duplicates without storing Telegram identity', async () => {
+  const fixture = new SqliteD1();
+  fixture.exec(fs.readFileSync(
+    path.join(ROOT, 'migrations/0017_telegram_agents_transport.sql'),
+    'utf8',
+  ));
+  fixture.exec(fs.readFileSync(
+    path.join(ROOT, 'migrations/0030_market_telegram_reliability.sql'),
+    'utf8',
+  ));
+  const store = createTelegramAgentUpdateStore(fixture.asD1());
+  const first = await store.reserve(BOT, 9121);
+  await store.reserve(BOT, 9121);
+  await store.reserve(BOT, 9121);
+  await store.complete(first.idempotencyKey);
+
+  assert.equal(
+    fixture.value(
+      'SELECT duplicate_count FROM telegram_agent_update_metrics',
+    ),
+    2,
+  );
+  assert.ok(Number(fixture.value(
+    'SELECT processing_ms FROM telegram_agent_update_metrics',
+  )) >= 0);
+  assert.deepEqual(
+    fixture.rows<{ name: string }>(
+      'PRAGMA table_info(telegram_agent_update_metrics)',
+    ).map((row) => row.name),
+    [
+      'idempotency_key',
+      'bot_username',
+      'duplicate_count',
+      'processing_ms',
+      'updated_at',
+    ],
+  );
+});
+
+test('rate limiter hashes user, chat, bot and tenant scopes', async () => {
+  const fixture = new SqliteD1();
+  const limiter = createTelegramRateLimiter(fixture.asD1(), {
+    perUser: 2,
+    perChat: 3,
+    perBot: 10,
+    perTenant: 2,
+    callbacksPerScope: 2,
+    now: () => new Date('2026-07-31T12:00:15.000Z'),
+  });
+  const input = {
+    botUsername: BOT,
+    externalId: '778899',
+    threadRef: '778899',
+    callback: false,
+  };
+  assert.deepEqual(await limiter.consume(input), { status: 'allowed' });
+  assert.deepEqual(await limiter.consume(input), { status: 'allowed' });
+  assert.deepEqual(await limiter.consume(input), {
+    status: 'limited',
+    retryAfterSeconds: 45,
+    notify: true,
+  });
+  assert.deepEqual(
+    await limiter.consumeTenant({ orgId: 'org-a', callback: false }),
+    { status: 'allowed' },
+  );
+  assert.deepEqual(
+    await limiter.consumeTenant({ orgId: 'org-a', callback: false }),
+    { status: 'allowed' },
+  );
+  const firstLimited = await limiter.consumeTenant({
+    orgId: 'org-a',
+    callback: false,
+  });
+  assert.deepEqual(firstLimited, {
+    status: 'limited',
+    retryAfterSeconds: 45,
+    notify: true,
+  });
+  const repeatedLimited = await limiter.consumeTenant({
+    orgId: 'org-a',
+    callback: false,
+  });
+  assert.deepEqual(repeatedLimited, {
+    status: 'limited',
+    retryAfterSeconds: 45,
+    notify: false,
+  });
+  const serialized = JSON.stringify(
+    fixture.rows<Record<string, unknown>>(
+      'SELECT * FROM telegram_agent_rate_limits',
+    ),
+  );
+  assert.ok(!serialized.includes('778899'));
+  assert.ok(!serialized.includes('org-a'));
+  assert.match(
+    String(fixture.value(
+      'SELECT scope_key FROM telegram_agent_rate_limits LIMIT 1',
+    )),
+    /^[a-f0-9]{64}$/,
+  );
+});
+
+test('callback rate limit is independent and resets in the next window', async () => {
+  const fixture = new SqliteD1();
+  let now = new Date('2026-07-31T12:00:15.000Z');
+  const limiter = createTelegramRateLimiter(fixture.asD1(), {
+    perUser: 10,
+    perChat: 10,
+    perBot: 10,
+    perTenant: 10,
+    callbacksPerScope: 1,
+    now: () => now,
+  });
+  const input = {
+    botUsername: BOT,
+    externalId: '445566',
+    threadRef: '445566',
+    callback: true,
+  };
+  assert.equal((await limiter.consume(input)).status, 'allowed');
+  assert.equal((await limiter.consume(input)).status, 'limited');
+  now = new Date('2026-07-31T12:01:00.000Z');
+  assert.equal((await limiter.consume(input)).status, 'allowed');
+});
+
 test('runtime dedup schema and additive migration use the same isolated objects', () => {
   const schema = fs.readFileSync(
     path.join(ROOT, 'functions/channels/telegram/schema.ts'),
@@ -435,6 +634,10 @@ test('runtime dedup schema and additive migration use the same isolated objects'
     path.join(ROOT, 'migrations/0017_telegram_agents_transport.sql'),
     'utf8',
   );
+  const reliability = fs.readFileSync(
+    path.join(ROOT, 'migrations/0030_market_telegram_reliability.sql'),
+    'utf8',
+  );
   for (const objectName of [
     'telegram_agent_updates',
     'idx_telegram_agent_updates_status',
@@ -442,6 +645,34 @@ test('runtime dedup schema and additive migration use the same isolated objects'
     assert.ok(schema.includes(objectName));
     assert.ok(migration.includes(objectName));
   }
+  for (const objectName of [
+    'telegram_agent_update_metrics',
+    'idx_telegram_agent_update_metrics_updated',
+    'telegram_agent_rate_limits',
+    'idx_telegram_agent_rate_limits_updated',
+    'telegram_agent_rate_limit_notices',
+    'idx_telegram_agent_rate_limit_notices_created',
+  ]) {
+    assert.ok(schema.includes(objectName));
+    assert.ok(reliability.includes(objectName));
+  }
+  const executable = reliability.replace(/--.*$/gm, '');
+  assert.doesNotMatch(executable, /\b(?:DROP|TRUNCATE|ALTER)\b/i);
+  const fixture = new SqliteD1();
+  fixture.exec(migration);
+  fixture.exec(reliability);
+  fixture.exec(reliability);
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM sqlite_master
+       WHERE name IN (
+         'telegram_agent_update_metrics',
+         'telegram_agent_rate_limits',
+         'telegram_agent_rate_limit_notices'
+       )`,
+    ),
+    3,
+  );
   assert.ok(!schema.includes('telegram_updates ('));
 });
 
@@ -585,6 +816,17 @@ test('unsupported media update is ignored without dedup or Runtime', async () =>
   assert.equal(harness.runtimeCalls.length, 0);
 });
 
+test('prompt length and control characters are bounded before reservation', async () => {
+  const harness = createHarness();
+  const accepted = await harness.invoke(telegramMessage(401, 'я'.repeat(2_000)));
+  const tooLong = await harness.invoke(telegramMessage(402, 'я'.repeat(2_001)));
+  const controls = await harness.invoke(telegramMessage(403, 'товар\u0000скрытый'));
+  assert.equal(await accepted.text(), 'accepted');
+  assert.equal(await tooLong.text(), 'ignored');
+  assert.equal(await controls.text(), 'ignored');
+  assert.equal(harness.updates.reserveCalls, 1);
+});
+
 test('callback query is normalized to a bounded action and acknowledged', async () => {
   const harness = createHarness();
   const response = await harness.invoke({
@@ -660,10 +902,16 @@ test('Runtime rejected result is rendered with a safe deterministic fallback', a
 });
 
 test('Runtime error is content-free and never exposes upstream message', async () => {
+  const telemetry: Parameters<TelegramAgentsTelemetry['recordError']>[0][] = [];
   const harness = createHarness({
     runtime: {
       async run() {
         throw new Error('private-runtime-upstream-marker');
+      },
+    },
+    telemetry: {
+      async recordError(input) {
+        telemetry.push(input);
       },
     },
   });
@@ -675,6 +923,11 @@ test('Runtime error is content-free and never exposes upstream message', async (
   assert.ok(!output.includes('private-runtime-upstream-marker'));
   assert.ok(!output.includes('private-inbound-marker'));
   assert.deepEqual(harness.logCodes, ['runtime_failed']);
+  assert.equal(telemetry.length, 1);
+  assert.equal(telemetry[0].reasonCode, 'runtime_failed');
+  assert.equal(telemetry[0].orgId, 'org-a');
+  assert.ok(!JSON.stringify(telemetry).includes('private-runtime-upstream-marker'));
+  assert.ok(!JSON.stringify(telemetry).includes('private-inbound-marker'));
 });
 
 test('long Telegram output is split below the safe transport boundary', async () => {
@@ -798,6 +1051,84 @@ test('send failure is terminal for dedup and does not rerun Runtime', async () =
     harness.updates.statuses.get(telegramAgentUpdateKey(BOT, 54)),
     'failed:send_failed',
   );
+});
+
+test('Telegram retry policy bounds 429, 5xx and network delays', () => {
+  assert.equal(telegramRetryDelayMs(429, 0, 0), 250);
+  assert.equal(telegramRetryDelayMs(429, 600, 0), 8_000);
+  assert.equal(telegramRetryDelayMs(500, undefined, 0), 2_000);
+  assert.equal(telegramRetryDelayMs(503, undefined, 5), 8_000);
+  assert.equal(telegramRetryDelayMs(0, undefined, 0), 1_000);
+});
+
+test('Telegram client honors 429 retry_after and succeeds on a bounded retry', async (t) => {
+  const originalFetch = globalThis.fetch;
+  const originalWarn = console.warn;
+  let calls = 0;
+  const warnings: string[] = [];
+  console.warn = (...values: unknown[]) => warnings.push(values.join(' '));
+  globalThis.fetch = async () => {
+    calls += 1;
+    return calls === 1
+      ? Response.json(
+          { ok: false, error_code: 429, parameters: { retry_after: 0 } },
+          { status: 429 },
+        )
+      : Response.json({ ok: true, result: { message_id: 1 } });
+  };
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+    console.warn = originalWarn;
+  });
+  const result = await new TelegramClient('fixture-token-never-logged')
+    .call('sendMessage', {}, { maxRetries: 1, timeoutMs: 1_000 });
+  assert.equal(result.ok, true);
+  assert.equal(calls, 2);
+  assert.deepEqual(warnings, [
+    'tg.sendMessage retry=rate_limited attempt=1 delay_ms=250',
+  ]);
+  assert.ok(!warnings.join(' ').includes('fixture-token-never-logged'));
+});
+
+test('Telegram 403 is terminal and timeout is bounded', async (t) => {
+  const originalFetch = globalThis.fetch;
+  const originalError = console.error;
+  const errors: string[] = [];
+  console.error = (...values: unknown[]) => errors.push(values.join(' '));
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+    console.error = originalError;
+  });
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    return Response.json(
+      { ok: false, error_code: 403, description: 'blocked by user' },
+      { status: 403 },
+    );
+  };
+  const client = new TelegramClient('fixture-token-never-logged');
+  const blocked = await client.call('sendMessage', {}, { maxRetries: 3 });
+  assert.equal(blocked.ok, false);
+  assert.equal(calls, 1);
+  assert.ok(!errors.join(' ').includes('blocked by user'));
+  assert.ok(!errors.join(' ').includes('fixture-token-never-logged'));
+
+  globalThis.fetch = async (_url, init) => new Promise((_resolve, reject) => {
+    init?.signal?.addEventListener('abort', () => {
+      const error = new Error('aborted');
+      error.name = 'AbortError';
+      reject(error);
+    });
+  });
+  const startedAt = Date.now();
+  const timedOut = await client.call('sendMessage', {}, {
+    maxRetries: 0,
+    timeoutMs: 1,
+  });
+  assert.equal(timedOut.ok, false);
+  assert.ok(Date.now() - startedAt < 1_000);
+  assert.ok(errors.some((entry) => entry.includes('network: AbortError')));
 });
 
 test('setup guard rejects every protected production bot username', () => {

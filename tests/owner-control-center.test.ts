@@ -60,6 +60,7 @@ const MIGRATIONS = [
   '0023_sotuvchi_handoff.sql',
   '0024_first_party_automation.sql',
   '0025_owner_control_center_audit.sql',
+  '0030_market_telegram_reliability.sql',
 ];
 
 function loadMigrations(db: SqliteD1): void {
@@ -443,6 +444,11 @@ describe('authorization fails closed', () => {
       ) VALUES
         ('agents:test_bot:9001', 'test_bot', 9001, 'completed', '${now}', '${now}'),
         ('agents:test_bot:9002', 'test_bot', 9002, 'failed', '${now}', '${now}')`);
+    db.exec(`INSERT INTO telegram_agent_update_metrics (
+        idempotency_key, bot_username, duplicate_count, processing_ms, updated_at
+      ) VALUES
+        ('agents:test_bot:9001', 'test_bot', 3, 400, '${now}'),
+        ('agents:test_bot:9002', 'test_bot', 0, 800, '${now}')`);
 
     const res = await call(overviewGet, db, '/api/admin/agents/overview', {
       token: await tokenFor('support_readonly', 'support@gptbot.uz'),
@@ -466,8 +472,10 @@ describe('authorization fails closed', () => {
     assert.equal(overview.telegram.updates_today, 2);
     assert.equal(overview.telegram.completed_today, 1);
     assert.equal(overview.telegram.failed_today, 1);
+    assert.equal(overview.telegram.duplicate_updates, 3);
     assert.equal(overview.telegram.errors_today, 1);
-    assert.equal(overview.telegram.processing_latency, 'unknown');
+    assert.equal(overview.telegram.average_processing_ms, 600);
+    assert.equal(overview.telegram.processing_latency, '250ms_1s');
     assert.equal(typeof overview.seller_service.open_over_15m, 'number');
     for (const forbidden of [
       'payload_json', 'aggregate_ref', 'idempotency_key', 'buyer_name',

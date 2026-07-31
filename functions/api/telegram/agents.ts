@@ -38,6 +38,7 @@ import {
   createTelegramChannelDelivery,
   createTelegramDeliveryPort,
   createTelegramIdentityPort,
+  createTelegramRateLimiter,
   handleTelegramAgentsWebhook,
   isProtectedAgentBotUsername,
   normalizeTelegramBotUsername,
@@ -491,6 +492,21 @@ export const onRequestPost: PagesFunction<Env> = async ({
       contexts: wiring.contexts,
       runtime: wiring.runtime,
       delivery,
+      rateLimiter: createTelegramRateLimiter(db),
+      telemetry: {
+        async recordError(input) {
+          await wiring.analytics.record({
+            orgId: input.orgId,
+            requestId: input.requestId,
+            event: {
+              type: 'sotuvchi.telegram_error',
+              locale: input.locale,
+              reasonCode: input.reasonCode,
+              latencyBucket: input.latencyBucket,
+            },
+          });
+        },
+      },
       addresses: createTelegramAddressBinder(
         createChannelAddressBindingPort(wiring.addresses),
         botUsername,

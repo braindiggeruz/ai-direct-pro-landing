@@ -403,3 +403,57 @@ Evidence at this checkpoint:
 The duplicate and processing-latency fields are wired but remain zero/unknown
 on an older schema. The next additive reliability migration will populate
 them without changing the existing update idempotency key.
+
+## Implementation checkpoint: Telegram reliability and provider fallback
+
+The reliability slice hardens the accepted-update path without widening any
+Telegram or tenant authority:
+
+- `0030_market_telegram_reliability.sql` adds repeatable, create-only tables
+  for update latency/duplicate counters and fixed-window rate limiting; the
+  existing update idempotency ledger and business tables are unchanged;
+- update metrics contain only the existing idempotency key, public bot
+  namespace, bounded counters, latency and timestamps;
+- rate-limit rows contain only SHA-256 scope keys, minute windows and bounded
+  counters. Raw Telegram user/chat identifiers, org identifiers, messages,
+  callbacks, profiles, IPs and credentials are never persisted;
+- per-user, private-chat, bot, tenant and callback limits run after durable
+  update reservation and before Runtime. A denied update remains terminal, so
+  replay cannot bypass the limit or execute an order later;
+- the localized rate-limit reply is sent at most once per scope/window;
+  subsequent denied updates are silently finalized to avoid turning abuse
+  protection into outbound amplification;
+- buyer text is bounded to 2,000 UTF-16 code units, control characters are
+  rejected, the webhook body remains capped at 64 KiB and callback actions
+  remain on their closed 48-character grammar;
+- Telegram calls use a bounded whole-response timeout and at most three
+  retries. `retry_after`, 5xx and network backoff are capped; 403 is terminal;
+  structured logs contain only method, status/reason, attempt and delay;
+- tenant-known Runtime, rate-store and delivery failures emit the closed
+  `sotuvchi.telegram_error` event with only a reason and latency bucket.
+
+Sotuvchi keeps `aiSelection: disabled`: catalog/category/budget/exact-prefix
+search, popular fallback, product details, comparison, ordering, buyer
+history, seller actions and handoff are deterministic first-party paths.
+Therefore an absent or failing LLM provider cannot remove those functions or
+replace them with the generic failure copy.
+
+Focused tests cover duplicate metrics, migration reapply, raw-identifier
+absence, user/chat/bot/tenant/callback limits, window reset, one-notice
+suppression, limiter storage failure, 2,000/2,001-character boundaries,
+control characters, malformed/media input, 429 `retry_after`, 5xx/network
+delay policy, bounded timeout, blocked/deleted-chat 403, safe telemetry and
+the existing RU/UZ buyer/order/seller/handoff flows without an AI provider.
+
+Evidence at this checkpoint:
+
+- reliability plus expanded Market/Owner targeted corpus: `327/327 PASS`;
+- TypeScript project build: `PASS`;
+- scoped ESLint over transport, wiring, Owner projection, pilot check and
+  tests: `PASS`;
+- migration `0030` clean bootstrap and repeated apply: `PASS`;
+- secret scan: `2660 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+No production migration, configuration change, webhook mutation, push or
+deployment was performed.

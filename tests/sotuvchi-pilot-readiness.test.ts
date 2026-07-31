@@ -1101,12 +1101,12 @@ test('the pilot check fails closed on missing or unsafe configuration', () => {
   assert.ok(isProtectedAgentBotUsername('gptbot_javob_bot'));
 });
 
-test('the pilot check lists migrations 0013 to 0023 in order', () => {
-  assert.equal(PILOT_MIGRATIONS.length, 11);
+test('the pilot check lists migrations 0013 to 0030 in order', () => {
+  assert.equal(PILOT_MIGRATIONS.length, 18);
   assert.equal(PILOT_MIGRATIONS[0], '0013_platform_events.sql');
   assert.equal(
     PILOT_MIGRATIONS[PILOT_MIGRATIONS.length - 1],
-    '0023_sotuvchi_handoff.sql',
+    '0030_market_telegram_reliability.sql',
   );
   const numbers = PILOT_MIGRATIONS.map((name) => Number(name.slice(0, 4)));
   assert.deepEqual(numbers, [...numbers].sort((a, b) => a - b));
@@ -1120,7 +1120,8 @@ test('the pilot check lists migrations 0013 to 0023 in order', () => {
   assert.ok(report.items.every(
     (item) => !item.id.startsWith('migration:') || item.ok,
   ));
-  // P2.7 adds no migration of its own.
+  // P2.7 analytics still uses the platform outbox rather than a parallel
+  // analytics table; R1.1 transport telemetry is isolated in migration 0030.
   assert.ok(!fs.existsSync(path.join(ROOT, 'migrations', '0024_sotuvchi_analytics.sql')));
 });
 

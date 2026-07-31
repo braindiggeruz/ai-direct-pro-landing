@@ -31,10 +31,12 @@ const FALLBACK = {
   ru: {
     runtime: 'Не удалось подготовить ответ. Попробуйте ещё раз позже.',
     mapping: 'Эта ссылка недоступна. Откройте актуальную ссылку бота.',
+    rateLimit: 'Слишком много запросов. Подождите минуту и попробуйте снова.',
   },
   uz: {
     runtime: 'Javobni tayyorlab bo‘lmadi. Keyinroq qayta urinib ko‘ring.',
     mapping: 'Bu havola mavjud emas. Botning amaldagi havolasini oching.',
+    rateLimit: 'So‘rovlar juda ko‘p. Bir daqiqa kutib, qayta urinib ko‘ring.',
   },
 } as const;
 
@@ -100,6 +102,12 @@ export function renderTelegramRuntimeFailure(
   locale: Locale,
 ): readonly TelegramRenderedMessage[] {
   return [{ text: FALLBACK[locale].runtime }];
+}
+
+export function renderTelegramRateLimit(
+  locale: Locale,
+): readonly TelegramRenderedMessage[] {
+  return [{ text: FALLBACK[locale].rateLimit }];
 }
 
 function parseThreadRef(threadRef: string): number {

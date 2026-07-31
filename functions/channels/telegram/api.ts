@@ -8,6 +8,7 @@ const TG_MAX_MESSAGE = 4096;
 const SAFE_CHUNK = 3900; // headroom under the hard limit
 const DEFAULT_TIMEOUT_MS = 12_000;
 const MAX_RETRIES = 3;
+const MAX_RETRY_DELAY_MS = 8_000;
 
 interface TelegramCallOptions {
   timeoutMs?: number;
@@ -44,14 +45,46 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+function boundedTimeout(value: number | undefined): number {
+  if (!Number.isFinite(value)) return DEFAULT_TIMEOUT_MS;
+  return Math.max(250, Math.min(15_000, Math.trunc(value!)));
+}
+
+function boundedRetries(value: number | undefined): number {
+  if (!Number.isFinite(value)) return MAX_RETRIES;
+  return Math.max(0, Math.min(MAX_RETRIES, Math.trunc(value!)));
+}
+
+export function telegramRetryDelayMs(
+  status: number,
+  retryAfterSeconds: number | undefined,
+  attempt: number,
+): number {
+  if (
+    status === 429
+    && Number.isFinite(retryAfterSeconds)
+    && Number(retryAfterSeconds) >= 0
+  ) {
+    return Math.max(
+      250,
+      Math.min(
+        MAX_RETRY_DELAY_MS,
+        Math.trunc(Number(retryAfterSeconds) * 1_000),
+      ),
+    );
+  }
+  const base = status === 0 ? 1_000 : 2_000;
+  return Math.min(base * 2 ** Math.max(0, attempt), MAX_RETRY_DELAY_MS);
+}
+
 export class TelegramClient {
   constructor(private token: string) {}
 
   /** Low-level call with retry/backoff. Never throws; returns TgResult. */
   async call<T = unknown>(method: string, body: Record<string, unknown> = {}, options: TelegramCallOptions = {}): Promise<TgResult<T>> {
     let attempt = 0;
-    const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
-    const maxRetries = options.maxRetries ?? MAX_RETRIES;
+    const timeoutMs = boundedTimeout(options.timeoutMs);
+    const maxRetries = boundedRetries(options.maxRetries);
     for (;;) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -62,15 +95,23 @@ export class TelegramClient {
           body: JSON.stringify(body),
           signal: controller.signal,
         });
+        const data = await res.json() as TgResult<T>;
         clearTimeout(timer);
-        const data = (await res.json().catch(() => ({ ok: false }))) as TgResult<T>;
         if (res.ok && data.ok) return data;
 
         const retriable = res.status === 429 || res.status >= 500;
         if (retriable && attempt < maxRetries) {
           const retryAfter = data.parameters?.retry_after;
-          const backoff = retryAfter ? retryAfter * 1000 : Math.min(2000 * 2 ** attempt, 8000);
+          const backoff = telegramRetryDelayMs(
+            res.status,
+            retryAfter,
+            attempt,
+          );
           attempt++;
+          console.warn(
+            `tg.${method} retry=${res.status === 429 ? 'rate_limited' : 'server'}`
+            + ` attempt=${attempt} delay_ms=${backoff}`,
+          );
           await sleep(backoff);
           continue;
         }
@@ -80,8 +121,12 @@ export class TelegramClient {
       } catch (e) {
         clearTimeout(timer);
         if (attempt < maxRetries) {
+          const backoff = telegramRetryDelayMs(0, undefined, attempt);
           attempt++;
-          await sleep(Math.min(1000 * 2 ** attempt, 6000));
+          console.warn(
+            `tg.${method} retry=network attempt=${attempt} delay_ms=${backoff}`,
+          );
+          await sleep(backoff);
           continue;
         }
         console.error(`tg.${method} network: ${(e as Error).name}`);
