@@ -70,7 +70,7 @@ export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, en
       ok: false,
       error: 'search_pulse_failed',
       code,
-    }, 502);
+    }, 424);
   }
   // IndexNow is the required automated notification path. Google OAuth is an
   // optional sitemap re-submission enhancement: without it Google continues
