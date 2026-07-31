@@ -18,6 +18,7 @@ export {
   CHECKOUT_CANCEL_ACTION,
   CHECKOUT_CONFIRM_ACTION,
   CHECKOUT_RESUME_ACTION,
+  CHECKOUT_SKIP_COMMENT_ACTION,
   CHECKOUT_START_ACTION_PREFIX,
   composeCheckoutResponse,
 } from './responses';
@@ -88,6 +89,7 @@ export {
   CHECKOUT_PHONE_PREFIX,
   maskBuyerPhone,
   normalizeBuyerAddress,
+  normalizeBuyerComment,
   normalizeBuyerName,
   normalizeBuyerPhone,
   normalizeCheckoutQuantity,

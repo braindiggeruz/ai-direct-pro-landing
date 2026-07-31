@@ -44,15 +44,15 @@ export function projectBuyerOrderHistoryFacts(
     values[`${prefix}.number`] = order.orderNumber;
     values[`${prefix}.title_display`] =
       `${BUYER_COPY[locale].order} ${order.orderNumber}`;
+    values[`${prefix}.product_id`] = order.productId;
     values[`${prefix}.product_name`] = order.productName;
-    values[`${prefix}.quantity`] = order.quantity;
     values[`${prefix}.quantity_display`] = String(order.quantity);
-    values[`${prefix}.total_minor`] = order.totalMinor;
     values[`${prefix}.total_display`] =
       formatBuyerPrice(order.totalMinor, locale);
-    values[`${prefix}.status`] = order.status;
     values[`${prefix}.status_display`] = STATUS_COPY[locale][order.status];
-    values[`${prefix}.placed_date`] = order.placedAt.slice(0, 10);
+    values[`${prefix}.store_name`] = order.storeName;
+    values[`${prefix}.placed_display`] =
+      `${order.placedAt.slice(0, 10)} ${order.placedAt.slice(11, 16)} UTC`;
   });
   return values;
 }
@@ -107,7 +107,6 @@ export function composeBuyerOrderHistoryResponse(
       `${prefix}.product_name`,
       'string',
     );
-    const quantity = claim(claims, facts, `${prefix}.quantity`, 'number');
     const quantityDisplay = claim(
       claims,
       facts,
@@ -120,7 +119,6 @@ export function composeBuyerOrderHistoryResponse(
       `${prefix}.total_display`,
       'string',
     );
-    claim(claims, facts, `${prefix}.total_minor`, 'number');
     const status = claim(
       claims,
       facts,
@@ -130,9 +128,19 @@ export function composeBuyerOrderHistoryResponse(
     const date = claim(
       claims,
       facts,
-      `${prefix}.placed_date`,
+      `${prefix}.placed_display`,
       'string',
     );
+    const store = claim(
+      claims,
+      facts,
+      `${prefix}.store_name`,
+      'string',
+    );
+    const productId = facts.values[`${prefix}.product_id`];
+    if (typeof productId !== 'string') {
+      throw new CheckoutValidationError('invalid_input');
+    }
     messages.push({
       text: index === 0 ? copy.orderHistory : '',
       card: {
@@ -142,8 +150,16 @@ export function composeBuyerOrderHistoryResponse(
           { label: copy.product, value: String(product) },
           { label: copy.quantity, value: String(quantityDisplay) },
           { label: copy.total, value: String(total) },
+          { label: copy.store, value: String(store) },
           { label: copy.status, value: String(status) },
           { label: copy.date, value: String(date) },
+        ],
+        actions: [
+          { id: 'buyer-seller', label: copy.askSeller },
+          {
+            id: `buyer-similar.${productId}`,
+            label: copy.similar,
+          },
         ],
       },
     });
@@ -151,7 +167,10 @@ export function composeBuyerOrderHistoryResponse(
   const last = messages[messages.length - 1];
   messages[messages.length - 1] = {
     ...last,
-    choices: recoveryChoices(locale),
+    choices: [
+      { id: 'buyer-catalog-open', label: copy.catalog },
+      { id: 'buyer-home', label: copy.homeButton },
+    ],
   };
   return { messages, claims };
 }

@@ -39,6 +39,7 @@ const ORDER_COLUMNS = `
          ordered.fulfillment_status AS fulfillment_status,
          ordered.total_minor AS total_minor,
          ordered.version AS version,
+         ordered.placed_at AS placed_at,
          item.product_id AS product_id,
          item.product_name_snapshot AS product_name_snapshot,
          item.unit_price_minor AS unit_price_minor,
@@ -62,6 +63,7 @@ interface OrderSummaryRow {
   fulfillment_status: string;
   total_minor: number | null;
   version: number;
+  placed_at: string | null;
   product_id: string;
   product_name_snapshot: string;
   unit_price_minor: number;
@@ -73,6 +75,7 @@ interface OrderDetailRow extends OrderSummaryRow {
   buyer_name: string | null;
   buyer_phone: string | null;
   buyer_address: string | null;
+  buyer_comment: string | null;
   inventory_on_hand: number | null;
   live_availability: string | null;
   live_status: string | null;
@@ -206,6 +209,11 @@ function requiredText(value: unknown, maxLength: number): string {
   return value;
 }
 
+function optionalText(value: unknown, maxLength: number): string | null {
+  if (value === null || value === undefined) return null;
+  return requiredText(value, maxLength);
+}
+
 function requireAvailability(value: unknown): CheckoutAvailability {
   if (value !== 'available' && value !== 'preorder') {
     throw new SellerOrdersPersistenceError('corrupt_row');
@@ -215,7 +223,12 @@ function requireAvailability(value: unknown): CheckoutAvailability {
 
 function toSummary(row: OrderSummaryRow): SellerOrderSummary {
   try {
-    if (row.quantity === null || row.total_minor === null) {
+    if (
+      row.quantity === null
+      || row.total_minor === null
+      || row.placed_at === null
+      || !validDate(row.placed_at)
+    ) {
       throw new SellerOrdersPersistenceError('corrupt_row');
     }
     return {
@@ -227,6 +240,7 @@ function toSummary(row: OrderSummaryRow): SellerOrderSummary {
       quantity: Number(row.quantity),
       totalMinor: Number(row.total_minor),
       version: requireSellerVersion(row.version),
+      placedAt: row.placed_at,
     };
   } catch (error) {
     if (error instanceof SellerOrdersPersistenceError) throw error;
@@ -248,6 +262,7 @@ function toDetail(row: OrderDetailRow): SellerOrderDetail {
       customerName: requiredText(row.buyer_name, 80),
       customerPhone: requiredText(row.buyer_phone, 16),
       customerAddress: requiredText(row.buyer_address, 240),
+      customerComment: optionalText(row.buyer_comment, 240),
       inventoryOnHand: row.inventory_on_hand === null
         ? null
         : requireInventoryBalance(Number(row.inventory_on_hand)),
@@ -445,6 +460,7 @@ export function createSotuvchiOrdersStore(db: D1Database): SellerOrdersStore {
                          ordered.buyer_name AS buyer_name,
                          ordered.buyer_phone AS buyer_phone,
                          ordered.buyer_address AS buyer_address,
+                         ordered.buyer_comment AS buyer_comment,
                          inventory.on_hand AS inventory_on_hand,
                          product.availability AS live_availability,
                          product.status AS live_status

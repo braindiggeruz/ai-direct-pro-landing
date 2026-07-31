@@ -17,6 +17,7 @@ import {
   CHECKOUT_CANCEL_ACTION,
   CHECKOUT_CONFIRM_ACTION,
   CHECKOUT_RESUME_ACTION,
+  CHECKOUT_SKIP_COMMENT_ACTION,
   composeCheckoutResponse,
 } from './responses';
 import type { SotuvchiCheckoutService } from './service';
@@ -127,6 +128,13 @@ export function createSotuvchiCheckoutWorkflowPort(
         }
       }
 
+      if (
+        snapshot.state === 'awaiting_comment'
+        && isAction(message, CHECKOUT_SKIP_COMMENT_ACTION)
+      ) {
+        return checkoutAnswer(await service.skipComment(org), locale);
+      }
+
       const text = textOf(message);
       if (text === null) return checkoutAnswer(snapshot, locale, true);
 
@@ -149,6 +157,9 @@ export function createSotuvchiCheckoutWorkflowPort(
         }
         if (snapshot.state === 'awaiting_address') {
           return checkoutAnswer(await service.submitAddress(org, text), locale);
+        }
+        if (snapshot.state === 'awaiting_comment') {
+          return checkoutAnswer(await service.submitComment(org, text), locale);
         }
       } catch (error) {
         if (

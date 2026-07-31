@@ -8,11 +8,13 @@ import type {
 } from '../../../platform/contracts';
 import { CheckoutValidationError } from './errors';
 import { CHECKOUT_VIEWS, type CheckoutView } from './facts';
+import { BUYER_COPY } from '../experience';
 
 export const CHECKOUT_START_ACTION_PREFIX = 'buyer-checkout.';
 export const CHECKOUT_CONFIRM_ACTION = 'buyer-checkout-confirm';
 export const CHECKOUT_CANCEL_ACTION = 'buyer-checkout-cancel';
 export const CHECKOUT_RESUME_ACTION = 'buyer-checkout-resume';
+export const CHECKOUT_SKIP_COMMENT_ACTION = 'buyer-checkout-comment-skip';
 
 const VIEWS = new Set<string>(CHECKOUT_VIEWS);
 
@@ -27,7 +29,14 @@ const COPY = {
     namePrompt: 'Как вас зовут? Отправьте имя покупателя.',
     phonePrompt: 'Отправьте номер телефона. Формат:',
     phoneDigits: 'и девять цифр.',
-    addressPrompt: 'Укажите адрес доставки одним сообщением.',
+    addressPrompt:
+      'Напишите запрос на получение: доставка и адрес, самовывоз или «обсудить с продавцом». Это запрос, не обещание.',
+    commentPrompt:
+      'Добавьте комментарий к заказу или нажмите «Пропустить».',
+    comment: 'Комментарий',
+    commentGiven: 'указан',
+    commentMissing: 'не указан',
+    skip: 'Пропустить',
     review: 'Проверьте заказ.',
     priceChanged: 'Цена изменилась. Подтвердите заказ ещё раз.',
     product: 'Товар',
@@ -37,6 +46,8 @@ const COPY = {
     address: 'Адрес',
     addressGiven: 'указан',
     status: 'Статус',
+    store: 'Магазин',
+    fulfillment: 'Запрос получения',
     request: 'Это заявка, не оплата.',
     placed: 'Заказ принят. Номер:',
     placedNote: 'Это заявка. Оплата не производилась, продавец свяжется с вами.',
@@ -46,6 +57,8 @@ const COPY = {
     confirm: 'Подтвердить',
     cancel: 'Отменить',
     resume: 'Продолжить',
+    outOfStock:
+      'Товар только что закончился. Могу показать похожие варианты.',
   },
   uz: {
     rejected: 'Qiymat qabul qilinmadi. ',
@@ -57,7 +70,14 @@ const COPY = {
     namePrompt: 'Ismingiz nima? Xaridor ismini yuboring.',
     phonePrompt: 'Telefon raqamini yuboring. Format:',
     phoneDigits: 'va to‘qqiz raqam.',
-    addressPrompt: 'Yetkazib berish manzilini bitta xabarda yuboring.',
+    addressPrompt:
+      'Olish so‘rovini yozing: yetkazib berish va manzil, olib ketish yoki «sotuvchi bilan muhokama». Bu so‘rov, va’da emas.',
+    commentPrompt:
+      'Buyurtmaga izoh qo‘shing yoki «O‘tkazib yuborish»ni bosing.',
+    comment: 'Izoh',
+    commentGiven: 'kiritilgan',
+    commentMissing: 'kiritilmagan',
+    skip: 'O‘tkazib yuborish',
     review: 'Buyurtmani tekshiring.',
     priceChanged: 'Narx o‘zgardi. Buyurtmani qaytadan tasdiqlang.',
     product: 'Mahsulot',
@@ -67,6 +87,8 @@ const COPY = {
     address: 'Manzil',
     addressGiven: 'kiritilgan',
     status: 'Holat',
+    store: 'Do‘kon',
+    fulfillment: 'Olish so‘rovi',
     request: 'Bu ariza, to‘lov emas.',
     placed: 'Buyurtma qabul qilindi. Raqam:',
     placedNote:
@@ -77,6 +99,8 @@ const COPY = {
     confirm: 'Tasdiqlash',
     cancel: 'Bekor qilish',
     resume: 'Davom etish',
+    outOfStock:
+      'Mahsulot hozirgina tugadi. O‘xshash variantlarni ko‘rsataman.',
   },
 } as const;
 
@@ -95,6 +119,14 @@ function claim(
 function readBoolean(facts: FactSheet, key: string): boolean {
   const value = facts.values[key];
   if (typeof value !== 'boolean') {
+    throw new CheckoutValidationError('invalid_input');
+  }
+  return value;
+}
+
+function readString(facts: FactSheet, key: string): string {
+  const value = facts.values[key];
+  if (typeof value !== 'string') {
     throw new CheckoutValidationError('invalid_input');
   }
   return value;
@@ -143,6 +175,15 @@ export function composeCheckoutResponse(
 
   if (view === 'cancelled') {
     return draft(`${prefix}${copy.cancelled}`, claims, []);
+  }
+  if (view === 'out_of_stock') {
+    const productRef = readString(facts, 'checkout.product.ref');
+    const buyerCopy = BUYER_COPY[locale];
+    return draft(copy.outOfStock, claims, [
+      { id: `buyer-similar.${productRef}`, label: buyerCopy.similar },
+      { id: 'buyer-seller', label: buyerCopy.askSeller },
+      { id: 'buyer-home', label: buyerCopy.homeButton },
+    ]);
   }
 
   const name = claim(claims, facts, 'checkout.product.name', 'string');
@@ -208,18 +249,34 @@ export function composeCheckoutResponse(
       [cancelChoice(locale)],
     );
   }
+  if (view === 'comment') {
+    return draft(
+      `${prefix}${copy.commentPrompt}`,
+      claims,
+      [
+        { id: CHECKOUT_SKIP_COMMENT_ACTION, label: copy.skip },
+        cancelChoice(locale),
+      ],
+    );
+  }
 
   const quantity = claim(claims, facts, 'checkout.quantity', 'number');
   const totalDisplay = claim(claims, facts, 'checkout.total_display', 'string');
   const orderNumber = claim(claims, facts, 'checkout.order.number', 'string');
+  const store = claim(claims, facts, 'checkout.store.name', 'string');
 
   if (view === 'completed') {
     return draft(
       `${copy.placed} ${orderNumber}\n${copy.product}: ${name}\n`
       + `${copy.quantity}: ${quantity}\n${copy.total}: ${totalDisplay}\n`
+      + `${copy.store}: ${store}\n`
       + `${copy.placedNote}`,
       claims,
-      [],
+      [
+        { id: 'buyer-orders', label: BUYER_COPY[locale].orders },
+        { id: 'buyer-seller', label: BUYER_COPY[locale].askSeller },
+        { id: 'buyer-home', label: BUYER_COPY[locale].homeButton },
+      ],
     );
   }
 
@@ -232,14 +289,20 @@ export function composeCheckoutResponse(
   if (!readBoolean(facts, 'checkout.customer.address_present')) {
     throw new CheckoutValidationError('invalid_input');
   }
+  const comment = readBoolean(facts, 'checkout.customer.comment_present')
+    ? copy.commentGiven
+    : copy.commentMissing;
   const changed = readBoolean(facts, 'checkout.price_changed')
     ? `${copy.priceChanged}\n`
     : '';
   return draft(
     `${prefix}${changed}${copy.review}\n${copy.product}: ${name}\n`
     + `${copy.price}: ${priceDisplay}\n${copy.status}: ${availability}\n`
+    + `${copy.store}: ${store}\n`
     + `${copy.quantity}: ${quantity}\n${copy.total}: ${totalDisplay}\n`
-    + `${copy.phone}: ${phoneMasked}\n${copy.address}: ${copy.addressGiven}\n`
+    + `${copy.phone}: ${phoneMasked}\n`
+    + `${copy.fulfillment}: ${copy.addressGiven}\n`
+    + `${copy.comment}: ${comment}\n`
     + `${copy.request}`,
     claims,
     [

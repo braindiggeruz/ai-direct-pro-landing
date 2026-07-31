@@ -14,6 +14,7 @@ import {
   requireOrderNumber,
   requireOrderStatus,
 } from './validation';
+import { normalizeStoreName } from '../onboarding/validation';
 
 const ORDER_SELECT = `
   SELECT ordered.id AS id,
@@ -23,9 +24,11 @@ const ORDER_SELECT = `
          ordered.workflow_instance_id AS workflow_instance_id,
          ordered.order_number AS order_number,
          ordered.status AS status,
+         store.name AS store_name,
          ordered.buyer_name AS buyer_name,
          ordered.buyer_phone AS buyer_phone,
          ordered.buyer_address AS buyer_address,
+         ordered.buyer_comment AS buyer_comment,
          ordered.total_minor AS total_minor,
          ordered.currency AS currency,
          ordered.version AS version,
@@ -40,7 +43,9 @@ const ORDER_SELECT = `
          item.line_total_minor AS line_total_minor
   FROM sotuvchi_orders AS ordered
   JOIN sotuvchi_order_items AS item
-    ON item.org_id = ordered.org_id AND item.order_id = ordered.id`;
+    ON item.org_id = ordered.org_id AND item.order_id = ordered.id
+  JOIN sotuvchi_stores AS store
+    ON store.org_id = ordered.org_id AND store.id = ordered.store_id`;
 
 interface OrderRow {
   id: string;
@@ -50,9 +55,11 @@ interface OrderRow {
   workflow_instance_id: string;
   order_number: string;
   status: string;
+  store_name: string;
   buyer_name: string | null;
   buyer_phone: string | null;
   buyer_address: string | null;
+  buyer_comment: string | null;
   total_minor: number | null;
   currency: string;
   version: number;
@@ -132,6 +139,11 @@ export interface CheckoutStore {
     buyerSessionId: string,
     limit: number,
   ): Promise<BuyerOrderSummary[]>;
+  getInventoryOnHand(
+    orgId: string,
+    storeId: string,
+    productId: string,
+  ): Promise<number | null>;
   createOrder(
     input: CreateOrderInput,
     operation: CheckoutOperationInput,
@@ -146,6 +158,12 @@ export interface CheckoutStore {
     order: SotuvchiOrder,
     field: CheckoutContactField,
     value: string,
+    expectedVersion: number,
+    operation: CheckoutOperationInput,
+  ): Promise<readonly number[]>;
+  setComment(
+    order: SotuvchiOrder,
+    value: string | null,
     expectedVersion: number,
     operation: CheckoutOperationInput,
   ): Promise<readonly number[]>;
@@ -239,6 +257,8 @@ function fromOrderRow(row: OrderRow): SotuvchiOrder {
       buyerName: optionalText(row.buyer_name, 80),
       buyerPhone: optionalText(row.buyer_phone, 16),
       buyerAddress: optionalText(row.buyer_address, 240),
+      buyerComment: optionalText(row.buyer_comment, 240),
+      storeName: normalizeStoreName(row.store_name),
       createdAt: row.created_at,
       updatedAt: row.updated_at,
       placedAt: row.placed_at,
@@ -406,12 +426,17 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
                          ordered.fulfillment_status,
                          ordered.total_minor,
                          ordered.placed_at,
+                         item.product_id,
                          item.product_name_snapshot,
-                         item.quantity
+                         item.quantity,
+                         store.name AS store_name
                   FROM sotuvchi_orders AS ordered
                   JOIN sotuvchi_order_items AS item
                     ON item.org_id = ordered.org_id
                    AND item.order_id = ordered.id
+                  JOIN sotuvchi_stores AS store
+                    ON store.org_id = ordered.org_id
+                   AND store.id = ordered.store_id
                   WHERE ordered.org_id = ?
                     AND ordered.store_id = ?
                     AND ordered.buyer_session_id = ?
@@ -431,8 +456,10 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
           fulfillment_status: string;
           total_minor: number | null;
           placed_at: string | null;
+          product_id: string;
           product_name_snapshot: string;
           quantity: number | null;
+          store_name: string;
         }>();
       return (rows.results ?? []).map((row) => {
         if (
@@ -458,6 +485,7 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
         if (!status) throw new CheckoutPersistenceError('corrupt_row');
         return {
           orderNumber: requireOrderNumber(row.order_number),
+          productId: requireCheckoutId(row.product_id),
           productName: optionalText(row.product_name_snapshot, 120)
             ?? (() => {
               throw new CheckoutPersistenceError('corrupt_row');
@@ -465,9 +493,32 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
           quantity: Number(row.quantity),
           totalMinor: requireCheckoutTotal(row.total_minor),
           status,
+          storeName: normalizeStoreName(row.store_name),
           placedAt: row.placed_at,
         };
       });
+    },
+
+    async getInventoryOnHand(orgId, storeId, productId) {
+      const row = await db
+        .prepare(`SELECT on_hand
+                  FROM sotuvchi_inventory
+                  WHERE org_id = ? AND store_id = ? AND product_id = ?`)
+        .bind(
+          requireCheckoutId(orgId),
+          requireCheckoutId(storeId),
+          requireCheckoutId(productId),
+        )
+        .first<{ on_hand: number }>();
+      if (!row) return null;
+      if (
+        !Number.isInteger(row.on_hand)
+        || Number(row.on_hand) < 0
+        || Number(row.on_hand) > 1_000_000
+      ) {
+        throw new CheckoutPersistenceError('corrupt_row');
+      }
+      return Number(row.on_hand);
     },
 
     async createOrder(input, operation) {
@@ -475,10 +526,11 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
         db.prepare(`INSERT INTO sotuvchi_orders
           (id, org_id, store_id, buyer_session_id, workflow_instance_id,
            order_number, status, buyer_name, buyer_phone, buyer_address,
+           buyer_comment,
            total_minor, currency, version, last_operation_key,
            created_at, updated_at, placed_at)
           SELECT ?, session.org_id, session.store_id, session.id, ?, ?,
-                 'draft', NULL, NULL, NULL, NULL, 'UZS', 1, ?, ?, ?, NULL
+                 'draft', NULL, NULL, NULL, NULL, NULL, 'UZS', 1, ?, ?, ?, NULL
           FROM sotuvchi_storefront_sessions AS session
           JOIN sotuvchi_stores AS store
             ON store.org_id = session.org_id
@@ -632,6 +684,31 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
       return changesOf(results);
     },
 
+    async setComment(order, value, expectedVersion, operation) {
+      const results = await db.batch([
+        db.prepare(`UPDATE sotuvchi_orders
+                    SET buyer_comment = ?,
+                        version = version + 1,
+                        last_operation_key = ?,
+                        updated_at = ?
+                    WHERE org_id = ? AND store_id = ? AND id = ?
+                      AND status = 'draft' AND version = ?
+                      AND buyer_session_id = ?`)
+          .bind(
+            value,
+            operation.idempotencyKey,
+            operation.createdAt,
+            order.orgId,
+            order.storeId,
+            order.id,
+            expectedVersion,
+            order.buyerSessionId,
+          ),
+        operationStatement(order, operation),
+      ]);
+      return changesOf(results);
+    },
+
     async refreshPrice(order, priceMinor, expectedVersion, operation) {
       const results = await db.batch([
         db.prepare(`UPDATE sotuvchi_order_items
@@ -732,6 +809,24 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
                           AND product.price_minor = item.unit_price_minor
                           AND (product.category_id IS NULL
                             OR category.status = 'active')
+                          AND (
+                            product.availability = 'preorder'
+                            OR NOT EXISTS (
+                              SELECT 1
+                              FROM sotuvchi_inventory AS inventory
+                              WHERE inventory.org_id = product.org_id
+                                AND inventory.store_id = product.store_id
+                                AND inventory.product_id = product.id
+                            )
+                            OR EXISTS (
+                              SELECT 1
+                              FROM sotuvchi_inventory AS inventory
+                              WHERE inventory.org_id = product.org_id
+                                AND inventory.store_id = product.store_id
+                                AND inventory.product_id = product.id
+                                AND inventory.on_hand >= item.quantity
+                            )
+                          )
                       )`)
           .bind(
             placedAt,

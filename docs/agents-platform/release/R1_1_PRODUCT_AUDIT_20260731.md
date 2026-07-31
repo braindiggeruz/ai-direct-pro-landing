@@ -268,3 +268,54 @@ Evidence at this checkpoint:
 `0028_market_product_comparison.sql` is create-only and additive. Production
 migration and deployment remain deferred until the remaining R1.1 slices and
 release gates pass.
+
+## Implementation checkpoint: buyer orders and seller response
+
+The order-quality slice completes the single-product buyer flow and the
+seller's first-response surface:
+
+- checkout now collects quantity, bounded contact data, a clearly labelled
+  delivery/pickup request and an optional bounded comment;
+- the final review shows the current catalog product, integer UZS unit price
+  and total, store, availability, masked phone and comment presence;
+- final placement revalidates the active store, pilot, published product,
+  category, price and any configured inventory balance inside the guarded
+  write;
+- a configured balance below the requested quantity cancels the draft before
+  placement, creates no seller notification and never changes inventory;
+- placement remains idempotent and writes exactly one content-free seller
+  notification intent. Inventory is decremented only by the seller's atomic
+  confirmation and at most once;
+- completed checkout offers buyer orders, verified seller contact and home;
+  the out-of-stock recovery offers similar products, seller contact and home;
+- buyer history shows at most five tenant-scoped orders with order number,
+  product, quantity, total, store, status and UTC placement time, without
+  buyer name, phone or address;
+- seller list projections remain contact-free. Authorized detail and
+  notification rendering rebuild contact/comment data from the trusted order
+  at read time;
+- the seller notification offers confirm, no-stock, contact, handoff and view
+  actions. Every order action is re-resolved through the authenticated store
+  owner and never trusts tenant authority from a callback;
+- `0029_market_checkout_comment.sql` additively stores the optional comment
+  only on the tenant-scoped order aggregate.
+
+Focused security review confirmed that comment text is absent from workflow
+payloads, operation fingerprints, notification rows and analytics; outbox
+rows remain payload-free; configured-stock failures are idempotent; seller
+contacts never enter list projections; and every inventory movement remains
+store-scoped, unique and atomic.
+
+Evidence at this checkpoint:
+
+- buyer checkout and seller order/inventory targeted corpus: `80/80 PASS`;
+- expanded Sotuvchi, Telegram webhook, Owner Center and release regression:
+  `425/425 PASS`;
+- TypeScript project build: `PASS`;
+- scoped ESLint over checkout, orders and their tests: `PASS`;
+- secret scan: `2659 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+Production migration and deployment remain intentionally deferred until
+analytics, reliability, fixture, metadata, governance, full gates and the
+independent main-to-feature review all pass.

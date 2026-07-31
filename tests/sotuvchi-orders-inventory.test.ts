@@ -17,6 +17,7 @@ import {
   isAllowedSellerTransition,
   normalizeOnHand,
   parseOnHandText,
+  projectNotificationFacts,
   projectSellerInventoryFacts,
   projectSellerOrderFacts,
   projectSellerOrdersFacts,
@@ -208,6 +209,7 @@ async function placeOrder(
   identityId: string,
   productId: string,
   quantity = 2,
+  comment: string | null = null,
 ): Promise<string> {
   await setup.checkout.startCheckout(buyerOrg(setup, identityId), productId);
   await setup.checkout.submitQuantity(buyerOrg(setup, identityId), quantity);
@@ -217,6 +219,14 @@ async function placeOrder(
     buyerOrg(setup, identityId),
     'Тошкент, Чилонзор 5',
   );
+  if (comment === null) {
+    await setup.checkout.skipComment(buyerOrg(setup, identityId));
+  } else {
+    await setup.checkout.submitComment(
+      buyerOrg(setup, identityId),
+      comment,
+    );
+  }
   const placed = await setup.checkout.confirmCheckout(
     buyerOrg(setup, identityId),
   );
@@ -1008,6 +1018,54 @@ test('notification delivery is at-least-once and independent of the order', asyn
 
 // ── Facts, grounding and rendering ─────────────────────────────────────────
 
+test('seller notification is grounded, actionable and rebuilt from the order', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '8200281');
+  const product = await publish(setup);
+  const buyer = await bindBuyer(fixture, setup, '9200281');
+  const comment = 'Позвонить перед встречей';
+  const orderId = await placeOrder(setup, buyer, product.id, 2, comment);
+  const intent = (
+    await setup.orders.listPendingNotifications(
+      setup.owner.orgId,
+      setup.owner.storeId,
+    )
+  )[0];
+  assert.ok(intent);
+  const order = await setup.orders.readNotificationOrder(
+    intent.orgId,
+    intent.storeId,
+    intent.orderId,
+  );
+  const facts = {
+    toolName: 'seller.notification',
+    values: projectNotificationFacts(intent.type, order, 'ru'),
+  };
+  const response = composeSellerOrdersResponse(facts, 'ru');
+  assert.deepEqual(groundResponse(response, [facts]), { status: 'passed' });
+  const rendered = JSON.stringify(response);
+  for (const required of [
+    order.orderNumber,
+    product.name,
+    comment,
+    `seller-order-confirm.${orderId}`,
+    `seller-order-cancel.${orderId}`,
+    `seller-order-contact.${orderId}`,
+    'seller-handoffs',
+    `seller-order-view.${orderId}`,
+    'UTC',
+  ]) {
+    assert.ok(rendered.includes(required), required);
+  }
+  assert.ok(!rendered.includes(setup.owner.orgId));
+  assert.ok(!rendered.includes(setup.owner.storeId));
+  assert.ok(
+    !JSON.stringify(
+      fixture.rows('SELECT * FROM sotuvchi_notifications'),
+    ).includes(comment),
+  );
+});
+
 test('seller messages pass strict grounding in RU and UZ', async () => {
   const fixture = new SqliteD1();
   for (const locale of ['ru', 'uz'] as const) {
@@ -1263,7 +1321,7 @@ test('Telegram RU seller confirms and completes a placed order', async () => {
     'done',
   );
   const rendered = JSON.stringify(harness.delivery.sent);
-  assert.ok(!/Оплатить|Payme|Click|оператор|корзин/i.test(rendered));
+  assert.ok(!/Оплатить|Payme|Click|корзин/i.test(rendered));
 });
 
 test('Telegram UZ seller flow and duplicate updates stay single-effect', async () => {

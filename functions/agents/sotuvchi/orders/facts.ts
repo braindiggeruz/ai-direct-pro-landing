@@ -81,6 +81,8 @@ function summaryValues(
     [`${prefix}.total_minor`]: order.totalMinor,
     [`${prefix}.total_display`]: formatBuyerPrice(order.totalMinor, locale),
     [`${prefix}.version`]: order.version,
+    [`${prefix}.placed_at_display`]:
+      `${order.placedAt.slice(0, 10)} ${order.placedAt.slice(11, 16)} UTC`,
   };
 }
 
@@ -122,6 +124,10 @@ export function projectSellerOrderFacts(
     'seller.order.customer_name': order.customerName,
     'seller.order.customer_phone': order.customerPhone,
     'seller.order.customer_address': order.customerAddress,
+    'seller.order.customer_comment_present': order.customerComment !== null,
+    ...(order.customerComment === null
+      ? {}
+      : { 'seller.order.customer_comment': order.customerComment }),
     'seller.order.inventory_required': order.inventoryRequired,
     'seller.order.inventory_known': order.inventoryOnHand !== null,
     ...(order.inventoryOnHand === null
@@ -201,5 +207,9 @@ export function projectNotificationFacts(
     'seller.notification.type': type,
     'seller.notification.title': notificationLabel(type, locale),
     ...summaryValues('seller.order', order, locale),
+    'seller.order.customer_comment_present': order.customerComment !== null,
+    ...(order.customerComment === null
+      ? {}
+      : { 'seller.order.customer_comment': order.customerComment }),
   };
 }

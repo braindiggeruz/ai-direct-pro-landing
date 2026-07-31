@@ -19,6 +19,7 @@ export const CHECKOUT_LIMITS = Object.freeze({
   nameMax: 80,
   addressMin: 5,
   addressMax: 240,
+  commentMax: 240,
   totalMinor: 99_000_000_000_000,
 });
 
@@ -165,6 +166,21 @@ export function normalizeBuyerAddress(value: unknown): string {
     || hasControlCharacters(normalized)
   ) {
     throw new CheckoutValidationError('invalid_address');
+  }
+  return normalized;
+}
+
+export function normalizeBuyerComment(value: unknown): string {
+  if (typeof value !== 'string') {
+    throw new CheckoutValidationError('invalid_comment');
+  }
+  const normalized = value.trim().replace(/\s+/g, ' ');
+  if (
+    normalized.length < 1
+    || normalized.length > CHECKOUT_LIMITS.commentMax
+    || hasControlCharacters(normalized)
+  ) {
+    throw new CheckoutValidationError('invalid_comment');
   }
   return normalized;
 }

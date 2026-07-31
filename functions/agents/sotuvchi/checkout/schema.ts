@@ -13,6 +13,7 @@ export const SOTUVCHI_CHECKOUT_DDL = [
     buyer_name TEXT,
     buyer_phone TEXT,
     buyer_address TEXT,
+    buyer_comment TEXT,
     total_minor INTEGER
       CHECK (total_minor IS NULL
         OR (total_minor >= 0 AND total_minor <= 99000000000000)),
@@ -88,6 +89,8 @@ const SOTUVCHI_CHECKOUT_UPGRADES = [
   `ALTER TABLE sotuvchi_orders
      ADD COLUMN fulfillment_status TEXT NOT NULL DEFAULT 'none'
        CHECK (fulfillment_status IN ('none', 'confirmed', 'done'))`,
+  `ALTER TABLE sotuvchi_orders
+     ADD COLUMN buyer_comment TEXT`,
 ] as const;
 
 function isDuplicateColumn(error: unknown): boolean {

@@ -1026,6 +1026,7 @@ async function placeOrder(
     buyerOrg(setup, identityId),
     'Тошкент, Чилонзор 5',
   );
+  await setup.checkout.skipComment(buyerOrg(setup, identityId));
   const placed = await setup.checkout.confirmCheckout(
     buyerOrg(setup, identityId),
   );

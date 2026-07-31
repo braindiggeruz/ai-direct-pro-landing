@@ -51,6 +51,15 @@ export const sotuvchiCheckoutWorkflow: WorkflowDefinition<
     awaiting_address: {
       transitions: [{
         trigger: { on: 'action', actionId: 'submit-address' },
+        to: 'awaiting_comment',
+      }, cancel],
+    },
+    awaiting_comment: {
+      transitions: [{
+        trigger: { on: 'action', actionId: 'submit-comment' },
+        to: 'awaiting_confirmation',
+      }, {
+        trigger: { on: 'action', actionId: 'skip-comment' },
         to: 'awaiting_confirmation',
       }, cancel],
     },
