@@ -84,12 +84,13 @@ Required configuration:
 2. The same `CRON_SECRET` in Cloudflare Pages production secrets.
 3. `INDEXNOW_KEY` in Cloudflare Pages for Yandex and the federated IndexNow
    network.
-4. The three GSC OAuth secrets listed above for automatic Google sitemap
-   submission.
+4. Optional: the three GSC OAuth secrets listed above for automatic Google
+   Sitemap API re-submission.
 
-If Google OAuth is absent, IndexNow still runs, but the scheduled workflow
-fails visibly instead of reporting a misleading full success. This gives the
-owner a GitHub Actions notification until Google is connected.
+If Google OAuth is absent, IndexNow still runs and the workflow succeeds with
+a visible warning. Google can continue discovering the deployed
+`sitemap.xml`; only the optional authenticated Sitemap API re-submission is
+unavailable. A missing or failed IndexNow path remains a hard workflow error.
 
 The workflow has a concurrency lock, a five-minute timeout and no automatic
 HTTP retry. Per-URL success is stored in the existing append-only

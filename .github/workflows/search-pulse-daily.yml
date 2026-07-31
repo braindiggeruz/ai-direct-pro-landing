@@ -49,7 +49,10 @@ jobs:
             echo "::error::Search Pulse returned HTTP ${status}"
             exit 1
           fi
-          if ! jq -e '.ok == true and .gscConfigured == true and .indexNowConfigured == true' "$response_file" >/dev/null; then
-            echo "::error::Search Pulse completed only partially"
+          if ! jq -e '.ok == true and .indexNowConfigured == true' "$response_file" >/dev/null; then
+            echo "::error::Search Pulse did not complete the required IndexNow path"
             exit 1
+          fi
+          if jq -e '.gscConfigured == false' "$response_file" >/dev/null; then
+            echo "::warning::GSC OAuth is not configured; Google continues to discover the deployed sitemap.xml, while automatic Sitemap API resubmission remains unavailable"
           fi

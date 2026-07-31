@@ -8,7 +8,10 @@ import {
 import type { BoosterItem } from '../src/shared/booster.ts';
 import { submitSitemapToGsc } from '../functions/lib/gsc/sitemap.ts';
 import type { Env } from '../functions/_types.ts';
-import { onRequestPost as dailySearchPulsePost } from '../functions/api/internal/search-pulse/daily.ts';
+import {
+  onRequestPost as dailySearchPulsePost,
+  scheduledSearchPulseStatus,
+} from '../functions/api/internal/search-pulse/daily.ts';
 import type { SearchPulseEnv } from '../functions/lib/search-pulse/service.ts';
 
 const NOW = Date.parse('2026-07-31T12:00:00.000Z');
@@ -194,5 +197,23 @@ describe('daily Search Pulse endpoint auth', () => {
     });
     assert.equal(response.status, 401);
     assert.deepEqual(await response.json(), { ok: false, error: 'Unauthorized.' });
+  });
+
+  test('treats missing optional GSC OAuth as a successful scheduled run', () => {
+    assert.equal(scheduledSearchPulseStatus({
+      ok: true,
+      indexNowConfigured: true,
+    }), 200);
+  });
+
+  test('keeps a missing or failed IndexNow path fatal', () => {
+    assert.equal(scheduledSearchPulseStatus({
+      ok: true,
+      indexNowConfigured: false,
+    }), 424);
+    assert.equal(scheduledSearchPulseStatus({
+      ok: false,
+      indexNowConfigured: true,
+    }), 502);
   });
 });

@@ -9,6 +9,7 @@ import {
   runSearchPulse,
   type SearchPulseEnv,
 } from '../../../lib/search-pulse/service';
+import type { SearchPulseRunResult } from '../../../../src/shared/search-pulse';
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -26,6 +27,13 @@ function bearer(request: Request): string | null {
   return header.slice(7).trim() || null;
 }
 
+export function scheduledSearchPulseStatus(
+  result: Pick<SearchPulseRunResult, 'ok' | 'indexNowConfigured'>,
+): number {
+  if (!result.indexNowConfigured) return 424;
+  return result.ok ? 200 : 502;
+}
+
 export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, env }) => {
   if (!env.CRON_SECRET) {
     return json({ ok: false, error: 'CRON_SECRET is not configured.' }, 503);
@@ -36,11 +44,11 @@ export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, en
   }
 
   const result = await runSearchPulse(env, 'system:daily-search-pulse');
-  // Yandex/IndexNow still runs when GSC OAuth is missing, but the scheduler
-  // stays red so the owner cannot mistake a partial setup for full automation.
-  const status = !result.gscConfigured || !result.indexNowConfigured
-    ? 424
-    : result.ok ? 200 : 502;
+  // IndexNow is the required automated notification path. Google OAuth is an
+  // optional sitemap re-submission enhancement: without it Google continues
+  // discovering the accurate sitemap and the response carries a visible
+  // `gscConfigured: false` state for the workflow warning.
+  const status = scheduledSearchPulseStatus(result);
   return json({
     ...result,
     scheduled: true,
