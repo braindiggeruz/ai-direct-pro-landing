@@ -24,6 +24,7 @@ export interface TelegramDeliveryPort {
     text: string,
     keyboard?: InlineKeyboard,
   ): Promise<boolean>;
+  showTyping?(threadRef: string): Promise<boolean>;
   answerCallback(callbackQueryId: string): Promise<boolean>;
 }
 
@@ -122,7 +123,10 @@ function parseThreadRef(threadRef: string): number {
 }
 
 export function createTelegramDeliveryPort(
-  client: Pick<TelegramClient, 'sendMessage' | 'answerCallbackQuery'>,
+  client: Pick<
+    TelegramClient,
+    'sendMessage' | 'sendChatAction' | 'answerCallbackQuery'
+  >,
 ): TelegramDeliveryPort {
   return {
     async sendText(threadRef, text, keyboard) {
@@ -131,6 +135,10 @@ export function createTelegramDeliveryPort(
         text,
         keyboard ? { keyboard } : {},
       );
+      return result.ok;
+    },
+    async showTyping(threadRef) {
+      const result = await client.sendChatAction(parseThreadRef(threadRef));
       return result.ok;
     },
     async answerCallback(callbackQueryId) {

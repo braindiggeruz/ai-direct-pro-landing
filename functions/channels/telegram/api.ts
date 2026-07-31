@@ -151,11 +151,23 @@ export class TelegramClient {
   }
 
   answerCallbackQuery(id: string, text?: string) {
-    return this.call('answerCallbackQuery', { callback_query_id: id, ...(text ? { text } : {}) });
+    // Callback acknowledgements are useful only while Telegram is showing the
+    // button spinner. A late retry adds latency without improving the UX.
+    return this.call(
+      'answerCallbackQuery',
+      { callback_query_id: id, ...(text ? { text } : {}) },
+      { timeoutMs: 2_000, maxRetries: 0 },
+    );
   }
 
   sendChatAction(chatId: number, action = 'typing') {
-    return this.call('sendChatAction', { chat_id: chatId, action });
+    // Typing is best-effort feedback, not a domain operation. Fail fast so an
+    // old indicator cannot appear after the actual response.
+    return this.call(
+      'sendChatAction',
+      { chat_id: chatId, action },
+      { timeoutMs: 2_000, maxRetries: 0 },
+    );
   }
 
   deleteMessage(chatId: number, messageId: number) {

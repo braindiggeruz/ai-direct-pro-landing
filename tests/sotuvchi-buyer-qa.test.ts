@@ -584,7 +584,7 @@ test('buyer Runtime lists, searches and filters only published products', async 
   );
 });
 
-test('category catalog renders four grounded cards and deterministic similar products', async () => {
+test('category catalog renders three grounded cards and deterministic similar products', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, '910011');
   const category = await setup.catalog.createCategory(
@@ -659,18 +659,18 @@ test('category catalog renders four grounded cards and deterministic similar pro
     },
   });
   assert.equal(firstPage.status, 'answered');
-  assert.equal(firstPage.facts[0].values['catalog.result.count'], 4);
+  assert.equal(firstPage.facts[0].values['catalog.result.count'], 3);
   assert.ok(Object.keys(firstPage.facts[0].values).length <= 64);
   assert.equal(
     firstPage.facts[0].values['catalog.results.0.specification_count'],
     0,
   );
-  assert.equal(firstPage.messages.length, 4);
+  assert.equal(firstPage.messages.length, 3);
   assert.ok(firstPage.messages.every(
     (message) => (message.card?.actions?.length ?? 0) <= 4,
   ));
   assert.ok(firstPage.messages.at(-1)?.choices?.some(
-    (choice) => choice.id === `buyer-category-next.${category.id}.4`,
+    (choice) => choice.id === `buyer-category-next.${category.id}.3`,
   ));
 
   const similar = await runtime.run({
@@ -771,7 +771,7 @@ test('comparison keeps two or three grounded products in the trusted buyer store
     message: { kind: 'text' as const, text: 'найди gaming' },
   });
   assert.equal(searched.status, 'answered');
-  assert.equal(searched.facts[0].values['catalog.result.count'], 4);
+  assert.equal(searched.facts[0].values['catalog.result.count'], 3);
 
   const first = await runtime.run({
     ...base,
