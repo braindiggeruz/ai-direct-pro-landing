@@ -6,6 +6,10 @@ import {
   selectSearchPulseCandidates,
 } from '../src/shared/search-pulse.ts';
 import type { BoosterItem } from '../src/shared/booster.ts';
+import {
+  chunkIndexNowAuditUrls,
+  INDEXNOW_AUDIT_LOOKUP_CHUNK_SIZE,
+} from '../functions/lib/indexnow/audit.ts';
 import { submitSitemapToGsc } from '../functions/lib/gsc/sitemap.ts';
 import type { Env } from '../functions/_types.ts';
 import {
@@ -17,6 +21,14 @@ import {
 import type { SearchPulseEnv } from '../functions/lib/search-pulse/service.ts';
 
 const NOW = Date.parse('2026-07-31T12:00:00.000Z');
+
+test('IndexNow audit lookups stay below the D1 bind-parameter limit', () => {
+  const urls = Array.from({ length: 228 }, (_, index) => `https://gptbot.uz/page-${index}/`);
+  const chunks = chunkIndexNowAuditUrls(urls);
+  assert.deepEqual(chunks.map((chunk) => chunk.length), [80, 80, 68]);
+  assert.equal(chunks.flat().length, urls.length);
+  assert.equal(chunks.every((chunk) => chunk.length <= INDEXNOW_AUDIT_LOOKUP_CHUNK_SIZE), true);
+});
 
 function item(
   url: string,

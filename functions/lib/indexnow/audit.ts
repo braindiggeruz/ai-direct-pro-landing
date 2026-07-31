@@ -9,6 +9,8 @@
 
 import type { Env } from '../../_types';
 
+export const INDEXNOW_AUDIT_LOOKUP_CHUNK_SIZE = 80;
+
 export interface IndexNowSubmissionRow {
   id: number;
   submitted_at: string;
@@ -19,6 +21,14 @@ export interface IndexNowSubmissionRow {
   batch_id: string;
   duration_ms: number;
   error: string | null;
+}
+
+export function chunkIndexNowAuditUrls(urls: string[]): string[][] {
+  const chunks: string[][] = [];
+  for (let index = 0; index < urls.length; index += INDEXNOW_AUDIT_LOOKUP_CHUNK_SIZE) {
+    chunks.push(urls.slice(index, index + INDEXNOW_AUDIT_LOOKUP_CHUNK_SIZE));
+  }
+  return chunks;
 }
 
 async function ensureTable(db: D1Database): Promise<void> {
@@ -88,19 +98,25 @@ export async function readLatestPerUrl(env: Env, urls: string[]): Promise<Map<st
   const db = env.GPTBOT_DRAFTS_DB;
   if (!db || urls.length === 0) return out;
   await ensureTable(db);
-  // SQLite parameter limit is 999 — cap at 500.
+  // D1 enforces a lower bound-parameter ceiling than stock SQLite. Keep each
+  // statement comfortably below it and batch the chunks in one round trip.
   const slice = urls.slice(0, 500);
-  const placeholders = slice.map(() => '?').join(',');
-  const sql = `
-    SELECT i.* FROM indexnow_submissions i
-    INNER JOIN (
-      SELECT url, MAX(submitted_at) AS latest_at
-      FROM indexnow_submissions
-      WHERE url IN (${placeholders})
-      GROUP BY url
-    ) m ON m.url = i.url AND m.latest_at = i.submitted_at`;
-  const r = await db.prepare(sql).bind(...slice).all<IndexNowSubmissionRow>();
-  for (const row of r.results || []) out.set(row.url, row);
+  const statements = chunkIndexNowAuditUrls(slice).map((chunk) => {
+    const placeholders = chunk.map(() => '?').join(',');
+    const sql = `
+      SELECT i.* FROM indexnow_submissions i
+      INNER JOIN (
+        SELECT url, MAX(submitted_at) AS latest_at
+        FROM indexnow_submissions
+        WHERE url IN (${placeholders})
+        GROUP BY url
+      ) m ON m.url = i.url AND m.latest_at = i.submitted_at`;
+    return db.prepare(sql).bind(...chunk);
+  });
+  const results = await db.batch<IndexNowSubmissionRow>(statements);
+  for (const result of results) {
+    for (const row of result.results || []) out.set(row.url, row);
+  }
   return out;
 }
 
@@ -118,18 +134,23 @@ export async function readLatestSuccessfulPerUrl(
   if (!db || urls.length === 0) return out;
   await ensureTable(db);
   const slice = urls.slice(0, 500);
-  const placeholders = slice.map(() => '?').join(',');
-  const sql = `
-    SELECT i.* FROM indexnow_submissions i
-    INNER JOIN (
-      SELECT url, MAX(submitted_at) AS latest_at
-      FROM indexnow_submissions
-      WHERE upstream_ok = 1 AND url IN (${placeholders})
-      GROUP BY url
-    ) m ON m.url = i.url AND m.latest_at = i.submitted_at
-    WHERE i.upstream_ok = 1`;
-  const r = await db.prepare(sql).bind(...slice).all<IndexNowSubmissionRow>();
-  for (const row of r.results || []) out.set(row.url, row);
+  const statements = chunkIndexNowAuditUrls(slice).map((chunk) => {
+    const placeholders = chunk.map(() => '?').join(',');
+    const sql = `
+      SELECT i.* FROM indexnow_submissions i
+      INNER JOIN (
+        SELECT url, MAX(submitted_at) AS latest_at
+        FROM indexnow_submissions
+        WHERE upstream_ok = 1 AND url IN (${placeholders})
+        GROUP BY url
+      ) m ON m.url = i.url AND m.latest_at = i.submitted_at
+      WHERE i.upstream_ok = 1`;
+    return db.prepare(sql).bind(...chunk);
+  });
+  const results = await db.batch<IndexNowSubmissionRow>(statements);
+  for (const result of results) {
+    for (const row of result.results || []) out.set(row.url, row);
+  }
   return out;
 }
 
