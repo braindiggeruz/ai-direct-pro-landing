@@ -195,6 +195,13 @@ action and is not a code-release blocker.
 
 Use only the operator's test identities and clearly synthetic values.
 
+Before the walkthrough, record the privacy-safe aggregate
+`telegram_agent_update_metrics.processing_ms` baseline. After deployment,
+send one ordinary text search and compare the newest completed metric. Do not
+query or copy raw Telegram identifiers or messages. A typing action is only
+feedback; measure completion separately and record whether the first result
+felt faster.
+
 1. `/start` returns one concise home message, not a product flood.
 2. Open the catalog, traverse category/product/back/home and switch RU/UZ.
 3. Search by Russian title and Uzbek Latin alias.
@@ -213,6 +220,13 @@ Use only the operator's test identities and clearly synthetic values.
 11. Exercise a bounded rate limit with a dedicated canary scope and verify at
     most one localized notice for its window.
 12. Re-run Lead/Javob isolation and public-site health checks.
+
+For the R1.1 latency remediation, verify that the first result page has three
+grounded cards, `Показать ещё` remains available when more products exist,
+text input shows bounded typing feedback, and callback buttons clear without
+waiting for the full Runtime result. Do not parallelize independent product
+`sendMessage` calls during incident response because their arrival order is
+not guaranteed.
 
 Keep the synthetic order as canary evidence unless the data-retention owner
 explicitly authorizes exact-ID cleanup. Never use a broad delete.

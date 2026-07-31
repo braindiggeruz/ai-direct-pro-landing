@@ -1,5 +1,36 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## R1.1 production release and latency fix baseline (2026-07-31)
+
+| Проверка | Результат |
+| --- | --- |
+| Exact merged/deployed source | `e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9` |
+| Full repository | **981/981**, 35 suites, 0 fail |
+| Latency slice targeted corpus | **103/103** |
+| Market/commerce/reliability corpus | **351/351** |
+| Root / Functions TypeScript | pass / pass |
+| Scoped latency-slice ESLint | pass |
+| Agent boundaries | 0 violations |
+| Root production build | pass; 113 pages, 112 articles, sitemap 228 |
+| Backend typecheck / build | pass / pass |
+| Pages Functions build | compiled successfully |
+| Root / backend production dependency audits | 0 / 0 findings |
+| Repository secret scan | clean over 2,676 files |
+| `git diff --check` | pass |
+| `git fsck --full` | pass; unreachable dangling objects only |
+| Migrations `0026`–`0030` | applied and verified; latency fix has no migration |
+| Synthetic fixture | 36 added products; double apply idempotent; 48 total controlled products |
+| Production HTTP canary | root/RU/UZ/deployment 200; webhook 405/401 |
+| Telegram provider status | expected webhook; pending 0; last error none |
+| Post-fix owner latency canary | **pending one owner request** |
+| Production domain side effects after fix | orders 0; handoffs 0; notifications 0; automation/DLQ 0 |
+
+Latency-specific regressions prove three-card pagination, non-blocking typing
+feedback, no typing duplication on callback updates, Worker-tracked callback
+acknowledgement and Runtime concurrency. Existing duplicate-update,
+rate-limit, tenant, checkout, seller, inventory and handoff suites remain
+green.
+
 ## P3.1 production release baseline (2026-07-30)
 
 | Проверка | Результат |

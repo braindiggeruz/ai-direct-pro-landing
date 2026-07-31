@@ -1,5 +1,34 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
+## R1.1 release update (2026-07-31)
+
+No open R1.1 security, tenant, order, inventory or grounding defect is known.
+The exact production source is `e8b2bd7` in Pages deployment
+`226d65cc-5be9-4c5e-ba30-93af250b34df`.
+
+Open release/operational items:
+
+- The owner must run one short post-fix Telegram request before the latency
+  remediation is marked production-canary PASS. The pre-fix aggregate is four
+  interactions at 4,019–13,629 ms, average 8,849 ms. This is the only R1.1
+  closeout item; it requires no secret.
+- Current telemetry records total `processing_ms`, not separate context,
+  Runtime and Telegram delivery durations. If the post-fix response is still
+  slow, add privacy-safe phase timing before changing delivery semantics.
+- Cloudflare's D1 export places the existing unique store index after child
+  inserts, so the untouched export fails a clean SQLite restore even though
+  production foreign keys and the index are valid. The original backup is
+  preserved. A derivative that moves only that existing index before child
+  DDL passes `integrity_check=ok`, foreign-key checks and control counts:
+  `F:\Claude\gptbot-r1.1-production-backups\20260731-092128\gptbot-ai-drafts-production.restore-ready.sql`.
+- The controlled store contains 48 explicitly synthetic products. They are
+  intentional pilot data, not real commercial offers. No real store may be
+  onboarded until R1.1 closeout and Store Pilot #1 business approval.
+
+Older statements below that say the dedicated Market bot, migrations or R1
+release do not exist are historical and superseded by this section and
+`CURRENT_STATE.md`.
+
 ## P3.1 release update (2026-07-30)
 
 No open P3.1 correctness or security defect is known after the production

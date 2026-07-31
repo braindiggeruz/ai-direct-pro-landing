@@ -5,11 +5,18 @@
 > `release/R1_1_MARKET_PILOT_RUNBOOK.md`. The historical sections below are not
 > authority for the R1.1 migration, fixture or Telegram-metadata sequence.
 
-## Current readiness update — 2026-07-30
+> Current status: R1.1 source `e8b2bd7` is live in production deployment
+> `226d65cc-5be9-4c5e-ba30-93af250b34df`. The bot identity, webhook, additive
+> migrations, synthetic catalog and product flows are verified. Full tests are
+> 981/981 and all release gates pass. The only remaining R1.1 closeout item is
+> one post-fix owner latency request; no real store may be onboarded before it.
+
+## Historical readiness update — 2026-07-30
 
 The historical readiness sections below predate the completed R0.4 and P3.1
 production releases. Current authority is
-`release/R1_READINESS_20260730.md` and `release/R1_OWNER_CHECKLIST.md`.
+`release/R1_READINESS_20260730.md`, `release/R1_OWNER_CHECKLIST.md` and the
+R1.1 production override above.
 
 Technical production gates through P3.1 are complete. R1 has not started. Its
 remaining owner/provider prerequisite is a dedicated Telegram Agents bot

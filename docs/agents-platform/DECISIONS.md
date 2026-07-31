@@ -1,5 +1,32 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-030 (2026-07-31, R1.1) Telegram feedback leaves domain work off the network critical path
+
+Production telemetry and the owner walkthrough established a real latency
+baseline of 4,019–13,629 ms (average 8,849 ms) for four completed GPTBot
+Market interactions. D1 aggregate reads were sub-millisecond at the provider;
+the visible amplification matched multiple sequential Telegram sends and a
+serialized callback acknowledgement.
+
+The R1.1 latency decision is deliberately bounded:
+
+- preserve ordered, awaited `sendMessage` delivery because Telegram does not
+  guarantee the order of concurrent independent sends;
+- reduce the first result page from four to three grounded cards and keep the
+  existing deterministic `Показать ещё` pagination;
+- send one best-effort typing action only for text updates;
+- bound typing and callback acknowledgement to two seconds with no retry,
+  because late feedback has no product value;
+- track callback acknowledgement in the Worker lifecycle, but execute Runtime
+  concurrently because callback acknowledgement is not a domain precondition;
+- retain all existing message-delivery, update deduplication, tenant, order
+  and inventory semantics.
+
+This is a product/transport optimization, not authorization to batch,
+parallelize or reorder Telegram product messages. If the post-fix canary is
+still slow, the next step is privacy-safe phase timing for context, Runtime and
+delivery—not speculative unordered sending.
+
 ## D-029 (2026-07-30, P3.1) Owner Control Center released; R1 remains a separate provider-gated pilot
 
 P3.1 was released from merge commit

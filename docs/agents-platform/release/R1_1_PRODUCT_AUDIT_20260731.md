@@ -1,17 +1,39 @@
 # GPTBot Market R1.1 product audit
 
 Date: 2026-07-31  
-Branch: `feature/r1.1-market-product-polish`  
-Audited production SHA: `ca990266ab67c6dbdf79b325dc59747795f3d0d3`
+Branch: `main`
+Audited production SHA: `e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9`
+
+## Release outcome
+
+The product feature was merged at
+`a1ae79719fc6a2bf90a2a6986ad894fe66ef6a2b`, migrations `0026`–`0030` and the
+controlled synthetic fixture were applied, Telegram RU/UZ metadata and
+webhook state were verified, and source `a1ae797` was manually deployed.
+
+The owner's functional walkthrough passed start, grounded search, cards,
+comparison and navigation, but identified slow response time. Privacy-safe
+production telemetry confirmed four completed interactions at
+4,019–13,629 ms, averaging 8,849 ms. The latency remediation was committed as
+`f3e15b53e0621c433295a0053c91231edaf2c493`, merged to main as
+`e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9` and manually deployed in Pages
+deployment `226d65cc-5be9-4c5e-ba30-93af250b34df`.
+
+The remediation preserves ordered product delivery while reducing the first
+page from four to three cards with pagination, adds non-blocking fail-fast
+typing feedback for text updates, and removes callback acknowledgement from
+the Runtime critical path while keeping it Worker-tracked. One post-fix owner
+Telegram request remains before the sprint canary is marked complete.
 
 ## Scope and safety boundary
 
-This is the evidence-first audit for the R1.1 product-quality sprint. The
+This began as the evidence-first audit for the R1.1 product-quality sprint. The
 canonical repository is `F:\Claude\gptbot-repo-clean-20260729-1140`.
 Recovery repositories were not read or changed. No production mutation,
 deployment, credential change, scheduler activation, Railway reconnect, real
 store onboarding, payment flow or publication action was performed during
-this audit.
+the initial audit checkpoint. Later authorized release actions are recorded
+above and below.
 
 The preflight WIP snapshot is stored outside Git at
 `F:\Claude\gptbot-r1.1-wip-backups\20260731-062715`. The canonical worktree was
@@ -608,3 +630,32 @@ file contributes an error.
 Review verdict: source is ready for exact-SHA merge/retest and read-only
 production preflight. No remote D1 query/write, Bot API mutation, push or
 deployment had occurred at this checkpoint.
+
+## Final exact-SHA release evidence
+
+- Feature branch:
+  `origin/fix/r1.1-telegram-latency` at `f3e15b53e0621c433295a0053c91231edaf2c493`.
+- Main merge/deployed source:
+  `e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9`.
+- Production deployment:
+  `226d65cc-5be9-4c5e-ba30-93af250b34df`,
+  `https://226d65cc.ai-direct-pro-landing.pages.dev`.
+- Full repository: `981/981 PASS` across 35 suites.
+- Targeted latency/buyer: `103/103 PASS`.
+- Market/commerce/reliability: `351/351 PASS`.
+- Root/Functions TypeScript, scoped ESLint, agent boundaries, root build,
+  backend typecheck/build and Pages Functions compile: `PASS`.
+- Root/backend production dependency audits: `0/0`.
+- Secret scan: clean over 2,676 files.
+- Root build: 113 pages, 112 articles and 228 sitemap entries.
+- Telegram status: expected webhook URL, zero pending updates, no last error.
+- HTTP: root/RU/UZ/immutable deployment 200, webhook GET 405, unauthorized
+  POST 401.
+- Post-deploy domain state: zero orders, handoffs, seller notifications,
+  automation jobs and dead-letter jobs.
+- Cloudflare automatic deployment did not run; Railway did not deploy.
+- No migration or D1 mutation was needed for the latency fix.
+
+Release verdict: application and infrastructure gates pass. R1.1 remains
+`released_pending_post_fix_owner_latency_canary` until one owner interaction
+produces a new production latency observation.

@@ -2,80 +2,135 @@
 
 ## State
 
-- Date: 2026-07-30.
+- Date: 2026-07-31.
 - Canonical repository:
   `F:\Claude\gptbot-repo-clean-20260729-1140`.
 - Branch: `main`.
-- Released code commit:
-  `9629db58e6b7ec334b680acad053fce161d05137`.
-- Pages deployment:
-  `20d4c6e2-a69f-489a-b662-2d59122ac8ed`.
-- Completed stage: P3.1 Owner Control Center production release.
-- Next stage: R1 controlled Sotuvchi pilot readiness.
-- R1 pilot started: no.
+- Released code:
+  `e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9`.
+- Production deployment:
+  `226d65cc-5be9-4c5e-ba30-93af250b34df`.
+- Immutable deployment:
+  `https://226d65cc.ai-direct-pro-landing.pages.dev`.
+- Telegram bot: `@gptbot_market_bot`.
+- Stage: R1.1 released; post-fix owner latency canary pending.
 
-Never use the recovery repository `F:\Claude\gptbot-repo` or its audit
-directory. Preserve
-`F:\Claude\gptbot-p3.1-wip-backups\20260730-101520`.
+Never develop or deploy from the recovery repository
+`F:\Claude\gptbot-repo`. Do not read or index its audit directory. Never put a
+token, webhook secret, credential fragment, hash or length into chat, logs or
+governance. The current bot credentials are DPAPI-protected outside Git in:
 
-## What was released
+`F:\Claude\gptbot-secure-owner-kit\20260730-201941\r1-vault.json`
 
-The protected `/admin-tools/agents` surface provides platform overview, store
-inventory/detail, PII-minimized orders, content-free handoff status,
-first-party automation/DLQ replay, append-only audit and controlled pilot
-state.
+Use the owner-kit helpers only in-process and clear temporary environment
+variables afterwards. Do not print the vault.
 
-`support_readonly` can read Owner projections and cannot use legacy SEO-admin
-reads or any mutation. `platform_owner` can perform bounded, reasoned,
-confirmed and idempotent mutations. The signed legacy `admin` role is mapped
-explicitly to `platform_owner`. Seller, unknown, expired and wrong-issuer
-tokens fail closed.
+## What is already complete
 
-Migration `0025` adds only `owner_audit_events`, `owner_pilot_stores` and four
-indexes. Audit and domain transitions are one guarded D1 batch. Audit metadata
-is allowlisted and limited to 2 KiB in application code and D1.
+R1.1 upgraded the synthetic technical canary into a controlled
+pilot-quality Telegram commerce product:
+
+- concise `/start` and stable home/back/catalog navigation;
+- RU, Uzbek Latin and mixed-language deterministic paths;
+- grounded category, alias, typo and budget search;
+- verified product cards, details and similar products;
+- comparison of two or three products with unknown fields kept unknown;
+- idempotent single-product order flow and buyer order history;
+- store-scoped seller status actions and exactly-once inventory decrement;
+- explicit human handoff and seller notification;
+- privacy-safe funnel analytics, Telegram reliability metrics and Owner
+  Control Center projections;
+- rate limits, bounded retries, secret/body validation and provider-independent
+  deterministic catalog fallback;
+- 36 additional synthetic fixture products across six bilingual categories.
+
+Migrations `0026`–`0030`, the fixture and Telegram RU/UZ metadata are already
+applied. Do not reapply or regenerate them without a new justified change.
 
 ## Release evidence
 
-- Fresh pre-migration export:
-  `F:\Claude\gptbot-p3.1-production-backups\20260730-p3.1-pre0025-9629db5\gptbot-ai-drafts-prod-pre0025.sql`.
-- SHA-256:
-  `2B50D4388B9D9AC458B0AC195B2FBBAEDCDFF686347FEBB2CEFC0D1E61A093F4`.
-- Restore validation: `integrity_check=ok`.
-- Pre-release production counts were preserved. After canary cleanup:
-  organizations, memberships, stores, products, orders, automation jobs and
-  automation events are all zero; `ai_drafts=42`,
-  `seo_autopilot_jobs=81`.
-- Five P3.1 canary audit events remain intentionally.
-- Exact production admin bundle:
-  `AdminRoot-CpqKduUX.js`, 396129 bytes, SHA-256
-  `2deebcc...`; canonical and immutable deployment bytes match.
-- Detailed evidence:
-  `release/P3_1_OWNER_CONTROL_CENTER.md` and
-  `release/P3_1_PRODUCTION_RELEASE_EVIDENCE.md`.
+- Main feature merge:
+  `a1ae79719fc6a2bf90a2a6986ad894fe66ef6a2b`.
+- Latency fix commit:
+  `f3e15b53e0621c433295a0053c91231edaf2c493`.
+- Latency fix merge/deployed source:
+  `e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9`.
+- Previous rollback deployment:
+  `51320b3e-fe86-4bb2-9f7c-cf7cec371bf8` at source `a1ae797`.
+- Current deployment:
+  `226d65cc-5be9-4c5e-ba30-93af250b34df`.
+- D1 backup:
+  `F:\Claude\gptbot-r1.1-production-backups\20260731-092128\gptbot-ai-drafts-production.sql`.
+- Restore-ready derivative:
+  `F:\Claude\gptbot-r1.1-production-backups\20260731-092128\gptbot-ai-drafts-production.restore-ready.sql`.
+- Full tests: 981/981 across 35 suites.
+- Root/Functions TypeScript, root/backend/Pages builds, scoped ESLint, agent
+  boundaries, migration rehearsal and fixture checks: PASS.
+- Root/backend production audits: 0/0 findings.
+- Secret scan: clean over 2,676 files.
 
-## Operational invariants
+Cloudflare automatic deployment did not run after either main push. The
+current deployment was manual and carries source `e8b2bd7`. Railway did not
+deploy. No migration or D1 mutation was needed for the latency fix.
 
-- `N8N_DISPOSITION=RETIRED`.
-- First-party automation is the sole path.
-- Automatic publication is disabled.
-- GitHub SEO scheduler is `disabled_manually`.
-- Cloudflare Pages automatic deployment is disabled.
-- Railway GitHub deployment trigger is disconnected.
-- GPTBot AI Market is not launched.
-- Agents webhook is fail-closed until a dedicated bot identity is installed.
+## Production state
 
-## R1 prerequisite
+- One active controlled synthetic pilot store.
+- 48 synthetic products; zero real stores or real products.
+- Zero orders, handoffs, seller notifications, automation jobs and DLQ jobs.
+- Telegram webhook expected URL matches, pending updates 0, last error none.
+- HTTP canary: root/RU/UZ/deployment 200, webhook GET 405, unauthorized POST
+  401.
+- n8n retired; first-party automation is the only production path.
+- Automatic publication and SEO scheduler disabled.
+- Payments, escrow and public marketplace disabled.
 
-The remaining owner/provider prerequisite is BotFather ownership of a
-dedicated Agents bot. Verify it with `getMe`, keep it distinct from protected
-Lead/Javob identities, and install its token and a distinct webhook secret via
-the protected owner path. Never put credentials in chat or governance files.
+## Latency incident and fix
 
-After that provider prerequisite is complete, separately authorize and run the
-R1 controlled-pilot runbook for 1–3 verified stores. Do not invent a bot or
-store, reconnect Railway, enable a scheduler, enable n8n, enable automatic
-publication, launch a marketplace, or create real orders automatically.
+The owner's successful walkthrough exposed a P1/P2 product latency defect.
+The baseline from four completed production interactions is:
+
+- minimum 4,019 ms;
+- maximum 13,629 ms;
+- average 8,849 ms;
+- four of four above three seconds;
+- duplicates 0.
+
+The primary amplification was sequential delivery of four Telegram product
+cards. Callback acknowledgement also serialized a Telegram round trip before
+Runtime. The deployed fix changes the first page to three cards with existing
+pagination, adds non-blocking fail-fast typing feedback, and runs the
+Worker-tracked callback acknowledgement concurrently with Runtime. Callback
+and typing feedback use a two-second/no-retry budget; domain message delivery
+keeps its existing reliability behavior.
+
+## Remaining canary
+
+Ask the owner for exactly one action:
+
+1. open `@gptbot_market_bot`;
+2. send `Нужен подарок до 50 000 сум` or an equivalent Uzbek Latin request;
+3. report only whether the first response feels faster.
+
+Then query only aggregate privacy-safe D1 telemetry. Do not query or print raw
+Telegram identifiers or messages. Compare the newest completed
+`processing_ms` with the 8,849 ms baseline and verify that orders, handoffs,
+notifications, automation jobs and DLQ jobs remain zero.
+
+If latency is materially improved and the grounded three-card result is
+correct, set:
+
+```text
+R1_1_MARKET_PRODUCT_POLISH=COMPLETE
+TELEGRAM_UX_CANARY=PASS
+NEXT_STAGE=R1_STORE_PILOT_1
+```
+
+If it is still slow, do not add concurrent unordered `sendMessage` calls:
+Telegram delivery order is not guaranteed. First capture phase-level
+runtime/delivery timing with privacy-safe telemetry, then optimize the
+dominant phase. Keep order, tenant, inventory and deduplication invariants
+unchanged.
 
 ## Start commands
 
@@ -90,6 +145,6 @@ Get-Content -Raw -Encoding utf8 docs\agents-platform\STATE.json
 Get-Content -Raw -Encoding utf8 docs\agents-platform\HANDOFF.md
 ```
 
-Expected code head before the governance follow-up commit:
-`9629db58e6b7ec334b680acad053fce161d05137`. The governance commit that
-contains this handoff must not trigger a Cloudflare or Railway deployment.
+The governance follow-up commit must not trigger a Cloudflare or Railway
+deployment. Do not redeploy unchanged application bytes merely for
+documentation.

@@ -5,6 +5,10 @@
 > `release/R1_1_MARKET_PILOT_RUNBOOK.md`. Its migration range is 0013–0030,
 > its bot is the already verified `@gptbot_market_bot`, and it does not
 > authorize onboarding real stores.
+>
+> Current production source is `e8b2bd7` in deployment
+> `226d65cc-5be9-4c5e-ba30-93af250b34df`. The remaining R1.1 closeout is one
+> post-fix owner latency request; real Store Pilot #1 has not started.
 
 Дата документа: 2026-07-28. Этап: P2.7 — Analytics и pilot readiness.
 
@@ -236,6 +240,12 @@ npx tsx scripts/telegram-agents-setup.ts setup --apply
 
 ## 21. Incident handling
 
+For R1.1 latency, first record aggregate `processing_ms`, webhook pending/error
+state and the number of cards delivered. Do not copy raw messages or Telegram
+identifiers into an incident record. If three consecutive ordinary requests
+exceed 15 seconds, a response is missing, or Telegram errors increase, pause
+the controlled pilot and inspect phase timing before changing delivery order.
+
 1. Зафиксировать время, магазин (внутренний ID) и наблюдаемое поведение.
 2. Не копировать в тикет тексты покупателей, телефоны и адреса.
 3. Классифицировать: транспорт (webhook), домен (заказ/остаток/handoff),
@@ -245,6 +255,14 @@ npx tsx scripts/telegram-agents-setup.ts setup --apply
 5. После устранения — повторить smoke tests раздела 10.
 
 ## 22. Rollback
+
+- **Current R1.1 deploy:** source `e8b2bd7`, deployment
+  `226d65cc-5be9-4c5e-ba30-93af250b34df`.
+- **Current rollback target:** source `a1ae797`, deployment
+  `51320b3e-fe86-4bb2-9f7c-cf7cec371bf8`.
+- The latency fix has no migration or D1 mutation. A rollback redeploys the
+  prior immutable deployment; it does not revert migrations `0026`–`0030` or
+  delete fixture data.
 
 - **Код:** `git revert <P2.7 relay SHA>`, затем `git revert <P2.7 code SHA>`.
   P2.7 не создаёт migration, поэтому откат кода не требует изменений схемы.
