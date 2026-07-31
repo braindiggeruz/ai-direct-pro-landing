@@ -9,6 +9,7 @@ import type { BoosterItem } from '../src/shared/booster.ts';
 import { submitSitemapToGsc } from '../functions/lib/gsc/sitemap.ts';
 import type { Env } from '../functions/_types.ts';
 import {
+  cronSecretMatches,
   onRequestPost as dailySearchPulsePost,
   scheduledSearchPulseStatus,
 } from '../functions/api/internal/search-pulse/daily.ts';
@@ -197,6 +198,11 @@ describe('daily Search Pulse endpoint auth', () => {
     });
     assert.equal(response.status, 401);
     assert.deepEqual(await response.json(), { ok: false, error: 'Unauthorized.' });
+  });
+
+  test('normalises a CLI line ending around the configured secret', () => {
+    assert.equal(cronSecretMatches('correct-secret', 'correct-secret\r\n'), true);
+    assert.equal(cronSecretMatches('wrong-secret', 'correct-secret\r\n'), false);
   });
 
   test('treats missing optional GSC OAuth as a successful scheduled run', () => {

@@ -34,12 +34,20 @@ export function scheduledSearchPulseStatus(
   return result.ok ? 200 : 502;
 }
 
+export function cronSecretMatches(token: string | null, configured: string): boolean {
+  // Wrangler's non-interactive `secret put` path may preserve the line ending
+  // written to stdin. Normalise only surrounding whitespace; the secret body
+  // is still compared in constant time.
+  const expectedToken = configured.trim();
+  return Boolean(expectedToken && token && constantTimeEqual(token, expectedToken));
+}
+
 export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, env }) => {
   if (!env.CRON_SECRET) {
     return json({ ok: false, error: 'CRON_SECRET is not configured.' }, 503);
   }
   const token = bearer(request);
-  if (!token || !constantTimeEqual(token, env.CRON_SECRET)) {
+  if (!cronSecretMatches(token, env.CRON_SECRET)) {
     return json({ ok: false, error: 'Unauthorized.' }, 401);
   }
 
