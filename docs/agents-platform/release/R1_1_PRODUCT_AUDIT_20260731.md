@@ -319,3 +319,48 @@ Evidence at this checkpoint:
 Production migration and deployment remain intentionally deferred until
 analytics, reliability, fixture, metadata, governance, full gates and the
 independent main-to-feature review all pass.
+
+## Implementation checkpoint: privacy-safe product analytics
+
+The analytics slice replaces the narrow technical-canary counters with the
+closed R1.1 product funnel while keeping operational tables as the exact source
+of truth:
+
+- the event catalogue now covers bot and language entry, catalog/category
+  discovery, clarification and budget parsing, result and zero-result
+  outcomes, product views, comparison, order start/create/duplicate blocking,
+  handoff and seller activity, order status changes, Telegram failures and
+  owner report views;
+- every durable payload is projected through one closed scalar allowlist.
+  Unknown runtime properties are discarded, identifiers are validated, and
+  counts, price/latency buckets and server-selected reason codes are bounded;
+- buyer messages, seller replies, names, usernames, phones, addresses, chat
+  references, credentials, headers and stack traces cannot enter an event;
+- domain events are emitted only after the corresponding domain operation
+  succeeds. Analytics failures are swallowed after the operation and never
+  cause a business action, order or notification to run twice;
+- delivery events are recorded only after an actual seller notification is
+  accepted by Telegram;
+- order creation and seller response events are derived from trusted workflow
+  Facts, not from callback authority or user-provided text;
+- the owner-only daily report separates best-effort funnel counts from exact
+  catalog, order, delivery and handoff totals.
+
+Focused security review covered a deliberately untyped payload carrying buyer
+text and contact fields, invalid identifiers and buckets, duplicate update
+replay, org isolation, analytics storage failure, owner authorization and
+cross-identity report access. Unsafe properties are ignored or the event is
+skipped; no raw content reaches the database.
+
+Evidence at this checkpoint:
+
+- buyer, checkout, handoff, seller and analytics targeted corpus:
+  `204/204 PASS`;
+- TypeScript project build: `PASS`;
+- scoped ESLint over all analytics-slice TypeScript and tests: `PASS`;
+- secret scan: `2660 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+Production deployment remains deferred. Telegram failure telemetry, Owner
+Control Center operational projections, rate limiting and retry/fallback
+hardening belong to the next reliability slice.

@@ -63,6 +63,7 @@ export function projectCheckoutFacts(
   const values: Record<string, FactValue> = {
     'checkout.view': checkoutView(snapshot),
     'checkout.state': snapshot.state,
+    'checkout.outcome': snapshot.outcome,
     'checkout.price_changed': snapshot.priceChanged,
     'checkout.input.rejected': options.rejected === true,
     'checkout.product.name': order.productNameSnapshot,

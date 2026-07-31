@@ -1320,6 +1320,13 @@ test('Telegram RU seller confirms and completes a placed order', async () => {
     ),
     'done',
   );
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM events
+       WHERE type = 'sotuvchi.order_status_changed'`,
+    ),
+    2,
+  );
   const rendered = JSON.stringify(harness.delivery.sent);
   assert.ok(!/Оплатить|Payme|Click|корзин/i.test(rendered));
 });

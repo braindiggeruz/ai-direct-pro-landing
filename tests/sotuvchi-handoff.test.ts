@@ -1380,6 +1380,17 @@ test('Telegram RU handoff runs from buyer question to marked answer', async () =
     fixture.value('SELECT status FROM sotuvchi_handoffs WHERE id = ?', handoffId),
     'closed',
   );
+  for (const type of [
+    'sotuvchi.handoff_requested',
+    'sotuvchi.seller_notified',
+    'sotuvchi.seller_responded',
+  ]) {
+    assert.equal(
+      fixture.value('SELECT COUNT(*) FROM events WHERE type = ?', type),
+      1,
+      type,
+    );
+  }
 
   const rendered = JSON.stringify(harness.delivery.sent);
   assert.ok(!/Оплатить|Payme|CRM|тикет/i.test(rendered));

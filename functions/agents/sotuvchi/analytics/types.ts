@@ -1,20 +1,27 @@
 import type { Locale } from '../../../platform/contracts';
 
-/**
- * Closed list of Sotuvchi analytics events.
- *
- * Deliberately small. Everything the seller is shown as an exact number is
- * counted from the domain tables that already own it (products, orders,
- * notification intents, handoffs); duplicating those lifecycle transitions as
- * events would create a second, weaker analytical truth. These four events
- * cover only what no domain table can answer: how often a buyer opens the
- * storefront, how often the catalog answered or failed to answer, and when the
- * owner looked at the report.
- */
+/** Closed R1.1 product funnel. Exact operational totals still come from the
+ * domain tables; these events add a best-effort behavioural timeline only. */
 export const SOTUVCHI_EVENT_TYPES = [
-  'sotuvchi.buyer_started',
-  'sotuvchi.catalog_answered',
-  'sotuvchi.catalog_no_result',
+  'sotuvchi.bot_started',
+  'sotuvchi.language_selected',
+  'sotuvchi.catalog_opened',
+  'sotuvchi.category_opened',
+  'sotuvchi.search_submitted',
+  'sotuvchi.clarification_requested',
+  'sotuvchi.budget_parsed',
+  'sotuvchi.search_results_shown',
+  'sotuvchi.zero_results',
+  'sotuvchi.product_viewed',
+  'sotuvchi.comparison_started',
+  'sotuvchi.order_started',
+  'sotuvchi.order_created',
+  'sotuvchi.duplicate_order_blocked',
+  'sotuvchi.handoff_requested',
+  'sotuvchi.seller_notified',
+  'sotuvchi.seller_responded',
+  'sotuvchi.order_status_changed',
+  'sotuvchi.telegram_error',
   'sotuvchi.stats_viewed',
 ] as const;
 
@@ -31,37 +38,46 @@ export type SotuvchiResultBucket = (typeof SOTUVCHI_RESULT_BUCKETS)[number];
 
 export type SotuvchiEventOutcome = 'recorded' | 'duplicate' | 'skipped';
 
-export interface BuyerStartedEvent {
-  type: 'sotuvchi.buyer_started';
+export const SOTUVCHI_PRICE_BUCKETS = [
+  'under_50k',
+  '50k_200k',
+  '200k_1m',
+  'over_1m',
+  'unknown',
+] as const;
+
+export type SotuvchiPriceBucket = (typeof SOTUVCHI_PRICE_BUCKETS)[number];
+
+export const SOTUVCHI_LATENCY_BUCKETS = [
+  'under_250ms',
+  '250ms_1s',
+  '1s_3s',
+  'over_3s',
+  'unknown',
+] as const;
+
+export type SotuvchiLatencyBucket =
+  (typeof SOTUVCHI_LATENCY_BUCKETS)[number];
+
+/**
+ * The recorder copies only this closed property set. Unknown runtime keys are
+ * ignored, so even an untyped caller cannot smuggle message/contact content
+ * into the durable event payload.
+ */
+export interface SotuvchiProductEvent {
+  type: SotuvchiEventType;
   locale: Locale;
-  source: SotuvchiEventSource;
+  source?: SotuvchiEventSource;
+  productId?: string;
+  categoryId?: string;
+  resultCount?: number;
+  priceBucket?: SotuvchiPriceBucket;
+  reasonCode?: string;
+  latencyBucket?: SotuvchiLatencyBucket;
+  windowDays?: number;
 }
 
-export interface CatalogAnsweredEvent {
-  type: 'sotuvchi.catalog_answered';
-  locale: Locale;
-  intent: string;
-  resultBucket: SotuvchiResultBucket;
-  fullCard: boolean;
-}
-
-export interface CatalogNoResultEvent {
-  type: 'sotuvchi.catalog_no_result';
-  locale: Locale;
-  intent: string;
-}
-
-export interface StatsViewedEvent {
-  type: 'sotuvchi.stats_viewed';
-  locale: Locale;
-  windowDays: number;
-}
-
-export type SotuvchiAnalyticsEvent =
-  | BuyerStartedEvent
-  | CatalogAnsweredEvent
-  | CatalogNoResultEvent
-  | StatsViewedEvent;
+export type SotuvchiAnalyticsEvent = SotuvchiProductEvent;
 
 export function isSotuvchiEventType(
   value: unknown,

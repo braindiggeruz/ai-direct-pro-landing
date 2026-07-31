@@ -1414,6 +1414,20 @@ test('Telegram product commands, language preference and stale recovery work', a
     telegramCallback(972_006, 97201, 'buyer-obsolete-action', 'ru'),
   );
   assert.ok(harness.delivery.sent.at(-1)?.text.includes('tugma eskirgan'));
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM events
+       WHERE type = 'sotuvchi.bot_started'`,
+    ),
+    1,
+  );
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM events
+       WHERE type = 'sotuvchi.language_selected'`,
+    ),
+    1,
+  );
 });
 
 test('Telegram duplicate update sends once and unknown remains safe', async () => {

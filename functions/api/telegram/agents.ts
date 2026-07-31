@@ -193,7 +193,7 @@ export function createTelegramAgentsRuntimeWiring(
           storeId: storefront.storeId,
           requestId: input.idempotencyKey,
           event: {
-            type: 'sotuvchi.buyer_started',
+            type: 'sotuvchi.bot_started',
             locale: storefront.locale,
             source: 'deep_link',
           },
@@ -243,6 +243,28 @@ export function createTelegramAgentsRuntimeWiring(
               input.telegramIdentityId,
               requestedLocale,
             );
+            await analytics.record({
+              orgId: storefront.orgId,
+              storeId: storefront.storeId,
+              requestId: input.idempotencyKey,
+              event: {
+                type: 'sotuvchi.language_selected',
+                locale: storefront.locale,
+                source: 'session',
+              },
+            });
+          }
+          if (isStartCommand) {
+            await analytics.record({
+              orgId: storefront.orgId,
+              storeId: storefront.storeId,
+              requestId: input.idempotencyKey,
+              event: {
+                type: 'sotuvchi.bot_started',
+                locale: storefront.locale,
+                source: 'session',
+              },
+            });
           }
           if (isStartCommand || input.actionId) {
             await catalog.clearStorefrontPendingBudget({
@@ -275,6 +297,16 @@ export function createTelegramAgentsRuntimeWiring(
             botUsername,
             identityId: input.telegramIdentityId,
             context: directStorefront,
+          });
+          await analytics.record({
+            orgId: directStorefront.orgId,
+            storeId: directStorefront.storeId,
+            requestId: input.idempotencyKey,
+            event: {
+              type: 'sotuvchi.bot_started',
+              locale: directStorefront.locale,
+              source: 'session',
+            },
           });
           return storefrontContext(
             directStorefront.orgId,
@@ -329,10 +361,11 @@ export function createTelegramAgentsRuntimeWiring(
   const dispatcher = delivery
     ? createSotuvchiNotificationDispatcher({
         handoff,
-        orders,
-        addresses,
-        delivery: createTelegramChannelDelivery(delivery, botUsername),
-      })
+      orders,
+      addresses,
+      delivery: createTelegramChannelDelivery(delivery, botUsername),
+      analytics,
+    })
     : null;
 
   async function flush(orgId: unknown): Promise<void> {
@@ -344,9 +377,64 @@ export function createTelegramAgentsRuntimeWiring(
     await dispatcher.flush(orgId, store.storeId).catch(() => undefined);
   }
 
+  function runtimeFact(
+    result: Awaited<ReturnType<typeof runtime.run>>,
+    key: string,
+  ): string | null {
+    for (const sheet of result.facts) {
+      const value = sheet.values[key];
+      if (typeof value === 'string') return value;
+    }
+    return null;
+  }
+
+  async function recordWorkflowAnalytics(
+    input: unknown,
+    result: Awaited<ReturnType<typeof runtime.run>>,
+  ): Promise<void> {
+    if (!input || typeof input !== 'object') return;
+    const turn = input as {
+      orgId?: unknown;
+      requestId?: unknown;
+      locale?: unknown;
+    };
+    if (
+      typeof turn.orgId !== 'string'
+      || typeof turn.requestId !== 'string'
+      || (turn.locale !== 'ru' && turn.locale !== 'uz')
+    ) {
+      return;
+    }
+    if (runtimeFact(result, 'checkout.view') === 'completed') {
+      await analytics.record({
+        orgId: turn.orgId,
+        requestId: turn.requestId,
+        event: {
+          type: 'sotuvchi.order_created',
+          locale: turn.locale,
+          ...(runtimeFact(result, 'checkout.product.ref')
+            ? { productId: runtimeFact(result, 'checkout.product.ref')! }
+            : {}),
+        },
+      });
+    }
+    if (runtimeFact(result, 'seller.view') === 'seller_answered') {
+      await analytics.record({
+        orgId: turn.orgId,
+        requestId: turn.requestId,
+        event: {
+          type: 'sotuvchi.seller_responded',
+          locale: turn.locale,
+          reasonCode: 'handoff',
+        },
+      });
+    }
+  }
+
   const dispatchingRuntime = {
     async run(input: unknown) {
       const result = await runtime.run(input);
+      await recordWorkflowAnalytics(input, result);
       const orgId = input && typeof input === 'object'
         ? (input as { orgId?: unknown }).orgId
         : undefined;

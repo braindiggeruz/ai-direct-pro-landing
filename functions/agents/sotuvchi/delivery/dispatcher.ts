@@ -9,6 +9,7 @@ import type {
   ChannelDeliveryPort,
 } from '../../../platform/channels';
 import { groundResponse } from '../../../platform/runtime';
+import type { SotuvchiAnalytics } from '../analytics';
 import {
   composeHandoffResponse,
   projectHandoffReplyFacts,
@@ -32,6 +33,7 @@ export interface SotuvchiNotificationDispatcherDeps {
   orders: SotuvchiOrdersService;
   addresses: ChannelAddressService;
   delivery: ChannelDeliveryPort;
+  analytics?: SotuvchiAnalytics;
   /** Maximum intents delivered per opportunistic flush. */
   batchLimit?: number;
 }
@@ -113,6 +115,16 @@ export class SotuvchiNotificationDispatcher {
         continue;
       }
       await this.deps.handoff.markSellerNotified(orgId, handoff.id);
+      await this.deps.analytics?.record({
+        orgId,
+        storeId,
+        requestId: handoff.id,
+        event: {
+          type: 'sotuvchi.seller_notified',
+          locale,
+          reasonCode: 'handoff',
+        },
+      });
       result.delivered += 1;
     }
   }
@@ -217,6 +229,19 @@ export class SotuvchiNotificationDispatcher {
         intent.id,
         'sent',
       );
+      if (intent.audience === 'seller') {
+        await this.deps.analytics?.record({
+          orgId,
+          storeId,
+          requestId: intent.id,
+          event: {
+            type: 'sotuvchi.seller_notified',
+            locale,
+            productId: order.productId,
+            reasonCode: 'order',
+          },
+        });
+      }
       result.delivered += 1;
     }
   }

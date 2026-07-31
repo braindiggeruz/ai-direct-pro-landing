@@ -1490,6 +1490,20 @@ test('Telegram RU checkout runs card to order without payment surface', async ()
     fixture.value(`SELECT COUNT(*) FROM sotuvchi_orders WHERE status='placed'`),
     1,
   );
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM events
+       WHERE type = 'sotuvchi.order_started'`,
+    ),
+    1,
+  );
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM events
+       WHERE type = 'sotuvchi.order_created'`,
+    ),
+    1,
+  );
 
   const rendered = JSON.stringify(harness.delivery.sent);
   assert.ok(!/Оплатить|Payme|Click|Управление заказом|оператор/i.test(rendered));
