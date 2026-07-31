@@ -82,6 +82,18 @@ export type TelegramSecretCheck =
   | { status: 'valid' }
   | { status: 'invalid'; code: 'missing_secret' | 'wrong_secret' };
 
+function constantTimeSecretEqual(
+  received: string,
+  expected: string,
+): boolean {
+  let difference = received.length ^ expected.length;
+  for (let index = 0; index < expected.length; index += 1) {
+    difference |= expected.charCodeAt(index)
+      ^ (received.charCodeAt(index) || 0);
+  }
+  return difference === 0;
+}
+
 function response(body: string, status: number, extra?: HeadersInit): Response {
   return new Response(body, {
     status,
@@ -101,7 +113,7 @@ export function verifyTelegramSecretHeader(
   if (received === null) {
     return { status: 'invalid', code: 'missing_secret' };
   }
-  if (received !== expectedSecret) {
+  if (!constantTimeSecretEqual(received, expectedSecret)) {
     return { status: 'invalid', code: 'wrong_secret' };
   }
   return { status: 'valid' };

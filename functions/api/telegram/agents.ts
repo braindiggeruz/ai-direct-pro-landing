@@ -492,7 +492,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
       contexts: wiring.contexts,
       runtime: wiring.runtime,
       delivery,
-      rateLimiter: createTelegramRateLimiter(db),
+      rateLimiter: createTelegramRateLimiter(db, { hashKey: secret }),
       telemetry: {
         async recordError(input) {
           await wiring.analytics.record({

@@ -54,6 +54,7 @@ import { SqliteD1 } from './helpers/sqlite-d1';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BOT = 'agents_demo_bot';
 const SECRET = 'fixture-webhook-secret';
+const RATE_HASH_KEY = 'fixture-rate-limit-hmac-key-32chars';
 
 class FakeKnowledge implements KnowledgeServicePort {
   readonly calls: Array<{
@@ -541,6 +542,7 @@ test('D1 update metrics count duplicates without storing Telegram identity', asy
 test('rate limiter hashes user, chat, bot and tenant scopes', async () => {
   const fixture = new SqliteD1();
   const limiter = createTelegramRateLimiter(fixture.asD1(), {
+    hashKey: RATE_HASH_KEY,
     perUser: 2,
     perChat: 3,
     perBot: 10,
@@ -606,6 +608,7 @@ test('callback rate limit is independent and resets in the next window', async (
   const fixture = new SqliteD1();
   let now = new Date('2026-07-31T12:00:15.000Z');
   const limiter = createTelegramRateLimiter(fixture.asD1(), {
+    hashKey: RATE_HASH_KEY,
     perUser: 10,
     perChat: 10,
     perBot: 10,
@@ -623,6 +626,17 @@ test('callback rate limit is independent and resets in the next window', async (
   assert.equal((await limiter.consume(input)).status, 'limited');
   now = new Date('2026-07-31T12:01:00.000Z');
   assert.equal((await limiter.consume(input)).status, 'allowed');
+});
+
+test('rate limiter rejects a missing or weak server-side hash key', () => {
+  const fixture = new SqliteD1();
+  assert.throws(
+    () => createTelegramRateLimiter(
+      fixture.asD1(),
+      { hashKey: 'too-short' },
+    ),
+    /telegram rate limit rejected/,
+  );
 });
 
 test('runtime dedup schema and additive migration use the same isolated objects', () => {

@@ -32,6 +32,8 @@ export interface TelegramRateLimiter {
 }
 
 export interface TelegramRateLimiterOptions {
+  /** Server-only pepper; production passes the isolated webhook secret. */
+  hashKey: string;
   perUser?: number;
   perChat?: number;
   perBot?: number;
@@ -80,11 +82,32 @@ function requireScopePart(value: string): string {
   return value;
 }
 
-async function scopeHash(kind: string, value: string): Promise<string> {
+function importHashKey(value: string): Promise<CryptoKey> {
+  if (
+    typeof value !== 'string'
+    || value.length < 32
+    || value.length > 256
+  ) {
+    throw new Error('telegram rate limit rejected');
+  }
+  return crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(value),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+}
+
+async function scopeHash(
+  key: Promise<CryptoKey>,
+  kind: string,
+  value: string,
+): Promise<string> {
   const bytes = new TextEncoder().encode(
     `gptbot-market-rate:v1:${kind}:${requireScopePart(value)}`,
   );
-  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  const digest = await crypto.subtle.sign('HMAC', await key, bytes);
   return [...new Uint8Array(digest)]
     .map((byte) => byte.toString(16).padStart(2, '0'))
     .join('');
@@ -166,9 +189,10 @@ async function reserveLimitNotice(
  */
 export function createTelegramRateLimiter(
   db: D1Database,
-  options: TelegramRateLimiterOptions = {},
+  options: TelegramRateLimiterOptions,
 ): TelegramRateLimiter {
   const limits = resolveOptions(options);
+  const hashKey = importHashKey(options.hashKey);
 
   async function consumeMany(
     scopes: readonly {
@@ -223,6 +247,7 @@ export function createTelegramRateLimiter(
       return consumeMany([
         {
           key: scopeHash(
+            hashKey,
             'user',
             `${bot}:${requireScopePart(input.externalId)}`,
           ),
@@ -231,6 +256,7 @@ export function createTelegramRateLimiter(
         },
         {
           key: scopeHash(
+            hashKey,
             'chat',
             `${bot}:${requireScopePart(input.threadRef)}`,
           ),
@@ -238,7 +264,7 @@ export function createTelegramRateLimiter(
           callbackLimit: limits.callbacksPerScope,
         },
         {
-          key: scopeHash('bot', bot),
+          key: scopeHash(hashKey, 'bot', bot),
           limit: limits.perBot,
           callbackLimit: limits.perBot,
         },
@@ -247,7 +273,11 @@ export function createTelegramRateLimiter(
 
     async consumeTenant(input) {
       return consumeMany([{
-        key: scopeHash('tenant', requireScopePart(input.orgId)),
+        key: scopeHash(
+          hashKey,
+          'tenant',
+          requireScopePart(input.orgId),
+        ),
         limit: limits.perTenant,
         callbackLimit: limits.perTenant,
       }], input.callback);

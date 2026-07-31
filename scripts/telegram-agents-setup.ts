@@ -153,9 +153,12 @@ export async function runTelegramAgentsSetup(
     console.log('Telegram Agents metadata complete for:', `@${username}`);
     return;
   }
+  if (secret === null) {
+    throw new Error('telegram agents setup rejected: missing_webhook_secret');
+  }
   const webhook = await client.setWebhook(
     webhookUrl,
-    secret!,
+    secret,
     ['message', 'callback_query'],
   );
   if (!webhook.ok) {

@@ -73,8 +73,10 @@ An independent code/security review must cover:
 6. Record the current production Pages deployment ID and exact source SHA as
    the rollback target.
 7. Confirm Pages auto-deploy remains disabled, Railway remains disconnected,
-   the SEO scheduler remains disabled, first-party automation remains the sole
-   path and n8n remains retired.
+   the legacy SEO draft-generation scheduler remains disabled, first-party
+   automation remains the sole content-generation path and n8n remains
+   retired. The Search Pulse workflow inherited from current `main` may submit
+   only already-published eligible URLs; it must not create or publish content.
 
 ## 4. Backup and migration
 
@@ -129,7 +131,12 @@ omits explicit `BEGIN/COMMIT` because D1 file import manages execution. A
 partially interrupted import is safely resumed by applying the exact same file
 again.
 
-Apply only after backup and migrations:
+Do not apply the generated SQL yet. Keep it outside Git until the exact
+application SHA is deployed in section 6; this prevents the previous
+product-flooding `/start` behavior from seeing the expanded fixture.
+
+After the exact application SHA is deployed and its endpoint health passes,
+apply the fixture:
 
 ```powershell
 npx wrangler d1 execute gptbot-ai-drafts `
