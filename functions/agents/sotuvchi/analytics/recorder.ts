@@ -1,4 +1,8 @@
-import type { Locale, PiiSafePayload } from '../../../platform/contracts';
+import type {
+  EventValue,
+  Locale,
+  PiiSafePayload,
+} from '../../../platform/contracts';
 import {
   createPlatformEventsService,
   type PlatformEventsService,
@@ -76,7 +80,9 @@ function optionalId(value: unknown): string | null {
  * Telegram profile/contact fields, are ignored.
  */
 function payloadOf(event: SotuvchiAnalyticsEvent): PiiSafePayload | null {
-  const payload: PiiSafePayload = { locale: safeLocale(event.locale) };
+  const payload: Record<string, EventValue> = {
+    locale: safeLocale(event.locale),
+  };
   if (event.source !== undefined) {
     if (!SOTUVCHI_EVENT_SOURCES.includes(event.source)) return null;
     payload.source = event.source;

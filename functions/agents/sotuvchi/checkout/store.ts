@@ -1,5 +1,6 @@
 import { CheckoutPersistenceError } from './errors';
 import type {
+  BuyerOrderStatus,
   BuyerOrderSummary,
   CheckoutBuyerSession,
   CheckoutOrderStatus,
@@ -472,16 +473,17 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
         ) {
           throw new CheckoutPersistenceError('corrupt_row');
         }
-        const status = row.status === 'cancelled'
+        const status: BuyerOrderStatus | null = row.status === 'cancelled'
           ? 'cancelled'
-          : row.status === 'placed'
-              && ['none', 'confirmed', 'done'].includes(
-                row.fulfillment_status,
-              )
-            ? row.fulfillment_status === 'none'
-              ? 'placed'
-              : row.fulfillment_status
-            : null;
+          : row.status === 'placed' && row.fulfillment_status === 'none'
+            ? 'placed'
+            : row.status === 'placed'
+                && row.fulfillment_status === 'confirmed'
+              ? 'confirmed'
+              : row.status === 'placed'
+                  && row.fulfillment_status === 'done'
+                ? 'done'
+                : null;
         if (!status) throw new CheckoutPersistenceError('corrupt_row');
         return {
           orderNumber: requireOrderNumber(row.order_number),

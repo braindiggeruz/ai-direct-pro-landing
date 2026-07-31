@@ -335,7 +335,7 @@ function comparisonResponse(
       : count === 1
         ? copy.comparisonWaiting
         : copy.comparisonTitle;
-  const summary = [status];
+  const summary: string[] = [status];
   if (count >= 2) {
     const prices = Array.from(
       { length: count },
