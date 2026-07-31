@@ -12,6 +12,7 @@ export const CHECKOUT_STATES = [
   'awaiting_name',
   'awaiting_phone',
   'awaiting_address',
+  'awaiting_comment',
   'awaiting_confirmation',
   'completed',
   'cancelled',
@@ -51,6 +52,8 @@ export interface SotuvchiOrder {
   buyerName: string | null;
   buyerPhone: string | null;
   buyerAddress: string | null;
+  buyerComment: string | null;
+  storeName: string;
 
   createdAt: string;
   updatedAt: string;
@@ -87,6 +90,7 @@ export type CheckoutOutcome =
   | 'updated'
   | 'placed'
   | 'price_changed'
+  | 'stock_unavailable'
   | 'cancelled';
 
 export interface SotuvchiCheckoutSnapshot {
@@ -108,4 +112,21 @@ export interface CheckoutWorkflowRef {
 
 export interface CheckoutWorkflowPayload {
   orderId: string;
+}
+
+export type BuyerOrderStatus =
+  | 'placed'
+  | 'confirmed'
+  | 'done'
+  | 'cancelled';
+
+export interface BuyerOrderSummary {
+  orderNumber: string;
+  productId: string;
+  productName: string;
+  storeName: string;
+  quantity: number;
+  totalMinor: number;
+  status: BuyerOrderStatus;
+  placedAt: string;
 }

@@ -26,11 +26,13 @@ export type { OrdersFactValues, SellerView } from './facts';
 export {
   composeSellerOrdersResponse,
   SELLER_CANCEL_ACTION_PREFIX,
+  SELLER_CONTACT_ACTION_PREFIX,
   SELLER_CONFIRM_ACTION_PREFIX,
   SELLER_DONE_ACTION_PREFIX,
   SELLER_INVENTORY_ACTION,
   SELLER_ORDER_ACTION_PREFIX,
   SELLER_ORDERS_ACTION,
+  SELLER_VIEW_ACTION_PREFIX,
 } from './responses';
 export {
   sotuvchiOrdersRules,

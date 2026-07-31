@@ -9,9 +9,18 @@ import {
 } from './deep-link';
 import { telegramAgentUpdateKey } from './store';
 
-const MAX_TEXT_LENGTH = 4_096;
+// Product search/order prompts do not need Telegram's full 4096-char envelope.
+// Keeping this bound below the channel maximum limits parser and provider cost
+// while still allowing a detailed buyer request in RU or Uzbek Latin.
+const MAX_TEXT_LENGTH = 2_000;
 const CALLBACK_PREFIX = 'agent:';
 const SAFE_ACTION = /^[a-z0-9][a-z0-9._-]{0,47}$/;
+const PRODUCT_COMMANDS = {
+  catalog: 'buyer-catalog-open',
+  orders: 'buyer-orders',
+  help: 'buyer-help',
+  language: 'buyer-language',
+} as const;
 
 type TelegramIngestCode =
   | 'invalid_update'
@@ -56,6 +65,18 @@ function validText(value: unknown): string | null {
   if (typeof value !== 'string') return null;
   const text = value.trim();
   if (!text || text.length > MAX_TEXT_LENGTH) return null;
+  for (let index = 0; index < text.length; index += 1) {
+    const code = text.charCodeAt(index);
+    if (
+      (code >= 0 && code <= 8)
+      || code === 11
+      || code === 12
+      || (code >= 14 && code <= 31)
+      || code === 127
+    ) {
+      return null;
+    }
+  }
   return text;
 }
 
@@ -77,6 +98,26 @@ function startPayload(
     };
   }
   throw new Error('not a start command');
+}
+
+export function parseTelegramProductCommand(
+  text: string,
+  botUsername: string,
+): { command: string; actionId: string } | null {
+  const match = /^\/([a-z]{1,32})(?:@([a-z][a-z0-9_]{4,31}))?$/iu.exec(
+    text.trim(),
+  );
+  if (!match) return null;
+  const command = match[1].toLowerCase();
+  const mention = match[2]?.toLowerCase();
+  if (mention && mention !== botUsername.toLowerCase()) return null;
+  if (Object.hasOwn(PRODUCT_COMMANDS, command)) {
+    return {
+      command,
+      actionId: PRODUCT_COMMANDS[command as keyof typeof PRODUCT_COMMANDS],
+    };
+  }
+  return { command: 'help', actionId: 'buyer-help' };
 }
 
 function messageInbound(
@@ -117,8 +158,14 @@ function messageInbound(
     runtimeMessage = parsed.runtimeMessage;
     payload = parsed.payload;
   } else {
-    platformMessage = { kind: 'text', text };
-    runtimeMessage = { kind: 'text', text };
+    const command = parseTelegramProductCommand(text, botUsername);
+    if (command) {
+      platformMessage = { kind: 'command', command: command.command };
+      runtimeMessage = { kind: 'action', actionId: command.actionId };
+    } else {
+      platformMessage = { kind: 'text', text };
+      runtimeMessage = { kind: 'text', text };
+    }
   }
   const locale = localeFromLanguageCode(message.from.language_code);
   return {

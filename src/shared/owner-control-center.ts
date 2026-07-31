@@ -61,6 +61,34 @@ export interface PlatformOverview {
   products: { total: number; published: number };
   orders: { today: number; last7d: number; placed: number; confirmed: number; done: number; cancelled: number };
   handoffs: { open: number; answered: number; closed: number; expired: number };
+  funnel: {
+    bot_starts: number;
+    searches: number;
+    results_shown: number;
+    zero_results: number;
+    product_views: number;
+    order_starts: number;
+    orders_created: number;
+    handoffs_requested: number;
+  };
+  telegram: {
+    updates_today: number;
+    completed_today: number;
+    failed_today: number;
+    pending: number;
+    duplicate_updates: number;
+    errors_today: number;
+    average_processing_ms: number | null;
+    processing_latency: 'under_250ms' | '250ms_1s' | '1s_3s' | 'over_3s' | 'unknown';
+  };
+  seller_service: {
+    responses_today: number;
+    average_response_seconds: number | null;
+    response_time: 'under_5m' | '5m_15m' | '15m_1h' | 'over_1h' | 'unknown';
+    open_over_15m: number;
+    notification_failures: number;
+    notification_retries: number;
+  };
   automation: { queued: number; running: number; retry_wait: number; awaiting_review: number; dead_letter: number; completed: number };
   drafts: { pending_review: number; total: number };
   audit_events: number;
@@ -74,6 +102,11 @@ export interface OwnerOverviewResponse {
     first_party_automation_enabled: boolean;
     first_party_automation_path: 'sole';
     auto_publication: false;
+  };
+  telegram_bot: {
+    username: string | null;
+    webhook_endpoint: '/api/telegram/agents';
+    configuration_status: 'ready' | 'incomplete';
   };
   overview: PlatformOverview;
 }
@@ -89,8 +122,13 @@ export interface OwnerStoreSummary {
   pilotState: 'inactive' | 'active' | 'paused';
   products: number;
   publishedProducts: number;
+  inStockProducts: number;
   orders: number;
   openHandoffs: number;
+  sellerStatus: 'active' | 'inactive';
+  handoffSla: 'ok' | 'due' | 'breached' | 'none';
+  catalogUpdatedAt: string | null;
+  lastActivityAt: string;
   createdAt: string;
   updatedAt: string;
 }

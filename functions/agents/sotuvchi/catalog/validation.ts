@@ -9,6 +9,7 @@ import {
   type CatalogAvailability,
   type CatalogCategoryStatus,
   type CatalogOwnerSeed,
+  type CatalogProductSpecification,
   type CatalogProductStatus,
   type CreateCatalogCategoryInput,
   type CreateCatalogProductInput,
@@ -27,12 +28,17 @@ export const CATALOG_LIMITS = Object.freeze({
   skuLength: 64,
   mediaRefLength: 240,
   mediaRefCount: 5,
+  searchTermLength: 60,
+  searchTermCount: 12,
+  specificationCount: 12,
+  specificationLabelLength: 40,
+  specificationValueLength: 100,
   priceMinor: 1_000_000_000_000,
   sortOrder: 1_000_000,
   queryLength: 120,
   queryTokens: 8,
   resultLimit: 20,
-  productLimit: 20,
+  productLimit: 100,
 });
 
 const CATEGORY_STATUSES = new Set<string>(CATALOG_CATEGORY_STATUSES);
@@ -41,6 +47,7 @@ const AVAILABILITIES = new Set<string>(CATALOG_AVAILABILITIES);
 const SAFE_ID = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
 const SAFE_SKU = /^[A-Z0-9][A-Z0-9._/-]*$/;
 const SAFE_MEDIA_REF = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
+const SAFE_SPEC_KEY = /^[a-z][a-z0-9_]{0,31}$/;
 const CATEGORY_SLUG = /^c-[a-z2-7]{16}$/;
 const BOT_USERNAME = /^[a-z][a-z0-9_]{4,31}$/;
 
@@ -74,6 +81,8 @@ const PRODUCT_CREATE_KEYS = new Set([
   'currency',
   'availability',
   'mediaRefs',
+  'searchTerms',
+  'specifications',
 ]);
 const PRODUCT_UPDATE_KEYS = new Set([
   'categoryId',
@@ -84,6 +93,8 @@ const PRODUCT_UPDATE_KEYS = new Set([
   'currency',
   'availability',
   'mediaRefs',
+  'searchTerms',
+  'specifications',
 ]);
 const PRODUCT_FILTER_KEYS = new Set(['status', 'categoryId', 'limit']);
 
@@ -379,6 +390,84 @@ export function normalizeMediaRefs(value: unknown): readonly string[] {
   return refs;
 }
 
+export function normalizeSearchTerms(value: unknown): readonly string[] {
+  if (value === undefined) return [];
+  if (
+    !Array.isArray(value)
+    || value.length > CATALOG_LIMITS.searchTermCount
+  ) {
+    throw new CatalogValidationError('invalid_patch');
+  }
+  const terms = value.map((term) =>
+    normalizedText(
+      term,
+      'invalid_description',
+      1,
+      CATALOG_LIMITS.searchTermLength,
+    ));
+  const normalized = terms.map((term) => normalizeKnowledgeText(term));
+  if (
+    normalized.some((term) => !term)
+    || new Set(normalized).size !== normalized.length
+  ) {
+    throw new CatalogValidationError('invalid_patch');
+  }
+  return terms;
+}
+
+export function normalizeProductSpecifications(
+  value: unknown,
+): readonly CatalogProductSpecification[] {
+  if (value === undefined) return [];
+  if (
+    !Array.isArray(value)
+    || value.length > CATALOG_LIMITS.specificationCount
+  ) {
+    throw new CatalogValidationError('invalid_patch');
+  }
+  const specifications = value.map((item) => {
+    if (
+      !isPlainObject(item)
+      || !hasExactKeys(
+        item,
+        new Set(['key', 'labelRu', 'labelUz', 'value']),
+      )
+      || typeof item.key !== 'string'
+      || !SAFE_SPEC_KEY.test(item.key)
+    ) {
+      throw new CatalogValidationError('invalid_patch');
+    }
+    return {
+      key: item.key,
+      labelRu: normalizedText(
+        item.labelRu,
+        'invalid_description',
+        1,
+        CATALOG_LIMITS.specificationLabelLength,
+      ),
+      labelUz: normalizedText(
+        item.labelUz,
+        'invalid_description',
+        1,
+        CATALOG_LIMITS.specificationLabelLength,
+      ),
+      value: normalizedText(
+        item.value,
+        'invalid_description',
+        1,
+        CATALOG_LIMITS.specificationValueLength,
+      ),
+    };
+  });
+  if (
+    new Set(specifications.map((specification) => specification.key)).size
+      !== specifications.length
+  ) {
+    throw new CatalogValidationError('invalid_patch');
+  }
+  return specifications;
+}
+
 function optionalCategoryId(value: unknown): string | null {
   return value === undefined || value === null ? null : requireCatalogId(value);
 }
@@ -405,6 +494,8 @@ export function normalizeCreateProductInput(
     currency: normalizeCurrency(value.currency),
     availability: normalizeAvailability(value.availability),
     mediaRefs: normalizeMediaRefs(value.mediaRefs),
+    searchTerms: normalizeSearchTerms(value.searchTerms),
+    specifications: normalizeProductSpecifications(value.specifications),
   };
 }
 
@@ -442,6 +533,16 @@ export function normalizeUpdateProductInput(
       : {}),
     ...(Object.hasOwn(value, 'mediaRefs')
       ? { mediaRefs: normalizeMediaRefs(value.mediaRefs) }
+      : {}),
+    ...(Object.hasOwn(value, 'searchTerms')
+      ? { searchTerms: normalizeSearchTerms(value.searchTerms) }
+      : {}),
+    ...(Object.hasOwn(value, 'specifications')
+      ? {
+          specifications: normalizeProductSpecifications(
+            value.specifications,
+          ),
+        }
       : {}),
   };
 }

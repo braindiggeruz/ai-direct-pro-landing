@@ -41,13 +41,30 @@ export default function OwnerStoreDetail() {
 
       {store && (
         <>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatTile label="Состояние" value={store.status} tone={store.status === 'active' ? 'success' : 'danger'}/>
             <StatTile label="Пилот" value={store.pilotState}/>
             <StatTile label="Товары" value={`${store.publishedProducts}/${store.products}`}/>
+            <StatTile label="В наличии" value={store.inStockProducts}/>
             <StatTile label="Заказы" value={store.orders}/>
             <StatTile label="Открытые передачи" value={store.openHandoffs}/>
+            <StatTile label="SLA ответа" value={store.handoffSla}
+              tone={store.handoffSla === 'breached' ? 'danger' : store.handoffSla === 'due' ? 'warning' : 'neutral'}/>
+            <StatTile label="Продавец" value={store.sellerStatus}/>
           </div>
+
+          <Card>
+            <div className="grid sm:grid-cols-2 gap-3 text-sm">
+              <div>
+                <span className="text-white/40">Каталог обновлён:</span>{' '}
+                <code>{store.catalogUpdatedAt ?? 'нет данных'}</code>
+              </div>
+              <div>
+                <span className="text-white/40">Последняя активность:</span>{' '}
+                <code>{store.lastActivityAt}</code>
+              </div>
+            </div>
+          </Card>
 
           <Card className="overflow-x-auto">
             <h2 className="font-display text-base text-white mb-3">Последние заказы</h2>

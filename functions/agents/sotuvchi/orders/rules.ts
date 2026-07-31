@@ -6,11 +6,13 @@ import type {
 import { parseOnHandText } from '../inventory';
 import {
   SELLER_CANCEL_ACTION_PREFIX,
+  SELLER_CONTACT_ACTION_PREFIX,
   SELLER_CONFIRM_ACTION_PREFIX,
   SELLER_DONE_ACTION_PREFIX,
   SELLER_INVENTORY_ACTION,
   SELLER_ORDER_ACTION_PREFIX,
   SELLER_ORDERS_ACTION,
+  SELLER_VIEW_ACTION_PREFIX,
 } from './responses';
 import {
   SELLER_INVENTORY_GET_TOOL,
@@ -31,6 +33,8 @@ const ORDER_ACTIONS: readonly { prefix: string; tool: string }[] = [
   { prefix: SELLER_CANCEL_ACTION_PREFIX, tool: SELLER_ORDER_CANCEL_TOOL },
   { prefix: SELLER_DONE_ACTION_PREFIX, tool: SELLER_ORDER_DONE_TOOL },
   { prefix: SELLER_ORDER_ACTION_PREFIX, tool: SELLER_ORDER_GET_TOOL },
+  { prefix: SELLER_CONTACT_ACTION_PREFIX, tool: SELLER_ORDER_GET_TOOL },
+  { prefix: SELLER_VIEW_ACTION_PREFIX, tool: SELLER_ORDER_GET_TOOL },
 ];
 
 function textOf(message: RuntimeMessage): string | null {

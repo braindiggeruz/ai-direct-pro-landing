@@ -14,6 +14,8 @@ export const SELLER_ORDER_ACTION_PREFIX = 'seller-order.';
 export const SELLER_CONFIRM_ACTION_PREFIX = 'seller-order-confirm.';
 export const SELLER_CANCEL_ACTION_PREFIX = 'seller-order-cancel.';
 export const SELLER_DONE_ACTION_PREFIX = 'seller-order-done.';
+export const SELLER_CONTACT_ACTION_PREFIX = 'seller-order-contact.';
+export const SELLER_VIEW_ACTION_PREFIX = 'seller-order-view.';
 
 const VIEWS = new Set<string>(SELLER_VIEWS);
 
@@ -26,10 +28,13 @@ const COPY = {
     quantity: 'Количество',
     total: 'Итого',
     status: 'Статус',
+    time: 'Время',
     availability: 'Наличие',
     customer: 'Покупатель',
     phone: 'Телефон',
     address: 'Адрес',
+    comment: 'Комментарий',
+    commentMissing: 'не указан',
     stock: 'Остаток',
     stockUnknown: 'Остаток не задан.',
     stockNeeded: 'Для подтверждения нужен остаток.',
@@ -44,8 +49,11 @@ const COPY = {
     orders: 'Заказы',
     inventory: 'Остатки',
     confirm: 'Подтвердить',
-    cancel: 'Отменить',
+    cancel: 'Нет в наличии',
     done: 'Выполнен',
+    contact: 'Связаться',
+    handoff: 'Передать оператору',
+    view: 'Посмотреть заказ',
     back: 'Заказы',
     noPayment: 'Оплата через бота не проводится.',
   },
@@ -57,10 +65,13 @@ const COPY = {
     quantity: 'Miqdor',
     total: 'Jami',
     status: 'Holat',
+    time: 'Vaqt',
     availability: 'Mavjudlik',
     customer: 'Xaridor',
     phone: 'Telefon',
     address: 'Manzil',
+    comment: 'Izoh',
+    commentMissing: 'kiritilmagan',
     stock: 'Qoldiq',
     stockUnknown: 'Qoldiq kiritilmagan.',
     stockNeeded: 'Tasdiqlash uchun qoldiq kerak.',
@@ -75,8 +86,11 @@ const COPY = {
     orders: 'Buyurtmalar',
     inventory: 'Qoldiqlar',
     confirm: 'Tasdiqlash',
-    cancel: 'Bekor qilish',
+    cancel: 'Mavjud emas',
     done: 'Bajarildi',
+    contact: 'Bog‘lanish',
+    handoff: 'Operatorga o‘tkazish',
+    view: 'Buyurtmani ko‘rish',
     back: 'Buyurtmalar',
     noPayment: 'Bot orqali to‘lov amalga oshirilmaydi.',
   },
@@ -189,7 +203,29 @@ function transitionChoices(
       label: copy.done,
     });
   }
+  choices.push(
+    {
+      id: `${SELLER_CONTACT_ACTION_PREFIX}${orderId}`,
+      label: copy.contact,
+    },
+    { id: 'seller-handoffs', label: copy.handoff },
+  );
   choices.push({ id: SELLER_ORDERS_ACTION, label: copy.back });
+  return choices;
+}
+
+function notificationChoices(
+  facts: FactSheet,
+  locale: Locale,
+  orderId: string,
+): OutboundChoice[] {
+  const copy = COPY[locale];
+  const choices = transitionChoices(facts, locale, orderId)
+    .filter((choice) => choice.id !== SELLER_ORDERS_ACTION);
+  choices.push({
+    id: `${SELLER_VIEW_ACTION_PREFIX}${orderId}`,
+    label: copy.view,
+  });
   return choices;
 }
 
@@ -235,13 +271,28 @@ export function composeSellerOrdersResponse(
     const name = claimText(claims, facts, 'seller.order.product_name');
     const quantity = claimNumber(claims, facts, 'seller.order.quantity');
     const total = claimText(claims, facts, 'seller.order.total_display');
+    const time = claimText(claims, facts, 'seller.order.placed_at_display');
     const head = `${copy.orderTitle} ${number}\n${copy.status}: ${status}\n`
       + `${copy.product}: ${name}\n${copy.quantity}: ${quantity}\n`
-      + `${copy.total}: ${total}`;
+      + `${copy.total}: ${total}\n${copy.time}: ${time}`;
 
     if (view === 'notification') {
       const title = claimText(claims, facts, 'seller.notification.title');
-      return draft(`${title}\n${head}`, claims, []);
+      const comment = readBoolean(
+        facts,
+        'seller.order.customer_comment_present',
+      )
+        ? claimText(claims, facts, 'seller.order.customer_comment')
+        : copy.commentMissing;
+      return draft(
+        `${title}\n${head}\n${copy.comment}: ${comment}`,
+        claims,
+        notificationChoices(
+          facts,
+          locale,
+          readString(facts, 'seller.order.id'),
+        ),
+      );
     }
 
     if (view === 'transition') {
@@ -267,12 +318,19 @@ export function composeSellerOrdersResponse(
     const customer = claimText(claims, facts, 'seller.order.customer_name');
     const phone = claimText(claims, facts, 'seller.order.customer_phone');
     const address = claimText(claims, facts, 'seller.order.customer_address');
+    const comment = readBoolean(
+      facts,
+      'seller.order.customer_comment_present',
+    )
+      ? claimText(claims, facts, 'seller.order.customer_comment')
+      : copy.commentMissing;
     const parts = [
       head,
       `${copy.availability}: ${availability}`,
       `${copy.customer}: ${customer}`,
       `${copy.phone}: ${phone}`,
       `${copy.address}: ${address}`,
+      `${copy.comment}: ${comment}`,
     ];
     if (readBoolean(facts, 'seller.order.inventory_known')) {
       const stock = 'seller.order.inventory_on_hand';

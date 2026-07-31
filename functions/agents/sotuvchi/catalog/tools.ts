@@ -10,7 +10,6 @@ import {
 import type {
   CatalogCategory,
   CatalogProduct,
-  CatalogSearchResult,
   StoreOwnerContext,
   StorefrontContext,
 } from './types';
@@ -364,7 +363,7 @@ function ownerProductListFacts(
 }
 
 function storefrontFacts(
-  results: readonly CatalogSearchResult[],
+  results: readonly { product: CatalogProduct }[],
   locale: Locale,
 ): CatalogFactValues {
   const empty = locale === 'ru'
@@ -548,9 +547,6 @@ export function createSotuvchiCatalogDomainPort(
           );
           return storefrontFacts([{
             product,
-            categoryName: null,
-            score: 4_000,
-            matchedTokens: 1,
           }], call.org.locale);
         }
         default:

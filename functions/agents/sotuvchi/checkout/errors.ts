@@ -5,6 +5,7 @@ export type CheckoutValidationCode =
   | 'invalid_name'
   | 'invalid_phone'
   | 'invalid_address'
+  | 'invalid_comment'
   | 'invalid_version'
   | 'invalid_state'
   | 'invalid_order_number'

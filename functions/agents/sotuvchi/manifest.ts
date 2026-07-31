@@ -34,6 +34,7 @@ import {
   sotuvchiSellerStatusRule,
   sotuvchiStorefrontPendingRule,
 } from './rules';
+import { sotuvchiBuyerNavigationRule } from './experience';
 
 export const sotuvchiAgentManifest: AgentManifest = {
   id: 'sotuvchi',
@@ -57,6 +58,7 @@ export const sotuvchiAgentManifest: AgentManifest = {
     sotuvchiStorefrontPendingRule,
     sotuvchiSellerStatusRule,
     sotuvchiSellerCancelledRule,
+    sotuvchiBuyerNavigationRule,
     ...sotuvchiCatalogRules,
     ...sotuvchiCheckoutRules,
     ...sotuvchiOrdersRules,

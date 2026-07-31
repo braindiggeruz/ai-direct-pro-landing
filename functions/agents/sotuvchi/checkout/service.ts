@@ -14,6 +14,7 @@ import {
   type StorefrontContext,
 } from '../catalog';
 import { ensureSotuvchiNotificationsSchema } from '../outbox/schema';
+import { ensureSotuvchiOrdersSchema } from '../orders/schema';
 import {
   CheckoutAuthorizationError,
   CheckoutIdempotencyConflictError,
@@ -30,6 +31,7 @@ import {
   type CheckoutStore,
 } from './store';
 import type {
+  BuyerOrderSummary,
   CheckoutBuyerSession,
   CheckoutOutcome,
   CheckoutProductSnapshot,
@@ -41,6 +43,7 @@ import type {
 } from './types';
 import {
   normalizeBuyerAddress,
+  normalizeBuyerComment,
   normalizeBuyerName,
   normalizeBuyerPhone,
   normalizeCheckoutQuantity,
@@ -155,6 +158,7 @@ export class SotuvchiCheckoutService {
     // Bootstraps the checkout tables and the shared notification outbox that
     // placement writes in the same batch.
     await ensureSotuvchiNotificationsSchema(this.db);
+    await ensureSotuvchiOrdersSchema(this.db);
   }
 
   /** Trusted authority chain: Telegram identity → storefront session → store. */
@@ -197,6 +201,22 @@ export class SotuvchiCheckoutService {
       }
       throw error;
     }
+  }
+
+  async listBuyerOrders(
+    org: OrgContext,
+    limit = 5,
+  ): Promise<readonly BuyerOrderSummary[]> {
+    if (!Number.isInteger(limit) || limit < 1 || limit > 5) {
+      throw new CheckoutValidationError('invalid_input');
+    }
+    const session = await this.trustedSession(org);
+    return this.store.listBuyerOrders(
+      session.orgId,
+      session.storeId,
+      session.id,
+      limit,
+    );
   }
 
   private async operation(
@@ -586,10 +606,75 @@ export class SotuvchiCheckoutService {
       org,
       'address',
       'awaiting_address',
-      'awaiting_confirmation',
+      'awaiting_comment',
       'submit-address',
       normalizeBuyerAddress(rawAddress),
     );
+  }
+
+  async submitComment(
+    org: OrgContext,
+    rawComment: unknown,
+  ): Promise<SotuvchiCheckoutSnapshot> {
+    const comment = normalizeBuyerComment(rawComment);
+    return this.applyStep(
+      org,
+      'checkout.comment',
+      { step: 'comment', present: true },
+      'awaiting_comment',
+      'awaiting_confirmation',
+      'submit-comment',
+      (order, operation) => this.store.setComment(
+        order,
+        comment,
+        order.version,
+        operation,
+      ),
+    );
+  }
+
+  async skipComment(org: OrgContext): Promise<SotuvchiCheckoutSnapshot> {
+    return this.applyStep(
+      org,
+      'checkout.comment.skip',
+      { step: 'comment', present: false },
+      'awaiting_comment',
+      'awaiting_confirmation',
+      'skip-comment',
+      (order, operation) => this.store.setComment(
+        order,
+        null,
+        order.version,
+        operation,
+      ),
+    );
+  }
+
+  private async cancelUnavailable(
+    org: OrgContext,
+    session: CheckoutBuyerSession,
+    order: SotuvchiOrder,
+    workflowVersion: number,
+  ): Promise<SotuvchiCheckoutSnapshot> {
+    const operation = await this.operation(
+      org,
+      'checkout.stock_unavailable',
+      { productId: order.productId },
+    );
+    const replayed = await this.replay(session, operation);
+    if (replayed) return this.snapshot(replayed, 'stock_unavailable');
+    const changes = await this.store.cancelOrder(order, operation);
+    if (changes.some((value) => value !== 1)) {
+      throw new CheckoutVersionConflictError();
+    }
+    await this.advance(
+      order,
+      org.requestId,
+      'cancel',
+      workflowVersion,
+      'cancelled',
+    );
+    return this.reload(session, order.id, 'stock_unavailable');
   }
 
   async confirmCheckout(
@@ -606,10 +691,14 @@ export class SotuvchiCheckoutService {
       && (
         record.operation === 'checkout.confirm'
         || record.operation === 'checkout.price_refresh'
+        || record.operation === 'checkout.stock_unavailable'
       )
     ) {
       const stored = await this.store.getOrder(session.orgId, record.targetId);
       if (!stored) throw new CheckoutPersistenceError('corrupt_row');
+      if (record.operation === 'checkout.stock_unavailable') {
+        return this.snapshot(stored, 'stock_unavailable');
+      }
       return stored.status === 'placed'
         ? this.snapshot(stored, 'placed')
         : this.snapshot(stored, 'price_changed', true);
@@ -655,6 +744,21 @@ export class SotuvchiCheckoutService {
       }
       return this.reload(session, order.id, 'price_changed', true);
     }
+    if (product.availability === 'available') {
+      const onHand = await this.store.getInventoryOnHand(
+        session.orgId,
+        session.storeId,
+        order.productId,
+      );
+      if (onHand !== null && onHand < order.quantity) {
+        return this.cancelUnavailable(
+          org,
+          session,
+          order,
+          snapshot.workflowVersion,
+        );
+      }
+    }
 
     const operation = await this.operation(org, 'checkout.confirm', {
       totalMinor: order.totalMinor,
@@ -671,6 +775,21 @@ export class SotuvchiCheckoutService {
       },
     );
     if (changes.some((value) => value !== 1)) {
+      if (product.availability === 'available') {
+        const onHand = await this.store.getInventoryOnHand(
+          session.orgId,
+          session.storeId,
+          order.productId,
+        );
+        if (onHand !== null && onHand < order.quantity) {
+          return this.cancelUnavailable(
+            org,
+            session,
+            order,
+            snapshot.workflowVersion,
+          );
+        }
+      }
       throw new CheckoutStateError('product_unavailable');
     }
     const placed = await this.store.getOrder(session.orgId, order.id);

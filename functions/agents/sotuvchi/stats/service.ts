@@ -7,9 +7,12 @@ import { StatsAuthorizationError } from './errors';
 import { createSotuvchiStatsStore, type SotuvchiStatsStore } from './store';
 import { STATS_WINDOW_DAYS, type SotuvchiStatsReport } from './types';
 
-const BUYER_STARTED = 'sotuvchi.buyer_started';
-const CATALOG_ANSWERED = 'sotuvchi.catalog_answered';
-const CATALOG_NO_RESULT = 'sotuvchi.catalog_no_result';
+const BOT_STARTED = 'sotuvchi.bot_started';
+const SEARCH_SUBMITTED = 'sotuvchi.search_submitted';
+const RESULTS_SHOWN = 'sotuvchi.search_results_shown';
+const ZERO_RESULTS = 'sotuvchi.zero_results';
+const PRODUCT_VIEWED = 'sotuvchi.product_viewed';
+const COMPARISON_STARTED = 'sotuvchi.comparison_started';
 
 export interface SotuvchiStatsServiceOptions {
   now?: () => Date;
@@ -70,7 +73,14 @@ export class SotuvchiStatsService {
     );
     const events = await countEventsByType(this.db, {
       orgId: owner.orgId,
-      types: [BUYER_STARTED, CATALOG_ANSWERED, CATALOG_NO_RESULT],
+      types: [
+        BOT_STARTED,
+        SEARCH_SUBMITTED,
+        RESULTS_SHOWN,
+        ZERO_RESULTS,
+        PRODUCT_VIEWED,
+        COMPARISON_STARTED,
+      ],
       since,
     }).catch(() => null);
 
@@ -80,9 +90,12 @@ export class SotuvchiStatsService {
       generatedAt: generatedAt.toISOString(),
       exact,
       funnel: {
-        buyerStarts: events?.[BUYER_STARTED] ?? 0,
-        catalogAnswers: events?.[CATALOG_ANSWERED] ?? 0,
-        catalogNoResults: events?.[CATALOG_NO_RESULT] ?? 0,
+        buyerStarts: events?.[BOT_STARTED] ?? 0,
+        searches: events?.[SEARCH_SUBMITTED] ?? 0,
+        resultsShown: events?.[RESULTS_SHOWN] ?? 0,
+        zeroResults: events?.[ZERO_RESULTS] ?? 0,
+        productViews: events?.[PRODUCT_VIEWED] ?? 0,
+        comparisons: events?.[COMPARISON_STARTED] ?? 0,
       },
     };
 

@@ -56,6 +56,7 @@ export interface SellerOrderSummary {
   quantity: number;
   totalMinor: number;
   version: number;
+  placedAt: string;
 }
 
 /**
@@ -68,6 +69,7 @@ export interface SellerOrderDetail extends SellerOrderSummary {
   customerName: string;
   customerPhone: string;
   customerAddress: string;
+  customerComment: string | null;
   /** Present only when the store keeps a balance row for this product. */
   inventoryOnHand: number | null;
   /** True when confirming this order must decrement stock. */

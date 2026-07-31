@@ -1,10 +1,15 @@
 export const BUYER_INTENTS = [
   'catalog.list',
+  'catalog.categories',
+  'catalog.category',
+  'catalog.similar',
+  'catalog.compare',
   'catalog.search',
   'product.price',
   'product.availability',
   'product.details',
   'catalog.filter_price',
+  'catalog.confirm_budget',
   'catalog.help',
   'unknown',
 ] as const;

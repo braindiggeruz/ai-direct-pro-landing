@@ -19,6 +19,13 @@ export type CatalogProductStatus =
 export type CatalogAvailability =
   (typeof CATALOG_AVAILABILITIES)[number];
 
+export interface CatalogProductSpecification {
+  key: string;
+  labelRu: string;
+  labelUz: string;
+  value: string;
+}
+
 export interface CatalogCategory {
   id: string;
   orgId: string;
@@ -44,6 +51,8 @@ export interface CatalogProduct {
   availability: CatalogAvailability;
   status: CatalogProductStatus;
   mediaRefs: readonly string[];
+  searchTerms: readonly string[];
+  specifications: readonly CatalogProductSpecification[];
   version: number;
   createdAt: string;
   updatedAt: string;
@@ -90,6 +99,8 @@ export interface CreateCatalogProductInput {
   currency: 'UZS';
   availability: CatalogAvailability;
   mediaRefs?: readonly string[];
+  searchTerms?: readonly string[];
+  specifications?: readonly CatalogProductSpecification[];
 }
 
 export interface UpdateCatalogProductInput {
@@ -101,6 +112,8 @@ export interface UpdateCatalogProductInput {
   currency?: 'UZS';
   availability?: CatalogAvailability;
   mediaRefs?: readonly string[];
+  searchTerms?: readonly string[];
+  specifications?: readonly CatalogProductSpecification[];
 }
 
 export interface ListCatalogProductsFilter {
@@ -112,14 +125,58 @@ export interface ListCatalogProductsFilter {
 export interface CatalogSearchResult {
   product: CatalogProduct;
   categoryName: string | null;
+  storeName: string;
   score: number;
   matchedTokens: number;
+  matchedConstraints: readonly string[];
+  unmatchedConstraints: readonly string[];
+  confidence: 'high' | 'medium' | 'low';
+  reasonCodes: readonly string[];
+  sourceProductId: string;
+  sourceStoreId: string;
 }
 
 export interface CatalogProductCandidate {
   product: CatalogProduct;
   categoryName: string | null;
+  storeName: string;
   normalizedName: string;
+}
+
+export const CATALOG_RELEVANCE_REASONS = [
+  'catalog_listing',
+  'category_match',
+  'exact_name',
+  'exact_alias',
+  'name_prefix',
+  'all_tokens',
+  'partial_tokens',
+  'exact_product_reference',
+] as const;
+
+export type CatalogRelevanceReason =
+  (typeof CATALOG_RELEVANCE_REASONS)[number];
+
+export interface CatalogPresentation {
+  productId: string;
+  relevanceScore: number;
+  matchedRequirementCount: number;
+  missingRequirementCount: number;
+  relevanceReason: CatalogRelevanceReason;
+}
+
+export interface CatalogComparisonCandidate extends CatalogProductCandidate {
+  position: number;
+  relevanceScore: number;
+  matchedRequirementCount: number;
+  missingRequirementCount: number;
+  relevanceReason: CatalogRelevanceReason;
+}
+
+export interface BuyerCatalogCategory {
+  id: string;
+  name: string;
+  productCount: number;
 }
 
 export interface StorefrontSession {
@@ -133,6 +190,10 @@ export interface StorefrontSession {
   lastIntent: string | null;
   selectionRequestKey: string | null;
   selectedAt: string | null;
+  preferredLocale: Locale | null;
+  pendingIntent: 'budget' | null;
+  pendingRequestKey: string | null;
+  pendingAt: string | null;
   createdAt: string;
   updatedAt: string;
 }

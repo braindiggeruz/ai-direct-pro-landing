@@ -1,4 +1,8 @@
-import type { Locale, PiiSafePayload } from '../../../platform/contracts';
+import type {
+  EventValue,
+  Locale,
+  PiiSafePayload,
+} from '../../../platform/contracts';
 import {
   createPlatformEventsService,
   type PlatformEventsService,
@@ -6,7 +10,9 @@ import {
 import { requireCatalogId } from '../catalog';
 import {
   isSotuvchiEventType,
-  SOTUVCHI_RESULT_BUCKETS,
+  SOTUVCHI_EVENT_SOURCES,
+  SOTUVCHI_LATENCY_BUCKETS,
+  SOTUVCHI_PRICE_BUCKETS,
   type SotuvchiAnalyticsEvent,
   type SotuvchiEventOutcome,
   type SotuvchiEventType,
@@ -14,9 +20,10 @@ import {
 } from './types';
 
 const ID_BASE32 = 'abcdefghijklmnopqrstuvwxyz234567';
-const BUCKETS = new Set<string>(SOTUVCHI_RESULT_BUCKETS);
-/** Bounded intent label. The buyer's own words never reach an event. */
-const INTENT = /^[a-z][a-z0-9_.]{0,39}$/;
+const PRICE_BUCKETS = new Set<string>(SOTUVCHI_PRICE_BUCKETS);
+const LATENCY_BUCKETS = new Set<string>(SOTUVCHI_LATENCY_BUCKETS);
+/** Bounded server-selected reason token. Buyer words never reach an event. */
+const REASON_CODE = /^[a-z][a-z0-9_.-]{0,47}$/;
 
 export interface SotuvchiAnalyticsOptions {
   eventIdGenerator?: () => string;
@@ -58,46 +65,68 @@ function safeLocale(locale: Locale): Locale {
   return locale === 'uz' ? 'uz' : 'ru';
 }
 
+function optionalId(value: unknown): string | null {
+  if (value === undefined) return null;
+  try {
+    return requireCatalogId(value);
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Builds the payload of one event. Every value is either a closed-list token,
- * a boolean or a bounded server-generated counter; nothing here can carry a
- * buyer question, a seller reply, a product name, contact data, a chat
- * reference or a storefront code.
+ * Builds one closed, flat payload. Only explicitly copied scalar properties
+ * can survive this projection. Unknown keys, including raw buyer input and
+ * Telegram profile/contact fields, are ignored.
  */
 function payloadOf(event: SotuvchiAnalyticsEvent): PiiSafePayload | null {
-  switch (event.type) {
-    case 'sotuvchi.buyer_started':
-      return {
-        locale: safeLocale(event.locale),
-        source: event.source === 'session' ? 'session' : 'deep_link',
-      };
-    case 'sotuvchi.catalog_answered': {
-      if (!INTENT.test(event.intent) || !BUCKETS.has(event.resultBucket)) {
-        return null;
-      }
-      return {
-        locale: safeLocale(event.locale),
-        intent: event.intent,
-        result_bucket: event.resultBucket,
-        full_card: event.fullCard === true,
-      };
-    }
-    case 'sotuvchi.catalog_no_result': {
-      if (!INTENT.test(event.intent)) return null;
-      return { locale: safeLocale(event.locale), intent: event.intent };
-    }
-    case 'sotuvchi.stats_viewed': {
-      if (!Number.isInteger(event.windowDays) || event.windowDays < 1) {
-        return null;
-      }
-      return {
-        locale: safeLocale(event.locale),
-        window_days: Math.min(event.windowDays, 365),
-      };
-    }
-    default:
-      return null;
+  const payload: Record<string, EventValue> = {
+    locale: safeLocale(event.locale),
+  };
+  if (event.source !== undefined) {
+    if (!SOTUVCHI_EVENT_SOURCES.includes(event.source)) return null;
+    payload.source = event.source;
   }
+  if (event.productId !== undefined) {
+    const productId = optionalId(event.productId);
+    if (!productId) return null;
+    payload.product_id = productId;
+  }
+  if (event.categoryId !== undefined) {
+    const categoryId = optionalId(event.categoryId);
+    if (!categoryId) return null;
+    payload.category_id = categoryId;
+  }
+  if (event.resultCount !== undefined) {
+    if (
+      !Number.isInteger(event.resultCount)
+      || event.resultCount < 0
+      || event.resultCount > 200
+    ) {
+      return null;
+    }
+    payload.result_count = event.resultCount;
+    payload.result_bucket = resultBucket(event.resultCount);
+  }
+  if (event.priceBucket !== undefined) {
+    if (!PRICE_BUCKETS.has(event.priceBucket)) return null;
+    payload.price_bucket = event.priceBucket;
+  }
+  if (event.reasonCode !== undefined) {
+    if (!REASON_CODE.test(event.reasonCode)) return null;
+    payload.reason_code = event.reasonCode;
+  }
+  if (event.latencyBucket !== undefined) {
+    if (!LATENCY_BUCKETS.has(event.latencyBucket)) return null;
+    payload.latency_bucket = event.latencyBucket;
+  }
+  if (event.windowDays !== undefined) {
+    if (!Number.isInteger(event.windowDays) || event.windowDays < 1) {
+      return null;
+    }
+    payload.window_days = Math.min(event.windowDays, 365);
+  }
+  return payload;
 }
 
 /**

@@ -51,6 +51,49 @@ export default function OwnerOverview() {
             <StatTile label="Записей аудита" value={o.audit_events}/>
           </div>
 
+          <Card data-testid="owner-market-funnel">
+            <h2 className="font-display text-base text-white mb-3">Воронка GPTBot Market — сегодня</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <StatTile label="Запуски бота" value={o.funnel.bot_starts}/>
+              <StatTile label="Поиски" value={o.funnel.searches}/>
+              <StatTile label="Показаны результаты" value={o.funnel.results_shown}/>
+              <StatTile label="Без результатов" value={o.funnel.zero_results} tone={o.funnel.zero_results ? 'warning' : 'neutral'}/>
+              <StatTile label="Просмотры товаров" value={o.funnel.product_views}/>
+              <StatTile label="Начаты заказы" value={o.funnel.order_starts}/>
+              <StatTile label="Созданы заказы" value={o.funnel.orders_created}/>
+              <StatTile label="Запрошен продавец" value={o.funnel.handoffs_requested}/>
+            </div>
+          </Card>
+
+          <Card data-testid="owner-telegram-health">
+            <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+              <div>
+                <h2 className="font-display text-base text-white">Telegram и ответы продавцов</h2>
+                <p className="text-white/40 text-xs mt-1">
+                  @{data.telegram_bot.username ?? 'не настроен'} · {data.telegram_bot.webhook_endpoint} · {data.telegram_bot.configuration_status}
+                </p>
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <StatTile label="Обновления сегодня" value={o.telegram.updates_today}/>
+              <StatTile label="Завершены" value={o.telegram.completed_today}/>
+              <StatTile label="Ошибки" value={o.telegram.failed_today + o.telegram.errors_today}
+                tone={o.telegram.failed_today + o.telegram.errors_today ? 'danger' : 'neutral'}/>
+              <StatTile label="Дубликаты" value={o.telegram.duplicate_updates}/>
+              <StatTile label="В обработке" value={o.telegram.pending} tone={o.telegram.pending ? 'warning' : 'neutral'}/>
+              <StatTile label="Задержка" value={o.telegram.processing_latency}/>
+              <StatTile label="Ответы продавцов" value={o.seller_service.responses_today}/>
+              <StatTile label="SLA ответа" value={o.seller_service.response_time}
+                tone={o.seller_service.open_over_15m ? 'warning' : 'neutral'}/>
+              <StatTile label="Открыты >15 мин" value={o.seller_service.open_over_15m}
+                tone={o.seller_service.open_over_15m ? 'danger' : 'neutral'}/>
+              <StatTile label="Сбои уведомлений" value={o.seller_service.notification_failures}
+                tone={o.seller_service.notification_failures ? 'danger' : 'neutral'}/>
+              <StatTile label="Повторы уведомлений" value={o.seller_service.notification_retries}
+                tone={o.seller_service.notification_retries ? 'warning' : 'neutral'}/>
+            </div>
+          </Card>
+
           <Card>
             <h2 className="font-display text-base text-white mb-3">Автоматизация</h2>
             <div className="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">

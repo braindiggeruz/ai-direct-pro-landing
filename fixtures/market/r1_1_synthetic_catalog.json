@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "fixtureId": "r1_1_market_pilot_v1",
+  "disclosureRu": "Синтетический товар R1.1 для тестовой витрины; не является реальным коммерческим предложением.",
+  "disclosureUz": "R1.1 sinov vitrinasidagi sintetik mahsulot; haqiqiy tijoriy taklif emas.",
+  "categories": [
+    { "key": "workspace", "name": "Рабочее место / Ish joyi", "sortOrder": 10 },
+    { "key": "home", "name": "Дом и кухня / Uy va oshxona", "sortOrder": 20 },
+    { "key": "mobile", "name": "Мобильные аксессуары / Mobil aksessuarlar", "sortOrder": 30 },
+    { "key": "study", "name": "Учёба / O‘qish", "sortOrder": 40 },
+    { "key": "gifts", "name": "Подарки / Sovg‘alar", "sortOrder": 50 },
+    { "key": "boundaries", "name": "Ценовые границы / Narx chegaralari", "sortOrder": 60 }
+  ],
+  "products": [
+    {
+      "key": "notebook-a5", "categoryKey": "workspace", "sku": "R11-W01",
+      "name": "Блокнот A5", "priceMinor": 18000, "availability": "available", "onHand": 40,
+      "searchTerms": ["bloknot", "daftar", "A5 daftar"],
+      "specifications": [{ "key": "format", "labelRu": "Формат", "labelUz": "Format", "value": "A5" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "pen-set", "categoryKey": "workspace", "sku": "R11-W02",
+      "name": "Набор ручек", "priceMinor": 25000, "availability": "available", "onHand": 18,
+      "searchTerms": ["ruchka", "qalam", "yozuv uchun"],
+      "specifications": [{ "key": "count", "labelRu": "Количество", "labelUz": "Soni", "value": "5 шт." }],
+      "mediaRefs": []
+    },
+    {
+      "key": "desk-lamp", "categoryKey": "workspace", "sku": "R11-W03",
+      "name": "Настольная лампа", "priceMinor": 145000, "availability": "available", "onHand": 8,
+      "searchTerms": ["lampa", "stol chirog‘i", "ish chirog‘i"],
+      "specifications": [
+        { "key": "power", "labelRu": "Мощность", "labelUz": "Quvvat", "value": "8 Вт" },
+        { "key": "color", "labelRu": "Цвет", "labelUz": "Rang", "value": "Белый" }
+      ],
+      "mediaRefs": ["synthetic:r11:desk-lamp"]
+    },
+    {
+      "key": "desk-organizer", "categoryKey": "workspace", "sku": "R11-W04",
+      "name": "Органайзер для стола", "priceMinor": 85000, "availability": "available", "onHand": 6,
+      "searchTerms": ["organayzer", "stol qutisi", "kanselyariya"],
+      "specifications": [{ "key": "sections", "labelRu": "Отделения", "labelUz": "Bo‘limlar", "value": "6" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "mouse-pad", "categoryKey": "workspace", "sku": "R11-W05",
+      "name": "Коврик для мыши", "priceMinor": 55000, "availability": "unavailable", "onHand": 0,
+      "searchTerms": ["kovrik", "sichqoncha gilami", "mouse pad"],
+      "specifications": [{ "key": "size", "labelRu": "Размер", "labelUz": "O‘lcham", "value": "30 × 25 см" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "focus-timer", "categoryKey": "workspace", "sku": "R11-W06",
+      "name": "Таймер для фокуса", "priceMinor": 120000, "availability": "preorder", "onHand": null,
+      "searchTerms": ["taymer", "vaqt o‘lchagich", "pomodoro"],
+      "specifications": [{ "key": "duration", "labelRu": "Диапазон", "labelUz": "Oraliq", "value": "1–60 мин." }],
+      "mediaRefs": ["synthetic:r11:focus-timer"]
+    },
+    {
+      "key": "water-bottle", "categoryKey": "home", "sku": "R11-H01",
+      "name": "Бутылка для воды", "priceMinor": 28000, "availability": "available", "onHand": 24,
+      "searchTerms": ["butilka", "suv idishi", "suv uchun"],
+      "specifications": [{ "key": "volume", "labelRu": "Объём", "labelUz": "Hajm", "value": "500 мл" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "basic-mug", "categoryKey": "home", "sku": "R11-H02",
+      "name": "Кружка базовая", "priceMinor": 32000, "availability": "available", "onHand": 2,
+      "searchTerms": ["krujka", "oddiy krujka", "chashka"],
+      "specifications": [{ "key": "volume", "labelRu": "Объём", "labelUz": "Hajm", "value": "330 мл" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "lunch-box", "categoryKey": "home", "sku": "R11-H03",
+      "name": "Контейнер для обеда", "priceMinor": 75000, "availability": "available", "onHand": 10,
+      "searchTerms": ["konteyner", "tushlik qutisi", "lunch box"],
+      "specifications": [
+        { "key": "volume", "labelRu": "Объём", "labelUz": "Hajm", "value": "900 мл" },
+        { "key": "sections", "labelRu": "Отделения", "labelUz": "Bo‘limlar", "value": "2" }
+      ],
+      "mediaRefs": ["synthetic:r11:lunch-box"]
+    },
+    {
+      "key": "kitchen-scale", "categoryKey": "home", "sku": "R11-H04",
+      "name": "Кухонные весы", "priceMinor": 165000, "availability": "available", "onHand": 4,
+      "searchTerms": ["vesy", "oshxona tarozisi", "tarozi"],
+      "specifications": [{ "key": "capacity", "labelRu": "Предел", "labelUz": "Chegara", "value": "5 кг" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "thermos", "categoryKey": "home", "sku": "R11-H05",
+      "name": "Термос компактный", "priceMinor": 210000, "availability": "available", "onHand": 1,
+      "searchTerms": ["termos", "ixcham termos", "issiq suv"],
+      "specifications": [{ "key": "volume", "labelRu": "Объём", "labelUz": "Hajm", "value": "600 мл" }],
+      "mediaRefs": ["synthetic:r11:thermos"]
+    },
+    {
+      "key": "towel-set", "categoryKey": "home", "sku": "R11-H06",
+      "name": "Набор полотенец", "priceMinor": 98000, "availability": "unavailable", "onHand": 0,
+      "searchTerms": ["polotense", "sochiq to‘plami", "uy uchun"],
+      "specifications": [],
+      "mediaRefs": []
+    },
+    {
+      "key": "usb-cable", "categoryKey": "mobile", "sku": "R11-M01",
+      "name": "Кабель USB", "priceMinor": 22000, "availability": "available", "onHand": 35,
+      "searchTerms": ["kabel", "USB kabel", "zaryad kabeli"],
+      "specifications": [{ "key": "length", "labelRu": "Длина", "labelUz": "Uzunlik", "value": "1 м" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "charger-20w", "categoryKey": "mobile", "sku": "R11-M02",
+      "name": "Зарядное устройство 20 Вт", "priceMinor": 75000, "availability": "available", "onHand": 12,
+      "searchTerms": ["zaryad qurilmasi", "quvvatlagich", "20 watt"],
+      "specifications": [{ "key": "power", "labelRu": "Мощность", "labelUz": "Quvvat", "value": "20 Вт" }],
+      "mediaRefs": ["synthetic:r11:charger"]
+    },
+    {
+      "key": "power-bank", "categoryKey": "mobile", "sku": "R11-M03",
+      "name": "Внешний аккумулятор", "priceMinor": 250000, "availability": "available", "onHand": 5,
+      "searchTerms": ["powerbank", "tashqi akkumulyator", "quvvat banki"],
+      "specifications": [{ "key": "capacity", "labelRu": "Ёмкость", "labelUz": "Sig‘im", "value": "10 000 мА·ч" }],
+      "mediaRefs": ["synthetic:r11:power-bank"]
+    },
+    {
+      "key": "phone-stand", "categoryKey": "mobile", "sku": "R11-M04",
+      "name": "Подставка для телефона", "priceMinor": 45000, "availability": "available", "onHand": 9,
+      "searchTerms": ["podstavka", "telefon tagligi", "stol uchun"],
+      "specifications": [{ "key": "angle", "labelRu": "Наклон", "labelUz": "Qiyalik", "value": "Регулируемый" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "wired-earphones", "categoryKey": "mobile", "sku": "R11-M05",
+      "name": "Проводные наушники", "priceMinor": 180000, "availability": "preorder", "onHand": null,
+      "searchTerms": ["naushnik", "simli quloqchin", "earphones"],
+      "specifications": [{ "key": "connector", "labelRu": "Разъём", "labelUz": "Ulagich", "value": "3,5 мм" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "car-holder", "categoryKey": "mobile", "sku": "R11-M06",
+      "name": "Держатель телефона в авто", "priceMinor": 95000, "availability": "available", "onHand": 3,
+      "searchTerms": ["derjatel", "avto telefon ushlagichi", "mashina uchun"],
+      "specifications": [],
+      "mediaRefs": []
+    },
+    {
+      "key": "pencil-case", "categoryKey": "study", "sku": "R11-S01",
+      "name": "Пенал школьный", "priceMinor": 30000, "availability": "available", "onHand": 16,
+      "searchTerms": ["penal", "maktab qutisi", "qalamdon"],
+      "specifications": [{ "key": "sections", "labelRu": "Отделения", "labelUz": "Bo‘limlar", "value": "2" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "marker-set", "categoryKey": "study", "sku": "R11-S02",
+      "name": "Набор маркеров", "priceMinor": 48000, "availability": "available", "onHand": 14,
+      "searchTerms": ["marker", "markerlar to‘plami", "rangli marker"],
+      "specifications": [{ "key": "count", "labelRu": "Количество", "labelUz": "Soni", "value": "8 шт." }],
+      "mediaRefs": ["synthetic:r11:markers"]
+    },
+    {
+      "key": "calculator", "categoryKey": "study", "sku": "R11-S03",
+      "name": "Калькулятор учебный", "priceMinor": 125000, "availability": "available", "onHand": 7,
+      "searchTerms": ["kalkulyator", "o‘quv kalkulyatori", "hisoblagich"],
+      "specifications": [{ "key": "digits", "labelRu": "Разрядность", "labelUz": "Raqamlar", "value": "12" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "student-backpack", "categoryKey": "study", "sku": "R11-S04",
+      "name": "Рюкзак учебный", "priceMinor": 280000, "availability": "available", "onHand": 2,
+      "searchTerms": ["ryukzak", "o‘quv sumkasi", "maktab sumkasi"],
+      "specifications": [{ "key": "volume", "labelRu": "Объём", "labelUz": "Hajm", "value": "18 л" }],
+      "mediaRefs": ["synthetic:r11:backpack"]
+    },
+    {
+      "key": "reading-light", "categoryKey": "study", "sku": "R11-S05",
+      "name": "Лампа для чтения", "priceMinor": 90000, "availability": "available", "onHand": 5,
+      "searchTerms": ["chiroq", "o‘qish chirog‘i", "kitob lampasi"],
+      "specifications": [{ "key": "power", "labelRu": "Мощность", "labelUz": "Quvvat", "value": "3 Вт" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "flash-cards", "categoryKey": "study", "sku": "R11-S06",
+      "name": "Карточки для заметок", "priceMinor": 35000, "availability": "unavailable", "onHand": 0,
+      "searchTerms": ["kartochka", "eslatma kartalari", "flash cards"],
+      "specifications": [],
+      "mediaRefs": []
+    },
+    {
+      "key": "scented-candle", "categoryKey": "gifts", "sku": "R11-G01",
+      "name": "Свеча подарочная", "priceMinor": 65000, "availability": "available", "onHand": 11,
+      "searchTerms": ["svecha", "sovg‘a sham", "xushbo‘y sham"],
+      "specifications": [{ "key": "duration", "labelRu": "Горение", "labelUz": "Yonish", "value": "20 ч" }],
+      "mediaRefs": ["synthetic:r11:candle"]
+    },
+    {
+      "key": "photo-frame", "categoryKey": "gifts", "sku": "R11-G02",
+      "name": "Рамка для фотографии", "priceMinor": 85000, "availability": "available", "onHand": 6,
+      "searchTerms": ["ramka", "foto ramka", "rasm uchun"],
+      "specifications": [{ "key": "size", "labelRu": "Размер", "labelUz": "O‘lcham", "value": "15 × 20 см" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "gift-box", "categoryKey": "gifts", "sku": "R11-G03",
+      "name": "Коробка подарочная", "priceMinor": 40000, "availability": "available", "onHand": 20,
+      "searchTerms": ["korobka", "sovg‘a qutisi", "qadoq"],
+      "specifications": [{ "key": "size", "labelRu": "Размер", "labelUz": "O‘lcham", "value": "Средний" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "soft-blanket", "categoryKey": "gifts", "sku": "R11-G04",
+      "name": "Плед мягкий", "priceMinor": 190000, "availability": "available", "onHand": 3,
+      "searchTerms": ["pled", "yumshoq adyol", "sovg‘a"],
+      "specifications": [{ "key": "size", "labelRu": "Размер", "labelUz": "O‘lcham", "value": "130 × 160 см" }],
+      "mediaRefs": ["synthetic:r11:blanket"]
+    },
+    {
+      "key": "mini-speaker", "categoryKey": "gifts", "sku": "R11-G05",
+      "name": "Мини-колонка", "priceMinor": 230000, "availability": "preorder", "onHand": null,
+      "searchTerms": ["kolonka", "mini karnay", "bluetooth speaker"],
+      "specifications": [{ "key": "power", "labelRu": "Мощность", "labelUz": "Quvvat", "value": "5 Вт" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "fabric-bag", "categoryKey": "gifts", "sku": "R11-G06",
+      "name": "Сумка тканевая", "priceMinor": 55000, "availability": "available", "onHand": 13,
+      "searchTerms": ["sumka", "mato sumka", "tote bag"],
+      "specifications": [],
+      "mediaRefs": []
+    },
+    {
+      "key": "boundary-29999", "categoryKey": "boundaries", "sku": "R11-B01",
+      "name": "Тестовый товар 29 999", "priceMinor": 29999, "availability": "available", "onHand": 4,
+      "searchTerms": ["chegara 29999", "sinov mahsuloti", "byudjet testi"],
+      "specifications": [{ "key": "boundary", "labelRu": "Граница", "labelUz": "Chegara", "value": "29 999 UZS" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "boundary-30000", "categoryKey": "boundaries", "sku": "R11-B02",
+      "name": "Тестовый товар 30 000", "priceMinor": 30000, "availability": "available", "onHand": 1,
+      "searchTerms": ["chegara 30000", "sinov mahsuloti", "30 ming"],
+      "specifications": [{ "key": "boundary", "labelRu": "Граница", "labelUz": "Chegara", "value": "30 000 UZS" }],
+      "mediaRefs": ["synthetic:r11:boundary-30000"]
+    },
+    {
+      "key": "boundary-30001", "categoryKey": "boundaries", "sku": "R11-B03",
+      "name": "Тестовый товар 30 001", "priceMinor": 30001, "availability": "available", "onHand": 4,
+      "searchTerms": ["chegara 30001", "sinov mahsuloti", "byudjetdan yuqori"],
+      "specifications": [{ "key": "boundary", "labelRu": "Граница", "labelUz": "Chegara", "value": "30 001 UZS" }],
+      "mediaRefs": []
+    },
+    {
+      "key": "boundary-50000", "categoryKey": "boundaries", "sku": "R11-B04",
+      "name": "Тестовый товар 50 000", "priceMinor": 50000, "availability": "unavailable", "onHand": 0,
+      "searchTerms": ["chegara 50000", "sinov mahsuloti", "mavjud emas"],
+      "specifications": [],
+      "mediaRefs": []
+    },
+    {
+      "key": "boundary-200000", "categoryKey": "boundaries", "sku": "R11-B05",
+      "name": "Тестовый товар 200 000", "priceMinor": 200000, "availability": "available", "onHand": 3,
+      "searchTerms": ["chegara 200000", "sinov mahsuloti", "200 ming"],
+      "specifications": [],
+      "mediaRefs": []
+    },
+    {
+      "key": "boundary-1000000", "categoryKey": "boundaries", "sku": "R11-B06",
+      "name": "Тестовый товар 1 000 000", "priceMinor": 1000000, "availability": "preorder", "onHand": null,
+      "searchTerms": ["chegara 1000000", "sinov mahsuloti", "bir million"],
+      "specifications": [{ "key": "boundary", "labelRu": "Граница", "labelUz": "Chegara", "value": "1 000 000 UZS" }],
+      "mediaRefs": []
+    }
+  ]
+}

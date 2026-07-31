@@ -29,6 +29,7 @@ export {
 } from './service';
 export type {
   SotuvchiCatalogServiceOptions,
+  StorefrontComparisonResult,
 } from './service';
 export {
   createSotuvchiCatalogStore,
@@ -54,7 +55,9 @@ export {
   normalizeMediaRefs,
   normalizePriceMinor,
   normalizeProductDescription,
+  normalizeProductSpecifications,
   normalizeProductName,
+  normalizeSearchTerms,
   normalizedProductName,
   normalizeSku,
   normalizeStoreOwnerContext,
@@ -70,15 +73,21 @@ export {
   CATALOG_AVAILABILITIES,
   CATALOG_CATEGORY_STATUSES,
   CATALOG_PRODUCT_STATUSES,
+  CATALOG_RELEVANCE_REASONS,
 } from './types';
 export type {
   CatalogAvailability,
+  BuyerCatalogCategory,
   CatalogCategory,
   CatalogCategoryStatus,
+  CatalogComparisonCandidate,
   CatalogOwnerSeed,
+  CatalogPresentation,
   CatalogProduct,
+  CatalogProductSpecification,
   CatalogProductCandidate,
   CatalogProductStatus,
+  CatalogRelevanceReason,
   CatalogSearchResult,
   CreateCatalogCategoryInput,
   CreateCatalogProductInput,

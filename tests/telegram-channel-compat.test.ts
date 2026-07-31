@@ -38,7 +38,13 @@ interface ChannelTypeSurface {
 }
 
 test('legacy and channel Telegram client paths expose the same public surface', () => {
-  const runtimeExports = ['TG_MAX_MESSAGE', 'TelegramClient', 'escapeHtml', 'splitMessage'];
+  const runtimeExports = [
+    'TG_MAX_MESSAGE',
+    'TelegramClient',
+    'escapeHtml',
+    'splitMessage',
+    'telegramRetryDelayMs',
+  ];
   assert.deepEqual(Object.keys(legacy).sort(), runtimeExports.sort());
   assert.deepEqual(Object.keys(channel).sort(), runtimeExports.sort());
   for (const name of runtimeExports) {

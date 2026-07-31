@@ -15,10 +15,12 @@ import {
 import {
   deliverTelegramMessages,
   renderTelegramMappingFailure,
+  renderTelegramRateLimit,
   renderTelegramRuntimeFailure,
   renderTelegramRuntimeResult,
   type TelegramDeliveryPort,
 } from './render';
+import type { TelegramRateLimiter } from './rate-limit';
 import type {
   TelegramAgentUpdateFailureCode,
   TelegramAgentUpdateStore,
@@ -33,6 +35,8 @@ export type TelegramAgentsSafeLogCode =
   | 'context_failed'
   | 'runtime_failed'
   | 'send_failed'
+  | 'rate_limited'
+  | 'rate_limit_failed'
   | 'address_bind_failed'
   | 'dedup_finalize_failed';
 
@@ -44,6 +48,21 @@ export interface TelegramAgentRuntimePort {
   run(input: unknown): Promise<RuntimeTurnResult>;
 }
 
+export interface TelegramAgentsTelemetry {
+  recordError(input: {
+    orgId: string;
+    requestId: string;
+    locale: Locale;
+    reasonCode: string;
+    latencyBucket:
+      | 'under_250ms'
+      | '250ms_1s'
+      | '1s_3s'
+      | 'over_3s'
+      | 'unknown';
+  }): Promise<void>;
+}
+
 export interface TelegramAgentsWebhookDependencies {
   botUsername: string;
   webhookSecret: string;
@@ -52,6 +71,8 @@ export interface TelegramAgentsWebhookDependencies {
   contexts: TelegramAgentContextResolver;
   runtime: TelegramAgentRuntimePort;
   delivery: TelegramDeliveryPort;
+  rateLimiter?: TelegramRateLimiter;
+  telemetry?: TelegramAgentsTelemetry;
   /** Optional durable "where to reach this identity" binding. */
   addresses?: TelegramAddressBinder;
   logger?: TelegramAgentsSafeLogger;
@@ -60,6 +81,18 @@ export interface TelegramAgentsWebhookDependencies {
 export type TelegramSecretCheck =
   | { status: 'valid' }
   | { status: 'invalid'; code: 'missing_secret' | 'wrong_secret' };
+
+function constantTimeSecretEqual(
+  received: string,
+  expected: string,
+): boolean {
+  let difference = received.length ^ expected.length;
+  for (let index = 0; index < expected.length; index += 1) {
+    difference |= expected.charCodeAt(index)
+      ^ (received.charCodeAt(index) || 0);
+  }
+  return difference === 0;
+}
 
 function response(body: string, status: number, extra?: HeadersInit): Response {
   return new Response(body, {
@@ -80,7 +113,7 @@ export function verifyTelegramSecretHeader(
   if (received === null) {
     return { status: 'invalid', code: 'missing_secret' };
   }
-  if (received !== expectedSecret) {
+  if (!constantTimeSecretEqual(received, expectedSecret)) {
     return { status: 'invalid', code: 'wrong_secret' };
   }
   return { status: 'valid' };
@@ -178,14 +211,86 @@ async function sendFailure(
   );
 }
 
+async function sendRateLimit(
+  dependencies: TelegramAgentsWebhookDependencies,
+  input: TelegramAcceptedInbound,
+): Promise<void> {
+  const delivered = await deliverTelegramMessages(
+    dependencies.delivery,
+    input.inbound.threadRef,
+    renderTelegramRateLimit(localeOf(input)),
+  ).catch(() => false);
+  dependencies.logger?.error(delivered ? 'rate_limited' : 'send_failed');
+  await finalizeFailure(
+    dependencies,
+    input.inbound.idempotencyKey,
+    delivered ? 'rate_limited' : 'send_failed',
+  );
+}
+
+function latencyBucket(
+  startedAt: number,
+): Parameters<NonNullable<
+  TelegramAgentsWebhookDependencies['telemetry']
+>['recordError']>[0]['latencyBucket'] {
+  const elapsed = Math.max(0, Date.now() - startedAt);
+  if (elapsed < 250) return 'under_250ms';
+  if (elapsed < 1_000) return '250ms_1s';
+  if (elapsed < 3_000) return '1s_3s';
+  return 'over_3s';
+}
+
+async function recordError(
+  dependencies: TelegramAgentsWebhookDependencies,
+  context: { orgId: string; locale: Locale },
+  input: TelegramAcceptedInbound,
+  reasonCode: string,
+  startedAt: number,
+): Promise<void> {
+  await dependencies.telemetry?.recordError({
+    orgId: context.orgId,
+    requestId: `tg-agents-${input.updateId}`,
+    locale: context.locale,
+    reasonCode,
+    latencyBucket: latencyBucket(startedAt),
+  }).catch(() => undefined);
+}
+
 async function processAccepted(
   dependencies: TelegramAgentsWebhookDependencies,
   input: TelegramAcceptedInbound,
 ): Promise<void> {
+  const startedAt = Date.now();
   if (input.callbackQueryId) {
     await dependencies.delivery
       .answerCallback(input.callbackQueryId)
       .catch(() => false);
+  }
+
+  if (dependencies.rateLimiter) {
+    try {
+      const rate = await dependencies.rateLimiter.consume({
+        botUsername: dependencies.botUsername,
+        externalId: input.inbound.identity.externalId,
+        threadRef: input.inbound.threadRef,
+        callback: Boolean(input.callbackQueryId),
+      });
+      if (rate.status === 'limited') {
+        if (rate.notify) {
+          await sendRateLimit(dependencies, input);
+        } else {
+          await finalizeFailure(
+            dependencies,
+            input.inbound.idempotencyKey,
+            'rate_limited',
+          );
+        }
+        return;
+      }
+    } catch {
+      await sendFailure(dependencies, input, 'rate_limit_failed');
+      return;
+    }
   }
 
   let identityId: string;
@@ -216,6 +321,9 @@ async function processAccepted(
       startPayload: input.startPayload,
       isStartCommand: input.runtimeMessage.kind === 'action'
         && input.runtimeMessage.actionId === 'start',
+      ...(input.runtimeMessage.kind === 'action'
+        ? { actionId: input.runtimeMessage.actionId }
+        : {}),
       telegramIdentityId: identityId,
       locale: localeOf(input),
       idempotencyKey: input.inbound.idempotencyKey,
@@ -248,12 +356,50 @@ async function processAccepted(
     return;
   }
 
+  if (dependencies.rateLimiter) {
+    try {
+      const rate = await dependencies.rateLimiter.consumeTenant({
+        orgId: context.orgId,
+        callback: Boolean(input.callbackQueryId),
+      });
+      if (rate.status === 'limited') {
+        if (rate.notify) {
+          await sendRateLimit(dependencies, input);
+        } else {
+          await finalizeFailure(
+            dependencies,
+            input.inbound.idempotencyKey,
+            'rate_limited',
+          );
+        }
+        return;
+      }
+    } catch {
+      await recordError(
+        dependencies,
+        context,
+        input,
+        'rate_limit_failed',
+        startedAt,
+      );
+      await sendFailure(dependencies, input, 'rate_limit_failed');
+      return;
+    }
+  }
+
   let result: RuntimeTurnResult;
   try {
     result = await dependencies.runtime.run(
       runtimeInput(input, identityId, context),
     );
   } catch {
+    await recordError(
+      dependencies,
+      context,
+      input,
+      'runtime_failed',
+      startedAt,
+    );
     await sendFailure(dependencies, input, 'runtime_failed');
     return;
   }
@@ -264,6 +410,13 @@ async function processAccepted(
     renderTelegramRuntimeResult(result, context.locale),
   ).catch(() => false);
   if (!delivered) {
+    await recordError(
+      dependencies,
+      context,
+      input,
+      'send_failed',
+      startedAt,
+    );
     dependencies.logger?.error('send_failed');
     await finalizeFailure(
       dependencies,

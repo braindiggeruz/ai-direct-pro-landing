@@ -11,18 +11,19 @@ export type {
 } from './recorder';
 export {
   isSotuvchiEventType,
+  SOTUVCHI_LATENCY_BUCKETS,
   SOTUVCHI_EVENT_SOURCES,
   SOTUVCHI_EVENT_TYPES,
+  SOTUVCHI_PRICE_BUCKETS,
   SOTUVCHI_RESULT_BUCKETS,
 } from './types';
 export type {
-  BuyerStartedEvent,
-  CatalogAnsweredEvent,
-  CatalogNoResultEvent,
   SotuvchiAnalyticsEvent,
   SotuvchiEventOutcome,
   SotuvchiEventSource,
   SotuvchiEventType,
+  SotuvchiLatencyBucket,
+  SotuvchiPriceBucket,
+  SotuvchiProductEvent,
   SotuvchiResultBucket,
-  StatsViewedEvent,
 } from './types';

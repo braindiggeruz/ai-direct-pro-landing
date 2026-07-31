@@ -2,6 +2,7 @@ import type { OrgContext } from '../../../platform/contracts';
 import {
   CatalogNotFoundError,
   normalizedProductName,
+  type BuyerCatalogCategory,
   type CatalogSearchResult,
   type SotuvchiCatalogService,
   type StorefrontContext,
@@ -9,7 +10,7 @@ import {
 import { BuyerSessionError } from './errors';
 import type { BuyerIntent } from './intents';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 4;
 
 export interface BuyerQueryResult {
   intent: BuyerIntent;
@@ -17,8 +18,22 @@ export interface BuyerQueryResult {
   hasMore: boolean;
   nextOffset: number;
   fullCard: boolean;
-  state: 'ok' | 'not_found' | 'missing_previous';
+  state:
+    | 'ok'
+    | 'not_found'
+    | 'missing_previous'
+    | 'categories'
+    | 'budget_prompt'
+    | 'budget_confirmation'
+    | 'comparison_waiting'
+    | 'comparison_ready'
+    | 'comparison_duplicate'
+    | 'comparison_full'
+    | 'comparison_empty'
+    | 'comparison_cleared';
   maxPriceMinor?: number;
+  categories?: readonly BuyerCatalogCategory[];
+  categoryId?: string;
 }
 
 function compareText(left: string, right: string): number {
@@ -66,20 +81,256 @@ export class SotuvchiBuyerQueryService {
     });
   }
 
+  private async clearPendingBudget(
+    identityId: string,
+    context: StorefrontContext,
+  ): Promise<void> {
+    await this.catalog.clearStorefrontPendingBudget({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+  }
+
+  private async present(
+    org: OrgContext,
+    identityId: string,
+    context: StorefrontContext,
+    result: BuyerQueryResult,
+  ): Promise<BuyerQueryResult> {
+    if (result.results.length > 0) {
+      await this.catalog.recordStorefrontPresentation({
+        botUsername: this.botUsername,
+        identityId,
+        context,
+        requestId: org.requestId,
+        results: result.results,
+      });
+    }
+    return result;
+  }
+
   async list(
     org: OrgContext,
     offset: number,
   ): Promise<BuyerQueryResult> {
-    const { context } = await this.trustedContext(org);
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     const all = await this.catalog.listPublishedProducts(context, 20);
     const results = all.slice(offset, offset + PAGE_SIZE);
-    return {
+    return this.present(org, identityId, context, {
       intent: 'catalog.list',
       results,
       hasMore: all.length > offset + PAGE_SIZE,
       nextOffset: offset + PAGE_SIZE,
       fullCard: false,
       state: results.length > 0 ? 'ok' : 'not_found',
+    });
+  }
+
+  async categories(org: OrgContext): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    const categories = await this.catalog.listBuyerCategories(context);
+    if (categories.length === 0) return this.list(org, 0);
+    return {
+      intent: 'catalog.categories',
+      results: [],
+      categories,
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: categories.length > 0 ? 'categories' : 'not_found',
+    };
+  }
+
+  async category(
+    org: OrgContext,
+    categoryId: string,
+    offset: number,
+  ): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    const all = await this.catalog.listPublishedProductsByCategory(
+      context,
+      categoryId,
+      20,
+    );
+    const results = all.slice(offset, offset + PAGE_SIZE);
+    return this.present(org, identityId, context, {
+      intent: 'catalog.category',
+      results,
+      categoryId,
+      hasMore: all.length > offset + PAGE_SIZE,
+      nextOffset: offset + PAGE_SIZE,
+      fullCard: false,
+      state: results.length > 0 ? 'ok' : 'not_found',
+    });
+  }
+
+  async similar(
+    org: OrgContext,
+    productId: string,
+  ): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    const source = await this.catalog.getPublishedProductResult(
+      context,
+      productId,
+    );
+    const all = await this.catalog.listPublishedProducts(context, 20);
+    const results = all
+      .filter((candidate) => candidate.product.id !== source.product.id)
+      .sort((left, right) => {
+        const leftCategory =
+          left.product.categoryId === source.product.categoryId ? 0 : 1;
+        const rightCategory =
+          right.product.categoryId === source.product.categoryId ? 0 : 1;
+        const leftAvailability =
+          left.product.availability === 'available' ? 0 : 1;
+        const rightAvailability =
+          right.product.availability === 'available' ? 0 : 1;
+        return leftCategory - rightCategory
+          || leftAvailability - rightAvailability
+          || Math.abs(left.product.priceMinor - source.product.priceMinor)
+            - Math.abs(right.product.priceMinor - source.product.priceMinor)
+          || compareText(
+            normalizedProductName(left.product.name),
+            normalizedProductName(right.product.name),
+          )
+          || compareText(left.product.id, right.product.id);
+      })
+      .slice(0, PAGE_SIZE);
+    return this.present(org, identityId, context, {
+      intent: 'catalog.similar',
+      results,
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: results.length > 0 ? 'ok' : 'not_found',
+    });
+  }
+
+  async addComparison(
+    org: OrgContext,
+    productId: string,
+  ): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    try {
+      const comparison = await this.catalog.addStorefrontComparison({
+        botUsername: this.botUsername,
+        identityId,
+        context,
+        productId,
+      });
+      const state = comparison.outcome === 'duplicate'
+        ? 'comparison_duplicate'
+        : comparison.outcome === 'full'
+          ? 'comparison_full'
+          : comparison.results.length >= 2
+            ? 'comparison_ready'
+            : 'comparison_waiting';
+      return {
+        intent: 'catalog.compare',
+        results: comparison.results,
+        hasMore: false,
+        nextOffset: PAGE_SIZE,
+        fullCard: false,
+        state,
+      };
+    } catch (error) {
+      if (error instanceof CatalogNotFoundError) {
+        return {
+          intent: 'catalog.compare',
+          results: [],
+          hasMore: false,
+          nextOffset: PAGE_SIZE,
+          fullCard: false,
+          state: 'not_found',
+        };
+      }
+      throw error;
+    }
+  }
+
+  async showComparison(org: OrgContext): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    const comparison = await this.catalog.listStorefrontComparison({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+    return {
+      intent: 'catalog.compare',
+      results: comparison.results,
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: comparison.results.length === 0
+        ? 'comparison_empty'
+        : comparison.results.length === 1
+          ? 'comparison_waiting'
+          : 'comparison_ready',
+    };
+  }
+
+  async clearComparison(org: OrgContext): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
+    await this.catalog.clearStorefrontComparison({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+    return {
+      intent: 'catalog.compare',
+      results: [],
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: 'comparison_cleared',
+    };
+  }
+
+  async requestBudget(org: OrgContext): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    await this.catalog.setStorefrontPendingBudget({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+      requestId: org.requestId,
+    });
+    return {
+      intent: 'catalog.confirm_budget',
+      results: [],
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: 'budget_prompt',
+    };
+  }
+
+  async resolveBudget(
+    org: OrgContext,
+    amountMinor: number,
+  ): Promise<BuyerQueryResult> {
+    const { identityId, context } = await this.trustedContext(org);
+    const pending = await this.catalog.consumeStorefrontPendingBudget({
+      botUsername: this.botUsername,
+      identityId,
+      context,
+    });
+    if (pending) return this.filterPrice(org, amountMinor, 0);
+    return {
+      intent: 'catalog.confirm_budget',
+      results: [],
+      hasMore: false,
+      nextOffset: PAGE_SIZE,
+      fullCard: false,
+      state: 'budget_confirmation',
+      maxPriceMinor: amountMinor,
     };
   }
 
@@ -95,6 +346,7 @@ export class SotuvchiBuyerQueryService {
     productQuery: string,
   ): Promise<BuyerQueryResult> {
     const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     const ranked = await this.catalog.searchPublishedProducts(
       context,
       productQuery,
@@ -111,14 +363,14 @@ export class SotuvchiBuyerQueryService {
         results[0].product.id,
       );
     }
-    return {
+    return this.present(org, identityId, context, {
       intent,
       results,
       hasMore: false,
       nextOffset: PAGE_SIZE,
       fullCard: exact,
       state: results.length > 0 ? 'ok' : 'not_found',
-    };
+    });
   }
 
   async get(
@@ -130,6 +382,7 @@ export class SotuvchiBuyerQueryService {
     input: { productRef?: string; usePrevious?: boolean },
   ): Promise<BuyerQueryResult> {
     const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     let productRef = input.productRef;
     if (input.usePrevious) {
       const selection = await this.catalog.resolveStoredProductSelection(
@@ -165,14 +418,14 @@ export class SotuvchiBuyerQueryService {
         intent,
         result.product.id,
       );
-      return {
+      return this.present(org, identityId, context, {
         intent,
         results: [result],
         hasMore: false,
         nextOffset: PAGE_SIZE,
         fullCard: true,
         state: 'ok',
-      };
+      });
     } catch (error) {
       if (error instanceof CatalogNotFoundError) {
         return {
@@ -193,7 +446,8 @@ export class SotuvchiBuyerQueryService {
     maxPriceMinor: number,
     offset: number,
   ): Promise<BuyerQueryResult> {
-    const { context } = await this.trustedContext(org);
+    const { identityId, context } = await this.trustedContext(org);
+    await this.clearPendingBudget(identityId, context);
     const all = (await this.catalog.listPublishedProducts(context, 20))
       .filter(({ product }) => product.priceMinor <= maxPriceMinor)
       .sort(
@@ -206,7 +460,7 @@ export class SotuvchiBuyerQueryService {
           || compareText(left.product.id, right.product.id),
       );
     const results = all.slice(offset, offset + PAGE_SIZE);
-    return {
+    return this.present(org, identityId, context, {
       intent: 'catalog.filter_price',
       results,
       hasMore: all.length > offset + PAGE_SIZE,
@@ -214,7 +468,7 @@ export class SotuvchiBuyerQueryService {
       fullCard: false,
       state: results.length > 0 ? 'ok' : 'not_found',
       maxPriceMinor,
-    };
+    });
   }
 }
 

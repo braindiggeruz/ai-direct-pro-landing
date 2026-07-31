@@ -5,6 +5,7 @@ import {
 import { CATALOG_LIMITS } from '../catalog';
 import { BuyerQueryValidationError } from './errors';
 import type { BuyerParsedQuery } from './intents';
+import { parseBudget } from '../experience';
 
 const MAX_RAW_QUERY = 240;
 const LIST_PHRASES = new Set([
@@ -83,39 +84,6 @@ function boundedProductQuery(value: string): string {
   return normalized;
 }
 
-function parsePriceDigits(rawDigits: string): number {
-  const compact = rawDigits.replace(/\s+/g, '');
-  if (!/^\d+$/.test(compact)) throw new BuyerQueryValidationError();
-  const value = Number(compact);
-  if (
-    !Number.isSafeInteger(value)
-    || value < 0
-    || value > CATALOG_LIMITS.priceMinor
-  ) {
-    throw new BuyerQueryValidationError();
-  }
-  return value;
-}
-
-function priceFilter(normalized: string, raw: string): number | null {
-  const hasCue =
-    /(?:^|\s)(?:до|дешевле|arzonroq|gacha)(?:\s|$)/u.test(normalized);
-  // A buyer frequently replies to a preceding budget question with the amount
-  // alone (for example, "30 000"). Treat an otherwise bare, integer amount as
-  // a maximum price instead of searching the catalogue for that number.
-  const bareAmount = /^(\d(?:[\d\s]*\d)?)$/u.exec(normalized);
-  if (!hasCue && !bareAmount) return null;
-  if (/(?:-\s*\d|\d+[.,]\d+)/u.test(raw)) {
-    throw new BuyerQueryValidationError();
-  }
-  const match = bareAmount
-    ?? /(?:^|\s)(?:до|дешевле|arzonroq)\s+(\d(?:[\d\s]*\d)?)(?:\s|$)/u
-      .exec(normalized)
-    ?? /(?:^|\s)(\d(?:[\d\s]*\d)?)\s+gacha(?:\s|$)/u.exec(normalized);
-  if (!match) throw new BuyerQueryValidationError();
-  return parsePriceDigits(match[1]);
-}
-
 function queryAfter(
   normalized: string,
   expressions: readonly RegExp[],
@@ -141,10 +109,25 @@ export function parseBuyerQuery(raw: unknown): BuyerParsedQuery {
 
   if (HELP_PHRASES.has(normalized)) return { intent: 'catalog.help' };
   if (LIST_PHRASES.has(normalized)) return { intent: 'catalog.list' };
+  if (
+    /(?:^|\s)(?:сравн\p{L}*|сопостав\p{L}*|solishtir\p{L}*)(?=\s|$)/iu
+      .test(normalized)
+  ) {
+    return { intent: 'catalog.compare' };
+  }
 
-  const maxPriceMinor = priceFilter(normalized, raw);
-  if (maxPriceMinor !== null) {
-    return { intent: 'catalog.filter_price', maxPriceMinor };
+  const budget = parseBudget(normalized, raw);
+  if (budget.status === 'explicit') {
+    return {
+      intent: 'catalog.filter_price',
+      maxPriceMinor: budget.maxPriceMinor,
+    };
+  }
+  if (budget.status === 'ambiguous') {
+    return {
+      intent: 'catalog.confirm_budget',
+      maxPriceMinor: budget.amountMinor,
+    };
   }
 
   if (PREVIOUS_AVAILABILITY.has(normalized)) {

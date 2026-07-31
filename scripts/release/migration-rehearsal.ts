@@ -207,9 +207,9 @@ export function runMigrationRehearsal(): MigrationRehearsalReport {
   const entries = [...manifest.migrations].sort((a, b) => a.order - b.order);
   const checks: Record<string, boolean> = {
     order: (
-      entries.length === 12
+      entries.length === 18
       && entries[0]?.order === 13
-      && entries.at(-1)?.order === 24
+      && entries.at(-1)?.order === 30
       && entries.every((entry, index) => entry.order === 13 + index)
     ),
     checksums: entries.every((entry) =>
@@ -251,6 +251,13 @@ export function runMigrationRehearsal(): MigrationRehearsalReport {
       'sotuvchi_handoffs',
       'automation_jobs',
       'automation_job_events',
+      'owner_audit_events',
+      'owner_pilot_stores',
+      'sotuvchi_buyer_presentations',
+      'sotuvchi_buyer_comparisons',
+      'telegram_agent_update_metrics',
+      'telegram_agent_rate_limits',
+      'telegram_agent_rate_limit_notices',
     ];
     const tables = schemaObjects(database, 'table');
     checks.application_schema_compatibility = compatibleTables.every(
@@ -258,8 +265,8 @@ export function runMigrationRehearsal(): MigrationRehearsalReport {
     );
 
     upgrade.exec('PRAGMA foreign_keys = ON');
-    const previous = entries.filter((entry) => entry.order <= 19);
-    const next = entries.filter((entry) => entry.order >= 20);
+    const previous = entries.filter((entry) => entry.order <= 25);
+    const next = entries.filter((entry) => entry.order >= 26);
     applyRange(upgrade, previous);
     const upgraded = applyRange(upgrade, next);
     checks.synthetic_upgrade = upgraded.length === next.length

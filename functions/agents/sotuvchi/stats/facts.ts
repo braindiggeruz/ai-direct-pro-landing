@@ -23,7 +23,10 @@ export function projectStatsFacts(
     'seller.stats.handoffs_open': report.exact.handoffsOpen,
     'seller.stats.handoffs_answered': report.exact.handoffsAnswered,
     'seller.funnel.buyer_starts': report.funnel.buyerStarts,
-    'seller.funnel.catalog_answers': report.funnel.catalogAnswers,
-    'seller.funnel.catalog_no_results': report.funnel.catalogNoResults,
+    'seller.funnel.searches': report.funnel.searches,
+    'seller.funnel.results_shown': report.funnel.resultsShown,
+    'seller.funnel.zero_results': report.funnel.zeroResults,
+    'seller.funnel.product_views': report.funnel.productViews,
+    'seller.funnel.comparisons': report.funnel.comparisons,
   };
 }

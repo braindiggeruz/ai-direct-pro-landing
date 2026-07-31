@@ -5,6 +5,8 @@ export * from './api';
 export * from './deep-link';
 export * from './identity';
 export * from './ingest';
+export * from './metadata';
+export * from './rate-limit';
 export * from './render';
 export * from './schema';
 export * from './setup';

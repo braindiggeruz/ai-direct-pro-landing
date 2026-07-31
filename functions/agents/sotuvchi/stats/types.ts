@@ -1,4 +1,4 @@
-export const STATS_WINDOW_DAYS = 7;
+export const STATS_WINDOW_DAYS = 1;
 
 /**
  * Counts read directly from the tables that own them. Every number here is
@@ -28,8 +28,11 @@ export interface SotuvchiExactStats {
  */
 export interface SotuvchiFunnelStats {
   buyerStarts: number;
-  catalogAnswers: number;
-  catalogNoResults: number;
+  searches: number;
+  resultsShown: number;
+  zeroResults: number;
+  productViews: number;
+  comparisons: number;
 }
 
 export interface SotuvchiStatsReport {

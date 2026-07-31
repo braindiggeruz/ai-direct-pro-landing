@@ -18,10 +18,15 @@ export {
   CHECKOUT_CANCEL_ACTION,
   CHECKOUT_CONFIRM_ACTION,
   CHECKOUT_RESUME_ACTION,
+  CHECKOUT_SKIP_COMMENT_ACTION,
   CHECKOUT_START_ACTION_PREFIX,
   composeCheckoutResponse,
 } from './responses';
-export { sotuvchiCheckoutRules, sotuvchiCheckoutStartRule } from './rules';
+export {
+  sotuvchiBuyerOrdersRule,
+  sotuvchiCheckoutRules,
+  sotuvchiCheckoutStartRule,
+} from './rules';
 export {
   ensureSotuvchiCheckoutSchema,
   SOTUVCHI_CHECKOUT_DDL,
@@ -48,17 +53,25 @@ export type {
   CreateOrderInput,
 } from './store';
 export {
+  BUYER_ORDER_HISTORY_OPERATION,
   CHECKOUT_START_OPERATION,
   createSotuvchiCheckoutDomainPort,
   sotuvchiCheckoutTools,
   withSotuvchiCheckoutDomain,
 } from './tools';
 export {
+  composeBuyerOrderHistoryResponse,
+  projectBuyerOrderHistoryFacts,
+} from './history';
+export type { BuyerOrderHistoryFacts } from './history';
+export {
   CHECKOUT_AVAILABILITIES,
   CHECKOUT_ORDER_STATUSES,
   CHECKOUT_STATES,
 } from './types';
 export type {
+  BuyerOrderStatus,
+  BuyerOrderSummary,
   CheckoutAvailability,
   CheckoutBuyerSession,
   CheckoutIdentityContext,
@@ -76,6 +89,7 @@ export {
   CHECKOUT_PHONE_PREFIX,
   maskBuyerPhone,
   normalizeBuyerAddress,
+  normalizeBuyerComment,
   normalizeBuyerName,
   normalizeBuyerPhone,
   normalizeCheckoutQuantity,

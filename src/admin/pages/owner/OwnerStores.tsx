@@ -127,21 +127,44 @@ export default function OwnerStores() {
                     {store.name}
                   </Link>
                   <div className="text-white/30 text-xs">{store.storeId}</div>
+                  <div className="text-white/30 text-xs">
+                    Активность: {new Date(store.lastActivityAt).toLocaleString('ru-RU')}
+                  </div>
                 </td>
                 <td className="py-2">
                   <Badge tone={store.status === 'active' ? 'success' : store.status === 'suspended' ? 'danger' : 'neutral'}>
                     {store.status}
                   </Badge>
                 </td>
-                <td className="py-2"><Badge tone="info">{store.onboardingStatus}</Badge></td>
+                <td className="py-2">
+                  <Badge tone="info">{store.onboardingStatus}</Badge>
+                  <div className="text-white/30 text-xs mt-1">seller: {store.sellerStatus}</div>
+                </td>
                 <td className="py-2">
                   <Badge tone={store.pilotState === 'active' ? 'success' : store.pilotState === 'paused' ? 'warning' : 'neutral'}>
                     {store.pilotState}
                   </Badge>
                 </td>
-                <td className="py-2 text-right">{store.publishedProducts}/{store.products}</td>
+                <td className="py-2 text-right">
+                  <div>{store.publishedProducts}/{store.products}</div>
+                  <div className="text-white/30 text-xs">в наличии: {store.inStockProducts}</div>
+                  <div className="text-white/30 text-xs">
+                    каталог: {store.catalogUpdatedAt
+                      ? new Date(store.catalogUpdatedAt).toLocaleDateString('ru-RU')
+                      : 'нет данных'}
+                  </div>
+                </td>
                 <td className="py-2 text-right">{store.orders}</td>
-                <td className="py-2 text-right">{store.openHandoffs}</td>
+                <td className="py-2 text-right">
+                  <div>{store.openHandoffs}</div>
+                  <Badge tone={store.handoffSla === 'breached'
+                    ? 'danger'
+                    : store.handoffSla === 'due'
+                      ? 'warning'
+                      : 'neutral'}>
+                    SLA: {store.handoffSla}
+                  </Badge>
+                </td>
                 <td className="py-2 text-right">
                   {canMutate && store.status === 'active' && (
                     <Button variant="ghost" size="sm"

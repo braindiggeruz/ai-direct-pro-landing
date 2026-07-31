@@ -14,8 +14,10 @@ export const CHECKOUT_VIEWS = [
   'name',
   'phone',
   'address',
+  'comment',
   'review',
   'completed',
+  'out_of_stock',
   'cancelled',
   'conflict',
 ] as const;
@@ -26,6 +28,7 @@ export function checkoutView(
   snapshot: SotuvchiCheckoutSnapshot,
 ): CheckoutView {
   if (snapshot.outcome === 'other_draft') return 'conflict';
+  if (snapshot.outcome === 'stock_unavailable') return 'out_of_stock';
   switch (snapshot.state) {
     case 'awaiting_quantity':
     case 'idle':
@@ -36,6 +39,8 @@ export function checkoutView(
       return 'phone';
     case 'awaiting_address':
       return 'address';
+    case 'awaiting_comment':
+      return 'comment';
     case 'awaiting_confirmation':
       return 'review';
     case 'completed':
@@ -58,9 +63,11 @@ export function projectCheckoutFacts(
   const values: Record<string, FactValue> = {
     'checkout.view': checkoutView(snapshot),
     'checkout.state': snapshot.state,
+    'checkout.outcome': snapshot.outcome,
     'checkout.price_changed': snapshot.priceChanged,
     'checkout.input.rejected': options.rejected === true,
     'checkout.product.name': order.productNameSnapshot,
+    'checkout.product.ref': order.productId,
     'checkout.product.price_minor': order.unitPriceMinor,
     'checkout.product.price_display': formatBuyerPrice(
       order.unitPriceMinor,
@@ -76,6 +83,8 @@ export function projectCheckoutFacts(
     'checkout.customer.phone_prefix': CHECKOUT_PHONE_PREFIX,
     'checkout.customer.name_present': order.buyerName !== null,
     'checkout.customer.address_present': order.buyerAddress !== null,
+    'checkout.customer.comment_present': order.buyerComment !== null,
+    'checkout.store.name': order.storeName,
     'checkout.order.number': order.orderNumber,
     'checkout.order.status': order.status,
   };

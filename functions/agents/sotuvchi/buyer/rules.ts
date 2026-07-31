@@ -4,20 +4,15 @@ import type {
   RuntimeStepResult,
 } from '../../../platform/contracts';
 import { parseBuyerQuery } from './parser';
-import { buyerBudgetPrompt, safeBuyerHelpResponse } from './responses';
+import {
+  safeBuyerHelpResponse,
+  staleBuyerActionResponse,
+} from './responses';
 
 function help(locale: Locale): RuntimeStepResult {
   return {
     kind: 'answer',
     response: safeBuyerHelpResponse(locale),
-    facts: [],
-  };
-}
-
-function budgetPrompt(locale: Locale): RuntimeStepResult {
-  return {
-    kind: 'answer',
-    response: buyerBudgetPrompt(locale),
     facts: [],
   };
 }
@@ -39,15 +34,45 @@ export const sotuvchiBuyerActionRule: DeterministicRule = {
     if (input.message.actionId === 'buyer-catalog-open') {
       return {
         kind: 'tool',
-        toolName: 'catalog.list',
-        input: { offset: 0 },
+        toolName: 'catalog.categories',
+        input: {},
       };
     }
     if (input.message.actionId === 'buyer-back') {
       return {
         kind: 'tool',
+        toolName: 'catalog.categories',
+        input: {},
+      };
+    }
+    if (input.message.actionId === 'buyer-all-products') {
+      return {
+        kind: 'tool',
         toolName: 'catalog.list',
         input: { offset: 0 },
+      };
+    }
+    const categoryNext =
+      /^buyer-category-next\.([a-z0-9][a-z0-9._-]{0,23})\.(\d{1,2})$/
+        .exec(input.message.actionId);
+    if (categoryNext) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.category.products',
+        input: {
+          categoryId: categoryNext[1],
+          offset: Number(categoryNext[2]),
+        },
+      };
+    }
+    const category =
+      /^buyer-category\.([a-z0-9][a-z0-9._-]{0,31})$/
+        .exec(input.message.actionId);
+    if (category) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.category.products',
+        input: { categoryId: category[1], offset: 0 },
       };
     }
     const details =
@@ -84,7 +109,68 @@ export const sotuvchiBuyerActionRule: DeterministicRule = {
         },
       };
     }
-    return help(context.org.locale);
+    const similar =
+      /^buyer-similar\.([a-z0-9][a-z0-9._-]{0,31})$/
+        .exec(input.message.actionId);
+    if (similar) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.similar',
+        input: { productRef: similar[1] },
+      };
+    }
+    const compare =
+      /^buyer-compare\.([a-z0-9][a-z0-9._-]{0,31})$/
+        .exec(input.message.actionId);
+    if (compare) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.add',
+        input: { productRef: compare[1] },
+      };
+    }
+    if (input.message.actionId === 'buyer-compare-show') {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.show',
+        input: {},
+      };
+    }
+    if (input.message.actionId === 'buyer-compare-clear') {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.clear',
+        input: {},
+      };
+    }
+    const budget = /^buyer-budget\.(\d{1,13})$/.exec(
+      input.message.actionId,
+    );
+    if (budget) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.filter_price',
+        input: { maxPriceMinor: Number(budget[1]), offset: 0 },
+      };
+    }
+    const numberSearch = /^buyer-number-search\.(\d{1,13})$/.exec(
+      input.message.actionId,
+    );
+    if (numberSearch) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.search',
+        input: {
+          intent: 'catalog.search',
+          productQuery: numberSearch[1],
+        },
+      };
+    }
+    return {
+      kind: 'answer',
+      response: staleBuyerActionResponse(context.org.locale),
+      facts: [],
+    };
   },
 };
 
@@ -106,10 +192,21 @@ export const sotuvchiBuyerTextRule: DeterministicRule = {
       parsed.intent === 'catalog.search'
       && asksForAffordableOption(input.message.text)
     ) {
-      return budgetPrompt(context.org.locale);
+      return {
+        kind: 'tool',
+        toolName: 'catalog.budget.request',
+        input: {},
+      };
     }
     if (parsed.intent === 'unknown' || parsed.intent === 'catalog.help') {
       return help(context.org.locale);
+    }
+    if (parsed.intent === 'catalog.compare') {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.compare.show',
+        input: {},
+      };
     }
     if (parsed.intent === 'catalog.list') {
       return {
@@ -126,6 +223,16 @@ export const sotuvchiBuyerTextRule: DeterministicRule = {
         kind: 'tool',
         toolName: 'catalog.filter_price',
         input: { maxPriceMinor: parsed.maxPriceMinor, offset: 0 },
+      };
+    }
+    if (
+      parsed.intent === 'catalog.confirm_budget'
+      && parsed.maxPriceMinor !== undefined
+    ) {
+      return {
+        kind: 'tool',
+        toolName: 'catalog.budget.resolve',
+        input: { amountMinor: parsed.maxPriceMinor },
       };
     }
     if (

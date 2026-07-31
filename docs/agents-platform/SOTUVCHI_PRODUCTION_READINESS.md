@@ -1,5 +1,10 @@
 # SOTUVCHI — production readiness checklist (P2.7)
 
+> R1.1 release note (2026-07-31): current implementation and release evidence
+> are tracked in `release/R1_1_PRODUCT_AUDIT_20260731.md`; execution must follow
+> `release/R1_1_MARKET_PILOT_RUNBOOK.md`. The historical sections below are not
+> authority for the R1.1 migration, fixture or Telegram-metadata sequence.
+
 ## Current readiness update — 2026-07-30
 
 The historical readiness sections below predate the completed R0.4 and P3.1

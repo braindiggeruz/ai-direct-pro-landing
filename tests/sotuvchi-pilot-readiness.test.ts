@@ -235,6 +235,7 @@ async function placeOrder(
     buyerOrg(setup, identityId),
     'Тошкент, Чилонзор 5',
   );
+  await setup.checkout.skipComment(buyerOrg(setup, identityId));
   const placed = await setup.checkout.confirmCheckout(
     buyerOrg(setup, identityId),
   );
@@ -250,18 +251,30 @@ function readPage(locale: 'ru' | 'uz'): Record<string, unknown> {
 
 // ── Analytics catalogue and payload safety ─────────────────────────────────
 
-test('the Sotuvchi event catalogue is a closed list of four events', () => {
+test('the Sotuvchi event catalogue is the closed R1.1 product funnel', () => {
   assert.deepEqual([...SOTUVCHI_EVENT_TYPES], [
-    'sotuvchi.buyer_started',
-    'sotuvchi.catalog_answered',
-    'sotuvchi.catalog_no_result',
+    'sotuvchi.bot_started',
+    'sotuvchi.language_selected',
+    'sotuvchi.catalog_opened',
+    'sotuvchi.category_opened',
+    'sotuvchi.search_submitted',
+    'sotuvchi.clarification_requested',
+    'sotuvchi.budget_parsed',
+    'sotuvchi.search_results_shown',
+    'sotuvchi.zero_results',
+    'sotuvchi.product_viewed',
+    'sotuvchi.comparison_started',
+    'sotuvchi.order_started',
+    'sotuvchi.order_created',
+    'sotuvchi.duplicate_order_blocked',
+    'sotuvchi.handoff_requested',
+    'sotuvchi.seller_notified',
+    'sotuvchi.seller_responded',
+    'sotuvchi.order_status_changed',
+    'sotuvchi.telegram_error',
     'sotuvchi.stats_viewed',
   ]);
-  // The exact seller-facing lifecycle counts come from domain tables, so no
-  // order, inventory or handoff transition is duplicated as an event.
-  for (const type of SOTUVCHI_EVENT_TYPES) {
-    assert.ok(!/order|inventory|handoff|product_created/.test(type), type);
-  }
+  assert.equal(new Set(SOTUVCHI_EVENT_TYPES).size, SOTUVCHI_EVENT_TYPES.length);
 });
 
 test('an analytics event carries only closed-list scalars', async () => {
@@ -272,11 +285,14 @@ test('an analytics event carries only closed-list scalars', async () => {
     storeId: setup.storefront.storeId,
     requestId: requestId('event'),
     event: {
-      type: 'sotuvchi.catalog_answered',
+      type: 'sotuvchi.search_results_shown',
       locale: 'ru',
-      intent: 'catalog.search',
-      resultBucket: 'few',
-      fullCard: false,
+      productId: 'product-safe',
+      categoryId: 'category-safe',
+      resultCount: 3,
+      priceBucket: '50k_200k',
+      reasonCode: 'exact_alias',
+      latencyBucket: '250ms_1s',
     },
   });
   assert.equal(outcome, 'recorded');
@@ -284,12 +300,16 @@ test('an analytics event carries only closed-list scalars', async () => {
     String(fixture.value('SELECT payload_json FROM events')),
   );
   assert.deepEqual(Object.keys(payload).sort(), [
-    'full_card',
-    'intent',
+    'category_id',
+    'latency_bucket',
     'locale',
+    'price_bucket',
+    'product_id',
+    'reason_code',
     'result_bucket',
+    'result_count',
   ]);
-  assert.equal(payload.intent, 'catalog.search');
+  assert.equal(payload.result_count, 3);
   assert.equal(
     fixture.value('SELECT agent_id FROM events'),
     'sotuvchi',
@@ -303,31 +323,63 @@ test('an analytics event carries only closed-list scalars', async () => {
 test('no buyer text, contact or chat reference can enter an event', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, '870002');
-  const rejected = [
-    { intent: 'Есть ли у вас платье Лола за 250000?' },
-    { intent: 'catalog.search; DROP TABLE events' },
-    { intent: '+998901234567' },
-    { intent: 'a'.repeat(80) },
-  ];
-  for (const input of rejected) {
+  const unsafe = {
+    type: 'sotuvchi.search_submitted',
+    locale: 'ru',
+    rawMessage: 'Есть ли у вас платье Лола за 250000?',
+    phone: '+998901234567',
+    chatId: '123456',
+    username: 'buyer',
+    stack: 'DROP TABLE events',
+  } as never;
+  assert.equal(
+    await setup.analytics.record({
+      orgId: setup.owner.orgId,
+      requestId: requestId('event'),
+      event: unsafe,
+    }),
+    'recorded',
+  );
+  for (const event of [
+    {
+      type: 'sotuvchi.zero_results',
+      locale: 'ru',
+      reasonCode: 'DROP TABLE events',
+    },
+    {
+      type: 'sotuvchi.product_viewed',
+      locale: 'ru',
+      productId: '+998901234567',
+    },
+    {
+      type: 'sotuvchi.search_results_shown',
+      locale: 'ru',
+      resultCount: 201,
+    },
+  ] as const) {
     assert.equal(
       await setup.analytics.record({
         orgId: setup.owner.orgId,
         requestId: requestId('event'),
-        event: {
-          type: 'sotuvchi.catalog_no_result',
-          locale: 'ru',
-          intent: input.intent,
-        },
+        event,
       }),
       'skipped',
     );
   }
-  assert.equal(fixture.value('SELECT COUNT(*) FROM events'), 0);
+  assert.equal(fixture.value('SELECT COUNT(*) FROM events'), 1);
   const stored = String(
     fixture.value('SELECT COALESCE(GROUP_CONCAT(payload_json), \'\') FROM events'),
   );
-  for (const forbidden of ['Лола', '998901', 'DROP TABLE']) {
+  for (const forbidden of [
+    'Лола',
+    '998901',
+    'DROP TABLE',
+    'rawMessage',
+    'phone',
+    'chatId',
+    'username',
+    'stack',
+  ]) {
     assert.ok(!stored.includes(forbidden), forbidden);
   }
 });
@@ -362,7 +414,7 @@ test('an event needs a trusted org and request id', async () => {
       await setup.analytics.record({
         ...input,
         event: {
-          type: 'sotuvchi.buyer_started',
+          type: 'sotuvchi.bot_started',
           locale: 'ru',
           source: 'deep_link',
         },
@@ -378,7 +430,7 @@ test('a repeated update appends the event exactly once', async () => {
   const setup = await setupStore(fixture, '870005');
   const request = requestId('event');
   const event = {
-    type: 'sotuvchi.buyer_started',
+    type: 'sotuvchi.bot_started',
     locale: 'ru' as const,
     source: 'deep_link' as const,
   };
@@ -402,7 +454,7 @@ test('a repeated update appends the event exactly once', async () => {
   assert.equal(
     fixture.value('SELECT idempotency_key FROM events'),
     analyticsIdempotencyKey(
-      'sotuvchi.buyer_started',
+      'sotuvchi.bot_started',
       setup.owner.orgId,
       request,
     ),
@@ -417,23 +469,23 @@ test('events of one org are invisible to another org', async () => {
     orgId: first.owner.orgId,
     requestId: requestId('event'),
     event: {
-      type: 'sotuvchi.buyer_started',
+      type: 'sotuvchi.bot_started',
       locale: 'ru',
       source: 'deep_link',
     },
   });
   const foreign = await countEventsByType(fixture.asD1(), {
     orgId: second.owner.orgId,
-    types: ['sotuvchi.buyer_started'],
+    types: ['sotuvchi.bot_started'],
     since: '2000-01-01T00:00:00.000Z',
   });
-  assert.equal(foreign['sotuvchi.buyer_started'], 0);
+  assert.equal(foreign['sotuvchi.bot_started'], 0);
   const own = await countEventsByType(fixture.asD1(), {
     orgId: first.owner.orgId,
-    types: ['sotuvchi.buyer_started'],
+    types: ['sotuvchi.bot_started'],
     since: '2000-01-01T00:00:00.000Z',
   });
-  assert.equal(own['sotuvchi.buyer_started'], 1);
+  assert.equal(own['sotuvchi.bot_started'], 1);
 });
 
 test('a failing analytics append never repeats the domain operation', async () => {
@@ -456,12 +508,12 @@ test('a failing analytics append never repeats the domain operation', async () =
     },
   } as unknown as SotuvchiAnalytics;
   const port = withSotuvchiAnalytics(base, broken);
-  await assert.rejects(() => port.execute({
+  await port.execute({
     agentId: 'sotuvchi',
     operation: 'catalog.search',
     org: sellerOrg(setup),
     input: {},
-  }));
+  });
   // The domain call ran exactly once; the decorator never retries it.
   assert.equal(calls, 1);
   assert.equal(fixture.value('SELECT COUNT(*) FROM events'), 0);
@@ -509,7 +561,12 @@ test('the decorator records the catalog funnel from Facts only', async () => {
   assert.deepEqual(
     fixture.rows<{ type: string }>('SELECT type FROM events ORDER BY type')
       .map((row) => row.type),
-    ['sotuvchi.catalog_answered', 'sotuvchi.catalog_no_result'],
+    [
+      'sotuvchi.search_results_shown',
+      'sotuvchi.search_submitted',
+      'sotuvchi.search_submitted',
+      'sotuvchi.zero_results',
+    ],
   );
   assert.equal(resultBucket(1), 'one');
   assert.equal(resultBucket(3), 'few');
@@ -636,8 +693,11 @@ test('an empty store reports zeros without failing', async () => {
   });
   assert.deepEqual({ ...report.funnel }, {
     buyerStarts: 0,
-    catalogAnswers: 0,
-    catalogNoResults: 0,
+    searches: 0,
+    resultsShown: 0,
+    zeroResults: 0,
+    productViews: 0,
+    comparisons: 0,
   });
 });
 
@@ -691,7 +751,7 @@ test('exact counters come from the domain tables', async () => {
   assert.equal(open.handoff.status, 'open');
 });
 
-test('the window keeps the last seven days and drops older rows', async () => {
+test('the daily window keeps current rows and drops older rows', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, '870018');
   const product = await publish(setup);
@@ -732,7 +792,7 @@ test('funnel counters stay separate from the exact counters', async () => {
     orgId: setup.owner.orgId,
     requestId: requestId('event'),
     event: {
-      type: 'sotuvchi.buyer_started',
+      type: 'sotuvchi.bot_started',
       locale: 'ru',
       source: 'deep_link',
     },
@@ -741,15 +801,18 @@ test('funnel counters stay separate from the exact counters', async () => {
     orgId: setup.owner.orgId,
     requestId: requestId('event'),
     event: {
-      type: 'sotuvchi.catalog_no_result',
+      type: 'sotuvchi.zero_results',
       locale: 'ru',
-      intent: 'catalog.search',
+      resultCount: 0,
     },
   });
   const report = await setup.stats.getStats(sellerOrg(setup));
   assert.equal(report.funnel.buyerStarts, 1);
-  assert.equal(report.funnel.catalogNoResults, 1);
-  assert.equal(report.funnel.catalogAnswers, 0);
+  assert.equal(report.funnel.zeroResults, 1);
+  assert.equal(report.funnel.resultsShown, 0);
+  assert.equal(report.funnel.searches, 0);
+  assert.equal(report.funnel.productViews, 0);
+  assert.equal(report.funnel.comparisons, 0);
   assert.equal(report.exact.ordersPlaced, 0);
 });
 
@@ -1038,12 +1101,12 @@ test('the pilot check fails closed on missing or unsafe configuration', () => {
   assert.ok(isProtectedAgentBotUsername('gptbot_javob_bot'));
 });
 
-test('the pilot check lists migrations 0013 to 0023 in order', () => {
-  assert.equal(PILOT_MIGRATIONS.length, 11);
+test('the pilot check lists migrations 0013 to 0030 in order', () => {
+  assert.equal(PILOT_MIGRATIONS.length, 18);
   assert.equal(PILOT_MIGRATIONS[0], '0013_platform_events.sql');
   assert.equal(
     PILOT_MIGRATIONS[PILOT_MIGRATIONS.length - 1],
-    '0023_sotuvchi_handoff.sql',
+    '0030_market_telegram_reliability.sql',
   );
   const numbers = PILOT_MIGRATIONS.map((name) => Number(name.slice(0, 4)));
   assert.deepEqual(numbers, [...numbers].sort((a, b) => a - b));
@@ -1057,7 +1120,8 @@ test('the pilot check lists migrations 0013 to 0023 in order', () => {
   assert.ok(report.items.every(
     (item) => !item.id.startsWith('migration:') || item.ok,
   ));
-  // P2.7 adds no migration of its own.
+  // P2.7 analytics still uses the platform outbox rather than a parallel
+  // analytics table; R1.1 transport telemetry is isolated in migration 0030.
   assert.ok(!fs.existsSync(path.join(ROOT, 'migrations', '0024_sotuvchi_analytics.sql')));
 });
 

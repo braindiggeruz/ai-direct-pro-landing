@@ -1,4 +1,5 @@
 import type { DeterministicRule } from '../../platform/contracts';
+import { homeResponse } from './experience';
 
 export const sotuvchiStorefrontPendingRule: DeterministicRule = {
   id: 'storefront-catalog',
@@ -8,21 +9,9 @@ export const sotuvchiStorefrontPendingRule: DeterministicRule = {
       && input.message.actionId === 'storefront-start';
   },
   async execute(context) {
-    const locale = context.org.locale;
     return {
       kind: 'answer',
-      response: {
-        messages: [{
-          text: locale === 'ru'
-            ? 'Тестовый каталог: здесь только синтетические товары, без реальных брендов и клиентских данных.\n\nНапишите, что ищете, или откройте каталог.'
-            : 'Sinov katalogi: bu yerda faqat sintetik mahsulotlar bor, haqiqiy brendlar va mijozlar ma’lumotlari ishlatilmaydi.\n\nNima kerakligini yozing yoki katalogni oching.',
-          choices: [{
-            id: 'buyer-catalog-open',
-            label: locale === 'ru' ? 'Открыть каталог' : 'Katalogni ochish',
-          }],
-        }],
-        claims: [],
-      },
+      response: homeResponse(context.org.locale),
       facts: [],
     };
   },

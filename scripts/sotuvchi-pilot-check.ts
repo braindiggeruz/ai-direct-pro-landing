@@ -45,6 +45,13 @@ export const PILOT_MIGRATIONS = [
   '0021_sotuvchi_checkout.sql',
   '0022_sotuvchi_orders_inventory.sql',
   '0023_sotuvchi_handoff.sql',
+  '0024_first_party_automation.sql',
+  '0025_owner_control_center_audit.sql',
+  '0026_market_buyer_experience.sql',
+  '0027_market_catalog_quality.sql',
+  '0028_market_product_comparison.sql',
+  '0029_market_checkout_comment.sql',
+  '0030_market_telegram_reliability.sql',
 ] as const;
 
 /** Names only. Values are never read into the report. */

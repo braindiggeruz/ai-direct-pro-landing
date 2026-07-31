@@ -60,6 +60,7 @@ const MIGRATIONS = [
   '0023_sotuvchi_handoff.sql',
   '0024_first_party_automation.sql',
   '0025_owner_control_center_audit.sql',
+  '0030_market_telegram_reliability.sql',
 ];
 
 function loadMigrations(db: SqliteD1): void {
@@ -394,6 +395,11 @@ describe('authorization fails closed', () => {
     loadMigrations(db);
     const res = await call(overviewGet, db, '/api/admin/agents/overview', {
       token: await tokenFor('platform_owner'),
+      envOverrides: {
+        TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_market_bot',
+        TELEGRAM_AGENTS_BOT_TOKEN: 'fixture-token-never-returned',
+        TELEGRAM_AGENTS_WEBHOOK_SECRET: 'fixture-secret-never-returned',
+      },
     });
     assert.deepEqual(res.body.runtime_policy, {
       first_party_automation_enabled: true,
@@ -401,6 +407,82 @@ describe('authorization fails closed', () => {
       auto_publication: false,
     });
     assert.equal((res.body.marketplace as { enabled: boolean }).enabled, false);
+    assert.deepEqual(res.body.telegram_bot, {
+      username: 'gptbot_market_bot',
+      webhook_endpoint: '/api/telegram/agents',
+      configuration_status: 'ready',
+    });
+    assert.ok(!res.text.includes('fixture-token-never-returned'));
+    assert.ok(!res.text.includes('fixture-secret-never-returned'));
+  });
+
+  test('overview exposes only bounded daily funnel and service aggregates', async () => {
+    const db = new SqliteD1();
+    loadMigrations(db);
+    const { orgId } = seedStore(db, 'health');
+    const now = new Date().toISOString();
+    for (const [index, type] of [
+      'sotuvchi.bot_started',
+      'sotuvchi.search_submitted',
+      'sotuvchi.search_results_shown',
+      'sotuvchi.product_viewed',
+      'sotuvchi.order_started',
+      'sotuvchi.order_created',
+      'sotuvchi.handoff_requested',
+      'sotuvchi.telegram_error',
+    ].entries()) {
+      db.exec(`INSERT INTO events (
+          id, idempotency_key, org_id, agent_id, type, aggregate_ref,
+          payload_json, occurred_at, created_at
+        ) VALUES (
+          'evt_health_${index}', 'evt-health-${index}', '${orgId}', 'sotuvchi',
+          '${type}', 'storefront', '{}', '${now}', '${now}'
+        )`);
+    }
+    db.exec(`INSERT INTO telegram_agent_updates (
+        idempotency_key, bot_username, update_id, status, created_at, completed_at
+      ) VALUES
+        ('agents:test_bot:9001', 'test_bot', 9001, 'completed', '${now}', '${now}'),
+        ('agents:test_bot:9002', 'test_bot', 9002, 'failed', '${now}', '${now}')`);
+    db.exec(`INSERT INTO telegram_agent_update_metrics (
+        idempotency_key, bot_username, duplicate_count, processing_ms, updated_at
+      ) VALUES
+        ('agents:test_bot:9001', 'test_bot', 3, 400, '${now}'),
+        ('agents:test_bot:9002', 'test_bot', 0, 800, '${now}')`);
+
+    const res = await call(overviewGet, db, '/api/admin/agents/overview', {
+      token: await tokenFor('support_readonly', 'support@gptbot.uz'),
+    });
+    assert.equal(res.status, 200);
+    const overview = res.body.overview as {
+      funnel: Record<string, number>;
+      telegram: Record<string, unknown>;
+      seller_service: Record<string, unknown>;
+    };
+    assert.deepEqual(overview.funnel, {
+      bot_starts: 1,
+      searches: 1,
+      results_shown: 1,
+      zero_results: 0,
+      product_views: 1,
+      order_starts: 1,
+      orders_created: 1,
+      handoffs_requested: 1,
+    });
+    assert.equal(overview.telegram.updates_today, 2);
+    assert.equal(overview.telegram.completed_today, 1);
+    assert.equal(overview.telegram.failed_today, 1);
+    assert.equal(overview.telegram.duplicate_updates, 3);
+    assert.equal(overview.telegram.errors_today, 1);
+    assert.equal(overview.telegram.average_processing_ms, 600);
+    assert.equal(overview.telegram.processing_latency, '250ms_1s');
+    assert.equal(typeof overview.seller_service.open_over_15m, 'number');
+    for (const forbidden of [
+      'payload_json', 'aggregate_ref', 'idempotency_key', 'buyer_name',
+      'buyer_phone', 'question_text', 'reply_text',
+    ]) {
+      assert.ok(!res.text.includes(forbidden), forbidden);
+    }
   });
 
   test('support_readonly cannot mutate anything', async () => {
@@ -761,6 +843,29 @@ describe('no cross-tenant reach and no impersonation', () => {
     assert.ok(orders.every((o) => o.storeId === a.storeId));
     assert.ok(handoffs.every((h) => h.storeId === a.storeId));
     assert.ok(!res.text.includes('store_scopeb'));
+  });
+
+  test('store health projection includes stock, seller, freshness and handoff SLA', async () => {
+    const db = new SqliteD1();
+    loadMigrations(db);
+    const { orgId, storeId } = seedStore(db, 'healthstore');
+    db.exec(`INSERT INTO sotuvchi_inventory (
+        org_id, store_id, product_id, on_hand, version, created_at, updated_at
+      ) VALUES (
+        '${orgId}', '${storeId}', 'prod_healthstore', 4, 1,
+        '2026-07-30T00:00:00.000Z', '2026-07-30T00:00:00.000Z'
+      )`);
+    const res = await call(storeGet, db, `/api/admin/agents/stores/${storeId}`, {
+      token: await tokenFor('support_readonly', 'support@gptbot.uz'),
+      params: { storeId },
+    });
+    assert.equal(res.status, 200);
+    const store = res.body.store as Record<string, unknown>;
+    assert.equal(store.inStockProducts, 1);
+    assert.equal(store.sellerStatus, 'active');
+    assert.equal(store.handoffSla, 'breached');
+    assert.equal(store.catalogUpdatedAt, '2026-07-30T00:00:00.000Z');
+    assert.equal(store.lastActivityAt, '2026-07-30T00:00:00.000Z');
   });
 
   test('an invalid store identifier is rejected before any query', async () => {

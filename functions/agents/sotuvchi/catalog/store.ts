@@ -1,14 +1,19 @@
 import type { Locale } from '../../../platform/contracts';
 import type {
+  BuyerCatalogCategory,
   CatalogCategory,
+  CatalogComparisonCandidate,
+  CatalogPresentation,
   CatalogProduct,
   CatalogProductCandidate,
+  CatalogRelevanceReason,
   CatalogProductStatus,
   ListCatalogProductsFilter,
   StorefrontContext,
   StorefrontSelection,
   StorefrontSession,
 } from './types';
+import { CATALOG_RELEVANCE_REASONS } from './types';
 import { CatalogPersistenceError } from './errors';
 import {
   normalizeAvailability,
@@ -18,9 +23,11 @@ import {
   normalizeMediaRefs,
   normalizePriceMinor,
   normalizeProductDescription,
+  normalizeProductSpecifications,
   normalizedProductName,
   normalizeProductName,
   normalizeProductStatus,
+  normalizeSearchTerms,
   normalizeSku,
   normalizeSortOrder,
   requireBotUsername,
@@ -28,16 +35,19 @@ import {
   requireCategorySlug,
   requireProductVersion,
 } from './validation';
+import { normalizeStoreName } from '../onboarding/validation';
 
 const CATEGORY_COLUMNS =
   'id, org_id, store_id, name, slug, status, sort_order, created_at, updated_at';
 const PRODUCT_COLUMNS =
   'id, org_id, store_id, category_id, sku, name, normalized_name, '
   + 'description, price_minor, currency, availability, status, '
-  + 'media_refs_json, version, created_at, updated_at';
+  + 'media_refs_json, search_terms_json, specifications_json, '
+  + 'version, created_at, updated_at';
 const SESSION_COLUMNS =
   'id, bot_username, identity_id, org_id, store_id, status, '
   + 'last_product_id, last_intent, selection_request_key, selected_at, '
+  + 'preferred_locale, pending_intent, pending_request_key, pending_at, '
   + 'created_at, updated_at';
 
 interface CategoryRow {
@@ -66,6 +76,8 @@ interface ProductRow {
   availability: string;
   status: string;
   media_refs_json: string;
+  search_terms_json: string;
+  specifications_json: string;
   version: number;
   created_at: string;
   updated_at: string;
@@ -73,6 +85,15 @@ interface ProductRow {
 
 interface CandidateRow extends ProductRow {
   category_name: string | null;
+  store_name: string;
+}
+
+interface ComparisonCandidateRow extends CandidateRow {
+  position: number;
+  relevance_score: number;
+  matched_requirement_count: number;
+  missing_requirement_count: number;
+  relevance_reason: string;
 }
 
 interface SessionRow {
@@ -86,6 +107,10 @@ interface SessionRow {
   last_intent: string | null;
   selection_request_key: string | null;
   selected_at: string | null;
+  preferred_locale: string | null;
+  pending_intent: string | null;
+  pending_request_key: string | null;
+  pending_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -104,6 +129,7 @@ export interface CatalogOperationRecord {
 export interface CatalogOwnerStore {
   id: string;
   orgId: string;
+  name: string;
   locale: Locale;
 }
 
@@ -140,10 +166,18 @@ export interface CatalogProductWrite {
   availability: 'available' | 'unavailable' | 'preorder';
   status: CatalogProductStatus;
   mediaRefs: readonly string[];
+  searchTerms: readonly string[];
+  specifications: CatalogProduct['specifications'];
   version: number;
   createdAt: string;
   updatedAt: string;
 }
+
+export type ComparisonAddOutcome =
+  | 'added'
+  | 'duplicate'
+  | 'full'
+  | 'not_found';
 
 export interface CatalogStore {
   findOwnedActiveStore(
@@ -232,6 +266,37 @@ export interface CatalogStore {
     context: StorefrontContext,
     limit: number,
   ): Promise<CatalogProductCandidate[]>;
+  listPublishedByCategory(
+    context: StorefrontContext,
+    categoryId: string,
+    limit: number,
+  ): Promise<CatalogProductCandidate[]>;
+  listBuyerCategories(
+    context: StorefrontContext,
+  ): Promise<BuyerCatalogCategory[]>;
+  recordStorefrontPresentation(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    requestId: string;
+    presentations: readonly CatalogPresentation[];
+  }): Promise<void>;
+  addComparisonProduct(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    productId: string;
+  }): Promise<ComparisonAddOutcome>;
+  listComparisonProducts(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<CatalogComparisonCandidate[]>;
+  clearComparisonProducts(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<void>;
   bindStorefrontSession(input: {
     botUsername: string;
     identityId: string;
@@ -241,6 +306,28 @@ export interface CatalogStore {
     botUsername: string,
     identityId: string,
   ): Promise<StorefrontContext | null>;
+  setStorefrontLocale(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    locale: Locale;
+  }): Promise<StorefrontContext | null>;
+  setPendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+    requestId: string;
+  }): Promise<boolean>;
+  consumePendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<boolean>;
+  clearPendingBudget(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<void>;
   recordStorefrontSelection(input: {
     botUsername: string;
     identityId: string;
@@ -304,6 +391,10 @@ function fromProductRow(row: ProductRow): CatalogProduct {
       availability: normalizeAvailability(row.availability),
       status: normalizeProductStatus(row.status),
       mediaRefs: normalizeMediaRefs(JSON.parse(row.media_refs_json)),
+      searchTerms: normalizeSearchTerms(JSON.parse(row.search_terms_json)),
+      specifications: normalizeProductSpecifications(
+        JSON.parse(row.specifications_json),
+      ),
       version: requireProductVersion(row.version),
       createdAt: row.created_at,
       updatedAt: row.updated_at,
@@ -319,12 +410,23 @@ function fromSessionRow(row: SessionRow): StorefrontSession {
     || !validDate(row.created_at)
     || !validDate(row.updated_at)
     || (row.selected_at !== null && !validDate(row.selected_at))
+    || (row.pending_at !== null && !validDate(row.pending_at))
     || (
       (row.last_product_id === null) !== (row.last_intent === null)
       || (row.last_product_id === null) !== (row.selected_at === null)
       || (row.last_product_id === null)
         !== (row.selection_request_key === null)
     )
+    || (
+      (row.pending_intent === null) !== (row.pending_request_key === null)
+      || (row.pending_intent === null) !== (row.pending_at === null)
+    )
+    || (
+      row.preferred_locale !== null
+      && row.preferred_locale !== 'ru'
+      && row.preferred_locale !== 'uz'
+    )
+    || (row.pending_intent !== null && row.pending_intent !== 'budget')
   ) {
     throw new CatalogPersistenceError('corrupt_row');
   }
@@ -345,6 +447,12 @@ function fromSessionRow(row: SessionRow): StorefrontSession {
       ? null
       : requireSessionCode(row.selection_request_key, 160),
     selectedAt: row.selected_at,
+    preferredLocale: row.preferred_locale as Locale | null,
+    pendingIntent: row.pending_intent as 'budget' | null,
+    pendingRequestKey: row.pending_request_key === null
+      ? null
+      : requireSessionCode(row.pending_request_key, 160),
+    pendingAt: row.pending_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -363,6 +471,29 @@ function requireSessionCode(
     throw new CatalogPersistenceError('persistence_failed');
   }
   return value;
+}
+
+function requireBoundedInteger(
+  value: unknown,
+  minimum: number,
+  maximum: number,
+): number {
+  if (!Number.isInteger(value) || Number(value) < minimum || Number(value) > maximum) {
+    throw new CatalogPersistenceError('corrupt_row');
+  }
+  return Number(value);
+}
+
+function requireRelevanceReason(value: unknown): CatalogRelevanceReason {
+  if (
+    typeof value !== 'string'
+    || !CATALOG_RELEVANCE_REASONS.includes(
+      value as CatalogRelevanceReason,
+    )
+  ) {
+    throw new CatalogPersistenceError('corrupt_row');
+  }
+  return value as CatalogRelevanceReason;
 }
 
 function operationChanges(
@@ -393,12 +524,93 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
     return row ? fromProductRow(row) : null;
   }
 
+  async function comparisonCandidates(input: {
+    botUsername: string;
+    identityId: string;
+    context: StorefrontContext;
+  }): Promise<CatalogComparisonCandidate[]> {
+    const rows = await db
+      .prepare(`SELECT ${qualified(PRODUCT_COLUMNS, 'product')},
+                       category.name AS category_name,
+                       store.name AS store_name,
+                       comparison.position,
+                       comparison.relevance_score,
+                       comparison.matched_requirement_count,
+                       comparison.missing_requirement_count,
+                       comparison.relevance_reason
+                FROM sotuvchi_buyer_comparisons AS comparison
+                JOIN sotuvchi_storefront_sessions AS session
+                  ON session.id = comparison.session_id
+                 AND session.org_id = comparison.org_id
+                 AND session.store_id = comparison.store_id
+                 AND session.status = 'active'
+                JOIN sotuvchi_products AS product
+                  ON product.org_id = comparison.org_id
+                 AND product.store_id = comparison.store_id
+                 AND product.id = comparison.product_id
+                 AND product.status = 'published'
+                JOIN sotuvchi_stores AS store
+                  ON store.org_id = product.org_id
+                 AND store.id = product.store_id
+                 AND store.status = 'active'
+                LEFT JOIN sotuvchi_categories AS category
+                  ON category.org_id = product.org_id
+                 AND category.store_id = product.store_id
+                 AND category.id = product.category_id
+                JOIN telegram_agent_routes AS route
+                  ON route.org_id = store.org_id
+                 AND route.route_code = store.storefront_code
+                 AND route.bot_username = session.bot_username
+                 AND route.agent_id = 'sotuvchi'
+                 AND route.status = 'active'
+                JOIN owner_pilot_stores AS pilot
+                  ON pilot.org_id = store.org_id
+                 AND pilot.store_id = store.id
+                 AND pilot.state = 'active'
+                WHERE session.bot_username = ?
+                  AND session.identity_id = ?
+                  AND session.org_id = ?
+                  AND session.store_id = ?
+                  AND (product.category_id IS NULL
+                    OR category.status = 'active')
+                ORDER BY comparison.position ASC, product.id ASC
+                LIMIT 3`)
+      .bind(
+        requireBotUsername(input.botUsername),
+        requireCatalogId(input.identityId),
+        input.context.orgId,
+        input.context.storeId,
+      )
+      .all<ComparisonCandidateRow>();
+    return (rows.results ?? []).map((row) => ({
+      product: fromProductRow(row),
+      categoryName: row.category_name === null
+        ? null
+        : normalizeCategoryName(row.category_name),
+      storeName: normalizeStoreName(row.store_name),
+      normalizedName: row.normalized_name,
+      position: requireBoundedInteger(row.position, 1, 1_000_000),
+      relevanceScore: requireBoundedInteger(row.relevance_score, 0, 4_000),
+      matchedRequirementCount: requireBoundedInteger(
+        row.matched_requirement_count,
+        0,
+        12,
+      ),
+      missingRequirementCount: requireBoundedInteger(
+        row.missing_requirement_count,
+        0,
+        12,
+      ),
+      relevanceReason: requireRelevanceReason(row.relevance_reason),
+    }));
+  }
+
   return {
     async findOwnedActiveStore(orgId, identityId) {
       const tenantId = requireCatalogId(orgId);
       const actorId = requireCatalogId(identityId);
       const row = await db
-        .prepare(`SELECT store.id, store.org_id, store.locale
+        .prepare(`SELECT store.id, store.org_id, store.name, store.locale
                   FROM sotuvchi_stores AS store
                   JOIN memberships AS membership
                     ON membership.org_id = store.org_id
@@ -407,7 +619,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                    AND membership.status = 'active'
                   WHERE store.org_id = ? AND store.status = 'active'`)
         .bind(actorId, tenantId)
-        .first<{ id: string; org_id: string; locale: string }>();
+        .first<{ id: string; org_id: string; name: string; locale: string }>();
       if (!row) return null;
       if (row.locale !== 'ru' && row.locale !== 'uz') {
         throw new CatalogPersistenceError('corrupt_row');
@@ -415,6 +627,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return {
         id: requireCatalogId(row.id),
         orgId: requireCatalogId(row.org_id),
+        name: normalizeStoreName(row.name),
         locale: row.locale,
       };
     },
@@ -423,11 +636,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       const tenantId = requireCatalogId(orgId);
       const id = requireCatalogId(storeId);
       const row = await db
-        .prepare(`SELECT id, org_id, locale
+        .prepare(`SELECT id, org_id, name, locale
                   FROM sotuvchi_stores
                   WHERE org_id = ? AND id = ? AND status = 'active'`)
         .bind(tenantId, id)
-        .first<{ id: string; org_id: string; locale: string }>();
+        .first<{ id: string; org_id: string; name: string; locale: string }>();
       if (!row) return null;
       if (row.locale !== 'ru' && row.locale !== 'uz') {
         throw new CatalogPersistenceError('corrupt_row');
@@ -435,6 +648,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return {
         id: requireCatalogId(row.id),
         orgId: requireCatalogId(row.org_id),
+        name: normalizeStoreName(row.name),
         locale: row.locale,
       };
     },
@@ -442,11 +656,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
     async findActiveStoreByOrg(orgId) {
       const tenantId = requireCatalogId(orgId);
       const row = await db
-        .prepare(`SELECT id, org_id, locale
+        .prepare(`SELECT id, org_id, name, locale
                   FROM sotuvchi_stores
                   WHERE org_id = ? AND status = 'active'`)
         .bind(tenantId)
-        .first<{ id: string; org_id: string; locale: string }>();
+        .first<{ id: string; org_id: string; name: string; locale: string }>();
       if (!row) return null;
       if (row.locale !== 'ru' && row.locale !== 'uz') {
         throw new CatalogPersistenceError('corrupt_row');
@@ -454,6 +668,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return {
         id: requireCatalogId(row.id),
         orgId: requireCatalogId(row.org_id),
+        name: normalizeStoreName(row.name),
         locale: row.locale,
       };
     },
@@ -755,9 +970,10 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         db.prepare(`INSERT INTO sotuvchi_products
           (id, org_id, store_id, category_id, sku, name, normalized_name,
            description, price_minor, currency, availability, status,
-           media_refs_json, version, last_operation_key, created_at, updated_at)
+           media_refs_json, search_terms_json, specifications_json,
+           version, last_operation_key, created_at, updated_at)
           SELECT ?, store.org_id, store.id, ?, ?, ?, ?, ?, ?, 'UZS', ?,
-                 'draft', ?, 1, ?, ?, ?
+                 'draft', ?, ?, ?, 1, ?, ?, ?
           FROM sotuvchi_stores AS store
           JOIN memberships AS membership
             ON membership.org_id = store.org_id
@@ -770,7 +986,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
               WHERE existing.org_id = store.org_id
                 AND existing.store_id = store.id
                 AND existing.status <> 'archived'
-            ) < 20`)
+            ) < 100`)
           .bind(
             product.id,
             product.categoryId,
@@ -781,6 +997,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
             product.priceMinor,
             product.availability,
             JSON.stringify(product.mediaRefs),
+            JSON.stringify(product.searchTerms),
+            JSON.stringify(product.specifications),
             operation.idempotencyKey,
             product.createdAt,
             product.updatedAt,
@@ -820,6 +1038,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     SET category_id = ?, sku = ?, name = ?,
                         normalized_name = ?, description = ?, price_minor = ?,
                         currency = 'UZS', availability = ?, media_refs_json = ?,
+                        search_terms_json = ?, specifications_json = ?,
                         version = version + 1, last_operation_key = ?,
                         updated_at = ?
                     WHERE org_id = ? AND store_id = ? AND id = ?
@@ -843,6 +1062,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
             product.priceMinor,
             product.availability,
             JSON.stringify(product.mediaRefs),
+            JSON.stringify(product.searchTerms),
+            JSON.stringify(product.specifications),
             operation.idempotencyKey,
             product.updatedAt,
             product.orgId,
@@ -930,10 +1151,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       return operationChanges(results);
     },
 
-    async findPublishedCandidates(context, normalizedQuery, tokens) {
+    async findPublishedCandidates(context) {
       const rows = await db
         .prepare(`SELECT ${qualified(PRODUCT_COLUMNS, 'product')},
-                         category.name AS category_name
+                         category.name AS category_name,
+                         store.name AS store_name
                   FROM sotuvchi_products AS product
                   JOIN sotuvchi_stores AS store
                     ON store.org_id = product.org_id
@@ -951,23 +1173,11 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                     AND product.status = 'published'
                     AND (product.category_id IS NULL
                       OR category.status = 'active')
-                    AND (
-                      product.normalized_name = ?
-                      OR product.normalized_name LIKE ?
-                      OR EXISTS (
-                        SELECT 1 FROM json_each(?) AS query_token
-                        WHERE product.normalized_name
-                          LIKE '%' || query_token.value || '%'
-                      )
-                    )
                   ORDER BY product.normalized_name ASC, product.id ASC
                   LIMIT 200`)
         .bind(
           context.orgId,
           context.storeId,
-          normalizedQuery,
-          `${normalizedQuery}%`,
-          JSON.stringify(tokens),
         )
         .all<CandidateRow>();
       return (rows.results ?? []).map((row) => ({
@@ -975,6 +1185,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         categoryName: row.category_name === null
           ? null
           : normalizeCategoryName(row.category_name),
+        storeName: normalizeStoreName(row.store_name),
         normalizedName: row.normalized_name,
       }));
     },
@@ -982,7 +1193,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
     async listPublished(context, limit) {
       const rows = await db
         .prepare(`SELECT ${qualified(PRODUCT_COLUMNS, 'product')},
-                         category.name AS category_name
+                         category.name AS category_name,
+                         store.name AS store_name
                   FROM sotuvchi_products AS product
                   JOIN sotuvchi_stores AS store
                     ON store.org_id = product.org_id
@@ -1009,8 +1221,360 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         categoryName: row.category_name === null
           ? null
           : normalizeCategoryName(row.category_name),
+        storeName: normalizeStoreName(row.store_name),
         normalizedName: row.normalized_name,
       }));
+    },
+
+    async listPublishedByCategory(context, categoryId, limit) {
+      const rows = await db
+        .prepare(`SELECT ${qualified(PRODUCT_COLUMNS, 'product')},
+                         category.name AS category_name,
+                         store.name AS store_name
+                  FROM sotuvchi_products AS product
+                  JOIN sotuvchi_stores AS store
+                    ON store.org_id = product.org_id
+                   AND store.id = product.store_id
+                   AND store.status = 'active'
+                  JOIN sotuvchi_categories AS category
+                    ON category.org_id = product.org_id
+                   AND category.store_id = product.store_id
+                   AND category.id = product.category_id
+                   AND category.status = 'active'
+                  JOIN owner_pilot_stores AS pilot
+                    ON pilot.org_id = store.org_id
+                   AND pilot.store_id = store.id
+                   AND pilot.state = 'active'
+                  WHERE product.org_id = ?
+                    AND product.store_id = ?
+                    AND product.category_id = ?
+                    AND product.status = 'published'
+                  ORDER BY product.normalized_name ASC, product.id ASC
+                  LIMIT ?`)
+        .bind(
+          context.orgId,
+          context.storeId,
+          requireCatalogId(categoryId),
+          limit,
+        )
+        .all<CandidateRow>();
+      return (rows.results ?? []).map((row) => ({
+        product: fromProductRow(row),
+        categoryName: normalizeCategoryName(row.category_name),
+        storeName: normalizeStoreName(row.store_name),
+        normalizedName: row.normalized_name,
+      }));
+    },
+
+    async listBuyerCategories(context) {
+      const rows = await db
+        .prepare(`SELECT category.id,
+                         category.name,
+                         COUNT(product.id) AS product_count
+                  FROM sotuvchi_categories AS category
+                  JOIN sotuvchi_stores AS store
+                    ON store.org_id = category.org_id
+                   AND store.id = category.store_id
+                   AND store.status = 'active'
+                  JOIN owner_pilot_stores AS pilot
+                    ON pilot.org_id = store.org_id
+                   AND pilot.store_id = store.id
+                   AND pilot.state = 'active'
+                  JOIN sotuvchi_products AS product
+                    ON product.org_id = category.org_id
+                   AND product.store_id = category.store_id
+                   AND product.category_id = category.id
+                   AND product.status = 'published'
+                  WHERE category.org_id = ?
+                    AND category.store_id = ?
+                    AND category.status = 'active'
+                  GROUP BY category.id, category.name, category.sort_order
+                  ORDER BY category.sort_order ASC, category.name ASC,
+                           category.id ASC
+                  LIMIT 10`)
+        .bind(context.orgId, context.storeId)
+        .all<{ id: string; name: string; product_count: number }>();
+      return (rows.results ?? []).map((row) => {
+        const productCount = Number(row.product_count);
+        if (
+          !Number.isInteger(productCount)
+          || productCount < 1
+          || productCount > 100
+        ) {
+          throw new CatalogPersistenceError('corrupt_row');
+        }
+        return {
+          id: requireCatalogId(row.id),
+          name: normalizeCategoryName(row.name),
+          productCount,
+        };
+      });
+    },
+
+    async recordStorefrontPresentation(input) {
+      const botUsername = requireBotUsername(input.botUsername);
+      const identityId = requireCatalogId(input.identityId);
+      const orgId = requireCatalogId(input.context.orgId);
+      const storeId = requireCatalogId(input.context.storeId);
+      const requestId = requireSessionCode(input.requestId, 160);
+      if (
+        input.presentations.length < 1
+        || input.presentations.length > 4
+      ) {
+        throw new CatalogPersistenceError('persistence_failed');
+      }
+      const productIds = new Set<string>();
+      const presentations = input.presentations.map((presentation) => {
+        const productId = requireCatalogId(presentation.productId);
+        if (productIds.has(productId)) {
+          throw new CatalogPersistenceError('persistence_failed');
+        }
+        productIds.add(productId);
+        return {
+          productId,
+          relevanceScore: requireBoundedInteger(
+            presentation.relevanceScore,
+            0,
+            4_000,
+          ),
+          matchedRequirementCount: requireBoundedInteger(
+            presentation.matchedRequirementCount,
+            0,
+            12,
+          ),
+          missingRequirementCount: requireBoundedInteger(
+            presentation.missingRequirementCount,
+            0,
+            12,
+          ),
+          relevanceReason: requireRelevanceReason(
+            presentation.relevanceReason,
+          ),
+        };
+      });
+      const now = new Date().toISOString();
+      const results = await db.batch(presentations.map((presentation) =>
+        db.prepare(`INSERT INTO sotuvchi_buyer_presentations
+          (session_id, org_id, store_id, product_id, relevance_score,
+           matched_requirement_count, missing_requirement_count,
+           relevance_reason, request_key, presented_at)
+          SELECT session.id, session.org_id, session.store_id, product.id,
+                 ?, ?, ?, ?, ?, ?
+          FROM sotuvchi_storefront_sessions AS session
+          JOIN sotuvchi_stores AS store
+            ON store.org_id = session.org_id
+           AND store.id = session.store_id
+           AND store.status = 'active'
+          JOIN telegram_agent_routes AS route
+            ON route.org_id = store.org_id
+           AND route.route_code = store.storefront_code
+           AND route.bot_username = session.bot_username
+           AND route.agent_id = 'sotuvchi'
+           AND route.status = 'active'
+          JOIN owner_pilot_stores AS pilot
+            ON pilot.org_id = store.org_id
+           AND pilot.store_id = store.id
+           AND pilot.state = 'active'
+          JOIN sotuvchi_products AS product
+            ON product.org_id = session.org_id
+           AND product.store_id = session.store_id
+           AND product.id = ?
+           AND product.status = 'published'
+          LEFT JOIN sotuvchi_categories AS category
+            ON category.org_id = product.org_id
+           AND category.store_id = product.store_id
+           AND category.id = product.category_id
+          WHERE session.bot_username = ?
+            AND session.identity_id = ?
+            AND session.org_id = ?
+            AND session.store_id = ?
+            AND session.status = 'active'
+            AND (product.category_id IS NULL OR category.status = 'active')
+          ON CONFLICT(session_id, product_id) DO UPDATE SET
+            org_id = excluded.org_id,
+            store_id = excluded.store_id,
+            relevance_score = excluded.relevance_score,
+            matched_requirement_count = excluded.matched_requirement_count,
+            missing_requirement_count = excluded.missing_requirement_count,
+            relevance_reason = excluded.relevance_reason,
+            request_key = excluded.request_key,
+            presented_at = excluded.presented_at`)
+          .bind(
+            presentation.relevanceScore,
+            presentation.matchedRequirementCount,
+            presentation.missingRequirementCount,
+            presentation.relevanceReason,
+            requestId,
+            now,
+            presentation.productId,
+            botUsername,
+            identityId,
+            orgId,
+            storeId,
+          )));
+      if (
+        results.some((result) => Number(result.meta?.changes ?? 0) !== 1)
+      ) {
+        throw new CatalogPersistenceError('persistence_failed');
+      }
+    },
+
+    async addComparisonProduct(input) {
+      const botUsername = requireBotUsername(input.botUsername);
+      const identityId = requireCatalogId(input.identityId);
+      const orgId = requireCatalogId(input.context.orgId);
+      const storeId = requireCatalogId(input.context.storeId);
+      const productId = requireCatalogId(input.productId);
+      const now = new Date();
+      const recentPresentation = new Date(
+        now.getTime() - 30 * 60 * 1000,
+      ).toISOString();
+      const result = await db
+        .prepare(`INSERT INTO sotuvchi_buyer_comparisons
+          (session_id, org_id, store_id, product_id, position,
+           relevance_score, matched_requirement_count,
+           missing_requirement_count, relevance_reason, created_at)
+          SELECT session.id, session.org_id, session.store_id, product.id,
+                 (SELECT COALESCE(MAX(existing.position), 0) + 1
+                  FROM sotuvchi_buyer_comparisons AS existing
+                  WHERE existing.session_id = session.id
+                    AND existing.org_id = session.org_id
+                    AND existing.store_id = session.store_id),
+                 COALESCE(presentation.relevance_score, 0),
+                 COALESCE(presentation.matched_requirement_count, 0),
+                 COALESCE(presentation.missing_requirement_count, 0),
+                 COALESCE(
+                   presentation.relevance_reason,
+                   'catalog_listing'
+                 ),
+                 ?
+          FROM sotuvchi_storefront_sessions AS session
+          JOIN sotuvchi_stores AS store
+            ON store.org_id = session.org_id
+           AND store.id = session.store_id
+           AND store.status = 'active'
+          JOIN telegram_agent_routes AS route
+            ON route.org_id = store.org_id
+           AND route.route_code = store.storefront_code
+           AND route.bot_username = session.bot_username
+           AND route.agent_id = 'sotuvchi'
+           AND route.status = 'active'
+          JOIN owner_pilot_stores AS pilot
+            ON pilot.org_id = store.org_id
+           AND pilot.store_id = store.id
+           AND pilot.state = 'active'
+          JOIN sotuvchi_products AS product
+            ON product.org_id = session.org_id
+           AND product.store_id = session.store_id
+           AND product.id = ?
+           AND product.status = 'published'
+          LEFT JOIN sotuvchi_categories AS category
+            ON category.org_id = product.org_id
+           AND category.store_id = product.store_id
+           AND category.id = product.category_id
+          LEFT JOIN sotuvchi_buyer_presentations AS presentation
+            ON presentation.session_id = session.id
+           AND presentation.org_id = session.org_id
+           AND presentation.store_id = session.store_id
+           AND presentation.product_id = product.id
+           AND presentation.presented_at >= ?
+          WHERE session.bot_username = ?
+            AND session.identity_id = ?
+            AND session.org_id = ?
+            AND session.store_id = ?
+            AND session.status = 'active'
+            AND (product.category_id IS NULL OR category.status = 'active')
+            AND NOT EXISTS (
+              SELECT 1
+              FROM sotuvchi_buyer_comparisons AS duplicate
+              WHERE duplicate.session_id = session.id
+                AND duplicate.org_id = session.org_id
+                AND duplicate.store_id = session.store_id
+                AND duplicate.product_id = product.id
+            )
+            AND (
+              SELECT COUNT(*)
+              FROM sotuvchi_buyer_comparisons AS selected
+              JOIN sotuvchi_products AS selected_product
+                ON selected_product.org_id = selected.org_id
+               AND selected_product.store_id = selected.store_id
+               AND selected_product.id = selected.product_id
+               AND selected_product.status = 'published'
+              LEFT JOIN sotuvchi_categories AS selected_category
+                ON selected_category.org_id = selected_product.org_id
+               AND selected_category.store_id = selected_product.store_id
+               AND selected_category.id = selected_product.category_id
+              WHERE selected.session_id = session.id
+                AND selected.org_id = session.org_id
+                AND selected.store_id = session.store_id
+                AND (
+                  selected_product.category_id IS NULL
+                  OR selected_category.status = 'active'
+                )
+            ) < 3`)
+        .bind(
+          now.toISOString(),
+          productId,
+          recentPresentation,
+          botUsername,
+          identityId,
+          orgId,
+          storeId,
+        )
+        .run();
+      if (Number(result.meta?.changes ?? 0) === 1) return 'added';
+      const current = await comparisonCandidates({
+        botUsername,
+        identityId,
+        context: input.context,
+      });
+      if (current.some((candidate) => candidate.product.id === productId)) {
+        return 'duplicate';
+      }
+      return current.length >= 3 ? 'full' : 'not_found';
+    },
+
+    listComparisonProducts(input) {
+      return comparisonCandidates(input);
+    },
+
+    async clearComparisonProducts(input) {
+      await db
+        .prepare(`DELETE FROM sotuvchi_buyer_comparisons
+                  WHERE org_id = ?
+                    AND store_id = ?
+                    AND session_id IN (
+                      SELECT session.id
+                      FROM sotuvchi_storefront_sessions AS session
+                      JOIN sotuvchi_stores AS store
+                        ON store.org_id = session.org_id
+                       AND store.id = session.store_id
+                       AND store.status = 'active'
+                      JOIN telegram_agent_routes AS route
+                        ON route.org_id = store.org_id
+                       AND route.route_code = store.storefront_code
+                       AND route.bot_username = session.bot_username
+                       AND route.agent_id = 'sotuvchi'
+                       AND route.status = 'active'
+                      JOIN owner_pilot_stores AS pilot
+                        ON pilot.org_id = store.org_id
+                       AND pilot.store_id = store.id
+                       AND pilot.state = 'active'
+                      WHERE session.bot_username = ?
+                        AND session.identity_id = ?
+                        AND session.org_id = ?
+                        AND session.store_id = ?
+                        AND session.status = 'active'
+                    )`)
+        .bind(
+          requireCatalogId(input.context.orgId),
+          requireCatalogId(input.context.storeId),
+          requireBotUsername(input.botUsername),
+          requireCatalogId(input.identityId),
+          input.context.orgId,
+          input.context.storeId,
+        )
+        .run();
     },
 
     async bindStorefrontSession(input) {
@@ -1021,8 +1585,8 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
       await db
         .prepare(`INSERT INTO sotuvchi_storefront_sessions
           (id, bot_username, identity_id, org_id, store_id, status,
-           created_at, updated_at)
-           SELECT ?, ?, ?, store.org_id, store.id, 'active', ?, ?
+           preferred_locale, created_at, updated_at)
+           SELECT ?, ?, ?, store.org_id, store.id, 'active', ?, ?, ?
            FROM sotuvchi_stores AS store
            JOIN owner_pilot_stores AS pilot
              ON pilot.org_id = store.org_id
@@ -1050,6 +1614,14 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                 THEN selected_at
               ELSE NULL
             END,
+            preferred_locale = CASE
+              WHEN org_id = excluded.org_id AND store_id = excluded.store_id
+                THEN COALESCE(preferred_locale, excluded.preferred_locale)
+              ELSE excluded.preferred_locale
+            END,
+            pending_intent = NULL,
+            pending_request_key = NULL,
+            pending_at = NULL,
             org_id = excluded.org_id,
             store_id = excluded.store_id,
             status = 'active',
@@ -1058,6 +1630,7 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
           sessionId,
           botUsername,
           identityId,
+          input.context.locale,
           now,
           now,
           input.context.orgId,
@@ -1076,7 +1649,9 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
 
     async resolveStorefrontSession(botUsername, identityId) {
       const row = await db
-        .prepare(`SELECT session.org_id, session.store_id, store.locale
+        .prepare(`SELECT session.org_id, session.store_id,
+                         COALESCE(session.preferred_locale, store.locale)
+                           AS locale
                   FROM sotuvchi_storefront_sessions AS session
                   JOIN sotuvchi_stores AS store
                     ON store.org_id = session.org_id
@@ -1110,6 +1685,171 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
         agentId: 'sotuvchi',
         locale: row.locale,
       };
+    },
+
+    async setStorefrontLocale(input) {
+      const botUsername = requireBotUsername(input.botUsername);
+      const identityId = requireCatalogId(input.identityId);
+      const locale = input.locale;
+      if (locale !== 'ru' && locale !== 'uz') {
+        throw new CatalogPersistenceError('corrupt_row');
+      }
+      const now = new Date().toISOString();
+      const result = await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions AS session
+                  SET preferred_locale = ?, updated_at = ?
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.org_id = ?
+                    AND session.store_id = ?
+                    AND session.status = 'active'
+                    AND EXISTS (
+                      SELECT 1
+                      FROM sotuvchi_stores AS store
+                      JOIN telegram_agent_routes AS route
+                        ON route.org_id = store.org_id
+                       AND route.route_code = store.storefront_code
+                       AND route.bot_username = session.bot_username
+                       AND route.agent_id = 'sotuvchi'
+                       AND route.status = 'active'
+                      JOIN owner_pilot_stores AS pilot
+                        ON pilot.org_id = store.org_id
+                       AND pilot.store_id = store.id
+                       AND pilot.state = 'active'
+                      WHERE store.org_id = session.org_id
+                        AND store.id = session.store_id
+                        AND store.status = 'active'
+                    )`)
+        .bind(
+          locale,
+          now,
+          botUsername,
+          identityId,
+          input.context.orgId,
+          input.context.storeId,
+        )
+        .run();
+      if ((result.meta?.changes ?? 0) !== 1) return null;
+      return this.resolveStorefrontSession(botUsername, identityId);
+    },
+
+    async setPendingBudget(input) {
+      const botUsername = requireBotUsername(input.botUsername);
+      const identityId = requireCatalogId(input.identityId);
+      const requestId = requireSessionCode(input.requestId, 160);
+      const now = new Date().toISOString();
+      const result = await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions AS session
+                  SET pending_intent = 'budget',
+                      pending_request_key = ?,
+                      pending_at = ?,
+                      updated_at = ?
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.org_id = ?
+                    AND session.store_id = ?
+                    AND session.status = 'active'
+                    AND EXISTS (
+                      SELECT 1 FROM sotuvchi_stores AS store
+                      JOIN owner_pilot_stores AS pilot
+                        ON pilot.org_id = store.org_id
+                       AND pilot.store_id = store.id
+                       AND pilot.state = 'active'
+                      WHERE store.org_id = session.org_id
+                        AND store.id = session.store_id
+                        AND store.status = 'active'
+                    )`)
+        .bind(
+          requestId,
+          now,
+          now,
+          botUsername,
+          identityId,
+          input.context.orgId,
+          input.context.storeId,
+        )
+        .run();
+      return (result.meta?.changes ?? 0) === 1;
+    },
+
+    async consumePendingBudget(input) {
+      const now = new Date();
+      const cutoff = new Date(now.getTime() - 10 * 60_000).toISOString();
+      await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions
+                  SET pending_intent = NULL,
+                      pending_request_key = NULL,
+                      pending_at = NULL
+                  WHERE bot_username = ?
+                    AND identity_id = ?
+                    AND org_id = ?
+                    AND store_id = ?
+                    AND pending_intent = 'budget'
+                    AND pending_at < ?`)
+        .bind(
+          requireBotUsername(input.botUsername),
+          requireCatalogId(input.identityId),
+          input.context.orgId,
+          input.context.storeId,
+          cutoff,
+        )
+        .run();
+      const result = await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions AS session
+                  SET pending_intent = NULL,
+                      pending_request_key = NULL,
+                      pending_at = NULL,
+                      updated_at = ?
+                  WHERE session.bot_username = ?
+                    AND session.identity_id = ?
+                    AND session.org_id = ?
+                    AND session.store_id = ?
+                    AND session.status = 'active'
+                    AND session.pending_intent = 'budget'
+                    AND session.pending_request_key IS NOT NULL
+                    AND session.pending_at >= ?
+                    AND EXISTS (
+                      SELECT 1 FROM sotuvchi_stores AS store
+                      JOIN owner_pilot_stores AS pilot
+                        ON pilot.org_id = store.org_id
+                       AND pilot.store_id = store.id
+                       AND pilot.state = 'active'
+                      WHERE store.org_id = session.org_id
+                        AND store.id = session.store_id
+                        AND store.status = 'active'
+                    )`)
+        .bind(
+          now.toISOString(),
+          requireBotUsername(input.botUsername),
+          requireCatalogId(input.identityId),
+          input.context.orgId,
+          input.context.storeId,
+          cutoff,
+        )
+        .run();
+      return (result.meta?.changes ?? 0) === 1;
+    },
+
+    async clearPendingBudget(input) {
+      await db
+        .prepare(`UPDATE sotuvchi_storefront_sessions
+                  SET pending_intent = NULL,
+                      pending_request_key = NULL,
+                      pending_at = NULL,
+                      updated_at = ?
+                  WHERE bot_username = ?
+                    AND identity_id = ?
+                    AND org_id = ?
+                    AND store_id = ?
+                    AND status = 'active'`)
+        .bind(
+          new Date().toISOString(),
+          requireBotUsername(input.botUsername),
+          requireCatalogId(input.identityId),
+          input.context.orgId,
+          input.context.storeId,
+        )
+        .run();
     },
 
     async recordStorefrontSelection(input) {

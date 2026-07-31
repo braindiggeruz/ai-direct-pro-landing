@@ -27,7 +27,9 @@ import {
   normalizeMediaRefs,
   normalizePriceMinor,
   normalizeProductDescription,
+  normalizeProductSpecifications,
   normalizeProductName,
+  normalizeSearchTerms,
   normalizeSku,
   sotuvchiAgentManifest,
   type CatalogProduct,
@@ -274,6 +276,13 @@ function productInput(
     currency: 'UZS';
     availability: 'available' | 'unavailable' | 'preorder';
     mediaRefs: readonly string[];
+    searchTerms: readonly string[];
+    specifications: readonly {
+      key: string;
+      labelRu: string;
+      labelUz: string;
+      value: string;
+    }[];
   }> = {},
 ) {
   return {
@@ -319,6 +328,8 @@ test('product validation accepts the bounded domain model', () => {
     {
       categoryId: null,
       sku: null,
+      searchTerms: [],
+      specifications: [],
       ...productInput(),
     },
   );
@@ -393,11 +404,15 @@ test('runtime bootstrap is repeatable and creates catalog objects', async () => 
     'sotuvchi_products',
     'sotuvchi_catalog_operations',
     'sotuvchi_storefront_sessions',
+    'sotuvchi_buyer_presentations',
+    'sotuvchi_buyer_comparisons',
     'idx_sotuvchi_categories_store_status_sort',
     'idx_sotuvchi_categories_org_store',
     'idx_sotuvchi_products_store_status_name',
     'idx_sotuvchi_products_store_category',
     'idx_sotuvchi_products_org_store',
+    'idx_sotuvchi_buyer_presentations_scope',
+    'idx_sotuvchi_buyer_comparisons_scope',
   ]) {
     assert.ok(objects.includes(expected), expected);
   }
@@ -996,6 +1011,77 @@ test('mixed RU and Uzbek Latin query remains deterministic', async () => {
   assert.equal(result.product.id, product.id);
 });
 
+test('search uses verified aliases and specifications with source metadata', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, 'catalog-4008');
+  const product = await createAndPublish(
+    setup.catalog,
+    setup.owner,
+    {
+      name: 'Synthetic Kids Phone',
+      searchTerms: ['подарок ребёнку', 'bola uchun sovg‘a'],
+      specifications: [{
+        key: 'memory',
+        labelRu: 'Память',
+        labelUz: 'Xotira',
+        value: '128 GB',
+      }],
+    },
+  );
+  const [alias] = await setup.catalog.searchPublishedProducts(
+    setup.storefront,
+    'подарок ребёнку',
+  );
+  assert.equal(alias.product.id, product.id);
+  assert.equal(alias.score, 3_500);
+  assert.ok(alias.reasonCodes.includes('exact_alias'));
+  assert.equal(alias.sourceProductId, product.id);
+  assert.equal(alias.sourceStoreId, setup.storefront.storeId);
+  assert.equal(alias.storeName, 'Учебный магазин');
+
+  const [specification] = await setup.catalog.searchPublishedProducts(
+    setup.storefront,
+    '128 GB',
+  );
+  assert.equal(specification.product.id, product.id);
+  assert.ok(specification.reasonCodes.includes('all_tokens'));
+  assert.deepEqual(specification.unmatchedConstraints, []);
+});
+
+test('buyer categories expose only active categories with published products', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, 'catalog-4009');
+  const visible = await setup.catalog.createCategory(
+    nextOwner(setup.owner),
+    { name: 'Телефоны', sortOrder: 1 },
+  );
+  const empty = await setup.catalog.createCategory(
+    nextOwner(setup.owner),
+    { name: 'Пустая категория', sortOrder: 2 },
+  );
+  await createAndPublish(setup.catalog, setup.owner, {
+    name: 'Category Phone',
+    categoryId: visible.id,
+  });
+  await setup.catalog.createProduct(nextOwner(setup.owner), productInput({
+    name: 'Hidden Category Phone',
+    categoryId: empty.id,
+  }));
+
+  assert.deepEqual(
+    await setup.catalog.listBuyerCategories(setup.storefront),
+    [{ id: visible.id, name: 'Телефоны', productCount: 1 }],
+  );
+  const listed = await setup.catalog.listPublishedProductsByCategory(
+    setup.storefront,
+    visible.id,
+    20,
+  );
+  assert.deepEqual(listed.map((result) => result.product.name), [
+    'Category Phone',
+  ]);
+});
+
 test('buyer Runtime response exposes grounded price and availability Facts', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, 'catalog-5001');
@@ -1206,6 +1292,7 @@ test('manifest exposes catalog closed-list tools with AI mutations disabled', ()
   assert.ok(sotuvchiAgentManifest.tools.every((tool) =>
     tool.name.startsWith('catalog.')
     || tool.name.startsWith('checkout.')
+    || tool.name.startsWith('buyer.')
     || tool.name.startsWith('seller.')
     || tool.name.startsWith('handoff.')));
   assert.equal(sotuvchiAgentManifest.policies.aiSelection, 'disabled');
@@ -1390,7 +1477,64 @@ test('Telegram buyer never receives unpublished product', async () => {
     telegramMessage(700_302, 7992, 'Hidden Telegram item', 'ru'),
   );
   assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes('Не нашёл такой товар'),
+    harness.delivery.sent.at(-1)?.text.includes(
+      'В этом магазине подходящий товар не найден',
+    ),
+  );
+});
+
+test('R1.1 catalog quality migration is additive and content-free', () => {
+  const migration = fs.readFileSync(
+    path.join(ROOT, 'migrations/0027_market_catalog_quality.sql'),
+    'utf8',
+  );
+  const schema = fs.readFileSync(
+    path.join(ROOT, 'functions/agents/sotuvchi/catalog/schema.ts'),
+    'utf8',
+  );
+  for (const column of ['search_terms_json', 'specifications_json']) {
+    assert.match(migration, new RegExp(`ADD COLUMN ${column}`));
+    assert.ok(schema.includes(column), column);
+  }
+  const executable = migration
+    .split('\n')
+    .filter((line) => !line.trim().startsWith('--'))
+    .join('\n');
+  assert.doesNotMatch(executable, /\b(?:DROP|DELETE|TRUNCATE)\b/i);
+  assert.doesNotMatch(executable, /phone|address|message|transcript/i);
+});
+
+test('search aliases and verified specifications are bounded and closed', () => {
+  assert.deepEqual(
+    normalizeSearchTerms(['telefon dlya rebenka', 'bola uchun telefon']),
+    ['telefon dlya rebenka', 'bola uchun telefon'],
+  );
+  assert.deepEqual(
+    normalizeProductSpecifications([{
+      key: 'memory',
+      labelRu: 'Память',
+      labelUz: 'Xotira',
+      value: '128 GB',
+    }]),
+    [{
+      key: 'memory',
+      labelRu: 'Память',
+      labelUz: 'Xotira',
+      value: '128 GB',
+    }],
+  );
+  assert.throws(
+    () => normalizeSearchTerms(['телефон', 'ТЕЛЕФОН']),
+    CatalogValidationError,
+  );
+  assert.throws(
+    () => normalizeProductSpecifications([{
+      key: 'bad key',
+      labelRu: 'Поле',
+      labelUz: 'Maydon',
+      value: 'Значение',
+    }]),
+    CatalogValidationError,
   );
 });
 

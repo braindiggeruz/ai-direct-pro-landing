@@ -196,7 +196,7 @@ export class SotuvchiOrdersService {
     return this.store.listOrders(
       seller.orgId,
       seller.storeId,
-      requireSellerLimit(rawLimit, SELLER_ORDER_LIMITS.listLimit),
+      Math.min(requireSellerLimit(rawLimit, 5), 5),
     );
   }
 

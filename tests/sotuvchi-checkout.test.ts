@@ -15,13 +15,17 @@ import {
   createSotuvchiCheckoutDomainPort,
   createSotuvchiCheckoutService,
   createSotuvchiOnboardingService,
+  createSotuvchiOrdersService,
   ensureSotuvchiCheckoutSchema,
   maskBuyerPhone,
   normalizeBuyerAddress,
+  normalizeBuyerComment,
   normalizeBuyerName,
   normalizeBuyerPhone,
   normalizeCheckoutQuantity,
   parseCheckoutQuantityText,
+  composeBuyerOrderHistoryResponse,
+  projectBuyerOrderHistoryFacts,
   projectCheckoutFacts,
   sotuvchiAgentManifest,
   sotuvchiCheckoutWorkflow,
@@ -208,6 +212,7 @@ async function completeDraft(
     buyerOrg(setup, identityId),
     'Тестовая улица, дом 7',
   );
+  await setup.checkout.skipComment(buyerOrg(setup, identityId));
 }
 
 // ── Validation ─────────────────────────────────────────────────────────────
@@ -291,6 +296,26 @@ test('delivery address is bounded plain text', () => {
 
 // ── Migration and bootstrap ────────────────────────────────────────────────
 
+test('optional buyer comment is normalized and bounded', () => {
+  assert.equal(
+    normalizeBuyerComment('  Позвонить   перед встречей  '),
+    'Позвонить перед встречей',
+  );
+  assert.equal(normalizeBuyerComment('Olib ketaman'), 'Olib ketaman');
+  for (const invalid of [
+    '',
+    '   ',
+    'x'.repeat(241),
+    `Комментарий${String.fromCharCode(7)}`,
+    null,
+  ]) {
+    assert.throws(
+      () => normalizeBuyerComment(invalid),
+      CheckoutValidationError,
+    );
+  }
+});
+
 test('checkout migration is additive and free of buyer content columns', () => {
   const sql = fs.readFileSync(
     path.join(ROOT, 'migrations/0021_sotuvchi_checkout.sql'),
@@ -339,6 +364,26 @@ test('migration and runtime bootstrap stay in parity', () => {
   }
 });
 
+test('checkout comment migration is additive and tenant-order scoped', () => {
+  const sql = fs.readFileSync(
+    path.join(ROOT, 'migrations/0029_market_checkout_comment.sql'),
+    'utf8',
+  );
+  const executable = sql
+    .split('\n')
+    .filter((line) => !line.trim().startsWith('--'))
+    .join('\n');
+  assert.match(
+    executable,
+    /ALTER TABLE sotuvchi_orders\s+ADD COLUMN buyer_comment TEXT/i,
+  );
+  assert.doesNotMatch(executable, /\b(?:DROP|DELETE|TRUNCATE)\b/i);
+  assert.doesNotMatch(
+    executable,
+    /analytics|event|notification|operation|workflow|transcript|raw_/i,
+  );
+});
+
 test('runtime bootstrap is repeatable and content-free', async () => {
   const fixture = new SqliteD1();
   await ensureSotuvchiCheckoutSchema(fixture.asD1());
@@ -361,6 +406,7 @@ test('runtime bootstrap is repeatable and content-free', async () => {
   ).map((column) => column.name);
   assert.ok(!columns.includes('raw_message'));
   assert.ok(!columns.includes('transcript'));
+  assert.ok(columns.includes('buyer_comment'));
   assert.equal(
     fixture.value(
       `SELECT COUNT(*) FROM sqlite_master WHERE name LIKE '%transcript%'`,
@@ -380,6 +426,7 @@ test('checkout workflow declares the required states and cancel paths', () => {
       'awaiting_name',
       'awaiting_phone',
       'awaiting_address',
+      'awaiting_comment',
       'awaiting_confirmation',
       'completed',
       'cancelled',
@@ -459,6 +506,7 @@ test('paused pilot blocks new checkout and final placement until resumed', async
     buyerOrg(setup, buyer),
     'Toshkent, Chilonzor 5',
   );
+  await setup.checkout.skipComment(buyerOrg(setup, buyer));
   await setPilotStoreState(
     fixture.asD1(),
     setup.storefront.orgId,
@@ -615,13 +663,53 @@ test('collected steps produce an integer total and stay idempotent', async () =>
     addressOrg,
     'Тошкент, Чилонзор 5',
   );
-  assert.equal(addressed.state, 'awaiting_confirmation');
+  assert.equal(addressed.state, 'awaiting_comment');
   await setup.checkout.submitAddress(addressOrg, 'Тошкент, Чилонзор 5');
+  const skipped = await setup.checkout.skipComment(
+    buyerOrg(setup, buyer, 'comment-skip-request'),
+  );
+  assert.equal(skipped.state, 'awaiting_confirmation');
   assert.equal(fixture.value('SELECT COUNT(*) FROM sotuvchi_orders'), 1);
   assert.equal(
     fixture.value(`SELECT version FROM sotuvchi_orders`),
-    5,
+    6,
   );
+});
+
+test('comment stays only on the tenant-scoped order aggregate', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '810072');
+  const product = await publish(setup);
+  const buyer = await bindBuyer(fixture, setup, '910072');
+  await setup.checkout.startCheckout(buyerOrg(setup, buyer), product.id);
+  await setup.checkout.submitQuantity(buyerOrg(setup, buyer), 1);
+  await setup.checkout.submitName(buyerOrg(setup, buyer), 'Дилшод');
+  await setup.checkout.submitPhone(buyerOrg(setup, buyer), '901234567');
+  await setup.checkout.submitAddress(
+    buyerOrg(setup, buyer),
+    'Самовывоз, время обсудить с продавцом',
+  );
+  const comment = 'Позвонить за десять минут';
+  const snapshot = await setup.checkout.submitComment(
+    buyerOrg(setup, buyer),
+    comment,
+  );
+  assert.equal(snapshot.state, 'awaiting_confirmation');
+  assert.equal(snapshot.order.buyerComment, comment);
+  assert.equal(
+    fixture.value('SELECT buyer_comment FROM sotuvchi_orders'),
+    comment,
+  );
+  for (const table of [
+    'sotuvchi_order_operations',
+    'workflow_instances',
+    'sotuvchi_notifications',
+  ]) {
+    assert.ok(
+      !JSON.stringify(fixture.rows(`SELECT * FROM ${table}`)).includes(comment),
+      table,
+    );
+  }
 });
 
 test('invalid step values never reach the order row', async () => {
@@ -709,6 +797,52 @@ test('confirmation places exactly one immutable order', async () => {
   );
 });
 
+test('buyer order history is tenant-bound, grounded and contains no contact', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '810102');
+  const product = await publish(setup, {
+    name: 'History Product',
+    priceMinor: 75_000,
+  });
+  const buyer = await bindBuyer(fixture, setup, '910102');
+  await completeDraft(setup, buyer, product.id);
+  await setup.checkout.confirmCheckout(buyerOrg(setup, buyer));
+
+  const history = await setup.checkout.listBuyerOrders(
+    buyerOrg(setup, buyer),
+  );
+  assert.equal(history.length, 1);
+  assert.equal(history[0].productId, product.id);
+  assert.equal(history[0].productName, 'History Product');
+  assert.equal(history[0].totalMinor, 150_000);
+  assert.equal(history[0].status, 'placed');
+  assert.equal(history[0].storeName, 'Тестовый магазин');
+  const serialized = JSON.stringify(history);
+  for (const forbidden of ['Дилшод', '901234567', 'Тестовая улица']) {
+    assert.ok(!serialized.includes(forbidden), forbidden);
+  }
+
+  const facts = {
+    toolName: 'buyer.orders.list',
+    values: projectBuyerOrderHistoryFacts(history, 'ru'),
+  };
+  const response = composeBuyerOrderHistoryResponse(facts, 'ru');
+  assert.deepEqual(groundResponse(response, [facts]), { status: 'passed' });
+  const rendered = JSON.stringify(response);
+  assert.ok(rendered.includes('History Product'));
+  assert.ok(rendered.includes('Тестовый магазин'));
+  assert.ok(rendered.includes(`buyer-similar.${product.id}`));
+  assert.ok(rendered.includes('buyer-seller'));
+  assert.ok(rendered.includes('UTC'));
+  assert.ok(Object.keys(facts.values).length <= 64);
+
+  const foreign = await bindBuyer(fixture, setup, '910103');
+  assert.deepEqual(
+    await setup.checkout.listBuyerOrders(buyerOrg(setup, foreign)),
+    [],
+  );
+});
+
 test('placement does not touch catalog stock or product rows', async () => {
   const fixture = new SqliteD1();
   const setup = await setupStore(fixture, '810111');
@@ -730,6 +864,62 @@ test('placement does not touch catalog stock or product rows', async () => {
   ).map((column) => column.name);
   assert.ok(!columns.includes('stock'));
   assert.ok(!columns.includes('reserved'));
+});
+
+test('configured insufficient stock cancels checkout before placement', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '810112');
+  const product = await publish(setup);
+  const buyer = await bindBuyer(fixture, setup, '910112');
+  const orders = createSotuvchiOrdersService(fixture.asD1(), setup.catalog);
+  await orders.setInventory(
+    {
+      orgId: setup.owner.orgId,
+      actorId: setup.owner.identityId,
+      requestId: requestId('stock'),
+      locale: setup.owner.locale,
+    },
+    product.id,
+    1,
+  );
+  await completeDraft(setup, buyer, product.id);
+
+  const confirmOrg = buyerOrg(setup, buyer, 'stock-confirm');
+  const snapshot = await setup.checkout.confirmCheckout(confirmOrg);
+  assert.equal(snapshot.outcome, 'stock_unavailable');
+  assert.equal(snapshot.state, 'cancelled');
+  assert.equal(snapshot.order.status, 'cancelled');
+  assert.equal(
+    fixture.value(`SELECT COUNT(*) FROM sotuvchi_orders WHERE status='placed'`),
+    0,
+  );
+  assert.equal(fixture.value('SELECT on_hand FROM sotuvchi_inventory'), 1);
+  assert.equal(
+    fixture.value('SELECT COUNT(*) FROM sotuvchi_inventory_moves'),
+    1,
+  );
+  assert.equal(fixture.value('SELECT COUNT(*) FROM sotuvchi_notifications'), 0);
+  const replay = await setup.checkout.confirmCheckout(confirmOrg);
+  assert.equal(replay.outcome, 'stock_unavailable');
+  assert.equal(replay.order.id, snapshot.order.id);
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM sotuvchi_order_operations
+       WHERE operation = 'checkout.stock_unavailable'`,
+    ),
+    1,
+  );
+
+  const facts = {
+    toolName: 'checkout.confirm',
+    values: projectCheckoutFacts(snapshot, 'ru'),
+  };
+  const response = composeCheckoutResponse(facts, 'ru');
+  assert.deepEqual(groundResponse(response, [facts]), { status: 'passed' });
+  const rendered = JSON.stringify(response);
+  assert.ok(rendered.includes('только что закончился'));
+  assert.ok(rendered.includes(`buyer-similar.${product.id}`));
+  assert.ok(!/заказать|подтвердить/i.test(rendered));
 });
 
 test('price change blocks silent confirmation and needs a second review', async () => {
@@ -1252,7 +1442,7 @@ test('Telegram RU checkout runs card to order without payment surface', async ()
   ));
   await harness.invoke(telegramMessage(970_002, 97001, 'Alpha Phone', 'ru'));
   const card = JSON.stringify(harness.delivery.sent);
-  assert.ok(card.includes('Оформить'));
+  assert.ok(card.includes('Заказать'));
   assert.ok(card.includes(`buyer-checkout.${product.id}`));
 
   await harness.invoke(telegramCallback(
@@ -1267,10 +1457,17 @@ test('Telegram RU checkout runs card to order without payment surface', async ()
   await harness.invoke(telegramMessage(970_005, 97001, 'Дилшод', 'ru'));
   assert.ok(harness.delivery.sent.at(-1)?.text.includes('номер телефона'));
   await harness.invoke(telegramMessage(970_006, 97001, '90 123 45 67', 'ru'));
-  assert.ok(harness.delivery.sent.at(-1)?.text.includes('адрес доставки'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('запрос на получение'));
   await harness.invoke(
     telegramMessage(970_007, 97001, 'Тошкент, Чилонзор 5', 'ru'),
   );
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('комментарий'));
+  await harness.invoke(telegramCallback(
+    970_008,
+    97001,
+    'buyer-checkout-comment-skip',
+    'ru',
+  ));
   const review = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(review.includes('Проверьте заказ'));
   assert.ok(review.includes('250 000 сум'));
@@ -1280,7 +1477,7 @@ test('Telegram RU checkout runs card to order without payment surface', async ()
 
   const before = harness.delivery.sent.length;
   await harness.invoke(telegramCallback(
-    970_008,
+    970_009,
     97001,
     'buyer-checkout-confirm',
     'ru',
@@ -1291,6 +1488,20 @@ test('Telegram RU checkout runs card to order without payment surface', async ()
   assert.ok(confirmation.includes('Оплата не производилась'));
   assert.equal(
     fixture.value(`SELECT COUNT(*) FROM sotuvchi_orders WHERE status='placed'`),
+    1,
+  );
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM events
+       WHERE type = 'sotuvchi.order_started'`,
+    ),
+    1,
+  );
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM events
+       WHERE type = 'sotuvchi.order_created'`,
+    ),
     1,
   );
 
@@ -1313,7 +1524,7 @@ test('Telegram UZ checkout and duplicate update stay single-effect', async () =>
     'uz',
   ));
   await harness.invoke(telegramMessage(980_002, 98001, 'Samsung Sinov', 'uz'));
-  assert.ok(JSON.stringify(harness.delivery.sent).includes('Rasmiylashtirish'));
+  assert.ok(JSON.stringify(harness.delivery.sent).includes('Buyurtma berish'));
   await harness.invoke(telegramCallback(
     980_003,
     98001,
@@ -1334,11 +1545,17 @@ test('Telegram UZ checkout and duplicate update stay single-effect', async () =>
   await harness.invoke(
     telegramMessage(980_007, 98001, 'Toshkent, Chilonzor 5', 'uz'),
   );
+  await harness.invoke(telegramCallback(
+    980_008,
+    98001,
+    'buyer-checkout-comment-skip',
+    'uz',
+  ));
   const review = harness.delivery.sent.at(-1)?.text ?? '';
   assert.ok(review.includes('Buyurtmani tekshiring'));
   assert.ok(review.includes('600 000 so‘m'));
   await harness.invoke(telegramCallback(
-    980_008,
+    980_009,
     98001,
     'buyer-checkout-confirm',
     'uz',
@@ -1424,6 +1641,12 @@ test('checkout state survives a stale product and stores no PII in workflow', as
   await harness.invoke(
     telegramMessage(991_006, 99101, 'Тошкент, Чилонзор 5', 'ru'),
   );
+  await harness.invoke(telegramCallback(
+    991_007,
+    99101,
+    'buyer-checkout-comment-skip',
+    'ru',
+  ));
 
   const payloads = fixture.rows<{ payload_json: string }>(
     `SELECT payload_json FROM workflow_instances
@@ -1453,7 +1676,7 @@ test('checkout state survives a stale product and stores no PII in workflow', as
     current.version,
   );
   await harness.invoke(telegramCallback(
-    991_007,
+    991_008,
     99101,
     'buyer-checkout-confirm',
     'ru',
