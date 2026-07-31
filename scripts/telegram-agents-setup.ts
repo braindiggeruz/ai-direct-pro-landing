@@ -9,6 +9,8 @@
 // Usage:
 //   npx tsx scripts/telegram-agents-setup.ts identity
 //   npx tsx scripts/telegram-agents-setup.ts status
+//   npx tsx scripts/telegram-agents-setup.ts metadata
+//   npx tsx scripts/telegram-agents-setup.ts metadata --apply
 //   npx tsx scripts/telegram-agents-setup.ts setup
 //   npx tsx scripts/telegram-agents-setup.ts setup --apply
 //
@@ -16,6 +18,9 @@
 import { pathToFileURL } from 'node:url';
 
 import { TelegramClient } from '../functions/channels/telegram/api';
+import {
+  TELEGRAM_AGENT_METADATA,
+} from '../functions/channels/telegram/metadata';
 import {
   assertTelegramAgentsBotIdentity,
   buildTelegramAgentsWebhookUrl,
@@ -28,21 +33,6 @@ interface SetupEnvironment {
   TELEGRAM_AGENTS_BOT_USERNAME?: string;
   SITE_URL?: string;
 }
-
-const COMMANDS_RU = [
-  { command: 'start', description: 'главное меню' },
-  { command: 'catalog', description: 'открыть каталог' },
-  { command: 'orders', description: 'мои заказы' },
-  { command: 'help', description: 'помощь' },
-  { command: 'language', description: 'выбрать язык' },
-];
-const COMMANDS_UZ = [
-  { command: 'start', description: 'bosh menyu' },
-  { command: 'catalog', description: 'katalogni ochish' },
-  { command: 'orders', description: 'buyurtmalarim' },
-  { command: 'help', description: 'yordam' },
-  { command: 'language', description: 'tilni tanlash' },
-];
 
 function requireToken(environment: SetupEnvironment): string {
   if (!environment.TELEGRAM_AGENTS_BOT_TOKEN) {
@@ -69,6 +59,34 @@ async function verifiedIdentity(
     identity.result.username,
     expectedUsername ?? '',
   );
+}
+
+async function applyMetadata(client: TelegramClient): Promise<void> {
+  for (const metadata of TELEGRAM_AGENT_METADATA) {
+    const commands = await client.setMyCommands(
+      metadata.commands,
+      metadata.languageCode,
+    );
+    if (!commands.ok) {
+      throw new Error('telegram agents setup rejected: commands_failed');
+    }
+    const description = await client.setMyDescription(
+      metadata.description,
+      metadata.languageCode,
+    );
+    if (!description.ok) {
+      throw new Error('telegram agents setup rejected: description_failed');
+    }
+    const shortDescription = await client.setMyShortDescription(
+      metadata.shortDescription,
+      metadata.languageCode,
+    );
+    if (!shortDescription.ok) {
+      throw new Error(
+        'telegram agents setup rejected: short_description_failed',
+      );
+    }
+  }
 }
 
 async function printStatus(
@@ -116,28 +134,28 @@ export async function runTelegramAgentsSetup(
     await printStatus(client, webhookUrl);
     return;
   }
-  if (command !== 'setup') {
+  if (command !== 'setup' && command !== 'metadata') {
     throw new Error('telegram agents setup rejected: unknown_command');
   }
-  const secret = requireTelegramAgentsWebhookSecret(
-    environment.TELEGRAM_AGENTS_WEBHOOK_SECRET,
-  );
+  const secret = command === 'setup'
+    ? requireTelegramAgentsWebhookSecret(
+        environment.TELEGRAM_AGENTS_WEBHOOK_SECRET,
+      )
+    : null;
   if (!apply) {
     console.log('Telegram Agents setup dry-run: identity and guards passed.');
-    console.log('  webhook:', webhookUrl);
+    console.log('  metadata locales: default, ru, uz');
+    if (command === 'setup') console.log('  webhook:', webhookUrl);
     return;
   }
-
-  const commands = await Promise.all([
-    client.setMyCommands(COMMANDS_RU),
-    client.setMyCommands(COMMANDS_UZ, 'uz'),
-  ]);
-  if (commands.some((result) => !result.ok)) {
-    throw new Error('telegram agents setup rejected: commands_failed');
+  await applyMetadata(client);
+  if (command === 'metadata') {
+    console.log('Telegram Agents metadata complete for:', `@${username}`);
+    return;
   }
   const webhook = await client.setWebhook(
     webhookUrl,
-    secret,
+    secret!,
     ['message', 'callback_query'],
   );
   if (!webhook.ok) {

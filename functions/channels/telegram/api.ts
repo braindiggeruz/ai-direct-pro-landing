@@ -217,7 +217,7 @@ export class TelegramClient {
     return this.call<{ url?: string; pending_update_count?: number; last_error_message?: string; last_error_date?: number }>('getWebhookInfo');
   }
 
-  setMyCommands(commands: { command: string; description: string }[], languageCode?: string) {
+  setMyCommands(commands: readonly { command: string; description: string }[], languageCode?: string) {
     return this.call('setMyCommands', { commands, ...(languageCode ? { language_code: languageCode } : {}) });
   }
 

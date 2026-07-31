@@ -324,7 +324,15 @@ test('the Agents webhook setup mutates only with explicit apply', async () => {
       SITE_URL: 'https://gptbot.uz',
     }, ['setup', '--apply']);
     assert.ok(calls.includes('setWebhook'));
-    assert.equal(calls.filter((call) => call === 'setMyCommands').length, 2);
+    assert.equal(calls.filter((call) => call === 'setMyCommands').length, 3);
+    assert.equal(
+      calls.filter((call) => call === 'setMyDescription').length,
+      3,
+    );
+    assert.equal(
+      calls.filter((call) => call === 'setMyShortDescription').length,
+      3,
+    );
   } finally {
     globalThis.fetch = original;
   }

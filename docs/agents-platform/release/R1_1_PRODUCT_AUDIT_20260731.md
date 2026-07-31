@@ -457,3 +457,55 @@ Evidence at this checkpoint:
 
 No production migration, configuration change, webhook mutation, push or
 deployment was performed.
+
+## Implementation checkpoint: synthetic storefront and Telegram metadata
+
+The pilot fixture is now a versioned, locally validated product-quality asset:
+
+- `r1_1_synthetic_catalog.json` contains 36 clearly synthetic products across
+  six bilingual categories, with no real brand or customer data;
+- all products carry the same explicit RU/UZ synthetic-test disclosure;
+- coverage includes available, unavailable, preorder, low-stock and zero-stock
+  states; products with and without safe opaque media references; complete and
+  intentionally incomplete optional specifications; Russian titles and Uzbek
+  Latin search aliases;
+- exact price-boundary products cover 29,999 / 30,000 / 30,001 / 50,000 /
+  200,000 / 1,000,000 UZS;
+- the validator rejects unknown fields, non-synthetic disclosure, fewer than
+  30 or more than 50 products, incomplete category coverage, invalid stock
+  combinations, duplicate keys/SKUs and missing boundary scenarios.
+
+`market-synthetic-fixture.ts` is read-only by default. SQL generation requires
+an exact organization, store and typed store confirmation. Its output uses
+only `INSERT OR IGNORE` writes guarded by the existing target store; it has no
+update, delete, replace, archive, schema or remote-apply path. An integration
+rehearsal applies all migrations 0013 through 0030, applies the fixture twice,
+and verifies stable counts, tenant grounding, Uzbek alias search, price
+boundaries and zero order/notification side effects.
+
+Telegram product metadata is now a closed code-owned contract:
+
+- the only advertised commands are `/start`, `/catalog`, `/orders`, `/help`
+  and `/language`, and every command maps to an implemented deterministic
+  buyer action;
+- default/Russian and Uzbek Latin command descriptions, full descriptions and
+  short descriptions explicitly identify the bot as a synthetic test store
+  without promising payment or delivery;
+- metadata setup is dry-run by default, verifies `getMe`, the exact expected
+  username and protected-bot isolation before mutation, and requires
+  `--apply`;
+- full webhook setup still validates the webhook secret before the first
+  mutation. Metadata operations are bounded and repeatable; no token or secret
+  value is printed.
+
+Evidence at this checkpoint:
+
+- fixture, metadata and release-preparation corpus: `29/29 PASS`;
+- fixture clean bootstrap, double-apply and cross-store guard: `PASS`;
+- TypeScript project build: `PASS`;
+- scoped ESLint over the slice and tests: `PASS`;
+- secret scan: `2662 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+No production SQL, Bot API mutation, configuration change, push or deployment
+was performed.

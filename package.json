@@ -31,6 +31,7 @@
     "telegram:identity": "tsx scripts/telegram-setup.ts identity",
     "telegram:status": "tsx scripts/telegram-setup.ts status",
     "telegram:remove-webhook": "tsx scripts/telegram-setup.ts remove-webhook",
+    "market:fixture": "tsx scripts/market-synthetic-fixture.ts check",
     "javob:eval": "tsx scripts/javob-eval.ts",
     "javob:eval:live": "tsx scripts/javob-eval.ts --live",
     "scan:secrets": "tsx scripts/scan-secrets.ts",
