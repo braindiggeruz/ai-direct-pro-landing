@@ -1,5 +1,11 @@
 # SOTUVCHI — pilot runbook (P2.7)
 
+> R1.1 release note (2026-07-31): this is a historical P2.7 procedure. The
+> current synthetic product-quality pilot must use
+> `release/R1_1_MARKET_PILOT_RUNBOOK.md`. Its migration range is 0013–0030,
+> its bot is the already verified `@gptbot_market_bot`, and it does not
+> authorize onboarding real stores.
+
 Дата документа: 2026-07-28. Этап: P2.7 — Analytics и pilot readiness.
 
 ## R0.1 local source checkpoint

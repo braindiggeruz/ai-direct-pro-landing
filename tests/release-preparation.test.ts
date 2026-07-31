@@ -190,11 +190,11 @@ test('a complete synthetic R1 environment passes without values in its report', 
   }
 });
 
-test('migration manifest is ordered 0013 through 0024 with exact checksums', () => {
+test('migration manifest is ordered 0013 through 0030 with exact checksums', () => {
   const entries = loadMigrationManifest().migrations;
-  assert.equal(entries.length, 12);
+  assert.equal(entries.length, 18);
   assert.deepEqual(entries.map((entry) => entry.order), [
-    13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+    13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
   ]);
   for (const entry of entries) {
     assert.equal(
@@ -216,7 +216,7 @@ test('migration rehearsal covers bootstrap, upgrade, objects and constraints', (
   const report = runMigrationRehearsal();
   assert.equal(report.status, 'pass');
   assert.equal(report.database, 'isolated-local-synthetic');
-  assert.equal(report.applied.length, 12);
+  assert.equal(report.applied.length, 18);
   for (const check of [
     'clean_bootstrap',
     'synthetic_upgrade',

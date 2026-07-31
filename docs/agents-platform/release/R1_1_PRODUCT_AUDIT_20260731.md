@@ -509,3 +509,40 @@ Evidence at this checkpoint:
 
 No production SQL, Bot API mutation, configuration change, push or deployment
 was performed.
+
+## Implementation checkpoint: migration and release governance
+
+The release migration manifest now covers the full ordered range 0013–0030
+with normalized SHA-256 values, dependencies, declared tables/indexes,
+reversibility, PII classification and owner for every entry. The isolated
+rehearsal proves both a clean 18-migration bootstrap and the actual production
+upgrade shape: baseline through 0025, then R1.1 migrations 0026–0030. It also
+verifies checksums, declared objects, foreign keys, CHECK constraints,
+rollback on failure, duplicate ledger behavior and application schema
+compatibility.
+
+`R1_1_MARKET_PILOT_RUNBOOK.md` is now the current execution authority. It
+defines exact source/review gates, read-only production preflight, external
+backup, one-at-a-time migration checks, guarded fixture import, exact-SHA
+manual Pages deployment, RU/UZ Telegram metadata, product canaries, stop
+conditions, rollback and closeout evidence. Historical P2.7 and real-store R1
+runbooks now point to it and do not authorize R1.1 execution.
+
+The fixture renderer deliberately omits explicit `BEGIN/COMMIT`: Cloudflare D1
+file import manages statement execution and can reject a dump that opens its
+own transaction. Safe recovery remains deterministic because every fixture
+write is store-guarded `INSERT OR IGNORE`, all fixture identifiers are stable,
+and repeated apply is tested to converge without order or notification side
+effects.
+
+Evidence at this checkpoint:
+
+- migration rehearsal: all ten checks `PASS`;
+- fixture/release-preparation corpus: `25/25 PASS`;
+- TypeScript project build: `PASS`;
+- scoped ESLint: `PASS`;
+- secret scan: `2667 files checked`, clean;
+- `git diff --check`: `PASS`.
+
+No remote D1 query/write, migration, Bot API mutation, push or deployment was
+performed.

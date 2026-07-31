@@ -1,5 +1,10 @@
 # R1 Sotuvchi controlled pilot runbook
 
+> R1.1 release note (2026-07-31): this real-store R1 procedure is not the
+> current release path. The R1.1 sprint is limited to the approved synthetic
+> store and must use `R1_1_MARKET_PILOT_RUNBOOK.md`. It does not authorize any
+> real-store onboarding.
+
 Status: PR-ready procedure only. The pilot has not been started.
 Target: 1–3 verified real stores after P3.1 review, merge, migration, deployment,
 and explicit rollout authorization.

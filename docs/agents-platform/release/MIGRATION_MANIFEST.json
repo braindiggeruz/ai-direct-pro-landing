@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "range": "0013-0024",
+  "range": "0013-0030",
   "database": "GPTBOT_DRAFTS_DB",
   "policy": {
     "apply": "ordered_once_with_ledger",
@@ -139,6 +139,72 @@
       "reversibility": "restore_or_forward_fix",
       "pii": "bounded job/event references only; no prompts, article content, credentials or personal data",
       "owner": "platform"
+    },
+    {
+      "order": 25,
+      "filename": "0025_owner_control_center_audit.sql",
+      "sha256": "cd3bfe05fc915332f44ca2470861418c76925f4d964162a38120ec1d52cd9933",
+      "depends_on": ["0018_sotuvchi_store_onboarding.sql"],
+      "tables": ["owner_audit_events", "owner_pilot_stores"],
+      "indexes": ["idx_owner_audit_created", "idx_owner_audit_target", "idx_owner_audit_actor", "idx_owner_pilot_state"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "bounded operator email and non-secret audit/pilot references; no request bodies or credentials",
+      "owner": "platform"
+    },
+    {
+      "order": 26,
+      "filename": "0026_market_buyer_experience.sql",
+      "sha256": "db9fa6f0953534f0bfd793ad8ce032ca1f6d965a7c6a4474b4e1b946968b8532",
+      "depends_on": ["0019_sotuvchi_catalog.sql"],
+      "tables": ["sotuvchi_storefront_sessions"],
+      "indexes": ["idx_sotuvchi_storefront_pending"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "bounded locale and pending-intent state; no buyer prompt or profile content",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 27,
+      "filename": "0027_market_catalog_quality.sql",
+      "sha256": "7d1965feb138d367a80c24646504cc37130b0b5eb7c1e2eca8defedea4a950ed",
+      "depends_on": ["0019_sotuvchi_catalog.sql"],
+      "tables": ["sotuvchi_products"],
+      "indexes": [],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "seller-authored product aliases and verified specifications; no buyer data",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 28,
+      "filename": "0028_market_product_comparison.sql",
+      "sha256": "572aab7a6689ea0afc54a1f622c1fbf340610f890dff08318d75a51c59deea14",
+      "depends_on": ["0019_sotuvchi_catalog.sql"],
+      "tables": ["sotuvchi_buyer_presentations", "sotuvchi_buyer_comparisons"],
+      "indexes": ["idx_sotuvchi_buyer_presentations_scope", "idx_sotuvchi_buyer_comparisons_scope"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "pseudonymous session and product references only; no prompt, contact or profile content",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 29,
+      "filename": "0029_market_checkout_comment.sql",
+      "sha256": "40e3178c3c90dbe71d5dbb0550ff9cb3b01baa39d25f2c1c0e7252282a3be383",
+      "depends_on": ["0021_sotuvchi_checkout.sql"],
+      "tables": ["sotuvchi_orders"],
+      "indexes": [],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "bounded buyer-provided order comment stored with existing order PII",
+      "owner": "sotuvchi"
+    },
+    {
+      "order": 30,
+      "filename": "0030_market_telegram_reliability.sql",
+      "sha256": "76796335189b8a7583143dbe6357cd4efc459791076cd43140f475133c377d64",
+      "depends_on": ["0017_telegram_agents_transport.sql"],
+      "tables": ["telegram_agent_update_metrics", "telegram_agent_rate_limits", "telegram_agent_rate_limit_notices"],
+      "indexes": ["idx_telegram_agent_update_metrics_updated", "idx_telegram_agent_rate_limits_updated", "idx_telegram_agent_rate_limit_notices_created"],
+      "reversibility": "restore_or_forward_fix",
+      "pii": "hashed rate-limit scopes and bounded transport metrics; no raw Telegram identifiers or content",
+      "owner": "agents"
     }
   ]
 }
