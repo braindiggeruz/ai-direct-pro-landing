@@ -9,8 +9,9 @@ import { useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router';
 import { api } from '../lib/api';
 import { Badge, Button, Card, ScoreBadge, StatTile, Input, Select } from '../components/ui';
-import { ArrowUpRight, BrainCircuit, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles, Search } from 'lucide-react';
+import { AlertTriangle, ArrowUpRight, BrainCircuit, CheckCircle2, Clock3, Copy, ExternalLink, Filter, Gauge, GitMerge, Layers, Link2, RefreshCw, Rocket, ShieldCheck, Sparkles, Search, Zap } from 'lucide-react';
 import type { BoosterReport, ClusterReport, CannibalizationPair } from '../../shared/booster';
+import type { SearchPulsePreview, SearchPulseRunResult, SearchPulseServiceStatus } from '../../shared/search-pulse';
 // AI Autopilot tab is the only surface that may load Puter.js. We code-split
 // it into its own chunk so neither the puter URL nor the autopilot prompts
 // land in the public landing-page bundle.
@@ -60,6 +61,136 @@ function HeaderTabs({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
         );
       })}
     </div>
+  );
+}
+
+function pulseTone(status: SearchPulseServiceStatus): 'success' | 'info' | 'warning' | 'danger' {
+  if (status === 'success') return 'success';
+  if (status === 'not_run') return 'info';
+  if (status === 'not_configured' || status === 'partial') return 'warning';
+  return 'danger';
+}
+
+function SearchPulseCard({
+  preview,
+  busy,
+  result,
+  error,
+  onRun,
+  onRefresh,
+}: {
+  preview: SearchPulsePreview | null;
+  busy: boolean;
+  result: SearchPulseRunResult | null;
+  error: string | null;
+  onRun: () => void;
+  onRefresh: () => void;
+}) {
+  const ready = preview?.selection.ready.length ?? 0;
+  const copyQueue = async () => {
+    const queue = result?.manualGoogleQueue.length
+      ? result.manualGoogleQueue
+      : preview?.manualGoogleQueue ?? [];
+    if (!queue.length) return;
+    try {
+      await navigator.clipboard.writeText(queue.join('\n'));
+    } catch {
+      // Clipboard permission can be denied; the visible list remains usable.
+    }
+  };
+
+  return (
+    <Card
+      className="relative overflow-hidden border-brand-cyan/30 bg-gradient-to-br from-brand-blue/15 via-bg-surface to-violet-500/10"
+      data-testid="search-pulse-card"
+    >
+      <div aria-hidden="true" className="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-brand-cyan/10 blur-3xl" />
+      <div className="relative grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+        <div>
+          <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand-cyan">
+            <Zap size={15} /> Search Pulse
+          </div>
+          <h2 className="font-display text-2xl text-white">Один клик для всех новых страниц</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/65">
+            Система сама отбирает новые и обновлённые URL, проверяет качество от 80/100,
+            соблюдает паузу между отправками и обновляет сигналы обнаружения в поисковиках.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2 text-xs">
+            <Badge tone={ready > 0 ? 'success' : 'info'}>
+              {preview ? `${ready} готовы сейчас` : 'Проверяем страницы…'}
+            </Badge>
+            <Badge tone="info">Изменения ≤ {preview?.freshDays ?? 45} дней</Badge>
+            <Badge tone={preview?.gscConfigured ? 'success' : 'warning'}>
+              Google sitemap: {preview?.gscConfigured ? 'автоматически' : 'нужен OAuth'}
+            </Badge>
+            <Badge tone={preview?.automationReady ? 'success' : 'warning'}>
+              Автозапуск: {preview?.automationReady ? 'готов' : 'нужна настройка'}
+            </Badge>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3 lg:items-stretch">
+          <Button
+            size="lg"
+            className="min-h-12 w-full text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+            onClick={onRun}
+            disabled={busy || !preview || ready === 0}
+            aria-label={`Ускорить обнаружение ${ready} новых и обновлённых страниц`}
+            data-testid="search-pulse-run"
+          >
+            {busy ? <RefreshCw size={18} className="animate-spin" /> : <Rocket size={18} />}
+            {busy ? 'Отправляем сигналы…' : `Ускорить новые страницы${ready ? ` (${ready})` : ''}`}
+          </Button>
+          <button
+            type="button"
+            onClick={onRefresh}
+            disabled={busy}
+            className="min-h-11 rounded-xl px-4 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50"
+          >
+            Пересчитать очередь
+          </button>
+        </div>
+      </div>
+
+      {preview && (
+        <div className="relative mt-5 grid gap-2 border-t border-white/10 pt-4 text-xs text-white/55 sm:grid-cols-3">
+          <div className="flex items-center gap-2"><ShieldCheck size={15} className="text-emerald-300" /> Quality gate: {preview.qualityThreshold}/100</div>
+          <div className="flex items-center gap-2"><Clock3 size={15} className="text-amber-300" /> На паузе: {preview.selection.coolingDown.length}</div>
+          <div className="flex items-center gap-2"><CheckCircle2 size={15} className="text-brand-cyan" /> Уже актуальны: {preview.selection.alreadyCurrent}</div>
+        </div>
+      )}
+
+      <div aria-live="polite" aria-atomic="true" className="relative">
+        {error && (
+          <div className="mt-4 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-200">
+            <AlertTriangle size={17} className="mt-0.5 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+        {result && (
+          <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4" data-testid="search-pulse-result">
+            <div className="flex flex-wrap gap-2">
+              <Badge tone={pulseTone(result.indexNow.status)}>
+                IndexNow: {result.indexNow.succeeded}/{result.indexNow.attempted}
+              </Badge>
+              <Badge tone={pulseTone(result.google.status)}>
+                Google sitemap: {result.google.status === 'success' ? 'отправлен' : result.google.status}
+              </Badge>
+            </div>
+            <p className="mt-3 text-sm text-white/75">{result.indexNow.message}</p>
+            <p className="mt-1 text-sm text-white/60">{result.google.message}</p>
+            {result.manualGoogleQueue.length > 0 && (
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <Button variant="secondary" size="sm" onClick={copyQueue} data-testid="search-pulse-copy-google">
+                  <Copy size={14} /> Скопировать Google‑очередь ({result.manualGoogleQueue.length})
+                </Button>
+                <span className="text-xs text-white/45">Для ручной проверки URL в GSC, пока OAuth не настроен.</span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </Card>
   );
 }
 
@@ -353,16 +484,72 @@ export default function SeoBooster() {
   const [err, setErr] = useState<string | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [submitState, setSubmitState] = useState<{ busy: boolean; result?: { ok: boolean; submitted?: number; rejected?: { url: string; reason: string }[]; error?: string; upstreamStatus?: number } }>({ busy: false });
+  const [pulsePreview, setPulsePreview] = useState<SearchPulsePreview | null>(null);
+  const [pulseBusy, setPulseBusy] = useState(false);
+  const [pulseResult, setPulseResult] = useState<SearchPulseRunResult | null>(null);
+  const [pulseError, setPulseError] = useState<string | null>(null);
+
+  const loadPulse = async () => {
+    setPulseError(null);
+    try {
+      setPulsePreview(await api.searchPulsePreview());
+    } catch (e) {
+      setPulseError(`Search Pulse: ${(e as Error).message}`);
+    }
+  };
 
   const load = async () => {
     setLoading(true); setErr(null);
     try {
       const r = await api.booster();
       setReport(r);
+      await loadPulse();
     } catch (e) { setErr((e as Error).message); }
     setLoading(false);
   };
-  useEffect(() => { void load(); }, []);
+  useEffect(() => {
+    let active = true;
+    void api.booster()
+      .then((nextReport) => {
+        if (active) setReport(nextReport);
+      })
+      .catch((e: unknown) => {
+        if (active) setErr((e as Error).message);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    void api.searchPulsePreview()
+      .then((nextPreview) => {
+        if (active) setPulsePreview(nextPreview);
+      })
+      .catch((e: unknown) => {
+        if (active) setPulseError(`Search Pulse: ${(e as Error).message}`);
+      });
+    return () => { active = false; };
+  }, []);
+
+  const onPulseRun = async () => {
+    if (!pulsePreview || pulsePreview.selection.ready.length === 0) return;
+    const count = pulsePreview.selection.ready.length;
+    if (!confirm(
+      `Отправить ${count} новых/обновлённых URL?\n\n`
+      + 'Search Pulse повторно проверит качество, отправит URL в IndexNow и обновит sitemap в Google Search Console. '
+      + 'Позиции не гарантируются: это безопасное ускорение обнаружения, а не накрутка.',
+    )) return;
+    setPulseBusy(true);
+    setPulseError(null);
+    setPulseResult(null);
+    try {
+      const next = await api.searchPulseRun();
+      setPulseResult(next);
+      await loadPulse();
+    } catch (e) {
+      setPulseError(`Не удалось выполнить Search Pulse: ${(e as Error).message}`);
+    } finally {
+      setPulseBusy(false);
+    }
+  };
 
   const onSubmit = async () => {
     if (selected.size === 0) return;
@@ -395,6 +582,15 @@ export default function SeoBooster() {
         </div>
         <Button variant="secondary" onClick={load} data-testid="booster-refresh"><RefreshCw size={14}/> Refresh</Button>
       </header>
+
+      <SearchPulseCard
+        preview={pulsePreview}
+        busy={pulseBusy}
+        result={pulseResult}
+        error={pulseError}
+        onRun={() => { void onPulseRun(); }}
+        onRefresh={() => { void loadPulse(); }}
+      />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" data-testid="booster-kpi">
         <StatTile testId="booster-kpi-total" label="URLs analysed" value={s.totalUrls}/>

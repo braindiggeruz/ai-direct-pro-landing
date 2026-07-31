@@ -68,12 +68,18 @@ export const api = {
   config: () => request<{ turnstileRequired: boolean; turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
   login: (email: string, password: string, turnstileToken?: string) => request<{ token: string; email: string; role: string }>('POST', '/api/auth/login', { email, password, turnstileToken }),
   me: () => request<{ email: string; role: string }>('GET', '/api/auth/me'),
-  getContent: () => request<{ pages: any[]; blog: any[]; global: any; redirects: any[]; internalLinks: any[] }>('GET', '/api/content'),
+  getContent: () => request<{
+    pages: import('../../shared/types').Page[];
+    blog: import('../../shared/types').BlogArticle[];
+    global: import('../../shared/types').GlobalSEO;
+    redirects: import('../../shared/types').Redirect[];
+    internalLinks: import('../../shared/types').InternalLink[];
+  }>('GET', '/api/content'),
   saveContent: (kind: string, locale: string | undefined, slug: string | undefined, data: unknown, message?: string) =>
     request<{ ok: true; file: string }>('POST', '/api/content', { kind, locale, slug, data, message }),
   deleteContent: (kind: string, locale: string | undefined, slug: string | undefined, message?: string) =>
     request<{ ok: true }>('DELETE', '/api/content', { kind, locale, slug, message }),
-  audit: () => request<any>('GET', '/api/audit'),
+  audit: () => request<unknown>('GET', '/api/audit'),
   // SEO Mission Control aggregator — single call, partial-success per
   // section so the cockpit renders even when one upstream is down.
   cockpit: () => request<import('../../shared/cockpit').CockpitResponse>('GET', '/api/admin/cockpit'),
@@ -87,6 +93,18 @@ export const api = {
     request<{ ok: true; suggestions: { target: string; anchor: string; reason: string; score: number }[] }>('GET', `/api/seo/suggest-links?locale=${locale}&slug=${encodeURIComponent(slug)}`),
   // SEO Booster Engine — read-only report (items + clusters + cannibalization + summary).
   booster: () => request<import('../../shared/booster').BoosterReport>('GET', '/api/seo/booster'),
+  // Search Pulse — version-aware one-click discovery for new/updated pages.
+  // GET is a dry preview. POST recomputes the same quality gate server-side,
+  // submits eligible URLs to IndexNow and re-submits sitemap.xml to GSC.
+  searchPulsePreview: () =>
+    request<import('../../shared/search-pulse').SearchPulsePreview>('GET', '/api/seo/search-pulse'),
+  searchPulseRun: () =>
+    request<import('../../shared/search-pulse').SearchPulseRunResult>(
+      'POST',
+      '/api/seo/search-pulse',
+      {},
+      { timeoutMs: 120_000 },
+    ),
   // Submit URLs to IndexNow. Server validates every URL against /content/* and
   // rejects admin/api/draft/noindex/mojibake/duplicate/host-mismatch entries.
   indexnowSubmit: (urls: string[]) =>
