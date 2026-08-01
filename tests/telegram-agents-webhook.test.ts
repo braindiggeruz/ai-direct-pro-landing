@@ -208,6 +208,7 @@ interface HarnessOptions {
   mappings?: readonly StaticTelegramAgentMapping[];
   runtime?: { run(input: unknown): Promise<RuntimeTurnResult> };
   identityId?: string;
+  schemaReady?: () => Promise<void>;
   rateLimiter?: TelegramRateLimiter;
   telemetry?: TelegramAgentsTelemetry;
 }
@@ -282,6 +283,7 @@ function createHarness(options: HarnessOptions = {}) {
     ),
     runtime,
     delivery,
+    ...(options.schemaReady ? { schemaReady: options.schemaReady } : {}),
     ...(options.rateLimiter ? { rateLimiter: options.rateLimiter } : {}),
     ...(options.telemetry ? { telemetry: options.telemetry } : {}),
     logger: { error: (code) => logCodes.push(code) },
@@ -347,7 +349,12 @@ test('every non-POST method is rejected with a controlled 405', async () => {
 });
 
 test('missing and wrong secrets are internally distinct but externally 401', async () => {
-  const harness = createHarness();
+  let schemaChecks = 0;
+  const harness = createHarness({
+    schemaReady: async () => {
+      schemaChecks += 1;
+    },
+  });
   const missingRequest = new Request('https://gptbot.uz/api/telegram/agents', {
     method: 'POST',
   });
@@ -365,7 +372,23 @@ test('missing and wrong secrets are internally distinct but externally 401', asy
   );
   assert.equal((await harness.invoke({}, { secret: null })).status, 401);
   assert.equal((await harness.invoke({}, { secret: 'wrong-fixture' })).status, 401);
+  assert.equal(schemaChecks, 0);
   assert.equal(harness.updates.reserveCalls, 0);
+});
+
+test('runtime schema contract fails closed before body reservation', async () => {
+  const harness = createHarness({
+    schemaReady: async () => {
+      throw new Error('private schema detail');
+    },
+  });
+  const result = await harness.invoke(telegramMessage(1001, 'echo: blocked'));
+  assert.equal(result.status, 503);
+  assert.equal(await result.text(), 'unavailable');
+  assert.equal(harness.updates.reserveCalls, 0);
+  assert.equal(harness.runtimeCalls.length, 0);
+  assert.deepEqual(harness.logCodes, ['schema_unavailable']);
+  assert.ok(!JSON.stringify(harness.logCodes).includes('private schema detail'));
 });
 
 test('correct secret accepts a validated update', async () => {
