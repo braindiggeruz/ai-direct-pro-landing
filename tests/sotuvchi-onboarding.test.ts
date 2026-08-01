@@ -945,7 +945,9 @@ test('buyer storefront route resolves the store but never launches seller onboar
     beforeOnboardings,
   );
   assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes('Помогу найти и сравнить товары'),
+    harness.delivery.sent.at(-1)?.text.includes(
+      'GPTBot найдёт подходящие товары',
+    ),
   );
   assert.ok(
     JSON.stringify(harness.delivery.sent.at(-1)?.keyboard).includes(

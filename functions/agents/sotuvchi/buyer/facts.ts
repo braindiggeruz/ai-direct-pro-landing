@@ -35,6 +35,8 @@ function productValues(
       boundedBuyerDescription(product.description),
     [`${prefix}.category_name`]: categoryName ?? '',
     [`${prefix}.store_name`]: result.storeName,
+    [`${prefix}.media_ref`]: product.mediaRefs[0] ?? '',
+    [`${prefix}.updated_display`]: product.updatedAt.slice(0, 10),
     [`${prefix}.specification_count`]: specifications.length,
   };
   specifications.forEach((specification, index) => {
@@ -188,14 +190,14 @@ export function projectBuyerFacts(
             `catalog.results.${index}`,
             item,
             locale,
-            result.fullCard ? 4 : 0,
+            result.fullCard ? 3 : 0,
           ),
     );
   });
   if (result.results.length === 1 && result.fullCard) {
     Object.assign(
       values,
-      productValues('catalog.product', result.results[0], locale, 4),
+      productValues('catalog.product', result.results[0], locale, 3),
     );
   }
   return values;

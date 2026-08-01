@@ -665,9 +665,9 @@ test('category catalog renders three grounded cards and deterministic similar pr
     firstPage.facts[0].values['catalog.results.0.specification_count'],
     0,
   );
-  assert.equal(firstPage.messages.length, 3);
+  assert.equal(firstPage.messages.length, 4);
   assert.ok(firstPage.messages.every(
-    (message) => (message.card?.actions?.length ?? 0) <= 4,
+    (message) => (message.card?.actions?.length ?? 0) <= 2,
   ));
   assert.ok(firstPage.messages.at(-1)?.choices?.some(
     (choice) => choice.id === `buyer-category-next.${category.id}.3`,
@@ -1285,7 +1285,8 @@ test('Telegram buyer Q&A works RU, UZ and mixed without payment claims', async (
   assert.ok(rendered.includes('Samsung Sinov'));
   assert.ok(rendered.includes('200 000 so‘m'));
   assert.ok(rendered.includes('Mavjud'));
-  assert.ok(rendered.includes('Batafsil'));
+  assert.ok(rendered.includes('Buyurtma berish'));
+  assert.ok(rendered.includes('Solishtirish'));
   assert.ok(!/payment|оплач|тўлов|Купить|Sotib olish/i.test(rendered));
 });
 
@@ -1302,7 +1303,9 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
 
   await harness.invoke(telegramMessage(970_001, 97001, '/start', 'ru'));
   const firstStart = harness.delivery.sent.at(-1);
-  assert.equal(firstStart?.text.includes('Помогу найти и сравнить товары'), true);
+  assert.equal(firstStart?.text.includes(
+    'GPTBot найдёт подходящие товары',
+  ), true);
   assert.ok(JSON.stringify(firstStart?.keyboard).includes('buyer-catalog-open'));
   for (const action of [
     'buyer-find',
@@ -1324,7 +1327,9 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   await harness.invoke(telegramMessage(970_002, 97001, '/start', 'ru'));
   const repeatedStart = harness.delivery.sent.slice(afterFirstStart);
   assert.equal(repeatedStart.length, 1);
-  assert.ok(repeatedStart[0].text.includes('Помогу найти и сравнить товары'));
+  assert.ok(repeatedStart[0].text.includes(
+    'GPTBot найдёт подходящие товары',
+  ));
 
   await harness.invoke(
     telegramCallback(970_009, 97001, 'buyer-seller-mode', 'ru'),
@@ -1338,7 +1343,9 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
 
   await harness.invoke(telegramMessage(970_010, 97002, '/start', 'uz'));
   const uzStart = harness.delivery.sent.at(-1);
-  assert.ok(uzStart?.text.includes('Mahsulot topish va solishtirishga'));
+  assert.ok(uzStart?.text.includes(
+    'GPTBot ulangan do‘konlar katalogidan',
+  ));
   for (const action of [
     'buyer-find',
     'buyer-catalog-open',
@@ -1356,7 +1363,7 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   assert.ok(budgetReply.includes('Укажите максимальный бюджет'));
 
   await harness.invoke(telegramMessage(970_004, 97001, '30 000', 'ru'));
-  const searchReply = harness.delivery.sent.at(-1)?.text ?? '';
+  const searchReply = harness.delivery.sent.at(-2)?.text ?? '';
   assert.ok(searchReply.includes('Test Product'));
   assert.ok(!searchReply.includes('Не удалось подготовить ответ'));
 });
@@ -1381,13 +1388,13 @@ test('standalone amount confirms, while a prompted amount filters directly', asy
   await harness.invoke(
     telegramCallback(971_003, 97101, 'buyer-budget.30000', 'ru'),
   );
-  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Budget Product'));
+  assert.ok(harness.delivery.sent.at(-2)?.text.includes('Budget Product'));
 
   await harness.invoke(
     telegramMessage(971_004, 97101, 'Нужен недорогой товар', 'ru'),
   );
   await harness.invoke(telegramMessage(971_005, 97101, '30.000', 'ru'));
-  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Budget Product'));
+  assert.ok(harness.delivery.sent.at(-2)?.text.includes('Budget Product'));
 
   await harness.invoke(
     telegramMessage(971_006, 97101, 'Нужен недорогой товар', 'ru'),

@@ -5,6 +5,7 @@
 
 const API_BASE = 'https://api.telegram.org';
 const TG_MAX_MESSAGE = 4096;
+const TG_MAX_CAPTION = 1024;
 const SAFE_CHUNK = 3900; // headroom under the hard limit
 const DEFAULT_TIMEOUT_MS = 12_000;
 const MAX_RETRIES = 3;
@@ -191,6 +192,24 @@ export class TelegramClient {
       });
     }
     return last;
+  }
+
+  /** Send a reusable Telegram-native file_id. Product catalog validation
+   *  rejects URLs, so this call never fetches arbitrary remote media. */
+  sendPhoto(
+    chatId: number,
+    photo: string,
+    caption?: string,
+    opts: { keyboard?: InlineKeyboard } = {},
+  ) {
+    return this.call<TelegramMessage>('sendPhoto', {
+      chat_id: chatId,
+      photo,
+      ...(caption ? { caption: caption.slice(0, TG_MAX_CAPTION) } : {}),
+      ...(opts.keyboard
+        ? { reply_markup: { inline_keyboard: opts.keyboard } }
+        : {}),
+    });
   }
 
   editMessageText(chatId: number, messageId: number, text: string, keyboard?: InlineKeyboard) {
