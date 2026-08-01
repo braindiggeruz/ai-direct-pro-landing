@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "label": "productization-baseline-2026-08-01",
+  "label": "productization-truth-baseline-2026-08-01",
   "generated_at": "2026-07-28",
-  "source_revision": "1a375e4e2b7bce2eb5d2fe0b751116770d4a4fdf",
+  "source_revision": "a469a92691b928375b57449554f50d63687ded47",
   "counts": {
-    "static_canonical_routes": 232,
+    "static_canonical_routes": 234,
     "admin_route_patterns": 25,
-    "total_route_patterns": 257,
-    "published_pages": 111,
+    "total_route_patterns": 259,
+    "published_pages": 113,
     "published_articles": 118,
-    "sitemap_entries": 232
+    "sitemap_entries": 234
   },
   "static_canonical_routes": [
     "/",
@@ -143,6 +143,7 @@
     "/ru/kalkulyator-stoimosti-telegram-bota/",
     "/ru/komanda/",
     "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+    "/ru/market-doverie/",
     "/ru/marketingovyi-audit-tashkent/",
     "/ru/o-kompanii/",
     "/ru/okupaemost-chat-bota/",
@@ -229,6 +230,7 @@
     "/uz/javob/",
     "/uz/klinika-uchun-ai-bot/",
     "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+    "/uz/market-ishonch/",
     "/uz/maxfiylik-siyosati/",
     "/uz/muallif-boris-gerasimov/",
     "/uz/oquv-markazi-uchun-ai-bot/",

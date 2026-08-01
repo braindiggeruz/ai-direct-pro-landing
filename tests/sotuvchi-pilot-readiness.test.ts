@@ -1005,11 +1005,15 @@ test('the landing CTA never points at the lead or Javob bot', () => {
   for (const forbidden of ['aidirectprobot', 'gptbot_javob_bot']) {
     assert.ok(!serialized.includes(forbidden), forbidden);
   }
+  assert.equal(
+    readPage('ru').ctaPrimaryHref,
+    'https://t.me/gptbot_market_bot?start=buyer_site_ru',
+  );
+  assert.equal(
+    readPage('uz').ctaPrimaryHref,
+    'https://t.me/gptbot_market_bot?start=buyer_site_uz',
+  );
   const expected = 'https://t.me/gptbot_market_bot?start=agent_seller';
-  for (const locale of ['ru', 'uz'] as const) {
-    const page = readPage(locale);
-    assert.equal(page.ctaPrimaryHref, expected);
-  }
   assert.equal(SOTUVCHI_BOT_USERNAME, 'gptbot_market_bot');
   assert.equal(sotuvchiSellerStartUrl(), expected);
   assert.equal(sotuvchiSellerCtaHref(), expected);
@@ -1062,18 +1066,27 @@ test('the landing copy makes no unsafe or fabricated claim', () => {
   }
   const ru = JSON.stringify(readPage('ru'));
   const uz = JSON.stringify(readPage('uz'));
-  // The pages must say plainly that the bot does not invent numbers…
-  assert.ok(ru.includes('не выдумывает'));
-  assert.ok(uz.includes('o‘ylab topmaydi'));
-  // …that the service is independent…
-  assert.ok(ru.includes('независимый'));
-  assert.ok(uz.includes('mustaqil'));
-  // …and must explicitly deny an affiliation rather than imply one.
-  assert.ok(ru.includes('Мы не связаны с Telegram, OpenAI'));
-  assert.ok(uz.includes('Telegram, OpenAI va boshqa kompaniyalar bilan bog‘liq emasmiz'));
-  // No payment promise and no guaranteed growth.
-  assert.ok(ru.includes('Не обещаем рост продаж'));
-  assert.ok(uz.includes('Savdo o‘sishini va natijani kafolatlamaymiz'));
+  // The pages must say plainly that unsupported facts are never invented.
+  assert.ok(ru.includes('не должен их придумывать'));
+  assert.ok(uz.includes('o‘ylab topmasligi kerak'));
+  // Brand architecture stays explicit: buyer product + seller mode by GPTBot.
+  assert.ok(ru.includes('GPTBot Market'));
+  assert.ok(ru.includes('Sotuvchi by GPTBot'));
+  assert.ok(uz.includes('GPTBot Market'));
+  assert.ok(uz.includes('Sotuvchi by GPTBot'));
+  // The service must deny acting on behalf of Telegram/OpenAI.
+  assert.ok(ru.includes('не выступает от имени Telegram, OpenAI'));
+  assert.ok(uz.includes('Telegram, OpenAI yoki ulangan do‘konlar nomidan chiqmaydi'));
+  // AI and statistics copy match the production contracts.
+  assert.ok(ru.includes('AI-selection отключён'));
+  assert.ok(uz.includes('AI-selection o‘chirilgan'));
+  assert.ok(ru.includes('за сегодня'));
+  assert.ok(uz.includes('Bugungi'));
+  // No payment promise and no invented pilot fee or SLA.
+  assert.ok(ru.includes('не принимает оплату'));
+  assert.ok(uz.includes('to‘lov qabul qilmaydi'));
+  assert.ok(ru.includes('Срок, цена пилота, SLA и результат не объявлены'));
+  assert.ok(uz.includes('Pilot muddati, narxi, SLA va natijasi e’lon qilinmagan'));
 });
 
 test('the landing pages are reachable from an existing money page', () => {

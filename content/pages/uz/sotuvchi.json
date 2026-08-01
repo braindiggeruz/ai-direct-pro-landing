@@ -4,221 +4,162 @@
   "url": "/uz/sotuvchi/",
   "slug": "sotuvchi",
   "pageType": "money",
-  "primaryKeyword": "Sotuvchi — Telegram'da do'kon",
+  "primaryKeyword": "GPTBot Market — Telegramda mahsulot qidirish",
   "secondaryKeywords": [
-    "saytsiz Telegram do'kon",
-    "buyurtma qabul qiluvchi bot",
-    "Telegram'da mahsulot katalogi",
-    "Telegram uchun AI sotuvchi"
+    "Telegramda mahsulot topish",
+    "do‘kon katalogi Telegram",
+    "Sotuvchi by GPTBot",
+    "sotuvchiga so‘rov yuborish"
   ],
   "searchIntent": "commercial",
-  "h1": "Sotuvchi — do‘koningiz va sotuvchingiz bitta Telegram botda",
-  "title": "Sotuvchi — Telegram'da do'kon: katalog, javob va buyurtma",
-  "description": "Sotuvchi — mustaqil AI xizmat: sotuvchi katalogni Telegram'da yig'adi, havolani ulashadi, bot faqat katalog bo'yicha javob beradi va buyurtma qabul qiladi.",
+  "h1": "Nima kerakligini yozing — GPTBot ulangan do‘konlar katalogidan mos mahsulotlarni topadi.",
+  "title": "GPTBot Market — Telegram do‘kon kataloglarida mahsulot qidirish",
+  "description": "GPTBot Market ulangan kataloglardan mahsulot topish va taqqoslashga yordam beradi. Sotuvchi by GPTBot — tekshiriladigan sotuvchi rejimi. So‘rov to‘lov emas.",
   "canonical": "https://gptbot.uz/uz/sotuvchi/",
   "hreflangRu": "/ru/sotuvchi/",
   "hreflangUz": "/uz/sotuvchi/",
-  "ogTitle": "Sotuvchi — Telegram'da do'kon: katalog, javob va buyurtma",
-  "ogDescription": "Sotuvchi katalogni Telegram'da yig'adi, havolani ulashadi, bot katalog bo'yicha javob beradi va buyurtma qabul qiladi. Murakkab savol odamga uzatiladi.",
-  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "ogTitle": "GPTBot Market — ulangan kataloglardan mos mahsulotlar",
+  "ogDescription": "Mahsulot, byudjet va muhim parametrlarni yozing. GPTBot tasdiqlangan variantlarni ko‘rsatadi, odam kerak bo‘lsa sotuvchiga uzatadi.",
+  "ogImage": "https://gptbot.uz/assets/market/og-market-uz.png",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "Sotuvchi",
-  "heroTitle": "Sotuvchi — do‘koningiz va sotuvchingiz bitta Telegram botda",
-  "heroSubtitle": "Katalogni to‘g‘ridan-to‘g‘ri yozishmada yig‘ing, xaridorga bitta havola bering — bot katalogingiz bo‘yicha javob beradi, buyurtmani rasmiylashtiradi va bilmagan savolini sizga uzatadi.",
-  "ctaPrimaryLabel": "Pilotda qatnashish",
-  "ctaPrimaryHref": "https://t.me/gptbot_market_bot?start=agent_seller",
-  "ctaSecondaryLabel": "Qanday ishlaydi",
-  "ctaSecondaryHref": "#how",
+  "breadcrumbLabel": "GPTBot Market",
+  "heroTitle": "Nima kerakligini yozing — GPTBot ulangan do‘konlar katalogidan mos mahsulotlarni topadi.",
+  "heroSubtitle": "Oddiy yozing: kategoriya, byudjet va muhim parametrlar. Javob faqat katalogdagi tasdiqlangan ma’lumotlarga tayanadi.",
+  "ctaPrimaryLabel": "Telegramda demoni ochish",
+  "ctaPrimaryHref": "https://t.me/gptbot_market_bot?start=buyer_site_uz",
+  "ctaSecondaryLabel": "Men sotuvchiman",
+  "ctaSecondaryHref": "#seller",
+  "heroTrust": [
+    "Ulangan kataloglar",
+    "Narx va qoldiq bazadan",
+    "So‘rov — to‘lov emas"
+  ],
+  "designVariant": "warm-market-signals",
   "bodyBlocks": [
     {
+      "type": "h2",
+      "text": "Xaridor uchun: so‘rovdan mos variantgacha qisqa yo‘l",
+      "id": "buyer"
+    },
+    {
       "type": "p",
-      "text": "Sotuvchi — do‘koningiz katalogini saqlaydigan va siz o‘rniga xaridor bilan gaplashadigan Telegram bot: mahsulotni ko‘rsatadi, katalogdagi narxni aytadi, buyurtmani yig‘adi va savol katalogdan tashqariga chiqsa sizni chaqiradi."
+      "text": "GPTBot Market so‘rovni ulangan katalogdagi nomlar, kategoriyalar, tasdiqlangan sinonimlar, byudjet va xususiyatlar bilan solishtiradi. Ma’lumot yetmasa, bot bitta aniqlashtiruvchi savol beradi yoki so‘rovni o‘zgartirishni rost aytadi."
     },
     {
       "type": "h2",
-      "text": "Kimga mos"
+      "text": "Sotuvchi uchun: Sotuvchi by GPTBot",
+      "id": "seller"
+    },
+    {
+      "type": "p",
+      "text": "Tekshirilgan katalogni ulang — GPTBot xaridorlarga mos mahsulot topishda yordam beradi va odam kerak bo‘lgan so‘rovlarni Sizga uzatadi. Ulanishni GPTBot jamoasi egani tekshirgandan keyin bajaradi; «Men sotuvchiman» tugmasi huquq bermaydi va do‘kon yaratmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Mahsulotda tasdiqlangan imkoniyatlar"
     },
     {
       "type": "list",
       "items": [
-        "Bugun Direct va shaxsiy xabarlarga qo‘lda javob beradigan yakka sotuvchiga",
-        "Sayti va CRM'i yo‘q kichik do‘konga",
-        "Instagram yoki Telegram orqali sotadigan va kechasi arizalarni yo‘qotadiganlarga",
-        "Assortimenti 20 tagacha va tushunarli bo‘lganlarga"
+        "Qidiruv, maksimal byudjet filtri va uchtagacha mahsulotni taqqoslash",
+        "Narx, mavjudlik, do‘kon va xususiyatlar faqat katalogdan",
+        "Yuborishdan oldin narx va mavjudlik qayta tekshiriladigan bitta mahsulot so‘rovi",
+        "Matni cheklangan muddat saqlanadigan sotuvchiga savol",
+        "Bugungi aniq operatsion ko‘rsatkichlar; mahsulot to‘lov va tushumni hisoblamaydi"
       ]
     },
     {
       "type": "h2",
-      "text": "Qanday ishlaydi",
-      "id": "how"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Do‘konni to‘g‘ridan-to‘g‘ri Telegram'da yaratasiz: nom, yetkazib berish, to‘lov usuli",
-        "Mahsulot qo‘shasiz: nom, narx, mavjudlik",
-        "Vitrina havolasini olasiz va uni profil shapkasiga yoki statusga qo‘yasiz",
-        "Xaridor havolani ochadi va odatdagidek so‘raydi",
-        "Bot faqat sizning katalogingiz bo‘yicha javob beradi",
-        "Xaridor buyurtma beradi: miqdor, ism, telefon, manzil, tasdiq",
-        "Siz buyurtmani tasdiqlaysiz, qoldiq bir marta yechiladi",
-        "Tushunarsiz savolni bot sizga uzatadi, javobingiz xaridorga belgi bilan boradi"
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "Bot nima qila oladi"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Katalog: kategoriyalar, mahsulotlar, nashr qilish va yashirish",
-        "«Nima bor», «qancha turadi», «bormi», «haqida ayting» savollariga javob",
-        "Ko‘rsatilgan summadan arzon mahsulotlarni tanlash",
-        "Bitta mahsulot bo‘yicha miqdor bilan buyurtma rasmiylashtirish",
-        "Buyurtmalar ro‘yxati, tasdiqlash, bekor qilish va yakunlash",
-        "Qoldiq hisobi va tasdiqlashda yechish",
-        "Sotuvchiga savollar navbati va xaridorga javob",
-        "/stats buyrug‘i bo‘yicha 7 kunlik do‘kon hisoboti"
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "Bot narx va mavjudlikni o‘ylab topmaydi"
+      "text": "Mahsulot so‘rovni qanday qayta ishlaydi"
     },
     {
       "type": "p",
-      "text": "Bu mahsulotning asosiy texnik qarori. Narx, mavjudlik va buyurtma holati faqat sizning katalogingiz va ma’lumotlar bazasidan olinadi, javob matni esa shablonlardan yig‘iladi. Til modeli faqat savolni tushunish uchun ishlatiladi va hech qachon raqam yozmaydi. Mahsulot katalogda bo‘lmasa, bot topmaganini rostini aytadi va sizni chaqirishni taklif qiladi."
+      "text": "Hozirgi production-versiyada amal tanlash deterministik: AI-selection o‘chirilgan. Bot har qanday savolni tushunishni va’da qilmaydi va til modeli bilan fakt qo‘shmaydi. So‘rov yopiq qo‘llab-quvvatlangan stsenariylardan tashqariga chiqsa, xavfsiz qaytish yo‘lini yoki odamni taklif qiladi."
     },
     {
       "type": "h2",
-      "text": "Rus va o‘zbek tili"
+      "text": "So‘rov — bu to‘lov emas",
+      "id": "request"
     },
     {
       "type": "p",
-      "text": "Bot rus tilidagi, lotin yozuvidagi o‘zbekcha va aralash savollarni tushunadi — xaridorlar aslida qanday yozsa, shunday. Javoblar do‘kon tilida keladi: rus tili yoki Uzbek Latin."
+      "text": "So‘rov tasdiqlangach, sotuvchi bog‘lanish va bajarish uchun kerak bo‘lgan ma’lumotlarni oladi. GPTBot pul qabul qilmaydi, to‘lov rekvizitlarini saqlamaydi, sotuvchi emas va yetkazib berish shartlarini va’da qilmaydi. Keyingi qadamni do‘konning o‘zi bildiradi."
     },
     {
       "type": "h2",
-      "text": "Murakkab savol odamga uzatiladi"
+      "text": "Tekshiriladigan sotuvchi piloti"
     },
     {
       "type": "p",
-      "text": "Xaridor istalgan payt sotuvchini so‘rashi mumkin. Savol sizning navbatingizga tushadi, siz keyingi xabar bilan javob berasiz va xaridor javobni «sotuvchi javobi» belgisi bilan oladi. Savol va javob matni cheklangan muddat saqlanadi, so‘ng tozalanadi."
+      "text": "Store Pilot #1 hali boshlanmagan. Biz rozilik bergan va tekshirilgan bitta sotuvchini 10–30 ta tasdiqlangan mahsulot bilan ulashga tayyorlanyapmiz. Pilot muddati, narxi, SLA va natijasi e’lon qilinmagan. GPTBot egasining alohida ruxsatisiz real do‘kon yaratilmaydi."
     },
     {
       "type": "h2",
-      "text": "Biz nima qilmaymiz"
+      "text": "Ma’lumot va javobgarlik chegaralari",
+      "id": "trust"
     },
     {
       "type": "list",
       "items": [
-        "Bot orqali to‘lov o‘tkazmaymiz — rekvizitlarni matn bilan ko‘rsatasiz",
-        "Fiskal cheklar chiqarmaymiz",
-        "Savdo o‘sishini va natijani kafolatlamaymiz",
-        "Sotuvchini to‘liq almashtirmaymiz: murakkab qaror sizda qoladi"
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "Pilot",
-      "id": "pilot"
-    },
-    {
-      "type": "p",
-      "text": "Sotuvchi hozir yopiq pilotda: cheklangan sonli do‘konni qo‘lda ulaymiz va nima ishlayotganini birga tahlil qilamiz. Botga havola va kirishni ulash paytida GPTBot jamoasi beradi. Pilotga tushmoqchi bo‘lsangiz, bizga Telegram'da yozing."
-    },
-    {
-      "type": "cta",
-      "text": "Pilot haqida Telegram'da yozish",
-      "href": "https://t.me/XGame_changerx"
-    },
-    {
-      "type": "h2",
-      "text": "Ma’lumot va maxfiylik"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Xaridor yozishmasi suhbat tarixi sifatida saqlanmaydi",
-        "Ism, telefon va manzil faqat buyurtmada saqlanadi va faqat do‘kon egasiga ko‘rinadi",
-        "Sotuvchiga savol va javob matni saqlash muddati tugagach tozalanadi",
-        "Analitikaga matn, ism, telefon va manzil tushmaydi",
-        "Bir do‘kon ma’lumoti boshqa do‘konga ochiq emas"
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "Asosiysi"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Sotuvchi — Telegram'dagi sotuvchilar uchun mustaqil AI xizmat.",
-        "Do‘kon katalogi — narx va mavjudlikning yagona manbasi.",
-        "Bot javob beradi, buyurtma rasmiylashtiradi va murakkabini odamga uzatadi.",
-        "Rus tili va Uzbek Latin birinchi kundan.",
-        "Hozir qo‘lda ulanadigan yopiq pilot davom etmoqda."
+        "Do‘kon katalog, narx, qoldiq, mahsulot, aloqa va bajarishga javob beradi",
+        "GPTBot so‘rovni ulangan katalog bilan xavfsiz solishtirish va so‘rovni uzatishga javob beradi",
+        "Yozishma global tarix sifatida saqlanmaydi; analitika matn, ism, telefon va manzilni qabul qilmaydi",
+        "Bir do‘kon ma’lumoti boshqasidan yopiq; sotuvchi huquqi serverda tekshiriladi",
+        "Do‘kon pauza yoki blok holatida yangi so‘rov qabul qilmaydi"
       ]
     }
   ],
   "faq": [
     {
-      "q": "Siz Telegram yoki OpenAI bilan bog‘liqmisiz?",
-      "a": "Yo‘q. Sotuvchi — GPTBot.uz'ning mustaqil xizmati. Biz Telegram, OpenAI va boshqa kompaniyalar bilan bog‘liq emasmiz va ular nomidan chiqmaymiz."
+      "q": "GPTBot Market mahsulot sotadimi?",
+      "a": "Yo‘q. Mahsulotni ulangan do‘kon sotadi. GPTBot katalogdan variant topish va so‘rovni sotuvchiga uzatishga yordam beradi."
     },
     {
-      "q": "Bot noto‘g‘ri narx aytishi mumkinmi?",
-      "a": "Narx faqat sizning katalogingizdan olinadi, javob matni esa shablonlardan yig‘iladi. Til modeli raqam yozishga haqli emas, raqami katalog ma’lumotiga mos kelmagan javob esa yuborilmaydi."
+      "q": "Narx va mavjudlik qayerdan olinadi?",
+      "a": "Faqat ulangan katalog va qoldiq bazasidan. Tasdiqlangan ma’lumot bo‘lmasa, bot uni o‘ylab topmasligi kerak."
     },
     {
-      "q": "Sayt yoki Mini App kerakmi?",
-      "a": "Yo‘q. Do‘kon, katalog va buyurtmalar Telegram yozishmasida yashaydi. Alohida veb-ilova pilotga kirmaydi."
+      "q": "Bot ichida to‘lash mumkinmi?",
+      "a": "Yo‘q. GPTBot Market to‘lov qabul qilmaydi, to‘lov rekvizitlarini saqlamaydi va kassa yoki escrow emas."
     },
     {
-      "q": "Bot orqali to‘lovni qabul qilish mumkinmi?",
-      "a": "Yo‘q. Pilotda to‘lov o‘tkazilmaydi: rekvizit va shartlarni matn bilan ko‘rsatasiz, bot esa buyurtmani qayd etadi."
+      "q": "So‘rovdan keyin sotuvchi nimani oladi?",
+      "a": "Faqat xaridor aloqa va bajarish uchun tasdiqlagan ma’lumotlarni. Tasdiqlashdan oldin orqaga qaytib, kiritilgan ma’lumotni tuzatish mumkin."
     },
     {
-      "q": "Nechta mahsulot qo‘shsa bo‘ladi?",
-      "a": "Pilot chegarasi — bitta do‘konga 20 tagacha mahsulot. Gipotezani real assortimentda tekshirish uchun shuncha yetarli."
+      "q": "«Men sotuvchiman» tugmasi panelni ochadimi?",
+      "a": "Yo‘q. U tekshiriladigan pilot va talablarni tushuntiradi. Huquq faqat ega tekshirilgach va serverda aniq do‘konga biriktirilgach paydo bo‘ladi."
     },
     {
-      "q": "Bot savolni tushunmasa nima bo‘ladi?",
-      "a": "U javobni o‘ylab topmaydi. Bot boshqacha yozishni yoki sotuvchini chaqirishni taklif qiladi va so‘rasangiz savolni sizga uzatadi."
+      "q": "Sotuvchiga qanday statistika beriladi?",
+      "a": "Bugungi aniq operatsion ko‘rsatkichlar va hozir ochiq savollar. To‘lov, tushum va foyda hisoblanmaydi."
     },
     {
-      "q": "Do‘kon statistikasini qanday ko‘raman?",
-      "a": "Botga /stats buyrug‘ini yuboring. 7 kunlik hisobotni faqat do‘kon egasi ko‘radi: mahsulotlar, buyurtmalar, tasdiqlar, bekor qilishlar va xaridor savollari."
+      "q": "GPTBot Telegram yoki OpenAI bilan bog‘liqmi?",
+      "a": "Yo‘q. GPTBot.uz mustaqil mahsulot bo‘lib, Telegram, OpenAI yoki ulangan do‘konlar nomidan chiqmaydi."
     },
     {
-      "q": "Narxi qancha?",
-      "a": "Pilot bepul va do‘konlar soni bo‘yicha cheklangan. Pilotdan keyingi shartlar alohida e’lon qilinadi."
+      "q": "O‘zbekcha matn ona tili mutaxassisi tomonidan tekshirilganmi?",
+      "a": "Yo‘q. Uzbek Latin interfeysi tayyorlangan; ona tili mutaxassisi tomonidan mustaqil tekshiruv hali o‘tkazilmagan va da’vo qilinmaydi."
     }
   ],
   "internalLinks": [
     {
+      "target": "/uz/market-ishonch/",
+      "anchor": "GPTBot Market ishonch markazi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/dokon-uchun-ai-bot/",
-      "anchor": "Do'kon uchun AI bot",
+      "anchor": "Do‘kon uchun AI bot",
       "locale": "uz",
       "type": "contextual"
     },
     {
       "target": "/uz/telegram-bot-biznes-uchun/",
       "anchor": "Telegram bot biznes uchun",
-      "locale": "uz",
-      "type": "contextual"
-    },
-    {
-      "target": "/uz/savdoni-avtomatlashtirish/",
-      "anchor": "Savdoni avtomatlashtirish",
-      "locale": "uz",
-      "type": "contextual"
-    },
-    {
-      "target": "/uz/arizalarni-avtomatlashtirish/",
-      "anchor": "Arizalarni avtomatlashtirish",
       "locale": "uz",
       "type": "contextual"
     }
@@ -230,7 +171,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-07-28",
+  "lastReviewedAt": "2026-08-01",
   "createdAt": "2026-07-28T00:00:00Z",
-  "updatedAt": "2026-07-28"
+  "updatedAt": "2026-08-01"
 }

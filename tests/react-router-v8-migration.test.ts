@@ -135,7 +135,7 @@ test('the current productization baseline preserves every public and admin route
   const after = collectRouteInventory('after');
   const diff = compareRouteInventories(before, after);
   assert.equal(diff.status, 'pass');
-  assert.equal(after.counts.total_route_patterns, 257);
+  assert.equal(after.counts.total_route_patterns, 259);
   assert.deepEqual(diff.added_static_routes, []);
   assert.deepEqual(diff.removed_static_routes, []);
   assert.deepEqual(diff.added_admin_routes, []);
@@ -193,10 +193,10 @@ test('prerender generation remains part of the route contract', () => {
   );
 });
 
-test('sitemap generation retains all 232 static canonical entries', () => {
+test('sitemap generation retains all 234 static canonical entries', () => {
   const inventory = collectRouteInventory('migration-test');
   assert.equal(inventory.invariants.sitemap_generation_present, true);
-  assert.equal(inventory.counts.sitemap_entries, 232);
+  assert.equal(inventory.counts.sitemap_entries, 234);
 });
 
 test('first-party automation routes remain present', () => {
