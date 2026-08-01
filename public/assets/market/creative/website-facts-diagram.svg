@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Approved catalog → GPTBot → buyer</title>
+  <desc id="desc">Diagram of grounded facts moving from approved catalog through GPTBot to buyer.</desc>
+  <rect width="1440" height="900" rx="36" fill="#f7f1e7"/>
+  <circle cx="1306" cy="108" r="18" fill="#f26b5b"/>
+  <path d="M108 108h84a28 28 0 0 1 28 28v84a28 28 0 0 1-28 28H108z" fill="#123b3a"/>
+  <path d="M135 147h58M135 174h42M135 201h53" stroke="#f7f1e7" stroke-width="12" stroke-linecap="round"/>
+  <text x="248" y="174" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#f26b5b"><tspan x="248" dy="0">HOW FACTS TRAVEL</tspan></text>
+  <text x="108" y="360" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700" fill="#123b3a"><tspan x="108" dy="0">Approved catalog → GPTBot → buyer</tspan></text>
+  <text x="108" y="485" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#315956"><tspan x="108" dy="0">Price, availability, specifications and store identity remain grounded</tspan><tspan x="108" dy="46">in the connected catalog.</tspan></text>
+  <circle cx="121" cy="600" r="10" fill="#f26b5b"/><text x="150" y="610" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#123b3a"><tspan x="150" dy="0">No catalog fact → no claim</tspan></text><circle cx="121" cy="658" r="10" fill="#f26b5b"/><text x="150" y="668" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#123b3a"><tspan x="150" dy="0">Unknown details go to the seller</tspan></text><circle cx="121" cy="716" r="10" fill="#f26b5b"/><text x="150" y="726" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#123b3a"><tspan x="150" dy="0">Global analytics excludes raw messages</tspan></text>
+  <rect x="108" y="770" width="510" height="80" rx="40" fill="#123b3a"/>
+  <text x="152" y="821" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#ffffff"><tspan x="152" dy="0">Trust Center</tspan></text>
+  <text x="1052" y="821" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5b7774"><tspan x="1052" dy="0">SYNTHETIC / TEMPLATE</tspan></text>
+</svg>

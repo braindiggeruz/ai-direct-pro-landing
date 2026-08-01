@@ -37,15 +37,15 @@ const COMMANDS_UZ: readonly TelegramAgentCommand[] = [
 ];
 
 const RU_DESCRIPTION = [
-  'GPTBot Agents тестовый магазин: поиск и сравнение синтетических товаров,',
-  'тестовые заказы и связь с продавцом.',
-  'Реальных брендов, оплаты и доставки здесь нет.',
+  'GPTBot Market помогает найти и сравнить товары по подтверждённым данным',
+  'подключённых каталогов. Сейчас доступен только синтетический демо-каталог.',
+  'GPTBot не принимает оплату и не обещает доставку.',
 ].join(' ');
 
 const UZ_DESCRIPTION = [
-  'GPTBot Agents sinov do‘koni: sintetik mahsulotlarni qidirish va',
-  'taqqoslash, sinov buyurtmalari va sotuvchi bilan aloqa.',
-  'Haqiqiy brend, to‘lov va yetkazib berish bu yerda yo‘q.',
+  'GPTBot Market ulangan kataloglardagi tasdiqlangan ma’lumot asosida',
+  'mahsulot topish va solishtirishga yordam beradi. Hozir faqat sintetik',
+  'demo-katalog mavjud. GPTBot to‘lov qabul qilmaydi va yetkazishni va’da qilmaydi.',
 ].join(' ');
 
 export const TELEGRAM_AGENT_METADATA:
@@ -54,21 +54,21 @@ readonly TelegramAgentLocalizedMetadata[] = [
     commands: COMMANDS_RU,
     description: RU_DESCRIPTION,
     shortDescription:
-      'Безопасный тестовый магазин с синтетическим каталогом.',
+      'GPTBot Market: поиск товаров в подключённых каталогах.',
   },
   {
     languageCode: 'ru',
     commands: COMMANDS_RU,
     description: RU_DESCRIPTION,
     shortDescription:
-      'Безопасный тестовый магазин с синтетическим каталогом.',
+      'GPTBot Market: поиск товаров в подключённых каталогах.',
   },
   {
     languageCode: 'uz',
     commands: COMMANDS_UZ,
     description: UZ_DESCRIPTION,
     shortDescription:
-      'Sintetik katalogli xavfsiz sinov do‘koni.',
+      'GPTBot Market: ulangan kataloglardan mahsulot qidirish.',
   },
 ];
 

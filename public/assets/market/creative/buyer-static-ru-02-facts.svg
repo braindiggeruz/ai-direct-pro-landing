@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="title desc">
+  <title id="title">Видно, откуда взялись данные</title>
+  <desc id="desc">Карточка о происхождении цены и наличия в GPTBot Market.</desc>
+  <rect width="1080" height="1350" rx="36" fill="#f7f1e7"/>
+  <circle cx="963" cy="99" r="18" fill="#d09b3d"/>
+  <path d="M81 133h84a28 28 0 0 1 28 28v84a28 28 0 0 1-28 28H81z" fill="#123b3a"/>
+  <path d="M108 172h58M108 199h42M108 226h53" stroke="#f7f1e7" stroke-width="12" stroke-linecap="round"/>
+  <text x="221" y="197" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#d09b3d"><tspan x="221" dy="0">ФАКТЫ, А НЕ ДОГАДКИ</tspan></text>
+  <text x="81" y="350" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#123b3a"><tspan x="81" dy="0">Видно, откуда взялись</tspan><tspan x="81" dy="74">данные</tspan></text>
+  <text x="81" y="538" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#315956"><tspan x="81" dy="0">У каждого варианта указаны магазин, цена,</tspan><tspan x="81" dy="48">наличие и дата обновления.</tspan></text>
+  <circle cx="94" cy="684" r="10" fill="#d09b3d"/><text x="123" y="694" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" fill="#123b3a"><tspan x="123" dy="0">Без выдуманных скидок</tspan></text><circle cx="94" cy="766" r="10" fill="#d09b3d"/><text x="123" y="776" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" fill="#123b3a"><tspan x="123" dy="0">Если данных нет — GPTBot скажет об</tspan><tspan x="123" dy="40">этом</tspan></text>
+  <rect x="81" y="1110" width="510" height="92" rx="46" fill="#123b3a"/>
+  <text x="125" y="1169" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#ffffff"><tspan x="125" dy="0">Посмотреть демо</tspan></text>
+  <line x1="81" y1="1201" x2="999" y2="1201" stroke="#d8cfc1" stroke-width="2"/>
+  <text x="81" y="1245" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5b7774"><tspan x="81" dy="0">GPTBot Market  •  SYNTHETIC / TEMPLATE</tspan></text>
+</svg>
