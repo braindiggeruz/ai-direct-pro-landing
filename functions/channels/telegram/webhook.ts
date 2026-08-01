@@ -30,6 +30,7 @@ const SECRET_HEADER = 'x-telegram-bot-api-secret-token';
 const MAX_BODY_BYTES = 64 * 1024;
 
 export type TelegramAgentsSafeLogCode =
+  | 'schema_unavailable'
   | 'dedup_unavailable'
   | 'identity_failed'
   | 'context_failed'
@@ -71,6 +72,8 @@ export interface TelegramAgentsWebhookDependencies {
   contexts: TelegramAgentContextResolver;
   runtime: TelegramAgentRuntimePort;
   delivery: TelegramDeliveryPort;
+  /** Fail-closed production migration contract check, cached per isolate. */
+  schemaReady?: () => Promise<void>;
   rateLimiter?: TelegramRateLimiter;
   telemetry?: TelegramAgentsTelemetry;
   /** Optional durable "where to reach this identity" binding. */
@@ -452,6 +455,15 @@ export async function handleTelegramAgentsWebhook(
     dependencies.webhookSecret,
   );
   if (secret.status === 'invalid') return response('forbidden', 401);
+
+  if (dependencies.schemaReady) {
+    try {
+      await dependencies.schemaReady();
+    } catch {
+      dependencies.logger?.error('schema_unavailable');
+      return response('unavailable', 503);
+    }
+  }
 
   let raw: unknown;
   try {

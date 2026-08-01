@@ -38,12 +38,17 @@ import {
   type StorefrontContext,
 } from '../functions/agents/sotuvchi';
 import {
+  createTelegramAddressBinder,
   createTelegramAgentUpdateStore,
   createTelegramIdentityPort,
   handleTelegramAgentsWebhook,
   type TelegramAgentsWebhookDependencies,
   type TelegramDeliveryPort,
 } from '../functions/channels/telegram';
+import {
+  createChannelAddressBindingPort,
+  createChannelAddressService,
+} from '../functions/platform/channels';
 import type { Locale, OrgContext } from '../functions/platform/contracts';
 import { createIdentityService } from '../functions/platform/identity';
 import { groundResponse } from '../functions/platform/runtime';
@@ -1369,6 +1374,172 @@ test('Telegram UZ seller flow and duplicate updates stay single-effect', async (
       `SELECT COUNT(*) FROM sotuvchi_inventory_moves WHERE type='order_confirmed'`,
     ),
     1,
+  );
+});
+
+// ── Cloudflare lifecycle post-turn scheduling ──────────────────────────────
+
+function lifecycleTelegramHarness(fixture: SqliteD1) {
+  const db = fixture.asD1();
+  const delivery = new MemoryDelivery();
+  const postTurn: Promise<unknown>[] = [];
+  const wiring = createTelegramAgentsRuntimeWiring(db, BOT, delivery, {
+    schedulePostTurn: (promise) => {
+      postTurn.push(promise);
+    },
+  });
+  const dependencies: TelegramAgentsWebhookDependencies = {
+    botUsername: BOT,
+    webhookSecret: SECRET,
+    updates: createTelegramAgentUpdateStore(db),
+    identities: createTelegramIdentityPort(createIdentityService(db)),
+    contexts: wiring.contexts,
+    runtime: wiring.runtime,
+    delivery,
+    addresses: createTelegramAddressBinder(
+      createChannelAddressBindingPort(createChannelAddressService(db)),
+      BOT,
+    ),
+  };
+  async function invoke(raw: unknown) {
+    const scheduled: Promise<unknown>[] = [];
+    const response = await handleTelegramAgentsWebhook(
+      new Request('https://gptbot.uz/api/telegram/agents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Telegram-Bot-Api-Secret-Token': SECRET,
+        },
+        body: JSON.stringify(raw),
+      }),
+      dependencies,
+      (promise) => scheduled.push(promise),
+    );
+    // Only the webhook lifecycle is drained here: post-turn work stays
+    // pending so the test can observe the buyer-facing answer without it.
+    await Promise.all(scheduled);
+    return response;
+  }
+  async function drainPostTurn() {
+    await Promise.all(postTurn.splice(0));
+  }
+  return { delivery, invoke, drainPostTurn, postTurn };
+}
+
+test('scheduled post-turn dispatch leaves the answer first and stays exactly-once', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '830003');
+  const product = await publish(setup, { name: 'Lifecycle Phone' });
+  const buyer = await bindBuyer(fixture, setup, '930003');
+  const orderId = await placeOrder(setup, buyer, product.id, 2);
+  await setup.orders.setInventory(sellerOrg(setup), product.id, 6);
+  const harness = lifecycleTelegramHarness(fixture);
+
+  // One buyer turn binds the durable push address the dispatcher needs.
+  await harness.invoke(telegramMessage(992_000, 930003, 'Привет', 'ru'));
+  await harness.drainPostTurn();
+
+  const response = await harness.invoke(telegramCallback(
+    992_001,
+    830003,
+    `seller-order-confirm.${orderId}`,
+    'ru',
+  ));
+  assert.equal(await response.text(), 'accepted');
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Подтверждён'));
+  // The domain effect is durable before the response, the dispatch is not.
+  assert.equal(fixture.value('SELECT on_hand FROM sotuvchi_inventory'), 4);
+  assert.equal(harness.postTurn.length, 1);
+  const deliveredBeforePostTurn = harness.delivery.sent.length;
+  assert.equal(
+    fixture.value(
+      `SELECT status FROM sotuvchi_notifications WHERE audience='buyer'`,
+    ),
+    'pending',
+  );
+
+  // A scheduled post-turn promise must never reject into waitUntil.
+  await assert.doesNotReject(Promise.all(harness.postTurn));
+  await harness.drainPostTurn();
+  assert.equal(
+    fixture.value(
+      `SELECT status FROM sotuvchi_notifications WHERE audience='buyer'`,
+    ),
+    'sent',
+  );
+  assert.equal(harness.delivery.sent.length, deliveredBeforePostTurn + 1);
+
+  // Every later turn flushes the same outbox again without duplicating it.
+  await harness.invoke(telegramMessage(992_002, 830003, 'Заказы', 'ru'));
+  const deliveredBeforeSecondFlush = harness.delivery.sent.length;
+  await harness.drainPostTurn();
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM sotuvchi_notifications WHERE audience='buyer'`,
+    ),
+    1,
+  );
+  assert.equal(harness.delivery.sent.length, deliveredBeforeSecondFlush);
+  assert.equal(
+    fixture.value(
+      `SELECT COUNT(*) FROM sotuvchi_inventory_moves WHERE type='order_confirmed'`,
+    ),
+    1,
+  );
+});
+
+test('awaited post-turn parity keeps dispatch inside the turn without a scheduler', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '830004');
+  const product = await publish(setup, { name: 'Awaited Phone' });
+  const buyer = await bindBuyer(fixture, setup, '930004');
+  const orderId = await placeOrder(setup, buyer, product.id, 2);
+  await setup.orders.setInventory(sellerOrg(setup), product.id, 6);
+  const db = fixture.asD1();
+  const delivery = new MemoryDelivery();
+  const wiring = createTelegramAgentsRuntimeWiring(db, BOT, delivery);
+  const dependencies: TelegramAgentsWebhookDependencies = {
+    botUsername: BOT,
+    webhookSecret: SECRET,
+    updates: createTelegramAgentUpdateStore(db),
+    identities: createTelegramIdentityPort(createIdentityService(db)),
+    contexts: wiring.contexts,
+    runtime: wiring.runtime,
+    delivery,
+    addresses: createTelegramAddressBinder(
+      createChannelAddressBindingPort(createChannelAddressService(db)),
+      BOT,
+    ),
+  };
+  async function invoke(raw: unknown) {
+    const scheduled: Promise<unknown>[] = [];
+    await handleTelegramAgentsWebhook(
+      new Request('https://gptbot.uz/api/telegram/agents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Telegram-Bot-Api-Secret-Token': SECRET,
+        },
+        body: JSON.stringify(raw),
+      }),
+      dependencies,
+      (promise) => scheduled.push(promise),
+    );
+    await Promise.all(scheduled);
+  }
+  await invoke(telegramMessage(993_000, 930004, 'Привет', 'ru'));
+  await invoke(telegramCallback(
+    993_001,
+    830004,
+    `seller-order-confirm.${orderId}`,
+    'ru',
+  ));
+  // Without a lifecycle scheduler the dispatch is already settled.
+  assert.equal(
+    fixture.value(
+      `SELECT status FROM sotuvchi_notifications WHERE audience='buyer'`,
+    ),
+    'sent',
   );
 });
 

@@ -1,4 +1,7 @@
 import { ensureSotuvchiNotificationsSchema } from '../outbox/schema';
+import {
+  isRuntimeSchemaVerified,
+} from '../../../platform/storage/runtime-schema';
 
 /**
  * P2.5 seller schema: inventory balance and append-only movements, plus the
@@ -70,6 +73,7 @@ function isDuplicateColumn(error: unknown): boolean {
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureSotuvchiOrdersSchema(db: D1Database): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {

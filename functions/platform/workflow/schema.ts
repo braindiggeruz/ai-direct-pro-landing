@@ -1,4 +1,5 @@
 import { ensureOrganizationsSchema } from '../orgs';
+import { isRuntimeSchemaVerified } from '../storage/runtime-schema';
 
 const WORKFLOW_DDL = [
   `CREATE TABLE IF NOT EXISTS workflow_instances (
@@ -48,6 +49,7 @@ const WORKFLOW_DDL = [
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureWorkflowSchema(db: D1Database): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {

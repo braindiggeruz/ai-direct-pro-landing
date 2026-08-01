@@ -1,4 +1,7 @@
 import { ensureSotuvchiCatalogSchema } from '../catalog';
+import {
+  isRuntimeSchemaVerified,
+} from '../../../platform/storage/runtime-schema';
 
 export const SOTUVCHI_CHECKOUT_DDL = [
   `CREATE TABLE IF NOT EXISTS sotuvchi_orders (
@@ -101,6 +104,7 @@ function isDuplicateColumn(error: unknown): boolean {
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureSotuvchiCheckoutSchema(db: D1Database): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {
