@@ -7,6 +7,7 @@ import type {
 import { StatsValidationError } from './errors';
 
 export const SELLER_STATS_ACTION = 'seller-stats';
+export const SELLER_DASHBOARD_ACTION = 'seller-dashboard';
 
 const COPY = {
   ru: {
@@ -30,6 +31,14 @@ const COPY = {
     noPayment: 'Деньги и оплата через бота не считаются.',
     orders: 'Заказы',
     handoffs: 'Вопросы',
+    dashboardTitle: 'Панель магазина.',
+    dashboardProducts: 'Опубликовано товаров',
+    dashboardOrders: 'Заказов оформлено сегодня',
+    dashboardQuestions: 'Открытых вопросов',
+    products: 'Мои товары',
+    stats: 'Статистика',
+    buy: 'Купить товар',
+    more: 'Ещё',
   },
   uz: {
     title: 'Do‘konning bugungi statistikasi.',
@@ -52,6 +61,14 @@ const COPY = {
     noPayment: 'Bot orqali pul va to‘lov hisoblanmaydi.',
     orders: 'Buyurtmalar',
     handoffs: 'Savollar',
+    dashboardTitle: 'Do‘kon paneli.',
+    dashboardProducts: 'Nashr qilingan mahsulotlar',
+    dashboardOrders: 'Bugun rasmiylashtirilgan buyurtmalar',
+    dashboardQuestions: 'Ochiq savollar',
+    products: 'Mening mahsulotlarim',
+    stats: 'Statistika',
+    buy: 'Mahsulot xarid qilish',
+    more: 'Yana',
   },
 } as const;
 
@@ -113,6 +130,39 @@ export function composeStatsResponse(
       choices: [
         { id: 'seller-orders', label: copy.orders },
         { id: 'seller-handoffs', label: copy.handoffs },
+      ],
+    }],
+    claims,
+  };
+}
+
+/** Compact owner dashboard backed only by the same exact operational query. */
+export function composeDashboardResponse(
+  facts: FactSheet,
+  locale: Locale,
+): RuntimeResponseDraft {
+  if (facts.values['seller.view'] !== 'seller_dashboard') {
+    throw new StatsValidationError();
+  }
+  const copy = COPY[locale] ?? COPY.ru;
+  const claims: RuntimeExactClaim[] = [];
+  const line = (label: string, key: string): string =>
+    `${label}: ${claimNumber(claims, facts, key)}`;
+  return {
+    messages: [{
+      text: [
+        copy.dashboardTitle,
+        line(copy.dashboardProducts, 'seller.stats.products_published'),
+        line(copy.dashboardOrders, 'seller.stats.orders_placed'),
+        line(copy.dashboardQuestions, 'seller.stats.handoffs_open'),
+      ].join('\n'),
+      choices: [
+        { id: 'seller-orders', label: copy.orders },
+        { id: 'catalog-my-products', label: copy.products },
+        { id: 'seller-handoffs', label: copy.handoffs },
+        { id: 'seller-stats', label: copy.stats },
+        { id: 'seller-buyer-mode', label: copy.buy },
+        { id: 'seller-more', label: copy.more },
       ],
     }],
     claims,

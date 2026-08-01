@@ -2,6 +2,7 @@ import type { FactValue } from '../../../platform/contracts';
 import type { SotuvchiStatsReport } from './types';
 
 export type StatsFactValues = Readonly<Record<string, FactValue>>;
+export type StatsView = 'seller_stats' | 'seller_dashboard';
 
 /**
  * Scalar-only projection. Exact counts and best-effort funnel counters live in
@@ -10,9 +11,10 @@ export type StatsFactValues = Readonly<Record<string, FactValue>>;
  */
 export function projectStatsFacts(
   report: SotuvchiStatsReport,
+  view: StatsView = 'seller_stats',
 ): StatsFactValues {
   return {
-    'seller.view': 'seller_stats',
+    'seller.view': view,
     'seller.stats.window_days': report.windowDays,
     'seller.stats.products_published': report.exact.productsPublished,
     'seller.stats.checkouts_started': report.exact.checkoutsStarted,

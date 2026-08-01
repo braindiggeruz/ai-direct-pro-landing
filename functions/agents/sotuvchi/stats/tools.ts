@@ -5,11 +5,16 @@ import {
   type Tool,
 } from '../../../platform/contracts';
 import { StatsAuthorizationError, StatsValidationError } from './errors';
-import { projectStatsFacts, type StatsFactValues } from './facts';
-import { composeStatsResponse } from './responses';
+import {
+  projectStatsFacts,
+  type StatsFactValues,
+  type StatsView,
+} from './facts';
+import { composeDashboardResponse, composeStatsResponse } from './responses';
 import type { SotuvchiStatsService } from './service';
 
 export const SELLER_STATS_TOOL = 'seller.stats.get';
+export const SELLER_DASHBOARD_TOOL = 'seller.dashboard.get';
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
@@ -49,7 +54,32 @@ function statsTool(): Tool<Record<string, never>, StatsFactValues> {
   };
 }
 
-export const sotuvchiStatsTools = [eraseTool(statsTool())] as const;
+function dashboardTool(): Tool<Record<string, never>, StatsFactValues> {
+  return {
+    name: SELLER_DASHBOARD_TOOL,
+    description: 'Show exact store counters for the authenticated owner.',
+    inputSchema: emptySchema,
+    async run(context, input) {
+      const domain = context.services.agentDomain;
+      if (!domain) throw new StatsAuthorizationError();
+      return domain.execute({
+        agentId: 'sotuvchi',
+        operation: SELLER_DASHBOARD_TOOL,
+        org: context.org,
+        input,
+      });
+    },
+    facts(values) {
+      return { toolName: SELLER_DASHBOARD_TOOL, values };
+    },
+    response: { compose: composeDashboardResponse },
+  };
+}
+
+export const sotuvchiStatsTools = [
+  eraseTool(statsTool()),
+  eraseTool(dashboardTool()),
+] as const;
 
 const STATS_OPERATIONS = new Set(sotuvchiStatsTools.map((tool) => tool.name));
 
@@ -58,11 +88,14 @@ export function createSotuvchiStatsDomainPort(
 ): AgentDomainServicePort {
   return {
     async execute(call) {
-      if (call.agentId !== 'sotuvchi' || call.operation !== SELLER_STATS_TOOL) {
+      if (call.agentId !== 'sotuvchi' || !STATS_OPERATIONS.has(call.operation)) {
         throw new StatsAuthorizationError();
       }
       emptySchema.parse(call.input);
-      return projectStatsFacts(await service.getStats(call.org));
+      const view: StatsView = call.operation === SELLER_DASHBOARD_TOOL
+        ? 'seller_dashboard'
+        : 'seller_stats';
+      return projectStatsFacts(await service.getStats(call.org), view);
     },
   };
 }

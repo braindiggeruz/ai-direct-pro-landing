@@ -81,10 +81,11 @@ function sellerContext(
   input: TelegramAgentContextInput,
   fromStart: boolean,
   replyWorkflow?: { instanceId: string; expectedVersion: number } | null,
+  completedEntryAction = 'seller-dashboard',
 ): TelegramAgentContext {
   const active = snapshot.status === 'active';
   const entryActionId = snapshot.status === 'completed'
-    ? 'seller-status'
+    ? completedEntryAction
     : snapshot.status === 'cancelled'
       ? 'seller-cancelled'
       : fromStart
@@ -162,6 +163,119 @@ export function createTelegramAgentsRuntimeWiring(
     };
   }
 
+  async function sellerEntryAction(
+    snapshot: SotuvchiOnboardingSnapshot,
+  ): Promise<'seller-dashboard' | 'seller-paused' | 'seller-suspended'> {
+    if (!snapshot.store || snapshot.store.status !== 'active') {
+      return 'seller-suspended';
+    }
+    const active = await catalog.resolveStorefrontContext({
+      orgId: snapshot.orgId,
+      storeId: snapshot.store.id,
+      agentId: 'sotuvchi',
+      locale: snapshot.draft.locale ?? snapshot.store.locale,
+    }).then(() => true).catch(() => false);
+    return active ? 'seller-dashboard' : 'seller-paused';
+  }
+
+  async function completedSellerContext(
+    snapshot: SotuvchiOnboardingSnapshot,
+    input: TelegramAgentContextInput,
+  ): Promise<TelegramAgentContext | null> {
+    // A checkout remains the active task even for an owner temporarily buying
+    // from the storefront. `/start` and seller navigation cannot discard it.
+    const checkoutRef = await checkout.getActiveWorkflowRef(
+      input.telegramIdentityId,
+    );
+    if (checkoutRef) {
+      const storefront = await catalog.resolveStoredStorefrontContext(
+        botUsername,
+        input.telegramIdentityId,
+      );
+      if (storefront?.orgId === checkoutRef.orgId) {
+        return storefrontContext(
+          storefront.orgId,
+          storefront.agentId,
+          storefront.locale,
+          input.telegramIdentityId,
+          'storefront-start',
+        );
+      }
+    }
+
+    const entryAction = await sellerEntryAction(snapshot);
+    if (
+      input.actionId
+      && new Set([
+        'seller-dashboard',
+        'seller-status',
+        'seller-paused',
+        'seller-suspended',
+      ]).has(input.actionId)
+      && input.actionId !== entryAction
+      && !(input.actionId === 'seller-status' && entryAction === 'seller-dashboard')
+    ) {
+      return null;
+    }
+    if (
+      entryAction !== 'seller-dashboard'
+      && (
+        input.actionId === 'seller-dashboard'
+        || input.actionId === 'seller-status'
+        || input.actionId === 'seller-more'
+      )
+    ) {
+      return null;
+    }
+    return sellerContext(
+      snapshot,
+      input,
+      false,
+      await handoff.getActiveReplyWorkflowRef(
+        snapshot.orgId,
+        input.telegramIdentityId,
+      ),
+      entryAction,
+    );
+  }
+
+  async function sellerInterestContext(
+    input: TelegramAgentContextInput,
+  ): Promise<TelegramAgentContext | null> {
+    const directPilot = await onboarding.resolveDirectPilotStorefront(
+      botUsername,
+    );
+    if (!directPilot) return null;
+    const storefront = {
+      orgId: directPilot.orgId,
+      storeId: directPilot.storeId,
+      agentId: directPilot.agentId,
+      locale: input.locale,
+    } as const;
+    await catalog.bindStorefrontSession({
+      botUsername,
+      identityId: input.telegramIdentityId,
+      context: storefront,
+    });
+    await analytics.record({
+      orgId: storefront.orgId,
+      storeId: storefront.storeId,
+      requestId: input.idempotencyKey,
+      event: {
+        type: 'sotuvchi.bot_started',
+        locale: storefront.locale,
+        source: 'deep_link',
+      },
+    });
+    return storefrontContext(
+      storefront.orgId,
+      storefront.agentId,
+      storefront.locale,
+      input.telegramIdentityId,
+      'seller-interest',
+    );
+  }
+
   const contexts: TelegramAgentContextResolver = {
     async resolve(input) {
       const parsed = parseTelegramStartPayload(input.startPayload);
@@ -173,7 +287,10 @@ export function createTelegramAgentsRuntimeWiring(
           requestId: input.idempotencyKey,
           locale: input.locale,
         });
-        if (!snapshot) return null;
+        if (!snapshot) return sellerInterestContext(input);
+        if (snapshot.status === 'completed') {
+          return completedSellerContext(snapshot, input);
+        }
         return sellerContext(snapshot, input, true);
       }
       if (
@@ -228,15 +345,15 @@ export function createTelegramAgentsRuntimeWiring(
           return sellerContext(snapshot, input, false);
         }
         if (snapshot?.status === 'completed') {
-          return sellerContext(
-            snapshot,
-            input,
-            false,
-            await handoff.getActiveReplyWorkflowRef(
-              snapshot.orgId,
-              input.telegramIdentityId,
-            ),
-          );
+          return completedSellerContext(snapshot, input);
+        }
+        if (snapshot?.status === 'cancelled') {
+          return sellerContext(snapshot, input, false);
+        }
+        // Seller callbacks are invitations only when rendered from the buyer
+        // menu. They never become authority-bearing dashboard actions.
+        if (input.actionId?.startsWith('seller-')) {
+          return null;
         }
         let storefront = await catalog.resolveStoredStorefrontContext(
           botUsername,

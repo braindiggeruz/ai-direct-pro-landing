@@ -31,14 +31,14 @@ import {
 } from './stats';
 import {
   sotuvchiSellerCancelledRule,
-  sotuvchiSellerStatusRule,
+  sotuvchiSellerNavigationRule,
   sotuvchiStorefrontPendingRule,
 } from './rules';
 import { sotuvchiBuyerNavigationRule } from './experience';
 
 export const sotuvchiAgentManifest: AgentManifest = {
   id: 'sotuvchi',
-  version: '1.6.0',
+  version: '1.7.0',
   locales: ['ru', 'uz'],
   capabilities: [
     'store.onboarding',
@@ -56,7 +56,7 @@ export const sotuvchiAgentManifest: AgentManifest = {
   ],
   deterministicRules: [
     sotuvchiStorefrontPendingRule,
-    sotuvchiSellerStatusRule,
+    sotuvchiSellerNavigationRule,
     sotuvchiSellerCancelledRule,
     sotuvchiBuyerNavigationRule,
     ...sotuvchiCatalogRules,
