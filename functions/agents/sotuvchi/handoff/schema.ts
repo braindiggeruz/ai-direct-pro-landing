@@ -1,4 +1,7 @@
 import { ensureChannelAddressSchema } from '../../../platform/channels';
+import {
+  isRuntimeSchemaVerified,
+} from '../../../platform/storage/runtime-schema';
 import { ensureSotuvchiOrdersSchema } from '../orders/schema';
 
 /**
@@ -100,6 +103,7 @@ export const SOTUVCHI_HANDOFF_DDL = [
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureSotuvchiHandoffSchema(db: D1Database): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {

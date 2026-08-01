@@ -1,3 +1,5 @@
+import { isRuntimeSchemaVerified } from '../../platform/storage/runtime-schema';
+
 const DDL = [
   `CREATE TABLE IF NOT EXISTS telegram_agent_updates (
     idempotency_key TEXT PRIMARY KEY,
@@ -57,6 +59,7 @@ const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 export function ensureTelegramAgentUpdateSchema(
   db: D1Database,
 ): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {

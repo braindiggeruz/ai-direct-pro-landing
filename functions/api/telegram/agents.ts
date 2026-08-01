@@ -59,6 +59,7 @@ import {
   createAgentRegistry,
   createAgentRuntime,
 } from '../../platform/runtime';
+import { verifyTelegramAgentsRuntimeSchema } from './agents-schema';
 
 function unavailable(): Response {
   return new Response('unavailable', {
@@ -106,10 +107,19 @@ function sellerContext(
   };
 }
 
+export interface TelegramAgentsRuntimeWiringOptions {
+  /**
+   * Cloudflare lifecycle hook for best-effort analytics and notification
+   * dispatch that must not delay the buyer-facing Telegram response.
+   */
+  schedulePostTurn?: (promise: Promise<unknown>) => void;
+}
+
 export function createTelegramAgentsRuntimeWiring(
   db: D1Database,
   botUsername: string,
   delivery?: TelegramDeliveryPort,
+  options: TelegramAgentsRuntimeWiringOptions = {},
 ) {
   const onboarding = createSotuvchiOnboardingService(db);
   const catalog = createSotuvchiCatalogService(db);
@@ -435,11 +445,18 @@ export function createTelegramAgentsRuntimeWiring(
   const dispatchingRuntime = {
     async run(input: unknown) {
       const result = await runtime.run(input);
-      await recordWorkflowAnalytics(input, result);
       const orgId = input && typeof input === 'object'
         ? (input as { orgId?: unknown }).orgId
         : undefined;
-      await flush(orgId);
+      const postTurn = (async () => {
+        await recordWorkflowAnalytics(input, result);
+        await flush(orgId);
+      })();
+      if (options.schedulePostTurn) {
+        options.schedulePostTurn(postTurn.catch(() => undefined));
+      } else {
+        await postTurn;
+      }
       return result;
     },
   };
@@ -480,7 +497,12 @@ export const onRequestPost: PagesFunction<Env> = async ({
   if (isProtectedAgentBotUsername(botUsername)) return unavailable();
 
   const delivery = createTelegramDeliveryPort(new TelegramClient(token));
-  const wiring = createTelegramAgentsRuntimeWiring(db, botUsername, delivery);
+  const wiring = createTelegramAgentsRuntimeWiring(
+    db,
+    botUsername,
+    delivery,
+    { schedulePostTurn: waitUntil },
+  );
 
   return handleTelegramAgentsWebhook(
     request,
@@ -492,6 +514,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
       contexts: wiring.contexts,
       runtime: wiring.runtime,
       delivery,
+      schemaReady: () => verifyTelegramAgentsRuntimeSchema(db),
       rateLimiter: createTelegramRateLimiter(db, { hashKey: secret }),
       telemetry: {
         async recordError(input) {

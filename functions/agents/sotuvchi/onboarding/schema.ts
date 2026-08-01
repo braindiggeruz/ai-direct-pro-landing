@@ -1,4 +1,7 @@
 import { ensureWorkflowSchema } from '../../../platform/workflow';
+import {
+  isRuntimeSchemaVerified,
+} from '../../../platform/storage/runtime-schema';
 
 const SOTUVCHI_ONBOARDING_DDL = [
   `CREATE TABLE IF NOT EXISTS sotuvchi_onboardings (
@@ -60,6 +63,7 @@ const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 export function ensureSotuvchiOnboardingSchema(
   db: D1Database,
 ): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {

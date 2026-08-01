@@ -1,4 +1,7 @@
 import { ensureSotuvchiCheckoutSchema } from '../checkout/schema';
+import {
+  isRuntimeSchemaVerified,
+} from '../../../platform/storage/runtime-schema';
 
 /**
  * Durable notification outbox shared by two writers: P2.4 order placement
@@ -43,6 +46,7 @@ const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 export function ensureSotuvchiNotificationsSchema(
   db: D1Database,
 ): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {

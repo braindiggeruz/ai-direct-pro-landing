@@ -1,4 +1,7 @@
 import { ensureSotuvchiOnboardingSchema } from '../onboarding';
+import {
+  isRuntimeSchemaVerified,
+} from '../../../platform/storage/runtime-schema';
 
 export const SOTUVCHI_CATALOG_DDL = [
   `CREATE UNIQUE INDEX IF NOT EXISTS idx_sotuvchi_stores_org_id
@@ -203,6 +206,7 @@ function isDuplicateColumn(error: unknown): boolean {
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureSotuvchiCatalogSchema(db: D1Database): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {

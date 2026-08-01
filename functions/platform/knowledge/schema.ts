@@ -1,4 +1,5 @@
 import { ensureOrganizationsSchema } from '../orgs';
+import { isRuntimeSchemaVerified } from '../storage/runtime-schema';
 
 const KNOWLEDGE_DDL = [
   `CREATE TABLE IF NOT EXISTS knowledge_collections (
@@ -51,6 +52,7 @@ const KNOWLEDGE_DDL = [
 const bootstrapped = new WeakMap<D1Database, Promise<void>>();
 
 export function ensureKnowledgeSchema(db: D1Database): Promise<void> {
+  if (isRuntimeSchemaVerified(db)) return Promise.resolve();
   let pending = bootstrapped.get(db);
   if (!pending) {
     pending = (async () => {
