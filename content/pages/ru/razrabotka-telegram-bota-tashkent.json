@@ -824,7 +824,7 @@
         },
         {
           "token": "bot",
-          "target": "/ru/bot-dlya-obrabotki-zayavok/",
+          "target": "/ru/avtomatizatsiya-zayavok/",
           "anchor": "бот для приёма заявок"
         }
       ]
@@ -973,13 +973,7 @@
       "locale": "ru",
       "type": "contextual"
     },
-    {
-      "target": "/ru/razrabotka-sayta-pod-klyuch/",
-      "anchor": "разработка сайта под ключ",
-      "locale": "ru",
-      "type": "contextual"
-    },
-    {
+ {
       "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "AI-бот для бизнеса",
       "locale": "ru",
@@ -1003,13 +997,7 @@
       "locale": "ru",
       "type": "contextual"
     },
-    {
-      "target": "/ru/bot-dlya-obrabotki-zayavok/",
-      "anchor": "бот для приёма заявок",
-      "locale": "ru",
-      "type": "contextual"
-    },
-    {
+ {
       "target": "/ru/stoimost-chat-bota/",
       "anchor": "стоимость чат-бота",
       "locale": "ru",

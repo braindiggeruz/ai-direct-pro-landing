@@ -413,7 +413,7 @@
       "links": [
         {
           "token": "crm",
-          "target": "/ru/bot-dlya-obrabotki-zayavok/",
+          "target": "/ru/avtomatizatsiya-zayavok/",
           "anchor": "бот для обработки заявок"
         },
         {
@@ -863,7 +863,7 @@
       "priority": 2
     },
     {
-      "target": "/ru/bot-dlya-obrabotki-zayavok/",
+      "target": "/ru/avtomatizatsiya-zayavok/",
       "anchor": "бот для обработки заявок",
       "locale": "ru",
       "type": "contextual",

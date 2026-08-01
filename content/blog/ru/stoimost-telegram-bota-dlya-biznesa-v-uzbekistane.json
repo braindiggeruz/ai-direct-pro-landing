@@ -151,15 +151,8 @@
       "type": "contextual",
       "priority": 2
     },
-    {
-      "target": "/ru/bot-dlya-obrabotki-zayavok/",
-      "anchor": "бот для обработки заявок",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 3
-    },
-    {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
+ {
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",

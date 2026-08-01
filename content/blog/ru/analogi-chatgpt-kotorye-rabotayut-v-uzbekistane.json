@@ -7,7 +7,7 @@
   "description": "Обзор аналогов ChatGPT, доступных в Узбекистане: Gemini, Claude, YandexGPT, DeepSeek и другие. Чем различаются, что бесплатно и что выбрать под свою задачу.",
   "h1": "Аналоги ChatGPT, которые работают в Узбекистане",
   "topicCluster": "ai-bot-basics",
-  "targetMoneyPage": "/ru/gpt-bot-dlya-biznesa/",
+  "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
     "аналог чат гпт",
     "аналоги ChatGPT",
@@ -106,7 +106,7 @@
     {
       "type": "cta",
       "text": "Сделать GPT-бота для своего бизнеса",
-      "href": "/ru/gpt-bot-dlya-biznesa/"
+      "href": "/ru/ai-bot-dlya-biznesa/"
     },
     {
       "type": "h2",
@@ -174,7 +174,7 @@
   ],
   "internalLinks": [
     {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",

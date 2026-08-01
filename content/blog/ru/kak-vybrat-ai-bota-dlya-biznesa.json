@@ -289,14 +289,7 @@
       "type": "contextual",
       "priority": 1
     },
-    {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
-      "anchor": "GPT-бот для бизнеса",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 2
-    },
-    {
+ {
       "target": "/ru/telegram-bot-dlya-biznesa/",
       "anchor": "Telegram-бот для бизнеса",
       "locale": "ru",

@@ -440,14 +440,7 @@
       "type": "contextual",
       "priority": 3
     },
-    {
-      "target": "/ru/razrabotka-sayta-pod-klyuch/",
-      "anchor": "разработка сайта под ключ",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 4
-    },
-    {
+ {
       "target": "/ru/blog/seo-audit-sayta-chek-list/",
       "anchor": "SEO-аудит сайта",
       "locale": "ru",

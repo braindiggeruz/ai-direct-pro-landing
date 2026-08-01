@@ -7,7 +7,7 @@
   "description": "Как зарегистрироваться и оплатить ChatGPT и Claude из Узбекистана: тарифы в сумах, оплата картой узбекского банка без VPN и посредников, сравнение с Gemini.",
   "h1": "ChatGPT и Claude в Узбекистане 2026: полный гид по регистрации, оплате и внедрению",
   "topicCluster": "ai-bot-basics",
-  "targetMoneyPage": "/ru/gpt-bot-dlya-biznesa/",
+  "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
     "ChatGPT в Узбекистане",
     "купить подписку Claude в Ташкенте",
@@ -364,7 +364,7 @@
   },
   "internalLinks": [
     {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",

@@ -7,7 +7,7 @@
   "description": "GPT чат-бот простыми словами: как языковая модель отвечает клиентам на русском и узбекском, чем GPT-бот отличается от кнопочного и как его запустить в бизнесе.",
   "h1": "GPT чат-бот на русском и узбекском: как работает",
   "topicCluster": "ai-bot-basics",
-  "targetMoneyPage": "/ru/gpt-bot-dlya-biznesa/",
+  "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
     "gpt чат бот",
     "gpt бот",
@@ -100,7 +100,7 @@
     {
       "type": "cta",
       "text": "Запустить GPT-бота для своего бизнеса",
-      "href": "/ru/gpt-bot-dlya-biznesa/"
+      "href": "/ru/ai-bot-dlya-biznesa/"
     },
     {
       "type": "h2",
@@ -141,7 +141,7 @@
   ],
   "internalLinks": [
     {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",

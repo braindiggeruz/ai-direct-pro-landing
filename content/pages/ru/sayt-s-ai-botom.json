@@ -224,8 +224,7 @@
   ],
   "internalLinks": [
     { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов в Ташкенте", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/razrabotka-sayta-pod-klyuch/", "anchor": "разработка сайта под ключ", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/sozdanie-sayta-dlya-biznesa/", "anchor": "создание сайта для бизнеса", "locale": "ru", "type": "contextual" },
+ { "target": "/ru/sozdanie-sayta-dlya-biznesa/", "anchor": "создание сайта для бизнеса", "locale": "ru", "type": "contextual" },
     { "target": "/ru/sayt-dlya-zayavok/", "anchor": "сайт для заявок", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с CRM", "locale": "ru", "type": "contextual" },
