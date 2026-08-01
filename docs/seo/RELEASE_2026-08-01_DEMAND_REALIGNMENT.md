@@ -1,6 +1,8 @@
 # SEO Demand Realignment — release record, 2026-08-01
 
 **Merged main SHA:** `47d704a0d3d516cd5fc753656f6bcd86c566a4bb`
+**Deploy this SHA:** `main` HEAD — `47d704a` plus this document. The site output is
+identical to the merge commit; the only later change is documentation.
 **Feature branch:** `feature/seo-demand-realignment-2026-08` (last commit `b40c49d`)
 **Previous production SHA:** `d55edc00e6130ce8fac6107db5638c4b119f7605`
 **Deployed:** not yet — see "Outstanding owner action".
@@ -61,15 +63,15 @@ Confirmed after the push — production still serves the pre-merge tree
 Deploy needs `CLOUDFLARE_API_TOKEN`, which is not present in the release environment:
 
 ```bash
-git checkout main && git pull        # expect 47d704a
+git checkout main && git pull
 yarn install && yarn build
 export CLOUDFLARE_API_TOKEN="<token with Pages:Edit>"
 export CLOUDFLARE_ACCOUNT_ID="14ce9e04574f2e6d825e56ee603e5cd5"
 ./node_modules/.bin/wrangler pages deploy dist \
   --project-name=ai-direct-pro-landing \
   --branch=main \
-  --commit-hash=47d704a0d3d516cd5fc753656f6bcd86c566a4bb \
-  --commit-message="Merge SEO demand realignment 2026-08"
+  --commit-hash="$(git rev-parse HEAD)" \
+  --commit-message="SEO demand realignment 2026-08"
 ```
 
 ## Post-deploy canary
