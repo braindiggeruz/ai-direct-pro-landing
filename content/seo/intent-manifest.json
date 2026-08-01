@@ -1,0 +1,87 @@
+{
+  "manifestVersion": 1,
+  "updatedAt": "2026-08-01",
+  "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
+  "pairs": [
+    {
+      "id": "C3-instagram-direct",
+      "commercial": {
+        "url": "/ru/instagram-direct-bot/",
+        "owns": "buy or connect an Instagram Direct bot",
+        "mustNotTarget": ["как работает бот для инстаграм директ", "что такое директ бот"]
+      },
+      "informational": {
+        "url": "/ru/blog/instagram-direct-bot-kak-rabotaet/",
+        "owns": "how an Instagram Direct bot works, what to configure",
+        "mustNotTarget": ["заказать бот для инстаграм директ", "подключить директ бот"]
+      },
+      "gscNote": "The article holds position 20.5 on «бот для инстаграм директ» against the money page's 46.6. The article keeps that position; the money page is framed for purchase intent instead of competing for the explainer query.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-08-01"
+    },
+    {
+      "id": "C7-beauty-salon",
+      "commercial": {
+        "url": "/ru/ai-bot-dlya-salona-krasoty/",
+        "owns": "order an AI bot for a beauty salon",
+        "mustNotTarget": ["какие задачи закрывает ии в салоне красоты"]
+      },
+      "informational": {
+        "url": "/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
+        "owns": "what an AI bot does inside a salon: scenarios, reminders, cancellations",
+        "mustNotTarget": ["заказать ии бота для салона красоты", "подключить бота салон"]
+      },
+      "gscNote": "The article holds position 50.25 on «ии для салона красоты» against the money page's 72.67. Same pattern as C3.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-08-01"
+    },
+    {
+      "id": "C8-telegram-bot-business",
+      "commercial": {
+        "url": "/ru/telegram-bot-dlya-biznesa/",
+        "owns": "order a Telegram bot: capabilities, integrations, price",
+        "mustNotTarget": ["telegram бот обзор 2026", "разбор возможностей telegram бота"]
+      },
+      "informational": {
+        "url": "/ru/blog/telegram-bot-dlya-biznesa/",
+        "owns": "market analysis for Uzbekistan, Telegram Ads, launch pitfalls",
+        "mustNotTarget": ["telegram-бот для бизнеса", "telegram-бот для бизнеса цена", "telegram-бот для заявок"]
+      },
+      "gscNote": "Identical slug on two paths, both at top-6 (5.62 and 5.76). GSC anonymises every query at this volume, so no query-level proof of competition exists in either direction. Content comparison shows one shared H2 (a summary block), different schema (Service vs Article) and different funnel stages.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-08-01"
+    },
+    {
+      "id": "C10-gpt-na-russkom",
+      "commercial": {
+        "url": "/ru/gpt-na-russkom/",
+        "owns": "the «чат гпт на русском» head cluster — the product surface",
+        "mustNotTarget": []
+      },
+      "informational": {
+        "url": "/ru/blog/chat-gpt-na-russkom/",
+        "owns": "how to use an AI chat in Russian: prompts, checking answers",
+        "mustNotTarget": ["чат гпт на русском", "chat gpt на русском", "gpt на русском", "чат gpt онлайн"]
+      },
+      "gscNote": "Found on 2026-08-01. The article was carrying the money page's whole head cluster in its keyword list and losing it at positions 74-85 while the money page sits at 4.6. The article's keywords were narrowed to instructional terms; no redirect, because the article has real how-to value.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-08-01"
+    },
+    {
+      "id": "C6-uz-gpt-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat — the product surface",
+        "mustNotTarget": []
+      },
+      "informational": {
+        "url": "/uz/gpt-uzbek-tilida-ai-chat/",
+        "owns": "how to use GPT in Uzbek: prompt formula, examples, limits",
+        "mustNotTarget": []
+      },
+      "gscNote": "Near-duplicate slugs, but only one shared query across the whole history at one impression each. The guide holds position 10.12 independently. Assessed as different intent on 2026-08-01 and deliberately not merged.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-08-01"
+    }
+  ]
+}
