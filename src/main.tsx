@@ -1,6 +1,7 @@
 import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import './market/market.css'
 import App from './App'
 
 // Admin SEO suite is gated behind /admin-tools/* login — keep it (and
