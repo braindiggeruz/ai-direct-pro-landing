@@ -26,7 +26,7 @@ import type { Env } from '../../_types';
 import { requireAuth } from '../../lib/jwt';
 import { readContentBulk, checkGitHubHealth, type GitHubHealth, ghOwner, ghRepo, ghBranch } from '../../lib/github';
 import { buildCockpit } from '../../../src/shared/audit';
-import type { Page, BlogArticle, GlobalSEO, CockpitStats } from '../../../src/shared/types';
+import type { Page, BlogArticle, GlobalSEO, CockpitStats, Redirect } from '../../../src/shared/types';
 import { markStaleJobsAsFailed } from '../../lib/seo-autopilot/jobs';
 import {
   newRequestId, jsonResponse, classifyError, humanMessageFor, withErrorHandler,
@@ -93,7 +93,10 @@ async function loadContentAndAudit(env: Env): Promise<{
       else if (path === 'content/seo/internal-links.json') internalLinks = (parsed as unknown[]) || [];
     } catch { /* skip unparseable */ }
   }
-  const cockpit = buildCockpit(pages, globalObj ?? undefined);
+  const cockpit = buildCockpit(pages, globalObj ?? undefined, {
+    blog,
+    redirects: redirects as Redirect[],
+  });
   const publishedBlog = blog.filter((a) => a.status === 'published');
   return {
     content: { pages, blog, global: globalObj, redirects, internalLinks },

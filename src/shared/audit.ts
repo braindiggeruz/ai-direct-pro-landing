@@ -12,7 +12,17 @@ import type {
   PageAuditResult,
   CockpitStats,
   GlobalSEO,
+  AuditContext,
+  BrokenLink,
+  LinkGraphNode,
+  Redirect,
 } from './types';
+
+/**
+ * Routes the app serves that have no file under content/pages/**.
+ * Without these, every link to the homepage or a blog index reads as broken.
+ */
+export const STATIC_ROUTES = ['/', '/ru/blog/', '/uz/blog/'] as const;
 
 export const RULES = {
   titleMin: 45,
@@ -71,9 +81,75 @@ function unique<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
 
-export function auditPage(page: Page, ctx: { allPages?: Page[]; global?: GlobalSEO } = {}): PageAuditResult {
+// ----------------------------------------------------------------------------
+// INTERNAL LINK GRAPH
+//
+// The site serves three kinds of URL: content/pages/**, content/blog/** and a
+// handful of app routes with no content file (STATIC_ROUTES). A link is only
+// broken when it resolves to none of them AND no redirect rescues it.
+//
+// Before this graph existed the audit indexed content/pages/** alone, so every
+// money-page → article link counted as broken (110 of them) while a link to a
+// genuinely missing article was indistinguishable from the noise.
+// ----------------------------------------------------------------------------
+
+/** Strip the fragment and query so `/ru/x/#faq` is matched against `/ru/x/`. */
+export function normalizeLinkTarget(target: string): string {
+  return target.split('#')[0].split('?')[0];
+}
+
+/** Every outgoing internal link of a node, with a human-readable location. */
+export function collectOutgoingLinks(node: LinkGraphNode): BrokenLink[] {
+  const out: BrokenLink[] = [];
+  const push = (where: string, target: unknown, anchor?: string) => {
+    if (typeof target !== 'string' || !target.startsWith('/')) return;
+    out.push({ sourceUrl: node.url, where, target: normalizeLinkTarget(target), anchor });
+  };
+  for (const link of node.internalLinks || []) push('internalLinks', link?.target, link?.anchor);
+  (node.bodyBlocks || []).forEach((block, i) => {
+    for (const link of block?.links || []) push(`bodyBlocks[${i}].${block.type}`, link?.target, link?.anchor);
+    if (block?.type === 'cta') push(`bodyBlocks[${i}].cta`, block.href, block.text);
+  });
+  return out;
+}
+
+/** Resolve a target through the redirect table (exact match, then `/prefix/*`). */
+export function resolveRedirect(target: string, redirects: Redirect[]): string | null {
+  const exact = redirects.find((r) => r.from === target);
+  if (exact) return exact.to;
+  for (const r of redirects) {
+    if (!r.from.endsWith('/*')) continue;
+    const prefix = r.from.slice(0, -1);
+    if (target.startsWith(prefix)) return r.to.replace(':splat', target.slice(prefix.length));
+  }
+  return null;
+}
+
+/** URLs the site actually serves, given pages + optional blog/extra routes. */
+export function buildKnownUrls(pages: Page[], ctx: AuditContext = {}): Set<string> {
+  return new Set<string>([
+    ...pages.map((p) => p.url),
+    ...(ctx.blog || []).map((b) => b.url),
+    ...(ctx.extraUrls ?? STATIC_ROUTES),
+  ]);
+}
+
+export function auditPage(
+  page: Page,
+  ctx: {
+    allPages?: Page[];
+    global?: GlobalSEO;
+    /**
+     * Every URL the site serves. Supplied only by callers that can see the blog
+     * and the static routes — without it the link check would flag valid
+     * page → article links, so it is skipped rather than guessed.
+     */
+    knownUrls?: Set<string>;
+    redirects?: Redirect[];
+  } = {},
+): PageAuditResult {
   const issues: AuditIssue[] = [];
-  const { allPages = [], global } = ctx;
+  const { allPages = [], global, knownUrls, redirects = [] } = ctx;
 
   // --- MOJIBAKE CHECK (CRITICAL) ---------------------------------------------
   // If any user-visible string contains mojibake, treat the page as broken:
@@ -219,6 +295,21 @@ export function auditPage(page: Page, ctx: { allPages?: Page[]; global?: GlobalS
       message: `Only ${outgoing.length} outgoing internal links (recommended ${RULES.minOutgoingInternalLinks}+).` });
   }
 
+  // --- Internal link targets --------------------------------------------------
+  if (knownUrls) {
+    for (const link of collectOutgoingLinks(page)) {
+      if (knownUrls.has(link.target)) continue;
+      const via = resolveRedirect(link.target, redirects);
+      if (via && knownUrls.has(via)) {
+        issues.push({ level: 'warning', rule: 'internal-link-via-redirect', field: 'internalLinks',
+          message: `Link in ${link.where} points at redirect source "${link.target}" — link "${via}" directly.` });
+      } else {
+        issues.push({ level: 'error', rule: 'broken-internal-link', field: 'internalLinks',
+          message: `Link in ${link.where} points at "${link.target}", which the site does not serve.` });
+      }
+    }
+  }
+
   // --- Incoming internal links (money only) ---------------------------------
   if (page.pageType === 'money' && allPages.length) {
     const incoming = allPages.filter(
@@ -260,8 +351,10 @@ export function auditPage(page: Page, ctx: { allPages?: Page[]; global?: GlobalS
   };
 }
 
-export function buildCockpit(pages: Page[], global?: GlobalSEO): CockpitStats {
-  const results = pages.map((p) => auditPage(p, { allPages: pages, global }));
+export function buildCockpit(pages: Page[], global?: GlobalSEO, ctx: AuditContext = {}): CockpitStats {
+  const knownUrls = buildKnownUrls(pages, ctx);
+  const redirects = ctx.redirects || [];
+  const results = pages.map((p) => auditPage(p, { allPages: pages, global, knownUrls, redirects }));
 
   const counts = {
     totalPages: pages.length,
@@ -276,7 +369,9 @@ export function buildCockpit(pages: Page[], global?: GlobalSEO): CockpitStats {
     duplicateTitle: 0,
     duplicateDescription: 0,
     missingCanonical: pages.filter((p) => !p.canonical).length,
-    missingHreflang: pages.filter((p) => !p.hreflangRu || !p.hreflangUz).length,
+    // A page that exists in one locale only is not defective — it simply has no
+    // counterpart to declare. The defect is declaring no language at all.
+    missingHreflang: pages.filter((p) => !p.hreflangRu && !p.hreflangUz).length,
     missingOg: pages.filter((p) => !p.ogTitle && !p.title).length,
     missingJsonLd: pages.filter((p) => !p.schemaTypes || p.schemaTypes.length === 0).length,
     missingFaq: pages.filter((p) => (p.pageType === 'money' || p.pageType === 'blog') && (!p.faq || p.faq.length === 0)).length,
@@ -287,6 +382,11 @@ export function buildCockpit(pages: Page[], global?: GlobalSEO): CockpitStats {
     avgMoneyScore: 0,
     avgBlogScore: 0,
     pages: results,
+    orphanPageUrls: [] as string[],
+    brokenInternalLinkDetails: [] as BrokenLink[],
+    linksViaRedirect: 0,
+    linksViaRedirectDetails: [] as BrokenLink[],
+    singleLocalePages: 0,
   };
 
   // duplicates
@@ -295,28 +395,42 @@ export function buildCockpit(pages: Page[], global?: GlobalSEO): CockpitStats {
   counts.duplicateTitle = titles.length - unique(titles).length;
   counts.duplicateDescription = descs.length - unique(descs).length;
 
-  // orphans: published pages with 0 incoming links from any other page
-  counts.orphanPages = pages.filter((p) => {
-    if (p.status !== 'published' || p.pageType === 'homepage') return false;
-    const incoming = pages.filter(
-      (q) => q.url !== p.url && (q.internalLinks || []).some((l) => l.target === p.url),
-    ).length;
-    return incoming === 0;
-  }).length;
+  // --- link graph over pages AND blog articles -------------------------------
+  // Both directions matter: a page linked only from an article is not an orphan,
+  // and an article linking to a dead page is still a broken link.
+  const nodes: LinkGraphNode[] = [...pages, ...(ctx.blog || [])];
+  const incoming = new Map<string, number>();
+  for (const node of nodes) {
+    const targets = new Set(collectOutgoingLinks(node).map((l) => l.target));
+    for (const target of targets) {
+      if (target === node.url) continue;
+      incoming.set(target, (incoming.get(target) || 0) + 1);
+    }
+    for (const link of collectOutgoingLinks(node)) {
+      if (knownUrls.has(link.target)) continue;
+      const via = resolveRedirect(link.target, redirects);
+      if (via && knownUrls.has(via)) {
+        counts.linksViaRedirect++;
+        counts.linksViaRedirectDetails.push({ ...link, resolvesTo: via });
+      } else {
+        counts.brokenInternalLinks++;
+        counts.brokenInternalLinkDetails.push(link);
+      }
+    }
+  }
 
-  // broken internal links: target doesn't exist among known pages
-  const urls = new Set(pages.map((p) => p.url));
-  counts.brokenInternalLinks = pages.reduce(
-    (acc, p) =>
-      acc +
-      (p.internalLinks || []).filter((l) => l.target.startsWith('/') && !urls.has(l.target)).length,
-    0,
-  );
+  // orphans: published pages nothing links to
+  counts.orphanPageUrls = pages
+    .filter((p) => p.status === 'published' && p.pageType !== 'homepage' && !incoming.get(p.url))
+    .map((p) => p.url);
+  counts.orphanPages = counts.orphanPageUrls.length;
 
-  // ru/uz pair status
+  // ru/uz pair status: a declared counterpart that does not exist is the defect.
+  // RU pages with no counterpart authored at all are counted separately.
   const ruPages = pages.filter((p) => p.locale === 'ru');
   for (const p of ruPages) {
-    if (p.hreflangUz && pages.find((q) => q.url === p.hreflangUz)) counts.ruUzPairsOk++;
+    if (!p.hreflangUz) counts.singleLocalePages++;
+    else if (pages.find((q) => q.url === p.hreflangUz!.replace(/^https?:\/\/[^/]+/, ''))) counts.ruUzPairsOk++;
     else counts.ruUzPairsMissing++;
   }
 
