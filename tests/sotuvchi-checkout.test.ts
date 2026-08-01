@@ -1623,7 +1623,7 @@ test('Telegram checkout rejects bad input and supports cancel', async () => {
 
   // After cancelling, ordinary catalog answers resume.
   await harness.invoke(telegramMessage(990_006, 99001, 'что у вас есть', 'ru'));
-  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Alpha Phone'));
+  assert.ok(harness.delivery.sent.at(-2)?.text.includes('Alpha Phone'));
 });
 
 test('checkout state survives a stale product and stores no PII in workflow', async () => {

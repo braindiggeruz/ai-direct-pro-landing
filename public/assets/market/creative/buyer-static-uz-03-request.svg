@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="title desc">
+  <title id="title">Avval sotuvchiga ariza</title>
+  <desc id="desc">GPTBotdagi rasmiylashtirish to‘lov emas, ariza ekanligi haqida karta.</desc>
+  <rect width="1080" height="1350" rx="36" fill="#f7f1e7"/>
+  <circle cx="963" cy="99" r="18" fill="#0f6b66"/>
+  <path d="M81 133h84a28 28 0 0 1 28 28v84a28 28 0 0 1-28 28H81z" fill="#123b3a"/>
+  <path d="M108 172h58M108 199h42M108 226h53" stroke="#f7f1e7" stroke-width="12" stroke-linecap="round"/>
+  <text x="221" y="197" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0f6b66"><tspan x="221" dy="0">ARIZA, TO‘LOV EMAS</tspan></text>
+  <text x="81" y="350" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#123b3a"><tspan x="81" dy="0">Avval sotuvchiga ariza</tspan></text>
+  <text x="81" y="464" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#315956"><tspan x="81" dy="0">Sotuvchi mahsulot, yetkazib berish va</tspan><tspan x="81" dy="48">to‘lov usulini bevosita tasdiqlaydi.</tspan></text>
+  <circle cx="94" cy="610" r="10" fill="#0f6b66"/><text x="123" y="620" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" fill="#123b3a"><tspan x="123" dy="0">GPTBot pul qabul qilmaydi</tspan></text><circle cx="94" cy="692" r="10" fill="#0f6b66"/><text x="123" y="702" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" fill="#123b3a"><tspan x="123" dy="0">Mahsulot va bajarish uchun do‘kon</tspan><tspan x="123" dy="40">javob beradi</tspan></text>
+  <rect x="81" y="1110" width="510" height="92" rx="46" fill="#123b3a"/>
+  <text x="125" y="1169" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#ffffff"><tspan x="125" dy="0">Mahsulot topish</tspan></text>
+  <line x1="81" y1="1201" x2="999" y2="1201" stroke="#d8cfc1" stroke-width="2"/>
+  <text x="81" y="1245" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5b7774"><tspan x="81" dy="0">GPTBot Market  •  SYNTHETIC / TEMPLATE</tspan></text>
+</svg>

@@ -8,7 +8,6 @@ import fg from 'fast-glob';
 import {
   collectRouteInventory,
   compareRouteInventories,
-  OWNER_CONTROL_CENTER_ADMIN_ROUTES,
   type RouteInventory,
 } from '../scripts/release/react-router-route-inventory.ts';
 import { scanText } from '../scripts/scan-secrets.ts';
@@ -129,22 +128,17 @@ test('BrowserRouter stays declarative and inside the lazy admin chunk', () => {
   assert.equal(inventory.invariants.admin_lazy_loaded, true);
 });
 
-test('the migration preserves every public and admin route pattern', () => {
+test('the current productization baseline preserves every public and admin route pattern', () => {
   const before = readJson<RouteInventory>(
-    'reports/release/react-router-route-parity-before.json',
+    'reports/release/react-router-route-contract-20260801.json',
   );
   const after = collectRouteInventory('after');
-  const diff = compareRouteInventories(before, after, {
-    expectedAdminAdditions: OWNER_CONTROL_CENTER_ADMIN_ROUTES,
-  });
+  const diff = compareRouteInventories(before, after);
   assert.equal(diff.status, 'pass');
-  assert.equal(after.counts.total_route_patterns, 253);
+  assert.equal(after.counts.total_route_patterns, 259);
   assert.deepEqual(diff.added_static_routes, []);
   assert.deepEqual(diff.removed_static_routes, []);
-  assert.deepEqual(
-    [...diff.added_admin_routes].sort(),
-    [...OWNER_CONTROL_CENTER_ADMIN_ROUTES].sort(),
-  );
+  assert.deepEqual(diff.added_admin_routes, []);
 });
 
 test('all admin routes except login stay protected and fallback stays closed', () => {
@@ -199,10 +193,10 @@ test('prerender generation remains part of the route contract', () => {
   );
 });
 
-test('sitemap generation retains all 228 static canonical entries', () => {
+test('sitemap generation retains all 234 static canonical entries', () => {
   const inventory = collectRouteInventory('migration-test');
   assert.equal(inventory.invariants.sitemap_generation_present, true);
-  assert.equal(inventory.counts.sitemap_entries, 228);
+  assert.equal(inventory.counts.sitemap_entries, 234);
 });
 
 test('first-party automation routes remain present', () => {

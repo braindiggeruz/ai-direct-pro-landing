@@ -32,9 +32,13 @@ const COPY = {
     orders: 'Заказы',
     handoffs: 'Вопросы',
     dashboardTitle: 'Панель магазина.',
+    dashboardAttention: 'Требует внимания:',
+    dashboardOverview: 'Текущая картина:',
     dashboardProducts: 'Опубликовано товаров',
     dashboardOrders: 'Заказов оформлено сегодня',
     dashboardQuestions: 'Открытых вопросов',
+    dashboardScope:
+      'Сбои уведомлений и просроченные остатки здесь не показаны: согласованные правила для этих сигналов ещё не настроены.',
     products: 'Мои товары',
     stats: 'Статистика',
     buy: 'Купить товар',
@@ -62,9 +66,13 @@ const COPY = {
     orders: 'Buyurtmalar',
     handoffs: 'Savollar',
     dashboardTitle: 'Do‘kon paneli.',
+    dashboardAttention: 'E’tibor talab qiladi:',
+    dashboardOverview: 'Joriy holat:',
     dashboardProducts: 'Nashr qilingan mahsulotlar',
     dashboardOrders: 'Bugun rasmiylashtirilgan buyurtmalar',
     dashboardQuestions: 'Ochiq savollar',
+    dashboardScope:
+      'Bildirishnoma xatolari va eskirgan qoldiqlar bu yerda ko‘rsatilmagan: bu signallar uchun kelishilgan qoidalar hali sozlanmagan.',
     products: 'Mening mahsulotlarim',
     stats: 'Statistika',
     buy: 'Mahsulot xarid qilish',
@@ -152,9 +160,12 @@ export function composeDashboardResponse(
     messages: [{
       text: [
         copy.dashboardTitle,
-        line(copy.dashboardProducts, 'seller.stats.products_published'),
-        line(copy.dashboardOrders, 'seller.stats.orders_placed'),
+        copy.dashboardAttention,
         line(copy.dashboardQuestions, 'seller.stats.handoffs_open'),
+        line(copy.dashboardOrders, 'seller.stats.orders_placed'),
+        copy.dashboardOverview,
+        line(copy.dashboardProducts, 'seller.stats.products_published'),
+        copy.dashboardScope,
       ].join('\n'),
       choices: [
         { id: 'seller-orders', label: copy.orders },

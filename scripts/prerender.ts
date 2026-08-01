@@ -20,6 +20,13 @@ import {
   buildAuthorPersonLd,
   buildArticleLd,
 } from './jsonld-helpers';
+import {
+  MARKET_FAQ_SCRIPT,
+  renderMarketFooter,
+  renderMarketHeader,
+  renderMarketLanding,
+  renderMarketTrust,
+} from './market-page';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -506,6 +513,7 @@ const DIGITAL_COMMAND_STYLES = `<style>
 </style>`;
 
 function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
+  const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
   const ogDesc = page.ogDescription || page.description;
@@ -582,7 +590,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 <meta charset="UTF-8" />
 <script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#05070D" />
+<meta name="theme-color" content="${marketVariant ? '#FFF8EC' : '#05070D'}" />
 <title>${escapeText(page.title)}</title>
 <meta name="description" content="${escapeHtml(page.description)}" />
 <meta name="robots" content="${robotsContent}" />
@@ -610,17 +618,17 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 ${LLM_MARKDOWN_URLS.has(page.url)
   ? `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}${escapeHtml(page.url)}index.html.md" />`
   : `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />`}
-<link rel="icon" type="image/png" href="/assets/landing/2.png" />
+<link rel="icon" type="${marketVariant ? 'image/svg+xml' : 'image/png'}" href="${marketVariant ? '/assets/market/favicon.svg' : '/assets/landing/2.png'}" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
 ${ANALYTICS_HEAD}
 </head>
-<body class="bg-bg-base text-white antialiased ${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta ? 'pb-24 lg:pb-0' : ''}">
-<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
+<body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-${page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
+${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm">
@@ -633,7 +641,9 @@ ${page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg
   </div>
 </header>`}
 
-${page.pageType === 'gpt-chat'
+${marketVariant
+  ? page.slug === 'sotuvchi' ? renderMarketLanding(page) : renderMarketTrust(page)
+  : page.pageType === 'gpt-chat'
   ? renderGptChatMain(page, global)
   : `<main id="main" class="${page.designVariant === 'digital-command-center' ? 'dc-shell' : 'max-w-3xl'} mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
@@ -672,7 +682,7 @@ ${page.pageType === 'gpt-chat'
 </main>`
 }
 
-${page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt-20 py-10">
+${marketVariant ? renderMarketFooter(page, global) : page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
     <div class="flex items-center gap-4">
@@ -685,10 +695,11 @@ ${page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt
   </div>
 </footer>`}
 
-${stickyCtaHtml}
+${marketVariant ? '' : stickyCtaHtml}
 ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money pages. -->` : ''}
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
+${marketVariant ? MARKET_FAQ_SCRIPT : ''}
 </body>
 </html>
 `;

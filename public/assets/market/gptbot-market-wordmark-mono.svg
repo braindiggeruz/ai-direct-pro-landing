@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="64" viewBox="0 0 340 64" role="img" aria-labelledby="title">
+  <title id="title">GPTBot Market</title>
+  <rect width="64" height="64" rx="16" fill="#11100E"/>
+  <path d="M17 20h30M17 32h21M17 44h30" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="46" cy="32" r="6" fill="#FFFFFF"/>
+  <text x="82" y="39" fill="#11100E" font-family="Geist,Arial,sans-serif" font-size="28" font-weight="760" letter-spacing="-1">GPTBot Market</text>
+</svg>

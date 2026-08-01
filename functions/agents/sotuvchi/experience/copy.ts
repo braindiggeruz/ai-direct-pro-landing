@@ -13,7 +13,7 @@ import type {
 export const BUYER_COPY = {
   ru: {
     home:
-      'Помогу найти и сравнить товары. Напишите, что Вам нужно, или откройте каталог.',
+      'Напишите, что Вам нужно, — GPTBot найдёт подходящие товары в каталогах подключённых магазинов.',
     syntheticNotice:
       'Сейчас работает тестовый каталог: все товары синтетические.',
     find: '🔎 Найти товар',
@@ -31,6 +31,7 @@ export const BUYER_COPY = {
     categoryPrompt: 'Выберите категорию или покажите все товары.',
     allProducts: 'Все товары',
     showMore: 'Показать ещё',
+    resultActions: 'Что сделать дальше?',
     details: 'Подробнее',
     compare: 'Сравнить',
     showComparison: 'Показать сравнение',
@@ -66,10 +67,10 @@ export const BUYER_COPY = {
     sellerPrompt:
       'Напишите «позвать продавца» и свой вопрос одним сообщением — я передам его продавцу этого магазина.',
     sellerInterest:
-      'Подключите магазин, добавьте товары и получайте заказы в Telegram.\n\nСейчас магазины подключаются только по приглашению. Эта кнопка не даёт доступ к панели продавца.',
+      'Sotuvchi by GPTBot помогает магазину показывать проверенный каталог и получать заявки в Telegram.\n\nСейчас магазины подключаются только по приглашению. Это интерес к участию, а не доступ: кнопка не даёт доступ к панели продавца и не создаёт магазин.\n\nДля проверки понадобятся категория магазина, небольшая согласованная подборка товаров, целые цены в UZS, актуальные остатки, контакт владельца и ответственные за согласие и скорость ответа. Команда проверит заявку и свяжется с Вами.',
     sellerHow: 'Как это работает',
     sellerHowText:
-      'Администратор проекта проверяет владельца и подключает магазин. После подключения продавцу становятся доступны товары, заказы, вопросы и статистика.\n\nСамостоятельно создать магазин или получить права продавца через эту кнопку нельзя.',
+      'Администратор проекта проверяет владельца, каталог и источник товарных данных. Это защищает покупателей от неподтверждённых цен и остатков. После одобрения продавцу становятся доступны товары, заявки, вопросы и точная статистика.\n\nСамостоятельно создать магазин или получить права продавца через эту кнопку нельзя. Срок, стоимость и результат пилота ещё не согласованы.',
     backToShopping: 'Вернуться к покупкам',
     help:
       'Можно спросить и сделать: открыть каталог и категории, найти товар по описанию или бюджету, сравнить варианты, оформить заявку и посмотреть свои заказы.',
@@ -98,7 +99,7 @@ export const BUYER_COPY = {
   },
   uz: {
     home:
-      'Mahsulot topish va solishtirishga yordam beraman. Nima kerakligini yozing yoki katalogni oching.',
+      'Sizga nima kerakligini yozing — GPTBot ulangan do‘konlar katalogidan mos mahsulotlarni topadi.',
     syntheticNotice:
       'Hozir sinov katalogi ishlayapti: barcha mahsulotlar sintetik.',
     find: '🔎 Mahsulot topish',
@@ -116,6 +117,7 @@ export const BUYER_COPY = {
     categoryPrompt: 'Kategoriyani tanlang yoki barcha mahsulotlarni ko‘ring.',
     allProducts: 'Barcha mahsulotlar',
     showMore: 'Yana ko‘rsatish',
+    resultActions: 'Keyin nima qilamiz?',
     details: 'Batafsil',
     compare: 'Solishtirish',
     showComparison: 'Solishtirishni ko‘rsatish',
@@ -151,10 +153,10 @@ export const BUYER_COPY = {
     sellerPrompt:
       '«Sotuvchini chaqir» deb savolingizni bitta xabarda yozing — uni shu do‘kon sotuvchisiga yuboraman.',
     sellerInterest:
-      'Do‘konni ulang, mahsulot qo‘shing va Telegramda buyurtma oling.\n\nHozir do‘konlar faqat taklif bilan ulanadi. Bu tugma sotuvchi paneliga kirish huquqini bermaydi.',
+      'Sotuvchi by GPTBot do‘konga tekshirilgan katalogni ko‘rsatish va Telegramda arizalar olishga yordam beradi.\n\nHozir do‘konlar faqat taklif bilan ulanadi. Bu qatnashish istagi, kirish huquqi emas: tugma sotuvchi panelini ochmaydi va do‘kon yaratmaydi.\n\nTekshiruv uchun do‘kon kategoriyasi, kelishilgan kichik mahsulotlar to‘plami, UZSdagi butun narxlar, dolzarb qoldiq, egasi kontakti hamda rozilik va javob tezligi uchun mas’ullar kerak. Jamoa arizani tekshiradi va Siz bilan bog‘lanadi.',
     sellerHow: 'Bu qanday ishlaydi',
     sellerHowText:
-      'Loyiha administratori egani tekshiradi va do‘konni ulaydi. Ulangandan keyin sotuvchiga mahsulotlar, buyurtmalar, savollar va statistika ochiladi.\n\nBu tugma orqali mustaqil do‘kon yaratib yoki sotuvchi huquqini olib bo‘lmaydi.',
+      'Loyiha administratori egani, katalogni va mahsulot ma’lumotlari manbasini tekshiradi. Bu xaridorlarni tasdiqlanmagan narx va qoldiqlardan himoya qiladi. Tasdiqlangandan keyin sotuvchiga mahsulotlar, arizalar, savollar va aniq statistika ochiladi.\n\nBu tugma orqali mustaqil do‘kon yaratib yoki sotuvchi huquqini olib bo‘lmaydi. Pilot muddati, narxi va natijasi hali kelishilmagan.',
     backToShopping: 'Xaridga qaytish',
     help:
       'Katalog va kategoriyalarni ko‘rsataman, tavsif yoki byudjet bo‘yicha mahsulot topaman, variantlarni solishtiraman, ariza yuboraman va buyurtmalaringizni ko‘rsataman.',

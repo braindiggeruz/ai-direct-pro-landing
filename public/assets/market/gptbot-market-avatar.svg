@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">GPTBot Market avatar</title>
+  <rect width="1024" height="1024" rx="256" fill="#0B3B36"/>
+  <path d="M256 320h512M256 512h352M256 704h512" fill="none" stroke="#FFF8EC" stroke-width="72" stroke-linecap="round"/>
+  <circle cx="752" cy="512" r="104" fill="#E85D45"/>
+</svg>

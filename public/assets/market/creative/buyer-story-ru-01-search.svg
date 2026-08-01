@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920" role="img" aria-labelledby="title desc">
+  <title id="title">Один запрос вместо долгого каталога</title>
+  <desc id="desc">Вертикальный storyboard поиска товара.</desc>
+  <rect width="1080" height="1920" rx="36" fill="#f7f1e7"/>
+  <circle cx="963" cy="99" r="18" fill="#f26b5b"/>
+  <path d="M81 133h84a28 28 0 0 1 28 28v84a28 28 0 0 1-28 28H81z" fill="#123b3a"/>
+  <path d="M108 172h58M108 199h42M108 226h53" stroke="#f7f1e7" stroke-width="12" stroke-linecap="round"/>
+  <text x="221" y="197" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#f26b5b"><tspan x="221" dy="0">СЦЕНАРИЙ • ПОИСК</tspan></text>
+  <text x="81" y="390" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#123b3a"><tspan x="81" dy="0">Один запрос вместо долгого</tspan><tspan x="81" dy="74">каталога</tspan></text>
+  <text x="81" y="578" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#315956"><tspan x="81" dy="0">Кадр первый: покупатель пишет потребность.</tspan><tspan x="81" dy="48">Кадр второй: видит grounded shortlist.</tspan></text>
+  <circle cx="94" cy="724" r="10" fill="#f26b5b"/><text x="123" y="734" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" fill="#123b3a"><tspan x="123" dy="0">Показать ввод запроса</tspan></text><circle cx="94" cy="824" r="10" fill="#f26b5b"/><text x="123" y="834" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" fill="#123b3a"><tspan x="123" dy="0">Показать два синтетических товара</tspan></text><circle cx="94" cy="924" r="10" fill="#f26b5b"/><text x="123" y="934" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" fill="#123b3a"><tspan x="123" dy="0">Закрыть CTA</tspan></text>
+  <rect x="81" y="1680" width="510" height="92" rx="46" fill="#123b3a"/>
+  <text x="125" y="1739" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#ffffff"><tspan x="125" dy="0">Попробовать в Telegram</tspan></text>
+  <line x1="81" y1="1771" x2="999" y2="1771" stroke="#d8cfc1" stroke-width="2"/>
+  <text x="81" y="1815" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5b7774"><tspan x="81" dy="0">GPTBot Market  •  SYNTHETIC / TEMPLATE</tspan></text>
+</svg>

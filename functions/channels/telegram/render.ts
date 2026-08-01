@@ -11,17 +11,26 @@ import {
 
 const CALLBACK_PREFIX = 'agent:';
 const SAFE_CHOICE_ID = /^[a-z0-9][a-z0-9._-]{0,47}$/;
+const SAFE_MEDIA_REF = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,239}$/;
 const MAX_CHOICE_LABEL = 64;
+const SAFE_MEDIA_CAPTION = 1_000;
 
 export interface TelegramRenderedMessage {
   text: string;
   keyboard?: InlineKeyboard;
+  mediaRef?: string;
 }
 
 export interface TelegramDeliveryPort {
   sendText(
     threadRef: string,
     text: string,
+    keyboard?: InlineKeyboard,
+  ): Promise<boolean>;
+  sendMedia?(
+    threadRef: string,
+    mediaRef: string,
+    caption?: string,
     keyboard?: InlineKeyboard,
   ): Promise<boolean>;
   showTyping?(threadRef: string): Promise<boolean>;
@@ -79,6 +88,9 @@ export function renderTelegramOutbound(
     return {
       text: textFromOutbound(message),
       ...(keyboard ? { keyboard } : {}),
+      ...(message.mediaRef && SAFE_MEDIA_REF.test(message.mediaRef)
+        ? { mediaRef: message.mediaRef }
+        : {}),
     };
   });
 }
@@ -126,7 +138,7 @@ export function createTelegramDeliveryPort(
   client: Pick<
     TelegramClient,
     'sendMessage' | 'sendChatAction' | 'answerCallbackQuery'
-  >,
+  > & Partial<Pick<TelegramClient, 'sendPhoto'>>,
 ): TelegramDeliveryPort {
   return {
     async sendText(threadRef, text, keyboard) {
@@ -137,6 +149,25 @@ export function createTelegramDeliveryPort(
       );
       return result.ok;
     },
+    ...(typeof client.sendPhoto === 'function'
+      ? {
+          async sendMedia(
+            threadRef: string,
+            mediaRef: string,
+            caption?: string,
+            keyboard?: InlineKeyboard,
+          ) {
+            if (!SAFE_MEDIA_REF.test(mediaRef)) return false;
+            const result = await client.sendPhoto!(
+              parseThreadRef(threadRef),
+              mediaRef,
+              caption,
+              keyboard ? { keyboard } : {},
+            );
+            return result.ok;
+          },
+        }
+      : {}),
     async showTyping(threadRef) {
       const result = await client.sendChatAction(parseThreadRef(threadRef));
       return result.ok;
@@ -161,6 +192,22 @@ export async function deliverTelegramMessages(
   messages: readonly TelegramRenderedMessage[],
 ): Promise<boolean> {
   for (const message of messages) {
+    if (message.mediaRef && delivery.sendMedia) {
+      if (message.text.length <= SAFE_MEDIA_CAPTION) {
+        if (!await delivery.sendMedia(
+          threadRef,
+          message.mediaRef,
+          message.text,
+          message.keyboard,
+        )) {
+          return false;
+        }
+        continue;
+      }
+      if (!await delivery.sendMedia(threadRef, message.mediaRef)) {
+        return false;
+      }
+    }
     const chunks = splitMessage(message.text);
     for (let index = 0; index < chunks.length; index++) {
       const keyboard = index === chunks.length - 1

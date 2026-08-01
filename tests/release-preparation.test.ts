@@ -471,11 +471,11 @@ test('rollback and R1 checklist are complete but grant no approval', () => {
   for (const requiredOpenGate of [
     'BotFather',
     'getMe',
-    '1–3 consented, verified pilot stores',
+    'one consented, verified Store Pilot #1 business',
     'Separately authorize the controlled R1 start',
   ]) {
     assert.ok(checklist.includes(requiredOpenGate), requiredOpenGate);
   }
-  assert.match(checklist, /pilot not started/i);
+  assert.match(checklist, /pilot(?: #1)? not started/i);
   assert.match(checklist, /Nothing in this checklist authorizes/i);
 });

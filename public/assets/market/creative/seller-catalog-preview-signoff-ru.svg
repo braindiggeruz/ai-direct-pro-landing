@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Карточки сначала подтверждаются</title>
+  <desc id="desc">Синтетическое превью товарной карточки перед подтверждением владельцем.</desc>
+  <rect width="1440" height="900" rx="36" fill="#f7f1e7"/>
+  <circle cx="1306" cy="108" r="18" fill="#0f6b66"/>
+  <path d="M108 108h84a28 28 0 0 1 28 28v84a28 28 0 0 1-28 28H108z" fill="#123b3a"/>
+  <path d="M135 147h58M135 174h42M135 201h53" stroke="#f7f1e7" stroke-width="12" stroke-linecap="round"/>
+  <text x="248" y="174" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0f6b66"><tspan x="248" dy="0">ПРОВЕРКА ПЕРЕД АКТИВАЦИЕЙ</tspan></text>
+  <text x="108" y="360" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700" fill="#123b3a"><tspan x="108" dy="0">Карточки сначала подтверждаются</tspan></text>
+  <text x="108" y="485" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#315956"><tspan x="108" dy="0">Демо-превью показывает цену, остаток, media-статус, категорию и дату</tspan><tspan x="108" dy="46">обновления до финального sign-off.</tspan></text>
+  <circle cx="121" cy="600" r="10" fill="#0f6b66"/><text x="150" y="610" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#123b3a"><tspan x="150" dy="0">Фото: approved file_id или решение без фото</tspan></text><circle cx="121" cy="658" r="10" fill="#0f6b66"/><text x="150" y="668" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#123b3a"><tspan x="150" dy="0">Остаток: подтверждённый baseline</tspan></text><circle cx="121" cy="716" r="10" fill="#0f6b66"/><text x="150" y="726" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#123b3a"><tspan x="150" dy="0">Публикация: только после отдельной команды</tspan></text>
+  <rect x="108" y="770" width="510" height="80" rx="40" fill="#123b3a"/>
+  <text x="152" y="821" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#ffffff"><tspan x="152" dy="0">Зафиксировать sign-off</tspan></text>
+  <text x="1052" y="821" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5b7774"><tspan x="1052" dy="0">SYNTHETIC / TEMPLATE</tspan></text>
+</svg>

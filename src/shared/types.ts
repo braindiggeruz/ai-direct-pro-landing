@@ -70,6 +70,7 @@ export type SchemaType =
   | 'WebSite'
   | 'BreadcrumbList'
   | 'Service'
+  | 'WebPage'
   | 'FAQPage'
   | 'Article';
 
@@ -116,7 +117,7 @@ export interface Page {
   /** Optional page-scoped trust chips under the primary CTA; falls back to the global default set. */
   heroTrust?: string[];
   /** Optional static visual treatment for flagship commercial pages. */
-  designVariant?: 'digital-command-center';
+  designVariant?: 'digital-command-center' | 'warm-market-signals';
   /** Optional client-side island injected only on the page that declares it. */
   interactiveTool?: 'telegram-cost-calculator';
 

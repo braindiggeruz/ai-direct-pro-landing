@@ -3,6 +3,7 @@ import type { CatalogAvailability } from '../catalog';
 
 export interface ProductCard {
   productRef: string;
+  mediaRef?: string;
   title: string;
   description?: string;
   fields: readonly {

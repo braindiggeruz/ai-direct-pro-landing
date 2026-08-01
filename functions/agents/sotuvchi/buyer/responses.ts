@@ -110,11 +110,19 @@ function productCard(
   const description = stringFact(facts, `${prefix}.description`);
   const category = stringFact(facts, `${prefix}.category_name`);
   const store = claim(claims, facts, `${prefix}.store_name`) as string;
+  const mediaRef = stringFact(facts, `${prefix}.media_ref`);
+  const updated = claim(
+    claims,
+    facts,
+    `${prefix}.updated_display`,
+  ) as string;
   const orderable = stringFact(facts, `${prefix}.availability`) !== 'unavailable';
   if (description) claim(claims, facts, `${prefix}.description`);
   if (category) claim(claims, facts, `${prefix}.category_name`);
+  if (mediaRef) claim(claims, facts, `${prefix}.media_ref`);
   return {
     productRef,
+    ...(mediaRef ? { mediaRef } : {}),
     title,
     ...(description ? { description } : {}),
     fields: [
@@ -135,6 +143,10 @@ function productCard(
       {
         label: BUYER_COPY[locale].store,
         value: store,
+      },
+      {
+        label: locale === 'ru' ? 'Обновлено' : 'Yangilangan',
+        value: updated,
       },
       ...(full
         ? Array.from({
@@ -169,32 +181,28 @@ function productCard(
         : []),
     ],
     actions: [
-      ...(!full
-        ? [{
-            id: `buyer-details.${productRef}`,
-            label: BUYER_COPY[locale].details,
-          }]
-        : []),
-      {
-        id: `buyer-compare.${productRef}`,
-        label: BUYER_COPY[locale].compare,
-      },
       ...(orderable
         ? [{
             id: `buyer-checkout.${productRef}`,
             label: BUYER_COPY[locale].orderAction,
           }]
-        : []),
-      {
-        id: `buyer-similar.${productRef}`,
-        label: BUYER_COPY[locale].similar,
-      },
+        : [{
+            id: full
+              ? `buyer-similar.${productRef}`
+              : `buyer-details.${productRef}`,
+            label: full
+              ? BUYER_COPY[locale].similar
+              : BUYER_COPY[locale].details,
+          }]),
       ...(full
         ? [{
             id: 'buyer-seller',
             label: BUYER_COPY[locale].askSeller,
           }]
-        : []),
+        : [{
+            id: `buyer-compare.${productRef}`,
+            label: BUYER_COPY[locale].compare,
+          }]),
     ],
   };
 }
@@ -491,14 +499,7 @@ export function composeBuyerResponse(
     const card = productCard(facts, index, locale, full, claims);
     messages.push({
       text: '',
-      ...(!full
-        ? {
-            choices: [{
-              id: 'buyer-seller',
-              label: BUYER_COPY[locale].askSeller,
-            }],
-          }
-        : {}),
+      ...(card.mediaRef ? { mediaRef: card.mediaRef } : {}),
       card: {
         ref: card.productRef,
         title: card.title,
@@ -523,36 +524,23 @@ export function composeBuyerResponse(
             stringFact(facts, 'catalog.query.category_id')
           }.${nextOffset}`
         : `buyer-next.${nextOffset}`;
-    const last = messages[messages.length - 1];
-    messages[messages.length - 1] = {
-      ...last,
+    messages.push({
+      text: BUYER_COPY[locale].resultActions,
       choices: [
-        ...(!full
-          ? [{
-              id: 'buyer-seller',
-              label: BUYER_COPY[locale].askSeller,
-            }]
-          : []),
         { id: actionId, label: BUYER_COPY[locale].showMore },
         { id: 'buyer-back', label: BUYER_COPY[locale].backToCatalog },
         { id: 'buyer-home', label: BUYER_COPY[locale].homeButton },
       ],
-    };
+    });
   } else {
-    const last = messages[messages.length - 1];
-    messages[messages.length - 1] = {
-      ...last,
+    messages.push({
+      text: BUYER_COPY[locale].resultActions,
       choices: [
-        ...(!full
-          ? [{
-              id: 'buyer-seller',
-              label: BUYER_COPY[locale].askSeller,
-            }]
-          : []),
+        { id: 'buyer-seller', label: BUYER_COPY[locale].askSeller },
         { id: 'buyer-back', label: BUYER_COPY[locale].backToCatalog },
         { id: 'buyer-home', label: BUYER_COPY[locale].homeButton },
       ],
-    };
+    });
   }
   return { messages, claims };
 }
