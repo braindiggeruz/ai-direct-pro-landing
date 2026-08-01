@@ -45,8 +45,11 @@
       "text": "Ko‘p tadbirkor «menga 20 sahifali sayt kerak» deydi. Aslida ish hajmini sahifalar soni emas, noyob maketlar soni belgilaydi. Agar 20 ta sahifadan 17 tasi bitta xil ko‘rinishdagi xizmat sahifasi bo‘lsa, bu deyarli bitta maket va uni to‘ldirish ishi. Aksincha, 5 sahifalik saytda har biri o‘ziga xos bo‘lsa — bu besh xil ish."
     },
     {
-      "type": "p",
-      "text": "Shuning uchun taklif so‘raganda «nechta sahifa» emas, «nechta noyob maket» deb aniqlashtiring. Bu bitta savol ikki taklifni solishtirishni ancha osonlashtiradi."
+      "type": "linkp",
+      "text": "Shuning uchun taklif so‘raganda «nechta sahifa» emas, «nechta noyob maket» deb aniqlashtiring. Bu bitta savol ikki taklifni solishtirishni ancha osonlashtiradi. Qaysi turdagi sayt umuman kerakligi hali aniq bo‘lmasa, avval {tur} maqolasini ko‘ring — tur aniqlanmaguncha smeta ham taxminiy bo‘lib qoladi.",
+      "links": [
+        { "token": "tur", "target": "/uz/blog/biznes-uchun-qanday-sayt-kerak/", "anchor": "qaysi turdagi sayt kerak" }
+      ]
     },
     { "type": "h2", "id": "dizayn", "text": "Dizayn: noldan chizish har doim ham kerak emas" },
     {
@@ -112,8 +115,11 @@
     },
     { "type": "h2", "id": "keyingi-qadam", "text": "Keyingi amaliy qadam" },
     {
-      "type": "p",
-      "text": "Taklif so‘rashdan oldin uchta narsani yozib qo‘ying: sayt qanday vazifani bajarishi kerak, mijoz qanday harakat qilishi kerak (qo‘ng‘iroq, ariza, buyurtma) va sizda tayyor material bormi. Shu uch javob bilan har qanday ijrochi ancha aniq va halol smeta beradi."
+      "type": "linkp",
+      "text": "Taklif so‘rashdan oldin uchta narsani yozib qo‘ying: sayt qanday vazifani bajarishi kerak, mijoz qanday harakat qilishi kerak (qo‘ng‘iroq, ariza, buyurtma) va sizda tayyor material bormi. To‘liqroq ro‘yxat {tayyor} maqolasida keltirilgan. Shu javoblar bilan har qanday ijrochi ancha aniq va halol smeta beradi.",
+      "links": [
+        { "token": "tayyor", "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/", "anchor": "buyurtmadan oldingi tayyorgarlik" }
+      ]
     },
     {
       "type": "linkp",
@@ -169,6 +175,18 @@
     {
       "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
       "anchor": "Bepul konstruktor yoki buyurtma sayt",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+      "anchor": "Buyurtmadan oldingi tayyorgarlik",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+      "anchor": "Qaysi turdagi sayt kerak",
       "locale": "uz",
       "type": "contextual"
     },

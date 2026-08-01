@@ -1,0 +1,220 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "biznes-sayti-koproq-ariza-olishi-uchun",
+  "url": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+  "title": "Sayt nega ariza olmayapti va buni qanday tuzatish mumkin",
+  "description": "Sayt bor, lekin murojaat yo‘q. Birinchi ekran, ariza shakli, mobil qulaylik, tezlik, ishonch belgilari va analitika — arizaga to‘sqinlik qiladigan sabablar va ularni tekshirish tartibi.",
+  "h1": "Sayt nega ariza olmayapti",
+  "topicCluster": "web-development-uz",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "sayt ariza olmayapti",
+    "saytdan ariza olish",
+    "ariza shakli",
+    "sayt konversiyasi",
+    "mobil qulaylik"
+  ],
+  "intro": "Qisqa javob: sayt ariza olmasa, sabab odatda ikkitadan biri — yo saytga odam kelmayapti, yo kelgan odam harakat qilmayapti. Bu ikki holat butunlay boshqacha hal qilinadi, shuning uchun birinchi qadam — analitikaga qarab qaysi biri ekanini aniqlash. Quyida tekshirish tartibi va eng ko‘p uchraydigan to‘siqlar ko‘rsatilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: sayt ariza olmasa, sabab odatda ikkitadan biri. Yo saytga odam kelmayapti — bu trafik masalasi. Yo odam keladi, lekin harakat qilmaydi — bu sahifaning o‘zi bilan bog‘liq masala. Ular butunlay boshqacha hal qilinadi va ularni aralashtirib yuborish eng ko‘p uchraydigan xato."
+    },
+    {
+      "type": "p",
+      "text": "Shuning uchun ish analitikadan boshlanadi. Agar sahifaga oyiga bir necha o‘nlab odam kirsa va ariza bo‘lmasa — bu hali xulosa chiqarish uchun yetarli emas. Agar yuzlab odam kirib, hech kim formani to‘ldirmasa — sahifada aniq to‘siq bor."
+    },
+    { "type": "h2", "id": "tartib", "text": "Tekshirish tartibi" },
+    {
+      "type": "table",
+      "headers": ["Bosqich", "Nimani tekshirasiz", "Nima haqida gapiradi"],
+      "rows": [
+        ["Analitika", "Sahifaga kirishlar bormi", "Trafik masalasimi yoki sahifa masalasi"],
+        ["Birinchi ekran", "Nima taklif qilinayotgani darhol tushunarlimi", "Odam sahifani tark etish sababi"],
+        ["Ariza shakli", "Nechta maydon bor va u ishlaydimi", "Eng keng tarqalgan texnik to‘siq"],
+        ["Mobil ko‘rinish", "Telefonda o‘qish va bosish qulaymi", "Trafikning katta qismi telefondan keladi"],
+        ["Tezlik", "Sahifa qancha vaqtda ochiladi", "Sekin sahifa foydalanuvchini kutmaydi"],
+        ["Ishonch", "Kontakt, kompaniya haqida ma’lumot bormi", "Noma’lum saytga ariza qoldirilmaydi"]
+      ]
+    },
+    { "type": "h2", "id": "birinchi-ekran", "text": "Birinchi ekran: uch soniyalik sinov" },
+    {
+      "type": "p",
+      "text": "Saytni ochgan odam bir necha soniya ichida uchta savolga javob topishi kerak: bu yerda nima taklif qilinadi, bu menga tegishlimi va keyin nima qilishim kerak. Agar birinchi ekranda umumiy shior turgan bo‘lsa-yu, xizmat nomi bo‘lmasa — odam qolgan qismini o‘qimaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sarlavhada xizmat aniq nomlangan bo‘lsin, shior emas",
+        "Kimga mo‘ljallangani ko‘rsatilsin",
+        "Bitta asosiy tugma bo‘lsin — bir nechta teng tugma tanlovni qiyinlashtiradi",
+        "Telefon yoki messenjer havolasi ko‘rinib tursin"
+      ]
+    },
+    { "type": "h2", "id": "forma", "text": "Ariza shakli: eng ko‘p yo‘qotish shu yerda" },
+    {
+      "type": "p",
+      "text": "Amaliyotda birinchi navbatda tekshiriladigan narsa — forma umuman ishlayaptimi. Bu jiddiy eshitilmasligi mumkin, lekin buzilgan yoki hech qayerga bormaydigan forma juda ko‘p uchraydi: sayt ishga tushirilgandan keyin pochta manzili o‘zgargan, yoki xatlar spamga tushib qolgan."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Formani o‘zingiz to‘ldirib, xabar kelishini tekshiring",
+        "Maydonlar sonini kamaytiring — ism va telefon ko‘pincha yetarli",
+        "Majburiy bo‘lmagan maydonlarni majburiy qilmang",
+        "Yuborilgandan keyin aniq tasdiq xabari chiqsin",
+        "Xatolik matni tushunarli bo‘lsin — «xato» so‘zining o‘zi yetarli emas"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ariza qayerga tushishi ham muhim. Pochtaga tushgan xat oson yo‘qoladi, Telegram yoki CRM esa kim javob berganini ko‘rish imkonini beradi. Murojaat oqimini bitta joyga yig‘ish uchun {avtomat} yondashuvi ishlatiladi, ish vaqtidan tashqari javob kerak bo‘lsa esa saytga {bot} qo‘shiladi.",
+      "links": [
+        { "token": "avtomat", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" },
+        { "token": "bot", "target": "/uz/sayt-uchun-ai-bot/", "anchor": "sayt uchun AI-bot" }
+      ]
+    },
+    { "type": "h2", "id": "mobil", "text": "Mobil qurilmalar — asosiy ekran" },
+    {
+      "type": "p",
+      "text": "O‘zbekistonda saytga kirishlarning katta qismi telefondan bo‘ladi. Shuning uchun sayt avvalo telefonda tekshirilishi kerak, kompyuterda emas. Amalda ko‘p sayt kompyuterda yaxshi ko‘rinadi, telefonda esa tugma juda kichik, matn siqilgan yoki forma maydonlari ekranga sig‘maydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tugmalar barmoq bilan bosish uchun yetarli kattalikda bo‘lsin",
+        "Matn kattalashtirmasdan o‘qilsin",
+        "Telefon raqami bosilganda qo‘ng‘iroq ochilsin",
+        "Messenjer havolasi bitta bosishda ochilsin",
+        "Forma klaviatura chiqqanda ham ko‘rinib tursin"
+      ]
+    },
+    { "type": "h2", "id": "tezlik", "text": "Tezlik va texnik to‘siqlar" },
+    {
+      "type": "p",
+      "text": "Sekin ochiladigan sahifa arizani shunchaki yo‘qotadi — odam kutmaydi. Eng ko‘p uchraydigan sabab — siqilmagan katta suratlar. Shundan keyin ortiqcha skriptlar va tashqi vidjetlar keladi. Bu ishlar odatda katta qayta ishlashni talab qilmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Yana bir tekshiruv: sayt https orqali ochiladimi. Sertifikat muddati tugagan bo‘lsa, brauzer ogohlantirish ko‘rsatadi va foydalanuvchilarning katta qismi shu yerda ortga qaytadi."
+    },
+    { "type": "h2", "id": "ishonch", "text": "Ishonch belgilari" },
+    {
+      "type": "list",
+      "items": [
+        "Real kontaktlar: manzil, telefon, ish vaqti",
+        "Kompaniya haqida qisqa va aniq ma’lumot",
+        "Ish namunalari yoki jarayon suratlari",
+        "Xizmat nima kiritishi va nima kiritmasligi ochiq yozilgan",
+        "Mijoz savolga javobni qancha vaqtda olishini bilishi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu yerda muhim ogohlantirish: ishonchni sun’iy ravishda yasash foyda bermaydi. To‘qib chiqarilgan sharh yoki mavjud bo‘lmagan mijoz logotipi tekshirilganda teskari ta’sir beradi. Ishlaydigan narsa — real va tekshirilishi mumkin bo‘lgan ma’lumot."
+    },
+    { "type": "h2", "id": "olchov", "text": "O‘lchovsiz tuzatish bo‘lmaydi" },
+    {
+      "type": "p",
+      "text": "Agar analitika ulanmagan bo‘lsa, har qanday o‘zgarish taxminga aylanadi. Minimal to‘plam: Google Analytics va Search Console. Ular kirishlar qayerdan kelayotganini, qaysi sahifalar ko‘rilayotganini va qidiruvda qanday so‘rovlar bo‘yicha ko‘rsatilayotganini ko‘rsatadi."
+    },
+    {
+      "type": "p",
+      "text": "Bir vaqtning o‘zida o‘nta narsani o‘zgartirmang. Birinchi navbatda formani va mobil ko‘rinishni tuzating, keyin natijani kuzating. Aks holda nima ishlaganini aniqlab bo‘lmaydi."
+    },
+    { "type": "h2", "id": "trafik", "text": "Agar muammo trafikda bo‘lsa" },
+    {
+      "type": "p",
+      "text": "Sahifaga deyarli hech kim kirmasa, sahifani tuzatish natija bermaydi. Bunday holatda savol boshqacha bo‘ladi: odamlar sizni qanday qidiradi va sayt shu so‘rovlar bo‘yicha umuman ko‘rsatilayaptimi. Bu uzoqroq ish va u alohida rejalashtiriladi."
+    },
+    {
+      "type": "p",
+      "text": "Halol ogohlantirish: qidiruvdagi mavqe qisqa muddatda kafolatlanmaydi va buni kafolatlaydigan taklifga ishonmaslik kerak. Sayt tomonidagi ish — texnik asosni to‘g‘ri qilish va sahifa mazmunini so‘rovga mos qilish."
+    },
+    { "type": "h2", "id": "keyingi-qadam", "text": "Keyingi qadam" },
+    {
+      "type": "linkp",
+      "text": "Agar joriy sayt tuzatib bo‘lmaydigan darajada eskirgan bo‘lsa yoki uni umuman qayta qurish kerak bo‘lsa — {xizmat} sahifasida jarayon, integratsiyalar va nimalar kirishi yozilgan. Yangi loyihaga tayyorlanayotgan bo‘lsangiz, {tayyor} ro‘yxati foydali bo‘ladi.",
+      "links": [
+        { "token": "xizmat", "target": "/uz/sayt-yaratish/", "anchor": "professional sayt xizmati" },
+        { "token": "tayyor", "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/", "anchor": "buyurtmadan oldingi tayyorgarlik" }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Saytingizni birgalikda ko‘rib chiqamiz",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Sayt yangi, qancha vaqt kutish kerak?",
+      "a": "Yangi sayt qidiruvda darhol ko‘rinmaydi va birinchi haftalarda trafik kam bo‘ladi. Shu davrda xulosani arizalar soniga emas, texnik holatga qarab chiqaring: forma ishlayaptimi, analitika yig‘ilayaptimi, sahifalar indeksatsiyaga tushdimi."
+    },
+    {
+      "q": "Ariza kelmasligiga dizayn sababchi bo‘lishi mumkinmi?",
+      "a": "Bo‘lishi mumkin, lekin bu odatda birinchi sabab emas. Amaliyotda ko‘proq uchraydigan sabablar — ishlamaydigan forma, noqulay mobil ko‘rinish, sekin ochilish va birinchi ekranda taklif aniq emasligi."
+    },
+    {
+      "q": "Qancha maydon bo‘lishi kerak formada?",
+      "a": "Kamroq bo‘lgani yaxshi. Ko‘p holatda ism va telefon yetarli. Qo‘shimcha ma’lumotni menejer suhbatda so‘raydi — uni formada talab qilish murojaatni kamaytiradi."
+    },
+    {
+      "q": "Onlayn chat qo‘shish yordam beradimi?",
+      "a": "Agar unga tez javob berilsa — ha. Javobsiz qolgan chat esa aksincha taassurot qoldiradi. Shuning uchun uni ulashdan oldin kim va qanday vaqtda javob berishini hal qilish kerak."
+    },
+    {
+      "q": "Sharhlarni qo‘shish kerakmi?",
+      "a": "Real sharhlar ishonchni oshiradi. To‘qib chiqarilgan sharh esa xavfli: u tekshirilganda butun sahifaga bo‘lgan ishonchni yo‘qotadi. Real sharh bo‘lmasa, ish namunalari yoki jarayon tavsifi yaxshiroq ishlaydi."
+    },
+    {
+      "q": "Qaysi o‘zgarishdan boshlash kerak?",
+      "a": "Formadan va mobil ko‘rinishdan. Bular eng tez tekshiriladi va eng ko‘p yo‘qotish shu ikki joyda bo‘ladi. Keyin tezlik va birinchi ekran matni ustida ishlanadi."
+    }
+  ],
+  "cta": {
+    "label": "Saytni ko‘rib chiqishni so‘rash",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "professional sayt xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+      "anchor": "Buyurtmadan oldingi tayyorgarlik",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "Sayt uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Sayt nega ariza olmayapti va buni qanday tuzatish mumkin",
+  "ogDescription": "Trafik masalasimi yoki sahifa masalasi — tekshirish tartibi: birinchi ekran, forma, mobil qulaylik, tezlik, ishonch va analitika.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+  "hreflangUz": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-01",
+  "dateModified": "2026-08-01",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01"
+}

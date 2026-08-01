@@ -208,6 +208,13 @@
       "anchor": "ko'chmas mulk agentligi uchun AI bot",
       "locale": "uz",
       "type": "niche"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "web sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Website development is the adjacent commercial service for this topic."
     }
   ],
   "ogTitle": "Biznes Instagram va Telegram'dan kelgan arizalarni nega yo'qotadi",

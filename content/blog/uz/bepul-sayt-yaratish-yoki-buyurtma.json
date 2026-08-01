@@ -113,9 +113,10 @@
     },
     {
       "type": "linkp",
-      "text": "Hajm va narxni oldindan tushunish uchun {narx} maqolasini o‘qing, tayyor yechim kerak bo‘lsa — {xizmat} sahifasida ish jarayoni, integratsiyalar va nimalar kirishi yozilgan.",
+      "text": "Hajm va narxni oldindan tushunish uchun {narx} maqolasini o‘qing. Domenni o‘z nomingizda saqlash masalasi {domen} maqolasida batafsil ko‘rib chiqilgan. Tayyor yechim kerak bo‘lsa — {xizmat} sahifasida ish jarayoni, integratsiyalar va nimalar kirishi yozilgan.",
       "links": [
         { "token": "narx", "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "anchor": "narx nimaga bog‘liq" },
+        { "token": "domen", "target": "/uz/blog/domen-va-hosting-qanday-tanlanadi/", "anchor": "domen va hosting" },
         { "token": "xizmat", "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt yaratish" }
       ]
     },
@@ -162,6 +163,18 @@
     {
       "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
       "anchor": "Sayt narxi nimaga bog‘liq",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+      "anchor": "Domen va hosting qanday tanlanadi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+      "anchor": "Biznesga qanday sayt kerak",
       "locale": "uz",
       "type": "contextual"
     },

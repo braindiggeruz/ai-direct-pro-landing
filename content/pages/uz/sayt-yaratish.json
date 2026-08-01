@@ -12,24 +12,24 @@
     "sayt tuzish",
     "biznes uchun sayt",
     "kompaniya uchun sayt",
-    "internet do'kon yaratish",
+    "internet do‘kon yaratish",
     "landing page yaratish"
   ],
   "searchIntent": "commercial",
   "h1": "Sayt yaratish — biznesingizga ariza keltiradigan veb sayt",
   "title": "Sayt yaratish — biznes uchun veb sayt | GPTBot.uz",
-  "description": "Biznes uchun sayt yaratish: landing, korporativ sayt, katalog va internet do'kon. Mobil qurilmalarga moslashgan, ariza formasi, analitika, Telegram va AI-bot integratsiyasi. Bepul maslahat.",
+  "description": "Biznes uchun sayt yaratish: landing, korporativ sayt, katalog va internet do‘kon. Mobil qurilmalarga moslashgan, ariza formasi, analitika, Telegram va AI-bot integratsiyasi. Bepul maslahat.",
   "canonical": "https://gptbot.uz/uz/sayt-yaratish/",
   "hreflangRu": "/ru/razrabotka-saytov-tashkent/",
   "hreflangUz": "/uz/sayt-yaratish/",
   "ogTitle": "Sayt yaratish — biznesingizga ariza keltiradigan veb sayt | GPTBot.uz",
-  "ogDescription": "Landing, korporativ sayt, katalog yoki internet do'kon. Mobil versiya, ariza formasi, analitika, Telegram va AI-bot integratsiyasi. Narx loyiha hajmiga bog'liq.",
+  "ogDescription": "Landing, korporativ sayt, katalog yoki internet do‘kon. Mobil versiya, ariza formasi, analitika, Telegram va AI-bot integratsiyasi. Narx loyiha hajmiga bog‘liq.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Sayt yaratish",
   "heroTitle": "Sayt yaratish — biznesingizga ariza keltiradigan veb sayt",
-  "heroSubtitle": "Landing, korporativ sayt, katalog yoki internet do'kon yaratamiz. Sayt mobil qurilmalarda tez ochiladi, ariza formasi ishlaydi, arizalar esa Telegram yoki CRM'ga tushadi.",
+  "heroSubtitle": "Landing, korporativ sayt, katalog yoki internet do‘kon yaratamiz. Sayt mobil qurilmalarda tez ochiladi, ariza formasi ishlaydi, arizalar esa Telegram yoki CRM’ga tushadi.",
   "ctaPrimaryLabel": "Bepul maslahat olish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Qanday saytlar yaratamiz",
@@ -37,7 +37,7 @@
   "bodyBlocks": [
     {
       "type": "toc",
-      "text": "Sahifa bo'yicha",
+      "text": "Sahifa bo‘yicha",
       "links": [
         { "anchor": "turlari", "label": "Qanday saytlar yaratamiz" },
         { "anchor": "nima-kiradi", "label": "Sayt yaratishga nima kiradi" },
@@ -47,63 +47,64 @@
         { "anchor": "kimlar-uchun", "label": "Qaysi bizneslar uchun" },
         { "anchor": "ai-bot", "label": "Sayt va AI-bot birgalikda" },
         { "anchor": "huquqlar", "label": "Domen, hosting va huquqlar" },
-        { "anchor": "faq", "label": "Ko'p so'raladigan savollar" }
+        { "anchor": "oqing", "label": "Buyurtmadan oldin o‘qing" },
+        { "anchor": "faq", "label": "Ko‘p so‘raladigan savollar" }
       ]
     },
     {
       "type": "p",
-      "text": "Sayt yaratish — bu shunchaki chiroyli sahifa chizish emas. Biznes uchun sayt bitta vazifani bajarishi kerak: odam saytga kirsin, nima taklif qilinayotganini tushunsin va bog'lanish uchun harakat qilsin. Shuning uchun biz ishni dizayndan emas, sayt qanday ariza keltirishidan boshlaymiz."
+      "text": "Sayt yaratish — bu shunchaki chiroyli sahifa chizish emas. Biznes uchun sayt bitta vazifani bajarishi kerak: odam saytga kirsin, nima taklif qilinayotganini tushunsin va bog‘lanish uchun harakat qilsin. Shuning uchun biz ishni dizayndan emas, sayt qanday ariza keltirishidan boshlaymiz."
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — O'zbekistondagi mustaqil AI-xizmat va veb-ishlab chiqish jamoasi. Biz saytlar yaratamiz va ularga arizalarni yig'adigan AI-bot hamda avtomatlashtirish qo'shamiz. Ish rus va o'zbek tillarida olib boriladi."
+      "text": "GPTBot.uz — O‘zbekistondagi mustaqil AI-xizmat va veb-ishlab chiqish jamoasi. Biz saytlar yaratamiz va ularga arizalarni yig‘adigan AI-bot hamda avtomatlashtirish qo‘shamiz. Ish rus va o‘zbek tillarida olib boriladi."
     },
     { "type": "h2", "id": "turlari", "text": "Qanday saytlar yaratamiz" },
     {
       "type": "p",
-      "text": "Har bir biznesga katta sayt kerak emas. Ko'pincha bitta yaxshi ishlangan sahifa ko'p bo'limli saytdan ko'ra ko'proq ariza keltiradi. Quyida asosiy turlari va ular qachon mos kelishi."
+      "text": "Har bir biznesga katta sayt kerak emas. Ko‘pincha bitta yaxshi ishlangan sahifa ko‘p bo‘limli saytdan ko‘ra ko‘proq ariza keltiradi. Quyida asosiy turlari va ular qachon mos kelishi."
     },
     {
       "type": "table",
       "headers": ["Sayt turi", "Qachon mos keladi", "Asosiy vazifasi"],
       "rows": [
-        ["Landing page", "Bitta xizmat yoki mahsulot, reklama trafigi bor", "Arizani yig'ish"],
+        ["Landing page", "Bitta xizmat yoki mahsulot, reklama trafigi bor", "Arizani yig‘ish"],
         ["Korporativ sayt", "Bir nechta xizmat, kompaniya haqida ishonch kerak", "Ishonch va murojaat"],
-        ["Katalog sayt", "Mahsulot ko'p, lekin onlayn to'lov shart emas", "Tanlash va so'rov yuborish"],
-        ["Internet do'kon", "Onlayn savdo, savat va to'lov kerak", "Buyurtma berish"],
-        ["Ariza yig'uvchi sayt", "Asosiy maqsad — lid oqimi", "Kontakt va lid saralash"]
+        ["Katalog sayt", "Mahsulot ko‘p, lekin onlayn to‘lov shart emas", "Tanlash va so‘rov yuborish"],
+        ["Internet do‘kon", "Onlayn savdo, savat va to‘lov kerak", "Buyurtma berish"],
+        ["Ariza yig‘uvchi sayt", "Asosiy maqsad — lid oqimi", "Kontakt va lid saralash"]
       ]
     },
     {
       "type": "p",
-      "text": "Agar qaysi turi kerakligi aniq bo'lmasa — buni birinchi suhbatda hal qilamiz. Ko'pincha kichik landing'dan boshlab, keyin uni korporativ saytgacha kengaytirish arzonroq va tezroq bo'ladi."
+      "text": "Agar qaysi turi kerakligi aniq bo‘lmasa — buni birinchi suhbatda hal qilamiz. Ko‘pincha kichik landing‘dan boshlab, keyin uni korporativ saytgacha kengaytirish arzonroq va tezroq bo‘ladi."
     },
     { "type": "h2", "id": "nima-kiradi", "text": "Sayt yaratishga nima kiradi" },
     {
       "type": "list",
       "items": [
         "Struktura: qaysi bloklar, qanday ketma-ketlikda va nima uchun",
-        "Dizayn: brendingizga mos, ortiqcha bezaksiz, o'qish qulay",
+        "Dizayn: brendingizga mos, ortiqcha bezaksiz, o‘qish qulay",
         "Mobil versiya: sayt telefonda ham xuddi shunday ishlaydi",
         "Matn: xizmatingizni tushunarli tilda tavsiflash",
         "Ariza formasi: ism va telefon, ortiqcha maydonlarsiz",
         "Arizalarni yetkazish: Telegram, pochta, Google Sheets yoki CRM",
-        "Analitika: Google Analytics, Search Console, kerak bo'lsa Yandex Metrika",
+        "Analitika: Google Analytics, Search Console, kerak bo‘lsa Yandex Metrika",
         "Bazaviy texnik SEO: sarlavhalar, meta-teglar, tezlik, sitemap, robots.txt",
         "Domen, hosting va SSL sertifikatini ulash"
       ]
     },
     {
       "type": "p",
-      "text": "Analitika alohida ta'kidlashga arziydi. Analitikasiz sayt qora quti bo'lib qoladi: qancha odam kirgani, qayerdan kelgani va nechta ariza qoldirgani noma'lum bo'ladi. Shuning uchun biz analitikani ishga tushirish paytidayoq ulaymiz."
+      "text": "Analitika alohida ta’kidlashga arziydi. Analitikasiz sayt qora quti bo‘lib qoladi: qancha odam kirgani, qayerdan kelgani va nechta ariza qoldirgani noma’lum bo‘ladi. Shuning uchun biz analitikani ishga tushirish paytidayoq ulaymiz."
     },
     { "type": "h2", "id": "jarayon", "text": "Ish jarayoni" },
     {
       "type": "list",
       "items": [
         "Brif — biznesingiz, mijozlaringiz va sayt nima qilishi kerakligi haqida suhbat",
-        "Struktura — sahifalar va bloklar ro'yxatini kelishib olamiz",
-        "Dizayn — asosiy sahifalarning ko'rinishi",
+        "Struktura — sahifalar va bloklar ro‘yxatini kelishib olamiz",
+        "Dizayn — asosiy sahifalarning ko‘rinishi",
         "Ishlab chiqish — dizaynni ishlaydigan saytga aylantirish",
         "Test — mobil, brauzerlar, formalar va tezlikni tekshirish",
         "Ishga tushirish — domenga ulash, analitika, indeksatsiyaga topshirish"
@@ -111,29 +112,29 @@
     },
     {
       "type": "p",
-      "text": "Har bosqichda natijani ko'rasiz va tasdiqlaysiz. Struktura tasdiqlanmagunicha dizaynga o'tmaymiz — bu keyinchalik qayta ishlashning oldini oladi."
+      "text": "Har bosqichda natijani ko‘rasiz va tasdiqlaysiz. Struktura tasdiqlanmagunicha dizaynga o‘tmaymiz — bu keyinchalik qayta ishlashning oldini oladi."
     },
     { "type": "h2", "id": "muddat", "text": "Muddat" },
     {
       "type": "p",
-      "text": "Aniq muddat texnik topshiriq tayyor bo'lgandan keyin aytiladi, chunki u sahifalar soni, dizayn murakkabligi va integratsiyalarga bog'liq. Umumiy qoida shunday: landing korporativ saytdan tez ishga tushadi, internet do'kon esa eng ko'p vaqt oladi, chunki katalog, savat va to'lov qo'shiladi."
+      "text": "Aniq muddat texnik topshiriq tayyor bo‘lgandan keyin aytiladi, chunki u sahifalar soni, dizayn murakkabligi va integratsiyalarga bog‘liq. Umumiy qoida shunday: landing korporativ saytdan tez ishga tushadi, internet do‘kon esa eng ko‘p vaqt oladi, chunki katalog, savat va to‘lov qo‘shiladi."
     },
     {
       "type": "p",
-      "text": "Agar tezroq boshlash kerak bo'lsa — qisqartirilgan birinchi versiyani ishga tushirib, keyin bosqichma-bosqich kengaytirish mumkin. Bu ko'pincha eng amaliy yo'l."
+      "text": "Agar tezroq boshlash kerak bo‘lsa — qisqartirilgan birinchi versiyani ishga tushirib, keyin bosqichma-bosqich kengaytirish mumkin. Bu ko‘pincha eng amaliy yo‘l."
     },
     { "type": "h2", "id": "narx", "text": "Narx qanday shakllanadi" },
     {
       "type": "p",
-      "text": "Narx loyiha hajmiga bog'liq. Biz oldindan «hamma uchun bitta narx» aytmaymiz, chunki bir sahifali landing va to'lov tizimi ulangan internet do'kon butunlay boshqa hajmdagi ish."
+      "text": "Narx loyiha hajmiga bog‘liq. Biz oldindan «hamma uchun bitta narx» aytmaymiz, chunki bir sahifali landing va to‘lov tizimi ulangan internet do‘kon butunlay boshqa hajmdagi ish."
     },
     {
       "type": "list",
       "items": [
         "Sahifalar va noyob bloklar soni",
         "Dizayn tayyor uslubda yoki noldan ishlanishi",
-        "Katalog, savat, to'lov kabi funksiyalar",
-        "Integratsiyalar: CRM, Telegram, to'lov tizimlari, AI-bot",
+        "Katalog, savat, to‘lov kabi funksiyalar",
+        "Integratsiyalar: CRM, Telegram, to‘lov tizimlari, AI-bot",
         "Matn va rasmlar sizda tayyor yoki biz tayyorlashimiz"
       ]
     },
@@ -145,23 +146,23 @@
     {
       "type": "list",
       "items": [
-        "Xizmat ko'rsatuvchi bizneslar — ta'mirlash, yuridik, konsalting, logistika",
-        "Do'konlar va onlayn savdo",
+        "Xizmat ko‘rsatuvchi bizneslar — ta’mirlash, yuridik, konsalting, logistika",
+        "Do‘konlar va onlayn savdo",
         "Klinikalar, stomatologiya va tibbiy markazlar",
-        "O'quv markazlari va kurslar",
-        "Go'zallik salonlari va fitnes klublar",
+        "O‘quv markazlari va kurslar",
+        "Go‘zallik salonlari va fitnes klublar",
         "Ishlab chiqarish va ulgurji savdo",
-        "Mahalliy biznes — mijoz sizni Google'dan qidiradigan har qanday soha"
+        "Mahalliy biznes — mijoz sizni Google’dan qidiradigan har qanday soha"
       ]
     },
     { "type": "h2", "id": "ai-bot", "text": "Sayt va AI-bot birgalikda" },
     {
       "type": "p",
-      "text": "Bizning asosiy farqimiz shu: sayt yakuniy nuqta emas. Odam saytga kiradi, lekin har doim ham formani to'ldirmaydi — ba'zan savol berishni xohlaydi, ba'zan esa kechqurun kiradi va javob kutib turadi."
+      "text": "Bizning asosiy farqimiz shu: sayt yakuniy nuqta emas. Odam saytga kiradi, lekin har doim ham formani to‘ldirmaydi — ba’zan savol berishni xohlaydi, ba’zan esa kechqurun kiradi va javob kutib turadi."
     },
     {
       "type": "linkp",
-      "text": "Shuning uchun saytga {bot} qo'shish mumkin: u savollarga darhol javob beradi, ism va telefonni yig'adi va tayyor arizani menejerga uzatadi. Xuddi shu mantiq {telegram} va Instagram Direct uchun ham ishlaydi, arizalarni esa {avtomat} orqali bitta oqimga yig'ish mumkin.",
+      "text": "Shuning uchun saytga {bot} qo‘shish mumkin: u savollarga darhol javob beradi, ism va telefonni yig‘adi va tayyor arizani menejerga uzatadi. Xuddi shu mantiq {telegram} va Instagram Direct uchun ham ishlaydi, arizalarni esa {avtomat} orqali bitta oqimga yig‘ish mumkin.",
       "links": [
         { "token": "bot", "target": "/uz/sayt-uchun-ai-bot/", "anchor": "sayt uchun AI-bot" },
         { "token": "telegram", "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot" },
@@ -170,7 +171,7 @@
     },
     {
       "type": "p",
-      "text": "Bu majburiy emas. Sayt AI-botsiz ham to'liq ishlaydi — bot faqat murojaat ko'p bo'lganda yoki ish vaqtidan tashqari javob kerak bo'lganda foyda beradi."
+      "text": "Bu majburiy emas. Sayt AI-botsiz ham to‘liq ishlaydi — bot faqat murojaat ko‘p bo‘lganda yoki ish vaqtidan tashqari javob kerak bo‘lganda foyda beradi."
     },
     { "type": "h2", "id": "huquqlar", "text": "Domen, hosting va huquqlar" },
     {
@@ -178,93 +179,121 @@
       "items": [
         "Domen sizning nomingizga rasmiylashtiriladi",
         "Sayt fayllari va kontent — sizniki",
-        "Analitika hisoblari sizning egaligingizda bo'ladi",
-        "Kirish ma'lumotlari topshiriladi, ular bizda qulflanib qolmaydi",
+        "Analitika hisoblari sizning egaligingizda bo‘ladi",
+        "Kirish ma’lumotlari topshiriladi, ular bizda qulflanib qolmaydi",
         "Kelajakda saytni boshqa jamoa davom ettira oladi"
       ]
     },
     {
       "type": "p",
-      "text": "Bu muhim nuqta. Agar domen yoki hosting ijrochining nomiga rasmiylashtirilgan bo'lsa, keyinchalik saytni ko'chirish qiyin bo'ladi. Biz bunday bog'liqlikni yaratmaymiz."
+      "text": "Bu muhim nuqta. Agar domen yoki hosting ijrochining nomiga rasmiylashtirilgan bo‘lsa, keyinchalik saytni ko‘chirish qiyin bo‘ladi. Biz bunday bog‘liqlikni yaratmaymiz."
     },
     { "type": "h2", "text": "Nega GPTBot.uz" },
     {
       "type": "list",
       "items": [
-        "Rus va o'zbek tillarida ishlaymiz — mahalliy bozorni tushunamiz",
+        "Rus va o‘zbek tillarida ishlaymiz — mahalliy bozorni tushunamiz",
         "Sayt bilan bir qatorda AI-bot va avtomatlashtirishni ham qilamiz",
-        "Analitikani boshidanoq ulaymiz — natija o'lchanadigan bo'ladi",
+        "Analitikani boshidanoq ulaymiz — natija o‘lchanadigan bo‘ladi",
         "Muddat va narxni texnik topshiriqdan keyin aniq aytamiz",
         "Ishga tushirgandan keyin ham yordam beramiz"
       ]
     },
     {
       "type": "p",
-      "text": "Biz kafolatlangan Google top yoki kafolatlangan sotuv va'da qilmaymiz — bunday va'dalar halol emas. Biz sayt to'g'ri ishlashi, tez ochilishi, arizalarni yo'qotmasligi va o'lchanadigan bo'lishi uchun javob beramiz."
+      "text": "Biz kafolatlangan Google top yoki kafolatlangan sotuv va’da qilmaymiz — bunday va’dalar halol emas. Biz sayt to‘g‘ri ishlashi, tez ochilishi, arizalarni yo‘qotmasligi va o‘lchanadigan bo‘lishi uchun javob beramiz."
     },
-    { "type": "h2", "text": "Buyurtma berishdan oldin" },
+    { "type": "h2", "id": "oqing", "text": "Sayt buyurtma qilishdan oldin o‘qing" },
+    {
+      "type": "p",
+      "text": "Quyidagi qo‘llanmalar buyurtmadan oldin ko‘p beriladigan savollarni yopadi. Ular sotuv matni emas — har biri bitta aniq qarorni osonlashtirish uchun yozilgan."
+    },
     {
       "type": "linkp",
-      "text": "Byudjetni oldindan tushunish uchun {narx} — smetani nima ko'taradi va ikkita taklifni qanday halol solishtirish kerak. Hali qaror qilmagan bo'lsangiz, {bepul} bepul konstruktor qachon yetarli va qachon to'siqqa aylanishini ko'rsatadi.",
+      "text": "Qayerdan boshlashni bilmasangiz, {tayyor} — ijrochiga murojaat qilishdan oldin yozib qo‘yish kerak bo‘lgan yettita narsa. Qaysi turdagi sayt kerakligi aniq bo‘lmasa, {tur} landing, korporativ sayt, katalog va internet do‘konni yonma-yon solishtiradi.",
       "links": [
-        { "token": "narx", "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "anchor": "sayt narxi nimaga bog'liq" },
+        { "token": "tayyor", "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/", "anchor": "buyurtmadan oldingi tayyorgarlik ro‘yxati" },
+        { "token": "tur", "target": "/uz/blog/biznes-uchun-qanday-sayt-kerak/", "anchor": "biznesga qanday sayt kerak" }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Byudjetni oldindan tushunish uchun {narx} — smetani nima ko‘taradi va ikkita taklifni qanday halol solishtirish kerak. Hali qaror qilmagan bo‘lsangiz, {bepul} bepul konstruktor qachon yetarli va qachon to‘siqqa aylanishini ko‘rsatadi.",
+      "links": [
+        { "token": "narx", "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "anchor": "sayt narxi nimaga bog‘liq" },
         { "token": "bepul", "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/", "anchor": "bepul konstruktor yoki buyurtma sayt" }
       ]
     },
     {
+      "type": "linkp",
+      "text": "Texnik tomoni bo‘yicha {domen} domen va hostingni kim nomiga rasmiylashtirish kerakligini tushuntiradi. Agar sizda sayt allaqachon bor, lekin murojaat kelmayotgan bo‘lsa, {ariza} tekshirish tartibini bosqichma-bosqich ko‘rsatadi.",
+      "links": [
+        { "token": "domen", "target": "/uz/blog/domen-va-hosting-qanday-tanlanadi/", "anchor": "domen va hosting qanday tanlanadi" },
+        { "token": "ariza", "target": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/", "anchor": "sayt nega ariza olmayapti" }
+      ]
+    },
+    {
       "type": "cta",
-      "text": "Sayt yaratish bo'yicha loyihangizni muhokama qilaylik — maslahat bepul.",
+      "text": "Sayt yaratish bo‘yicha loyihangizni muhokama qilaylik — maslahat bepul.",
       "href": "https://t.me/XGame_changerx"
     }
   ],
   "faq": [
     {
       "q": "Sayt yaratish qancha vaqt oladi?",
-      "a": "Aniq muddat texnik topshiriq tayyor bo'lgandan keyin aytiladi. U sahifalar soni, dizayn murakkabligi va integratsiyalarga bog'liq. Landing korporativ saytdan tez ishga tushadi, internet do'kon esa eng ko'p vaqt oladi."
+      "a": "Aniq muddat texnik topshiriq tayyor bo‘lgandan keyin aytiladi. U sahifalar soni, dizayn murakkabligi va integratsiyalarga bog‘liq. Landing korporativ saytdan tez ishga tushadi, internet do‘kon esa eng ko‘p vaqt oladi."
     },
     {
       "q": "Sayt yaratish narxi qancha?",
-      "a": "Narx loyiha hajmiga bog'liq: sahifalar soni, dizayn, funksiyalar va integratsiyalar. Suhbat va dastlabki baholash bepul — undan keyin aniq hajm va narx aytiladi."
+      "a": "Narx loyiha hajmiga bog‘liq: sahifalar soni, dizayn, funksiyalar va integratsiyalar. Suhbat va dastlabki baholash bepul — undan keyin aniq hajm va narx aytiladi."
     },
     {
       "q": "Menga qanday sayt kerakligini bilmasam nima qilay?",
-      "a": "Bu normal holat. Birinchi suhbatda biznesingiz va mijozlaringiz haqida so'raymiz, keyin qaysi turdagi sayt mos kelishini aytamiz. Ko'pincha kichikroq versiyadan boshlash to'g'ri bo'ladi."
+      "a": "Bu normal holat. Birinchi suhbatda biznesingiz va mijozlaringiz haqida so‘raymiz, keyin qaysi turdagi sayt mos kelishini aytamiz. Ko‘pincha kichikroq versiyadan boshlash to‘g‘ri bo‘ladi."
     },
     {
       "q": "Sayt telefonda yaxshi ishlaydimi?",
-      "a": "Ha. Mobil versiya alohida qo'shimcha emas, balki ishning bir qismi. O'zbekistonda trafikning katta qismi telefondan keladi, shuning uchun sayt avvalo telefonda tekshiriladi."
+      "a": "Ha. Mobil versiya alohida qo‘shimcha emas, balki ishning bir qismi. O‘zbekistonda trafikning katta qismi telefondan keladi, shuning uchun sayt avvalo telefonda tekshiriladi."
     },
     {
       "q": "Arizalar qayerga tushadi?",
       "a": "Siz uchun qulay joyga: Telegram, elektron pochta, Google Sheets yoki CRM. Bir nechta kanalni birdaniga ulash ham mumkin."
     },
     {
-      "q": "Matn va rasmlarni o'zim berishim kerakmi?",
-      "a": "Agar sizda tayyor material bo'lsa — bu ishni tezlashtiradi. Bo'lmasa, matnni biz tayyorlaymiz va suratlar bo'yicha nima kerakligini aytamiz."
+      "q": "Matn va rasmlarni o‘zim berishim kerakmi?",
+      "a": "Agar sizda tayyor material bo‘lsa — bu ishni tezlashtiradi. Bo‘lmasa, matnni biz tayyorlaymiz va suratlar bo‘yicha nima kerakligini aytamiz."
     },
     {
       "q": "Domen va hosting kimning nomiga rasmiylashtiriladi?",
-      "a": "Sizning nomingizga. Kirish ma'lumotlari sizga topshiriladi va kelajakda saytni istalgan jamoa davom ettira oladi."
+      "a": "Sizning nomingizga. Kirish ma’lumotlari sizga topshiriladi va kelajakda saytni istalgan jamoa davom ettira oladi."
     },
     {
       "q": "Saytga AI-bot ulash shartmi?",
-      "a": "Yo'q, bu ixtiyoriy. Sayt botsiz ham to'liq ishlaydi. Bot murojaat ko'p bo'lganda yoki ish vaqtidan tashqari javob kerak bo'lganda foyda beradi."
+      "a": "Yo‘q, bu ixtiyoriy. Sayt botsiz ham to‘liq ishlaydi. Bot murojaat ko‘p bo‘lganda yoki ish vaqtidan tashqari javob kerak bo‘lganda foyda beradi."
     },
     {
-      "q": "Sayt Google'da birinchi o'ringa chiqadimi?",
-      "a": "Hech kim buni kafolatlay olmaydi va kafolat bergan ijrochiga ishonmaslik kerak. Biz bazaviy texnik SEO qilamiz: struktura, sarlavhalar, tezlik, sitemap va indeksatsiya. Pozitsiya esa raqobat va keyingi ishga bog'liq."
+      "q": "Sayt Google’da birinchi o‘ringa chiqadimi?",
+      "a": "Hech kim buni kafolatlay olmaydi va kafolat bergan ijrochiga ishonmaslik kerak. Biz bazaviy texnik SEO qilamiz: struktura, sarlavhalar, tezlik, sitemap va indeksatsiya. Pozitsiya esa raqobat va keyingi ishga bog‘liq."
     },
     {
-      "q": "Ishga tushirilgandan keyin sayt bilan nima bo'ladi?",
-      "a": "Sayt sizda qoladi va ishlashda davom etadi. Kerak bo'lsa yangi bo'lim qo'shish, matnni yangilash yoki analitika bo'yicha yordam berishimiz mumkin."
+      "q": "Ishga tushirilgandan keyin sayt bilan nima bo‘ladi?",
+      "a": "Sayt sizda qoladi va ishlashda davom etadi. Kerak bo‘lsa yangi bo‘lim qo‘shish, matnni yangilash yoki analitika bo‘yicha yordam berishimiz mumkin."
     },
     {
-      "q": "Domen .uz zonasida bo'lishi shartmi?",
-      "a": "Shart emas. .uz mahalliy auditoriya uchun tanish va ishonch beradi, .com esa xalqaro yoki ikki tilli loyihalar uchun qulay. Ikkalasini birdaniga ro'yxatdan o'tkazib, biriga yo'naltirish ham mumkin. Qaysi variant bo'lsa ham, domen sizning nomingizga rasmiylashtiriladi."
+      "q": "Domen .uz zonasida bo‘lishi shartmi?",
+      "a": "Shart emas. .uz mahalliy auditoriya uchun tanish va ishonch beradi, .com esa xalqaro yoki ikki tilli loyihalar uchun qulay. Ikkalasini birdaniga ro‘yxatdan o‘tkazib, biriga yo‘naltirish ham mumkin. Qaysi variant bo‘lsa ham, domen sizning nomingizga rasmiylashtiriladi."
     },
     {
-      "q": "Bepul konstruktorda ochilgan saytim bor, uni ko'chirish mumkinmi?",
-      "a": "Ha. Ko'chishdan oldin matnlarni, rasmlarni va mavjud sahifalar manzillari ro'yxatini saqlab qo'ying — eski manzillar yangilariga qayta yo'naltiriladi va qidiruvdagi mavqe deyarli yo'qolmaydi."
+      "q": "Bepul konstruktorda ochilgan saytim bor, uni ko‘chirish mumkinmi?",
+      "a": "Ha. Ko‘chishdan oldin matnlarni, rasmlarni va mavjud sahifalar manzillari ro‘yxatini saqlab qo‘ying — eski manzillar yangilariga qayta yo‘naltiriladi va qidiruvdagi mavqe deyarli yo‘qolmaydi."
+    },
+    {
+      "q": "Ishni boshlash uchun nimalar kerak?",
+      "a": "Minimal to‘plam: sayt qanday vazifani bajarishi kerakligi, mijozingiz kim va u qanday harakat qilishi kerak. Qolganini birinchi suhbatda aniqlaymiz. Matn, rasm yoki domen hali tayyor bo‘lmasa ham, ishni boshlash mumkin — ular jarayonda parallel tayyorlanadi."
+    },
+    {
+      "q": "Telegram yoki CRM ulash mumkinmi?",
+      "a": "Ha. Sayt formasidan kelgan ariza Telegramga, elektron pochtaga, Google Sheets’ga yoki CRM tizimiga tushishi mumkin, bir vaqtning o‘zida bir nechta kanalga ham. Qaysi tizim ishlatilishini oldindan ayting — shunda u boshidan hisobga olinadi va keyin qayta ishlash kerak bo‘lmaydi."
     }
   ],
   "internalLinks": [
@@ -288,7 +317,7 @@
     },
     {
       "target": "/uz/dokon-uchun-ai-bot/",
-      "anchor": "do'kon uchun AI-bot",
+      "anchor": "do‘kon uchun AI-bot",
       "locale": "uz",
       "type": "niche"
     },
@@ -312,13 +341,37 @@
     },
     {
       "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
-      "anchor": "Sayt narxi nimaga bog'liq",
+      "anchor": "Sayt narxi nimaga bog‘liq",
       "locale": "uz",
       "type": "contextual"
     },
     {
       "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
       "anchor": "Bepul konstruktor yoki buyurtma sayt",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+      "anchor": "Buyurtmadan oldingi tayyorgarlik ro‘yxati",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+      "anchor": "Biznesga qanday sayt kerak",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+      "anchor": "Domen va hosting qanday tanlanadi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+      "anchor": "Sayt nega ariza olmayapti",
       "locale": "uz",
       "type": "contextual"
     }

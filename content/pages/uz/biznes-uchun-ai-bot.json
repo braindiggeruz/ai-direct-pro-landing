@@ -273,6 +273,13 @@
       "anchor": "biznes nishasi uchun AI bot tanlash",
       "locale": "uz",
       "type": "niche"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "professional sayt",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Website development is the adjacent commercial service for this topic."
     }
   ],
   "schemaTypes": [

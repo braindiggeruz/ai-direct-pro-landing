@@ -206,6 +206,138 @@ test('new cluster articles carry Article and Breadcrumb schema and one H1', () =
   }
 });
 
+/** Every document in every declared cluster, hub and spokes alike. */
+function clusterDocs(): { url: string; doc: Page | BlogArticle; isHub: boolean }[] {
+  const out: { url: string; doc: Page | BlogArticle; isHub: boolean }[] = [];
+  for (const cluster of manifest.clusters) {
+    for (const url of [cluster.hub, ...cluster.spokes.map((s) => s.url)]) {
+      const doc = byUrl.get(url);
+      if (doc) out.push({ url, doc, isHub: url === cluster.hub });
+    }
+  }
+  return out;
+}
+
+/** Uzbek clusters only — the apostrophe and stuffing rules are language-specific. */
+function uzClusterDocs() {
+  return clusterDocs().filter((d) => d.url.startsWith('/uz/'));
+}
+
+test('Uzbek cluster copy uses the correct apostrophes, not the ASCII one', () => {
+  // o‘ and g‘ (U+2018) are letters of the Uzbek alphabet and ’ (U+2019) is the
+  // tutuq belgisi. A plain ASCII ' between two letters means one of them was
+  // typed wrong, which shows up in the rendered page and in search snippets.
+  for (const { url, doc } of uzClusterDocs()) {
+    const offenders = (JSON.stringify(doc).match(/[a-zA-Z]'[a-zA-Z]/g) || []).slice(0, 5);
+    assert.equal(
+      offenders.length,
+      0,
+      `${url} uses an ASCII apostrophe in Uzbek text: ${offenders.join(', ')}`,
+    );
+  }
+});
+
+// UTF-8 text decoded as Latin-1 leaves a Latin-1 lead byte followed by a
+// continuation byte in the U+0080..U+00BF block: "do‘kon" read that way
+// becomes "do\u00E2\u0080\u0098kon". Built from escapes rather than literals
+// because that continuation range is invisible control characters.
+const MOJIBAKE = new RegExp('[\\u00C0-\\u00FF][\\u0080-\\u00BF]');
+
+test('no cluster document contains mojibake', () => {
+  for (const { url, doc } of clusterDocs()) {
+    assert.doesNotMatch(
+      JSON.stringify(doc),
+      MOJIBAKE,
+      `${url} looks like it was written or saved with the wrong encoding`,
+    );
+  }
+});
+
+test('no cluster document promises a search ranking', () => {
+  // The word is allowed — the pages use it to say guarantees are dishonest.
+  // What is forbidden is an affirmative promise, so every mention has to sit
+  // next to a negation.
+  const NEGATED = /(mayd|maymiz|emas|yo‘q|ishonmasl)/i;
+  for (const { url, doc } of clusterDocs()) {
+    const text = JSON.stringify(doc);
+    for (const match of text.matchAll(/kafolat\w*/gi)) {
+      const window = text.slice(match.index, match.index + 160);
+      assert.match(
+        window,
+        NEGATED,
+        `${url} appears to promise a guarantee: "${window.slice(0, 90)}"`,
+      );
+    }
+  }
+});
+
+test('the head term is not repeated to the point of stuffing', () => {
+  for (const { url, doc } of uzClusterDocs()) {
+    const text = JSON.stringify(doc);
+    const words = (text.match(/[\p{L}‘’]+/gu) || []).length;
+    const head = (text.match(/sayt yaratish/gi) || []).length;
+    const density = head / Math.max(words, 1);
+    assert.ok(
+      density < 0.02,
+      `${url} repeats the head term ${head} times in ${words} words (${(density * 100).toFixed(2)}%)`,
+    );
+  }
+});
+
+test('no cluster document fabricates reviews or ratings', () => {
+  for (const { url, doc } of clusterDocs()) {
+    for (const forbidden of ['Review', 'AggregateRating', 'Offer']) {
+      assert.ok(
+        !doc.schemaTypes?.includes(forbidden as never),
+        `${url} declares ${forbidden} schema, which would need real, verifiable data behind it`,
+      );
+    }
+  }
+});
+
+test('a commercial hub carries Service, FAQPage and BreadcrumbList schema', () => {
+  for (const cluster of manifest.clusters) {
+    const hub = byUrl.get(cluster.hub) as Page | undefined;
+    if (!hub) continue;
+    for (const required of ['Service', 'FAQPage', 'BreadcrumbList'] as const) {
+      assert.ok(hub.schemaTypes?.includes(required), `${cluster.hub} is missing ${required} schema`);
+    }
+    // FAQPage is only honest when the questions are actually on the page.
+    assert.ok((hub.faq?.length || 0) >= 4, `${cluster.hub} declares FAQPage with too few visible questions`);
+  }
+});
+
+test('every spoke offers a conversion path', () => {
+  for (const cluster of manifest.clusters) {
+    for (const spoke of cluster.spokes) {
+      const doc = byUrl.get(spoke.url) as BlogArticle | undefined;
+      if (!doc) continue;
+      const hasCta = Boolean(doc.cta?.href) || (doc.body || []).some((b) => b.type === 'cta' && b.href);
+      assert.ok(hasCta, `${spoke.url} has no CTA — a reader who is convinced has nowhere to go`);
+    }
+  }
+});
+
+test('titles and descriptions are unique inside a cluster', () => {
+  for (const cluster of manifest.clusters) {
+    const titles = new Map<string, string>();
+    const descriptions = new Map<string, string>();
+    for (const url of [cluster.hub, ...cluster.spokes.map((s) => s.url)]) {
+      const doc = byUrl.get(url);
+      if (!doc) continue;
+      const title = doc.title.trim().toLowerCase();
+      const description = doc.description.trim().toLowerCase();
+      assert.ok(!titles.has(title), `${url} and ${titles.get(title)} share a title`);
+      assert.ok(
+        !descriptions.has(description),
+        `${url} and ${descriptions.get(description)} share a description`,
+      );
+      titles.set(title, url);
+      descriptions.set(description, url);
+    }
+  }
+});
+
 test('cluster articles quote no invented price', () => {
   // Any bare currency figure in an article we authored would be a made-up price:
   // the whole point of the pricing article is that the number depends on scope.
