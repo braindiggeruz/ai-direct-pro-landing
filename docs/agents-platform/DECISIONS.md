@@ -1155,3 +1155,64 @@ seller dashboard и сохраняется при `/start` или попытке
 **Rollback.** Откат Pages deployment на
 `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69` (source `41ec9e3`) или `git revert`
 merge `c670e4e`; D1 rollback не нужен.
+
+## D-032 — GPTBot Market uses a four-level naming and evidence-bound promise (2026-08-01)
+
+**Decision.** GPTBot is the master brand; GPTBot Market is the buyer product
+and public bot; Sotuvchi by GPTBot is the verified seller program and operating
+mode; GPTBot.uz is the company, support and Trust domain. The buyer promise is
+limited to finding products in connected catalogs. Seller self-service,
+seven-day analytics, payments, fulfillment, guaranteed demand and a public
+marketplace are not claimed.
+
+**Why.** Runtime is invite-only, today-only and catalog-grounded. The previous
+mixed naming and broader copy created authority and capability expectations the
+system did not meet. Every public claim now maps to code, D1 facts, a labelled
+synthetic demonstration or a disclosed future gate.
+
+## D-033 — product media remains an opaque Telegram file_id contract (2026-08-01)
+
+**Decision.** The existing media-reference regex remains authoritative.
+Telegram `file_id` values may be sent through `sendPhoto`; URL-shaped values are
+rejected and fall back to text. Media captions never truncate material facts:
+long cards send media first and the full grounded message separately.
+
+**Why.** Adding URL fetches would create a new SSRF/content-validation and
+storage contract without business evidence. No migration is justified for a
+visual-only goal. Real seller photos must be sent through the bot or the pilot
+must explicitly use no-photo cards.
+
+## D-034 — synthetic product proof is adjacent, labelled and never success proof (2026-08-01)
+
+**Decision.** Owner-independent website, Telegram preview and acquisition
+assets use neutral synthetic products and explicit `SYNTHETIC / TEMPLATE`
+metadata. No store identity, testimonial, rating, conversion result or seller
+acceptance is invented. Real category photography and case metrics remain
+Store Pilot #1 inputs.
+
+**Why.** Packaging can be completed before supply exists, but demo evidence
+must not be confused with market validation. Editable masters and deterministic
+exports allow later replacement without rewriting the product system.
+
+## D-035 — automated accessibility evidence is release evidence, not human certification (2026-08-01)
+
+**Decision.** The release blocks on zero axe A/AA violations and incomplete
+results, zero overflow across the prescribed RU/UZ widths, visible sequential
+keyboard focus and reduced-motion compliance. The immutable deployment is the
+final automated target. VoiceOver, TalkBack and native Uzbek review remain
+named owner gates.
+
+**Why.** Automation can prove many deterministic failures but cannot certify a
+human assistive-technology or language experience. The status is therefore
+`ACCESSIBILITY_AUTOMATED=PASS`, never a broader accessibility certification.
+
+## D-036 — productization release is exact-SHA and data-neutral (2026-08-01)
+
+**Decision.** The feature is normally merged, Cloudflare Git deployment stays
+disabled, and the exact merge tree is uploaded manually. No D1 migration,
+order, real seller, provider metadata, Railway or scheduler mutation belongs to
+this release. The previous production deployment is the immediate rollback.
+
+**Why.** This keeps product packaging independently reversible and prevents a
+visual/UX release from silently activating a commercial pilot. Store Pilot #1
+is a separate, explicit owner-authorized production mutation.

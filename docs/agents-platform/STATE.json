@@ -1,10 +1,10 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "R1.1 GPTBot Market product quality sprint",
+  "current_stage": "GPTBot Market owner-independent productization release",
   "stage_status": "complete",
-  "last_completed_stage": "R1.1 role-aware Telegram Market UX released with buyer-first entry and server-authorized seller states",
-  "next_stage": "R1 Store Pilot #1 preparation, blocked only on owner business inputs",
+  "last_completed_stage": "GPTBot Market truth, brand, Telegram UX, website, trust, creative, accessibility and operations package released",
+  "next_stage": "R1 Store Pilot #1 owner evidence and explicit one-store authorization",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -150,9 +150,45 @@
       "NEXT_STAGE": "R1_STORE_PILOT_1"
     }
   },
-  "next_stage_note": "R1.1 remains closed after the role-aware UX release merged at c670e4e and deployed as d9ca163e from that exact source. Buyer-first and seller-state production contracts are live without schema, D1, webhook, payment, real-store or public-marketplace mutation. Production still has one synthetic store, 48 synthetic products and zero orders, handoffs and notifications. The justified next stage remains Store Pilot #1 with one verified consenting seller and 10-30 approved real products; it is blocked only on owner business inputs, not engineering.",
-  "governance_gap": "None introduced by the role-aware release. No live Telegram conversation canary was executed because no user chat target was supplied; provider/webhook, HTTP, exact deployment source and D1 no-write state were verified, while the complete role matrix is covered offline. The older latency claim still rests on one cold-isolate observation and is not a stable p95. Four repository assertions remain pre-existing SEO/release debt and are tracked rather than absorbed into this slice.",
-  "last_commit": "c670e4eebff79e2cc4b9027ffede865f0af813ab",
+  "gptbot_market_productization": {
+    "status": "complete_and_released",
+    "feature_tip": "cc770add7f2591445340903e392e2f70286b8148",
+    "main_merge_commit": "08c21568581bf90e7122a566f2805a619cd9e81d",
+    "pages_deployment_id": "68747046-8e1e-492a-8b81-dc4e4065916f",
+    "pages_deployment_url": "https://68747046.ai-direct-pro-landing.pages.dev",
+    "deployed_source": "08c21568581bf90e7122a566f2805a619cd9e81d",
+    "rollback_target_deployment_id": "d9ca163e-947b-40ba-856d-8143308c8402",
+    "rollback_target_source": "c670e4eebff79e2cc4b9027ffede865f0af813ab",
+    "full_tests": "1076/1076 across 50 test files",
+    "build": "113 pages, 118 articles, sitemap 234; Pages Functions compiled",
+    "accessibility": "7 immutable-production cases, 0 violations, 0 incomplete, 171 passes, 18/18 overflow, 12/12 focus, reduced motion pass",
+    "d1_before_after": "stores 1, products 48, inventory moves 44; orders/items/notifications/handoffs/automation/DLQ 0; rows_written 0",
+    "cloudflare_auto_deploy": false,
+    "railway_mutation": false,
+    "remote_migration": false,
+    "botfather_mutation": false,
+    "real_store_created": false,
+    "payments_enabled": false,
+    "public_marketplace_launched": false,
+    "acceptance": {
+      "PRODUCT_PACKAGING": "COMPLETE",
+      "TRUTH_ALIGNMENT": "PASS",
+      "DESIGN_SYSTEM": "IMPLEMENTED",
+      "BUYER_UX_POLISH": "PASS",
+      "SELLER_UX_POLISH": "PASS",
+      "WEBSITE_CONVERSION_SURFACE": "PASS",
+      "CREATIVE_KIT": "READY",
+      "ACCESSIBILITY_AUTOMATED": "PASS",
+      "STORE_PILOT_1": "READY_FOR_OWNER_INPUTS",
+      "REAL_STORE_ONBOARDING": "NOT_STARTED",
+      "PAYMENTS": "NOT_AUTHORIZED",
+      "PUBLIC_MARKETPLACE": "NOT_AUTHORIZED",
+      "PUBLIC_LAUNCH": "BLOCKED"
+    }
+  },
+  "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
+  "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
+  "last_commit": "08c21568581bf90e7122a566f2805a619cd9e81d",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -211,14 +247,16 @@
       "photos sent through the bot, or an explicit decision to launch without images",
       "store locale, delivery mode and payment methods",
       "seller response SLA, support owner, incident owner, escalation path and daily review owner",
+      "category and cohort bounds plus prohibited-category confirmation",
+      "legal decision and native Uzbek sign-off or an explicit documented deferral",
       "explicit authorization to onboard a real store"
     ]
   },
   "updated_at": "2026-08-01",
   "blocked": true,
-  "blocked_stage": "R1 Store Pilot #1 business inputs",
+  "blocked_stage": "R1 Store Pilot #1 owner evidence and activation inputs",
   "blockers": [
-    "Store Pilot #1 business preparation: identify one consented verified seller, approve 10-30 real products with integer UZS prices and inventory, and sign off SLA/support/incident ownership. No real store is onboarded by R1.1 and none may be created without explicit owner authorization."
+    "Store Pilot #1: provide owner Telegram/OCC evidence, legal/native Uzbek decisions, one consented verified seller, 10-30 approved real products with integer UZS prices and inventory, SLA/support/incident ownership and explicit one-store authorization. No real store may be created before that authorization."
   ],
   "parallel_preparation": {
     "R0.4-prep": {

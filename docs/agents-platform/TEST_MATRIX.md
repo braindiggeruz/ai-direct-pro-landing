@@ -1,5 +1,35 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## GPTBot Market owner-independent productization release (2026-08-01)
+
+| Проверка | Результат |
+| --- | --- |
+| Feature / merge SHA | `cc770add7f2591445340903e392e2f70286b8148` / `08c21568581bf90e7122a566f2805a619cd9e81d` |
+| Pages deployment | `68747046-8e1e-492a-8b81-dc4e4065916f`, exact source `08c2156` |
+| Immediate rollback | `d9ca163e-947b-40ba-856d-8143308c8402`, source `c670e4e` |
+| Full repository | **1076/1076**, 0 fail, 50 test files |
+| Catalog regression | **60/60** |
+| Release + pilot + Owner Control Center corpus | **100/100** |
+| Root / Functions TypeScript | pass / pass |
+| Backend typecheck / build / production audit | pass / pass / 0 findings |
+| Root build | pass; 113 pages, 118 articles, sitemap 234 |
+| Pages Functions build | compiled successfully |
+| Scoped ESLint / agent boundaries | 0 errors / 0 violations (10/10) |
+| Root production audit | 0 findings over 115 dependencies |
+| Repository / browser-bundle secret scan | clean 2,868 files / clean 14 bundles |
+| Migration + backup rehearsal | pass; isolated local only; no remote migration |
+| Automated accessibility | 7 pages, 0 violations, 0 incomplete, 171 passes |
+| Responsive / keyboard / reduced motion | 18/18, 12/12, pass |
+| Production HTTP | 200 root/RU/UZ/immutable/GPT Chat; 404 unknown; webhook 405/401/401; OCC 401 |
+| Production D1 before/after | 1 store, 48 products, 44 inventory moves, all requested transactional/automation counts 0; `rows_written=0` |
+| `git diff --check` / `git fsck --full` | pass / no corruption |
+
+The corpus includes tenant isolation, forged seller denial, buyer
+self-promotion denial, safe role switching, order/inventory/notification
+idempotency, Telegram update dedup, schema fail-closed, grounding, privacy,
+RU/UZ parity, website claim truth and creative truth. Human VoiceOver/TalkBack,
+native Uzbek, real seller acceptance and stable p95 are not claimed.
+
 ## R1.1 role-aware Telegram UX release baseline (2026-08-01)
 
 | Проверка | Результат |

@@ -1,5 +1,33 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
+## GPTBot Market productization closeout (2026-08-01)
+
+No owner-independent product, design, Telegram contract, web conversion,
+creative, accessibility-automation, tenant, authorization, idempotency,
+grounding, build or release blocker is open after deployment `68747046`.
+
+Remaining evidence/business gates are explicit:
+
+- VoiceOver and TalkBack have not been run by a human.
+- Uzbek Latin has structural parity but no native-speaker sign-off.
+- No real seller, real product, category proof, testimonial, delivery/payment
+  agreement, seller SLA or pilot result exists.
+- Product images accept Telegram `file_id`, not URLs. Pilot photos must arrive
+  through the bot or the owner must approve a no-photo launch.
+- Authenticated Owner Control Center screenshots remain owner evidence; no
+  session or protected state was fabricated.
+- The release environment did not expose a Telegram token, so fresh provider
+  `getMe`/webhook/pending/error output remains part of the owner conversation
+  canary. Public identity and webhook auth boundaries pass.
+- Railway CLI/token was unavailable for a fresh control-plane read. No backend
+  file changed and no Railway action/reconnect was performed; the last verified
+  Git trigger state remains disconnected.
+- `d1_migrations` still ends at 0025 while 0026–0030 are physically present.
+  Never run `wrangler d1 migrations apply --remote` to reconcile this blindly.
+- Public marketplace, payments and public launch remain unauthorized.
+
+Store Pilot #1 is `READY_FOR_OWNER_INPUTS`, not started or accepted.
+
 ## R1.1 closeout update (2026-08-01)
 
 No open R1.1 security, tenant, order, inventory or grounding defect is known.

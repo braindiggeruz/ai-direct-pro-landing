@@ -1,11 +1,12 @@
 # GPTBot Market accessibility report
 
-Status: `ACCESSIBILITY_AUTOMATED=PASS`, 2026-08-01.
+Status: `ACCESSIBILITY_AUTOMATED=PASS`, immutable production deployment
+`68747046-8e1e-492a-8b81-dc4e4065916f`, 2026-08-01.
 
 ## Automated result
 
-The production build was audited with axe-core 4.12.1 and playwright-core
-against WCAG 2 A/AA, WCAG 2.1 A/AA and WCAG 2.2 AA tags.
+The exact production deployment was audited with axe-core 4.12.1 and
+playwright-core against WCAG 2 A/AA, WCAG 2.1 A/AA and WCAG 2.2 AA tags.
 
 | Check | Result |
 | --- | ---: |
@@ -21,7 +22,7 @@ against WCAG 2 A/AA, WCAG 2.1 A/AA and WCAG 2.2 AA tags.
 
 Exact machine evidence:
 `docs/agents-platform/evidence/gptbot-market-productization-2026-08-01/market-accessibility-automated.json`.
-Reproduction: build, serve on `127.0.0.1:4173`, then run
+Reproduction: set `MARKET_BASE_URL` to the immutable deployment and run
 `yarn market:a11y`. A different browser location can be supplied with
 `MARKET_BROWSER_EXECUTABLE`.
 

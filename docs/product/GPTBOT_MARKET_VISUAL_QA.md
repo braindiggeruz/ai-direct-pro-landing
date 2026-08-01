@@ -1,6 +1,7 @@
 # GPTBot Market visual QA
 
-Status: local production-build visual matrix passed, 2026-08-01.
+Status: immutable production visual matrix passed for deployment
+`68747046-8e1e-492a-8b81-dc4e4065916f`, 2026-08-01.
 
 ## Reviewed surfaces
 

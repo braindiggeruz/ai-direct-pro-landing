@@ -81,11 +81,20 @@ rollback target `af73edd9` (`a542052`). Реальных магазинов, п�
 
 ### R1 Store Pilot #1 — следующий этап
 
-Инженерная часть не блокирует. Ожидаются business inputs владельца: один
-верифицированный продавец с подтверждённым согласием, 10–30 одобренных
-реальных товаров с целочисленными ценами в UZS и остатками, назначенные SLA,
-support owner и incident owner. Реальный магазин не создаётся без явной
-авторизации владельца.
+Owner-independent productization completed and released 2026-08-01 as Pages
+deployment `68747046-8e1e-492a-8b81-dc4e4065916f` from exact merge
+`08c21568581bf90e7122a566f2805a619cd9e81d`. Truth, naming, Warm Market
+Signals design system, RU/UZ website and Trust Center, Telegram buyer/seller
+polish, media fallback, 33-master creative kit, marketing/analytics/operations
+packages and automated production accessibility are complete.
+
+Инженерная и packaging части не блокируют. Ожидаются business inputs
+владельца: один верифицированный продавец с подтверждённым согласием, 10–30
+одобренных реальных товаров с целочисленными ценами в UZS и остатками,
+назначенные SLA, support owner, incident owner, native Uzbek/legal review and
+explicit one-store activation. Реальный магазин не создаётся без явной
+авторизации владельца; payments/public marketplace/public launch остаются
+заблокированы.
 
 ## P3 — пилот (без симуляции рынка в коде)
 Onboarding runbook, pilot dashboard, feedback-форма, incident handling, weekly metrics.
