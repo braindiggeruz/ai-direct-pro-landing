@@ -212,6 +212,13 @@
       "anchor": "Biznes uchun AI botlar",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "internet do‘kon yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Website development is the adjacent commercial service for this topic."
     }
   ],
   "schemaTypes": [

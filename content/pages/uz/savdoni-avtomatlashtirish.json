@@ -204,6 +204,13 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt buyurtma qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Website development is the adjacent commercial service for this topic."
     }
   ],
   "schemaTypes": [

@@ -191,6 +191,13 @@
     {
       "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
       "anchor": "Arizalarni qabul qiluvchi bot"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "loyiha uchun sayt",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Website development is the adjacent commercial service for this topic."
     }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",
