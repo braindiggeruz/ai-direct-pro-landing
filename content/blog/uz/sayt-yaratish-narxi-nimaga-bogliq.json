@@ -1,0 +1,201 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "sayt-yaratish-narxi-nimaga-bogliq",
+  "url": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+  "title": "Sayt yaratish narxi nimaga bog‘liq: 7 ta omil",
+  "description": "Sayt narxi nimadan tuziladi: sahifalar soni, dizayn, funksiyalar, integratsiyalar va qo‘llab-quvvatlash. Takliflarni to‘g‘ri solishtirish va yashirin xarajatlarni ko‘rish uchun amaliy qo‘llanma.",
+  "h1": "Sayt yaratish narxi nimaga bog‘liq",
+  "topicCluster": "web-development-uz",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "sayt yaratish narxi",
+    "sayt narxi nimaga bog‘liq",
+    "veb sayt smetasi",
+    "sayt uchun texnik topshiriq",
+    "sayt takliflarini solishtirish"
+  ],
+  "intro": "Qisqa javob: sayt yaratish narxi bitta raqam emas — u hajmdan tuziladi. Sahifalar soni, dizayn noldan yoki tayyor uslubda ekani, katalog va to‘lov kerakmi, qanday integratsiyalar bor va matn kim tomonidan tayyorlanadi — mana shu beshta narsa smetaning katta qismini belgilaydi. Quyida har bir omil narxni qanday o‘zgartirishini va ikkita taklifni halol solishtirish uchun nimani so‘rash kerakligini ko‘rib chiqamiz.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: sayt yaratish narxi bitta raqam emas — u hajmdan tuziladi. Bir sahifali landing va to‘lov tizimi ulangan internet do‘kon butunlay boshqa hajmdagi ish, shuning uchun «sayt qancha turadi» degan savolga oldindan bitta raqam bilan javob beradigan ijrochiga ehtiyot bo‘lish kerak: u yo ishni ko‘rmagan, yo keyin qo‘shimcha hisob chiqaradi."
+    },
+    {
+      "type": "p",
+      "text": "Bu maqola kimga foydali: birinchi marta sayt buyurtma qilayotgan tadbirkorga, ikki-uchta taklifni qo‘lida ushlab turib qaysi birini tanlashni bilmayotgan rahbarga va byudjetni oldindan rejalashtirishi kerak bo‘lgan marketologga."
+    },
+    { "type": "h2", "id": "omillar", "text": "Narxni belgilaydigan 7 ta omil" },
+    {
+      "type": "table",
+      "headers": ["Omil", "Narxga ta’siri", "Nima so‘rash kerak"],
+      "rows": [
+        ["Sahifalar va noyob bloklar soni", "Eng katta ta’sir", "Nechta noyob sahifa maketi bor?"],
+        ["Dizayn: tayyor uslub yoki noldan", "Katta", "Maket noldan chiziladimi yoki shablon moslashtiriladimi?"],
+        ["Katalog, savat, onlayn to‘lov", "Katta", "To‘lov tizimi ulanadimi, qaysi biri?"],
+        ["Integratsiyalar: CRM, Telegram, AI-bot", "O‘rtacha", "Arizalar qayerga tushadi va kim sozlaydi?"],
+        ["Matn va rasmlar kimda", "O‘rtacha", "Kontent sizdami yoki tayyorlanadimi?"],
+        ["Til versiyalari", "O‘rtacha", "Ikki tilli versiya narxga kiradimi?"],
+        ["Ishga tushirgandan keyingi qo‘llab-quvvatlash", "Kichik, lekin doimiy", "Birinchi oylarda tuzatishlar kimda?"]
+      ]
+    },
+    { "type": "h2", "id": "sahifalar", "text": "Sahifalar soni emas, noyob maketlar soni" },
+    {
+      "type": "p",
+      "text": "Ko‘p tadbirkor «menga 20 sahifali sayt kerak» deydi. Aslida ish hajmini sahifalar soni emas, noyob maketlar soni belgilaydi. Agar 20 ta sahifadan 17 tasi bitta xil ko‘rinishdagi xizmat sahifasi bo‘lsa, bu deyarli bitta maket va uni to‘ldirish ishi. Aksincha, 5 sahifalik saytda har biri o‘ziga xos bo‘lsa — bu besh xil ish."
+    },
+    {
+      "type": "p",
+      "text": "Shuning uchun taklif so‘raganda «nechta sahifa» emas, «nechta noyob maket» deb aniqlashtiring. Bu bitta savol ikki taklifni solishtirishni ancha osonlashtiradi."
+    },
+    { "type": "h2", "id": "dizayn", "text": "Dizayn: noldan chizish har doim ham kerak emas" },
+    {
+      "type": "p",
+      "text": "Noldan chizilgan dizayn qimmatroq va uzoqroq. U brend allaqachon shakllangan, raqobat kuchli va sayt kompaniyaning asosiy yuzi bo‘lganda o‘zini oqlaydi. Kichik xizmat biznesi uchun esa toza, tez ochiladigan va mobil qurilmada qulay tayyor uslub ko‘pincha yetarli — va qolgan pulni reklama yoki kontentga yo‘naltirish foydaliroq."
+    },
+    { "type": "h2", "id": "funksiyalar", "text": "Katalog va to‘lov narxni sakrash bilan oshiradi" },
+    {
+      "type": "list",
+      "items": [
+        "Oddiy katalog (mahsulot ko‘rsatiladi, so‘rov yuboriladi) — nisbatan arzon",
+        "Savat va buyurtma rasmiylashtirish — sezilarli qo‘shimcha",
+        "Onlayn to‘lov (Payme, Click) — integratsiya, sinov va xavfsizlik tekshiruvi",
+        "Skladlar bilan bog‘lanish yoki 1C — alohida loyiha darajasidagi ish"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar hozircha onlayn to‘lov shart bo‘lmasa, birinchi versiyani katalog va so‘rov formasi bilan chiqarib, to‘lovni keyin qo‘shish mumkin. Bu ko‘pincha eng amaliy yo‘l: sayt tezroq ishlay boshlaydi va real buyurtmalar asosida nima kerakligini ko‘rasiz."
+    },
+    { "type": "h2", "id": "integratsiya", "text": "Integratsiyalar: arizalar qayerga tushadi" },
+    {
+      "type": "linkp",
+      "text": "Ariza formasi pochtaga tushishi mumkin, lekin amalda bu eng zaif variant: xat yo‘qoladi, kim javob berganini kuzatib bo‘lmaydi. Telegram yoki CRM ancha ishonchli. Agar murojaat ko‘p bo‘lsa yoki ish vaqtidan tashqari javob kerak bo‘lsa, saytga {bot} qo‘shish mumkin, murojaatlarni esa {avtomat} orqali bitta oqimga yig‘iladi.",
+      "links": [
+        { "token": "bot", "target": "/uz/sayt-uchun-ai-bot/", "anchor": "AI-bot" },
+        { "token": "avtomat", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" }
+      ]
+    },
+    { "type": "h2", "id": "kontent", "text": "Matn va rasmlar — ko‘pincha unutiladigan xarajat" },
+    {
+      "type": "p",
+      "text": "Taklifda «kontent mijozdan» degan qator bo‘lsa, bu narxni pasaytiradi — lekin ishni sizga o‘tkazadi. Amalda matn tayyor bo‘lmaganligi sababli loyihalar haftalab to‘xtab qoladi. Shuning uchun kelishuvdan oldin aniqlang: matnni kim yozadi, suratlar qayerdan olinadi va mahsulot tavsiflari kimda."
+    },
+    { "type": "h2", "id": "solishtirish", "text": "Ikki taklifni qanday solishtirish kerak" },
+    {
+      "type": "list",
+      "items": [
+        "Noyob maketlar soni bir xilmi?",
+        "Mobil versiya narxga kiradimi yoki alohida qatormi?",
+        "Ariza formasi qayerga ulanadi va kim sozlaydi?",
+        "Analitika (Google Analytics, Search Console) o‘rnatiladimi?",
+        "Bazaviy texnik SEO — sarlavhalar, tezlik, sitemap — kiradimi?",
+        "Domen va hosting kimning nomiga rasmiylashtiriladi?",
+        "Ishga tushgandan keyin necha kun tuzatish bepul?",
+        "Kelajakda saytni boshqa jamoa davom ettira oladimi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ikki taklif narxi bir xil bo‘lsa-yu, biri shu ro‘yxatning yarmini o‘z ichiga olmasa — ular teng emas. Arzonroq taklif ko‘pincha shu qatorlar hisobiga arzon bo‘ladi."
+    },
+    { "type": "h2", "id": "xatolar", "text": "Byudjetni buzadigan keng tarqalgan xatolar" },
+    {
+      "type": "list",
+      "items": [
+        "Texnik topshiriqsiz boshlash — keyin har bir o‘zgarish qo‘shimcha hisob bo‘ladi",
+        "Dizayn tasdiqlanmasdan ishlab chiqishga o‘tish — qayta ishlash ikki marta to‘lanadi",
+        "Analitikani «keyinroq» deb qoldirish — natijani o‘lchab bo‘lmaydi",
+        "Domenni ijrochi nomiga rasmiylashtirish — keyin ko‘chirish qiyin",
+        "Faqat narxga qarab tanlash — eng arzon taklif ko‘pincha eng qimmatga tushadi"
+      ]
+    },
+    { "type": "h2", "id": "keyingi-qadam", "text": "Keyingi amaliy qadam" },
+    {
+      "type": "p",
+      "text": "Taklif so‘rashdan oldin uchta narsani yozib qo‘ying: sayt qanday vazifani bajarishi kerak, mijoz qanday harakat qilishi kerak (qo‘ng‘iroq, ariza, buyurtma) va sizda tayyor material bormi. Shu uch javob bilan har qanday ijrochi ancha aniq va halol smeta beradi."
+    },
+    {
+      "type": "linkp",
+      "text": "Loyihangiz hajmini birgalikda baholash uchun {xizmat} sahifasiga o‘ting — u yerda ish jarayoni, integratsiyalar va nimalar kirishi batafsil yozilgan. Dastlabki baholash bepul.",
+      "links": [
+        { "token": "xizmat", "target": "/uz/sayt-yaratish/", "anchor": "sayt yaratish xizmati" }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Loyiha narxini aniqlash",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Nega hech kim oldindan aniq narx aytmaydi?",
+      "a": "Chunki narx hajmga bog‘liq, hajm esa vazifadan kelib chiqadi. Bir sahifali landing va to‘lovli internet do‘kon o‘rtasidagi farq bir necha barobar bo‘lishi mumkin. Aniq raqam texnik topshiriq tayyor bo‘lgandan keyin aytiladi."
+    },
+    {
+      "q": "Eng arzon taklifni tanlash mumkinmi?",
+      "a": "Mumkin, lekin avval nima kirmayotganini tekshiring. Ko‘pincha arzonlik mobil versiya, analitika, bazaviy SEO yoki qo‘llab-quvvatlash hisobidan chiqadi va bu ishlar baribir kerak bo‘ladi."
+    },
+    {
+      "q": "Mobil versiya alohida to‘lanadimi?",
+      "a": "To‘g‘ri yondashuvda yo‘q — sayt boshidan mobil qurilmada ishlashi kerak, chunki O‘zbekistonda trafikning katta qismi telefondan keladi. Agar taklifda u alohida qator bo‘lsa, buni aniqlashtiring."
+    },
+    {
+      "q": "Kichik byudjet bilan boshlash mumkinmi?",
+      "a": "Ha. Qisqartirilgan birinchi versiyani ishga tushirib, keyin bosqichma-bosqich kengaytirish ko‘pincha eng amaliy yo‘l: sayt tezroq ishlay boshlaydi va keyingi qadamlarni real ma’lumot asosida rejalashtirasiz."
+    },
+    {
+      "q": "Domen va hosting kimning nomiga rasmiylashtirilishi kerak?",
+      "a": "Sizning nomingizga. Agar ular ijrochi nomida qolsa, kelajakda saytni ko‘chirish yoki boshqa jamoaga topshirish qiyinlashadi. Bu savolni kelishuvdan oldin bering."
+    },
+    {
+      "q": "Narxga SEO kiradimi?",
+      "a": "Bazaviy texnik SEO — struktura, sarlavhalar, tezlik, sitemap va indeksatsiya — odatda ishga tushirishning bir qismi. Doimiy pozitsiya ustida ishlash esa alohida, uzoq muddatli ish va uni alohida kelishish kerak."
+    }
+  ],
+  "cta": {
+    "label": "Loyiha narxini muhokama qilish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish xizmatini buyurtma qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+      "anchor": "Bepul konstruktor yoki buyurtma sayt",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "Sayt uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Sayt yaratish narxi nimaga bog‘liq: 7 ta omil",
+  "ogDescription": "Sayt narxi nimadan tuziladi va ikkita taklifni qanday halol solishtirish kerak: noyob maketlar, funksiyalar, integratsiyalar va qo‘llab-quvvatlash.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+  "hreflangUz": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-01",
+  "dateModified": "2026-08-01",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01"
+}
