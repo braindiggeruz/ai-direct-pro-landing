@@ -2,6 +2,16 @@
 
 Status: pre-deployment procedure. No step below is evidence that it ran.
 
+> Execution record (2026-08-01): this runbook was followed for the second
+> start-latency release. Merge `41ec9e3401b3e974edf8d97480695e9845a4924f` was
+> pushed to `main` without history rewrite, no automatic Cloudflare or Railway
+> deployment was triggered, `dist` was rebuilt from the pushed SHA, and
+> `wrangler pages deploy` produced production deployment
+> `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69` carrying source `41ec9e3`. The
+> recorded rollback target is `af73edd9-1c90-418d-83d7-c79d81ae2888` at source
+> `a542052`. No migration was applied and no D1 mutation was performed. Results
+> are in `R1_1_START_LATENCY_EVIDENCE.md`.
+
 This runbook is the release authority for the R1.1 product-quality sprint. It
 supersedes the historical P2.7/R1 procedures for this release only. R1.1 uses
 the existing dedicated `@gptbot_market_bot` identity and the one approved

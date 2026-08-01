@@ -1,6 +1,19 @@
 # R1 readiness — 2026-07-30
 
-Status: R1.1 synthetic product pilot released; real Store Pilot #1 not started.
+Status: R1.1 complete; real Store Pilot #1 not started.
+
+## R1.1 closeout — 2026-08-01
+
+- Exact source `41ec9e3401b3e974edf8d97480695e9845a4924f` is live in
+  deployment `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69`.
+- Rollback target: `af73edd9-1c90-418d-83d7-c79d81ae2888` at source `a542052`.
+- Start latency PASS: 2,564 ms server-side on a cold isolate against a
+  12,451 ms baseline; owner confirms the first response is fast.
+- No order, handoff, notification or inventory side effect; exactly one
+  Telegram update processed and completed.
+- Release baseline is 1043/1047 tests across 45 suites; the four failures are
+  pre-existing on clean `origin/main` and tracked in `KNOWN_ISSUES.md`.
+- Evidence: `R1_1_START_LATENCY_EVIDENCE.md`.
 
 ## R1.1 update — 2026-07-31
 

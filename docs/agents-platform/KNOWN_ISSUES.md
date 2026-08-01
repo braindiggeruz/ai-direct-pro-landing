@@ -1,20 +1,36 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
-## R1.1 release update (2026-07-31)
+## R1.1 closeout update (2026-08-01)
 
 No open R1.1 security, tenant, order, inventory or grounding defect is known.
-The exact production source is `e8b2bd7` in Pages deployment
-`226d65cc-5be9-4c5e-ba30-93af250b34df`.
+The exact production source is `41ec9e3` in Pages deployment
+`ede1d0f4-6a06-40e2-9b6c-dee2a7812c69`. The start-latency blocker is closed:
+one owner `/start` on a cold isolate measured 2,564 ms of server-side
+processing against a 12,451 ms newest baseline, with no business side effect.
+Evidence: `release/R1_1_START_LATENCY_EVIDENCE.md`.
 
 Open release/operational items:
 
-- The owner must run one short post-fix Telegram request before the latency
-  remediation is marked production-canary PASS. The pre-fix aggregate is four
-  interactions at 4,019–13,629 ms, average 8,849 ms. This is the only R1.1
-  closeout item; it requires no secret.
-- Current telemetry records total `processing_ms`, not separate context,
-  Runtime and Telegram delivery durations. If the post-fix response is still
-  slow, add privacy-safe phase timing before changing delivery semantics.
+- The latency claim rests on one cold-isolate observation. It is enough to
+  close the stage but not a stable p95; warm-path and repeated cold-start
+  behaviour are unmeasured. Any stronger claim needs a fresh sample.
+- Current telemetry records total `processing_ms`, not separate admission,
+  context, Runtime and Telegram delivery durations. A future latency slice
+  should add privacy-safe phase timing before changing delivery semantics.
+  Known residual costs, all untouched: two sequential rate-limit D1 calls, the
+  awaited channel address binding, the onboarding and stored storefront
+  lookups, the bot-start analytics write and the pending-budget clear.
+- Four repository tests fail on clean `origin/main` and are pre-existing SEO
+  sprint debt, deliberately not absorbed into the latency slice:
+  `react-router-v8-migration` expects a hard-coded 228 sitemap entries while
+  the build now emits 232, and one route-pattern assertion reports `blocked`;
+  `n8n-dependency-inventory` finds three new SEO release documents without an
+  inventory classification; `release-preparation` fails one BotFather checklist
+  assertion. Each needs its own targeted fix.
+- `apps/gpt-backend/node_modules` must be installed before
+  `gpt-backend-security` and `web-security-hardening` can run; without it they
+  fail on a missing package, not on a defect. With dependencies installed they
+  are 30/30 and 13/13.
 - Cloudflare's D1 export places the existing unique store index after child
   inserts, so the untouched export fails a clean SQLite restore even though
   production foreign keys and the index are valid. The original backup is
@@ -23,7 +39,11 @@ Open release/operational items:
   `F:\Claude\gptbot-r1.1-production-backups\20260731-092128\gptbot-ai-drafts-production.restore-ready.sql`.
 - The controlled store contains 48 explicitly synthetic products. They are
   intentional pilot data, not real commercial offers. No real store may be
-  onboarded until R1.1 closeout and Store Pilot #1 business approval.
+  onboarded until Store Pilot #1 business approval.
+- The production `d1_migrations` ledger still ends at `0025` while `0026`–
+  `0030` are physically applied, because they were executed file by file.
+  `wrangler d1 migrations apply --remote` must not be run: it would replay
+  non-idempotent `ALTER TABLE ADD COLUMN` statements.
 
 Older statements below that say the dedicated Market bot, migrations or R1
 release do not exist are historical and superseded by this section and

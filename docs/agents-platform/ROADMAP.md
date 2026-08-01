@@ -70,6 +70,23 @@
 Только после R0.1–R0.4: отдельная авторизация на push/deploy, migrations,
 environment/secrets, webhook setup, production smoke и rollback evidence.
 
+### R1.1 — GPTBot Market product quality (завершён 2026-08-01)
+
+Выпущен в контролируемый synthetic pilot. Обе latency-итерации в production,
+владелец подтвердил быстрый первый ответ, server-side processing 2 564 мс
+против baseline 12 451 мс. Deployed source `41ec9e3`, deployment `ede1d0f4`,
+rollback target `af73edd9` (`a542052`). Реальных магазинов, платежей и
+публичного marketplace нет. Evidence:
+`release/R1_1_START_LATENCY_EVIDENCE.md`.
+
+### R1 Store Pilot #1 — следующий этап
+
+Инженерная часть не блокирует. Ожидаются business inputs владельца: один
+верифицированный продавец с подтверждённым согласием, 10–30 одобренных
+реальных товаров с целочисленными ценами в UZS и остатками, назначенные SLA,
+support owner и incident owner. Реальный магазин не создаётся без явной
+авторизации владельца.
+
 ## P3 — пилот (без симуляции рынка в коде)
 Onboarding runbook, pilot dashboard, feedback-форма, incident handling, weekly metrics.
 

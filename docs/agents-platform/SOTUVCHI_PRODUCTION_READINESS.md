@@ -5,11 +5,15 @@
 > `release/R1_1_MARKET_PILOT_RUNBOOK.md`. The historical sections below are not
 > authority for the R1.1 migration, fixture or Telegram-metadata sequence.
 
-> Current status: R1.1 source `e8b2bd7` is live in production deployment
-> `226d65cc-5be9-4c5e-ba30-93af250b34df`. The bot identity, webhook, additive
-> migrations, synthetic catalog and product flows are verified. Full tests are
-> 981/981 and all release gates pass. The only remaining R1.1 closeout item is
-> one post-fix owner latency request; no real store may be onboarded before it.
+> Current status (2026-08-01): R1.1 is complete. Source `41ec9e3` is live in
+> production deployment `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69`; the rollback
+> target is `af73edd9-1c90-418d-83d7-c79d81ae2888` at source `a542052`. The bot
+> identity, webhook, additive migrations, synthetic catalog and product flows
+> are verified. The start-latency blocker is closed: one owner `/start` on a
+> cold isolate measured 2,564 ms of server-side processing against a 12,451 ms
+> baseline, with no order, handoff, notification or inventory side effect. See
+> `release/R1_1_START_LATENCY_EVIDENCE.md`. Onboarding a real store still
+> requires explicit owner authorization and the Store Pilot #1 business inputs.
 
 ## Historical readiness update — 2026-07-30
 

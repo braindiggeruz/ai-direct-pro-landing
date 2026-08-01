@@ -1,9 +1,12 @@
 # R1 owner checklist
 
-Status: R1.1 synthetic pilot released; real Store Pilot #1 not started.
+Status: R1.1 complete; real Store Pilot #1 not started.
 
-The dedicated Market bot and webhook prerequisites are complete. One
-post-latency-fix owner request remains before R1.1 closeout.
+The dedicated Market bot and webhook prerequisites are complete. The
+start-latency closeout item is done: the owner ran one `/start` after
+deployment `ede1d0f4` and confirmed the first response is fast, and production
+telemetry recorded 2,564 ms of server-side processing against a 12,451 ms
+baseline. Everything still open below is a business input, not engineering.
 
 ## Completed and verified
 
@@ -24,15 +27,16 @@ post-latency-fix owner request remains before R1.1 closeout.
 - [x] Dedicated `@gptbot_market_bot` identity verified through `getMe`.
 - [x] Token and distinct webhook secret installed through the protected path.
 - [x] Isolated webhook configured and verified with zero pending updates.
-- [x] R1.1 exact-source deployment `e8b2bd7` and HTTP canary pass.
+- [x] R1.1 exact-source deployment `41ec9e3` and HTTP canary pass.
 - [x] Controlled 48-product synthetic catalog installed and grounded.
-- [x] Previous Pages deployment and D1 rollback checkpoint recorded.
+- [x] Previous Pages deployment and D1 rollback checkpoint recorded
+  (`af73edd9` at source `a542052`).
 - [x] Production orders, handoffs, notifications and automation jobs remain 0.
+- [x] Owner start-latency canary PASS: 2,564 ms server-side on a cold isolate,
+  owner confirms the first response is fast, zero business side effects.
 
 ## Owner/provider prerequisites
 
-- [ ] Run one post-fix product request and confirm improved first-response
-  latency without sharing credentials.
 - [ ] Name one consented, verified Store Pilot #1 business and its owner.
 - [ ] Verify each seller Telegram identity out of band and bind it only to its
   own store.

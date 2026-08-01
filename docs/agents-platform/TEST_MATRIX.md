@@ -1,6 +1,50 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
-## R1.1 production release and latency fix baseline (2026-07-31)
+## R1.1 start-latency closeout baseline (2026-08-01)
+
+| Проверка | Результат |
+| --- | --- |
+| Exact merged/deployed source | `41ec9e3401b3e974edf8d97480695e9845a4924f` |
+| Pages deployment | `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69` |
+| Rollback target | `af73edd9-1c90-418d-83d7-c79d81ae2888` at `a542052` |
+| Full repository | **1051/1055**, 46 suites; 4 pre-existing failures on clean `origin/main` |
+| Pre-existing failures reproduced on `origin/main` worktree | yes — sitemap 232 vs 228, n8n inventory classification, release checklist |
+| `telegram-agents-schema` | **6/6** |
+| `telegram-agents-webhook` | **56/56** |
+| `sotuvchi-orders-inventory` | **40/40** |
+| Market/commerce corpus (catalog, buyer QA, checkout, orders, handoff, onboarding, pilot readiness) | **295/295** |
+| Owner Control Center | **71/71** |
+| Platform tenancy | **31/31** |
+| Telegram assistant | **60/60** |
+| Root / Functions TypeScript | pass / pass |
+| Scoped latency-slice ESLint | pass |
+| Agent boundaries | 0 violations |
+| Migration rehearsal (local, in-memory) | pass |
+| Root production build | pass; 111 pages, 118 articles, sitemap 232 |
+| Backend typecheck / build / audit | pass / pass / 0 findings |
+| Pages Functions build | compiled successfully |
+| Root production dependency audit (yarn) | 0 findings over 115 packages |
+| Repository secret scan | clean over 2,700 files |
+| `git diff --check` | pass |
+| `git fsck --full` | pass; unreachable dangling objects only |
+| Migrations | none in this slice; ledger untouched; `migrations apply --remote` not run |
+| Production contract rehearsal (read-only) | 32 tables, 8+2+2 columns, 5 unique indexes; `rows_written` 0 |
+| Production HTTP canary | root/RU/UZ/deployment 200; webhook GET 405; unauthorized POST 401; malformed POST 401; unknown route 404; OCC 401; GPT Chat 200 |
+| Telegram provider status | identity `gptbot_market_bot`; expected webhook; pending 0; last error none |
+| Owner `/start` latency canary | **PASS** — 2,564 ms cold isolate vs 12,451 ms baseline; owner reports fast |
+| Production domain side effects after fix | updates 12→13 all completed, 0 failed; orders 0; handoffs 0; notifications 0; inventory moves 44 unchanged |
+
+New regressions prove the schema contract fails closed on any missing table,
+runtime column or correctness-critical unique index; that the contract list
+cannot drift from the modules it bypasses in either direction; that an invalid
+Telegram secret never reaches the database; that a failed contract returns a
+generic 503 with no reservation, no Runtime run and no raw error in the log;
+and that lifecycle-scheduled post-turn work delivers the seller answer first,
+never rejects into `waitUntil`, dispatches the buyer intent exactly once and
+re-flushes without duplication. Existing duplicate-update, rate-limit, tenant,
+checkout, seller, inventory and handoff suites remain green.
+
+## R1.1 production release and first latency fix baseline (2026-07-31)
 
 | Проверка | Результат |
 | --- | --- |

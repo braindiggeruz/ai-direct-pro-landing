@@ -22,8 +22,29 @@ deployment `226d65cc-5be9-4c5e-ba30-93af250b34df`.
 The remediation preserves ordered product delivery while reducing the first
 page from four to three cards with pagination, adds non-blocking fail-fast
 typing feedback for text updates, and removes callback acknowledgement from
-the Runtime critical path while keeping it Worker-tracked. One post-fix owner
-Telegram request remains before the sprint canary is marked complete.
+the Runtime critical path while keeping it Worker-tracked.
+
+## Closeout amendment (2026-08-01)
+
+The first remediation did not fix `/start`, which renders a single card and so
+was never dominated by message serialization. A repeat owner canary measured
+12,451 ms.
+
+A second remediation was merged at
+`41ec9e3401b3e974edf8d97480695e9845a4924f` and deployed as
+`ede1d0f4-6a06-40e2-9b6c-dee2a7812c69` from that exact source. It replaces the
+cold-isolate runtime DDL cascade with one read-only, fail-closed schema
+contract per Worker isolate and moves best-effort analytics and the
+notification outbox flush onto the Cloudflare request lifecycle.
+
+The owner `/start` on a cold isolate measured **2,564 ms** of server-side
+processing and the owner confirmed the bot loaded fast. Production carried no
+order, handoff, notification or inventory side effect. The sprint canary is
+therefore PASS and R1.1 is complete.
+
+The audited production SHA for this document is superseded by `41ec9e3`. Full
+evidence, including the exact contract surface and the honest sampling limits,
+is in `R1_1_START_LATENCY_EVIDENCE.md`.
 
 ## Scope and safety boundary
 
