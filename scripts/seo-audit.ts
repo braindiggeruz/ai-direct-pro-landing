@@ -8,7 +8,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, GlobalSEO, Redirect, BlogArticle } from '../src/shared/types';
-import { auditPage, buildCockpit, buildKnownUrls } from '../src/shared/audit';
+import { buildCockpit, buildKnownUrls } from '../src/shared/audit';
+import { evaluateDemandGate, type DemandPolicy } from '../src/shared/demand-gate';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -93,6 +94,21 @@ if (cockpit.linksViaRedirectDetails.length) {
   cockpit.linksViaRedirectDetails.forEach((l) =>
     console.log(`  - ${l.sourceUrl} [${l.where}] → ${l.target} ⇒ ${l.resolvesTo}`),
   );
+}
+
+// Demand gate: a new indexable commercial page has to name the demand it was
+// built for. The site already carries ~140 pages aimed at a cluster that
+// measures ~80 searches a month; this stops that pattern repeating without
+// touching anything already published.
+{
+  const policyFile = path.join(CONTENT_DIR, 'seo', 'demand-policy.json');
+  if (fs.existsSync(policyFile)) {
+    const policy: DemandPolicy = JSON.parse(fs.readFileSync(policyFile, 'utf-8'));
+    for (const v of evaluateDemandGate(pages, policy)) {
+      console.log(`\n[CRITICAL] demand-gate (${v.rule}): ${v.url} targets "${v.primaryKeyword}" — ${v.detail}`);
+      critical++;
+    }
+  }
 }
 
 // Redirect health: every target must be a URL the site serves, and no target

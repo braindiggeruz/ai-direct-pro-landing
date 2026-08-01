@@ -1,0 +1,52 @@
+{
+  "policyVersion": 1,
+  "effectiveFrom": "2026-08-01",
+  "rationale": "The site had ~140 indexable pages built around a keyword cluster that measures ~80 searches a month, while the clusters with four- and five-figure volume had two. New indexable commercial pages now have to name the demand they are built for before the build will accept them. Measurements are in docs/seo/DEMAND_REALITY_CHECK_2026-08-01.md.",
+  "scope": {
+    "pageTypes": ["money", "niche"],
+    "note": "Applies to pages whose createdAt is on or after effectiveFrom. Existing pages are grandfathered — they are handled by the consolidation map, not by this gate."
+  },
+  "frozenClusters": [
+    {
+      "id": "bot-services",
+      "reason": "No measurable search demand in either language. Google Ads returns 0-30/mo for the head terms and no data for the rest, and the ~140 pages already built for it earn 0 clicks in 70 days. Ranking is not the constraint; there is nothing to rank for.",
+      "evidence": "docs/seo/DEMAND_REALITY_CHECK_2026-08-01.md section 1",
+      "measuredAt": "2026-08-01",
+      "keywordPatterns": [
+        "чат[- ]?бот",
+        "телеграм[- ]?бот",
+        "telegram bot",
+        "ai[- ]?бот",
+        "ии[- ]?бот",
+        "chat bot",
+        "ai bot",
+        "bot yaratish"
+      ]
+    }
+  ],
+  "approvedKeywords": [
+    { "keyword": "sayt yaratish", "volumePerMonth": 1300, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "veb sayt yaratish", "volumePerMonth": 210, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "разработка сайтов в ташкенте", "volumePerMonth": 390, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "создание сайтов ташкент", "volumePerMonth": 260, "competition": "MEDIUM", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "разработка сайтов ташкент", "volumePerMonth": 110, "competition": "HIGH", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "sun'iy intellekt", "volumePerMonth": 8100, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "chatgpt uzbek tilida", "volumePerMonth": 2900, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "chatgpt uz", "volumePerMonth": 1300, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "insho yozish", "volumePerMonth": 1000, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "referat yozish", "volumePerMonth": 320, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "чат гпт", "volumePerMonth": 550000, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860 — treat six-figure Russian figures as directionally large but unverified", "measuredAt": "2026-08-01" },
+    { "keyword": "чатгпт", "volumePerMonth": 33100, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "чат гпт онлайн", "volumePerMonth": 5400, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "искусственный интеллект", "volumePerMonth": 6600, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" }
+  ],
+  "qualityRequirements": {
+    "minFaq": 4,
+    "minOutgoingInternalLinks": 3,
+    "minIncomingInternalLinks": 2,
+    "requiresCanonical": true,
+    "requiresConversionPath": true,
+    "requiresHumanReview": true,
+    "note": "requiresHumanReview is enforced outside this file: SEO Autopilot forces every generated draft to status pending_review with manual_approval_required, and nothing reaches content/ without a human commit."
+  }
+}
