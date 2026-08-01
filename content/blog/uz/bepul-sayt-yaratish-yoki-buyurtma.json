@@ -1,0 +1,188 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "bepul-sayt-yaratish-yoki-buyurtma",
+  "url": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+  "title": "Bepul sayt yaratish yoki buyurtma berish: qaysi biri kerak",
+  "description": "Bepul konstruktorda sayt ochish qachon yetarli va qachon biznesga to‘siq bo‘ladi: domen, reklama, eksport, SEO va to‘lov cheklovlari halol taqqoslangan.",
+  "h1": "Bepul sayt yaratish yoki buyurtma berish",
+  "topicCluster": "web-development-uz",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "bepul sayt yaratish",
+    "bepul konstruktor sayt",
+    "sayt konstruktori cheklovlari",
+    "o‘z domeni bilan sayt",
+    "biznes uchun sayt tanlash"
+  ],
+  "intro": "Qisqa javob: bepul konstruktor g‘oyani tez sinab ko‘rish uchun yaxshi, lekin biznes uchun uzoq muddatda kamdan-kam yetarli bo‘ladi. Sabab narxda emas — cheklovlarda: begona domen, birovning reklamasi, kontentni chiqarib olishning qiyinligi va analitikaga cheklangan kirish. Quyida bepul variant qachon to‘g‘ri tanlov ekani va qachon uni almashtirish arzonroq tushishi ko‘rib chiqilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: bepul konstruktor g‘oyani tez sinab ko‘rish uchun yaxshi, lekin biznes uchun uzoq muddatda kamdan-kam yetarli bo‘ladi. Muammo pul emas — cheklovlar: begona domen, birovning reklamasi, kontentni ko‘chirib olishning qiyinligi va analitikaga cheklangan kirish."
+    },
+    {
+      "type": "p",
+      "text": "Bu maqola kimga foydali: hozircha byudjeti kam tadbirkorga, mahsulotni tezda sinab ko‘rmoqchi bo‘lgan jamoaga va bepul saytdan boshlab endi cheklovlarga duch kelgan biznesga."
+    },
+    { "type": "h2", "id": "nima-beradi", "text": "Bepul konstruktor aslida nima beradi" },
+    {
+      "type": "p",
+      "text": "Bepul tariflarda odatda tayyor shablon, oddiy tahrirlash va tezkor nashr bo‘ladi. Bir necha soatda sahifa ishga tushadi — bu haqiqatan ham qulay. Agar maqsad «mahsulotga qiziqish bormi» degan savolga javob olish bo‘lsa, buning uchun sayt buyurtma qilish shart emas."
+    },
+    { "type": "h2", "id": "cheklovlar", "text": "Cheklovlar qayerda paydo bo‘ladi" },
+    {
+      "type": "table",
+      "headers": ["Cheklov", "Amaliy oqibati"],
+      "rows": [
+        ["Domen konstruktor nomida", "Manzil uzun va yodda qolmaydi, vizitkaga yozib bo‘lmaydi"],
+        ["Platformaning reklamasi yoki brendi", "Mijoz saytni jiddiy qabul qilmasligi mumkin"],
+        ["Kontentni eksport qilish cheklangan", "Boshqa platformaga ko‘chish qayta yozishga aylanadi"],
+        ["Meta-teg va struktura ustidan cheklangan nazorat", "Bazaviy texnik SEO to‘liq bajarilmaydi"],
+        ["Analitikaga cheklangan kirish", "Trafik qayerdan kelayotgani noaniq qoladi"],
+        ["To‘lov va integratsiyalar pullik tarifda", "Onlayn savdo baribir pulli rejaga olib boradi"],
+        ["Yuklanish tezligi platformaga bog‘liq", "Mobil qurilmada sekin ochilishi mumkin"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu cheklovlarning har biri alohida halokatli emas. Muammo ular birga to‘planganda boshlanadi: sayt bor, lekin uni na reklamada ishonch bilan ko‘rsatib bo‘ladi, na o‘lchab bo‘ladi, na o‘stirib bo‘ladi."
+    },
+    { "type": "h2", "id": "qachon-yetarli", "text": "Bepul variant qachon to‘g‘ri tanlov" },
+    {
+      "type": "list",
+      "items": [
+        "G‘oyani bir-ikki hafta ichida sinab ko‘rish kerak",
+        "Hali mahsulot ham, narx ham aniq shakllanmagan",
+        "Sayt vaqtincha — tadbir, aksiya yoki bitta e’lon uchun",
+        "Trafik hozircha faqat tanishlar va ijtimoiy tarmoqdan keladi",
+        "Reklamaga pul sarflanmayapti"
+      ]
+    },
+    { "type": "h2", "id": "qachon-yetmaydi", "text": "Bepul variant qachon to‘siqqa aylanadi" },
+    {
+      "type": "list",
+      "items": [
+        "Saytga reklama trafigi yuborilyapti — har bir ariza pul turadi va yo‘qotib bo‘lmaydi",
+        "Mijoz kompaniyani Google orqali qidiradi va ishonch kerak",
+        "Arizalarni CRM yoki Telegramga yig‘ish zarur",
+        "Katalog, savat yoki onlayn to‘lov kerak",
+        "Ikki tilli versiya kerak",
+        "Sayt bo‘yicha natijani o‘lchash va yaxshilash rejalashtirilgan"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Amalda chegara oddiy: saytga pul kirita boshlaganingizdan keyin — reklama, kontent yoki vaqt shaklida — cheklovlar shu pulni yeya boshlaydi."
+    },
+    { "type": "h2", "id": "oraliq", "text": "O‘rtacha yechim ham bor" },
+    {
+      "type": "p",
+      "text": "Bepul konstruktor va to‘liq buyurtma sayt orasida oraliq variant bor: o‘z domeningizni ulab, konstruktorning pullik tarifida qolish. Bu manzil va reklama muammosini yechadi, lekin eksport, struktura va tezlik bo‘yicha cheklovlar saqlanadi. Agar sayt asosiy sotuv kanali bo‘lmasa, bu yetarli bo‘lishi mumkin."
+    },
+    { "type": "h2", "id": "kochirish", "text": "Bepul saytdan ko‘chish: nimani oldindan saqlash kerak" },
+    {
+      "type": "list",
+      "items": [
+        "Barcha matnlarni alohida hujjatga ko‘chirib qo‘ying",
+        "Rasmlarni asl o‘lchamda saqlang",
+        "Mavjud sahifalar manzillari ro‘yxatini yozib oling — keyin qayta yo‘naltirish kerak bo‘ladi",
+        "Domen sizning nomingizda ekaniga ishonch hosil qiling",
+        "Analitika hisobi sizda bo‘lsin, ijrochida emas"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Shu beshta narsa saqlansa, ko‘chish bir necha kunlik ish bo‘ladi. Saqlanmasa — saytni amalda noldan yozishga to‘g‘ri keladi."
+    },
+    { "type": "h2", "id": "xatolar", "text": "Keng tarqalgan xatolar" },
+    {
+      "type": "list",
+      "items": [
+        "Reklama byudjetini bepul saytga yo‘naltirish va arizalarni yo‘qotish",
+        "Domenni ijrochi yoki agentlik nomiga rasmiylashtirish",
+        "Analitikani umuman ulamaslik",
+        "Sayt tayyor deb hisoblab, mobil versiyani tekshirmaslik",
+        "Kontent nusxasini saqlamasdan platformani almashtirish"
+      ]
+    },
+    { "type": "h2", "id": "keyingi-qadam", "text": "Keyingi amaliy qadam" },
+    {
+      "type": "p",
+      "text": "Agar sayt hali biznesga pul keltirmayotgan bo‘lsa, bepul variantda qolish mantiqiy. Agar sayt allaqachon reklama, mijoz oqimi yoki obro‘ bilan bog‘liq bo‘lsa — cheklovlarni sanab chiqing va qaysi biri sizga real to‘sqinlik qilayotganini aniqlang. Ko‘pincha ikkitasi yetarli sabab bo‘ladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Hajm va narxni oldindan tushunish uchun {narx} maqolasini o‘qing, tayyor yechim kerak bo‘lsa — {xizmat} sahifasida ish jarayoni, integratsiyalar va nimalar kirishi yozilgan.",
+      "links": [
+        { "token": "narx", "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "anchor": "narx nimaga bog‘liq" },
+        { "token": "xizmat", "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt yaratish" }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Sayt bo‘yicha maslahat olish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bepul konstruktorda ochilgan sayt Google’da chiqadimi?",
+      "a": "Ha, indekslanishi mumkin. Lekin struktura, meta-teglar va tezlik ustidan nazorat cheklangan bo‘ladi, shuning uchun raqobatli so‘rovlarda o‘rin egallash qiyinroq. Brend nomi bo‘yicha topilish odatda muammo emas."
+    },
+    {
+      "q": "O‘z domenimni bepul tarifga ulasam bo‘ladimi?",
+      "a": "Ko‘pchilik platformada o‘z domenini ulash pullik tarifdan boshlanadi. Domenni esa har doim o‘z nomingizga ro‘yxatdan o‘tkazing — platformadan qat’i nazar, u sizniki bo‘lib qolishi kerak."
+    },
+    {
+      "q": "Bepul saytdan buyurtma saytga o‘tganda pozitsiyalar yo‘qoladimi?",
+      "a": "Eski manzillar yangi sahifalarga to‘g‘ri qayta yo‘naltirilsa, yo‘qotish minimal bo‘ladi. Shuning uchun ko‘chishdan oldin barcha mavjud manzillar ro‘yxatini saqlab qo‘yish muhim."
+    },
+    {
+      "q": "Konstruktorda internet do‘kon ochish mumkinmi?",
+      "a": "Mumkin, lekin savat va onlayn to‘lov deyarli har doim pullik tarifda bo‘ladi. Shuning uchun «bepul internet do‘kon» amalda kamdan-kam uchraydi — hisob-kitobni oldindan qiling."
+    },
+    {
+      "q": "Qaysi biri arzonroq: konstruktor tarifi yoki buyurtma sayt?",
+      "a": "Qisqa muddatda konstruktor arzonroq. Uzoq muddatda hisob o‘zgaradi: oylik tarif to‘planadi, cheklovlar esa reklama samarasini pasaytiradi. To‘g‘ri solishtirish uchun bir yillik umumiy xarajatni hisoblang."
+    }
+  ],
+  "cta": {
+    "label": "Sayt bo‘yicha maslahat olish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "biznes uchun sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+      "anchor": "Sayt narxi nimaga bog‘liq",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "Sayt uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Bepul sayt yaratish yoki buyurtma berish: qaysi biri kerak",
+  "ogDescription": "Bepul konstruktor qachon yetarli va qachon biznesga to‘siq bo‘ladi: domen, reklama, eksport, SEO va to‘lov cheklovlari.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+  "hreflangUz": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-01",
+  "dateModified": "2026-08-01",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01"
+}

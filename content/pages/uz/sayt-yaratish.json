@@ -6,13 +6,14 @@
   "pageType": "money",
   "primaryKeyword": "sayt yaratish",
   "secondaryKeywords": [
+    "web sayt yaratish",
     "veb sayt yaratish",
-    "sayt yasash",
+    "sayt ochish",
+    "sayt tuzish",
     "biznes uchun sayt",
     "kompaniya uchun sayt",
     "internet do'kon yaratish",
-    "landing page yaratish",
-    "Toshkentda sayt yaratish"
+    "landing page yaratish"
   ],
   "searchIntent": "commercial",
   "h1": "Sayt yaratish — biznesingizga ariza keltiradigan veb sayt",
@@ -201,6 +202,15 @@
       "type": "p",
       "text": "Biz kafolatlangan Google top yoki kafolatlangan sotuv va'da qilmaymiz — bunday va'dalar halol emas. Biz sayt to'g'ri ishlashi, tez ochilishi, arizalarni yo'qotmasligi va o'lchanadigan bo'lishi uchun javob beramiz."
     },
+    { "type": "h2", "text": "Buyurtma berishdan oldin" },
+    {
+      "type": "linkp",
+      "text": "Byudjetni oldindan tushunish uchun {narx} — smetani nima ko'taradi va ikkita taklifni qanday halol solishtirish kerak. Hali qaror qilmagan bo'lsangiz, {bepul} bepul konstruktor qachon yetarli va qachon to'siqqa aylanishini ko'rsatadi.",
+      "links": [
+        { "token": "narx", "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "anchor": "sayt narxi nimaga bog'liq" },
+        { "token": "bepul", "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/", "anchor": "bepul konstruktor yoki buyurtma sayt" }
+      ]
+    },
     {
       "type": "cta",
       "text": "Sayt yaratish bo'yicha loyihangizni muhokama qilaylik — maslahat bepul.",
@@ -247,6 +257,14 @@
     {
       "q": "Ishga tushirilgandan keyin sayt bilan nima bo'ladi?",
       "a": "Sayt sizda qoladi va ishlashda davom etadi. Kerak bo'lsa yangi bo'lim qo'shish, matnni yangilash yoki analitika bo'yicha yordam berishimiz mumkin."
+    },
+    {
+      "q": "Domen .uz zonasida bo'lishi shartmi?",
+      "a": "Shart emas. .uz mahalliy auditoriya uchun tanish va ishonch beradi, .com esa xalqaro yoki ikki tilli loyihalar uchun qulay. Ikkalasini birdaniga ro'yxatdan o'tkazib, biriga yo'naltirish ham mumkin. Qaysi variant bo'lsa ham, domen sizning nomingizga rasmiylashtiriladi."
+    },
+    {
+      "q": "Bepul konstruktorda ochilgan saytim bor, uni ko'chirish mumkinmi?",
+      "a": "Ha. Ko'chishdan oldin matnlarni, rasmlarni va mavjud sahifalar manzillari ro'yxatini saqlab qo'ying — eski manzillar yangilariga qayta yo'naltiriladi va qidiruvdagi mavqe deyarli yo'qolmaydi."
     }
   ],
   "internalLinks": [
@@ -289,6 +307,18 @@
     {
       "target": "/uz/",
       "anchor": "GPTBot.uz AI yechimlari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+      "anchor": "Sayt narxi nimaga bog'liq",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+      "anchor": "Bepul konstruktor yoki buyurtma sayt",
       "locale": "uz",
       "type": "contextual"
     }

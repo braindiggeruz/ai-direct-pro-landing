@@ -27,6 +27,10 @@
   "approvedKeywords": [
     { "keyword": "sayt yaratish", "volumePerMonth": 1300, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
     { "keyword": "veb sayt yaratish", "volumePerMonth": 210, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    { "keyword": "web sayt yaratish", "volumePerMonth": 260, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860, seed 'sayt yaratish'", "measuredAt": "2026-08-01" },
+    { "keyword": "sayt yaratish narxi", "volumePerMonth": 50, "competition": "MEDIUM", "source": "OpenSEO/DataForSEO location 2860, seed 'sayt yaratish'", "measuredAt": "2026-08-01" },
+    { "keyword": "bepul sayt yaratish", "volumePerMonth": 70, "competition": "MEDIUM", "source": "OpenSEO/DataForSEO location 2860, seed 'sayt yaratish'; 100/mo combined with 'sayt yaratish bepul' and 'bepul web sayt yaratish'", "measuredAt": "2026-08-01" },
+    { "keyword": "sayt ochish", "volumePerMonth": 30, "competition": "MEDIUM", "source": "OpenSEO/DataForSEO location 2860, seed 'sayt yaratish'", "measuredAt": "2026-08-01" },
     { "keyword": "разработка сайтов в ташкенте", "volumePerMonth": 390, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
     { "keyword": "создание сайтов ташкент", "volumePerMonth": 260, "competition": "MEDIUM", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
     { "keyword": "разработка сайтов ташкент", "volumePerMonth": 110, "competition": "HIGH", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },

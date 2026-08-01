@@ -8,6 +8,8 @@ import { ANALYTICS_HEAD } from '../scripts/analytics-snippet';
 
 const SEO_EVENTS = [
   'seo_landing_view',
+  'seo_article_view',
+  'seo_money_page_click',
   'service_cta_click',
   'telegram_open_attempt',
   'language_switch',

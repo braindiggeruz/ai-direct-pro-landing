@@ -2,6 +2,34 @@
   "manifestVersion": 1,
   "updatedAt": "2026-08-01",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
+  "clusters": [
+    {
+      "id": "webdev-uz",
+      "hub": "/uz/sayt-yaratish/",
+      "hubIntent": "commercial — order a business website",
+      "hubKeywords": ["sayt yaratish", "web sayt yaratish", "veb sayt yaratish", "sayt ochish", "sayt tuzish", "biznes uchun sayt", "kompaniya uchun sayt"],
+      "spokes": [
+        { "url": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "ownsIntent": "what drives the price of a website", "primaryKeyword": "sayt yaratish narxi" },
+        { "url": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/", "ownsIntent": "free site builder versus a commissioned site", "primaryKeyword": "bepul sayt yaratish" }
+      ],
+      "evidence": "docs/seo/WEBDEV_CLUSTER_MAP_2026-08-01.md",
+      "note": "Toshkentda sayt buyurtma qilish returned no volume and is deliberately not claimed by any URL."
+    },
+    {
+      "id": "webdev-ru",
+      "hub": "/ru/razrabotka-saytov-tashkent/",
+      "hubIntent": "commercial — order website development in Tashkent",
+      "hubKeywords": ["разработка сайтов в ташкенте", "создание сайтов ташкент", "разработка сайтов ташкент", "разработка сайта под ключ"],
+      "spokes": [
+        { "url": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/", "ownsIntent": "what a website costs in Tashkent", "primaryKeyword": "сколько стоит разработка сайта в ташкенте" },
+        { "url": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/", "ownsIntent": "how to choose a web developer", "primaryKeyword": "как выбрать разработчика сайта" },
+        { "url": "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/", "ownsIntent": "which site type a business needs", "primaryKeyword": "лендинг или корпоративный сайт" },
+        { "url": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "ownsIntent": "why an existing site produces no leads", "primaryKeyword": "почему сайт не приносит заявки" }
+      ],
+      "evidence": "docs/seo/WEBDEV_CLUSTER_MAP_2026-08-01.md",
+      "note": "Complete before this sprint and left unchanged. All four spokes earn zero impressions over six months, so no fifth Russian article is justified until that changes."
+    }
+  ],
   "pairs": [
     {
       "id": "C3-instagram-direct",
