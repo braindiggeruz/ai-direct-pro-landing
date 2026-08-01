@@ -53,7 +53,7 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
   var seoLocale = p.indexOf('/uz/')===0 ? 'uz' : (p.indexOf('/ru/')===0 ? 'ru' : 'root');
   var isArticle = p.indexOf('/blog/')>-1;
   if (seoLocale!=='root') {
-    gtag('event','seo_landing_view',{
+    gtag('event', isArticle ? 'seo_article_view' : 'seo_landing_view', {
       page_path: p,
       page_title: document.title,
       locale: seoLocale,
@@ -87,6 +87,17 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
     if (!isTg && href && href.charAt(0)==='/' && el.tagName==='A' &&
         (el.className||'').toString().indexOf('bg-grad-cta')>-1) {
       gtag('event','service_cta_click',{
+        page_path: location.pathname,
+        cta_text: label,
+        target_url: href
+      });
+    }
+    // Article -> commercial page. The hub of each cluster is a locale-root
+    // service path, so a same-locale link out of an article that is not itself
+    // an article is the money-page hop we want to measure.
+    if (isArticle && href && href.charAt(0)==='/' && href.indexOf('/blog/')===-1 &&
+        href.indexOf('/'+seoLocale+'/')===0 && href.length > 5) {
+      gtag('event','seo_money_page_click',{
         page_path: location.pathname,
         cta_text: label,
         target_url: href
