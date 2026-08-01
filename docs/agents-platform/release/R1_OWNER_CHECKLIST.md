@@ -24,7 +24,8 @@ baseline. Everything still open below is a business input, not engineering.
 - [x] Cloudflare automatic deployments disabled.
 - [x] Railway GitHub deployment trigger disconnected.
 - [x] P3.1 exact-source manual deployment and production canaries pass.
-- [x] Dedicated `@gptbot_market_bot` identity verified through `getMe`.
+- [x] Dedicated `@gptbot_market_bot` identity created in BotFather and verified
+  through `getMe`.
 - [x] Token and distinct webhook secret installed through the protected path.
 - [x] Isolated webhook configured and verified with zero pending updates.
 - [x] R1.1 exact-source deployment `41ec9e3` and HTTP canary pass.
