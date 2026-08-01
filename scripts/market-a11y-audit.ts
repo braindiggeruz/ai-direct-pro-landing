@@ -41,10 +41,6 @@ interface PageAudit {
   passes: number;
 }
 
-function safeFile(value: string): string {
-  return value.replace(/^\//, '').replace(/[^a-z0-9]+/gi, '-').replace(/-+$/, '');
-}
-
 async function launchBrowser(): Promise<Browser> {
   const executablePath = process.env.MARKET_BROWSER_EXECUTABLE;
   return chromium.launch({
