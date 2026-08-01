@@ -1,0 +1,250 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "sayt-buyurtma-qilishdan-oldin-nimalar-kerak",
+  "url": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+  "title": "Sayt buyurtma qilishdan oldin nimalar tayyor bo‘lishi kerak",
+  "description": "Ijrochiga murojaat qilishdan oldin tayyorlash kerak bo‘lgan 7 narsa: loyiha maqsadi, mijoz portreti, sahifalar ro‘yxati, matn va rasmlar, kontaktlar, integratsiyalar va qisqa texnik topshiriq.",
+  "h1": "Sayt buyurtma qilishdan oldin nimalar kerak",
+  "topicCluster": "web-development-uz",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "sayt buyurtma qilish",
+    "sayt uchun brif",
+    "loyiha maqsadi",
+    "saytga tayyorgarlik",
+    "ijrochiga nima berish kerak"
+  ],
+  "intro": "Qisqa javob: ijrochiga murojaat qilishdan oldin yettita narsani yozib qo‘ying — sayt qanday vazifani bajaradi, mijozingiz kim, qanday sahifalar kerak, matn va rasmlar kimda, ariza qayerga tushadi, qanday integratsiyalar kerak va domen bormi. Bu ro‘yxat bir sahifaga sig‘adi, lekin loyihani haftalab kechiktiradigan sabablarning katta qismini oldindan yopadi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: ijrochiga murojaat qilishdan oldin yettita narsani yozib qo‘ying — sayt qanday vazifani bajaradi, mijozingiz kim, qanday sahifalar kerak, matn va rasmlar kimda, ariza qayerga tushadi, qanday integratsiyalar kerak va domen bormi. Bularsiz ham ishni boshlash mumkin, lekin unda savollar ish jarayonining o‘rtasida chiqadi va har bir javob muddatni suradi."
+    },
+    {
+      "type": "p",
+      "text": "Bu maqola birinchi marta sayt buyurtma qilayotgan tadbirkor uchun. Amaliyotda loyihalar ijrochi yomon ishlagani uchun emas, ko‘pincha oddiy sabab bilan cho‘ziladi: matn tayyor emas, rasm yo‘q, kimga qanday ariza tushishi kelishilmagan. Quyidagi ro‘yxat shuni oldini oladi."
+    },
+    { "type": "h2", "id": "royxat", "text": "Ettita punkt — qisqa ro‘yxat" },
+    {
+      "type": "table",
+      "headers": ["Nima kerak", "Nima uchun kerak", "Tayyor bo‘lmasa nima bo‘ladi"],
+      "rows": [
+        ["Loyiha maqsadi", "Sayt qanday natijaga xizmat qilishini belgilaydi", "Struktura ham, dizayn ham taxminiy chiqadi"],
+        ["Mijoz portreti", "Matn kimga qaratilishini belgilaydi", "Matn hammaga va hech kimga yozilgan bo‘ladi"],
+        ["Sahifalar ro‘yxati", "Ish hajmini va smetani aniqlashtiradi", "Hajm o‘sadi va narx keyin o‘zgaradi"],
+        ["Matn va rasmlar", "Sayt to‘ldirilishi uchun kerak", "Loyiha eng oxirgi bosqichda to‘xtab qoladi"],
+        ["Kontakt va ariza yo‘li", "Mijoz sizga qanday murojaat qilishini belgilaydi", "Ariza keladi, lekin kimdir uni ko‘rmaydi"],
+        ["Integratsiyalar", "Telegram, CRM, to‘lov oldindan hisobga olinadi", "Keyin qo‘shish qimmatroq va uzoqroq bo‘ladi"],
+        ["Domen va kirish ma’lumotlari", "Ishga tushirish kunini kechiktirmaydi", "Sayt tayyor bo‘ladi, lekin ochilmaydi"]
+      ]
+    },
+    { "type": "h2", "id": "maqsad", "text": "1. Loyiha maqsadi — bitta jumlada" },
+    {
+      "type": "p",
+      "text": "«Bizga sayt kerak» — bu maqsad emas. Maqsad shunday yoziladi: «Sayt yangi mijozlardan ariza qabul qilishi kerak», yoki «Sayt narx-navo va shartlarni tushuntirib, qo‘ng‘iroqlar sonini kamaytirishi kerak», yoki «Sayt kompaniya haqida ishonch berishi va tender uchun havola qilinadigan manzil bo‘lishi kerak»."
+    },
+    {
+      "type": "p",
+      "text": "Bu jumla keyingi hamma qarorni belgilaydi: qaysi bloklar birinchi ekranga chiqadi, tugmada nima yozilishi, umuman katalog kerakmi. Maqsad noaniq bo‘lsa, sayt chiroyli chiqishi mumkin, lekin nima uchun ishlaganini o‘lchab bo‘lmaydi."
+    },
+    { "type": "h2", "id": "mijoz", "text": "2. Mijozingiz kim va u nimadan qo‘rqadi" },
+    {
+      "type": "list",
+      "items": [
+        "U kim: xususiy shaxsmi yoki kompaniya vakili",
+        "U qanday savol bilan keladi — narx, muddat, ishonch yoki texnik shart",
+        "Sotib olishdan oldin uni nima to‘xtatadi",
+        "U sizni qayerdan topadi: Google, Instagram, tavsiya yoki reklama"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Oxirgi punkt ko‘pincha e’tibordan chetda qoladi. Reklamadan kelgan odam va tanish tavsiyasi bilan kelgan odam saytdan turli narsani kutadi: birinchisiga siz kimligingizni isbotlash kerak, ikkinchisiga esa faqat bog‘lanish yo‘lini qulay qilish yetarli."
+    },
+    { "type": "h2", "id": "struktura", "text": "3. Sahifalar ro‘yxati — kamdan boshlang" },
+    {
+      "type": "p",
+      "text": "Ko‘p sahifa yaxshi sayt degani emas. Amaliyotda kichik xizmat biznesi uchun bosh sahifa, xizmatlar, kompaniya haqida va kontaktlar yetarli bo‘ladi. Har bir qo‘shimcha sahifa faqat bitta shart bilan qo‘shilsin: unga to‘ldiradigan real matn bor."
+    },
+    {
+      "type": "linkp",
+      "text": "Qaysi turdagi sayt kerakligi hali aniq bo‘lmasa — {tur} maqolasida landing, korporativ sayt, katalog va internet do‘kon qanday farq qilishi va qaysi biri qachon mos kelishi ko‘rsatilgan.",
+      "links": [
+        { "token": "tur", "target": "/uz/blog/biznes-uchun-qanday-sayt-kerak/", "anchor": "biznesga qanday sayt kerakligi" }
+      ]
+    },
+    { "type": "h2", "id": "kontent", "text": "4. Matn va rasmlar — eng ko‘p kechikadigan qism" },
+    {
+      "type": "p",
+      "text": "Loyihalarning katta qismi dizayn yoki dasturlash bosqichida emas, aynan kontent bosqichida to‘xtaydi. Shuning uchun kelishuvdan oldin aniq javob bering: matnni kim yozadi, suratlar qayerdan olinadi, mahsulot tavsiflari kimda va logotipning sifatli fayli bormi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xizmatlar ro‘yxati va har biriga 3–5 jumlalik tavsif",
+        "Kompaniya haqida qisqa matn — qachon boshlagansiz, nima qilasiz",
+        "Real suratlar: jamoa, ob’ekt, mahsulot yoki ish jarayoni",
+        "Logotip vektor formatda, agar bo‘lsa — brend ranglari",
+        "Litsenziya, sertifikat yoki hujjatlar, agar sohangizda ular muhim bo‘lsa"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar matn yozishga vaqt bo‘lmasa, buni oldindan ayting — shunda u ish hajmiga kiritiladi. Yomon variant — «keyin beraman» deb qoldirish va sayt tayyor turganda uni bir oy ochmaslik."
+    },
+    { "type": "h2", "id": "ariza", "text": "5. Ariza qayerga tushadi va kim javob beradi" },
+    {
+      "type": "linkp",
+      "text": "Ariza formasi ishlaydi, lekin savol shundaki, undan keyin nima bo‘ladi. Pochtaga tushgan xat yo‘qoladi. Telegram yoki CRM ancha ishonchli, chunki kim javob berganini ko‘rish mumkin. Murojaat ko‘p bo‘lsa yoki ish vaqtidan tashqari javob kerak bo‘lsa, saytga {bot} qo‘shiladi, oqimni esa {avtomat} orqali bitta joyga yig‘ish mumkin.",
+      "links": [
+        { "token": "bot", "target": "/uz/sayt-uchun-ai-bot/", "anchor": "AI-bot" },
+        { "token": "avtomat", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Shu bosqichda bitta oddiy savolga javob bering: ariza kelganda kim, qancha vaqt ichida javob beradi. Bu texnik savol emas, tashkiliy savol — lekin saytning natijasi ko‘p jihatdan shunga bog‘liq."
+    },
+    { "type": "h2", "id": "integratsiya", "text": "6. Integratsiyalarni oldindan ayting" },
+    {
+      "type": "list",
+      "items": [
+        "Telegram — arizalar guruhga yoki shaxsiy hisobga tushishi",
+        "CRM — amoCRM, Bitrix24 yoki boshqa tizim ishlatilsa",
+        "To‘lov tizimi — onlayn to‘lov rejalashtirilgan bo‘lsa",
+        "Analitika — Google Analytics va Search Console",
+        "Instagram yoki WhatsApp — murojaatning asosiy qismi u yerdan kelsa"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Integratsiyani boshidan hisobga olish va keyin qo‘shish — bir xil ish emas. Keyin qo‘shish ko‘pincha sahifa strukturasini va formalarni qayta ishlashni talab qiladi."
+    },
+    { "type": "h2", "id": "domen", "text": "7. Domen, hosting va kirish ma’lumotlari" },
+    {
+      "type": "linkp",
+      "text": "Agar sizda allaqachon domen bo‘lsa — u kimning nomiga rasmiylashtirilganini va boshqaruv paneliga kirish sizda ekanini tekshiring. Yangi olinadigan bo‘lsa, u ham sizning nomingizga rasmiylashtirilishi kerak. Bu mavzu {domen} maqolasida batafsil ko‘rib chiqilgan.",
+      "links": [
+        { "token": "domen", "target": "/uz/blog/domen-va-hosting-qanday-tanlanadi/", "anchor": "domen va hosting qanday tanlanadi" }
+      ]
+    },
+    { "type": "h2", "id": "topshiriq", "text": "Qisqa texnik topshiriq: bir sahifa yetarli" },
+    {
+      "type": "p",
+      "text": "Texnik topshiriq o‘nlab sahifali hujjat bo‘lishi shart emas. Yuqoridagi yettita javobni bitta faylga yozsangiz, bu allaqachon ishlaydigan texnik topshiriq bo‘ladi. Uning qiymati shundaki, kelishuvdan keyin «biz buni boshqacha tushungan edik» degan holat kamayadi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Loyiha maqsadi — bitta jumla",
+        "Mijoz kim va u qanday harakat qilishi kerak",
+        "Sahifalar ro‘yxati",
+        "Kontent kimda va qachon tayyor bo‘ladi",
+        "Ariza qayerga tushadi, javob muddati qancha",
+        "Kerakli integratsiyalar ro‘yxati",
+        "Domen holati va kimga tegishli ekani"
+      ]
+    },
+    { "type": "h2", "id": "xatolar", "text": "Keng tarqalgan xatolar" },
+    {
+      "type": "list",
+      "items": [
+        "Yoqqan saytlarni ko‘rsatib, «shunga o‘xshash qiling» deyish — u saytning vazifasi sizniki bilan bir xil bo‘lmasligi mumkin",
+        "Sahifalar sonini oshirib yuborish — to‘ldirilmagan bo‘lim saytga foyda emas, zarar keltiradi",
+        "Analitikani keyinga qoldirish — birinchi oylardagi ma’lumot qaytmaydi",
+        "Domen va hostingni ijrochi nomiga rasmiylashtirish",
+        "Ariza kelganda kim javob berishini kelishmaslik"
+      ]
+    },
+    { "type": "h2", "id": "keyingi-qadam", "text": "Keyingi qadam" },
+    {
+      "type": "linkp",
+      "text": "Yuqoridagi ro‘yxatni to‘ldirib bo‘lgach, uni shunchaki suhbatga olib keling. {xizmat} sahifasida ish jarayoni, nimalar kirishi va qanday integratsiyalar mumkinligi batafsil yozilgan — dastlabki baholash bepul.",
+      "links": [
+        { "token": "xizmat", "target": "/uz/sayt-yaratish/", "anchor": "sayt yaratish xizmati" }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Loyihangizni muhokama qilish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Texnik topshiriqni o‘zim yozishim shartmi?",
+      "a": "Shart emas. Yaxshi ijrochi brif savollarini o‘zi beradi va javoblaringiz asosida topshiriqni shakllantiradi. Lekin javoblarni oldindan o‘ylab qo‘yish suhbatni tezlashtiradi va smetani aniqroq qiladi."
+    },
+    {
+      "q": "Matn tayyor bo‘lmasa, ishni boshlash mumkinmi?",
+      "a": "Mumkin. Struktura va dizayn ustida ishlash boshlanadi, matn esa parallel tayyorlanadi. Muhimi — matnni kim yozishi oldindan kelishilgan bo‘lsin, aks holda loyiha oxirgi bosqichda to‘xtab qoladi."
+    },
+    {
+      "q": "Qancha sahifa buyurtma qilish kerak?",
+      "a": "Kamdan boshlang. Bosh sahifa, xizmatlar, kompaniya haqida va kontaktlar ko‘pchilik xizmat biznesi uchun yetarli. Yangi bo‘lim real matn paydo bo‘lganda qo‘shiladi — bo‘sh sahifa foyda bermaydi."
+    },
+    {
+      "q": "Menda logotip yo‘q, bu muammomi?",
+      "a": "Yo‘q. Sayt logotipsiz ham ishga tushishi mumkin, keyin qo‘shiladi. Agar logotip bor bo‘lsa, uni vektor formatda topib qo‘ying — shunda u har qanday o‘lchamda toza ko‘rinadi."
+    },
+    {
+      "q": "Instagram sahifam bor, sayt kerakmi?",
+      "a": "Ular turli vazifani bajaradi. Instagram — e’tibor va muloqot uchun, sayt esa qidiruvdan kelgan odamni qabul qiladi, xizmatni tushuntiradi va arizani yozib oladi. Ko‘p biznesda ular birga ishlaganda natija yaxshiroq bo‘ladi."
+    },
+    {
+      "q": "Domen hali yo‘q bo‘lsa nima qilaman?",
+      "a": "Bu ishni to‘xtatmaydi. Domenni ish jarayonida ham tanlash mumkin. Muhim shart bitta: u sizning nomingizga rasmiylashtirilsin va boshqaruv paneliga kirish sizda qolsin."
+    }
+  ],
+  "cta": {
+    "label": "Loyihani muhokama qilish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish xizmatini ko‘rish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+      "anchor": "Biznesga qanday sayt kerak",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+      "anchor": "Domen va hosting qanday tanlanadi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+      "anchor": "Sayt narxi nimaga bog‘liq",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Sayt buyurtma qilishdan oldin nimalar tayyor bo‘lishi kerak",
+  "ogDescription": "Loyiha maqsadi, mijoz portreti, sahifalar ro‘yxati, kontent, ariza yo‘li, integratsiyalar va domen — bir sahifalik tayyorgarlik ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+  "hreflangUz": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-01",
+  "dateModified": "2026-08-01",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01"
+}

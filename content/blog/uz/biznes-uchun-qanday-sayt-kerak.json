@@ -1,0 +1,200 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "biznes-uchun-qanday-sayt-kerak",
+  "url": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+  "title": "Biznesga qanday sayt kerak: landing, korporativ, katalog yoki do‘kon",
+  "description": "Landing page, korporativ sayt, katalog va internet do‘kon o‘rtasidagi farq. Har biri qanday vazifani bajaradi, qachon mos keladi va qachon ortiqcha — tanlash uchun amaliy jadval va savollar.",
+  "h1": "Biznesga qanday sayt kerak",
+  "topicCluster": "web-development-uz",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "biznes uchun qanday sayt kerak",
+    "landing yoki korporativ sayt",
+    "katalog sayt",
+    "internet do‘kon yoki katalog",
+    "sayt turlari"
+  ],
+  "intro": "Qisqa javob: sayt turini xohish emas, vazifa belgilaydi. Bitta xizmatni sotayotgan va reklama trafigi bor bo‘lsa — landing. Bir nechta xizmat bor va ishonch kerak bo‘lsa — korporativ sayt. Mahsulot ko‘p, lekin onlayn to‘lov shart emas — katalog. Onlayn savdo va to‘lov kerak — internet do‘kon. Quyida har biri qanday ishlashi va tanlashda qanday xato qilinishi ko‘rib chiqiladi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: sayt turini xohish emas, vazifa belgilaydi. Ko‘pchilik «bizga to‘liq sayt kerak» deb boshlaydi, keyin esa ma’lum bo‘ladiki, real ehtiyoj bitta yaxshi ishlangan sahifa edi. Teskarisi ham bo‘ladi: landing buyurtma qilinadi, aslida esa mahsulot katalogi kerak edi."
+    },
+    {
+      "type": "p",
+      "text": "Bu maqolada to‘rtta asosiy tur va ular qanday vazifani bajarishini ko‘rib chiqamiz. Maqsad — sizni kattaroq loyihaga ko‘ndirish emas, aksincha, ortiqcha ishni kesish."
+    },
+    { "type": "h2", "id": "jadval", "text": "To‘rt tur — bitta jadvalda" },
+    {
+      "type": "table",
+      "headers": ["Turi", "Asosiy vazifasi", "Qachon mos keladi", "Qachon ortiqcha"],
+      "rows": [
+        ["Landing page", "Bitta taklif bo‘yicha ariza yig‘ish", "Reklama trafigi bor, bitta xizmat yoki mahsulot", "Xizmatlar ko‘p va ular bir-biridan farq qiladi"],
+        ["Korporativ sayt", "Ishonch berish va murojaat olish", "Bir nechta xizmat, B2B mijoz, tender va hamkorlar", "Faqat bitta xizmat va tez sinov kerak"],
+        ["Katalog sayt", "Mahsulotni ko‘rsatish va so‘rov olish", "Assortiment katta, narx kelishiladi", "Mahsulot 5–10 ta va ular bitta sahifaga sig‘adi"],
+        ["Internet do‘kon", "Savat orqali buyurtma va to‘lov", "Onlayn savdo, tayyor narx, yetkazib berish", "Buyurtmalar baribir telefon orqali rasmiylashtiriladi"]
+      ]
+    },
+    { "type": "h2", "id": "landing", "text": "Landing page — bitta taklif, bitta harakat" },
+    {
+      "type": "p",
+      "text": "Landing bir sahifadan iborat va butun matni bitta harakatga olib boradi: ariza qoldirish yoki bog‘lanish. Uning kuchi — diqqatni tarqatmasligida. Kamchiligi ham shundan kelib chiqadi: bir nechta turli xizmatni bitta landing’ga sig‘dirishga urinish deyarli har doim yomon natija beradi."
+    },
+    {
+      "type": "p",
+      "text": "Amaliy maslahat: agar biznesingiz yangi bo‘lsa yoki g‘oyani tez sinab ko‘rmoqchi bo‘lsangiz, landing’dan boshlash mantiqli. U tezroq ishga tushadi, keyin esa uni korporativ saytgacha kengaytirish mumkin — matn va rasmlar saqlanib qoladi."
+    },
+    { "type": "h2", "id": "korporativ", "text": "Korporativ sayt — ishonch kerak bo‘lganda" },
+    {
+      "type": "list",
+      "items": [
+        "Xizmatlar bir nechta va har biriga alohida sahifa kerak",
+        "Mijoz kompaniya — u siz haqingizda ma’lumot qidiradi",
+        "Tender, hamkorlik yoki bank uchun rasmiy manzil kerak",
+        "Jamoa, tajriba va hujjatlar sotuvga ta’sir qiladi",
+        "Kelajakda bo‘limlar qo‘shilishi rejalashtirilgan"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Korporativ saytning asosiy xatosi — uni «kompaniya haqida» matn to‘plamiga aylantirish. Har bir xizmat sahifasi ham o‘z arizasini yig‘ishi kerak, aks holda sayt vitrinaga aylanadi va murojaat faqat kontaktlar sahifasidan keladi."
+    },
+    { "type": "h2", "id": "katalog", "text": "Katalog — do‘kon emas, lekin vitrinadan ko‘ra ko‘proq" },
+    {
+      "type": "p",
+      "text": "Katalog sayt mahsulotni ko‘rsatadi, filtrlash va qidirish imkonini beradi, lekin savat va onlayn to‘lov bo‘lmaydi. Mijoz mahsulotni tanlaydi va so‘rov yuboradi, keyin narx yoki mavjudlik alohida kelishiladi."
+    },
+    {
+      "type": "p",
+      "text": "Bu variant ulgurji savdo, qurilish materiallari, uskuna, mebel va narx kelishiladigan har qanday sohaga mos. U internet do‘kondan sezilarli arzon va tez ishga tushadi, chunki to‘lov integratsiyasi va buyurtma mantiqi kerak emas."
+    },
+    { "type": "h2", "id": "dokon", "text": "Internet do‘kon — faqat real onlayn savdo bo‘lsa" },
+    {
+      "type": "linkp",
+      "text": "Internet do‘kon savat, buyurtma rasmiylashtirish va to‘lovni o‘z ichiga oladi. Bu eng katta hajmdagi ish, shuning uchun undan oldin bitta savolga halol javob bering: mijozlaringiz haqiqatan ham onlayn to‘laydimi yoki baribir qo‘ng‘iroq qiladimi. Agar savdo asosan messenjerda bo‘lsa, {dokon} yoki katalog bilan boshlash amaliyroq bo‘ladi.",
+      "links": [
+        { "token": "dokon", "target": "/uz/dokon-uchun-ai-bot/", "anchor": "do‘kon uchun AI-bot" }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yana bir omil — kontent. Internet do‘kon har bir mahsulot uchun surat, tavsif, narx va mavjudlikni talab qiladi. Yuzlab pozitsiya bo‘lsa, bu alohida va uzoq ish. Buni oldindan hisobga olish kerak."
+    },
+    { "type": "h2", "id": "savollar", "text": "Tanlash uchun beshta savol" },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz saytda qanday bitta harakatni bajarishi kerak?",
+        "Xizmat yoki mahsulot nechta va ular bir-biridan qanchalik farq qiladi?",
+        "Narx sayt orqali e’lon qilinadimi yoki kelishiladimi?",
+        "Onlayn to‘lov bugun real kerakmi yoki «kelajakda»?",
+        "Kontent tayyorlashga qancha resurs ajrata olasiz?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Beshinchi savol amalda eng ko‘p qaror o‘zgartiradi. Katta sayt kichik saytdan ko‘ra ko‘proq matn, surat va e’tibor talab qiladi — va u resurs bo‘lmasa, katta sayt to‘ldirilmagan holda qoladi."
+    },
+    { "type": "h2", "id": "xatolar", "text": "Uchta keng tarqalgan xato" },
+    {
+      "type": "list",
+      "items": [
+        "Raqobatchiga qarab tanlash — uning biznes modeli sizniki bilan bir xil bo‘lmasligi mumkin",
+        "«Keyin kerak bo‘ladi» deb do‘kon buyurtma qilish — natijada to‘lov moduli hech qachon ishlatilmaydi",
+        "Landing bilan cheklanish, holbuki xizmatlar bir-biridan tubdan farq qiladi va har biriga alohida sahifa kerak"
+      ]
+    },
+    { "type": "h2", "id": "keyingi-qadam", "text": "Keyingi qadam" },
+    {
+      "type": "linkp",
+      "text": "Agar tur aniqlangan bo‘lsa, keyingi qadam — tayyorgarlik. {tayyor} maqolasida ijrochiga murojaat qilishdan oldin nimalar yozib qo‘yilishi kerakligi ko‘rsatilgan, {narx} esa smetani nima ko‘tarishini tushuntiradi. Loyihani birgalikda baholash uchun {xizmat} sahifasiga o‘ting.",
+      "links": [
+        { "token": "tayyor", "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/", "anchor": "sayt buyurtma qilishdan oldingi tayyorgarlik" },
+        { "token": "narx", "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "anchor": "narx nimaga bog‘liq" },
+        { "token": "xizmat", "target": "/uz/sayt-yaratish/", "anchor": "veb sayt xizmatlari" }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Qaysi sayt mos kelishini birgalikda aniqlaymiz",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Landing bilan boshlab, keyin kengaytirish mumkinmi?",
+      "a": "Ha, va bu ko‘pincha eng amaliy yo‘l. Landing tezroq ishga tushadi, real murojaatlarni ko‘rsatadi va keyin uning matni hamda rasmlari korporativ saytga asos bo‘ladi."
+    },
+    {
+      "q": "Katalog va internet do‘kon o‘rtasidagi asosiy farq nima?",
+      "a": "Savat va to‘lov. Katalogda mijoz mahsulotni tanlab so‘rov yuboradi, do‘konda esa buyurtmani o‘zi rasmiylashtiradi va to‘laydi. Do‘kon sezilarli ko‘proq ish va ko‘proq kontent talab qiladi."
+    },
+    {
+      "q": "Bitta saytda bir nechta yo‘nalishni birlashtirish mumkinmi?",
+      "a": "Mumkin, agar ular bitta auditoriyaga qaratilgan bo‘lsa. Agar auditoriya butunlay boshqa bo‘lsa — masalan, chakana va ulgurji — alohida bo‘limlar yoki alohida sahifalar yaxshiroq ishlaydi."
+    },
+    {
+      "q": "Kichik biznesga korporativ sayt kerakmi?",
+      "a": "Har doim emas. Agar mijoz sizni tavsiya orqali topsa va asosiy savol narx bo‘lsa, yaxshi ishlangan bitta sahifa yetarli bo‘lishi mumkin. Korporativ sayt ishonch va hujjatlar muhim bo‘lgan sohalarda kerak bo‘ladi."
+    },
+    {
+      "q": "Konstruktorda o‘zim yig‘sam bo‘ladimi?",
+      "a": "Ba’zi holatlarda ha — masalan, g‘oyani tez sinash uchun. Cheklovlar, ko‘chirish masalasi va uzoq muddatli oqibatlar alohida maqolada ko‘rib chiqilgan."
+    },
+    {
+      "q": "Sayt turi narxga qanchalik ta’sir qiladi?",
+      "a": "Kuchli. Asosiy farqni noyob maketlar soni hamda katalog, savat va to‘lov kabi funksiyalar yaratadi. Shuning uchun turni aniqlash smetani aniqlashtirishning birinchi qadami hisoblanadi."
+    }
+  ],
+  "cta": {
+    "label": "Sayt turini tanlashda yordam",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "veb sayt xizmatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+      "anchor": "Buyurtmadan oldingi tayyorgarlik",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+      "anchor": "Bepul konstruktor yoki buyurtma sayt",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+      "anchor": "Narx nimaga bog‘liq",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/dokon-uchun-ai-bot/",
+      "anchor": "Do‘kon uchun AI-bot",
+      "locale": "uz",
+      "type": "niche"
+    }
+  ],
+  "ogTitle": "Biznesga qanday sayt kerak: landing, korporativ, katalog yoki do‘kon",
+  "ogDescription": "To‘rt turdagi saytning vazifasi, mos keladigan holatlari va tanlashda qilinadigan xatolar — amaliy jadval va beshta savol.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+  "hreflangUz": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-01",
+  "dateModified": "2026-08-01",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01"
+}

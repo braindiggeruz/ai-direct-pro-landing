@@ -1,0 +1,205 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "domen-va-hosting-qanday-tanlanadi",
+  "url": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+  "title": "Domen va hosting qanday tanlanadi va kimga tegishli bo‘lishi kerak",
+  "description": "Domen va hosting nima, .uz yoki .com qaysi biri mos, kirish ma’lumotlari kimda qolishi kerak, SSL, zaxira nusxa va saytni boshqa ijrochiga ko‘chirish — amaliy qo‘llanma.",
+  "h1": "Domen va hosting qanday tanlanadi",
+  "topicCluster": "web-development-uz",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "domen va hosting",
+    "domen nomi tanlash",
+    "uz domen yoki com",
+    "hosting nima",
+    "saytni ko‘chirish"
+  ],
+  "intro": "Qisqa javob: domen — saytning manzili, hosting — u joylashgan joy. Ikkalasi ham sizning nomingizga rasmiylashtirilishi va boshqaruv paneliga kirish sizda qolishi kerak. Bu bitta shart kelajakda saytni yangilash, boshqa jamoaga topshirish yoki ko‘chirish imkonini beradi. Quyida domen tanlash, .uz va .com farqi, SSL, zaxira nusxa va ko‘chirish masalasi ko‘rib chiqiladi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: domen — saytning manzili (masalan, kompaniya-nomi.uz), hosting — sayt fayllari va ma’lumotlari saqlanadigan joy. Ikkalasi ham alohida xizmat sifatida to‘lanadi va ikkalasi ham sizning nomingizga rasmiylashtirilishi kerak."
+    },
+    {
+      "type": "p",
+      "text": "Bu mavzu texnik ko‘rinadi, lekin aslida bu — egalik masalasi. Sayt yaxshi ishlashi mumkin, ammo domen ijrochi nomida bo‘lsa, kelajakda siz unga bog‘lanib qolasiz. Shuning uchun bu savolni kelishuvdan oldin bering."
+    },
+    { "type": "h2", "id": "farq", "text": "Domen va hosting — farqi nimada" },
+    {
+      "type": "table",
+      "headers": ["Nima", "Vazifasi", "Kimga tegishli bo‘lishi kerak"],
+      "rows": [
+        ["Domen", "Saytning manzili, brend nomi", "Sizga — ro‘yxatdan o‘tkazuvchi ma’lumotlarida siz ko‘rsatilasiz"],
+        ["Hosting", "Sayt fayllari saqlanadigan server", "Sizga — hisob sizning pochtangizga bog‘lanadi"],
+        ["SSL sertifikat", "Manzilda https va brauzer ishonchi", "Odatda hosting bilan birga beriladi"],
+        ["Zaxira nusxa", "Nosozlikdan keyin tiklash", "Kim tayyorlashini oldindan kelishing"]
+      ]
+    },
+    { "type": "h2", "id": "nom", "text": "Domen nomini qanday tanlash kerak" },
+    {
+      "type": "list",
+      "items": [
+        "Qisqa bo‘lsin — telefonda aytilganda yozib olish oson bo‘lishi kerak",
+        "Brend nomiga mos bo‘lsin, xizmat kalit so‘zlariga emas",
+        "Chiziqcha va raqamdan iloji boricha qoching — ular og‘zaki uzatishda chalkashadi",
+        "O‘zbek harflarini lotin yozuvida qanday yozilishini tekshiring — bir nechta variant bo‘lishi mumkin",
+        "Ijtimoiy tarmoqlardagi nom bilan mosligini tekshiring"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yana bir amaliy tekshiruv: domen ilgari kimdir tomonidan ishlatilganmi. Ba’zan bo‘shab qolgan domenning oldingi tarixi bo‘ladi. Bu ko‘p uchraydigan holat emas, lekin nom g‘alati arzon yoki g‘ayrioddiy ko‘rinsa, tekshirib ko‘rish ortiqcha bo‘lmaydi."
+    },
+    { "type": "h2", "id": "zona", "text": ".uz yoki .com — qaysi birini tanlash" },
+    {
+      "type": "p",
+      "text": "Bitta to‘g‘ri javob yo‘q, tanlov auditoriyaga bog‘liq. .uz mahalliy mijoz uchun tanish va kompaniya O‘zbekistonda ishlashini bildiradi. .com esa xalqaro yoki ikki tilli loyihalar uchun qulay va odatda hech qanday hujjat talab qilmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Amaliy yechim: agar byudjet imkon bersa, ikkala zonani ham ro‘yxatdan o‘tkazing, bittasini asosiy qilib, ikkinchisini unga yo‘naltiring. Bu brend nomini himoya qiladi va keyinchalik kerak bo‘lganda tanlov qoladi."
+    },
+    { "type": "h2", "id": "egalik", "text": "Eng muhim qism: kirish ma’lumotlari kimda qoladi" },
+    {
+      "type": "list",
+      "items": [
+        "Domen sizning nomingizga rasmiylashtirilgan bo‘lsin",
+        "Ro‘yxatdan o‘tkazuvchi hisobi sizning elektron pochtangizga bog‘lansin",
+        "Hosting paneliga kirish sizda bo‘lsin",
+        "Sayt boshqaruv paneliga administrator kirishi sizda bo‘lsin",
+        "Analitika hisoblari ham sizning egaligingizda bo‘lsin",
+        "To‘lovlar sizning kartangizdan yoki hisobingizdan amalga oshirilsin"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Nima uchun bu muhim: agar domen ijrochi nomida bo‘lsa va aloqa uzilsa, sayt manzilini qaytarish uzoq va noqulay jarayonga aylanadi. Agar domen sizda bo‘lsa, eng yomon holatda ham siz saytni boshqa serverga ko‘chirasiz va manzil o‘zgarmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Shuning uchun bu savol {tayyor} ro‘yxatiga kiritilgan — uni kelishuvdan oldin berish keyin muammoni hal qilishdan ancha oson.",
+      "links": [
+        { "token": "tayyor", "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/", "anchor": "buyurtmadan oldingi tayyorgarlik" }
+      ]
+    },
+    { "type": "h2", "id": "hosting", "text": "Hostingdan nimani talab qilish kerak" },
+    {
+      "type": "list",
+      "items": [
+        "SSL sertifikat — sayt https orqali ochilishi kerak",
+        "Zaxira nusxa — qanchalik tez-tez olinadi va qancha saqlanadi",
+        "Yuklanish tezligi — mahalliy auditoriya uchun sezilarli farq qiladi",
+        "Texnik yordam — qanday kanal orqali va qaysi tilda",
+        "Pochta — domen nomidagi elektron pochta kerak bo‘lsa"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Zaxira nusxa alohida e’tiborga loyiq. Ko‘p hosting uni avtomatik oladi, lekin saqlash muddati cheklangan bo‘ladi. Muhim sayt uchun eng ishonchli yondashuv — vaqti-vaqti bilan alohida nusxani o‘zingizda saqlash."
+    },
+    { "type": "h2", "id": "kochirish", "text": "Saytni boshqa ijrochiga yoki serverga ko‘chirish" },
+    {
+      "type": "p",
+      "text": "Agar kirish ma’lumotlari sizda bo‘lsa, ko‘chirish texnik jihatdan oddiy ish. Muhim shart bitta: sahifalar manzillari saqlanib qolsin. Manzillar o‘zgarsa, eski manzillardan yangilariga qayta yo‘naltirish sozlanadi — shunda qidiruvdagi mavqe deyarli yo‘qolmaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ko‘chirishdan oldin joriy saytning to‘liq nusxasini saqlang",
+        "Barcha sahifalar manzillari ro‘yxatini tuzing",
+        "Analitika va Search Console hisoblariga kirishni tekshiring",
+        "Ko‘chirishdan keyin formalarni va https ishlashini sinab ko‘ring",
+        "Bir necha hafta davomida indeksatsiyani kuzatib boring"
+      ]
+    },
+    { "type": "h2", "id": "xatolar", "text": "Keng tarqalgan xatolar" },
+    {
+      "type": "list",
+      "items": [
+        "Domenni ijrochi yoki tanish nomiga rasmiylashtirish",
+        "Domen yangilanish muddatini nazoratdan chiqarish — sayt to‘satdan ochilmay qoladi",
+        "Kirish ma’lumotlarini hech qayerda saqlamaslik",
+        "SSL’ni «keyin» deb qoldirish — brauzer saytni xavfsiz emas deb belgilaydi",
+        "Zaxira nusxa borligiga ishonch hosil qilmaslik"
+      ]
+    },
+    { "type": "h2", "id": "keyingi-qadam", "text": "Keyingi qadam" },
+    {
+      "type": "linkp",
+      "text": "Domen va hostingni ulash odatda ishga tushirish bosqichining bir qismi bo‘ladi. {xizmat} sahifasida jarayon, integratsiyalar va nimalar kirishi batafsil yozilgan. Sizda domen bormi yoki yo‘qmi — ikkala holatda ham buni birinchi suhbatda hal qilamiz.",
+      "links": [
+        { "token": "xizmat", "target": "/uz/sayt-yaratish/", "anchor": "sayt bo‘yicha maslahat" }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Domen va hosting bo‘yicha maslahat olish",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Domen va hosting alohida to‘lanadimi?",
+      "a": "Ha, bu ikki xil xizmat va odatda alohida yangilanadi. Domen yiliga bir marta, hosting esa tanlangan tarifga qarab oylik yoki yillik to‘lanadi."
+    },
+    {
+      "q": "Domenni o‘zim ro‘yxatdan o‘tkazishim kerakmi?",
+      "a": "Bu eng ishonchli variant, chunki hisob sizning pochtangizga bog‘lanadi. Agar ijrochi yordam bersa ham, ma’lumotlarda egasi sifatida siz ko‘rsatilishingiz va kirish sizda qolishi kerak."
+    },
+    {
+      "q": ".uz domen olish uchun hujjat kerakmi?",
+      "a": "Mahalliy zonalarda ro‘yxatdan o‘tkazish qoidalari alohida belgilanadi va vaqt o‘tishi bilan o‘zgarishi mumkin. Shuning uchun aniq talablarni ro‘yxatdan o‘tkazuvchining joriy shartlaridan tekshiring."
+    },
+    {
+      "q": "SSL sertifikat shartmi?",
+      "a": "Amalda ha. Sertifikatsiz brauzer saytni xavfsiz emas deb belgilaydi va foydalanuvchi ariza formasini to‘ldirmaydi. Ko‘p hostingda bepul sertifikat mavjud."
+    },
+    {
+      "q": "Hostingni keyin o‘zgartirish mumkinmi?",
+      "a": "Ha. Domen sizda bo‘lsa, saytni boshqa serverga ko‘chirish oddiy ish. Ko‘chirishdan oldin to‘liq nusxa oling va sahifalar manzillari ro‘yxatini saqlab qo‘ying."
+    },
+    {
+      "q": "Bepul konstruktordagi manzilni o‘z domenimga almashtirsam bo‘ladimi?",
+      "a": "Ko‘pincha bo‘ladi, lekin bu odatda pullik tarifda ochiladi. Almashtirishdan oldin eski manzillar ro‘yxatini saqlang — keyin ular yangilariga yo‘naltiriladi."
+    }
+  ],
+  "cta": {
+    "label": "Domen va hosting bo‘yicha savol berish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt bo‘yicha maslahat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+      "anchor": "Buyurtmadan oldingi tayyorgarlik",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+      "anchor": "Bepul konstruktor yoki buyurtma sayt",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Domen va hosting qanday tanlanadi va kimga tegishli bo‘lishi kerak",
+  "ogDescription": "Domen — manzil, hosting — joy. Ikkalasi ham sizning nomingizda bo‘lishi kerak. .uz va .com farqi, SSL, zaxira nusxa va ko‘chirish.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+  "hreflangUz": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-01",
+  "dateModified": "2026-08-01",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01"
+}
