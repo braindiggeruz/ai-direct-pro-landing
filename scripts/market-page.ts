@@ -39,7 +39,7 @@ export function renderMarketHeader(
       <a href="${marketPath(page.locale)}#faq">FAQ</a>
     </nav>
     <div class="market-header-actions">
-      <div class="market-locale" aria-label="${uz ? 'Til' : 'Язык'}">
+      <div class="market-locale" role="group" aria-label="${uz ? 'Til' : 'Язык'}">
         ${hrefRu ? `<a href="${e(hrefRu)}" lang="ru" hreflang="ru">RU</a>` : ''}
         ${hrefUz ? `<a href="${e(hrefUz)}" lang="uz" hreflang="uz">UZ</a>` : ''}
       </div>
@@ -197,7 +197,7 @@ export function renderMarketLanding(page: Page): string {
       </div>
       <ul class="market-chips" aria-label="${uz ? 'Mahsulot chegaralari' : 'Границы продукта'}">${chips}</ul>
     </div>
-    <div class="market-demo" aria-label="${e(copy.demoLabel)}">
+    <div class="market-demo" role="group" aria-label="${e(copy.demoLabel)}">
       <div class="market-demo-head"><strong>GPTBot Market</strong><span>${e(copy.demoLabel)}</span></div>
       <div class="market-demo-query">${e(copy.query)}</div>
       <p class="market-demo-note">${e(copy.demoNote)}</p>
@@ -215,7 +215,7 @@ export function renderMarketLanding(page: Page): string {
   <section class="market-section" aria-labelledby="compare-title">
     <div class="market-shell">
       <div class="market-section-head"><div><p class="market-eyebrow">${uz ? 'Taqqoslash' : 'Сравнение'}</p><h2 id="compare-title">${e(copy.compareTitle)}</h2></div><p>${e(copy.compareIntro)}</p></div>
-      <div class="market-compare"><table><thead><tr>${compareHeader}</tr></thead><tbody>${compareRows}</tbody></table></div>
+      <div class="market-compare" role="region" tabindex="0" aria-label="${uz ? 'Mahsulotlarni taqqoslash jadvali' : 'Таблица сравнения товаров'}"><table><thead><tr>${compareHeader}</tr></thead><tbody>${compareRows}</tbody></table></div>
     </div>
   </section>
 
@@ -234,7 +234,7 @@ export function renderMarketLanding(page: Page): string {
         <p class="market-hero-copy">${e(copy.sellerIntro)}</p>
         <div class="market-actions"><a class="market-btn market-btn-coral" href="https://t.me/gptbot_market_bot?start=agent_seller_site_${uz ? 'uz' : 'ru'}" rel="nofollow noopener noreferrer" target="_blank">${e(copy.sellerCta)}</a><a class="market-btn market-btn-secondary" href="${trustPath(page.locale)}">${e(copy.trustLink)}</a></div>
       </div>
-      <div class="market-cockpit" aria-label="${e(copy.cockpitLabel)}">
+      <div class="market-cockpit" role="group" aria-label="${e(copy.cockpitLabel)}">
         <span class="market-status">${e(copy.cockpitLabel)}</span>${alerts}
       </div>
     </div>
@@ -259,7 +259,7 @@ function renderTrustBlock(block: BodyBlock): string {
     case 'h3': return `<h3>${e(block.text || '')}</h3>`;
     case 'p': return `<p>${e(block.text || '')}</p>`;
     case 'list': return `<ul>${(block.items || []).map((item) => `<li>${e(item)}</li>`).join('')}</ul>`;
-    case 'table': return `<div class="market-table-wrap"><table><thead><tr>${(block.headers || []).map((item) => `<th scope="col">${e(item)}</th>`).join('')}</tr></thead><tbody>${(block.rows || []).map((row) => `<tr>${row.map((item, index) => index === 0 ? `<th scope="row">${e(item)}</th>` : `<td>${e(item)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    case 'table': return `<div class="market-table-wrap" role="region" tabindex="0" aria-label="Trust Center table"><table><thead><tr>${(block.headers || []).map((item) => `<th scope="col">${e(item)}</th>`).join('')}</tr></thead><tbody>${(block.rows || []).map((row) => `<tr>${row.map((item, index) => index === 0 ? `<th scope="row">${e(item)}</th>` : `<td>${e(item)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     default: return '';
   }
 }

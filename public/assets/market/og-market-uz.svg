@@ -11,6 +11,6 @@
   <text x="72" y="250" fill="#1D1A17" font-family="Arial,sans-serif" font-size="60" font-weight="700">Nima kerakligini yozing.</text>
   <text x="72" y="325" fill="#1D1A17" font-family="Arial,sans-serif" font-size="34">Mos mahsulotlar — ulangan kataloglardan.</text>
   <text x="72" y="372" fill="#1D1A17" font-family="Arial,sans-serif" font-size="34">O‘ylab topilgan faktlarsiz.</text>
-  <rect x="72" y="460" width="390" height="72" rx="36" fill="#0B3B36"/>
-  <text x="112" y="506" fill="#FFF8EC" font-family="Arial,sans-serif" font-size="28" font-weight="700">Telegramda demoni ochish</text>
+  <rect x="72" y="460" width="460" height="72" rx="36" fill="#0B3B36"/>
+  <text x="112" y="506" fill="#FFF8EC" font-family="Arial,sans-serif" font-size="26" font-weight="700">Telegramda demoni ochish</text>
 </svg>

@@ -1,0 +1,337 @@
+{
+  "generatedAt": "2026-08-01T18:00:23.489Z",
+  "tool": "axe-core 4.12.1 with playwright-core",
+  "standard": "WCAG 2 A/AA, WCAG 2.1 A/AA, WCAG 2.2 AA automated rules",
+  "baseUrl": "http://127.0.0.1:4173",
+  "pageAudits": [
+    {
+      "path": "/ru/sotuvchi/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": 27
+    },
+    {
+      "path": "/uz/sotuvchi/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": 27
+    },
+    {
+      "path": "/ru/sotuvchi/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": 27
+    },
+    {
+      "path": "/uz/sotuvchi/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": 27
+    },
+    {
+      "path": "/ru/market-doverie/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": 27
+    },
+    {
+      "path": "/uz/market-ishonch/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": 27
+    },
+    {
+      "path": "/404.html",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [],
+      "passes": 9
+    }
+  ],
+  "overflow": [
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 1024,
+      "clientWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 1280,
+      "clientWidth": 1280,
+      "scrollWidth": 1280,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true
+    },
+    {
+      "route": "/ru/sotuvchi/",
+      "width": 1728,
+      "clientWidth": 1728,
+      "scrollWidth": 1728,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 1024,
+      "clientWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 1280,
+      "clientWidth": 1280,
+      "scrollWidth": 1280,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true
+    },
+    {
+      "route": "/uz/sotuvchi/",
+      "width": 1728,
+      "clientWidth": 1728,
+      "scrollWidth": 1728,
+      "passed": true
+    }
+  ],
+  "keyboard": [
+    {
+      "index": 1,
+      "tag": "a",
+      "text": "Перейти к основному контенту",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 271,
+      "height": 50
+    },
+    {
+      "index": 2,
+      "tag": "a",
+      "text": "GPTBot Market",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 234,
+      "height": 44
+    },
+    {
+      "index": 3,
+      "tag": "a",
+      "text": "Покупателю",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 117,
+      "height": 44
+    },
+    {
+      "index": 4,
+      "tag": "a",
+      "text": "Продавцу",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 99,
+      "height": 44
+    },
+    {
+      "index": 5,
+      "tag": "a",
+      "text": "Доверие",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 91,
+      "height": 44
+    },
+    {
+      "index": 6,
+      "tag": "a",
+      "text": "FAQ",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 55,
+      "height": 44
+    },
+    {
+      "index": 7,
+      "tag": "a",
+      "text": "RU",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 46,
+      "height": 44
+    },
+    {
+      "index": 8,
+      "tag": "a",
+      "text": "UZ",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 45,
+      "height": 44
+    },
+    {
+      "index": 9,
+      "tag": "a",
+      "text": "Открыть демо",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 159,
+      "height": 48
+    },
+    {
+      "index": 10,
+      "tag": "a",
+      "text": "Открыть демо в Telegram",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 250,
+      "height": 48
+    },
+    {
+      "index": 11,
+      "tag": "a",
+      "text": "Я продавец",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 136,
+      "height": 48
+    },
+    {
+      "index": 12,
+      "tag": "div",
+      "text": "ПАРАМЕТР M-14 · ДЕМО S-08 · ДЕМО ЦЕНА 349 000 сум 289 000 сум НАЛИЧИЕ В наличии В наличии СВЕТ Тёплы",
+      "focused": true,
+      "visibleFocus": true,
+      "width": 1248,
+      "height": 283
+    }
+  ],
+  "reducedMotion": {
+    "preference": "reduce",
+    "elementsWithLongMotion": 0,
+    "maxAnimationSeconds": 0.00001,
+    "maxTransitionSeconds": 0.00001
+  },
+  "totals": {
+    "pages": 7,
+    "violations": 0,
+    "incomplete": 0,
+    "axePasses": 171,
+    "overflowFailures": 0,
+    "keyboardFocusFailures": 0,
+    "reducedMotionFailures": 0
+  },
+  "claimsNotMade": [
+    "VoiceOver pass",
+    "TalkBack pass",
+    "native Uzbek sign-off",
+    "legal review"
+  ]
+}

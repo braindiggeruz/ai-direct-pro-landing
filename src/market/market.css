@@ -428,12 +428,13 @@ body.market-page::before {
   place-items: center;
   border-radius: 0.75rem;
   background: var(--market-coral-soft);
-  color: var(--market-coral);
+  color: #76271f;
   font-weight: 820;
 }
 
 .market-compare {
   overflow-x: auto;
+  outline-offset: 3px;
   border: 1px solid var(--market-line);
   border-radius: var(--market-radius-md);
   background: #fff;
@@ -635,6 +636,10 @@ body.market-page::before {
   .market-footer-links { justify-content: flex-start; }
   .market-alert { grid-template-columns: auto 1fr; }
   .market-alert b { grid-column: 2; }
+}
+
+@media (max-width: 22rem) {
+  .market-header-actions { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -505,6 +505,16 @@ async function main(): Promise<void> {
   }).composite(thumbnails).webp({ quality: 88 }).toFile(
     path.join(OUTPUT, 'creative-contact-sheet.webp'),
   );
+  for (const name of [
+    'og-market-ru',
+    'og-market-uz',
+    'og-trust-ru',
+    'og-trust-uz',
+  ]) {
+    await sharp(path.join(ROOT, 'public', 'assets', 'market', `${name}.svg`))
+      .png({ compressionLevel: 9 })
+      .toFile(path.join(ROOT, 'public', 'assets', 'market', `${name}.png`));
+  }
   console.log(`Generated ${assets.length} editable SVG masters and ${assets.length} PNG exports.`);
 }
 
