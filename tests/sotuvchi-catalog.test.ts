@@ -1448,9 +1448,11 @@ test('Telegram buyer enters storefront and searches in following message', async
   await harness.invoke(
     telegramMessage(700_202, 7991, 'сколько стоит Buyer Olma', 'ru'),
   );
-  const last = harness.delivery.sent.at(-1)?.text ?? '';
-  assert.ok(last.includes('Buyer Olma'));
-  assert.ok(last.includes('175 000 сум'));
+  const productCard = harness.delivery.sent.find((message) =>
+    message.text.includes('Buyer Olma'))?.text ?? '';
+  assert.ok(productCard.includes('Buyer Olma'));
+  assert.ok(productCard.includes('175 000 сум'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Что сделать дальше?'));
   assert.equal(
     fixture.value('SELECT COUNT(*) FROM sotuvchi_storefront_sessions'),
     1,
@@ -1558,9 +1560,11 @@ test('Telegram Uzbek Latin storefront flow is deterministic', async () => {
   await harness.invoke(
     telegramMessage(700_402, 7993, 'orik', 'uz'),
   );
-  const last = harness.delivery.sent.at(-1)?.text ?? '';
-  assert.ok(last.includes('O‘rik mahsuloti'));
-  assert.ok(last.includes('Mavjud'));
+  const productCard = harness.delivery.sent.find((message) =>
+    message.text.includes('O‘rik mahsuloti'))?.text ?? '';
+  assert.ok(productCard.includes('O‘rik mahsuloti'));
+  assert.ok(productCard.includes('Mavjud'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Keyin nima qilamiz?'));
 });
 
 test('Telegram mixed storefront query stays inside trusted store', async () => {
@@ -1583,9 +1587,9 @@ test('Telegram mixed storefront query stays inside trusted store', async () => {
   await harness.invoke(
     telegramMessage(700_502, 7994, 'olma чай', 'ru'),
   );
-  assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes('Olma Чай mahsuloti'),
-  );
+  assert.ok(harness.delivery.sent.some((message) =>
+    message.text.includes('Olma Чай mahsuloti')));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Что сделать дальше?'));
 });
 
 test('Telegram storefront route cannot launch seller mutation', async () => {
