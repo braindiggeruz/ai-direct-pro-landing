@@ -1,5 +1,33 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## R1.1 role-aware Telegram UX release baseline (2026-08-01)
+
+| Проверка | Результат |
+| --- | --- |
+| Feature / merge SHA | `2291e8010b3b57a04103c6a7b77df3cb8e6f962b` / `c670e4eebff79e2cc4b9027ffede865f0af813ab` |
+| Pages deployment | `d9ca163e-947b-40ba-856d-8143308c8402`, source `c670e4e` |
+| Immediate rollback | `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69`, source `41ec9e3` |
+| Full repository | **1056/1060**, 46 suites; exactly 4 documented pre-existing failures |
+| Role-aware targeted corpus | **216/216** buyer/onboarding/checkout/stats/readiness/webhook |
+| Post-merge critical corpus | **126/126** onboarding/readiness/webhook |
+| Root / Functions TypeScript | pass / pass |
+| Root production build / Pages Functions build | pass / compiled successfully |
+| Scoped ESLint / agent boundaries | pass / 0 violations |
+| Root / backend production audits | 0 / 0 findings |
+| Repository secret scan | clean, 2708 files |
+| HTTP canary | root, RU, UZ, RU/UZ Sotuvchi and immutable deployment 200; webhook GET 405; unauthorized POST 401; unknown route 404 |
+| Telegram provider | identity exact; webhook URL exact; pending 0; last error none |
+| Production D1 read-only canary | stores 1, products 48, orders/handoffs/notifications/automation 0; rows_written 0 |
+| Secret `___` | retained, encrypted; value not read |
+| Migrations / provider mutation | none; D1 ledger, webhook and bot metadata untouched |
+
+New regressions cover buyer-first RU/UZ parity, no empty comparison or global
+seller contact on home, invite-only seller entry, owner-only grounded dashboard,
+paused/suspended state honesty, forged seller callback denial, safe buyer/seller
+mode return and `/start` checkout preservation. No live Telegram conversation was
+created for the canary because no user chat target was supplied; provider and
+webhook checks were read-only.
+
 ## R1.1 start-latency closeout baseline (2026-08-01)
 
 | Проверка | Результат |

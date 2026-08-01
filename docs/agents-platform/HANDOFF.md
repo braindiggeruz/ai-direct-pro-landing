@@ -1,165 +1,175 @@
-# GPTBot Agents — handoff
+# GPTBot Agents — Handoff
 
-## State
+## 1. Состояние
 
-- Date: 2026-08-01.
-- Canonical repository:
-  `F:\Claude\gptbot-repo-clean-20260801`.
-- Branch: `main`.
-- Released code:
-  `41ec9e3401b3e974edf8d97480695e9845a4924f`.
-- Production deployment:
-  `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69`.
-- Immutable deployment:
-  `https://ede1d0f4.ai-direct-pro-landing.pages.dev`.
-- Rollback target: `af73edd9-1c90-418d-83d7-c79d81ae2888` at source `a542052`.
-- Telegram bot: `@gptbot_market_bot`.
-- Stage: R1.1 complete. Next stage is Store Pilot #1 preparation, blocked only
-  on owner business inputs.
+- Дата: 2026-08-01.
+- Канонический репозиторий: `F:\Claude\gptbot-repo-clean-20260801`.
+- Ветка: `main`.
+- Feature commit: `2291e8010b3b57a04103c6a7b77df3cb8e6f962b`.
+- Merge/deployed code: `c670e4eebff79e2cc4b9027ffede865f0af813ab`.
+- Production deployment: `d9ca163e-947b-40ba-856d-8143308c8402`.
+- Immutable URL: `https://d9ca163e.ai-direct-pro-landing.pages.dev`.
+- Immediate rollback: deployment `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69`,
+  source `41ec9e3401b3e974edf8d97480695e9845a4924f`.
+- Завершённый этап: R1.1 role-aware Telegram Market UX release.
+- Следующий этап: R1 Store Pilot #1 preparation, blocked only on owner
+  business inputs.
+- Рабочее дерево после governance commit должно быть clean; `state_commit` —
+  metadata-only HEAD поверх deployed code.
 
-The older clone `F:\Claude\gptbot-repo-clean-20260729-1140` is no longer the
-canonical development repository. It still holds the original interrupted
-latency WIP on `fix/r1.1-start-latency`; that work is now recovered, merged and
-deployed, and a full backup of the dirty tree lives outside Git at
-`F:\Claude\gptbot-market-wip-backups\20260801-174139-r1-start-latency`.
+Не использовать recovery repository `F:\Claude\gptbot-repo` как source и не
+читать/индексировать его audit directory. Не выводить credential material.
 
-Never develop or deploy from the recovery repository `F:\Claude\gptbot-repo`.
-Do not read or index its audit directory. Never put a token, webhook secret,
-credential fragment, hash or length into chat, logs or governance. The current
-bot credentials are DPAPI-protected outside Git in:
+## 2. Что сделано
 
-`F:\Claude\gptbot-secure-owner-kit\20260730-201941\r1-vault.json`
+- Выбрана hybrid-модель: adaptive authority-aware `/start` плюс buyer-first
+  home с видимым входом «Я продавец».
+- Buyer home сокращён до пяти действий; пустое сравнение и глобальный contact
+  seller удалены, contextual comparison/handoff сохранены.
+- Unknown seller получает invite-only explanation; кнопка и deep link не
+  создают onboarding, organization, membership или store.
+- Active verified owner получает owner-only dashboard с exact counts из
+  trusted stats query.
+- Paused pilot и suspended store получают отдельные честные состояния и
+  support path.
+- Seller может перейти в buyer mode и вернуться; server authority не меняется.
+- Active checkout имеет приоритет над mode navigation и переживает `/start`.
+- RU и Uzbek Latin имеют одинаковую action architecture.
+- Manifest Sotuvchi поднят с `1.6.0` до `1.7.0`.
+- Feature branch опубликована, merged в main и вручную deployed exact-SHA.
+- HTTP, Telegram provider, Pages secret-name и production D1 canary пройдены.
 
-Use the owner-kit helpers only in-process and clear temporary environment
-variables afterwards. Do not print the vault.
+## 3. Изменённые файлы
 
-## What is already complete
+- `functions/agents/sotuvchi/experience/copy.ts` — новый buyer-first RU/UZ
+  copy, compact home и invite-only seller copy.
+- `functions/agents/sotuvchi/experience/rules.ts` — secondary menu, seller
+  invitation/how-it-works; contextual `buyer-seller` оставлен для handoff.
+- `functions/agents/sotuvchi/rules.ts` — seller mode navigation, more/support,
+  paused/suspended/cancelled responses.
+- `functions/agents/sotuvchi/stats/{facts,responses,rules,tools,index}.ts` —
+  отдельный owner dashboard tool/composer на существующем exact stats service.
+- `functions/agents/sotuvchi/{manifest,index}.ts` — wiring и manifest `1.7.0`.
+- `functions/api/telegram/agents.ts` — trusted seller state routing, forged
+  callback denial, safe seller deep-link invitation и checkout priority.
+- `tests/sotuvchi-buyer-qa.test.ts` — compact home, RU/UZ parity, seller
+  invitation и отсутствие global compare/contact.
+- `tests/sotuvchi-checkout.test.ts` — `/start` сохраняет active checkout step.
+- `tests/sotuvchi-onboarding.test.ts` — unknown/active/paused/suspended seller,
+  mode return и forged-dashboard negatives.
+- `tests/sotuvchi-pilot-readiness.test.ts` — grounded RU/UZ dashboard contract.
+- `docs/agents-platform/{DECISIONS,TEST_MATRIX,HANDOFF}.md` и `STATE.json` —
+  D-031 и фактические release evidence.
 
-R1.1 upgraded the synthetic technical canary into a controlled pilot-quality
-Telegram commerce product:
+## 4. Архитектурные решения
 
-- concise `/start` and stable home/back/catalog navigation;
-- RU, Uzbek Latin and mixed-language deterministic paths;
-- grounded category, alias, typo and budget search;
-- verified product cards, details and similar products;
-- comparison of two or three products with unknown fields kept unknown;
-- idempotent single-product order flow and buyer order history;
-- store-scoped seller status actions and exactly-once inventory decrement;
-- explicit human handoff and seller notification;
-- privacy-safe funnel analytics, Telegram reliability metrics and Owner
-  Control Center projections;
-- rate limits, bounded retries, secret/body validation and provider-independent
-  deterministic catalog fallback;
-- 36 additional synthetic fixture products across six bilingual categories.
+- D-031: UX role определяется trusted server state, но никогда не является
+  authorization. Model C отвечает за routing, Model B — за buyer-first entry;
+  Model A mandatory chooser отклонён.
+- Dashboard count claims допускаются только из exact FactSheet owner query.
+- UX mode не сохраняется в новой таблице: это presentation state; authority
+  по-прежнему membership/store-derived.
+- Новых analytics event types нет: закрытый privacy-safe каталог не расширен.
+- Новых migrations нет.
 
-Migrations `0026`–`0030`, the fixture and Telegram RU/UZ metadata are already
-applied. Do not reapply or regenerate them without a new justified change.
+## 5. Что сознательно не сделано
 
-Do not run `wrangler d1 migrations apply --remote`. The production ledger still
-ends at `0025` while `0026`–`0030` are physically present, because they were
-applied one by one with `wrangler d1 execute --remote --file`. A ledger-managed
-replay would attempt non-idempotent `ALTER TABLE ADD COLUMN` statements.
+- Не создан real store, real product, payment, cart или public marketplace.
+- Не применялись migrations и не менялся D1 ledger.
+- Не менялись webhook, BotFather metadata, bot token или legacy bot routes.
+- Secret `___` не удалён и его value не читался; name-only check подтвердил,
+  что secret остался encrypted.
+- Live Telegram message/order canary не выполнялся: user chat target не был
+  предоставлен. Provider/webhook status проверен read-only.
+- Новые role-choice analytics не добавлены, чтобы не обходить closed catalog.
+- Screenshot из задания отсутствовал в attachments; UI выводы основаны на
+  приложенном тексте, текущем `/start` и фактическом renderer/code.
 
-## Release evidence
+## 6. Проверки
 
-- Main feature merge:
-  `a1ae79719fc6a2bf90a2a6986ad894fe66ef6a2b`.
-- First latency fix merge:
-  `e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9`.
-- Second latency fix commits:
-  `3b631a7` (implementation) and `ffc6284` (tests) on
-  `fix/r1.1-start-latency-current`.
-- Second latency fix merge and deployed source:
-  `41ec9e3401b3e974edf8d97480695e9845a4924f`.
-- Current deployment: `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69`.
-- Previous rollback deployment: `af73edd9-1c90-418d-83d7-c79d81ae2888` at
-  source `a542052`.
-- D1 backup:
-  `F:\Claude\gptbot-r1.1-production-backups\20260731-092128\gptbot-ai-drafts-production.sql`.
-- Restore-ready derivative:
-  `F:\Claude\gptbot-r1.1-production-backups\20260731-092128\gptbot-ai-drafts-production.restore-ready.sql`.
-- Full tests: 1051/1055 across 46 suites; the four failures are pre-existing on
-  clean `origin/main` and tracked in `KNOWN_ISSUES.md`.
-- Root/Functions TypeScript, root/backend/Pages builds, scoped ESLint, agent
-  boundaries, migration rehearsal and fixture checks: PASS.
-- Root/backend production audits: 0/0 findings.
-- Secret scan: clean over 2,700 files.
+- Все `tests/*.test.ts` file-by-file: **1056/1060**, 46 suites; четыре failure
+  в точности pre-existing baseline: три unclassified SEO release docs, route
+  parity/sitemap `232 != 228`, BotFather checklist assertion (4 assertions в
+  3 files), новых failure нет.
+- Role-aware targeted corpus: **216/216**.
+- Post-merge onboarding/readiness/webhook: **126/126**.
+- `tsc -b`: exit 0.
+- `tsc -p tsconfig.functions.json --noEmit`: exit 0.
+- Scoped ESLint изменённых Functions/tests: exit 0.
+- `scripts/check-agent-boundaries.ts`: 0 violations.
+- `scripts/scan-secrets.ts`: clean, 2708 files.
+- Root production build: exit 0; 111 pages, 118 articles, sitemap 232.
+- `wrangler pages functions build`: compiled successfully.
+- Backend typecheck/build: exit 0 / exit 0.
+- Root/backend production audits: 0 / 0 vulnerabilities.
+- HTTP: root/RU/UZ/RU+UZ Sotuvchi/immutable 200; webhook GET 405;
+  unauthorized POST 401; unknown route 404.
+- Telegram: exact `gptbot_market_bot`, exact webhook, pending 0, last error none.
+- D1 read-only: stores 1, products 48, orders 0, handoffs 0, notifications 0,
+  automation jobs 0, rows_written 0.
 
-Cloudflare automatic deployment did not run after the `main` push. The current
-deployment was a manual exact-SHA upload carrying source `41ec9e3`. Railway did
-not deploy. No migration or D1 mutation was needed for either latency fix.
+## 7. Известные проблемы
 
-## Production state
+- Существовали до этапа: четыре assertions из full baseline остаются красными
+  в `n8n-dependency-inventory`, `react-router-v8-migration` и
+  `release-preparation`; они воспроизведены на clean origin/main и не связаны
+  с Telegram UX.
+- Появились в этапе: нет известных runtime, security или migration defects.
+- Внешний blocker: Store Pilot #1 требует verified consenting seller, 10–30
+  approved products, SLA/support/incident owners и явное разрешение onboarding.
+- Stable production latency p95 всё ещё не доказан; единственный прежний cold
+  sample 2564 ms нельзя превращать в p95 claim.
 
-- One active controlled synthetic pilot store.
-- 48 synthetic products; zero real stores or real products.
-- Zero orders, handoffs, seller notifications, automation jobs and DLQ jobs.
-- Telegram webhook expected URL matches, pending updates 0, last error none.
-- HTTP canary: root/RU/UZ/deployment 200, webhook GET 405, unauthorized POST
-  401, malformed unauthorized POST 401, unknown route 404, Owner Control
-  Center 401 without a session, GPT Chat 200.
-- n8n retired; first-party automation is the only production path.
-- Automatic publication and SEO scheduler disabled.
-- Payments, escrow and public marketplace disabled.
+## 8. Следующая задача
 
-## Latency incident and resolution
+R1 Store Pilot #1 preparation: после получения owner business inputs проверить
+consent/product package и выполнить отдельный explicitly authorized onboarding
+одного реального магазина. До получения inputs никаких real-data mutations.
 
-The owner's successful walkthrough exposed a P1/P2 product latency defect.
+## 9. Acceptance criteria следующего этапа
 
-The first fix targeted Telegram message serialization and shipped at
-`e8b2bd7`. It did not solve `/start`, which renders a single card, so message
-count was never that path's dominant cost. A repeat owner canary measured
-12,451 ms of server-side processing.
+- Один verified consenting seller через заранее известный канал.
+- Dated consent покрывает buyer-contact forwarding и отсутствие bot payments.
+- 10–30 approved products: integer UZS price, availability, stock, RU/UZ search
+  aliases и verified specs; photos через Telegram file_id либо решение без фото.
+- Зафиксированы seller response SLA, support, incident и daily-review owners.
+- Есть отдельное явное разрешение на real store onboarding.
+- Canary доказывает owner/non-owner isolation, grounded catalog, idempotent order
+  и inventory, handoff, privacy-safe analytics; cleanup/rollback готов.
 
-The dominant cost was the cold-isolate runtime bootstrap cascade: every schema
-module protects fresh and test databases with idempotent DDL and none could
-tell that production is already migrated, so a cold Worker isolate ran dozens
-of sequential `CREATE TABLE`, `CREATE INDEX` and `ALTER TABLE ADD COLUMN`
-probes before the buyer saw anything. A synchronous post-turn block came
-second: workflow analytics and the notification outbox flush ran before the
-Runtime result returned even when there was nothing to dispatch.
-
-The second fix, merged at `41ec9e3`, replaces the cascade with one read-only
-fail-closed runtime schema contract per Worker isolate, and moves the
-best-effort post-turn work onto the Cloudflare request lifecycle. Details and
-the exact contract surface are in
-`docs/agents-platform/release/R1_1_START_LATENCY_EVIDENCE.md`.
-
-Measured result: 2,564 ms of server-side processing on a cold isolate against a
-12,451 ms newest baseline, with the owner confirming the first response feels
-fast and production carrying no order, handoff, notification or inventory side
-effect.
-
-One cold-isolate observation closes the stage but does not establish a stable
-p95. Warm-path and repeated cold-start behaviour remain unmeasured; treat any
-future latency claim beyond this as requiring a fresh sample.
-
-## Next stage
-
-Store Pilot #1 preparation. Engineering is unblocked. The stage waits on owner
-business inputs only:
-
-1. one consented, verified seller and their Telegram identity;
-2. 10–30 approved real products with integer UZS prices, inventory and images;
-3. signed-off SLA, support owner and incident owner.
-
-Do not create a real store, import real products, enable payments, launch the
-public marketplace, reconnect Railway, enable an automatic deployment or start
-a scheduler without explicit owner authorization.
-
-## Start commands
+## 10. Команды для старта
 
 ```powershell
-Set-Location F:\Claude\gptbot-repo-clean-20260801
+Set-Location 'F:\Claude\gptbot-repo-clean-20260801'
 git status --short --branch
-git fetch origin main
-git rev-parse HEAD
-git rev-parse origin/main
-Get-Content -Raw -Encoding utf8 AGENTS.md
-Get-Content -Raw -Encoding utf8 docs\agents-platform\STATE.json
-Get-Content -Raw -Encoding utf8 docs\agents-platform\HANDOFF.md
+git log -5 --oneline --decorate
+git fetch origin main --prune
+Get-Content -Encoding UTF8 docs/agents-platform/STATE.json
+Get-Content -Encoding UTF8 docs/agents-platform/HANDOFF.md
+Get-Content -Encoding UTF8 docs/agents-platform/ARCHITECTURE.md
+Get-Content -Encoding UTF8 docs/agents-platform/ROADMAP.md
 ```
 
-The governance follow-up commit must not trigger a Cloudflare or Railway
-deployment. Do not redeploy unchanged application bytes merely for
-documentation.
+Затем targeted baseline: onboarding, buyer QA, checkout, orders/inventory,
+handoff, pilot readiness, telegram webhook, Functions typecheck и secret scan.
+
+## 11. Риски
+
+- Не принимать callback/action/deep-link как seller authority.
+- Не показывать dashboard paused/suspended seller.
+- Не очищать active checkout при home/start/mode switch.
+- Не возвращать empty comparison или global seller contact на buyer home.
+- Не запускать `wrangler d1 migrations apply --remote`: production ledger
+  заканчивается на 0025, хотя 0026–0030 физически применены.
+- Не удалять secret `___`; не менять Railway trigger, scheduler или automation.
+- Не трогать legacy bots/webhooks/routes/tokens.
+
+## 12. Rollback
+
+- Быстрый production rollback: переключить Pages на deployment
+  `ede1d0f4-6a06-40e2-9b6c-dee2a7812c69` (source `41ec9e3`).
+- Git rollback: `git revert -m 1 c670e4eebff79e2cc4b9027ffede865f0af813ab`,
+  затем пройти Functions typecheck, targeted corpus, build и deploy нового
+  exact-SHA.
+- D1 rollback, migration rollback, webhook mutation и secret mutation не нужны:
+  release не менял схему, данные или provider configuration.

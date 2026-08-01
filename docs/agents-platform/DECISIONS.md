@@ -1118,3 +1118,40 @@ effect (списание остатка, статус заказа) фиксир
 promise перехватывается до регистрации, поэтому его отказ не меняет ни
 ответ, ни бизнес-операцию, и `waitUntil` никогда не видит rejection. Порядок
 order/inventory и dedup не изменены.
+
+## D-031 — Telegram UX адаптируется к серверной роли, но не создаёт её (R1.1, 2026-08-01)
+
+**Решение.** Принята гибридная модель: вариант C (adaptive authority-aware)
+определяет `/start` по trusted onboarding/store/pilot state, а вариант B
+(buyer-first с видимым входом «Я продавец») используется для нового и
+возвращающегося покупателя. Обязательный role chooser варианта A отклонён:
+он добавляет шаг до ценности и заставляет пользователя описывать роль, которую
+сервер всё равно обязан перепроверить.
+
+**UX role не является authorization.** Buyer callback, seller deep link и
+переключение режима не создают organization, membership, store или workflow
+onboarding. Seller dashboard вызывается через owner-only stats service, который
+заново выводит active owner store из identity+org. Callback `seller-*` без
+завершённого trusted onboarding fail-closed до Runtime; route code и button id
+не несут полномочий.
+
+**Состояния различаются честно.** Active owner + active pilot получает
+grounded dashboard. Paused pilot и suspended store получают отдельный экран с
+support path и не видят «магазин активен». Неизвестный seller видит только
+invite-only объяснение. Возврат в buyer mode эпизодический и не отнимает права;
+`/start` снова выводит серверное состояние.
+
+**Buyer home остаётся компактным.** На первом экране пять действий: поиск,
+каталог, заказы, seller invitation и «Ещё». Пустое сравнение и глобальный
+seller-contact удалены; сравнение и handoff остаются только в контексте товара,
+заказа или уже выбранных позиций. RU и Uzbek Latin имеют одинаковую action
+структуру.
+
+**Транзакции важнее навигации.** Active checkout workflow проверяется раньше
+seller dashboard и сохраняется при `/start` или попытке переключить режим.
+Схема и миграции не менялись; аналитика использует существующий закрытый каталог
+без нового role-choice event и без PII.
+
+**Rollback.** Откат Pages deployment на
+`ede1d0f4-6a06-40e2-9b6c-dee2a7812c69` (source `41ec9e3`) или `git revert`
+merge `c670e4e`; D1 rollback не нужен.
