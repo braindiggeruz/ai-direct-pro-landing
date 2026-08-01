@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "templateId": "store_pilot_1_import_template_v1",
+  "isTemplate": true,
+  "notice": "TEMPLATE ONLY. Every value below is a placeholder. This file must never be imported into production. Copy it, replace every placeholder with approved real data, and validate with `npx tsx scripts/market/validate-pilot-import.ts <file>` before any onboarding step.",
+  "store": {
+    "displayName": "<store name, 2-120 characters, not a URL>",
+    "locale": "ru",
+    "deliveryMode": "both",
+    "paymentMethods": ["cash"],
+    "sellerTelegramVerified": false,
+    "consentRecordedAt": null,
+    "supportOwner": "<name and contact of the person who answers buyers>",
+    "incidentOwner": "<name and contact of the person who handles incidents>",
+    "sellerResponseSlaMinutes": 120
+  },
+  "categories": [
+    { "key": "category-one", "name": "<category name>", "sortOrder": 1 },
+    { "key": "category-two", "name": "<category name>", "sortOrder": 2 }
+  ],
+  "products": [
+    {
+      "key": "product-one",
+      "categoryKey": "category-one",
+      "sku": "PILOT-001",
+      "name": "<product name, 2-120 characters, not a URL>",
+      "description": "<optional, up to 600 characters>",
+      "priceMinor": 100000,
+      "currency": "UZS",
+      "availability": "available",
+      "onHand": 10,
+      "searchTerms": ["<ru synonym>", "<uz lotin sinonim>"],
+      "specifications": [
+        {
+          "key": "material",
+          "labelRu": "<label in Russian>",
+          "labelUz": "<label in Uzbek Latin>",
+          "value": "<verified value only>"
+        }
+      ],
+      "mediaRefs": []
+    }
+  ],
+  "rules": {
+    "productCount": "10-30 products; fewer than 10 is not a pilot, more than 30 is not reviewable by one person",
+    "priceMinor": "integer UZS only. No decimals, no strings, no thousands separators, no ranges. 0 is allowed only for a genuinely free item; the ceiling is 1000000000000",
+    "currency": "UZS is the only accepted value",
+    "availability": "one of available, unavailable, preorder",
+    "onHand": "non-negative integer opening balance; every product needs one before it can be confirmed",
+    "sku": "optional; uppercase A-Z 0-9 . _ / -, up to 64 characters, must start alphanumeric, unique within the store",
+    "name": "2-120 characters, must not be a bare URL",
+    "description": "optional, up to 600 characters",
+    "searchTerms": "up to 12 terms, each up to 60 characters. Add Uzbek Latin synonyms here so RU and UZ buyers find the same product",
+    "specifications": "up to 12 entries, label up to 40 and value up to 100 characters. Only verified facts: an absent specification is rendered as unknown, never invented",
+    "mediaRefs": "up to 5 opaque references matching ^[A-Za-z0-9][A-Za-z0-9._:-]*$. These are Telegram photo file_id values, NOT http URLs. A URL contains / and is rejected. Leave the array empty when there is no approved photo",
+    "categoryKey": "must match one of the declared categories"
+  }
+}
