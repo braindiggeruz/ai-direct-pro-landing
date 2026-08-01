@@ -101,7 +101,7 @@ Page-level totals: `/ru/ai-bot-dlya-biznesa/` 50 impr @ 7.62 · `/ru/chat-bot-dl
 **Primary:** `/ru/ai-bot-dlya-biznesa/` — by far the strongest page-level position (7.62).
 **Disposition:** requires per-URL intent review in Slice 5 before any redirect. `/ru/gpt-bot-dlya-biznesa/` is the clearest merge candidate (loses on every shared query). The two blog articles are retargeted, not redirected.
 
-### C6 — UZ flagship product page has a near-duplicate slug
+### C6 — UZ flagship product page has a near-duplicate slug — REASSESSED 2026-08-01, NOT cannibalization
 
 | URL | Query | Impr | Position |
 | --- | ----- | ---: | -------: |
@@ -110,8 +110,32 @@ Page-level totals: `/ru/ai-bot-dlya-biznesa/` 50 impr @ 7.62 · `/ru/chat-bot-dl
 
 `/uz/gpt-uzbek-tilida/` page-level: 31 impressions, 1 click, position 7.84. It is the site's best-positioned Uzbek product asset against `chatgpt uzbek tilida` (2,900/mo, LOW competition).
 
-**Verdict:** TRUE cannibalization, and it threatens the highest-value UZ asset.
-**Disposition:** `/uz/gpt-uzbek-tilida-ai-chat/` → MERGE → 301 to `/uz/gpt-uzbek-tilida/`. **Highest-priority consolidation on the site.**
+**Initial verdict (slug-based):** TRUE cannibalization.
+
+**Reassessment before executing M1 — the two pages do not share an intent:**
+
+| | `/uz/gpt-uzbek-tilida/` | `/uz/gpt-uzbek-tilida-ai-chat/` |
+| --- | --- | --- |
+| pageType / searchIntent | `gpt-chat` / transactional | `blog` / informational |
+| H1 | «O'zbek tilida AI chat online» | «GPT o'zbek tilida: AI chatdan qanday foydalanish mumkin» |
+| Primary keyword | chatgpt uzbek tilida | gpt o'zbek tilida |
+| Structure | product surface, 8 FAQ, SoftwareApplication schema | guide: TOC, prompt formula, bad-vs-good table, 12 FAQ, Article schema |
+| Role | use the chat | learn to use the chat, CTA into the product page |
+
+Full query-level pull for both URLs over the whole 6-month window returns **three rows**:
+
+| URL | Query | Impr | Position |
+| --- | ----- | ---: | -------: |
+| `/uz/gpt-uzbek-tilida/` | chat gpt uzbek tilida | 2 | 7.00 |
+| `/uz/gpt-uzbek-tilida/` | chatgpt yuklab olish uzbek tilida | 1 | 35.00 |
+| `/uz/gpt-uzbek-tilida-ai-chat/` | chatgpt yuklab olish uzbek tilida | 1 | 42.00 |
+
+The single shared query carries one impression per URL, and it is a *download* query neither page is built for — the site has a dedicated article for it. That is noise, not a competing query pattern.
+
+Page-level, the guide earns **17 impressions at position 10.12** on its own. It is not a dead duplicate that redirects would tidy away; it is a ranking asset with independent value, and it already funnels to the product page through its CTA and internal links.
+
+**Verdict:** DIFFERENT_INTENT — product surface versus guide, different funnel stages. Per the merge rule (same language, same primary intent, same SERP task, and the loser lacking independent value) this fails on two of the four conditions.
+**Disposition:** KEEP both, no redirect. Differentiation is already explicit in title, H1, schema and page type; no further change required. **M1 is withdrawn.**
 
 ### C7 — Beauty salon: blog outranks money page
 
@@ -162,15 +186,23 @@ Brand query "gptbot" resolves to seven different URLs including `/?lang=uz` (pos
 
 ## 3. Migration map — staged, not executed
 
-| # | Source | Target | Reason | GSC evidence | Redirect | Canonical effect | Hreflang effect | Sitemap |
-| - | ------ | ------ | ------ | ------------ | -------- | ---------------- | --------------- | ------- |
-| M1 | `/uz/gpt-uzbek-tilida-ai-chat/` | `/uz/gpt-uzbek-tilida/` | Near-duplicate slug, loses on shared query, threatens best UZ asset | pos 42 vs 35, same query | 301 | target self-canonical | remove source from UZ pair | remove source |
-| M2 | `/ru/razrabotka-sayta-pod-klyuch/` | `/ru/razrabotka-saytov-tashkent/` | Same intent, 0 clicks, primary owns geo cluster | 15 impr, pos 33–96, 0 clicks | 301 | target self-canonical | target gains `/uz/sayt-yaratish/` pair | remove source |
-| M3 | `/ru/bot-dlya-obrabotki-zayavok/` | `/ru/avtomatizatsiya-zayavok/` | Three-way overlap, loses on every shared query | 33 impr, pos 54–90, 0 clicks | 301 | target self-canonical | none | remove source |
-| M4 | `/ru/gpt-bot-dlya-biznesa/` | `/ru/ai-bot-dlya-biznesa/` | Loses on all four shared queries to a page at pos 7.62 | 37 impr, pos 34.59, 0 clicks | 301 | target self-canonical | check UZ pair | remove source |
-| M5 | `/?lang=uz` | `/uz/` | Parameter duplicate of the homepage | 31 impr, pos 5.65 | canonical + param handling | `/uz/` self-canonical | n/a | already absent |
+| # | Source | Target | Reason | GSC evidence | Redirect | Canonical effect | Hreflang effect | Sitemap | Status |
+| - | ------ | ------ | ------ | ------------ | -------- | ---------------- | --------------- | ------- | ------ |
+| M1 | `/uz/gpt-uzbek-tilida-ai-chat/` | — | Reassessed: product surface vs guide, different intent; the guide holds pos 10.12 on its own | 3 query rows total, 1 shared query at 1 impr each | none | unchanged | unchanged | keep | **WITHDRAWN** |
+| M2 | `/ru/razrabotka-sayta-pod-klyuch/` | `/ru/razrabotka-saytov-tashkent/` | Same intent, 0 clicks, primary owns geo cluster | 19 impr, pos 33–96, 0 clicks | 301 | target self-canonical | target keeps `/uz/sayt-yaratish/` pair | source removed | **EXECUTED** |
+| M3 | `/ru/bot-dlya-obrabotki-zayavok/` | `/ru/avtomatizatsiya-zayavok/` | Three-way overlap, loses on every shared query | 33 impr, pos 54–90, 0 clicks | 301 | target self-canonical | `/uz/arizalarni-qabul-qiluvchi-bot/` becomes single-locale | source removed | **EXECUTED** |
+| M4 | `/ru/gpt-bot-dlya-biznesa/` | `/ru/ai-bot-dlya-biznesa/` | Loses on all four shared queries to a page at pos 7.62 | 37 impr, pos 34.59, 0 clicks | 301 | target self-canonical | `/uz/gpt-bot-biznes-uchun/` becomes single-locale | source removed | **EXECUTED** |
+| M5 | `/?lang=uz` | `/uz/` | Parameter duplicate of the homepage | 31 impr, pos 5.65 | 301 in `functions/index.ts` | `/uz/` self-canonical | n/a | already absent | **ALREADY SHIPPED** |
 
-**No redirect chains:** every target above is a live 200 URL that is not itself a redirect source.
+**Execution notes (2026-08-01):**
+
+- Unique material from M2's source — the definition of the turnkey format and the CMS question — was moved into the target as a new H2 and two FAQ entries before the redirect was created.
+- Every internal reference to a merged URL was repointed to its target, including the `targetMoneyPage` field on the articles that supported the merged pages. Links that would have become duplicates or self-links after repointing were removed.
+- `cannib-luchshie-gpt` already pointed at M4's source. It was repointed to `/ru/ai-bot-dlya-biznesa/` so no request takes two hops.
+- The UZ counterparts of M3 and M4 rank independently (positions 11.6 and 6.0) and are kept. Their `hreflangRu` declarations were **dropped, not repointed** — the merge targets already have their own UZ pairs, and a second claim would be a false pair. Both pages are now single-locale, which the corrected audit rule reports rather than treating as a defect.
+- M5 was found to be already implemented: `functions/index.ts` 301s `?lang=ru`/`?lang=uz` to `/ru/` and `/uz/`, and `tests/canonical-url-redirects.test.ts` covers it.
+
+**No redirect chains:** every target above is a live 200 URL that is not itself a redirect source. `tests/seo-link-graph.test.ts` now enforces this, together with "no redirect source is still published as a page" and "every redirect target is served".
 
 **Not scheduled for redirect** (differentiate instead): C3 Instagram Direct, C7 beauty salon, both blog↔money pairs where the blog holds the better position. Redirecting a better-ranking informational URL into a worse-ranking commercial one would lose the position.
 
@@ -180,14 +212,24 @@ Brand query "gptbot" resolves to seven different URLs including `/?lang=uz` (pos
 
 ## 4. Disposition summary
 
-| Class | Count | URLs |
-| ----- | ----: | ---- |
-| MERGE → 301 | 4 | M1–M4 |
-| TECHNICAL FIX | 1 | M5 |
-| DIFFERENTIATE (no redirect) | 4 | C3 money+blog, C7 money+blog |
-| KEEP + differentiate | 1 | `/ru/sozdanie-sayta-dlya-biznesa/` |
-| INVESTIGATE | 2 | C8 pair |
-| NOT cannibalization | 5 classes | see section 2 |
+| Class | Count | URLs | Status |
+| ----- | ----: | ---- | ------ |
+| MERGE → 301 | 3 | M2, M3, M4 | executed 2026-08-01 |
+| TECHNICAL FIX | 1 | M5 (`?lang=` parameter) | already shipped |
+| KEEP — different intent | 2 | C6 pair (`/uz/gpt-uzbek-tilida/` + `-ai-chat`) | M1 withdrawn |
+| DIFFERENTIATE (no redirect) | 4 | C3 money+blog, C7 money+blog | not started |
+| KEEP + differentiate | 1 | `/ru/sozdanie-sayta-dlya-biznesa/` | no action needed |
+| INVESTIGATE | 2 | C8 pair | open |
+| NOT cannibalization | 5 classes | see section 2 | — |
+
+Post-merge repository state: 111 pages (was 114), 226 sitemap URLs (was 229), 12 redirect
+rules (was 9), 0 broken internal links, 0 orphan pages, 0 broken hreflang pairs.
+
+**Still open after this release**
+
+- **C8** `/ru/telegram-bot-dlya-biznesa/` (26 impr, pos 5.62) vs `/ru/blog/telegram-bot-dlya-biznesa/` (25 impr, pos 5.76). GSC anonymises the queries at this volume, so there is no query-level proof. Both hold top-6 positions; redirecting either would risk a position that is currently earned. Needs a content comparison, not a redirect.
+- **C3 / C7** blog-outranks-money-page pairs. The disposition is differentiation, which is a content-rewrite task rather than a routing change, and it touches pages that currently rank. Deliberately not bundled into a release whose other changes are structural.
+- **Backlink exposure** for M2–M4 remains unverified — no backlink source is connected. All three sources had zero clicks over the full history of the property, which bounds the risk but does not eliminate it. If Search Console reports a referring domain to any of the three, the 301 preserves it; if a redirect ever needs reverting, the source files are recoverable from commit `2302618`'s parent.
 
 ---
 
