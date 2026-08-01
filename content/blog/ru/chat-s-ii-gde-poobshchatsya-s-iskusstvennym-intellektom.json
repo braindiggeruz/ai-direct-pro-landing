@@ -7,7 +7,7 @@
   "description": "Где пообщаться с ИИ на русском: обзор чатов с искусственным интеллектом, доступных в Узбекистане, — от ChatGPT до Telegram-ботов, и что выбрать под свою задачу.",
   "h1": "Чат с ИИ: где пообщаться с искусственным интеллектом",
   "topicCluster": "ai-bot-basics",
-  "targetMoneyPage": "/ru/gpt-bot-dlya-biznesa/",
+  "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
     "чат с ии",
     "чат с искусственным интеллектом",
@@ -110,7 +110,7 @@
     {
       "type": "cta",
       "text": "Сделать ИИ-чат для своих клиентов",
-      "href": "/ru/gpt-bot-dlya-biznesa/"
+      "href": "/ru/ai-bot-dlya-biznesa/"
     },
     {
       "type": "h2",
@@ -151,7 +151,7 @@
   ],
   "internalLinks": [
     {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",

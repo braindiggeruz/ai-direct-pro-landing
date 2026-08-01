@@ -7,7 +7,7 @@
   "description": "Как устроен гибридный чат-бот: сценарии для критичных действий, GPT для языка, база знаний, ограничения и передача менеджеру.",
   "h1": "Архитектура гибридного чат-бота: правила, база знаний и GPT",
   "topicCluster": "gpt-bot-architecture",
-  "targetMoneyPage": "/ru/gpt-bot-dlya-biznesa/",
+  "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
     "гибридный чат-бот",
     "архитектура GPT-бота",
@@ -184,7 +184,7 @@
   },
   "internalLinks": [
     {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",
@@ -196,13 +196,7 @@
       "locale": "ru",
       "type": "contextual"
     },
-    {
-      "target": "/ru/ai-bot-dlya-biznesa/",
-      "anchor": "AI-бот для бизнеса",
-      "locale": "ru",
-      "type": "contextual"
-    },
-    {
+ {
       "target": "/ru/telegram-bot-dlya-biznesa/",
       "anchor": "Telegram-бот для бизнеса",
       "locale": "ru",

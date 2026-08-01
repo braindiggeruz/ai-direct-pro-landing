@@ -112,13 +112,7 @@
       "type": "contextual",
       "locale": "ru"
     },
-    {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
-      "anchor": "маркетинг в Telegram",
-      "type": "contextual",
-      "locale": "ru"
-    },
-    {
+ {
       "target": "/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
       "anchor": "продвижение в Instagram",
       "type": "contextual",

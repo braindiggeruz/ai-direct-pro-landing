@@ -61,6 +61,13 @@
       "text": "Sayt tashrif buyuruvchilarining ko'pchiligi qo'ng'iroq qilmasdan va yozmasdan ketadi: ularga kontakt qidirib javob kutgandan ko'ra, oynani yopish osonroq. AI-vidjet bu lahzani ushlaydi — savolga shu yerda va shu zahoti javob beradi, tanlashga yordam beradi va darhol kontaktni oladi. Shunday qilib reklama va SEO uchun allaqachon to'lagan trafigingiz raqobatchilarga oqib ketmasdan, arizaga aylanadi."
     },
     {
+      "type": "linkp",
+      "text": "Agar sayt hali yo'q bo'lsa yoki eskirgan bo'lsa, botni qo'yishdan oldin asosni tayyorlash kerak — biz {sayt} bilan ham shug'ullanamiz va vidjetni darhol ishlaydigan holda ulaymiz.",
+      "links": [
+        { "token": "sayt", "target": "/uz/sayt-yaratish/", "anchor": "sayt yaratish" }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Saytdagi bot messenjerlar bilan qanday bog'liq"
     },
@@ -118,6 +125,12 @@
     {
       "target": "/uz/ai-sotuvchi/",
       "anchor": "AI sotuvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "Sayt yaratish",
       "locale": "uz",
       "type": "contextual"
     },

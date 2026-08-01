@@ -7,8 +7,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
-import type { Page, GlobalSEO, Redirect } from '../src/shared/types';
-import { auditPage, buildCockpit } from '../src/shared/audit';
+import type { Page, GlobalSEO, Redirect, BlogArticle } from '../src/shared/types';
+import { buildCockpit, buildKnownUrls } from '../src/shared/audit';
+import { evaluateDemandGate, type DemandPolicy } from '../src/shared/demand-gate';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -17,7 +18,17 @@ const globalSeo: GlobalSEO = JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, '
 const files = fg.sync('pages/**/*.json', { cwd: CONTENT_DIR, absolute: true });
 const pages: Page[] = files.map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')));
 
-const cockpit = buildCockpit(pages, globalSeo);
+// Blog articles are prerendered and sitemapped alongside pages, so they belong
+// in the link graph — otherwise every page → article link reads as broken.
+const blogFiles = fg.sync('blog/**/*.json', { cwd: CONTENT_DIR, absolute: true });
+const blog: BlogArticle[] = blogFiles.map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')));
+
+const redirectsFile = path.join(CONTENT_DIR, 'seo', 'redirects.json');
+const redirects: Redirect[] = fs.existsSync(redirectsFile)
+  ? JSON.parse(fs.readFileSync(redirectsFile, 'utf-8'))
+  : [];
+
+const cockpit = buildCockpit(pages, globalSeo, { blog, redirects });
 
 console.log('========================================');
 console.log('  SEO AUDIT REPORT');
@@ -39,7 +50,8 @@ console.log(`Missing OG:         ${cockpit.missingOg}`);
 console.log(`Mojibake pages:     ${cockpit.mojibakePages}`);
 console.log(`Orphan pages:       ${cockpit.orphanPages}`);
 console.log(`Broken intl. links: ${cockpit.brokenInternalLinks}`);
-console.log(`RU/UZ pairs OK:     ${cockpit.ruUzPairsOk} / missing ${cockpit.ruUzPairsMissing}`);
+console.log(`Links via redirect: ${cockpit.linksViaRedirect}`);
+console.log(`RU/UZ pairs OK:     ${cockpit.ruUzPairsOk} / broken ${cockpit.ruUzPairsMissing} / single-locale ${cockpit.singleLocalePages}`);
 console.log(`Avg money score:    ${cockpit.avgMoneyScore}/100`);
 console.log(`Avg blog score:     ${cockpit.avgBlogScore}/100`);
 console.log('========================================');
@@ -55,6 +67,10 @@ const CRITICAL_RULES = new Set([
   'no-faq-money',
   'published-but-not-in-sitemap',
   'hreflang-not-bidirectional',
+  'hreflang-target-missing',
+  // A link to a URL the site does not serve is a 404 for users and a dead end
+  // for crawlers. It only became gateable once the link graph included the blog.
+  'broken-internal-link',
 ]);
 
 for (const result of cockpit.pages) {
@@ -68,10 +84,54 @@ for (const result of cockpit.pages) {
   }
 }
 
+if (cockpit.orphanPageUrls.length) {
+  console.log(`\n[ORPHAN] ${cockpit.orphanPageUrls.length} published page(s) with no incoming internal link:`);
+  cockpit.orphanPageUrls.forEach((url) => console.log(`  - ${url}`));
+}
+
+if (cockpit.linksViaRedirectDetails.length) {
+  console.log(`\n[REDIRECT HOP] ${cockpit.linksViaRedirectDetails.length} internal link(s) point at a redirect source:`);
+  cockpit.linksViaRedirectDetails.forEach((l) =>
+    console.log(`  - ${l.sourceUrl} [${l.where}] → ${l.target} ⇒ ${l.resolvesTo}`),
+  );
+}
+
+// Demand gate: a new indexable commercial page has to name the demand it was
+// built for. The site already carries ~140 pages aimed at a cluster that
+// measures ~80 searches a month; this stops that pattern repeating without
+// touching anything already published.
+{
+  const policyFile = path.join(CONTENT_DIR, 'seo', 'demand-policy.json');
+  if (fs.existsSync(policyFile)) {
+    const policy: DemandPolicy = JSON.parse(fs.readFileSync(policyFile, 'utf-8'));
+    for (const v of evaluateDemandGate(pages, policy)) {
+      console.log(`\n[CRITICAL] demand-gate (${v.rule}): ${v.url} targets "${v.primaryKeyword}" — ${v.detail}`);
+      critical++;
+    }
+  }
+}
+
+// Redirect health: every target must be a URL the site serves, and no target
+// may itself be a redirect source (that would cost users and crawlers a second
+// hop and dilute the signal the 301 is supposed to consolidate).
+{
+  const served = buildKnownUrls(pages, { blog });
+  for (const r of redirects) {
+    if (r.to.startsWith('http')) continue; // external target, nothing to verify here
+    const target = r.to.split('#')[0].split('?')[0];
+    if (target.includes(':splat')) continue; // wildcard rule, resolved per request
+    if (redirects.some((other) => other.from === target)) {
+      console.log(`\n[CRITICAL] redirect-chain: ${r.from} → ${target} → (another redirect)`);
+      critical++;
+    } else if (!served.has(target)) {
+      console.log(`\n[CRITICAL] redirect-target-missing: ${r.from} → ${target} is not served`);
+      critical++;
+    }
+  }
+}
+
 // Redirect loop check
-const redirectsFile = path.join(CONTENT_DIR, 'seo', 'redirects.json');
-if (fs.existsSync(redirectsFile)) {
-  const redirects: Redirect[] = JSON.parse(fs.readFileSync(redirectsFile, 'utf-8'));
+{
   const map = new Map(redirects.map((r) => [r.from, r.to]));
   for (const r of redirects) {
     let cur = r.to;

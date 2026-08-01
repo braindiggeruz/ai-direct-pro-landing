@@ -8,7 +8,6 @@
 // never cannibalise the canonical HTML pages in search.
 export const LLM_MARKDOWN_SLUGS_RU: string[] = [
   'razrabotka-saytov-tashkent',
-  'razrabotka-sayta-pod-klyuch',
   'sozdanie-sayta-dlya-biznesa',
   'sayt-s-ai-botom',
   'sayt-dlya-zayavok',
@@ -18,7 +17,6 @@ export const LLM_MARKDOWN_SLUGS_RU: string[] = [
   'telegram-bot-dlya-biznesa',
   'avtomatizatsiya-zayavok',
   'ai-bot-s-crm-amocrm-bitrix24',
-  'bot-dlya-obrabotki-zayavok',
 ];
 
 /** URL path (with leading /ru/ and trailing slash) → true if it has a Markdown twin. */

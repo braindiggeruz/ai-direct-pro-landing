@@ -110,7 +110,7 @@
 
     { "type": "h2", "text": "Что подготовить перед созданием", "id": "preparation" },
     { "type": "linkp", "text": "Для успешного старта {full} подготовьте список услуг, прайс-лист, информацию о ваших преимуществах, фотографии (офиса, команды, примеров работ) и понимание того, куда должны приходить заявки (email, Telegram, CRM).", "links": [
-      { "token": "full", "target": "/ru/razrabotka-sayta-pod-klyuch/", "anchor": "разработка сайта под ключ" }
+      { "token": "full", "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайта под ключ" }
     ] },
 
     { "type": "h2", "text": "Почему GPTBot.uz", "id": "why-us" },
@@ -159,8 +159,7 @@
     },
     { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов в Ташкенте", "locale": "ru", "type": "contextual" },
     { "target": "/ru/sozdanie-sayta-dlya-biznesa/", "anchor": "создание сайта для бизнеса", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/razrabotka-sayta-pod-klyuch/", "anchor": "разработка сайта под ключ", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/sayt-s-ai-botom/", "anchor": "сайт с AI-ботом", "locale": "ru", "type": "contextual" },
+ { "target": "/ru/sayt-s-ai-botom/", "anchor": "сайт с AI-ботом", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual" },
     { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "AI-бот с CRM", "locale": "ru", "type": "contextual" },
     { "target": "/ru/avtomatizatsiya-zayavok/", "anchor": "автоматизацию заявок", "locale": "ru", "type": "contextual" },

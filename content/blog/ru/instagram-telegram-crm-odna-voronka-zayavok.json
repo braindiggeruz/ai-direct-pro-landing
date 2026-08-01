@@ -7,7 +7,7 @@
   "description": "Как собрать обращения из Instagram и Telegram в одну воронку: быстрый ответ, квалификация, карточка лида и handoff менеджеру.",
   "h1": "Instagram, Telegram и CRM: одна воронка заявок",
   "topicCluster": "lead-funnel",
-  "targetMoneyPage": "/ru/bot-dlya-obrabotki-zayavok/",
+  "targetMoneyPage": "/ru/avtomatizatsiya-zayavok/",
   "keywords": [
     "Instagram Telegram CRM воронка заявок",
     "автоматизация заявок Instagram Telegram",
@@ -63,7 +63,7 @@
     {
       "type": "cta",
       "text": "Узнать, как это работает для вашего бизнеса",
-      "href": "/ru/bot-dlya-obrabotki-zayavok/"
+      "href": "/ru/avtomatizatsiya-zayavok/"
     },
     {
       "type": "h2",
@@ -138,20 +138,13 @@
   },
   "internalLinks": [
     {
-      "target": "/ru/bot-dlya-obrabotki-zayavok/",
+      "target": "/ru/avtomatizatsiya-zayavok/",
       "anchor": "бот для обработки заявок",
       "locale": "ru",
       "type": "contextual",
       "priority": 1
     },
-    {
-      "target": "/ru/avtomatizatsiya-zayavok/",
-      "anchor": "автоматизация заявок",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 2
-    },
-    {
+ {
       "target": "/ru/ai-menedzher-dlya-instagram/",
       "anchor": "AI-менеджер для Instagram",
       "locale": "ru",

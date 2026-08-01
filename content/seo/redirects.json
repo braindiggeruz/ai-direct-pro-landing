@@ -66,9 +66,33 @@
   {
     "id": "cannib-luchshie-gpt",
     "from": "/ru/blog/luchshie-gpt-dlya-biznesa-uzbekistana/",
-    "to": "/ru/gpt-bot-dlya-biznesa/",
+    "to": "/ru/ai-bot-dlya-biznesa/",
     "statusCode": 301,
     "reason": "Slug/content mismatch (body generic technical filler) + cannibalized GPT money page — consolidate (seo-cannibalization-fix-2026-07-05)",
     "createdAt": "2026-07-05"
+  },
+  {
+    "id": "cannib-2026-08-m2-pod-klyuch",
+    "from": "/ru/razrabotka-sayta-pod-klyuch/",
+    "to": "/ru/razrabotka-saytov-tashkent/",
+    "statusCode": 301,
+    "reason": "M2: same RU commercial intent as the geo primary, 0 clicks and positions 33-96 over 6 months while the primary owns the whole geo cluster (CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01)",
+    "createdAt": "2026-08-01"
+  },
+  {
+    "id": "cannib-2026-08-m3-obrabotka-zayavok",
+    "from": "/ru/bot-dlya-obrabotki-zayavok/",
+    "to": "/ru/avtomatizatsiya-zayavok/",
+    "statusCode": 301,
+    "reason": "M3: loses to the primary on every shared zayavki query, 33 impressions and 0 clicks at positions 54-90 over 6 months (CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01)",
+    "createdAt": "2026-08-01"
+  },
+  {
+    "id": "cannib-2026-08-m4-gpt-bot-biznes",
+    "from": "/ru/gpt-bot-dlya-biznesa/",
+    "to": "/ru/ai-bot-dlya-biznesa/",
+    "statusCode": 301,
+    "reason": "M4: loses to /ru/ai-bot-dlya-biznesa/ (position 7.6) on all four shared AI-bot-for-business queries, 37 impressions and 0 clicks at position 34.6 (CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01)",
+    "createdAt": "2026-08-01"
   }
 ]

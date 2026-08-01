@@ -258,4 +258,41 @@ export interface CockpitStats {
   avgMoneyScore: number;
   avgBlogScore: number;
   pages: PageAuditResult[];
+  /** URLs of published pages with zero incoming internal links. */
+  orphanPageUrls: string[];
+  /** Every internal link whose target resolves to nothing the site serves. */
+  brokenInternalLinkDetails: BrokenLink[];
+  /** Internal links pointing at a redirect source — resolvable, but one hop wasted. */
+  linksViaRedirect: number;
+  linksViaRedirectDetails: BrokenLink[];
+  /** Pages that legitimately exist in one locale only (no counterpart authored). */
+  singleLocalePages: number;
+}
+
+export interface BrokenLink {
+  sourceUrl: string;
+  /** Where in the source document the link lives, e.g. `internalLinks` or `bodyBlocks[7].linkp`. */
+  where: string;
+  target: string;
+  anchor?: string;
+  /** For redirect hops: the URL the redirect ultimately resolves to. */
+  resolvesTo?: string;
+}
+
+/** Minimal shape needed to include an item in the internal-link graph. */
+export interface LinkGraphNode {
+  url: string;
+  status?: Status;
+  robotsIndex?: boolean;
+  internalLinks?: InternalLink[];
+  bodyBlocks?: BodyBlock[];
+}
+
+export interface AuditContext {
+  /** Blog articles (or any extra content) that pages are allowed to link to. */
+  blog?: LinkGraphNode[];
+  /** Redirect table, so links through a 301 are reported separately from broken ones. */
+  redirects?: Redirect[];
+  /** Routes served by the app that have no content file, e.g. `/` or `/ru/blog/`. */
+  extraUrls?: string[];
 }

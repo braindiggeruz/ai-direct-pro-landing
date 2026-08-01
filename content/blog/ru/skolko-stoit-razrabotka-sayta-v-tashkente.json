@@ -176,7 +176,7 @@
         },
         {
           "token": "turnkey",
-          "target": "/ru/razrabotka-sayta-pod-klyuch/",
+          "target": "/ru/razrabotka-saytov-tashkent/",
           "anchor": "сайт под ключ"
         }
       ]
@@ -399,14 +399,7 @@
       "type": "contextual",
       "priority": 1
     },
-    {
-      "target": "/ru/razrabotka-sayta-pod-klyuch/",
-      "anchor": "сайт под ключ",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 2
-    },
-    {
+ {
       "target": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
       "anchor": "выбрать разработчика сайта",
       "locale": "ru",

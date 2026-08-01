@@ -2,7 +2,7 @@ import type { Env } from '../_types';
 import { requireAuth } from '../lib/jwt';
 import { readContentBulk } from '../lib/github';
 import { buildCockpit } from '../../src/shared/audit';
-import type { Page, BlogArticle, GlobalSEO } from '../../src/shared/types';
+import type { Page, BlogArticle, GlobalSEO, Redirect } from '../../src/shared/types';
 import { withErrorHandler, jsonResponse } from '../lib/api-errors';
 
 const SITE_BASE = 'https://gptbot.uz';
@@ -50,6 +50,7 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler('audit', async 
   const pages: Page[] = [];
   const blog: BlogArticle[] = [];
   let global: GlobalSEO | undefined;
+  let redirects: Redirect[] = [];
   for (const [path, text] of Object.entries(all)) {
     if (!path.endsWith('.json')) continue;
     try {
@@ -57,9 +58,10 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler('audit', async 
       if (path.startsWith('content/pages/')) pages.push(parsed as Page);
       else if (path.startsWith('content/blog/')) blog.push(parsed as BlogArticle);
       else if (path === 'content/global/site.json') global = parsed as GlobalSEO;
+      else if (path === 'content/seo/redirects.json') redirects = (parsed as Redirect[]) || [];
     } catch { /* skip unparsable */ }
   }
-  const cockpit = buildCockpit(pages, global);
+  const cockpit = buildCockpit(pages, global, { blog, redirects });
   const publishedBlog = blog.filter((a) => a.status === 'published');
   const blogStats = {
     totalBlog: blog.length,

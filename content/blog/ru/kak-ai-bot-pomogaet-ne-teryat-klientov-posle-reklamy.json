@@ -176,13 +176,7 @@
       "locale": "ru",
       "type": "contextual"
     },
-    {
-      "target": "/ru/bot-dlya-obrabotki-zayavok/",
-      "anchor": "бот для обработки заявок",
-      "locale": "ru",
-      "type": "contextual"
-    },
-    {
+ {
       "target": "/ru/instagram-direct-bot/",
       "anchor": "Instagram Direct бот",
       "locale": "ru",

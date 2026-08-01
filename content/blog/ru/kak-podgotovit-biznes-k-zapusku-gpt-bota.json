@@ -7,7 +7,7 @@
   "description": "FAQ, база знаний, handoff-правила и RU + UZ сценарии: что бизнесу в Узбекистане нужно подготовить до запуска GPT-бота в Telegram и Instagram.",
   "h1": "Как подготовить бизнес в Узбекистане к запуску GPT-бота",
   "topicCluster": "gpt-bot-launch-prep",
-  "targetMoneyPage": "/ru/gpt-bot-dlya-biznesa/",
+  "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
     "как подготовить бизнес к запуску GPT-бота",
     "подготовка к внедрению GPT-бота",
@@ -63,7 +63,7 @@
     {
       "type": "cta",
       "text": "Узнать, как это работает для вашего бизнеса",
-      "href": "/ru/gpt-bot-dlya-biznesa/"
+      "href": "/ru/ai-bot-dlya-biznesa/"
     },
     {
       "type": "h2",
@@ -138,20 +138,13 @@
   },
   "internalLinks": [
     {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "GPT-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",
       "priority": 1
     },
-    {
-      "target": "/ru/ai-bot-dlya-biznesa/",
-      "anchor": "AI-бот для бизнеса",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 2
-    },
-    {
+ {
       "target": "/ru/ai-prodavec/",
       "anchor": "AI-продавец",
       "locale": "ru",

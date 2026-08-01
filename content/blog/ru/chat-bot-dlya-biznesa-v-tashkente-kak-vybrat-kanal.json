@@ -162,14 +162,7 @@
       "type": "contextual",
       "priority": 4
     },
-    {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
-      "anchor": "GPT-бот для бизнеса",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 5
-    },
-    {
+ {
       "target": "/ru/whatsapp-bot-dlya-biznesa/",
       "anchor": "AI-бот в WhatsApp",
       "locale": "ru",

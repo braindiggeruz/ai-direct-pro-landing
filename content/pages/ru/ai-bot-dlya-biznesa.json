@@ -180,12 +180,6 @@
       "type": "contextual"
     },
     {
-      "target": "/ru/gpt-bot-dlya-biznesa/",
-      "anchor": "GPT-бот для бизнеса",
-      "locale": "ru",
-      "type": "contextual"
-    },
-    {
       "target": "/ru/chat-bot-dlya-biznesa/",
       "anchor": "чат-бот для бизнеса",
       "locale": "ru",
