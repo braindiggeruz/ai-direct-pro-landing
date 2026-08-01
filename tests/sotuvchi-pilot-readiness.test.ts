@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import {
   analyticsIdempotencyKey,
+  composeDashboardResponse,
   composeStatsResponse,
   createSotuvchiAnalytics,
   createSotuvchiCatalogService,
@@ -16,6 +17,8 @@ import {
   createSotuvchiStatsService,
   projectStatsFacts,
   resultBucket,
+  SELLER_DASHBOARD_ACTION,
+  SELLER_DASHBOARD_TOOL,
   SELLER_STATS_ACTION,
   SELLER_STATS_TOOL,
   SOTUVCHI_EVENT_TYPES,
@@ -887,7 +890,14 @@ test('an unsupported number is refused by grounding', async () => {
 });
 
 test('the stats command and action route to the owner-only tool', () => {
-  const [action, command] = sotuvchiStatsRules;
+  const [dashboard, action, command] = sotuvchiStatsRules;
+  assert.ok(dashboard.match({
+    requestId: 'r-dashboard',
+    orgId: 'o',
+    agentId: 'sotuvchi',
+    locale: 'ru',
+    message: { kind: 'action', actionId: SELLER_DASHBOARD_ACTION },
+  }));
   assert.ok(action.match({
     requestId: 'r',
     orgId: 'o',
@@ -915,6 +925,27 @@ test('the stats command and action route to the owner-only tool', () => {
       locale: 'ru',
       message: { kind: 'text', text },
     }), text);
+  }
+});
+
+test('the compact dashboard is grounded in exact RU and UZ counters', async () => {
+  const fixture = new SqliteD1();
+  const setup = await setupStore(fixture, '870024');
+  const values = projectStatsFacts(
+    await setup.stats.getStats(sellerOrg(setup)),
+    'seller_dashboard',
+  );
+  const facts = { toolName: SELLER_DASHBOARD_TOOL, values };
+  for (const locale of ['ru', 'uz'] as const) {
+    const draft = composeDashboardResponse(facts, locale);
+    assert.equal(groundResponse(draft, [facts]).status, 'passed');
+    assert.equal(draft.claims.length, 3);
+    assert.ok(JSON.stringify(draft.messages[0].choices).includes(
+      SELLER_DASHBOARD_ACTION,
+    ) === false);
+    assert.ok(JSON.stringify(draft.messages[0].choices).includes(
+      'seller-buyer-mode',
+    ));
   }
 });
 

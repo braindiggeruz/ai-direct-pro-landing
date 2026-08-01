@@ -2,8 +2,11 @@ import type {
   DeterministicRule,
   RuntimeMessage,
 } from '../../../platform/contracts';
-import { SELLER_STATS_ACTION } from './responses';
-import { SELLER_STATS_TOOL } from './tools';
+import {
+  SELLER_DASHBOARD_ACTION,
+  SELLER_STATS_ACTION,
+} from './responses';
+import { SELLER_DASHBOARD_TOOL, SELLER_STATS_TOOL } from './tools';
 
 /**
  * `/stats` is a seller command, not an authority. The rule only routes to the
@@ -28,6 +31,21 @@ export const sotuvchiStatsActionRule: DeterministicRule = {
   },
 };
 
+export const sotuvchiDashboardActionRule: DeterministicRule = {
+  id: 'seller-dashboard-action',
+  priority: 139,
+  match(input) {
+    return input.message.kind === 'action'
+      && (
+        input.message.actionId === SELLER_DASHBOARD_ACTION
+        || input.message.actionId === 'seller-status'
+      );
+  },
+  async execute() {
+    return { kind: 'tool', toolName: SELLER_DASHBOARD_TOOL, input: {} };
+  },
+};
+
 export const sotuvchiStatsCommandRule: DeterministicRule = {
   id: 'seller-stats-command',
   priority: 141,
@@ -41,6 +59,7 @@ export const sotuvchiStatsCommandRule: DeterministicRule = {
 };
 
 export const sotuvchiStatsRules = [
+  sotuvchiDashboardActionRule,
   sotuvchiStatsActionRule,
   sotuvchiStatsCommandRule,
 ] as const;

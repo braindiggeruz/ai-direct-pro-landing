@@ -1,8 +1,14 @@
 export { StatsAuthorizationError, StatsValidationError } from './errors';
 export { projectStatsFacts } from './facts';
-export type { StatsFactValues } from './facts';
-export { composeStatsResponse, SELLER_STATS_ACTION } from './responses';
+export type { StatsFactValues, StatsView } from './facts';
 export {
+  composeDashboardResponse,
+  composeStatsResponse,
+  SELLER_DASHBOARD_ACTION,
+  SELLER_STATS_ACTION,
+} from './responses';
+export {
+  sotuvchiDashboardActionRule,
   sotuvchiStatsActionRule,
   sotuvchiStatsCommandRule,
   sotuvchiStatsRules,
@@ -16,6 +22,7 @@ export { createSotuvchiStatsStore } from './store';
 export type { SotuvchiStatsStore } from './store';
 export {
   createSotuvchiStatsDomainPort,
+  SELLER_DASHBOARD_TOOL,
   SELLER_STATS_TOOL,
   sotuvchiStatsTools,
   withSotuvchiStatsDomain,

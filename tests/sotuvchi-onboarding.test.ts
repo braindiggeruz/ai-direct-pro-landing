@@ -945,11 +945,145 @@ test('buyer storefront route resolves the store but never launches seller onboar
     beforeOnboardings,
   );
   assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes('Тестовый каталог'),
+    harness.delivery.sent.at(-1)?.text.includes('Помогу найти и сравнить товары'),
   );
   assert.ok(
     JSON.stringify(harness.delivery.sent.at(-1)?.keyboard).includes(
       'buyer-catalog-open',
     ),
   );
+});
+
+test('unknown seller entry is an invitation and never grants authority', async () => {
+  const fixture = new SqliteD1();
+  const harness = telegramHarness(fixture);
+  await telegramOnboardingFlow(
+    harness,
+    2010,
+    'ru',
+    1_000,
+    'Invitation Store',
+  );
+  const orgId = String(fixture.value('SELECT org_id FROM sotuvchi_stores'));
+  const storeId = String(fixture.value('SELECT id FROM sotuvchi_stores'));
+  await activatePilotStore(fixture.asD1(), orgId, storeId);
+  const beforeOnboardings = fixture.value(
+    'SELECT COUNT(*) FROM sotuvchi_onboardings',
+  );
+  const beforeMemberships = fixture.value('SELECT COUNT(*) FROM memberships');
+
+  await harness.invoke(
+    telegramMessage(1_100, 2998, '/start agent_seller', 'ru'),
+  );
+
+  const invitation = harness.delivery.sent.at(-1);
+  assert.ok(invitation?.text.includes('только по приглашению'));
+  assert.ok(invitation?.text.includes('не даёт доступ'));
+  assert.ok(JSON.stringify(invitation?.keyboard).includes('buyer-seller-how'));
+  assert.equal(
+    fixture.value('SELECT COUNT(*) FROM sotuvchi_onboardings'),
+    beforeOnboardings,
+  );
+  assert.equal(
+    fixture.value('SELECT COUNT(*) FROM memberships'),
+    beforeMemberships,
+  );
+});
+
+test('verified active seller gets grounded dashboard and can switch modes', async () => {
+  const fixture = new SqliteD1();
+  const harness = telegramHarness(fixture);
+  const flow = await telegramOnboardingFlow(
+    harness,
+    2011,
+    'ru',
+    1_200,
+    'Dashboard Store',
+  );
+  const orgId = String(fixture.value('SELECT org_id FROM sotuvchi_stores'));
+  const storeId = String(fixture.value('SELECT id FROM sotuvchi_stores'));
+  await activatePilotStore(fixture.asD1(), orgId, storeId);
+
+  await harness.invoke(
+    telegramMessage(flow.nextUpdate, 2011, '/start', 'ru'),
+  );
+  const dashboard = harness.delivery.sent.at(-1);
+  assert.ok(dashboard?.text.includes('Панель магазина'));
+  assert.ok(dashboard?.text.includes('Опубликовано товаров: 0'));
+  assert.ok(dashboard?.text.includes('Заказов оформлено сегодня: 0'));
+  assert.ok(dashboard?.text.includes('Открытых вопросов: 0'));
+  assert.ok(JSON.stringify(dashboard?.keyboard).includes('seller-orders'));
+  assert.ok(JSON.stringify(dashboard?.keyboard).includes('seller-buyer-mode'));
+
+  await harness.invoke(
+    telegramCallback(flow.nextUpdate + 1, 2011, 'seller-buyer-mode', 'ru'),
+  );
+  const buyerMode = harness.delivery.sent.at(-1);
+  assert.ok(buyerMode?.text.includes('Режим покупателя'));
+  assert.ok(JSON.stringify(buyerMode?.keyboard).includes('seller-dashboard'));
+
+  await harness.invoke(
+    telegramCallback(flow.nextUpdate + 2, 2011, 'seller-dashboard', 'ru'),
+  );
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Панель магазина'));
+});
+
+test('paused and suspended sellers never see an active dashboard', async () => {
+  const fixture = new SqliteD1();
+  const harness = telegramHarness(fixture);
+  const flow = await telegramOnboardingFlow(
+    harness,
+    2012,
+    'uz',
+    1_400,
+    'Holat Do‘koni',
+  );
+  const orgId = String(fixture.value('SELECT org_id FROM sotuvchi_stores'));
+  const storeId = String(fixture.value('SELECT id FROM sotuvchi_stores'));
+  await activatePilotStore(fixture.asD1(), orgId, storeId);
+  await setPilotStoreState(fixture.asD1(), orgId, storeId, 'paused');
+
+  await harness.invoke(
+    telegramMessage(flow.nextUpdate, 2012, '/start', 'uz'),
+  );
+  const paused = harness.delivery.sent.at(-1);
+  assert.ok(paused?.text.includes('pauzada'));
+  assert.ok(!paused?.text.includes('Do‘kon paneli'));
+  assert.ok(JSON.stringify(paused?.keyboard).includes('seller-support'));
+
+  await fixture.prepare(
+    `UPDATE sotuvchi_stores SET status = 'suspended' WHERE id = ?`,
+  ).bind(storeId).run();
+  await harness.invoke(
+    telegramMessage(flow.nextUpdate + 1, 2012, '/start', 'uz'),
+  );
+  const suspended = harness.delivery.sent.at(-1);
+  assert.ok(suspended?.text.includes('to‘xtatilgan'));
+  assert.ok(!suspended?.text.includes('Do‘kon paneli'));
+});
+
+test('buyer cannot forge a seller dashboard callback', async () => {
+  const fixture = new SqliteD1();
+  const harness = telegramHarness(fixture);
+  const flow = await telegramOnboardingFlow(
+    harness,
+    2013,
+    'ru',
+    1_600,
+    'Authority Store',
+  );
+  const code = String(fixture.value('SELECT storefront_code FROM sotuvchi_stores'));
+  const orgId = String(fixture.value('SELECT org_id FROM sotuvchi_stores'));
+  const storeId = String(fixture.value('SELECT id FROM sotuvchi_stores'));
+  await activatePilotStore(fixture.asD1(), orgId, storeId);
+  await harness.invoke(
+    telegramMessage(flow.nextUpdate, 3999, `/start agent_${code}`, 'ru'),
+  );
+
+  await harness.invoke(
+    telegramCallback(flow.nextUpdate + 1, 3999, 'seller-dashboard', 'ru'),
+  );
+  const denied = harness.delivery.sent.at(-1)?.text ?? '';
+  assert.ok(denied.includes('ссылка недоступна'));
+  assert.ok(!denied.includes('Панель магазина'));
 });

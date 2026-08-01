@@ -13,13 +13,15 @@ import type {
 export const BUYER_COPY = {
   ru: {
     home:
-      'Тестовый каталог. Помогу найти и оформить товар. Что хотите сделать?',
+      'Помогу найти и сравнить товары. Напишите, что Вам нужно, или откройте каталог.',
     syntheticNotice:
-      'Все товары синтетические: реальных брендов и клиентских данных нет.',
-    find: 'Подобрать товар',
+      'Сейчас работает тестовый каталог: все товары синтетические.',
+    find: '🔎 Найти товар',
     catalog: 'Каталог',
     orders: 'Мои заказы',
     seller: 'Связаться с продавцом',
+    sellerMode: 'Я продавец',
+    more: 'Ещё',
     language: 'Язык',
     homeButton: 'Главное меню',
     backToCatalog: 'Назад в каталог',
@@ -63,6 +65,12 @@ export const BUYER_COPY = {
     uzbek: 'O‘zbekcha',
     sellerPrompt:
       'Напишите «позвать продавца» и свой вопрос одним сообщением — я передам его продавцу этого магазина.',
+    sellerInterest:
+      'Подключите магазин, добавьте товары и получайте заказы в Telegram.\n\nСейчас магазины подключаются только по приглашению. Эта кнопка не даёт доступ к панели продавца.',
+    sellerHow: 'Как это работает',
+    sellerHowText:
+      'Администратор проекта проверяет владельца и подключает магазин. После подключения продавцу становятся доступны товары, заказы, вопросы и статистика.\n\nСамостоятельно создать магазин или получить права продавца через эту кнопку нельзя.',
+    backToShopping: 'Вернуться к покупкам',
     help:
       'Можно спросить и сделать: открыть каталог и категории, найти товар по описанию или бюджету, сравнить варианты, оформить заявку и посмотреть свои заказы.',
     humanHint:
@@ -90,13 +98,15 @@ export const BUYER_COPY = {
   },
   uz: {
     home:
-      'Sinov katalogidan mahsulot topish va buyurtma arizasini yuborishga yordam beraman. Nima qilamiz?',
+      'Mahsulot topish va solishtirishga yordam beraman. Nima kerakligini yozing yoki katalogni oching.',
     syntheticNotice:
-      'Barcha mahsulotlar sintetik: haqiqiy brendlar va mijoz ma’lumotlari yo‘q.',
-    find: 'Mahsulot tanlash',
+      'Hozir sinov katalogi ishlayapti: barcha mahsulotlar sintetik.',
+    find: '🔎 Mahsulot topish',
     catalog: 'Katalog',
     orders: 'Buyurtmalarim',
     seller: 'Sotuvchi bilan bog‘lanish',
+    sellerMode: 'Men sotuvchiman',
+    more: 'Yana',
     language: 'Til',
     homeButton: 'Bosh menyu',
     backToCatalog: 'Katalogga qaytish',
@@ -140,6 +150,12 @@ export const BUYER_COPY = {
     uzbek: 'O‘zbekcha',
     sellerPrompt:
       '«Sotuvchini chaqir» deb savolingizni bitta xabarda yozing — uni shu do‘kon sotuvchisiga yuboraman.',
+    sellerInterest:
+      'Do‘konni ulang, mahsulot qo‘shing va Telegramda buyurtma oling.\n\nHozir do‘konlar faqat taklif bilan ulanadi. Bu tugma sotuvchi paneliga kirish huquqini bermaydi.',
+    sellerHow: 'Bu qanday ishlaydi',
+    sellerHowText:
+      'Loyiha administratori egani tekshiradi va do‘konni ulaydi. Ulangandan keyin sotuvchiga mahsulotlar, buyurtmalar, savollar va statistika ochiladi.\n\nBu tugma orqali mustaqil do‘kon yaratib yoki sotuvchi huquqini olib bo‘lmaydi.',
+    backToShopping: 'Xaridga qaytish',
     help:
       'Katalog va kategoriyalarni ko‘rsataman, tavsif yoki byudjet bo‘yicha mahsulot topaman, variantlarni solishtiraman, ariza yuboraman va buyurtmalaringizni ko‘rsataman.',
     humanHint:
@@ -172,10 +188,9 @@ export function homeChoices(locale: Locale): readonly OutboundChoice[] {
   return [
     { id: 'buyer-find', label: copy.find },
     { id: 'buyer-catalog-open', label: copy.catalog },
-    { id: 'buyer-compare-show', label: copy.showComparison },
     { id: 'buyer-orders', label: copy.orders },
-    { id: 'buyer-seller', label: copy.seller },
-    { id: 'buyer-language', label: copy.language },
+    { id: 'buyer-seller-mode', label: copy.sellerMode },
+    { id: 'buyer-more', label: copy.more },
   ];
 }
 

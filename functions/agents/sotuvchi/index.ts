@@ -1,7 +1,7 @@
 export { sotuvchiAgentManifest } from './manifest';
 export {
   sotuvchiSellerCancelledRule,
-  sotuvchiSellerStatusRule,
+  sotuvchiSellerNavigationRule,
   sotuvchiStorefrontPendingRule,
 } from './rules';
 export * from './onboarding';

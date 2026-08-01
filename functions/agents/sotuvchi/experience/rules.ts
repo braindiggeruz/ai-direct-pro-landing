@@ -29,10 +29,14 @@ const NAVIGATION_ACTIONS = new Set([
   'buyer-home',
   'buyer-find',
   'buyer-help',
+  'buyer-more',
   'buyer-language',
   'buyer-locale-ru',
   'buyer-locale-uz',
   'buyer-seller',
+  'buyer-seller-mode',
+  'buyer-seller-how',
+  'seller-interest',
 ]);
 
 export const sotuvchiBuyerNavigationRule: DeterministicRule = {
@@ -55,6 +59,12 @@ export const sotuvchiBuyerNavigationRule: DeterministicRule = {
         return simple(locale, copy.findPrompt);
       case 'buyer-help':
         return simple(locale, `${copy.help}\n\n${copy.humanHint}`);
+      case 'buyer-more':
+        return simple(locale, copy.more, [
+          { id: 'buyer-language', label: copy.language },
+          { id: 'buyer-help', label: copy.helpButton },
+          { id: 'buyer-home', label: copy.homeButton },
+        ]);
       case 'buyer-language':
         return answer({
           messages: [{
@@ -86,6 +96,16 @@ export const sotuvchiBuyerNavigationRule: DeterministicRule = {
         return simple(locale, copy.sellerPrompt, [
           { id: 'buyer-home', label: copy.homeButton },
           { id: 'buyer-help', label: copy.helpButton },
+        ]);
+      case 'buyer-seller-mode':
+      case 'seller-interest':
+        return simple(locale, copy.sellerInterest, [
+          { id: 'buyer-seller-how', label: copy.sellerHow },
+          { id: 'buyer-home', label: copy.backToShopping },
+        ]);
+      case 'buyer-seller-how':
+        return simple(locale, copy.sellerHowText, [
+          { id: 'buyer-home', label: copy.backToShopping },
         ]);
       default:
         return answer(homeResponse(locale));
