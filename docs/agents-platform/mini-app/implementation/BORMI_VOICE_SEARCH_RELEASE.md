@@ -756,11 +756,32 @@ was not part of it.
 | Secret scan | clean, 2,977 files |
 | Ranking | `searchPublishedProducts` and `rankCatalogProducts` unchanged |
 
+Full repository corpus: 1,138 of 1,141 — the only failures are the three
+pre-existing ones from §13.2.
+
 **Not verified:** the model call has not been exercised against the live
 provider. It has real credentials in production and it fails closed, but the
 first sentence that reaches it will be the first real proof. A model call that
 times out is abandoned by the facade rather than aborted upstream, so a slow
 provider costs the request nothing but may leave the upstream fetch running.
+
+### 15.9 Release
+
+```text
+source          127691d92aba55bfd393e850cd2f9e1acc5951a1   (main)
+root / BFF      bae0eb14-b0f5-4ac9-8f82-457ec6880f5d, alias gptbot.uz
+static Mini App 47497796-ca47-409d-9abc-e680d301b469
+rollback        240523c3 / d57e05b1 at source 297c3bb
+```
+
+`MARKET_VOICE_SEARCH_ENABLED=true` and `MARKET_AI_SEARCH_ENABLED=true` are both
+live in root Pages production; all 30 `secret_text` variables survived the
+upload. Canaries: root, RU and UZ Sotuvchi, the immutable root deployment, the
+canonical static site and its new hashed asset all 200; Agents webhook `GET` 405
+and unauthorized `POST` 401; unauthenticated `POST /voice/search` and
+`GET /catalog/products` both 401; malformed `POST /session/launch` 400.
+Read-only D1 after the deploy: stores 1, products 48, orders 1, inventory moves
+44, handoffs 1, notifications 0 — `changed_db` false, `rows_written` 0.
 
 ---
 
