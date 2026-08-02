@@ -1,4 +1,8 @@
-const CACHE = 'bormi-shell-v6';
+// Bumped with every shipped shell. The install handler only runs when these
+// bytes change, and `activate` deletes every other cache name — so a device
+// that kept an old hashed bundle alive drops it on the next open instead of
+// serving a build the API has already moved past.
+const CACHE = 'bormi-shell-v7';
 const SHELL = [
   '/',
   '/index.html',
