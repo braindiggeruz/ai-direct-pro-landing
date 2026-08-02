@@ -627,7 +627,7 @@ changed_db=false   rows_written=0
 Identical to the v8 baseline. No migration was applied, no schema changed, no
 real store, order, payment or marketplace state was created.
 
-### 13.6 What is still not verified
+### 13.6 What is still not verified (at the time of §13)
 
 `flags.voice` cannot be observed from outside — it is only returned on an
 authenticated Market session, which requires Telegram `initData` signed with a
@@ -635,3 +635,86 @@ production secret that is deliberately not readable. Speech has therefore not
 been exercised against a real provider, a real microphone or a real Telegram
 WebView in this release. **§11 remains open.** Until the owner completes steps
 4–7 of that canary, the honest status is "deployed and enabled", not "working".
+
+---
+
+## 14. Follow-up — typed search reads sentences too
+
+### 14.1 What the owner saw
+
+The first native run reached production and worked: the microphone recorded,
+Groq Whisper transcribed «Мне нужен блокнот.», the transcript card appeared and
+real notebook cards came back. One line was wrong underneath them:
+
+```text
+Не нашли по условию: мне, нужен
+```
+
+### 14.2 Why
+
+Voice reduces a sentence before searching; typed search did not. The transcript
+card's «Искать» button — and any shopper who simply types a sentence — sent the
+whole sentence to `/catalog/products?q=`, so `rankCatalogProducts` scored `мне`
+and `нужен` as real query terms, found them in no product, and honestly reported
+them through `relevance.unmatchedConstraints`. The message was truthful; the
+question it answered was one nobody asked. The intent words also diluted the
+relevance score of the word that mattered.
+
+### 14.3 The change
+
+The reduction moved out of the voice module into `functions/market/search-query.ts`
+and now runs inside `runCatalogSearch`, the one shared path. A shopper who types
+«Мне нужен блокнот» and one who says it reach `searchPublishedProducts` with the
+same query — `блокнот`. `queryApplied` now reports what actually ran rather than
+what was typed.
+
+Two deliberate differences from the spoken reduction:
+
+- **Digits survive when typed.** Voice holds a bare number back because `20000`
+  may be a price or a battery capacity, and asks once. `iphone 15` or
+  `power bank 20000` typed carries no such doubt, so deleting the model number
+  would be the worse answer.
+- **An all-intent query is not reduced to nothing.** «мне нужен» alone searches
+  unchanged rather than falling through to a whole-catalog listing, because
+  returning every product would read as a match.
+
+`searchPublishedProducts` and `rankCatalogProducts` are still untouched, and the
+vocabulary now has exactly one definition — a test asserts the second copy is
+gone. The offline fixture matches per token for the same reason, so local QA
+does not show an empty result for a journey that works in production.
+
+Scope: the Mini App BFF only. The Telegram bot builds its query in
+`functions/agents/sotuvchi/buyer/parser.ts`, whose fallback passes a short raw
+message straight through and has the same weakness. It was left alone
+deliberately — the agent layer may not import from the Market layer, so sharing
+the vocabulary there is a boundary decision, not a copy-paste — and is recorded
+as an open item rather than fixed silently inside a release.
+
+### 14.4 Changed files
+
+| File | Change |
+|---|---|
+| `functions/market/search-query.ts` | new — shared RU/UZ vocabulary, `reduceSearchQuery` |
+| `functions/market/voice/constraints.ts` | imports the shared vocabulary instead of defining it |
+| `functions/market/router.ts` | `runCatalogSearch` reduces once and returns `queryApplied` |
+| `apps/market-mini-app/src/dev/synthetic.ts` | fixture matches per token |
+| `tests/market-search-query.test.ts` | new — 10 tests |
+| `apps/market-mini-app/test/voice-search.test.ts` | fixture regression for the typed sentence |
+
+### 14.5 Verification
+
+| Check | Result |
+|---|---|
+| `tests/market-search-query.test.ts` | 10/10 PASS |
+| Market, catalog, contract and auth suites | 148/148 PASS |
+| Mini App tests | 16/16 PASS |
+| Full repository corpus | 1,123 of 1,126 — the only failures are the three pre-existing ones from §13.2 |
+| Root · Functions · Mini App TypeScript | 0 · 0 · 0 errors |
+| ESLint on changed files · agent boundaries | 0 problems · OK |
+| Secret scan | clean, 2,975 files |
+| Mini App production bundle | byte-identical — the fixture is dev-only and never ships |
+
+Browser verification of the fixture was attempted and could not run: the Browser
+pane was not displayed, so the page composited no frames and synthetic clicks
+did not register. The fixture journey is covered by the Mini App test above
+instead.

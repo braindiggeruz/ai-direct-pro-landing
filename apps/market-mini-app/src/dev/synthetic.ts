@@ -169,11 +169,18 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
     const query = (url.searchParams.get('q') ?? '').toLowerCase();
     const availability = url.searchParams.get('availability');
     const ceiling = Number(url.searchParams.get('maxPriceMinor') ?? '') || null;
+    // Matched per token, not as one substring. Production drops the intent
+    // words server-side before ranking, so a fixture that required the whole
+    // sentence «мне нужен блокнот» to appear verbatim would show an empty
+    // result for a journey that works in production.
+    const tokens = query.split(/\s+/).map((token) => token.replace(/[.,!?]+$/, '')).filter(Boolean);
     result = {
-      items: products.filter((item) =>
-        (!query || `${item.name} ${item.description}`.toLowerCase().includes(query))
-        && (!availability || item.availability === availability)
-        && (ceiling === null || item.priceMinor <= ceiling)),
+      items: products.filter((item) => {
+        const haystack = `${item.name} ${item.description}`.toLowerCase();
+        return (!tokens.length || tokens.some((token) => haystack.includes(token)))
+          && (!availability || item.availability === availability)
+          && (ceiling === null || item.priceMinor <= ceiling);
+      }),
       nextCursor: null,
       queryApplied: query || null,
       maxPriceMinorApplied: ceiling,

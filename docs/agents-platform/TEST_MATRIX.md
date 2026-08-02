@@ -1,5 +1,25 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## Bormi typed-search sentence reduction (2026-08-02, follow-up)
+
+| Check | Result |
+| --- | --- |
+| Trigger | first native voice run returned real notebook cards but reported «Не нашли по условию: мне, нужен» |
+| Change | the RU/UZ reduction moved to `functions/market/search-query.ts` and now runs inside `runCatalogSearch`, so typed and spoken sentences reach `searchPublishedProducts` identically |
+| `tests/market-search-query.test.ts` | 10 of 10 PASS |
+| Market + catalog + contract + auth | 148 of 148 PASS |
+| Mini App tests | 16 of 16 PASS |
+| Full repository corpus | 1,123 of 1,126 — only the three pre-existing failures below |
+| Root · Functions · Mini App TypeScript | 0 · 0 · 0 errors |
+| ESLint changed files · agent boundaries · secret scan | 0 problems · OK · clean, 2,975 files |
+| Catalog service | `searchPublishedProducts` and `rankCatalogProducts` unchanged |
+| Vocabulary | single definition asserted; the voice copy is gone |
+| Typed model numbers | `power bank 20000` and `блокнот a5` keep their digits; the spoken form still asks |
+| All-intent query | «мне нужен» searches unchanged, never a whole-catalog listing |
+| Mini App production bundle | byte-identical — the fixture change is dev-only |
+| Browser fixture check | NOT RUN — the Browser pane was not displayed, so no frames composited; covered by a Mini App test instead |
+| Telegram bot parser | out of scope, recorded as an open item |
+
 ## Bormi voice search release (2026-08-02, post-deploy evidence)
 
 | Check | Result |

@@ -14,6 +14,11 @@
 import { CATALOG_LIMITS } from '../../agents/sotuvchi/catalog';
 import { parseBudget } from '../../agents/sotuvchi/experience';
 import { normalizeKnowledgeText } from '../../platform/knowledge';
+import {
+  QUERY_STOP_WORDS,
+  boundQueryTokens,
+  repairDictation,
+} from '../search-query';
 
 export type VoiceConstraintKind =
   | 'query'
@@ -124,47 +129,6 @@ const ATTRIBUTES: ReadonlyMap<string, string> = new Map([
   ['simsiz', 'wireless'],
 ]);
 
-/**
- * Intent verbs, politeness and budget scaffolding. Removing them keeps the
- * query inside CATALOG_LIMITS.queryTokens and stops guaranteed-unmatched
- * tokens from diluting the existing relevance score.
- */
-const STOP_WORDS: ReadonlySet<string> = new Set([
-  // Russian intent and politeness.
-  'нужна', 'нужен', 'нужно', 'нужны', 'надо', 'хочу', 'хочется', 'ищу',
-  'покажи', 'покажите', 'показать', 'найди', 'найдите', 'найти', 'поищи',
-  'посмотреть', 'дай', 'дайте', 'подбери', 'подскажи', 'пожалуйста',
-  'желательно', 'можно', 'мне', 'меня', 'вы', 'вас', 'есть', 'ли', 'бы',
-  'что', 'чего', 'нибудь', 'какой', 'какая', 'какие', 'какое', 'вообще',
-  'примерно', 'около', 'где', 'то', 'а', 'и', 'или', 'но', 'же', 'ну', 'вот',
-  'этот', 'эта', 'это', 'для', 'под', 'по', 'на', 'в', 'с', 'из', 'от', 'у',
-  'наличии', 'наличие', 'сейчас',
-  // Russian budget scaffolding — the amount is already parsed out.
-  'до', 'дешевле', 'дороже', 'максимум', 'макс', 'бюджет', 'ценой', 'цена',
-  'стоимость', 'стоит', 'сум', 'сума', 'сумов', 'сумма', 'рублей',
-  // Uzbek Latin intent and politeness.
-  'kerak', 'kerakli', 'menga', 'meni', 'bor', 'bormi', 'bormidi', 'mavjud',
-  'mavjudmi', 'sotuvda', 'hozir', 'toping', 'topib', 'bering', 'korsating',
-  'korsatingchi', 'iltimos', 'uchun', 'yaxshi', 'boladi', 'bolsa', 'nima',
-  'qanday', 'qaysi', 'ham', 'yoki', 'va', 'bu', 'shu', 'oz', 'taxminan',
-  // Uzbek budget scaffolding.
-  'gacha', 'minggacha', 'arzonroq', 'narxi', 'narx', 'qancha', 'som', 'sum',
-  'somdan', 'pul',
-]);
-
-/** Typos and dictation artefacts seen in RU/UZ speech-to-text output. */
-function repairDictation(value: string): string {
-  return value
-    .replace(/(?:^|\s)пауэр\s*банк(?=\s|$)/gu, ' power bank')
-    .replace(/(?:^|\s)павер\s*банк(?=\s|$)/gu, ' power bank')
-    .replace(/(?:^|\s)повербанк(?=\s|$)/gu, ' power bank')
-    .replace(/(?:^|\s)пауэрбанк(?=\s|$)/gu, ' power bank')
-    .replace(/(?:^|\s)зарядка(?=\s|$)/gu, ' зарядное')
-    .replace(/(?:^|\s)ming\s+gacha(?=\s|$)/gu, ' minggacha')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
 interface NumeralPass {
   text: string;
   spelled: boolean;
@@ -223,17 +187,6 @@ function digitizeCardinals(normalized: string): NumeralPass {
   }
   flush();
   return { text: output.join(' '), spelled };
-}
-
-function boundedQuery(tokens: readonly string[]): string {
-  const selected: string[] = [];
-  for (const token of tokens) {
-    if (selected.length >= CATALOG_LIMITS.queryTokens) break;
-    const next = selected.length === 0 ? token : `${selected.join(' ')} ${token}`;
-    if (next.length > CATALOG_LIMITS.queryLength) break;
-    selected.push(token);
-  }
-  return selected.join(' ');
 }
 
 function safeBudget(value: string): ReturnType<typeof parseBudget> {
@@ -315,13 +268,13 @@ export function interpretVoiceQuery(raw: unknown): VoiceInterpretation {
   const kept: string[] = [];
   for (const token of digitized.text.split(' ').filter(Boolean)) {
     if (/^\d+$/.test(token)) continue;
-    if (STOP_WORDS.has(token)) continue;
+    if (QUERY_STOP_WORDS.has(token)) continue;
     const attribute = ATTRIBUTES.get(token);
     if (attribute && !attributes.includes(attribute)) attributes.push(attribute);
     if (!kept.includes(token)) kept.push(token);
   }
 
-  const productQuery = boundedQuery(kept);
+  const productQuery = boundQueryTokens(kept);
   if (productQuery) constraints.push({ kind: 'query', value: productQuery });
   if (maxPriceMinor !== null) {
     constraints.push({ kind: 'budget', value: String(maxPriceMinor) });

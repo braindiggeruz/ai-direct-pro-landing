@@ -41,6 +41,7 @@ import {
   type MarketSessionClaims,
   type SotuvchiApplicationServices,
 } from '.';
+import { reduceSearchQuery } from './search-query';
 import {
   assertVoiceSearchEnabled,
   createMarketVoiceFacade,
@@ -208,20 +209,33 @@ interface CatalogSearchInput {
   limit: number;
 }
 
+interface CatalogSearchOutcome {
+  results: readonly CatalogSearchResult[];
+  /** The query the catalog actually received, after intent words were dropped. */
+  queryApplied: string;
+}
+
 /**
  * The single catalog search path. Typed search and voice search both land
  * here, so voice can never reach products that the typed search would not
  * return: ranking, tenant scope and publication state stay untouched, and the
  * extra constraints are applied to the ranked rows only.
+ *
+ * The sentence reduction runs here rather than at either caller, which is what
+ * keeps that invariant true — a shopper who types «Мне нужен блокнот» and one
+ * who says it out loud reach `searchPublishedProducts` with the same query.
+ * Re-reducing an already reduced query is a no-op, so the voice route paying
+ * for it twice costs nothing and cannot diverge.
  */
 async function runCatalogSearch(
   context: RequestContext,
   input: CatalogSearchInput,
-): Promise<readonly CatalogSearchResult[]> {
-  const ranked = input.query
+): Promise<CatalogSearchOutcome> {
+  const queryApplied = input.query ? reduceSearchQuery(input.query).query : '';
+  const ranked = queryApplied
     ? await context.services.catalog.searchPublishedProducts(
         context.access.buyer,
-        input.query,
+        queryApplied,
         input.limit,
       )
     : await context.services.catalog.listPublishedProducts(
@@ -260,7 +274,7 @@ async function runCatalogSearch(
       reasonCode: results.length ? 'market_search' : 'market_no_result',
     },
   }).catch(() => undefined);
-  return results;
+  return { results, queryApplied };
 }
 
 async function bootstrapPayload(context: RequestContext) {
@@ -502,16 +516,17 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
   if (path === '/catalog/products') {
     const query = (url.searchParams.get('q') ?? '').trim();
     const maxPriceMinor = parseMaxPriceMinor(url.searchParams.get('maxPriceMinor'));
-    const results = await runCatalogSearch(context, {
+    const search = await runCatalogSearch(context, {
       query,
       availability: parseAvailabilityFilter(url.searchParams.get('availability')),
       maxPriceMinor,
       limit: boundedLimit(url.searchParams.get('limit')),
     });
     return marketJson({
-      items: await resultDtos(results, context),
+      items: await resultDtos(search.results, context),
       nextCursor: null,
-      queryApplied: query || null,
+      // What ran, not what was typed: «Мне нужен блокнот» searches «блокнот».
+      queryApplied: search.queryApplied || null,
       maxPriceMinorApplied: maxPriceMinor,
     }, requestId);
   }
@@ -727,14 +742,14 @@ async function voiceRoutes(context: RequestContext): Promise<Response | null> {
     transcription.transcript,
     categories,
   );
-  const results = interpretation.productQuery
+  const search = interpretation.productQuery
     ? await runCatalogSearch(context, {
         query: interpretation.productQuery,
         availability: interpretation.availability,
         maxPriceMinor: interpretation.maxPriceMinor,
         limit: boundedLimit(context.url.searchParams.get('limit')),
       })
-    : [];
+    : { results: [] as readonly CatalogSearchResult[], queryApplied: '' };
   return marketJson({
     transcript: transcription.transcript,
     language: transcription.language,
@@ -748,9 +763,9 @@ async function voiceRoutes(context: RequestContext): Promise<Response | null> {
       clarification: interpretation.clarification,
       confidence: interpretation.confidence,
     },
-    items: await resultDtos(results, context),
+    items: await resultDtos(search.results, context),
     nextCursor: null,
-    queryApplied: interpretation.productQuery || null,
+    queryApplied: search.queryApplied || null,
   }, requestId);
 }
 

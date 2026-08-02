@@ -212,6 +212,8 @@
     "deployed_headers": "Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=(), usb=(); CSP unchanged; X-Robots-Tag noindex, nofollow; hashed assets immutable",
     "post_deploy_d1_probe": "stores 1, products 48, orders 1, order items 1, inventory moves 44, handoffs 1, notifications 0, storefront sessions 2, agent routes 1, onboardings 0; changed_db=false, rows_written=0 — identical to the v8 baseline",
     "not_verified": "flags.voice cannot be observed externally because it is only returned on an authenticated Market session. No real microphone, no real Groq/OpenAI call and no real Telegram WebView were exercised in this release.",
+    "native_canary_partial": "The owner ran the first native attempt on a real device on 2026-08-02. Capture, transcription and grounding all worked: «Мне нужен блокнот.» was transcribed, the transcript card rendered and real notebook cards were returned. One defect was visible — the typed path did not reduce the sentence, so relevance reported «Не нашли по условию: мне, нужен». RU only; the Uzbek run and the microphone-denied run are still outstanding.",
+    "typed_sentence_reduction": "Follow-up on top of 4367850: the RU/UZ reduction moved out of the voice module into functions/market/search-query.ts and now runs inside runCatalogSearch, so typed and spoken sentences reach searchPublishedProducts identically and queryApplied reports what actually ran. Digits survive when typed (a typed model number is not ambiguous the way a spoken number is) and an all-intent query searches unchanged rather than listing the whole catalog. searchPublishedProducts and rankCatalogProducts remain untouched. Evidence: release record section 14.",
     "route": "POST /api/market/v1/voice/search — raw audio, bearer Market session, voice rate-limit bucket 8 per 5 minutes per identity",
     "additive_filter": "GET /catalog/products?maxPriceMinor= integer UZS ceiling",
     "capability_flag": "bootstrap and launch report flags.voice, true only when MARKET_VOICE_SEARCH_ENABLED is true AND a speech credential is configured",
@@ -503,6 +505,11 @@
       "id": "pre-existing-test-failures-2026-08-02",
       "severity": "low",
       "summary": "Three repository tests fail on main and reproduce unchanged at d47d998, the previously live source: react-router-v8-migration 'preserves every public and admin route pattern' and 'sitemap generation retains all 234 static canonical entries' (240 are now emitted after the SEO content additions), and sotuvchi-onboarding 'buyer storefront route resolves the store but never launches seller onboarding' (the assertion reads the last delivered message, and the buyer greeting is no longer last since 04a8957). They are stale expectations, not runtime defects, and are unrelated to voice search. They should be re-baselined as their own change rather than inside a release."
+    },
+    {
+      "id": "telegram-bot-sentence-reduction",
+      "severity": "medium",
+      "summary": "The Mini App BFF now reduces a typed sentence to its product words inside runCatalogSearch, so «Мне нужен блокнот» searches «блокнот». The Telegram bot does not: functions/agents/sotuvchi/buyer/parser.ts falls through to the raw normalized message when it is short enough, so the same sentence reaches rankCatalogProducts with the intent words attached and comes back with «Не нашли по условию: мне, нужен». The shared vocabulary lives in the Market layer, which the agent layer may not import, so closing this is a boundary decision (move the vocabulary to functions/platform, or give the parser its own) rather than a copy-paste. Left open deliberately instead of changing Telegram behaviour inside a Mini App release."
     },
     {
       "id": "bormi-worktree-backend-deps",

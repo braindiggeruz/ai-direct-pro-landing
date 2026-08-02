@@ -78,6 +78,21 @@ test('a WebView without MediaRecorder never offers a microphone', () => {
   assert.equal(voiceCaptureSupported(), false);
 });
 
+test('a typed sentence finds the product in the offline fixture too', async () => {
+  // The owner's journey: the transcript is sent back through ordinary typed
+  // search. Production drops the intent words server-side; the fixture must not
+  // demand that the whole sentence appear verbatim, or the offline QA run would
+  // show an empty result for a flow that works.
+  const found = await syntheticRequest<{ items: { name: string }[] }>(
+    '/catalog/products?q=' + encodeURIComponent('Мне нужен чайник.'),
+  );
+  assert.ok(found.items.length > 0, 'a typed sentence returned nothing');
+  assert.ok(
+    found.items.some((item) => item.name.toLowerCase().includes('чайник')),
+    'the sentence did not reach the product it names',
+  );
+});
+
 test('voice results stay grounded in the catalog fixture', async () => {
   const result = await syntheticRequest<VoiceSearchResult>('/voice/search', {
     method: 'POST',
