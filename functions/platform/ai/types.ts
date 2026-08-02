@@ -125,6 +125,12 @@ export interface AiStructuredResult<T> extends AiResultMetadata {
   value: T;
 }
 
+export interface AiTranscriptionOutcome extends AiResultMetadata {
+  text: string;
+  language?: 'ru' | 'uz' | 'other';
+  segments?: readonly AiTranscriptionSegment[];
+}
+
 /** Validation-library-neutral runtime schema (zod/valibot/manual parsers fit). */
 export interface AiRuntimeSchema<T> {
   parse(value: unknown): T;

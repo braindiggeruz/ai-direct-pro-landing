@@ -211,6 +211,12 @@ export interface Env {
   MARKET_MINI_APP_URL?: string;
   MARKET_MINI_APP_SESSION_SECRET?: string;
   MARKET_MINI_APP_BUILD_ID?: string;
+  // Bormi voice search. Independent of the Mini App flags so speech can be
+  // switched off without taking the storefront down. Fails closed: when this
+  // is not exactly "true" the voice route answers 503 and the client hides
+  // the microphone. Speech recognition reuses the existing GROQ_API_KEY /
+  // OPENAI_API_KEY secrets; no new credential is introduced.
+  MARKET_VOICE_SEARCH_ENABLED?: string;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
   TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
   TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000

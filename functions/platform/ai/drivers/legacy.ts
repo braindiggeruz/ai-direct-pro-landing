@@ -6,6 +6,7 @@ import { resolveConfig, modelChain } from '../../../lib/gpt-chat/config'; // LEG
 import { chatComplete } from '../../../lib/gpt-chat/openrouter-chat'; // LEGACY-SHIM: isolated P0.5 compatibility adapter.
 import { routeLlmCall } from '../../../lib/llm/router'; // LEGACY-SHIM: isolated P0.5 compatibility adapter.
 import type { LlmCallInput, LlmFeature, LlmErrorClass } from '../../../lib/llm/types'; // LEGACY-SHIM: isolated P0.5 compatibility adapter.
+import { transcribeAudio, VoicePipelineError } from '../../../lib/telegram/transcription'; // LEGACY-SHIM: isolated P0.5 compatibility adapter.
 import {
   AiConfigurationError,
   AiProviderError,
@@ -13,22 +14,27 @@ import {
   AiUnavailableError,
 } from '../errors';
 import type {
+  AiAudioInput,
   AiDriverRegistration,
   AiDriverRequest,
   AiMessage,
   AiTask,
+  AiTranscriptionResult,
+  AiTranscriptionSegment,
 } from '../types';
 
 type LegacyChatComplete = typeof chatComplete;
 type LegacyRouteLlmCall = typeof routeLlmCall;
 type LegacyResolveConfig = typeof resolveConfig;
 type LegacyModelChain = typeof modelChain;
+type LegacyTranscribeAudio = typeof transcribeAudio;
 
 export interface LegacyAdapterDependencies {
   chatComplete?: LegacyChatComplete;
   routeLlmCall?: LegacyRouteLlmCall;
   resolveConfig?: LegacyResolveConfig;
   modelChain?: LegacyModelChain;
+  transcribeAudio?: LegacyTranscribeAudio;
 }
 
 export interface LegacyOpenRouterDriverOptions {
@@ -38,6 +44,12 @@ export interface LegacyOpenRouterDriverOptions {
 
 export interface LegacyLlmStructuredDriverOptions {
   featureByTask: Partial<Record<AiTask, LlmFeature>>;
+  dependencies?: LegacyAdapterDependencies;
+}
+
+export interface LegacyTranscriptionDriverOptions {
+  /** Hard wall-clock budget shared by the configured speech providers. */
+  timeoutMs?: number;
   dependencies?: LegacyAdapterDependencies;
 }
 
@@ -93,6 +105,64 @@ export function createLegacyOpenRouterDriver(
           outputTokens: result.outputTokens,
         },
       };
+    },
+  };
+}
+
+function mapVoiceFailure(driver: string, error: unknown): Error {
+  if (error instanceof Error && error.name === 'AbortError') {
+    return new AiTimeoutError('transcription', driver);
+  }
+  if (!(error instanceof VoicePipelineError)) {
+    return new AiProviderError('transcription', driver);
+  }
+  if (error.code === 'stt_unavailable') {
+    return new AiUnavailableError('transcription', 'transcribe');
+  }
+  return new AiProviderError('transcription', driver);
+}
+
+/**
+ * Reuses the production Voice-to-Reply speech stack (Groq Whisper first,
+ * optional OpenAI fallback) instead of introducing a second transcription
+ * path. Audio stays in request memory and no transcript, provider body or
+ * credential crosses this boundary.
+ */
+export function createLegacyTranscriptionDriver(
+  env: Env,
+  options: LegacyTranscriptionDriverOptions = {},
+): AiDriverRegistration {
+  const id = 'legacy-voice-transcription';
+  const transcribe = options.dependencies?.transcribeAudio ?? transcribeAudio;
+  const timeoutMs = options.timeoutMs ?? 12_000;
+  return {
+    id,
+    async transcribe(input: AiAudioInput): Promise<AiTranscriptionResult> {
+      try {
+        const result = await transcribe(env, input.bytes, {
+          mimeType: input.mimeType,
+          ...(input.fileName === undefined ? {} : { fileName: input.fileName }),
+          ...(input.durationSeconds === undefined
+            ? {}
+            : { durationSeconds: input.durationSeconds }),
+          timeoutMs,
+        });
+        const segments: AiTranscriptionSegment[] = result.segments.map((segment) => ({
+          startSeconds: segment.start,
+          endSeconds: segment.end,
+          text: segment.text,
+        }));
+        return {
+          text: result.text,
+          language: result.language,
+          provider: result.provider,
+          model: result.model,
+          latencyMs: result.latencyMs,
+          segments,
+        };
+      } catch (error) {
+        throw mapVoiceFailure(id, error);
+      }
     },
   };
 }

@@ -15,6 +15,7 @@ export type {
   AiTask,
   AiTextResult,
   AiTier,
+  AiTranscriptionOutcome,
   AiTranscriptionResult,
   AiTranscriptionSegment,
   AiUsage,
@@ -43,13 +44,19 @@ export type {
 } from './policy';
 export { parseStructuredOutput } from './structured';
 export { createAiFacade } from './facade';
-export type { AiFacade, CreateAiFacadeInput } from './facade';
+export type {
+  AiFacade,
+  AiTranscriptionRequest,
+  CreateAiFacadeInput,
+} from './facade';
 export {
   createLegacyLlmStructuredDriver,
   createLegacyOpenRouterDriver,
+  createLegacyTranscriptionDriver,
 } from './drivers/legacy';
 export type {
   LegacyAdapterDependencies,
   LegacyLlmStructuredDriverOptions,
   LegacyOpenRouterDriverOptions,
+  LegacyTranscriptionDriverOptions,
 } from './drivers/legacy';

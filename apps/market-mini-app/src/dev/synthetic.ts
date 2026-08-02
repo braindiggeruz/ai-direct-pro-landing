@@ -24,7 +24,7 @@ const categories: Category[] = [
   { id: 'cat-home', name: 'Для дома', productCount: 2 },
   { id: 'cat-accessories', name: 'Аксессуары', productCount: 2 },
 ];
-let products: Product[] = [
+const products: Product[] = [
   ['p-headphones', 'cat-audio', 'Беспроводные наушники AirBeat', 349000, 'available', '40 часов работы'],
   ['p-speaker', 'cat-audio', 'Портативная колонка Mini Sound', 229000, 'preorder', 'Защита IPX6'],
   ['p-lamp', 'cat-home', 'Настольная лампа Warm Light', 189000, 'available', 'Три режима света'],
@@ -54,12 +54,12 @@ let products: Product[] = [
 
 let comparison: string[] = [];
 let checkout: CheckoutSnapshot | null = null;
-let buyerOrders: BuyerOrder[] = [{
+const buyerOrders: BuyerOrder[] = [{
   orderId: 'order-demo-1', orderNumber: 'MK-1042', productId: 'p-lamp',
   productName: 'Настольная лампа Warm Light', storeName: 'Samarqand Market',
   quantity: 1, totalMinor: 189000, status: 'confirmed', placedAt: now,
 }];
-let sellerOrders: SellerOrder[] = [{
+const sellerOrders: SellerOrder[] = [{
   orderId: 'order-demo-2', orderNumber: 'MK-1043', status: 'placed',
   productId: 'p-headphones', productName: 'Беспроводные наушники AirBeat',
   quantity: 2, totalMinor: 698000, version: 1, placedAt: now,
@@ -67,13 +67,13 @@ let sellerOrders: SellerOrder[] = [{
   customerAddress: 'Toshkent, Chilonzor 12', customerComment: 'После 18:00',
   inventoryOnHand: 8,
 }];
-let handoffs: Handoff[] = [{
+const handoffs: Handoff[] = [{
   id: 'handoff-demo-1', status: 'open', reason: 'order_question',
   questionText: 'Можно забрать на Чиланзаре сегодня?', replyText: null,
   hasReply: false, contentCleared: false, createdAt: now,
   expiresAt: new Date(Date.now() + 86_400_000).toISOString(), version: 1,
 }];
-let inventory: Inventory[] = products.slice(0, 4).map((product, index) => ({
+const inventory: Inventory[] = products.slice(0, 4).map((product, index) => ({
   productId: product.id, productName: product.name, onHand: 8 + index * 4, version: 1,
 }));
 
@@ -134,7 +134,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
         navigation: ['home', 'search', 'compare', 'orders'],
         sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: true, sellerCommands: true },
+        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true },
         storefront: { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
@@ -154,7 +154,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
       navigation: ['home', 'search', 'compare', 'orders'],
       sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: true, sellerCommands: true },
+      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true },
       storefront: { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };
@@ -168,7 +168,45 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
   } else if (path === '/catalog/products') {
     const query = (url.searchParams.get('q') ?? '').toLowerCase();
     const availability = url.searchParams.get('availability');
-    result = { items: products.filter((item) => (!query || `${item.name} ${item.description}`.toLowerCase().includes(query)) && (!availability || item.availability === availability)), nextCursor: null };
+    const ceiling = Number(url.searchParams.get('maxPriceMinor') ?? '') || null;
+    result = {
+      items: products.filter((item) =>
+        (!query || `${item.name} ${item.description}`.toLowerCase().includes(query))
+        && (!availability || item.availability === availability)
+        && (ceiling === null || item.priceMinor <= ceiling)),
+      nextCursor: null,
+      queryApplied: query || null,
+      maxPriceMinorApplied: ceiling,
+    };
+  } else if (path === '/voice/search') {
+    // Fixture speech: a fixed RU sentence so the whole voice journey can be
+    // exercised offline without a microphone or a speech provider.
+    const transcript = 'нужны наушники до 400 тысяч в наличии';
+    const items = products.filter((item) =>
+      item.name.toLowerCase().includes('наушник')
+      && item.priceMinor <= 400_000
+      && item.availability === 'available');
+    result = {
+      transcript,
+      language: 'ru',
+      interpretation: {
+        productQuery: 'наушники',
+        maxPriceMinor: 400_000,
+        ambiguousPriceMinor: null,
+        availability: 'available',
+        category: null,
+        constraints: [
+          { kind: 'query', value: 'наушники' },
+          { kind: 'budget', value: '400000' },
+          { kind: 'availability', value: 'available' },
+        ],
+        clarification: null,
+        confidence: 'high',
+      },
+      items,
+      nextCursor: null,
+      queryApplied: 'наушники',
+    };
   } else if (/^\/catalog\/products\/[^/]+$/.test(path)) {
     result = products.find((item) => item.id === path.split('/').at(-1));
   } else if (path === '/comparison' && method === 'GET') {

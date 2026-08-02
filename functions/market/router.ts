@@ -41,6 +41,14 @@ import {
   type MarketSessionClaims,
   type SotuvchiApplicationServices,
 } from '.';
+import {
+  assertVoiceSearchEnabled,
+  createMarketVoiceFacade,
+  interpretVoiceTranscript,
+  readVoiceAudio,
+  transcribeVoiceSearch,
+  voiceSearchAvailable,
+} from './voice';
 
 interface MarketConfiguration {
   botToken: string;
@@ -172,6 +180,89 @@ async function resultDtos(
   })));
 }
 
+function parseAvailabilityFilter(value: string | null): CatalogProduct['availability'] | null {
+  if (value === null || value === '') return null;
+  if (!['available', 'preorder', 'unavailable'].includes(value)) {
+    throw new MarketHttpError('validation_failed', 400);
+  }
+  return value as CatalogProduct['availability'];
+}
+
+/**
+ * Optional upper bound in integer UZS minor units. Voice supplies it from a
+ * spoken budget; typed search may supply it from the filter sheet.
+ */
+function parseMaxPriceMinor(value: string | null): number | null {
+  if (value === null || value === '') return null;
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed <= 0) {
+    throw new MarketHttpError('validation_failed', 400);
+  }
+  return parsed;
+}
+
+interface CatalogSearchInput {
+  query: string;
+  availability: CatalogProduct['availability'] | null;
+  maxPriceMinor: number | null;
+  limit: number;
+}
+
+/**
+ * The single catalog search path. Typed search and voice search both land
+ * here, so voice can never reach products that the typed search would not
+ * return: ranking, tenant scope and publication state stay untouched, and the
+ * extra constraints are applied to the ranked rows only.
+ */
+async function runCatalogSearch(
+  context: RequestContext,
+  input: CatalogSearchInput,
+): Promise<readonly CatalogSearchResult[]> {
+  const ranked = input.query
+    ? await context.services.catalog.searchPublishedProducts(
+        context.access.buyer,
+        input.query,
+        input.limit,
+      )
+    : await context.services.catalog.listPublishedProducts(
+        context.access.buyer,
+        input.limit,
+      );
+  let results = ranked;
+  if (input.availability) {
+    results = results.filter(
+      (item) => item.product.availability === input.availability,
+    );
+  }
+  if (input.maxPriceMinor !== null) {
+    const ceiling = input.maxPriceMinor;
+    results = results.filter((item) => item.product.priceMinor <= ceiling);
+  }
+  if (results.length > 0 && results.length <= 4) {
+    await context.services.catalog.recordStorefrontPresentation({
+      botUsername: context.config.botUsername,
+      identityId: context.claims.sub,
+      context: context.access.buyer,
+      requestId: context.requestId,
+      results,
+    }).catch(() => undefined);
+  }
+  await context.services.analytics.record({
+    orgId: context.access.buyer.orgId,
+    storeId: context.access.buyer.storeId,
+    requestId: context.requestId,
+    event: {
+      type: results.length
+        ? 'sotuvchi.search_results_shown'
+        : 'sotuvchi.zero_results',
+      locale: context.claims.locale,
+      resultCount: results.length,
+      reasonCode: results.length ? 'market_search' : 'market_no_result',
+    },
+  }).catch(() => undefined);
+  return results;
+}
+
 async function bootstrapPayload(context: RequestContext) {
   const [orders, activeCheckout, activeHandoff] = await Promise.all([
     context.services.checkout.listBuyerOrders(context.access.buyerOrg, 5),
@@ -192,6 +283,7 @@ async function bootstrapPayload(context: RequestContext) {
       sellerCommands:
         context.access.sellerOrg !== null
         && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED),
+      voice: voiceSearchAvailable(context.env),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -213,6 +305,7 @@ function launchBootstrapPayload(context: RequestContext) {
       buyer: true,
       sellerRead: false,
       sellerCommands: false,
+      voice: voiceSearchAvailable(context.env),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -407,42 +500,19 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
     }, requestId);
   }
   if (path === '/catalog/products') {
-    const limit = boundedLimit(url.searchParams.get('limit'));
     const query = (url.searchParams.get('q') ?? '').trim();
-    let results = query
-      ? await services.catalog.searchPublishedProducts(access.buyer, query, limit)
-      : await services.catalog.listPublishedProducts(access.buyer, limit);
-    const availability = url.searchParams.get('availability');
-    if (availability) {
-      if (!['available', 'preorder', 'unavailable'].includes(availability)) {
-        throw new MarketHttpError('validation_failed', 400);
-      }
-      results = results.filter((item) => item.product.availability === availability);
-    }
-    if (results.length > 0 && results.length <= 4) {
-      await services.catalog.recordStorefrontPresentation({
-        botUsername: context.config.botUsername,
-        identityId: context.claims.sub,
-        context: access.buyer,
-        requestId,
-        results,
-      }).catch(() => undefined);
-    }
-    await services.analytics.record({
-      orgId: access.buyer.orgId,
-      storeId: access.buyer.storeId,
-      requestId,
-      event: {
-        type: results.length ? 'sotuvchi.search_results_shown' : 'sotuvchi.zero_results',
-        locale: context.claims.locale,
-        resultCount: results.length,
-        reasonCode: results.length ? 'market_search' : 'market_no_result',
-      },
-    }).catch(() => undefined);
+    const maxPriceMinor = parseMaxPriceMinor(url.searchParams.get('maxPriceMinor'));
+    const results = await runCatalogSearch(context, {
+      query,
+      availability: parseAvailabilityFilter(url.searchParams.get('availability')),
+      maxPriceMinor,
+      limit: boundedLimit(url.searchParams.get('limit')),
+    });
     return marketJson({
       items: await resultDtos(results, context),
       nextCursor: null,
       queryApplied: query || null,
+      maxPriceMinorApplied: maxPriceMinor,
     }, requestId);
   }
   const productMatch = /^\/catalog\/products\/([^/]+)$/.exec(path);
@@ -630,6 +700,58 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
     }
   }
   return null;
+}
+
+/**
+ * Voice search. One round trip: the recording goes up, the transcript, the
+ * constraints Bormi understood and the grounded catalog rows come back
+ * together, so the buyer sees what was heard and what it found on the same
+ * screen. The transcript is always returned — including when nothing matched —
+ * so the client can fall back to ordinary typed search without a re-record.
+ */
+async function voiceRoutes(context: RequestContext): Promise<Response | null> {
+  const { request, path, requestId, services, access } = context;
+  if (request.method !== 'POST' || path !== '/voice/search') return null;
+  assertVoiceSearchEnabled(context.env);
+  await enforceMarketRateLimit('voice', `${context.claims.sub}:voice`);
+
+  const audio = await readVoiceAudio(request);
+  const transcription = await transcribeVoiceSearch(
+    createMarketVoiceFacade(context.env),
+    audio,
+  );
+  const categories = await services.catalog
+    .listBuyerCategories(access.buyer)
+    .catch(() => []);
+  const interpretation = interpretVoiceTranscript(
+    transcription.transcript,
+    categories,
+  );
+  const results = interpretation.productQuery
+    ? await runCatalogSearch(context, {
+        query: interpretation.productQuery,
+        availability: interpretation.availability,
+        maxPriceMinor: interpretation.maxPriceMinor,
+        limit: boundedLimit(context.url.searchParams.get('limit')),
+      })
+    : [];
+  return marketJson({
+    transcript: transcription.transcript,
+    language: transcription.language,
+    interpretation: {
+      productQuery: interpretation.productQuery,
+      maxPriceMinor: interpretation.maxPriceMinor,
+      ambiguousPriceMinor: interpretation.ambiguousPriceMinor,
+      availability: interpretation.availability,
+      category: interpretation.category,
+      constraints: interpretation.constraints,
+      clarification: interpretation.clarification,
+      confidence: interpretation.confidence,
+    },
+    items: await resultDtos(results, context),
+    nextCursor: null,
+    queryApplied: interpretation.productQuery || null,
+  }, requestId);
 }
 
 async function comparisonCommands(context: RequestContext): Promise<Response | null> {
@@ -1029,6 +1151,7 @@ export async function handleMarketRequest(input: {
       waitUntil: input.waitUntil,
     };
     const response = await readRoutes(context)
+      ?? await voiceRoutes(context)
       ?? await comparisonCommands(context)
       ?? await checkoutCommands(context)
       ?? await sellerCommands(context);

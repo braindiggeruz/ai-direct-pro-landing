@@ -1,5 +1,6 @@
 import { telegramInitData } from '../platform/telegram';
-import type { MarketLaunch, SessionExchange } from '../types';
+import type { MarketLaunch, SessionExchange, VoiceSearchResult } from '../types';
+import type { VoiceRecording } from './voice';
 
 // The Mini App is hosted on its own static Pages project. A relative
 // production URL would therefore hit the SPA fallback instead of the BFF.
@@ -14,6 +15,9 @@ const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL
 let sessionToken = '';
 const REQUEST_TIMEOUT_MS = 15_000;
 const LAUNCH_TIMEOUT_MS = 15_000;
+// Speech recognition owns 12s of this on the server; the rest covers the
+// upload of a short recording on a slow mobile link.
+const VOICE_TIMEOUT_MS = 25_000;
 
 export class MarketApiError extends Error {
   constructor(
@@ -160,6 +164,55 @@ export async function fetchMedia(handle: string, signal?: AbortSignal): Promise<
   });
   if (!response.ok) throw new MarketApiError('resource_not_found', response.status, null);
   return URL.createObjectURL(await response.blob());
+}
+
+/**
+ * Uploads one recording as a raw audio body. The blob is sent once and then
+ * dropped: nothing is written to storage, and the bearer stays in the header
+ * exactly as for every other Market call.
+ */
+export async function voiceSearch(
+  recording: VoiceRecording,
+  signal?: AbortSignal,
+): Promise<VoiceSearchResult> {
+  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+    return fixtureRequest<VoiceSearchResult>('/voice/search', { method: 'POST' });
+  }
+  const controller = new AbortController();
+  const abort = () => controller.abort();
+  if (signal?.aborted) abort();
+  else signal?.addEventListener('abort', abort, { once: true });
+  const timeout = globalThis.setTimeout(abort, VOICE_TIMEOUT_MS);
+  let response: Response;
+  try {
+    response = await fetch(
+      `${baseUrl}/voice/search?durationMs=${Math.round(recording.durationMs)}`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': recording.mimeType,
+          ...(sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {}),
+        },
+        body: recording.blob,
+        signal: controller.signal,
+      },
+    );
+  } catch {
+    throw new MarketApiError('network_error', 0, null);
+  } finally {
+    globalThis.clearTimeout(timeout);
+    signal?.removeEventListener('abort', abort);
+  }
+  const data = await response.json().catch(() => ({})) as Record<string, unknown>;
+  if (!response.ok) {
+    throw new MarketApiError(
+      typeof data.error === 'string' ? data.error : 'network_error',
+      response.status,
+      typeof data.request_id === 'string' ? data.request_id : null,
+    );
+  }
+  return data as unknown as VoiceSearchResult;
 }
 
 export const marketApi = {

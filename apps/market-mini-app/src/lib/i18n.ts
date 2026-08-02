@@ -57,6 +57,43 @@ const copy = {
     language: 'Язык', role: 'Режим', close: 'Закрыть', back: 'Назад',
     errorTitle: 'Не получилось загрузить', errorBody: 'Попробуйте ещё раз. Если ошибка повторится, вернитесь в бот.',
     pending: 'Сохраняем…', required: 'Заполните это поле', versionConflict: 'Данные уже изменились. Обновите экран.',
+    voiceSearch: 'Голосовой поиск',
+    voiceStart: 'Сказать голосом',
+    voiceIntroTitle: 'Скажите, что ищете',
+    voiceIntroBody: 'Говорите по-русски, на узбекском или вперемешку. Микрофон включается только на время записи.',
+    voiceExample: 'Например: «наушники до 500 тысяч, в наличии»',
+    voiceAllow: 'Разрешить микрофон',
+    voiceRecording: 'Записываем',
+    voiceListening: 'Идёт запись',
+    voiceMaxHint: 'До 30 секунд',
+    voiceStop: 'Готово',
+    voiceProcessing: 'Распознаём речь…',
+    voiceHeard: 'Услышали',
+    voiceAiNote: 'Распознано автоматически — можно исправить',
+    voiceApply: 'Искать',
+    voiceUnderstood: 'Поняли так',
+    voiceRemoveConstraint: 'Убрать условие',
+    voiceRetry: 'Записать снова',
+    voiceTypeInstead: 'Ввести текстом',
+    voiceDeniedTitle: 'Микрофон недоступен',
+    voiceDeniedBody: 'Разрешите Telegram доступ к микрофону в настройках телефона — или введите запрос текстом.',
+    voiceUnsupportedTitle: 'Запись здесь недоступна',
+    voiceUnsupportedBody: 'Откройте Bormi в приложении Telegram или введите запрос текстом.',
+    voiceUnclearTitle: 'Не расслышали',
+    voiceUnclearBody: 'Скажите ещё раз ближе к микрофону или введите запрос текстом.',
+    voiceTooShortBody: 'Слишком коротко. Держите запись чуть дольше.',
+    voiceUnavailableTitle: 'Голосовой поиск недоступен',
+    voiceUnavailableBody: 'Попробуйте позже. Обычный поиск работает как раньше.',
+    voiceLimitBody: 'Слишком много запросов подряд. Подождите минуту.',
+    voiceClarifyBudget: 'Это максимальная цена?',
+    voiceClarifyBudgetYes: 'Да, не дороже',
+    voiceClarifyBudgetNo: 'Нет, это характеристика',
+    voiceClarifyEmpty: 'Не поняли, что искать. Уточните запрос и нажмите «Искать».',
+    voiceNoMatch: 'По голосовому запросу ничего не нашлось',
+    voiceNoMatchBody: 'Уберите одно из условий или измените запрос.',
+    voiceUpTo: 'до',
+    priceUpTo: 'Цена до, сум',
+    unmatched: 'Не нашли по условию',
   },
   uz: {
     appName: 'Bormi',
@@ -114,8 +151,76 @@ const copy = {
     language: 'Til', role: 'Rejim', close: 'Yopish', back: 'Orqaga',
     errorTitle: 'Yuklab bo‘lmadi', errorBody: 'Qayta urinib ko‘ring. Xato takrorlansa, botga qayting.',
     pending: 'Saqlanmoqda…', required: 'Maydonni to‘ldiring', versionConflict: 'Ma’lumot o‘zgargan. Sahifani yangilang.',
+    voiceSearch: 'Ovozli qidiruv',
+    voiceStart: 'Ovoz bilan ayting',
+    voiceIntroTitle: 'Nima qidirayotganingizni ayting',
+    voiceIntroBody: 'Rus tilida, o‘zbekcha yoki aralash gapiring. Mikrofon faqat yozuv vaqtida yoqiladi.',
+    voiceExample: 'Masalan: «500 minggacha quloqchin, mavjud»',
+    voiceAllow: 'Mikrofonga ruxsat berish',
+    voiceRecording: 'Yozib olinmoqda',
+    voiceListening: 'Yozuv ketmoqda',
+    voiceMaxHint: '30 soniyagacha',
+    voiceStop: 'Tayyor',
+    voiceProcessing: 'Nutq aniqlanmoqda…',
+    voiceHeard: 'Eshitildi',
+    voiceAiNote: 'Avtomatik aniqlandi — tuzatsa bo‘ladi',
+    voiceApply: 'Qidirish',
+    voiceUnderstood: 'Shunday tushunildi',
+    voiceRemoveConstraint: 'Shartni olib tashlash',
+    voiceRetry: 'Qayta yozish',
+    voiceTypeInstead: 'Matn bilan kiritish',
+    voiceDeniedTitle: 'Mikrofon ochilmadi',
+    voiceDeniedBody: 'Telefon sozlamalarida Telegram uchun mikrofonga ruxsat bering yoki so‘rovni matn bilan kiriting.',
+    voiceUnsupportedTitle: 'Bu yerda yozib bo‘lmaydi',
+    voiceUnsupportedBody: 'Bormi’ni Telegram ilovasida oching yoki so‘rovni matn bilan kiriting.',
+    voiceUnclearTitle: 'Eshitilmadi',
+    voiceUnclearBody: 'Mikrofonga yaqinroq qayta ayting yoki matn bilan kiriting.',
+    voiceTooShortBody: 'Juda qisqa. Yozuvni biroz uzoqroq ushlab turing.',
+    voiceUnavailableTitle: 'Ovozli qidiruv ishlamayapti',
+    voiceUnavailableBody: 'Keyinroq urinib ko‘ring. Oddiy qidiruv avvalgidek ishlaydi.',
+    voiceLimitBody: 'So‘rovlar juda ko‘p bo‘ldi. Bir daqiqa kuting.',
+    voiceClarifyBudget: 'Bu eng yuqori narxmi?',
+    voiceClarifyBudgetYes: 'Ha, shundan qimmat emas',
+    voiceClarifyBudgetNo: 'Yo‘q, bu xususiyat',
+    voiceClarifyEmpty: 'Nima qidirishni tushunmadik. So‘rovni aniqlashtiring va «Qidirish»ni bosing.',
+    voiceNoMatch: 'Ovozli so‘rov bo‘yicha hech narsa topilmadi',
+    voiceNoMatchBody: 'Shartlardan birini olib tashlang yoki so‘rovni o‘zgartiring.',
+    voiceUpTo: 'gacha',
+    priceUpTo: 'Narx, so‘mgacha',
+    unmatched: 'Shart bo‘yicha topilmadi',
   },
 } as const;
+
+/**
+ * Attribute words Bormi heard. Shown back so the buyer can see the constraint
+ * was understood even when the catalog has no field to filter it on.
+ */
+const attributeCopy: Record<string, { ru: string; uz: string }> = {
+  black: { ru: 'чёрный', uz: 'qora' },
+  white: { ru: 'белый', uz: 'oq' },
+  red: { ru: 'красный', uz: 'qizil' },
+  blue: { ru: 'синий', uz: 'ko‘k' },
+  green: { ru: 'зелёный', uz: 'yashil' },
+  grey: { ru: 'серый', uz: 'kulrang' },
+  gold: { ru: 'золотой', uz: 'oltin' },
+  silver: { ru: 'серебряный', uz: 'kumush' },
+  large: { ru: 'большой', uz: 'katta' },
+  small: { ru: 'маленький', uz: 'kichik' },
+  fast: { ru: 'быстрый', uz: 'tez' },
+  wireless: { ru: 'беспроводной', uz: 'simsiz' },
+};
+
+export function attributeLabel(value: string, locale: Locale): string {
+  return attributeCopy[value]?.[locale] ?? value;
+}
+
+/** Renders a spoken budget the way each locale writes a price ceiling. */
+export function formatBudget(priceMinor: number, locale: Locale): string {
+  const price = formatPrice(priceMinor, locale);
+  return locale === 'uz'
+    ? `${price}${t(locale, 'voiceUpTo')}`
+    : `${t(locale, 'voiceUpTo')} ${price}`;
+}
 
 export type CopyKey = keyof typeof copy.ru;
 

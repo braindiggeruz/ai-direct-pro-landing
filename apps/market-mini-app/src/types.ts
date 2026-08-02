@@ -5,6 +5,44 @@ export interface Capabilities {
   buyer: boolean;
   sellerRead: boolean;
   sellerCommands: boolean;
+  /**
+   * Server-reported voice availability: the kill switch is on AND a speech
+   * credential is configured. Optional so a cached pre-voice bootstrap simply
+   * resolves to "no microphone" instead of breaking the launch.
+   */
+  voice?: boolean;
+}
+
+export type VoiceConstraintKind =
+  | 'query'
+  | 'budget'
+  | 'availability'
+  | 'attribute'
+  | 'category';
+
+export interface VoiceConstraint {
+  kind: VoiceConstraintKind;
+  value: string;
+}
+
+export interface VoiceInterpretation {
+  productQuery: string;
+  maxPriceMinor: number | null;
+  /** Spoken number with no budget cue — offered once, never auto-applied. */
+  ambiguousPriceMinor: number | null;
+  availability: 'available' | null;
+  category: { id: string; name: string } | null;
+  constraints: VoiceConstraint[];
+  clarification: 'budget' | 'empty_query' | null;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+export interface VoiceSearchResult {
+  transcript: string;
+  language: 'ru' | 'uz' | 'other';
+  interpretation: VoiceInterpretation;
+  items: Product[];
+  queryApplied: string | null;
 }
 
 export interface SessionExchange {

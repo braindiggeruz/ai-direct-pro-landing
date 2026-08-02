@@ -15,6 +15,11 @@ export const MARKET_ERROR_CODES = [
   'invalid_session',
   'expired_session',
   'state_conflict',
+  // Voice search keeps its own two codes so the client can tell "speech is off
+  // right now" apart from "we heard nothing usable" and offer the right
+  // recovery instead of the generic store-unavailable screen.
+  'voice_unavailable',
+  'voice_unclear',
   'internal_error',
 ] as const;
 

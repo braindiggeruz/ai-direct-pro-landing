@@ -1,8 +1,14 @@
-import { useMemo, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { marketApi } from '../lib/api';
+import { MarketApiError, marketApi, voiceSearch } from '../lib/api';
 import { demoProductImage } from '../lib/demo-product-media';
 import { formatDate, formatPrice, labelForStatus, localizeCategory, t } from '../lib/i18n';
+import {
+  VoiceCaptureError,
+  VoiceRecorder,
+  voiceCaptureSupported,
+  type VoiceRecording,
+} from '../lib/voice';
 import { haptic } from '../platform/telegram';
 import type {
   BuyerOrder,
@@ -11,6 +17,7 @@ import type {
   Handoff,
   Locale,
   Product,
+  VoiceSearchResult,
 } from '../types';
 import {
   AsyncImage,
@@ -24,12 +31,32 @@ import {
   SkeletonList,
   StateView,
 } from '../components/ui';
+import {
+  VoiceSheet,
+  VoiceSummary,
+  type VoiceErrorKind,
+  type VoiceStage,
+} from '../components/VoiceSearch';
 
 type BuyerView = 'home' | 'search' | 'compare' | 'orders';
 
 interface BuyerAppProps {
   locale: Locale;
   initialHome: CatalogHome;
+  /** Server-reported voice capability; false hides the microphone entirely. */
+  voiceEnabled: boolean;
+}
+
+function voiceErrorFor(error: unknown): VoiceErrorKind {
+  if (!(error instanceof MarketApiError)) return 'network';
+  if (error.code === 'voice_unclear' || error.code === 'validation_failed') {
+    return 'unclear';
+  }
+  if (error.code === 'voice_unavailable' || error.code === 'feature_disabled') {
+    return 'unavailable';
+  }
+  if (error.code === 'rate_limited') return 'rate_limited';
+  return 'network';
 }
 
 function availabilityTone(value: Product['availability']) {
@@ -227,7 +254,7 @@ function AskSeller({ product, locale, onClose }: { product: Product | null; loca
   </Modal>;
 }
 
-export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
+export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
   const client = useQueryClient();
   const [view, setView] = useState<BuyerView>('home');
   const [selected, setSelected] = useState<Product | null>(null);
@@ -237,10 +264,23 @@ export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
   const [queryInput, setQueryInput] = useState('');
   const [query, setQuery] = useState('');
   const [availability, setAvailability] = useState('');
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [category, setCategory] = useState<string | null>(null);
   const [comparisonActivated, setComparisonActivated] = useState(false);
+  const [voiceStage, setVoiceStage] = useState<VoiceStage>('closed');
+  const [voiceError, setVoiceError] = useState<VoiceErrorKind | null>(null);
+  const [voiceLevels, setVoiceLevels] = useState<readonly number[]>([]);
+  const [voiceElapsed, setVoiceElapsed] = useState(0);
+  const [voiceResult, setVoiceResult] = useState<VoiceSearchResult | null>(null);
+  const [voiceOffline, setVoiceOffline] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const recorderRef = useRef<VoiceRecorder | null>(null);
+
+  // The microphone is offered only when the server says speech is configured,
+  // the WebView can actually record, and speech has not already failed closed
+  // in this session.
+  const micAvailable = voiceEnabled && !voiceOffline && voiceCaptureSupported();
 
   const openSearch = () => {
     setView('search');
@@ -249,11 +289,15 @@ export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
 
   const home = useQuery<CatalogHome>({ queryKey: ['catalog-home'], queryFn: ({ signal }) => marketApi.get('/catalog/home', signal), initialData: initialHome, staleTime: 60_000 });
   const search = useQuery<{ items: Product[] }>({
-    queryKey: ['products', query, availability, category],
+    queryKey: ['products', query, availability, category, maxPrice],
     queryFn: ({ signal }) => {
       const params = new URLSearchParams();
       if (query) params.set('q', query);
       if (availability) params.set('availability', availability);
+      // The category route ranks by category, not by text, and takes no price
+      // ceiling; selecting a category therefore clears the budget instead of
+      // silently dropping it.
+      if (maxPrice !== null && !category) params.set('maxPriceMinor', String(maxPrice));
       params.set('limit', '20');
       const path = category
         ? `/catalog/categories/${encodeURIComponent(category)}/products?${params}`
@@ -290,6 +334,130 @@ export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
     onSuccess: (snapshot, product) => { setSelected(null); setCheckoutProduct(product); setCheckout(snapshot); },
   });
 
+  const voiceMutation = useMutation<VoiceSearchResult, Error, VoiceRecording>({
+    mutationFn: (recording) => voiceSearch(recording),
+    onSuccess: (result) => {
+      haptic('success');
+      setVoiceStage('closed');
+      setVoiceResult(result);
+      const next = result.interpretation;
+      const nextAvailability = next.availability ?? '';
+      setCategory(null);
+      setQueryInput(next.productQuery);
+      setQuery(next.productQuery);
+      setAvailability(nextAvailability);
+      setMaxPrice(next.maxPriceMinor);
+      setView('search');
+      // The launch already paid for this search; seeding the cache under the
+      // exact key the search query uses avoids an immediate duplicate request.
+      client.setQueryData(
+        ['products', next.productQuery, nextAvailability, null, next.maxPriceMinor],
+        { items: result.items },
+      );
+    },
+    onError: (error) => {
+      const kind = voiceErrorFor(error);
+      if (kind === 'unavailable') setVoiceOffline(true);
+      haptic('error');
+      setVoiceError(kind);
+      setVoiceStage('error');
+    },
+  });
+
+  const releaseRecorder = () => {
+    recorderRef.current?.cancel();
+    recorderRef.current = null;
+  };
+  useEffect(() => releaseRecorder, []);
+
+  const failVoice = (kind: VoiceErrorKind) => {
+    haptic('error');
+    setVoiceError(kind);
+    setVoiceStage('error');
+  };
+
+  const finishRecording = async () => {
+    const recorder = recorderRef.current;
+    if (!recorder?.recording) return;
+    setVoiceStage('processing');
+    let recording: VoiceRecording;
+    try {
+      recording = await recorder.stop();
+    } catch (error) {
+      recorderRef.current = null;
+      failVoice(
+        error instanceof VoiceCaptureError && error.reason === 'too_short'
+          ? 'too_short'
+          : 'unclear',
+      );
+      return;
+    }
+    recorderRef.current = null;
+    haptic('tap');
+    voiceMutation.mutate(recording);
+  };
+
+  const beginRecording = async () => {
+    releaseRecorder();
+    setVoiceError(null);
+    setVoiceLevels([]);
+    setVoiceElapsed(0);
+    setVoiceStage('requesting');
+    const recorder = new VoiceRecorder({
+      onLevels: (levels) => setVoiceLevels(levels.slice()),
+      onElapsed: setVoiceElapsed,
+      onAutoStop: () => void finishRecording(),
+    });
+    recorderRef.current = recorder;
+    try {
+      await recorder.start();
+    } catch (error) {
+      recorderRef.current = null;
+      const reason = error instanceof VoiceCaptureError ? error.reason : 'capture_failed';
+      // "Open this in Telegram" is only honest when the WebView genuinely
+      // cannot record; a one-off capture failure gets a plain retry instead.
+      failVoice(
+        reason === 'permission_denied' || reason === 'no_microphone'
+          ? 'denied'
+          : reason === 'unsupported'
+            ? 'unsupported'
+            : 'network',
+      );
+      return;
+    }
+    haptic('tap');
+    setVoiceStage('recording');
+  };
+
+  const openVoice = () => {
+    if (!micAvailable) return;
+    setVoiceError(null);
+    setVoiceLevels([]);
+    setVoiceElapsed(0);
+    setView('search');
+    setVoiceStage('intro');
+  };
+
+  const closeVoice = () => {
+    releaseRecorder();
+    setVoiceStage('closed');
+  };
+
+  const typeInstead = () => {
+    closeVoice();
+    requestAnimationFrame(() => searchRef.current?.focus());
+  };
+
+  const applyTranscript = (value: string) => {
+    setQueryInput(value);
+    setQuery(value);
+  };
+
+  const selectCategory = (id: string | null) => {
+    setCategory(id);
+    if (id) setMaxPrice(null);
+  };
+
   const openCheckout = (product: Product) => startCheckout.mutate(product);
   const productList = (products: Product[], loading: boolean, error: boolean, retry: () => void) => {
     if (loading) return <SkeletonList />;
@@ -299,6 +467,17 @@ export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
   };
 
   const comparisonItems = comparison.data?.items ?? [];
+  // Words present in no result at all. Surfacing them keeps a spoken
+  // "чёрная" honest: the catalog has no such row, and Bormi says so instead of
+  // implying the colour was applied.
+  const unmatchedWords = useMemo(() => {
+    const items = search.data?.items ?? [];
+    if (!items.length) return [] as string[];
+    const first = items[0]?.relevance?.unmatchedConstraints ?? [];
+    return first.filter((token) => items.every(
+      (item) => (item.relevance?.unmatchedConstraints ?? []).includes(token),
+    ));
+  }, [search.data]);
   const orderTimeline = (order: BuyerOrder) => {
     const cancelled = order.status === 'cancelled';
     const states = cancelled
@@ -319,13 +498,18 @@ export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
           <p className="eyebrow"><Icon name="spark" size={15}/>{t(locale, 'brandTagline')}</p>
           <h1>{t(locale, 'brandPromise')}</h1>
           <p>{t(locale, 'heroBody')}</p>
-          <button className="hero-search" onClick={openSearch}>
-            <Icon name="search" size={21}/><span>{t(locale, 'heroSearch')}</span><Icon name="chevron" size={18}/>
-          </button>
+          <div className="hero-search-row">
+            <button className="hero-search" onClick={openSearch}>
+              <Icon name="search" size={21}/><span>{t(locale, 'heroSearch')}</span><Icon name="chevron" size={18}/>
+            </button>
+            {micAvailable ? <button className="hero-mic" onClick={openVoice} aria-label={t(locale, 'voiceStart')}>
+              <Icon name="mic" size={22}/>
+            </button> : null}
+          </div>
           <div className="hero__trust"><Icon name="check" size={16}/><span>{t(locale, 'catalogTruth')}</span></div>
         </section>
         <section className="section"><SectionHeader title={t(locale, 'categories')} />
-          <div className="chip-row" role="group" aria-label={t(locale, 'categories')}>{home.data?.categories.map((item) => <button className="chip" key={item.id} aria-pressed={category === item.id} onClick={() => { setCategory(item.id); setView('search'); }}><span>{localizeCategory(item.name, locale)}</span> <small>{item.productCount}</small></button>)}</div>
+          <div className="chip-row" role="group" aria-label={t(locale, 'categories')}>{home.data?.categories.map((item) => <button className="chip" key={item.id} aria-pressed={category === item.id} onClick={() => { selectCategory(item.id); setView('search'); }}><span>{localizeCategory(item.name, locale)}</span> <small>{item.productCount}</small></button>)}</div>
         </section>
         <section className="section"><SectionHeader title={t(locale, 'featured')} action={<Button variant="ghost" onClick={openSearch}>{t(locale, 'all')} <Icon name="chevron" size={18}/></Button>} />
           <div className="demo-disclosure" role="note">{t(locale, 'demoLabel')}</div>
@@ -336,11 +520,50 @@ export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
       {view === 'search' ? <>
         <section className="hero"><h1>{t(locale, 'search')}</h1></section>
         <form className="search-form" role="search" onSubmit={(event) => { event.preventDefault(); setQuery(queryInput.trim()); }}>
-          <div className="search-field"><Icon name="search" size={20}/><input ref={searchRef} aria-label={t(locale, 'search')} placeholder={t(locale, 'searchPlaceholder')} value={queryInput} onChange={(event) => setQueryInput(event.target.value)} />{queryInput ? <button type="button" className="search-field__clear" aria-label={t(locale, 'clear')} onClick={() => { setQueryInput(''); setQuery(''); searchRef.current?.focus(); }}><Icon name="close" size={18}/></button> : null}</div>
+          <div className="search-field">
+            <Icon name="search" size={20}/>
+            <input ref={searchRef} type="search" enterKeyHint="search" aria-label={t(locale, 'search')} placeholder={t(locale, 'searchPlaceholder')} value={queryInput} onChange={(event) => setQueryInput(event.target.value)} />
+            {queryInput ? <button type="button" className="search-field__clear" aria-label={t(locale, 'clear')} onClick={() => { setQueryInput(''); setQuery(''); searchRef.current?.focus(); }}><Icon name="close" size={18}/></button> : null}
+            {micAvailable ? <button type="button" className="search-field__mic" aria-label={t(locale, 'voiceStart')} onClick={openVoice}><Icon name="mic" size={20}/></button> : null}
+          </div>
           <Button type="submit" aria-label={t(locale, 'searchAction')}><Icon name="chevron" /></Button>
-          <Button type="button" variant="secondary" aria-label={t(locale, 'filters')} onClick={() => setFiltersOpen(true)}><Icon name="filter" /></Button>
         </form>
-        {category ? <div className="cluster section"><Badge tone="info">{localizeCategory(home.data?.categories.find((item) => item.id === category)?.name ?? category, locale)}</Badge><Button variant="ghost" onClick={() => setCategory(null)}>{t(locale, 'clear')}</Button></div> : null}
+        <div className="chip-row chip-row--filters">
+          <button type="button" className="chip chip--action" onClick={() => setFiltersOpen(true)}>
+            <Icon name="filter" size={16}/><span>{t(locale, 'filters')}</span>
+          </button>
+          {category ? <span className="chip chip--filter">
+            {localizeCategory(home.data?.categories.find((item) => item.id === category)?.name ?? category, locale)}
+            <button type="button" onClick={() => selectCategory(null)} aria-label={`${t(locale, 'clear')}: ${localizeCategory(home.data?.categories.find((item) => item.id === category)?.name ?? category, locale)}`}><Icon name="close" size={15}/></button>
+          </span> : null}
+        </div>
+        {voiceResult ? <VoiceSummary
+          key={voiceResult.transcript}
+          locale={locale}
+          transcript={voiceResult.transcript}
+          interpretation={voiceResult.interpretation}
+          activeMaxPrice={maxPrice}
+          activeAvailability={availability}
+          onSubmitTranscript={applyTranscript}
+          onClearBudget={() => setMaxPrice(null)}
+          onClearAvailability={() => setAvailability('')}
+          onConfirmBudget={(accepted) => {
+            const spoken = voiceResult.interpretation.ambiguousPriceMinor;
+            setVoiceResult({
+              ...voiceResult,
+              interpretation: {
+                ...voiceResult.interpretation,
+                clarification: null,
+                maxPriceMinor: accepted ? spoken : voiceResult.interpretation.maxPriceMinor,
+              },
+            });
+            if (accepted && spoken !== null) setMaxPrice(spoken);
+          }}
+          onDismiss={() => setVoiceResult(null)}
+        /> : null}
+        {unmatchedWords.length ? <p className="search-note" role="status">
+          {t(locale, 'unmatched')}: {unmatchedWords.join(', ')}
+        </p> : null}
         <section className="section">{productList(search.data?.items ?? [], search.isLoading, search.isError, () => void search.refetch())}</section>
       </> : null}
 
@@ -379,10 +602,39 @@ export function BuyerApp({ locale, initialHome }: BuyerAppProps) {
             <option value="unavailable">{t(locale, 'unavailable')}</option>
           </select>
         </Field>
+        <Field label={t(locale, 'priceUpTo')}>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            step={1000}
+            value={maxPrice === null ? '' : String(maxPrice)}
+            onChange={(event) => {
+              const parsed = Number(event.target.value);
+              setMaxPrice(
+                event.target.value && Number.isSafeInteger(parsed) && parsed > 0
+                  ? parsed
+                  : null,
+              );
+            }}
+          />
+        </Field>
         <Button wide onClick={() => setFiltersOpen(false)}>{t(locale, 'apply')}</Button>
-        <Button wide variant="secondary" onClick={() => { setAvailability(''); setCategory(null); }}>{t(locale, 'reset')}</Button>
+        <Button wide variant="secondary" onClick={() => { setAvailability(''); setMaxPrice(null); selectCategory(null); }}>{t(locale, 'reset')}</Button>
       </div>
     </Modal>
 
+    <VoiceSheet
+      locale={locale}
+      stage={voiceStage}
+      error={voiceError}
+      levels={voiceLevels}
+      elapsedMs={voiceElapsed}
+      onAllow={() => void beginRecording()}
+      onStop={() => void finishRecording()}
+      onCancel={closeVoice}
+      onRetry={() => void beginRecording()}
+      onTypeInstead={typeInstead}
+    />
   </>;
 }

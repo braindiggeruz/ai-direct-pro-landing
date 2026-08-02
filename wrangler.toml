@@ -70,3 +70,9 @@ MARKET_MINI_APP_SELLER_COMMANDS_ENABLED = "true"
 MARKET_MINI_APP_ORIGINS = "https://gptbot-market-mini-app.pages.dev"
 MARKET_MINI_APP_URL = "https://gptbot-market-mini-app.pages.dev"
 MARKET_MINI_APP_BUILD_ID = "telegram-review-20260802"
+# Bormi voice search kill switch. Setting this to anything other than "true"
+# makes /api/market/v1/voice/search answer 503 and makes the Mini App hide the
+# microphone on the next launch; the typed search is unaffected either way.
+# Speech recognition reuses the existing GROQ_API_KEY (and optional
+# OPENAI_API_KEY) secrets — no new credential is required.
+MARKET_VOICE_SEARCH_ENABLED = "true"

@@ -14,6 +14,7 @@ import {
 import { parseStructuredOutput } from './structured';
 import type {
   AiAttempt,
+  AiAudioInput,
   AiCompletionRequest,
   AiDriverRegistration,
   AiDriverRequest,
@@ -22,7 +23,14 @@ import type {
   AiStructuredResult,
   AiTask,
   AiTextResult,
+  AiTranscriptionOutcome,
 } from './types';
+
+export interface AiTranscriptionRequest {
+  audio: AiAudioInput;
+  timeoutMs?: number;
+  signal?: AbortSignal;
+}
 
 export interface AiFacade {
   complete(request: AiCompletionRequest, policy: AiPolicySelector): Promise<AiTextResult>;
@@ -31,6 +39,10 @@ export interface AiFacade {
     schema: AiRuntimeSchema<T>,
     policy: AiPolicySelector,
   ): Promise<AiStructuredResult<T>>;
+  transcribe(
+    request: AiTranscriptionRequest,
+    policy: AiPolicySelector,
+  ): Promise<AiTranscriptionOutcome>;
 }
 
 export interface CreateAiFacadeInput {
@@ -258,6 +270,80 @@ export function createAiFacade(input: CreateAiFacadeInput): AiFacade {
       }
       if (!sawCapability) throw new AiUnavailableError(policy.task, 'structured');
       throw lastError ?? new AiUnavailableError(policy.task, 'structured');
+    },
+
+    async transcribe(request, selector) {
+      const policy = input.policy.resolve(selector);
+      if (
+        !request
+        || !request.audio
+        || !(request.audio.bytes instanceof ArrayBuffer)
+        || request.audio.bytes.byteLength === 0
+        || typeof request.audio.mimeType !== 'string'
+        || request.audio.mimeType.length === 0
+      ) {
+        throw new AiConfigurationError(policy.task, 'invalid_request');
+      }
+      const startedAt = Date.now();
+      const attempts: AiAttempt[] = [];
+      let lastError: AiError | null = null;
+      let sawCapability = false;
+
+      for (const route of policy.routes.slice(0, policy.maxAttempts)) {
+        const registered = drivers.get(route.driver);
+        if (!registered) throw new AiConfigurationError(policy.task, 'unknown_driver');
+        if (!registered.transcribe) {
+          attempts.push({
+            driver: route.driver,
+            model: route.model,
+            status: 'error',
+            errorCode: 'unavailable',
+            latencyMs: 0,
+          });
+          continue;
+        }
+        sawCapability = true;
+        const attemptStarted = Date.now();
+        try {
+          const result = await withTimeout(
+            (signal) => registered.transcribe!(request.audio, signal),
+            request.timeoutMs ?? policy.timeoutMs,
+            request.signal,
+            policy.task,
+            route.driver,
+          );
+          if (!result || typeof result.text !== 'string' || result.text.length === 0) {
+            throw new AiProviderError(policy.task, route.driver);
+          }
+          attempts.push({
+            driver: route.driver,
+            model: result.model ?? route.model,
+            status: 'ok',
+            latencyMs: Date.now() - attemptStarted,
+          });
+          return {
+            text: result.text,
+            language: result.language,
+            segments: result.segments,
+            driver: route.driver,
+            provider: result.provider,
+            model: result.model ?? route.model,
+            latencyMs: Date.now() - startedAt,
+            attempts,
+          };
+        } catch (error) {
+          lastError = normalizeError(error, policy.task, route.driver);
+          attempts.push({
+            driver: route.driver,
+            model: route.model,
+            status: 'error',
+            errorCode: attemptErrorCode(lastError),
+            latencyMs: Date.now() - attemptStarted,
+          });
+        }
+      }
+      if (!sawCapability) throw new AiUnavailableError(policy.task, 'transcribe');
+      throw lastError ?? new AiUnavailableError(policy.task, 'transcribe');
     },
   };
 }
