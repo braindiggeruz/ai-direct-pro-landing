@@ -1,5 +1,35 @@
 # CURRENT_STATE — 2026-08-01
 
+## Bormi voice search (2026-08-02, implemented, not deployed)
+
+Bormi now accepts a spoken query. The buyer taps the microphone in the search
+field or on the home hero, speaks Russian, Uzbek Latin or a mix, and receives
+the transcript, the constraints Bormi understood and real products from the
+connected catalog in one response.
+
+The catalog and search backend was not rewritten. `POST /voice/search` reuses
+`searchPublishedProducts`, `rankCatalogProducts` and the shared UZS
+`parseBudget` through a single `runCatalogSearch` function that also serves
+`/catalog/products`, so voice cannot return a product typed search would not
+return. Speech recognition reuses the production Voice-to-Reply Groq Whisper
+stack, now exposed through the previously unimplemented `transcribe` capability
+of the platform AI facade; no new provider and no new credential were added.
+Turning the sentence into a query is deterministic code, not a model, which is
+what keeps the answer grounded. There is no D1 migration and no schema change.
+
+Availability is filtered only by unambiguous stock phrases; a bare `bormi?` or
+`есть?` never narrows the result. A number with no budget cue is never applied
+as a price — it produces exactly one short clarification. When speech fails the
+transcript is preserved and ordinary typed search continues unaffected.
+
+`MARKET_VOICE_SEARCH_ENABLED` in `wrangler.toml` is the kill switch; the server
+advertises `flags.voice` only when the switch is on and a speech credential is
+configured, and the client hides the microphone otherwise.
+
+Status: implemented and verified locally, **awaiting explicit owner deploy
+authorization** and a native Telegram voice canary. Record:
+`mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md`.
+
 ## Bormi production rebrand (2026-08-02)
 
 The working Telegram marketplace is now publicly branded **Bormi**, with the

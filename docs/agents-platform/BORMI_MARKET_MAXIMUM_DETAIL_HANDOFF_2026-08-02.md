@@ -6,6 +6,13 @@
 > Кодовая production-база этого handoff: `d47d99891006b0fe33994f9b8c101d14aaa4f115`.
 > Ветка production-кандидата: `feature/gptbot-market-mini-app-synthetic-candidate`.
 > Текущий рабочий worktree автора handoff: `F:\Claude\gptbot-bormi-api-fix`.
+>
+> **Дополнение 2026-08-02 (после этого снимка):** в том же worktree поверх
+> `d47d998` реализован голосовой поиск Bormi. Он не развёрнут. Разделы 8.6/8.7
+> (API map) и 20 (gaps) дополняются документом
+> `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md`; kill switch —
+> `MARKET_VOICE_SEARCH_ENABLED`. Открытый v8 launch-инцидент этим изменением не
+> закрыт и остаётся первым приоритетом.
 
 ---
 

@@ -6,6 +6,11 @@
 > deployment identifiers and incident status below. Current application source is
 > `d47d998`; the v8 fast-path release is live and awaits an exact native owner
 > canary in `@BormiMarketBot`.
+>
+> **Voice search (2026-08-02):** implemented on top of `d47d998` in the
+> `F:\Claude\gptbot-bormi-api-fix` worktree, locally verified, **not deployed**.
+> Read `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md` before touching
+> the Market search path. Kill switch: `MARKET_VOICE_SEARCH_ENABLED`.
 
 ## 1. Состояние
 
@@ -17,6 +22,33 @@
 - Следующий этап: native Telegram owner review; Store Pilot #1 remains a
   separate owner input/authorization gate.
 - Рабочее дерево: clean after the governance commit; `dist/` untracked/ignored.
+
+### Bormi voice search — 2026-08-02 (implemented, not deployed)
+
+- Status: `BORMI_VOICE_SEARCH_IMPLEMENTED_AWAITING_DEPLOY_AUTHORIZATION`.
+- Base source: `d47d998`; worktree `F:\Claude\gptbot-bormi-api-fix`.
+- The buyer taps a microphone in the search field or on the home hero, speaks
+  RU, Uzbek Latin or a mix, and gets the transcript, the understood constraints
+  and grounded catalog products in one response.
+- The catalog/search backend was **not** rewritten. `POST /voice/search` and
+  `GET /catalog/products` share one `runCatalogSearch`;
+  `searchPublishedProducts`, `rankCatalogProducts` and the shared UZS
+  `parseBudget` are reused unchanged. No D1 migration, no schema change.
+- Speech reuses the production Voice-to-Reply Groq Whisper stack through the
+  platform AI facade's `transcribe` capability. No new provider, no new
+  credential — `GROQ_API_KEY` and optional `OPENAI_API_KEY`.
+- Interpretation is deterministic code, not a model: no model may name a
+  product, price, availability or category. One clarification at most; a
+  cueless number is never applied as a price.
+- Audio never leaves request memory and is never persisted or logged; the
+  transcript goes to the speaker only.
+- `Permissions-Policy` is now `microphone=(self)`; CSP unchanged.
+- Evidence: 21/21 voice tests, 152/152 Market+catalog, 83/83 platform, 15/15
+  Mini App, boundaries OK, ESLint 0, secret scan clean 2,967 files, root and
+  Mini App builds PASS, Functions bundle compiles.
+- Next gate: explicit owner deploy authorization, then a native Telegram voice
+  canary in RU and UZ plus one microphone-denied run.
+- Record: `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md`.
 
 ### Bormi production rebrand — 2026-08-02
 

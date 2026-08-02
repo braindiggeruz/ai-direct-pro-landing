@@ -1,10 +1,10 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "Bormi production rebrand Telegram review release",
+  "current_stage": "Bormi voice search implemented on top of the v8 fast path, awaiting deploy authorization",
   "stage_status": "complete",
   "last_completed_stage": "GPTBot Market rebranded to Bormi across the production Telegram Mini App and dedicated Market bot entry experience",
-  "next_stage": "R1 Store Pilot #1 owner evidence and explicit one-store authorization",
+  "next_stage": "Owner-authorized deploy of voice search plus the outstanding native v8 canary, then R1 Store Pilot #1 owner evidence and explicit one-store authorization",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -185,6 +185,34 @@
       "PUBLIC_MARKETPLACE": "NOT_AUTHORIZED",
       "PUBLIC_LAUNCH": "BLOCKED"
     }
+  },
+  "bormi_voice_search": {
+    "status": "implemented_locally_verified_awaiting_deploy_authorization",
+    "base_source": "d47d99891006b0fe33994f9b8c101d14aaa4f115",
+    "worktree": "F:\\Claude\\gptbot-bormi-api-fix",
+    "branch": "fix/bormi-api-origin",
+    "deployed": false,
+    "route": "POST /api/market/v1/voice/search — raw audio, bearer Market session, voice rate-limit bucket 8 per 5 minutes per identity",
+    "additive_filter": "GET /catalog/products?maxPriceMinor= integer UZS ceiling",
+    "capability_flag": "bootstrap and launch report flags.voice, true only when MARKET_VOICE_SEARCH_ENABLED is true AND a speech credential is configured",
+    "kill_switch": "MARKET_VOICE_SEARCH_ENABLED in wrangler.toml; setting it to anything but \"true\" returns 503, hides the microphone and leaves typed search untouched",
+    "search_backend_rewritten": false,
+    "grounding": "voice and typed search share one runCatalogSearch; searchPublishedProducts and rankCatalogProducts are unchanged, so voice cannot return a product typed search would not return",
+    "speech": "reuses the production Voice-to-Reply Groq Whisper stack with optional OpenAI fallback, exposed through the platform AI facade transcribe capability; no new provider and no new credential",
+    "interpretation": "deterministic RU/Uzbek-Latin/mixed; reuses parseBudget, normalizeKnowledgeText and CATALOG_LIMITS; no model decides a product, price, availability or category",
+    "clarification": "at most one question; a number with no budget cue is reported as ambiguous and never applied as a filter",
+    "availability_rule": "only unambiguous stock phrases filter; a bare bormi/есть question never narrows results",
+    "privacy": "audio lives only in request memory, is never persisted or logged; transcript is returned to the speaker only and is not sent to analytics",
+    "remote_migration": false,
+    "schema_change": false,
+    "d1_statement_executed": false,
+    "telegram_api_mutation": false,
+    "lead_bot_or_webhook_mutation": false,
+    "headers": "Permissions-Policy microphone=() changed to microphone=(self); camera, geolocation, payment and USB stay denied; CSP unchanged",
+    "bundle_delta": "buyer JS 271.01 to 289.37 kB (gzip 84.25 to 89.56); CSS 25.01 to 30.08 kB (gzip 6.12 to 6.95); HTML and lazy seller chunk unchanged",
+    "evidence": "docs/agents-platform/mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md",
+    "decisions": ["D-040", "D-041"],
+    "next_gate": "explicit owner deploy authorization, then a native Telegram voice canary in @BormiMarketBot in RU and UZ plus one microphone-denied run; do not describe voice search as live before that"
   },
   "gptbot_market_mini_app": {
     "status": "bormi_fastpath_v8_live_awaiting_native_owner_canary",

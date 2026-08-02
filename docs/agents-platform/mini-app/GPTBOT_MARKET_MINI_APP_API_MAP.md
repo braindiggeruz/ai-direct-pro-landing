@@ -46,6 +46,19 @@ token claims are not sufficient authorization.
 | `GET /catalog/categories/:categoryId/products` | buyer; cursor, limit ≤20, safe filters | published product-card page | active storefront; category tenant-scoped | search/read bucket; presentation record only after shown | catalog category query; invalid filter/IDOR/stale tests |
 | `GET /catalog/products` | buyer; bounded query/filters/cursor | result cards, applied constraints, next cursor, closed zero-result reason | active storefront | debounce client; rate per identity/store; records bounded presentation facts | buyer query/catalog ranker; raw-query privacy and equivalence tests |
 | `GET /catalog/products/:productId` | buyer | full published product DTO, specs, media handles, updated time | active storefront; product tenant/store scoped | read bucket; product-view analytics best effort | catalog published product; unpublished/cross-store tests |
+| `POST /voice/search` | buyer; raw audio body from an allow-listed audio content type, ≤400 000 bytes, optional bounded `?durationMs=` | transcript, detected language, understood constraints, at most one clarification, and the grounded result page | bearer Market session exactly as any read; no `initData`; fails closed when the kill switch is off or no speech credential is configured | dedicated `voice` bucket, 8 per 5 minutes per identity; no mutation, so no `Idempotency-Key`; audio stays in request memory and is never persisted or logged | platform AI `transcribe` over the existing Voice-to-Reply speech stack, deterministic `functions/market/voice/constraints.ts`, then the same `runCatalogSearch` as typed search; `tests/market-voice-search.test.ts` |
+
+`GET /catalog/products` additionally accepts `maxPriceMinor` — an integer UZS
+ceiling applied to the ranked rows, alongside the existing `availability`
+filter. Voice supplies it from a spoken budget; the filter sheet supplies it by
+hand. `GET /bootstrap` and `POST /session/launch` report `flags.voice`, which is
+true only when `MARKET_VOICE_SEARCH_ENABLED` is on **and** a speech credential
+exists; the client hides the microphone when it is false.
+
+Voice error codes are deliberately narrow so the client can offer the right
+recovery instead of the generic store-unavailable screen: `voice_unavailable`
+(503, speech is off — hide the microphone for the session) and `voice_unclear`
+(400, nothing usable was heard — keep the transcript, offer re-record or typing).
 | `POST /comparison/items` | buyer; `{product_id}` | current 2–3 item comparison | active storefront | `Idempotency-Key`; comparison write only | catalog add comparison; duplicate/full/stale tests |
 | `DELETE /comparison/items/:productId` | buyer | current comparison | active storefront | `Idempotency-Key`; adapter may use clear/rebuild until domain remove exists | current comparison service; adapter regression required |
 | `GET /comparison` | buyer | factual comparison DTO with explicit missing fields | active storefront | read bucket; no business mutation | list comparison; stale product and formatting tests |

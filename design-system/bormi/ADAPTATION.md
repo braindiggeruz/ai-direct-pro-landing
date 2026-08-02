@@ -69,6 +69,69 @@ available product evidence.
 - Desktop sidebars and generic dashboard shells: rejected because Bormi is a
   mobile consumer marketplace inside Telegram, not a shadcn admin template.
 
+## Voice search stage (2026-08-02)
+
+Additional UX/UI queries: `--domain ux "voice input microphone permission
+recording feedback accessibility"`, `--domain ux "AI interaction transparency
+loading progress cancel streaming"`, `--domain ux "bottom sheet modal filter
+chips search empty state"`.
+
+Adopted from the skill:
+
+- AI disclosure: the transcript is labelled as machine-recognized and stays
+  editable, never presented as if the buyer typed it.
+- Feedback: no step over 300 ms is silent — live waveform and timer while
+  recording, a cancellable recognition state after.
+- Errors are announced (`role="alert"`) and each names its own recovery, rather
+  than being signalled by colour.
+- Icon-only microphone and every chip remove button carry an `aria-label` that
+  names the constraint.
+- The countdown uses colour **and** a numeric timer.
+- The transcript editor has a real hidden `<label>`, not a placeholder.
+- Haptics on record start, stop and success only.
+- A zero-result voice search offers removing a constraint instead of a dead end.
+
+Rejected at this stage:
+
+- Autocomplete suggestions — would imply demand data Bormi does not have over a
+  synthetic catalog.
+- Streaming partial transcripts — needs a second transport and streaming
+  recognition; a 30-second cap with a visible timer is the honest answer.
+- Thumbs up/down on the transcript — implies a learning loop that does not exist.
+- The generated MASTER rose/blue palette, remote display fonts and GSAP were
+  rejected again, for the same identity and WebView-performance reasons.
+
+Adapted 21.dev patterns:
+
+- Search field with contextual trailing action → the microphone lives inside the
+  field; the filter control moved to the chip row, because four controls do not
+  fit a 320 px WebView.
+- Recording bottom sheet → reuses the existing accessible Bormi sheet (focus
+  trap, Escape, backdrop, handle) rather than a new dialog primitive.
+- Waveform/timer → 28 `transform: scaleY()` bars from an `AnalyserNode` sampled
+  every 70 ms; no canvas, no width/height animation.
+- Status transitions → one sheet, five states, not five screens.
+- Filter chips → the understood budget and stock constraints reuse the category
+  chip and are bound to live filter state, so removing a chip removes both the
+  pill and the constraint.
+- Inline feedback, confirmation and error states, accessible icon buttons.
+
+Rejected 21.dev patterns:
+
+- Framer Motion / Radix / shadcn / Lucide imports — the client keeps its two
+  runtime dependencies.
+- Canvas or WebGL visualisers — cost and battery for a decorative meter.
+- Press-and-hold-to-talk — unreliable against Telegram's own swipe handling and
+  hostile to motor-impaired users; tap to start, tap to stop.
+- Live "listening…" partial text — implies streaming recognition that is not
+  implemented.
+- A floating voice FAB — it would cover the comparison tray.
+
+Limitation: the 21.dev catalog was not queried live this stage. `21st whoami`
+returns `Not logged in` and `21st search` requires `TWENTYFIRST_TOKEN`; login
+opens a browser and needs the owner. Patterns were adapted from the skill
+documentation and the pattern set already recorded above.
+
 ## Verification
 
 - 21.dev CLI review: 0 errors, 0 warnings after removing disorienting

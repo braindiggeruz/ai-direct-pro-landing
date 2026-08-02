@@ -1,5 +1,37 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
+## Bormi voice search gates (2026-08-02)
+
+Voice search is implemented and locally verified, not deployed and not
+confirmed on a real device. Open items:
+
+- No owner native canary. Nobody has spoken into `@BormiMarketBot` on a real
+  Android or iOS Telegram client. Until that happens, do not describe voice
+  search as live.
+- No real speech-provider call was made in this stage. The transcription path
+  is covered by unit tests against the AI contract and by the existing
+  Voice-to-Reply implementation it reuses, not by a live Groq/OpenAI request.
+- Telegram Web runs the Mini App in an iframe whose `allow` attribute Telegram
+  controls. If it omits `microphone`, capture fails there and the buyer sees
+  the unsupported state with typed search intact. Not reproducible locally.
+- Voice is not separately measurable: it emits the existing
+  `sotuvchi.search_results_shown` / `sotuvchi.zero_results` events and no new
+  event type, so voice volume cannot be split from typed search in analytics.
+- No axe run covers the new recording, clarification and error states. Contrast
+  (6.05:1–20.08:1 in dark), 40×44 minimum targets and 320 px overflow were
+  measured directly instead. No VoiceOver/TalkBack pass.
+- The new RU/UZ voice copy has no native Uzbek sign-off.
+- Attribute words (colour, size) rank but do not filter, because the catalog
+  has no such field. This is disclosed through `unmatchedConstraints`, not
+  hidden — but it is a real limitation of the answer.
+- Speech round-trip latency on a real mobile link is unmeasured.
+- The 21.dev catalog could not be queried live: the CLI is not signed in and
+  `21st login` needs the owner's browser. Patterns were adapted from the skill
+  documentation and the recorded Bormi pattern set instead.
+- `GROQ_API_KEY` must exist in root Pages production before deploy. If it is
+  absent the route fails closed with 503 and the microphone stays hidden, which
+  is safe but means voice silently never appears.
+
 ## Mini App gates after Telegram review release (2026-08-02)
 
 The static app, BFF and dedicated-bot launch path are live. The remaining gate

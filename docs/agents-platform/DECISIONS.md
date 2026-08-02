@@ -1,5 +1,46 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-041 — voice search is AI for hearing only; understanding stays deterministic (2026-08-02)
+
+**Decision.** The only model in the Bormi voice path is speech-to-text.
+Converting a transcript into a catalog query — budget, stock, attributes,
+category, product words — is deterministic code that reuses the existing
+`parseBudget`, `normalizeKnowledgeText` and `CATALOG_LIMITS`. Voice and typed
+search execute through one shared `runCatalogSearch`, so `searchPublishedProducts`
+and `rankCatalogProducts` remain the only ranking authority. A model may never
+name a product, a price, an availability state or a category. Ambiguity is
+resolved by exactly one short question or left unapplied; it is never guessed.
+Attribute words rank inside the query rather than being turned into a filter the
+catalog cannot honour, and words that matched nothing are disclosed through the
+existing `unmatchedConstraints`.
+
+**Why.** Grounding is the product promise: Bormi shows what the connected
+catalog actually has. A generative interpreter would be the single point at
+which a plausible-but-absent product, or a silently invented price ceiling,
+could enter a grounded storefront. Deterministic interpretation is also
+testable, free, instant and degrades to plain text search when speech fails —
+which is the failure mode a marketplace can survive.
+
+## D-040 — Bormi voice reuses the production speech stack behind the platform AI contract (2026-08-02)
+
+**Decision.** Speech recognition for Bormi uses the existing Voice-to-Reply
+implementation (Groq Whisper first, optional OpenAI fallback, in-memory audio,
+two size gates, bounded timeout) exposed through the platform AI facade's
+previously declared but unimplemented `transcribe` capability, via the single
+allow-listed `LEGACY-SHIM` adapter. No second transcription path, no new
+provider and no new credential is introduced; `GROQ_API_KEY` and the optional
+`OPENAI_API_KEY` are reused. Audio is never persisted, cached or logged, and
+the transcript is returned to the speaker only. Voice is gated by
+`MARKET_VOICE_SEARCH_ENABLED` and is advertised to the client only when that
+switch is on and a speech credential is configured.
+
+**Why.** Copying the speech stack would duplicate model names, retry policy and
+privacy discipline in a second place, and would double the surface where audio
+handling can drift. Routing it through the platform contract keeps the provider
+behind a driver, gives the route a bounded deadline and per-attempt metadata for
+free, and makes the capability honestly reportable — a microphone that cannot
+work is never shown.
+
 ## D-039 — Bormi replaces GPTBot Market as the public consumer brand (2026-08-02)
 
 **Decision.** The production Telegram marketplace uses **Bormi** and the

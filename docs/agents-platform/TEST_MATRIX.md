@@ -1,5 +1,33 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## Bormi voice search (2026-08-02, pre-deploy evidence)
+
+| Check | Result |
+| --- | --- |
+| Base source / worktree | `d47d998` / `F:\Claude\gptbot-bormi-api-fix` on `fix/bormi-api-origin` |
+| UX/UI Pro Max / 21.dev | used / used; 21.dev catalog **not** queried live — CLI not signed in |
+| Voice suite `tests/market-voice-search.test.ts` | 21 of 21 PASS |
+| Market + catalog targeted (voice, auth, contract, synthetic-fixture, sotuvchi-catalog, sotuvchi-buyer-qa) | 152 of 152 PASS |
+| Platform (platform-ai, platform-runtime) + Market auth/contract | 83 of 83 PASS |
+| Mini App tests / typecheck / build | 15 of 15 PASS / PASS / PASS |
+| Functions TypeScript | 0 errors |
+| Agent boundary checker | OK, no violations |
+| ESLint on every changed area | 0 problems |
+| Secret scan | clean, 2,967 files |
+| Root production build | PASS; 113 pages, 124 articles, sitemap 240 |
+| `wrangler pages functions build` | Compiled Worker successfully |
+| Build assets | HTML 4.93 kB, CSS 30.08 kB, buyer JS 289.37 kB, lazy seller 15.26 kB; gzip 2.13/6.95/89.56/3.62 kB (buyer JS +5.31 kB gzip) |
+| Grounding invariant | asserted: exactly two `runCatalogSearch` call sites; voice route never calls the catalog service directly |
+| Privacy invariant | asserted: no `console.*`, no `localStorage`/`sessionStorage`/`indexedDB` in any voice module |
+| Fail-closed | flag off → 503 `feature_disabled`; flag on without speech credential → 503 `voice_unavailable`; no bearer → 401 |
+| Headers | `microphone=(self)`; camera/geolocation/payment/USB still denied; CSP unchanged |
+| Browser QA (fixture transport, synthetic audio stream) | permission-denied recovery, 30 s auto-stop, chip removal, transcript edit, RU and UZ all PASS |
+| Responsive / targets | 320 × 720: no horizontal overflow, search input 78 px, no target below 40 × 44 |
+| Dark contrast (new surfaces) | 6.05 : 1 – 20.08 : 1 |
+| Deployment / D1 / Telegram mutation | none — not deployed, no D1 statement, no Bot API call |
+| Axe on new voice states | NOT RUN — measured contrast, target size and overflow directly instead |
+| Real microphone / real speech provider / native Telegram | NOT RUN — owner canary required |
+
 ## Bormi production rebrand release (2026-08-02)
 
 | Check | Result |

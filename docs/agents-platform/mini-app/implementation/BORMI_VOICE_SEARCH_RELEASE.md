@@ -1,0 +1,502 @@
+# Bormi voice search — implementation and release evidence
+
+> Date: 2026-08-02
+> Stage: `BORMI_VOICE_SEARCH_IMPLEMENTED_AWAITING_DEPLOY_AUTHORIZATION`
+> Base source: `d47d99891006b0fe33994f9b8c101d14aaa4f115` (v8 fast path)
+> Worktree: `F:\Claude\gptbot-bormi-api-fix`, branch `fix/bormi-api-origin`
+> Deploy status: **not deployed**. No Pages deployment, no D1 statement, no
+> Telegram Bot API mutation was performed for this change.
+
+---
+
+## 1. What was built
+
+A buyer taps the microphone in the Bormi search field, speaks naturally in
+Russian, Uzbek Latin or a mix of both, and gets real products from the
+connected catalog — with the constraints Bormi understood shown back and
+editable.
+
+```mermaid
+sequenceDiagram
+  actor U as Buyer
+  participant C as Mini App
+  participant B as Market BFF
+  participant S as Speech (Groq Whisper / OpenAI)
+  participant D as Sotuvchi catalog + D1
+  U->>C: tap microphone
+  C->>U: permission sheet, then recording sheet (waveform + timer, max 30s)
+  U->>C: speech
+  C->>B: POST /voice/search  (raw audio, bearer session)
+  B->>S: transcribe (in-memory bytes, 12s budget)
+  S-->>B: transcript + language
+  B->>B: deterministic RU/UZ constraint extraction
+  B->>D: searchPublishedProducts — the existing typed-search path
+  D-->>B: ranked, tenant-scoped, published rows only
+  B-->>C: transcript + understood constraints + grounded products
+  C->>U: "Услышали …" card, removable chips, product grid
+```
+
+The nine required behaviours, and where each one lives:
+
+| # | Behaviour | Implementation |
+|---|---|---|
+| 1 | Records voice | `apps/market-mini-app/src/lib/voice.ts` — `VoiceRecorder` |
+| 2 | Transcribes safely | `functions/platform/ai` facade → existing Voice-to-Reply speech stack |
+| 3 | Detects RU / UZ / mixed | `normalizedLanguage` in the reused speech adapter; the interpreter is language-agnostic |
+| 4 | Extracts intent and constraints | `functions/market/voice/constraints.ts` |
+| 5 | Shows what it understood | `VoiceSummary` — transcript card + removable chips |
+| 6 | Runs the existing grounded search | `runCatalogSearch` in `functions/market/router.ts` |
+| 7 | Shows only real catalog rows | `services.catalog.searchPublishedProducts`, unchanged |
+| 8 | Asks at most one short question | `clarification: 'budget' \| 'empty_query'`, rendered once |
+| 9 | Keeps the transcript on AI failure | transcript is returned before results and stays editable |
+
+---
+
+## 2. What was deliberately **not** rewritten
+
+The catalog and search backend is untouched. Voice reuses it verbatim:
+
+- `SotuvchiCatalogService.searchPublishedProducts` — unchanged;
+- `rankCatalogProducts` — unchanged; relevance, `matchedConstraints`,
+  `unmatchedConstraints`, `confidence` and `reasonCodes` are consumed as-is;
+- `parseBudget` (`functions/agents/sotuvchi/experience/budget.ts`) — reused for
+  every UZS amount, including its refusal to treat a cueless number as a price;
+- `normalizeKnowledgeText` / `CATALOG_LIMITS` — reused for bounding;
+- the D1 schema — **no migration**, no new table, no new column;
+- `functions/api/telegram/webhook.ts` and `TELEGRAM_BOT_TOKEN` — untouched.
+
+`/catalog/products` and `/voice/search` now share one function,
+`runCatalogSearch`. A test asserts there are exactly two call sites and that the
+voice route never reaches the catalog service directly — voice therefore cannot
+return a product the typed search would not return.
+
+---
+
+## 3. Speech recognition — reuse, not a new provider
+
+`functions/lib/telegram/transcription.ts` already ran Groq Whisper with an
+optional OpenAI fallback for Telegram Voice-to-Reply: in-memory audio, two size
+gates, bounded timeout, no logging of URLs, transcripts or bytes.
+
+That implementation is now exposed through the platform AI contract, which
+already declared a `TranscriptionDriver` and an `AiUnavailableError(…,
+'transcribe')` but had no implementation:
+
+- `functions/platform/ai/drivers/legacy.ts` — new
+  `createLegacyTranscriptionDriver`, added on the existing `LEGACY-SHIM`
+  adapter that is already on the boundary-checker allowlist;
+- `functions/platform/ai/facade.ts` — new `transcribe()`, symmetric with
+  `complete()` and `structured()`: route walking, per-attempt metadata, bounded
+  deadline, capability fallback.
+
+This is the first production consumer of the platform AI facade. Existing
+callers of `complete`/`structured` are unaffected; the change is purely additive
+and `tests/platform-ai.test.ts` (15/15) still passes untouched.
+
+**No new credential is introduced.** Voice uses the existing `GROQ_API_KEY` and
+optional `OPENAI_API_KEY` Pages secrets.
+
+---
+
+## 4. Interpretation is deterministic, not generative
+
+The only model in the request path is speech-to-text. Turning a sentence into a
+query is plain code, which is what keeps the result grounded:
+
+1. `normalizeKnowledgeText` + a small dictation repair pass
+   (`пауэр банк` → `power bank`, `ming gacha` → `minggacha`).
+2. Spoken cardinals become digits, with Russian additive forms and Uzbek
+   multiplicative hundreds: `до ста тысяч` → `100000`, `ikki yuz ming` →
+   `200000`. Russian oblique forms (`ста`, `двухсот`, `пятисот`) are included
+   because they are what survives after `до` / `дешевле` / `максимум`.
+3. The shared `parseBudget` decides whether an amount is a real ceiling.
+4. Availability is set **only** by unambiguous phrases (`в наличии`,
+   `mavjud`, `sotuvda`, `hozir bor`). A bare question — `есть?`, `bormi?` — is
+   stripped but never filters, because hiding preorder rows the speaker did not
+   exclude would hide real catalog rows.
+5. Intent verbs, politeness and budget scaffolding are removed; product words
+   and attributes are kept. Colour and size words stay **inside** the query, so
+   they are matched against real specifications rather than against an invented
+   filter — and when nothing matches them the existing
+   `relevance.unmatchedConstraints` surfaces an honest
+   "Не нашли по условию: чёрная" line.
+6. The result is capped at `CATALOG_LIMITS.queryTokens` (8) and
+   `queryLength` (120), which is what the catalog search accepts. Without this
+   step every spoken sentence would be rejected as an invalid query.
+
+Ambiguity is resolved with **one** question, never a guess: a number with no
+budget cue (`powerbank 20000` — price, or capacity?) is returned as
+`ambiguousPriceMinor` with `clarification: 'budget'`, is not applied, and the UI
+offers two chips.
+
+---
+
+## 5. API surface
+
+| Method | Route | Notes |
+|---|---|---|
+| POST | `/api/market/v1/voice/search` | raw audio body, bearer session required |
+| GET | `/api/market/v1/catalog/products?maxPriceMinor=` | additive filter, integer UZS |
+
+`GET /bootstrap` and `POST /session/launch` now report
+`flags.voice`, which is true only when the kill switch is on **and** a speech
+credential is configured. The client hides the microphone when it is false.
+
+Request rules for `/voice/search`:
+
+- bearer Market session, exactly as every other read;
+- `Content-Type` from a fixed audio allowlist; codec parameters are stripped;
+- 400 000 byte cap, enforced on `Content-Length` and again on the read body;
+- optional `?durationMs=` bounded to 30 000 ms;
+- dedicated `voice` rate-limit bucket: 8 calls per 5 minutes per identity —
+  the tightest bucket in the Market platform, because each call spends an
+  upstream speech request;
+- no `Idempotency-Key`: the route performs no mutation.
+
+Two new error codes keep recovery honest instead of collapsing into the generic
+store-unavailable screen:
+
+| Code | Status | Client behaviour |
+|---|---|---|
+| `voice_unavailable` | 503 | "Голосовой поиск недоступен", microphone hidden for the session, typed search unaffected |
+| `voice_unclear` | 400 | "Не расслышали", offers re-record or typing, transcript preserved |
+
+---
+
+## 6. UX — skills applied
+
+```text
+UX_UI_SKILL_USED=YES
+21_DEV_SKILL_USED=YES
+```
+
+### 6.1 UX/UI skill
+
+Skill files read for this stage:
+
+```text
+C:\Users\Borinio\.claude\skills\ui-ux-pro-max\SKILL.md
+C:\Users\Borinio\.claude\skills\ui-ux-pro-max\scripts\search.py
+C:\Users\Borinio\.codex\skills\ui-ux-pro-max\SKILL.md   (path recorded by the rebrand stage)
+design-system/bormi/MASTER.md
+design-system/bormi/ADAPTATION.md
+```
+
+Queries run: `--domain ux "voice input microphone permission recording feedback
+accessibility"`, `--domain ux "AI interaction transparency loading progress
+cancel streaming"`, `--domain ux "bottom sheet modal filter chips search empty
+state"`.
+
+Decisions taken **from** the skill:
+
+- *AI Interaction / Disclaimer (High)* → the transcript card is explicitly
+  labelled "Распознано автоматически — можно исправить". Bormi never presents a
+  machine transcript as if the buyer typed it.
+- *Feedback / Loading Indicators (High)* → the recording sheet has a live
+  waveform and timer; the recognition step has its own cancellable state. No
+  step longer than 300 ms is silent.
+- *Accessibility / Error Messages (High)* → every voice failure is a
+  `role="alert"` heading plus a named recovery action, never a red border.
+- *Accessibility / ARIA Labels (High)* → the icon-only microphone and every
+  chip remove button carry an `aria-label` that names the constraint being
+  removed.
+- *Accessibility / Colour Only (High)* → the countdown uses a colour change
+  **and** a numeric timer.
+- *Forms / Input Labels (High)* → the transcript editor has a real (visually
+  hidden) `<label>`, not a placeholder.
+- *Touch / Haptic Feedback (Low)* → haptics on record start, stop and success
+  only; not on every tick.
+- *Search / No Results (Medium)* → a zero-result voice search offers removing a
+  constraint rather than a dead end.
+
+Decisions **rejected**, with the reason:
+
+- The generated `design-system/bormi/MASTER.md` rose/blue palette, Satoshi and
+  General Sans web fonts, GSAP stagger and hover-heavy cards were rejected
+  again for this stage, exactly as in the rebrand: they conflict with the
+  violet/lime Bormi identity, and remote fonts plus an animation library would
+  regress Telegram WebView first paint.
+- *Search / Autocomplete (Medium)* — rejected. A suggestions dropdown over a
+  synthetic catalog would imply demand data Bormi does not have.
+- *AI Interaction / Streaming (Medium)* — rejected. Partial transcripts would
+  mean streaming speech recognition and a second transport; a 30-second cap
+  with a visible timer is the honest, cheaper answer.
+- *AI Interaction / Feedback Loop (Low)* — rejected. Thumbs up/down implies a
+  learning loop that does not exist.
+
+### 6.2 21.dev skill
+
+Skill files read:
+
+```text
+C:\Users\Borinio\.codex\skills\21st-ai\SKILL.md
+C:\Users\Borinio\.codex\skills\21st-cli-use\SKILL.md
+C:\Users\Borinio\.codex\skills\21st-design-sync\SKILL.md
+C:\Users\Borinio\.codex\skills\21st-registry\SKILL.md
+```
+
+**Honest limitation:** the live catalog could not be queried this session.
+`npx @21st-dev/cli whoami` returns `Not logged in`, and `21st search` returns
+`Not signed in. Run 21st login or set TWENTYFIRST_TOKEN`. `21st login` opens a
+browser and needs the owner. The patterns below were therefore adapted from the
+skill documentation and from the previously adapted-and-recorded 21.dev pattern
+set in `design-system/bormi/ADAPTATION.md`, not from a fresh catalog pull. If
+the owner supplies `TWENTYFIRST_TOKEN`, a catalog review can be re-run.
+
+Patterns adapted to Bormi:
+
+- **Search field with contextual trailing action** → the microphone lives
+  inside the search field as the trailing action, next to the conditional clear
+  button. The separate filter button moved out of the field row into the chip
+  row, because four controls do not fit a 320 px WebView.
+- **Recording bottom sheet** → reuses the existing Bormi `Modal … sheet`
+  (focus trap, Escape, backdrop close, drag handle) instead of a new dialog
+  primitive.
+- **Waveform / timer** → 28 CSS-transform bars driven by an `AnalyserNode` RMS
+  sample every 70 ms. `transform: scaleY()` only — no width/height animation,
+  no canvas, no layout thrashing.
+- **Status transitions** → one sheet, five states (intro → requesting →
+  recording → processing → error) rather than five screens.
+- **Filter chips** → the understood budget and stock constraints are the same
+  chip component as the category filter, and they are bound to the **live**
+  filter state, so removing a chip removes both the pill and the constraint.
+- **Inline feedback** → "Услышали" card with an editable transcript.
+- **Confirmation / error states** → each error names its own recovery; the
+  denied state points at the phone's Telegram permission, the unsupported state
+  points at the Telegram app, the unclear state offers a re-record.
+- **Accessible icon buttons** → 44 px targets, `aria-label`, visible focus.
+
+Patterns rejected:
+
+- Framer Motion / Radix / shadcn / Lucide imports — the client keeps its two
+  runtime dependencies and its Telegram WebView bundle budget.
+- Canvas or WebGL visualisers — cost and battery for a decorative meter.
+- Press-and-hold-to-talk — unreliable inside a Telegram WebView that owns swipe
+  gestures, and hostile to motor-impaired users. Tap-to-start / tap-to-stop.
+- Live "listening…" partial-transcript text — implies streaming recognition
+  that is not implemented.
+- A floating voice FAB over the product grid — it would cover the comparison
+  tray, which already owns that corner.
+- Mechanical copying of any generic catalogue component without product
+  rationale.
+
+### 6.3 Screens and states
+
+| State | What the buyer sees |
+|---|---|
+| Entry | Microphone on the home hero next to "Что ищете сегодня?", and inside the search field |
+| Permission | Why the microphone is needed and when it is on, then "Разрешить микрофон"; "Ввести текстом" always available |
+| Recording | Pulsing orb, live waveform, `m:ss` timer, "До 30 секунд", "Готово", "Отменить" |
+| Processing | "Распознаём речь…", cancellable |
+| Result | "Услышали" card with editable transcript + AI note, removable budget/stock chips, grounded product grid |
+| Clarification | One question: `20 000 сум — Это максимальная цена?` with two chips |
+| Denied | Phone-settings recovery + typed search |
+| Unsupported | "Откройте Bormi в приложении Telegram" + typed search |
+| Unclear / too short | "Не расслышали" + re-record + typed search |
+| Unavailable / rate limited | Voice off for the session, typed search untouched |
+
+---
+
+## 7. Security, privacy and data
+
+- Audio exists only as one in-memory `ArrayBuffer` for the life of the request.
+  It is never written to D1, KV, R2, `localStorage`, a cache or a log.
+- The transcript is returned to the speaker and to nobody else. It is not
+  persisted and not sent to analytics.
+- A test asserts that none of the four voice modules contains a `console.*`
+  call or touches `localStorage` / `sessionStorage` / `indexedDB`.
+- The bearer stays in the `Authorization` header; it is never put in the voice
+  URL. Only the bounded `durationMs` hint travels as a query parameter.
+- Telegram `initData` is not involved: `/voice/search` runs on an already
+  issued Market session.
+- Tenant scope, publication state and seller authority are unchanged — voice
+  calls the same `access.buyer` context as typed search.
+- `Permissions-Policy` changed from `microphone=()` to `microphone=(self)`.
+  Camera, geolocation, payment and USB stay denied. CSP is unchanged.
+- No analytics event was added; voice reuses the existing
+  `sotuvchi.search_results_shown` / `sotuvchi.zero_results` events. Voice is
+  therefore not yet separately measurable — recorded as a known gap.
+
+---
+
+## 8. Changed files
+
+| File | Change |
+|---|---|
+| `functions/market/voice/constraints.ts` | new — deterministic RU/UZ/mixed interpreter |
+| `functions/market/voice/service.ts` | new — audio validation, facade wiring, category grounding |
+| `functions/market/voice/index.ts` | new — module exports |
+| `functions/market/router.ts` | `runCatalogSearch` extracted; `/voice/search`; `maxPriceMinor`; `flags.voice` |
+| `functions/platform/ai/drivers/legacy.ts` | new `createLegacyTranscriptionDriver` |
+| `functions/platform/ai/facade.ts` | new `transcribe()` |
+| `functions/platform/ai/types.ts` | new `AiTranscriptionOutcome` |
+| `functions/platform/ai/index.ts` | exports |
+| `functions/platform/market/http.ts` | `voice_unavailable`, `voice_unclear` |
+| `functions/platform/market/rate-limit.ts` | `voice` bucket |
+| `functions/_types.ts` | `MARKET_VOICE_SEARCH_ENABLED` |
+| `wrangler.toml` | `MARKET_VOICE_SEARCH_ENABLED = "true"` kill switch |
+| `apps/market-mini-app/src/lib/voice.ts` | new — capture, level metering, caps |
+| `apps/market-mini-app/src/components/VoiceSearch.tsx` | new — sheet + summary |
+| `apps/market-mini-app/src/screens/BuyerApp.tsx` | microphone, voice state machine, price filter |
+| `apps/market-mini-app/src/components/ui.tsx` | `mic` / `stop` icons |
+| `apps/market-mini-app/src/lib/api.ts` | `voiceSearch` binary upload |
+| `apps/market-mini-app/src/lib/i18n.ts` | RU/UZ voice copy, `attributeLabel`, `formatBudget` |
+| `apps/market-mini-app/src/types.ts` | voice contracts, `flags.voice` |
+| `apps/market-mini-app/src/styles.css` | voice styles, narrow-viewport rules |
+| `apps/market-mini-app/src/App.tsx` | passes the voice capability down |
+| `apps/market-mini-app/src/dev/synthetic.ts` | offline `/voice/search` fixture |
+| `apps/market-mini-app/public/_headers` | `microphone=(self)` |
+| `tests/market-voice-search.test.ts` | new — 21 server tests |
+| `apps/market-mini-app/test/voice-search.test.ts` | new — 9 client tests |
+
+---
+
+## 9. Verification
+
+All commands were run in `F:\Claude\gptbot-bormi-api-fix`.
+
+| Check | Result |
+|---|---|
+| `tests/market-voice-search.test.ts` | 21/21 PASS |
+| Market + catalog suites (`voice`, `auth`, `contract`, `synthetic-fixture`, `sotuvchi-catalog`, `sotuvchi-buyer-qa`) | 152/152 PASS |
+| Platform suites (`platform-ai`, `platform-runtime`) + Market auth/contract | 83/83 PASS |
+| Mini App tests | 15/15 PASS |
+| `tsc -p tsconfig.functions.json --noEmit` | 0 errors |
+| Mini App `tsc -b` | 0 errors |
+| `scripts/check-agent-boundaries.ts` | OK, no violations |
+| ESLint on every changed area | 0 problems |
+| `npm run scan:secrets` | clean, 2967 files |
+| Mini App production build | PASS |
+| Root production build | PASS — 113 pages + 124 articles, sitemap 240, 10 LLM twins |
+| `wrangler pages functions build` | Compiled Worker successfully |
+
+### 9.1 Bundle delta
+
+```text
+                       before (d47d998)      after
+HTML                   4.93 kB / 2.13 gz     4.93 kB / 2.13 gz
+CSS                   25.01 kB / 6.12 gz    30.08 kB / 6.95 gz
+lazy Seller chunk     15.26 kB / 3.62 gz    15.26 kB / 3.62 gz
+main JS              271.01 kB / 84.25 gz  289.37 kB / 89.56 gz
+```
+
+Buyer JS grows by 5.31 kB gzip. The recorder is loaded eagerly on purpose: it
+must be ready on the first microphone tap, and a lazy chunk would add a network
+round trip to the moment the buyer is waiting to speak. First paint is
+unchanged — the zero-JS shell, preloads and the lazy seller chunk are untouched.
+
+### 9.2 Root build
+
+`npm run build` at the repository root exits 0 and reproduces the documented
+baseline: 113 SEO pages, 124 prerendered articles (7 drafts skipped), a
+240-entry sitemap, 12 user redirects with 0 draft 404s, and 10 LLM Markdown
+twins. `npx wrangler pages functions build` compiles the Worker successfully,
+so the new Market route is included in the Functions bundle.
+
+### 9.3 Browser QA (fixture transport, Chromium, no real microphone)
+
+The full journey was exercised with `getUserMedia` backed by a synthetic Web
+Audio stream, so the real `MediaRecorder`, the real `AnalyserNode` meter and the
+real state machine ran.
+
+| Check | Result |
+|---|---|
+| Entry → permission sheet | opens, both actions present |
+| Real permission denial (pane blocks capture) | "Микрофон недоступен" + typed-search recovery |
+| Recording | timer counts, 28 waveform bars all active |
+| 30-second cap | auto-stop fired; sheet closed and results shown by 33 s |
+| Result | transcript card, `до 400 000 сум` + `В наличии` chips, 1 grounded product |
+| Chip removal | chip disappears **and** the filter is dropped |
+| Transcript edit → "Искать" | re-runs as ordinary typed search, stays grounded |
+| Uzbek locale | sheet, mic label and summary all Uzbek Latin, `o‘`/`bo‘ladi` correct |
+| 320 × 720 | no horizontal overflow; search input 78 px; no target below 40 × 44 |
+| Dark theme contrast | 6.05 : 1 – 20.08 : 1 across all new text and controls |
+
+A defect found and fixed during this QA: the understood chips were rendered
+from the frozen transcript interpretation, so removing a chip cleared the filter
+but left the pill on screen. They are now bound to live filter state.
+
+### 9.4 Not verified
+
+- No real microphone, no real Groq/OpenAI call, no real Telegram WebView.
+- No axe run for the new states (the previous automated a11y evidence predates
+  them); contrast, target size and overflow were measured directly instead.
+- No VoiceOver/TalkBack pass.
+- No native Uzbek sign-off for the new copy.
+- No production latency measurement for the speech round trip.
+
+---
+
+## 10. Rollout and rollback
+
+Rollback is a configuration change, not a code revert:
+
+```text
+MARKET_VOICE_SEARCH_ENABLED = "false"   # wrangler.toml, then redeploy root
+```
+
+With the flag off, `/voice/search` answers 503, `flags.voice` is false, the
+microphone disappears at the next launch, and typed search is byte-for-byte the
+behaviour that shipped in `d47d998`.
+
+Deployment rollback targets are unchanged from the v8 release:
+
+```text
+static: 49111efd-9b25-41b1-a31f-717c5c0c3e1a / d47d998
+root:   41a3d4de-cffb-4b2d-b1f8-9b1b650e5490 / d47d998
+```
+
+Both static Mini App and root/BFF must be deployed together: the client calls a
+route that only the new BFF serves, and the BFF reports a capability only the
+new client reads. Deploying one alone degrades to voice being hidden (client
+old) or unreachable (BFF old) — never to a broken storefront.
+
+Release checklist, in order, **after explicit owner authorization**:
+
+1. Confirm `GROQ_API_KEY` is present in root Pages production secrets.
+2. Root: `npm run build`, then `wrangler pages deploy dist
+   --project-name=ai-direct-pro-landing --branch=main`.
+3. Static: `apps/market-mini-app` → `npm run build`, then `wrangler pages deploy
+   dist --project-name=gptbot-market-mini-app
+   --branch=feature/gptbot-market-mini-app-synthetic-candidate`.
+   Never `--branch=main` for the static project — that is a Preview.
+4. Record both deployment IDs, URLs and the exact source SHA.
+5. HTTP canaries: root 200, static 200, hashed asset 200, malformed launch 400,
+   Telegram Agents webhook GET 405 / unauthorized POST 401.
+6. Read-only D1 probe; confirm `rows_written=0`.
+7. Owner native canary — §11.
+
+---
+
+## 11. Owner native canary for voice
+
+Voice must be confirmed on a real device before it is called done:
+
+1. Fully close the Mini App WebView.
+2. Send a fresh `/start` to `@BormiMarketBot` and tap only the newest button.
+3. Grant the microphone when Telegram asks.
+4. Say, in one breath: «Нужны наушники до четырёхсот тысяч, в наличии».
+5. Record: time from "Готово" to results; whether the transcript matches; which
+   chips appeared; whether the products shown exist in the catalog.
+6. Repeat once in Uzbek: «Ikki yuz minggacha quloqchin bormi?».
+7. Repeat once with the microphone denied, and confirm typed search still works.
+
+Do not claim voice search is live until steps 4–7 are confirmed by the owner on
+a real Telegram client.
+
+---
+
+## 12. Known gaps
+
+- Telegram Web (`web.telegram.org`) runs the Mini App in an iframe whose
+  `allow` attribute is set by Telegram. If it does not carry `microphone`,
+  capture fails there and the buyer sees the unsupported state. Android and iOS
+  Telegram use a WebView and are not affected. Not reproducible locally.
+- Voice is not separately visible in analytics; it reuses the existing search
+  events.
+- Attribute words (colour, size) rank but do not filter. This is intentional —
+  the catalog has no colour field — and it is disclosed through
+  `unmatchedConstraints`.
+- The interpreter's cardinal vocabulary covers the amounts a shopper says. Rare
+  forms fall back to the ambiguity question rather than to a wrong filter.
+- The 21.dev catalog was not queried live this session (see §6.2).
