@@ -307,8 +307,14 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   const originalFetch = globalThis.fetch;
   const scheduled: Promise<unknown>[] = [];
   let calls = 0;
-  globalThis.fetch = async () => {
+  globalThis.fetch = async (input) => {
     calls += 1;
+    if (String(input).includes('/bormi-bot-avatar.jpg')) {
+      return new Response(Uint8Array.from([0xff, 0xd8, 0xff, 0xd9]), {
+        status: 200,
+        headers: { 'Content-Type': 'image/jpeg' },
+      });
+    }
     return new Response(JSON.stringify({ ok: true, result: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -336,5 +342,5 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
-  assert.equal(calls, 10);
+  assert.equal(calls, 12);
 });
