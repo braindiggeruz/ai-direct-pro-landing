@@ -1,10 +1,10 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "Bormi voice search implemented on top of the v8 fast path, awaiting deploy authorization",
+  "current_stage": "Bormi voice search merged to main and deployed at 4367850; native Telegram owner canary outstanding",
   "stage_status": "complete",
-  "last_completed_stage": "GPTBot Market rebranded to Bormi across the production Telegram Mini App and dedicated Market bot entry experience",
-  "next_stage": "Owner-authorized deploy of voice search plus the outstanding native v8 canary, then R1 Store Pilot #1 owner evidence and explicit one-store authorization",
+  "last_completed_stage": "Owner-authorized exact-SHA release of Bormi grounded voice search to root/BFF and the static Mini App",
+  "next_stage": "Native Telegram owner canary for voice (RU, UZ, microphone-denied) plus the outstanding v8 launch canary, then R1 Store Pilot #1 owner evidence and explicit one-store authorization",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -187,11 +187,31 @@
     }
   },
   "bormi_voice_search": {
-    "status": "implemented_locally_verified_awaiting_deploy_authorization",
+    "status": "deployed_awaiting_native_owner_canary",
     "base_source": "d47d99891006b0fe33994f9b8c101d14aaa4f115",
     "worktree": "F:\\Claude\\gptbot-bormi-api-fix",
     "branch": "fix/bormi-api-origin",
-    "deployed": false,
+    "feature_tip": "bbecfa6",
+    "merge_commit": "43678506ed4752f07e46004e22338d7890edf19c",
+    "released_source": "43678506ed4752f07e46004e22338d7890edf19c",
+    "deployed": true,
+    "root_deployment_id": "76f59061-d25d-4679-aa62-65be3b3c2c43",
+    "root_deployment_url": "https://76f59061.ai-direct-pro-landing.pages.dev",
+    "static_deployment_id": "2af92899-46b6-4356-ae5d-573aa7455837",
+    "static_deployment_url": "https://2af92899.gptbot-market-mini-app.pages.dev",
+    "root_rollback_deployment_id": "41a3d4de-cffb-4b2d-b1f8-9b1b650e5490",
+    "static_rollback_deployment_id": "49111efd-9b25-41b1-a31f-717c5c0c3e1a",
+    "rollback_source": "d47d99891006b0fe33994f9b8c101d14aaa4f115",
+    "voice_flag_live": "MARKET_VOICE_SEARCH_ENABLED=true is set in root Pages production; this is the owner/native review cohort enablement",
+    "speech_credential": "GROQ_API_KEY present in root Pages production; optional OPENAI_API_KEY absent; all 30 secret_text variables survived the upload",
+    "cloudflare_auto_deploy": false,
+    "release_verification": "merged tree: root and Functions TypeScript 0 errors, Mini App typecheck 0; Market/voice/platform targeted 107/107; Mini App 15/15; boundaries OK; secret scan clean over 2975 files; ESLint 0; root build 113 pages, 124 articles, sitemap 240; Mini App bundle byte-identical to the pre-merge measurement; Functions bundle compiles",
+    "full_corpus": "1070/1075 on the first sequential run. Two failures were an environment gap in this worktree (apps/gpt-backend/node_modules absent, so @supabase/supabase-js was unresolvable); after npm ci they pass 13/13 and 30/30. The remaining three reproduce unchanged at d47d998 in a detached worktree and are pre-existing on the live-deployed source: two react-router-v8-migration route/sitemap baselines that still expect 234 while 240 are emitted, and sotuvchi-onboarding 'buyer storefront route resolves the store but never launches seller onboarding'. Neither voice commit touches the sotuvchi agent, the Telegram channel or that test.",
+    "release_extra_commit": "bbecfa6 reworded the release-record API table: the row paired 'bearer' with the 26-character api/market/v1/voice/search token, which is the markdown-table shape scripts/scan-secrets.ts was written to catch after R0.3. The line was disambiguated, not exempted.",
+    "http_canary": "PASS: gptbot.uz root/RU/UZ Sotuvchi 200, immutable root 200, static canonical and immutable 200, both hashed assets 200, Agents webhook GET 405 and unauthorized POST 401, unauthenticated POST /voice/search 401, GET /bootstrap 401, malformed POST /session/launch 400",
+    "deployed_headers": "Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=(), usb=(); CSP unchanged; X-Robots-Tag noindex, nofollow; hashed assets immutable",
+    "post_deploy_d1_probe": "stores 1, products 48, orders 1, order items 1, inventory moves 44, handoffs 1, notifications 0, storefront sessions 2, agent routes 1, onboardings 0; changed_db=false, rows_written=0 — identical to the v8 baseline",
+    "not_verified": "flags.voice cannot be observed externally because it is only returned on an authenticated Market session. No real microphone, no real Groq/OpenAI call and no real Telegram WebView were exercised in this release.",
     "route": "POST /api/market/v1/voice/search — raw audio, bearer Market session, voice rate-limit bucket 8 per 5 minutes per identity",
     "additive_filter": "GET /catalog/products?maxPriceMinor= integer UZS ceiling",
     "capability_flag": "bootstrap and launch report flags.voice, true only when MARKET_VOICE_SEARCH_ENABLED is true AND a speech credential is configured",
@@ -212,7 +232,7 @@
     "bundle_delta": "buyer JS 271.01 to 289.37 kB (gzip 84.25 to 89.56); CSS 25.01 to 30.08 kB (gzip 6.12 to 6.95); HTML and lazy seller chunk unchanged",
     "evidence": "docs/agents-platform/mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md",
     "decisions": ["D-040", "D-041"],
-    "next_gate": "explicit owner deploy authorization, then a native Telegram voice canary in @BormiMarketBot in RU and UZ plus one microphone-denied run; do not describe voice search as live before that"
+    "next_gate": "native Telegram voice canary in @BormiMarketBot in RU and UZ plus one microphone-denied run (release record section 11). The code is deployed and the flag is on; do not describe voice search as confirmed working on a real device before that canary passes."
   },
   "gptbot_market_mini_app": {
     "status": "bormi_fastpath_v8_live_awaiting_native_owner_canary",
@@ -243,7 +263,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "d47d99891006b0fe33994f9b8c101d14aaa4f115",
+  "last_commit": "43678506ed4752f07e46004e22338d7890edf19c",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -478,6 +498,16 @@
       "id": "n8n-workflow-disabled-evidence",
       "severity": "low",
       "summary": "The owner-kit item workflow_disabled requires provider-ui evidence from the n8n interface and stays false. It does not affect GPTBot: the route is 410 and the bearer is unbound. See N8N_RETIREMENT_DEVIATION.md."
+    },
+    {
+      "id": "pre-existing-test-failures-2026-08-02",
+      "severity": "low",
+      "summary": "Three repository tests fail on main and reproduce unchanged at d47d998, the previously live source: react-router-v8-migration 'preserves every public and admin route pattern' and 'sitemap generation retains all 234 static canonical entries' (240 are now emitted after the SEO content additions), and sotuvchi-onboarding 'buyer storefront route resolves the store but never launches seller onboarding' (the assertion reads the last delivered message, and the buyer greeting is no longer last since 04a8957). They are stale expectations, not runtime defects, and are unrelated to voice search. They should be re-baselined as their own change rather than inside a release."
+    },
+    {
+      "id": "bormi-worktree-backend-deps",
+      "severity": "low",
+      "summary": "F:\\Claude\\gptbot-bormi-api-fix junctions its root node_modules to the clean-20260801 worktree but has no apps/gpt-backend/node_modules of its own, so tests/web-security-hardening.test.ts and tests/gpt-backend-security.test.ts abort on an unresolvable @supabase/supabase-js import and read as failures. `npm ci` in apps/gpt-backend fixes it (13/13 and 30/30). Run it before quoting a full-corpus number from this worktree."
     }
   ]
 }

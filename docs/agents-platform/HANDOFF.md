@@ -7,10 +7,14 @@
 > `d47d998`; the v8 fast-path release is live and awaits an exact native owner
 > canary in `@BormiMarketBot`.
 >
-> **Voice search (2026-08-02):** implemented on top of `d47d998` in the
-> `F:\Claude\gptbot-bormi-api-fix` worktree, locally verified, **not deployed**.
-> Read `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md` before touching
-> the Market search path. Kill switch: `MARKET_VOICE_SEARCH_ENABLED`.
+> **Voice search (2026-08-02):** merged into `main` as `4367850` and **deployed**
+> — root/BFF `76f59061-d25d-4679-aa62-65be3b3c2c43`, static Mini App
+> `2af92899-46b6-4356-ae5d-573aa7455837`, both at exact source `4367850`.
+> `MARKET_VOICE_SEARCH_ENABLED=true` is live in Pages production. Read
+> `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md` before touching the
+> Market search path. **The native Telegram voice canary (§11 of that record) is
+> not done — do not describe voice search as confirmed working on a real device
+> until the owner completes it.**
 
 ## 1. Состояние
 
@@ -23,10 +27,18 @@
   separate owner input/authorization gate.
 - Рабочее дерево: clean after the governance commit; `dist/` untracked/ignored.
 
-### Bormi voice search — 2026-08-02 (implemented, not deployed)
+### Bormi voice search — 2026-08-02 (deployed, native canary pending)
 
-- Status: `BORMI_VOICE_SEARCH_IMPLEMENTED_AWAITING_DEPLOY_AUTHORIZATION`.
+- Status: `BORMI_VOICE_SEARCH_DEPLOYED_AWAITING_NATIVE_OWNER_CANARY`.
 - Base source: `d47d998`; worktree `F:\Claude\gptbot-bormi-api-fix`.
+- Released source: merge commit `43678506ed4752f07e46004e22338d7890edf19c`
+  (`--no-ff` merge of `fix/bormi-api-origin` into `main`, no conflicts).
+- Root/BFF deployment `76f59061-d25d-4679-aa62-65be3b3c2c43`
+  (`https://76f59061.ai-direct-pro-landing.pages.dev`, aliased to `gptbot.uz`);
+  static Mini App deployment `2af92899-46b6-4356-ae5d-573aa7455837`
+  (`https://2af92899.gptbot-market-mini-app.pages.dev`). Both carry the exact
+  commit hash `4367850`. Rollback targets stay `41a3d4de` / `49111efd`
+  (source `d47d998`).
 - The buyer taps a microphone in the search field or on the home hero, speaks
   RU, Uzbek Latin or a mix, and gets the transcript, the understood constraints
   and grounded catalog products in one response.
@@ -46,8 +58,27 @@
 - Evidence: 21/21 voice tests, 152/152 Market+catalog, 83/83 platform, 15/15
   Mini App, boundaries OK, ESLint 0, secret scan clean 2,967 files, root and
   Mini App builds PASS, Functions bundle compiles.
-- Next gate: explicit owner deploy authorization, then a native Telegram voice
-  canary in RU and UZ plus one microphone-denied run.
+- Release verification on the merge commit: root and Functions TypeScript 0
+  errors, Mini App typecheck 0; targeted Market/voice/platform corpus 107/107;
+  Mini App 15/15; boundaries OK; secret scan clean over 2,975 files; root build
+  113 pages / 124 articles / sitemap 240; Mini App bundle byte-identical to the
+  pre-merge measurement.
+- Live canaries after deploy: `gptbot.uz` root, RU and UZ Sotuvchi, the
+  immutable root deployment, the canonical and immutable static Mini App and
+  both hashed assets all 200; Agents webhook `GET` 405 and unauthorized `POST`
+  401; `POST /api/market/v1/voice/search` without a session 401 (authentication
+  is enforced before the feature flag); `GET /bootstrap` 401; malformed
+  `POST /session/launch` 400. The deployed static site serves
+  `Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=(),
+  usb=()` with the CSP unchanged.
+- Read-only D1 probe after deploy: stores 1, products 48, orders 1, order items
+  1, inventory moves 44, handoffs 1, notifications 0, storefront sessions 2,
+  agent routes 1, onboardings 0 — identical to the v8 baseline. `changed_db`
+  false and `rows_written` 0. No migration, no schema change, no Telegram Bot
+  API call.
+- Next gate: the native Telegram voice canary in `@BormiMarketBot` (RU, UZ and
+  one microphone-denied run) — §11 of the release record. Voice must not be
+  called confirmed until the owner completes it on a real device.
 - Record: `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md`.
 
 ### Bormi production rebrand — 2026-08-02

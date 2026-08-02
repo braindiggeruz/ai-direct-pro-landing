@@ -1,11 +1,12 @@
 # Bormi voice search — implementation and release evidence
 
 > Date: 2026-08-02
-> Stage: `BORMI_VOICE_SEARCH_IMPLEMENTED_AWAITING_DEPLOY_AUTHORIZATION`
+> Stage: `BORMI_VOICE_SEARCH_DEPLOYED_AWAITING_NATIVE_OWNER_CANARY`
 > Base source: `d47d99891006b0fe33994f9b8c101d14aaa4f115` (v8 fast path)
 > Worktree: `F:\Claude\gptbot-bormi-api-fix`, branch `fix/bormi-api-origin`
-> Deploy status: **not deployed**. No Pages deployment, no D1 statement, no
-> Telegram Bot API mutation was performed for this change.
+> Released source: `43678506ed4752f07e46004e22338d7890edf19c`
+> Deploy status: **deployed** — see §13. No D1 statement and no Telegram Bot API
+> mutation was performed for this change.
 
 ---
 
@@ -500,3 +501,137 @@ a real Telegram client.
 - The interpreter's cardinal vocabulary covers the amounts a shopper says. Rare
   forms fall back to the ambiguity question rather than to a wrong filter.
 - The 21.dev catalog was not queried live this session (see §6.2).
+
+---
+
+## 13. Release — 2026-08-02
+
+Authorized by the owner: push, normal merge into `main`, manual exact-SHA
+deploy of the BFF and the Mini App, voice enabled for the owner/native review
+cohort. Real store, payments and public marketplace stay unauthorized and
+untouched.
+
+### 13.1 Source
+
+```text
+merge commit  43678506ed4752f07e46004e22338d7890edf19c   (main)
+feature tip   bbecfa6                                    (fix/bormi-api-origin)
+              ca4dc99  docs(market): record the Bormi voice search release
+              f45ff09  feat(market): add grounded voice search to Bormi
+base          d47d998  perf(market): return catalog before secondary account data
+```
+
+`git merge --no-ff` completed without conflicts. `main` had two content-only
+commits the branch did not carry; both were already present as `bc2792b` on the
+branch, so the merged tree reproduces the same build output.
+
+One commit was added during release verification: `bbecfa6` rewords the §5 API
+table so the row does not pair the word "bearer" with the 26-character
+`api/market/v1/voice/search` token. That combination is the markdown-table shape
+`scripts/scan-secrets.ts` was written to catch after R0.3, and it failed the
+gate. The line was disambiguated rather than exempted; the bearer contract is
+unchanged and still stated in the request rules.
+
+### 13.2 Verification on the merged tree
+
+| Check | Result |
+|---|---|
+| `tsc -b` / `tsc -p tsconfig.functions.json` | 0 errors / 0 errors |
+| Mini App `tsc -b` | 0 errors |
+| Market + voice + platform targeted corpus | 107/107 PASS |
+| Mini App tests | 15/15 PASS |
+| `scripts/check-agent-boundaries.ts` | OK, no violations |
+| `npm run scan:secrets` | clean, 2,975 files |
+| ESLint on changed root/Functions files | 0 problems |
+| Root production build | PASS — 113 pages, 124 articles, sitemap 240, 10 LLM twins |
+| Mini App production build | PASS — HTML 4.93 kB, CSS 30.08 kB, buyer JS 289.37 kB, lazy seller 15.26 kB (byte-identical to §9.1) |
+| `wrangler pages functions build` | Compiled Worker successfully |
+
+Full-repository corpus: 1,070 of 1,075 passed on the first sequential run. Two
+of the five failures were an environment gap in this worktree —
+`apps/gpt-backend/node_modules` was absent, so `web-security-hardening` and
+`gpt-backend-security` could not resolve `@supabase/supabase-js`. After
+`npm ci` in `apps/gpt-backend` they pass 13/13 and 30/30.
+
+The remaining three failures were reproduced unchanged at `d47d998` in a
+detached worktree, so they are pre-existing on the live-deployed source and
+unrelated to voice:
+
+```text
+react-router-v8-migration  the current productization baseline preserves every public and admin route pattern
+react-router-v8-migration  sitemap generation retains all 234 static canonical entries   (240 emitted)
+sotuvchi-onboarding        buyer storefront route resolves the store but never launches seller onboarding
+```
+
+None of the two voice commits touches `tests/sotuvchi-onboarding.test.ts`,
+`functions/agents/sotuvchi/**` or `functions/channels/telegram/**`.
+
+### 13.3 Deployments
+
+```text
+root / BFF     76f59061-d25d-4679-aa62-65be3b3c2c43
+               https://76f59061.ai-direct-pro-landing.pages.dev
+               branch main, commit 4367850, alias https://gptbot.uz
+
+static Mini App 2af92899-46b6-4356-ae5d-573aa7455837
+               https://2af92899.gptbot-market-mini-app.pages.dev
+               branch feature/gptbot-market-mini-app-synthetic-candidate,
+               commit 4367850, environment production
+```
+
+Rollback targets are unchanged: `41a3d4de` (root) and `49111efd` (static), both
+at source `d47d998`.
+
+Pages Git auto-deploy stayed off throughout — the root project reports
+`deployments_enabled: false`, `production_deployments_enabled: false` and
+`preview_deployment_setting: none`, so pushing `main` created no deployment.
+Both deployments were manual uploads of the exact merge tree.
+
+`GROQ_API_KEY` was confirmed present in root Pages production before the
+deploy; `OPENAI_API_KEY` is absent, which the design allows (it is the optional
+fallback). All 30 production `secret_text` variables survived the upload.
+`MARKET_VOICE_SEARCH_ENABLED=true` is now live in root Pages production, pushed
+from `wrangler.toml` — this is what enables voice for the owner/native review
+cohort. The static Mini App project keeps its own nine plain variables and its
+KV/D1 bindings; the deploy from `apps/market-mini-app` added nothing to it.
+
+### 13.4 Live canaries
+
+| Check | Result |
+|---|---|
+| `https://gptbot.uz/`, `/ru/sotuvchi/`, `/uz/sotuvchi/` | 200, 200, 200 |
+| Immutable root deployment | 200 |
+| `https://gptbot-market-mini-app.pages.dev/` and the immutable alias | 200, 200 |
+| Hashed static assets (`index-C8a3eoLY.js`, `index-5txNE9Q4.css`) | 200, 200 |
+| Agents webhook `GET` / unauthorized `POST` | 405 / 401 |
+| `POST /api/market/v1/voice/search` with no session | 401 |
+| `GET /api/market/v1/bootstrap` with no session | 401 |
+| Malformed `POST /api/market/v1/session/launch` | 400 |
+| Deployed `Permissions-Policy` | `camera=(), microphone=(self), geolocation=(), payment=(), usb=()` |
+| Deployed CSP / `X-Robots-Tag` | unchanged / `noindex, nofollow` |
+| Hashed asset cache | `public, max-age=31536000, immutable` |
+
+The unauthenticated voice call answers 401, not 503: session authentication runs
+before `assertVoiceSearchEnabled`, so an anonymous caller cannot probe whether
+speech is configured.
+
+### 13.5 Read-only D1 probe
+
+```text
+stores 1 · products 48 · orders 1 · order items 1 · inventory moves 44
+handoffs 1 · notifications 0 · storefront sessions 2 · agent routes 1
+onboardings 0
+changed_db=false   rows_written=0
+```
+
+Identical to the v8 baseline. No migration was applied, no schema changed, no
+real store, order, payment or marketplace state was created.
+
+### 13.6 What is still not verified
+
+`flags.voice` cannot be observed from outside — it is only returned on an
+authenticated Market session, which requires Telegram `initData` signed with a
+production secret that is deliberately not readable. Speech has therefore not
+been exercised against a real provider, a real microphone or a real Telegram
+WebView in this release. **§11 remains open.** Until the owner completes steps
+4–7 of that canary, the honest status is "deployed and enabled", not "working".

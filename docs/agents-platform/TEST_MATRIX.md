@@ -1,5 +1,30 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## Bormi voice search release (2026-08-02, post-deploy evidence)
+
+| Check | Result |
+| --- | --- |
+| Released source | merge commit `4367850` (`--no-ff` merge of `fix/bormi-api-origin` into `main`, no conflicts) |
+| Root/BFF · static deployments | `76f59061-d25d-4679-aa62-65be3b3c2c43` · `2af92899-46b6-4356-ae5d-573aa7455837`, both stamped `4367850` |
+| Rollback targets | `41a3d4de` · `49111efd`, source `d47d998` |
+| Pages Git auto-deploy | off — `deployments_enabled` and `production_deployments_enabled` both false; pushing `main` created no deployment |
+| Root · Functions · Mini App TypeScript | 0 · 0 · 0 errors |
+| Market + voice + platform targeted corpus | 107 of 107 PASS |
+| Mini App tests | 15 of 15 PASS |
+| Full root corpus | 1,070 of 1,075 on the first sequential run; 2 were a missing `apps/gpt-backend/node_modules` in this worktree and pass 13/13 and 30/30 after `npm ci`; the other 3 reproduce unchanged at `d47d998` and are pre-existing |
+| Pre-existing failures (reproduced at `d47d998`) | react-router-v8-migration route-pattern baseline, react-router-v8-migration sitemap 234 vs 240 emitted, sotuvchi-onboarding buyer storefront last-message assertion |
+| Agent boundary checker · ESLint | OK, no violations · 0 problems |
+| Secret scan | clean, 2,975 files (after `bbecfa6` disambiguated the release-record API table row) |
+| Root · Mini App production build | PASS, 113 pages / 124 articles / sitemap 240 · PASS, byte-identical bundle to the pre-merge measurement |
+| `wrangler pages functions build` | Compiled Worker successfully |
+| Speech credential | `GROQ_API_KEY` present in root Pages production; optional `OPENAI_API_KEY` absent; all 30 `secret_text` variables survived the upload |
+| Voice flag live | `MARKET_VOICE_SEARCH_ENABLED=true` in root Pages production — the owner/native review cohort enablement |
+| Live HTTP canaries | root/RU/UZ 200; immutable root 200; static canonical + immutable 200; both hashed assets 200; Agents webhook GET 405, unauthorized POST 401; unauthenticated `POST /voice/search` 401; `GET /bootstrap` 401; malformed `POST /session/launch` 400 |
+| Deployed headers | `microphone=(self)`; camera/geolocation/payment/USB denied; CSP unchanged; `noindex, nofollow`; hashed assets immutable |
+| Read-only D1 after deploy | stores 1, products 48, orders 1, items 1, moves 44, handoffs 1, notifications 0, storefront sessions 2, agent routes 1, onboardings 0; `changed_db=false`, `rows_written=0` |
+| Migration · Telegram Bot API · real store · payments · marketplace | none · none · none · none · none |
+| Native Telegram voice canary | **NOT RUN** — owner gate, release record §11 |
+
 ## Bormi voice search (2026-08-02, pre-deploy evidence)
 
 | Check | Result |
