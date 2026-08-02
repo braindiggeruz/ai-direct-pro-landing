@@ -899,7 +899,7 @@ export async function handleMarketRequest(input: {
     const path = currentPath(url);
 
     if (input.request.method === 'POST' && path === '/session/exchange') {
-      return exchangeSession(
+      return await exchangeSession(
         input.request,
         input.env,
         services,
@@ -912,7 +912,7 @@ export async function handleMarketRequest(input: {
         config.sessionSecret,
         bearerToken(input.request),
       );
-      return exchangeSession(
+      return await exchangeSession(
         input.request,
         input.env,
         services,
