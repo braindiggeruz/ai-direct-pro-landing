@@ -4,7 +4,7 @@
 
 - Дата: 2026-08-02.
 - Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
-- Application HEAD: `67b98a5`;
+- Application HEAD: `fb3537a`;
   governance state commit: `HEAD`.
 - Завершённый этап: owner-authorized Telegram Mini App review integration.
 - Следующий этап: native Telegram owner review; Store Pilot #1 remains a
@@ -18,8 +18,8 @@
 - Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
 - Пакет: `docs/agents-platform/mini-app/README.md` и связанные architecture,
   security, UX, migration, testing, risk, proposed ADR и master-roadmap docs.
-- Static Pages: `a7e0cfdc-c53e-4ddd-a9df-13023a6fbafc`; root Pages:
-  `3af470f3-0666-4d4d-8eab-53c91a7cd9df`; both source `67b98a5`.
+- Static Pages: `a08d2d0f-ab72-4be2-a385-c482025833a5`; root Pages:
+  `f64e7fee-3b3c-4914-9fc2-3d80e5e761db`; both source `fb3537a`.
 - `@gptbot_market_bot` exposes the app through a native response button and
   TTL-limited menu sync. The lead bot/webhook is untouched.
 - No D1 migration, Railway/n8n/payment, real-store or public marketplace
@@ -37,6 +37,13 @@ and encrypted bot token remain in the existing production trust boundary. All
 four Mini App flags are enabled for review, but seller authority is still
 resolved from trusted server state on every request. Native Telegram review is
 the next human acceptance gate; public marketplace launch is not claimed.
+
+The subsequent performance update replaces the session/bootstrap/catalog
+waterfall with one authenticated launch request, seeds first-page data,
+defers the Telegram bridge and seller code appropriately, and displays eight
+coherent, labelled synthetic product photos. The image set is 157,434 bytes;
+protected media requests are skipped when a local demo preview exists. D1 was
+read-only and identical before/after.
 
 ## 2. Что сделано
 
@@ -83,14 +90,14 @@ native Uzbek, VoiceOver/TalkBack, real seller acceptance or stable-p95 claim.
 
 ## 6. Проверки
 
-- `node --import tsx --test --test-concurrency=1 tests/*.test.ts` → 1076/1076.
+- `node --import tsx --test --test-concurrency=1 tests/*.test.ts` → 1146/1146.
 - catalog suite → 60/60; release/pilot/OCC corpus → 100/100.
 - root and Functions TypeScript → exit 0; backend typecheck/build → exit 0.
 - `yarn build` → exit 0, 113 pages + 118 articles, sitemap 234.
 - `wrangler pages functions build` → compiled successfully.
 - ESLint changed TS/TSX → 0; agent boundary checker + tests → 0 and 10/10.
 - root/backend production audit → 0/0 findings.
-- secret scan → clean 2,868 files; browser bundles → clean 14 files.
+- secret scan → clean 2,936 files; browser bundles → clean 14 files.
 - migration/backup/pilot rehearsal → pass, local only.
 - production a11y → 7 pages, 0 violations/incomplete, 171 passes; overflow,
   keyboard and reduced motion all pass.

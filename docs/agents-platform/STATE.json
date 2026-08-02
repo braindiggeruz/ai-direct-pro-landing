@@ -187,13 +187,13 @@
     }
   },
   "gptbot_market_mini_app": {
-    "status": "telegram_review_live",
+    "status": "telegram_review_live_performance_release",
     "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
-    "source": "67b98a5",
+    "source": "fb3537a",
     "bot_username": "gptbot_market_bot",
     "static_url": "https://gptbot-market-mini-app.pages.dev",
-    "static_deployment_id": "a7e0cfdc-c53e-4ddd-a9df-13023a6fbafc",
-    "root_deployment_id": "3af470f3-0666-4d4d-8eab-53c91a7cd9df",
+    "static_deployment_id": "a08d2d0f-ab72-4be2-a385-c482025833a5",
+    "root_deployment_id": "f64e7fee-3b3c-4914-9fc2-3d80e5e761db",
     "root_rollback_deployment_id": "68747046-8e1e-492a-8b81-dc4e4065916f",
     "flags": "global, buyer, seller reads and seller commands enabled; seller authority remains server-derived",
     "telegram_launch": "native inline web_app button plus TTL-limited menu sync",
@@ -204,7 +204,8 @@
     "real_store_created": false,
     "payments_enabled": false,
     "public_marketplace_launched": false,
-    "d1_probe": "stores 1, products 48, orders/items/handoffs/notifications 0; changed_db=false; rows_written=0",
+    "d1_probe": "stores 1, products 48, existing orders/items 1/1, inventory moves 44, handoffs/notifications 0; unchanged before/after; changed_db=false; rows_written=0",
+    "performance_release": "one authenticated launch request; parallel bootstrap/catalog; immediate filled preview; 8 labelled synthetic 800x600 WebPs totaling 157434 bytes; cache-first immutable assets; no D1 media mutation",
     "next_gate": "native Telegram iOS/Android owner review; seller UI additionally requires trusted active owner identity"
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",

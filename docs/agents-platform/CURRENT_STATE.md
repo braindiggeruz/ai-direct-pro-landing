@@ -10,15 +10,22 @@ with exact-origin CORS and server-derived seller authority. No D1 migration,
 lead-bot/webhook change, Railway/n8n/payment, real seller or public-marketplace
 operation was performed. Native Telegram review is now the next human gate.
 
+The performance release at source `fb3537a` is live on static deployment
+`a08d2d0f-ab72-4be2-a385-c482025833a5` and root/BFF deployment
+`f64e7fee-3b3c-4914-9fc2-3d80e5e761db`. It collapses the three-step startup
+waterfall into one authenticated launch request, paints filled demo cards
+immediately and ships eight labelled synthetic WebP product photos (157,434
+bytes total). No production catalog or media row was mutated.
+
 ## Current production state
 
 GPTBot Market owner-independent productization is complete and deployed.
 
 - Canonical repository: `F:\Claude\gptbot-repo-clean-20260801`.
-- Current application source: `67b98a5` on the isolated Mini App branch.
+- Current application source: `fb3537a` on the isolated Mini App branch.
 - Cloudflare Pages deployment:
-  `3af470f3-0666-4d4d-8eab-53c91a7cd9df`.
-- Immutable URL: `https://3af470f3.ai-direct-pro-landing.pages.dev`.
+  `f64e7fee-3b3c-4914-9fc2-3d80e5e761db`.
+- Immutable URL: `https://f64e7fee.ai-direct-pro-landing.pages.dev`.
 - Pre-Mini-App rollback: `68747046-8e1e-492a-8b81-dc4e4065916f`, source
   `08c21568581bf90e7122a566f2805a619cd9e81d`.
 - Canonical URL: `https://gptbot.uz`.
@@ -57,7 +64,7 @@ is labelled; no testimonial, seller result or commercial metric is invented.
 
 ## Release gates
 
-- Full repository: **1076/1076**, 0 fail, 50 test files.
+- Full repository: **1146/1146**, 0 fail.
 - Release, Store Pilot and Owner Control Center targeted corpus: 100/100.
 - Root and Functions TypeScript: PASS.
 - Backend typecheck/build/audit: PASS/PASS/0 findings.
@@ -65,7 +72,7 @@ is labelled; no testimonial, seller result or commercial metric is invented.
 - Pages Functions build: PASS.
 - Scoped ESLint: 0 errors; agent boundaries 0 violations and 10/10.
 - Root production audit: 0 findings across 115 dependencies.
-- Secret scan: clean over 2,868 files; browser bundle scan clean over 14 JS
+- Secret scan: clean over 2,936 files; browser bundle scan clean over 14 JS
   bundles.
 - Migration and backup/restore rehearsals: PASS, local only.
 - Automated production accessibility: 7 cases, 0 violations/incomplete, 171
@@ -75,9 +82,9 @@ is labelled; no testimonial, seller result or commercial metric is invented.
 
 ## Production data and operations
 
-Read-only D1 before and after deployment is identical: 1 synthetic store, 48
-synthetic products, 44 inventory moves, and zero orders, order items,
-notifications, handoffs, automation jobs and DLQ jobs. Both probes report
+Read-only D1 before and after the performance deployment is identical: 1
+synthetic store, 48 synthetic products, 44 inventory moves, 1 existing order,
+1 order item, and zero notifications or handoffs. Both probes report
 `changed_db=false` and `rows_written=0`.
 
 Migrations 0026–0030 are physically present, but the ledger ends at 0025.
