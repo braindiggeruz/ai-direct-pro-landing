@@ -9,6 +9,8 @@ import type {
   MarketLaunch,
   Product,
   SellerOrder,
+  SellerOverview,
+  SellerProduct,
   SessionExchange,
   Stats,
 } from '../types';
@@ -24,7 +26,7 @@ const categories: Category[] = [
   { id: 'cat-home', name: 'Для дома', productCount: 2 },
   { id: 'cat-accessories', name: 'Аксессуары', productCount: 2 },
 ];
-const products: Product[] = [
+const products: SellerProduct[] = [
   ['p-headphones', 'cat-audio', 'Беспроводные наушники AirBeat', 349000, 'available', '40 часов работы'],
   ['p-speaker', 'cat-audio', 'Портативная колонка Mini Sound', 229000, 'preorder', 'Защита IPX6'],
   ['p-lamp', 'cat-home', 'Настольная лампа Warm Light', 189000, 'available', 'Три режима света'],
@@ -50,6 +52,16 @@ const products: Product[] = [
   version: 1,
   updatedAt: now,
   storeName: 'Samarqand Market',
+  // Owner-only fields. The fixture leaves the last two products without them so
+  // the cabinet's "weak card" path is reachable offline.
+  owner: index < 4
+    ? {
+      searchTerms: ['quloqchin', 'гарнитура'],
+      specifications: [
+        { key: 'warranty', labelRu: 'Гарантия', labelUz: 'Kafolat', value: '12 месяцев' },
+      ],
+    }
+    : { searchTerms: [], specifications: [] },
 }));
 
 let comparison: string[] = [];
@@ -100,6 +112,18 @@ function bodyOf(options: RequestOptions): Record<string, unknown> {
 
 function clone<T>(value: T): T {
   return structuredClone(value);
+}
+
+type OwnerFields = NonNullable<SellerProduct['owner']>;
+
+/** Mirrors the BFF split: aliases and bilingual labels live under `owner`. */
+function ownerFields(source: Record<string, unknown>): OwnerFields {
+  return {
+    searchTerms: Array.isArray(source.searchTerms) ? source.searchTerms as string[] : [],
+    specifications: Array.isArray(source.specifications)
+      ? source.specifications as OwnerFields['specifications']
+      : [],
+  };
 }
 
 function checkoutBase(product: Product): CheckoutSnapshot {
@@ -261,8 +285,62 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
     handoffs.unshift(created); result = { handoff: created, outcome: 'created' };
   } else if (path === '/seller/dashboard') {
     result = { store: { name: 'Samarqand Market' }, stats: stats(), orders: sellerOrders.slice(0, 5), handoffs: handoffs.slice(0, 5) };
+  } else if (path === '/seller/overview') {
+    const minutes = (iso: string) => Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60_000));
+    const group = <T,>(items: T[]) => ({ count: items.length, truncated: false, items: items.slice(0, 5) });
+    const stock = new Map(inventory.map((item) => [item.productId, item]));
+    result = {
+      store: { id: 'store-synthetic', name: 'Samarqand Market' },
+      generatedAt: new Date().toISOString(),
+      slaHours: 24,
+      attention: {
+        newOrders: group(sellerOrders
+          .filter((order) => order.status === 'placed')
+          .map((order) => ({ ...order, ageMinutes: minutes(order.placedAt) }))),
+        agingOrders: group([]),
+        openQuestions: group(handoffs
+          .filter((item) => item.status === 'open')
+          .map((item) => ({
+            id: item.id,
+            reason: item.reason,
+            createdAt: item.createdAt,
+            ageMinutes: minutes(item.createdAt),
+          }))),
+        outOfStock: group(products
+          .filter((item) => item.status === 'published' && stock.get(item.id)?.onHand === 0)
+          .map((item) => ({
+            productId: item.id,
+            productName: item.name,
+            version: stock.get(item.id)!.version,
+          }))),
+        drafts: group(products
+          .filter((item) => item.status === 'draft')
+          .map((item) => ({
+            id: item.id, name: item.name, priceMinor: item.priceMinor, version: item.version,
+          }))),
+        weakProducts: group(products
+          .filter((item) => item.status === 'published')
+          .map((item) => ({
+            id: item.id,
+            name: item.name,
+            version: item.version,
+            issues: [
+              ...(item.mediaHandles.length === 0 ? ['no_media' as const] : []),
+              ...(item.description ? [] : ['no_description' as const]),
+              ...((item.owner?.specifications.length ?? 0) === 0 ? ['no_specifications' as const] : []),
+              ...((item.owner?.searchTerms.length ?? 0) === 0 ? ['no_search_terms' as const] : []),
+            ],
+          }))
+          .filter((item) => item.issues.length > 0)),
+      },
+      stats: stats(),
+    } satisfies SellerOverview;
   } else if (path === '/seller/orders') {
-    result = { items: sellerOrders, nextCursor: null };
+    const status = url.searchParams.get('status');
+    result = {
+      items: status ? sellerOrders.filter((order) => order.status === status) : sellerOrders,
+      nextCursor: null,
+    };
   } else if (/^\/seller\/orders\/[^/]+$/.test(path) && method === 'GET') {
     result = sellerOrders.find((item) => item.orderId === path.split('/').at(-1));
   } else if (/^\/seller\/orders\/[^/]+\/(confirm|cancel|done)$/.test(path)) {
@@ -279,13 +357,31 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
     item.replyText = String(body.reply); item.status = 'answered'; item.version = (item.version ?? 1) + 1;
     result = { handoff: item, outcome: 'answered' };
   } else if (path === '/seller/products' && method === 'GET') {
-    result = { items: products, nextCursor: null };
+    const status = url.searchParams.get('status');
+    result = {
+      items: status ? products.filter((item) => item.status === status) : products,
+      nextCursor: null,
+    };
+  } else if (/^\/seller\/products\/[^/]+$/.test(path) && method === 'GET') {
+    const item = products.find((candidate) => candidate.id === path.split('/').at(-1));
+    result = {
+      product: item,
+      inventory: inventory.find((candidate) => candidate.productId === item?.id) ?? null,
+    };
   } else if (path === '/seller/products' && method === 'POST') {
-    const created: Product = { id: `p-${products.length + 1}`, categoryId: body.categoryId as string | null, categoryName: categories.find((item) => item.id === body.categoryId)?.name ?? null, sku: null, name: String(body.name), description: body.description ? String(body.description) : null, priceMinor: Number(body.priceMinor), currency: 'UZS', availability: body.availability as Product['availability'], status: 'draft', mediaHandles: [], specifications: [], version: 1, updatedAt: new Date().toISOString(), storeName: 'Samarqand Market' };
+    const created: SellerProduct = { id: `p-${products.length + 1}`, categoryId: body.categoryId as string | null, categoryName: categories.find((item) => item.id === body.categoryId)?.name ?? null, sku: null, name: String(body.name), description: body.description ? String(body.description) : null, priceMinor: Number(body.priceMinor), currency: 'UZS', availability: body.availability as Product['availability'], status: 'draft', mediaHandles: [], specifications: [], version: 1, updatedAt: new Date().toISOString(), storeName: 'Samarqand Market', owner: ownerFields(body) };
     products.unshift(created); result = created;
   } else if (/^\/seller\/products\/[^/]+$/.test(path) && method === 'PATCH') {
     const item = products.find((candidate) => candidate.id === path.split('/').at(-1))!;
-    Object.assign(item, body.patch, { version: item.version + 1, updatedAt: new Date().toISOString() }); result = item;
+    const patch = bodyOf({ body: body.patch });
+    const scalars = Object.fromEntries(Object.entries(patch)
+      .filter(([key]) => key !== 'searchTerms' && key !== 'specifications'));
+    Object.assign(item, scalars, {
+      owner: ownerFields(patch),
+      version: item.version + 1,
+      updatedAt: new Date().toISOString(),
+    });
+    result = item;
   } else if (/^\/seller\/products\/[^/]+\/(publish|unpublish|archive)$/.test(path)) {
     const parts = path.split('/'); const item = products.find((candidate) => candidate.id === parts[3])!;
     item.status = parts[4] === 'publish' ? 'published' : parts[4] === 'unpublish' ? 'draft' : 'archived'; item.version += 1; result = item;

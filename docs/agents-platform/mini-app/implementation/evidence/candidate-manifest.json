@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-02T03:06:31.944Z",
-  "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
-  "sourceCommit": "7e93e1589f2cd3948859085556062cfcd7485a2c",
+  "generatedAt": "2026-08-02T13:45:15.267Z",
+  "branch": "main",
+  "sourceCommit": "253c1b75639454585f7d21559067739b95b41a2e",
   "productionOperationsPerformed": false,
   "migrationsAdded": false,
   "flagsDefaultOff": [
@@ -12,32 +12,112 @@
   ],
   "artifact": {
     "directory": "apps/market-mini-app/dist",
-    "totalBytes": 293318,
+    "totalBytes": 694231,
     "files": [
       {
         "path": "dist/_headers",
-        "bytes": 608,
-        "sha256": "46bf43b0566d73345d415468ff071669d2bdcca086f9f3258b4d4d6aaac8f5a8"
+        "bytes": 648,
+        "sha256": "3603b6460abeda82ffa978ee5a1fda9b1bfff75b402708e4bc81697699847c1b"
       },
       {
-        "path": "dist/assets/index-BGqVfNWB.js",
-        "bytes": 275080,
-        "sha256": "dd0457b98f868a61177b8933c5af5516a2bb8eeac134cb10eb13757ed76d77cd"
+        "path": "dist/assets/brand/bormi-bot-avatar.jpg",
+        "bytes": 33178,
+        "sha256": "00d1d814c795600bb7af4714f195f7d968dbe3d831f872e1785d5719a198e6f1"
       },
       {
-        "path": "dist/assets/index-jvhPGGzh.css",
-        "bytes": 15628,
-        "sha256": "107c19950ee8126cc577fc98cae3c97f8999799504e74ffdb522fd58979a88c8"
+        "path": "dist/assets/brand/bormi-mark.svg",
+        "bytes": 467,
+        "sha256": "dcc2932980376635cc136b418e7fa1022896c0bff927e1bd40ed27c8c297e68d"
+      },
+      {
+        "path": "dist/assets/brand/bormi-telegram-welcome.webp",
+        "bytes": 63772,
+        "sha256": "e2f4f6a43504a810158e3ef84cfa8d1a18dc877835579420579d337c87a94d45"
+      },
+      {
+        "path": "dist/assets/catalog-demo/bormi-desk-lamp.webp",
+        "bytes": 7186,
+        "sha256": "8a6fa501d4069e4a94c2869821cb0dcf62dc8b9f8cd6c875397ceae65247b7ee"
+      },
+      {
+        "path": "dist/assets/catalog-demo/bormi-headphones.webp",
+        "bytes": 21830,
+        "sha256": "d06ec4cd1dbc2aec664b22a64b9b893144baa6c7b740c020dcfa3150157e37a3"
+      },
+      {
+        "path": "dist/assets/catalog-demo/bormi-kettle.webp",
+        "bytes": 13190,
+        "sha256": "05b03f1f68391f8d70bda9001a4011679e3a20b107379bda714955ec4b342b42"
+      },
+      {
+        "path": "dist/assets/catalog-demo/bormi-speaker.webp",
+        "bytes": 33130,
+        "sha256": "10ecf6aa75054847b4d9cd2823a327b70156a8928635a99f4b58b28661740cc2"
+      },
+      {
+        "path": "dist/assets/catalog-demo/calculator.webp",
+        "bytes": 18922,
+        "sha256": "f67ec507b449a3bb25ec85b13e7a90a15fa676c3605cf467ece73ea5fed6ea6c"
+      },
+      {
+        "path": "dist/assets/catalog-demo/car-holder.webp",
+        "bytes": 14734,
+        "sha256": "21138bfa1605a279cc5835cbe313aa4b7f9b505dc2032a80e3cd451e4789abc1"
+      },
+      {
+        "path": "dist/assets/catalog-demo/charger-20w.webp",
+        "bytes": 10716,
+        "sha256": "0cfebaf52e579701a0c7ac260e080fc92dc3d37022499c6906614ca9e73d1ade"
+      },
+      {
+        "path": "dist/assets/catalog-demo/flash-cards.webp",
+        "bytes": 22316,
+        "sha256": "bd9ac3992d3a69e4b577fbfab82d73cf8c74d153aa3afb9fbe49e6b7c01f7683"
+      },
+      {
+        "path": "dist/assets/catalog-demo/notebook-a5.webp",
+        "bytes": 38488,
+        "sha256": "9f66a62caccdd8874d06842b3b18f25927a9467bbd528c68ea709db01ceecd74"
+      },
+      {
+        "path": "dist/assets/catalog-demo/power-bank.webp",
+        "bytes": 10864,
+        "sha256": "ca110142dcc0be8c6fa70df362745cdd392d30abcd1c14598c7b24e38e80cc6b"
+      },
+      {
+        "path": "dist/assets/catalog-demo/usb-cable.webp",
+        "bytes": 31132,
+        "sha256": "38bdbfdf1fcdfc8eeb1782cae2aa9449839bb97cbe3de0fa5756b90a52e555d2"
+      },
+      {
+        "path": "dist/assets/catalog-demo/water-bottle.webp",
+        "bytes": 10262,
+        "sha256": "ed8968b4c975a7cc981047fbe7134d5d26854ceca2f005a0144abb42a77a0b4c"
+      },
+      {
+        "path": "dist/assets/index-B7HlUbMo.css",
+        "bytes": 34132,
+        "sha256": "a3d56e8d8679d1fefefdff5443c5c3d3f441c9e75f16fc713cdf6db1b900ed6f"
+      },
+      {
+        "path": "dist/assets/index-DY2tjlnr.js",
+        "bytes": 294192,
+        "sha256": "fef7a6c3c0fe293635a60fe4496d29f6c3302f4e033e8453cd202f43e750f565"
+      },
+      {
+        "path": "dist/assets/SellerApp-CQW1onUQ.js",
+        "bytes": 28369,
+        "sha256": "ac641b7ba2c216db78c9c8d0a142f590dbdc7f85ce494f1ee3288be5ec87b2af"
       },
       {
         "path": "dist/index.html",
-        "bytes": 944,
-        "sha256": "1beec122007469c5ed3e06436919c0d35e58e650a3c7e1875808497fef377632"
+        "bytes": 4938,
+        "sha256": "614e2784f654f820ebffaba7e7d984ed5470f3aa07b32369289ef725679d59d3"
       },
       {
         "path": "dist/sw.js",
-        "bytes": 1058,
-        "sha256": "f889c7f3a5476ca4a5a2469d2276ffe7c46ee5adbed5bf26b82b32416f70659a"
+        "bytes": 1765,
+        "sha256": "ae0e6a9a20aa9fe5d244cf556e7b9ca844f2f7cd7b7e1cb2de4ef3ca1654c60e"
       }
     ]
   },

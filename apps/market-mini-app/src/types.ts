@@ -176,6 +176,73 @@ export interface Inventory {
   version: number;
 }
 
+/** Owner-only product fields. Present on `/seller/*` payloads, never on a card. */
+export interface ProductOwnerFields {
+  searchTerms: string[];
+  specifications: {
+    key: string;
+    labelRu: string;
+    labelUz: string;
+    value: string;
+  }[];
+}
+
+export interface SellerProduct extends Product {
+  owner?: ProductOwnerFields;
+}
+
+export interface OrderPage {
+  items: SellerOrder[];
+  nextCursor: string | null;
+}
+
+export type ProductIssue =
+  | 'no_media'
+  | 'no_description'
+  | 'no_specifications'
+  | 'no_search_terms';
+
+export interface AttentionGroup<T> {
+  count: number;
+  /** True when the read hit its scan depth: the count is a floor, not a total. */
+  truncated: boolean;
+  items: T[];
+}
+
+export interface SellerOverview {
+  store: { id: string; name: string };
+  generatedAt: string;
+  slaHours: number;
+  attention: {
+    newOrders: AttentionGroup<SellerOrder & { ageMinutes: number }>;
+    agingOrders: AttentionGroup<SellerOrder & { ageMinutes: number }>;
+    openQuestions: AttentionGroup<{
+      id: string;
+      reason: string;
+      createdAt: string;
+      ageMinutes: number;
+    }>;
+    outOfStock: AttentionGroup<{
+      productId: string;
+      productName: string;
+      version: number;
+    }>;
+    drafts: AttentionGroup<{
+      id: string;
+      name: string;
+      priceMinor: number;
+      version: number;
+    }>;
+    weakProducts: AttentionGroup<{
+      id: string;
+      name: string;
+      version: number;
+      issues: ProductIssue[];
+    }>;
+  };
+  stats: Stats;
+}
+
 export interface Stats {
   windowDays: number;
   since: string;

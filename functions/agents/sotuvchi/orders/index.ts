@@ -88,6 +88,8 @@ export type {
   OrderFulfillmentStatus,
   SellerContext,
   SellerOrderDetail,
+  SellerOrderListQuery,
+  SellerOrderPage,
   SellerOrderStatus,
   SellerOrderSummary,
   SellerOrderTransition,
@@ -96,6 +98,7 @@ export type {
   SotuvchiNotification,
 } from './types';
 export {
+  encodeSellerOrderCursor,
   isAllowedSellerTransition,
   normalizeSellerContext,
   requireFulfillmentStatus,
@@ -104,10 +107,13 @@ export {
   requireNotificationType,
   requireSellerId,
   requireSellerLimit,
+  requireSellerOrderCursor,
   requireSellerOrderStatus,
+  requireSellerStatusFilter,
   requireSellerTransition,
   requireSellerVersion,
   SELLER_ORDER_LIMITS,
   toSellerOrderStatus,
   transitionTarget,
 } from './validation';
+export type { SellerOrderCursor } from './validation';

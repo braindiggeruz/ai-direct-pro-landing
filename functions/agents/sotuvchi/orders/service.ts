@@ -31,15 +31,19 @@ import type {
   NotificationType,
   SellerContext,
   SellerOrderDetail,
+  SellerOrderPage,
   SellerOrderSummary,
   SellerOrderTransition,
   SellerOrderTransitionResult,
   SotuvchiNotification,
 } from './types';
 import {
+  encodeSellerOrderCursor,
   isAllowedSellerTransition,
   requireSellerId,
   requireSellerLimit,
+  requireSellerOrderCursor,
+  requireSellerStatusFilter,
   SELLER_ORDER_LIMITS,
   transitionTarget,
 } from './validation';
@@ -196,8 +200,52 @@ export class SotuvchiOrdersService {
     return this.store.listOrders(
       seller.orgId,
       seller.storeId,
-      Math.min(requireSellerLimit(rawLimit, 5), 5),
+      requireSellerLimit(rawLimit, 5),
     );
+  }
+
+  /**
+   * One page of the seller queue, optionally narrowed to a single status.
+   *
+   * The page is read one row deeper than requested: the extra row is never
+   * returned, it only answers whether a next page exists. That keeps
+   * `nextCursor` honest instead of handing the client a cursor that resolves to
+   * an empty page.
+   */
+  async listOrderPage(
+    org: OrgContext,
+    input: {
+      limit?: unknown;
+      status?: unknown;
+      cursor?: unknown;
+    } = {},
+  ): Promise<SellerOrderPage> {
+    const seller = await this.resolveSeller(org);
+    const limit = requireSellerLimit(input.limit, 20);
+    const status = requireSellerStatusFilter(input.status);
+    const cursor = requireSellerOrderCursor(input.cursor);
+    const rows = await this.store.listOrders(
+      seller.orgId,
+      seller.storeId,
+      limit + 1,
+      {
+        status,
+        before: cursor
+          ? { placedAt: cursor.placedAt, orderId: cursor.orderId }
+          : null,
+      },
+    );
+    const items = rows.slice(0, limit);
+    const last = items.at(-1);
+    return {
+      items,
+      nextCursor: rows.length > limit && last
+        ? encodeSellerOrderCursor({
+          placedAt: last.placedAt,
+          orderId: last.orderId,
+        })
+        : null,
+    };
   }
 
   async getOrder(

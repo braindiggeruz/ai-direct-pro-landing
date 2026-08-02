@@ -66,6 +66,7 @@ export {
   normalizeUpdateProductInput,
   requireCatalogId,
   requireCatalogLimit,
+  requireCatalogOwnerLimit,
   requireCategorySlug,
   requireProductVersion,
 } from './validation';

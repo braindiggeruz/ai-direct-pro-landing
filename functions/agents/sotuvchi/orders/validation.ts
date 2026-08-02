@@ -18,7 +18,12 @@ import {
 } from './types';
 
 export const SELLER_ORDER_LIMITS = Object.freeze({
-  listLimit: 10,
+  /**
+   * One page of the seller queue. The cabinet pages through the day's work, so
+   * the ceiling has to hold a real day rather than the five rows the first
+   * dashboard showed; anything beyond a page is fetched with a cursor.
+   */
+  listLimit: 50,
   maxNotificationAttempts: 100,
 });
 
@@ -129,6 +134,83 @@ export function requireSellerVersion(value: unknown): number {
     throw new SellerOrdersValidationError('invalid_version');
   }
   return Number(value);
+}
+
+/**
+ * Opaque keyset cursor for the seller order queue.
+ *
+ * The queue is ordered by `placed_at DESC, id ASC`, so a page boundary needs
+ * both halves of that key. The value is opaque to the client on purpose: it
+ * carries no store, no identity and no offset arithmetic a caller could walk
+ * into another store's rows.
+ */
+export interface SellerOrderCursor {
+  placedAt: string;
+  orderId: string;
+}
+
+const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
+
+function encodeBase64Url(value: string): string {
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary)
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/g, '');
+}
+
+function decodeBase64Url(value: string): string | null {
+  if (!/^[A-Za-z0-9_-]{1,512}$/.test(value)) return null;
+  try {
+    const base64 = value.replace(/-/g, '+').replace(/_/g, '/')
+      + '='.repeat((4 - value.length % 4) % 4);
+    return new TextDecoder().decode(
+      Uint8Array.from(atob(base64), (character) => character.charCodeAt(0)),
+    );
+  } catch {
+    return null;
+  }
+}
+
+export function encodeSellerOrderCursor(cursor: SellerOrderCursor): string {
+  return encodeBase64Url(JSON.stringify({
+    p: cursor.placedAt,
+    i: cursor.orderId,
+  }));
+}
+
+export function requireSellerOrderCursor(value: unknown): SellerOrderCursor | null {
+  if (value === undefined || value === null || value === '') return null;
+  if (typeof value !== 'string') {
+    throw new SellerOrdersValidationError('invalid_input');
+  }
+  const decoded = decodeBase64Url(value);
+  if (!decoded) throw new SellerOrdersValidationError('invalid_input');
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(decoded);
+  } catch {
+    throw new SellerOrdersValidationError('invalid_input');
+  }
+  if (
+    !isPlainObject(parsed)
+    || !hasExactKeys(parsed, new Set(['p', 'i']))
+    || typeof parsed.p !== 'string'
+    || !ISO_TIMESTAMP.test(parsed.p)
+    || Number.isNaN(Date.parse(parsed.p))
+  ) {
+    throw new SellerOrdersValidationError('invalid_input');
+  }
+  return { placedAt: parsed.p, orderId: requireSellerId(parsed.i) };
+}
+
+export function requireSellerStatusFilter(
+  value: unknown,
+): SellerOrderStatus | null {
+  if (value === undefined || value === null || value === '') return null;
+  return requireSellerOrderStatus(value);
 }
 
 export function requireSellerLimit(value: unknown, fallback: number): number {

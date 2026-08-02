@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-02T05:48:03.369Z",
-  "baseUrl": "http://127.0.0.1:4179",
+  "generatedAt": "2026-08-02T13:48:39.712Z",
+  "baseUrl": "http://localhost:4187",
   "audits": [
     {
       "state": "buyer-home",
       "violations": [],
-      "passes": 22,
+      "passes": 19,
       "incomplete": []
     },
     {
@@ -24,7 +24,43 @@
       "state": "seller-dashboard",
       "violations": [],
       "passes": 23,
-      "incomplete": []
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                "button:nth-child(2) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "html": "<span>Заказы</span>"
+            },
+            {
+              "target": [
+                "button:nth-child(3) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "html": "<span>Товары</span>"
+            },
+            {
+              "target": [
+                "button:nth-child(4) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "html": "<span>Вопросы</span>"
+            },
+            {
+              "target": [
+                "button:nth-child(5) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+              "html": "<span>Остатки</span>"
+            }
+          ]
+        }
+      ]
     }
   ],
   "geometry": {

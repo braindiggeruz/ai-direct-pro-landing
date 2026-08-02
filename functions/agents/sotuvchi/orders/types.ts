@@ -59,6 +59,22 @@ export interface SellerOrderSummary {
   placedAt: string;
 }
 
+/** Store-level filter for one page of the seller queue. */
+export interface SellerOrderListQuery {
+  status?: SellerOrderStatus | null;
+  /** Exclusive keyset boundary: the last row of the previous page. */
+  before?: { placedAt: string; orderId: string } | null;
+}
+
+/**
+ * One page of the seller queue. `nextCursor` is null when the page is the last
+ * one, so the client stops asking rather than guessing from a short page.
+ */
+export interface SellerOrderPage {
+  items: readonly SellerOrderSummary[];
+  nextCursor: string | null;
+}
+
 /**
  * Seller detail view. The seller is the merchant fulfilling the order, so the
  * contact fields are exposed here — and only here — after owner authorization.

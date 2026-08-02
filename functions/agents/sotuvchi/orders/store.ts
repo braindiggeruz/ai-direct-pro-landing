@@ -13,6 +13,8 @@ import type {
   NotificationType,
   SellerContext,
   SellerOrderDetail,
+  SellerOrderListQuery,
+  SellerOrderStatus,
   SellerOrderSummary,
   SotuvchiNotification,
 } from './types';
@@ -55,6 +57,22 @@ const ORDER_FROM = `
 const SELLER_SCOPE = `
    AND ordered.placed_at IS NOT NULL
    AND ordered.status IN ('placed', 'cancelled')`;
+
+/**
+ * The stored pair behind each seller-facing status.
+ *
+ * The seller lifecycle is derived from `status` plus the additive
+ * `fulfillment_status` column, so filtering has to happen on both halves —
+ * filtering on the derived name alone would silently mix confirmed orders into
+ * the new-order queue.
+ */
+const STORED_STATUS: Readonly<Record<SellerOrderStatus, readonly [string, string]>> =
+  Object.freeze({
+    placed: ['placed', 'none'],
+    confirmed: ['placed', 'confirmed'],
+    done: ['placed', 'done'],
+    cancelled: ['cancelled', 'none'],
+  });
 
 interface OrderSummaryRow {
   id: string;
@@ -154,6 +172,7 @@ export interface SellerOrdersStore {
     orgId: string,
     storeId: string,
     limit: number,
+    query?: SellerOrderListQuery,
   ): Promise<SellerOrderSummary[]>;
   getOrder(
     orgId: string,
@@ -437,19 +456,38 @@ export function createSotuvchiOrdersStore(db: D1Database): SellerOrdersStore {
       };
     },
 
-    async listOrders(orgId, storeId, limit) {
+    async listOrders(orgId, storeId, limit, query) {
+      const bindings: (string | number)[] = [
+        requireSellerId(orgId),
+        requireSellerId(storeId),
+      ];
+      let filter = '';
+      if (query?.status) {
+        const [status, fulfillment] = STORED_STATUS[query.status];
+        filter += ' AND ordered.status = ? AND ordered.fulfillment_status = ?';
+        bindings.push(status, fulfillment);
+      }
+      if (query?.before) {
+        // Keyset over the exact sort key. Rows share a timestamp often enough
+        // (a burst of orders lands in the same second) that the id tiebreak is
+        // what keeps a page boundary from repeating or skipping a row.
+        filter += ` AND (ordered.placed_at < ?
+                     OR (ordered.placed_at = ? AND ordered.id > ?))`;
+        bindings.push(
+          query.before.placedAt,
+          query.before.placedAt,
+          requireSellerId(query.before.orderId),
+        );
+      }
+      bindings.push(limit);
       const rows = await db
         .prepare(`SELECT ${ORDER_COLUMNS}
                   ${ORDER_FROM}
                   WHERE ordered.org_id = ? AND ordered.store_id = ?
-                    ${SELLER_SCOPE}
+                    ${SELLER_SCOPE}${filter}
                   ORDER BY ordered.placed_at DESC, ordered.id ASC
                   LIMIT ?`)
-        .bind(
-          requireSellerId(orgId),
-          requireSellerId(storeId),
-          limit,
-        )
+        .bind(...bindings)
         .all<OrderSummaryRow>();
       return (rows.results ?? []).map(toSummary);
     },

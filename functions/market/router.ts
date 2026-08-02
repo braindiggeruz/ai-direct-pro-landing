@@ -127,6 +127,22 @@ function sellerOwner(context: RequestContext): StoreOwnerContext {
   };
 }
 
+/**
+ * Query bound for the seller's own lists.
+ *
+ * `boundedLimit` caps at twenty because that is a shopper's result page. The
+ * seller is paging through their own queue, so the ceiling is the domain's page
+ * size; the domain validates the value again before it reaches SQL.
+ */
+function sellerLimit(value: string | null, fallback: number): number {
+  if (value === null) return fallback;
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < 1 || parsed > 50) {
+    throw new MarketHttpError('validation_failed', 400);
+  }
+  return parsed;
+}
+
 function requireSellerCommands(context: RequestContext): void {
   if (
     !context.access.sellerOrg
@@ -137,14 +153,36 @@ function requireSellerCommands(context: RequestContext): void {
   }
 }
 
+/**
+ * Product payload.
+ *
+ * `owner` carries the two fields the store owner edits but a shopper must never
+ * receive: the seller's own search aliases, and specification labels in both
+ * languages. It is attached only on `/seller/*` responses — a buyer card would
+ * otherwise leak one store's keyword work to anyone who opens the catalog.
+ */
 async function productDto(
   product: CatalogProduct,
   categoryName: string | null,
   storeName: string,
   secret: string,
   locale: 'ru' | 'uz',
+  owner = false,
 ) {
   return {
+    ...(owner
+      ? {
+        owner: {
+          searchTerms: product.searchTerms,
+          specifications: product.specifications.map((specification) => ({
+            key: specification.key,
+            labelRu: specification.labelRu,
+            labelUz: specification.labelUz,
+            value: specification.value,
+          })),
+        },
+      }
+      : {}),
     id: product.id,
     categoryId: product.categoryId,
     categoryName,
@@ -709,16 +747,21 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
       ]);
       return marketJson({ store: access.sellerStore, stats, orders, handoffs }, requestId);
     }
+    if (path === '/seller/overview') {
+      return marketJson(await sellerOverview(context), requestId);
+    }
     if (path === '/seller/stats') {
       return marketJson(await services.stats.getStats(access.sellerOrg), requestId);
     }
     if (path === '/seller/orders') {
+      const page = await services.orders.listOrderPage(access.sellerOrg, {
+        limit: sellerLimit(url.searchParams.get('limit'), 20),
+        status: url.searchParams.get('status') ?? undefined,
+        cursor: url.searchParams.get('cursor') ?? undefined,
+      });
       return marketJson({
-        items: await services.orders.listOrders(
-          access.sellerOrg,
-          Math.min(5, boundedLimit(url.searchParams.get('limit'), 5)),
-        ),
-        nextCursor: null,
+        items: page.items,
+        nextCursor: page.nextCursor,
       }, requestId);
     }
     const sellerOrder = /^\/seller\/orders\/([^/]+)$/.exec(path);
@@ -732,7 +775,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
       return marketJson({
         items: await services.handoff.listHandoffs(
           access.sellerOrg,
-          boundedLimit(url.searchParams.get('limit'), 10),
+          sellerLimit(url.searchParams.get('limit'), 10),
         ),
         nextCursor: null,
       }, requestId);
@@ -748,7 +791,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
       const status = url.searchParams.get('status');
       const products = await services.catalog.listProducts(sellerOwner(context), {
         ...(status ? { status } : {}),
-        limit: boundedLimit(url.searchParams.get('limit')),
+        limit: sellerLimit(url.searchParams.get('limit'), 50),
       });
       return marketJson({
         items: await Promise.all(products.map((product) => productDto(
@@ -757,6 +800,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
           access.sellerStore!.name,
           context.config.sessionSecret,
           context.claims.locale,
+          true,
         ))),
         nextCursor: null,
       }, requestId);
@@ -778,6 +822,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
           access.sellerStore.name,
           context.config.sessionSecret,
           context.claims.locale,
+          true,
         ),
         inventory,
       }, requestId);
@@ -971,6 +1016,124 @@ async function checkoutCommands(context: RequestContext): Promise<Response | nul
   return null;
 }
 
+/** A confirmed order older than this has stopped being progress. */
+const SELLER_SLA_HOURS = 24;
+/** Rows shown inside one attention group; the count above it stays honest. */
+const OVERVIEW_PREVIEW = 5;
+/** Read depth per group. Anything past it is reported as truncated, not hidden. */
+const OVERVIEW_SCAN = 50;
+
+function minutesSince(iso: string, now: number): number {
+  const parsed = Date.parse(iso);
+  return Number.isNaN(parsed) ? 0 : Math.max(0, Math.round((now - parsed) / 60_000));
+}
+
+/**
+ * `truncated` reports the read depth, not the filtered result: a group can be
+ * short after filtering and still be incomplete because the scan behind it was
+ * full. Reporting it the other way would turn a partial read into a confident
+ * "that is all of them".
+ */
+function attentionGroup<T>(rows: readonly T[], scanned: number, scan: number) {
+  return {
+    count: rows.length,
+    truncated: scanned >= scan,
+    items: rows.slice(0, OVERVIEW_PREVIEW),
+  };
+}
+
+/**
+ * The seller's day, ordered by what is going wrong.
+ *
+ * Every group is derived from the same services the detail screens read, so the
+ * home screen can never claim work that the queue behind it does not have. The
+ * counts are bounded by an explicit scan depth and each group says whether it
+ * hit that depth: a truncated group is stated, never rounded into a smaller
+ * number that would read as "all clear".
+ */
+async function sellerOverview(context: RequestContext) {
+  const { services, access } = context;
+  const owner = sellerOwner(context);
+  const now = Date.now();
+  const [stats, placed, confirmed, handoffs, products, inventory] = await Promise.all([
+    services.stats.getStats(access.sellerOrg!),
+    services.orders.listOrderPage(access.sellerOrg!, {
+      limit: OVERVIEW_SCAN,
+      status: 'placed',
+    }),
+    services.orders.listOrderPage(access.sellerOrg!, {
+      limit: OVERVIEW_SCAN,
+      status: 'confirmed',
+    }),
+    services.handoff.listHandoffs(access.sellerOrg!, OVERVIEW_SCAN),
+    services.catalog.listProducts(owner, { limit: 100 }),
+    services.orders.listInventory(access.sellerOrg!, OVERVIEW_SCAN),
+  ]);
+
+  const stock = new Map(inventory.map((item) => [item.productId, item]));
+  const published = products.filter((product) => product.status === 'published');
+  const slaCutoff = now - SELLER_SLA_HOURS * 60 * 60_000;
+
+  const newOrders = placed.items.map((order) => ({
+    ...order,
+    ageMinutes: minutesSince(order.placedAt, now),
+  }));
+  const agingOrders = confirmed.items
+    .filter((order) => Date.parse(order.placedAt) < slaCutoff)
+    .map((order) => ({ ...order, ageMinutes: minutesSince(order.placedAt, now) }));
+  const openQuestions = handoffs
+    .filter((handoff) => handoff.status === 'open')
+    .map((handoff) => ({
+      id: handoff.id,
+      reason: handoff.reason,
+      createdAt: handoff.createdAt,
+      ageMinutes: minutesSince(handoff.createdAt, now),
+    }));
+  const outOfStock = published
+    .filter((product) => stock.get(product.id)?.onHand === 0)
+    .map((product) => ({
+      productId: product.id,
+      productName: product.name,
+      version: stock.get(product.id)!.version,
+    }));
+  const drafts = products
+    .filter((product) => product.status === 'draft')
+    .map((product) => ({
+      id: product.id,
+      name: product.name,
+      priceMinor: product.priceMinor,
+      version: product.version,
+    }));
+  const weakProducts = published
+    .map((product) => ({
+      id: product.id,
+      name: product.name,
+      version: product.version,
+      issues: [
+        ...(product.mediaRefs.length === 0 ? ['no_media'] : []),
+        ...(product.description ? [] : ['no_description']),
+        ...(product.specifications.length === 0 ? ['no_specifications'] : []),
+        ...(product.searchTerms.length === 0 ? ['no_search_terms'] : []),
+      ],
+    }))
+    .filter((product) => product.issues.length > 0);
+
+  return {
+    store: { id: access.sellerStore!.id, name: access.sellerStore!.name },
+    generatedAt: new Date(now).toISOString(),
+    attention: {
+      newOrders: attentionGroup(newOrders, placed.items.length, OVERVIEW_SCAN),
+      agingOrders: attentionGroup(agingOrders, confirmed.items.length, OVERVIEW_SCAN),
+      openQuestions: attentionGroup(openQuestions, handoffs.length, OVERVIEW_SCAN),
+      outOfStock: attentionGroup(outOfStock, inventory.length, OVERVIEW_SCAN),
+      drafts: attentionGroup(drafts, products.length, 100),
+      weakProducts: attentionGroup(weakProducts, products.length, 100),
+    },
+    slaHours: SELLER_SLA_HOURS,
+    stats,
+  };
+}
+
 async function sellerCommands(context: RequestContext): Promise<Response | null> {
   const { request, path, services, access, requestId } = context;
   if (!path.startsWith('/seller/')) return null;
@@ -1070,6 +1233,7 @@ async function sellerCommands(context: RequestContext): Promise<Response | null>
         access.sellerStore!.name,
         context.config.sessionSecret,
         context.claims.locale,
+        true,
       ),
       requestId,
       201,
@@ -1091,6 +1255,7 @@ async function sellerCommands(context: RequestContext): Promise<Response | null>
         access.sellerStore!.name,
         context.config.sessionSecret,
         context.claims.locale,
+        true,
       ),
       requestId,
     );
@@ -1111,6 +1276,7 @@ async function sellerCommands(context: RequestContext): Promise<Response | null>
       access.sellerStore!.name,
       context.config.sessionSecret,
       context.claims.locale,
+      true,
     ), requestId);
   }
   return null;

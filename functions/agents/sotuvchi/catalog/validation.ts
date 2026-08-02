@@ -574,7 +574,7 @@ export function normalizeProductFilter(
       : {}),
     ...(value.limit === undefined
       ? {}
-      : { limit: requireCatalogLimit(value.limit) }),
+      : { limit: requireCatalogOwnerLimit(value.limit) }),
   };
 }
 
@@ -584,6 +584,25 @@ export function requireCatalogLimit(value: unknown, fallback = 10): number {
     !Number.isInteger(candidate)
     || Number(candidate) < 1
     || Number(candidate) > CATALOG_LIMITS.resultLimit
+  ) {
+    throw new CatalogValidationError('invalid_limit');
+  }
+  return Number(candidate);
+}
+
+/**
+ * Listing bound for the store owner's own catalog.
+ *
+ * A shopper's result page stays at `resultLimit` — twenty ranked rows is a
+ * screenful and anything larger is a scraping surface. The owner is reading the
+ * inventory they typed in themselves, so the bound is the catalog size instead.
+ */
+export function requireCatalogOwnerLimit(value: unknown, fallback = 10): number {
+  const candidate = value === undefined ? fallback : value;
+  if (
+    !Number.isInteger(candidate)
+    || Number(candidate) < 1
+    || Number(candidate) > CATALOG_LIMITS.productLimit
   ) {
     throw new CatalogValidationError('invalid_limit');
   }
