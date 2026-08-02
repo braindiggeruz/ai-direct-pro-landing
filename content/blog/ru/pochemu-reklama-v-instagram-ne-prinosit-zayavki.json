@@ -781,6 +781,13 @@
       "priority": 1
     },
     {
+      "target": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+      "anchor": "что такое SMM-продвижение",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
       "target": "/ru/instagram-direct-bot/",
       "anchor": "Instagram Direct bot",
       "locale": "ru",
