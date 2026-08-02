@@ -23,6 +23,7 @@ export {
   marketFlag,
   marketJson,
   marketRequestId,
+  normalizeMarketWebAppUrl,
   readMarketJson,
   requireIdempotencyKey,
   type MarketErrorCode,

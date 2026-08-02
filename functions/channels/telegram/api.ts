@@ -28,6 +28,7 @@ export interface InlineButton {
   text: string;
   callback_data?: string;
   url?: string;
+  web_app?: { url: string };
 }
 export type InlineKeyboard = InlineButton[][];
 
@@ -246,6 +247,24 @@ export class TelegramClient {
 
   getWebhookInfo() {
     return this.call<{ url?: string; pending_update_count?: number; last_error_message?: string; last_error_date?: number }>('getWebhookInfo');
+  }
+
+  setChatMenuButton(url: string, text = 'GPTBot Market') {
+    return this.call('setChatMenuButton', {
+      menu_button: {
+        type: 'web_app',
+        text: text.slice(0, 64),
+        web_app: { url },
+      },
+    }, { timeoutMs: 5_000, maxRetries: 1 });
+  }
+
+  getChatMenuButton() {
+    return this.call<{
+      type?: string;
+      text?: string;
+      web_app?: { url?: string };
+    }>('getChatMenuButton');
   }
 
   setMyCommands(commands: readonly { command: string; description: string }[], languageCode?: string) {

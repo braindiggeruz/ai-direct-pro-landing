@@ -8,10 +8,16 @@ import {
   verifyMarketSession,
   verifyMediaHandle,
   verifyTelegramInitData,
+  normalizeMarketWebAppUrl,
 } from '../functions/platform/market';
+import {
+  createTelegramDeliveryPort,
+  TelegramClient,
+  type InlineKeyboard,
+} from '../functions/channels/telegram';
 
-const BOT_TOKEN = '123456789:TEST_ONLY_TELEGRAM_BOT_TOKEN_abcdefghijklmnopqrstuvwxyz';
-const SESSION_SECRET = 'test-only-market-session-secret-0123456789abcdef';
+const BOT_TOKEN = 'not-a-provider-token';
+const SESSION_SIGNING_VALUE = `unit-test-only-${'x'.repeat(40)}`;
 const AUTH_DATE = 1_800_000_000;
 
 function sign(values: Record<string, string>): string {
@@ -78,14 +84,14 @@ test('tampered, expired, future and duplicate initData fail closed', async () =>
 });
 
 test('market bearer is short-lived, audience-bound and tamper evident', async () => {
-  const issued = await issueMarketSession(SESSION_SECRET, {
+  const issued = await issueMarketSession(SESSION_SIGNING_VALUE, {
     sub: 'identity_market_test',
     telegramId: '987654321',
     locale: 'ru',
     launch: '0123456789abcdef0123456789abcdef',
   }, AUTH_DATE);
   const verified = await verifyMarketSession(
-    SESSION_SECRET,
+    SESSION_SIGNING_VALUE,
     issued.token,
     AUTH_DATE + 599,
   );
@@ -94,28 +100,89 @@ test('market bearer is short-lived, audience-bound and tamper evident', async ()
   const tail = issued.token.at(-1) === 'a' ? 'b' : 'a';
   await assert.rejects(
     verifyMarketSession(
-      SESSION_SECRET,
+      SESSION_SIGNING_VALUE,
       `${issued.token.slice(0, -1)}${tail}`,
       AUTH_DATE + 1,
     ),
   );
   await assert.rejects(
-    verifyMarketSession(SESSION_SECRET, issued.token, AUTH_DATE + 600),
+    verifyMarketSession(SESSION_SIGNING_VALUE, issued.token, AUTH_DATE + 600),
   );
 });
 
 test('media handle is opaque, signed and carries no Telegram file id', async () => {
-  const handle = await issueMediaHandle(SESSION_SECRET, {
+  const handle = await issueMediaHandle(SESSION_SIGNING_VALUE, {
     productId: 'product_market_test',
     index: 2,
   });
   assert.equal(handle.includes('telegram-file-secret'), false);
-  assert.deepEqual(await verifyMediaHandle(SESSION_SECRET, handle), {
+  assert.deepEqual(await verifyMediaHandle(SESSION_SIGNING_VALUE, handle), {
     productId: 'product_market_test',
     index: 2,
   });
   assert.equal(
-    await verifyMediaHandle(SESSION_SECRET, `${handle}a`),
+    await verifyMediaHandle(SESSION_SIGNING_VALUE, `${handle}a`),
     null,
   );
+});
+
+test('Telegram Mini App URL is HTTPS-only and credential-free', () => {
+  assert.equal(
+    normalizeMarketWebAppUrl('https://gptbot-market-mini-app.pages.dev'),
+    'https://gptbot-market-mini-app.pages.dev/',
+  );
+  assert.equal(normalizeMarketWebAppUrl('http://example.com'), null);
+  assert.equal(normalizeMarketWebAppUrl('https://user:pass@example.com'), null);
+  assert.equal(normalizeMarketWebAppUrl('https://example.com/#token'), null);
+});
+
+test('Telegram delivery appends a native web_app launch action', async () => {
+  let delivered: InlineKeyboard | undefined;
+  const delivery = createTelegramDeliveryPort({
+    async sendMessage(_chatId, _text, options) {
+      delivered = options.keyboard;
+      return { ok: true };
+    },
+    async sendChatAction() { return { ok: true }; },
+    async answerCallbackQuery() { return { ok: true }; },
+  }, {
+    webApp: {
+      url: 'https://gptbot-market-mini-app.pages.dev/',
+      text: 'Открыть GPTBot Market',
+    },
+  });
+  assert.equal(await delivery.sendText('123456', 'ready'), true);
+  assert.deepEqual(delivered, [[{
+    text: 'Открыть GPTBot Market',
+    web_app: { url: 'https://gptbot-market-mini-app.pages.dev/' },
+  }]]);
+});
+
+test('Telegram client uses setChatMenuButton with a bounded Web App payload', async () => {
+  const originalFetch = globalThis.fetch;
+  let method = '';
+  let body: Record<string, unknown> = {};
+  globalThis.fetch = async (input, init) => {
+    method = String(input).split('/').at(-1) ?? '';
+    body = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
+    return new Response(JSON.stringify({ ok: true, result: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  };
+  try {
+    const result = await new TelegramClient('fixture-token')
+      .setChatMenuButton('https://gptbot-market-mini-app.pages.dev/');
+    assert.equal(result.ok, true);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+  assert.equal(method, 'setChatMenuButton');
+  assert.deepEqual(body, {
+    menu_button: {
+      type: 'web_app',
+      text: 'GPTBot Market',
+      web_app: { url: 'https://gptbot-market-mini-app.pages.dev/' },
+    },
+  });
 });

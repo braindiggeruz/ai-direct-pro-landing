@@ -62,6 +62,26 @@ export function marketFlag(value: string | undefined): boolean {
   return value?.trim().toLowerCase() === 'true';
 }
 
+export function normalizeMarketWebAppUrl(value: string | undefined): string | null {
+  const candidate = value?.trim() ?? '';
+  if (!candidate || candidate.length > 512) return null;
+  try {
+    const url = new URL(candidate);
+    if (
+      url.protocol !== 'https:'
+      || url.username
+      || url.password
+      || url.hash
+      || !url.hostname
+    ) {
+      return null;
+    }
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 export function assertMarketOrigin(request: Request, env: Env): void {
   const origin = request.headers.get('Origin');
   if (!origin) return;

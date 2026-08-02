@@ -208,6 +208,7 @@ export interface Env {
   MARKET_MINI_APP_SELLER_READS_ENABLED?: string;
   MARKET_MINI_APP_SELLER_COMMANDS_ENABLED?: string;
   MARKET_MINI_APP_ORIGINS?: string;
+  MARKET_MINI_APP_URL?: string;
   MARKET_MINI_APP_SESSION_SECRET?: string;
   MARKET_MINI_APP_BUILD_ID?: string;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
