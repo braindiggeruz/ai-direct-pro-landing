@@ -70,6 +70,7 @@ export {
   CHECKOUT_STATES,
 } from './types';
 export type {
+  BuyerOrderDetail,
   BuyerOrderStatus,
   BuyerOrderSummary,
   CheckoutAvailability,

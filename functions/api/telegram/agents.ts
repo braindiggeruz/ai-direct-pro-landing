@@ -5,21 +5,14 @@ import type { Env } from '../../_types';
 import { demoAgentManifest } from '../../agents/demo';
 import {
   composeSotuvchiWorkflowPorts,
-  createSotuvchiCatalogService,
   createSotuvchiCheckoutDomainPort,
-  createSotuvchiCheckoutService,
   createSotuvchiCheckoutWorkflowPort,
   createSotuvchiDomainPort,
   createSotuvchiHandoffDomainPort,
-  createSotuvchiHandoffService,
   createSotuvchiHandoffWorkflowPort,
   createSotuvchiNotificationDispatcher,
-  createSotuvchiAnalytics,
-  createSotuvchiOnboardingService,
   createSotuvchiOrdersDomainPort,
-  createSotuvchiOrdersService,
   createSotuvchiStatsDomainPort,
-  createSotuvchiStatsService,
   createSotuvchiWorkflowPort,
   isStorefrontCode,
   withSotuvchiAnalytics,
@@ -49,12 +42,10 @@ import {
   type TelegramAgentsSafeLogCode,
   type TelegramDeliveryPort,
 } from '../../channels/telegram';
-import {
-  createChannelAddressBindingPort,
-  createChannelAddressService,
-} from '../../platform/channels';
-import { createIdentityService } from '../../platform/identity';
+import { createChannelAddressBindingPort } from '../../platform/channels';
 import { createKnowledgeService } from '../../platform/knowledge';
+import { createIdentityService } from '../../platform/identity';
+import { createSotuvchiApplicationServices } from '../../market';
 import {
   createAgentRegistry,
   createAgentRuntime,
@@ -122,14 +113,16 @@ export function createTelegramAgentsRuntimeWiring(
   delivery?: TelegramDeliveryPort,
   options: TelegramAgentsRuntimeWiringOptions = {},
 ) {
-  const onboarding = createSotuvchiOnboardingService(db);
-  const catalog = createSotuvchiCatalogService(db);
-  const checkout = createSotuvchiCheckoutService(db, catalog, botUsername);
-  const orders = createSotuvchiOrdersService(db, catalog);
-  const handoff = createSotuvchiHandoffService(db, catalog, botUsername);
-  const addresses = createChannelAddressService(db);
-  const analytics = createSotuvchiAnalytics(db);
-  const stats = createSotuvchiStatsService(db, catalog, { analytics });
+  const {
+    addresses,
+    analytics,
+    catalog,
+    checkout,
+    handoff,
+    onboarding,
+    orders,
+    stats,
+  } = createSotuvchiApplicationServices(db, botUsername);
   const demoContexts = createStaticTelegramAgentContextResolver([{
     botUsername,
     routeCode: 'demo',
