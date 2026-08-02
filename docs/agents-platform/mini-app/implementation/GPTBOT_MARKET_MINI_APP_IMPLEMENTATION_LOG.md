@@ -1,6 +1,6 @@
 # GPTBot Market Mini App implementation log
 
-Mode: owner-independent implementation through MA-8 synthetic candidate.
+Mode: owner-authorized Telegram review release after MA-8 synthetic candidate.
 
 Branch: `feature/gptbot-market-mini-app-synthetic-candidate`.
 
@@ -94,10 +94,12 @@ Started: 2026-08-02.
   inventory commands with notification dispatch reuse.
 - MA-7: complete — responsive/light/dark async-state productization, zero axe
   violations or incomplete results, 320/390/200% geometry and bundle gates.
-- MA-8: complete locally — reproducible build, contract/auth/regression tests,
+- MA-8: complete and released for native review — reproducible build, contract/auth/regression tests,
   synthetic browser journeys, evidence manifest and rollback runbook.
-- Production/BotFather/D1/public cutover operations: not authorized and not
-  performed.
+- Telegram review integration: live on the dedicated bot with a native inline
+  button, TTL-limited menu sync, isolated static Pages project and the existing
+  BFF trust boundary. No D1 migration, lead-bot/webhook, real seller, payment
+  or public-marketplace operation was performed.
 
 `UX_UI_SKILL_USED=YES`
 

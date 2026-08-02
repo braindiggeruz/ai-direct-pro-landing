@@ -1,5 +1,22 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## GPTBot Market Mini App Telegram review release (2026-08-02)
+
+| Check | Result |
+| --- | --- |
+| Static / BFF deployments | `a7e0cfdc` / `3af470f3`, source `67b98a5` |
+| Root full corpus | PASS, sequential, exit 0 |
+| Root TypeScript / production build | PASS / PASS |
+| Mini App tests / production build | 2/2 PASS / PASS |
+| Market contract / Agents webhook / boundaries | 14/14 / 56/56 / 10/10 PASS |
+| Static security | 200; official bridge; strict CSP; `noindex, nofollow` |
+| Trusted / foreign CORS | 204 exact origin / 403 |
+| Forged init data | controlled 401 |
+| Agents webhook | GET 405; invalid secret POST 401 |
+| Public pages | root, RU/UZ Sotuvchi, RU/UZ Trust and Mini App all 200 |
+| D1 read-only before/after | 1 store, 48 products, 0 orders/items/handoffs/notifications; no writes |
+| Lead bot/webhook / migration / Railway / n8n | unchanged / none / unchanged / retired |
+
 ## GPTBot Market Mini App synthetic candidate (2026-08-02)
 
 | Check | Result |

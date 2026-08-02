@@ -1,29 +1,29 @@
 # CURRENT_STATE — 2026-08-01
 
-## Mini App synthetic candidate (2026-08-02)
+## Mini App Telegram review release (2026-08-02)
 
-MA-0 through MA-8 are complete locally on
-`feature/gptbot-market-mini-app-synthetic-candidate`. The candidate contains a
-buyer marketplace, verified-seller workspace, Telegram WebApp adapter,
-RU/Uzbek Latin UI and a versioned Pages Functions BFF that calls existing
-Sotuvchi services. All Market flags default off; no D1 migration, production
-deploy, BotFather/webhook, DNS, real seller/data or public-cutover mutation was
-performed. MA-9 remains blocked on the named owner/provider gates.
+The owner explicitly authorized Telegram integration. The Mini App is live at
+`https://gptbot-market-mini-app.pages.dev` and opens from the dedicated
+`@gptbot_market_bot` through a native response button plus safe menu sync. The
+versioned BFF is live on `gptbot.uz`; all four bounded Mini App flags are on,
+with exact-origin CORS and server-derived seller authority. No D1 migration,
+lead-bot/webhook change, Railway/n8n/payment, real seller or public-marketplace
+operation was performed. Native Telegram review is now the next human gate.
 
 ## Current production state
 
 GPTBot Market owner-independent productization is complete and deployed.
 
 - Canonical repository: `F:\Claude\gptbot-repo-clean-20260801`.
-- Main merge/source: `08c21568581bf90e7122a566f2805a619cd9e81d`.
+- Current application source: `67b98a5` on the isolated Mini App branch.
 - Cloudflare Pages deployment:
-  `68747046-8e1e-492a-8b81-dc4e4065916f`.
-- Immutable URL: `https://68747046.ai-direct-pro-landing.pages.dev`.
-- Immediate rollback: `d9ca163e-947b-40ba-856d-8143308c8402`, source
-  `c670e4eebff79e2cc4b9027ffede865f0af813ab`.
+  `3af470f3-0666-4d4d-8eab-53c91a7cd9df`.
+- Immutable URL: `https://3af470f3.ai-direct-pro-landing.pages.dev`.
+- Pre-Mini-App rollback: `68747046-8e1e-492a-8b81-dc4e4065916f`, source
+  `08c21568581bf90e7122a566f2805a619cd9e81d`.
 - Canonical URL: `https://gptbot.uz`.
-- Telegram identity: `@gptbot_market_bot`; public profile exposes the GPTBot
-  Market name. BotFather metadata was not mutated in this release.
+- Telegram identity: `@gptbot_market_bot`; its responses carry a native Mini
+  App button and the global menu is synchronized idempotently.
 
 The production canary passes root, RU/UZ Market, immutable deployment, GPT
 Chat, 404, canonical, hreflang and OG. The webhook returns 405 to GET and 401

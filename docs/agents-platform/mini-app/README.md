@@ -1,26 +1,27 @@
 # GPTBot Market Telegram Mini App
 
-Status: `SYNTHETIC_CANDIDATE_READY`
+Status: `TELEGRAM_REVIEW_LIVE`
 
-Implementation status: `MA_0_THROUGH_MA_8_COMPLETE_LOCALLY`
+Implementation status: `MA_0_THROUGH_MA_8_RELEASED_FOR_NATIVE_REVIEW`
 
-Mode: `OWNER_INDEPENDENT_IMPLEMENTATION_WITH_FLAGS_DEFAULT_OFF`
+Mode: `DEDICATED_BOT_REVIEW_WITH_SERVER_AUTHORITY`
 
 Candidate source base: `08138b7b6928c35d929a951695af0a769255e2b8`
 
 Date: 2026-08-02
 
-This package now contains both the original staged design and an isolated,
-reversible synthetic implementation candidate. The candidate adds the
+This package contains the original staged design, the reversible synthetic
+candidate and its owner-authorized Telegram review release. The implementation adds the
 `apps/market-mini-app` frontend and `/api/market/v1/*` BFF, reusing the
-existing Sotuvchi application/domain services. It did not change D1 schema,
-BotFather, webhooks, production flags, Cloudflare deployments, Railway, n8n,
-payments, real stores or production traffic.
+existing Sotuvchi application/domain services. The static app, BFF flags and
+dedicated-bot launch integration are now live. It did not change D1 schema,
+the lead bot/webhook, Railway, n8n, payments or real stores.
 
 ## Implementation candidate
 
 - [Implementation log](./implementation/GPTBOT_MARKET_MINI_APP_IMPLEMENTATION_LOG.md)
 - [Candidate and rollback](./implementation/GPTBOT_MARKET_MINI_APP_CANDIDATE_AND_ROLLBACK.md)
+- [Telegram review release](./implementation/GPTBOT_MARKET_MINI_APP_TELEGRAM_RELEASE.md)
 - [Machine-readable evidence](./implementation/evidence/candidate-manifest.json)
 - [Accessibility evidence](./implementation/evidence/a11y-report.json)
 

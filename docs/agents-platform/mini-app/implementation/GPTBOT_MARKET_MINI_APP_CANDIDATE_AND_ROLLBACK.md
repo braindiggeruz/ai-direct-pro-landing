@@ -1,5 +1,9 @@
 # GPTBot Market Mini App synthetic candidate and rollback
 
+Historical candidate record. It was superseded on 2026-08-02 by the
+[Telegram review release](./GPTBOT_MARKET_MINI_APP_TELEGRAM_RELEASE.md). The
+statements below describe the pre-release boundary at the time it was built.
+
 Date: 2026-08-02.
 
 Branch: `feature/gptbot-market-mini-app-synthetic-candidate`.

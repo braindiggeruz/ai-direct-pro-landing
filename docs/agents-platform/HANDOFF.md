@@ -2,39 +2,41 @@
 
 ## 1. Состояние
 
-- Дата: 2026-08-01.
-- Ветка: `main`.
-- Application HEAD: `08c21568581bf90e7122a566f2805a619cd9e81d`;
+- Дата: 2026-08-02.
+- Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
+- Application HEAD: `67b98a5`;
   governance state commit: `HEAD`.
-- Завершённый этап: GPTBot Market owner-independent productization and exact-SHA
-  production release.
-- Следующий этап: Store Pilot #1 owner input/authorization gate.
+- Завершённый этап: owner-authorized Telegram Mini App review integration.
+- Следующий этап: native Telegram owner review; Store Pilot #1 remains a
+  separate owner input/authorization gate.
 - Рабочее дерево: clean after the governance commit; `dist/` untracked/ignored.
 
-### Отдельный Mini App implementation track — 2026-08-02
+### Mini App Telegram review track — 2026-08-02
 
-- Статус: `SYNTHETIC_CANDIDATE_READY`; реализация:
-  `MA_0_THROUGH_MA_8_COMPLETE_LOCALLY`.
+- Статус: `TELEGRAM_REVIEW_LIVE`; реализация:
+  `MA_0_THROUGH_MA_8_RELEASED_FOR_NATIVE_REVIEW`.
 - Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
 - Пакет: `docs/agents-platform/mini-app/README.md` и связанные architecture,
   security, UX, migration, testing, risk, proposed ADR и master-roadmap docs.
-- Текущий production stage и следующий Store Pilot #1 gate не изменены.
-- Не выполнялись D1 migration, production deploy, BotFather/webhook,
-  Railway/n8n/payment, real-store или launch действия.
+- Static Pages: `a7e0cfdc-c53e-4ddd-a9df-13023a6fbafc`; root Pages:
+  `3af470f3-0666-4d4d-8eab-53c91a7cd9df`; both source `67b98a5`.
+- `@gptbot_market_bot` exposes the app through a native response button and
+  TTL-limited menu sync. The lead bot/webhook is untouched.
+- No D1 migration, Railway/n8n/payment, real-store or public marketplace
+  action was performed.
 - Запрошенный источник
   `GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md` не найден после
   проверки repository/docs/attachments; его статус зафиксирован как
   `SOURCE_MISSING`, без реконструкции отсутствующего содержания.
 
-### Mini App implementation update — 2026-08-02
+### Mini App release update — 2026-08-02
 
-This update supersedes the earlier planning-only Mini App paragraph. MA-0
-through MA-8 are complete locally on
-`feature/gptbot-market-mini-app-synthetic-candidate`; implementation and proof
-are indexed in `docs/agents-platform/mini-app/README.md`. All Market flags
-remain default-off. No production deploy, D1 migration, BotFather/webhook,
-DNS, protected bot/token, real seller/data or public cutover was performed.
-The next live step is MA-9 only after explicit owner/provider gates.
+This update supersedes the local-candidate paragraph. The owner explicitly
+authorized Telegram integration. Static hosting is isolated, while the BFF
+and encrypted bot token remain in the existing production trust boundary. All
+four Mini App flags are enabled for review, but seller authority is still
+resolved from trusted server state on every request. Native Telegram review is
+the next human acceptance gate; public marketplace launch is not claimed.
 
 ## 2. Что сделано
 
@@ -45,8 +47,8 @@ production accessibility evidence were implemented. The full baseline is
 green, the feature was normally merged, and Pages deployment `68747046` was
 uploaded manually from exact merge `08c2156`.
 
-Production HTTP/auth/SEO and immutable a11y/mobile canaries pass. D1 stayed
-unchanged. Auto-deploy, Railway, migrations, provider metadata, real store,
+Production HTTP/auth/SEO and Mini App canaries pass. D1 stayed unchanged.
+Auto-deploy, Railway, migrations, lead-bot provider metadata, real store,
 payments and public marketplace were not mutated.
 
 ## 3. Изменённые файлы
@@ -133,7 +135,8 @@ identity/webhook/schema/tenant/idempotency mismatch.
 
 ## 12. Rollback
 
-Immediate application rollback target is Pages deployment
-`d9ca163e-947b-40ba-856d-8143308c8402` at source `c670e4e`. No D1 rollback is
-required or allowed for this data-neutral release. Repeat HTTP/auth and D1
-read-only canaries after rollback; keep the failed deployment for evidence.
+Full pre-Mini-App rollback target is Pages deployment
+`68747046-8e1e-492a-8b81-dc4e4065916f` at source `08c2156`; disable the four
+flags and restore Telegram's default menu button first. No D1 rollback is
+required or allowed. Repeat HTTP/auth and D1 read-only canaries after rollback
+and retain the deployment evidence.

@@ -186,6 +186,27 @@
       "PUBLIC_LAUNCH": "BLOCKED"
     }
   },
+  "gptbot_market_mini_app": {
+    "status": "telegram_review_live",
+    "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
+    "source": "67b98a5",
+    "bot_username": "gptbot_market_bot",
+    "static_url": "https://gptbot-market-mini-app.pages.dev",
+    "static_deployment_id": "a7e0cfdc-c53e-4ddd-a9df-13023a6fbafc",
+    "root_deployment_id": "3af470f3-0666-4d4d-8eab-53c91a7cd9df",
+    "root_rollback_deployment_id": "68747046-8e1e-492a-8b81-dc4e4065916f",
+    "flags": "global, buyer, seller reads and seller commands enabled; seller authority remains server-derived",
+    "telegram_launch": "native inline web_app button plus TTL-limited menu sync",
+    "origin": "https://gptbot-market-mini-app.pages.dev only",
+    "session_secret": "new encrypted Pages secret; value not exported",
+    "remote_migration": false,
+    "lead_bot_or_webhook_mutation": false,
+    "real_store_created": false,
+    "payments_enabled": false,
+    "public_marketplace_launched": false,
+    "d1_probe": "stores 1, products 48, orders/items/handoffs/notifications 0; changed_db=false; rows_written=0",
+    "next_gate": "native Telegram iOS/Android owner review; seller UI additionally requires trusted active owner identity"
+  },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "08c21568581bf90e7122a566f2805a619cd9e81d",

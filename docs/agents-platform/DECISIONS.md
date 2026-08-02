@@ -1,5 +1,22 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-038 — Telegram review uses isolated static hosting and the existing secret boundary (2026-08-02)
+
+**Decision.** The owner-authorized review uses a dedicated static Pages
+project for the Mini App and the existing `gptbot.uz` BFF for authenticated
+domain access. The encrypted Agents bot token stays in its existing production
+secret boundary. The bot receives native `web_app` response buttons and a
+TTL-limited idempotent global menu sync. Exact-origin CORS, official Telegram
+HMAC validation, short memory-only sessions and server-derived seller
+authority remain mandatory.
+
+**Why.** Preview Pages environments do not inherit production secrets, and
+copying a live bot token into a second environment would expand credential
+exposure. This split isolates browser assets while keeping identity and domain
+truth behind the already-protected Functions runtime. Rollback is flags/menu
+first, then exact Pages deployment; D1 needs no rollback because no migration
+was added.
+
 ## D-037 — Mini App synthetic candidate reuses Sotuvchi truth (2026-08-02)
 
 **Decision.** MA-ADR-001 through MA-ADR-018 are accepted for the isolated

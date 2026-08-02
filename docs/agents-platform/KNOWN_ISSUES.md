@@ -1,14 +1,14 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
-## Mini App gates after the synthetic candidate (2026-08-02)
+## Mini App gates after Telegram review release (2026-08-02)
 
-No owner-independent engineering blocker remains for the local MA-8 candidate.
-Live enablement is intentionally blocked on a non-production BotFather bot and
-token, preview DNS/origin and session secret, native Telegram iOS/Android RU
-verification, native Uzbek Latin sign-off, explicit real seller/data/PII
-authority, release sign-off and public-cutover approval. VoiceOver/TalkBack
-human testing also remains open. These are not silently satisfied by the
-synthetic browser and axe evidence.
+The static app, BFF and dedicated-bot launch path are live. The remaining gate
+is human native Telegram verification on iOS/Android. Seller mode will not
+appear for an identity without trusted active ownership; no review bypass is
+allowed. Native Uzbek Latin sign-off, VoiceOver/TalkBack, stable p95, explicit
+real seller/data/PII authority and public-cutover approval remain open. A
+reviewer who submits checkout data creates a real request in production, so
+test contact/address values must be used during review.
 
 ## GPTBot Market productization closeout (2026-08-01)
 
