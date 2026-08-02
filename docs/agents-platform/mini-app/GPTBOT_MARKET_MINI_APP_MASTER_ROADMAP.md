@@ -1,6 +1,8 @@
 # GPTBot Market Mini App master roadmap
 
-Status: planning only; no item is implemented.
+Status: MA-0 through MA-8 implemented and verified as a local synthetic
+candidate on 2026-08-02. MA-9 and MA-10 are not started and remain gated by
+owner/provider inputs and explicit public-cutover approval.
 
 ## Effort model and sequence
 

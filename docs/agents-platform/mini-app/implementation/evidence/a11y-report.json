@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-08-02T02:58:00.531Z",
+  "baseUrl": "http://127.0.0.1:4174",
+  "audits": [
+    {
+      "state": "buyer-home",
+      "violations": [],
+      "passes": 21,
+      "incomplete": []
+    },
+    {
+      "state": "seller-dashboard",
+      "violations": [],
+      "passes": 22,
+      "incomplete": []
+    }
+  ],
+  "geometry": {
+    "width320": {
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "horizontalOverflow": false,
+      "undersized": []
+    },
+    "width390": {
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "horizontalOverflow": false,
+      "undersized": []
+    },
+    "zoom200": {
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "horizontalOverflow": false,
+      "undersized": []
+    }
+  }
+}

@@ -1,19 +1,28 @@
-# GPTBot Market Mini App planning package
+# GPTBot Market Telegram Mini App
 
-Status: `MINI_APP_ROADMAP_PREPARED`
+Status: `SYNTHETIC_CANDIDATE_READY`
 
-Implementation status: `IMPLEMENTATION_NOT_STARTED`
+Implementation status: `MA_0_THROUGH_MA_8_COMPLETE_LOCALLY`
 
-Mode: `MINI_APP_ARCHITECTURE_AND_ROADMAP_ONLY`
+Mode: `OWNER_INDEPENDENT_IMPLEMENTATION_WITH_FLAGS_DEFAULT_OFF`
 
-Prepared against repository commit: `2d7896706c3dfbcaf4239de3b999fa39d86abac2`
+Candidate source base: `08138b7b6928c35d929a951695af0a769255e2b8`
 
 Date: 2026-08-02
 
-This package defines a staged, reversible transition from the current
-Telegram-button experience to a visual Telegram Mini App. It does not change
-the bot runtime, D1, migrations, APIs, BotFather, webhooks, Cloudflare,
-Railway, n8n, payments, real stores or production traffic.
+This package now contains both the original staged design and an isolated,
+reversible synthetic implementation candidate. The candidate adds the
+`apps/market-mini-app` frontend and `/api/market/v1/*` BFF, reusing the
+existing Sotuvchi application/domain services. It did not change D1 schema,
+BotFather, webhooks, production flags, Cloudflare deployments, Railway, n8n,
+payments, real stores or production traffic.
+
+## Implementation candidate
+
+- [Implementation log](./implementation/GPTBOT_MARKET_MINI_APP_IMPLEMENTATION_LOG.md)
+- [Candidate and rollback](./implementation/GPTBOT_MARKET_MINI_APP_CANDIDATE_AND_ROLLBACK.md)
+- [Machine-readable evidence](./implementation/evidence/candidate-manifest.json)
+- [Accessibility evidence](./implementation/evidence/a11y-report.json)
 
 ## Decision in one paragraph
 

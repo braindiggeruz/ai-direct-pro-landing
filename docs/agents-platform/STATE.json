@@ -390,15 +390,21 @@
   "planning_tracks": {
     "gptbot_market_mini_app": {
       "prepared_at": "2026-08-02",
-      "status": "MINI_APP_ROADMAP_PREPARED",
-      "implementation_status": "IMPLEMENTATION_NOT_STARTED",
-      "branch": "planning/gptbot-market-mini-app-roadmap",
+      "status": "SYNTHETIC_CANDIDATE_READY",
+      "implementation_status": "MA_0_THROUGH_MA_8_COMPLETE_LOCALLY",
+      "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
       "package_index": "docs/agents-platform/mini-app/README.md",
       "backend_reuse_estimate_percent": 89,
-      "first_user_visible_slice": "MA-3.1a signed read-only synthetic product detail",
-      "schema_migration_for_first_slice": false,
+      "implemented_surfaces": [
+        "buyer_catalog_search_detail_compare_checkout_orders_handoff",
+        "verified_seller_dashboard_orders_handoffs_products_inventory_commands"
+      ],
+      "schema_migration_added": false,
+      "flags_default_off": true,
+      "candidate_manifest": "docs/agents-platform/mini-app/implementation/evidence/candidate-manifest.json",
       "production_stage_changed": false,
       "production_operations_performed": false,
+      "next_stage": "MA-9 only after owner/provider gates and explicit cohort authorization",
       "missing_source": "GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md"
     }
   },

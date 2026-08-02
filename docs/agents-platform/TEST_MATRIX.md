@@ -1,5 +1,22 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## GPTBot Market Mini App synthetic candidate (2026-08-02)
+
+| Check | Result |
+| --- | --- |
+| Telegram auth/session/media vectors | 8/8 PASS |
+| Mini App synthetic flow | 2/2 PASS |
+| Boundary + Mini App contract corpus | 14/14 PASS |
+| Full root repository corpus | PASS, 52 root test files, exit 0 |
+| Root / Functions / Mini App TypeScript | PASS / PASS / PASS |
+| Root / Mini App production builds | PASS / PASS |
+| Mini App initial compressed assets | 87.1 KiB total (JS 82.86, CSS 4.24), below 150 KiB target |
+| Mini App production dependency audit | 0 findings |
+| Secret scan | clean |
+| Axe buyer / seller | 0 violations, 0 incomplete / 0 violations, 0 incomplete |
+| 320 px / 390 px / 200% | no horizontal overflow; no undersized active controls |
+| Production/D1/BotFather mutation | none; all capability flags default off |
+
 ## GPTBot Market owner-independent productization release (2026-08-01)
 
 | Проверка | Результат |

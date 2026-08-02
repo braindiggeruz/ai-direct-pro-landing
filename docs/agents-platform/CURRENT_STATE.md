@@ -1,5 +1,15 @@
 # CURRENT_STATE — 2026-08-01
 
+## Mini App synthetic candidate (2026-08-02)
+
+MA-0 through MA-8 are complete locally on
+`feature/gptbot-market-mini-app-synthetic-candidate`. The candidate contains a
+buyer marketplace, verified-seller workspace, Telegram WebApp adapter,
+RU/Uzbek Latin UI and a versioned Pages Functions BFF that calls existing
+Sotuvchi services. All Market flags default off; no D1 migration, production
+deploy, BotFather/webhook, DNS, real seller/data or public-cutover mutation was
+performed. MA-9 remains blocked on the named owner/provider gates.
+
 ## Current production state
 
 GPTBot Market owner-independent productization is complete and deployed.

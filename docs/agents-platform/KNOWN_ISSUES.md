@@ -1,5 +1,15 @@
 # KNOWN_ISSUES — существовало ДО платформы (не чинить «заодно», только целевыми этапами)
 
+## Mini App gates after the synthetic candidate (2026-08-02)
+
+No owner-independent engineering blocker remains for the local MA-8 candidate.
+Live enablement is intentionally blocked on a non-production BotFather bot and
+token, preview DNS/origin and session secret, native Telegram iOS/Android RU
+verification, native Uzbek Latin sign-off, explicit real seller/data/PII
+authority, release sign-off and public-cutover approval. VoiceOver/TalkBack
+human testing also remains open. These are not silently satisfied by the
+synthetic browser and axe evidence.
+
 ## GPTBot Market productization closeout (2026-08-01)
 
 No owner-independent product, design, Telegram contract, web conversion,

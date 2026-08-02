@@ -11,20 +11,30 @@
 - Следующий этап: Store Pilot #1 owner input/authorization gate.
 - Рабочее дерево: clean after the governance commit; `dist/` untracked/ignored.
 
-### Отдельный Mini App planning track — 2026-08-02
+### Отдельный Mini App implementation track — 2026-08-02
 
-- Статус: `MINI_APP_ROADMAP_PREPARED`; реализация:
-  `IMPLEMENTATION_NOT_STARTED`.
-- Ветка планирования: `planning/gptbot-market-mini-app-roadmap`.
+- Статус: `SYNTHETIC_CANDIDATE_READY`; реализация:
+  `MA_0_THROUGH_MA_8_COMPLETE_LOCALLY`.
+- Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
 - Пакет: `docs/agents-platform/mini-app/README.md` и связанные architecture,
   security, UX, migration, testing, risk, proposed ADR и master-roadmap docs.
 - Текущий production stage и следующий Store Pilot #1 gate не изменены.
-- Не выполнялись application-code изменения, D1 migration, endpoint creation,
-  deploy, BotFather/webhook, Railway/n8n/payment, real-store или launch действия.
+- Не выполнялись D1 migration, production deploy, BotFather/webhook,
+  Railway/n8n/payment, real-store или launch действия.
 - Запрошенный источник
   `GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md` не найден после
   проверки repository/docs/attachments; его статус зафиксирован как
   `SOURCE_MISSING`, без реконструкции отсутствующего содержания.
+
+### Mini App implementation update — 2026-08-02
+
+This update supersedes the earlier planning-only Mini App paragraph. MA-0
+through MA-8 are complete locally on
+`feature/gptbot-market-mini-app-synthetic-candidate`; implementation and proof
+are indexed in `docs/agents-platform/mini-app/README.md`. All Market flags
+remain default-off. No production deploy, D1 migration, BotFather/webhook,
+DNS, protected bot/token, real seller/data or public cutover was performed.
+The next live step is MA-9 only after explicit owner/provider gates.
 
 ## 2. Что сделано
 

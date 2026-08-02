@@ -3,6 +3,14 @@
 Источник направления: ARCHITECTURE.md (утв. 2026-07-17) + SOTUVCHI_PLAN.md (утв. аудит MVP).
 Текущий этап — всегда `STATE.json.next_stage`. Не выполняй больше одного этапа за сессию.
 
+## Parallel MA track — Telegram Mini App
+
+MA-0 through MA-8 are complete locally as a default-off synthetic candidate.
+MA-9 (authorized Store Pilot #1) and MA-10 (primary UI/callback reduction) are
+not started. This does not change `STATE.json.next_stage`: Store Pilot #1 still
+requires owner evidence, a consenting verified seller, approved data/PII,
+native Uzbek and native Telegram checks, provider setup and explicit cutover.
+
 ## P0 — фундамент
 - **P0.0 Baseline и эстафета** — AGENTS.md, docs/agents-platform, STATE.json, baseline-проверки, handoff-протокол. Без кода платформы.
 - **P0.1 Границы модулей** — scaffold `functions/{platform,agents,channels}`, минимальные contracts (типы), import-boundary проверка (lint-правило или тест на import-graph). Без продуктовой логики.

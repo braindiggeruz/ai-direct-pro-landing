@@ -1,7 +1,10 @@
 # GPTBot Market Mini App proposed ADRs
 
-All records below have status **PROPOSED**. None is implemented or production-
-approved by this documentation commit.
+MA-ADR-001 through MA-ADR-018 were accepted for the isolated synthetic
+implementation on 2026-08-02 after a live-conflict check found no critical
+conflict. Their inline `PROPOSED` labels preserve the original planning
+record; decision D-037 is the superseding acceptance record. This acceptance
+does not approve production enablement, provider mutation or public cutover.
 
 ## MA-ADR-001 — Mini App is presentation, not authority
 

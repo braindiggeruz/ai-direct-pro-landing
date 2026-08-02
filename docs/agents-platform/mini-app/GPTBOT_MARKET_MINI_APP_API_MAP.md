@@ -1,6 +1,11 @@
 # GPTBot Market Mini App preliminary API map
 
-Status: design contract only. No endpoint in this document exists yet.
+Status: implemented as a synthetic candidate behind default-off flags. The
+capabilities in this map exist under `/api/market/v1/*`; the executable route
+and contract truth is `functions/market/router.ts` plus
+`tests/market-mini-app-contract.test.ts`. The candidate uses explicit checkout
+step routes (`/checkout/name`, `/phone`, `/address`) and
+`/checkout/cancel`; no production endpoint has been enabled or deployed.
 
 ## API rules
 

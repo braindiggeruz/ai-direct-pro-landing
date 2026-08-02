@@ -1,5 +1,18 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-037 — Mini App synthetic candidate reuses Sotuvchi truth (2026-08-02)
+
+**Decision.** MA-ADR-001 through MA-ADR-018 are accepted for the isolated
+synthetic candidate. The Mini App is a presentation adapter: its BFF derives
+identity/store authority server-side and calls existing Sotuvchi services.
+The client receives opaque media handles and memory-only short sessions. All
+four capability flags default off; the bot remains entry, notification and
+fallback. No new schema or production operation belongs to MA-0–MA-8.
+
+**Why.** This delivers buyer and verified-seller product journeys without
+creating a second business truth or expanding the live release authority.
+MA-9 remains a separately authorized, reversible cohort decision.
+
 ## D-030 (2026-07-31, R1.1) Telegram feedback leaves domain work off the network critical path
 
 Production telemetry and the owner walkthrough established a real latency

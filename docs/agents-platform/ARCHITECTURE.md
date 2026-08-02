@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-08-02 Mini App presentation adapter
+
+The synthetic candidate adds `apps/market-mini-app` and the versioned
+`/api/market/v1/*` Pages Functions adapter. `functions/market/composition.ts`
+is shared by that adapter and the dedicated Sotuvchi Telegram webhook;
+application/domain truth remains in `functions/agents/sotuvchi/**`. Pure
+Telegram init-data/session/media primitives live in
+`functions/platform/market/**`. The frontend never imports D1 or a bot secret,
+and seller authority is re-derived from stored ownership on sensitive calls.
+No migration or second backend was introduced.
+
+---
+
 # ЧАСТЬ I. АРХИТЕКТУРА
 
 ## 1. Инварианты (что фиксируем как законы платформы)
