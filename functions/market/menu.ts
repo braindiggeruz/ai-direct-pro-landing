@@ -4,7 +4,7 @@ import { TELEGRAM_AGENT_METADATA } from '../channels/telegram/metadata';
 import { marketFlag, normalizeMarketWebAppUrl } from '../platform/market';
 
 const MENU_SYNC_INTERVAL_MS = 60 * 60 * 1_000;
-const WEB_APP_RELEASE = 'bormi-20260802-3';
+const WEB_APP_RELEASE = 'bormi-20260802-4';
 let nextMenuSyncAt = 0;
 
 export function resolveMarketWebAppUrl(env: Env): string | null {
