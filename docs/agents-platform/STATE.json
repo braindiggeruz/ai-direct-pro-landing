@@ -387,6 +387,21 @@
     "instance_deleted": false,
     "rollback": "first-party release rollback only; no n8n reactivation path exists"
   },
+  "planning_tracks": {
+    "gptbot_market_mini_app": {
+      "prepared_at": "2026-08-02",
+      "status": "MINI_APP_ROADMAP_PREPARED",
+      "implementation_status": "IMPLEMENTATION_NOT_STARTED",
+      "branch": "planning/gptbot-market-mini-app-roadmap",
+      "package_index": "docs/agents-platform/mini-app/README.md",
+      "backend_reuse_estimate_percent": 89,
+      "first_user_visible_slice": "MA-3.1a signed read-only synthetic product detail",
+      "schema_migration_for_first_slice": false,
+      "production_stage_changed": false,
+      "production_operations_performed": false,
+      "missing_source": "GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md"
+    }
+  },
   "open_items": [
     {
       "id": "automation-llm-key",

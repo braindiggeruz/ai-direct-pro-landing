@@ -11,6 +11,21 @@
 - Следующий этап: Store Pilot #1 owner input/authorization gate.
 - Рабочее дерево: clean after the governance commit; `dist/` untracked/ignored.
 
+### Отдельный Mini App planning track — 2026-08-02
+
+- Статус: `MINI_APP_ROADMAP_PREPARED`; реализация:
+  `IMPLEMENTATION_NOT_STARTED`.
+- Ветка планирования: `planning/gptbot-market-mini-app-roadmap`.
+- Пакет: `docs/agents-platform/mini-app/README.md` и связанные architecture,
+  security, UX, migration, testing, risk, proposed ADR и master-roadmap docs.
+- Текущий production stage и следующий Store Pilot #1 gate не изменены.
+- Не выполнялись application-code изменения, D1 migration, endpoint creation,
+  deploy, BotFather/webhook, Railway/n8n/payment, real-store или launch действия.
+- Запрошенный источник
+  `GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md` не найден после
+  проверки repository/docs/attachments; его статус зафиксирован как
+  `SOURCE_MISSING`, без реконструкции отсутствующего содержания.
+
 ## 2. Что сделано
 
 Truth and naming were aligned to runtime. Warm Market Signals, RU/UZ Market and
