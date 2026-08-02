@@ -6,6 +6,7 @@ import type {
   CheckoutSnapshot,
   Handoff,
   Inventory,
+  MarketLaunch,
   Product,
   SellerOrder,
   SessionExchange,
@@ -121,7 +122,25 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
   const body = bodyOf(options);
   let result: unknown;
 
-  if (path === '/session/exchange') {
+  if (path === '/session/launch') {
+    result = {
+      session: {
+        token: 'synthetic-memory-token', expiresAt: new Date(Date.now() + 600_000).toISOString(),
+        locale: 'ru', user: { firstName: 'Aziza', lastName: null, username: 'synthetic' },
+        capabilities: { buyer: true, sellerRead: true, sellerCommands: true },
+        storefront: { id: 'store-synthetic', locale: 'ru' },
+      },
+      bootstrap: {
+        apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
+        navigation: ['home', 'search', 'compare', 'orders'],
+        sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
+        flags: { buyer: true, sellerRead: true, sellerCommands: true },
+        storefront: { id: 'store-synthetic', state: 'active' },
+        counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
+      },
+      home: { categories, products, updatedAt: now },
+    } satisfies MarketLaunch;
+  } else if (path === '/session/exchange') {
     result = {
       token: 'synthetic-memory-token', expiresAt: new Date(Date.now() + 600_000).toISOString(),
       locale: 'ru', user: { firstName: 'Aziza', lastName: null, username: 'synthetic' },

@@ -1,5 +1,5 @@
 import { telegramInitData } from '../platform/telegram';
-import type { SessionExchange } from '../types';
+import type { MarketLaunch, SessionExchange } from '../types';
 
 const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL ?? '/api/market/v1')
   .replace(/\/$/, '');
@@ -69,6 +69,23 @@ export async function exchangeSession(): Promise<SessionExchange> {
   });
   sessionToken = session.token;
   return session;
+}
+
+export async function exchangeLaunch(): Promise<MarketLaunch> {
+  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+    const launch = await fixtureRequest<MarketLaunch>('/session/launch', {
+      method: 'POST', body: { initData: 'fixture' },
+    });
+    sessionToken = launch.session.token;
+    return launch;
+  }
+  const initData = telegramInitData();
+  if (!initData) throw new MarketApiError('unsupported_environment', 403, null);
+  const launch = await request<MarketLaunch>('/session/launch', {
+    method: 'POST', body: { initData },
+  });
+  sessionToken = launch.session.token;
+  return launch;
 }
 
 export async function refreshSession(): Promise<SessionExchange> {

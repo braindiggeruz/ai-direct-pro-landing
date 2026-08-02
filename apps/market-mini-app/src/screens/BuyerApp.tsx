@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { marketApi } from '../lib/api';
+import { demoProductImage } from '../lib/demo-product-media';
 import { formatDate, formatPrice, t } from '../lib/i18n';
 import { haptic } from '../platform/telegram';
 import type {
   BuyerOrder,
-  Category,
+  CatalogHome,
   CheckoutSnapshot,
   Handoff,
   Locale,
@@ -32,6 +33,7 @@ interface BuyerAppProps {
   onLocale: (locale: Locale) => void;
   sellerAvailable: boolean;
   onSeller: () => void;
+  initialHome: CatalogHome;
 }
 
 function availabilityTone(value: Product['availability']) {
@@ -44,16 +46,19 @@ function ProductCard({
   onOpen,
   onCompare,
   comparePending,
+  priority = false,
 }: {
   product: Product;
   locale: Locale;
   onOpen: () => void;
   onCompare: () => void;
   comparePending?: boolean;
+  priority?: boolean;
 }) {
+  const previewSrc = demoProductImage(product);
   return (
     <article className="product-card">
-      <AsyncImage className="product-card__media" handle={product.mediaHandles[0]} alt={product.name} />
+      <AsyncImage className="product-card__media" handle={product.mediaHandles[0]} previewSrc={previewSrc} eager={priority} alt={product.name} />
       <div className="product-card__body">
         <Badge tone={availabilityTone(product.availability)}>{labelForStatus(locale, product.availability)}</Badge>
         <h3>{product.name}</h3>
@@ -88,7 +93,7 @@ function ProductDetail({
     <Modal open={Boolean(product)} title={product?.name ?? ''} onClose={onClose} sheet>
       {product ? <div className="stack">
         <div className="media-gallery">
-          <AsyncImage handle={product.mediaHandles[0]} alt={product.name} />
+          <AsyncImage handle={product.mediaHandles[0]} previewSrc={demoProductImage(product)} eager alt={product.name} />
         </div>
         <div className="row row--between">
           <span className="price-large">{formatPrice(product.priceMinor, locale)}</span>
@@ -208,7 +213,7 @@ function AskSeller({ product, locale, onClose }: { product: Product | null; loca
   </Modal>;
 }
 
-export function BuyerApp({ locale, onLocale, sellerAvailable, onSeller }: BuyerAppProps) {
+export function BuyerApp({ locale, onLocale, sellerAvailable, onSeller, initialHome }: BuyerAppProps) {
   const client = useQueryClient();
   const [view, setView] = useState<BuyerView>('home');
   const [selected, setSelected] = useState<Product | null>(null);
@@ -221,7 +226,7 @@ export function BuyerApp({ locale, onLocale, sellerAvailable, onSeller }: BuyerA
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [category, setCategory] = useState<string | null>(null);
 
-  const home = useQuery<{ categories: Category[]; products: Product[] }>({ queryKey: ['catalog-home'], queryFn: ({ signal }) => marketApi.get('/catalog/home', signal), staleTime: 30_000 });
+  const home = useQuery<CatalogHome>({ queryKey: ['catalog-home'], queryFn: ({ signal }) => marketApi.get('/catalog/home', signal), initialData: initialHome, staleTime: 60_000 });
   const search = useQuery<{ items: Product[] }>({
     queryKey: ['products', query, availability, category],
     queryFn: ({ signal }) => {
@@ -255,7 +260,7 @@ export function BuyerApp({ locale, onLocale, sellerAvailable, onSeller }: BuyerA
     if (loading) return <SkeletonList />;
     if (error) return <ErrorView locale={locale} retry={retry} />;
     if (!products.length) return <StateView icon="search" title={t(locale, 'noProducts')} body={t(locale, 'noProductsBody')} />;
-    return <div className="product-grid">{products.map((product) => <ProductCard key={product.id} product={product} locale={locale} onOpen={() => setSelected(product)} onCompare={() => addCompare.mutate(product.id)} comparePending={addCompare.isPending && addCompare.variables === product.id} />)}</div>;
+    return <div className="product-grid">{products.map((product, index) => <ProductCard key={product.id} product={product} locale={locale} priority={index < 4} onOpen={() => setSelected(product)} onCompare={() => addCompare.mutate(product.id)} comparePending={addCompare.isPending && addCompare.variables === product.id} />)}</div>;
   };
 
   return <>
@@ -266,6 +271,7 @@ export function BuyerApp({ locale, onLocale, sellerAvailable, onSeller }: BuyerA
           <div className="chip-row" role="group" aria-label={t(locale, 'categories')}>{home.data?.categories.map((item) => <button className="chip" key={item.id} onClick={() => { setCategory(item.id); setView('search'); }}><span>{item.name}</span> <small>{item.productCount}</small></button>)}</div>
         </section>
         <section className="section"><SectionHeader title={t(locale, 'featured')} action={<Button variant="ghost" onClick={() => setView('search')}>{t(locale, 'all')} <Icon name="chevron" size={18}/></Button>} />
+          <div className="demo-disclosure" role="note">{locale === 'ru' ? 'Демо-фото · синтетический каталог' : 'Demo suratlar · sintetik katalog'}</div>
           {productList(home.data?.products ?? [], home.isLoading, home.isError, () => void home.refetch())}
         </section>
       </> : null}
@@ -283,7 +289,7 @@ export function BuyerApp({ locale, onLocale, sellerAvailable, onSeller }: BuyerA
 
       {view === 'compare' ? <>
         <section className="hero"><div className="row row--between"><h1>{t(locale, 'compare')}</h1>{comparison.data?.items.length ? <Button variant="ghost" pending={clearCompare.isPending} onClick={() => clearCompare.mutate()}>{t(locale, 'clear')}</Button> : null}</div></section>
-        {comparison.isLoading ? <SkeletonList count={3} /> : comparison.data?.items.length ? <div className="stack">{comparison.data.items.map((product) => <article className="card" key={product.id}><div className="card__body stack"><div className="row"><AsyncImage className="compare-thumb" handle={product.mediaHandles[0]} alt={product.name}/><div><h2>{product.name}</h2><strong>{formatPrice(product.priceMinor, locale)}</strong></div></div><Badge tone={availabilityTone(product.availability)}>{labelForStatus(locale, product.availability)}</Badge><dl className="spec-list">{product.specifications.map((item) => <div key={item.key}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl><Button variant="secondary" pending={removeCompare.isPending} onClick={() => removeCompare.mutate(product.id)}>{t(locale, 'remove')}</Button></div></article>)}</div> : <StateView icon="compare" title={t(locale, 'compareEmpty')} action={<Button onClick={() => setView('search')}>{t(locale, 'search')}</Button>} />}
+        {comparison.isLoading ? <SkeletonList count={3} /> : comparison.data?.items.length ? <div className="stack">{comparison.data.items.map((product) => <article className="card" key={product.id}><div className="card__body stack"><div className="row"><AsyncImage className="compare-thumb" handle={product.mediaHandles[0]} previewSrc={demoProductImage(product)} alt={product.name}/><div><h2>{product.name}</h2><strong>{formatPrice(product.priceMinor, locale)}</strong></div></div><Badge tone={availabilityTone(product.availability)}>{labelForStatus(locale, product.availability)}</Badge><dl className="spec-list">{product.specifications.map((item) => <div key={item.key}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl><Button variant="secondary" pending={removeCompare.isPending} onClick={() => removeCompare.mutate(product.id)}>{t(locale, 'remove')}</Button></div></article>)}</div> : <StateView icon="compare" title={t(locale, 'compareEmpty')} action={<Button onClick={() => setView('search')}>{t(locale, 'search')}</Button>} />}
       </> : null}
 
       {view === 'orders' ? <>

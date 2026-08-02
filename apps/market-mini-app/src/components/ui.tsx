@@ -8,7 +8,8 @@ import {
 } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMedia } from '../lib/api';
-import { t, type CopyKey } from '../lib/i18n';
+import { DEMO_PRODUCT_PREVIEW, demoPreviewName } from '../lib/demo-product-media';
+import { formatPrice, t, type CopyKey } from '../lib/i18n';
 import type { Locale } from '../types';
 
 export type IconName =
@@ -83,11 +84,19 @@ export function AsyncImage({
   handle,
   alt,
   className = '',
-}: { handle?: string; alt: string; className?: string }) {
+  previewSrc,
+  eager = false,
+}: {
+  handle?: string;
+  alt: string;
+  className?: string;
+  previewSrc?: string;
+  eager?: boolean;
+}) {
   const query = useQuery({
     queryKey: ['media', handle],
     queryFn: ({ signal }) => fetchMedia(handle!, signal),
-    enabled: Boolean(handle),
+    enabled: Boolean(handle) && !previewSrc,
     staleTime: 5 * 60_000,
     gcTime: 10 * 60_000,
   });
@@ -97,6 +106,16 @@ export function AsyncImage({
       if (value?.startsWith('blob:')) URL.revokeObjectURL(value);
     };
   }, [query.data]);
+  if (previewSrc) {
+    return <img
+      className={className}
+      src={previewSrc}
+      alt={alt}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchPriority={eager ? 'high' : 'auto'}
+      decoding="async"
+    />;
+  }
   if (!handle || query.isError) {
     return <div className={`image-fallback ${className}`} role="img" aria-label={alt}><Icon name="box" size={32} /></div>;
   }
@@ -119,11 +138,27 @@ export function StateView({
 
 export function LoadingView({ locale }: { locale: Locale }) {
   return (
-    <section className="loading-view" role="status" aria-live="polite">
-      <div className="brand-mark" aria-hidden="true">G</div>
-      <span className="spinner spinner--large" aria-hidden="true" />
-      <p>{t(locale, 'loading')}</p>
-    </section>
+    <main className="launch-preview" aria-busy="true">
+      <header className="launch-preview__header">
+        <div className="brand-mark" aria-hidden="true">G</div>
+        <div><strong>{t(locale, 'appName')}</strong><span>{t(locale, 'loading')}</span></div>
+        <span className="spinner" aria-hidden="true" />
+      </header>
+      <section className="launch-preview__hero" role="status" aria-live="polite">
+        <span className="eyebrow">{locale === 'ru' ? 'Демо-каталог' : 'Demo katalog'}</span>
+        <h1>{locale === 'ru' ? 'Витрина уже рядом' : 'Vitrina tayyorlanmoqda'}</h1>
+      </section>
+      <div className="launch-preview__grid" aria-hidden="true">
+        {DEMO_PRODUCT_PREVIEW.map((item, index) => <article className="product-card" key={item.image}>
+          <img className="product-card__media" src={item.image} alt="" loading={index < 2 ? 'eager' : 'lazy'} fetchPriority={index < 2 ? 'high' : 'auto'} />
+          <div className="product-card__body">
+            <strong>{demoPreviewName(item, locale)}</strong>
+            <span className="product-card__price">{formatPrice(item.priceMinor, locale)}</span>
+            <span className="skeleton launch-preview__action" />
+          </div>
+        </article>)}
+      </div>
+    </main>
   );
 }
 

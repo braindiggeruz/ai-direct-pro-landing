@@ -7,6 +7,7 @@ import {
   onlineManager,
 } from '@tanstack/react-query';
 import App from './App';
+import { initializeTelegram } from './platform/telegram';
 import './styles.css';
 
 onlineManager.setEventListener((setOnline) => {
@@ -39,6 +40,8 @@ const client = new QueryClient({
     },
   },
 });
+
+initializeTelegram();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

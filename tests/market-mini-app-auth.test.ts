@@ -192,30 +192,32 @@ test('Telegram client uses setChatMenuButton with a bounded Web App payload', as
   });
 });
 
-test('Market session exchange maps invalid initData without an unhandled rejection', async () => {
-  const response = await handleMarketRequest({
-    request: new Request('https://gptbot.uz/api/market/v1/session/exchange', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Origin: 'https://gptbot-market-mini-app.pages.dev',
+test('Market session exchange and launch map invalid initData without an unhandled rejection', async () => {
+  for (const endpoint of ['exchange', 'launch']) {
+    const response = await handleMarketRequest({
+      request: new Request(`https://gptbot.uz/api/market/v1/session/${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Origin: 'https://gptbot-market-mini-app.pages.dev',
+        },
+        body: JSON.stringify({ initData: 'invalid' }),
+      }),
+      env: {
+        MARKET_MINI_APP_ENABLED: 'true',
+        MARKET_MINI_APP_ORIGINS: 'https://gptbot-market-mini-app.pages.dev',
+        MARKET_MINI_APP_SESSION_SECRET: SESSION_SIGNING_VALUE,
+        TELEGRAM_AGENTS_BOT_TOKEN: BOT_TOKEN,
+        TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_market_bot',
+        GPTBOT_DRAFTS_DB: {} as D1Database,
       },
-      body: JSON.stringify({ initData: 'invalid' }),
-    }),
-    env: {
-      MARKET_MINI_APP_ENABLED: 'true',
-      MARKET_MINI_APP_ORIGINS: 'https://gptbot-market-mini-app.pages.dev',
-      MARKET_MINI_APP_SESSION_SECRET: SESSION_SIGNING_VALUE,
-      TELEGRAM_AGENTS_BOT_TOKEN: BOT_TOKEN,
-      TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_market_bot',
-      GPTBOT_DRAFTS_DB: {} as D1Database,
-    },
-  });
-  assert.equal(response.status, 401);
-  assert.deepEqual(await response.json(), {
-    error: 'invalid_session',
-    request_id: response.headers.get('x-request-id'),
-  });
+    });
+    assert.equal(response.status, 401);
+    assert.deepEqual(await response.json(), {
+      error: 'invalid_session',
+      request_id: response.headers.get('x-request-id'),
+    });
+  }
 });
 
 test('Market menu sync is feature-gated and bounded per isolate', async () => {

@@ -173,6 +173,48 @@ async function resultDtos(
   })));
 }
 
+async function bootstrapPayload(context: RequestContext) {
+  const [orders, activeCheckout, activeHandoff] = await Promise.all([
+    context.services.checkout.listBuyerOrders(context.access.buyerOrg, 5),
+    context.services.checkout.getActiveCheckout(context.access.buyerOrg),
+    context.services.handoff.getActiveForBuyer(context.access.buyerOrg),
+  ]);
+  return {
+    apiVersion: 'market-v1',
+    buildId: context.env.MARKET_MINI_APP_BUILD_ID ?? 'local',
+    locale: context.claims.locale,
+    navigation: ['home', 'search', 'compare', 'orders'],
+    sellerNavigation: context.access.sellerOrg
+      ? ['dashboard', 'orders', 'questions', 'products', 'inventory']
+      : [],
+    flags: {
+      buyer: true,
+      sellerRead: context.access.sellerOrg !== null,
+      sellerCommands:
+        context.access.sellerOrg !== null
+        && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED),
+    },
+    storefront: { id: context.access.buyer.storeId, state: 'active' },
+    counters: {
+      orders: orders.length,
+      activeCheckout: activeCheckout !== null,
+      activeHandoff: activeHandoff !== null,
+    },
+  };
+}
+
+async function catalogHomePayload(context: RequestContext) {
+  const [categories, results] = await Promise.all([
+    context.services.catalog.listBuyerCategories(context.access.buyer),
+    context.services.catalog.listPublishedProducts(context.access.buyer, 12),
+  ]);
+  return {
+    categories,
+    products: await resultDtos(results, context),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
 function sessionBody(value: Record<string, unknown>): string {
   const raw = value.initData ?? value.init_data;
   if (typeof raw !== 'string') {
@@ -188,6 +230,7 @@ async function exchangeSession(
   config: MarketConfiguration,
   requestId: string,
   current?: MarketSessionClaims,
+  includeLaunch = false,
 ): Promise<Response> {
   const body = await readMarketJson(request, 9_216);
   const raw = sessionBody(body);
@@ -225,7 +268,7 @@ async function exchangeSession(
     issued.claims,
     requestId,
   );
-  return marketJson({
+  const session = {
     token: issued.token,
     expiresAt: new Date(issued.claims.exp * 1_000).toISOString(),
     locale: issued.claims.locale,
@@ -245,7 +288,24 @@ async function exchangeSession(
       id: access.buyer.storeId,
       locale: access.buyer.locale,
     },
-  }, requestId, 201);
+  };
+  if (!includeLaunch) return marketJson(session, requestId, 201);
+  const context: RequestContext = {
+    request,
+    env,
+    services,
+    config,
+    claims: issued.claims,
+    access,
+    requestId,
+    url: new URL(request.url),
+    path: '/session/launch',
+  };
+  const [bootstrap, home] = await Promise.all([
+    bootstrapPayload(context),
+    catalogHomePayload(context),
+  ]);
+  return marketJson({ session, bootstrap, home }, requestId, 201);
 }
 
 function commandOrg(context: RequestContext, requestKey: string) {
@@ -302,44 +362,10 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
     }, requestId);
   }
   if (path === '/bootstrap') {
-    const [orders, activeCheckout, activeHandoff] = await Promise.all([
-      services.checkout.listBuyerOrders(access.buyerOrg, 5),
-      services.checkout.getActiveCheckout(access.buyerOrg),
-      services.handoff.getActiveForBuyer(access.buyerOrg),
-    ]);
-    return marketJson({
-      apiVersion: 'market-v1',
-      buildId: context.env.MARKET_MINI_APP_BUILD_ID ?? 'local',
-      locale: context.claims.locale,
-      navigation: ['home', 'search', 'compare', 'orders'],
-      sellerNavigation: access.sellerOrg
-        ? ['dashboard', 'orders', 'questions', 'products', 'inventory']
-        : [],
-      flags: {
-        buyer: true,
-        sellerRead: access.sellerOrg !== null,
-        sellerCommands:
-          access.sellerOrg !== null
-          && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED),
-      },
-      storefront: { id: access.buyer.storeId, state: 'active' },
-      counters: {
-        orders: orders.length,
-        activeCheckout: activeCheckout !== null,
-        activeHandoff: activeHandoff !== null,
-      },
-    }, requestId);
+    return marketJson(await bootstrapPayload(context), requestId);
   }
   if (path === '/catalog/home') {
-    const [categories, results] = await Promise.all([
-      services.catalog.listBuyerCategories(access.buyer),
-      services.catalog.listPublishedProducts(access.buyer, 12),
-    ]);
-    return marketJson({
-      categories,
-      products: await resultDtos(results, context),
-      updatedAt: new Date().toISOString(),
-    }, requestId);
+    return marketJson(await catalogHomePayload(context), requestId);
   }
   if (path === '/catalog/categories') {
     return marketJson({
@@ -900,13 +926,18 @@ export async function handleMarketRequest(input: {
     const url = new URL(input.request.url);
     const path = currentPath(url);
 
-    if (input.request.method === 'POST' && path === '/session/exchange') {
+    if (
+      input.request.method === 'POST'
+      && (path === '/session/exchange' || path === '/session/launch')
+    ) {
       return await exchangeSession(
         input.request,
         input.env,
         services,
         config,
         requestId,
+        undefined,
+        path === '/session/launch',
       );
     }
     if (input.request.method === 'POST' && path === '/session/refresh') {

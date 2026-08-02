@@ -27,6 +27,18 @@ export interface Bootstrap {
   counters: { orders: number; activeCheckout: boolean; activeHandoff: boolean };
 }
 
+export interface CatalogHome {
+  categories: Category[];
+  products: Product[];
+  updatedAt: string;
+}
+
+export interface MarketLaunch {
+  session: SessionExchange;
+  bootstrap: Bootstrap;
+  home: CatalogHome;
+}
+
 export interface Category {
   id: string;
   name: string;

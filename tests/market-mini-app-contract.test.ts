@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import test from 'node:test';
 
 const ROOT = new URL('../', import.meta.url);
@@ -55,4 +55,30 @@ test('Market API CORS is exact-origin and never wildcarded', async () => {
 test('root landing build has no Mini App entry coupling', async () => {
   const vite = await source('vite.config.ts');
   assert.doesNotMatch(vite, /market-mini-app|GPTBot Market/);
+});
+
+test('Market launch collapses startup data and ships a bounded local demo image set', async () => {
+  const [api, app, buyer, ui, router, shell, worker] = await Promise.all([
+    source('apps/market-mini-app/src/lib/api.ts'),
+    source('apps/market-mini-app/src/App.tsx'),
+    source('apps/market-mini-app/src/screens/BuyerApp.tsx'),
+    source('apps/market-mini-app/src/components/ui.tsx'),
+    source('functions/market/router.ts'),
+    source('apps/market-mini-app/index.html'),
+    source('apps/market-mini-app/public/sw.js'),
+  ]);
+  assert.match(api, /request<MarketLaunch>\('\/session\/launch'/);
+  assert.match(router, /Promise\.all\(\[\s*bootstrapPayload\(context\),\s*catalogHomePayload\(context\)/);
+  assert.match(app, /initialHome=\{launch\.home\}/);
+  assert.match(buyer, /initialData: initialHome/);
+  assert.match(ui, /enabled: Boolean\(handle\) && !previewSrc/);
+  assert.match(shell, /rel="preload" as="image"/);
+  assert.match(worker, /caches\.match\(event\.request\).*cached \|\| fetch/s);
+
+  const directory = new URL('apps/market-mini-app/public/assets/catalog-demo/', ROOT);
+  const files = (await readdir(directory)).filter((file) => file.endsWith('.webp'));
+  assert.equal(files.length, 8);
+  const sizes = await Promise.all(files.map((file) => stat(new URL(file, directory))));
+  assert.ok(sizes.every((item) => item.size > 8_000 && item.size < 50_000));
+  assert.ok(sizes.reduce((sum, item) => sum + item.size, 0) < 180_000);
 });
