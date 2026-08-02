@@ -200,6 +200,23 @@ export interface Env {
   TELEGRAM_AGENTS_BOT_TOKEN?: string;
   TELEGRAM_AGENTS_WEBHOOK_SECRET?: string;
   TELEGRAM_AGENTS_BOT_USERNAME?: string;
+  // GPTBot Market Mini App. All flags default OFF and are intentionally
+  // separate from the Telegram transport flags. The session secret must be a
+  // dedicated random value; never reuse a bot token, webhook secret or JWT.
+  MARKET_MINI_APP_ENABLED?: string;
+  MARKET_MINI_APP_BUYER_ENABLED?: string;
+  MARKET_MINI_APP_SELLER_READS_ENABLED?: string;
+  MARKET_MINI_APP_SELLER_COMMANDS_ENABLED?: string;
+  MARKET_MINI_APP_ORIGINS?: string;
+  MARKET_MINI_APP_URL?: string;
+  MARKET_MINI_APP_SESSION_SECRET?: string;
+  MARKET_MINI_APP_BUILD_ID?: string;
+  // Bormi voice search. Independent of the Mini App flags so speech can be
+  // switched off without taking the storefront down. Fails closed: when this
+  // is not exactly "true" the voice route answers 503 and the client hides
+  // the microphone. Speech recognition reuses the existing GROQ_API_KEY /
+  // OPENAI_API_KEY secrets; no new credential is introduced.
+  MARKET_VOICE_SEARCH_ENABLED?: string;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
   TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
   TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000

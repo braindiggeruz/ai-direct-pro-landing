@@ -22,7 +22,7 @@
   "heroTitle": "Центр доверия GPTBot Market",
   "heroSubtitle": "Операционное объяснение продукта. Этот материал не проходил юридическую экспертизу и не заменяет договор или консультацию юриста.",
   "ctaPrimaryLabel": "Открыть GPTBot Market",
-  "ctaPrimaryHref": "https://t.me/gptbot_market_bot?start=buyer_trust_ru",
+  "ctaPrimaryHref": "https://t.me/BormiMarketBot?start=buyer_trust_ru",
   "ctaSecondaryLabel": "Вернуться к продукту",
   "ctaSecondaryHref": "/ru/sotuvchi/",
   "heroTrust": ["Не юридическое заключение", "Заявка — не платёж", "Исправления через поддержку"],

@@ -1,5 +1,91 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## Bormi voice search (2026-08-02, pre-deploy evidence)
+
+| Check | Result |
+| --- | --- |
+| Base source / worktree | `d47d998` / `F:\Claude\gptbot-bormi-api-fix` on `fix/bormi-api-origin` |
+| UX/UI Pro Max / 21.dev | used / used; 21.dev catalog **not** queried live — CLI not signed in |
+| Voice suite `tests/market-voice-search.test.ts` | 21 of 21 PASS |
+| Market + catalog targeted (voice, auth, contract, synthetic-fixture, sotuvchi-catalog, sotuvchi-buyer-qa) | 152 of 152 PASS |
+| Platform (platform-ai, platform-runtime) + Market auth/contract | 83 of 83 PASS |
+| Mini App tests / typecheck / build | 15 of 15 PASS / PASS / PASS |
+| Functions TypeScript | 0 errors |
+| Agent boundary checker | OK, no violations |
+| ESLint on every changed area | 0 problems |
+| Secret scan | clean, 2,967 files |
+| Root production build | PASS; 113 pages, 124 articles, sitemap 240 |
+| `wrangler pages functions build` | Compiled Worker successfully |
+| Build assets | HTML 4.93 kB, CSS 30.08 kB, buyer JS 289.37 kB, lazy seller 15.26 kB; gzip 2.13/6.95/89.56/3.62 kB (buyer JS +5.31 kB gzip) |
+| Grounding invariant | asserted: exactly two `runCatalogSearch` call sites; voice route never calls the catalog service directly |
+| Privacy invariant | asserted: no `console.*`, no `localStorage`/`sessionStorage`/`indexedDB` in any voice module |
+| Fail-closed | flag off → 503 `feature_disabled`; flag on without speech credential → 503 `voice_unavailable`; no bearer → 401 |
+| Headers | `microphone=(self)`; camera/geolocation/payment/USB still denied; CSP unchanged |
+| Browser QA (fixture transport, synthetic audio stream) | permission-denied recovery, 30 s auto-stop, chip removal, transcript edit, RU and UZ all PASS |
+| Responsive / targets | 320 × 720: no horizontal overflow, search input 78 px, no target below 40 × 44 |
+| Dark contrast (new surfaces) | 6.05 : 1 – 20.08 : 1 |
+| Deployment / D1 / Telegram mutation | none — not deployed, no D1 statement, no Bot API call |
+| Axe on new voice states | NOT RUN — measured contrast, target size and overflow directly instead |
+| Real microphone / real speech provider / native Telegram | NOT RUN — owner canary required |
+
+## Bormi production rebrand release (2026-08-02)
+
+| Check | Result |
+| --- | --- |
+| Static / BFF production | `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` / `2625bbad-5899-4d51-967d-85347d6c8ecc`, source `5c9e004` |
+| UX/UI Pro Max / 21.dev | used / used; `21st` final review 0 errors, 0 warnings |
+| Mini App typecheck / tests / build | PASS / 2 of 2 / PASS |
+| Root TypeScript / production build | PASS / PASS; 113 pages, 124 articles, sitemap 240 |
+| Root relevant corpus | 1065 of 1065 PASS; only stale independent content-route baseline excluded |
+| Full root invocation | 1088 of 1091 PASS; 3 unrelated `react-router-v8-migration` expectations still assert 234 routes before `bc2792b` added 6 pages |
+| Affected / core targeted | 137 of 137 / 40 of 40 PASS |
+| Build assets | HTML 4.48 kB, CSS 25.01 kB, buyer JS 269.99 kB, lazy seller 15.26 kB; gzip 1.98/6.12/83.84/3.62 kB |
+| Demo media | 12 labelled synthetic WebPs, 232,770 bytes; four new 768x768 premium product photos |
+| Axe | buyer RU, buyer UZ, buyer dark, seller: 0 violations, 0 incomplete |
+| Responsive / input | 320/390/landscape/200 percent: no overflow, no active target below 44 px; reduced motion PASS |
+| Live static / assets / root | canonical + immutable / logo / first WebP / root all 200; Bormi title and first-paint shell present |
+| Live auth / CORS | empty exchange 400; trusted OPTIONS 204 exact origin + Vary; foreign origin 403 |
+| Live Market webhook | GET 405; unauthenticated POST 401 |
+| Secret and old-brand scans | 2,951 files clean; production bundles clean |
+| D1 read-only before/after | 1 store, 48 products, 1 order/item, 44 moves, 0 handoffs/notifications; `changed_db=false`, `rows_written=0` |
+
+## GPTBot Market Mini App Telegram review release (2026-08-02, superseded baseline)
+
+| Check | Result |
+| --- | --- |
+| Static / BFF deployments | `a08d2d0f` / `f64e7fee`, source `fb3537a` |
+| Root full corpus | 1146/1146 PASS, sequential, exit 0 |
+| Root TypeScript / production build | PASS / PASS |
+| Mini App tests / production build | 2/2 PASS / PASS |
+| Market auth + contract / Agents webhook / boundaries | 15/15 / 56/56 / 10/10 PASS |
+| Static security | 200; official bridge; strict CSP; `noindex, nofollow` |
+| Trusted / foreign CORS | 204 exact origin / 403 |
+| Forged init data | controlled 401 |
+| Agents webhook | GET 405; invalid secret POST 401 |
+| Public pages | root, RU/UZ Sotuvchi, RU/UZ Trust and Mini App all 200 |
+| Launch path | one `/session/launch`; bootstrap + catalog composed in parallel |
+| Demo media | 8 x 800x600 WebP, 157,434 bytes; labelled synthetic; immutable cache |
+| Cold point probe | HTML/JS/first image TTFB 314/363/321 ms; not stable p95 |
+| D1 read-only before/after | 1 store, 48 products, 1 existing order/item, 44 inventory moves, 0 handoffs/notifications; no writes |
+| Lead bot/webhook / migration / Railway / n8n | unchanged / none / unchanged / retired |
+
+## GPTBot Market Mini App synthetic candidate (2026-08-02)
+
+| Check | Result |
+| --- | --- |
+| Telegram auth/session/media vectors | 8/8 PASS |
+| Mini App synthetic flow | 2/2 PASS |
+| Boundary + Mini App contract corpus | 14/14 PASS |
+| Full root repository corpus | PASS, 52 root test files, exit 0 |
+| Root / Functions / Mini App TypeScript | PASS / PASS / PASS |
+| Root / Mini App production builds | PASS / PASS |
+| Mini App initial compressed assets | 87.1 KiB total (JS 82.86, CSS 4.24), below 150 KiB target |
+| Mini App production dependency audit | 0 findings |
+| Secret scan | clean |
+| Axe buyer / seller | 0 violations, 0 incomplete / 0 violations, 0 incomplete |
+| 320 px / 390 px / 200% | no horizontal overflow; no undersized active controls |
+| Production/D1/BotFather mutation | none; all capability flags default off |
+
 ## GPTBot Market owner-independent productization release (2026-08-01)
 
 | Проверка | Результат |
@@ -88,7 +174,7 @@ webhook checks were read-only.
 | Migrations | none in this slice; ledger untouched; `migrations apply --remote` not run |
 | Production contract rehearsal (read-only) | 32 tables, 8+2+2 columns, 5 unique indexes; `rows_written` 0 |
 | Production HTTP canary | root/RU/UZ/deployment 200; webhook GET 405; unauthorized POST 401; malformed POST 401; unknown route 404; OCC 401; GPT Chat 200 |
-| Telegram provider status | identity `gptbot_market_bot`; expected webhook; pending 0; last error none |
+| Telegram provider status | public identity `BormiMarketBot`; Bormi title, description and exact avatar verified; owner `/start` remains the final native canary |
 | Owner `/start` latency canary | **PASS** — 2,564 ms cold isolate vs 12,451 ms baseline; owner reports fast |
 | Production domain side effects after fix | updates 12→13 all completed, 0 failed; orders 0; handoffs 0; notifications 0; inventory moves 44 unchanged |
 

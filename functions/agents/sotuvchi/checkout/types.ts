@@ -121,6 +121,7 @@ export type BuyerOrderStatus =
   | 'cancelled';
 
 export interface BuyerOrderSummary {
+  orderId: string;
   orderNumber: string;
   productId: string;
   productName: string;
@@ -129,4 +130,13 @@ export interface BuyerOrderSummary {
   totalMinor: number;
   status: BuyerOrderStatus;
   placedAt: string;
+}
+
+export interface BuyerOrderDetail extends BuyerOrderSummary {
+  unitPriceMinor: number;
+  availability: CheckoutAvailability;
+  customerName: string;
+  customerPhone: string;
+  customerAddress: string;
+  customerComment: string | null;
 }

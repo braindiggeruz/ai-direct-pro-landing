@@ -422,7 +422,8 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
         throw new CheckoutPersistenceError('corrupt_row');
       }
       const rows = await db
-        .prepare(`SELECT ordered.order_number,
+        .prepare(`SELECT ordered.id AS order_id,
+                         ordered.order_number,
                          ordered.status,
                          ordered.fulfillment_status,
                          ordered.total_minor,
@@ -452,6 +453,7 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
           limit,
         )
         .all<{
+          order_id: string;
           order_number: string;
           status: string;
           fulfillment_status: string;
@@ -486,6 +488,7 @@ export function createSotuvchiCheckoutStore(db: D1Database): CheckoutStore {
                 : null;
         if (!status) throw new CheckoutPersistenceError('corrupt_row');
         return {
+          orderId: requireCheckoutId(row.order_id),
           orderNumber: requireOrderNumber(row.order_number),
           productId: requireCheckoutId(row.product_id),
           productName: optionalText(row.product_name_snapshot, 120)

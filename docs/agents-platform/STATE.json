@@ -1,10 +1,10 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "GPTBot Market owner-independent productization release",
+  "current_stage": "Bormi voice search implemented on top of the v8 fast path, awaiting deploy authorization",
   "stage_status": "complete",
-  "last_completed_stage": "GPTBot Market truth, brand, Telegram UX, website, trust, creative, accessibility and operations package released",
-  "next_stage": "R1 Store Pilot #1 owner evidence and explicit one-store authorization",
+  "last_completed_stage": "GPTBot Market rebranded to Bormi across the production Telegram Mini App and dedicated Market bot entry experience",
+  "next_stage": "Owner-authorized deploy of voice search plus the outstanding native v8 canary, then R1 Store Pilot #1 owner evidence and explicit one-store authorization",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -60,7 +60,7 @@
   },
   "r1_1_market_product_quality": {
     "status": "complete",
-    "bot_username": "gptbot_market_bot",
+    "bot_username": "BormiMarketBot",
     "feature_merge_commit": "a1ae79719fc6a2bf90a2a6986ad894fe66ef6a2b",
     "latency_fix_commit": "f3e15b53e0621c433295a0053c91231edaf2c493",
     "latency_fix_merge_commit": "e8b2bd73092758cc83ad25a4ed2ca95b7b239cb9",
@@ -186,9 +186,64 @@
       "PUBLIC_LAUNCH": "BLOCKED"
     }
   },
+  "bormi_voice_search": {
+    "status": "implemented_locally_verified_awaiting_deploy_authorization",
+    "base_source": "d47d99891006b0fe33994f9b8c101d14aaa4f115",
+    "worktree": "F:\\Claude\\gptbot-bormi-api-fix",
+    "branch": "fix/bormi-api-origin",
+    "deployed": false,
+    "route": "POST /api/market/v1/voice/search — raw audio, bearer Market session, voice rate-limit bucket 8 per 5 minutes per identity",
+    "additive_filter": "GET /catalog/products?maxPriceMinor= integer UZS ceiling",
+    "capability_flag": "bootstrap and launch report flags.voice, true only when MARKET_VOICE_SEARCH_ENABLED is true AND a speech credential is configured",
+    "kill_switch": "MARKET_VOICE_SEARCH_ENABLED in wrangler.toml; setting it to anything but \"true\" returns 503, hides the microphone and leaves typed search untouched",
+    "search_backend_rewritten": false,
+    "grounding": "voice and typed search share one runCatalogSearch; searchPublishedProducts and rankCatalogProducts are unchanged, so voice cannot return a product typed search would not return",
+    "speech": "reuses the production Voice-to-Reply Groq Whisper stack with optional OpenAI fallback, exposed through the platform AI facade transcribe capability; no new provider and no new credential",
+    "interpretation": "deterministic RU/Uzbek-Latin/mixed; reuses parseBudget, normalizeKnowledgeText and CATALOG_LIMITS; no model decides a product, price, availability or category",
+    "clarification": "at most one question; a number with no budget cue is reported as ambiguous and never applied as a filter",
+    "availability_rule": "only unambiguous stock phrases filter; a bare bormi/есть question never narrows results",
+    "privacy": "audio lives only in request memory, is never persisted or logged; transcript is returned to the speaker only and is not sent to analytics",
+    "remote_migration": false,
+    "schema_change": false,
+    "d1_statement_executed": false,
+    "telegram_api_mutation": false,
+    "lead_bot_or_webhook_mutation": false,
+    "headers": "Permissions-Policy microphone=() changed to microphone=(self); camera, geolocation, payment and USB stay denied; CSP unchanged",
+    "bundle_delta": "buyer JS 271.01 to 289.37 kB (gzip 84.25 to 89.56); CSS 25.01 to 30.08 kB (gzip 6.12 to 6.95); HTML and lazy seller chunk unchanged",
+    "evidence": "docs/agents-platform/mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md",
+    "decisions": ["D-040", "D-041"],
+    "next_gate": "explicit owner deploy authorization, then a native Telegram voice canary in @BormiMarketBot in RU and UZ plus one microphone-denied run; do not describe voice search as live before that"
+  },
+  "gptbot_market_mini_app": {
+    "status": "bormi_fastpath_v8_live_awaiting_native_owner_canary",
+    "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
+    "source": "d47d99891006b0fe33994f9b8c101d14aaa4f115",
+    "public_brand": "Bormi",
+    "brand_mechanic": "Bormi? — Bor.",
+    "bot_username": "BormiMarketBot",
+    "static_url": "https://gptbot-market-mini-app.pages.dev",
+    "static_deployment_id": "49111efd-9b25-41b1-a31f-717c5c0c3e1a",
+    "static_rollback_deployment_id": "9f7bec8a-3d0c-4892-a0d1-b9621797307c",
+    "root_deployment_id": "41a3d4de-cffb-4b2d-b1f8-9b1b650e5490",
+    "root_rollback_deployment_id": "3886fa85-1fff-4daf-9c21-52142d0f4e45",
+    "flags": "global, buyer, seller reads and seller commands enabled; seller authority remains server-derived",
+    "telegram_launch": "New @BormiMarketBot identity, webhook and native web_app menu are live; hourly metadata/menu sync is guarded by exact getMe username verification",
+    "origin": "https://gptbot-market-mini-app.pages.dev only",
+    "session_secret": "new encrypted Pages secret; value not exported",
+    "remote_migration": "two scoped bot_username references moved from gptbot_market_bot to bormimarketbot after a verified 10.8 MB D1 backup; all domain counts preserved",
+    "lead_bot_or_webhook_mutation": false,
+    "real_store_created": false,
+    "payments_enabled": false,
+    "public_marketplace_launched": false,
+    "d1_probe": "stores 1, products 48, orders/items 1/1, inventory moves 44, handoffs 1, notifications 0, identities 3, Bormi storefront sessions 2 and Bormi agent routes 1; every final diagnostic statement rows_written=0",
+    "performance_release": "v8 bormi-fastpath-20260802-8: immediate React mount without a blocking prefetch gate; async Telegram bridge and filled zero-JS shell; session launch returns the real catalog before secondary account counters and skips seller resolution; full bootstrap refreshes in background; seller code remains lazy-loaded",
+    "accessibility_release": "buyer RU, buyer UZ, buyer dark and seller: axe 0 violations and 0 incomplete; 320/390/landscape/200 percent no horizontal overflow or targets below 44px; reduced motion pass",
+    "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
+    "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
+  },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "08c21568581bf90e7122a566f2805a619cd9e81d",
+  "last_commit": "d47d99891006b0fe33994f9b8c101d14aaa4f115",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -252,7 +307,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-08-01",
+  "updated_at": "2026-08-02",
   "blocked": true,
   "blocked_stage": "R1 Store Pilot #1 owner evidence and activation inputs",
   "blockers": [
@@ -386,6 +441,27 @@
     "owner_kit_gate": "N8N_INGEST_GATE=INCOMPLETE for that one item only; see N8N_RETIREMENT_DEVIATION.md in the owner kit",
     "instance_deleted": false,
     "rollback": "first-party release rollback only; no n8n reactivation path exists"
+  },
+  "planning_tracks": {
+    "gptbot_market_mini_app": {
+      "prepared_at": "2026-08-02",
+      "status": "BORMI_REBRAND_LIVE_FOR_TELEGRAM_REVIEW",
+      "implementation_status": "MA_0_THROUGH_MA_8_RELEASED_WITH_BORMI_BRAND",
+      "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
+      "package_index": "docs/agents-platform/mini-app/README.md",
+      "backend_reuse_estimate_percent": 89,
+      "implemented_surfaces": [
+        "buyer_catalog_search_detail_compare_checkout_orders_handoff",
+        "verified_seller_dashboard_orders_handoffs_products_inventory_commands"
+      ],
+      "schema_migration_added": false,
+      "flags_default_off": false,
+      "candidate_manifest": "docs/agents-platform/mini-app/implementation/evidence/candidate-manifest.json",
+      "production_stage_changed": true,
+      "production_operations_performed": "Pages static and BFF deploy only; no D1 migration or domain write",
+      "next_stage": "native Telegram owner acceptance; MA-9 real cohort only after owner/provider gates and explicit authorization",
+      "missing_source": "GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md"
+    }
   },
   "open_items": [
     {

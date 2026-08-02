@@ -219,6 +219,46 @@ export class SotuvchiCheckoutService {
     );
   }
 
+  async getBuyerOrder(
+    org: OrgContext,
+    rawOrderId: unknown,
+  ): Promise<import('./types').BuyerOrderDetail> {
+    const session = await this.trustedSession(org);
+    const order = await this.store.getOrder(
+      session.orgId,
+      requireCheckoutId(rawOrderId),
+    );
+    if (
+      !order
+      || order.storeId !== session.storeId
+      || order.buyerSessionId !== session.id
+      || order.placedAt === null
+      || order.quantity === null
+      || order.totalMinor === null
+      || !order.buyerName
+      || !order.buyerPhone
+      || !order.buyerAddress
+    ) {
+      throw new CheckoutNotFoundError('order');
+    }
+    const summary = (await this.store.listBuyerOrders(
+      session.orgId,
+      session.storeId,
+      session.id,
+      10,
+    )).find((candidate) => candidate.orderId === order.id);
+    if (!summary) throw new CheckoutNotFoundError('order');
+    return {
+      ...summary,
+      unitPriceMinor: order.unitPriceMinor,
+      availability: order.availabilitySnapshot,
+      customerName: order.buyerName,
+      customerPhone: order.buyerPhone,
+      customerAddress: order.buyerAddress,
+      customerComment: order.buyerComment,
+    };
+  }
+
   private async operation(
     org: OrgContext,
     name: string,

@@ -28,6 +28,7 @@ export interface InlineButton {
   text: string;
   callback_data?: string;
   url?: string;
+  web_app?: { url: string };
 }
 export type InlineKeyboard = InlineButton[][];
 
@@ -248,6 +249,31 @@ export class TelegramClient {
     return this.call<{ url?: string; pending_update_count?: number; last_error_message?: string; last_error_date?: number }>('getWebhookInfo');
   }
 
+  setChatMenuButton(url: string, text = 'Bormi') {
+    return this.call('setChatMenuButton', {
+      menu_button: {
+        type: 'web_app',
+        text: text.slice(0, 64),
+        web_app: { url },
+      },
+    }, { timeoutMs: 5_000, maxRetries: 1 });
+  }
+
+  getChatMenuButton() {
+    return this.call<{
+      type?: string;
+      text?: string;
+      web_app?: { url?: string };
+    }>('getChatMenuButton');
+  }
+
+  setMyName(name: string, languageCode?: string) {
+    return this.call('setMyName', {
+      name: name.slice(0, 64),
+      ...(languageCode ? { language_code: languageCode } : {}),
+    });
+  }
+
   setMyCommands(commands: readonly { command: string; description: string }[], languageCode?: string) {
     return this.call('setMyCommands', { commands, ...(languageCode ? { language_code: languageCode } : {}) });
   }
@@ -258,6 +284,64 @@ export class TelegramClient {
 
   setMyShortDescription(shortDescription: string, languageCode?: string) {
     return this.call('setMyShortDescription', { short_description: shortDescription, ...(languageCode ? { language_code: languageCode } : {}) });
+  }
+
+  /** Telegram Bot API requires a freshly uploaded JPG wrapped in an
+   * InputProfilePhotoStatic object; existing file_id values cannot be reused. */
+  async setMyProfilePhoto(
+    photo: Blob,
+    filename = 'bormi-bot-avatar.jpg',
+  ): Promise<TgResult<boolean>> {
+    if (
+      photo.type !== 'image/jpeg'
+      || photo.size < 1
+      || photo.size > 5_000_000
+      || !/^[a-z0-9][a-z0-9._-]{0,79}\.jpe?g$/i.test(filename)
+    ) {
+      return { ok: false, error_code: 400 };
+    }
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
+      try {
+        const form = new FormData();
+        form.set('photo', JSON.stringify({
+          type: 'static',
+          photo: 'attach://avatar',
+        }));
+        form.set('avatar', photo, filename);
+        const response = await fetch(
+          `${API_BASE}/bot${this.token}/setMyProfilePhoto`,
+          { method: 'POST', body: form, signal: controller.signal },
+        );
+        const data = await response.json() as TgResult<boolean>;
+        clearTimeout(timer);
+        if (response.ok && data.ok) return data;
+        if ((response.status === 429 || response.status >= 500) && attempt === 0) {
+          await sleep(telegramRetryDelayMs(
+            response.status,
+            data.parameters?.retry_after,
+            attempt,
+          ));
+          continue;
+        }
+        console.error(
+          `tg.setMyProfilePhoto ${response.status} code=${data.error_code ?? '?'}`,
+        );
+        return data.ok !== undefined
+          ? data
+          : { ok: false, error_code: response.status };
+      } catch (error) {
+        clearTimeout(timer);
+        if (attempt === 0) {
+          await sleep(telegramRetryDelayMs(0, undefined, attempt));
+          continue;
+        }
+        console.error(`tg.setMyProfilePhoto network: ${(error as Error).name}`);
+        return { ok: false, error_code: 0 };
+      }
+    }
+    return { ok: false, error_code: 0 };
   }
 }
 

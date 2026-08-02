@@ -1455,7 +1455,8 @@ test('Telegram RU checkout runs card to order without payment surface', async ()
   await harness.invoke(telegramMessage(970_004, 97001, '2', 'ru'));
   assert.ok(harness.delivery.sent.at(-1)?.text.includes('Как вас зовут'));
   await harness.invoke(telegramMessage(970_010, 97001, '/start', 'ru'));
-  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Как вас зовут'));
+  assert.ok(harness.delivery.sent.at(-1)?.text.includes('Bormi? — Bor.'));
+  assert.ok(!harness.delivery.sent.at(-1)?.text.includes('Как вас зовут'));
   assert.equal(
     fixture.value(
       `SELECT COUNT(*) FROM sotuvchi_orders WHERE status = 'draft'`,

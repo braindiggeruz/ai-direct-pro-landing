@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-08-02T03:06:31.944Z",
+  "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
+  "sourceCommit": "7e93e1589f2cd3948859085556062cfcd7485a2c",
+  "productionOperationsPerformed": false,
+  "migrationsAdded": false,
+  "flagsDefaultOff": [
+    "MARKET_MINI_APP_ENABLED",
+    "MARKET_MINI_APP_BUYER_ENABLED",
+    "MARKET_MINI_APP_SELLER_READS_ENABLED",
+    "MARKET_MINI_APP_SELLER_COMMANDS_ENABLED"
+  ],
+  "artifact": {
+    "directory": "apps/market-mini-app/dist",
+    "totalBytes": 293318,
+    "files": [
+      {
+        "path": "dist/_headers",
+        "bytes": 608,
+        "sha256": "46bf43b0566d73345d415468ff071669d2bdcca086f9f3258b4d4d6aaac8f5a8"
+      },
+      {
+        "path": "dist/assets/index-BGqVfNWB.js",
+        "bytes": 275080,
+        "sha256": "dd0457b98f868a61177b8933c5af5516a2bb8eeac134cb10eb13757ed76d77cd"
+      },
+      {
+        "path": "dist/assets/index-jvhPGGzh.css",
+        "bytes": 15628,
+        "sha256": "107c19950ee8126cc577fc98cae3c97f8999799504e74ffdb522fd58979a88c8"
+      },
+      {
+        "path": "dist/index.html",
+        "bytes": 944,
+        "sha256": "1beec122007469c5ed3e06436919c0d35e58e650a3c7e1875808497fef377632"
+      },
+      {
+        "path": "dist/sw.js",
+        "bytes": 1058,
+        "sha256": "f889c7f3a5476ca4a5a2469d2276ffe7c46ee5adbed5bf26b82b32416f70659a"
+      }
+    ]
+  },
+  "requiredOwnerGates": [
+    "non-production BotFather bot/menu and token",
+    "preview DNS/origin and session secret",
+    "native Telegram iOS/Android RU verification",
+    "native Uzbek Latin sign-off",
+    "real seller/data/PII authorization",
+    "public cutover approval"
+  ]
+}

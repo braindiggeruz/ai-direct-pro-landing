@@ -1,5 +1,9 @@
 import type { DeterministicRule } from '../../platform/contracts';
-import { BUYER_COPY, homeChoices, homeResponse } from './experience';
+import {
+  BUYER_COPY,
+  homeChoices,
+  welcomeResponse,
+} from './experience';
 
 function answer(
   _context: Parameters<DeterministicRule['execute']>[0],
@@ -23,7 +27,7 @@ export const sotuvchiStorefrontPendingRule: DeterministicRule = {
   async execute(context) {
     return {
       kind: 'answer',
-      response: homeResponse(context.org.locale),
+      response: welcomeResponse(context.org.locale),
       facts: [],
     };
   },

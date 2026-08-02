@@ -37,6 +37,17 @@ export interface TelegramDeliveryPort {
   answerCallback(callbackQueryId: string): Promise<boolean>;
 }
 
+export interface TelegramDeliveryOptions {
+  webApp?: {
+    url: string;
+    text?: string;
+  };
+  brandMedia?: {
+    ref: string;
+    url: string;
+  };
+}
+
 const FALLBACK = {
   ru: {
     runtime: 'Не удалось подготовить ответ. Попробуйте ещё раз позже.',
@@ -139,13 +150,24 @@ export function createTelegramDeliveryPort(
     TelegramClient,
     'sendMessage' | 'sendChatAction' | 'answerCallbackQuery'
   > & Partial<Pick<TelegramClient, 'sendPhoto'>>,
+  options: TelegramDeliveryOptions = {},
 ): TelegramDeliveryPort {
+  const withWebApp = (keyboard?: InlineKeyboard): InlineKeyboard | undefined => {
+    if (!options.webApp) return keyboard;
+    return [
+      ...(keyboard ?? []),
+      [{
+        text: options.webApp.text?.trim().slice(0, 64) || 'Bormi',
+        web_app: { url: options.webApp.url },
+      }],
+    ];
+  };
   return {
     async sendText(threadRef, text, keyboard) {
       const result = await client.sendMessage(
         parseThreadRef(threadRef),
         text,
-        keyboard ? { keyboard } : {},
+        withWebApp(keyboard) ? { keyboard: withWebApp(keyboard) } : {},
       );
       return result.ok;
     },
@@ -158,11 +180,14 @@ export function createTelegramDeliveryPort(
             keyboard?: InlineKeyboard,
           ) {
             if (!SAFE_MEDIA_REF.test(mediaRef)) return false;
+            const photo = options.brandMedia?.ref === mediaRef
+              ? options.brandMedia.url
+              : mediaRef;
             const result = await client.sendPhoto!(
               parseThreadRef(threadRef),
-              mediaRef,
+              photo,
               caption,
-              keyboard ? { keyboard } : {},
+              withWebApp(keyboard) ? { keyboard: withWebApp(keyboard) } : {},
             );
             return result.ok;
           },

@@ -1,5 +1,93 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-041 — voice search is AI for hearing only; understanding stays deterministic (2026-08-02)
+
+**Decision.** The only model in the Bormi voice path is speech-to-text.
+Converting a transcript into a catalog query — budget, stock, attributes,
+category, product words — is deterministic code that reuses the existing
+`parseBudget`, `normalizeKnowledgeText` and `CATALOG_LIMITS`. Voice and typed
+search execute through one shared `runCatalogSearch`, so `searchPublishedProducts`
+and `rankCatalogProducts` remain the only ranking authority. A model may never
+name a product, a price, an availability state or a category. Ambiguity is
+resolved by exactly one short question or left unapplied; it is never guessed.
+Attribute words rank inside the query rather than being turned into a filter the
+catalog cannot honour, and words that matched nothing are disclosed through the
+existing `unmatchedConstraints`.
+
+**Why.** Grounding is the product promise: Bormi shows what the connected
+catalog actually has. A generative interpreter would be the single point at
+which a plausible-but-absent product, or a silently invented price ceiling,
+could enter a grounded storefront. Deterministic interpretation is also
+testable, free, instant and degrades to plain text search when speech fails —
+which is the failure mode a marketplace can survive.
+
+## D-040 — Bormi voice reuses the production speech stack behind the platform AI contract (2026-08-02)
+
+**Decision.** Speech recognition for Bormi uses the existing Voice-to-Reply
+implementation (Groq Whisper first, optional OpenAI fallback, in-memory audio,
+two size gates, bounded timeout) exposed through the platform AI facade's
+previously declared but unimplemented `transcribe` capability, via the single
+allow-listed `LEGACY-SHIM` adapter. No second transcription path, no new
+provider and no new credential is introduced; `GROQ_API_KEY` and the optional
+`OPENAI_API_KEY` are reused. Audio is never persisted, cached or logged, and
+the transcript is returned to the speaker only. Voice is gated by
+`MARKET_VOICE_SEARCH_ENABLED` and is advertised to the client only when that
+switch is on and a speech credential is configured.
+
+**Why.** Copying the speech stack would duplicate model names, retry policy and
+privacy discipline in a second place, and would double the surface where audio
+handling can drift. Routing it through the platform contract keeps the provider
+behind a driver, gives the route a bounded deadline and per-attempt metadata for
+free, and makes the capability honestly reportable — a microphone that cannot
+work is never shown.
+
+## D-039 — Bormi replaces GPTBot Market as the public consumer brand (2026-08-02)
+
+**Decision.** The production Telegram marketplace uses **Bormi** and the
+mechanic **Bormi? — Bor.** across the Mini App, dedicated Market-bot response
+copy, menu button and mutable profile metadata. Stable technical identifiers,
+including `@gptbot_market_bot`, Pages project names, API paths, D1 tables and
+feature flags, remain unchanged. The app uses a dedicated semantic light/dark
+design system and adapted mobile interaction patterns without adding a generic
+component framework or fabricated marketplace proof.
+
+**Why.** Public brand recognition and consumer clarity do not require a risky
+identity, data or infrastructure migration. Keeping stable identifiers protects
+deep links, webhook isolation, authorization and rollback while the controllable
+surface becomes a coherent standalone product. Profile metadata synchronizes
+idempotently on a bounded cadence; username changes require a separate Telegram
+owner action and are not inferred from this release.
+
+## D-038 — Telegram review uses isolated static hosting and the existing secret boundary (2026-08-02)
+
+**Decision.** The owner-authorized review uses a dedicated static Pages
+project for the Mini App and the existing `gptbot.uz` BFF for authenticated
+domain access. The encrypted Agents bot token stays in its existing production
+secret boundary. The bot receives native `web_app` response buttons and a
+TTL-limited idempotent global menu sync. Exact-origin CORS, official Telegram
+HMAC validation, short memory-only sessions and server-derived seller
+authority remain mandatory.
+
+**Why.** Preview Pages environments do not inherit production secrets, and
+copying a live bot token into a second environment would expand credential
+exposure. This split isolates browser assets while keeping identity and domain
+truth behind the already-protected Functions runtime. Rollback is flags/menu
+first, then exact Pages deployment; D1 needs no rollback because no migration
+was added.
+
+## D-037 — Mini App synthetic candidate reuses Sotuvchi truth (2026-08-02)
+
+**Decision.** MA-ADR-001 through MA-ADR-018 are accepted for the isolated
+synthetic candidate. The Mini App is a presentation adapter: its BFF derives
+identity/store authority server-side and calls existing Sotuvchi services.
+The client receives opaque media handles and memory-only short sessions. All
+four capability flags default off; the bot remains entry, notification and
+fallback. No new schema or production operation belongs to MA-0–MA-8.
+
+**Why.** This delivers buyer and verified-seller product journeys without
+creating a second business truth or expanding the live release authority.
+MA-9 remains a separately authorized, reversible cohort decision.
+
 ## D-030 (2026-07-31, R1.1) Telegram feedback leaves domain work off the network critical path
 
 Production telemetry and the owner walkthrough established a real latency

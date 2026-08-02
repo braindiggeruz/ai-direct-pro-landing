@@ -27,7 +27,7 @@
   "heroTitle": "Напишите, что Вам нужно, — GPTBot найдёт подходящие товары в каталогах подключённых магазинов.",
   "heroSubtitle": "Ищите естественными словами: категория, бюджет и важные параметры. Ответ опирается только на подтверждённые данные каталога.",
   "ctaPrimaryLabel": "Открыть демо в Telegram",
-  "ctaPrimaryHref": "https://t.me/gptbot_market_bot?start=buyer_site_ru",
+  "ctaPrimaryHref": "https://t.me/BormiMarketBot?start=buyer_site_ru",
   "ctaSecondaryLabel": "Я продавец",
   "ctaSecondaryHref": "#seller",
   "heroTrust": [

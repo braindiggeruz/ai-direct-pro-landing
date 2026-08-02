@@ -1,4 +1,4 @@
-// Guarded setup for the isolated GPTBot Agents Telegram bot.
+// Guarded setup for the isolated Bormi Telegram bot.
 //
 // Required environment:
 //   TELEGRAM_AGENTS_BOT_TOKEN
@@ -63,6 +63,13 @@ async function verifiedIdentity(
 
 async function applyMetadata(client: TelegramClient): Promise<void> {
   for (const metadata of TELEGRAM_AGENT_METADATA) {
+    const name = await client.setMyName(
+      metadata.name,
+      metadata.languageCode,
+    );
+    if (!name.ok) {
+      throw new Error('telegram agents setup rejected: name_failed');
+    }
     const commands = await client.setMyCommands(
       metadata.commands,
       metadata.languageCode,

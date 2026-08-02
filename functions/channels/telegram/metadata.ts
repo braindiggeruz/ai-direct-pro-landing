@@ -5,6 +5,7 @@ export interface TelegramAgentCommand {
 
 export interface TelegramAgentLocalizedMetadata {
   languageCode?: 'ru' | 'uz';
+  name: string;
   commands: readonly TelegramAgentCommand[];
   description: string;
   shortDescription: string;
@@ -21,54 +22,65 @@ const COMMAND_NAMES = [
 export const TELEGRAM_AGENT_COMMAND_NAMES: readonly string[] = COMMAND_NAMES;
 
 const COMMANDS_RU: readonly TelegramAgentCommand[] = [
-  { command: 'start', description: 'главное меню' },
-  { command: 'catalog', description: 'открыть каталог' },
+  { command: 'start', description: 'открыть Bormi' },
+  { command: 'catalog', description: 'смотреть товары' },
   { command: 'orders', description: 'мои заказы' },
-  { command: 'help', description: 'помощь' },
-  { command: 'language', description: 'выбрать язык' },
+  { command: 'help', description: 'как пользоваться' },
+  { command: 'language', description: 'сменить язык' },
 ];
 
 const COMMANDS_UZ: readonly TelegramAgentCommand[] = [
-  { command: 'start', description: 'bosh menyu' },
-  { command: 'catalog', description: 'katalogni ochish' },
+  { command: 'start', description: 'Bormi’ni ochish' },
+  { command: 'catalog', description: 'mahsulotlarni ko‘rish' },
   { command: 'orders', description: 'buyurtmalarim' },
-  { command: 'help', description: 'yordam' },
-  { command: 'language', description: 'tilni tanlash' },
+  { command: 'help', description: 'qanday foydalanish' },
+  { command: 'language', description: 'tilni almashtirish' },
 ];
 
 const RU_DESCRIPTION = [
-  'GPTBot Market помогает найти и сравнить товары по подтверждённым данным',
-  'подключённых каталогов. Сейчас доступен только синтетический демо-каталог.',
-  'GPTBot не принимает оплату и не обещает доставку.',
-].join(' ');
+  'Bormi? — Bor.',
+  '',
+  'Найдите нужный товар, сравните варианты и сохраните выбор — всё прямо в Telegram.',
+  '',
+  'Сейчас внутри демонстрационный каталог. Товары и цены используются для знакомства с сервисом; покупка и доставка пока не подключены.',
+  '',
+  'Нажмите «Открыть Bormi» — посмотрим, что есть.',
+].join('\n');
 
 const UZ_DESCRIPTION = [
-  'GPTBot Market ulangan kataloglardagi tasdiqlangan ma’lumot asosida',
-  'mahsulot topish va solishtirishga yordam beradi. Hozir faqat sintetik',
-  'demo-katalog mavjud. GPTBot to‘lov qabul qilmaydi va yetkazishni va’da qilmaydi.',
-].join(' ');
+  'Bormi? — Bor.',
+  '',
+  'Kerakli mahsulotni toping, variantlarni solishtiring va tanlovingizni saqlang — barchasi Telegram ichida.',
+  '',
+  'Hozir namoyish katalogi ochiladi. Mahsulot va narxlar xizmat bilan tanishish uchun; xarid va yetkazib berish hozircha ulanmagan.',
+  '',
+  '«Bormi’ni ochish»ni bosing — nimalar borligini ko‘ramiz.',
+].join('\n');
 
 export const TELEGRAM_AGENT_METADATA:
 readonly TelegramAgentLocalizedMetadata[] = [
   {
+    name: 'Bormi',
     commands: COMMANDS_RU,
     description: RU_DESCRIPTION,
     shortDescription:
-      'GPTBot Market: поиск товаров в подключённых каталогах.',
+      'Bormi? — Bor. Найдите, сравните и выберите товар прямо в Telegram.',
   },
   {
     languageCode: 'ru',
+    name: 'Bormi',
     commands: COMMANDS_RU,
     description: RU_DESCRIPTION,
     shortDescription:
-      'GPTBot Market: поиск товаров в подключённых каталогах.',
+      'Bormi? — Bor. Найдите, сравните и выберите товар прямо в Telegram.',
   },
   {
     languageCode: 'uz',
+    name: 'Bormi',
     commands: COMMANDS_UZ,
     description: UZ_DESCRIPTION,
     shortDescription:
-      'GPTBot Market: ulangan kataloglardan mahsulot qidirish.',
+      'Bormi? — Bor. Mahsulotni Telegram ichida toping, solishtiring va tanlang.',
   },
 ];
 
@@ -85,7 +97,9 @@ export function validateTelegramAgentMetadata(
   }
   for (const value of values) {
     if (
-      value.description.length < 1
+      value.name.length < 1
+      || value.name.length > 64
+      || value.description.length < 1
       || value.description.length > 512
       || value.shortDescription.length < 1
       || value.shortDescription.length > 120

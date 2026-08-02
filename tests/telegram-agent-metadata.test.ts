@@ -9,7 +9,7 @@ import {
 } from '../functions/channels/telegram';
 import { runTelegramAgentsSetup } from '../scripts/telegram-agents-setup';
 
-const USERNAME = 'gptbot_market_bot';
+const USERNAME = 'BormiMarketBot';
 
 test('Telegram metadata is closed, localized and maps to implemented actions', () => {
   assert.doesNotThrow(
@@ -23,10 +23,13 @@ test('Telegram metadata is closed, localized and maps to implemented actions', (
     'language',
   ]);
   for (const metadata of TELEGRAM_AGENT_METADATA) {
+    assert.match(metadata.description, /^Bormi\? — Bor\./u);
+    assert.match(metadata.shortDescription, /^Bormi\? — Bor\./u);
     assert.doesNotMatch(
       `${metadata.description} ${metadata.shortDescription}`,
-      /оплат(?:а|ить)|доставим|real brand|haqiqiy brend mavjud/iu,
+      /GPTBot|синтетич|synthetic|оплат(?:а|ить)|доставим|real brand|haqiqiy brend mavjud/iu,
     );
+    assert.equal(metadata.name, 'Bormi');
     for (const command of metadata.commands) {
       if (command.command === 'start') continue;
       const parsed = parseTelegramProductCommand(
@@ -105,12 +108,15 @@ test('metadata apply verifies identity then writes all locale scopes', async () 
   assert.deepEqual(
     calls.slice(1).map(({ method }) => method),
     [
+      'setMyName',
       'setMyCommands',
       'setMyDescription',
       'setMyShortDescription',
+      'setMyName',
       'setMyCommands',
       'setMyDescription',
       'setMyShortDescription',
+      'setMyName',
       'setMyCommands',
       'setMyDescription',
       'setMyShortDescription',

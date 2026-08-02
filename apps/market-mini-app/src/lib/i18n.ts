@@ -1,0 +1,259 @@
+import type { Locale } from '../types';
+
+const copy = {
+  ru: {
+    appName: 'Bormi',
+    brandPromise: 'Bormi? — Bor.',
+    brandTagline: 'Нужное — рядом',
+    loading: 'Собираем витрину…',
+    loadingBody: 'Первые товары уже на экране, каталог подключается.',
+    heroBody: 'Товары из подключённых каталогов — с честной ценой и наличием.',
+    heroSearch: 'Что ищете сегодня?',
+    catalogTruth: 'Цена и наличие — из каталога',
+    demoLabel: 'Демо-фото · синтетический каталог',
+    comparisonReady: 'Готово к сравнению',
+    checkoutStep: 'Шаг оформления',
+    sentStep: 'Заявка отправлена',
+    confirmedStep: 'Продавец подтвердил',
+    doneStep: 'Заказ выполнен',
+    cancelledStep: 'Заказ отменён',
+    retry: 'Повторить',
+    offlineTitle: 'Нет соединения',
+    offlineBody: 'Показываем сохранённые данные. Команды станут доступны после подключения.',
+    stale: 'Данные могли измениться',
+    unsupportedTitle: 'Откройте внутри Telegram',
+    unsupportedBody: 'Вернитесь в чат и нажмите новую кнопку «Открыть Bormi» под приветствием.',
+    unavailableTitle: 'Магазин временно недоступен',
+    unavailableBody: 'Вернитесь в бот и попробуйте открыть магазин снова.',
+    home: 'Главная', search: 'Поиск', compare: 'Сравнить', orders: 'Заказы',
+    seller: 'Продавец', buyer: 'Покупатель',
+    categories: 'Категории', featured: 'Товары', all: 'Все',
+    searchPlaceholder: 'Например, наушники до 500 000',
+    searchAction: 'Найти', filters: 'Фильтры', reset: 'Сбросить', apply: 'Применить',
+    available: 'В наличии', preorder: 'Предзаказ', unavailable: 'Недоступен',
+    details: 'Подробнее', addCompare: 'В сравнение', remove: 'Убрать', clear: 'Очистить',
+    compareEmpty: 'Добавьте 2–3 товара, чтобы сравнить факты.',
+    noProducts: 'Подходящих товаров пока нет',
+    noProductsBody: 'Измените запрос или откройте другую категорию.',
+    order: 'Оформить запрос', requestNotice: 'Это заявка продавцу, не онлайн-оплата.',
+    checkout: 'Оформление', quantity: 'Количество', name: 'Имя', phone: 'Телефон',
+    address: 'Адрес или ориентир', comment: 'Комментарий', optional: 'необязательно',
+    continue: 'Продолжить', skip: 'Пропустить', confirm: 'Отправить заявку', cancel: 'Отменить',
+    summary: 'Проверка заявки', total: 'Итого', priceChanged: 'Цена изменилась — проверьте сумму.',
+    orderCreated: 'Заявка отправлена', orderCreatedBody: 'Продавец получил уведомление и подтвердит заказ.',
+    askSeller: 'Задать вопрос продавцу', question: 'Ваш вопрос', send: 'Отправить',
+    handoffOpen: 'Вопрос отправлен', handoffAnswered: 'Продавец ответил',
+    ordersEmpty: 'Заявок пока нет',
+    placed: 'Ждёт продавца', confirmed: 'Подтверждён', done: 'Выполнен', cancelled: 'Отменён',
+    sellerDashboard: 'Рабочий стол', overview: 'Обзор', sellerOrders: 'Заказы', questions: 'Вопросы',
+    products: 'Товары', inventory: 'Остатки', today: 'За 24 часа',
+    placedCount: 'Новые заявки', openQuestions: 'Открытые вопросы', published: 'Опубликовано',
+    noWork: 'Сейчас нет задач', contact: 'Контакт покупателя',
+    confirmOrder: 'Подтвердить', doneOrder: 'Отметить выполненным', cancelOrder: 'Отменить заказ',
+    reply: 'Ответить', replyPlaceholder: 'Короткий ответ покупателю',
+    stock: 'Остаток', save: 'Сохранить', commandsOff: 'Изменения пока доступны только в боте.',
+    draft: 'Черновик', publishedStatus: 'Опубликован', archived: 'Архив',
+    addProduct: 'Добавить товар', edit: 'Изменить', publish: 'Опубликовать', unpublish: 'Снять с публикации',
+    language: 'Язык', role: 'Режим', close: 'Закрыть', back: 'Назад',
+    errorTitle: 'Не получилось загрузить', errorBody: 'Попробуйте ещё раз. Если ошибка повторится, вернитесь в бот.',
+    pending: 'Сохраняем…', required: 'Заполните это поле', versionConflict: 'Данные уже изменились. Обновите экран.',
+    voiceSearch: 'Голосовой поиск',
+    voiceStart: 'Сказать голосом',
+    voiceIntroTitle: 'Скажите, что ищете',
+    voiceIntroBody: 'Говорите по-русски, на узбекском или вперемешку. Микрофон включается только на время записи.',
+    voiceExample: 'Например: «наушники до 500 тысяч, в наличии»',
+    voiceAllow: 'Разрешить микрофон',
+    voiceRecording: 'Записываем',
+    voiceListening: 'Идёт запись',
+    voiceMaxHint: 'До 30 секунд',
+    voiceStop: 'Готово',
+    voiceProcessing: 'Распознаём речь…',
+    voiceHeard: 'Услышали',
+    voiceAiNote: 'Распознано автоматически — можно исправить',
+    voiceApply: 'Искать',
+    voiceUnderstood: 'Поняли так',
+    voiceRemoveConstraint: 'Убрать условие',
+    voiceRetry: 'Записать снова',
+    voiceTypeInstead: 'Ввести текстом',
+    voiceDeniedTitle: 'Микрофон недоступен',
+    voiceDeniedBody: 'Разрешите Telegram доступ к микрофону в настройках телефона — или введите запрос текстом.',
+    voiceUnsupportedTitle: 'Запись здесь недоступна',
+    voiceUnsupportedBody: 'Откройте Bormi в приложении Telegram или введите запрос текстом.',
+    voiceUnclearTitle: 'Не расслышали',
+    voiceUnclearBody: 'Скажите ещё раз ближе к микрофону или введите запрос текстом.',
+    voiceTooShortBody: 'Слишком коротко. Держите запись чуть дольше.',
+    voiceUnavailableTitle: 'Голосовой поиск недоступен',
+    voiceUnavailableBody: 'Попробуйте позже. Обычный поиск работает как раньше.',
+    voiceLimitBody: 'Слишком много запросов подряд. Подождите минуту.',
+    voiceClarifyBudget: 'Это максимальная цена?',
+    voiceClarifyBudgetYes: 'Да, не дороже',
+    voiceClarifyBudgetNo: 'Нет, это характеристика',
+    voiceClarifyEmpty: 'Не поняли, что искать. Уточните запрос и нажмите «Искать».',
+    voiceNoMatch: 'По голосовому запросу ничего не нашлось',
+    voiceNoMatchBody: 'Уберите одно из условий или измените запрос.',
+    voiceUpTo: 'до',
+    priceUpTo: 'Цена до, сум',
+    unmatched: 'Не нашли по условию',
+  },
+  uz: {
+    appName: 'Bormi',
+    brandPromise: 'Bormi? — Bor.',
+    brandTagline: 'Keraklisi — yaqin',
+    loading: 'Vitrina tayyorlanmoqda…',
+    loadingBody: 'Birinchi mahsulotlar ekranda, katalog ulanmoqda.',
+    heroBody: 'Ulangan kataloglardagi mahsulotlar — narx va mavjudlik aniq.',
+    heroSearch: 'Bugun nima qidiryapsiz?',
+    catalogTruth: 'Narx va mavjudlik — katalogdan',
+    demoLabel: 'Demo suratlar · sintetik katalog',
+    comparisonReady: 'Solishtirishga tayyor',
+    checkoutStep: 'Rasmiylashtirish bosqichi',
+    sentStep: 'So‘rov yuborildi',
+    confirmedStep: 'Sotuvchi tasdiqladi',
+    doneStep: 'Buyurtma bajarildi',
+    cancelledStep: 'Buyurtma bekor qilindi',
+    retry: 'Qayta urinish',
+    offlineTitle: 'Internet yo‘q',
+    offlineBody: 'Saqlangan ma’lumotlar ko‘rsatilmoqda. Internet qaytgach amallar ochiladi.',
+    stale: 'Ma’lumotlar o‘zgargan bo‘lishi mumkin',
+    unsupportedTitle: 'Telegram ichida oching',
+    unsupportedBody: 'Chatga qayting va salomlashuv ostidagi yangi «Bormi’ni ochish» tugmasini bosing.',
+    unavailableTitle: 'Do‘kon vaqtincha ishlamayapti',
+    unavailableBody: 'Botga qayting va do‘konni qayta oching.',
+    home: 'Bosh sahifa', search: 'Qidiruv', compare: 'Solishtirish', orders: 'Buyurtmalar',
+    seller: 'Sotuvchi', buyer: 'Xaridor',
+    categories: 'Toifalar', featured: 'Mahsulotlar', all: 'Barchasi',
+    searchPlaceholder: 'Masalan, 500 000 gacha quloqchin',
+    searchAction: 'Topish', filters: 'Filtrlar', reset: 'Tozalash', apply: 'Qo‘llash',
+    available: 'Mavjud', preorder: 'Oldindan buyurtma', unavailable: 'Mavjud emas',
+    details: 'Batafsil', addCompare: 'Solishtirishga', remove: 'Olib tashlash', clear: 'Tozalash',
+    compareEmpty: 'Faktlarni solishtirish uchun 2–3 mahsulot qo‘shing.',
+    noProducts: 'Mos mahsulot topilmadi',
+    noProductsBody: 'So‘rovni o‘zgartiring yoki boshqa toifani oching.',
+    order: 'So‘rov yuborish', requestNotice: 'Bu sotuvchiga so‘rov, onlayn to‘lov emas.',
+    checkout: 'Rasmiylashtirish', quantity: 'Miqdor', name: 'Ism', phone: 'Telefon',
+    address: 'Manzil yoki mo‘ljal', comment: 'Izoh', optional: 'ixtiyoriy',
+    continue: 'Davom etish', skip: 'O‘tkazib yuborish', confirm: 'So‘rovni yuborish', cancel: 'Bekor qilish',
+    summary: 'So‘rovni tekshirish', total: 'Jami', priceChanged: 'Narx o‘zgardi — summani tekshiring.',
+    orderCreated: 'So‘rov yuborildi', orderCreatedBody: 'Sotuvchi xabarnoma oldi va buyurtmani tasdiqlaydi.',
+    askSeller: 'Sotuvchiga savol', question: 'Savolingiz', send: 'Yuborish',
+    handoffOpen: 'Savol yuborildi', handoffAnswered: 'Sotuvchi javob berdi',
+    ordersEmpty: 'Hozircha so‘rovlar yo‘q',
+    placed: 'Sotuvchini kutmoqda', confirmed: 'Tasdiqlangan', done: 'Bajarilgan', cancelled: 'Bekor qilingan',
+    sellerDashboard: 'Ish stoli', overview: 'Ko‘rib chiqish', sellerOrders: 'Buyurtmalar', questions: 'Savollar',
+    products: 'Mahsulotlar', inventory: 'Qoldiq', today: '24 soat ichida',
+    placedCount: 'Yangi so‘rovlar', openQuestions: 'Ochiq savollar', published: 'E’lon qilingan',
+    noWork: 'Hozir vazifalar yo‘q', contact: 'Xaridor kontakti',
+    confirmOrder: 'Tasdiqlash', doneOrder: 'Bajarildi deb belgilash', cancelOrder: 'Buyurtmani bekor qilish',
+    reply: 'Javob berish', replyPlaceholder: 'Xaridorga qisqa javob',
+    stock: 'Qoldiq', save: 'Saqlash', commandsOff: 'O‘zgartirishlar hozircha faqat botda.',
+    draft: 'Qoralama', publishedStatus: 'E’lon qilingan', archived: 'Arxiv',
+    addProduct: 'Mahsulot qo‘shish', edit: 'O‘zgartirish', publish: 'E’lon qilish', unpublish: 'E’londan olish',
+    language: 'Til', role: 'Rejim', close: 'Yopish', back: 'Orqaga',
+    errorTitle: 'Yuklab bo‘lmadi', errorBody: 'Qayta urinib ko‘ring. Xato takrorlansa, botga qayting.',
+    pending: 'Saqlanmoqda…', required: 'Maydonni to‘ldiring', versionConflict: 'Ma’lumot o‘zgargan. Sahifani yangilang.',
+    voiceSearch: 'Ovozli qidiruv',
+    voiceStart: 'Ovoz bilan ayting',
+    voiceIntroTitle: 'Nima qidirayotganingizni ayting',
+    voiceIntroBody: 'Rus tilida, o‘zbekcha yoki aralash gapiring. Mikrofon faqat yozuv vaqtida yoqiladi.',
+    voiceExample: 'Masalan: «500 minggacha quloqchin, mavjud»',
+    voiceAllow: 'Mikrofonga ruxsat berish',
+    voiceRecording: 'Yozib olinmoqda',
+    voiceListening: 'Yozuv ketmoqda',
+    voiceMaxHint: '30 soniyagacha',
+    voiceStop: 'Tayyor',
+    voiceProcessing: 'Nutq aniqlanmoqda…',
+    voiceHeard: 'Eshitildi',
+    voiceAiNote: 'Avtomatik aniqlandi — tuzatsa bo‘ladi',
+    voiceApply: 'Qidirish',
+    voiceUnderstood: 'Shunday tushunildi',
+    voiceRemoveConstraint: 'Shartni olib tashlash',
+    voiceRetry: 'Qayta yozish',
+    voiceTypeInstead: 'Matn bilan kiritish',
+    voiceDeniedTitle: 'Mikrofon ochilmadi',
+    voiceDeniedBody: 'Telefon sozlamalarida Telegram uchun mikrofonga ruxsat bering yoki so‘rovni matn bilan kiriting.',
+    voiceUnsupportedTitle: 'Bu yerda yozib bo‘lmaydi',
+    voiceUnsupportedBody: 'Bormi’ni Telegram ilovasida oching yoki so‘rovni matn bilan kiriting.',
+    voiceUnclearTitle: 'Eshitilmadi',
+    voiceUnclearBody: 'Mikrofonga yaqinroq qayta ayting yoki matn bilan kiriting.',
+    voiceTooShortBody: 'Juda qisqa. Yozuvni biroz uzoqroq ushlab turing.',
+    voiceUnavailableTitle: 'Ovozli qidiruv ishlamayapti',
+    voiceUnavailableBody: 'Keyinroq urinib ko‘ring. Oddiy qidiruv avvalgidek ishlaydi.',
+    voiceLimitBody: 'So‘rovlar juda ko‘p bo‘ldi. Bir daqiqa kuting.',
+    voiceClarifyBudget: 'Bu eng yuqori narxmi?',
+    voiceClarifyBudgetYes: 'Ha, shundan qimmat emas',
+    voiceClarifyBudgetNo: 'Yo‘q, bu xususiyat',
+    voiceClarifyEmpty: 'Nima qidirishni tushunmadik. So‘rovni aniqlashtiring va «Qidirish»ni bosing.',
+    voiceNoMatch: 'Ovozli so‘rov bo‘yicha hech narsa topilmadi',
+    voiceNoMatchBody: 'Shartlardan birini olib tashlang yoki so‘rovni o‘zgartiring.',
+    voiceUpTo: 'gacha',
+    priceUpTo: 'Narx, so‘mgacha',
+    unmatched: 'Shart bo‘yicha topilmadi',
+  },
+} as const;
+
+/**
+ * Attribute words Bormi heard. Shown back so the buyer can see the constraint
+ * was understood even when the catalog has no field to filter it on.
+ */
+const attributeCopy: Record<string, { ru: string; uz: string }> = {
+  black: { ru: 'чёрный', uz: 'qora' },
+  white: { ru: 'белый', uz: 'oq' },
+  red: { ru: 'красный', uz: 'qizil' },
+  blue: { ru: 'синий', uz: 'ko‘k' },
+  green: { ru: 'зелёный', uz: 'yashil' },
+  grey: { ru: 'серый', uz: 'kulrang' },
+  gold: { ru: 'золотой', uz: 'oltin' },
+  silver: { ru: 'серебряный', uz: 'kumush' },
+  large: { ru: 'большой', uz: 'katta' },
+  small: { ru: 'маленький', uz: 'kichik' },
+  fast: { ru: 'быстрый', uz: 'tez' },
+  wireless: { ru: 'беспроводной', uz: 'simsiz' },
+};
+
+export function attributeLabel(value: string, locale: Locale): string {
+  return attributeCopy[value]?.[locale] ?? value;
+}
+
+/** Renders a spoken budget the way each locale writes a price ceiling. */
+export function formatBudget(priceMinor: number, locale: Locale): string {
+  const price = formatPrice(priceMinor, locale);
+  return locale === 'uz'
+    ? `${price}${t(locale, 'voiceUpTo')}`
+    : `${t(locale, 'voiceUpTo')} ${price}`;
+}
+
+export type CopyKey = keyof typeof copy.ru;
+
+export function t(locale: Locale, key: CopyKey): string {
+  return copy[locale][key];
+}
+
+export function formatPrice(value: number, locale: Locale): string {
+  const unit = locale === 'uz' ? 'so‘m' : 'сум';
+  return `${new Intl.NumberFormat(locale === 'uz' ? 'uz-UZ' : 'ru-RU').format(value)} ${unit}`;
+}
+
+export function localizeCategory(name: string, locale: Locale): string {
+  if (locale === 'ru') return name;
+  const uzbek: Record<string, string> = {
+    'аудио': 'Audio',
+    'для дома': 'Uy uchun',
+    'аксессуары': 'Aksessuarlar',
+  };
+  return uzbek[name.trim().toLocaleLowerCase('ru-RU')] ?? name;
+}
+
+export function labelForStatus(locale: Locale, status: string): string {
+  const map: Partial<Record<string, CopyKey>> = {
+    available: 'available', preorder: 'preorder', unavailable: 'unavailable',
+    placed: 'placed', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled',
+    draft: 'draft', published: 'publishedStatus', archived: 'archived',
+  };
+  return map[status] ? t(locale, map[status]!) : status;
+}
+
+export function formatDate(value: string, locale: Locale): string {
+  return new Intl.DateTimeFormat(locale === 'uz' ? 'uz-UZ' : 'ru-RU', {
+    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+  }).format(new Date(value));
+}

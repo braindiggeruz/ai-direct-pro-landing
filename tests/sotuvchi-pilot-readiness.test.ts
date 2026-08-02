@@ -1007,14 +1007,14 @@ test('the landing CTA never points at the lead or Javob bot', () => {
   }
   assert.equal(
     readPage('ru').ctaPrimaryHref,
-    'https://t.me/gptbot_market_bot?start=buyer_site_ru',
+    'https://t.me/BormiMarketBot?start=buyer_site_ru',
   );
   assert.equal(
     readPage('uz').ctaPrimaryHref,
-    'https://t.me/gptbot_market_bot?start=buyer_site_uz',
+    'https://t.me/BormiMarketBot?start=buyer_site_uz',
   );
-  const expected = 'https://t.me/gptbot_market_bot?start=agent_seller';
-  assert.equal(SOTUVCHI_BOT_USERNAME, 'gptbot_market_bot');
+  const expected = 'https://t.me/BormiMarketBot?start=agent_seller';
+  assert.equal(SOTUVCHI_BOT_USERNAME, 'BormiMarketBot');
   assert.equal(sotuvchiSellerStartUrl(), expected);
   assert.equal(sotuvchiSellerCtaHref(), expected);
 });

@@ -1,15 +1,109 @@
 # GPTBot Agents — Handoff
 
+> **Fresh Bormi operational handoff (2026-08-02):** before touching the Market
+> Mini App, Telegram entry or production deployment, read
+> `BORMI_MARKET_MAXIMUM_DETAIL_HANDOFF_2026-08-02.md`. It supersedes the Bormi
+> deployment identifiers and incident status below. Current application source is
+> `d47d998`; the v8 fast-path release is live and awaits an exact native owner
+> canary in `@BormiMarketBot`.
+>
+> **Voice search (2026-08-02):** implemented on top of `d47d998` in the
+> `F:\Claude\gptbot-bormi-api-fix` worktree, locally verified, **not deployed**.
+> Read `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md` before touching
+> the Market search path. Kill switch: `MARKET_VOICE_SEARCH_ENABLED`.
+
 ## 1. Состояние
 
-- Дата: 2026-08-01.
-- Ветка: `main`.
-- Application HEAD: `08c21568581bf90e7122a566f2805a619cd9e81d`;
+- Дата: 2026-08-02.
+- Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
+- Application HEAD: `5c9e004`;
   governance state commit: `HEAD`.
-- Завершённый этап: GPTBot Market owner-independent productization and exact-SHA
-  production release.
-- Следующий этап: Store Pilot #1 owner input/authorization gate.
+- Завершённый этап: owner-authorized Telegram Mini App review integration.
+- Следующий этап: native Telegram owner review; Store Pilot #1 remains a
+  separate owner input/authorization gate.
 - Рабочее дерево: clean after the governance commit; `dist/` untracked/ignored.
+
+### Bormi voice search — 2026-08-02 (implemented, not deployed)
+
+- Status: `BORMI_VOICE_SEARCH_IMPLEMENTED_AWAITING_DEPLOY_AUTHORIZATION`.
+- Base source: `d47d998`; worktree `F:\Claude\gptbot-bormi-api-fix`.
+- The buyer taps a microphone in the search field or on the home hero, speaks
+  RU, Uzbek Latin or a mix, and gets the transcript, the understood constraints
+  and grounded catalog products in one response.
+- The catalog/search backend was **not** rewritten. `POST /voice/search` and
+  `GET /catalog/products` share one `runCatalogSearch`;
+  `searchPublishedProducts`, `rankCatalogProducts` and the shared UZS
+  `parseBudget` are reused unchanged. No D1 migration, no schema change.
+- Speech reuses the production Voice-to-Reply Groq Whisper stack through the
+  platform AI facade's `transcribe` capability. No new provider, no new
+  credential — `GROQ_API_KEY` and optional `OPENAI_API_KEY`.
+- Interpretation is deterministic code, not a model: no model may name a
+  product, price, availability or category. One clarification at most; a
+  cueless number is never applied as a price.
+- Audio never leaves request memory and is never persisted or logged; the
+  transcript goes to the speaker only.
+- `Permissions-Policy` is now `microphone=(self)`; CSP unchanged.
+- Evidence: 21/21 voice tests, 152/152 Market+catalog, 83/83 platform, 15/15
+  Mini App, boundaries OK, ESLint 0, secret scan clean 2,967 files, root and
+  Mini App builds PASS, Functions bundle compiles.
+- Next gate: explicit owner deploy authorization, then a native Telegram voice
+  canary in RU and UZ plus one microphone-denied run.
+- Record: `mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md`.
+
+### Bormi production rebrand — 2026-08-02
+
+- Status: `BORMI_REBRAND_LIVE_FOR_TELEGRAM_REVIEW`.
+- Public brand and mechanic: **Bormi**, **Bormi? — Bor.**
+- Source: `5c9e004c1b21e13a1ff0913f1c6d54f99d367f10`.
+- Static production: `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a`;
+  root/BFF production: `2625bbad-5899-4d51-967d-85347d6c8ecc`.
+- The dedicated `@BormiMarketBot` now owns the verified webhook, Bormi profile,
+  avatar, commands and native Mini App menu. Runtime sync first verifies the
+  exact `getMe` username; the lead bot and its webhook/token are untouched.
+- Twelve labelled synthetic WebPs total 232,770 bytes. Static first paint,
+  preloads, cache-first assets and lazy seller code address launch perception.
+- Buyer RU/UZ/dark and seller a11y: 0 violations/incomplete; responsive target,
+  overflow and reduced-motion checks pass.
+- A verified 10.8 MB D1 backup preceded the scoped update of two bot-username
+  references. Domain counts remained identical and the final read probe wrote
+  zero rows. No schema migration, real-store/catalog, payment, Railway/n8n or
+  public-marketplace mutation occurred.
+- Full evidence and rollback:
+  `mini-app/implementation/BORMI_REBRAND_RELEASE.md`.
+
+### Mini App Telegram review track — superseded baseline (2026-08-02)
+
+- Статус: `TELEGRAM_REVIEW_LIVE`; реализация:
+  `MA_0_THROUGH_MA_8_RELEASED_FOR_NATIVE_REVIEW`.
+- Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
+- Пакет: `docs/agents-platform/mini-app/README.md` и связанные architecture,
+  security, UX, migration, testing, risk, proposed ADR и master-roadmap docs.
+- Static Pages: `a08d2d0f-ab72-4be2-a385-c482025833a5`; root Pages:
+  `f64e7fee-3b3c-4914-9fc2-3d80e5e761db`; both source `fb3537a`.
+- `@gptbot_market_bot` exposes the app through a native response button and
+  TTL-limited menu sync. The lead bot/webhook is untouched.
+- No D1 migration, Railway/n8n/payment, real-store or public marketplace
+  action was performed.
+- Запрошенный источник
+  `GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md` не найден после
+  проверки repository/docs/attachments; его статус зафиксирован как
+  `SOURCE_MISSING`, без реконструкции отсутствующего содержания.
+
+### Mini App release update — 2026-08-02
+
+This update supersedes the local-candidate paragraph. The owner explicitly
+authorized Telegram integration. Static hosting is isolated, while the BFF
+and encrypted bot token remain in the existing production trust boundary. All
+four Mini App flags are enabled for review, but seller authority is still
+resolved from trusted server state on every request. Native Telegram review is
+the next human acceptance gate; public marketplace launch is not claimed.
+
+The subsequent performance update replaces the session/bootstrap/catalog
+waterfall with one authenticated launch request, seeds first-page data,
+defers the Telegram bridge and seller code appropriately, and displays eight
+coherent, labelled synthetic product photos. The image set is 157,434 bytes;
+protected media requests are skipped when a local demo preview exists. D1 was
+read-only and identical before/after.
 
 ## 2. Что сделано
 
@@ -20,8 +114,8 @@ production accessibility evidence were implemented. The full baseline is
 green, the feature was normally merged, and Pages deployment `68747046` was
 uploaded manually from exact merge `08c2156`.
 
-Production HTTP/auth/SEO and immutable a11y/mobile canaries pass. D1 stayed
-unchanged. Auto-deploy, Railway, migrations, provider metadata, real store,
+Production HTTP/auth/SEO and Mini App canaries pass. D1 stayed unchanged.
+Auto-deploy, Railway, migrations, lead-bot provider metadata, real store,
 payments and public marketplace were not mutated.
 
 ## 3. Изменённые файлы
@@ -56,14 +150,14 @@ native Uzbek, VoiceOver/TalkBack, real seller acceptance or stable-p95 claim.
 
 ## 6. Проверки
 
-- `node --import tsx --test --test-concurrency=1 tests/*.test.ts` → 1076/1076.
+- `node --import tsx --test --test-concurrency=1 tests/*.test.ts` → 1146/1146.
 - catalog suite → 60/60; release/pilot/OCC corpus → 100/100.
 - root and Functions TypeScript → exit 0; backend typecheck/build → exit 0.
 - `yarn build` → exit 0, 113 pages + 118 articles, sitemap 234.
 - `wrangler pages functions build` → compiled successfully.
 - ESLint changed TS/TSX → 0; agent boundary checker + tests → 0 and 10/10.
 - root/backend production audit → 0/0 findings.
-- secret scan → clean 2,868 files; browser bundles → clean 14 files.
+- secret scan → clean 2,936 files; browser bundles → clean 14 files.
 - migration/backup/pilot rehearsal → pass, local only.
 - production a11y → 7 pages, 0 violations/incomplete, 171 passes; overflow,
   keyboard and reduced motion all pass.
@@ -108,7 +202,8 @@ identity/webhook/schema/tenant/idempotency mismatch.
 
 ## 12. Rollback
 
-Immediate application rollback target is Pages deployment
-`d9ca163e-947b-40ba-856d-8143308c8402` at source `c670e4e`. No D1 rollback is
-required or allowed for this data-neutral release. Repeat HTTP/auth and D1
-read-only canaries after rollback; keep the failed deployment for evidence.
+Full pre-Mini-App rollback target is Pages deployment
+`68747046-8e1e-492a-8b81-dc4e4065916f` at source `08c2156`; disable the four
+flags and restore Telegram's default menu button first. No D1 rollback is
+required or allowed. Repeat HTTP/auth and D1 read-only canaries after rollback
+and retain the deployment evidence.

@@ -18,7 +18,8 @@
 #   OPENROUTER_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, MISTRAL_API_KEY,
 #   CEREBRAS_API_KEY, SERPER_API_KEY, YANDEX_SEARCH_API_KEY, INDEXNOW_KEY,
 #   GSC_CLIENT_ID, GSC_CLIENT_SECRET, GSC_REFRESH_TOKEN,
-#   TELEGRAM_AGENTS_BOT_TOKEN, TELEGRAM_AGENTS_WEBHOOK_SECRET, and the
+#   TELEGRAM_AGENTS_BOT_TOKEN, TELEGRAM_AGENTS_WEBHOOK_SECRET,
+#   MARKET_MINI_APP_SESSION_SECRET, and the
 #   existing product-specific TELEGRAM_* secrets.
 #
 # CRON_SECRET must match the GitHub Actions repository secret used by
@@ -61,4 +62,17 @@ queue = "gptbot-automation"
 # wrangler.automation.toml. Both fail closed when it is not exactly "true".
 [vars]
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
-TELEGRAM_AGENTS_BOT_USERNAME = "gptbot_market_bot"
+TELEGRAM_AGENTS_BOT_USERNAME = "BormiMarketBot"
+MARKET_MINI_APP_ENABLED = "true"
+MARKET_MINI_APP_BUYER_ENABLED = "true"
+MARKET_MINI_APP_SELLER_READS_ENABLED = "true"
+MARKET_MINI_APP_SELLER_COMMANDS_ENABLED = "true"
+MARKET_MINI_APP_ORIGINS = "https://gptbot-market-mini-app.pages.dev"
+MARKET_MINI_APP_URL = "https://gptbot-market-mini-app.pages.dev"
+MARKET_MINI_APP_BUILD_ID = "telegram-review-20260802"
+# Bormi voice search kill switch. Setting this to anything other than "true"
+# makes /api/market/v1/voice/search answer 503 and makes the Mini App hide the
+# microphone on the next launch; the typed search is unaffected either way.
+# Speech recognition reuses the existing GROQ_API_KEY (and optional
+# OPENAI_API_KEY) secrets — no new credential is required.
+MARKET_VOICE_SEARCH_ENABLED = "true"

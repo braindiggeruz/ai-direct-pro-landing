@@ -1,19 +1,92 @@
 # CURRENT_STATE — 2026-08-01
 
+## Bormi voice search (2026-08-02, implemented, not deployed)
+
+Bormi now accepts a spoken query. The buyer taps the microphone in the search
+field or on the home hero, speaks Russian, Uzbek Latin or a mix, and receives
+the transcript, the constraints Bormi understood and real products from the
+connected catalog in one response.
+
+The catalog and search backend was not rewritten. `POST /voice/search` reuses
+`searchPublishedProducts`, `rankCatalogProducts` and the shared UZS
+`parseBudget` through a single `runCatalogSearch` function that also serves
+`/catalog/products`, so voice cannot return a product typed search would not
+return. Speech recognition reuses the production Voice-to-Reply Groq Whisper
+stack, now exposed through the previously unimplemented `transcribe` capability
+of the platform AI facade; no new provider and no new credential were added.
+Turning the sentence into a query is deterministic code, not a model, which is
+what keeps the answer grounded. There is no D1 migration and no schema change.
+
+Availability is filtered only by unambiguous stock phrases; a bare `bormi?` or
+`есть?` never narrows the result. A number with no budget cue is never applied
+as a price — it produces exactly one short clarification. When speech fails the
+transcript is preserved and ordinary typed search continues unaffected.
+
+`MARKET_VOICE_SEARCH_ENABLED` in `wrangler.toml` is the kill switch; the server
+advertises `flags.voice` only when the switch is on and a speech credential is
+configured, and the client hides the microphone otherwise.
+
+Status: implemented and verified locally, **awaiting explicit owner deploy
+authorization** and a native Telegram voice canary. Record:
+`mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md`.
+
+## Bormi production rebrand (2026-08-02)
+
+The working Telegram marketplace is now publicly branded **Bormi**, with the
+mechanic **Bormi? — Bor.** Application source `5c9e004` is live on static
+production deployment `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` and root/BFF
+deployment `2625bbad-5899-4d51-967d-85347d6c8ecc`. The canonical Mini App is
+`https://gptbot-market-mini-app.pages.dev`; the dedicated entry remains
+`@BormiMarketBot`, with the Bormi profile, avatar, localized metadata, webhook
+and native Mini App menu. Exact bot identity is verified before bounded sync.
+
+The first paint is now a branded, filled catalog shell; the first two product
+images are preloaded, assets are cache-first and seller code stays lazy. Twelve
+labelled synthetic WebPs total 232,770 bytes, including four new cohesive
+investor-demo photos. Buyer RU/UZ, dark theme and seller surfaces pass automated
+a11y with zero violations/incomplete; narrow, landscape and 200 percent layouts
+have no overflow or undersized controls.
+
+Live HTTP/auth/CORS/webhook contracts pass. Read-only production D1 counts are
+unchanged at 1 store, 48 products, 1 existing order/item, 44 inventory moves
+and zero handoffs/notifications. A verified backup preceded the scoped update
+of two bot-username references; the final read probe wrote zero rows. No schema
+migration, real catalog, payment, lead-bot or public-marketplace operation was
+performed.
+The exact release record is
+`mini-app/implementation/BORMI_REBRAND_RELEASE.md`.
+
+## Mini App Telegram review release (2026-08-02, superseded baseline)
+
+The owner explicitly authorized Telegram integration. The Mini App is live at
+`https://gptbot-market-mini-app.pages.dev` and opens from the dedicated
+`@gptbot_market_bot` through a native response button plus safe menu sync. The
+versioned BFF is live on `gptbot.uz`; all four bounded Mini App flags are on,
+with exact-origin CORS and server-derived seller authority. No D1 migration,
+lead-bot/webhook change, Railway/n8n/payment, real seller or public-marketplace
+operation was performed. Native Telegram review is now the next human gate.
+
+The performance release at source `fb3537a` is live on static deployment
+`a08d2d0f-ab72-4be2-a385-c482025833a5` and root/BFF deployment
+`f64e7fee-3b3c-4914-9fc2-3d80e5e761db`. It collapses the three-step startup
+waterfall into one authenticated launch request, paints filled demo cards
+immediately and ships eight labelled synthetic WebP product photos (157,434
+bytes total). No production catalog or media row was mutated.
+
 ## Current production state
 
 GPTBot Market owner-independent productization is complete and deployed.
 
 - Canonical repository: `F:\Claude\gptbot-repo-clean-20260801`.
-- Main merge/source: `08c21568581bf90e7122a566f2805a619cd9e81d`.
+- Current application source: `5c9e004` on the isolated Mini App branch.
 - Cloudflare Pages deployment:
-  `68747046-8e1e-492a-8b81-dc4e4065916f`.
-- Immutable URL: `https://68747046.ai-direct-pro-landing.pages.dev`.
-- Immediate rollback: `d9ca163e-947b-40ba-856d-8143308c8402`, source
-  `c670e4eebff79e2cc4b9027ffede865f0af813ab`.
+  `2625bbad-5899-4d51-967d-85347d6c8ecc`.
+- Immutable URL: `https://2625bbad.ai-direct-pro-landing.pages.dev`.
+- Pre-cutover rollback: `426a2f7e-7ff1-4a95-8001-a6bed6230947`, source
+  `c106d6da202f7f04bad2c966b22dc0ea6925b719`.
 - Canonical URL: `https://gptbot.uz`.
-- Telegram identity: `@gptbot_market_bot`; public profile exposes the GPTBot
-  Market name. BotFather metadata was not mutated in this release.
+- Telegram identity: `@BormiMarketBot`; its responses carry a native Mini
+  App button and the global menu is synchronized idempotently.
 
 The production canary passes root, RU/UZ Market, immutable deployment, GPT
 Chat, 404, canonical, hreflang and OG. The webhook returns 405 to GET and 401
@@ -47,7 +120,7 @@ is labelled; no testimonial, seller result or commercial metric is invented.
 
 ## Release gates
 
-- Full repository: **1076/1076**, 0 fail, 50 test files.
+- Full repository: **1146/1146**, 0 fail.
 - Release, Store Pilot and Owner Control Center targeted corpus: 100/100.
 - Root and Functions TypeScript: PASS.
 - Backend typecheck/build/audit: PASS/PASS/0 findings.
@@ -55,7 +128,7 @@ is labelled; no testimonial, seller result or commercial metric is invented.
 - Pages Functions build: PASS.
 - Scoped ESLint: 0 errors; agent boundaries 0 violations and 10/10.
 - Root production audit: 0 findings across 115 dependencies.
-- Secret scan: clean over 2,868 files; browser bundle scan clean over 14 JS
+- Secret scan: clean over 2,936 files; browser bundle scan clean over 14 JS
   bundles.
 - Migration and backup/restore rehearsals: PASS, local only.
 - Automated production accessibility: 7 cases, 0 violations/incomplete, 171
@@ -65,9 +138,9 @@ is labelled; no testimonial, seller result or commercial metric is invented.
 
 ## Production data and operations
 
-Read-only D1 before and after deployment is identical: 1 synthetic store, 48
-synthetic products, 44 inventory moves, and zero orders, order items,
-notifications, handoffs, automation jobs and DLQ jobs. Both probes report
+Read-only D1 before and after the performance deployment is identical: 1
+synthetic store, 48 synthetic products, 44 inventory moves, 1 existing order,
+1 order item, and zero notifications or handoffs. Both probes report
 `changed_db=false` and `rows_written=0`.
 
 Migrations 0026–0030 are physically present, but the ledger ends at 0025.

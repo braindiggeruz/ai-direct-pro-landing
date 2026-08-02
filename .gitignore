@@ -30,6 +30,7 @@ credentials.md
 
 # Cloudflare
 .wrangler/
+_worker.bundle
 
 # Editor / OS
 .DS_Store

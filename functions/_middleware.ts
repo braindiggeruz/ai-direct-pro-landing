@@ -15,8 +15,21 @@
 //   still be trying to reuse from a previous broken QUIC session.
 //   Note: we intentionally do NOT clear "cookies" — that would log out
 //   an already-authenticated admin.
-export const onRequest: PagesFunction = async ({ request, next }) => {
+import type { Env } from './_types';
+
+function marketCorsOrigin(request: Request, env: Env): string | null {
+  const origin = request.headers.get('Origin');
+  if (!origin) return null;
+  const allowed = (env.MARKET_MINI_APP_ORIGINS ?? '')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+  return allowed.includes(origin) ? origin : null;
+}
+
+export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
   const url = new URL(request.url);
+  const isMarketApi = url.pathname.startsWith('/api/market/v1/');
 
   // GSC fix: strip ?lang= query-parameter variants.
   // Google was crawling /?lang=ru and /?lang=uz as separate URLs and marking
@@ -52,6 +65,27 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
     url.pathname === '/admin-tools/login/';
 
   if (request.method === 'OPTIONS') {
+    if (isMarketApi) {
+      const origin = marketCorsOrigin(request, env);
+      if (!origin) {
+        return new Response(null, {
+          status: 403,
+          headers: { 'Cache-Control': 'no-store', 'Alt-Svc': 'clear' },
+        });
+      }
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': origin,
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, Idempotency-Key',
+          'Access-Control-Max-Age': '600',
+          Vary: 'Origin',
+          'Cache-Control': 'no-store',
+          'Alt-Svc': 'clear',
+        },
+      });
+    }
     return new Response(null, {
       status: 204,
       headers: {
@@ -65,8 +99,23 @@ export const onRequest: PagesFunction = async ({ request, next }) => {
   }
   const res = await next();
   const headers = new Headers(res.headers);
-  headers.set('Access-Control-Allow-Origin', '*');
-  headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (isMarketApi) {
+    const origin = marketCorsOrigin(request, env);
+    if (origin) {
+      headers.set('Access-Control-Allow-Origin', origin);
+      headers.set(
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization, Idempotency-Key',
+      );
+      headers.append('Vary', 'Origin');
+    } else {
+      headers.delete('Access-Control-Allow-Origin');
+      headers.delete('Access-Control-Allow-Headers');
+    }
+  } else {
+    headers.set('Access-Control-Allow-Origin', '*');
+    headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  }
   headers.set('Alt-Svc', 'clear');
   // Pin HTTPS for 1 year (no preload — owner controls preload submission).
   headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
