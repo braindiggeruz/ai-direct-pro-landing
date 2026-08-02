@@ -138,10 +138,12 @@ export async function resolveMarketAccess(
   if (!buyer) throw new MarketHttpError('storefront_unavailable', 409);
   const sellerEnabled = marketFlag(env.MARKET_MINI_APP_SELLER_READS_ENABLED);
   const [verifiedBuyer, onboarding] = await Promise.all([
-    services.catalog.resolveStorefrontContext({
-      ...buyer,
-      locale: claims.locale,
-    }).catch(() => null),
+    boundBuyer
+      ? Promise.resolve({ ...boundBuyer, locale: claims.locale })
+      : services.catalog.resolveStorefrontContext({
+          ...buyer,
+          locale: claims.locale,
+        }).catch(() => null),
     sellerEnabled
       ? services.onboarding.getOnboarding({
           identityId: claims.sub,

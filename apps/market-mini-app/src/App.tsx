@@ -1,7 +1,12 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BrandMark, Button, ErrorView, Icon, LoadingView, StateView } from './components/ui';
-import { MarketApiError, exchangeLaunch, marketApi, setSessionLocale } from './lib/api';
+import {
+  launchQueryOptions,
+  MarketApiError,
+  marketApi,
+  setSessionLocale,
+} from './lib/api';
 import { t } from './lib/i18n';
 import { preferredLocale } from './platform/telegram';
 import { BuyerApp } from './screens/BuyerApp';
@@ -66,14 +71,7 @@ export default function App() {
     };
   }, []);
 
-  const launch = useQuery({
-    queryKey: ['launch'],
-    queryFn: exchangeLaunch,
-    retry: (count, error) => error instanceof MarketApiError
-      ? error.status >= 500 && count < 2
-      : count < 2,
-    staleTime: Infinity,
-  });
+  const launch = useQuery(launchQueryOptions);
   if (launch.isLoading) return <LoadingView locale={locale} />;
   if (launch.isError) {
     const unsupported = launch.error instanceof MarketApiError

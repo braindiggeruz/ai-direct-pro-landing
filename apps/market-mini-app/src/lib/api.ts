@@ -108,6 +108,15 @@ export async function exchangeLaunch(): Promise<MarketLaunch> {
   return launch;
 }
 
+export const launchQueryOptions = {
+  queryKey: ['launch'] as const,
+  queryFn: exchangeLaunch,
+  retry: (count: number, error: Error) => error instanceof MarketApiError
+    ? error.status >= 500 && count < 2
+    : count < 2,
+  staleTime: Infinity,
+};
+
 export async function refreshSession(): Promise<SessionExchange> {
   const session = await request<SessionExchange>('/session/refresh', {
     method: 'POST', body: { initData: telegramInitData() },

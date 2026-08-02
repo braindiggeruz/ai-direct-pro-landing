@@ -75,9 +75,10 @@ test('root landing build has no Mini App entry coupling', async () => {
 });
 
 test('Market launch collapses startup data and ships a bounded local demo image set', async () => {
-  const [api, app, buyer, ui, router, access, shell, worker] = await Promise.all([
+  const [api, app, main, buyer, ui, router, access, shell, worker] = await Promise.all([
     source('apps/market-mini-app/src/lib/api.ts'),
     source('apps/market-mini-app/src/App.tsx'),
+    source('apps/market-mini-app/src/main.tsx'),
     source('apps/market-mini-app/src/screens/BuyerApp.tsx'),
     source('apps/market-mini-app/src/components/ui.tsx'),
     source('functions/market/router.ts'),
@@ -91,10 +92,14 @@ test('Market launch collapses startup data and ships a bounded local demo image 
   assert.match(router, /boundBuyer \?\? undefined/);
   assert.match(access, /boundBuyer \?\? await services\.catalog\.resolveStoredStorefrontContext/);
   assert.match(access, /const \[verifiedBuyer, onboarding\] = await Promise\.all/);
+  assert.match(access, /boundBuyer\s*\? Promise\.resolve/);
   assert.match(app, /initialHome=\{launch\.home\}/);
+  assert.match(main, /client\.prefetchQuery\(launchQueryOptions\)\.finally\(mount\)/);
   assert.match(buyer, /initialData: initialHome/);
   assert.match(ui, /enabled: Boolean\(handle\) && !previewSrc/);
   assert.match(shell, /rel="preload" as="image"/);
+  assert.match(shell, /<script async src="https:\/\/telegram\.org\/js\/telegram-web-app\.js"><\/script>/);
+  assert.doesNotMatch(router, /scheduleMarketMenuSync/);
   assert.match(worker, /caches\.match\(event\.request\).*cached \|\| fetch/s);
 
   const directory = new URL('apps/market-mini-app/public/assets/catalog-demo/', ROOT);

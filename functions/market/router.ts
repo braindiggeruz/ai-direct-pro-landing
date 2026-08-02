@@ -34,7 +34,6 @@ import {
   readMarketJson,
   requireIdempotencyKey,
   resolveMarketAccess,
-  scheduleMarketMenuSync,
   verifyMarketSession,
   verifyMediaHandle,
   verifyTelegramInitData,
@@ -920,7 +919,6 @@ export async function handleMarketRequest(input: {
   try {
     assertMarketOrigin(input.request, input.env);
     const config = configuration(input.env);
-    if (input.waitUntil) scheduleMarketMenuSync(input.env, input.waitUntil);
     const db = input.env.GPTBOT_DRAFTS_DB;
     if (!db) throw new MarketHttpError('feature_disabled', 503);
     const services = createSotuvchiApplicationServices(db, config.botUsername);
