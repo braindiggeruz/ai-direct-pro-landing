@@ -1,5 +1,22 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-039 — Bormi replaces GPTBot Market as the public consumer brand (2026-08-02)
+
+**Decision.** The production Telegram marketplace uses **Bormi** and the
+mechanic **Bormi? — Bor.** across the Mini App, dedicated Market-bot response
+copy, menu button and mutable profile metadata. Stable technical identifiers,
+including `@gptbot_market_bot`, Pages project names, API paths, D1 tables and
+feature flags, remain unchanged. The app uses a dedicated semantic light/dark
+design system and adapted mobile interaction patterns without adding a generic
+component framework or fabricated marketplace proof.
+
+**Why.** Public brand recognition and consumer clarity do not require a risky
+identity, data or infrastructure migration. Keeping stable identifiers protects
+deep links, webhook isolation, authorization and rollback while the controllable
+surface becomes a coherent standalone product. Profile metadata synchronizes
+idempotently on a bounded cadence; username changes require a separate Telegram
+owner action and are not inferred from this release.
+
 ## D-038 — Telegram review uses isolated static hosting and the existing secret boundary (2026-08-02)
 
 **Decision.** The owner-authorized review uses a dedicated static Pages

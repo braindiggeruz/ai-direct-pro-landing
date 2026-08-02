@@ -1,6 +1,27 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
-## GPTBot Market Mini App Telegram review release (2026-08-02)
+## Bormi production rebrand release (2026-08-02)
+
+| Check | Result |
+| --- | --- |
+| Static / BFF production | `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` / `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`, source `e1101bc` |
+| UX/UI Pro Max / 21.dev | used / used; `21st` final review 0 errors, 0 warnings |
+| Mini App typecheck / tests / build | PASS / 2 of 2 / PASS |
+| Root TypeScript / production build | PASS / PASS; 113 pages, 124 articles, sitemap 240 |
+| Root relevant corpus | 1065 of 1065 PASS; only stale independent content-route baseline excluded |
+| Full root invocation | 1088 of 1091 PASS; 3 unrelated `react-router-v8-migration` expectations still assert 234 routes before `bc2792b` added 6 pages |
+| Affected / core targeted | 137 of 137 / 40 of 40 PASS |
+| Build assets | HTML 4.48 kB, CSS 25.01 kB, buyer JS 269.99 kB, lazy seller 15.26 kB; gzip 1.98/6.12/83.84/3.62 kB |
+| Demo media | 12 labelled synthetic WebPs, 232,770 bytes; four new 768x768 premium product photos |
+| Axe | buyer RU, buyer UZ, buyer dark, seller: 0 violations, 0 incomplete |
+| Responsive / input | 320/390/landscape/200 percent: no overflow, no active target below 44 px; reduced motion PASS |
+| Live static / assets / root | canonical + immutable / logo / first WebP / root all 200; Bormi title and first-paint shell present |
+| Live auth / CORS | empty exchange 400; trusted OPTIONS 204 exact origin + Vary; foreign origin 403 |
+| Live Market webhook | GET 405; unauthenticated POST 401 |
+| Secret and old-brand scans | 2,951 files clean; production bundles clean |
+| D1 read-only before/after | 1 store, 48 products, 1 order/item, 44 moves, 0 handoffs/notifications; `changed_db=false`, `rows_written=0` |
+
+## GPTBot Market Mini App Telegram review release (2026-08-02, superseded baseline)
 
 | Check | Result |
 | --- | --- |

@@ -1,9 +1,9 @@
 {
   "project": "gptbot-agents",
   "architecture_version": "2026-07-17",
-  "current_stage": "GPTBot Market owner-independent productization release",
+  "current_stage": "Bormi production rebrand Telegram review release",
   "stage_status": "complete",
-  "last_completed_stage": "GPTBot Market truth, brand, Telegram UX, website, trust, creative, accessibility and operations package released",
+  "last_completed_stage": "GPTBot Market rebranded to Bormi across the production Telegram Mini App and dedicated Market bot entry experience",
   "next_stage": "R1 Store Pilot #1 owner evidence and explicit one-store authorization",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
@@ -187,16 +187,18 @@
     }
   },
   "gptbot_market_mini_app": {
-    "status": "telegram_review_live_performance_release",
+    "status": "bormi_rebrand_live",
     "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
-    "source": "fb3537a",
+    "source": "e1101bc49c7bf76578636d7bd78bffea6ad8c79d",
+    "public_brand": "Bormi",
+    "brand_mechanic": "Bormi? — Bor.",
     "bot_username": "gptbot_market_bot",
     "static_url": "https://gptbot-market-mini-app.pages.dev",
-    "static_deployment_id": "a08d2d0f-ab72-4be2-a385-c482025833a5",
-    "root_deployment_id": "f64e7fee-3b3c-4914-9fc2-3d80e5e761db",
+    "static_deployment_id": "2fc305fb-3a68-48c2-b7cf-adf218cd2a7a",
+    "root_deployment_id": "25da3f26-5ac3-44a1-9628-0d4f1735ed7d",
     "root_rollback_deployment_id": "68747046-8e1e-492a-8b81-dc4e4065916f",
     "flags": "global, buyer, seller reads and seller commands enabled; seller authority remains server-derived",
-    "telegram_launch": "native inline web_app button plus TTL-limited menu sync",
+    "telegram_launch": "Bormi native inline web_app button plus one-hour bounded menu/profile metadata sync on the next dedicated Market bot request",
     "origin": "https://gptbot-market-mini-app.pages.dev only",
     "session_secret": "new encrypted Pages secret; value not exported",
     "remote_migration": false,
@@ -204,13 +206,15 @@
     "real_store_created": false,
     "payments_enabled": false,
     "public_marketplace_launched": false,
-    "d1_probe": "stores 1, products 48, existing orders/items 1/1, inventory moves 44, handoffs/notifications 0; unchanged before/after; changed_db=false; rows_written=0",
-    "performance_release": "one authenticated launch request; parallel bootstrap/catalog; immediate filled preview; 8 labelled synthetic 800x600 WebPs totaling 157434 bytes; cache-first immutable assets; no D1 media mutation",
+    "d1_probe": "stores 1, products 48, existing orders/items 1/1, inventory moves 44, handoffs/notifications 0; domain counts unchanged before/after; changed_db=false; rows_written=0",
+    "performance_release": "static first-paint Bormi shell; one authenticated launch request; parallel bootstrap/catalog; seller code lazy-loaded; 12 labelled synthetic WebPs totaling 232770 bytes, including four new 768x768 investor-ready product photos; cache-first assets; no D1 media mutation",
+    "accessibility_release": "buyer RU, buyer UZ, buyer dark and seller: axe 0 violations and 0 incomplete; 320/390/landscape/200 percent no horizontal overflow or targets below 44px; reduced motion pass",
+    "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "native Telegram iOS/Android owner review; seller UI additionally requires trusted active owner identity"
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "08c21568581bf90e7122a566f2805a619cd9e81d",
+  "last_commit": "e1101bc49c7bf76578636d7bd78bffea6ad8c79d",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -274,7 +278,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-08-01",
+  "updated_at": "2026-08-02",
   "blocked": true,
   "blocked_stage": "R1 Store Pilot #1 owner evidence and activation inputs",
   "blockers": [
@@ -412,8 +416,8 @@
   "planning_tracks": {
     "gptbot_market_mini_app": {
       "prepared_at": "2026-08-02",
-      "status": "SYNTHETIC_CANDIDATE_READY",
-      "implementation_status": "MA_0_THROUGH_MA_8_COMPLETE_LOCALLY",
+      "status": "BORMI_REBRAND_LIVE_FOR_TELEGRAM_REVIEW",
+      "implementation_status": "MA_0_THROUGH_MA_8_RELEASED_WITH_BORMI_BRAND",
       "branch": "feature/gptbot-market-mini-app-synthetic-candidate",
       "package_index": "docs/agents-platform/mini-app/README.md",
       "backend_reuse_estimate_percent": 89,
@@ -422,11 +426,11 @@
         "verified_seller_dashboard_orders_handoffs_products_inventory_commands"
       ],
       "schema_migration_added": false,
-      "flags_default_off": true,
+      "flags_default_off": false,
       "candidate_manifest": "docs/agents-platform/mini-app/implementation/evidence/candidate-manifest.json",
-      "production_stage_changed": false,
-      "production_operations_performed": false,
-      "next_stage": "MA-9 only after owner/provider gates and explicit cohort authorization",
+      "production_stage_changed": true,
+      "production_operations_performed": "Pages static and BFF deploy only; no D1 migration or domain write",
+      "next_stage": "native Telegram owner acceptance; MA-9 real cohort only after owner/provider gates and explicit authorization",
       "missing_source": "GPTBOT_MARKETPLACE_MASTER_CHAT_HANDOFF_2026-08-01(1).md"
     }
   },

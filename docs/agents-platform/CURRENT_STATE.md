@@ -1,6 +1,30 @@
 # CURRENT_STATE — 2026-08-01
 
-## Mini App Telegram review release (2026-08-02)
+## Bormi production rebrand (2026-08-02)
+
+The working Telegram marketplace is now publicly branded **Bormi**, with the
+mechanic **Bormi? — Bor.** Application source `e1101bc` is live on static
+production deployment `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` and root/BFF
+deployment `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`. The canonical Mini App is
+`https://gptbot-market-mini-app.pages.dev`; the dedicated entry remains
+`@gptbot_market_bot`, with Bormi display metadata and launch copy. The legacy
+username is not presented as the consumer brand.
+
+The first paint is now a branded, filled catalog shell; the first two product
+images are preloaded, assets are cache-first and seller code stays lazy. Twelve
+labelled synthetic WebPs total 232,770 bytes, including four new cohesive
+investor-demo photos. Buyer RU/UZ, dark theme and seller surfaces pass automated
+a11y with zero violations/incomplete; narrow, landscape and 200 percent layouts
+have no overflow or undersized controls.
+
+Live HTTP/auth/CORS/webhook contracts pass. Read-only production D1 counts are
+unchanged at 1 store, 48 products, 1 existing order/item, 44 inventory moves
+and zero handoffs/notifications; the after probe wrote zero rows. No migration,
+real catalog, payment, lead-bot or public-marketplace operation was performed.
+The exact release record is
+`mini-app/implementation/BORMI_REBRAND_RELEASE.md`.
+
+## Mini App Telegram review release (2026-08-02, superseded baseline)
 
 The owner explicitly authorized Telegram integration. The Mini App is live at
 `https://gptbot-market-mini-app.pages.dev` and opens from the dedicated

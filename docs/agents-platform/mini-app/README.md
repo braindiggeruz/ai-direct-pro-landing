@@ -1,8 +1,8 @@
-# GPTBot Market Telegram Mini App
+# Bormi Telegram Mini App
 
-Status: `TELEGRAM_REVIEW_LIVE`
+Status: `BORMI_REBRAND_LIVE_FOR_TELEGRAM_REVIEW`
 
-Implementation status: `MA_0_THROUGH_MA_8_RELEASED_FOR_NATIVE_REVIEW`
+Implementation status: `MA_0_THROUGH_MA_8_RELEASED_WITH_BORMI_BRAND`
 
 Mode: `DEDICATED_BOT_REVIEW_WITH_SERVER_AUTHORITY`
 
@@ -11,7 +11,8 @@ Candidate source base: `08138b7b6928c35d929a951695af0a769255e2b8`
 Date: 2026-08-02
 
 This package contains the original staged design, the reversible synthetic
-candidate and its owner-authorized Telegram review release. The implementation adds the
+candidate, its owner-authorized Telegram review release and the Bormi
+production rebrand. The implementation adds the
 `apps/market-mini-app` frontend and `/api/market/v1/*` BFF, reusing the
 existing Sotuvchi application/domain services. The static app, BFF flags and
 dedicated-bot launch integration are now live. It did not change D1 schema,
@@ -19,6 +20,7 @@ the lead bot/webhook, Railway, n8n, payments or real stores.
 
 ## Implementation candidate
 
+- [Bormi production rebrand release](./implementation/BORMI_REBRAND_RELEASE.md)
 - [Implementation log](./implementation/GPTBOT_MARKET_MINI_APP_IMPLEMENTATION_LOG.md)
 - [Candidate and rollback](./implementation/GPTBOT_MARKET_MINI_APP_CANDIDATE_AND_ROLLBACK.md)
 - [Telegram review release](./implementation/GPTBOT_MARKET_MINI_APP_TELEGRAM_RELEASE.md)

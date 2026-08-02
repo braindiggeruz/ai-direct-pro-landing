@@ -4,14 +4,33 @@
 
 - Дата: 2026-08-02.
 - Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
-- Application HEAD: `fb3537a`;
+- Application HEAD: `e1101bc`;
   governance state commit: `HEAD`.
 - Завершённый этап: owner-authorized Telegram Mini App review integration.
 - Следующий этап: native Telegram owner review; Store Pilot #1 remains a
   separate owner input/authorization gate.
 - Рабочее дерево: clean after the governance commit; `dist/` untracked/ignored.
 
-### Mini App Telegram review track — 2026-08-02
+### Bormi production rebrand — 2026-08-02
+
+- Status: `BORMI_REBRAND_LIVE_FOR_TELEGRAM_REVIEW`.
+- Public brand and mechanic: **Bormi**, **Bormi? — Bor.**
+- Source: `e1101bc49c7bf76578636d7bd78bffea6ad8c79d`.
+- Static production: `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a`;
+  root/BFF production: `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`.
+- The dedicated `@gptbot_market_bot` uses Bormi launch/copy and bounded
+  display-name/description/menu sync. Telegram username rename is outside the
+  Bot API; the lead bot and its webhook/token are untouched.
+- Twelve labelled synthetic WebPs total 232,770 bytes. Static first paint,
+  preloads, cache-first assets and lazy seller code address launch perception.
+- Buyer RU/UZ/dark and seller a11y: 0 violations/incomplete; responsive target,
+  overflow and reduced-motion checks pass.
+- D1 domain counts unchanged and the after probe wrote zero rows. No migration,
+  real-store/catalog, payment, Railway/n8n or public-marketplace mutation.
+- Full evidence and rollback:
+  `mini-app/implementation/BORMI_REBRAND_RELEASE.md`.
+
+### Mini App Telegram review track — superseded baseline (2026-08-02)
 
 - Статус: `TELEGRAM_REVIEW_LIVE`; реализация:
   `MA_0_THROUGH_MA_8_RELEASED_FOR_NATIVE_REVIEW`.

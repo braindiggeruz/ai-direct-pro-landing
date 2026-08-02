@@ -1,5 +1,10 @@
 # GPTBot Market Mini App Telegram review release
 
+> Superseded on 2026-08-02 by the live Bormi release at source `e1101bc`,
+> static deployment `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` and root deployment
+> `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`. See
+> `BORMI_REBRAND_RELEASE.md`. This file remains the rollback baseline.
+
 Date: 2026-08-02.
 
 Status: `TELEGRAM_REVIEW_LIVE_PERFORMANCE_RELEASE`.
