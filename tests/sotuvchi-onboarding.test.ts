@@ -946,7 +946,7 @@ test('buyer storefront route resolves the store but never launches seller onboar
   );
   assert.ok(
     harness.delivery.sent.at(-1)?.text.includes(
-      'GPTBot найдёт подходящие товары',
+      'Bormi найдёт подходящие товары',
     ),
   );
   assert.ok(

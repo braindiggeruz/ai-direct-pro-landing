@@ -618,7 +618,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
   const delivery = createTelegramDeliveryPort(
     client,
     marketWebAppUrl
-      ? { webApp: { url: marketWebAppUrl, text: 'Открыть GPTBot Market' } }
+      ? { webApp: { url: marketWebAppUrl, text: 'Bormi' } }
       : {},
   );
   const wiring = createTelegramAgentsRuntimeWiring(

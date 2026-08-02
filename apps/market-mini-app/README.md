@@ -1,6 +1,8 @@
-# GPTBot Market Mini App
+# Bormi Mini App
 
-Independent Telegram Mini App frontend for the existing Sotuvchi domain.
+Public Bormi Telegram Mini App frontend for the existing Sotuvchi domain.
+The public brand promise is **Bormi? — Bor.**; internal API and deployment
+identifiers intentionally remain stable during the rebrand.
 
 ## Local synthetic mode
 

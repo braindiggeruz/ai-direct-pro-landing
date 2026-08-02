@@ -9,13 +9,14 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { fetchMedia } from '../lib/api';
 import { DEMO_PRODUCT_PREVIEW, demoPreviewName } from '../lib/demo-product-media';
-import { formatPrice, t, type CopyKey } from '../lib/i18n';
+import { formatPrice, t } from '../lib/i18n';
 import type { Locale } from '../types';
 
 export type IconName =
   | 'home' | 'search' | 'compare' | 'orders' | 'seller' | 'back'
   | 'filter' | 'close' | 'box' | 'help' | 'inventory' | 'products'
-  | 'check' | 'warning' | 'plus' | 'edit' | 'refresh' | 'chevron';
+  | 'check' | 'warning' | 'plus' | 'edit' | 'refresh' | 'chevron'
+  | 'spark';
 
 const paths: Record<IconName, ReactNode> = {
   home: <><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></>,
@@ -36,7 +37,22 @@ const paths: Record<IconName, ReactNode> = {
   edit: <><path d="m4 20 4-1 10-10-3-3L5 16z"/><path d="m13 7 3 3"/></>,
   refresh: <><path d="M20 7v5h-5"/><path d="M18 16a8 8 0 1 1 1-8l1 4"/></>,
   chevron: <path d="m9 18 6-6-6-6"/>,
+  spark: <><path d="m12 3 1.4 4.1L17.5 8.5l-4.1 1.4L12 14l-1.4-4.1-4.1-1.4 4.1-1.4z"/><path d="m18.5 14 .8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></>,
 };
+
+export function BrandMark({ size = 40 }: { size?: number }) {
+  return (
+    <img
+      className="brand-mark"
+      src="/assets/brand/bormi-mark.svg"
+      width={size}
+      height={size}
+      alt=""
+      aria-hidden="true"
+      decoding="sync"
+    />
+  );
+}
 
 export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {
   return (
@@ -140,13 +156,14 @@ export function LoadingView({ locale }: { locale: Locale }) {
   return (
     <main className="launch-preview" aria-busy="true">
       <header className="launch-preview__header">
-        <div className="brand-mark" aria-hidden="true">G</div>
-        <div><strong>{t(locale, 'appName')}</strong><span>{t(locale, 'loading')}</span></div>
+        <BrandMark size={44} />
+        <div className="brand-lockup"><strong>{t(locale, 'appName')}</strong><span>{t(locale, 'brandPromise')}</span></div>
         <span className="spinner" aria-hidden="true" />
       </header>
       <section className="launch-preview__hero" role="status" aria-live="polite">
-        <span className="eyebrow">{locale === 'ru' ? 'Демо-каталог' : 'Demo katalog'}</span>
-        <h1>{locale === 'ru' ? 'Витрина уже рядом' : 'Vitrina tayyorlanmoqda'}</h1>
+        <span className="eyebrow">{t(locale, 'loading')}</span>
+        <h1>{t(locale, 'brandPromise')}</h1>
+        <p>{t(locale, 'loadingBody')}</p>
       </section>
       <div className="launch-preview__grid" aria-hidden="true">
         {DEMO_PRODUCT_PREVIEW.map((item, index) => <article className="product-card" key={item.image}>
@@ -163,22 +180,40 @@ export function LoadingView({ locale }: { locale: Locale }) {
 }
 
 export function Modal({
-  open, title, onClose, children, sheet = false,
+  open, title, onClose, closeLabel, children, sheet = false,
 }: PropsWithChildren<{
-  open: boolean; title: string; onClose: () => void; sheet?: boolean;
+  open: boolean; title: string; onClose: () => void; closeLabel: string; sheet?: boolean;
 }>) {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
     const before = document.activeElement as HTMLElement | null;
-    closeRef.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialogRef.current?.focus();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+      ) ?? []);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable.at(-1)!;
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === dialogRef.current)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || document.activeElement === dialogRef.current)) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previousOverflow;
       before?.focus();
     };
   }, [open, onClose]);
@@ -188,12 +223,14 @@ export function Modal({
       if (event.target === event.currentTarget) onClose();
     }}>
       <section
+        ref={dialogRef}
         className={sheet ? 'modal modal--sheet' : 'modal'}
-        role="dialog" aria-modal="true" aria-labelledby={titleId}
+        role="dialog" aria-modal="true" aria-labelledby={titleId} tabIndex={-1}
       >
+        {sheet ? <span className="modal__handle" aria-hidden="true" /> : null}
         <header className="modal__header">
           <h2 id={titleId}>{title}</h2>
-          <button ref={closeRef} className="icon-button" onClick={onClose} aria-label="Закрыть">
+          <button ref={closeRef} className="icon-button" onClick={onClose} aria-label={closeLabel}>
             <Icon name="close" />
           </button>
         </header>
@@ -225,13 +262,4 @@ export function ErrorView({ locale, retry }: { locale: Locale; retry?: () => voi
 
 export function SkeletonList({ count = 4 }: { count?: number }) {
   return <div className="product-grid" aria-hidden="true">{Array.from({ length: count }, (_, index) => <div className="product-card" key={index}><div className="skeleton product-card__media"/><div className="skeleton skeleton-line"/><div className="skeleton skeleton-line skeleton-line--short"/></div>)}</div>;
-}
-
-export function labelForStatus(locale: Locale, status: string): string {
-  const map: Partial<Record<string, CopyKey>> = {
-    available: 'available', preorder: 'preorder', unavailable: 'unavailable',
-    placed: 'placed', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled',
-    draft: 'draft', published: 'publishedStatus', archived: 'archived',
-  };
-  return map[status] ? t(locale, map[status]!) : status;
 }

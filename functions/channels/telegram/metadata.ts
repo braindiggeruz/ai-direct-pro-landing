@@ -5,6 +5,7 @@ export interface TelegramAgentCommand {
 
 export interface TelegramAgentLocalizedMetadata {
   languageCode?: 'ru' | 'uz';
+  name: string;
   commands: readonly TelegramAgentCommand[];
   description: string;
   shortDescription: string;
@@ -37,38 +38,41 @@ const COMMANDS_UZ: readonly TelegramAgentCommand[] = [
 ];
 
 const RU_DESCRIPTION = [
-  'GPTBot Market помогает найти и сравнить товары по подтверждённым данным',
+  'Bormi помогает найти и сравнить товары по подтверждённым данным',
   'подключённых каталогов. Сейчас доступен только синтетический демо-каталог.',
-  'GPTBot не принимает оплату и не обещает доставку.',
+  'Bormi не принимает оплату и не обещает доставку.',
 ].join(' ');
 
 const UZ_DESCRIPTION = [
-  'GPTBot Market ulangan kataloglardagi tasdiqlangan ma’lumot asosida',
+  'Bormi ulangan kataloglardagi tasdiqlangan ma’lumot asosida',
   'mahsulot topish va solishtirishga yordam beradi. Hozir faqat sintetik',
-  'demo-katalog mavjud. GPTBot to‘lov qabul qilmaydi va yetkazishni va’da qilmaydi.',
+  'demo-katalog mavjud. Bormi to‘lov qabul qilmaydi va yetkazishni va’da qilmaydi.',
 ].join(' ');
 
 export const TELEGRAM_AGENT_METADATA:
 readonly TelegramAgentLocalizedMetadata[] = [
   {
+    name: 'Bormi',
     commands: COMMANDS_RU,
     description: RU_DESCRIPTION,
     shortDescription:
-      'GPTBot Market: поиск товаров в подключённых каталогах.',
+      'Bormi: товары из подключённых каталогов.',
   },
   {
     languageCode: 'ru',
+    name: 'Bormi',
     commands: COMMANDS_RU,
     description: RU_DESCRIPTION,
     shortDescription:
-      'GPTBot Market: поиск товаров в подключённых каталогах.',
+      'Bormi: товары из подключённых каталогов.',
   },
   {
     languageCode: 'uz',
+    name: 'Bormi',
     commands: COMMANDS_UZ,
     description: UZ_DESCRIPTION,
     shortDescription:
-      'GPTBot Market: ulangan kataloglardan mahsulot qidirish.',
+      'Bormi: ulangan kataloglardan mahsulotlar.',
   },
 ];
 
@@ -85,7 +89,9 @@ export function validateTelegramAgentMetadata(
   }
   for (const value of values) {
     if (
-      value.description.length < 1
+      value.name.length < 1
+      || value.name.length > 64
+      || value.description.length < 1
       || value.description.length > 512
       || value.shortDescription.length < 1
       || value.shortDescription.length > 120

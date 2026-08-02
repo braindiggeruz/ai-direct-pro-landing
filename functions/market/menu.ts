@@ -1,5 +1,6 @@
 import type { Env } from '../_types';
 import { TelegramClient } from '../channels/telegram';
+import { TELEGRAM_AGENT_METADATA } from '../channels/telegram/metadata';
 import { marketFlag, normalizeMarketWebAppUrl } from '../platform/market';
 
 const MENU_SYNC_INTERVAL_MS = 60 * 60 * 1_000;
@@ -20,19 +21,31 @@ export function scheduleMarketMenuSync(
   const token = env.TELEGRAM_AGENTS_BOT_TOKEN;
   if (!url || !token || now < nextMenuSyncAt) return false;
   nextMenuSyncAt = now + MENU_SYNC_INTERVAL_MS;
+  const client = new TelegramClient(token);
+  const entrySync = [
+    client.setChatMenuButton(url, 'Bormi'),
+    ...TELEGRAM_AGENT_METADATA.flatMap((metadata) => [
+      client.setMyName(metadata.name, metadata.languageCode),
+      client.setMyDescription(metadata.description, metadata.languageCode),
+      client.setMyShortDescription(
+        metadata.shortDescription,
+        metadata.languageCode,
+      ),
+    ]),
+  ];
   waitUntil(
-    new TelegramClient(token).setChatMenuButton(url, 'GPTBot Market')
-      .then((result) => {
-        if (!result.ok) {
+    Promise.all(entrySync)
+      .then((results) => {
+        if (results.some((result) => !result.ok)) {
           nextMenuSyncAt = 0;
-          console.error('market.menu:sync_failed');
+          console.error('market.entry:sync_failed');
           return;
         }
-        console.log('market.menu:configured');
+        console.log('market.entry:configured');
       })
       .catch(() => {
         nextMenuSyncAt = 0;
-        console.error('market.menu:sync_failed');
+        console.error('market.entry:sync_failed');
       }),
   );
   return true;

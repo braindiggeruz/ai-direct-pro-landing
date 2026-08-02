@@ -3,13 +3,17 @@ import type { Locale, Product } from '../types';
 const ASSET_ROOT = '/assets/catalog-demo';
 
 export const DEMO_PRODUCT_PREVIEW = [
-  { image: `${ASSET_ROOT}/notebook-a5.webp`, name: { ru: 'Блокнот A5', uz: 'A5 bloknot' }, priceMinor: 18_000 },
-  { image: `${ASSET_ROOT}/water-bottle.webp`, name: { ru: 'Бутылка для воды', uz: 'Suv idishi' }, priceMinor: 28_000 },
-  { image: `${ASSET_ROOT}/power-bank.webp`, name: { ru: 'Внешний аккумулятор', uz: 'Tashqi akkumulyator' }, priceMinor: 250_000 },
-  { image: `${ASSET_ROOT}/car-holder.webp`, name: { ru: 'Держатель телефона', uz: 'Telefon ushlagichi' }, priceMinor: 95_000 },
+  { image: `${ASSET_ROOT}/bormi-headphones.webp`, name: { ru: 'Беспроводные наушники', uz: 'Simsiz quloqchin' }, priceMinor: 349_000 },
+  { image: `${ASSET_ROOT}/bormi-speaker.webp`, name: { ru: 'Портативная колонка', uz: 'Portativ karnay' }, priceMinor: 229_000 },
+  { image: `${ASSET_ROOT}/bormi-desk-lamp.webp`, name: { ru: 'Настольная лампа', uz: 'Stol chirog‘i' }, priceMinor: 189_000 },
+  { image: `${ASSET_ROOT}/bormi-kettle.webp`, name: { ru: 'Электрический чайник', uz: 'Elektr choynak' }, priceMinor: 299_000 },
 ] as const;
 
 const MATCHERS: ReadonlyArray<readonly [RegExp, string]> = [
+  [/наушник|quloqchin|airbeat/i, `${ASSET_ROOT}/bormi-headphones.webp`],
+  [/колонк|speaker|mini sound/i, `${ASSET_ROOT}/bormi-speaker.webp`],
+  [/ламп|chiroq|warm light/i, `${ASSET_ROOT}/bormi-desk-lamp.webp`],
+  [/чайник|choynak|steel 1\.7/i, `${ASSET_ROOT}/bormi-kettle.webp`],
   [/блокнот|bloknot/i, `${ASSET_ROOT}/notebook-a5.webp`],
   [/бутыл|suv idishi/i, `${ASSET_ROOT}/water-bottle.webp`],
   [/аккумулятор|power.?bank/i, `${ASSET_ROOT}/power-bank.webp`],

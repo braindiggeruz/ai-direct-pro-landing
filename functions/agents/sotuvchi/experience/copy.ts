@@ -13,10 +13,10 @@ import type {
 export const BUYER_COPY = {
   ru: {
     home:
-      'Напишите, что Вам нужно, — GPTBot найдёт подходящие товары в каталогах подключённых магазинов.',
+      'Bormi? — Bor. Напишите, что Вам нужно, — Bormi найдёт подходящие товары в каталогах подключённых магазинов.',
     syntheticNotice:
       'Сейчас работает тестовый каталог: все товары синтетические.',
-    find: '🔎 Найти товар',
+    find: 'Найти товар',
     catalog: 'Каталог',
     orders: 'Мои заказы',
     seller: 'Связаться с продавцом',
@@ -67,7 +67,7 @@ export const BUYER_COPY = {
     sellerPrompt:
       'Напишите «позвать продавца» и свой вопрос одним сообщением — я передам его продавцу этого магазина.',
     sellerInterest:
-      'Sotuvchi by GPTBot помогает магазину показывать проверенный каталог и получать заявки в Telegram.\n\nСейчас магазины подключаются только по приглашению. Это интерес к участию, а не доступ: кнопка не даёт доступ к панели продавца и не создаёт магазин.\n\nДля проверки понадобятся категория магазина, небольшая согласованная подборка товаров, целые цены в UZS, актуальные остатки, контакт владельца и ответственные за согласие и скорость ответа. Команда проверит заявку и свяжется с Вами.',
+      'Bormi для продавцов помогает магазину показывать проверенный каталог и получать заявки в Telegram.\n\nСейчас магазины подключаются только по приглашению. Это интерес к участию, а не доступ: кнопка не даёт доступ к панели продавца и не создаёт магазин.\n\nДля проверки понадобятся категория магазина, небольшая согласованная подборка товаров, целые цены в UZS, актуальные остатки, контакт владельца и ответственные за согласие и скорость ответа. Команда проверит заявку и свяжется с Вами.',
     sellerHow: 'Как это работает',
     sellerHowText:
       'Администратор проекта проверяет владельца, каталог и источник товарных данных. Это защищает покупателей от неподтверждённых цен и остатков. После одобрения продавцу становятся доступны товары, заявки, вопросы и точная статистика.\n\nСамостоятельно создать магазин или получить права продавца через эту кнопку нельзя. Срок, стоимость и результат пилота ещё не согласованы.',
@@ -99,10 +99,10 @@ export const BUYER_COPY = {
   },
   uz: {
     home:
-      'Sizga nima kerakligini yozing — GPTBot ulangan do‘konlar katalogidan mos mahsulotlarni topadi.',
+      'Bormi? — Bor. Sizga nima kerakligini yozing — Bormi ulangan do‘konlar katalogidan mos mahsulotlarni topadi.',
     syntheticNotice:
       'Hozir sinov katalogi ishlayapti: barcha mahsulotlar sintetik.',
-    find: '🔎 Mahsulot topish',
+    find: 'Mahsulot topish',
     catalog: 'Katalog',
     orders: 'Buyurtmalarim',
     seller: 'Sotuvchi bilan bog‘lanish',
@@ -153,7 +153,7 @@ export const BUYER_COPY = {
     sellerPrompt:
       '«Sotuvchini chaqir» deb savolingizni bitta xabarda yozing — uni shu do‘kon sotuvchisiga yuboraman.',
     sellerInterest:
-      'Sotuvchi by GPTBot do‘konga tekshirilgan katalogni ko‘rsatish va Telegramda arizalar olishga yordam beradi.\n\nHozir do‘konlar faqat taklif bilan ulanadi. Bu qatnashish istagi, kirish huquqi emas: tugma sotuvchi panelini ochmaydi va do‘kon yaratmaydi.\n\nTekshiruv uchun do‘kon kategoriyasi, kelishilgan kichik mahsulotlar to‘plami, UZSdagi butun narxlar, dolzarb qoldiq, egasi kontakti hamda rozilik va javob tezligi uchun mas’ullar kerak. Jamoa arizani tekshiradi va Siz bilan bog‘lanadi.',
+      'Bormi sotuvchilar uchun do‘konga tekshirilgan katalogni ko‘rsatish va Telegramda arizalar olishga yordam beradi.\n\nHozir do‘konlar faqat taklif bilan ulanadi. Bu qatnashish istagi, kirish huquqi emas: tugma sotuvchi panelini ochmaydi va do‘kon yaratmaydi.\n\nTekshiruv uchun do‘kon kategoriyasi, kelishilgan kichik mahsulotlar to‘plami, UZSdagi butun narxlar, dolzarb qoldiq, egasi kontakti hamda rozilik va javob tezligi uchun mas’ullar kerak. Jamoa arizani tekshiradi va Siz bilan bog‘lanadi.',
     sellerHow: 'Bu qanday ishlaydi',
     sellerHowText:
       'Loyiha administratori egani, katalogni va mahsulot ma’lumotlari manbasini tekshiradi. Bu xaridorlarni tasdiqlanmagan narx va qoldiqlardan himoya qiladi. Tasdiqlangandan keyin sotuvchiga mahsulotlar, arizalar, savollar va aniq statistika ochiladi.\n\nBu tugma orqali mustaqil do‘kon yaratib yoki sotuvchi huquqini olib bo‘lmaydi. Pilot muddati, narxi va natijasi hali kelishilmagan.',

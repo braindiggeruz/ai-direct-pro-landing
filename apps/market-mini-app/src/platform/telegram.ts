@@ -64,7 +64,7 @@ function applyTheme(webApp: TelegramWebApp): void {
   const themeColor = getComputedStyle(document.documentElement)
     .getPropertyValue('--surface-canvas').trim();
   document.querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', themeColor || '#fff8ec');
+    ?.setAttribute('content', themeColor || '#f7f6fb');
 }
 
 export function initializeTelegram(): () => void {

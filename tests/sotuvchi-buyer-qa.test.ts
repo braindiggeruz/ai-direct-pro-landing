@@ -1304,7 +1304,7 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   await harness.invoke(telegramMessage(970_001, 97001, '/start', 'ru'));
   const firstStart = harness.delivery.sent.at(-1);
   assert.equal(firstStart?.text.includes(
-    'GPTBot найдёт подходящие товары',
+    'Bormi найдёт подходящие товары',
   ), true);
   assert.ok(JSON.stringify(firstStart?.keyboard).includes('buyer-catalog-open'));
   for (const action of [
@@ -1328,7 +1328,7 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   const repeatedStart = harness.delivery.sent.slice(afterFirstStart);
   assert.equal(repeatedStart.length, 1);
   assert.ok(repeatedStart[0].text.includes(
-    'GPTBot найдёт подходящие товары',
+    'Bormi найдёт подходящие товары',
   ));
 
   await harness.invoke(
@@ -1344,7 +1344,7 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   await harness.invoke(telegramMessage(970_010, 97002, '/start', 'uz'));
   const uzStart = harness.delivery.sent.at(-1);
   assert.ok(uzStart?.text.includes(
-    'GPTBot ulangan do‘konlar katalogidan',
+    'Bormi ulangan do‘konlar katalogidan',
   ));
   for (const action of [
     'buyer-find',

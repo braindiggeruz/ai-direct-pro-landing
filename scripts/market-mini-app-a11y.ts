@@ -51,9 +51,9 @@ async function axe(page: Page, state: string) {
   };
 }
 
-async function geometry(page: Page, width: number, fontScale = 1) {
-  await page.setViewportSize({ width, height: 844 });
-  await page.goto(baseUrl, { waitUntil: 'networkidle' });
+async function geometry(page: Page, width: number, fontScale = 1, height = 844) {
+  await page.setViewportSize({ width, height });
+  await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('main h1');
   if (fontScale !== 1) {
     await page.addStyleTag({ content: `html { font-size: ${fontScale * 100}% !important; }` });
@@ -89,24 +89,53 @@ async function main() {
     bypassCSP: true,
   });
   const page = await browserContext.newPage();
-  await page.goto(baseUrl, { waitUntil: 'networkidle' });
+  await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('main h1');
   const buyer = await axe(page, 'buyer-home');
-  await page.screenshot({ path: path.join(output, 'buyer-home-390x844.png'), fullPage: true });
+  await page.screenshot({ path: path.join(output, 'buyer-home-390x844.png') });
+
+  await page.getByRole('button', { name: 'Язык', exact: true }).click();
+  await page.waitForSelector('main h1');
+  const buyerUz = await axe(page, 'buyer-home-uz');
+  await page.screenshot({ path: path.join(output, 'buyer-home-uz-390x844.png') });
+  await page.getByRole('button', { name: 'Til', exact: true }).click();
+
+  await page.evaluate(() => {
+    document.documentElement.dataset.theme = 'dark';
+  });
+  const buyerDark = await axe(page, 'buyer-home-dark');
+  await page.screenshot({ path: path.join(output, 'buyer-home-dark-390x844.png') });
+  await page.evaluate(() => {
+    document.documentElement.dataset.theme = 'light';
+  });
 
   await page.getByRole('button', { name: 'Продавец', exact: true }).click();
   await page.waitForSelector('.metric-grid');
   const seller = await axe(page, 'seller-dashboard');
-  await page.screenshot({ path: path.join(output, 'seller-dashboard-390x844.png'), fullPage: true });
+  await page.screenshot({ path: path.join(output, 'seller-dashboard-390x844.png') });
 
   const geometry320 = await geometry(page, 320);
   const geometry390 = await geometry(page, 390);
   const zoom200 = await geometry(page, 390, 2);
+  const landscape844 = await geometry(page, 844, 1, 390);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('main h1');
+  const reducedMotionDuration = await page.evaluate(() => {
+    const card = document.querySelector<HTMLElement>('.product-card');
+    return card ? getComputedStyle(card).transitionDuration : 'missing';
+  });
   const report = {
     generatedAt: new Date().toISOString(),
     baseUrl,
-    audits: [buyer, seller],
-    geometry: { width320: geometry320, width390: geometry390, zoom200 },
+    audits: [buyer, buyerUz, buyerDark, seller],
+    geometry: {
+      width320: geometry320,
+      width390: geometry390,
+      zoom200,
+      landscape844,
+    },
+    reducedMotionDuration,
   };
   await fs.writeFile(
     path.join(output, 'a11y-report.json'),
@@ -114,17 +143,22 @@ async function main() {
     'utf8',
   );
   await browser.close();
-  const serious = [buyer, seller].flatMap((audit) => audit.violations)
+  const serious = [buyer, buyerUz, buyerDark, seller]
+    .flatMap((audit) => audit.violations)
     .filter((item) => item.impact === 'critical' || item.impact === 'serious');
-  const incomplete = [buyer, seller].flatMap((audit) => audit.incomplete);
+  const incomplete = [buyer, buyerUz, buyerDark, seller]
+    .flatMap((audit) => audit.incomplete);
   if (
     serious.length
     || incomplete.length
     || geometry320.horizontalOverflow
     || geometry390.horizontalOverflow
     || zoom200.horizontalOverflow
+    || landscape844.horizontalOverflow
     || geometry320.undersized.length
     || geometry390.undersized.length
+    || landscape844.undersized.length
+    || !['0.001ms', '1e-06s'].includes(reducedMotionDuration)
   ) {
     console.error(JSON.stringify({ serious, incomplete, geometry320, geometry390, zoom200 }, null, 2));
     process.exitCode = 1;
@@ -132,10 +166,14 @@ async function main() {
   }
   console.log(JSON.stringify({
     buyerViolations: buyer.violations.length,
+    buyerUzViolations: buyerUz.violations.length,
+    buyerDarkViolations: buyerDark.violations.length,
     sellerViolations: seller.violations.length,
     geometry320,
     geometry390,
     zoom200,
+    landscape844,
+    reducedMotionDuration,
   }, null, 2));
 }
 

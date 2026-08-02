@@ -77,8 +77,8 @@ test('Market launch collapses startup data and ships a bounded local demo image 
 
   const directory = new URL('apps/market-mini-app/public/assets/catalog-demo/', ROOT);
   const files = (await readdir(directory)).filter((file) => file.endsWith('.webp'));
-  assert.equal(files.length, 8);
+  assert.equal(files.length, 12);
   const sizes = await Promise.all(files.map((file) => stat(new URL(file, directory))));
-  assert.ok(sizes.every((item) => item.size > 8_000 && item.size < 50_000));
-  assert.ok(sizes.reduce((sum, item) => sum + item.size, 0) < 180_000);
+  assert.ok(sizes.every((item) => item.size > 5_000 && item.size < 50_000));
+  assert.ok(sizes.reduce((sum, item) => sum + item.size, 0) < 260_000);
 });

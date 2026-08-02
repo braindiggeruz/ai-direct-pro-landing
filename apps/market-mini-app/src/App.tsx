@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ErrorView, Icon, LoadingView, StateView } from './components/ui';
+import { BrandMark, ErrorView, Icon, LoadingView, StateView } from './components/ui';
 import { MarketApiError, exchangeLaunch, marketApi, setSessionLocale } from './lib/api';
 import { t } from './lib/i18n';
 import { preferredLocale } from './platform/telegram';
@@ -32,12 +32,12 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
   };
   const sellerAvailable = bootstrap.data.flags.sellerRead;
   const activeRole: Role = role === 'seller' && sellerAvailable ? 'seller' : 'buyer';
-  return <div className="app-shell">
+  return <div className="app-shell" data-build-id={bootstrap.data.buildId}>
     <header className="app-header">
-      <div className="brand-mark" aria-hidden="true">G</div>
+      <BrandMark />
       <div className="app-header__identity">
         <strong>{t(locale, 'appName')}</strong>
-        <span>{activeRole === 'seller' ? t(locale, 'seller') : t(locale, 'buyer')} · {bootstrap.data.buildId}</span>
+        <span>{t(locale, 'brandPromise')}</span>
       </div>
       {sellerAvailable ? <div className="role-switch" role="group" aria-label={t(locale, 'role')}>
         <button aria-pressed={activeRole === 'buyer'} onClick={() => setRole('buyer')}>{t(locale, 'buyer')}</button>
@@ -47,14 +47,14 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
     </header>
     {!online ? <div className="offline-banner" role="status"><Icon name="warning" size={17}/>{t(locale, 'offlineBody')}</div> : null}
     {activeRole === 'buyer'
-      ? <BuyerApp locale={locale} onLocale={(next) => void changeLocale(next)} sellerAvailable={sellerAvailable} onSeller={() => setRole('seller')} initialHome={launch.home} />
+      ? <BuyerApp locale={locale} initialHome={launch.home} />
       : <Suspense fallback={<LoadingView locale={locale} />}><SellerApp locale={locale} commands={bootstrap.data.flags.sellerCommands && online} onBuyer={() => setRole('buyer')} /></Suspense>}
   </div>;
 }
 
 export default function App() {
   const [online, setOnline] = useState(navigator.onLine);
-  const [locale, setLocale] = useState<Locale>(preferredLocale());
+  const locale: Locale = preferredLocale();
   useEffect(() => {
     const connected = () => setOnline(true);
     const disconnected = () => setOnline(false);
@@ -74,10 +74,6 @@ export default function App() {
       : count < 2,
     staleTime: Infinity,
   });
-  useEffect(() => {
-    if (launch.data?.session.locale) setLocale(launch.data.session.locale);
-  }, [launch.data?.session.locale]);
-
   if (launch.isLoading) return <LoadingView locale={locale} />;
   if (launch.isError) {
     const unsupported = launch.error instanceof MarketApiError

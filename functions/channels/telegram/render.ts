@@ -153,7 +153,7 @@ export function createTelegramDeliveryPort(
     return [
       ...(keyboard ?? []),
       [{
-        text: options.webApp.text?.trim().slice(0, 64) || 'GPTBot Market',
+        text: options.webApp.text?.trim().slice(0, 64) || 'Bormi',
         web_app: { url: options.webApp.url },
       }],
     ];

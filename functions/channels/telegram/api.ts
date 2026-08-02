@@ -249,7 +249,7 @@ export class TelegramClient {
     return this.call<{ url?: string; pending_update_count?: number; last_error_message?: string; last_error_date?: number }>('getWebhookInfo');
   }
 
-  setChatMenuButton(url: string, text = 'GPTBot Market') {
+  setChatMenuButton(url: string, text = 'Bormi') {
     return this.call('setChatMenuButton', {
       menu_button: {
         type: 'web_app',
@@ -265,6 +265,13 @@ export class TelegramClient {
       text?: string;
       web_app?: { url?: string };
     }>('getChatMenuButton');
+  }
+
+  setMyName(name: string, languageCode?: string) {
+    return this.call('setMyName', {
+      name: name.slice(0, 64),
+      ...(languageCode ? { language_code: languageCode } : {}),
+    });
   }
 
   setMyCommands(commands: readonly { command: string; description: string }[], languageCode?: string) {

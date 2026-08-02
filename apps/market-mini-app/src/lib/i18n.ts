@@ -2,8 +2,21 @@ import type { Locale } from '../types';
 
 const copy = {
   ru: {
-    appName: 'GPTBot Market',
-    loading: 'Загружаем магазин…',
+    appName: 'Bormi',
+    brandPromise: 'Bormi? — Bor.',
+    brandTagline: 'Нужное — рядом',
+    loading: 'Собираем витрину…',
+    loadingBody: 'Первые товары уже на экране, каталог подключается.',
+    heroBody: 'Товары из подключённых каталогов — с честной ценой и наличием.',
+    heroSearch: 'Что ищете сегодня?',
+    catalogTruth: 'Цена и наличие — из каталога',
+    demoLabel: 'Демо-фото · синтетический каталог',
+    comparisonReady: 'Готово к сравнению',
+    checkoutStep: 'Шаг оформления',
+    sentStep: 'Заявка отправлена',
+    confirmedStep: 'Продавец подтвердил',
+    doneStep: 'Заказ выполнен',
+    cancelledStep: 'Заказ отменён',
     retry: 'Повторить',
     offlineTitle: 'Нет соединения',
     offlineBody: 'Показываем сохранённые данные. Команды станут доступны после подключения.',
@@ -46,8 +59,21 @@ const copy = {
     pending: 'Сохраняем…', required: 'Заполните это поле', versionConflict: 'Данные уже изменились. Обновите экран.',
   },
   uz: {
-    appName: 'GPTBot Market',
-    loading: 'Do‘kon yuklanmoqda…',
+    appName: 'Bormi',
+    brandPromise: 'Bormi? — Bor.',
+    brandTagline: 'Keraklisi — yaqin',
+    loading: 'Vitrina tayyorlanmoqda…',
+    loadingBody: 'Birinchi mahsulotlar ekranda, katalog ulanmoqda.',
+    heroBody: 'Ulangan kataloglardagi mahsulotlar — narx va mavjudlik aniq.',
+    heroSearch: 'Bugun nima qidiryapsiz?',
+    catalogTruth: 'Narx va mavjudlik — katalogdan',
+    demoLabel: 'Demo suratlar · sintetik katalog',
+    comparisonReady: 'Solishtirishga tayyor',
+    checkoutStep: 'Rasmiylashtirish bosqichi',
+    sentStep: 'So‘rov yuborildi',
+    confirmedStep: 'Sotuvchi tasdiqladi',
+    doneStep: 'Buyurtma bajarildi',
+    cancelledStep: 'Buyurtma bekor qilindi',
     retry: 'Qayta urinish',
     offlineTitle: 'Internet yo‘q',
     offlineBody: 'Saqlangan ma’lumotlar ko‘rsatilmoqda. Internet qaytgach amallar ochiladi.',
@@ -98,7 +124,27 @@ export function t(locale: Locale, key: CopyKey): string {
 }
 
 export function formatPrice(value: number, locale: Locale): string {
-  return `${new Intl.NumberFormat(locale === 'uz' ? 'uz-UZ' : 'ru-RU').format(value)} so‘m`;
+  const unit = locale === 'uz' ? 'so‘m' : 'сум';
+  return `${new Intl.NumberFormat(locale === 'uz' ? 'uz-UZ' : 'ru-RU').format(value)} ${unit}`;
+}
+
+export function localizeCategory(name: string, locale: Locale): string {
+  if (locale === 'ru') return name;
+  const uzbek: Record<string, string> = {
+    'аудио': 'Audio',
+    'для дома': 'Uy uchun',
+    'аксессуары': 'Aksessuarlar',
+  };
+  return uzbek[name.trim().toLocaleLowerCase('ru-RU')] ?? name;
+}
+
+export function labelForStatus(locale: Locale, status: string): string {
+  const map: Partial<Record<string, CopyKey>> = {
+    available: 'available', preorder: 'preorder', unavailable: 'unavailable',
+    placed: 'placed', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled',
+    draft: 'draft', published: 'publishedStatus', archived: 'archived',
+  };
+  return map[status] ? t(locale, map[status]!) : status;
 }
 
 export function formatDate(value: string, locale: Locale): string {

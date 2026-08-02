@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { marketApi } from '../lib/api';
-import { formatDate, formatPrice, t } from '../lib/i18n';
+import { formatDate, formatPrice, labelForStatus, t } from '../lib/i18n';
 import { haptic } from '../platform/telegram';
 import type {
   Category,
@@ -22,7 +22,6 @@ import {
   SectionHeader,
   SkeletonList,
   StateView,
-  labelForStatus,
 } from '../components/ui';
 
 type SellerView = 'dashboard' | 'orders' | 'questions' | 'products' | 'inventory';
@@ -68,7 +67,7 @@ function SellerOrderModal({
     onError: () => haptic('error'),
   });
   const order = detail.data;
-  return <Modal open={Boolean(orderId)} title={order ? `№ ${order.orderNumber}` : t(locale, 'sellerOrders')} onClose={onClose} sheet>
+  return <Modal open={Boolean(orderId)} title={order ? `№ ${order.orderNumber}` : t(locale, 'sellerOrders')} onClose={onClose} closeLabel={t(locale, 'close')} sheet>
     {detail.isLoading ? <SkeletonList count={1}/> : detail.isError || !order ? <ErrorView locale={locale} retry={() => void detail.refetch()} /> : <div className="stack">
       <div className="row row--between"><h3>{order.productName}</h3><Badge tone={orderTone(order.status)}>{labelForStatus(locale, order.status)}</Badge></div>
       <dl className="spec-list">
@@ -95,7 +94,7 @@ function HandoffModal({ id, locale, commands, onClose }: { id: string | null; lo
     mutationFn: () => marketApi.post(`/seller/handoffs/${encodeURIComponent(id!)}/reply`, { reply: reply.trim(), expectedVersion: detail.data?.version }),
     onSuccess: () => { haptic('success'); setReply(''); void client.invalidateQueries({ queryKey: ['seller-handoffs'] }); void detail.refetch(); },
   });
-  return <Modal open={Boolean(id)} title={t(locale, 'questions')} onClose={onClose} sheet>
+  return <Modal open={Boolean(id)} title={t(locale, 'questions')} onClose={onClose} closeLabel={t(locale, 'close')} sheet>
     {detail.isLoading ? <SkeletonList count={1}/> : detail.isError || !detail.data ? <ErrorView locale={locale} retry={() => void detail.refetch()} /> : <div className="stack">
       <Badge tone={detail.data.status === 'open' ? 'warning' : 'positive'}>{detail.data.status}</Badge>
       <blockquote className="question-quote">{detail.data.questionText ?? '—'}</blockquote>
@@ -144,7 +143,7 @@ function ProductForm({
     },
     onSuccess: () => { haptic('success'); void client.invalidateQueries({ queryKey: ['seller-products'] }); onClose(); },
   });
-  return <Modal open={open} title={product ? t(locale, 'edit') : t(locale, 'addProduct')} onClose={onClose} sheet>
+  return <Modal open={open} title={product ? t(locale, 'edit') : t(locale, 'addProduct')} onClose={onClose} closeLabel={t(locale, 'close')} sheet>
     <form className="stack" onSubmit={(event) => { event.preventDefault(); mutation.mutate(); }}>
       <Field label={locale === 'uz' ? 'Nomi' : 'Название'}><input required maxLength={120} value={name} onChange={(event) => setName(event.target.value)}/></Field>
       <Field label={locale === 'uz' ? 'Tavsif' : 'Описание'}><textarea maxLength={600} value={description} onChange={(event) => setDescription(event.target.value)}/></Field>
@@ -183,8 +182,9 @@ export function SellerApp({ locale, commands, onBuyer }: SellerAppProps) {
 
   return <>
     <main id="main-content" className="page">
+      <button className="buyer-return" onClick={onBuyer}><Icon name="back" size={17}/>{t(locale, 'buyer')}</button>
       {view === 'dashboard' ? <>
-        <section className="hero"><p className="eyebrow">{t(locale, 'seller')}</p><h1>{dashboard.data?.store.name ?? t(locale, 'sellerDashboard')}</h1><p>{t(locale, 'today')}</p></section>
+        <section className="hero"><p className="eyebrow">Bormi · {t(locale, 'seller')}</p><h1>{dashboard.data?.store.name ?? t(locale, 'sellerDashboard')}</h1><p>{t(locale, 'today')}</p></section>
         {!commands ? <div className="notice"><Icon name="warning" size={19}/><span>{t(locale, 'commandsOff')}</span></div> : null}
         {dashboard.isLoading ? <SkeletonList count={3}/> : dashboard.isError ? <ErrorView locale={locale} retry={() => void dashboard.refetch()} /> : dashboard.data ? <>
           <section className="metric-grid" aria-label={t(locale, 'today')}>

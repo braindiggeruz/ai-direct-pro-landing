@@ -1,5 +1,11 @@
-const CACHE = 'gptbot-market-shell-v2';
-const SHELL = ['/', '/index.html'];
+const CACHE = 'bormi-shell-v3';
+const SHELL = [
+  '/',
+  '/index.html',
+  '/assets/brand/bormi-mark.svg',
+  '/assets/catalog-demo/bormi-headphones.webp',
+  '/assets/catalog-demo/bormi-speaker.webp',
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));

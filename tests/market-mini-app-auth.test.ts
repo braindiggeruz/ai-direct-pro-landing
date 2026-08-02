@@ -153,12 +153,12 @@ test('Telegram delivery appends a native web_app launch action', async () => {
   }, {
     webApp: {
       url: 'https://gptbot-market-mini-app.pages.dev/',
-      text: 'Открыть GPTBot Market',
+      text: 'Bormi',
     },
   });
   assert.equal(await delivery.sendText('123456', 'ready'), true);
   assert.deepEqual(delivered, [[{
-    text: 'Открыть GPTBot Market',
+    text: 'Bormi',
     web_app: { url: 'https://gptbot-market-mini-app.pages.dev/' },
   }]]);
 });
@@ -186,7 +186,7 @@ test('Telegram client uses setChatMenuButton with a bounded Web App payload', as
   assert.deepEqual(body, {
     menu_button: {
       type: 'web_app',
-      text: 'GPTBot Market',
+      text: 'Bormi',
       web_app: { url: 'https://gptbot-market-mini-app.pages.dev/' },
     },
   });
@@ -253,5 +253,5 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
-  assert.equal(calls, 1);
+  assert.equal(calls, 10);
 });

@@ -27,6 +27,7 @@ test('Telegram metadata is closed, localized and maps to implemented actions', (
       `${metadata.description} ${metadata.shortDescription}`,
       /оплат(?:а|ить)|доставим|real brand|haqiqiy brend mavjud/iu,
     );
+    assert.equal(metadata.name, 'Bormi');
     for (const command of metadata.commands) {
       if (command.command === 'start') continue;
       const parsed = parseTelegramProductCommand(
@@ -105,12 +106,15 @@ test('metadata apply verifies identity then writes all locale scopes', async () 
   assert.deepEqual(
     calls.slice(1).map(({ method }) => method),
     [
+      'setMyName',
       'setMyCommands',
       'setMyDescription',
       'setMyShortDescription',
+      'setMyName',
       'setMyCommands',
       'setMyDescription',
       'setMyShortDescription',
+      'setMyName',
       'setMyCommands',
       'setMyDescription',
       'setMyShortDescription',
