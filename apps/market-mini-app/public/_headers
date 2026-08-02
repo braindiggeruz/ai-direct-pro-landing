@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; img-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://gptbot.uz; object-src 'none'; base-uri 'none'; frame-ancestors https://web.telegram.org https://*.telegram.org; form-action 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; script-src 'self' https://telegram.org; connect-src 'self' https://gptbot.uz; object-src 'none'; base-uri 'none'; frame-ancestors https://web.telegram.org https://*.telegram.org; form-action 'self'
   Referrer-Policy: no-referrer
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   X-Content-Type-Options: nosniff

@@ -36,6 +36,15 @@ test('Market client keeps bearer in memory and excludes production bypasses', as
   }
 });
 
+test('Market shell loads the official Telegram bridge under a narrow CSP', async () => {
+  const html = await source('apps/market-mini-app/index.html');
+  const headers = await source('apps/market-mini-app/public/_headers');
+  assert.match(html, /https:\/\/telegram\.org\/js\/telegram-web-app\.js/);
+  assert.match(html, /script-src 'self' https:\/\/telegram\.org/);
+  assert.match(headers, /script-src 'self' https:\/\/telegram\.org/);
+  assert.doesNotMatch(`${html}\n${headers}`, /script-src[^;]*\*/);
+});
+
 test('Market API CORS is exact-origin and never wildcarded', async () => {
   const middleware = await source('functions/_middleware.ts');
   assert.match(middleware, /allowed\.includes\(origin\)/);
