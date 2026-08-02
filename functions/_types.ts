@@ -222,6 +222,14 @@ export interface Env {
   // to the deterministic result: anything but "true" simply skips the call, and
   // typed and voice search keep working. Reuses the existing LLM credentials.
   MARKET_AI_SEARCH_ENABLED?: string;
+  // Seller photo upload. Fails closed on two counts: the flag must be exactly
+  // "true" AND the bucket binding must exist, otherwise the upload route
+  // answers 503 and the cabinet hides the picker instead of offering a control
+  // that cannot work. Existing Telegram-sourced photos are unaffected either
+  // way — both kinds of reference live in the same catalog column.
+  MARKET_SELLER_MEDIA_UPLOAD_ENABLED?: string;
+  /** R2 bucket holding seller-uploaded product images. */
+  MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
   TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
   TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000

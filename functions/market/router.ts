@@ -25,13 +25,19 @@ import {
   createSotuvchiApplicationServices,
   enforceMarketRateLimit,
   issueMarketSession,
+  MarketUploadError,
+  isStoredMediaReference,
   issueMediaHandle,
   marketError,
   marketFlag,
   marketJson,
   marketRequestId,
+  mediaObjectKey,
+  newMediaReference,
   proxyTelegramMedia,
+  readImageUpload,
   readMarketJson,
+  storedMediaResponse,
   requireIdempotencyKey,
   resolveMarketAccess,
   verifyMarketSession,
@@ -173,6 +179,9 @@ async function productDto(
     ...(owner
       ? {
         owner: {
+          // The raw references, so the editor can reorder and remove photos and
+          // send the list back. Buyers only ever receive signed handles.
+          mediaRefs: product.mediaRefs,
           searchTerms: product.searchTerms,
           specifications: product.specifications.map((specification) => ({
             key: specification.key,
@@ -418,6 +427,9 @@ async function bootstrapPayload(context: RequestContext) {
         context.access.sellerOrg !== null
         && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED),
       voice: voiceSearchAvailable(context.env),
+      mediaUpload: context.access.sellerOrg !== null
+        && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED)
+        && mediaUploadAvailable(context.env),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -440,6 +452,9 @@ function launchBootstrapPayload(context: RequestContext) {
       sellerRead: false,
       sellerCommands: false,
       voice: voiceSearchAvailable(context.env),
+      mediaUpload: context.access.sellerOrg !== null
+        && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED)
+        && mediaUploadAvailable(context.env),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -728,7 +743,23 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
         .catch(() => null);
     }
     const reference = product?.mediaRefs[decoded.index];
-    if (!reference) throw new MarketHttpError('resource_not_found', 404);
+    if (!reference || !product) throw new MarketHttpError('resource_not_found', 404);
+    // A stored image is addressed through the product that owns it, so the key
+    // is built from that product's org and store rather than from anything the
+    // caller supplied.
+    if (isStoredMediaReference(reference)) {
+      const key = mediaObjectKey(product.orgId, product.storeId, reference);
+      const object = key && context.env.MARKET_MEDIA
+        ? await context.env.MARKET_MEDIA.get(key)
+        : null;
+      if (!object) throw new MarketHttpError('resource_not_found', 404);
+      const stored = storedMediaResponse(
+        object.body,
+        object.httpMetadata?.contentType ?? '',
+      );
+      stored.headers.set('x-request-id', requestId);
+      return stored;
+    }
     const proxied = await proxyTelegramMedia(context.config.botToken, reference);
     if (!proxied) throw new MarketHttpError('resource_not_found', 404);
     proxied.headers.set('x-request-id', requestId);
@@ -1016,6 +1047,63 @@ async function checkoutCommands(context: RequestContext): Promise<Response | nul
   return null;
 }
 
+/**
+ * Photo upload is available only when the switch is on AND the bucket is bound.
+ *
+ * Same discipline as the microphone: a control that cannot work must not look
+ * like it can, so the capability is reported to the client rather than
+ * discovered by the seller when the upload fails.
+ */
+function mediaUploadAvailable(env: Env): boolean {
+  return marketFlag(env.MARKET_SELLER_MEDIA_UPLOAD_ENABLED)
+    && Boolean(env.MARKET_MEDIA);
+}
+
+/**
+ * Stores one seller photo and returns the reference the catalog will hold.
+ *
+ * The object is written before it belongs to any product: the seller is still
+ * filling the form, and a photo that only existed after "Save" would be lost by
+ * every abandoned draft. The reference is unguessable and the key is scoped to
+ * the store, so an object nobody attaches is unreachable rather than public.
+ */
+async function sellerMediaUpload(context: RequestContext): Promise<Response> {
+  const { request, env, access, requestId } = context;
+  requireSellerCommands(context);
+  if (!mediaUploadAvailable(env)) {
+    throw new MarketHttpError('feature_disabled', 503);
+  }
+  requireIdempotencyKey(request);
+  await enforceMarketRateLimit('command', `${context.claims.sub}:media`);
+  let upload;
+  try {
+    upload = await readImageUpload(request);
+  } catch (error) {
+    if (error instanceof MarketUploadError) {
+      throw new MarketHttpError(
+        error.code === 'payload_too_large' ? 'payload_too_large' : 'validation_failed',
+        error.code === 'payload_too_large' ? 413 : 400,
+      );
+    }
+    throw error;
+  }
+  const reference = newMediaReference();
+  const key = mediaObjectKey(
+    access.sellerOrg!.orgId,
+    access.sellerStore!.id,
+    reference,
+  );
+  if (!key) throw new MarketHttpError('validation_failed', 400);
+  await env.MARKET_MEDIA!.put(key, upload.bytes, {
+    httpMetadata: { contentType: upload.contentType },
+    customMetadata: {
+      orgId: access.sellerOrg!.orgId,
+      storeId: access.sellerStore!.id,
+    },
+  });
+  return marketJson({ ref: reference, contentType: upload.contentType }, requestId, 201);
+}
+
 /** A confirmed order older than this has stopped being progress. */
 const SELLER_SLA_HOURS = 24;
 /** Rows shown inside one attention group; the count above it stays honest. */
@@ -1143,6 +1231,22 @@ async function sellerCommands(context: RequestContext): Promise<Response | null>
   const key = requireIdempotencyKey(request);
   await enforceMarketRateLimit('command', `${context.claims.sub}:${path}`);
   const org = sellerCommandOrg(context, key);
+
+  const discard = /^\/seller\/media\/(r2\.[a-z2-7]{16})$/.exec(path);
+  if (request.method === 'DELETE' && discard) {
+    const key = mediaObjectKey(
+      access.sellerOrg!.orgId,
+      access.sellerStore!.id,
+      discard[1],
+    );
+    if (key && context.env.MARKET_MEDIA) {
+      await context.env.MARKET_MEDIA.delete(key);
+    }
+    return new Response(null, {
+      status: 204,
+      headers: { 'Cache-Control': 'no-store', 'x-request-id': requestId },
+    });
+  }
 
   const orderCommand = /^\/seller\/orders\/([^/]+)\/(confirm|cancel|done)$/.exec(path);
   if (request.method === 'POST' && orderCommand) {
@@ -1422,6 +1526,11 @@ export async function handleMarketRequest(input: {
     };
     const response = await readRoutes(context)
       ?? await voiceRoutes(context)
+      // Raw-body route: it must run before the JSON command dispatch, which
+      // would otherwise try to parse an image as a document.
+      ?? (input.request.method === 'POST' && path === '/seller/media'
+        ? await sellerMediaUpload(context)
+        : null)
       ?? await comparisonCommands(context)
       ?? await checkoutCommands(context)
       ?? await sellerCommands(context);

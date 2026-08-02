@@ -20,6 +20,9 @@ export const MARKET_ERROR_CODES = [
   // recovery instead of the generic store-unavailable screen.
   'voice_unavailable',
   'voice_unclear',
+  // An oversized photo is its own answer: the seller can retake or crop it,
+  // which "validation_failed" would not tell them.
+  'payload_too_large',
   'internal_error',
 ] as const;
 

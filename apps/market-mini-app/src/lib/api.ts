@@ -215,6 +215,92 @@ export async function voiceSearch(
   return data as unknown as VoiceSearchResult;
 }
 
+/** One photo, shrunk on the phone before it ever reaches the network. */
+export const MEDIA_MAX_EDGE = 1600;
+const MEDIA_QUALITY = 0.82;
+const MEDIA_UPLOAD_TIMEOUT_MS = 45_000;
+
+/**
+ * Re-encodes a picked photo to a bounded JPEG.
+ *
+ * A modern phone camera produces four to twelve megabytes per shot. Sending
+ * that over a Tashkent mobile link is the difference between a photo that
+ * attaches while the seller keeps typing and one that stalls the form, so the
+ * long edge is capped and the result re-encoded before upload. If the browser
+ * cannot decode the file the original is returned untouched and the server's
+ * own validation decides.
+ */
+export async function compressImage(file: File): Promise<Blob> {
+  if (!file.type.startsWith('image/')) return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, MEDIA_MAX_EDGE / Math.max(bitmap.width, bitmap.height));
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    if (!context) return file;
+    context.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close();
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob(resolve, 'image/jpeg', MEDIA_QUALITY);
+    });
+    return blob && blob.size > 0 ? blob : file;
+  } catch {
+    return file;
+  }
+}
+
+/**
+ * Uploads one product photo as a raw image body and returns its reference.
+ *
+ * The reference is stored on the product only when the seller saves, so an
+ * abandoned draft leaves an unreachable object rather than a visible one.
+ */
+export async function uploadMedia(
+  blob: Blob,
+  signal?: AbortSignal,
+): Promise<{ ref: string }> {
+  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+    return fixtureRequest<{ ref: string }>('/seller/media', { method: 'POST' });
+  }
+  const controller = new AbortController();
+  const abort = () => controller.abort();
+  if (signal?.aborted) abort();
+  else signal?.addEventListener('abort', abort, { once: true });
+  const timeout = globalThis.setTimeout(abort, MEDIA_UPLOAD_TIMEOUT_MS);
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}/seller/media`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': blob.type || 'image/jpeg',
+        'Idempotency-Key': crypto.randomUUID(),
+        ...(sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {}),
+      },
+      body: blob,
+      signal: controller.signal,
+    });
+  } catch {
+    throw new MarketApiError('network_error', 0, null);
+  } finally {
+    globalThis.clearTimeout(timeout);
+    signal?.removeEventListener('abort', abort);
+  }
+  const data = await response.json().catch(() => ({})) as Record<string, unknown>;
+  if (!response.ok || typeof data.ref !== 'string') {
+    throw new MarketApiError(
+      typeof data.error === 'string' ? data.error : 'network_error',
+      response.status,
+      typeof data.request_id === 'string' ? data.request_id : null,
+    );
+  }
+  return { ref: data.ref };
+}
+
 export const marketApi = {
   get: <T>(path: string, signal?: AbortSignal) => request<T>(path, { signal }),
   post: <T>(path: string, body?: unknown) => request<T>(path, {

@@ -10,7 +10,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { MarketApiError, marketApi } from '../lib/api';
+import { MarketApiError, compressImage, marketApi, uploadMedia } from '../lib/api';
 import { formatDate, formatPrice, labelForStatus, t } from '../lib/i18n';
 import type { CopyKey } from '../lib/i18n';
 import { haptic } from '../platform/telegram';
@@ -26,6 +26,7 @@ import type {
   SellerProduct,
 } from '../types';
 import {
+  AsyncImage,
   Badge,
   Button,
   ErrorView,
@@ -47,6 +48,8 @@ const PRODUCT_PAGE = 50;
 interface SellerAppProps {
   locale: Locale;
   commands: boolean;
+  /** Server-confirmed photo upload capability; false hides the picker. */
+  mediaUpload: boolean;
   onBuyer: () => void;
 }
 
@@ -641,13 +644,89 @@ function SearchTermsEditor({
   </fieldset>;
 }
 
+interface Photo {
+  ref: string;
+  /** Object URL for a photo picked in this session; existing ones use a handle. */
+  preview?: string;
+  handle?: string;
+  /** Uploaded during this edit, so discarding it should also drop the object. */
+  fresh?: boolean;
+}
+
+const MAX_PHOTOS = 5;
+
+/**
+ * Photo gallery.
+ *
+ * The first photo is the card image, which is why "сделать обложкой" exists and
+ * free reordering does not: one deliberate promotion is the whole decision a
+ * seller actually makes, and drag-to-sort inside a Telegram sheet fights the
+ * sheet's own gesture.
+ */
+function PhotoEditor({
+  photos, locale, uploading, error, canUpload, onPick, onChange,
+}: {
+  photos: Photo[];
+  locale: Locale;
+  uploading: boolean;
+  error: string | null;
+  canUpload: boolean;
+  onPick: (files: FileList | null) => void;
+  onChange: (next: Photo[]) => void;
+}) {
+  return <fieldset className="editor-block">
+    <legend>{t(locale, 'productPhotos')}</legend>
+    <p className="field__hint">{t(locale, 'photosHint')}</p>
+    {photos.length ? <ul className="photo-grid">
+      {photos.map((photo, index) => <li className="photo-cell" key={photo.ref}>
+        {photo.preview
+          ? <img src={photo.preview} alt="" className="photo-cell__image" />
+          : <AsyncImage handle={photo.handle} alt="" className="photo-cell__image" />}
+        {index === 0 ? <span className="photo-cell__cover">{t(locale, 'coverPhoto')}</span> : null}
+        <div className="photo-cell__actions">
+          {index > 0 ? <button
+            type="button" className="icon-button"
+            aria-label={t(locale, 'makeCover')}
+            onClick={() => onChange([
+              photo,
+              ...photos.filter((item) => item.ref !== photo.ref),
+            ])}
+          ><Icon name="check" size={17} /></button> : null}
+          <button
+            type="button" className="icon-button"
+            aria-label={`${t(locale, 'removeRow')}: ${index + 1}`}
+            onClick={() => onChange(photos.filter((item) => item.ref !== photo.ref))}
+          ><Icon name="close" size={17} /></button>
+        </div>
+      </li>)}
+    </ul> : null}
+    {error ? <p className="field__error" role="alert">{error}</p> : null}
+    {!canUpload
+      ? <div className="notice notice--muted">
+        <Icon name="warning" size={19} /><span>{t(locale, 'photosLater')}</span>
+      </div>
+      : photos.length < MAX_PHOTOS ? <label className="photo-picker">
+        <input
+          type="file" accept="image/jpeg,image/png,image/webp" multiple
+          disabled={uploading}
+          onChange={(event) => { onPick(event.target.files); event.target.value = ''; }}
+        />
+        <span>
+          {uploading ? <span className="spinner" aria-hidden="true" /> : <Icon name="plus" />}
+          {uploading ? t(locale, 'photoUploading') : t(locale, 'addPhoto')}
+        </span>
+      </label> : null}
+  </fieldset>;
+}
+
 function ProductEditor({
-  open, locale, categories, product, onClose,
+  open, locale, categories, product, mediaUpload, onClose,
 }: {
   open: boolean;
   locale: Locale;
   categories: Category[];
   product: SellerProduct | null;
+  mediaUpload: boolean;
   onClose: () => void;
 }) {
   const client = useQueryClient();
@@ -663,9 +742,66 @@ function ProductEditor({
     (product?.owner?.specifications ?? []).map((item) => ({ ...item })),
   );
   const [version, setVersion] = useState(product?.version ?? 0);
+  const [photos, setPhotos] = useState<Photo[]>(
+    (product?.owner?.mediaRefs ?? []).map((ref, index) => ({
+      ref,
+      handle: product?.mediaHandles[index],
+    })),
+  );
+  const [uploading, setUploading] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
 
   const priceNumber = Number(price);
   const priceValid = Number.isInteger(priceNumber) && priceNumber >= 0;
+
+  /**
+   * Uploads picked photos one at a time.
+   *
+   * Sequential rather than parallel: a seller on a mobile link gets a usable
+   * first photo sooner, and a failure names the file that failed instead of
+   * collapsing a batch into one error.
+   */
+  const pickPhotos = async (files: FileList | null) => {
+    if (!files?.length) return;
+    setPhotoError(null);
+    setUploading(true);
+    try {
+      let room = MAX_PHOTOS - photos.length;
+      for (const file of Array.from(files)) {
+        if (room <= 0) break;
+        const blob = await compressImage(file);
+        const { ref } = await uploadMedia(blob);
+        setPhotos((current) => current.length >= MAX_PHOTOS ? current : [
+          ...current,
+          { ref, preview: URL.createObjectURL(blob), fresh: true },
+        ]);
+        room -= 1;
+      }
+    } catch (error) {
+      haptic('error');
+      setPhotoError(t(
+        locale,
+        error instanceof MarketApiError && error.code === 'payload_too_large'
+          ? 'photoTooLarge'
+          : 'photoFailed',
+      ));
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  /** A photo dropped before saving is also dropped from the bucket. */
+  const changePhotos = (next: Photo[]) => {
+    for (const photo of photos) {
+      if (next.some((item) => item.ref === photo.ref)) continue;
+      if (photo.preview) URL.revokeObjectURL(photo.preview);
+      if (photo.fresh) {
+        void marketApi.delete(`/seller/media/${encodeURIComponent(photo.ref)}`)
+          .catch(() => undefined);
+      }
+    }
+    setPhotos(next);
+  };
 
   const payload = () => {
     const taken = new Set<string>();
@@ -685,6 +821,7 @@ function ProductEditor({
       priceMinor: priceNumber,
       currency: 'UZS' as const,
       availability,
+      mediaRefs: photos.map((photo) => photo.ref),
       searchTerms: terms,
       specifications: rows,
     };
@@ -759,13 +896,23 @@ function ProductEditor({
         </select>
       </Field>
 
+      <PhotoEditor
+        photos={photos}
+        locale={locale}
+        uploading={uploading}
+        error={photoError}
+        canUpload={mediaUpload}
+        onPick={(files) => void pickPhotos(files)}
+        onChange={changePhotos}
+      />
       <SpecificationEditor rows={specifications} locale={locale} onChange={setSpecifications} />
       <SearchTermsEditor terms={terms} locale={locale} onChange={setTerms} />
 
-      <div className="notice notice--muted"><Icon name="warning" size={19} /><span>{t(locale, 'photosLater')}</span></div>
-
       <section className="preview-card" aria-label={t(locale, 'preview')}>
         <span className="eyebrow">{t(locale, 'preview')}</span>
+        {photos[0] ? (photos[0].preview
+          ? <img src={photos[0].preview} alt="" className="preview-card__image" />
+          : <AsyncImage handle={photos[0].handle} alt="" className="preview-card__image" />) : null}
         <strong>{name.trim() || '—'}</strong>
         <span className="preview-card__price">
           {priceValid && price !== '' ? formatPrice(priceNumber, locale) : '—'}
@@ -937,7 +1084,7 @@ function InventoryRow({
   </li>;
 }
 
-export function SellerApp({ locale, commands, onBuyer }: SellerAppProps) {
+export function SellerApp({ locale, commands, mediaUpload, onBuyer }: SellerAppProps) {
   const client = useQueryClient();
   const [view, setView] = useState<SellerView>('today');
   const [orderFilter, setOrderFilter] = useState<OrderFilter>('all');
@@ -1083,6 +1230,7 @@ export function SellerApp({ locale, commands, onBuyer }: SellerAppProps) {
       product={editor.product}
       categories={categories.data?.items ?? []}
       locale={locale}
+      mediaUpload={mediaUpload && commands}
       onClose={() => setEditor({ open: false, product: null })}
     />
   </>;

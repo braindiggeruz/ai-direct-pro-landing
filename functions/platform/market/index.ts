@@ -35,4 +35,16 @@ export {
   verifyMediaHandle,
   type MarketMediaHandle,
 } from './media';
+export {
+  MARKET_UPLOAD_MAX_BYTES,
+  MarketUploadError,
+  isStoredMediaReference,
+  mediaObjectKey,
+  newMediaReference,
+  readImageUpload,
+  sniffImageType,
+  storedMediaResponse,
+  type MarketImageType,
+  type MarketUpload,
+} from './upload';
 export { enforceMarketRateLimit } from './rate-limit';

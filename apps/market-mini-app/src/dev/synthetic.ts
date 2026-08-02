@@ -56,13 +56,16 @@ const products: SellerProduct[] = [
   // the cabinet's "weak card" path is reachable offline.
   owner: index < 4
     ? {
+      mediaRefs: [`fixture-${id}`],
       searchTerms: ['quloqchin', 'гарнитура'],
       specifications: [
         { key: 'warranty', labelRu: 'Гарантия', labelUz: 'Kafolat', value: '12 месяцев' },
       ],
     }
-    : { searchTerms: [], specifications: [] },
+    : { mediaRefs: [], searchTerms: [], specifications: [] },
 }));
+
+let syntheticMedia = 0;
 
 let comparison: string[] = [];
 let checkout: CheckoutSnapshot | null = null;
@@ -119,6 +122,7 @@ type OwnerFields = NonNullable<SellerProduct['owner']>;
 /** Mirrors the BFF split: aliases and bilingual labels live under `owner`. */
 function ownerFields(source: Record<string, unknown>): OwnerFields {
   return {
+    mediaRefs: Array.isArray(source.mediaRefs) ? source.mediaRefs as string[] : [],
     searchTerms: Array.isArray(source.searchTerms) ? source.searchTerms as string[] : [],
     specifications: Array.isArray(source.specifications)
       ? source.specifications as OwnerFields['specifications']
@@ -158,7 +162,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
         navigation: ['home', 'search', 'compare', 'orders'],
         sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true },
+        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true },
         storefront: { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
@@ -178,7 +182,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
       navigation: ['home', 'search', 'compare', 'orders'],
       sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true },
+      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true },
       storefront: { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };
@@ -385,6 +389,11 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
   } else if (/^\/seller\/products\/[^/]+\/(publish|unpublish|archive)$/.test(path)) {
     const parts = path.split('/'); const item = products.find((candidate) => candidate.id === parts[3])!;
     item.status = parts[4] === 'publish' ? 'published' : parts[4] === 'unpublish' ? 'draft' : 'archived'; item.version += 1; result = item;
+  } else if (path === '/seller/media' && method === 'POST') {
+    syntheticMedia += 1;
+    result = { ref: `r2.fixture${String(syntheticMedia).padStart(8, '0')}`, contentType: 'image/jpeg' };
+  } else if (/^\/seller\/media\/[^/]+$/.test(path) && method === 'DELETE') {
+    result = undefined;
   } else if (path === '/seller/categories') {
     result = { items: categories };
   } else if (path === '/seller/inventory') {

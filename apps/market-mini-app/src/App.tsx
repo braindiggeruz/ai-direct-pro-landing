@@ -54,7 +54,7 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
     {!online ? <div className="offline-banner" role="status"><Icon name="warning" size={17}/>{t(locale, 'offlineBody')}</div> : null}
     {activeRole === 'buyer'
       ? <BuyerApp locale={locale} initialHome={launch.home} voiceEnabled={bootstrap.data.flags.voice === true} />
-      : <Suspense fallback={<LoadingView locale={locale} />}><SellerApp locale={locale} commands={bootstrap.data.flags.sellerCommands && online} onBuyer={() => setRole('buyer')} /></Suspense>}
+      : <Suspense fallback={<LoadingView locale={locale} />}><SellerApp locale={locale} commands={bootstrap.data.flags.sellerCommands && online} mediaUpload={bootstrap.data.flags.mediaUpload === true && online} onBuyer={() => setRole('buyer')} /></Suspense>}
   </div>;
 }
 

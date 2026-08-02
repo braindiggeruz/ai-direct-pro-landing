@@ -59,6 +59,17 @@ database_id = "97ef0372-d937-406f-8871-755368d9afff"
 binding = "LOGIN_ATTEMPTS"
 id = "c5e30ccbfcbe43f0b22a027b38c225f4"
 
+# Seller-uploaded product images for Bormi.
+#
+# Product photos existed only as Telegram file ids, so a seller could not attach
+# one without leaving the cabinet for the bot. Objects are keyed
+# `market/<orgId>/<storeId>/<id>` and served only through the signed media
+# handle, with the same private, noindex, sandboxed headers as the Telegram
+# proxy — the bucket has no public URL.
+[[r2_buckets]]
+binding = "MARKET_MEDIA"
+bucket_name = "bormi-market-media"
+
 # Workers AI binding (Cloudflare Pages Functions).
 # Powers the direct-AI SEO Autopilot generator. The binding name "AI"
 # is referenced via env.AI.run(model, …) in
@@ -100,3 +111,8 @@ MARKET_VOICE_SEARCH_ENABLED = "true"
 # "true" skips the call and leaves the deterministic result untouched. Reuses
 # the existing LLM credentials — no new secret.
 MARKET_AI_SEARCH_ENABLED = "true"
+# Seller photo upload kill switch. Fails closed twice over: anything other than
+# "true" — or a missing MARKET_MEDIA binding — makes /seller/media answer 503 and
+# makes the cabinet hide the picker rather than offer a control that cannot
+# work. Photos already attached through the bot keep working either way.
+MARKET_SELLER_MEDIA_UPLOAD_ENABLED = "true"

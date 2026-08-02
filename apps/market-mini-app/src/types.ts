@@ -11,6 +11,12 @@ export interface Capabilities {
    * resolves to "no microphone" instead of breaking the launch.
    */
   voice?: boolean;
+  /**
+   * Server-reported photo upload availability: the switch is on AND a bucket is
+   * bound. Optional so a cached pre-upload bootstrap resolves to "no picker"
+   * instead of breaking the launch.
+   */
+  mediaUpload?: boolean;
 }
 
 export type VoiceConstraintKind =
@@ -178,6 +184,8 @@ export interface Inventory {
 
 /** Owner-only product fields. Present on `/seller/*` payloads, never on a card. */
 export interface ProductOwnerFields {
+  /** Raw media references, index-aligned with `mediaHandles`. */
+  mediaRefs: string[];
   searchTerms: string[];
   specifications: {
     key: string;
