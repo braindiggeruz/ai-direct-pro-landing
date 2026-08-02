@@ -638,6 +638,69 @@ WebView in this release. **§11 remains open.** Until the owner completes steps
 
 ---
 
+## 16. Follow-up 3 — speaking lands on products
+
+### 16.1 What the owner said
+
+> «Он в текст переводит, это бессмысленно. ИИ должен сразу выдавать нужные
+> карточки товаров.»
+
+### 16.2 What was actually happening
+
+`POST /voice/search` has always returned the transcript, the understood
+constraints **and** the grounded products in one round trip. The cards were
+already there, below the fold. What sat above them was the problem: a card
+containing the machine transcript in an editable field with a prominent
+«Искать» button.
+
+That reads as the thing to act on, and it was pressed — which is the worst
+possible outcome, because «Искать» re-runs the raw sentence as an ordinary typed
+search and throws away everything the voice pipeline had understood. The
+transcript, an internal step, had been promoted to the interface.
+
+### 16.3 The change
+
+The summary is now one compact line and the products are the answer:
+
+```text
+🎤 блокнот                          [Изменить] [×]
+   Распознано автоматически
+```
+
+- The headline is **what actually ran**, not the raw sentence — the raw sentence
+  appears only when nothing was understood.
+- The editable transcript and its «Искать» button move behind «Изменить», one
+  tap away. Correction stays possible; it is no longer the default gesture.
+- The automatic-recognition caption stays, so a machine transcript is still
+  never passed off as something the shopper typed (the D-035/UX disclosure rule
+  is unchanged).
+- The removable budget and stock chips and the single clarification question
+  stay where they were — those are genuine forks, not confirmation steps.
+- The «Искали: …» line is suppressed while a voice result is on screen, so there
+  is one line of chrome above the products rather than two.
+
+### 16.4 Changed files
+
+| File | Change |
+|---|---|
+| `apps/market-mini-app/src/components/VoiceSearch.tsx` | compact summary; transcript editor behind `editing` |
+| `apps/market-mini-app/src/screens/BuyerApp.tsx` | no duplicate «Искали» line; seeds `queryApplied` |
+| `apps/market-mini-app/src/lib/i18n.ts` | `voiceEdit` in RU and UZ |
+| `apps/market-mini-app/src/styles.css` | headline truncates instead of pushing controls off a 320 px screen |
+| `apps/market-mini-app/test/voice-search.test.ts` | asserts the editor is behind a tap |
+
+### 16.5 Verification
+
+Mini App 18/18 PASS, typecheck 0 errors, ESLint 0, secret scan clean over 2,980
+files, production build PASS. The fixture app loads with no console errors.
+
+**Not verified:** the flow itself still needs a real microphone. The fixture
+cannot produce a voice result in Node, and the Browser pane composited no frames
+during this session, so the compact summary has not been seen rendered — only
+asserted in source and type-checked.
+
+---
+
 ## 15. Follow-up 2 — Bormi understands what was meant
 
 ### 15.1 What the owner saw

@@ -352,7 +352,7 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
       // exact key the search query uses avoids an immediate duplicate request.
       client.setQueryData(
         ['products', next.productQuery, nextAvailability, null, next.maxPriceMinor],
-        { items: result.items },
+        { items: result.items, queryApplied: result.queryApplied },
       );
     },
     onError: (error) => {
@@ -477,10 +477,13 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
   // is the positive statement: «Искали: блокнот». A dropped «чёрная» is just as
   // visible — the shopper sees colour was not part of it.
   const searchedFor = useMemo(() => {
+    // A voice result already states what Bormi understood, in its own compact
+    // bar. Repeating it here would put two lines of chrome above the products.
+    if (voiceResult) return null;
     const applied = search.data?.queryApplied ?? null;
     if (!applied || !query) return null;
     return applied.toLowerCase() === query.trim().toLowerCase() ? null : applied;
-  }, [search.data, query]);
+  }, [search.data, query, voiceResult]);
   const orderTimeline = (order: BuyerOrder) => {
     const cancelled = order.status === 'cancelled';
     const states = cancelled

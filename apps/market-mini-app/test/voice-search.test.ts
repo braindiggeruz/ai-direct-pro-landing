@@ -22,6 +22,7 @@ const VOICE_KEYS = [
   'voiceUnavailableBody', 'voiceLimitBody', 'voiceClarifyBudget',
   'voiceClarifyBudgetYes', 'voiceClarifyBudgetNo', 'voiceClarifyEmpty',
   'voiceNoMatch', 'voiceNoMatchBody', 'voiceUpTo', 'priceUpTo', 'unmatched',
+  'searchedFor', 'voiceEdit',
 ] as const;
 
 test('every voice string exists in both Russian and Uzbek Latin', () => {
@@ -140,6 +141,23 @@ test('the buyer screen hides voice unless the server reports the capability', as
   // A 503 must switch the microphone off for the rest of the session instead
   // of inviting the buyer to fail again.
   assert.match(buyer, /if \(kind === 'unavailable'\) setVoiceOffline\(true\)/);
+});
+
+test('speaking lands on products, not on a transcript to confirm', async () => {
+  const sheet = await readFile(
+    new URL('../src/components/VoiceSearch.tsx', import.meta.url),
+    'utf8',
+  );
+  // The editable transcript and its "Искать" button are behind one tap. As the
+  // default surface they read as the thing to act on, and pressing them threw
+  // away everything Bormi had understood to re-run the raw sentence as text.
+  assert.match(sheet, /const \[editing, setEditing\] = useState\(false\)/);
+  assert.match(sheet, /\{editing \? \([\s\S]{0,200}<form className="voice-summary__edit"/);
+  assert.match(sheet, /onClick=\{\(\) => setEditing\(true\)\}/);
+  // What ran is the headline; the raw sentence only when nothing was understood.
+  assert.match(sheet, /const headline = interpretation\.productQuery \|\| transcript/);
+  // Still never passed off as something the shopper typed.
+  assert.match(sheet, /\{t\(locale, 'voiceAiNote'\)\}/);
 });
 
 test('the recording sheet reuses the accessible modal and labels every control', async () => {

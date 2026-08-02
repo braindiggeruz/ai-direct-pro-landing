@@ -190,11 +190,21 @@ export function VoiceSummary({
   // (key={transcript}), so edits survive re-renders but a fresh recording
   // always starts from what Bormi just heard.
   const [draft, setDraft] = useState(transcript);
+  // Correction is one tap away, not in the way. The products are the answer;
+  // putting an editable transcript and a "Искать" button above them made the
+  // machine's reading of the sentence look like the thing to act on, and the
+  // shopper pressed it — which threw away everything Bormi had understood and
+  // re-ran the raw sentence as plain text.
+  const [editing, setEditing] = useState(false);
   const submit = (event: FormEvent) => {
     event.preventDefault();
     const value = draft.trim();
     if (value) onSubmitTranscript(value);
   };
+  // What actually ran, when Bormi understood something; the raw sentence only
+  // when it did not. Never presented as if the shopper typed it — the caption
+  // below says it was recognised automatically.
+  const headline = interpretation.productQuery || transcript;
   const budget = activeMaxPrice;
   const ambiguousAmount = interpretation.ambiguousPriceMinor;
   const ambiguous = interpretation.clarification === 'budget'
@@ -203,10 +213,19 @@ export function VoiceSummary({
     <section className="voice-summary" aria-label={t(locale, 'voiceHeard')}>
       <header className="voice-summary__head">
         <span className="voice-summary__badge"><Icon name="mic" size={15} /></span>
-        <div>
-          <strong>{t(locale, 'voiceHeard')}</strong>
+        <div className="voice-summary__said">
+          <strong>{headline}</strong>
           <small>{t(locale, 'voiceAiNote')}</small>
         </div>
+        {editing ? null : (
+          <button
+            type="button"
+            className="chip chip--action voice-summary__edit-action"
+            onClick={() => setEditing(true)}
+          >
+            {t(locale, 'voiceEdit')}
+          </button>
+        )}
         <button
           type="button"
           className="icon-button"
@@ -216,19 +235,22 @@ export function VoiceSummary({
           <Icon name="close" size={18} />
         </button>
       </header>
-      <form className="voice-summary__edit" onSubmit={submit}>
-        <label className="sr-only" htmlFor="voice-transcript">
-          {t(locale, 'voiceHeard')}
-        </label>
-        <input
-          id="voice-transcript"
-          type="search"
-          enterKeyHint="search"
-          value={draft}
-          onChange={(event) => setDraft(event.target.value)}
-        />
-        <Button type="submit">{t(locale, 'voiceApply')}</Button>
-      </form>
+      {editing ? (
+        <form className="voice-summary__edit" onSubmit={submit}>
+          <label className="sr-only" htmlFor="voice-transcript">
+            {t(locale, 'voiceHeard')}
+          </label>
+          <input
+            id="voice-transcript"
+            type="search"
+            enterKeyHint="search"
+            autoFocus
+            value={draft}
+            onChange={(event) => setDraft(event.target.value)}
+          />
+          <Button type="submit">{t(locale, 'voiceApply')}</Button>
+        </form>
+      ) : null}
 
       {ambiguous ? (
         <div className="voice-clarify" role="group" aria-label={t(locale, 'voiceClarifyBudget')}>

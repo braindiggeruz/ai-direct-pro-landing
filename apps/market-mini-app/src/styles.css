@@ -306,7 +306,12 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .voice-timer--closing span { color: var(--danger); }
 
 .voice-summary { display: grid; gap: 11px; margin-top: 12px; padding: 14px; border: 1px solid color-mix(in srgb, var(--action-primary) 26%, var(--border-default)); border-radius: var(--radius-md); background: color-mix(in srgb, var(--action-primary) 6%, var(--surface-raised)); }
-.voice-summary__head { display: grid; grid-template-columns: 34px minmax(0, 1fr) 44px; align-items: center; gap: 10px; }
+.voice-summary__head { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto 44px; align-items: center; gap: 10px; }
+/* The understood query is the headline and may be long; it truncates instead of
+   pushing the correction and dismiss controls off a 320px screen. */
+.voice-summary__said { min-width: 0; }
+.voice-summary__said strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.voice-summary__edit-action { min-height: 36px; white-space: nowrap; }
 .voice-summary__badge { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: var(--action-primary); color: var(--action-primary-text); }
 .voice-summary__head strong { display: block; font-size: .95rem; }
 .voice-summary__head small { display: block; margin-top: 1px; color: var(--text-secondary); font-size: .72rem; }
