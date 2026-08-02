@@ -23,9 +23,11 @@ test('Telegram metadata is closed, localized and maps to implemented actions', (
     'language',
   ]);
   for (const metadata of TELEGRAM_AGENT_METADATA) {
+    assert.match(metadata.description, /^Bormi\? — Bor\./u);
+    assert.match(metadata.shortDescription, /^Bormi\? — Bor\./u);
     assert.doesNotMatch(
       `${metadata.description} ${metadata.shortDescription}`,
-      /оплат(?:а|ить)|доставим|real brand|haqiqiy brend mavjud/iu,
+      /GPTBot|синтетич|synthetic|оплат(?:а|ить)|доставим|real brand|haqiqiy brend mavjud/iu,
     );
     assert.equal(metadata.name, 'Bormi');
     for (const command of metadata.commands) {

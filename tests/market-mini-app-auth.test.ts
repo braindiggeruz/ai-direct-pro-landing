@@ -336,5 +336,5 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
-  assert.equal(calls, 10);
+  assert.equal(calls, 13);
 });

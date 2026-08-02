@@ -34,6 +34,7 @@ export function scheduleMarketMenuSync(
     client.setChatMenuButton(url, 'Bormi'),
     ...TELEGRAM_AGENT_METADATA.flatMap((metadata) => [
       client.setMyName(metadata.name, metadata.languageCode),
+      client.setMyCommands(metadata.commands, metadata.languageCode),
       client.setMyDescription(metadata.description, metadata.languageCode),
       client.setMyShortDescription(
         metadata.shortDescription,
