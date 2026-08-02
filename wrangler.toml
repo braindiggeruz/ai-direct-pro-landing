@@ -76,3 +76,10 @@ MARKET_MINI_APP_BUILD_ID = "telegram-review-20260802"
 # Speech recognition reuses the existing GROQ_API_KEY (and optional
 # OPENAI_API_KEY) secrets — no new credential is required.
 MARKET_VOICE_SEARCH_ENABLED = "true"
+# Semantic search fallback. Search is grounded in the storefront's own words
+# first; only when a sentence contains no catalog word at all is the model asked
+# to map its meaning onto the same real terms, and its answer is intersected
+# with them before anything is searched. Setting this to anything other than
+# "true" skips the call and leaves the deterministic result untouched. Reuses
+# the existing LLM credentials — no new secret.
+MARKET_AI_SEARCH_ENABLED = "true"

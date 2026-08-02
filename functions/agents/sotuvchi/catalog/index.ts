@@ -89,6 +89,7 @@ export type {
   CatalogProductStatus,
   CatalogRelevanceReason,
   CatalogSearchResult,
+  CatalogVocabularyEntry,
   CreateCatalogCategoryInput,
   CreateCatalogProductInput,
   ListCatalogProductsFilter,

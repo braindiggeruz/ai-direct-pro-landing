@@ -174,16 +174,26 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
     // sentence «мне нужен блокнот» to appear verbatim would show an empty
     // result for a journey that works in production.
     const tokens = query.split(/\s+/).map((token) => token.replace(/[.,!?]+$/, '')).filter(Boolean);
+    const vocabulary = products.flatMap((item) =>
+      `${item.name} ${item.description}`.toLowerCase().split(/[^\p{L}\p{N}]+/u)).filter(Boolean);
+    // Stem match against the fixture's own words, the same shape the BFF uses,
+    // so «блокнотов» finds «блокнот» offline too.
+    const stem = (token: string) => vocabulary.find((word) =>
+      word === token
+      || (Math.min(word.length, token.length) >= 4
+        && (word.startsWith(token.slice(0, 4)) && token.startsWith(word.slice(0, 4)))));
+    const grounded = tokens.map(stem).filter((word): word is string => Boolean(word));
     result = {
       items: products.filter((item) => {
         const haystack = `${item.name} ${item.description}`.toLowerCase();
-        return (!tokens.length || tokens.some((token) => haystack.includes(token)))
+        return (!grounded.length || grounded.some((token) => haystack.includes(token)))
           && (!availability || item.availability === availability)
           && (ceiling === null || item.priceMinor <= ceiling);
       }),
       nextCursor: null,
-      queryApplied: query || null,
+      queryApplied: grounded.join(' ') || query || null,
       maxPriceMinorApplied: ceiling,
+      aiAssisted: false,
     };
   } else if (path === '/voice/search') {
     // Fixture speech: a fixed RU sentence so the whole voice journey can be

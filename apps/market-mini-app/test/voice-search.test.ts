@@ -93,6 +93,23 @@ test('a typed sentence finds the product in the offline fixture too', async () =
   );
 });
 
+test('a rambling, inflected sentence still finds the product', async () => {
+  // The owner's second run, shape for shape: filler the fixture has never seen
+  // plus a plural and a genitive of the product word.
+  const found = await syntheticRequest<{ items: { name: string }[]; queryApplied: string | null }>(
+    '/catalog/products?q=' + encodeURIComponent('Слушай, мне нужны чайники, можешь дать чайников'),
+  );
+  assert.ok(found.items.length > 0, 'the sentence returned nothing');
+  assert.ok(
+    found.items.every((item) => item.name.toLowerCase().includes('чайник')),
+    'the sentence pulled in products it never named',
+  );
+  assert.ok(
+    (found.queryApplied ?? '').includes('чайник'),
+    'the applied query did not report the catalog word',
+  );
+});
+
 test('voice results stay grounded in the catalog fixture', async () => {
   const result = await syntheticRequest<VoiceSearchResult>('/voice/search', {
     method: 'POST',

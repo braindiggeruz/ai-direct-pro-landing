@@ -18,6 +18,7 @@ import type {
   CatalogProduct,
   CatalogRelevanceReason,
   CatalogSearchResult,
+  CatalogVocabularyEntry,
   CreateCatalogCategoryInput,
   CreateCatalogProductInput,
   ListCatalogProductsFilter,
@@ -1003,6 +1004,33 @@ export class SotuvchiCatalogService {
   ): Promise<BuyerCatalogCategory[]> {
     const context = await this.resolveStorefrontContext(rawContext);
     return this.store.listBuyerCategories(context);
+  }
+
+  /**
+   * The vocabulary of one storefront: product names, seller-supplied search
+   * terms and category names.
+   *
+   * Additive and read-only. It does not touch ranking, publication state or
+   * tenant scope — it reuses the same published listing every buyer read goes
+   * through. It exists so a caller can map a shopper's inflected phrasing onto
+   * the words this store really uses, instead of guessing at Russian and Uzbek
+   * morphology with a hand-written list.
+   */
+  async listStorefrontVocabulary(
+    rawContext: unknown,
+  ): Promise<CatalogVocabularyEntry[]> {
+    const context = await this.resolveStorefrontContext(rawContext);
+    const candidates = await this.store.listPublished(
+      context,
+      CATALOG_LIMITS.productLimit,
+    );
+    return candidates.map((candidate) => ({
+      productId: candidate.product.id,
+      name: candidate.product.name,
+      categoryId: candidate.product.categoryId,
+      categoryName: candidate.categoryName,
+      searchTerms: candidate.product.searchTerms,
+    }));
   }
 
   async listPublishedProductsByCategory(

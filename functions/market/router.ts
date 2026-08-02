@@ -41,6 +41,17 @@ import {
   type MarketSessionClaims,
   type SotuvchiApplicationServices,
 } from '.';
+import {
+  aiSearchAvailable,
+  createMarketSearchFacade,
+  resolveSearchIntentWithAi,
+} from './search-ai';
+import {
+  buildCatalogVocabulary,
+  cachedVocabulary,
+  groundQueryInCatalog,
+  rememberVocabulary,
+} from './search-intent';
 import { reduceSearchQuery } from './search-query';
 import {
   assertVoiceSearchEnabled,
@@ -211,8 +222,42 @@ interface CatalogSearchInput {
 
 interface CatalogSearchOutcome {
   results: readonly CatalogSearchResult[];
-  /** The query the catalog actually received, after intent words were dropped. */
+  /** The query the catalog actually received, in the catalog's own words. */
   queryApplied: string;
+  /** `{ spoken -> catalog }` for every word the stem match rewrote. */
+  rewrites: readonly { from: string; to: string }[];
+  /** True when the model was asked to interpret the sentence. */
+  aiAssisted: boolean;
+}
+
+/**
+ * Reads the storefront's own vocabulary once per request.
+ *
+ * A shopper's sentence is grounded against real product names, seller aliases
+ * and category names rather than against a hand-written word list, because no
+ * such list survives Russian and Uzbek morphology: the catalog stores
+ * «Блокнот» and the shopper says «блокнотов».
+ */
+async function storefrontVocabulary(context: RequestContext) {
+  const storeId = context.access.buyer.storeId;
+  const now = Date.now();
+  const cached = cachedVocabulary(storeId, now);
+  if (cached) return cached;
+  const [entries, categories] = await Promise.all([
+    context.services.catalog.listStorefrontVocabulary(context.access.buyer)
+      .catch(() => []),
+    context.services.catalog.listBuyerCategories(context.access.buyer)
+      .catch(() => []),
+  ]);
+  const vocabulary = buildCatalogVocabulary({
+    terms: entries.flatMap((entry) => [entry.name, ...entry.searchTerms]),
+    categories: categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+    })),
+  });
+  if (vocabulary.words.length > 0) rememberVocabulary(storeId, vocabulary, now);
+  return vocabulary;
 }
 
 /**
@@ -221,17 +266,54 @@ interface CatalogSearchOutcome {
  * return: ranking, tenant scope and publication state stay untouched, and the
  * extra constraints are applied to the ranked rows only.
  *
- * The sentence reduction runs here rather than at either caller, which is what
- * keeps that invariant true — a shopper who types «Мне нужен блокнот» and one
- * who says it out loud reach `searchPublishedProducts` with the same query.
- * Re-reducing an already reduced query is a no-op, so the voice route paying
- * for it twice costs nothing and cannot diverge.
+ * Understanding happens in two steps, cheapest first:
+ *
+ * 1. **The catalog's own words.** Each token is matched against real product,
+ *    alias and category words by stem, so «блокнотов» searches «блокнот» and
+ *    «слушай, можешь дать» disappears — not because those words are on a list,
+ *    but because no product contains them. Most sentences stop here, with no
+ *    model call and no added latency.
+ * 2. **Meaning.** Only when nothing grounded — «что-нибудь чтобы записывать» —
+ *    is the model asked to map the sentence onto that same vocabulary, and its
+ *    answer is intersected with the vocabulary before anything is searched. It
+ *    may choose among the store's products; it cannot add to them.
  */
 async function runCatalogSearch(
   context: RequestContext,
   input: CatalogSearchInput,
 ): Promise<CatalogSearchOutcome> {
-  const queryApplied = input.query ? reduceSearchQuery(input.query).query : '';
+  let queryApplied = '';
+  let rewrites: readonly { from: string; to: string }[] = [];
+  let aiAssisted = false;
+  let availability = input.availability;
+  let maxPriceMinor = input.maxPriceMinor;
+
+  if (input.query) {
+    const vocabulary = await storefrontVocabulary(context);
+    const grounded = groundQueryInCatalog(input.query, vocabulary);
+    queryApplied = grounded.query;
+    rewrites = grounded.rewrites;
+
+    if (!grounded.grounded && aiSearchAvailable(context.env)) {
+      const intent = await resolveSearchIntentWithAi(
+        createMarketSearchFacade(context.env),
+        input.query,
+        vocabulary,
+      );
+      if (intent) {
+        aiAssisted = true;
+        queryApplied = intent.query;
+        if (availability === null) availability = intent.availability;
+        if (maxPriceMinor === null) maxPriceMinor = intent.maxPriceMinor;
+      }
+    }
+
+    // Nothing in the catalog and nothing the model could place: search the
+    // sentence as reduced. It finds nothing, which is the honest answer —
+    // falling through to a full listing would read as a match.
+    if (!queryApplied) queryApplied = reduceSearchQuery(input.query).query;
+  }
+
   const ranked = queryApplied
     ? await context.services.catalog.searchPublishedProducts(
         context.access.buyer,
@@ -243,13 +325,13 @@ async function runCatalogSearch(
         input.limit,
       );
   let results = ranked;
-  if (input.availability) {
+  if (availability) {
     results = results.filter(
-      (item) => item.product.availability === input.availability,
+      (item) => item.product.availability === availability,
     );
   }
-  if (input.maxPriceMinor !== null) {
-    const ceiling = input.maxPriceMinor;
+  if (maxPriceMinor !== null) {
+    const ceiling = maxPriceMinor;
     results = results.filter((item) => item.product.priceMinor <= ceiling);
   }
   if (results.length > 0 && results.length <= 4) {
@@ -274,7 +356,7 @@ async function runCatalogSearch(
       reasonCode: results.length ? 'market_search' : 'market_no_result',
     },
   }).catch(() => undefined);
-  return { results, queryApplied };
+  return { results, queryApplied, rewrites, aiAssisted };
 }
 
 async function bootstrapPayload(context: RequestContext) {
@@ -528,6 +610,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
       // What ran, not what was typed: «Мне нужен блокнот» searches «блокнот».
       queryApplied: search.queryApplied || null,
       maxPriceMinorApplied: maxPriceMinor,
+      aiAssisted: search.aiAssisted,
     }, requestId);
   }
   const productMatch = /^\/catalog\/products\/([^/]+)$/.exec(path);
@@ -749,7 +832,12 @@ async function voiceRoutes(context: RequestContext): Promise<Response | null> {
         maxPriceMinor: interpretation.maxPriceMinor,
         limit: boundedLimit(context.url.searchParams.get('limit')),
       })
-    : { results: [] as readonly CatalogSearchResult[], queryApplied: '' };
+    : {
+        results: [] as readonly CatalogSearchResult[],
+        queryApplied: '',
+        rewrites: [] as readonly { from: string; to: string }[],
+          aiAssisted: false,
+      };
   return marketJson({
     transcript: transcription.transcript,
     language: transcription.language,
@@ -766,6 +854,7 @@ async function voiceRoutes(context: RequestContext): Promise<Response | null> {
     items: await resultDtos(search.results, context),
     nextCursor: null,
     queryApplied: search.queryApplied || null,
+    aiAssisted: search.aiAssisted,
   }, requestId);
 }
 

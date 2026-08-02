@@ -94,6 +94,7 @@ const copy = {
     voiceUpTo: 'до',
     priceUpTo: 'Цена до, сум',
     unmatched: 'Не нашли по условию',
+    searchedFor: 'Искали',
   },
   uz: {
     appName: 'Bormi',
@@ -188,6 +189,7 @@ const copy = {
     voiceUpTo: 'gacha',
     priceUpTo: 'Narx, so‘mgacha',
     unmatched: 'Shart bo‘yicha topilmadi',
+    searchedFor: 'Qidirdik',
   },
 } as const;
 

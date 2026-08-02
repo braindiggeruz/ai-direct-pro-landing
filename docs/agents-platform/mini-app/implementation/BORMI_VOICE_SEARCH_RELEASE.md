@@ -638,6 +638,132 @@ WebView in this release. **§11 remains open.** Until the owner completes steps
 
 ---
 
+## 15. Follow-up 2 — Bormi understands what was meant
+
+### 15.1 What the owner saw
+
+The second native run, after §14 shipped:
+
+```text
+transcript  «Слушай, мне нужны блокноты, можешь дать блокнотов»
+shown       Не нашли по условию: слушай, блокноты, можешь, дать, блокнотов
+```
+
+Every single word was reported as a failed condition — including the product
+word itself, twice.
+
+### 15.2 Why the previous fix could not have worked
+
+Two separate faults, and the stop-word list is the cause of both.
+
+**The list was incomplete, and always would be.** «слушай», «можешь» and «дать»
+were not on it. Adding them buys one sentence; the next one brings «слышь»,
+«подкинь», «а есть у вас».
+
+**The list could never have fixed the product word.** The catalog stores
+«Блокнот». Ranking matches by substring, so «блокнот» is found inside «блокноты»
+but **not** inside «блокнотов» — the stored word is longer than nothing but the
+query word is longer than the stored one. Russian and Uzbek inflect; a list of
+filler words has nothing to say about that. This is why the shopper's own
+product word came back as unmatched.
+
+### 15.3 The rule, inverted
+
+Instead of listing what to throw away, keep only what the catalog knows:
+
+1. Read the storefront's real vocabulary — product names, seller search terms,
+   category names.
+2. Match each of the shopper's words against it **by stem**, and search the
+   catalog's form: «блокнотов» → «блокнот», «наушниками» → «наушники»,
+   «bloknotlar» → «bloknot».
+3. Drop everything else. «слушай», «можешь», «дать» disappear not because
+   somebody remembered them but because no product, alias or category contains
+   them.
+
+Nothing to maintain, and morphology is handled by construction. The stem test
+requires four characters and three quarters of the shorter word, which keeps
+«блокнот»/«блокнотов» and «лампа»/«лампочка» together while keeping «колонка»
+and «колонна» apart.
+
+### 15.4 And then meaning
+
+Step 3 leaves the case the owner actually asked about: «хочу что-нибудь чтобы
+записывать» contains no catalog word at all. Only then is the model asked, and
+it is asked a closed question — here are this store's real terms and real
+categories, choose among them. Whatever it answers is intersected with that same
+vocabulary before anything is searched, so an invented «блокнот Moleskine»
+produces an empty query, not a search for a product the store does not sell.
+Products still come only from `searchPublishedProducts`.
+
+This is the fallback, not the default. A sentence that names a product grounds
+instantly and spends no model call, so the fast path the v8 release bought is
+not given back.
+
+**This supersedes the D-040 clause that the only model in the request path is
+speech-to-text.** Recorded as D-042 with the reasoning, because the invariant
+that clause protected is now enforced by validation rather than by absence.
+
+### 15.5 What the shopper sees instead of an accusation
+
+«Не нашли по условию: …» is retired. Listing the words that failed is only fair
+if you can tell a real condition from someone clearing their throat, and that
+needs the filler list again. Since the query now contains only catalog words,
+nothing dropped was ever applied as a condition. The line states the positive
+fact instead, and only when it differs from what was typed:
+
+```text
+Искали: блокнот          (RU)
+Qidirdik: bloknot        (UZ)
+```
+
+A dropped «чёрная» is just as visible this way — «Искали: наушники» says colour
+was not part of it.
+
+### 15.6 Cost, and what happens when things break
+
+| Concern | Answer |
+|---|---|
+| Extra catalog read | One read-only published listing, cached per isolate for 60 s and bounded to 32 storefronts. It carries no price, stock or identity. |
+| Model latency | Only on sentences that grounded nothing. Bounded at 4 s. |
+| Model outage, timeout, bad JSON | Caught; the deterministic result is returned. Search never shows an error because of this. |
+| Invented product | Intersected away before the search runs. |
+| Kill switch | `MARKET_AI_SEARCH_ENABLED`; anything but `"true"` skips the call and leaves typed and voice search exactly as they are. |
+| New credential | None. Reuses the existing shared LLM stack (`judge` route — Mistral / OpenRouter / Gemini keys already in production). |
+
+### 15.7 Changed files
+
+| File | Change |
+|---|---|
+| `functions/market/search-intent.ts` | new — vocabulary build, stem grounding, isolate cache |
+| `functions/market/search-ai.ts` | new — closed-choice intent resolution and its validation |
+| `functions/market/router.ts` | `runCatalogSearch` grounds, then falls back to the model |
+| `functions/agents/sotuvchi/catalog/service.ts` | additive read-only `listStorefrontVocabulary` |
+| `functions/agents/sotuvchi/catalog/types.ts` | `CatalogVocabularyEntry` |
+| `functions/_types.ts`, `wrangler.toml` | `MARKET_AI_SEARCH_ENABLED` kill switch |
+| `apps/market-mini-app/src/screens/BuyerApp.tsx` | «Искали: …» replaces the unmatched line |
+| `apps/market-mini-app/src/lib/i18n.ts` | `searchedFor` in RU and UZ |
+| `apps/market-mini-app/src/dev/synthetic.ts` | fixture stem-matches against its own words |
+| `tests/market-search-intent.test.ts` | new — 15 tests |
+
+### 15.8 Verification
+
+| Check | Result |
+|---|---|
+| `tests/market-search-intent.test.ts` | 15/15 PASS |
+| Mini App tests | 17/17 PASS, including the owner's sentence shape against the fixture |
+| Root · Functions · Mini App TypeScript | 0 · 0 · 0 errors |
+| ESLint on changed files · agent boundaries | 0 problems · OK |
+| Secret scan | clean, 2,977 files |
+| Ranking | `searchPublishedProducts` and `rankCatalogProducts` unchanged |
+
+**Not verified:** the model call has not been exercised against the live
+provider. It has real credentials in production and it fails closed, but the
+first sentence that reaches it will be the first real proof. A model call that
+times out is abandoned by the facade rather than aborted upstream, so a slow
+provider costs the request nothing but may leave the upstream fetch running.
+
+---
+
 ## 14. Follow-up — typed search reads sentences too
 
 ### 14.1 What the owner saw

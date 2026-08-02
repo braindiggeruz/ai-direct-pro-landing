@@ -21,6 +21,48 @@ could enter a grounded storefront. Deterministic interpretation is also
 testable, free, instant and degrades to plain text search when speech fails —
 which is the failure mode a marketplace can survive.
 
+## D-042 — search is grounded in the catalog's own words, and the model may select from them but never add to them (2026-08-02)
+
+**Decision.** A shopper's sentence is understood in two steps. First, every word
+is matched against the storefront's real vocabulary — product names, seller
+search terms and category names — by stem rather than by equality, and the
+**catalog's** form is what is searched. Only when a sentence contains no catalog
+word at all is a model asked to map its meaning onto that same vocabulary, and
+its answer is intersected with the vocabulary and the real category ids before
+anything is searched. The model may choose among the store's products; it can
+never introduce one. `searchPublishedProducts` and `rankCatalogProducts` stay
+unchanged, so retrieval and grounding remain deterministic.
+
+The user-visible "Не нашли по условию: …" line is retired. It reported the words
+that failed, which is only fair if you can tell a real condition from a shopper
+clearing their throat — and that requires a filler list nobody can finish. Since
+the query now contains only catalog words, nothing dropped was ever applied as a
+condition. The replacement states the positive fact: «Искали: блокнот».
+
+**Why.** The first version of this reduced a sentence with a hand-written
+stop-word list. It cannot work in Russian or Uzbek. The catalog stores «Блокнот»
+and shoppers say «блокноты», «блокнотов», «bloknotlar»; the ranking layer matches
+by substring, so the stored word is found inside one form and not the other, and
+the query word is reported as unmatched. No list of endings fixes that, and the
+first list was already missing «слушай», «можешь» and «дать». Inverting the rule
+— keep only what the catalog knows — removes both problems at once and needs no
+maintenance: filler is dropped because no product contains it.
+
+**This supersedes the D-040 clause that "the only model in the request path is
+speech-to-text".** The owner asked for meaning, not pattern matching. The
+grounding invariant that clause protected is preserved by a stronger mechanism
+than absence: the model's output is validated against the live catalog, so a
+hallucinated product name produces an empty query rather than a search for
+something the store does not sell.
+
+**Cost and failure.** The vocabulary is one additional read-only listing, cached
+per isolate for a minute, so a search does not pay for it repeatedly. The model
+call happens only on the sentences that grounded nothing, is bounded at four
+seconds, and every failure — outage, timeout, malformed answer, invented product
+— degrades to the deterministic result rather than to an error. Kill switch:
+`MARKET_AI_SEARCH_ENABLED`; anything but `"true"` skips the call and leaves
+typed and voice search working.
+
 ## D-040 — Bormi voice reuses the production speech stack behind the platform AI contract (2026-08-02)
 
 **Decision.** Speech recognition for Bormi uses the existing Voice-to-Reply

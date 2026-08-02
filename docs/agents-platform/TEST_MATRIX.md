@@ -1,5 +1,24 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## Bormi catalog-grounded search understanding (2026-08-02, follow-up 2)
+
+| Check | Result |
+| --- | --- |
+| Trigger | «Слушай, мне нужны блокноты, можешь дать блокнотов» reported every word, including the product word, as a failed condition |
+| Root cause | a stop-word list cannot cover Russian/Uzbek inflection: ranking matches by substring, so the stored «блокнот» is found inside «блокноты» but not inside «блокнотов» |
+| Rule now | keep only words the storefront really contains, matched by stem, and search the catalog's form; filler is dropped because no product contains it |
+| AI fallback | only when nothing grounded; the model chooses from the store's real terms and category ids, and its answer is intersected with them before any search |
+| `tests/market-search-intent.test.ts` | 15 of 15 PASS |
+| Mini App tests | 17 of 17 PASS, including the owner's sentence shape against the fixture |
+| Root · Functions · Mini App TypeScript | 0 · 0 · 0 errors |
+| ESLint changed files · agent boundaries · secret scan | 0 problems · OK · clean, 2,977 files |
+| Ranking | `searchPublishedProducts` and `rankCatalogProducts` unchanged |
+| Hallucination guard | an invented product name resolves to an empty query, asserted |
+| Model failure | outage, timeout and malformed JSON all degrade to the deterministic result, asserted |
+| Catalog vocabulary read | additive, read-only, reuses the published listing; cached per isolate for 60 s, bounded to 32 storefronts |
+| User-visible change | «Не нашли по условию: …» retired in favour of «Искали: …» / «Qidirdik: …» |
+| Live model call | NOT RUN — real credentials are present in production and the path fails closed, but the first real sentence is the first proof |
+
 ## Bormi typed-search sentence reduction (2026-08-02, follow-up)
 
 | Check | Result |

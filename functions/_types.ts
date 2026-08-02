@@ -217,6 +217,11 @@ export interface Env {
   // the microphone. Speech recognition reuses the existing GROQ_API_KEY /
   // OPENAI_API_KEY secrets; no new credential is introduced.
   MARKET_VOICE_SEARCH_ENABLED?: string;
+  // Semantic search fallback. When a sentence contains no catalog word at all,
+  // the model is asked to map it onto the storefront's real terms. Fails open
+  // to the deterministic result: anything but "true" simply skips the call, and
+  // typed and voice search keep working. Reuses the existing LLM credentials.
+  MARKET_AI_SEARCH_ENABLED?: string;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
   TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
   TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000

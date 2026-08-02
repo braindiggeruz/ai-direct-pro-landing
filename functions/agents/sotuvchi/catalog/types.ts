@@ -179,6 +179,19 @@ export interface BuyerCatalogCategory {
   productCount: number;
 }
 
+/**
+ * The words one storefront actually contains, for callers that need to ground
+ * a shopper's phrasing in real catalog language. Read-only and additive: it
+ * carries no price, stock, ordering or ranking meaning.
+ */
+export interface CatalogVocabularyEntry {
+  productId: string;
+  name: string;
+  categoryId: string | null;
+  categoryName: string | null;
+  searchTerms: readonly string[];
+}
+
 export interface StorefrontSession {
   id: string;
   botUsername: string;

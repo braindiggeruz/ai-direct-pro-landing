@@ -288,7 +288,7 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
   };
 
   const home = useQuery<CatalogHome>({ queryKey: ['catalog-home'], queryFn: ({ signal }) => marketApi.get('/catalog/home', signal), initialData: initialHome, staleTime: 60_000 });
-  const search = useQuery<{ items: Product[] }>({
+  const search = useQuery<{ items: Product[]; queryApplied?: string | null }>({
     queryKey: ['products', query, availability, category, maxPrice],
     queryFn: ({ signal }) => {
       const params = new URLSearchParams();
@@ -467,17 +467,20 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
   };
 
   const comparisonItems = comparison.data?.items ?? [];
-  // Words present in no result at all. Surfacing them keeps a spoken
-  // "чёрная" honest: the catalog has no such row, and Bormi says so instead of
-  // implying the colour was applied.
-  const unmatchedWords = useMemo(() => {
-    const items = search.data?.items ?? [];
-    if (!items.length) return [] as string[];
-    const first = items[0]?.relevance?.unmatchedConstraints ?? [];
-    return first.filter((token) => items.every(
-      (item) => (item.relevance?.unmatchedConstraints ?? []).includes(token),
-    ));
-  }, [search.data]);
+  // What Bormi actually searched for, shown only when it differs from what the
+  // shopper wrote.
+  //
+  // This replaces "Не нашли по условию: слушай, можешь, дать". Listing the
+  // words that failed requires knowing which of them were ever meant as
+  // conditions, and that needs a filler list nobody can finish. Since the query
+  // now contains only words the catalog really has, the honest and useful thing
+  // is the positive statement: «Искали: блокнот». A dropped «чёрная» is just as
+  // visible — the shopper sees colour was not part of it.
+  const searchedFor = useMemo(() => {
+    const applied = search.data?.queryApplied ?? null;
+    if (!applied || !query) return null;
+    return applied.toLowerCase() === query.trim().toLowerCase() ? null : applied;
+  }, [search.data, query]);
   const orderTimeline = (order: BuyerOrder) => {
     const cancelled = order.status === 'cancelled';
     const states = cancelled
@@ -561,8 +564,8 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
           }}
           onDismiss={() => setVoiceResult(null)}
         /> : null}
-        {unmatchedWords.length ? <p className="search-note" role="status">
-          {t(locale, 'unmatched')}: {unmatchedWords.join(', ')}
+        {searchedFor ? <p className="search-note" role="status">
+          {t(locale, 'searchedFor')}: {searchedFor}
         </p> : null}
         <section className="section">{productList(search.data?.items ?? [], search.isLoading, search.isError, () => void search.refetch())}</section>
       </> : null}

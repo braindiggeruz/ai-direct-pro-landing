@@ -75,15 +75,19 @@ test('any sentence reduces to a query the catalog search accepts', () => {
   }
 });
 
-test('the reduction lives in the one shared catalog path', async () => {
+test('understanding lives in the one shared catalog path', async () => {
   const router = await source('functions/market/router.ts');
-  // One reduction, inside runCatalogSearch. Reducing at either caller instead
-  // would let typed and voice search drift apart again.
+  // One grounding pass and one AI fallback, both inside runCatalogSearch.
+  // Doing either at a caller would let typed and voice search drift apart.
+  assert.equal((router.match(/groundQueryInCatalog\(/g) ?? []).length, 1);
+  assert.equal((router.match(/resolveSearchIntentWithAi\(/g) ?? []).length, 1);
   assert.equal((router.match(/reduceSearchQuery\(/g) ?? []).length, 1);
-  assert.match(router, /queryApplied\s*=\s*input\.query\s*\?\s*reduceSearchQuery/);
-  // The catalog receives the reduced query, never the raw sentence.
+  // The catalog receives the grounded query, never the raw sentence.
   assert.match(router, /searchPublishedProducts\(\s*\n\s*context\.access\.buyer,\s*\n\s*queryApplied,/);
   assert.doesNotMatch(router, /searchPublishedProducts\([\s\S]{0,120}input\.query/);
+  // The model is a fallback, not the default: it runs only when nothing in the
+  // sentence matched a real catalog word.
+  assert.match(router, /if \(!grounded\.grounded && aiSearchAvailable\(context\.env\)\)/);
 });
 
 test('voice and typed search share one stop-word vocabulary', async () => {
