@@ -723,6 +723,29 @@ decision that needs live traffic before it relocates, so the improvement must be
 measured on a real device after the fact, not claimed here. The honest baseline
 to compare against is the owner's own observation.
 
+### 17.7 Release
+
+```text
+source     198170fc312285ae24b2a45442fcf98a7f1968a1   (main)
+root / BFF 4740a652-2737-478b-9833-def9f1363d7b, alias gptbot.uz
+rollback   e3aa4b9a at source e4669b7
+```
+
+The project now reports `deployment_configs.production.placement = {"mode":
+"smart"}`, so the setting reached Cloudflare rather than only the repository.
+Both feature flags stay `true` and all 30 `secret_text` variables are intact.
+The static Mini App is unchanged by this commit and was not redeployed.
+
+Canaries: root, RU and UZ Sotuvchi, the immutable root deployment and the
+canonical static site all 200; Agents webhook `GET` 405 and unauthorized `POST`
+401; unauthenticated `POST /voice/search` 401; malformed `POST /session/launch`
+400. No D1 statement and no Telegram Bot API call.
+
+Immediately after the deploy the launch endpoint answers in 139–159 ms from this
+machine on the HMAC rejection path — unchanged, which is expected: that path
+touches no database, and placement has not yet had traffic to relocate on. It is
+recorded as a baseline, not as evidence of an improvement.
+
 ---
 
 ## 16. Follow-up 3 — speaking lands on products
