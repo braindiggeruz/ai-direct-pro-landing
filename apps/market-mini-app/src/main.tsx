@@ -41,8 +41,6 @@ const client = new QueryClient({
   },
 });
 
-await initializeTelegram();
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={client}>
@@ -50,6 +48,11 @@ createRoot(document.getElementById('root')!).render(
     </QueryClientProvider>
   </StrictMode>,
 );
+
+// Signed initData is available from Telegram's URL fragment, so React and the
+// launch request do not need to wait for a slow Android bridge script. Theme,
+// ready/expand and haptics attach concurrently as soon as the bridge arrives.
+void initializeTelegram();
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {

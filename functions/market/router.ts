@@ -68,7 +68,7 @@ function configuration(env: Env): MarketConfiguration {
   }
   const botToken = env.TELEGRAM_AGENTS_BOT_TOKEN ?? '';
   const sessionSecret = env.MARKET_MINI_APP_SESSION_SECRET ?? '';
-  let botUsername = '';
+  let botUsername: string;
   try {
     botUsername = normalizeTelegramBotUsername(
       env.TELEGRAM_AGENTS_BOT_USERNAME ?? '',
@@ -249,7 +249,7 @@ async function exchangeSession(
   if (current && current.sub !== identity.identity.id) {
     throw new MarketHttpError('invalid_session', 401);
   }
-  await bindMarketLaunch(
+  const boundBuyer = await bindMarketLaunch(
     services,
     config.botUsername,
     identity.identity.id,
@@ -267,6 +267,7 @@ async function exchangeSession(
     config.botUsername,
     issued.claims,
     requestId,
+    boundBuyer ?? undefined,
   );
   const session = {
     token: issued.token,

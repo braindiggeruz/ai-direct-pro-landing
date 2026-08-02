@@ -75,17 +75,22 @@ test('root landing build has no Mini App entry coupling', async () => {
 });
 
 test('Market launch collapses startup data and ships a bounded local demo image set', async () => {
-  const [api, app, buyer, ui, router, shell, worker] = await Promise.all([
+  const [api, app, buyer, ui, router, access, shell, worker] = await Promise.all([
     source('apps/market-mini-app/src/lib/api.ts'),
     source('apps/market-mini-app/src/App.tsx'),
     source('apps/market-mini-app/src/screens/BuyerApp.tsx'),
     source('apps/market-mini-app/src/components/ui.tsx'),
     source('functions/market/router.ts'),
+    source('functions/market/access.ts'),
     source('apps/market-mini-app/index.html'),
     source('apps/market-mini-app/public/sw.js'),
   ]);
   assert.match(api, /request<MarketLaunch>\('\/session\/launch'/);
   assert.match(router, /Promise\.all\(\[\s*bootstrapPayload\(context\),\s*catalogHomePayload\(context\)/);
+  assert.match(router, /const boundBuyer = await bindMarketLaunch/);
+  assert.match(router, /boundBuyer \?\? undefined/);
+  assert.match(access, /boundBuyer \?\? await services\.catalog\.resolveStoredStorefrontContext/);
+  assert.match(access, /const \[verifiedBuyer, onboarding\] = await Promise\.all/);
   assert.match(app, /initialHome=\{launch\.home\}/);
   assert.match(buyer, /initialData: initialHome/);
   assert.match(ui, /enabled: Boolean\(handle\) && !previewSrc/);

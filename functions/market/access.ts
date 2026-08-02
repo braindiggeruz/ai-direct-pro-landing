@@ -126,30 +126,36 @@ export async function resolveMarketAccess(
   botUsername: string,
   claims: MarketSessionClaims,
   requestId: string,
+  boundBuyer?: StorefrontContext,
 ): Promise<MarketAccessContext> {
   if (!marketFlag(env.MARKET_MINI_APP_BUYER_ENABLED)) {
     throw new MarketHttpError('cohort_disabled', 403);
   }
-  const buyer = await services.catalog.resolveStoredStorefrontContext(
+  const buyer = boundBuyer ?? await services.catalog.resolveStoredStorefrontContext(
     botUsername,
     claims.sub,
   );
   if (!buyer) throw new MarketHttpError('storefront_unavailable', 409);
-  const verifiedBuyer = await services.catalog.resolveStorefrontContext({
-    ...buyer,
-    locale: claims.locale,
-  }).catch(() => null);
+  const sellerEnabled = marketFlag(env.MARKET_MINI_APP_SELLER_READS_ENABLED);
+  const [verifiedBuyer, onboarding] = await Promise.all([
+    services.catalog.resolveStorefrontContext({
+      ...buyer,
+      locale: claims.locale,
+    }).catch(() => null),
+    sellerEnabled
+      ? services.onboarding.getOnboarding({
+          identityId: claims.sub,
+          botUsername,
+          requestId,
+          locale: claims.locale,
+        }).catch(() => null)
+      : Promise.resolve(null),
+  ]);
   if (!verifiedBuyer) throw new MarketHttpError('storefront_unavailable', 409);
 
   let sellerOrg: OrgContext | null = null;
   let sellerStore: MarketAccessContext['sellerStore'] = null;
-  if (marketFlag(env.MARKET_MINI_APP_SELLER_READS_ENABLED)) {
-    const onboarding = await services.onboarding.getOnboarding({
-      identityId: claims.sub,
-      botUsername,
-      requestId,
-      locale: claims.locale,
-    }).catch(() => null);
+  if (sellerEnabled) {
     if (
       onboarding?.status === 'completed'
       && onboarding.store?.status === 'active'

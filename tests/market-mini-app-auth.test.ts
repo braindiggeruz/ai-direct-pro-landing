@@ -241,6 +241,40 @@ test('Telegram client uses setChatMenuButton with a bounded Web App payload', as
   });
 });
 
+test('Telegram client uploads a bounded JPG profile photo as multipart data', async () => {
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async (input, init) => {
+    calls += 1;
+    assert.match(String(input), /\/setMyProfilePhoto$/);
+    assert.equal(init?.method, 'POST');
+    assert.ok(init?.body instanceof FormData);
+    const form = init.body;
+    assert.deepEqual(JSON.parse(String(form.get('photo'))), {
+      type: 'static',
+      photo: 'attach://avatar',
+    });
+    const upload = form.get('avatar');
+    assert.ok(upload instanceof Blob);
+    assert.equal(upload.type, 'image/jpeg');
+    return new Response(JSON.stringify({ ok: true, result: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  };
+  try {
+    const result = await new TelegramClient(BOT_TOKEN).setMyProfilePhoto(
+      new Blob([Uint8Array.from([0xff, 0xd8, 0xff, 0xd9])], {
+        type: 'image/jpeg',
+      }),
+    );
+    assert.equal(result.ok, true);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+  assert.equal(calls, 1);
+});
+
 test('Market session exchange and launch map invalid initData without an unhandled rejection', async () => {
   for (const endpoint of ['exchange', 'launch']) {
     const response = await handleMarketRequest({

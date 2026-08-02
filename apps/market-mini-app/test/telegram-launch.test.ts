@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import {
   TELEGRAM_LAUNCH_LIMITS,
@@ -24,4 +25,17 @@ test('Telegram launch fallback rejects missing, malformed and oversized data', (
     telegramInitDataFromUrl(`https://example.com/#tgWebAppData=${oversized}`),
     '',
   );
+});
+
+test('first render and visible prices do not wait for the Telegram bridge', async () => {
+  const [main, shell] = await Promise.all([
+    readFile(new URL('../src/main.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../index.html', import.meta.url), 'utf8'),
+  ]);
+  assert.doesNotMatch(main, /await initializeTelegram\(\)/);
+  assert.ok(
+    main.indexOf('createRoot(') < main.indexOf('void initializeTelegram()'),
+  );
+  assert.match(shell, /boot-price">349 000 сум/);
+  assert.match(shell, /boot-price">229 000 сум/);
 });
