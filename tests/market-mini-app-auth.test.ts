@@ -16,6 +16,10 @@ import {
   type InlineKeyboard,
 } from '../functions/channels/telegram';
 import { handleMarketRequest } from '../functions/market/router';
+import {
+  MARKET_MENU_SYNC_INTERVAL_MS,
+  scheduleMarketMenuSync,
+} from '../functions/market/menu';
 
 const BOT_TOKEN = 'not-a-provider-token';
 const SESSION_SIGNING_VALUE = `unit-test-only-${'x'.repeat(40)}`;
@@ -212,4 +216,40 @@ test('Market session exchange maps invalid initData without an unhandled rejecti
     error: 'invalid_session',
     request_id: response.headers.get('x-request-id'),
   });
+});
+
+test('Market menu sync is feature-gated and bounded per isolate', async () => {
+  const originalFetch = globalThis.fetch;
+  const scheduled: Promise<unknown>[] = [];
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    return new Response(JSON.stringify({ ok: true, result: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  };
+  try {
+    const env = {
+      MARKET_MINI_APP_ENABLED: 'true',
+      MARKET_MINI_APP_URL: 'https://gptbot-market-mini-app.pages.dev',
+      TELEGRAM_AGENTS_BOT_TOKEN: BOT_TOKEN,
+    };
+    assert.equal(
+      scheduleMarketMenuSync(env, (promise) => scheduled.push(promise), AUTH_DATE),
+      true,
+    );
+    assert.equal(
+      scheduleMarketMenuSync(
+        env,
+        (promise) => scheduled.push(promise),
+        AUTH_DATE + MARKET_MENU_SYNC_INTERVAL_MS - 1,
+      ),
+      false,
+    );
+    await Promise.all(scheduled);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+  assert.equal(calls, 1);
 });

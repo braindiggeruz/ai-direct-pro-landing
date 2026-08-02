@@ -45,8 +45,11 @@ import {
 import { createChannelAddressBindingPort } from '../../platform/channels';
 import { createKnowledgeService } from '../../platform/knowledge';
 import { createIdentityService } from '../../platform/identity';
-import { marketFlag, normalizeMarketWebAppUrl } from '../../platform/market';
-import { createSotuvchiApplicationServices } from '../../market';
+import {
+  createSotuvchiApplicationServices,
+  resolveMarketWebAppUrl,
+  scheduleMarketMenuSync,
+} from '../../market';
 import {
   createAgentRegistry,
   createAgentRuntime,
@@ -608,15 +611,9 @@ export const onRequestPost: PagesFunction<Env> = async ({
   if (isProtectedAgentBotUsername(botUsername)) return unavailable();
 
   const client = new TelegramClient(token);
-  const marketWebAppUrl = marketFlag(env.MARKET_MINI_APP_ENABLED)
-    ? normalizeMarketWebAppUrl(env.MARKET_MINI_APP_URL)
-    : null;
+  const marketWebAppUrl = resolveMarketWebAppUrl(env);
   if (marketWebAppUrl) {
-    waitUntil(
-      client.setChatMenuButton(marketWebAppUrl, 'GPTBot Market')
-        .then(() => undefined)
-        .catch(() => undefined),
-    );
+    scheduleMarketMenuSync(env, waitUntil);
   }
   const delivery = createTelegramDeliveryPort(
     client,

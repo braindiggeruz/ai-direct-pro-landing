@@ -8,3 +8,4 @@ export {
   type MarketAccessContext,
 } from './access';
 export * from '../platform/market';
+export * from './menu';
