@@ -3,10 +3,10 @@ import type { MarketLaunch, SessionExchange } from '../types';
 
 // The Mini App is hosted on its own static Pages project. A relative
 // production URL would therefore hit the SPA fallback instead of the BFF.
-// Keep the stable Pages BFF hostname as the production-safe default; local
+// Keep the canonical BFF hostname as the production-safe default; local
 // development may still point at a local Worker through VITE_MARKET_API_BASE_URL.
 export const PRODUCTION_MARKET_API_BASE_URL =
-  'https://ai-direct-pro-landing.pages.dev/api/market/v1';
+  'https://gptbot.uz/api/market/v1';
 
 const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL
   ?? (import.meta.env.PROD ? PRODUCTION_MARKET_API_BASE_URL : '/api/market/v1'))

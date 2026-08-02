@@ -32,7 +32,7 @@ test('Market client keeps bearer in memory and excludes production bypasses', as
   assert.match(api, /let sessionToken = ''/);
   assert.match(
     api,
-    /PRODUCTION_MARKET_API_BASE_URL[\s\S]*https:\/\/ai-direct-pro-landing\.pages\.dev\/api\/market\/v1/,
+    /PRODUCTION_MARKET_API_BASE_URL[\s\S]*https:\/\/gptbot\.uz\/api\/market\/v1/,
   );
   assert.match(api, /contentType\.includes\('application\/json'\)/);
   assert.match(api, /MarketApiError\('invalid_response', 502/);
@@ -54,6 +54,11 @@ test('Market shell loads the official Telegram bridge under a narrow CSP', async
   assert.match(html, /https:\/\/telegram\.org\/js\/telegram-web-app\.js/);
   assert.match(html, /script-src 'self' https:\/\/telegram\.org/);
   assert.match(headers, /script-src 'self' https:\/\/telegram\.org/);
+  assert.match(headers, /connect-src 'self' https:\/\/gptbot\.uz/);
+  assert.match(
+    await source('apps/market-mini-app/src/lib/api.ts'),
+    /PRODUCTION_MARKET_API_BASE_URL[\s\S]*https:\/\/gptbot\.uz\/api\/market\/v1/,
+  );
   assert.doesNotMatch(`${html}\n${headers}`, /script-src[^;]*\*/);
 });
 
