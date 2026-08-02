@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { BrandMark, ErrorView, Icon, LoadingView, StateView } from './components/ui';
+import { BrandMark, Button, ErrorView, Icon, LoadingView, StateView } from './components/ui';
 import { MarketApiError, exchangeLaunch, marketApi, setSessionLocale } from './lib/api';
 import { t } from './lib/i18n';
 import { preferredLocale } from './platform/telegram';
@@ -82,7 +82,11 @@ export default function App() {
       icon={unsupported ? 'seller' : 'warning'}
       title={t(locale, unsupported ? 'unsupportedTitle' : 'unavailableTitle')}
       body={t(locale, unsupported ? 'unsupportedBody' : 'unavailableBody')}
-      action={!unsupported ? <button className="button button--secondary" onClick={() => void launch.refetch()}>{t(locale, 'retry')}</button> : undefined}
+      action={!unsupported ? <Button
+        variant="secondary"
+        pending={launch.isFetching}
+        onClick={() => void launch.refetch()}
+      >{t(locale, 'retry')}</Button> : undefined}
     /></main>;
   }
   if (!launch.data) {

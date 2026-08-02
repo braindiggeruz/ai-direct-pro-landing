@@ -1,7 +1,15 @@
 import { telegramInitData } from '../platform/telegram';
 import type { MarketLaunch, SessionExchange } from '../types';
 
-const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL ?? '/api/market/v1')
+// The Mini App is hosted on its own static Pages project. A relative
+// production URL would therefore hit the SPA fallback instead of the BFF.
+// Keep the stable Pages BFF hostname as the production-safe default; local
+// development may still point at a local Worker through VITE_MARKET_API_BASE_URL.
+export const PRODUCTION_MARKET_API_BASE_URL =
+  'https://ai-direct-pro-landing.pages.dev/api/market/v1';
+
+const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL
+  ?? (import.meta.env.PROD ? PRODUCTION_MARKET_API_BASE_URL : '/api/market/v1'))
   .replace(/\/$/, '');
 let sessionToken = '';
 
@@ -36,20 +44,32 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   if (sessionToken) headers.set('Authorization', `Bearer ${sessionToken}`);
   if (options.body !== undefined) headers.set('Content-Type', 'application/json');
   if (options.command) headers.set('Idempotency-Key', crypto.randomUUID());
-  const response = await fetch(`${baseUrl}${path}`, {
-    method: options.method ?? 'GET',
-    headers,
-    body: options.body === undefined ? undefined : JSON.stringify(options.body),
-    signal: options.signal,
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}${path}`, {
+      method: options.method ?? 'GET',
+      headers,
+      body: options.body === undefined ? undefined : JSON.stringify(options.body),
+      signal: options.signal,
+    });
+  } catch {
+    throw new MarketApiError('network_error', 0, null);
+  }
   if (response.status === 204) return undefined as T;
-  const data = await response.json().catch(() => ({})) as Record<string, unknown>;
+  const contentType = response.headers.get('Content-Type')?.toLowerCase() ?? '';
+  const isJson = contentType.includes('application/json');
+  const data = isJson
+    ? await response.json().catch(() => ({})) as Record<string, unknown>
+    : {};
   if (!response.ok) {
     throw new MarketApiError(
       typeof data.error === 'string' ? data.error : 'network_error',
       response.status,
       typeof data.request_id === 'string' ? data.request_id : null,
     );
+  }
+  if (!isJson) {
+    throw new MarketApiError('invalid_response', 502, null);
   }
   return data as T;
 }

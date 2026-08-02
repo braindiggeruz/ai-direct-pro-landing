@@ -30,10 +30,22 @@ test('Market client keeps bearer in memory and excludes production bypasses', as
     .map((file) => readFile(new URL(file, assetDirectory), 'utf8'))))
     .join('\n');
   assert.match(api, /let sessionToken = ''/);
+  assert.match(
+    api,
+    /PRODUCTION_MARKET_API_BASE_URL[\s\S]*https:\/\/ai-direct-pro-landing\.pages\.dev\/api\/market\/v1/,
+  );
+  assert.match(api, /contentType\.includes\('application\/json'\)/);
+  assert.match(api, /MarketApiError\('invalid_response', 502/);
   assert.doesNotMatch(api, /localStorage|sessionStorage|document\.cookie/);
   if (dist) {
     assert.doesNotMatch(dist, /synthetic-memory-token|MARKET_DEV_BOT_TOKEN|Synthetic route missing/);
   }
+});
+
+test('Market launch retry exposes an in-progress state', async () => {
+  const app = await source('apps/market-mini-app/src/App.tsx');
+  assert.match(app, /pending=\{launch\.isFetching\}/);
+  assert.match(app, /onClick=\{\(\) => void launch\.refetch\(\)\}/);
 });
 
 test('Market shell loads the official Telegram bridge under a narrow CSP', async () => {
