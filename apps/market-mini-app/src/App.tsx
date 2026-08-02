@@ -23,7 +23,8 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
     queryKey: ['bootstrap'],
     queryFn: ({ signal }) => marketApi.get('/bootstrap', signal),
     initialData: launch.bootstrap,
-    staleTime: 30_000,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
   const changeLocale = async (next: Locale) => {
     setLocale(next);

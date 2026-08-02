@@ -87,13 +87,15 @@ test('Market launch collapses startup data and ships a bounded local demo image 
     source('apps/market-mini-app/public/sw.js'),
   ]);
   assert.match(api, /request<MarketLaunch>\('\/session\/launch'/);
-  assert.match(router, /Promise\.all\(\[\s*bootstrapPayload\(context\),\s*catalogHomePayload\(context\)/);
+  assert.match(router, /const bootstrap = launchBootstrapPayload\(context\)/);
+  assert.match(router, /const home = await catalogHomePayload\(context\)/);
   assert.match(router, /const boundBuyer = await bindMarketLaunch/);
   assert.match(router, /boundBuyer \?\? undefined/);
   assert.match(access, /boundBuyer \?\? await services\.catalog\.resolveStoredStorefrontContext/);
   assert.match(access, /const \[verifiedBuyer, onboarding\] = await Promise\.all/);
   assert.match(access, /boundBuyer\s*\? Promise\.resolve/);
   assert.match(app, /initialHome=\{launch\.home\}/);
+  assert.match(app, /refetchOnMount: 'always'/);
   assert.match(main, /createRoot\(document\.getElementById\('root'\)!\)\.render/);
   assert.doesNotMatch(main, /prefetchQuery/);
   assert.match(api, /timeoutMs: LAUNCH_TIMEOUT_MS/);

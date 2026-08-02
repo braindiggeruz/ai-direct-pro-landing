@@ -202,6 +202,27 @@ async function bootstrapPayload(context: RequestContext) {
   };
 }
 
+function launchBootstrapPayload(context: RequestContext) {
+  return {
+    apiVersion: 'market-v1',
+    buildId: context.env.MARKET_MINI_APP_BUILD_ID ?? 'local',
+    locale: context.claims.locale,
+    navigation: ['home', 'search', 'compare', 'orders'],
+    sellerNavigation: [],
+    flags: {
+      buyer: true,
+      sellerRead: false,
+      sellerCommands: false,
+    },
+    storefront: { id: context.access.buyer.storeId, state: 'active' },
+    counters: {
+      orders: 0,
+      activeCheckout: false,
+      activeHandoff: false,
+    },
+  };
+}
+
 async function catalogHomePayload(context: RequestContext) {
   const [categories, results] = await Promise.all([
     context.services.catalog.listBuyerCategories(context.access.buyer),
@@ -267,6 +288,7 @@ async function exchangeSession(
     issued.claims,
     requestId,
     boundBuyer ?? undefined,
+    !includeLaunch,
   );
   const session = {
     token: issued.token,
@@ -301,10 +323,8 @@ async function exchangeSession(
     url: new URL(request.url),
     path: '/session/launch',
   };
-  const [bootstrap, home] = await Promise.all([
-    bootstrapPayload(context),
-    catalogHomePayload(context),
-  ]);
+  const bootstrap = launchBootstrapPayload(context);
+  const home = await catalogHomePayload(context);
   return marketJson({ session, bootstrap, home }, requestId, 201);
 }
 

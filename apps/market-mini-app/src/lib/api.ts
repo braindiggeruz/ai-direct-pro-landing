@@ -13,7 +13,7 @@ const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL
   .replace(/\/$/, '');
 let sessionToken = '';
 const REQUEST_TIMEOUT_MS = 15_000;
-const LAUNCH_TIMEOUT_MS = 8_000;
+const LAUNCH_TIMEOUT_MS = 15_000;
 
 export class MarketApiError extends Error {
   constructor(

@@ -127,6 +127,7 @@ export async function resolveMarketAccess(
   claims: MarketSessionClaims,
   requestId: string,
   boundBuyer?: StorefrontContext,
+  includeSeller = true,
 ): Promise<MarketAccessContext> {
   if (!marketFlag(env.MARKET_MINI_APP_BUYER_ENABLED)) {
     throw new MarketHttpError('cohort_disabled', 403);
@@ -136,7 +137,8 @@ export async function resolveMarketAccess(
     claims.sub,
   );
   if (!buyer) throw new MarketHttpError('storefront_unavailable', 409);
-  const sellerEnabled = marketFlag(env.MARKET_MINI_APP_SELLER_READS_ENABLED);
+  const sellerEnabled = includeSeller
+    && marketFlag(env.MARKET_MINI_APP_SELLER_READS_ENABLED);
   const [verifiedBuyer, onboarding] = await Promise.all([
     boundBuyer
       ? Promise.resolve({ ...boundBuyer, locale: claims.locale })
