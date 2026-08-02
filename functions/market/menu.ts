@@ -5,30 +5,7 @@ import { marketFlag, normalizeMarketWebAppUrl } from '../platform/market';
 
 const MENU_SYNC_INTERVAL_MS = 60 * 60 * 1_000;
 const WEB_APP_RELEASE = 'bormi-20260802-3';
-const PROFILE_PHOTO_URL =
-  'https://32d3811a.gptbot-market-mini-app.pages.dev/assets/brand/bormi-bot-avatar.jpg';
 let nextMenuSyncAt = 0;
-let profilePhotoSyncStarted = false;
-
-async function syncBormiProfilePhoto(client: TelegramClient) {
-  try {
-    const response = await fetch(PROFILE_PHOTO_URL, {
-      headers: { Accept: 'image/jpeg' },
-    });
-    if (
-      !response.ok
-      || response.headers.get('Content-Type')?.split(';')[0] !== 'image/jpeg'
-    ) throw new Error('invalid_profile_photo_response');
-    const result = await client.setMyProfilePhoto(await response.blob());
-    if (result.ok) console.log('market.entry:photo_configured');
-    else console.error('market.entry:photo_sync_failed');
-    return result;
-  } catch {
-    profilePhotoSyncStarted = false;
-    console.error('market.entry:photo_sync_failed');
-    return { ok: false } as const;
-  }
-}
 
 export function resolveMarketWebAppUrl(env: Env): string | null {
   const normalized = marketFlag(env.MARKET_MINI_APP_ENABLED)
@@ -64,10 +41,6 @@ export function scheduleMarketMenuSync(
       ),
     ]),
   ];
-  if (!profilePhotoSyncStarted) {
-    profilePhotoSyncStarted = true;
-    entrySync.push(syncBormiProfilePhoto(client));
-  }
   waitUntil(
     Promise.all(entrySync)
       .then((results) => {
