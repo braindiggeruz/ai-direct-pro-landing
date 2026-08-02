@@ -291,7 +291,7 @@ test('Market session exchange and launch map invalid initData without an unhandl
         MARKET_MINI_APP_ORIGINS: 'https://gptbot-market-mini-app.pages.dev',
         MARKET_MINI_APP_SESSION_SECRET: SESSION_SIGNING_VALUE,
         TELEGRAM_AGENTS_BOT_TOKEN: BOT_TOKEN,
-        TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_market_bot',
+        TELEGRAM_AGENTS_BOT_USERNAME: 'BormiMarketBot',
         GPTBOT_DRAFTS_DB: {} as D1Database,
       },
     });
@@ -307,9 +307,29 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   const originalFetch = globalThis.fetch;
   const scheduled: Promise<unknown>[] = [];
   let calls = 0;
-  globalThis.fetch = async () => {
+  globalThis.fetch = async (input) => {
     calls += 1;
-    return new Response(JSON.stringify({ ok: true, result: true }), {
+    const url = String(input);
+    if (url.includes('/assets/brand/bormi-bot-avatar.jpg')) {
+      return new Response(new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), {
+        status: 200,
+        headers: { 'Content-Type': 'image/jpeg' },
+      });
+    }
+    const method = url.split('/').pop() ?? '';
+    const result = method === 'getMe'
+      ? {
+          id: 123456789,
+          is_bot: true,
+          username: 'BormiMarketBot',
+        }
+      : method === 'getWebhookInfo'
+        ? {
+            url: 'https://gptbot.uz/api/telegram/agents',
+            pending_update_count: 0,
+          }
+        : true;
+    return new Response(JSON.stringify({ ok: true, result }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -319,6 +339,9 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
       MARKET_MINI_APP_ENABLED: 'true',
       MARKET_MINI_APP_URL: 'https://gptbot-market-mini-app.pages.dev',
       TELEGRAM_AGENTS_BOT_TOKEN: BOT_TOKEN,
+      TELEGRAM_AGENTS_BOT_USERNAME: 'BormiMarketBot',
+      TELEGRAM_AGENTS_WEBHOOK_SECRET:
+        '12345678901234567890123456789012',
     };
     assert.equal(
       scheduleMarketMenuSync(env, (promise) => scheduled.push(promise), AUTH_DATE),
@@ -336,5 +359,5 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
-  assert.equal(calls, 13);
+  assert.equal(calls, 18);
 });

@@ -396,7 +396,7 @@ describe('authorization fails closed', () => {
     const res = await call(overviewGet, db, '/api/admin/agents/overview', {
       token: await tokenFor('platform_owner'),
       envOverrides: {
-        TELEGRAM_AGENTS_BOT_USERNAME: 'gptbot_market_bot',
+        TELEGRAM_AGENTS_BOT_USERNAME: 'BormiMarketBot',
         TELEGRAM_AGENTS_BOT_TOKEN: 'fixture-token-never-returned',
         TELEGRAM_AGENTS_WEBHOOK_SECRET: 'fixture-secret-never-returned',
       },
@@ -408,7 +408,7 @@ describe('authorization fails closed', () => {
     });
     assert.equal((res.body.marketplace as { enabled: boolean }).enabled, false);
     assert.deepEqual(res.body.telegram_bot, {
-      username: 'gptbot_market_bot',
+      username: 'bormimarketbot',
       webhook_endpoint: '/api/telegram/agents',
       configuration_status: 'ready',
     });

@@ -62,7 +62,7 @@ queue = "gptbot-automation"
 # wrangler.automation.toml. Both fail closed when it is not exactly "true".
 [vars]
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
-TELEGRAM_AGENTS_BOT_USERNAME = "gptbot_market_bot"
+TELEGRAM_AGENTS_BOT_USERNAME = "BormiMarketBot"
 MARKET_MINI_APP_ENABLED = "true"
 MARKET_MINI_APP_BUYER_ENABLED = "true"
 MARKET_MINI_APP_SELLER_READS_ENABLED = "true"

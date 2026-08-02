@@ -26,7 +26,7 @@ export function renderMarketHeader(
   const uz = page.locale === 'uz';
   const cta = page.slug === 'sotuvchi'
     ? page.ctaPrimaryHref || '#'
-    : `https://t.me/gptbot_market_bot?start=buyer_trust_${uz ? 'uz' : 'ru'}`;
+    : `https://t.me/BormiMarketBot?start=buyer_trust_${uz ? 'uz' : 'ru'}`;
   return `<header class="market-header">
   <div class="market-shell market-header-row">
     <a class="market-brand" href="${marketPath(page.locale)}" aria-label="GPTBot Market">
@@ -232,7 +232,7 @@ export function renderMarketLanding(page: Page): string {
         <p class="market-eyebrow">Sotuvchi by GPTBot</p>
         <h2 id="seller-title">${e(copy.sellerTitle)}</h2>
         <p class="market-hero-copy">${e(copy.sellerIntro)}</p>
-        <div class="market-actions"><a class="market-btn market-btn-coral" href="https://t.me/gptbot_market_bot?start=agent_seller_site_${uz ? 'uz' : 'ru'}" rel="nofollow noopener noreferrer" target="_blank">${e(copy.sellerCta)}</a><a class="market-btn market-btn-secondary" href="${trustPath(page.locale)}">${e(copy.trustLink)}</a></div>
+        <div class="market-actions"><a class="market-btn market-btn-coral" href="https://t.me/BormiMarketBot?start=agent_seller_site_${uz ? 'uz' : 'ru'}" rel="nofollow noopener noreferrer" target="_blank">${e(copy.sellerCta)}</a><a class="market-btn market-btn-secondary" href="${trustPath(page.locale)}">${e(copy.trustLink)}</a></div>
       </div>
       <div class="market-cockpit" role="group" aria-label="${e(copy.cockpitLabel)}">
         <span class="market-status">${e(copy.cockpitLabel)}</span>${alerts}

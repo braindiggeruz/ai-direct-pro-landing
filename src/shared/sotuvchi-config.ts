@@ -22,7 +22,7 @@ export const PROTECTED_TELEGRAM_BOT_USERNAMES = [
 ] as const;
 
 /** Exact expected public username of the dedicated Agents bot. */
-export const SOTUVCHI_BOT_USERNAME: string | null = 'gptbot_market_bot';
+export const SOTUVCHI_BOT_USERNAME: string | null = 'BormiMarketBot';
 
 /** Safe in-page fallback used while the bot username is unknown. */
 export const SOTUVCHI_PILOT_ANCHOR = '#pilot';

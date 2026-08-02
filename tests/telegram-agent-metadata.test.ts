@@ -9,7 +9,7 @@ import {
 } from '../functions/channels/telegram';
 import { runTelegramAgentsSetup } from '../scripts/telegram-agents-setup';
 
-const USERNAME = 'gptbot_market_bot';
+const USERNAME = 'BormiMarketBot';
 
 test('Telegram metadata is closed, localized and maps to implemented actions', () => {
   assert.doesNotThrow(
