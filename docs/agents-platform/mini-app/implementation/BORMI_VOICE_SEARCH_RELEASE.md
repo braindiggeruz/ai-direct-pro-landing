@@ -718,3 +718,32 @@ Browser verification of the fixture was attempted and could not run: the Browser
 pane was not displayed, so the page composited no frames and synthetic clicks
 did not register. The fixture journey is covered by the Mini App test above
 instead.
+
+### 14.6 Release
+
+```text
+source          297c3bb7a77a3794927f0a1c9793c5dc69efb102   (main)
+root / BFF      240523c3-03f3-4a8d-b0db-221229abe4e1
+                https://240523c3.ai-direct-pro-landing.pages.dev, alias gptbot.uz
+static Mini App d57e05b1-afd6-4e5e-9878-e71b64ae7f3f
+                https://d57e05b1.gptbot-market-mini-app.pages.dev
+rollback        76f59061 / 2af92899 at source 4367850
+```
+
+The static bundle is byte-identical to `2af92899` — the fixture change never
+ships — so the Mini App was redeployed only to keep both projects stamped with
+the same source. `MARKET_VOICE_SEARCH_ENABLED=true` and all 30 `secret_text`
+variables are unchanged.
+
+Canaries: root, RU and UZ Sotuvchi, the immutable root deployment, the canonical
+static site and its hashed asset all 200; Agents webhook `GET` 405 and
+unauthorized `POST` 401; unauthenticated `POST /voice/search` and
+`GET /catalog/products?q=Мне нужен блокнот` both 401; malformed
+`POST /session/launch` 400. Read-only D1 after the deploy: stores 1, products
+48, orders 1, order items 1, inventory moves 44, handoffs 1, notifications 0,
+storefront sessions 2 — `changed_db` false, `rows_written` 0.
+
+The result of the reduction cannot be read from outside, because the catalog
+route requires a Market session. Confirming it needs one more native run: type
+or say «Мне нужен блокнот» and check that the «Не нашли по условию» line is gone
+while the notebook cards stay.
