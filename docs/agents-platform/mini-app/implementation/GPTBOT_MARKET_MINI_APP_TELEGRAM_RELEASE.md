@@ -1,15 +1,15 @@
 # GPTBot Market Mini App Telegram review release
 
-> Superseded on 2026-08-02 by the live Bormi release at source `e1101bc`,
+> Superseded on 2026-08-02 by the live Bormi release at source `5c9e004`,
 > static deployment `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` and root deployment
-> `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`. See
+> `2625bbad-5899-4d51-967d-85347d6c8ecc`. See
 > `BORMI_REBRAND_RELEASE.md`. This file remains the rollback baseline.
 
 Date: 2026-08-02.
 
 Status: `TELEGRAM_REVIEW_LIVE_PERFORMANCE_RELEASE`.
 
-Bot: `@gptbot_market_bot` (dedicated Agents token namespace only).
+Bot: `@BormiMarketBot` (dedicated Agents token namespace only).
 
 ## Released topology
 

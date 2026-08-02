@@ -37,7 +37,7 @@ bot fallback and no migration.
 | Productization source | `08c21568581bf90e7122a566f2805a619cd9e81d` |
 | Production deployment | `68747046-8e1e-492a-8b81-dc4e4065916f` |
 | Immutable production URL | `https://68747046.ai-direct-pro-landing.pages.dev` |
-| Canonical site/bot | `https://gptbot.uz` / `@gptbot_market_bot` |
+| Canonical site/bot | `https://gptbot.uz` / `@BormiMarketBot` |
 | Immediate rollback | deployment `d9ca163e-947b-40ba-856d-8143308c8402`, source `c670e4eebff79e2cc4b9027ffede865f0af813ab` |
 | Data state | 1 synthetic store, 48 synthetic products, 44 inventory moves; 0 real stores/orders/notifications/handoffs |
 | Governance | auto-deploy off; Railway disconnected; n8n retired; payments/public launch off |

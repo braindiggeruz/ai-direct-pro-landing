@@ -10,7 +10,7 @@ domain implementation.
 
 ```mermaid
 flowchart LR
-  U["Telegram user"] --> BOT["@gptbot_market_bot"]
+  U["Telegram user"] --> BOT["@BormiMarketBot"]
   BOT -->|"launch + start_param"| APP["Mini App static frontend\nindependent Pages deployment"]
   APP -->|"initData exchange / bearer session"| BFF["/api/market/v1 BFF\nexisting Pages Functions"]
   BFF --> AUTH["Mini App auth adapter"]

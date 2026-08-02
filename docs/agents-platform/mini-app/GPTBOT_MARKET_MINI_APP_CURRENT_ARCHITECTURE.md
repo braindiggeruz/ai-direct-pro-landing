@@ -11,7 +11,7 @@
 | Current production deployment | `68747046-8e1e-492a-8b81-dc4e4065916f` |
 | Current immutable URL | `https://68747046.ai-direct-pro-landing.pages.dev` |
 | Immediate rollback | deployment `d9ca163e-947b-40ba-856d-8143308c8402`, source `c670e4eebff79e2cc4b9027ffede865f0af813ab` |
-| Canonical site / bot | `https://gptbot.uz` / `@gptbot_market_bot` |
+| Canonical site / bot | `https://gptbot.uz` / `@BormiMarketBot` |
 | Production data | one synthetic store, 48 synthetic products, 44 inventory moves; zero orders, notifications and handoffs |
 | Real stores / payments / public launch | 0 / disabled / disabled |
 | Mini App implementation | none found: no runtime route, WebApp component, `initData` validator or Telegram Mini App SDK dependency |

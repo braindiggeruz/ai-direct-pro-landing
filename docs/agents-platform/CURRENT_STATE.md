@@ -3,12 +3,12 @@
 ## Bormi production rebrand (2026-08-02)
 
 The working Telegram marketplace is now publicly branded **Bormi**, with the
-mechanic **Bormi? — Bor.** Application source `e1101bc` is live on static
+mechanic **Bormi? — Bor.** Application source `5c9e004` is live on static
 production deployment `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` and root/BFF
-deployment `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`. The canonical Mini App is
+deployment `2625bbad-5899-4d51-967d-85347d6c8ecc`. The canonical Mini App is
 `https://gptbot-market-mini-app.pages.dev`; the dedicated entry remains
-`@gptbot_market_bot`, with Bormi display metadata and launch copy. The legacy
-username is not presented as the consumer brand.
+`@BormiMarketBot`, with the Bormi profile, avatar, localized metadata, webhook
+and native Mini App menu. Exact bot identity is verified before bounded sync.
 
 The first paint is now a branded, filled catalog shell; the first two product
 images are preloaded, assets are cache-first and seller code stays lazy. Twelve
@@ -19,8 +19,10 @@ have no overflow or undersized controls.
 
 Live HTTP/auth/CORS/webhook contracts pass. Read-only production D1 counts are
 unchanged at 1 store, 48 products, 1 existing order/item, 44 inventory moves
-and zero handoffs/notifications; the after probe wrote zero rows. No migration,
-real catalog, payment, lead-bot or public-marketplace operation was performed.
+and zero handoffs/notifications. A verified backup preceded the scoped update
+of two bot-username references; the final read probe wrote zero rows. No schema
+migration, real catalog, payment, lead-bot or public-marketplace operation was
+performed.
 The exact release record is
 `mini-app/implementation/BORMI_REBRAND_RELEASE.md`.
 
@@ -46,14 +48,14 @@ bytes total). No production catalog or media row was mutated.
 GPTBot Market owner-independent productization is complete and deployed.
 
 - Canonical repository: `F:\Claude\gptbot-repo-clean-20260801`.
-- Current application source: `fb3537a` on the isolated Mini App branch.
+- Current application source: `5c9e004` on the isolated Mini App branch.
 - Cloudflare Pages deployment:
-  `f64e7fee-3b3c-4914-9fc2-3d80e5e761db`.
-- Immutable URL: `https://f64e7fee.ai-direct-pro-landing.pages.dev`.
-- Pre-Mini-App rollback: `68747046-8e1e-492a-8b81-dc4e4065916f`, source
-  `08c21568581bf90e7122a566f2805a619cd9e81d`.
+  `2625bbad-5899-4d51-967d-85347d6c8ecc`.
+- Immutable URL: `https://2625bbad.ai-direct-pro-landing.pages.dev`.
+- Pre-cutover rollback: `426a2f7e-7ff1-4a95-8001-a6bed6230947`, source
+  `c106d6da202f7f04bad2c966b22dc0ea6925b719`.
 - Canonical URL: `https://gptbot.uz`.
-- Telegram identity: `@gptbot_market_bot`; its responses carry a native Mini
+- Telegram identity: `@BormiMarketBot`; its responses carry a native Mini
   App button and the global menu is synchronized idempotently.
 
 The production canary passes root, RU/UZ Market, immutable deployment, GPT

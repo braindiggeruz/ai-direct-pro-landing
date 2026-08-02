@@ -4,7 +4,7 @@
 
 - Дата: 2026-08-02.
 - Ветка: `feature/gptbot-market-mini-app-synthetic-candidate`.
-- Application HEAD: `e1101bc`;
+- Application HEAD: `5c9e004`;
   governance state commit: `HEAD`.
 - Завершённый этап: owner-authorized Telegram Mini App review integration.
 - Следующий этап: native Telegram owner review; Store Pilot #1 remains a
@@ -15,18 +15,20 @@
 
 - Status: `BORMI_REBRAND_LIVE_FOR_TELEGRAM_REVIEW`.
 - Public brand and mechanic: **Bormi**, **Bormi? — Bor.**
-- Source: `e1101bc49c7bf76578636d7bd78bffea6ad8c79d`.
+- Source: `5c9e004c1b21e13a1ff0913f1c6d54f99d367f10`.
 - Static production: `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a`;
-  root/BFF production: `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`.
-- The dedicated `@gptbot_market_bot` uses Bormi launch/copy and bounded
-  display-name/description/menu sync. Telegram username rename is outside the
-  Bot API; the lead bot and its webhook/token are untouched.
+  root/BFF production: `2625bbad-5899-4d51-967d-85347d6c8ecc`.
+- The dedicated `@BormiMarketBot` now owns the verified webhook, Bormi profile,
+  avatar, commands and native Mini App menu. Runtime sync first verifies the
+  exact `getMe` username; the lead bot and its webhook/token are untouched.
 - Twelve labelled synthetic WebPs total 232,770 bytes. Static first paint,
   preloads, cache-first assets and lazy seller code address launch perception.
 - Buyer RU/UZ/dark and seller a11y: 0 violations/incomplete; responsive target,
   overflow and reduced-motion checks pass.
-- D1 domain counts unchanged and the after probe wrote zero rows. No migration,
-  real-store/catalog, payment, Railway/n8n or public-marketplace mutation.
+- A verified 10.8 MB D1 backup preceded the scoped update of two bot-username
+  references. Domain counts remained identical and the final read probe wrote
+  zero rows. No schema migration, real-store/catalog, payment, Railway/n8n or
+  public-marketplace mutation occurred.
 - Full evidence and rollback:
   `mini-app/implementation/BORMI_REBRAND_RELEASE.md`.
 

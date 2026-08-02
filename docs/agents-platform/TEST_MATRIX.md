@@ -4,7 +4,7 @@
 
 | Check | Result |
 | --- | --- |
-| Static / BFF production | `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` / `25da3f26-5ac3-44a1-9628-0d4f1735ed7d`, source `e1101bc` |
+| Static / BFF production | `2fc305fb-3a68-48c2-b7cf-adf218cd2a7a` / `2625bbad-5899-4d51-967d-85347d6c8ecc`, source `5c9e004` |
 | UX/UI Pro Max / 21.dev | used / used; `21st` final review 0 errors, 0 warnings |
 | Mini App typecheck / tests / build | PASS / 2 of 2 / PASS |
 | Root TypeScript / production build | PASS / PASS; 113 pages, 124 articles, sitemap 240 |
@@ -146,7 +146,7 @@ webhook checks were read-only.
 | Migrations | none in this slice; ledger untouched; `migrations apply --remote` not run |
 | Production contract rehearsal (read-only) | 32 tables, 8+2+2 columns, 5 unique indexes; `rows_written` 0 |
 | Production HTTP canary | root/RU/UZ/deployment 200; webhook GET 405; unauthorized POST 401; malformed POST 401; unknown route 404; OCC 401; GPT Chat 200 |
-| Telegram provider status | identity `gptbot_market_bot`; expected webhook; pending 0; last error none |
+| Telegram provider status | public identity `BormiMarketBot`; Bormi title, description and exact avatar verified; owner `/start` remains the final native canary |
 | Owner `/start` latency canary | **PASS** — 2,564 ms cold isolate vs 12,451 ms baseline; owner reports fast |
 | Production domain side effects after fix | updates 12→13 all completed, 0 failed; orders 0; handoffs 0; notifications 0; inventory moves 44 unchanged |
 
