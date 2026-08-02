@@ -135,7 +135,7 @@ offers two chips.
 
 | Method | Route | Notes |
 |---|---|---|
-| POST | `/api/market/v1/voice/search` | raw audio body, bearer session required |
+| POST | `/api/market/v1/voice/search` | raw audio body, Market session required |
 | GET | `/api/market/v1/catalog/products?maxPriceMinor=` | additive filter, integer UZS |
 
 `GET /bootstrap` and `POST /session/launch` now report
