@@ -94,7 +94,10 @@ test('Market launch collapses startup data and ships a bounded local demo image 
   assert.match(access, /const \[verifiedBuyer, onboarding\] = await Promise\.all/);
   assert.match(access, /boundBuyer\s*\? Promise\.resolve/);
   assert.match(app, /initialHome=\{launch\.home\}/);
-  assert.match(main, /client\.prefetchQuery\(launchQueryOptions\)\.finally\(mount\)/);
+  assert.match(main, /createRoot\(document\.getElementById\('root'\)!\)\.render/);
+  assert.doesNotMatch(main, /prefetchQuery/);
+  assert.match(api, /timeoutMs: LAUNCH_TIMEOUT_MS/);
+  assert.match(api, /networkMode: 'always'/);
   assert.match(buyer, /initialData: initialHome/);
   assert.match(ui, /enabled: Boolean\(handle\) && !previewSrc/);
   assert.match(shell, /rel="preload" as="image"/);

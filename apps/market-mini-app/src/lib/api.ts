@@ -12,6 +12,8 @@ const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL
   ?? (import.meta.env.PROD ? PRODUCTION_MARKET_API_BASE_URL : '/api/market/v1'))
   .replace(/\/$/, '');
 let sessionToken = '';
+const REQUEST_TIMEOUT_MS = 15_000;
+const LAUNCH_TIMEOUT_MS = 8_000;
 
 export class MarketApiError extends Error {
   constructor(
@@ -29,6 +31,7 @@ interface RequestOptions {
   body?: unknown;
   command?: boolean;
   signal?: AbortSignal;
+  timeoutMs?: number;
 }
 
 async function fixtureRequest<T>(path: string, options: RequestOptions): Promise<T> {
@@ -45,15 +48,26 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   if (options.body !== undefined) headers.set('Content-Type', 'application/json');
   if (options.command) headers.set('Idempotency-Key', crypto.randomUUID());
   let response: Response;
+  const controller = new AbortController();
+  const abort = () => controller.abort();
+  if (options.signal?.aborted) abort();
+  else options.signal?.addEventListener('abort', abort, { once: true });
+  const timeout = globalThis.setTimeout(
+    abort,
+    options.timeoutMs ?? REQUEST_TIMEOUT_MS,
+  );
   try {
     response = await fetch(`${baseUrl}${path}`, {
       method: options.method ?? 'GET',
       headers,
       body: options.body === undefined ? undefined : JSON.stringify(options.body),
-      signal: options.signal,
+      signal: controller.signal,
     });
   } catch {
     throw new MarketApiError('network_error', 0, null);
+  } finally {
+    globalThis.clearTimeout(timeout);
+    options.signal?.removeEventListener('abort', abort);
   }
   if (response.status === 204) return undefined as T;
   const contentType = response.headers.get('Content-Type')?.toLowerCase() ?? '';
@@ -102,7 +116,7 @@ export async function exchangeLaunch(): Promise<MarketLaunch> {
   const initData = telegramInitData();
   if (!initData) throw new MarketApiError('unsupported_environment', 403, null);
   const launch = await request<MarketLaunch>('/session/launch', {
-    method: 'POST', body: { initData },
+    method: 'POST', body: { initData }, timeoutMs: LAUNCH_TIMEOUT_MS,
   });
   sessionToken = launch.session.token;
   return launch;
@@ -115,6 +129,7 @@ export const launchQueryOptions = {
     ? error.status >= 500 && count < 2
     : count < 2,
   staleTime: Infinity,
+  networkMode: 'always' as const,
 };
 
 export async function refreshSession(): Promise<SessionExchange> {

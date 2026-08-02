@@ -7,7 +7,6 @@ import {
   onlineManager,
 } from '@tanstack/react-query';
 import App from './App';
-import { launchQueryOptions } from './lib/api';
 import { initializeTelegram } from './platform/telegram';
 import './styles.css';
 
@@ -42,19 +41,13 @@ const client = new QueryClient({
   },
 });
 
-const root = document.getElementById('root')!;
-const mount = () => createRoot(root).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={client}>
       <App />
     </QueryClientProvider>
   </StrictMode>,
 );
-
-// Keep the filled, zero-JS catalog shell on screen while the signed launch
-// request runs. Once the query is settled React hydrates from the cache, so
-// users never trade visible products and prices for a blocking spinner.
-void client.prefetchQuery(launchQueryOptions).finally(mount);
 
 // Signed initData is available from Telegram's URL fragment, so React and the
 // launch request do not need to wait for a slow Android bridge script. Theme,
