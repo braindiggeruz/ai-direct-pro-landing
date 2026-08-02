@@ -29,6 +29,23 @@ name = "ai-direct-pro-landing"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "dist"
 
+# Run the Functions Worker next to D1 instead of next to the shopper.
+#
+# The database is in ENAM (measured: served_by_colo ORD). A buyer in Tashkent
+# reaches an edge data centre in milliseconds, but every D1 query from there is
+# a trans-continental round trip of roughly a quarter second — and one Bormi
+# launch makes three of them in sequence (identity, storefront binding, then the
+# catalog), because each one needs the answer of the one before it. That is
+# close to a second of pure travel before the storefront can render.
+#
+# Smart Placement inverts the geometry: the request crosses the ocean once, the
+# three dependent queries then run beside the database. Static assets and the
+# prerendered pages are served from the edge either way — they never enter the
+# Worker — so this only moves the API path, which is exactly the part that was
+# waiting on D1.
+[placement]
+mode = "smart"
+
 [[d1_databases]]
 binding = "GPTBOT_DRAFTS_DB"
 database_name = "gptbot-ai-drafts"

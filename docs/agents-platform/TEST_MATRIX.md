@@ -1,5 +1,22 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## Bormi launch latency — placement and key reuse (2026-08-02, follow-up 4)
+
+| Check | Result |
+| --- | --- |
+| Symptom | «Собираем витрину…» holds while `POST /session/launch` is in flight |
+| Client | not at fault — React mounts without a gate, `initData` comes from the URL fragment, the request fires on mount |
+| D1 location (measured) | `served_by_region: ENAM`, `served_by_colo: ORD` — Chicago; the buyer is in Tashkent |
+| Launch chain | three dependent D1 round trips: identity, storefront binding, catalog |
+| Endpoint latency (measured, remote client, HMAC rejection path only) | 731 ms cold, ~145 ms warm |
+| Functions bundle | 2.09 MB — recorded as an open item, not touched here |
+| Fix 1 | `[placement] mode = "smart"` — the request crosses once, the dependent queries run beside D1 |
+| Fix 2 | `issueMediaHandle` memoizes the imported HMAC key per isolate; one launch was doing up to 60 `importKey` calls for the same key |
+| `tests/market-launch-performance.test.ts` | 5 of 5 PASS |
+| Media handles | 40 issued concurrently all verify; the cache is bound to its secret; tampered handles still refused |
+| Rejected | caching the home catalog — it carries live price and availability, and a stale price is worse than a slow one |
+| Actual saving | NOT MEASURED — Smart Placement relocates on live traffic, so the improvement must be observed on a real device |
+
 ## Bormi catalog-grounded search understanding (2026-08-02, follow-up 2)
 
 | Check | Result |

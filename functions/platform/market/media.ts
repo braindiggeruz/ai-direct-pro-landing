@@ -23,14 +23,33 @@ function decode(value: string): Uint8Array | null {
   }
 }
 
-async function key(secret: string): Promise<CryptoKey> {
-  return crypto.subtle.importKey(
+/**
+ * The imported signing key, memoized per isolate.
+ *
+ * One launch signs a handle for every image of every product on the home
+ * screen, and the key was re-imported for each one — up to sixty `importKey`
+ * calls to derive the same key from the same secret. The key is non-extractable
+ * and derived from a Pages secret that does not change within an isolate, so
+ * importing it once is the same operation with the work done once.
+ */
+let cachedKey: { secret: string; key: Promise<CryptoKey> } | null = null;
+
+function key(secret: string): Promise<CryptoKey> {
+  if (cachedKey && cachedKey.secret === secret) return cachedKey.key;
+  const imported = crypto.subtle.importKey(
     'raw',
     new TextEncoder().encode(secret),
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['sign', 'verify'],
   );
+  // A rejected import must not be cached, or the isolate would keep replaying
+  // the same failure for every later request.
+  cachedKey = { secret, key: imported };
+  void imported.catch(() => {
+    if (cachedKey?.key === imported) cachedKey = null;
+  });
+  return imported;
 }
 
 export async function issueMediaHandle(

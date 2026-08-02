@@ -638,6 +638,93 @@ WebView in this release. **§11 remains open.** Until the owner completes steps
 
 ---
 
+## 17. Follow-up 4 — the launch screen stops waiting on another continent
+
+### 17.1 The symptom
+
+«Собираем витрину…» with the demo grid sits on screen for a noticeable pause
+before the real storefront appears.
+
+### 17.2 Where the time actually went
+
+The client is not at fault and was already tuned by the v8 release: React mounts
+without a prefetch gate, `initData` is read from Telegram's URL fragment so
+nothing waits on the bridge script, and the launch request fires on mount. The
+screen the owner sees is `LoadingView`, rendered while exactly one request is in
+flight — `POST /session/launch`.
+
+Two measurements explain that request.
+
+**The database is on another continent.** A read-only probe reports
+`served_by_region: ENAM`, `served_by_colo: ORD` — Chicago. The buyer is in
+Tashkent. The Worker runs at the nearest edge, so it is milliseconds from the
+buyer and roughly a quarter of a second from D1.
+
+**The launch makes three of those trips back to back**, because each one needs
+the previous answer:
+
+```text
+verifyTelegramInitData   (crypto, no network)
+  -> getOrCreateIdentity           D1
+  -> bindMarketLaunch              D1   needs the identity id
+  -> catalogHomePayload            D1   needs the store id
+```
+
+Three dependent round trips at ~250 ms is close to a second of pure travel
+before anything can render. Seller resolution is already skipped on this path,
+and the two catalog queries already run in parallel — the remaining cost is
+geometry, not code.
+
+Measured from this machine, the endpoint answers in 731 ms cold and ~145 ms warm
+*before* it does any of that work, which is the HMAC rejection path only.
+
+**A smaller, real cost on top:** `issueMediaHandle` re-imported the HMAC key on
+every call, and one launch signs a handle for every image of every product on
+the home screen — up to sixty `importKey` calls deriving the same key from the
+same unchanging secret.
+
+### 17.3 The fix
+
+**Run the Worker next to D1.** `[placement] mode = "smart"` in `wrangler.toml`.
+The request crosses the ocean once; the three dependent queries then run beside
+the database. Static assets and the prerendered pages never enter the Worker, so
+this moves only the API path — precisely the part that was waiting.
+
+**Import the signing key once per isolate.** Memoized on the secret, with a
+rejected import never cached so an isolate cannot replay a failure.
+
+### 17.4 What was deliberately not done
+
+- **No caching of the home catalog.** It would remove two D1 queries, and it was
+  rejected: that payload carries live prices and availability, and Bormi's whole
+  claim is that those are honest. A stale price is worse than a slow one.
+- **No bundle surgery.** The Functions bundle is 2.09 MB, which is real
+  cold-start parse cost, but splitting the entire GPTBot Functions tree is a
+  separate piece of work and not something to attempt inside a latency fix.
+  Recorded as an open item.
+
+### 17.5 Changed files
+
+| File | Change |
+|---|---|
+| `wrangler.toml` | `[placement] mode = "smart"` with the measurement that justifies it |
+| `functions/platform/market/media.ts` | HMAC key memoized per isolate |
+| `tests/market-launch-performance.test.ts` | new — 5 tests |
+
+### 17.6 Verification
+
+Placement asserted in config; media handles verified behaviourally — 40 issued
+concurrently all verify, the cache is bound to its secret so a handle never
+verifies under another, tampered handles are still refused, and the launch chain
+is asserted to be the shape the placement rationale assumes.
+
+**Not verified:** the actual saving. Smart Placement is a Cloudflare-side
+decision that needs live traffic before it relocates, so the improvement must be
+measured on a real device after the fact, not claimed here. The honest baseline
+to compare against is the owner's own observation.
+
+---
+
 ## 16. Follow-up 3 — speaking lands on products
 
 ### 16.1 What the owner said

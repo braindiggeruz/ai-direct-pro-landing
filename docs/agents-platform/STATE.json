@@ -512,6 +512,11 @@
       "summary": "Three repository tests fail on main and reproduce unchanged at d47d998, the previously live source: react-router-v8-migration 'preserves every public and admin route pattern' and 'sitemap generation retains all 234 static canonical entries' (240 are now emitted after the SEO content additions), and sotuvchi-onboarding 'buyer storefront route resolves the store but never launches seller onboarding' (the assertion reads the last delivered message, and the buyer greeting is no longer last since 04a8957). They are stale expectations, not runtime defects, and are unrelated to voice search. They should be re-baselined as their own change rather than inside a release."
     },
     {
+      "id": "functions-bundle-cold-start",
+      "severity": "medium",
+      "summary": "The Pages Functions bundle is 2.09 MB of JavaScript because the whole GPTBot Functions tree compiles into one Worker, and every dynamic request pays its parse cost on a cold isolate. Measured against the Market launch endpoint from a remote client: 731 ms cold versus ~145 ms warm on the HMAC rejection path alone, before any D1 work. Splitting the tree is real work with real blast radius and was deliberately not attempted inside a latency fix. It is the next lever after Smart Placement if the launch is still not instant."
+    },
+    {
       "id": "telegram-bot-sentence-reduction",
       "severity": "medium",
       "summary": "The Mini App BFF now reduces a typed sentence to its product words inside runCatalogSearch, so «Мне нужен блокнот» searches «блокнот». The Telegram bot does not: functions/agents/sotuvchi/buyer/parser.ts falls through to the raw normalized message when it is short enough, so the same sentence reaches rankCatalogProducts with the intent words attached and comes back with «Не нашли по условию: мне, нужен». The shared vocabulary lives in the Market layer, which the agent layer may not import, so closing this is a boundary decision (move the vocabulary to functions/platform, or give the parser its own) rather than a copy-paste. Left open deliberately instead of changing Telegram behaviour inside a Mini App release."
