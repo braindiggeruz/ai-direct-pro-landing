@@ -374,7 +374,8 @@
     { "target": "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/", "anchor": "Стоимость SEO-продвижения" },
     { "target": "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/", "anchor": "Продвижение в Google" },
     { "target": "/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/", "anchor": "Продвижение в Яндексе" },
-    { "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "anchor": "Почему сайт не приносит заявки" }
+    { "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "anchor": "Почему сайт не приносит заявки" },
+    { "target": "/ru/blog/chto-takoe-seo-prodvizhenie/", "anchor": "Что такое SEO-продвижение" }
   ],
   "ogTitle": "SEO-аудит сайта: практический чек-лист",
   "ogDescription": "Проверка индексирования, canonical, robots, sitemap, контента, ссылок, локальных сигналов и заявок по приоритетам.",
