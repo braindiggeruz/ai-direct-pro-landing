@@ -699,6 +699,22 @@ cannot produce a voice result in Node, and the Browser pane composited no frames
 during this session, so the compact summary has not been seen rendered — only
 asserted in source and type-checked.
 
+### 16.6 Release
+
+```text
+source          e4669b71f2fd195ec5c40aa00d6e3c268268c0c6   (main)
+root / BFF      e3aa4b9a-4501-4631-951c-208abb9c748e, alias gptbot.uz
+static Mini App f91f2044-97ac-449f-b823-960eea83f860
+rollback        bae0eb14 / 47497796 at source 127691d
+```
+
+The root bundle is unchanged by this commit and was redeployed only to keep both
+projects stamped with one source. Both flags stay `true` and all 30 `secret_text`
+variables are intact. Canaries: root, RU and UZ Sotuvchi, the canonical static
+site and both new hashed assets 200; Agents webhook `GET` 405 and unauthorized
+`POST` 401; unauthenticated `POST /voice/search` 401; malformed
+`POST /session/launch` 400. No D1 statement and no Telegram Bot API call.
+
 ---
 
 ## 15. Follow-up 2 — Bormi understands what was meant
