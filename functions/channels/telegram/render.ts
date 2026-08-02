@@ -42,6 +42,10 @@ export interface TelegramDeliveryOptions {
     url: string;
     text?: string;
   };
+  brandMedia?: {
+    ref: string;
+    url: string;
+  };
 }
 
 const FALLBACK = {
@@ -176,9 +180,12 @@ export function createTelegramDeliveryPort(
             keyboard?: InlineKeyboard,
           ) {
             if (!SAFE_MEDIA_REF.test(mediaRef)) return false;
+            const photo = options.brandMedia?.ref === mediaRef
+              ? options.brandMedia.url
+              : mediaRef;
             const result = await client.sendPhoto!(
               parseThreadRef(threadRef),
-              mediaRef,
+              photo,
               caption,
               withWebApp(keyboard) ? { keyboard: withWebApp(keyboard) } : {},
             );

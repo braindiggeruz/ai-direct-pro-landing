@@ -1304,23 +1304,9 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   await harness.invoke(telegramMessage(970_001, 97001, '/start', 'ru'));
   const firstStart = harness.delivery.sent.at(-1);
   assert.equal(firstStart?.text.includes(
-    'Bormi найдёт подходящие товары',
+    'Находите нужные товары',
   ), true);
-  assert.ok(JSON.stringify(firstStart?.keyboard).includes('buyer-catalog-open'));
-  for (const action of [
-    'buyer-find',
-    'buyer-orders',
-    'buyer-seller-mode',
-    'buyer-more',
-  ]) {
-    assert.ok(JSON.stringify(firstStart?.keyboard).includes(action), action);
-  }
-  assert.ok(!JSON.stringify(firstStart?.keyboard).includes(
-    'agent:buyer-compare-show',
-  ));
-  assert.ok(!JSON.stringify(firstStart?.keyboard).includes(
-    'agent:buyer-seller"',
-  ));
+  assert.equal(firstStart?.keyboard, undefined);
   assert.ok(!firstStart?.text.includes('Test Product'));
 
   const afterFirstStart = harness.delivery.sent.length;
@@ -1328,7 +1314,7 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   const repeatedStart = harness.delivery.sent.slice(afterFirstStart);
   assert.equal(repeatedStart.length, 1);
   assert.ok(repeatedStart[0].text.includes(
-    'Bormi найдёт подходящие товары',
+    'Находите нужные товары',
   ));
 
   await harness.invoke(
@@ -1344,17 +1330,9 @@ test('direct pilot /start can be repeated and buyer search stays in the storefro
   await harness.invoke(telegramMessage(970_010, 97002, '/start', 'uz'));
   const uzStart = harness.delivery.sent.at(-1);
   assert.ok(uzStart?.text.includes(
-    'Bormi ulangan do‘konlar katalogidan',
+    'Kerakli mahsulotni toping',
   ));
-  for (const action of [
-    'buyer-find',
-    'buyer-catalog-open',
-    'buyer-orders',
-    'buyer-seller-mode',
-    'buyer-more',
-  ]) {
-    assert.ok(JSON.stringify(uzStart?.keyboard).includes(action), action);
-  }
+  assert.equal(uzStart?.keyboard, undefined);
 
   await harness.invoke(
     telegramMessage(970_003, 97001, 'Нужен недорогой товар для теста', 'ru'),

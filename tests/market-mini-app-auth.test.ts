@@ -153,14 +153,50 @@ test('Telegram delivery appends a native web_app launch action', async () => {
   }, {
     webApp: {
       url: 'https://gptbot-market-mini-app.pages.dev/',
-      text: 'Bormi',
+      text: 'Открыть Bormi',
     },
   });
   assert.equal(await delivery.sendText('123456', 'ready'), true);
   assert.deepEqual(delivered, [[{
-    text: 'Bormi',
+    text: 'Открыть Bormi',
     web_app: { url: 'https://gptbot-market-mini-app.pages.dev/' },
   }]]);
+});
+
+test('Telegram delivery maps only the bounded Bormi welcome ref to public brand media', async () => {
+  const photos: string[] = [];
+  const delivery = createTelegramDeliveryPort({
+    async sendMessage() { return { ok: true }; },
+    async sendPhoto(_chatId, photo) {
+      photos.push(photo);
+      return { ok: true };
+    },
+    async sendChatAction() { return { ok: true }; },
+    async answerCallbackQuery() { return { ok: true }; },
+  }, {
+    webApp: {
+      url: 'https://gptbot-market-mini-app.pages.dev/',
+      text: 'Открыть Bormi',
+    },
+    brandMedia: {
+      ref: 'bormi.telegram.welcome',
+      url: 'https://gptbot-market-mini-app.pages.dev/assets/brand/bormi-telegram-welcome.webp',
+    },
+  });
+  assert.equal(await delivery.sendMedia?.(
+    '123456',
+    'bormi.telegram.welcome',
+    'Bormi? — Bor.',
+  ), true);
+  assert.equal(await delivery.sendMedia?.(
+    '123456',
+    'telegram-file-id',
+    'Product',
+  ), true);
+  assert.deepEqual(photos, [
+    'https://gptbot-market-mini-app.pages.dev/assets/brand/bormi-telegram-welcome.webp',
+    'telegram-file-id',
+  ]);
 });
 
 test('Telegram client uses setChatMenuButton with a bounded Web App payload', async () => {

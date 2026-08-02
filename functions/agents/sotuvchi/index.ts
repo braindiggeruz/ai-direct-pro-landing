@@ -1,4 +1,5 @@
 export { sotuvchiAgentManifest } from './manifest';
+export { BORMI_WELCOME_MEDIA_REF } from './experience';
 export {
   sotuvchiSellerCancelledRule,
   sotuvchiSellerNavigationRule,

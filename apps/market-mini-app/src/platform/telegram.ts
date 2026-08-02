@@ -39,6 +39,8 @@ declare global {
 }
 
 const SAFE_COLOR = /^#[0-9a-f]{6}$/i;
+const TELEGRAM_BRIDGE_WAIT_MS = 1_200;
+const TELEGRAM_INIT_DATA_MAX_BYTES = 8_192;
 
 function setColor(name: string, value: string | undefined): void {
   if (value && SAFE_COLOR.test(value)) {
@@ -67,8 +69,26 @@ function applyTheme(webApp: TelegramWebApp): void {
     ?.setAttribute('content', themeColor || '#f7f6fb');
 }
 
-export function initializeTelegram(): () => void {
-  const webApp = window.Telegram?.WebApp;
+function delay(milliseconds: number): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+}
+
+async function waitForTelegramBridge(): Promise<TelegramWebApp | undefined> {
+  let webApp = window.Telegram?.WebApp;
+  if (webApp || (import.meta.env.DEV
+    && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture')) {
+    return webApp;
+  }
+  const deadline = performance.now() + TELEGRAM_BRIDGE_WAIT_MS;
+  while (!webApp && performance.now() < deadline) {
+    await delay(25);
+    webApp = window.Telegram?.WebApp;
+  }
+  return webApp;
+}
+
+export async function initializeTelegram(): Promise<() => void> {
+  const webApp = await waitForTelegramBridge();
   if (!webApp) return () => undefined;
   applyTheme(webApp);
   const listener = () => applyTheme(webApp);
@@ -79,14 +99,44 @@ export function initializeTelegram(): () => void {
   return () => webApp.offEvent?.('themeChanged', listener);
 }
 
+/**
+ * Telegram puts the signed launch query into tgWebAppData in the URL fragment.
+ * The official bridge normally exposes the same value as WebApp.initData. This
+ * bounded fallback closes a race on slower Android WebViews; authority still
+ * comes only from the server-side HMAC and auth_date validation.
+ */
+export function telegramInitDataFromUrl(value: string): string {
+  try {
+    const url = new URL(value);
+    const raw = new URLSearchParams(url.hash.replace(/^#/, ''))
+      .get('tgWebAppData') ?? '';
+    if (
+      !raw
+      || new TextEncoder().encode(raw).byteLength > TELEGRAM_INIT_DATA_MAX_BYTES
+    ) {
+      return '';
+    }
+    return raw;
+  } catch {
+    return '';
+  }
+}
+
 export function telegramInitData(): string {
   const live = window.Telegram?.WebApp?.initData ?? '';
   if (live) return live;
+  const launch = telegramInitDataFromUrl(window.location.href);
+  if (launch) return launch;
   if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_INIT_DATA) {
     return import.meta.env.VITE_MARKET_DEV_INIT_DATA;
   }
   return '';
 }
+
+export const TELEGRAM_LAUNCH_LIMITS = {
+  bridgeWaitMs: TELEGRAM_BRIDGE_WAIT_MS,
+  maxInitDataBytes: TELEGRAM_INIT_DATA_MAX_BYTES,
+} as const;
 
 export function haptic(
   result: 'tap' | 'success' | 'warning' | 'error',

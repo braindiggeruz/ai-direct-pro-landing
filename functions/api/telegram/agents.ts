@@ -4,6 +4,7 @@
 import type { Env } from '../../_types';
 import { demoAgentManifest } from '../../agents/demo';
 import {
+  BORMI_WELCOME_MEDIA_REF,
   composeSotuvchiWorkflowPorts,
   createSotuvchiCheckoutDomainPort,
   createSotuvchiCheckoutWorkflowPort,
@@ -143,7 +144,12 @@ export function createTelegramAgentsRuntimeWiring(
     identityId: string,
     entryActionId?: string,
   ): Promise<TelegramAgentContext> {
-    const active = await checkout.getActiveWorkflowRef(identityId);
+    // /start is an explicit navigation reset for this turn. Keep any durable
+    // checkout draft intact, but do not let it replace the branded entry with
+    // a contact-field prompt. The Mini App can resume the same server truth.
+    const active = entryActionId === 'storefront-start'
+      ? null
+      : await checkout.getActiveWorkflowRef(identityId);
     return {
       orgId,
       agentId,
@@ -618,7 +624,16 @@ export const onRequestPost: PagesFunction<Env> = async ({
   const delivery = createTelegramDeliveryPort(
     client,
     marketWebAppUrl
-      ? { webApp: { url: marketWebAppUrl, text: 'Bormi' } }
+      ? {
+          webApp: { url: marketWebAppUrl, text: 'Открыть Bormi' },
+          brandMedia: {
+            ref: BORMI_WELCOME_MEDIA_REF,
+            url: new URL(
+              '/assets/brand/bormi-telegram-welcome.webp',
+              marketWebAppUrl,
+            ).toString(),
+          },
+        }
       : {},
   );
   const wiring = createTelegramAgentsRuntimeWiring(

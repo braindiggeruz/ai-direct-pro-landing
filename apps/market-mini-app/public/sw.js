@@ -1,8 +1,9 @@
-const CACHE = 'bormi-shell-v3';
+const CACHE = 'bormi-shell-v4';
 const SHELL = [
   '/',
   '/index.html',
   '/assets/brand/bormi-mark.svg',
+  '/assets/brand/bormi-telegram-welcome.webp',
   '/assets/catalog-demo/bormi-headphones.webp',
   '/assets/catalog-demo/bormi-speaker.webp',
 ];

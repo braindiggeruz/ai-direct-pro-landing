@@ -4,6 +4,8 @@ import type {
   RuntimeResponseDraft,
 } from '../../../platform/contracts';
 
+export const BORMI_WELCOME_MEDIA_REF = 'bormi.telegram.welcome';
+
 /**
  * Reviewed buyer-facing RU/Uzbek Latin product copy.
  *
@@ -210,6 +212,20 @@ export function homeResponse(locale: Locale): RuntimeResponseDraft {
     messages: [{
       text: `${copy.home}\n\n${copy.syntheticNotice}`,
       choices: homeChoices(locale),
+    }],
+    claims: [],
+  };
+}
+
+/** Branded, single-action entry used only for a real Telegram /start turn. */
+export function welcomeResponse(locale: Locale): RuntimeResponseDraft {
+  const text = locale === 'uz'
+    ? 'Bormi? — Bor.\n\nKerakli mahsulotni toping, variantlarni solishtiring va so‘rovni bir joyda yuboring.\n\nHozir ichida namoyish katalogi ochiladi.'
+    : 'Bormi? — Bor.\n\nНаходите нужные товары, сравнивайте варианты и отправляйте заявку в одном месте.\n\nСейчас внутри откроется демонстрационный каталог.';
+  return {
+    messages: [{
+      text,
+      mediaRef: BORMI_WELCOME_MEDIA_REF,
     }],
     claims: [],
   };

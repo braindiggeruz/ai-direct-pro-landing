@@ -41,7 +41,7 @@ const client = new QueryClient({
   },
 });
 
-initializeTelegram();
+await initializeTelegram();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
