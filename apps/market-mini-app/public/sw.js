@@ -1,4 +1,4 @@
-const CACHE = 'bormi-shell-v5';
+const CACHE = 'bormi-shell-v6';
 const SHELL = [
   '/',
   '/index.html',
