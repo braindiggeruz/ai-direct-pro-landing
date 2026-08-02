@@ -1,5 +1,12 @@
 # GPTBot Agents — Handoff
 
+> **Fresh Bormi operational handoff (2026-08-02):** before touching the Market
+> Mini App, Telegram entry or production deployment, read
+> `BORMI_MARKET_MAXIMUM_DETAIL_HANDOFF_2026-08-02.md`. It supersedes the Bormi
+> deployment identifiers and incident status below. Current application source is
+> `d47d998`; the v8 fast-path release is live and awaits an exact native owner
+> canary in `@BormiMarketBot`.
+
 ## 1. Состояние
 
 - Дата: 2026-08-02.
