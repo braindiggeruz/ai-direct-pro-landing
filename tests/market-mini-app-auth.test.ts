@@ -310,12 +310,6 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   globalThis.fetch = async (input) => {
     calls += 1;
     const url = String(input);
-    if (url.includes('/assets/brand/bormi-bot-avatar.jpg')) {
-      return new Response(new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), {
-        status: 200,
-        headers: { 'Content-Type': 'image/jpeg' },
-      });
-    }
     const method = url.split('/').pop() ?? '';
     const result = method === 'getMe'
       ? {
@@ -323,12 +317,7 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
           is_bot: true,
           username: 'BormiMarketBot',
         }
-      : method === 'getWebhookInfo'
-        ? {
-            url: 'https://gptbot.uz/api/telegram/agents',
-            pending_update_count: 0,
-          }
-        : true;
+      : true;
     return new Response(JSON.stringify({ ok: true, result }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -340,8 +329,6 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
       MARKET_MINI_APP_URL: 'https://gptbot-market-mini-app.pages.dev',
       TELEGRAM_AGENTS_BOT_TOKEN: BOT_TOKEN,
       TELEGRAM_AGENTS_BOT_USERNAME: 'BormiMarketBot',
-      TELEGRAM_AGENTS_WEBHOOK_SECRET:
-        '12345678901234567890123456789012',
     };
     assert.equal(
       scheduleMarketMenuSync(env, (promise) => scheduled.push(promise), AUTH_DATE),
@@ -359,5 +346,5 @@ test('Market menu sync is feature-gated and bounded per isolate', async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
-  assert.equal(calls, 18);
+  assert.equal(calls, 14);
 });
