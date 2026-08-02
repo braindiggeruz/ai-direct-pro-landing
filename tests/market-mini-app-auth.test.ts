@@ -18,6 +18,8 @@ import {
 import { handleMarketRequest } from '../functions/market/router';
 import {
   MARKET_MENU_SYNC_INTERVAL_MS,
+  MARKET_WEB_APP_RELEASE,
+  resolveMarketWebAppUrl,
   scheduleMarketMenuSync,
 } from '../functions/market/menu';
 
@@ -139,6 +141,17 @@ test('Telegram Mini App URL is HTTPS-only and credential-free', () => {
   assert.equal(normalizeMarketWebAppUrl('http://example.com'), null);
   assert.equal(normalizeMarketWebAppUrl('https://user:pass@example.com'), null);
   assert.equal(normalizeMarketWebAppUrl('https://example.com/#token'), null);
+});
+
+test('Telegram launch URL carries a bounded cache-busting release marker', () => {
+  assert.match(MARKET_WEB_APP_RELEASE, /^[a-z0-9-]{8,40}$/);
+  assert.equal(
+    resolveMarketWebAppUrl({
+      MARKET_MINI_APP_ENABLED: 'true',
+      MARKET_MINI_APP_URL: 'https://gptbot-market-mini-app.pages.dev',
+    }),
+    `https://gptbot-market-mini-app.pages.dev/?v=${MARKET_WEB_APP_RELEASE}`,
+  );
 });
 
 test('Telegram delivery appends a native web_app launch action', async () => {

@@ -4,12 +4,20 @@ import { TELEGRAM_AGENT_METADATA } from '../channels/telegram/metadata';
 import { marketFlag, normalizeMarketWebAppUrl } from '../platform/market';
 
 const MENU_SYNC_INTERVAL_MS = 60 * 60 * 1_000;
+const WEB_APP_RELEASE = 'bormi-20260802-3';
 let nextMenuSyncAt = 0;
 
 export function resolveMarketWebAppUrl(env: Env): string | null {
-  return marketFlag(env.MARKET_MINI_APP_ENABLED)
+  const normalized = marketFlag(env.MARKET_MINI_APP_ENABLED)
     ? normalizeMarketWebAppUrl(env.MARKET_MINI_APP_URL)
     : null;
+  if (!normalized) return null;
+  const url = new URL(normalized);
+  // Telegram may resume a cached WebView for an unchanged menu/button URL.
+  // A bounded public release marker forces a fresh navigation after a launch
+  // repair without carrying any credential or user data.
+  url.searchParams.set('v', WEB_APP_RELEASE);
+  return url.toString();
 }
 
 export function scheduleMarketMenuSync(
@@ -52,3 +60,4 @@ export function scheduleMarketMenuSync(
 }
 
 export const MARKET_MENU_SYNC_INTERVAL_MS = MENU_SYNC_INTERVAL_MS;
+export const MARKET_WEB_APP_RELEASE = WEB_APP_RELEASE;
