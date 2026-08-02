@@ -172,6 +172,12 @@
   ],
   "internalLinks": [
     {
+      "target": "/ru/blog/telegram-bot-dlya-biznesa/",
+      "anchor": "разбор возможностей Telegram-бота",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
       "target": "/ru/razrabotka-saytov-tashkent/",
       "anchor": "сайт и Telegram-бот для заявок",
       "locale": "ru",

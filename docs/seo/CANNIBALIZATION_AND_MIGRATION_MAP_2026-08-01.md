@@ -233,6 +233,39 @@ rules (was 9), 0 broken internal links, 0 orphan pages, 0 broken hreflang pairs.
 
 ---
 
+## 4b. Follow-up executed 2026-08-02 — C8 resolved, C3 and C7 differentiated
+
+### C8 — content comparison done, verdict: KEEP BOTH
+
+The comparison the map called for:
+
+| | `/ru/telegram-bot-dlya-biznesa/` (page) | `/ru/blog/telegram-bot-dlya-biznesa/` (blog) |
+| --- | --- | --- |
+| pageType / intent | `money` / commercial | article, `targetMoneyPage` already set to the page |
+| title | «Telegram-бот для бизнеса — заказы, рассылки, оплата» | «Telegram-бот для бизнеса: разбор возможностей в 2026» |
+| H1 | «…автоматизация продаж» | «…в 2026: разбор возможностей» |
+| Structure | 21 blocks, 7 FAQ, H2 «Сколько стоит», «Что получает бизнес» | 22 blocks, 5 FAQ, H2 «Чего избегать», «Telegram Ads», «Что важно для рынка Узбекистана» |
+
+Titles, H1 and roughly half the H2 set are already distinct; the overlap is the functional catalogue («Что умеет» versus «Базовый/Продвинутый функционал»). Both URLs hold positions 5.62 and 5.76, so a redirect would forfeit an earned position on either side. **Verdict: DIFFERENT_INTENT_ENOUGH — keep both, no redirect.** The pair is now made explicit to the crawler instead: the blog opens with a contextual link stating that it is the разбор and the page carries состав работ, сроки and цена; the page links back to the blog as the разбор.
+
+### The actual defect found — the ranking pages had no path to the commercial page
+
+All three articles in C3, C7 and C8 contained **zero `linkp` blocks**. Their only in-body call to action pointed at `https://t.me/...`, which the renderer emits with `rel="nofollow noopener"` — an external link that passes no internal signal and routes the reader out of the site entirely. So the pages that hold the positions had no in-body route to the pages that sell.
+
+This matches the baseline finding: positions exist, clicks do not. Fixed additively — no heading, title, slug or existing paragraph was modified, so nothing that currently earns a position was touched.
+
+| Article | Position | Contextual links added |
+| ------- | -------: | ---------------------- |
+| `/ru/blog/instagram-direct-bot-kak-rabotaet/` | 20.50 | → `/ru/instagram-direct-bot/` (early), → `/ru/ai-menedzher-dlya-instagram/` (late) |
+| `/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/` | 50.25 | → `/ru/ai-bot-dlya-salona-krasoty/` (early), → `/ru/avtomatizatsiya-zayavok/` (late) |
+| `/ru/blog/telegram-bot-dlya-biznesa/` | 5.76 | → `/ru/telegram-bot-dlya-biznesa/` (early), → `/ru/razrabotka-telegram-bota-tashkent/` (late) |
+
+Plus one reciprocal: `/ru/telegram-bot-dlya-biznesa/` (page) → `/ru/blog/telegram-bot-dlya-biznesa/`.
+
+Verified after rebuild: all seven targets render at a live `dist` path, none is a redirect source, and every `linkp` emits a real `<a>` in the prerendered HTML. `tests/seo-link-graph.test.ts` was **not** run — vitest is not installed in this checkout — so the link graph was checked directly against `dist` and `redirects.json` instead.
+
+**Remaining open:** C3 and C7 money pages still lose to their own blogs on the shared query. The disposition here was deliberately limited to routing, not to retargeting the money pages' metadata: their titles and H1 are already commercial («заказать подключение», «заказать запись 24/7»), so the gap is authority, not intent signalling. Rewriting them would risk positions without addressing the cause.
+
 ## 5. Method limits
 
 - GSC anonymises queries below a volume threshold. Only 3 of 25 clicks are attributable to a named query; the remaining 22 are hidden. Absence of query-level evidence is therefore not evidence of absence.
