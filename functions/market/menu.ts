@@ -9,7 +9,7 @@ import { marketFlag, normalizeMarketWebAppUrl } from '../platform/market';
 const MENU_SYNC_INTERVAL_MS = 60 * 60 * 1_000;
 // Keep this marker unique across bot-identity cutovers. Telegram Android may
 // otherwise resume a WebView whose initData was signed by the previous bot.
-const WEB_APP_RELEASE = 'bormi-newbot-20260802-5';
+const WEB_APP_RELEASE = 'bormi-speed-20260802-6';
 let nextMenuSyncAt = 0;
 
 export function resolveMarketWebAppUrl(env: Env): string | null {
