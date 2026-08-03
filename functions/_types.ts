@@ -267,6 +267,17 @@ export interface Env {
   // created by a signed owner token and redeemed from a verified Telegram
   // session, and neither of those is something this flag can supply.
   MARKET_OWNER_TELEGRAM_BINDING_ENABLED?: string;
+  // The owner-only canary, for running one ceremony while the switch above
+  // stays off. Absent by default, and absent again the moment the ceremony is
+  // over.
+  //
+  //   v1|<sha256>|<issuedAt>|<expiresAt>|<expectedChallenges>
+  //
+  // The digest covers a key held only by the owner, the organization resolved
+  // from the database, the window and the precondition — so no part of this
+  // string can be edited in place, and the string alone opens nothing. It is
+  // not a token, not a session, not an identity, and it carries no PII.
+  MARKET_OWNER_TELEGRAM_BINDING_CANARY?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)

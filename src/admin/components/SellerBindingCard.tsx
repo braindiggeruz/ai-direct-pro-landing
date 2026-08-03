@@ -36,7 +36,13 @@ type Phase = 'idle' | 'confirming' | 'creating' | 'issued';
 function messageFor(code: string): string {
   switch (code) {
     case 'not_found':
-      return 'Привязка Telegram сейчас выключена. Включите MARKET_OWNER_TELEGRAM_BINDING_ENABLED и повторите.';
+      return 'Привязка Telegram сейчас выключена: нет ни глобального флага, ни активного окна канарейки.';
+    case 'canary_invalid':
+      return 'Ключ канарейки не подошёл. Проверьте, что вставлен весь ключ целиком.';
+    case 'canary_expired':
+      return 'Окно канарейки закрыто. Нужен новый ключ и новый деплой — код не выдан.';
+    case 'canary_consumed':
+      return 'Канарейка уже израсходована: код для этого магазина выдавался. Второй возможен только по новому решению.';
     case 'challenge_exists':
       return 'Один код уже действует. Дождитесь, пока он истечёт, или используйте его.';
     case 'store_unavailable':
@@ -57,6 +63,10 @@ export function SellerBindingCard() {
   const [storeName, setStoreName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  // The canary key, while the global switch is off. It lives in this field and
+  // nowhere else: not in storage, not in a URL, not in the request log. Empty
+  // is the normal state once the feature is on for real.
+  const [canaryKey, setCanaryKey] = useState('');
   const [now, setNow] = useState(() => Date.now());
   // Set once the server has said the feature is off, so the action stops
   // offering something that cannot work. Server-reported, never assumed.
@@ -81,6 +91,7 @@ export function SellerBindingCard() {
     setCode('');
     setExpiresAt('');
     setStoreName('');
+    setCanaryKey('');
     setCopied(false);
     setPhase('idle');
   };
@@ -89,7 +100,11 @@ export function SellerBindingCard() {
     setPhase('creating');
     setError(null);
     try {
-      const issued = await ownerApi.createSellerBindingChallenge();
+      const issued = await ownerApi.createSellerBindingChallenge(canaryKey.trim() || undefined);
+      // The key bought one code and is worth nothing afterwards. Dropping it
+      // here keeps it out of the tree for the rest of the session, the same way
+      // the code itself is dropped when the card closes.
+      setCanaryKey('');
       setCode(issued.challenge);
       setExpiresAt(issued.expiresAt);
       setStoreName(issued.storeName);
@@ -149,6 +164,20 @@ export function SellerBindingCard() {
             Код даст этому Telegram доступ владельца к товарам и заказам магазина.
             Не пересылайте его другим людям.
           </p>
+          <label className="block space-y-1">
+            <span className="text-white/60 text-xs">
+              Ключ канарейки — только если церемония идёт при выключенном флаге
+            </span>
+            <input
+              type="password"
+              value={canaryKey}
+              onChange={(event) => setCanaryKey(event.target.value)}
+              autoComplete="off"
+              spellCheck={false}
+              className="w-full font-mono text-sm text-white bg-bg-base border border-white/10 rounded-lg px-3 py-2"
+              data-testid="owner-seller-binding-canary"
+            />
+          </label>
           <div className="flex gap-2">
             <Button onClick={() => void create()}>Создать код</Button>
             <Button variant="ghost" onClick={() => setPhase('idle')}>Отмена</Button>

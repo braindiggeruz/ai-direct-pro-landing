@@ -34,6 +34,13 @@ const CHALLENGE_BYTES = 32;
 
 export type SellerBindingFailure =
   | 'binding_disabled'
+  // Canary failures are told apart from each other, and from the flag being
+  // off, because the only caller that can ever see them is already an
+  // authenticated platform_owner running a ceremony they were handed a key
+  // for. An anonymous caller never gets this far: the route answers 401 first.
+  | 'canary_invalid'
+  | 'canary_expired'
+  | 'canary_consumed'
   | 'store_unavailable'
   | 'store_ambiguous'
   | 'challenge_exists'
@@ -112,6 +119,132 @@ export function bindingEnabled(env: Env): boolean {
   return (env.MARKET_OWNER_TELEGRAM_BINDING_ENABLED ?? '').trim().toLowerCase() === 'true';
 }
 
+/**
+ * The owner-only canary.
+ *
+ * The switch above is one boolean for everybody: on, every authenticated owner
+ * may mint and every verified Telegram session may redeem. There is a narrower
+ * thing an owner can legitimately want — to run the ceremony once, themselves,
+ * while the feature stays shut for everyone else — and a boolean cannot express
+ * it.
+ *
+ * So this expresses it instead, and it deliberately is not a second boolean:
+ *
+ *   MARKET_OWNER_TELEGRAM_BINDING_CANARY = v1|<digest>|<from>|<until>|<expected>
+ *
+ * `<digest>` is SHA-256 over a key that exists only in the hands of the owner
+ * running the ceremony, the organization this may target, the window, and how
+ * many challenges the store is allowed to have already. Deployment carries the
+ * digest; the key is never committed, never stored, never logged and never
+ * travels to the Mini App. Editing any plaintext part of the string invalidates
+ * it, because every part is inside the digest.
+ *
+ * What that buys, compared with flipping the flag: minting still needs a signed
+ * platform_owner token *and* possession of the key, the window cannot be longer
+ * than fifteen minutes because a longer one fails to parse, and the single-use
+ * property is a row count in a table rather than a promise in a comment.
+ */
+export const CANARY_MAX_TTL_MS = 15 * 60 * 1000;
+const CANARY_VERSION = 'v1';
+const CANARY_DOMAIN = 'bormi-auth1f-canary';
+
+export interface CanaryWindow {
+  digest: string;
+  issuedAt: string;
+  expiresAt: string;
+  /**
+   * How many challenge rows the target organization may already have for this
+   * grant to be spendable. Zero for a first ceremony. It is what makes the
+   * grant single-use across isolates, restarts and retries: the first mint
+   * moves the count past it permanently, and only a new deployment carrying a
+   * new expectation can move it back into range.
+   */
+  expectedChallenges: number;
+}
+
+/**
+ * Parse and structurally validate the canary. Anything malformed is absent:
+ * there is no partial credit and no default that opens something.
+ */
+export function parseCanaryWindow(env: Env): CanaryWindow | null {
+  const raw = (env.MARKET_OWNER_TELEGRAM_BINDING_CANARY ?? '').trim();
+  if (!raw) return null;
+  const parts = raw.split('|');
+  if (parts.length !== 5) return null;
+  const [version, digest, issuedAt, expiresAt, expected] = parts;
+  if (version !== CANARY_VERSION) return null;
+  if (!/^[0-9a-f]{64}$/.test(digest)) return null;
+  if (!/^\d{1,3}$/.test(expected)) return null;
+  const from = Date.parse(issuedAt);
+  const until = Date.parse(expiresAt);
+  if (!Number.isFinite(from) || !Number.isFinite(until)) return null;
+  // The TTL cap is enforced here rather than trusted from an operator: a window
+  // wider than the cap is not clamped, it is refused, so a stale grant left in
+  // a configuration file cannot quietly stay open for a day.
+  if (until <= from || until - from > CANARY_MAX_TTL_MS) return null;
+  return { digest, issuedAt, expiresAt, expectedChallenges: Number(expected) };
+}
+
+/**
+ * Whether the ceremony may be reached at all right now.
+ *
+ * Used by the two Telegram-side routes and by the flag the Mini App reads to
+ * decide whether to offer the screen. Redemption gets a grace period of one
+ * challenge TTL past the window, because a challenge minted in the last minute
+ * of the window is legitimately alive after it; without that, a code the owner
+ * is holding would stop working while its own timer still showed time left.
+ *
+ * No key is involved. The Telegram half does not have one, and requiring one
+ * would mean shipping it into the Mini App — which is the opposite of the
+ * point. What guards redemption is the challenge itself: 32 random bytes, one
+ * use, ten minutes, re-checked against the store inside the transaction.
+ */
+export function bindingCeremonyOpen(env: Env, now: Date): boolean {
+  if (bindingEnabled(env)) return true;
+  const window = parseCanaryWindow(env);
+  if (!window) return false;
+  const stamp = now.getTime();
+  return stamp >= Date.parse(window.issuedAt)
+    && stamp < Date.parse(window.expiresAt) + BINDING_CHALLENGE_TTL_MS;
+}
+
+/** The mint window proper: no grace, because minting is what is being bounded. */
+function canaryMintWindow(env: Env, now: Date): CanaryWindow | null {
+  const window = parseCanaryWindow(env);
+  if (!window) return null;
+  const stamp = now.getTime();
+  if (stamp < Date.parse(window.issuedAt)) return null;
+  if (stamp >= Date.parse(window.expiresAt)) return null;
+  return window;
+}
+
+export async function canaryDigest(
+  key: string,
+  orgId: string,
+  window: Pick<CanaryWindow, 'issuedAt' | 'expiresAt' | 'expectedChallenges'>,
+): Promise<string> {
+  const material = [
+    CANARY_DOMAIN,
+    CANARY_VERSION,
+    key,
+    orgId,
+    window.issuedAt,
+    window.expiresAt,
+    String(window.expectedChallenges),
+  ].join('|');
+  return hashChallenge(material);
+}
+
+/** Equal-length hex compare that does not return early on the first mismatch. */
+function sameDigest(left: string, right: string): boolean {
+  if (left.length !== right.length) return false;
+  let diff = 0;
+  for (let index = 0; index < left.length; index += 1) {
+    diff |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  }
+  return diff === 0;
+}
+
 /** Hex SHA-256. The table stores this; the raw value is shown once and dropped. */
 export async function hashChallenge(raw: string): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw));
@@ -176,8 +309,23 @@ export async function createSellerBindingChallenge(
   db: D1Database,
   actorEmail: string,
   now: Date,
+  canaryKey?: unknown,
 ): Promise<CreatedChallenge> {
-  if (!bindingEnabled(env)) throw new SellerBindingError('binding_disabled');
+  // Two ways in, and the narrow one is checked in two halves: everything that
+  // does not need the database first, so a closed canary costs one string parse
+  // and no query, and the key itself once the target is known — a digest over
+  // an organization the caller did not choose is a digest they cannot forge.
+  const canary = bindingEnabled(env) ? null : canaryMintWindow(env, now);
+  if (!bindingEnabled(env)) {
+    // Nothing configured at all is the ordinary off state, and it answers the
+    // way it always has. A configured window that has closed says so, because
+    // the owner reading it is the one who asked for the window.
+    if (!parseCanaryWindow(env)) throw new SellerBindingError('binding_disabled');
+    if (!canary) throw new SellerBindingError('canary_expired');
+    if (typeof canaryKey !== 'string' || !/^[0-9a-f]{64}$/.test(canaryKey)) {
+      throw new SellerBindingError('canary_invalid');
+    }
+  }
   spendBindingAttempt('mint', actorEmail, now);
   await ensureSellerBindingSchema(db);
 
@@ -200,6 +348,27 @@ export async function createSellerBindingChallenge(
   if (stores.length === 0) throw new SellerBindingError('store_unavailable');
   if (stores.length > 1) throw new SellerBindingError('store_ambiguous');
   const store = stores[0];
+
+  if (canary) {
+    // The organization goes into the digest, and it is the one the database
+    // just named — not one the caller could steer towards. A key minted for
+    // this ceremony therefore cannot be spent against a store that appears
+    // later, and a grant cannot be re-pointed by editing the deployment.
+    const key = typeof canaryKey === 'string' ? canaryKey : '';
+    if (!sameDigest(await canaryDigest(key, store.org_id, canary), canary.digest)) {
+      throw new SellerBindingError('canary_invalid');
+    }
+    // Single-use, and durable enough to survive the isolate that served the
+    // first attempt. Every challenge ever minted for this organization counts,
+    // redeemed or expired alike, so a ceremony cannot be repeated by waiting
+    // for its own code to lapse.
+    const minted = await db.prepare(
+      `SELECT COUNT(*) AS n FROM seller_identity_binding_challenges WHERE org_id = ?`,
+    ).bind(store.org_id).first<{ n: number }>();
+    if (Number(minted?.n ?? 0) !== canary.expectedChallenges) {
+      throw new SellerBindingError('canary_consumed');
+    }
+  }
 
   const nowIso = now.toISOString();
   // At most one live challenge per organization: two outstanding secrets means
@@ -258,7 +427,7 @@ export async function inspectSellerBindingChallenge(
   rawChallenge: unknown,
   now: Date,
 ): Promise<InspectedChallenge> {
-  if (!bindingEnabled(env)) throw new SellerBindingError('binding_disabled');
+  if (!bindingCeremonyOpen(env, now)) throw new SellerBindingError('binding_disabled');
   // Its own budget. Sharing one with redeem would let a look-up spend the
   // attempts the actual binding needs.
   spendBindingAttempt('inspect', identityId, now);
@@ -315,7 +484,7 @@ export async function redeemSellerBindingChallenge(
   requestId: string,
   now: Date,
 ): Promise<BindingResult> {
-  if (!bindingEnabled(env)) throw new SellerBindingError('binding_disabled');
+  if (!bindingCeremonyOpen(env, now)) throw new SellerBindingError('binding_disabled');
   spendBindingAttempt('redeem', identityId, now);
   if (typeof rawChallenge !== 'string' || !/^[0-9a-f]{64}$/.test(rawChallenge)) {
     throw new SellerBindingError('challenge_invalid');

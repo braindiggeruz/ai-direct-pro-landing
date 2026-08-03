@@ -181,20 +181,24 @@ export const ownerApi = {
   /**
    * Mint the one-time code that lets a Telegram account claim seller authority.
    *
-   * Takes no arguments on purpose. The target store is resolved server-side from
-   * the owner's own authorization — there is no field here that could point the
-   * grant at a different store, because there is no field here at all.
+   * The only argument is the canary key, and it still names nothing: the target
+   * store is resolved server-side from the owner's own authorization, so there
+   * is no field here that could point the grant at a different store. The key
+   * is the operator proving this is the one ceremony that was approved, not a
+   * selector — it is required only while the global switch is off, it is folded
+   * into a digest the server already holds, and it is not stored anywhere on
+   * this side.
    *
    * The response carries the raw code exactly once. It is never written down by
    * us: the table holds its SHA-256, so nothing can hand it back afterwards.
    */
-  createSellerBindingChallenge: () =>
+  createSellerBindingChallenge: (canary?: string) =>
     call<{
       challenge: string;
       expiresAt: string;
       storeName: string;
       instructions: string;
-    }>('POST', '/api/admin/seller-binding/challenge'),
+    }>('POST', '/api/admin/seller-binding/challenge', canary ? { canary } : undefined),
 
   setPilot: (
     storeId: string,

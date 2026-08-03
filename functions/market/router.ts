@@ -49,7 +49,7 @@ import {
 } from '.';
 import {
   SellerBindingError,
-  bindingEnabled,
+  bindingCeremonyOpen,
   inspectSellerBindingChallenge,
   redeemSellerBindingChallenge,
 } from '../platform/admin/seller-binding';
@@ -460,7 +460,7 @@ async function bootstrapPayload(context: RequestContext) {
       // whether a person can find the screen, never what the screen may do. Both
       // binding endpoints re-read the same switch, so a client that sets this by
       // hand reaches the same 404 it would have reached anyway.
-      ownerTelegramBinding: marketFlag(context.env.MARKET_OWNER_TELEGRAM_BINDING_ENABLED),
+      ownerTelegramBinding: bindingCeremonyOpen(context.env, new Date()),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -495,7 +495,7 @@ function launchBootstrapPayload(context: RequestContext) {
       // whether a person can find the screen, never what the screen may do. Both
       // binding endpoints re-read the same switch, so a client that sets this by
       // hand reaches the same 404 it would have reached anyway.
-      ownerTelegramBinding: marketFlag(context.env.MARKET_OWNER_TELEGRAM_BINDING_ENABLED),
+      ownerTelegramBinding: bindingCeremonyOpen(context.env, new Date()),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -1349,8 +1349,11 @@ async function bindingCommands(context: RequestContext): Promise<Response | null
     return null;
   }
   if (request.method !== 'POST') return null;
-  // Off, the route answers exactly as an unknown path does.
-  if (!bindingEnabled(env)) return null;
+  // Off, the route answers exactly as an unknown path does. Open covers both
+  // the global switch and an owner-only canary window; neither of them lets a
+  // caller in on its own, because what is behind this door is a challenge that
+  // has to be held, not a permission that has to be granted.
+  if (!bindingCeremonyOpen(env, new Date())) return null;
   if (!env.GPTBOT_DRAFTS_DB) throw new MarketHttpError('storefront_unavailable', 503);
   // A challenge is 32 random bytes; guessing is not a threat, but grinding the
   // endpoint should still cost something.

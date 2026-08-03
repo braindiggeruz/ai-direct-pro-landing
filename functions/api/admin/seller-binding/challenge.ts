@@ -15,15 +15,29 @@
  * wrong one.
  */
 import type { Env } from '../../../_types';
-import { ownerError, ownerJson, withOwnerRole, methodNotAllowed } from '../../../platform/admin/http';
+import {
+  ownerError,
+  ownerJson,
+  readOwnerBody,
+  withOwnerRole,
+  methodNotAllowed,
+} from '../../../platform/admin/http';
 import {
   SellerBindingError,
   bindingEnabled,
   createSellerBindingChallenge,
+  parseCanaryWindow,
 } from '../../../platform/admin/seller-binding';
 
 const FAILURE_STATUS: Record<string, number> = {
   binding_disabled: 404,
+  // Told apart for the owner standing in front of the console, who is the only
+  // caller that can reach them: a mistyped key and a window that has already
+  // closed need different next moves, and neither answer is available to
+  // anyone without a signed owner token.
+  canary_invalid: 403,
+  canary_expired: 403,
+  canary_consumed: 403,
   store_unavailable: 409,
   // More than one active store means the assumption this rests on has stopped
   // holding. The owner is told, rather than a store being chosen for them.
@@ -34,12 +48,32 @@ const FAILURE_STATUS: Record<string, number> = {
 
 export const onRequestPost: PagesFunction<Env> = withOwnerRole(
   'platform_owner',
-  async ({ env, db, actor, requestId }) => {
-    // Off, the endpoint does not exist as far as a caller can tell. A 403 would
-    // confirm the route is real and worth coming back to.
-    if (!bindingEnabled(env)) return ownerError('not_found', requestId, 404);
+  async ({ request, env, db, actor, requestId }) => {
+    // Off and with no canary configured, the endpoint does not exist as far as
+    // a caller can tell. A 403 would confirm the route is real and worth
+    // coming back to.
+    const canaryConfigured = parseCanaryWindow(env) !== null;
+    if (!bindingEnabled(env) && !canaryConfigured) {
+      return ownerError('not_found', requestId, 404);
+    }
+    // The body is read only on the canary path, so the ordinary flag-on route
+    // keeps working exactly as it did — including for a caller that sends no
+    // body at all, which is what the console does.
+    let canaryKey: unknown;
+    if (!bindingEnabled(env)) {
+      const body = await readOwnerBody(request).catch(() => null);
+      if (body && typeof body === 'object') {
+        canaryKey = (body as Record<string, unknown>).canary;
+      }
+    }
     try {
-      const created = await createSellerBindingChallenge(env, db, actor.email, new Date());
+      const created = await createSellerBindingChallenge(
+        env,
+        db,
+        actor.email,
+        new Date(),
+        canaryKey,
+      );
       return ownerJson({
         // Shown once. The operator is expected to hand it over out of band and
         // not to paste it anywhere that keeps history.
