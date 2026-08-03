@@ -247,7 +247,7 @@ wrangler.toml                                   + MARKET_CABINET_HOME_V2
 | TypeScript functions (`tsc -p tsconfig.functions.json --noEmit`) | **0** |
 | TypeScript Mini App (`tsc -b --force`) | **0** |
 | ESLint (`functions/market functions/platform/market apps/market-mini-app/src`) | **0** |
-| CAB-1 тесты (`tests/market-cabinet-home-v2.test.ts`) | **29 / 29 PASS** |
+| CAB-1 тесты — `market-cabinet-home-v2` | **29 / 29 PASS** |
 | Соседние market-тесты (shell + auth + contract) | **34 / 34 PASS** |
 | Полный корпус (`tests/*.test.ts`) | **1220 / 1223**, 3 унаследованных |
 | Mini App build | PASS |
