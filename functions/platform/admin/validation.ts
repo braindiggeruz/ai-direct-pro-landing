@@ -22,6 +22,11 @@ export const OWNER_AUDIT_ACTIONS = [
   'pilot.activate',
   'pilot.pause',
   'automation.replay',
+  // An owner-assisted grant of seller authority to a Telegram identity, and the
+  // withdrawal that reverses it. Paired like pilot.activate/pilot.pause. Both
+  // are recorded against the store, which is the thing being granted access to.
+  'seller.bind',
+  'seller.unbind',
 ] as const;
 export type OwnerAuditAction = (typeof OWNER_AUDIT_ACTIONS)[number];
 

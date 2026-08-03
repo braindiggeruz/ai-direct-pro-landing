@@ -63,7 +63,8 @@ const DDL = [
     actor_email TEXT NOT NULL CHECK (length(actor_email) BETWEEN 1 AND 200),
     actor_role TEXT NOT NULL CHECK (actor_role IN ('platform_owner', 'support_readonly')),
     action TEXT NOT NULL CHECK (action IN (
-      'store.suspend', 'store.restore', 'pilot.activate', 'pilot.pause', 'automation.replay'
+      'store.suspend', 'store.restore', 'pilot.activate', 'pilot.pause', 'automation.replay',
+      'seller.bind', 'seller.unbind'
     )),
     target_type TEXT NOT NULL CHECK (target_type IN ('store', 'automation_job')),
     target_id TEXT NOT NULL CHECK (length(target_id) BETWEEN 1 AND 120),
