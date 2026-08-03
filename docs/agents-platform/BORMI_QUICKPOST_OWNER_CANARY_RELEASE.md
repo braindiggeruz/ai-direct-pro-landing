@@ -161,7 +161,44 @@ AUTH-1 APPLY APPROVED.
 APPLY AUDITED BINDING AND ENABLE QUICKPOST CANARY.
 ```
 
-## 10. Что не сделано
+## 10. Статус после owner approval (2026-08-03)
+
+Owner approval получен, схемная часть применена. Подробности —
+[BORMI_AUTH1_PRODUCTION_APPLY.md](BORMI_AUTH1_PRODUCTION_APPLY.md).
+
+```
+PRODUCTION_BACKUP=PASS
+LEDGER_REPAIRED_PRODUCTION=YES          (25 → 30)
+AUDIT_MIGRATION_APPLIED_PRODUCTION=YES  (6 строк сохранены, отпечаток совпал)
+CHALLENGE_MIGRATION_APPLIED_PRODUCTION=YES
+AUTH_1_CHALLENGE_CREATED=NO             ← требует admin-сессии владельца
+AUTH_1_MEMBERSHIP_WRITTEN=NO
+MARKET_OWNER_TELEGRAM_BINDING_ENABLED=true   (временное окно)
+MARKET_QUICKPOST_ENABLED=false
+```
+
+Root deployment: `fc22fdc8-12ff-4df3-8141-23f470c0c951` (d0e3a73).
+
+### Доказательство static bundle для QuickPost
+
+Проверено до включения флага, чтобы включение было одним деплоем root:
+
+```
+https://gptbot-market-mini-app.pages.dev/            → 200
+  entry  /assets/index-Bs44d9TR.js                   → 200, 316 959 B
+  lazy   ./QuickPost-D3jQqybg.js                     → 200, 13 789 B
+```
+
+Entry-бандл содержит `React.lazy(() => import('./QuickPost-D3jQqybg.js'))` для
+`QuickPost` и `QuickPostDone`. В самом чанке присутствуют draft, preview,
+category, price, photo и отсутствуют любые маркеры voice, transcription, AI
+draft и vision. Источник статика — `c092353`, то есть релиз QP-1A, к которому и
+относятся тесты `market-quickpost.test.ts`.
+
+Вывод: включение QuickPost — это изменение одного server-side флага и один root
+deploy. Передеплой статика не требуется, service worker не бампается.
+
+## 11. Что не сделано
 
 Ни `wrangler d1 migrations apply --remote`, ни `wrangler d1 execute --remote`,
 ни одной записи в production D1, ни одного challenge, ни одной привязки.
