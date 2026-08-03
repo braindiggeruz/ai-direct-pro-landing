@@ -235,6 +235,13 @@ export interface Env {
   // `sellerRead` still decides whether the store section exists at all.
   // Anything but "true" leaves the current four-tab layout in place.
   MARKET_CABINET_ENABLED?: string;
+  // The cabinet's own home screen. With the cabinet shell already on, this
+  // decides whether its root is the shipped settings list or the attention-first
+  // screen: what waits, then what you have, then everything else. Like the shell
+  // flag it is a layout switch and nothing else — it grants no read, no command
+  // and no authority, and `sellerRead` still decides whether a store section
+  // exists. Anything but "true" leaves the shipped root in place.
+  MARKET_CABINET_HOME_V2?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)

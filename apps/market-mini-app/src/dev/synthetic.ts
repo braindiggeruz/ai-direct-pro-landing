@@ -162,7 +162,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
         navigation: ['home', 'search', 'publish', 'cabinet'],
         sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true },
+        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true },
         storefront: { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
@@ -182,7 +182,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
       navigation: ['home', 'search', 'publish', 'cabinet'],
       sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true },
+      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true },
       storefront: { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };
@@ -268,6 +268,11 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
   } else if (path === '/checkout' && method === 'POST') {
     const product = products.find((item) => item.id === body.productId)!;
     checkout = checkoutBase(product); result = checkout;
+  } else if (path === '/checkout/active') {
+    // Ahead of the step handlers below, which match every other /checkout/ path.
+    result = { checkout };
+  } else if (path === '/handoffs/active') {
+    result = { handoff: handoffs.find((item) => item.status === 'open') ?? null };
   } else if (path.startsWith('/checkout/') && checkout) {
     const order = checkout.order;
     if (path === '/checkout/quantity') { order.quantity = Number(body.quantity); order.totalMinor = order.quantity * order.unitPriceMinor; checkout.state = 'awaiting_name'; }

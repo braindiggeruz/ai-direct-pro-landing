@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MarketApiError, marketApi, voiceSearch } from '../lib/api';
+import { SELLER_START_URL } from '../lib/bot-link';
 import { demoProductImage } from '../lib/demo-product-media';
 import { formatPrice, labelForStatus, localizeCategory, t } from '../lib/i18n';
 import {
@@ -56,11 +57,23 @@ interface BuyerAppProps {
    * server without touching this build.
    */
   cabinetEnabled: boolean;
+  /**
+   * Server-reported cabinet root. With it on, "Подать" stops being a screen and
+   * becomes a sheet over whichever tab the person was already looking at.
+   */
+  cabinetHomeV2: boolean;
+  /**
+   * The tab list the server reported for this shell. A presentation hint: it can
+   * only reorder destinations this build already carries, it can never add one,
+   * and it grants nothing. Anything unexpected falls back to the shipped order.
+   */
+  navigation: readonly string[];
   /** Server-granted seller authority; decides only whether the cabinet shows a store section. */
   sellerAvailable: boolean;
   sellerCommands: boolean;
   mediaUpload: boolean;
   userName: string;
+  buildId: string;
   /** Server-reported: an order left half-filled and a question still open. */
   activeCheckout: boolean;
   activeHandoff: boolean;
@@ -192,7 +205,11 @@ function CheckoutFlow({
   });
   const cancel = useMutation({
     mutationFn: () => marketApi.post<{ checkout: CheckoutSnapshot | null }>('/checkout/cancel'),
-    onSuccess: () => onClose(),
+    onSuccess: () => {
+      // Nothing is waiting any more, so the cabinet must stop saying it is.
+      void queryClient.invalidateQueries({ queryKey: ['bootstrap'] });
+      onClose();
+    },
   });
   const state = snapshot?.state;
   const order = snapshot?.order;
@@ -221,7 +238,7 @@ function CheckoutFlow({
     mutation.mutate({ path: step.path, body: { [step.key]: normalized } });
   };
   return (
-    <Modal open={Boolean(product && snapshot)} title={t(locale, 'checkout')} onClose={onClose} closeLabel={t(locale, 'close')} sheet>
+    <Modal open={Boolean(snapshot)} title={t(locale, 'checkout')} onClose={onClose} closeLabel={t(locale, 'close')} sheet>
       {snapshot?.outcome === 'placed' ? <StateView icon="check" title={t(locale, 'orderCreated')} body={t(locale, 'orderCreatedBody')} action={<Button onClick={onClose}>{t(locale, 'close')}</Button>} /> : <div className="stack">
         <div className="checkout-progress" role="progressbar" aria-label={t(locale, 'checkoutStep')} aria-valuemin={1} aria-valuemax={checkoutStates.length} aria-valuenow={progressStep + 1}>
           <div className="row row--between"><strong>{t(locale, 'checkoutStep')}</strong><span>{progressStep + 1}/{checkoutStates.length}</span></div>
@@ -256,13 +273,19 @@ function CheckoutFlow({
 }
 
 function AskSeller({ product, locale, onClose }: { product: Product | null; locale: Locale; onClose: () => void }) {
+  const queryClient = useQueryClient();
   const [question, setQuestion] = useState('');
   const mutation = useMutation({
     mutationFn: () => marketApi.post<{ handoff: Handoff }>('/handoffs', {
       reason: 'buyer_requested_human',
       question: `${product?.name}: ${question.trim()}`,
     }),
-    onSuccess: () => haptic('success'),
+    onSuccess: () => {
+      haptic('success');
+      // The question is now open. Re-reading the counters is what puts it on the
+      // cabinet in this session rather than in the next one.
+      void queryClient.invalidateQueries({ queryKey: ['bootstrap'] });
+    },
   });
   return <Modal open={Boolean(product)} title={t(locale, 'askSeller')} onClose={onClose} closeLabel={t(locale, 'close')} sheet>
     {mutation.isSuccess ? <StateView icon="check" title={t(locale, 'handoffOpen')} action={<Button onClick={onClose}>{t(locale, 'close')}</Button>} /> : <form className="stack" onSubmit={(event) => { event.preventDefault(); if (question.trim()) mutation.mutate(); }}>
@@ -276,15 +299,71 @@ function AskSeller({ product, locale, onClose }: { product: Product | null; loca
   </Modal>;
 }
 
+/**
+ * What "Подать" actually offers.
+ *
+ * Two branches, and neither is allowed to be a promise: selling opens the real
+ * editor when the server has granted the commands and the real bot onboarding
+ * when it has not, and "Ищу" opens the search that exists today rather than a
+ * form for a request nothing can yet receive.
+ */
+function CreateSheet({
+  open, locale, canCreateProduct, onClose, onSell, onWanted,
+}: {
+  open: boolean;
+  locale: Locale;
+  canCreateProduct: boolean;
+  onClose: () => void;
+  onSell: () => void;
+  onWanted: () => void;
+}) {
+  return <Modal open={open} title={t(locale, 'createTitle')} onClose={onClose} closeLabel={t(locale, 'close')} sheet>
+    <div className="create-list">
+      {canCreateProduct ? <button type="button" className="create-option" onClick={onSell}>
+        <span className="create-option__icon"><Icon name="products" size={22}/></span>
+        <span className="create-option__text">
+          <strong>{t(locale, 'createSell')}</strong>
+          <small>{t(locale, 'createSellHint')}</small>
+        </span>
+        <Icon name="chevron" size={18}/>
+      </button> : SELLER_START_URL ? <a
+        className="create-option"
+        href={SELLER_START_URL}
+        target="_blank"
+        rel="noreferrer"
+        onClick={onClose}
+      >
+        <span className="create-option__icon"><Icon name="products" size={22}/></span>
+        <span className="create-option__text">
+          <strong>{t(locale, 'createSellViaBot')}</strong>
+          <small>{t(locale, 'createSellViaBotHint')}</small>
+        </span>
+        <Icon name="chevron" size={18}/>
+      </a> : null}
+      <button type="button" className="create-option" onClick={onWanted}>
+        <span className="create-option__icon"><Icon name="search" size={22}/></span>
+        <span className="create-option__text">
+          <strong>{t(locale, 'createWanted')}</strong>
+          <small>{t(locale, 'createWantedHint')}</small>
+        </span>
+        <Icon name="chevron" size={18}/>
+      </button>
+    </div>
+  </Modal>;
+}
+
 export function BuyerApp({
   locale,
   initialHome,
   voiceEnabled,
   cabinetEnabled,
+  cabinetHomeV2,
+  navigation,
   sellerAvailable,
   sellerCommands,
   mediaUpload,
   userName,
+  buildId,
   activeCheckout,
   activeHandoff,
   theme,
@@ -313,6 +392,10 @@ export function BuyerApp({
   // The seller workspace inside the cabinet brings its own bottom bar, so the
   // shell stands down rather than stacking a second one on the same edge.
   const [workspace, setWorkspace] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
+  // Carried into the cabinet so "Продать" lands in the editor that already
+  // exists rather than in a second copy of it.
+  const [sellIntent, setSellIntent] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const recorderRef = useRef<VoiceRecorder | null>(null);
 
@@ -369,7 +452,31 @@ export function BuyerApp({
   });
   const startCheckout = useMutation({
     mutationFn: (product: Product) => marketApi.post<CheckoutSnapshot>('/checkout', { productId: product.id }),
-    onSuccess: (snapshot, product) => { setSelected(null); setCheckoutProduct(product); setCheckout(snapshot); },
+    onSuccess: (snapshot, product) => {
+      setSelected(null); setCheckoutProduct(product); setCheckout(snapshot);
+      // An order now exists half-filled. The counters the cabinet reads were
+      // answered at launch, so without this the row that offers to finish it
+      // only appears on the next cold start.
+      void client.invalidateQueries({ queryKey: ['bootstrap'] });
+    },
+  });
+  // Reopening a half-filled order. The snapshot carries the product name and the
+  // unit price it was started at, so the sheet has everything it needs without
+  // the catalog row the first pass happened to come from.
+  const resumeCheckout = useMutation({
+    mutationFn: () => marketApi.get<{ checkout: CheckoutSnapshot | null }>('/checkout/active'),
+    onSuccess: (result) => {
+      if (!result.checkout) {
+        // The counter that put the row on the cabinet came from the launch
+        // payload and the order has been finished or cancelled since. Re-reading
+        // the counters takes the row away instead of leaving a control that
+        // answers a press with nothing.
+        void client.invalidateQueries({ queryKey: ['bootstrap'] });
+        return;
+      }
+      setCheckoutProduct(null);
+      setCheckout(result.checkout);
+    },
   });
 
   const voiceMutation = useMutation<VoiceSearchResult, Error, VoiceRecording>({
@@ -526,7 +633,7 @@ export function BuyerApp({
   // Four tabs as shipped, or the cabinet shell. Comparison leaves the bar in the
   // cabinet layout but keeps its screen: the tray that appears once something is
   // being compared is what opens it.
-  const tabs = cabinetEnabled
+  const defaultTabs = cabinetEnabled
     ? ([
         ['home', 'home', 'home'], ['search', 'search', 'search'],
         ['publish', 'plus', 'postAd'], ['cabinet', 'cabinet', 'cabinet'],
@@ -535,6 +642,49 @@ export function BuyerApp({
         ['home', 'home', 'home'], ['search', 'search', 'search'],
         ['compare', 'compare', 'compare'], ['orders', 'orders', 'orders'],
       ] as const);
+  // `bootstrap.navigation` was computed by the server and read by nobody. It is
+  // honoured here as what it actually is — the order of the bar — and nothing
+  // more: an entry this build does not know is dropped, and if what is left is
+  // not the same set, the shipped order stands. It cannot add a destination and
+  // it cannot grant one.
+  const hinted = navigation
+    .map((name) => defaultTabs.find((tab) => tab[0] === name))
+    .filter((tab): tab is (typeof defaultTabs)[number] => Boolean(tab));
+  const tabs = hinted.length === defaultTabs.length ? hinted : defaultTabs;
+
+  // One badge for the whole bar, and only for the two things the server already
+  // counts: an order left half-filled and a question still waiting. Nothing that
+  // is merely housekeeping earns it.
+  const waiting = (activeCheckout ? 1 : 0) + (activeHandoff ? 1 : 0);
+  const badgeFor = (destination: BuyerView) =>
+    destination === 'cabinet' && cabinetEnabled && waiting > 0 ? waiting : 0;
+
+  const openCreate = () => {
+    haptic('tap');
+    setCreateOpen(true);
+  };
+  const goTab = (destination: BuyerView) => {
+    // "Подать" is an action, not a place: the sheet opens over whatever the
+    // person was reading and the current tab keeps its aria-current.
+    if (destination === 'publish' && cabinetHomeV2) {
+      openCreate();
+      return;
+    }
+    setView(destination);
+  };
+  const sellFromSheet = () => {
+    setCreateOpen(false);
+    setSellIntent(true);
+    setView('cabinet');
+  };
+  const wantedFromSheet = () => {
+    setCreateOpen(false);
+    setView('search');
+    // The sheet hands focus back to whatever opened it as it unmounts, which
+    // would take the caret straight out of the field again. The field is claimed
+    // after that has happened, not before.
+    globalThis.setTimeout(() => searchRef.current?.focus(), 0);
+  };
 
   return <>
     <main id="main-content" className="page">
@@ -623,7 +773,7 @@ export function BuyerApp({
         <BuyerOrdersList locale={locale} onSearch={openSearch} />
       </> : null}
 
-      {view === 'publish' ? <>
+      {view === 'publish' && !cabinetHomeV2 ? <>
         <section className="hero"><h1>{t(locale, 'postAd')}</h1></section>
         <StateView
           icon="plus"
@@ -637,13 +787,19 @@ export function BuyerApp({
         <CabinetApp
           locale={locale}
           userName={userName}
+          buildId={buildId}
           sellerAvailable={sellerAvailable}
           sellerCommands={sellerCommands}
           mediaUpload={mediaUpload}
+          homeV2={cabinetHomeV2}
+          sellIntent={sellIntent}
+          onSellIntentHandled={() => setSellIntent(false)}
           activeCheckout={activeCheckout}
           activeHandoff={activeHandoff}
           theme={theme}
           onSearch={openSearch}
+          onCreate={openCreate}
+          onResumeCheckout={() => resumeCheckout.mutate()}
           onTheme={onTheme}
           onLocale={onLocale}
           onWorkspace={setWorkspace}
@@ -657,11 +813,38 @@ export function BuyerApp({
     </aside> : null}
 
     {workspace ? null : <nav className="bottom-nav" aria-label={t(locale, 'appName')}>
-      {tabs.map(([destination, icon, label]) => <button key={destination} className={destination === 'publish' ? 'bottom-nav__publish' : undefined} onClick={() => setView(destination)} aria-current={view === destination ? 'page' : undefined}><span className="bottom-nav__icon"><Icon name={icon}/>{destination === 'compare' && comparisonItems.length ? <small>{comparisonItems.length}</small> : null}</span><span>{t(locale, label)}</span></button>)}
+      {tabs.map(([destination, icon, label]) => {
+        const badge = badgeFor(destination);
+        const sheet = destination === 'publish' && cabinetHomeV2;
+        return <button
+          key={destination}
+          className={destination === 'publish' ? 'bottom-nav__publish' : undefined}
+          onClick={() => goTab(destination)}
+          aria-haspopup={sheet ? 'dialog' : undefined}
+          aria-expanded={sheet ? createOpen : undefined}
+          aria-current={!sheet && view === destination ? 'page' : undefined}
+          aria-label={badge ? `${t(locale, label)}: ${t(locale, 'attentionTitle')}, ${badge}` : undefined}
+        >
+          <span className="bottom-nav__icon">
+            <Icon name={icon}/>
+            {destination === 'compare' && comparisonItems.length ? <small>{comparisonItems.length}</small> : null}
+            {badge ? <small>{badge > 9 ? '9+' : badge}</small> : null}
+          </span>
+          <span>{t(locale, label)}</span>
+        </button>;
+      })}
     </nav>}
 
     <ProductDetail product={selected} locale={locale} onClose={() => setSelected(null)} onCheckout={openCheckout} onQuestion={(product) => { setSelected(null); setQuestionProduct(product); }} onCompare={(product) => addCompare.mutate(product.id)} />
-    <CheckoutFlow key={checkoutProduct?.id ?? 'closed'} locale={locale} product={checkoutProduct} initial={checkout} onClose={() => { setCheckout(null); setCheckoutProduct(null); }} />
+    <CheckoutFlow key={checkoutProduct?.id ?? checkout?.order.id ?? 'closed'} locale={locale} product={checkoutProduct} initial={checkout} onClose={() => { setCheckout(null); setCheckoutProduct(null); }} />
+    <CreateSheet
+      open={createOpen}
+      locale={locale}
+      canCreateProduct={sellerCommands}
+      onClose={() => setCreateOpen(false)}
+      onSell={sellFromSheet}
+      onWanted={wantedFromSheet}
+    />
     <AskSeller locale={locale} product={questionProduct} onClose={() => setQuestionProduct(null)} />
     <Modal open={filtersOpen} title={t(locale, 'filters')} onClose={() => setFiltersOpen(false)} closeLabel={t(locale, 'close')} sheet>
       <div className="stack">

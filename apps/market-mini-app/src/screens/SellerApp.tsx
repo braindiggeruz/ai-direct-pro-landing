@@ -11,7 +11,14 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { MarketApiError, compressImage, marketApi, uploadMedia } from '../lib/api';
-import { formatDate, formatPrice, labelForStatus, t } from '../lib/i18n';
+import {
+  formatDate,
+  formatPrice,
+  labelForHandoffReason,
+  labelForHandoffStatus,
+  labelForStatus,
+  t,
+} from '../lib/i18n';
 import type { CopyKey } from '../lib/i18n';
 import { haptic } from '../platform/telegram';
 import type {
@@ -29,6 +36,7 @@ import {
   AsyncImage,
   Badge,
   Button,
+  ConfirmDialog,
   ErrorView,
   Field,
   Icon,
@@ -53,6 +61,8 @@ interface SellerAppProps {
   onBuyer: () => void;
   /** Where leaving the workspace actually lands. Defaults to the buyer app. */
   returnLabel?: string;
+  /** Opens the products screen with a blank editor, for the create sheet. */
+  startEditor?: boolean;
 }
 
 function orderTone(status: SellerOrder['status']) {
@@ -177,6 +187,14 @@ function TodayScreen({
     return <ErrorView locale={locale} retry={() => void overview.refetch()} />;
   }
   const { attention, stats, store } = overview.data;
+  // A day with nothing placed is not a scoreboard reading "0" — it is a card the
+  // screen does not need. Only counts the store actually earned are shown, and
+  // when none were, the whole block is absent.
+  const metrics = ([
+    ['placedCount', stats.exact.ordersPlaced],
+    ['confirmed', stats.exact.ordersConfirmed],
+    ['published', stats.exact.productsPublished],
+  ] as const).filter(([, value]) => value > 0);
   const quiet = attention.newOrders.count === 0
     && attention.agingOrders.count === 0
     && attention.openQuestions.count === 0
@@ -250,7 +268,7 @@ function TodayScreen({
         {attention.openQuestions.items.map((item) => <li key={item.id}>
           <button className="list-item list-item--button" onClick={() => onQuestion(item.id)}>
             <div className="row row--between">
-              <strong>{item.reason}</strong>
+              <strong>{labelForHandoffReason(locale, item.reason)}</strong>
               <span className="age">{formatAge(item.ageMinutes, locale)}</span>
             </div>
           </button>
@@ -314,14 +332,14 @@ function TodayScreen({
       </ul>
     </AttentionCard>
 
-    <section className="section">
+    {metrics.length ? <section className="section">
       <SectionHeader title={t(locale, 'today')} />
       <div className="metric-grid">
-        <div className="metric"><strong>{stats.exact.ordersPlaced}</strong><span>{t(locale, 'placedCount')}</span></div>
-        <div className="metric"><strong>{stats.exact.ordersConfirmed}</strong><span>{t(locale, 'confirmed')}</span></div>
-        <div className="metric"><strong>{stats.exact.productsPublished}</strong><span>{t(locale, 'published')}</span></div>
+        {metrics.map(([label, value]) => <div className="metric" key={label}>
+          <strong>{value}</strong><span>{t(locale, label)}</span>
+        </div>)}
       </div>
-    </section>
+    </section> : null}
   </>;
 }
 
@@ -506,7 +524,12 @@ function HandoffModal({
     {detail.isLoading ? <SkeletonList count={1} /> : detail.isError || !detail.data
       ? <ErrorView locale={locale} retry={() => void detail.refetch()} />
       : <div className="stack">
-        <Badge tone={detail.data.status === 'open' ? 'warning' : 'positive'}>{detail.data.status}</Badge>
+        <div className="row row--between">
+          <strong>{labelForHandoffReason(locale, detail.data.reason)}</strong>
+          <Badge tone={detail.data.status === 'open' ? 'warning' : 'positive'}>
+            {labelForHandoffStatus(locale, detail.data.status)}
+          </Badge>
+        </div>
         <blockquote className="question-quote">{detail.data.questionText ?? '—'}</blockquote>
         {detail.data.replyText ? <div className="notice"><Icon name="check" /><span>{detail.data.replyText}</span></div> : null}
         {!commands ? <div className="notice"><Icon name="warning" size={19} /><span>{t(locale, 'commandsOff')}</span></div> : null}
@@ -952,6 +975,10 @@ function ProductsScreen({
 }) {
   const client = useQueryClient();
   const [term, setTerm] = useState('');
+  // Archiving is one way: the domain refuses every transition out of `archived`
+  // (`transitionProduct` throws `product_archived`), so this is the one action
+  // here that has to be asked about before it is done.
+  const [archiving, setArchiving] = useState<SellerProduct | null>(null);
   const products = useQuery<{ items: SellerProduct[] }>({
     queryKey: ['seller-products', filter],
     queryFn: ({ signal }) => marketApi.get(
@@ -969,11 +996,13 @@ function ProductsScreen({
     ),
     onSuccess: () => {
       haptic('success');
+      setArchiving(null);
       void client.invalidateQueries({ queryKey: ['seller-products'] });
       void client.invalidateQueries({ queryKey: ['seller-overview'] });
     },
     onError: (error) => {
       haptic('error');
+      setArchiving(null);
       if (isConflict(error)) void products.refetch();
     },
   });
@@ -1010,7 +1039,12 @@ function ProductsScreen({
     {products.isLoading ? <SkeletonList />
       : products.isError ? <ErrorView locale={locale} retry={() => void products.refetch()} />
         : visible.length === 0
-          ? <StateView icon="products" title={term ? t(locale, 'nothingFound') : t(locale, 'noWork')} />
+          ? <StateView
+            icon="products"
+            title={term
+              ? t(locale, 'nothingFound')
+              : t(locale, filter === 'archived' ? 'archiveEmpty' : 'noWork')}
+          />
           : <ul className="list">
             {visible.map((product) => {
               const weak = !product.description
@@ -1043,10 +1077,26 @@ function ProductsScreen({
                       onClick={() => transition.mutate({ product, action: 'unpublish' })}
                     >{t(locale, 'unpublish')}</Button>
                       : null}
+                  {product.status === 'archived' ? null : <Button
+                    variant="ghost"
+                    onClick={() => setArchiving(product)}
+                  >{t(locale, 'archive')}</Button>}
                 </div> : null}
               </li>;
             })}
           </ul>}
+    <ConfirmDialog
+      open={Boolean(archiving)}
+      title={t(locale, 'archiveConfirmTitle')}
+      body={t(locale, 'archiveConfirmBody')}
+      confirmLabel={t(locale, 'archive')}
+      cancelLabel={t(locale, 'cancel')}
+      pending={transition.isPending}
+      onConfirm={() => {
+        if (archiving) transition.mutate({ product: archiving, action: 'archive' });
+      }}
+      onCancel={() => setArchiving(null)}
+    />
   </>;
 }
 
@@ -1086,15 +1136,17 @@ function InventoryRow({
   </li>;
 }
 
-export function SellerApp({ locale, commands, mediaUpload, onBuyer, returnLabel }: SellerAppProps) {
+export function SellerApp({
+  locale, commands, mediaUpload, onBuyer, returnLabel, startEditor,
+}: SellerAppProps) {
   const client = useQueryClient();
-  const [view, setView] = useState<SellerView>('today');
+  const [view, setView] = useState<SellerView>(startEditor ? 'products' : 'today');
   const [orderFilter, setOrderFilter] = useState<OrderFilter>('all');
   const [productFilter, setProductFilter] = useState<ProductFilter>('published');
   const [orderId, setOrderId] = useState<string | null>(null);
   const [handoffId, setHandoffId] = useState<string | null>(null);
   const [editor, setEditor] = useState<{ open: boolean; product: SellerProduct | null }>({
-    open: false, product: null,
+    open: Boolean(startEditor), product: null,
   });
 
   const handoffs = useQuery<{ items: Handoff[] }>({
@@ -1175,8 +1227,10 @@ export function SellerApp({ locale, commands, mediaUpload, onBuyer, returnLabel 
                 {handoffs.data.items.map((item) => <li key={item.id}>
                   <button className="list-item list-item--button" onClick={() => setHandoffId(item.id)}>
                     <div className="row row--between">
-                      <strong>{item.reason}</strong>
-                      <Badge tone={item.status === 'open' ? 'warning' : 'positive'}>{item.status}</Badge>
+                      <strong>{labelForHandoffReason(locale, item.reason)}</strong>
+                      <Badge tone={item.status === 'open' ? 'warning' : 'positive'}>
+                        {labelForHandoffStatus(locale, item.status)}
+                      </Badge>
                     </div>
                     <small className="muted">{formatDate(item.createdAt, locale)}</small>
                   </button>

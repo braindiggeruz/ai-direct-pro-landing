@@ -130,3 +130,11 @@ MARKET_SELLER_MEDIA_UPLOAD_ENABLED = "true"
 # its own "Заказы" tab, so switching back is this line plus a root deploy — the
 # static bundle carries both layouts and does not have to be rebuilt.
 MARKET_CABINET_ENABLED = "true"
+# The cabinet's own root screen. With the shell above already on, this decides
+# whether opening "Кабинет" lands on the shipped settings list or on the screen
+# that leads with what is actually waiting — an unfinished checkout, a question
+# still open, the store's own exceptions — and only then lists what the person
+# has. Same class of switch as the line above: a layout, never a permission. The
+# static bundle carries both roots, so turning it off is this line plus a root
+# deploy and no rebuild.
+MARKET_CABINET_HOME_V2 = "true"

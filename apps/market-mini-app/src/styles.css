@@ -281,9 +281,6 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .cabinet-row__note { color: var(--action-primary); font-size: .78rem; font-style: normal; font-weight: 760; }
 .cabinet-choice { display: grid; gap: 9px; padding: 13px 14px; border: 1px solid var(--border-default); border-radius: 17px; background: var(--surface-raised); box-shadow: 0 4px 15px rgb(28 20 56 / 4%); }
 .cabinet-choice__label { font-weight: 760; }
-.segmented { display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: var(--surface-soft); }
-.segmented button { min-width: 0; min-height: 44px; flex: 1; overflow: hidden; padding: 8px 6px; border: 0; border-radius: 11px; background: transparent; color: var(--text-secondary); font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
-.segmented button[aria-pressed="true"] { background: var(--surface-raised); box-shadow: 0 2px 8px rgb(29 20 61 / 10%); color: var(--action-primary); font-weight: 780; }
 .cabinet-note { margin: 0; padding: 0 2px; color: var(--text-secondary); font-size: .78rem; }
 .timing-list { display: grid; gap: 5px; margin: 0; }
 .timing-list > div { display: flex; justify-content: space-between; gap: 12px; }
@@ -291,15 +288,57 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .timing-list dd { margin: 0; font-size: .82rem; font-variant-numeric: tabular-nums; font-weight: 760; }
 .theme-button { color: var(--action-primary); }
 
+/* ── Cabinet home v2 ─────────────────────────────────────────────────────────
+   What waits, then what you have. No hero title — the active tab already says
+   where you are — and no block without something behind it. */
+.cabinet-identity { display: flex; min-height: 56px; align-items: center; gap: 11px; padding: 4px 0 2px; }
+.cabinet-identity__avatar { display: grid; width: 40px; height: 40px; flex: 0 0 auto; place-items: center; border-radius: 999px; background: color-mix(in srgb, var(--action-primary) 12%, var(--surface-raised)); color: var(--action-primary); }
+.cabinet-identity__text { display: grid; min-width: 0; gap: 1px; }
+.cabinet-identity__text strong { overflow: hidden; font-size: 1.06rem; letter-spacing: -.02em; text-overflow: ellipsis; white-space: nowrap; }
+.cabinet-identity__text small { overflow: hidden; color: var(--text-secondary); font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+.cabinet-primary { margin-top: 18px; }
+.cabinet-empty { margin: 22px 0 0; padding: 0 4px; color: var(--text-secondary); font-size: .86rem; line-height: 1.5; text-align: center; }
+.cabinet-row__count { flex: 0 0 auto; min-width: 22px; color: var(--text-secondary); font-size: .86rem; font-variant-numeric: tabular-nums; font-weight: 800; text-align: right; }
+
+.attention-list { display: grid; gap: 9px; }
+.attention-row { display: flex; width: 100%; min-height: 64px; align-items: center; gap: 11px; padding: 12px 14px; border: 1px solid var(--border-default); border-left: 4px solid var(--text-secondary); border-radius: 17px; background: var(--surface-raised); box-shadow: 0 4px 15px rgb(28 20 56 / 4%); color: var(--text-primary); text-align: left; cursor: pointer; }
+/* The stripe carries the tone and the dot repeats it, but the words on the row
+   say what happened — colour is never the only thing that does. */
+.attention-row--critical { border-left-color: var(--danger); }
+.attention-row--warning { border-left-color: var(--warning); }
+.attention-row__dot { width: 9px; height: 9px; flex: 0 0 auto; border-radius: 50%; background: currentColor; }
+.attention-row--critical .attention-row__dot { background: var(--danger); }
+.attention-row--warning .attention-row__dot { background: var(--warning); }
+.attention-row__text { display: grid; min-width: 0; flex: 1 1 auto; gap: 2px; }
+.attention-row__text strong { overflow: hidden; font-size: .96rem; text-overflow: ellipsis; white-space: nowrap; }
+.attention-row__text small { overflow: hidden; color: var(--text-secondary); font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+
+.create-list { display: grid; gap: 9px; }
+.create-option { display: flex; width: 100%; min-height: 72px; align-items: center; gap: 13px; padding: 14px; border: 1px solid var(--border-default); border-radius: 17px; background: var(--surface-raised); color: var(--text-primary); text-align: left; text-decoration: none; cursor: pointer; transition: background-color 180ms ease; }
+.create-option:active { background: var(--surface-soft); }
+.create-option__icon { display: grid; width: 44px; height: 44px; flex: 0 0 auto; place-items: center; border-radius: 14px; background: color-mix(in srgb, var(--action-primary) 11%, var(--surface-raised)); color: var(--action-primary); }
+.create-option__text { display: grid; min-width: 0; flex: 1 1 auto; gap: 2px; }
+.create-option__text strong { font-size: 1rem; }
+.create-option__text small { color: var(--text-secondary); font-size: .8rem; line-height: 1.32; }
+
 /* Seller cabinet: an exception-first home, paged queues and a full editor. */
 .hero--compact { padding: 4px 0 10px; }
 .hero--compact h1 { margin-bottom: 4px; }
 
+/* Two different controls used to answer to one class name, and the second
+   declaration silently won: the cabinet's language and theme picker inherited
+   the seller filter row's negative gutter and spilled past the card holding it.
+   They are separate now — a scrolling row of filter chips, and a fixed set of
+   equal options that stays inside its card at 320 px. */
 .segmented { display: flex; gap: 6px; margin-bottom: 12px; margin-inline: -16px; padding: 2px 16px 6px; overflow-x: auto; scrollbar-width: none; }
 .segmented::-webkit-scrollbar { display: none; }
 .segmented__item { display: inline-flex; min-height: 44px; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--border-default); border-radius: 999px; background: var(--surface-raised); color: var(--text-secondary); font-weight: 700; white-space: nowrap; cursor: pointer; }
 .segmented__item.is-active { border-color: var(--action-primary); background: var(--action-primary); color: var(--action-primary-text); }
 .segmented__count { padding: 1px 6px; border-radius: 999px; background: color-mix(in srgb, currentColor 16%, transparent); font-size: .72rem; }
+
+.segmented--choice { display: flex; gap: 4px; margin: 0; padding: 4px; overflow: visible; border-radius: 14px; background: var(--surface-soft); }
+.segmented--choice button { min-width: 0; min-height: 44px; flex: 1; overflow: hidden; padding: 8px 6px; border: 0; border-radius: 11px; background: transparent; color: var(--text-secondary); font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.segmented--choice button[aria-pressed="true"] { background: var(--surface-raised); box-shadow: 0 2px 8px rgb(29 20 61 / 10%); color: var(--action-primary); font-weight: 780; }
 
 .attention { display: grid; gap: 10px; margin-bottom: 14px; padding: 14px; border: 1px solid var(--border-default); border-left: 4px solid var(--text-secondary); border-radius: 17px; background: var(--surface-raised); box-shadow: var(--shadow-card); }
 .attention--critical { border-left-color: var(--danger); }

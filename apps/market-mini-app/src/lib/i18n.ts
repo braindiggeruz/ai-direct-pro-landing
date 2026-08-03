@@ -13,7 +13,7 @@ const copy = {
     demoLabel: 'Демо-фото · синтетический каталог',
     comparisonReady: 'Готово к сравнению',
     checkoutStep: 'Шаг оформления',
-    sentStep: 'Заявка отправлена',
+    sentStep: 'Заказ отправлен',
     confirmedStep: 'Продавец подтвердил',
     doneStep: 'Заказ выполнен',
     cancelledStep: 'Заказ отменён',
@@ -35,20 +35,20 @@ const copy = {
     compareEmpty: 'Добавьте 2–3 товара, чтобы сравнить факты.',
     noProducts: 'Подходящих товаров пока нет',
     noProductsBody: 'Измените запрос или откройте другую категорию.',
-    order: 'Оформить запрос', requestNotice: 'Это заявка продавцу, не онлайн-оплата.',
+    order: 'Оформить заказ', requestNotice: 'Это заказ у продавца, не онлайн-оплата.',
     checkout: 'Оформление', quantity: 'Количество', name: 'Имя', phone: 'Телефон',
     address: 'Адрес или ориентир', comment: 'Комментарий', optional: 'необязательно',
-    continue: 'Продолжить', skip: 'Пропустить', confirm: 'Отправить заявку', cancel: 'Отменить',
-    summary: 'Проверка заявки', total: 'Итого', priceChanged: 'Цена изменилась — проверьте сумму.',
-    orderCreated: 'Заявка отправлена', orderCreatedBody: 'Продавец получил уведомление и подтвердит заказ.',
+    continue: 'Продолжить', skip: 'Пропустить', confirm: 'Отправить заказ', cancel: 'Отменить',
+    summary: 'Проверка заказа', total: 'Итого', priceChanged: 'Цена изменилась — проверьте сумму.',
+    orderCreated: 'Заказ отправлен', orderCreatedBody: 'Продавец получил уведомление и подтвердит заказ.',
     askSeller: 'Задать вопрос продавцу', question: 'Ваш вопрос', send: 'Отправить',
     handoffOpen: 'Вопрос отправлен', handoffAnswered: 'Продавец ответил',
-    ordersEmpty: 'Заявок пока нет',
+    ordersEmpty: 'Заказов пока нет',
     cabinet: 'Кабинет',
     postAd: 'Подать',
     profile: 'Профиль',
-    myOrders: 'Мои заявки',
-    myOrdersHint: 'Заявки, которые вы отправили продавцам',
+    myOrders: 'Заказы',
+    myOrdersHint: 'Ваши заказы у продавцов',
     store: 'Магазин',
     storeWorkspace: 'Рабочее место продавца',
     storeHint: 'Заказы, вопросы, товары и остатки',
@@ -78,7 +78,7 @@ const copy = {
     placed: 'Ждёт продавца', confirmed: 'Подтверждён', done: 'Выполнен', cancelled: 'Отменён',
     sellerDashboard: 'Рабочий стол', overview: 'Обзор', sellerOrders: 'Заказы', questions: 'Вопросы',
     products: 'Товары', inventory: 'Остатки', today: 'За 24 часа',
-    placedCount: 'Новые заявки', openQuestions: 'Открытые вопросы', published: 'Опубликовано',
+    placedCount: 'Новые заказы', openQuestions: 'Открытые вопросы', published: 'Опубликовано',
     noWork: 'Сейчас нет задач', contact: 'Контакт покупателя',
     confirmOrder: 'Подтвердить', doneOrder: 'Отметить выполненным', cancelOrder: 'Отменить заказ',
     reply: 'Ответить', replyPlaceholder: 'Короткий ответ покупателю',
@@ -184,6 +184,50 @@ const copy = {
     photoFailed: 'Не удалось загрузить фото. Попробуйте ещё раз.',
     weakBadge: 'Слабая карточка',
     noStock: 'Нет остатка',
+
+    // ── Cabinet home v2 ─────────────────────────────────────────────────────
+    cabinetFallbackName: 'Ваш кабинет',
+    attentionTitle: 'Требует внимания',
+    attentionCheckout: 'Оформление не завершено',
+    attentionCheckoutHint: 'Продолжите с того же шага',
+    attentionQuestion: 'Ваш вопрос продавцу открыт',
+    attentionQuestionHint: 'Ответ придёт сюда и в бот',
+    storeTasks: 'Задачи магазина',
+    resumeCheckout: 'Продолжить оформление',
+    openQuestion: 'Открыть вопрос',
+    postAdCta: 'Подать объявление',
+    emptyCabinet: 'Здесь появится всё, что вы закажете и спросите.',
+    settingsAndHelp: 'Настройки и помощь',
+    settingsAndHelpHint: 'Язык, тема, помощь, версия',
+    appVersion: 'Версия приложения',
+    ordersTruncated: 'Показаны последние 5',
+    // ── Create sheet ────────────────────────────────────────────────────────
+    createTitle: 'Что хотите сделать?',
+    createSell: 'Продать',
+    createSellHint: 'Разместить объявление о вещи',
+    createSellViaBot: 'Продать через бота',
+    createSellViaBotHint: 'Магазин создаётся в чате с Bormi',
+    createWanted: 'Ищу',
+    createWantedHint: 'Опишите, что ищете',
+    // ── Buyer question ──────────────────────────────────────────────────────
+    myQuestion: 'Мой вопрос продавцу',
+    questionNone: 'Открытых вопросов нет',
+    questionCleared: 'Текст вопроса больше не хранится.',
+    statusOpen: 'Ждёт ответа',
+    statusAnswered: 'Продавец ответил',
+    statusClosed: 'Закрыт',
+    statusExpired: 'Срок истёк',
+    reasonUnknownIntent: 'Запрос не разобрали',
+    reasonBuyerRequestedHuman: 'Вопрос продавцу',
+    reasonCatalogNoResult: 'Не нашлось в каталоге',
+    reasonOrderQuestion: 'Вопрос по заказу',
+    reasonSellerInitiated: 'Написал продавец',
+    reasonOther: 'Обращение',
+    // ── Archive ─────────────────────────────────────────────────────────────
+    archive: 'В архив',
+    archiveConfirmTitle: 'Убрать в архив?',
+    archiveConfirmBody: 'Товар исчезнет из каталога и из поиска. Вернуть его из архива нельзя.',
+    archiveEmpty: 'В архиве пусто',
   },
   uz: {
     appName: 'Bormi',
@@ -197,7 +241,7 @@ const copy = {
     demoLabel: 'Demo suratlar · sintetik katalog',
     comparisonReady: 'Solishtirishga tayyor',
     checkoutStep: 'Rasmiylashtirish bosqichi',
-    sentStep: 'So‘rov yuborildi',
+    sentStep: 'Buyurtma yuborildi',
     confirmedStep: 'Sotuvchi tasdiqladi',
     doneStep: 'Buyurtma bajarildi',
     cancelledStep: 'Buyurtma bekor qilindi',
@@ -219,20 +263,20 @@ const copy = {
     compareEmpty: 'Faktlarni solishtirish uchun 2–3 mahsulot qo‘shing.',
     noProducts: 'Mos mahsulot topilmadi',
     noProductsBody: 'So‘rovni o‘zgartiring yoki boshqa toifani oching.',
-    order: 'So‘rov yuborish', requestNotice: 'Bu sotuvchiga so‘rov, onlayn to‘lov emas.',
+    order: 'Buyurtma berish', requestNotice: 'Bu sotuvchiga buyurtma, onlayn to‘lov emas.',
     checkout: 'Rasmiylashtirish', quantity: 'Miqdor', name: 'Ism', phone: 'Telefon',
     address: 'Manzil yoki mo‘ljal', comment: 'Izoh', optional: 'ixtiyoriy',
-    continue: 'Davom etish', skip: 'O‘tkazib yuborish', confirm: 'So‘rovni yuborish', cancel: 'Bekor qilish',
-    summary: 'So‘rovni tekshirish', total: 'Jami', priceChanged: 'Narx o‘zgardi — summani tekshiring.',
-    orderCreated: 'So‘rov yuborildi', orderCreatedBody: 'Sotuvchi xabarnoma oldi va buyurtmani tasdiqlaydi.',
+    continue: 'Davom etish', skip: 'O‘tkazib yuborish', confirm: 'Buyurtmani yuborish', cancel: 'Bekor qilish',
+    summary: 'Buyurtmani tekshirish', total: 'Jami', priceChanged: 'Narx o‘zgardi — summani tekshiring.',
+    orderCreated: 'Buyurtma yuborildi', orderCreatedBody: 'Sotuvchi xabarnoma oldi va buyurtmani tasdiqlaydi.',
     askSeller: 'Sotuvchiga savol', question: 'Savolingiz', send: 'Yuborish',
     handoffOpen: 'Savol yuborildi', handoffAnswered: 'Sotuvchi javob berdi',
-    ordersEmpty: 'Hozircha so‘rovlar yo‘q',
+    ordersEmpty: 'Hozircha buyurtmalar yo‘q',
     cabinet: 'Kabinet',
     postAd: 'E’lon',
     profile: 'Profil',
-    myOrders: 'Mening so‘rovlarim',
-    myOrdersHint: 'Siz sotuvchilarga yuborgan so‘rovlar',
+    myOrders: 'Buyurtmalarim',
+    myOrdersHint: 'Sotuvchilardagi buyurtmalaringiz',
     store: 'Do‘kon',
     storeWorkspace: 'Sotuvchi ish joyi',
     storeHint: 'Buyurtmalar, savollar, mahsulotlar va qoldiq',
@@ -262,7 +306,7 @@ const copy = {
     placed: 'Sotuvchini kutmoqda', confirmed: 'Tasdiqlangan', done: 'Bajarilgan', cancelled: 'Bekor qilingan',
     sellerDashboard: 'Ish stoli', overview: 'Ko‘rib chiqish', sellerOrders: 'Buyurtmalar', questions: 'Savollar',
     products: 'Mahsulotlar', inventory: 'Qoldiq', today: '24 soat ichida',
-    placedCount: 'Yangi so‘rovlar', openQuestions: 'Ochiq savollar', published: 'E’lon qilingan',
+    placedCount: 'Yangi buyurtmalar', openQuestions: 'Ochiq savollar', published: 'E’lon qilingan',
     noWork: 'Hozir vazifalar yo‘q', contact: 'Xaridor kontakti',
     confirmOrder: 'Tasdiqlash', doneOrder: 'Bajarildi deb belgilash', cancelOrder: 'Buyurtmani bekor qilish',
     reply: 'Javob berish', replyPlaceholder: 'Xaridorga qisqa javob',
@@ -368,6 +412,50 @@ const copy = {
     photoFailed: 'Suratni yuklab bo‘lmadi. Qayta urinib ko‘ring.',
     weakBadge: 'Zaif kartochka',
     noStock: 'Qoldiq yo‘q',
+
+    // ── Cabinet home v2 ─────────────────────────────────────────────────────
+    cabinetFallbackName: 'Kabinet',
+    attentionTitle: 'E’tibor kerak',
+    attentionCheckout: 'Rasmiylashtirish tugallanmagan',
+    attentionCheckoutHint: 'O‘sha bosqichdan davom eting',
+    attentionQuestion: 'Sotuvchiga savolingiz ochiq',
+    attentionQuestionHint: 'Javob shu yerga va botga keladi',
+    storeTasks: 'Do‘kon vazifalari',
+    resumeCheckout: 'Rasmiylashtirishni davom ettirish',
+    openQuestion: 'Savolni ochish',
+    postAdCta: 'E’lon joylash',
+    emptyCabinet: 'Bu yerda buyurtmalaringiz va savollaringiz paydo bo‘ladi.',
+    settingsAndHelp: 'Sozlamalar va yordam',
+    settingsAndHelpHint: 'Til, mavzu, yordam, versiya',
+    appVersion: 'Ilova versiyasi',
+    ordersTruncated: 'Oxirgi 5 tasi ko‘rsatilgan',
+    // ── Create sheet ────────────────────────────────────────────────────────
+    createTitle: 'Nima qilmoqchisiz?',
+    createSell: 'Sotish',
+    createSellHint: 'Buyumingiz haqida e’lon joylash',
+    createSellViaBot: 'Bot orqali sotish',
+    createSellViaBotHint: 'Do‘kon Bormi bilan suhbatda ochiladi',
+    createWanted: 'Qidiryapman',
+    createWantedHint: 'Nimani qidirayotganingizni ayting',
+    // ── Buyer question ──────────────────────────────────────────────────────
+    myQuestion: 'Sotuvchiga savolim',
+    questionNone: 'Ochiq savollar yo‘q',
+    questionCleared: 'Savol matni endi saqlanmaydi.',
+    statusOpen: 'Javob kutilmoqda',
+    statusAnswered: 'Sotuvchi javob berdi',
+    statusClosed: 'Yopilgan',
+    statusExpired: 'Muddati tugagan',
+    reasonUnknownIntent: 'So‘rov tushunilmadi',
+    reasonBuyerRequestedHuman: 'Sotuvchiga savol',
+    reasonCatalogNoResult: 'Katalogdan topilmadi',
+    reasonOrderQuestion: 'Buyurtma bo‘yicha savol',
+    reasonSellerInitiated: 'Sotuvchi yozdi',
+    reasonOther: 'Murojaat',
+    // ── Archive ─────────────────────────────────────────────────────────────
+    archive: 'Arxivga',
+    archiveConfirmTitle: 'Arxivga o‘tkazilsinmi?',
+    archiveConfirmBody: 'Mahsulot katalogdan va qidiruvdan yo‘qoladi. Uni arxivdan qaytarib bo‘lmaydi.',
+    archiveEmpty: 'Arxiv bo‘sh',
   },
 } as const;
 
@@ -421,6 +509,36 @@ export function localizeCategory(name: string, locale: Locale): string {
     'аксессуары': 'Aksessuarlar',
   };
   return uzbek[name.trim().toLocaleLowerCase('ru-RU')] ?? name;
+}
+
+/**
+ * Human words for a handoff.
+ *
+ * `open`, `answered` and `buyer_requested_human` are database values. They were
+ * reaching the screen unchanged, which is how a person ends up reading
+ * `order_question` in a list of their own questions. Anything unrecognised
+ * resolves to a neutral localized word rather than to the raw key: a value this
+ * build has not heard of is still not English shorthand to show a shopper.
+ */
+export function labelForHandoffStatus(locale: Locale, status: string): string {
+  const map: Record<string, CopyKey> = {
+    open: 'statusOpen',
+    answered: 'statusAnswered',
+    closed: 'statusClosed',
+    expired: 'statusExpired',
+  };
+  return t(locale, map[status] ?? 'statusClosed');
+}
+
+export function labelForHandoffReason(locale: Locale, reason: string): string {
+  const map: Record<string, CopyKey> = {
+    unknown_intent: 'reasonUnknownIntent',
+    buyer_requested_human: 'reasonBuyerRequestedHuman',
+    catalog_no_result: 'reasonCatalogNoResult',
+    order_question: 'reasonOrderQuestion',
+    seller_initiated: 'reasonSellerInitiated',
+  };
+  return t(locale, map[reason] ?? 'reasonOther');
 }
 
 export function labelForStatus(locale: Locale, status: string): string {

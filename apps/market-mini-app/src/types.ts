@@ -23,6 +23,12 @@ export interface Capabilities {
    * breaking the launch.
    */
   cabinet?: boolean;
+  /**
+   * Server-reported cabinet root. Optional for the same reason: a bootstrap
+   * answered before this shipped resolves to the root the device already knows.
+   * A layout switch — it never grants a read, a command or an authority.
+   */
+  cabinetHomeV2?: boolean;
 }
 
 export type VoiceConstraintKind =

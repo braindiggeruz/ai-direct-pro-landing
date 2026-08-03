@@ -17,7 +17,7 @@ export type IconName =
   | 'filter' | 'close' | 'box' | 'help' | 'inventory' | 'products'
   | 'check' | 'warning' | 'plus' | 'edit' | 'refresh' | 'chevron'
   | 'spark' | 'mic' | 'stop' | 'cabinet' | 'heart'
-  | 'sun' | 'moon' | 'contrast';
+  | 'sun' | 'moon' | 'contrast' | 'settings';
 
 const paths: Record<IconName, ReactNode> = {
   home: <><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></>,
@@ -47,6 +47,7 @@ const paths: Record<IconName, ReactNode> = {
   moon: <path d="M20 13.4A8 8 0 1 1 10.6 4a6.4 6.4 0 0 0 9.4 9.4z"/>,
   // Half-filled disc: the app takes whichever side Telegram is on.
   contrast: <><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></>,
+  settings: <><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.2M12 18.4v2.2M20.6 12h-2.2M5.6 12H3.4M18.1 5.9l-1.6 1.6M7.5 16.5l-1.6 1.6M18.1 18.1l-1.6-1.6M7.5 7.5 5.9 5.9"/></>,
 };
 
 export function BrandMark({ size = 40 }: { size?: number }) {
@@ -247,6 +248,35 @@ export function Modal({
       </section>
     </div>
   );
+}
+
+/**
+ * The last stop before something that cannot be undone.
+ *
+ * Not a sheet: a sheet is dismissed by the same downward flick that scrolls a
+ * list, and the whole point here is that the gesture has to be deliberate. The
+ * title says what will happen, the body says what it costs, and the confirming
+ * button carries the verb — «Вы уверены?» tells nobody anything.
+ */
+export function ConfirmDialog({
+  open, title, body, confirmLabel, cancelLabel, pending, onConfirm, onCancel,
+}: {
+  open: boolean;
+  title: string;
+  body: string;
+  confirmLabel: string;
+  cancelLabel: string;
+  pending?: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return <Modal open={open} title={title} onClose={onCancel} closeLabel={cancelLabel}>
+    <div className="stack">
+      <p className="muted">{body}</p>
+      <Button wide variant="danger" pending={pending} onClick={onConfirm}>{confirmLabel}</Button>
+      <Button wide variant="secondary" onClick={onCancel}>{cancelLabel}</Button>
+    </div>
+  </Modal>;
 }
 
 export function Field({

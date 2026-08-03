@@ -63,6 +63,9 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
   // The cabinet holds the seller workspace itself, so the header toggle — which
   // was the only way to find it — has nothing left to switch.
   const cabinetEnabled = bootstrap.data.flags.cabinet === true;
+  // The cabinet's own root. Only meaningful inside the cabinet shell, so it is
+  // read together with it rather than on its own.
+  const cabinetHomeV2 = cabinetEnabled && bootstrap.data.flags.cabinetHomeV2 === true;
   const activeRole: Role = !cabinetEnabled && role === 'seller' && sellerAvailable
     ? 'seller'
     : 'buyer';
@@ -93,10 +96,13 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
           initialHome={launch.home}
           voiceEnabled={bootstrap.data.flags.voice === true}
           cabinetEnabled={cabinetEnabled}
+          cabinetHomeV2={cabinetHomeV2}
+          navigation={bootstrap.data.navigation ?? []}
           sellerAvailable={sellerAvailable}
           sellerCommands={sellerCommands}
           mediaUpload={mediaUpload}
           userName={launch.session.user.firstName}
+          buildId={bootstrap.data.buildId}
           activeCheckout={bootstrap.data.counters.activeCheckout}
           activeHandoff={bootstrap.data.counters.activeHandoff}
           theme={theme}

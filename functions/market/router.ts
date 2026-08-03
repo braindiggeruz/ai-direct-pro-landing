@@ -446,6 +446,7 @@ async function bootstrapPayload(context: RequestContext) {
         && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED)
         && mediaUploadAvailable(context.env),
       cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
+      cabinetHomeV2: marketFlag(context.env.MARKET_CABINET_HOME_V2),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -472,6 +473,7 @@ function launchBootstrapPayload(context: RequestContext) {
         && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED)
         && mediaUploadAvailable(context.env),
       cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
+      cabinetHomeV2: marketFlag(context.env.MARKET_CABINET_HOME_V2),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
