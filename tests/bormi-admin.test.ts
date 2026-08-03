@@ -182,9 +182,18 @@ test('admin: fixtures are development-only and announce themselves', async () =>
   // Every fabricated string says so, so a screenshot can never be mistaken for
   // production data.
   assert.match(fixtures, /example\.invalid/);
-  const overview = code(await source(OVERVIEW_PAGE));
-  assert.match(overview, /FIXTURE_MODE \? \(/);
-  assert.match(overview, /SYNTHETIC_NOTICE/);
+  // The notice lives in the shell rather than on one page, so a screen added
+  // later cannot forget to carry it. It is above `children`, which is every
+  // screen there is.
+  const shell = code(await source(SHELL));
+  assert.match(shell, /FIXTURE_MODE \? <SyntheticNotice text=\{SYNTHETIC_NOTICE\} \/> : null/);
+  assert.match(shell, /\{children\}/);
+  const shellMain = /<main[\s\S]*?<\/main>/.exec(shell)?.[0] ?? '';
+  assert.ok(
+    shellMain.indexOf('SyntheticNotice') >= 0
+    && shellMain.indexOf('SyntheticNotice') < shellMain.indexOf('{children}'),
+    'the synthetic notice sits above every screen, not beside one',
+  );
 });
 
 test('admin: attention items with a count of zero are not items', async () => {
@@ -277,8 +286,15 @@ test('admin: the command centre is one bounded request, not fifteen', async () =
 test('admin: list reads are paginated by the server', async () => {
   const api = code(await source(API));
   assert.match(api, /stores: \(limit = 25, offset = 0\)/);
-  assert.match(api, /audit: \(limit = 25, offset = 0\)/);
+  // The audit read also carries filters, and the page size is still the
+  // server's to enforce: both bounds are sent, and both are clamped upstream.
+  assert.match(api, /audit: \(limit = 25, offset = 0, filters: AuditFilters = \{\}\)/);
   assert.match(api, /limit=\$\{limit\}&offset=\$\{offset\}/);
+  const audit = code(await source(AUDIT_PAGE));
+  assert.match(audit, /const PAGE_SIZE = 25;/);
+  // The page never asks for more than one bounded page, and says so when the
+  // trail is longer than what it is showing.
+  assert.match(audit, /показаны последние/);
 });
 
 test('admin: orders are counted through both of their status columns', async () => {
@@ -361,8 +377,71 @@ test('admin: navigation is a landmark, keyboard-reachable, and says where it is'
   assert.match(shell, /event\.key === 'Escape'/);
   assert.match(shell, /closeButton\.current\?\.focus\(\)/);
   // Off-canvas is mount state, not a transform that can desynchronise.
-  assert.match(shell, /open \? 'block' : 'hidden'/);
+  assert.match(shell, /open \? 'flex' : 'hidden'/);
   assert.match(code(await source(SHELL)), /<main/);
+  // Exactly one display utility at a time. Carrying `flex` and `hidden`
+  // together leaves which one wins to the order Tailwind emits them in.
+  const navClass = /<nav[\s\S]*?className=\{`([^`]*)`\}/.exec(shell)?.[1] ?? '';
+  assert.ok(navClass.length > 0, 'the sidebar class list was not found');
+  assert.ok(
+    !/(^|\s)flex(\s|$)/.test(navClass.replace(/\$\{[^}]*\}/g, '')),
+    'the sidebar carries an unconditional `flex` alongside a conditional `hidden`',
+  );
+});
+
+test('admin: the mobile sheet is a dialog while it is a sheet, and a landmark after', async () => {
+  const shell = await source(SHELL);
+  // Focus is inside it, Escape closes it and the page behind is inert - which
+  // is a modal dialog, and is what it must be announced as.
+  assert.match(shell, /role=\{open \? 'dialog' : undefined\}/);
+  assert.match(shell, /aria-modal=\{open \? true : undefined\}/);
+  assert.match(shell, /aria-hidden=\{open \? true : undefined\}/);
+  // Focus goes back to the control that opened it.
+  assert.match(shell, /openButton\.current\?\.focus\(\)/);
+  // Tab stays inside while it is open.
+  assert.match(shell, /event\.key !== 'Tab'/);
+  assert.match(shell, /last\.focus\(\)/);
+  assert.match(shell, /first\.focus\(\)/);
+  // Widening the window puts the rail back, so the trap cannot survive into a
+  // viewport that has no overlay and no close button.
+  assert.match(shell, /matchMedia\(RAIL_QUERY\)/);
+  assert.match(shell, /const RAIL_QUERY = '\(min-width: 1024px\)'/);
+});
+
+test('admin: the shell is one viewport with one scroll region', async () => {
+  const styles = await source('apps/bormi-admin/src/styles.css');
+  // The page itself never scrolls: the root is one viewport tall and clipped.
+  assert.match(styles, /body\s*\{[^}]*overflow:\s*hidden/);
+  assert.match(styles, /height:\s*100dvh/);
+  assert.match(styles, /\.app-scroll\s*\{\s*\r?\n\s*overflow-y:\s*auto;/);
+  const shell = code(await source(SHELL));
+  // And `app-scroll` is on <main>, not on some wrapper that would add a second.
+  assert.match(shell, /<main[\s\S]*?className="app-scroll/);
+  assert.equal(
+    (shell.match(/app-scroll/g) ?? []).length, 1,
+    'the shell declares more than one scroll region',
+  );
+  // The rail and the header are furniture: neither is inside the scroll region.
+  const main = /<main[\s\S]*?<\/main>/.exec(shell)?.[0] ?? '';
+  assert.ok(!main.includes('<nav'), 'navigation scrolls with the content');
+  assert.ok(!main.includes('<header'), 'the header scrolls with the content');
+  // Nothing is reserved above the header, and the geometry lives in tokens so
+  // the header and the rail cannot disagree about each other's size.
+  assert.match(styles, /--shell-header: 6[4-9]px|--shell-header: 7[0-2]px/);
+  assert.match(styles, /--shell-sidebar: 2[4-6]\dpx/);
+  assert.match(styles, /--shell-sidebar-collapsed: 7[2-9]px|--shell-sidebar-collapsed: 80px/);
+  assert.doesNotMatch(shell, /mt-\d+"?\s*>?\s*$/m);
+});
+
+test('admin: the working area can shrink, and only the table scrolls sideways', async () => {
+  const shell = code(await source(SHELL));
+  // Without `min-w-0` a flex child sizes to its widest content, and one table
+  // pushes the whole console sideways.
+  assert.match(shell, /<main[\s\S]*?min-w-0/);
+  assert.match(shell, /flex min-w-0 flex-1 flex-col/);
+  const ui = code(await source(UI));
+  assert.match(ui, /surface min-w-0/);
+  assert.match(ui, /table-scroll/);
 });
 
 test('admin: touch targets are large enough and icons are not emoji', async () => {
@@ -408,6 +487,186 @@ test('admin: the console keeps itself out of search results', async () => {
   // And its answers stay out of every shared cache.
   assert.match(api, /cache: 'no-store'/);
   assert.match(api, /credentials: 'same-origin'/);
+});
+
+test('admin: which build this is can never be hidden when it is invented', async () => {
+  const shell = code(await source(SHELL));
+  // A production or preview label may be dropped for room on a narrow header.
+  // A synthetic one may not: the narrowest screen is the last place to hide the
+  // word that says none of the numbers on it are real.
+  assert.match(shell, /env\.synthetic \? 'inline-flex' : 'hidden sm:inline-flex'/);
+  assert.match(shell, /data-testid="admin-environment"/);
+  // And the fixture identity is named as invented rather than printed as an
+  // address, which is the most convincing thing on a fabricated screen.
+  assert.match(shell, /synthetic \? 'Демо-владелец'/);
+  assert.doesNotMatch(shell, /synthetic \? actorEmail/);
+});
+
+test('admin: feature flags are states, and nothing on the row can be pressed', async () => {
+  const ui = code(await source(UI));
+  const system = code(await source(SYSTEM_PAGE));
+  const access = code(await source(ACCESS_PAGE));
+  for (const [name, text] of [['ui', ui], ['system', system], ['access', access]] as const) {
+    // No switch, no checkbox, no toggle handler anywhere near a flag.
+    assert.doesNotMatch(text, /role="switch"|type="checkbox"|<Toggle|<Switch\b/, `${name} draws a control`);
+  }
+  // The state is a word first. The badge carries it; the colour repeats it.
+  assert.match(ui, /export function FlagList/);
+  assert.match(ui, /item\.on \? 'Включено' : 'Выключено'/);
+  // And the page says out loud that it cannot change them, twice: on the panel
+  // and in the sentence underneath.
+  assert.match(system, /Только чтение/);
+  assert.match(system, /wrangler\.toml/);
+  // Every flag the server reports is drawn, including one this file has never
+  // heard of - otherwise the count above the list contradicts the list.
+  assert.match(system, /function ungrouped/);
+  assert.match(system, /!GROUPED_KEYS\.has\(key\)/);
+});
+
+test('admin: attention is absent when there is nothing to attend to', async () => {
+  const overview = code(await source(OVERVIEW_PAGE));
+  // Not an empty panel saying "ничего": a block that is always on the screen is
+  // one an operator stops seeing, and it takes the real warnings with it.
+  assert.match(overview, /\{attention\.length > 0 \? \(/);
+  assert.match(overview, /SEVERITY_ORDER\[left\.severity\] - SEVERITY_ORDER\[right\.severity\]/);
+  // The verdict above it is computed from the same counts, so it cannot say
+  // everything is fine over a list of problems.
+  assert.match(overview, /function verdict\(data: OverviewResponse\)/);
+  assert.match(overview, /data\.attention\.filter\(\(item\) => item\.severity === 'critical'\)/);
+  // No chart, no growth arrow, no invented percentage.
+  assert.doesNotMatch(overview, /Chart|chart|sparkline|<canvas|%\s*за\s*(месяц|неделю)/);
+});
+
+test('admin: every screen says how old it is and offers a new answer', async () => {
+  const ui = code(await source(UI));
+  // The age is measured by a timer. Read during render it is true only for the
+  // frame that painted it, and a console nobody touches never repaints.
+  assert.match(ui, /const \[ageSeconds, setAgeSeconds\] = useState<number \| null>\(null\)/);
+  assert.match(ui, /window\.setInterval/);
+  assert.match(ui, /const STALE_AFTER_SECONDS = \d+/);
+  assert.match(ui, /данные устарели/);
+  // Asking for fresh data resets the age, so the warning cannot outlive it.
+  assert.match(ui, /setAgeSeconds\(0\);\s*\r?\n\s*onRefresh\(\)/);
+  // Data already on screen is kept while a reload is in flight.
+  const query = code(await source('apps/bormi-admin/src/lib/useQuery.ts'));
+  assert.match(query, /loading: loading && data === null/);
+  assert.match(query, /refreshing: loading && data !== null/);
+  for (const page of [OVERVIEW_PAGE, ACCESS_PAGE, AUDIT_PAGE, SYSTEM_PAGE]) {
+    assert.match(code(await source(page)), /<Freshness/, `${page} never says how old it is`);
+  }
+});
+
+test('admin: every screen has a skeleton shaped like its answer', async () => {
+  for (const page of [OVERVIEW_PAGE, ACCESS_PAGE, AUDIT_PAGE, SYSTEM_PAGE]) {
+    const text = code(await source(page));
+    assert.match(text, /skeleton/, `${page} has no loading state`);
+    // A spinner alone in an empty screen tells the reader nothing about what
+    // is coming, so each page draws more than one placeholder block.
+    assert.ok((text.match(/skeleton/g) ?? []).length >= 2, `${page} loads as a single blob`);
+    assert.match(text, /ErrorState/, `${page} cannot report a failure`);
+    assert.match(text, /onRetry=/, `${page} cannot be retried`);
+  }
+  const ui = code(await source(UI));
+  // An error names what the server said and never a stack or a payload.
+  assert.match(ui, /Не удалось загрузить данные/);
+  assert.doesNotMatch(ui, /error\.stack|JSON\.stringify\(/);
+});
+
+// ── The audit trail ──────────────────────────────────────────────────────────
+
+test('admin: the audit filters are exactly the filters the server has', async () => {
+  const validation = await source('functions/platform/admin/validation.ts');
+  const roles = await source('functions/platform/admin/roles.ts');
+  const text = await source('apps/bormi-admin/src/lib/text.ts');
+
+  const serverActions = /export const OWNER_AUDIT_ACTIONS = \[([\s\S]*?)\] as const;/
+    .exec(validation)?.[1]
+    .match(/'([^']+)'/g)?.map((value) => value.slice(1, -1)) ?? [];
+  const clientActions = /export const AUDIT_ACTION: Record<string, string> = \{([\s\S]*?)\n\};/
+    .exec(text)?.[1]
+    .match(/'([^']+)':/g)?.map((value) => value.slice(1, -2)) ?? [];
+  assert.ok(serverActions.length > 0 && clientActions.length > 0, 'action lists not found');
+  // Short, and a kind of event disappears from the filter. Long, and the
+  // control offers a value the endpoint refuses. Both are worse than the key.
+  assert.deepEqual([...clientActions].sort(), [...serverActions].sort());
+
+  const serverRoles = /export const PLATFORM_ROLES = \[([^\]]*)\]/.exec(roles)?.[1]
+    .match(/'([^']+)'/g)?.map((value) => value.slice(1, -1)) ?? [];
+  const clientRoles = /export const ACTOR_ROLE: Record<string, string> = \{([\s\S]*?)\n\};/
+    .exec(text)?.[1]
+    .match(/^\s*(\w+):/gm)?.map((value) => value.trim().replace(':', '')) ?? [];
+  assert.deepEqual([...clientRoles].sort(), [...serverRoles].sort());
+
+  const serverReasons = /export const OWNER_REASON_CODES = \[([\s\S]*?)\] as const;/
+    .exec(validation)?.[1]
+    .match(/'([^']+)'/g)?.map((value) => value.slice(1, -1)) ?? [];
+  const clientReasons = /export const REASON_CODE: Record<string, string> = \{([\s\S]*?)\n\};/
+    .exec(text)?.[1]
+    .match(/^\s*(\w+):/gm)?.map((value) => value.trim().replace(':', '')) ?? [];
+  assert.deepEqual([...clientReasons].sort(), [...serverReasons].sort());
+});
+
+test('admin: the audit filters are applied by the server, never in the browser', async () => {
+  const api = code(await source(API));
+  // The query goes to the endpoint that already validates it against a closed
+  // list. A control that sifts the rows already downloaded looks identical and
+  // silently hides everything on the next page.
+  assert.match(api, /&action=\$\{encodeURIComponent\(filters\.action\)\}/);
+  assert.match(api, /&actor_role=\$\{encodeURIComponent\(filters\.actorRole\)\}/);
+  const audit = code(await source(AUDIT_PAGE));
+  assert.match(audit, /adminApi\.audit\(PAGE_SIZE, 0, \{/);
+  assert.match(audit, /\[action, role\]/);
+  // No local narrowing of the fetched page pretending to be a filter.
+  assert.doesNotMatch(audit, /data\.events\.filter\(/);
+  // And nothing is offered that the endpoint cannot match on.
+  for (const absent of ['period', 'dateFrom', 'date_from', 'result', 'status=']) {
+    assert.ok(!audit.includes(absent), `the audit page offers a ${absent} filter the server has not got`);
+  }
+  const route = code(await source('functions/api/admin/agents/audit.ts'));
+  assert.match(route, /parseEnumFilter\(ctx\.url, 'action', OWNER_AUDIT_ACTIONS\)/);
+  assert.match(route, /parseEnumFilter\(ctx\.url, 'actor_role', PLATFORM_ROLES\)/);
+});
+
+test('admin: the audit trail offers no way to change itself', async () => {
+  const audit = code(await source(AUDIT_PAGE));
+  for (const verb of ['Удалить', 'Изменить', 'Редактировать', 'Повторить действие']) {
+    assert.ok(!audit.includes(verb), `the audit page offers ${verb}`);
+  }
+  assert.doesNotMatch(audit, /onDelete|handleDelete|handleEdit|method: '(POST|PUT|PATCH|DELETE)'/i);
+  // Its read-only nature is stated on the screen, not only in the source.
+  assert.match(audit, /только для чтения|только дописывается/);
+  const route = code(await source('functions/api/admin/agents/audit.ts'));
+  for (const verb of ['Post', 'Put', 'Patch', 'Delete']) {
+    assert.match(route, new RegExp(`export const onRequest${verb} = methodNotAllowed\\('GET'\\)`));
+  }
+});
+
+test('admin: the audit detail shows the event and none of its payload', async () => {
+  const audit = code(await source(AUDIT_PAGE));
+  // The drawer exists and traps focus through the shared component.
+  assert.match(audit, /<Drawer/);
+  const ui = code(await source(UI));
+  assert.match(ui, /role="dialog"/);
+  assert.match(ui, /aria-modal="true"/);
+  assert.match(ui, /restore\.current\?\.focus\(\)/);
+  // A stable close, or the drawer re-runs its focus effect on every render.
+  assert.match(audit, /useCallback\(\(\) => setSelected\(null\), \[\]\)/);
+  // What it renders: nothing that carries a payload or an identifier.
+  for (const field of [
+    'before_json', 'after_json', 'request_id', 'idempotency_key',
+    'target_id', 'org_id', 'initData', 'challenge',
+  ]) {
+    assert.ok(!audit.includes(field), `the audit page renders ${field}`);
+  }
+  // And it says so rather than leaving the absence to be noticed.
+  assert.match(audit, /DataGap/);
+});
+
+test('admin: a row is opened by a control, not by a click on the row', async () => {
+  const audit = code(await source(AUDIT_PAGE));
+  // A <tr> takes no focus, answers no Enter and is announced as nothing.
+  assert.doesNotMatch(audit, /<tr[^>]*onClick/);
+  assert.match(audit, /<button\s+type="button"\s+onClick=\{\(\) => setSelected\(event\)\}/);
 });
 
 // ── Nothing else moved ───────────────────────────────────────────────────────

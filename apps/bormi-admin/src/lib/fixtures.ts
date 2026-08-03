@@ -9,7 +9,7 @@
  * It exists for one reason - the panel has to be reviewable at 320px and in
  * dark mode without pointing a browser at a live marketplace.
  */
-import type { AuditResponse, OverviewResponse, StoresResponse } from './contracts';
+import type { AuditFilters, AuditResponse, OverviewResponse, StoresResponse } from './contracts';
 
 export const SYNTHETIC_NOTICE = 'SYNTHETIC — данные вымышлены, режим разработки';
 
@@ -115,23 +115,48 @@ export function syntheticStores(): StoresResponse {
   };
 }
 
-export function syntheticAudit(): AuditResponse {
-  return {
-    append_only: true,
-    total: 2,
-    events: [
-      {
-        event_id: 'synthetic-1', created_at: new Date(Date.now() - 86_400_000).toISOString(),
-        actor_email: 'synthetic-owner@example.invalid', actor_role: 'platform_owner',
-        action: 'store.suspend', target_type: 'store', target_id: 'synthetic-store',
-        org_id: 'synthetic-org', reason_code: 'policy_violation', request_id: 'synthetic',
-      },
-      {
-        event_id: 'synthetic-2', created_at: new Date(Date.now() - 172_800_000).toISOString(),
-        actor_email: 'synthetic-owner@example.invalid', actor_role: 'platform_owner',
-        action: 'seller.bind', target_type: 'store', target_id: 'synthetic-store',
-        org_id: 'synthetic-org', reason_code: 'seller_request', request_id: 'synthetic',
-      },
-    ],
-  };
+/**
+ * The trail, narrowed the same way the server narrows it.
+ *
+ * The fixtures apply the filters rather than ignoring them, because a control
+ * that does nothing in the environment the design is reviewed in is a control
+ * whose emptiness nobody notices until production.
+ */
+export function syntheticAudit(filters: AuditFilters = {}): AuditResponse {
+  const events: AuditResponse['events'] = [
+    {
+      event_id: 'synthetic-1', created_at: new Date(Date.now() - 86_400_000).toISOString(),
+      actor_email: 'synthetic-owner@example.invalid', actor_role: 'platform_owner',
+      action: 'store.suspend', target_type: 'store', target_id: 'synthetic-store',
+      org_id: 'synthetic-org', reason_code: 'policy_violation', request_id: 'synthetic',
+    },
+    {
+      event_id: 'synthetic-2', created_at: new Date(Date.now() - 172_800_000).toISOString(),
+      actor_email: 'synthetic-owner@example.invalid', actor_role: 'platform_owner',
+      action: 'seller.bind', target_type: 'store', target_id: 'synthetic-store',
+      org_id: 'synthetic-org', reason_code: 'seller_request', request_id: 'synthetic',
+    },
+    {
+      event_id: 'synthetic-3', created_at: new Date(Date.now() - 259_200_000).toISOString(),
+      actor_email: 'synthetic-support@example.invalid', actor_role: 'support_readonly',
+      action: 'automation.replay', target_type: 'job', target_id: 'synthetic-job',
+      org_id: 'synthetic-org', reason_code: 'operator_error_recovery', request_id: 'synthetic',
+    },
+    {
+      event_id: 'synthetic-4', created_at: new Date(Date.now() - 345_600_000).toISOString(),
+      actor_email: 'synthetic-owner@example.invalid', actor_role: 'platform_owner',
+      action: 'seller.unbind', target_type: 'store', target_id: 'synthetic-store',
+      org_id: 'synthetic-org', reason_code: 'suspected_abuse', request_id: 'synthetic',
+    },
+    {
+      event_id: 'synthetic-5', created_at: new Date(Date.now() - 432_000_000).toISOString(),
+      actor_email: 'synthetic-owner@example.invalid', actor_role: 'platform_owner',
+      action: 'store.restore', target_type: 'store', target_id: 'synthetic-store',
+      org_id: 'synthetic-org', reason_code: 'pilot_onboarding', request_id: 'synthetic',
+    },
+  ].filter((event) => (
+    (!filters.action || event.action === filters.action)
+    && (!filters.actorRole || event.actor_role === filters.actorRole)
+  ));
+  return { append_only: true, total: events.length, events };
 }

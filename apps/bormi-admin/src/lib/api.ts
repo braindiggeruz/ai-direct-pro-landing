@@ -10,7 +10,7 @@
  * The token is never put in a URL, never logged, and never handed to a caller;
  * it leaves this module only inside an Authorization header.
  */
-import type { AuditResponse, OverviewResponse, StoresResponse } from './contracts';
+import type { AuditFilters, AuditResponse, OverviewResponse, StoresResponse } from './contracts';
 import { syntheticAudit, syntheticOverview, syntheticStores } from './fixtures';
 
 /** The key the shipped Owner Control Center already uses on this origin. */
@@ -98,12 +98,23 @@ export const adminApi = {
       : get<StoresResponse>(`/api/admin/agents/stores?limit=${limit}&offset=${offset}`)
   ),
 
-  /** Append-only upstream. There is no write here to leave out. */
-  audit: (limit = 25, offset = 0): Promise<AuditResponse> => (
-    FIXTURE_MODE
-      ? Promise.resolve(syntheticAudit())
-      : get<AuditResponse>(`/api/admin/agents/audit?limit=${limit}&offset=${offset}`)
-  ),
+  /**
+   * Append-only upstream. There is no write here to leave out.
+   *
+   * The two filters are the two the endpoint actually narrows on - `action`
+   * against `OWNER_AUDIT_ACTIONS` and `actor_role` against `PLATFORM_ROLES`.
+   * Both are validated server-side against a closed list, and an unrecognised
+   * value is refused rather than widened to "all", so a control here cannot
+   * silently return more than it claims. Nothing else is offered: a filter the
+   * server ignores is a filter that lies about the rows it is not showing.
+   */
+  audit: (limit = 25, offset = 0, filters: AuditFilters = {}): Promise<AuditResponse> => {
+    if (FIXTURE_MODE) return Promise.resolve(syntheticAudit(filters));
+    const query = `limit=${limit}&offset=${offset}`
+      + (filters.action ? `&action=${encodeURIComponent(filters.action)}` : '')
+      + (filters.actorRole ? `&actor_role=${encodeURIComponent(filters.actorRole)}` : '');
+    return get<AuditResponse>(`/api/admin/agents/audit?${query}`);
+  },
 };
 
 /** Drop the session and hand the browser back to the login that owns it. */

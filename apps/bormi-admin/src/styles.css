@@ -54,6 +54,17 @@
 
   --shadow-card: 0 1px 2px rgb(23 21 31 / 4%), 0 8px 24px rgb(61 43 122 / 6%);
 
+  /* Shell geometry, in one place so the header, the sidebar and the scroll
+     region cannot disagree about how tall or wide each other are. */
+  --shell-header: 64px;
+  --shell-sidebar: 264px;
+  --shell-sidebar-collapsed: 76px;
+
+  /* Row and control heights. A console is read in columns; when rows differ by
+     two pixels the eye has to re-find the line every time. */
+  --row-height: 44px;
+  --badge-height: 22px;
+
   /* No webfont. A console should not wait on a network to render a number. */
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
@@ -87,18 +98,40 @@
     --accent: #9a88ff;
   }
 
+  /*
+   * The app owns the viewport.
+   *
+   * A console is not a document: the navigation and the header are furniture,
+   * and only the working area moves. So the page itself never scrolls - the
+   * root is exactly one viewport tall and clipped, and the single scroll
+   * region is <main>. That is what stops the sidebar sliding away under a long
+   * table, and it is why there can only ever be one vertical scrollbar.
+   *
+   * `100dvh` rather than `100vh`: on a phone the second one is measured
+   * against a toolbar that is not there yet, and the bottom of the screen ends
+   * up under the browser chrome.
+   */
   html,
   body,
   #root {
     height: 100%;
+    height: 100dvh;
   }
 
   body {
     margin: 0;
+    overflow: hidden;
     background: var(--surface-canvas);
     color: var(--text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* The one scroll region, and the only element allowed to own a scrollbar. */
+  .app-scroll {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
   }
 
   /* Visible focus everywhere, including for the keyboard-only operator who
@@ -147,5 +180,53 @@
   .table-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  /*
+   * A label for a collapsed sidebar item.
+   *
+   * Shown on hover and on keyboard focus, because an icon-only rail that only
+   * explains itself to a mouse is an icon-only rail that a keyboard cannot
+   * read. It is not a title attribute for the same reason.
+   */
+  .rail-tip {
+    position: absolute;
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    white-space: nowrap;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--border-line);
+    background: var(--surface-paper);
+    padding: 4px 8px;
+    font-size: 12px;
+    box-shadow: var(--shadow-card);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .rail-item:hover .rail-tip,
+  .rail-item:focus-visible .rail-tip {
+    opacity: 1;
+  }
+
+  /* The active section. A quiet tint plus a bar, rather than a filled pill:
+     the eye needs to find it, not be shouted at by it every time. */
+  .nav-active {
+    background: var(--surface-soft);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .nav-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--accent);
   }
 }

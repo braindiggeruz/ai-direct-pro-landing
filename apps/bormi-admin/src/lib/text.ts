@@ -84,15 +84,26 @@ export const HANDOFF_STATUS: Record<string, string> = {
   expired: 'Истёк',
 };
 
-/** Owner audit verbs, as a person would say them. */
+/**
+ * Owner audit verbs, as a person would say them.
+ *
+ * This is the whole of `OWNER_AUDIT_ACTIONS` and nothing else. A filter built
+ * from a shorter list would quietly hide a kind of event; one built from a
+ * longer list would offer a value the server rejects. Both are worse than the
+ * raw key, so the two lists are kept identical on purpose.
+ */
 export const AUDIT_ACTION: Record<string, string> = {
   'store.suspend': 'Магазин приостановлен',
   'store.restore': 'Магазин восстановлен',
-  'seller.bind': 'Привязан продавец',
-  'automation.replay': 'Повтор задачи автоматизации',
   'pilot.activate': 'Пилот включён',
   'pilot.pause': 'Пилот приостановлен',
+  'automation.replay': 'Повтор задачи автоматизации',
+  'seller.bind': 'Продавцу выдан доступ',
+  'seller.unbind': 'У продавца отозван доступ',
 };
+
+/** Filter order: the destructive pair first, then the reversible ones. */
+export const AUDIT_ACTION_KEYS = Object.keys(AUDIT_ACTION);
 
 export const AUDIT_TARGET: Record<string, string> = {
   store: 'магазин',
@@ -100,12 +111,24 @@ export const AUDIT_TARGET: Record<string, string> = {
   org: 'организация',
 };
 
+/** The two roles the token may carry. There is no third. */
+export const ACTOR_ROLE: Record<string, string> = {
+  platform_owner: 'Владелец платформы',
+  support_readonly: 'Поддержка, только чтение',
+};
+
+export const ACTOR_ROLE_KEYS = Object.keys(ACTOR_ROLE);
+
+/** Mirrors `OWNER_REASON_CODES`. Every code the server accepts has a sentence. */
 export const REASON_CODE: Record<string, string> = {
-  policy_violation: 'нарушение правил',
+  pilot_onboarding: 'подключение к пилоту',
+  pilot_paused_by_owner: 'пилот остановлен владельцем',
   seller_request: 'запрос продавца',
-  owner_decision: 'решение владельца',
-  incident: 'инцидент',
-  maintenance: 'обслуживание',
+  policy_violation: 'нарушение правил',
+  suspected_abuse: 'подозрение на злоупотребление',
+  data_quality: 'качество данных',
+  incident_response: 'реакция на инцидент',
+  operator_error_recovery: 'исправление ошибки оператора',
 };
 
 /**

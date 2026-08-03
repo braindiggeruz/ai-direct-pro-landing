@@ -136,3 +136,16 @@ export interface AuditResponse {
   total: number;
   append_only: true;
 }
+
+/**
+ * The only two things `GET /api/admin/agents/audit` narrows on that a person
+ * can pick from a list. `target_id` and `actor_email` are also accepted, but
+ * both are free text about a specific record rather than a filter over the
+ * trail, and neither belongs in a control bar.
+ */
+export interface AuditFilters {
+  /** One of `OWNER_AUDIT_ACTIONS`, or absent for all of them. */
+  action?: string;
+  /** One of `PLATFORM_ROLES`, or absent for both. */
+  actorRole?: string;
+}

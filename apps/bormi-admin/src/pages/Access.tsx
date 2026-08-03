@@ -21,10 +21,11 @@ import {
   DataGap,
   EmptyState,
   ErrorState,
+  FlagList,
+  Freshness,
   Metric,
   PageHeader,
-  Skeleton,
-  Switchboard,
+  StatusStrip,
   TableFrame,
   Td,
   Th,
@@ -38,7 +39,14 @@ export default function Access() {
     return (
       <>
         <PageHeader title="Магазины и доступы" />
-        <Skeleton rows={5} />
+        <div className="skeleton mb-5 h-20 w-full" />
+        <div className="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {[0, 1, 2, 3].map((index) => <div key={index} className="skeleton h-24 w-full" />)}
+        </div>
+        <div className="grid gap-4 xl:grid-cols-3">
+          <div className="skeleton h-64 w-full xl:col-span-2" />
+          <div className="skeleton h-64 w-full" />
+        </div>
       </>
     );
   }
@@ -53,13 +61,45 @@ export default function Access() {
 
   const access = overview.data.access;
   const binding = access.binding;
+  // The question this page is asked: can anybody actually run the shop from
+  // the app. Zero Telegram memberships means the answer is no, whatever the
+  // switches say, and that deserves the top of the screen rather than a tile.
+  const reachable = access.telegram_active > 0 && access.seller_read && access.seller_commands;
+  const state = binding.challenges_live > 0
+    ? {
+      tone: 'bad' as const,
+      title: 'Открыт код привязки',
+      detail: 'Церемония привязки Telegram сейчас активна. Код действует ограниченное время и срабатывает один раз.',
+    }
+    : reachable
+      ? {
+        tone: 'good' as const,
+        title: 'Кабинет продавца доступен',
+        detail: 'Есть активная привязка Telegram, чтение и команды продавца включены.',
+      }
+      : {
+        tone: 'warn' as const,
+        title: 'Кабинетом продавца никто не может пользоваться',
+        detail: access.telegram_active === 0
+          ? 'Ни один Telegram-аккаунт не имеет доступа владельца — привязка не выполнена.'
+          : 'Права продавца выключены на уровне конфигурации.',
+      };
 
   return (
     <>
       <PageHeader
         title="Магазины и доступы"
         subtitle="Кто имеет права продавца и каким способом они выданы"
+        actions={(
+          <Freshness
+            fetchedAt={overview.fetchedAt}
+            refreshing={overview.refreshing}
+            onRefresh={() => { overview.reload(); stores.reload(); }}
+          />
+        )}
       />
+
+      <StatusStrip tone={state.tone} title={state.title} detail={state.detail} />
 
       <div className="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Metric label="Активных владельцев" value={count(access.owners_active)} />
@@ -134,11 +174,17 @@ export default function Access() {
         </Card>
 
         <Card>
-          <CardTitle hint="Права проверяет сервер при каждом вызове.">Права продавца</CardTitle>
-          <Switchboard
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h2 className="text-sm font-semibold tracking-tight">Права продавца</h2>
+              <p className="muted mt-1 text-xs">Права проверяет сервер при каждом вызове.</p>
+            </div>
+            <Badge>Только чтение</Badge>
+          </div>
+          <FlagList
             items={[
-              { label: 'Чтение кабинета (sellerRead)', on: access.seller_read },
-              { label: 'Команды продавца (sellerCommands)', on: access.seller_commands },
+              { label: 'Чтение кабинета', on: access.seller_read, hint: 'sellerRead' },
+              { label: 'Команды продавца', on: access.seller_commands, hint: 'sellerCommands' },
             ]}
           />
 

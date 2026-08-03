@@ -15,6 +15,10 @@ export interface QueryState<T> {
   data: T | null;
   error: string | null;
   loading: boolean;
+  /** When this answer arrived. A console has to be able to say how old it is. */
+  fetchedAt: number | null;
+  /** True while a reload is in flight over data that is already on screen. */
+  refreshing: boolean;
   reload: () => void;
 }
 
@@ -22,6 +26,7 @@ export function useQuery<T>(run: () => Promise<T>, deps: unknown[] = []): QueryS
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchedAt, setFetchedAt] = useState<number | null>(null);
   const [nonce, setNonce] = useState(0);
 
   // The caller passes a fresh closure every render; the dependency list is what
@@ -33,7 +38,7 @@ export function useQuery<T>(run: () => Promise<T>, deps: unknown[] = []): QueryS
     setLoading(true);
     setError(null);
     fetcher()
-      .then((value) => { if (alive) setData(value); })
+      .then((value) => { if (alive) { setData(value); setFetchedAt(Date.now()); } })
       .catch((failure: unknown) => {
         if (!alive) return;
         // An expired session is not an error to display. It is a session to
@@ -48,5 +53,15 @@ export function useQuery<T>(run: () => Promise<T>, deps: unknown[] = []): QueryS
     return () => { alive = false; };
   }, [fetcher, nonce]);
 
-  return { data, error, loading, reload: () => setNonce((value) => value + 1) };
+  return {
+    data,
+    error,
+    // First load only. A reload over data already on screen keeps the screen:
+    // replacing a working table with a skeleton every thirty seconds is how a
+    // console starts feeling slower than it is.
+    loading: loading && data === null,
+    refreshing: loading && data !== null,
+    fetchedAt,
+    reload: () => setNonce((value) => value + 1),
+  };
 }
