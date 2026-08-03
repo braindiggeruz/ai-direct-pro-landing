@@ -169,4 +169,4 @@ MARKET_QUICKPOST_AI_ENABLED = "false"
 # anything by itself: the challenge is minted only against a signed owner token
 # and redeemed only from a session Telegram itself signed. Intended to be turned
 # on for the length of one binding and turned off again.
-MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "true"
+MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"
