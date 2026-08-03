@@ -186,10 +186,19 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
 
         {NAV.map((group) => (
           <div key={group.title} className="mb-5">
-            <h2 className="muted px-2 pb-2 text-[11px] font-medium tracking-wide uppercase">
+            {/*
+              A group label, not a heading. Marking these up as headings puts an
+              h2 above the page h1 in every document, which is a hierarchy that
+              reads as broken to anyone navigating by headings. The list is
+              labelled by it instead, which is what it actually is.
+            */}
+            <div
+              id={`nav-group-${group.title}`}
+              className="muted px-2 pb-2 text-[11px] font-medium tracking-wide uppercase"
+            >
               {group.title}
-            </h2>
-            <ul className="space-y-1">
+            </div>
+            <ul className="space-y-1" aria-labelledby={`nav-group-${group.title}`}>
               {group.items.map((item) => (
                 <li key={item.to}>
                   <NavLink

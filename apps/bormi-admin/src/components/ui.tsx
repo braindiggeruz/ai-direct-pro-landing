@@ -186,11 +186,13 @@ export function Td({
 }
 
 export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+  // A div, not a header: the shell already owns the one banner landmark on the
+  // page, and a second one gives a screen reader two places called "header".
   return (
-    <header className="mb-5">
+    <div className="mb-5">
       <h1 className="text-lg font-semibold tracking-tight sm:text-xl">{title}</h1>
       {subtitle ? <p className="muted mt-1 text-sm">{subtitle}</p> : null}
-    </header>
+    </div>
   );
 }
 
