@@ -178,6 +178,24 @@ export const ownerApi = {
       `/api/admin/agents/pilot${query({ limit: opts.limit, offset: opts.offset, state: opts.state })}`,
     ),
 
+  /**
+   * Mint the one-time code that lets a Telegram account claim seller authority.
+   *
+   * Takes no arguments on purpose. The target store is resolved server-side from
+   * the owner's own authorization — there is no field here that could point the
+   * grant at a different store, because there is no field here at all.
+   *
+   * The response carries the raw code exactly once. It is never written down by
+   * us: the table holds its SHA-256, so nothing can hand it back afterwards.
+   */
+  createSellerBindingChallenge: () =>
+    call<{
+      challenge: string;
+      expiresAt: string;
+      storeName: string;
+      instructions: string;
+    }>('POST', '/api/admin/seller-binding/challenge'),
+
   setPilot: (
     storeId: string,
     operation: 'activate' | 'pause',

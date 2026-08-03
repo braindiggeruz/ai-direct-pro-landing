@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Badge, Card, StatTile } from '../../components/ui';
 import { OwnerErrorCard, OwnerHeader, OwnerLoadingCard } from '../../components/OwnerControls';
+import { SellerBindingCard } from '../../components/SellerBindingCard';
 import { ownerApi, type OwnerApiError } from '../../lib/owner-api';
 import type {
   OwnerAuditEvent,
@@ -65,6 +66,8 @@ export default function OwnerStoreDetail() {
               </div>
             </div>
           </Card>
+
+          <SellerBindingCard/>
 
           <Card className="overflow-x-auto">
             <h2 className="font-display text-base text-white mb-3">Последние заказы</h2>
