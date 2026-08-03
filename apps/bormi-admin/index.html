@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru" class="admin-root">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- An operations console has nothing to offer a crawler, and a crawler has
+         nothing to offer it. The edge sends the same instruction in a header. -->
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="same-origin" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Bormi Admin</title>
+    <script>
+      // Theme before first paint, so the panel never flashes the wrong one.
+      // Stored per browser; it is a preference, not a setting anyone else sees.
+      try {
+        var stored = localStorage.getItem('bormi_admin_theme');
+        var dark = stored ? stored === 'dark'
+          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) document.documentElement.classList.add('dark');
+      } catch (error) { /* private mode: the default theme is fine */ }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

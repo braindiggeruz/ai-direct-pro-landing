@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+
+/*
+ * Bormi Admin design layer.
+ *
+ * The shell owes its shape to TailAdmin (MIT) - a fixed sidebar, a thin sticky
+ * header, cards on a quiet canvas. It owes its colour to Bormi: the violet the
+ * Mini App already uses for action, lime kept for one thing (something is
+ * genuinely good) and coral for one thing (something needs a person). A
+ * marketplace console that paints every panel in the brand colour tells the
+ * reader nothing, so almost all of this file is neutral surface, and colour is
+ * spent only where it carries meaning.
+ *
+ * Status is never colour alone. Every badge carries a word, and the colour is
+ * the second signal - which is what makes the panel legible to somebody who
+ * does not distinguish them, and readable in a dark room.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Bormi brand, taken from the Mini App so the two surfaces agree. */
+  --color-bormi-violet: #5b3cf2;
+  --color-bormi-violet-strong: #4625dc;
+  --color-bormi-lime: #d8ff57;
+  --color-bormi-coral: #ff7669;
+
+  /* Surfaces. Light is paper on a faintly violet canvas; dark is ink. */
+  --color-canvas: #f7f6fb;
+  --color-paper: #ffffff;
+  --color-soft: #efedf7;
+  --color-line: #dedbe8;
+  --color-ink: #17151f;
+  --color-muted: #666171;
+
+  --color-canvas-dark: #121017;
+  --color-paper-dark: #1c1924;
+  --color-soft-dark: #282431;
+  --color-line-dark: #3d3748;
+  --color-ink-dark: #fbf9ff;
+  --color-muted-dark: #b8b2c2;
+
+  /* Meaning, not decoration. Contrast-checked against both surfaces. */
+  --color-good: #14774d;
+  --color-good-dark: #6dd6a7;
+  --color-warn: #865c00;
+  --color-warn-dark: #f4c860;
+  --color-bad: #b62b35;
+  --color-bad-dark: #ff8e84;
+
+  /* Three radii, not ten. */
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 2px rgb(23 21 31 / 4%), 0 8px 24px rgb(61 43 122 / 6%);
+
+  /* No webfont. A console should not wait on a network to render a number. */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+@layer base {
+  :root {
+    --surface-canvas: var(--color-canvas);
+    --surface-paper: var(--color-paper);
+    --surface-soft: var(--color-soft);
+    --border-line: var(--color-line);
+    --text-primary: var(--color-ink);
+    --text-secondary: var(--color-muted);
+    --tone-good: var(--color-good);
+    --tone-warn: var(--color-warn);
+    --tone-bad: var(--color-bad);
+    --accent: var(--color-bormi-violet);
+  }
+
+  .dark {
+    --surface-canvas: var(--color-canvas-dark);
+    --surface-paper: var(--color-paper-dark);
+    --surface-soft: var(--color-soft-dark);
+    --border-line: var(--color-line-dark);
+    --text-primary: var(--color-ink-dark);
+    --text-secondary: var(--color-muted-dark);
+    --tone-good: var(--color-good-dark);
+    --tone-warn: var(--color-warn-dark);
+    --tone-bad: var(--color-bad-dark);
+    --accent: #9a88ff;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--surface-canvas);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Visible focus everywhere, including for the keyboard-only operator who
+     never touches a pointer. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .surface {
+    background: var(--surface-paper);
+    border: 1px solid var(--border-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .muted {
+    color: var(--text-secondary);
+  }
+
+  /* One skeleton, used by every screen, so loading always looks the same. */
+  .skeleton {
+    background: var(--surface-soft);
+    border-radius: var(--radius-control);
+    animation: skeleton 1.4s ease-in-out infinite;
+  }
+
+  @keyframes skeleton {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+
+  /* Tables scroll inside their own card. The page itself never does. */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
