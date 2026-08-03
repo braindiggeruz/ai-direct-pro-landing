@@ -496,6 +496,42 @@ test('the composer speaks both languages, and Uzbek with the right apostrophe', 
   }
 });
 
+test('the fallback offers to sell, and never to open a business', async () => {
+  const i18n = await source(I18N);
+  // The branch a person reaches when the flag is off or the server has not
+  // granted the commands. It is the overwhelming majority of people, so its
+  // wording is the product for now.
+  const fallback = (locale: 'ru' | 'uz') => {
+    const block = new RegExp(`\\n  ${locale}: \\{[\\s\\S]*?\\n  \\},`).exec(i18n)?.[0] ?? '';
+    const read = (key: string) => new RegExp(`\\n\\s{4}${key}: '((?:[^'\\\\]|\\\\.)*)'`).exec(block)?.[1];
+    return { title: read('createSellViaBot'), hint: read('createSellViaBotHint') };
+  };
+  const first = fallback('ru');
+  const second = fallback('uz');
+  // The same verb as the granted branch: what a person wants to do does not
+  // change with a flag, only where it currently happens.
+  assert.equal(first.title, 'Продать');
+  assert.equal(second.title, 'Sotish');
+  assert.ok(first.hint && second.hint, 'both subtitles must exist');
+  // Nobody is told they are opening a shop, registering a business, becoming a
+  // seller or setting up a storefront — none of which is what they asked to do.
+  for (const text of [first.title, first.hint]) {
+    assert.doesNotMatch(text!, /магазин|организац|бизнес|витрин|зарегистр|рабоче[ег]|стать продавцом/i);
+  }
+  for (const text of [second.title, second.hint]) {
+    assert.doesNotMatch(text!, /do‘kon|dokon|tashkilot|biznes|ro‘yxat|royxat|sotuvchi bo‘l/i);
+  }
+  // Both say where publishing happens today, and both name the bot.
+  assert.match(first.hint!, /Bormi/);
+  assert.match(second.hint!, /Bormi/);
+  // Uzbek keeps the project apostrophe convention.
+  assert.doesNotMatch(second.hint!, /\\'/);
+  // The control still goes to the real bot destination and invents no new URL.
+  const buyer = await source(BUYER);
+  assert.match(buyer, /href=\{SELLER_START_URL\}/);
+  assert.doesNotMatch(buyer, /https:\/\/t\.me\//);
+});
+
 test('QP-1A adds no migration, no endpoint, no launch request and no authority', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
   assert.equal(migrations.length, 30, 'QP-1A adds no migration');

@@ -205,8 +205,12 @@ const copy = {
     createTitle: 'Что хотите сделать?',
     createSell: 'Продать',
     createSellHint: 'Разместить объявление о вещи',
-    createSellViaBot: 'Продать через бота',
-    createSellViaBotHint: 'Магазин создаётся в чате с Bormi',
+    // The same verb as the granted branch. What differs is where the publishing
+    // happens today, and that belongs in the subtitle: a person selling one
+    // thing is not opening a business, and telling them a shop gets created is
+    // both untrue for them and enough to stop them.
+    createSellViaBot: 'Продать',
+    createSellViaBotHint: 'Публикация пока доступна через Bormi-бота',
     createWanted: 'Ищу',
     createWantedHint: 'Опишите, что ищете',
     // ── Buyer question ──────────────────────────────────────────────────────
@@ -477,8 +481,8 @@ const copy = {
     createTitle: 'Nima qilmoqchisiz?',
     createSell: 'Sotish',
     createSellHint: 'Buyumingiz haqida e’lon joylash',
-    createSellViaBot: 'Bot orqali sotish',
-    createSellViaBotHint: 'Do‘kon Bormi bilan suhbatda ochiladi',
+    createSellViaBot: 'Sotish',
+    createSellViaBotHint: 'E’lon joylash hozircha Bormi-bot orqali',
     createWanted: 'Qidiryapman',
     createWantedHint: 'Nimani qidirayotganingizni ayting',
     // ── Buyer question ──────────────────────────────────────────────────────
