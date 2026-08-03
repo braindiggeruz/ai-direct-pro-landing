@@ -285,6 +285,11 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .segmented button { min-width: 0; min-height: 44px; flex: 1; overflow: hidden; padding: 8px 6px; border: 0; border-radius: 11px; background: transparent; color: var(--text-secondary); font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
 .segmented button[aria-pressed="true"] { background: var(--surface-raised); box-shadow: 0 2px 8px rgb(29 20 61 / 10%); color: var(--action-primary); font-weight: 780; }
 .cabinet-note { margin: 0; padding: 0 2px; color: var(--text-secondary); font-size: .78rem; }
+.timing-list { display: grid; gap: 5px; margin: 0; }
+.timing-list > div { display: flex; justify-content: space-between; gap: 12px; }
+.timing-list dt { color: var(--text-secondary); font-size: .82rem; }
+.timing-list dd { margin: 0; font-size: .82rem; font-variant-numeric: tabular-nums; font-weight: 760; }
+.theme-button { color: var(--action-primary); }
 
 /* Seller cabinet: an exception-first home, paged queues and a full editor. */
 .hero--compact { padding: 4px 0 10px; }

@@ -8,7 +8,12 @@ import {
   setSessionLocale,
 } from './lib/api';
 import { t } from './lib/i18n';
-import { preferredLocale } from './platform/telegram';
+import {
+  preferredLocale,
+  readThemePreference,
+  setThemePreference,
+  type ThemePreference,
+} from './platform/telegram';
 import { BuyerApp } from './screens/BuyerApp';
 import type { Bootstrap, Locale, MarketLaunch, Role } from './types';
 
@@ -16,9 +21,27 @@ const SellerApp = lazy(() => import('./screens/SellerApp').then((module) => ({
   default: module.SellerApp,
 })));
 
+/** Авто → Светлая → Тёмная → Авто. Three taps return you where you started. */
+const THEME_CYCLE: Record<ThemePreference, ThemePreference> = {
+  auto: 'light',
+  light: 'dark',
+  dark: 'auto',
+};
+
+const THEME_ICON: Record<ThemePreference, 'contrast' | 'sun' | 'moon'> = {
+  auto: 'contrast',
+  light: 'sun',
+  dark: 'moon',
+};
+
 function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolean }) {
   const [role, setRole] = useState<Role>('buyer');
   const [locale, setLocale] = useState<Locale>(launch.session.locale);
+  const [theme, setTheme] = useState<ThemePreference>(readThemePreference);
+  const changeTheme = (next: ThemePreference) => {
+    setTheme(next);
+    setThemePreference(next);
+  };
   const bootstrap = useQuery<Bootstrap>({
     queryKey: ['bootstrap'],
     queryFn: ({ signal }) => marketApi.get('/bootstrap', signal),
@@ -56,6 +79,11 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
         <button aria-pressed={activeRole === 'buyer'} onClick={() => setRole('buyer')}>{t(locale, 'buyer')}</button>
         <button aria-pressed={activeRole === 'seller'} onClick={() => setRole('seller')}>{t(locale, 'seller')}</button>
       </div> : null}
+      <button
+        className="icon-button theme-button"
+        onClick={() => changeTheme(THEME_CYCLE[theme])}
+        aria-label={`${t(locale, 'theme')}: ${t(locale, `theme${theme === 'auto' ? 'Auto' : theme === 'light' ? 'Light' : 'Dark'}`)}`}
+      ><Icon name={THEME_ICON[theme]} size={19} /></button>
       <button className="icon-button locale-button" onClick={() => void changeLocale(locale === 'ru' ? 'uz' : 'ru')} aria-label={t(locale, 'language')}>{locale.toUpperCase()}</button>
     </header>
     {!online ? <div className="offline-banner" role="status"><Icon name="warning" size={17}/>{t(locale, 'offlineBody')}</div> : null}
@@ -71,6 +99,8 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
           userName={launch.session.user.firstName}
           activeCheckout={bootstrap.data.counters.activeCheckout}
           activeHandoff={bootstrap.data.counters.activeHandoff}
+          theme={theme}
+          onTheme={changeTheme}
           onLocale={(next) => void changeLocale(next)}
         />
       : <Suspense fallback={<LoadingView locale={locale} />}><SellerApp locale={locale} commands={sellerCommands} mediaUpload={mediaUpload} onBuyer={() => setRole('buyer')} /></Suspense>}

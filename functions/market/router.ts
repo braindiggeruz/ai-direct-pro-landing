@@ -514,13 +514,21 @@ async function exchangeSession(
   current?: MarketSessionClaims,
   includeLaunch = false,
 ): Promise<Response> {
+  // Phase marks for Server-Timing. Durations only — no identity, no content.
+  const started = Date.now();
+  const marks: Record<string, number> = {};
+  const mark = (name: string, from: number) => {
+    marks[name] = Date.now() - from;
+  };
   const body = await readMarketJson(request, 9_216);
   const raw = sessionBody(body);
   await enforceMarketRateLimit(
     'exchange',
     `${request.headers.get('CF-Connecting-IP') ?? 'unknown'}:${raw.slice(-96)}`,
   );
+  const verifyStart = Date.now();
   const init = await verifyTelegramInitData(raw, config.botToken);
+  mark('verify', verifyStart);
   if (current && current.telegramId !== init.user.id) {
     throw new MarketHttpError('invalid_session', 401);
   }
@@ -551,13 +559,16 @@ async function exchangeSession(
     ]);
     return { orgId: direct.orgId, storeId: direct.storeId, categories, results };
   }).catch(() => null);
+  const identityStart = Date.now();
   const identity = await services.identities.getOrCreateIdentity(
     'telegram',
     init.user.id,
   );
+  mark('identity', identityStart);
   if (current && current.sub !== identity.identity.id) {
     throw new MarketHttpError('invalid_session', 401);
   }
+  const bindStart = Date.now();
   const boundBuyer = await bindMarketLaunch(
     services,
     config.botUsername,
@@ -565,6 +576,7 @@ async function exchangeSession(
     init,
     directAhead,
   );
+  mark('bind', bindStart);
   const issued = await issueMarketSession(config.sessionSecret, {
     sub: identity.identity.id,
     telegramId: init.user.id,
@@ -614,19 +626,33 @@ async function exchangeSession(
     path: '/session/launch',
   };
   const bootstrap = launchBootstrapPayload(context);
+  const shelfStart = Date.now();
   const shelf = shelfAhead ? await shelfAhead : null;
   // Reused only when it is the same shelf. Signing the media handles is local
   // work, so it stays here rather than in the speculative read.
-  const home = shelf
+  const reusable = shelf
     && shelf.orgId === access.buyer.orgId
     && shelf.storeId === access.buyer.storeId
+    ? shelf
+    : null;
+  const home = reusable
     ? {
-      categories: shelf.categories,
-      products: await resultDtos(shelf.results, context),
+      categories: reusable.categories,
+      products: await resultDtos(reusable.results, context),
       updatedAt: new Date().toISOString(),
     }
     : await catalogHomePayload(context);
-  return marketJson({ session, bootstrap, home }, requestId, 201);
+  mark('shelf', shelfStart);
+  mark('total', started);
+  const response = marketJson({ session, bootstrap, home }, requestId, 201);
+  // Durations only, so the owner can say which half is slow instead of "долго".
+  // Nothing here identifies a person, a store or a query.
+  response.headers.set('Server-Timing', [
+    ...Object.entries(marks).map(([name, value]) => `${name};dur=${value}`),
+    `shelfhit;desc="${reusable ? 'ahead' : 'late'}"`,
+  ].join(', '));
+  response.headers.set('Access-Control-Expose-Headers', 'Server-Timing, x-request-id');
+  return response;
 }
 
 function commandOrg(context: RequestContext, requestKey: string) {

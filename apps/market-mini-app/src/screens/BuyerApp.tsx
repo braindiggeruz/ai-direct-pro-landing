@@ -9,7 +9,7 @@ import {
   voiceCaptureSupported,
   type VoiceRecording,
 } from '../lib/voice';
-import { haptic } from '../platform/telegram';
+import { haptic, type ThemePreference } from '../platform/telegram';
 import type {
   CatalogHome,
   CheckoutSnapshot,
@@ -64,6 +64,8 @@ interface BuyerAppProps {
   /** Server-reported: an order left half-filled and a question still open. */
   activeCheckout: boolean;
   activeHandoff: boolean;
+  theme: ThemePreference;
+  onTheme: (next: ThemePreference) => void;
   onLocale: (next: Locale) => void;
 }
 
@@ -285,6 +287,8 @@ export function BuyerApp({
   userName,
   activeCheckout,
   activeHandoff,
+  theme,
+  onTheme,
   onLocale,
 }: BuyerAppProps) {
   const client = useQueryClient();
@@ -638,7 +642,9 @@ export function BuyerApp({
           mediaUpload={mediaUpload}
           activeCheckout={activeCheckout}
           activeHandoff={activeHandoff}
+          theme={theme}
           onSearch={openSearch}
+          onTheme={onTheme}
           onLocale={onLocale}
           onWorkspace={setWorkspace}
         />

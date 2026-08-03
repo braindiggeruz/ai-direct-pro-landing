@@ -1,10 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
+import { readLaunchTiming } from '../lib/api';
 import { t } from '../lib/i18n';
-import {
-  readThemePreference,
-  setThemePreference,
-  type ThemePreference,
-} from '../platform/telegram';
+import type { ThemePreference } from '../platform/telegram';
 import type { Locale } from '../types';
 import { Icon, LoadingView, SectionHeader } from '../components/ui';
 import { BuyerOrdersList } from './BuyerOrders';
@@ -31,7 +28,9 @@ interface CabinetAppProps {
   activeCheckout: boolean;
   /** True while a question to a seller is still open. */
   activeHandoff: boolean;
+  theme: ThemePreference;
   onSearch: () => void;
+  onTheme: (next: ThemePreference) => void;
   onLocale: (next: Locale) => void;
   /**
    * Raised while the seller workspace is open. That screen carries its own
@@ -113,13 +112,15 @@ export function CabinetApp({
   mediaUpload,
   activeCheckout,
   activeHandoff,
+  theme,
   onSearch,
+  onTheme,
   onLocale,
   onWorkspace,
 }: CabinetAppProps) {
   const [section, setSection] = useState<CabinetSection>('root');
-  const [theme, setTheme] = useState<ThemePreference>(readThemePreference);
   const workspace = section === 'store' && sellerAvailable;
+  const timing = readLaunchTiming();
 
   useEffect(() => {
     onWorkspace(workspace);
@@ -147,11 +148,6 @@ export function CabinetApp({
       <BuyerOrdersList locale={locale} onSearch={onSearch} />
     </>;
   }
-
-  const changeTheme = (next: ThemePreference) => {
-    setTheme(next);
-    setThemePreference(next);
-  };
 
   return <>
     <section className="hero"><h1>{t(locale, 'cabinet')}</h1></section>
@@ -212,7 +208,7 @@ export function CabinetApp({
             { value: 'light' as ThemePreference, label: t(locale, 'themeLight') },
             { value: 'dark' as ThemePreference, label: t(locale, 'themeDark') },
           ]}
-          onChange={changeTheme}
+          onChange={onTheme}
         />
         <p className="cabinet-note">{t(locale, 'themeHint')}</p>
       </div>
@@ -226,6 +222,32 @@ export function CabinetApp({
           title={t(locale, 'helpTitle')}
           hint={t(locale, 'helpBody')}
         />
+        {timing ? <div className="cabinet-choice">
+          <span className="cabinet-choice__label">{t(locale, 'launchTiming')}</span>
+          <dl className="timing-list">
+            <div>
+              <dt>{t(locale, 'timingShelf')}</dt>
+              <dd>{timing.totalMs} {t(locale, 'ms')}</dd>
+            </div>
+            {timing.serverMs !== null ? <div>
+              <dt>{t(locale, 'timingServer')}</dt>
+              <dd>{timing.serverMs} {t(locale, 'ms')}</dd>
+            </div> : null}
+            {timing.serverMs !== null ? <div>
+              <dt>{t(locale, 'timingNetwork')}</dt>
+              <dd>{Math.max(0, timing.totalMs - timing.serverMs)} {t(locale, 'ms')}</dd>
+            </div> : null}
+            {timing.documentMs !== null ? <div>
+              <dt>{t(locale, 'timingDocument')}</dt>
+              <dd>{timing.documentMs} {t(locale, 'ms')}</dd>
+            </div> : null}
+            {timing.scriptsMs !== null ? <div>
+              <dt>{t(locale, 'timingScripts')}</dt>
+              <dd>{timing.scriptsMs} {t(locale, 'ms')}</dd>
+            </div> : null}
+          </dl>
+          <p className="cabinet-note">{t(locale, 'timingHint')}</p>
+        </div> : null}
       </div>
     </section>
   </>;

@@ -160,12 +160,43 @@ test('the launch reads the shelf without waiting for the identity', async () => 
   // Used only when it is the same shelf, so a different storefront still reads
   // its own rows.
   assert.match(router, /shelf\.orgId === access\.buyer\.orgId\s*\n\s*&& shelf\.storeId === access\.buyer\.storeId/);
+  assert.match(router, /const home = reusable/);
   assert.match(router, /: await catalogHomePayload\(context\)/);
+});
+
+test('the launch reports how long it took and nothing about who asked', async () => {
+  const router = await source('functions/market/router.ts');
+  assert.match(router, /response\.headers\.set\('Server-Timing'/);
+  assert.match(router, /`\$\{name\};dur=\$\{value\}`/);
+  assert.match(router, /'Access-Control-Expose-Headers', 'Server-Timing, x-request-id'/);
+  // Durations only. A phase name is not allowed to carry an id, a store or a
+  // query, so the set of marks is fixed and checked here.
+  const marks = [...router.matchAll(/mark\('([a-z]+)',/g)].map((match) => match[1]);
+  assert.deepEqual([...new Set(marks)].sort(), ['bind', 'identity', 'shelf', 'total', 'verify']);
+  const api = await source('apps/market-mini-app/src/lib/api.ts');
+  assert.match(api, /export function readLaunchTiming\(\): LaunchTiming \| null/);
+  assert.match(api, /total;dur=/);
+});
+
+test('one theme choice drives both the header and the cabinet', async () => {
+  const app = await source('apps/market-mini-app/src/App.tsx');
+  // The state lives once, at the top: a header control and a cabinet control
+  // that each kept their own copy would disagree the moment either was used.
+  assert.match(app, /const \[theme, setTheme\] = useState<ThemePreference>\(readThemePreference\)/);
+  assert.match(app, /className="icon-button theme-button"/);
+  assert.match(app, /<Icon name=\{THEME_ICON\[theme\]\} size=\{19\} \/>/);
+  assert.match(app, /onTheme=\{changeTheme\}/);
+  const cabinet = await source('apps/market-mini-app/src/screens/CabinetApp.tsx');
+  assert.doesNotMatch(cabinet, /useState<ThemePreference>/);
+  assert.match(cabinet, /onChange=\{onTheme\}/);
+  // Icons, not emoji, and one per state.
+  const ui = await source('apps/market-mini-app/src/components/ui.tsx');
+  for (const icon of ['sun:', 'moon:', 'contrast:']) assert.ok(ui.includes(icon), `${icon} missing`);
 });
 
 test('the shell change carries a new cache name', async () => {
   const worker = await source('apps/market-mini-app/public/sw.js');
-  assert.match(worker, /const CACHE = 'bormi-shell-v9'/);
+  assert.match(worker, /const CACHE = 'bormi-shell-v10'/);
   assert.match(worker, /keys\.filter\(\(key\) => key !== CACHE\)\.map\(\(key\) => caches\.delete\(key\)\)/);
 });
 

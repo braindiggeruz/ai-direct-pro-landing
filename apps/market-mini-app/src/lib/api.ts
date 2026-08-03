@@ -36,6 +36,45 @@ interface RequestOptions {
   command?: boolean;
   signal?: AbortSignal;
   timeoutMs?: number;
+  /** Called with the raw response before the body is read. Headers only. */
+  onResponse?: (response: Response) => void;
+}
+
+/**
+ * How long the opening screen actually took, split where it can be split.
+ *
+ * Durations only. "Долго" is not something anyone can act on; a number that
+ * says whether the time went to the network or to the server is.
+ */
+export interface LaunchTiming {
+  /** Request issued → response body parsed, measured on the device. */
+  totalMs: number;
+  /** What the Worker reported spending, from Server-Timing. */
+  serverMs: number | null;
+  /** Whether the shelf was read ahead of the binding or after it. */
+  shelfHit: string | null;
+  /** Navigation start → HTML received. */
+  documentMs: number | null;
+  /** Navigation start → scripts parsed and run. */
+  scriptsMs: number | null;
+}
+
+let launchTiming: LaunchTiming | null = null;
+
+export function readLaunchTiming(): LaunchTiming | null {
+  return launchTiming;
+}
+
+function navigationTiming(): Pick<LaunchTiming, 'documentMs' | 'scriptsMs'> {
+  const entry = performance.getEntriesByType('navigation')[0] as
+    PerformanceNavigationTiming | undefined;
+  if (!entry) return { documentMs: null, scriptsMs: null };
+  return {
+    documentMs: Math.round(entry.responseEnd),
+    scriptsMs: entry.domContentLoadedEventEnd
+      ? Math.round(entry.domContentLoadedEventEnd)
+      : null,
+  };
 }
 
 async function fixtureRequest<T>(path: string, options: RequestOptions): Promise<T> {
@@ -73,6 +112,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     globalThis.clearTimeout(timeout);
     options.signal?.removeEventListener('abort', abort);
   }
+  options.onResponse?.(response);
   if (response.status === 204) return undefined as T;
   const contentType = response.headers.get('Content-Type')?.toLowerCase() ?? '';
   const isJson = contentType.includes('application/json');
@@ -111,17 +151,43 @@ export async function exchangeSession(): Promise<SessionExchange> {
 
 export async function exchangeLaunch(): Promise<MarketLaunch> {
   if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+    const fixtureStart = performance.now();
     const launch = await fixtureRequest<MarketLaunch>('/session/launch', {
       method: 'POST', body: { initData: 'fixture' },
     });
+    // The fixture answers locally, so there is no server half to report — but
+    // the panel still has to be reviewable before it ships.
+    launchTiming = {
+      totalMs: Math.round(performance.now() - fixtureStart),
+      serverMs: null,
+      shelfHit: null,
+      ...navigationTiming(),
+    };
     sessionToken = launch.session.token;
     return launch;
   }
   const initData = telegramInitData();
   if (!initData) throw new MarketApiError('unsupported_environment', 403, null);
+  const startedAt = performance.now();
+  let serverMs: number | null = null;
+  let shelfHit: string | null = null;
   const launch = await request<MarketLaunch>('/session/launch', {
-    method: 'POST', body: { initData }, timeoutMs: LAUNCH_TIMEOUT_MS,
+    method: 'POST',
+    body: { initData },
+    timeoutMs: LAUNCH_TIMEOUT_MS,
+    onResponse: (response) => {
+      const timing = response.headers.get('Server-Timing') ?? '';
+      const total = /total;dur=(\d+(?:\.\d+)?)/.exec(timing);
+      serverMs = total ? Math.round(Number(total[1])) : null;
+      shelfHit = /shelfhit;desc="([a-z]+)"/.exec(timing)?.[1] ?? null;
+    },
   });
+  launchTiming = {
+    totalMs: Math.round(performance.now() - startedAt),
+    serverMs,
+    shelfHit,
+    ...navigationTiming(),
+  };
   sessionToken = launch.session.token;
   return launch;
 }

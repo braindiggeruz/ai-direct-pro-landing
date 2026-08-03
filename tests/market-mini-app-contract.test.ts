@@ -91,7 +91,7 @@ test('Market launch collapses startup data and ships a bounded local demo image 
   // The shelf still ships inside the launch response; it is now read ahead of
   // the binding when the storefront can be guessed, with the original read kept
   // as the fallback.
-  assert.match(router, /return marketJson\(\{ session, bootstrap, home \}/);
+  assert.match(router, /marketJson\(\{ session, bootstrap, home \}/);
   assert.match(router, /: await catalogHomePayload\(context\)/);
   assert.match(router, /const boundBuyer = await bindMarketLaunch/);
   assert.match(router, /boundBuyer \?\? undefined/);

@@ -16,7 +16,8 @@ export type IconName =
   | 'home' | 'search' | 'compare' | 'orders' | 'seller' | 'back'
   | 'filter' | 'close' | 'box' | 'help' | 'inventory' | 'products'
   | 'check' | 'warning' | 'plus' | 'edit' | 'refresh' | 'chevron'
-  | 'spark' | 'mic' | 'stop' | 'cabinet' | 'heart';
+  | 'spark' | 'mic' | 'stop' | 'cabinet' | 'heart'
+  | 'sun' | 'moon' | 'contrast';
 
 const paths: Record<IconName, ReactNode> = {
   home: <><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></>,
@@ -42,6 +43,10 @@ const paths: Record<IconName, ReactNode> = {
   stop: <rect x="7" y="7" width="10" height="10" rx="2.5"/>,
   cabinet: <><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></>,
   heart: <path d="M12 20S4 14.6 4 9.6A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 8 2c0 5-8 10.4-8 10.4z"/>,
+  sun: <><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></>,
+  moon: <path d="M20 13.4A8 8 0 1 1 10.6 4a6.4 6.4 0 0 0 9.4 9.4z"/>,
+  // Half-filled disc: the app takes whichever side Telegram is on.
+  contrast: <><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></>,
 };
 
 export function BrandMark({ size = 40 }: { size?: number }) {
