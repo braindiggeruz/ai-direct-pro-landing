@@ -72,16 +72,17 @@ Re-run in full on 2026-08-04 after the amendment. Both columns are that run.
 | Market Mini App tests | 19/19 pass |
 | Secret scan | 14/14 pass |
 | Full corpus, 63 files | 1374/1378 pass |
-| Root build | not re-run — see below |
+| Root build | pass — re-run 2026-08-04, exit 0 |
 | Admin build | pass |
 | `git diff --check` | clean |
 | Migrations | 32, unchanged |
 
-The root build was not re-run. Nothing outside `apps/bormi-admin/`, `tests/`,
-`docs/` and one new standalone script changed; the new script is wired to
-`npm run admin:evidence` and is not part of any build chain; and the root
-typecheck that does cover it passed. Claiming a gate that was not run would be
-worse than recording why it was skipped.
+The root build was re-run on 2026-08-04 and exits 0. It emits 240 sitemap
+entries, 113 pages plus 124 articles — the same 240 the checkpoint session
+emitted, and the same 240 the stale test still expects to be 234. The working
+tree is unchanged by the build: everything it writes goes to `dist/`.
+
+This closes the one gate the checkpoint left open.
 
 The four full-corpus failures are inherited, and they are still exactly four.
 Each was reproduced in a detached worktree at `01a0f88` before this work was
