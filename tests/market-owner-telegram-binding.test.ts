@@ -7,12 +7,16 @@ import { fileURLToPath } from 'node:url';
 
 import {
   BINDING_CHALLENGE_TTL_MS,
+  CANARY_MAX_TTL_MS,
   SellerBindingError,
+  bindingCeremonyOpen,
   bindingEnabled,
+  canaryDigest,
   createSellerBindingChallenge,
   ensureSellerBindingSchema,
   hashChallenge,
   inspectSellerBindingChallenge,
+  parseCanaryWindow,
   redeemSellerBindingChallenge,
   resetBindingAttempts,
 } from '../functions/platform/admin/seller-binding';
@@ -99,10 +103,14 @@ test('the binding is a declared switch that ships off and fails closed', async (
 test('off, neither endpoint admits to existing', async () => {
   const admin = await source(ADMIN_ROUTE);
   // 404 rather than 403: a 403 confirms the route is real and worth returning to.
-  assert.match(admin, /if \(!bindingEnabled\(env\)\) return ownerError\('not_found', requestId, 404\);/);
+  // Off means both ways in are shut — the global switch and any canary window.
+  assert.match(
+    admin,
+    /if \(!bindingEnabled\(env\) && !canaryConfigured\) \{\s*\r?\n\s*return ownerError\('not_found', requestId, 404\);/,
+  );
   const router = code(await source(ROUTER));
   const handler = region(router, HANDLER, 'binding handler');
-  assert.match(handler, /if \(!bindingEnabled\(env\)\) return null;/);
+  assert.match(handler, /if \(!bindingCeremonyOpen\(env, new Date\(\)\)\) return null;/);
   // Returning null puts it back in the dispatch chain, which ends in the same
   // resource_not_found every unknown path gets.
   assert.match(router, /return marketError\('resource_not_found', requestId, 404\);/);
@@ -113,17 +121,17 @@ test('the flag opens a door and never walks through it', async () => {
   // It gates the two entry points and appears nowhere near a grant.
   const grants = service.split(/\r?\n/).filter((line) => /role|status|memberships/i.test(line));
   for (const line of grants) {
-    assert.doesNotMatch(line, /MARKET_OWNER_TELEGRAM_BINDING_ENABLED|bindingEnabled/);
+    assert.doesNotMatch(line, /MARKET_OWNER_TELEGRAM_BINDING_ENABLED|bindingEnabled|bindingCeremonyOpen/);
   }
   // AUTH-1F gave the Mini App one bootstrap field so the cabinet can decide
   // whether the row is worth offering. It is the only thing about the binding a
   // client is ever told, and it is presentation: the block that reports it
-  // computes it from the env switch alone, never from anything about the person.
+  // computes it from the environment alone, never from anything about the person.
   const router = await source(ROUTER);
   const flags = region(router, /flags: \{[\s\S]*?\r?\n {4}\},/, 'bootstrap flags');
   const bindingFields = [...flags.matchAll(/^\s*(\w*[Bb]inding\w*):/gm)].map((match) => match[1]);
   assert.deepEqual(bindingFields, ['ownerTelegramBinding'], 'one presentation field, no more');
-  assert.match(flags, /ownerTelegramBinding: marketFlag\(context\.env\.MARKET_OWNER_TELEGRAM_BINDING_ENABLED\),/);
+  assert.match(flags, /ownerTelegramBinding: bindingCeremonyOpen\(context\.env, new Date\(\)\),/);
   // It is computed from the switch and nothing else — no membership, no store,
   // no access context can leak into it and make it look like a capability.
   assert.doesNotMatch(
@@ -1278,17 +1286,16 @@ test('behaviour: inspect has its own attempt budget and does not spend redemptio
 
 test('the owner card mints through the canonical route and steers nothing', async () => {
   const api = code(await source(OWNER_API));
-  const call = region(api, /createSellerBindingChallenge: \(\) =>[\s\S]*?\),/, 'owner mint call');
-  // No argument at all: there is no field here that could point the grant
-  // somewhere else, because the target is resolved from the owner's own
-  // authorization on the server.
-  assert.match(call, /createSellerBindingChallenge: \(\) =>/);
-  assert.match(call, /'POST', '\/api\/admin\/seller-binding\/challenge'/);
+  const call = region(api, /createSellerBindingChallenge: \(canary\?: string\) =>[\s\S]*?\),/, 'owner mint call');
+  // One argument, and it selects nothing: the canary key proves this is the
+  // approved ceremony, while the target is still resolved from the owner's own
+  // authorization on the server. Nothing here can point the grant elsewhere.
+  assert.match(call, /'POST', '\/api\/admin\/seller-binding\/challenge', canary \? \{ canary \} : undefined/);
   assert.doesNotMatch(call, /storeId|orgId|identityId|telegram/i);
   // It goes through the shared client, which is the only thing that touches the
   // admin token.
   const card = code(await source(OWNER_CARD));
-  assert.match(card, /ownerApi\.createSellerBindingChallenge\(\)/);
+  assert.match(card, /ownerApi\.createSellerBindingChallenge\(canaryKey\.trim\(\) \|\| undefined\)/);
   assert.doesNotMatch(card, /getToken|Authorization|Bearer|gptbot_admin_token/);
 });
 
@@ -1335,11 +1342,14 @@ test('the binding row is presentation, offered only by the server', async () => 
   const types = await source(MINI_APP_TYPES);
   assert.match(types, /ownerTelegramBinding\?: boolean;/);
   const router = code(await source(ROUTER));
-  assert.match(router, /ownerTelegramBinding: marketFlag\(context\.env\.MARKET_OWNER_TELEGRAM_BINDING_ENABLED\)/);
+  // One predicate for the row, the two endpoints and nothing else: presentation
+  // cannot drift open while the server is shut, or shut while the server is
+  // open, because there is only one thing to read.
+  assert.match(router, /ownerTelegramBinding: bindingCeremonyOpen\(context\.env, new Date\(\)\)/);
   // Both bootstrap shapes carry it, so a degraded launch does not silently
   // present a door the full one would have hidden.
   assert.equal(
-    [...router.matchAll(/ownerTelegramBinding: marketFlag\(/g)].length,
+    [...router.matchAll(/ownerTelegramBinding: bindingCeremonyOpen\(/g)].length,
     2,
   );
   const app = code(await source('apps/market-mini-app/src/App.tsx'));
@@ -1471,4 +1481,433 @@ test('behaviour: the ledger repair changes no schema and no business data', asyn
   assert.deepEqual(schemaAfter, schemaBefore, 'the repair executes none of the DDL it records');
   assert.deepEqual(db.rows('PRAGMA foreign_key_check'), []);
   assert.equal(db.value('PRAGMA integrity_check'), 'ok');
+});
+
+// ── AUTH-1F · the owner-only canary ───────────────────────────────────────────
+//
+// One ceremony, for one owner, while the switch that would open it for everyone
+// stays off. What follows is the whole of what the canary may do, asserted from
+// both directions: that the approved owner can complete exactly one binding, and
+// that nobody and nothing else gains anything at all while the window is open.
+
+const CANARY_KEY = 'ab12cd34'.repeat(8);
+const CANARY_FROM = '2026-08-03T09:55:00.000Z';
+const CANARY_UNTIL = '2026-08-03T10:05:00.000Z';
+const CANARY_NOW = new Date('2026-08-03T10:00:00.000Z');
+
+interface CanaryOptions {
+  key?: string;
+  org?: string;
+  from?: string;
+  until?: string;
+  expected?: number;
+}
+
+async function canaryValue(options: CanaryOptions = {}): Promise<string> {
+  const from = options.from ?? CANARY_FROM;
+  const until = options.until ?? CANARY_UNTIL;
+  const expected = options.expected ?? 0;
+  const digest = await canaryDigest(options.key ?? CANARY_KEY, options.org ?? ORG, {
+    issuedAt: from,
+    expiresAt: until,
+    expectedChallenges: expected,
+  });
+  return `v1|${digest}|${from}|${until}|${expected}`;
+}
+
+/** The production shape: global switch off, one canary window, nothing else. */
+async function canaryEnv(options: CanaryOptions = {}): Promise<Env> {
+  return bindingEnv({
+    MARKET_OWNER_TELEGRAM_BINDING_ENABLED: 'false',
+    MARKET_OWNER_TELEGRAM_BINDING_CANARY: await canaryValue(options),
+  });
+}
+
+function canaryMint(
+  db: SqliteD1,
+  env: Env,
+  key: unknown = CANARY_KEY,
+  now = CANARY_NOW,
+  actor = OWNER_EMAIL,
+) {
+  return createSellerBindingChallenge(env, db.asD1(), actor, now, key);
+}
+
+test('canary: the global switch stays off and the canary is not a second switch', async () => {
+  const wrangler = await source('wrangler.toml');
+  assert.match(wrangler, /MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"/);
+  // The canary is not deployed configuration. It exists for one window and is
+  // taken out again, so the committed tree must never carry one.
+  assert.doesNotMatch(wrangler, /MARKET_OWNER_TELEGRAM_BINDING_CANARY/);
+  const env = await canaryEnv();
+  // Flipping the global flag is what was refused; the canary does not do it by
+  // another name, and every reader of the flag still sees exactly false.
+  assert.equal(bindingEnabled(env), false);
+  // And it cannot be worn as a boolean: a truthy string is not a grant.
+  for (const value of ['true', '1', 'yes', 'v1', 'v1|x|y|z|0', '']) {
+    assert.equal(
+      parseCanaryWindow(bindingEnv({ MARKET_OWNER_TELEGRAM_BINDING_CANARY: value })),
+      null,
+      `${value} must not parse as a grant`,
+    );
+  }
+});
+
+test('canary: an owner session with nothing configured mints nothing', async () => {
+  const db = freshDb();
+  const off = bindingEnv({ MARKET_OWNER_TELEGRAM_BINDING_ENABLED: 'false' });
+  assert.equal(bindingCeremonyOpen(off, CANARY_NOW), false);
+  assert.equal(await failure(() => canaryMint(db, off)), 'binding_disabled');
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(off, db.asD1(), OWNER_TELEGRAM, 'a'.repeat(64), CANARY_NOW)),
+    'binding_disabled',
+  );
+  assert.equal(
+    await failure(() => redeemSellerBindingChallenge(
+      off, db.asD1(), OWNER_TELEGRAM, 'a'.repeat(64), REQUEST_ID, CANARY_NOW,
+    )),
+    'binding_disabled',
+  );
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'), 0);
+});
+
+test('canary: the approved owner mints one code, and the path shuts behind it', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  const issued = await canaryMint(db, env);
+  assert.match(issued.challenge, /^[0-9a-f]{64}$/);
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'), 1);
+
+  // A second attempt inside the same live window, holding the same valid key,
+  // with the first code already spent so that nothing is outstanding. It is
+  // still refused: the grant was for one challenge, and the count that proves
+  // it survives the isolate, the redemption and the clock.
+  await redeemSellerBindingChallenge(
+    env, db.asD1(), OWNER_TELEGRAM, issued.challenge, REQUEST_ID, new Date('2026-08-03T10:01:00.000Z'),
+  );
+  assert.equal(
+    await failure(() => canaryMint(db, env, CANARY_KEY, new Date('2026-08-03T10:02:00.000Z'))),
+    'canary_consumed',
+  );
+  // Nor by redeploying the very same grant: the expectation is about the store,
+  // not about this deployment, so re-issuing it changes nothing.
+  const reissued = await canaryEnv();
+  assert.equal(
+    await failure(() => canaryMint(db, reissued, CANARY_KEY, new Date('2026-08-03T10:03:00.000Z'))),
+    'canary_consumed',
+  );
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'), 1);
+});
+
+test('canary: an owner session that does not hold the key is refused', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  // Same signed platform_owner role, same endpoint, different person at it. The
+  // grant is possession of a key handed to one operator for one ceremony, so a
+  // second owner session — or the same one guessing — gets nothing.
+  assert.equal(
+    await failure(() => canaryMint(db, env, 'f'.repeat(64), CANARY_NOW, 'second.owner@example.test')),
+    'canary_invalid',
+  );
+  // An owner who sends no key at all is the same refusal: the ceremony is not
+  // something the console can start by asking nicely.
+  assert.equal(
+    await failure(() => createSellerBindingChallenge(env, db.asD1(), OWNER_EMAIL, CANARY_NOW)),
+    'canary_invalid',
+  );
+  for (const shape of [null, '', 'short', CANARY_KEY.toUpperCase(), 42]) {
+    assert.equal(await failure(() => canaryMint(db, env, shape)), 'canary_invalid');
+  }
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'), 0);
+});
+
+test('canary: the grant only fits the organization it was cut for', async () => {
+  const db = freshDb();
+  // The digest binds the organization the database resolves, not one the caller
+  // names — there is no field to name one with. A grant cut for another org
+  // therefore cannot be spent here, and this one cannot be spent there.
+  const foreign = await canaryEnv({ org: 'org_somebody_else' });
+  assert.equal(await failure(() => canaryMint(db, foreign)), 'canary_invalid');
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'), 0);
+});
+
+test('canary: the window is enforced at both ends and cannot be widened', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  assert.equal(
+    await failure(() => canaryMint(db, env, CANARY_KEY, new Date('2026-08-03T09:54:59.000Z'))),
+    'canary_expired',
+  );
+  assert.equal(
+    await failure(() => canaryMint(db, env, CANARY_KEY, new Date(CANARY_UNTIL))),
+    'canary_expired',
+  );
+  // A window wider than the cap is not clamped down to it. It fails to parse,
+  // which means it is not a grant at all — so an operator cannot leave one open
+  // for a day by writing a later timestamp.
+  assert.equal(CANARY_MAX_TTL_MS, 15 * 60 * 1000);
+  const wide = await canaryEnv({ until: '2026-08-03T10:11:00.000Z' });
+  assert.equal(parseCanaryWindow(wide), null);
+  assert.equal(await failure(() => canaryMint(db, wide)), 'binding_disabled');
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'), 0);
+});
+
+test('canary: every plaintext part of the grant is inside its digest', async () => {
+  const db = freshDb();
+  const honest = await canaryValue();
+  const [version, digest, from, until] = honest.split('|');
+  assert.equal(version, 'v1');
+  // Widening the precondition, moving the window, or pointing an old digest at
+  // a new string: each one is a different grant, and none of them verifies.
+  const forged = [
+    `v1|${digest}|${from}|${until}|1`,
+    `v1|${digest}|2026-08-03T09:50:00.000Z|${until}|0`,
+    `v1|${digest}|${from}|2026-08-03T10:04:00.000Z|0`,
+  ];
+  for (const value of forged) {
+    const env = bindingEnv({
+      MARKET_OWNER_TELEGRAM_BINDING_ENABLED: 'false',
+      MARKET_OWNER_TELEGRAM_BINDING_CANARY: value,
+    });
+    assert.equal(await failure(() => canaryMint(db, env)), 'canary_invalid', value);
+  }
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'), 0);
+});
+
+test('canary: one exact code binds, and nothing else does', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  const issued = await canaryMint(db, env);
+
+  // The look-up half answers for this code and refuses every other, so the
+  // window does not become an oracle for codes that were never minted.
+  const inspected = await inspectSellerBindingChallenge(
+    env, db.asD1(), OWNER_TELEGRAM, issued.challenge, CANARY_NOW,
+  );
+  assert.equal(inspected.storeName, 'Bormi Shop');
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(
+      env, db.asD1(), OWNER_TELEGRAM, 'b'.repeat(64), CANARY_NOW,
+    )),
+    'challenge_invalid',
+  );
+
+  const result = await redeemSellerBindingChallenge(
+    env, db.asD1(), OWNER_TELEGRAM, issued.challenge, REQUEST_ID, CANARY_NOW,
+  );
+  assert.equal(result.sellerRead, true);
+  assert.equal(result.sellerCommands, true);
+  assert.equal(result.alreadyBound, false);
+  assert.equal(telegramMemberships(db), 1);
+  assert.equal(count(db, "SELECT COUNT(*) FROM owner_audit_events WHERE action = 'seller.bind'"), 1);
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges WHERE redeemed_at IS NOT NULL'), 1);
+  // The global flag was false for every one of those calls, and stays false.
+  assert.equal(bindingEnabled(env), false);
+
+  // Replay, after the fact, from the same session that legitimately spent it.
+  assert.equal(
+    await failure(() => redeemSellerBindingChallenge(
+      env, db.asD1(), OWNER_TELEGRAM, issued.challenge, REQUEST_ID, CANARY_NOW,
+    )),
+    'challenge_spent',
+  );
+  assert.equal(telegramMemberships(db), 1);
+  assert.equal(count(db, "SELECT COUNT(*) FROM owner_audit_events WHERE action = 'seller.bind'"), 1);
+  // Nothing else moved: no organization, no store, no onboarding, no second
+  // membership for anybody.
+  assert.equal(count(db, 'SELECT COUNT(*) FROM organizations'), 1);
+  assert.equal(count(db, 'SELECT COUNT(*) FROM sotuvchi_stores'), 1);
+  assert.equal(count(db, 'SELECT COUNT(*) FROM memberships'), 2, 'the api owner plus this one');
+  assert.equal(telegramMemberships(db, OTHER_TELEGRAM), 0);
+});
+
+test('canary: the code outlives the window by one challenge TTL and no longer', async () => {
+  const env = await canaryEnv();
+  const until = Date.parse(CANARY_UNTIL);
+  // A code minted in the last minute of the window is alive after the window
+  // closes, and the redeem side has to stay reachable for exactly that long.
+  assert.equal(bindingCeremonyOpen(env, new Date(until - 1)), true);
+  assert.equal(bindingCeremonyOpen(env, new Date(until + BINDING_CHALLENGE_TTL_MS - 1)), true);
+  assert.equal(bindingCeremonyOpen(env, new Date(until + BINDING_CHALLENGE_TTL_MS)), false);
+  // Before it opens, it is shut.
+  assert.equal(bindingCeremonyOpen(env, new Date(Date.parse(CANARY_FROM) - 1)), false);
+});
+
+test('canary: a code that expired unspent binds nobody, ever', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  const issued = await canaryMint(db, env);
+  const late = new Date(CANARY_NOW.getTime() + BINDING_CHALLENGE_TTL_MS);
+  assert.equal(
+    await failure(() => redeemSellerBindingChallenge(
+      env, db.asD1(), OWNER_TELEGRAM, issued.challenge, REQUEST_ID, late,
+    )),
+    'challenge_expired',
+  );
+  assert.equal(telegramMemberships(db), 0);
+  assert.equal(count(db, "SELECT COUNT(*) FROM owner_audit_events WHERE action = 'seller.bind'"), 0);
+  // And the ceremony does not reopen to make up for it: a replacement code
+  // needs a new decision, not a retry.
+  assert.equal(await failure(() => canaryMint(db, env, CANARY_KEY, late)), 'canary_expired');
+});
+
+test('canary: the identity comes from the session and the target from the code', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  const issued = await canaryMint(db, env);
+  // Whoever authenticates is who gets bound. The minting owner cannot pre-select
+  // a Telegram account, and the redeeming session cannot select anything at all
+  // — there is no argument for it in either direction.
+  await redeemSellerBindingChallenge(
+    env, db.asD1(), OTHER_TELEGRAM, issued.challenge, REQUEST_ID, CANARY_NOW,
+  );
+  assert.equal(telegramMemberships(db, OTHER_TELEGRAM), 1);
+  assert.equal(telegramMemberships(db, OWNER_TELEGRAM), 0);
+  assert.equal(
+    count(db, "SELECT COUNT(*) FROM memberships WHERE identity_id = ? AND org_id = ? AND role = 'owner' AND status = 'active'", OTHER_TELEGRAM, ORG),
+    1,
+  );
+});
+
+test('canary: a refused ceremony leaves both tables exactly as it found them', async () => {
+  const db = freshDb();
+  const before = {
+    challenges: count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'),
+    memberships: count(db, 'SELECT COUNT(*) FROM memberships'),
+    audit: count(db, 'SELECT COUNT(*) FROM owner_audit_events'),
+  };
+  const env = await canaryEnv();
+  assert.equal(await failure(() => canaryMint(db, env, 'e'.repeat(64))), 'canary_invalid');
+  assert.deepEqual(
+    {
+      challenges: count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges'),
+      memberships: count(db, 'SELECT COUNT(*) FROM memberships'),
+      audit: count(db, 'SELECT COUNT(*) FROM owner_audit_events'),
+    },
+    before,
+  );
+});
+
+test('canary: the key is never stored, never logged and never leaves the server', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  const issued = await canaryMint(db, env);
+  // The row keeps a digest of the challenge and the operator identity that
+  // already appears in the audit trail. The key is in none of it.
+  const rows = db.rows<Record<string, unknown>>('SELECT * FROM seller_identity_binding_challenges');
+  const dump = JSON.stringify(rows);
+  assert.doesNotMatch(dump, new RegExp(CANARY_KEY, 'i'));
+  assert.doesNotMatch(dump, new RegExp(issued.challenge, 'i'));
+
+  const service = code(await source(SERVICE));
+  const route = code(await source(ADMIN_ROUTE));
+  for (const text of [service, route]) {
+    assert.doesNotMatch(text, /console\.(log|info|warn|debug|error)/);
+    // No bearer token, no session, no header, no cookie: the grant is checked
+    // against claims the wrapper already verified, never against a raw token.
+    assert.doesNotMatch(text, /Authorization|Bearer|jwt|cookie/i);
+  }
+  const card = code(await source('src/admin/components/SellerBindingCard.tsx'));
+  assert.doesNotMatch(card, /localStorage|sessionStorage|document\.cookie/);
+  assert.doesNotMatch(card, /console\.(log|info|warn|debug|error)/);
+  // It lives in one field and is dropped as soon as it has bought the code.
+  assert.match(card, /setCanaryKey\(''\)/);
+  // And the Mini App never hears of it: the Telegram half has no key and needs
+  // none, so shipping one into the client would be pure exposure.
+  const screen = code(await source(REDEEM_SCREEN));
+  const app = code(await source('apps/market-mini-app/src/App.tsx'));
+  for (const text of [screen, app, code(await source(CABINET))]) {
+    assert.doesNotMatch(text, /canary/i);
+  }
+});
+
+test('canary: nothing a client controls can open the ceremony', async () => {
+  const service = code(await source(SERVICE));
+  const gate = region(
+    service,
+    /export function bindingCeremonyOpen\([\s\S]*?\n\}/,
+    'bindingCeremonyOpen',
+  );
+  // The predicate reads the environment and the clock. There is nothing else in
+  // it to influence: no request, no header, no query, no body, no storage.
+  assert.doesNotMatch(gate, /request|headers|url|searchParams|body|localStorage/i);
+  assert.match(gate, /parseCanaryWindow\(env\)/);
+
+  const router = code(await source(ROUTER));
+  assert.match(router, /if \(!bindingCeremonyOpen\(env, new Date\(\)\)\) return null;/);
+  // The Telegram routes take the key from nowhere, because they do not use one.
+  const handler = region(router, HANDLER, 'bindingCommands');
+  assert.doesNotMatch(handler, /canary/i);
+
+  const route = code(await source(ADMIN_ROUTE));
+  // The owner half reads it from the JSON body of an already-authenticated
+  // platform_owner request, and only while the global switch is off.
+  assert.match(route, /withOwnerRole\(\s*\r?\n?\s*'platform_owner'/);
+  assert.match(route, /if \(!bindingEnabled\(env\)\) \{\s*\r?\n\s*const body = await readOwnerBody\(request\)/);
+  assert.doesNotMatch(route, /url\.searchParams/);
+});
+
+test('canary: it adds no migration, no table and no ledger row', async () => {
+  const migrations = await readdir(new URL('migrations/', ROOT));
+  assert.equal(migrations.length, 32, 'the canary reuses the challenge table it already has');
+  const service = code(await source(SERVICE));
+  // The grant is a digest in an environment variable and a count of rows that
+  // already exist. It creates nothing to migrate and nothing to clean up.
+  assert.doesNotMatch(service, /ALTER TABLE/);
+  const canaryCount = region(
+    service,
+    /const minted = await db\.prepare\([\s\S]*?first<\{ n: number \}>\(\);/,
+    'canary single-use count',
+  );
+  assert.match(canaryCount, /FROM seller_identity_binding_challenges WHERE org_id = \?/);
+});
+
+test('canary: closing it shuts every door again and leaves the authority standing', async () => {
+  const db = freshDb();
+  const env = await canaryEnv();
+  const issued = await canaryMint(db, env);
+  await redeemSellerBindingChallenge(
+    env, db.asD1(), OWNER_TELEGRAM, issued.challenge, REQUEST_ID, CANARY_NOW,
+  );
+  assert.equal(telegramMemberships(db), 1);
+
+  // What removing the variable looks like from the inside: the global switch is
+  // still false, the membership still stands, and all three doors are shut.
+  const closed = bindingEnv({ MARKET_OWNER_TELEGRAM_BINDING_ENABLED: 'false' });
+  assert.equal(bindingCeremonyOpen(closed, CANARY_NOW), false);
+  assert.equal(await failure(() => canaryMint(db, closed)), 'binding_disabled');
+  assert.equal(
+    await failure(() => redeemSellerBindingChallenge(
+      closed, db.asD1(), OTHER_TELEGRAM, issued.challenge, REQUEST_ID, CANARY_NOW,
+    )),
+    'binding_disabled',
+  );
+  assert.equal(telegramMemberships(db), 1);
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges WHERE redeemed_at IS NULL'), 0);
+});
+
+test('canary: a binding grants a store and never a QuickPost', async () => {
+  const wrangler = await source('wrangler.toml');
+  assert.match(wrangler, /MARKET_QUICKPOST_ENABLED = "false"/);
+  assert.match(wrangler, /MARKET_QUICKPOST_AI_ENABLED = "false"/);
+  const db = freshDb();
+  const env = await canaryEnv();
+  const issued = await canaryMint(db, env);
+  const result = await redeemSellerBindingChallenge(
+    env, db.asD1(), OWNER_TELEGRAM, issued.challenge, REQUEST_ID, CANARY_NOW,
+  );
+  // The ceremony reports the two capabilities the resolver already governs, and
+  // has no opinion about the composer. Those are separate switches, decided
+  // after this one has been proved.
+  assert.deepEqual(Object.keys(result).sort(), ['alreadyBound', 'sellerCommands', 'sellerRead', 'storeName']);
+  // And they are read from their own environment, not granted by the binding.
+  const withCommandsOff = await canaryEnv();
+  (withCommandsOff as unknown as Record<string, string>).MARKET_MINI_APP_SELLER_COMMANDS_ENABLED = 'false';
+  const second = freshDb();
+  const other = await canaryMint(second, withCommandsOff);
+  const limited = await redeemSellerBindingChallenge(
+    withCommandsOff, second.asD1(), OWNER_TELEGRAM, other.challenge, REQUEST_ID, CANARY_NOW,
+  );
+  assert.equal(limited.sellerRead, true);
+  assert.equal(limited.sellerCommands, false);
 });
