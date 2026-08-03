@@ -12,9 +12,12 @@ async function source(path: string): Promise<string> {
 
 // ── The switch ────────────────────────────────────────────────────────────────
 
-test('the cabinet ships off and only an exact "true" turns it on', async () => {
+test('the cabinet layout is a declared switch that fails closed', async () => {
   const wrangler = await source('wrangler.toml');
-  assert.match(wrangler, /MARKET_CABINET_ENABLED = "false"/);
+  // Declared in source control, not in the dashboard: a Pages deploy rewrites
+  // the project's plain-text variables from this file, so a switch that lived
+  // only in the dashboard would disappear on the next release.
+  assert.match(wrangler, /MARKET_CABINET_ENABLED = "(true|false)"/);
   // Read exactly like every other market switch: a trimmed, case-insensitive
   // "true" and nothing else, so an unset or mistyped value leaves the shipped
   // layout in place instead of half of a new one.

@@ -6,6 +6,7 @@ import {
   type CatalogCategoryWrite,
   type CatalogOperationInput,
   type CatalogOperationRecord,
+  type CatalogOwnerStore,
   type CatalogProductWrite,
   type CatalogStore,
 } from './store';
@@ -325,6 +326,22 @@ export class SotuvchiCatalogService {
       requestId: seed.requestId,
       locale: seed.locale,
     };
+  }
+
+  /**
+   * The store this identity owns, if any.
+   *
+   * Read-only and deliberately narrow: it grants nothing by itself, it only
+   * reports what the membership table already says. Callers still have to build
+   * an owner context and have it verified the same way every other seller entry
+   * point does.
+   */
+  async findOwnedStoreByIdentity(
+    rawIdentityId: unknown,
+  ): Promise<CatalogOwnerStore | null> {
+    const identityId = requireCatalogId(rawIdentityId);
+    await this.ready();
+    return this.store.findOwnedActiveStoreByIdentity(identityId);
   }
 
   async resolveStorefrontContext(rawContext: unknown): Promise<StorefrontContext> {

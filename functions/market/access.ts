@@ -160,21 +160,52 @@ export async function resolveMarketAccess(
   let sellerOrg: OrgContext | null = null;
   let sellerStore: MarketAccessContext['sellerStore'] = null;
   if (sellerEnabled) {
-    if (
-      onboarding?.status === 'completed'
+    // Two ways to own a store, one way to prove it.
+    //
+    // The onboarding record is the path a seller who signed up through the bot
+    // walks. It is not the only way a store comes to exist — one seeded outside
+    // that workflow has an owner in `memberships` and no onboarding row at all,
+    // and such an owner was locked out of their own store because the record
+    // was missing rather than because anything about their authority was.
+    //
+    // The membership is the tenant's own answer to "who owns this", which is
+    // what `findOwnedActiveStore` has always asked on the bot side. So the
+    // candidate may now come from either source, and both are put through the
+    // same verification below — nothing is trusted because of where it was
+    // found.
+    const candidateStore = onboarding?.status === 'completed'
       && onboarding.store?.status === 'active'
-    ) {
-      const candidate = orgContext(onboarding.orgId, claims, requestId);
+      ? {
+        orgId: onboarding.orgId,
+        id: onboarding.store.id,
+        name: onboarding.store.name,
+        status: onboarding.store.status,
+        locale: onboarding.store.locale,
+      }
+      : await services.catalog.findOwnedStoreByIdentity(claims.sub)
+        .then((store) => store && {
+          orgId: store.orgId,
+          id: store.id,
+          name: store.name,
+          status: 'active',
+          locale: store.locale,
+        })
+        .catch(() => null);
+    if (candidateStore) {
+      const candidate = orgContext(candidateStore.orgId, claims, requestId);
+      // The single gate both paths pass: an active `owner` membership over an
+      // active store in this exact organization, re-read from the database
+      // rather than carried over from whatever produced the candidate.
       const verified = await services.orders.resolveSeller(candidate)
         .then(() => true)
         .catch(() => false);
       if (verified) {
         sellerOrg = candidate;
         sellerStore = {
-          id: onboarding.store.id,
-          name: onboarding.store.name,
-          status: onboarding.store.status,
-          locale: onboarding.store.locale,
+          id: candidateStore.id,
+          name: candidateStore.name,
+          status: candidateStore.status,
+          locale: candidateStore.locale,
         };
       }
     }

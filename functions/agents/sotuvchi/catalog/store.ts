@@ -184,6 +184,21 @@ export interface CatalogStore {
     orgId: string,
     identityId: string,
   ): Promise<CatalogOwnerStore | null>;
+  /**
+   * The active store this identity owns, found without being told which
+   * organization to look in.
+   *
+   * Same predicate as `findOwnedActiveStore` — an active `owner` membership over
+   * an active store — with the organization discovered from the membership
+   * instead of supplied by the caller, plus the organization's own state, which
+   * a caller that already knew the org would have checked on its own. It answers
+   * "does this person own a store", which is the question every seller surface
+   * actually asks; the tenant is the answer, not the input, so nothing the
+   * caller passes can point it at somebody else's organization.
+   */
+  findOwnedActiveStoreByIdentity(
+    identityId: string,
+  ): Promise<CatalogOwnerStore | null>;
   findActiveStoreByOrg(orgId: string): Promise<CatalogOwnerStore | null>;
   findActiveStore(orgId: string, storeId: string): Promise<CatalogOwnerStore | null>;
   isPilotActive(orgId: string, storeId: string): Promise<boolean>;
@@ -619,6 +634,36 @@ export function createSotuvchiCatalogStore(db: D1Database): CatalogStore {
                    AND membership.status = 'active'
                   WHERE store.org_id = ? AND store.status = 'active'`)
         .bind(actorId, tenantId)
+        .first<{ id: string; org_id: string; name: string; locale: string }>();
+      if (!row) return null;
+      if (row.locale !== 'ru' && row.locale !== 'uz') {
+        throw new CatalogPersistenceError('corrupt_row');
+      }
+      return {
+        id: requireCatalogId(row.id),
+        orgId: requireCatalogId(row.org_id),
+        name: normalizeStoreName(row.name),
+        locale: row.locale,
+      };
+    },
+
+    async findOwnedActiveStoreByIdentity(identityId) {
+      const actorId = requireCatalogId(identityId);
+      const row = await db
+        .prepare(`SELECT store.id, store.org_id, store.name, store.locale
+                  FROM sotuvchi_stores AS store
+                  JOIN memberships AS membership
+                    ON membership.org_id = store.org_id
+                   AND membership.identity_id = ?
+                   AND membership.role = 'owner'
+                   AND membership.status = 'active'
+                  JOIN organizations AS organization
+                    ON organization.id = store.org_id
+                   AND organization.status = 'active'
+                  WHERE store.status = 'active'
+                  ORDER BY store.id ASC
+                  LIMIT 1`)
+        .bind(actorId)
         .first<{ id: string; org_id: string; name: string; locale: string }>();
       if (!row) return null;
       if (row.locale !== 'ru' && row.locale !== 'uz') {

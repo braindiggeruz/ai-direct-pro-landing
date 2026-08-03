@@ -121,6 +121,7 @@ MARKET_SELLER_MEDIA_UPLOAD_ENABLED = "true"
 # only when the server already granted sellerRead — the seller workspace, so the
 # store tools stop being reachable solely through a header toggle. It changes
 # the shape of the shell and nothing else: no new read, no new command, no
-# authority. Anything other than "true" keeps the current four-tab layout, which
-# is why it ships off and is turned on deliberately.
-MARKET_CABINET_ENABLED = "false"
+# authority. Anything other than "true" keeps the previous four-tab layout with
+# its own "Заказы" tab, so switching back is this line plus a root deploy — the
+# static bundle carries both layouts and does not have to be rebuilt.
+MARKET_CABINET_ENABLED = "true"
