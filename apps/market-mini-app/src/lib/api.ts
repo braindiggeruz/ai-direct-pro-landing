@@ -34,6 +34,15 @@ interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   body?: unknown;
   command?: boolean;
+  /**
+   * A command's idempotency key, when the caller needs the same one twice.
+   *
+   * Commands otherwise mint a fresh key per call, which is right for a command
+   * issued once. It is wrong for one the caller may re-issue after a timeout:
+   * the server replays a repeated key and creates a second record for a new
+   * one, so a retry with a fresh key is how one press becomes two listings.
+   */
+  idempotencyKey?: string;
   signal?: AbortSignal;
   timeoutMs?: number;
   /** Called with the raw response before the body is read. Headers only. */
@@ -89,7 +98,9 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   const headers = new Headers({ Accept: 'application/json' });
   if (sessionToken) headers.set('Authorization', `Bearer ${sessionToken}`);
   if (options.body !== undefined) headers.set('Content-Type', 'application/json');
-  if (options.command) headers.set('Idempotency-Key', crypto.randomUUID());
+  if (options.command) {
+    headers.set('Idempotency-Key', options.idempotencyKey ?? crypto.randomUUID());
+  }
   let response: Response;
   const controller = new AbortController();
   const abort = () => controller.abort();
@@ -369,8 +380,8 @@ export async function uploadMedia(
 
 export const marketApi = {
   get: <T>(path: string, signal?: AbortSignal) => request<T>(path, { signal }),
-  post: <T>(path: string, body?: unknown) => request<T>(path, {
-    method: 'POST', body, command: true,
+  post: <T>(path: string, body?: unknown, idempotencyKey?: string) => request<T>(path, {
+    method: 'POST', body, command: true, idempotencyKey,
   }),
   put: <T>(path: string, body: unknown) => request<T>(path, {
     method: 'PUT', body, command: true,

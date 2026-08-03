@@ -146,3 +146,16 @@ MARKET_CABINET_HOME_V2 = "true"
 # behaviours are in the static bundle, so turning it off is this line plus a
 # root deploy.
 MARKET_NAV_BACK_ENABLED = "true"
+# QuickPost (QP-1A) — the composer a person selling one thing can finish. Off,
+# "Продать" lands where it lands today: the seller cabinet's editor for someone
+# who already has a store, the bot for everyone else. On, an owner whose commands
+# the server has already granted composes the listing inside the Mini App.
+#
+# It selects a screen, never a permission. `sellerCommands` still decides whether
+# anything may be created, and the server re-checks it on every command whatever
+# this line says. Off is the shipped behaviour, and both are in the static
+# bundle, so turning it on is this line plus a root deploy.
+MARKET_QUICKPOST_ENABLED = "false"
+# QuickPost's voice and AI lane. False for QP-1A: the composer is entirely
+# manual, and nothing on that screen offers a control that cannot work yet.
+MARKET_QUICKPOST_AI_ENABLED = "false"

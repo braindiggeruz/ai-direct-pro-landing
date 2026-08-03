@@ -1,4 +1,4 @@
-import type { Locale } from '../types';
+import type { Locale, Product } from '../types';
 
 const copy = {
   ru: {
@@ -228,6 +228,50 @@ const copy = {
     archiveConfirmTitle: 'Убрать в архив?',
     archiveConfirmBody: 'Товар исчезнет из каталога и из поиска. Вернуть его из архива нельзя.',
     archiveEmpty: 'В архиве пусто',
+    // ── QuickPost ───────────────────────────────────────────────────────────
+    currency: 'сум',
+    qpTitle: 'Новое объявление',
+    qpDraftSaved: 'Черновик сохранён',
+    qpPhotos: 'Фотографии',
+    qpAddPhotos: 'Добавить фото',
+    qpAddMorePhotos: 'Ещё фото',
+    qpPhotosHint: 'До 5 фото. Первое станет обложкой.',
+    qpPhotoUploading: 'Загружаем фото…',
+    qpPhotoReady: 'Фото готовы',
+    qpName: 'Что продаёте',
+    qpNamePlaceholder: 'Например: Зимняя куртка, размер M',
+    qpCategory: 'Категория',
+    qpCategoryPlaceholder: 'Выберите категорию',
+    qpPrice: 'Цена',
+    qpPriceHint: 'Целое число в сумах',
+    qpDescription: 'Описание',
+    qpDescriptionPlaceholder: 'Состояние, что входит в комплект, как забрать',
+    qpAvailability: 'Наличие',
+    qpMoreDetails: 'Дополнительно',
+    qpSpecLabel: 'Название',
+    qpSpecValue: 'Значение',
+    qpAddSpec: 'Добавить строку',
+    qpCheck: 'Проверить объявление',
+    qpNeedTitle: 'Напишите, что продаёте',
+    qpNeedCategory: 'Выберите категорию',
+    qpNeedPrice: 'Укажите цену',
+    qpPriceTooBig: 'Такая цена слишком велика',
+    qpPreviewNote: 'Так объявление увидят покупатели',
+    qpEdit: 'Исправить',
+    qpPublish: 'Опубликовать',
+    qpLeaveTitle: 'Выйти без сохранения?',
+    qpLeaveBody: 'Черновик ещё не сохранён. Если выйти сейчас, что вы набрали, пропадёт.',
+    qpLeaveSave: 'Сохранить черновик',
+    qpLeaveDiscard: 'Не сохранять',
+    qpLeaveStay: 'Остаться',
+    qpRestoreTitle: 'Есть незаконченное объявление',
+    qpRestoreBody: 'Вы начали его и не опубликовали',
+    qpRestoreContinue: 'Продолжить',
+    qpRestoreFresh: 'Начать заново',
+    qpDoneTitle: 'Объявление опубликовано',
+    qpDoneBody: 'Оно уже в каталоге и в поиске.',
+    qpDoneAgain: 'Создать ещё',
+    qpDoneCabinet: 'Вернуться в кабинет',
   },
   uz: {
     appName: 'Bormi',
@@ -456,6 +500,50 @@ const copy = {
     archiveConfirmTitle: 'Arxivga o‘tkazilsinmi?',
     archiveConfirmBody: 'Mahsulot katalogdan va qidiruvdan yo‘qoladi. Uni arxivdan qaytarib bo‘lmaydi.',
     archiveEmpty: 'Arxiv bo‘sh',
+    // ── QuickPost ───────────────────────────────────────────────────────────
+    currency: 'so‘m',
+    qpTitle: 'Yangi e’lon',
+    qpDraftSaved: 'Qoralama saqlandi',
+    qpPhotos: 'Suratlar',
+    qpAddPhotos: 'Surat qo‘shish',
+    qpAddMorePhotos: 'Yana surat',
+    qpPhotosHint: '5 tagacha surat. Birinchisi muqova bo‘ladi.',
+    qpPhotoUploading: 'Surat yuklanmoqda…',
+    qpPhotoReady: 'Suratlar tayyor',
+    qpName: 'Nima sotyapsiz',
+    qpNamePlaceholder: 'Masalan: Qishki kurtka, M o‘lcham',
+    qpCategory: 'Turkum',
+    qpCategoryPlaceholder: 'Turkumni tanlang',
+    qpPrice: 'Narx',
+    qpPriceHint: 'So‘mda butun son',
+    qpDescription: 'Tavsif',
+    qpDescriptionPlaceholder: 'Holati, to‘plamda nima bor, qanday olib ketiladi',
+    qpAvailability: 'Mavjudligi',
+    qpMoreDetails: 'Qo‘shimcha',
+    qpSpecLabel: 'Nomi',
+    qpSpecValue: 'Qiymati',
+    qpAddSpec: 'Qator qo‘shish',
+    qpCheck: 'E’lonni tekshirish',
+    qpNeedTitle: 'Nima sotayotganingizni yozing',
+    qpNeedCategory: 'Turkumni tanlang',
+    qpNeedPrice: 'Narxni ko‘rsating',
+    qpPriceTooBig: 'Bunday narx juda katta',
+    qpPreviewNote: 'E’lonni xaridorlar shunday ko‘radi',
+    qpEdit: 'Tuzatish',
+    qpPublish: 'Chop etish',
+    qpLeaveTitle: 'Saqlamay chiqasizmi?',
+    qpLeaveBody: 'Qoralama hali saqlanmadi. Hozir chiqsangiz, yozganlaringiz yo‘qoladi.',
+    qpLeaveSave: 'Qoralamani saqlash',
+    qpLeaveDiscard: 'Saqlamaslik',
+    qpLeaveStay: 'Qolish',
+    qpRestoreTitle: 'Tugallanmagan e’lon bor',
+    qpRestoreBody: 'Uni boshlagansiz, ammo chop etmagansiz',
+    qpRestoreContinue: 'Davom etish',
+    qpRestoreFresh: 'Boshidan boshlash',
+    qpDoneTitle: 'E’lon chop etildi',
+    qpDoneBody: 'U katalogda va qidiruvda turibdi.',
+    qpDoneAgain: 'Yana yaratish',
+    qpDoneCabinet: 'Kabinetga qaytish',
   },
 } as const;
 
@@ -548,6 +636,20 @@ export function labelForStatus(locale: Locale, status: string): string {
     draft: 'draft', published: 'publishedStatus', archived: 'archived',
   };
   return map[status] ? t(locale, map[status]!) : status;
+}
+
+/**
+ * The badge colour that goes with `labelForStatus` for an availability.
+ *
+ * Beside the label rather than in the component file: the two are always read
+ * together, and a card, a detail sheet and the preview a seller checks before
+ * publishing all have to agree on what «В наличии» looks like, or the preview
+ * stops being a promise.
+ */
+export function availabilityTone(
+  value: Product['availability'],
+): 'positive' | 'warning' | 'negative' {
+  return value === 'available' ? 'positive' : value === 'preorder' ? 'warning' : 'negative';
 }
 
 export function formatDate(value: string, locale: Locale): string {

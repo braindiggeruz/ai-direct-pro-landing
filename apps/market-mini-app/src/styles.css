@@ -511,4 +511,65 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 @media (forced-colors: active) {
   .button, .card, .product-card, .list-item, .chip, .hero-search, input, textarea, select { border: 1px solid CanvasText; }
   .badge { border: 1px solid CanvasText; }
+  .qp-photo, .qp-picker, .qp-cta { border: 1px solid CanvasText; }
+}
+
+/* ── QuickPost ─────────────────────────────────────────────────────────────
+   One page, not a wizard. The shell's bottom navigation is not rendered while
+   this is on screen, so the action at the bottom edge is the only thing there.
+   The page reserves room for it in `scroll-padding-bottom`, which is what keeps
+   a field the keyboard has just scrolled to from ending up underneath it. */
+.qp-page { display: grid; gap: 18px; padding-bottom: calc(20px + var(--safe-bottom)); scroll-padding-bottom: 96px; align-content: start; }
+.qp-bar { display: flex; min-height: 44px; align-items: center; justify-content: space-between; gap: 10px; }
+.qp-bar .buyer-return { margin-bottom: 0; }
+.qp-bar__state { color: var(--text-secondary); font-size: .78rem; font-weight: 700; text-align: right; }
+.qp-title { margin: 0; font-size: 1.35rem; }
+.qp-block { display: grid; gap: 13px; }
+.qp-block__title { margin: 0; font-size: .95rem; font-weight: 780; }
+
+.qp-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 9px; margin: 0; padding: 0; list-style: none; }
+.qp-photo { position: relative; overflow: hidden; border: 1px solid var(--border-default); border-radius: var(--radius-sm); background: var(--surface-soft); aspect-ratio: 1; }
+.qp-photo__image { display: block; width: 100%; height: 100%; object-fit: cover; }
+.qp-photo__cover { position: absolute; inset-inline-start: 6px; inset-block-end: 6px; padding: 3px 8px; border-radius: 999px; background: var(--action-primary); color: var(--action-primary-text); font-size: .66rem; font-weight: 780; }
+.qp-photo__actions { position: absolute; inset-block-start: 4px; inset-inline-end: 4px; display: flex; gap: 4px; }
+/* The controls sit on top of a photograph, whose colours are not ours to
+   predict, so they carry their own surface rather than trusting contrast. */
+.qp-photo__actions .icon-button { width: 34px; height: 34px; border: 1px solid var(--border-default); background: var(--surface-raised); color: var(--text-primary); }
+
+.qp-status { margin: 0; min-height: 1.1em; color: var(--text-secondary); font-size: .8rem; }
+.qp-error { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 12px; border: 1px solid color-mix(in srgb, var(--danger) 30%, var(--border-default)); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--danger) 7%, var(--surface-raised)); color: var(--danger); font-size: .85rem; }
+
+.qp-picker { display: grid; gap: 4px; min-height: 56px; align-content: center; justify-items: center; padding: 14px; border: 1px dashed var(--border-strong, var(--border-default)); border-radius: var(--radius-sm); background: var(--surface-soft); color: var(--action-primary); font-weight: 740; cursor: pointer; }
+/* The real control is the label around it, which is the full-width target. The
+   input keeps its own size out of the way — `min-height` and not just `height`,
+   because the shared field rule sets a floor that a height alone cannot lower. */
+.qp-picker input { position: absolute; width: 1px; min-width: 0; height: 1px; min-height: 0; padding: 0; border: 0; opacity: 0; }
+.qp-picker > span { display: inline-flex; align-items: center; gap: 8px; }
+.qp-picker small { color: var(--text-secondary); font-weight: 600; }
+.qp-picker:focus-within { outline: 2px solid var(--action-primary); outline-offset: 2px; }
+
+.qp-price { font-size: 1.15rem; font-weight: 760; font-variant-numeric: tabular-nums; }
+
+.qp-disclosure { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 13px; border: 1px solid var(--border-default); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font-weight: 740; cursor: pointer; }
+.qp-disclosure[aria-expanded="true"] svg { transform: rotate(180deg); }
+.qp-spec { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px; gap: 8px; align-items: center; }
+
+/* Sticky, not fixed: it rides the bottom of the viewport while there is page
+   left to scroll and then settles into the flow, so it never covers the last
+   field and never becomes a second bar over the shell's own. */
+.qp-cta { position: sticky; bottom: 0; z-index: 2; display: grid; gap: 9px; margin-inline: -16px; padding: 12px 16px calc(12px + var(--safe-bottom)); border-top: 1px solid var(--border-default); background: var(--surface-canvas); }
+
+.qp-preview-note { margin: 0; color: var(--text-secondary); font-size: .87rem; }
+.qp-preview { display: grid; }
+.qp-restore, .qp-done { display: grid; gap: 11px; justify-items: center; padding: 26px 18px; border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--surface-raised); text-align: center; }
+.qp-restore strong, .qp-done strong { font-size: 1.1rem; }
+.qp-restore p, .qp-done p { margin: 0; color: var(--text-secondary); font-size: .87rem; }
+.qp-restore .button, .qp-done .button { width: min(100%, 320px); }
+.qp-done svg { color: var(--success); }
+
+@media (max-width: 360px) {
+  .qp-photos { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
+  .qp-cta { margin-inline: -12px; padding-inline: 12px; }
+  .qp-spec { grid-template-columns: minmax(0, 1fr) 44px; }
+  .qp-spec input:first-child { grid-column: 1 / -1; }
 }

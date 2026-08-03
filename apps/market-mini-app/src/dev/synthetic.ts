@@ -162,7 +162,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
         navigation: ['home', 'search', 'publish', 'cabinet'],
         sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true },
+        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false },
         storefront: { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
@@ -182,7 +182,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
       navigation: ['home', 'search', 'publish', 'cabinet'],
       sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true },
+      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false },
       storefront: { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };

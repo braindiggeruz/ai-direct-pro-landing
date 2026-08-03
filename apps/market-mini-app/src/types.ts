@@ -35,6 +35,19 @@ export interface Capabilities {
    * behaving exactly as it did. It is navigation only — it grants nothing.
    */
   navBack?: boolean;
+  /**
+   * Server-reported QuickPost composer. Optional and additive: a bootstrap
+   * answered before this shipped resolves to the bot handoff the device already
+   * knows. It decides which screen "Продать" opens and nothing else — the
+   * authority to create a listing stays `sellerCommands`, checked by the server
+   * on every command regardless of what this says.
+   */
+  quickPost?: boolean;
+  /**
+   * QuickPost's voice and AI lane. False for QP-1A, where the composer is
+   * entirely manual: a control that cannot work yet is worse than no control.
+   */
+  quickPostAi?: boolean;
 }
 
 export type VoiceConstraintKind =

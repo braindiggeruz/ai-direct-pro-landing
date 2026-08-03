@@ -75,6 +75,10 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
     ? 'seller'
     : 'buyer';
   const sellerCommands = bootstrap.data.flags.sellerCommands && online;
+  // Which screen "Продать" opens, for someone the server has already allowed to
+  // create a listing. Read on its own and never folded into a capability: the
+  // authority above is the only thing that decides what may be created.
+  const quickPostEnabled = bootstrap.data.flags.quickPost === true;
   const mediaUpload = bootstrap.data.flags.mediaUpload === true && online;
   return <div className="app-shell" data-build-id={bootstrap.data.buildId}>
     <header className="app-header">
@@ -103,6 +107,7 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
           cabinetEnabled={cabinetEnabled}
           cabinetHomeV2={cabinetHomeV2}
           navBack={navBack}
+          quickPostEnabled={quickPostEnabled}
           navigation={bootstrap.data.navigation ?? []}
           sellerAvailable={sellerAvailable}
           sellerCommands={sellerCommands}

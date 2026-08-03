@@ -248,6 +248,15 @@ export interface Env {
   // dialog, a cabinet section, a workspace — and only closes the app at the
   // root. Navigation only: it grants no read, no command and no authority.
   MARKET_NAV_BACK_ENABLED?: string;
+  // The QuickPost composer (QP-1A). Off, "Продать" behaves as it shipped. On,
+  // an owner the server has already granted commands composes a listing inside
+  // the Mini App instead of leaving for the bot. It picks a screen and grants
+  // nothing: `MARKET_MINI_APP_SELLER_COMMANDS_ENABLED` still decides what may
+  // be created, and every command is re-checked against it regardless.
+  MARKET_QUICKPOST_ENABLED?: string;
+  // QuickPost's voice and AI lane. False through QP-1A, whose composer is
+  // manual: no control appears for something that cannot work yet.
+  MARKET_QUICKPOST_AI_ENABLED?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)

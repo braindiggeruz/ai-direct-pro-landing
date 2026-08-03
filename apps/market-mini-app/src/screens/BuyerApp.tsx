@@ -3,7 +3,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MarketApiError, marketApi, voiceSearch } from '../lib/api';
 import { SELLER_START_URL } from '../lib/bot-link';
 import { demoProductImage } from '../lib/demo-product-media';
-import { formatPrice, labelForStatus, localizeCategory, t } from '../lib/i18n';
+import {
+  availabilityTone,
+  formatPrice,
+  labelForStatus,
+  localizeCategory,
+  t,
+} from '../lib/i18n';
 import { useBackStop } from '../platform/navigation';
 import {
   VoiceCaptureError,
@@ -14,10 +20,12 @@ import {
 import { haptic, type ThemePreference } from '../platform/telegram';
 import type {
   CatalogHome,
+  Category,
   CheckoutSnapshot,
   Handoff,
   Locale,
   Product,
+  SellerProduct,
   VoiceSearchResult,
 } from '../types';
 import {
@@ -29,6 +37,7 @@ import {
   Icon,
   LoadingView,
   Modal,
+  ProductCard,
   SectionHeader,
   SkeletonList,
   StateView,
@@ -43,6 +52,21 @@ import { BuyerOrdersList } from './BuyerOrders';
 
 const CabinetApp = lazy(() => import('./CabinetApp').then((module) => ({
   default: module.CabinetApp,
+})));
+
+/**
+ * The composer, and the screen that follows a successful one.
+ *
+ * Lazy on purpose: a shopper who will never sell anything should not pay for
+ * the composer, the seller card or the media pipeline to look at a shelf. The
+ * chunk is fetched the first time someone with the authority presses «Продать»
+ * and never before.
+ */
+const QuickPost = lazy(() => import('./QuickPost').then((module) => ({
+  default: module.QuickPost,
+})));
+const QuickPostDone = lazy(() => import('./QuickPost').then((module) => ({
+  default: module.QuickPostDone,
 })));
 
 type BuyerView = 'home' | 'search' | 'compare' | 'orders' | 'publish' | 'cabinet';
@@ -65,6 +89,12 @@ interface BuyerAppProps {
   cabinetHomeV2: boolean;
   /** Server-reported back-gesture spine. Navigation only; grants nothing. */
   navBack: boolean;
+  /**
+   * Server-reported QuickPost composer. Chooses which screen "Продать" opens
+   * for someone who already has the authority to create a listing — never
+   * whether they have it. False is the shipped bot-and-cabinet path.
+   */
+  quickPostEnabled: boolean;
   /**
    * The tab list the server reported for this shell. A presentation hint: it can
    * only reorder destinations this build already carries, it can never add one,
@@ -95,47 +125,6 @@ function voiceErrorFor(error: unknown): VoiceErrorKind {
   }
   if (error.code === 'rate_limited') return 'rate_limited';
   return 'network';
-}
-
-function availabilityTone(value: Product['availability']) {
-  return value === 'available' ? 'positive' : value === 'preorder' ? 'warning' : 'negative';
-}
-
-function ProductCard({
-  product,
-  locale,
-  onOpen,
-  onCompare,
-  comparePending,
-  priority = false,
-}: {
-  product: Product;
-  locale: Locale;
-  onOpen: () => void;
-  onCompare: () => void;
-  comparePending?: boolean;
-  priority?: boolean;
-}) {
-  const previewSrc = demoProductImage(product);
-  return (
-    <article className="product-card">
-      <button className="product-card__visual" onClick={onOpen} aria-label={`${t(locale, 'details')}: ${product.name}`}>
-        <AsyncImage className="product-card__media" handle={product.mediaHandles[0]} previewSrc={previewSrc} eager={priority} alt={product.name} />
-        <span className="product-card__badge"><Badge tone={availabilityTone(product.availability)}>{labelForStatus(locale, product.availability)}</Badge></span>
-      </button>
-      <div className="product-card__body">
-        <span className="product-card__store">{product.storeName}</span>
-        <h3>{product.name}</h3>
-        <span className="product-card__price">{formatPrice(product.priceMinor, locale)}</span>
-        <div className="product-card__actions">
-          <Button onClick={onOpen}>{t(locale, 'details')}</Button>
-          <Button variant="secondary" onClick={onCompare} pending={comparePending} aria-label={`${t(locale, 'addCompare')}: ${product.name}`}>
-            <Icon name="compare" size={19} /><span className="sr-only-mobile">{t(locale, 'addCompare')}</span>
-          </Button>
-        </div>
-      </div>
-    </article>
-  );
 }
 
 function ProductDetail({
@@ -362,6 +351,7 @@ export function BuyerApp({
   cabinetEnabled,
   cabinetHomeV2,
   navBack,
+  quickPostEnabled,
   navigation,
   sellerAvailable,
   sellerCommands,
@@ -400,6 +390,12 @@ export function BuyerApp({
   // Carried into the cabinet so "Продать" lands in the editor that already
   // exists rather than in a second copy of it.
   const [sellIntent, setSellIntent] = useState(false);
+  // The composer, when the server has both granted the commands and turned the
+  // screen on. `closed` is the shipped path in every other case.
+  const [quickPost, setQuickPost] = useState<'closed' | 'compose' | 'done'>('closed');
+  const [published, setPublished] = useState<Product | null>(null);
+  /** Bumped by "Создать ещё" so the next listing starts on an empty composer. */
+  const [quickPostRun, setQuickPostRun] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
   const recorderRef = useRef<VoiceRecorder | null>(null);
 
@@ -407,6 +403,27 @@ export function BuyerApp({
   // the WebView can actually record, and speech has not already failed closed
   // in this session.
   const micAvailable = voiceEnabled && !voiceOffline && voiceCaptureSupported();
+
+  // Flag AND authority. Neither alone opens the composer, and the flag alone
+  // never could: every command it eventually sends is checked by the server
+  // against the same `sellerCommands` grant, whatever this build believes.
+  const quickPostReady = quickPostEnabled && sellerCommands;
+  const composing = quickPost !== 'closed';
+  // Only while the composer is actually on stage. A shopper never asks the
+  // seller endpoints anything. Both keys are the ones the cabinet and the
+  // workspace already use, so an owner arriving from either pays nothing twice.
+  const sellerCategories = useQuery<{ items: Category[] }>({
+    queryKey: ['seller-categories'],
+    queryFn: ({ signal }) => marketApi.get('/seller/categories', signal),
+    enabled: composing,
+    staleTime: 300_000,
+  });
+  const sellerStore = useQuery<{ store: { id: string; name: string } }>({
+    queryKey: ['seller-overview'],
+    queryFn: ({ signal }) => marketApi.get('/seller/overview', signal),
+    enabled: composing,
+    staleTime: 60_000,
+  });
 
   const openSearch = () => {
     setView('search');
@@ -683,6 +700,15 @@ export function BuyerApp({
   };
   const sellFromSheet = () => {
     setCreateOpen(false);
+    // Two conditions, and the flag is the weaker of them. `sellerCommands` is
+    // the server's answer to "may this person create anything at all"; the flag
+    // only chooses which screen an already-authorised person gets. With the flag
+    // off — or without the authority — this lands exactly where it shipped.
+    if (quickPostReady) {
+      setQuickPostRun((run) => run + 1);
+      setQuickPost('compose');
+      return;
+    }
     setSellIntent(true);
     setView('cabinet');
   };
@@ -694,6 +720,40 @@ export function BuyerApp({
     // after that has happened, not before.
     globalThis.setTimeout(() => searchRef.current?.focus(), 0);
   };
+
+  /**
+   * The composer takes the whole screen.
+   *
+   * Returned instead of the shell rather than laid over it: the shell's bottom
+   * bar is fixed to the same edge the composer's own action sits on, and two
+   * bars on one edge is how a thumb presses the wrong one. The seller workspace
+   * stands the shell down for the same reason.
+   */
+  if (composing) {
+    return <Suspense fallback={<LoadingView locale={locale} />}>
+      {quickPost === 'done' && published
+        ? <QuickPostDone
+            locale={locale}
+            product={published as SellerProduct}
+            onOpen={() => { setQuickPost('closed'); setSelected(published); }}
+            onCabinet={() => { setQuickPost('closed'); setView('cabinet'); }}
+            onAgain={() => {
+              setPublished(null);
+              setQuickPostRun((run) => run + 1);
+              setQuickPost('compose');
+            }}
+          />
+        : <QuickPost
+            key={quickPostRun}
+            locale={locale}
+            categories={sellerCategories.data?.items ?? []}
+            mediaUpload={mediaUpload}
+            storeName={sellerStore.data?.store.name ?? ''}
+            onClose={() => setQuickPost('closed')}
+            onPublished={(product) => { setPublished(product); setQuickPost('done'); }}
+          />}
+    </Suspense>;
+  }
 
   return <>
     <main id="main-content" className="page">

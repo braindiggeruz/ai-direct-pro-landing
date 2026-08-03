@@ -448,6 +448,8 @@ async function bootstrapPayload(context: RequestContext) {
       cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
       cabinetHomeV2: marketFlag(context.env.MARKET_CABINET_HOME_V2),
       navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
+      quickPost: marketFlag(context.env.MARKET_QUICKPOST_ENABLED),
+      quickPostAi: marketFlag(context.env.MARKET_QUICKPOST_AI_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -476,6 +478,8 @@ function launchBootstrapPayload(context: RequestContext) {
       cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
       cabinetHomeV2: marketFlag(context.env.MARKET_CABINET_HOME_V2),
       navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
+      quickPost: marketFlag(context.env.MARKET_QUICKPOST_ENABLED),
+      quickPostAi: marketFlag(context.env.MARKET_QUICKPOST_AI_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {

@@ -8,10 +8,14 @@ import {
 } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMedia } from '../lib/api';
-import { DEMO_PRODUCT_PREVIEW, demoPreviewName } from '../lib/demo-product-media';
-import { formatPrice, t } from '../lib/i18n';
+import {
+  DEMO_PRODUCT_PREVIEW,
+  demoPreviewName,
+  demoProductImage,
+} from '../lib/demo-product-media';
+import { availabilityTone, formatPrice, labelForStatus, t } from '../lib/i18n';
 import { useBackStop } from '../platform/navigation';
-import type { Locale } from '../types';
+import type { Locale, Product } from '../types';
 
 export type IconName =
   | 'home' | 'search' | 'compare' | 'orders' | 'seller' | 'back'
@@ -281,6 +285,52 @@ export function ConfirmDialog({
       <Button wide variant="secondary" onClick={onCancel}>{cancelLabel}</Button>
     </div>
   </Modal>;
+}
+
+/**
+ * The shopper's card.
+ *
+ * Lives here rather than in the buyer screen because QuickPost's preview has to
+ * be the same card, not a flattering copy of it: if the composer draws its own
+ * version, the two drift and the preview quietly stops being a promise. The
+ * seller sees this exact component, fed a product-shaped object built from what
+ * they typed.
+ */
+export function ProductCard({
+  product,
+  locale,
+  onOpen,
+  onCompare,
+  comparePending,
+  priority = false,
+}: {
+  product: Product;
+  locale: Locale;
+  onOpen: () => void;
+  onCompare?: () => void;
+  comparePending?: boolean;
+  priority?: boolean;
+}) {
+  const previewSrc = demoProductImage(product);
+  return (
+    <article className="product-card">
+      <button className="product-card__visual" onClick={onOpen} aria-label={`${t(locale, 'details')}: ${product.name}`}>
+        <AsyncImage className="product-card__media" handle={product.mediaHandles[0]} previewSrc={previewSrc} eager={priority} alt={product.name} />
+        <span className="product-card__badge"><Badge tone={availabilityTone(product.availability)}>{labelForStatus(locale, product.availability)}</Badge></span>
+      </button>
+      <div className="product-card__body">
+        <span className="product-card__store">{product.storeName}</span>
+        <h3>{product.name}</h3>
+        <span className="product-card__price">{formatPrice(product.priceMinor, locale)}</span>
+        <div className="product-card__actions">
+          <Button onClick={onOpen}>{t(locale, 'details')}</Button>
+          {onCompare ? <Button variant="secondary" onClick={onCompare} pending={comparePending} aria-label={`${t(locale, 'addCompare')}: ${product.name}`}>
+            <Icon name="compare" size={19} /><span className="sr-only-mobile">{t(locale, 'addCompare')}</span>
+          </Button> : null}
+        </div>
+      </div>
+    </article>
+  );
 }
 
 export function Field({
