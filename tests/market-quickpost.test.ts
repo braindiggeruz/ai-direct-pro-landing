@@ -145,7 +145,10 @@ test('a handler that changes every keystroke does not spend a history entry', as
 
 test('QP-0 adds no endpoint, no migration, no launch request and no storage', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 30, 'QP-0 adds no migration');
+  // 32 since AUTH-1 added 0031 and 0032. The number is a guard against a slice
+  // quietly growing a migration; the assertion below is what says QP-0 is not
+  // the slice that grew one.
+  assert.equal(migrations.length, 32, 'QP-0 adds no migration');
   assert.ok(migrations.every((name) => !/quickpost|nav/i.test(name)));
   const nav = await source(NAV);
   // No network, and nothing about the person is written anywhere.
@@ -534,7 +537,8 @@ test('the fallback offers to sell, and never to open a business', async () => {
 
 test('QP-1A adds no migration, no endpoint, no launch request and no authority', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 30, 'QP-1A adds no migration');
+  // 32 since AUTH-1 added 0031 and 0032; neither belongs to QuickPost.
+  assert.equal(migrations.length, 32, 'QP-1A adds no migration');
   assert.ok(migrations.every((name) => !/quickpost/i.test(name)));
   const router = await source(ROUTER);
   assert.doesNotMatch(router, /\/quickpost|quick_post/);

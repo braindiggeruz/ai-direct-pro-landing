@@ -442,7 +442,8 @@ test('the reported navigation is a hint and cannot introduce or grant anything',
 
 test('the slice adds no endpoint, no migration and no launch request', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 30, 'CAB-1 adds no migration');
+  // 32 since AUTH-1 added 0031 and 0032; neither belongs to the cabinet slice.
+  assert.equal(migrations.length, 32, 'CAB-1 adds no migration');
   assert.ok(migrations.every((name) => !/cabinet/i.test(name)));
   const cabinet = await source(CABINET);
   // Every path this screen reads already existed before the slice.
