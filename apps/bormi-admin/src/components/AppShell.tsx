@@ -114,7 +114,20 @@ function ThemeToggle() {
     >
       <span className="sr-only">{dark ? 'Включить светлую тему' : 'Включить тёмную тему'}</span>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        {dark ? <circle cx="12" cy="12" r="4.2" /> : <path d="M20 14.5A8.2 8.2 0 0 1 9.5 4a8.4 8.4 0 1 0 10.5 10.5z" />}
+        {dark ? (
+          // A bare circle is a dot, not a sun. The rays are what make the
+          // control legible at 18px — the accessible name carries the meaning,
+          // but the icon should not contradict it.
+          <>
+            <circle cx="12" cy="12" r="4.2" />
+            <path
+              strokeLinecap="round"
+              d="M12 2.4v2.3M12 19.3v2.3M2.4 12h2.3M19.3 12h2.3M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"
+            />
+          </>
+        ) : (
+          <path d="M20 14.5A8.2 8.2 0 0 1 9.5 4a8.4 8.4 0 1 0 10.5 10.5z" />
+        )}
       </svg>
     </button>
   );

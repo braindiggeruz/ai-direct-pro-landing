@@ -1,9 +1,10 @@
 # Bormi Admin · UX audit (ADMIN-UX-1)
 
-Date: 2026-08-03
+Date: 2026-08-03 · amended 2026-08-04 with the screenshot evidence and defects 16–17
 Branch: `feature/bormi-admin-ux`
 Base commit: `01a0f88` (`backup/bormi-admin-ux-base-20260803`)
 Scope: the four shipped surfaces — Command Center, Stores and Access, Audit, System State.
+Evidence: `docs/admin/evidence/admin-ux1-20260804/` — 18 screenshots and `measurements.json`.
 Not in scope: ADMIN-3 listings, moderation, orders, any write, AUTH-1F, QuickPost.
 
 ## 0. Recovery note
@@ -43,11 +44,30 @@ status, stat and name-status listings.
 
 The panel was run locally against synthetic fixtures
 (`VITE_ADMIN_FIXTURES=1`) and measured in the browser rather than described.
-Screenshot capture was not available in this environment — the browser pane was
-not compositing frames, so `computer{action:"screenshot"}` timed out. Every
-visual claim below is therefore backed by a DOM measurement, a computed style or
-an accessibility-tree read, and none of them by a picture. Where a claim could
-not be measured, it is not made.
+Every claim below is backed by a DOM measurement, a computed style or an
+accessibility-tree read. Where a claim could not be measured, it is not made.
+
+**Amended 2026-08-04: the pictures now exist.** The first pass of this audit
+recorded that screenshot capture was unavailable — the browser pane was not
+compositing frames, so `computer{action:"screenshot"}` timed out. It still does
+not composite. The evidence was captured a different way instead: `playwright-core`,
+already a dependency, drives the *system* Chrome, which needs no browser
+download and is the engine the owner actually reads the panel in. The capture is
+reproducible:
+
+```bash
+npm --prefix apps/bormi-admin run dev
+```
+
+```bash
+npx tsx scripts/admin-ux-evidence.ts
+```
+
+18 screenshots and a `measurements.json` land in
+`docs/admin/evidence/admin-ux1-20260804/`. The script refuses any origin that is
+not `localhost`, so it cannot be pointed at production. Two defects — 16 and 17
+below — were found only because the pictures existed; no DOM measurement in the
+first pass could have caught either.
 
 ## 2. The defect that started this
 
@@ -75,6 +95,15 @@ confirmed, reproduced defect, and it is what the rewrite is for.
 | 13 | Header measured 60px against a 64–72px contract | `styles.css` | Fixed — 64px |
 | 14 | Audit page had no freshness, no filters, no detail, no stale handling and a generic skeleton | `Audit.tsx` | Built |
 | 15 | Unused import left the app failing typecheck | `Overview.tsx` | Fixed |
+| 16 | Theme toggle drew a bare `<circle>` in dark mode — at 18px a sun with no rays is a dot, and a dot does not say "switch to light" | `AppShell.tsx` | Fixed — rays added; locked by a test |
+| 17 | Audit hint read "Нажмите строку" while the row is deliberately inert and only the action cell is a button | `Audit.tsx` | Fixed — the hint names the control; locked by a test |
+
+Defects 16 and 17 are the two the first pass could not have found. The toggle
+had a correct accessible name (`Включить светлую тему`), correct `aria-pressed`
+and a real inline `<svg>`, so every structural check passed; only the rendering
+showed a dot. The audit hint was likewise valid markup pointing at the wrong
+target — the code even carries a comment explaining why the row is not
+clickable, and the visible copy contradicted it.
 
 ## 4. Harness-only findings, not defects
 
@@ -133,6 +162,30 @@ Fixture build, Chromium, at the widths below.
 The only horizontal scroll container anywhere is `.table-scroll`, which is what
 keeps the wide table inside its own card.
 
+Re-measured on 2026-08-04 in system Chrome at `deviceScaleFactor: 2`, every row
+above reproduced exactly: `pageScrollX` 0 at all four widths, one vertical
+scroll region (`bormi-admin-main`) everywhere, header 64px everywhere, `main`
+starting at `y = 64` everywhere, rail 264px at 1024 and 1280 and `display: none`
+at 320 and 768. The raw readings are in `measurements.json` beside the pictures.
+
+### Pictures
+
+`docs/admin/evidence/admin-ux1-20260804/`
+
+| File | What it shows |
+|------|---------------|
+| `command-center-1280-{dark,light}.png` | Command Center, full page, both themes |
+| `access-1280-{dark,light}.png` | Stores and Access, both themes |
+| `audit-1280-{dark,light}.png` | Audit, both themes |
+| `system-1280-{dark,light}.png` | System State, both themes |
+| `shell-{320,768,1024,1280}.png` | The shell at each measured width |
+| `shell-320-sheet-open.png` | The mobile sheet open, overlay dimming the page behind it |
+| `shell-1280-rail-collapsed.png` | The 76px rail |
+| `zoom200-{command-center,access,audit,system}.png` | Each surface at 200% zoom |
+
+The synthetic banner is present in all 18, which is the point: no build that
+could reach a reader is capable of hiding that the data is invented.
+
 Collapsed rail measured 76px; expanded 264px; rail items keep their accessible
 text when collapsed.
 
@@ -172,8 +225,24 @@ the mobile sheet and the audit drawer; buttons rather than clickable rows and
 colour as the second signal; a 44px minimum on interactive controls; a
 `prefers-reduced-motion` block; no icon fonts and no emoji as UI.
 
-Not verified: 200% zoom and screen-reader output were not measured in this
-environment.
+**200% zoom, measured 2026-08-04.** Browser zoom halves the CSS viewport, so a
+1280×800 screen at 200% is a 640×400 CSS-pixel viewport at `deviceScaleFactor: 2`.
+WCAG 1.4.10 asks for no horizontal scrolling and no lost content.
+
+| Surface at 200% | Page scroll X | Vertical scroll regions | Navigation reachable | Synthetic notice |
+|-----------------|---------------|-------------------------|----------------------|------------------|
+| Command Center | 0 | 1 | yes, through the sheet opener | visible |
+| Stores and Access | 0 | 1 | yes | visible |
+| Audit | 0 | 1 | yes | visible |
+| System State | 0 | 1 | yes | visible |
+
+The rail drops to `display: none` and the layout falls back to the same sheet it
+uses on a phone, which is why navigation stays reachable. Tiles reflow from four
+columns to two. Nothing was clipped and nothing needed a sideways scroll. This
+is a measurement of reflow at 200%, not a WCAG conformance claim; 400% was not
+measured.
+
+Not verified: screen-reader output was not measured in this environment.
 
 ## 9. Performance
 
@@ -198,14 +267,20 @@ First screen, everything a cold visit to the Command Center fetches:
 the shell rewrite, the four rebuilt screens and the audit surface, across one
 fewer request.
 
+Defects 16 and 17 moved this by rounding error: the shell went 251.43 → 251.63 kB
+raw and 79.54 → 79.61 kB gzip (eight sun rays in one `d` attribute), the audit
+chunk 5.60 → 5.61 kB raw and 2.30 kB gzip unchanged, and the CSS did not move.
+First screen is 285.09 kB raw, 89.63 kB gzip.
+
 ## 10. Limitations
 
-- No screenshot evidence: the browser pane could not composite frames.
-- 200% zoom and assistive-technology output were not measured.
+- Assistive-technology output was not measured. 200% zoom now is; 400% is not.
 - The audit page shows one bounded page of 25 events and says so. There is no
   paging control; the filters narrow server-side instead.
 - Fixtures, not production data. Nothing here was measured against a real
   marketplace, because the rollout flag is off and this work does not turn it on.
+- The screenshots are one engine at one scale factor: system Chrome at
+  `deviceScaleFactor: 2`. No Firefox, no Safari, no real device.
 
 ## 11. Next
 

@@ -1,0 +1,379 @@
+{
+  "capturedFrom": "http://localhost:5183",
+  "chrome": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "note": "Synthetic fixtures. No production data was read and nothing was deployed.",
+  "screenshots": [
+    "access-1280-dark.png",
+    "access-1280-light.png",
+    "audit-1280-dark.png",
+    "audit-1280-light.png",
+    "command-center-1280-dark.png",
+    "command-center-1280-light.png",
+    "shell-1024.png",
+    "shell-1280-rail-collapsed.png",
+    "shell-1280.png",
+    "shell-320-sheet-open.png",
+    "shell-320.png",
+    "shell-768.png",
+    "system-1280-dark.png",
+    "system-1280-light.png",
+    "zoom200-access.png",
+    "zoom200-audit.png",
+    "zoom200-command-center.png",
+    "zoom200-system.png"
+  ],
+  "measurements": {
+    "command-center-1280-dark": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true
+    },
+    "access-1280-dark": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Магазины и доступы",
+      "syntheticNoticeVisible": true
+    },
+    "audit-1280-dark": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Аудит",
+      "syntheticNoticeVisible": true
+    },
+    "system-1280-dark": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Состояние системы",
+      "syntheticNoticeVisible": true
+    },
+    "command-center-1280-light": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true
+    },
+    "access-1280-light": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Магазины и доступы",
+      "syntheticNoticeVisible": true
+    },
+    "audit-1280-light": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Аудит",
+      "syntheticNoticeVisible": true
+    },
+    "system-1280-light": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Состояние системы",
+      "syntheticNoticeVisible": true
+    },
+    "shell-320": {
+      "viewport": {
+        "w": 320,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "navWidth": 0,
+      "mainTop": 64,
+      "mainWidth": 320,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true
+    },
+    "shell-768": {
+      "viewport": {
+        "w": 768,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "navWidth": 0,
+      "mainTop": 64,
+      "mainWidth": 768,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true
+    },
+    "shell-1024": {
+      "viewport": {
+        "w": 1024,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 760,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true
+    },
+    "shell-1280": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 1016,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true
+    },
+    "shell-320-sheet-open": {
+      "viewport": {
+        "w": 320,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 264,
+      "mainTop": 64,
+      "mainWidth": 320,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true,
+      "dialog": {
+        "role": "dialog",
+        "ariaModal": "true",
+        "focusInside": true
+      }
+    },
+    "shell-1280-rail-collapsed": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "navWidth": 76,
+      "mainTop": 64,
+      "mainWidth": 1204,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true,
+      "railItemsKeepAccessibleName": true
+    },
+    "zoom200-command-center": {
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "navWidth": 0,
+      "mainTop": 64,
+      "mainWidth": 640,
+      "h1": "Командный центр",
+      "syntheticNoticeVisible": true,
+      "navigationReachable": true
+    },
+    "zoom200-access": {
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "navWidth": 0,
+      "mainTop": 64,
+      "mainWidth": 640,
+      "h1": "Магазины и доступы",
+      "syntheticNoticeVisible": true,
+      "navigationReachable": true
+    },
+    "zoom200-audit": {
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "navWidth": 0,
+      "mainTop": 64,
+      "mainWidth": 640,
+      "h1": "Аудит",
+      "syntheticNoticeVisible": true,
+      "navigationReachable": true
+    },
+    "zoom200-system": {
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "verticalScrollRegions": [
+        "bormi-admin-main"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "navWidth": 0,
+      "mainTop": 64,
+      "mainWidth": 640,
+      "h1": "Состояние системы",
+      "syntheticNoticeVisible": true,
+      "navigationReachable": true
+    }
+  }
+}

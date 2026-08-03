@@ -471,6 +471,20 @@ test('admin: both themes are real, and the choice survives a reload', async () =
   assert.match(shell, /localStorage\.setItem\('bormi_admin_theme'/);
 });
 
+test('admin: the theme control draws a sun, not a dot', async () => {
+  const shell = code(await source(SHELL));
+  // Found through its accessible name, so the test breaks if the control moves.
+  const labelled = shell.slice(shell.indexOf('Включить светлую тему'));
+  const svg = labelled.slice(labelled.indexOf('<svg'), labelled.indexOf('</svg>'));
+  assert.ok(svg.includes('<svg'), 'the theme toggle renders an inline svg');
+  // Only the dark branch: that is the one that has to read as a sun.
+  const sun = svg.slice(svg.indexOf('{dark ?'), svg.indexOf(') : ('));
+  const shapes = [...sun.matchAll(/<(circle|path|line|rect|polyline)\b/g)].length;
+  // A lone circle at 18px is a dot, and a dot does not say "switch to light".
+  // The screenshot evidence caught this; no DOM measurement could have.
+  assert.ok(shapes >= 2, `the sun is drawn with ${shapes} shape(s), so it reads as a dot`);
+});
+
 test('admin: no font, image or script is fetched from anywhere else', async () => {
   const html = await source(INDEX_HTML);
   assert.doesNotMatch(html, /https?:\/\//);
@@ -667,6 +681,11 @@ test('admin: a row is opened by a control, not by a click on the row', async () 
   // A <tr> takes no focus, answers no Enter and is announced as nothing.
   assert.doesNotMatch(audit, /<tr[^>]*onClick/);
   assert.match(audit, /<button\s+type="button"\s+onClick=\{\(\) => setSelected\(event\)\}/);
+  // And the instruction points at that control rather than at the row, which
+  // is deliberately inert. Telling a reader to press the row is telling them
+  // to press the one part of it that answers nothing.
+  assert.doesNotMatch(audit, /Нажмите строку/);
+  assert.match(audit, /Нажмите действие/);
 });
 
 // ── Nothing else moved ───────────────────────────────────────────────────────

@@ -131,7 +131,12 @@ export default function Audit() {
       </Card>
 
       <Card>
-        <CardTitle hint={`Последние ${PAGE_SIZE} событий, новые сверху. Нажмите строку, чтобы раскрыть.`}>
+        {/*
+          The hint names the control that actually opens the drawer. Saying
+          "нажмите строку" would point at the one part of the row that is
+          deliberately not interactive — see the button below.
+        */}
+        <CardTitle hint={`Последние ${PAGE_SIZE} событий, новые сверху. Нажмите действие, чтобы раскрыть.`}>
           Журнал действий
         </CardTitle>
 
