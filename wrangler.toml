@@ -159,3 +159,14 @@ MARKET_QUICKPOST_ENABLED = "false"
 # QuickPost's voice and AI lane. False for QP-1A: the composer is entirely
 # manual, and nothing on that screen offers a control that cannot work yet.
 MARKET_QUICKPOST_AI_ENABLED = "false"
+# The owner-assisted Telegram seller binding (AUTH-1). Off, both binding
+# endpoints answer 404 as though they were never deployed, which is how this
+# ships. On, it allows exactly two things: an authenticated platform_owner may
+# mint one single-use challenge, and a Telegram identity that redeems it from a
+# verified initData session gains an owner membership over the existing store.
+#
+# The flag opens a door and never walks through it. Turning it on grants nobody
+# anything by itself: the challenge is minted only against a signed owner token
+# and redeemed only from a session Telegram itself signed. Intended to be turned
+# on for the length of one binding and turned off again.
+MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"

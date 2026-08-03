@@ -48,6 +48,11 @@ import {
   type SotuvchiApplicationServices,
 } from '.';
 import {
+  SellerBindingError,
+  bindingEnabled,
+  redeemSellerBindingChallenge,
+} from '../platform/admin/seller-binding';
+import {
   aiSearchAvailable,
   createMarketSearchFacade,
   resolveSearchIntentWithAi,
@@ -1315,6 +1320,79 @@ async function sellerOverview(context: RequestContext) {
   };
 }
 
+/**
+ * Spends an owner-minted challenge on the identity that authenticated this call.
+ *
+ * `POST /identity/seller-binding`
+ *
+ * The Telegram half of the handshake, and the one route in this file that a
+ * person without seller authority is allowed to reach — granting that authority
+ * is the entire point, so requiring it first would be a locked door with its key
+ * inside. Everything else still holds: the session was built from `initData`
+ * Telegram itself signed, and the identity bound is `claims.sub` from that
+ * session. Nothing in the body names a person, an organization or a store.
+ */
+async function bindingCommands(context: RequestContext): Promise<Response | null> {
+  const { request, path, env, claims, requestId } = context;
+  if (path !== '/identity/seller-binding') return null;
+  if (request.method !== 'POST') return null;
+  // Off, the route answers exactly as an unknown path does.
+  if (!bindingEnabled(env)) return null;
+  if (!env.GPTBOT_DRAFTS_DB) throw new MarketHttpError('storefront_unavailable', 503);
+  // A challenge is 32 random bytes; guessing is not a threat, but grinding the
+  // endpoint should still cost something.
+  await enforceMarketRateLimit('command', `${claims.sub}:seller-binding`);
+  const body = await readMarketJson(request);
+  try {
+    const result = await redeemSellerBindingChallenge(
+      env,
+      env.GPTBOT_DRAFTS_DB,
+      claims.sub,
+      body.challenge,
+      requestId,
+      new Date(),
+    );
+    // Capabilities and a store name. No identity id, no org id, no store id.
+    return marketJson({
+      sellerRead: result.sellerRead,
+      sellerCommands: result.sellerCommands,
+      storeName: result.storeName,
+      alreadyBound: result.alreadyBound,
+    }, requestId);
+  } catch (error) {
+    if (error instanceof SellerBindingError) {
+      throw redeemFailure(error);
+    }
+    throw error;
+  }
+}
+
+/**
+ * Collapse a binding failure into the market's closed error vocabulary.
+ *
+ * Every challenge outcome answers the same way. Telling the caller apart —
+ * unknown, expired, already spent — hands somebody grinding the endpoint a way
+ * to learn which codes ever existed, and the person legitimately redeeming has
+ * the owner on the other end of the conversation to ask instead.
+ */
+function redeemFailure(error: SellerBindingError): MarketHttpError {
+  switch (error.code) {
+    case 'rate_limited':
+      return new MarketHttpError('rate_limited', 429);
+    case 'store_unavailable':
+    case 'store_ambiguous':
+      return new MarketHttpError('storefront_unavailable', 409);
+    case 'membership_disabled':
+    case 'membership_conflict':
+    case 'identity_unsupported':
+      return new MarketHttpError('state_conflict', 409);
+    case 'persistence_failed':
+      return new MarketHttpError('internal_error', 500);
+    default:
+      return new MarketHttpError('validation_failed', 400);
+  }
+}
+
 async function sellerCommands(context: RequestContext): Promise<Response | null> {
   const { request, path, services, access, requestId } = context;
   if (!path.startsWith('/seller/')) return null;
@@ -1624,6 +1702,9 @@ export async function handleMarketRequest(input: {
       ?? (input.request.method === 'POST' && path === '/seller/media'
         ? await sellerMediaUpload(context)
         : null)
+      // Before the seller dispatch, because this is the one command a person
+      // without seller authority is meant to be able to reach.
+      ?? await bindingCommands(context)
       ?? await comparisonCommands(context)
       ?? await checkoutCommands(context)
       ?? await sellerCommands(context);

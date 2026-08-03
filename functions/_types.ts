@@ -257,6 +257,16 @@ export interface Env {
   // QuickPost's voice and AI lane. False through QP-1A, whose composer is
   // manual: no control appears for something that cannot work yet.
   MARKET_QUICKPOST_AI_ENABLED?: string;
+  // The owner-assisted Telegram seller binding (AUTH-1). Off, both binding
+  // endpoints answer 404 as though they were never deployed. On, an owner who
+  // is already authenticated as platform_owner may mint one single-use
+  // challenge, and a Telegram identity that redeems it from a verified
+  // initData session gains an owner membership over the existing store.
+  //
+  // It opens a door; it never walks through it. The challenge still has to be
+  // created by a signed owner token and redeemed from a verified Telegram
+  // session, and neither of those is something this flag can supply.
+  MARKET_OWNER_TELEGRAM_BINDING_ENABLED?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
