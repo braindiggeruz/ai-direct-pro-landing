@@ -50,6 +50,7 @@ import {
 import {
   SellerBindingError,
   bindingEnabled,
+  inspectSellerBindingChallenge,
   redeemSellerBindingChallenge,
 } from '../platform/admin/seller-binding';
 import {
@@ -455,6 +456,11 @@ async function bootstrapPayload(context: RequestContext) {
       navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
       quickPost: marketFlag(context.env.MARKET_QUICKPOST_ENABLED),
       quickPostAi: marketFlag(context.env.MARKET_QUICKPOST_AI_ENABLED),
+      // Whether the binding row is worth offering. Presentation only: it decides
+      // whether a person can find the screen, never what the screen may do. Both
+      // binding endpoints re-read the same switch, so a client that sets this by
+      // hand reaches the same 404 it would have reached anyway.
+      ownerTelegramBinding: marketFlag(context.env.MARKET_OWNER_TELEGRAM_BINDING_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -485,6 +491,11 @@ function launchBootstrapPayload(context: RequestContext) {
       navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
       quickPost: marketFlag(context.env.MARKET_QUICKPOST_ENABLED),
       quickPostAi: marketFlag(context.env.MARKET_QUICKPOST_AI_ENABLED),
+      // Whether the binding row is worth offering. Presentation only: it decides
+      // whether a person can find the screen, never what the screen may do. Both
+      // binding endpoints re-read the same switch, so a client that sets this by
+      // hand reaches the same 404 it would have reached anyway.
+      ownerTelegramBinding: marketFlag(context.env.MARKET_OWNER_TELEGRAM_BINDING_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -1334,7 +1345,9 @@ async function sellerOverview(context: RequestContext) {
  */
 async function bindingCommands(context: RequestContext): Promise<Response | null> {
   const { request, path, env, claims, requestId } = context;
-  if (path !== '/identity/seller-binding') return null;
+  if (path !== '/identity/seller-binding' && path !== '/identity/seller-binding/inspect') {
+    return null;
+  }
   if (request.method !== 'POST') return null;
   // Off, the route answers exactly as an unknown path does.
   if (!bindingEnabled(env)) return null;
@@ -1343,6 +1356,26 @@ async function bindingCommands(context: RequestContext): Promise<Response | null
   // endpoint should still cost something.
   await enforceMarketRateLimit('command', `${claims.sub}:seller-binding`);
   const body = await readMarketJson(request);
+
+  // The look-up half. It answers "what would this code bind me to" so the
+  // confirmation can name a store, and it changes nothing: a person who decides
+  // not to go through with it still holds an unspent challenge.
+  if (path === '/identity/seller-binding/inspect') {
+    try {
+      const inspected = await inspectSellerBindingChallenge(
+        env,
+        env.GPTBOT_DRAFTS_DB,
+        claims.sub,
+        body.challenge,
+        new Date(),
+      );
+      return marketJson({ storeName: inspected.storeName }, requestId);
+    } catch (error) {
+      if (error instanceof SellerBindingError) throw redeemFailure(error);
+      throw error;
+    }
+  }
+
   try {
     const result = await redeemSellerBindingChallenge(
       env,

@@ -96,6 +96,14 @@ interface BuyerAppProps {
    */
   quickPostEnabled: boolean;
   /**
+   * Server-reported owner binding ceremony. Presentation only: it decides
+   * whether the cabinet offers the row that leads to the code screen, never what
+   * that screen is allowed to do.
+   */
+  bindingOffered: boolean;
+  /** Re-reads the shell's own authority from the server after a binding. */
+  onBound: () => Promise<void> | void;
+  /**
    * The tab list the server reported for this shell. A presentation hint: it can
    * only reorder destinations this build already carries, it can never add one,
    * and it grants nothing. Anything unexpected falls back to the shipped order.
@@ -352,6 +360,8 @@ export function BuyerApp({
   cabinetHomeV2,
   navBack,
   quickPostEnabled,
+  bindingOffered,
+  onBound,
   navigation,
   sellerAvailable,
   sellerCommands,
@@ -860,6 +870,8 @@ export function BuyerApp({
           sellerAvailable={sellerAvailable}
           sellerCommands={sellerCommands}
           mediaUpload={mediaUpload}
+          bindingOffered={bindingOffered}
+          onBound={onBound}
           homeV2={cabinetHomeV2}
           sellIntent={sellIntent}
           onSellIntentHandled={() => setSellIntent(false)}

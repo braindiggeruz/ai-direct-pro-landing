@@ -79,7 +79,11 @@ function foldKey(scope: string, value: string): string {
   return `${scope}:${hash.toString(16)}`;
 }
 
-export function spendBindingAttempt(scope: 'mint' | 'redeem', caller: string, now: Date): void {
+export function spendBindingAttempt(
+  scope: 'mint' | 'redeem' | 'inspect',
+  caller: string,
+  now: Date,
+): void {
   const stamp = now.getTime();
   for (const [key, bucket] of attempts) {
     if (bucket.resetAt <= stamp) attempts.delete(key);
@@ -222,6 +226,70 @@ export async function createSellerBindingChallenge(
   ).run();
 
   return { challenge, expiresAt, storeName: store.name };
+}
+
+/**
+ * What a challenge is for, told to the person about to spend it — and nothing
+ * else. A store's display name is already in their hands: the owner read it in
+ * the Owner Control Center when they minted the code.
+ */
+export interface InspectedChallenge {
+  storeName: string;
+}
+
+/**
+ * Read a live challenge without spending it.
+ *
+ * A confirmation that names nothing is not a confirmation. Redeeming is a
+ * single irreversible act, so the screen that asks "bind this Telegram?" has to
+ * be able to say *to what* before the person answers, and the redeem endpoint
+ * cannot be used for that — it would consume the challenge to draw a dialog.
+ *
+ * This reads. It never writes, never marks anything used, and returns exactly
+ * one string. It is deliberately not an oracle worth having: the caller must
+ * already hold a verified Telegram session, the flag must be on, the guess
+ * space is 2^256, and every failure — unknown, expired, spent, suspended —
+ * leaves through the same door as the redeem failures do.
+ */
+export async function inspectSellerBindingChallenge(
+  env: Env,
+  db: D1Database,
+  identityId: string,
+  rawChallenge: unknown,
+  now: Date,
+): Promise<InspectedChallenge> {
+  if (!bindingEnabled(env)) throw new SellerBindingError('binding_disabled');
+  // Its own budget. Sharing one with redeem would let a look-up spend the
+  // attempts the actual binding needs.
+  spendBindingAttempt('inspect', identityId, now);
+  if (typeof rawChallenge !== 'string' || !/^[0-9a-f]{64}$/.test(rawChallenge)) {
+    throw new SellerBindingError('challenge_invalid');
+  }
+  await ensureSellerBindingSchema(db);
+
+  const nowIso = now.toISOString();
+  const row = await db.prepare(
+    `SELECT org_id, store_id, expires_at, redeemed_at
+       FROM seller_identity_binding_challenges
+      WHERE challenge_hash = ? AND action = 'seller.bind'`,
+  ).bind(await hashChallenge(rawChallenge)).first<{
+    org_id: string; store_id: string; expires_at: string; redeemed_at: string | null;
+  }>();
+  if (!row) throw new SellerBindingError('challenge_invalid');
+  if (row.redeemed_at) throw new SellerBindingError('challenge_spent');
+  if (row.expires_at <= nowIso) throw new SellerBindingError('challenge_expired');
+
+  // The same store and organization checks redemption makes, so a preview never
+  // promises access that the redemption would then refuse.
+  const store = await db.prepare(
+    `SELECT store.name AS name
+       FROM sotuvchi_stores AS store
+       JOIN organizations AS org ON org.id = store.org_id AND org.status = 'active'
+      WHERE store.id = ? AND store.org_id = ? AND store.status = 'active'`,
+  ).bind(row.store_id, row.org_id).first<{ name: string }>();
+  if (!store) throw new SellerBindingError('store_unavailable');
+
+  return { storeName: store.name };
 }
 
 export interface BindingResult {

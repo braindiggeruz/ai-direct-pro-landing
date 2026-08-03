@@ -1,5 +1,6 @@
 ﻿// Development-only synthetic transport. It is reachable exclusively through
 // an import.meta.env.DEV branch and is not included in the production graph.
+import { MarketApiError } from '../lib/api';
 import type {
   BuyerOrder,
   Category,
@@ -142,13 +143,50 @@ function checkoutBase(product: Product): CheckoutSnapshot {
   };
 }
 
+/**
+ * `?bind=1` puts the fixture in the state the real ceremony starts from: an
+ * owner whose Telegram account has no store yet, with the binding switch on.
+ * Without it the fixture owner already has seller authority, so the row that
+ * leads to the code screen is correctly hidden and cannot be looked at.
+ *
+ * Dev only, like everything in this file — it is behind `import.meta.env.DEV`
+ * and never enters the production graph.
+ */
+function bindingScenario(): boolean {
+  try {
+    return new URLSearchParams(window.location.search).get('bind') === '1';
+  } catch {
+    return false;
+  }
+}
+
+/** The one code the fixture accepts, so the whole flow can be walked through. */
+const SYNTHETIC_CODE = 'b'.repeat(64);
+let syntheticBound = false;
+
 export async function syntheticRequest<T>(rawPath: string, options: RequestOptions = {}): Promise<T> {
   await new Promise((resolve) => setTimeout(resolve, 90));
   const url = new URL(rawPath, 'https://synthetic.invalid');
   const path = url.pathname;
   const method = options.method ?? 'GET';
   const body = bodyOf(options);
+  const binding = bindingScenario();
   let result: unknown;
+
+  if (binding && path === '/identity/seller-binding/inspect') {
+    // The same closed-vocabulary failure the server sends, so the screen's error
+    // mapping is exercised here rather than only in production.
+    if (body.challenge !== SYNTHETIC_CODE) throw new MarketApiError('validation_failed', 400, null);
+    return { storeName: 'Bormi Demo' } as T;
+  }
+  if (binding && path === '/identity/seller-binding') {
+    if (body.challenge !== SYNTHETIC_CODE) throw new MarketApiError('validation_failed', 400, null);
+    const alreadyBound = syntheticBound;
+    syntheticBound = true;
+    return {
+      sellerRead: true, sellerCommands: true, storeName: 'Bormi Demo', alreadyBound,
+    } as T;
+  }
 
   if (path === '/session/launch') {
     result = {
@@ -162,7 +200,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
         navigation: ['home', 'search', 'publish', 'cabinet'],
         sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false },
+        flags: { buyer: true, sellerRead: !binding || syntheticBound, sellerCommands: !binding || syntheticBound, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding },
         storefront: { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
@@ -182,7 +220,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
       navigation: ['home', 'search', 'publish', 'cabinet'],
       sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false },
+      flags: { buyer: true, sellerRead: !binding || syntheticBound, sellerCommands: !binding || syntheticBound, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding },
       storefront: { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };

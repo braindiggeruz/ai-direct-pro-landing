@@ -21,7 +21,11 @@ const SellerApp = lazy(() => import('./SellerApp').then((module) => ({
   default: module.SellerApp,
 })));
 
-type CabinetSection = 'root' | 'orders' | 'store' | 'settings' | 'question';
+const SellerBindingRedeem = lazy(() => import('./SellerBindingRedeem').then((module) => ({
+  default: module.SellerBindingRedeem,
+})));
+
+type CabinetSection = 'root' | 'orders' | 'store' | 'settings' | 'question' | 'binding';
 
 interface CabinetAppProps {
   locale: Locale;
@@ -37,6 +41,14 @@ interface CabinetAppProps {
   sellerAvailable: boolean;
   sellerCommands: boolean;
   mediaUpload: boolean;
+  /**
+   * Whether the owner binding row is offered under Settings. Presentation only —
+   * finding the screen is not being allowed to use it, and the server decides
+   * that on every call regardless of what this says.
+   */
+  bindingOffered: boolean;
+  /** Re-reads the shell's authority after a binding, from the server. */
+  onBound: () => Promise<void> | void;
   /**
    * Server-reported cabinet root. A layout switch and nothing else: the same
    * screens, the same authority, a different order of what is offered first.
@@ -242,6 +254,8 @@ export function CabinetApp({
   sellerAvailable,
   sellerCommands,
   mediaUpload,
+  bindingOffered,
+  onBound,
   homeV2,
   sellIntent,
   onSellIntentHandled,
@@ -288,6 +302,10 @@ export function CabinetApp({
   // same exit the visible control does, so the two cannot disagree.
   useBackStop(section !== 'root', `cabinet:${section}`, () => {
     if (workspace) leaveWorkspace();
+    // The binding screen sits one level under Settings, so back lands where the
+    // person came from rather than skipping to the root. Its own stop normally
+    // answers first; this keeps the two agreeing if it ever does not.
+    else if (section === 'binding') setSection('settings');
     else setSection('root');
   });
 
@@ -341,6 +359,19 @@ export function CabinetApp({
     </BackTo>;
   }
 
+  if (section === 'binding') {
+    return <BackTo label={t(locale, 'settingsAndHelp')} onBack={() => setSection('settings')}>
+      <section className="hero"><h1>{t(locale, 'bindTitle')}</h1></section>
+      <Suspense fallback={<LoadingView locale={locale} />}>
+        <SellerBindingRedeem
+          locale={locale}
+          onClose={() => setSection('settings')}
+          onBound={onBound}
+        />
+      </Suspense>
+    </BackTo>;
+  }
+
   if (section === 'settings') {
     return <BackTo label={t(locale, 'cabinet')} onBack={() => setSection('root')}>
       <section className="hero"><h1>{t(locale, 'settingsAndHelp')}</h1></section>
@@ -367,6 +398,15 @@ export function CabinetApp({
             onChange={onTheme}
           />
           <p className="cabinet-note">{t(locale, 'themeHint')}</p>
+          {/* Offered only while the server says the ceremony is open and this
+              person has no store yet. Finding the row is not permission to use
+              it: the screen behind it is refused by the server on its own. */}
+          {bindingOffered && !sellerAvailable ? <CabinetRow
+            icon="seller"
+            title={t(locale, 'bindTitle')}
+            hint={t(locale, 'bindHint')}
+            onOpen={() => setSection('binding')}
+          /> : null}
         </div>
       </section>
       <section className="section">

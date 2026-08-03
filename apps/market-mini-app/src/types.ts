@@ -48,6 +48,14 @@ export interface Capabilities {
    * entirely manual: a control that cannot work yet is worse than no control.
    */
   quickPostAi?: boolean;
+  /**
+   * Whether the owner binding screen is worth offering. Presentation only, and
+   * additive like the switches above: a bootstrap answered before this shipped
+   * simply has no such row. It decides whether the row can be found — never what
+   * the screen may do. Both binding endpoints read the same server switch on
+   * every call, so a client that sets this by hand finds the same 404.
+   */
+  ownerTelegramBinding?: boolean;
 }
 
 export type VoiceConstraintKind =

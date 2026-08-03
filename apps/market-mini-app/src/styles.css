@@ -282,6 +282,11 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .cabinet-choice { display: grid; gap: 9px; padding: 13px 14px; border: 1px solid var(--border-default); border-radius: 17px; background: var(--surface-raised); box-shadow: 0 4px 15px rgb(28 20 56 / 4%); }
 .cabinet-choice__label { font-weight: 760; }
 .cabinet-note { margin: 0; padding: 0 2px; color: var(--text-secondary); font-size: .78rem; }
+/* The binding code. Monospace so a mis-pasted character is visible, wrapping so
+   64 characters never push the screen sideways at 320 px, and never masked —
+   the owner has to be able to see that what they pasted is what they copied. */
+.binding-code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .82rem; letter-spacing: .02em; word-break: break-all; overflow-wrap: anywhere; }
+.binding-access { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 3px; color: var(--text-secondary); font-size: .82rem; }
 .timing-list { display: grid; gap: 5px; margin: 0; }
 .timing-list > div { display: flex; justify-content: space-between; gap: 12px; }
 .timing-list dt { color: var(--text-secondary); font-size: .82rem; }
