@@ -171,13 +171,18 @@ PRODUCTION_BACKUP=PASS
 LEDGER_REPAIRED_PRODUCTION=YES          (25 → 30)
 AUDIT_MIGRATION_APPLIED_PRODUCTION=YES  (6 строк сохранены, отпечаток совпал)
 CHALLENGE_MIGRATION_APPLIED_PRODUCTION=YES
-AUTH_1_CHALLENGE_CREATED=NO             ← требует admin-сессии владельца
+AUTH_1_CHALLENGE_CREATED=NO             ← клиентская половина не реализована
 AUTH_1_MEMBERSHIP_WRITTEN=NO
-MARKET_OWNER_TELEGRAM_BINDING_ENABLED=true   (временное окно)
-MARKET_QUICKPOST_ENABLED=false
+MARKET_OWNER_TELEGRAM_BINDING_ENABLED=false  (окно открывали и закрыли обратно)
+MARKET_QUICKPOST_ENABLED=false          ← гейт: authority не подтверждена
 ```
 
-Root deployment: `fc22fdc8-12ff-4df3-8141-23f470c0c951` (d0e3a73).
+Root deployment: `e1c24a99-64ed-4742-8741-9b79578a9310` (b9be438).
+
+QuickPost остаётся выключенным намеренно. Включить его до появления
+membership означало бы показать владельцу кнопку «Продать», которая упирается в
+`seller_forbidden`: QuickPost требует ровно той authority, которую привязка ещё
+не выдала. Это один из зафиксированных hard stop.
 
 ### Доказательство static bundle для QuickPost
 
