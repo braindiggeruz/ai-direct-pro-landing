@@ -170,3 +170,12 @@ MARKET_QUICKPOST_AI_ENABLED = "false"
 # and redeemed only from a session Telegram itself signed. Intended to be turned
 # on for the length of one binding and turned off again.
 MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"
+# Bormi Admin, the second-generation owner control centre. Off, the panel builds
+# and deploys but refuses to render itself, and /admin-tools stays the way in.
+#
+# Presentation, and weaker than it looks on purpose. Every screen it draws reads
+# an endpoint that `requirePlatformRole` guards exactly as it did before, so
+# this line cannot grant a single thing a signed owner token does not already
+# carry. Turning it on is this line plus a root deploy; turning it off is the
+# rollback, and the previous panel never stopped working.
+BORMI_ADMIN_V2_ENABLED = "false"

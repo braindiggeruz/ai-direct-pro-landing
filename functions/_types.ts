@@ -278,6 +278,13 @@ export interface Env {
   // string can be edited in place, and the string alone opens nothing. It is
   // not a token, not a session, not an identity, and it carries no PII.
   MARKET_OWNER_TELEGRAM_BINDING_CANARY?: string;
+  // Rollout switch for Bormi Admin, the second-generation owner control
+  // centre. Presentation only, and deliberately weaker than it looks: it
+  // decides whether the new panel renders itself, never who may call anything.
+  // Every endpoint it reads is guarded by `requirePlatformRole` exactly as it
+  // was before, so a client that sets this by hand gets a nicer-looking 403.
+  // Off means the previous Owner Control Center remains the way in.
+  BORMI_ADMIN_V2_ENABLED?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
