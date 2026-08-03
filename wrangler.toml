@@ -145,4 +145,4 @@ MARKET_CABINET_HOME_V2 = "true"
 # before it can exist. Navigation only: no read, no command, no authority. Both
 # behaviours are in the static bundle, so turning it off is this line plus a
 # root deploy.
-MARKET_NAV_BACK_ENABLED = "false"
+MARKET_NAV_BACK_ENABLED = "true"
