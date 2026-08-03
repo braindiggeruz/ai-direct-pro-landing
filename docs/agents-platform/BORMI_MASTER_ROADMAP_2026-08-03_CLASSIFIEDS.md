@@ -1152,7 +1152,46 @@ Anti-abuse: лимит активных запросов на пользоват
 
 ## PHASE 0 — Reconciliation and evidence
 
-### BM-0-01 · Восстановить видимость кабинета продавца
+### BM-0-01 · Восстановить видимость кабинета продавца — **PATH B РЕАЛИЗОВАН И ЗАДЕПЛОЕН 2026-08-03**
+
+> **Владелец выбрал `AUTHORITY_PATH=B`.** Резолвер исправлен, задеплоен, покрыт
+> 13 тестами. **Но он ничего не разблокировал**, и это не дефект реализации:
+>
+> ```text
+> memberships                                     1
+> memberships у Telegram-личностей                0   ← причина
+> ```
+>
+> Единственный membership (`owner/active`) принадлежит личности с
+> `provider = 'api'`. Она же значится владельцем в `telegram_agent_routes`.
+> Ни одна из четырёх Telegram-личностей не имеет ни membership, ни onboarding.
+> Path B выводит авторитет по `claims.sub`, а `claims.sub` в Mini App — всегда
+> Telegram-личность. Совпадений нет ни у кого.
+>
+> **Остаётся owner-assisted binding plan** (гейт G-05b): связать Telegram-личность
+> владельца с существующей организацией строкой в `memberships`
+> (`role='owner'`, `status='active'`). Это запись в D1 и она **не выполнялась** —
+> искусственные записи запрещены без отдельного решения владельца.
+>
+> После такой привязки Path B выдаст `sellerRead=true` без единой строки кода:
+> это ровно то, что доказывает тест «an active owner membership over an active
+> store is authority enough» (onboarding-строка в нём удалена).
+
+**Реализованная модель:**
+
+```text
+SELLER_AUTHORIZED =
+      (completed onboarding + active store)          ← прежний путь, не тронут
+   OR (active owner membership + active store        ← новый путь
+       + active organization)
+  AND оба кандидата проходят один и тот же resolveSeller()
+  AND MARKET_MINI_APP_SELLER_READS_ENABLED
+```
+
+`findOwnedActiveStoreByIdentity` принимает **только** identity: организация —
+это ответ, а не вход, поэтому подставить чужой tenant нечем (в SQL ровно один
+bind-параметр, тест это проверяет). Роль `staff` авторитета не даёт. Миграции не
+потребовалось.
 
 - **Фаза / приоритет:** 0 / P0
 - **Проблема:** владелец не видит кабинет; причина доказана — 0 записей `sotuvchi_onboardings`.
@@ -1267,9 +1306,17 @@ Anti-abuse: лимит активных запросов на пользоват
 - **Визуальные доказательства:** 320/390 px × light/dark × RU/UZ, с разделом «Магазин» и без.
 - **Владелец:** подтверждение подписи «Кабинет» и порядка разделов.
 - **Трудоёмкость:** 3 д. **Риск:** низкий.
-- **Флаг:** `MARKET_CABINET_ENABLED` (в проде `"false"`).
-- **Откат:** выключить флаг — возвращается таб «Заказы». Статический Mini App
-  передеплоивать не нужно: обе раскладки живут в одном бандле.
+- **Флаг:** `MARKET_CABINET_ENABLED` — **в проде `"true"` с 2026-08-03**.
+- **Откат:** выключить флаг + передеплой root. Статический Mini App при откате
+  передеплоивать не нужно — обе раскладки лежат в одном бандле, и **этот бандл
+  теперь в production** (deployment `e5d87d9f-…`, source `e631617`).
+
+> **Исправление прежнего утверждения.** В отчёте о SLICE-1 было сказано, что
+> Mini App деплоить не нужно. Это было неверно для первого релиза: в живом
+> бандле `index-BfzFYxkB.js` (source `5184953`) не было ни `CabinetApp`, ни
+> строк «Кабинет», «Подать», «Мои заявки» — проверено загрузкой и поиском по
+> байтам. Фраза «обе раскладки в одном бандле» описывает бандл в репозитории, а
+> не тот, что отдавался production. Static deploy был обязателен и выполнен.
 - **Приёмка:** ни один существующий заказ не потерян; seller-экраны работают как прежде; при
   `sellerRead=false` кабинет полностью функционален как покупательский.
 
@@ -1589,6 +1636,26 @@ BM-0-01 (видимость)
 | 7 | `MARKET_PUBLIC_LISTING_PAGES_ENABLED=false` + удаление из sitemap |
 | 8 | деактивация cohort |
 | Инфраструктурный | root → `4740a652-…`, mini app → `f91f2044-…`; D1 не откатывать |
+
+## Релиз 2026-08-03 — SLICE-1 + Path B
+
+```text
+source SHA (оба проекта)   e6316178e5c18064c9f515f5642f4fbc751d51cf
+root / BFF                 663aad16-87d4-4c2c-85c1-ec885e4d78ac   branch main
+static Mini App            e5d87d9f-8ded-477c-bf1d-b536627e7b25   branch feature/gptbot-market-mini-app-synthetic-candidate
+backup branch              backup/bormi-cabinet-slice-1-2026-08-03 @ e631617
+
+ОТКАТ
+  root      → c7c5fa3d-a647-4b26-b90a-ae9d2d136bcd   source 238f90f
+  static    → b7e8cf4d-2e6f-4ab0-8a91-962d4195529b   source 5184953
+  порядок   сначала static, затем root; D1 не откатывать (схема и данные не менялись)
+  мягче     MARKET_CABINET_ENABLED = "false" + root deploy — раскладка вернётся,
+            Path B и данные останутся нетронутыми
+```
+
+Пережило деплой (проверено через Pages API после релиза): `placement.mode=smart`,
+`GPTBOT_DRAFTS_DB`, `LOGIN_ATTEMPTS`, `MARKET_MEDIA=bormi-market-media`, `AI`,
+`AUTOMATION_QUEUE`, все 12 market-переменных, 30 секретов.
 
 # 48. Exact recommended first implementation slice
 
