@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BOT_CHAT_URL } from '../lib/bot-link';
 import { marketApi, readLaunchTiming } from '../lib/api';
 import { formatDate, labelForHandoffReason, labelForHandoffStatus, t } from '../lib/i18n';
+import { useBackStop } from '../platform/navigation';
 import type { ThemePreference } from '../platform/telegram';
 import type { Handoff, Locale, SellerOverview } from '../types';
 import {
@@ -282,6 +283,13 @@ export function CabinetApp({
     setPendingEditor(false);
     setSection('root');
   };
+  // Anything below the cabinet root is one level deep, so a back gesture takes
+  // the person up to the root instead of out of the app. The workspace uses the
+  // same exit the visible control does, so the two cannot disagree.
+  useBackStop(section !== 'root', `cabinet:${section}`, () => {
+    if (workspace) leaveWorkspace();
+    else setSection('root');
+  });
 
   // The same query key the workspace itself uses, so opening the cabinet warms
   // the screen it leads to instead of paying for a second read. Only asked for

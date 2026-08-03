@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchMedia } from '../lib/api';
 import { DEMO_PRODUCT_PREVIEW, demoPreviewName } from '../lib/demo-product-media';
 import { formatPrice, t } from '../lib/i18n';
+import { useBackStop } from '../platform/navigation';
 import type { Locale } from '../types';
 
 export type IconName =
@@ -197,6 +198,9 @@ export function Modal({
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
+  // A back gesture over an open dialog closes the dialog, the way Escape and
+  // the backdrop already do — not the whole app.
+  useBackStop(open, 'modal', onClose);
   useEffect(() => {
     if (!open) return;
     const before = document.activeElement as HTMLElement | null;

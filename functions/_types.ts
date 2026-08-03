@@ -242,6 +242,12 @@ export interface Env {
   // and no authority, and `sellerRead` still decides whether a store section
   // exists. Anything but "true" leaves the shipped root in place.
   MARKET_CABINET_HOME_V2?: string;
+  // The back-gesture spine. With it off, Android's hardware key and Telegram's
+  // own back chevron close the Mini App from any depth, which is how it
+  // shipped. With it on, a back gesture closes the newest open thing — a
+  // dialog, a cabinet section, a workspace — and only closes the app at the
+  // root. Navigation only: it grants no read, no command and no authority.
+  MARKET_NAV_BACK_ENABLED?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)

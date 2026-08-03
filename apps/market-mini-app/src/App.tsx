@@ -8,6 +8,7 @@ import {
   setSessionLocale,
 } from './lib/api';
 import { t } from './lib/i18n';
+import { startNavigation } from './platform/navigation';
 import {
   preferredLocale,
   readThemePreference,
@@ -66,6 +67,10 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
   // The cabinet's own root. Only meaningful inside the cabinet shell, so it is
   // read together with it rather than on its own.
   const cabinetHomeV2 = cabinetEnabled && bootstrap.data.flags.cabinetHomeV2 === true;
+  // Navigation only. Read here so the whole shell agrees on one answer, and
+  // never consulted for what a person is allowed to do.
+  const navBack = bootstrap.data.flags.navBack === true;
+  useEffect(() => startNavigation(navBack), [navBack]);
   const activeRole: Role = !cabinetEnabled && role === 'seller' && sellerAvailable
     ? 'seller'
     : 'buyer';
@@ -97,6 +102,7 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
           voiceEnabled={bootstrap.data.flags.voice === true}
           cabinetEnabled={cabinetEnabled}
           cabinetHomeV2={cabinetHomeV2}
+          navBack={navBack}
           navigation={bootstrap.data.navigation ?? []}
           sellerAvailable={sellerAvailable}
           sellerCommands={sellerCommands}

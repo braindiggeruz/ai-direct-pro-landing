@@ -138,3 +138,11 @@ MARKET_CABINET_ENABLED = "true"
 # static bundle carries both roots, so turning it off is this line plus a root
 # deploy and no rebuild.
 MARKET_CABINET_HOME_V2 = "true"
+# The back-gesture spine (QP-0). Off, every back gesture closes the whole Mini
+# App from any depth — a person three screens into the cabinet loses the screen
+# and anything half-typed on it. On, a back gesture closes the newest open thing
+# and only closes the app at the root, which is what a multi-step composer needs
+# before it can exist. Navigation only: no read, no command, no authority. Both
+# behaviours are in the static bundle, so turning it off is this line plus a
+# root deploy.
+MARKET_NAV_BACK_ENABLED = "false"

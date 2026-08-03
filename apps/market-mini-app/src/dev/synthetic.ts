@@ -1,4 +1,4 @@
-// Development-only synthetic transport. It is reachable exclusively through
+﻿// Development-only synthetic transport. It is reachable exclusively through
 // an import.meta.env.DEV branch and is not included in the production graph.
 import type {
   BuyerOrder,
@@ -22,17 +22,17 @@ interface RequestOptions {
 
 const now = new Date().toISOString();
 const categories: Category[] = [
-  { id: 'cat-audio', name: 'Аудио', productCount: 2 },
-  { id: 'cat-home', name: 'Для дома', productCount: 2 },
-  { id: 'cat-accessories', name: 'Аксессуары', productCount: 2 },
+  { id: 'cat-audio', name: 'РђСѓРґРёРѕ', productCount: 2 },
+  { id: 'cat-home', name: 'Р”Р»СЏ РґРѕРјР°', productCount: 2 },
+  { id: 'cat-accessories', name: 'РђРєСЃРµСЃСЃСѓР°СЂС‹', productCount: 2 },
 ];
 const products: SellerProduct[] = [
-  ['p-headphones', 'cat-audio', 'Беспроводные наушники AirBeat', 349000, 'available', '40 часов работы'],
-  ['p-speaker', 'cat-audio', 'Портативная колонка Mini Sound', 229000, 'preorder', 'Защита IPX6'],
-  ['p-lamp', 'cat-home', 'Настольная лампа Warm Light', 189000, 'available', 'Три режима света'],
-  ['p-kettle', 'cat-home', 'Электрический чайник Steel 1.7', 299000, 'available', 'Автоотключение'],
-  ['p-cable', 'cat-accessories', 'Кабель USB‑C 100W', 79000, 'available', 'Длина 2 метра'],
-  ['p-power', 'cat-accessories', 'Power Bank 20 000', 429000, 'unavailable', 'Быстрая зарядка'],
+  ['p-headphones', 'cat-audio', 'Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ РЅР°СѓС€РЅРёРєРё AirBeat', 349000, 'available', '40 С‡Р°СЃРѕРІ СЂР°Р±РѕС‚С‹'],
+  ['p-speaker', 'cat-audio', 'РџРѕСЂС‚Р°С‚РёРІРЅР°СЏ РєРѕР»РѕРЅРєР° Mini Sound', 229000, 'preorder', 'Р—Р°С‰РёС‚Р° IPX6'],
+  ['p-lamp', 'cat-home', 'РќР°СЃС‚РѕР»СЊРЅР°СЏ Р»Р°РјРїР° Warm Light', 189000, 'available', 'РўСЂРё СЂРµР¶РёРјР° СЃРІРµС‚Р°'],
+  ['p-kettle', 'cat-home', 'Р­Р»РµРєС‚СЂРёС‡РµСЃРєРёР№ С‡Р°Р№РЅРёРє Steel 1.7', 299000, 'available', 'РђРІС‚РѕРѕС‚РєР»СЋС‡РµРЅРёРµ'],
+  ['p-cable', 'cat-accessories', 'РљР°Р±РµР»СЊ USBвЂ‘C 100W', 79000, 'available', 'Р”Р»РёРЅР° 2 РјРµС‚СЂР°'],
+  ['p-power', 'cat-accessories', 'Power Bank 20 000', 429000, 'unavailable', 'Р‘С‹СЃС‚СЂР°СЏ Р·Р°СЂСЏРґРєР°'],
 ].map(([id, categoryId, name, priceMinor, availability, description], index) => ({
   id: String(id),
   categoryId: String(categoryId),
@@ -46,8 +46,8 @@ const products: SellerProduct[] = [
   status: 'published',
   mediaHandles: [`fixture-${id}`],
   specifications: [
-    { key: 'warranty', label: 'Гарантия', value: '12 месяцев' },
-    { key: 'origin', label: 'Наличие', value: availability === 'preorder' ? 'Под заказ' : 'Склад Ташкент' },
+    { key: 'warranty', label: 'Р“Р°СЂР°РЅС‚РёСЏ', value: '12 РјРµСЃСЏС†РµРІ' },
+    { key: 'origin', label: 'РќР°Р»РёС‡РёРµ', value: availability === 'preorder' ? 'РџРѕРґ Р·Р°РєР°Р·' : 'РЎРєР»Р°Рґ РўР°С€РєРµРЅС‚' },
   ],
   version: 1,
   updatedAt: now,
@@ -57,9 +57,9 @@ const products: SellerProduct[] = [
   owner: index < 4
     ? {
       mediaRefs: [`fixture-${id}`],
-      searchTerms: ['quloqchin', 'гарнитура'],
+      searchTerms: ['quloqchin', 'РіР°СЂРЅРёС‚СѓСЂР°'],
       specifications: [
-        { key: 'warranty', labelRu: 'Гарантия', labelUz: 'Kafolat', value: '12 месяцев' },
+        { key: 'warranty', labelRu: 'Р“Р°СЂР°РЅС‚РёСЏ', labelUz: 'Kafolat', value: '12 РјРµСЃСЏС†РµРІ' },
       ],
     }
     : { mediaRefs: [], searchTerms: [], specifications: [] },
@@ -71,20 +71,20 @@ let comparison: string[] = [];
 let checkout: CheckoutSnapshot | null = null;
 const buyerOrders: BuyerOrder[] = [{
   orderId: 'order-demo-1', orderNumber: 'MK-1042', productId: 'p-lamp',
-  productName: 'Настольная лампа Warm Light', storeName: 'Samarqand Market',
+  productName: 'РќР°СЃС‚РѕР»СЊРЅР°СЏ Р»Р°РјРїР° Warm Light', storeName: 'Samarqand Market',
   quantity: 1, totalMinor: 189000, status: 'confirmed', placedAt: now,
 }];
 const sellerOrders: SellerOrder[] = [{
   orderId: 'order-demo-2', orderNumber: 'MK-1043', status: 'placed',
-  productId: 'p-headphones', productName: 'Беспроводные наушники AirBeat',
+  productId: 'p-headphones', productName: 'Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ РЅР°СѓС€РЅРёРєРё AirBeat',
   quantity: 2, totalMinor: 698000, version: 1, placedAt: now,
   customerName: 'Aziza', customerPhone: '+998901234567',
-  customerAddress: 'Toshkent, Chilonzor 12', customerComment: 'После 18:00',
+  customerAddress: 'Toshkent, Chilonzor 12', customerComment: 'РџРѕСЃР»Рµ 18:00',
   inventoryOnHand: 8,
 }];
 const handoffs: Handoff[] = [{
   id: 'handoff-demo-1', status: 'open', reason: 'order_question',
-  questionText: 'Можно забрать на Чиланзаре сегодня?', replyText: null,
+  questionText: 'РњРѕР¶РЅРѕ Р·Р°Р±СЂР°С‚СЊ РЅР° Р§РёР»Р°РЅР·Р°СЂРµ СЃРµРіРѕРґРЅСЏ?', replyText: null,
   hasReply: false, contentCleared: false, createdAt: now,
   expiresAt: new Date(Date.now() + 86_400_000).toISOString(), version: 1,
 }];
@@ -162,7 +162,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
         navigation: ['home', 'search', 'publish', 'cabinet'],
         sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true },
+        flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true },
         storefront: { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
@@ -182,7 +182,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
       navigation: ['home', 'search', 'publish', 'cabinet'],
       sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true },
+      flags: { buyer: true, sellerRead: true, sellerCommands: true, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true },
       storefront: { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };
@@ -199,13 +199,13 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
     const ceiling = Number(url.searchParams.get('maxPriceMinor') ?? '') || null;
     // Matched per token, not as one substring. Production drops the intent
     // words server-side before ranking, so a fixture that required the whole
-    // sentence «мне нужен блокнот» to appear verbatim would show an empty
+    // sentence В«РјРЅРµ РЅСѓР¶РµРЅ Р±Р»РѕРєРЅРѕС‚В» to appear verbatim would show an empty
     // result for a journey that works in production.
     const tokens = query.split(/\s+/).map((token) => token.replace(/[.,!?]+$/, '')).filter(Boolean);
     const vocabulary = products.flatMap((item) =>
       `${item.name} ${item.description}`.toLowerCase().split(/[^\p{L}\p{N}]+/u)).filter(Boolean);
     // Stem match against the fixture's own words, the same shape the BFF uses,
-    // so «блокнотов» finds «блокнот» offline too.
+    // so В«Р±Р»РѕРєРЅРѕС‚РѕРІВ» finds В«Р±Р»РѕРєРЅРѕС‚В» offline too.
     const stem = (token: string) => vocabulary.find((word) =>
       word === token
       || (Math.min(word.length, token.length) >= 4
@@ -226,22 +226,22 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
   } else if (path === '/voice/search') {
     // Fixture speech: a fixed RU sentence so the whole voice journey can be
     // exercised offline without a microphone or a speech provider.
-    const transcript = 'нужны наушники до 400 тысяч в наличии';
+    const transcript = 'РЅСѓР¶РЅС‹ РЅР°СѓС€РЅРёРєРё РґРѕ 400 С‚С‹СЃСЏС‡ РІ РЅР°Р»РёС‡РёРё';
     const items = products.filter((item) =>
-      item.name.toLowerCase().includes('наушник')
+      item.name.toLowerCase().includes('РЅР°СѓС€РЅРёРє')
       && item.priceMinor <= 400_000
       && item.availability === 'available');
     result = {
       transcript,
       language: 'ru',
       interpretation: {
-        productQuery: 'наушники',
+        productQuery: 'РЅР°СѓС€РЅРёРєРё',
         maxPriceMinor: 400_000,
         ambiguousPriceMinor: null,
         availability: 'available',
         category: null,
         constraints: [
-          { kind: 'query', value: 'наушники' },
+          { kind: 'query', value: 'РЅР°СѓС€РЅРёРєРё' },
           { kind: 'budget', value: '400000' },
           { kind: 'availability', value: 'available' },
         ],
@@ -250,7 +250,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       },
       items,
       nextCursor: null,
-      queryApplied: 'наушники',
+      queryApplied: 'РЅР°СѓС€РЅРёРєРё',
     };
   } else if (/^\/catalog\/products\/[^/]+$/.test(path)) {
     result = products.find((item) => item.id === path.split('/').at(-1));

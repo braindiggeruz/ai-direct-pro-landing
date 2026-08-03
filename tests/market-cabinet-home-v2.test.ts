@@ -429,8 +429,10 @@ test('the reported navigation is a hint and cannot introduce or grant anything',
   assert.ok(hint, 'the navigation hint derivation was not found');
   assert.doesNotMatch(hint, /[Ss]eller|flags|marketApi/);
   // And nothing else reads it, so it cannot reach a capability by another route:
-  // one destructure, one derivation, no third reader.
-  const reads = [...buyer.matchAll(/(?<![.\w])navigation(?![:\w])/g)];
+  // one destructure, one derivation, no third reader. Module specifiers are cut
+  // first — `platform/navigation` is a file name, not a reader of the hint.
+  const body = buyer.replace(/^import [\s\S]*?from '[^']*';$/gm, '');
+  const reads = [...body.matchAll(/(?<![.\w])navigation(?![:\w])/g)];
   assert.equal(reads.length, 2, 'navigation is destructured once and read once');
   const app = await source(APP);
   assert.match(app, /navigation=\{bootstrap\.data\.navigation \?\? \[\]\}/);

@@ -4,6 +4,7 @@ import { MarketApiError, marketApi, voiceSearch } from '../lib/api';
 import { SELLER_START_URL } from '../lib/bot-link';
 import { demoProductImage } from '../lib/demo-product-media';
 import { formatPrice, labelForStatus, localizeCategory, t } from '../lib/i18n';
+import { useBackStop } from '../platform/navigation';
 import {
   VoiceCaptureError,
   VoiceRecorder,
@@ -62,6 +63,8 @@ interface BuyerAppProps {
    * becomes a sheet over whichever tab the person was already looking at.
    */
   cabinetHomeV2: boolean;
+  /** Server-reported back-gesture spine. Navigation only; grants nothing. */
+  navBack: boolean;
   /**
    * The tab list the server reported for this shell. A presentation hint: it can
    * only reorder destinations this build already carries, it can never add one,
@@ -358,6 +361,7 @@ export function BuyerApp({
   voiceEnabled,
   cabinetEnabled,
   cabinetHomeV2,
+  navBack,
   navigation,
   sellerAvailable,
   sellerCommands,
@@ -658,6 +662,11 @@ export function BuyerApp({
   const waiting = (activeCheckout ? 1 : 0) + (activeHandoff ? 1 : 0);
   const badgeFor = (destination: BuyerView) =>
     destination === 'cabinet' && cabinetEnabled && waiting > 0 ? waiting : 0;
+
+  // The shell's own level. Home is the root: a back gesture there is the one
+  // that is allowed to close the Mini App, and every other tab returns to it
+  // first. The cabinet's own sections stack on top of this one.
+  useBackStop(navBack && view !== 'home', `shell:${view}`, () => setView('home'));
 
   const openCreate = () => {
     haptic('tap');

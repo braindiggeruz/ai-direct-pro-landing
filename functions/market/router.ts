@@ -1,4 +1,4 @@
-import type { Env } from '../_types';
+﻿import type { Env } from '../_types';
 import type {
   CatalogProduct,
   CatalogSearchResult,
@@ -164,7 +164,7 @@ function requireSellerCommands(context: RequestContext): void {
  *
  * `owner` carries the two fields the store owner edits but a shopper must never
  * receive: the seller's own search aliases, and specification labels in both
- * languages. It is attached only on `/seller/*` responses — a buyer card would
+ * languages. It is attached only on `/seller/*` responses вЂ” a buyer card would
  * otherwise leak one store's keyword work to anyone who opens the catalog.
  */
 async function productDto(
@@ -283,7 +283,7 @@ interface CatalogSearchOutcome {
  * A shopper's sentence is grounded against real product names, seller aliases
  * and category names rather than against a hand-written word list, because no
  * such list survives Russian and Uzbek morphology: the catalog stores
- * «Блокнот» and the shopper says «блокнотов».
+ * В«Р‘Р»РѕРєРЅРѕС‚В» and the shopper says В«Р±Р»РѕРєРЅРѕС‚РѕРІВ».
  */
 async function storefrontVocabulary(context: RequestContext) {
   const storeId = context.access.buyer.storeId;
@@ -316,11 +316,11 @@ async function storefrontVocabulary(context: RequestContext) {
  * Understanding happens in two steps, cheapest first:
  *
  * 1. **The catalog's own words.** Each token is matched against real product,
- *    alias and category words by stem, so «блокнотов» searches «блокнот» and
- *    «слушай, можешь дать» disappears — not because those words are on a list,
+ *    alias and category words by stem, so В«Р±Р»РѕРєРЅРѕС‚РѕРІВ» searches В«Р±Р»РѕРєРЅРѕС‚В» and
+ *    В«СЃР»СѓС€Р°Р№, РјРѕР¶РµС€СЊ РґР°С‚СЊВ» disappears вЂ” not because those words are on a list,
  *    but because no product contains them. Most sentences stop here, with no
  *    model call and no added latency.
- * 2. **Meaning.** Only when nothing grounded — «что-нибудь чтобы записывать» —
+ * 2. **Meaning.** Only when nothing grounded вЂ” В«С‡С‚Рѕ-РЅРёР±СѓРґСЊ С‡С‚РѕР±С‹ Р·Р°РїРёСЃС‹РІР°С‚СЊВ» вЂ”
  *    is the model asked to map the sentence onto that same vocabulary, and its
  *    answer is intersected with the vocabulary before anything is searched. It
  *    may choose among the store's products; it cannot add to them.
@@ -356,7 +356,7 @@ async function runCatalogSearch(
     }
 
     // Nothing in the catalog and nothing the model could place: search the
-    // sentence as reduced. It finds nothing, which is the honest answer —
+    // sentence as reduced. It finds nothing, which is the honest answer вЂ”
     // falling through to a full listing would read as a match.
     if (!queryApplied) queryApplied = reduceSearchQuery(input.query).query;
   }
@@ -447,6 +447,7 @@ async function bootstrapPayload(context: RequestContext) {
         && mediaUploadAvailable(context.env),
       cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
       cabinetHomeV2: marketFlag(context.env.MARKET_CABINET_HOME_V2),
+      navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -474,6 +475,7 @@ function launchBootstrapPayload(context: RequestContext) {
         && mediaUploadAvailable(context.env),
       cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
       cabinetHomeV2: marketFlag(context.env.MARKET_CABINET_HOME_V2),
+      navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -516,7 +518,7 @@ async function exchangeSession(
   current?: MarketSessionClaims,
   includeLaunch = false,
 ): Promise<Response> {
-  // Phase marks for Server-Timing. Durations only — no identity, no content.
+  // Phase marks for Server-Timing. Durations only вЂ” no identity, no content.
   const started = Date.now();
   const marks: Record<string, number> = {};
   const mark = (name: string, from: number) => {
@@ -538,7 +540,7 @@ async function exchangeSession(
   // identity, bind the storefront to it, then read that storefront's shelf.
   // Only the middle step actually needs the identity. Which storefront a fresh
   // launch lands on depends on the bot, and what is on its shelf depends on the
-  // storefront — so both can be read while the identity is still being created.
+  // storefront вЂ” so both can be read while the identity is still being created.
   //
   // Speculative and discardable: the answer is used only if the storefront the
   // launch really resolved to is the same one, and both promises swallow their
@@ -647,7 +649,7 @@ async function exchangeSession(
   mark('shelf', shelfStart);
   mark('total', started);
   const response = marketJson({ session, bootstrap, home }, requestId, 201);
-  // Durations only, so the owner can say which half is slow instead of "долго".
+  // Durations only, so the owner can say which half is slow instead of "РґРѕР»РіРѕ".
   // Nothing here identifies a person, a store or a query.
   response.headers.set('Server-Timing', [
     ...Object.entries(marks).map(([name, value]) => `${name};dur=${value}`),
@@ -747,7 +749,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
     return marketJson({
       items: await resultDtos(search.results, context),
       nextCursor: null,
-      // What ran, not what was typed: «Мне нужен блокнот» searches «блокнот».
+      // What ran, not what was typed: В«РњРЅРµ РЅСѓР¶РµРЅ Р±Р»РѕРєРЅРѕС‚В» searches В«Р±Р»РѕРєРЅРѕС‚В».
       queryApplied: search.queryApplied || null,
       maxPriceMinorApplied: maxPriceMinor,
       aiAssisted: search.aiAssisted,
@@ -967,7 +969,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
  * Voice search. One round trip: the recording goes up, the transcript, the
  * constraints Bormi understood and the grounded catalog rows come back
  * together, so the buyer sees what was heard and what it found on the same
- * screen. The transcript is always returned — including when nothing matched —
+ * screen. The transcript is always returned вЂ” including when nothing matched вЂ”
  * so the client can fall back to ordinary typed search without a re-record.
  */
 async function voiceRoutes(context: RequestContext): Promise<Response | null> {

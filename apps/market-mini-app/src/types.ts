@@ -29,6 +29,12 @@ export interface Capabilities {
    * A layout switch — it never grants a read, a command or an authority.
    */
   cabinetHomeV2?: boolean;
+  /**
+   * Server-reported back-gesture spine. Optional and additive like the two
+   * above: a bootstrap answered before this shipped leaves every back gesture
+   * behaving exactly as it did. It is navigation only — it grants nothing.
+   */
+  navBack?: boolean;
 }
 
 export type VoiceConstraintKind =
