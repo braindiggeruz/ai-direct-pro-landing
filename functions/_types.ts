@@ -228,6 +228,13 @@ export interface Env {
   // that cannot work. Existing Telegram-sourced photos are unaffected either
   // way — both kinds of reference live in the same catalog column.
   MARKET_SELLER_MEDIA_UPLOAD_ENABLED?: string;
+  // Universal personal cabinet. Moves the buyer's "Заказы" tab into a
+  // role-neutral "Кабинет" and nests the seller workspace inside it, so the
+  // seller tools stop depending on a header toggle to be found. Purely a
+  // navigation shape: no read, command or authority changes with it, and
+  // `sellerRead` still decides whether the store section exists at all.
+  // Anything but "true" leaves the current four-tab layout in place.
+  MARKET_CABINET_ENABLED?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
   TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)

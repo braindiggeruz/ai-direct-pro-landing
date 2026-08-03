@@ -17,6 +17,12 @@ export interface Capabilities {
    * instead of breaking the launch.
    */
   mediaUpload?: boolean;
+  /**
+   * Server-reported cabinet shell. Optional so a cached pre-cabinet bootstrap
+   * resolves to the four-tab layout the device already knows instead of
+   * breaking the launch.
+   */
+  cabinet?: boolean;
 }
 
 export type VoiceConstraintKind =

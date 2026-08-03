@@ -51,6 +51,8 @@ interface SellerAppProps {
   /** Server-confirmed photo upload capability; false hides the picker. */
   mediaUpload: boolean;
   onBuyer: () => void;
+  /** Where leaving the workspace actually lands. Defaults to the buyer app. */
+  returnLabel?: string;
 }
 
 function orderTone(status: SellerOrder['status']) {
@@ -1084,7 +1086,7 @@ function InventoryRow({
   </li>;
 }
 
-export function SellerApp({ locale, commands, mediaUpload, onBuyer }: SellerAppProps) {
+export function SellerApp({ locale, commands, mediaUpload, onBuyer, returnLabel }: SellerAppProps) {
   const client = useQueryClient();
   const [view, setView] = useState<SellerView>('today');
   const [orderFilter, setOrderFilter] = useState<OrderFilter>('all');
@@ -1137,7 +1139,7 @@ export function SellerApp({ locale, commands, mediaUpload, onBuyer }: SellerAppP
   return <>
     <main id="main-content" className="page">
       <button className="buyer-return" onClick={onBuyer}>
-        <Icon name="back" size={17} />{t(locale, 'buyer')}
+        <Icon name="back" size={17} />{returnLabel ?? t(locale, 'buyer')}
       </button>
 
       {view === 'today' ? <TodayScreen

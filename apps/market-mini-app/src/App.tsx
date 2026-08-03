@@ -37,7 +37,14 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
     }
   };
   const sellerAvailable = bootstrap.data.flags.sellerRead;
-  const activeRole: Role = role === 'seller' && sellerAvailable ? 'seller' : 'buyer';
+  // The cabinet holds the seller workspace itself, so the header toggle — which
+  // was the only way to find it — has nothing left to switch.
+  const cabinetEnabled = bootstrap.data.flags.cabinet === true;
+  const activeRole: Role = !cabinetEnabled && role === 'seller' && sellerAvailable
+    ? 'seller'
+    : 'buyer';
+  const sellerCommands = bootstrap.data.flags.sellerCommands && online;
+  const mediaUpload = bootstrap.data.flags.mediaUpload === true && online;
   return <div className="app-shell" data-build-id={bootstrap.data.buildId}>
     <header className="app-header">
       <BrandMark />
@@ -45,7 +52,7 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
         <strong>{t(locale, 'appName')}</strong>
         <span>{t(locale, 'brandPromise')}</span>
       </div>
-      {sellerAvailable ? <div className="role-switch" role="group" aria-label={t(locale, 'role')}>
+      {sellerAvailable && !cabinetEnabled ? <div className="role-switch" role="group" aria-label={t(locale, 'role')}>
         <button aria-pressed={activeRole === 'buyer'} onClick={() => setRole('buyer')}>{t(locale, 'buyer')}</button>
         <button aria-pressed={activeRole === 'seller'} onClick={() => setRole('seller')}>{t(locale, 'seller')}</button>
       </div> : null}
@@ -53,8 +60,17 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
     </header>
     {!online ? <div className="offline-banner" role="status"><Icon name="warning" size={17}/>{t(locale, 'offlineBody')}</div> : null}
     {activeRole === 'buyer'
-      ? <BuyerApp locale={locale} initialHome={launch.home} voiceEnabled={bootstrap.data.flags.voice === true} />
-      : <Suspense fallback={<LoadingView locale={locale} />}><SellerApp locale={locale} commands={bootstrap.data.flags.sellerCommands && online} mediaUpload={bootstrap.data.flags.mediaUpload === true && online} onBuyer={() => setRole('buyer')} /></Suspense>}
+      ? <BuyerApp
+          locale={locale}
+          initialHome={launch.home}
+          voiceEnabled={bootstrap.data.flags.voice === true}
+          cabinetEnabled={cabinetEnabled}
+          sellerAvailable={sellerAvailable}
+          sellerCommands={sellerCommands}
+          mediaUpload={mediaUpload}
+          userName={launch.session.user.firstName}
+        />
+      : <Suspense fallback={<LoadingView locale={locale} />}><SellerApp locale={locale} commands={sellerCommands} mediaUpload={mediaUpload} onBuyer={() => setRole('buyer')} /></Suspense>}
   </div>;
 }
 

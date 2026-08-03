@@ -16,7 +16,7 @@ export type IconName =
   | 'home' | 'search' | 'compare' | 'orders' | 'seller' | 'back'
   | 'filter' | 'close' | 'box' | 'help' | 'inventory' | 'products'
   | 'check' | 'warning' | 'plus' | 'edit' | 'refresh' | 'chevron'
-  | 'spark' | 'mic' | 'stop';
+  | 'spark' | 'mic' | 'stop' | 'cabinet' | 'heart';
 
 const paths: Record<IconName, ReactNode> = {
   home: <><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></>,
@@ -40,6 +40,8 @@ const paths: Record<IconName, ReactNode> = {
   spark: <><path d="m12 3 1.4 4.1L17.5 8.5l-4.1 1.4L12 14l-1.4-4.1-4.1-1.4 4.1-1.4z"/><path d="m18.5 14 .8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></>,
   mic: <><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3M9 21h6"/></>,
   stop: <rect x="7" y="7" width="10" height="10" rx="2.5"/>,
+  cabinet: <><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></>,
+  heart: <path d="M12 20S4 14.6 4 9.6A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 8 2c0 5-8 10.4-8 10.4z"/>,
 };
 
 export function BrandMark({ size = 40 }: { size?: number }) {

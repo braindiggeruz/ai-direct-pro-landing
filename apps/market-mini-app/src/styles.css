@@ -195,6 +195,11 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .bottom-nav button .icon { position: relative; z-index: 1; }
 .bottom-nav button[aria-current="page"] { background: color-mix(in srgb, var(--action-primary) 11%, var(--surface-raised)); color: var(--action-primary); font-weight: 800; }
 .bottom-nav button > span { position: relative; z-index: 1; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The supply side is the scarce one, so it reads as an action rather than a
+   fourth destination — without a floating button, which would collide with the
+   compare tray and with Telegram's own sheet gestures. */
+.bottom-nav__publish .bottom-nav__icon { border-radius: 999px; background: var(--action-primary); color: var(--action-primary-text); }
+.bottom-nav__publish[aria-current="page"] .bottom-nav__icon { background: var(--action-primary-hover); }
 .bottom-nav__icon { display: grid; min-width: 44px; min-height: 27px; place-items: center; overflow: visible !important; }
 .bottom-nav__icon small { position: absolute; z-index: 2; top: -4px; right: 0; display: grid; min-width: 18px; height: 18px; place-items: center; padding: 0 5px; border: 2px solid var(--surface-raised); border-radius: 999px; background: var(--bormi-coral); color: #211016; font-size: .61rem; font-weight: 850; }
 .compare-tray { position: fixed; z-index: 39; right: 10px; bottom: calc(74px + var(--safe-bottom)); left: 10px; display: flex; max-width: 620px; min-height: 58px; align-items: center; gap: 6px; margin: auto; padding: 6px 7px 6px 9px; border: 1px solid color-mix(in srgb, var(--action-primary) 27%, var(--border-default)); border-radius: 18px; background: color-mix(in srgb, var(--surface-raised) 96%, transparent); box-shadow: var(--shadow-raised); backdrop-filter: blur(18px); }
@@ -262,6 +267,17 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .inventory-form label { display: grid; min-width: 140px; flex: 1; gap: 5px; }
 .inventory-form input { width: 110px; }
 .buyer-return { display: inline-flex; min-height: 44px; align-items: center; gap: 6px; margin-bottom: 10px; padding: 7px 11px; border: 1px solid var(--border-default); border-radius: 999px; background: var(--surface-raised); color: var(--action-primary); font-weight: 740; cursor: pointer; }
+.cabinet-profile { display: flex; min-height: 72px; align-items: center; gap: 13px; padding: 14px; border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--surface-raised); box-shadow: var(--shadow-card); }
+.cabinet-profile__avatar { display: grid; width: 46px; height: 46px; flex: 0 0 auto; place-items: center; border-radius: 999px; background: color-mix(in srgb, var(--action-primary) 12%, var(--surface-raised)); color: var(--action-primary); }
+.cabinet-profile__text { display: grid; min-width: 0; gap: 2px; }
+.cabinet-profile__text strong { overflow: hidden; font-size: 1.06rem; text-overflow: ellipsis; white-space: nowrap; }
+.cabinet-profile__text small { color: var(--text-secondary); font-size: .78rem; }
+.cabinet-list { display: grid; gap: 9px; }
+.cabinet-row { display: flex; width: 100%; min-height: 66px; align-items: center; gap: 12px; padding: 13px 14px; border: 1px solid var(--border-default); border-radius: 17px; background: var(--surface-raised); box-shadow: 0 4px 15px rgb(28 20 56 / 4%); color: var(--text-primary); text-align: left; cursor: pointer; }
+.cabinet-row--static { cursor: default; }
+.cabinet-row__icon { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 12px; background: color-mix(in srgb, var(--action-primary) 10%, var(--surface-raised)); color: var(--action-primary); }
+.cabinet-row__text { display: grid; min-width: 0; flex: 1 1 auto; gap: 2px; }
+.cabinet-row__text small { color: var(--text-secondary); font-size: .78rem; }
 
 /* Seller cabinet: an exception-first home, paged queues and a full editor. */
 .hero--compact { padding: 4px 0 10px; }

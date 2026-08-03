@@ -1,0 +1,149 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+
+import { marketFlag } from '../functions/platform/market';
+
+const ROOT = new URL('../', import.meta.url);
+
+async function source(path: string): Promise<string> {
+  return readFile(new URL(path, ROOT), 'utf8');
+}
+
+// ── The switch ────────────────────────────────────────────────────────────────
+
+test('the cabinet ships off and only an exact "true" turns it on', async () => {
+  const wrangler = await source('wrangler.toml');
+  assert.match(wrangler, /MARKET_CABINET_ENABLED = "false"/);
+  // Read exactly like every other market switch: a trimmed, case-insensitive
+  // "true" and nothing else, so an unset or mistyped value leaves the shipped
+  // layout in place instead of half of a new one.
+  for (const value of ['true', 'True', ' TRUE ']) {
+    assert.equal(marketFlag(value), true, `${value} should enable a flag`);
+  }
+  for (const value of ['1', 'yes', 'false', '', undefined]) {
+    assert.equal(marketFlag(value), false, `${String(value)} must not enable a flag`);
+  }
+});
+
+test('both bootstrap payloads report the same shell', async () => {
+  const router = await source('functions/market/router.ts');
+  assert.match(router, /function buyerNavigation\(env: Env\): string\[\]/);
+  assert.match(router, /\['home', 'search', 'publish', 'cabinet'\]/);
+  assert.match(router, /\['home', 'search', 'compare', 'orders'\]/);
+  // Neither payload may hardcode the tab list any more, or the launch screen
+  // and the refetch behind it could describe two different shells.
+  const hardcoded = [...router.matchAll(/navigation: \['home'/g)];
+  assert.equal(hardcoded.length, 0);
+  const reported = [...router.matchAll(/navigation: buyerNavigation\(context\.env\)/g)];
+  assert.equal(reported.length, 2, 'both bootstrap payloads must report navigation');
+  const cabinetFlags = [...router.matchAll(/cabinet: marketFlag\(context\.env\.MARKET_CABINET_ENABLED\)/g)];
+  assert.equal(cabinetFlags.length, 2, 'both bootstrap payloads must report the flag');
+});
+
+test('the shell flag changes no read, no command and no authority', async () => {
+  const router = await source('functions/market/router.ts');
+  // The flag may only be consulted where the shell is described. If it ever
+  // reaches a route guard, a layout switch has become a permission.
+  const uses = [...router.matchAll(/MARKET_CABINET_ENABLED/g)];
+  assert.equal(uses.length, 3, 'the flag is read only by buyerNavigation and the two payloads');
+  const seller = /if \(path\.startsWith\('\/seller\/'\)\) \{[\s\S]*?\n {2}\}/.exec(router)?.[0];
+  assert.ok(seller, 'seller read branch not found');
+  assert.doesNotMatch(seller, /MARKET_CABINET_ENABLED/);
+  const commands = /async function sellerCommands\([\s\S]*?\n\}/.exec(router)?.[0];
+  assert.ok(commands, 'seller command branch not found');
+  assert.doesNotMatch(commands, /MARKET_CABINET_ENABLED/);
+});
+
+// ── Authority ─────────────────────────────────────────────────────────────────
+
+test('the store section exists only when the server granted seller reads', async () => {
+  const cabinet = await source('apps/market-mini-app/src/screens/CabinetApp.tsx');
+  // Rendered behind the server-reported capability, and the lazy chunk is not
+  // even requested without it.
+  assert.match(cabinet, /section === 'store' && sellerAvailable/);
+  assert.match(cabinet, /sellerAvailable \? <CabinetRow/);
+  assert.match(cabinet, /lazy\(\(\) => import\('\.\/SellerApp'\)/);
+  // Nothing on the client may manufacture the capability.
+  assert.doesNotMatch(cabinet, /localStorage|sessionStorage|searchParams|location\./);
+});
+
+test('the buyer shell keeps demoting a seller role it cannot prove', async () => {
+  const app = await source('apps/market-mini-app/src/App.tsx');
+  assert.match(app, /role === 'seller' && sellerAvailable/);
+  assert.match(app, /const cabinetEnabled = bootstrap\.data\.flags\.cabinet === true/);
+  // The header toggle is the old way in; with the cabinet on it must be gone,
+  // so the workspace has exactly one entrance.
+  assert.match(app, /sellerAvailable && !cabinetEnabled \? <div className="role-switch"/);
+  assert.match(app, /sellerAvailable=\{sellerAvailable\}/);
+});
+
+// ── The shell itself ──────────────────────────────────────────────────────────
+
+test('turning the cabinet off restores the shipped four tabs', async () => {
+  const buyer = await source('apps/market-mini-app/src/screens/BuyerApp.tsx');
+  assert.match(buyer, /cabinetEnabled\s*\?\s*\(\[[\s\S]*?'publish'[\s\S]*?'cabinet'[\s\S]*?\]\s*as const\)/);
+  assert.match(buyer, /:\s*\(\[[\s\S]*?'compare'[\s\S]*?'orders'[\s\S]*?\]\s*as const\)/);
+  // The old destinations stay reachable, so switching back is a flag and not a
+  // rebuild.
+  assert.match(buyer, /view === 'orders' \? </);
+  assert.match(buyer, /view === 'compare' \? </);
+});
+
+test('one order list serves both shells', async () => {
+  const orders = await source('apps/market-mini-app/src/screens/BuyerOrders.tsx');
+  assert.match(orders, /queryKey: \['orders'\]/);
+  assert.match(orders, /'\/orders\?limit=5'/);
+  const buyer = await source('apps/market-mini-app/src/screens/BuyerApp.tsx');
+  const cabinet = await source('apps/market-mini-app/src/screens/CabinetApp.tsx');
+  assert.match(buyer, /<BuyerOrdersList locale=\{locale\} onSearch=\{openSearch\} \/>/);
+  assert.match(cabinet, /<BuyerOrdersList locale=\{locale\} onSearch=\{onSearch\} \/>/);
+  // A second copy of the timeline would be a place for the two shells to drift.
+  assert.doesNotMatch(buyer, /timeline timeline--compact/);
+});
+
+test('the cabinet shows the person their own name and nobody else', async () => {
+  const app = await source('apps/market-mini-app/src/App.tsx');
+  assert.match(app, /userName=\{launch\.session\.user\.firstName\}/);
+  const cabinet = await source('apps/market-mini-app/src/screens/CabinetApp.tsx');
+  // No buyer contact, phone or address may appear on a personal screen that a
+  // seller can also open.
+  assert.doesNotMatch(cabinet, /customerPhone|customerAddress|buyerPhone|buyerAddress/);
+});
+
+test('the supply-side tab is an action, not a floating button', async () => {
+  const styles = await source('apps/market-mini-app/src/styles.css');
+  assert.match(styles, /\.bottom-nav__publish \.bottom-nav__icon/);
+  // A FAB would sit on top of the compare tray and fight Telegram's own sheet
+  // gesture; the accent lives inside the bar instead.
+  const publish = [...styles.matchAll(/^\.bottom-nav__publish[^\n]*$/gm)].map((rule) => rule[0]);
+  assert.equal(publish.length, 2, 'publish styling rules not found');
+  for (const rule of publish) {
+    assert.doesNotMatch(rule, /position: fixed|position: absolute|transform:/);
+  }
+  assert.match(styles, /\.bottom-nav \{[^}]*grid-template-columns: repeat\(4, 1fr\)/);
+});
+
+test('the shell change carries a new cache name', async () => {
+  const worker = await source('apps/market-mini-app/public/sw.js');
+  assert.match(worker, /const CACHE = 'bormi-shell-v8'/);
+  assert.match(worker, /keys\.filter\(\(key\) => key !== CACHE\)\.map\(\(key\) => caches\.delete\(key\)\)/);
+});
+
+test('cabinet copy exists in both languages', async () => {
+  const i18n = await source('apps/market-mini-app/src/lib/i18n.ts');
+  const [, ru = '', uz = ''] = new RegExp(
+    'ru: \\{([\\s\\S]*?)\\r?\\n {2}\\},\\r?\\n {2}uz: \\{([\\s\\S]*?)\\r?\\n {2}\\},\\r?\\n\\} as const',
+  ).exec(i18n) ?? [];
+  assert.ok(ru && uz, 'copy blocks not found');
+  const keys = (block: string) => new Set(
+    [...block.matchAll(/^\s{4}([A-Za-z][A-Za-z0-9]*):/gm)].map((match) => match[1]),
+  );
+  for (const key of [
+    'cabinet', 'postAd', 'profile', 'myOrders', 'myOrdersHint',
+    'store', 'storeHint', 'helpTitle', 'helpBody', 'postAdSoon', 'postAdSoonBody',
+  ]) {
+    assert.ok(keys(ru).has(key), `ru is missing ${key}`);
+    assert.ok(keys(uz).has(key), `uz is missing ${key}`);
+  }
+});

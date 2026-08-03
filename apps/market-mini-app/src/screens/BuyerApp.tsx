@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MarketApiError, marketApi, voiceSearch } from '../lib/api';
 import { demoProductImage } from '../lib/demo-product-media';
-import { formatDate, formatPrice, labelForStatus, localizeCategory, t } from '../lib/i18n';
+import { formatPrice, labelForStatus, localizeCategory, t } from '../lib/i18n';
 import {
   VoiceCaptureError,
   VoiceRecorder,
@@ -11,7 +11,6 @@ import {
 } from '../lib/voice';
 import { haptic } from '../platform/telegram';
 import type {
-  BuyerOrder,
   CatalogHome,
   CheckoutSnapshot,
   Handoff,
@@ -26,6 +25,7 @@ import {
   ErrorView,
   Field,
   Icon,
+  LoadingView,
   Modal,
   SectionHeader,
   SkeletonList,
@@ -37,14 +37,30 @@ import {
   type VoiceErrorKind,
   type VoiceStage,
 } from '../components/VoiceSearch';
+import { BuyerOrdersList } from './BuyerOrders';
 
-type BuyerView = 'home' | 'search' | 'compare' | 'orders';
+const CabinetApp = lazy(() => import('./CabinetApp').then((module) => ({
+  default: module.CabinetApp,
+})));
+
+type BuyerView = 'home' | 'search' | 'compare' | 'orders' | 'publish' | 'cabinet';
 
 interface BuyerAppProps {
   locale: Locale;
   initialHome: CatalogHome;
   /** Server-reported voice capability; false hides the microphone entirely. */
   voiceEnabled: boolean;
+  /**
+   * Server-reported cabinet shell. False keeps the four-tab layout with its own
+   * "Заказы" tab exactly as it shipped, so the switch is reversible from the
+   * server without touching this build.
+   */
+  cabinetEnabled: boolean;
+  /** Server-granted seller authority; decides only whether the cabinet shows a store section. */
+  sellerAvailable: boolean;
+  sellerCommands: boolean;
+  mediaUpload: boolean;
+  userName: string;
 }
 
 function voiceErrorFor(error: unknown): VoiceErrorKind {
@@ -254,7 +270,16 @@ function AskSeller({ product, locale, onClose }: { product: Product | null; loca
   </Modal>;
 }
 
-export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
+export function BuyerApp({
+  locale,
+  initialHome,
+  voiceEnabled,
+  cabinetEnabled,
+  sellerAvailable,
+  sellerCommands,
+  mediaUpload,
+  userName,
+}: BuyerAppProps) {
   const client = useQueryClient();
   const [view, setView] = useState<BuyerView>('home');
   const [selected, setSelected] = useState<Product | null>(null);
@@ -274,6 +299,9 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
   const [voiceElapsed, setVoiceElapsed] = useState(0);
   const [voiceResult, setVoiceResult] = useState<VoiceSearchResult | null>(null);
   const [voiceOffline, setVoiceOffline] = useState(false);
+  // The seller workspace inside the cabinet brings its own bottom bar, so the
+  // shell stands down rather than stacking a second one on the same edge.
+  const [workspace, setWorkspace] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const recorderRef = useRef<VoiceRecorder | null>(null);
 
@@ -312,7 +340,6 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
     queryFn: ({ signal }) => marketApi.get('/comparison', signal),
     enabled: view === 'compare' || comparisonActivated,
   });
-  const orders = useQuery<{ items: BuyerOrder[] }>({ queryKey: ['orders'], queryFn: ({ signal }) => marketApi.get('/orders?limit=5', signal), enabled: view === 'orders' });
   const addCompare = useMutation<{ items: Product[] }, Error, string>({
     mutationFn: (productId: string) => marketApi.post('/comparison/items', { productId }),
     onSuccess: (next) => {
@@ -484,17 +511,19 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
     if (!applied || !query) return null;
     return applied.toLowerCase() === query.trim().toLowerCase() ? null : applied;
   }, [search.data, query, voiceResult]);
-  const orderTimeline = (order: BuyerOrder) => {
-    const cancelled = order.status === 'cancelled';
-    const states = cancelled
-      ? [[t(locale, 'sentStep'), 'done'], [t(locale, 'cancelledStep'), 'current']]
-      : [
-          [t(locale, 'sentStep'), 'done'],
-          [t(locale, 'confirmedStep'), order.status === 'placed' ? 'current' : 'done'],
-          [t(locale, 'doneStep'), order.status === 'done' ? 'done' : order.status === 'confirmed' ? 'current' : 'pending'],
-        ];
-    return <ol className="timeline timeline--compact" aria-label={labelForStatus(locale, order.status)}>{states.map(([label, state]) => <li key={label} data-state={state}><span className="timeline__dot">{state === 'done' ? <Icon name="check" size={13}/> : null}</span><span>{label}</span></li>)}</ol>;
-  };
+
+  // Four tabs as shipped, or the cabinet shell. Comparison leaves the bar in the
+  // cabinet layout but keeps its screen: the tray that appears once something is
+  // being compared is what opens it.
+  const tabs = cabinetEnabled
+    ? ([
+        ['home', 'home', 'home'], ['search', 'search', 'search'],
+        ['publish', 'plus', 'postAd'], ['cabinet', 'cabinet', 'cabinet'],
+      ] as const)
+    : ([
+        ['home', 'home', 'home'], ['search', 'search', 'search'],
+        ['compare', 'compare', 'compare'], ['orders', 'orders', 'orders'],
+      ] as const);
 
   return <>
     <main id="main-content" className="page">
@@ -580,8 +609,30 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
 
       {view === 'orders' ? <>
         <section className="hero"><h1>{t(locale, 'orders')}</h1></section>
-        {orders.isLoading ? <SkeletonList count={3}/> : orders.isError ? <ErrorView locale={locale} retry={() => void orders.refetch()} /> : orders.data?.items.length ? <ol className="list">{orders.data.items.map((order) => <li className="list-item order-card" key={order.orderId}><div className="row row--between"><strong>№ {order.orderNumber}</strong><Badge tone={order.status === 'done' ? 'positive' : order.status === 'cancelled' ? 'negative' : 'info'}>{labelForStatus(locale, order.status)}</Badge></div><span>{order.productName} · {order.quantity} ×</span>{orderTimeline(order)}<div className="row row--between"><strong>{formatPrice(order.totalMinor, locale)}</strong><small className="muted">{formatDate(order.placedAt, locale)}</small></div></li>)}</ol> : <StateView icon="orders" title={t(locale, 'ordersEmpty')} action={<Button onClick={openSearch}>{t(locale, 'search')}</Button>} />}
+        <BuyerOrdersList locale={locale} onSearch={openSearch} />
       </> : null}
+
+      {view === 'publish' ? <>
+        <section className="hero"><h1>{t(locale, 'postAd')}</h1></section>
+        <StateView
+          icon="plus"
+          title={t(locale, 'postAdSoon')}
+          body={t(locale, 'postAdSoonBody')}
+          action={<Button onClick={openSearch}>{t(locale, 'search')}</Button>}
+        />
+      </> : null}
+
+      {view === 'cabinet' ? <Suspense fallback={<LoadingView locale={locale} />}>
+        <CabinetApp
+          locale={locale}
+          userName={userName}
+          sellerAvailable={sellerAvailable}
+          sellerCommands={sellerCommands}
+          mediaUpload={mediaUpload}
+          onSearch={openSearch}
+          onWorkspace={setWorkspace}
+        />
+      </Suspense> : null}
     </main>
 
     {comparisonItems.length && view !== 'compare' ? <aside className="compare-tray" aria-label={t(locale, 'compare')}>
@@ -589,11 +640,9 @@ export function BuyerApp({ locale, initialHome, voiceEnabled }: BuyerAppProps) {
       <button className="icon-button" onClick={() => clearCompare.mutate()} aria-label={t(locale, 'clear')}><Icon name="close" size={18}/></button>
     </aside> : null}
 
-    <nav className="bottom-nav" aria-label={t(locale, 'appName')}>
-      {([
-        ['home', 'home', 'home'], ['search', 'search', 'search'], ['compare', 'compare', 'compare'], ['orders', 'orders', 'orders'],
-      ] as const).map(([destination, icon, label]) => <button key={destination} onClick={() => setView(destination)} aria-current={view === destination ? 'page' : undefined}><span className="bottom-nav__icon"><Icon name={icon}/>{destination === 'compare' && comparisonItems.length ? <small>{comparisonItems.length}</small> : null}</span><span>{t(locale, label)}</span></button>)}
-    </nav>
+    {workspace ? null : <nav className="bottom-nav" aria-label={t(locale, 'appName')}>
+      {tabs.map(([destination, icon, label]) => <button key={destination} className={destination === 'publish' ? 'bottom-nav__publish' : undefined} onClick={() => setView(destination)} aria-current={view === destination ? 'page' : undefined}><span className="bottom-nav__icon"><Icon name={icon}/>{destination === 'compare' && comparisonItems.length ? <small>{comparisonItems.length}</small> : null}</span><span>{t(locale, label)}</span></button>)}
+    </nav>}
 
     <ProductDetail product={selected} locale={locale} onClose={() => setSelected(null)} onCheckout={openCheckout} onQuestion={(product) => { setSelected(null); setQuestionProduct(product); }} onCompare={(product) => addCompare.mutate(product.id)} />
     <CheckoutFlow key={checkoutProduct?.id ?? 'closed'} locale={locale} product={checkoutProduct} initial={checkout} onClose={() => { setCheckout(null); setCheckoutProduct(null); }} />

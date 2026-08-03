@@ -406,6 +406,21 @@ async function runCatalogSearch(
   return { results, queryApplied, rewrites, aiAssisted };
 }
 
+/**
+ * The tabs the shopper actually gets.
+ *
+ * Reported rather than assumed, so the two bootstrap payloads and the client
+ * cannot drift into describing different shells. The cabinet layout folds the
+ * old "orders" tab into "cabinet" and spends the freed slot on the supply side.
+ * Comparison stops being a destination: the tray that appears once something is
+ * in it still opens the screen, so the tab was the only part that had to go.
+ */
+function buyerNavigation(env: Env): string[] {
+  return marketFlag(env.MARKET_CABINET_ENABLED)
+    ? ['home', 'search', 'publish', 'cabinet']
+    : ['home', 'search', 'compare', 'orders'];
+}
+
 async function bootstrapPayload(context: RequestContext) {
   const [orders, activeCheckout, activeHandoff] = await Promise.all([
     context.services.checkout.listBuyerOrders(context.access.buyerOrg, 5),
@@ -416,7 +431,7 @@ async function bootstrapPayload(context: RequestContext) {
     apiVersion: 'market-v1',
     buildId: context.env.MARKET_MINI_APP_BUILD_ID ?? 'local',
     locale: context.claims.locale,
-    navigation: ['home', 'search', 'compare', 'orders'],
+    navigation: buyerNavigation(context.env),
     sellerNavigation: context.access.sellerOrg
       ? ['dashboard', 'orders', 'questions', 'products', 'inventory']
       : [],
@@ -430,6 +445,7 @@ async function bootstrapPayload(context: RequestContext) {
       mediaUpload: context.access.sellerOrg !== null
         && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED)
         && mediaUploadAvailable(context.env),
+      cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
@@ -445,7 +461,7 @@ function launchBootstrapPayload(context: RequestContext) {
     apiVersion: 'market-v1',
     buildId: context.env.MARKET_MINI_APP_BUILD_ID ?? 'local',
     locale: context.claims.locale,
-    navigation: ['home', 'search', 'compare', 'orders'],
+    navigation: buyerNavigation(context.env),
     sellerNavigation: [],
     flags: {
       buyer: true,
@@ -455,6 +471,7 @@ function launchBootstrapPayload(context: RequestContext) {
       mediaUpload: context.access.sellerOrg !== null
         && marketFlag(context.env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED)
         && mediaUploadAvailable(context.env),
+      cabinet: marketFlag(context.env.MARKET_CABINET_ENABLED),
     },
     storefront: { id: context.access.buyer.storeId, state: 'active' },
     counters: {
