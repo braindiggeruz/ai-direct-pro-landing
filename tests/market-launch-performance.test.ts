@@ -64,12 +64,25 @@ test('a tampered handle is still refused after memoization', async () => {
 
 test('the launch chain is the shape the placement fix assumes', async () => {
   const router = await source('functions/market/router.ts');
-  // identity -> storefront binding -> catalog, each needing the previous
-  // answer. If this ever becomes parallelisable, the placement rationale in
-  // wrangler.toml should be revisited rather than left stale.
+  const wrangler = await source('wrangler.toml');
+  // The chain was identity -> storefront binding -> catalog, three round trips
+  // each waiting on the previous answer. Two of them still are: binding needs
+  // the identity. The third no longer is — which storefront a fresh launch
+  // lands on depends on the bot, so it and its shelf are read alongside the
+  // identity instead of after the binding.
   assert.match(router, /getOrCreateIdentity\(/);
   assert.match(router, /bindMarketLaunch\(/);
-  assert.match(router, /const home = await catalogHomePayload\(context\)/);
+  assert.match(router, /const directAhead = includeLaunch/);
+  assert.match(router, /const shelfAhead = directAhead\?\.then/);
+  assert.ok(
+    router.indexOf('const shelfAhead') < router.indexOf('await services.identities.getOrCreateIdentity'),
+    'the speculative read must start before the identity is awaited',
+  );
+  // The old read stays as the fallback for any storefront that is not the one
+  // guessed, so a second store still gets its own shelf.
+  assert.match(router, /: await catalogHomePayload\(context\)/);
   // Seller resolution stays off the launch path.
   assert.match(router, /resolveMarketAccess\([\s\S]{0,200}!includeLaunch,/);
+  // Placement rationale must state the chain that actually remains.
+  assert.match(wrangler, /dependent D1 round trips remain/i);
 });

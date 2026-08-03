@@ -1,5 +1,10 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { t } from '../lib/i18n';
+import {
+  readThemePreference,
+  setThemePreference,
+  type ThemePreference,
+} from '../platform/telegram';
 import type { Locale } from '../types';
 import { Icon, LoadingView, SectionHeader } from '../components/ui';
 import { BuyerOrdersList } from './BuyerOrders';
@@ -22,7 +27,12 @@ interface CabinetAppProps {
   sellerAvailable: boolean;
   sellerCommands: boolean;
   mediaUpload: boolean;
+  /** True while an order is half-filled, so the cabinet can say where it left off. */
+  activeCheckout: boolean;
+  /** True while a question to a seller is still open. */
+  activeHandoff: boolean;
   onSearch: () => void;
+  onLocale: (next: Locale) => void;
   /**
    * Raised while the seller workspace is open. That screen carries its own
    * bottom navigation, and two fixed bars cannot share the same edge of a
@@ -35,16 +45,22 @@ function CabinetRow({
   icon,
   title,
   hint,
+  note,
   onOpen,
 }: {
   icon: 'orders' | 'seller' | 'help';
   title: string;
   hint: string;
+  note?: string;
   onOpen?: () => void;
 }) {
   const body = <>
     <span className="cabinet-row__icon"><Icon name={icon} size={20}/></span>
-    <span className="cabinet-row__text"><strong>{title}</strong><small>{hint}</small></span>
+    <span className="cabinet-row__text">
+      <strong>{title}</strong>
+      <small>{hint}</small>
+      {note ? <em className="cabinet-row__note">{note}</em> : null}
+    </span>
     {onOpen ? <Icon name="chevron" size={18}/> : null}
   </>;
   return onOpen
@@ -52,13 +68,42 @@ function CabinetRow({
     : <div className="cabinet-row cabinet-row--static">{body}</div>;
 }
 
+function ChoiceRow<T extends string>({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: T;
+  options: readonly { value: T; label: string }[];
+  onChange: (next: T) => void;
+}) {
+  return (
+    <div className="cabinet-choice">
+      <span className="cabinet-choice__label" id={`choice-${label}`}>{label}</span>
+      <div className="segmented" role="group" aria-labelledby={`choice-${label}`}>
+        {options.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            aria-pressed={option.value === value}
+            onClick={() => onChange(option.value)}
+          >{option.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /**
  * One cabinet for everyone.
  *
- * The seller workspace is a section inside it rather than a separate app behind
- * a header toggle, so a store owner finds their tools where everything else
- * personal already lives. The section is rendered — and its chunk fetched —
- * only when the server has already said this person owns a store.
+ * Grouped by the question being asked rather than by who is asking: what I sent,
+ * what I sell, how the app behaves, where to get help. The seller workspace is a
+ * section inside it rather than a separate app behind a header toggle, and it is
+ * rendered — its chunk not even fetched — only when the server has already said
+ * this person owns a store.
  */
 export function CabinetApp({
   locale,
@@ -66,10 +111,14 @@ export function CabinetApp({
   sellerAvailable,
   sellerCommands,
   mediaUpload,
+  activeCheckout,
+  activeHandoff,
   onSearch,
+  onLocale,
   onWorkspace,
 }: CabinetAppProps) {
   const [section, setSection] = useState<CabinetSection>('root');
+  const [theme, setTheme] = useState<ThemePreference>(readThemePreference);
   const workspace = section === 'store' && sellerAvailable;
 
   useEffect(() => {
@@ -99,6 +148,11 @@ export function CabinetApp({
     </>;
   }
 
+  const changeTheme = (next: ThemePreference) => {
+    setTheme(next);
+    setThemePreference(next);
+  };
+
   return <>
     <section className="hero"><h1>{t(locale, 'cabinet')}</h1></section>
     <section className="section">
@@ -106,25 +160,67 @@ export function CabinetApp({
         <span className="cabinet-profile__avatar" aria-hidden="true"><Icon name="cabinet" size={24}/></span>
         <span className="cabinet-profile__text">
           <strong>{userName}</strong>
-          <small>{t(locale, 'profile')}</small>
+          <small>{t(locale, sellerAvailable ? 'roleBuyerSeller' : 'roleBuyer')}</small>
         </span>
       </div>
     </section>
+
     <section className="section">
-      <SectionHeader title={t(locale, 'cabinet')} />
+      <SectionHeader title={t(locale, 'myActivity')} />
       <div className="cabinet-list">
         <CabinetRow
           icon="orders"
           title={t(locale, 'myOrders')}
           hint={t(locale, 'myOrdersHint')}
+          note={activeCheckout
+            ? t(locale, 'checkoutUnfinished')
+            : activeHandoff ? t(locale, 'questionWaiting') : undefined}
           onOpen={() => setSection('orders')}
         />
-        {sellerAvailable ? <CabinetRow
+      </div>
+    </section>
+
+    {sellerAvailable ? <section className="section">
+      <SectionHeader title={t(locale, 'store')} />
+      <div className="cabinet-list">
+        <CabinetRow
           icon="seller"
-          title={t(locale, 'store')}
+          title={t(locale, 'storeWorkspace')}
           hint={t(locale, 'storeHint')}
           onOpen={() => setSection('store')}
-        /> : null}
+        />
+      </div>
+    </section> : null}
+
+    <section className="section">
+      <SectionHeader title={t(locale, 'settings')} />
+      <div className="cabinet-list">
+        <ChoiceRow
+          label={t(locale, 'language')}
+          value={locale}
+          options={[
+            { value: 'ru' as Locale, label: 'Русский' },
+            { value: 'uz' as Locale, label: 'O‘zbekcha' },
+          ]}
+          onChange={onLocale}
+        />
+        <ChoiceRow
+          label={t(locale, 'theme')}
+          value={theme}
+          options={[
+            { value: 'auto' as ThemePreference, label: t(locale, 'themeAuto') },
+            { value: 'light' as ThemePreference, label: t(locale, 'themeLight') },
+            { value: 'dark' as ThemePreference, label: t(locale, 'themeDark') },
+          ]}
+          onChange={changeTheme}
+        />
+        <p className="cabinet-note">{t(locale, 'themeHint')}</p>
+      </div>
+    </section>
+
+    <section className="section">
+      <SectionHeader title={t(locale, 'helpTitle')} />
+      <div className="cabinet-list">
         <CabinetRow
           icon="help"
           title={t(locale, 'helpTitle')}

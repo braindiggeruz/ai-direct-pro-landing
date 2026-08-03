@@ -69,6 +69,9 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
           sellerCommands={sellerCommands}
           mediaUpload={mediaUpload}
           userName={launch.session.user.firstName}
+          activeCheckout={bootstrap.data.counters.activeCheckout}
+          activeHandoff={bootstrap.data.counters.activeHandoff}
+          onLocale={(next) => void changeLocale(next)}
         />
       : <Suspense fallback={<LoadingView locale={locale} />}><SellerApp locale={locale} commands={sellerCommands} mediaUpload={mediaUpload} onBuyer={() => setRole('buyer')} /></Suspense>}
   </div>;

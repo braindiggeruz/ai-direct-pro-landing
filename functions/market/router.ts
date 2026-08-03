@@ -482,10 +482,13 @@ function launchBootstrapPayload(context: RequestContext) {
   };
 }
 
+/** Rows on the opening shelf. One number, so the speculative read matches it. */
+const HOME_PRODUCTS = 12;
+
 async function catalogHomePayload(context: RequestContext) {
   const [categories, results] = await Promise.all([
     context.services.catalog.listBuyerCategories(context.access.buyer),
-    context.services.catalog.listPublishedProducts(context.access.buyer, 12),
+    context.services.catalog.listPublishedProducts(context.access.buyer, HOME_PRODUCTS),
   ]);
   return {
     categories,
@@ -521,6 +524,33 @@ async function exchangeSession(
   if (current && current.telegramId !== init.user.id) {
     throw new MarketHttpError('invalid_session', 401);
   }
+  // The launch used to cross the ocean three times in a row: create the
+  // identity, bind the storefront to it, then read that storefront's shelf.
+  // Only the middle step actually needs the identity. Which storefront a fresh
+  // launch lands on depends on the bot, and what is on its shelf depends on the
+  // storefront — so both can be read while the identity is still being created.
+  //
+  // Speculative and discardable: the answer is used only if the storefront the
+  // launch really resolved to is the same one, and both promises swallow their
+  // own failures so a miss costs the old path and never the request.
+  const directAhead = includeLaunch
+    ? services.onboarding.resolveDirectPilotStorefront(config.botUsername)
+      .catch(() => null)
+    : undefined;
+  const shelfAhead = directAhead?.then(async (direct) => {
+    if (!direct) return null;
+    const storefront = {
+      orgId: direct.orgId,
+      storeId: direct.storeId,
+      agentId: 'sotuvchi' as const,
+      locale: init.locale,
+    };
+    const [categories, results] = await Promise.all([
+      services.catalog.listBuyerCategories(storefront),
+      services.catalog.listPublishedProducts(storefront, HOME_PRODUCTS),
+    ]);
+    return { orgId: direct.orgId, storeId: direct.storeId, categories, results };
+  }).catch(() => null);
   const identity = await services.identities.getOrCreateIdentity(
     'telegram',
     init.user.id,
@@ -533,6 +563,7 @@ async function exchangeSession(
     config.botUsername,
     identity.identity.id,
     init,
+    directAhead,
   );
   const issued = await issueMarketSession(config.sessionSecret, {
     sub: identity.identity.id,
@@ -583,7 +614,18 @@ async function exchangeSession(
     path: '/session/launch',
   };
   const bootstrap = launchBootstrapPayload(context);
-  const home = await catalogHomePayload(context);
+  const shelf = shelfAhead ? await shelfAhead : null;
+  // Reused only when it is the same shelf. Signing the media handles is local
+  // work, so it stays here rather than in the speculative read.
+  const home = shelf
+    && shelf.orgId === access.buyer.orgId
+    && shelf.storeId === access.buyer.storeId
+    ? {
+      categories: shelf.categories,
+      products: await resultDtos(shelf.results, context),
+      updatedAt: new Date().toISOString(),
+    }
+    : await catalogHomePayload(context);
   return marketJson({ session, bootstrap, home }, requestId, 201);
 }
 

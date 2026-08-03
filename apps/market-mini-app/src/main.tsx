@@ -7,8 +7,12 @@ import {
   onlineManager,
 } from '@tanstack/react-query';
 import App from './App';
-import { initializeTelegram } from './platform/telegram';
+import { applyStoredTheme, initializeTelegram } from './platform/telegram';
 import './styles.css';
+
+// Before the first paint. A remembered choice must not wait out the bridge, or
+// someone who picked dark watches the app flash white for up to a second.
+applyStoredTheme();
 
 onlineManager.setEventListener((setOnline) => {
   const online = () => setOnline(true);

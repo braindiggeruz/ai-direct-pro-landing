@@ -37,6 +37,14 @@ export async function bindMarketLaunch(
   botUsername: string,
   identityId: string,
   launch: VerifiedTelegramInitData,
+  /**
+   * The direct pilot storefront, already read.
+   *
+   * It depends on the bot and not on the person, so the launch can fetch it
+   * while the identity is still being created instead of after. Passing it in
+   * spends the answer that is already in hand rather than asking again.
+   */
+  directAhead?: Promise<{ orgId: string; storeId: string } | null>,
 ): Promise<StorefrontContext | null> {
   const parsed = parseTelegramStartPayload(
     launch.startParam === 'seller' ? 'agent_seller' : launch.startParam ?? undefined,
@@ -102,9 +110,8 @@ export async function bindMarketLaunch(
       return context;
     }
   }
-  const direct = await services.onboarding.resolveDirectPilotStorefront(
-    botUsername,
-  );
+  const direct = await (directAhead
+    ?? services.onboarding.resolveDirectPilotStorefront(botUsername));
   if (!direct) return null;
   const context: StorefrontContext = {
     orgId: direct.orgId,

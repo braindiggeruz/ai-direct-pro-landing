@@ -48,7 +48,36 @@ function setColor(name: string, value: string | undefined): void {
   }
 }
 
-function applyTheme(webApp: TelegramWebApp): void {
+export type ThemePreference = 'auto' | 'light' | 'dark';
+
+const THEME_KEY = 'bormi.theme';
+const TELEGRAM_COLORS = [
+  '--tg-bg', '--tg-text', '--tg-hint', '--tg-link', '--tg-button',
+  '--tg-button-text', '--tg-secondary-bg', '--tg-header-bg',
+  '--tg-accent-text', '--tg-section-bg', '--tg-subtitle', '--tg-destructive',
+] as const;
+
+/** The bridge, kept so "Авто" can go back to whatever Telegram is wearing. */
+let bridge: TelegramWebApp | undefined;
+
+export function readThemePreference(): ThemePreference {
+  try {
+    const stored = window.localStorage.getItem(THEME_KEY);
+    return stored === 'light' || stored === 'dark' ? stored : 'auto';
+  } catch {
+    // Private mode or a WebView with storage disabled: follow Telegram.
+    return 'auto';
+  }
+}
+
+function paintThemeColor(): void {
+  const themeColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--surface-canvas').trim();
+  document.querySelector('meta[name="theme-color"]')
+    ?.setAttribute('content', themeColor || '#f7f6fb');
+}
+
+function applyTelegramTheme(webApp: TelegramWebApp): void {
   const theme = webApp.themeParams ?? {};
   document.documentElement.dataset.theme = webApp.colorScheme ?? 'light';
   setColor('--tg-bg', theme.bg_color);
@@ -63,10 +92,56 @@ function applyTheme(webApp: TelegramWebApp): void {
   setColor('--tg-section-bg', theme.section_bg_color);
   setColor('--tg-subtitle', theme.subtitle_text_color);
   setColor('--tg-destructive', theme.destructive_text_color);
-  const themeColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--surface-canvas').trim();
-  document.querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', themeColor || '#f7f6fb');
+  paintThemeColor();
+}
+
+/**
+ * Paint the app in the chosen theme.
+ *
+ * "Авто" means Telegram decides, which is the behaviour that shipped. Choosing
+ * light or dark has to drop Telegram's colour variables as well as flip the
+ * attribute: those variables are what the surfaces actually read, so leaving a
+ * light `--tg-bg` in place while asking for dark would produce a half-dark
+ * screen instead of a dark one.
+ */
+function applyTheme(preference: ThemePreference = readThemePreference()): void {
+  if (preference === 'auto') {
+    if (bridge) {
+      applyTelegramTheme(bridge);
+      return;
+    }
+    document.documentElement.dataset.theme = window.matchMedia?.(
+      '(prefers-color-scheme: dark)',
+    ).matches ? 'dark' : 'light';
+    paintThemeColor();
+    return;
+  }
+  for (const name of TELEGRAM_COLORS) {
+    document.documentElement.style.removeProperty(name);
+  }
+  document.documentElement.dataset.theme = preference;
+  paintThemeColor();
+}
+
+/**
+ * Apply a remembered choice immediately, before the bridge is known.
+ *
+ * "Авто" is left alone here: Telegram's own colours are the right answer and
+ * they arrive with the bridge, so guessing first would only cause a flicker.
+ */
+export function applyStoredTheme(): void {
+  const preference = readThemePreference();
+  if (preference !== 'auto') applyTheme(preference);
+}
+
+export function setThemePreference(preference: ThemePreference): void {
+  try {
+    if (preference === 'auto') window.localStorage.removeItem(THEME_KEY);
+    else window.localStorage.setItem(THEME_KEY, preference);
+  } catch {
+    // The choice still applies to this session; it just will not be remembered.
+  }
+  applyTheme(preference);
 }
 
 function delay(milliseconds: number): Promise<void> {
@@ -89,9 +164,15 @@ async function waitForTelegramBridge(): Promise<TelegramWebApp | undefined> {
 
 export async function initializeTelegram(): Promise<() => void> {
   const webApp = await waitForTelegramBridge();
-  if (!webApp) return () => undefined;
-  applyTheme(webApp);
-  const listener = () => applyTheme(webApp);
+  if (!webApp) {
+    // Outside Telegram a stored choice still has to be honoured, and without
+    // one the system preference is the only honest default.
+    applyTheme();
+    return () => undefined;
+  }
+  bridge = webApp;
+  applyTheme();
+  const listener = () => applyTheme();
   webApp.onEvent?.('themeChanged', listener);
   webApp.ready();
   webApp.expand();

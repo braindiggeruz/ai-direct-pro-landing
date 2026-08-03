@@ -64,10 +64,12 @@ test('the store section exists only when the server granted seller reads', async
   const cabinet = await source('apps/market-mini-app/src/screens/CabinetApp.tsx');
   // Rendered behind the server-reported capability, and the lazy chunk is not
   // even requested without it.
-  assert.match(cabinet, /section === 'store' && sellerAvailable/);
-  assert.match(cabinet, /sellerAvailable \? <CabinetRow/);
+  assert.match(cabinet, /const workspace = section === 'store' && sellerAvailable/);
+  assert.match(cabinet, /sellerAvailable \? <section/);
   assert.match(cabinet, /lazy\(\(\) => import\('\.\/SellerApp'\)/);
-  // Nothing on the client may manufacture the capability.
+  // Nothing on the client may manufacture the capability. Display preferences
+  // are allowed to persist, but they live in the platform layer, so this screen
+  // has no reason to touch storage or the URL at all.
   assert.doesNotMatch(cabinet, /localStorage|sessionStorage|searchParams|location\./);
 });
 
@@ -127,9 +129,43 @@ test('the supply-side tab is an action, not a floating button', async () => {
   assert.match(styles, /\.bottom-nav \{[^}]*grid-template-columns: repeat\(4, 1fr\)/);
 });
 
+test('a chosen theme drops Telegram colours instead of fighting them', async () => {
+  const platform = await source('apps/market-mini-app/src/platform/telegram.ts');
+  // The surfaces read --tg-*; leaving a light --tg-bg in place while asking for
+  // dark would paint half a screen.
+  assert.match(platform, /for \(const name of TELEGRAM_COLORS\) \{\s*\n\s*document\.documentElement\.style\.removeProperty\(name\);/);
+  assert.match(platform, /document\.documentElement\.dataset\.theme = preference/);
+  // "Авто" is the default and means Telegram decides.
+  assert.match(platform, /return stored === 'light' \|\| stored === 'dark' \? stored : 'auto'/);
+  // Storage can be unavailable in a WebView; that must not break the launch.
+  assert.match(platform, /catch \{[\s\S]{0,160}?return 'auto';/);
+  const main = await source('apps/market-mini-app/src/main.tsx');
+  assert.match(main, /applyStoredTheme\(\);/);
+});
+
+test('the launch reads the shelf without waiting for the identity', async () => {
+  const router = await source('functions/market/router.ts');
+  // Speculative and identity-independent, started before the identity is
+  // awaited so the two round trips overlap instead of queueing.
+  assert.match(router, /const directAhead = includeLaunch/);
+  assert.match(router, /const shelfAhead = directAhead\?\.then/);
+  const order = [
+    router.indexOf('const shelfAhead'),
+    router.indexOf('await services.identities.getOrCreateIdentity'),
+  ];
+  assert.ok(order[0] > 0 && order[1] > order[0], 'the prefetch must start before the identity await');
+  // Neither speculative promise may reject: a miss costs the old path, never
+  // the request.
+  assert.match(router, /resolveDirectPilotStorefront\(config\.botUsername\)\s*\n\s*\.catch\(\(\) => null\)/);
+  // Used only when it is the same shelf, so a different storefront still reads
+  // its own rows.
+  assert.match(router, /shelf\.orgId === access\.buyer\.orgId\s*\n\s*&& shelf\.storeId === access\.buyer\.storeId/);
+  assert.match(router, /: await catalogHomePayload\(context\)/);
+});
+
 test('the shell change carries a new cache name', async () => {
   const worker = await source('apps/market-mini-app/public/sw.js');
-  assert.match(worker, /const CACHE = 'bormi-shell-v8'/);
+  assert.match(worker, /const CACHE = 'bormi-shell-v9'/);
   assert.match(worker, /keys\.filter\(\(key\) => key !== CACHE\)\.map\(\(key\) => caches\.delete\(key\)\)/);
 });
 

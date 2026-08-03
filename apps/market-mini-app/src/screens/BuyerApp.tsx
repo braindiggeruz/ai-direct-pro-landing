@@ -61,6 +61,10 @@ interface BuyerAppProps {
   sellerCommands: boolean;
   mediaUpload: boolean;
   userName: string;
+  /** Server-reported: an order left half-filled and a question still open. */
+  activeCheckout: boolean;
+  activeHandoff: boolean;
+  onLocale: (next: Locale) => void;
 }
 
 function voiceErrorFor(error: unknown): VoiceErrorKind {
@@ -279,6 +283,9 @@ export function BuyerApp({
   sellerCommands,
   mediaUpload,
   userName,
+  activeCheckout,
+  activeHandoff,
+  onLocale,
 }: BuyerAppProps) {
   const client = useQueryClient();
   const [view, setView] = useState<BuyerView>('home');
@@ -629,7 +636,10 @@ export function BuyerApp({
           sellerAvailable={sellerAvailable}
           sellerCommands={sellerCommands}
           mediaUpload={mediaUpload}
+          activeCheckout={activeCheckout}
+          activeHandoff={activeHandoff}
           onSearch={openSearch}
+          onLocale={onLocale}
           onWorkspace={setWorkspace}
         />
       </Suspense> : null}
