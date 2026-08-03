@@ -12,9 +12,16 @@ import {
   createSellerBindingChallenge,
   ensureSellerBindingSchema,
   hashChallenge,
+  inspectSellerBindingChallenge,
   redeemSellerBindingChallenge,
   resetBindingAttempts,
 } from '../functions/platform/admin/seller-binding';
+import {
+  BINDING_CODE_LENGTH,
+  isBindingCode,
+  normalizeBindingCode,
+} from '../apps/market-mini-app/src/lib/binding-code';
+import { t as miniAppText } from '../apps/market-mini-app/src/lib/i18n';
 import { OWNER_AUDIT_ACTIONS } from '../functions/platform/admin/validation';
 import type { Env } from '../functions/_types';
 import { SqliteD1 } from './helpers/sqlite-d1';
@@ -108,15 +115,25 @@ test('the flag opens a door and never walks through it', async () => {
   for (const line of grants) {
     assert.doesNotMatch(line, /MARKET_OWNER_TELEGRAM_BINDING_ENABLED|bindingEnabled/);
   }
-  // And it is not a bootstrap capability: the Mini App is never told about it,
-  // so no client can branch on it or come to believe it means authority.
+  // AUTH-1F gave the Mini App one bootstrap field so the cabinet can decide
+  // whether the row is worth offering. It is the only thing about the binding a
+  // client is ever told, and it is presentation: the block that reports it
+  // computes it from the env switch alone, never from anything about the person.
   const router = await source(ROUTER);
+  const flags = region(router, /flags: \{[\s\S]*?\r?\n {4}\},/, 'bootstrap flags');
+  const bindingFields = [...flags.matchAll(/^\s*(\w*[Bb]inding\w*):/gm)].map((match) => match[1]);
+  assert.deepEqual(bindingFields, ['ownerTelegramBinding'], 'one presentation field, no more');
+  assert.match(flags, /ownerTelegramBinding: marketFlag\(context\.env\.MARKET_OWNER_TELEGRAM_BINDING_ENABLED\),/);
+  // It is computed from the switch and nothing else — no membership, no store,
+  // no access context can leak into it and make it look like a capability.
   assert.doesNotMatch(
-    /flags: \{[\s\S]*?\r?\n {4}\},/.exec(router)?.[0] ?? '',
-    /binding/i,
+    /ownerTelegramBinding: [^\n]*/.exec(flags)?.[0] ?? '',
+    /access|sellerOrg|membership/,
   );
+  // On the client it stays optional, so a launch answered before this shipped
+  // simply has no such row rather than failing.
   const types = await source('apps/market-mini-app/src/types.ts');
-  assert.doesNotMatch(types, /binding/i);
+  assert.match(types, /ownerTelegramBinding\?: boolean;/);
 });
 
 // ── Owner half ────────────────────────────────────────────────────────────────
@@ -286,10 +303,23 @@ test('a replayed redemption produces one grant and one audit row', async () => {
 test('the response carries capabilities and no identifiers', async () => {
   const router = code(await source(ROUTER));
   const handler = region(router, HANDLER, 'handler');
-  const payload = region(handler, /return marketJson\(\{[\s\S]*?\}, requestId\);/, 'response payload');
+  // The redemption response specifically — the inspect response above it carries
+  // a store name and nothing else, and is asserted on its own.
+  const payload = region(
+    handler,
+    /return marketJson\(\{\s*\r?\n\s*sellerRead[\s\S]*?\}, requestId\);/,
+    'redemption response payload',
+  );
   assert.match(payload, /sellerRead: result\.sellerRead/);
   assert.match(payload, /sellerCommands: result\.sellerCommands/);
   assert.doesNotMatch(payload, /identityId|orgId|storeId|challenge/);
+  // And the look-up answers with one string, never a capability.
+  const inspected = region(
+    handler,
+    /return marketJson\(\{ storeName: inspected\.storeName \}, requestId\);/,
+    'inspect response payload',
+  );
+  assert.doesNotMatch(inspected, /sellerRead|sellerCommands|identityId|orgId|storeId|challenge/);
   // Capabilities are reported from the same env switches every other seller
   // entry point is gated by, not invented by the binding.
   const service = code(await source(SERVICE));
@@ -1093,6 +1123,344 @@ test('behaviour: the ledger repair refuses to claim a migration that did not lan
   assert.ok(!names.includes('0029_market_checkout_comment.sql'), 'a missing artifact must leave the ledger behind');
   assert.ok(names.includes('0030_market_telegram_reliability.sql'));
   // Leaving the ledger short blocks the runner, which is the safe direction.
+});
+
+// ══ AUTH-1F · the binding ceremony ════════════════════════════════════════════
+//
+// The owner mints a code in the Owner Control Center and spends it inside the
+// Mini App. Neither surface may become a way to learn something, keep something
+// or claim something the server did not grant.
+
+const OWNER_CARD = 'src/admin/components/SellerBindingCard.tsx';
+const OWNER_API = 'src/admin/lib/owner-api.ts';
+const REDEEM_SCREEN = 'apps/market-mini-app/src/screens/SellerBindingRedeem.tsx';
+const CABINET = 'apps/market-mini-app/src/screens/CabinetApp.tsx';
+const MINI_APP_TYPES = 'apps/market-mini-app/src/types.ts';
+
+// ── The code, as it travels ───────────────────────────────────────────────────
+
+test('behaviour: only separators and case are forgiven, never a character', () => {
+  const code = 'a'.repeat(64);
+  assert.equal(BINDING_CODE_LENGTH, 64);
+  // What the owner may have seen grouped, and may paste back in any case.
+  assert.equal(normalizeBindingCode(code.toUpperCase()), code);
+  assert.equal(normalizeBindingCode('AAAA AAAA'.repeat(8).trim().replace(/\s+$/, '')).length <= 64, true);
+  assert.equal(normalizeBindingCode(`  ${code}  `), code);
+  assert.equal(normalizeBindingCode(code.replace(/(.{8})/g, '$1 ').trim()), code);
+  assert.equal(normalizeBindingCode(code.replace(/(.{8})/g, '$1-').replace(/-$/, '')), code);
+  assert.ok(isBindingCode(code));
+  // Nothing is completed, substituted or shortened: a damaged code stays wrong.
+  assert.ok(!isBindingCode(code.slice(0, 63)), 'a missing character must not be filled in');
+  assert.ok(!isBindingCode(`${code}a`));
+  assert.equal(normalizeBindingCode('OOOO'), 'oooo', 'O is not folded to 0');
+  assert.ok(!isBindingCode(normalizeBindingCode('o'.repeat(64))), 'o is not a hex digit');
+  assert.ok(!isBindingCode(normalizeBindingCode('l'.repeat(64))));
+  for (const bad of ['', 'zz', 'g'.repeat(64), `${code} extra`]) {
+    assert.ok(!isBindingCode(normalizeBindingCode(bad)), `${bad} must not pass`);
+  }
+});
+
+// ── Inspect reads, and only reads ─────────────────────────────────────────────
+
+test('behaviour: inspecting a code names the store and spends nothing', async () => {
+  const db = freshDb();
+  const created = await mint(db);
+  const seen = await inspectSellerBindingChallenge(
+    bindingEnv(), db.asD1(), OWNER_TELEGRAM, created.challenge, new Date('2026-08-03T10:01:00.000Z'),
+  );
+  assert.equal(seen.storeName, 'Bormi Shop');
+  // Nothing at all moved: the code is still spendable and no authority appeared.
+  assert.equal(count(db, 'SELECT COUNT(*) FROM seller_identity_binding_challenges WHERE redeemed_at IS NULL'), 1);
+  assert.equal(telegramMemberships(db), 0);
+  assert.equal(count(db, "SELECT COUNT(*) FROM owner_audit_events WHERE action = 'seller.bind'"), 0);
+  // And it can still be redeemed afterwards, which is the whole point of looking.
+  resetBindingAttempts();
+  const result = await redeemSellerBindingChallenge(
+    bindingEnv(), db.asD1(), OWNER_TELEGRAM, created.challenge, REQUEST_ID, new Date('2026-08-03T10:02:00.000Z'),
+  );
+  assert.equal(result.storeName, 'Bormi Shop');
+  assert.equal(telegramMemberships(db), 1);
+});
+
+test('behaviour: inspect refuses everything redemption refuses', async () => {
+  const flagOff = freshDb();
+  const created = await mint(flagOff);
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(
+      bindingEnv({ MARKET_OWNER_TELEGRAM_BINDING_ENABLED: 'false' }),
+      flagOff.asD1(), OWNER_TELEGRAM, created.challenge, new Date('2026-08-03T10:01:00.000Z'),
+    )),
+    'binding_disabled',
+  );
+
+  // Malformed and unknown are refused before any row is read.
+  for (const value of ['', 'not-a-code', 'f'.repeat(63), 42, null, undefined]) {
+    resetBindingAttempts();
+    assert.equal(
+      await failure(() => inspectSellerBindingChallenge(
+        bindingEnv(), flagOff.asD1(), OWNER_TELEGRAM, value, new Date('2026-08-03T10:01:00.000Z'),
+      )),
+      'challenge_invalid',
+      `${String(value)} must be refused`,
+    );
+  }
+  resetBindingAttempts();
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(
+      bindingEnv(), flagOff.asD1(), OWNER_TELEGRAM, 'a'.repeat(64), new Date('2026-08-03T10:01:00.000Z'),
+    )),
+    'challenge_invalid',
+  );
+
+  // Expired, spent and suspended each fail, and none of them consumes anything.
+  const expired = freshDb();
+  const old = await mint(expired);
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(
+      bindingEnv(), expired.asD1(), OWNER_TELEGRAM, old.challenge,
+      new Date(new Date('2026-08-03T10:00:00.000Z').getTime() + BINDING_CHALLENGE_TTL_MS + 1000),
+    )),
+    'challenge_expired',
+  );
+
+  const spent = freshDb();
+  const used = await mint(spent);
+  await redeemSellerBindingChallenge(
+    bindingEnv(), spent.asD1(), OWNER_TELEGRAM, used.challenge, REQUEST_ID, new Date('2026-08-03T10:01:00.000Z'),
+  );
+  resetBindingAttempts();
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(
+      bindingEnv(), spent.asD1(), OTHER_TELEGRAM, used.challenge, new Date('2026-08-03T10:02:00.000Z'),
+    )),
+    'challenge_spent',
+  );
+
+  const suspended = freshDb();
+  const live = await mint(suspended);
+  suspended.exec(`UPDATE sotuvchi_stores SET status = 'suspended' WHERE id = '${STORE}'`);
+  resetBindingAttempts();
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(
+      bindingEnv(), suspended.asD1(), OWNER_TELEGRAM, live.challenge, new Date('2026-08-03T10:01:00.000Z'),
+    )),
+    'store_unavailable',
+  );
+});
+
+test('behaviour: inspect has its own attempt budget and does not spend redemption', async () => {
+  const db = freshDb();
+  const created = await mint(db);
+  resetBindingAttempts();
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    assert.equal(
+      await failure(() => inspectSellerBindingChallenge(
+        bindingEnv(), db.asD1(), OWNER_TELEGRAM, 'a'.repeat(64), new Date('2026-08-03T10:01:00.000Z'),
+      )),
+      'challenge_invalid',
+    );
+  }
+  assert.equal(
+    await failure(() => inspectSellerBindingChallenge(
+      bindingEnv(), db.asD1(), OWNER_TELEGRAM, 'a'.repeat(64), new Date('2026-08-03T10:01:00.000Z'),
+    )),
+    'rate_limited',
+  );
+  // Looking too often must not cost the person their actual binding.
+  const result = await redeemSellerBindingChallenge(
+    bindingEnv(), db.asD1(), OWNER_TELEGRAM, created.challenge, REQUEST_ID, new Date('2026-08-03T10:01:00.000Z'),
+  );
+  assert.equal(result.alreadyBound, false);
+  assert.equal(telegramMemberships(db), 1);
+});
+
+// ── The owner's half ──────────────────────────────────────────────────────────
+
+test('the owner card mints through the canonical route and steers nothing', async () => {
+  const api = code(await source(OWNER_API));
+  const call = region(api, /createSellerBindingChallenge: \(\) =>[\s\S]*?\),/, 'owner mint call');
+  // No argument at all: there is no field here that could point the grant
+  // somewhere else, because the target is resolved from the owner's own
+  // authorization on the server.
+  assert.match(call, /createSellerBindingChallenge: \(\) =>/);
+  assert.match(call, /'POST', '\/api\/admin\/seller-binding\/challenge'/);
+  assert.doesNotMatch(call, /storeId|orgId|identityId|telegram/i);
+  // It goes through the shared client, which is the only thing that touches the
+  // admin token.
+  const card = code(await source(OWNER_CARD));
+  assert.match(card, /ownerApi\.createSellerBindingChallenge\(\)/);
+  assert.doesNotMatch(card, /getToken|Authorization|Bearer|gptbot_admin_token/);
+});
+
+test('the owner card asks before it mints and refuses when the switch is off', async () => {
+  const card = code(await source(OWNER_CARD));
+  // Explicit confirmation, naming what the code will grant.
+  assert.match(card, /setPhase\('confirming'\)/);
+  const confirming = region(card, /\{phase === 'confirming'[\s\S]*?\) : null\}/, 'confirmation');
+  assert.match(confirming, /доступ владельца к товарам и заказам/);
+  assert.match(confirming, /create\(\)/);
+  // Off, the server answers not_found and the action stops offering itself.
+  assert.match(card, /if \(apiError\.code === 'not_found'\) setDisabled\(true\);/);
+  assert.match(card, /disabled=\{disabled\}/);
+  // Every documented conflict has an answer rather than a raw code on screen.
+  for (const failureCode of ['challenge_exists', 'store_unavailable', 'store_ambiguous', 'rate_limited']) {
+    assert.match(card, new RegExp(`case '${failureCode}'`), `${failureCode} must be explained`);
+  }
+});
+
+test('the owner card keeps the code in memory and nowhere else', async () => {
+  const card = code(await source(OWNER_CARD));
+  // Not persisted, not routed, not logged.
+  assert.doesNotMatch(card, /localStorage|sessionStorage|indexedDB|document\.cookie/);
+  assert.doesNotMatch(card, /location\.(assign|href|search|hash)|history\.(push|replace)/);
+  assert.doesNotMatch(card, /console\.(log|info|warn|debug|error)/);
+  // Closing forgets it, and the state is genuinely cleared rather than hidden.
+  const forget = region(card, /const forget = \(\) => \{[\s\S]*?\};/, 'forget');
+  assert.match(forget, /setCode\(''\)/);
+  assert.match(forget, /setPhase\('idle'\)/);
+  // The clipboard gets the raw value; the grouping is for the eye only.
+  assert.match(card, /navigator\.clipboard\.writeText\(code\)/);
+  assert.match(card, /grouped\(code\)/);
+  const grouped = region(card, /function grouped\(code: string\): string \{[\s\S]*?\n\}/, 'grouped');
+  assert.match(grouped, /match\(\/\.\{1,8\}\/g\)/);
+  assert.doesNotMatch(grouped, /slice|substring|toUpperCase|replace\(\/\[/);
+  // A countdown, so the operator knows how long the ceremony has left.
+  assert.match(card, /function remaining\(expiresAt: string, now: number\): string/);
+  assert.match(card, /Действует ещё/);
+});
+
+// ── The Telegram half ─────────────────────────────────────────────────────────
+
+test('the binding row is presentation, offered only by the server', async () => {
+  const types = await source(MINI_APP_TYPES);
+  assert.match(types, /ownerTelegramBinding\?: boolean;/);
+  const router = code(await source(ROUTER));
+  assert.match(router, /ownerTelegramBinding: marketFlag\(context\.env\.MARKET_OWNER_TELEGRAM_BINDING_ENABLED\)/);
+  // Both bootstrap shapes carry it, so a degraded launch does not silently
+  // present a door the full one would have hidden.
+  assert.equal(
+    [...router.matchAll(/ownerTelegramBinding: marketFlag\(/g)].length,
+    2,
+  );
+  const app = code(await source('apps/market-mini-app/src/App.tsx'));
+  assert.match(app, /bootstrap\.data\.flags\.ownerTelegramBinding === true/);
+  const cabinet = code(await source(CABINET));
+  // Offered only while the server says so and this person has no store yet.
+  assert.match(cabinet, /\{bindingOffered && !sellerAvailable \?/);
+  // And it never becomes authority: the row decides a section, not a permission.
+  const row = region(cabinet, /\{bindingOffered && !sellerAvailable \?[\s\S]*?: null\}/, 'binding row');
+  assert.match(row, /setSection\('binding'\)/);
+  assert.doesNotMatch(row, /sellerCommands|sellerRead|sellerAvailable =/);
+});
+
+test('the redemption screen is lazy and asks the server twice, deliberately', async () => {
+  const cabinet = code(await source(CABINET));
+  assert.match(cabinet, /lazy\(\(\) => import\('\.\/SellerBindingRedeem'\)/);
+  const screen = code(await source(REDEEM_SCREEN));
+  // A look-up that changes nothing, then an explicit confirmation that does.
+  assert.match(screen, /'\/identity\/seller-binding\/inspect'/);
+  assert.match(screen, /'\/identity\/seller-binding'/);
+  const confirmFn = region(screen, /async function confirm\(\): Promise<void> \{[\s\S]*?\n {2}\}/, 'confirm');
+  assert.match(confirmFn, /marketApi\.post<RedeemResult>\(\s*\r?\n\s*'\/identity\/seller-binding',/);
+  // The mutation is reachable only from the confirmation step.
+  assert.match(screen, /data-testid="binding-confirm-action"/);
+  assert.match(screen, /onClick=\{\(\) => void confirm\(\)\}/);
+  // Nothing in either body names a person, an organization or a store.
+  for (const body of [...screen.matchAll(/\{ challenge: normalized \}/g)]) {
+    assert.ok(body);
+  }
+  assert.equal([...screen.matchAll(/\{ challenge: normalized \}/g)].length, 2);
+  assert.doesNotMatch(screen, /identityId|telegramId|orgId|storeId|username/);
+});
+
+test('the redemption screen keeps the code out of every store it could reach', async () => {
+  const screen = code(await source(REDEEM_SCREEN));
+  assert.doesNotMatch(screen, /localStorage|sessionStorage|indexedDB|document\.cookie/);
+  assert.doesNotMatch(screen, /location\.(assign|href|search|hash)|history\.(push|replace)/);
+  assert.doesNotMatch(screen, /console\.(log|info|warn|debug|error)/);
+  // No analytics of any kind carries it.
+  assert.doesNotMatch(screen, /gtag|dataLayer|analytics|Sentry|captureException/);
+  // Cleared when the screen closes and again the moment it is spent.
+  const close = region(screen, /const close = \(\): void => \{[\s\S]*?\};/, 'close');
+  assert.match(close, /setCode\(''\)/);
+  const confirmFn = region(screen, /async function confirm\(\): Promise<void> \{[\s\S]*?\n {2}\}/, 'confirm');
+  assert.match(confirmFn, /setCode\(''\);/);
+  // Visible, never masked: the owner has to be able to see what they pasted.
+  assert.doesNotMatch(screen, /type="password"/);
+  assert.match(screen, /type="text"/);
+});
+
+test('the redemption screen takes its authority from the server, not the response', async () => {
+  const screen = code(await source(REDEEM_SCREEN));
+  // The success path re-reads bootstrap rather than trusting what it was told.
+  assert.match(screen, /await onBound\(\);/);
+  const app = code(await source('apps/market-mini-app/src/App.tsx'));
+  assert.match(app, /onBound=\{async \(\) => \{ await bootstrap\.refetch\(\); \}\}/);
+  // The screen never sets a capability itself.
+  assert.doesNotMatch(screen, /setSellerRead|setSellerCommands|sellerAvailable =/);
+  // Every failure lands in the closed vocabulary, and the three challenge
+  // outcomes share one message so grinding learns nothing.
+  const mapping = region(screen, /function messageKey\(error: unknown\)[\s\S]*?\n\}/, 'error mapping');
+  assert.match(mapping, /case 'validation_failed':\s*\r?\n\s*return 'bindInvalid';/);
+  assert.match(mapping, /case 'state_conflict':\s*\r?\n\s*return 'bindBlocked';/);
+  assert.match(mapping, /case 'rate_limited':\s*\r?\n\s*return 'bindRateLimited';/);
+  for (const internal of ['challenge_expired', 'challenge_spent', 'membership_disabled', 'persistence_failed']) {
+    assert.doesNotMatch(mapping, new RegExp(internal), `${internal} must not reach the screen`);
+  }
+});
+
+test('back steps out of the confirmation and off the screen, never out of the app', async () => {
+  const screen = code(await source(REDEEM_SCREEN));
+  const stop = region(screen, /useBackStop\(true, 'seller-binding', \(\) => \{[\s\S]*?\n {2}\}\);/, 'back stop');
+  // A press during a write is refused rather than leaving a half-answered call.
+  assert.match(stop, /if \(busy\) return false;/);
+  // Confirmation first, screen second — and the pasted code survives the first.
+  assert.match(stop, /if \(step === 'confirm'\) \{\s*\r?\n\s*setStep\('entry'\);/);
+  assert.match(stop, /close\(\);/);
+  // It never lets the gesture fall through to the shell, which would close the
+  // Mini App from three levels deep.
+  assert.equal([...stop.matchAll(/return false;/g)].length, 3);
+  const cabinet = code(await source(CABINET));
+  // The visible control and the gesture agree on where back goes.
+  assert.match(cabinet, /else if \(section === 'binding'\) setSection\('settings'\);/);
+  assert.match(cabinet, /onBack=\{\(\) => setSection\('settings'\)\}/);
+});
+
+test('the ceremony speaks both languages and says nothing about the machinery', () => {
+  const keys = [
+    'bindTitle', 'bindHint', 'bindIntro', 'bindCodeLabel', 'bindCodePlaceholder',
+    'bindClear', 'bindCheck', 'bindChecking', 'bindConfirm', 'bindBinding',
+    'bindStoreLabel', 'bindAccessTitle', 'bindAccessProducts', 'bindAccessOrders',
+    'bindAccessQuestions', 'bindAccessStock', 'bindWarning', 'bindSuccessTitle',
+    'bindSuccessBody', 'bindAlready', 'bindInvalid', 'bindBlocked',
+    'bindStoreUnavailable', 'bindRateLimited', 'bindFailed', 'bindDone',
+  ] as const;
+  for (const key of keys) {
+    const ru = miniAppText('ru', key);
+    const uz = miniAppText('uz', key);
+    assert.ok(ru && ru !== key, `${key} missing in ru`);
+    assert.ok(uz && uz !== key, `${key} missing in uz`);
+    assert.notEqual(ru, uz, `${key} is not translated`);
+    // The project's apostrophe convention: U+2018/U+2019, never ASCII.
+    assert.doesNotMatch(uz, /'/, `${key} uses an ASCII apostrophe`);
+    // Microcopy describes the store, never the identity model behind it.
+    for (const term of ['membership', 'identity', 'organization', 'sellerCommands', 'provider', 'audit']) {
+      assert.doesNotMatch(ru.toLowerCase(), new RegExp(term), `${key} leaks ${term}`);
+      assert.doesNotMatch(uz.toLowerCase(), new RegExp(term), `${key} leaks ${term}`);
+    }
+  }
+});
+
+test('the ceremony ships with every switch still off and no new migration', async () => {
+  const wrangler = await source('wrangler.toml');
+  assert.match(wrangler, /MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"/);
+  assert.match(wrangler, /MARKET_QUICKPOST_ENABLED = "false"/);
+  assert.match(wrangler, /MARKET_QUICKPOST_AI_ENABLED = "false"/);
+  const migrations = await readdir(new URL('migrations/', ROOT));
+  assert.equal(migrations.length, 32, 'the ceremony is UI over the endpoints that already exist');
+  // The shell cache moves, or a device keeps serving a build without the screen.
+  const worker = await source('apps/market-mini-app/public/sw.js');
+  assert.match(worker, /const CACHE = 'bormi-shell-v14';/);
 });
 
 test('behaviour: the ledger repair changes no schema and no business data', async () => {

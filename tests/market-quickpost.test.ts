@@ -131,7 +131,12 @@ test('every cabinet section is a level above the cabinet root', async () => {
   assert.match(cabinet, /useBackStop\(section !== 'root', `cabinet:\$\{section\}`, \(\) => \{/);
   // The workspace leaves by the same door its visible control uses, so the
   // gesture and the button cannot end up in different places.
-  assert.match(cabinet, /if \(workspace\) leaveWorkspace\(\);\s*\r?\n\s*else setSection\('root'\);/);
+  assert.match(cabinet, /if \(workspace\) leaveWorkspace\(\);/);
+  // The binding screen is the one section that sits under another, so back
+  // lands on Settings where the person came from; everything else is one level
+  // above the root and returns to it.
+  assert.match(cabinet, /else if \(section === 'binding'\) setSection\('settings'\);/);
+  assert.match(cabinet, /else setSection\('root'\);/);
 });
 
 test('a handler that changes every keystroke does not spend a history entry', async () => {
