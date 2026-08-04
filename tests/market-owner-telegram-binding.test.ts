@@ -1359,12 +1359,16 @@ test('the binding row is presentation, offered only by the server', async () => 
   // cannot drift open while the server is shut, or shut while the server is
   // open, because there is only one thing to read.
   assert.match(router, /ownerTelegramBinding: bindingCeremonyOpen\(context\.env, new Date\(\)\)/);
-  // Both bootstrap shapes carry it, so a degraded launch does not silently
-  // present a door the full one would have hidden.
+  // All three bootstrap shapes carry it — the two store-scoped payloads and the
+  // global classifieds one — so a degraded launch does not silently present a
+  // door the full one would have hidden.
   assert.equal(
     [...router.matchAll(/ownerTelegramBinding: bindingCeremonyOpen\(/g)].length,
-    2,
+    3,
   );
+  const global = /function globalClassifiedsBootstrapPayload\([\s\S]*?\n\}/.exec(router)?.[0];
+  assert.ok(global, 'global classifieds bootstrap payload not found');
+  assert.match(global, /ownerTelegramBinding: bindingCeremonyOpen\(env, new Date\(\)\)/);
   const app = code(await source('apps/market-mini-app/src/App.tsx'));
   assert.match(app, /bootstrap\.data\.flags\.ownerTelegramBinding === true/);
   const cabinet = code(await source(CABINET));

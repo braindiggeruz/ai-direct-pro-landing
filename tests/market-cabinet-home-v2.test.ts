@@ -50,12 +50,22 @@ test('both bootstrap payloads report the cabinet root', async () => {
   assert.equal(reported.length, 2, 'both bootstrap payloads must report the flag');
 });
 
+test('the global classifieds bootstrap reports the cabinet root too', async () => {
+  const router = await source(ROUTER);
+  // The global payload is built without a RequestContext because no storefront
+  // was resolved, so it reads `env` directly rather than `context.env`. It is a
+  // third reporter of the same layout switch, not a third meaning for it.
+  const global = /function globalClassifiedsBootstrapPayload\([\s\S]*?\n\}/.exec(router)?.[0];
+  assert.ok(global, 'global classifieds bootstrap payload not found');
+  assert.match(global, /cabinetHomeV2: marketFlag\(env\.MARKET_CABINET_HOME_V2\)/);
+});
+
 test('the root flag changes no read, no command and no authority', async () => {
   const router = await source(ROUTER);
-  // Only the two payload builders may consult it. Reaching a route guard would
-  // turn a layout switch into a permission.
+  // Only the three payload builders may consult it — two store-scoped and one
+  // global. Reaching a route guard would turn a layout switch into a permission.
   const uses = [...router.matchAll(/MARKET_CABINET_HOME_V2/g)];
-  assert.equal(uses.length, 2, 'the flag is read only by the two bootstrap payloads');
+  assert.equal(uses.length, 3, 'the flag is read only by the three bootstrap payloads');
   const seller = /if \(path\.startsWith\('\/seller\/'\)\) \{[\s\S]*?\n {2}\}/.exec(router)?.[0];
   assert.ok(seller, 'seller read branch not found');
   assert.doesNotMatch(seller, /MARKET_CABINET_HOME_V2/);

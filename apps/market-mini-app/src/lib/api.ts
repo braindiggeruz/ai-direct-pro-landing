@@ -22,6 +22,27 @@ const runtimeEnv = import.meta.env ?? {};
 const baseUrl = (runtimeEnv.VITE_MARKET_API_BASE_URL
   ?? (runtimeEnv.PROD ? PRODUCTION_MARKET_API_BASE_URL : '/api/market/v1'))
   .replace(/\/$/, '');
+
+/**
+ * Whether the fixture transport may be reached at all.
+ *
+ * This has to read `import.meta.env.DEV` directly rather than through
+ * `runtimeEnv`. Vite substitutes the literal `import.meta.env.DEV` at build
+ * time, so a production build sees `false &&` and Rollup drops the dynamic
+ * import of the synthetic module with it. Reading the same value off the
+ * `runtimeEnv` object defeats that substitution — the property access survives
+ * to runtime, the branch stays live, and the whole fixture transport (with its
+ * placeholder token and invented listings) ships inside the production bundle.
+ *
+ * The `typeof` guard keeps Node's loader happy, where `import.meta.env` is
+ * undefined and the contract tests import this module without Vite. It has to
+ * be `typeof` rather than an optional chain: Vite does not substitute
+ * `import.meta.env?.DEV`, so the optional form silently keeps the branch alive.
+ * Written this way a production build folds to `false` and Node short-circuits
+ * before it ever reads the property.
+ */
+const fixtureTransportAvailable =
+  typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
 let sessionToken = '';
 const REQUEST_TIMEOUT_MS = 15_000;
 const LAUNCH_TIMEOUT_MS = 15_000;
@@ -102,7 +123,7 @@ async function fixtureRequest<T>(path: string, options: RequestOptions): Promise
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return fixtureRequest<T>(path, options);
   }
   const headers = new Headers({ Accept: 'application/json' });
@@ -154,7 +175,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 }
 
 export async function exchangeSession(): Promise<SessionExchange> {
-  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     const session = await fixtureRequest<SessionExchange>('/session/exchange', {
       method: 'POST', body: { initData: 'fixture' },
     });
@@ -171,7 +192,7 @@ export async function exchangeSession(): Promise<SessionExchange> {
 }
 
 export async function exchangeLaunch(): Promise<MarketLaunch> {
-  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     const fixtureStart = performance.now();
     const launch = await fixtureRequest<MarketLaunch>('/session/launch', {
       method: 'POST', body: { initData: 'fixture' },
@@ -243,7 +264,7 @@ export function clearSession(): void {
 }
 
 export async function fetchMedia(handle: string, signal?: AbortSignal): Promise<string> {
-  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><rect width="4" height="3" fill="#e8dccb"/><path d="M.5 2.5 1.5 1.3l.7.7.5-.5.8 1z" fill="#0b3b36"/></svg>`)}`;
   }
   const response = await fetch(`${baseUrl}/media/${encodeURIComponent(handle)}`, {
@@ -263,7 +284,7 @@ async function uploadVoiceSearch<T>(
   recording: VoiceRecording,
   signal?: AbortSignal,
 ): Promise<T> {
-  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return fixtureRequest<T>(path, { method: 'POST' });
   }
   const controller = new AbortController();
@@ -365,7 +386,7 @@ export async function uploadMedia(
   blob: Blob,
   signal?: AbortSignal,
 ): Promise<{ ref: string }> {
-  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return fixtureRequest<{ ref: string }>('/seller/media', { method: 'POST' });
   }
   const controller = new AbortController();

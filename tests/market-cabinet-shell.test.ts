@@ -37,11 +37,18 @@ test('both bootstrap payloads report the same shell', async () => {
   // Neither payload may hardcode the tab list any more, or the launch screen
   // and the refetch behind it could describe two different shells.
   const hardcoded = [...router.matchAll(/navigation: \['home'/g)];
-  assert.equal(hardcoded.length, 0);
+  // The global classifieds bootstrap is the one payload that states its own tab
+  // list, because a launch with no storefront has no store tabs to describe. It
+  // is a literal, not a second copy of buyerNavigation's answer, so it is named
+  // here rather than counted as drift.
+  assert.equal(hardcoded.length, 1);
+  const global = /function globalClassifiedsBootstrapPayload\([\s\S]*?\n\}/.exec(router)?.[0];
+  assert.ok(global, 'global classifieds bootstrap payload not found');
+  assert.match(global, /navigation: \['home', 'search', 'saved', 'activity'\]/);
   const reported = [...router.matchAll(/navigation: buyerNavigation\(context\.env\)/g)];
-  assert.equal(reported.length, 2, 'both bootstrap payloads must report navigation');
+  assert.equal(reported.length, 2, 'both store bootstrap payloads must report navigation');
   const cabinetFlags = [...router.matchAll(/cabinet: marketFlag\(context\.env\.MARKET_CABINET_ENABLED\)/g)];
-  assert.equal(cabinetFlags.length, 2, 'both bootstrap payloads must report the flag');
+  assert.equal(cabinetFlags.length, 2, 'both store bootstrap payloads must report the flag');
 });
 
 test('the shell flag changes no read, no command and no authority', async () => {
@@ -49,7 +56,11 @@ test('the shell flag changes no read, no command and no authority', async () => 
   // The flag may only be consulted where the shell is described. If it ever
   // reaches a route guard, a layout switch has become a permission.
   const uses = [...router.matchAll(/MARKET_CABINET_ENABLED/g)];
-  assert.equal(uses.length, 3, 'the flag is read only by buyerNavigation and the two payloads');
+  assert.equal(
+    uses.length,
+    4,
+    'the flag is read only by buyerNavigation, the two store payloads and the global one',
+  );
   const seller = /if \(path\.startsWith\('\/seller\/'\)\) \{[\s\S]*?\n {2}\}/.exec(router)?.[0];
   assert.ok(seller, 'seller read branch not found');
   assert.doesNotMatch(seller, /MARKET_CABINET_ENABLED/);
