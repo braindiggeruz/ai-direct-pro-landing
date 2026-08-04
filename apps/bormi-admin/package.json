@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:stub": "vite --mode stub --port 5184 --strictPort",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b --pretty false"

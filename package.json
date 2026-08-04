@@ -15,6 +15,8 @@
     "preview": "vite preview",
     "admin:evidence": "tsx scripts/admin-ux-evidence.ts",
     "admin:listings-evidence": "tsx scripts/admin-listings-evidence.ts",
+    "admin:v1-evidence": "tsx scripts/admin-v1-evidence.ts",
+    "admin:audit-rehearsal": "tsx scripts/admin-audit-migration-rehearsal.ts",
     "seo:audit": "tsx scripts/seo-audit.ts",
     "seo:prerender": "tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts",
     "seo:sitemap": "tsx scripts/generate-sitemap.ts",

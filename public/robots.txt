@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
 
 Sitemap: https://gptbot.uz/sitemap.xml

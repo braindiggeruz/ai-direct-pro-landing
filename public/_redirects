@@ -18,6 +18,12 @@ https://www.gptbot.uz/*  https://gptbot.uz/:splat  301
 # 1) Admin SPA shell — React Router handles sub-routes client-side.
 /admin-tools/*  /index.html  200
 
+# 1a) Bormi Admin (owner control center) has NO rewrite here on purpose.
+#     `_redirects` is evaluated before static assets, so any /admin/* rewrite
+#     also answers /admin/assets/*.js with the HTML shell. The SPA fallback is
+#     functions/admin/[[path]].ts, with /admin/assets/* excluded in
+#     _routes.json. That file explains what was tried and what it did.
+
 # 1a) Unprefixed blog URLs — 301 to the Russian locale so legacy/external
 #     links and AI-generated citations without a language prefix don't 404.
 /blog/*  /ru/blog/:splat  301

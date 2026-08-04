@@ -116,6 +116,17 @@ lines.push('');
 lines.push('# 1) Admin SPA');
 lines.push('/admin-tools/*  /index.html  200');
 lines.push('');
+// 1a) Bormi Admin (the owner control center) is a second SPA, built separately
+//     into /dist/admin by `npm run build:admin`. Its SPA fallback is NOT here:
+//     `_redirects` is evaluated before static assets, so any `/admin/*` rewrite
+//     also answers `/admin/assets/*.js` with the HTML shell and the panel never
+//     loads its own code. Both spellings were tried against the real runtime —
+//     `/admin/index.html` loops into a 404, `/admin/` swallows the assets.
+//     `functions/admin/[[path]].ts` does it instead, with `/admin/assets/*`
+//     excluded in `_routes.json`. The file it lives in explains the rest.
+lines.push('# 1a) Bormi Admin has no rewrite here on purpose:');
+lines.push('#     see functions/admin/[[path]].ts');
+lines.push('');
 lines.push('# 1b) /llms (no extension) — rewrite to /llms.txt so AI assistants');
 lines.push('#     that probe for the bare path get the same llms.txt grounding file.');
 lines.push('/llms  /llms.txt  200');
@@ -138,7 +149,8 @@ if (draftUrls.length) {
 // This prevents random/typo URLs from serving the homepage SPA shell and
 // being treated as soft-duplicates / "Crawled - currently not indexed" in GSC.
 lines.push('# 4) No SPA wildcard fallback by design: unknown URLs must return 404.');
-lines.push('#    The only client-rendered route is /admin-tools/* (handled above).');
+lines.push('#    The client-rendered routes are /admin-tools/* (handled above)');
+lines.push('#    and /admin/* (handled by a Pages Function).');
 lines.push('#    Cloudflare Pages auto-serves /404.html (HTTP 404) for unmatched paths.');
 
 fs.writeFileSync(path.join(DIST_DIR, '_redirects'), lines.join('\n') + '\n', 'utf-8');
@@ -206,6 +218,29 @@ headers.push('  Expires: 0');
 headers.push('  X-Frame-Options: DENY');
 headers.push('  X-Robots-Tag: noindex, nofollow');
 headers.push('  Alt-Svc: clear');
+headers.push('');
+
+// ─── Bormi Admin (the owner control center) ───
+// The shell's headers are NOT here. `_headers` merges every matching block
+// rather than letting the most specific one win: a `/admin/*` block on top of
+// the global `/*` block produced `Cache-Control: public, max-age=0,
+// s-maxage=3600, …, no-store, …` and `X-Frame-Options: SAMEORIGIN, DENY` — a
+// cache directive that contradicts itself and a frame policy browsers treat as
+// malformed. Both were observed against the real runtime.
+// `functions/admin/[[path]].ts` serves the shell and sets its own headers,
+// which bypass this file entirely.
+//
+// What remains here is the one path the Function deliberately does not handle:
+// the panel's hashed chunks, excluded in `_routes.json` so they are served
+// straight from the asset store. Their URL changes whenever their bytes do, so
+// they are immutable — and they are still kept out of any index.
+headers.push('# ─── Bormi Admin chunks — immutable, never indexed ───');
+headers.push('# The shell itself is served by functions/admin/[[path]].ts,');
+headers.push('# which sets its own no-store headers; a block here would be');
+headers.push('# merged with the global one above rather than replacing it.');
+headers.push('/admin/assets/*');
+headers.push('  Cache-Control: public, max-age=31536000, immutable');
+headers.push('  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet');
 headers.push('');
 
 headers.push('# ─── Hashed Vite assets — immutable 1-year cache ───');

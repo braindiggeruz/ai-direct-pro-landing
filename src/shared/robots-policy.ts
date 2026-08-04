@@ -7,8 +7,8 @@
 //
 // Policy (2026-06-25): MAXIMUM AI VISIBILITY. The owner explicitly opened all
 // AI grounding/training crawlers so GPTBot.uz can be ingested, cited and
-// surfaced across every AI assistant and answer engine. /admin-tools/ and
-// /api/ stay disallowed for every bot.
+// surfaced across every AI assistant and answer engine. /admin/, /admin-tools/
+// and /api/ stay disallowed for every bot.
 import { SITE_URL } from './site-config';
 
 // AI answer/search engines (real-time, user-triggered retrieval).
@@ -48,9 +48,21 @@ export const ALL_AI_USER_AGENTS = [
   ...AI_TRAINING_USER_AGENTS,
 ];
 
+/**
+ * The paths no crawler may take, in one place.
+ *
+ * `/admin/` is the Bormi owner control center and `/admin-tools/` is the
+ * console it is replacing; both are operations surfaces with nothing to offer a
+ * crawler and a login to offer an indexer. They are listed separately because
+ * `Disallow: /admin` without the slash would also swallow any future public
+ * path that merely starts with those six letters.
+ */
+export const DISALLOWED_PATHS = ['/admin/', '/admin-tools/', '/api/'] as const;
+
 function agentBlock(agents: readonly string[]): string {
+  const disallow = DISALLOWED_PATHS.map((path) => `Disallow: ${path}`).join('\n');
   return agents
-    .map((ua) => `User-agent: ${ua}\nAllow: /\nDisallow: /admin-tools/\nDisallow: /api/`)
+    .map((ua) => `User-agent: ${ua}\nAllow: /\n${disallow}`)
     .join('\n\n');
 }
 
@@ -63,7 +75,7 @@ export function buildRobotsTxt(siteUrl: string = SITE_URL): string {
 #   Applebot-Extended, meta-externalagent, Bytespider, CCBot, Amazonbot, etc.)
 #   so GPTBot.uz is ingested, cited and surfaced across every AI assistant and
 #   answer engine. Traditional search engines are allowed via the wildcard.
-#   Only /admin-tools/ and /api/ are off-limits for all bots.
+#   Only /admin/, /admin-tools/ and /api/ are off-limits for all bots.
 #
 # Served via functions/robots.txt.ts to bypass the Cloudflare Free-plan
 # managed robots.txt AI-block (which cannot be disabled via API on Free).
@@ -77,8 +89,7 @@ ${agentBlock(AI_TRAINING_USER_AGENTS)}
 # ── Traditional search + remaining crawlers ──
 User-agent: *
 Allow: /
-Disallow: /admin-tools/
-Disallow: /api/
+${DISALLOWED_PATHS.map((path) => `Disallow: ${path}`).join('\n')}
 
 # Sitemap (canonical, indexable URLs only).
 Sitemap: ${siteUrl}/sitemap.xml
