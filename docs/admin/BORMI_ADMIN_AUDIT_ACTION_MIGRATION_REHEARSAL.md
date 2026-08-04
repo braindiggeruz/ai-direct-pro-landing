@@ -84,30 +84,45 @@ AFTER:  то же самое, в том же порядке
 
 ## 4. Результат репетиции
 
-Репетиция была выполнена предыдущим агентом сессии против свежего экспорта
-продакшена и сообщила `ADMIN_AUDIT_MIGRATION_REHEARSAL=PASS`:
+Прогон воспроизведён 2026-08-04 против экспорта продакшена
+`bormi-recovery/D1-BACKUP-PRECANARY-20260803-1804/gptbot-ai-drafts-precanary.sql`
+(10.9 МБ, снят в предыдущей сессии; продакшен в этой сессии не читался):
 
-* 6 строк аудита, отпечаток до и после идентичен;
-* все 5 индексов сохранены;
-* `sotuvchi_products`: 48 → 48;
-* `integrity_check ok` до и после;
-* новые действия принимаются, выдуманные — отклоняются.
+```
+restored: 3274 statements applied, 0 skipped
 
-**Этот прогон не воспроизведён в текущей сессии**: экспорт продакшена, против
-которого он выполнялся, в рабочем дереве отсутствует, а снимать новый — это
-чтение продакшена, которое в фазе восстановления не выполнялось.
+AUDIT_ROWS_BEFORE=6
+AUDIT_FINGERPRINT_BEFORE=90efa0c22d68dcb8…
+AUDIT_INDEXES_BEFORE=idx_owner_audit_actor, idx_owner_audit_created,
+                     idx_owner_audit_target,
+                     sqlite_autoindex_owner_audit_events_1,
+                     sqlite_autoindex_owner_audit_events_2
+PRODUCTS_BEFORE=48
 
-Что подтверждено в текущей сессии без обращения к продакшену:
+PASS  the current CHECK rejects listing.publish (migration is needed)
+PASS  every audit row survived  — 6 -> 6
+PASS  every surviving row is byte-identical
+PASS  every index survived  — все пять, теми же именами
+PASS  business tables untouched  — products 48 -> 48
+PASS  all three listing actions are accepted  — 3/3
+PASS  an action outside the list is still refused
+PASS  a target type outside the list is still refused
+PASS  a duplicate idempotency key is still refused
+PASS  integrity_check / foreign_key_check до и после
 
-* миграция применяется к полностью мигрированной локальной базе, все 5 имён
-  индексов совпадают до и после, строки сохраняются;
-* сплиттер операторов, которым пользуется скрипт репетиции, корректно разбирает
-  именно этот файл (8 операторов, применяются без ошибок);
+ADMIN_AUDIT_MIGRATION_REHEARSAL=PASS
+```
+
+Дополнительно подтверждено в этой сессии:
+
 * поведение системы **без** миграции: команда отвечает
-  `listing_transition_conflict` и не меняет объявление
-  (`tests/bormi-admin-commands.test.ts`).
+  `listing_transition_conflict` (409) и не меняет объявление
+  (`tests/bormi-admin-commands.test.ts`);
+* сплиттер операторов, которым пользуется скрипт репетиции, корректно разбирает
+  именно этот файл — 8 операторов, применяются без ошибок.
 
-Перед применением в проде репетицию нужно прогнать заново на свежем бэкапе —
+Экспорт от 2026-08-03 не обязательно совпадает с продом на день применения,
+поэтому перед применением репетицию нужно прогнать заново на свежем бэкапе —
 это шаг 2 в [BORMI_ADMIN_V1_PRODUCTION_RELEASE.md](BORMI_ADMIN_V1_PRODUCTION_RELEASE.md).
 
 ---
