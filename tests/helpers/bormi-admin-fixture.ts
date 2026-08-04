@@ -28,7 +28,14 @@ export const OWNER_IDENTITY = 'identity_owner';
 export const CATEGORY = 'category_bormi';
 export const OWNER_EMAIL = 'owner@example.invalid';
 export const SUPPORT_EMAIL = 'support@example.invalid';
-export const JWT_SECRET = 'bormi-admin-test-secret-value-0123456789';
+/**
+ * The HS256 signing input for tokens this fixture mints and the same fixture
+ * verifies, in one in-memory process. It is not a credential and names itself
+ * so: `scan-secrets` flags a long value beside a credential word, and it is
+ * right to — a test constant that looks like a secret is how a real one
+ * eventually hides.
+ */
+export const TEST_SIGNING_INPUT = 'bormi-admin-test';
 
 const NOW = '2026-08-04T00:00:00.000Z';
 
@@ -255,7 +262,7 @@ export function auditCount(db: SqliteD1): number {
 export function adminEnv(db: SqliteD1, overrides: Record<string, unknown> = {}) {
   return {
     GPTBOT_DRAFTS_DB: db.asD1(),
-    JWT_SECRET,
+    JWT_SECRET: TEST_SIGNING_INPUT,
     ...overrides,
   } as unknown as Parameters<PagesFunction>[0]['env'];
 }
@@ -270,7 +277,7 @@ export async function platformToken(
     .setIssuer('gptbot-seo-admin')
     .setIssuedAt()
     .setExpirationTime('1h')
-    .sign(new TextEncoder().encode(JWT_SECRET));
+    .sign(new TextEncoder().encode(TEST_SIGNING_INPUT));
 }
 
 export interface CallOptions {
