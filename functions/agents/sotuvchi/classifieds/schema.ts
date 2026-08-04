@@ -14,6 +14,11 @@ const REQUIRED_TABLES = [
   'market_listing_operations',
 ] as const;
 
+const JOURNEY_TABLES = [
+  'market_listing_favorites',
+  'market_listing_inquiries',
+] as const;
+
 export class ClassifiedsSchemaError extends Error {
   constructor() {
     super('classifieds_schema_unavailable');
@@ -22,6 +27,7 @@ export class ClassifiedsSchemaError extends Error {
 }
 
 const checked = new WeakMap<D1Database, Promise<void>>();
+const journeyChecked = new WeakMap<D1Database, Promise<void>>();
 
 /**
  * Classifieds never performs a production migration at request time. The
@@ -51,6 +57,28 @@ export function ensureClassifiedsSchema(db: D1Database): Promise<void> {
       throw error;
     });
     checked.set(db, pending);
+  }
+  return pending;
+}
+
+/** Buyer write journeys are deployed after the read-only foundation. */
+export function ensureClassifiedsJourneySchema(db: D1Database): Promise<void> {
+  let pending = journeyChecked.get(db);
+  if (!pending) {
+    pending = ensureClassifiedsSchema(db).then(async () => {
+      const placeholders = JOURNEY_TABLES.map(() => '?').join(', ');
+      const tables = await db.prepare(
+        `SELECT COUNT(*) AS n FROM sqlite_master
+         WHERE type = 'table' AND name IN (${placeholders})`,
+      ).bind(...JOURNEY_TABLES).first<{ n: number }>();
+      if (Number(tables?.n ?? 0) !== JOURNEY_TABLES.length) {
+        throw new ClassifiedsSchemaError();
+      }
+    }).catch((error) => {
+      journeyChecked.delete(db);
+      throw error;
+    });
+    journeyChecked.set(db, pending);
   }
   return pending;
 }

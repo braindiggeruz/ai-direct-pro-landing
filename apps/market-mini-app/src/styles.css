@@ -417,6 +417,25 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 .chip--filter { display: inline-flex; align-items: center; gap: 4px; padding-right: 5px; border-color: color-mix(in srgb, var(--action-primary) 34%, var(--border-default)); background: color-mix(in srgb, var(--action-primary) 10%, var(--surface-raised)); color: var(--text-primary); font-weight: 720; }
 .chip--filter > button { display: grid; width: 30px; height: 30px; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--action-primary); cursor: pointer; }
 .chip--filter > button:hover { background: color-mix(in srgb, var(--action-primary) 16%, transparent); }
+
+/* Classifieds-first buyer journey. It reuses the existing card, field, modal,
+   spacing and semantic color tokens; only the listing-specific composition is
+   new. */
+.classifieds-page { padding-bottom: calc(92px + var(--safe-bottom)); }
+.classifieds-page + .bottom-nav { background: var(--surface-raised); }
+.classifieds-page + .bottom-nav button { color: var(--text-primary); }
+.classified-card .button--secondary,
+.classified-detail .notice { background: var(--surface-raised); color: var(--text-primary); }
+.classified-card .icon-button[aria-pressed="true"] { border-color: color-mix(in srgb, var(--bormi-coral) 62%, var(--border-default)); background: color-mix(in srgb, var(--bormi-coral) 18%, var(--surface-raised)); color: var(--text-primary); }
+.classified-detail__media { width: 100%; max-height: min(52vh, 480px); object-fit: cover; border-radius: var(--radius-md); background: var(--surface-soft); }
+.classified-price-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.classified-price-grid input { width: 100%; min-width: 0; }
+.classified-detail p, .classifieds-page .card p { overflow-wrap: anywhere; }
+
+@media (max-width: 350px) {
+  .classified-price-grid { grid-template-columns: 1fr; }
+  .classified-card .product-card__actions { grid-template-columns: minmax(0, 1fr) 44px; }
+}
 .search-note { margin: 4px 0 0; color: var(--text-secondary); font-size: .8rem; }
 
 .voice-sheet { padding-bottom: 4px; }

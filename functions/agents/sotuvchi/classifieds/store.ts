@@ -154,6 +154,7 @@ export interface ClassifiedsStore {
   get(id: string): Promise<ClassifiedListing | null>;
   categories(): Promise<ClassifiedCategoryOption[]>;
   locations(): Promise<ClassifiedLocationOption[]>;
+  favorites(identityId: string): Promise<ClassifiedDiscoveryPage>;
 }
 
 export function createClassifiedsStore(db: D1Database): ClassifiedsStore {
@@ -173,6 +174,7 @@ export function createClassifiedsStore(db: D1Database): ClassifiedsStore {
       if (filter.districtId) add('district.id = ?', filter.districtId);
       if (filter.condition) add('taxonomy.condition = ?', filter.condition);
       if (filter.sellerType) add('seller.seller_type = ?', filter.sellerType);
+      if (filter.availability) add('product.availability = ?', filter.availability);
       if (filter.storeId) add('product.store_id = ?', filter.storeId);
       if (filter.minPriceMinor !== null) add('product.price_minor >= ?', filter.minPriceMinor);
       if (filter.maxPriceMinor !== null) add('product.price_minor <= ?', filter.maxPriceMinor);
@@ -311,6 +313,24 @@ export function createClassifiedsStore(db: D1Database): ClassifiedsStore {
         districtNameRu: row.district_name_ru,
         districtNameUz: row.district_name_uz,
       }));
+    },
+
+    async favorites(identityId) {
+      const result = await db.prepare(`
+        ${SELECT}
+        WHERE product.status = 'published'
+          AND product.listing_scope = ownership.ownership_type
+          AND EXISTS (
+            SELECT 1 FROM market_listing_favorites AS favorite
+            WHERE favorite.identity_id = ? AND favorite.product_id = product.id
+          )
+        ORDER BY product.updated_at DESC, product.id
+        LIMIT 50
+      `).bind(identityId).all<ListingRow>();
+      return {
+        items: (result.results ?? []).map(listing),
+        nextCursor: null,
+      };
     },
   };
 }

@@ -5,6 +5,10 @@ import type {
   BuyerOrder,
   Category,
   CheckoutSnapshot,
+  ClassifiedCategory,
+  ClassifiedInquiry,
+  ClassifiedListing,
+  ClassifiedLocation,
   Handoff,
   Inventory,
   MarketLaunch,
@@ -22,6 +26,84 @@ interface RequestOptions {
 }
 
 const now = new Date().toISOString();
+const classifiedCategories: ClassifiedCategory[] = [
+  {
+    id: 'global-electronics', slug: 'electronics', nameRu: 'Электроника',
+    nameUz: 'Elektronika', highRisk: false,
+    allowedConditions: ['new', 'like_new', 'good', 'fair', 'for_parts'],
+    visibleListingCount: 2,
+  },
+  {
+    id: 'global-home', slug: 'home', nameRu: 'Для дома', nameUz: 'Uy uchun',
+    highRisk: false,
+    allowedConditions: ['new', 'like_new', 'good', 'fair'],
+    visibleListingCount: 1,
+  },
+];
+const classifiedLocations: ClassifiedLocation[] = [
+  {
+    countryCode: 'UZ', regionId: 'region-tashkent', regionNameRu: 'Ташкент',
+    regionNameUz: 'Toshkent', districtId: 'district-yunusabad',
+    districtNameRu: 'Юнусабадский район', districtNameUz: 'Yunusobod tumani',
+  },
+  {
+    countryCode: 'UZ', regionId: 'region-tashkent', regionNameRu: 'Ташкент',
+    regionNameUz: 'Toshkent', districtId: 'district-chilanzar',
+    districtNameRu: 'Чиланзарский район', districtNameUz: 'Chilonzor tumani',
+  },
+];
+const classifiedListings: ClassifiedListing[] = [
+  {
+    id: 'classified-bike', listingScope: 'private', name: 'Городской велосипед',
+    description: 'Алюминиевая рама, колёса 28 дюймов. Можно осмотреть вечером.',
+    priceMinor: 2_450_000, currency: 'UZS', availability: 'available', mediaHandles: [],
+    category: { id: 'global-home', slug: 'home', nameRu: 'Для дома', nameUz: 'Uy uchun' },
+    condition: 'good', conditionLabel: { ru: 'Хорошее', uz: 'Yaxshi' },
+    location: {
+      countryCode: 'UZ', regionId: 'region-tashkent', regionNameRu: 'Ташкент',
+      regionNameUz: 'Toshkent', districtId: 'district-yunusabad',
+      districtNameRu: 'Юнусабадский район', districtNameUz: 'Yunusobod tumani',
+      localityText: null,
+    },
+    seller: { displayName: 'Aziza', type: 'private', verificationState: 'identity_verified' },
+    contactMode: 'in_app', phoneDisclosure: 'not_available', commerceMode: 'inquiry',
+    store: null, updatedAt: now,
+  },
+  {
+    id: 'classified-phone', listingScope: 'private', name: 'Смартфон 128 ГБ',
+    description: 'Комплект с коробкой и кабелем, без ремонта.',
+    priceMinor: 1_890_000, currency: 'UZS', availability: 'available', mediaHandles: [],
+    category: { id: 'global-electronics', slug: 'electronics', nameRu: 'Электроника', nameUz: 'Elektronika' },
+    condition: 'like_new', conditionLabel: { ru: 'Как новое', uz: 'Yangidek' },
+    location: {
+      countryCode: 'UZ', regionId: 'region-tashkent', regionNameRu: 'Ташкент',
+      regionNameUz: 'Toshkent', districtId: 'district-chilanzar',
+      districtNameRu: 'Чиланзарский район', districtNameUz: 'Chilonzor tumani',
+      localityText: null,
+    },
+    seller: { displayName: 'Bek', type: 'private', verificationState: 'unverified' },
+    contactMode: 'in_app', phoneDisclosure: 'not_available', commerceMode: 'inquiry',
+    store: null, updatedAt: now,
+  },
+  {
+    id: 'classified-headphones', listingScope: 'store', name: 'Беспроводные наушники',
+    description: 'Новые наушники с зарядным футляром.',
+    priceMinor: 349_000, currency: 'UZS', availability: 'available', mediaHandles: [],
+    category: { id: 'global-electronics', slug: 'electronics', nameRu: 'Электроника', nameUz: 'Elektronika' },
+    condition: 'new', conditionLabel: { ru: 'Новое', uz: 'Yangi' },
+    location: {
+      countryCode: 'UZ', regionId: 'region-tashkent', regionNameRu: 'Ташкент',
+      regionNameUz: 'Toshkent', districtId: 'district-yunusabad',
+      districtNameRu: 'Юнусабадский район', districtNameUz: 'Yunusobod tumani',
+      localityText: null,
+    },
+    seller: { displayName: 'Samarqand Market', type: 'store', verificationState: 'store_verified' },
+    contactMode: 'telegram_relay', phoneDisclosure: 'after_buyer_action', commerceMode: 'store_order',
+    store: { id: 'store-synthetic', name: 'Samarqand Market' }, updatedAt: now,
+  },
+];
+const classifiedFavoriteIds = new Set<string>(['classified-bike']);
+const classifiedInquiries: ClassifiedInquiry[] = [];
 const categories: Category[] = [
   { id: 'cat-audio', name: 'Аудио', productCount: 2 },
   { id: 'cat-home', name: 'Для дома', productCount: 2 },
@@ -160,6 +242,14 @@ function bindingScenario(): boolean {
   }
 }
 
+function classifiedsScenario(): boolean {
+  try {
+    return new URLSearchParams(window.location.search).get('classifieds') === '1';
+  } catch {
+    return false;
+  }
+}
+
 /** The one code the fixture accepts, so the whole flow can be walked through. */
 const SYNTHETIC_CODE = 'b'.repeat(64);
 let syntheticBound = false;
@@ -171,6 +261,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
   const method = options.method ?? 'GET';
   const body = bodyOf(options);
   const binding = bindingScenario();
+  const classifieds = classifiedsScenario();
   let result: unknown;
 
   if (binding && path === '/identity/seller-binding/inspect') {
@@ -193,15 +284,18 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       session: {
         token: 'synthetic-memory-token', expiresAt: new Date(Date.now() + 600_000).toISOString(),
         locale: 'ru', user: { firstName: 'Aziza', lastName: null, username: 'synthetic' },
-        capabilities: { buyer: true, sellerRead: true, sellerCommands: true },
-        storefront: { id: 'store-synthetic', locale: 'ru' },
+        capabilities: {
+          buyer: true, sellerRead: !classifieds, sellerCommands: !classifieds,
+          classifiedsDiscovery: classifieds, privateListing: false,
+        },
+        storefront: classifieds ? null : { id: 'store-synthetic', locale: 'ru' },
       },
       bootstrap: {
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
-        navigation: ['home', 'search', 'publish', 'cabinet'],
-        sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: !binding || syntheticBound, sellerCommands: !binding || syntheticBound, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding },
-        storefront: { id: 'store-synthetic', state: 'active' },
+        navigation: classifieds ? ['home', 'search', 'saved', 'activity'] : ['home', 'search', 'publish', 'cabinet'],
+        sellerNavigation: classifieds ? [] : ['dashboard', 'orders', 'questions', 'products', 'inventory'],
+        flags: { buyer: true, sellerRead: classifieds ? false : !binding || syntheticBound, sellerCommands: classifieds ? false : !binding || syntheticBound, voice: true, mediaUpload: !classifieds, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding, classifiedsDiscovery: classifieds, privateListing: false },
+        storefront: classifieds ? null : { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
       home: { categories, products, updatedAt: now },
@@ -210,20 +304,85 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
     result = {
       token: 'synthetic-memory-token', expiresAt: new Date(Date.now() + 600_000).toISOString(),
       locale: 'ru', user: { firstName: 'Aziza', lastName: null, username: 'synthetic' },
-      capabilities: { buyer: true, sellerRead: true, sellerCommands: true },
-      storefront: { id: 'store-synthetic', locale: 'ru' },
+      capabilities: { buyer: true, sellerRead: !classifieds, sellerCommands: !classifieds, classifiedsDiscovery: classifieds, privateListing: false },
+      storefront: classifieds ? null : { id: 'store-synthetic', locale: 'ru' },
     } satisfies SessionExchange;
   } else if (path === '/session/locale') {
     result = { token: 'synthetic-memory-token', locale: body.locale, expiresAt: new Date(Date.now() + 600_000).toISOString() };
   } else if (path === '/bootstrap') {
     result = {
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
-      navigation: ['home', 'search', 'publish', 'cabinet'],
-      sellerNavigation: ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: !binding || syntheticBound, sellerCommands: !binding || syntheticBound, voice: true, mediaUpload: true, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding },
-      storefront: { id: 'store-synthetic', state: 'active' },
+      navigation: classifieds ? ['home', 'search', 'saved', 'activity'] : ['home', 'search', 'publish', 'cabinet'],
+      sellerNavigation: classifieds ? [] : ['dashboard', 'orders', 'questions', 'products', 'inventory'],
+      flags: { buyer: true, sellerRead: classifieds ? false : !binding || syntheticBound, sellerCommands: classifieds ? false : !binding || syntheticBound, voice: true, mediaUpload: !classifieds, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding, classifiedsDiscovery: classifieds, privateListing: false },
+      storefront: classifieds ? null : { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };
+  } else if (path === '/classifieds/categories') {
+    result = { items: classifiedCategories, nextCursor: null };
+  } else if (path === '/classifieds/locations') {
+    result = { items: classifiedLocations, nextCursor: null };
+  } else if (path === '/classifieds/voice/search' && method === 'POST') {
+    result = {
+      transcript: 'городской велосипед до трёх миллионов',
+      language: 'ru',
+      interpretation: {
+        productQuery: 'городской велосипед', maxPriceMinor: 3_000_000,
+        ambiguousPriceMinor: null, availability: null, category: null,
+        constraints: [
+          { kind: 'query', value: 'городской велосипед' },
+          { kind: 'budget', value: '3000000' },
+        ],
+        clarification: null, confidence: 'high',
+      },
+      items: classifiedListings.filter((item) => item.id === 'classified-bike'),
+      nextCursor: null,
+      queryApplied: 'городской велосипед',
+    };
+  } else if (path === '/classifieds/listings' && method === 'GET') {
+    const query = (url.searchParams.get('q') ?? '').trim().toLocaleLowerCase('ru');
+    const categoryId = url.searchParams.get('categoryId');
+    const districtId = url.searchParams.get('districtId');
+    const condition = url.searchParams.get('condition');
+    const sellerType = url.searchParams.get('sellerType');
+    const minPrice = Number(url.searchParams.get('minPriceMinor') ?? '') || 0;
+    const maxPrice = Number(url.searchParams.get('maxPriceMinor') ?? '') || Number.MAX_SAFE_INTEGER;
+    result = {
+      items: classifiedListings.filter((item) =>
+        (!query || `${item.name} ${item.description ?? ''}`.toLocaleLowerCase('ru').includes(query))
+        && (!categoryId || item.category.id === categoryId)
+        && (!districtId || item.location.districtId === districtId)
+        && (!condition || item.condition === condition)
+        && (!sellerType || item.seller.type === sellerType)
+        && item.priceMinor >= minPrice
+        && item.priceMinor <= maxPrice),
+      nextCursor: null,
+    };
+  } else if (path === '/classifieds/favorites') {
+    result = { items: classifiedListings.filter((item) => classifiedFavoriteIds.has(item.id)), nextCursor: null };
+  } else if (path === '/classifieds/inquiries') {
+    result = { items: classifiedInquiries, nextCursor: null };
+  } else if (/^\/classifieds\/listings\/[^/]+\/favorite$/.test(path) && method === 'POST') {
+    classifiedFavoriteIds.add(path.split('/')[3]);
+    result = { favorite: true };
+  } else if (/^\/classifieds\/listings\/[^/]+\/favorite$/.test(path) && method === 'DELETE') {
+    classifiedFavoriteIds.delete(path.split('/')[3]);
+    result = { favorite: false };
+  } else if (/^\/classifieds\/listings\/[^/]+\/inquiries$/.test(path) && method === 'POST') {
+    const listing = classifiedListings.find((item) => item.id === path.split('/')[3]);
+    if (!listing) throw new MarketApiError('resource_not_found', 404, null);
+    const inquiry: ClassifiedInquiry = {
+      id: `classified-inquiry-${classifiedInquiries.length + 1}`,
+      listing: { id: listing.id, name: listing.name }, sellerDisplayName: listing.seller.displayName,
+      contactMode: listing.contactMode, message: String(body.message ?? ''), reply: null,
+      status: 'open', version: 1, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+    };
+    classifiedInquiries.unshift(inquiry);
+    result = { inquiry };
+  } else if (/^\/classifieds\/listings\/[^/]+\/reports$/.test(path) && method === 'POST') {
+    result = { report: { accepted: true } };
+  } else if (/^\/classifieds\/listings\/[^/]+$/.test(path) && method === 'GET') {
+    result = classifiedListings.find((item) => item.id === path.split('/')[3]);
   } else if (path === '/catalog/home') {
     result = { categories, products, updatedAt: now };
   } else if (path === '/catalog/categories') {

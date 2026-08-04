@@ -57,6 +57,7 @@ export interface ClassifiedDiscoveryFilter {
   districtId?: string;
   condition?: ClassifiedCondition;
   sellerType?: ClassifiedSellerType;
+  availability?: ClassifiedListing['availability'];
   storeId?: string;
   minPriceMinor?: number;
   maxPriceMinor?: number;
@@ -71,6 +72,7 @@ export interface NormalizedClassifiedDiscoveryFilter {
   districtId: string | null;
   condition: ClassifiedCondition | null;
   sellerType: ClassifiedSellerType | null;
+  availability: ClassifiedListing['availability'] | null;
   storeId: string | null;
   minPriceMinor: number | null;
   maxPriceMinor: number | null;
@@ -166,4 +168,26 @@ export interface ListingReportSubmission {
   listingId: string;
   status: 'open';
   moderationAction: 'none';
+}
+
+export interface ClassifiedFavoritePage {
+  items: ClassifiedListing[];
+  nextCursor: null;
+}
+
+export interface CreateListingInquiryInput {
+  message: string;
+}
+
+export interface ClassifiedBuyerInquiry {
+  id: string;
+  listing: { id: string; name: string };
+  sellerDisplayName: string;
+  contactMode: ClassifiedContactMode;
+  message: string;
+  reply: string | null;
+  status: 'open' | 'answered' | 'closed';
+  version: number;
+  createdAt: string;
+  updatedAt: string;
 }

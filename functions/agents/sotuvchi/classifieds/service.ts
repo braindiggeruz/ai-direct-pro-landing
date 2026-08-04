@@ -11,12 +11,13 @@ import {
   normalizedProductName,
   requireCatalogId,
 } from '../catalog';
-import { ensureClassifiedsSchema } from './schema';
+import { ensureClassifiedsJourneySchema, ensureClassifiedsSchema } from './schema';
 import { createClassifiedsStore, type ClassifiedsStore } from './store';
 import {
   CLASSIFIED_CONDITIONS,
   type ClassifiedDiscoveryFilter,
   type ClassifiedDiscoveryPage,
+  type ClassifiedBuyerInquiry,
   type ClassifiedListing,
   type ListingReportContext,
   type ListingReportReason,
@@ -27,9 +28,13 @@ import {
   type PrivateSellerProfile,
   type SubmitPrivateListingInput,
   type SubmitListingReportInput,
+  type CreateListingInquiryInput,
 } from './types';
 
 const CONDITION_SET = new Set<string>(CLASSIFIED_CONDITIONS);
+const AVAILABILITY = new Set<ClassifiedListing['availability']>([
+  'available', 'preorder', 'unavailable',
+]);
 const SELLER_TYPES = new Set(['private', 'store']);
 const CONTACT_MODES = new Set(['in_app', 'telegram_relay', 'phone_optional']);
 const REPORT_REASONS = new Set<ListingReportReason>([
@@ -54,14 +59,44 @@ interface SellerProfileRow {
   version: number;
 }
 
+interface BuyerInquiryRow {
+  id: string;
+  product_id: string;
+  listing_name: string;
+  seller_display_name: string;
+  contact_mode: ClassifiedBuyerInquiry['contactMode'];
+  message: string;
+  reply_text: string | null;
+  status: ClassifiedBuyerInquiry['status'];
+  version: number;
+  created_at: string;
+  updated_at: string;
+}
+
+function buyerInquiry(row: BuyerInquiryRow): ClassifiedBuyerInquiry {
+  return {
+    id: row.id,
+    listing: { id: row.product_id, name: row.listing_name },
+    sellerDisplayName: row.seller_display_name,
+    contactMode: row.contact_mode,
+    message: row.message,
+    reply: row.reply_text,
+    status: row.status,
+    version: Number(row.version),
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
 export interface SotuvchiClassifiedsServiceOptions {
   sellerProfileIdGenerator?: () => string;
   productIdGenerator?: () => string;
   auditEventIdGenerator?: () => string;
   reportIdGenerator?: () => string;
+  inquiryIdGenerator?: () => string;
 }
 
-function randomId(prefix: 'sp' | 'l' | 'ma' | 'r'): string {
+function randomId(prefix: 'sp' | 'l' | 'ma' | 'r' | 'i'): string {
   return `${prefix}-${crypto.randomUUID()}`;
 }
 
@@ -149,6 +184,19 @@ function reportNote(value: unknown): string | null {
   return normalized;
 }
 
+function inquiryMessage(value: unknown): string {
+  if (typeof value !== 'string') throw new CatalogValidationError('invalid_description');
+  const normalized = value.trim().replace(/\s+/g, ' ');
+  if (
+    normalized.length < 2
+    || normalized.length > 500
+    || [...normalized].some((character) => character.charCodeAt(0) < 32)
+  ) {
+    throw new CatalogValidationError('invalid_description');
+  }
+  return normalized;
+}
+
 function stableStringify(value: unknown): string {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
@@ -210,10 +258,14 @@ export function normalizeClassifiedDiscoveryFilter(
 ): NormalizedClassifiedDiscoveryFilter {
   const condition = input.condition ?? null;
   const sellerType = input.sellerType ?? null;
+  const availability = input.availability ?? null;
   if (condition !== null && !CONDITION_SET.has(condition)) {
     throw new CatalogValidationError('invalid_context');
   }
   if (sellerType !== null && !SELLER_TYPES.has(sellerType)) {
+    throw new CatalogValidationError('invalid_context');
+  }
+  if (availability !== null && !AVAILABILITY.has(availability)) {
     throw new CatalogValidationError('invalid_context');
   }
   const minPriceMinor = price(input.minPriceMinor);
@@ -232,6 +284,7 @@ export function normalizeClassifiedDiscoveryFilter(
     districtId: optionalId(input.districtId),
     condition,
     sellerType,
+    availability,
     storeId: optionalId(input.storeId),
     minPriceMinor,
     maxPriceMinor,
@@ -247,6 +300,7 @@ export class SotuvchiClassifiedsService {
   private readonly productIdGenerator: () => string;
   private readonly auditEventIdGenerator: () => string;
   private readonly reportIdGenerator: () => string;
+  private readonly inquiryIdGenerator: () => string;
 
   constructor(
     private readonly db: D1Database,
@@ -257,10 +311,15 @@ export class SotuvchiClassifiedsService {
     this.productIdGenerator = options.productIdGenerator ?? (() => randomId('l'));
     this.auditEventIdGenerator = options.auditEventIdGenerator ?? (() => randomId('ma'));
     this.reportIdGenerator = options.reportIdGenerator ?? (() => randomId('r'));
+    this.inquiryIdGenerator = options.inquiryIdGenerator ?? (() => randomId('i'));
   }
 
   private async ready(): Promise<void> {
     await ensureClassifiedsSchema(this.db);
+  }
+
+  private async journeyReady(): Promise<void> {
+    await ensureClassifiedsJourneySchema(this.db);
   }
 
   async discover(input: ClassifiedDiscoveryFilter): Promise<ClassifiedDiscoveryPage> {
@@ -588,6 +647,154 @@ export class SotuvchiClassifiedsService {
       status: 'open',
       moderationAction: 'none',
     };
+  }
+
+  async listFavorites(rawIdentityId: unknown): Promise<ClassifiedDiscoveryPage> {
+    const identityId = requireCatalogId(rawIdentityId);
+    await this.journeyReady();
+    return this.store.favorites(identityId);
+  }
+
+  async saveFavorite(
+    rawIdentityId: unknown,
+    rawListingId: unknown,
+  ): Promise<{ listingId: string; saved: true }> {
+    const identityId = requireCatalogId(rawIdentityId);
+    const listingId = requireCatalogId(rawListingId);
+    await this.journeyReady();
+    if (!await this.store.get(listingId)) throw new CatalogNotFoundError('product');
+    const identity = await this.db.prepare(
+      'SELECT COUNT(*) AS n FROM identities WHERE id = ?',
+    ).bind(identityId).first<{ n: number }>();
+    if (Number(identity?.n ?? 0) !== 1) throw new CatalogAuthorizationError();
+    await this.db.prepare(`
+      INSERT OR IGNORE INTO market_listing_favorites(identity_id, product_id, created_at)
+      VALUES (?, ?, ?)
+    `).bind(identityId, listingId, new Date().toISOString()).run();
+    return { listingId, saved: true };
+  }
+
+  async removeFavorite(
+    rawIdentityId: unknown,
+    rawListingId: unknown,
+  ): Promise<{ listingId: string; saved: false }> {
+    const identityId = requireCatalogId(rawIdentityId);
+    const listingId = requireCatalogId(rawListingId);
+    await this.journeyReady();
+    await this.db.prepare(`
+      DELETE FROM market_listing_favorites WHERE identity_id = ? AND product_id = ?
+    `).bind(identityId, listingId).run();
+    return { listingId, saved: false };
+  }
+
+  async createInquiry(
+    rawContext: PrivateSellerContext,
+    rawListingId: unknown,
+    input: CreateListingInquiryInput,
+  ): Promise<ClassifiedBuyerInquiry> {
+    const context = sellerContext(rawContext);
+    const listingId = requireCatalogId(rawListingId);
+    const message = inquiryMessage(input.message);
+    const inquiryFingerprint = await fingerprint({ listingId, message });
+    await this.journeyReady();
+    const replay = await this.db.prepare(`
+      SELECT id, product_id, seller_profile_id, message, status, reply_text,
+        fingerprint, version, created_at, updated_at
+      FROM market_listing_inquiries
+      WHERE buyer_identity_id = ? AND create_idempotency_key = ?
+    `).bind(context.identityId, context.idempotencyKey).first<{
+      id: string;
+      product_id: string;
+      seller_profile_id: string;
+      message: string;
+      status: ClassifiedBuyerInquiry['status'];
+      reply_text: string | null;
+      fingerprint: string;
+      version: number;
+      created_at: string;
+      updated_at: string;
+    }>();
+    if (replay) {
+      if (replay.product_id !== listingId || replay.fingerprint !== inquiryFingerprint) {
+        throw new CatalogIdempotencyConflictError();
+      }
+      return this.buyerInquiry(context.identityId, replay.id);
+    }
+    if (!await this.store.get(listingId)) throw new CatalogNotFoundError('product');
+    const owner = await this.db.prepare(`
+      SELECT seller.id AS seller_profile_id, seller.identity_id
+      FROM listing_ownerships AS ownership
+      JOIN seller_profiles AS seller ON seller.id = ownership.seller_profile_id
+      WHERE ownership.product_id = ? AND ownership.status = 'active'
+        AND seller.status = 'active' AND seller.moderation_state = 'clear'
+      LIMIT 1
+    `).bind(listingId).first<{ seller_profile_id: string; identity_id: string }>();
+    if (!owner) throw new CatalogNotFoundError('product');
+    if (owner.identity_id === context.identityId) throw new CatalogAuthorizationError();
+    const recent = await this.db.prepare(`
+      SELECT COUNT(*) AS n FROM market_listing_inquiries
+      WHERE buyer_identity_id = ?
+        AND created_at >= strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-24 hours')
+    `).bind(context.identityId).first<{ n: number }>();
+    if (Number(recent?.n ?? 0) >= 10) throw new ClassifiedsRateLimitError();
+    const id = requireCatalogId(this.inquiryIdGenerator());
+    const now = new Date().toISOString();
+    try {
+      await this.db.prepare(`INSERT INTO market_listing_inquiries(
+        id, product_id, seller_profile_id, buyer_identity_id, message, status,
+        reply_text, fingerprint, create_idempotency_key, reply_idempotency_key,
+        version, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, 'open', NULL, ?, ?, NULL, 1, ?, ?)`)
+        .bind(
+          id, listingId, owner.seller_profile_id, context.identityId, message,
+          inquiryFingerprint, context.idempotencyKey, now, now,
+        ).run();
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('classifieds_inquiry_rate_limited')) {
+        throw new ClassifiedsRateLimitError();
+      }
+      throw error;
+    }
+    return this.buyerInquiry(context.identityId, id);
+  }
+
+  async listBuyerInquiries(rawIdentityId: unknown): Promise<ClassifiedBuyerInquiry[]> {
+    const identityId = requireCatalogId(rawIdentityId);
+    await this.journeyReady();
+    const result = await this.db.prepare(`
+      SELECT inquiry.id, inquiry.product_id, product.name AS listing_name,
+        seller.public_display_name AS seller_display_name, channel.contact_mode,
+        inquiry.message, inquiry.reply_text, inquiry.status, inquiry.version,
+        inquiry.created_at, inquiry.updated_at
+      FROM market_listing_inquiries AS inquiry
+      JOIN sotuvchi_products AS product ON product.id = inquiry.product_id
+      JOIN seller_profiles AS seller ON seller.id = inquiry.seller_profile_id
+      JOIN market_listing_channels AS channel ON channel.product_id = inquiry.product_id
+      WHERE inquiry.buyer_identity_id = ?
+      ORDER BY inquiry.updated_at DESC, inquiry.id
+      LIMIT 50
+    `).bind(identityId).all<BuyerInquiryRow>();
+    return (result.results ?? []).map(buyerInquiry);
+  }
+
+  private async buyerInquiry(
+    identityId: string,
+    inquiryId: string,
+  ): Promise<ClassifiedBuyerInquiry> {
+    const row = await this.db.prepare(`
+      SELECT inquiry.id, inquiry.product_id, product.name AS listing_name,
+        seller.public_display_name AS seller_display_name, channel.contact_mode,
+        inquiry.message, inquiry.reply_text, inquiry.status, inquiry.version,
+        inquiry.created_at, inquiry.updated_at
+      FROM market_listing_inquiries AS inquiry
+      JOIN sotuvchi_products AS product ON product.id = inquiry.product_id
+      JOIN seller_profiles AS seller ON seller.id = inquiry.seller_profile_id
+      JOIN market_listing_channels AS channel ON channel.product_id = inquiry.product_id
+      WHERE inquiry.id = ? AND inquiry.buyer_identity_id = ?
+      LIMIT 1
+    `).bind(inquiryId, identityId).first<BuyerInquiryRow>();
+    if (!row) throw new CatalogNotFoundError('inquiry');
+    return buyerInquiry(row);
   }
 }
 

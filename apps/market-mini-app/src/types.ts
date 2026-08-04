@@ -56,6 +56,10 @@ export interface Capabilities {
    * every call, so a client that sets this by hand finds the same 404.
    */
   ownerTelegramBinding?: boolean;
+  /** Classifieds-first global discovery; remains server flag-closed. */
+  classifiedsDiscovery?: boolean;
+  /** Private seller profile/listing commands; separate from buyer reads. */
+  privateListing?: boolean;
 }
 
 export type VoiceConstraintKind =
@@ -96,7 +100,7 @@ export interface SessionExchange {
   locale: Locale;
   user: { firstName: string; lastName: string | null; username: string | null };
   capabilities: Capabilities;
-  storefront: { id: string; locale: Locale };
+  storefront: { id: string; locale: Locale } | null;
 }
 
 export interface Bootstrap {
@@ -106,7 +110,7 @@ export interface Bootstrap {
   navigation: string[];
   sellerNavigation: string[];
   flags: Capabilities;
-  storefront: { id: string; state: string };
+  storefront: { id: string; state: string } | null;
   counters: { orders: number; activeCheckout: boolean; activeHandoff: boolean };
 }
 
@@ -120,6 +124,90 @@ export interface MarketLaunch {
   session: SessionExchange;
   bootstrap: Bootstrap;
   home: CatalogHome;
+}
+
+export interface ClassifiedVoiceSearchResult {
+  transcript: string;
+  language: 'ru' | 'uz' | 'other';
+  interpretation: VoiceInterpretation;
+  items: ClassifiedListing[];
+  nextCursor: string | null;
+  queryApplied: string | null;
+}
+
+export type ClassifiedCondition =
+  | 'new'
+  | 'like_new'
+  | 'good'
+  | 'fair'
+  | 'for_parts'
+  | 'not_applicable';
+
+export interface ClassifiedListing {
+  id: string;
+  listingScope: 'private' | 'store';
+  name: string;
+  description: string | null;
+  priceMinor: number;
+  currency: 'UZS';
+  availability: 'available' | 'preorder' | 'unavailable';
+  mediaHandles: string[];
+  category: { id: string; slug: string; nameRu: string; nameUz: string };
+  condition: ClassifiedCondition;
+  conditionLabel: { ru: string; uz: string };
+  location: {
+    countryCode: 'UZ';
+    regionId: string;
+    regionNameRu: string;
+    regionNameUz: string;
+    districtId: string;
+    districtNameRu: string;
+    districtNameUz: string;
+    localityText: string | null;
+  };
+  seller: {
+    displayName: string;
+    type: 'private' | 'store';
+    verificationState: 'unverified' | 'identity_verified' | 'store_verified';
+  };
+  contactMode: 'in_app' | 'telegram_relay' | 'phone_optional';
+  phoneDisclosure: 'not_available' | 'after_buyer_action';
+  commerceMode: 'inquiry' | 'store_order';
+  store: { id: string; name: string } | null;
+  updatedAt: string;
+}
+
+export interface ClassifiedCategory {
+  id: string;
+  slug: string;
+  nameRu: string;
+  nameUz: string;
+  highRisk: boolean;
+  allowedConditions: ClassifiedCondition[];
+  visibleListingCount: number;
+}
+
+export interface ClassifiedLocation {
+  countryCode: 'UZ';
+  regionId: string;
+  regionNameRu: string;
+  regionNameUz: string;
+  districtId: string;
+  districtNameRu: string;
+  districtNameUz: string;
+}
+
+export interface ClassifiedInquiry {
+  id: string;
+  listing: { id: string; name: string };
+  sellerDisplayName: string;
+  contactMode: ClassifiedListing['contactMode'];
+  message: string;
+  reply: string | null;
+  status: 'open' | 'answered' | 'closed';
+  version: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Category {

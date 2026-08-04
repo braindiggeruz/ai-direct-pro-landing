@@ -44,14 +44,14 @@ test('the back spine is a declared switch that fails closed', async () => {
   assert.match(types, /navBack\?: boolean;/);
 });
 
-test('both bootstrap payloads report the spine and nothing else changes', async () => {
+test('all bootstrap payloads report the spine and nothing else changes', async () => {
   const router = await source(ROUTER);
   const reported = [...router.matchAll(
     /navBack: marketFlag\(context\.env\.MARKET_NAV_BACK_ENABLED\)/g,
   )];
-  assert.equal(reported.length, 2, 'both bootstrap payloads must report the flag');
+  assert.equal(reported.length, 2, 'both store-scoped bootstrap payloads must report the flag');
   const uses = [...router.matchAll(/MARKET_NAV_BACK_ENABLED/g)];
-  assert.equal(uses.length, 2, 'the flag is read only by the two bootstrap payloads');
+  assert.equal(uses.length, 3, 'the flag is read only by the three bootstrap payloads');
   // Never anywhere near a read or a command.
   const seller = /if \(path\.startsWith\('\/seller\/'\)\) \{[\s\S]*?\r?\n {2}\}/.exec(router)?.[0];
   assert.ok(seller, 'seller read branch not found');
@@ -94,6 +94,16 @@ test('a back gesture closes the newest open thing, one level at a time', async (
   assert.match(nav, /if \(!open && sentinel\) \{/);
   const pushes = [...nav.matchAll(/window\.history\.pushState/g)];
   assert.equal(pushes.length, 1, 'the sentinel is pushed in exactly one place');
+});
+
+test('replacing one back stop does not consume the browser sentinel between React effects', async () => {
+  const nav = await source(NAV);
+  assert.match(nav, /function scheduleComponentSync\(\): void \{/);
+  assert.match(nav, /queueMicrotask\(\(\) => \{/);
+  assert.match(
+    nav,
+    /const at = stack\.lastIndexOf\(stop\);[\s\S]*?stack\.splice\(at, 1\);\s*scheduleComponentSync\(\);/,
+  );
 });
 
 test('the app itself is only closed at the root', async () => {
@@ -219,14 +229,14 @@ test('QuickPost is a declared switch that ships off and fails closed', async () 
   assert.match(types, /quickPostAi\?: boolean;/);
 });
 
-test('both bootstrap payloads report the flag and no command branch reads it', async () => {
+test('all bootstrap payloads report the flag and no command branch reads it', async () => {
   const router = await source(ROUTER);
   const reported = [...router.matchAll(
     /quickPost: marketFlag\(context\.env\.MARKET_QUICKPOST_ENABLED\)/g,
   )];
-  assert.equal(reported.length, 2, 'both bootstrap payloads must report the flag');
+  assert.equal(reported.length, 2, 'both store-scoped bootstrap payloads must report the flag');
   const uses = [...router.matchAll(/MARKET_QUICKPOST_ENABLED/g)];
-  assert.equal(uses.length, 2, 'the flag is read only by the two bootstrap payloads');
+  assert.equal(uses.length, 3, 'the flag is read only by the three bootstrap payloads');
   // Never anywhere near a read or a command: it selects a screen, and a screen
   // is not a permission.
   const seller = /if \(path\.startsWith\('\/seller\/'\)\) \{[\s\S]*?\r?\n {2}\}/.exec(router)?.[0];

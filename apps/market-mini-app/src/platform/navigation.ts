@@ -54,6 +54,7 @@ let ignoreNextPop = false;
 let sentinel = false;
 let started = false;
 let enabled = false;
+let componentSyncScheduled = false;
 
 function telegramBack(): TelegramBackButton | undefined {
   const host = (window as unknown as { Telegram?: { WebApp?: BackButtonHost } })
@@ -98,6 +99,24 @@ function sync(): void {
       ignoreNextPop = false;
     }
   }
+}
+
+/**
+ * React cleans up the closing screen's effect before it mounts the next
+ * screen's effect. During a detail → inquiry transition that creates a
+ * momentary empty stack even though navigation never actually became empty.
+ * Coalescing cleanup to the microtask boundary lets the replacement stop join
+ * first, so we do not consume the browser history sentinel and race the page
+ * back to the document that opened the Mini App.
+ */
+function scheduleComponentSync(): void {
+  if (componentSyncScheduled) return;
+  componentSyncScheduled = true;
+  queueMicrotask(() => {
+    componentSyncScheduled = false;
+    sync();
+    notify();
+  });
 }
 
 /** Closes the newest open thing. Returns false when it refused. */
@@ -166,8 +185,7 @@ export function pushBackStop(stop: BackStop): () => void {
     const at = stack.lastIndexOf(stop);
     if (at < 0) return;
     stack.splice(at, 1);
-    sync();
-    notify();
+    scheduleComponentSync();
   };
 }
 

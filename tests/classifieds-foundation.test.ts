@@ -392,6 +392,28 @@ test('classifieds HTTP boundary is bearer-only, flag-closed and store-independen
     JSON.stringify(payload),
     /identity_http_visible|telegramId|external_id|reporter|phone_number/i,
   );
+
+  const bootstrap = await handleMarketRequest({
+    request: marketRequest('/bootstrap', token),
+    env: marketEnv(fixture, {
+      MARKET_MINI_APP_BUYER_ENABLED: 'true',
+      MARKET_CLASSIFIEDS_DISCOVERY_ENABLED: 'true',
+    }),
+  });
+  assert.equal(bootstrap.status, 200);
+  const bootstrapPayload = await bootstrap.json() as {
+    storefront: unknown;
+    flags: Record<string, unknown>;
+    counters: Record<string, unknown>;
+  };
+  assert.equal(bootstrapPayload.storefront, null);
+  assert.equal(bootstrapPayload.flags.classifiedsDiscovery, true);
+  assert.equal(bootstrapPayload.flags.sellerRead, false);
+  assert.deepEqual(bootstrapPayload.counters, {
+    orders: 0,
+    activeCheckout: false,
+    activeHandoff: false,
+  });
 });
 
 test('private classifieds HTTP boundary rejects client-supplied identity authority', async () => {
@@ -443,4 +465,136 @@ test('private classifieds HTTP boundary rejects client-supplied identity authori
     'SELECT COUNT(*) FROM seller_profiles WHERE identity_id = ?',
     OWNER_IDENTITY,
   ), 1);
+});
+
+test('buyer favorites and inquiries are identity-scoped, persistent and idempotent', async () => {
+  const fixture = freshAdminDb();
+  seedApprovedListing(fixture, {
+    id: 'listing_buyer_journey',
+    sellerId: 'seller_buyer_journey',
+    identityId: 'identity_journey_seller',
+    scope: 'private',
+  });
+  fixture.exec(`
+    INSERT INTO identities(id, provider, external_id, created_at, updated_at)
+    VALUES ('identity_journey_buyer', 'api', 'journey-buyer', '${NOW}', '${NOW}')
+  `);
+  const service = createSotuvchiClassifiedsService(fixture.asD1(), {
+    inquiryIdGenerator: () => 'inquiry_buyer_journey',
+  });
+
+  assert.deepEqual(
+    await service.saveFavorite('identity_journey_buyer', 'listing_buyer_journey'),
+    { listingId: 'listing_buyer_journey', saved: true },
+  );
+  await service.saveFavorite('identity_journey_buyer', 'listing_buyer_journey');
+  assert.deepEqual(
+    (await service.listFavorites('identity_journey_buyer')).items.map((item) => item.id),
+    ['listing_buyer_journey'],
+  );
+  assert.equal((await service.listFavorites('identity_journey_seller')).items.length, 0);
+
+  const context = {
+    identityId: 'identity_journey_buyer',
+    requestId: 'request-inquiry-journey',
+    idempotencyKey: 'inquiry-create-journey',
+  };
+  const first = await service.createInquiry(context, 'listing_buyer_journey', {
+    message: 'Можно забрать сегодня?',
+  });
+  assert.deepEqual(
+    await service.createInquiry(context, 'listing_buyer_journey', {
+      message: 'Можно забрать сегодня?',
+    }),
+    first,
+  );
+  assert.equal(first.status, 'open');
+  assert.equal(first.sellerDisplayName, 'Synthetic Private Seller');
+  assert.equal(fixture.value('SELECT COUNT(*) FROM market_listing_inquiries'), 1);
+  assert.deepEqual(
+    (await service.listBuyerInquiries('identity_journey_buyer')).map((item) => item.id),
+    ['inquiry_buyer_journey'],
+  );
+  assert.equal((await service.listBuyerInquiries('identity_journey_seller')).length, 0);
+  await assert.rejects(
+    service.createInquiry({
+      ...context,
+      identityId: 'identity_journey_seller',
+      idempotencyKey: 'inquiry-self-contact',
+    }, 'listing_buyer_journey', { message: 'Self inquiry' }),
+    /authorization/i,
+  );
+
+  assert.deepEqual(
+    await service.removeFavorite('identity_journey_buyer', 'listing_buyer_journey'),
+    { listingId: 'listing_buyer_journey', saved: false },
+  );
+  assert.equal((await service.listFavorites('identity_journey_buyer')).items.length, 0);
+});
+
+test('buyer favorite and inquiry HTTP commands derive identity from the bearer', async () => {
+  const fixture = freshAdminDb();
+  seedApprovedListing(fixture, {
+    id: 'listing_http_journey',
+    sellerId: 'seller_http_journey',
+    identityId: 'identity_http_seller',
+    scope: 'private',
+  });
+  fixture.exec(`
+    INSERT INTO identities(id, provider, external_id, created_at, updated_at)
+    VALUES ('identity_http_buyer', 'api', 'http-buyer', '${NOW}', '${NOW}')
+  `);
+  const token = await marketToken('identity_http_buyer');
+  const env = marketEnv(fixture, { MARKET_CLASSIFIEDS_DISCOVERY_ENABLED: 'true' });
+
+  const saved = await handleMarketRequest({
+    request: marketRequest('/classifieds/listings/listing_http_journey/favorite', token, {
+      method: 'POST',
+      headers: { 'Idempotency-Key': 'http-favorite-save' },
+    }),
+    env,
+  });
+  assert.equal(saved.status, 200);
+  assert.equal(fixture.value(
+    `SELECT COUNT(*) FROM market_listing_favorites
+     WHERE identity_id = 'identity_http_buyer'
+       AND product_id = 'listing_http_journey'`,
+  ), 1);
+
+  const created = await handleMarketRequest({
+    request: marketRequest('/classifieds/listings/listing_http_journey/inquiries', token, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Idempotency-Key': 'http-inquiry-create',
+      },
+      body: JSON.stringify({ message: 'Можно посмотреть вечером?' }),
+    }),
+    env,
+  });
+  assert.equal(created.status, 201);
+  const inquiryPayload = await created.json() as { inquiry: Record<string, unknown> };
+  assert.equal(inquiryPayload.inquiry.message, 'Можно посмотреть вечером?');
+  assert.doesNotMatch(JSON.stringify(inquiryPayload), /identity_http_(?:buyer|seller)|telegram/i);
+
+  const activity = await handleMarketRequest({
+    request: marketRequest('/classifieds/inquiries', token),
+    env,
+  });
+  assert.equal(activity.status, 200);
+  const activityPayload = await activity.json() as { items: Array<Record<string, unknown>> };
+  assert.equal(activityPayload.items.length, 1);
+  assert.equal(activityPayload.items[0].status, 'open');
+
+  const removed = await handleMarketRequest({
+    request: marketRequest('/classifieds/listings/listing_http_journey/favorite', token, {
+      method: 'DELETE',
+    }),
+    env,
+  });
+  assert.equal(removed.status, 200);
+  assert.equal(fixture.value(
+    `SELECT COUNT(*) FROM market_listing_favorites
+     WHERE identity_id = 'identity_http_buyer'`,
+  ), 0);
 });

@@ -1,0 +1,60 @@
+{
+  "verdict": "FAIL",
+  "synthetic": true,
+  "viewport": {
+    "width": 320,
+    "height": 720
+  },
+  "journeys": {
+    "hardwareBackReturnedHome": true,
+    "inquiryJourney": true,
+    "favoriteJourney": true
+  },
+  "geometry": {
+    "width320": {
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "horizontalOverflow": false,
+      "undersized": []
+    }
+  },
+  "accessibility": {
+    "homeRu": {
+      "violations": [],
+      "incomplete": [],
+      "passes": 24
+    },
+    "detail": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "article:nth-child(1) > .product-card__body > .product-card__actions > .button--secondary.button"
+            ],
+            [
+              "article:nth-child(2) > .product-card__body > .product-card__actions > .button--secondary.button"
+            ],
+            [
+              "article:nth-child(3) > .product-card__body > .product-card__actions > .button--secondary.button"
+            ],
+            [
+              ".stack > p"
+            ],
+            [
+              ".notice > span"
+            ]
+          ]
+        }
+      ],
+      "passes": 27
+    },
+    "savedUz": {
+      "violations": [],
+      "incomplete": [],
+      "passes": 22
+    }
+  }
+}

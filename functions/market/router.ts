@@ -552,6 +552,8 @@ async function bootstrapPayload(context: RequestContext) {
       navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
       quickPost: marketFlag(context.env.MARKET_QUICKPOST_ENABLED),
       quickPostAi: marketFlag(context.env.MARKET_QUICKPOST_AI_ENABLED),
+      classifiedsDiscovery: marketFlag(context.env.MARKET_CLASSIFIEDS_DISCOVERY_ENABLED),
+      privateListing: marketFlag(context.env.MARKET_PRIVATE_LISTING_ENABLED),
       // Whether the binding row is worth offering. Presentation only: it decides
       // whether a person can find the screen, never what the screen may do. Both
       // binding endpoints re-read the same switch, so a client that sets this by
@@ -565,6 +567,52 @@ async function bootstrapPayload(context: RequestContext) {
       activeHandoff: activeHandoff !== null,
     },
   };
+}
+
+/**
+ * Classifieds discovery is global, so a buyer must not need a legacy pilot
+ * storefront just to open the public catalogue. This payload is deliberately
+ * smaller than the store bootstrap: no synthetic store, seller authority,
+ * order counters or media capability are inferred when no store was resolved.
+ */
+function globalClassifiedsBootstrapPayload(
+  env: Env,
+  claims: MarketSessionClaims,
+) {
+  return {
+    apiVersion: 'market-v1',
+    buildId: env.MARKET_MINI_APP_BUILD_ID ?? 'local',
+    locale: claims.locale,
+    navigation: ['home', 'search', 'saved', 'activity'],
+    sellerNavigation: [],
+    flags: {
+      buyer: true,
+      sellerRead: false,
+      sellerCommands: false,
+      voice: voiceSearchAvailable(env),
+      mediaUpload: false,
+      cabinet: marketFlag(env.MARKET_CABINET_ENABLED),
+      cabinetHomeV2: marketFlag(env.MARKET_CABINET_HOME_V2),
+      navBack: marketFlag(env.MARKET_NAV_BACK_ENABLED),
+      quickPost: marketFlag(env.MARKET_QUICKPOST_ENABLED),
+      quickPostAi: marketFlag(env.MARKET_QUICKPOST_AI_ENABLED),
+      classifiedsDiscovery: marketFlag(env.MARKET_CLASSIFIEDS_DISCOVERY_ENABLED),
+      privateListing: marketFlag(env.MARKET_PRIVATE_LISTING_ENABLED),
+      ownerTelegramBinding: bindingCeremonyOpen(env, new Date()),
+    },
+    storefront: null,
+    counters: {
+      orders: 0,
+      activeCheckout: false,
+      activeHandoff: false,
+    },
+  };
+}
+
+function globalClassifiedsFallback(error: unknown, env: Env): boolean {
+  return marketFlag(env.MARKET_CLASSIFIEDS_DISCOVERY_ENABLED)
+    && error instanceof MarketHttpError
+    && error.code === 'storefront_unavailable';
 }
 
 function launchBootstrapPayload(context: RequestContext) {
@@ -587,6 +635,8 @@ function launchBootstrapPayload(context: RequestContext) {
       navBack: marketFlag(context.env.MARKET_NAV_BACK_ENABLED),
       quickPost: marketFlag(context.env.MARKET_QUICKPOST_ENABLED),
       quickPostAi: marketFlag(context.env.MARKET_QUICKPOST_AI_ENABLED),
+      classifiedsDiscovery: marketFlag(context.env.MARKET_CLASSIFIEDS_DISCOVERY_ENABLED),
+      privateListing: marketFlag(context.env.MARKET_PRIVATE_LISTING_ENABLED),
       // Whether the binding row is worth offering. Presentation only: it decides
       // whether a person can find the screen, never what the screen may do. Both
       // binding endpoints re-read the same switch, so a client that sets this by
@@ -711,7 +761,10 @@ async function exchangeSession(
     requestId,
     boundBuyer ?? undefined,
     !includeLaunch,
-  );
+  ).catch((error: unknown) => {
+    if (globalClassifiedsFallback(error, env)) return null;
+    throw error;
+  });
   const session = {
     token: issued.token,
     expiresAt: new Date(issued.claims.exp * 1_000).toISOString(),
@@ -723,17 +776,32 @@ async function exchangeSession(
     },
     capabilities: {
       buyer: true,
-      sellerRead: access.sellerOrg !== null,
+      sellerRead: access !== null && access.sellerOrg !== null,
       sellerCommands:
-        access.sellerOrg !== null
+        access !== null
+        && access.sellerOrg !== null
         && marketFlag(env.MARKET_MINI_APP_SELLER_COMMANDS_ENABLED),
     },
-    storefront: {
-      id: access.buyer.storeId,
-      locale: access.buyer.locale,
-    },
+    storefront: access
+      ? { id: access.buyer.storeId, locale: access.buyer.locale }
+      : null,
   };
   if (!includeLaunch) return marketJson(session, requestId, 201);
+  if (!access) {
+    mark('shelf', Date.now());
+    mark('total', started);
+    const response = marketJson({
+      session,
+      bootstrap: globalClassifiedsBootstrapPayload(env, issued.claims),
+      home: { categories: [], products: [], updatedAt: new Date().toISOString() },
+    }, requestId, 201);
+    response.headers.set('Server-Timing', [
+      ...Object.entries(marks).map(([name, value]) => `${name};dur=${value}`),
+      'shelfhit;desc="global"',
+    ].join(', '));
+    response.headers.set('Access-Control-Expose-Headers', 'Server-Timing, x-request-id');
+    return response;
+  }
   const context: RequestContext = {
     request,
     env,
@@ -866,6 +934,43 @@ async function classifiedsRoutes(context: {
     return marketError('resource_not_found', requestId, 404);
   }
   if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
+  if (request.method === 'POST' && path === '/classifieds/voice/search') {
+    assertVoiceSearchEnabled(env);
+    await enforceMarketRateLimit('voice', `${claims.sub}:classifieds-voice`);
+    const audio = await readVoiceAudio(request);
+    const transcription = await transcribeVoiceSearch(
+      createMarketVoiceFacade(env),
+      audio,
+    );
+    const categories = await services.classifieds.listCategories();
+    const voiceCategories = categories.flatMap((category) => [
+      { id: category.id, name: category.nameRu, productCount: category.visibleListingCount },
+      { id: category.id, name: category.nameUz, productCount: category.visibleListingCount },
+    ]);
+    const interpretation = interpretVoiceTranscript(
+      transcription.transcript,
+      voiceCategories,
+    );
+    const page = interpretation.productQuery
+      ? await services.classifieds.discover({
+          query: interpretation.productQuery,
+          categoryId: interpretation.category?.id,
+          availability: interpretation.availability ?? undefined,
+          maxPriceMinor: interpretation.maxPriceMinor ?? undefined,
+          limit: boundedLimit(url.searchParams.get('limit')),
+        })
+      : { items: [] as ClassifiedListing[], nextCursor: null };
+    return marketJson({
+      transcript: transcription.transcript,
+      language: transcription.language,
+      interpretation,
+      items: await Promise.all(page.items.map((item) =>
+        classifiedDto(item, config.sessionSecret)
+      )),
+      nextCursor: page.nextCursor,
+      queryApplied: interpretation.productQuery || null,
+    }, requestId);
+  }
   const reportMatch = /^\/classifieds\/listings\/([^/]+)\/reports$/.exec(path);
   if (request.method === 'POST' && reportMatch) {
     await enforceMarketRateLimit('command', `${claims.sub}:${path}`);
@@ -882,6 +987,29 @@ async function classifiedsRoutes(context: {
         reason: body.reason as ListingReportReason,
         note: body.note as string | null | undefined,
       }),
+    }, requestId, 201);
+  }
+  const favoriteMatch = /^\/classifieds\/listings\/([^/]+)\/favorite$/.exec(path);
+  if (favoriteMatch && (request.method === 'POST' || request.method === 'DELETE')) {
+    await enforceMarketRateLimit('command', `${claims.sub}:classifieds-favorite`);
+    if (request.method === 'POST') requireIdempotencyKey(request);
+    const favorite = request.method === 'POST'
+      ? await services.classifieds.saveFavorite(claims.sub, favoriteMatch[1])
+      : await services.classifieds.removeFavorite(claims.sub, favoriteMatch[1]);
+    return marketJson({ favorite }, requestId);
+  }
+  const inquiryMatch = /^\/classifieds\/listings\/([^/]+)\/inquiries$/.exec(path);
+  if (request.method === 'POST' && inquiryMatch) {
+    await enforceMarketRateLimit('command', `${claims.sub}:classifieds-inquiry`);
+    const idempotencyKey = requireIdempotencyKey(request);
+    const body = await readMarketJson(request);
+    classifiedBody(body, ['message']);
+    return marketJson({
+      inquiry: await services.classifieds.createInquiry({
+        identityId: claims.sub,
+        requestId,
+        idempotencyKey,
+      }, inquiryMatch[1], { message: body.message as string }),
     }, requestId, 201);
   }
   if (request.method !== 'GET') return marketError('resource_not_found', requestId, 404);
@@ -906,6 +1034,7 @@ async function classifiedsRoutes(context: {
       districtId: url.searchParams.get('districtId') ?? undefined,
       condition: classifiedCondition(url.searchParams.get('condition')),
       sellerType: classifiedSellerType(url.searchParams.get('sellerType')),
+      availability: parseAvailabilityFilter(url.searchParams.get('availability')) ?? undefined,
       storeId: url.searchParams.get('storeId') ?? undefined,
       minPriceMinor: classifiedPrice(url.searchParams.get('minPriceMinor')),
       maxPriceMinor: classifiedPrice(url.searchParams.get('maxPriceMinor')),
@@ -918,6 +1047,21 @@ async function classifiedsRoutes(context: {
         classifiedDto(item, config.sessionSecret)
       )),
       nextCursor: page.nextCursor,
+    }, requestId);
+  }
+  if (path === '/classifieds/favorites') {
+    const page = await services.classifieds.listFavorites(claims.sub);
+    return marketJson({
+      items: await Promise.all(page.items.map((item) =>
+        classifiedDto(item, config.sessionSecret)
+      )),
+      nextCursor: null,
+    }, requestId);
+  }
+  if (path === '/classifieds/inquiries') {
+    return marketJson({
+      items: await services.classifieds.listBuyerInquiries(claims.sub),
+      nextCursor: null,
     }, requestId);
   }
   const listingMatch = /^\/classifieds\/listings\/([^/]+)$/.exec(path);
@@ -1917,7 +2061,7 @@ export async function handleMarketRequest(input: {
         claims.sub,
         body.locale,
       ).catch(() => null);
-      if (!storefront) {
+      if (!storefront && !marketFlag(input.env.MARKET_CLASSIFIEDS_DISCOVERY_ENABLED)) {
         throw new MarketHttpError('storefront_unavailable', 409);
       }
       const issued = await issueMarketSession(config.sessionSecret, {
@@ -1955,7 +2099,19 @@ export async function handleMarketRequest(input: {
       config.botUsername,
       claims,
       requestId,
-    );
+    ).catch((error: unknown) => {
+      if (
+        input.request.method === 'GET'
+        && path === '/bootstrap'
+        && globalClassifiedsFallback(error, input.env)
+      ) {
+        return null;
+      }
+      throw error;
+    });
+    if (!access) {
+      return marketJson(globalClassifiedsBootstrapPayload(input.env, claims), requestId);
+    }
     const context: RequestContext = {
       request: input.request,
       env: input.env,

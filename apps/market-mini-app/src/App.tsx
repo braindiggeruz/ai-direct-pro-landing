@@ -22,6 +22,10 @@ const SellerApp = lazy(() => import('./screens/SellerApp').then((module) => ({
   default: module.SellerApp,
 })));
 
+const ClassifiedsBuyer = lazy(() => import('./screens/ClassifiedsBuyer').then((module) => ({
+  default: module.ClassifiedsBuyer,
+})));
+
 /** Авто → Светлая → Тёмная → Авто. Three taps return you where you started. */
 const THEME_CYCLE: Record<ThemePreference, ThemePreference> = {
   auto: 'light',
@@ -83,6 +87,7 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
   // switches above: the screen behind it is refused by the server on its own,
   // so this can reveal a door and never open one.
   const bindingOffered = bootstrap.data.flags.ownerTelegramBinding === true;
+  const classifiedsDiscovery = bootstrap.data.flags.classifiedsDiscovery === true;
   const mediaUpload = bootstrap.data.flags.mediaUpload === true && online;
   return <div className="app-shell" data-build-id={bootstrap.data.buildId}>
     <header className="app-header">
@@ -104,7 +109,13 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
     </header>
     {!online ? <div className="offline-banner" role="status"><Icon name="warning" size={17}/>{t(locale, 'offlineBody')}</div> : null}
     {activeRole === 'buyer'
-      ? <BuyerApp
+      ? classifiedsDiscovery
+          ? <Suspense fallback={<LoadingView locale={locale} />}><ClassifiedsBuyer
+            locale={locale}
+            navBack={navBack}
+            voiceEnabled={bootstrap.data.flags.voice === true}
+          /></Suspense>
+        : <BuyerApp
           locale={locale}
           initialHome={launch.home}
           voiceEnabled={bootstrap.data.flags.voice === true}

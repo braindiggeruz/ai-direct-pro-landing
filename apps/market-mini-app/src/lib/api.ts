@@ -1,5 +1,10 @@
 import { telegramInitData } from '../platform/telegram';
-import type { MarketLaunch, SessionExchange, VoiceSearchResult } from '../types';
+import type {
+  ClassifiedVoiceSearchResult,
+  MarketLaunch,
+  SessionExchange,
+  VoiceSearchResult,
+} from '../types';
 import type { VoiceRecording } from './voice';
 
 // The Mini App is hosted on its own static Pages project. A relative
@@ -253,12 +258,13 @@ export async function fetchMedia(handle: string, signal?: AbortSignal): Promise<
  * dropped: nothing is written to storage, and the bearer stays in the header
  * exactly as for every other Market call.
  */
-export async function voiceSearch(
+async function uploadVoiceSearch<T>(
+  path: '/voice/search' | '/classifieds/voice/search',
   recording: VoiceRecording,
   signal?: AbortSignal,
-): Promise<VoiceSearchResult> {
+): Promise<T> {
   if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
-    return fixtureRequest<VoiceSearchResult>('/voice/search', { method: 'POST' });
+    return fixtureRequest<T>(path, { method: 'POST' });
   }
   const controller = new AbortController();
   const abort = () => controller.abort();
@@ -268,7 +274,7 @@ export async function voiceSearch(
   let response: Response;
   try {
     response = await fetch(
-      `${baseUrl}/voice/search?durationMs=${Math.round(recording.durationMs)}`,
+      `${baseUrl}${path}?durationMs=${Math.round(recording.durationMs)}`,
       {
         method: 'POST',
         headers: {
@@ -294,7 +300,21 @@ export async function voiceSearch(
       typeof data.request_id === 'string' ? data.request_id : null,
     );
   }
-  return data as unknown as VoiceSearchResult;
+  return data as unknown as T;
+}
+
+export function voiceSearch(
+  recording: VoiceRecording,
+  signal?: AbortSignal,
+): Promise<VoiceSearchResult> {
+  return uploadVoiceSearch('/voice/search', recording, signal);
+}
+
+export function classifiedsVoiceSearch(
+  recording: VoiceRecording,
+  signal?: AbortSignal,
+): Promise<ClassifiedVoiceSearchResult> {
+  return uploadVoiceSearch('/classifieds/voice/search', recording, signal);
 }
 
 /** One photo, shrunk on the phone before it ever reaches the network. */
