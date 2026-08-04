@@ -1,0 +1,1005 @@
+{
+  "capturedFrom": "http://localhost:5184",
+  "chrome": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "note": "Synthetic data served by Playwright interception. No production data was read, no request left the machine and nothing was deployed. The session value in storage is a placeholder string, not a credential.",
+  "screenshots": [
+    "audit-listing-actions.png",
+    "command-applied.png",
+    "command-conflict-409.png",
+    "command-pending.png",
+    "confirm-archive-typed.png",
+    "confirm-publish-320.png",
+    "confirm-publish.png",
+    "confirm-unpublish.png",
+    "expired-session-401.png",
+    "forbidden-403.png",
+    "listing-actions-320.png",
+    "listing-archived-no-actions.png",
+    "listing-draft-actions-light.png",
+    "listing-draft-actions.png",
+    "order-detail-320.png",
+    "order-detail.png",
+    "orders-1280-dark.png",
+    "orders-1280-light.png",
+    "orders-320-cards.png",
+    "orders-filtered.png",
+    "orders-fold-800.png",
+    "question-detail.png",
+    "questions-1280-dark.png",
+    "questions-1280-light.png",
+    "questions-320-cards.png",
+    "zoom200-listing-actions.png",
+    "zoom200-orders.png",
+    "zoom200-questions.png"
+  ],
+  "measurements": {
+    "listing-draft-actions": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 1280,
+        "h": 1600
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "listing-draft-actions-light": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "light",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 1280,
+        "h": 1600
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "confirm-publish": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 1280,
+        "h": 1200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": true,
+        "label": "Опубликовать объявление?",
+        "modal": "true",
+        "focusInsideDialog": true,
+        "focusedControl": "Закрыть"
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "confirm-unpublish": {
+      "route": "/admin/listings/synthetic-listing-published",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-published",
+      "viewport": {
+        "w": 1280,
+        "h": 1200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": true,
+        "label": "Снять объявление с публикации?",
+        "modal": "true",
+        "focusInsideDialog": true,
+        "focusedControl": "Закрыть"
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "confirm-archive-typed": {
+      "route": "/admin/listings/synthetic-listing-published",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-published",
+      "viewport": {
+        "w": 1280,
+        "h": 1300
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": true,
+        "label": "Переместить объявление в архив?",
+        "modal": "true",
+        "focusInsideDialog": true,
+        "focusedControl": "Закрыть"
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "command-pending": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 1280,
+        "h": 1200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": true,
+        "label": "Опубликовать объявление?",
+        "modal": "true",
+        "focusInsideDialog": true,
+        "focusedControl": "Закрыть"
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "command-applied": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 1280,
+        "h": 1500
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "command-conflict-409": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 1280,
+        "h": 1500
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "listing-archived-no-actions": {
+      "route": "/admin/listings/synthetic-listing-archived",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-archived",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "listing-actions-320": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 320,
+        "h": 1800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "confirm-publish-320": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 320,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": true,
+        "label": "Опубликовать объявление?",
+        "modal": "true",
+        "focusInsideDialog": true,
+        "focusedControl": "Закрыть"
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "zoom200-listing-actions": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "200%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "orders-1280-dark": {
+      "route": "/admin/operations?tab=orders",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "table",
+      "rowsRendered": 6,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "true"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "false"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "orders-1280-light": {
+      "route": "/admin/operations?tab=orders",
+      "theme": "light",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "table",
+      "rowsRendered": 6,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "true"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "false"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "orders-fold-800": {
+      "route": "/admin/operations?tab=orders",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "table",
+      "rowsRendered": 6,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "true"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "false"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "orders-filtered": {
+      "route": "/admin/operations?tab=orders&stage=placed",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 1280,
+        "h": 1200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "table",
+      "rowsRendered": 6,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "true"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "false"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "questions-1280-dark": {
+      "route": "/admin/operations?tab=questions",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "table",
+      "rowsRendered": 6,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "false"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "true"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "questions-1280-light": {
+      "route": "/admin/operations?tab=questions",
+      "theme": "light",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "table",
+      "rowsRendered": 6,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "false"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "true"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "order-detail": {
+      "route": "/admin/operations/orders/synthetic-order-syn-1041",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations/orders/synthetic-order-syn-1041",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказ SYN-1041",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "question-detail": {
+      "route": "/admin/operations/questions/synthetic-question-1",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations/questions/synthetic-question-1",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Обращение покупателя",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "orders-320-cards": {
+      "route": "/admin/operations?tab=orders",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 320,
+        "h": 1600
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "cards",
+      "rowsRendered": 0,
+      "cardsRendered": 6,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "true"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "false"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "questions-320-cards": {
+      "route": "/admin/operations?tab=questions",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 320,
+        "h": 1600
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "cards",
+      "rowsRendered": 0,
+      "cardsRendered": 6,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "false"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "true"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "order-detail-320": {
+      "route": "/admin/operations/orders/synthetic-order-syn-1041",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/operations/orders/synthetic-order-syn-1041",
+      "viewport": {
+        "w": 320,
+        "h": 1800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказ SYN-1041",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "zoom200-orders": {
+      "route": "/admin/operations?tab=orders",
+      "theme": "dark",
+      "zoom": "200%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "cards",
+      "rowsRendered": 0,
+      "cardsRendered": 6,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "true"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "false"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "zoom200-questions": {
+      "route": "/admin/operations?tab=questions",
+      "theme": "dark",
+      "zoom": "200%",
+      "landedOn": "/admin/operations",
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Заказы и вопросы",
+      "mode": "cards",
+      "rowsRendered": 0,
+      "cardsRendered": 6,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [
+        {
+          "label": "Заказы2",
+          "selected": "false"
+        },
+        {
+          "label": "Вопросы2",
+          "selected": "true"
+        }
+      ],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "audit-listing-actions": {
+      "route": "/admin/audit",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/audit",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аудит",
+      "mode": "table",
+      "rowsRendered": 7,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "forbidden-403": {
+      "route": "/admin/",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/",
+      "viewport": {
+        "w": 1280,
+        "h": 700
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": null,
+      "h1": "Недостаточно прав",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "expired-session-401": {
+      "route": "/admin/",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin-tools/login",
+      "viewport": {
+        "w": 1280,
+        "h": 700
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": null,
+      "h1": null,
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    }
+  }
+}
