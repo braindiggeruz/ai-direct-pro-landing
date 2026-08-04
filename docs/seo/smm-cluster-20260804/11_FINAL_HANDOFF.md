@@ -68,9 +68,31 @@
 
 Коммит 1 был исправлен через `--amend` до появления последующих коммитов: первоначальная формулировка утверждала, что статуса самозанятого в Узбекистане нет. Это неверно — статус существует, с 2026 года налог с оборота 1 % при доходе до 1 млрд сум. Формулировка заменена на корректную (различие в налоговых режимах, а не отсутствие статуса) и в документах, и в сообщении коммита.
 
-## Порядок объединения — выполняет владелец
+## Объединение и деплой — ВЫПОЛНЕНО 2026-08-04
 
-Ветка **не запушена и не задеплоена**. Рекомендуемый порядок:
+По отдельной команде владельца («делай всё под ключ, полные права») ветка запушена, объединена и задеплоена.
+
+| Шаг | Что сделано |
+|---|---|
+| Push ветки | `feature/seo-smm-cluster-20260804` → `origin`, новая ветка |
+| Объединение | `git push origin feature/seo-smm-cluster-20260804:main` — **fast-forward** `7cc2341..22e08ba`, без merge-коммита. Проверено `git merge-base --is-ancestor origin/main HEAD` перед пушем |
+| Проверка риска | Дельта между production SHA `5a5111f` и `origin/main` — всего 2 коммита, **только `content/**`, `docs/**` и 6 `.webp` в `public/assets/blog/`**. Ни одного файла runtime, functions, migrations, Bormi. Поэтому деплой не выкатывает чужой незарелиженный код |
+| Сборка | `dist` удалён и пересобран с нуля: `npm run build`, exit 0, 133 статьи, sitemap 251 |
+| Деплой | `wrangler pages deploy dist --project-name=ai-direct-pro-landing --branch=main`. Аккаунт `braindigger.uz@gmail.com`, scope `pages (write)`. Загружено 14 новых файлов (776 уже были), Functions bundle, `_headers`, `_redirects`, `_routes.json` |
+| Артефакт | `https://f7870934.ai-direct-pro-landing.pages.dev` |
+| Проверка прода | Все 5 URL кластера отдают 200 на `https://gptbot.uz/`, canonical самоссылающийся, `index, follow`, Article+FAQPage на статьях |
+
+**Нюанс, зафиксированный честно:** первая проверка сразу после деплоя вернула 404 на трёх новых URL при живом hub и уже обновлённом sitemap. Это транзиентный edge-кэш Cloudflare, а не дефект сборки: повторный запрос через минуту дал 200 на всех трёх, содержимое корректное. Ручной purge не потребовался.
+
+**Что деплой изменил помимо SEO-кластера:** вместе с моими коммитами в прод уехал ранее незарелиженный SEO-спринт `b597398` («mini app and local search clusters») — 6 статей, 2 money-страницы и 6 картинок, которые лежали в `origin/main` с прошлого захода. Это контент, не код, но владельцу стоит об этом знать.
+
+### Если понадобится откат
+
+Предыдущий production соответствовал SHA `5a5111f`. Откат делается через Cloudflare Pages → Deployments → Rollback на предыдущий деплой; git-откат отдельно не требуется, потому что деплой прямой (direct upload), а не из Git.
+
+### Исходный порядок для справки
+
+Ниже — порядок, который был бы нужен при ручном объединении:
 
 1. Дождаться, пока Codex завершит работу и закоммитит свои изменения в `release/bormi-public-beta-1`. Сейчас у него 3 незакоммиченных пути в `docs/production-closure/2026-08-04/`.
 2. Обновить базу:
@@ -139,9 +161,14 @@ BUILD=PASS (npm run build, exit 0)
 BROKEN_LINKS=0
 SECRET_SCAN=PASS (clean, 3190 files)
 
-COMMITS=4
-PUSHED=NO
-DEPLOYED=NO
+COMMITS=5
+PUSHED=YES (origin/feature/seo-smm-cluster-20260804; main fast-forwarded 7cc2341 -> 22e08ba)
+DEPLOYED=YES (Cloudflare Pages ai-direct-pro-landing, branch main, 2026-08-04)
+DEPLOY_ARTIFACT=https://f7870934.ai-direct-pro-landing.pages.dev
+LIVE_VERIFIED=YES (5/5 URLs return 200 on https://gptbot.uz with correct canonical, robots and schema)
+INDEX_BASELINE=3 new URLs "URL is unknown to Google"; hub "Submitted and indexed", Rich Results PASS (Breadcrumbs)
+REQUEST_INDEXING=NOT_DONE (no Google API for regular pages - manual action in the GSC UI)
+INDEXNOW_PING=NOT_DONE (INDEXNOW_KEY is a Cloudflare Pages secret, not available locally)
 
 OWNER_OFFER_TRUTH_GATE=PASS_FOR_SMM_SERVICE; 5 items await owner decision (public pricing, market-figure citation, legal proofread, UZ roadmap, unrelated cannibalization)
 READY_FOR_INTEGRATION=YES
