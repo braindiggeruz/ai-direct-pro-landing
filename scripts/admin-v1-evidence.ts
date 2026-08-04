@@ -51,6 +51,7 @@ import {
 } from '../apps/bormi-admin/src/lib/fixtures';
 
 const BASE = process.env.ADMIN_EVIDENCE_BASE ?? 'http://localhost:5183';
+const PREVIEW_SOURCE = process.env.ADMIN_EVIDENCE_PREVIEW_SOURCE ?? '';
 const STAMP = process.env.ADMIN_EVIDENCE_STAMP ?? '20260804';
 const OUT_DIR =
   process.env.ADMIN_EVIDENCE_OUT ??
@@ -59,13 +60,22 @@ const OUT_DIR =
 /** A placeholder, not a credential. Every request that carries it is stubbed. */
 const PLACEHOLDER_SESSION = 'synthetic-session-placeholder-not-a-credential';
 
-function assertLocal(base: string): void {
-  const { hostname } = new URL(base);
-  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-    throw new Error(
-      `refusing to run against ${hostname}: this captures synthetic data, not production`,
-    );
-  }
+function evidenceTarget(base: string): 'local' | 'preview' {
+  const url = new URL(base);
+  const local = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
+  if (local) return 'local';
+  const preview = process.env.ADMIN_EVIDENCE_ALLOW_PREVIEW === '1'
+    && url.protocol === 'https:'
+    && url.hostname.endsWith('.pages.dev')
+    && url.pathname === '/'
+    && !url.username
+    && !url.password
+    && /^[0-9a-f]{7}$/.test(PREVIEW_SOURCE);
+  if (preview) return 'preview';
+  throw new Error(
+    `refusing non-local evidence target: an isolated Pages preview requires `
+      + 'ADMIN_EVIDENCE_ALLOW_PREVIEW=1 and a seven-character ADMIN_EVIDENCE_PREVIEW_SOURCE',
+  );
 }
 
 const CHROME_CANDIDATES = [
@@ -234,6 +244,8 @@ type Shot = {
   stub?: StubOptions;
   /** `redirect` waits for the panel to leave instead of for a heading. */
   settle?: 'heading' | 'redirect';
+  /** Prove that the preview bundle itself hands a missing session to login. */
+  noSession?: boolean;
   /** Runs after the route settles, before the screenshot. */
   act?: (page: Page) => Promise<void>;
 };
@@ -244,6 +256,16 @@ async function openCommand(page: Page, name: string): Promise<void> {
 }
 
 const SHOTS: Shot[] = [
+  {
+    slug: 'unauthenticated-listings-redirect',
+    route: '/admin/listings', width: 1280, height: 700, theme: 'dark',
+    settle: 'redirect',
+    noSession: true,
+  },
+  {
+    slug: 'system-1280-dark',
+    route: '/admin/system', width: 1280, height: 1100, theme: 'dark',
+  },
   // ── ADMIN-3B: the commands ────────────────────────────────────────────────
   {
     slug: 'listing-draft-actions',
@@ -474,19 +496,60 @@ async function setTheme(page: Page, theme: 'dark' | 'light'): Promise<void> {
   }, theme);
 }
 
+async function navigate(
+  page: Page,
+  url: string,
+  waitUntil: 'domcontentloaded' | 'networkidle',
+  target: 'local' | 'preview',
+): Promise<void> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await page.goto(url, { waitUntil });
+      return;
+    } catch (error) {
+      lastError = error;
+      const transient = error instanceof Error
+        && /ERR_(?:CONNECTION_RESET|QUIC_PROTOCOL_ERROR|HTTP2_PROTOCOL_ERROR|TIMED_OUT)/.test(error.message);
+      if (target !== 'preview' || !transient || attempt === 3) throw error;
+      await page.waitForTimeout(400 * attempt);
+    }
+  }
+  throw lastError;
+}
+
 async function main(): Promise<void> {
-  assertLocal(BASE);
+  const target = evidenceTarget(BASE);
+  const requested = (process.env.ADMIN_EVIDENCE_SHOTS ?? '')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const shots = requested.length > 0
+    ? SHOTS.filter((shot) => requested.includes(shot.slug))
+    : SHOTS;
+  if (requested.length > 0 && shots.length !== new Set(requested).size) {
+    const known = new Set(SHOTS.map((shot) => shot.slug));
+    const unknown = requested.filter((slug) => !known.has(slug));
+    throw new Error(`unknown ADMIN_EVIDENCE_SHOTS: ${unknown.join(', ')}`);
+  }
   await mkdir(OUT_DIR, { recursive: true });
 
   const executablePath = findChrome();
-  console.log(`chrome: ${executablePath}\nbase:   ${BASE}\nout:    ${OUT_DIR}\n`);
+  console.log(`chrome: ${executablePath}\ntarget: ${target === 'preview' ? `preview:${PREVIEW_SOURCE}` : BASE}\nout:    ${OUT_DIR}\n`);
 
-  const browser: Browser = await chromium.launch({ executablePath, headless: true });
+  const browser: Browser = await chromium.launch({
+    executablePath,
+    headless: true,
+    // Some Windows Chrome profiles retain a stale Alt-Svc advertisement even
+    // after the origin sends `Alt-Svc: clear`; deterministic preview evidence
+    // must stay on HTTP/2 instead of failing randomly with ERR_QUIC_PROTOCOL_ERROR.
+    args: ['--disable-quic'],
+  });
   const measurements: Record<string, Measurement> = {};
   const written: string[] = [];
 
   try {
-    for (const shot of SHOTS) {
+    for (const shot of shots) {
       const context = await browser.newContext({
         viewport: { width: shot.width, height: shot.height },
         deviceScaleFactor: 2,
@@ -498,17 +561,31 @@ async function main(): Promise<void> {
       // The panel reads a session from storage before it renders anything. The
       // value is a placeholder and every request that carries it is answered by
       // the stub above.
-      await context.addInitScript((token) => {
-        localStorage.setItem('gptbot_admin_token', token as string);
-      }, PLACEHOLDER_SESSION);
+      if (!shot.noSession) {
+        await context.addInitScript((token) => {
+          // Seed only the panel document. On a 401 the product clears the key
+          // and navigates to the legacy login; re-seeding every document would
+          // make the harness itself resurrect the expired session there.
+          if (window.location.pathname.startsWith('/admin/')) {
+            localStorage.setItem('gptbot_admin_token', token as string);
+          }
+        }, PLACEHOLDER_SESSION);
+      }
 
-      await page.goto(`${BASE}${ENTRY}`, { waitUntil: 'domcontentloaded' });
-      await setTheme(page, shot.theme);
-      // Navigating to the entry a second time aborts the load that is already
-      // in flight; the refusal shots are captured at the entry itself.
-      if (shot.route !== ENTRY) {
-        await page.goto(`${BASE}${shot.route}`, { waitUntil: 'networkidle' });
+      if (shot.noSession) {
+        // Go straight to the requested deep route: the missing-session branch
+        // navigates immediately, so loading ENTRY first would deliberately
+        // destroy the execution context before this proof even began.
+        await navigate(page, `${BASE}${shot.route}`, 'domcontentloaded', target);
+      } else {
+        await navigate(page, `${BASE}${ENTRY}`, 'domcontentloaded', target);
         await setTheme(page, shot.theme);
+        // Navigating to the entry a second time aborts the load that is already
+        // in flight; the refusal shots are captured at the entry itself.
+        if (shot.route !== ENTRY) {
+          await navigate(page, `${BASE}${shot.route}`, 'networkidle', target);
+          await setTheme(page, shot.theme);
+        }
       }
       if (shot.settle === 'redirect') {
         await page.waitForURL((url) => !url.pathname.startsWith('/admin/'), { timeout: 20_000 });
@@ -528,6 +605,7 @@ async function main(): Promise<void> {
         // ADMIN-UX-1 audit; the shots named zoom200-* are exactly that.
         zoom: shot.slug.startsWith('zoom200') ? '200%' : '100%',
         landedOn: new URL(page.url()).pathname,
+        sessionPresent: await page.evaluate(() => localStorage.getItem('gptbot_admin_token') !== null),
         ...(await measure(page)),
       };
       console.log(`  ${shot.slug}`);
@@ -540,12 +618,16 @@ async function main(): Promise<void> {
   await writeFile(
     path.join(OUT_DIR, 'measurements.json'),
     `${JSON.stringify({
-      capturedFrom: BASE,
+      capturedFrom: target === 'preview' ? `preview:${PREVIEW_SOURCE}` : BASE,
       chrome: executablePath,
       note:
-        'Synthetic data served by Playwright interception. No production data was read, '
-        + 'no request left the machine and nothing was deployed. The session value in '
-        + 'storage is a placeholder string, not a credential.',
+        target === 'preview'
+          ? 'Static assets came from the isolated preview deployment. Every /api/admin/** request '
+            + 'was intercepted before network delivery, so no production admin data was read or changed. '
+            + 'The session value is a placeholder string, not a credential.'
+          : 'Synthetic data served by Playwright interception. No production data was read, '
+            + 'no request left the machine and nothing was deployed. The session value in '
+            + 'storage is a placeholder string, not a credential.',
       screenshots: written.map((f) => path.basename(f)).sort(),
       measurements,
     }, null, 2)}\n`,
@@ -555,6 +637,13 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error(error instanceof Error ? error.message : error);
+  const message = error instanceof Error ? error.message : String(error);
+  try {
+    const url = new URL(BASE);
+    const local = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
+    console.error(local ? message : message.replaceAll(url.origin, 'isolated-preview'));
+  } catch {
+    console.error('invalid ADMIN_EVIDENCE_BASE');
+  }
   process.exitCode = 1;
 });

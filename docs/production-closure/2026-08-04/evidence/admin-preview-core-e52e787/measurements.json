@@ -1,0 +1,231 @@
+{
+  "capturedFrom": "preview:e52e787",
+  "chrome": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "note": "Static assets came from the isolated preview deployment. Every /api/admin/** request was intercepted before network delivery, so no production admin data was read or changed. The session value is a placeholder string, not a credential.",
+  "screenshots": [
+    "command-applied.png",
+    "command-conflict-409.png",
+    "forbidden-403.png",
+    "listing-actions-320.png",
+    "listing-draft-actions.png",
+    "system-1280-dark.png",
+    "unauthenticated-listings-redirect.png"
+  ],
+  "measurements": {
+    "unauthenticated-listings-redirect": {
+      "route": "/admin/listings",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin-tools/login",
+      "sessionPresent": false,
+      "viewport": {
+        "w": 1280,
+        "h": 700
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": null,
+      "h1": null,
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "system-1280-dark": {
+      "route": "/admin/system",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/system",
+      "sessionPresent": true,
+      "viewport": {
+        "w": 1280,
+        "h": 1100
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Состояние системы",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "listing-draft-actions": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "sessionPresent": true,
+      "viewport": {
+        "w": 1280,
+        "h": 1600
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "command-applied": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "sessionPresent": true,
+      "viewport": {
+        "w": 1280,
+        "h": 1500
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "command-conflict-409": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "sessionPresent": true,
+      "viewport": {
+        "w": 1280,
+        "h": 1500
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "listing-actions-320": {
+      "route": "/admin/listings/synthetic-listing-draft",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/listings/synthetic-listing-draft",
+      "sessionPresent": true,
+      "viewport": {
+        "w": 320,
+        "h": 1800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    },
+    "forbidden-403": {
+      "route": "/admin/",
+      "theme": "dark",
+      "zoom": "100%",
+      "landedOn": "/admin/",
+      "sessionPresent": true,
+      "viewport": {
+        "w": 1280,
+        "h": 700
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "mainTop": null,
+      "h1": "Недостаточно прав",
+      "mode": "none",
+      "rowsRendered": 0,
+      "cardsRendered": 0,
+      "controlsBelow44": [],
+      "rowActionsClipped": 0,
+      "modal": {
+        "open": false
+      },
+      "tabs": [],
+      "operationWriteControls": 0,
+      "personalDataOnScreen": "absent"
+    }
+  }
+}
