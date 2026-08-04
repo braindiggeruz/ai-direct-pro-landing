@@ -565,7 +565,9 @@
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "Интернет-реклама в Ташкенте" },
     { "target": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "anchor": "Почему сайт не приносит заявки" },
     { "target": "/ru/blog/seo-ili-google-ads-chto-vybrat/", "anchor": "SEO или Google Ads: что выбрать" },
-    { "target": "/ru/digital-marketing-tashkent/", "anchor": "Digital-маркетинг в Ташкенте" }
+    { "target": "/ru/digital-marketing-tashkent/", "anchor": "Digital-маркетинг в Ташкенте" },
+    { "target": "/ru/lokalnoe-seo-tashkent/", "anchor": "Локальное SEO и продвижение на картах" },
+    { "target": "/ru/blog/audit-kartochki-kompanii-na-kartah/", "anchor": "Аудит карточки компании на картах" }
   ],
   "schemaTypes": [
     "Organization",
@@ -576,7 +578,7 @@
   ],
   "lastReviewedAt": "2026-07-28T00:00:00.000Z",
   "createdAt": "2026-07-28T00:00:00.000Z",
-  "updatedAt": "2026-07-28T00:00:00.000Z",
+  "updatedAt": "2026-08-04T00:00:00.000Z",
   "heroImage": {
     "src": "/assets/seo/seo-prodvizhenie-saytov-tashkent-1200.webp",
     "alt": "SEO-специалист показывает владельцу бизнеса план продвижения сайта в Ташкенте",

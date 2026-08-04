@@ -7,19 +7,23 @@
   "primaryKeyword": "Instagram Direct бот",
   "secondaryKeywords": [
     "бот для Instagram",
+    "бот для инстаграм",
+    "чат бот инстаграм",
+    "боты в инстаграм",
+    "подключить бота в Instagram",
     "чат-бот Instagram",
     "автоматизация Instagram",
     "AI Direct"
   ],
   "searchIntent": "commercial",
   "h1": "Instagram Direct бот для бизнеса: подключение под ваш аккаунт",
-  "title": "Instagram Direct бот — заказать подключение, заявки 24/7 | GPTBot",
-  "description": "Instagram Direct бот: AI отвечает на сообщения и комментарии 24/7, собирает заявки и передаёт контакты менеджеру в Telegram или CRM.",
+  "title": "Бот для Instagram Direct — подключение под бизнес",
+  "description": "Подключаем бота для Instagram Direct через официальный API: ответы на сообщения и комментарии, сбор заявок, передача менеджеру или в CRM.",
   "canonical": "https://gptbot.uz/ru/instagram-direct-bot/",
   "hreflangRu": "/ru/instagram-direct-bot/",
   "hreflangUz": "/uz/instagram-bot-biznes-uchun/",
   "ogTitle": "Instagram Direct бот — AI-ответы и заявки 24/7 | GPTBot",
-  "ogDescription": "Instagram Direct бот автоматизирует общение в Direct и комментариях: отвечает 24/7, собирает имя и телефон, передаёт горячую заявку менеджеру в Telegram или",
+  "ogDescription": "Бот автоматизирует Direct и комментарии: отвечает по сценарию, собирает контакты и передаёт заявку менеджеру или в CRM.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -229,6 +233,12 @@
       "anchor": "почему реклама в Instagram не приносит заявки",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/instagram-direct-bot-kak-rabotaet/",
+      "anchor": "как устроена автоматизация Instagram Direct",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -238,7 +248,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-08-04",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-07-14"
+  "updatedAt": "2026-08-04"
 }
