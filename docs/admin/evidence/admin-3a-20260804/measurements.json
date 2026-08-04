@@ -1,0 +1,559 @@
+{
+  "capturedFrom": "http://localhost:5183",
+  "chrome": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "note": "Synthetic fixtures. No production data was read and nothing was deployed.",
+  "screenshots": [
+    "categories-1280-dark.png",
+    "categories-1280-light.png",
+    "listing-detail-1280-dark.png",
+    "listing-detail-1280-light.png",
+    "listing-detail-320.png",
+    "listing-detail-media.png",
+    "listings-1280-dark.png",
+    "listings-1280-fold.png",
+    "listings-1280-light.png",
+    "listings-320-cards.png",
+    "listings-320-filters-open.png",
+    "listings-768.png",
+    "listings-empty-filtered.png",
+    "listings-filtered.png",
+    "listings-search.png",
+    "zoom200-categories.png",
+    "zoom200-listing-detail.png",
+    "zoom200-listings.png"
+  ],
+  "measurements": {
+    "listings-1280-dark": {
+      "route": "/admin/listings",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 2200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [
+        "table-scroll w-full"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 25,
+      "cardsRendered": 31,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-1280-light": {
+      "route": "/admin/listings",
+      "theme": "light",
+      "viewport": {
+        "w": 1280,
+        "h": 2200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [
+        "table-scroll w-full"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 25,
+      "cardsRendered": 31,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-1280-fold": {
+      "route": "/admin/listings",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 129,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [
+        "table-scroll w-full"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 25,
+      "cardsRendered": 31,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-filtered": {
+      "route": "/admin/listings?status=published&quality=incomplete",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 2200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [
+        "table-scroll w-full"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 13,
+      "cardsRendered": 19,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-empty-filtered": {
+      "route": "/admin/listings?status=archived&quality=good&media=without",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 1100
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 0,
+      "cardsRendered": 6,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-search": {
+      "route": "/admin/listings?q=%D1%80%D1%8E%D0%BA%D0%B7%D0%B0%D0%BA",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [
+        "table-scroll w-full"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 7,
+      "cardsRendered": 13,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listing-detail-1280-dark": {
+      "route": "/admin/listings/synthetic-listing-001",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 1200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "tableCaptions": [],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 0,
+      "cardsRendered": 9,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listing-detail-1280-light": {
+      "route": "/admin/listings/synthetic-listing-001",
+      "theme": "light",
+      "viewport": {
+        "w": 1280,
+        "h": 1200
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "tableCaptions": [],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 0,
+      "cardsRendered": 9,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listing-detail-media": {
+      "route": "/admin/listings/synthetic-listing-016",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 1300
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Коврик для мыши синтетический #16",
+      "tableCaptions": [],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 0,
+      "cardsRendered": 9,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "categories-1280-dark": {
+      "route": "/admin/categories",
+      "theme": "dark",
+      "viewport": {
+        "w": 1280,
+        "h": 1100
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Категории",
+      "tableCaptions": [
+        "Категории: название, магазин, число карточек по статусам и карточки без фото"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 5,
+      "cardsRendered": 6,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "categories-1280-light": {
+      "route": "/admin/categories",
+      "theme": "light",
+      "viewport": {
+        "w": 1280,
+        "h": 1100
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "flex",
+      "mainTop": 64,
+      "h1": "Категории",
+      "tableCaptions": [
+        "Категории: название, магазин, число карточек по статусам и карточки без фото"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 5,
+      "cardsRendered": 6,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-768": {
+      "route": "/admin/listings",
+      "theme": "dark",
+      "viewport": {
+        "w": 768,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [
+        "table-scroll w-full"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 25,
+      "cardsRendered": 31,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-320-cards": {
+      "route": "/admin/listings",
+      "theme": "dark",
+      "viewport": {
+        "w": 320,
+        "h": 1000
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 25,
+      "cardsRendered": 31,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listings-320-filters-open": {
+      "route": "/admin/listings",
+      "theme": "dark",
+      "viewport": {
+        "w": 320,
+        "h": 1400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 25,
+      "cardsRendered": 31,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "listing-detail-320": {
+      "route": "/admin/listings/synthetic-listing-016",
+      "theme": "dark",
+      "viewport": {
+        "w": 320,
+        "h": 1800
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "mainTop": 64,
+      "h1": "Коврик для мыши синтетический #16",
+      "tableCaptions": [],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 0,
+      "cardsRendered": 9,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "zoom200-listings": {
+      "route": "/admin/listings",
+      "theme": "dark",
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "mainTop": 64,
+      "h1": "Объявления",
+      "tableCaptions": [
+        "Объявления магазина: название, категория, цена, наличие, статус и качество карточки"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 25,
+      "cardsRendered": 31,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "zoom200-categories": {
+      "route": "/admin/categories",
+      "theme": "dark",
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 247,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [
+        "table-scroll w-full"
+      ],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "mainTop": 64,
+      "h1": "Категории",
+      "tableCaptions": [
+        "Категории: название, магазин, число карточек по статусам и карточки без фото"
+      ],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 5,
+      "cardsRendered": 6,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    },
+    "zoom200-listing-detail": {
+      "route": "/admin/listings/synthetic-listing-001",
+      "theme": "dark",
+      "viewport": {
+        "w": 640,
+        "h": 400
+      },
+      "devicePixelRatio": 2,
+      "pageScrollX": 0,
+      "pageScrollY": 0,
+      "mainVerticalScrollers": [
+        "bormi-admin-main"
+      ],
+      "horizontalScrollContainers": [],
+      "headerHeight": 64,
+      "navDisplay": "none",
+      "mainTop": 64,
+      "h1": "Аккумулятор внешний синтетический #1",
+      "tableCaptions": [],
+      "columnHeadersWithScope": true,
+      "controlsBelow44": [
+        "Перейти к содержимому"
+      ],
+      "rowsRendered": 0,
+      "cardsRendered": 9,
+      "writeControls": 0,
+      "syntheticNoticeVisible": true
+    }
+  }
+}

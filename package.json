@@ -14,6 +14,7 @@
     "build:admin": "npm --prefix apps/bormi-admin ci && npm --prefix apps/bormi-admin run build",
     "preview": "vite preview",
     "admin:evidence": "tsx scripts/admin-ux-evidence.ts",
+    "admin:listings-evidence": "tsx scripts/admin-listings-evidence.ts",
     "seo:audit": "tsx scripts/seo-audit.ts",
     "seo:prerender": "tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts",
     "seo:sitemap": "tsx scripts/generate-sitemap.ts",
