@@ -1,4 +1,4 @@
-﻿// Development-only synthetic transport. It is reachable exclusively through
+// Development-only synthetic transport. It is reachable exclusively through
 // an import.meta.env.DEV branch and is not included in the production graph.
 import { MarketApiError } from '../lib/api';
 import type {
@@ -13,9 +13,12 @@ import type {
   Inventory,
   MarketLaunch,
   Product,
+  SellerInquiry,
+  SellerListing,
   SellerOrder,
   SellerOverview,
   SellerProduct,
+  SellerProfile,
   SessionExchange,
   Stats,
 } from '../types';
@@ -250,6 +253,97 @@ function classifiedsScenario(): boolean {
   }
 }
 
+/**
+ * `?classifieds=1&seller=1` adds the private seller to the global launch.
+ *
+ * It is a second switch rather than part of `classifieds=1` because the buyer
+ * evidence was captured against a shell with four tabs, and turning selling on
+ * everywhere would silently add a fifth to every one of those screenshots.
+ *
+ * The seller starts with no profile and no listings, so the walkthrough begins
+ * where a real person begins: at the question of what to call themselves.
+ */
+function sellerScenario(): boolean {
+  try {
+    const search = new URLSearchParams(window.location.search);
+    return search.get('classifieds') === '1' && search.get('seller') === '1';
+  } catch {
+    return false;
+  }
+}
+
+let syntheticSellerProfile: SellerProfile | null = null;
+const syntheticSellerListings: SellerListing[] = [];
+const syntheticSellerInquiries: SellerInquiry[] = [];
+let syntheticSellerSequence = 0;
+
+/** Assembles one listing from what the composer actually sends. */
+function syntheticSellerListing(
+  source: Record<string, unknown>,
+  previous: SellerListing | null,
+): SellerListing {
+  const now = new Date().toISOString();
+  const categoryId = String(source.globalCategoryId ?? '');
+  const category = classifiedCategories.find((entry) => entry.id === categoryId) ?? null;
+  const districtId = String(source.districtId ?? '');
+  const place = classifiedLocations.find((entry) => entry.districtId === districtId) ?? null;
+  const mediaRefs = Array.isArray(source.mediaRefs) ? source.mediaRefs as string[] : [];
+  return {
+    id: previous?.id ?? `synthetic-seller-listing-${(syntheticSellerSequence += 1)}`,
+    // Every submission lands in the queue. The fixture cannot publish, because
+    // the server cannot either: only a moderator's decision does that.
+    state: 'pending',
+    name: String(source.name ?? ''),
+    description: source.description === null ? null : String(source.description ?? ''),
+    priceMinor: Number(source.priceMinor ?? 0),
+    currency: 'UZS',
+    // The composer holds opaque upload refs; the read model returns handles.
+    mediaHandles: mediaRefs.map((_, index) => `synthetic-handle-${index}`),
+    category: category
+      ? {
+        id: category.id, slug: category.slug,
+        nameRu: category.nameRu, nameUz: category.nameUz,
+      }
+      : null,
+    condition: (source.condition as SellerListing['condition']) ?? null,
+    location: place
+      ? {
+        regionId: place.regionId,
+        regionNameRu: place.regionNameRu, regionNameUz: place.regionNameUz,
+        districtId: place.districtId,
+        districtNameRu: place.districtNameRu, districtNameUz: place.districtNameUz,
+        localityText: source.localityText === null ? null : String(source.localityText ?? ''),
+      }
+      : null,
+    contactMode: (source.contactMode as SellerListing['contactMode']) ?? 'in_app',
+    moderation: { state: 'pending', reasonCode: 'new_seller_review', decidedAt: null },
+    inquiries: previous?.inquiries ?? { total: 0, open: 0 },
+    version: (previous?.version ?? 0) + 1,
+    createdAt: previous?.createdAt ?? now,
+    updatedAt: now,
+  };
+}
+
+/** The listing a command names, or the 404 the server would have sent. */
+function syntheticSellerListingAt(index: number, path: string): SellerListing {
+  const listing = syntheticSellerListings.find((entry) => entry.id === path.split('/')[index]);
+  if (!listing) throw new MarketApiError('resource_not_found', 404, null);
+  return listing;
+}
+
+/**
+ * The version guard, in the fixture too.
+ *
+ * A composer that could edit without a matching version here would pass review
+ * and then meet a 409 the first time two devices touched one listing.
+ */
+function syntheticExpectVersion(listing: SellerListing, body: Record<string, unknown>): void {
+  const expected = Number(body.expectedVersion ?? 0);
+  if (!expected || expected !== listing.version) {
+    throw new MarketApiError('version_conflict', 409, null);
+  }
+}
+
 /** The one code the fixture accepts, so the whole flow can be walked through. */
 const SYNTHETIC_CODE = 'b'.repeat(64);
 let syntheticBound = false;
@@ -262,6 +356,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
   const body = bodyOf(options);
   const binding = bindingScenario();
   const classifieds = classifiedsScenario();
+  const seller = sellerScenario();
   let result: unknown;
 
   if (binding && path === '/identity/seller-binding/inspect') {
@@ -286,7 +381,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         locale: 'ru', user: { firstName: 'Aziza', lastName: null, username: 'synthetic' },
         capabilities: {
           buyer: true, sellerRead: !classifieds, sellerCommands: !classifieds,
-          classifiedsDiscovery: classifieds, privateListing: false,
+          classifiedsDiscovery: classifieds, privateListing: seller,
         },
         storefront: classifieds ? null : { id: 'store-synthetic', locale: 'ru' },
       },
@@ -294,7 +389,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
         apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
         navigation: classifieds ? ['home', 'search', 'saved', 'activity'] : ['home', 'search', 'publish', 'cabinet'],
         sellerNavigation: classifieds ? [] : ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-        flags: { buyer: true, sellerRead: classifieds ? false : !binding || syntheticBound, sellerCommands: classifieds ? false : !binding || syntheticBound, voice: true, mediaUpload: !classifieds, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding, classifiedsDiscovery: classifieds, privateListing: false },
+        flags: { buyer: true, sellerRead: classifieds ? false : !binding || syntheticBound, sellerCommands: classifieds ? false : !binding || syntheticBound, voice: true, mediaUpload: !classifieds, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding, classifiedsDiscovery: classifieds, privateListing: seller },
         storefront: classifieds ? null : { id: 'store-synthetic', state: 'active' },
         counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
       },
@@ -304,7 +399,7 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
     result = {
       token: 'synthetic-memory-token', expiresAt: new Date(Date.now() + 600_000).toISOString(),
       locale: 'ru', user: { firstName: 'Aziza', lastName: null, username: 'synthetic' },
-      capabilities: { buyer: true, sellerRead: !classifieds, sellerCommands: !classifieds, classifiedsDiscovery: classifieds, privateListing: false },
+      capabilities: { buyer: true, sellerRead: !classifieds, sellerCommands: !classifieds, classifiedsDiscovery: classifieds, privateListing: seller },
       storefront: classifieds ? null : { id: 'store-synthetic', locale: 'ru' },
     } satisfies SessionExchange;
   } else if (path === '/session/locale') {
@@ -314,10 +409,92 @@ export async function syntheticRequest<T>(rawPath: string, options: RequestOptio
       apiVersion: 'market-v1', buildId: 'synthetic-candidate', locale: 'ru',
       navigation: classifieds ? ['home', 'search', 'saved', 'activity'] : ['home', 'search', 'publish', 'cabinet'],
       sellerNavigation: classifieds ? [] : ['dashboard', 'orders', 'questions', 'products', 'inventory'],
-      flags: { buyer: true, sellerRead: classifieds ? false : !binding || syntheticBound, sellerCommands: classifieds ? false : !binding || syntheticBound, voice: true, mediaUpload: !classifieds, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding, classifiedsDiscovery: classifieds, privateListing: false },
+      flags: { buyer: true, sellerRead: classifieds ? false : !binding || syntheticBound, sellerCommands: classifieds ? false : !binding || syntheticBound, voice: true, mediaUpload: !classifieds, cabinet: true, cabinetHomeV2: true, navBack: true, quickPost: true, quickPostAi: false, ownerTelegramBinding: binding, classifiedsDiscovery: classifieds, privateListing: seller },
       storefront: classifieds ? null : { id: 'store-synthetic', state: 'active' },
       counters: { orders: buyerOrders.length, activeCheckout: Boolean(checkout), activeHandoff: handoffs.some((item) => item.status === 'open') },
     };
+  } else if (path === '/classifieds/private/profile' && method === 'GET') {
+    result = { profile: syntheticSellerProfile };
+  } else if (path === '/classifieds/private/profile' && method === 'POST') {
+    // One public name and nothing else — no store, no membership, no Telegram.
+    syntheticSellerProfile = {
+      id: 'synthetic-seller-profile',
+      displayName: String(body.displayName ?? '').trim() || 'Продавец',
+      sellerType: 'private',
+      verificationState: 'unverified',
+      status: 'active',
+      moderationState: 'clear',
+      version: 1,
+    };
+    result = { profile: syntheticSellerProfile };
+  } else if (path === '/classifieds/private/media' && method === 'POST') {
+    result = { ref: `r2.synthetic${String(syntheticSellerSequence += 1).padStart(6, '0')}` };
+  } else if (path === '/classifieds/private/listings' && method === 'GET') {
+    result = { items: clone(syntheticSellerListings), nextCursor: null };
+  } else if (path === '/classifieds/private/listings' && method === 'POST') {
+    const listing = syntheticSellerListing(body, null);
+    syntheticSellerListings.unshift(listing);
+    // A buyer question arrives against the first listing, so the seller's
+    // reply queue has something in it by the time they look.
+    syntheticSellerInquiries.unshift({
+      id: `synthetic-seller-inquiry-${syntheticSellerListings.length}`,
+      listing: { id: listing.id, name: listing.name },
+      message: 'Здравствуйте! Ещё продаётся? Это синтетический вопрос.',
+      reply: null,
+      status: 'open',
+      version: 1,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+    listing.inquiries = { total: 1, open: 1 };
+    result = { listing: clone(listing) };
+  } else if (/^\/classifieds\/private\/listings\/[^/]+$/.test(path) && method === 'GET') {
+    result = { listing: clone(syntheticSellerListingAt(4, path)) };
+  } else if (/^\/classifieds\/private\/listings\/[^/]+$/.test(path) && method === 'PATCH') {
+    const listing = syntheticSellerListingAt(4, path);
+    syntheticExpectVersion(listing, body);
+    const updated = syntheticSellerListing(body, listing);
+    syntheticSellerListings.splice(syntheticSellerListings.indexOf(listing), 1, updated);
+    result = { listing: clone(updated) };
+  } else if (
+    /^\/classifieds\/private\/listings\/[^/]+\/(resubmit|unpublish|republish|archive)$/.test(path)
+    && method === 'POST'
+  ) {
+    const listing = syntheticSellerListingAt(4, path);
+    syntheticExpectVersion(listing, body);
+    const command = path.split('/')[5] as 'resubmit' | 'unpublish' | 'republish' | 'archive';
+    // The same rule the domain enforces: a seller may withdraw or resubmit,
+    // and none of those four words publishes anything.
+    listing.state = ({
+      resubmit: 'pending', unpublish: 'unpublished',
+      republish: 'pending', archive: 'archived',
+    } as const)[command];
+    listing.moderation = command === 'archive' || command === 'unpublish'
+      ? listing.moderation
+      : { state: 'pending', reasonCode: 'new_seller_review', decidedAt: null };
+    listing.version += 1;
+    listing.updatedAt = new Date().toISOString();
+    result = { listing: clone(listing) };
+  } else if (path === '/classifieds/private/inquiries' && method === 'GET') {
+    result = { items: clone(syntheticSellerInquiries), nextCursor: null };
+  } else if (
+    /^\/classifieds\/private\/inquiries\/[^/]+\/(reply|close)$/.test(path) && method === 'POST'
+  ) {
+    const inquiry = syntheticSellerInquiries.find((entry) => entry.id === path.split('/')[4]);
+    if (!inquiry) throw new MarketApiError('resource_not_found', 404, null);
+    const expected = Number(body.expectedVersion ?? 0);
+    if (!expected || expected !== inquiry.version) {
+      throw new MarketApiError('version_conflict', 409, null);
+    }
+    if (path.endsWith('/reply')) {
+      inquiry.reply = String(body.reply ?? body.message ?? '');
+      inquiry.status = 'answered';
+    } else {
+      inquiry.status = 'closed';
+    }
+    inquiry.version += 1;
+    inquiry.updatedAt = new Date().toISOString();
+    result = { inquiry: clone(inquiry) };
   } else if (path === '/classifieds/categories') {
     result = { items: classifiedCategories, nextCursor: null };
   } else if (path === '/classifieds/locations') {
