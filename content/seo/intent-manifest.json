@@ -92,6 +92,45 @@
       ],
       "evidence": "SEMrush commercial price/audit demand reviewed 2026-08-04; official Google Business Profile and Yandex Business documentation; live local SERP review.",
       "note": "The existing /ru/seo-prodvizhenie-saytov-tashkent/ keeps broad website SEO. This hub is restricted to map profiles, real locations, branches and local conversion paths."
+    },
+    {
+      "id": "smm-ru",
+      "hub": "/ru/smm-prodvizhenie-tashkent/",
+      "hubIntent": "transactional — commission SMM services for a business in Tashkent",
+      "hubKeywords": [
+        "smm услуги",
+        "smm услуги ташкент",
+        "smm услуги в ташкенте",
+        "smm продвижение ташкент",
+        "smm агентство ташкент",
+        "услуги smm агентства",
+        "заказать smm услуги",
+        "smm услуги заказать"
+      ],
+      "spokes": [
+        {
+          "url": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+          "ownsIntent": "what social media marketing is as a channel, how it differs from paid ads and SEO",
+          "primaryKeyword": "что такое smm продвижение"
+        },
+        {
+          "url": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+          "ownsIntent": "how an SMM quote is built and what the packages contain",
+          "primaryKeyword": "стоимость smm услуг"
+        },
+        {
+          "url": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+          "ownsIntent": "the buyer's view of what an SMM specialist delivers, what is out of scope and how to accept the work",
+          "primaryKeyword": "что входит в услуги smm специалиста"
+        },
+        {
+          "url": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+          "ownsIntent": "contracting for SMM services under Uzbek law",
+          "primaryKeyword": "договор на оказание smm услуг"
+        }
+      ],
+      "evidence": "docs/seo/smm-cluster-20260804/ — SEMrush seed list reviewed 2026-08-04, live SERP review of the same day, Search Console over 2026-02-01..2026-08-01, and primary-source verification against the Uzbek Civil Code chapter 38 and the Advertising Law ZRU-776.",
+      "note": "No second commercial page was created: the hub already owned the transactional intent, and «smm услуги ташкент» and «smm продвижение ташкент» return the same set of agency landing pages. The boundary with the /ru/blog/chto-takoe-smm-prodvizhenie/ spoke is drawn by question, not by synonym — that spoke keeps «что входит в smm продвижение» and «сколько стоит smm продвижение», and the two new commercial-investigation spokes may never claim them. Search Console shows zero SMM impressions over six months, so this cluster is a considered bet on an unmeasured local intent, not a volume claim: paid keyword tools were unavailable (0 credits) and no volume figure for Uzbekistan was obtained. Review impressions before adding a fifth spoke. An Instagram-specific page and a Uzbek-latin translation were both rejected — the first would cannibalise the hub, the second is unjustified while «smm mutaxassisi» returns job listings."
     }
   ],
   "pairs": [

@@ -105,9 +105,10 @@
     },
     {
       "type": "linkp",
-      "text": "Как распределять бюджет между каналами и что считать нормой по рынку — в разборе {cost}.",
+      "text": "Как распределять бюджет между каналами — в разборе {cost}. Если нужно разобрать именно смету на соцсети, из чего складывается цена и как устроены пакеты, это подробно разобрано в материале про {smmcena}.",
       "links": [
-        { "token": "cost", "target": "/ru/blog/stoimost-digital-marketinga-v-tashkente/", "anchor": "стоимости digital-маркетинга" }
+        { "token": "cost", "target": "/ru/blog/stoimost-digital-marketinga-v-tashkente/", "anchor": "стоимости digital-маркетинга" },
+        { "token": "smmcena", "target": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/", "anchor": "стоимость SMM-услуг в Ташкенте" }
       ]
     },
     {
@@ -191,6 +192,14 @@
       "text": "Подписчики — это не результат. Результат — обращения, на которые успели ответить."
     },
     {
+      "type": "linkp",
+      "text": "Если вы дошли до выбора исполнителя, дальше полезны два разбора: {sostav} — чтобы понимать предмет сделки, и {dogovor} — чтобы корректно оформить его по нормам Узбекистана, а не по скачанному шаблону.",
+      "links": [
+        { "token": "sostav", "target": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/", "anchor": "что входит в услуги SMM-специалиста" },
+        { "token": "dogovor", "target": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/", "anchor": "договор на оказание SMM-услуг" }
+      ]
+    },
+    {
       "type": "h2",
       "id": "itog",
       "text": "Коротко"
@@ -265,7 +274,10 @@
     { "target": "/ru/blog/stoimost-digital-marketinga-v-tashkente/", "anchor": "Стоимость digital-маркетинга" },
     { "target": "/ru/ai-menedzher-dlya-instagram/", "anchor": "AI-менеджер для Instagram" },
     { "target": "/ru/blog/chto-takoe-lid-v-marketinge/", "anchor": "Что такое лид в маркетинге" },
-    { "target": "/ru/blog/marketingovye-terminy-slovar/", "anchor": "Словарь маркетинговых терминов" }
+    { "target": "/ru/blog/marketingovye-terminy-slovar/", "anchor": "Словарь маркетинговых терминов" },
+    { "target": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/", "anchor": "Стоимость SMM-услуг в Ташкенте" },
+    { "target": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/", "anchor": "Что входит в услуги SMM-специалиста" },
+    { "target": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/", "anchor": "Договор на оказание SMM-услуг в Узбекистане" }
   ],
   "ogTitle": "Что такое SMM-продвижение: состав работ и стоимость",
   "ogDescription": "Что входит в SMM, чем отличается от таргета и SEO, сколько стоит в месяц и почему часто не приносит заявок.",
@@ -276,7 +288,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-02",
-  "dateModified": "2026-08-02",
+  "dateModified": "2026-08-04",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -284,6 +296,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-08-02T00:00:00.000Z",
+  "updatedAt": "2026-08-04T00:00:00.000Z",
   "createdAt": "2026-08-02T00:00:00.000Z"
 }
