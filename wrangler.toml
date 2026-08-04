@@ -102,7 +102,11 @@ MARKET_MINI_APP_SELLER_READS_ENABLED = "true"
 MARKET_MINI_APP_SELLER_COMMANDS_ENABLED = "true"
 MARKET_MINI_APP_ORIGINS = "https://gptbot-market-mini-app.pages.dev"
 MARKET_MINI_APP_URL = "https://gptbot-market-mini-app.pages.dev"
-MARKET_MINI_APP_BUILD_ID = "bormi-public-beta-20260804"
+# Moves with the shell cache name in `apps/market-mini-app/public/sw.js`, the
+# way 358a7b7 set it. The cabinet now prints this string back to the person as
+# «Версия приложения», so a build id that did not move would report the release
+# without the cabinet as though it were the one with it.
+MARKET_MINI_APP_BUILD_ID = "bormi-public-beta-20260804-cabinet"
 # Bormi voice search kill switch. Setting this to anything other than "true"
 # makes /api/market/v1/voice/search answer 503 and makes the Mini App hide the
 # microphone on the next launch; the typed search is unaffected either way.

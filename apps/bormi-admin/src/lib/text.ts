@@ -318,7 +318,10 @@ export const MODERATION_STATE: Record<string, string> = {
   approved: 'Одобрено',
   rejected: 'Отклонено',
   restricted: 'Ограничено',
-  removed: 'Снято',
+  // Not «Снято». The seller's own screen says «Снято с публикации» for the
+  // thing they did themselves, and two near-identical words for opposite
+  // actors is how an owner ends up answering the wrong support message.
+  removed: 'Снято модератором',
 };
 
 export const MODERATION_STATE_KEYS = Object.keys(MODERATION_STATE);
@@ -416,7 +419,10 @@ export const REPORT_STATUS_KEYS = Object.keys(REPORT_STATUS);
 export const REPORT_MODERATION_ACTION: Record<string, string> = {
   none: 'Без действия',
   restricted: 'Ограничено',
-  removed: 'Снято',
+  // The same word `MODERATION_STATE` uses. The reports table prints the action
+  // taken and the listing's state in one row, so two names for one verdict sit
+  // a few columns apart on the same line.
+  removed: 'Снято модератором',
   rejected: 'Отклонено',
 };
 

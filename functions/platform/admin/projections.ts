@@ -199,9 +199,23 @@ export async function loadPlatformOverview(db: D1Database, now: Date): Promise<P
       inactive: pilotStates.inactive ?? 0,
     },
     sellers: await scalar(db, 'SELECT COUNT(DISTINCT owner_identity_id) AS n FROM sotuvchi_onboardings'),
+    // The store catalogue, which is what the card above these numbers is about
+    // and what the listings screen they link to can show. A private classified
+    // listing has a null `store_id` and a moderation state rather than a
+    // catalogue status; counting it here made the overview disagree with every
+    // screen an operator could open from it.
     products: {
-      total: await scalar(db, 'SELECT COUNT(*) AS n FROM sotuvchi_products'),
-      published: await scalar(db, "SELECT COUNT(*) AS n FROM sotuvchi_products WHERE status = 'published'"),
+      total: await scalar(
+        db,
+        `SELECT COUNT(*) AS n FROM sotuvchi_products AS product
+           JOIN sotuvchi_stores AS store ON store.id = product.store_id`,
+      ),
+      published: await scalar(
+        db,
+        `SELECT COUNT(*) AS n FROM sotuvchi_products AS product
+           JOIN sotuvchi_stores AS store ON store.id = product.store_id
+          WHERE product.status = 'published'`,
+      ),
     },
     orders: {
       today: await scalar(db, 'SELECT COUNT(*) AS n FROM sotuvchi_orders WHERE created_at >= ?', dayStart),

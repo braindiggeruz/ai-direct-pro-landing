@@ -191,6 +191,13 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
 
 .bottom-nav { position: fixed; z-index: 40; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; min-height: calc(70px + var(--safe-bottom)); padding: 6px 8px var(--safe-bottom); border-top: 1px solid color-mix(in srgb, var(--border-default) 76%, transparent); background: color-mix(in srgb, var(--surface-raised) 94%, transparent); box-shadow: 0 -12px 32px rgb(36 24 74 / 8%); backdrop-filter: blur(18px) saturate(160%); }
 .bottom-nav--seller { grid-template-columns: repeat(5, 1fr); }
+/* The classifieds bar carries four or five destinations depending on whether the
+   server granted publishing, so it takes its column count from what it was
+   handed rather than from a number baked into the grid. With the fixed
+   `repeat(4, 1fr)` above, the fifth tab wrapped onto a second row: it sat under
+   the first tab, was cut off by the bar's own height, and swallowed taps meant
+   for the row above it. */
+.bottom-nav--auto { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 1fr; }
 .bottom-nav button { position: relative; display: grid; min-width: 0; min-height: 54px; place-items: center; align-content: center; gap: 3px; padding: 4px 3px; border: 0; border-radius: 14px; background: transparent; color: var(--text-secondary); font-size: clamp(.62rem, 2.65vw, .73rem); cursor: pointer; }
 .bottom-nav button .icon { position: relative; z-index: 1; }
 .bottom-nav button[aria-current="page"] { background: color-mix(in srgb, var(--action-primary) 11%, var(--surface-raised)); color: var(--action-primary); font-weight: 800; }

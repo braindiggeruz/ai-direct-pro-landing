@@ -474,7 +474,7 @@ test('the slice adds no endpoint, no migration and no launch request', async () 
 
 test('the shell change carries a new cache name', async () => {
   const worker = await source('apps/market-mini-app/public/sw.js');
-  // v14 since AUTH-1F shipped the binding screen into the shell.
-  assert.match(worker, /const CACHE = 'bormi-shell-v14'/);
+  // v16 since the classifieds shell grew the cabinet tab.
+  assert.match(worker, /const CACHE = 'bormi-shell-v16'/);
   assert.match(worker, /keys\.filter\(\(key\) => key !== CACHE\)\.map\(\(key\) => caches\.delete\(key\)\)/);
 });

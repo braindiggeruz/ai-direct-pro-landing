@@ -1490,7 +1490,7 @@ test('the ceremony ships with every switch still off and no new migration', asyn
   );
   // The shell cache moves, or a device keeps serving a build without the screen.
   const worker = await source('apps/market-mini-app/public/sw.js');
-  assert.match(worker, /const CACHE = 'bormi-shell-v14';/);
+  assert.match(worker, /const CACHE = 'bormi-shell-v16';/);
 });
 
 test('behaviour: the ledger repair changes no schema and no business data', async () => {

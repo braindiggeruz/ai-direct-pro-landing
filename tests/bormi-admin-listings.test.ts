@@ -26,6 +26,7 @@ function code(text: string): string {
 }
 
 const READ_MODEL = 'functions/platform/admin/listings.ts';
+const OVERVIEW_MODEL = 'functions/platform/admin/projections.ts';
 const LIST_ROUTE = 'functions/api/admin/listings/index.ts';
 const DETAIL_ROUTE = 'functions/api/admin/listings/[id]/index.ts';
 const MEDIA_ROUTE = 'functions/api/admin/listings/[id]/media/[index].ts';
@@ -224,6 +225,43 @@ test('listings: category counts are one grouped statement, not one per category'
   assert.match(body, /db\.batch/);
   assert.match(body, /GROUP BY product\.category_id, product\.status/);
   assert.doesNotMatch(body, /map\([^)]*async/);
+});
+
+test('listings: the table, the pager and the tiles count one population', async () => {
+  // `listListings` joins stores, so every other statement that answers a
+  // question about "how many listings" has to join them too. Private classified
+  // listings have a null `store_id` — `0034` made it nullable so a private
+  // seller would not need a fake shop — and counting them here produced a total
+  // the table could never reach and pages that came back empty.
+  //
+  // The anchor is the table name, not `FROM sotuvchi_products AS product`. The
+  // statements this guard exists to reject are the ones that were here before,
+  // and they had no alias at all — anchoring on the alias made the match list
+  // empty and the loop below vacuous, so the test passed on exactly the text it
+  // was written to catch. For the same reason an entry with no statements to
+  // check is a stale test rather than a silent pass.
+  const surfaces = [
+    { file: READ_MODEL, entries: ['countListings', 'listingSummary'] },
+    { file: OVERVIEW_MODEL, entries: ['loadPlatformOverview'] },
+  ] as const;
+
+  for (const { file, entries } of surfaces) {
+    const model = code(await source(file));
+    for (const entry of entries) {
+      const start = model.indexOf(`export async function ${entry}`);
+      assert.notEqual(start, -1, `${entry} is gone; this test is stale`);
+      const body = model.slice(start, model.indexOf('\nexport ', start + 1));
+      const statements = body.match(/FROM sotuvchi_products\b[\s\S]*?`/g) ?? [];
+      assert.ok(statements.length > 0, `${entry} counts no products; this test is stale`);
+      for (const statement of statements) {
+        assert.match(
+          statement,
+          /JOIN sotuvchi_stores AS store ON store\.id = product\.store_id/,
+          `${entry} counts products the catalogue table cannot show`,
+        );
+      }
+    }
+  }
 });
 
 test('listings: nothing selects the whole table', async () => {

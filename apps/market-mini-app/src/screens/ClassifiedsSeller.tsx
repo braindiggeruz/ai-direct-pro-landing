@@ -175,7 +175,9 @@ const STATE_LABELS: Record<SellerListingState, {
   published: { ru: 'Опубликовано', uz: 'Chop etilgan', tone: 'positive' },
   needs_changes: { ru: 'Нужны исправления', uz: 'Tuzatish kerak', tone: 'warning' },
   restricted: { ru: 'Ограничено', uz: 'Cheklangan', tone: 'negative' },
-  removed: { ru: 'Удалено', uz: 'O‘chirilgan', tone: 'negative' },
+  // The same words the Admin moderation queue uses for the same verdict, so a
+  // support answer and the seller's screen cannot describe it differently.
+  removed: { ru: 'Снято модератором', uz: 'Moderator olib tashladi', tone: 'negative' },
   unpublished: { ru: 'Снято с публикации', uz: 'Chop etishdan olingan', tone: 'neutral' },
   archived: { ru: 'В архиве', uz: 'Arxivda', tone: 'neutral' },
 };

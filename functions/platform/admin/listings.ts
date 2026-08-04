@@ -298,14 +298,31 @@ export async function listListings(
   });
 }
 
-/** How many rows the same filters match. No joins: nothing filters on a label. */
+/**
+ * How many rows the same filters match.
+ *
+ * The store join is not here for a label — nothing filters on one. It is here
+ * because `listListings` joins stores, and a private classified listing has no
+ * store: `sotuvchi_products.store_id` became nullable in `0034` so a private
+ * seller would not need a fake shop. Counting without the join therefore counted
+ * rows the table can never render, and the pager offered pages that came back
+ * empty. The two statements have to describe the same population, and the
+ * catalogue's population is the one with a store.
+ *
+ * Private listings are not hidden by this: their lifecycle is moderation, not
+ * the catalogue's draft/published/archived, and they are all visible under
+ * `/moderation` with the states that actually apply to them.
+ */
 export async function countListings(
   db: D1Database,
   filters: ListingFilters,
 ): Promise<number> {
   const { sql, binds } = where(filters);
   const row = await db.prepare(
-    `SELECT COUNT(*) AS n FROM sotuvchi_products AS product ${sql}`,
+    `SELECT COUNT(*) AS n
+       FROM sotuvchi_products AS product
+       JOIN sotuvchi_stores AS store ON store.id = product.store_id
+       ${sql}`,
   ).bind(...binds).first<Row>();
   return num(row?.n);
 }
@@ -325,8 +342,17 @@ export interface ListingSummary {
  * question about twenty-five rows. Two statements, batched.
  */
 export async function listingSummary(db: D1Database): Promise<ListingSummary> {
+  // Same population as the table and the pager: products that belong to a
+  // store. A private classified listing has no store and no catalogue status to
+  // summarise — counting it here inflated every tile above a table it could
+  // never appear in.
   const [statuses, quality] = await db.batch<Row>([
-    db.prepare('SELECT status, COUNT(*) AS n FROM sotuvchi_products GROUP BY status'),
+    db.prepare(
+      `SELECT product.status AS status, COUNT(*) AS n
+         FROM sotuvchi_products AS product
+         JOIN sotuvchi_stores AS store ON store.id = product.store_id
+        GROUP BY product.status`,
+    ),
     db.prepare(
       `SELECT
          SUM(CASE WHEN ${QUALITY_SQL.no_photo} THEN 1 ELSE 0 END) AS no_photo,
@@ -334,7 +360,8 @@ export async function listingSummary(db: D1Database): Promise<ListingSummary> {
          SUM(CASE WHEN ${QUALITY_SQL.no_description} THEN 1 ELSE 0 END) AS no_description,
          SUM(CASE WHEN ${QUALITY_SQL.unavailable} THEN 1 ELSE 0 END) AS unavailable,
          SUM(CASE WHEN ${INCOMPLETE_SQL} OR ${ATTENTION_SQL} THEN 1 ELSE 0 END) AS attention
-       FROM sotuvchi_products AS product`,
+       FROM sotuvchi_products AS product
+       JOIN sotuvchi_stores AS store ON store.id = product.store_id`,
     ),
   ]).then((results) => results.map((result) => result.results ?? []));
 

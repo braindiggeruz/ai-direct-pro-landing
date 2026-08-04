@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MarketApiError, classifiedsVoiceSearch, marketApi } from '../lib/api';
+import { BOT_CHAT_URL } from '../lib/bot-link';
 import { formatPrice } from '../lib/i18n';
 import {
   VoiceCaptureError,
@@ -9,7 +10,7 @@ import {
   type VoiceRecording,
 } from '../lib/voice';
 import { useBackStop } from '../platform/navigation';
-import { haptic } from '../platform/telegram';
+import { haptic, type ThemePreference } from '../platform/telegram';
 import type {
   ClassifiedCategory,
   ClassifiedCondition,
@@ -33,6 +34,7 @@ import {
   Field,
   Icon,
   Modal,
+  SectionHeader,
   SkeletonList,
   StateView,
   type IconName,
@@ -41,7 +43,7 @@ import {
 const ClassifiedsSeller = lazy(() => import('./ClassifiedsSeller')
   .then((module) => ({ default: module.ClassifiedsSeller })));
 
-type View = 'home' | 'search' | 'saved' | 'activity' | 'sell';
+type View = 'home' | 'search' | 'saved' | 'activity' | 'sell' | 'profile';
 type Page<T> = { items: T[]; nextCursor: string | null };
 
 const words = {
@@ -64,6 +66,21 @@ const words = {
     yourMessage: 'Ваш вопрос', sellerReply: 'Ответ продавца', inquiryOnly: 'Связь через Bormi',
     availability: 'Наличие', available: 'В наличии',
     sell: 'Подать', sellItem: 'Продать', myListings: 'Мои объявления',
+    profile: 'Профиль', hello: 'Ваш кабинет',
+    profileBody: 'Здесь всё ваше: объявления, обращения и настройки.',
+    myListingsHint: 'Черновики, модерация и опубликованные',
+    sellerInquiries: 'Обращения покупателей',
+    sellerInquiriesHint: 'Вопросы о ваших объявлениях',
+    activityTitle: 'Моя активность',
+    myActivity: 'Мои запросы',
+    myActivityHint: 'Вопросы, которые вы отправили продавцам',
+    savedHint: 'Объявления, которые вы отложили',
+    settings: 'Настройки', language: 'Язык', theme: 'Оформление',
+    themeAuto: 'Как в Telegram', themeLight: 'Светлое', themeDark: 'Тёмное',
+    helpTitle: 'Помощь', helpBody: 'Напишите нам в чат Bormi',
+    appVersion: 'Версия приложения',
+    becomeSeller: 'Подать объявление',
+    becomeSellerHint: 'Фото, цена, район — и объявление уходит на модерацию',
   },
   uz: {
     home: 'Bosh sahifa', search: 'Qidirish', saved: 'Saqlanganlar', activity: 'So‘rovlar',
@@ -84,6 +101,21 @@ const words = {
     yourMessage: 'Savolingiz', sellerReply: 'Sotuvchi javobi', inquiryOnly: 'Bormi orqali aloqa',
     availability: 'Mavjudligi', available: 'Mavjud',
     sell: 'Berish', sellItem: 'Sotish', myListings: 'Mening e’lonlarim',
+    profile: 'Profil', hello: 'Sizning kabinetingiz',
+    profileBody: 'Bu yerda hammasi sizniki: e’lonlar, murojaatlar va sozlamalar.',
+    myListingsHint: 'Qoralamalar, moderatsiya va chop etilganlar',
+    sellerInquiries: 'Xaridorlar murojaati',
+    sellerInquiriesHint: 'E’lonlaringiz haqidagi savollar',
+    activityTitle: 'Mening faoliyatim',
+    myActivity: 'Mening so‘rovlarim',
+    myActivityHint: 'Siz sotuvchilarga yuborgan savollar',
+    savedHint: 'Siz saqlab qo‘ygan e’lonlar',
+    settings: 'Sozlamalar', language: 'Til', theme: 'Ko‘rinish',
+    themeAuto: 'Telegramdagidek', themeLight: 'Yorug‘', themeDark: 'Qorong‘i',
+    helpTitle: 'Yordam', helpBody: 'Bormi chatiga yozing',
+    appVersion: 'Ilova versiyasi',
+    becomeSeller: 'E’lon berish',
+    becomeSellerHint: 'Surat, narx, tuman — va e’lon moderatsiyaga ketadi',
   },
 } as const;
 
@@ -154,6 +186,60 @@ function ListingCard({ item, locale, saved, pending, onOpen, onSave }: {
   </article>;
 }
 
+/**
+ * One named destination in the cabinet.
+ *
+ * The classifieds shell reaches the same screens the store cabinet reached, so
+ * it reuses that cabinet's markup rather than inventing a second look for the
+ * same idea. `count` is only ever a number the server actually reported, and a
+ * zero is not a number worth showing.
+ */
+function CabinetRow({ icon, title, hint, count, onOpen, href }: {
+  icon: IconName;
+  title: string;
+  hint?: string;
+  count?: number;
+  onOpen?: () => void;
+  href?: string;
+}) {
+  const body = <>
+    <span className="cabinet-row__icon"><Icon name={icon} size={20}/></span>
+    <span className="cabinet-row__text">
+      <strong>{title}</strong>
+      {hint ? <small>{hint}</small> : null}
+    </span>
+    {count ? <span className="cabinet-row__count">{count}</span> : null}
+    <Icon name="chevron" size={18}/>
+  </>;
+  if (href) {
+    return <a className="cabinet-row" href={href} target="_blank" rel="noreferrer">{body}</a>;
+  }
+  return <button type="button" className="cabinet-row" onClick={onOpen}>{body}</button>;
+}
+
+function ChoiceRow<T extends string>({ label, value, options, onChange }: {
+  label: string;
+  value: T;
+  options: readonly { value: T; label: string }[];
+  onChange: (next: T) => void;
+}) {
+  return <div className="cabinet-choice">
+    <span className="cabinet-choice__label" id={`classifieds-choice-${label}`}>{label}</span>
+    <div
+      className="segmented segmented--choice"
+      role="group"
+      aria-labelledby={`classifieds-choice-${label}`}
+    >
+      {options.map((option) => <button
+        key={option.value}
+        type="button"
+        aria-pressed={option.value === value}
+        onClick={() => onChange(option.value)}
+      >{option.label}</button>)}
+    </div>
+  </div>;
+}
+
 function voiceErrorFor(error: unknown): VoiceErrorKind {
   if (!(error instanceof MarketApiError)) return 'network';
   if (error.code === 'voice_unclear' || error.code === 'validation_failed') return 'unclear';
@@ -162,7 +248,17 @@ function voiceErrorFor(error: unknown): VoiceErrorKind {
   return 'network';
 }
 
-export function ClassifiedsBuyer({ locale, navBack, voiceEnabled, privateListing }: {
+export function ClassifiedsBuyer({
+  locale,
+  navBack,
+  voiceEnabled,
+  privateListing,
+  userName,
+  buildId,
+  theme,
+  onTheme,
+  onLocale,
+}: {
   locale: Locale;
   navBack: boolean;
   voiceEnabled: boolean;
@@ -174,6 +270,13 @@ export function ClassifiedsBuyer({ locale, navBack, voiceEnabled, privateListing
    * worse than no control.
    */
   privateListing: boolean;
+  /** The person's own first name, shown back to them. Never another user's. */
+  userName: string;
+  /** The build the server answered from; shown as the app version, nothing else. */
+  buildId: string;
+  theme: ThemePreference;
+  onTheme: (next: ThemePreference) => void;
+  onLocale: (next: Locale) => void;
 }) {
   const w = words[locale];
   const client = useQueryClient();
@@ -203,20 +306,63 @@ export function ClassifiedsBuyer({ locale, navBack, voiceEnabled, privateListing
   const [voiceOffline, setVoiceOffline] = useState(false);
   const recorderRef = useRef<VoiceRecorder | null>(null);
   const micAvailable = voiceEnabled && !voiceOffline && voiceCaptureSupported();
-  const [sellSheetOpen, setSellSheetOpen] = useState(false);
-  const [sellIntent, setSellIntent] = useState<'listings' | 'composer'>('listings');
+  const [sellIntent, setSellIntent] = useState<'listings' | 'composer' | 'inquiries'>('composer');
+  // Two screens can be entered from two places — the publish tab and the
+  // cabinet — so "back" has to remember which one, rather than always dropping
+  // the person on the front page they did not come from.
+  const [returnTo, setReturnTo] = useState<View>('home');
+  const openSeller = (intent: 'listings' | 'composer' | 'inquiries', from: View) => {
+    setSellIntent(intent);
+    setReturnTo(from);
+    setView('sell');
+  };
+
+  /**
+   * A tap on the bar.
+   *
+   * The bar holds roots, so every tab it handles resets the back target: a
+   * screen reached by tapping its own tab goes back to the front page, not to
+   * wherever the cabinet last pointed.
+   *
+   * The publish tab is the exception, because it opens a screen rather than a
+   * root. Tapping it while that screen is already open must do nothing at all:
+   * `setView('sell')` cannot remount the child, which reads `initialView` once,
+   * so the composer would not appear — but `setReturnTo` would still land, and
+   * the next back press would leave the cabinet the person actually came from
+   * for a front page they never chose.
+   */
+  const openTab = (destination: View) => {
+    if (destination === 'sell') {
+      if (view !== 'sell') openSeller('composer', view);
+      return;
+    }
+    setReturnTo('home');
+    setView(destination);
+  };
 
   // The publish tab exists only when the server granted private listing. A tab
   // that opens "coming soon" is a promise the shell cannot keep.
+  //
+  // The cabinet tab is always there: it is where a person finds their own
+  // listings, their own questions and the settings, and an app whose only
+  // account screen is two unlabelled icons in the header is not an app an
+  // ordinary person can read.
   const navTabs = ([
     ['home', 'home'],
     ['search', 'search'],
     ...(privateListing ? [['sell', 'plus'] as const] : []),
     ['saved', 'heart'],
-    ['activity', 'help'],
+    ['profile', 'cabinet'],
   ] as const satisfies readonly (readonly [View, IconName])[]);
 
-  useBackStop(navBack && view !== 'home', `classifieds:${view}`, () => setView('home'));
+  // `saved` is in this set as well as `sell` and `activity`, because all three
+  // can be opened from the cabinet as well as from the bar. The bar resets the
+  // target to `home` on every tab it handles, so a view reached by tapping its
+  // own tab still goes back to the front page rather than to wherever the
+  // cabinet last pointed.
+  useBackStop(navBack && view !== 'home', `classifieds:${view}`, () => {
+    setView(view === 'sell' || view === 'activity' || view === 'saved' ? returnTo : 'home');
+  });
   const categories = useQuery<Page<ClassifiedCategory>>({
     queryKey: ['classifieds', 'categories'], queryFn: ({ signal }) => marketApi.get('/classifieds/categories', signal),
   });
@@ -238,6 +384,11 @@ export function ClassifiedsBuyer({ locale, navBack, voiceEnabled, privateListing
     queryKey: ['classifieds', 'inquiries'], queryFn: ({ signal }) => marketApi.get('/classifieds/inquiries', signal),
   });
   const savedIds = useMemo(() => new Set((favorites.data?.items ?? []).map((item) => item.id)), [favorites.data]);
+  // Only questions still waiting on a seller are worth a number in the cabinet.
+  const openInquiryCount = useMemo(
+    () => (inquiries.data?.items ?? []).filter((item) => item.status === 'open').length,
+    [inquiries.data],
+  );
   const favorite = useMutation({
     mutationFn: ({ id, saved }: { id: string; saved: boolean }) => saved
       ? marketApi.delete(`/classifieds/listings/${encodeURIComponent(id)}/favorite`)
@@ -249,7 +400,7 @@ export function ClassifiedsBuyer({ locale, navBack, voiceEnabled, privateListing
       `/classifieds/listings/${encodeURIComponent(inquiryListing!.id)}/inquiries`, { message: message.trim() },
     ),
     onSuccess: () => {
-      setMessage(''); setInquiryListing(null); setView('activity');
+      setMessage(''); setInquiryListing(null); setReturnTo('home'); setView('activity');
       void client.invalidateQueries({ queryKey: ['classifieds', 'inquiries'] });
     },
   });
@@ -416,24 +567,111 @@ export function ClassifiedsBuyer({ locale, navBack, voiceEnabled, privateListing
             categories={categories.data?.items ?? []}
             locations={locations.data?.items ?? []}
             initialView={sellIntent}
-            onClose={() => setView('home')}
+            onClose={() => setView(returnTo)}
           />
         </Suspense>
       </section> : null}
+
+      {/* The cabinet. Everything that belongs to the person rather than to the
+          catalogue, in one place they can reach from the bar without being
+          told where to look. */}
+      {view === 'profile' ? <>
+        <section className="hero">
+          <p className="eyebrow"><Icon name="cabinet" size={15}/>{userName}</p>
+          <h1>{w.hello}</h1>
+          <p>{w.profileBody}</p>
+        </section>
+
+        {privateListing ? <section className="section">
+          <SectionHeader title={w.sellItem}/>
+          <div className="cabinet-list">
+            <CabinetRow
+              icon="plus"
+              title={w.becomeSeller}
+              hint={w.becomeSellerHint}
+              onOpen={() => openSeller('composer', 'profile')}
+            />
+            <CabinetRow
+              icon="products"
+              title={w.myListings}
+              hint={w.myListingsHint}
+              onOpen={() => openSeller('listings', 'profile')}
+            />
+            <CabinetRow
+              icon="help"
+              title={w.sellerInquiries}
+              hint={w.sellerInquiriesHint}
+              onOpen={() => openSeller('inquiries', 'profile')}
+            />
+          </div>
+        </section> : null}
+
+        <section className="section">
+          <SectionHeader title={w.activityTitle}/>
+          <div className="cabinet-list">
+            <CabinetRow
+              icon="help"
+              title={w.myActivity}
+              hint={w.myActivityHint}
+              count={openInquiryCount}
+              onOpen={() => { setReturnTo('profile'); setView('activity'); }}
+            />
+            <CabinetRow
+              icon="heart"
+              title={w.saved}
+              hint={w.savedHint}
+              count={savedIds.size}
+              onOpen={() => { setReturnTo('profile'); setView('saved'); }}
+            />
+          </div>
+        </section>
+
+        <section className="section">
+          <SectionHeader title={w.settings}/>
+          <div className="cabinet-list">
+            <ChoiceRow
+              label={w.language}
+              value={locale}
+              options={[
+                { value: 'ru' as Locale, label: 'Русский' },
+                { value: 'uz' as Locale, label: 'O‘zbekcha' },
+              ]}
+              onChange={onLocale}
+            />
+            <ChoiceRow
+              label={w.theme}
+              value={theme}
+              options={[
+                { value: 'auto' as ThemePreference, label: w.themeAuto },
+                { value: 'light' as ThemePreference, label: w.themeLight },
+                { value: 'dark' as ThemePreference, label: w.themeDark },
+              ]}
+              onChange={onTheme}
+            />
+          </div>
+        </section>
+
+        <section className="section">
+          <SectionHeader title={w.helpTitle}/>
+          <div className="cabinet-list">
+            {BOT_CHAT_URL ? <CabinetRow
+              icon="help"
+              title={w.helpTitle}
+              hint={w.helpBody}
+              href={BOT_CHAT_URL}
+            /> : null}
+            <div className="cabinet-choice">
+              <span className="cabinet-choice__label">{w.appVersion}</span>
+              <p className="cabinet-note">{buildId}</p>
+            </div>
+          </div>
+        </section>
+      </> : null}
     </main>
 
-    <nav className="bottom-nav" aria-label="Bormi classifieds">
-      {navTabs.map(([destination, icon]) => <button key={destination} onClick={() => { if (destination === 'sell') { setSellSheetOpen(true); return; } setView(destination); }} aria-current={view === destination ? 'page' : undefined}><span className="bottom-nav__icon"><Icon name={icon}/></span><span>{w[destination]}</span></button>)}
+    <nav className="bottom-nav bottom-nav--auto" aria-label="Bormi classifieds">
+      {navTabs.map(([destination, icon]) => <button key={destination} onClick={() => openTab(destination)} aria-current={view === destination ? 'page' : undefined}><span className="bottom-nav__icon"><Icon name={icon}/></span><span>{w[destination]}</span></button>)}
     </nav>
-
-    {/* «Подать» opens a choice, not a screen: selling is one of the things a
-        person can publish, and the sheet is where a second one would go. */}
-    <Modal open={sellSheetOpen} title={w.sell} onClose={() => setSellSheetOpen(false)} closeLabel={w.close} sheet>
-      <div className="stack">
-        <Button wide onClick={() => { setSellSheetOpen(false); setSellIntent('composer'); setView('sell'); }}><Icon name="plus" size={18}/>{w.sellItem}</Button>
-        <Button wide variant="secondary" onClick={() => { setSellSheetOpen(false); setSellIntent('listings'); setView('sell'); }}><Icon name="products" size={18}/>{w.myListings}</Button>
-      </div>
-    </Modal>
 
     <Modal open={Boolean(selected)} title={selected?.name ?? ''} onClose={() => setSelected(null)} closeLabel={w.close} sheet>
       {selected ? <div className="stack classified-detail"><AsyncImage className="classified-detail__media" handle={selected.mediaHandles[0]} alt={selected.name}/><div className="row row--between"><strong className="price-large">{formatPrice(selected.priceMinor, locale)}</strong><Badge>{selected.conditionLabel[locale]}</Badge></div>{selected.description ? <p>{selected.description}</p> : null}<dl className="spec-list"><div><dt>{w.location}</dt><dd>{locale === 'ru' ? selected.location.districtNameRu : selected.location.districtNameUz}</dd></div><div><dt>{w.seller}</dt><dd>{selected.seller.displayName}</dd></div></dl><div className="notice"><Icon name="check" size={18}/><span>{selected.seller.verificationState === 'unverified' ? w.unverified : w.verified}. {w.inquiryOnly}.</span></div><Button wide onClick={() => { setInquiryListing(selected); setSelected(null); }}>{w.contact}</Button><Button wide variant="ghost" onClick={() => { setReportListing(selected); setSelected(null); }}>{w.report}</Button></div> : null}

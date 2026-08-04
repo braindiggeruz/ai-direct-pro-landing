@@ -115,6 +115,14 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
             navBack={navBack}
             voiceEnabled={bootstrap.data.flags.voice === true}
             privateListing={bootstrap.data.flags.privateListing === true}
+            // The classifieds shell replaces the store shell outright, so it
+            // has to carry the cabinet the store shell owned. Without these the
+            // only account surface left is two unlabelled header icons.
+            userName={launch.session.user.firstName}
+            buildId={bootstrap.data.buildId}
+            theme={theme}
+            onTheme={changeTheme}
+            onLocale={(next) => void changeLocale(next)}
           /></Suspense>
         : <BuyerApp
           locale={locale}
