@@ -12,7 +12,12 @@ import {
   type OwnerReasonCode,
 } from './validation';
 
-export type OwnerAuditTargetType = 'store' | 'automation_job';
+/**
+ * `product` was added by migration 0033. A listing action is performed on a
+ * product, not on the store that holds it, and recording it as a store would
+ * leave `idx_owner_audit_target` unable to answer what happened to a listing.
+ */
+export type OwnerAuditTargetType = 'store' | 'automation_job' | 'product';
 
 export interface OwnerAuditInput {
   actorEmail: string;
@@ -64,9 +69,10 @@ const DDL = [
     actor_role TEXT NOT NULL CHECK (actor_role IN ('platform_owner', 'support_readonly')),
     action TEXT NOT NULL CHECK (action IN (
       'store.suspend', 'store.restore', 'pilot.activate', 'pilot.pause', 'automation.replay',
-      'seller.bind', 'seller.unbind'
+      'seller.bind', 'seller.unbind',
+      'listing.publish', 'listing.unpublish', 'listing.archive'
     )),
-    target_type TEXT NOT NULL CHECK (target_type IN ('store', 'automation_job')),
+    target_type TEXT NOT NULL CHECK (target_type IN ('store', 'automation_job', 'product')),
     target_id TEXT NOT NULL CHECK (length(target_id) BETWEEN 1 AND 120),
     org_id TEXT CHECK (org_id IS NULL OR length(org_id) BETWEEN 1 AND 120),
     reason_code TEXT NOT NULL CHECK (reason_code IN (

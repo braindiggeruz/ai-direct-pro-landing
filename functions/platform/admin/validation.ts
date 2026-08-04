@@ -27,6 +27,16 @@ export const OWNER_AUDIT_ACTIONS = [
   // are recorded against the store, which is the thing being granted access to.
   'seller.bind',
   'seller.unbind',
+  // The three transitions the catalogue domain implements: draft to published,
+  // published back to draft, and anything to archived. Added by migration 0033,
+  // which also widened the target_type list to admit a product.
+  //
+  // No quoted literal belongs in this comment: the vocabulary-parity test reads
+  // this array out of the raw source, and a quoted word here would read as an
+  // eleventh action that no screen could label.
+  'listing.publish',
+  'listing.unpublish',
+  'listing.archive',
 ] as const;
 export type OwnerAuditAction = (typeof OWNER_AUDIT_ACTIONS)[number];
 
@@ -36,6 +46,10 @@ const TYPED_CONFIRMATION_ACTIONS: ReadonlySet<OwnerAuditAction> = new Set<OwnerA
   'pilot.activate',
   'pilot.pause',
   'automation.replay',
+  // Archiving takes a listing away from buyers and the catalogue offers no
+  // reverse transition, so it is typed like `store.suspend`. Publishing and
+  // unpublishing are reversible by each other and are confirmed, not typed.
+  'listing.archive',
 ]);
 
 export const OWNER_LIMITS = Object.freeze({
@@ -120,9 +134,15 @@ export interface OwnerMutationBody {
   reasonCode: OwnerReasonCode;
   idempotencyKey: string;
   confirmation?: string;
+  /**
+   * The version the caller was looking at. Optional in this shared parser
+   * because the store mutations have no version column; a handler that needs
+   * one rejects its absence itself.
+   */
+  expectedVersion?: number;
 }
 
-const MUTATION_KEYS = ['confirmation', 'idempotency_key', 'reason_code'];
+const MUTATION_KEYS = ['confirmation', 'expected_version', 'idempotency_key', 'reason_code'];
 
 /**
  * Parse a mutation body. The key set is closed: an unexpected field is a
@@ -146,6 +166,13 @@ export function parseOwnerMutationBody(raw: unknown): OwnerMutationBody {
       throw new OwnerValidationError('invalid_confirmation');
     }
     body.confirmation = record.confirmation;
+  }
+  if (record.expected_version !== undefined) {
+    const version = record.expected_version;
+    if (typeof version !== 'number' || !Number.isInteger(version) || version < 1) {
+      throw new OwnerValidationError('invalid_expected_version');
+    }
+    body.expectedVersion = version;
   }
   return body;
 }
