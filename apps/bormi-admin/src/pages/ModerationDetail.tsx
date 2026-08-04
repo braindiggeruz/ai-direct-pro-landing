@@ -31,6 +31,7 @@ import {
   exactTime,
   label,
   LISTING_CONDITION,
+  LISTING_STATUS,
   MODERATION_ACTION,
   MODERATION_ACTOR,
   MODERATION_ERROR,
@@ -547,7 +548,14 @@ export default function ModerationDetail() {
                 </Badge>
               )}
             />
-            <Field label="Статус карточки" value={listing.product_status} />
+            {/* `draft`, `published` and `archived` are how the products table
+                talks. An operator should not have to learn that vocabulary to
+                read the row, and this panel's rule is that a raw status key
+                never reaches a screen. */}
+            <Field
+              label="Статус карточки"
+              value={<Badge>{label(LISTING_STATUS, listing.product_status)}</Badge>}
+            />
             <Field label="Цена" value={money(listing.price_minor)} />
             <Field label="Валюта" value={listing.currency} />
             <Field label="Состояние товара" value={label(LISTING_CONDITION, listing.condition ?? '')} />
@@ -642,9 +650,13 @@ export default function ModerationDetail() {
             ))}
           </ul>
         )}
+        {/* "Показаны последние 1 запись" is what a count and a noun produce
+            when the number is one, so the singular gets its own sentence. */}
         <p className="muted mt-3 text-xs">
-          Показаны последние {count(listing.history.length)}{' '}
-          {plural(listing.history.length, 'запись', 'записи', 'записей')}.
+          {listing.history.length === 1
+            ? 'Записана одна операция.'
+            : `Показаны последние ${count(listing.history.length)} `
+              + `${plural(listing.history.length, 'запись', 'записи', 'записей')}.`}
         </p>
       </Card>
 
