@@ -1338,9 +1338,10 @@ export class SotuvchiClassifiedsService {
     guardArgs: readonly unknown[];
   }): D1PreparedStatement {
     return this.db.prepare(`INSERT INTO market_moderation_audit(
-      event_id, product_id, report_id, actor_type, actor_identity_id, action,
-      reason_code, request_id, idempotency_key, from_state, to_state, created_at
-    ) SELECT ?, ?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ? WHERE ${input.guard}`)
+      event_id, product_id, report_id, actor_type, actor_identity_id, actor_email,
+      action, reason_code, request_id, idempotency_key, from_state, to_state,
+      created_at
+    ) SELECT ?, ?, NULL, ?, ?, NULL, ?, ?, ?, ?, ?, ?, ? WHERE ${input.guard}`)
       .bind(
         input.eventId, input.listingId, input.actorType, input.actorIdentityId,
         input.action, input.reasonCode, input.requestId, input.idempotencyKey,

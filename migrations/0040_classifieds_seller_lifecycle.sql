@@ -70,6 +70,13 @@ CREATE TABLE market_moderation_audit_lifecycle_new (
     'seller', 'reporter', 'moderator', 'system'
   )),
   actor_identity_id TEXT REFERENCES identities(id) ON DELETE RESTRICT,
+  -- A moderator is a platform operator authenticated by email, not a Telegram
+  -- identity, so `actor_identity_id` cannot name them. Without this column a
+  -- moderation decision would record what happened but not who decided it.
+  -- Null for sellers and reporters, who are identified by the column above.
+  actor_email TEXT CHECK (
+    actor_email IS NULL OR length(actor_email) BETWEEN 1 AND 200
+  ),
   action TEXT NOT NULL CHECK (action IN (
     'listing.submitted', 'listing.approved', 'listing.rejected',
     'listing.restricted', 'listing.removed', 'listing.appeal_upheld',
@@ -93,16 +100,25 @@ CREATE TABLE market_moderation_audit_lifecycle_new (
   )),
   CHECK (to_state IS NULL OR to_state IN (
     'pending', 'approved', 'rejected', 'restricted', 'removed'
-  ))
+  )),
+  -- A moderator decision is always attributable to an operator, and a seller or
+  -- reporter action never is. Enforcing both directions stops an anonymous
+  -- moderation row and an operator email attached to a seller's own action.
+  CHECK (
+    (actor_type = 'moderator' AND actor_email IS NOT NULL)
+    OR (actor_type <> 'moderator' AND actor_email IS NULL)
+  )
 );
 
 INSERT INTO market_moderation_audit_lifecycle_new (
-  event_id, product_id, report_id, actor_type, actor_identity_id, action,
-  reason_code, request_id, idempotency_key, from_state, to_state, created_at
+  event_id, product_id, report_id, actor_type, actor_identity_id, actor_email,
+  action, reason_code, request_id, idempotency_key, from_state, to_state,
+  created_at
 )
 SELECT
-  event_id, product_id, report_id, actor_type, actor_identity_id, action,
-  reason_code, request_id, idempotency_key, from_state, to_state, created_at
+  event_id, product_id, report_id, actor_type, actor_identity_id, NULL,
+  action, reason_code, request_id, idempotency_key, from_state, to_state,
+  created_at
 FROM market_moderation_audit;
 
 DROP TABLE market_moderation_audit;
