@@ -383,7 +383,10 @@ test('the audit log learns exactly two verbs and keeps its old ones', async () =
   }
   assert.ok(OWNER_AUDIT_ACTIONS.includes('seller.bind' as never));
   assert.ok(OWNER_AUDIT_ACTIONS.includes('seller.unbind' as never));
-  assert.equal(OWNER_AUDIT_ACTIONS.length, 7);
+  // 10 since ADMIN-3B added the three listing verbs in 0033. AUTH-1 still
+  // contributed exactly two, which is what this test is about; the total is
+  // asserted so a third verb cannot arrive here unnoticed.
+  assert.equal(OWNER_AUDIT_ACTIONS.length, 10);
   // The runtime DDL used by tests and local runs moves in lockstep with the
   // migration, or a fresh database rejects the very row this exists to write.
   const audit = await source('functions/platform/admin/audit.ts');
@@ -483,7 +486,7 @@ test('AUTH-1 changes no seller authority rule and enables no QuickPost', async (
 
 test('the binding adds exactly two migrations and no third', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 32, 'AUTH-1 adds 0031 and 0032 only');
+  assert.equal(migrations.length, 33, 'AUTH-1 adds 0031 and 0032 only');
   assert.ok(migrations.includes('0031_owner_audit_seller_binding.sql'));
   assert.ok(migrations.includes('0032_seller_identity_binding_challenge.sql'));
 });
@@ -904,7 +907,10 @@ test('behaviour: without migration 0031 nothing is granted at all', async () => 
   // The exact state production is in on the day the flag is first turned on if
   // the migration were skipped: `owner_audit_events` still carries the five-verb
   // CHECK, and INSERT OR IGNORE swallows the violation without a word.
-  const db = freshDb({ skip: ['0031_'] });
+  // 0033 rebuilds the same table and carries `seller.bind` across with it, so
+  // skipping 0031 alone no longer produces the pre-binding schema. Both audit
+  // rebuilds have to be skipped for this fixture to mean what it says.
+  const db = freshDb({ skip: ['0031_', '0033_'] });
   assert.doesNotMatch(
     String(db.value("SELECT sql FROM sqlite_master WHERE name = 'owner_audit_events'")),
     /seller\.bind/,
@@ -1467,7 +1473,7 @@ test('the ceremony ships with every switch still off and no new migration', asyn
   assert.match(wrangler, /MARKET_QUICKPOST_ENABLED = "false"/);
   assert.match(wrangler, /MARKET_QUICKPOST_AI_ENABLED = "false"/);
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 32, 'the ceremony is UI over the endpoints that already exist');
+  assert.equal(migrations.length, 33, 'the ceremony is UI over the endpoints that already exist');
   // The shell cache moves, or a device keeps serving a build without the screen.
   const worker = await source('apps/market-mini-app/public/sw.js');
   assert.match(worker, /const CACHE = 'bormi-shell-v14';/);
@@ -1849,7 +1855,7 @@ test('canary: nothing a client controls can open the ceremony', async () => {
 
 test('canary: it adds no migration, no table and no ledger row', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 32, 'the canary reuses the challenge table it already has');
+  assert.equal(migrations.length, 33, 'the canary reuses the challenge table it already has');
   const service = code(await source(SERVICE));
   // The grant is a digest in an environment variable and a count of rows that
   // already exist. It creates nothing to migrate and nothing to clean up.

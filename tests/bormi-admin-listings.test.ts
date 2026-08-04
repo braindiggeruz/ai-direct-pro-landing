@@ -98,28 +98,52 @@ test('listings: the read model contains no statement that could change a row', a
   }
 });
 
-test('listings: no screen shows a publish, archive or edit control', async () => {
-  // Not "disabled" — absent. A greyed-out command still tells the reader the
-  // capability lives on this screen and is merely withheld.
-  for (const path of CLIENT_FILES) {
+test('listings: the list and the categories screens offer no command at all', async () => {
+  // ADMIN-3B put three commands on the detail screen and nowhere else. A
+  // command reachable from a table row would be a command performed without
+  // reading the card it changes.
+  for (const path of [LISTINGS_PAGE, CATEGORIES_PAGE]) {
     const page = code(await source(path));
-    // Imperatives only. "В архиве" is a status a card is in and appears on
-    // every screen; "Архивировать" is a command and appears on none.
     for (const word of [
       'Опубликовать', 'Снять с публикации', 'Архивировать', 'Отправить в архив',
-      'Удалить', 'Редактировать', 'Изменить карточку', 'Сохранить',
+      'Переместить в архив', 'Удалить', 'Редактировать', 'Сохранить',
     ]) {
       assert.ok(!page.includes(word), `${path} offers "${word}"`);
     }
-    assert.doesNotMatch(page, /disabled=\{true\}/, `${path} ships a disabled command`);
+    assert.doesNotMatch(page, /runListingCommand/, `${path} can run a command`);
   }
 });
 
-test('listings: the client never sends anything but GET', async () => {
+test('listings: the detail offers only the three transitions the domain has', async () => {
+  const page = code(await source(DETAIL_PAGE));
+  // Exactly these, and nothing that edits content or deletes anything.
+  for (const allowed of ['Опубликовать', 'Снять с публикации', 'Переместить в архив']) {
+    assert.ok(page.includes(allowed), `the detail is missing "${allowed}"`);
+  }
+  for (const forbidden of ['Удалить', 'Редактировать', 'Изменить карточку', 'Сохранить', 'Восстановить']) {
+    assert.ok(!page.includes(forbidden), `the detail offers "${forbidden}"`);
+  }
+  // Availability is decided by status, so an impossible command is absent
+  // rather than rendered and greyed out.
+  assert.doesNotMatch(page, /disabled=\{true\}/, 'the detail ships a permanently disabled command');
+  assert.match(page, /command\.from\.includes\(listing\.status\)/);
+});
+
+test('listings: every read the client performs is a GET', async () => {
   const api = code(await source(API));
-  const listingsBlock = api.slice(api.indexOf('listings:'));
+  // The read surface ends where the command begins. Inside it there is no
+  // mutating verb; the one POST in the module belongs to ADMIN-3B and goes to
+  // a command route, which its own tests cover.
+  const reads = api.slice(
+    api.indexOf('export const adminApi'),
+    api.indexOf('export async function runListingCommand'),
+  );
   for (const method of ["'POST'", "'PUT'", "'PATCH'", "'DELETE'"]) {
-    assert.ok(!listingsBlock.includes(method), `the client can send ${method}`);
+    assert.ok(!reads.includes(method), `a read can send ${method}`);
+  }
+  // PUT, PATCH and DELETE exist nowhere in the client, command or otherwise.
+  for (const method of ["method: 'PUT'", "method: 'PATCH'", "method: 'DELETE'"]) {
+    assert.ok(!api.includes(method), `the client can send ${method}`);
   }
 });
 
@@ -445,7 +469,9 @@ test('listings: the menu gains Content and nothing that is not built', async () 
   assert.match(shell, /to: '\/listings', label: 'Объявления'/);
   assert.match(shell, /to: '\/categories', label: 'Категории'/);
   // Sections whose stages have not happened do not appear in the menu.
-  for (const absent of ['Модерация', 'Медиа', 'Пользователи', 'Заказы', 'QuickPost']) {
+  // «Заказы» left this list when ADMIN-4A built the screen behind it; the rest
+  // still name nothing that exists.
+  for (const absent of ['Модерация', 'Медиа', 'Пользователи', 'QuickPost']) {
     assert.ok(!shell.includes(absent), `the menu offers "${absent}", which does not exist`);
   }
 });
@@ -471,7 +497,9 @@ test('listings: no dependency was added for a table, a chart or an icon', async 
 
 test('listings: no migration, and no schema change', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 32, 'ADMIN-3A added a migration');
+  // 33 since ADMIN-3B added 0033 for the audit CHECK. ADMIN-3A itself added
+  // none, and this still catches one appearing beside the read surface.
+  assert.equal(migrations.length, 33, 'a migration appeared beside the read surface');
 });
 
 test('listings: AUTH-1F, QuickPost and the rollout flag are untouched', async () => {

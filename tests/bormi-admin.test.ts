@@ -120,7 +120,13 @@ test('admin: the client treats its own checks as convenience, not control', asyn
   assert.match(app, /data\.rollout\.admin_v2/);
   assert.match(app, /adminApi\.overview\(\)/);
   // 401 leaves for the login; 403 says no rather than trying another door.
-  assert.match(app, /error === 'forbidden' \|\| error === 'http_403'/);
+  //
+  // The codes are the ones `requirePlatformRole` actually denies with. They were
+  // `'forbidden'` here until ADMIN-4A, and nothing in this system has ever
+  // returned that string — so the branch was unreachable and a support user got
+  // a raw error card instead of a sentence. `http_403` stays for the case where
+  // something in front of the Function answers before it does.
+  assert.match(app, /error === 'insufficient_role' \|\| error === 'unknown_role' \|\| error === 'http_403'/);
   const query = code(await source('apps/bormi-admin/src/lib/useQuery.ts'));
   assert.match(query, /failure\.status === 401/);
   assert.match(query, /window\.location\.assign\(LOGIN_URL\)/);
@@ -249,9 +255,18 @@ test('admin: the audit trail is read-only by construction', async () => {
   // a way. No mutating verb, no destructive handler.
   assert.doesNotMatch(audit, /method: '(POST|PUT|PATCH|DELETE)'|onDelete|handleDelete/i);
   const api = code(await source(API));
-  // The client has exactly one verb.
-  assert.doesNotMatch(api, /method: '(POST|PUT|PATCH|DELETE)'/);
-  assert.match(api, /method: 'GET'/);
+  // Every read this client performs is a GET. Since ADMIN-3B the module also
+  // carries one POST — `runListingCommand` — so the assertion is scoped to the
+  // read surface rather than to the file: what must stay true is that no read,
+  // and nothing the audit screen can reach, sends a mutating verb.
+  const reads = api.slice(0, api.indexOf('export async function runListingCommand'));
+  assert.doesNotMatch(reads, /method: '(POST|PUT|PATCH|DELETE)'/);
+  assert.match(reads, /method: 'GET'/);
+  // And the single POST goes only to a listing command route, never to audit.
+  const commandCalls = [...api.matchAll(/method: 'POST'/g)];
+  assert.equal(commandCalls.length, 1, 'the client gained a second mutating call');
+  assert.match(api, /\/api\/admin\/listings\/\$\{encodeURIComponent\(id\)\}\/\$\{command\}/);
+  assert.doesNotMatch(api, /audit[^\n]*method: 'POST'/);
   // Payloads that could carry anything sensitive are never rendered.
   assert.doesNotMatch(audit, /before_json|after_json|request_id|idempotency/);
 });
@@ -495,7 +510,9 @@ test('admin: no font, image or script is fetched from anywhere else', async () =
 
 test('admin: the console keeps itself out of search results', async () => {
   const html = await source(INDEX_HTML);
-  assert.match(html, /name="robots" content="noindex, nofollow, noarchive"/);
+  // `nosnippet` was added by the Admin v1 hardening: a control center that
+  // leaks a text fragment into a result page leaks operational state.
+  assert.match(html, /name="robots" content="noindex, nofollow, noarchive, nosnippet"/);
   assert.match(html, /name="referrer" content="same-origin"/);
   const api = await source(API);
   // And its answers stay out of every shared cache.
@@ -692,7 +709,10 @@ test('admin: a row is opened by a control, not by a click on the row', async () 
 
 test('admin: no migration, no schema change, no new secret', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 32, 'the panel reads tables that already exist');
+  // 33 since ADMIN-3B, which added 0033 to widen the audit CHECK. The panel
+  // still reads only tables that already existed; the count is the guard that
+  // an unrelated migration has not slipped in beside it.
+  assert.equal(migrations.length, 33, 'the panel reads tables that already exist');
   const route = code(await source(OVERVIEW_ROUTE));
   assert.doesNotMatch(route, /CREATE TABLE|ALTER TABLE|DROP /);
   // One new environment variable, and it is a boolean rollout switch.
