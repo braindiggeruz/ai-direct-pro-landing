@@ -715,10 +715,12 @@ test('admin: a row is opened by a control, not by a click on the row', async () 
 
 test('admin: no migration, no schema change, no new secret', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  // 33 since ADMIN-3B, which added 0033 to widen the audit CHECK. The panel
-  // still reads only tables that already existed; the count is the guard that
-  // an unrelated migration has not slipped in beside it.
-  assert.equal(migrations.length, 33, 'the panel reads tables that already exist');
+  // The panel reads existing tables. Later product slices may add migrations,
+  // so this guard is scoped to migrations owned by the overview panel.
+  assert.ok(
+    migrations.every((name) => !/admin_(?:overview|panel_schema)/i.test(name)),
+    'the Admin overview panel must not own a migration',
+  );
   const route = code(await source(OVERVIEW_ROUTE));
   assert.doesNotMatch(route, /CREATE TABLE|ALTER TABLE|DROP /);
   // One new environment variable, and it is a boolean rollout switch.

@@ -4,6 +4,7 @@
 import {
   createSotuvchiAnalytics,
   createSotuvchiCatalogService,
+  createSotuvchiClassifiedsService,
   createSotuvchiCheckoutService,
   createSotuvchiHandoffService,
   createSotuvchiOnboardingService,
@@ -23,6 +24,7 @@ export function createSotuvchiApplicationServices(
     addresses: createChannelAddressService(db),
     analytics,
     catalog,
+    classifieds: createSotuvchiClassifiedsService(db),
     checkout: createSotuvchiCheckoutService(db, catalog, botUsername),
     handoff: createSotuvchiHandoffService(db, catalog, botUsername),
     identities: createIdentityService(db),

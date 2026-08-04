@@ -25,8 +25,10 @@ export const SOTUVCHI_CATALOG_DDL = [
   )`,
   `CREATE TABLE IF NOT EXISTS sotuvchi_products (
     id TEXT PRIMARY KEY,
-    org_id TEXT NOT NULL,
-    store_id TEXT NOT NULL,
+    org_id TEXT,
+    store_id TEXT,
+    listing_scope TEXT NOT NULL DEFAULT 'store'
+      CHECK (listing_scope IN ('store', 'private')),
     category_id TEXT,
     sku TEXT,
     name TEXT NOT NULL,
@@ -52,8 +54,15 @@ export const SOTUVCHI_CATALOG_DDL = [
     last_operation_key TEXT NOT NULL,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
+    CHECK (
+      (listing_scope = 'store' AND org_id IS NOT NULL AND store_id IS NOT NULL)
+      OR
+      (listing_scope = 'private' AND org_id IS NULL AND store_id IS NULL
+        AND category_id IS NULL AND sku IS NULL)
+    ),
     UNIQUE (store_id, sku),
     UNIQUE (org_id, store_id, id),
+    UNIQUE (id, listing_scope),
     FOREIGN KEY (org_id, store_id)
       REFERENCES sotuvchi_stores(org_id, id) ON DELETE RESTRICT,
     FOREIGN KEY (org_id, store_id, category_id)
@@ -159,6 +168,8 @@ export const SOTUVCHI_CATALOG_DDL = [
     ON sotuvchi_products (store_id, category_id, status, id)`,
   `CREATE INDEX IF NOT EXISTS idx_sotuvchi_products_org_store
     ON sotuvchi_products (org_id, store_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_sotuvchi_products_scope_status_updated
+    ON sotuvchi_products (listing_scope, status, updated_at DESC, id)`,
   `CREATE INDEX IF NOT EXISTS idx_sotuvchi_catalog_operations_created
     ON sotuvchi_catalog_operations (org_id, store_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_sotuvchi_storefront_sessions_store

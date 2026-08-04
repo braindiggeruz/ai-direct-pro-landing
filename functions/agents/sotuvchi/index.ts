@@ -7,6 +7,7 @@ export {
 } from './rules';
 export * from './onboarding';
 export * from './catalog';
+export * from './classifieds';
 export * from './buyer';
 export * from './checkout';
 export * from './outbox';

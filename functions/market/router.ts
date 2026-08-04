@@ -2,9 +2,14 @@
 import type {
   CatalogProduct,
   CatalogSearchResult,
+  ClassifiedCondition,
+  ClassifiedListing,
+  ClassifiedSellerType,
+  ListingReportReason,
   StoreOwnerContext,
 } from '../agents/sotuvchi';
 import {
+  CLASSIFIED_CONDITIONS,
   createSotuvchiNotificationDispatcher,
 } from '../agents/sotuvchi';
 import {
@@ -155,6 +160,66 @@ function sellerLimit(value: string | null, fallback: number): number {
   return parsed;
 }
 
+function classifiedPrice(value: string | null): number | undefined {
+  if (value === null || value === '') return undefined;
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < 0 || parsed > 1_000_000_000_000) {
+    throw new MarketHttpError('validation_failed', 400);
+  }
+  return parsed;
+}
+
+function classifiedCondition(value: string | null): ClassifiedCondition | undefined {
+  if (value === null || value === '') return undefined;
+  if (!CLASSIFIED_CONDITIONS.includes(value as ClassifiedCondition)) {
+    throw new MarketHttpError('validation_failed', 400);
+  }
+  return value as ClassifiedCondition;
+}
+
+function classifiedSellerType(value: string | null): ClassifiedSellerType | undefined {
+  if (value === null || value === '') return undefined;
+  if (value !== 'private' && value !== 'store') {
+    throw new MarketHttpError('validation_failed', 400);
+  }
+  return value;
+}
+
+function classifiedBody(
+  body: Record<string, unknown>,
+  required: readonly string[],
+  optional: readonly string[] = [],
+): void {
+  const allowed = new Set([...required, ...optional]);
+  if (
+    Object.keys(body).some((key) => !allowed.has(key))
+    || required.some((key) => !Object.hasOwn(body, key))
+  ) {
+    throw new MarketHttpError('validation_failed', 400);
+  }
+}
+
+async function reporterSessionHash(
+  secret: string,
+  claims: MarketSessionClaims,
+): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const signature = await crypto.subtle.sign(
+    'HMAC',
+    key,
+    new TextEncoder().encode(`${claims.sub}:${claims.iat}:${claims.exp}:${claims.launch}`),
+  );
+  return [...new Uint8Array(signature)]
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 function requireSellerCommands(context: RequestContext): void {
   if (
     !context.access.sellerOrg
@@ -221,6 +286,37 @@ async function productDto(
     version: product.version,
     updatedAt: product.updatedAt,
     storeName,
+  };
+}
+
+async function classifiedDto(
+  listing: ClassifiedListing,
+  secret: string,
+) {
+  const mediaCount = Number.isSafeInteger(listing.mediaCount)
+    ? Math.min(5, Math.max(0, listing.mediaCount))
+    : 0;
+  return {
+    id: listing.id,
+    listingScope: listing.listingScope,
+    name: listing.name,
+    description: listing.description,
+    priceMinor: listing.priceMinor,
+    currency: listing.currency,
+    availability: listing.availability,
+    category: listing.category,
+    condition: listing.condition,
+    conditionLabel: listing.conditionLabel,
+    location: listing.location,
+    seller: listing.seller,
+    contactMode: listing.contactMode,
+    phoneDisclosure: listing.phoneDisclosure,
+    commerceMode: listing.commerceMode,
+    store: listing.store,
+    updatedAt: listing.updatedAt,
+    mediaHandles: await Promise.all(Array.from({ length: mediaCount }, (_, index) =>
+      issueMediaHandle(secret, { productId: listing.id, index })
+    )),
   };
 }
 
@@ -706,6 +802,130 @@ function scheduleFlush(context: RequestContext, orgId: string, storeId: string) 
   });
   const flush = dispatcher.flush(orgId, storeId).catch(() => undefined);
   if (context.waitUntil) context.waitUntil(flush);
+}
+
+async function classifiedsRoutes(context: {
+  request: Request;
+  env: Env;
+  services: SotuvchiApplicationServices;
+  config: MarketConfiguration;
+  claims: MarketSessionClaims;
+  requestId: string;
+  url: URL;
+  path: string;
+}): Promise<Response | null> {
+  const { request, env, services, config, claims, requestId, url, path } = context;
+  if (!path.startsWith('/classifieds')) return null;
+  if (path.startsWith('/classifieds/private')) {
+    if (!marketFlag(env.MARKET_PRIVATE_LISTING_ENABLED)) {
+      return marketError('resource_not_found', requestId, 404);
+    }
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
+    if (request.method !== 'POST') return marketError('resource_not_found', requestId, 404);
+    await enforceMarketRateLimit('command', `${claims.sub}:${path}`);
+    const idempotencyKey = requireIdempotencyKey(request);
+    const seller = {
+      identityId: claims.sub,
+      requestId,
+      idempotencyKey,
+    };
+    const body = await readMarketJson(request);
+    if (path === '/classifieds/private/profile') {
+      classifiedBody(body, ['displayName']);
+      return marketJson({
+        profile: await services.classifieds.createPrivateSellerProfile(
+          seller,
+          body.displayName,
+        ),
+      }, requestId, 201);
+    }
+    if (path === '/classifieds/private/listings') {
+      classifiedBody(body, [
+        'name', 'priceMinor', 'currency', 'mediaRefs', 'globalCategoryId',
+        'condition', 'regionId', 'districtId', 'contactMode',
+      ], ['description', 'localityText']);
+      return marketJson({
+        listing: await services.classifieds.submitPrivateListing(seller, {
+          name: body.name as string,
+          description: body.description as string | null | undefined,
+          priceMinor: body.priceMinor as number,
+          currency: body.currency as 'UZS',
+          mediaRefs: body.mediaRefs as string[],
+          globalCategoryId: body.globalCategoryId as string,
+          condition: body.condition as ClassifiedCondition,
+          regionId: body.regionId as string,
+          districtId: body.districtId as string,
+          localityText: body.localityText as string | null | undefined,
+          contactMode: body.contactMode as ClassifiedListing['contactMode'],
+        }),
+      }, requestId, 201);
+    }
+    return marketError('resource_not_found', requestId, 404);
+  }
+  if (!marketFlag(env.MARKET_CLASSIFIEDS_DISCOVERY_ENABLED)) {
+    return marketError('resource_not_found', requestId, 404);
+  }
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
+  const reportMatch = /^\/classifieds\/listings\/([^/]+)\/reports$/.exec(path);
+  if (request.method === 'POST' && reportMatch) {
+    await enforceMarketRateLimit('command', `${claims.sub}:${path}`);
+    const idempotencyKey = requireIdempotencyKey(request);
+    const body = await readMarketJson(request);
+    classifiedBody(body, ['reason'], ['note']);
+    return marketJson({
+      report: await services.classifieds.submitListingReport({
+        identityId: claims.sub,
+        requestId,
+        idempotencyKey,
+        reporterSessionHash: await reporterSessionHash(config.sessionSecret, claims),
+      }, reportMatch[1], {
+        reason: body.reason as ListingReportReason,
+        note: body.note as string | null | undefined,
+      }),
+    }, requestId, 201);
+  }
+  if (request.method !== 'GET') return marketError('resource_not_found', requestId, 404);
+  await enforceMarketRateLimit('read', `${claims.sub}:${path}`);
+
+  if (path === '/classifieds/categories') {
+    return marketJson({
+      items: await services.classifieds.listCategories(),
+      nextCursor: null,
+    }, requestId);
+  }
+  if (path === '/classifieds/locations') {
+    return marketJson({
+      items: await services.classifieds.listLocations(),
+      nextCursor: null,
+    }, requestId);
+  }
+  if (path === '/classifieds/listings') {
+    const page = await services.classifieds.discover({
+      categoryId: url.searchParams.get('categoryId') ?? undefined,
+      regionId: url.searchParams.get('regionId') ?? undefined,
+      districtId: url.searchParams.get('districtId') ?? undefined,
+      condition: classifiedCondition(url.searchParams.get('condition')),
+      sellerType: classifiedSellerType(url.searchParams.get('sellerType')),
+      storeId: url.searchParams.get('storeId') ?? undefined,
+      minPriceMinor: classifiedPrice(url.searchParams.get('minPriceMinor')),
+      maxPriceMinor: classifiedPrice(url.searchParams.get('maxPriceMinor')),
+      query: url.searchParams.get('q') ?? undefined,
+      cursor: url.searchParams.get('cursor') ?? undefined,
+      limit: boundedLimit(url.searchParams.get('limit')),
+    });
+    return marketJson({
+      items: await Promise.all(page.items.map((item) =>
+        classifiedDto(item, config.sessionSecret)
+      )),
+      nextCursor: page.nextCursor,
+    }, requestId);
+  }
+  const listingMatch = /^\/classifieds\/listings\/([^/]+)$/.exec(path);
+  if (listingMatch) {
+    const item = await services.classifieds.getPublished(listingMatch[1]);
+    return marketJson(await classifiedDto(item, config.sessionSecret), requestId);
+  }
+  return marketError('resource_not_found', requestId, 404);
 }
 
 async function readRoutes(context: RequestContext): Promise<Response | null> {
@@ -1607,8 +1827,14 @@ function mapUnknownError(error: unknown): MarketHttpError {
   const candidate = error as { name?: unknown; code?: unknown };
   const name = typeof candidate?.name === 'string' ? candidate.name : '';
   const code = typeof candidate?.code === 'string' ? candidate.code : '';
+  if (name === 'ClassifiedsSchemaError') {
+    return new MarketHttpError('feature_disabled', 503);
+  }
   if (code === 'idempotency_conflict') {
     return new MarketHttpError('idempotency_conflict', 409);
+  }
+  if (code === 'rate_limited') {
+    return new MarketHttpError('rate_limited', 429);
   }
   if (code === 'version_conflict') {
     return new MarketHttpError('version_conflict', 409);
@@ -1712,6 +1938,17 @@ export async function handleMarketRequest(input: {
         headers: { 'Cache-Control': 'no-store', 'x-request-id': requestId },
       });
     }
+    const classifiedsResponse = await classifiedsRoutes({
+      request: input.request,
+      env: input.env,
+      services,
+      config,
+      claims,
+      requestId,
+      url,
+      path,
+    });
+    if (classifiedsResponse) return classifiedsResponse;
     const access = await resolveMarketAccess(
       services,
       input.env,

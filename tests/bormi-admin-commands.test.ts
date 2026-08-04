@@ -309,9 +309,13 @@ test('commands: archive requires the id to be retyped, publish does not', async 
 
 // ── Migration ────────────────────────────────────────────────────────────────
 
-test('commands: exactly one migration was added, and it only touches the audit table', async () => {
+test('commands: the audit widening migration is unique and only touches the audit table', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  assert.equal(migrations.length, 33, 'more than one migration was added');
+  assert.deepEqual(
+    migrations.filter((name) => name.includes('owner_audit_listing_actions')),
+    ['0033_owner_audit_listing_actions.sql'],
+    'the command audit widening must have one canonical migration',
+  );
   assert.ok(migrations.includes('0033_owner_audit_listing_actions.sql'));
   const sql = await source(MIGRATION);
   for (const table of ['sotuvchi_products', 'sotuvchi_categories', 'sotuvchi_orders', 'memberships']) {

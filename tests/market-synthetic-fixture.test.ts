@@ -34,9 +34,15 @@ function rawProducts(
 
 function applyMarketMigrations(db: SqliteD1): void {
   const migrationNames = fs.readdirSync(path.join(ROOT, 'migrations'))
-    .filter((name) => /^(001[3-9]|002[0-9]|0030)_.*\.sql$/.test(name))
+    .filter((name) => (
+      /^(001[3-9]|002[0-9]|0030)_.*\.sql$/.test(name)
+      || name === '0034_classifieds_seller_ownership.sql'
+    ))
     .sort();
-  assert.equal(migrationNames.length, 18);
+  // 0034 is the central listing-record compatibility migration. The R1.1
+  // fixture does not need later classifieds relations, but the catalog runtime
+  // and its fixture must agree on the canonical sotuvchi_products shape.
+  assert.equal(migrationNames.length, 19);
   for (const migrationName of migrationNames) {
     db.exec(fs.readFileSync(
       path.join(ROOT, 'migrations', migrationName),

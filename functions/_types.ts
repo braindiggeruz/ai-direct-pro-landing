@@ -257,6 +257,13 @@ export interface Env {
   // QuickPost's voice and AI lane. False through QP-1A, whose composer is
   // manual: no control appears for something that cannot work yet.
   MARKET_QUICKPOST_AI_ENABLED?: string;
+  // Read-only global classifieds projection. The switch exposes no draft and
+  // grants no write authority; the server still requires an authenticated
+  // Market session and the projection itself is approved/published only.
+  MARKET_CLASSIFIEDS_DISCOVERY_ENABLED?: string;
+  // Private listing commands. Kept separate from discovery so migrations and
+  // buyer reads can be canaried while all new seller writes remain absent.
+  MARKET_PRIVATE_LISTING_ENABLED?: string;
   // The owner-assisted Telegram seller binding (AUTH-1). Off, both binding
   // endpoints answer 404 as though they were never deployed. On, an owner who
   // is already authenticated as platform_owner may mint one single-use

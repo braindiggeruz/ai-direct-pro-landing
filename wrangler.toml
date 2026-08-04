@@ -159,6 +159,12 @@ MARKET_QUICKPOST_ENABLED = "false"
 # QuickPost's voice and AI lane. False for QP-1A: the composer is entirely
 # manual, and nothing on that screen offers a control that cannot work yet.
 MARKET_QUICKPOST_AI_ENABLED = "false"
+# Global approved classifieds reads. The code and schema may be deployed while
+# this stays false; a flag is a rollout switch, never authority.
+MARKET_CLASSIFIEDS_DISCOVERY_ENABLED = "false"
+# Private listing commands remain absent until Telegram authority and the
+# native QuickPost ceremony pass. Discovery can be canaried independently.
+MARKET_PRIVATE_LISTING_ENABLED = "false"
 # The owner-assisted Telegram seller binding (AUTH-1). Off, both binding
 # endpoints answer 404 as though they were never deployed, which is how this
 # ships. On, it allows exactly two things: an authenticated platform_owner may

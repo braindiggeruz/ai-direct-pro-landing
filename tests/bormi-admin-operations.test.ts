@@ -135,13 +135,13 @@ test('operations: no bulk selection and no export', async () => {
 
 test('operations: ADMIN-4A adds no migration', async () => {
   const migrations = await readdir(new URL('migrations/', ROOT));
-  // 33: 0031 and 0032 belong to AUTH-1, 0033 to ADMIN-3B. A read surface that
-  // needed a schema change would be a read surface reading something new.
-  assert.equal(migrations.length, 33, 'a migration appeared beside the read surface');
-  // The last one in the ledger is still ADMIN-3B's audit widening. The order
-  // and handoff tables ADMIN-4A reads were created by 0021 and 0023 and are not
-  // touched: this surface reads a schema that already existed.
-  assert.equal(migrations.sort().at(-1), '0033_owner_audit_listing_actions.sql');
+  // Later product slices may extend the schema. ADMIN-4A itself still reads the
+  // order and handoff tables created by 0021 and 0023 and owns no migration.
+  assert.ok(
+    migrations.every((name) => !/admin_(?:operations|ops_read_surface)/i.test(name)),
+    'the Admin operations read surface must not own a migration',
+  );
+  assert.ok(migrations.includes('0033_owner_audit_listing_actions.sql'));
 });
 
 // ── The surface cannot see a person ──────────────────────────────────────────
