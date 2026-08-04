@@ -135,16 +135,19 @@ test('the current productization baseline preserves every route plus approved co
   const after = collectRouteInventory('after');
   const diff = compareRouteInventories(before, after);
   assert.equal(diff.status, 'blocked');
-  assert.equal(after.counts.total_route_patterns, 273);
+  assert.equal(after.counts.total_route_patterns, 276);
   assert.deepEqual(diff.added_static_routes, [
     '/ru/blog/audit-kartochki-kompanii-na-kartah/',
     '/ru/blog/chto-takoe-lid-v-marketinge/',
     '/ru/blog/chto-takoe-marketing-kit/',
     '/ru/blog/chto-takoe-seo-prodvizhenie/',
     '/ru/blog/chto-takoe-smm-prodvizhenie/',
+    '/ru/blog/chto-vhodit-v-uslugi-smm-specialista/',
     '/ru/blog/cpa-cpm-cpc-cpl-v-reklame/',
+    '/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/',
     '/ru/blog/google-maps-yandex-2gis-dlya-biznesa/',
     '/ru/blog/marketingovye-terminy-slovar/',
+    '/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/',
     '/ru/blog/stoimost-lokalnogo-seo-v-tashkente/',
     '/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/',
     '/ru/blog/telegram-bot-ili-mini-app/',
@@ -210,10 +213,10 @@ test('prerender generation remains part of the route contract', () => {
   );
 });
 
-test('sitemap generation retains all 248 static canonical entries', () => {
+test('sitemap generation retains all 251 static canonical entries', () => {
   const inventory = collectRouteInventory('migration-test');
   assert.equal(inventory.invariants.sitemap_generation_present, true);
-  assert.equal(inventory.counts.sitemap_entries, 248);
+  assert.equal(inventory.counts.sitemap_entries, 251);
 });
 
 test('first-party automation routes remain present', () => {
