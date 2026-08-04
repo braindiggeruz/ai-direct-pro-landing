@@ -15,9 +15,18 @@ import {
   onRequestGet as decisionGet,
   onRequestPost as decisionRoute,
 } from '../functions/api/admin/moderation/listings/[id]/decision';
+import { onRequestGet as mediaRoute } from '../functions/api/admin/moderation/listings/[id]/media/[index]';
+import { onRequestGet as catalogueMediaRoute } from '../functions/api/admin/listings/[id]/media/[index]';
 import { onRequestGet as reportsRoute } from '../functions/api/admin/moderation/reports/index';
 import { onRequestPost as resolutionRoute } from '../functions/api/admin/moderation/reports/[id]/resolution';
-import { callRoute, freshAdminDb, platformToken } from './helpers/bormi-admin-fixture';
+import {
+  callRoute,
+  freshAdminDb,
+  ORG,
+  platformToken,
+  seedProduct,
+  STORE,
+} from './helpers/bormi-admin-fixture';
 import type { SqliteD1 } from './helpers/sqlite-d1';
 
 const NOW = '2026-08-04T00:00:00.000Z';
@@ -439,4 +448,218 @@ test('support cannot resolve a report', async () => {
     },
   );
   assert.equal(response.status, 403);
+});
+
+// ── Photographs ───────────────────────────────────────────────────────────────
+
+/**
+ * A reference shaped the way `isStoredMediaReference` demands: `r2.` and
+ * sixteen characters of the base32 alphabet. The fixture used above is a
+ * generic reference and deliberately is not one — a listing may carry either.
+ */
+const STORED_REF = 'r2.abcdefghijklmnop';
+const PNG = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13]);
+
+/** One object, at one key. Everything else in the bucket is absent by construction. */
+function bucketWith(key: string | null) {
+  const reads: string[] = [];
+  return {
+    reads,
+    binding: {
+      get: async (requested: string) => {
+        reads.push(requested);
+        if (key === null || requested !== key) return null;
+        return {
+          body: PNG.buffer.slice(0) as ArrayBuffer,
+          httpMetadata: { contentType: 'image/png' },
+        };
+      },
+    },
+  };
+}
+
+async function seedWithPhoto(db: SqliteD1, identityId = 'identity_photo') {
+  db.exec(`
+    INSERT INTO identities(id, provider, external_id, created_at, updated_at)
+    VALUES ('${identityId}', 'api', '${identityId}-ext', '${NOW}', '${NOW}');
+  `);
+  const service = serviceFor(db);
+  await service.createPrivateSellerProfile({
+    identityId, requestId: 'req-p', idempotencyKey: `profile-${identityId}`,
+  }, 'Частный продавец');
+  const listing = await service.submitPrivateListing({
+    identityId, requestId: 'req-s', idempotencyKey: `submit-${identityId}`,
+  }, { ...LISTING_INPUT, mediaRefs: [STORED_REF] });
+  const sellerProfileId = String(db.value(
+    `SELECT seller_profile_id FROM listing_ownerships
+     WHERE product_id = ? AND status = 'active'`,
+    listing.id,
+  ));
+  return {
+    service,
+    listingId: listing.id,
+    key: `classifieds/${sellerProfileId}/${STORED_REF.slice('r2.'.length)}`,
+  };
+}
+
+test('a moderator sees a private photograph the catalogue route cannot serve', async () => {
+  const db = freshAdminDb();
+  const { listingId, key } = await seedWithPhoto(db);
+  const bucket = bucketWith(key);
+
+  const response = await callRoute(
+    mediaRoute, db, `/api/admin/moderation/listings/${listingId}/media/0`,
+    {
+      token: await platformToken('platform_owner'),
+      params: { id: listingId, index: '0' },
+      env: { MARKET_MEDIA: bucket.binding },
+    },
+  );
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('Content-Type'), 'image/png');
+  // The same hardening the buyer's images carry: never cached publicly, never
+  // indexed, never scripted, and never served as an HTML fallback.
+  assert.equal(response.headers.get('Cache-Control'), 'private, max-age=300');
+  assert.equal(response.headers.get('X-Robots-Tag'), 'noindex, nofollow');
+  assert.equal(response.headers.get('X-Content-Type-Options'), 'nosniff');
+  assert.match(response.headers.get('Content-Security-Policy') ?? '', /sandbox/);
+  // The prefix is the private one. A private seller's photographs must not sit
+  // inside the tenant namespace, where a store-scoped read could reach them.
+  assert.deepEqual(bucket.reads, [key]);
+  assert.equal(bucket.reads[0].startsWith('classifieds/'), true);
+
+  // The reason this route had to exist: the catalogue's owner media route
+  // builds its key from org_id and store_id, and a private listing has neither.
+  const catalogue = await callRoute(
+    catalogueMediaRoute, db, `/api/admin/listings/${listingId}/media/0`,
+    {
+      token: await platformToken('platform_owner'),
+      params: { id: listingId, index: '0' },
+      env: { MARKET_MEDIA: bucketWith(key).binding },
+    },
+  );
+  assert.notEqual(catalogue.status, 200);
+});
+
+test('support may look at the photographs it is asked to judge', async () => {
+  const db = freshAdminDb();
+  const { listingId, key } = await seedWithPhoto(db);
+  const response = await callRoute(
+    mediaRoute, db, `/api/admin/moderation/listings/${listingId}/media/0`,
+    {
+      token: await platformToken('support_readonly'),
+      params: { id: listingId, index: '0' },
+      env: { MARKET_MEDIA: bucketWith(key).binding },
+    },
+  );
+  assert.equal(response.status, 200);
+});
+
+test('no session, no bytes — and a seller role is not a moderator', async () => {
+  const db = freshAdminDb();
+  const { listingId, key } = await seedWithPhoto(db);
+  const anonymous = await callRoute(
+    mediaRoute, db, `/api/admin/moderation/listings/${listingId}/media/0`,
+    { params: { id: listingId, index: '0' }, env: { MARKET_MEDIA: bucketWith(key).binding } },
+  );
+  assert.equal(anonymous.status, 401);
+  const seller = await callRoute(
+    mediaRoute, db, `/api/admin/moderation/listings/${listingId}/media/0`,
+    {
+      token: await platformToken('seller'),
+      params: { id: listingId, index: '0' },
+      env: { MARKET_MEDIA: bucketWith(key).binding },
+    },
+  );
+  assert.equal(seller.status, 403);
+});
+
+test('the index is bounded, and nothing but an index is accepted', async () => {
+  const db = freshAdminDb();
+  const { listingId, key } = await seedWithPhoto(db);
+  const token = await platformToken('platform_owner');
+  const bucket = bucketWith(key);
+  // Past the media ceiling, negative, non-numeric, and a traversal attempt.
+  for (const index of ['5', '99', '-1', 'abc', '..', '0.0', '']) {
+    const response = await callRoute(
+      mediaRoute, db, `/api/admin/moderation/listings/${listingId}/media/${index}`,
+      {
+        token,
+        params: { id: listingId, index },
+        env: { MARKET_MEDIA: bucket.binding },
+      },
+    );
+    assert.equal(response.status !== 200, true, `index ${index} must not serve bytes`);
+  }
+  // A refused index never reached storage at all.
+  assert.deepEqual(bucket.reads, []);
+});
+
+test('a listing outside the moderation queue is not addressable through it', async () => {
+  const db = freshAdminDb();
+  // A plain catalogue product: it has media and an org, but no moderation row,
+  // so it is not a listing a moderator was asked about.
+  seedProduct(db, { id: 'plain-product' });
+  db.exec(`
+    UPDATE sotuvchi_products SET media_refs_json = '["${STORED_REF}"]'
+    WHERE id = 'plain-product';
+  `);
+  const bucket = bucketWith(`market/${ORG}/${STORE}/${STORED_REF.slice(3)}`);
+  const response = await callRoute(
+    mediaRoute, db, '/api/admin/moderation/listings/plain-product/media/0',
+    {
+      token: await platformToken('platform_owner'),
+      params: { id: 'plain-product', index: '0' },
+      env: { MARKET_MEDIA: bucket.binding },
+    },
+  );
+  assert.equal(response.status, 404);
+  assert.equal(response.body.error, 'media_not_found');
+  assert.deepEqual(bucket.reads, []);
+});
+
+test('a Telegram-hosted photograph is named, not proxied', async () => {
+  const db = freshAdminDb();
+  const { listingId } = await seedPending(db, 'identity_tg');
+  // `r2.fixture00000001` is not a stored reference: the alphabet says so.
+  const bucket = bucketWith(null);
+  const response = await callRoute(
+    mediaRoute, db, `/api/admin/moderation/listings/${listingId}/media/0`,
+    {
+      token: await platformToken('platform_owner'),
+      params: { id: listingId, index: '0' },
+      env: { MARKET_MEDIA: bucket.binding },
+    },
+  );
+  assert.equal(response.status, 409);
+  assert.equal(response.body.error, 'media_not_stored_here');
+  assert.deepEqual(bucket.reads, []);
+});
+
+test('a missing object is a 404, and no key or reference is ever echoed', async () => {
+  const db = freshAdminDb();
+  const { listingId, key } = await seedWithPhoto(db);
+  const token = await platformToken('platform_owner');
+  const missing = await callRoute(
+    mediaRoute, db, `/api/admin/moderation/listings/${listingId}/media/0`,
+    { token, params: { id: listingId, index: '0' }, env: { MARKET_MEDIA: bucketWith(null).binding } },
+  );
+  assert.equal(missing.status, 404);
+  assert.equal(missing.body.error, 'media_not_found');
+
+  // Neither the storage key nor the opaque reference belongs in an answer a
+  // browser can read: one is a path into the bucket, the other is the handle
+  // that names it.
+  const detail = await callRoute(
+    detailRoute, db, `/api/admin/moderation/listings/${listingId}`,
+    { token, params: { id: listingId } },
+  );
+  const bodies = [JSON.stringify(missing.body), JSON.stringify(detail.body)];
+  for (const body of bodies) {
+    assert.equal(body.includes(key), false);
+    assert.equal(body.includes('classifieds/'), false);
+  }
+  // The detail does carry the reference — it is what the screen counts
+  // photographs with — but it is opaque and addresses nothing on its own.
+  assert.equal(JSON.stringify(detail.body).includes(STORED_REF), true);
 });

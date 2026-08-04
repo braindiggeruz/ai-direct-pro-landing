@@ -261,17 +261,30 @@ test('admin: the audit trail is read-only by construction', async () => {
   // a way. No mutating verb, no destructive handler.
   assert.doesNotMatch(audit, /method: '(POST|PUT|PATCH|DELETE)'|onDelete|handleDelete/i);
   const api = code(await source(API));
-  // Every read this client performs is a GET. Since ADMIN-3B the module also
-  // carries one POST — `runListingCommand` — so the assertion is scoped to the
-  // read surface rather than to the file: what must stay true is that no read,
-  // and nothing the audit screen can reach, sends a mutating verb.
-  const reads = api.slice(0, api.indexOf('export async function runListingCommand'));
+  // Every read this client performs is a GET. The module also carries writes —
+  // `runListingCommand` since ADMIN-3B, and the two moderation commands since
+  // the classifieds vertical — so the assertion is scoped to the read surface
+  // rather than to the file. `adminApi` is that surface: it is the object every
+  // screen reads through, and the property that must not drift is that nothing
+  // reachable from it, and nothing the audit screen can reach, sends a mutating
+  // verb. Slicing at the first write function would only mean this assertion
+  // silently shrinks each time a command is added above it.
+  const readsStart = api.indexOf('export const adminApi = {');
+  assert.notEqual(readsStart, -1, 'the read surface is no longer one object');
+  const reads = api.slice(readsStart, api.indexOf('\n};', readsStart));
   assert.doesNotMatch(reads, /method: '(POST|PUT|PATCH|DELETE)'/);
-  assert.match(reads, /method: 'GET'/);
-  // And the single POST goes only to a listing command route, never to audit.
+  // Every entry in the object goes through the one shared `get` helper, and
+  // that helper is where the verb is written down exactly once.
+  assert.doesNotMatch(reads, /\bfetch\(/, 'a read bypasses the shared helper');
+  assert.match(reads, /get</);
+  assert.match(api, /async function get<T>[\s\S]*?method: 'GET'/);
+  // The writes are the three the panel is allowed to have, and each names the
+  // route it posts to. None of them is the audit trail.
   const commandCalls = [...api.matchAll(/method: 'POST'/g)];
-  assert.equal(commandCalls.length, 1, 'the client gained a second mutating call');
+  assert.equal(commandCalls.length, 2, 'the client gained an unexpected mutating call');
   assert.match(api, /\/api\/admin\/listings\/\$\{encodeURIComponent\(id\)\}\/\$\{command\}/);
+  assert.match(api, /moderation\/listings\/\$\{encodeURIComponent\(id\)\}\/decision/);
+  assert.match(api, /moderation\/reports\/\$\{encodeURIComponent\(id\)\}\/resolution/);
   assert.doesNotMatch(api, /audit[^\n]*method: 'POST'/);
   // Payloads that could carry anything sensitive are never rendered.
   assert.doesNotMatch(audit, /before_json|after_json|request_id|idempotency/);

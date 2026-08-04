@@ -24,6 +24,9 @@ import { Card, ErrorState, Skeleton } from './components/ui';
 const Overview = lazy(() => import('./pages/Overview'));
 const Listings = lazy(() => import('./pages/Listings'));
 const ListingDetail = lazy(() => import('./pages/ListingDetail'));
+const Moderation = lazy(() => import('./pages/Moderation'));
+const ModerationDetail = lazy(() => import('./pages/ModerationDetail'));
+const Reports = lazy(() => import('./pages/Reports'));
 const Categories = lazy(() => import('./pages/Categories'));
 const Operations = lazy(() => import('./pages/Operations'));
 const OrderDetail = lazy(() => import('./pages/OrderDetail'));
@@ -116,6 +119,9 @@ function AuthenticatedApp() {
           <Route path="/" element={<Overview />} />
           <Route path="/listings" element={<Listings />} />
           <Route path="/listings/:id" element={<ListingDetail />} />
+          <Route path="/moderation" element={<Moderation />} />
+          <Route path="/moderation/:id" element={<ModerationDetail />} />
+          <Route path="/reports" element={<Reports />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/operations" element={<Operations />} />
           <Route path="/operations/orders/:id" element={<OrderDetail />} />

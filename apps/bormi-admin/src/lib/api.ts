@@ -19,11 +19,18 @@ import type {
   ListingDetailResponse,
   ListingFilters,
   ListingsResponse,
+  ModerationDecision,
+  ModerationDecisionResponse,
+  ModerationDetailResponse,
+  ModerationQueueResponse,
   OrderDetailResponse,
   OrdersResponse,
   OverviewResponse,
   QuestionDetailResponse,
   QuestionsResponse,
+  ReportResolution,
+  ReportResolutionResponse,
+  ReportsResponse,
   StoresResponse,
 } from './contracts';
 import {
@@ -31,11 +38,14 @@ import {
   syntheticCategories,
   syntheticListing,
   syntheticListings,
+  syntheticModerationDetail,
+  syntheticModerationQueue,
   syntheticOrder,
   syntheticOrders,
   syntheticOverview,
   syntheticQuestion,
   syntheticQuestions,
+  syntheticReports,
   syntheticStores,
 } from './fixtures';
 
@@ -239,7 +249,170 @@ export const adminApi = {
       ? Promise.resolve(syntheticQuestion(id))
       : get<QuestionDetailResponse>(`/api/admin/questions/${encodeURIComponent(id)}`)
   ),
+
+  /**
+   * The moderation queue. `state` is a closed list on the server and an
+   * unrecognised value is refused rather than widened to "all", so the tabs
+   * send exactly what the server names — or `all`, which it reads as no filter.
+   */
+  moderationQueue: (
+    limit = 25,
+    offset = 0,
+    state = 'pending',
+  ): Promise<ModerationQueueResponse> => {
+    if (FIXTURE_MODE) return Promise.resolve(syntheticModerationQueue(limit, offset, state));
+    const query = new URLSearchParams({
+      limit: String(limit), offset: String(offset), state,
+    });
+    return get<ModerationQueueResponse>(`/api/admin/moderation/listings?${query.toString()}`);
+  },
+
+  moderationListing: (id: string): Promise<ModerationDetailResponse> => (
+    FIXTURE_MODE
+      ? Promise.resolve(syntheticModerationDetail(id))
+      : get<ModerationDetailResponse>(
+        `/api/admin/moderation/listings/${encodeURIComponent(id)}`,
+      )
+  ),
+
+  reports: (limit = 25, offset = 0, status = 'open'): Promise<ReportsResponse> => {
+    if (FIXTURE_MODE) return Promise.resolve(syntheticReports(limit, offset, status));
+    const query = new URLSearchParams({
+      limit: String(limit), offset: String(offset), status,
+    });
+    return get<ReportsResponse>(`/api/admin/moderation/reports?${query.toString()}`);
+  },
 };
+
+/**
+ * POST one moderation decision.
+ *
+ * Nothing here names a target status. The operator picks a decision and the
+ * server decides which states that implies — the same rule the store lifecycle
+ * command follows, and the reason a screen cannot invent a fifth outcome.
+ *
+ * Under fixtures it refuses rather than reporting success: a demo that answered
+ * "applied" would be a review signing off on a command nobody exercised.
+ */
+export async function runModerationDecision(
+  id: string,
+  input: {
+    decision: ModerationDecision;
+    reasonCode: string | null;
+    note: string | null;
+    idempotencyKey: string;
+    expectedVersion: number;
+  },
+): Promise<ModerationDecisionResponse> {
+  if (FIXTURE_MODE) throw new AdminApiError('fixture_mode_read_only', 400, null);
+  const body: Record<string, unknown> = {
+    decision: input.decision,
+    idempotency_key: input.idempotencyKey,
+    expected_version: input.expectedVersion,
+  };
+  // The key set is closed on the server, so an empty reason or note is left out
+  // entirely rather than sent as null.
+  if (input.reasonCode) body.reason_code = input.reasonCode;
+  if (input.note) body.note = input.note;
+  return command<ModerationDecisionResponse>(
+    `/api/admin/moderation/listings/${encodeURIComponent(id)}/decision`,
+    body,
+  );
+}
+
+/** Resolve or dismiss one report. Closing a report is not a verdict on the listing. */
+export async function runReportResolution(
+  id: string,
+  input: {
+    resolution: ReportResolution;
+    reasonCode: string | null;
+    idempotencyKey: string;
+    expectedVersion: number;
+  },
+): Promise<ReportResolutionResponse> {
+  if (FIXTURE_MODE) throw new AdminApiError('fixture_mode_read_only', 400, null);
+  const body: Record<string, unknown> = {
+    resolution: input.resolution,
+    idempotency_key: input.idempotencyKey,
+    expected_version: input.expectedVersion,
+  };
+  if (input.reasonCode) body.reason_code = input.reasonCode;
+  return command<ReportResolutionResponse>(
+    `/api/admin/moderation/reports/${encodeURIComponent(id)}/resolution`,
+    body,
+  );
+}
+
+/**
+ * One authenticated POST, with the error vocabulary the panel reads.
+ *
+ * A 409 is thrown rather than returned. The moderation routes answer a conflict
+ * with `{error}` and no record — unlike the store lifecycle command, which
+ * returns the listing as it now is — so there is nothing here to render as an
+ * outcome, and the screen re-reads instead.
+ */
+async function command<T>(path: string, body: Record<string, unknown>): Promise<T> {
+  const headers: Record<string, string> = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+  const bearer = token();
+  if (bearer) headers.Authorization = `Bearer ${bearer}`;
+
+  const response = await fetch(path, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+    cache: 'no-store',
+    credentials: 'same-origin',
+  });
+
+  const requestId = response.headers.get('x-request-id');
+  if (response.status === 401) throw new AdminApiError('unauthenticated', 401, requestId);
+  if (!response.ok) {
+    let code = `http_${response.status}`;
+    try {
+      const failure = await response.json() as { error?: string; code?: string };
+      code = failure.code ?? failure.error ?? code;
+    } catch {
+      // A non-JSON error body is still an error; the status carries the meaning.
+    }
+    throw new AdminApiError(code, response.status, requestId);
+  }
+  return response.json() as Promise<T>;
+}
+
+/**
+ * One photograph of a listing under moderation.
+ *
+ * Fetched rather than handed to an `<img src>` for the same reason the
+ * catalogue's images are: this console authenticates with a bearer header, a
+ * browser attaches none to an image request, and signing a capability into the
+ * address would leave a credential in history.
+ *
+ * It is a separate route from the catalogue's because a private listing has no
+ * `org_id` and no `store_id` to build a key from — the owner media route
+ * answers 404 for every listing this screen exists to show.
+ */
+export async function fetchModerationMedia(
+  id: string,
+  index: number,
+): Promise<string | null> {
+  if (FIXTURE_MODE) return null;
+  const headers: Record<string, string> = {};
+  const bearer = token();
+  if (bearer) headers.Authorization = `Bearer ${bearer}`;
+  try {
+    const response = await fetch(
+      `/api/admin/moderation/listings/${encodeURIComponent(id)}/media/${index}`,
+      { method: 'GET', headers, cache: 'no-store', credentials: 'same-origin' },
+    );
+    if (!response.ok) return null;
+    return URL.createObjectURL(await response.blob());
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Run one listing command.

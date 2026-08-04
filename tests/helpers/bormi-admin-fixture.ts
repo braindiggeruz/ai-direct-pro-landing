@@ -286,6 +286,8 @@ export interface CallOptions {
   body?: unknown;
   params?: Record<string, string>;
   search?: string;
+  /** Extra bindings a route needs — `MARKET_MEDIA`, for one. */
+  env?: Record<string, unknown>;
 }
 
 /**
@@ -309,7 +311,7 @@ export async function callRoute(
   const request = new Request(`https://gptbot.uz${path_}${options.search ?? ''}`, init);
   const response = await (handler as (context: unknown) => Promise<Response>)({
     request,
-    env: adminEnv(db),
+    env: adminEnv(db, options.env ?? {}),
     params: options.params ?? {},
   });
   const text = await response.text();

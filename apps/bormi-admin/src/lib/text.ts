@@ -305,6 +305,185 @@ export const COMMAND_ERROR: Record<string, string> = {
   internal_error: 'Внутренняя ошибка. Действие не выполнено.',
 };
 
+/* ── Classifieds moderation ──────────────────────────────────────────────── */
+
+/**
+ * The five moderation states, as a person would say them.
+ *
+ * `pending` is the only one that means "somebody has to look at this", so it is
+ * the only one worded as a queue rather than as a verdict.
+ */
+export const MODERATION_STATE: Record<string, string> = {
+  pending: 'На модерации',
+  approved: 'Одобрено',
+  rejected: 'Отклонено',
+  restricted: 'Ограничено',
+  removed: 'Снято',
+};
+
+export const MODERATION_STATE_KEYS = Object.keys(MODERATION_STATE);
+
+/**
+ * Reason codes a moderator may choose. This is the whole of `MODERATION_REASONS`
+ * on the server and nothing else: a shorter list would hide a decision the
+ * server accepts, and a longer one would offer a value it refuses.
+ *
+ * `new_seller_review` and `high_risk_category` are deliberately absent here for
+ * the same reason they are absent there — they are why a listing entered the
+ * queue, not why a person decided something about it. They still have wording
+ * below, because the queue and the history display them.
+ */
+export const MODERATION_REASON: Record<string, string> = {
+  prohibited_item: 'Запрещённый товар',
+  suspected_fraud: 'Подозрение на мошенничество',
+  duplicate_listing: 'Дубликат объявления',
+  misleading_content: 'Вводит в заблуждение',
+  unsafe_contact: 'Небезопасный контакт',
+  personal_data: 'Персональные данные',
+  seller_request: 'Запрос продавца',
+  appeal_upheld: 'Апелляция удовлетворена',
+  other_policy: 'Иное нарушение правил',
+};
+
+export const MODERATION_REASON_KEYS = Object.keys(MODERATION_REASON);
+
+/** Why a listing entered the queue. Shown, never offered as a decision. */
+export const MODERATION_ENTRY_REASON: Record<string, string> = {
+  new_seller_review: 'Первое объявление продавца',
+  high_risk_category: 'Категория повышенного риска',
+};
+
+/** Everything `reason_code` may hold, wherever it is read rather than chosen. */
+export const ANY_MODERATION_REASON: Record<string, string> = {
+  ...MODERATION_ENTRY_REASON,
+  ...MODERATION_REASON,
+};
+
+/**
+ * The moderation audit verbs. This is the whole of the `action` CHECK in
+ * `market_moderation_audit`, including the six a seller writes: the history on
+ * a listing is one trail, and a row the panel cannot name would show as a raw
+ * key in the middle of it.
+ */
+export const MODERATION_ACTION: Record<string, string> = {
+  'listing.submitted': 'Отправлено на модерацию',
+  'listing.approved': 'Одобрено модератором',
+  'listing.rejected': 'Отклонено модератором',
+  'listing.restricted': 'Ограничено модератором',
+  'listing.removed': 'Снято модератором',
+  'listing.appeal_upheld': 'Апелляция удовлетворена',
+  'listing.unpublished': 'Снято продавцом с публикации',
+  'listing.republished': 'Возвращено продавцом к публикации',
+  'listing.archived': 'Перемещено продавцом в архив',
+  'report.opened': 'Поступила жалоба',
+  'report.triaged': 'Жалоба взята в работу',
+  'report.resolved': 'Жалоба удовлетворена',
+  'report.dismissed': 'Жалоба отклонена',
+};
+
+/** Who wrote an audit row. There is no third kind of actor. */
+export const MODERATION_ACTOR: Record<string, string> = {
+  moderator: 'Модератор',
+  seller: 'Продавец',
+  buyer: 'Покупатель',
+  system: 'Система',
+};
+
+/**
+ * Report reasons. Seven, not nine: a buyer files from a shorter list than a
+ * moderator decides from, and the two are not the same vocabulary.
+ */
+export const REPORT_REASON: Record<string, string> = {
+  prohibited_item: 'Запрещённый товар',
+  suspected_fraud: 'Мошенничество',
+  duplicate_listing: 'Дубликат',
+  misleading_content: 'Вводит в заблуждение',
+  unsafe_contact: 'Небезопасный контакт',
+  personal_data: 'Персональные данные',
+  other_policy: 'Иное нарушение правил',
+};
+
+export const REPORT_STATUS: Record<string, string> = {
+  open: 'Открыта',
+  triaged: 'В работе',
+  resolved: 'Удовлетворена',
+  dismissed: 'Отклонена',
+};
+
+export const REPORT_STATUS_KEYS = Object.keys(REPORT_STATUS);
+
+/** What was done to the listing because of the report, if anything. */
+export const REPORT_MODERATION_ACTION: Record<string, string> = {
+  none: 'Без действия',
+  restricted: 'Ограничено',
+  removed: 'Снято',
+  rejected: 'Отклонено',
+};
+
+/** Seller type, in the two words the taxonomy actually has. */
+export const SELLER_TYPE: Record<string, string> = {
+  private: 'Частное лицо',
+  store: 'Магазин',
+};
+
+export const SELLER_VERIFICATION: Record<string, string> = {
+  unverified: 'Не подтверждён',
+  identity_verified: 'Личность подтверждена',
+  store_verified: 'Магазин подтверждён',
+};
+
+/** The condition allowlist from the global taxonomy. */
+export const LISTING_CONDITION: Record<string, string> = {
+  new: 'Новое',
+  like_new: 'Как новое',
+  good: 'Хорошее',
+  fair: 'Удовлетворительное',
+  for_parts: 'На запчасти',
+  not_applicable: 'Не применимо',
+};
+
+/**
+ * How a buyer may reach the seller. `phone_optional` is a policy, not a number:
+ * no telephone is stored on the listing and none is shown here.
+ */
+export const CONTACT_MODE: Record<string, string> = {
+  in_app: 'Только через приложение',
+  telegram_relay: 'Через Telegram-ретранслятор',
+  phone_optional: 'Телефон — после действия покупателя',
+};
+
+/**
+ * Why a moderation command was refused.
+ *
+ * Every key is a token `handleModerationDecision` or `handleReportResolution`
+ * actually returns. Anything without a sentence falls through `label()` and
+ * shows as itself — ugly, but it names the rule that stopped the command
+ * instead of hiding it behind "что-то пошло не так".
+ */
+export const MODERATION_ERROR: Record<string, string> = {
+  listing_not_found: 'Объявление не найдено. Возможно, продавец удалил его.',
+  report_not_found: 'Жалоба не найдена.',
+  moderation_version_conflict: 'Решение по объявлению уже принято кем-то другим. Экран обновлён — посмотрите заново.',
+  report_version_conflict: 'Жалоба изменилась, пока была открыта. Экран обновлён.',
+  invalid_moderation_transition: 'Из текущего состояния это решение недоступно.',
+  invalid_report_transition: 'Жалоба уже закрыта.',
+  invalid_decision: 'Решение не из списка.',
+  invalid_resolution: 'Действие по жалобе не из списка.',
+  invalid_reason_code: 'Для этого решения нужна причина из списка.',
+  invalid_note: 'Комментарий длиннее 500 символов.',
+  invalid_expected_version: 'Не передана версия записи.',
+  invalid_idempotency_key: 'Не передан ключ операции.',
+  idempotency_conflict: 'Тот же ключ уже использован для другого решения.',
+  unexpected_field: 'В запросе оказалось лишнее поле.',
+  insufficient_role: 'Решения принимает владелец платформы. У вашей роли только чтение.',
+  unknown_role: 'Роль сессии не распознана. Войдите заново.',
+  unauthenticated: 'Сессия истекла. Войдите заново — решение не применено.',
+  fixture_mode_read_only: 'В демо-режиме решения не применяются: сервера нет.',
+  network_error: 'Сеть недоступна. Решение не применено — повторите.',
+  internal_error: 'Внутренняя ошибка. Решение не применено.',
+  storage_unavailable: 'База недоступна. Решение не применено.',
+};
+
 export function label(map: Record<string, string>, key: string): string {
   return map[key] ?? key;
 }

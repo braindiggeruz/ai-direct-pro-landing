@@ -21,6 +21,10 @@ import type {
   ListingQualityState,
   ListingRow,
   ListingsResponse,
+  ModerationDetailResponse,
+  ModerationQueueResponse,
+  ModerationRow,
+  ModerationState,
   OperationsSummary,
   OrderDetailResponse,
   OrderRow,
@@ -31,6 +35,8 @@ import type {
   QuestionRow,
   QuestionsResponse,
   QuestionStatus,
+  ReportRow,
+  ReportsResponse,
   StoresResponse,
 } from './contracts';
 
@@ -619,6 +625,241 @@ export function syntheticQuestions(
     },
     summary: syntheticOperationsSummary(),
     questions: page,
+  };
+}
+
+/* ── Classifieds moderation ──────────────────────────────────────────────── */
+
+const SYNTHETIC_ACTOR = { email: 'synthetic-owner@example.invalid', role: 'platform_owner' };
+
+/**
+ * Six invented listings across every moderation state.
+ *
+ * The seller is three public trust facts and an invented display name — the
+ * same shape the real projection carries, which has no identity id and no
+ * contact detail to invent in the first place.
+ */
+function syntheticModerationRows(): ModerationRow[] {
+  const hour = 3_600_000;
+  const now = Date.now();
+  const at = (hours: number) => new Date(now - hours * hour).toISOString();
+  return [
+    {
+      listing_id: 'synthetic-mod-1',
+      name: 'Велосипед подростковый, синтетическая карточка',
+      price_minor: 1_200_000,
+      currency: 'UZS',
+      media_count: 3,
+      state: 'pending',
+      reason_code: 'new_seller_review',
+      submitted_at: at(2),
+      decided_at: null,
+      version: 1,
+      seller_display_name: 'Вымышленный продавец А',
+      seller_type: 'private',
+      seller_verification: 'unverified',
+      category_name_ru: 'Спорт и хобби',
+      district_name_ru: 'Мирзо-Улугбекский район',
+      open_reports: 0,
+    },
+    {
+      listing_id: 'synthetic-mod-2',
+      name: 'Автозапчасть, синтетическая карточка',
+      price_minor: 450_000,
+      currency: 'UZS',
+      media_count: 1,
+      state: 'pending',
+      reason_code: 'high_risk_category',
+      submitted_at: at(5),
+      decided_at: null,
+      version: 1,
+      seller_display_name: 'Вымышленный продавец Б',
+      seller_type: 'private',
+      seller_verification: 'identity_verified',
+      category_name_ru: 'Запчасти',
+      district_name_ru: 'Чиланзарский район',
+      open_reports: 2,
+    },
+    {
+      listing_id: 'synthetic-mod-3',
+      name: 'Детская коляска, синтетическая карточка',
+      price_minor: 900_000,
+      currency: 'UZS',
+      media_count: 0,
+      state: 'pending',
+      reason_code: 'new_seller_review',
+      submitted_at: at(9),
+      decided_at: null,
+      version: 1,
+      seller_display_name: 'Вымышленный продавец В',
+      seller_type: 'private',
+      seller_verification: 'unverified',
+      category_name_ru: 'Детям',
+      district_name_ru: 'Юнусабадский район',
+      open_reports: 0,
+    },
+    {
+      listing_id: 'synthetic-mod-4',
+      name: 'Ноутбук, синтетическая карточка',
+      price_minor: 6_500_000,
+      currency: 'UZS',
+      media_count: 4,
+      state: 'approved',
+      reason_code: null,
+      submitted_at: at(30),
+      decided_at: at(28),
+      version: 2,
+      seller_display_name: 'Вымышленный продавец Г',
+      seller_type: 'private',
+      seller_verification: 'identity_verified',
+      category_name_ru: 'Электроника',
+      district_name_ru: 'Яккасарайский район',
+      open_reports: 1,
+    },
+    {
+      listing_id: 'synthetic-mod-5',
+      name: 'Услуга, синтетическая карточка',
+      price_minor: 300_000,
+      currency: 'UZS',
+      media_count: 1,
+      state: 'rejected',
+      reason_code: 'misleading_content',
+      submitted_at: at(50),
+      decided_at: at(49),
+      version: 2,
+      seller_display_name: 'Вымышленный продавец Д',
+      seller_type: 'private',
+      seller_verification: 'unverified',
+      category_name_ru: 'Услуги',
+      district_name_ru: 'Шайхантахурский район',
+      open_reports: 0,
+    },
+    {
+      listing_id: 'synthetic-mod-6',
+      name: 'Мебель, синтетическая карточка',
+      price_minor: 2_100_000,
+      currency: 'UZS',
+      media_count: 2,
+      state: 'restricted',
+      reason_code: 'personal_data',
+      submitted_at: at(70),
+      decided_at: at(66),
+      version: 3,
+      seller_display_name: 'Вымышленный продавец Е',
+      seller_type: 'private',
+      seller_verification: 'unverified',
+      category_name_ru: 'Дом и сад',
+      district_name_ru: 'Сергелийский район',
+      open_reports: 0,
+    },
+  ];
+}
+
+export function syntheticModerationQueue(
+  limit: number,
+  offset: number,
+  state: string,
+): ModerationQueueResponse {
+  const all = syntheticModerationRows();
+  // `all` is the server's own word for "no filter", so the fixture reads it the
+  // same way rather than inventing a seventh state.
+  const filtered = state === 'all' ? all : all.filter((row) => row.state === state);
+  const page = filtered.slice(offset, offset + limit);
+  const summary: Record<string, number> = {
+    pending: 0, approved: 0, rejected: 0, restricted: 0, removed: 0,
+  };
+  for (const row of all) summary[row.state] += 1;
+  summary.open_reports = all.reduce((total, row) => total + row.open_reports, 0);
+  return {
+    generated_at: new Date().toISOString(),
+    actor: SYNTHETIC_ACTOR,
+    page: { limit, offset },
+    filters: { state: state === 'all' ? null : (state as ModerationState) },
+    total: filtered.length,
+    count: page.length,
+    summary,
+    listings: page,
+  };
+}
+
+export function syntheticModerationDetail(id: string): ModerationDetailResponse {
+  const rows = syntheticModerationRows();
+  const row = rows.find((entry) => entry.listing_id === id) ?? rows[0];
+  return {
+    generated_at: new Date().toISOString(),
+    actor: SYNTHETIC_ACTOR,
+    listing: {
+      ...row,
+      description: 'Вымышленное описание для проверки вёрстки. Реального товара '
+        + 'за этой карточкой нет, и ни одна строка здесь не принадлежит человеку.',
+      // Opaque references of the right shape. There are no bytes behind them:
+      // under fixtures the media route is never called.
+      media_refs: Array.from(
+        { length: row.media_count },
+        (_, index) => `r2.synthetic${String(index).padStart(8, '0')}`,
+      ),
+      condition: 'good',
+      region_name_ru: 'Город Ташкент',
+      locality_text: null,
+      contact_mode: 'in_app',
+      product_status: row.state === 'approved' ? 'published' : 'draft',
+      history: [
+        {
+          action: 'listing.submitted',
+          actor_type: 'seller',
+          reason_code: row.reason_code,
+          from_state: null,
+          to_state: 'pending',
+          created_at: row.submitted_at,
+        },
+        ...(row.decided_at ? [{
+          action: `listing.${row.state}` as string,
+          actor_type: 'moderator',
+          reason_code: row.reason_code,
+          from_state: 'pending',
+          to_state: row.state as string,
+          created_at: row.decided_at,
+        }] : []),
+      ],
+      reports: Array.from({ length: row.open_reports }, (_, index) => ({
+        id: `synthetic-report-${row.listing_id}-${index}`,
+        reason_code: index === 0 ? 'misleading_content' : 'suspected_fraud',
+        status: 'open',
+        created_at: row.submitted_at,
+      })),
+    },
+  };
+}
+
+export function syntheticReports(
+  limit: number,
+  offset: number,
+  status: string,
+): ReportsResponse {
+  const rows = syntheticModerationRows();
+  const all: ReportRow[] = rows.flatMap((row) => Array.from(
+    { length: row.open_reports },
+    (_, index): ReportRow => ({
+      id: `synthetic-report-${row.listing_id}-${index}`,
+      product_id: row.listing_id,
+      listing_name: row.name,
+      reason_code: index === 0 ? 'misleading_content' : 'suspected_fraud',
+      status: 'open',
+      moderation_action: 'none',
+      version: 1,
+      created_at: row.submitted_at,
+      listing_state: row.state,
+    }),
+  ));
+  const filtered = status === 'all' ? all : all.filter((row) => row.status === status);
+  const page = filtered.slice(offset, offset + limit);
+  return {
+    generated_at: new Date().toISOString(),
+    actor: SYNTHETIC_ACTOR,
+    page: { limit, offset },
+    filters: { status: status === 'all' ? null : status },
+    count: page.length,
+    reports: page,
   };
 }
 

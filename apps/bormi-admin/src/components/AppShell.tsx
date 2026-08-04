@@ -22,7 +22,8 @@ import { SyntheticNotice } from './ui';
 export interface NavItem {
   to: string;
   label: string;
-  icon: 'overview' | 'listings' | 'categories' | 'operations' | 'access' | 'audit' | 'system';
+  icon: 'overview' | 'listings' | 'moderation' | 'reports' | 'categories' | 'operations'
+    | 'access' | 'audit' | 'system';
 }
 
 export interface NavGroup {
@@ -42,6 +43,17 @@ export const NAV: NavGroup[] = [
     items: [
       { to: '/listings', label: 'Объявления', icon: 'listings' },
       { to: '/categories', label: 'Категории', icon: 'categories' },
+    ],
+  },
+  {
+    // The two queues a marketplace with private sellers cannot open without.
+    // They are their own group rather than an entry under Контент, because
+    // deciding what may be published is a different job from looking at what
+    // already is.
+    title: 'Модерация',
+    items: [
+      { to: '/moderation', label: 'На модерации', icon: 'moderation' },
+      { to: '/reports', label: 'Жалобы', icon: 'reports' },
     ],
   },
   {
@@ -87,6 +99,26 @@ function Icon({ name }: { name: NavItem['icon'] }) {
         <rect x="3" y="4" width="18" height="16" rx="2" />
         <path d="M3 9h18" />
         <path d="M7 13h6M7 16.5h9" />
+      </svg>
+    );
+  }
+  if (name === 'moderation') {
+    // A card with a tick being considered: the queue is about judging one
+    // listing at a time, not about a generic inbox.
+    return (
+      <svg {...common}>
+        <rect x="3" y="4" width="14" height="16" rx="2" />
+        <path d="M7 9h6M7 12.5h4" />
+        <path d="M13.5 17.5l2 2 4-4.5" />
+      </svg>
+    );
+  }
+  if (name === 'reports') {
+    // A flag. Somebody raised something; it is not an error state.
+    return (
+      <svg {...common}>
+        <path d="M5 21V4" />
+        <path d="M5 5h11l-2 3.5L16 12H5z" />
       </svg>
     );
   }

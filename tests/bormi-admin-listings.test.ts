@@ -131,13 +131,15 @@ test('listings: the detail offers only the three transitions the domain has', as
 
 test('listings: every read the client performs is a GET', async () => {
   const api = code(await source(API));
-  // The read surface ends where the command begins. Inside it there is no
-  // mutating verb; the one POST in the module belongs to ADMIN-3B and goes to
-  // a command route, which its own tests cover.
-  const reads = api.slice(
-    api.indexOf('export const adminApi'),
-    api.indexOf('export async function runListingCommand'),
-  );
+  // The read surface is the `adminApi` object itself. It used to be sliced at
+  // `runListingCommand`, on the assumption that the module's one write came
+  // last; the moderation vertical added two more, and a boundary defined by
+  // "the first write function" is one that quietly shrinks every time a command
+  // is added above it. The object is the real boundary: it is what every screen
+  // reads through, and no mutating verb belongs inside it.
+  const readsStart = api.indexOf('export const adminApi');
+  assert.notEqual(readsStart, -1, 'the read surface is no longer one object');
+  const reads = api.slice(readsStart, api.indexOf('\n};', readsStart));
   for (const method of ["'POST'", "'PUT'", "'PATCH'", "'DELETE'"]) {
     assert.ok(!reads.includes(method), `a read can send ${method}`);
   }
@@ -469,11 +471,15 @@ test('listings: the menu gains Content and nothing that is not built', async () 
   assert.match(shell, /to: '\/listings', label: 'Объявления'/);
   assert.match(shell, /to: '\/categories', label: 'Категории'/);
   // Sections whose stages have not happened do not appear in the menu.
-  // «Заказы» left this list when ADMIN-4A built the screen behind it; the rest
-  // still name nothing that exists.
-  for (const absent of ['Модерация', 'Медиа', 'Пользователи', 'QuickPost']) {
+  // «Заказы» left this list when ADMIN-4A built the screen behind it, and
+  // «Модерация» left it the same way: both entries below now open a screen
+  // that reaches a real endpoint. The rest still name nothing that exists.
+  for (const absent of ['Медиа', 'Пользователи', 'QuickPost']) {
     assert.ok(!shell.includes(absent), `the menu offers "${absent}", which does not exist`);
   }
+  assert.match(shell, /title: 'Модерация'/);
+  assert.match(shell, /to: '\/moderation', label: 'На модерации'/);
+  assert.match(shell, /to: '\/reports', label: 'Жалобы'/);
 });
 
 test('listings: the routes are registered and lazily loaded', async () => {

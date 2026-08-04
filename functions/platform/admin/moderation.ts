@@ -287,6 +287,72 @@ export async function getModerationDetail(
   };
 }
 
+/** The media ceiling the classifieds domain enforces on submission. */
+const MAX_MODERATION_MEDIA = 5;
+
+/**
+ * Where one photograph of a listing under moderation actually lives.
+ *
+ * A moderator cannot approve what they cannot look at, and the two routes that
+ * already serve product images both refuse them: the buyer route resolves the
+ * caller through a market session this console does not hold, and the owner
+ * route builds its key from `org_id`/`store_id`, which a private listing does
+ * not have. Both would answer 404 for exactly the listings a moderator is here
+ * to decide about.
+ *
+ * The boundary is the moderation table itself. A row exists there only for a
+ * listing that was submitted for review, so this resolves nothing outside the
+ * queue — not a store's catalogue image, not an object addressed by key. The
+ * caller names an index; the reference and the prefix are read from the record.
+ */
+export async function locateModerationMedia(
+  db: D1Database,
+  listingId: string,
+  index: number,
+): Promise<{
+  reference: string;
+  sellerProfileId: string | null;
+  orgId: string | null;
+  storeId: string | null;
+} | null> {
+  if (!Number.isInteger(index) || index < 0 || index >= MAX_MODERATION_MEDIA) return null;
+  const row = await db.prepare(`
+    SELECT product.media_refs_json, product.listing_scope, product.org_id,
+      product.store_id, ownership.seller_profile_id
+    FROM market_listing_moderation AS moderation
+    JOIN sotuvchi_products AS product ON product.id = moderation.product_id
+    LEFT JOIN listing_ownerships AS ownership
+      ON ownership.product_id = product.id AND ownership.status = 'active'
+    WHERE product.id = ?
+    LIMIT 1
+  `).bind(listingId).first<{
+    media_refs_json: string;
+    listing_scope: 'private' | 'store';
+    org_id: string | null;
+    store_id: string | null;
+    seller_profile_id: string | null;
+  }>();
+  if (!row) return null;
+  let references: unknown;
+  try {
+    references = JSON.parse(row.media_refs_json);
+  } catch {
+    return null;
+  }
+  if (!Array.isArray(references)) return null;
+  const reference = references[index];
+  if (typeof reference !== 'string') return null;
+  return {
+    reference,
+    // A store listing keeps its tenant prefix and a private one keeps its own.
+    // Choosing by scope rather than by which id happens to be non-null is what
+    // stops a half-filled row from addressing the wrong namespace.
+    sellerProfileId: row.listing_scope === 'private' ? row.seller_profile_id : null,
+    orgId: row.listing_scope === 'store' ? row.org_id : null,
+    storeId: row.listing_scope === 'store' ? row.store_id : null,
+  };
+}
+
 interface ModerationCommandBody {
   decision: ModerationDecision;
   reasonCode: ModerationReason | null;

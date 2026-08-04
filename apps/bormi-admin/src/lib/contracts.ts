@@ -404,3 +404,122 @@ export interface AuditFilters {
   /** One of `PLATFORM_ROLES`, or absent for both. */
   actorRole?: string;
 }
+
+/* ── Classifieds moderation ──────────────────────────────────────────────── */
+
+/** The five states `market_listing_moderation.state` may hold. */
+export type ModerationState =
+  | 'pending' | 'approved' | 'rejected' | 'restricted' | 'removed';
+
+/** The four decisions the server implements. There is deliberately no fifth. */
+export type ModerationDecision = 'approve' | 'reject' | 'restrict' | 'remove';
+
+export type ReportResolution = 'resolve' | 'dismiss';
+
+/**
+ * One row of the moderation queue.
+ *
+ * The seller appears as the three public trust facts a buyer would also see.
+ * There is no identity id, no Telegram reference and no contact detail: a
+ * decision is made about a listing, and the person behind it is not evidence.
+ */
+export interface ModerationRow {
+  listing_id: string;
+  name: string;
+  price_minor: number;
+  currency: string;
+  media_count: number;
+  state: ModerationState;
+  reason_code: string | null;
+  submitted_at: string;
+  decided_at: string | null;
+  /** Guards the decision. The screen sends back the version it was shown. */
+  version: number;
+  seller_display_name: string | null;
+  seller_type: string | null;
+  seller_verification: string | null;
+  category_name_ru: string | null;
+  district_name_ru: string | null;
+  open_reports: number;
+}
+
+export interface ModerationQueueResponse {
+  generated_at: string;
+  actor: { email: string; role: string };
+  page: { limit: number; offset: number };
+  filters: { state: ModerationState | null };
+  total: number;
+  count: number;
+  /** Every state plus `open_reports`, so the tabs can carry counts. */
+  summary: Record<string, number>;
+  listings: ModerationRow[];
+}
+
+/** One moderation event. Append-only upstream; there is no edit to offer. */
+export interface ModerationHistoryEntry {
+  action: string;
+  actor_type: string;
+  reason_code: string | null;
+  from_state: string | null;
+  to_state: string | null;
+  created_at: string;
+}
+
+/** A report, as a moderator sees it: what and why, never who. */
+export interface ModerationReportEntry {
+  id: string;
+  reason_code: string;
+  status: string;
+  created_at: string;
+}
+
+export interface ModerationDetail extends ModerationRow {
+  description: string | null;
+  /** Opaque references. The bytes come through the media route, by index. */
+  media_refs: string[];
+  condition: string | null;
+  region_name_ru: string | null;
+  locality_text: string | null;
+  contact_mode: string | null;
+  product_status: string;
+  history: ModerationHistoryEntry[];
+  reports: ModerationReportEntry[];
+}
+
+export interface ModerationDetailResponse {
+  generated_at: string;
+  actor: { email: string; role: string };
+  listing: ModerationDetail;
+}
+
+export interface ModerationDecisionResponse {
+  outcome: 'applied' | 'duplicate';
+  listing: ModerationDetail | null;
+  audit_event_id: string;
+}
+
+export interface ReportRow {
+  id: string;
+  product_id: string;
+  listing_name: string;
+  reason_code: string;
+  status: string;
+  moderation_action: string | null;
+  version: number;
+  created_at: string;
+  listing_state: ModerationState | null;
+}
+
+export interface ReportsResponse {
+  generated_at: string;
+  actor: { email: string; role: string };
+  page: { limit: number; offset: number };
+  filters: { status: string | null };
+  count: number;
+  reports: ReportRow[];
+}
+
+export interface ReportResolutionResponse {
+  outcome: 'applied' | 'duplicate';
+  audit_event_id: string;
+}
