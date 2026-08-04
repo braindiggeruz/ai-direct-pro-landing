@@ -321,10 +321,11 @@
     { "target": "/ru/seo-prodvizhenie-saytov-tashkent/", "anchor": "SEO-продвижение сайтов", "locale": "ru", "type": "contextual", "priority": 5 },
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "интернет-реклама в Ташкенте", "locale": "ru", "type": "contextual", "priority": 6 },
     { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов", "locale": "ru", "type": "contextual", "priority": 7 },
-    { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual", "priority": 8 }
+    { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual", "priority": 8 },
+    { "target": "/ru/lokalnoe-seo-tashkent/", "anchor": "локальная видимость компании на картах", "locale": "ru", "type": "contextual", "priority": 9 }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
-  "lastReviewedAt": "2026-07-30",
+  "lastReviewedAt": "2026-08-04",
   "createdAt": "2026-07-30",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-08-04"
 }

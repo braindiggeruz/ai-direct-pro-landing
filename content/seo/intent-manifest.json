@@ -32,6 +32,66 @@
       ],
       "evidence": "docs/seo/WEBDEV_CLUSTER_MAP_2026-08-01.md",
       "note": "Complete before this sprint and left unchanged. All four spokes earn zero impressions over six months, so no fifth Russian article is justified until that changes."
+    },
+    {
+      "id": "telegram-mini-app-ru",
+      "hub": "/ru/razrabotka-telegram-mini-app-tashkent/",
+      "hubIntent": "transactional — commission a Telegram Mini App for a business in Uzbekistan",
+      "hubKeywords": [
+        "разработка Telegram Mini App в Ташкенте",
+        "создание Telegram Mini App",
+        "Telegram Mini App на заказ",
+        "разработка мини приложения Telegram"
+      ],
+      "spokes": [
+        {
+          "url": "/ru/blog/telegram-mini-app-chto-eto/",
+          "ownsIntent": "understand what a Telegram Mini App is and how its architecture works",
+          "primaryKeyword": "что такое Telegram Mini App"
+        },
+        {
+          "url": "/ru/blog/telegram-bot-ili-mini-app/",
+          "ownsIntent": "choose between a conversational bot, Mini App or hybrid",
+          "primaryKeyword": "Telegram бот или Mini App"
+        },
+        {
+          "url": "/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/",
+          "ownsIntent": "understand the cost drivers and prepare a Mini App estimate",
+          "primaryKeyword": "стоимость Telegram Mini App"
+        }
+      ],
+      "evidence": "SEMrush Keyword Strategy export reviewed 2026-08-04; primary-source validation against Telegram Mini Apps documentation and a live commercial SERP review.",
+      "note": "The hub owns only transactional development terms. The existing /ru/razrabotka-telegram-bota-tashkent/ continues to own classic bot development; the comparison spoke explicitly differentiates both product classes."
+    },
+    {
+      "id": "local-seo-ru",
+      "hub": "/ru/lokalnoe-seo-tashkent/",
+      "hubIntent": "transactional — commission local SEO and map profile optimisation in Tashkent",
+      "hubKeywords": [
+        "локальное SEO в Ташкенте",
+        "продвижение в Google Картах Ташкент",
+        "продвижение в Яндекс Картах",
+        "продвижение в 2ГИС"
+      ],
+      "spokes": [
+        {
+          "url": "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+          "ownsIntent": "set up consistent business profiles across the major map services",
+          "primaryKeyword": "Google Карты Яндекс Карты 2ГИС для бизнеса"
+        },
+        {
+          "url": "/ru/blog/audit-kartochki-kompanii-na-kartah/",
+          "ownsIntent": "audit one or more local business profiles and their linked pages",
+          "primaryKeyword": "аудит карточки компании на картах"
+        },
+        {
+          "url": "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+          "ownsIntent": "understand local SEO pricing and compare scopes of work",
+          "primaryKeyword": "стоимость локального SEO в Ташкенте"
+        }
+      ],
+      "evidence": "SEMrush commercial price/audit demand reviewed 2026-08-04; official Google Business Profile and Yandex Business documentation; live local SERP review.",
+      "note": "The existing /ru/seo-prodvizhenie-saytov-tashkent/ keeps broad website SEO. This hub is restricted to map profiles, real locations, branches and local conversion paths."
     }
   ],
   "pairs": [

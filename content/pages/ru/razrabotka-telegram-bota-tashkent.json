@@ -1116,6 +1116,18 @@
       "anchor": "калькулятор стоимости Telegram-бота",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/razrabotka-telegram-mini-app-tashkent/",
+      "anchor": "Telegram Mini App для каталога и личного кабинета",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/telegram-bot-ili-mini-app/",
+      "anchor": "когда вместо бота нужен Mini App",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -1127,5 +1139,5 @@
   ],
   "lastReviewedAt": "2026-07-28",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-28"
+  "updatedAt": "2026-08-04"
 }

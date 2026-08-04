@@ -1,5 +1,5 @@
 {
-  "policyVersion": 1,
+  "policyVersion": 2,
   "effectiveFrom": "2026-08-01",
   "rationale": "The site had ~140 indexable pages built around a keyword cluster that measures ~80 searches a month, while the clusters with four- and five-figure volume had two. New indexable commercial pages now have to name the demand they are built for before the build will accept them. Measurements are in docs/seo/DEMAND_REALITY_CHECK_2026-08-01.md.",
   "scope": {
@@ -42,7 +42,23 @@
     { "keyword": "чат гпт", "volumePerMonth": 550000, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860 — treat six-figure Russian figures as directionally large but unverified", "measuredAt": "2026-08-01" },
     { "keyword": "чатгпт", "volumePerMonth": 33100, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
     { "keyword": "чат гпт онлайн", "volumePerMonth": 5400, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
-    { "keyword": "искусственный интеллект", "volumePerMonth": 6600, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" }
+    { "keyword": "искусственный интеллект", "volumePerMonth": 6600, "competition": "LOW", "source": "OpenSEO/DataForSEO location 2860", "measuredAt": "2026-08-01" },
+    {
+      "keyword": "локальное SEO в Ташкенте",
+      "volumePerMonth": 0,
+      "competition": "UNMEASURED",
+      "source": "SEMrush Keyword Strategy export for gptbot.uz reviewed 2026-08-04: adjacent exact keyword 'локальное seo узбекистан' reports 0; commercial demand is validated directionally by measured SEO price/audit terms and a live local-services SERP",
+      "measuredAt": "2026-08-04",
+      "note": "Transparent zero-volume strategic test. Keep the hub conversion-focused and review impressions before adding more spokes. This is not recorded as positive search demand."
+    },
+    {
+      "keyword": "разработка Telegram Mini App в Ташкенте",
+      "volumePerMonth": 0,
+      "competition": "UNMEASURED",
+      "source": "SEMrush Keyword Strategy export for gptbot.uz reviewed 2026-08-04: no Mini App keyword row; live commercial SERP contains multiple Uzbek development providers and official Telegram documentation confirms an active product category",
+      "measuredAt": "2026-08-04",
+      "note": "Transparent emerging-category experiment, not a volume claim. Review Search Console and Yandex impressions before expanding beyond the three buyer-journey spokes."
+    }
   ],
   "qualityRequirements": {
     "minFaq": 4,
