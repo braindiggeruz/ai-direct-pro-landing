@@ -161,7 +161,7 @@ MARKET_QUICKPOST_ENABLED = "false"
 MARKET_QUICKPOST_AI_ENABLED = "false"
 # Global approved classifieds reads. The code and schema may be deployed while
 # this stays false; a flag is a rollout switch, never authority.
-MARKET_CLASSIFIEDS_DISCOVERY_ENABLED = "false"
+MARKET_CLASSIFIEDS_DISCOVERY_ENABLED = "true"
 # Private listing commands remain absent until Telegram authority and the
 # native QuickPost ceremony pass. Discovery can be canaried independently.
 MARKET_PRIVATE_LISTING_ENABLED = "false"
