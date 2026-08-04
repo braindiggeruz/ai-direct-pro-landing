@@ -178,4 +178,4 @@ MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"
 # this line cannot grant a single thing a signed owner token does not already
 # carry. Turning it on is this line plus a root deploy; turning it off is the
 # rollback, and the previous panel never stopped working.
-BORMI_ADMIN_V2_ENABLED = "false"
+BORMI_ADMIN_V2_ENABLED = "true"

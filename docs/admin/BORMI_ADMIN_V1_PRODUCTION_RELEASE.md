@@ -203,7 +203,19 @@ npx wrangler d1 execute gptbot-drafts --remote --command "SELECT COUNT(*) AS row
    панель и проверить, что в `owner_audit_events` появилась ровно одна строка с
    `action = 'listing.publish'` и `target_type = 'product'`.
 
-Ни один из шагов 1–7 не выполнен в этой сессии.
+### Что выполнено 2026-08-04 (production apply)
+
+| Шаг | Результат |
+| --- | --- |
+| 1. Бэкап | `bormi-recovery/D1-BACKUP-PREADMINV1-20260804-0805/` — 10 885 279 байт, SHA-256 `1F59F63C…56DBE8AB`. Восстановлен локально: 3266 инструкций, 0 пропущено, `integrity_check=ok`, 0 нарушений FK, и все агрегаты совпали с живым продом |
+| 2. Репетиция | `ADMIN_AUDIT_MIGRATION_REHEARSAL=PASS` на этом самом бэкапе |
+| 3. Применение | `wrangler d1 migrations apply gptbot-ai-drafts --remote` — 8 команд, ровно одна миграция |
+| 4. Проверка | Реестр 32 → 33; строк аудита 6 → 6, отпечаток `90efa0c2…` не изменился; все пять индексов на месте; `sotuvchi_products` 48 → 48; магазины, организации, членства, онбординги, вызовы, заказы, обращения, категории — без изменений; временных таблиц не осталось; выгрузка после миграции восстановлена локально с `integrity_check=ok` |
+| 5–6. Флаг и деплой | `BORMI_ADMIN_V2_ENABLED = "true"` — этот коммит; деплой по точному SHA после `npm run build` и `npm run build:admin` |
+| 7. Канарейка | Одно действие владельца в панели, синтетическая карточка R1.1 |
+
+Имя базы в командах выше — `gptbot-ai-drafts` (в `wrangler.toml`), а не
+`gptbot-drafts`.
 
 ---
 
