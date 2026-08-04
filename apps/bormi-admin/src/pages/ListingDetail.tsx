@@ -14,30 +14,46 @@
  */
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
-import { adminApi, fetchListingMedia, FIXTURE_MODE } from '../lib/api';
+import {
+  adminApi,
+  AdminApiError,
+  fetchListingMedia,
+  FIXTURE_MODE,
+  runListingCommand,
+} from '../lib/api';
 import { useQuery } from '../lib/useQuery';
 import {
   AVAILABILITY,
   count,
   exactTime,
   label,
+  COMMAND_ERROR,
   LISTING_STATUS,
   money,
   QUALITY_REASON,
   QUALITY_STATE,
+  REASON_CODE,
   UNCATEGORISED,
   when,
 } from '../lib/text';
-import type { ListingDetailResponse, ListingMedia } from '../lib/contracts';
+import type {
+  ListingCommand,
+  ListingCommandResponse,
+  ListingDetail as ListingDetailContract,
+  ListingDetailResponse,
+  ListingMedia,
+} from '../lib/contracts';
 import {
   Badge,
   Card,
   CardTitle,
   DataGap,
+  Drawer,
   ErrorState,
   Field,
   Freshness,
   PageHeader,
+  StatusStrip,
 } from '../components/ui';
 
 /**
@@ -97,6 +113,255 @@ function MediaTile({ id, media }: { id: string; media: ListingMedia }) {
         )}
       </div>
     </li>
+  );
+}
+
+/**
+ * The commands the catalogue domain actually implements, and the sentence each
+ * one needs before it runs.
+ *
+ * `from` mirrors `CatalogService.transitionProduct` exactly. An action whose
+ * precondition is not met is not rendered disabled — it is not rendered. A
+ * greyed-out button invites a click that would come back forbidden, and a
+ * command that cannot succeed is not a command the reader should be weighing.
+ */
+const COMMANDS: {
+  key: ListingCommand;
+  label: string;
+  from: readonly string[];
+  question: string;
+  detail: string;
+  tone: 'accent' | 'bad';
+  /** Archive is irreversible in this domain, so the id must be retyped. */
+  typed: boolean;
+}[] = [
+  {
+    key: 'publish',
+    label: 'Опубликовать',
+    from: ['draft'],
+    question: 'Опубликовать объявление?',
+    detail: 'Оно станет доступно покупателям в каталоге и в поиске.',
+    tone: 'accent',
+    typed: false,
+  },
+  {
+    key: 'unpublish',
+    label: 'Снять с публикации',
+    from: ['published'],
+    question: 'Снять объявление с публикации?',
+    detail: 'Оно вернётся в черновики. Покупатели перестанут его видеть, продавец сможет доработать и опубликовать снова.',
+    tone: 'accent',
+    typed: false,
+  },
+  {
+    key: 'archive',
+    label: 'Переместить в архив',
+    from: ['draft', 'published'],
+    question: 'Переместить объявление в архив?',
+    detail: 'Покупатели перестанут его видеть. Обратного перехода из архива в каталоге нет — вернуть объявление сможет только продавец, создав его заново.',
+    tone: 'bad',
+    typed: true,
+  },
+];
+
+/**
+ * The actions block.
+ *
+ * Everything that can go wrong has a state on screen: pending, conflict, and a
+ * closed-list error. Nothing is optimistic — the status shown is the status the
+ * server reported after the write, never the one the button hoped for.
+ */
+function ListingActions({
+  listing,
+  onDone,
+}: {
+  listing: ListingDetailContract;
+  onDone: () => void;
+}) {
+  const [open, setOpen] = useState<ListingCommand | null>(null);
+  const [reason, setReason] = useState('data_quality');
+  const [typed, setTyped] = useState('');
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<ListingCommandResponse | null>(null);
+  // One key per logical attempt. A retry after a network error reuses it, so
+  // the server replays instead of transitioning twice; choosing a new command
+  // mints a new one.
+  const [attemptKey, setAttemptKey] = useState('');
+
+  const available = COMMANDS.filter((command) => command.from.includes(listing.status));
+  const active = COMMANDS.find((command) => command.key === open) ?? null;
+
+  function start(command: ListingCommand): void {
+    setOpen(command);
+    setReason('data_quality');
+    setTyped('');
+    setError(null);
+    setResult(null);
+    setAttemptKey(`admin-${listing.id}-${command}-${listing.version}-${crypto.randomUUID()}`);
+  }
+
+  function close(): void {
+    setOpen(null);
+    setPending(false);
+  }
+
+  async function run(): Promise<void> {
+    if (!active || pending) return;
+    setPending(true);
+    setError(null);
+    try {
+      const answer = await runListingCommand(listing.id, active.key, {
+        reasonCode: reason,
+        idempotencyKey: attemptKey,
+        expectedVersion: listing.version,
+        confirmation: active.typed ? typed.trim() : undefined,
+      });
+      setResult(answer);
+      setOpen(null);
+      // The screen re-reads rather than patching what it already had: the
+      // version moved, and so may anything else the seller changed meanwhile.
+      onDone();
+    } catch (failure) {
+      setError(failure instanceof AdminApiError ? failure.code : 'network_error');
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <Card className="mt-4">
+      <CardTitle hint="Действия выполняет сервер и записывает их в аудит.">Действия</CardTitle>
+
+      {result ? (
+        <div className="mb-3">
+          <StatusStrip
+            tone={result.outcome === 'conflict' ? 'warn' : 'good'}
+            title={{
+              applied: 'Действие выполнено',
+              duplicate: 'Действие уже было выполнено',
+              unchanged: 'Объявление уже в этом состоянии',
+              conflict: 'Объявление изменилось после открытия',
+            }[result.outcome]}
+            detail={result.outcome === 'conflict'
+              ? 'Кто-то изменил карточку, пока она была открыта. Экран обновлён — выберите действие заново.'
+              : (result.audit_event_id ? 'Запись в аудите создана.' : undefined)}
+          />
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="mb-3">
+          <StatusStrip
+            tone="bad"
+            title="Действие не выполнено"
+            detail={label(COMMAND_ERROR, error)}
+          />
+        </div>
+      ) : null}
+
+      {available.length === 0 ? (
+        <p className="muted text-sm">
+          {listing.status === 'archived'
+            ? 'Объявление в архиве. Переходов из архива в каталоге нет.'
+            : 'Для текущего состояния доступных действий нет.'}
+        </p>
+      ) : (
+        <div className="flex flex-wrap gap-2">
+          {available.map((command) => (
+            <button
+              key={command.key}
+              type="button"
+              onClick={() => start(command.key)}
+              className={`min-h-11 rounded-[var(--radius-control)] border px-3 text-sm ${
+                command.tone === 'bad'
+                  ? 'border-[var(--tone-bad)] text-[var(--tone-bad)]'
+                  : 'border-[var(--border-line)]'
+              }`}
+            >
+              {command.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <p className="muted mt-3 text-xs">
+        Массовых действий нет: каждое изменение выполняется по одному объявлению,
+        с причиной и записью в аудит.
+      </p>
+
+      {active ? (
+        <Drawer title={active.question} onClose={close}>
+          <p className="text-sm">{active.detail}</p>
+
+          <div className="mt-4 flex flex-col gap-1">
+            <label className="muted text-xs font-medium" htmlFor="listing-reason">
+              Причина
+            </label>
+            <select
+              id="listing-reason"
+              value={reason}
+              onChange={(event) => setReason(event.target.value)}
+              className="min-h-11 rounded-[var(--radius-control)] border border-[var(--border-line)] bg-[var(--surface-paper)] px-3 text-sm"
+            >
+              {Object.entries(REASON_CODE).map(([value, text]) => (
+                <option key={value} value={value}>{text}</option>
+              ))}
+            </select>
+            <p className="muted mt-1 text-xs">
+              Причина попадает в аудит. Свободного текста нет — только закрытый список.
+            </p>
+          </div>
+
+          {active.typed ? (
+            <div className="mt-4 flex flex-col gap-1">
+              <label className="muted text-xs font-medium" htmlFor="listing-confirm">
+                Введите идентификатор объявления для подтверждения
+              </label>
+              <code className="muted select-all text-xs">{listing.id}</code>
+              <input
+                id="listing-confirm"
+                type="text"
+                value={typed}
+                onChange={(event) => setTyped(event.target.value)}
+                autoComplete="off"
+                className="min-h-11 rounded-[var(--radius-control)] border border-[var(--border-line)] bg-[var(--surface-paper)] px-3 text-sm"
+              />
+            </div>
+          ) : null}
+
+          <div className="mt-3 rounded-[var(--radius-control)] border border-[var(--border-line)] p-3">
+            <p className="muted text-xs">Что изменится</p>
+            <p className="mt-1 text-sm">
+              {label(LISTING_STATUS, listing.status)} → {label(LISTING_STATUS, {
+                publish: 'published', unpublish: 'draft', archive: 'archived',
+              }[active.key])}
+            </p>
+            <p className="muted mt-1 text-xs">Версия {listing.version} → {listing.version + 1}</p>
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => { void run(); }}
+              disabled={pending || (active.typed && typed.trim() !== listing.id)}
+              className="min-h-11 rounded-[var(--radius-control)] border border-[var(--border-line)] px-4 text-sm disabled:opacity-40"
+            >
+              {pending ? 'Выполняется…' : active.label}
+            </button>
+            <button
+              type="button"
+              onClick={close}
+              disabled={pending}
+              className="min-h-11 rounded-[var(--radius-control)] px-4 text-sm underline disabled:opacity-40"
+            >
+              Отмена
+            </button>
+          </div>
+          {error ? <p className="mt-3 text-sm text-[var(--tone-bad)]">{label(COMMAND_ERROR, error)}</p> : null}
+        </Drawer>
+      ) : null}
+    </Card>
   );
 }
 
@@ -287,6 +552,8 @@ export default function ListingDetail() {
           ) : null}
         </Card>
       ) : null}
+
+      <ListingActions listing={listing} onDone={detail.reload} />
 
       <details className="mt-4 rounded-[var(--radius-card)] border border-[var(--border-line)] p-4">
         <summary className="cursor-pointer text-sm font-medium">Технические поля</summary>
