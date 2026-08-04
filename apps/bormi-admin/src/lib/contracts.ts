@@ -225,6 +225,147 @@ export interface ListingDetailResponse {
   listing: ListingDetail;
 }
 
+/**
+ * The three listing transitions the catalogue domain implements. There is no
+ * fourth, and in particular there is no way out of `archived`.
+ */
+export type ListingCommand = 'publish' | 'unpublish' | 'archive';
+
+/**
+ * What a command answers.
+ *
+ * `applied` changed the listing. `duplicate` is the same logical attempt
+ * arriving twice — the idempotency key matched an event already recorded, and
+ * nothing changed the second time. `unchanged` means it was already in the
+ * target state. `conflict` means somebody else moved it first.
+ */
+export interface ListingCommandResponse {
+  outcome: 'applied' | 'duplicate' | 'unchanged' | 'conflict';
+  listing: { id: string; status: string; version: number; store_id: string } | null;
+  audit_event_id?: string;
+  request_id?: string;
+}
+
+/**
+ * ADMIN-4A: operations.
+ *
+ * Two read-only surfaces over domains that already exist. Nothing below carries
+ * a buyer: `sotuvchi_orders` holds a name, a phone and an address and
+ * `sotuvchi_handoffs` holds the words of a conversation, and the server selects
+ * none of those columns. What the shapes here can express is deliberately the
+ * limit of what the owner may see.
+ */
+export type OrderStage = 'draft' | 'placed' | 'confirmed' | 'done' | 'cancelled';
+export type QuestionStatus = 'open' | 'answered' | 'closed' | 'expired';
+/** Who a row is waiting on. Derived by the server, never stored. */
+export type WaitingSide = 'seller' | 'buyer' | 'nobody';
+/** `waiting` is a queue doing its job; `stalled` is one that has stopped. */
+export type AttentionState = 'none' | 'waiting' | 'stalled';
+
+export interface OperationsSummary {
+  orders_total: number;
+  orders_awaiting_seller: number;
+  questions_total: number;
+  questions_open: number;
+}
+
+export interface OrderRow {
+  id: string;
+  /** `order_number` — the reference a person can quote. Never the buyer. */
+  reference: string;
+  stage: OrderStage;
+  status: string;
+  fulfillment: string;
+  store_id: string;
+  store_name: string;
+  items: number;
+  /** The seller's own product name. An order carries no buyer copy. */
+  item_name: string | null;
+  total_minor: number | null;
+  currency: string;
+  waiting_on: WaitingSide;
+  attention: AttentionState;
+  created_at: string;
+  placed_at: string | null;
+}
+
+export interface OrderDetail extends OrderRow {
+  org_id: string;
+  updated_at: string;
+  item: {
+    product_id: string;
+    name: string;
+    unit_price_minor: number;
+    currency: string;
+    availability: string;
+    quantity: number | null;
+    line_total_minor: number | null;
+  } | null;
+}
+
+export interface OrdersResponse {
+  generated_at: string;
+  page: { limit: number; offset: number };
+  total: number;
+  count: number;
+  read_only: true;
+  sort: 'created_desc';
+  filters: { stage: OrderStage | null; store: string | null };
+  summary: OperationsSummary;
+  orders: OrderRow[];
+}
+
+export interface OrderDetailResponse {
+  generated_at: string;
+  read_only: true;
+  order: OrderDetail;
+}
+
+export interface QuestionRow {
+  id: string;
+  status: QuestionStatus;
+  reason: string;
+  store_id: string;
+  store_name: string;
+  /** Whether words exist. The words themselves never leave the domain. */
+  has_question: boolean;
+  has_reply: boolean;
+  waiting_on: WaitingSide;
+  attention: AttentionState;
+  created_at: string;
+  answered_at: string | null;
+  closed_at: string | null;
+  expires_at: string | null;
+}
+
+export interface QuestionDetail extends QuestionRow {
+  org_id: string;
+  seller_notified_at: string | null;
+  seller_notify_attempts: number;
+  buyer_delivered_at: string | null;
+  buyer_delivery_attempts: number;
+  content_cleared_at: string | null;
+  updated_at: string;
+}
+
+export interface QuestionsResponse {
+  generated_at: string;
+  page: { limit: number; offset: number };
+  total: number;
+  count: number;
+  read_only: true;
+  sort: 'created_desc';
+  filters: { status: QuestionStatus | null; store: string | null };
+  summary: OperationsSummary;
+  questions: QuestionRow[];
+}
+
+export interface QuestionDetailResponse {
+  generated_at: string;
+  read_only: true;
+  question: QuestionDetail;
+}
+
 /** `GET /api/admin/categories` — counts, never a command. */
 export interface CategoryRow {
   id: string;

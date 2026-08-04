@@ -21,7 +21,16 @@ import type {
   ListingQualityState,
   ListingRow,
   ListingsResponse,
+  OperationsSummary,
+  OrderDetailResponse,
+  OrderRow,
+  OrdersResponse,
+  OrderStage,
   OverviewResponse,
+  QuestionDetailResponse,
+  QuestionRow,
+  QuestionsResponse,
+  QuestionStatus,
   StoresResponse,
 } from './contracts';
 
@@ -444,5 +453,190 @@ export function syntheticCategories(): CategoriesResponse {
     read_only: true,
     count: categories.length,
     categories,
+  };
+}
+
+// ── ADMIN-4A: operations ─────────────────────────────────────────────────────
+//
+// Order references are invented and look nothing like the real numbering. There
+// is no buyer here at all — not an invented one either, because a fixture that
+// showed a name where production shows none would make the screenshot lie about
+// what the panel can see.
+
+const HOUR = 3_600_000;
+
+function ago(hours: number): string {
+  return new Date(Date.now() - hours * HOUR).toISOString();
+}
+
+function syntheticOrderRows(): OrderRow[] {
+  const rows: {
+    reference: string;
+    stage: OrderStage;
+    hours: number;
+    item: string | null;
+    total: number | null;
+  }[] = [
+    { reference: 'SYN-1041', stage: 'placed', hours: 39, item: 'Синтетический товар А', total: 149_000 },
+    { reference: 'SYN-1040', stage: 'placed', hours: 5, item: 'Синтетический товар Б', total: 89_000 },
+    { reference: 'SYN-1039', stage: 'confirmed', hours: 26, item: 'Синтетический товар В', total: 320_000 },
+    { reference: 'SYN-1038', stage: 'done', hours: 52, item: 'Синтетический товар Г', total: 55_000 },
+    { reference: 'SYN-1037', stage: 'cancelled', hours: 71, item: 'Синтетический товар Д', total: 210_000 },
+    { reference: 'SYN-1036', stage: 'draft', hours: 2, item: null, total: null },
+  ];
+  return rows.map((row) => ({
+    id: `synthetic-order-${row.reference.toLowerCase()}`,
+    reference: row.reference,
+    stage: row.stage,
+    status: row.stage === 'draft' || row.stage === 'cancelled' ? row.stage : 'placed',
+    fulfillment: row.stage === 'confirmed' || row.stage === 'done' ? row.stage : 'none',
+    store_id: 'synthetic-store',
+    store_name: 'Синтетический магазин',
+    items: row.item === null ? 0 : 1,
+    item_name: row.item,
+    total_minor: row.total,
+    currency: 'UZS',
+    waiting_on: row.stage === 'placed' ? 'seller' : (row.stage === 'draft' ? 'buyer' : 'nobody'),
+    attention: row.stage === 'placed' ? (row.hours >= 24 ? 'stalled' : 'waiting') : 'none',
+    created_at: ago(row.hours),
+    placed_at: row.stage === 'draft' ? null : ago(row.hours),
+  }));
+}
+
+function syntheticQuestionRows(): QuestionRow[] {
+  const rows: {
+    status: QuestionStatus;
+    reason: string;
+    hours: number;
+    reply: boolean;
+    delivered: boolean;
+  }[] = [
+    { status: 'open', reason: 'catalog_no_result', hours: 31, reply: false, delivered: false },
+    { status: 'open', reason: 'buyer_requested_human', hours: 3, reply: false, delivered: false },
+    { status: 'answered', reason: 'order_question', hours: 12, reply: true, delivered: false },
+    { status: 'answered', reason: 'unknown_intent', hours: 30, reply: true, delivered: true },
+    { status: 'closed', reason: 'seller_initiated', hours: 60, reply: true, delivered: true },
+    { status: 'expired', reason: 'unknown_intent', hours: 96, reply: false, delivered: false },
+  ];
+  return rows.map((row, index) => ({
+    id: `synthetic-question-${index + 1}`,
+    status: row.status,
+    reason: row.reason,
+    store_id: 'synthetic-store',
+    store_name: 'Синтетический магазин',
+    has_question: row.status !== 'expired',
+    has_reply: row.reply,
+    waiting_on: row.status === 'open'
+      ? 'seller'
+      : (row.status === 'answered' && !row.delivered ? 'buyer' : 'nobody'),
+    attention: row.status === 'open' ? (row.hours >= 24 ? 'stalled' : 'waiting') : 'none',
+    created_at: ago(row.hours),
+    answered_at: row.reply ? ago(row.hours - 1) : null,
+    closed_at: row.status === 'closed' ? ago(row.hours - 2) : null,
+    expires_at: ago(row.hours - 72),
+  }));
+}
+
+function syntheticOperationsSummary(): OperationsSummary {
+  const orders = syntheticOrderRows();
+  const questions = syntheticQuestionRows();
+  return {
+    orders_total: orders.length,
+    orders_awaiting_seller: orders.filter((row) => row.waiting_on === 'seller').length,
+    questions_total: questions.length,
+    questions_open: questions.filter((row) => row.status === 'open').length,
+  };
+}
+
+export function syntheticOrders(
+  limit: number,
+  offset: number,
+  filters: { stage?: string; store?: string } = {},
+): OrdersResponse {
+  const all = syntheticOrderRows().filter((row) => (
+    (!filters.stage || row.stage === filters.stage)
+    && (!filters.store || row.store_id === filters.store)
+  ));
+  const page = all.slice(offset, offset + limit);
+  return {
+    generated_at: new Date().toISOString(),
+    page: { limit, offset },
+    total: all.length,
+    count: page.length,
+    read_only: true,
+    sort: 'created_desc',
+    filters: {
+      stage: (filters.stage as OrderStage | undefined) ?? null,
+      store: filters.store ?? null,
+    },
+    summary: syntheticOperationsSummary(),
+    orders: page,
+  };
+}
+
+export function syntheticOrder(id: string): OrderDetailResponse {
+  const row = syntheticOrderRows().find((entry) => entry.id === id) ?? syntheticOrderRows()[0];
+  return {
+    generated_at: new Date().toISOString(),
+    read_only: true,
+    order: {
+      ...row,
+      org_id: 'synthetic-org',
+      updated_at: row.created_at,
+      item: row.item_name === null ? null : {
+        product_id: 'synthetic-product',
+        name: row.item_name,
+        unit_price_minor: row.total_minor ?? 0,
+        currency: 'UZS',
+        availability: 'available',
+        quantity: 1,
+        line_total_minor: row.total_minor,
+      },
+    },
+  };
+}
+
+export function syntheticQuestions(
+  limit: number,
+  offset: number,
+  filters: { status?: string; store?: string } = {},
+): QuestionsResponse {
+  const all = syntheticQuestionRows().filter((row) => (
+    (!filters.status || row.status === filters.status)
+    && (!filters.store || row.store_id === filters.store)
+  ));
+  const page = all.slice(offset, offset + limit);
+  return {
+    generated_at: new Date().toISOString(),
+    page: { limit, offset },
+    total: all.length,
+    count: page.length,
+    read_only: true,
+    sort: 'created_desc',
+    filters: {
+      status: (filters.status as QuestionStatus | undefined) ?? null,
+      store: filters.store ?? null,
+    },
+    summary: syntheticOperationsSummary(),
+    questions: page,
+  };
+}
+
+export function syntheticQuestion(id: string): QuestionDetailResponse {
+  const row = syntheticQuestionRows().find((entry) => entry.id === id)
+    ?? syntheticQuestionRows()[0];
+  return {
+    generated_at: new Date().toISOString(),
+    read_only: true,
+    question: {
+      ...row,
+      org_id: 'synthetic-org',
+      seller_notified_at: row.created_at,
+      seller_notify_attempts: row.status === 'open' ? 2 : 1,
+      buyer_delivered_at: row.waiting_on === 'buyer' ? null : row.answered_at,
+      buyer_delivery_attempts: row.has_reply ? 1 : 0,
+      content_cleared_at: row.status === 'expired' ? row.created_at : null,
+      updated_at: row.created_at,
+    },
   };
 }

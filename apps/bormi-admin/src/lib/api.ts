@@ -14,10 +14,16 @@ import type {
   AuditFilters,
   AuditResponse,
   CategoriesResponse,
+  ListingCommand,
+  ListingCommandResponse,
   ListingDetailResponse,
   ListingFilters,
   ListingsResponse,
+  OrderDetailResponse,
+  OrdersResponse,
   OverviewResponse,
+  QuestionDetailResponse,
+  QuestionsResponse,
   StoresResponse,
 } from './contracts';
 import {
@@ -25,9 +31,18 @@ import {
   syntheticCategories,
   syntheticListing,
   syntheticListings,
+  syntheticOrder,
+  syntheticOrders,
   syntheticOverview,
+  syntheticQuestion,
+  syntheticQuestions,
   syntheticStores,
 } from './fixtures';
+
+/** The two filters `/api/admin/orders` actually narrows on. */
+export interface OrdersFilters { stage?: string; store?: string }
+/** The two filters `/api/admin/questions` actually narrows on. */
+export interface QuestionsFilters { status?: string; store?: string }
 
 /** The key the shipped Owner Control Center already uses on this origin. */
 const TOKEN_KEY = 'gptbot_admin_token';
@@ -161,7 +176,124 @@ export const adminApi = {
       ? Promise.resolve(syntheticCategories())
       : get<CategoriesResponse>('/api/admin/categories')
   ),
+
+  /**
+   * ADMIN-4A. Both operations lists are server-paginated, server-filtered and
+   * server-ordered: there is one ordering, newest first, and the client cannot
+   * ask for another. Nothing here can be turned into a write — the endpoints
+   * behind them answer 405 to every verb but GET.
+   */
+  orders: (
+    limit = 25,
+    offset = 0,
+    filters: OrdersFilters = {},
+  ): Promise<OrdersResponse> => {
+    if (FIXTURE_MODE) return Promise.resolve(syntheticOrders(limit, offset, filters));
+    const query = new URLSearchParams({ limit: String(limit), offset: String(offset) });
+    for (const [key, value] of Object.entries(filters)) {
+      if (value) query.set(key, value);
+    }
+    return get<OrdersResponse>(`/api/admin/orders?${query.toString()}`);
+  },
+
+  order: (id: string): Promise<OrderDetailResponse> => (
+    FIXTURE_MODE
+      ? Promise.resolve(syntheticOrder(id))
+      : get<OrderDetailResponse>(`/api/admin/orders/${encodeURIComponent(id)}`)
+  ),
+
+  questions: (
+    limit = 25,
+    offset = 0,
+    filters: QuestionsFilters = {},
+  ): Promise<QuestionsResponse> => {
+    if (FIXTURE_MODE) return Promise.resolve(syntheticQuestions(limit, offset, filters));
+    const query = new URLSearchParams({ limit: String(limit), offset: String(offset) });
+    for (const [key, value] of Object.entries(filters)) {
+      if (value) query.set(key, value);
+    }
+    return get<QuestionsResponse>(`/api/admin/questions?${query.toString()}`);
+  },
+
+  question: (id: string): Promise<QuestionDetailResponse> => (
+    FIXTURE_MODE
+      ? Promise.resolve(syntheticQuestion(id))
+      : get<QuestionDetailResponse>(`/api/admin/questions/${encodeURIComponent(id)}`)
+  ),
 };
+
+/**
+ * Run one listing command.
+ *
+ * Everything that decides the outcome is derived by the server from the id:
+ * the org, the store, the current status and the transition it allows. This
+ * sends the id, the reason, the version the operator was looking at, and one
+ * idempotency key — and never a target status.
+ *
+ * Under fixtures there is no server, so it refuses rather than pretending to
+ * succeed. A fixture that reported "applied" would be a review signing off on
+ * a command that was never exercised.
+ */
+export async function runListingCommand(
+  id: string,
+  command: ListingCommand,
+  input: {
+    reasonCode: string;
+    idempotencyKey: string;
+    expectedVersion: number;
+    confirmation?: string;
+  },
+): Promise<ListingCommandResponse> {
+  if (FIXTURE_MODE) throw new AdminApiError('fixture_mode_read_only', 400, null);
+  const headers: Record<string, string> = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+  const bearer = token();
+  if (bearer) headers.Authorization = `Bearer ${bearer}`;
+
+  const body: Record<string, unknown> = {
+    reason_code: input.reasonCode,
+    idempotency_key: input.idempotencyKey,
+    expected_version: input.expectedVersion,
+  };
+  if (input.confirmation !== undefined) body.confirmation = input.confirmation;
+
+  const response = await fetch(
+    `/api/admin/listings/${encodeURIComponent(id)}/${command}`,
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+      cache: 'no-store',
+      credentials: 'same-origin',
+    },
+  );
+
+  const requestId = response.headers.get('x-request-id');
+  if (response.status === 401) {
+    throw new AdminApiError('unauthenticated', 401, requestId);
+  }
+  // A version conflict is an answer, not a failure: the server sends the
+  // listing as it now is so the screen can show what changed.
+  if (response.status === 409) {
+    const conflict = await response.json().catch(() => null) as ListingCommandResponse | null;
+    if (conflict && conflict.outcome === 'conflict') return conflict;
+    const code = (conflict as { error?: string } | null)?.error ?? 'conflict';
+    throw new AdminApiError(code, 409, requestId);
+  }
+  if (!response.ok) {
+    let code = `http_${response.status}`;
+    try {
+      const failure = await response.json() as { error?: string; code?: string };
+      code = failure.code ?? failure.error ?? code;
+    } catch {
+      // A non-JSON error body is still an error; the status carries the meaning.
+    }
+    throw new AdminApiError(code, response.status, requestId);
+  }
+  return response.json() as Promise<ListingCommandResponse>;
+}
 
 /**
  * One product image, as bytes this panel is allowed to see.

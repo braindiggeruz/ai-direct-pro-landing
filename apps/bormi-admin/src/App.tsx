@@ -25,6 +25,9 @@ const Overview = lazy(() => import('./pages/Overview'));
 const Listings = lazy(() => import('./pages/Listings'));
 const ListingDetail = lazy(() => import('./pages/ListingDetail'));
 const Categories = lazy(() => import('./pages/Categories'));
+const Operations = lazy(() => import('./pages/Operations'));
+const OrderDetail = lazy(() => import('./pages/OrderDetail'));
+const QuestionDetail = lazy(() => import('./pages/QuestionDetail'));
 const Access = lazy(() => import('./pages/Access'));
 const Audit = lazy(() => import('./pages/Audit'));
 const System = lazy(() => import('./pages/System'));
@@ -67,7 +70,11 @@ export default function App() {
   const { data, error, loading, reload } = useQuery<OverviewResponse>(() => adminApi.overview(), []);
 
   if (loading) return <Loading />;
-  if (error === 'forbidden' || error === 'http_403') {
+  // The exact tokens `requirePlatformRole` denies with, plus the bare status in
+  // case a proxy answers before the Function does. Guessing at 'forbidden' —
+  // which nothing in this system returns — left this screen unreachable and
+  // showed a support user a raw error code instead of a sentence.
+  if (error === 'insufficient_role' || error === 'unknown_role' || error === 'http_403') {
     return (
       <main className="mx-auto max-w-lg px-4 py-16 text-center">
         <h1 className="text-lg font-semibold">Недостаточно прав</h1>
@@ -75,9 +82,18 @@ export default function App() {
           Панель доступна владельцу платформы. Ваша сессия действительна, но эта роль сюда не
           допущена.
         </p>
+        <a
+          className="mt-6 inline-flex min-h-11 items-center rounded-[var(--radius-control)] border border-[var(--border-line)] px-4 text-sm"
+          href="/admin-tools/agents"
+        >
+          Открыть прежнюю панель
+        </a>
       </main>
     );
   }
+  // There is deliberately no branch for 401 here: `useQuery` hands an expired
+  // session straight back to the login that owns sessions, so this component
+  // never sees one.
   if (error || !data) {
     return (
       <div className="p-6">
@@ -95,6 +111,9 @@ export default function App() {
           <Route path="/listings" element={<Listings />} />
           <Route path="/listings/:id" element={<ListingDetail />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/operations" element={<Operations />} />
+          <Route path="/operations/orders/:id" element={<OrderDetail />} />
+          <Route path="/operations/questions/:id" element={<QuestionDetail />} />
           <Route path="/access" element={<Access />} />
           <Route path="/audit" element={<Audit />} />
           <Route path="/system" element={<System />} />

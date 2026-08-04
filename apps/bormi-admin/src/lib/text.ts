@@ -98,6 +98,46 @@ export const HANDOFF_STATUS: Record<string, string> = {
 };
 
 /**
+ * ADMIN-4A. The stage filter offers exactly the five words `ORDER_STATUS`
+ * names, because those are the five the server derives from (status,
+ * fulfillment_status) and it refuses any sixth.
+ */
+export const ORDER_STAGE_KEYS = Object.keys(ORDER_STATUS);
+export const HANDOFF_STATUS_KEYS = Object.keys(HANDOFF_STATUS);
+
+/**
+ * Why the agent escalated to a person. The whole of the `reason` CHECK in
+ * `sotuvchi_handoffs`, so a row can never arrive with a reason this cannot say.
+ */
+export const QUESTION_REASON: Record<string, string> = {
+  unknown_intent: 'Агент не понял вопрос',
+  buyer_requested_human: 'Покупатель попросил человека',
+  catalog_no_result: 'В каталоге ничего не нашлось',
+  order_question: 'Вопрос по заказу',
+  seller_initiated: 'Начал продавец',
+};
+
+/** Who the row is waiting on. Derived by the server; the screen only names it. */
+export const WAITING_SIDE: Record<string, string> = {
+  seller: 'Ждёт продавца',
+  buyer: 'Ждёт покупателя',
+  nobody: 'Ожидание завершено',
+};
+
+/**
+ * How loudly a row asks for attention.
+ *
+ * `waiting` is a queue doing its job and is deliberately quiet: an owner screen
+ * that flags every open row flags nothing. `stalled` is the only alarm, and it
+ * means one working day has passed with the seller still not having moved.
+ */
+export const OPERATIONS_ATTENTION: Record<string, string> = {
+  none: '',
+  waiting: 'В работе',
+  stalled: 'Задерживается',
+};
+
+/**
  * Owner audit verbs, as a person would say them.
  *
  * This is the whole of `OWNER_AUDIT_ACTIONS` and nothing else. A filter built
@@ -113,6 +153,9 @@ export const AUDIT_ACTION: Record<string, string> = {
   'automation.replay': 'Повтор задачи автоматизации',
   'seller.bind': 'Продавцу выдан доступ',
   'seller.unbind': 'У продавца отозван доступ',
+  'listing.publish': 'Объявление опубликовано',
+  'listing.unpublish': 'Объявление снято с публикации',
+  'listing.archive': 'Объявление перемещено в архив',
 };
 
 /** Filter order: the destructive pair first, then the reversible ones. */
@@ -122,6 +165,8 @@ export const AUDIT_TARGET: Record<string, string> = {
   store: 'магазин',
   job: 'задача',
   org: 'организация',
+  automation_job: 'задача автоматизации',
+  product: 'объявление',
 };
 
 /** The two roles the token may carry. There is no third. */
@@ -232,6 +277,33 @@ export const AVAILABILITY_KEYS = Object.keys(AVAILABILITY);
 
 /** The bucket for products that belong to no category. Not a real category. */
 export const UNCATEGORISED = 'Без категории';
+
+/**
+ * Why a listing command was refused.
+ *
+ * Every key is a token the server actually returns. A code with no sentence
+ * here falls through `label()` and shows as itself, which is ugly but honest —
+ * better than a generic "что-то пошло не так" that hides which rule stopped it.
+ */
+export const COMMAND_ERROR: Record<string, string> = {
+  listing_not_found: 'Объявление не найдено. Возможно, его удалил продавец.',
+  invalid_listing_transition: 'Для текущего статуса это действие недоступно.',
+  store_not_active: 'Магазин не активен, поэтому изменить объявление нельзя.',
+  store_owner_unavailable: 'У магазина нет активного владельца — каталог откажет в записи.',
+  listing_without_category: 'Нельзя опубликовать: у объявления не выбрана категория.',
+  invalid_expected_version: 'Не передана версия объявления.',
+  confirmation_mismatch: 'Идентификатор введён неверно.',
+  idempotency_conflict: 'Тот же ключ уже использован для другого действия.',
+  listing_transition_conflict: 'Объявление изменилось во время выполнения. Обновите экран.',
+  invalid_reason_code: 'Причина не из списка.',
+  fixture_mode_read_only: 'В демо-режиме действия не выполняются: сервера нет.',
+  insufficient_role: 'Недостаточно прав для этого действия.',
+  unknown_role: 'Роль сессии не распознана. Войдите заново.',
+  unauthenticated: 'Сессия истекла. Войдите заново — действие не выполнено.',
+  forbidden: 'Недостаточно прав для этого действия.',
+  network_error: 'Сеть недоступна. Действие не выполнено — повторите.',
+  internal_error: 'Внутренняя ошибка. Действие не выполнено.',
+};
 
 export function label(map: Record<string, string>, key: string): string {
   return map[key] ?? key;

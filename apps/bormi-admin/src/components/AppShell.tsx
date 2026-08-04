@@ -22,7 +22,7 @@ import { SyntheticNotice } from './ui';
 export interface NavItem {
   to: string;
   label: string;
-  icon: 'overview' | 'listings' | 'categories' | 'access' | 'audit' | 'system';
+  icon: 'overview' | 'listings' | 'categories' | 'operations' | 'access' | 'audit' | 'system';
 }
 
 export interface NavGroup {
@@ -43,6 +43,10 @@ export const NAV: NavGroup[] = [
       { to: '/listings', label: 'Объявления', icon: 'listings' },
       { to: '/categories', label: 'Категории', icon: 'categories' },
     ],
+  },
+  {
+    title: 'Операции',
+    items: [{ to: '/operations', label: 'Заказы и вопросы', icon: 'operations' }],
   },
   { title: 'Продавцы', items: [{ to: '/access', label: 'Магазины и доступы', icon: 'access' }] },
   { title: 'Безопасность', items: [{ to: '/audit', label: 'Аудит', icon: 'audit' }] },
@@ -93,6 +97,16 @@ function Icon({ name }: { name: NavItem['icon'] }) {
         <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" />
         <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" />
         <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" />
+      </svg>
+    );
+  }
+  if (name === 'operations') {
+    // A receipt with a question mark over it: the two queues this section is,
+    // and neither of them a generic inbox.
+    return (
+      <svg {...common}>
+        <path d="M5 3.5h11a1 1 0 0 1 1 1V20l-2.4-1.6L12 20l-2.3-1.6L7.4 20 5 18.4z" />
+        <path d="M8.5 8.5h5M8.5 12h3" />
       </svg>
     );
   }
