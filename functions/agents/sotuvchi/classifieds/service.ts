@@ -2,7 +2,9 @@ import {
   CatalogAuthorizationError,
   CatalogIdempotencyConflictError,
   CatalogNotFoundError,
+  CatalogStateError,
   CatalogValidationError,
+  CatalogVersionConflictError,
   normalizeMediaRefs,
   normalizeCatalogQuery,
   normalizePriceMinor,
@@ -11,8 +13,20 @@ import {
   normalizedProductName,
   requireCatalogId,
 } from '../catalog';
-import { ensureClassifiedsJourneySchema, ensureClassifiedsSchema } from './schema';
+import {
+  ensureClassifiedsJourneySchema,
+  ensureClassifiedsLifecycleSchema,
+  ensureClassifiedsSchema,
+} from './schema';
 import { createClassifiedsStore, type ClassifiedsStore } from './store';
+import {
+  createSellerListingStore,
+  type SellerInquiry,
+  type SellerListing,
+  type SellerListingStore,
+  type SellerListingState,
+  type ModerationReasonCode,
+} from './seller';
 import {
   CLASSIFIED_CONDITIONS,
   type ClassifiedDiscoveryFilter,
@@ -47,6 +61,38 @@ const REPORT_REASONS = new Set<ListingReportReason>([
   'other_policy',
 ]);
 const SAFE_OPERATION_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
+/** Five photographs, matching what the composer offers. */
+const MAX_LISTING_MEDIA = 5;
+
+/** The seller-initiated half of the `market_listing_operations` vocabulary. */
+type SellerLifecycleOperation =
+  | 'private.update'
+  | 'private.resubmit'
+  | 'private.unpublish'
+  | 'private.republish'
+  | 'private.archive';
+
+/** The audit actions a seller can cause, as opposed to a moderator. */
+type SellerAuditAction =
+  | 'listing.submitted'
+  | 'listing.unpublished'
+  | 'listing.republished'
+  | 'listing.archived';
+
+/**
+ * The version the caller was looking at.
+ *
+ * Required, not optional. A lifecycle command without one is a command that
+ * cannot detect it is acting on stale content, which is exactly the case the
+ * moderation model has to catch.
+ */
+function listingVersion(value: unknown): number {
+  const parsed = typeof value === 'number' ? value : Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < 1) {
+    throw new CatalogValidationError('invalid_version');
+  }
+  return parsed;
+}
 
 interface SellerProfileRow {
   id: string;
@@ -296,6 +342,7 @@ export function normalizeClassifiedDiscoveryFilter(
 
 export class SotuvchiClassifiedsService {
   private readonly store: ClassifiedsStore;
+  private readonly sellerStore: SellerListingStore;
   private readonly sellerProfileIdGenerator: () => string;
   private readonly productIdGenerator: () => string;
   private readonly auditEventIdGenerator: () => string;
@@ -307,6 +354,7 @@ export class SotuvchiClassifiedsService {
     options: SotuvchiClassifiedsServiceOptions = {},
   ) {
     this.store = createClassifiedsStore(db);
+    this.sellerStore = createSellerListingStore(db);
     this.sellerProfileIdGenerator = options.sellerProfileIdGenerator ?? (() => randomId('sp'));
     this.productIdGenerator = options.productIdGenerator ?? (() => randomId('l'));
     this.auditEventIdGenerator = options.auditEventIdGenerator ?? (() => randomId('ma'));
@@ -320,6 +368,10 @@ export class SotuvchiClassifiedsService {
 
   private async journeyReady(): Promise<void> {
     await ensureClassifiedsJourneySchema(this.db);
+  }
+
+  private async lifecycleReady(): Promise<void> {
+    await ensureClassifiedsLifecycleSchema(this.db);
   }
 
   async discover(input: ClassifiedDiscoveryFilter): Promise<ClassifiedDiscoveryPage> {
@@ -775,6 +827,634 @@ export class SotuvchiClassifiedsService {
       LIMIT 50
     `).bind(identityId).all<BuyerInquiryRow>();
     return (result.results ?? []).map(buyerInquiry);
+  }
+
+  // ── Private seller lifecycle ────────────────────────────────────────────────
+
+  /**
+   * Resolve the caller's own seller profile.
+   *
+   * `writable` is the difference between reading your listings and changing
+   * them. A restricted or suspended seller keeps every read — hiding their own
+   * listings from them would look like data loss — but cannot publish, edit or
+   * resubmit anything.
+   */
+  private async resolveSeller(
+    identityId: string,
+    writable: boolean,
+  ): Promise<SellerProfileRow> {
+    const seller = await this.db.prepare(`
+      SELECT id, identity_id, public_display_name, seller_type,
+        verification_state, status, moderation_state, version
+      FROM seller_profiles WHERE identity_id = ?
+    `).bind(identityId).first<SellerProfileRow>();
+    if (!seller || seller.seller_type !== 'private') {
+      throw new CatalogAuthorizationError();
+    }
+    if (writable && (seller.status !== 'active' || seller.moderation_state !== 'clear')) {
+      throw new CatalogAuthorizationError();
+    }
+    return seller;
+  }
+
+  /** The caller's own profile, or null when they have never sold anything. */
+  async getPrivateSellerProfile(rawIdentityId: unknown): Promise<PrivateSellerProfile | null> {
+    const identityId = requireCatalogId(rawIdentityId);
+    await this.lifecycleReady();
+    const row = await this.db.prepare(`
+      SELECT id, identity_id, public_display_name, seller_type,
+        verification_state, status, moderation_state, version
+      FROM seller_profiles WHERE identity_id = ?
+    `).bind(identityId).first<SellerProfileRow>();
+    return row ? profile(row) : null;
+  }
+
+  async listMyListings(rawIdentityId: unknown): Promise<SellerListing[]> {
+    const identityId = requireCatalogId(rawIdentityId);
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(identityId, false);
+    return this.sellerStore.listOwn(seller.id, 50);
+  }
+
+  async getMyListing(rawIdentityId: unknown, rawListingId: unknown): Promise<SellerListing> {
+    const identityId = requireCatalogId(rawIdentityId);
+    const listingId = requireCatalogId(rawListingId);
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(identityId, false);
+    const listing = await this.sellerStore.getOwn(seller.id, listingId);
+    if (!listing) throw new CatalogNotFoundError('product');
+    return listing;
+  }
+
+  /**
+   * Replay a seller lifecycle command, or report that it is new.
+   *
+   * Resolved before the version is compared, deliberately. The first attempt
+   * necessarily advanced the version, so checking the version first would turn
+   * an honest retry — a tapped button on a flaky link — into a 409.
+   */
+  private async replayLifecycle(
+    sellerProfileId: string,
+    idempotencyKey: string,
+    operation: SellerLifecycleOperation,
+    operationFingerprint: string,
+  ): Promise<string | null> {
+    const replay = await this.db.prepare(`
+      SELECT operation, fingerprint, target_product_id
+      FROM market_listing_operations
+      WHERE seller_profile_id = ? AND idempotency_key = ?
+    `).bind(sellerProfileId, idempotencyKey).first<{
+      operation: string;
+      fingerprint: string;
+      target_product_id: string;
+    }>();
+    if (!replay) return null;
+    if (replay.operation !== operation || replay.fingerprint !== operationFingerprint) {
+      throw new CatalogIdempotencyConflictError();
+    }
+    return replay.target_product_id;
+  }
+
+  private async ownListingForCommand(
+    sellerProfileId: string,
+    listingId: string,
+    expectedVersion: number,
+    allowedFrom: readonly SellerListingState[],
+  ): Promise<SellerListing> {
+    const listing = await this.sellerStore.getOwn(sellerProfileId, listingId);
+    // 404 rather than 403: a listing owned by somebody else must be
+    // indistinguishable from one that was never created.
+    if (!listing) throw new CatalogNotFoundError('product');
+    if (listing.version !== expectedVersion) throw new CatalogVersionConflictError();
+    if (!allowedFrom.includes(listing.state)) {
+      throw new CatalogStateError('invalid_transition');
+    }
+    return listing;
+  }
+
+  /**
+   * Replace the whole content of one of the caller's own listings.
+   *
+   * The client sends every field back rather than a patch, because a partial
+   * update over a listing that is simultaneously being moderated has no honest
+   * merge: the moderator approved a specific set of words and pictures.
+   *
+   * For the same reason an edit always returns the listing to review and takes
+   * it off the shelf. Leaving edited text published under an approval granted
+   * to different text is the one outcome the moderation model cannot allow.
+   */
+  async updatePrivateListing(
+    rawContext: PrivateSellerContext,
+    rawListingId: unknown,
+    input: SubmitPrivateListingInput,
+    rawExpectedVersion: unknown,
+  ): Promise<SellerListing> {
+    const context = sellerContext(rawContext);
+    const listingId = requireCatalogId(rawListingId);
+    const expectedVersion = listingVersion(rawExpectedVersion);
+    const content = await this.normalizeListingContent(input);
+    const operationFingerprint = await fingerprint({ listingId, ...content.fingerprintInput });
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(context.identityId, true);
+
+    const replayed = await this.replayLifecycle(
+      seller.id, context.idempotencyKey, 'private.update', operationFingerprint,
+    );
+    if (replayed) return this.getMyListing(context.identityId, replayed);
+
+    const listing = await this.ownListingForCommand(
+      seller.id, listingId, expectedVersion,
+      ['draft', 'pending', 'published', 'needs_changes', 'unpublished', 'restricted'],
+    );
+    const category = await this.requireActiveCategory(content.globalCategoryId, content.condition);
+    await this.requireKnownLocation(content.regionId, content.districtId);
+
+    const now = new Date().toISOString();
+    const reasonCode: ModerationReasonCode = category.high_risk === 1
+      ? 'high_risk_category'
+      : 'new_seller_review';
+    const fromState = listing.moderation?.state ?? null;
+    const guard = `EXISTS (SELECT 1 FROM sotuvchi_products WHERE id = ? AND version = ?)`;
+    const guardArgs = [listingId, expectedVersion];
+
+    const results = await this.db.batch([
+      this.db.prepare(`UPDATE market_listing_taxonomy
+        SET global_category_id = ?, condition = ?, version = version + 1,
+          last_operation_key = ?, updated_at = ?
+        WHERE product_id = ? AND ${guard}`)
+        .bind(
+          content.globalCategoryId, content.condition, context.idempotencyKey, now,
+          listingId, ...guardArgs,
+        ),
+      this.db.prepare(`UPDATE market_listing_locations
+        SET region_id = ?, district_id = ?, locality_text = ?, version = version + 1,
+          last_operation_key = ?, updated_at = ?
+        WHERE product_id = ? AND ${guard}`)
+        .bind(
+          content.regionId, content.districtId, content.localityText,
+          context.idempotencyKey, now, listingId, ...guardArgs,
+        ),
+      this.db.prepare(`UPDATE market_listing_channels
+        SET contact_mode = ?, phone_disclosure = ?, version = version + 1,
+          last_operation_key = ?, updated_at = ?
+        WHERE product_id = ? AND ${guard}`)
+        .bind(
+          content.contactMode, content.phoneDisclosure, context.idempotencyKey, now,
+          listingId, ...guardArgs,
+        ),
+      this.db.prepare(`UPDATE market_listing_moderation
+        SET state = 'pending', reason_code = ?, moderator_identity_id = NULL,
+          decision_source = NULL, submitted_at = ?, decided_at = NULL,
+          version = version + 1, last_operation_key = ?, updated_at = ?
+        WHERE product_id = ? AND ${guard}`)
+        .bind(reasonCode, now, context.idempotencyKey, now, listingId, ...guardArgs),
+      this.auditInsert({
+        eventId: requireCatalogId(this.auditEventIdGenerator()),
+        listingId,
+        actorType: 'seller',
+        actorIdentityId: context.identityId,
+        action: 'listing.submitted',
+        reasonCode,
+        requestId: context.requestId,
+        idempotencyKey: `audit:${context.idempotencyKey}`,
+        fromState,
+        toState: 'pending',
+        now,
+        guard,
+        guardArgs,
+      }),
+      this.operationInsert({
+        sellerProfileId: seller.id,
+        idempotencyKey: context.idempotencyKey,
+        operation: 'private.update',
+        operationFingerprint,
+        listingId,
+        resultVersion: expectedVersion + 1,
+        now,
+        guard,
+        guardArgs,
+      }),
+      // Last, because every statement above is guarded on the version this one
+      // advances. If the row moved under us all of them match nothing and this
+      // reports zero changes, so the batch is a consistent no-op rather than a
+      // half-applied edit.
+      this.db.prepare(`UPDATE sotuvchi_products
+        SET name = ?, normalized_name = ?, description = ?, price_minor = ?,
+          media_refs_json = ?, status = 'draft', version = version + 1,
+          last_operation_key = ?, updated_at = ?
+        WHERE id = ? AND version = ?`)
+        .bind(
+          content.name, content.normalizedName, content.description, content.priceMinor,
+          JSON.stringify(content.mediaRefs), context.idempotencyKey, now,
+          listingId, expectedVersion,
+        ),
+    ]);
+    this.requireApplied(results.at(-1));
+    return this.getMyListing(context.identityId, listingId);
+  }
+
+  /** Send a draft or a rejected listing back to the moderation queue. */
+  async resubmitPrivateListing(
+    rawContext: PrivateSellerContext,
+    rawListingId: unknown,
+    rawExpectedVersion: unknown,
+  ): Promise<SellerListing> {
+    return this.transition(rawContext, rawListingId, rawExpectedVersion, {
+      operation: 'private.resubmit',
+      allowedFrom: ['draft', 'needs_changes'],
+      productStatus: 'draft',
+      moderationState: 'pending',
+      action: 'listing.submitted',
+      reasonCode: 'new_seller_review',
+    });
+  }
+
+  /** Take an approved listing off the shelf without giving up its approval. */
+  async unpublishPrivateListing(
+    rawContext: PrivateSellerContext,
+    rawListingId: unknown,
+    rawExpectedVersion: unknown,
+  ): Promise<SellerListing> {
+    return this.transition(rawContext, rawListingId, rawExpectedVersion, {
+      operation: 'private.unpublish',
+      allowedFrom: ['published'],
+      productStatus: 'draft',
+      moderationState: null,
+      action: 'listing.unpublished',
+      reasonCode: 'seller_request',
+    });
+  }
+
+  /**
+   * Put a listing the seller took down back on the shelf.
+   *
+   * No second review: the content has not changed since it was approved, and an
+   * edit would have sent it back to `pending` on its own.
+   */
+  async republishPrivateListing(
+    rawContext: PrivateSellerContext,
+    rawListingId: unknown,
+    rawExpectedVersion: unknown,
+  ): Promise<SellerListing> {
+    return this.transition(rawContext, rawListingId, rawExpectedVersion, {
+      operation: 'private.republish',
+      allowedFrom: ['unpublished'],
+      productStatus: 'published',
+      moderationState: null,
+      action: 'listing.republished',
+      reasonCode: 'seller_request',
+    });
+  }
+
+  async archivePrivateListing(
+    rawContext: PrivateSellerContext,
+    rawListingId: unknown,
+    rawExpectedVersion: unknown,
+  ): Promise<SellerListing> {
+    return this.transition(rawContext, rawListingId, rawExpectedVersion, {
+      operation: 'private.archive',
+      allowedFrom: [
+        'draft', 'pending', 'published', 'needs_changes', 'unpublished', 'restricted', 'removed',
+      ],
+      productStatus: 'archived',
+      moderationState: null,
+      action: 'listing.archived',
+      reasonCode: 'seller_request',
+    });
+  }
+
+  /**
+   * The shared body of every seller lifecycle command that changes state
+   * without changing content.
+   *
+   * `moderationState: null` means "leave the moderation verdict alone" — an
+   * unpublish or an archive is the seller moving their own listing, not a new
+   * decision about whether it was allowed.
+   */
+  private async transition(
+    rawContext: PrivateSellerContext,
+    rawListingId: unknown,
+    rawExpectedVersion: unknown,
+    plan: {
+      operation: SellerLifecycleOperation;
+      allowedFrom: readonly SellerListingState[];
+      productStatus: 'draft' | 'published' | 'archived';
+      moderationState: 'pending' | null;
+      action: SellerAuditAction;
+      reasonCode: ModerationReasonCode;
+    },
+  ): Promise<SellerListing> {
+    const context = sellerContext(rawContext);
+    const listingId = requireCatalogId(rawListingId);
+    const expectedVersion = listingVersion(rawExpectedVersion);
+    const operationFingerprint = await fingerprint({
+      listingId, operation: plan.operation,
+    });
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(context.identityId, true);
+
+    const replayed = await this.replayLifecycle(
+      seller.id, context.idempotencyKey, plan.operation, operationFingerprint,
+    );
+    if (replayed) return this.getMyListing(context.identityId, replayed);
+
+    const listing = await this.ownListingForCommand(
+      seller.id, listingId, expectedVersion, plan.allowedFrom,
+    );
+    const now = new Date().toISOString();
+    const guard = `EXISTS (SELECT 1 FROM sotuvchi_products WHERE id = ? AND version = ?)`;
+    const guardArgs = [listingId, expectedVersion];
+    const fromState = listing.moderation?.state ?? null;
+
+    const statements: D1PreparedStatement[] = [];
+    if (plan.moderationState === 'pending') {
+      statements.push(this.db.prepare(`UPDATE market_listing_moderation
+        SET state = 'pending', reason_code = ?, moderator_identity_id = NULL,
+          decision_source = NULL, submitted_at = ?, decided_at = NULL,
+          version = version + 1, last_operation_key = ?, updated_at = ?
+        WHERE product_id = ? AND ${guard}`)
+        .bind(plan.reasonCode, now, context.idempotencyKey, now, listingId, ...guardArgs));
+    }
+    statements.push(this.auditInsert({
+      eventId: requireCatalogId(this.auditEventIdGenerator()),
+      listingId,
+      actorType: 'seller',
+      actorIdentityId: context.identityId,
+      action: plan.action,
+      reasonCode: plan.reasonCode,
+      requestId: context.requestId,
+      idempotencyKey: `audit:${context.idempotencyKey}`,
+      fromState,
+      toState: plan.moderationState === 'pending' ? 'pending' : fromState,
+      now,
+      guard,
+      guardArgs,
+    }));
+    statements.push(this.operationInsert({
+      sellerProfileId: seller.id,
+      idempotencyKey: context.idempotencyKey,
+      operation: plan.operation,
+      operationFingerprint,
+      listingId,
+      resultVersion: expectedVersion + 1,
+      now,
+      guard,
+      guardArgs,
+    }));
+    statements.push(this.db.prepare(`UPDATE sotuvchi_products
+      SET status = ?, version = version + 1, last_operation_key = ?, updated_at = ?
+      WHERE id = ? AND version = ?`)
+      .bind(plan.productStatus, context.idempotencyKey, now, listingId, expectedVersion));
+
+    const results = await this.db.batch(statements);
+    this.requireApplied(results.at(-1));
+    return this.getMyListing(context.identityId, listingId);
+  }
+
+  // ── Seller inquiries ────────────────────────────────────────────────────────
+
+  async listSellerInquiries(rawIdentityId: unknown): Promise<SellerInquiry[]> {
+    const identityId = requireCatalogId(rawIdentityId);
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(identityId, false);
+    return this.sellerStore.listInquiries(seller.id, 50);
+  }
+
+  async getSellerInquiry(
+    rawIdentityId: unknown,
+    rawInquiryId: unknown,
+  ): Promise<SellerInquiry> {
+    const identityId = requireCatalogId(rawIdentityId);
+    const inquiryId = requireCatalogId(rawInquiryId);
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(identityId, false);
+    const inquiry = await this.sellerStore.getInquiry(seller.id, inquiryId);
+    if (!inquiry) throw new CatalogNotFoundError('inquiry');
+    return inquiry;
+  }
+
+  async replyToInquiry(
+    rawContext: PrivateSellerContext,
+    rawInquiryId: unknown,
+    rawReply: unknown,
+    rawExpectedVersion: unknown,
+  ): Promise<SellerInquiry> {
+    const context = sellerContext(rawContext);
+    const inquiryId = requireCatalogId(rawInquiryId);
+    const reply = inquiryMessage(rawReply);
+    const expectedVersion = listingVersion(rawExpectedVersion);
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(context.identityId, true);
+
+    // The reply key is unique per seller, so a retry finds its own row and
+    // returns the answer it already sent rather than sending it twice.
+    const replay = await this.db.prepare(`
+      SELECT id FROM market_listing_inquiries
+      WHERE seller_profile_id = ? AND reply_idempotency_key = ?
+    `).bind(seller.id, context.idempotencyKey).first<{ id: string }>();
+    if (replay) {
+      if (replay.id !== inquiryId) throw new CatalogIdempotencyConflictError();
+      return this.getSellerInquiry(context.identityId, inquiryId);
+    }
+
+    const inquiry = await this.sellerStore.getInquiry(seller.id, inquiryId);
+    if (!inquiry) throw new CatalogNotFoundError('inquiry');
+    if (inquiry.version !== expectedVersion) throw new CatalogVersionConflictError();
+    if (inquiry.status === 'closed') throw new CatalogStateError('invalid_transition');
+
+    const now = new Date().toISOString();
+    const result = await this.db.prepare(`
+      UPDATE market_listing_inquiries
+      SET reply_text = ?, status = 'answered', reply_idempotency_key = ?,
+        version = version + 1, updated_at = ?
+      WHERE id = ? AND seller_profile_id = ? AND version = ?
+    `).bind(reply, context.idempotencyKey, now, inquiryId, seller.id, expectedVersion).run();
+    this.requireApplied(result);
+    return this.getSellerInquiry(context.identityId, inquiryId);
+  }
+
+  async closeInquiry(
+    rawContext: PrivateSellerContext,
+    rawInquiryId: unknown,
+    rawExpectedVersion: unknown,
+  ): Promise<SellerInquiry> {
+    const context = sellerContext(rawContext);
+    const inquiryId = requireCatalogId(rawInquiryId);
+    const expectedVersion = listingVersion(rawExpectedVersion);
+    await this.lifecycleReady();
+    const seller = await this.resolveSeller(context.identityId, true);
+
+    const replay = await this.db.prepare(`
+      SELECT id FROM market_listing_inquiries
+      WHERE seller_profile_id = ? AND close_idempotency_key = ?
+    `).bind(seller.id, context.idempotencyKey).first<{ id: string }>();
+    if (replay) {
+      if (replay.id !== inquiryId) throw new CatalogIdempotencyConflictError();
+      return this.getSellerInquiry(context.identityId, inquiryId);
+    }
+
+    const inquiry = await this.sellerStore.getInquiry(seller.id, inquiryId);
+    if (!inquiry) throw new CatalogNotFoundError('inquiry');
+    if (inquiry.version !== expectedVersion) throw new CatalogVersionConflictError();
+    if (inquiry.status === 'closed') throw new CatalogStateError('invalid_transition');
+
+    const now = new Date().toISOString();
+    const result = await this.db.prepare(`
+      UPDATE market_listing_inquiries
+      SET status = 'closed', close_idempotency_key = ?, version = version + 1, updated_at = ?
+      WHERE id = ? AND seller_profile_id = ? AND version = ?
+    `).bind(context.idempotencyKey, now, inquiryId, seller.id, expectedVersion).run();
+    this.requireApplied(result);
+    return this.getSellerInquiry(context.identityId, inquiryId);
+  }
+
+  // ── Shared write helpers ────────────────────────────────────────────────────
+
+  /**
+   * A guarded statement that reported no change means the row moved between the
+   * read and the write. Every other statement in the batch carried the same
+   * guard, so nothing was applied and the caller may safely retry with a fresh
+   * version.
+   */
+  private requireApplied(result: D1Result | undefined): void {
+    if (Number(result?.meta?.changes ?? 0) !== 1) {
+      throw new CatalogVersionConflictError();
+    }
+  }
+
+  private auditInsert(input: {
+    eventId: string;
+    listingId: string;
+    actorType: 'seller' | 'moderator';
+    actorIdentityId: string | null;
+    action: SellerAuditAction;
+    reasonCode: ModerationReasonCode | null;
+    requestId: string;
+    idempotencyKey: string;
+    fromState: string | null;
+    toState: string | null;
+    now: string;
+    guard: string;
+    guardArgs: readonly unknown[];
+  }): D1PreparedStatement {
+    return this.db.prepare(`INSERT INTO market_moderation_audit(
+      event_id, product_id, report_id, actor_type, actor_identity_id, action,
+      reason_code, request_id, idempotency_key, from_state, to_state, created_at
+    ) SELECT ?, ?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ? WHERE ${input.guard}`)
+      .bind(
+        input.eventId, input.listingId, input.actorType, input.actorIdentityId,
+        input.action, input.reasonCode, input.requestId, input.idempotencyKey,
+        input.fromState, input.toState, input.now, ...input.guardArgs,
+      );
+  }
+
+  private operationInsert(input: {
+    sellerProfileId: string;
+    idempotencyKey: string;
+    operation: SellerLifecycleOperation;
+    operationFingerprint: string;
+    listingId: string;
+    resultVersion: number;
+    now: string;
+    guard: string;
+    guardArgs: readonly unknown[];
+  }): D1PreparedStatement {
+    return this.db.prepare(`INSERT INTO market_listing_operations(
+      seller_profile_id, idempotency_key, operation, fingerprint,
+      target_product_id, result_version, created_at
+    ) SELECT ?, ?, ?, ?, ?, ?, ? WHERE ${input.guard}`)
+      .bind(
+        input.sellerProfileId, input.idempotencyKey, input.operation,
+        input.operationFingerprint, input.listingId, input.resultVersion,
+        input.now, ...input.guardArgs,
+      );
+  }
+
+  private async requireActiveCategory(
+    globalCategoryId: string,
+    condition: ClassifiedCondition,
+  ): Promise<{ high_risk: number }> {
+    const category = await this.db.prepare(`
+      SELECT high_risk, allowed_conditions_json
+      FROM market_global_categories WHERE id = ? AND status = 'active'
+    `).bind(globalCategoryId).first<{
+      high_risk: number;
+      allowed_conditions_json: string;
+    }>();
+    if (!category) throw new CatalogNotFoundError('category');
+    const allowed = JSON.parse(category.allowed_conditions_json) as unknown;
+    if (!Array.isArray(allowed) || !allowed.includes(condition)) {
+      throw new CatalogValidationError('invalid_context');
+    }
+    return category;
+  }
+
+  private async requireKnownLocation(regionId: string, districtId: string): Promise<void> {
+    const exists = await this.db.prepare(`
+      SELECT COUNT(*) AS n
+      FROM market_regions AS region
+      JOIN market_districts AS district
+        ON district.region_id = region.id AND district.id = ? AND district.status = 'active'
+      WHERE region.id = ? AND region.country_code = 'UZ' AND region.status = 'active'
+    `).bind(districtId, regionId).first<{ n: number }>();
+    if (Number(exists?.n ?? 0) !== 1) throw new CatalogValidationError('invalid_context');
+  }
+
+  /**
+   * One normaliser for listing content, shared by the first submission and
+   * every later edit, so the two cannot drift into accepting different things.
+   */
+  private async normalizeListingContent(input: SubmitPrivateListingInput) {
+    const name = normalizeProductName(input.name);
+    const normalizedName = normalizedProductName(name);
+    const description = normalizeProductDescription(input.description);
+    const priceMinor = normalizePriceMinor(input.priceMinor);
+    if (input.currency !== 'UZS') throw new CatalogValidationError('invalid_currency');
+    const mediaRefs = normalizeMediaRefs(input.mediaRefs);
+    if (mediaRefs.length < 1) throw new CatalogValidationError('invalid_media_refs');
+    if (mediaRefs.length > MAX_LISTING_MEDIA) {
+      throw new CatalogValidationError('invalid_media_refs');
+    }
+    const globalCategoryId = requireCatalogId(input.globalCategoryId);
+    if (!CONDITION_SET.has(input.condition)) {
+      throw new CatalogValidationError('invalid_context');
+    }
+    const regionId = requireCatalogId(input.regionId);
+    const districtId = requireCatalogId(input.districtId);
+    const localityText = locality(input.localityText);
+    if (!CONTACT_MODES.has(input.contactMode)) {
+      throw new CatalogValidationError('invalid_context');
+    }
+    return {
+      name,
+      normalizedName,
+      description,
+      priceMinor,
+      mediaRefs,
+      globalCategoryId,
+      condition: input.condition,
+      regionId,
+      districtId,
+      localityText,
+      contactMode: input.contactMode,
+      phoneDisclosure: input.contactMode === 'phone_optional'
+        ? 'after_buyer_action' as const
+        : 'not_available' as const,
+      fingerprintInput: {
+        name,
+        normalizedName,
+        description,
+        priceMinor,
+        currency: 'UZS' as const,
+        mediaRefs,
+        globalCategoryId,
+        condition: input.condition,
+        regionId,
+        districtId,
+        localityText,
+        contactMode: input.contactMode,
+      },
+    };
   }
 
   private async buyerInquiry(

@@ -28,6 +28,7 @@ export class ClassifiedsSchemaError extends Error {
 
 const checked = new WeakMap<D1Database, Promise<void>>();
 const journeyChecked = new WeakMap<D1Database, Promise<void>>();
+const lifecycleChecked = new WeakMap<D1Database, Promise<void>>();
 
 /**
  * Classifieds never performs a production migration at request time. The
@@ -79,6 +80,43 @@ export function ensureClassifiedsJourneySchema(db: D1Database): Promise<void> {
       throw error;
     });
     journeyChecked.set(db, pending);
+  }
+  return pending;
+}
+
+/**
+ * The seller lifecycle needs migration 0040 on top of the journey tables: the
+ * widened operation vocabulary and the inquiry close key.
+ *
+ * Probed by column rather than by table, because 0040 adds no table. A seller
+ * command reaching a database that stopped at 0039 would otherwise fail on a
+ * CHECK constraint deep inside a batch instead of closing here.
+ */
+export function ensureClassifiedsLifecycleSchema(db: D1Database): Promise<void> {
+  let pending = lifecycleChecked.get(db);
+  if (!pending) {
+    pending = ensureClassifiedsJourneySchema(db).then(async () => {
+      const [closeKey, operations] = await Promise.all([
+        db.prepare(
+          `SELECT COUNT(*) AS n FROM pragma_table_info('market_listing_inquiries')
+           WHERE name = 'close_idempotency_key'`,
+        ).first<{ n: number }>(),
+        db.prepare(
+          `SELECT sql FROM sqlite_master
+           WHERE type = 'table' AND name = 'market_listing_operations'`,
+        ).first<{ sql: string | null }>(),
+      ]);
+      if (
+        Number(closeKey?.n ?? 0) !== 1
+        || !operations?.sql?.includes('private.resubmit')
+      ) {
+        throw new ClassifiedsSchemaError();
+      }
+    }).catch((error) => {
+      lifecycleChecked.delete(db);
+      throw error;
+    });
+    lifecycleChecked.set(db, pending);
   }
   return pending;
 }

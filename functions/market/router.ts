@@ -889,7 +889,45 @@ async function classifiedsRoutes(context: {
       return marketError('resource_not_found', requestId, 404);
     }
     if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
-    if (request.method !== 'POST') return marketError('resource_not_found', requestId, 404);
+    // The seller's own reads come first. They are the only GETs under
+    // /classifieds/private and they carry no idempotency key, because reading
+    // your own listings is not a command.
+    if (request.method === 'GET') {
+      await enforceMarketRateLimit('read', `${claims.sub}:${path}`);
+      if (path === '/classifieds/private/profile') {
+        return marketJson({
+          profile: await services.classifieds.getPrivateSellerProfile(claims.sub),
+        }, requestId);
+      }
+      if (path === '/classifieds/private/listings') {
+        return marketJson({
+          items: await services.classifieds.listMyListings(claims.sub),
+          nextCursor: null,
+        }, requestId);
+      }
+      if (path === '/classifieds/private/inquiries') {
+        return marketJson({
+          items: await services.classifieds.listSellerInquiries(claims.sub),
+          nextCursor: null,
+        }, requestId);
+      }
+      const ownListing = /^\/classifieds\/private\/listings\/([^/]+)$/.exec(path);
+      if (ownListing) {
+        return marketJson({
+          listing: await services.classifieds.getMyListing(claims.sub, ownListing[1]),
+        }, requestId);
+      }
+      const ownInquiry = /^\/classifieds\/private\/inquiries\/([^/]+)$/.exec(path);
+      if (ownInquiry) {
+        return marketJson({
+          inquiry: await services.classifieds.getSellerInquiry(claims.sub, ownInquiry[1]),
+        }, requestId);
+      }
+      return marketError('resource_not_found', requestId, 404);
+    }
+    if (request.method !== 'POST' && request.method !== 'PATCH') {
+      return marketError('resource_not_found', requestId, 404);
+    }
     await enforceMarketRateLimit('command', `${claims.sub}:${path}`);
     const idempotencyKey = requireIdempotencyKey(request);
     const seller = {
@@ -898,6 +936,68 @@ async function classifiedsRoutes(context: {
       idempotencyKey,
     };
     const body = await readMarketJson(request);
+
+    // Every lifecycle command carries the version the seller was looking at.
+    // The client never sends a target status: the route decides what each
+    // command means, so a caller cannot ask for "published" directly.
+    const editMatch = /^\/classifieds\/private\/listings\/([^/]+)$/.exec(path);
+    if (request.method === 'PATCH' && editMatch) {
+      classifiedBody(body, [
+        'name', 'priceMinor', 'currency', 'mediaRefs', 'globalCategoryId',
+        'condition', 'regionId', 'districtId', 'contactMode', 'expectedVersion',
+      ], ['description', 'localityText']);
+      return marketJson({
+        listing: await services.classifieds.updatePrivateListing(seller, editMatch[1], {
+          name: body.name as string,
+          description: body.description as string | null | undefined,
+          priceMinor: body.priceMinor as number,
+          currency: body.currency as 'UZS',
+          mediaRefs: body.mediaRefs as string[],
+          globalCategoryId: body.globalCategoryId as string,
+          condition: body.condition as ClassifiedCondition,
+          regionId: body.regionId as string,
+          districtId: body.districtId as string,
+          localityText: body.localityText as string | null | undefined,
+          contactMode: body.contactMode as ClassifiedListing['contactMode'],
+        }, body.expectedVersion),
+      }, requestId);
+    }
+    if (request.method === 'PATCH') return marketError('resource_not_found', requestId, 404);
+
+    const transition = /^\/classifieds\/private\/listings\/([^/]+)\/(resubmit|unpublish|republish|archive)$/
+      .exec(path);
+    if (transition) {
+      classifiedBody(body, ['expectedVersion']);
+      const listingId = transition[1];
+      const version = body.expectedVersion;
+      const command = {
+        resubmit: () => services.classifieds.resubmitPrivateListing(seller, listingId, version),
+        unpublish: () => services.classifieds.unpublishPrivateListing(seller, listingId, version),
+        republish: () => services.classifieds.republishPrivateListing(seller, listingId, version),
+        archive: () => services.classifieds.archivePrivateListing(seller, listingId, version),
+      }[transition[2] as 'resubmit' | 'unpublish' | 'republish' | 'archive'];
+      return marketJson({ listing: await command() }, requestId);
+    }
+
+    const inquiryReply = /^\/classifieds\/private\/inquiries\/([^/]+)\/reply$/.exec(path);
+    if (inquiryReply) {
+      classifiedBody(body, ['reply', 'expectedVersion']);
+      return marketJson({
+        inquiry: await services.classifieds.replyToInquiry(
+          seller, inquiryReply[1], body.reply, body.expectedVersion,
+        ),
+      }, requestId);
+    }
+    const inquiryClose = /^\/classifieds\/private\/inquiries\/([^/]+)\/close$/.exec(path);
+    if (inquiryClose) {
+      classifiedBody(body, ['expectedVersion']);
+      return marketJson({
+        inquiry: await services.classifieds.closeInquiry(
+          seller, inquiryClose[1], body.expectedVersion,
+        ),
+      }, requestId);
+    }
+
     if (path === '/classifieds/private/profile') {
       classifiedBody(body, ['displayName']);
       return marketJson({
