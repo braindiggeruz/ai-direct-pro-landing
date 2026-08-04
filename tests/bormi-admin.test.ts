@@ -129,14 +129,20 @@ test('admin: the client treats its own checks as convenience, not control', asyn
   assert.match(app, /error === 'insufficient_role' \|\| error === 'unknown_role' \|\| error === 'http_403'/);
   const query = code(await source('apps/bormi-admin/src/lib/useQuery.ts'));
   assert.match(query, /failure\.status === 401/);
-  assert.match(query, /window\.location\.assign\(LOGIN_URL\)/);
+  // The login, told which screen expired. `loginUrl()` is `LOGIN_URL` plus a
+  // return path it validates itself; see bormi-admin-login-return.test.ts.
+  assert.match(query, /window\.location\.assign\(loginUrl\(\)\)/);
   // Nothing decides access from a query string, a hash or storage.
   assert.doesNotMatch(app, /searchParams|location\.hash|localStorage\.getItem\('role'\)/);
 });
 
 test('admin: the rollout flag is a switch for a screen, never for a permission', async () => {
   const wrangler = await source('wrangler.toml');
-  assert.match(wrangler, /BORMI_ADMIN_V2_ENABLED = "false"/);
+  // The flag is declared in the authoritative config, and its value is whatever
+  // the release decided — it was "false" until the panel shipped and is "true"
+  // now. What must not change is that it is a plain variable in this file, so
+  // moving it is a commit and a deploy rather than a click in a dashboard.
+  assert.match(wrangler, /^BORMI_ADMIN_V2_ENABLED = "(true|false)"$/m);
   const types = await source('functions/_types.ts');
   assert.match(types, /BORMI_ADMIN_V2_ENABLED\?: string;/);
   const route = code(await source(OVERVIEW_ROUTE));
@@ -719,8 +725,9 @@ test('admin: no migration, no schema change, no new secret', async () => {
   const wrangler = await source('wrangler.toml');
   const added = [...wrangler.matchAll(/^(BORMI_[A-Z0-9_]+) = /gm)].map((match) => match[1]);
   assert.deepEqual(added, ['BORMI_ADMIN_V2_ENABLED']);
-  // A rollout switch, and nothing that looks like a credential.
-  assert.match(wrangler, /BORMI_ADMIN_V2_ENABLED = "false"/);
+  // A rollout switch, and nothing that looks like a credential: a boolean whose
+  // value is whatever the current release decided.
+  assert.match(wrangler, /^BORMI_ADMIN_V2_ENABLED = "(true|false)"$/m);
 });
 
 test('admin: the previous control centre still works and still owns commands', async () => {

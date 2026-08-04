@@ -498,7 +498,10 @@ test('operations: AUTH-1F, QuickPost and the rollout flag are untouched', async 
   assert.match(wrangler, /MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"/);
   assert.match(wrangler, /MARKET_QUICKPOST_ENABLED = "false"/);
   assert.match(wrangler, /MARKET_QUICKPOST_AI_ENABLED = "false"/);
-  assert.match(wrangler, /BORMI_ADMIN_V2_ENABLED = "false"/);
+  // The rollout flag is a released state, not a constant: it shipped "false" and
+  // the release that deployed the panel set it "true". The three above are the
+  // ones this slice must never move.
+  assert.match(wrangler, /^BORMI_ADMIN_V2_ENABLED = "(true|false)"$/m);
   for (const path of ROUTES) {
     assert.doesNotMatch(code(await source(path)), /BORMI_ADMIN_V2_ENABLED/, path);
   }

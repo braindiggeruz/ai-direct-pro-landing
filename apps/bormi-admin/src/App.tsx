@@ -13,7 +13,7 @@
  */
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
-import { adminApi, hasSession, LOGIN_URL } from './lib/api';
+import { adminApi, hasSession, loginUrl } from './lib/api';
 import { useQuery } from './lib/useQuery';
 import type { OverviewResponse } from './lib/contracts';
 import { AppShell } from './components/AppShell';
@@ -60,8 +60,10 @@ function Disabled() {
 
 export default function App() {
   // No session at all: nothing to render, and the login owns that decision.
+  // It is told which screen asked, so signing in comes back here rather than
+  // landing in the previous console.
   if (!hasSession()) {
-    window.location.assign(LOGIN_URL);
+    window.location.assign(loginUrl());
     return <Loading />;
   }
 

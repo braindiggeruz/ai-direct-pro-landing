@@ -262,7 +262,12 @@ test('hardening: no credential-shaped value reaches the panel bundle', async (t)
   }
 });
 
-test('hardening: the panel ships behind a flag that is still off', async () => {
+test('hardening: the panel ships behind a flag, and the flag lives in the config', async () => {
   const wrangler = await source('wrangler.toml');
-  assert.match(wrangler, /BORMI_ADMIN_V2_ENABLED = "false"/);
+  // It shipped off and was turned on by the release commit that deployed the
+  // panel. Either value is a state this assertion accepts; what it refuses is
+  // the flag disappearing from `wrangler.toml`, because a Pages deploy replaces
+  // the project's variables with whatever this file declares — a switch that
+  // only exists in the dashboard is a switch that vanishes at the next deploy.
+  assert.match(wrangler, /^BORMI_ADMIN_V2_ENABLED = "(true|false)"$/m);
 });

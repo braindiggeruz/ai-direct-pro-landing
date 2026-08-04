@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { api, setToken, getToken } from '../lib/api';
 import { Button, Card, Input, Label } from '../components/ui';
 import { LogIn } from 'lucide-react';
 import { loadTurnstile, responsiveTurnstileSize } from '../../shared/turnstile';
+import { ADMIN_RETURN_PARAM, safeAdminReturnPath } from '../../shared/admin-return-path';
 
 export default function Login() {
   const nav = useNavigate();
+  const [searchParams] = useSearchParams();
+  // Only ever a path under `/admin`, and null for anything else. The Bormi
+  // Admin panel is a separate application behind its own Function, so reaching
+  // it is a document load rather than a route change — and `replace` keeps the
+  // login out of history, so Back cannot walk into a signed-in login form.
+  const returnTo = safeAdminReturnPath(searchParams.get(ADMIN_RETURN_PARAM));
+  const leave = () => {
+    if (returnTo) { window.location.replace(returnTo); return; }
+    nav('/admin-tools/');
+  };
   const [email, setEmail] = useState('admin@gptbot.uz');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
@@ -20,7 +31,11 @@ export default function Login() {
   const widgetId = useRef<string | null>(null);
 
   useEffect(() => {
-    if (getToken()) { nav('/admin-tools/', { replace: true }); return; }
+    if (getToken()) {
+      if (returnTo) { window.location.replace(returnTo); return; }
+      nav('/admin-tools/', { replace: true });
+      return;
+    }
     void api.config().then((c) => {
       const nextSiteKey = c.turnstileSiteKey || null;
       setTurnstileRequired(c.turnstileRequired);
@@ -35,7 +50,7 @@ export default function Login() {
       setConfigState('error');
       setErr('Security configuration failed to load. Please refresh the page.');
     });
-  }, [nav]);
+  }, [nav, returnTo]);
 
   // Load Turnstile script once we know there is a site key
   useEffect(() => {
@@ -96,7 +111,7 @@ export default function Login() {
     try {
       const r = await api.login(email, password, turnstileToken || undefined);
       setToken(r.token);
-      nav('/admin-tools/');
+      leave();
     } catch (e) {
       setErr((e as Error).message);
       if (turnstileRequired && window.turnstile && widgetId.current) {

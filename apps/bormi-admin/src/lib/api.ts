@@ -49,6 +49,25 @@ const TOKEN_KEY = 'gptbot_admin_token';
 /** Where an unauthenticated operator is sent. The existing login owns sessions. */
 export const LOGIN_URL = '/admin-tools/login';
 
+/**
+ * The same login, told which of these screens to come back to.
+ *
+ * Without this the login has one destination — the console it was written for —
+ * so an operator who opened this panel, signed in, and was handed the other one
+ * never saw the screen they asked for. The panel does not gain a login of its
+ * own; it gains a way to say where it was.
+ *
+ * Only this panel's own paths are ever offered, and the login validates the
+ * value again before acting on it. No credential goes into the URL: the token
+ * stays in storage and travels in a header, and a path is not a session.
+ */
+export function loginUrl(): string {
+  const here = window.location.pathname;
+  if (here.split('/').some((segment) => segment === '..' || segment === '.')) return LOGIN_URL;
+  if (!/^\/admin(?:\/[A-Za-z0-9\-._~/]*)?$/.test(here)) return LOGIN_URL;
+  return `${LOGIN_URL}?returnTo=${encodeURIComponent(here)}`;
+}
+
 export class AdminApiError extends Error {
   constructor(
     readonly code: string,
@@ -332,12 +351,25 @@ export async function fetchListingMedia(
   }
 }
 
-/** Drop the session and hand the browser back to the login that owns it. */
-export function signOut(): void {
+/**
+ * Forget a session this origin no longer accepts.
+ *
+ * It has to happen before the browser is handed to the login, and the reason is
+ * the return path: the login sends an operator who already holds a token
+ * straight back where they came from, so a token the server has stopped
+ * accepting would bounce between the two forever. The console that owns
+ * sessions clears its own on a 401 for exactly the same reason.
+ */
+export function clearSession(): void {
   try {
     localStorage.removeItem(TOKEN_KEY);
   } catch {
     // Nothing to clear is the same outcome as clearing it.
   }
+}
+
+/** Drop the session and hand the browser back to the login that owns it. */
+export function signOut(): void {
+  clearSession();
   window.location.assign(LOGIN_URL);
 }

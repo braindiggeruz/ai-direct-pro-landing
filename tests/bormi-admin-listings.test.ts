@@ -504,7 +504,10 @@ test('listings: no migration, and no schema change', async () => {
 
 test('listings: AUTH-1F, QuickPost and the rollout flag are untouched', async () => {
   const wrangler = await source('wrangler.toml');
-  assert.match(wrangler, /BORMI_ADMIN_V2_ENABLED = "false"/);
+  // The rollout flag is a released state, not a constant: it shipped "false" and
+  // the release that deployed the panel set it "true". The three below are the
+  // ones this slice must never move.
+  assert.match(wrangler, /^BORMI_ADMIN_V2_ENABLED = "(true|false)"$/m);
   assert.match(wrangler, /MARKET_QUICKPOST_ENABLED = "false"/);
   assert.match(wrangler, /MARKET_QUICKPOST_AI_ENABLED = "false"/);
   assert.match(wrangler, /MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"/);

@@ -9,7 +9,7 @@
  * synchronise - a dependency here would cost bundle for behaviour nobody needs.
  */
 import { useCallback, useEffect, useState } from 'react';
-import { AdminApiError, LOGIN_URL } from './api';
+import { AdminApiError, clearSession, loginUrl } from './api';
 
 export interface QueryState<T> {
   data: T | null;
@@ -42,9 +42,15 @@ export function useQuery<T>(run: () => Promise<T>, deps: unknown[] = []): QueryS
       .catch((failure: unknown) => {
         if (!alive) return;
         // An expired session is not an error to display. It is a session to
-        // renew, and the login that owns sessions is the one that renews it.
+        // renew, and the login that owns sessions is the one that renews it —
+        // and it is told which screen expired, so renewing it comes back here.
+        //
+        // The dead token is dropped first. The login returns a caller who still
+        // holds one straight back to this screen, so leaving it in storage would
+        // be a loop between the two rather than a form to sign in on.
         if (failure instanceof AdminApiError && failure.status === 401) {
-          window.location.assign(LOGIN_URL);
+          clearSession();
+          window.location.assign(loginUrl());
           return;
         }
         setError(failure instanceof AdminApiError ? failure.code : 'network_error');
