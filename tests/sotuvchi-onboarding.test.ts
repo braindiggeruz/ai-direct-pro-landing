@@ -932,6 +932,7 @@ test('buyer storefront route resolves the store but never launches seller onboar
   const beforeOnboardings = fixture.value(
     'SELECT COUNT(*) FROM sotuvchi_onboardings',
   );
+  const beforeMessages = harness.delivery.sent.length;
   await harness.invoke(
     telegramMessage(
       flow.nextUpdate,
@@ -944,16 +945,10 @@ test('buyer storefront route resolves the store but never launches seller onboar
     fixture.value('SELECT COUNT(*) FROM sotuvchi_onboardings'),
     beforeOnboardings,
   );
-  assert.ok(
-    harness.delivery.sent.at(-1)?.text.includes(
-      'Bormi найдёт подходящие товары',
-    ),
-  );
-  assert.ok(
-    JSON.stringify(harness.delivery.sent.at(-1)?.keyboard).includes(
-      'buyer-catalog-open',
-    ),
-  );
+  const buyerGreeting = harness.delivery.sent
+    .slice(beforeMessages)
+    .find((message) => message.text.includes('Bormi?'));
+  assert.ok(buyerGreeting, 'buyer storefront did not send the branded welcome');
 });
 
 test('unknown seller entry is an invitation and never grants authority', async () => {

@@ -35,7 +35,7 @@ export async function probeSerpOverlap(env: Env, opts: SerperShortlistOptions): 
   const conflicts = (opts.conflictKeywords || []).filter((k) => k && k !== candidateKeyword).slice(0, max);
   if (conflicts.length === 0) return { used: false, queries_run: 0, overlap_score: 0, details: [] };
   let queriesRun = 0;
-  let candidateUrls: string[] = [];
+  let candidateUrls: string[];
   try {
     const r = await callSerper(env, {
       q: candidateKeyword, locale: opts.locale, gl: 'uz', hl: SERPER_HL_BY_LOCALE[opts.locale],

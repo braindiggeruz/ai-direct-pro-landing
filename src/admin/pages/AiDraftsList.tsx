@@ -43,7 +43,8 @@ export default function AiDraftsList() {
     }
     setLoading(false);
   }
-  useEffect(() => { void load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [statusFilter, localeFilter]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- filters are the request identity; load is intentionally recreated with them.
+  useEffect(() => { void load(); }, [statusFilter, localeFilter]);
 
   const sources = useMemo(() => {
     const s = new Set<string>();

@@ -97,7 +97,7 @@ export default function PageEditor() {
       const url = `/${page.locale}/${page.slug}/`;
       if (url !== page.url) setPage((p) => ({ ...p, url, canonical: `${SITE_URL}${url}` }));
     }
-  }, [isNew, page.slug, page.locale]);
+  }, [isNew, page.slug, page.locale, page.url]);
 
   const save = async (newStatus?: 'draft' | 'published' | 'noindex') => {
     setBusy(true); setErr(null); setToast(null);
@@ -173,12 +173,12 @@ export default function PageEditor() {
         <h2 className="font-display text-lg text-white mb-4">Meta & search</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div><Label>Locale</Label>
-            <Select value={page.locale} onChange={(e) => set('locale', e.target.value as any)} data-testid="field-locale">
+            <Select value={page.locale} onChange={(e) => set('locale', e.target.value as Page['locale'])} data-testid="field-locale">
               <option value="ru">RU</option><option value="uz">UZ</option>
             </Select>
           </div>
           <div><Label>Page type</Label>
-            <Select value={page.pageType} onChange={(e) => set('pageType', e.target.value as any)} data-testid="field-pageType">
+            <Select value={page.pageType} onChange={(e) => set('pageType', e.target.value as Page['pageType'])} data-testid="field-pageType">
               <option value="money">money</option><option value="homepage">homepage</option><option value="niche">niche</option>
               <option value="blog">blog</option><option value="faq">faq</option><option value="legal">legal</option>
             </Select>
@@ -392,7 +392,7 @@ function InternalLinksEditor({ links, onChange, allPages, locale, pageSlug }: { 
             </Select>
             <Input value={l.anchor} placeholder="Anchor text" onChange={(e) => update(i, { anchor: e.target.value })} list={`anchors-${locale}`}/>
             <datalist id={`anchors-${locale}`}>{ANCHORS[locale].map((a) => <option key={a} value={a}/>)}</datalist>
-            <Select value={l.type} onChange={(e) => update(i, { type: e.target.value as any })}>
+            <Select value={l.type} onChange={(e) => update(i, { type: e.target.value as InternalLinkT['type'] })}>
               <option value="contextual">contextual</option><option value="block">block</option><option value="footer">footer</option><option value="popular">popular</option><option value="breadcrumb">breadcrumb</option>
             </Select>
             <button onClick={() => remove(i)} className="text-white/40 hover:text-red-300"><X size={14}/></button>
@@ -417,7 +417,7 @@ function AiFillPanel({ page, onApply }: { page: Page; onApply: (patch: Partial<P
     } catch (e) { setErr((e as Error).message); }
     setBusy(false);
   };
-  const apply = (field: keyof Page, value: any) => onApply({ [field]: value } as Partial<Page>);
+  const apply = <K extends keyof Page>(field: K, value: Page[K]) => onApply({ [field]: value } as Pick<Page, K>);
   return (
     <Card>
       <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
@@ -434,13 +434,13 @@ function AiFillPanel({ page, onApply }: { page: Page; onApply: (patch: Partial<P
         <div className="space-y-3 text-sm">
           {draft.raw && <div className="text-amber-300 text-xs">AI did not return strict JSON. Raw: <pre className="whitespace-pre-wrap text-white/60 mt-1 text-xs">{draft.raw}</pre></div>}
           {draft.title && (
-            <DraftRow label="Title" value={draft.title} onApply={() => apply('title', draft.title)}/>
+            <DraftRow label="Title" value={draft.title} onApply={() => apply('title', draft.title!)}/>
           )}
           {draft.description && (
-            <DraftRow label="Description" value={draft.description} onApply={() => apply('description', draft.description)}/>
+            <DraftRow label="Description" value={draft.description} onApply={() => apply('description', draft.description!)}/>
           )}
           {draft.h1 && (
-            <DraftRow label="H1" value={draft.h1} onApply={() => apply('h1', draft.h1)}/>
+            <DraftRow label="H1" value={draft.h1} onApply={() => apply('h1', draft.h1!)}/>
           )}
           {draft.heroSubtitle && (
             <DraftRow label="Hero subtitle" value={draft.heroSubtitle} onApply={() => apply('heroSubtitle', draft.heroSubtitle)}/>

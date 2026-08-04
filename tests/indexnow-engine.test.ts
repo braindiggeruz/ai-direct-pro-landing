@@ -16,14 +16,6 @@ const { parseRetryAfter } = __testing__;
 
 // ─── Helpers ─────────────────────────────────────────────────────────
 
-function makeClock(start: number) {
-  let t = start;
-  return {
-    now: () => t,
-    advance: (ms: number) => { t += ms; return t; },
-  };
-}
-
 function makeRecorder() {
   const calls: Array<{ url: string; body: unknown }> = [];
   return {

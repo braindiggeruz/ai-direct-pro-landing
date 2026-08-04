@@ -139,9 +139,7 @@ export default function Cockpit() {
     }
   }, []);
 
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => { void load(true); }, [load]);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   const audit  = data?.audit;
   const drafts = data?.drafts;

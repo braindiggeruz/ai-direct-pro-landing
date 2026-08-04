@@ -48,6 +48,11 @@
       "reason": "Current governance and handoff material; n8n statements are release evidence, not runtime calls."
     },
     {
+      "path": "docs/admin/{BORMI_ADMIN_LISTINGS_RELEASE.md,BORMI_ADMIN_RELEASE.md,BORMI_ADMIN_UX1_RELEASE.md}",
+      "classification": "active",
+      "reason": "Current Admin release records; n8n appears only as the documented retired integration boundary and never as a runtime dependency."
+    },
+    {
       "path": "docs/seo/RELEASE_2026-08-01_*.md",
       "classification": "active",
       "reason": "Current SEO release records; n8n appears only in the documented retired/no-auto-publication boundary and never as a runtime dependency."

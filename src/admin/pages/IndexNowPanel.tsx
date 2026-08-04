@@ -137,7 +137,8 @@ export default function IndexNowPanel() {
     }
   }
 
-  useEffect(() => { void load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [days, onlyUnsubmitted]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- filters are the request identity; load is intentionally recreated with them.
+  useEffect(() => { void load(); }, [days, onlyUnsubmitted]);
   useEffect(() => { void probeKey(); }, []);
 
   const filtered = useMemo(() => items.filter((i) =>

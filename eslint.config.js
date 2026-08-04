@@ -8,6 +8,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores([
     'dist',
+    '.wrangler/**',
     '.agents/**',
     '.claude/**',
     'gptbot-audit/**',
@@ -22,6 +23,18 @@ export default defineConfig([
     ],
     languageOptions: {
       globals: globals.browser,
+    },
+    rules: {
+      // This repository does not enable React Compiler. Keep the two runtime
+      // hook correctness rules from the recommended preset, but do not make
+      // compiler-adoption advisories or Vite hot-reload module shape release
+      // blockers for otherwise valid React code.
+      'react-hooks/purity': 'off',
+      'react-hooks/refs': 'off',
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/static-components': 'off',
+      'react-hooks/use-memo': 'off',
+      'react-refresh/only-export-components': 'off',
     },
   },
 ])

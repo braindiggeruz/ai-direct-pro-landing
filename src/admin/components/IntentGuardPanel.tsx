@@ -65,12 +65,14 @@ export function IntentGuardPanel(props: IntentGuardPanelProps) {
   const [busyApply, setBusyApply] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const prefix = props.testIdPrefix || 'intent-guard-panel';
+  const draftIdentity = props.mode === 'draft' ? props.draftId : null;
+  const articleSlug = props.article?.slug;
 
   useEffect(() => {
     // Reset retarget proposal when the underlying article identity changes.
     setRetarget(null);
     setApplyResult(null);
-  }, [props.mode === 'draft' ? props.draftId : null, props.locale, props.article?.slug]);
+  }, [draftIdentity, props.locale, articleSlug]);
 
   async function doAnalyze(autoOpen = true) {
     if (!props.article) { setErr(t.intentGuard.analyzeFailed); return; }

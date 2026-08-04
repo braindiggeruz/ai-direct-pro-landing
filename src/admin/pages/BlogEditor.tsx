@@ -212,7 +212,7 @@ export default function BlogEditor() {
       const url = `/${a.locale}/blog/${a.slug}/`;
       if (url !== a.url) setA((cur) => ({ ...cur, url, canonical: cur.canonical || `${SITE_URL}${url}` }));
     }
-  }, [isNew, a.slug, a.locale]);
+  }, [isNew, a.slug, a.locale, a.url]);
 
   const others = useMemo(() => allArticles.filter((x) => !(x.locale === a.locale && x.slug === a.slug)), [allArticles, a.locale, a.slug]);
   const auditResult = useMemo(() => loaded ? auditBlog(a, others, moneyPages) : null, [a, others, moneyPages, loaded]);

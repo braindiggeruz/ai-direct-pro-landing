@@ -53,8 +53,8 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
   };
   if (!body || !body.source) return jsonResponse({ error: 'source required' }, 400);
 
-  let candidate: { id: string; article: AiDraftArticle } | null = null;
-  let draftId: string | null = null;
+  let candidate: { id: string; article: AiDraftArticle };
+  let draftId: string | null;
 
   if (body.source === 'draft') {
     if (!body.draftId || (body.locale !== 'ru' && body.locale !== 'uz')) {
@@ -79,8 +79,6 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
   } else {
     return jsonResponse({ error: 'source must be draft|editor' }, 400);
   }
-  if (!candidate) return jsonResponse({ error: 'no candidate' }, 400);
-
   const lockKey = `${body.source}::${candidate.id}`;
   if (!takeLock(lockKey)) {
     return jsonResponse({ error: 'Another retarget run for this article is already in flight.' }, 429);

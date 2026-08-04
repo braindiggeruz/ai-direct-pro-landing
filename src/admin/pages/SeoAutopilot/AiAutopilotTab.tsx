@@ -139,7 +139,6 @@ export default function AiAutopilotTab({ report, preselectedUrl }: Props) {
   // When the SERP tab hands off a URL after we are already mounted, follow
   // that selection so the operator sees the same URL pre-picked.
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (preselectedUrl && preselectedUrl !== selectedUrl) setSelectedUrl(preselectedUrl);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preselectedUrl]);

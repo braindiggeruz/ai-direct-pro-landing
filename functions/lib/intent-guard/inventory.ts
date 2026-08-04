@@ -186,7 +186,7 @@ interface ReservationRow {
 
 async function loadReservationItems(env: Env): Promise<ContentInventoryItem[]> {
   if (!env.GPTBOT_DRAFTS_DB) return [];
-  let r: { results?: ReservationRow[] } = { results: [] };
+  let r: { results?: ReservationRow[] };
   try {
     r = await env.GPTBOT_DRAFTS_DB
       .prepare(`SELECT id, locale, intent_key, primary_keyword, planned_title, target_money_page, plan_id, plan_item_id

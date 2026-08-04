@@ -11,8 +11,10 @@ export function adminRoutes(app: FastifyInstance, ctx: AppContext) {
 
     const day = new Date().toISOString().slice(0, 10);
     const dayStart = `${day}T00:00:00.000Z`;
-    const count = async (table: string, build?: (q: any) => any) => {
-      let q = db.from(table).select('id', { count: 'exact', head: true });
+    const baseCount = (table: string) => db.from(table).select('id', { count: 'exact', head: true });
+    type CountQuery = ReturnType<typeof baseCount>;
+    const count = async (table: string, build?: (q: CountQuery) => CountQuery) => {
+      let q = baseCount(table);
       if (build) q = build(q);
       const { count } = await q;
       return count ?? 0;

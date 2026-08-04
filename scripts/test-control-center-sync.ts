@@ -46,11 +46,8 @@ class MockD1 {
   rows: Row[] = [];
   now = '2026-06-21T12:00:00.000Z';
   prepare(sql: string): { bind: (...args: unknown[]) => Statement } {
-    const self = this;
     return {
-      bind(...args: unknown[]): Statement {
-        return new Statement(self, sql, args);
-      },
+      bind: (...args: unknown[]): Statement => new Statement(this, sql, args),
     };
   }
 }
@@ -182,7 +179,9 @@ function makeEmptyRow(id: string, request_id: string | null, n8n_url: string, cr
   // validator (so we exercise the failure path WITHOUT relying on a
   // successful end-to-end ingest, which would need a full sitemap mock).
   const realFetch = globalThis.fetch;
-  globalThis.fetch = (async (_input: RequestInfo | URL, _init?: RequestInit): Promise<Response> => {
+  globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+    void input;
+    void init;
     return new Response(JSON.stringify({ status: 'ok', validation: { passed: true, issues: [] } }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

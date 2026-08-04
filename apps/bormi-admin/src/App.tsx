@@ -67,6 +67,10 @@ export default function App() {
     return <Loading />;
   }
 
+  return <AuthenticatedApp />;
+}
+
+function AuthenticatedApp() {
   // The same bounded read every screen uses. It answers three questions at
   // once: is the session real, may this role be here, and is the panel on.
   const { data, error, loading, reload } = useQuery<OverviewResponse>(() => adminApi.overview(), []);

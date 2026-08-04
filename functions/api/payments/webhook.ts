@@ -18,7 +18,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const valid = await verifyWebhook(env, request, rawBody);
   if (!valid) return fail('invalid_signature', 'Signature verification failed', 401);
 
-  let evt: { type?: string; data?: Record<string, unknown> } = {};
+  let evt: { type?: string; data?: Record<string, unknown> };
   try {
     evt = JSON.parse(rawBody);
   } catch {

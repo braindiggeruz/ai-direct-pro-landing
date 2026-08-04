@@ -37,7 +37,7 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
   };
   if (!body || !body.source) return jsonResponse({ error: 'source required' }, 400);
 
-  let candidate: { id: string; article: AiDraftArticle } | null = null;
+  let candidate: { id: string; article: AiDraftArticle };
   let planItemId: string | null = null;
   let draftId: string | null = null;
   let locale: 'ru' | 'uz';
@@ -100,8 +100,6 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
   } else {
     return jsonResponse({ error: 'source must be draft|editor|plan_item' }, 400);
   }
-  if (!candidate) return jsonResponse({ error: 'no candidate' }, 400);
-
   const result = await analyzeCandidate(env, {
     id: candidate.id,
     source_type: planItemId ? 'plan_item' : 'ai_draft',

@@ -11,7 +11,7 @@ test('RU and Uzbek Latin essential commerce copy is complete', () => {
     assert.ok(t(locale, 'commandsOff'));
     assert.match(formatPrice(349000, locale), /349|349\s000/);
   }
-  assert.match(t('uz', 'orderCreated'), /So‘rov/);
+  assert.match(t('uz', 'noProductsBody'), /So‘rov/);
 });
 
 test('synthetic buyer can traverse catalog and checkout state machine', async () => {
@@ -21,16 +21,16 @@ test('synthetic buyer can traverse catalog and checkout state machine', async ()
   assert.equal(session.capabilities.sellerRead, true);
   const home = await syntheticRequest<{ products: Product[] }>('/catalog/home');
   const product = home.products[0];
-  let checkout = await syntheticRequest<CheckoutSnapshot>('/checkout', {
+  const checkout = await syntheticRequest<CheckoutSnapshot>('/checkout', {
     method: 'POST', body: { productId: product.id },
   });
   assert.equal(checkout.state, 'awaiting_quantity');
-  checkout = await syntheticRequest('/checkout/quantity', { method: 'POST', body: { quantity: 2 } });
-  checkout = await syntheticRequest('/checkout/name', { method: 'POST', body: { name: 'Aziza' } });
-  checkout = await syntheticRequest('/checkout/phone', { method: 'POST', body: { phone: '+998901234567' } });
-  checkout = await syntheticRequest('/checkout/address', { method: 'POST', body: { address: 'Tashkent' } });
-  checkout = await syntheticRequest('/checkout/comment/skip', { method: 'POST' });
-  assert.equal(checkout.state, 'awaiting_confirmation');
-  checkout = await syntheticRequest('/checkout/confirm', { method: 'POST' });
-  assert.equal(checkout.outcome, 'placed');
+  await syntheticRequest('/checkout/quantity', { method: 'POST', body: { quantity: 2 } });
+  await syntheticRequest('/checkout/name', { method: 'POST', body: { name: 'Aziza' } });
+  await syntheticRequest('/checkout/phone', { method: 'POST', body: { phone: '+998901234567' } });
+  await syntheticRequest('/checkout/address', { method: 'POST', body: { address: 'Tashkent' } });
+  const ready = await syntheticRequest<CheckoutSnapshot>('/checkout/comment/skip', { method: 'POST' });
+  assert.equal(ready.state, 'awaiting_confirmation');
+  const placed = await syntheticRequest<CheckoutSnapshot>('/checkout/confirm', { method: 'POST' });
+  assert.equal(placed.outcome, 'placed');
 });

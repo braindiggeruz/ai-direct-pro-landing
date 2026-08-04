@@ -269,7 +269,7 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
     setYxBusy(false);
   }
 
-  function useAsSeed(query: string) {
+  function handleUseAsSeed(query: string) {
     // Push the picked Yandex query into the moneyPage hint OR industry as
     // a seed for the next "Собрать темы" run. Most operators want to use
     // it as the topic angle, so we drop it into industry where it shapes
@@ -290,7 +290,8 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
       setErr((e as Error).message);
     }
   }
-  useEffect(() => { void loadList(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- the list is loaded once on mount; later changes are explicit operator actions.
+  useEffect(() => { void loadList(); }, []);
 
   useEffect(() => {
     if (pollTimer.current) clearInterval(pollTimer.current);
@@ -624,7 +625,7 @@ export function TopicPlanPanel({ testIdPrefix = 'topic-plan' }: Props) {
                       <Button
                         size="sm"
                         variant="ghost"
-                        onClick={() => useAsSeed(r.query)}
+                        onClick={() => handleUseAsSeed(r.query)}
                         disabled={qlBusyIdx !== null}
                         data-testid={`${testIdPrefix}-yandex-use-${i}`}
                         title="Добавить в seed следующего Topic Plan"

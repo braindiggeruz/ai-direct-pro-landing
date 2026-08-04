@@ -129,7 +129,7 @@ function fitTitle(t: string): string {
   let s = t.trim();
   if (s.length < 45) s = `${s} | GPTBot`.trim();
   if (s.length < 45) s = `${s} — Telegram + Instagram 24/7`.trim();
-  if (s.length > 65) s = s.slice(0, 65).replace(/[\s—–\-|]+$/, '');
+  if (s.length > 65) s = s.slice(0, 65).replace(/[\s—–|-]+$/, '');
   return s;
 }
 function fitDesc(d: string, locale: 'ru' | 'uz'): string {
@@ -139,7 +139,7 @@ function fitDesc(d: string, locale: 'ru' | 'uz'): string {
     : " Telegram'da demo, top-3 va'dasiz.";
   if (s.length < 120) s = (s + pad).trim();
   if (s.length < 120) s = (s + (locale === 'ru' ? ' Подключаем под нишу.' : ' Nishga moslaymiz.')).trim();
-  if (s.length > 160) s = s.slice(0, 159).replace(/[\s,;:.—–\-]+$/, '') + '.';
+  if (s.length > 160) s = s.slice(0, 159).replace(/[\s,;:.—–-]+$/, '') + '.';
   return s;
 }
 

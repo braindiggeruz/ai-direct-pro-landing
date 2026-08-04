@@ -28,7 +28,9 @@ export function activeProvider(env: Env): PaymentProvider {
  * provider adapter is fully wired. Real adapters must be added before any
  * money moves — intentionally left as explicit stubs.
  */
-export async function createCheckout(env: Env, plan: string, _attemptId: string): Promise<CheckoutResult> {
+export async function createCheckout(env: Env, plan: string, attemptId: string): Promise<CheckoutResult> {
+  void plan;
+  void attemptId;
   const provider = activeProvider(env);
   const manual: CheckoutResult = {
     mode: 'manual',

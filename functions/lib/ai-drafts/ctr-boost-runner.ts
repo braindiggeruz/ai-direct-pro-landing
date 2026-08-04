@@ -214,7 +214,7 @@ export async function suggestCtrBoostLinks(
   // LlmCallSuccess returns content as raw text — caller is responsible
   // for JSON.parse. The router has already enforced jsonObject mode so
   // the content is JSON.
-  let parsedJson: unknown = null;
+  let parsedJson: unknown;
   try { parsedJson = JSON.parse(llmResult.content); } catch { parsedJson = null; }
   const parsed = parseLlmResponse(parsedJson);
   const suggestions: CtrBoostSuggestion[] = candidatesForPrompt.map((c, i) => {

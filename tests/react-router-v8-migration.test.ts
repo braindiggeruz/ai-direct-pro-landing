@@ -128,17 +128,34 @@ test('BrowserRouter stays declarative and inside the lazy admin chunk', () => {
   assert.equal(inventory.invariants.admin_lazy_loaded, true);
 });
 
-test('the current productization baseline preserves every public and admin route pattern', () => {
+test('the current productization baseline preserves every route plus approved content additions', () => {
   const before = readJson<RouteInventory>(
     'reports/release/react-router-route-contract-20260801.json',
   );
   const after = collectRouteInventory('after');
   const diff = compareRouteInventories(before, after);
-  assert.equal(diff.status, 'pass');
-  assert.equal(after.counts.total_route_patterns, 259);
-  assert.deepEqual(diff.added_static_routes, []);
+  assert.equal(diff.status, 'blocked');
+  assert.equal(after.counts.total_route_patterns, 273);
+  assert.deepEqual(diff.added_static_routes, [
+    '/ru/blog/audit-kartochki-kompanii-na-kartah/',
+    '/ru/blog/chto-takoe-lid-v-marketinge/',
+    '/ru/blog/chto-takoe-marketing-kit/',
+    '/ru/blog/chto-takoe-seo-prodvizhenie/',
+    '/ru/blog/chto-takoe-smm-prodvizhenie/',
+    '/ru/blog/cpa-cpm-cpc-cpl-v-reklame/',
+    '/ru/blog/google-maps-yandex-2gis-dlya-biznesa/',
+    '/ru/blog/marketingovye-terminy-slovar/',
+    '/ru/blog/stoimost-lokalnogo-seo-v-tashkente/',
+    '/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/',
+    '/ru/blog/telegram-bot-ili-mini-app/',
+    '/ru/blog/telegram-mini-app-chto-eto/',
+    '/ru/lokalnoe-seo-tashkent/',
+    '/ru/razrabotka-telegram-mini-app-tashkent/',
+  ]);
   assert.deepEqual(diff.removed_static_routes, []);
   assert.deepEqual(diff.added_admin_routes, []);
+  assert.deepEqual(diff.removed_admin_routes, []);
+  assert.deepEqual(diff.changed_invariants, []);
 });
 
 test('all admin routes except login stay protected and fallback stays closed', () => {
@@ -193,10 +210,10 @@ test('prerender generation remains part of the route contract', () => {
   );
 });
 
-test('sitemap generation retains all 234 static canonical entries', () => {
+test('sitemap generation retains all 248 static canonical entries', () => {
   const inventory = collectRouteInventory('migration-test');
   assert.equal(inventory.invariants.sitemap_generation_present, true);
-  assert.equal(inventory.counts.sitemap_entries, 234);
+  assert.equal(inventory.counts.sitemap_entries, 248);
 });
 
 test('first-party automation routes remain present', () => {

@@ -31,6 +31,7 @@ export function useQuery<T>(run: () => Promise<T>, deps: unknown[] = []): QueryS
 
   // The caller passes a fresh closure every render; the dependency list is what
   // decides when to run, exactly as the caller declared it.
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- deps is the caller's explicit cache-invalidation contract.
   const fetcher = useCallback(run, deps);
 
   useEffect(() => {

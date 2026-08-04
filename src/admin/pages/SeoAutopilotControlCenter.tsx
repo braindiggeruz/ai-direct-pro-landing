@@ -79,7 +79,6 @@ export default function SeoAutopilotControlCenter() {
       setErr((e as Error).message);
     }
   }
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => { void loadAll(); }, []);
 
   // Light polling of recent jobs every 8 s (mostly to surface scheduled
@@ -111,7 +110,6 @@ export default function SeoAutopilotControlCenter() {
       if (elapsedTimerRef.current) clearInterval(elapsedTimerRef.current);
     };
   }, [busy]);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   async function launch(): Promise<void> {
     if (busy) return; // double-click guard

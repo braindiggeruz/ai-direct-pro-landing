@@ -100,7 +100,8 @@ export default function AiDraftDetail() {
     }
     setLoading(false);
   }
-  useEffect(() => { if (id) void load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- id is the request identity; load is intentionally recreated with it.
+  useEffect(() => { if (id) void load(); }, [id]);
 
   const article: AiDraftArticle | null = useMemo(() => {
     if (!data) return null;

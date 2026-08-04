@@ -28,8 +28,9 @@ export function buildMessages(
   history: ChatMessage[] | undefined,
   userMessage: string,
   maxTurns: number,
-  _locale: Locale,
+  locale: Locale,
 ): ChatMessage[] {
+  void locale;
   const safeHistory = (history || [])
     .filter((m) => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
     .slice(-maxTurns * 2)

@@ -4,12 +4,13 @@ import { api } from '../lib/api';
 import { Badge, Button, Card, Input, ScoreBadge, Select } from '../components/ui';
 import { Plus, Copy, Eye, Pencil, AlertTriangle } from 'lucide-react';
 import { auditPage, hasMojibake } from '../../shared/audit';
+import type { Page } from '../../shared/types';
 
 type Filter = 'all' | 'published' | 'draft' | 'noindex' | 'low-score' | 'missing-faq' | 'missing-hreflang' | 'orphan' | 'in-sitemap' | 'not-in-sitemap' | 'mojibake';
 
 export default function PagesList() {
   const nav = useNavigate();
-  const [pages, setPages] = useState<any[]>([]);
+  const [pages, setPages] = useState<Page[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState('');
   const [filterLocale, setFilterLocale] = useState('all');
@@ -30,14 +31,14 @@ export default function PagesList() {
     const audit = auditPage(p, { allPages: pages });
     const inSitemap = p.status === 'published' && p.robotsIndex !== false;
     const isLive = inSitemap; // simplistic; same flag
-    const incoming = pages.reduce((acc, q) => acc + (q.url !== p.url && (q.internalLinks || []).some((l: any) => l.target === p.url) ? 1 : 0), 0);
+    const incoming = pages.reduce((acc, q) => acc + (q.url !== p.url && (q.internalLinks || []).some((l) => l.target === p.url) ? 1 : 0), 0);
     const hreflangPair = p.locale === 'ru' ? p.hreflangUz : p.hreflangRu;
     const pairExists = pages.some((q) => q.url === hreflangPair);
     const moji = hasMojibake(p.title) || hasMojibake(p.h1) || hasMojibake(p.description) || hasMojibake(p.heroTitle) || hasMojibake(p.heroSubtitle);
     return { ...p, ...audit, inSitemap, isLive, incoming, hreflangPair, pairExists, moji };
   }), [pages]);
 
-  const filtered = enriched.filter((p: any) => {
+  const filtered = enriched.filter((p) => {
     if (filterLocale !== 'all' && p.locale !== filterLocale) return false;
     if (filterType !== 'all' && p.pageType !== filterType) return false;
     if (filterState === 'published' && p.status !== 'published') return false;
@@ -57,7 +58,7 @@ export default function PagesList() {
     return true;
   });
 
-  const togglePublish = async (p: any) => {
+  const togglePublish = async (p: Page) => {
     const newStatus = p.status === 'published' ? 'draft' : 'published';
     if (!window.confirm(`Change status of ${p.url} from "${p.status}" to "${newStatus}"?`)) return;
     const slug = p.url.replace(/^\/(ru|uz)\//, '').replace(/\/$/, '');
@@ -131,7 +132,7 @@ export default function PagesList() {
             <tbody>
               {loading && <tr><td colSpan={12} className="py-6 text-white/40">Loading…</td></tr>}
               {!loading && filtered.length === 0 && <tr><td colSpan={12} className="py-6 text-white/40">No pages match.</td></tr>}
-              {filtered.map((p: any) => {
+              {filtered.map((p) => {
                 const slug = p.url.replace(/^\/(ru|uz)\//, '').replace(/\/$/, '');
                 const hreflangOk = p.hreflangRu && p.hreflangUz && p.pairExists;
                 return (

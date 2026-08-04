@@ -92,7 +92,7 @@ function normalizeUrl(u: string): string {
   try {
     const x = new URL(u);
     if (x.origin !== SITE) return u;
-    let p = x.pathname;
+    const p = x.pathname;
     return `${SITE}${p}`;
   } catch { return u; }
 }
@@ -147,7 +147,7 @@ async function main(): Promise<void> {
   for (const p of pages) {
     for (const linkRaw of p.internalLinks) {
       const link = normalizeUrl(linkRaw);
-      let pathOnly = link.replace(SITE, '');
+      const pathOnly = link.replace(SITE, '');
       // skip non-http things, mailto, tg:, etc. (already filtered, but double-check)
       if (!pathOnly.startsWith('/')) continue;
       // skip static asset paths

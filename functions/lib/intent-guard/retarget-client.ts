@@ -79,7 +79,6 @@ export interface RetargetResult {
 }
 
 function logIteration(label: string): void {
-  // eslint-disable-next-line no-console
   console.log(`[Intent Guard retarget] ${label}`);
 }
 

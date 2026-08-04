@@ -9,8 +9,13 @@ import type { VoiceRecording } from './voice';
 export const PRODUCTION_MARKET_API_BASE_URL =
   'https://gptbot.uz/api/market/v1';
 
-const baseUrl = (import.meta.env.VITE_MARKET_API_BASE_URL
-  ?? (import.meta.env.PROD ? PRODUCTION_MARKET_API_BASE_URL : '/api/market/v1'))
+// Vite defines import.meta.env in the browser build. Node's native ESM loader
+// does not, and the offline contract tests intentionally import this module
+// without Vite. Keep one read-only fallback so those tests exercise the same
+// request code without inventing a test-only global.
+const runtimeEnv = import.meta.env ?? {};
+const baseUrl = (runtimeEnv.VITE_MARKET_API_BASE_URL
+  ?? (runtimeEnv.PROD ? PRODUCTION_MARKET_API_BASE_URL : '/api/market/v1'))
   .replace(/\/$/, '');
 let sessionToken = '';
 const REQUEST_TIMEOUT_MS = 15_000;
@@ -92,7 +97,7 @@ async function fixtureRequest<T>(path: string, options: RequestOptions): Promise
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return fixtureRequest<T>(path, options);
   }
   const headers = new Headers({ Accept: 'application/json' });
@@ -144,7 +149,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 }
 
 export async function exchangeSession(): Promise<SessionExchange> {
-  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     const session = await fixtureRequest<SessionExchange>('/session/exchange', {
       method: 'POST', body: { initData: 'fixture' },
     });
@@ -161,7 +166,7 @@ export async function exchangeSession(): Promise<SessionExchange> {
 }
 
 export async function exchangeLaunch(): Promise<MarketLaunch> {
-  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     const fixtureStart = performance.now();
     const launch = await fixtureRequest<MarketLaunch>('/session/launch', {
       method: 'POST', body: { initData: 'fixture' },
@@ -233,7 +238,7 @@ export function clearSession(): void {
 }
 
 export async function fetchMedia(handle: string, signal?: AbortSignal): Promise<string> {
-  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><rect width="4" height="3" fill="#e8dccb"/><path d="M.5 2.5 1.5 1.3l.7.7.5-.5.8 1z" fill="#0b3b36"/></svg>`)}`;
   }
   const response = await fetch(`${baseUrl}/media/${encodeURIComponent(handle)}`, {
@@ -252,7 +257,7 @@ export async function voiceSearch(
   recording: VoiceRecording,
   signal?: AbortSignal,
 ): Promise<VoiceSearchResult> {
-  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return fixtureRequest<VoiceSearchResult>('/voice/search', { method: 'POST' });
   }
   const controller = new AbortController();
@@ -340,7 +345,7 @@ export async function uploadMedia(
   blob: Blob,
   signal?: AbortSignal,
 ): Promise<{ ref: string }> {
-  if (import.meta.env.DEV && import.meta.env.VITE_MARKET_DEV_MODE === 'fixture') {
+  if (runtimeEnv.DEV && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return fixtureRequest<{ ref: string }>('/seller/media', { method: 'POST' });
   }
   const controller = new AbortController();

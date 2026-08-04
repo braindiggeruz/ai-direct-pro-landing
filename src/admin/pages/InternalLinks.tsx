@@ -84,7 +84,7 @@ export default function InternalLinksPage() {
       <Card>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-display text-lg text-white">Pages overview</h2>
-          <Select value={filter} onChange={(e) => setFilter(e.target.value as any)} className="max-w-xs">
+          <Select value={filter} onChange={(e) => setFilter(e.target.value as typeof filter)} className="max-w-xs">
             <option value="all">All pages</option>
             <option value="orphan">Orphans only</option>
             <option value="money-low">Money pages with &lt;2 incoming</option>
@@ -140,7 +140,7 @@ export default function InternalLinksPage() {
               <Input placeholder="to (target url)" value={l.target} onChange={(e) => setExtraLinks(extraLinks.map((x, idx) => idx === i ? { ...x, target: e.target.value } : x))}/>
               <Input placeholder="anchor" value={l.anchor} list={`anchors-${l.locale}`} onChange={(e) => setExtraLinks(extraLinks.map((x, idx) => idx === i ? { ...x, anchor: e.target.value } : x))}/>
               <datalist id={`anchors-${l.locale}`}>{ANCHORS[l.locale].map((a) => <option key={a} value={a}/>)}</datalist>
-              <Select value={l.locale} onChange={(e) => setExtraLinks(extraLinks.map((x, idx) => idx === i ? { ...x, locale: e.target.value as any } : x))}>
+              <Select value={l.locale} onChange={(e) => setExtraLinks(extraLinks.map((x, idx) => idx === i ? { ...x, locale: e.target.value as InternalLink['locale'] } : x))}>
                 <option value="ru">RU</option><option value="uz">UZ</option>
               </Select>
               <button onClick={() => setExtraLinks(extraLinks.filter((_, idx) => idx !== i))} className="text-white/40 hover:text-red-300"><X size={14}/></button>
