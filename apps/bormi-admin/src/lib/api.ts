@@ -10,8 +10,24 @@
  * The token is never put in a URL, never logged, and never handed to a caller;
  * it leaves this module only inside an Authorization header.
  */
-import type { AuditFilters, AuditResponse, OverviewResponse, StoresResponse } from './contracts';
-import { syntheticAudit, syntheticOverview, syntheticStores } from './fixtures';
+import type {
+  AuditFilters,
+  AuditResponse,
+  CategoriesResponse,
+  ListingDetailResponse,
+  ListingFilters,
+  ListingsResponse,
+  OverviewResponse,
+  StoresResponse,
+} from './contracts';
+import {
+  syntheticAudit,
+  syntheticCategories,
+  syntheticListing,
+  syntheticListings,
+  syntheticOverview,
+  syntheticStores,
+} from './fixtures';
 
 /** The key the shipped Owner Control Center already uses on this origin. */
 const TOKEN_KEY = 'gptbot_admin_token';
@@ -115,7 +131,74 @@ export const adminApi = {
       + (filters.actorRole ? `&actor_role=${encodeURIComponent(filters.actorRole)}` : '');
     return get<AuditResponse>(`/api/admin/agents/audit?${query}`);
   },
+
+  /**
+   * ADMIN-3A. Every filter below is applied by SQLite; none of them narrows the
+   * page already in this browser. The server echoes back what it used, so a
+   * screen can prove which query produced the rows it is showing.
+   */
+  listings: (
+    limit = 25,
+    offset = 0,
+    filters: ListingFilters = {},
+  ): Promise<ListingsResponse> => {
+    if (FIXTURE_MODE) return Promise.resolve(syntheticListings(limit, offset, filters));
+    const query = new URLSearchParams({ limit: String(limit), offset: String(offset) });
+    for (const [key, value] of Object.entries(filters)) {
+      if (value) query.set(key, value);
+    }
+    return get<ListingsResponse>(`/api/admin/listings?${query.toString()}`);
+  },
+
+  listing: (id: string): Promise<ListingDetailResponse> => (
+    FIXTURE_MODE
+      ? Promise.resolve(syntheticListing(id))
+      : get<ListingDetailResponse>(`/api/admin/listings/${encodeURIComponent(id)}`)
+  ),
+
+  categories: (): Promise<CategoriesResponse> => (
+    FIXTURE_MODE
+      ? Promise.resolve(syntheticCategories())
+      : get<CategoriesResponse>('/api/admin/categories')
+  ),
 };
+
+/**
+ * One product image, as bytes this panel is allowed to see.
+ *
+ * It is fetched rather than handed to an `<img src>`, and the reason is the
+ * session model: this console authenticates with a bearer header, and a browser
+ * does not attach headers to an image request. An `<img>` pointing at the media
+ * route would be an unauthenticated request and would 401 every time.
+ *
+ * The alternative — signing a capability into the URL, as the Mini App does for
+ * buyers — would put a credential in an address that lands in history and in
+ * any referrer. So the bytes come back through the same guarded `fetch`, and
+ * the caller gets an object URL it owns and must revoke.
+ *
+ * Returns null when the image is not this platform's to serve: an image stored
+ * in Telegram, a missing object, or a preview environment with no bucket bound.
+ * Every one of those is a fallback on screen, never a broken image icon.
+ */
+export async function fetchListingMedia(
+  id: string,
+  index: number,
+): Promise<string | null> {
+  if (FIXTURE_MODE) return null;
+  const headers: Record<string, string> = {};
+  const bearer = token();
+  if (bearer) headers.Authorization = `Bearer ${bearer}`;
+  try {
+    const response = await fetch(
+      `/api/admin/listings/${encodeURIComponent(id)}/media/${index}`,
+      { method: 'GET', headers, cache: 'no-store', credentials: 'same-origin' },
+    );
+    if (!response.ok) return null;
+    return URL.createObjectURL(await response.blob());
+  } catch {
+    return null;
+  }
+}
 
 /** Drop the session and hand the browser back to the login that owns it. */
 export function signOut(): void {

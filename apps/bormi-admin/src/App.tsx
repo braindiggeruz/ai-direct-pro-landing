@@ -22,6 +22,9 @@ import { Card, ErrorState, Skeleton } from './components/ui';
 // One chunk per screen. The shell is what every visit pays for; the rest
 // arrives when it is opened.
 const Overview = lazy(() => import('./pages/Overview'));
+const Listings = lazy(() => import('./pages/Listings'));
+const ListingDetail = lazy(() => import('./pages/ListingDetail'));
+const Categories = lazy(() => import('./pages/Categories'));
 const Access = lazy(() => import('./pages/Access'));
 const Audit = lazy(() => import('./pages/Audit'));
 const System = lazy(() => import('./pages/System'));
@@ -89,6 +92,9 @@ export default function App() {
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Overview />} />
+          <Route path="/listings" element={<Listings />} />
+          <Route path="/listings/:id" element={<ListingDetail />} />
+          <Route path="/categories" element={<Categories />} />
           <Route path="/access" element={<Access />} />
           <Route path="/audit" element={<Audit />} />
           <Route path="/system" element={<System />} />

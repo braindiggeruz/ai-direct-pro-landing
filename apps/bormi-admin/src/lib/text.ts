@@ -14,10 +14,23 @@ export function count(value: number): string {
   return RU.format(value);
 }
 
-/** Uzbek som, whole units. Minor units are stored; nobody prices in tiyin. */
+/**
+ * Uzbek som.
+ *
+ * The column is called `price_minor`, and it does not hold a minor unit: the
+ * seller types whole som and the number is stored as typed. The proof is in the
+ * catalogue itself — a product named "Тестовый товар 1 000 000" carries
+ * `price_minor = 1000000` — and in the buyer's own presenter, which prints the
+ * stored number followed by "сум" with no division at all
+ * (`formatBuyerPrice` in `agents/sotuvchi/buyer/cards.ts`).
+ *
+ * This used to divide by 100, so every price the panel showed was a hundredth
+ * of the price the buyer was quoted. Whatever this function does, it has to
+ * agree with the buyer, because they are describing the same row.
+ */
 export function money(minor: number | null): string {
   if (minor === null) return '—';
-  return `${RU.format(Math.round(minor / 100))} сум`;
+  return `${RU.format(Math.round(minor))} сум`;
 }
 
 export function plural(value: number, one: string, few: string, many: string): string {
@@ -174,6 +187,51 @@ export const ATTENTION: Record<string, { title: string; hint: string }> = {
     hint: 'Кабинет магазина недоступен из Mini App, пока нет привязки',
   },
 };
+
+/**
+ * Card quality, in the three states the server derives.
+ *
+ * There is no score and no percentage, because nothing measures how a card
+ * performs: Bormi records no views, no clicks and no conversions, so any
+ * number here would be an opinion wearing a decimal point.
+ */
+export const QUALITY_STATE: Record<string, string> = {
+  good: 'Заполнено',
+  needs_attention: 'Можно улучшить',
+  incomplete: 'Не хватает главного',
+};
+
+export const QUALITY_STATE_KEYS = Object.keys(QUALITY_STATE);
+
+/**
+ * Why a card is in that state. Every entry names the field that produced it,
+ * and the wording matches the Command Center's attention list so the same
+ * problem is not called two things on two screens.
+ */
+export const QUALITY_REASON: Record<string, string> = {
+  no_photo: 'Нет фотографии',
+  no_category: 'Не выбрана категория',
+  no_description: 'Не заполнено описание',
+  unavailable: 'Нет в наличии',
+};
+
+/** Media presence, as a filter rather than as a verdict. */
+export const MEDIA_FILTER: Record<string, string> = {
+  with: 'С фото',
+  without: 'Без фото',
+};
+
+/** The two orderings the product index can actually answer. */
+export const LISTING_SORT: Record<string, string> = {
+  name: 'По названию, А–Я',
+  name_desc: 'По названию, Я–А',
+};
+
+export const LISTING_STATUS_KEYS = Object.keys(LISTING_STATUS);
+export const AVAILABILITY_KEYS = Object.keys(AVAILABILITY);
+
+/** The bucket for products that belong to no category. Not a real category. */
+export const UNCATEGORISED = 'Без категории';
 
 export function label(map: Record<string, string>, key: string): string {
   return map[key] ?? key;

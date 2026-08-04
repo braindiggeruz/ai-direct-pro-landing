@@ -22,7 +22,7 @@ import { SyntheticNotice } from './ui';
 export interface NavItem {
   to: string;
   label: string;
-  icon: 'overview' | 'access' | 'audit' | 'system';
+  icon: 'overview' | 'listings' | 'categories' | 'access' | 'audit' | 'system';
 }
 
 export interface NavGroup {
@@ -37,6 +37,13 @@ export interface NavGroup {
  */
 export const NAV: NavGroup[] = [
   { title: 'Обзор', items: [{ to: '/', label: 'Командный центр', icon: 'overview' }] },
+  {
+    title: 'Контент',
+    items: [
+      { to: '/listings', label: 'Объявления', icon: 'listings' },
+      { to: '/categories', label: 'Категории', icon: 'categories' },
+    ],
+  },
   { title: 'Продавцы', items: [{ to: '/access', label: 'Магазины и доступы', icon: 'access' }] },
   { title: 'Безопасность', items: [{ to: '/audit', label: 'Аудит', icon: 'audit' }] },
   { title: 'Система', items: [{ to: '/system', label: 'Состояние', icon: 'system' }] },
@@ -66,6 +73,26 @@ function Icon({ name }: { name: NavItem['icon'] }) {
         <rect x="14" y="3" width="7" height="5" rx="1.5" />
         <rect x="14" y="12" width="7" height="9" rx="1.5" />
         <rect x="3" y="16" width="7" height="5" rx="1.5" />
+      </svg>
+    );
+  }
+  if (name === 'listings') {
+    // A tagged card: the thing a listing is, not a generic box.
+    return (
+      <svg {...common}>
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <path d="M3 9h18" />
+        <path d="M7 13h6M7 16.5h9" />
+      </svg>
+    );
+  }
+  if (name === 'categories') {
+    return (
+      <svg {...common}>
+        <rect x="3" y="3" width="7.5" height="7.5" rx="1.5" />
+        <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" />
+        <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" />
+        <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" />
       </svg>
     );
   }

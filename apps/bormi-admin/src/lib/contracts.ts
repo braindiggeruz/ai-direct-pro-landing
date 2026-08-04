@@ -137,6 +137,120 @@ export interface AuditResponse {
   append_only: true;
 }
 
+/** `GET /api/admin/listings` — ADMIN-3A, read-only. */
+export type ListingQualityState = 'good' | 'needs_attention' | 'incomplete';
+export type ListingQualityReason =
+  | 'no_photo' | 'no_category' | 'no_description' | 'unavailable';
+
+export interface ListingRow {
+  id: string;
+  name: string;
+  status: string;
+  availability: string;
+  price_minor: number;
+  currency: string;
+  media_count: number;
+  store_id: string;
+  store_name: string;
+  category_id: string | null;
+  category_name: string | null;
+  updated_at: string;
+  quality: ListingQualityState;
+  quality_reasons: ListingQualityReason[];
+}
+
+export interface ListingSummary {
+  total: number;
+  by_status: { draft: number; published: number; archived: number };
+  quality: Record<ListingQualityReason, number>;
+  attention: number;
+}
+
+export interface ListingsResponse {
+  generated_at: string;
+  page: { limit: number; offset: number; sort: string };
+  /** Rows the filters matched, across the whole catalogue — not this page. */
+  total: number;
+  count: number;
+  read_only: true;
+  summary: ListingSummary;
+  listings: ListingRow[];
+}
+
+/**
+ * Every filter the server applies. There is no client-side filter anywhere in
+ * this panel: a control that narrowed the loaded page would claim to have
+ * searched the catalogue when it searched twenty-five rows.
+ */
+export interface ListingFilters {
+  status?: string;
+  availability?: string;
+  media?: string;
+  quality?: string;
+  category?: string;
+  store?: string;
+  q?: string;
+  sort?: string;
+}
+
+export interface ListingMedia {
+  index: number;
+  kind: 'stored' | 'external';
+}
+
+export interface ListingDetail extends ListingRow {
+  sku: string | null;
+  description: string | null;
+  version: number;
+  created_at: string;
+  org_id: string;
+  media: ListingMedia[];
+  specifications: { key: string; value: string }[];
+  search_terms: string[];
+  /** Rendered by the buyer's own presenter, not by a second implementation. */
+  preview: {
+    title: string;
+    price: string;
+    availability: string;
+    description: string;
+    category: string | null;
+    store: string;
+    media_count: number;
+  };
+}
+
+export interface ListingDetailResponse {
+  generated_at: string;
+  read_only: true;
+  listing: ListingDetail;
+}
+
+/** `GET /api/admin/categories` — counts, never a command. */
+export interface CategoryRow {
+  id: string;
+  name: string;
+  slug: string;
+  status: string;
+  sort_order: number;
+  store_id: string;
+  store_name: string;
+  updated_at: string;
+  total: number;
+  published: number;
+  draft: number;
+  archived: number;
+  no_photo: number;
+  /** True for the synthetic row collecting products that have no category. */
+  uncategorised: boolean;
+}
+
+export interface CategoriesResponse {
+  generated_at: string;
+  read_only: true;
+  count: number;
+  categories: CategoryRow[];
+}
+
 /**
  * The only two things `GET /api/admin/agents/audit` narrows on that a person
  * can pick from a list. `target_id` and `actor_email` are also accepted, but
