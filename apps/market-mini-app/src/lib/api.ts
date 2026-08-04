@@ -275,6 +275,28 @@ export async function fetchMedia(handle: string, signal?: AbortSignal): Promise<
 }
 
 /**
+ * The same handle, resolved through the classifieds route.
+ *
+ * `/media/:handle` sits behind the store access resolution, and a classifieds
+ * launch has no storefront to resolve, so listing photographs have to come from
+ * a route that a storeless session can reach.
+ */
+export async function fetchClassifiedsMedia(
+  handle: string,
+  signal?: AbortSignal,
+): Promise<string> {
+  if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
+    return fetchMedia(handle, signal);
+  }
+  const response = await fetch(
+    `${baseUrl}/classifieds/media/${encodeURIComponent(handle)}`,
+    { headers: { Authorization: `Bearer ${sessionToken}` }, signal },
+  );
+  if (!response.ok) throw new MarketApiError('resource_not_found', response.status, null);
+  return URL.createObjectURL(await response.blob());
+}
+
+/**
  * Uploads one recording as a raw audio body. The blob is sent once and then
  * dropped: nothing is written to storage, and the bearer stays in the header
  * exactly as for every other Market call.
@@ -386,6 +408,29 @@ export async function uploadMedia(
   blob: Blob,
   signal?: AbortSignal,
 ): Promise<{ ref: string }> {
+  return uploadImage('/seller/media', blob, signal);
+}
+
+/**
+ * The same upload for a private seller.
+ *
+ * The store route authorises on seller commands and keys the object by
+ * organisation and store. A private seller has none of the three, so their
+ * photographs go through a route that authorises on the seller profile the
+ * server derives from their identity.
+ */
+export async function uploadPrivateMedia(
+  blob: Blob,
+  signal?: AbortSignal,
+): Promise<{ ref: string }> {
+  return uploadImage('/classifieds/private/media', blob, signal);
+}
+
+async function uploadImage(
+  path: '/seller/media' | '/classifieds/private/media',
+  blob: Blob,
+  signal?: AbortSignal,
+): Promise<{ ref: string }> {
   if (fixtureTransportAvailable && runtimeEnv.VITE_MARKET_DEV_MODE === 'fixture') {
     return fixtureRequest<{ ref: string }>('/seller/media', { method: 'POST' });
   }
@@ -396,7 +441,7 @@ export async function uploadMedia(
   const timeout = globalThis.setTimeout(abort, MEDIA_UPLOAD_TIMEOUT_MS);
   let response: Response;
   try {
-    response = await fetch(`${baseUrl}/seller/media`, {
+    response = await fetch(`${baseUrl}${path}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

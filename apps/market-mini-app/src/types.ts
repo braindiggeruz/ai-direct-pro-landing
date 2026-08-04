@@ -210,6 +210,90 @@ export interface ClassifiedInquiry {
   updatedAt: string;
 }
 
+/**
+ * The states a private seller is shown for their own listing.
+ *
+ * Derived by the server from the product status and the moderation verdict
+ * together, because neither alone tells the seller what is happening: an
+ * approved listing they took down and one still waiting for review are both
+ * "draft" in the database.
+ */
+export type SellerListingState =
+  | 'draft'
+  | 'pending'
+  | 'published'
+  | 'needs_changes'
+  | 'restricted'
+  | 'removed'
+  | 'unpublished'
+  | 'archived';
+
+export type ModerationReasonCode =
+  | 'new_seller_review'
+  | 'high_risk_category'
+  | 'prohibited_item'
+  | 'suspected_fraud'
+  | 'duplicate_listing'
+  | 'misleading_content'
+  | 'unsafe_contact'
+  | 'personal_data'
+  | 'seller_request'
+  | 'appeal_upheld'
+  | 'other_policy';
+
+export interface SellerProfile {
+  id: string;
+  displayName: string;
+  sellerType: 'private';
+  verificationState: 'unverified' | 'identity_verified';
+  status: 'active' | 'restricted' | 'suspended' | 'closed';
+  moderationState: 'clear' | 'under_review' | 'restricted' | 'blocked';
+  version: number;
+}
+
+export interface SellerListing {
+  id: string;
+  state: SellerListingState;
+  name: string;
+  description: string | null;
+  priceMinor: number;
+  currency: 'UZS';
+  mediaHandles: string[];
+  category: { id: string; slug: string; nameRu: string; nameUz: string } | null;
+  condition: ClassifiedCondition | null;
+  location: {
+    regionId: string;
+    regionNameRu: string;
+    regionNameUz: string;
+    districtId: string;
+    districtNameRu: string;
+    districtNameUz: string;
+    localityText: string | null;
+  } | null;
+  contactMode: ClassifiedListing['contactMode'] | null;
+  moderation: {
+    state: 'pending' | 'approved' | 'rejected' | 'restricted' | 'removed';
+    reasonCode: ModerationReasonCode | null;
+    decidedAt: string | null;
+  } | null;
+  /** Real counts only. There is no view counter because nothing records one. */
+  inquiries: { total: number; open: number };
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SellerInquiry {
+  id: string;
+  listing: { id: string; name: string };
+  message: string;
+  reply: string | null;
+  status: 'open' | 'answered' | 'closed';
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Category {
   id: string;
   name: string;

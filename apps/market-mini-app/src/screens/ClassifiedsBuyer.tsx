@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MarketApiError, classifiedsVoiceSearch, marketApi } from '../lib/api';
 import { formatPrice } from '../lib/i18n';
@@ -35,9 +35,13 @@ import {
   Modal,
   SkeletonList,
   StateView,
+  type IconName,
 } from '../components/ui';
 
-type View = 'home' | 'search' | 'saved' | 'activity';
+const ClassifiedsSeller = lazy(() => import('./ClassifiedsSeller')
+  .then((module) => ({ default: module.ClassifiedsSeller })));
+
+type View = 'home' | 'search' | 'saved' | 'activity' | 'sell';
 type Page<T> = { items: T[]; nextCursor: string | null };
 
 const words = {
@@ -59,6 +63,7 @@ const words = {
     activityEmpty: 'Вы ещё не писали продавцам', waiting: 'Ждёт ответа', answered: 'Есть ответ', closed: 'Закрыт',
     yourMessage: 'Ваш вопрос', sellerReply: 'Ответ продавца', inquiryOnly: 'Связь через Bormi',
     availability: 'Наличие', available: 'В наличии',
+    sell: 'Подать', sellItem: 'Продать', myListings: 'Мои объявления',
   },
   uz: {
     home: 'Bosh sahifa', search: 'Qidirish', saved: 'Saqlanganlar', activity: 'So‘rovlar',
@@ -78,6 +83,7 @@ const words = {
     activityEmpty: 'Siz hali sotuvchilarga yozmagansiz', waiting: 'Javob kutilmoqda', answered: 'Javob bor', closed: 'Yopilgan',
     yourMessage: 'Savolingiz', sellerReply: 'Sotuvchi javobi', inquiryOnly: 'Bormi orqali aloqa',
     availability: 'Mavjudligi', available: 'Mavjud',
+    sell: 'Berish', sellItem: 'Sotish', myListings: 'Mening e’lonlarim',
   },
 } as const;
 
@@ -156,10 +162,18 @@ function voiceErrorFor(error: unknown): VoiceErrorKind {
   return 'network';
 }
 
-export function ClassifiedsBuyer({ locale, navBack, voiceEnabled }: {
+export function ClassifiedsBuyer({ locale, navBack, voiceEnabled, privateListing }: {
   locale: Locale;
   navBack: boolean;
   voiceEnabled: boolean;
+  /**
+   * Whether this person can sell as well as buy.
+   *
+   * The server decides. When it is false the publish tab is absent rather than
+   * present-and-refusing, because a control that leads to "coming soon" is
+   * worse than no control.
+   */
+  privateListing: boolean;
 }) {
   const w = words[locale];
   const client = useQueryClient();
@@ -189,6 +203,18 @@ export function ClassifiedsBuyer({ locale, navBack, voiceEnabled }: {
   const [voiceOffline, setVoiceOffline] = useState(false);
   const recorderRef = useRef<VoiceRecorder | null>(null);
   const micAvailable = voiceEnabled && !voiceOffline && voiceCaptureSupported();
+  const [sellSheetOpen, setSellSheetOpen] = useState(false);
+  const [sellIntent, setSellIntent] = useState<'listings' | 'composer'>('listings');
+
+  // The publish tab exists only when the server granted private listing. A tab
+  // that opens "coming soon" is a promise the shell cannot keep.
+  const navTabs = ([
+    ['home', 'home'],
+    ['search', 'search'],
+    ...(privateListing ? [['sell', 'plus'] as const] : []),
+    ['saved', 'heart'],
+    ['activity', 'help'],
+  ] as const satisfies readonly (readonly [View, IconName])[]);
 
   useBackStop(navBack && view !== 'home', `classifieds:${view}`, () => setView('home'));
   const categories = useQuery<Page<ClassifiedCategory>>({
@@ -380,11 +406,34 @@ export function ClassifiedsBuyer({ locale, navBack, voiceEnabled }: {
       {view === 'saved' ? <section className="section"><h1>{w.saved}</h1>{favorites.isLoading ? <SkeletonList/> : favorites.isError ? <ErrorView locale={locale} retry={() => void favorites.refetch()}/> : favorites.data?.items.length ? <div className="product-grid">{favorites.data.items.map((item) => <ListingCard key={item.id} item={item} locale={locale} saved pending={favorite.isPending && favorite.variables?.id === item.id} onOpen={() => setSelected(item)} onSave={() => favorite.mutate({ id: item.id, saved: true })}/>)}</div> : <StateView icon="heart" title={w.savedEmpty}/>}</section> : null}
 
       {view === 'activity' ? <section className="section"><h1>{w.activity}</h1>{inquiries.isLoading ? <SkeletonList/> : inquiries.isError ? <ErrorView locale={locale} retry={() => void inquiries.refetch()}/> : inquiries.data?.items.length ? <div className="stack">{inquiries.data.items.map((item) => <article className="card" key={item.id}><div className="card__body stack"><div className="row row--between"><strong>{item.listing.name}</strong><Badge tone={item.status === 'answered' ? 'positive' : 'info'}>{item.status === 'answered' ? w.answered : item.status === 'open' ? w.waiting : w.closed}</Badge></div><small>{w.yourMessage}</small><p>{item.message}</p>{item.reply ? <><small>{w.sellerReply}</small><p>{item.reply}</p></> : null}</div></article>)}</div> : <StateView icon="help" title={w.activityEmpty}/>}</section> : null}
+      {/* The seller half of the app. Lazily loaded, so a buyer who never sells
+          does not download the composer, and mounted with the taxonomy the
+          buyer screen already fetched rather than fetching it a second time. */}
+      {view === 'sell' ? <section className="section">
+        <Suspense fallback={<SkeletonList count={2}/>}>
+          <ClassifiedsSeller
+            locale={locale}
+            categories={categories.data?.items ?? []}
+            locations={locations.data?.items ?? []}
+            initialView={sellIntent}
+            onClose={() => setView('home')}
+          />
+        </Suspense>
+      </section> : null}
     </main>
 
     <nav className="bottom-nav" aria-label="Bormi classifieds">
-      {([['home', 'home'], ['search', 'search'], ['saved', 'heart'], ['activity', 'help']] as const).map(([destination, icon]) => <button key={destination} onClick={() => setView(destination)} aria-current={view === destination ? 'page' : undefined}><span className="bottom-nav__icon"><Icon name={icon}/></span><span>{w[destination]}</span></button>)}
+      {navTabs.map(([destination, icon]) => <button key={destination} onClick={() => { if (destination === 'sell') { setSellSheetOpen(true); return; } setView(destination); }} aria-current={view === destination ? 'page' : undefined}><span className="bottom-nav__icon"><Icon name={icon}/></span><span>{w[destination]}</span></button>)}
     </nav>
+
+    {/* «Подать» opens a choice, not a screen: selling is one of the things a
+        person can publish, and the sheet is where a second one would go. */}
+    <Modal open={sellSheetOpen} title={w.sell} onClose={() => setSellSheetOpen(false)} closeLabel={w.close} sheet>
+      <div className="stack">
+        <Button wide onClick={() => { setSellSheetOpen(false); setSellIntent('composer'); setView('sell'); }}><Icon name="plus" size={18}/>{w.sellItem}</Button>
+        <Button wide variant="secondary" onClick={() => { setSellSheetOpen(false); setSellIntent('listings'); setView('sell'); }}><Icon name="products" size={18}/>{w.myListings}</Button>
+      </div>
+    </Modal>
 
     <Modal open={Boolean(selected)} title={selected?.name ?? ''} onClose={() => setSelected(null)} closeLabel={w.close} sheet>
       {selected ? <div className="stack classified-detail"><AsyncImage className="classified-detail__media" handle={selected.mediaHandles[0]} alt={selected.name}/><div className="row row--between"><strong className="price-large">{formatPrice(selected.priceMinor, locale)}</strong><Badge>{selected.conditionLabel[locale]}</Badge></div>{selected.description ? <p>{selected.description}</p> : null}<dl className="spec-list"><div><dt>{w.location}</dt><dd>{locale === 'ru' ? selected.location.districtNameRu : selected.location.districtNameUz}</dd></div><div><dt>{w.seller}</dt><dd>{selected.seller.displayName}</dd></div></dl><div className="notice"><Icon name="check" size={18}/><span>{selected.seller.verificationState === 'unverified' ? w.unverified : w.verified}. {w.inquiryOnly}.</span></div><Button wide onClick={() => { setInquiryListing(selected); setSelected(null); }}>{w.contact}</Button><Button wide variant="ghost" onClick={() => { setReportListing(selected); setSelected(null); }}>{w.report}</Button></div> : null}

@@ -8,6 +8,7 @@ import type {
   ListingReportReason,
   StoreOwnerContext,
 } from '../agents/sotuvchi';
+import type { SellerListing } from '../agents/sotuvchi/classifieds/seller';
 import {
   CLASSIFIED_CONDITIONS,
   createSotuvchiNotificationDispatcher,
@@ -39,6 +40,7 @@ import {
   marketRequestId,
   mediaObjectKey,
   newMediaReference,
+  privateMediaObjectKey,
   proxyTelegramMedia,
   readImageUpload,
   readMarketJson,
@@ -317,6 +319,22 @@ async function classifiedDto(
     mediaHandles: await Promise.all(Array.from({ length: mediaCount }, (_, index) =>
       issueMediaHandle(secret, { productId: listing.id, index })
     )),
+  };
+}
+
+/**
+ * The seller's own listing, with signed media handles in place of raw refs.
+ *
+ * A bucket reference is a storage detail. The seller gets the same signed,
+ * index-addressed handle a buyer gets, so the composer and the search result
+ * load photographs through one route and neither client learns a key.
+ */
+async function sellerListingDto(listing: SellerListing, secret: string) {
+  const { mediaRefs, ...rest } = listing;
+  return {
+    ...rest,
+    mediaHandles: await Promise.all(mediaRefs.map((_, index) =>
+      issueMediaHandle(secret, { productId: listing.id, index }))),
   };
 }
 
@@ -872,6 +890,59 @@ function scheduleFlush(context: RequestContext, orgId: string, storeId: string) 
   if (context.waitUntil) context.waitUntil(flush);
 }
 
+/**
+ * POST /classifieds/private/media — one photograph for a private listing.
+ *
+ * The store upload above cannot serve a private seller: it requires seller
+ * commands and keys the object by organisation and store, and a private seller
+ * has none of the three. This route authorises on the one thing they do have —
+ * a seller profile derived from their bearer identity — and stores the object
+ * under that profile.
+ *
+ * The reference is only attached to a listing when the seller submits, so an
+ * abandoned composer leaves an unreachable object rather than a visible one.
+ */
+async function privateMediaUpload(context: {
+  request: Request;
+  env: Env;
+  services: SotuvchiApplicationServices;
+  claims: MarketSessionClaims;
+  requestId: string;
+}): Promise<Response> {
+  const { request, env, services, claims, requestId } = context;
+  if (!mediaUploadAvailable(env)) {
+    throw new MarketHttpError('feature_disabled', 503);
+  }
+  requireIdempotencyKey(request);
+  await enforceMarketRateLimit('command', `${claims.sub}:classifieds-media`);
+  // Server-derived, never taken from the request: the caller cannot upload
+  // into somebody else's namespace by naming it.
+  const profile = await services.classifieds.getPrivateSellerProfile(claims.sub);
+  if (!profile || profile.status !== 'active') {
+    throw new MarketHttpError('seller_forbidden', 403);
+  }
+  let upload;
+  try {
+    upload = await readImageUpload(request);
+  } catch (error) {
+    if (error instanceof MarketUploadError) {
+      throw new MarketHttpError(
+        error.code === 'payload_too_large' ? 'payload_too_large' : 'validation_failed',
+        error.code === 'payload_too_large' ? 413 : 400,
+      );
+    }
+    throw error;
+  }
+  const reference = newMediaReference();
+  const key = privateMediaObjectKey(profile.id, reference);
+  if (!key) throw new MarketHttpError('validation_failed', 400);
+  await env.MARKET_MEDIA!.put(key, upload.bytes, {
+    httpMetadata: { contentType: upload.contentType },
+    customMetadata: { sellerProfileId: profile.id },
+  });
+  return marketJson({ ref: reference, contentType: upload.contentType }, requestId, 201);
+}
+
 async function classifiedsRoutes(context: {
   request: Request;
   env: Env;
@@ -889,6 +960,11 @@ async function classifiedsRoutes(context: {
       return marketError('resource_not_found', requestId, 404);
     }
     if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
+    // A raw image body, so it has to be answered before the JSON dispatch
+    // below tries to parse a photograph as a document.
+    if (request.method === 'POST' && path === '/classifieds/private/media') {
+      return privateMediaUpload(context);
+    }
     // The seller's own reads come first. They are the only GETs under
     // /classifieds/private and they carry no idempotency key, because reading
     // your own listings is not a command.
@@ -900,8 +976,10 @@ async function classifiedsRoutes(context: {
         }, requestId);
       }
       if (path === '/classifieds/private/listings') {
+        const items = await services.classifieds.listMyListings(claims.sub);
         return marketJson({
-          items: await services.classifieds.listMyListings(claims.sub),
+          items: await Promise.all(items.map((item) =>
+            sellerListingDto(item, config.sessionSecret))),
           nextCursor: null,
         }, requestId);
       }
@@ -914,7 +992,10 @@ async function classifiedsRoutes(context: {
       const ownListing = /^\/classifieds\/private\/listings\/([^/]+)$/.exec(path);
       if (ownListing) {
         return marketJson({
-          listing: await services.classifieds.getMyListing(claims.sub, ownListing[1]),
+          listing: await sellerListingDto(
+            await services.classifieds.getMyListing(claims.sub, ownListing[1]),
+            config.sessionSecret,
+          ),
         }, requestId);
       }
       const ownInquiry = /^\/classifieds\/private\/inquiries\/([^/]+)$/.exec(path);
@@ -947,7 +1028,7 @@ async function classifiedsRoutes(context: {
         'condition', 'regionId', 'districtId', 'contactMode', 'expectedVersion',
       ], ['description', 'localityText']);
       return marketJson({
-        listing: await services.classifieds.updatePrivateListing(seller, editMatch[1], {
+        listing: await sellerListingDto(await services.classifieds.updatePrivateListing(seller, editMatch[1], {
           name: body.name as string,
           description: body.description as string | null | undefined,
           priceMinor: body.priceMinor as number,
@@ -959,7 +1040,7 @@ async function classifiedsRoutes(context: {
           districtId: body.districtId as string,
           localityText: body.localityText as string | null | undefined,
           contactMode: body.contactMode as ClassifiedListing['contactMode'],
-        }, body.expectedVersion),
+        }, body.expectedVersion), config.sessionSecret),
       }, requestId);
     }
     if (request.method === 'PATCH') return marketError('resource_not_found', requestId, 404);
@@ -976,7 +1057,9 @@ async function classifiedsRoutes(context: {
         republish: () => services.classifieds.republishPrivateListing(seller, listingId, version),
         archive: () => services.classifieds.archivePrivateListing(seller, listingId, version),
       }[transition[2] as 'resubmit' | 'unpublish' | 'republish' | 'archive'];
-      return marketJson({ listing: await command() }, requestId);
+      return marketJson({
+        listing: await sellerListingDto(await command(), config.sessionSecret),
+      }, requestId);
     }
 
     const inquiryReply = /^\/classifieds\/private\/inquiries\/([^/]+)\/reply$/.exec(path);
@@ -1034,6 +1117,40 @@ async function classifiedsRoutes(context: {
     return marketError('resource_not_found', requestId, 404);
   }
   if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
+  // Classifieds images need their own route. `/media/:handle` lives behind the
+  // store access resolution, and a global classifieds launch has no storefront
+  // to resolve — so every listing photograph 4xx'd there. This one resolves the
+  // object through the classifieds domain instead, which is the only thing a
+  // storeless buyer or a private seller actually has.
+  const mediaHandle = /^\/classifieds\/media\/([^/]+)$/.exec(path);
+  if (request.method === 'GET' && mediaHandle) {
+    await enforceMarketRateLimit('read', `${claims.sub}:classifieds-media`);
+    const decoded = await verifyMediaHandle(config.sessionSecret, mediaHandle[1]);
+    if (!decoded) throw new MarketHttpError('resource_not_found', 404);
+    const located = await services.classifieds.locateListingMedia(
+      claims.sub, decoded.productId, decoded.index,
+    );
+    if (!located) throw new MarketHttpError('resource_not_found', 404);
+    // The key is built from the row that owns the object, never from anything
+    // the caller supplied: a handle names an index, not a place in the bucket.
+    if (isStoredMediaReference(located.reference)) {
+      const key = located.sellerProfileId
+        ? privateMediaObjectKey(located.sellerProfileId, located.reference)
+        : mediaObjectKey(located.orgId ?? '', located.storeId ?? '', located.reference);
+      const object = key && env.MARKET_MEDIA ? await env.MARKET_MEDIA.get(key) : null;
+      if (!object) throw new MarketHttpError('resource_not_found', 404);
+      const stored = storedMediaResponse(
+        object.body,
+        object.httpMetadata?.contentType ?? '',
+      );
+      stored.headers.set('x-request-id', requestId);
+      return stored;
+    }
+    const proxied = await proxyTelegramMedia(config.botToken, located.reference);
+    if (!proxied) throw new MarketHttpError('resource_not_found', 404);
+    proxied.headers.set('x-request-id', requestId);
+    return proxied;
+  }
   if (request.method === 'POST' && path === '/classifieds/voice/search') {
     assertVoiceSearchEnabled(env);
     await enforceMarketRateLimit('voice', `${claims.sub}:classifieds-voice`);

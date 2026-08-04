@@ -114,6 +114,7 @@ function ConnectedApp({ launch, online }: { launch: MarketLaunch; online: boolea
             locale={locale}
             navBack={navBack}
             voiceEnabled={bootstrap.data.flags.voice === true}
+            privateListing={bootstrap.data.flags.privateListing === true}
           /></Suspense>
         : <BuyerApp
           locale={locale}

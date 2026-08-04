@@ -1308,6 +1308,73 @@ export class SotuvchiClassifiedsService {
     return this.getSellerInquiry(context.identityId, inquiryId);
   }
 
+  /**
+   * Where one listing photograph lives, for a caller allowed to see it.
+   *
+   * Two callers qualify and no others: anybody, for a listing that is published
+   * and approved, and the listing's own seller in any state — a composer that
+   * could not show the seller their own draft photograph would be unusable.
+   *
+   * Returns the owning row's coordinates rather than a key, so the route builds
+   * the bucket path from what the database says owns the object.
+   */
+  async locateListingMedia(
+    rawIdentityId: unknown,
+    rawListingId: unknown,
+    index: number,
+  ): Promise<{
+    reference: string;
+    sellerProfileId: string | null;
+    orgId: string | null;
+    storeId: string | null;
+  } | null> {
+    const identityId = requireCatalogId(rawIdentityId);
+    const listingId = requireCatalogId(rawListingId);
+    if (!Number.isInteger(index) || index < 0 || index >= MAX_LISTING_MEDIA) return null;
+    await this.ready();
+    const row = await this.db.prepare(`
+      SELECT product.media_refs_json, product.listing_scope, product.org_id,
+        product.store_id, ownership.seller_profile_id,
+        seller.identity_id AS owner_identity_id,
+        product.status, moderation.state AS moderation_state
+      FROM sotuvchi_products AS product
+      LEFT JOIN listing_ownerships AS ownership
+        ON ownership.product_id = product.id AND ownership.status = 'active'
+      LEFT JOIN seller_profiles AS seller ON seller.id = ownership.seller_profile_id
+      LEFT JOIN market_listing_moderation AS moderation ON moderation.product_id = product.id
+      WHERE product.id = ?
+      LIMIT 1
+    `).bind(listingId).first<{
+      media_refs_json: string;
+      listing_scope: 'private' | 'store';
+      org_id: string | null;
+      store_id: string | null;
+      seller_profile_id: string | null;
+      owner_identity_id: string | null;
+      status: string;
+      moderation_state: string | null;
+    }>();
+    if (!row) return null;
+    const isOwner = row.owner_identity_id === identityId;
+    const isPublic = row.status === 'published' && row.moderation_state === 'approved';
+    if (!isOwner && !isPublic) return null;
+    let references: unknown;
+    try {
+      references = JSON.parse(row.media_refs_json);
+    } catch {
+      return null;
+    }
+    if (!Array.isArray(references)) return null;
+    const reference = references[index];
+    if (typeof reference !== 'string') return null;
+    return {
+      reference,
+      sellerProfileId: row.listing_scope === 'private' ? row.seller_profile_id : null,
+      orgId: row.org_id,
+      storeId: row.store_id,
+    };
+  }
+
   // ── Shared write helpers ────────────────────────────────────────────────────
 
   /**

@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchMedia } from '../lib/api';
+import { fetchClassifiedsMedia, fetchMedia } from '../lib/api';
 import {
   DEMO_PRODUCT_PREVIEW,
   demoPreviewName,
@@ -117,16 +117,25 @@ export function AsyncImage({
   className = '',
   previewSrc,
   eager = false,
+  source = 'store',
 }: {
   handle?: string;
   alt: string;
   className?: string;
   previewSrc?: string;
   eager?: boolean;
+  /**
+   * Which route redeems the handle. A classifieds launch has no storefront, so
+   * the store media route is unreachable from it and its images have to be
+   * asked for through the classifieds one.
+   */
+  source?: 'store' | 'classifieds';
 }) {
   const query = useQuery({
-    queryKey: ['media', handle],
-    queryFn: ({ signal }) => fetchMedia(handle!, signal),
+    queryKey: ['media', source, handle],
+    queryFn: ({ signal }) => (source === 'classifieds'
+      ? fetchClassifiedsMedia(handle!, signal)
+      : fetchMedia(handle!, signal)),
     enabled: Boolean(handle) && !previewSrc,
     staleTime: 5 * 60_000,
     gcTime: 10 * 60_000,

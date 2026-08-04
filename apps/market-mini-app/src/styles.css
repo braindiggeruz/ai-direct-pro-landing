@@ -606,3 +606,48 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
   .qp-spec { grid-template-columns: minmax(0, 1fr) 44px; }
   .qp-spec input:first-child { grid-column: 1 / -1; }
 }
+
+/* ── Private seller composer ────────────────────────────────────────────── */
+.row--wrap { flex-wrap: wrap; }
+.stack--tight { gap: 5px; }
+.listing-thumb {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+/* A photograph the person already uploaded, shown as its position in the
+   listing plus one control that removes it. The number is what makes "first
+   one becomes the cover" checkable rather than a promise. */
+.composer-photo {
+  position: relative;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken, var(--surface-raised));
+}
+.composer-photo__index {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.composer-photo button {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  cursor: pointer;
+}

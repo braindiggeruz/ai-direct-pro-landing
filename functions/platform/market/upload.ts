@@ -130,6 +130,23 @@ export function mediaObjectKey(
 }
 
 /**
+ * The object key for a private seller's photograph.
+ *
+ * A private seller has no organisation and no store, so `mediaObjectKey` cannot
+ * name their objects. They get their own prefix rather than a placeholder org:
+ * inventing `org/private/...` would put private photographs inside the tenant
+ * namespace, where a store-scoped read could reach them.
+ */
+export function privateMediaObjectKey(
+  sellerProfileId: string,
+  reference: string,
+): string | null {
+  if (!isStoredMediaReference(reference)) return null;
+  if (!/^[A-Za-z0-9][A-Za-z0-9._:-]{0,119}$/.test(sellerProfileId)) return null;
+  return `classifieds/${sellerProfileId}/${reference.slice(REFERENCE_PREFIX.length)}`;
+}
+
+/**
  * Serves a stored image with the same hardened headers the Telegram proxy uses:
  * private cache, no indexing, no scripting, and a type the bytes proved.
  */

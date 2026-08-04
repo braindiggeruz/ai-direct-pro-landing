@@ -41,6 +41,7 @@ export {
   isStoredMediaReference,
   mediaObjectKey,
   newMediaReference,
+  privateMediaObjectKey,
   readImageUpload,
   sniffImageType,
   storedMediaResponse,
