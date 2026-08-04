@@ -17,6 +17,11 @@ const MIGRATIONS = [
   '0037_classifieds_moderation_reports.sql',
   '0038_classifieds_favorites.sql',
   '0039_classifieds_inquiries.sql',
+  // The seller lifecycle and the moderation audit widening. It arrived after
+  // this list was written, which meant the one migration that rewrites the
+  // audit CHECK constraint was the one migration never rehearsed against
+  // production-shaped data.
+  '0040_classifieds_seller_lifecycle.sql',
 ] as const;
 const BUSINESS_TABLES = [
   'sotuvchi_products', 'sotuvchi_orders', 'sotuvchi_inventory',
@@ -259,7 +264,11 @@ function main(): void {
       .map((row) => row.detail);
     const checks = {
       ledgerPredecessor: ledgerBefore === 33,
-      ledgerAdvancedBySix: ledgerAfter === ledgerBefore + MIGRATIONS.length,
+      // Named for what it measures rather than for how many there were the day
+      // it was written: the count moved with the list, the name did not, and an
+      // evidence file that says "BySix" beside seven migrations is one nobody
+      // can read twice.
+      ledgerAdvancedByMigrationCount: ledgerAfter === ledgerBefore + MIGRATIONS.length,
       businessCountsPreserved: JSON.stringify(beforeCounts) === JSON.stringify(afterCounts),
       productRowsPreserved: beforeProducts === productSnapshot(db),
       foreignKeys: db.prepare('PRAGMA foreign_key_check').all().length === 0,
