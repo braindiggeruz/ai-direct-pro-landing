@@ -299,7 +299,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   ) : null;
 
   return (
-    <div className="flex h-full min-h-0 bg-bg-base text-white" data-testid="ai-console">
+    // ym-hide-content: Webvisor is enabled on counter 111312750. Everything the
+    // console renders is a prompt, an answer or a saved conversation title, so
+    // the whole console is masked in the session recording.
+    <div className="flex h-full min-h-0 bg-bg-base text-white ym-hide-content" data-testid="ai-console">
       <AiSidebar
         locale={config.locale}
         t={t}

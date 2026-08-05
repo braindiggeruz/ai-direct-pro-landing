@@ -1,5 +1,6 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { track } from '../lib/cta';
+import { reachYandexGoal, YANDEX_GOALS } from '../lib/analytics/yandexMetrika';
 import {
   buildEstimateSummary,
   calculateEstimate,
@@ -154,6 +155,10 @@ export default function CalculatorApp() {
         goal: selection.goalId,
         feature_count: selection.featureIds.length,
       });
+      // Only after the server accepted the lead — a submit click is not a lead.
+      // The goal carries a name and no parameters, so nothing typed above it
+      // can reach Metrika.
+      reachYandexGoal(YANDEX_GOALS.leadFormSubmitSuccess);
     } catch {
       setFormStatus('error');
     }
@@ -333,7 +338,10 @@ export default function CalculatorApp() {
               <p className="mt-3 min-h-5 text-sm text-brand-cyan" role="status">{copyStatus}</p>
             </div>
 
-            <form onSubmit={submitLead} className="rounded-2xl border border-white/10 bg-[#07101d]/80 p-5" noValidate>
+            {/* ym-disable-submit: the contact form's values must stay out of
+                Metrika Form Analysis. The success goal is reported separately
+                from submitLead, after the server confirms. */}
+            <form onSubmit={submitLead} className="rounded-2xl border border-white/10 bg-[#07101d]/80 p-5 ym-disable-submit" noValidate>
               <h3 className="font-display text-xl text-white">Получить точную смету</h3>
               <p className="mt-2 text-sm leading-relaxed text-white/55">Оставьте контакт — расчёт и выбранные параметры сохранятся вместе с заявкой.</p>
               {formStatus === 'success' ? (
@@ -348,7 +356,8 @@ export default function CalculatorApp() {
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     autoComplete="name"
-                    className="mt-2 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-base text-white outline-none placeholder:text-white/30 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30"
+                    // ym-disable-keys: a visitor's name is never recorded.
+                    className="mt-2 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-base text-white outline-none placeholder:text-white/30 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30 ym-disable-keys"
                     placeholder="Как к вам обращаться"
                     maxLength={120}
                   />
@@ -358,7 +367,8 @@ export default function CalculatorApp() {
                     value={contact}
                     onChange={(event) => { setContact(event.target.value); if (formStatus === 'error') setFormStatus('idle'); }}
                     autoComplete="tel"
-                    className="mt-2 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-base text-white outline-none placeholder:text-white/30 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30"
+                    // ym-disable-keys: phone / Telegram handle is never recorded.
+                    className="mt-2 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-base text-white outline-none placeholder:text-white/30 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30 ym-disable-keys"
                     placeholder="+998… или @username"
                     maxLength={200}
                     aria-required="true"

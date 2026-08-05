@@ -10,6 +10,7 @@ import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
+import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import {
   buildOrganizationLd,
@@ -398,7 +399,11 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
       ];
 
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
-  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" class="h-full">
+  <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
+       chat renders inside this element is either what the visitor typed or what
+       the model answered. The mount point carries the class so the masking
+       survives React replacing its children. -->
+  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" class="h-full ym-hide-content">
     <noscript><p class="p-6 text-sm text-white/70">${escapeText(noscript)}</p></noscript>
     <div class="flex h-full items-center justify-center text-sm text-white/40">${loading}</div>
   </div>
@@ -624,10 +629,12 @@ ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
 ${ANALYTICS_HEAD}
+${METRIKA_HEAD}
 </head>
 <body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+${METRIKA_NOSCRIPT}
 ${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>

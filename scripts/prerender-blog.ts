@@ -17,6 +17,7 @@ import path from 'node:path';
 import fg from 'fast-glob';
 import type { BlogArticle, GlobalSEO, FaqItem, BodyBlock } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
+import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -350,10 +351,12 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
 ${ANALYTICS_HEAD}
+${METRIKA_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${lang === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
@@ -493,10 +496,12 @@ ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ldGraph })}</script>
 ${ANALYTICS_HEAD}
+${METRIKA_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>

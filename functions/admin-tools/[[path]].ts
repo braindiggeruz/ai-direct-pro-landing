@@ -46,11 +46,17 @@ export const onRequest: PagesFunction<{ ASSETS: AssetsBinding }> = async ({ requ
   //   data-tag="gtm"    -> Google Tag Manager (script + noscript iframe)
   //   data-tag="ga"     -> Google Analytics gtag.js inline loader
   //   data-tag="meta"   -> Meta (Facebook) Pixel
+  //   data-tag="ym"     -> Yandex Metrika counter 111312750 (script + noscript
+  //                        pixel). The block also refuses to boot on
+  //                        /admin-tools/* on its own; removing it here means the
+  //                        admin shell never even requests mc.yandex.ru.
   const rewriter = new HTMLRewriter()
     .on('script[data-tag="gtm"]', { element(el) { el.remove(); } })
     .on('script[data-tag="ga"]', { element(el) { el.remove(); } })
     .on('script[data-tag="meta"]', { element(el) { el.remove(); } })
+    .on('script[data-tag="ym"]', { element(el) { el.remove(); } })
     .on('noscript[data-tag="meta"]', { element(el) { el.remove(); } })
+    .on('noscript[data-tag="ym"]', { element(el) { el.remove(); } })
     .on('noscript[data-tag="gtm"]', { element(el) { el.remove(); } });
   return rewriter.transform(new Response(res.body, { status: 200, statusText: 'OK', headers }));
 };

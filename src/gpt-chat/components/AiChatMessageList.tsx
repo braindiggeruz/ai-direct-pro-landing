@@ -86,7 +86,10 @@ export function AiChatMessageList({
   }, [messages]);
 
   return (
-    <div className="relative z-[1] flex-1 space-y-6" data-testid="ai-chat-messages" aria-live="polite">
+    // ym-hide-content: the transcript is user prompts and model answers. It is
+    // masked here as well as on the console, so the class survives if the list
+    // is ever mounted somewhere else.
+    <div className="relative z-[1] flex-1 space-y-6 ym-hide-content" data-testid="ai-chat-messages" aria-live="polite">
       {messages.map((m, i) => (
         <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
           <div

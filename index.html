@@ -233,6 +233,109 @@
         }, true);
       })();
     </script>
+
+    <!-- Yandex Metrika counter 111312750.
+         This block is a byte-for-byte copy of METRIKA_HEAD in
+         scripts/analytics-metrika.ts, which is also what the prerendered pages
+         emit; tests/yandex-metrika.test.ts fails if the two ever drift.
+         Kept unindented for that reason. It boots only on the production public
+         hostnames and never on /admin-tools/*, /admin/*, /api/* — and the
+         catch-all Pages Function strips it from the admin shell by data-tag. -->
+<script data-tag="ym">
+(function(w,d,c){
+  var loc = w.location;
+  var host = loc.hostname || '';
+  // Production public site only. localhost, *.pages.dev previews and the
+  // Telegram Mini App host never load the counter.
+  if (host !== 'gptbot.uz' && host !== 'www.gptbot.uz') return;
+  // Private, technical and authenticated surfaces are never measured. The two
+  // admin consoles also strip this block server-side; this is the client guard.
+  var DENY = ['/admin','/admin-tools','/api','/auth','/oauth','/callback','/cabinet','/account','/reset-password'];
+  function allowed(path){
+    for (var i = 0; i < DENY.length; i++){
+      if (path === DENY[i] || path.indexOf(DENY[i] + '/') === 0) return false;
+    }
+    return true;
+  }
+  if (!allowed(loc.pathname || '/')) return;
+  // One boot per document, whatever else on the page also inserted the tag.
+  if (w.__ymBooted) return;
+  w.__ymBooted = 1;
+
+  // An analytics URL is rebuilt, never forwarded. Only marketing attribution
+  // survives; tokens, codes, contacts, prompts and search text are dropped.
+  // The referer is sanitized without a base, so anything that is not already an
+  // absolute URL is dropped instead of being resolved against this origin.
+  var KEEP = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','yclid','gclid'];
+  function sanitize(href, base){
+    if (!href) return '';
+    try {
+      var u = new URL(href, base);
+      var kept = [];
+      for (var i = 0; i < KEEP.length; i++){
+        var v = u.searchParams.get(KEEP[i]);
+        if (v) kept.push(encodeURIComponent(KEEP[i]) + '=' + encodeURIComponent(v));
+      }
+      return u.origin + u.pathname + (kept.length ? '?' + kept.join('&') : '');
+    } catch (e) { return ''; }
+  }
+
+  // GTM owns dataLayer; keep whatever is already there.
+  w.dataLayer = w.dataLayer || [];
+  w.ym = w.ym || function(){ (w.ym.a = w.ym.a || []).push(arguments); };
+  w.ym.l = 1 * new Date();
+  var src = 'https://mc.yandex.ru/metrika/tag.js?id=' + c;
+  var already = false;
+  for (var j = 0; j < d.scripts.length; j++){ if (d.scripts[j].src === src) { already = true; break; } }
+  if (!already) {
+    var k = d.createElement('script'), a = d.getElementsByTagName('script')[0];
+    k.async = 1; k.src = src;
+    a.parentNode.insertBefore(k, a);
+  }
+  // defer:true suppresses Metrika's automatic first pageview, so every hit is
+  // sent explicitly below from a sanitized URL.
+  w.ym(c, 'init', {defer:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, ecommerce:'dataLayer', ssr:true});
+
+  var last = '';
+  function hit(){
+    if (!allowed(loc.pathname || '/')) return;
+    var url = sanitize(loc.href, loc.origin);
+    // Identical normalized URL twice in a row is a rerender, not a pageview.
+    if (!url || url === last) return;
+    var referer = last || sanitize(d.referrer);
+    last = url;
+    var params = {title: d.title};
+    if (referer) params.referer = referer;
+    try { w.ym(c, 'hit', url, params); } catch (e) {}
+  }
+  hit();
+
+  // SPA navigation. The delay lets the route commit its document.title first.
+  function later(){ setTimeout(hit, 150); }
+  var wrapped = ['pushState','replaceState'];
+  for (var m = 0; m < wrapped.length; m++){
+    (function(name){
+      var original = w.history[name];
+      w.history[name] = function(){ var r = original.apply(this, arguments); later(); return r; };
+    })(wrapped[m]);
+  }
+  w.addEventListener('popstate', later);
+
+  // Goals carry a name and nothing else.
+  function goal(name){ try { w.ym(c, 'reachGoal', name); } catch (e) {} }
+  d.addEventListener('click', function(e){
+    var el = e.target && e.target.closest ? e.target.closest('a,button') : null;
+    if (!el) return;
+    var href = (el.getAttribute && el.getAttribute('href')) || '';
+    if (href.indexOf('t.me/') > -1 || href.indexOf('tg:') === 0) { goal('telegram_cta_click'); return; }
+    if (href.charAt(0) !== '/') return;
+    var target = href.split('?')[0].split('#')[0];
+    if (target.indexOf('/gpt-chat/') > -1 || target.indexOf('/gpt-uzbek-tilida/') > -1) goal('gpt_chat_open');
+    else if (target.indexOf('tarify') > -1 || target.indexOf('narx') > -1) goal('pricing_cta_click');
+  }, true);
+})(window,document,111312750);
+</script>
+    <!-- /Yandex Metrika counter -->
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -240,6 +343,7 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <noscript data-tag="meta"><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=780400781706074&ev=PageView&noscript=1" alt="" /></noscript>
+<noscript data-tag="ym"><div><img src="https://mc.yandex.ru/watch/111312750" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

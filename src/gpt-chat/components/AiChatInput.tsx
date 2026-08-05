@@ -58,7 +58,8 @@ export function AiChatInput({
           rows={1}
           placeholder={t.inputPlaceholder}
           aria-label={t.inputPlaceholder}
-          className="flex-1 resize-none bg-transparent py-2.5 text-[15px] text-white placeholder:text-white/30 outline-none max-h-40 min-h-[24px] leading-relaxed"
+          // ym-disable-keys: Webvisor must never record what is typed here.
+          className="flex-1 resize-none bg-transparent py-2.5 text-[15px] text-white placeholder:text-white/30 outline-none max-h-40 min-h-[24px] leading-relaxed ym-disable-keys"
         />
         {busy && onStop ? (
           <button
