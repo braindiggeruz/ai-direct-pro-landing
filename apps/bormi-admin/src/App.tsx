@@ -15,8 +15,9 @@ import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import { adminApi, hasSession, loginUrl } from './lib/api';
 import { useQuery } from './lib/useQuery';
-import type { OverviewResponse } from './lib/contracts';
-import { AppShell } from './components/AppShell';
+import type { ModerationQueueResponse, OverviewResponse } from './lib/contracts';
+import { AppShell, type NavCounts } from './components/AppShell';
+import { QueueSummaryProvider } from './lib/queues';
 import { Card, ErrorState, Skeleton } from './components/ui';
 
 // One chunk per screen. The shell is what every visit pays for; the rest
@@ -78,6 +79,16 @@ function AuthenticatedApp() {
   // once: is the session real, may this role be here, and is the panel on.
   const { data, error, loading, reload } = useQuery<OverviewResponse>(() => adminApi.overview(), []);
 
+  // The numbers on the rail. One bounded read of the moderation queue asking
+  // for a single row: what is wanted is its `summary`, which carries every
+  // state count plus `open_reports`, and asking for the rows as well would be
+  // fetching a queue on every screen to render two badges.
+  //
+  // It is deliberately not part of the gate above. A rail without its counts is
+  // a rail; a console that will not open because a badge could not be read is
+  // not a console.
+  const queues = useQuery<ModerationQueueResponse>(() => adminApi.moderationQueue(1, 0, 'all'), []);
+
   if (loading) return <Loading />;
   // The exact tokens `requirePlatformRole` denies with, plus the bare status in
   // case a proxy answers before the Function does. Guessing at 'forbidden' —
@@ -112,8 +123,18 @@ function AuthenticatedApp() {
   }
   if (!data.rollout.admin_v2) return <Disabled />;
 
+  // Only counts the server actually reported. `summary` missing a key means the
+  // number is unknown, and unknown renders no badge rather than a calm zero.
+  const summary = queues.data?.summary;
+  const counts: NavCounts = {
+    moderation: summary?.pending,
+    reports: summary?.open_reports,
+    operations: data.orders.open + data.handoffs.open,
+  };
+
   return (
-    <AppShell actorEmail={data.actor.email}>
+    <QueueSummaryProvider value={summary ?? null}>
+    <AppShell actorEmail={data.actor.email} counts={counts} buildId={data.system.build_id}>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Overview />} />
@@ -133,5 +154,6 @@ function AuthenticatedApp() {
         </Routes>
       </Suspense>
     </AppShell>
+    </QueueSummaryProvider>
   );
 }

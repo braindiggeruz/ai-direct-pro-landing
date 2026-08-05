@@ -79,6 +79,7 @@ export default function Categories() {
   return (
     <>
       <PageHeader
+        eyebrow="Контент"
         title="Категории"
         subtitle="Только чтение. Создание и переименование выполняет продавец."
         actions={(

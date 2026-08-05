@@ -532,11 +532,20 @@ test('listings: no dependency was added for a table, a chart or an icon', async 
   const pkg = JSON.parse(await source('apps/bormi-admin/package.json')) as {
     dependencies: Record<string, string>;
   };
+  // Still exact, and still the point of the test: a table, a chart and an icon
+  // are all things this panel draws itself. `motion` is the one addition, made
+  // deliberately for the premium operational UI - the rail's shared active
+  // indicator, the filter tab indicator and the expand rows - and it is named
+  // here so the next one has to be argued for too.
   assert.deepEqual(
     Object.keys(pkg.dependencies).sort(),
-    ['react', 'react-dom', 'react-router'],
+    ['motion', 'react', 'react-dom', 'react-router'],
     'the admin app gained a runtime dependency',
   );
+  // The things this test was written to keep out.
+  for (const rejected of ['react-table', '@tanstack/react-table', 'recharts', 'chart.js', 'lucide-react', '@hugeicons/react']) {
+    assert.equal(pkg.dependencies[rejected], undefined, `${rejected} was installed`);
+  }
 });
 
 test('listings: no migration, and no schema change', async () => {

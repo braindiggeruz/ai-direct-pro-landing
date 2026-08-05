@@ -10,20 +10,31 @@
  * the rail and the header are furniture, and `<main>` is the only element with
  * a scrollbar.
  *
+ * The rail's active indicator is useLayouts' shared-element pattern (MIT, see
+ * THIRD_PARTY_NOTICES.md): one tinted panel and one bar carrying a `layoutId`,
+ * so moving between sections slides a single object instead of blinking a
+ * highlight out in one row and in again in another. It is the one place in the
+ * panel where motion is doing real work — it tells the eye that these nine rows
+ * are one control.
+ *
  * Everything inside is Bormi's: the sections are the ones this marketplace
  * actually has, and a section with no domain behind it is not in the list.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
+import { LayoutGroup, motion, useReducedMotion } from 'motion/react';
 import { FIXTURE_MODE, signOut } from '../lib/api';
 import { SYNTHETIC_NOTICE } from '../lib/fixtures';
 import { SyntheticNotice } from './ui';
+import { cn } from './premium';
 
 export interface NavItem {
   to: string;
   label: string;
   icon: 'overview' | 'listings' | 'moderation' | 'reports' | 'categories' | 'operations'
     | 'access' | 'audit' | 'system';
+  /** Which queue count, if any, belongs on this row. */
+  badge?: 'moderation' | 'reports' | 'operations';
 }
 
 export interface NavGroup {
@@ -52,18 +63,32 @@ export const NAV: NavGroup[] = [
     // already is.
     title: 'Модерация',
     items: [
-      { to: '/moderation', label: 'На модерации', icon: 'moderation' },
-      { to: '/reports', label: 'Жалобы', icon: 'reports' },
+      { to: '/moderation', label: 'На модерации', icon: 'moderation', badge: 'moderation' },
+      { to: '/reports', label: 'Жалобы', icon: 'reports', badge: 'reports' },
     ],
   },
   {
     title: 'Операции',
-    items: [{ to: '/operations', label: 'Заказы и вопросы', icon: 'operations' }],
+    items: [{ to: '/operations', label: 'Заказы и вопросы', icon: 'operations', badge: 'operations' }],
   },
   { title: 'Продавцы', items: [{ to: '/access', label: 'Магазины и доступы', icon: 'access' }] },
   { title: 'Безопасность', items: [{ to: '/audit', label: 'Аудит', icon: 'audit' }] },
   { title: 'Система', items: [{ to: '/system', label: 'Состояние', icon: 'system' }] },
 ];
+
+/**
+ * The numbers on the rail.
+ *
+ * Every one of these is a count the server reported. A badge is drawn only when
+ * the number is greater than zero and only when it is genuinely known: an
+ * absent count renders nothing at all, rather than a reassuring zero on a queue
+ * this build never managed to read.
+ */
+export interface NavCounts {
+  moderation?: number;
+  reports?: number;
+  operations?: number;
+}
 
 const COLLAPSE_KEY = 'bormi_admin_rail';
 /** The width at which the rail stops being a sheet and becomes furniture. */
@@ -167,6 +192,34 @@ function Icon({ name }: { name: NavItem['icon'] }) {
   );
 }
 
+/**
+ * The product mark.
+ *
+ * A plain violet square read as a placeholder, which is roughly what it was.
+ * This is a storefront awning over a counter - the thing Bormi is - drawn on
+ * the same 24 grid as every other icon so the rail has one geometry.
+ */
+function BormiMark({ size = 30 }: { size?: number }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="inline-flex shrink-0 items-center justify-center rounded-[9px] text-white"
+      style={{
+        width: size,
+        height: size,
+        background: 'linear-gradient(145deg, var(--color-bormi-violet) 0%, var(--color-bormi-violet-strong) 100%)',
+        boxShadow: '0 1px 2px rgb(70 37 220 / 35%)',
+      }}
+    >
+      <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 8.5 5.6 4.5h12.8L20 8.5" />
+        <path d="M4 8.5c0 1.5 1.1 2.6 2.5 2.6S9 10 9 8.5c0 1.5 1.1 2.6 2.5 2.6S14 10 14 8.5c0 1.5 1.1 2.6 2.5 2.6S19 10 19 8.5" />
+        <path d="M5.8 11.6V19a.5.5 0 0 0 .5.5h11.4a.5.5 0 0 0 .5-.5v-7.4" />
+      </svg>
+    </span>
+  );
+}
+
 function ThemeToggle() {
   const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
   const apply = (next: boolean) => {
@@ -183,7 +236,7 @@ function ThemeToggle() {
       type="button"
       onClick={() => apply(!dark)}
       aria-pressed={dark}
-      className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-[var(--radius-control)] border border-[var(--border-line)]"
+      className="inline-flex min-h-11 min-w-10 items-center justify-center rounded-[var(--admin-radius-sm)] border border-[var(--admin-border)] transition-colors hover:border-[var(--admin-border-strong)]"
     >
       <span className="sr-only">{dark ? 'Включить светлую тему' : 'Включить тёмную тему'}</span>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
@@ -218,30 +271,63 @@ function environment(): { label: string; tone: string; synthetic: boolean } {
   if (FIXTURE_MODE) {
     return {
       label: 'Синтетические данные',
-      tone: 'border-[var(--tone-warn)] text-[var(--tone-warn)]',
+      tone: 'border-[var(--admin-warn)] bg-[var(--admin-warn-soft)] text-[var(--admin-warn)]',
       synthetic: true,
     };
   }
   const host = window.location.hostname;
   if (host === 'localhost' || host === '127.0.0.1') {
-    return { label: 'Локальная сборка', tone: 'border-[var(--border-line)] muted', synthetic: false };
+    return { label: 'Локальная сборка', tone: 'border-[var(--admin-border)] muted', synthetic: false };
   }
   if (host.endsWith('.pages.dev')) {
-    return { label: 'Preview', tone: 'border-[var(--border-line)] muted', synthetic: false };
+    return { label: 'Preview', tone: 'border-[var(--admin-border)] muted', synthetic: false };
   }
-  return { label: 'Production', tone: 'border-[var(--tone-good)] text-[var(--tone-good)]', synthetic: false };
+  return {
+    label: 'Production',
+    tone: 'border-transparent bg-[var(--admin-good-soft)] text-[var(--admin-good)]',
+    synthetic: false,
+  };
 }
 
-function currentSection(pathname: string): string {
+function currentItem(pathname: string): { group: string; label: string } | null {
   for (const group of NAV) {
     for (const item of group.items) {
-      if (item.to === '/' ? pathname === '/' : pathname.startsWith(item.to)) return item.label;
+      if (item.to === '/' ? pathname === '/' : pathname.startsWith(item.to)) {
+        return { group: group.title, label: item.label };
+      }
     }
   }
-  return 'Bormi Admin';
+  return null;
 }
 
-export function AppShell({ children, actorEmail }: { children: React.ReactNode; actorEmail?: string }) {
+/** A count on the rail, drawn only when there is something to count. */
+function RailBadge({ value, urgent }: { value: number; urgent: boolean }) {
+  return (
+    <span
+      className={cn(
+        'relative z-10 ml-auto inline-flex min-w-5 items-center justify-center rounded-[var(--admin-radius-pill)] px-1.5 text-[11px] font-semibold tabular-nums',
+        urgent
+          ? 'bg-[var(--admin-danger-soft)] text-[var(--admin-danger)]'
+          : 'bg-[var(--admin-surface-subtle)] text-[var(--admin-text-muted)]',
+      )}
+    >
+      {value > 99 ? '99+' : value}
+      <span className="sr-only"> в очереди</span>
+    </span>
+  );
+}
+
+export function AppShell({
+  children,
+  actorEmail,
+  counts,
+  buildId,
+}: {
+  children: React.ReactNode;
+  actorEmail?: string;
+  counts?: NavCounts;
+  buildId?: string | null;
+}) {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(() => {
     try {
@@ -255,6 +341,8 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
   const openButton = useRef<HTMLButtonElement | null>(null);
   const panel = useRef<HTMLElement | null>(null);
   const env = environment();
+  const still = useReducedMotion();
+  const here = currentItem(location.pathname);
 
   const closeSheet = useCallback(() => {
     setOpen(false);
@@ -325,7 +413,7 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
     <div className="flex h-full min-h-0">
       <a
         href="#bormi-admin-main"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-[var(--radius-control)] focus:border focus:border-[var(--border-line)] focus:bg-[var(--surface-paper)] focus:px-3 focus:py-2"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-[var(--admin-radius-sm)] focus:border focus:border-[var(--admin-border)] focus:bg-[var(--admin-surface)] focus:px-3 focus:py-2"
       >
         Перейти к содержимому
       </a>
@@ -335,7 +423,7 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
           type="button"
           aria-label="Закрыть меню"
           onClick={closeSheet}
-          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          className="fixed inset-0 z-30 bg-black/45 lg:hidden"
         />
       ) : null}
 
@@ -359,12 +447,13 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
         role={open ? 'dialog' : undefined}
         aria-modal={open ? true : undefined}
         aria-label="Разделы панели"
-        className={`fixed inset-y-0 left-0 z-40 w-[var(--shell-sidebar)] shrink-0 flex-col border-r border-[var(--border-line)] bg-[var(--surface-paper)] lg:static lg:flex ${railWidth} ${open ? 'flex' : 'hidden'}`}
+        className={`fixed inset-y-0 left-0 z-40 w-[var(--shell-sidebar)] shrink-0 flex-col border-r border-[var(--admin-border)] bg-[var(--admin-surface)] lg:static lg:flex ${railWidth} ${open ? 'flex' : 'hidden'}`}
       >
-        <div className={`flex h-[var(--shell-header)] shrink-0 items-center border-b border-[var(--border-line)] px-3 ${collapsed ? 'lg:justify-center' : ''}`}>
-          <span aria-hidden="true" className="inline-block h-6 w-6 shrink-0 rounded-[7px] bg-[var(--accent)]" />
-          <span className={`ml-2 min-w-0 ${collapsed ? 'lg:hidden' : ''}`}>
-            <span className="block truncate text-sm font-semibold tracking-tight">Bormi Admin</span>
+        <div className={cn('flex h-[var(--shell-header)] shrink-0 items-center gap-2.5 border-b border-[var(--admin-border)] px-3', collapsed && 'lg:justify-center lg:px-0')}>
+          <BormiMark />
+          <span className={cn('min-w-0 leading-tight', collapsed && 'lg:hidden')}>
+            <span className="block truncate text-sm font-semibold tracking-tight">Bormi</span>
+            <span className="muted block truncate text-[11px]">Панель управления</span>
           </span>
           <button
             ref={closeButton}
@@ -381,49 +470,85 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
 
         {/* Scrolls only if the menu is genuinely taller than the rail. */}
         <div className="min-h-0 flex-1 overflow-y-auto px-2 py-3">
-          {NAV.map((group) => (
-            <div key={group.title} className="mb-4">
-              {/*
-                A group label, not a heading. Marking these up as headings puts
-                an h2 above the page h1 in every document, which reads as a
-                broken hierarchy to anyone navigating by headings.
-              */}
-              <div
-                id={`nav-group-${group.title}`}
-                className={`muted px-2 pb-1.5 text-[11px] font-medium tracking-wide uppercase ${collapsed ? 'lg:sr-only' : ''}`}
-              >
-                {group.title}
+          <LayoutGroup id="bormi-rail">
+            {NAV.map((group) => (
+              <div key={group.title} className="mb-3.5">
+                {/*
+                  A group label, not a heading. Marking these up as headings puts
+                  an h2 above the page h1 in every document, which reads as a
+                  broken hierarchy to anyone navigating by headings.
+                */}
+                <div
+                  id={`nav-group-${group.title}`}
+                  className={cn('t-eyebrow px-2 pb-1.5', collapsed && 'lg:sr-only')}
+                >
+                  {group.title}
+                </div>
+                <ul className="space-y-0.5" aria-labelledby={`nav-group-${group.title}`}>
+                  {group.items.map((item) => {
+                    const count = item.badge ? counts?.[item.badge] : undefined;
+                    return (
+                      <li key={item.to}>
+                        <NavLink
+                          to={item.to}
+                          end={item.to === '/'}
+                          className={({ isActive }) => cn(
+                            'rail-item relative flex min-h-11 items-center gap-3 rounded-[var(--admin-radius-sm)] px-2 text-sm transition-colors',
+                            collapsed && 'lg:justify-center lg:px-0',
+                            isActive ? 'nav-active' : 'text-[var(--admin-text)] hover:bg-[var(--admin-surface-subtle)]',
+                          )}
+                          aria-current={location.pathname === item.to ? 'page' : undefined}
+                        >
+                          {({ isActive }) => (
+                            <>
+                              {/* The travelling indicator. One element for the
+                                  whole rail, so it moves rather than blinks. */}
+                              {isActive ? (
+                                <>
+                                  <motion.span
+                                    aria-hidden="true"
+                                    layoutId="rail-active-bg"
+                                    className="nav-active-bg"
+                                    transition={still ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 34, mass: 0.7 }}
+                                  />
+                                  <motion.span
+                                    aria-hidden="true"
+                                    layoutId="rail-active-bar"
+                                    className="nav-active-bar"
+                                    transition={still ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 34, mass: 0.7 }}
+                                  />
+                                </>
+                              ) : null}
+                              <span className="relative z-10 flex shrink-0 items-center"><Icon name={item.icon} /></span>
+                              <span className={cn('relative z-10 min-w-0 truncate', collapsed && 'lg:hidden')}>{item.label}</span>
+                              {typeof count === 'number' && count > 0 && !collapsed ? (
+                                <RailBadge value={count} urgent={item.badge !== 'operations'} />
+                              ) : null}
+                              {collapsed ? <span className="rail-tip hidden lg:block">{item.label}</span> : null}
+                            </>
+                          )}
+                        </NavLink>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
-              <ul className="space-y-0.5" aria-labelledby={`nav-group-${group.title}`}>
-                {group.items.map((item) => (
-                  <li key={item.to}>
-                    <NavLink
-                      to={item.to}
-                      end={item.to === '/'}
-                      className={({ isActive }) => [
-                        'rail-item relative flex min-h-11 items-center gap-3 rounded-[var(--radius-control)] px-2 text-sm',
-                        collapsed ? 'lg:justify-center lg:px-0' : '',
-                        isActive ? 'nav-active' : 'text-[var(--text-primary)]',
-                      ].join(' ')}
-                      aria-current={location.pathname === item.to ? 'page' : undefined}
-                    >
-                      <Icon name={item.icon} />
-                      <span className={collapsed ? 'lg:hidden' : ''}>{item.label}</span>
-                      {collapsed ? <span className="rail-tip hidden lg:block">{item.label}</span> : null}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            ))}
+          </LayoutGroup>
         </div>
 
-        <div className="shrink-0 border-t border-[var(--border-line)] px-2 py-2">
+        {/*
+          The footer, and the one place the previous console is offered. It is
+          below the fold of the menu on purpose: it is an escape hatch, not a
+          tenth section, and listing it among the sections invited an operator
+          to treat the two panels as equals.
+        */}
+        <div className="shrink-0 border-t border-[var(--admin-border)] px-2 py-2">
           <a
             href="/admin-tools/agents"
-            className={`flex min-h-11 items-center gap-3 rounded-[var(--radius-control)] px-2 text-sm ${collapsed ? 'lg:justify-center lg:px-0' : ''}`}
+            className={cn('muted flex min-h-11 items-center gap-3 rounded-[var(--admin-radius-sm)] px-2 text-[13px] transition-colors hover:bg-[var(--admin-surface-subtle)] hover:text-[var(--admin-text)]', collapsed && 'lg:justify-center lg:px-0')}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true" className="shrink-0">
               <path d="M14 4h6v6M20 4l-8 8M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
             </svg>
             <span className={collapsed ? 'lg:hidden' : ''}>Прежняя админка</span>
@@ -432,27 +557,31 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
             type="button"
             onClick={toggleRail}
             aria-pressed={collapsed}
-            className="hidden min-h-11 w-full items-center gap-3 rounded-[var(--radius-control)] px-2 text-sm lg:flex"
+            className="muted hidden min-h-11 w-full items-center gap-3 rounded-[var(--admin-radius-sm)] px-2 text-[13px] transition-colors hover:bg-[var(--admin-surface-subtle)] hover:text-[var(--admin-text)] lg:flex"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true" className="shrink-0">
               {collapsed ? <path d="M9 6l6 6-6 6" /> : <path d="M15 6l-6 6 6 6" />}
             </svg>
             <span className={collapsed ? 'lg:hidden' : ''}>Свернуть меню</span>
             <span className="sr-only">{collapsed ? 'Развернуть меню' : 'Свернуть меню'}</span>
           </button>
+          {/* Which build is on screen, where a release engineer looks first. */}
+          <p className={cn('muted mt-1 truncate px-2 text-[11px]', collapsed && 'lg:hidden')}>
+            {buildId ?? 'сборка не указана'}
+          </p>
         </div>
       </nav>
 
       {/* While the sheet is a modal, the page behind it is not there to read. */}
       <div className="flex min-w-0 flex-1 flex-col" aria-hidden={open ? true : undefined}>
-        <header className="flex h-[var(--shell-header)] shrink-0 items-center gap-2 border-b border-[var(--border-line)] bg-[var(--surface-paper)] px-3 sm:px-4">
+        <header className="flex h-[var(--shell-header)] shrink-0 items-center gap-2 border-b border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 sm:px-5">
           <button
             ref={openButton}
             type="button"
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="bormi-admin-nav"
-            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-[var(--radius-control)] border border-[var(--border-line)] lg:hidden"
+            className="inline-flex min-h-11 min-w-10 shrink-0 items-center justify-center rounded-[var(--admin-radius-sm)] border border-[var(--admin-border)] lg:hidden"
           >
             <span className="sr-only">Открыть меню</span>
             <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.7" fill="none" aria-hidden="true">
@@ -460,7 +589,24 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
             </svg>
           </button>
 
-          <p className="min-w-0 flex-1 truncate text-sm font-medium">{currentSection(location.pathname)}</p>
+          {/*
+            Where you are, as a trail rather than a single word. The group is
+            the context an operator needs to know whether "На модерации" is a
+            content screen or a queue, and it costs one line of markup.
+          */}
+          <nav aria-label="Хлебные крошки" className="min-w-0 flex-1">
+            <ol className="flex min-w-0 items-center gap-1.5 text-sm">
+              {here ? (
+                <>
+                  <li className="muted hidden shrink-0 sm:block">{here.group}</li>
+                  <li aria-hidden="true" className="muted hidden shrink-0 sm:block">/</li>
+                  <li className="min-w-0 truncate font-medium" aria-current="page">{here.label}</li>
+                </>
+              ) : (
+                <li className="min-w-0 truncate font-medium">Bormi Admin</li>
+              )}
+            </ol>
+          </nav>
 
           {/*
             A production or preview label is a convenience and may be dropped
@@ -470,9 +616,11 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
             real.
           */}
           <span
-            className={`shrink-0 items-center rounded-[var(--radius-pill)] border px-2 py-0.5 text-xs ${
-              env.synthetic ? 'inline-flex' : 'hidden sm:inline-flex'
-            } ${env.tone}`}
+            className={cn(
+              'shrink-0 items-center rounded-[var(--admin-radius-pill)] border px-2.5 py-1 text-xs font-medium',
+              env.synthetic ? 'inline-flex' : 'hidden sm:inline-flex',
+              env.tone,
+            )}
             data-testid="admin-environment"
           >
             {env.label}
@@ -485,14 +633,20 @@ export function AppShell({ children, actorEmail }: { children: React.ReactNode; 
           The one scroll region in the whole application. It takes focus from
           the skip link, which otherwise moves the caret nowhere and leaves the
           next Tab back at the top of the navigation it was trying to skip.
+
+          The inner wrapper caps the working area. Past about 1560px a table
+          stops getting denser and starts making the eye travel, and the row an
+          operator is reading loses its left edge.
         */}
         <main
           id="bormi-admin-main"
           tabIndex={-1}
-          className="app-scroll min-w-0 flex-1 px-4 py-5 sm:px-6"
+          className="app-scroll min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8"
         >
-          {FIXTURE_MODE ? <SyntheticNotice text={SYNTHETIC_NOTICE} /> : null}
-          {children}
+          <div className="mx-auto w-full max-w-[var(--shell-content-max)]">
+            {FIXTURE_MODE ? <SyntheticNotice text={SYNTHETIC_NOTICE} /> : null}
+            {children}
+          </div>
         </main>
       </div>
     </div>
@@ -545,11 +699,11 @@ function OwnerMenu({ actorEmail, synthetic }: { actorEmail?: string; synthetic: 
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls="bormi-admin-owner"
-        className="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-control)] border border-[var(--border-line)] px-2 text-sm"
+        className="inline-flex min-h-11 items-center gap-2 rounded-[var(--admin-radius-sm)] border border-[var(--admin-border)] px-2 text-sm transition-colors hover:border-[var(--admin-border-strong)]"
       >
         <span
           aria-hidden="true"
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--surface-soft)] text-xs"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--admin-primary-soft)] text-xs font-semibold text-[var(--admin-primary)]"
         >
           {(label[0] ?? '?').toUpperCase()}
         </span>
@@ -559,7 +713,7 @@ function OwnerMenu({ actorEmail, synthetic }: { actorEmail?: string; synthetic: 
         <div
           ref={menu}
           id="bormi-admin-owner"
-          className="surface absolute right-0 z-50 mt-1 w-64 p-2"
+          className="surface-raised absolute right-0 z-50 mt-1 w-64 p-2"
         >
           <div className="px-2 py-1.5">
             <p className="text-sm font-medium">{label}</p>
@@ -571,14 +725,14 @@ function OwnerMenu({ actorEmail, synthetic }: { actorEmail?: string; synthetic: 
           </div>
           <a
             href="/admin-tools/agents"
-            className="flex min-h-11 items-center rounded-[var(--radius-control)] px-2 text-sm"
+            className="flex min-h-11 items-center rounded-[var(--admin-radius-sm)] px-2 text-sm transition-colors hover:bg-[var(--admin-surface-subtle)]"
           >
             Прежняя админка
           </a>
           <button
             type="button"
             onClick={signOut}
-            className="flex min-h-11 w-full items-center rounded-[var(--radius-control)] px-2 text-left text-sm text-[var(--tone-bad)]"
+            className="flex min-h-11 w-full items-center rounded-[var(--admin-radius-sm)] px-2 text-left text-sm text-[var(--admin-danger)] transition-colors hover:bg-[var(--admin-danger-soft)]"
           >
             Выйти
           </button>

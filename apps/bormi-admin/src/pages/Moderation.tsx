@@ -35,15 +35,21 @@ import {
   CardTitle,
   EmptyState,
   ErrorState,
-  FilterSelect,
+  // FilterSelect is gone from this screen: the state filter is the tab bar in
+  // the header, and two controls writing one parameter can disagree on screen.
   Freshness,
-  Metric,
   PageHeader,
-  StatusStrip,
   TableFrame,
   Td,
   Th,
 } from '../components/ui';
+import {
+  Bento,
+  BentoCard,
+  DiscreteTabs,
+  cn,
+  type TabOption,
+} from '../components/premium';
 
 const PAGE_SIZE = 25;
 
@@ -118,6 +124,7 @@ export default function Moderation() {
   return (
     <>
       <PageHeader
+        eyebrow="Модерация"
         title="На модерации"
         subtitle={readOnly
           ? 'Очередь объявлений частных продавцов. У вашей роли только чтение.'
@@ -129,48 +136,56 @@ export default function Moderation() {
             onRefresh={queue.reload}
           />
         )}
+        /*
+          The five moderation states as tabs, each carrying the count the server
+          reported. This replaces a dropdown whose option labels had the counts
+          glued on - a filter whose values you had to open a menu to compare.
+          Every value here is one the server takes, plus `all`, which it reads
+          as no filter.
+        */
+        filters={(
+          <DiscreteTabs
+            label="Фильтр по состоянию"
+            controls="moderation-queue"
+            value={state}
+            onChange={setState}
+            options={[
+              ...Object.entries(MODERATION_STATE).map(([value, text]): TabOption<string> => ({
+                value,
+                label: text,
+                count: summary[value] ?? 0,
+              })),
+              { value: 'all', label: 'Все' },
+            ]}
+          />
+        )}
       />
 
       {summary.pending > 0 ? (
-        <StatusStrip
-          tone={summary.open_reports > 0 ? 'warn' : 'good'}
-          title={`Ждут решения: ${count(summary.pending)}`}
-          detail={summary.open_reports > 0
-            ? `Открытых жалоб — ${count(summary.open_reports)}`
-            : 'Открытых жалоб нет.'}
-        />
+        <Bento className="mb-4">
+          <BentoCard span={12} tone={summary.open_reports > 0 ? 'warn' : 'good'} index={0}>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="t-eyebrow">Очередь</p>
+                <h2 className="t-section mt-1">Ждут решения: {count(summary.pending)}</h2>
+                <p className="t-meta mt-1">
+                  Порядок — от самых давних: объявление, поданное первым, ждёт дольше всех.
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="t-eyebrow">Открытых жалоб</p>
+                <p className={cn('t-metric mt-1', summary.open_reports > 0 && 'text-[var(--admin-danger)]')}>
+                  {count(summary.open_reports ?? 0)}
+                </p>
+              </div>
+            </div>
+          </BentoCard>
+        </Bento>
       ) : null}
 
-      <div className="mb-6 grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <Metric label="На модерации" value={count(summary.pending ?? 0)} tone="warn" />
-        <Metric label="Одобрено" value={count(summary.approved ?? 0)} tone="good" />
-        <Metric label="Отклонено" value={count(summary.rejected ?? 0)} />
-        <Metric
-          label="Ограничено и снято"
-          value={count((summary.restricted ?? 0) + (summary.removed ?? 0))}
-        />
-      </div>
-
-      <Card className="mb-4">
-        <FilterSelect
-          label="Состояние"
-          value={state}
-          onChange={setState}
-          options={[
-            ...Object.entries(MODERATION_STATE).map(([value, text]) => ({
-              value,
-              label: `${text} — ${count(summary[value] ?? 0)}`,
-            })),
-            { value: 'all', label: 'Все состояния' },
-          ]}
-        />
-        <p className="muted mt-3 text-xs">
-          Фильтрует сервер по всей очереди, а не загруженную страницу. Порядок —
-          от самых давних: объявление, поданное первым, ждёт дольше всех.
-        </p>
-      </Card>
-
+      {/* The region the state tabs point at. */}
       <Card>
+        <div id="moderation-queue" role="tabpanel" tabIndex={-1} aria-label="Очередь модерации">
         <CardTitle hint={`Страница по ${PAGE_SIZE} объявлений. Нажмите «Открыть», чтобы принять решение.`}>
           Очередь
         </CardTitle>
@@ -338,6 +353,7 @@ export default function Moderation() {
             </nav>
           </>
         )}
+        </div>
       </Card>
 
       <p className="muted mt-4 text-xs">Данные на {exactTime(data.generated_at)}</p>

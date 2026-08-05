@@ -4,12 +4,15 @@
  * Bormi Admin design layer.
  *
  * The shell owes its shape to TailAdmin (MIT) - a fixed sidebar, a thin sticky
- * header, cards on a quiet canvas. It owes its colour to Bormi: the violet the
- * Mini App already uses for action, lime kept for one thing (something is
- * genuinely good) and coral for one thing (something needs a person). A
- * marketplace console that paints every panel in the brand colour tells the
- * reader nothing, so almost all of this file is neutral surface, and colour is
- * spent only where it carries meaning.
+ * header, cards on a quiet canvas - and its motion and composition grammar to
+ * useLayouts (MIT, see THIRD_PARTY_NOTICES.md): the shared-element active
+ * indicator, the bento grid of unequal cards, the command button that reports
+ * its own state. It owes its colour to Bormi: the violet the Mini App already
+ * uses for action, lime kept for one thing (something is genuinely good) and
+ * coral for one thing (something needs a person). A marketplace console that
+ * paints every panel in the brand colour tells the reader nothing, so almost
+ * all of this file is neutral surface, and colour is spent only where it
+ * carries meaning.
  *
  * Status is never colour alone. Every badge carries a word, and the colour is
  * the second signal - which is what makes the panel legible to somebody who
@@ -25,19 +28,19 @@
   --color-bormi-coral: #ff7669;
 
   /* Surfaces. Light is paper on a faintly violet canvas; dark is ink. */
-  --color-canvas: #f7f6fb;
+  --color-canvas: #f6f5fa;
   --color-paper: #ffffff;
   --color-soft: #efedf7;
-  --color-line: #dedbe8;
+  --color-line: #e3e0ec;
   --color-ink: #17151f;
-  --color-muted: #666171;
+  --color-muted: #605b6e;
 
-  --color-canvas-dark: #121017;
-  --color-paper-dark: #1c1924;
-  --color-soft-dark: #282431;
-  --color-line-dark: #3d3748;
+  --color-canvas-dark: #0f0e14;
+  --color-paper-dark: #191720;
+  --color-soft-dark: #24212e;
+  --color-line-dark: #332e3f;
   --color-ink-dark: #fbf9ff;
-  --color-muted-dark: #b8b2c2;
+  --color-muted-dark: #b4aec0;
 
   /* Meaning, not decoration. Contrast-checked against both surfaces. */
   --color-good: #14774d;
@@ -46,19 +49,22 @@
   --color-warn-dark: #f4c860;
   --color-bad: #b62b35;
   --color-bad-dark: #ff8e84;
+  --color-info: #1f5f9e;
+  --color-info-dark: #82c2f5;
 
   /* Three radii, not ten. */
-  --radius-card: 12px;
-  --radius-control: 8px;
+  --radius-card: 14px;
+  --radius-control: 9px;
   --radius-pill: 999px;
-
-  --shadow-card: 0 1px 2px rgb(23 21 31 / 4%), 0 8px 24px rgb(61 43 122 / 6%);
 
   /* Shell geometry, in one place so the header, the sidebar and the scroll
      region cannot disagree about how tall or wide each other are. */
   --shell-header: 64px;
-  --shell-sidebar: 264px;
-  --shell-sidebar-collapsed: 76px;
+  --shell-sidebar: 252px;
+  --shell-sidebar-collapsed: 72px;
+  /* The console is read in columns. Past this width a table stops being denser
+     and starts being a walk for the eye, so the working area stops growing. */
+  --shell-content-max: 1560px;
 
   /* Row and control heights. A console is read in columns; when rows differ by
      two pixels the eye has to re-find the line every time. */
@@ -72,30 +78,116 @@
 }
 
 @layer base {
+  /*
+   * One naming scheme for the whole panel.
+   *
+   * Everything a screen is allowed to paint with is an `--admin-*` custom
+   * property, and every one of them is defined once here for light and once
+   * for dark. Screens never reach for a raw hex or a Tailwind palette colour,
+   * which is the only reason the dark theme can be a list of overrides rather
+   * than a second stylesheet nobody remembers to update.
+   *
+   * The `-soft` tones are the tinted fills behind badges, status rows and the
+   * one card on a screen that is genuinely urgent. They are separate tokens
+   * rather than an opacity applied to the solid tone, because a translucent
+   * fill takes its final colour from whatever is behind it - which on a card
+   * on a canvas is two different colours, and neither was contrast-checked.
+   */
   :root {
-    --surface-canvas: var(--color-canvas);
-    --surface-paper: var(--color-paper);
-    --surface-soft: var(--color-soft);
-    --border-line: var(--color-line);
-    --text-primary: var(--color-ink);
-    --text-secondary: var(--color-muted);
-    --tone-good: var(--color-good);
-    --tone-warn: var(--color-warn);
-    --tone-bad: var(--color-bad);
-    --accent: var(--color-bormi-violet);
+    --admin-canvas: var(--color-canvas);
+    --admin-surface: var(--color-paper);
+    --admin-surface-raised: #ffffff;
+    --admin-surface-subtle: var(--color-soft);
+    --admin-border: var(--color-line);
+    --admin-border-strong: #cbc6d8;
+
+    --admin-text: var(--color-ink);
+    --admin-text-muted: var(--color-muted);
+    /* Measured, not guessed: #7d7789 was 4.31:1 on white, which is below AA for
+       normal text. This is 4.9:1. The subtle tone is the quietest thing the
+       console may print, so it is the one most worth checking. */
+    --admin-text-subtle: #6f6a7d;
+
+    --admin-primary: var(--color-bormi-violet);
+    --admin-primary-hover: var(--color-bormi-violet-strong);
+    --admin-primary-soft: #eeeaff;
+    --admin-primary-contrast: #ffffff;
+
+    --admin-good: var(--color-good);
+    --admin-good-soft: #e2f5ec;
+    --admin-warn: var(--color-warn);
+    --admin-warn-soft: #fbf0d8;
+    --admin-danger: var(--color-bad);
+    --admin-danger-soft: #fdeaec;
+    --admin-info: var(--color-info);
+    --admin-info-soft: #e6f1fb;
+
+    --admin-radius-sm: var(--radius-control);
+    --admin-radius-md: var(--radius-card);
+    --admin-radius-lg: 20px;
+
+    /* Two elevations. A console with five is a console where nothing is
+       actually raised. */
+    --admin-shadow-sm: 0 1px 2px rgb(23 21 31 / 5%), 0 1px 3px rgb(61 43 122 / 4%);
+    --admin-shadow-md: 0 2px 4px rgb(23 21 31 / 4%), 0 12px 28px rgb(61 43 122 / 8%);
+
+    /* Kept so nothing written against the old names breaks mid-redesign. */
+    --surface-canvas: var(--admin-canvas);
+    --surface-paper: var(--admin-surface);
+    --surface-soft: var(--admin-surface-subtle);
+    --border-line: var(--admin-border);
+    --text-primary: var(--admin-text);
+    --text-secondary: var(--admin-text-muted);
+    --tone-good: var(--admin-good);
+    --tone-warn: var(--admin-warn);
+    --tone-bad: var(--admin-danger);
+    --accent: var(--admin-primary);
+    --shadow-card: var(--admin-shadow-sm);
   }
 
   .dark {
-    --surface-canvas: var(--color-canvas-dark);
-    --surface-paper: var(--color-paper-dark);
-    --surface-soft: var(--color-soft-dark);
-    --border-line: var(--color-line-dark);
-    --text-primary: var(--color-ink-dark);
-    --text-secondary: var(--color-muted-dark);
-    --tone-good: var(--color-good-dark);
-    --tone-warn: var(--color-warn-dark);
-    --tone-bad: var(--color-bad-dark);
-    --accent: #9a88ff;
+    --admin-canvas: var(--color-canvas-dark);
+    --admin-surface: var(--color-paper-dark);
+    --admin-surface-raised: #201d29;
+    --admin-surface-subtle: var(--color-soft-dark);
+    --admin-border: var(--color-line-dark);
+    --admin-border-strong: #464054;
+
+    --admin-text: var(--color-ink-dark);
+    --admin-text-muted: var(--color-muted-dark);
+    --admin-text-subtle: #918a9f;
+
+    --admin-primary: #a693ff;
+    --admin-primary-hover: #bcaeff;
+    --admin-primary-soft: #272040;
+    --admin-primary-contrast: #17151f;
+
+    --admin-good: var(--color-good-dark);
+    --admin-good-soft: #14301f;
+    --admin-warn: var(--color-warn-dark);
+    --admin-warn-soft: #33270c;
+    --admin-danger: var(--color-bad-dark);
+    --admin-danger-soft: #3a1c1e;
+    --admin-info: var(--color-info-dark);
+    --admin-info-soft: #12293d;
+
+    /* On ink, a drop shadow is invisible and a border is the only thing that
+       separates one surface from another, so elevation leans on the border and
+       the shadow only deepens the canvas beneath. */
+    --admin-shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+    --admin-shadow-md: 0 4px 8px rgb(0 0 0 / 34%), 0 16px 36px rgb(0 0 0 / 34%);
+
+    --surface-canvas: var(--admin-canvas);
+    --surface-paper: var(--admin-surface);
+    --surface-soft: var(--admin-surface-subtle);
+    --border-line: var(--admin-border);
+    --text-primary: var(--admin-text);
+    --text-secondary: var(--admin-text-muted);
+    --tone-good: var(--admin-good);
+    --tone-warn: var(--admin-warn);
+    --tone-bad: var(--admin-danger);
+    --accent: var(--admin-primary);
+    --shadow-card: var(--admin-shadow-sm);
   }
 
   /*
@@ -121,10 +213,11 @@
   body {
     margin: 0;
     overflow: hidden;
-    background: var(--surface-canvas);
-    color: var(--text-primary);
+    background: var(--admin-canvas);
+    color: var(--admin-text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   /* The one scroll region, and the only element allowed to own a scrollbar. */
@@ -137,37 +230,150 @@
   /* Visible focus everywhere, including for the keyboard-only operator who
      never touches a pointer. */
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--admin-primary);
     outline-offset: 2px;
     border-radius: 4px;
   }
 
+  /*
+   * Motion is opt-in per element and off entirely for anyone who asked.
+   *
+   * `!important` and a near-zero duration rather than `none`: Motion drives its
+   * springs in JavaScript and finishes on a transitionend/animationend that a
+   * duration of zero can swallow, leaving an element stuck at its initial
+   * opacity. The components below also read the same preference in JS and skip
+   * their entrance entirely, so this rule is the second line of defence and
+   * not the only one.
+   */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }
 
 @layer components {
+  /*
+   * The type scale.
+   *
+   * The panel is read on a 1440-wide desktop for most of its life, and the
+   * first version was set at phone sizes on that screen: a page title the same
+   * size as a table cell, and metadata below the size at which the muted
+   * colour still passes contrast. These are the six sizes the console has.
+   */
+  .t-page {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 640;
+  }
+
+  @media (min-width: 1280px) {
+    .t-page { font-size: 1.75rem; }
+  }
+
+  .t-page-sub {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--admin-text-muted);
+  }
+
+  .t-section {
+    font-size: 1rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    font-weight: 620;
+  }
+
+  /* The one number a card exists to show. `tabular-nums` so a column of them
+     does not shuffle sideways as the digits change on refresh. */
+  .t-metric {
+    font-size: 1.875rem;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-weight: 660;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 1280px) {
+    .t-metric { font-size: 2.125rem; }
+  }
+
+  .t-metric-sm {
+    font-size: 1.375rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 640;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .t-body { font-size: 0.875rem; line-height: 1.55; }
+  .t-meta { font-size: 0.8125rem; line-height: 1.45; color: var(--admin-text-muted); }
+
+  /* An eyebrow above a title. Uppercase and tracked, never below 11px, and
+     never in the subtle tone - small caps at low contrast is the single most
+     common way a console becomes unreadable at 200% zoom. */
+  .t-eyebrow {
+    font-size: 0.6875rem;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--admin-text-muted);
+  }
+
   .surface {
-    background: var(--surface-paper);
-    border: 1px solid var(--border-line);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-md);
+    box-shadow: var(--admin-shadow-sm);
+  }
+
+  /*
+   * A card that is worth looking at before the others.
+   *
+   * The lift is two pixels and the shadow deepens one step. useLayouts moves
+   * its bento card further and faster; on a marketing page that reads as
+   * craft, and on a console where the operator is moving a pointer across a
+   * grid of twelve cards it reads as the page flinching.
+   */
+  .surface-raised {
+    background: var(--admin-surface-raised);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-md);
+    box-shadow: var(--admin-shadow-md);
+  }
+
+  .surface-interactive {
+    transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 180ms ease;
+  }
+
+  @media (hover: hover) {
+    .surface-interactive:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--admin-shadow-md);
+      border-color: var(--admin-border-strong);
+    }
+  }
+
+  .surface-interactive:focus-within {
+    border-color: var(--admin-border-strong);
   }
 
   .muted {
-    color: var(--text-secondary);
+    color: var(--admin-text-muted);
   }
 
   /* One skeleton, used by every screen, so loading always looks the same. */
   .skeleton {
-    background: var(--surface-soft);
-    border-radius: var(--radius-control);
+    background: var(--admin-surface-subtle);
+    border-radius: var(--admin-radius-sm);
     animation: skeleton 1.4s ease-in-out infinite;
   }
 
@@ -196,12 +402,12 @@
     transform: translateY(-50%);
     z-index: 50;
     white-space: nowrap;
-    border-radius: var(--radius-control);
-    border: 1px solid var(--border-line);
-    background: var(--surface-paper);
-    padding: 4px 8px;
+    border-radius: var(--admin-radius-sm);
+    border: 1px solid var(--admin-border);
+    background: var(--admin-surface-raised);
+    padding: 5px 9px;
     font-size: 12px;
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--admin-shadow-md);
     opacity: 0;
     pointer-events: none;
   }
@@ -211,22 +417,38 @@
     opacity: 1;
   }
 
-  /* The active section. A quiet tint plus a bar, rather than a filled pill:
-     the eye needs to find it, not be shouted at by it every time. */
+  /*
+   * The active section.
+   *
+   * A tinted panel and a bar, rather than a filled pill: the eye needs to find
+   * it, not be shouted at by it every time. The bar itself is a shared layout
+   * element in the rail (useLayouts' `layoutId` pattern), so it travels between
+   * sections instead of blinking out and back - which is what makes a rail feel
+   * like one object rather than nine independent buttons. The static rule here
+   * is what a reduced-motion visitor and the first paint both get.
+   */
   .nav-active {
-    background: var(--surface-soft);
-    color: var(--accent);
-    font-weight: 500;
+    color: var(--admin-primary);
+    font-weight: 560;
   }
 
-  .nav-active::before {
-    content: '';
+  /* Rendered behind the label so the moving indicator never sits over text. */
+  .nav-active-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: var(--admin-radius-sm);
+    background: var(--admin-primary-soft);
+  }
+
+  .nav-active-bar {
     position: absolute;
     left: 0;
-    top: 6px;
-    bottom: 6px;
+    top: 8px;
+    bottom: 8px;
+    z-index: 1;
     width: 3px;
     border-radius: 0 3px 3px 0;
-    background: var(--accent);
+    background: var(--admin-primary);
   }
 }

@@ -421,6 +421,7 @@ export default function ListingDetail() {
   return (
     <>
       <PageHeader
+        eyebrow="Контент"
         title={listing.name}
         subtitle="Только чтение. Изменения вносит продавец в своём кабинете."
         actions={(

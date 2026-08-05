@@ -85,6 +85,7 @@ export default function QuestionDetail() {
   return (
     <>
       <PageHeader
+        eyebrow="Операции"
         title="Обращение покупателя"
         subtitle="Только чтение. Отвечает и закрывает продавец."
         actions={(

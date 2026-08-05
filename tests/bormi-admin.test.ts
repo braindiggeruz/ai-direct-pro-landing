@@ -355,8 +355,21 @@ test('admin: the heavy half of TailAdmin was never installed', async () => {
   ]) {
     assert.ok(!(rejected in all), `${rejected} was installed without a screen that needs it`);
   }
-  // Runtime dependencies are the three Bormi already ships, at Bormi versions.
-  assert.deepEqual(Object.keys(pkg.dependencies).sort(), ['react', 'react-dom', 'react-router']);
+  // Runtime dependencies are the three Bormi already ships, at Bormi versions,
+  // plus `motion`.
+  //
+  // `motion` is listed rather than allowed by a pattern, and the list stays
+  // exact, because the property this test protects is not "few dependencies" —
+  // it is that every one of them was a decision. It arrived with the premium
+  // operational UI to drive the rail's shared active indicator, the filter tab
+  // indicator and the expand/collapse rows; it is already used elsewhere in
+  // this repository at the same major version. It costs ~44 kB gzip in its own
+  // chunk, which is the trade that was made and is worth re-examining if that
+  // chunk ever grows.
+  assert.deepEqual(
+    Object.keys(pkg.dependencies).sort(),
+    ['motion', 'react', 'react-dom', 'react-router'],
+  );
   assert.equal(pkg.dependencies.react, '19.2.7');
   assert.equal(pkg.dependencies['react-router'], '8.3.0');
 });

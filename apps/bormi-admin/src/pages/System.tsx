@@ -111,6 +111,7 @@ export default function System() {
   return (
     <>
       <PageHeader
+        eyebrow="Система"
         title="Состояние системы"
         subtitle="Только чтение. Флаги переключаются коммитом конфигурации и деплоем."
         actions={<Freshness fetchedAt={fetchedAt} refreshing={refreshing} onRefresh={reload} />}

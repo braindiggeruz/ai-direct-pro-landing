@@ -8,14 +8,22 @@
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-export type Tone = 'neutral' | 'good' | 'warn' | 'bad' | 'accent';
+/**
+ * The tones anything on the panel may be painted in.
+ *
+ * One list, and `premium.tsx` re-exports this one rather than declaring a
+ * second - two Tone types that differ by a single member is a compile error
+ * every time a badge is handed a card's tone, which is exactly what happened.
+ */
+export type Tone = 'neutral' | 'good' | 'warn' | 'bad' | 'accent' | 'info';
 
 const TONE_TEXT: Record<Tone, string> = {
-  neutral: 'text-[var(--text-secondary)]',
-  good: 'text-[var(--tone-good)]',
-  warn: 'text-[var(--tone-warn)]',
-  bad: 'text-[var(--tone-bad)]',
-  accent: 'text-[var(--accent)]',
+  neutral: 'text-[var(--admin-text-muted)]',
+  good: 'text-[var(--admin-good)]',
+  warn: 'text-[var(--admin-warn)]',
+  bad: 'text-[var(--admin-danger)]',
+  accent: 'text-[var(--admin-primary)]',
+  info: 'text-[var(--admin-info)]',
 };
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -70,12 +78,21 @@ export function Metric({
   );
 }
 
+/**
+ * A badge is a tinted chip now rather than an outlined one.
+ *
+ * The outline version was almost invisible against a card at a glance, which
+ * made a table of statuses read as a table of grey words. The fill carries the
+ * tone and the border keeps the shape legible in high-contrast mode, where
+ * background colours are the first thing the browser throws away.
+ */
 const BADGE_TONE: Record<Tone, string> = {
-  neutral: 'border-[var(--border-line)] text-[var(--text-secondary)]',
-  good: 'border-[var(--tone-good)]/40 text-[var(--tone-good)]',
-  warn: 'border-[var(--tone-warn)]/40 text-[var(--tone-warn)]',
-  bad: 'border-[var(--tone-bad)]/40 text-[var(--tone-bad)]',
-  accent: 'border-[var(--accent)]/40 text-[var(--accent)]',
+  neutral: 'border-[var(--admin-border)] bg-[var(--admin-surface-subtle)] text-[var(--admin-text-muted)]',
+  good: 'border-transparent bg-[var(--admin-good-soft)] text-[var(--admin-good)]',
+  warn: 'border-transparent bg-[var(--admin-warn-soft)] text-[var(--admin-warn)]',
+  bad: 'border-transparent bg-[var(--admin-danger-soft)] text-[var(--admin-danger)]',
+  accent: 'border-transparent bg-[var(--admin-primary-soft)] text-[var(--admin-primary)]',
+  info: 'border-transparent bg-[var(--admin-info-soft)] text-[var(--admin-info)]',
 };
 
 /**
@@ -363,24 +380,47 @@ export function Td({
   );
 }
 
+/**
+ * The band at the top of every screen.
+ *
+ * One shape for all eleven, so moving between them does not feel like moving
+ * between applications. `premium.tsx` exports `ScreenHeader`, which is this
+ * with the same props under a name that says what it is; both render this
+ * markup, so a change to the console's masthead is a change in one place.
+ *
+ * The type sizes come from the scale in `styles.css` rather than from Tailwind
+ * steps chosen per screen. The first version set a page title at `text-lg` -
+ * 18px, two pixels above a table cell - which is why a 1440-wide console read
+ * as a phone screen that had been stretched.
+ */
 export function PageHeader({
+  eyebrow,
   title,
   subtitle,
   actions,
+  filters,
 }: {
+  /** The section this screen belongs to, repeated from the rail. */
+  eyebrow?: string;
   title: string;
   subtitle?: string;
   actions?: ReactNode;
+  /** Controls that belong to the whole screen, on their own line. */
+  filters?: ReactNode;
 }) {
   // A div, not a header: the shell already owns the one banner landmark on the
   // page, and a second one gives a screen reader two places called "header".
   return (
-    <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
-      <div className="min-w-0">
-        <h1 className="text-lg font-semibold tracking-tight sm:text-xl">{title}</h1>
-        {subtitle ? <p className="muted mt-1 text-sm">{subtitle}</p> : null}
+    <div className="mb-5">
+      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
+        <div className="min-w-0">
+          {eyebrow ? <p className="t-eyebrow mb-1.5">{eyebrow}</p> : null}
+          <h1 className="t-page">{title}</h1>
+          {subtitle ? <p className="t-page-sub mt-1.5 max-w-2xl">{subtitle}</p> : null}
+        </div>
+        {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
       </div>
-      {actions}
+      {filters ? <div className="mt-4 flex flex-wrap items-center gap-3">{filters}</div> : null}
     </div>
   );
 }

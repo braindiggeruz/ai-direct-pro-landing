@@ -88,6 +88,7 @@ export default function OrderDetail() {
   return (
     <>
       <PageHeader
+        eyebrow="Операции"
         title={`Заказ ${order.reference}`}
         subtitle="Только чтение. Подтверждает, отменяет и возвращает продавец."
         actions={(

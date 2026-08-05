@@ -148,6 +148,7 @@ export default function Operations() {
   return (
     <>
       <PageHeader
+        eyebrow="Операции"
         title="Заказы и вопросы"
         subtitle="Только чтение. Подтверждает заказ и отвечает покупателю продавец."
         actions={(

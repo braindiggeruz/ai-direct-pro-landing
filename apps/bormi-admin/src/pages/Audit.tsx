@@ -89,6 +89,7 @@ export default function Audit() {
   return (
     <>
       <PageHeader
+        eyebrow="Безопасность"
         title="Аудит"
         subtitle="Действия владельца и операторов. Запись только добавляется — изменить или удалить событие нельзя."
         actions={<Freshness fetchedAt={fetchedAt} refreshing={refreshing} onRefresh={reload} />}

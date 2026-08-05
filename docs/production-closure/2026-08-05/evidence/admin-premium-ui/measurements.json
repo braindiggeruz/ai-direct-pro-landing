@@ -1,0 +1,832 @@
+{
+  "synthetic": true,
+  "base": "http://localhost:5183",
+  "screens": 9,
+  "viewports": [
+    "1920",
+    "1440",
+    "1280",
+    "390",
+    "320"
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "frames": 90,
+  "horizontalOverflow": [],
+  "undersizedTargets": [],
+  "verdict": "PASS",
+  "measurements": [
+    {
+      "screen": "command-center",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "1920",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "1440",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "1280",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "390",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "320",
+      "theme": "light",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "1920",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1920,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "1440",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1440,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "1280",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "390",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    },
+    {
+      "screen": "command-center",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Командный центр"
+    },
+    {
+      "screen": "access",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Магазины и доступы"
+    },
+    {
+      "screen": "listings",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Объявления"
+    },
+    {
+      "screen": "moderation",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "На модерации"
+    },
+    {
+      "screen": "reports",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Жалобы"
+    },
+    {
+      "screen": "categories",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Категории"
+    },
+    {
+      "screen": "operations",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Заказы и вопросы"
+    },
+    {
+      "screen": "audit",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Аудит"
+    },
+    {
+      "screen": "system",
+      "viewport": "320",
+      "theme": "dark",
+      "horizontalOverflow": false,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "h1": "Состояние системы"
+    }
+  ]
+}

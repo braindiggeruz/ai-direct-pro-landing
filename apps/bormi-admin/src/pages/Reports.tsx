@@ -37,7 +37,6 @@ import {
   Drawer,
   EmptyState,
   ErrorState,
-  FilterSelect,
   Freshness,
   PageHeader,
   StatusStrip,
@@ -45,6 +44,7 @@ import {
   Td,
   Th,
 } from '../components/ui';
+import { DiscreteTabs, type TabOption } from '../components/premium';
 import { moderationTone } from './Moderation';
 
 const PAGE_SIZE = 25;
@@ -279,6 +279,7 @@ export default function Reports() {
   return (
     <>
       <PageHeader
+        eyebrow="Модерация"
         title="Жалобы"
         subtitle={readOnly
           ? 'Что покупатели сообщили об объявлениях. У вашей роли только чтение.'
@@ -290,6 +291,26 @@ export default function Reports() {
             onRefresh={queue.reload}
           />
         )}
+        /* The report states the server takes, plus `all`. No counts: the
+           reports endpoint returns a page and a total for the state it was
+           asked about, and it does not report the other states - a number
+           invented for the tabs would be the one kind of lie this console
+           does not tell. */
+        filters={(
+          <DiscreteTabs
+            label="Фильтр по состоянию жалобы"
+            controls="reports-queue"
+            value={status}
+            onChange={setStatus}
+            options={[
+              ...Object.entries(REPORT_STATUS).map(([value, text]): TabOption<string> => ({
+                value,
+                label: text,
+              })),
+              { value: 'all', label: 'Все' },
+            ]}
+          />
+        )}
       />
 
       <StatusStrip
@@ -298,24 +319,9 @@ export default function Reports() {
         detail="Ни личность подавшего, ни его текст не входят в этот ответ сервера. Модератор действует по причине из закрытого списка."
       />
 
-      <Card className="mb-4">
-        <FilterSelect
-          label="Состояние жалобы"
-          value={status}
-          onChange={setStatus}
-          options={[
-            ...Object.entries(REPORT_STATUS).map(([value, text]) => ({ value, label: text })),
-            { value: 'all', label: 'Все состояния' },
-          ]}
-        />
-        <p className="muted mt-3 text-xs">
-          Фильтрует сервер. Порядок — от самых давних: жалоба, поданная первой,
-          ждёт дольше всех.
-        </p>
-      </Card>
-
       <Card>
-        <CardTitle hint={`Страница по ${PAGE_SIZE} жалоб.`}>Очередь жалоб</CardTitle>
+        <div id="reports-queue" role="tabpanel" tabIndex={-1} aria-label="Очередь жалоб">
+        <CardTitle hint={`Страница по ${PAGE_SIZE} жалоб. Порядок — от самых давних.`}>Очередь жалоб</CardTitle>
 
         {rows.length === 0 ? (
           status === 'open' ? (
@@ -457,6 +463,7 @@ export default function Reports() {
             </nav>
           </>
         )}
+        </div>
       </Card>
 
       <p className="muted mt-4 text-xs">Данные на {exactTime(data.generated_at)}</p>

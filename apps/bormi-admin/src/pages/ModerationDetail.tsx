@@ -61,6 +61,7 @@ import {
   PageHeader,
   StatusStrip,
 } from '../components/ui';
+import { DynamicToolbar, StatusButton, cn } from '../components/premium';
 import { moderationTone } from './Moderation';
 
 /** Mirrors `MAX_NOTE_LENGTH` in the moderation module. */
@@ -267,53 +268,59 @@ function Decisions({
 
   return (
     <Card className="mt-4">
-      <CardTitle hint="Решение выполняет сервер и в той же транзакции пишет его в аудит.">
-        Решение
-      </CardTitle>
+      {/*
+        The contextual command surface for this one listing - useLayouts'
+        dynamic toolbar (MIT, see THIRD_PARTY_NOTICES.md). It carries the
+        outcome of the last decision underneath the buttons rather than as two
+        separate strips above them, so the answer appears where the question
+        was asked.
 
-      {outcome ? (
-        <div className="mb-3">
-          <StatusStrip
-            tone="good"
-            title={outcome === 'applied' ? 'Решение применено' : 'Решение уже было применено'}
-            detail="Запись в аудите создана. Экран перечитан с сервера."
-          />
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="mb-3">
-          <StatusStrip
-            tone="bad"
-            title="Решение не применено"
-            detail={label(MODERATION_ERROR, error)}
-          />
-        </div>
-      ) : null}
-
-      {available.length === 0 ? (
-        <p className="muted text-sm">
-          Для состояния «{label(MODERATION_STATE, listing.state)}» решений нет.
-          Переходов обратно в очередь модерации не существует.
-        </p>
-      ) : (
-        <div className="flex flex-wrap gap-2">
-          {available.map((decision) => (
+        Nothing here is a `StatusButton`: these open a confirmation, they do not
+        run a command. A button that reported "Готово" for opening a dialog
+        would be the exact dishonesty the status button exists to avoid. The one
+        that does run the command is inside the drawer below.
+      */}
+      <DynamicToolbar
+        title="Решение"
+        hint="Решение выполняет сервер и в той же транзакции пишет его в аудит."
+        status={
+          error
+            ? { tone: 'bad', text: `Решение не применено: ${label(MODERATION_ERROR, error)}` }
+            : outcome
+              ? {
+                tone: 'good',
+                text: outcome === 'applied'
+                  ? 'Решение применено. Запись в аудите создана, экран перечитан с сервера.'
+                  : 'Решение уже было применено. Экран перечитан с сервера.',
+              }
+              : null
+        }
+      >
+        {available.length === 0 ? (
+          <p className="muted text-sm">
+            Для состояния «{label(MODERATION_STATE, listing.state)}» решений нет.
+            Переходов обратно в очередь модерации не существует.
+          </p>
+        ) : (
+          available.map((decision) => (
             <button
               key={decision.key}
               type="button"
               onClick={() => start(decision.key)}
-              className={`min-h-11 rounded-[var(--radius-control)] border px-3 text-sm ${
+              className={cn(
+                'inline-flex min-h-11 items-center rounded-[var(--admin-radius-sm)] border px-4 text-sm font-medium transition-colors',
                 decision.tone === 'bad'
-                  ? 'border-[var(--tone-bad)] text-[var(--tone-bad)]'
-                  : 'border-[var(--border-line)]'
-              }`}
+                  ? 'border-[var(--admin-danger)] text-[var(--admin-danger)] hover:bg-[var(--admin-danger-soft)]'
+                  : decision.key === 'approve'
+                    ? 'border-transparent bg-[var(--admin-primary)] text-[var(--admin-primary-contrast)] hover:bg-[var(--admin-primary-hover)]'
+                    : 'border-[var(--admin-border)] hover:border-[var(--admin-border-strong)]',
+              )}
             >
               {decision.label}
             </button>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </DynamicToolbar>
 
       <p className="muted mt-3 text-xs">
         Массовых решений нет: каждое принимается по одному объявлению, с причиной
@@ -377,15 +384,23 @@ function Decisions({
             </p>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button
-              type="button"
+          {/*
+            The one control that runs the command, so the one that reports its
+            own state. `success` is reachable only from `outcome`, which is set
+            after the server answered - never on a timer, which is what the
+            useLayouts original does and what a moderation console must not.
+          */}
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <StatusButton
+              state={pending ? 'loading' : error ? 'error' : outcome ? 'success' : 'idle'}
               onClick={() => { void run(); }}
-              disabled={pending || (active.reasonRequired && !reason)}
-              className="min-h-11 rounded-[var(--radius-control)] border border-[var(--border-line)] px-4 text-sm disabled:opacity-40"
+              disabled={active.reasonRequired && !reason}
+              variant={active.tone === 'bad' ? 'secondary' : 'primary'}
+              tone={active.tone === 'bad' ? 'bad' : undefined}
+              labels={{ loading: 'Применяем…', success: 'Применено', error: 'Не применено' }}
             >
-              {pending ? 'Применяем…' : active.label}
-            </button>
+              {active.label}
+            </StatusButton>
             <button
               type="button"
               onClick={close}
@@ -463,6 +478,7 @@ export default function ModerationDetail() {
   return (
     <>
       <PageHeader
+        eyebrow="Модерация"
         title={listing.name}
         subtitle="Объявление частного продавца. Решение публикует или скрывает его для покупателей."
         actions={(

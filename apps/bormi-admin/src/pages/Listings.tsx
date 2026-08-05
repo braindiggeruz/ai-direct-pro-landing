@@ -48,15 +48,36 @@ import {
   ErrorState,
   FilterSelect,
   Freshness,
-  Metric,
-  PageHeader,
-  StatusStrip,
   TableFrame,
   Td,
   Th,
 } from '../components/ui';
+import {
+  Bento,
+  BentoCard,
+  DiscreteTabs,
+  ScreenHeader,
+  TONE_SOFT,
+  cn,
+  type TabOption,
+} from '../components/premium';
 
 const PAGE_SIZE = 25;
+
+/**
+ * The four views of the catalogue, as tabs rather than a seventh dropdown.
+ *
+ * These are the same values the server's `status` filter takes - the tab bar
+ * writes one of them into the URL and the next request carries it. A decorative
+ * tab bar over a client-side slice would be lying about what it searched, which
+ * is the rule the rest of this screen already follows.
+ */
+const STATUS_TABS: readonly { value: string; label: string; key: 'published' | 'draft' | 'archived' | null }[] = [
+  { value: '', label: 'Все', key: null },
+  { value: 'published', label: 'Опубликованные', key: 'published' },
+  { value: 'draft', label: 'Черновики', key: 'draft' },
+  { value: 'archived', label: 'В архиве', key: 'archived' },
+];
 
 /** Tone by status, so colour repeats the word rather than replacing it. */
 function statusTone(status: string): 'good' | 'neutral' | 'warn' {
@@ -162,8 +183,8 @@ export default function Listings() {
   if (listings.loading) {
     return (
       <>
-        <PageHeader title="Объявления" />
-        <div className="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <ScreenHeader eyebrow="Контент" title="Объявления" />
+        <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[0, 1, 2, 3].map((index) => <div key={index} className="skeleton h-24 w-full" />)}
         </div>
         <div className="skeleton mb-4 h-20 w-full" />
@@ -174,7 +195,7 @@ export default function Listings() {
   if (listings.error || !listings.data) {
     return (
       <>
-        <PageHeader title="Объявления" />
+        <ScreenHeader eyebrow="Контент" title="Объявления" />
         <Card><ErrorState code={listings.error ?? 'unknown'} onRetry={listings.reload} /></Card>
       </>
     );
@@ -195,7 +216,8 @@ export default function Listings() {
 
   return (
     <>
-      <PageHeader
+      <ScreenHeader
+        eyebrow="Контент"
         title="Объявления"
         subtitle="Только чтение. Публикация и правка остаются в кабинете продавца."
         actions={(
@@ -205,30 +227,60 @@ export default function Listings() {
             onRefresh={listings.reload}
           />
         )}
+        filters={(
+          <DiscreteTabs
+            label="Фильтр по статусу"
+            controls="listings-table"
+            value={filters.status ?? ''}
+            onChange={(value) => set('status', value)}
+            options={STATUS_TABS.map((tab): TabOption<string> => ({
+              value: tab.value,
+              label: tab.label,
+              // The count belongs to the whole catalogue, which is what the
+              // server reports in `summary`; it does not change as the tab
+              // changes, and that is the point of showing it on the tab.
+              count: tab.key === null ? summary.total : summary.by_status[tab.key],
+            }))}
+          />
+        )}
       />
 
+      {/*
+        Attention, as one line above the table rather than a strip plus four
+        tiles. The tiles repeated numbers the tabs now carry, and the strip and
+        the tiles together took the whole first screen - on the one page whose
+        job is to show the catalogue.
+      */}
       {summary.attention > 0 ? (
-        <StatusStrip
-          tone={summary.quality.no_photo > 0 || summary.quality.no_category > 0 ? 'warn' : 'good'}
-          title={`Требуют внимания: ${count(summary.attention)}`}
-          detail={[
-            summary.quality.no_photo > 0 ? `без фото — ${count(summary.quality.no_photo)}` : null,
-            summary.quality.no_category > 0 ? `без категории — ${count(summary.quality.no_category)}` : null,
-            summary.quality.no_description > 0 ? `без описания — ${count(summary.quality.no_description)}` : null,
-            summary.quality.unavailable > 0 ? `нет в наличии — ${count(summary.quality.unavailable)}` : null,
-          ].filter(Boolean).join(' · ')}
-        />
+        <Bento className="mb-4">
+          <BentoCard span={12} tone="warn" index={0}>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="t-eyebrow">Качество карточек</p>
+                <h2 className="t-section mt-1">Требуют внимания: {count(summary.attention)}</h2>
+              </div>
+              <ul className="flex flex-wrap gap-2">
+                {([
+                  ['без фото', summary.quality.no_photo],
+                  ['без категории', summary.quality.no_category],
+                  ['без описания', summary.quality.no_description],
+                  ['нет в наличии', summary.quality.unavailable],
+                ] as const)
+                  .filter(([, value]) => value > 0)
+                  .map(([text, value]) => (
+                    <li
+                      key={text}
+                      className={cn('inline-flex items-center gap-1.5 rounded-[var(--admin-radius-pill)] px-2.5 py-1 text-xs', TONE_SOFT.warn)}
+                    >
+                      {text}
+                      <span className="font-semibold tabular-nums">{count(value)}</span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          </BentoCard>
+        </Bento>
       ) : null}
-
-      {/* Two columns even at 320: four full-width tiles filled the whole first
-          screen and pushed the catalogue below the fold, which is the one thing
-          this screen exists to show. */}
-      <div className="mb-6 grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <Metric label="Всего карточек" value={count(summary.total)} />
-        <Metric label="Опубликовано" value={count(summary.by_status.published)} tone="good" />
-        <Metric label="Черновики" value={count(summary.by_status.draft)} />
-        <Metric label="В архиве" value={count(summary.by_status.archived)} />
-      </div>
 
       <Card className="mb-4">
         {/*
@@ -266,15 +318,8 @@ export default function Listings() {
               className="min-h-11 rounded-[var(--radius-control)] border border-[var(--border-line)] bg-[var(--surface-paper)] px-3 text-sm"
             />
           </div>
-          <FilterSelect
-            label="Статус"
-            value={filters.status ?? ''}
-            onChange={(value) => set('status', value)}
-            options={[
-              { value: '', label: 'Все статусы' },
-              ...Object.entries(LISTING_STATUS).map(([value, text]) => ({ value, label: text })),
-            ]}
-          />
+          {/* Status is the tab bar in the header now. Two controls writing the
+              same parameter is two controls that can disagree on screen. */}
           <FilterSelect
             label="Категория"
             value={filters.category ?? ''}
@@ -338,7 +383,10 @@ export default function Listings() {
         </details>
       </Card>
 
+      {/* The region the status tabs point at, so a screen reader is told the
+          two are connected rather than left to infer it from proximity. */}
       <Card>
+        <div id="listings-table" role="tabpanel" tabIndex={-1} aria-label="Каталог">
         <CardTitle hint={`Страница по ${PAGE_SIZE} карточек. Нажмите «Открыть», чтобы посмотреть карточку.`}>
           Каталог
         </CardTitle>
@@ -505,6 +553,7 @@ export default function Listings() {
             </nav>
           </>
         )}
+        </div>
       </Card>
 
       <p className="muted mt-4 text-xs">Данные на {exactTime(data.generated_at)}</p>
