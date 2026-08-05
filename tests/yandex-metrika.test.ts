@@ -135,6 +135,33 @@ test('metrika: one boot inserts one tag.js and calls init once, with defer', () 
   assert.equal(settings.ecommerce, 'dataLayer');
 });
 
+test('metrika: init is handed the sanitised URL, because tag.js pings on its own', () => {
+  // tag.js sends watch/…?nohit=1 for uid sync as soon as it loads, and builds
+  // that request's page-url from the address bar unless init supplies one.
+  // defer:true does not stop it. This is the only lever that keeps a raw query
+  // string out of that request.
+  const h = harness({ search: '?utm_source=yandex&token=SECRET&phone=%2B998901234567' });
+  h.run();
+  const settings = inits(h.calls)[0][2] as Record<string, unknown>;
+  assert.equal(settings.url, 'https://gptbot.uz/ru/tarify-ai-chat/?utm_source=yandex');
+  for (const leak of ['token', 'SECRET', 'phone', '998901234567']) {
+    assert.ok(!String(settings.url).includes(leak), `"${leak}" reached init.url`);
+  }
+});
+
+test('metrika: init carries the sanitised referrer, and omits it when there is none', () => {
+  const dirty = harness({ referrer: 'https://yandex.uz/search/?text=gptbot&utm_source=ya&token=abc' });
+  dirty.run();
+  assert.equal(
+    (inits(dirty.calls)[0][2] as Record<string, unknown>).referrer,
+    'https://yandex.uz/search/?utm_source=ya',
+  );
+
+  const none = harness({ referrer: '' });
+  none.run();
+  assert.equal((inits(none.calls)[0][2] as Record<string, unknown>).referrer, undefined);
+});
+
 test('metrika: a second execution in the same document does not boot twice', () => {
   const h = harness();
   h.run();

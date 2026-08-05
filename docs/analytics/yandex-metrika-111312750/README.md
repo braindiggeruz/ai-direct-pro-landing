@@ -63,6 +63,16 @@ requests `mc.yandex.ru`.
 Metrika's own automatic first hit. Every pageview is then sent explicitly with a
 URL this code rebuilt.
 
+**`init` is also handed the sanitised `url` and `referrer`.** This is not
+decoration and it was found the hard way. `tag.js` sends a request of its own as
+soon as it loads — `watch/<counter>?nohit=1`, the uid/ad-network sync — and it
+builds that request's `page-url` from the address bar. `defer:true` does **not**
+suppress it; it only suppresses the automatic *pageview*. Without the `url` and
+`referrer` init options, a visitor arriving at a public page with anything
+sensitive in the query string would have that raw string transmitted to Yandex
+even though every pageview this code sends is clean. Passing the sanitised
+values into `init` is the only lever that closes it.
+
 **URLs are rebuilt, never forwarded.** A hit URL is `origin + pathname` plus a
 closed marketing allowlist — `utm_source`, `utm_medium`, `utm_campaign`,
 `utm_content`, `utm_term`, `yclid`, `gclid`. The fragment is dropped by
@@ -182,3 +192,19 @@ Then a public page must return `Content-Security-Policy` containing
 `https://mc.yandex.ru` and carry two `data-tag="ym"` occurrences, while
 `/admin-tools/` must carry zero. On a non-production hostname the page must load
 with `window.ym === undefined` and zero requests to `mc.yandex.ru`.
+
+The node tests cannot see what `tag.js` itself sends, so the `nohit=1` request
+above is only observable against the real counter on production. Load a public
+page with a deliberately dirty query string and read every request the counter
+made:
+
+```js
+performance.getEntriesByType('resource')
+  .filter((r) => r.name.includes('mc.yandex.ru/watch'))
+  .map((r) => decodeURIComponent(r.name));
+```
+
+**Every** entry — the `nohit=1` sync, the hit, and the activity beacon — must
+carry only `origin + pathname` and the marketing allowlist. If a raw query
+string appears in any of them, the `url` / `referrer` init options have stopped
+working and the leak is live again.

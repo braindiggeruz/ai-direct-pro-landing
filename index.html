@@ -280,6 +280,15 @@
     } catch (e) { return ''; }
   }
 
+  // tag.js does not only send the hits this code asks for: on load it fires its
+  // own uid-sync request (watch/…?nohit=1), and it builds that request's
+  // page-url from the address bar unless init hands it a URL. defer:true does
+  // not suppress it — it only suppresses the automatic pageview. So the
+  // sanitized url and referer are passed into init as well, which is the only
+  // way the raw query string stays out of that first request too.
+  var initUrl = '';
+  var initReferrer = '';
+
   // GTM owns dataLayer; keep whatever is already there.
   w.dataLayer = w.dataLayer || [];
   w.ym = w.ym || function(){ (w.ym.a = w.ym.a || []).push(arguments); };
@@ -294,7 +303,12 @@
   }
   // defer:true suppresses Metrika's automatic first pageview, so every hit is
   // sent explicitly below from a sanitized URL.
-  w.ym(c, 'init', {defer:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, ecommerce:'dataLayer', ssr:true});
+  initUrl = sanitize(loc.href, loc.origin);
+  initReferrer = sanitize(d.referrer);
+  var settings = {defer:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, ecommerce:'dataLayer', ssr:true};
+  if (initUrl) settings.url = initUrl;
+  if (initReferrer) settings.referrer = initReferrer;
+  w.ym(c, 'init', settings);
 
   var last = '';
   function hit(){
