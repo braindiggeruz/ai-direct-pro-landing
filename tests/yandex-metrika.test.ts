@@ -111,10 +111,23 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // ── identity and init ────────────────────────────────────────────────────────
 
-test('metrika: the counter is 111312750 and it appears exactly once in the tag', () => {
+test('metrika: the counter is 111312750', () => {
   assert.equal(YANDEX_METRIKA_COUNTER_ID, COUNTER);
-  assert.equal((METRIKA_HEAD.match(/111312750/g) ?? []).length, 1);
   assert.match(METRIKA_HEAD, /mc\.yandex\.ru\/metrika\/tag\.js/);
+});
+
+test("metrika: the tag carries the canonical snippet's literal fingerprints", () => {
+  // Yandex reports "счётчик не установлен" from a source scan, not from the
+  // data it is already receiving. Building the src by concatenation and passing
+  // the id through an IIFE parameter made the counter invisible to that scan
+  // while the counter itself was live and accepting hits. The id therefore
+  // stays a literal in both places the check looks at.
+  assert.match(METRIKA_HEAD, /src = 'https:\/\/mc\.yandex\.ru\/metrika\/tag\.js\?id=111312750';/);
+  assert.match(METRIKA_HEAD, /w\.ym\(111312750, 'init', settings\);/);
+  assert.ok(!METRIKA_HEAD.includes("tag.js?id=' +"), 'the tag.js URL is concatenated again');
+  assert.ok(!/w\.ym\(c,/.test(METRIKA_HEAD), 'the counter id is passed as a variable again');
+  // The noscript pixel is the third place a scan can find the counter.
+  assert.match(METRIKA_NOSCRIPT, /mc\.yandex\.ru\/watch\/111312750/);
 });
 
 test('metrika: one boot inserts one tag.js and calls init once, with defer', () => {

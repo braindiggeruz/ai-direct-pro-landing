@@ -158,7 +158,30 @@ suite checks both.
 
 ---
 
-## 7. Known, deliberate gaps
+## 7. Why the counter id stays a literal
+
+Yandex decides whether a counter is "installed" partly by **scanning the page
+source** for the canonical snippet — not only by the data it is already
+receiving. An earlier revision built the script URL by concatenation
+(`'…tag.js?id=' + c`) and passed the id into the IIFE as a parameter
+(`ym(c, 'init', …)`). The result: the counter was live, `Ya._metrika.counters`
+held `111312750:0`, hits returned HTTP 200 — and Yandex still reported the
+counter as not installed, because neither `tag.js?id=111312750` nor
+`ym(111312750` appeared anywhere in the HTML.
+
+So the id is written out in full in all three places a scan can look:
+
+- `var src = 'https://mc.yandex.ru/metrika/tag.js?id=111312750';`
+- `w.ym(111312750, 'init', settings);`
+- the `noscript` pixel, `mc.yandex.ru/watch/111312750`
+
+A test fails if either of the first two is ever refactored back into a
+variable. This costs nothing at runtime — the tag behaves identically — and it
+is the difference between Yandex seeing the installation and not.
+
+---
+
+## 8. Known, deliberate gaps
 
 **`public/404.html` is not measured.** It is a static hand-written file that
 carries no analytics at all — GTM, gtag and the Meta Pixel are absent from it
@@ -174,7 +197,7 @@ setting is inert until someone does.
 
 ---
 
-## 8. How to verify
+## 9. How to verify
 
 ```bash
 npm run test:metrika

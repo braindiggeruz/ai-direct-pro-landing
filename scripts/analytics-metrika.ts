@@ -68,7 +68,7 @@ export const YANDEX_METRIKA_GOALS = [
 // Kept as literal text rather than interpolated so the block is greppable and
 // so the copy in index.html can be compared against this one byte for byte.
 export const METRIKA_HEAD = `<script data-tag="ym">
-(function(w,d,c){
+(function(w,d){
   var loc = w.location;
   var host = loc.hostname || '';
   // Production public site only. localhost, *.pages.dev previews and the
@@ -119,7 +119,7 @@ export const METRIKA_HEAD = `<script data-tag="ym">
   w.dataLayer = w.dataLayer || [];
   w.ym = w.ym || function(){ (w.ym.a = w.ym.a || []).push(arguments); };
   w.ym.l = 1 * new Date();
-  var src = 'https://mc.yandex.ru/metrika/tag.js?id=' + c;
+  var src = 'https://mc.yandex.ru/metrika/tag.js?id=111312750';
   var already = false;
   for (var j = 0; j < d.scripts.length; j++){ if (d.scripts[j].src === src) { already = true; break; } }
   if (!already) {
@@ -134,7 +134,7 @@ export const METRIKA_HEAD = `<script data-tag="ym">
   var settings = {defer:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, ecommerce:'dataLayer', ssr:true};
   if (initUrl) settings.url = initUrl;
   if (initReferrer) settings.referrer = initReferrer;
-  w.ym(c, 'init', settings);
+  w.ym(111312750, 'init', settings);
 
   var last = '';
   function hit(){
@@ -146,7 +146,7 @@ export const METRIKA_HEAD = `<script data-tag="ym">
     last = url;
     var params = {title: d.title};
     if (referer) params.referer = referer;
-    try { w.ym(c, 'hit', url, params); } catch (e) {}
+    try { w.ym(111312750, 'hit', url, params); } catch (e) {}
   }
   hit();
 
@@ -162,7 +162,7 @@ export const METRIKA_HEAD = `<script data-tag="ym">
   w.addEventListener('popstate', later);
 
   // Goals carry a name and nothing else.
-  function goal(name){ try { w.ym(c, 'reachGoal', name); } catch (e) {} }
+  function goal(name){ try { w.ym(111312750, 'reachGoal', name); } catch (e) {} }
   d.addEventListener('click', function(e){
     var el = e.target && e.target.closest ? e.target.closest('a,button') : null;
     if (!el) return;
@@ -173,7 +173,7 @@ export const METRIKA_HEAD = `<script data-tag="ym">
     if (target.indexOf('/gpt-chat/') > -1 || target.indexOf('/gpt-uzbek-tilida/') > -1) goal('gpt_chat_open');
     else if (target.indexOf('tarify') > -1 || target.indexOf('narx') > -1) goal('pricing_cta_click');
   }, true);
-})(window,document,111312750);
+})(window,document);
 </script>`;
 
 /**
