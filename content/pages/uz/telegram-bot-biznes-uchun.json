@@ -9,7 +9,9 @@
     "buyurtma bot",
     "Telegram chatbot",
     "Telegram avtomatlashtirish",
-    "Telegram lid bot"
+    "Telegram lid bot",
+    "telegram bot buyurtma O‘zbekiston",
+    "telegram bot buyurtma qilish"
   ],
   "searchIntent": "commercial",
   "h1": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
@@ -69,11 +71,11 @@
     },
     {
       "type": "h2",
-      "text": "To'lovni qabul qilish va buyurtmalar"
+      "text": "Telegram bot orqali O‘zbekistonda buyurtma qabul qilish"
     },
     {
       "type": "p",
-      "text": "Telegram chat ichida to'lovni qo'llab-quvvatlaydi, shuning uchun mijoz mahsulot tanlab, buyurtma rasmiylashtirib, messenjerdan chiqmasdan to'lovni amalga oshirishi mumkin. Bot buyurtmani qayd etadi va sizga uzatadi — internet-do'kon, yetkazib berish va xizmatlar uchun qulay."
+      "text": "Telegram bot buyurtma jarayonini O‘zbekiston biznesi uchun bitta oqimga yig‘adi: mijoz katalog yoki xizmatni tanlaydi, kontakt va yetkazib berish ma’lumotini tasdiqlaydi, kerak bo‘lsa to‘lovga o‘tadi. Bot buyurtmani raqam bilan qayd etib, menejer yoki CRM’ga uzatadi; internet-do‘kon, yetkazib berish va xizmatlar uchun mos."
     },
     {
       "type": "h2",
@@ -226,7 +228,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-08-20",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-08-20"
 }

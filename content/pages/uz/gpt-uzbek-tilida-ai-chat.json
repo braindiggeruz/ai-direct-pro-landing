@@ -10,6 +10,8 @@
     "ai chat o‘zbek tilida",
     "gpt uzbekcha",
     "chatgpt o‘zbek tilida",
+    "chatgpt tarjima",
+    "chatgpt o‘zbekcha tarjima",
     "sun’iy intellekt chat",
     "Uzbek Latin AI"
   ],
@@ -57,8 +59,8 @@
 
     { "type": "h2", "id": "matn-tarjima", "text": "GPT o‘zbekcha matn yozish va tarjimada qanday yordam beradi?" },
     { "type": "p", "text": "GPT bir xil model bilan turli matn vazifalarini bajaradi: maqola va post yozish, mavzuni tushuntirish, matnni qisqartirish, uslubni o‘zgartirish yoki bir necha variant taklif qilish. Natijani tayyor emas, balki ishchi qoralama sifatida ko‘ring — uni inson tekshiradi va moslashtiradi." },
-    { "type": "h3", "text": "Tarjima: ruscha, o‘zbekcha va Uzbek Latin" },
-    { "type": "p", "text": "AI chat rus tilidan o‘zbek tiliga va aksincha tarjima qilishga yordam beradi. Faqat «tarjima qil» demasdan, auditoriya va ohangni ham yozing. Masalan: «Rus tilidagi matnni Uzbek Latin formatida tabiiy reklama uslubiga aylantir, yangi fakt qo‘shma». Muhim nashrlar uchun terminlar, ma’no va tabiiylikni tekshiring." },
+    { "type": "h3", "text": "ChatGPT tarjima: ruscha, o‘zbekcha va Uzbek Latin" },
+    { "type": "p", "text": "ChatGPT tarjima vazifasida rus tilidan o‘zbek tiliga va aksincha matn tayyorlashga yordam beradi. Faqat «tarjima qil» demasdan, auditoriya, ohang va yozuv turini ham ko‘rsating. Masalan: «Rus tilidagi matnni Uzbek Latin formatida tabiiy reklama uslubiga aylantir, yangi fakt qo‘shma». Muhim nashrlar uchun terminlar, ma’no va tabiiylikni inson tekshirishi kerak." },
 
     { "type": "h2", "text": "Prompt nima va nega muhim?" },
     { "type": "p", "text": "Prompt (so‘rov) — bu modelga yuboriladigan ko‘rsatma. Yaxshi prompt uzun bo‘lishi shart emas: u vazifani aniq tushuntirishi kerak — qanday natija kerak, kim uchun, qaysi formatda va qanday cheklov bilan. Prompt model ishlaydigan chegaralarni belgilaydi, shuning uchun javob aniqligi aynan unga bog‘liq." },
@@ -179,7 +181,7 @@
     { "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari", "locale": "uz", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "lastReviewedAt": "2026-07-30",
+  "lastReviewedAt": "2026-08-20",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-08-20"
 }

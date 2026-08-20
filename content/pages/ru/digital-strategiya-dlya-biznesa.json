@@ -34,7 +34,7 @@
     {"type":"h2","text":"Кто участвует со стороны бизнеса"},
     {"type":"p","text":"Для точной стратегии нужен не только маркетолог. Владелец или руководитель задаёт экономические границы, продажи объясняют качество и причины отказов, продукт подтверждает возможности, а техническая команда оценивает внедрение. Один ответственный собирает решения и не позволяет документу распасться между подразделениями."},
     {"type":"list","items":["Руководитель подтверждает цели и ограничения.","Продажи согласуют определение квалифицированного лида.","Маркетинг предоставляет историю каналов и контента.","Продукт проверяет обещания и доказательства.","Технический владелец оценивает сайт, интеграции и данные."]},
-    {"type":"linkp","text":"Стратегия может быть внедрена вашей командой или стать основой {full}.","links":[{"token":"full","target":"/ru/digital-marketing-tashkent/","anchor":"комплексного digital-маркетинга"}]},
+    {"type":"linkp","text":"Стратегия может быть внедрена вашей командой или стать основой {full}. Единые доказательства, процесс и формулировки предложения удобно собрать в {kit}, чтобы продажи и маркетинг объясняли ценность одинаково.","links":[{"token":"full","target":"/ru/digital-marketing-tashkent/","anchor":"комплексного digital-маркетинга"},{"token":"kit","target":"/ru/blog/chto-takoe-marketing-kit/","anchor":"маркетинг-ките компании"}]},
     {"type":"cta","text":"Заказать разработку стратегии","href":"https://t.me/XGame_changerx"}
   ],
   "faq":[
@@ -47,6 +47,6 @@
     {"q":"Как оценивается результат стратегии?","a":"По качеству решений и внедрения: появились ли единые цели, отслеживание, приоритеты, управляемые тесты и связь маркетинга с продажами."},
     {"q":"Можно ли обновить существующую стратегию?","a":"Да. Начинаем с аудита результатов и отделяем актуальные решения от гипотез, которые рынок уже опроверг."}
   ],
-  "internalLinks":[{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте","locale":"ru","type":"contextual","priority":1},{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит","locale":"ru","type":"contextual","priority":2},{"target":"/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/","anchor":"digital-стратегия в Узбекистане","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/plan-digital-marketinga-na-90-dney/","anchor":"план digital-маркетинга на 90 дней","locale":"ru","type":"contextual","priority":4}],
-  "schemaTypes":["Organization","WebSite","BreadcrumbList","Service","FAQPage"],"lastReviewedAt":"2026-07-30","createdAt":"2026-07-30","updatedAt":"2026-07-30"
+  "internalLinks":[{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте","locale":"ru","type":"contextual","priority":1},{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит","locale":"ru","type":"contextual","priority":2},{"target":"/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/","anchor":"digital-стратегия в Узбекистане","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/plan-digital-marketinga-na-90-dney/","anchor":"план digital-маркетинга на 90 дней","locale":"ru","type":"contextual","priority":4},{"target":"/ru/blog/chto-takoe-marketing-kit/","anchor":"маркетинг-кит компании","locale":"ru","type":"contextual","priority":5}],
+  "schemaTypes":["Organization","WebSite","BreadcrumbList","Service","FAQPage"],"lastReviewedAt":"2026-08-20","createdAt":"2026-07-30","updatedAt":"2026-08-20"
 }

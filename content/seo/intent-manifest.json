@@ -231,6 +231,22 @@
       "gscNote": "Near-duplicate slugs, but only one shared query across the whole history at one impression each. The guide holds position 10.12 independently. Assessed as different intent on 2026-08-01 and deliberately not merged.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-08-01"
+    },
+    {
+      "id": "C11-uz-chatgpt-download-access",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+        "owns": "find the official ChatGPT app download for Android, iPhone, Windows or macOS",
+        "mustNotTarget": ["chatgpt ochish", "chatgpt kirish", "chatgpt uzbek tilida online"]
+      },
+      "informational": {
+        "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+        "owns": "open ChatGPT from Uzbekistan, sign in and understand whether a VPN is required",
+        "mustNotTarget": ["chatgpt ilovasini yuklab olish", "chatgpt yuklab olish uzbek tilida"]
+      },
+      "gscNote": "A 24-hour Google Search Console sample reviewed on 2026-08-20 showed 399 visible impressions across Uzbek ChatGPT download, access and online-use variants. The strongest uncovered phrase was «chatgpt yuklab olish uzbek tilida», while «chatgpt ochish» formed a separate access intent.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-08-20"
     }
   ]
 }

@@ -3,9 +3,9 @@
   "locale": "uz",
   "slug": "chatgpt-ozbekistonda-vpnsiz-ishlaydimi",
   "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-  "title": "ChatGPT O'zbekistonda VPNsiz ishlaydimi? 2026 qo'llanma",
-  "description": "ChatGPT O'zbekistonda: VPNsiz kirish, ro'yxatdan o'tish, o'zbek tili, to'lov va 2026-yilgi rasmiy yangiliklar. Xavfsiz foydalanish qo'llanmasi.",
-  "h1": "ChatGPT O'zbekistonda: VPN kerakmi, kirish va alternativalar",
+  "title": "ChatGPT O'zbekistonda: VPNsiz ochish va kirish (2026)",
+  "description": "ChatGPT O'zbekistonda rasman ishlaydi. VPNsiz ochish, akkauntga kirish, o'zbek tili, to'lov va xatolarni hal qilish bo'yicha 2026 qo'llanma.",
+  "h1": "ChatGPT O'zbekistonda: VPNsiz ochish va kirish",
   "topicCluster": "chatgpt-ozbekistonda",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
@@ -14,11 +14,13 @@
     "ChatGPT VPNsiz",
     "ChatGPT o'zbek tilida",
     "ChatGPT ga kirish",
+    "ChatGPT ochish",
+    "ChatGPT kirish",
     "O'zbekistonda AI chat",
     "ChatGPT alternativalari",
     "AI chat o'zbekcha"
   ],
-  "intro": "ChatGPT — OpenAI tomonidan yaratilgan sun'iy intellekt yordamchisi. 2026-yil iyul holatiga ko'ra, ChatGPT O'zbekistonda rasmiy qo'llab-quvvatlanadi: mamlakat web va mobil ilova mavjud hududlar ro'yxatiga kiritilgan. Demak, odatiy foydalanish uchun VPN shart emas. Ushbu qo'llanma servis nima ekanini, ro'yxatdan o'tish, kirish, to'lov, o'zbek tili va xavfsiz alternativalarni rasmiy manbalar asosida tushuntiradi.",
+  "intro": "ChatGPTni O'zbekistonda ochish uchun brauzerda chatgpt.com manziliga kiring: 2026-yil 20-avgust holatiga ko'ra, O'zbekiston OpenAI qo'llab-quvvatlaydigan mamlakatlar ro'yxatida va odatiy kirish uchun VPN shart emas. Quyida akkauntga kirish, ro'yxatdan o'tish, o'zbek tilida ishlash, to'lov va keng tarqalgan xatolar rasmiy manbalar asosida tushuntirilgan.",
   "body": [
     {
       "type": "figure",
@@ -118,11 +120,11 @@
     {
       "type": "h2",
       "id": "kirish",
-      "text": "ChatGPT'ga VPNsiz kirish va ro'yxatdan o'tish qanday bajariladi?"
+      "text": "ChatGPTni VPNsiz qanday ochish va akkauntga kirish mumkin?"
     },
     {
       "type": "p",
-      "text": "Eng xavfsiz yo'l — brauzerda chatgpt.com saytiga kiring yoki rasmiy mobil ilovani ilovalar do'konidan o'rnating. Bosh sahifada mavjud kirish usulini tanlab, elektron pochta yoki taklif etilgan akkaunt orqali ro‘yxatdan o‘ting. OpenAI nomidan foydalanadigan norasmiy klonlar, Telegram akkauntiga kirish kodi so'raydigan botlar va «umrbod Plus» sotuvchilaridan ehtiyot bo'ling."
+      "text": "ChatGPT ochish uchun brauzer manzil satriga aynan chatgpt.com yozing, so'ng Log in yoki Sign up tugmasini tanlang. Elektron pochta yoki sahifada taklif qilingan akkaunt usuli orqali kiring. OpenAI nomidan foydalanadigan norasmiy klonlar, Telegram akkauntiga kirish kodi so'raydigan botlar va «umrbod Plus» sotuvchilaridan ehtiyot bo'ling."
     },
     {
       "type": "list",
@@ -300,12 +302,11 @@
     },
     {
       "type": "linkp",
-      "text": "Keyingi qadam: rasmiy ilovani topish uchun {download}, servislarni taqqoslash uchun {compare}, o'zbekcha topshiriqlar uchun {prompts}. To'lov bo'yicha rus tilidagi alohida qo'llanma — {payment}.",
+      "text": "Keyingi qadam: rasmiy ilovani topish uchun {download}, servislarni taqqoslash uchun {compare}, o'zbekcha topshiriqlar uchun {prompts}.",
       "links": [
         {"token":"download","target":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/","anchor":"ChatGPTni telefon va kompyuterda xavfsiz ochish"},
         {"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini taqqoslovi"},
-        {"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta o'zbekcha prompt"},
-        {"token":"payment","target":"/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/","anchor":"ChatGPTni O'zbekistonda to'lash"}
+        {"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta o'zbekcha prompt"}
       ]
     },
     {
@@ -321,7 +322,11 @@
     },
     {
       "q": "ChatGPT O'zbekistonda VPNsiz ishlaydimi?",
-      "a": "Ha. 2026-yil iyul holatiga ko'ra, OpenAI O'zbekistonni ChatGPT web va mobil ilovasi qo'llab-quvvatlanadigan mamlakatlar ro'yxatiga kiritgan. Odatdagi kirish uchun VPN shart emas."
+      "a": "Ha. 2026-yil 20-avgust holatiga ko'ra, OpenAI O'zbekistonni ChatGPT web va mobil ilovasi qo'llab-quvvatlanadigan mamlakatlar ro'yxatiga kiritgan. Odatdagi kirish uchun VPN shart emas."
+    },
+    {
+      "q": "ChatGPTni O'zbekistonda qanday ochish mumkin?",
+      "a": "Brauzer manzil satriga chatgpt.com yozing va Log in yoki Sign up tugmasini tanlang. Telefon ilovasi kerak bo'lsa, faqat Google Play yoki App Store'dagi OpenAI nashriyotchisiga tegishli rasmiy ilovani o'rnating."
     },
     {
       "q": "ChatGPT O'zbekistonda bloklanganmi?",
@@ -393,12 +398,6 @@
       "type": "contextual"
     },
     {
-      "target": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
-      "anchor": "ChatGPT obunasini O'zbekistonda to'lash",
-      "locale": "uz",
-      "type": "contextual"
-    },
-    {
       "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
       "anchor": "AI-chat turlari va vazifalari",
       "locale": "uz",
@@ -438,7 +437,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-26",
-  "dateModified": "2026-07-30",
+  "dateModified": "2026-08-20",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -446,7 +445,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-30T00:00:00.000Z",
+  "updatedAt": "2026-08-20T00:00:00.000Z",
   "createdAt": "2026-07-26T00:00:00.000Z",
   "sources": [
     {
