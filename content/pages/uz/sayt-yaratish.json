@@ -18,7 +18,7 @@
   "searchIntent": "commercial",
   "h1": "Sayt yaratish — biznesingizga ariza keltiradigan veb sayt",
   "title": "Sayt yaratish — biznes uchun veb sayt | GPTBot.uz",
-  "description": "Biznes uchun sayt yaratish: landing, korporativ sayt, katalog va internet do‘kon. Mobil qurilmalarga moslashgan, ariza formasi, analitika, Telegram va AI-bot integratsiyasi. Bepul maslahat.",
+  "description": "Biznes uchun sayt yaratish: landing, korporativ sayt va internet do‘kon. Mobil dizayn, ariza formasi, analitika hamda AI-bot integratsiyasi.",
   "canonical": "https://gptbot.uz/uz/sayt-yaratish/",
   "hreflangRu": "/ru/razrabotka-saytov-tashkent/",
   "hreflangUz": "/uz/sayt-yaratish/",
@@ -385,5 +385,5 @@
   ],
   "lastReviewedAt": "2026-08-01",
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-08-01"
+  "updatedAt": "2026-08-20"
 }

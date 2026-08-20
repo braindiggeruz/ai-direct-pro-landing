@@ -167,7 +167,7 @@ function productCard(copy: ReturnType<typeof landingCopy>, second = false): stri
     <img src="/assets/market/market-synthetic-fallback.webp" width="1440" height="1080" alt="" aria-hidden="true" loading="eager" decoding="async" />
     <div class="market-product-body">
       <p class="market-product-kicker">${e(copy.demoLabel)}</p>
-      <h3 class="market-product-title">${e(title)}</h3>
+      <strong class="market-product-title">${e(title)}</strong>
       <p class="market-price">${e(price)}</p>
       <div class="market-product-meta"><span>${e(stock)}</span><span>${e(copy.store)}</span><span>${e(reason)}</span></div>
       <span class="market-product-action">${e(copy.details)}</span>
