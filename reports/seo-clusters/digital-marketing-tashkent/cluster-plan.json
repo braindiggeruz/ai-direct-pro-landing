@@ -16,7 +16,12 @@
     {"keyword":"ведение социальных сетей Ташкент","intent":"transactional","url":"/ru/smm-prodvizhenie-tashkent/"},
     {"keyword":"продвижение Instagram Ташкент","intent":"transactional","url":"/ru/smm-prodvizhenie-tashkent/"},
     {"keyword":"контент для соцсетей","intent":"commercial","url":"/ru/smm-prodvizhenie-tashkent/"},
-    {"keyword":"таргетированная реклама Ташкент","intent":"transactional","url":"/ru/smm-prodvizhenie-tashkent/"},
+    {"keyword":"таргетированная реклама Ташкент","intent":"transactional","url":"/ru/targetirovannaya-reklama-tashkent/"},
+    {"keyword":"настройка таргетированной рекламы Ташкент","intent":"transactional","url":"/ru/targetirovannaya-reklama-tashkent/"},
+    {"keyword":"контекстная реклама в Ташкенте","intent":"transactional","url":"/ru/kontekstnaya-reklama-tashkent/"},
+    {"keyword":"Google Ads Узбекистан","intent":"commercial","url":"/ru/kontekstnaya-reklama-tashkent/"},
+    {"keyword":"Telegram Ads в Узбекистане","intent":"transactional","url":"/ru/telegram-ads-uzbekistan/"},
+    {"keyword":"реклама в Telegram Узбекистан","intent":"commercial","url":"/ru/telegram-ads-uzbekistan/"},
     {"keyword":"performance маркетинг Ташкент","intent":"transactional","url":"/ru/performance-marketing-tashkent/"},
     {"keyword":"performance агентство Ташкент","intent":"commercial","url":"/ru/performance-marketing-tashkent/"},
     {"keyword":"маркетинг по результату","intent":"commercial","url":"/ru/performance-marketing-tashkent/"},
@@ -52,6 +57,8 @@
     "Service pages own narrow transactional intents.",
     "Articles answer price, selection, planning, audit and comparison intents.",
     "Existing SEO, ads and website money pages remain canonical owners of their services.",
+    "SMM owns organic content and community operations; paid targeting owns campaign audiences, media budget and creative testing.",
+    "Telegram Ads owns media buying; Telegram bot development owns the product and automation implementation.",
     "No guaranteed rankings, leads, CPA or sales."
   ]
 }

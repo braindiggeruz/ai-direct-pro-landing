@@ -232,7 +232,7 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
       const rows = b.rows || [];
       const thead = headers.length ? `<thead><tr>${headers.map(h => `<th class="px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-white/10">${escapeText(h)}</th>`).join('')}</tr></thead>` : '';
       const tbody = `<tbody>${rows.map((row, ri) => `<tr class="${ri % 2 === 0 ? 'bg-white/[0.02]' : ''} hover:bg-white/[0.05] transition-colors">${row.map(cell => `<td class="px-4 py-3 text-white/80 text-sm border-b border-white/5">${escapeText(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
-      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10"><table class="w-full">${thead}${tbody}</table></div>`;
+      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan/60" role="region" aria-label="Таблица данных — прокрутите горизонтально при необходимости" tabindex="0"><table class="w-full">${thead}${tbody}</table></div>`;
     }
     default: return '';
   }
@@ -438,11 +438,27 @@ function renderDigitalCommandHero(
 ): string {
   const primaryHref = page.ctaPrimaryHref || '#audit';
   const secondaryHref = page.ctaSecondaryHref || '#system';
+  const command = page.commandCenter || {};
+  const pipeline = command.pipeline && command.pipeline.length
+    ? command.pipeline.slice(0, 4)
+    : [
+      { step: '01', title: 'Спрос', detail: 'SEO · Ads · Social' },
+      { step: '02', title: 'Конверсия', detail: 'Сайт · Контент · Оффер' },
+      { step: '03', title: 'Диалог', detail: 'AI-бот · Менеджер' },
+      { step: '04', title: 'Выручка', detail: 'CRM · Аналитика' },
+    ];
+  const signals = (command.signals && command.signals.length ? command.signals : ['SEO', 'SMM', 'CRM']).slice(0, 3);
+  const channels = (command.channels && command.channels.length
+    ? command.channels
+    : ['Стратегия', 'SEO', 'Google Ads', 'Meta', 'Telegram', 'Контент', 'CRM', 'AI']).slice(0, 8);
+  const heroSrcSet = page.heroImage && /-1200\.webp$/.test(page.heroImage.src)
+    ? `${page.heroImage.src.replace('-1200.webp', '-480.webp')} 480w, ${page.heroImage.src.replace('-1200.webp', '-800.webp')} 800w, ${page.heroImage.src} 1200w`
+    : '';
   return `<section class="dc-hero" aria-labelledby="digital-command-title">
     <div class="dc-orbit dc-orbit-one" aria-hidden="true"></div>
     <div class="dc-orbit dc-orbit-two" aria-hidden="true"></div>
     <div class="dc-hero-copy">
-      <div class="dc-kicker"><span></span> Growth system · Tashkent</div>
+      <div class="dc-kicker"><span></span> ${escapeText(command.kicker || 'Growth system · Tashkent')}</div>
       <h1 id="digital-command-title" data-testid="page-h1">${escapeText(page.h1)}</h1>
       ${modifiedIso ? `<p data-testid="page-updated" class="dc-updated">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
       ${bylineHtml}
@@ -453,26 +469,95 @@ function renderDigitalCommandHero(
       </div>
       ${trustHtml}
     </div>
-    <div class="dc-visual" aria-label="Система digital-маркетинга от первого контакта до продажи">
-      ${page.heroImage ? `<img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" loading="eager" fetchpriority="high" decoding="async" />` : ''}
+    <div class="dc-visual" aria-label="${escapeHtml(command.ariaLabel || 'Система digital-маркетинга от первого контакта до продажи')}">
+      ${page.heroImage ? `<img src="${escapeHtml(page.heroImage.src)}"${heroSrcSet ? ` srcset="${escapeHtml(heroSrcSet)}" sizes="(max-width: 900px) calc(100vw - 2rem), 540px"` : ''} alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" loading="eager" fetchpriority="high" decoding="async" />` : ''}
       <div class="dc-glass">
-        <div class="dc-glass-head"><span>Growth pipeline</span><span class="dc-live">live</span></div>
+        <div class="dc-glass-head"><span>${escapeText(command.status || 'Growth pipeline')}</span><span class="dc-live">live</span></div>
         <ol class="dc-pipeline">
-          <li><span>01</span><b>Спрос</b><small>SEO · Ads · Social</small></li>
-          <li><span>02</span><b>Конверсия</b><small>Сайт · Контент · Оффер</small></li>
-          <li><span>03</span><b>Диалог</b><small>AI-бот · Менеджер</small></li>
-          <li><span>04</span><b>Выручка</b><small>CRM · Аналитика</small></li>
+          ${pipeline.map((item) => `<li><span>${escapeText(item.step)}</span><b>${escapeText(item.title)}</b><small>${escapeText(item.detail)}</small></li>`).join('')}
         </ol>
       </div>
-      <div class="dc-signal dc-signal-a">SEO</div>
-      <div class="dc-signal dc-signal-b">SMM</div>
-      <div class="dc-signal dc-signal-c">CRM</div>
+      ${signals.map((signal, index) => `<div class="dc-signal dc-signal-${['a', 'b', 'c'][index]}">${escapeText(signal)}</div>`).join('')}
     </div>
   </section>
-  <section class="dc-channel-strip" aria-label="Каналы комплексного digital-маркетинга">
-    <span>Стратегия</span><span>SEO</span><span>Google Ads</span><span>Meta</span><span>Telegram</span><span>Контент</span><span>CRM</span><span>AI</span>
+  <section class="dc-channel-strip" aria-label="Каналы и этапы системы продвижения">
+    ${channels.map((channel) => `<span>${escapeText(channel)}</span>`).join('')}
   </section>`;
 }
+
+function renderGrowthTool(page: Page): string {
+  if (!page.growthTool) return '';
+  const commonStart = `<section class="growth-tool" data-growth-tool="${escapeHtml(page.growthTool)}" aria-labelledby="growth-tool-title"><div class="growth-tool-kicker">Инструмент для решения</div>`;
+  if (page.growthTool === 'cpl-calculator') return `${commonStart}
+    <h2 id="growth-tool-title">Рассчитайте предельную стоимость лида</h2>
+    <p>Экономическая граница, а не обещание рекламной площадки. Все значения остаются в вашем браузере.</p>
+    <div class="growth-tool-grid">
+      <label>Средний чек, сум<input name="check" type="number" min="0" inputmode="decimal" value="3000000"></label>
+      <label>Валовая маржа, %<input name="margin" type="number" min="1" max="100" value="40"></label>
+      <label>Продажа из лида, %<input name="close" type="number" min="1" max="100" value="15"></label>
+      <label>Доля маржи на привлечение, %<input name="share" type="number" min="1" max="100" value="30"></label>
+    </div><button type="button" data-tool-action>Рассчитать ориентир</button><div class="growth-tool-result" aria-live="polite">Введите экономику продукта и нажмите «Рассчитать».</div>
+  </section>`;
+  if (page.growthTool === 'creative-matrix') return `${commonStart}
+    <h2 id="growth-tool-title">Соберите первый тест креативов</h2>
+    <p>Выберите задачу — получите компактную матрицу гипотез, а не случайный набор баннеров.</p>
+    <div class="growth-choice" role="group" aria-label="Цель рекламного теста">
+      <button type="button" data-tool-choice="lead">Заявки</button><button type="button" data-tool-choice="dialog">Диалоги</button><button type="button" data-tool-choice="remarketing">Возврат аудитории</button>
+    </div><div class="growth-tool-result" aria-live="polite">Выберите цель кампании.</div>
+  </section>`;
+  if (page.growthTool === 'telegram-funnel') return `${commonStart}
+    <h2 id="growth-tool-title">Спроектируйте путь после Telegram Ads</h2>
+    <p>Реклама приводит внимание. Следующий шаг должен соответствовать задаче и быть измеримым.</p>
+    <div class="growth-choice" role="group" aria-label="Куда направлять трафик">
+      <button type="button" data-tool-choice="bot">В бот</button><button type="button" data-tool-choice="channel">В канал</button><button type="button" data-tool-choice="site">На сайт</button>
+    </div><div class="growth-tool-result" aria-live="polite">Выберите точку назначения.</div>
+  </section>`;
+  if (page.growthTool === 'audit-heatmap') return `${commonStart}
+    <h2 id="growth-tool-title">Экспресс-диагностика потерь</h2>
+    <p>Отметьте симптомы. Инструмент покажет, какой участок воронки проверять первым.</p>
+    <div class="growth-checks">
+      <label><input type="checkbox" value="traffic"> Клики есть, заявок мало</label>
+      <label><input type="checkbox" value="quality"> Заявки есть, продажи не растут</label>
+      <label><input type="checkbox" value="speed"> Менеджеры отвечают с задержкой</label>
+      <label><input type="checkbox" value="data"> Реклама и CRM показывают разные цифры</label>
+    </div><button type="button" data-tool-action>Показать приоритет</button><div class="growth-tool-result" aria-live="polite">Отметьте один или несколько симптомов.</div>
+  </section>`;
+  return `${commonStart}
+    <h2 id="growth-tool-title">Какой канал проверить первым</h2>
+    <p>Выберите текущую ситуацию — получите стартовый маршрут. Финальный медиаплан строится после проверки спроса и экономики.</p>
+    <div class="growth-choice" role="group" aria-label="Ситуация бизнеса">
+      <button type="button" data-tool-choice="hot">Есть сформированный спрос</button><button type="button" data-tool-choice="visual">Нужно создать интерес</button><button type="button" data-tool-choice="telegram">Аудитория в Telegram</button><button type="button" data-tool-choice="unknown">Причина потерь неясна</button>
+    </div><div class="growth-tool-result" aria-live="polite">Выберите ситуацию.</div>
+  </section>`;
+}
+
+const GROWTH_TOOL_SCRIPT = `<script>
+(function(){
+  var root=document.querySelector('[data-growth-tool]');if(!root)return;
+  var out=root.querySelector('.growth-tool-result'),tool=root.getAttribute('data-growth-tool');
+  function track(choice){if(window.gtag)window.gtag('event','seo_tool_complete',{page_path:location.pathname,tool_name:tool,choice_id:choice||'calculate'});}
+  function show(html,choice){out.innerHTML=html;track(choice);}
+  root.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+    var choice=b.getAttribute('data-tool-choice');
+    if(tool==='cpl-calculator'){
+      var check=Number(root.querySelector('[name=check]').value),margin=Number(root.querySelector('[name=margin]').value)/100,close=Number(root.querySelector('[name=close]').value)/100,share=Number(root.querySelector('[name=share]').value)/100;
+      if(!(check>0&&margin>0&&close>0&&share>0)){show('<strong>Проверьте значения:</strong> все поля должны быть больше нуля.','invalid');return;}
+      var cpl=check*margin*close*share;show('<strong>Предельный CPL: '+Math.round(cpl).toLocaleString('ru-RU')+' сум.</strong><br><small>Формула: чек × маржа × конверсия лида в продажу × допустимая доля маржи. Это верхняя экономическая граница, не прогноз площадки.</small>','calculated');return;
+    }
+    if(tool==='creative-matrix'){
+      var creative={lead:'<strong>Тест на заявки:</strong> 3 угла сообщения × 2 формата × одна посадочная. Сравнивайте стоимость квалифицированной заявки.',dialog:'<strong>Тест на диалоги:</strong> вопрос клиента × короткий ответ × переход в Direct/бот. Измеряйте начатые и квалифицированные диалоги.',remarketing:'<strong>Ремаркетинг:</strong> доказательство × возражение × конкретный следующий шаг. Исключите уже сконвертировавшихся пользователей.'};show(creative[choice],choice);return;
+    }
+    if(tool==='telegram-funnel'){
+      var paths={bot:'<strong>Ads → бот → 3–5 вопросов → контакт → CRM → менеджер.</strong> Подходит для квалификации и быстрого ответа.',channel:'<strong>Ads → релевантный пост → закреплённый оффер → бот или менеджер.</strong> Подходит, когда сначала нужно прогреть контентом.',site:'<strong>Ads → одна посадочная → целевое действие → аналитика → CRM.</strong> Подходит для сложного оффера и поискового контекста.'};show(paths[choice],choice);return;
+    }
+    if(tool==='audit-heatmap'){
+      var v=Array.from(root.querySelectorAll('input:checked')).map(function(x){return x.value});if(!v.length){show('<strong>Отметьте хотя бы один симптом.</strong>','empty');return;}
+      var priority=v.indexOf('data')>-1?'Сначала сверить события, UTM и статусы CRM. Без сопоставимых данных дальнейшие выводы ненадёжны.':v.indexOf('quality')>-1?'Сначала проверить квалификацию, обещание в рекламе и обратную связь отдела продаж.':v.indexOf('traffic')>-1?'Сначала проверить соответствие запрос → объявление → посадочная → действие.':'Сначала измерить время первого ответа и маршрут передачи обращения.';show('<strong>Приоритет:</strong> '+priority,'diagnosed');return;
+    }
+    var routes={hot:'<strong>Начните с контекстной рекламы:</strong> она перехватывает уже сформированный спрос. Затем проверьте посадочную и обработку лида.',visual:'<strong>Начните с таргетированной рекламы:</strong> проверьте оффер через системные тесты креативов и аудиторий.',telegram:'<strong>Проверьте Telegram Ads:</strong> ведите в релевантный канал, бот или посадочную и измеряйте путь после клика.',unknown:'<strong>Начните с маркетингового аудита:</strong> сначала найдите узкое место, затем выбирайте канал.'};show(routes[choice],choice);
+  });
+})();
+</script>`;
 
 const DIGITAL_COMMAND_STYLES = `<style>
   .dc-page{overflow-x:clip;background:
@@ -512,8 +597,12 @@ const DIGITAL_COMMAND_STYLES = `<style>
   .dc-page .prose-invert h2{max-width:19ch;text-wrap:balance}
   .dc-page .prose-invert>h2:before{content:"";display:block;width:2.7rem;height:.2rem;margin-bottom:1rem;border-radius:999px;background:linear-gradient(90deg,#2fe6d1,#7e5cff)}
   .dc-page .prose-invert>div[class*="overflow-x-auto"],.dc-page .prose-invert>nav{box-shadow:0 1.5rem 4rem rgba(0,0,0,.16)}
+  .growth-tool{max-width:56rem;margin:0 auto 4.5rem;padding:clamp(1.25rem,4vw,2.25rem);border:1px solid rgba(47,230,209,.18);border-radius:1.75rem;background:linear-gradient(145deg,rgba(47,230,209,.07),rgba(126,92,255,.08));box-shadow:0 2rem 5rem rgba(0,0,0,.24)}
+  .growth-tool-kicker{margin-bottom:.65rem;color:#8ff8ec;font-size:.7rem;font-weight:750;text-transform:uppercase;letter-spacing:.14em}.growth-tool h2{margin:0 0 .75rem;font-size:clamp(1.65rem,4vw,2.55rem);line-height:1.05;letter-spacing:-.035em}.growth-tool>p{max-width:47rem;margin-bottom:1.35rem;color:rgba(255,255,255,.68);line-height:1.65}
+  .growth-tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}.growth-tool label{display:grid;gap:.45rem;color:rgba(255,255,255,.72);font-size:.82rem}.growth-tool input[type=number]{min-height:3rem;width:100%;padding:.65rem .8rem;border:1px solid rgba(255,255,255,.14);border-radius:.85rem;background:rgba(5,7,13,.68);color:#fff;font:inherit}.growth-tool input:focus,.growth-tool button:focus-visible{outline:3px solid rgba(47,230,209,.4);outline-offset:2px}
+  .growth-tool button{min-height:3rem;margin-top:1rem;padding:.7rem 1rem;border:1px solid rgba(47,230,209,.3);border-radius:.9rem;background:rgba(47,230,209,.1);color:#c8fff8;font-weight:750;cursor:pointer}.growth-tool button:hover{background:rgba(47,230,209,.18)}.growth-choice{display:flex;flex-wrap:wrap;gap:.65rem}.growth-choice button{margin-top:0}.growth-tool-result{margin-top:1.15rem;padding:1rem 1.1rem;border:1px solid rgba(255,255,255,.1);border-radius:1rem;background:rgba(5,7,13,.56);color:rgba(255,255,255,.78);line-height:1.55}.growth-tool-result strong{color:#fff}.growth-tool-result small{color:rgba(255,255,255,.58)}.growth-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}.growth-checks label{display:flex;align-items:flex-start;gap:.65rem;padding:.8rem;border:1px solid rgba(255,255,255,.08);border-radius:.9rem;background:rgba(255,255,255,.03)}.growth-checks input{margin-top:.18rem;accent-color:#2fe6d1}
   @media(max-width:900px){.dc-hero{grid-template-columns:1fr;gap:2rem;padding-top:2rem}.dc-hero h1{max-width:16ch}.dc-visual{min-height:31rem}.dc-visual>img{min-height:31rem}.dc-channel-strip{grid-template-columns:repeat(4,1fr)}.dc-channel-strip span:nth-child(4n){border-right:0}}
-  @media(max-width:560px){.dc-hero h1{font-size:2.7rem}.dc-visual{min-height:28rem;border-radius:1.4rem}.dc-visual>img{min-height:28rem}.dc-pipeline{grid-template-columns:repeat(2,1fr)}.dc-signal{display:none}.dc-channel-strip{grid-template-columns:repeat(2,1fr);margin-bottom:3rem}.dc-channel-strip span:nth-child(2n){border-right:0}}
+  @media(max-width:560px){.dc-hero h1{font-size:2.7rem}.dc-visual{min-height:28rem;border-radius:1.4rem}.dc-visual>img{min-height:28rem}.dc-pipeline{grid-template-columns:repeat(2,1fr)}.dc-signal{display:none}.dc-channel-strip{grid-template-columns:repeat(2,1fr);margin-bottom:3rem}.dc-channel-strip span:nth-child(2n){border-right:0}.growth-tool-grid,.growth-checks{grid-template-columns:1fr}.growth-choice{display:grid}.growth-choice button{width:100%}}
   @media(prefers-reduced-motion:no-preference){.dc-live:before{animation:dc-pulse 2.2s ease-in-out infinite}.dc-signal{animation:dc-float 5s ease-in-out infinite}.dc-signal-b{animation-delay:-1.5s}.dc-signal-c{animation-delay:-3s}@keyframes dc-pulse{50%{opacity:.35;transform:scale(.75)}}@keyframes dc-float{50%{transform:translateY(-8px)}}}
 </style>`;
 
@@ -679,6 +768,7 @@ ${marketVariant
   </div>`}
 
   ${calculatorHtml}
+  ${renderGrowthTool(page)}
   <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
     ${renderArticle(page.bodyBlocks || [], contentAnchor)}
 
@@ -706,6 +796,7 @@ ${marketVariant ? '' : stickyCtaHtml}
 ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money pages. -->` : ''}
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
+${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
 ${marketVariant ? MARKET_FAQ_SCRIPT : ''}
 </body>
 </html>

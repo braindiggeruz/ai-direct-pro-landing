@@ -45,6 +45,20 @@
     "Без гарантий и накруток"
   ],
   "designVariant": "digital-command-center",
+  "growthTool": "channel-selector",
+  "commandCenter": {
+    "kicker": "Growth architecture · Tashkent",
+    "status": "Integrated growth pipeline",
+    "ariaLabel": "Единая система digital-маркетинга от спроса до выручки",
+    "pipeline": [
+      {"step":"01","title":"Спрос","detail":"SEO · Ads · Social"},
+      {"step":"02","title":"Конверсия","detail":"Сайт · Контент · Оффер"},
+      {"step":"03","title":"Диалог","detail":"AI-бот · Менеджер"},
+      {"step":"04","title":"Выручка","detail":"CRM · Аналитика"}
+    ],
+    "signals": ["SEO", "Ads", "CRM"],
+    "channels": ["Стратегия", "SEO", "Контекст", "Таргет", "Telegram", "Контент", "CRM", "AI"]
+  },
   "bodyBlocks": [
     {
       "type": "toc",
@@ -283,6 +297,28 @@
     },
     {
       "type": "h2",
+      "text": "Три платных канала — три разных намерения"
+    },
+    {
+      "type": "table",
+      "headers": ["Канал", "Когда ставим первым", "Что проектируем"],
+      "rows": [
+        ["Контекстная реклама", "Люди уже ищут продукт или услугу", "Спрос, семантика, посадочная и CPL"],
+        ["Таргетированная реклама", "Интерес нужно создать через аудиторию и креатив", "Матрица гипотез и качество лидов"],
+        ["Telegram Ads", "Аудитория читает тематические Telegram-каналы", "Sponsored message, бот или сайт и CRM"]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Подробные контуры вынесены отдельно: {context}, {target} и {telegram}. Это не три названия одной услуги, а разные способы встретить спрос.",
+      "links": [
+        {"token":"context","target":"/ru/kontekstnaya-reklama-tashkent/","anchor":"контекстная реклама в Ташкенте"},
+        {"token":"target","target":"/ru/targetirovannaya-reklama-tashkent/","anchor":"таргетированная реклама в Ташкенте"},
+        {"token":"telegram","target":"/ru/telegram-ads-uzbekistan/","anchor":"Telegram Ads в Узбекистане"}
+      ]
+    },
+    {
+      "type": "h2",
       "text": "Что будет после первого разговора"
     },
     {
@@ -322,10 +358,13 @@
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "интернет-реклама в Ташкенте", "locale": "ru", "type": "contextual", "priority": 6 },
     { "target": "/ru/razrabotka-saytov-tashkent/", "anchor": "разработка сайтов", "locale": "ru", "type": "contextual", "priority": 7 },
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса", "locale": "ru", "type": "contextual", "priority": 8 },
-    { "target": "/ru/lokalnoe-seo-tashkent/", "anchor": "локальная видимость компании на картах", "locale": "ru", "type": "contextual", "priority": 9 }
+    { "target": "/ru/lokalnoe-seo-tashkent/", "anchor": "локальная видимость компании на картах", "locale": "ru", "type": "contextual", "priority": 9 },
+    { "target": "/ru/kontekstnaya-reklama-tashkent/", "anchor": "контекстная реклама в Ташкенте", "locale": "ru", "type": "contextual", "priority": 10 },
+    { "target": "/ru/targetirovannaya-reklama-tashkent/", "anchor": "таргетированная реклама в Ташкенте", "locale": "ru", "type": "contextual", "priority": 11 },
+    { "target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане", "locale": "ru", "type": "contextual", "priority": 12 }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
-  "lastReviewedAt": "2026-08-04",
+  "lastReviewedAt": "2026-08-20",
   "createdAt": "2026-07-30",
-  "updatedAt": "2026-08-04"
+  "updatedAt": "2026-08-20"
 }

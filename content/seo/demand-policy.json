@@ -58,6 +58,30 @@
       "source": "SEMrush Keyword Strategy export for gptbot.uz reviewed 2026-08-04: no Mini App keyword row; live commercial SERP contains multiple Uzbek development providers and official Telegram documentation confirms an active product category",
       "measuredAt": "2026-08-04",
       "note": "Transparent emerging-category experiment, not a volume claim. Review Search Console and Yandex impressions before expanding beyond the three buyer-journey spokes."
+    },
+    {
+      "keyword": "контекстная реклама в Ташкенте",
+      "volumePerMonth": 0,
+      "competition": "UNMEASURED",
+      "source": "SEO-стратегия коммерческого digital-кластера GPTBot.uz reviewed 2026-08-20: the research recommended a distinct commercial page but did not contain a verified Uzbekistan volume/KD/CPC export",
+      "measuredAt": "2026-08-20",
+      "note": "Transparent commercial-intent test, not a positive demand claim. Review GSC query impressions and overlap with /ru/internet-reklama-tashkent/ after 6–8 weeks before expansion."
+    },
+    {
+      "keyword": "таргетированная реклама в Ташкенте",
+      "volumePerMonth": 0,
+      "competition": "UNMEASURED",
+      "source": "SEO-стратегия коммерческого digital-кластера GPTBot.uz reviewed 2026-08-20: distinct paid-social buyer intent was identified, but no verified Uzbekistan volume/KD/CPC export was supplied",
+      "measuredAt": "2026-08-20",
+      "note": "Transparent commercial-intent test. SMM is deliberately excluded from this keyword; review GSC overlap and conversions after 6–8 weeks."
+    },
+    {
+      "keyword": "Telegram Ads в Узбекистане",
+      "volumePerMonth": 0,
+      "competition": "UNMEASURED",
+      "source": "SEO-стратегия коммерческого digital-кластера GPTBot.uz reviewed 2026-08-20 plus official Telegram Ads documentation; no verified localized volume/KD/CPC export was supplied",
+      "measuredAt": "2026-08-20",
+      "note": "Transparent emerging commercial-intent test, not a demand forecast. Telegram bot development remains a separate intent. Review impressions before adding supporting articles."
     }
   ],
   "qualityRequirements": {

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-08-01",
+  "updatedAt": "2026-08-20",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -130,7 +130,25 @@
         }
       ],
       "evidence": "docs/seo/smm-cluster-20260804/ — SEMrush seed list reviewed 2026-08-04, live SERP review of the same day, Search Console over 2026-02-01..2026-08-01, and primary-source verification against the Uzbek Civil Code chapter 38 and the Advertising Law ZRU-776.",
-      "note": "No second commercial page was created: the hub already owned the transactional intent, and «smm услуги ташкент» and «smm продвижение ташкент» return the same set of agency landing pages. The boundary with the /ru/blog/chto-takoe-smm-prodvizhenie/ spoke is drawn by question, not by synonym — that spoke keeps «что входит в smm продвижение» and «сколько стоит smm продвижение», and the two new commercial-investigation spokes may never claim them. Search Console shows zero SMM impressions over six months, so this cluster is a considered bet on an unmeasured local intent, not a volume claim: paid keyword tools were unavailable (0 credits) and no volume figure for Uzbekistan was obtained. Review impressions before adding a fifth spoke. An Instagram-specific page and a Uzbek-latin translation were both rejected — the first would cannibalise the hub, the second is unjustified while «smm mutaxassisi» returns job listings."
+      "note": "The SMM hub owns organic social strategy, content production, publishing and moderation. Paid audience campaigns moved to /ru/targetirovannaya-reklama-tashkent/ on 2026-08-20; this page may mention paid distribution only as a separate connected service. The boundary with /ru/blog/chto-takoe-smm-prodvizhenie/ remains question-based. No new SMM spoke is justified until impressions demonstrate a distinct intent."
+    },
+    {
+      "id": "digital-paid-media-ru",
+      "hub": "/ru/internet-reklama-tashkent/",
+      "hubIntent": "commercial — compare and commission an internet advertising mix in Tashkent",
+      "hubKeywords": ["интернет реклама Ташкент", "реклама в интернете для бизнеса", "настройка интернет рекламы"],
+      "services": [
+        {"url":"/ru/kontekstnaya-reklama-tashkent/","ownsIntent":"commission search/contextual advertising for existing demand in Tashkent","primaryKeyword":"контекстная реклама в Ташкенте"},
+        {"url":"/ru/targetirovannaya-reklama-tashkent/","ownsIntent":"commission paid social targeting, creative and audience tests in Tashkent","primaryKeyword":"таргетированная реклама в Ташкенте"},
+        {"url":"/ru/telegram-ads-uzbekistan/","ownsIntent":"commission Telegram Ads and the measurable post-click journey in Uzbekistan","primaryKeyword":"Telegram Ads в Узбекистане"}
+      ],
+      "spokes": [
+        {"url":"/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/","ownsIntent":"diagnose why existing Instagram advertising gets clicks but not enquiries","primaryKeyword":"почему реклама в Instagram не приносит заявки"},
+        {"url":"/ru/blog/stoimost-digital-marketinga-v-tashkente/","ownsIntent":"understand how to structure and compare a digital marketing budget","primaryKeyword":"стоимость digital-маркетинга в Ташкенте"},
+        {"url":"/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/","ownsIntent":"evaluate and select a digital agency or paid-media contractor","primaryKeyword":"как выбрать digital-агентство в Ташкенте"}
+      ],
+      "evidence": "SEO-стратегия коммерческого digital-кластера GPTBot.uz для Ташкента и Узбекистана.pdf reviewed 2026-08-20; intent ownership checked against the existing content inventory; official Google Ads, Meta Ad Library and Telegram Ads sources used for factual boundaries.",
+      "note": "No verified Uzbekistan keyword volume/KD/CPC was available in the supplied research, so this is an intent and conversion-architecture decision, not a traffic forecast. The broad internet-advertising hub compares channels; each commercial spoke owns only its platform/task intent. SMM owns organic social content, Telegram bot development owns product development, and performance marketing owns cross-channel optimisation. Review GSC impressions and query overlap after 6–8 weeks before adding more paid-media URLs."
     }
   ],
   "pairs": [

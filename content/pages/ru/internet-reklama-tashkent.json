@@ -33,6 +33,15 @@
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Узнать подробнее",
   "ctaSecondaryHref": "#how",
+  "heroImage": {"src":"/assets/digital/digital-marketing-tashkent-1200.webp","alt":"Система интернет-рекламы с каналами, посадочной страницей и аналитикой заявок","width":1200,"height":800},
+  "heroTrust": ["Выбор канала по задаче", "Рекламный бюджет отдельно", "UTM и CRM", "Без гарантий продаж"],
+  "designVariant": "digital-command-center",
+  "growthTool": "channel-selector",
+  "commandCenter": {
+    "kicker":"Media mix · Tashkent","status":"Advertising channel map","ariaLabel":"Карта каналов интернет-рекламы и пути до заявки",
+    "pipeline":[{"step":"01","title":"Задача","detail":"Спрос · Интерес · Контекст"},{"step":"02","title":"Канал","detail":"Search · Meta · Telegram"},{"step":"03","title":"Переход","detail":"Сайт · Direct · Бот"},{"step":"04","title":"Результат","detail":"Лид · CRM · Продажа"}],
+    "signals":["Search","Meta","TG"],"channels":["Стратегия","Контекст","Таргет","Telegram","Лендинг","Бот","CRM","Аналитика"]
+  },
   "bodyBlocks": [
     {
       "type": "h2",
@@ -241,7 +250,7 @@
         "Реклама в Instagram и Telegram приводит трафик, но заявки теряются без мгновенного ответа.",
         "AI-бот подхватывает каждого пришедшего с рекламы и отвечает за секунды 24/7.",
         "Бот квалифицирует лид и передаёт контакт менеджеру — рекламный бюджет не сгорает впустую.",
-        "Связка «реклама + AI-бот» снижает стоимость заявки за счёт быстрой обработки.",
+        "AI-бот может сократить задержку первого ответа и потери после клика; влияние на стоимость квалифицированной заявки проверяется по данным проекта.",
         "Настройка идёт под вашу нишу, услуги и tone of voice."
       ]
     }
@@ -424,6 +433,36 @@
       "anchor": "комплексный digital-маркетинг в Ташкенте",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/kontekstnaya-reklama-tashkent/",
+      "anchor": "контекстная реклама в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/targetirovannaya-reklama-tashkent/",
+      "anchor": "таргетированная реклама в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/telegram-ads-uzbekistan/",
+      "anchor": "Telegram Ads в Узбекистане",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/stoimost-digital-marketinga-v-tashkente/",
+      "anchor": "как устроен бюджет digital-маркетинга",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+      "anchor": "как выбрать digital-агентство",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -433,5 +472,6 @@
     "Service",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-28"
+  "lastReviewedAt": "2026-08-20",
+  "updatedAt": "2026-08-20"
 }

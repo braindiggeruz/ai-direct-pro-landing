@@ -5,11 +5,11 @@
   "slug": "smm-prodvizhenie-tashkent",
   "pageType": "money",
   "primaryKeyword": "SMM продвижение Ташкент",
-  "secondaryKeywords": ["SMM услуги", "SMM услуги в Ташкенте", "заказать SMM услуги", "SMM агентство Ташкент", "ведение социальных сетей Ташкент", "продвижение Instagram Ташкент", "контент для соцсетей", "таргетированная реклама Ташкент"],
+  "secondaryKeywords": ["SMM услуги", "SMM услуги в Ташкенте", "заказать SMM услуги", "SMM агентство Ташкент", "ведение социальных сетей Ташкент", "продвижение Instagram Ташкент", "контент для соцсетей"],
   "searchIntent": "transactional",
   "h1": "SMM-продвижение в Ташкенте: контент, реклама и заявки",
   "title": "SMM-продвижение в Ташкенте под ключ | GPTBot.uz",
-  "description": "SMM-продвижение в Ташкенте: стратегия, рубрики, съёмка, контент, публикация, таргетированная реклама и аналитика обращений. Получите план.",
+  "description": "SMM-продвижение в Ташкенте: стратегия, рубрики, съёмка, контент, публикация, модерация и аналитика обращений. Получите план работ.",
   "canonical": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
   "hreflangRu": "/ru/smm-prodvizhenie-tashkent/",
   "ogTitle": "SMM-продвижение в Ташкенте без контента ради контента",
@@ -18,13 +18,15 @@
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "SMM-продвижение в Ташкенте",
-  "heroSubtitle": "Соединяем стратегию, производство контента, публикацию, таргетированную рекламу и обработку обращений. Каждый формат получает задачу, аудиторию и измеримый следующий шаг.",
+  "heroSubtitle": "Соединяем стратегию, производство контента, публикацию, модерацию и обработку обращений. Платная таргетированная реклама подключается отдельным контуром с собственным бюджетом и KPI.",
   "ctaPrimaryLabel": "Получить SMM-разбор",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Состав работ",
   "ctaSecondaryHref": "#process",
   "heroImage": {"src":"/assets/digital/smm-prodvizhenie-tashkent-1200.webp","alt":"Команда создаёт контент для SMM-продвижения бизнеса в Ташкенте","width":1200,"height":800},
   "heroTrust": ["Стратегия до съёмки", "RU + UZ", "Контент + реклама", "Аналитика обращений"],
+  "designVariant":"digital-command-center",
+  "commandCenter":{"kicker":"Social content · Tashkent","status":"Content trust system","ariaLabel":"Система SMM-контента от стратегии до диалога","pipeline":[{"step":"01","title":"Стратегия","detail":"Аудитория · Роль"},{"step":"02","title":"Контент","detail":"Тема · Формат · Язык"},{"step":"03","title":"Контакт","detail":"Профиль · Direct · Бот"},{"step":"04","title":"Вывод","detail":"Диалог · Лид · План"}],"signals":["SMM","RU+UZ","CTA"],"channels":["Стратегия","Рубрики","Съёмка","Дизайн","Публикация","Модерация","Диалоги","Аналитика"]},
   "bodyBlocks": [
     {"type":"toc","text":"Что разберём","links":[{"anchor":"fit","label":"Кому подходит SMM"},{"anchor":"process","label":"Что входит в работу"},{"anchor":"content","label":"Контент-система"},{"anchor":"ads","label":"Реклама и аналитика"},{"anchor":"price","label":"Стоимость"}]},
     {"type":"h2","id":"fit","text":"Когда SMM помогает бизнесу, а когда нет"},
@@ -40,8 +42,8 @@
     {"type":"p","text":"Количество публикаций, подписчиков и просмотров важно для диагностики, но само по себе не доказывает пользу. Накрутки и механики ради пустой активности искажают картину. Telegram прямо запрещает сервисы искусственного трафика и манипуляции метриками в правилах рекламной платформы."},
     {"type":"linkp","text":"Официальные {rules} требуют функциональную площадку, релевантное назначение и запрещают искусственное увеличение показателей.","links":[{"token":"rules","target":"https://ads.telegram.org/guidelines","anchor":"правила Telegram Ads"}]},
     {"type":"h2","id":"ads","text":"Как связываем SMM, рекламу и заявки"},
-    {"type":"p","text":"Для каждого рекламного сообщения определяем цель. Meta отдельно указывает, что цель Traffic предназначена для переходов, а для лидов, сообщений или продаж стоит выбирать соответствующее действие. Поэтому рекламная оптимизация должна совпадать с реальным результатом, а сайт или бот обязаны фиксировать источник."},
-    {"type":"linkp","text":"После клика человек может перейти на {landing}, начать диалог с {bot} или попасть к менеджеру. Если нужны общая стратегия и связь с CRM, SMM включается в {digital}.","links":[{"token":"landing","target":"/ru/sayt-dlya-zayavok/","anchor":"сайт для заявок"},{"token":"bot","target":"/ru/avtomatizatsiya-zayavok/","anchor":"бота для обработки заявок"},{"token":"digital","target":"/ru/digital-marketing-tashkent/","anchor":"комплексный digital-маркетинг"}]},
+    {"type":"p","text":"Органическое ведение и платная дистрибуция связаны, но не должны смешиваться в одной непрозрачной смете. SMM создаёт контент и доверие; таргетированная реклама управляет аудиториями, рекламными кампаниями, медиабюджетом и тестами креативов. Для каждого сообщения определяем цель, а сайт или бот фиксирует источник."},
+    {"type":"linkp","text":"После клика человек может перейти на {landing}, начать диалог с {bot} или попасть к менеджеру. Платные кампании подробно описаны на странице {target}. Если нужны общая стратегия и связь с CRM, SMM включается в {digital}.","links":[{"token":"landing","target":"/ru/sayt-dlya-zayavok/","anchor":"сайт для заявок"},{"token":"bot","target":"/ru/avtomatizatsiya-zayavok/","anchor":"бота для обработки заявок"},{"token":"target","target":"/ru/targetirovannaya-reklama-tashkent/","anchor":"таргетированной рекламы в Ташкенте"},{"token":"digital","target":"/ru/digital-marketing-tashkent/","anchor":"комплексный digital-маркетинг"}]},
     {"type":"h2","id":"price","text":"От чего зависит стоимость SMM"},
     {"type":"p","text":"На бюджет влияют число площадок, частота публикаций, сложность съёмки, количество языков, объём модерации, рекламные креативы и аналитика. Медиабюджет оплачивается отдельно. До расчёта мы определяем минимальный состав, который способен проверить гипотезу, и не включаем производство, которое не используется в воронке."},
     {"type":"list","items":["Стратегия и контент-план с понятной ролью рубрик.","Согласованный объём текстов, дизайна, фото и видео.","Регламент согласования и публикации.","Маршрут комментариев и личных сообщений.","Ежемесячный отчёт с выводами, а не только скриншотами охвата."]},
@@ -72,8 +74,9 @@
     {"target":"/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/","anchor":"стоимость SMM-услуг и пакеты","locale":"ru","type":"contextual","priority":5},
     {"target":"/ru/blog/chto-vhodit-v-uslugi-smm-specialista/","anchor":"что входит в услуги SMM-специалиста","locale":"ru","type":"contextual","priority":6},
     {"target":"/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/","anchor":"договор на оказание SMM-услуг","locale":"ru","type":"contextual","priority":7},
-    {"target":"/ru/blog/chto-takoe-smm-prodvizhenie/","anchor":"что такое SMM-продвижение","locale":"ru","type":"contextual","priority":8}
+    {"target":"/ru/blog/chto-takoe-smm-prodvizhenie/","anchor":"что такое SMM-продвижение","locale":"ru","type":"contextual","priority":8},
+    {"target":"/ru/targetirovannaya-reklama-tashkent/","anchor":"таргетированная реклама в Ташкенте","locale":"ru","type":"contextual","priority":9}
   ],
   "schemaTypes":["Organization","WebSite","BreadcrumbList","Service","FAQPage"],
-  "lastReviewedAt":"2026-08-04","createdAt":"2026-07-30","updatedAt":"2026-08-04"
+  "lastReviewedAt":"2026-08-20","createdAt":"2026-07-30","updatedAt":"2026-08-20"
 }

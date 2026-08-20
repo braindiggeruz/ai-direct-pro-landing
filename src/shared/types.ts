@@ -118,6 +118,17 @@ export interface Page {
   heroTrust?: string[];
   /** Optional static visual treatment for flagship commercial pages. */
   designVariant?: 'digital-command-center' | 'warm-market-signals';
+  /** Page-scoped labels for the flagship command-center hero. */
+  commandCenter?: {
+    kicker?: string;
+    status?: string;
+    ariaLabel?: string;
+    pipeline?: { step: string; title: string; detail: string }[];
+    signals?: string[];
+    channels?: string[];
+  };
+  /** Static-first conversion aid. Calculations stay in the visitor's browser. */
+  growthTool?: 'channel-selector' | 'cpl-calculator' | 'creative-matrix' | 'telegram-funnel' | 'audit-heatmap';
   /** Optional client-side island injected only on the page that declares it. */
   interactiveTool?: 'telegram-cost-calculator';
 

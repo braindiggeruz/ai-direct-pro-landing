@@ -170,7 +170,7 @@ function renderBlock(b: BodyBlock): string {
       const rows = b.rows || [];
       const thead = headers.length ? `<thead><tr>${headers.map(h => `<th class="px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-white/10">${escapeText(h)}</th>`).join('')}</tr></thead>` : '';
       const tbody = `<tbody>${rows.map((row, ri) => `<tr class="${ri % 2 === 0 ? 'bg-white/[0.02]' : ''} hover:bg-white/[0.05] transition-colors">${row.map(cell => `<td class="px-4 py-3 text-white/80 text-sm border-b border-white/5">${escapeText(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
-      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10"><table class="w-full">${thead}${tbody}</table></div>`;
+      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan/60" role="region" aria-label="Таблица данных — прокрутите горизонтально при необходимости" tabindex="0"><table class="w-full">${thead}${tbody}</table></div>`;
     }
     case 'image':
     case 'figure': {
