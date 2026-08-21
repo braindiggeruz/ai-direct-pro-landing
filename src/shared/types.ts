@@ -197,7 +197,14 @@ export interface GlobalSEO {
   organizationDescription?: string;
   /** Single-sentence variant — used in OG fallbacks and shorter JSON-LD blocks. */
   organizationShortDescription?: string;
-  /** Topics the organisation is an expert on — surfaces as Organization.knowsAbout. */
+  /**
+   * Topics the organisation is an expert on. Deliberately NOT rendered into
+   * JSON-LD: buildOrganizationLd omits knowsAbout because it is not a valid
+   * Organization property and SEMrush flags it. The rendered topical claim is
+   * Person.knowsAbout in buildAuthorPersonLd. This list is the canonical
+   * inventory used when filling in directory and citation forms, which ask for
+   * exactly this, so keep it aligned with the published service pages.
+   */
   knowsAbout?: string[];
   logo: string;
   phone?: string;

@@ -106,11 +106,26 @@ export function buildAuthorPersonLd(global: GlobalSEO): Record<string, unknown> 
     worksFor: { '@id': `${global.siteUrl}/#org` },
     jobTitle: 'Founder and editor',
     knowsLanguage: ['ru', 'uz'],
+    // The expertise list has to cover what the studio actually sells, not only
+    // the AI half of it. Before 2026-08-22 it named four topics, one of them
+    // marketing, while the site published commercial pages for SEO, local SEO,
+    // SMM, contextual and paid-social advertising, Telegram Ads and website
+    // development. Every entry below maps to a published service page.
+    // Organization.knowsAbout is deliberately not emitted (see the note on
+    // buildOrganizationLd), so this Person node is where the topical claim
+    // lives.
     knowsAbout: [
       'AI bot architecture',
       'Telegram bot development',
       'Business process automation',
+      'Search engine optimization',
       'Technical SEO',
+      'Local SEO',
+      'Social media marketing',
+      'Telegram Ads',
+      'Pay-per-click advertising',
+      'Web development',
+      'Marketing analytics',
     ],
     ...(global.sameAs?.length ? { sameAs: global.sameAs } : {}),
   };
