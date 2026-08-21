@@ -7,7 +7,7 @@
       "id": "webdev-uz",
       "hub": "/uz/sayt-yaratish/",
       "hubIntent": "commercial — order a business website",
-      "hubKeywords": ["sayt yaratish", "web sayt yaratish", "veb sayt yaratish", "sayt ochish", "sayt tuzish", "biznes uchun sayt", "kompaniya uchun sayt"],
+      "hubKeywords": ["sayt yaratish", "sayt yaratish xizmati", "web sayt yaratish", "veb sayt yaratish", "sayt ochish", "sayt tuzish", "biznes uchun sayt", "kompaniya uchun sayt"],
       "spokes": [
         { "url": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", "ownsIntent": "what drives the price of a website", "primaryKeyword": "sayt yaratish narxi" },
         { "url": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/", "ownsIntent": "free site builder versus a commissioned site", "primaryKeyword": "bepul sayt yaratish" },
@@ -17,7 +17,7 @@
         { "url": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/", "ownsIntent": "why an existing site produces no enquiries and what to check", "primaryKeyword": "sayt ariza olmayapti" }
       ],
       "evidence": "docs/seo/WEBDEV_CLUSTER_MAP_2026-08-01.md, docs/seo/UZ_AUTHORITY_SPRINT_2026-08-01.md",
-      "note": "Toshkentda sayt buyurtma qilish returned no volume and is deliberately not claimed by any URL. The four spokes added on 2026-08-01 in the authority sprint are buyer-journey resources, not volume bets: the paid research of the same day returned no measurable volume for their topics, and none of them may ever claim a hub keyword. They exist to answer distinct pre-purchase questions and to route internal authority to the hub. Rejected in the same pass: a development-process article (the hub's own «Ish jarayoni» section owns it), a launch checklist (absorbed into the preparation article), and a standalone technical-brief article (absorbed into the preparation article)."
+      "note": "sayt yaratish xizmati was added to the hub on 2026-08-21. Live SERP evidence of that day: the bare head term returns a mixed do-it-yourself result set (a free site builder at 1, a YouTube tutorial at 2, SITE123 and site.pro in the top ten, Wikipedia at 18), while sayt yaratish xizmati returns twelve commercial studio pages and nothing else. Rather than split the hub, the commercial variant is claimed by the same URL so the page can carry both the head term it already ranks for and the phrase that actually converts. Google Ads data for location 2860 on the same day: sayt yaratish 1300/mo competition 0.15, sayt yaratish xizmati 260/mo competition 0.12, veb sayt yaratish 210/mo, sayt yaratish narxi 50/mo. Keyword difficulty is unavailable for this market. Toshkentda sayt buyurtma qilish returned no volume and is deliberately not claimed by any URL. The four spokes added on 2026-08-01 in the authority sprint are buyer-journey resources, not volume bets: the paid research of the same day returned no measurable volume for their topics, and none of them may ever claim a hub keyword. They exist to answer distinct pre-purchase questions and to route internal authority to the hub. Rejected in the same pass: a development-process article (the hub's own «Ish jarayoni» section owns it), a launch checklist (absorbed into the preparation article), and a standalone technical-brief article (absorbed into the preparation article)."
     },
     {
       "id": "webdev-ru",
@@ -31,7 +31,7 @@
         { "url": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/", "ownsIntent": "why an existing site produces no leads", "primaryKeyword": "почему сайт не приносит заявки" }
       ],
       "evidence": "docs/seo/WEBDEV_CLUSTER_MAP_2026-08-01.md",
-      "note": "Complete before this sprint and left unchanged. All four spokes earn zero impressions over six months, so no fifth Russian article is justified until that changes."
+      "note": "Complete before this sprint and left unchanged. All four spokes earn zero impressions over six months, so no fifth Russian article is justified until that changes. Re-checked 2026-08-21: /ru/razrabotka-sayta-pod-klyuch/ still surfaces in Search Console over 2026-05-18..2026-08-18 with 50 impressions, including seven long-tail «под ключ» phrases between positions 12 and 26. That is decayed index data from before the 2026-08-01 redirect, not a live competitor — the URL is a 301 source with no content file. The hub keeps «разработка сайта под ключ» and should absorb that long tail; no page was recreated."
     },
     {
       "id": "telegram-mini-app-ru",
@@ -149,6 +149,28 @@
       ],
       "evidence": "SEO-стратегия коммерческого digital-кластера GPTBot.uz для Ташкента и Узбекистана.pdf reviewed 2026-08-20; intent ownership checked against the existing content inventory; official Google Ads, Meta Ad Library and Telegram Ads sources used for factual boundaries.",
       "note": "No verified Uzbekistan keyword volume/KD/CPC was available in the supplied research, so this is an intent and conversion-architecture decision, not a traffic forecast. The broad internet-advertising hub compares channels; each commercial spoke owns only its platform/task intent. SMM owns organic social content, Telegram bot development owns product development, and performance marketing owns cross-channel optimisation. Review GSC impressions and query overlap after 6–8 weeks before adding more paid-media URLs."
+    },
+    {
+      "id": "smm-uz",
+      "hub": "/uz/smm-xizmatlari/",
+      "hubIntent": "commercial — commission Uzbek-language social media management in Tashkent",
+      "hubKeywords": [
+        "smm xizmatlari",
+        "smm xizmati",
+        "smm agentligi",
+        "smm xizmatlari toshkent",
+        "ijtimoiy tarmoqlarni yuritish",
+        "instagram sahifasini yuritish"
+      ],
+      "spokes": [
+        {
+          "url": "/uz/blog/smm-nima/",
+          "ownsIntent": "understand social media marketing as a channel before commissioning it",
+          "primaryKeyword": "smm nima"
+        }
+      ],
+      "evidence": "Google Ads data for location 2860 pulled 2026-08-21: smm xizmatlari 110/mo at CPC 3.66 with competition 0.06, smm nima 720/mo with competition 0.03, smm mutaxassisi 30/mo. Keyword difficulty and search intent are unavailable for this market because Uzbekistan is served from Google Ads data. Live SERP for smm xizmatlari the same day: only five of the top twenty are agency service pages — OLX holds ranks 1 and 5, and directories, Wikipedia, YouTube and a follower-selling service take most of the rest.",
+      "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/ and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent."
     }
   ],
   "pairs": [
@@ -247,6 +269,54 @@
       "gscNote": "A 24-hour Google Search Console sample reviewed on 2026-08-20 showed 399 visible impressions across Uzbek ChatGPT download, access and online-use variants. The strongest uncovered phrase was «chatgpt yuklab olish uzbek tilida», while «chatgpt ochish» formed a separate access intent.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-08-20"
+    },
+    {
+      "id": "C13-business-website",
+      "commercial": {
+        "url": "/ru/razrabotka-saytov-tashkent/",
+        "owns": "commission website development, geo-qualified",
+        "mustNotTarget": ["сайт для бизнеса", "какой сайт нужен бизнесу"]
+      },
+      "informational": {
+        "url": "/ru/sozdanie-sayta-dlya-biznesa/",
+        "owns": "which kind of site a business needs and why",
+        "mustNotTarget": ["разработка сайтов ташкент", "создание сайтов ташкент"]
+      },
+      "gscNote": "Checked on 2026-08-21 over the same window. The two share no query at all. /ru/sozdanie-sayta-dlya-biznesa/ earns its 28 impressions on «сайт для бизнеса» (17 impressions, position 27.4), «создание сайта для бизнеса» and «сайт для компании»; the hub earns its 128 on geo-qualified development terms. No overlap, so no merge.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-08-21"
+    },
+    {
+      "id": "C14-seo-pricing",
+      "commercial": {
+        "url": "/ru/seo-prodvizhenie-saytov-tashkent/",
+        "owns": "commission SEO for a site in Tashkent",
+        "mustNotTarget": ["стоимость продвижения", "цены на seo продвижение", "продвижение сайта цена"]
+      },
+      "informational": {
+        "url": "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+        "owns": "what SEO costs and what drives the number",
+        "mustNotTarget": ["seo продвижение сайтов ташкент", "заказать seo продвижение", "seo ташкент"]
+      },
+      "gscNote": "Checked on 2026-08-21 over 2026-05-18..2026-08-18. The pricing article is the only asset in the Russian marketing cluster holding commercial positions: «стоимость продвижения» 4.0, «цены на seo продвижение» 5.0, «оптимизация сайта стоимость» 6.0, «продвижение сайта цена» 6.0, «seo продвижение интернет магазина цена» 7.0, «стоимость поискового продвижения сайта» 12.0, «seo аудит сайта цена» 14.0. The service page sits at 62-92 on its own terms and the two never appear for the same query. The bidirectional link between them was already in place before this check — article to service page in both the body and internalLinks, service page back to the article — so the 60-position gap is an authority and off-page problem, not an internal-linking one. Recorded here so a future pass does not 'fix' it by merging two genuinely different intents.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-08-21"
+    },
+    {
+      "id": "C15-marketing-audit",
+      "commercial": {
+        "url": "/ru/marketingovyi-audit-tashkent/",
+        "owns": "order a marketing audit in Tashkent",
+        "mustNotTarget": ["как провести аудит digital маркетинга", "как сделать аудит рекламы"]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-provesti-audit-digital-marketinga/",
+        "owns": "how to run a digital marketing audit yourself, step by step",
+        "mustNotTarget": ["заказать маркетинговый аудит", "маркетинговый аудит ташкент"]
+      },
+      "gscNote": "Checked on 2026-08-21 over 2026-05-18..2026-08-18. The article holds position 18.1 on «аудит digital маркетинга» across 20 impressions — the only commercially framed Russian marketing query on page two. The money page earned zero impressions in three months while declaring the exact same phrase as a secondary keyword, so the two were competing on paper for a term only one of them ranks for. Both directions of the internal link were already in place. The change made on 2026-08-21 was narrow: «аудит digital маркетинга» and «аудит интернет маркетинга» were dropped from the money page's secondary keywords and left with the article that earns them, and the money page keeps only ordering language.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-08-21"
     }
   ]
 }
