@@ -10,6 +10,18 @@
 //     gtag('event','telegram_demo_click', {page_path,page_title,cta_text,target_url})
 //   - SEO funnel events on prerendered landings: seo_landing_view,
 //     service_cta_click, telegram_open_attempt, language_switch
+//   - generate_lead when a visitor opens the studio's own Telegram contact
+//
+// Lead semantics. This site has no contact form, no phone number and no email
+// link: the only way a visitor can reach the studio is the Telegram contact
+// handle. GA4 defines generate_lead as "a user submits a form or a request for
+// information", and opening that chat is that request being made — so it is
+// emitted there and nowhere else. Clicks on our own product bots are product
+// engagement, not an enquiry, and stay diagnostic-only. qualify_lead and
+// close_convert_lead are deliberately never emitted: nothing the browser can
+// see tells us whether the conversation was answered or won, and inventing that
+// signal would make the funnel a lie. Those two belong to a CRM callback that
+// does not exist yet.
 //
 // Privacy: every event carries page path, page title, a truncated CTA label and
 // the outgoing URL. No form values, no phone or email, no Telegram username, no
@@ -52,6 +64,15 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
   // segmented from the SPA homepage in GA4.
   var seoLocale = p.indexOf('/uz/')===0 ? 'uz' : (p.indexOf('/ru/')===0 ? 'ru' : 'root');
   var isArticle = p.indexOf('/blog/')>-1;
+  // Which service page the enquiry came from, taken from the URL alone.
+  var seg = p.split('/').filter(Boolean);
+  var serviceSlug = seg.length ? seg[seg.length-1] : 'home';
+  // Above-the-fold CTAs convert differently from the ones after the pricing
+  // block, and that is worth knowing without measuring anything about a person.
+  function ctaZone(node){
+    try { return (node.getBoundingClientRect().top + (window.pageYOffset||0)) < 900 ? 'hero' : 'body'; }
+    catch (err) { return 'body'; }
+  }
   if (seoLocale!=='root') {
     gtag('event', isArticle ? 'seo_article_view' : 'seo_landing_view', {
       page_path: p,
@@ -76,11 +97,27 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         target_url: href
       });
     }
+    // The studio's own contact handles, mirroring content/global/site.json.
+    // Everything else on t.me is one of our product bots.
+    var isContactTg = isTg && /t\\.me\\/(XGame_changerx|GPTBot_support)(\\b|\\/|$)/i.test(href);
     if (isTg) {
       gtag('event','telegram_open_attempt',{
         page_path: location.pathname,
         cta_text: label,
-        target_url: href
+        target_url: href,
+        contact_kind: isContactTg ? 'contact' : 'product_bot'
+      });
+    }
+    // The one lead this site can honestly observe. See the header note.
+    if (isContactTg) {
+      gtag('event','generate_lead',{
+        page_path: location.pathname,
+        locale: seoLocale,
+        page_kind: isArticle ? 'article' : 'landing',
+        service_slug: serviceSlug,
+        cta_text: label,
+        cta_zone: ctaZone(el),
+        method: 'telegram'
       });
     }
     // Any CTA on a service landing that leads off-page or to another service.
