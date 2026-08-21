@@ -171,6 +171,28 @@
       ],
       "evidence": "Google Ads data for location 2860 pulled 2026-08-21: smm xizmatlari 110/mo at CPC 3.66 with competition 0.06, smm nima 720/mo with competition 0.03, smm mutaxassisi 30/mo. Keyword difficulty and search intent are unavailable for this market because Uzbekistan is served from Google Ads data. Live SERP for smm xizmatlari the same day: only five of the top twenty are agency service pages — OLX holds ranks 1 and 5, and directories, Wikipedia, YouTube and a follower-selling service take most of the rest.",
       "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/ and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent."
+    },
+    {
+      "id": "seo-uz",
+      "hub": "/uz/seo-xizmati/",
+      "hubIntent": "commercial — commission Uzbek-language search optimisation for a business site",
+      "hubKeywords": [
+        "seo xizmati",
+        "seo optimizatsiya",
+        "saytni google’da ko‘tarish",
+        "seo audit",
+        "qidiruv tizimlarida optimallashtirish",
+        "biznes sayti uchun seo"
+      ],
+      "spokes": [
+        {
+          "url": "/uz/blog/marketing-nima/",
+          "ownsIntent": "understand marketing as a whole and which channel a small business should start with",
+          "primaryKeyword": "marketing nima"
+        }
+      ],
+      "evidence": "Google Ads data for location 2860 pulled 2026-08-22: seo xizmati 40/mo at CPC 1.41 with competition 0.10; the plural seo xizmatlari returned no volume; marketing nima 880/mo with competition 0.01. Keyword difficulty and search intent stay unavailable for this market, so intent was read off the live SERP pulled the same day. The seo xizmati SERP is the cleanest commercial result set measured in this market: twenty organic results and not one SERP feature — no local pack, no AI Overview, no knowledge panel, no video — with every ranked result a service page from a small local studio (repid.uz, oqila.uz, innosoft.uz, web-sayt.uz, seo-first.uz, softmedia.uz, optimize.uz, vox.uz) and no authority domain among them. The marketing nima SERP is Wikipedia plus explainer pages from both direct competitors, royalmarketing.uz and oqila.uz, which is the same shape that justified smm nima.",
+      "note": "The frame rule that decided this cluster: in location 2860 the local pack attaches to agency-framed queries and stays away from service-framed ones. reklama agentligi (260/mo) and маркетинговое агентство (90/mo) both return a three-slot local pack and are therefore unreachable while the business has no Google Business Profile, no phone and no street address; seo xizmati returns none. The Russian counterpart /ru/seo-prodvizhenie-saytov-tashkent/ keeps every Cyrillic term and sits at position 62 on its own, so the Uzbek page was authored natively rather than translated, and the two are declared as a reciprocal hreflang pair. The spoke is top-of-funnel and routes to four Uzbek money pages, not only to this hub. Deliberately not claimed by this or any cluster: raqamli marketing (110/mo at CPC 12.95) because its SERP is Wikipedia and university journals, and reklama xizmati / reklama xizmatlari because theirs is outdoor advertising and directories. No second Uzbek SEO article is justified until Search Console shows a distinct intent."
     }
   ],
   "pairs": [
@@ -317,6 +339,39 @@
       "gscNote": "Checked on 2026-08-21 over 2026-05-18..2026-08-18. The article holds position 18.1 on «аудит digital маркетинга» across 20 impressions — the only commercially framed Russian marketing query on page two. The money page earned zero impressions in three months while declaring the exact same phrase as a secondary keyword, so the two were competing on paper for a term only one of them ranks for. Both directions of the internal link were already in place. The change made on 2026-08-21 was narrow: «аудит digital маркетинга» and «аудит интернет маркетинга» were dropped from the money page's secondary keywords and left with the article that earns them, and the money page keeps only ordering language.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-08-21"
+    },
+    {
+      "id": "C16-smm-uslugi",
+      "commercial": {
+        "url": "/ru/smm-prodvizhenie-tashkent/",
+        "owns": "order SMM services in Tashkent — smm услуги, услуги smm, заказать smm, smm агентство, ведение соцсетей",
+        "mustNotTarget": ["что входит в услуги smm специалиста", "обязанности smm специалиста", "прайс лист смм специалиста"]
+      },
+      "informational": {
+        "url": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+        "owns": "the buyer's view of an SMM specialist's scope of responsibility, what is billed separately and how to accept the work",
+        "mustNotTarget": ["smm услуги", "услуги smm", "заказать smm услуги", "smm услуги ташкент", "smm агентство ташкент"]
+      },
+      "gscNote": "Found on 2026-08-22 over 2026-05-18..2026-08-18. The spoke was holding the hub's own declared keywords: «smm услуги» at position 20.0 across 14 impressions with the hub absent, and «услуги smm» returning BOTH URLs at once — the spoke at 14.0 and the hub at 37.0. The spoke also holds «услуги смм специалиста» at 9.0 and «что входит в услуги смм» at 32.0, which are legitimately its own. The live SERP for «smm услуги» pulled the same day settles the page type: xspace.uz, latmedia.uz, dora.uz, abba.uz and sos.uz occupy the top eight and every one of them is an agency service page — no explainer ranks. The hub is therefore the correct owner of the commercial term and was losing it to its own spoke. Fixed on 2026-08-22 without a merge or a redirect: the spoke keeps its scope-and-acceptance framing but its meta description no longer carries the bare «услуги SMM» collocation, and the hub's title, description and the «Что входит в SMM-услуги под ключ» heading now carry ordering language plus a «Как заказать SMM-услуги?» FAQ entry. Both URLs keep real distinct value, so no redirect was created.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-08-22"
+    }
+  ],
+  "architectureDecisions": [
+    {
+      "id": "A1-digital-marketing-tashkent-role",
+      "url": "/ru/digital-marketing-tashkent/",
+      "decision": "NAVIGATION_OVERVIEW",
+      "decidedAt": "2026-08-22",
+      "evidence": "Search Console 2026-05-18..2026-08-18: 12 impressions in three months at average position 45.7, on four queries only — «интернет маркетинг ташкент» 33.25, «маркетинг под ключ» 22.0, «digital marketing ташкент» 64.5 and «услуги интернет маркетинг узбукистан» 82.0. The internal graph gives it 19 inbound links, the second-highest of any commercial page, which makes it the worst link-to-return ratio in the marketing cluster. Google Ads data for location 2860 pulled 2026-08-22 explains why: «интернет маркетинг ташкент» 10/mo, «услуги интернет маркетинга» 10/mo, «комплексный интернет маркетинг» 10/mo at competition 0, «маркетинг под ключ» 10/mo, «digital агентство ташкент» 10/mo at competition 0.86, and «интернет маркетинг узбекистан», «digital marketing uzbekistan» and «продвижение бизнеса ташкент» returned no volume at all. The only Russian head term in this family with real volume is «маркетинговое агентство» at 90/mo, and its live SERP carries a three-slot local pack, so it is unreachable while the business has no Google Business Profile.",
+      "note": "This page is recorded as a navigational and commercial overview surface, not a money target, and it deliberately owns no cluster. It keeps its existing content, its existing internal links and its indexable status — nothing was removed, because removing links has no proven upside and would churn a page that costs nothing to keep. What changes is the rule going forward: no further optimisation budget, no new spokes, and no new page should be created for this family until either a Google Business Profile exists (which unlocks «маркетинговое агентство») or Search Console shows demand that the keyword data does not currently contain. Reconsider only on new evidence."
+    },
+    {
+      "id": "A2-verified-and-rejected-2026-08-22",
+      "decision": "DO_NOT_BUILD",
+      "decidedAt": "2026-08-22",
+      "evidence": "Live SERPs pulled 2026-08-22 for location 2860, after the keyword volumes looked attractive on paper. landing page (320/mo, competition 0.35): the result set is dribbble, unbounce, canva, figma, behance, onepagelove, landingfolio, Wikipedia, Cambridge Dictionary, wix and semrush, plus a knowledge panel and an AI Overview — English-language definition, design inspiration and page builders, with no Uzbek or Tashkent player anywhere in the top nineteen. veb dasturlash (50/mo, competition 0.04): Wikipedia, texnoman, mustaqilish.uz, Scribd, dasturlash.uz, proweb.uz «Dasturlash kurslari Toshkentda», myblog, a Phoenix Publication journal article, a gamma.app deck, an Instagram course ad and two YouTube lessons — people learning to code, not people commissioning a website. marketing strategiyasi (140/mo, competition 0.12): dora.uz and whatif.uz blog posts, Wikipedia twice, four academic journals, Scribd, prezi, researchgate and a knowledge panel — explainer and academic, not a service SERP.",
+      "note": "None of the three justifies a page or a keyword claim. /uz/sayt-yaratish/ must not claim landing page or veb dasturlash, and no page may claim marketing strategiyasi. Recorded so a later pass does not rediscover the volumes and build for them. This sits alongside the same 2026-08-22 rejections already written into the seo-uz cluster note: raqamli marketing (110/mo at CPC 12.95, academic SERP), reklama agentligi and reklama xizmati (outdoor advertising and directories, plus a local pack), targetolog and target reklama (vacancies, courses and Russian-language theory), telegram ads (6600/mo but platform-navigational with no Uzbek result in the top fourteen) and biznesni rivojlantirish (owned end to end by Biznesni Rivojlantirish Banki)."
     }
   ]
 }
