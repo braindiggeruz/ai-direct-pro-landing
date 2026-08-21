@@ -139,6 +139,8 @@
     { "target": "/uz/avtosalon-uchun-ai-bot/", "anchor": "Avtosalon uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/fitnes-klub-uchun-ai-bot/", "anchor": "Fitnes klub uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/sayt-yaratish/", "anchor": "Sayt yaratish", "locale": "uz", "type": "block" },
+    { "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari", "locale": "uz", "type": "block" },
+    { "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama", "locale": "uz", "type": "block" },
     { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/yetkazib-berish-uchun-ai-bot/", "anchor": "Yetkazib berish uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/yurist-uchun-ai-bot/", "anchor": "Yurist uchun AI bot", "locale": "uz", "type": "block" },

@@ -209,6 +209,12 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "Instagram sahifasini yuritish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/",
       "anchor": "Biznes uchun AI botlar",
       "locale": "uz",

@@ -1,0 +1,221 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "smm-nima",
+  "url": "/uz/blog/smm-nima/",
+  "title": "SMM nima va u biznesga qanday foyda beradi",
+  "description": "SMM — ijtimoiy tarmoqlar orqali marketing. Kanal sifatida qanday ishlaydi, SMM mutaxassisi nima qiladi, qaysi ko‘rsatkichlarga qarash kerak va qachon bu kanal mos kelmaydi.",
+  "h1": "SMM nima va u biznesga qanday foyda beradi",
+  "topicCluster": "smm-uz",
+  "targetMoneyPage": "/uz/smm-xizmatlari/",
+  "keywords": [
+    "smm nima",
+    "smm marketing nima",
+    "ijtimoiy media marketing",
+    "smm qanday ishlaydi",
+    "smm nimadan boshlanadi"
+  ],
+  "intro": "Qisqa javob: SMM — bu ijtimoiy tarmoqlar orqali biznesni tanitish va u yerdan mijoz olish. Uzunroq javob esa muhimroq, chunki SMM «post qo‘yish» degani emas va aynan shu tushunmovchilik tufayli ko‘p byudjet behuda ketadi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "SMM inglizcha Social Media Marketing so‘zlarining qisqartmasi. Ma’nosi oddiy: siz odamlar allaqachon vaqt o‘tkazayotgan joyda — Instagram, Telegram, Facebook yoki TikTok’da — biznes haqida gapirasiz va u yerdan murojaat olasiz."
+    },
+    {
+      "type": "p",
+      "text": "Farqi shundaki, qidiruvda odam sizni o‘zi qidiradi, ijtimoiy tarmoqda esa siz uni to‘xtatib turasiz. Shuning uchun bu yerda kontent avval qiziqtirishi, keyingina taklif qilishi kerak."
+    },
+    { "type": "h2", "id": "nima-emas", "text": "SMM nima emas" },
+    {
+      "type": "list",
+      "items": [
+        "Bu obunachi soni emas. Sotib olingan obunachi hech qachon ariza qoldirmaydi",
+        "Bu kunlik post majburiyati emas. Har kuni bo‘sh post qo‘yishdan haftada bitta foydali post yaxshiroq",
+        "Bu tez sotuv kanali emas. Birinchi haftadayoq natija kutish noto‘g‘ri",
+        "Bu reklama bilan bir narsa emas. Pullik reklama alohida ish va alohida byudjet",
+        "Bu chiroyli dizayn emas. Dizayn yordam beradi, lekin taklif noaniq bo‘lsa qutqarmaydi"
+      ]
+    },
+    { "type": "h2", "id": "qanday-ishlaydi", "text": "Kanal sifatida qanday ishlaydi" },
+    {
+      "type": "p",
+      "text": "Mijoz bir bosishda paydo bo‘lmaydi. Odatda u bir necha bosqichdan o‘tadi va SMM’ning vazifasi shu bosqichlarni qisqartirish."
+    },
+    {
+      "type": "table",
+      "headers": ["Bosqich", "Odam nima qiladi", "Kontent nima qilishi kerak"],
+      "rows": [
+        ["Tanishuv", "Lentada postni ko‘radi", "Diqqatni tortadi va nima taklif qilinayotganini aytadi"],
+        ["Qiziqish", "Sahifaga kiradi", "Kim ekaningizni va nima qilishingizni tushuntiradi"],
+        ["Ishonch", "Ishlaringizni va izohlarni ko‘radi", "Real natijalarni ko‘rsatadi"],
+        ["Harakat", "Direct’ga yozadi yoki havolani bosadi", "Keyingi qadamni aniq aytadi"],
+        ["Qaytish", "Keyinroq yana keladi", "Esga soladi va yangilikni aytadi"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ko‘p sahifalar birinchi ikki bosqichda yaxshi ishlaydi va oxirgi ikkitasida qulaydi: odam qiziqadi, yozadi — javob esa bir kundan keyin keladi. Shu paytda savdo yopiladi, faqat sizniki emas."
+    },
+    { "type": "h2", "id": "kanallar", "text": "O‘zbekistonda qaysi kanal ishlaydi" },
+    {
+      "type": "list",
+      "items": [
+        "Instagram — vizual biznes uchun kuchli: salon, klinika, kafe, do‘kon, ta’lim",
+        "Telegram — aloqa va takroriy murojaat uchun: kanal, bot, tezkor javob",
+        "Facebook — ko‘proq katta yosh auditoriya va ba’zi B2B yo‘nalishlar",
+        "TikTok — qamrov uchun kuchli, lekin arizaga aylanishi kontentga juda bog‘liq",
+        "YouTube — uzoq tushuntirish va ishonch kerak bo‘lgan sohalar uchun"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hammasini birdaniga olib borish shart emas va ko‘pincha zararli. Ikkita kanalni izchil yuritish beshtasini yarim holatda tashlab qo‘yishdan yaxshiroq."
+    },
+    { "type": "h2", "id": "mutaxassis", "text": "SMM mutaxassisi aslida nima qiladi" },
+    {
+      "type": "list",
+      "items": [
+        "Auditoriya va raqobatchilarni o‘rganadi",
+        "Kontent rejasini tuzadi — mavzular va jadval",
+        "Matn yozadi, dizayn va video ssenariysini tayyorlaydi",
+        "Nashr qiladi va izohlarni moderatsiya qiladi",
+        "Direct’dagi murojaatlarni kuzatadi",
+        "Ko‘rsatkichlarni yig‘adi va keyingi oy rejasini tuzatadi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar ijrochi faqat post qo‘yish haqida gapirsa va ko‘rsatkichlar haqida hech narsa demasa — bu yomon belgi. Kontent vosita, natija esa murojaat."
+    },
+    { "type": "h2", "id": "olchov", "text": "Qaysi ko‘rsatkichlarga qarash kerak" },
+    {
+      "type": "table",
+      "headers": ["Ko‘rsatkich", "Nima uchun muhim"],
+      "rows": [
+        ["Yozgan odamlar soni", "Kanal murojaat keltirayaptimi — asosiy savol"],
+        ["Javob tezligi", "Murojaat sovib qolmayaptimi"],
+        ["Saqlash va ulashish", "Kontent foydali deb topilyaptimi"],
+        ["Profilga o‘tishlar", "Post qiziqish uyg‘otyaptimi"],
+        ["Obunachi o‘sishi", "Yordamchi ko‘rsatkich, asosiy maqsad emas"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "E’tibor bering: obunachi ro‘yxatning oxirida. Buning sababi oddiy — obunachini sotib olish mumkin, arizani esa yo‘q."
+    },
+    { "type": "h2", "id": "qachon-mos-emas", "text": "Qachon SMM mos kelmaydi" },
+    {
+      "type": "list",
+      "items": [
+        "Taklif hali shakllanmagan bo‘lsa — avval nimani sotayotganingizni aniqlash kerak",
+        "Javob beradigan odam yo‘q bo‘lsa — murojaat kelgani bilan foyda bo‘lmaydi",
+        "Faqat bir marta sotiladigan juda tor xizmat bo‘lsa — qidiruv reklamasi arzonroq bo‘lishi mumkin",
+        "Byudjet bir oyga yetsa — SMM uzluksizlikni talab qiladi, bir oylik urinish natija bermaydi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bularni oldindan aytish halolroq. Mos kelmaydigan holatda SMM’ni boshlash — bu ikki tomon uchun ham vaqt yo‘qotish."
+    },
+    { "type": "h2", "id": "boshlash", "text": "Nimadan boshlash kerak" },
+    {
+      "type": "list",
+      "items": [
+        "Profilni tartibga soling: kim ekaningiz, nima taklif qilishingiz va qanday bog‘lanish",
+        "Bitta kanal tanlang va uni izchil olib boring",
+        "Javob berish tartibini yozib qo‘ying: kim, qancha vaqtda, qanday",
+        "Oddiy hisob yuriting: haftasiga nechta odam yozdi",
+        "Faqat shundan keyin reklamani yoqing"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Oxirgi punkt eng ko‘p buziladi. Bo‘sh sahifaga reklama olib kelish — bu teshik chelakka suv quyish bilan bir xil."
+    },
+    {
+      "type": "linkp",
+      "text": "Agar bu ishni jamoaga topshirmoqchi bo‘lsangiz, {xizmat} bo‘limida qanday bloklardan iboratligi va narx nimaga bog‘liqligi yozilgan. Murojaatlarga tezroq javob berish masalasi turgan bo‘lsa, {menejer} Direct’da qanday ishlashini ko‘rsatadi. Reklamani Telegram tomonidan boshlamoqchi bo‘lsangiz, {reklama} bo‘limi ikkita yo‘lni solishtiradi.",
+      "links": [
+        { "token": "xizmat", "target": "/uz/smm-xizmatlari/", "anchor": "SMM ishini jamoaga topshirish" },
+        { "token": "menejer", "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI-menejer" },
+        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama" }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Sahifangizni ko‘rib chiqib, nimadan boshlash kerakligini aytamiz — maslahat bepul.",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "SMM va target reklama bir narsami?",
+      "a": "Yo‘q. SMM — sahifani yuritish, kontent va murojaatlar bilan ishlash. Target reklama — pullik ko‘rsatuvlar uchun alohida byudjet va alohida ish. Ular bir-birini quvvatlaydi, lekin aralashtirilmaydi."
+    },
+    {
+      "q": "Natijani qachon ko‘raman?",
+      "a": "Profil tartibga solinib, javob tartibi sozlangandan keyin murojaat soni va javob tezligi birinchi oyda o‘zgaradi. Barqaror oqim esa bir necha oy izchil ishdan keyin paydo bo‘ladi."
+    },
+    {
+      "q": "Kuniga nechta post qo‘yish kerak?",
+      "a": "Aniq raqam yo‘q va uni va’da qilgan ijrochi odatda kontent sifatini emas, hajmini sotadi. Haftasiga bir necha foydali post kunlik bo‘sh postdan ko‘ra yaxshiroq ishlaydi."
+    },
+    {
+      "q": "Obunachi sotib olsam bo‘ladimi?",
+      "a": "Bo‘lmaydi. Sotib olingan obunachi yozmaydi va sotib olmaydi, ustiga-ustak qamrovni pasaytiradi, chunki platforma kontentni faol bo‘lmagan auditoriyaga ko‘rsatishni to‘xtatadi."
+    },
+    {
+      "q": "SMM’ni o‘zim olib borsam bo‘ladimi?",
+      "a": "Ha, ayniqsa boshida. Agar vaqtingiz bo‘lsa va mijozingiz bilan o‘zingiz gaplashishni yoqtirsangiz, bu hatto yaxshiroq ishlaydi. Jamoaga topshirish murojaat ko‘payib, vaqt yetmay qolganda mantiqan to‘g‘ri bo‘ladi."
+    }
+  ],
+  "cta": {
+    "label": "SMM bo‘yicha maslahat olish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-uchun-ai-menejer/",
+      "anchor": "Instagram uchun AI-menejer",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/",
+      "anchor": "GPTBot.uz blogi",
+      "locale": "uz",
+      "type": "breadcrumb"
+    }
+  ],
+  "ogTitle": "SMM nima va u biznesga qanday foyda beradi",
+  "ogDescription": "SMM kanal sifatida qanday ishlaydi, mutaxassis nima qiladi, qaysi ko‘rsatkichlar muhim va qachon bu kanal mos kelmaydi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/smm-nima/",
+  "hreflangUz": "/uz/blog/smm-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-21",
+  "dateModified": "2026-08-21",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "createdAt": "2026-08-21T00:00:00Z",
+  "updatedAt": "2026-08-21"
+}

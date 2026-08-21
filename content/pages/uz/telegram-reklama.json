@@ -1,0 +1,276 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/telegram-reklama/",
+  "slug": "telegram-reklama",
+  "pageType": "money",
+  "primaryKeyword": "telegram reklama",
+  "secondaryKeywords": [
+    "telegramda reklama berish",
+    "telegram kanal reklama",
+    "telegram ads xizmati",
+    "biznes uchun telegram reklama",
+    "telegram reklama narxi"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Telegram reklama — O‘zbekistonda biznes uchun",
+  "title": "Telegram reklama xizmati O‘zbekistonda — Telegram Ads | GPTBot.uz",
+  "description": "Telegram reklama: rasmiy Telegram Ads va kanallarda joylashtirish. Kampaniyani sozlaymiz va bosishdan keyin arizani yig‘adigan bot yo‘lini quramiz. Narx hajmga bog‘liq.",
+  "canonical": "https://gptbot.uz/uz/telegram-reklama/",
+  "hreflangRu": "/ru/telegram-ads-uzbekistan/",
+  "hreflangUz": "/uz/telegram-reklama/",
+  "ogTitle": "Telegram reklama xizmati O‘zbekistonda — Telegram Ads | GPTBot.uz",
+  "ogDescription": "Rasmiy Telegram Ads va kanal e’lonlari. Bosishdan keyin nima bo‘lishini ham quramiz: bot, ariza, menejer.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Telegram reklama",
+  "heroTitle": "Telegram reklama — O‘zbekistonda biznes uchun",
+  "heroSubtitle": "Rasmiy Telegram Ads kabineti orqali ham, kanallarda joylashtirish orqali ham reklama beramiz. Eng muhimi — bosishdan keyingi yo‘l: odam qayerga tushadi, kim javob beradi va ariza qayerda saqlanadi.",
+  "ctaPrimaryLabel": "Bepul maslahat olish",
+  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Reklamaning ikki yo‘li",
+  "ctaSecondaryHref": "#ikki-yol",
+  "bodyBlocks": [
+    {
+      "type": "toc",
+      "text": "Sahifa bo‘yicha",
+      "links": [
+        { "anchor": "ikki-yol", "label": "Telegram’da reklamaning ikki yo‘li" },
+        { "anchor": "ads", "label": "Telegram Ads qanday ishlaydi" },
+        { "anchor": "kanallar", "label": "Kanallarda joylashtirish" },
+        { "anchor": "kimga", "label": "Kimga mos keladi" },
+        { "anchor": "keyin", "label": "Bosishdan keyin nima bo‘ladi" },
+        { "anchor": "byudjet", "label": "Byudjet qanday rejalashtiriladi" },
+        { "anchor": "olchov", "label": "Natijani qanday o‘lchaymiz" },
+        { "anchor": "jarayon", "label": "Ish jarayoni" },
+        { "anchor": "narx", "label": "Narx qanday shakllanadi" },
+        { "anchor": "faq", "label": "Ko‘p so‘raladigan savollar" }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "O‘zbekistonda Telegram — kundalik aloqa vositasi. Shuning uchun bu yerdagi reklama boshqa platformalarga qaraganda boshqacha ishlaydi: odam e’lonni ko‘radi va o‘sha zahoti yozishi mumkin, chunki suhbat oynasi allaqachon ochiq."
+    },
+    {
+      "type": "p",
+      "text": "Aynan shu sabab ko‘p kampaniya bosish bilan tugaydi va ariza bilan tugamaydi. Bosish bor, javob yo‘q — odam kutmaydi. Biz reklamani ham, undan keyingi yo‘lni ham birgalikda quramiz."
+    },
+    { "type": "h2", "id": "ikki-yol", "text": "Telegram’da reklamaning ikki yo‘li" },
+    {
+      "type": "table",
+      "headers": ["Yo‘l", "Qanday joylashadi", "Qachon mos keladi"],
+      "rows": [
+        ["Telegram Ads", "Rasmiy kabinet orqali yirik ochiq kanallar ostida", "Kengroq qamrov va boshqariladigan sozlamalar kerak bo‘lganda"],
+        ["Kanalda e’lon", "Kanal egasi bilan to‘g‘ridan-to‘g‘ri kelishuv", "Aniq tor auditoriya va jonli tavsiya kerak bo‘lganda"],
+        ["Aralash", "Ikkalasi parallel sinaladi", "Qaysi biri arzonroq ariza berishini bilish uchun"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ikkala yo‘lning ham o‘z cheklovi bor. Rasmiy kabinet qat’iy qoidalar bilan ishlaydi va e’lon matni qisqa bo‘ladi. Kanal e’lonida esa natija kanal auditoriyasining sifatiga bog‘liq, va buni oldindan tekshirish kerak."
+    },
+    { "type": "h2", "id": "ads", "text": "Telegram Ads qanday ishlaydi" },
+    {
+      "type": "list",
+      "items": [
+        "E’lon ochiq kanaldagi oxirgi postdan keyin ko‘rsatiladi",
+        "Format qisqa: matn va bitta havola tugmasi, rasm yo‘q",
+        "Platforma yirik ochiq kanallar bilan ishlaydi, shaxsiy yozishmalarga tegmaydi",
+        "Sozlash mavzu, til va kanal ro‘yxati bo‘yicha olib boriladi",
+        "Byudjet kabinetga oldindan kiritiladi va sarf ko‘rsatuvlar bo‘yicha ketadi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Muhim jihat: e’lon qisqa bo‘lgani uchun unda hamma narsani aytib bo‘lmaydi. Shuning uchun taklif aniq bo‘lishi va bosgan odam tushadigan joy savolga darhol javob berishi kerak."
+    },
+    { "type": "h2", "id": "kanallar", "text": "Kanallarda joylashtirish" },
+    {
+      "type": "list",
+      "items": [
+        "Kanal tanlash: mavzu, til, faollik va izohlar sifatini tekshirish",
+        "Statistika so‘rash: qamrov, o‘sish grafigi, e’lon narxi",
+        "E’lon matni va vizual tayyorlash",
+        "Joylashtirish sanasi va formatini kelishish",
+        "Natijani alohida havola bo‘yicha o‘lchash"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kanal statistikasini ko‘rsatmaydigan yoki sun’iy o‘sish alomatlari bor kanallarni tavsiya qilmaymiz. Bunday joylashtirish odatda bosish beradi, ariza esa bermaydi."
+    },
+    { "type": "h2", "id": "kimga", "text": "Kimga mos keladi" },
+    {
+      "type": "list",
+      "items": [
+        "Xizmat ko‘rsatuvchi bizneslar — murojaat suhbatdan boshlanadi",
+        "O‘quv markazlari va kurslar — qabul mavsumida tez qamrov kerak",
+        "Klinikalar va salonlar — yozilish Telegram orqali qulay",
+        "Do‘konlar va yetkazib berish — buyurtma botda qabul qilinadi",
+        "Telegram kanali bor va uni o‘stirmoqchi bo‘lgan bizneslar"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kimga mos kelmasligini ham aytamiz: agar taklifingiz murakkab va uzoq tushuntirish talab qilsa, Telegram reklama birinchi qadam sifatida qimmatga tushishi mumkin. Bunday holatda avval sayt va kontent kerak bo‘ladi."
+    },
+    { "type": "h2", "id": "keyin", "text": "Bosishdan keyin nima bo‘ladi" },
+    {
+      "type": "p",
+      "text": "Bu sahifadagi eng muhim bo‘lim. Reklamani yoqish oson, lekin pul aynan shu yerda yo‘qoladi: odam bosadi, botga yoki kanalga tushadi va u yerda hech kim javob bermaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Shuning uchun biz kampaniya bilan birga {bot} ni ham sozlaymiz: u birinchi savolga darhol javob beradi, ism va telefonni yig‘adi va tayyor arizani menejerga uzatadi. Barcha kanallardan kelgan murojaatni {avtomat} orqali bitta oqimga yig‘ish mumkin. Agar kanalning o‘zi ham muntazam yuritilishi kerak bo‘lsa, buni {smm} doirasida qilamiz.",
+      "links": [
+        { "token": "bot", "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot" },
+        { "token": "avtomat", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" },
+        { "token": "smm", "target": "/uz/smm-xizmatlari/", "anchor": "ijtimoiy tarmoqlarni yuritish" }
+      ]
+    },
+    { "type": "h2", "id": "byudjet", "text": "Byudjet qanday rejalashtiriladi" },
+    {
+      "type": "list",
+      "items": [
+        "Avval sinov bosqichi: kichik byudjet, bir nechta e’lon varianti",
+        "Har bir variant alohida havola bilan belgilanadi",
+        "Bir necha kundan keyin arzonroq ariza bergan variant qoldiriladi",
+        "Shundan keyingina byudjet oshiriladi",
+        "Reklama byudjeti platformaga to‘g‘ridan-to‘g‘ri to‘lanadi va xizmat narxidan alohida turadi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Sinovsiz katta byudjet bilan boshlash eng keng tarqalgan xato. Sinov bosqichi qimmat emas va u keyingi sarfni bir necha barobar samaraliroq qiladi."
+    },
+    { "type": "h2", "id": "olchov", "text": "Natijani qanday o‘lchaymiz" },
+    {
+      "type": "table",
+      "headers": ["Ko‘rsatkich", "Nimani ko‘rsatadi"],
+      "rows": [
+        ["Botga kirganlar soni", "E’lon haqiqatan ham harakatga undayaptimi"],
+        ["Suhbatni boshlaganlar", "Taklif tushunarlimi"],
+        ["Kontakt qoldirganlar", "Ariza oqimi bormi"],
+        ["Bitta ariza tannarxi", "Kanal yoki e’lon foydalimi"],
+        ["Ko‘rsatuv va bosish", "Yordamchi ko‘rsatkich, asosiy maqsad emas"]
+      ]
+    },
+    { "type": "h2", "id": "jarayon", "text": "Ish jarayoni" },
+    {
+      "type": "list",
+      "items": [
+        "Brif — taklif, auditoriya va maqsad",
+        "Yo‘l tanlash — rasmiy kabinet, kanal e’lonlari yoki ikkalasi",
+        "Tayyorgarlik — e’lon matni, bot ssenariysi, havolalar belgilanishi",
+        "Sinov — kichik byudjet va bir nechta variant",
+        "Xulosa — nima ishlagani va keyingi qadam"
+      ]
+    },
+    { "type": "h2", "id": "narx", "text": "Narx qanday shakllanadi" },
+    {
+      "type": "p",
+      "text": "Xizmat narxi ish hajmiga bog‘liq: qaysi yo‘l tanlanadi, nechta e’lon varianti tayyorlanadi, bot ssenariysi noldan quriladimi va kampaniya qancha davom etadi. Reklama byudjeti bunga kirmaydi va uni siz belgilaysiz."
+    },
+    {
+      "type": "p",
+      "text": "Suhbatdan keyin aniq hajm va narx aytiladi. Maslahat va dastlabki baholash — bepul."
+    },
+    { "type": "h2", "text": "Nega GPTBot.uz" },
+    {
+      "type": "list",
+      "items": [
+        "Telegram biz uchun asosiy muhit — botlar va avtomatlashtirish shu yerda quriladi",
+        "Reklama va undan keyingi yo‘l bitta jamoada qilinadi",
+        "Hisobotda ko‘rsatuv emas, ariza va uning tannarxi turadi",
+        "Sinov bosqichisiz katta byudjetni tavsiya qilmaymiz",
+        "Kabinet va statistikaga kirish sizda qoladi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Biz aniq ariza soni yoki kafolatlangan natijani va’da qilmaymiz — reklamada bunday va’da halol emas. Biz kampaniya to‘g‘ri yig‘ilishi, o‘lchanishi va har bosqichda tushunarli bo‘lishi uchun javob beramiz."
+    },
+    {
+      "type": "cta",
+      "text": "Telegram reklama bo‘yicha vazifangizni muhokama qilaylik — maslahat bepul.",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Telegram reklama narxi qancha?",
+      "a": "Ikki xil xarajat bor: reklama byudjeti va xizmat narxi. Byudjetni siz belgilaysiz va u platformaga to‘g‘ridan-to‘g‘ri to‘lanadi. Xizmat narxi esa ish hajmiga bog‘liq — suhbat va dastlabki baholash bepul."
+    },
+    {
+      "q": "Telegram Ads va kanaldagi e’lon — qaysi biri yaxshiroq?",
+      "a": "Universal javob yo‘q. Rasmiy kabinet kengroq qamrov va boshqariladigan sozlamalar beradi, kanal e’loni esa tor va ishonchli auditoriyaga tushadi. Ko‘pincha ikkalasini kichik byudjetda sinab, arzonroq ariza berganini qoldirish to‘g‘ri bo‘ladi."
+    },
+    {
+      "q": "Reklama uchun kanalim bo‘lishi shartmi?",
+      "a": "Shart emas. Odamni to‘g‘ridan-to‘g‘ri botga yoki saytga olib borish mumkin. Kanal bo‘lsa yaxshi — u takroriy aloqa uchun ishlaydi, lekin birinchi kampaniya uchun majburiy emas."
+    },
+    {
+      "q": "Bosishdan keyin odam qayerga tushadi?",
+      "a": "Kelishuvga qarab: botga, kanalga yoki saytdagi sahifaga. Ko‘p hollarda bot qulayroq bo‘ladi, chunki suhbat Telegram’ning o‘zida davom etadi va odam boshqa ilovaga o‘tmaydi."
+    },
+    {
+      "q": "Natijani qanday tekshiraman?",
+      "a": "Har bir e’lon va kanal alohida havola bilan belgilanadi, shuning uchun qaysi manbadan qancha odam kelgani va qanchasi kontakt qoldirgani ko‘rinadi. Oxirgi ko‘rsatkich — bitta ariza tannarxi."
+    },
+    {
+      "q": "Kichik byudjet bilan boshlash mumkinmi?",
+      "a": "Ha, va biz aynan shuni tavsiya qilamiz. Sinov bosqichi qaysi taklif va qaysi kanal ishlashini ko‘rsatadi. Byudjetni faqat shundan keyin oshirish mantiqan to‘g‘ri."
+    },
+    {
+      "q": "E’lon matnini kim yozadi?",
+      "a": "Biz tayyorlaymiz va siz tasdiqlaysiz. Odatda bir nechta variant qilinadi, chunki qaysi biri ishlashini oldindan aytib bo‘lmaydi — buni faqat sinov ko‘rsatadi."
+    },
+    {
+      "q": "Reklama kabineti kimning nomiga ochiladi?",
+      "a": "Sizning nomingizga. Statistika va sarf tarixi sizda qoladi, biz esa ishlash uchun kirish huquqini olamiz. Hamkorlik tugasa, kabinet sizda saqlanadi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "Kanalni muntazam yuritish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "GPTBot.uz AI yechimlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-08-21",
+  "createdAt": "2026-08-21T00:00:00Z",
+  "updatedAt": "2026-08-21"
+}

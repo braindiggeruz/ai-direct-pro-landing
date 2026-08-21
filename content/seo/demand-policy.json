@@ -82,6 +82,38 @@
       "source": "SEO-стратегия коммерческого digital-кластера GPTBot.uz reviewed 2026-08-20 plus official Telegram Ads documentation; no verified localized volume/KD/CPC export was supplied",
       "measuredAt": "2026-08-20",
       "note": "Transparent emerging commercial-intent test, not a demand forecast. Telegram bot development remains a separate intent. Review impressions before adding supporting articles."
+    },
+    {
+      "keyword": "smm xizmatlari",
+      "volumePerMonth": 110,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-21",
+      "measuredAt": "2026-08-21",
+      "note": "Google Ads competition index 0.06, CPC 3.66 USD — the highest CPC and the lowest competition of any commercial term measured for this market in either language. Keyword difficulty is unavailable for location 2860 because Uzbekistan is served from Google Ads data. The Russian equivalent «смм ташкент» measures 50/mo at competition 0.71, which is why the Uzbek page was authored rather than translated."
+    },
+    {
+      "keyword": "telegram reklama",
+      "volumePerMonth": 70,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-21",
+      "measuredAt": "2026-08-21",
+      "note": "Google Ads competition index 0.08, CPC 1.24 USD. Live SERP the same day shows Telegram's own properties at 1, 8 and 9 and only small local services between 4 and 7, so the commercial slots are thinly held. Distinct from Telegram bot development, which stays with /uz/telegram-bot-biznes-uchun/."
+    },
+    {
+      "keyword": "sayt yaratish xizmati",
+      "volumePerMonth": 260,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-21",
+      "measuredAt": "2026-08-21",
+      "note": "Google Ads competition index 0.12, CPC 1.32 USD. Claimed by the existing /uz/sayt-yaratish/ hub rather than a new URL: the live SERP for this phrase is entirely commercial studio pages, while the bare head term returns a do-it-yourself result set, so the hub carries both."
+    },
+    {
+      "keyword": "smm nima",
+      "volumePerMonth": 720,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-21",
+      "measuredAt": "2026-08-21",
+      "note": "Google Ads competition index 0.03, CPC 1.23 USD. Informational, so it is owned by a supporting article and never by the commercial hub. It exists to route Uzbek top-of-funnel demand to /uz/smm-xizmatlari/."
     }
   ],
   "qualityRequirements": {

@@ -203,6 +203,12 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Botga odam olib kelish: Telegram reklama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
       "anchor": "CRM bilan integratsiya",
       "locale": "uz",
