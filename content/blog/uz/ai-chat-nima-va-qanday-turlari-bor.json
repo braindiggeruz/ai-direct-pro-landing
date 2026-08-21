@@ -176,6 +176,12 @@
       "anchor": "ChatGPT O'zbekistonda qanday ishlashi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/smm-nima/",
+      "anchor": "SMM kanal sifatida qanday ishlaydi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI-chat nima: turlari, vazifalari va tanlash mezonlari",

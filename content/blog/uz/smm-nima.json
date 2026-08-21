@@ -4,7 +4,7 @@
   "slug": "smm-nima",
   "url": "/uz/blog/smm-nima/",
   "title": "SMM nima va u biznesga qanday foyda beradi",
-  "description": "SMM — ijtimoiy tarmoqlar orqali marketing. Kanal sifatida qanday ishlaydi, SMM mutaxassisi nima qiladi, qaysi ko‘rsatkichlarga qarash kerak va qachon bu kanal mos kelmaydi.",
+  "description": "SMM — ijtimoiy tarmoqlar orqali marketing. Kanal qanday ishlaydi, mutaxassis nima qiladi, qaysi ko‘rsatkichlar muhim va qachon bu kanal mos kelmaydi.",
   "h1": "SMM nima va u biznesga qanday foyda beradi",
   "topicCluster": "smm-uz",
   "targetMoneyPage": "/uz/smm-xizmatlari/",
@@ -189,6 +189,12 @@
     {
       "target": "/uz/telegram-reklama/",
       "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "marketing umuman nimadan iborat",
       "locale": "uz",
       "type": "contextual"
     },

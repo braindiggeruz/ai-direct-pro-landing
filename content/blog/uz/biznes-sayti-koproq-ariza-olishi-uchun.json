@@ -202,6 +202,12 @@
       "anchor": "Sayt uchun AI-bot",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "qidiruv optimizatsiyasi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Sayt nega ariza olmayapti va buni qanday tuzatish mumkin",

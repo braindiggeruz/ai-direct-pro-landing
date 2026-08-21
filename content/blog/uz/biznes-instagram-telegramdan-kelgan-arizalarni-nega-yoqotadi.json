@@ -215,6 +215,20 @@
       "locale": "uz",
       "type": "contextual",
       "reason": "Website development is the adjacent commercial service for this topic."
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "ijtimoiy tarmoqlarni yuritish",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Losing Direct and Telegram enquiries is the problem this service is built to close."
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Telegram traffic arrives before the enquiry is lost, so the paid channel is the adjacent step."
     }
   ],
   "ogTitle": "Biznes Instagram va Telegram'dan kelgan arizalarni nega yo'qotadi",

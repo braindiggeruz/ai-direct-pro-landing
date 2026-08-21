@@ -187,6 +187,12 @@
     {
       "target": "/uz/instagram-uchun-ai-menejer/",
       "anchor": "Instagram uchun AI-menejer"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "sahifani yuritish xizmati",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Instagram Direct uchun AI-bot qanday ishlaydi",

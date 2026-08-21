@@ -16,12 +16,12 @@
   ],
   "searchIntent": "commercial",
   "h1": "Toshkentda SMM xizmatlari",
-  "title": "SMM xizmatlari Toshkentda — Instagram va Telegram yuritish | GPTBot.uz",
-  "description": "Biznes uchun SMM xizmatlari: Instagram va Telegram sahifalarini yuritish, kontent reja, reklama va AI yordamida Direct murojaatlarini qayta ishlash. Narx ish hajmiga bog‘liq.",
+  "title": "SMM xizmatlari Toshkentda — Instagram, Telegram | GPTBot.uz",
+  "description": "Biznes uchun SMM xizmatlari: sahifa yuritish, kontent reja va reklama. Narx ish hajmiga bog‘liq. Direct murojaatlarini AI bilan qayta ishlaymiz.",
   "canonical": "https://gptbot.uz/uz/smm-xizmatlari/",
   "hreflangRu": "/ru/smm-prodvizhenie-tashkent/",
   "hreflangUz": "/uz/smm-xizmatlari/",
-  "ogTitle": "SMM xizmatlari Toshkentda — Instagram va Telegram yuritish | GPTBot.uz",
+  "ogTitle": "SMM xizmatlari Toshkentda — Instagram, Telegram | GPTBot.uz",
   "ogDescription": "Sahifa yuritish, kontent reja, reklama va murojaatlarni AI yordamida qayta ishlash. Obunachi emas, ariza uchun ishlaymiz.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
@@ -315,6 +315,12 @@
     {
       "target": "/uz/sayt-yaratish/",
       "anchor": "biznes uchun sayt",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "SEO orqali qidiruvdan trafik",
       "locale": "uz",
       "type": "contextual"
     },

@@ -375,6 +375,12 @@
       "anchor": "Sayt nega ariza olmayapti",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "saytni qidiruvda ko‘tarish",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
