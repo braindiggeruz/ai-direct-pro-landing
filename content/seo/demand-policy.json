@@ -114,6 +114,22 @@
       "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-21",
       "measuredAt": "2026-08-21",
       "note": "Google Ads competition index 0.03, CPC 1.23 USD. Informational, so it is owned by a supporting article and never by the commercial hub. It exists to route Uzbek top-of-funnel demand to /uz/smm-xizmatlari/."
+    },
+    {
+      "keyword": "seo xizmati",
+      "volumePerMonth": 40,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-22",
+      "measuredAt": "2026-08-22",
+      "note": "Google Ads competition index 0.10, CPC 1.41 USD. Keyword difficulty and search intent stay unavailable for location 2860, so intent was read off the live SERP pulled the same day: twenty organic results and not a single SERP feature — no local pack, no AI Overview, no knowledge panel, no video. Every ranked result is a commercial service page from a small local studio (repid.uz, oqila.uz, innosoft.uz, web-sayt.uz, seo-first.uz, softmedia.uz, optimize.uz, vox.uz), with no authority domain among them. This is the cleanest commercial SERP measured in this market and the only meaningful one that is not gated behind a Google Business Profile, because the local pack in Uzbekistan attaches to agency-framed queries and not to service-framed ones. The plural «seo xizmatlari» returned no volume, so the singular is the correct target. The Russian counterpart /ru/seo-prodvizhenie-saytov-tashkent/ sits at position 62 on its own terms, which is why the Uzbek page was authored natively rather than translated."
+    },
+    {
+      "keyword": "marketing nima",
+      "volumePerMonth": 880,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-22",
+      "measuredAt": "2026-08-22",
+      "note": "Google Ads competition index 0.01. Informational, so it is owned by a supporting article and never by a commercial page. Live SERP the same day: Wikipedia plus explainer pages from both direct competitors — royalmarketing.uz «Marketing nima? Oddiy tushuncha va foydalari» and oqila.uz «Marketing nima va u nima uchun kerak» — which is the same shape that made smm nima worth writing. It exists to route Uzbek top-of-funnel demand into /uz/smm-xizmatlari/, /uz/seo-xizmati/, /uz/sayt-yaratish/ and /uz/telegram-reklama/."
     }
   ],
   "qualityRequirements": {

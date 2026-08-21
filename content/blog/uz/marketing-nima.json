@@ -1,0 +1,198 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "marketing-nima",
+  "url": "/uz/blog/marketing-nima/",
+  "title": "Marketing nima va u kichik biznesga nima beradi",
+  "description": "Marketing nima, reklamadan farqi nimada, qaysi kanallar bor va kichik biznes qaysi biridan boshlashi kerak. Oddiy tilda, misollar bilan.",
+  "h1": "Marketing nima va u kichik biznesga nima beradi",
+  "topicCluster": "seo-uz",
+  "targetMoneyPage": "/uz/seo-xizmati/",
+  "keywords": [
+    "marketing nima",
+    "marketing va reklama farqi",
+    "marketing turlari",
+    "biznes uchun marketing",
+    "marketing qanday ishlaydi"
+  ],
+  "intro": "Qisqa javob: marketing — bu mahsulotni kimga, qanday va qayerda taklif qilishni aniqlab, mijozgacha yetkazish ishi. Reklama esa uning bir qismi, hammasi emas. Aynan shu farqni bilmaslik tufayli ko‘p biznes «marketing qildim» deb faqat reklamaga pul sarflaydi va natijani tushunmaydi. Quyida marketing nimalardan iboratligini, qaysi kanallar borligini va kichik biznes qaysi biridan boshlashi kerakligini oddiy tilda ko‘rib chiqamiz.",
+  "body": [
+    { "type": "h2", "id": "tarif", "text": "Marketing nima" },
+    {
+      "type": "p",
+      "text": "Marketing — bu bir necha savolga ketma-ket javob berish jarayoni: kimga sotamiz, u odam nimani muammo deb biladi, biz unga qanday yechim taklif qilamiz, buni qayerda aytamiz va qanday qilib u bizga murojaat qiladi. Reklama bu zanjirning faqat «qayerda aytamiz» qismi."
+    },
+    {
+      "type": "p",
+      "text": "Shuning uchun marketing faqat pul sarflash emas. U ko‘pincha pulsiz qarorlardan boshlanadi: kimga murojaat qilishni aniqlashtirish, taklifni tushunarli qilib yozish, narx mantiqini oydinlashtirish va odam murojaat qilgach unga tez javob berish."
+    },
+
+    { "type": "h2", "id": "farq", "text": "Marketing va reklama farqi" },
+    {
+      "type": "table",
+      "headers": ["", "Marketing", "Reklama"],
+      "rows": [
+        ["Nima bu", "Butun tizim: auditoriya, taklif, kanal, narx, aloqa", "Tizimning bir qismi — pullik ko‘rsatuv"],
+        ["Qachon ishlaydi", "Doim, hatto byudjet bo‘lmaganda ham", "Faqat to‘lov davom etayotganda"],
+        ["Asosiy savol", "Nimani, kimga va nega taklif qilamiz", "Bu xabarni kimga ko‘rsatamiz"],
+        ["Natija", "Barqaror murojaat oqimi", "Tez, lekin vaqtinchalik trafik"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Amaliy xulosa oddiy: taklif tushunarsiz bo‘lsa yoki murojaatga javob berilmasa, reklama pulni tezroq sarflashga yordam beradi, xolos. Avval tizim, keyin byudjet."
+    },
+
+    { "type": "h2", "id": "auditoriya", "text": "Auditoriya: kimga sotamiz" },
+    {
+      "type": "p",
+      "text": "Ko‘p biznes «hammaga» deb javob beradi va shu joyda yutqazadi. «Hamma» uchun yozilgan matn hech kimga tegmaydi. Auditoriyani ajratish uchun uchta savol yetarli."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bu odam qanday vaziyatda sizni izlay boshlaydi",
+        "U nimadan qo‘rqadi yoki nimaga shubha qiladi",
+        "Qaror qabul qilish uchun unga qanday ma’lumot yetishmaydi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu uch savolga javob bergach, kontent ham, reklama matni ham o‘zi yoziladi — chunki endi kimga gapirayotganingiz aniq."
+    },
+
+    { "type": "h2", "id": "kanallar", "text": "Asosiy kanallar va ular nima uchun kerak" },
+    {
+      "type": "p",
+      "text": "Kanal — bu odam sizni topadigan joy. O‘zbekistonda kichik biznes uchun amalda to‘rtta asosiy kanal ishlaydi va ular bir-birini almashtirmaydi."
+    },
+    {
+      "type": "table",
+      "headers": ["Kanal", "Qanday ishlaydi", "Qachon mos keladi"],
+      "rows": [
+        ["Qidiruv (SEO)", "Odam o‘zi izlaydi, siz natijada chiqasiz", "Xizmatingiz allaqachon qidirilayotganda"],
+        ["Ijtimoiy tarmoqlar (SMM)", "Odam sizni ko‘radi, tanishadi, ishonadi", "Vizual muhim bo‘lgan va takroriy sotuv bor sohalarda"],
+        ["Pullik reklama", "Xabarni tanlangan auditoriyaga ko‘rsatasiz", "Natija tez kerak bo‘lganda yoki yangi mahsulotda"],
+        ["Sayt", "Barcha kanallarning yig‘ilish nuqtasi", "Xizmat murakkab bo‘lsa va tushuntirish kerak bo‘lsa"]
+      ]
+    },
+
+    { "type": "h2", "id": "voronka", "text": "Voronka: odam qanday mijozga aylanadi" },
+    {
+      "type": "p",
+      "text": "Har bir murojaat bir necha bosqichdan o‘tadi. Bu bosqichlarni bilish muhim, chunki muammo odatda bitta joyda bo‘ladi va uni topmasdan byudjetni oshirish yordam bermaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ko‘rish — odam sizning xabaringizni ko‘rdi",
+        "Qiziqish — u bosdi, sahifaga yoki sahifangizga kirdi",
+        "Murojaat — yozdi, qo‘ng‘iroq qildi yoki ariza qoldirdi",
+        "Suhbat — savollariga javob oldi",
+        "Sotuv — kelishuv bo‘ldi",
+        "Qaytish — yana keldi yoki tavsiya qildi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar ko‘rish ko‘p bo‘lsa-yu murojaat bo‘lmasa — muammo taklifda yoki sahifada. Agar murojaat bo‘lsa-yu sotuv bo‘lmasa — muammo javob tezligida yoki suhbatda. Bu ikkisi butunlay boshqa muammolar va ular boshqacha hal qilinadi."
+    },
+
+    { "type": "h2", "id": "korsatkich", "text": "Qaysi ko‘rsatkichlarga qarash kerak" },
+    {
+      "type": "p",
+      "text": "Obunachi soni va ko‘rishlar soni o‘z-o‘zidan hech narsa demaydi. Kichik biznes uchun to‘rtta raqam yetarli."
+    },
+    {
+      "type": "table",
+      "headers": ["Ko‘rsatkich", "Nimani bildiradi"],
+      "rows": [
+        ["Murojaatlar soni", "Kanal umuman ishlayaptimi"],
+        ["Bitta murojaat narxi", "Kanal qimmatmi yoki arzonmi"],
+        ["Murojaatdan sotuvga o‘tish ulushi", "Murojaatlar sifatli kelayaptimi"],
+        ["Javob berish vaqti", "Kelgan murojaatni yo‘qotmayapmizmi"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "To‘rtinchi raqamni ko‘pchilik unutadi. Amalda esa aynan u eng arzon o‘sish manbayi: mavjud murojaatlarga tezroq javob berish yangi byudjet talab qilmaydi."
+    },
+
+    { "type": "h2", "id": "misol", "text": "Kichik biznes misoli" },
+    {
+      "type": "p",
+      "text": "Faraz qilaylik, kichik ta’mirlash xizmati bor. Egasi Instagram’ga post qo‘yadi, murojaat kam. Marketing yondashuvi bilan qaraganda ketma-ketlik shunday bo‘ladi: avval kimga ishlashini aniqlaydi — masalan yangi kvartira olganlar. Keyin taklifni aniq yozadi: nima kiradi, qancha vaqt oladi, narx nimaga bog‘liq. So‘ng kanalni tanlaydi: bu xizmat Google’da qidiriladi, demak sayt va qidiruv mantiqiy. Va nihoyat murojaatga javob tartibi qo‘yiladi, chunki kechqurun kelgan savol ertalabgacha kutsa, mijoz boshqasini topadi."
+    },
+    {
+      "type": "p",
+      "text": "Ko‘rinib turibdiki, bu yerda «ko‘proq post qo‘yish» degan javob yo‘q. Har bir qadam boshqa muammoni yopadi."
+    },
+
+    { "type": "h2", "id": "qaysi", "text": "Qaysi kanaldan boshlash kerak" },
+    {
+      "type": "p",
+      "text": "Universal javob yo‘q, lekin oddiy qoida bor: talab bor joyda qidiruvdan, talab hali yo‘q joyda esa kontent va reklamadan boshlanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Agar xizmatingizni odamlar Google’da qidirsa, {seo} eng barqaror kanal bo‘ladi — bosish uchun to‘lov yo‘q va natija uzoq qoladi. Agar vizual muhim bo‘lsa va ishonch kerak bo‘lsa, {smm} tomondan boshlash mantiqiy.",
+      "links": [
+        { "token": "seo", "target": "/uz/seo-xizmati/", "anchor": "SEO xizmati" },
+        { "token": "smm", "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari" }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Agar xizmat murakkab bo‘lsa va uni tushuntirish kerak bo‘lsa, avval {sayt} kerak bo‘ladi: ijtimoiy tarmoq profili barcha savollarga javob bera olmaydi. Auditoriyangiz Telegram’da bo‘lsa, {telegram} alohida kanal sifatida ko‘rib chiqiladi.",
+      "links": [
+        { "token": "sayt", "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt" },
+        { "token": "telegram", "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama" }
+      ]
+    },
+
+    { "type": "h2", "id": "xato", "text": "Eng ko‘p uchraydigan uchta xato" },
+    {
+      "type": "list",
+      "items": [
+        "Kanalni almashtiraverish: bir oy Instagram, keyin bir oy reklama — hech biri natija berishga ulgurmaydi",
+        "Faqat trafikni sanash: ko‘rishlar o‘sadi, murojaat esa o‘zgarmaydi",
+        "Murojaatga kech javob berish: byudjet sarflanadi, mijoz esa tezroq javob berganga ketadi"
+      ]
+    },
+
+    {
+      "type": "cta",
+      "text": "Qaysi kanal sizning biznesingizga mos kelishini birgalikda ko‘rib chiqamiz — maslahat bepul.",
+      "href": "https://t.me/XGame_changerx"
+    }
+  ],
+  "faq": [
+    { "q": "Marketing va reklama bir narsami?", "a": "Yo‘q. Reklama — marketingning bir qismi, ya’ni xabarni pullik ko‘rsatish. Marketing esa undan kengroq: kimga sotish, nima taklif qilish, qaysi kanalda gapirish va murojaatni qanday qabul qilish. Reklama to‘xtasa u to‘xtaydi, marketing esa qoladi." },
+    { "q": "Kichik biznesga marketing kerakmi?", "a": "Ha, lekin katta byudjet shart emas. Boshlanishi odatda pulsiz qarorlar bilan: auditoriyani aniqlashtirish, taklifni tushunarli yozish va murojaatlarga tez javob berish. Byudjet keyingi bosqich." },
+    { "q": "Qaysi kanaldan boshlash kerak?", "a": "Talab bor-yo‘qligiga qarab. Agar odamlar xizmatingizni Google’da qidirsa — qidiruvdan. Agar vizual va ishonch muhim bo‘lsa — ijtimoiy tarmoqlardan. Agar natija tez kerak bo‘lsa — pullik reklamadan. Ko‘p holatda ular birga ishlaydi." },
+    { "q": "Marketing natijasi qanday o‘lchanadi?", "a": "To‘rt raqam bilan: nechta murojaat keldi, bitta murojaat qancha turdi, ulardan qanchasi sotuvga aylandi va murojaatga qancha vaqtda javob berildi. Obunachi va ko‘rish soni o‘z-o‘zidan natija hisoblanmaydi." },
+    { "q": "Raqamli marketing nima?", "a": "Bu marketingning onlayn kanallar orqali amalga oshiriladigan qismi: qidiruv, ijtimoiy tarmoqlar, pullik reklama, sayt va xat yuborish. Tamoyillar an’anaviy marketing bilan bir xil, faqat kanal va o‘lchov usuli boshqacha." }
+  ],
+  "cta": { "label": "Marketing bo‘yicha maslahat olish", "href": "https://t.me/XGame_changerx" },
+  "internalLinks": [
+    { "target": "/uz/seo-xizmati/", "anchor": "SEO xizmati", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/blog/smm-nima/", "anchor": "SMM kanal sifatida qanday ishlaydi", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/blog/", "anchor": "GPTBot.uz blogi", "locale": "uz", "type": "breadcrumb" }
+  ],
+  "ogTitle": "Marketing nima va u kichik biznesga nima beradi",
+  "ogDescription": "Marketing va reklama farqi, asosiy kanallar, voronka va qaysi ko‘rsatkichlarga qarash kerak. Oddiy tilda.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/marketing-nima/",
+  "hreflangUz": "/uz/blog/marketing-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-08-22",
+  "dateModified": "2026-08-22",
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
+  "createdAt": "2026-08-22T00:00:00Z",
+  "updatedAt": "2026-08-22"
+}
