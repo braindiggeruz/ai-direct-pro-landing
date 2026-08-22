@@ -73,7 +73,10 @@ test('moderation UI: no screen builds a URL or talks to the network itself', asy
 test('moderation UI: the decision vocabulary is the server’s, and closed', async () => {
   const detail = code(await source(DETAIL));
   // Each of the four appears as a decision key, and nothing else does.
-  const keys = [...detail.matchAll(/key: '([a-z_]+)',\n\s*label:/g)].map((match) => match[1]);
+  // `\r?\n`, not `\n`: the repository has no .gitattributes and core.autocrlf
+  // rewrites the checkout to CRLF on Windows, where a bare `\n` after the comma
+  // can never match and the assertion silently reads an empty vocabulary.
+  const keys = [...detail.matchAll(/key: '([a-z_]+)',\r?\n\s*label:/g)].map((match) => match[1]);
   assert.deepEqual([...keys].sort(), [...MODERATION_DECISIONS].sort());
   // There is no fifth outcome, and in particular nothing that returns a listing
   // to the queue: the server's `allowedFrom` has no transition into `pending`.
@@ -83,7 +86,7 @@ test('moderation UI: the decision vocabulary is the server’s, and closed', asy
     );
   }
   const reports = code(await source(REPORTS));
-  const resolutions = [...reports.matchAll(/key: '([a-z]+)',\n\s*label:/g)].map((m) => m[1]);
+  const resolutions = [...reports.matchAll(/key: '([a-z]+)',\r?\n\s*label:/g)].map((m) => m[1]);
   assert.deepEqual([...resolutions].sort(), [...REPORT_RESOLUTIONS].sort());
 });
 

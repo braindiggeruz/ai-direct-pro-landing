@@ -128,33 +128,58 @@ test('BrowserRouter stays declarative and inside the lazy admin chunk', () => {
   assert.equal(inventory.invariants.admin_lazy_loaded, true);
 });
 
-test('the current productization baseline preserves every route plus approved content additions', () => {
-  const before = readJson<RouteInventory>(
+// Every static route published since the 2026-08-01 route contract, in the order
+// the comparison emits them. Each entry is a deliberate publication, and the two
+// counts below are DERIVED from this list rather than written down beside it: a
+// route that reaches the build without being approved here still fails the
+// contract, and an intentional publication needs one edit instead of three.
+//
+// The last five are the Uzbek commercial layer (2026-08-21 and 2026-08-22); the
+// three Russian paid-media pages above them came from the 2026-08-20 sprint.
+const APPROVED_STATIC_ROUTE_ADDITIONS = [
+  '/ru/blog/audit-kartochki-kompanii-na-kartah/',
+  '/ru/blog/chto-takoe-lid-v-marketinge/',
+  '/ru/blog/chto-takoe-marketing-kit/',
+  '/ru/blog/chto-takoe-seo-prodvizhenie/',
+  '/ru/blog/chto-takoe-smm-prodvizhenie/',
+  '/ru/blog/chto-vhodit-v-uslugi-smm-specialista/',
+  '/ru/blog/cpa-cpm-cpc-cpl-v-reklame/',
+  '/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/',
+  '/ru/blog/google-maps-yandex-2gis-dlya-biznesa/',
+  '/ru/blog/marketingovye-terminy-slovar/',
+  '/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/',
+  '/ru/blog/stoimost-lokalnogo-seo-v-tashkente/',
+  '/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/',
+  '/ru/blog/telegram-bot-ili-mini-app/',
+  '/ru/blog/telegram-mini-app-chto-eto/',
+  '/ru/kontekstnaya-reklama-tashkent/',
+  '/ru/lokalnoe-seo-tashkent/',
+  '/ru/razrabotka-telegram-mini-app-tashkent/',
+  '/ru/targetirovannaya-reklama-tashkent/',
+  '/ru/telegram-ads-uzbekistan/',
+  '/uz/blog/marketing-nima/',
+  '/uz/blog/smm-nima/',
+  '/uz/seo-xizmati/',
+  '/uz/smm-xizmatlari/',
+  '/uz/telegram-reklama/',
+];
+
+function routeContractBaseline(): RouteInventory {
+  return readJson<RouteInventory>(
     'reports/release/react-router-route-contract-20260801.json',
   );
+}
+
+test('the current productization baseline preserves every route plus approved content additions', () => {
+  const before = routeContractBaseline();
   const after = collectRouteInventory('after');
   const diff = compareRouteInventories(before, after);
   assert.equal(diff.status, 'blocked');
-  assert.equal(after.counts.total_route_patterns, 276);
-  assert.deepEqual(diff.added_static_routes, [
-    '/ru/blog/audit-kartochki-kompanii-na-kartah/',
-    '/ru/blog/chto-takoe-lid-v-marketinge/',
-    '/ru/blog/chto-takoe-marketing-kit/',
-    '/ru/blog/chto-takoe-seo-prodvizhenie/',
-    '/ru/blog/chto-takoe-smm-prodvizhenie/',
-    '/ru/blog/chto-vhodit-v-uslugi-smm-specialista/',
-    '/ru/blog/cpa-cpm-cpc-cpl-v-reklame/',
-    '/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/',
-    '/ru/blog/google-maps-yandex-2gis-dlya-biznesa/',
-    '/ru/blog/marketingovye-terminy-slovar/',
-    '/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/',
-    '/ru/blog/stoimost-lokalnogo-seo-v-tashkente/',
-    '/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/',
-    '/ru/blog/telegram-bot-ili-mini-app/',
-    '/ru/blog/telegram-mini-app-chto-eto/',
-    '/ru/lokalnoe-seo-tashkent/',
-    '/ru/razrabotka-telegram-mini-app-tashkent/',
-  ]);
+  assert.equal(
+    after.counts.total_route_patterns,
+    before.counts.total_route_patterns + APPROVED_STATIC_ROUTE_ADDITIONS.length,
+  );
+  assert.deepEqual(diff.added_static_routes, APPROVED_STATIC_ROUTE_ADDITIONS);
   assert.deepEqual(diff.removed_static_routes, []);
   assert.deepEqual(diff.added_admin_routes, []);
   assert.deepEqual(diff.removed_admin_routes, []);
@@ -213,10 +238,14 @@ test('prerender generation remains part of the route contract', () => {
   );
 });
 
-test('sitemap generation retains all 251 static canonical entries', () => {
+test('sitemap generation retains the contract baseline plus every approved addition', () => {
   const inventory = collectRouteInventory('migration-test');
   assert.equal(inventory.invariants.sitemap_generation_present, true);
-  assert.equal(inventory.counts.sitemap_entries, 251);
+  assert.equal(
+    inventory.counts.sitemap_entries,
+    routeContractBaseline().counts.sitemap_entries
+      + APPROVED_STATIC_ROUTE_ADDITIONS.length,
+  );
 });
 
 test('first-party automation routes remain present', () => {
