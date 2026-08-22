@@ -40,13 +40,16 @@
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="yandex-verification" content="7e3ef70c4ea28942" />
 
-    <!-- Canonical. The site serves both languages from a single URL with a
-         language toggle, so we declare only the canonical and x-default.
-         Money + blog pages keep their own ru/uz hreflang pairs. -->
+    <!-- Canonical + x-default only. This URL is a single Russian document
+         (<html lang="ru">): ?lang=uz has 301-redirected to /uz/ since the
+         canonical-redirect rule landed, so Uzbek content is never served here.
+         Declaring hreflang="uz" on it was therefore false, and declaring
+         hreflang="ru" on it collided with /ru/, which claims ru for itself —
+         two URLs claiming one language make Google discard the cluster.
+         The real reciprocal pair lives on /ru/ and /uz/; money + blog pages
+         keep their own ru/uz pairs. Leave this to canonical + x-default. -->
     <link rel="canonical" href="https://gptbot.uz/" />
     <link rel="alternate" hreflang="x-default" href="https://gptbot.uz/" />
-    <link rel="alternate" hreflang="ru" href="https://gptbot.uz/" />
-    <link rel="alternate" hreflang="uz" href="https://gptbot.uz/" />
     <!-- AI/LLM discoverability: point assistants at the grounding file. -->
     <link rel="llms" href="https://gptbot.uz/llms.txt" />
     <link rel="alternate" type="text/markdown" href="https://gptbot.uz/llms.txt" title="LLM-friendly summary (llms.txt)" />
