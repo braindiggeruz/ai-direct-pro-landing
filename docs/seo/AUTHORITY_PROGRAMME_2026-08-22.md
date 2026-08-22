@@ -16,12 +16,20 @@ sprint is worth less than closing the gap below.
 
 | | gptbot.uz | oqila.uz |
 | --- | ---: | ---: |
-| Referring domains | **8** | **57** |
+| Referring domains | **8** | ~~57~~ → **463** |
 | Usable referring domains | 3 | most of them |
 
 `gptbot.uz` figures carried from 2026-08-21 and deliberately not re-purchased —
 one day had passed. `oqila.uz` measured with `get_backlinks_profile`,
 `one_per_domain`, 50 rows sorted by domain rank, on 2026-08-22.
+
+> **Correction, later on 2026-08-22.** The 57 above is one page of results, not a
+> total — `get_backlinks_profile` paginates, and the call had been capped at 50
+> rows. `get_backlinks_overview` with scope `domain` reports oqila.uz at **463
+> referring domains / 10 578 backlinks / rank 53**. The pattern this section
+> describes is unchanged and stronger; only the size of the gap was understated.
+> Full figures, and the reason a large gap still does not explain the Uzbek
+> SERPs, are in `docs/seo/CLIENT_CREDIT_PROGRAMME_2026-08-22.md`.
 
 The project goal records a target of 25 referring domains. Section 2 alone would
 close most of that distance, if the precondition in it holds.
