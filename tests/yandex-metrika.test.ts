@@ -492,6 +492,17 @@ for (const file of ['public/_headers', 'scripts/generate-robots.ts']) {
       assert.ok(start > -1, `${directive} missing in ${file}`);
       const block = policy.slice(start, policy.indexOf(';', start));
       assert.ok(block.includes('https://mc.yandex.ru'), `${directive} does not allow mc.yandex.ru`);
+      if (directive === 'connect-src') {
+        // Webvisor is on for this counter and uploads over a WebSocket. A CSP
+        // source expression matches by scheme, so the https origin does not
+        // cover wss:// — without this the browser blocks every recording and
+        // logs a connect-src violation on each page, which is exactly what
+        // production was doing until 2026-08-22.
+        assert.ok(
+          block.includes('wss://mc.yandex.ru'),
+          `${directive} does not allow the Webvisor socket wss://mc.yandex.ru`,
+        );
+      }
     }
     assert.ok(!policy.includes('yandex.*'), 'no wildcard yandex origin');
     assert.ok(!policy.includes('*.yandex'), 'no wildcard yandex origin');

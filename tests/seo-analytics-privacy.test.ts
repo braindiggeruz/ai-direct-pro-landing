@@ -70,6 +70,61 @@ test('no lead stage is claimed that the browser cannot observe', () => {
   }
 });
 
+// ── index.html must not drift away from the shared block ─────────────────────
+//
+// scripts/analytics-snippet.ts is injected into every prerendered page. It is
+// NOT injected into index.html, which is the shell React mounts into for `/`
+// and for the admin SPA — that file carries its own inline copy. Until
+// 2026-08-22 the copy was an older, smaller one: it emitted telegram_demo_click
+// and nothing else, so the homepage published five links to the studio's
+// Telegram contact and reported no enquiry from any of them. The tests above
+// never caught it because they only ever read ANALYTICS_HEAD.
+
+function indexHtmlAnalyticsBlock(): string {
+  const html = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
+  const block = /<script data-tag="ga">([\s\S]*?)<\/script>/.exec(html);
+  assert.ok(block, 'index.html must carry an inline analytics block');
+  return block[1];
+}
+
+test('index.html emits the same funnel events as the prerendered block', () => {
+  const inline = indexHtmlAnalyticsBlock();
+  for (const event of SEO_EVENTS) {
+    // seo_landing_view / seo_article_view are guarded by locale and stay inert
+    // on `/`, but the code must still be present so an SPA route into /ru/ or
+    // /uz/ behaves like the prerendered page of the same URL.
+    assert.ok(
+      inline.includes(`'${event}'`),
+      `index.html does not emit ${event} — it has drifted from analytics-snippet.ts`,
+    );
+  }
+});
+
+test('index.html reads no personal data and skips the admin surface', () => {
+  const inline = indexHtmlAnalyticsBlock();
+  for (const forbidden of ['.value', 'input', 'FormData', 'localStorage', 'sessionStorage', 'document.cookie']) {
+    assert.ok(!inline.includes(forbidden), `index.html analytics block reads "${forbidden}"`);
+  }
+  assert.match(inline, /\/admin-tools\//);
+  assert.match(inline, /\/api\//);
+  assert.match(inline, /substring\(0,80\)/, 'CTA text must be capped in index.html too');
+});
+
+test('index.html claims no lead stage the browser cannot observe', () => {
+  const inline = indexHtmlAnalyticsBlock();
+  for (const invented of ['qualify_lead', 'close_convert_lead', 'purchase']) {
+    assert.ok(!inline.includes(`'${invented}'`), `index.html emits ${invented}`);
+  }
+});
+
+test('index.html keys generate_lead off the published contact handle', () => {
+  const site = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), 'content', 'global', 'site.json'), 'utf8'),
+  ) as { telegram?: string };
+  const handle = (site.telegram || '').replace(/^https:\/\/t\.me\//, '').replace(/\/$/, '');
+  assert.ok(indexHtmlAnalyticsBlock().includes(handle));
+});
+
 test('the measurement id is a public GA4 id, not a secret', () => {
   const ids = ANALYTICS_HEAD.match(/G-[A-Z0-9]{8,}/g) || [];
   assert.ok(ids.length > 0, 'a GA4 measurement id must be present');

@@ -217,20 +217,97 @@
           history[m] = function(){ var r = o.apply(this, arguments); if(location.pathname!==last){ last = location.pathname; setTimeout(fire,0); } return r; };
         });
         window.addEventListener('popstate', function(){ if(location.pathname!==last){ last=location.pathname; fire(); } });
+        // Everything below mirrors scripts/analytics-snippet.ts. That module is
+        // injected into every prerendered page; this file is the shell for `/`
+        // and for the admin SPA, so without the same logic the homepage - which
+        // publishes five contact links - reported no enquiry at all. The two are
+        // pinned together by tests/seo-analytics-privacy.test.ts.
+        var seoLocale = p.indexOf('/uz/')===0 ? 'uz' : (p.indexOf('/ru/')===0 ? 'ru' : 'root');
+        var isArticle = p.indexOf('/blog/')>-1;
+        // Which service page the enquiry came from, taken from the URL alone.
+        var seg = p.split('/').filter(Boolean);
+        var serviceSlug = seg.length ? seg[seg.length-1] : 'home';
+        // Above-the-fold CTAs convert differently from the ones after the pricing
+        // block, and that is worth knowing without measuring anything about a person.
+        function ctaZone(node){
+          try { return (node.getBoundingClientRect().top + (window.pageYOffset||0)) < 900 ? 'hero' : 'body'; }
+          catch (err) { return 'body'; }
+        }
+        if (seoLocale!=='root') {
+          gtag('event', isArticle ? 'seo_article_view' : 'seo_landing_view', {
+            page_path: p,
+            page_title: document.title,
+            locale: seoLocale,
+            page_kind: isArticle ? 'article' : 'landing'
+          });
+        }
         // CTA tracking — Telegram demo links + buttons containing "демо/demo"
         document.addEventListener('click', function(e){
           var el = e.target && e.target.closest ? e.target.closest('a,button') : null;
           if(!el || !window.gtag) return;
           var text = ((el.innerText || el.textContent || '') + '').trim();
-          var href = el.getAttribute && el.getAttribute('href') || '';
+          var href = (el.getAttribute && el.getAttribute('href')) || '';
+          var label = text.substring(0,80);
           var isTg = /t\.me\//i.test(href) || /^tg:/i.test(href);
           var isDemo = /дем[оа]|demo|telegram|телегра/i.test(text);
           if (isTg || (isDemo && text.length < 60)) {
             gtag('event','telegram_demo_click',{
               page_path: location.pathname,
               page_title: document.title,
-              cta_text: text.substring(0,80),
+              cta_text: label,
               target_url: href
+            });
+          }
+          // The studio's own contact handles, mirroring content/global/site.json.
+          // Everything else on t.me is one of our product bots.
+          var isContactTg = isTg && /t\.me\/(XGame_changerx|GPTBot_support)(\b|\/|$)/i.test(href);
+          if (isTg) {
+            gtag('event','telegram_open_attempt',{
+              page_path: location.pathname,
+              cta_text: label,
+              target_url: href,
+              contact_kind: isContactTg ? 'contact' : 'product_bot'
+            });
+          }
+          // The one lead this site can honestly observe.
+          if (isContactTg) {
+            gtag('event','generate_lead',{
+              page_path: location.pathname,
+              locale: seoLocale,
+              page_kind: isArticle ? 'article' : 'landing',
+              service_slug: serviceSlug,
+              cta_text: label,
+              cta_zone: ctaZone(el),
+              method: 'telegram'
+            });
+          }
+          // Any CTA on a service landing that leads off-page or to another service.
+          if (!isTg && href && href.charAt(0)==='/' && el.tagName==='A' &&
+              (el.className||'').toString().indexOf('bg-grad-cta')>-1) {
+            gtag('event','service_cta_click',{
+              page_path: location.pathname,
+              cta_text: label,
+              target_url: href
+            });
+          }
+          // Article -> commercial page. The hub of each cluster is a locale-root
+          // service path, so a same-locale link out of an article that is not itself
+          // an article is the money-page hop we want to measure.
+          if (isArticle && href && href.charAt(0)==='/' && href.indexOf('/blog/')===-1 &&
+              href.indexOf('/'+seoLocale+'/')===0 && href.length > 5) {
+            gtag('event','seo_money_page_click',{
+              page_path: location.pathname,
+              cta_text: label,
+              target_url: href
+            });
+          }
+          // Locale switch links carry an explicit hreflang attribute.
+          var hl = el.getAttribute && el.getAttribute('hreflang');
+          if (hl) {
+            gtag('event','language_switch',{
+              page_path: location.pathname,
+              from_locale: seoLocale,
+              to_locale: hl
             });
           }
         }, true);
