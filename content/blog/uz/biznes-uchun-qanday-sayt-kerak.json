@@ -182,6 +182,12 @@
       "anchor": "Do‘kon uchun AI-bot",
       "locale": "uz",
       "type": "niche"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "SEO xizmati",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Biznesga qanday sayt kerak: landing, korporativ, katalog yoki do‘kon",
@@ -193,8 +199,8 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-01",
-  "dateModified": "2026-08-01",
+  "dateModified": "2026-08-23",
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-08-01"
+  "updatedAt": "2026-08-23"
 }

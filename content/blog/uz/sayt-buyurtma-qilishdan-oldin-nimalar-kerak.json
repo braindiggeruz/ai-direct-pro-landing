@@ -232,6 +232,12 @@
       "anchor": "Arizalarni avtomatlashtirish",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "qidiruv optimizatsiyasi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Sayt buyurtma qilishdan oldin nimalar tayyor bo‘lishi kerak",
@@ -243,8 +249,8 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-01",
-  "dateModified": "2026-08-01",
+  "dateModified": "2026-08-23",
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-08-01"
+  "updatedAt": "2026-08-23"
 }

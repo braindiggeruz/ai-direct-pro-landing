@@ -45,6 +45,8 @@
         { "anchor": "reklama", "label": "Reklama bilan bog‘lash" },
         { "anchor": "ai", "label": "Murojaatlarni AI yordamida qayta ishlash" },
         { "anchor": "jarayon", "label": "Ish jarayoni" },
+        { "anchor": "muddat", "label": "Muddat" },
+        { "anchor": "kontent-reja-namuna", "label": "30 kunlik kontent reja — namuna" },
         { "anchor": "olchov", "label": "Natijani qanday o‘lchaymiz" },
         { "anchor": "narx", "label": "Narx qanday shakllanadi" },
         { "anchor": "kimlar", "label": "Qaysi bizneslar uchun" },
@@ -161,6 +163,138 @@
         "Strategiya va kontent reja — tasdiqlashga beriladi",
         "Birinchi oy — nashr, moderatsiya, javob tartibini sozlash",
         "Oylik hisobot — ko‘rsatkichlar va keyingi oy rejasi"
+      ]
+    },
+    { "type": "h2", "id": "muddat", "text": "Muddat" },
+    {
+      "type": "p",
+      "text": "Quyidagi jadval faqat ishga tushirish bosqichlariga tegishli — birinchi oyda nima qilinishini ko‘rsatadi, natija muddatini emas. Yuqorida aytilganidek, real natija uchun bir necha oy izchil ish kerak. Bu kalendar kafolati emas: aniq muddat ish hajmi tasdiqlangandan keyin aytiladi va material siz tomondan qancha tez kelsa, shuncha qisqaradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "Ishga tushirish bosqichi",
+        "Sizdan nima kerak"
+      ],
+      "rows": [
+        [
+          "Suhbat va sahifalarni ko‘rib chiqish",
+          "1-hafta",
+          "Sahifalarga kirish, maqsad va byudjet doirasi"
+        ],
+        [
+          "Kontent reja va rubrikalar",
+          "2-hafta",
+          "Mahsulot bo‘yicha ma’lumot, narx siyosati"
+        ],
+        [
+          "Birinchi kontent to‘plami",
+          "3-hafta",
+          "Foto yoki video material, suratga olishga ruxsat"
+        ],
+        [
+          "Tasdiqlash va tuzatish",
+          "3-hafta",
+          "Bitta mas’ul shaxsdan yig‘ilgan izohlar"
+        ],
+        [
+          "Nashr va moderatsiya",
+          "4-hafta va keyin",
+          "Direct savollariga javob berish tartibi"
+        ],
+        [
+          "Birinchi hisobot",
+          "1-oy yakunida",
+          "—"
+        ]
+      ]
+    },
+    { "type": "h2", "id": "kontent-reja-namuna", "text": "30 kunlik kontent reja — namuna" },
+    {
+      "type": "p",
+      "text": "Quyida — bir oylik reja qanday ko‘rinishini ko‘rsatadigan namuna. Bu real mijoz rejasi emas va tayyor shablon sifatida sotilmaydi: har bir biznes uchun rubrika, format va chastota alohida tuziladi. Maqsad — buyurtmadan oldin ish qanday hujjatlashtirilishini ko‘rsatish."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Kun",
+        "Platforma",
+        "Format",
+        "Mavzu turi",
+        "Maqsad"
+      ],
+      "rows": [
+        [
+          "1",
+          "Instagram",
+          "Post va stories",
+          "Tanishtiruv: biz kim va nima qilamiz",
+          "Qamrov"
+        ],
+        [
+          "3",
+          "Telegram",
+          "Post",
+          "Xizmat tarkibi va chegaralari",
+          "Ishonch"
+        ],
+        [
+          "5",
+          "Instagram",
+          "Reels",
+          "Jarayon: ish qanday boradi",
+          "Qamrov"
+        ],
+        [
+          "8",
+          "Instagram",
+          "Karusel",
+          "Ko‘p beriladigan savol va aniq javob",
+          "Murojaat"
+        ],
+        [
+          "11",
+          "Telegram",
+          "Post",
+          "Xatolar: nima qilmaslik kerak",
+          "Ishonch"
+        ],
+        [
+          "14",
+          "Instagram",
+          "Stories va so‘rovnoma",
+          "Auditoriya bilan aloqa",
+          "Faollik"
+        ],
+        [
+          "17",
+          "Instagram",
+          "Post",
+          "Natija: raqam yoki oldin va keyin",
+          "Murojaat"
+        ],
+        [
+          "21",
+          "Telegram",
+          "Post",
+          "Narx nimaga bog‘liq",
+          "Murojaat"
+        ],
+        [
+          "24",
+          "Instagram",
+          "Reels",
+          "Qisqa foydali maslahat",
+          "Qamrov"
+        ],
+        [
+          "28",
+          "Har ikkisi",
+          "Post",
+          "Oy yakuni va keyingi qadam",
+          "Murojaat"
+        ]
       ]
     },
     { "type": "h2", "id": "olchov", "text": "Natijani qanday o‘lchaymiz" },
@@ -338,7 +472,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-21",
+  "lastReviewedAt": "2026-08-23",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-21"
+  "updatedAt": "2026-08-23"
 }

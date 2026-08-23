@@ -187,6 +187,12 @@
       "anchor": "Bepul konstruktor yoki buyurtma sayt",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "saytni qidiruv tizimlariga moslash",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Domen va hosting qanday tanlanadi va kimga tegishli bo‘lishi kerak",
@@ -198,8 +204,8 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-01",
-  "dateModified": "2026-08-01",
+  "dateModified": "2026-08-23",
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-08-01"
+  "updatedAt": "2026-08-23"
 }

@@ -15,7 +15,7 @@
   ],
   "searchIntent": "transactional",
   "h1": "Локальное SEO в Ташкенте",
-  "title": "Локальное SEO в Ташкенте и продвижение на картах",
+  "title": "Локальное SEO в Ташкенте и продвижение на картах | GPTBot.uz",
   "description": "Настраиваем локальное SEO бизнеса в Ташкенте: сайт, Google Business Profile, Яндекс Бизнес и 2ГИС, категории, филиалы, отзывы и измерение заявок.",
   "canonical": "https://gptbot.uz/ru/lokalnoe-seo-tashkent/",
   "hreflangRu": "/ru/lokalnoe-seo-tashkent/",
@@ -162,11 +162,6 @@
       "type": "cta",
       "text": "Получить аудит локальной видимости",
       "href": "https://t.me/XGame_changerx"
-    },
-    {
-      "type": "h2",
-      "id": "faq",
-      "text": "Частые вопросы"
     }
   ],
   "faq": [
@@ -186,6 +181,6 @@
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "createdAt": "2026-08-04T00:00:00.000Z",
-  "updatedAt": "2026-08-04T00:00:00.000Z",
-  "lastReviewedAt": "2026-08-04T00:00:00.000Z"
+  "updatedAt": "2026-08-23T00:00:00.000Z",
+  "lastReviewedAt": "2026-08-23T00:00:00.000Z"
 }

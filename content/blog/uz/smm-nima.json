@@ -203,6 +203,12 @@
       "anchor": "GPTBot.uz blogi",
       "locale": "uz",
       "type": "breadcrumb"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "qidiruvdan keladigan trafik",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "SMM nima va u biznesga qanday foyda beradi",
@@ -214,7 +220,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-21",
-  "dateModified": "2026-08-21",
+  "dateModified": "2026-08-23",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -223,5 +229,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-21"
+  "updatedAt": "2026-08-23"
 }

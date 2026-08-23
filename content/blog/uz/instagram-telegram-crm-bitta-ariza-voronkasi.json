@@ -198,6 +198,12 @@
       "locale": "uz",
       "type": "contextual",
       "reason": "Website development is the adjacent commercial service for this topic."
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama xizmati",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",
@@ -210,7 +216,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-08-23",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -218,7 +224,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-08-23T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z",
   "sources": [
     {

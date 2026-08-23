@@ -164,11 +164,6 @@
       "type": "cta",
       "text": "Получить разбор сценария Telegram Mini App",
       "href": "https://t.me/XGame_changerx"
-    },
-    {
-      "type": "h2",
-      "id": "faq",
-      "text": "Частые вопросы"
     }
   ],
   "faq": [
@@ -188,6 +183,6 @@
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "createdAt": "2026-08-04T00:00:00.000Z",
-  "updatedAt": "2026-08-04T00:00:00.000Z",
-  "lastReviewedAt": "2026-08-04T00:00:00.000Z"
+  "updatedAt": "2026-08-23T00:00:00.000Z",
+  "lastReviewedAt": "2026-08-23T00:00:00.000Z"
 }

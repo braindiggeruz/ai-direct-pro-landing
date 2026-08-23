@@ -232,6 +232,12 @@
       "anchor": "Instagram Direct AI bot qanday ishlaydi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "Instagram sahifasini yuritish xizmati",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -241,7 +247,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-08-23",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-08-23"
 }
