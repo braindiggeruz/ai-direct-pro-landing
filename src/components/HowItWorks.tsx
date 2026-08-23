@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import type { Dict } from '../i18n';
 
 export default function HowItWorks({ t }: { t: Dict }) {
+  const [activeStep, setActiveStep] = useState(0);
+  const step = t.how.steps[activeStep];
+
   return (
     <section data-testid="how-it-works" className="section-tone relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -9,48 +13,57 @@ export default function HowItWorks({ t }: { t: Dict }) {
           <h2 className="h-display mt-4 text-3xl sm:text-4xl lg:text-5xl text-white">{t.how.h}</h2>
         </div>
 
-        <div className="mt-12 grid lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+        <div className="mt-12 grid lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           <div className="lg:col-span-5 relative reveal">
-            <div className="absolute -inset-6 bg-brand-blue/20 blur-3xl rounded-[40%]" />
-            <img
-              src="/assets/landing/5-800.webp"
-              srcSet="/assets/landing/5-480.webp 480w, /assets/landing/5-800.webp 800w, /assets/landing/5.webp 1000w"
-              sizes="(max-width: 1024px) 90vw, 40vw"
-              alt="GPTBot AI-менеджер автоматизирует ответы клиентам в Instagram и Telegram"
-              className="relative w-full h-auto rounded-3xl"
-              loading="lazy"
-              width={900}
-              height={900}
-            />
+            <div className="absolute -inset-6 bg-brand-blue/15 blur-3xl rounded-[40%]" />
+            <div className="journey-console" aria-live="polite">
+              <div className="journey-console__head">
+                <span className="journey-console__signal" />
+                <span>GPTBot workspace</span>
+                <span>{step.n} / 03</span>
+              </div>
+              <div className="journey-console__body">
+                <div className="journey-console__channel" aria-hidden="true">
+                  <span>IG</span><span>TG</span>
+                </div>
+                <div className="journey-console__pulse" aria-hidden="true"><span /></div>
+                <div className="journey-console__stage" key={activeStep}>
+                  <span className="journey-console__number">{step.n}</span>
+                  <small>{t.nav.brand}</small>
+                  <strong>{step.t}</strong>
+                  <p>{step.d}</p>
+                </div>
+                <div className="journey-console__result" aria-hidden="true">
+                  <span className={activeStep === 2 ? 'is-ready' : ''} />
+                  <i /><i /><i />
+                </div>
+              </div>
+              <div className="journey-console__footer">
+                {t.how.steps.map((item, index) => (
+                  <span key={item.n} className={index <= activeStep ? 'is-complete' : ''} />
+                ))}
+              </div>
+            </div>
           </div>
 
-          <ol className="lg:col-span-7 grid gap-4 sm:gap-5">
-            {t.how.steps.map((s, i) => (
-              <li
-                key={i}
-                data-testid={`how-step-${i}`}
-                className="glass card-hover p-5 sm:p-6 flex gap-5 reveal"
-                style={{ transitionDelay: `${i * 50}ms` }}
-              >
-                <div className="shrink-0">
-                  <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-2xl bg-grad-cta text-[#04101A] font-extrabold flex items-center justify-center shadow-glow">
-                    {s.n}
-                  </div>
-                  {i < t.how.steps.length - 1 && (
-                    <div className="hidden sm:flex mt-3 ml-5 h-10 w-px bg-gradient-to-b from-brand-cyan/60 to-transparent" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-lg sm:text-xl font-semibold text-white">{s.t}</h3>
-                    <span className="inline-flex items-center text-brand-cyan">
-                      <svg width="20" height="14" viewBox="0 0 28 14" fill="none">
-                        <path d="M2 7h22M18 2l6 5-6 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm sm:text-[15px] text-white/65 leading-relaxed max-w-xl">{s.d}</p>
-                </div>
+          <ol className="lg:col-span-7 grid gap-3" aria-label={t.how.h}>
+            {t.how.steps.map((item, index) => (
+              <li key={item.n}>
+                <button
+                  type="button"
+                  data-testid={`how-step-${index}`}
+                  aria-pressed={activeStep === index}
+                  onClick={() => setActiveStep(index)}
+                  className="journey-step reveal"
+                  style={{ transitionDelay: `${index * 45}ms` }}
+                >
+                  <span className="journey-step__number">{item.n}</span>
+                  <span className="journey-step__copy">
+                    <strong>{item.t}</strong>
+                    <small>{item.d}</small>
+                  </span>
+                  <span className="journey-step__arrow" aria-hidden="true">→</span>
+                </button>
               </li>
             ))}
           </ol>

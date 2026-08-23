@@ -1,5 +1,6 @@
 import type { Dict } from '../i18n';
 import type { Lang } from '../i18n';
+import type { CSSProperties } from 'react';
 import { track } from '../lib/cta';
 
 const ICONS = [
@@ -56,7 +57,28 @@ export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
             <p className="mt-4 text-white/65 max-w-md">{t.niches.sub}</p>
             <div className="mt-8 relative">
               <div className="absolute -inset-6 bg-brand-cyan/15 blur-3xl rounded-[40%]" />
-              <img src="/assets/landing/7-800.webp" srcSet="/assets/landing/7-480.webp 480w, /assets/landing/7-800.webp 800w, /assets/landing/7.webp 1000w" sizes="(max-width: 1024px) 90vw, 40vw" alt="AI-боты GPTBot для разных ниш: клиники, магазины, салоны, HoReCa, учебные центры" className="relative w-full h-auto rounded-3xl" loading="lazy" width={900} height={900} />
+              <div className="niche-system relative" role="img" aria-label={t.niches.h}>
+                <div className="niche-system__head">
+                  <span>GPTBot</span>
+                  <span>{isUz ? 'Nisha modullari' : 'Модули для ниш'}</span>
+                </div>
+                <div className="niche-system__core">
+                  <span className="niche-system__core-ring" aria-hidden="true" />
+                  <strong>AI</strong>
+                  <small>RU · UZ</small>
+                </div>
+                <div className="niche-system__modules">
+                  {t.niches.items.slice(0, 4).map((item, index) => (
+                    <span key={item} style={{ '--module-index': index } as CSSProperties}>
+                      <i aria-hidden="true" />{item}
+                    </span>
+                  ))}
+                </div>
+                <div className="niche-system__footer">
+                  <span>{isUz ? 'Bitta yadro' : 'Одно ядро'}</span>
+                  <span>{isUz ? 'Har biznes uchun ssenariy' : 'Сценарий под бизнес'}</span>
+                </div>
+              </div>
             </div>
           </div>
 

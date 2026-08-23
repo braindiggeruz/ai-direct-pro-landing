@@ -4,17 +4,13 @@ import { track } from '../lib/cta';
 export default function FinalCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
   return (
     <section data-testid="final-cta" className="relative py-20 sm:py-28 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <img
-          src="/assets/landing/8-800.webp"
-          srcSet="/assets/landing/8-480.webp 480w, /assets/landing/8-800.webp 800w, /assets/landing/8.webp 1000w"
-          sizes="100vw"
-          alt="Фоновое изображение раздела «запустить демо в Telegram»"
-          className="w-full h-full object-cover opacity-40"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#05070D]/85 via-[#05070D]/70 to-[#05070D]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(34,158,217,0.25),_transparent_60%)]" />
+      <div className="final-network absolute inset-0 -z-10" aria-hidden="true">
+        <div className="final-network__orb final-network__orb--one" />
+        <div className="final-network__orb final-network__orb--two" />
+        <div className="final-network__orb final-network__orb--three" />
+        <span className="final-network__line final-network__line--one" />
+        <span className="final-network__line final-network__line--two" />
+        <span className="final-network__line final-network__line--three" />
       </div>
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center reveal">

@@ -16,6 +16,7 @@ import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
 import BlogTeaser from './components/BlogTeaser';
 import SolutionsGrid from './components/SolutionsGrid';
+import CapabilityRail from './components/CapabilityRail';
 
 function getInitialLang(): Lang {
   if (typeof window === 'undefined') return 'ru';
@@ -139,9 +140,13 @@ export default function App() {
 
   return (
     <div className="relative overflow-x-clip">
+      <a className="skip-link" href="#main-content">
+        {lang === 'uz' ? 'Asosiy mazmunga o‘tish' : 'Перейти к основному содержанию'}
+      </a>
       <Header t={t} lang={lang} onSwitchLang={switchLang} ctaUrl={ctaUrl} />
-      <main>
+      <main id="main-content">
         <Hero t={t} ctaUrl={ctaUrl} />
+        <CapabilityRail t={t} />
         <Pain t={t} />
         <Solution t={t} ctaUrl={ctaUrl} />
         <SolutionsGrid t={t} lang={lang} />

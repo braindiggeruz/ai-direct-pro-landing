@@ -49,23 +49,37 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             </div>
           </div>
 
-          {/* Hot lead card visual using 4.png */}
           <div className="lg:col-span-5 relative reveal">
             <div className="absolute -inset-6 bg-brand-cyan/15 blur-3xl rounded-[40%]" />
-            <div className="relative">
-              <img
-                src="/assets/landing/4-800.webp"
-                srcSet="/assets/landing/4-480.webp 480w, /assets/landing/4-800.webp 800w, /assets/landing/4.webp 1000w"
-                sizes="(max-width: 1024px) 90vw, 40vw"
-                alt="Карточка горячего лида: имя клиента и телефон, переданные менеджеру"
-                className="w-full h-auto rounded-3xl"
-                loading="lazy"
-                width={900}
-                height={900}
-              />
-              <div className="absolute -top-4 -right-4 glass-strong px-3 py-2 flex items-center gap-2 animate-pop-in">
-                <span className="h-2 w-2 rounded-full bg-brand-cyan shadow-[0_0_10px_#2FE6D1]" />
-                <span className="text-[11px] font-semibold text-white">HOT LEAD</span>
+            <div className="product-flow relative" role="img" aria-label={t.solution.h}>
+              <div className="product-flow__topbar">
+                <span className="product-flow__status" />
+                <span>GPTBot · routing</span>
+                <span className="product-flow__live">LIVE</span>
+              </div>
+              <div className="product-flow__channels">
+                <div><span className="product-flow__channel-dot product-flow__channel-dot--blue" />Instagram</div>
+                <div><span className="product-flow__channel-dot" />Telegram</div>
+              </div>
+              <div className="product-flow__connector" aria-hidden="true"><span /></div>
+              <div className="product-flow__ai">
+                <span className="product-flow__ai-mark">AI</span>
+                <div>
+                  <strong>GPTBot</strong>
+                  <small>{t.solution.benefits[2].t}</small>
+                </div>
+              </div>
+              <div className="product-flow__connector product-flow__connector--out" aria-hidden="true"><span /></div>
+              <div className="product-flow__lead">
+                <div className="product-flow__lead-head">
+                  <span>{t.demo.lead.title}</span>
+                  <span className="product-flow__hot">HOT</span>
+                </div>
+                <dl>
+                  <div><dt>{t.demo.lead.name}</dt><dd>Aziz</dd></div>
+                  <div><dt>{t.demo.lead.phone}</dt><dd>+998 •• ••• •• ••</dd></div>
+                  <div><dt>{t.demo.lead.status}</dt><dd>{t.demo.lead.statusVal}</dd></div>
+                </dl>
               </div>
             </div>
           </div>

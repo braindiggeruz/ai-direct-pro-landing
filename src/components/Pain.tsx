@@ -1,21 +1,23 @@
 import type { Dict } from '../i18n';
+import PremiumImage from './PremiumImage';
 
 export default function Pain({ t }: { t: Dict }) {
+  const isRu = t.pain.h.includes('Проблема');
+
   return (
     <section data-testid="pain" className="section-tone relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-5 relative reveal">
             <div className="absolute -inset-6 bg-brand-violet/20 blur-3xl rounded-[40%]" />
-            <img
-              src="/assets/landing/3-800.webp"
-              srcSet="/assets/landing/3-480.webp 480w, /assets/landing/3-800.webp 800w, /assets/landing/3.webp 1000w"
+            <PremiumImage
+              name="unanswered-business-messages-night"
               sizes="(max-width: 1024px) 90vw, 40vw"
-              alt="Бизнес теряет заявки в Instagram Direct без AI-менеджера"
-              className="relative w-full h-auto rounded-3xl"
-              loading="lazy"
-              width={900}
-              height={900}
+              alt={isRu
+                ? 'Ночные обращения клиентов остаются без ответа и превращаются в потерянные заявки'
+                : 'Tungi mijoz murojaatlari javobsiz qolib, yo‘qotilgan lidlarga aylanadi'}
+              className="premium-scene relative w-full h-auto object-cover"
+              loading="eager"
             />
           </div>
           <div className="lg:col-span-7 reveal">

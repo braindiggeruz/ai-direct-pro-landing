@@ -1,6 +1,7 @@
 import type { Dict } from '../i18n';
 import { track } from '../lib/cta';
 import { GradientBackground } from './animate-ui/components/backgrounds/gradient';
+import PremiumImage from './PremiumImage';
 
 type Props = { t: Dict; ctaUrl: string };
 
@@ -140,20 +141,28 @@ export default function Hero({ t, ctaUrl }: Props) {
 
           {/* Hero image */}
           <div className="lg:col-span-5 relative animate-fade-up" style={{ animationDelay: '120ms' }}>
-            <div className="relative mx-auto max-w-sm lg:max-w-none">
-              <div className="absolute -inset-6 bg-grad-cta opacity-25 blur-3xl rounded-[50%]" />
-              <img
-                src="/assets/landing/1-800.webp"
-                srcSet="/assets/landing/1-480.webp 480w, /assets/landing/1-800.webp 800w, /assets/landing/1.webp 1000w"
+            <div className="hero-visual relative mx-auto max-w-xl lg:max-w-none">
+              <div className="absolute -inset-6 bg-grad-cta opacity-20 blur-3xl rounded-[38%]" />
+              <PremiumImage
+                name="ai-sales-assistant-workspace"
+                alt={isRu
+                  ? 'AI-бот GPTBot квалифицирует обращения из Instagram и Telegram и передаёт заявку менеджеру'
+                  : 'GPTBot AI boti Instagram va Telegram murojaatlarini saralab, lidni menejerga uzatadi'}
                 sizes="(max-width: 1024px) 90vw, 40vw"
-                alt="AI chat assistant"
-                className="relative w-full h-auto rounded-3xl object-cover"
-                width={900}
-                height={1100}
+                className="hero-visual__image relative w-full h-auto object-cover"
                 loading="eager"
                 fetchPriority="high"
               />
-              <div className="absolute -bottom-3 -left-3 sm:-left-6 glass-strong px-4 py-3 flex items-center gap-3 animate-pop-in" style={{ animationDelay: '350ms' }}>
+              <div className="hero-signal-card hero-signal-card--channel" aria-hidden="true">
+                <span className="hero-signal-card__dot" />
+                <span>Instagram</span>
+                <span>Telegram</span>
+              </div>
+              <div className="hero-signal-card hero-signal-card--lead" aria-hidden="true">
+                <span className="hero-signal-card__eyebrow">{isRu ? 'Лид квалифицирован' : 'Lid saralandi'}</span>
+                <strong>{isRu ? 'Передать менеджеру' : 'Menejerga uzatish'}</strong>
+              </div>
+              <div className="absolute -bottom-3 left-3 sm:-left-5 glass-strong px-4 py-3 flex items-center gap-3 animate-pop-in" style={{ animationDelay: '350ms' }}>
                 <img
                   src="/assets/landing/logo-sq-40.webp"
                   srcSet="/assets/landing/logo-sq-40.webp 1x, /assets/landing/logo-sq-80.webp 2x"
@@ -163,7 +172,7 @@ export default function Hero({ t, ctaUrl }: Props) {
                   height={32}
                 />
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-white/50">AI Sales Assistant</div>
+                  <div className="text-[10px] uppercase tracking-wider text-white/50">GPTBot · AI Sales</div>
                   <div className="text-xs font-semibold text-white">online · 24/7</div>
                 </div>
                 <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-brand-cyan shadow-[0_0_10px_#2FE6D1]" />

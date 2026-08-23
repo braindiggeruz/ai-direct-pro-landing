@@ -1,14 +1,24 @@
 import type { Dict } from '../i18n';
 import { track } from '../lib/cta';
+import PremiumImage from './PremiumImage';
 
 export default function Offer({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
+  const isRu = t.offer.h.includes('Получите');
+
   return (
     <section data-testid="offer" className="relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-5 relative reveal">
             <div className="absolute -inset-6 bg-brand-blue/20 blur-3xl rounded-[40%]" />
-            <img src="/assets/landing/6-800.webp" srcSet="/assets/landing/6-480.webp 480w, /assets/landing/6-800.webp 800w, /assets/landing/6.webp 1000w" sizes="(max-width: 1024px) 90vw, 40vw" alt="Преимущества GPTBot: AI-консультант 24/7, сбор заявок, передача менеджеру" className="relative w-full h-auto rounded-3xl" loading="lazy" width={900} height={900} />
+            <PremiumImage
+              name="tashkent-business-owner-ai-leads"
+              sizes="(max-width: 1024px) 90vw, 40vw"
+              alt={isRu
+                ? 'Предприниматель в Ташкенте получает квалифицированную заявку от AI-бота GPTBot'
+                : 'Toshkentdagi tadbirkor GPTBot AI botidan saralangan lidni qabul qilmoqda'}
+              className="premium-scene relative w-full h-auto object-cover"
+            />
           </div>
 
           <div className="lg:col-span-7 reveal">
