@@ -2,7 +2,7 @@ import type { Dict } from '../i18n';
 
 export default function Trust({ t }: { t: Dict }) {
   return (
-    <section data-testid="trust" className="relative py-20 sm:py-28">
+    <section data-testid="trust" className="section-tone relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center reveal">
         <div className="chip mx-auto">Honest trust</div>
         <h2 className="h-display mt-4 text-3xl sm:text-4xl lg:text-5xl text-white">{t.trust.h}</h2>

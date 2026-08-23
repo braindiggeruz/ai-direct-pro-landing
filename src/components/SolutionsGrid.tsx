@@ -75,7 +75,7 @@ export default function SolutionsGrid({ lang }: { t: Dict; lang: Lang }) {
   const readLabel = isUz ? "Batafsil" : 'Подробнее';
 
   return (
-    <section id="solutions" data-testid="solutions-grid" className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+    <section id="solutions" data-testid="solutions-grid" className="relative py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl mb-10 sm:mb-14">
           <div className="text-xs uppercase tracking-[0.2em] text-brand-cyan/80 mb-3">
@@ -98,7 +98,7 @@ export default function SolutionsGrid({ lang }: { t: Dict; lang: Lang }) {
                 data-testid={`solution-card-${s.ruUrl.replace(/[/]/g, '-')}`}
                 href={url}
                 onClick={() => track('click_solution_card', { url })}
-                className="group block bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-6 sm:p-7 transition-all duration-200"
+                className="pressable-card group block bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-5 sm:p-7"
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs uppercase tracking-wider text-brand-cyan/80 px-2.5 py-1 rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.05]">

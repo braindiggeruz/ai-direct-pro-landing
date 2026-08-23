@@ -2,7 +2,7 @@ import type { Dict } from '../i18n';
 
 export default function HowItWorks({ t }: { t: Dict }) {
   return (
-    <section data-testid="how-it-works" className="relative py-20 sm:py-28">
+    <section data-testid="how-it-works" className="section-tone relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto reveal">
           <div className="chip mx-auto">3 steps</div>
@@ -30,7 +30,7 @@ export default function HowItWorks({ t }: { t: Dict }) {
                 key={i}
                 data-testid={`how-step-${i}`}
                 className="glass card-hover p-5 sm:p-6 flex gap-5 reveal"
-                style={{ transitionDelay: `${i * 80}ms` }}
+                style={{ transitionDelay: `${i * 50}ms` }}
               >
                 <div className="shrink-0">
                   <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-2xl bg-grad-cta text-[#04101A] font-extrabold flex items-center justify-center shadow-glow">

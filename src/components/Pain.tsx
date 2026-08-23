@@ -2,7 +2,7 @@ import type { Dict } from '../i18n';
 
 export default function Pain({ t }: { t: Dict }) {
   return (
-    <section data-testid="pain" className="relative py-20 sm:py-28">
+    <section data-testid="pain" className="section-tone relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-5 relative reveal">

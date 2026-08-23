@@ -50,10 +50,10 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
               </span>
               <div>
                 <div className="font-display font-extrabold text-white">{t.footer.brand}</div>
-                <div className="text-xs text-white/55">{t.footer.city} · {t.footer.tag}</div>
+                <div className="text-xs text-white/65">{t.footer.city} · {t.footer.tag}</div>
               </div>
             </div>
-            <p className="text-sm text-white/55 leading-relaxed mb-5 max-w-xs">
+            <p className="text-sm text-white/65 leading-relaxed mb-5 max-w-xs">
               {isUz
                 ? "AI-bot Telegram va Instagram'da mijozlarga 24/7 javob beradi. O'zbekiston uchun moslab tuziladi."
                 : 'AI-бот для бизнеса в Telegram и Instagram: отвечает 24/7, передаёт горячие заявки менеджеру.'}

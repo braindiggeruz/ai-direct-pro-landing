@@ -26,6 +26,8 @@
 
 :root {
   color-scheme: dark;
+  --ease-out-ui: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-ui: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 html, body, #root {
@@ -43,6 +45,16 @@ body {
     radial-gradient(900px 500px at -10% 30%, rgba(110,59,255,0.14), transparent 60%),
     radial-gradient(900px 500px at 50% 110%, rgba(47,230,209,0.10), transparent 60%),
     #05070D;
+}
+
+body.mobile-menu-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid #6FE7DA;
+  outline-offset: 3px;
 }
 
 /* Subtle grain */
@@ -72,21 +84,22 @@ body::before {
     border-radius: 24px;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 font-semibold text-[#04101A] bg-grad-cta px-7 py-4 rounded-2xl transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-2 font-semibold text-[#04101A] bg-grad-cta px-7 py-4 rounded-2xl;
+    transition: transform 150ms var(--ease-out-ui), box-shadow 200ms ease, filter 180ms ease;
     box-shadow: 0 12px 36px -10px rgba(34,158,217,0.5), 0 0 0 1px rgba(47,230,209,0.3) inset;
   }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 48px -10px rgba(34,158,217,0.65), 0 0 0 1px rgba(47,230,209,0.5) inset, 0 0 48px rgba(47,230,209,0.25);
+  .btn-primary:active {
+    transform: scale(0.97);
+    filter: brightness(0.98);
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 font-medium text-white/90 px-7 py-4 rounded-2xl transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-2 font-medium text-white/90 px-7 py-4 rounded-2xl;
     background: rgba(255,255,255,0.035);
     border: 1px solid rgba(255,255,255,0.10);
+    transition: transform 150ms var(--ease-out-ui), background-color 180ms ease, border-color 180ms ease;
   }
-  .btn-secondary:hover {
-    background: rgba(255,255,255,0.06);
-    border-color: rgba(47,230,209,0.30);
+  .btn-secondary:active {
+    transform: scale(0.97);
   }
   .chip {
     @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full;
@@ -107,12 +120,21 @@ body::before {
     color: transparent;
   }
   .card-hover {
-    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    transition: transform 200ms var(--ease-out-ui), border-color 200ms ease, box-shadow 220ms ease, background-color 200ms ease;
   }
-  .card-hover:hover {
-    transform: translateY(-4px);
-    border-color: rgba(47,230,209,0.35);
-    box-shadow: 0 18px 50px -16px rgba(34,158,217,0.35);
+  .pressable-card {
+    transition: transform 180ms var(--ease-out-ui), border-color 200ms ease, background-color 200ms ease, box-shadow 220ms ease;
+  }
+  .pressable-card:active {
+    transform: scale(0.985);
+  }
+  .control-pill,
+  .control-press {
+    transition: transform 140ms var(--ease-out-ui), color 160ms ease, background-color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+  }
+  .control-pill:active,
+  .control-press:active {
+    transform: scale(0.96);
   }
 
   /* ─── Prerendered SEO/commercial page primitives ──────────────────────
@@ -171,30 +193,92 @@ body::before {
   }
 }
 
+.site-header {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 200ms ease, border-color 200ms ease, backdrop-filter 200ms ease;
+}
+
+.site-header.is-scrolled,
+.site-header:has(.mobile-menu-panel[data-open='true']) {
+  background-color: rgba(5, 7, 13, 0.88);
+  border-bottom-color: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.mobile-menu-backdrop {
+  position: fixed;
+  inset: 4rem 0 0;
+  z-index: 40;
+  background: rgba(2, 4, 10, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 140ms var(--ease-out-ui), visibility 0s linear 140ms;
+}
+
+.mobile-menu-backdrop[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-duration: 200ms, 0s;
+  transition-delay: 0s;
+}
+
+.mobile-menu-panel {
+  position: fixed;
+  inset: 4rem 0 auto;
+  z-index: 45;
+  opacity: 0;
+  transform: translateY(-8px);
+  transform-origin: top;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 140ms var(--ease-out-ui), transform 140ms var(--ease-out-ui), visibility 0s linear 140ms;
+}
+
+.mobile-menu-panel[data-open='true'] {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition-duration: 220ms, 220ms, 0s;
+  transition-delay: 0s;
+}
+
+.sticky-cta-shell {
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 150ms var(--ease-out-ui);
+}
+
+.sticky-cta-shell[data-visible='true'] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition-duration: 200ms, 220ms;
+}
+
+.section-tone {
+  background: linear-gradient(180deg, rgba(15, 21, 35, 0.28), rgba(5, 7, 13, 0.06));
+  border-top: 1px solid rgba(255,255,255,0.035);
+  border-bottom: 1px solid rgba(255,255,255,0.025);
+}
+
 @keyframes faqReveal {
   0% { opacity: 0; transform: translateY(6px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .link-card,
-  .faq-item,
-  .faq-item[open] .faq-a {
-    animation: none;
-    transition: none;
-  }
-  .link-card:hover { transform: none; }
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 /* Scroll-triggered reveal */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(12px);
+  transition: opacity 420ms var(--ease-out-ui), transform 420ms var(--ease-out-ui);
 }
 .reveal.is-visible {
   opacity: 1;
@@ -204,6 +288,15 @@ body::before {
 /* Continuous decorative effects are expensive on small GPUs and provide no
    content value. Mobile keeps the same visual composition as a static frame. */
 @media (max-width: 767px) {
+  html {
+    scroll-padding-bottom: 6rem;
+  }
+
+  .reveal {
+    transform: translateY(8px);
+    transition-duration: 280ms;
+  }
+
   .animate-gradient-pan,
   .animate-float,
   .animate-pulse-glow,
@@ -220,8 +313,55 @@ body::before {
   }
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 48px -10px rgba(34,158,217,0.65), 0 0 0 1px rgba(47,230,209,0.5) inset, 0 0 48px rgba(47,230,209,0.25);
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(47,230,209,0.30);
+  }
+  .card-hover:hover,
+  .pressable-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(47,230,209,0.35);
+    box-shadow: 0 18px 50px -16px rgba(34,158,217,0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-card,
+  .faq-item,
+  .faq-item[open] .faq-a,
+  .reveal,
+  .mobile-menu-backdrop,
+  .mobile-menu-panel,
+  .sticky-cta-shell {
+    animation: none !important;
+    transition: opacity 160ms ease !important;
+  }
+  .link-card:hover,
+  .card-hover:hover,
+  .pressable-card:hover,
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .mobile-menu-panel[data-open='true'],
+  .sticky-cta-shell[data-visible='true'] {
+    transform: none;
+  }
+}
+
 /* Section base */
 section { position: relative; z-index: 1; }
+section[id],
+footer[id] { scroll-margin-top: 5rem; }
 
 /* selection */
 ::selection { background: rgba(47,230,209,0.35); color: #04101A; }

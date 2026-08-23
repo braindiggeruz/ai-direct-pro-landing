@@ -53,7 +53,7 @@ export default function BlogTeaser({ t }: Props) {
     <section
       id="blog"
       data-testid="blog-teaser"
-      className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8"
+      className="relative py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-14">
@@ -89,7 +89,7 @@ export default function BlogTeaser({ t }: Props) {
               data-testid={`blog-teaser-card-${a.slug}`}
               href={`/ru/blog/${a.slug}/`}
               onClick={() => track('click_blog_card_homepage', { slug: a.slug })}
-              className="group block bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-6 sm:p-7 transition-all duration-200"
+              className="pressable-card group block bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-5 sm:p-7"
             >
               <div className="text-xs uppercase tracking-wider text-brand-cyan/80 mb-3">
                 {isUz ? 'Maqola' : 'Статья'}
@@ -114,7 +114,7 @@ export default function BlogTeaser({ t }: Props) {
               data-testid={`blog-teaser-card-${a.slug}`}
               href={`/ru/blog/${a.slug}/`}
               onClick={() => track('click_blog_card_homepage', { slug: a.slug })}
-              className="group flex items-start gap-4 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-5 transition-all"
+              className="pressable-card group flex items-start gap-4 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-5"
             >
               <div className="text-brand-cyan text-2xl mt-1" aria-hidden>→</div>
               <div className="min-w-0">

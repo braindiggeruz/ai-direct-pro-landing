@@ -3,7 +3,7 @@ import { track } from '../lib/cta';
 
 export default function FinalCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
   return (
-    <section data-testid="final-cta" className="relative py-24 sm:py-32 overflow-hidden">
+    <section data-testid="final-cta" className="relative py-20 sm:py-28 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <img
           src="/assets/landing/8-800.webp"
@@ -40,7 +40,7 @@ export default function FinalCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 3 2.5 10.5c-.9.35-.88 1.65.05 1.95l4.7 1.5L9.5 21c.4 1.05 1.8 1.2 2.4.25l2.95-4.55 5.3 3.9c.95.7 2.3.15 2.5-1.05L23 4.3c.2-1.1-.95-2-1.95-1.3Z" fill="#04101A"/></svg>
           </a>
         </div>
-        <p className="mt-3 text-xs text-white/55">{t.final.micro}</p>
+        <p className="mt-3 text-xs text-white/65">{t.final.micro}</p>
       </div>
     </section>
   );

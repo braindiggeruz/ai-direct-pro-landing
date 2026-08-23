@@ -17,7 +17,7 @@ export default function FAQ({ t }: { t: Dict }) {
   };
 
   return (
-    <section id="faq" data-testid="faq" className="relative py-20 sm:py-28">
+    <section id="faq" data-testid="faq" className="relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center reveal">
           <div className="chip mx-auto">FAQ</div>
@@ -58,7 +58,7 @@ export default function FAQ({ t }: { t: Dict }) {
                   role="region"
                   aria-labelledby={`faq-trigger-${i}`}
                   aria-hidden={!isOpen}
-                  className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
+                  className={`grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${
                     isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
                   }`}
                 >

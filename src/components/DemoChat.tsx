@@ -23,17 +23,22 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
   useEffect(() => {
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
     const runSequence = async () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setTyping(false);
+        setVisible(SEQUENCE.length);
+        return;
+      }
       for (let i = 0; i < SEQUENCE.length; i++) {
         const step = SEQUENCE[i];
         if (step.type === 'msg' && step.from === 'ai') {
           setTyping(true);
-          await sleep(900);
+          await sleep(420);
           setTyping(false);
         } else {
-          await sleep(700);
+          await sleep(240);
         }
         setVisible((value) => value + 1);
-        await sleep(500);
+        await sleep(220);
       }
     };
 
@@ -57,7 +62,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
       id="demo"
       data-testid="demo-chat"
       ref={sectionRef}
-      className="relative py-20 sm:py-28"
+      className="relative py-16 sm:py-24 lg:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto reveal">
@@ -121,8 +126,8 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
           <div className="lg:col-span-5 reveal">
             <div
               data-testid="lead-card"
-              className={`glass-strong p-5 sm:p-6 shadow-card transition-all duration-500 ${
-                visible >= SEQUENCE.length ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-2'
+              className={`glass-strong p-5 sm:p-6 shadow-card transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none ${
+                visible >= SEQUENCE.length ? 'opacity-100 translate-y-0' : 'opacity-60 translate-y-1'
               }`}
             >
               <div className="flex items-center justify-between">

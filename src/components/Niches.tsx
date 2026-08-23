@@ -48,7 +48,7 @@ const NICHE_URLS: { ru: string; uz?: string }[] = [
 export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
   const isUz = lang === 'uz';
   return (
-    <section id="niches" data-testid="niches" className="relative py-20 sm:py-28">
+    <section id="niches" data-testid="niches" className="section-tone relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-5 lg:sticky lg:top-24 reveal">
@@ -60,7 +60,7 @@ export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
             </div>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <div className="lg:col-span-7 grid grid-cols-1 min-[360px]:grid-cols-2 gap-3 sm:gap-4">
             {t.niches.items.map((n, i) => {
               const map = NICHE_URLS[i % NICHE_URLS.length];
               const href = (isUz && map.uz) ? map.uz : map.ru;
@@ -70,19 +70,19 @@ export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
                   href={href}
                   onClick={() => track('click_niche_card', { idx: i, href })}
                   data-testid={`niche-${i}`}
-                  className="glass card-hover p-5 reveal block hover:border-brand-cyan/40 transition-colors"
-                  style={{ transitionDelay: `${i * 50}ms`, background: 'linear-gradient(180deg, rgba(34,158,217,0.06), rgba(255,255,255,0.02))' }}
+                  className="glass card-hover p-4 sm:p-5 reveal block hover:border-brand-cyan/40"
+                  style={{ transitionDelay: `${i * 40}ms`, background: 'linear-gradient(180deg, rgba(34,158,217,0.06), rgba(255,255,255,0.02))' }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-grad-cta text-[#04101A] shadow-glow">
+                    <span className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-grad-cta text-[#04101A] shadow-glow">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                         <path d={ICONS[i % ICONS.length]} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
                     <span className="text-brand-cyan/70 group-hover:text-brand-cyan transition" aria-hidden>→</span>
                   </div>
-                  <h3 className="mt-3.5 text-base sm:text-lg font-semibold text-white">{n}</h3>
-                  <p className="mt-1.5 text-[13px] sm:text-sm text-white/65 leading-relaxed">{t.niches.sub}</p>
+                  <h3 className="mt-3.5 text-sm sm:text-lg font-semibold text-white leading-snug">{n}</h3>
+                  <p className="mt-1.5 text-xs sm:text-sm text-white/70 leading-relaxed line-clamp-3 sm:line-clamp-none">{t.niches.sub}</p>
                 </a>
               );
             })}

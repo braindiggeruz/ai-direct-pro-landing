@@ -3,25 +3,38 @@ import type { Dict } from '../i18n';
 import { track } from '../lib/cta';
 
 export default function StickyCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
-  const [show, setShow] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+  const [nearFooter, setNearFooter] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement;
-      const ratio = h.scrollTop / Math.max(1, h.scrollHeight - window.innerHeight);
-      setShow(ratio > 0.2);
+    const hero = document.querySelector('[data-testid="hero"]');
+    const footer = document.querySelector('[data-testid="site-footer"]');
+    if (!hero || !footer) return;
+
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting && entry.boundingClientRect.bottom < 0),
+      { threshold: 0 },
+    );
+    const footerObserver = new IntersectionObserver(
+      ([entry]) => setNearFooter(entry.isIntersecting),
+      { rootMargin: '96px 0px 0px 0px', threshold: 0 },
+    );
+    heroObserver.observe(hero);
+    footerObserver.observe(footer);
+    return () => {
+      heroObserver.disconnect();
+      footerObserver.disconnect();
     };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const show = pastHero && !nearFooter;
 
   return (
     <div
       data-testid="sticky-cta"
-      className={`sm:hidden fixed inset-x-0 bottom-0 z-40 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-all duration-300 ${
-        show ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-      }`}
+      data-visible={show ? 'true' : 'false'}
+      aria-hidden={!show}
+      className="sticky-cta-shell sm:hidden fixed inset-x-0 bottom-0 z-40 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05070D] via-[#05070D]/85 to-transparent -z-10" />
       <a
@@ -29,6 +42,7 @@ export default function StickyCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
         href={ctaUrl}
         target="_blank"
         rel="noopener noreferrer"
+        tabIndex={show ? 0 : -1}
         onClick={() => track('click_sticky_cta')}
         className="btn-primary w-full text-base !py-4"
       >
