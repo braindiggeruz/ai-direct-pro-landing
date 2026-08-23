@@ -26,12 +26,12 @@ export default function Offer({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             <h2 className="h-display mt-4 text-3xl sm:text-4xl lg:text-5xl text-white">{t.offer.h}</h2>
             <p className="mt-4 text-white/70 max-w-2xl">{t.offer.t}</p>
 
-            <div className="mt-7 grid sm:grid-cols-3 gap-3">
+            <div className="mt-7 divide-y divide-white/8 border-y border-white/8">
               {t.offer.cards.map((c, i) => (
-                <div key={i} data-testid={`offer-card-${i}`} className="glass card-hover p-4 sm:p-5">
-                  <div className="text-[11px] uppercase tracking-wider text-brand-cyan font-semibold">0{i + 1}</div>
-                  <h3 className="mt-2 text-base font-semibold text-white">{c.t}</h3>
-                  <p className="mt-1.5 text-[13px] text-white/60 leading-relaxed">{c.d}</p>
+                <div key={i} data-testid={`offer-card-${i}`} className="grid gap-1 py-4 sm:grid-cols-[2.5rem_10rem_1fr] sm:items-start sm:gap-3">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-brand-cyan">0{i + 1}</div>
+                  <h3 className="text-sm font-semibold text-white sm:text-base">{c.t}</h3>
+                  <p className="text-[13px] leading-relaxed text-white/60">{c.d}</p>
                 </div>
               ))}
             </div>
@@ -47,6 +47,16 @@ export default function Offer({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
               {t.offer.cta}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
+
+            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/55">{t.trust.t}</p>
+            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2" aria-label={t.trust.h}>
+              {t.trust.badges.slice(0, 3).map((badge) => (
+                <li key={badge} className="inline-flex items-center gap-2 text-xs text-white/65">
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" aria-hidden="true" />
+                  {badge}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

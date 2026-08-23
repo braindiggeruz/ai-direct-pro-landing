@@ -35,12 +35,13 @@ test('landing controls use interruptible, property-specific motion', async () =>
   assert.ok(reducedMotion > reveal, 'reduced-motion override must follow the reveal declaration');
 });
 
-test('sticky CTA appears after the hero and yields to the footer', async () => {
+test('sticky CTA appears after the product proof and yields to the footer', async () => {
   const sticky = await read('src/components/StickyCTA.tsx');
 
-  assert.match(sticky, /setPastHero\(!entry\.isIntersecting/);
+  assert.match(sticky, /data-testid="demo-chat"/);
+  assert.match(sticky, /setPastProof\(!entry\.isIntersecting/);
   assert.match(sticky, /setNearFooter\(entry\.isIntersecting\)/);
-  assert.match(sticky, /const show = pastHero && !nearFooter/);
+  assert.match(sticky, /const show = pastProof && !nearFooter/);
   assert.match(sticky, /tabIndex=\{show \? 0 : -1\}/);
   assert.doesNotMatch(sticky, /transition-all/);
 });

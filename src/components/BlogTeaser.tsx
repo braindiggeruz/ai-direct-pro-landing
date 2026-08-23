@@ -1,13 +1,14 @@
 import type { Dict } from '../i18n';
+import type { Lang } from '../i18n';
 import { track } from '../lib/cta';
 
-type Props = { t: Dict };
+type Props = { t: Dict; lang: Lang };
 
 // 5 published RU blog articles. Static list — sourced from
 // content/blog/ru/*.json and scripts/apply-blog.ts (PUBLISH_SLUGS).
 // Kept hard-coded here to avoid runtime fetch on the SPA shell, which would
 // add a network round-trip and break the first paint on slow connections.
-const ARTICLES: { slug: string; title: string; excerpt: string }[] = [
+const RU_ARTICLES: { slug: string; title: string; excerpt: string }[] = [
   {
     slug: 'pochemu-biznes-teryaet-zayavki-iz-instagram-telegram',
     title: 'Почему бизнес теряет заявки из Instagram и Telegram',
@@ -40,8 +41,27 @@ const ARTICLES: { slug: string; title: string; excerpt: string }[] = [
   },
 ];
 
-export default function BlogTeaser({ t }: Props) {
-  const isUz = (t.nav?.brand || '').toString().includes('GPTBot') && (t as unknown as { lang?: string }).lang === 'uz';
+const UZ_ARTICLES: { slug: string; title: string; excerpt: string }[] = [
+  {
+    slug: 'biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi',
+    title: 'Biznes Instagram va Telegramdan kelgan arizalarni nega yo‘qotadi',
+    excerpt: 'Reklamadan keyin lidlar qayerda yo‘qoladi: kech javob, turli chatlar va menejerga yetib bormagan kontakt.',
+  },
+  {
+    slug: 'biznes-uchun-ai-bot-nima-oddiy-tushuntirish',
+    title: 'Biznes uchun AI bot nima: sodda tushuntirish',
+    excerpt: 'AI bot mijoz savollariga qanday javob beradi, kontaktlarni yig‘adi va menejer ishini yengillashtiradi.',
+  },
+  {
+    slug: 'instagram-telegram-crm-bitta-ariza-voronkasi',
+    title: 'Instagram, Telegram va CRM: bitta ariza voronkasi',
+    excerpt: 'Murojaatni birinchi xabardan CRM va menejergacha yo‘qotmasdan olib boradigan amaliy tizim.',
+  },
+];
+
+export default function BlogTeaser({ lang }: Props) {
+  const isUz = lang === 'uz';
+  const articles = isUz ? UZ_ARTICLES : RU_ARTICLES.slice(0, 3);
   const heading = isUz ? 'Foydali maqolalar' : 'Полезные материалы';
   const subhead = isUz
     ? "AI-bot, Direct va Telegram'da arizalar haqida amaliy maqolalar — uydirma keyslarsiz va top-3 va'dalarisiz."
@@ -71,9 +91,9 @@ export default function BlogTeaser({ t }: Props) {
           </div>
           <a
             data-testid="blog-teaser-all"
-            href="/ru/blog/"
+            href={isUz ? '/uz/blog/' : '/ru/blog/'}
             onClick={() => track('click_blog_all_homepage')}
-            className="self-start sm:self-auto inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-brand-cyan transition border border-white/15 hover:border-brand-cyan/50 rounded-full px-5 py-2.5"
+            className="self-start sm:self-auto inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-brand-cyan transition-[color,border-color] duration-200 border border-white/15 hover:border-brand-cyan/50 rounded-full px-5 py-2.5"
           >
             {allLabel}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -83,11 +103,11 @@ export default function BlogTeaser({ t }: Props) {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {ARTICLES.slice(0, 3).map((a) => (
+          {articles.map((a) => (
             <a
               key={a.slug}
               data-testid={`blog-teaser-card-${a.slug}`}
-              href={`/ru/blog/${a.slug}/`}
+              href={`/${lang}/blog/${a.slug}/`}
               onClick={() => track('click_blog_card_homepage', { slug: a.slug })}
               className="pressable-card group block bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-5 sm:p-7"
             >
@@ -102,27 +122,6 @@ export default function BlogTeaser({ t }: Props) {
                 {readLabel}
                 <span aria-hidden>→</span>
               </span>
-            </a>
-          ))}
-        </div>
-
-        {/* secondary row for the remaining 2 articles, more compact */}
-        <div className="grid sm:grid-cols-2 gap-4 sm:gap-5 mt-5">
-          {ARTICLES.slice(3).map((a) => (
-            <a
-              key={a.slug}
-              data-testid={`blog-teaser-card-${a.slug}`}
-              href={`/ru/blog/${a.slug}/`}
-              onClick={() => track('click_blog_card_homepage', { slug: a.slug })}
-              className="pressable-card group flex items-start gap-4 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-5"
-            >
-              <div className="text-brand-cyan text-2xl mt-1" aria-hidden>→</div>
-              <div className="min-w-0">
-                <h3 className="font-display text-base sm:text-lg text-white leading-snug group-hover:text-brand-cyan transition-colors">
-                  {a.title}
-                </h3>
-                <p className="text-sm text-white/55 leading-relaxed mt-1.5 line-clamp-2">{a.excerpt}</p>
-              </div>
             </a>
           ))}
         </div>

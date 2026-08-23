@@ -66,13 +66,29 @@ test('homepage SEO intent and share image remain explicit', () => {
   assert.match(html, /ai-sales-assistant-workspace-1536\.avif 1536w/);
 });
 
-test('the lead journey is keyboard-native and reduced-motion safe', () => {
-  const journey = read('src/components/HowItWorks.tsx');
+test('the compact lead journey stays in the live product proof', () => {
+  const journey = read('src/components/DemoChat.tsx');
+  const app = read('src/App.tsx');
   const css = read('src/index.css');
-  assert.match(journey, /<button/);
-  assert.match(journey, /type="button"/);
-  assert.match(journey, /aria-pressed=\{activeStep === index\}/);
+  assert.match(journey, /t\.how\.steps\.map/);
+  assert.match(journey, /<ol/);
+  assert.match(journey, /data-testid="demo-chat"/);
+  assert.doesNotMatch(app, /<HowItWorks/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.match(css, /\.journey-console__stage/);
   assert.doesNotMatch(css, /transition:\s*all/);
+});
+
+test('homepage editorial hierarchy removes repeated above-fold proof', () => {
+  const hero = read('src/components/Hero.tsx');
+  const app = read('src/App.tsx');
+  const niches = read('src/components/Niches.tsx');
+  const solutions = read('src/components/SolutionsGrid.tsx');
+
+  assert.match(hero, /bullets\.slice\(0, 2\)/);
+  assert.doesNotMatch(hero, /hero-trust-badges|hero-stat-|hero-signal-card--channel/);
+  assert.doesNotMatch(app, /<CapabilityRail|<Trust/);
+  assert.match(niches, /items\.slice\(0, 4\)/);
+  assert.match(niches, /<details/);
+  assert.match(solutions, /SOLUTIONS\.slice\(0, 4\)/);
+  assert.match(solutions, /<details/);
 });

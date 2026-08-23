@@ -62,18 +62,30 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
       id="demo"
       data-testid="demo-chat"
       ref={sectionRef}
-      className="relative py-16 sm:py-24 lg:py-28"
+      className="section-tone relative py-14 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto reveal">
+        <div className="mx-auto max-w-3xl text-center">
           <div className="chip mx-auto">Live demo · 1 min</div>
-          <h2 className="h-display mt-4 text-3xl sm:text-4xl lg:text-5xl text-white">{t.demo.h}</h2>
-          <p className="mt-3 text-white/65">{t.demo.sub}</p>
+          <h2 className="h-display mt-4 text-3xl text-white sm:text-4xl lg:text-5xl">{t.how.h}</h2>
+          <p className="mt-3 text-white/65"><strong className="font-semibold text-white/85">{t.demo.h}</strong> — {t.demo.sub}</p>
         </div>
 
-        <div className="mt-12 grid lg:grid-cols-12 gap-6 items-start">
+        <ol className="editorial-steps mx-auto mt-8 grid max-w-5xl gap-2 md:grid-cols-3" aria-label={t.how.h}>
+          {t.how.steps.map((step) => (
+            <li key={step.n} className="flex gap-3 rounded-2xl border border-white/8 bg-white/[0.025] p-4 text-left">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-cyan/25 bg-brand-cyan/10 text-xs font-semibold text-brand-cyan">{step.n}</span>
+              <span>
+                <strong className="block text-sm font-semibold text-white">{step.t}</strong>
+                <span className="mt-1 block text-xs leading-relaxed text-white/55">{step.d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-8 grid items-start gap-6 lg:grid-cols-12">
           {/* Chat card */}
-          <div className="lg:col-span-7 reveal">
+          <div className="lg:col-span-7">
             <div className="glass-strong p-4 sm:p-6 shadow-card">
               <div className="flex items-center gap-3 pb-4 border-b border-white/10">
                 <img src="/assets/landing/logo-sq-40.webp" srcSet="/assets/landing/logo-sq-40.webp 1x, /assets/landing/logo-sq-80.webp 2x" alt="Логотип GPTBot" className="h-10 w-10 rounded-xl" width={40} height={40} loading="lazy" />
@@ -123,7 +135,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
           </div>
 
           {/* Lead card */}
-          <div className="lg:col-span-5 reveal">
+          <div className="lg:col-span-5">
             <div
               data-testid="lead-card"
               className={`glass-strong p-5 sm:p-6 shadow-card transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none ${

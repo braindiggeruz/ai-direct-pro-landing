@@ -48,7 +48,7 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
   const navItems = [
     { href: '#solutions', testid: 'nav-solutions', label: isUz ? 'Yechimlar' : 'Решения' },
     { href: '#niches', testid: 'nav-niches', label: isUz ? 'Nishlar' : 'Ниши' },
-    { href: '/ru/blog/', testid: 'header-blog-link', label: isUz ? 'Blog' : 'Блог' },
+    { href: isUz ? '/uz/blog/' : '/ru/blog/', testid: 'header-blog-link', label: isUz ? 'Blog' : 'Блог' },
     { href: '#faq', testid: 'nav-faq', label: 'FAQ' },
     { href: '#contacts', testid: 'nav-contacts', label: isUz ? 'Kontaktlar' : 'Контакты' },
   ];

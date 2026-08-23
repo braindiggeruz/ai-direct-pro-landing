@@ -5,18 +5,15 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Pain from './components/Pain';
 import Solution from './components/Solution';
-import HowItWorks from './components/HowItWorks';
 import DemoChat from './components/DemoChat';
 import Niches from './components/Niches';
 import Offer from './components/Offer';
-import Trust from './components/Trust';
 import FAQ from './components/FAQ';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
 import BlogTeaser from './components/BlogTeaser';
 import SolutionsGrid from './components/SolutionsGrid';
-import CapabilityRail from './components/CapabilityRail';
 
 function getInitialLang(): Lang {
   if (typeof window === 'undefined') return 'ru';
@@ -146,16 +143,13 @@ export default function App() {
       <Header t={t} lang={lang} onSwitchLang={switchLang} ctaUrl={ctaUrl} />
       <main id="main-content">
         <Hero t={t} ctaUrl={ctaUrl} />
-        <CapabilityRail t={t} />
         <Pain t={t} />
         <Solution t={t} ctaUrl={ctaUrl} />
         <SolutionsGrid t={t} lang={lang} />
-        <HowItWorks t={t} />
         <DemoChat t={t} ctaUrl={ctaUrl} />
         <Niches t={t} lang={lang} />
-        <BlogTeaser t={t} />
         <Offer t={t} ctaUrl={ctaUrl} />
-        <Trust t={t} />
+        <BlogTeaser t={t} lang={lang} />
         <FAQ t={t} />
         <FinalCTA t={t} ctaUrl={ctaUrl} />
       </main>

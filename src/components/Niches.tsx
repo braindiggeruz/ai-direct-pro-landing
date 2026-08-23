@@ -48,6 +48,31 @@ const NICHE_URLS: { ru: string; uz?: string }[] = [
 
 export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
   const isUz = lang === 'uz';
+  const renderNiche = (n: string, i: number) => {
+    const map = NICHE_URLS[i % NICHE_URLS.length];
+    const href = (isUz && map.uz) ? map.uz : map.ru;
+    return (
+      <a
+        key={`${n}-${i}`}
+        href={href}
+        onClick={() => track('click_niche_card', { idx: i, href })}
+        data-testid={`niche-${i}`}
+        className="niche-link group block rounded-2xl border border-white/9 bg-white/[0.025] p-4 hover:border-brand-cyan/35 sm:p-5"
+      >
+        <div className="flex items-center justify-between">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-cyan/12 text-brand-cyan sm:h-10 sm:w-10">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d={ICONS[i % ICONS.length]} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="text-brand-cyan/70 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none" aria-hidden>→</span>
+        </div>
+        <h3 className="mt-3.5 text-sm font-semibold leading-snug text-white sm:text-lg">{n}</h3>
+        <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-white/58 sm:text-sm">{t.niches.sub}</p>
+      </a>
+    );
+  };
+
   return (
     <section id="niches" data-testid="niches" className="section-tone relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -55,7 +80,7 @@ export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
           <div className="lg:col-span-5 lg:sticky lg:top-24 reveal">
             <h2 className="h-display text-3xl sm:text-4xl lg:text-5xl text-white">{t.niches.h}</h2>
             <p className="mt-4 text-white/65 max-w-md">{t.niches.sub}</p>
-            <div className="mt-8 relative">
+            <div className="relative mt-8 hidden lg:block">
               <div className="absolute -inset-6 bg-brand-cyan/15 blur-3xl rounded-[40%]" />
               <div className="niche-system relative" role="img" aria-label={t.niches.h}>
                 <div className="niche-system__head">
@@ -82,32 +107,16 @@ export default function Niches({ t, lang }: { t: Dict; lang: Lang }) {
             </div>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-1 min-[360px]:grid-cols-2 gap-3 sm:gap-4">
-            {t.niches.items.map((n, i) => {
-              const map = NICHE_URLS[i % NICHE_URLS.length];
-              const href = (isUz && map.uz) ? map.uz : map.ru;
-              return (
-                <a
-                  key={i}
-                  href={href}
-                  onClick={() => track('click_niche_card', { idx: i, href })}
-                  data-testid={`niche-${i}`}
-                  className="glass card-hover p-4 sm:p-5 reveal block hover:border-brand-cyan/40"
-                  style={{ transitionDelay: `${i * 40}ms`, background: 'linear-gradient(180deg, rgba(34,158,217,0.06), rgba(255,255,255,0.02))' }}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-grad-cta text-[#04101A] shadow-glow">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d={ICONS[i % ICONS.length]} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    <span className="text-brand-cyan/70 group-hover:text-brand-cyan transition" aria-hidden>→</span>
-                  </div>
-                  <h3 className="mt-3.5 text-sm sm:text-lg font-semibold text-white leading-snug">{n}</h3>
-                  <p className="mt-1.5 text-xs sm:text-sm text-white/70 leading-relaxed line-clamp-3 sm:line-clamp-none">{t.niches.sub}</p>
-                </a>
-              );
-            })}
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 sm:gap-4">
+              {t.niches.items.slice(0, 4).map((n, i) => renderNiche(n, i))}
+            </div>
+            <details className="editorial-disclosure mt-4">
+              <summary>{isUz ? 'Boshqa yo‘nalishlarni ko‘rsatish' : 'Показать остальные ниши'}</summary>
+              <div className="mt-3 grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 sm:gap-4">
+                {t.niches.items.slice(4).map((n, i) => renderNiche(n, i + 4))}
+              </div>
+            </details>
           </div>
         </div>
       </div>

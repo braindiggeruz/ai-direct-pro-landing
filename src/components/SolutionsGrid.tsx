@@ -73,6 +73,28 @@ export default function SolutionsGrid({ lang }: { t: Dict; lang: Lang }) {
     ? 'Tayyor sahifalar — kerakli vazifani tanlang va batafsil ko\'ring.'
     : 'Готовые сценарии — выберите задачу и посмотрите подробности.';
   const readLabel = isUz ? "Batafsil" : 'Подробнее';
+  const renderSolution = (s: Solution, compact = false) => {
+    const url = (isUz && s.uzUrl) ? s.uzUrl : s.ruUrl;
+    const title = isUz ? s.uzTitle : s.ruTitle;
+    const desc = isUz ? s.uzDesc : s.ruDesc;
+    return (
+      <a
+        key={s.ruUrl}
+        data-testid={`solution-card-${s.ruUrl.replace(/[/]/g, '-')}`}
+        href={url}
+        onClick={() => track('click_solution_card', { url })}
+        className={`pressable-card group block rounded-2xl border border-white/10 bg-white/[0.025] hover:border-brand-cyan/40 hover:bg-white/[0.045] ${compact ? 'p-4 sm:p-5' : 'p-5 sm:p-7'}`}
+      >
+        <div className="mb-3 flex items-center justify-between">
+          <span className="rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.05] px-2.5 py-1 text-xs uppercase tracking-wider text-brand-cyan/80">{s.tag}</span>
+          <span className="text-brand-cyan transition-opacity duration-200 group-hover:opacity-100 sm:opacity-0" aria-hidden>→</span>
+        </div>
+        <h3 className="font-display text-lg leading-snug text-white transition-colors duration-200 group-hover:text-brand-cyan sm:text-xl">{title}</h3>
+        {!compact && <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/60">{desc}</p>}
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-cyan">{readLabel}<span aria-hidden>→</span></span>
+      </a>
+    );
+  };
 
   return (
     <section id="solutions" data-testid="solutions-grid" className="relative py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
@@ -87,37 +109,13 @@ export default function SolutionsGrid({ lang }: { t: Dict; lang: Lang }) {
           <p className="text-white/65 mt-4 text-base sm:text-lg">{sub}</p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {SOLUTIONS.map((s) => {
-            const url = (isUz && s.uzUrl) ? s.uzUrl : s.ruUrl;
-            const title = isUz ? s.uzTitle : s.ruTitle;
-            const desc = isUz ? s.uzDesc : s.ruDesc;
-            return (
-              <a
-                key={s.ruUrl}
-                data-testid={`solution-card-${s.ruUrl.replace(/[/]/g, '-')}`}
-                href={url}
-                onClick={() => track('click_solution_card', { url })}
-                className="pressable-card group block bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl p-5 sm:p-7"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs uppercase tracking-wider text-brand-cyan/80 px-2.5 py-1 rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.05]">
-                    {s.tag}
-                  </span>
-                  <span className="text-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden>→</span>
-                </div>
-                <h3 className="font-display text-lg sm:text-xl text-white leading-snug mb-3 group-hover:text-brand-cyan transition-colors">
-                  {title}
-                </h3>
-                <p className="text-sm text-white/60 leading-relaxed mb-4 line-clamp-3">{desc}</p>
-                <span className="text-sm font-semibold text-brand-cyan inline-flex items-center gap-1.5">
-                  {readLabel}
-                  <span aria-hidden>→</span>
-                </span>
-              </a>
-            );
-          })}
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+          {SOLUTIONS.slice(0, 4).map((s) => renderSolution(s))}
         </div>
+        <details className="editorial-disclosure mt-4">
+          <summary>{isUz ? 'Barcha yechimlarni ko‘rsatish' : 'Показать все решения'}</summary>
+          <div className="mt-3">{SOLUTIONS.slice(4).map((s) => renderSolution(s, true))}</div>
+        </details>
       </div>
     </section>
   );

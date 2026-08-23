@@ -2,6 +2,12 @@ import type { Dict } from '../i18n';
 import { track } from '../lib/cta';
 
 export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
+  const benefitGroups = [
+    t.solution.benefits.slice(0, 2),
+    t.solution.benefits.slice(2, 4),
+    t.solution.benefits.slice(4, 6),
+  ];
+
   return (
     <section data-testid="solution" className="relative py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -16,20 +22,24 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             </h2>
             <p className="mt-4 text-white/70 max-w-2xl">{t.solution.t}</p>
 
-            <div className="mt-8 grid sm:grid-cols-2 gap-3">
-              {t.solution.benefits.map((b, i) => (
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {benefitGroups.map((group, i) => (
                 <div
                   key={i}
                   data-testid={`benefit-${i}`}
-                  className="glass card-hover p-4 sm:p-5"
+                  className="editorial-panel p-4 sm:p-5"
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-grad-cta text-[#04101A]">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </span>
-                    <h3 className="text-[15px] font-semibold text-white">{b.t}</h3>
-                  </div>
-                  <p className="mt-2 text-[13px] text-white/65 leading-relaxed">{b.d}</p>
+                  {group.map((b, groupIndex) => (
+                    <div key={b.t} className={groupIndex === 0 ? '' : 'mt-4 border-t border-white/8 pt-4'}>
+                      <div className="flex items-center gap-2.5">
+                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-brand-cyan/15 text-brand-cyan">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </span>
+                        <h3 className="text-sm font-semibold text-white">{b.t}</h3>
+                      </div>
+                      <p className="mt-2 text-[12.5px] leading-relaxed text-white/60">{b.d}</p>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>

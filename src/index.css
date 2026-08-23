@@ -710,10 +710,72 @@ body::before {
 
 .site-header.is-scrolled,
 .site-header:has(.mobile-menu-panel[data-open='true']) {
-  background-color: rgba(5, 7, 13, 0.88);
-  border-bottom-color: rgba(255,255,255,0.06);
+  background-color: rgb(5, 7, 13);
+  border-bottom-color: rgba(255,255,255,0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24);
+}
+
+.editorial-panel {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+}
+
+.editorial-disclosure {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.editorial-disclosure summary {
+  min-height: 44px;
+  display: flex;
+  cursor: pointer;
+  list-style: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.editorial-disclosure summary::-webkit-details-marker { display: none; }
+.editorial-disclosure summary::after {
+  content: '+';
+  color: #2fe6d1;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+.editorial-disclosure[open] summary::after { transform: rotate(45deg); }
+.editorial-disclosure[open] { padding: 0 0.75rem 0.75rem; }
+.editorial-disclosure[open] summary { margin: 0 -0.75rem; }
+.editorial-disclosure summary:focus-visible { outline: 2px solid #2fe6d1; outline-offset: 3px; }
+
+.niche-link {
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .editorial-disclosure summary:hover { color: #fff; background: rgba(255,255,255,0.025); }
+  .niche-link:hover { background: rgba(255,255,255,0.04); transform: translateY(-2px); }
+}
+
+@media (max-width: 639px) {
+  .hero-editorial .hero-visual { max-width: 34rem; }
+  .hero-editorial .hero-signal-card--lead { right: 0.5rem; bottom: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-disclosure summary::after,
+  .niche-link { transition: none; }
+  .editorial-disclosure[open] summary::after,
+  .niche-link:hover { transform: none; }
 }
 
 .mobile-menu-backdrop {

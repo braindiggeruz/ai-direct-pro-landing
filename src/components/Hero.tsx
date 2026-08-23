@@ -32,7 +32,7 @@ export default function Hero({ t, ctaUrl }: Props) {
   const accents = isRu ? BULLET_ACCENTS.ru : BULLET_ACCENTS.uz;
 
   return (
-    <section id="top" data-testid="hero" className="relative pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 overflow-hidden">
+    <section id="top" data-testid="hero" className="hero-editorial relative overflow-hidden pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
       {/* static gradient wash */}
       <GradientBackground
         className="pointer-events-none absolute inset-0 opacity-[0.16] blur-3xl from-brand-blue via-brand-violet to-brand-cyan"
@@ -44,7 +44,7 @@ export default function Hero({ t, ctaUrl }: Props) {
       <div className="pointer-events-none absolute top-40 -left-32 h-[360px] w-[360px] rounded-full bg-brand-violet/20 blur-3xl" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 items-center">
+        <div className="grid items-center gap-7 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7 animate-fade-up">
             <div className="chip" data-testid="hero-badge">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-cyan" />
@@ -53,18 +53,18 @@ export default function Hero({ t, ctaUrl }: Props) {
 
             <h1
               data-testid="hero-h1"
-              className="h-display mt-4 min-h-[7.1rem] sm:min-h-[9.5rem] lg:min-h-[12rem] text-[2.25rem] leading-[1.05] sm:text-5xl lg:text-6xl xl:text-[4.25rem] text-white"
+              className="h-display mt-4 max-w-[12ch] text-[2.15rem] leading-[1.02] text-white sm:text-5xl lg:text-[3.7rem] xl:text-[4rem]"
             >
               {t.hero.h1a}{' '}
               <span className="text-grad">{t.hero.h1b}</span>
             </h1>
 
-            <p className="mt-4 max-w-xl text-[15px] sm:text-lg text-white/75 leading-relaxed">
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/72 sm:text-lg">
               {t.hero.sub}
             </p>
 
             <ul className="mt-5 grid sm:grid-cols-2 gap-2 max-w-xl">
-              {t.hero.bullets.map((b, i) => (
+              {t.hero.bullets.slice(0, 2).map((b, i) => (
                 <li
                   key={i}
                   className="flex items-start gap-2.5 text-[13.5px] sm:text-sm text-white/85"
@@ -93,19 +93,6 @@ export default function Hero({ t, ctaUrl }: Props) {
                 <TgIcon />
               </a>
 
-              {/* Trust micro-badges right under CTA */}
-              <ul
-                data-testid="hero-trust-badges"
-                className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] sm:text-xs text-white/65"
-              >
-                {t.trust.badges.slice(0, 4).map((b, i) => (
-                  <li key={i} className="inline-flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan shadow-[0_0_8px_#2FE6D1]" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-
               <p className="text-xs text-white/60">{t.hero.micro}</p>
 
               {/* Secondary CTA — subtle ghost link instead of competing button */}
@@ -113,30 +100,18 @@ export default function Hero({ t, ctaUrl }: Props) {
                 data-testid="hero-cta-secondary"
                 href="#demo"
                 onClick={() => track('click_hero_cta_secondary')}
-                className="group inline-flex items-center gap-1.5 text-sm text-white/55 hover:text-brand-cyan transition mt-1"
+                className="group mt-0.5 inline-flex items-center gap-1.5 text-sm text-white/55 transition-colors duration-200 hover:text-brand-cyan"
               >
                 {t.hero.ctaSecondary}
                 <svg
                   width="14" height="14" viewBox="0 0 24 24" fill="none"
-                  className="transition-transform group-hover:translate-y-0.5"
+                  className="transition-transform duration-200 group-hover:translate-y-0.5 motion-reduce:transform-none"
                 >
                   <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </a>
             </div>
 
-            <div className="mt-7 grid grid-cols-3 gap-2.5 max-w-xl">
-              {t.hero.stats.map((s, i) => (
-                <div
-                  key={i}
-                  data-testid={`hero-stat-${i}`}
-                  className="glass px-3 sm:px-4 py-3"
-                >
-                  <div className="text-[10px] sm:text-[11px] uppercase tracking-wider text-white/50">{s.k}</div>
-                  <div className="mt-1 text-sm sm:text-base font-semibold text-brand-cyan">{s.v}</div>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Hero image */}
@@ -153,29 +128,9 @@ export default function Hero({ t, ctaUrl }: Props) {
                 loading="eager"
                 fetchPriority="high"
               />
-              <div className="hero-signal-card hero-signal-card--channel" aria-hidden="true">
-                <span className="hero-signal-card__dot" />
-                <span>Instagram</span>
-                <span>Telegram</span>
-              </div>
               <div className="hero-signal-card hero-signal-card--lead" aria-hidden="true">
                 <span className="hero-signal-card__eyebrow">{isRu ? 'Лид квалифицирован' : 'Lid saralandi'}</span>
                 <strong>{isRu ? 'Передать менеджеру' : 'Menejerga uzatish'}</strong>
-              </div>
-              <div className="absolute -bottom-3 left-3 sm:-left-5 glass-strong px-4 py-3 flex items-center gap-3 animate-pop-in" style={{ animationDelay: '350ms' }}>
-                <img
-                  src="/assets/landing/logo-sq-40.webp"
-                  srcSet="/assets/landing/logo-sq-40.webp 1x, /assets/landing/logo-sq-80.webp 2x"
-                  alt="Логотип GPTBot"
-                  className="h-8 w-8 rounded-lg"
-                  width={32}
-                  height={32}
-                />
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider text-white/50">GPTBot · AI Sales</div>
-                  <div className="text-xs font-semibold text-white">online · 24/7</div>
-                </div>
-                <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-brand-cyan shadow-[0_0_10px_#2FE6D1]" />
               </div>
             </div>
           </div>
