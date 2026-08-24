@@ -13,7 +13,7 @@ export function Card({ children, className = '', ...rest }: React.HTMLAttributes
 export function Button({
   children, variant = 'primary', size = 'md', className = '', ...rest
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost' | 'danger'; size?: 'sm' | 'md' | 'lg' }) {
-  const base = 'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed';
+  const base = 'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base disabled:opacity-50 disabled:cursor-not-allowed';
   const sz = size === 'sm' ? 'px-3 py-1.5 text-sm' : size === 'lg' ? 'px-6 py-3' : 'px-4 py-2 text-sm';
   const v = variant === 'primary' ? 'bg-grad-cta text-bg-base hover:scale-105 shadow-glow'
     : variant === 'secondary' ? 'bg-white/5 border border-white/15 text-white hover:bg-white/10'
@@ -25,7 +25,7 @@ export function Button({
 export function Input({ className = '', ...rest }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
-      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 ${className}`}
+      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 focus-visible:ring-2 focus-visible:ring-brand-cyan/60 ${className}`}
       {...rest}
     />
   );
@@ -34,7 +34,7 @@ export function Input({ className = '', ...rest }: React.InputHTMLAttributes<HTM
 export function Textarea({ className = '', ...rest }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
-      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 ${className}`}
+      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 focus-visible:ring-2 focus-visible:ring-brand-cyan/60 ${className}`}
       {...rest}
     />
   );
@@ -43,15 +43,15 @@ export function Textarea({ className = '', ...rest }: React.TextareaHTMLAttribut
 export function Select({ className = '', children, ...rest }: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
-      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand-cyan/60 ${className}`}
+      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand-cyan/60 focus-visible:ring-2 focus-visible:ring-brand-cyan/60 ${className}`}
       {...rest}
     >{children}</select>
   );
 }
 
-export function Label({ children, hint }: { children: React.ReactNode; hint?: string }) {
+export function Label({ children, hint, className = '', ...rest }: React.LabelHTMLAttributes<HTMLLabelElement> & { hint?: string }) {
   return (
-    <label className="block text-sm font-medium text-white/80 mb-1.5">
+    <label className={`block text-sm font-medium text-white/80 mb-1.5 ${className}`} {...rest}>
       {children}
       {hint && <span className="text-white/40 font-normal ml-2">{hint}</span>}
     </label>

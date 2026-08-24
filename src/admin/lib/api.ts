@@ -50,6 +50,8 @@ async function request<T>(method: string, path: string, body?: unknown, opts?: {
           retryable = d.error.retryable;
         } else {
           err = d.error || d.detail || d.error_message || err;
+          if (typeof d.error === 'string') code = d.error;
+          requestId = d.request_id || requestId;
         }
       } catch { /* ignore non-JSON */ }
       const e = new Error(err) as Error & {

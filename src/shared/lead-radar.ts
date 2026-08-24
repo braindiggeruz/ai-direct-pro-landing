@@ -129,6 +129,8 @@ export interface LeadRadarOverview {
     source: string;
     status: 'ready' | 'limited' | 'blocked';
     note: string;
+    checkedAt: string | null;
+    errorCode: string | null;
   }>;
 }
 

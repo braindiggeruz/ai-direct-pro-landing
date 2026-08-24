@@ -7,6 +7,7 @@ import {
 } from '../../../platform/admin';
 import {
   ensureLeadRadarSchema,
+  LeadRadarBusyError,
   LeadRadarService,
   LeadRadarStore,
   LeadRadarValidationError,
@@ -56,6 +57,11 @@ export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
   } catch (error) {
     const response = validationResponse(error, ctx.requestId);
     if (response) return response;
+    if (error instanceof LeadRadarBusyError) {
+      const busy = ownerError(error.code, ctx.requestId, 429);
+      busy.headers.set('Retry-After', String(error.retryAfterSeconds));
+      return busy;
+    }
     throw error;
   }
 });

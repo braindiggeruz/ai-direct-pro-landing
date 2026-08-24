@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Activity,
+  AlertTriangle,
   ArrowRight,
   BriefcaseBusiness,
   Building2,
@@ -26,7 +27,7 @@ import {
   UserRoundCheck,
 } from 'lucide-react';
 import { api } from '../lib/api';
-import { Badge, Button, Input, Label, Select } from '../components/ui';
+import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui';
 import type {
   LeadRadarLead,
   LeadRadarLifecycle,
@@ -59,9 +60,48 @@ const LIFECYCLE_LABELS: Record<LeadRadarLifecycle, string> = {
 };
 
 const PRIORITY_COPY: Record<LeadRadarPriority, { title: string; body: string; tone: 'success' | 'info' | 'neutral' }> = {
-  P1: { title: 'Активный спрос', body: 'Есть свежий intent-сигнал и сильные доказательства.', tone: 'success' },
+  P1: { title: 'Активный сигнал', body: 'Обнаружен публичный intent-сигнал и сильные доказательства. Это не вероятность сделки.', tone: 'success' },
   P2: { title: 'Вероятная потребность', body: 'Компания подходит, но прямой запрос ещё не подтверждён.', tone: 'info' },
   P3: { title: 'Соответствует ICP', body: 'Нужно больше фактов перед первым контактом.', tone: 'neutral' },
+};
+
+const STATUS_COPY: Record<LeadRadarSearchSummary['status'], { label: string; tone: 'success' | 'warning' | 'danger' | 'neutral' }> = {
+  running: { label: 'Выполняется', tone: 'neutral' },
+  ready: { label: 'Готово', tone: 'success' },
+  partial: { label: 'Частичный результат', tone: 'warning' },
+  failed: { label: 'Не завершён', tone: 'danger' },
+  insufficient_results: { label: 'Мало данных', tone: 'warning' },
+};
+
+const FAILURE_COPY: Record<string, { title: string; body: string }> = {
+  city_not_found: {
+    title: 'Не удалось определить город',
+    body: 'Уточните название города и повторите поиск. Компании ещё не проверялись.',
+  },
+  geocoder_unavailable: {
+    title: 'География временно недоступна',
+    body: 'Сервис определения города не ответил. Поля поиска сохранены — попробуйте снова через минуту.',
+  },
+  discovery_source_unavailable: {
+    title: 'Источник компаний временно недоступен',
+    body: 'Список компаний получить не удалось. Это не означает, что компаний нет; запрос можно безопасно повторить.',
+  },
+  source_timeout: {
+    title: 'Источник не успел ответить',
+    body: 'Ожидание превысило безопасный лимит. Запрос сохранён и готов к повтору.',
+  },
+  upstream_payload_invalid: {
+    title: 'Источник вернул некорректные данные',
+    body: 'Мы отклонили непроверяемый ответ и не добавили сомнительные компании. Попробуйте ещё раз.',
+  },
+  search_interrupted: {
+    title: 'Предыдущий запуск прервался',
+    body: 'Соединение завершилось до сохранения результата. Параметры не потеряны — поиск можно безопасно повторить.',
+  },
+  discovery_failed: {
+    title: 'Поиск не завершён',
+    body: 'Компании не проверялись из-за технического сбоя. Попробуйте повторить запрос.',
+  },
 };
 
 function formatDate(value: string | null): string {
@@ -73,11 +113,10 @@ function formatDate(value: string | null): string {
 
 function errorCopy(error: unknown): string {
   const code = (error as Error & { code?: string })?.code;
-  if (code === 'city_not_found') return 'Город не найден в открытой географии. Проверьте написание.';
-  if (code === 'discovery_source_unavailable' || code === 'geocoder_unavailable') {
-    return 'Открытый источник временно недоступен. Повторите поиск через несколько минут.';
-  }
-  return (error as Error)?.message || 'Поиск не завершился. Повторите попытку.';
+  if (code === 'search_rate_limited') return 'Другой поиск уже выполняется или только что завершился. Дождитесь обновления статуса и повторите.';
+  if (code === 'payload_too_large' || code === 'invalid_search') return 'Проверьте заполненные поля и повторите попытку.';
+  if (code === 'UNAUTHENTICATED') return 'Сессия завершилась. Войдите в панель снова.';
+  return 'Операция не завершилась. Повторите попытку; если ошибка вернётся, сообщите время запуска.';
 }
 
 function leadMessage(lead: LeadRadarLead, offer: string): string {
@@ -111,7 +150,7 @@ function ScoreRing({ value }: { value: number }) {
 function Metric({ icon: Icon, label, value, accent = false }: {
   icon: typeof Radar;
   label: string;
-  value: number;
+  value: number | string;
   accent?: boolean;
 }) {
   return (
@@ -145,6 +184,7 @@ function SearchHistory({ searches, activeId, onOpen }: {
             key={search.id}
             type="button"
             onClick={() => onOpen(search.id)}
+            aria-current={activeId === search.id ? 'true' : undefined}
             className={`group min-h-16 rounded-2xl border px-4 py-3 text-left transition-colors ${
               activeId === search.id
                 ? 'border-brand-cyan/35 bg-brand-cyan/[0.08]'
@@ -159,12 +199,55 @@ function SearchHistory({ searches, activeId, onOpen }: {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <Badge tone={STATUS_COPY[search.status].tone}>{STATUS_COPY[search.status].label}</Badge>
                 <span className="text-xs tabular-nums text-white/55">{search.verifiedCount}</span>
                 <ChevronRight size={15} className="text-white/25 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </div>
             </div>
           </button>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function SearchOutcome({
+  title,
+  body,
+  detail,
+  danger = false,
+  primary,
+  secondary,
+}: {
+  title: string;
+  body: string;
+  detail?: string;
+  danger?: boolean;
+  primary?: { label: string; onClick: () => void };
+  secondary?: { label: string; onClick: () => void };
+}) {
+  return (
+    <section
+      role={danger ? 'alert' : 'status'}
+      className={`grid min-h-64 place-items-center rounded-[1.75rem] border p-6 text-center ${
+        danger ? 'border-rose-400/20 bg-rose-400/[0.045]' : 'border-white/[0.09] bg-[#08111f]/65'
+      }`}
+    >
+      <div className="max-w-xl">
+        <div className={`mx-auto grid h-14 w-14 place-items-center rounded-2xl border ${
+          danger ? 'border-rose-300/25 bg-rose-400/[0.08] text-rose-200' : 'border-brand-cyan/20 bg-brand-cyan/[0.07] text-brand-cyan'
+        }`}>
+          {danger ? <AlertTriangle size={24} aria-hidden="true" /> : <Radar size={24} aria-hidden="true" />}
+        </div>
+        <h2 className="mt-5 text-xl font-semibold text-white">{title}</h2>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-white/65">{body}</p>
+        {detail && <p className="mt-2 text-xs text-white/50">{detail}</p>}
+        {(primary || secondary) && (
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            {primary && <Button type="button" size="lg" onClick={primary.onClick} className="min-h-12">{primary.label}</Button>}
+            {secondary && <Button type="button" size="lg" variant="secondary" onClick={secondary.onClick} className="min-h-12">{secondary.label}</Button>}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -180,7 +263,7 @@ function LeadListItem({ lead, selected, onSelect }: {
     <button
       type="button"
       onClick={onSelect}
-      className={`w-full rounded-2xl border p-4 text-left transition-all ${
+      className={`w-full rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${
         selected
           ? 'border-brand-cyan/35 bg-brand-cyan/[0.07] shadow-[0_18px_55px_-35px_rgba(47,230,209,.75)]'
           : 'border-white/[0.07] bg-white/[0.018] hover:border-white/15 hover:bg-white/[0.04]'
@@ -201,7 +284,7 @@ function LeadListItem({ lead, selected, onSelect }: {
             <FileCheck2 size={13} className="text-brand-cyan" aria-hidden="true" />
             {lead.evidence.length} доказательств
             <span aria-hidden="true">·</span>
-            confidence {Math.round(lead.confidence * 100)}%
+            достоверность {Math.round(lead.confidence * 100)}%
           </div>
         </div>
       </div>
@@ -216,13 +299,21 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
   busy: boolean;
 }) {
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
   const priority = PRIORITY_COPY[lead.priority];
   const message = leadMessage(lead, offer);
 
   async function copyMessage(): Promise<void> {
-    await navigator.clipboard.writeText(message);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 2_000);
+    if (lead.suppressed) return;
+    try {
+      await navigator.clipboard.writeText(message);
+      setCopyError(false);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2_000);
+    } catch {
+      setCopied(false);
+      setCopyError(true);
+    }
   }
 
   return (
@@ -232,6 +323,7 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone={priority.tone}>{lead.priority} · {priority.title}</Badge>
+              {lead.suppressed && <Badge tone="danger">Не контактировать</Badge>}
               <span className="text-xs text-white/35">проверено {formatDate(lead.lastVerifiedAt)}</span>
             </div>
             <h2 className="mt-3 text-2xl font-semibold tracking-[-0.025em] text-white sm:text-3xl">{lead.name}</h2>
@@ -243,13 +335,13 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
           <ScoreRing value={lead.score} />
         </div>
         <p className="mt-5 max-w-2xl text-sm leading-6 text-white/60">{priority.body}</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        {!lead.suppressed && <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {lead.telegramUrl ? (
             <a
               href={lead.telegramUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-grad-cta px-4 text-sm font-semibold text-[#04101a] transition-transform hover:-translate-y-0.5"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-grad-cta px-4 text-sm font-semibold text-[#04101a] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
             >
               <MessageCircle size={17} aria-hidden="true" />Открыть Telegram<ExternalLink size={14} aria-hidden="true" />
             </a>
@@ -261,12 +353,18 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
           <button
             type="button"
             onClick={copyMessage}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.045] px-4 text-sm font-medium text-white transition-colors hover:bg-white/[0.08]"
+            disabled={lead.suppressed}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.045] px-4 text-sm font-medium text-white transition-colors hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:cursor-not-allowed disabled:opacity-50"
           >
             {copied ? <Check size={17} className="text-emerald-300" aria-hidden="true" /> : <Copy size={17} aria-hidden="true" />}
             {copied ? 'Сообщение скопировано' : 'Скопировать сообщение'}
           </button>
-        </div>
+        </div>}
+        <p className="sr-only" role="status" aria-live="polite">
+          {copied ? 'Сообщение скопировано' : copyError ? 'Не удалось скопировать сообщение' : ''}
+        </p>
+        {lead.suppressed && <p className="mt-3 text-xs leading-5 text-rose-200/80">Контактные каналы и черновик скрыты: для компании установлен постоянный запрет на обращение. Доказательства оставлены только для аудита.</p>}
+        {copyError && <p className="mt-3 text-xs leading-5 text-amber-200/80">Браузер запретил доступ к буферу обмена. Разрешите копирование и повторите.</p>}
       </div>
 
       <div className="grid gap-0">
@@ -306,7 +404,7 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
             </div>
           </section>
 
-          <section aria-labelledby="contacts-title">
+          {!lead.suppressed && <section aria-labelledby="contacts-title">
             <h3 id="contacts-title" className="text-sm font-semibold text-white">Корпоративные контакты</h3>
             <div className="mt-3 grid gap-2 text-sm">
               {lead.website && <a href={lead.website} target="_blank" rel="noreferrer" className="flex min-h-11 items-center gap-3 rounded-xl border border-white/[0.07] px-3 text-white/60 hover:bg-white/[0.03] hover:text-white"><Globe2 size={15} className="text-brand-cyan" aria-hidden="true" /><span className="truncate">{lead.website}</span></a>}
@@ -314,7 +412,7 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
               {lead.genericEmail && <a href={`mailto:${lead.genericEmail}`} className="flex min-h-11 items-center gap-3 rounded-xl border border-white/[0.07] px-3 text-white/60 hover:bg-white/[0.03] hover:text-white"><MessageCircle size={15} className="text-brand-cyan" aria-hidden="true" />{lead.genericEmail}</a>}
               {!lead.website && !lead.phone && !lead.genericEmail && !lead.telegramUrl && <p className="text-sm text-white/40">Проверенный корпоративный контакт пока не найден.</p>}
             </div>
-          </section>
+          </section>}
         </div>
 
         <div className="space-y-6 p-5 sm:p-6">
@@ -346,10 +444,11 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
 
           <section aria-labelledby="pipeline-title">
             <h3 id="pipeline-title" className="text-sm font-semibold text-white">Статус в продажах</h3>
-            <Label>Следующий шаг</Label>
+            <Label htmlFor={`lead-lifecycle-${lead.id}`}>Следующий шаг</Label>
             <Select
+              id={`lead-lifecycle-${lead.id}`}
               value={lead.lifecycle}
-              disabled={busy}
+              disabled={busy || lead.suppressed}
               onChange={(event) => onLifecycle(event.target.value as LeadRadarLifecycle)}
               className="min-h-12"
               aria-label="Статус лида"
@@ -359,10 +458,10 @@ function LeadDetail({ lead, offer, onLifecycle, busy }: {
             <p className="mt-2 text-xs leading-5 text-white/35">«Не связываться» навсегда поднимает suppression-флаг для этой записи.</p>
           </section>
 
-          <section aria-labelledby="draft-title">
+          {!lead.suppressed && <section aria-labelledby="draft-title">
             <h3 id="draft-title" className="text-sm font-semibold text-white">Черновик первого сообщения</h3>
             <div className="mt-3 whitespace-pre-wrap rounded-2xl border border-white/[0.07] bg-[#05070d] p-4 text-xs leading-5 text-white/55">{message}</div>
-          </section>
+          </section>}
         </div>
       </div>
     </article>
@@ -377,56 +476,116 @@ export default function LeadRadarPage() {
   const [priorityFilter, setPriorityFilter] = useState<'all' | LeadRadarPriority>('all');
   const [telegramOnly, setTelegramOnly] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [overviewLoading, setOverviewLoading] = useState(true);
   const [statusBusy, setStatusBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [overviewError, setOverviewError] = useState(false);
+  const requestSequence = useRef(0);
 
   async function loadOverview(): Promise<void> {
-    try { setOverview(await api.leadRadarOverview()); } catch (loadError) { setError(errorCopy(loadError)); }
+    try {
+      setOverview(await api.leadRadarOverview());
+      setOverviewError(false);
+    } catch {
+      setOverviewError(true);
+    } finally {
+      setOverviewLoading(false);
+    }
   }
 
   useEffect(() => { void loadOverview(); }, []);
+
+  useEffect(() => {
+    const searchId = result?.search.id;
+    if (!searchId || result.search.status !== 'running') return undefined;
+    let cancelled = false;
+    let attempts = 0;
+    let timer: number | undefined;
+    const poll = async (): Promise<void> => {
+      attempts += 1;
+      try {
+        const next = await api.leadRadarSearchResult(searchId);
+        if (cancelled) return;
+        setResult(next);
+        setSelectedLeadId(next.leads[0]?.id ?? null);
+        if (next.search.status !== 'running') {
+          void loadOverview();
+          return;
+        }
+      } catch {
+        if (cancelled) return;
+      }
+      if (attempts < 8) timer = window.setTimeout(() => { void poll(); }, Math.min(10_000, 2_000 + attempts * 1_000));
+    };
+    timer = window.setTimeout(() => { void poll(); }, 2_000);
+    return () => {
+      cancelled = true;
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, [result?.search.id, result?.search.status]);
 
   const visibleLeads = useMemo(() => (result?.leads ?? []).filter((lead) => (
     (priorityFilter === 'all' || lead.priority === priorityFilter)
     && (!telegramOnly || Boolean(lead.telegramUrl))
   )), [priorityFilter, result, telegramOnly]);
   const selectedLead = visibleLeads.find((lead) => lead.id === selectedLeadId) ?? visibleLeads[0] ?? null;
+  const failedCopy = result?.search.status === 'failed'
+    ? FAILURE_COPY[result.search.errorCode ?? 'discovery_failed'] ?? FAILURE_COPY.discovery_failed
+    : null;
+  const strictTelegramEmpty = Boolean(
+    result
+    && result.search.status === 'insufficient_results'
+    && result.search.candidateCount > 0
+    && result.search.input.telegramRequired,
+  );
 
-  async function runSearch(): Promise<void> {
+  async function runSearch(searchInput: LeadRadarSearchInput = input): Promise<void> {
+    const sequence = requestSequence.current + 1;
+    requestSequence.current = sequence;
+    const snapshot = { ...searchInput, languages: [...searchInput.languages] };
+    setInput(snapshot);
     setLoading(true);
     setError(null);
     try {
-      const next = await api.leadRadarSearch(input);
+      const next = await api.leadRadarSearch(snapshot);
+      if (requestSequence.current !== sequence) return;
       setResult(next);
       setSelectedLeadId(next.leads[0]?.id ?? null);
       setPriorityFilter('all');
       setTelegramOnly(false);
-      await loadOverview();
+      void loadOverview();
     } catch (searchError) {
+      if (requestSequence.current !== sequence) return;
       setError(errorCopy(searchError));
     } finally {
-      setLoading(false);
+      if (requestSequence.current === sequence) setLoading(false);
     }
   }
 
   async function openSearch(id: string): Promise<void> {
+    const sequence = requestSequence.current + 1;
+    requestSequence.current = sequence;
     setLoading(true);
     setError(null);
     try {
       const next = await api.leadRadarSearchResult(id);
+      if (requestSequence.current !== sequence) return;
       setResult(next);
       setSelectedLeadId(next.leads[0]?.id ?? null);
       setPriorityFilter('all');
       setTelegramOnly(false);
     } catch (loadError) {
+      if (requestSequence.current !== sequence) return;
       setError(errorCopy(loadError));
     } finally {
-      setLoading(false);
+      if (requestSequence.current === sequence) setLoading(false);
     }
   }
 
   async function updateLifecycle(lifecycle: LeadRadarLifecycle): Promise<void> {
     if (!selectedLead || statusBusy) return;
+    if (selectedLead.suppressed) return;
+    if (lifecycle === 'do_not_contact' && !window.confirm('Навсегда скрыть контакты и отключить обращение к этой компании?')) return;
     setStatusBusy(true);
     setError(null);
     try {
@@ -434,10 +593,20 @@ export default function LeadRadarPage() {
       setResult((current) => current ? {
         ...current,
         leads: current.leads.map((lead) => lead.id === selectedLead.id
-          ? { ...lead, lifecycle, suppressed: lifecycle === 'do_not_contact' || lead.suppressed }
+          ? {
+            ...lead,
+            lifecycle,
+            suppressed: lifecycle === 'do_not_contact' || lead.suppressed,
+            phone: lifecycle === 'do_not_contact' ? null : lead.phone,
+            genericEmail: lifecycle === 'do_not_contact' ? null : lead.genericEmail,
+            telegramUrl: lifecycle === 'do_not_contact' ? null : lead.telegramUrl,
+            evidence: lifecycle === 'do_not_contact'
+              ? lead.evidence.filter((item) => !['company_contacts.phone', 'company_contacts.generic_email', 'web.telegram'].includes(item.fieldPath))
+              : lead.evidence,
+          }
           : lead),
       } : current);
-      await loadOverview();
+      void loadOverview();
     } catch (lifecycleError) {
       setError(errorCopy(lifecycleError));
     } finally {
@@ -446,6 +615,18 @@ export default function LeadRadarPage() {
   }
 
   const totals = overview?.totals ?? { searches: 0, leads: 0, p1: 0, telegram: 0, replies: 0, qualified: 0 };
+  const sourceStatuses = overview?.sourceHealth
+    .filter((source) => source.source !== 'Открытые реестры')
+    .map((source) => source.status) ?? [];
+  const sourceBadge = overviewLoading
+    ? { label: 'Проверяем источники…', className: 'border-white/[0.1] bg-white/[0.035] text-white/60' }
+    : overviewError || sourceStatuses.length === 0
+      ? { label: 'Статус источников неизвестен', className: 'border-white/[0.1] bg-white/[0.035] text-white/60' }
+    : sourceStatuses.includes('blocked')
+      ? { label: 'Источники недоступны', className: 'border-rose-400/25 bg-rose-400/[0.08] text-rose-200' }
+      : sourceStatuses.includes('limited')
+        ? { label: 'Источники работают частично', className: 'border-amber-300/25 bg-amber-300/[0.07] text-amber-100' }
+        : { label: 'Открытые источники доступны', className: 'border-emerald-400/20 bg-emerald-400/[0.07] text-emerald-200' };
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#05070d] text-white" data-testid="lead-radar-page">
@@ -464,10 +645,10 @@ export default function LeadRadarPage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="inline-flex min-h-9 items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/[0.07] px-3 text-emerald-200">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,.8)]" />Zero-cost sources online
+            <span className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-3 ${sourceBadge.className}`}>
+              <Activity size={14} aria-hidden="true" />{sourceBadge.label}
             </span>
-            <span className="inline-flex min-h-9 items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.025] px-3 text-white/45"><ShieldCheck size={13} aria-hidden="true" />Evidence-first</span>
+            <span className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.025] px-3 text-white/60"><ShieldCheck size={13} aria-hidden="true" />Только проверяемые факты</span>
           </div>
         </header>
 
@@ -491,33 +672,33 @@ export default function LeadRadarPage() {
                   <div className="grid h-10 w-10 place-items-center rounded-xl border border-brand-cyan/20 bg-brand-cyan/[0.07]"><Target size={18} className="text-brand-cyan" aria-hidden="true" /></div>
                 </div>
               </div>
-              <form className="space-y-4 p-5" onSubmit={(event) => { event.preventDefault(); void runSearch(); }}>
+              <form className="space-y-4 p-5" aria-busy={loading} onSubmit={(event) => { event.preventDefault(); void runSearch(); }}>
                 <div>
-                  <Label>Ниша</Label>
-                  <Input aria-label="Ниша" value={input.niche} onChange={(event) => setInput({ ...input, niche: event.target.value })} className="min-h-12" placeholder="Например, стоматологии" required />
+                  <Label htmlFor="lead-radar-niche">Ниша</Label>
+                  <Input id="lead-radar-niche" disabled={loading} value={input.niche} onChange={(event) => setInput({ ...input, niche: event.target.value })} className="min-h-12" placeholder="Например, стоматологии" required />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-1">
                   <div>
-                    <Label>Город</Label>
-                    <Input aria-label="Город" value={input.city} onChange={(event) => setInput({ ...input, city: event.target.value })} className="min-h-12" required />
+                    <Label htmlFor="lead-radar-city">Город</Label>
+                    <Input id="lead-radar-city" disabled={loading} value={input.city} onChange={(event) => setInput({ ...input, city: event.target.value })} className="min-h-12" required />
                   </div>
                   <div>
-                    <Label>Количество</Label>
-                    <Select aria-label="Количество компаний" value={input.desiredCount} onChange={(event) => setInput({ ...input, desiredCount: Number(event.target.value) })} className="min-h-12">
+                    <Label htmlFor="lead-radar-count">Количество</Label>
+                    <Select id="lead-radar-count" disabled={loading} value={input.desiredCount} onChange={(event) => setInput({ ...input, desiredCount: Number(event.target.value) })} className="min-h-12">
                       {[10, 20, 30, 40, 50].map((count) => <option key={count} value={count}>{count} компаний</option>)}
                     </Select>
                   </div>
                 </div>
                 <div>
-                  <Label>Что предлагаем</Label>
-                  <Input aria-label="Предложение" value={input.offer} onChange={(event) => setInput({ ...input, offer: event.target.value })} className="min-h-12" required />
+                  <Label htmlFor="lead-radar-offer">Что предлагаем</Label>
+                  <Textarea id="lead-radar-offer" disabled={loading} value={input.offer} onChange={(event) => setInput({ ...input, offer: event.target.value })} className="min-h-20 resize-y" rows={2} required />
                 </div>
                 <label className="flex min-h-14 cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
                   <span>
                     <span className="block text-sm font-medium text-white/80">Только с Telegram</span>
                     <span className="mt-0.5 block text-xs text-white/35">Сокращает выборку, но ускоряет контакт</span>
                   </span>
-                  <input type="checkbox" checked={input.telegramRequired} onChange={(event) => setInput({ ...input, telegramRequired: event.target.checked })} className="h-5 w-5 accent-[#2fe6d1]" />
+                  <input type="checkbox" disabled={loading} checked={input.telegramRequired} onChange={(event) => setInput({ ...input, telegramRequired: event.target.checked })} className="h-5 w-5 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan" />
                 </label>
                 <Button type="submit" size="lg" disabled={loading} className="min-h-14 w-full text-sm font-semibold">
                   {loading ? <><LoaderCircle size={18} className="animate-spin" aria-hidden="true" />Проверяем источники…</> : <><Search size={18} aria-hidden="true" />Найти компании<ArrowRight size={16} aria-hidden="true" /></>}
@@ -530,25 +711,35 @@ export default function LeadRadarPage() {
 
             <section aria-labelledby="sources-title" className="rounded-[1.5rem] border border-white/[0.07] bg-white/[0.018] p-4">
               <h2 id="sources-title" className="flex items-center gap-2 text-sm font-semibold text-white"><Database size={15} className="text-brand-cyan" aria-hidden="true" />Источники</h2>
+              {overviewError && <p className="mt-2 text-xs leading-5 text-amber-100/80">Статус источников не обновился. Поиск остаётся доступен.</p>}
               <div className="mt-3 space-y-3">
                 {(overview?.sourceHealth ?? []).map((source) => (
                   <div key={source.source} className="flex items-start gap-3">
-                    <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${source.status === 'ready' ? 'bg-emerald-300' : 'bg-amber-300'}`} />
-                    <div><div className="text-xs font-medium text-white/65">{source.source}</div><div className="mt-0.5 text-[11px] leading-4 text-white/30">{source.note}</div></div>
+                    <Activity size={14} className={`mt-0.5 shrink-0 ${source.status === 'ready' ? 'text-emerald-300' : source.status === 'blocked' ? 'text-rose-300' : 'text-amber-300'}`} aria-hidden="true" />
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-white/75">
+                        {source.source}
+                        <span className="text-[10px] font-normal text-white/55">{source.status === 'ready' ? 'доступен' : source.status === 'blocked' ? 'недоступен' : 'ограниченно'}</span>
+                      </div>
+                      <div className="mt-0.5 text-[11px] leading-4 text-white/50">{source.note}</div>
+                    </div>
                   </div>
                 ))}
               </div>
+              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-11 items-center text-[11px] text-white/55 underline decoration-white/20 underline-offset-4 hover:text-white">
+                © OpenStreetMap contributors · ODbL
+              </a>
             </section>
           </aside>
 
           <main className="min-w-0 space-y-6">
             <section aria-label="Метрики Lead Radar" className="grid grid-cols-2 gap-3 lg:grid-cols-3 2xl:grid-cols-6">
-              <Metric icon={Radar} label="Запусков" value={totals.searches} />
-              <Metric icon={Building2} label="Компаний" value={totals.leads} />
-              <Metric icon={Sparkles} label="P1-сигнал" value={totals.p1} accent />
-              <Metric icon={MessageCircle} label="С Telegram" value={totals.telegram} accent />
-              <Metric icon={UserRoundCheck} label="Ответили" value={totals.replies} />
-              <Metric icon={Check} label="Квалифицированы" value={totals.qualified} />
+              <Metric icon={Radar} label="Запусков" value={overviewLoading ? '—' : totals.searches} />
+              <Metric icon={Building2} label="Компаний" value={overviewLoading ? '—' : totals.leads} />
+              <Metric icon={Sparkles} label="P1-сигнал" value={overviewLoading ? '—' : totals.p1} accent />
+              <Metric icon={MessageCircle} label="С Telegram" value={overviewLoading ? '—' : totals.telegram} accent />
+              <Metric icon={UserRoundCheck} label="Ответили" value={overviewLoading ? '—' : totals.replies} />
+              <Metric icon={Check} label="Квалифицированы" value={overviewLoading ? '—' : totals.qualified} />
             </section>
 
             {!result && !loading && (
@@ -572,8 +763,8 @@ export default function LeadRadarPage() {
               <section aria-live="polite" className="grid min-h-[28rem] place-items-center rounded-[2rem] border border-white/[0.08] bg-[#08111f]/70 p-6 text-center">
                 <div>
                   <div className="relative mx-auto h-24 w-24">
-                    <div className="absolute inset-0 animate-ping rounded-full border border-brand-cyan/20" />
-                    <div className="absolute inset-4 animate-pulse rounded-full border border-brand-cyan/30" />
+                    <div className="absolute inset-0 rounded-full border border-brand-cyan/20 motion-safe:animate-ping" />
+                    <div className="absolute inset-4 rounded-full border border-brand-cyan/30 motion-safe:animate-pulse" />
                     <div className="absolute inset-0 grid place-items-center"><Radar size={28} className="text-brand-cyan" aria-hidden="true" /></div>
                   </div>
                   <h2 className="mt-6 text-xl font-semibold text-white">Сканируем открытые источники</h2>
@@ -589,22 +780,61 @@ export default function LeadRadarPage() {
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
                         <h2 className="text-lg font-semibold text-white">{result.search.input.niche} · {result.search.input.city}</h2>
-                        <Badge tone={result.search.status === 'ready' ? 'success' : result.search.status === 'failed' ? 'danger' : 'warning'}>{result.search.status}</Badge>
+                        <Badge tone={STATUS_COPY[result.search.status].tone}>{STATUS_COPY[result.search.status].label}</Badge>
                       </div>
-                      <p className="mt-1 text-xs text-white/40">Проверено {result.search.verifiedCount} из {result.search.candidateCount} кандидатов · {result.search.telegramCount} с Telegram</p>
+                      <p className="mt-1 text-xs text-white/55">
+                        {result.search.status === 'running'
+                          ? 'Поиск начат — проверяем источники и кандидатов.'
+                          : result.search.status === 'failed'
+                            ? 'Компании не проверялись: источник не завершил запуск.'
+                            : `Проверено ${result.search.verifiedCount} из ${result.search.candidateCount} кандидатов · ${result.search.telegramCount} с Telegram`}
+                      </p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Фильтры выдачи">
-                      <Filter size={14} className="text-white/35" aria-hidden="true" />
-                      {(['all', 'P1', 'P2', 'P3'] as const).map((filter) => (
-                        <button key={filter} type="button" onClick={() => setPriorityFilter(filter)} className={`min-h-10 rounded-full border px-3 text-xs transition-colors ${priorityFilter === filter ? 'border-brand-cyan/30 bg-brand-cyan/[0.09] text-brand-cyan' : 'border-white/[0.08] text-white/45 hover:text-white'}`}>{filter === 'all' ? 'Все' : filter}</button>
-                      ))}
-                      <button type="button" onClick={() => setTelegramOnly((current) => !current)} aria-pressed={telegramOnly} className={`min-h-10 rounded-full border px-3 text-xs transition-colors ${telegramOnly ? 'border-brand-cyan/30 bg-brand-cyan/[0.09] text-brand-cyan' : 'border-white/[0.08] text-white/45 hover:text-white'}`}>Telegram</button>
-                      <button type="button" onClick={() => { void openSearch(result.search.id); }} aria-label="Обновить результаты" className="grid h-10 w-10 place-items-center rounded-full border border-white/[0.08] text-white/45 hover:text-white"><RefreshCw size={14} aria-hidden="true" /></button>
-                    </div>
+                    {result.leads.length > 0 ? (
+                      <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Фильтры выдачи">
+                        <Filter size={14} className="text-white/55" aria-hidden="true" />
+                        {(['all', 'P1', 'P2', 'P3'] as const).map((filter) => (
+                          <button key={filter} type="button" onClick={() => setPriorityFilter(filter)} aria-pressed={priorityFilter === filter} className={`min-h-11 rounded-full border px-3 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${priorityFilter === filter ? 'border-brand-cyan/30 bg-brand-cyan/[0.09] text-brand-cyan' : 'border-white/[0.08] text-white/60 hover:text-white'}`}>{filter === 'all' ? 'Все' : filter}</button>
+                        ))}
+                        <button type="button" onClick={() => setTelegramOnly((current) => !current)} aria-pressed={telegramOnly} className={`min-h-11 rounded-full border px-3 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${telegramOnly ? 'border-brand-cyan/30 bg-brand-cyan/[0.09] text-brand-cyan' : 'border-white/[0.08] text-white/60 hover:text-white'}`}>Telegram</button>
+                        <button type="button" onClick={() => { void runSearch(result.search.input); }} aria-label="Повторить поиск и заново проверить источники" className="grid h-11 w-11 place-items-center rounded-full border border-white/[0.08] text-white/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"><RefreshCw size={15} aria-hidden="true" /></button>
+                      </div>
+                    ) : result.search.status !== 'failed' && result.search.status !== 'running' ? (
+                      <Button type="button" variant="secondary" onClick={() => { void runSearch(result.search.input); }} className="min-h-11"><RefreshCw size={15} aria-hidden="true" />Повторить</Button>
+                    ) : null}
                   </div>
                 </section>
 
-                {visibleLeads.length > 0 ? (
+                {result.search.status === 'running' ? (
+                  <SearchOutcome
+                    title="Поиск продолжается"
+                    body="Запуск уже принят. Статус обновится автоматически; новый поиск создавать не нужно."
+                    primary={{ label: 'Проверить статус', onClick: () => { void openSearch(result.search.id); } }}
+                    secondary={{ label: 'Вернуться к параметрам', onClick: () => document.getElementById('lead-radar-niche')?.focus() }}
+                  />
+                ) : result.search.status === 'failed' && failedCopy ? (
+                  <SearchOutcome
+                    danger
+                    title={failedCopy.title}
+                    body={failedCopy.body}
+                    detail={`Код: ${result.search.errorCode ?? 'discovery_failed'} · запуск ${result.search.id.slice(-8)}`}
+                    primary={{ label: 'Повторить поиск', onClick: () => { void runSearch(result.search.input); } }}
+                    secondary={{ label: 'Изменить параметры', onClick: () => document.getElementById('lead-radar-niche')?.focus() }}
+                  />
+                ) : strictTelegramEmpty && result ? (
+                  <SearchOutcome
+                    title="Telegram не подтверждён"
+                    body={`Найдено ${result.search.candidateCount} кандидатов, но ни у одного в проверенных источниках не подтверждён Telegram. Можно показать сайты и корпоративные телефоны.`}
+                    primary={{ label: 'Показать без Telegram', onClick: () => { void runSearch({ ...result.search.input, telegramRequired: false }); } }}
+                    secondary={{ label: 'Изменить нишу', onClick: () => document.getElementById('lead-radar-niche')?.focus() }}
+                  />
+                ) : result.leads.length === 0 ? (
+                  <SearchOutcome
+                    title="В доступных источниках ничего не найдено"
+                    body="Попробуйте более широкое название ниши. Этот результат не доказывает отсутствие компаний в городе."
+                    primary={{ label: 'Изменить запрос', onClick: () => document.getElementById('lead-radar-niche')?.focus() }}
+                  />
+                ) : visibleLeads.length > 0 ? (
                   <div className="grid min-w-0 gap-5 xl:grid-cols-[18rem_minmax(0,1fr)]">
                     <section aria-label="Список компаний" className="space-y-3 xl:max-h-[calc(100vh-12rem)] xl:overflow-y-auto xl:pr-1">
                       {visibleLeads.map((lead) => <LeadListItem key={lead.id} lead={lead} selected={selectedLead?.id === lead.id} onSelect={() => setSelectedLeadId(lead.id)} />)}
@@ -612,9 +842,11 @@ export default function LeadRadarPage() {
                     {selectedLead && <LeadDetail key={selectedLead.id} lead={selectedLead} offer={result.search.input.offer} onLifecycle={(lifecycle) => { void updateLifecycle(lifecycle); }} busy={statusBusy} />}
                   </div>
                 ) : (
-                  <section className="grid min-h-64 place-items-center rounded-[1.75rem] border border-dashed border-white/[0.1] p-6 text-center">
-                    <div><Filter size={24} className="mx-auto text-white/30" aria-hidden="true" /><h2 className="mt-3 text-base font-semibold text-white">Нет компаний по выбранному фильтру</h2><p className="mt-2 text-sm text-white/40">Сбросьте приоритет или Telegram-фильтр.</p></div>
-                  </section>
+                  <SearchOutcome
+                    title={`Фильтры скрыли ${result.leads.length} компаний`}
+                    body="Сбросьте приоритет и локальный Telegram-фильтр, чтобы вернуть всю проверенную выдачу."
+                    primary={{ label: 'Сбросить фильтры', onClick: () => { setPriorityFilter('all'); setTelegramOnly(false); } }}
+                  />
                 )}
               </>
             )}

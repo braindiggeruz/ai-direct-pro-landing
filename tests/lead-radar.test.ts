@@ -10,6 +10,7 @@ import {
   extractCompanyPageFacts,
   LeadRadarStore,
   parseSearchInput,
+  robotsAllows,
   safePublicHttpUrl,
   scoreLead,
 } from '../functions/platform/lead-radar';
@@ -116,6 +117,23 @@ test('website fetch allowlist blocks local and private network targets', () => {
   assert.equal(safePublicHttpUrl('http://192.168.1.5/secret'), null);
   assert.equal(safePublicHttpUrl('file:///etc/passwd'), null);
   assert.equal(safePublicHttpUrl('https://service.local/path'), null);
+  assert.equal(safePublicHttpUrl('https://user:pass@example.uz/path'), null);
+  assert.equal(safePublicHttpUrl('https://example.uz:8443/path'), null);
+  assert.equal(safePublicHttpUrl('https://127.0.0.1.nip.io/path'), null);
+  assert.equal(safePublicHttpUrl('https://localtest.me/path'), null);
+});
+
+test('robots policy honors the product group, path rules, and allow precedence', () => {
+  const robots = `
+    User-agent: *
+    Disallow: /private/
+    User-agent: GPTBot-Lead-Radar
+    Disallow: /contact
+    Allow: /contact/public$
+  `;
+  assert.equal(robotsAllows(robots, new URL('https://example.uz/contact')), false);
+  assert.equal(robotsAllows(robots, new URL('https://example.uz/contact/public')), true);
+  assert.equal(robotsAllows(robots, new URL('https://example.uz/about')), true);
 });
 
 test('company website extraction keeps generic contacts and evidence-backed signals', () => {
@@ -192,10 +210,73 @@ test('store enforces tenant isolation on reads and lifecycle mutations', async (
   assert.equal((await store.getSearch('org-a', searchId))?.leads[0]?.lifecycle, 'qualified');
 });
 
+test('do-not-contact suppresses duplicate history and future inserts within one tenant', async () => {
+  const fixture = new SqliteD1();
+  const db = fixture.asD1();
+  await ensureLeadRadarSchema(db);
+  const store = new LeadRadarStore(db);
+  const firstSearch = await store.createSearch('org-a', SEARCH_INPUT, '2026-08-24T10:00:00.000Z');
+  const secondSearch = await store.createSearch('org-a', SEARCH_INPUT, '2026-08-24T10:01:00.000Z');
+  const otherSearch = await store.createSearch('org-b', SEARCH_INPUT, '2026-08-24T10:02:00.000Z');
+  const makeLead = (evidenceId: string) => ({
+    canonicalKey: 'domain:example.uz',
+    name: 'Example Clinic', category: 'Стоматология', city: 'Ташкент', country: 'UZ',
+    address: 'Ташкент', website: 'https://example.uz', phone: '+998901234567',
+    genericEmail: 'info@example.uz', telegramUrl: 'https://t.me/example_clinic',
+    score: 84, confidence: 0.91, priority: 'P1' as const, lifecycle: 'new' as const, suppressed: false,
+    scoreComponents: [], signals: [], evidence: [evidence(evidenceId, 'company.name')],
+    discoveredAt: '2026-08-24T10:00:00.000Z', lastVerifiedAt: '2026-08-24T10:00:00.000Z',
+  });
+  const firstLead = await store.insertLead('org-a', firstSearch, makeLead('dnc-first'));
+  assert.ok(firstLead);
+  assert.ok(await store.insertLead('org-a', secondSearch, makeLead('dnc-second')));
+  assert.ok(await store.insertLead('org-b', otherSearch, makeLead('dnc-other')));
+
+  assert.equal(await store.updateLifecycle('org-a', firstLead, 'do_not_contact', '2026-08-24T11:00:00.000Z'), true);
+  const historicalDuplicate = (await store.getSearch('org-a', secondSearch))?.leads[0];
+  assert.equal(historicalDuplicate?.suppressed, true);
+  assert.equal(historicalDuplicate?.telegramUrl, null);
+  assert.equal(historicalDuplicate?.phone, null);
+  assert.equal(await store.updateLifecycle('org-a', historicalDuplicate?.id ?? '', 'qualified', '2026-08-24T11:01:00.000Z'), false);
+  assert.equal((await store.getSearch('org-b', otherSearch))?.leads[0]?.suppressed, false);
+
+  const futureSearch = await store.createSearch('org-a', SEARCH_INPUT, '2026-08-24T11:02:00.000Z');
+  assert.equal(await store.insertLead('org-a', futureSearch, makeLead('dnc-future')), null);
+});
+
+test('search lease is exclusive and only its owner can release it', async () => {
+  const fixture = new SqliteD1();
+  const db = fixture.asD1();
+  await ensureLeadRadarSchema(db);
+  const store = new LeadRadarStore(db);
+  const first = await store.acquireSearchLease(
+    'org-a', 'lease-a', '2026-08-24T10:00:00.000Z',
+    '2026-08-24T10:03:00.000Z', '2026-08-24T10:00:00.000Z',
+  );
+  assert.equal(first.acquired, true);
+  const blocked = await store.acquireSearchLease(
+    'org-a', 'lease-b', '2026-08-24T10:00:10.000Z',
+    '2026-08-24T10:03:10.000Z', '2026-08-24T10:00:10.000Z',
+  );
+  assert.equal(blocked.acquired, false);
+  assert.equal(blocked.retryAfterSeconds, 170);
+  await store.releaseSearchLease('org-a', 'wrong-lease', '2026-08-24T10:00:11.000Z', '2026-08-24T10:00:14.000Z');
+  assert.equal((await store.acquireSearchLease(
+    'org-a', 'lease-c', '2026-08-24T10:00:12.000Z',
+    '2026-08-24T10:03:12.000Z', '2026-08-24T10:00:12.000Z',
+  )).acquired, false);
+  await store.releaseSearchLease('org-a', 'lease-a', '2026-08-24T10:00:13.000Z', '2026-08-24T10:00:16.000Z');
+  assert.equal((await store.acquireSearchLease(
+    'org-a', 'lease-d', '2026-08-24T10:00:16.000Z',
+    '2026-08-24T10:03:16.000Z', '2026-08-24T10:00:16.000Z',
+  )).acquired, true);
+});
+
 test('production migration creates every Lead Radar table and index', () => {
   const sqlite = new DatabaseSync(':memory:');
   sqlite.exec('PRAGMA foreign_keys = ON');
   sqlite.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0036_lead_radar.sql'), 'utf8'));
+  sqlite.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0041_lead_radar_search_leases.sql'), 'utf8'));
 
   const tables = sqlite.prepare(`SELECT name FROM sqlite_master
     WHERE type = 'table' AND name LIKE 'lead_radar_%' ORDER BY name`).all()
@@ -203,10 +284,14 @@ test('production migration creates every Lead Radar table and index', () => {
   assert.deepEqual(tables, [
     'lead_radar_companies',
     'lead_radar_evidence',
+    'lead_radar_geocode_cache',
+    'lead_radar_search_leases',
     'lead_radar_searches',
+    'lead_radar_source_throttles',
+    'lead_radar_suppressions',
   ]);
 
   const indexes = sqlite.prepare(`SELECT name FROM sqlite_master
     WHERE type = 'index' AND name LIKE 'idx_lead_radar_%' ORDER BY name`).all();
-  assert.equal(indexes.length, 4);
+  assert.equal(indexes.length, 10);
 });

@@ -65,9 +65,16 @@ export function safePublicHttpUrl(value: string | null | undefined): URL | null 
   try {
     const url = new URL(value.startsWith('www.') ? `https://${value}` : value);
     if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
+    if (url.username || url.password) return null;
+    if (url.port && !(
+      (url.protocol === 'https:' && url.port === '443')
+      || (url.protocol === 'http:' && url.port === '80')
+    )) return null;
     const host = url.hostname.toLowerCase().replace(/\.$/, '');
     if (
       !host
+      || host.length > 253
+      || !host.includes('.')
       || host === 'localhost'
       || host.endsWith('.localhost')
       || host.endsWith('.local')
@@ -79,7 +86,17 @@ export function safePublicHttpUrl(value: string | null | undefined): URL | null 
       || /^169\.254\./.test(host)
       || /^192\.168\./.test(host)
       || /^172\.(1[6-9]|2\d|3[01])\./.test(host)
+      || /^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)
       || /^\[?[a-f0-9:]+\]?$/.test(host)
+      || host.endsWith('.test')
+      || host.endsWith('.invalid')
+      || host.endsWith('.example')
+      || host === 'localtest.me'
+      || host.endsWith('.localtest.me')
+      || host === 'nip.io'
+      || host.endsWith('.nip.io')
+      || host === 'sslip.io'
+      || host.endsWith('.sslip.io')
     ) return null;
     url.hash = '';
     return url;
