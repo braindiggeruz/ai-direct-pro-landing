@@ -33,6 +33,7 @@
     {"type":"h2","id":"uzbek","text":"ChatGPTda o'zbek tilida qanday yozish kerak?"},
     {"type":"p","text":"Interfeys tili va javob tili bir xil narsa emas. So'rovni o'zbekcha yozing va kerak bo'lsa «faqat Uzbek Latin ishlat, sodda va qisqa javob ber» deb qo'shing. Natija sifati vazifa, kontekst va terminlarning aniqligiga bog'liq."},
     {"type":"linkp","text":"O'zbekcha so'rovlarni o'rnatmasdan {chat}da sinash, tayyor topshiriqlarni {prompts}dan olish va O'zbekistondagi rasmiy kirish holatini {access}da tekshirish mumkin.","links":[{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"o'zbek tilidagi AI chat"},{"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta tayyor prompt"},{"token":"access","target":"/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/","anchor":"ChatGPT O'zbekistonda ishlashi haqidagi qo'llanma"}]},
+    {"type":"linkp","text":"Agar maqsad ChatGPT’dan shaxsiy foydalanish emas, balki mijozlarga javob berish bo‘lsa, bu boshqa vazifa: {b2b}. Kanallar, ssenariy va CRM integratsiyasiga qarab narx {narx} jadvalida ko‘rsatilgan.","links":[{"token":"b2b","target":"/uz/biznes-uchun-ai-bot/","anchor":"mijozlarga javob beradigan AI-bot"},{"token":"narx","target":"/uz/chat-bot-narxi/","anchor":"tariflar va ishga tushirish muddatlari"}]},
     {"type":"cta","text":"O'zbek tilida AI chatni brauzerda ochish","href":"/uz/gpt-uzbek-tilida/"}
   ],
   "faq":[

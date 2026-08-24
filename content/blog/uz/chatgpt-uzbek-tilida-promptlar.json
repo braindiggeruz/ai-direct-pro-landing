@@ -85,6 +85,7 @@
     {"type":"h2","id":"tekshirish","text":"AI javobini yuborishdan oldin tekshiring"},
     {"type":"p","text":"Prompt yaxshi bo'lsa ham, model xato qilishi yoki mavjud bo'lmagan manbani ishonchli ko'rsatishi mumkin. Ism, sana, narx, qonun, tibbiy va moliyaviy tavsiyani birlamchi manba bilan tekshiring. Mijoz ma'lumoti, parol, karta raqami va tijorat sirini chatga kiritmang."},
     {"type":"linkp","text":"Promptlarni shu zahoti {chat}da sinab ko'ring. AI bilan ishlashni boshidan o'rganish uchun {guide}, talabalarga mos usullar uchun {students}ni oching.","links":[{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"o'zbek tilidagi AI chat"},{"token":"guide","target":"/uz/gpt-uzbek-tilida-ai-chat/","anchor":"amaliy GPT qo'llanmasi"},{"token":"students","target":"/uz/blog/chatgpt-talabalar-uchun/","anchor":"ChatGPT talabalar uchun qo'llanmasi"}]},
+    {"type":"linkp","text":"Tayyor promptlarni bir marta yozib, keyin {bot} bilim bazasida doimiy ishlatish mumkin. Instagram Direct’dagi savollar uchun {ig} alohida sozlanadi.","links":[{"token":"bot","target":"/uz/biznes-uchun-ai-bot/","anchor":"biznes uchun AI-bot"},{"token":"ig","target":"/uz/instagram-uchun-ai-menejer/","anchor":"Instagram Direct uchun AI-menejer"}]},
     {"type":"cta","text":"O'zbek tilida AI chatni sinab ko'rish","href":"/uz/gpt-uzbek-tilida/"}
   ],
   "faq": [
