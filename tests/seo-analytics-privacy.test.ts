@@ -131,3 +131,60 @@ test('the measurement id is a public GA4 id, not a secret', () => {
   // A measurement id is public by design; anything token-shaped is not.
   assert.doesNotMatch(ANALYTICS_HEAD, /(api[_-]?key|secret|token|bearer)\s*[:=]\s*['"][^'"]{12,}/i);
 });
+
+// ── Local development must never reach the production property ───────────────
+// GA4 property 540129731 was receiving hits with hostName 127.0.0.1, which
+// contaminates exactly the low-count generate_lead signal the funnel is measured
+// on. Loopback hosts are now refused by the inline block; production and
+// *.pages.dev previews are deliberately still measured.
+test('analytics refuses to boot on loopback hosts', () => {
+  const sources: [string, string][] = [
+    ['analytics-snippet.ts', ANALYTICS_HEAD],
+    ['index.html', fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8')],
+  ];
+  for (const [label, src] of sources) {
+    for (const host of ['localhost', '127.0.0.1', '::1']) {
+      assert.ok(
+        src.includes(`'${host}'`),
+        `${label} does not guard against ${host} — local traffic will reach GA4`,
+      );
+    }
+    assert.match(src, /location\.hostname/, `${label} must read location.hostname to guard the host`);
+  }
+});
+
+test('analytics still boots on the production host', () => {
+  // The guard must be a loopback denylist, not an allowlist that could silently
+  // switch production off if the domain ever changes.
+  const sources = [ANALYTICS_HEAD, fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8')];
+  for (const src of sources) {
+    assert.ok(
+      !/hostname\s*!==\s*'gptbot\.uz'/.test(src.replace(/data-tag="ym"[\s\S]*/, '')),
+      'the GA/Pixel guard must not allowlist a single hostname — use the loopback denylist',
+    );
+  }
+});
+
+// Every analytics surface, not just GA4. The GTM container GTM-NLR4WFX8 is
+// injected by prerender.ts, prerender-blog.ts (twice) and index.html, and it
+// loads googletagmanager.com after first interaction — so an unguarded copy
+// leaks local development traffic exactly like the GA block did.
+test('every injected analytics block guards loopback hosts', () => {
+  const files = ['scripts/prerender.ts', 'scripts/prerender-blog.ts', 'index.html'];
+  for (const rel of files) {
+    const src = fs.readFileSync(path.join(process.cwd(), rel), 'utf8');
+    const blocks = src.split('<script data-tag="gtm"').slice(1);
+    assert.ok(blocks.length > 0, `${rel} carries no gtm block — has the tag been renamed?`);
+    for (const [i, block] of blocks.entries()) {
+      const head = block.slice(0, 500);
+      assert.match(
+        head,
+        /hostname/,
+        `${rel} gtm block #${i + 1} does not read the hostname — local traffic will reach GTM`,
+      );
+      for (const host of ['localhost', '127.0.0.1']) {
+        assert.ok(head.includes(`'${host}'`), `${rel} gtm block #${i + 1} does not guard ${host}`);
+      }
+    }
+  }
+});

@@ -8,7 +8,7 @@
          because interaction always precedes a CTA click. requestIdleCallback
          lands the parse/execute in an idle slice instead of blocking input) -->
     <script data-tag="gtm">
-    (function(w,d,s,l,i){
+    (function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;
       w[l]=w[l]||[];
       var started=false;
       function loadGTM(){
@@ -155,6 +155,8 @@
       (function(){
         var p = location.pathname;
         if (p.indexOf('/admin-tools/')===0 || p.indexOf('/api/')===0) return;
+        var h = location.hostname || '';
+        if (h==='localhost' || h==='127.0.0.1' || h==='::1' || h==='[::1]' || h==='0.0.0.0' || h.slice(-6)==='.local') return;
         var started=false;
         function loadPixel(){
           if(started)return;started=true;
@@ -191,6 +193,8 @@
       (function(){
         var p = location.pathname;
         if (p.indexOf('/admin-tools/')===0 || p.indexOf('/api/')===0) return;
+        var h = location.hostname || '';
+        if (h==='localhost' || h==='127.0.0.1' || h==='::1' || h==='[::1]' || h==='0.0.0.0' || h.slice(-6)==='.local') return;
         // Install gtag stub immediately so events fired before the network
         // script loads are queued into dataLayer and flushed on load.
         window.dataLayer = window.dataLayer || [];
