@@ -72,6 +72,21 @@ export const onRequest: PagesFunction<AssetsEnv> = async ({ request, env }) => {
   }
 
   const url = new URL(request.url);
+  // Lead Radar belongs to the existing SEO owner console. Keep the intuitive
+  // `/admin/lead-radar` bookmark working without duplicating authorization or
+  // shipping a second copy of the feature inside Bormi Admin.
+  if (url.pathname === '/admin/lead-radar' || url.pathname === '/admin/lead-radar/') {
+    const target = new URL('/admin-tools/lead-radar', url);
+    target.search = url.search;
+    return new Response(null, {
+      status: 302,
+      headers: {
+        ...SHELL_HEADERS,
+        Location: target.toString(),
+      },
+    });
+  }
+
   // The shell itself, fetched from the asset store by its directory form so
   // Pages does not answer with its own `.html` redirect.
   const shell = await env.ASSETS.fetch(new URL('/admin/', url).toString());

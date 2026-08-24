@@ -49,6 +49,14 @@ test('hardening: a Pages Function serves the shell for every /admin route', asyn
   assert.doesNotMatch(shell, /requirePlatformRole|BORMI_ADMIN_V2_ENABLED|JWT/);
 });
 
+test('hardening: the Lead Radar bookmark redirects to its owner-only console route', async () => {
+  const shell = await source(SHELL_FUNCTION);
+  assert.match(shell, /url\.pathname === '\/admin\/lead-radar'/);
+  assert.match(shell, /new URL\('\/admin-tools\/lead-radar', url\)/);
+  assert.match(shell, /status: 302/);
+  assert.match(shell, /Location: target\.toString\(\)/);
+});
+
 test('hardening: no /admin/* rewrite is emitted, and the reason is written down', async () => {
   const generator = await source(GENERATOR);
   // Both spellings were tried against the real runtime and both are wrong:
