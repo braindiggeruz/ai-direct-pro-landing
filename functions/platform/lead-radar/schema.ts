@@ -14,7 +14,13 @@ const STATEMENTS = [
     canonical_key TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL,
     city TEXT NOT NULL, country TEXT NOT NULL, address TEXT, website TEXT,
     domain TEXT, phone_digits TEXT, name_city_key TEXT,
-    phone TEXT, generic_email TEXT, telegram_url TEXT, score INTEGER NOT NULL,
+    phone TEXT, generic_email TEXT, telegram_url TEXT,
+    telegram_contact_json TEXT NOT NULL DEFAULT 'null'
+      CHECK (length(telegram_contact_json) <= 8192 AND json_valid(telegram_contact_json)
+        AND json_type(telegram_contact_json) IN ('object', 'null')),
+    decision_makers_json TEXT NOT NULL DEFAULT '[]'
+      CHECK (length(decision_makers_json) <= 65536 AND json_valid(decision_makers_json)
+        AND json_type(decision_makers_json) = 'array'), score INTEGER NOT NULL,
     confidence REAL NOT NULL, priority TEXT NOT NULL, lifecycle TEXT NOT NULL DEFAULT 'new',
     suppressed INTEGER NOT NULL DEFAULT 0, score_components_json TEXT NOT NULL,
     signals_json TEXT NOT NULL, discovered_at TEXT NOT NULL,

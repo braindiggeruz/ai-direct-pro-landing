@@ -5,6 +5,48 @@ import type {
   LeadRadarSignal,
 } from '../../../src/shared/lead-radar';
 
+export const TELEGRAM_CONTACT_TYPES = [
+  'human',
+  'bot',
+  'channel',
+  'group',
+  'business',
+  'unknown',
+] as const;
+
+export type TelegramContactType = (typeof TELEGRAM_CONTACT_TYPES)[number];
+
+/**
+ * A single, evidence-backed Telegram endpoint selected for the company.
+ * `messageable` is deliberately fail-closed: only a Telegram profile bound
+ * to a named human may be true. Unknown endpoints are never treated as people.
+ */
+export interface LeadRadarTelegramContact {
+  url: string;
+  username: string;
+  type: TelegramContactType;
+  confidence: number;
+  reason: string;
+  evidenceIds: string[];
+  verifiedAt: string;
+  messageable: boolean;
+}
+
+/** A named person and role extracted from first-party website evidence. */
+export interface LeadRadarDecisionMaker {
+  id: string;
+  name: string;
+  role: string;
+  telegramUrl: string | null;
+  telegramUsername: string | null;
+  contactType: TelegramContactType;
+  confidence: number;
+  evidenceIds: string[];
+  sourceUrl: string;
+  evidence: string;
+  verifiedAt: string;
+}
+
 export interface SourceCandidate {
   sourceId: string;
   sourceUrl: string;
@@ -17,11 +59,15 @@ export interface SourceCandidate {
   phone: string | null;
   genericEmail: string | null;
   telegramUrl: string | null;
+  telegramContact: LeadRadarTelegramContact | null;
+  decisionMakers: LeadRadarDecisionMaker[];
   evidence: LeadRadarEvidence[];
   signals: LeadRadarSignal[];
 }
 export interface StoredLeadInput extends Omit<LeadRadarLead, 'id' | 'searchId'> {
   canonicalKey: string;
+  telegramContact: LeadRadarTelegramContact | null;
+  decisionMakers: LeadRadarDecisionMaker[];
 }
 
 export interface LeadRadarDiscoveryResult {

@@ -38,6 +38,8 @@ function toLead(candidate: SourceCandidate, now: string): StoredLeadInput {
     phone: candidate.phone,
     genericEmail: candidate.genericEmail,
     telegramUrl: candidate.telegramUrl,
+    telegramContact: candidate.telegramContact,
+    decisionMakers: candidate.decisionMakers,
     score: scored.score,
     confidence: scored.confidence,
     priority: scored.priority,
@@ -49,6 +51,16 @@ function toLead(candidate: SourceCandidate, now: string): StoredLeadInput {
     discoveredAt: now,
     lastVerifiedAt: now,
   };
+}
+
+function hasVerifiedPersonalTelegram(lead: StoredLeadInput): boolean {
+  const contact = lead.telegramContact;
+  if (!contact || contact.type !== 'human' || !contact.messageable) return false;
+  return lead.decisionMakers.some((person) => (
+    person.contactType === 'human'
+    && person.telegramUrl === contact.url
+    && Boolean(person.telegramUsername)
+  ));
 }
 
 function isSuppressed(lead: StoredLeadInput, suppressions: LeadRadarSuppressionFingerprint[]): boolean {
@@ -120,12 +132,19 @@ export class LeadRadarService {
       for (const candidate of candidates) {
         const lead = toLead(candidate, now);
         const existing = unique.get(lead.canonicalKey);
-        if (!existing || lead.evidence.length > existing.evidence.length) unique.set(lead.canonicalKey, lead);
+        if (
+          !existing
+          || lead.decisionMakers.length > existing.decisionMakers.length
+          || (
+            lead.decisionMakers.length === existing.decisionMakers.length
+            && lead.evidence.length > existing.evidence.length
+          )
+        ) unique.set(lead.canonicalKey, lead);
       }
       const suppressions = await this.store.listSuppressions(orgId);
       const eligible = [...unique.values()].filter((lead) => !isSuppressed(lead, suppressions));
       const ranked = eligible
-        .filter((lead) => !input.telegramRequired || Boolean(lead.telegramUrl))
+        .filter((lead) => !input.telegramRequired || hasVerifiedPersonalTelegram(lead))
         .sort((a, b) => b.score - a.score || b.confidence - a.confidence || a.name.localeCompare(b.name, 'ru'))
         .slice(0, input.desiredCount);
       const persisted: StoredLeadInput[] = [];
@@ -143,7 +162,7 @@ export class LeadRadarService {
         p1Count: persisted.filter((lead) => lead.priority === 'P1').length,
         p2Count: persisted.filter((lead) => lead.priority === 'P2').length,
         p3Count: persisted.filter((lead) => lead.priority === 'P3').length,
-        telegramCount: persisted.filter((lead) => lead.telegramUrl).length,
+        telegramCount: persisted.filter(hasVerifiedPersonalTelegram).length,
         errorCode: null,
         completedAt: new Date().toISOString(),
       });

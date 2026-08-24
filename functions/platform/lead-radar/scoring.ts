@@ -1,8 +1,10 @@
 import type {
   LeadRadarEvidence,
+  LeadRadarDecisionMaker,
   LeadRadarPriority,
   LeadRadarScoreComponent,
   LeadRadarSignal,
+  LeadRadarTelegramContact,
 } from '../../../src/shared/lead-radar';
 
 export interface ScoreInput {
@@ -12,6 +14,8 @@ export interface ScoreInput {
   phone: string | null;
   genericEmail: string | null;
   telegramUrl: string | null;
+  telegramContact: LeadRadarTelegramContact | null;
+  decisionMakers: LeadRadarDecisionMaker[];
   category: string;
 }
 
@@ -33,7 +37,27 @@ export function scoreLead(input: ScoreInput): {
   const digitalFacts = input.signals.filter((signal) => (
     signal.type === 'messenger' || signal.type === 'online_booking' || signal.type === 'contact_form'
   ));
-  const contactEvidence = ids(input, ['company_contacts', 'web.telegram']);
+  const decisionMakers = input.decisionMakers ?? [];
+  const personalTelegram = input.telegramContact?.type === 'human'
+    && input.telegramContact.messageable
+    && decisionMakers.some((person) => (
+      person.contactType === 'human' && person.telegramUrl === input.telegramContact?.url
+    ));
+  const businessTelegram = input.telegramContact?.type === 'business';
+  const hasNamedDecisionMaker = decisionMakers.length > 0;
+  const conventionalContactScore = (input.phone ? 10 : 0) + (input.genericEmail ? 6 : 0);
+  const contactabilityScore = personalTelegram
+    ? 20
+    : Math.max(
+        Math.min(16, conventionalContactScore),
+        businessTelegram ? 12 : 0,
+        hasNamedDecisionMaker ? 6 : 0,
+      );
+  const contactEvidence = [
+    ...ids(input, ['company_contacts']),
+    ...(personalTelegram || businessTelegram ? input.telegramContact?.evidenceIds ?? [] : []),
+    ...(hasNamedDecisionMaker ? decisionMakers.flatMap((person) => person.evidenceIds) : []),
+  ];
   const categoryEvidence = ids(input, ['company.category']);
   const geoEvidence = ids(input, ['locations']);
   const signalEvidence = input.signals.flatMap((signal) => signal.evidenceIds);
@@ -78,11 +102,17 @@ export function scoreLead(input: ScoreInput): {
     {
       key: 'contactability',
       label: 'Доступность контакта',
-      score: input.telegramUrl ? 20 : (input.phone ? 12 : 0) + (input.genericEmail ? 8 : 0),
+      score: contactabilityScore,
       max: 20,
-      reason: input.telegramUrl
-        ? 'Найден публичный корпоративный Telegram'
-        : (input.phone || input.genericEmail ? 'Найден корпоративный канал связи' : 'Проверенный контакт пока не найден'),
+      reason: personalTelegram
+        ? 'Найден публичный Telegram названного руководителя'
+        : (businessTelegram
+            ? 'Найден публичный корпоративный Telegram; личность получателя не подтверждена'
+            : (input.phone || input.genericEmail
+                ? 'Найден корпоративный канал связи'
+                : (hasNamedDecisionMaker
+                    ? 'На официальном сайте назван руководитель, но прямой контакт не подтверждён'
+                    : 'Проверенный контакт пока не найден'))),
       evidenceIds: contactEvidence,
     },
   ];

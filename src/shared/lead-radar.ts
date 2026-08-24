@@ -62,6 +62,52 @@ export interface LeadRadarSignal {
   observedAt: string;
 }
 
+export const LEAD_RADAR_TELEGRAM_CONTACT_TYPES = [
+  'human',
+  'bot',
+  'channel',
+  'group',
+  'business',
+  'unknown',
+] as const;
+
+export type LeadRadarTelegramContactType = (typeof LEAD_RADAR_TELEGRAM_CONTACT_TYPES)[number];
+
+/**
+ * A public Telegram reference observed in source evidence. `messageable` is
+ * deliberately false unless the discovery layer can bind the username to a
+ * named human decision-maker. A t.me URL alone is never proof of a person.
+ */
+export interface LeadRadarTelegramContact {
+  url: string;
+  username: string;
+  type: LeadRadarTelegramContactType;
+  confidence: number;
+  reason: string;
+  evidenceIds: string[];
+  verifiedAt: string;
+  messageable: boolean;
+}
+
+/**
+ * Public, evidence-bound business representative. Missing Telegram details are
+ * represented as null rather than guessed. Every exported person carries the
+ * exact official page and a short bounded evidence excerpt.
+ */
+export interface LeadRadarDecisionMaker {
+  id: string;
+  name: string;
+  role: string;
+  telegramUrl: string | null;
+  telegramUsername: string | null;
+  contactType: LeadRadarTelegramContactType;
+  confidence: number;
+  evidenceIds: string[];
+  sourceUrl: string;
+  evidence: string;
+  verifiedAt: string;
+}
+
 export interface LeadRadarScoreComponent {
   key: 'niche_fit' | 'geo_fit' | 'digital_need' | 'intent' | 'contactability';
   label: string;
@@ -83,6 +129,8 @@ export interface LeadRadarLead {
   phone: string | null;
   genericEmail: string | null;
   telegramUrl: string | null;
+  telegramContact: LeadRadarTelegramContact | null;
+  decisionMakers: LeadRadarDecisionMaker[];
   score: number;
   confidence: number;
   priority: LeadRadarPriority;

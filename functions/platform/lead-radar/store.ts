@@ -8,8 +8,14 @@ import type {
   LeadRadarSearchStatus,
   LeadRadarSearchSummary,
 } from '../../../src/shared/lead-radar';
-import type { StoredLeadInput } from './types';
-import { normalizeCompanyKey } from './validation';
+import {
+  TELEGRAM_CONTACT_TYPES,
+  type LeadRadarDecisionMaker,
+  type LeadRadarTelegramContact,
+  type StoredLeadInput,
+  type TelegramContactType,
+} from './types';
+import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 
 export interface LeadRadarSuppressionFingerprint {
   canonicalKey: string;
@@ -49,6 +55,8 @@ interface LeadRow {
   phone: string | null;
   generic_email: string | null;
   telegram_url: string | null;
+  telegram_contact_json: string;
+  decision_makers_json: string;
   score: number;
   confidence: number;
   priority: LeadRadarLead['priority'];
@@ -81,6 +89,111 @@ interface EvidenceRow {
 
 function parseJson<T>(value: string, fallback: T): T {
   try { return JSON.parse(value) as T; } catch { return fallback; }
+}
+
+const TELEGRAM_CONTACT_TYPE_SET = new Set<string>(TELEGRAM_CONTACT_TYPES);
+
+function boundedText(value: unknown, max: number): string | null {
+  if (typeof value !== 'string') return null;
+  const printable = [...value].map((character) => {
+    const code = character.charCodeAt(0);
+    return code < 32 || code === 127 ? ' ' : character;
+  }).join('');
+  const normalized = printable.replace(/\s+/g, ' ').trim();
+  return normalized.length > 0 && normalized.length <= max ? normalized : null;
+}
+
+function boundedConfidence(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 1
+    ? value
+    : null;
+}
+
+function boundedEvidenceIds(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value
+    .filter((item): item is string => typeof item === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(item))
+    .slice(0, 32))];
+}
+
+function telegramLocator(value: unknown): { url: string; username: string } | null {
+  if (typeof value !== 'string') return null;
+  const url = safePublicHttpUrl(value);
+  if (!url || !['t.me', 'telegram.me'].includes(url.hostname.toLowerCase())) return null;
+  const segments = url.pathname.split('/').filter(Boolean);
+  const username = segments[0] ?? '';
+  if (segments.length !== 1 || !/^[A-Za-z0-9_]{5,32}$/.test(username)) return null;
+  return { url: `https://t.me/${username}`, username };
+}
+
+function verifiedAt(value: unknown): string | null {
+  const text = boundedText(value, 64);
+  return text && Number.isFinite(Date.parse(text)) ? text : null;
+}
+
+function telegramContactFromJson(value: string): LeadRadarTelegramContact | null {
+  const raw = parseJson<unknown>(value, null);
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const item = raw as Record<string, unknown>;
+  const locator = telegramLocator(item.url);
+  const username = boundedText(item.username, 32);
+  const type = typeof item.type === 'string' && TELEGRAM_CONTACT_TYPE_SET.has(item.type)
+    ? item.type as TelegramContactType
+    : null;
+  const confidence = boundedConfidence(item.confidence);
+  const reason = boundedText(item.reason, 240);
+  const checkedAt = verifiedAt(item.verifiedAt);
+  if (!locator || !username || username.toLowerCase() !== locator.username.toLowerCase()
+    || !type || confidence === null || !reason || !checkedAt) return null;
+  return {
+    url: locator.url,
+    username: locator.username,
+    type,
+    confidence,
+    reason,
+    evidenceIds: boundedEvidenceIds(item.evidenceIds),
+    verifiedAt: checkedAt,
+    messageable: type === 'human' && item.messageable === true,
+  };
+}
+
+function decisionMakersFromJson(value: string): LeadRadarDecisionMaker[] {
+  const raw = parseJson<unknown>(value, []);
+  if (!Array.isArray(raw)) return [];
+  const result: LeadRadarDecisionMaker[] = [];
+  for (const entry of raw.slice(0, 12)) {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) continue;
+    const item = entry as Record<string, unknown>;
+    const id = boundedText(item.id, 80);
+    const name = boundedText(item.name, 120);
+    const role = boundedText(item.role, 120);
+    const type = typeof item.contactType === 'string' && TELEGRAM_CONTACT_TYPE_SET.has(item.contactType)
+      ? item.contactType as TelegramContactType
+      : null;
+    const confidence = boundedConfidence(item.confidence);
+    const source = typeof item.sourceUrl === 'string' ? safePublicHttpUrl(item.sourceUrl) : null;
+    const evidence = boundedText(item.evidence, 360);
+    const checkedAt = verifiedAt(item.verifiedAt);
+    if (!id || !name || !role || !type || confidence === null || !source || !evidence || !checkedAt) continue;
+    const locator = type === 'human' ? telegramLocator(item.telegramUrl) : null;
+    const rawUsername = boundedText(item.telegramUsername, 32);
+    const hasBoundTelegram = Boolean(locator && rawUsername
+      && rawUsername.toLowerCase() === locator?.username.toLowerCase());
+    result.push({
+      id,
+      name,
+      role,
+      telegramUrl: hasBoundTelegram ? locator?.url ?? null : null,
+      telegramUsername: hasBoundTelegram ? locator?.username ?? null : null,
+      contactType: hasBoundTelegram ? 'human' : (type === 'human' ? 'unknown' : type),
+      confidence,
+      evidenceIds: boundedEvidenceIds(item.evidenceIds),
+      sourceUrl: source.toString(),
+      evidence,
+      verifiedAt: checkedAt,
+    });
+  }
+  return result;
 }
 
 function mapSearch(row: SearchRow): LeadRadarSearchSummary {
@@ -283,10 +396,11 @@ export class LeadRadarStore {
     const statements: D1PreparedStatement[] = [this.db.prepare(`INSERT INTO lead_radar_companies (
       id, org_id, search_id, canonical_key, name, category, city, country,
       address, website, domain, phone_digits, name_city_key,
-      phone, generic_email, telegram_url, score, confidence,
+      phone, generic_email, telegram_url, telegram_contact_json,
+      decision_makers_json, score, confidence,
       priority, lifecycle, suppressed, score_components_json, signals_json,
       discovered_at, last_verified_at, updated_at
-    ) SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    ) SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     WHERE NOT EXISTS (
       SELECT 1 FROM lead_radar_suppressions suppression
       WHERE suppression.org_id = ? AND (
@@ -300,7 +414,8 @@ export class LeadRadarStore {
         id, orgId, searchId, lead.canonicalKey, lead.name, lead.category,
         lead.city, lead.country, lead.address, lead.website,
         identity.domain, identity.phoneDigits, identity.nameCityKey, lead.phone,
-        lead.genericEmail, lead.telegramUrl, lead.score, lead.confidence,
+        lead.genericEmail, lead.telegramUrl, JSON.stringify(lead.telegramContact ?? null),
+        JSON.stringify(lead.decisionMakers ?? []), lead.score, lead.confidence,
         lead.priority, lead.lifecycle, lead.suppressed ? 1 : 0,
         JSON.stringify(lead.scoreComponents), JSON.stringify(lead.signals),
         lead.discoveredAt, lead.lastVerifiedAt, lead.lastVerifiedAt,
@@ -373,11 +488,12 @@ export class LeadRadarStore {
           nameCityKey: row.name_city_key ?? `${normalizeCompanyKey(row.name)}:${normalizeCompanyKey(row.city)}`,
         }, suppressions);
         const evidence = (evidenceByLead.get(row.id) ?? []).filter((item) => (
-          !suppressed || ![
-            'company_contacts.phone',
-            'company_contacts.generic_email',
-            'web.telegram',
-          ].includes(item.fieldPath)
+          !suppressed || !(
+            item.fieldPath === 'company_contacts.phone'
+            || item.fieldPath === 'company_contacts.generic_email'
+            || item.fieldPath.startsWith('web.telegram')
+            || item.fieldPath.startsWith('decision_makers')
+          )
         ));
         return {
           id: row.id,
@@ -391,6 +507,12 @@ export class LeadRadarStore {
           phone: suppressed ? null : row.phone,
           genericEmail: suppressed ? null : row.generic_email,
           telegramUrl: suppressed ? null : row.telegram_url,
+          telegramContact: suppressed
+            ? null
+            : telegramContactFromJson(row.telegram_contact_json),
+          decisionMakers: suppressed
+            ? []
+            : decisionMakersFromJson(row.decision_makers_json),
           score: Number(row.score),
           confidence: Number(row.confidence),
           priority: row.priority,
@@ -414,7 +536,10 @@ export class LeadRadarStore {
       (SELECT COUNT(*) FROM lead_radar_searches WHERE org_id = ?) AS searches,
       COUNT(*) AS leads,
       SUM(CASE WHEN priority = 'P1' THEN 1 ELSE 0 END) AS p1,
-      SUM(CASE WHEN telegram_url IS NOT NULL THEN 1 ELSE 0 END) AS telegram,
+      SUM(CASE WHEN json_valid(telegram_contact_json)
+        AND json_extract(telegram_contact_json, '$.type') = 'human'
+        AND json_extract(telegram_contact_json, '$.messageable') = 1
+        THEN 1 ELSE 0 END) AS telegram,
       SUM(CASE WHEN lifecycle IN ('replied','qualified','meeting','won') THEN 1 ELSE 0 END) AS replies,
       SUM(CASE WHEN lifecycle IN ('qualified','meeting','won') THEN 1 ELSE 0 END) AS qualified
       FROM lead_radar_companies WHERE org_id = ? AND suppressed = 0`).bind(orgId, orgId).first<Record<string, number | null>>();
@@ -495,9 +620,9 @@ export class LeadRadarStore {
         org_id, canonical_key, domain, phone_digits, name_city_key, suppressed_at, reason
       ) VALUES (?, ?, ?, ?, ?, ?, 'do_not_contact')
       ON CONFLICT(org_id, canonical_key) DO UPDATE SET
-        domain = COALESCE(excluded.domain, lead_radar_suppressions.domain),
-        phone_digits = COALESCE(excluded.phone_digits, lead_radar_suppressions.phone_digits),
-        name_city_key = COALESCE(excluded.name_city_key, lead_radar_suppressions.name_city_key),
+        domain = COALESCE(lead_radar_suppressions.domain, excluded.domain),
+        phone_digits = COALESCE(lead_radar_suppressions.phone_digits, excluded.phone_digits),
+        name_city_key = COALESCE(lead_radar_suppressions.name_city_key, excluded.name_city_key),
         suppressed_at = excluded.suppressed_at,
         reason = excluded.reason`).bind(
           orgId, identity.canonicalKey, identity.domain,
