@@ -101,6 +101,7 @@ function loadPages(): Page[] {
 // Load published blog articles so each money page can show related posts
 // pointing back at it (article.targetMoneyPage === page.url).
 import type { BlogArticle } from '../src/shared/types';
+import { gptChatNavLinks } from './gpt-chat-nav';
 function loadPublishedArticles(): BlogArticle[] {
   const files = fg.sync('blog/**/*.json', { cwd: CONTENT_DIR, absolute: true });
   return files
@@ -384,19 +385,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const loading = uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…';
   const appLabel = uz ? 'AI-chat ilovasi' : 'Приложение AI-чата';
   const navLabel = uz ? 'Foydali sahifalar' : 'Полезные страницы';
-  const links = uz
-    ? [
-        { href: '/uz/gpt-chat-qollanma/', text: 'AI-chat qo‘llanmasi' },
-        { href: '/uz/chat-bot-narxi/', text: 'Tariflar' },
-        { href: '/uz/biznes-uchun-ai-bot/', text: 'Biznes uchun AI' },
-        { href: '/uz/blog/', text: 'Blog' },
-      ]
-    : [
-        { href: '/ru/gpt-chat-guide/', text: 'Гайд по AI-чату' },
-        { href: '/ru/tarify-ai-chat/', text: 'Тарифы' },
-        { href: '/ru/gpt-dlya-biznesa/', text: 'AI для бизнеса' },
-        { href: '/ru/blog/', text: 'Блог' },
-      ];
+  const links = gptChatNavLinks(page);
 
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
