@@ -77,9 +77,9 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
 
   const cta = global.defaultCTA || { label: 'Запустить демо в Telegram', href: 'https://t.me/XGame_changerx' };
 
-  // Single self-contained block. No inline styles that could clash with
-  // React-rendered UI (React replaces this entire subtree on mount). Crawlers
-  // only need the text + anchors, so we keep it semantically clean.
+  // Single self-contained fallback block. index.html contains a tiny critical
+  // first-paint guard that hides it while JavaScript is enabled; a noscript
+  // override keeps this semantic content available when React cannot mount.
   return `
 <div data-seo-shell="homepage" data-testid="seo-shell">
   <header>

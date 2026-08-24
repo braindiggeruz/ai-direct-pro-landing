@@ -66,6 +66,15 @@ test('homepage SEO intent and share image remain explicit', () => {
   assert.match(html, /ai-sales-assistant-workspace-1536\.avif 1536w/);
 });
 
+test('the prerendered SEO fallback cannot flash before React mounts', () => {
+  const html = read('index.html');
+  const prerender = read('scripts/prerender-home.ts');
+
+  assert.match(html, /<style id="seo-shell-first-paint">\[data-seo-shell="homepage"\]\{display:none!important\}<\/style>/);
+  assert.match(html, /<noscript><style>\[data-seo-shell="homepage"\]\{display:block!important\}<\/style><\/noscript>/);
+  assert.match(prerender, /data-seo-shell="homepage"/);
+});
+
 test('the compact lead journey stays in the live product proof', () => {
   const journey = read('src/components/DemoChat.tsx');
   const app = read('src/App.tsx');
