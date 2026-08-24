@@ -52,7 +52,7 @@
     {"target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini","locale":"uz","type":"contextual","priority":4},
     {"target":"/uz/gpt-uzbek-tilida-ai-chat/","anchor":"GPTdan foydalanish qo'llanmasi","locale":"uz","type":"contextual","priority":5}
   ],
-  "ogTitle":"ChatGPT ilovasini yuklab olish: rasmiy havolalar",
+  "ogTitle":"ChatGPT ilovasini o‘zbek tilida yuklab olish: rasmiy havolalar",
   "ogDescription":"Android, iPhone, Windows va macOS uchun rasmiy ChatGPT havolalari, o‘zbek tilida ishlatish va soxta APKdan himoya.",
   "ogImage":"https://gptbot.uz/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
   "canonical":"https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
@@ -61,7 +61,7 @@
   "robotsFollow":true,
   "author":"Борис Герасимов",
   "datePublished":"2026-07-30",
-  "dateModified":"2026-08-20",
+  "dateModified":"2026-08-24",
   "schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
   "createdAt":"2026-07-30T00:00:00.000Z",
   "updatedAt":"2026-08-20T00:00:00.000Z",

@@ -133,58 +133,73 @@ test('the measurement id is a public GA4 id, not a secret', () => {
 });
 
 // ── Local development must never reach the production property ───────────────
-// GA4 property 540129731 was receiving hits with hostName 127.0.0.1, which
+// GA4 property 540129731 was recording hits with hostName 127.0.0.1, which
 // contaminates exactly the low-count generate_lead signal the funnel is measured
-// on. Loopback hosts are now refused by the inline block; production and
-// *.pages.dev previews are deliberately still measured.
-test('analytics refuses to boot on loopback hosts', () => {
+// on. Every inline analytics block must refuse loopback hosts BEFORE it
+// transmits. Asserted per block, not per file: a whole-file substring search
+// passes as soon as any one block carries the guard, which silently leaves the
+// other blocks uncovered.
+const LOOPBACK = ['localhost', '127.0.0.1', '::1'];
+
+/** Every `<script data-tag="…">` block in a file, keyed by tag. */
+function inlineAnalyticsBlocks(src: string): { tag: string; body: string }[] {
+  const out: { tag: string; body: string }[] = [];
+  const re = /<script data-tag="([^"]+)"[^>]*>([\s\S]*?)<\/script>/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(src))) out.push({ tag: m[1], body: m[2] });
+  return out;
+}
+
+test('every inline analytics block refuses loopback hosts', () => {
   const sources: [string, string][] = [
-    ['analytics-snippet.ts', ANALYTICS_HEAD],
+    ['scripts/analytics-snippet.ts', ANALYTICS_HEAD],
+    ['scripts/prerender.ts', fs.readFileSync(path.join(process.cwd(), 'scripts/prerender.ts'), 'utf8')],
+    ['scripts/prerender-blog.ts', fs.readFileSync(path.join(process.cwd(), 'scripts/prerender-blog.ts'), 'utf8')],
     ['index.html', fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8')],
   ];
+  let checked = 0;
   for (const [label, src] of sources) {
-    for (const host of ['localhost', '127.0.0.1', '::1']) {
-      assert.ok(
-        src.includes(`'${host}'`),
-        `${label} does not guard against ${host} — local traffic will reach GA4`,
-      );
-    }
-    assert.match(src, /location\.hostname/, `${label} must read location.hostname to guard the host`);
-  }
-});
-
-test('analytics still boots on the production host', () => {
-  // The guard must be a loopback denylist, not an allowlist that could silently
-  // switch production off if the domain ever changes.
-  const sources = [ANALYTICS_HEAD, fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8')];
-  for (const src of sources) {
-    assert.ok(
-      !/hostname\s*!==\s*'gptbot\.uz'/.test(src.replace(/data-tag="ym"[\s\S]*/, '')),
-      'the GA/Pixel guard must not allowlist a single hostname — use the loopback denylist',
-    );
-  }
-});
-
-// Every analytics surface, not just GA4. The GTM container GTM-NLR4WFX8 is
-// injected by prerender.ts, prerender-blog.ts (twice) and index.html, and it
-// loads googletagmanager.com after first interaction — so an unguarded copy
-// leaks local development traffic exactly like the GA block did.
-test('every injected analytics block guards loopback hosts', () => {
-  const files = ['scripts/prerender.ts', 'scripts/prerender-blog.ts', 'index.html'];
-  for (const rel of files) {
-    const src = fs.readFileSync(path.join(process.cwd(), rel), 'utf8');
-    const blocks = src.split('<script data-tag="gtm"').slice(1);
-    assert.ok(blocks.length > 0, `${rel} carries no gtm block — has the tag been renamed?`);
-    for (const [i, block] of blocks.entries()) {
-      const head = block.slice(0, 500);
-      assert.match(
-        head,
-        /hostname/,
-        `${rel} gtm block #${i + 1} does not read the hostname — local traffic will reach GTM`,
-      );
-      for (const host of ['localhost', '127.0.0.1']) {
-        assert.ok(head.includes(`'${host}'`), `${rel} gtm block #${i + 1} does not guard ${host}`);
+    for (const { tag, body } of inlineAnalyticsBlocks(src)) {
+      // Yandex Metrika ships its own production-hostname allowlist.
+      if (tag === 'ym') continue;
+      checked += 1;
+      assert.match(body, /location\.hostname/, `${label} block data-tag="${tag}" never reads location.hostname`);
+      for (const host of LOOPBACK) {
+        assert.ok(
+          body.includes(`'${host}'`),
+          `${label} block data-tag="${tag}" does not guard ${host} — local traffic will be recorded`,
+        );
       }
+      // The guard must precede anything that transmits or queues.
+      const guardAt = body.indexOf('location.hostname');
+      for (const sink of ['googletagmanager.com', 'connect.facebook.net', 'dataLayer']) {
+        const sinkAt = body.indexOf(sink);
+        if (sinkAt === -1) continue;
+        assert.ok(
+          guardAt < sinkAt,
+          `${label} block data-tag="${tag}" touches ${sink} before the host guard runs`,
+        );
+      }
+    }
+  }
+  assert.ok(checked >= 5, `expected at least 5 guarded analytics blocks, checked ${checked}`);
+});
+
+test('the host guard is a loopback denylist, not a single-host allowlist', () => {
+  // An allowlist would silently switch production analytics off the day the
+  // domain changes. Metrika deliberately uses one; GA/Pixel/GTM must not.
+  const sources = [
+    ANALYTICS_HEAD,
+    fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8'),
+    fs.readFileSync(path.join(process.cwd(), 'scripts/prerender.ts'), 'utf8'),
+  ];
+  for (const src of sources) {
+    for (const { tag, body } of inlineAnalyticsBlocks(src)) {
+      if (tag === 'ym') continue;
+      assert.ok(
+        !/hostname\s*!==\s*'gptbot\.uz'/.test(body),
+        `block data-tag="${tag}" allowlists a single hostname — use the loopback denylist`,
+      );
     }
   }
 });

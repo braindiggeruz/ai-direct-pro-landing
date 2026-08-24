@@ -15,12 +15,12 @@
   "searchIntent": "commercial",
   "h1": "O'zbekistonda biznes uchun chat-bot narxi",
   "title": "Chat-bot narxi — tarif va narxlar 2026 | GPTBot",
-  "description": "O'zbekistonda biznes uchun chat-bot qancha turadi: tariflar 990 000 so‘mdan, narxga nima kiradi va u nimaga bog'liq. Vazifangizga aniq smeta.",
+  "description": "O‘zbekistonda biznes uchun chat-bot qancha turadi: tariflar 990 000 so‘mdan, narxga nima kiradi va u nimaga bog‘liq. Vazifangizga aniq smeta.",
   "canonical": "https://gptbot.uz/uz/chat-bot-narxi/",
   "hreflangRu": "/ru/stoimost-chat-bota/",
   "hreflangUz": "/uz/chat-bot-narxi/",
   "ogTitle": "Biznes uchun chat-bot narxi — tarif va narxlar | GPTBot",
-  "ogDescription": "Chat-bot tariflari 990 000 so‘mdan. Narxga nima kiradi va u nimaga bog'liq. Vazifaga aniq smeta.",
+  "ogDescription": "Chat-bot tariflari 990 000 so‘mdan. Narxga nima kiradi va u nimaga bog‘liq. Vazifaga aniq smeta.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -277,7 +277,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-08-24",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-08-24"
 }
