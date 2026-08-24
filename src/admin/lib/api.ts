@@ -565,6 +565,31 @@ export const api = {
       { mode },
     ),
 
+  // Evidence-first B2B company discovery. The server only exports values
+  // carrying a source URL and never fabricates a missing company/contact.
+  leadRadarOverview: () =>
+    request<import('../../shared/lead-radar').LeadRadarOverview>('GET', '/api/admin/lead-radar'),
+  leadRadarSearch: (input: import('../../shared/lead-radar').LeadRadarSearchInput) =>
+    request<import('../../shared/lead-radar').LeadRadarSearchResult>(
+      'POST',
+      '/api/admin/lead-radar/searches',
+      input,
+      { timeoutMs: 120_000 },
+    ),
+  leadRadarSearchResult: (searchId: string) =>
+    request<import('../../shared/lead-radar').LeadRadarSearchResult>(
+      'GET',
+      `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}`,
+    ),
+  leadRadarSetLifecycle: (
+    leadId: string,
+    lifecycle: import('../../shared/lead-radar').LeadRadarLifecycle,
+  ) => request<{ ok: true; lifecycle: import('../../shared/lead-radar').LeadRadarLifecycle }>(
+    'PATCH',
+    `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}`,
+    { lifecycle },
+  ),
+
   // ─── Intent Guard / Anti-cannibalization ─────────────────────────────────
   contentInventory: () =>
     request<{

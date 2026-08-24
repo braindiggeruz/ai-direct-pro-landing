@@ -57,6 +57,19 @@ body.mobile-menu-open {
   outline-offset: 3px;
 }
 
+/* Lead Radar keeps secondary metadata readable at WCAG AA contrast. Tailwind
+   opacity utilities below this threshold are useful on marketing art, but a
+   dense operator console cannot trade legibility for atmosphere. */
+[data-testid='lead-radar-page'] :is(
+  .text-white\/25,
+  .text-white\/30,
+  .text-white\/35,
+  .text-white\/40,
+  .text-white\/45
+) {
+  color: rgba(255, 255, 255, 0.68);
+}
+
 .skip-link {
   position: fixed;
   top: 0.75rem;

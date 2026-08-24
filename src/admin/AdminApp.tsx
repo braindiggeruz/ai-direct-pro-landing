@@ -14,6 +14,7 @@ import Settings from './pages/Settings';
 import AiDraftsList from './pages/AiDraftsList';
 import AiDraftDetail from './pages/AiDraftDetail';
 import SeoAutopilotControlCenter from './pages/SeoAutopilotControlCenter';
+import LeadRadar from './pages/LeadRadar';
 import OwnerOverview from './pages/owner/OwnerOverview';
 import OwnerStores from './pages/owner/OwnerStores';
 import OwnerStoreDetail from './pages/owner/OwnerStoreDetail';
@@ -90,6 +91,7 @@ export default function AdminApp() {
         <Route path={ADMIN_ROUTE_PATHS.drafts} element={<RequireAuth><Shell><AiDraftsList/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.draftDetail} element={<RequireAuth><Shell><AiDraftDetail/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.seoAutopilot} element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.leadRadar} element={<RequireAuth><Shell><LeadRadar/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.internalLinks} element={<RequireAuth><Shell><InternalLinksPage/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.seoBooster} element={<RequireAuth><Shell><SeoBooster/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.indexNow} element={<RequireAuth><Shell><IndexNowPanel/></Shell></RequireAuth>} />
