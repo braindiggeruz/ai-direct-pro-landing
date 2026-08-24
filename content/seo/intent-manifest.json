@@ -289,6 +289,7 @@
         "mustNotTarget": ["chatgpt ilovasini yuklab olish", "chatgpt yuklab olish uzbek tilida"]
       },
       "gscNote": "A 24-hour Google Search Console sample reviewed on 2026-08-20 showed 399 visible impressions across Uzbek ChatGPT download, access and online-use variants. The strongest uncovered phrase was «chatgpt yuklab olish uzbek tilida», while «chatgpt ochish» formed a separate access intent.",
+  "observedOwnerNote": "Verified 2026-08-24 against 28-day Uzbekistan GSC. The fence below is the INTENDED ownership; Google routes «chatgpt ochish» the other way. The commercial URL — which mustNotTarget it — receives 264 impressions at position 9.33, while the informational URL designated to own it receives 27 at position 6.85. The fence is deliberately kept (the two intents are genuinely distinct and the informational page holds the better position), but future agents must not read this pair as a statement of observed ranking. Also measured that day: «chatgpt yuklab olish uzbek tilida» supplies 2 754 of the commercial URL's 3 547 impressions (78%), which is why its title now carries the «o‘zbek tilida» modifier.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-08-20"
     },
