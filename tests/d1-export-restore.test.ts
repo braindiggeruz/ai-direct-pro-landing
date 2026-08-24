@@ -22,6 +22,22 @@ test('D1 restore: the splitter preserves quoted and commented semicolons', () =>
   assert.match(statements[2], /"three;four"/);
 });
 
+test('D1 restore: the splitter keeps a complete trigger body together', () => {
+  const statements = splitSqlStatements(`
+    CREATE TABLE sample (value TEXT);
+    CREATE TRIGGER sample_no_delete
+    BEFORE DELETE ON sample
+    BEGIN
+      SELECT RAISE(ABORT, 'sample; is append-only');
+    END;
+    CREATE INDEX idx_sample_value ON sample (value);
+  `);
+
+  assert.equal(statements.length, 3);
+  assert.match(statements[1], /^CREATE TRIGGER[\s\S]*RAISE[\s\S]*END;$/);
+  assert.match(statements[2], /^CREATE INDEX/);
+});
+
 test('D1 restore: only the existing store parent index changes position', () => {
   const statements = [
     'BEGIN TRANSACTION;',

@@ -58,6 +58,7 @@ export function splitSqlStatements(sql: string): string[] {
   let quote: "'" | '"' | '`' | null = null;
   let lineComment = false;
   let blockComment = false;
+  let triggerStatement = false;
 
   for (let index = 0; index < sql.length; index += 1) {
     const current = sql[index];
@@ -105,8 +106,15 @@ export function splitSqlStatements(sql: string): string[] {
       continue;
     }
     if (current === ';') {
+      if (!triggerStatement && /\bCREATE\s+(?:TEMP(?:ORARY)?\s+)?TRIGGER\b/i.test(buffer)) {
+        triggerStatement = true;
+      }
+      // A trigger body contains ordinary SQL statements terminated by
+      // semicolons. The trigger itself ends only at its standalone `END;`.
+      if (triggerStatement && !/(?:^|\r?\n)\s*END\s*;\s*$/i.test(buffer)) continue;
       if (buffer.trim()) statements.push(buffer.trim());
       buffer = '';
+      triggerStatement = false;
     }
   }
 
@@ -209,12 +217,22 @@ export async function restoreD1Export(options: CliOptions): Promise<RestoreRepor
   const db = new DatabaseSync(options.databasePath);
 
   try {
-    for (let index = 0; index < prepared.statements.length; index += 1) {
-      try {
-        db.exec(prepared.statements[index]);
-      } catch {
-        throw new Error(`restore_failed:statement_${index + 1}`);
+    const exportControlsTransaction = prepared.statements.some((statement) => (
+      /^\s*BEGIN(?:\s+TRANSACTION|\s+IMMEDIATE|\s+EXCLUSIVE)?\b/i.test(statement)
+    ));
+    if (!exportControlsTransaction) db.exec('BEGIN IMMEDIATE');
+    try {
+      for (let index = 0; index < prepared.statements.length; index += 1) {
+        try {
+          db.exec(prepared.statements[index]);
+        } catch {
+          throw new Error(`restore_failed:statement_${index + 1}`);
+        }
       }
+      if (!exportControlsTransaction) db.exec('COMMIT');
+    } catch (error) {
+      if (!exportControlsTransaction) db.exec('ROLLBACK');
+      throw error;
     }
 
     db.exec('PRAGMA foreign_keys = ON');
