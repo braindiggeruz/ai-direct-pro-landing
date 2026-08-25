@@ -164,6 +164,13 @@
     },
     {
       "type": "linkp",
+      "text": "AI chat matn va g‘oya beradi, lekin mijoz taklifni ko‘rishi, narxni tushunishi va ariza qoldirishi uchun alohida joy kerak bo‘ladi. Shu vazifani {sayt} yopadi: bitta sahifa, aniq taklif va ishlaydigan ariza formasi.",
+      "links": [
+        {"token":"sayt","target":"/uz/sayt-yaratish/","anchor":"biznes uchun sayt yaratish"}
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Kompaniyalar uchun farq va joriy etish rejasi {business} maqolasida.",
       "links": [
         {"token":"business","target":"/uz/blog/chat-gpt-uzbek-biznes-uchun/","anchor":"ChatGPT va AI-bot biznes uchun"}
