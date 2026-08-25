@@ -234,6 +234,18 @@ export interface LeadRadarApiCapabilities {
   admissionEnabled: boolean;
   processingEnabled: boolean;
   contactEnabled: boolean;
+  /** Corporate Telegram discovery/ranking in research mode; no personal data or send authority. */
+  telegramDiscoveryEnabled?: boolean;
+  /** Visibility of fresh, reviewed personal contacts. Kept optional for older snapshots. */
+  personalContactsEnabled?: boolean;
+  /** Permission for the existing one-company outreach flow. */
+  individualOutreachEnabled?: boolean;
+  /** Permission to start the isolated user-account QR connection flow. */
+  telegramAccountEnabled?: boolean;
+  /** Permission to create and dispatch campaigns through a dedicated user account. */
+  campaignOutreachEnabled?: boolean;
+  /** Final provider-side send gate; campaign drafting can remain available while false. */
+  campaignAutoSendEnabled?: boolean;
   mode: 'paused' | 'research' | 'contact';
 }
 

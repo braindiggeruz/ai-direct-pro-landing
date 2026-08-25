@@ -1068,8 +1068,25 @@ function issue(
 }
 
 function isLeadRadarSchemaRow(row: Record<string, unknown>): boolean {
-  return text(row.name) !== 'd1_migrations'
-    && (text(row.name).startsWith('lead_radar_') || text(row.tbl_name).startsWith('lead_radar_'));
+  const name = text(row.name);
+  const tableName = text(row.tbl_name);
+  // Migration 0045 is an independently gated campaign extension. Keeping it
+  // outside the research-funnel v2 contract permits a rolling, additive
+  // migration without taking ordinary Lead Radar reads offline. The campaign
+  // module owns a separate exact read-only contract and refuses every account
+  // or campaign operation until that extension matches in full.
+  const campaignExtension = (value: string) => (
+    value === 'lead_radar_tg_user_accounts'
+    || value === 'lead_radar_tg_campaigns'
+    || value.startsWith('lead_radar_tg_campaign_')
+    || value.startsWith('idx_lead_radar_tg_user_accounts_')
+    || value.startsWith('idx_lead_radar_tg_campaigns_')
+    || value.startsWith('idx_lead_radar_tg_campaign_')
+  );
+  return name !== 'd1_migrations'
+    && !campaignExtension(name)
+    && !campaignExtension(tableName)
+    && (name.startsWith('lead_radar_') || tableName.startsWith('lead_radar_'));
 }
 
 function evaluateStructure(inspection: Inspection, stage: MigrationStage): LeadRadarSchemaIssue[] {

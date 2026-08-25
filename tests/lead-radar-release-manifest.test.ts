@@ -56,6 +56,10 @@ function readyInput(): ReleaseManifestInputV1 {
           LEAD_RADAR_PROCESSING_ENABLED: false,
           LEAD_RADAR_ADMISSION_ENABLED: false,
           LEAD_RADAR_CONTACT_ENABLED: false,
+          LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: false,
+          LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: false,
+          LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: false,
+          LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED: false,
         },
       },
       pii_locations: [
@@ -118,6 +122,10 @@ test('release manifest: identical snapshots serialize byte-for-byte deterministi
     LEAD_RADAR_CONTACT_ENABLED: false,
     LEAD_RADAR_PROCESSING_ENABLED: false,
     LEAD_RADAR_ADMISSION_ENABLED: false,
+    LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED: false,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: false,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: false,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: false,
   };
 
   const a = captureReleaseManifest(first);
@@ -227,6 +235,10 @@ test('release manifest: every required missing snapshot is explicit and blocks r
   assert.ok(unknownFields.has('states.PROD.d1.physical_schema'));
   assert.ok(unknownFields.has('states.PROD.lead_radar.flags.LEAD_RADAR_PROCESSING_ENABLED'));
   assert.ok(unknownFields.has('states.PROD.lead_radar.flags.LEAD_RADAR_CONTACT_ENABLED'));
+  assert.ok(unknownFields.has('states.PROD.lead_radar.flags.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED'));
+  assert.ok(unknownFields.has('states.PROD.lead_radar.flags.LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED'));
+  assert.ok(unknownFields.has('states.PROD.lead_radar.flags.LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED'));
+  assert.ok(unknownFields.has('states.PROD.lead_radar.flags.LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED'));
   assert.ok(unknownFields.has('states.WIP.repo.dirty_paths'));
   assert.ok(manifest.unknowns.every((unknown) => unknown.required_for_release));
 });

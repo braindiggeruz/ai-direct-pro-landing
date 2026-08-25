@@ -1,7 +1,30 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 
 import worker, { settleLeadRadarRetryWait } from '../workers/automation-worker';
+import {
+  completeTelegramUserAccountConnection,
+  createApprovedTelegramCampaign,
+  createTelegramUserAccountPending,
+  prepareTelegramCampaign,
+  transitionTelegramCampaign,
+  type TelegramCampaignQueueMessage,
+} from '../functions/platform/lead-radar/telegram-campaign';
+import { SqliteD1 } from './helpers/sqlite-d1';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+const CAMPAIGN_MIGRATIONS = [
+  '0036_lead_radar.sql',
+  '0041_lead_radar_search_leases.sql',
+  '0042_lead_radar_decision_makers.sql',
+  '0043_lead_radar_async_funnel.sql',
+  '0044_lead_radar_telegram_business.sql',
+  '0045_lead_radar_telegram_campaigns.sql',
+] as const;
+const CAMPAIGN_ORG = 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+const CAMPAIGN_DATA_KEY = Buffer.alloc(32, 17).toString('base64url');
 
 interface RecordedMessage {
   body: unknown;
@@ -102,7 +125,10 @@ function fakeQueue(): Queue<unknown> & { sent: unknown[] } {
   } as unknown as Queue<unknown> & { sent: unknown[] };
 }
 
-function environment(db: FakeD1, overrides: Record<string, unknown> = {}): Parameters<typeof worker.queue>[1] {
+function environment(
+  db: { asD1(): D1Database },
+  overrides: Record<string, unknown> = {},
+): Parameters<typeof worker.queue>[1] {
   return {
     GPTBOT_DRAFTS_DB: db.asD1(),
     AUTOMATION_QUEUE: fakeQueue(),
@@ -116,6 +142,181 @@ function environment(db: FakeD1, overrides: Record<string, unknown> = {}): Param
     FIRST_PARTY_AUTOMATION_ENABLED: 'false',
     ...overrides,
   } as unknown as Parameters<typeof worker.queue>[1];
+}
+
+function campaignDatabase(): SqliteD1 {
+  const db = new SqliteD1();
+  db.exec(`CREATE TABLE organizations (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    slug TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL CHECK (status IN ('active', 'suspended', 'archived')),
+    default_locale TEXT NOT NULL CHECK (default_locale IN ('ru', 'uz')),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );
+  CREATE TABLE d1_migrations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );`);
+  const now = new Date(Date.now() - 60_000).toISOString();
+  db.sqlite.prepare(`INSERT INTO organizations (
+    id, name, slug, status, default_locale, created_at, updated_at
+  ) VALUES (?, 'Worker fixture', 'worker-fixture', 'active', 'ru', ?, ?)`)
+    .run(CAMPAIGN_ORG, now, now);
+  for (const filename of CAMPAIGN_MIGRATIONS) {
+    db.exec(readFileSync(path.join(ROOT, 'migrations', filename), 'utf8'));
+    db.sqlite.prepare('INSERT INTO d1_migrations (name) VALUES (?)').run(filename);
+  }
+  return db;
+}
+
+async function runningCampaignFixture(): Promise<{
+  db: SqliteD1;
+  envelope: TelegramCampaignQueueMessage;
+}> {
+  const db = campaignDatabase();
+  const now = new Date(Date.now() - 60_000);
+  const companyId = 'company_worker_campaign';
+  const searchId = 'search_worker_campaign';
+  const evidenceId = 'evidence_worker_campaign';
+  const username = 'WorkerCampaignClinic';
+  db.sqlite.prepare(`INSERT INTO lead_radar_searches (
+    id, org_id, input_json, status, created_at
+  ) VALUES (?, ?, '{}', 'ready', ?)`)
+    .run(searchId, CAMPAIGN_ORG, now.toISOString());
+  db.sqlite.prepare(`INSERT INTO lead_radar_companies (
+    id, org_id, search_id, canonical_key, name, category, city, country,
+    score, confidence, priority, score_components_json, signals_json,
+    discovered_at, last_verified_at, updated_at, website,
+    telegram_contact_json, lifecycle, suppressed
+  ) VALUES (?, ?, ?, ?, 'Worker Campaign Clinic', 'clinic', 'Tashkent', 'UZ',
+    90, 0.95, 'P1', '[]', '[]', ?, ?, ?, 'https://worker-campaign.example/',
+    ?, 'new', 0)`)
+    .run(
+      companyId,
+      CAMPAIGN_ORG,
+      searchId,
+      `worker:${companyId}`,
+      now.toISOString(),
+      now.toISOString(),
+      now.toISOString(),
+      JSON.stringify({
+        url: `https://t.me/${username}`,
+        username,
+        type: 'business',
+        confidence: 0.95,
+        reason: 'verified fixture',
+        evidenceIds: [evidenceId],
+        verifiedAt: now.toISOString(),
+        messageable: false,
+      }),
+    );
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence (
+    id, org_id, company_id, field_path, value, source_url, source_type,
+    observed_at, confidence, classification
+  ) VALUES (?, ?, ?, 'web.telegram.business', ?,
+    'https://worker-campaign.example/contact', 'company_website', ?, 0.95, 'fact')`)
+    .run(
+      evidenceId,
+      CAMPAIGN_ORG,
+      companyId,
+      `https://t.me/${username}`,
+      now.toISOString(),
+    );
+  const pending = await createTelegramUserAccountPending({
+    db: db.asD1(),
+    dataKey: CAMPAIGN_DATA_KEY,
+    orgId: CAMPAIGN_ORG,
+    authRequestReference: 'gateway_auth_worker_campaign_0001',
+    idempotencyKey: 'worker_account_connect_0001',
+    now,
+  });
+  const account = await completeTelegramUserAccountConnection({
+    db: db.asD1(),
+    dataKey: CAMPAIGN_DATA_KEY,
+    orgId: CAMPAIGN_ORG,
+    accountId: pending.account.id,
+    gatewayAccountRef: 'gateway_account_worker_campaign_0001',
+    expectedVersion: pending.account.stateVersion,
+    now,
+  });
+  const template = 'Здравствуйте, {company_name}!';
+  const prepared = await prepareTelegramCampaign({
+    db: db.asD1(),
+    dataKey: CAMPAIGN_DATA_KEY,
+    orgId: CAMPAIGN_ORG,
+    accountId: account.id,
+    companyIds: [companyId],
+    template,
+    operatorId: 'owner@example.test',
+    idempotencyKey: 'worker_campaign_prepare_0001',
+    contactBasis: 'existing_relationship',
+    minIntervalSeconds: 30,
+    now,
+  });
+  const created = await createApprovedTelegramCampaign({
+    db: db.asD1(),
+    dataKey: CAMPAIGN_DATA_KEY,
+    orgId: CAMPAIGN_ORG,
+    accountId: account.id,
+    companyIds: [companyId],
+    template,
+    operatorId: 'owner@example.test',
+    contactBasis: 'existing_relationship',
+    approvalToken: prepared.approvalToken,
+    expectedSelectionDigest: prepared.selectionDigest,
+    expectedContentDigest: prepared.contentDigest,
+    idempotencyKey: 'worker_campaign_create_0001',
+    minIntervalSeconds: 30,
+    now,
+  });
+  await transitionTelegramCampaign({
+    db: db.asD1(),
+    dataKey: CAMPAIGN_DATA_KEY,
+    orgId: CAMPAIGN_ORG,
+    campaignId: created.campaign.id,
+    action: 'start',
+    operatorId: 'owner@example.test',
+    idempotencyKey: 'worker_campaign_start_0001',
+    now,
+  });
+  return {
+    db,
+    envelope: {
+      schema: 'gptbot.lead-radar.telegram-campaign.v1',
+      campaign_id: created.campaign.id,
+      org_id: CAMPAIGN_ORG,
+      state_version: Number(db.value(
+        'SELECT state_version FROM lead_radar_tg_campaigns WHERE org_id = ? AND id = ?',
+        CAMPAIGN_ORG,
+        created.campaign.id,
+      )),
+    },
+  };
+}
+
+function privateTelegramService(): {
+  binding: Fetcher;
+  calls: Array<Record<string, unknown>>;
+} {
+  const calls: Array<Record<string, unknown>> = [];
+  return {
+    calls,
+    binding: {
+      async fetch(_input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+        calls.push(JSON.parse(String(init?.body)) as Record<string, unknown>);
+        return new Response(JSON.stringify({
+          schema: 'gptbot.lead-radar.telegram-account-service.v1',
+          status: 'sent',
+          provider_message_id: 'worker-provider-message-1',
+        }), {
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        });
+      },
+    } as Fetcher,
+  };
 }
 
 function batch(messages: Message<unknown>[]): MessageBatch<unknown> {
@@ -141,6 +342,30 @@ test('processing pause ACKs Lead Radar without touching D1 and preserves SEO ret
   assert.deepEqual(db.sql, []);
   assert.equal(seo.acknowledgements, 0);
   assert.deepEqual(seo.retries, [300]);
+});
+
+test('missing private Telegram binding ACKs campaign before schema access or recipient claim', async () => {
+  const db = new FakeD1(false, true);
+  const campaign = queueMessage({
+    schema: 'gptbot.lead-radar.telegram-campaign.v1',
+    campaign_id: `lrtgc_${'1'.repeat(32)}`,
+    org_id: `owner_${'a'.repeat(24)}`,
+    state_version: 1,
+  });
+
+  await worker.queue(batch([campaign]), environment(db, {
+    LEAD_RADAR_ALLOWED_ORGS: `owner_${'a'.repeat(24)}`,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: Buffer.alloc(32, 7).toString('base64url'),
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '10',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '120',
+  }), {} as ExecutionContext);
+
+  assert.equal(campaign.acknowledgements, 1);
+  assert.deepEqual(campaign.retries, []);
+  assert.deepEqual(db.sql, []);
 });
 
 test('durable business retries use the exact Queue delay while lease conflicts are ACKed', () => {
@@ -212,4 +437,143 @@ test('scheduled Lead Radar failure does not stop the existing automation schedul
 
   assert.ok(db.sql.some((sql) => sql.includes('CREATE TABLE IF NOT EXISTS automation_jobs')));
   assert.ok(db.sql.some((sql) => sql.includes('SELECT * FROM automation_jobs')));
+});
+
+test('disabled Telegram campaign autosend ACKs without a claim or provider effect', async (t) => {
+  const { db, envelope } = await runningCampaignFixture();
+  t.after(() => db.sqlite.close());
+  const service = privateTelegramService();
+  const message = queueMessage(envelope);
+
+  await worker.queue(batch([message]), environment(db, {
+    LEAD_RADAR_ALLOWED_ORGS: CAMPAIGN_ORG,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: CAMPAIGN_DATA_KEY,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE: service.binding,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'false',
+  }), {} as ExecutionContext);
+
+  assert.equal(message.acknowledgements, 1);
+  assert.deepEqual(message.retries, []);
+  assert.equal(service.calls.length, 0);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_recipients WHERE campaign_id = ?',
+    envelope.campaign_id,
+  ), 'pending');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?',
+    envelope.campaign_id,
+  ), 'reserved');
+  assert.equal(db.value(
+    'SELECT dispatch_lease_digest FROM lead_radar_tg_user_accounts WHERE org_id = ?',
+    CAMPAIGN_ORG,
+  ), null);
+  assert.equal(db.value(
+    'SELECT daily_reserved_count FROM lead_radar_tg_user_accounts WHERE org_id = ?',
+    CAMPAIGN_ORG,
+  ), 0);
+});
+
+test('missing private Telegram binding ACKs without a claim or ambiguous delivery', async (t) => {
+  const { db, envelope } = await runningCampaignFixture();
+  t.after(() => db.sqlite.close());
+  const message = queueMessage(envelope);
+
+  await worker.queue(batch([message]), environment(db, {
+    LEAD_RADAR_ALLOWED_ORGS: CAMPAIGN_ORG,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: CAMPAIGN_DATA_KEY,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
+  }), {} as ExecutionContext);
+
+  assert.equal(message.acknowledgements, 1);
+  assert.deepEqual(message.retries, []);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_recipients WHERE campaign_id = ?',
+    envelope.campaign_id,
+  ), 'pending');
+  assert.equal(db.value(
+    'SELECT ambiguous_count FROM lead_radar_tg_campaigns WHERE id = ?',
+    envelope.campaign_id,
+  ), 0);
+  assert.equal(db.value(
+    'SELECT dispatch_lease_digest FROM lead_radar_tg_user_accounts WHERE org_id = ?',
+    CAMPAIGN_ORG,
+  ), null);
+});
+
+test('enabled Telegram campaign envelope sends once through the private binding', async (t) => {
+  const { db, envelope } = await runningCampaignFixture();
+  t.after(() => db.sqlite.close());
+  const service = privateTelegramService();
+  const message = queueMessage(envelope);
+
+  await worker.queue(batch([message]), environment(db, {
+    LEAD_RADAR_ALLOWED_ORGS: CAMPAIGN_ORG,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: CAMPAIGN_DATA_KEY,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE: service.binding,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '10',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '30',
+  }), {} as ExecutionContext);
+
+  assert.equal(message.acknowledgements, 1);
+  assert.deepEqual(message.retries, []);
+  assert.equal(service.calls.length, 1);
+  assert.equal(service.calls[0]?.text, 'Здравствуйте, Worker Campaign Clinic!');
+  assert.equal(service.calls[0]?.username, 'workercampaignclinic');
+  assert.equal(service.calls[0]?.paid_message_policy, 'reject');
+  assert.equal(service.calls[0]?.allow_paid_floodskip, false);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_recipients WHERE campaign_id = ?',
+    envelope.campaign_id,
+  ), 'sent');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?',
+    envelope.campaign_id,
+  ), 'sent');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?',
+    envelope.campaign_id,
+  ), 'completed');
+  assert.equal(db.value(
+    'SELECT daily_reserved_count FROM lead_radar_tg_user_accounts WHERE org_id = ?',
+    CAMPAIGN_ORG,
+  ), 1);
+});
+
+test('scheduled campaign dispatcher enqueues only the strict ID-only envelope', async (t) => {
+  const { db, envelope } = await runningCampaignFixture();
+  t.after(() => db.sqlite.close());
+  const service = privateTelegramService();
+  const outgoing = fakeQueue();
+
+  await worker.scheduled({} as ScheduledController, environment(db, {
+    AUTOMATION_QUEUE: outgoing,
+    LEAD_RADAR_ALLOWED_ORGS: CAMPAIGN_ORG,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: CAMPAIGN_DATA_KEY,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE: service.binding,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '10',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '30',
+  }));
+
+  assert.deepEqual(outgoing.sent, [envelope]);
+  assert.deepEqual(Object.keys(outgoing.sent[0] as object).sort(), [
+    'campaign_id',
+    'org_id',
+    'schema',
+    'state_version',
+  ]);
+  assert.equal(service.calls.length, 0);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_recipients WHERE campaign_id = ?',
+    envelope.campaign_id,
+  ), 'pending');
 });

@@ -35,6 +35,12 @@ import {
   type LeadRadarQueueSender,
   type LeadRadarTelegramBusinessEnv,
 } from '../../../platform/lead-radar';
+import {
+  handleTelegramCampaignDelete,
+  handleTelegramCampaignGet,
+  handleTelegramCampaignPost,
+  isTelegramCampaignControlPath,
+} from './telegram-campaign-control';
 
 type LeadRadarTelegramPagesEnv = Parameters<typeof resolveLeadRadarCapabilities>[0]
   & LeadRadarTelegramBusinessEnv;
@@ -101,6 +107,9 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   const orgId = await ownerOrgId(ctx.actor.email);
   const capabilities = resolveLeadRadarCapabilities(ctx.env, orgId);
   const parts = pathParts(ctx.params.path);
+  if (isTelegramCampaignControlPath(parts)) {
+    return handleTelegramCampaignGet(ctx, parts, orgId, capabilities);
+  }
   if (parts.length === 1 && parts[0] === 'telegram-business') {
     if (!capabilities.contactEnabled) {
       return ownerJson({
@@ -141,6 +150,15 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
 
 export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
   const parts = pathParts(ctx.params.path);
+  if (isTelegramCampaignControlPath(parts)) {
+    const orgId = await ownerOrgId(ctx.actor.email);
+    return handleTelegramCampaignPost(
+      ctx,
+      parts,
+      orgId,
+      resolveLeadRadarCapabilities(ctx.env, orgId),
+    );
+  }
   const searchRoute = parts.length === 1 && parts[0] === 'searches';
   const connectRoute = parts.length === 2
     && parts[0] === 'telegram-business' && parts[1] === 'connect';
@@ -344,6 +362,13 @@ export const onRequestPatch = withOwnerRole('platform_owner', async (ctx) => {
 
 export const onRequestDelete = withOwnerRole('platform_owner', async (ctx) => {
   const parts = pathParts(ctx.params.path);
+  if (isTelegramCampaignControlPath(parts)) {
+    return handleTelegramCampaignDelete(
+      ctx,
+      parts,
+      await ownerOrgId(ctx.actor.email),
+    );
+  }
   if (parts.length !== 1 || parts[0] !== 'telegram-business') {
     return ownerError('route_not_found', ctx.requestId, 404);
   }

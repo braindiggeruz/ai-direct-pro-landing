@@ -132,7 +132,7 @@ test('components encode the accessibility and human-control contract', () => {
 });
 
 test('Lead Radar page integrates Telegram without background or broad contact sends', () => {
-  assert.match(PAGE, /if \(!capabilities\.contactEnabled\) return null;/);
+  assert.match(PAGE, /if \(!individualOutreachEnabled\) return null;/);
   assert.match(PAGE, /leadRadarTelegramBusinessStatus\(\)/);
   assert.match(PAGE, /leadRadarTelegramBusinessConnect\(requestKey\)/);
   assert.match(PAGE, /leadRadarPrepareTelegramOutreach\(leadId, text\)/);

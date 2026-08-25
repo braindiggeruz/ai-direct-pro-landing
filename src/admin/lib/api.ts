@@ -663,6 +663,69 @@ export const api = {
     input,
     { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
   ),
+  leadRadarTelegramAccount: () =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'GET',
+      '/api/admin/lead-radar/telegram-account',
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarConnectTelegramAccount: (idempotencyKey: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'POST',
+      '/api/admin/lead-radar/telegram-account/connect',
+      {},
+      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+  leadRadarTelegramAccountConnectStatus: (authId: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'GET',
+      `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}`,
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarDisconnectTelegramAccount: (idempotencyKey: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'DELETE',
+      '/api/admin/lead-radar/telegram-account',
+      undefined,
+      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+  leadRadarPrepareTelegramCampaign: (
+    input: import('./lead-radar-campaign').LeadRadarTelegramCampaignPrepareInput,
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignPreparation>(
+    'POST',
+    '/api/admin/lead-radar/telegram-campaigns/prepare',
+    input,
+    { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
+  leadRadarCreateTelegramCampaign: (
+    input: import('./lead-radar-campaign').LeadRadarTelegramCampaignCreateInput,
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignMutationResponse>(
+    'POST',
+    '/api/admin/lead-radar/telegram-campaigns',
+    input,
+    { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
+  leadRadarTelegramCampaign: (campaignId: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramCampaignReadModel>(
+      'GET',
+      `/api/admin/lead-radar/telegram-campaigns/${encodeURIComponent(campaignId)}`,
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarTransitionTelegramCampaign: (
+    campaignId: string,
+    action: 'start' | 'pause' | 'resume' | 'stop',
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignMutationResponse>(
+    'POST',
+    `/api/admin/lead-radar/telegram-campaigns/${encodeURIComponent(campaignId)}/${action}`,
+    {},
+    { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
 
   // ─── Intent Guard / Anti-cannibalization ─────────────────────────────────
   contentInventory: () =>

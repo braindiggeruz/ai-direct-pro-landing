@@ -66,6 +66,14 @@ export interface Env {
   LEAD_RADAR_ADMISSION_ENABLED?: string;
   LEAD_RADAR_PROCESSING_ENABLED?: string;
   LEAD_RADAR_CONTACT_ENABLED?: string;
+  // Corporate Telegram discovery is safe in research mode and is deliberately
+  // independent from the legal/personal-data gate above. Campaign outreach is
+  // a separate, stricter switch and remains fail-closed until the dedicated
+  // user-account gateway and its encrypted session key are provisioned.
+  LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED?: string;
+  LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED?: string;
   // Bounded privacy configuration. Invalid values fall back to 30 days and
   // values above 30 are clamped; this is not a retention kill switch.
   LEAD_RADAR_PERSONAL_RETENTION_DAYS?: string;
@@ -83,6 +91,17 @@ export interface Env {
   LEAD_RADAR_TELEGRAM_DATA_KEY?: string;
   LEAD_RADAR_TELEGRAM_BOT_USERNAME?: string;
   LEAD_RADAR_CONTACT_DAILY_LIMIT?: string;
+  // Separate trust domains: ACCOUNT_DATA_KEY protects the TDLib/R2 session
+  // snapshot inside the private account runtime; CAMPAIGN_DATA_KEY protects
+  // campaign templates, endpoints and keyed digests in D1. Neither key may be
+  // reused by the Telegram Business bot plane above.
+  LEAD_RADAR_TELEGRAM_ACCOUNT_DATA_KEY?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY?: string;
+  // Optional private service binding to the per-account Durable Object /
+  // Container runtime. There is deliberately no public gateway URL or bearer.
+  LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE?: Fetcher;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS?: string;
   // Bearer for the GitHub Actions cron worker. Authenticates
   // /api/internal/seo-autopilot/scheduled-run.
   CRON_SECRET?: string;

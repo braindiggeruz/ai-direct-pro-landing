@@ -22,6 +22,20 @@ import {
   type LeadRadarQueueSender,
 } from '../functions/platform/lead-radar';
 import {
+  consumeTelegramCampaignQueueMessage,
+  enqueueDueTelegramCampaignsForOrganization,
+  hasTelegramCampaignSchema,
+  isTelegramCampaignDataKeyValid,
+  parseTelegramCampaignQueueMessage,
+  recoverExpiredTelegramCampaignLeasesForOrganization,
+  type TelegramCampaignQueueMessage,
+  type TelegramCampaignQueueSender,
+} from '../functions/platform/lead-radar/telegram-campaign';
+import {
+  hasPrivateTelegramAccountService,
+  PrivateTelegramCampaignSender,
+} from '../functions/platform/lead-radar/telegram-account-service';
+import {
   createSeoDraftAutomationHandler,
   enqueueScheduledSeoDraftGeneration,
   isFirstPartyAutomationEnabled,
@@ -31,11 +45,21 @@ import {
   shouldRunOnDate,
 } from '../functions/lib/seo-autopilot/schedule';
 
+type AutomationWorkerQueueMessage =
+  | AutomationQueueMessage
+  | LeadRadarQueueMessage
+  | TelegramCampaignQueueMessage;
+
 interface AutomationWorkerEnv extends Env {
   GPTBOT_DRAFTS_DB: D1Database;
-  AUTOMATION_QUEUE: Queue<AutomationQueueMessage | LeadRadarQueueMessage>;
-  AUTOMATION_DLQ: Queue<AutomationQueueMessage | LeadRadarQueueMessage>;
+  AUTOMATION_QUEUE: Queue<AutomationWorkerQueueMessage>;
+  AUTOMATION_DLQ: Queue<AutomationWorkerQueueMessage>;
 }
+
+const TELEGRAM_CAMPAIGN_SCHEMA = 'gptbot.lead-radar.telegram-campaign.v1';
+const TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT = 10;
+const TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS = 120;
+const TELEGRAM_CAMPAIGN_ORG_PATTERN = /^(?:owner_[a-f0-9]{24}|org_[a-f0-9]{32,64})$/u;
 
 function isLeadRadarProcessingEnabled(env: AutomationWorkerEnv): boolean {
   return env.LEAD_RADAR_PROCESSING_ENABLED === 'true';
@@ -43,6 +67,52 @@ function isLeadRadarProcessingEnabled(env: AutomationWorkerEnv): boolean {
 
 function isLeadRadarContactEnabled(env: AutomationWorkerEnv): boolean {
   return env.LEAD_RADAR_CONTACT_ENABLED === 'true';
+}
+
+function isTelegramCampaignAutosendEnabled(env: AutomationWorkerEnv): boolean {
+  return env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED === 'true'
+    && env.LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED === 'true'
+    && env.LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED === 'true';
+}
+
+function boundedInteger(
+  value: string | undefined,
+  fallback: number,
+  minimum: number,
+  maximum: number,
+): number | null {
+  if (value === undefined || value.trim() === '') return fallback;
+  if (!/^\d+$/u.test(value.trim())) return null;
+  const parsed = Number(value.trim());
+  return Number.isSafeInteger(parsed) && parsed >= minimum && parsed <= maximum
+    ? parsed
+    : null;
+}
+
+function telegramCampaignDailyLimit(env: AutomationWorkerEnv): number | null {
+  return boundedInteger(
+    env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT,
+    TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
+    1,
+    100,
+  );
+}
+
+function telegramCampaignMinimumIntervalSeconds(env: AutomationWorkerEnv): number | null {
+  return boundedInteger(
+    env.LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS,
+    TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS,
+    30,
+    3_600,
+  );
+}
+
+function telegramCampaignOrganizations(env: AutomationWorkerEnv): string[] {
+  return [...new Set((env.LEAD_RADAR_ALLOWED_ORGS ?? '')
+    .split(',')
+    .map((orgId) => orgId.trim())
+    .filter((orgId) => TELEGRAM_CAMPAIGN_ORG_PATTERN.test(orgId)))]
+    .slice(0, 20);
 }
 
 function recordLeadRadarFailure(operation: string, error: unknown): void {
@@ -62,8 +132,14 @@ function sender(queue: Queue<AutomationQueueMessage>): AutomationQueueSender {
   return queue as unknown as AutomationQueueSender;
 }
 
-function leadRadarSender(queue: Queue<AutomationQueueMessage | LeadRadarQueueMessage>): LeadRadarQueueSender {
+function leadRadarSender(queue: Queue<AutomationWorkerQueueMessage>): LeadRadarQueueSender {
   return queue as unknown as LeadRadarQueueSender;
+}
+
+function telegramCampaignQueueSender(
+  queue: Queue<AutomationWorkerQueueMessage>,
+): TelegramCampaignQueueSender {
+  return queue as unknown as TelegramCampaignQueueSender;
 }
 
 export function settleLeadRadarRetryWait(
@@ -130,6 +206,43 @@ export default {
         recordLeadRadarFailure('dispatch', error);
       }
     }
+    const campaignOrganizations = telegramCampaignOrganizations(env);
+    if (campaignOrganizations.length > 0) {
+      try {
+        await assertLeadRadarRuntimeSchema(env.GPTBOT_DRAFTS_DB);
+        if (await hasTelegramCampaignSchema(env.GPTBOT_DRAFTS_DB)) {
+          // Lease reconciliation is safety work and remains active even when
+          // autosend is paused. It never crosses the Telegram provider boundary.
+          for (const orgId of campaignOrganizations) {
+            await recoverExpiredTelegramCampaignLeasesForOrganization({
+              db: env.GPTBOT_DRAFTS_DB,
+              orgId,
+              now: retentionNow,
+            });
+          }
+          const dataKey = env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY;
+          const dailyLimit = telegramCampaignDailyLimit(env);
+          const minimumIntervalSeconds = telegramCampaignMinimumIntervalSeconds(env);
+          if (isTelegramCampaignAutosendEnabled(env)
+            && isTelegramCampaignDataKeyValid(dataKey)
+            && dailyLimit !== null
+            && minimumIntervalSeconds !== null
+            && hasPrivateTelegramAccountService(env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE)) {
+            for (const orgId of campaignOrganizations) {
+              await enqueueDueTelegramCampaignsForOrganization({
+                db: env.GPTBOT_DRAFTS_DB,
+                orgId,
+                sender: telegramCampaignQueueSender(env.AUTOMATION_QUEUE),
+                now: retentionNow,
+                limit: Math.min(dailyLimit, 10),
+              });
+            }
+          }
+        }
+      } catch (error) {
+        recordLeadRadarFailure('telegram_campaign_reconcile', error);
+      }
+    }
     if (!isFirstPartyAutomationEnabled(env)) return;
     await enqueueDueAutomationJobs(env.GPTBOT_DRAFTS_DB, sender(env.AUTOMATION_QUEUE as Queue<AutomationQueueMessage>));
     const schedule = await getSchedule(env);
@@ -140,7 +253,7 @@ export default {
   },
 
   async queue(
-    batch: MessageBatch<AutomationQueueMessage | LeadRadarQueueMessage>,
+    batch: MessageBatch<AutomationWorkerQueueMessage>,
     env: AutomationWorkerEnv,
   ): Promise<void> {
     const handlers = {
@@ -148,8 +261,64 @@ export default {
     };
     for (const message of batch.messages) {
       const raw = message.body;
-      const leadEnvelope = parseLeadRadarQueueMessage(raw);
       const rawRecord = recordValue(raw);
+      const looksLikeTelegramCampaignEnvelope = rawRecord?.schema === TELEGRAM_CAMPAIGN_SCHEMA;
+      if (looksLikeTelegramCampaignEnvelope) {
+        try {
+          const dataKey = env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY;
+          const dailyLimit = telegramCampaignDailyLimit(env);
+          const minimumIntervalSeconds = telegramCampaignMinimumIntervalSeconds(env);
+          const privateService = env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE;
+          // These checks happen before parsing against D1 and, critically,
+          // before a recipient can be claimed. Missing private infrastructure
+          // is an ACK + scheduler-recovery condition, never an ambiguous send.
+          if (!isTelegramCampaignAutosendEnabled(env)
+            || !isTelegramCampaignDataKeyValid(dataKey)
+            || dailyLimit === null
+            || minimumIntervalSeconds === null
+            || !hasPrivateTelegramAccountService(privateService)) {
+            message.ack();
+            continue;
+          }
+          let campaignEnvelope: TelegramCampaignQueueMessage;
+          try {
+            campaignEnvelope = parseTelegramCampaignQueueMessage(raw);
+          } catch {
+            message.ack();
+            continue;
+          }
+          if (!isLeadRadarOrganizationAllowed(env, campaignEnvelope.org_id)) {
+            message.ack();
+            continue;
+          }
+          await assertLeadRadarRuntimeSchema(env.GPTBOT_DRAFTS_DB);
+          if (!await hasTelegramCampaignSchema(env.GPTBOT_DRAFTS_DB)) {
+            message.ack();
+            continue;
+          }
+          const result = await consumeTelegramCampaignQueueMessage({
+            db: env.GPTBOT_DRAFTS_DB,
+            dataKey: dataKey.trim(),
+            raw: campaignEnvelope,
+            sender: new PrivateTelegramCampaignSender(privateService),
+            dailyLimit,
+            minimumIntervalSeconds,
+          });
+          if (result.next) {
+            await env.AUTOMATION_QUEUE.send(result.next, {
+              delaySeconds: Math.max(1, result.delaySeconds),
+            });
+          }
+          message.ack();
+        } catch (error) {
+          // D1 remains authoritative. No blind Queue retry is issued here:
+          // the scheduler will re-enqueue due work and recover expired claims.
+          recordLeadRadarFailure('telegram_campaign_consume', error);
+          message.ack();
+        }
+        continue;
+      }
+      const leadEnvelope = parseLeadRadarQueueMessage(raw);
       const looksLikeLeadEnvelope = Boolean(
         leadEnvelope || rawRecord?.schema === 'gptbot.lead-radar.job.v1',
       );
@@ -216,4 +385,4 @@ export default {
       }
     }
   },
-} satisfies ExportedHandler<AutomationWorkerEnv, AutomationQueueMessage | LeadRadarQueueMessage>;
+} satisfies ExportedHandler<AutomationWorkerEnv, AutomationWorkerQueueMessage>;

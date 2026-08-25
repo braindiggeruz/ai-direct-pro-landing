@@ -264,6 +264,12 @@ test('research response is server-redacted and contact approval stays closed', a
     admissionEnabled: false,
     processingEnabled: false,
     contactEnabled: false,
+    telegramDiscoveryEnabled: false,
+    personalContactsEnabled: false,
+    individualOutreachEnabled: false,
+    telegramAccountEnabled: false,
+    campaignOutreachEnabled: false,
+    campaignAutoSendEnabled: false,
     mode: 'paused',
   });
   const interpretation = result.body.search.interpretation as Record<string, unknown>;

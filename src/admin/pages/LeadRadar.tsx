@@ -33,6 +33,7 @@ import {
 import { api } from '../lib/api';
 import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui';
 import { TelegramBusinessConnectionCard } from '../components/lead-radar/TelegramBusinessConnectionCard';
+import { TelegramAccountCampaignPanel } from '../components/lead-radar/TelegramAccountCampaignPanel';
 import {
   boundTelegramDraftText,
   isVerifiedCorporateBusinessEndpoint,
@@ -337,6 +338,24 @@ function companyMessage(
     `Мы внедряем ${offer.toLocaleLowerCase('ru-RU')} и помогаем не терять обращения вне рабочего времени.`,
     'Могу бесплатно показать короткий сценарий под вашу нишу — без обязательств. Подскажите, с кем можно обсудить?',
   ].join('\n\n');
+}
+
+function campaignMessageTemplate(offer: string): string {
+  return boundTelegramDraftText([
+    'Здравствуйте!',
+    'Посмотрел открытые материалы компании «{company_name}».',
+    `Мы внедряем ${offer.toLocaleLowerCase('ru-RU')} и помогаем не терять обращения вне рабочего времени.`,
+    'Могу бесплатно показать короткий сценарий именно под вашу нишу — без обязательств. Актуально обсудить?',
+    'Если сообщение неактуально, напишите «стоп», и мы больше не будем обращаться.',
+  ].join('\n\n'));
+}
+
+function telegramDiscoveryPriority(lead: LeadRadarLead): number {
+  const contact = companyTelegramFor(lead);
+  if (contact?.type === 'business' && contact.evidenceIds.length > 0 && contact.verifiedAt) return 3;
+  if (decisionMakersFor(lead).some((person) => Boolean(person.telegramUrl))) return 2;
+  if (contact || lead.telegramUrl) return 1;
+  return 0;
 }
 
 function isLocallyVerifiedCorporateBusinessContact(
@@ -1374,7 +1393,6 @@ export default function LeadRadarPage() {
   const [telegramConnectLink, setTelegramConnectLink] = useState<LeadRadarTelegramBusinessConnectLink | null>(null);
   const [telegramStatusPollingStopped, setTelegramStatusPollingStopped] = useState(false);
   const requestSequence = useRef(0);
-  const autoRevealNoTelegram = useRef(false);
   const pendingSearchRequestKey = useRef<string | null>(null);
   const pendingTelegramConnectRequestKey = useRef<string | null>(null);
   const telegramStatusRequestSequence = useRef(0);
@@ -1385,6 +1403,17 @@ export default function LeadRadarPage() {
     contactEnabled: false,
     mode: 'paused' as const,
   };
+  // Backward compatibility: old responses only carry admission/contact. New
+  // responses separate research, personal data and each outreach surface.
+  const telegramDiscoveryEnabled = capabilities.telegramDiscoveryEnabled
+    ?? capabilities.admissionEnabled;
+  const personalContactsEnabled = capabilities.personalContactsEnabled
+    ?? capabilities.contactEnabled;
+  const individualOutreachEnabled = capabilities.individualOutreachEnabled
+    ?? capabilities.contactEnabled;
+  const telegramAccountEnabled = capabilities.telegramAccountEnabled ?? false;
+  const campaignOutreachEnabled = capabilities.campaignOutreachEnabled ?? false;
+  const campaignAutoSendEnabled = capabilities.campaignAutoSendEnabled ?? false;
 
   const loadOverview = useCallback(async (): Promise<LeadRadarOverview | null> => {
     try {
@@ -1401,7 +1430,7 @@ export default function LeadRadarPage() {
   }, []);
 
   const loadTelegramBusinessStatus = useCallback(async (): Promise<LeadRadarTelegramBusinessStatus | null> => {
-    if (!capabilities.contactEnabled) return null;
+    if (!individualOutreachEnabled) return null;
     const sequence = telegramStatusRequestSequence.current + 1;
     telegramStatusRequestSequence.current = sequence;
     setTelegramStatusLoading(true);
@@ -1426,10 +1455,10 @@ export default function LeadRadarPage() {
     } finally {
       if (telegramStatusRequestSequence.current === sequence) setTelegramStatusLoading(false);
     }
-  }, [capabilities.contactEnabled]);
+  }, [individualOutreachEnabled]);
 
   useEffect(() => {
-    if (!capabilities.contactEnabled) {
+    if (!individualOutreachEnabled) {
       telegramStatusRequestSequence.current += 1;
       telegramStatusPollingDeadline.current = null;
       setTelegramBusinessStatus(null);
@@ -1445,10 +1474,10 @@ export default function LeadRadarPage() {
     return () => {
       telegramStatusRequestSequence.current += 1;
     };
-  }, [capabilities.contactEnabled, loadTelegramBusinessStatus]);
+  }, [individualOutreachEnabled, loadTelegramBusinessStatus]);
 
   useEffect(() => {
-    if (!capabilities.contactEnabled
+    if (!individualOutreachEnabled
       || telegramBusinessStatus?.status !== 'pending'
       || telegramStatusPollingStopped) return undefined;
     telegramStatusPollingDeadline.current ??= Date.now() + 15 * 60_000;
@@ -1472,7 +1501,7 @@ export default function LeadRadarPage() {
       cancelled = true;
       if (timer !== undefined) window.clearTimeout(timer);
     };
-  }, [capabilities.contactEnabled, loadTelegramBusinessStatus, telegramBusinessStatus?.status, telegramStatusPollingStopped]);
+  }, [individualOutreachEnabled, loadTelegramBusinessStatus, telegramBusinessStatus?.status, telegramStatusPollingStopped]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1486,11 +1515,7 @@ export default function LeadRadarPage() {
         if (cancelled) return;
         setResult(next);
         setSelectedLeadId(next.leads[0]?.id ?? null);
-        const preferPersonal = next.search.input.telegramRequired && (
-          next.leads.length === 0 || next.search.funnel.personalTelegramCount > 0
-        );
-        autoRevealNoTelegram.current = preferPersonal;
-        setLeadFilter(preferPersonal ? 'personal_telegram' : 'all');
+        setLeadFilter('all');
       } catch {
         if (!cancelled) setError('Не удалось восстановить активный поиск. Откройте его из истории и повторите обновление.');
       } finally {
@@ -1525,13 +1550,7 @@ export default function LeadRadarPage() {
         setSelectedLeadId((current) => current && next.leads.some((lead) => lead.id === current)
           ? current
           : next.leads[0]?.id ?? null);
-        if (autoRevealNoTelegram.current && next.leads.length > 0 && next.search.funnel.personalTelegramCount === 0) {
-          setLeadFilter('all');
-          setMobileDetailOpen(false);
-          autoRevealNoTelegram.current = false;
-        }
         if (next.search.status !== 'running') {
-          autoRevealNoTelegram.current = false;
           void loadOverview();
           return;
         }
@@ -1552,13 +1571,21 @@ export default function LeadRadarPage() {
     };
   }, [loadOverview, result?.capabilities?.processingEnabled, result?.search.id, result?.search.status]);
 
-  const visibleLeads = useMemo(() => (result?.leads ?? []).filter((lead) => {
-    const decisionMakers = decisionMakersFor(lead);
-    if (leadFilter === 'decision_maker') return decisionMakers.some(isPublishedDecisionMaker);
-    if (leadFilter === 'personal_telegram') return decisionMakers.some((person) => isMessageableDecisionMaker(lead, person));
-    if (leadFilter === 'P1') return lead.priority === 'P1';
-    return true;
-  }), [leadFilter, result]);
+  const visibleLeads = useMemo(() => {
+    const filtered = (result?.leads ?? []).filter((lead) => {
+      const decisionMakers = decisionMakersFor(lead);
+      if (leadFilter === 'decision_maker') return decisionMakers.some(isPublishedDecisionMaker);
+      if (leadFilter === 'personal_telegram') return decisionMakers.some((person) => isMessageableDecisionMaker(lead, person));
+      if (leadFilter === 'P1') return lead.priority === 'P1';
+      return true;
+    });
+    if (leadFilter !== 'all' || !result?.search.input.telegramRequired) return filtered;
+    return filtered.toSorted((left, right) => (
+      telegramDiscoveryPriority(right) - telegramDiscoveryPriority(left)
+      || right.score - left.score
+      || left.name.localeCompare(right.name, 'ru')
+    ));
+  }, [leadFilter, result]);
   const filterCounts = useMemo(() => {
     const leads = result?.leads ?? [];
     return {
@@ -1575,7 +1602,7 @@ export default function LeadRadarPage() {
   const searchTerminal = Boolean(result && result.search.status !== 'running');
   const noApprovedPersonalTelegram = Boolean(
     result
-    && result.capabilities?.contactEnabled
+    && personalContactsEnabled
     && searchTerminal
     && result.leads.length > 0
     && result.search.funnel.personalTelegramCount === 0,
@@ -1598,7 +1625,6 @@ export default function LeadRadarPage() {
     }
     const sequence = requestSequence.current + 1;
     requestSequence.current = sequence;
-    autoRevealNoTelegram.current = snapshot.telegramRequired;
     setPendingSearchInput(snapshot);
     setSearchAttemptError(null);
     setLoading(true);
@@ -1615,11 +1641,8 @@ export default function LeadRadarPage() {
       setResult(next);
       setPendingSearchInput(null);
       setSelectedLeadId(next.leads[0]?.id ?? null);
-      const shouldRevealAll = next.leads.length > 0
-        && next.search.funnel.personalTelegramCount === 0;
-      setLeadFilter(snapshot.telegramRequired && !shouldRevealAll ? 'personal_telegram' : 'all');
+      setLeadFilter('all');
       setVisibleLeadLimit(20);
-      if (next.search.status !== 'running') autoRevealNoTelegram.current = false;
       setMobileDetailOpen(false);
       void loadOverview();
     } catch (searchError) {
@@ -1655,12 +1678,8 @@ export default function LeadRadarPage() {
       setSelectedLeadId((current) => refreshingCurrentSearch && current && next.leads.some((lead) => lead.id === current)
         ? current
         : next.leads[0]?.id ?? null);
-      const preferPersonal = next.search.input.telegramRequired && (
-        next.leads.length === 0 || next.search.funnel.personalTelegramCount > 0
-      );
-      autoRevealNoTelegram.current = preferPersonal;
       if (!refreshingCurrentSearch) {
-        setLeadFilter(preferPersonal ? 'personal_telegram' : 'all');
+        setLeadFilter('all');
         setVisibleLeadLimit(20);
         setMobileDetailOpen(false);
       }
@@ -1759,7 +1778,7 @@ export default function LeadRadarPage() {
   }
 
   async function connectTelegramBusiness(): Promise<void> {
-    if (!capabilities.contactEnabled || telegramConnectionBusy) return;
+    if (!individualOutreachEnabled || telegramConnectionBusy) return;
     const requestKey = pendingTelegramConnectRequestKey.current
       ?? `lead-radar-telegram-connect-ui-${crypto.randomUUID()}`;
     pendingTelegramConnectRequestKey.current = requestKey;
@@ -1907,12 +1926,12 @@ export default function LeadRadarPage() {
                   <Label htmlFor="lead-radar-offer">Что предлагаем</Label>
                   <Textarea id="lead-radar-offer" disabled={loading || !capabilities.admissionEnabled} value={draftInput.offer} onChange={(event) => setDraftInput({ ...draftInput, offer: event.target.value })} className="min-h-20 resize-y" rows={2} required />
                 </div>
-                <label className="flex min-h-14 cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
+                <label className={`flex min-h-14 items-center justify-between gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 ${!capabilities.admissionEnabled || !telegramDiscoveryEnabled ? 'cursor-not-allowed opacity-65' : 'cursor-pointer'}`}>
                   <span>
-                    <span className="block text-sm font-medium text-white/80">Сначала показать личный Telegram</span>
-                    <span className="mt-0.5 block text-xs text-white/60">Фильтр выдачи: все найденные компании всё равно сохранятся</span>
+                    <span className="block text-sm font-medium text-white/80">Сначала компании с Telegram</span>
+                    <span id="lead-radar-telegram-preference-help" className="mt-0.5 block text-xs text-white/60">{loading ? 'Настройка сохранится для следующего запуска; текущий поиск не изменится' : 'Меняет порядок выдачи; компании без Telegram не удаляются'}</span>
                   </span>
-                  <input type="checkbox" disabled={loading || !capabilities.admissionEnabled || !capabilities.contactEnabled} checked={capabilities.contactEnabled && draftInput.telegramRequired} onChange={(event) => setDraftInput({ ...draftInput, telegramRequired: event.target.checked })} className="h-5 w-5 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan" />
+                  <input type="checkbox" aria-describedby="lead-radar-telegram-preference-help" disabled={!capabilities.admissionEnabled || !telegramDiscoveryEnabled} checked={draftInput.telegramRequired} onChange={(event) => setDraftInput({ ...draftInput, telegramRequired: event.target.checked })} className="h-5 w-5 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan" />
                 </label>
                 <Button type="submit" size="lg" disabled={loading || !capabilities.admissionEnabled} className="min-h-14 w-full text-sm font-semibold">
                   {pendingSearchInput ? <><LoaderCircle size={18} className="motion-safe:animate-spin" aria-hidden="true" />Запускаем поиск…</> : loading ? <><LoaderCircle size={18} className="motion-safe:animate-spin" aria-hidden="true" />Подождите…</> : !capabilities.admissionEnabled ? <><ShieldCheck size={18} aria-hidden="true" />Поиск приостановлен</> : <><Search size={18} aria-hidden="true" />Найти компании<ArrowRight size={16} aria-hidden="true" /></>}
@@ -1955,9 +1974,9 @@ export default function LeadRadarPage() {
             </section>
           </aside>
 
-          <main className="min-w-0 space-y-6">
+          <div className="min-w-0 space-y-6">
             <section aria-label="Подключение Telegram Business" className="space-y-3">
-                {!capabilities.contactEnabled ? (
+                {!individualOutreachEnabled ? (
                   <TelegramBusinessConnectionCard
                     status="paused"
                     canReply={false}
@@ -1983,7 +2002,7 @@ export default function LeadRadarPage() {
                   </div>
                 )}
 
-                {capabilities.contactEnabled ? (
+                {individualOutreachEnabled ? (
                   <div className={`grid gap-3 ${telegramConnectLink ? 'lg:grid-cols-2' : ''}`}>
                   {telegramConnectLink && (
                     <div className="rounded-[1.5rem] border border-brand-cyan/20 bg-brand-cyan/[0.045] p-4">
@@ -2116,7 +2135,7 @@ export default function LeadRadarPage() {
                           { value: 'personal_telegram', label: 'Личный Telegram' },
                           { value: 'P1', label: 'P1' },
                         ] as const).map((filter) => {
-                          if (!capabilities.contactEnabled
+                          if (!personalContactsEnabled
                             && (filter.value === 'decision_maker' || filter.value === 'personal_telegram')) return null;
                           const countPending = result.search.status === 'running'
                             && filterCounts[filter.value] === 0
@@ -2148,6 +2167,16 @@ export default function LeadRadarPage() {
                   search={result.search}
                   pollingDelayed={pollingDelayed}
                   pollingStopped={pollingStopped}
+                />
+
+                <TelegramAccountCampaignPanel
+                  key={result.search.id}
+                  searchId={result.search.id}
+                  leads={result.leads}
+                  initialTemplate={campaignMessageTemplate(result.search.input.offer)}
+                  telegramAccountEnabled={telegramAccountEnabled}
+                  campaignOutreachEnabled={campaignOutreachEnabled}
+                  campaignAutoSendEnabled={campaignAutoSendEnabled}
                 />
 
                 {noApprovedPersonalTelegram && (
@@ -2199,7 +2228,7 @@ export default function LeadRadarPage() {
                           key={selectedLead.id}
                           lead={selectedLead}
                           offer={result.search.input.offer}
-                          contactEnabled={capabilities.contactEnabled}
+                          contactEnabled={individualOutreachEnabled}
                           onLifecycle={(lifecycle) => { void updateLifecycle(lifecycle); }}
                           onReviewContact={(personId, status) => { void reviewDecisionMaker(personId, status); }}
                           busy={statusBusy}
@@ -2222,7 +2251,7 @@ export default function LeadRadarPage() {
                 )}
               </>
             )}
-          </main>
+          </div>
         </div>
       </div>
     </div>

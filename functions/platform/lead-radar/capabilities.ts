@@ -15,6 +15,10 @@ type LeadRadarCapabilityEnv = Pick<Env,
   | 'LEAD_RADAR_ADMISSION_ENABLED'
   | 'LEAD_RADAR_PROCESSING_ENABLED'
   | 'LEAD_RADAR_CONTACT_ENABLED'
+  | 'LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED'
+  | 'LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED'
+  | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED'
+  | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED'
   | 'LEAD_RADAR_ALLOWED_ORGS'
 >;
 
@@ -46,11 +50,31 @@ export function resolveLeadRadarCapabilities(
   const admissionEnabled = tenantAllowed && enabled(env.LEAD_RADAR_ADMISSION_ENABLED);
   const processingEnabled = tenantAllowed && enabled(env.LEAD_RADAR_PROCESSING_ENABLED);
   const contactEnabled = tenantAllowed && enabled(env.LEAD_RADAR_CONTACT_ENABLED);
+  const telegramDiscoveryEnabled = tenantAllowed
+    && enabled(env.LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED)
+    && (admissionEnabled || processingEnabled);
+  // Campaigns have their own legal/transport gate. They are restricted to
+  // verified corporate endpoints and must not silently unlock personal data or
+  // the legacy per-lead Business-bot send path.
+  const telegramAccountEnabled = tenantAllowed
+    && enabled(env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED);
+  const campaignOutreachEnabled = telegramAccountEnabled
+    && enabled(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED);
+  const campaignAutoSendEnabled = campaignOutreachEnabled
+    && enabled(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED);
   return {
     admissionEnabled,
     processingEnabled,
     contactEnabled,
-    mode: contactEnabled ? 'contact' : (admissionEnabled || processingEnabled ? 'research' : 'paused'),
+    telegramDiscoveryEnabled,
+    personalContactsEnabled: contactEnabled,
+    individualOutreachEnabled: contactEnabled,
+    telegramAccountEnabled,
+    campaignOutreachEnabled,
+    campaignAutoSendEnabled,
+    mode: contactEnabled || campaignOutreachEnabled
+      ? 'contact'
+      : (admissionEnabled || processingEnabled ? 'research' : 'paused'),
   };
 }
 
@@ -85,18 +109,20 @@ function redactLead(
   capabilities: LeadRadarApiCapabilities,
   nowMs: number,
 ): LeadRadarLead {
-  const decisionMakers = capabilities.contactEnabled
+  const personalContactsEnabled = capabilities.personalContactsEnabled ?? capabilities.contactEnabled;
+  const individualOutreachEnabled = capabilities.individualOutreachEnabled ?? capabilities.contactEnabled;
+  const decisionMakers = personalContactsEnabled
     ? lead.decisionMakers.filter((person) => freshPersonalTimestamp(person.verifiedAt, nowMs))
     : [];
   const personalContact = lead.telegramContact?.type === 'human';
-  const keepPersonalContact = capabilities.contactEnabled
+  const keepPersonalContact = personalContactsEnabled
     && personalContact
     && freshPersonalTimestamp(lead.telegramContact?.verifiedAt, nowMs);
   const telegramContact = personalContact && !keepPersonalContact
     ? null
     : (lead.telegramContact ? {
         ...lead.telegramContact,
-        messageable: capabilities.contactEnabled && lead.telegramContact.messageable,
+        messageable: individualOutreachEnabled && lead.telegramContact.messageable,
       } : null);
   const personalEvidenceIds = new Set([
     ...(telegramContact?.type === 'human' ? telegramContact.evidenceIds : []),
@@ -134,10 +160,11 @@ function redactSummary(
   summary: LeadRadarSearchSummary,
   capabilities: LeadRadarApiCapabilities,
 ): LeadRadarSearchSummary {
-  if (capabilities.contactEnabled) return summary;
+  const personalContactsEnabled = capabilities.personalContactsEnabled ?? capabilities.contactEnabled;
+  if (personalContactsEnabled) return summary;
   return {
     ...summary,
-    telegramCount: 0,
+    telegramCount: summary.funnel.companyTelegramCount,
     funnel: {
       ...summary.funnel,
       decisionMakerCount: 0,
@@ -152,10 +179,15 @@ export function presentLeadRadarSearchResult(
   now = new Date(),
 ): LeadRadarSearchResult {
   const priorityOrder = { P1: 1, P2: 2, P3: 3 } as const;
+  const prioritizeCorporateTelegram = capabilities.telegramDiscoveryEnabled === true
+    && result.search.input.telegramRequired;
   const leads = result.leads
     .map((lead) => redactLead(lead, capabilities, now.getTime()))
     .sort((left, right) => (
-      priorityOrder[left.priority] - priorityOrder[right.priority]
+      (prioritizeCorporateTelegram
+        ? Number(right.telegramContact?.type === 'business') - Number(left.telegramContact?.type === 'business')
+        : 0)
+      || priorityOrder[left.priority] - priorityOrder[right.priority]
       || right.score - left.score
       || left.name.localeCompare(right.name, 'ru')
     ));
@@ -171,13 +203,18 @@ export function presentLeadRadarOverview(
   overview: LeadRadarOverview,
   capabilities: LeadRadarApiCapabilities,
 ): LeadRadarOverview {
+  const personalContactsEnabled = capabilities.personalContactsEnabled ?? capabilities.contactEnabled;
+  const companyTelegramTotal = overview.searches.reduce(
+    (total, search) => total + search.funnel.companyTelegramCount,
+    0,
+  );
   return {
     ...overview,
     capabilities,
     searches: overview.searches.map((search) => redactSummary(search, capabilities)),
     totals: {
       ...overview.totals,
-      telegram: capabilities.contactEnabled ? overview.totals.telegram : 0,
+      telegram: personalContactsEnabled ? overview.totals.telegram : companyTelegramTotal,
     },
   };
 }

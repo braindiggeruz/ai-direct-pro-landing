@@ -98,6 +98,18 @@ test('canonical pristine migration chain passes the exact target contract', asyn
   assert.deepEqual(report.migrationLedger.leadRadarEntries, [...LEAD_RADAR_MIGRATIONS].sort());
 });
 
+test('additive Telegram campaign extension does not take the research contract offline', async (t) => {
+  const database = canonicalDatabase();
+  t.after(() => database.close());
+  applyMigration(database, '0045_lead_radar_telegram_campaigns.sql');
+  const report = await auditLeadRadarSchema(reader(database), 'target');
+  assert.equal(report.status, 'pass', JSON.stringify(report.issues, null, 2));
+  assert.equal(report.matchedProfile, 'target');
+  // The independently gated campaign contract owns 0045. The v2 research
+  // ledger intentionally remains stable during a rolling migration.
+  assert.deepEqual(report.migrationLedger.leadRadarEntries, [...LEAD_RADAR_MIGRATIONS].sort());
+});
+
 test('production-like 0041 physical/unledgered chain passes only its preflight profile', async (t) => {
   const database = productionLikeDatabase();
   t.after(() => database.close());

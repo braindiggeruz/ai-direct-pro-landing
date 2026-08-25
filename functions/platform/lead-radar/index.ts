@@ -9,5 +9,7 @@ export * from './sources';
 export * from './store';
 export * from './telegram-business';
 export * from './telegram-business-store';
+export * from './telegram-campaign';
+export * from './telegram-campaign-schema';
 export * from './types';
 export * from './validation';

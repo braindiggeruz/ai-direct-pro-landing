@@ -102,6 +102,14 @@ FIRST_PARTY_AUTOMATION_ENABLED = "true"
 LEAD_RADAR_ADMISSION_ENABLED = "true"
 LEAD_RADAR_PROCESSING_ENABLED = "true"
 LEAD_RADAR_CONTACT_ENABLED = "false"
+# Corporate Telegram links remain visible and can influence ranking while
+# personal-contact export and every outbound action stay behind stricter gates.
+LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
+# Requires migration 0045, the dedicated user-account data key and a healthy
+# MTProto gateway. Shipping the control plane never enables sending by itself.
+LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED = "false"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED = "false"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "false"
 LEAD_RADAR_PERSONAL_RETENTION_DAYS = "30"
 LEAD_RADAR_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
 LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
@@ -109,6 +117,8 @@ LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
 # bindings are configured. Empty is a hard connection pause.
 LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""
 LEAD_RADAR_CONTACT_DAILY_LIMIT = "10"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "10"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS = "120"
 TELEGRAM_AGENTS_BOT_USERNAME = "BormiMarketBot"
 MARKET_MINI_APP_ENABLED = "true"
 MARKET_MINI_APP_BUYER_ENABLED = "true"

@@ -67,10 +67,16 @@ function Shell({ children }: { children: React.ReactNode }) {
   };
   return (
     <div className="flex min-h-screen bg-bg-base text-white">
+      <a
+        href="#admin-main-content"
+        className="fixed left-3 top-3 z-[100] -translate-y-20 rounded-lg bg-brand-cyan px-4 py-3 font-semibold text-black shadow-lg transition-transform focus:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white motion-reduce:transition-none"
+      >
+        Перейти к основному содержимому
+      </a>
       <Sidebar
         onPublish={session?.role === 'support_readonly' ? undefined : onPublish}
         role={session?.role}/>
-      <main className="flex-1 min-w-0">{publishing ? <div className="p-8">Publishing to GitHub…</div> : children}</main>
+      <main id="admin-main-content" tabIndex={-1} className="flex-1 min-w-0">{publishing ? <div className="p-8">Publishing to GitHub…</div> : children}</main>
     </div>
   );
 }
