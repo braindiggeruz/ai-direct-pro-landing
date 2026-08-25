@@ -42,7 +42,7 @@
       "links": [
         { "anchor": "turlari", "label": "Qanday saytlar yaratamiz" },
         { "anchor": "veb-yondashuv", "label": "Veb sayt: konstruktor yoki maxsus yechim" },
-        { "anchor": "nima-kiradi", "label": "Sayt yaratishga nima kiradi" },
+        { "anchor": "nima-kiradi", "label": "Sayt yaratish xizmatiga nima kiradi" },
         { "anchor": "jarayon", "label": "Ish jarayoni" },
         { "anchor": "tayyorgarlik", "label": "Ishni boshlash uchun nimalar kerak" },
         { "anchor": "muddat", "label": "Muddat" },
@@ -89,7 +89,7 @@
     },
     {
       "type": "p",
-      "text": "«Veb sayt» va «web sayt» bir xil ma’noni anglatadi: brauzerda ochiladigan sayt. Bu ikki alohida xizmat emas; farq faqat yozilishida. Tanlov atamadan emas, saytning vazifasi va kerakli integratsiyalardan boshlanadi."
+      "text": "«Veb sayt yaratish» va «web sayt yaratish» — bu bir xil ishning ikki xil yozilishi: har ikkalasi ham brauzerda ochiladigan sayt haqida. Bular alohida ikki xizmat emas, farq faqat atamada. Tanlov esa atamadan emas, saytning vazifasi va kerakli integratsiyalardan boshlanadi."
     },
     {
       "type": "table",
@@ -115,7 +115,11 @@
       "type": "p",
       "text": "Konstruktor yomon, maxsus ishlab chiqish esa avtomatik ravishda yaxshi degani emas. Standart imkoniyat biznes jarayonini yopsa, sodda yechim yetarli; yopmasa, maxsus ishlab chiqishning sababi aniq bo‘ladi."
     },
-    { "type": "h2", "id": "nima-kiradi", "text": "Sayt yaratishga nima kiradi" },
+    { "type": "h2", "id": "nima-kiradi", "text": "Sayt yaratish xizmati nimalarni o‘z ichiga oladi?" },
+    {
+      "type": "p",
+      "text": "Sayt yaratish xizmati bitta ishdan iborat emas. U maqsad va talablarni aniqlashdan boshlanadi, sayt tuzilmasi va moslashuvchan dizayn bilan davom etadi, so‘ng kontent joylashtirish, ariza shakllari, Telegram yoki CRM integratsiyasi, analitika va bazaviy texnik SEO qo‘shiladi. Ishga tushirishdan oldin sayt turli qurilmalarda tekshiriladi, ishga tushgandan keyin esa qo‘llab-quvvatlash bosqichi boshlanadi. Quyida shu bosqichlarning har biri amalda nimani anglatishi sanab o‘tilgan."
+    },
     {
       "type": "list",
       "items": [
@@ -129,6 +133,10 @@
         "Bazaviy texnik SEO: sarlavhalar, meta-teglar, tezlik, sitemap, robots.txt",
         "Domen, hosting va SSL sertifikatini ulash"
       ]
+    },
+    {
+      "type": "p",
+      "text": "Sayt yaratish xizmatiga kirmaydigan ishlarni ham oldindan aytamiz. Doimiy kontent yuritish, reklama byudjeti, professional foto va video suratga olish, shuningdek boshqa tizimlar tomonidagi ishlar alohida kelishiladi. Shunda smetada yashirin ish qolmaydi va keyin kutilmagan qo‘shimcha hisob chiqmaydi."
     },
     {
       "type": "p",
@@ -214,6 +222,10 @@
         "Ishlab chiqarish va ulgurji savdo",
         "Mahalliy biznes — mijoz sizni Google’dan qidiradigan har qanday soha"
       ]
+    },
+    {
+      "type": "p",
+      "text": "Bu xizmat hammaga ham kerak emas. Agar bitta taklifni tez sinab ko‘rish kerak bo‘lsa va hech qanday integratsiya talab qilinmasa, tayyor konstruktor yetarli. Agar taklif hali shakllanmagan bo‘lsa, avval uni aniqlashtirish arzonroq: sayt noaniq taklifni tuzatmaydi. Shunday holatlarni to‘g‘ridan-to‘g‘ri aytamiz."
     },
     { "type": "h2", "id": "ai-bot", "text": "Sayt va AI-bot birgalikda" },
     {
@@ -354,6 +366,10 @@
     {
       "q": "Telegram yoki CRM ulash mumkinmi?",
       "a": "Ha. Sayt formasidan kelgan ariza Telegramga, elektron pochtaga, Google Sheets’ga yoki CRM tizimiga tushishi mumkin, bir vaqtning o‘zida bir nechta kanalga ham. Qaysi tizim ishlatilishini oldindan ayting — shunda u boshidan hisobga olinadi va keyin qayta ishlash kerak bo‘lmaydi."
+    },
+    {
+      "q": "«Veb sayt yaratish» va «web sayt yaratish» — bular har xil xizmatmi?",
+      "a": "Yo‘q, bu bir xil ishning ikki xil yozilishi. Ikkalasi ham brauzerda ochiladigan sayt degani. Hajm va narx atamaga emas, sahifalar soni, kerakli integratsiyalar va kontentni kim tayyorlashiga bog‘liq."
     }
   ],
   "internalLinks": [
