@@ -56,6 +56,7 @@
       "29. «[Brend] uchun tone of voice qoidalari tuz: ishlatiladigan va ishlatilmaydigan iboralar, 3 ta oldin-keyin misol bilan.»",
       "30. «Ushbu maqoladan 1 Telegram post, 1 Instagram karusel rejasi va 1 email qoralamasi yarat: [maqola]. Asosiy fikrni buzma.»"
     ]},
+    {"type":"linkp","text":"Marketing bo‘limidagi promptlar g‘oya va matn qoralamasini beradi. Ularni muntazam rubrikalar, nashr jadvali va o‘lchanadigan ish jarayoniga aylantirish uchun {plan} qanday tuzilishini ko‘ring.","links":[{"token":"plan","target":"/uz/smm-xizmatlari/","anchor":"SMM uchun kontent-reja"}]},
     {"type":"h2","id":"biznes","text":"Biznes, savdo va mijozlar uchun 10 ta prompt"},
     {"type":"list","items":[
       "31. «[Biznes] mijozlari ko'p so'raydigan 20 savolni taxmin qil. Har birini sotuv, qo'llab-quvvatlash yoki yetkazib berish turiga ajrat.»",
@@ -114,10 +115,10 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-08-24",
+  "dateModified": "2026-08-25",
   "schemaTypes": ["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-07-30T00:00:00.000Z",
+  "updatedAt": "2026-08-25T00:00:00.000Z",
   "sources": [
     {"title":"OpenAI Help Center — What is ChatGPT?","url":"https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq","note":"ChatGPT imkoniyatlari, foydalanish usullari va natijani tekshirish zarurati; 2026-07-30 kuni tekshirildi."}
   ]

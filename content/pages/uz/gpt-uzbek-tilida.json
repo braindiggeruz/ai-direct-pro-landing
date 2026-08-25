@@ -157,6 +157,13 @@
     },
     {
       "type": "linkp",
+      "text": "AI chat ijtimoiy tarmoqlar uchun g‘oya va matn qoralamasini beradi. Muntazam rubrikalar, nashr taqvimi va natijani o‘lchash kerak bo‘lsa, {smm} alohida ish jarayoni sifatida quriladi.",
+      "links": [
+        {"token":"smm","target":"/uz/smm-xizmatlari/","anchor":"ijtimoiy tarmoqlar uchun kontent tayyorlash xizmati"}
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Kompaniyalar uchun farq va joriy etish rejasi {business} maqolasida.",
       "links": [
         {"token":"business","target":"/uz/blog/chat-gpt-uzbek-biznes-uchun/","anchor":"ChatGPT va AI-bot biznes uchun"}
@@ -312,7 +319,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-08-24",
+  "lastReviewedAt": "2026-08-25",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-08-20"
+  "updatedAt": "2026-08-25"
 }

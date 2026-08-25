@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-08-20",
+  "updatedAt": "2026-08-25",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -356,6 +356,22 @@
       "gscNote": "Found on 2026-08-22 over 2026-05-18..2026-08-18. The spoke was holding the hub's own declared keywords: «smm услуги» at position 20.0 across 14 impressions with the hub absent, and «услуги smm» returning BOTH URLs at once — the spoke at 14.0 and the hub at 37.0. The spoke also holds «услуги смм специалиста» at 9.0 and «что входит в услуги смм» at 32.0, which are legitimately its own. The live SERP for «smm услуги» pulled the same day settles the page type: xspace.uz, latmedia.uz, dora.uz, abba.uz and sos.uz occupy the top eight and every one of them is an agency service page — no explainer ranks. The hub is therefore the correct owner of the commercial term and was losing it to its own spoke. Fixed on 2026-08-22 without a merge or a redirect: the spoke keeps its scope-and-acceptance framing but its meta description no longer carries the bare «услуги SMM» collocation, and the hub's title, description and the «Что входит в SMM-услуги под ключ» heading now carry ordering language plus a «Как заказать SMM-услуги?» FAQ entry. Both URLs keep real distinct value, so no redirect was created.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-08-22"
+    },
+    {
+      "id": "C17-seo-explainer-service",
+      "commercial": {
+        "url": "/ru/seo-prodvizhenie-saytov-tashkent/",
+        "owns": "commission SEO promotion for a business website in Tashkent",
+        "mustNotTarget": ["что такое seo продвижение", "как работает seo продвижение", "что входит в seo продвижение"]
+      },
+      "informational": {
+        "url": "/ru/blog/chto-takoe-seo-prodvizhenie/",
+        "owns": "understand what SEO promotion is, how it works, its stages and its limits",
+        "mustNotTarget": ["seo продвижение сайтов ташкент", "заказать seo ташкент", "seo оптимизация сайта ташкент"]
+      },
+      "gscNote": "Checked over 2026-07-29..2026-08-24 with country=Uzbekistan. For exact «seo продвижение сайтов», only the commercial page appears: 7 impressions at position 24.29; the explainer has no Uzbekistan row. Globally the explainer receives 65 low-position impressions at 68.68 while the service page keeps the stronger position 24.29 on 7 impressions. The existing metadata and bidirectional body links already separate intent, so neither title was changed.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-08-25"
     }
   ],
   "architectureDecisions": [
