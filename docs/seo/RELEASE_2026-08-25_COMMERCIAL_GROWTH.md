@@ -84,6 +84,34 @@ re-authenticate, then `git push origin seo/commercial-growth-2026-08-25b`.
 `not authenticated` later — the OAuth session was invalidated mid-run. Owner
 action: `wrangler login`.
 
+### Update, 2026-08-26 — the Lead Radar release landed, and the integration is verified
+
+Production has since been redeployed from `ce01c0d`, the tip of
+`codex/lead-radar-mvp-20260824`, which **contains `b0a83ff`**: the live sitemap no
+longer lists `/ru/gpt-na-russkom-kak-zadavat-zaprosy/`, so the indexation-recovery
+work is finally serving. That branch is now clean, 10 commits ahead of
+`origin/main` and 0 behind — but still unpushed, so `origin/main` remains
+`b0a83ff` and production still runs code that exists only on this machine.
+
+The two branches were checked against each other rather than assumed compatible:
+
+- `git merge-tree --write-tree` produces a tree with **zero conflicts**.
+- The two commit ranges touch **entirely disjoint file sets** — no single file is
+  modified by both. The SEO release cannot affect Lead Radar and Lead Radar
+  cannot affect the SEO release.
+- The merge was built and gated end to end on `c9dca96`:
+  `tsc -b` clean, `npm run build` 258 sitemap entries, `npm test` **346/346**,
+  the 11-file SEO gate set **123/123**, the 17 Lead Radar test files **79/79**,
+  `seo:audit` 0 critical with 44/0 hreflang pairs, `scan:secrets` clean across
+  3,459 files, `eslint .` clean, and the built-artifact canary passing on all
+  7 release URLs plus 5 regression surfaces.
+- The merged `wrangler.toml` carries **all 14 `LEAD_RADAR_*` variables**, so a
+  deploy from this tree does not strip the live configuration.
+
+`c9dca96` is therefore a validated deploy candidate. It is a local validation
+artifact, not an authored merge of somebody else's release: no Lead Radar file
+was edited, and the branch is unpushed.
+
 **And a decision that is not the repository's to make.** Deploying `main` with
 `wrangler pages deploy` would roll production back off `3526be2`. That removes
 the Lead Radar code now live, and — because `wrangler pages deploy` replaces the
@@ -101,21 +129,51 @@ engineer's in-flight work without them.
 
 Options, in the order they should be considered:
 
-1. **Land `codex/lead-radar-mvp-20260824` on `main` first**, then deploy `main`
-   once. `main` becomes a superset of production, the drift closes, and nothing
-   regresses. Requires the Lead Radar author to finish and merge.
-2. **Deploy an integration of `3526be2` + this branch.** Reaches production today
-   without regressing anything, but keeps production on a SHA that is not `main`
-   and needs conflict resolution in `scripts/prerender.ts`, `src/shared/types.ts`
-   and several `content/pages/ru/*` files, where `b0a83ff` and `3526be2` disagree.
-3. **Deploy `main` alone.** Ships the SEO change today and accepts the Lead Radar
-   rollback. Not recommended.
+1. **Push both branches, land them both on `main`, deploy `main` once.**
+   Both are fast-forwards from `b0a83ff` with disjoint file sets, so the merge is
+   mechanical. `main` becomes a superset of production, the drift closes, and
+   nothing regresses. This is the right end state.
+2. **Deploy the validated integration `c9dca96` now.** Reaches production without
+   regressing anything and is already built and gated, but keeps production on a
+   SHA that is not `main` — the same drift, one release longer.
+3. **Deploy `main` + this branch alone.** Ships the SEO change and rolls Lead
+   Radar back off production, stripping its 14 `wrangler.toml` variables.
+   **Do not do this.**
+
+### Exact commands, once the credentials are back
+
+```bash
+# 1. authenticate (interactive terminal)
+gh auth login -h github.com
+wrangler login
+
+# 2. push both branches
+git -C F:/Claude/gptbot-commercial-growth-20260825 push origin seo/commercial-growth-2026-08-25b
+git -C F:/Claude/gptbot-ui-release-20260824      push origin codex/lead-radar-mvp-20260824
+
+# 3. land both on main (both are fast-forwards from b0a83ff, disjoint files)
+# 4. build and deploy the exact merged main SHA
+npm run build:cf
+node_modules/.bin/wrangler pages deploy dist \
+  --project-name ai-direct-pro-landing \
+  --branch main \
+  --commit-hash <merged-main-sha>
+```
+
+Deploy only from a clean tree, and record the returned deployment id and its
+immutable `*.pages.dev` URL next to the source SHA.
 
 ## Rollback
 
-Current production deployment `3f5760f0-b64e-40e8-b62a-e50745908b93`
-(`https://3f5760f0.ai-direct-pro-landing.pages.dev`, source `3526be2`) is the
-rollback target for whatever ships next. The deployment before it is
+The rollback target is whatever deployment is serving `gptbot.uz` at the moment
+the next deploy is made — as of 2026-08-26 that is the Lead Radar release built
+from `ce01c0d`. Its id was not recorded here because `wrangler` lost its session
+before it could be read; take it from
+`wrangler pages deployment list --project-name ai-direct-pro-landing` immediately
+before deploying, and write it down next to the new one.
+
+Known-good earlier deployments:
+`3f5760f0-b64e-40e8-b62a-e50745908b93` (source `3526be2`) and
 `1252b988-e832-4fd3-95f3-6a4b856034e5` (source `b0a83ff`).
 
 ## Unchanged on purpose
