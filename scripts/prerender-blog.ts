@@ -310,7 +310,16 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
   // x-default must be a real equivalent of this document, not the unrelated
   // homepage. Use the Russian member only for complete bilingual clusters;
   // unpaired articles simply do not need an x-default declaration.
-  const xDefaultHref = hrefRu && hrefUz ? hrefRu : '';
+  //
+  // The same reasoning applies one level up: the self-fallback above means an
+  // article written in one locale only emitted a single self-referencing
+  // <link rel="alternate">. An hreflang annotation describes a SET of
+  // alternates, so a one-member set annotates nothing. Emit the pair or
+  // nothing, matching scripts/prerender.ts.
+  const hasAlternatePair = Boolean(hrefRu && hrefUz);
+  const altRu = hasAlternatePair ? hrefRu : '';
+  const altUz = hasAlternatePair ? hrefUz : '';
+  const xDefaultHref = hasAlternatePair ? hrefRu : '';
 
   return `<!doctype html>
 <html lang="${lang}">
@@ -323,8 +332,8 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
 <meta name="description" content="${escapeHtml(a.description)}" />
 <meta name="robots" content="${robotsContent}" />
 <link rel="canonical" href="${escapeHtml(a.canonical || fullUrl)}" />
-${hrefRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(hrefRu)}" />` : ''}
-${hrefUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(hrefUz)}" />` : ''}
+${altRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(altRu)}" />` : ''}
+${altUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(altUz)}" />` : ''}
 ${xDefaultHref ? `<link rel="alternate" hreflang="x-default" href="${escapeHtml(xDefaultHref)}" />` : ''}
 
 <meta property="og:type" content="article" />
