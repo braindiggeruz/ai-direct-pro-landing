@@ -275,12 +275,18 @@
           if (isTg) {
             gtag('event','telegram_open_attempt',{
               page_path: location.pathname,
+              locale: seoLocale,
+              page_kind: isArticle ? 'article' : 'landing',
+              service_slug: serviceSlug,
               cta_text: label,
+              cta_zone: ctaZone(el),
               target_url: href,
               contact_kind: isContactTg ? 'contact' : 'product_bot'
             });
           }
-          // The one lead this site can honestly observe.
+          // The one lead this site can honestly observe. Same six commercial
+          // dimensions as telegram_open_attempt, so the two can be compared on
+          // identical breakdowns in GA4.
           if (isContactTg) {
             gtag('event','generate_lead',{
               page_path: location.pathname,
@@ -289,6 +295,8 @@
               service_slug: serviceSlug,
               cta_text: label,
               cta_zone: ctaZone(el),
+              target_url: href,
+              contact_kind: 'contact',
               method: 'telegram'
             });
           }

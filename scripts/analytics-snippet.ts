@@ -105,12 +105,20 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
     if (isTg) {
       gtag('event','telegram_open_attempt',{
         page_path: location.pathname,
+        locale: seoLocale,
+        page_kind: isArticle ? 'article' : 'landing',
+        service_slug: serviceSlug,
         cta_text: label,
+        cta_zone: ctaZone(el),
         target_url: href,
         contact_kind: isContactTg ? 'contact' : 'product_bot'
       });
     }
     // The one lead this site can honestly observe. See the header note.
+    // Carries the same six commercial dimensions as telegram_open_attempt so a
+    // GA4 exploration can compare attempts with leads on identical breakdowns —
+    // contact_kind in particular, because telegram_open_attempt fires for the
+    // product bots too and must never be read as a lead.
     if (isContactTg) {
       gtag('event','generate_lead',{
         page_path: location.pathname,
@@ -119,6 +127,8 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         service_slug: serviceSlug,
         cta_text: label,
         cta_zone: ctaZone(el),
+        target_url: href,
+        contact_kind: 'contact',
         method: 'telegram'
       });
     }

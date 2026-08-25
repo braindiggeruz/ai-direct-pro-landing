@@ -203,3 +203,73 @@ test('the host guard is a loopback denylist, not a single-host allowlist', () =>
     }
   }
 });
+
+// ── the six commercial dimensions ────────────────────────────────────────────
+//
+// The GA4 property reports customDimensionCount = 0: these parameters are
+// already being sent and are unreadable until someone registers them in the
+// GA4 admin. That registration is not retroactive, so the parameters must at
+// least be sent consistently — the day they are registered is the day the
+// history starts, and a parameter missing from one event leaves a permanent
+// hole in the comparison.
+//
+// telegram_open_attempt fires for the studio's contact handles AND for every
+// product bot. generate_lead fires only for the contact handles. Reading the
+// first as a lead would count AI-chat traffic as enquiries, which is exactly
+// what contact_kind exists to prevent — so both events must carry it.
+const COMMERCIAL_DIMENSIONS = [
+  'service_slug',
+  'contact_kind',
+  'locale',
+  'page_kind',
+  'target_url',
+  'cta_zone',
+];
+
+function eventPayload(source: string, event: string): string {
+  const at = source.indexOf(`'${event}'`);
+  assert.notEqual(at, -1, `${event} is not emitted`);
+  const open = source.indexOf('{', at);
+  const close = source.indexOf('}', open);
+  assert.ok(open !== -1 && close !== -1, `${event} has no payload object`);
+  return source.slice(open, close);
+}
+
+for (const event of ['generate_lead', 'telegram_open_attempt']) {
+  test(`${event} carries all six commercial dimensions in the prerendered block`, () => {
+    const payload = eventPayload(ANALYTICS_HEAD, event);
+    for (const dimension of COMMERCIAL_DIMENSIONS) {
+      assert.ok(payload.includes(`${dimension}:`), `${event} does not send ${dimension}`);
+    }
+  });
+
+  test(`${event} carries all six commercial dimensions in index.html`, () => {
+    const payload = eventPayload(indexHtmlAnalyticsBlock(), event);
+    for (const dimension of COMMERCIAL_DIMENSIONS) {
+      assert.ok(payload.includes(`${dimension}:`), `index.html ${event} does not send ${dimension}`);
+    }
+  });
+}
+
+test('generate_lead never claims a product-bot click as a service enquiry', () => {
+  for (const source of [ANALYTICS_HEAD, indexHtmlAnalyticsBlock()]) {
+    const payload = eventPayload(source, 'generate_lead');
+    // The event only fires inside `if (isContactTg)`, so its contact_kind is a
+    // constant. A ternary here would mean the guard had been widened.
+    assert.match(
+      payload,
+      /contact_kind:\s*'contact'/,
+      'generate_lead sends a conditional contact_kind — the event fires for product bots',
+    );
+  }
+});
+
+test('no analytics payload carries a phone number or an email address', () => {
+  for (const source of [ANALYTICS_HEAD, indexHtmlAnalyticsBlock()]) {
+    assert.doesNotMatch(source, /\+998\s?\d/, 'a phone number is hard-coded into an analytics payload');
+    assert.doesNotMatch(source, /[\w.+-]+@[\w-]+\.[\w.]+/, 'an email address reaches an analytics payload');
+    for (const forbidden of ['tel:', 'mailto:']) {
+      assert.ok(!source.includes(forbidden), `analytics reads ${forbidden} hrefs into a payload`);
+    }
+  }
+});
