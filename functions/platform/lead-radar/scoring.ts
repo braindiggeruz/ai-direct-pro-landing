@@ -19,21 +19,37 @@ export interface ScoreInput {
   category: string;
 }
 
+const ACTIVE_INTENT_MAX_AGE_MS = 90 * 24 * 60 * 60_000;
+const CLOCK_SKEW_MS = 5 * 60_000;
+
+function isFreshDatedIntent(signal: LeadRadarSignal, nowMs: number): boolean {
+  if (
+    signal.classification !== 'fact'
+    || !['hiring', 'tender', 'new_branch'].includes(signal.type)
+  ) return false;
+  const observedMs = Date.parse(signal.observedAt);
+  return Number.isFinite(observedMs)
+    && observedMs <= nowMs + CLOCK_SKEW_MS
+    && nowMs - observedMs <= ACTIVE_INTENT_MAX_AGE_MS;
+}
+
 function ids(input: ScoreInput, paths: string[]): string[] {
   return input.evidence
     .filter((item) => paths.some((path) => item.fieldPath.startsWith(path)))
     .map((item) => item.id);
 }
 
-export function scoreLead(input: ScoreInput): {
+export function scoreLead(input: ScoreInput, now: Date = new Date()): {
   score: number;
   confidence: number;
   priority: LeadRadarPriority;
   components: LeadRadarScoreComponent[];
 } {
-  const hasIntent = input.signals.some((signal) => (
-    signal.type === 'hiring' || signal.type === 'tender' || signal.type === 'new_branch'
-  ));
+  const nowMs = now.getTime();
+  const activeIntentSignals = Number.isFinite(nowMs)
+    ? input.signals.filter((signal) => isFreshDatedIntent(signal, nowMs))
+    : [];
+  const hasIntent = activeIntentSignals.length > 0;
   const digitalFacts = input.signals.filter((signal) => (
     signal.type === 'messenger' || signal.type === 'online_booking' || signal.type === 'contact_form'
   ));
@@ -41,7 +57,9 @@ export function scoreLead(input: ScoreInput): {
   const personalTelegram = input.telegramContact?.type === 'human'
     && input.telegramContact.messageable
     && decisionMakers.some((person) => (
-      person.contactType === 'human' && person.telegramUrl === input.telegramContact?.url
+      person.contactType === 'human'
+      && person.telegramUrl === input.telegramContact?.url
+      && person.contactReviewStatus === 'approved'
     ));
   const businessTelegram = input.telegramContact?.type === 'business';
   const hasNamedDecisionMaker = decisionMakers.length > 0;
@@ -59,8 +77,10 @@ export function scoreLead(input: ScoreInput): {
     ...(hasNamedDecisionMaker ? decisionMakers.flatMap((person) => person.evidenceIds) : []),
   ];
   const categoryEvidence = ids(input, ['company.category']);
-  const geoEvidence = ids(input, ['locations']);
-  const signalEvidence = input.signals.flatMap((signal) => signal.evidenceIds);
+  const geoEvidence = input.evidence
+    .filter((item) => item.fieldPath.startsWith('locations.') && item.classification !== 'model_inference')
+    .map((item) => item.id);
+  const intentEvidence = activeIntentSignals.flatMap((signal) => signal.evidenceIds);
 
   const components: LeadRadarScoreComponent[] = [
     {
@@ -95,9 +115,9 @@ export function scoreLead(input: ScoreInput): {
       score: hasIntent ? 25 : 5,
       max: 25,
       reason: hasIntent
-        ? 'Есть свежий сигнал найма, тендера или расширения'
-        : 'Прямой сигнал покупки не найден; это перспективная компания, а не горячий inbound-лид',
-      evidenceIds: signalEvidence,
+        ? 'Есть датированный свежий сигнал найма, тендера или расширения'
+        : 'Свежий датированный сигнал покупки не подтверждён; это перспективная компания, а не горячий inbound-лид',
+      evidenceIds: intentEvidence,
     },
     {
       key: 'contactability',

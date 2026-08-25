@@ -2,8 +2,9 @@
 -- Additive and backward compatible: existing rows deserialize to null / [].
 -- Rollback: rebuild lead_radar_companies without these two JSON columns; no
 -- existing search, company, evidence or suppression rows need to be removed.
--- Historical telegram_count values are intentionally reset below because they
--- did not prove a human LPR; they cannot be safely reconstructed on rollback.
+-- Historical aggregate counters are preserved. Their legacy semantics are
+-- exposed by the application as company Telegram references, never relabelled
+-- as verified personal decision-maker contacts.
 
 ALTER TABLE lead_radar_companies
   ADD COLUMN telegram_contact_json TEXT NOT NULL DEFAULT 'null'
@@ -20,8 +21,3 @@ ALTER TABLE lead_radar_companies
       AND json_valid(decision_makers_json)
       AND json_type(decision_makers_json) = 'array'
     );
-
--- Historical rows only knew that a t.me URL existed; they did not prove that
--- it belonged to a named human. Reset the old aggregate instead of relabelling
--- bots or corporate channels as personal decision-maker contacts.
-UPDATE lead_radar_searches SET telegram_count = 0;

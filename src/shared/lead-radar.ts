@@ -8,6 +8,39 @@ export const LEAD_RADAR_SEARCH_STATUSES = [
 
 export type LeadRadarSearchStatus = (typeof LEAD_RADAR_SEARCH_STATUSES)[number];
 
+export const LEAD_RADAR_SEARCH_PHASES = [
+  'queued',
+  'discovering',
+  'enriching',
+  'finalizing',
+  'completed',
+] as const;
+export type LeadRadarSearchPhase = (typeof LEAD_RADAR_SEARCH_PHASES)[number];
+
+export const LEAD_RADAR_ENRICHMENT_STATUSES = [
+  'pending',
+  'queued',
+  'processing',
+  'enriched',
+  'terminal',
+] as const;
+export type LeadRadarEnrichmentStatus = (typeof LEAD_RADAR_ENRICHMENT_STATUSES)[number];
+
+export const LEAD_RADAR_ENRICHMENT_REASONS = [
+  'no_website',
+  'enriched',
+  'no_relevant_evidence',
+  'robots_blocked',
+  'http_blocked',
+  'source_timeout',
+  'source_unavailable',
+  'invalid_website',
+  'payload_invalid',
+  'retry_exhausted',
+  'suppressed',
+] as const;
+export type LeadRadarEnrichmentReason = (typeof LEAD_RADAR_ENRICHMENT_REASONS)[number];
+
 export const LEAD_RADAR_PRIORITIES = ['P1', 'P2', 'P3'] as const;
 export type LeadRadarPriority = (typeof LEAD_RADAR_PRIORITIES)[number];
 
@@ -73,9 +106,12 @@ export const LEAD_RADAR_TELEGRAM_CONTACT_TYPES = [
 
 export type LeadRadarTelegramContactType = (typeof LEAD_RADAR_TELEGRAM_CONTACT_TYPES)[number];
 
+export const LEAD_RADAR_CONTACT_REVIEW_STATUSES = ['unreviewed', 'approved', 'rejected'] as const;
+export type LeadRadarContactReviewStatus = (typeof LEAD_RADAR_CONTACT_REVIEW_STATUSES)[number];
+
 /**
  * A public Telegram reference observed in source evidence. `messageable` is
- * deliberately false unless the discovery layer can bind the username to a
+ * deliberately false until an operator approves a fresh username bound to a
  * named human decision-maker. A t.me URL alone is never proof of a person.
  */
 export interface LeadRadarTelegramContact {
@@ -106,6 +142,9 @@ export interface LeadRadarDecisionMaker {
   sourceUrl: string;
   evidence: string;
   verifiedAt: string;
+  sourceClaim: 'official_site_proximity' | 'json_ld_same_as';
+  contactReviewStatus: LeadRadarContactReviewStatus;
+  contactReviewedAt: string | null;
 }
 
 export interface LeadRadarScoreComponent {
@@ -131,6 +170,9 @@ export interface LeadRadarLead {
   telegramUrl: string | null;
   telegramContact: LeadRadarTelegramContact | null;
   decisionMakers: LeadRadarDecisionMaker[];
+  enrichmentStatus: LeadRadarEnrichmentStatus;
+  enrichmentReason: LeadRadarEnrichmentReason | null;
+  enrichmentAttempts: number;
   score: number;
   confidence: number;
   priority: LeadRadarPriority;
@@ -154,6 +196,20 @@ export interface LeadRadarSearchSummary {
   p3Count: number;
   telegramCount: number;
   errorCode: string | null;
+  phase: LeadRadarSearchPhase;
+  funnel: {
+    rawDiscoveredCount: number;
+    candidateCount: number;
+    processedCount: number;
+    pendingCount: number;
+    websiteCount: number;
+    enrichedCount: number;
+    decisionMakerCount: number;
+    companyTelegramCount: number;
+    personalTelegramCount: number;
+    excludedCount: number;
+  };
+  warnings: string[];
   createdAt: string;
   completedAt: string | null;
 }
@@ -161,9 +217,69 @@ export interface LeadRadarSearchSummary {
 export interface LeadRadarSearchResult {
   search: LeadRadarSearchSummary;
   leads: LeadRadarLead[];
+  /** Server-authoritative capability state; absent only in internal fixtures. */
+  capabilities?: LeadRadarApiCapabilities;
+}
+
+export interface LeadRadarApiCapabilities {
+  admissionEnabled: boolean;
+  processingEnabled: boolean;
+  contactEnabled: boolean;
+  mode: 'paused' | 'research' | 'contact';
+}
+
+export type LeadRadarTelegramBusinessConnectionStatus =
+  | 'unconfigured'
+  | 'configured'
+  | 'pending'
+  | 'connected'
+  | 'paused'
+  | 'error';
+
+/** Non-secret connection summary safe for the owner UI. */
+export interface LeadRadarTelegramBusinessStatus {
+  status: LeadRadarTelegramBusinessConnectionStatus;
+  canReply: boolean;
+  connectedAt: string | null;
+  activeCompanyChats: number;
+}
+
+export interface LeadRadarTelegramBusinessConnectLink {
+  url: string;
+  expiresAt: string;
+}
+
+export interface LeadRadarTelegramOutreachEndpoint {
+  kind: LeadRadarTelegramContactType;
+  verification: 'verified' | 'unverified';
+  ownership: 'corporate' | 'personal' | 'unknown';
+  doNotContact: boolean;
+}
+
+/** Server-authoritative eligibility and manual Telegram draft for one company. */
+export interface LeadRadarTelegramOutreachPreparation {
+  endpoint: LeadRadarTelegramOutreachEndpoint;
+  manualDraftUrl: string | null;
+  activeChatEligible: boolean;
+  bindingId: string | null;
+  lastInboundAt: string | null;
+}
+
+/** One-time, server-minted approval bound to the exact company, chat and text. */
+export interface LeadRadarTelegramBusinessApproval {
+  approvalToken: string;
+  expiresAt: string;
+}
+
+export interface LeadRadarTelegramBusinessSendResponse {
+  /** `ambiguous` is terminal for automatic UI retries; the operator must inspect the chat. */
+  status: 'sent' | 'replayed' | 'ambiguous';
+  effectId: string;
 }
 
 export interface LeadRadarOverview {
+  /** Server-authoritative capability state; absent only in internal fixtures. */
+  capabilities?: LeadRadarApiCapabilities;
   searches: LeadRadarSearchSummary[];
   totals: {
     searches: number;

@@ -286,6 +286,7 @@ export interface CallOptions {
   body?: unknown;
   params?: Record<string, string>;
   search?: string;
+  headers?: Record<string, string>;
   /** Extra bindings a route needs — `MARKET_MEDIA`, for one. */
   env?: Record<string, unknown>;
 }
@@ -302,6 +303,7 @@ export async function callRoute(
   options: CallOptions = {},
 ): Promise<{ status: number; body: Record<string, unknown>; headers: Headers }> {
   const headers = new Headers({ Accept: 'application/json' });
+  for (const [name, value] of Object.entries(options.headers ?? {})) headers.set(name, value);
   if (options.token) headers.set('Authorization', `Bearer ${options.token}`);
   const init: RequestInit = { method: options.method ?? 'GET', headers };
   if (options.body !== undefined) {

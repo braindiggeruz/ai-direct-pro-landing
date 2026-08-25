@@ -1,0 +1,79 @@
+name: Lead Radar release gate
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lead-radar-release-gate.yml'
+      - 'functions/**'
+      - 'migrations/**'
+      - 'scripts/lead-radar/**'
+      - 'src/admin/**'
+      - 'src/shared/lead-radar.ts'
+      - 'tests/lead-radar*.test.ts'
+      - 'tsconfig*.json'
+      - 'workers/automation-worker.ts'
+      - 'wrangler.automation.toml'
+      - 'package.json'
+      - 'yarn.lock'
+  push:
+    branches: ['**']
+    paths:
+      - '.github/workflows/lead-radar-release-gate.yml'
+      - 'functions/**'
+      - 'migrations/**'
+      - 'scripts/lead-radar/**'
+      - 'src/admin/**'
+      - 'src/shared/lead-radar.ts'
+      - 'tests/lead-radar*.test.ts'
+      - 'tsconfig*.json'
+      - 'workers/automation-worker.ts'
+      - 'wrangler.automation.toml'
+      - 'package.json'
+      - 'yarn.lock'
+  workflow_dispatch:
+
+# The job gets no write token and receives no production credentials. The only
+# Wrangler command admitted by the gate is `deploy --dry-run` with a local
+# temporary outdir; D1 migration/apply commands are rejected before execution.
+permissions:
+  contents: read
+
+concurrency:
+  group: lead-radar-release-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          corepack enable
+          yarn install --frozen-lockfile
+
+      - name: Test the gate without running the build
+        run: node --import tsx --test tests/lead-radar-release-gate.test.ts
+
+      - name: Execute the non-deploying release gate
+        run: >-
+          npx --no-install tsx scripts/lead-radar/release-gate.ts
+          --execute
+          --report reports/lead-radar-release-gate.json
+
+      - name: Preserve the machine-readable report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lead-radar-release-gate-report
+          path: reports/lead-radar-release-gate.json
+          if-no-files-found: error
+          retention-days: 14

@@ -96,6 +96,19 @@ queue = "gptbot-automation"
 # wrangler.automation.toml. Both fail closed when it is not exactly "true".
 [vars]
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
+# Lead Radar research is enabled only for the owner canary organization.
+# Contact remains an independent legal/credential gate and stays fail-closed;
+# a Pages upload must never inherit a permissive value from an old dashboard.
+LEAD_RADAR_ADMISSION_ENABLED = "true"
+LEAD_RADAR_PROCESSING_ENABLED = "true"
+LEAD_RADAR_CONTACT_ENABLED = "false"
+LEAD_RADAR_PERSONAL_RETENTION_DAYS = "30"
+LEAD_RADAR_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
+LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
+# Public username stays empty until the dedicated Business bot and its secret
+# bindings are configured. Empty is a hard connection pause.
+LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""
+LEAD_RADAR_CONTACT_DAILY_LIMIT = "10"
 TELEGRAM_AGENTS_BOT_USERNAME = "BormiMarketBot"
 MARKET_MINI_APP_ENABLED = "true"
 MARKET_MINI_APP_BUYER_ENABLED = "true"

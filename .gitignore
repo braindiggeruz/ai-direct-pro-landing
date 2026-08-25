@@ -45,6 +45,9 @@ _worker.bundle
 coverage/
 playwright-report/
 test-results/
+# Generated Lead Radar gate evidence is uploaded by CI and retained locally;
+# it is not source code and must not make an otherwise immutable RC dirty.
+reports/lead-radar-release-gate.json
 
 # Local-only secret handoff staging — never committed
 .secrets/

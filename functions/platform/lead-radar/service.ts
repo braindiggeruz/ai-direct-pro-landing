@@ -4,7 +4,7 @@ import type {
   LeadRadarSearchResult,
 } from '../../../src/shared/lead-radar';
 import { scoreLead } from './scoring';
-import { OpenStreetMapLeadSource } from './sources';
+import { OpenStreetMapLeadSource, type WebsiteFacts } from './sources';
 import { LeadRadarStore, type LeadRadarSuppressionFingerprint } from './store';
 import { LeadRadarSourceError, type LeadRadarSource, type SourceCandidate, type StoredLeadInput } from './types';
 import { normalizeCompanyKey } from './validation';
@@ -18,17 +18,44 @@ export class LeadRadarBusyError extends Error {
   }
 }
 
-function canonicalKey(candidate: SourceCandidate): string {
-  if (candidate.website) {
-    try { return `domain:${new URL(candidate.website).hostname.replace(/^www\./, '').toLowerCase()}`; } catch { /* use fallback */ }
-  }
-  if (candidate.phone) return `phone:${candidate.phone.replace(/\D/g, '')}`;
-  return `name:${normalizeCompanyKey(candidate.name)}:${normalizeCompanyKey(candidate.address ?? candidate.city)}`;
+/** A processed row is only verified when source facts prove identity plus a real-world/corporate anchor. */
+export function isEvidenceVerifiedLead(lead: Pick<StoredLeadInput, 'evidence'>): boolean {
+  const trusted = lead.evidence.filter((item) => (
+    item.classification !== 'model_inference' && item.confidence >= 0.7
+  ));
+  const identity = trusted.some((item) => item.fieldPath === 'company.name');
+  const anchored = trusted.some((item) => (
+    item.fieldPath.startsWith('locations.')
+    || item.fieldPath.startsWith('company_contacts.')
+    || (
+      item.fieldPath === 'web.website'
+      && item.sourceType === 'company_website'
+      && item.classification === 'fact'
+    )
+  ));
+  return identity && anchored;
 }
-function toLead(candidate: SourceCandidate, now: string): StoredLeadInput {
+
+export function sourceCandidateCanonicalKey(candidate: SourceCandidate): string {
+  const branchKey = `${normalizeCompanyKey(candidate.name)}:${normalizeCompanyKey(candidate.address ?? candidate.city)}`;
+  const verifiedWebsite = candidate.evidence.some((item) => (
+    item.fieldPath === 'web.website'
+    && item.sourceType === 'company_website'
+    && item.classification === 'fact'
+  ));
+  if (candidate.website && verifiedWebsite) {
+    try {
+      const domain = new URL(candidate.website).hostname.replace(/^www\./, '').toLowerCase();
+      return `site:${domain}:branch:${branchKey}`;
+    } catch { /* use a weaker public identity below */ }
+  }
+  if (candidate.phone) return `phone:${candidate.phone.replace(/\D/g, '')}:branch:${branchKey}`;
+  return `name:${branchKey}`;
+}
+export function sourceCandidateToStoredLead(candidate: SourceCandidate, now: string): StoredLeadInput {
   const scored = scoreLead(candidate);
   return {
-    canonicalKey: canonicalKey(candidate),
+    canonicalKey: sourceCandidateCanonicalKey(candidate),
     name: candidate.name,
     category: candidate.category,
     city: candidate.city,
@@ -40,6 +67,9 @@ function toLead(candidate: SourceCandidate, now: string): StoredLeadInput {
     telegramUrl: candidate.telegramUrl,
     telegramContact: candidate.telegramContact,
     decisionMakers: candidate.decisionMakers,
+    enrichmentStatus: candidate.enrichmentStatus ?? (candidate.website ? 'pending' : 'terminal'),
+    enrichmentReason: candidate.enrichmentReason ?? (candidate.website ? null : 'no_website'),
+    enrichmentAttempts: candidate.enrichmentAttempts ?? 0,
     score: scored.score,
     confidence: scored.confidence,
     priority: scored.priority,
@@ -53,13 +83,72 @@ function toLead(candidate: SourceCandidate, now: string): StoredLeadInput {
   };
 }
 
-function hasVerifiedPersonalTelegram(lead: StoredLeadInput): boolean {
+export function mergeWebsiteFactsIntoLead(
+  lead: StoredLeadInput,
+  facts: WebsiteFacts,
+  now: string,
+  attempts: number,
+): StoredLeadInput {
+  const rank = { human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0 } as const;
+  const telegramContact = [facts.telegramContact, lead.telegramContact]
+    .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .map((item) => ({ ...item, messageable: false }))
+    .sort((a, b) => rank[b.type] - rank[a.type] || b.confidence - a.confidence)[0] ?? null;
+  const people = new Map<string, StoredLeadInput['decisionMakers'][number]>();
+  for (const person of [...lead.decisionMakers, ...facts.decisionMakers]) {
+    const key = `${normalizeCompanyKey(person.name)}:${normalizeCompanyKey(person.role)}`;
+    const existing = people.get(key);
+    if (!existing || person.confidence > existing.confidence || (!existing.telegramUrl && person.telegramUrl)) {
+      people.set(key, { ...person, contactReviewStatus: 'unreviewed', contactReviewedAt: null });
+    }
+  }
+  const decisionMakers = [...people.values()];
+  const evidence = [...lead.evidence, ...facts.evidence].filter((item, index, all) => (
+    all.findIndex((candidate) => candidate.id === item.id) === index
+  ));
+  const signals = [...lead.signals, ...facts.signals].filter((item, index, all) => (
+    all.findIndex((candidate) => candidate.type === item.type) === index
+  ));
+  const candidate = {
+    ...lead,
+    website: facts.website,
+    phone: facts.phone ?? lead.phone,
+    genericEmail: facts.genericEmail ?? lead.genericEmail,
+    telegramUrl: telegramContact && ['human', 'business'].includes(telegramContact.type)
+      ? telegramContact.url
+      : null,
+    telegramContact,
+    decisionMakers,
+    evidence,
+    signals,
+  };
+  const scored = scoreLead(candidate);
+  return {
+    ...candidate,
+    score: scored.score,
+    confidence: scored.confidence,
+    priority: scored.priority,
+    scoreComponents: scored.components,
+    enrichmentStatus: 'enriched',
+    enrichmentReason: 'enriched',
+    enrichmentAttempts: attempts,
+    lastVerifiedAt: now,
+  };
+}
+
+export function hasVerifiedPersonalTelegram(lead: Pick<StoredLeadInput, 'telegramContact' | 'decisionMakers'>): boolean {
   const contact = lead.telegramContact;
   if (!contact || contact.type !== 'human' || !contact.messageable) return false;
+  const now = Date.now();
+  const contactObserved = Date.parse(contact.verifiedAt);
+  if (!Number.isFinite(contactObserved) || now - contactObserved > 30 * 24 * 60 * 60_000) return false;
   return lead.decisionMakers.some((person) => (
     person.contactType === 'human'
     && person.telegramUrl === contact.url
     && Boolean(person.telegramUsername)
+    && person.contactReviewStatus === 'approved'
+    && Number.isFinite(Date.parse(person.verifiedAt))
+    && now - Date.parse(person.verifiedAt) <= 30 * 24 * 60 * 60_000
   ));
 }
 
@@ -130,7 +219,7 @@ export class LeadRadarService {
 
       const unique = new Map<string, StoredLeadInput>();
       for (const candidate of candidates) {
-        const lead = toLead(candidate, now);
+        const lead = sourceCandidateToStoredLead(candidate, now);
         const existing = unique.get(lead.canonicalKey);
         if (
           !existing
@@ -144,7 +233,6 @@ export class LeadRadarService {
       const suppressions = await this.store.listSuppressions(orgId);
       const eligible = [...unique.values()].filter((lead) => !isSuppressed(lead, suppressions));
       const ranked = eligible
-        .filter((lead) => !input.telegramRequired || hasVerifiedPersonalTelegram(lead))
         .sort((a, b) => b.score - a.score || b.confidence - a.confidence || a.name.localeCompare(b.name, 'ru'))
         .slice(0, input.desiredCount);
       const persisted: StoredLeadInput[] = [];
@@ -158,7 +246,7 @@ export class LeadRadarService {
       await this.store.finishSearch(orgId, searchId, {
         status,
         candidateCount: eligible.length,
-        verifiedCount: persisted.length,
+        verifiedCount: persisted.filter(isEvidenceVerifiedLead).length,
         p1Count: persisted.filter((lead) => lead.priority === 'P1').length,
         p2Count: persisted.filter((lead) => lead.priority === 'P2').length,
         p3Count: persisted.filter((lead) => lead.priority === 'P3').length,

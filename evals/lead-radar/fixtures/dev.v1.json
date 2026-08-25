@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "lead-radar-golden-manifest/v1",
+  "datasetVersion": "lead-radar-dev-2026-08-25.v1",
+  "split": "dev",
+  "seed": "lead-radar-dev-independent-seed-2026-08-25-v1",
+  "locale": {
+    "city": "Tashkent",
+    "country": "UZ",
+    "languages": ["ru", "uz"],
+    "niches": [
+      "dentistry",
+      "beauty_salons",
+      "training_centers",
+      "real_estate",
+      "car_services",
+      "food_delivery"
+    ]
+  },
+  "namespace": {
+    "entityPrefix": "lr-dev-v1",
+    "evidenceDomainSuffix": "dev.lead-radar-golden.invalid"
+  },
+  "freeze": {
+    "frozenAt": "2026-08-24T00:00:00.000Z",
+    "generatorVersion": "lead-radar-synthetic-generator/1.0.0",
+    "immutable": true,
+    "tuningAllowed": true,
+    "independentlyLabelled": false,
+    "sourcePolicy": "synthetic-public-safe-only",
+    "containsRealPersonPii": false,
+    "expectedManifestSha256": "a7e9253f1c2c849625f77ff3719d4151c60ceca7aae7f9274891805c7dd95a34",
+    "expectedExpandedSha256": "14c0011d75847afb118f12eb5d60c7da5ff35112dab962e152098b756d583031"
+  },
+  "blocks": {
+    "companies": {
+      "positivesPerNicheLanguageCell": 15,
+      "hardNegativesPerNicheLanguageCell": 5,
+      "negativeKinds": [
+        "closed_company",
+        "wrong_geo",
+        "adjacent_niche",
+        "shared_domain",
+        "branch_collision",
+        "parked_domain",
+        "unverified_official_site",
+        "namesake_company"
+      ],
+      "corporateRouteModulo": 5,
+      "corporateRouteSlots": [0, 1, 2, 3]
+    },
+    "rankings": {
+      "searchesPerNicheLanguageCell": 4,
+      "candidateCardsPerSearch": 12,
+      "actionableCardsPerSearch": 10,
+      "evaluatedTopK": 10
+    },
+    "telegram": {
+      "endpointsPerType": 20,
+      "types": ["business", "human", "bot", "channel", "group", "unknown"]
+    },
+    "people": {
+      "predictedPositiveEligibleCount": 40,
+      "negativeAffiliationCount": 20
+    },
+    "personalCtaNegatives": {
+      "count": 120,
+      "reasons": [
+        "wrong_company",
+        "stale_role",
+        "shared_contact_card",
+        "missing_consent_or_gate",
+        "dnc_suppressed",
+        "unknown_identity",
+        "negative_affiliation",
+        "channel_not_approved"
+      ]
+    }
+  },
+  "expectedCounts": {
+    "companies": 240,
+    "rankingSearches": 48,
+    "rankingCards": 576,
+    "telegramEndpoints": 120,
+    "personEdges": 60,
+    "personPredictedPositiveEligible": 40,
+    "personalCtaNegatives": 120
+  }
+}

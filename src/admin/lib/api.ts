@@ -6,6 +6,12 @@ const BASE = (import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/$
 
 const TOKEN_KEY = 'gptbot_admin_token';
 
+function jsonRecord(value: unknown): Record<string, unknown> | null {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : null;
+}
+
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
@@ -14,9 +20,14 @@ export function setToken(t: string | null): void {
   else localStorage.removeItem(TOKEN_KEY);
 }
 
-async function request<T>(method: string, path: string, body?: unknown, opts?: { timeoutMs?: number }): Promise<T> {
+async function request<T>(
+  method: string,
+  path: string,
+  body?: unknown,
+  opts?: { timeoutMs?: number; headers?: Record<string, string> },
+): Promise<T> {
   const url = `${BASE}${path}`;
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  const headers: Record<string, string> = { 'Content-Type': 'application/json', ...opts?.headers };
   const token = getToken();
   if (token) headers.Authorization = `Bearer ${token}`;
   let signal: AbortSignal | undefined;
@@ -39,25 +50,32 @@ async function request<T>(method: string, path: string, body?: unknown, opts?: {
       let requestId = res.headers.get('x-request-id') || undefined;
       let endpoint: string | undefined;
       let retryable: boolean | undefined;
+      const retryAfterHeader = res.headers.get('retry-after');
+      const retryAfterSeconds = retryAfterHeader && Number.isFinite(Number(retryAfterHeader))
+        ? Math.max(0, Math.ceil(Number(retryAfterHeader)))
+        : undefined;
       try {
-        const d = await res.json();
-        if (d?.error && typeof d.error === 'object') {
+        const d = jsonRecord(await res.json());
+        const structuredError = jsonRecord(d?.error);
+        if (structuredError) {
           // Structured shape from withErrorHandler.
-          err = d.error.message || err;
-          code = d.error.code;
-          requestId = d.error.request_id || requestId;
-          endpoint = d.error.endpoint;
-          retryable = d.error.retryable;
-        } else {
-          err = d.error || d.detail || d.error_message || err;
+          if (typeof structuredError.message === 'string') err = structuredError.message;
+          if (typeof structuredError.code === 'string') code = structuredError.code;
+          if (typeof structuredError.request_id === 'string') requestId = structuredError.request_id;
+          if (typeof structuredError.endpoint === 'string') endpoint = structuredError.endpoint;
+          if (typeof structuredError.retryable === 'boolean') retryable = structuredError.retryable;
+        } else if (d) {
+          const message = [d.error, d.detail, d.error_message]
+            .find((value): value is string => typeof value === 'string');
+          if (message) err = message;
           if (typeof d.error === 'string') code = d.error;
-          requestId = d.request_id || requestId;
+          if (typeof d.request_id === 'string') requestId = d.request_id;
         }
       } catch { /* ignore non-JSON */ }
       const e = new Error(err) as Error & {
-        code?: string; requestId?: string; endpoint?: string; retryable?: boolean; status?: number;
+        code?: string; requestId?: string; endpoint?: string; retryable?: boolean; status?: number; retryAfterSeconds?: number;
       };
-      e.code = code; e.requestId = requestId; e.endpoint = endpoint; e.retryable = retryable; e.status = res.status;
+      e.code = code; e.requestId = requestId; e.endpoint = endpoint; e.retryable = retryable; e.status = res.status; e.retryAfterSeconds = retryAfterSeconds;
       throw e;
     }
     return res.json() as Promise<T>;
@@ -571,12 +589,15 @@ export const api = {
   // carrying a source URL and never fabricates a missing company/contact.
   leadRadarOverview: () =>
     request<import('../../shared/lead-radar').LeadRadarOverview>('GET', '/api/admin/lead-radar'),
-  leadRadarSearch: (input: import('../../shared/lead-radar').LeadRadarSearchInput) =>
+  leadRadarSearch: (
+    input: import('../../shared/lead-radar').LeadRadarSearchInput,
+    idempotencyKey: string,
+  ) =>
     request<import('../../shared/lead-radar').LeadRadarSearchResult>(
       'POST',
       '/api/admin/lead-radar/searches',
       input,
-      { timeoutMs: 120_000 },
+      { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
   leadRadarSearchResult: (searchId: string) =>
     request<import('../../shared/lead-radar').LeadRadarSearchResult>(
@@ -590,6 +611,57 @@ export const api = {
     'PATCH',
     `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}`,
     { lifecycle },
+  ),
+  leadRadarReviewDecisionMaker: (
+    leadId: string,
+    decisionMakerId: string,
+    contactReviewStatus: 'approved' | 'rejected',
+  ) => request<{ ok: true; contactReviewStatus: 'approved' | 'rejected'; contactReviewedAt: string }>(
+    'PATCH',
+    `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/decision-makers/${encodeURIComponent(decisionMakerId)}`,
+      { contactReviewStatus },
+    ),
+  leadRadarTelegramBusinessStatus: () =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramBusinessStatus>(
+      'GET',
+      '/api/admin/lead-radar/telegram-business',
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarTelegramBusinessConnect: (idempotencyKey: string) =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramBusinessConnectLink>(
+      'POST',
+      '/api/admin/lead-radar/telegram-business/connect',
+      {},
+      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+  leadRadarPrepareTelegramOutreach: (leadId: string, text: string) =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramOutreachPreparation>(
+      'POST',
+      `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/telegram/prepare`,
+      { text },
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarApproveTelegramBusiness: (leadId: string, input: { bindingId: string; text: string }) =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramBusinessApproval>(
+      'POST',
+      `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/telegram/approve`,
+      input,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarSendTelegramBusiness: (
+    leadId: string,
+    input: {
+      bindingId: string;
+      text: string;
+      approvalToken: string;
+    },
+    idempotencyKey: string,
+  ) => request<import('../../shared/lead-radar').LeadRadarTelegramBusinessSendResponse>(
+    'POST',
+    `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/telegram/send`,
+    input,
+    { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
   ),
 
   // ─── Intent Guard / Anti-cannibalization ─────────────────────────────────

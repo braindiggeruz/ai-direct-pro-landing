@@ -29,6 +29,7 @@ import {
 } from './seller';
 import {
   CLASSIFIED_CONDITIONS,
+  type ClassifiedCondition,
   type ClassifiedDiscoveryFilter,
   type ClassifiedDiscoveryPage,
   type ClassifiedBuyerInquiry,

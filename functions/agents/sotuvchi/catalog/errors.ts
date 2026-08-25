@@ -28,7 +28,7 @@ export class CatalogNotFoundError extends Error {
   readonly code = 'not_found';
 
   constructor(
-    public readonly entity: 'store' | 'category' | 'product' | 'session',
+    public readonly entity: 'store' | 'category' | 'product' | 'session' | 'inquiry',
   ) {
     super(`catalog ${entity} not found`);
     this.name = 'CatalogNotFoundError';

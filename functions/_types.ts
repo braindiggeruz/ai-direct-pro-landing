@@ -58,6 +58,31 @@ export interface Env {
   // messages contain job references only, never prompts, content or secrets.
   AUTOMATION_QUEUE?: Queue<unknown>;
   FIRST_PARTY_AUTOMATION_ENABLED?: string;
+  // Lead Radar capabilities are independent and fail closed. A capability is
+  // enabled only when its value is exactly "true". Admission controls creation
+  // of searches/jobs, processing controls Worker claims and external fetches,
+  // and contact controls personal-data review and outreach actions. Retention
+  // and do-not-contact enforcement never depend on any of these switches.
+  LEAD_RADAR_ADMISSION_ENABLED?: string;
+  LEAD_RADAR_PROCESSING_ENABLED?: string;
+  LEAD_RADAR_CONTACT_ENABLED?: string;
+  // Bounded privacy configuration. Invalid values fall back to 30 days and
+  // values above 30 are clamped; this is not a retention kill switch.
+  LEAD_RADAR_PERSONAL_RETENTION_DAYS?: string;
+  // Canary controls. Empty means no tenant is allowlisted for processing;
+  // production enablement requires explicit org ids and a bounded dispatch cap.
+  LEAD_RADAR_ALLOWED_ORGS?: string;
+  LEAD_RADAR_MAX_DISPATCH_PER_TICK?: string;
+  // Dedicated Telegram Business bot. Token, webhook secret and the 32-byte
+  // data-encryption key are secret bindings and must never be placed in TOML.
+  // The username is public configuration used only to build a one-time deep
+  // link. Contact limits remain bounded even after the contact capability is
+  // explicitly enabled.
+  LEAD_RADAR_TELEGRAM_BOT_TOKEN?: string;
+  LEAD_RADAR_TELEGRAM_WEBHOOK_SECRET?: string;
+  LEAD_RADAR_TELEGRAM_DATA_KEY?: string;
+  LEAD_RADAR_TELEGRAM_BOT_USERNAME?: string;
+  LEAD_RADAR_CONTACT_DAILY_LIMIT?: string;
   // Bearer for the GitHub Actions cron worker. Authenticates
   // /api/internal/seo-autopilot/scheduled-run.
   CRON_SECRET?: string;
