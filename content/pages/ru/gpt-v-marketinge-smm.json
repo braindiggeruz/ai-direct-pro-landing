@@ -58,9 +58,10 @@
     { "type": "quote", "text": "Придумай 5 вариантов заголовка для рекламы [продукт]. Аудитория — [ЦА]. Тон уверенный, без давления, до 60 символов." },
     { "type": "quote", "text": "Напиши продающий текст по формуле AIDA для [продукт/услуга], до 600 символов." },
     { "type": "quote", "text": "Опиши боли и возражения аудитории [описание ЦА] и предложи, как закрыть их контентом." },
-    { "type": "linkp", "text": "Больше шаблонов — в подборке {promts}. Чтобы формулировать точнее, читайте {russian}.", "links": [
-      { "token": "promts", "target": "/ru/promty-gpt-chatgpt-50-primerov/", "anchor": "50 промтов для GPT" },
-      { "token": "russian", "target": "/ru/gpt-na-russkom-kak-zadavat-zaprosy/", "anchor": "как задавать запросы GPT" }
+    { "type": "linkp", "text": "Больше шаблонов — в подборке {promts}. Чтобы формулировать точнее, читайте {russian}; принцип работы модели без технического жаргона объясняет {basics}.", "links": [
+      { "token": "promts", "target": "/ru/promty-gpt-chatgpt-50-primerov/", "anchor": "50 промптов для GPT" },
+      { "token": "russian", "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "как задавать запросы GPT" },
+      { "token": "basics", "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "anchor": "что такое GPT и как он работает" }
     ] },
 
     { "type": "h2", "id": "socseti", "text": "GPT для Instagram и Telegram" },
@@ -105,7 +106,9 @@
   ],
   "internalLinks": [
     { "target": "/ru/gpt-chat/", "anchor": "GPT-чат онлайн", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/promty-gpt-chatgpt-50-primerov/", "anchor": "50 промтов для GPT", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/promty-gpt-chatgpt-50-primerov/", "anchor": "50 промптов для GPT", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "Как задавать запросы GPT", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "anchor": "Что такое GPT и как он работает", "locale": "ru", "type": "contextual" },
     { "target": "/ru/gpt-dlya-biznesa/", "anchor": "GPT для бизнеса", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "block" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-бота", "locale": "ru", "type": "block" },

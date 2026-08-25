@@ -213,7 +213,18 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
       return `<p class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
     }
     case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-4">${escapeText(b.text || '')}</p>`;
-    case 'list': return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3 items-start"><span class="mt-1 shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-cyan/12 border border-brand-cyan/30"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
+    case 'list': {
+      if (b.copyableItems) {
+        const items = (b.items || []).map((item) => `<li data-copy-item class="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
+          <p data-prompt-text class="text-white/85 leading-relaxed mb-4">${escapeText(item)}</p>
+          <button type="button" data-copy-prompt aria-label="Скопировать этот промпт" class="inline-flex items-center justify-center rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 px-4 py-2 text-sm font-semibold text-brand-cyan hover:bg-brand-cyan/20 focus:outline-none focus:ring-2 focus:ring-brand-cyan/60">
+            <span data-copy-label>Скопировать</span>
+          </button>
+        </li>`).join('');
+        return `<ul data-copy-list class="grid gap-4 text-white/80 mb-8 list-none p-0">${items}<li class="sr-only" data-copy-status aria-live="polite"></li></ul>`;
+      }
+      return `<ul class="space-y-3 text-white/80 mb-6">${(b.items || []).map((i) => `<li class="flex gap-3 items-start"><span class="mt-1 shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-cyan/12 border border-brand-cyan/30"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
+    }
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-4 italic text-white/80 my-6">${escapeText(b.text || '')}</blockquote>`;
     case 'image': {
       const _dim = `${b.width ? ` width="${b.width}"` : ''}${b.height ? ` height="${b.height}"` : ''}`;
@@ -268,6 +279,25 @@ function renderInternalLinks(page: Page): string {
   const heading = page.locale === 'uz' ? 'Shuningdek o\u2018qing' : 'Смотрите также';
   const eyebrow = page.locale === 'uz' ? 'Havolalar' : 'Разделы';
   return `<section data-testid="related-pages" class="mt-16"><div class="eyebrow mb-3">${escapeHtml(eyebrow)}</div><h2 class="font-display text-2xl mb-6 text-white">${escapeText(heading)}</h2><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">${items}</div></section>`;
+}
+
+function renderSources(page: Page): string {
+  if (!page.sources?.length) return '';
+  const heading = page.locale === 'uz' ? 'Birlamchi manbalar' : 'Первичные источники';
+  const intro = page.locale === 'uz'
+    ? 'Sahifadagi metodika va tavsiyalarni tekshirish uchun ishlatilgan hujjatlar.'
+    : 'Документы, по которым проверены методика и рекомендации этой страницы.';
+  const items = page.sources.map((source) => `
+    <li class="link-card">
+      <a href="${escapeHtml(source.url)}" rel="noopener noreferrer" class="text-brand-cyan hover:underline font-medium">${escapeText(source.title)}</a>
+      ${source.note ? `<p class="mt-2 mb-0 text-sm text-white/65 leading-relaxed">${escapeText(source.note)}</p>` : ''}
+    </li>
+  `).join('');
+  return `<section data-testid="page-sources" class="mt-16" aria-labelledby="page-sources-heading">
+    <h2 id="page-sources-heading" class="font-display text-2xl sm:text-3xl mb-3 text-white">${escapeText(heading)}</h2>
+    <p class="text-sm text-white/60 mb-5">${escapeText(intro)}</p>
+    <ol class="grid gap-3 list-none p-0">${items}</ol>
+  </section>`;
 }
 
 function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
@@ -340,7 +370,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
     }));
   }
   if (types.has('Article')) {
-    graph.push(buildArticleLd({
+    const articleNode = buildArticleLd({
       global,
       url: page.url,
       headline: page.h1 || page.title,
@@ -349,7 +379,9 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
       datePublished: page.createdAt ? new Date(page.createdAt).toISOString().slice(0, 10) : undefined,
       dateModified: dateModifiedIso,
       primaryImage: page.ogImage || global.defaultOgImage,
-    }));
+    });
+    if (page.sources?.length) articleNode.citation = page.sources.map((source) => source.url);
+    graph.push(articleNode);
   }
   if (page.faq?.length) {
     graph.push({
@@ -548,6 +580,20 @@ const GROWTH_TOOL_SCRIPT = `<script>
 })();
 </script>`;
 
+const PROMPT_COPY_SCRIPT = `<script>
+(function(){
+  var root=document.querySelector('[data-copy-list]');if(!root)return;
+  function fallbackCopy(text){var field=document.createElement('textarea');field.value=text;field.setAttribute('readonly','');field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();var ok=document.execCommand('copy');field.remove();if(!ok)throw new Error('copy failed');}
+  function write(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);fallbackCopy(text);return Promise.resolve();}
+  document.addEventListener('click',function(event){
+    var button=event.target.closest('[data-copy-prompt]');if(!button)return;
+    var item=button.closest('[data-copy-item]'),textNode=item&&item.querySelector('[data-prompt-text]');if(!textNode)return;
+    var list=button.closest('[data-copy-list]'),status=list&&list.querySelector('[data-copy-status]'),label=button.querySelector('[data-copy-label]');
+    write(textNode.textContent.trim()).then(function(){if(label)label.textContent='Скопировано';button.setAttribute('aria-label','Промпт скопирован');if(status)status.textContent='Промпт скопирован в буфер обмена.';setTimeout(function(){if(label)label.textContent='Скопировать';button.setAttribute('aria-label','Скопировать этот промпт');},1800);}).catch(function(){if(status)status.textContent='Не удалось скопировать. Выделите текст вручную.';});
+  });
+})();
+</script>`;
+
 const DIGITAL_COMMAND_STYLES = `<style>
   .dc-page{overflow-x:clip;background:
     radial-gradient(circle at 14% 10%,rgba(47,230,209,.09),transparent 26rem),
@@ -621,21 +667,22 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   const modifiedLabel = page.locale === 'uz' ? 'Yangilangan' : 'Обновлено';
 
   // E-E-A-T author byline. Named expert from global config (Person schema anchor).
-  // Rendered under the H1 on money/niche pages so crawlers and AI engines see a
-  // real, attributable author + reviewing organisation. Copy-only, no fake claims.
+  // Rendered under the H1 on commercial pages and content pages that explicitly
+  // declare Article schema. Copy-only, no invented credentials or review claims.
   const authorName = global.authorName || global.organizationName;
   const authorUrl = page.locale === 'uz' ? '/uz/muallif-boris-gerasimov/' : (global.authorUrl || '/ru/avtor-boris-gerasimov/');
   const authorLabel = page.locale === 'uz' ? 'Muallif' : 'Автор';
   const orgReviewLabel = page.locale === 'uz'
     ? `${global.siteName} jamoasi tomonidan tekshirilgan`
     : `Проверено командой ${global.siteName}`;
-  const showByline = page.pageType === 'money' || page.pageType === 'niche';
+  const isCommercialPage = page.pageType === 'money' || page.pageType === 'niche';
+  const showByline = isCommercialPage || page.schemaTypes?.includes('Article');
   const bylineHtml = showByline
-    ? `<p data-testid="page-author" class="text-xs text-white/50 mb-4">${escapeHtml(authorLabel)}: <a href="${escapeHtml(authorUrl)}" class="text-white/70 hover:text-white underline underline-offset-2">${escapeText(authorName)}</a> · ${escapeText(orgReviewLabel)}</p>`
+    ? `<p data-testid="page-author" class="text-xs text-white/50 mb-4">${escapeHtml(authorLabel)}: <a href="${escapeHtml(authorUrl)}" class="text-white/70 hover:text-white underline underline-offset-2">${escapeText(authorName)}</a>${isCommercialPage ? ` · ${escapeText(orgReviewLabel)}` : ''}</p>`
     : '';
 
   // Mobile sticky conversion bar — commercial pages only, hidden ≥lg.
-  const showStickyCta = showByline && !!(page.ctaPrimaryHref || global.defaultCTA.href);
+  const showStickyCta = isCommercialPage && !!(page.ctaPrimaryHref || global.defaultCTA.href);
   const stickyCtaHref = page.ctaPrimaryHref || global.defaultCTA.href;
   const stickyCtaLabel = page.ctaPrimaryLabel || global.defaultCTA.label;
   const stickyCtaExternal = stickyCtaHref.startsWith('http');
@@ -666,6 +713,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
       </div>
     </section>`
     : '';
+  const hasCopyablePrompts = page.bodyBlocks?.some((block) => block.copyableItems) ?? false;
 
   return `<!doctype html>
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
@@ -761,6 +809,7 @@ ${marketVariant
   <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
     ${renderArticle(page.bodyBlocks || [], contentAnchor)}
 
+    ${renderSources(page)}
     ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
     ${renderInternalLinks(page)}
     ${renderRelatedArticles(page, articles)}
@@ -786,6 +835,7 @@ ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money p
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
 ${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
+${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}
 ${marketVariant ? MARKET_FAQ_SCRIPT : ''}
 </body>
 </html>

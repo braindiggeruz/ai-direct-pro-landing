@@ -145,11 +145,14 @@ export function auditPage(
      * page → article links, so it is skipped rather than guessed.
      */
     knownUrls?: Set<string>;
+    /** Pages and articles that may participate in a reciprocal hreflang pair. */
+    hreflangNodes?: LinkGraphNode[];
     redirects?: Redirect[];
   } = {},
 ): PageAuditResult {
   const issues: AuditIssue[] = [];
   const { allPages = [], global, knownUrls, redirects = [] } = ctx;
+  const hreflangNodes = ctx.hreflangNodes || allPages;
 
   // --- MOJIBAKE CHECK (CRITICAL) ---------------------------------------------
   // If any user-visible string contains mojibake, treat the page as broken:
@@ -243,10 +246,10 @@ export function auditPage(
   if (!page.hreflangRu && !page.hreflangUz) {
     issues.push({ level: 'warning', rule: 'missing-hreflang', field: 'hreflangRu',
       message: 'Both RU and UZ hreflang are empty.' });
-  } else if (allPages.length) {
+  } else if (hreflangNodes.length) {
     const pairUrl = page.locale === 'ru' ? page.hreflangUz : page.hreflangRu;
     if (pairUrl) {
-      const pair = allPages.find((p) => p.url === pairUrl.replace(/^https?:\/\/[^/]+/, ''));
+      const pair = hreflangNodes.find((p) => p.url === pairUrl.replace(/^https?:\/\/[^/]+/, ''));
       if (!pair) {
         issues.push({ level: 'warning', rule: 'hreflang-target-missing',
           message: `hreflang ${page.locale === 'ru' ? 'UZ' : 'RU'} pair "${pairUrl}" not found.` });
@@ -354,7 +357,8 @@ export function auditPage(
 export function buildCockpit(pages: Page[], global?: GlobalSEO, ctx: AuditContext = {}): CockpitStats {
   const knownUrls = buildKnownUrls(pages, ctx);
   const redirects = ctx.redirects || [];
-  const results = pages.map((p) => auditPage(p, { allPages: pages, global, knownUrls, redirects }));
+  const hreflangNodes: LinkGraphNode[] = [...pages, ...(ctx.blog || [])];
+  const results = pages.map((p) => auditPage(p, { allPages: pages, global, knownUrls, hreflangNodes, redirects }));
 
   const counts = {
     totalPages: pages.length,
@@ -430,7 +434,7 @@ export function buildCockpit(pages: Page[], global?: GlobalSEO, ctx: AuditContex
   const ruPages = pages.filter((p) => p.locale === 'ru');
   for (const p of ruPages) {
     if (!p.hreflangUz) counts.singleLocalePages++;
-    else if (pages.find((q) => q.url === p.hreflangUz!.replace(/^https?:\/\/[^/]+/, ''))) counts.ruUzPairsOk++;
+    else if (hreflangNodes.find((q) => q.url === p.hreflangUz!.replace(/^https?:\/\/[^/]+/, ''))) counts.ruUzPairsOk++;
     else counts.ruUzPairsMissing++;
   }
 

@@ -151,6 +151,22 @@ test('a declared hreflang counterpart that does not exist is a defect', () => {
   assert.ok(issues.includes('hreflang-target-missing'));
 });
 
+test('a reciprocal hreflang counterpart may be a blog article', () => {
+  const ru = page({ url: '/ru/x/', hreflangRu: '/ru/x/', hreflangUz: '/uz/blog/x/' });
+  const stats = buildCockpit([ru], undefined, {
+    blog: [{
+      url: '/uz/blog/x/',
+      locale: 'uz',
+      hreflangRu: '/ru/x/',
+      hreflangUz: '/uz/blog/x/',
+    }],
+  });
+
+  assert.equal(stats.ruUzPairsOk, 1);
+  assert.equal(stats.ruUzPairsMissing, 0);
+  assert.ok(!stats.pages[0].issues.some((issue) => issue.rule.startsWith('hreflang-')));
+});
+
 // ---------------------------------------------------------------------------
 // Whole-repository invariants — these are the numbers the release gate reports.
 // ---------------------------------------------------------------------------

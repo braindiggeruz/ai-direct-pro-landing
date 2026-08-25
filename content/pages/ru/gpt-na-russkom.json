@@ -58,7 +58,7 @@
     },
     {
       "type": "linkp",
-      "text": "Начать проще всего в основном чате: {chat}. Для задач по сценариям — {tasks} и B2B-страница {biz}.",
+      "text": "Начать проще всего в основном чате: {chat}. Сначала можно разобраться, {basics}, затем пройти {guide} и взять {prompts}. Для внедрения в компании открыта B2B-страница {biz}.",
       "links": [
         {
           "token": "chat",
@@ -66,9 +66,19 @@
           "anchor": "AI-чат онлайн"
         },
         {
-          "token": "tasks",
-          "target": "/ru/gpt-chat/",
-          "anchor": "AI-чат для задач"
+          "token": "basics",
+          "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+          "anchor": "что такое GPT и как он работает"
+        },
+        {
+          "token": "guide",
+          "target": "/ru/blog/chat-gpt-na-russkom/",
+          "anchor": "пошаговую инструкцию по запросам"
+        },
+        {
+          "token": "prompts",
+          "target": "/ru/promty-gpt-chatgpt-50-primerov/",
+          "anchor": "50 готовых промптов"
         },
         {
           "token": "biz",
@@ -152,6 +162,24 @@
     {
       "target": "/ru/gpt-v-marketinge-smm/",
       "anchor": "GPT в маркетинге и SMM",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+      "anchor": "Что такое GPT и как он работает",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/chat-gpt-na-russkom/",
+      "anchor": "Как пользоваться AI-чатом на русском",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/promty-gpt-chatgpt-50-primerov/",
+      "anchor": "50 промптов для ChatGPT",
       "locale": "ru",
       "type": "contextual"
     },

@@ -78,7 +78,7 @@
     { "type": "p", "text": "GPT mahsulotingizning real afzalliklarini bilmaydi va fakt yoki va’da o‘ylab topishi mumkin. Shuning uchun narx, xususiyat va aksiya shartlarini oshkora bering va nashr qilishdan oldin tekshiring. O‘ylab topilgan sharh va keyslarni e’lon qilmang. Parol, karta va mijozlarning shaxsiy ma’lumotlarini AI chatga kiritmang." },
     { "type": "linkp", "text": "Amaliy suhbat uchun {uzchat}. So‘rovlarni aniqroq yozishni {rus} maqolasidan o‘rganish mumkin.", "links": [
       { "token": "uzchat", "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida" },
-      { "token": "rus", "target": "/ru/gpt-na-russkom-kak-zadavat-zaprosy/", "anchor": "so‘rov yozish bo‘yicha qo‘llanma" }
+      { "token": "rus", "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "so‘rov yozish bo‘yicha qo‘llanma" }
     ] },
     { "type": "cta", "text": "GPTBot.uz AI chatni sinab ko‘ring", "href": "/uz/gpt-uzbek-tilida/" },
     {
@@ -112,7 +112,7 @@
     { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/smm-xizmatlari/", "anchor": "Kontent va sahifa yuritishni topshirish", "locale": "uz", "type": "contextual" },
     { "target": "/uz/telegram-reklama/", "anchor": "Reklama matnini kampaniyaga aylantirish", "locale": "uz", "type": "contextual" },
-    { "target": "/ru/gpt-na-russkom-kak-zadavat-zaprosy/", "anchor": "So‘rov yozish qo‘llanmasi", "locale": "uz", "type": "block" }
+    { "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "So‘rov yozish qo‘llanmasi", "locale": "uz", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
   "lastReviewedAt": "2026-07-12",

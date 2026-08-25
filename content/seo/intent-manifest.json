@@ -256,7 +256,7 @@
         "owns": "how to use an AI chat in Russian: prompts, checking answers",
         "mustNotTarget": ["чат гпт на русском", "chat gpt на русском", "gpt на русском", "чат gpt онлайн"]
       },
-      "gscNote": "Found on 2026-08-01. The article was carrying the money page's whole head cluster in its keyword list and losing it at positions 74-85 while the money page sits at 4.6. The article's keywords were narrowed to instructional terms; no redirect, because the article has real how-to value.",
+      "gscNote": "Found on 2026-08-01. The article was carrying the money page's whole head cluster in its keyword list and losing it at positions 74-85 while the money page sits at 4.6. The article's keywords were narrowed to instructional terms; no redirect between these two surviving owners, because the article has real how-to value. On 2026-08-25, the third URL /ru/gpt-na-russkom-kak-zadavat-zaprosy/ was confirmed by OpenSEO as Crawled - currently not indexed with no Search Console rows. Its five-part prompt formula, weak-versus-strong examples, iterative refinement and Russian-to-Uzbek-Latin scenario were moved into this informational owner, all published donor links were repointed, and the redundant URL was retired with an exact 301.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-08-01"
     },

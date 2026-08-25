@@ -23,6 +23,8 @@ export interface BodyBlock {
   type: 'h2' | 'h3' | 'p' | 'list' | 'cta' | 'image' | 'figure' | 'quote' | 'table' | 'toc' | 'linkp';
   text?: string;
   items?: string[];
+  /** list: render each item as a standalone prompt with an accessible copy button. */
+  copyableItems?: boolean;
   href?: string;
   src?: string;
   alt?: string;
@@ -136,6 +138,8 @@ export interface Page {
   faq: FaqItem[];
   internalLinks: InternalLink[];
   schemaTypes: SchemaType[];
+  /** Visible primary sources used to verify technical or factual claims. */
+  sources?: SourceReference[];
   /**
    * Optional page-scoped JSON-LD nodes appended verbatim to the prerendered
    * @graph. Used for entity pages whose main subject is NOT the GPTBot
@@ -302,7 +306,10 @@ export interface BrokenLink {
 export interface LinkGraphNode {
   url: string;
   status?: Status;
+  locale?: Locale;
   robotsIndex?: boolean;
+  hreflangRu?: string;
+  hreflangUz?: string;
   internalLinks?: InternalLink[];
   bodyBlocks?: BodyBlock[];
 }
