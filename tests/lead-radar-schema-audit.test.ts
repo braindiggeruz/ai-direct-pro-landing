@@ -174,6 +174,14 @@ const migrationMutations: Array<{
     expectedCode: 'check_missing',
   },
   {
+    name: 'quoted CHECK literal case',
+    transform: replaceExactly(
+      "phase IN ('queued', 'discovering', 'enriching', 'finalizing', 'completed')",
+      "phase IN ('QUEUED', 'discovering', 'enriching', 'finalizing', 'completed')",
+    ),
+    expectedCode: 'check_missing',
+  },
+  {
     name: 'table UNIQUE constraint',
     transform: replaceExactly(
       'UNIQUE (org_id, idempotency_key)',
@@ -345,8 +353,8 @@ test('runtime target fingerprint treats D1-stripped DDL comments as non-semantic
   assert.equal(report.status, 'pass', JSON.stringify(report.issues, null, 2));
 });
 
-test('runtime target fingerprint preserves comment markers inside quoted SQL values', async () => {
-  for (const changedStatus of ['/*changed*/reserved', '--reserved']) {
+test('runtime target fingerprint preserves exact quoted SQL values', async () => {
+  for (const changedStatus of ['/*changed*/reserved', '--reserved', 'RESERVED', 're"served']) {
     const fixture = new SqliteD1();
     fixture.exec(`CREATE TABLE d1_migrations (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -365,6 +373,28 @@ test('runtime target fingerprint preserves comment markers inside quoted SQL val
     assert.equal(report.status, 'blocked');
     assert.equal(report.issues.some((item) => item.code === 'schema_fingerprint_mismatch'), true);
   }
+});
+
+test('runtime target fingerprint follows SQLite LF-only line-comment termination', async () => {
+  const fixture = new SqliteD1();
+  fixture.exec(`CREATE TABLE d1_migrations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`);
+  for (const filename of LEAD_RADAR_MIGRATIONS) {
+    const source = migrationSql(filename);
+    const sql = filename === '0044_lead_radar_telegram_business.sql'
+      ? source.replace(
+        '  org_id TEXT NOT NULL CHECK (length(org_id) BETWEEN 1 AND 80),',
+        '  -- comment with a lone CR\rstill comment until LF\n  org_id TEXT NOT NULL CHECK (length(org_id) BETWEEN 1 AND 80),',
+      )
+      : source;
+    fixture.exec(sql);
+    fixture.sqlite.prepare('INSERT INTO d1_migrations(name) VALUES (?)').run(filename);
+  }
+  const report = await auditLeadRadarD1Schema(fixture.asD1(), 'target');
+  assert.equal(report.status, 'pass', JSON.stringify(report.issues, null, 2));
 });
 
 test('auditor fails closed without leaking query errors', async () => {

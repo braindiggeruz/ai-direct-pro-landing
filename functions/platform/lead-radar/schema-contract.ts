@@ -803,7 +803,7 @@ export const LEAD_RADAR_SCHEMA_CONTRACT = {
 // stays inside D1's 50-query invocation budget. The target fingerprint was
 // independently verified byte-for-byte against remote D1 before rollout.
 export const LEAD_RADAR_TARGET_SCHEMA_FINGERPRINT =
-  '3d9d9b93ed0df7576a94a0af255ea9ad794389cf3701854fba574eff12dbd53d';
+  'cd2e91a1331700f8b66d16aa87f444b3f4dd02f6448d7a866fe9bba06e5ab91d';
 
 function stageFor(profile: Exclude<LeadRadarSchemaProfile, 'auto'>): MigrationStage {
   return profile === 'target' ? 44 : 41;
@@ -835,8 +835,10 @@ function stripSqlComments(sql: string): string {
     }
     if (character === '-' && next === '-') {
       index += 2;
-      while (index < sql.length && sql[index] !== '\r' && sql[index] !== '\n') index += 1;
-      if (index < sql.length) normalized += sql[index];
+      // SQLite line comments end at LF. A preceding CR belongs to the comment,
+      // including in CRLF input, and must not expose trailing SQL early.
+      while (index < sql.length && sql[index] !== '\n') index += 1;
+      if (index < sql.length) normalized += '\n';
       continue;
     }
     if (character === '/' && next === '*') {
@@ -855,13 +857,45 @@ function normalizeSql(sql: string): string {
   // D1 strips comments from some CREATE TABLE statements while local SQLite
   // preserves them. Comments are not schema semantics, but comment markers in
   // quoted SQL values are, so remove them with a quote-aware scanner.
-  return stripSqlComments(sql)
-    .toLowerCase()
-    .replace(/["`[\]]/g, '')
-    .replace(/\bif\s+not\s+exists\b/g, '')
-    .replace(/\s+/g, ' ')
-    .replace(/\s*([(),=<>])\s*/g, '$1')
-    .trim();
+  const source = stripSqlComments(sql);
+  let normalized = '';
+  let unquoted = '';
+  let quote: "'" | '"' | '`' | '[' | null = null;
+  const flushUnquoted = (): void => {
+    normalized += unquoted
+      .toLowerCase()
+      .replace(/\bif\s+not\s+exists\b/g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/\s*([(),=<>])\s*/g, '$1')
+      .trim();
+    unquoted = '';
+  };
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index];
+    const next = source[index + 1];
+    if (quote === null) {
+      if (character === "'" || character === '"' || character === '`' || character === '[') {
+        flushUnquoted();
+        quote = character;
+        normalized += character;
+      } else {
+        unquoted += character;
+      }
+      continue;
+    }
+    normalized += character;
+    const closing = quote === '[' ? ']' : quote;
+    if (character === closing) {
+      if (next === closing) {
+        normalized += next;
+        index += 1;
+      } else {
+        quote = null;
+      }
+    }
+  }
+  flushUnquoted();
+  return normalized;
 }
 
 function normalizeDefault(value: unknown): string | null {
@@ -1364,6 +1398,8 @@ export async function auditLeadRadarD1Schema(
     text(row.type),
     text(row.name),
     text(row.tbl_name),
+    // Canonicalize only SQL's non-semantic lexical surface. Quoted values and
+    // identifiers stay byte-exact, while D1's omitted comments cannot drift it.
     normalizeSql(text(row.sql)),
   ].join('\u001f')).join('\u001e');
   const digest = await globalThis.crypto.subtle.digest(
