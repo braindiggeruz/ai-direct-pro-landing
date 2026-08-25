@@ -148,6 +148,7 @@ const OPTIONAL_MIGRATIONS = [
   'migrations/0043_lead_radar_async_funnel.sql',
   'migrations/0044_lead_radar_telegram_business.sql',
   'migrations/0045_lead_radar_telegram_campaigns.sql',
+  'migrations/0046_lead_radar_telegram_campaign_safety.sql',
 ] as const;
 
 const ALLOWLISTED_ROOT_SCRIPTS = {
@@ -307,6 +308,7 @@ export function createCommandPlan(root = REPOSITORY_ROOT): GateCommand[] {
         'src/admin/lib/api.ts',
         'src/shared/lead-radar.ts',
         'workers/automation-worker.ts',
+        'workers/lead-radar-telegram-account',
         'tests/lead-radar*.test.ts',
         'scripts/lead-radar',
         'scripts/d1/audit-lead-radar-schema.ts',
@@ -432,6 +434,7 @@ export function assertSafeCommandPlan(plan: GateCommand[]): void {
             'src/admin/lib/api.ts',
             'src/shared/lead-radar.ts',
             'workers/automation-worker.ts',
+            'workers/lead-radar-telegram-account',
             'tests/lead-radar*.test.ts',
             'scripts/lead-radar',
             'scripts/d1/audit-lead-radar-schema.ts',
@@ -594,8 +597,17 @@ function collectInputFiles(root: string): HashedFile[] {
   for (const tree of [
     'functions/platform/lead-radar',
     'scripts/lead-radar',
+    'workers/lead-radar-telegram-account',
   ]) {
-    for (const candidate of walkFiles(path.join(root, tree))) absolute.add(candidate);
+    const treeRoot = path.join(root, tree);
+    for (const candidate of walkFiles(treeRoot)) {
+      const relative = slash(path.relative(treeRoot, candidate));
+      if (tree === 'workers/lead-radar-telegram-account'
+        && (relative.startsWith('.wrangler/')
+          || relative.includes('/__pycache__/')
+          || /\.(?:pyc|pyo)$/u.test(relative))) continue;
+      absolute.add(candidate);
+    }
   }
   for (const testFile of discoverLeadRadarTests(root)) {
     const candidate = path.join(root, testFile);

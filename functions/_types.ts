@@ -91,11 +91,10 @@ export interface Env {
   LEAD_RADAR_TELEGRAM_DATA_KEY?: string;
   LEAD_RADAR_TELEGRAM_BOT_USERNAME?: string;
   LEAD_RADAR_CONTACT_DAILY_LIMIT?: string;
-  // Separate trust domains: ACCOUNT_DATA_KEY protects the TDLib/R2 session
-  // snapshot inside the private account runtime; CAMPAIGN_DATA_KEY protects
-  // campaign templates, endpoints and keyed digests in D1. Neither key may be
-  // reused by the Telegram Business bot plane above.
-  LEAD_RADAR_TELEGRAM_ACCOUNT_DATA_KEY?: string;
+  // CAMPAIGN_DATA_KEY protects campaign templates, endpoints and keyed digests
+  // in D1. The separate ACCOUNT_DATA_KEY exists only in the route-less account
+  // gateway's own Env and must not be bound to Pages or the automation Worker.
+  // Neither key may be reused by the Telegram Business bot plane above.
   LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY?: string;
   // Optional private service binding to the per-account Durable Object /
   // Container runtime. There is deliberately no public gateway URL or bearer.

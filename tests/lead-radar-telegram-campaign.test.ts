@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import {
+  authorizeTelegramCampaignContact,
   claimNextTelegramCampaignRecipient,
   completeTelegramUserAccountConnection,
   consumeTelegramCampaignQueueMessage,
@@ -11,11 +12,13 @@ import {
   dispatchClaimedTelegramCampaignRecipient,
   evaluateTelegramCampaignSelection,
   getTelegramCampaign,
+  getTelegramCampaignRecovery,
   getTelegramUserAccount,
   hasTelegramCampaignSchema,
   LeadRadarTelegramCampaignError,
   parseTelegramCampaignQueueMessage,
   prepareTelegramCampaign,
+  maintainTelegramCampaigns,
   recoverTelegramCampaignLease,
   revokeTelegramUserAccount,
   setTelegramUserAccountStatus,
@@ -34,6 +37,7 @@ const MIGRATIONS = [
   '0043_lead_radar_async_funnel.sql',
   '0044_lead_radar_telegram_business.sql',
   '0045_lead_radar_telegram_campaigns.sql',
+  '0046_lead_radar_telegram_campaign_safety.sql',
 ] as const;
 const ORG_A = 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const ORG_B = 'org_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';
@@ -171,11 +175,23 @@ async function approvedCampaign(
   template = 'Здравствуйте! Это согласованное предложение.',
 ) {
   const account = await getTelegramUserAccount(db.asD1(), ORG_A) ?? await connectedAccount(db);
+  for (const [index, companyId] of companyIds.entries()) {
+    await authorizeTelegramCampaignContact({
+      db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, companyId,
+      contactBasis: BASIS,
+      evidenceReference: `fixture-evidence-${companyId}`,
+      expiresAt: '2026-09-24T12:00:00.000Z',
+      reviewerId: 'owner@example.test',
+      idempotencyKey: `${idempotencyKey}_authorization_${index}`,
+      now: NOW,
+    });
+  }
   const prepared = await prepareTelegramCampaign({
     db: db.asD1(),
     dataKey: DATA_KEY,
     orgId: ORG_A,
     accountId: account.id,
+    searchId: 'search_campaign_fixture',
     companyIds,
     template,
     operatorId: 'owner@example.test',
@@ -189,6 +205,7 @@ async function approvedCampaign(
     dataKey: DATA_KEY,
     orgId: ORG_A,
     accountId: account.id,
+    searchId: 'search_campaign_fixture',
     companyIds,
     template,
     operatorId: 'owner@example.test',
@@ -202,15 +219,20 @@ async function approvedCampaign(
   });
 }
 
-test('0045 has an exact read-only schema contract and no session/credential columns', async (t) => {
+test('0045+0046 have an exact read-only schema contract and no session/credential columns', async (t) => {
   const db = database();
   t.after(() => db.sqlite.close());
   assert.deepEqual(await auditTelegramCampaignSchema(db.asD1()), {
     status: 'pass',
     readOnly: true,
-    contractVersion: 'lead-radar-telegram-campaign-v1',
+    contractVersion: 'lead-radar-telegram-campaign-v2',
     issues: [],
   });
+  assert.equal(await hasTelegramCampaignSchema(db.asD1()), true);
+  assert.doesNotThrow(() => db.exec(readFileSync(
+    path.join(ROOT, 'migrations', '0046_lead_radar_telegram_campaign_safety.sql'),
+    'utf8',
+  )));
   assert.equal(await hasTelegramCampaignSchema(db.asD1()), true);
   const columns = db.rows<{ name: string }>("PRAGMA table_info('lead_radar_tg_user_accounts')")
     .map((row) => row.name);
@@ -219,8 +241,61 @@ test('0045 has an exact read-only schema contract and no session/credential colu
     assert.ok(columns.every((column) => !column.includes(forbidden)));
   }
   db.sqlite.prepare('DELETE FROM d1_migrations WHERE name = ?')
-    .run('0045_lead_radar_telegram_campaigns.sql');
+    .run('0046_lead_radar_telegram_campaign_safety.sql');
   assert.equal((await auditTelegramCampaignSchema(db.asD1())).status, 'blocked');
+});
+
+test('per-company authorization is tenant-scoped, expiry-bound, idempotent and digest-only', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_authorized_a', username: 'AuthorizedClinicA' });
+  const input = {
+    db: db.asD1(),
+    dataKey: DATA_KEY,
+    orgId: ORG_A,
+    companyId: 'company_authorized_a',
+    contactBasis: BASIS,
+    evidenceReference: 'crm-case-8472-owner-confirmed',
+    expiresAt: '2026-09-24T12:00:00.000Z',
+    reviewerId: 'owner@example.test',
+    idempotencyKey: 'authorization_company_a_0001',
+    now: NOW,
+  } as const;
+  const first = await authorizeTelegramCampaignContact(input);
+  const replay = await authorizeTelegramCampaignContact(input);
+  assert.equal(first.replayed, false);
+  assert.equal(replay.replayed, true);
+  assert.deepEqual(replay.authorization, first.authorization);
+  await assert.rejects(
+    authorizeTelegramCampaignContact({
+      ...input,
+      evidenceReference: 'crm-case-9999-different-proof',
+    }),
+    (error) => errorCode(error) === 'telegram_campaign_idempotency_conflict',
+  );
+  await assert.rejects(
+    authorizeTelegramCampaignContact({
+      ...input,
+      orgId: ORG_B,
+      idempotencyKey: 'authorization_cross_tenant_0001',
+    }),
+    (error) => errorCode(error) === 'telegram_campaign_eligibility_required',
+  );
+  const stored = JSON.stringify(db.rows<Record<string, unknown>>(
+    'SELECT * FROM lead_radar_tg_contact_authorizations',
+  ));
+  assert.ok(!stored.includes(input.evidenceReference));
+  assert.ok(!stored.includes(input.reviewerId));
+  const expired = await evaluateTelegramCampaignSelection({
+    db: db.asD1(),
+    dataKey: DATA_KEY,
+    orgId: ORG_A,
+    companyIds: [input.companyId],
+    contactBasis: BASIS,
+    now: new Date('2026-09-24T12:00:00.000Z'),
+  });
+  assert.equal(expired.automatic, 0);
+  assert.equal(expired.items[0]?.reasonCode, 'documented_basis_required');
 });
 
 test('account lifecycle is tenant-scoped, idempotent and stores only an opaque gateway ref', async (t) => {
@@ -320,13 +395,21 @@ test('prepare classifies all selected leads but binds approval only to verified 
   });
   assert.deepEqual(
     { selected: selection.selected, automatic: selection.automatic, manual: selection.manual, excluded: selection.excluded },
-    { selected: 5, automatic: 1, manual: 1, excluded: 3 },
+    { selected: 5, automatic: 0, manual: 2, excluded: 3 },
   );
-  assert.deepEqual(selection.automaticCompanyIds, ['company_auto']);
+  assert.deepEqual(selection.automaticCompanyIds, []);
+
+  await authorizeTelegramCampaignContact({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, companyId: 'company_auto',
+    contactBasis: BASIS, evidenceReference: 'fixture-evidence-company-auto',
+    expiresAt: '2026-09-24T12:00:00.000Z', reviewerId: 'owner@example.test',
+    idempotencyKey: 'authorize_company_auto_0001', now: NOW,
+  });
 
   await assert.rejects(
     prepareTelegramCampaign({
       db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id,
+      searchId: 'search_prepare_invalid_basis',
       companyIds: ['company_auto'], template: 'Offer', operatorId: 'owner@example.test',
       idempotencyKey: 'prepare_invalid_basis',
       contactBasis: 'public_contact' as TelegramCampaignContactBasis, now: NOW,
@@ -335,6 +418,7 @@ test('prepare classifies all selected leads but binds approval only to verified 
   );
   const prepared = await prepareTelegramCampaign({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id,
+    searchId: 'search_prepare_classification',
     companyIds: ['company_auto', 'company_human', 'company_bot', 'company_dnc', 'company_missing'],
     template: 'Offer', operatorId: 'owner@example.test', contactBasis: BASIS, now: NOW,
     idempotencyKey: 'prepare_classification_0001',
@@ -342,6 +426,7 @@ test('prepare classifies all selected leads but binds approval only to verified 
   assert.equal(prepared.recipientCount, 1);
   const preparedReplay = await prepareTelegramCampaign({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id,
+    searchId: 'search_prepare_classification',
     companyIds: ['company_auto', 'company_human', 'company_bot', 'company_dnc', 'company_missing'],
     template: 'Offer', operatorId: 'owner@example.test', contactBasis: BASIS,
     idempotencyKey: 'prepare_classification_0001', now: NOW,
@@ -372,16 +457,24 @@ test('approved campaign is encrypted, tenant-scoped and replay/conflict safe', a
   assert.ok(!storage.includes('согласованное предложение'));
   assert.ok(!storage.includes('CompanyOne'));
 
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'stop',
+    operatorId: 'owner@example.test', idempotencyKey: 'campaign_stop_before_replay', now: NOW,
+  });
+
   const account = await getTelegramUserAccount(db.asD1(), ORG_A);
   assert.ok(account);
   const approval = await prepareTelegramCampaign({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id,
+    searchId: 'search_replay_offer',
     companyIds: ['company_one'], template: 'Повторный оффер',
     operatorId: 'owner@example.test', idempotencyKey: 'prepare_replay_offer_0001',
     contactBasis: BASIS, now: NOW,
   });
   const first = await createApprovedTelegramCampaign({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id,
+    searchId: 'search_replay_offer',
     companyIds: ['company_one'], template: 'Повторный оффер',
     operatorId: 'owner@example.test', contactBasis: BASIS,
     approvalToken: approval.approvalToken,
@@ -391,6 +484,7 @@ test('approved campaign is encrypted, tenant-scoped and replay/conflict safe', a
   });
   const replay = await createApprovedTelegramCampaign({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id,
+    searchId: 'search_replay_offer',
     companyIds: ['company_one'], template: 'Повторный оффер',
     operatorId: 'owner@example.test', contactBasis: BASIS,
     approvalToken: approval.approvalToken,
@@ -403,6 +497,7 @@ test('approved campaign is encrypted, tenant-scoped and replay/conflict safe', a
   await assert.rejects(
     createApprovedTelegramCampaign({
       db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id,
+      searchId: 'search_replay_offer',
       companyIds: ['company_one'], template: 'Изменённый оффер',
       operatorId: 'owner@example.test', contactBasis: BASIS,
       approvalToken: approval.approvalToken,
@@ -572,45 +667,52 @@ test('company_name is frozen, rendered and encrypted per recipient before dispat
   assert.ok(!protectedStorage.includes('Company company_personalized'));
 });
 
-test('one account serializes campaigns and enforces cooldown across campaigns', async (t) => {
+test('one account rejects concurrent non-terminal campaigns and admits the next after stop', async (t) => {
   const db = database();
   t.after(() => db.sqlite.close());
   addCompany(db, { id: 'company_serial_a', username: 'SerialClinicA' });
   addCompany(db, { id: 'company_serial_b', username: 'SerialClinicB' });
   const first = await approvedCampaign(db, ['company_serial_a'], 'campaign_serial_a_0001');
-  const second = await approvedCampaign(db, ['company_serial_b'], 'campaign_serial_b_0001');
-  for (const [campaignId, idempotencyKey] of [
-    [first.campaign.id, 'campaign_start_serial_a'],
-    [second.campaign.id, 'campaign_start_serial_b'],
-  ] as const) {
-    await transitionTelegramCampaign({
-      db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, campaignId,
-      action: 'start', operatorId: 'owner@example.test', idempotencyKey, now: NOW,
-    });
-  }
-  const firstClaim = await claimNextTelegramCampaignRecipient({
+  await assert.rejects(
+    approvedCampaign(db, ['company_serial_b'], 'campaign_serial_b_conflict'),
+    (error) => errorCode(error) === 'telegram_campaign_active_exists',
+  );
+  assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_campaigns
+    WHERE org_id = ? AND status IN ('approved', 'running', 'paused')`, ORG_A), 1);
+  await transitionTelegramCampaign({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
-    campaignId: first.campaign.id, now: NOW,
+    campaignId: first.campaign.id, action: 'stop', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_serial_stop_first', now: NOW,
   });
-  assert.ok(firstClaim);
-  assert.equal(await claimNextTelegramCampaignRecipient({
-    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
-    campaignId: second.campaign.id, now: NOW,
-  }), null);
-  await dispatchClaimedTelegramCampaignRecipient({
-    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, claim: firstClaim,
-    sender: { async send() { return { kind: 'sent', providerMessageId: 'serial-a' }; } },
-    dailyLimit: 10,
-    now: NOW,
+  const second = await approvedCampaign(db, ['company_serial_b'], 'campaign_serial_b_after_stop');
+  assert.equal(second.campaign.status, 'approved');
+  assert.notEqual(second.campaign.id, first.campaign.id);
+});
+
+test('active/latest recovery is search- and tenant-scoped across terminal transitions', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_recovery', username: 'RecoveryClinic' });
+  const created = await approvedCampaign(db, ['company_recovery'], 'campaign_recovery_0001');
+  const active = await getTelegramCampaignRecovery({
+    db: db.asD1(), orgId: ORG_A, searchId: 'search_campaign_fixture', now: NOW,
   });
-  assert.equal(await claimNextTelegramCampaignRecipient({
+  assert.equal(active.active?.id, created.campaign.id);
+  assert.equal(active.latest?.id, created.campaign.id);
+  assert.deepEqual(await getTelegramCampaignRecovery({
+    db: db.asD1(), orgId: ORG_B, searchId: 'search_campaign_fixture', now: NOW,
+  }), { active: null, latest: null });
+  await transitionTelegramCampaign({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
-    campaignId: second.campaign.id, now: new Date(NOW.getTime() + 1_000),
-  }), null);
-  assert.ok(await claimNextTelegramCampaignRecipient({
-    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
-    campaignId: second.campaign.id, now: new Date(NOW.getTime() + 31_000),
-  }));
+    campaignId: created.campaign.id, action: 'stop', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_recovery_stop_0001', now: NOW,
+  });
+  const terminal = await getTelegramCampaignRecovery({
+    db: db.asD1(), orgId: ORG_A, searchId: 'search_campaign_fixture', now: NOW,
+  });
+  assert.equal(terminal.active, null);
+  assert.equal(terminal.latest?.id, created.campaign.id);
+  assert.equal(terminal.latest?.status, 'stopped');
 });
 
 test('atomic account quota blocks the eleventh attempt and pauses to next UTC day', async (t) => {
@@ -658,6 +760,223 @@ test('atomic account quota blocks the eleventh attempt and pauses to next UTC da
   ), 'pending');
 });
 
+test('provider FLOOD_WAIT longer than 24 hours is preserved exactly and blocks early resume', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_long_flood', username: 'LongFloodClinic' });
+  const created = await approvedCampaign(db, ['company_long_flood'], 'campaign_long_flood_0001');
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_long_flood_start_0001', now: NOW,
+  });
+  const claim = await claimNextTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, now: NOW,
+  });
+  assert.ok(claim);
+  const waitSeconds = 172_801;
+  const expectedResumeAt = new Date(NOW.getTime() + waitSeconds * 1_000).toISOString();
+  const result = await dispatchClaimedTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, claim, now: NOW,
+    sender: {
+      async send() {
+        return { kind: 'rejected', code: 'flood_wait', retryAfterSeconds: waitSeconds };
+      },
+    },
+  });
+  assert.equal(result.status, 'failed');
+  assert.equal(result.campaign.status, 'paused');
+  assert.equal(result.campaign.nextSendAt, expectedResumeAt);
+  assert.equal(result.campaign.canResume, false);
+  assert.equal(result.campaign.resumeBlockedReason, 'cooldown');
+  assert.equal(result.campaign.pausedUntil, expectedResumeAt);
+  assert.equal(db.value(
+    'SELECT blocked_until FROM lead_radar_tg_account_safety WHERE org_id = ?', ORG_A,
+  ), expectedResumeAt);
+  await assert.rejects(
+    transitionTelegramCampaign({
+      db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+      campaignId: created.campaign.id, action: 'resume', operatorId: 'owner@example.test',
+      idempotencyKey: 'campaign_long_flood_resume_early',
+      now: new Date(NOW.getTime() + 24 * 60 * 60_000),
+    }),
+    (error) => errorCode(error) === 'telegram_campaign_resume_cooldown',
+  );
+  const resumed = await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'resume', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_long_flood_resume_due',
+    now: new Date(NOW.getTime() + waitSeconds * 1_000),
+  });
+  assert.equal(resumed.campaign.status, 'running');
+});
+
+test('maintenance applies new DNC suppression and purges unsent recipient ciphertext', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_maintenance_dnc', username: 'MaintenanceDncClinic' });
+  const created = await approvedCampaign(
+    db,
+    ['company_maintenance_dnc'],
+    'campaign_maintenance_dnc_0001',
+  );
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_maintenance_dnc_start', now: NOW,
+  });
+  db.sqlite.prepare(`UPDATE lead_radar_companies
+    SET suppressed = 1, lifecycle = 'do_not_contact'
+    WHERE org_id = ? AND id = 'company_maintenance_dnc'`).run(ORG_A);
+  await maintainTelegramCampaigns({
+    db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 1_000),
+  });
+  const recipient = db.rows<Record<string, unknown>>(`SELECT status, endpoint_ciphertext,
+    endpoint_iv, payload_ciphertext, payload_iv
+    FROM lead_radar_tg_campaign_recipients WHERE campaign_id = ?`, created.campaign.id)[0];
+  assert.equal(recipient?.status, 'skipped_dnc');
+  assert.equal(recipient?.endpoint_ciphertext, 'purged_________________');
+  assert.equal(recipient?.payload_ciphertext, 'purged_________________');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?',
+    created.campaign.id,
+  ), 'canceled');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'completed');
+});
+
+test('maintenance reconciles a durable sent effect after a crash without a duplicate provider call', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_effect_reconcile', username: 'EffectReconcileClinic' });
+  const created = await approvedCampaign(
+    db,
+    ['company_effect_reconcile'],
+    'campaign_effect_reconcile_0001',
+  );
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_effect_reconcile_start', now: NOW,
+  });
+  const claim = await claimNextTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, now: NOW,
+  });
+  assert.ok(claim);
+  const providerDigest = 'a'.repeat(64);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_recipients
+    SET status = 'dispatching', attempt_count = 1, dispatching_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND id = ?`)
+    .run(NOW.toISOString(), NOW.toISOString(), ORG_A, created.campaign.id, claim.recipientId);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_effects
+    SET status = 'sent', provider_message_digest = ?, completed_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND recipient_id = ?`)
+    .run(
+      providerDigest,
+      NOW.toISOString(),
+      NOW.toISOString(),
+      ORG_A,
+      created.campaign.id,
+      claim.recipientId,
+    );
+  await maintainTelegramCampaigns({
+    db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 3 * 60_000),
+  });
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_recipients WHERE id = ?', claim.recipientId,
+  ), 'sent');
+  assert.equal(db.value(
+    'SELECT provider_message_digest FROM lead_radar_tg_campaign_recipients WHERE id = ?',
+    claim.recipientId,
+  ), providerDigest);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'completed');
+  assert.equal(db.value(
+    'SELECT dispatch_lease_digest FROM lead_radar_tg_user_accounts WHERE org_id = ?', ORG_A,
+  ), null);
+  let sends = 0;
+  const replay = await consumeTelegramCampaignQueueMessage({
+    db: db.asD1(), dataKey: DATA_KEY,
+    raw: {
+      schema: 'gptbot.lead-radar.telegram-campaign.v1',
+      campaign_id: created.campaign.id,
+      org_id: ORG_A,
+      state_version: 1,
+    },
+    sender: { async send() { sends += 1; return { kind: 'sent', providerMessageId: 'duplicate' }; } },
+    now: new Date(NOW.getTime() + 3 * 60_000),
+  });
+  assert.equal(replay.disposition, 'stale');
+  assert.equal(sends, 0);
+});
+
+test('disconnect during an in-flight provider call terminalizes the effect without retry', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_disconnect_race', username: 'DisconnectRaceClinic' });
+  const created = await approvedCampaign(
+    db,
+    ['company_disconnect_race'],
+    'campaign_disconnect_race_0001',
+  );
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_disconnect_race_start', now: NOW,
+  });
+  const claim = await claimNextTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, now: NOW,
+  });
+  assert.ok(claim);
+  let entered!: () => void;
+  let release!: (value: { kind: 'sent'; providerMessageId: string }) => void;
+  const enteredProvider = new Promise<void>((resolve) => { entered = resolve; });
+  const providerResult = new Promise<{ kind: 'sent'; providerMessageId: string }>((resolve) => {
+    release = resolve;
+  });
+  let sends = 0;
+  const dispatch = dispatchClaimedTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, claim, now: NOW,
+    sender: {
+      async send() {
+        sends += 1;
+        entered();
+        return providerResult;
+      },
+    },
+  });
+  await enteredProvider;
+  const account = await getTelegramUserAccount(db.asD1(), ORG_A);
+  assert.ok(account);
+  assert.equal(await revokeTelegramUserAccount({
+    db: db.asD1(), orgId: ORG_A, accountId: account.id,
+    now: new Date(NOW.getTime() + 1_000),
+  }), true);
+  release({ kind: 'sent', providerMessageId: 'late-provider-ack' });
+  const result = await dispatch;
+  assert.equal(result.status, 'ambiguous');
+  assert.equal(result.campaign.status, 'stopped');
+  assert.equal(sends, 1);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_recipients WHERE id = ?', claim.recipientId,
+  ), 'ambiguous');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE recipient_id = ?', claim.recipientId,
+  ), 'ambiguous');
+  assert.equal(db.value(
+    'SELECT state FROM lead_radar_tg_account_safety WHERE account_id = ?', account.id,
+  ), 'disconnected');
+  assert.equal(db.value(
+    'SELECT endpoint_ciphertext FROM lead_radar_tg_campaign_recipients WHERE id = ?',
+    claim.recipientId,
+  ), 'purged_________________');
+});
+
 test('ambiguous provider boundary is terminal per-recipient and pauses without retry', async (t) => {
   const db = database();
   t.after(() => db.sqlite.close());
@@ -702,7 +1021,7 @@ test('ambiguous provider boundary is terminal per-recipient and pauses without r
       operatorId: 'owner@example.test', idempotencyKey: 'campaign_resume_ambiguous',
       now: new Date(NOW.getTime() + 60_000),
     }),
-    (error) => errorCode(error) === 'telegram_campaign_transition_invalid',
+    (error) => errorCode(error) === 'telegram_campaign_resume_ambiguous_delivery',
   );
   assert.deepEqual(await recoverTelegramCampaignLease({
     db: db.asD1(), orgId: ORG_A, campaignId: created.campaign.id,

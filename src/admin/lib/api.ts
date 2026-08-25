@@ -5,6 +5,9 @@
 const BASE = (import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/$/, '') || '';
 
 const TOKEN_KEY = 'gptbot_admin_token';
+// Must remain above the private service control deadline so cold gateway auth/revoke
+// can return a definite response before the browser reports an unknown outcome.
+const LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS = 90_000;
 
 function jsonRecord(value: unknown): Record<string, unknown> | null {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -668,29 +671,38 @@ export const api = {
       'GET',
       '/api/admin/lead-radar/telegram-account',
       undefined,
-      { timeoutMs: 15_000 },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
     ),
   leadRadarConnectTelegramAccount: (idempotencyKey: string) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
       'POST',
       '/api/admin/lead-radar/telegram-account/connect',
       {},
-      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
   leadRadarTelegramAccountConnectStatus: (authId: string) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
       'GET',
       `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}`,
       undefined,
-      { timeoutMs: 15_000 },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
     ),
   leadRadarDisconnectTelegramAccount: (idempotencyKey: string) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
       'DELETE',
       '/api/admin/lead-radar/telegram-account',
       undefined,
-      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
+  leadRadarAuthorizeTelegramCampaignContact: (
+    input: import('./lead-radar-campaign').LeadRadarTelegramContactAuthorizationInput,
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramContactAuthorizationReadModel>(
+    'POST',
+    '/api/admin/lead-radar/telegram-campaigns/eligibility',
+    input,
+    { timeoutMs: 20_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
   leadRadarPrepareTelegramCampaign: (
     input: import('./lead-radar-campaign').LeadRadarTelegramCampaignPrepareInput,
     idempotencyKey: string,
@@ -713,6 +725,13 @@ export const api = {
     request<import('./lead-radar-campaign').LeadRadarTelegramCampaignReadModel>(
       'GET',
       `/api/admin/lead-radar/telegram-campaigns/${encodeURIComponent(campaignId)}`,
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarTelegramCampaignRecovery: (searchId: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramCampaignRecoveryResponse>(
+      'GET',
+      `/api/admin/lead-radar/telegram-campaigns?searchId=${encodeURIComponent(searchId)}`,
       undefined,
       { timeoutMs: 15_000 },
     ),

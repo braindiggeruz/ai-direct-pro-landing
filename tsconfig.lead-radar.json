@@ -30,6 +30,7 @@
     "src/admin/components/lead-radar/TelegramOutreachActions.tsx",
     "src/admin/pages/LeadRadar.tsx",
     "src/shared/lead-radar.ts",
-    "workers/automation-worker.ts"
+    "workers/automation-worker.ts",
+    "workers/lead-radar-telegram-account/index.ts"
   ]
 }

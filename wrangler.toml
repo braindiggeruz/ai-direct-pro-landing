@@ -105,8 +105,9 @@ LEAD_RADAR_CONTACT_ENABLED = "false"
 # Corporate Telegram links remain visible and can influence ranking while
 # personal-contact export and every outbound action stay behind stricter gates.
 LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
-# Requires migration 0045, the dedicated user-account data key and a healthy
-# MTProto gateway. Shipping the control plane never enables sending by itself.
+# Requires the exact 0045+0046 campaign schema, a separate campaign data key,
+# the private service binding and a healthy MTProto gateway. The gateway's
+# session key is never bound to Pages. Shipping this plane cannot enable sends.
 LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED = "false"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED = "false"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "false"

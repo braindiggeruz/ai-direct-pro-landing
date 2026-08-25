@@ -65,11 +65,12 @@ Apply only after a reviewed rehearsal against a production schema snapshot:
 3. Apply `0043_lead_radar_async_funnel.sql`.
 4. Apply `0044_lead_radar_telegram_business.sql`.
 5. Apply `0045_lead_radar_telegram_campaigns.sql`.
-6. Run the read-only exact schema auditor. A mismatch is stop-ship; application
+6. Apply `0046_lead_radar_telegram_campaign_safety.sql`.
+7. Run the read-only exact schema auditor. A mismatch is stop-ship; application
    runtime never repairs schema and never executes DDL.
 
-The migrations are additive and `0045` is a rolling-compatible campaign
-extension: old application/Worker artifacts ignore its objects; new artifacts
+The migrations are additive and `0045+0046` form a rolling-compatible campaign
+extension: old application/Worker artifacts ignore their objects; new artifacts
 must expose campaign capability as unavailable until the exact schema and all
 bindings exist. Application rollback disables capability flags and restores the
 prior artifacts; it does not drop tables during an incident.
@@ -150,6 +151,13 @@ platform secret controls:
   application's own credentials created by the owner at `my.telegram.org`;
 - `LEAD_RADAR_TELEGRAM_ACCOUNT_DATA_KEY` — versioned application
   envelope-encryption master key for TDLib snapshots;
+- `LEAD_RADAR_TELEGRAM_ACCOUNT_ROUTING_KEY` — an independent stable 32-byte
+  base64url routing key. Never rotate it as part of an encryption-key rotation;
+  changing it changes Durable Object identities;
+- `LEAD_RADAR_TELEGRAM_ACCOUNT_KEY_VERSION` — bounded identifier for the
+  current session-encryption key, and
+  `LEAD_RADAR_TELEGRAM_ACCOUNT_PREVIOUS_DATA_KEYS` — optional bounded JSON
+  keyring used only during a rehearsed lazy rewrap;
 - `LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY` — a separate 32-byte base64url key
   for encrypted campaign templates/endpoints and keyed D1 digests; it must not
   be reused for TDLib snapshots or the Telegram Business bot;
@@ -184,7 +192,8 @@ configuration approval as capability enablement.
 Each step remains separately approved and evidenced; this sequence does not
 authorize execution:
 
-1. Rehearse and apply additive `0045`, then prove the exact read-only schema.
+1. Rehearse and apply additive `0045` and `0046`, then prove the exact
+   read-only campaign schema contract.
 2. Create/verify the private R2 bucket and secrets without enabling any flag.
 3. Deploy the Telegram account Worker, Durable Object migration and pinned
    TDLib Container to staging, then production with no public route. Record the
@@ -262,6 +271,10 @@ Account-campaign enabled:
   `auto_eligible`, `manual_draft` or `excluded` reason codes;
 - a public username without qualifying consent/inbound/contract evidence
   produces zero provider calls and remains a manual draft;
+- choosing a global basis in the UI without an independently persisted,
+  unexpired per-company authorization produces zero automatic recipients;
+- authorization evidence is tenant/company/endpoint scoped, digest-only,
+  idempotent and revalidated after approval and immediately before dispatch;
 - one account produces at most one in-flight provider effect and preserves order
   across concurrent Worker deliveries, retries, pause/resume and Container
   restarts;

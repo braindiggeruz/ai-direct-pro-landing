@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["ES2023", "DOM", "WebWorker"],
+    "module": "esnext",
+    "types": ["@cloudflare/workers-types"],
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "files": [
+    "index.ts",
+    "account-object.ts",
+    "auth-metadata.ts",
+    "crypto.ts",
+    "idempotency.ts",
+    "protocol.ts",
+    "timeouts.ts"
+  ]
+}

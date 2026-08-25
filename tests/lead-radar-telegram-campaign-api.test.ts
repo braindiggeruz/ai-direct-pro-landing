@@ -9,6 +9,13 @@ import {
   ownerOrgId,
 } from '../functions/platform/lead-radar';
 import {
+  beginTelegramAccountConnection,
+  PrivateTelegramCampaignSender,
+  TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS,
+  TELEGRAM_ACCOUNT_SEND_REQUEST_TIMEOUT_MS,
+  TelegramAccountServiceError,
+} from '../functions/platform/lead-radar/telegram-account-service';
+import {
   callRoute,
   freshAdminDb,
   OWNER_EMAIL,
@@ -17,6 +24,19 @@ import {
 import { SqliteD1 } from './helpers/sqlite-d1';
 
 const CAMPAIGN_DATA_KEY = Buffer.alloc(32, 19).toString('base64url');
+
+function abortAwareNeverResolvingService(onSignal: (signal: AbortSignal) => void): Fetcher {
+  return {
+    fetch(_input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+      const signal = init?.signal;
+      assert.ok(signal);
+      onSignal(signal);
+      return new Promise<Response>((_resolve, reject) => {
+        signal.addEventListener('abort', () => reject(new Error('aborted')), { once: true });
+      });
+    },
+  } as Fetcher;
+}
 
 function installLeadRadarLedger(db: SqliteD1): void {
   db.exec(`CREATE TABLE IF NOT EXISTS d1_migrations (
@@ -30,6 +50,7 @@ function installLeadRadarLedger(db: SqliteD1): void {
     '0043_lead_radar_async_funnel.sql',
     '0044_lead_radar_telegram_business.sql',
     '0045_lead_radar_telegram_campaigns.sql',
+    '0046_lead_radar_telegram_campaign_safety.sql',
   ]) {
     db.sqlite.prepare('INSERT OR IGNORE INTO d1_migrations(name) VALUES (?)').run(name);
   }
@@ -62,6 +83,7 @@ class TelegramAccountServiceFixture {
         status: 'connecting',
         auth_id: this.authId,
         qr_code_data_url: 'data:image/png;base64,AAAA',
+        qr_login_url: 'tg://login?token=fixture_token_1234567890',
         expires_at: new Date(Date.now() + 60_000).toISOString(),
       });
     }
@@ -71,6 +93,7 @@ class TelegramAccountServiceFixture {
         status: 'connecting',
         auth_id: this.activeAuthId,
         qr_code_data_url: 'data:image/png;base64,AAAA',
+        qr_login_url: 'tg://login?token=fixture_token_1234567890',
         expires_at: new Date(Date.now() + 60_000).toISOString(),
       });
     }
@@ -89,6 +112,7 @@ class TelegramAccountServiceFixture {
           status: 'connecting',
           auth_id: this.authId,
           qr_code_data_url: 'data:image/png;base64,AAAA',
+          qr_login_url: 'tg://login?token=fixture_token_1234567890',
           expires_at: new Date(Date.now() + 60_000).toISOString(),
         });
       }
@@ -183,6 +207,44 @@ async function seedConnectedAccount(db: SqliteD1): Promise<string> {
   return connected.id;
 }
 
+test('private account control timeout aborts the binding and maps to gateway unavailable', async (t) => {
+  assert.ok(
+    TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS < TELEGRAM_ACCOUNT_SEND_REQUEST_TIMEOUT_MS,
+  );
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let signal: AbortSignal | null = null;
+  const pending = beginTelegramAccountConnection({
+    service: abortAwareNeverResolvingService((value) => { signal = value; }),
+    orgId: 'org_timeout_control',
+    operationId: 'timeout_control_0001',
+  });
+  t.mock.timers.tick(TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS);
+  await assert.rejects(
+    pending,
+    (error) => error instanceof TelegramAccountServiceError
+      && error.code === 'telegram_campaign_gateway_unavailable',
+  );
+  assert.equal(signal?.aborted, true);
+});
+
+test('private campaign send timeout aborts the binding and is provider-ambiguous', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let signal: AbortSignal | null = null;
+  const sender = new PrivateTelegramCampaignSender(
+    abortAwareNeverResolvingService((value) => { signal = value; }),
+  );
+  const pending = sender.send({
+    accountId: 'lrtgua_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    gatewayAccountRef: 'gateway_account_timeout_0001',
+    username: 'TimeoutClinic',
+    text: 'Bounded message',
+    randomId: 'lrtgce_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  });
+  t.mock.timers.tick(TELEGRAM_ACCOUNT_SEND_REQUEST_TIMEOUT_MS);
+  assert.deepEqual(await pending, { kind: 'ambiguous' });
+  assert.equal(signal?.aborted, true);
+});
+
 test('account connect fails before D1 mutation when the private service binding is absent', async () => {
   const db = freshAdminDb();
   installLeadRadarLedger(db);
@@ -225,6 +287,10 @@ test('QR connect, tenant-scoped poll and disconnect use only the private binding
   assert.equal(connect.status, 201);
   assert.equal(connect.body.status, 'connecting');
   assert.equal((connect.body.qr as Record<string, unknown>).authId, service.authId);
+  assert.equal(
+    (connect.body.qr as Record<string, unknown>).qrLoginUrl,
+    'tg://login?token=fixture_token_1234567890',
+  );
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_user_accounts'), 1);
   const stored = db.sqlite.prepare(`SELECT auth_request_digest, gateway_account_ref
     FROM lead_radar_tg_user_accounts`).get() as {
@@ -423,6 +489,27 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
   const token = await platformToken('platform_owner');
   const template = 'Здравствуйте, {company_name}! Обсудим автоматизацию?';
   const baseEnv = await campaignEnv(service, { AUTOMATION_QUEUE: queue });
+  const eligibilityExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60_000).toISOString();
+  const eligibility = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    '/api/admin/lead-radar/telegram-campaigns/eligibility',
+    {
+      method: 'POST', token, params: { path: 'telegram-campaigns/eligibility' },
+      headers: { 'Idempotency-Key': 'campaign-eligibility-api-0001' },
+      body: {
+        searchId,
+        leadId,
+        contactBasis: 'documented_consent',
+        evidenceReference: 'crm-consent-clinic-alpha-2026',
+        expiresAt: eligibilityExpiresAt,
+      },
+      env: baseEnv,
+    },
+  );
+  assert.equal(eligibility.status, 201);
+  assert.equal(eligibility.body.companyId, leadId);
+  assert.equal(eligibility.body.reviewer, 'owner_verified');
   const prepareInput = {
     accountId, searchId, leadIds: [leadId], template,
     contactBasis: 'documented_consent',
@@ -441,6 +528,16 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
   assert.deepEqual(prepared.body.summary, {
     selected: 1, automatic: 1, manual: 0, excluded: 0,
   });
+  assert.deepEqual(
+    ((prepared.body.recipients as Array<Record<string, unknown>>)[0]?.authorization),
+    {
+      basis: 'documented_consent',
+      evidenceVersion: 'campaign-contact-eligibility-v1',
+      verifiedAt: eligibility.body.verifiedAt,
+      expiresAt: eligibilityExpiresAt,
+      reviewer: 'owner_verified',
+    },
+  );
   assert.equal(
     ((prepared.body.previews as Array<Record<string, unknown>>)[0]?.text),
     'Здравствуйте, Клиника Альфа! Обсудим автоматизацию?',
@@ -467,7 +564,7 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
       method: 'POST', token, params: { path: 'telegram-campaigns' },
       headers: { 'Idempotency-Key': 'campaign-create-api-0001' }, env: baseEnv,
       body: {
-        accountId, leadIds: [leadId], template,
+        accountId, searchId, leadIds: [leadId], template,
         contactBasis: 'documented_consent',
         approvalToken: prepared.body.approvalToken,
         selectionDigest: prepared.body.selectionDigest,
@@ -478,6 +575,15 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
   assert.equal(created.status, 201);
   assert.equal(created.body.status, 'approved');
   const campaignId = String(created.body.id);
+  const recovered = await callRoute(
+    leadRadarRoute.onRequestGet,
+    db,
+    `/api/admin/lead-radar/telegram-campaigns?searchId=${encodeURIComponent(searchId)}`,
+    { token, params: { path: 'telegram-campaigns' }, env: baseEnv },
+  );
+  assert.equal(recovered.status, 200);
+  assert.equal((recovered.body.active as Record<string, unknown>).id, campaignId);
+  assert.equal((recovered.body.latest as Record<string, unknown>).id, campaignId);
   const encrypted = db.sqlite.prepare(`SELECT template_ciphertext
     FROM lead_radar_tg_campaigns WHERE id = ?`).get(campaignId) as {
       template_ciphertext: string;

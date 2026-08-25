@@ -6,11 +6,13 @@ import {
 } from '../../../platform/admin';
 import {
   assertLeadRadarRuntimeSchema,
+  authorizeTelegramCampaignContact,
   createApprovedTelegramCampaign,
   createTelegramUserAccountPending,
   completeTelegramUserAccountConnection,
   enqueueDueTelegramCampaignsForOrganization,
   getTelegramCampaign,
+  getTelegramCampaignRecovery,
   getTelegramUserAccount,
   getTelegramUserAccountByAuthRequest,
   hasTelegramCampaignSchema,
@@ -73,6 +75,7 @@ interface AccountState {
   qr: {
     authId: string;
     qrCodeDataUrl: string | null;
+    qrLoginUrl: string | null;
     expiresAt: string;
   } | null;
   reasonCode: string | null;
@@ -188,6 +191,7 @@ function accountState(
     qr: challenge ? {
       authId: challenge.authId,
       qrCodeDataUrl: challenge.qrCodeDataUrl,
+      qrLoginUrl: challenge.qrLoginUrl,
       expiresAt: challenge.expiresAt,
     } : null,
     reasonCode: options.reasonCode ?? null,
@@ -203,6 +207,15 @@ function campaignState(campaign: TelegramCampaignReadModel): {
   completedAt: string | null;
   pausedUntil: string | null;
   reasonCode: string | null;
+  canResume: boolean;
+  resumeBlockedReason:
+    | 'cooldown'
+    | 'review_required'
+    | 'ambiguous_delivery'
+    | 'account_restricted'
+    | 'account_disconnected'
+    | 'campaign_disabled'
+    | null;
 } {
   return {
     id: campaign.id,
@@ -211,9 +224,23 @@ function campaignState(campaign: TelegramCampaignReadModel): {
     createdAt: campaign.createdAt,
     startedAt: campaign.startedAt,
     completedAt: campaign.completedAt,
-    pausedUntil: campaign.status === 'paused' ? campaign.nextSendAt : null,
+    pausedUntil: campaign.pausedUntil,
     reasonCode: campaign.lastErrorCode ?? campaign.pauseReason,
+    canResume: campaign.canResume,
+    resumeBlockedReason: campaign.resumeBlockedReason,
   };
+}
+
+function campaignStateWithCapabilities(
+  campaign: TelegramCampaignReadModel,
+  capabilities: LeadRadarApiCapabilities,
+): ReturnType<typeof campaignState> {
+  const state = campaignState(campaign);
+  if (campaign.status === 'paused'
+    && (!capabilities.campaignOutreachEnabled || !capabilities.campaignAutoSendEnabled)) {
+    return { ...state, canResume: false, resumeBlockedReason: 'campaign_disabled' };
+  }
+  return state;
 }
 
 function renderTemplate(template: string, companyName: string): string | null {
@@ -246,6 +273,7 @@ function preparationState(
       companyName,
       classification: item.classification,
       reasonCode: item.reasonCode,
+      authorization: item.authorization,
       preview,
     };
   });
@@ -426,6 +454,30 @@ export async function handleTelegramCampaignGet(
       }), ctx.requestId);
     }
 
+    if (parts.length === 1 && parts[0] === 'telegram-campaigns') {
+      const key = campaignDataKey(ctx);
+      if (!key) return unavailable('telegram_campaign_not_configured', ctx);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const searchId = new URL(ctx.request.url).searchParams.get('searchId');
+      if (!searchId || !ENTITY_ID_PATTERN.test(searchId)) {
+        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      }
+      const recovery = await getTelegramCampaignRecovery({
+        db: ctx.db,
+        orgId,
+        searchId,
+      });
+      return ownerJson({
+        active: recovery.active
+          ? campaignStateWithCapabilities(recovery.active, capabilities)
+          : null,
+        latest: recovery.latest
+          ? campaignStateWithCapabilities(recovery.latest, capabilities)
+          : null,
+      }, ctx.requestId);
+    }
+
     if (parts.length === 2 && parts[0] === 'telegram-campaigns') {
       const key = campaignDataKey(ctx);
       if (!key) return unavailable('telegram_campaign_not_configured', ctx);
@@ -433,7 +485,7 @@ export async function handleTelegramCampaignGet(
       if (schema) return schema;
       const campaign = await getTelegramCampaign(ctx.db, orgId, parts[1]);
       return campaign
-        ? ownerJson(campaignState(campaign), ctx.requestId)
+        ? ownerJson(campaignStateWithCapabilities(campaign, capabilities), ctx.requestId)
         : ownerError('telegram_campaign_campaign_not_found', ctx.requestId, 404);
     }
     return ownerError('route_not_found', ctx.requestId, 404);
@@ -555,6 +607,7 @@ export async function handleTelegramCampaignPost(
         dataKey,
         orgId,
         accountId: body.accountId,
+        searchId: body.searchId as string,
         companyIds: body.leadIds as string[],
         template: body.template,
         operatorId: ctx.actor.email,
@@ -568,6 +621,54 @@ export async function handleTelegramCampaignPost(
         : ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
     }
 
+    if (parts.length === 2
+      && parts[0] === 'telegram-campaigns'
+      && parts[1] === 'eligibility') {
+      if (!capabilities.campaignOutreachEnabled) {
+        return ownerError('lead_radar_campaign_paused', ctx.requestId, 409);
+      }
+      const requestKey = idempotencyKey(ctx);
+      if (!requestKey) return requiredIdempotencyResponse(ctx);
+      const body = await exactBody(ctx, [
+        'searchId', 'leadId', 'contactBasis', 'evidenceReference', 'expiresAt',
+      ]);
+      if (!body
+        || typeof body.searchId !== 'string'
+        || typeof body.leadId !== 'string'
+        || typeof body.evidenceReference !== 'string'
+        || typeof body.expiresAt !== 'string'
+        || !isTelegramCampaignContactBasis(body.contactBasis)) {
+        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      }
+      const dataKey = campaignDataKey(ctx);
+      if (!dataKey) return unavailable('telegram_campaign_not_configured', ctx);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const membership = await validateSearchSelection(ctx, orgId, body.searchId, [body.leadId]);
+      if (membership === 'search_not_found') {
+        return ownerError('search_not_found', ctx.requestId, 404);
+      }
+      if (membership !== 'ok') {
+        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      }
+      const authorized = await authorizeTelegramCampaignContact({
+        db: ctx.db,
+        dataKey,
+        orgId,
+        companyId: body.leadId,
+        contactBasis: body.contactBasis,
+        evidenceReference: body.evidenceReference,
+        expiresAt: body.expiresAt,
+        reviewerId: ctx.actor.email,
+        idempotencyKey: requestKey,
+      });
+      return ownerJson(
+        authorized.authorization,
+        ctx.requestId,
+        authorized.replayed ? 200 : 201,
+      );
+    }
+
     if (parts.length === 1 && parts[0] === 'telegram-campaigns') {
       if (!capabilities.campaignOutreachEnabled) {
         return ownerError('lead_radar_campaign_paused', ctx.requestId, 409);
@@ -575,11 +676,12 @@ export async function handleTelegramCampaignPost(
       const requestKey = idempotencyKey(ctx);
       if (!requestKey) return requiredIdempotencyResponse(ctx);
       const body = await exactBody(ctx, [
-        'accountId', 'leadIds', 'template', 'contactBasis', 'approvalToken',
+        'accountId', 'searchId', 'leadIds', 'template', 'contactBasis', 'approvalToken',
         'selectionDigest', 'contentDigest',
       ]);
       if (!body
         || typeof body.accountId !== 'string'
+        || typeof body.searchId !== 'string'
         || !Array.isArray(body.leadIds)
         || typeof body.template !== 'string'
         || typeof body.approvalToken !== 'string'
@@ -597,11 +699,21 @@ export async function handleTelegramCampaignPost(
       }
       const schema = await campaignSchemaResponse(ctx);
       if (schema) return schema;
+      const membership = await validateSearchSelection(
+        ctx, orgId, body.searchId, body.leadIds,
+      );
+      if (membership === 'search_not_found') {
+        return ownerError('search_not_found', ctx.requestId, 404);
+      }
+      if (membership !== 'ok') {
+        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      }
       const created = await createApprovedTelegramCampaign({
         db: ctx.db,
         dataKey,
         orgId,
         accountId: body.accountId,
+        searchId: body.searchId,
         companyIds: body.leadIds as string[],
         template: body.template,
         operatorId: ctx.actor.email,
@@ -612,7 +724,11 @@ export async function handleTelegramCampaignPost(
         minIntervalSeconds,
         contactBasis: body.contactBasis,
       });
-      return ownerJson(campaignState(created.campaign), ctx.requestId, created.replayed ? 200 : 201);
+      return ownerJson(
+        campaignStateWithCapabilities(created.campaign, capabilities),
+        ctx.requestId,
+        created.replayed ? 200 : 201,
+      );
     }
 
     if (parts.length === 3
@@ -655,7 +771,10 @@ export async function handleTelegramCampaignPost(
           limit: 10,
         });
       }
-      return ownerJson(campaignState(transitioned.campaign), ctx.requestId);
+      return ownerJson(
+        campaignStateWithCapabilities(transitioned.campaign, capabilities),
+        ctx.requestId,
+      );
     }
 
     return ownerError('route_not_found', ctx.requestId, 404);

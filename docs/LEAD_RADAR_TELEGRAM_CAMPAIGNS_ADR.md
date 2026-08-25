@@ -1,7 +1,7 @@
 # ADR: Lead Radar Telegram account campaigns
 
-**Status:** accepted for implementation; production enablement is separately
-gated
+**Status:** implemented as a disabled release candidate; infrastructure
+provisioning, canary and production enablement remain separately gated
 
 **Date:** 2026-08-25
 
@@ -60,13 +60,14 @@ flowchart LR
   it through a private Cloudflare service binding. Service bindings can call a
   Worker without exposing a public URL; see the official
   [service bindings documentation](https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/).
-- There is one Durable Object identity per `(org_id, telegram_account_id)`. It
-  is the serialization authority for that account and permits exactly one
+- There is one stable, routing-key-derived Durable Object identity per
+  organization and primary Telegram account slot. It is independent from the
+  rotatable session-encryption key, is the serialization authority and permits exactly one
   active TDLib sender/session. Durable Objects provide a unique identity and
   strongly consistent state; see the official
   [Durable Objects overview](https://developers.cloudflare.com/durable-objects/).
-- The Durable Object controls one Cloudflare Container running an image pinned
-  to a reviewed official TDLib release. Cloudflare documents that a Container
+- The Durable Object controls one Cloudflare Container whose Debian base digest
+  and official TDLib source commit are pinned. Cloudflare documents that a Container
   is backed by a Durable Object and deployed from a Docker image; see
   [Containers: getting started](https://developers.cloudflare.com/containers/get-started/).
 - Railway and GramJS are explicitly rejected. They would add another trust and
@@ -175,7 +176,8 @@ when reserving and immediately before the provider boundary.
 
 ## Capability and rollout gates
 
-Migration `0045_lead_radar_telegram_campaigns.sql` and application code ship
+Migrations `0045_lead_radar_telegram_campaigns.sql` and
+`0046_lead_radar_telegram_campaign_safety.sql` plus application code ship
 rolling-compatible while all account/campaign capabilities are false:
 
 - `LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED=false`
@@ -193,7 +195,7 @@ It may expose verified corporate Telegram discovery and filtering while contact
 and every campaign flag remain false; it never grants account access or a send.
 
 The code deployment is allowed to precede migration/configuration because old
-Pages and Worker artifacts ignore the additive `0045` objects, and new artifacts
+Pages and Worker artifacts ignore the additive `0045`/`0046` objects, and new artifacts
 must report the capability unavailable when the exact schema contract or binding
 is missing. Migration, secrets, bindings/configuration and deploy each need a
 distinct written approval and separate audit evidence.
@@ -204,7 +206,8 @@ The feature must remain unavailable until all of these are resolved:
 
 1. Workers Paid is enabled (documented minimum USD 5/month) and budget/usage
    alerts are accepted.
-2. A reproducible Linux/amd64 Docker build pins the official TDLib source/image;
+2. A reproducible Linux/amd64 Docker build pins the official TDLib source and
+   Debian base digest;
    CI builds, scans, signs and publishes it, and staging proves backup/restore.
 3. The owner creates the application's own `api_id` and `api_hash` at
    `my.telegram.org`; neither value is supplied or invented by engineering.
@@ -216,6 +219,24 @@ The feature must remain unavailable until all of these are resolved:
 6. Separate written approvals exist for D1 migration apply, secret changes,
    Cloudflare configuration/bindings and deployment. A broad implementation
    approval does not substitute for these four production changes.
+
+## Implemented release-candidate boundary
+
+The reviewed implementation lives in `workers/lead-radar-telegram-account/`
+and uses a route-less Worker, one Durable Object/Container per stable account
+slot, an application-encrypted private-R2 snapshot, a two-layer idempotency
+ledger and the pinned official TDLib JSON contract. The Pages control plane and
+existing automation Worker call it only through the optional private service
+binding. If the binding, exact `0045+0046` schema, keys or capability flags are
+absent, account connection and provider dispatch fail closed.
+
+Automatic eligibility is not created by choosing a basis in the campaign form.
+The owner must record a separate, expiry-bounded authorization for the exact
+organization, company and current corporate endpoint. D1 stores only keyed
+digests of the evidence reference and reviewer identity. Campaign creation
+freezes that authorization, and dispatch revalidates the live authorization,
+endpoint, DNC, account safety and capability state immediately before the
+provider boundary.
 
 ## Rejected alternatives
 

@@ -26,6 +26,7 @@ import {
   enqueueDueTelegramCampaignsForOrganization,
   hasTelegramCampaignSchema,
   isTelegramCampaignDataKeyValid,
+  maintainTelegramCampaigns,
   parseTelegramCampaignQueueMessage,
   recoverExpiredTelegramCampaignLeasesForOrganization,
   type TelegramCampaignQueueMessage,
@@ -214,6 +215,11 @@ export default {
           // Lease reconciliation is safety work and remains active even when
           // autosend is paused. It never crosses the Telegram provider boundary.
           for (const orgId of campaignOrganizations) {
+            await maintainTelegramCampaigns({
+              db: env.GPTBOT_DRAFTS_DB,
+              orgId,
+              now: retentionNow,
+            });
             await recoverExpiredTelegramCampaignLeasesForOrganization({
               db: env.GPTBOT_DRAFTS_DB,
               orgId,

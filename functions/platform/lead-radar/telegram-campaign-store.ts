@@ -134,6 +134,8 @@ export interface TelegramCampaignDispatchContextRow extends TelegramCampaignReci
   campaign_template_ciphertext: string;
   campaign_template_iv: string;
   campaign_content_digest: string;
+  campaign_contact_basis: TelegramCampaignContactBasis;
+  campaign_operator_digest: string;
   min_interval_seconds: number;
   account_status: TelegramUserAccountStatus;
   gateway_account_ref: string | null;
@@ -144,6 +146,54 @@ export interface TelegramCampaignDispatchContextRow extends TelegramCampaignReci
   effect_id: string;
   effect_status: 'reserved' | 'dispatching' | 'sent' | 'failed' | 'ambiguous' | 'canceled';
   effect_payload_digest: string;
+  eligibility_contact_basis: TelegramCampaignContactBasis;
+  eligibility_authorization_id: string;
+  eligibility_evidence_digest: string;
+  eligibility_reviewer_digest: string;
+  eligibility_evidence_version: string;
+  eligibility_verified_at: string;
+  eligibility_expires_at: string;
+}
+
+export type TelegramAccountSafetyState =
+  | 'ready'
+  | 'cooldown'
+  | 'review_required'
+  | 'restricted'
+  | 'disconnected';
+
+export interface TelegramAccountSafetyRow {
+  account_id: string;
+  org_id: string;
+  state: TelegramAccountSafetyState;
+  reason_code: string | null;
+  blocked_until: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TelegramCampaignRecoveryRows {
+  active: TelegramCampaignRow | null;
+  latest: TelegramCampaignRow | null;
+}
+
+export interface TelegramContactAuthorizationRow {
+  id: string;
+  org_id: string;
+  company_id: string;
+  endpoint_digest: string;
+  contact_basis: TelegramCampaignContactBasis;
+  evidence_reference_digest: string;
+  reviewer_digest: string;
+  idempotency_key_digest: string;
+  request_fingerprint: string;
+  evidence_version: string;
+  verified_at: string;
+  expires_at: string;
+  revoked_at: string | null;
+  status: 'active' | 'revoked';
+  created_at: string;
+  updated_at: string;
 }
 
 export interface TelegramCampaignOperationRow {
@@ -158,6 +208,11 @@ export type TelegramCampaignContactBasis =
   | 'inbound_request'
   | 'existing_relationship'
   | 'contractual_relationship';
+
+export const TELEGRAM_CAMPAIGN_EVIDENCE_VERSION = 'campaign-contact-eligibility-v1';
+
+const PURGED_CIPHERTEXT = 'purged_________________';
+const PURGED_IV = 'purged__________';
 
 interface D1WriteResult {
   meta?: { changes?: number; rows_written?: number };
@@ -200,6 +255,42 @@ export class LeadRadarTelegramCampaignStore {
       ORDER BY created_at DESC, id LIMIT 1`)
       .bind(orgId)
       .first<TelegramUserAccountRow>();
+  }
+
+  async getAccountSafety(
+    orgId: string,
+    accountId: string,
+  ): Promise<TelegramAccountSafetyRow | null> {
+    return this.db.prepare(`SELECT account_id, org_id, state, reason_code,
+      blocked_until, created_at, updated_at
+    FROM lead_radar_tg_account_safety
+    WHERE org_id = ? AND account_id = ? LIMIT 1`)
+      .bind(orgId, accountId)
+      .first<TelegramAccountSafetyRow>();
+  }
+
+  async clearExpiredAccountCooldown(
+    orgId: string,
+    accountId: string,
+    now: string,
+  ): Promise<boolean> {
+    const results = await this.db.batch([
+      this.db.prepare(`UPDATE lead_radar_tg_account_safety
+        SET state = 'ready', reason_code = NULL, blocked_until = NULL, updated_at = ?
+        WHERE org_id = ? AND account_id = ? AND state = 'cooldown'
+          AND blocked_until <= ?`)
+        .bind(now, orgId, accountId, now),
+      this.db.prepare(`UPDATE lead_radar_tg_user_accounts AS account
+        SET status = 'connected', updated_at = ?, state_version = state_version + 1
+        WHERE account.org_id = ? AND account.id = ? AND account.status = 'paused'
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_account_safety safety
+            WHERE safety.org_id = account.org_id AND safety.account_id = account.id
+              AND safety.state = 'ready'
+          )`)
+        .bind(now, orgId, accountId),
+    ]) as D1WriteResult[];
+    return changes(results[0]) === 1;
   }
 
   async findAccountByRequest(
@@ -261,7 +352,8 @@ export class LeadRadarTelegramCampaignStore {
     maskedLabel: string;
     now: string;
   }): Promise<boolean> {
-    const result = await this.db.prepare(`UPDATE lead_radar_tg_user_accounts
+    const results = await this.db.batch([
+      this.db.prepare(`UPDATE lead_radar_tg_user_accounts
       SET gateway_account_ref = ?, gateway_account_ref_digest = ?,
         masked_label = ?, status = 'connected',
         connected_at = COALESCE(connected_at, ?), last_health_at = ?,
@@ -279,8 +371,32 @@ export class LeadRadarTelegramCampaignStore {
         input.accountId,
         input.expectedVersion,
       )
-      .run() as D1WriteResult;
-    return changes(result) === 1;
+      ,
+      this.db.prepare(`INSERT INTO lead_radar_tg_account_safety (
+        account_id, org_id, state, reason_code, blocked_until, created_at, updated_at
+      ) SELECT ?, ?, 'ready', NULL, NULL, ?, ?
+      WHERE EXISTS (
+        SELECT 1 FROM lead_radar_tg_user_accounts
+        WHERE org_id = ? AND id = ? AND status = 'connected'
+          AND gateway_account_ref_digest = ? AND state_version = ?
+          AND updated_at = ?
+      )
+      ON CONFLICT (org_id, account_id) DO UPDATE SET
+        state = 'ready', reason_code = NULL, blocked_until = NULL,
+        updated_at = excluded.updated_at`)
+        .bind(
+          input.accountId,
+          orgId,
+          input.now,
+          input.now,
+          orgId,
+          input.accountId,
+          input.gatewayAccountRefDigest,
+          input.expectedVersion + 1,
+          input.now,
+        ),
+    ]) as D1WriteResult[];
+    return changes(results[0]) === 1;
   }
 
   async updateAccountStatus(orgId: string, input: {
@@ -313,15 +429,84 @@ export class LeadRadarTelegramCampaignStore {
   }
 
   async revokeAccount(orgId: string, accountId: string, now: string): Promise<boolean> {
-    const result = await this.db.prepare(`UPDATE lead_radar_tg_user_accounts
-      SET gateway_account_ref = NULL, gateway_account_ref_digest = NULL,
-        dispatch_lease_campaign_id = NULL, dispatch_lease_digest = NULL,
-        dispatch_lease_expires_at = NULL, status = 'revoked', revoked_at = ?,
-        updated_at = ?, state_version = state_version + 1
-      WHERE org_id = ? AND id = ? AND status <> 'revoked'`)
-      .bind(now, now, orgId, accountId)
-      .run() as D1WriteResult;
-    return changes(result) === 1;
+    const results = await this.db.batch([
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients AS recipient
+        SET status = CASE WHEN status = 'dispatching' THEN 'ambiguous' ELSE 'stopped' END,
+          endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
+          claim_digest = NULL, lease_expires_at = NULL,
+          last_error_code = CASE WHEN status = 'dispatching'
+            THEN 'account_disconnected_during_dispatch' ELSE 'account_disconnected' END,
+          completed_at = ?, updated_at = ?
+        WHERE recipient.org_id = ? AND recipient.status IN ('pending', 'claimed', 'dispatching')
+          AND recipient.campaign_id IN (
+            SELECT campaign.id FROM lead_radar_tg_campaigns campaign
+            WHERE campaign.org_id = ? AND campaign.account_id = ?
+              AND campaign.status IN ('approved', 'running', 'paused')
+          )`)
+        .bind(
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          now,
+          now,
+          orgId,
+          orgId,
+          accountId,
+        ),
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_effects AS effect
+        SET status = CASE WHEN status = 'dispatching' THEN 'ambiguous' ELSE 'canceled' END,
+          completed_at = ?, updated_at = ?
+        WHERE effect.org_id = ? AND effect.status IN ('reserved', 'dispatching')
+          AND effect.campaign_id IN (
+            SELECT campaign.id FROM lead_radar_tg_campaigns campaign
+            WHERE campaign.org_id = ? AND campaign.account_id = ?
+              AND campaign.status IN ('approved', 'running', 'paused')
+          )`)
+        .bind(now, now, orgId, orgId, accountId),
+      this.db.prepare(`UPDATE lead_radar_tg_campaigns AS campaign
+        SET status = 'stopped', pause_reason = NULL,
+          last_error_code = 'account_disconnected', stopped_at = ?,
+          sent_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status = 'sent'
+          ),
+          failed_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status = 'failed'
+          ),
+          ambiguous_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status = 'ambiguous'
+          ),
+          skipped_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status IN ('skipped_dnc', 'skipped_stale', 'stopped')
+          ),
+          updated_at = ?, state_version = state_version + 1
+        WHERE campaign.org_id = ? AND campaign.account_id = ?
+          AND campaign.status IN ('approved', 'running', 'paused')`)
+        .bind(now, now, orgId, accountId),
+      this.db.prepare(`INSERT INTO lead_radar_tg_account_safety (
+        account_id, org_id, state, reason_code, blocked_until, created_at, updated_at
+      ) VALUES (?, ?, 'disconnected', 'operator_disconnected', NULL, ?, ?)
+      ON CONFLICT (org_id, account_id) DO UPDATE SET
+        state = 'disconnected', reason_code = 'operator_disconnected',
+        blocked_until = NULL, updated_at = excluded.updated_at`)
+        .bind(accountId, orgId, now, now),
+      this.db.prepare(`UPDATE lead_radar_tg_user_accounts
+        SET gateway_account_ref = NULL, gateway_account_ref_digest = NULL,
+          dispatch_lease_campaign_id = NULL, dispatch_lease_digest = NULL,
+          dispatch_lease_expires_at = NULL, status = 'revoked', revoked_at = ?,
+          updated_at = ?, state_version = state_version + 1
+        WHERE org_id = ? AND id = ? AND status <> 'revoked'`)
+        .bind(now, now, orgId, accountId),
+    ]) as D1WriteResult[];
+    return changes(results[4]) === 1;
   }
 
   async findCompanies(
@@ -338,6 +523,97 @@ export class LeadRadarTelegramCampaignStore {
       .bind(orgId, ...companyIds)
       .all<TelegramCampaignCompanyRow>();
     return result.results ?? [];
+  }
+
+  async getContactAuthorizationByIdempotency(
+    orgId: string,
+    idempotencyKeyDigest: string,
+  ): Promise<TelegramContactAuthorizationRow | null> {
+    return this.db.prepare(`SELECT id, org_id, company_id, endpoint_digest,
+      contact_basis, evidence_reference_digest, reviewer_digest,
+      idempotency_key_digest, request_fingerprint, evidence_version,
+      verified_at, expires_at, revoked_at, status, created_at, updated_at
+    FROM lead_radar_tg_contact_authorizations
+    WHERE org_id = ? AND idempotency_key_digest = ? LIMIT 1`)
+      .bind(orgId, idempotencyKeyDigest)
+      .first<TelegramContactAuthorizationRow>();
+  }
+
+  async getActiveContactAuthorization(orgId: string, input: {
+    companyId: string;
+    endpointDigest: string;
+    contactBasis: TelegramCampaignContactBasis;
+    now: string;
+  }): Promise<TelegramContactAuthorizationRow | null> {
+    return this.db.prepare(`SELECT id, org_id, company_id, endpoint_digest,
+      contact_basis, evidence_reference_digest, reviewer_digest,
+      idempotency_key_digest, request_fingerprint, evidence_version,
+      verified_at, expires_at, revoked_at, status, created_at, updated_at
+    FROM lead_radar_tg_contact_authorizations
+    WHERE org_id = ? AND company_id = ? AND endpoint_digest = ?
+      AND contact_basis = ? AND status = 'active'
+      AND verified_at <= ? AND expires_at > ?
+    ORDER BY verified_at DESC, created_at DESC, id DESC LIMIT 1`)
+      .bind(
+        orgId,
+        input.companyId,
+        input.endpointDigest,
+        input.contactBasis,
+        input.now,
+        input.now,
+      )
+      .first<TelegramContactAuthorizationRow>();
+  }
+
+  async createContactAuthorization(orgId: string, input: {
+    id: string;
+    companyId: string;
+    endpointDigest: string;
+    contactBasis: TelegramCampaignContactBasis;
+    evidenceReferenceDigest: string;
+    reviewerDigest: string;
+    idempotencyKeyDigest: string;
+    requestFingerprint: string;
+    evidenceVersion: string;
+    verifiedAt: string;
+    expiresAt: string;
+    expectedContactJson: string;
+    now: string;
+  }): Promise<boolean> {
+    try {
+      const result = await this.db.prepare(`INSERT INTO lead_radar_tg_contact_authorizations (
+        id, org_id, company_id, endpoint_digest, contact_basis,
+        evidence_reference_digest, reviewer_digest, idempotency_key_digest,
+        request_fingerprint, evidence_version, verified_at, expires_at,
+        status, created_at, updated_at
+      ) SELECT ?, ?, company.id, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?, ?
+      FROM lead_radar_companies company
+      WHERE company.org_id = ? AND company.id = ?
+        AND company.suppressed = 0 AND company.lifecycle <> 'do_not_contact'
+        AND company.telegram_contact_json = ?`)
+        .bind(
+          input.id,
+          orgId,
+          input.endpointDigest,
+          input.contactBasis,
+          input.evidenceReferenceDigest,
+          input.reviewerDigest,
+          input.idempotencyKeyDigest,
+          input.requestFingerprint,
+          input.evidenceVersion,
+          input.verifiedAt,
+          input.expiresAt,
+          input.now,
+          input.now,
+          orgId,
+          input.companyId,
+          input.expectedContactJson,
+        )
+        .run() as D1WriteResult;
+      return changes(result) === 1;
+    } catch {
+      return false;
+    }
   }
 
   async createApproval(orgId: string, input: {
@@ -418,6 +694,42 @@ export class LeadRadarTelegramCampaignStore {
       .first<TelegramCampaignRow>();
   }
 
+  async getActiveCampaignForAccount(
+    orgId: string,
+    accountId: string,
+  ): Promise<TelegramCampaignRow | null> {
+    return this.db.prepare(`${CAMPAIGN_SELECT}
+      WHERE org_id = ? AND account_id = ?
+        AND status IN ('draft', 'approved', 'running', 'paused')
+      ORDER BY created_at DESC, id DESC LIMIT 1`)
+      .bind(orgId, accountId)
+      .first<TelegramCampaignRow>();
+  }
+
+  async getCampaignRecovery(
+    orgId: string,
+    searchId: string,
+  ): Promise<TelegramCampaignRecoveryRows> {
+    const result = await this.db.prepare(`${CAMPAIGN_SELECT}
+      WHERE org_id = ? AND id IN (
+        SELECT campaign_id FROM lead_radar_tg_campaign_safety
+        WHERE org_id = ? AND search_id = ?
+      )
+      ORDER BY created_at DESC, id DESC`)
+      .bind(orgId, orgId, searchId)
+      .all<TelegramCampaignRow>();
+    const rows = result.results ?? [];
+    return {
+      active: rows.find((row) => (
+        row.status === 'draft'
+        || row.status === 'approved'
+        || row.status === 'running'
+        || row.status === 'paused'
+      )) ?? null,
+      latest: rows[0] ?? null,
+    };
+  }
+
   async findCampaignByIdempotency(
     orgId: string,
     idempotencyKeyDigest: string,
@@ -438,6 +750,7 @@ export class LeadRadarTelegramCampaignStore {
     contentDigest: string;
     operatorDigest: string;
     contactBasis: TelegramCampaignContactBasis;
+    searchId: string;
     templateCiphertext: string;
     templateIv: string;
     minIntervalSeconds: number;
@@ -457,6 +770,12 @@ export class LeadRadarTelegramCampaignStore {
       effectId: string;
       effectKeyDigest: string;
       payloadDigest: string;
+      eligibilityEvidenceDigest: string;
+      eligibilityAuthorizationId: string;
+      eligibilityReviewerDigest: string;
+      eligibilityEvidenceVersion: string;
+      eligibilityVerifiedAt: string;
+      eligibilityExpiresAt: string;
     }>;
   }): Promise<boolean> {
     const statements: D1PreparedStatement[] = [
@@ -490,9 +809,12 @@ export class LeadRadarTelegramCampaignStore {
       FROM lead_radar_tg_campaign_approvals approval
       JOIN lead_radar_tg_user_accounts account
         ON account.org_id = approval.org_id AND account.id = approval.account_id
+      LEFT JOIN lead_radar_tg_account_safety safety
+        ON safety.org_id = account.org_id AND safety.account_id = account.id
       WHERE approval.org_id = ? AND approval.id = ?
         AND approval.consumed_campaign_id = ? AND approval.consumed_at = ?
-        AND account.status = 'connected'`)
+        AND account.status = 'connected'
+        AND (safety.account_id IS NULL OR safety.state = 'ready')`)
         .bind(
           input.id,
           orgId,
@@ -514,6 +836,17 @@ export class LeadRadarTelegramCampaignStore {
           orgId,
           input.approval.id,
           input.id,
+          input.now,
+        ),
+      this.db.prepare(`INSERT INTO lead_radar_tg_campaign_safety (
+        campaign_id, org_id, search_id, evidence_version, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?)`)
+        .bind(
+          input.id,
+          orgId,
+          input.searchId,
+          TELEGRAM_CAMPAIGN_EVIDENCE_VERSION,
+          input.now,
           input.now,
         ),
     ];
@@ -549,6 +882,25 @@ export class LeadRadarTelegramCampaignStore {
             input.now,
             input.now,
           ),
+        this.db.prepare(`INSERT INTO lead_radar_tg_recipient_eligibility (
+          recipient_id, org_id, campaign_id, authorization_id, contact_basis,
+          evidence_digest, reviewer_digest, evidence_version, verified_at,
+          expires_at, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+          .bind(
+            recipient.id,
+            orgId,
+            input.id,
+            recipient.eligibilityAuthorizationId,
+            input.contactBasis,
+            recipient.eligibilityEvidenceDigest,
+            recipient.eligibilityReviewerDigest,
+            recipient.eligibilityEvidenceVersion,
+            recipient.eligibilityVerifiedAt,
+            recipient.eligibilityExpiresAt,
+            input.now,
+            input.now,
+          ),
         this.db.prepare(`INSERT INTO lead_radar_tg_campaign_effects (
           id, org_id, campaign_id, recipient_id, effect_key_digest,
           payload_digest, status, created_at, updated_at
@@ -567,7 +919,8 @@ export class LeadRadarTelegramCampaignStore {
     }
     try {
       const results = await this.db.batch(statements) as D1WriteResult[];
-      return changes(results[0]) === 1 && changes(results[1]) === 1;
+      return results.length === statements.length
+        && results.every((result) => changes(result) === 1);
     } catch {
       return false;
     }
@@ -612,12 +965,15 @@ export class LeadRadarTelegramCampaignStore {
     FROM lead_radar_tg_campaigns campaign
       JOIN lead_radar_tg_user_accounts account
         ON account.org_id = campaign.org_id AND account.id = campaign.account_id
+      LEFT JOIN lead_radar_tg_account_safety safety
+        ON safety.org_id = account.org_id AND safety.account_id = account.id
       WHERE campaign.org_id = ?
         AND campaign.status = 'running'
         AND campaign.next_send_at <= ?
         AND account.status = 'connected'
         AND account.next_dispatch_at <= ?
         AND account.dispatch_lease_digest IS NULL
+        AND (safety.account_id IS NULL OR safety.state = 'ready')
         AND EXISTS (
           SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
           WHERE recipient.org_id = campaign.org_id
@@ -662,6 +1018,11 @@ export class LeadRadarTelegramCampaignStore {
         WHERE account.org_id = ? AND account.status = 'connected'
           AND account.dispatch_lease_digest IS NULL
           AND account.next_dispatch_at <= ?
+          AND NOT EXISTS (
+            SELECT 1 FROM lead_radar_tg_account_safety safety
+            WHERE safety.org_id = account.org_id AND safety.account_id = account.id
+              AND safety.state <> 'ready'
+          )
           AND EXISTS (
             SELECT 1 FROM lead_radar_tg_campaigns campaign
             JOIN lead_radar_tg_campaign_recipients recipient
@@ -753,6 +1114,8 @@ export class LeadRadarTelegramCampaignStore {
       campaign.template_ciphertext AS campaign_template_ciphertext,
       campaign.template_iv AS campaign_template_iv,
       campaign.content_digest AS campaign_content_digest,
+      campaign.contact_basis AS campaign_contact_basis,
+      campaign.operator_digest AS campaign_operator_digest,
       campaign.min_interval_seconds,
       account.status AS account_status,
       account.gateway_account_ref,
@@ -761,7 +1124,14 @@ export class LeadRadarTelegramCampaignStore {
       company.suppressed AS company_suppressed,
       company.lifecycle AS company_lifecycle,
       effect.id AS effect_id, effect.status AS effect_status,
-      effect.payload_digest AS effect_payload_digest
+      effect.payload_digest AS effect_payload_digest,
+      eligibility.contact_basis AS eligibility_contact_basis,
+      eligibility.authorization_id AS eligibility_authorization_id,
+      eligibility.evidence_digest AS eligibility_evidence_digest,
+      eligibility.reviewer_digest AS eligibility_reviewer_digest,
+      eligibility.evidence_version AS eligibility_evidence_version,
+      eligibility.verified_at AS eligibility_verified_at,
+      eligibility.expires_at AS eligibility_expires_at
     FROM lead_radar_tg_campaign_recipients recipient
     JOIN lead_radar_tg_campaigns campaign
       ON campaign.org_id = recipient.org_id AND campaign.id = recipient.campaign_id
@@ -771,6 +1141,10 @@ export class LeadRadarTelegramCampaignStore {
       ON company.org_id = recipient.org_id AND company.id = recipient.company_id
     JOIN lead_radar_tg_campaign_effects effect
       ON effect.org_id = recipient.org_id AND effect.recipient_id = recipient.id
+    JOIN lead_radar_tg_recipient_eligibility eligibility
+      ON eligibility.org_id = recipient.org_id
+        AND eligibility.campaign_id = recipient.campaign_id
+        AND eligibility.recipient_id = recipient.id
     WHERE recipient.org_id = ? AND recipient.campaign_id = ?
       AND recipient.id = ? AND recipient.claim_digest = ?
       AND recipient.status = 'claimed'
@@ -809,6 +1183,93 @@ export class LeadRadarTelegramCampaignStore {
       .bind(now, orgId, campaignId, claimDigest);
   }
 
+  private accountSafetyPauseStatements(
+    orgId: string,
+    campaignId: string,
+    state: 'cooldown' | 'review_required' | 'restricted',
+    reasonCode: 'flood_wait' | 'daily_limit' | 'ambiguous_delivery' | 'provider_error' | 'account_restricted',
+    blockedUntil: string | null,
+    now: string,
+    guard?: {
+      recipientId: string;
+      status: 'failed' | 'ambiguous';
+      errorCode: string;
+    },
+  ): D1PreparedStatement[] {
+    return [
+      this.db.prepare(`INSERT INTO lead_radar_tg_account_safety (
+        account_id, org_id, state, reason_code, blocked_until, created_at, updated_at
+      ) SELECT campaign.account_id, campaign.org_id, ?, ?, ?, ?, ?
+      FROM lead_radar_tg_campaigns campaign
+      WHERE campaign.org_id = ? AND campaign.id = ?
+        AND (? IS NULL OR EXISTS (
+          SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+          WHERE recipient.org_id = campaign.org_id
+            AND recipient.campaign_id = campaign.id AND recipient.id = ?
+            AND recipient.status = ? AND recipient.last_error_code = ?
+            AND recipient.updated_at = ?
+        ))
+      ON CONFLICT (org_id, account_id) DO UPDATE SET
+        state = excluded.state, reason_code = excluded.reason_code,
+        blocked_until = excluded.blocked_until, updated_at = excluded.updated_at
+      WHERE lead_radar_tg_account_safety.state <> 'disconnected'
+        AND NOT (
+          lead_radar_tg_account_safety.state = 'restricted'
+          AND excluded.state IN ('cooldown', 'review_required')
+        )
+        AND NOT (
+          lead_radar_tg_account_safety.state = 'review_required'
+          AND excluded.state = 'cooldown'
+        )`)
+        .bind(
+          state,
+          reasonCode,
+          blockedUntil,
+          now,
+          now,
+          orgId,
+          campaignId,
+          guard?.recipientId ?? null,
+          guard?.recipientId ?? null,
+          guard?.status ?? null,
+          guard?.errorCode ?? null,
+          now,
+        ),
+      this.db.prepare(`UPDATE lead_radar_tg_user_accounts AS account
+        SET status = 'paused', next_dispatch_at = CASE
+          WHEN ? IS NOT NULL THEN ? ELSE next_dispatch_at END,
+          dispatch_lease_campaign_id = NULL, dispatch_lease_digest = NULL,
+          dispatch_lease_expires_at = NULL, updated_at = ?,
+          state_version = state_version + 1
+        WHERE account.org_id = ? AND account.status = 'connected'
+          AND account.id = (
+            SELECT campaign.account_id FROM lead_radar_tg_campaigns campaign
+            WHERE campaign.org_id = ? AND campaign.id = ?
+          )
+          AND (? IS NULL OR EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = ? AND recipient.campaign_id = ?
+              AND recipient.id = ? AND recipient.status = ?
+              AND recipient.last_error_code = ? AND recipient.updated_at = ?
+          ))`)
+        .bind(
+          blockedUntil,
+          blockedUntil,
+          now,
+          orgId,
+          orgId,
+          campaignId,
+          guard?.recipientId ?? null,
+          orgId,
+          campaignId,
+          guard?.recipientId ?? null,
+          guard?.status ?? null,
+          guard?.errorCode ?? null,
+          now,
+        ),
+    ];
+  }
+
   async beginDispatch(orgId: string, input: {
     campaignId: string;
     recipientId: string;
@@ -836,12 +1297,32 @@ export class LeadRadarTelegramCampaignStore {
               ON recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
             JOIN lead_radar_companies company
               ON company.org_id = recipient.org_id AND company.id = recipient.company_id
+            JOIN lead_radar_tg_recipient_eligibility eligibility
+              ON eligibility.org_id = recipient.org_id
+                AND eligibility.campaign_id = recipient.campaign_id
+                AND eligibility.recipient_id = recipient.id
+            JOIN lead_radar_tg_contact_authorizations authorization
+              ON authorization.org_id = eligibility.org_id
+                AND authorization.id = eligibility.authorization_id
+            LEFT JOIN lead_radar_tg_account_safety safety
+              ON safety.org_id = account.org_id AND safety.account_id = account.id
             WHERE campaign.org_id = account.org_id AND campaign.account_id = account.id
               AND campaign.id = ? AND campaign.status = 'running'
               AND recipient.id = ? AND recipient.status = 'claimed'
               AND recipient.claim_digest = ? AND recipient.lease_expires_at > ?
               AND company.suppressed = 0 AND company.lifecycle <> 'do_not_contact'
               AND company.telegram_contact_json = ?
+              AND (safety.account_id IS NULL OR safety.state = 'ready')
+              AND authorization.company_id = recipient.company_id
+              AND authorization.endpoint_digest = recipient.endpoint_digest
+              AND authorization.contact_basis = campaign.contact_basis
+              AND authorization.status = 'active'
+              AND authorization.verified_at <= ? AND authorization.expires_at > ?
+              AND authorization.evidence_reference_digest = eligibility.evidence_digest
+              AND authorization.reviewer_digest = eligibility.reviewer_digest
+              AND authorization.evidence_version = eligibility.evidence_version
+              AND authorization.verified_at = eligibility.verified_at
+              AND authorization.expires_at = eligibility.expires_at
           )`)
         .bind(
           input.quotaDay,
@@ -859,6 +1340,8 @@ export class LeadRadarTelegramCampaignStore {
           input.claimDigest,
           input.now,
           input.expectedContactJson,
+          input.now,
+          input.now,
         ),
       this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients AS recipient
         SET status = 'dispatching', attempt_count = 1,
@@ -873,10 +1356,30 @@ export class LeadRadarTelegramCampaignStore {
               ON account.org_id = campaign.org_id AND account.id = campaign.account_id
             JOIN lead_radar_companies company
               ON company.org_id = recipient.org_id AND company.id = recipient.company_id
+            JOIN lead_radar_tg_recipient_eligibility eligibility
+              ON eligibility.org_id = recipient.org_id
+                AND eligibility.campaign_id = recipient.campaign_id
+                AND eligibility.recipient_id = recipient.id
+            JOIN lead_radar_tg_contact_authorizations authorization
+              ON authorization.org_id = eligibility.org_id
+                AND authorization.id = eligibility.authorization_id
+            LEFT JOIN lead_radar_tg_account_safety safety
+              ON safety.org_id = account.org_id AND safety.account_id = account.id
             WHERE campaign.org_id = recipient.org_id AND campaign.id = recipient.campaign_id
               AND campaign.status = 'running' AND account.status = 'connected'
               AND company.suppressed = 0 AND company.lifecycle <> 'do_not_contact'
               AND company.telegram_contact_json = ?
+              AND (safety.account_id IS NULL OR safety.state = 'ready')
+              AND authorization.company_id = recipient.company_id
+              AND authorization.endpoint_digest = recipient.endpoint_digest
+              AND authorization.contact_basis = campaign.contact_basis
+              AND authorization.status = 'active'
+              AND authorization.verified_at <= ? AND authorization.expires_at > ?
+              AND authorization.evidence_reference_digest = eligibility.evidence_digest
+              AND authorization.reviewer_digest = eligibility.reviewer_digest
+              AND authorization.evidence_version = eligibility.evidence_version
+              AND authorization.verified_at = eligibility.verified_at
+              AND authorization.expires_at = eligibility.expires_at
               AND account.dispatch_lease_campaign_id = campaign.id
               AND account.dispatch_lease_digest = ?
               AND account.quota_day = ? AND account.next_dispatch_at = ?
@@ -890,6 +1393,8 @@ export class LeadRadarTelegramCampaignStore {
           input.claimDigest,
           input.now,
           input.expectedContactJson,
+          input.now,
+          input.now,
           input.claimDigest,
           input.quotaDay,
           input.nextAccountDispatchAt,
@@ -919,11 +1424,60 @@ export class LeadRadarTelegramCampaignStore {
     return 'invalid';
   }
 
+  async cancelDispatchBeforeProvider(orgId: string, input: {
+    campaignId: string;
+    recipientId: string;
+    claimDigest: string;
+    now: string;
+  }): Promise<boolean> {
+    const results = await this.db.batch([
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients
+        SET status = 'skipped_dnc', claim_digest = NULL, lease_expires_at = NULL,
+          endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
+          last_error_code = 'do_not_contact', completed_at = ?, updated_at = ?
+        WHERE org_id = ? AND campaign_id = ? AND id = ?
+          AND status = 'dispatching' AND claim_digest = ?`)
+        .bind(
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          input.now,
+          input.now,
+          orgId,
+          input.campaignId,
+          input.recipientId,
+          input.claimDigest,
+        ),
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_effects
+        SET status = 'canceled', completed_at = ?, updated_at = ?
+        WHERE org_id = ? AND campaign_id = ? AND recipient_id = ?
+          AND status = 'dispatching'`)
+        .bind(input.now, input.now, orgId, input.campaignId, input.recipientId),
+      this.db.prepare(`UPDATE lead_radar_tg_user_accounts
+        SET daily_reserved_count = CASE
+          WHEN daily_reserved_count > 0 THEN daily_reserved_count - 1 ELSE 0 END,
+          dispatch_lease_campaign_id = NULL, dispatch_lease_digest = NULL,
+          dispatch_lease_expires_at = NULL, updated_at = ?, state_version = state_version + 1
+        WHERE org_id = ? AND dispatch_lease_campaign_id = ? AND dispatch_lease_digest = ?`)
+        .bind(input.now, orgId, input.campaignId, input.claimDigest),
+      this.terminalCountRefreshStatement(orgId, input.campaignId, input.now, input.now, {
+        recipientId: input.recipientId,
+        status: 'skipped_dnc',
+      }),
+    ]) as D1WriteResult[];
+    return changes(results[0]) === 1 && changes(results[1]) === 1;
+  }
+
   private terminalCountRefreshStatement(
     orgId: string,
     campaignId: string,
     now: string,
     nextSendAt: string,
+    guard?: {
+      recipientId: string;
+      status: TelegramCampaignRecipientRow['status'];
+    },
   ): D1PreparedStatement {
     return this.db.prepare(`UPDATE lead_radar_tg_campaigns AS campaign
       SET sent_count = (
@@ -964,8 +1518,24 @@ export class LeadRadarTelegramCampaignStore {
           ELSE campaign.completed_at
         END,
         updated_at = ?, state_version = state_version + 1
-      WHERE campaign.org_id = ? AND campaign.id = ?`)
-      .bind(nextSendAt, now, now, orgId, campaignId);
+      WHERE campaign.org_id = ? AND campaign.id = ?
+        AND (? IS NULL OR EXISTS (
+          SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+          WHERE recipient.org_id = campaign.org_id
+            AND recipient.campaign_id = campaign.id AND recipient.id = ?
+            AND recipient.status = ? AND recipient.updated_at = ?
+        ))`)
+      .bind(
+        nextSendAt,
+        now,
+        now,
+        orgId,
+        campaignId,
+        guard?.recipientId ?? null,
+        guard?.recipientId ?? null,
+        guard?.status ?? null,
+        now,
+      );
   }
 
   async markRecipientSkipped(orgId: string, input: {
@@ -979,11 +1549,16 @@ export class LeadRadarTelegramCampaignStore {
     const results = await this.db.batch([
       this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients
         SET status = ?, claim_digest = NULL, lease_expires_at = NULL,
+          endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
           last_error_code = ?, completed_at = ?, updated_at = ?
         WHERE org_id = ? AND campaign_id = ? AND id = ?
           AND status = 'claimed' AND claim_digest = ?`)
         .bind(
           input.status,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
           input.errorCode,
           input.now,
           input.now,
@@ -1003,7 +1578,10 @@ export class LeadRadarTelegramCampaignStore {
         input.claimDigest,
         input.now,
       ),
-      this.terminalCountRefreshStatement(orgId, input.campaignId, input.now, input.now),
+      this.terminalCountRefreshStatement(orgId, input.campaignId, input.now, input.now, {
+        recipientId: input.recipientId,
+        status: input.status,
+      }),
     ]) as D1WriteResult[];
     return changes(results[0]) === 1;
   }
@@ -1073,7 +1651,13 @@ export class LeadRadarTelegramCampaignStore {
         input.claimDigest,
         input.now,
       ),
-      this.terminalCountRefreshStatement(orgId, input.campaignId, input.now, input.nextSendAt),
+      this.terminalCountRefreshStatement(
+        orgId,
+        input.campaignId,
+        input.now,
+        input.nextSendAt,
+        { recipientId: input.recipientId, status: 'sent' },
+      ),
     ]) as D1WriteResult[];
     return changes(results[0]) === 1 && changes(results[1]) === 1;
   }
@@ -1088,7 +1672,13 @@ export class LeadRadarTelegramCampaignStore {
     pauseReason: 'flood_wait' | 'account_restricted' | 'provider_error' | null;
   }): Promise<boolean> {
     const campaignUpdate = input.pauseReason === null
-      ? this.terminalCountRefreshStatement(orgId, input.campaignId, input.now, input.nextSendAt)
+      ? this.terminalCountRefreshStatement(
+        orgId,
+        input.campaignId,
+        input.now,
+        input.nextSendAt,
+        { recipientId: input.recipientId, status: 'failed' },
+      )
       : this.db.prepare(`UPDATE lead_radar_tg_campaigns AS campaign
           SET failed_count = (
             SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
@@ -1096,7 +1686,14 @@ export class LeadRadarTelegramCampaignStore {
               AND recipient.status = 'failed'
           ), status = 'paused', pause_reason = ?, last_error_code = ?,
           next_send_at = ?, updated_at = ?, state_version = state_version + 1
-          WHERE campaign.org_id = ? AND campaign.id = ? AND campaign.status = 'running'`)
+          WHERE campaign.org_id = ? AND campaign.id = ? AND campaign.status = 'running'
+            AND EXISTS (
+              SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+              WHERE recipient.org_id = campaign.org_id
+                AND recipient.campaign_id = campaign.id AND recipient.id = ?
+                AND recipient.status = 'failed' AND recipient.last_error_code = ?
+                AND recipient.updated_at = ?
+            )`)
         .bind(
           input.pauseReason,
           input.errorCode,
@@ -1104,14 +1701,65 @@ export class LeadRadarTelegramCampaignStore {
           input.now,
           orgId,
           input.campaignId,
+          input.recipientId,
+          input.errorCode,
+          input.now,
         );
+    const accountSafety = input.pauseReason === 'flood_wait'
+      ? this.accountSafetyPauseStatements(
+        orgId,
+        input.campaignId,
+        'cooldown',
+        'flood_wait',
+        input.nextSendAt,
+        input.now,
+        {
+          recipientId: input.recipientId,
+          status: 'failed',
+          errorCode: input.errorCode,
+        },
+      )
+      : input.pauseReason === 'account_restricted'
+        ? this.accountSafetyPauseStatements(
+          orgId,
+          input.campaignId,
+          'restricted',
+          'account_restricted',
+          null,
+          input.now,
+          {
+            recipientId: input.recipientId,
+            status: 'failed',
+            errorCode: input.errorCode,
+          },
+        )
+        : input.pauseReason === 'provider_error'
+          ? this.accountSafetyPauseStatements(
+            orgId,
+            input.campaignId,
+            'review_required',
+            'provider_error',
+            null,
+            input.now,
+            {
+              recipientId: input.recipientId,
+              status: 'failed',
+              errorCode: input.errorCode,
+            },
+          )
+          : [];
     const results = await this.db.batch([
       this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients
         SET status = 'failed', claim_digest = NULL, lease_expires_at = NULL,
+          endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
           last_error_code = ?, completed_at = ?, updated_at = ?
         WHERE org_id = ? AND campaign_id = ? AND id = ?
           AND status = 'dispatching' AND claim_digest = ?`)
         .bind(
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
           input.errorCode,
           input.now,
           input.now,
@@ -1132,6 +1780,7 @@ export class LeadRadarTelegramCampaignStore {
         input.now,
       ),
       campaignUpdate,
+      ...accountSafety,
     ]) as D1WriteResult[];
     return changes(results[0]) === 1 && changes(results[1]) === 1;
   }
@@ -1145,10 +1794,15 @@ export class LeadRadarTelegramCampaignStore {
     const results = await this.db.batch([
       this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients
         SET status = 'ambiguous', claim_digest = NULL, lease_expires_at = NULL,
+          endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
           last_error_code = 'provider_boundary_ambiguous', completed_at = ?, updated_at = ?
         WHERE org_id = ? AND campaign_id = ? AND id = ?
           AND status = 'dispatching' AND claim_digest = ?`)
         .bind(
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
           input.now,
           input.now,
           orgId,
@@ -1176,8 +1830,29 @@ export class LeadRadarTelegramCampaignStore {
         pause_reason = CASE WHEN status = 'running' THEN 'ambiguous_delivery' ELSE pause_reason END,
         last_error_code = 'provider_boundary_ambiguous', updated_at = ?,
         state_version = state_version + 1
-        WHERE campaign.org_id = ? AND campaign.id = ?`)
-        .bind(input.now, orgId, input.campaignId),
+        WHERE campaign.org_id = ? AND campaign.id = ?
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id
+              AND recipient.campaign_id = campaign.id AND recipient.id = ?
+              AND recipient.status = 'ambiguous'
+              AND recipient.last_error_code = 'provider_boundary_ambiguous'
+              AND recipient.updated_at = ?
+          )`)
+        .bind(input.now, orgId, input.campaignId, input.recipientId, input.now),
+      ...this.accountSafetyPauseStatements(
+        orgId,
+        input.campaignId,
+        'review_required',
+        'ambiguous_delivery',
+        null,
+        input.now,
+        {
+          recipientId: input.recipientId,
+          status: 'ambiguous',
+          errorCode: 'provider_boundary_ambiguous',
+        },
+      ),
     ]) as D1WriteResult[];
     return changes(results[0]) === 1 && changes(results[1]) === 1;
   }
@@ -1224,21 +1899,43 @@ export class LeadRadarTelegramCampaignStore {
     errorCode: string;
     nextSendAt: string;
     now: string;
+    accountSafetyReason?: 'daily_limit' | 'provider_error';
   }): Promise<boolean> {
-    const result = await this.db.prepare(`UPDATE lead_radar_tg_campaigns
-      SET status = 'paused', pause_reason = ?, last_error_code = ?,
-        next_send_at = ?, updated_at = ?, state_version = state_version + 1
-      WHERE org_id = ? AND id = ? AND status = 'running'`)
-      .bind(
-        input.reason,
-        input.errorCode,
-        input.nextSendAt,
-        input.now,
+    const accountSafety = input.accountSafetyReason === 'daily_limit'
+      ? this.accountSafetyPauseStatements(
         orgId,
         input.campaignId,
+        'cooldown',
+        'daily_limit',
+        input.nextSendAt,
+        input.now,
       )
-      .run() as D1WriteResult;
-    return changes(result) === 1;
+      : input.accountSafetyReason === 'provider_error'
+        ? this.accountSafetyPauseStatements(
+          orgId,
+          input.campaignId,
+          'review_required',
+          'provider_error',
+          null,
+          input.now,
+        )
+        : [];
+    const results = await this.db.batch([
+      this.db.prepare(`UPDATE lead_radar_tg_campaigns
+        SET status = 'paused', pause_reason = ?, last_error_code = ?,
+          next_send_at = ?, updated_at = ?, state_version = state_version + 1
+        WHERE org_id = ? AND id = ? AND status = 'running'`)
+        .bind(
+          input.reason,
+          input.errorCode,
+          input.nextSendAt,
+          input.now,
+          orgId,
+          input.campaignId,
+        ),
+      ...accountSafety,
+    ]) as D1WriteResult[];
+    return changes(results[0]) === 1;
   }
 
   async findOperation(
@@ -1290,10 +1987,15 @@ export class LeadRadarTelegramCampaignStore {
     FROM lead_radar_tg_campaigns campaign
     ${input.action === 'start' || input.action === 'resume'
       ? `JOIN lead_radar_tg_user_accounts account
-          ON account.org_id = campaign.org_id AND account.id = campaign.account_id`
+          ON account.org_id = campaign.org_id AND account.id = campaign.account_id
+        LEFT JOIN lead_radar_tg_account_safety safety
+          ON safety.org_id = account.org_id AND safety.account_id = account.id`
       : ''}
     WHERE campaign.org_id = ? AND campaign.id = ? AND ${allowed}
-      ${input.action === 'start' || input.action === 'resume' ? `AND account.status = 'connected'` : ''}`)
+      ${input.action === 'start' || input.action === 'resume'
+      ? `AND account.status = 'connected'
+        AND (safety.account_id IS NULL OR safety.state = 'ready')`
+      : ''}`)
       .bind(
         input.operationId,
         orgId,
@@ -1344,9 +2046,19 @@ export class LeadRadarTelegramCampaignStore {
       statements.push(
         this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients
           SET status = 'stopped', claim_digest = NULL, lease_expires_at = NULL,
+            endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
             last_error_code = 'campaign_stopped', completed_at = ?, updated_at = ?
           WHERE org_id = ? AND campaign_id = ? AND status IN ('pending', 'claimed')`)
-          .bind(input.now, input.now, orgId, input.campaignId),
+          .bind(
+            PURGED_CIPHERTEXT,
+            PURGED_IV,
+            PURGED_CIPHERTEXT,
+            PURGED_IV,
+            input.now,
+            input.now,
+            orgId,
+            input.campaignId,
+          ),
         this.db.prepare(`UPDATE lead_radar_tg_campaign_effects
           SET status = 'canceled', completed_at = ?, updated_at = ?
           WHERE org_id = ? AND campaign_id = ? AND status = 'reserved'`)
@@ -1380,6 +2092,170 @@ export class LeadRadarTelegramCampaignStore {
     terminalBefore: string;
   }): Promise<void> {
     await this.db.batch([
+      // Reconcile the two durable halves of a known successful effect before
+      // lease recovery. A crash between the recipient/effect updates must not
+      // turn an acknowledged provider message into another provider attempt.
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_effects AS effect
+        SET status = 'sent',
+          provider_message_digest = (
+            SELECT recipient.provider_message_digest
+            FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = effect.org_id AND recipient.id = effect.recipient_id
+              AND recipient.status = 'sent'
+          ),
+          completed_at = COALESCE(completed_at, ?), updated_at = ?
+        WHERE effect.org_id = ? AND effect.status = 'dispatching'
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = effect.org_id AND recipient.id = effect.recipient_id
+              AND recipient.status = 'sent' AND recipient.provider_message_digest IS NOT NULL
+          )`)
+        .bind(input.now, input.now, orgId),
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients AS recipient
+        SET status = 'sent', claim_digest = NULL, lease_expires_at = NULL,
+          provider_message_digest = (
+            SELECT effect.provider_message_digest
+            FROM lead_radar_tg_campaign_effects effect
+            WHERE effect.org_id = recipient.org_id AND effect.recipient_id = recipient.id
+              AND effect.status = 'sent'
+          ),
+          sent_at = COALESCE(sent_at, ?), completed_at = COALESCE(completed_at, ?),
+          updated_at = ?
+        WHERE recipient.org_id = ? AND recipient.status = 'dispatching'
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_effects effect
+            WHERE effect.org_id = recipient.org_id AND effect.recipient_id = recipient.id
+              AND effect.status = 'sent' AND effect.provider_message_digest IS NOT NULL
+          )`)
+        .bind(input.now, input.now, input.now, orgId),
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients AS recipient
+        SET status = 'skipped_dnc', claim_digest = NULL, lease_expires_at = NULL,
+          endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
+          last_error_code = 'do_not_contact', completed_at = ?, updated_at = ?
+        WHERE recipient.org_id = ? AND recipient.status IN ('pending', 'claimed')
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_companies company
+            WHERE company.org_id = recipient.org_id AND company.id = recipient.company_id
+              AND (company.suppressed = 1 OR company.lifecycle = 'do_not_contact')
+          )`)
+        .bind(
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          input.now,
+          input.now,
+          orgId,
+        ),
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_effects AS effect
+        SET status = 'canceled', completed_at = ?, updated_at = ?
+        WHERE effect.org_id = ? AND effect.status = 'reserved'
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = effect.org_id AND recipient.id = effect.recipient_id
+              AND recipient.status = 'skipped_dnc'
+          )`)
+        .bind(input.now, input.now, orgId),
+      this.db.prepare(`UPDATE lead_radar_tg_user_accounts AS account
+        SET dispatch_lease_campaign_id = NULL, dispatch_lease_digest = NULL,
+          dispatch_lease_expires_at = NULL, updated_at = ?, state_version = state_version + 1
+        WHERE account.org_id = ? AND account.dispatch_lease_campaign_id IS NOT NULL
+          AND NOT EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = account.org_id
+              AND recipient.campaign_id = account.dispatch_lease_campaign_id
+              AND recipient.status IN ('claimed', 'dispatching')
+          )`)
+        .bind(input.now, orgId),
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients
+        SET endpoint_ciphertext = ?, endpoint_iv = ?, payload_ciphertext = ?, payload_iv = ?,
+          updated_at = ?
+        WHERE org_id = ?
+          AND status IN ('failed', 'ambiguous', 'skipped_dnc', 'skipped_stale', 'stopped')
+          AND endpoint_ciphertext <> ?`)
+        .bind(
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          PURGED_CIPHERTEXT,
+          PURGED_IV,
+          input.now,
+          orgId,
+          PURGED_CIPHERTEXT,
+        ),
+      this.db.prepare(`UPDATE lead_radar_tg_campaigns AS campaign
+        SET sent_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status = 'sent'
+          ),
+          failed_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status = 'failed'
+          ),
+          ambiguous_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status = 'ambiguous'
+          ),
+          skipped_count = (
+            SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status IN ('skipped_dnc', 'skipped_stale', 'stopped')
+          ),
+          status = CASE WHEN campaign.status = 'running' AND NOT EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status IN ('pending', 'claimed', 'dispatching')
+          ) THEN 'completed' ELSE campaign.status END,
+          completed_at = CASE WHEN campaign.status = 'running' AND NOT EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+              AND recipient.status IN ('pending', 'claimed', 'dispatching')
+          ) THEN COALESCE(campaign.completed_at, ?) ELSE campaign.completed_at END,
+          updated_at = ?, state_version = state_version + 1
+        WHERE campaign.org_id = ? AND campaign.status IN ('running', 'paused')
+          AND (
+            campaign.sent_count <> (
+              SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+              WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+                AND recipient.status = 'sent'
+            )
+            OR campaign.failed_count <> (
+              SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+              WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+                AND recipient.status = 'failed'
+            )
+            OR campaign.ambiguous_count <> (
+              SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+              WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+                AND recipient.status = 'ambiguous'
+            )
+            OR campaign.skipped_count <> (
+              SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients recipient
+              WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+                AND recipient.status IN ('skipped_dnc', 'skipped_stale', 'stopped')
+            )
+            OR (campaign.status = 'running' AND NOT EXISTS (
+              SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+              WHERE recipient.org_id = campaign.org_id AND recipient.campaign_id = campaign.id
+                AND recipient.status IN ('pending', 'claimed', 'dispatching')
+            ))
+          )`)
+        .bind(input.now, input.now, orgId),
+      this.db.prepare(`UPDATE lead_radar_tg_account_safety
+        SET state = 'ready', reason_code = NULL, blocked_until = NULL, updated_at = ?
+        WHERE org_id = ? AND state = 'cooldown' AND blocked_until <= ?`)
+        .bind(input.now, orgId, input.now),
+      this.db.prepare(`UPDATE lead_radar_tg_user_accounts AS account
+        SET status = 'connected', updated_at = ?, state_version = state_version + 1
+        WHERE account.org_id = ? AND account.status = 'paused'
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_account_safety safety
+            WHERE safety.org_id = account.org_id AND safety.account_id = account.id
+              AND safety.state = 'ready'
+          )`)
+        .bind(input.now, orgId),
       this.db.prepare(`DELETE FROM lead_radar_tg_campaign_approvals
         WHERE org_id = ? AND consumed_at IS NULL AND expires_at <= ?`)
         .bind(orgId, input.approvalBefore),

@@ -55,6 +55,10 @@ function makeFixtureRoot(): string {
     'tsconfig.lead-radar.json': '{}\n',
     'wrangler.automation.toml': 'name = "synthetic"\n',
     'workers/automation-worker.ts': 'export default {};\n',
+    'workers/lead-radar-telegram-account/index.ts': 'export default {};\n',
+    'workers/lead-radar-telegram-account/container/Dockerfile': 'FROM scratch\n',
+    'workers/lead-radar-telegram-account/.wrangler/generated.js': 'secret build path\n',
+    'workers/lead-radar-telegram-account/container/__pycache__/server.pyc': 'generated\n',
     'functions/_types.ts': 'export interface Env {}\n',
     'functions/api/admin/lead-radar/[[path]].ts': 'export const safe = true;\n',
     'functions/platform/lead-radar/index.ts': 'export const safe = true;\n',
@@ -290,6 +294,15 @@ test('fake execution produces a deterministic green report with exact hashes', a
     );
     assert.match(first.artifact_manifest_sha256, /^[a-f0-9]{64}$/);
     assert.match(first.input_manifest_sha256, /^[a-f0-9]{64}$/);
+    assert.ok(first.inputs.some((input) => (
+      input.path === 'workers/lead-radar-telegram-account/index.ts'
+    )));
+    assert.ok(first.inputs.some((input) => (
+      input.path === 'workers/lead-radar-telegram-account/container/Dockerfile'
+    )));
+    assert.equal(first.inputs.some((input) => (
+      input.path.includes('/.wrangler/') || input.path.includes('/__pycache__/')
+    )), false);
   } finally {
     removeFixtureRoot(root);
   }

@@ -6,12 +6,18 @@ import type {
 const INTERNAL_ORIGIN = 'https://lead-radar-telegram-account.internal';
 const SERVICE_SCHEMA = 'gptbot.lead-radar.telegram-account-service.v1' as const;
 const MAX_RESPONSE_BYTES = 400_000;
+// These are outer budgets. The private gateway owns stricter inner budgets
+// (75s control / 120s send), leaving time for the Service Binding response to
+// propagate while keeping every caller bounded.
+export const TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS = 80_000;
+export const TELEGRAM_ACCOUNT_SEND_REQUEST_TIMEOUT_MS = 125_000;
 const AUTH_ID_PATTERN = /^[A-Za-z0-9:_-]{16,160}$/u;
 const ACCOUNT_REF_PATTERN = /^[A-Za-z0-9:_-]{16,160}$/u;
 const OPERATION_ID_PATTERN = /^[A-Za-z0-9:_-]{8,160}$/u;
 const ORG_ID_PATTERN = /^[A-Za-z0-9:_-]{1,80}$/u;
 const SAFE_REASON_PATTERN = /^[a-z][a-z0-9_]{2,79}$/u;
 const QR_DATA_URL_PATTERN = /^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/u;
+const QR_LOGIN_URL_PATTERN = /^tg:\/\/login\?token=[A-Za-z0-9_-]{16,512}={0,2}$/u;
 
 export type TelegramAccountServiceErrorCode =
   | 'telegram_campaign_gateway_unavailable'
@@ -30,6 +36,7 @@ export interface TelegramAccountConnectChallenge {
   status: 'connecting';
   authId: string;
   qrCodeDataUrl: string | null;
+  qrLoginUrl: string | null;
   expiresAt: string;
 }
 
@@ -108,6 +115,99 @@ export function hasPrivateTelegramAccountService(service: Fetcher | undefined): 
   return configured(service);
 }
 
+interface ResponseDeadline {
+  expiresAt: number;
+  controller: AbortController;
+  callerSignal?: AbortSignal;
+}
+
+const responseDeadlines = new WeakMap<Response, ResponseDeadline>();
+
+class TelegramAccountServiceTimeoutError extends Error {
+  constructor() {
+    super('telegram_account_service_timeout');
+    this.name = 'TelegramAccountServiceTimeoutError';
+  }
+}
+
+async function fetchWithDeadline(
+  service: Fetcher,
+  url: string,
+  init: RequestInit,
+  timeoutMs: number,
+): Promise<Response> {
+  const controller = new AbortController();
+  const callerSignal = init.signal;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  let callerAbort: (() => void) | undefined;
+  const expiresAt = Date.now() + timeoutMs;
+  const aborted = new Promise<never>((_resolve, reject) => {
+    const abort = () => {
+      controller.abort();
+      reject(new TelegramAccountServiceTimeoutError());
+    };
+    timeoutId = setTimeout(abort, timeoutMs);
+    if (callerSignal) {
+      callerAbort = abort;
+      if (callerSignal.aborted) abort();
+      else callerSignal.addEventListener('abort', abort, { once: true });
+    }
+  });
+  try {
+    const response = await Promise.race([
+      service.fetch(url, { ...init, signal: controller.signal }),
+      aborted,
+    ]);
+    responseDeadlines.set(response, {
+      expiresAt,
+      controller,
+      ...(callerSignal ? { callerSignal } : {}),
+    });
+    return response;
+  } finally {
+    if (timeoutId !== undefined) clearTimeout(timeoutId);
+    if (callerSignal && callerAbort) {
+      callerSignal.removeEventListener('abort', callerAbort);
+    }
+  }
+}
+
+async function responseTextBeforeDeadline(response: Response): Promise<string> {
+  const deadline = responseDeadlines.get(response);
+  if (!deadline) return response.text();
+  const remainingMs = deadline.expiresAt - Date.now();
+  if (remainingMs <= 0) {
+    deadline.controller.abort();
+    responseDeadlines.delete(response);
+    throw new TelegramAccountServiceTimeoutError();
+  }
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  let callerAbort: (() => void) | undefined;
+  try {
+    return await Promise.race([
+      response.text(),
+      new Promise<never>((_resolve, reject) => {
+        const abort = () => {
+          deadline.controller.abort();
+          reject(new TelegramAccountServiceTimeoutError());
+        };
+        timeoutId = setTimeout(abort, remainingMs);
+        if (deadline.callerSignal) {
+          callerAbort = abort;
+          if (deadline.callerSignal.aborted) abort();
+          else deadline.callerSignal.addEventListener('abort', abort, { once: true });
+        }
+      }),
+    ]);
+  } finally {
+    if (timeoutId !== undefined) clearTimeout(timeoutId);
+    if (deadline.callerSignal && callerAbort) {
+      deadline.callerSignal.removeEventListener('abort', callerAbort);
+    }
+    responseDeadlines.delete(response);
+  }
+}
+
 async function serviceFetch(
   service: Fetcher | undefined,
   pathname: string,
@@ -117,7 +217,12 @@ async function serviceFetch(
     throw new TelegramAccountServiceError('telegram_campaign_gateway_unavailable');
   }
   try {
-    return await service.fetch(`${INTERNAL_ORIGIN}${pathname}`, init);
+    return await fetchWithDeadline(
+      service,
+      `${INTERNAL_ORIGIN}${pathname}`,
+      init,
+      TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS,
+    );
   } catch {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_unavailable');
   }
@@ -144,7 +249,7 @@ async function responseEnvelope(response: Response): Promise<ServiceEnvelope> {
   }
   let raw: string;
   try {
-    raw = await response.text();
+    raw = await responseTextBeforeDeadline(response);
   } catch {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_unavailable');
   }
@@ -167,7 +272,7 @@ async function responseEnvelope(response: Response): Promise<ServiceEnvelope> {
 
 function challenge(envelope: ServiceEnvelope): TelegramAccountConnectChallenge {
   if (!exactKeys(envelope, [
-    'schema', 'status', 'auth_id', 'qr_code_data_url', 'expires_at',
+    'schema', 'status', 'auth_id', 'qr_code_data_url', 'qr_login_url', 'expires_at',
   ])
     || envelope.status !== 'connecting'
     || typeof envelope.auth_id !== 'string'
@@ -176,6 +281,10 @@ function challenge(envelope: ServiceEnvelope): TelegramAccountConnectChallenge {
       && (typeof envelope.qr_code_data_url !== 'string'
         || envelope.qr_code_data_url.length > 350_000
         || !QR_DATA_URL_PATTERN.test(envelope.qr_code_data_url)))
+    || (envelope.qr_login_url !== null
+      && (typeof envelope.qr_login_url !== 'string'
+        || envelope.qr_login_url.length > 531
+        || !QR_LOGIN_URL_PATTERN.test(envelope.qr_login_url)))
     || !validChallengeExpiry(envelope.expires_at)) {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
   }
@@ -183,6 +292,7 @@ function challenge(envelope: ServiceEnvelope): TelegramAccountConnectChallenge {
     status: 'connecting',
     authId: envelope.auth_id,
     qrCodeDataUrl: envelope.qr_code_data_url as string | null,
+    qrLoginUrl: envelope.qr_login_url as string | null,
     expiresAt: envelope.expires_at,
   };
 }
@@ -320,19 +430,24 @@ export class PrivateTelegramCampaignSender implements TelegramCampaignSender {
   async send(input: Parameters<TelegramCampaignSender['send']>[0]): Promise<TelegramCampaignProviderResult> {
     let response: Response;
     try {
-      response = await this.service.fetch(`${INTERNAL_ORIGIN}/v1/messages/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify({
-          schema: SERVICE_SCHEMA,
-          account_ref: input.gatewayAccountRef,
-          username: input.username,
-          text: input.text,
-          random_id: input.randomId,
-          paid_message_policy: 'reject',
-          allow_paid_floodskip: false,
-        }),
-      });
+      response = await fetchWithDeadline(
+        this.service,
+        `${INTERNAL_ORIGIN}/v1/messages/send`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: JSON.stringify({
+            schema: SERVICE_SCHEMA,
+            account_ref: input.gatewayAccountRef,
+            username: input.username,
+            text: input.text,
+            random_id: input.randomId,
+            paid_message_policy: 'reject',
+            allow_paid_floodskip: false,
+          }),
+        },
+        TELEGRAM_ACCOUNT_SEND_REQUEST_TIMEOUT_MS,
+      );
     } catch {
       return { kind: 'ambiguous' };
     }

@@ -18,6 +18,8 @@ export type LeadRadarTelegramAccountConnectionStatus =
 export interface LeadRadarTelegramAccountQr {
   authId: string;
   qrCodeDataUrl: string | null;
+  /** Short-lived Telegram deep link; never persist it in browser storage. */
+  qrLoginUrl: string | null;
   expiresAt: string;
 }
 
@@ -36,6 +38,10 @@ export interface LeadRadarTelegramAccountState {
   lastHealthAt: string | null;
   qr: LeadRadarTelegramAccountQr | null;
   reasonCode: string | null;
+  /** Optional server attestation for the identity shown to the operator. */
+  identityVerifiedAt?: string | null;
+  identityReviewRequired?: boolean;
+  identityReviewReason?: string | null;
 }
 
 export type LeadRadarCampaignRecipientClassification = 'automatic' | 'manual' | 'excluded';
@@ -53,6 +59,28 @@ export interface LeadRadarCampaignRecipientPreview {
   classification: LeadRadarCampaignRecipientClassification;
   reasonCode: string;
   preview: string | null;
+  authorization?: LeadRadarCampaignRecipientAuthorization | null;
+}
+
+export interface LeadRadarCampaignRecipientAuthorization {
+  basis: LeadRadarCampaignContactBasis;
+  evidenceVersion: string;
+  verifiedAt: string;
+  expiresAt: string;
+  reviewer: 'owner_verified';
+}
+
+export interface LeadRadarTelegramContactAuthorizationReadModel
+  extends LeadRadarCampaignRecipientAuthorization {
+  companyId: string;
+}
+
+export interface LeadRadarTelegramContactAuthorizationInput {
+  searchId: string;
+  leadId: string;
+  contactBasis: LeadRadarCampaignContactBasis;
+  evidenceReference: string;
+  expiresAt: string;
 }
 
 export interface LeadRadarTelegramCampaignPreparation {
@@ -68,6 +96,7 @@ export interface LeadRadarTelegramCampaignPreparation {
       name: string | null;
       classification: LeadRadarCampaignRecipientClassification;
       reasonCode: string;
+      authorization?: LeadRadarCampaignRecipientAuthorization | null;
     }>;
   };
   summary?: LeadRadarCampaignEligibilitySummary;
@@ -106,7 +135,29 @@ export interface LeadRadarTelegramCampaignReadModel {
   lastErrorCode?: string | null;
   nextSendAt?: string;
   updatedAt?: string;
+  /** Authoritative resume guard returned by newer control-plane versions. */
+  canResume?: boolean;
+  resumeBlockedReason?: LeadRadarTelegramCampaignResumeBlockReason | null;
+  operatorReviewRequired?: boolean;
 }
+
+export type LeadRadarTelegramCampaignResumeBlockReason =
+  | 'cooldown'
+  | 'review_required'
+  | 'ambiguous_delivery'
+  | 'account_restricted'
+  | 'account_disconnected'
+  | 'campaign_disabled';
+
+export interface LeadRadarTelegramCampaignRecovery {
+  active: LeadRadarTelegramCampaignReadModel | null;
+  latest?: LeadRadarTelegramCampaignReadModel | null;
+}
+
+export type LeadRadarTelegramCampaignRecoveryResponse =
+  | LeadRadarTelegramCampaignRecovery
+  | LeadRadarTelegramCampaignReadModel
+  | null;
 
 export type LeadRadarTelegramCampaignMutationResponse =
   | LeadRadarTelegramCampaignReadModel
@@ -131,6 +182,7 @@ export interface LeadRadarTelegramCampaignPrepareInput {
 
 export interface LeadRadarTelegramCampaignCreateInput {
   accountId: string;
+  searchId: string;
   leadIds: string[];
   template: string;
   contactBasis: LeadRadarCampaignContactBasis;
@@ -190,7 +242,7 @@ export function classifyCampaignLeadLocally(lead: LeadRadarLead): LocalCampaignE
 }
 
 export function isSelectableCampaignLead(lead: LeadRadarLead): boolean {
-  return classifyCampaignLeadLocally(lead).reason !== 'do_not_contact';
+  return classifyCampaignLeadLocally(lead).classification !== 'excluded';
 }
 
 export function selectableCampaignLeadIds(leads: readonly LeadRadarLead[]): string[] {
@@ -199,6 +251,71 @@ export function selectableCampaignLeadIds(leads: readonly LeadRadarLead[]): stri
     if (isSelectableCampaignLead(lead)) ids.add(lead.id);
   }
   return [...ids];
+}
+
+/**
+ * Display-only shortcut for the bulk-selection button. Individual manual-review
+ * candidates remain selectable, but "select all" never implies that they are
+ * eligible for automatic delivery.
+ */
+export function automaticCampaignLeadIds(leads: readonly LeadRadarLead[]): string[] {
+  const ids = new Set<string>();
+  for (const lead of leads) {
+    if (classifyCampaignLeadLocally(lead).classification === 'automatic') ids.add(lead.id);
+  }
+  return [...ids];
+}
+
+export function campaignFromRecovery(
+  value: LeadRadarTelegramCampaignRecoveryResponse,
+): LeadRadarTelegramCampaignReadModel | null {
+  if (!value) return null;
+  if ('id' in value) return value;
+  return value.active ?? value.latest ?? null;
+}
+
+export function isValidCampaignRecipientAuthorization(
+  value: LeadRadarCampaignRecipientAuthorization | null | undefined,
+  contactBasis: LeadRadarCampaignContactBasis | '',
+  now = Date.now(),
+): value is LeadRadarCampaignRecipientAuthorization {
+  if (!value || !contactBasis || value.basis !== contactBasis || value.reviewer !== 'owner_verified') return false;
+  const verifiedAt = Date.parse(value.verifiedAt);
+  const validUntil = Date.parse(value.expiresAt);
+  return typeof value.evidenceVersion === 'string'
+    && value.evidenceVersion.length >= 1
+    && value.evidenceVersion.length <= 64
+    && Number.isFinite(verifiedAt)
+    && verifiedAt <= now
+    && Number.isFinite(validUntil)
+    && validUntil > now;
+}
+
+export function campaignResumeBlockReason(input: {
+  campaign: LeadRadarTelegramCampaignReadModel;
+  account: LeadRadarTelegramAccountState | null;
+  autoSendEnabled: boolean;
+  identityConfirmed: boolean;
+  now?: number;
+}): LeadRadarTelegramCampaignResumeBlockReason | 'identity_confirmation_required' | null {
+  const { campaign, account } = input;
+  if (campaign.status !== 'paused') return null;
+  if (!input.autoSendEnabled) return 'campaign_disabled';
+  if (account?.status === 'restricted' || account?.identityReviewRequired) return 'account_restricted';
+  if (account?.status !== 'connected') return 'account_disconnected';
+  if (!input.identityConfirmed) return 'identity_confirmation_required';
+  if (campaign.counts.ambiguous > 0) return 'ambiguous_delivery';
+  if (campaign.operatorReviewRequired) return 'review_required';
+  if (campaign.resumeBlockedReason) return campaign.resumeBlockedReason;
+  if (campaign.canResume === false) return 'review_required';
+  const until = Date.parse(campaign.pausedUntil ?? campaign.nextSendAt ?? '');
+  if (Number.isFinite(until) && until > (input.now ?? Date.now())) return 'cooldown';
+  const reason = `${campaign.resumeBlockedReason ?? ''} ${campaign.reasonCode ?? ''} ${campaign.pauseReason ?? ''}`.toLowerCase();
+  if (/ambiguous/u.test(reason)) return 'ambiguous_delivery';
+  if (/restrict|spam|peer_flood/u.test(reason)) return 'account_restricted';
+  if (/review|manual/u.test(reason)) return 'review_required';
+  if (/flood|cooldown|rate_limit/u.test(reason)) return 'cooldown';
+  return null;
 }
 
 export function isTelegramAccountQrExpired(
@@ -214,6 +331,13 @@ export function isTelegramAccountQrExpired(
 export function safeTelegramQrDataUrl(value?: string | null): string | null {
   if (!value || value.length > 350_000) return null;
   return /^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/u.test(value) ? value : null;
+}
+
+/** Accept only Telegram's short-lived QR login deep-link shape. */
+export function safeTelegramLoginUrl(value?: string | null): string | null {
+  return value && /^tg:\/\/login\?token=[A-Za-z0-9_-]{16,512}={0,2}$/u.test(value)
+    ? value
+    : null;
 }
 
 export function renderCampaignPreview(template: string, companyName: string): string {

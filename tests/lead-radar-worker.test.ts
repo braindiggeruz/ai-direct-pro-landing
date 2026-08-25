@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import worker, { settleLeadRadarRetryWait } from '../workers/automation-worker';
 import {
+  authorizeTelegramCampaignContact,
   completeTelegramUserAccountConnection,
   createApprovedTelegramCampaign,
   createTelegramUserAccountPending,
@@ -22,6 +23,7 @@ const CAMPAIGN_MIGRATIONS = [
   '0043_lead_radar_async_funnel.sql',
   '0044_lead_radar_telegram_business.sql',
   '0045_lead_radar_telegram_campaigns.sql',
+  '0046_lead_radar_telegram_campaign_safety.sql',
 ] as const;
 const CAMPAIGN_ORG = 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const CAMPAIGN_DATA_KEY = Buffer.alloc(32, 17).toString('base64url');
@@ -243,11 +245,19 @@ async function runningCampaignFixture(): Promise<{
     now,
   });
   const template = 'Здравствуйте, {company_name}!';
+  await authorizeTelegramCampaignContact({
+    db: db.asD1(), dataKey: CAMPAIGN_DATA_KEY, orgId: CAMPAIGN_ORG,
+    companyId, contactBasis: 'existing_relationship',
+    evidenceReference: 'fixture-worker-existing-relationship',
+    expiresAt: '2026-09-24T12:00:00.000Z', reviewerId: 'owner@example.test',
+    idempotencyKey: 'worker_campaign_authorization_0001', now,
+  });
   const prepared = await prepareTelegramCampaign({
     db: db.asD1(),
     dataKey: CAMPAIGN_DATA_KEY,
     orgId: CAMPAIGN_ORG,
     accountId: account.id,
+    searchId: 'search_worker_campaign',
     companyIds: [companyId],
     template,
     operatorId: 'owner@example.test',
@@ -261,6 +271,7 @@ async function runningCampaignFixture(): Promise<{
     dataKey: CAMPAIGN_DATA_KEY,
     orgId: CAMPAIGN_ORG,
     accountId: account.id,
+    searchId: 'search_worker_campaign',
     companyIds: [companyId],
     template,
     operatorId: 'owner@example.test',

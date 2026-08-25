@@ -1070,7 +1070,7 @@ function issue(
 function isLeadRadarSchemaRow(row: Record<string, unknown>): boolean {
   const name = text(row.name);
   const tableName = text(row.tbl_name);
-  // Migration 0045 is an independently gated campaign extension. Keeping it
+  // Migrations 0045-0046 are an independently gated campaign extension. Keeping it
   // outside the research-funnel v2 contract permits a rolling, additive
   // migration without taking ordinary Lead Radar reads offline. The campaign
   // module owns a separate exact read-only contract and refuses every account
@@ -1079,6 +1079,9 @@ function isLeadRadarSchemaRow(row: Record<string, unknown>): boolean {
     value === 'lead_radar_tg_user_accounts'
     || value === 'lead_radar_tg_campaigns'
     || value.startsWith('lead_radar_tg_campaign_')
+    || value.startsWith('lead_radar_tg_account_')
+    || value.startsWith('lead_radar_tg_recipient_')
+    || value.startsWith('lead_radar_tg_contact_')
     || value.startsWith('idx_lead_radar_tg_user_accounts_')
     || value.startsWith('idx_lead_radar_tg_campaigns_')
     || value.startsWith('idx_lead_radar_tg_campaign_')
