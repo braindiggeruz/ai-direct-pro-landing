@@ -158,6 +158,14 @@ const migrationMutations: Array<{
     expectedCode: 'column_default_mismatch',
   },
   {
+    name: 'quoted column default case',
+    transform: replaceExactly(
+      "ADD COLUMN phase TEXT NOT NULL DEFAULT 'completed'",
+      "ADD COLUMN phase TEXT NOT NULL DEFAULT 'COMPLETED'",
+    ),
+    expectedCode: 'column_default_mismatch',
+  },
+  {
     name: 'primary key order',
     transform: replaceExactly(
       'PRIMARY KEY (org_id, job_id, effect_key)',

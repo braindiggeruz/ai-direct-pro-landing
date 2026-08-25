@@ -803,7 +803,7 @@ export const LEAD_RADAR_SCHEMA_CONTRACT = {
 // stays inside D1's 50-query invocation budget. The target fingerprint was
 // independently verified byte-for-byte against remote D1 before rollout.
 export const LEAD_RADAR_TARGET_SCHEMA_FINGERPRINT =
-  'cd2e91a1331700f8b66d16aa87f444b3f4dd02f6448d7a866fe9bba06e5ab91d';
+  'd8f67c6efb71c8bf711cebf555dbde38a8d17dc8f883dea68c6dc6366d4a74b2';
 
 function stageFor(profile: Exclude<LeadRadarSchemaProfile, 'auto'>): MigrationStage {
   return profile === 'target' ? 44 : 41;
@@ -866,8 +866,7 @@ function normalizeSql(sql: string): string {
       .toLowerCase()
       .replace(/\bif\s+not\s+exists\b/g, '')
       .replace(/\s+/g, ' ')
-      .replace(/\s*([(),=<>])\s*/g, '$1')
-      .trim();
+      .replace(/\s*([(),=<>])\s*/g, '$1');
     unquoted = '';
   };
   for (let index = 0; index < source.length; index += 1) {
@@ -895,7 +894,7 @@ function normalizeSql(sql: string): string {
     }
   }
   flushUnquoted();
-  return normalized;
+  return normalized.trim();
 }
 
 function normalizeDefault(value: unknown): string | null {
@@ -904,7 +903,7 @@ function normalizeDefault(value: unknown): string | null {
   while (normalized.startsWith('(') && normalized.endsWith(')')) {
     normalized = normalized.slice(1, -1).trim();
   }
-  return normalized.toLowerCase();
+  return normalizeSql(normalized);
 }
 
 function sqlLiteral(value: string): string {
