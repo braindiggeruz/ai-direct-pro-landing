@@ -800,17 +800,62 @@ export const LEAD_RADAR_SCHEMA_CONTRACT = {
 // SHA-256 of the normalized, sorted target Lead Radar rows in sqlite_schema.
 // The exact full auditor below proves the same structure field-by-field during
 // release. Runtime uses this equivalent compact assertion so a cold Worker
-// stays inside D1's 50-query invocation budget. The stage-41 fingerprint was
+// stays inside D1's 50-query invocation budget. The target fingerprint was
 // independently verified byte-for-byte against remote D1 before rollout.
 export const LEAD_RADAR_TARGET_SCHEMA_FINGERPRINT =
-  'cde3f4aa445d50d04410721fc45a97535155dd53b5bba422b3cc6dca373d643c';
+  '3d9d9b93ed0df7576a94a0af255ea9ad794389cf3701854fba574eff12dbd53d';
 
 function stageFor(profile: Exclude<LeadRadarSchemaProfile, 'auto'>): MigrationStage {
   return profile === 'target' ? 44 : 41;
 }
 
+function stripSqlComments(sql: string): string {
+  let normalized = '';
+  let quote: "'" | '"' | '`' | '[' | null = null;
+  for (let index = 0; index < sql.length; index += 1) {
+    const character = sql[index];
+    const next = sql[index + 1];
+    if (quote !== null) {
+      normalized += character;
+      const closing = quote === '[' ? ']' : quote;
+      if (character === closing) {
+        if (next === closing) {
+          normalized += next;
+          index += 1;
+        } else {
+          quote = null;
+        }
+      }
+      continue;
+    }
+    if (character === "'" || character === '"' || character === '`' || character === '[') {
+      quote = character;
+      normalized += character;
+      continue;
+    }
+    if (character === '-' && next === '-') {
+      index += 2;
+      while (index < sql.length && sql[index] !== '\r' && sql[index] !== '\n') index += 1;
+      if (index < sql.length) normalized += sql[index];
+      continue;
+    }
+    if (character === '/' && next === '*') {
+      index += 2;
+      while (index < sql.length && !(sql[index] === '*' && sql[index + 1] === '/')) index += 1;
+      if (index < sql.length) index += 1;
+      normalized += ' ';
+      continue;
+    }
+    normalized += character;
+  }
+  return normalized;
+}
+
 function normalizeSql(sql: string): string {
-  return sql
+  // D1 strips comments from some CREATE TABLE statements while local SQLite
+  // preserves them. Comments are not schema semantics, but comment markers in
+  // quoted SQL values are, so remove them with a quote-aware scanner.
+  return stripSqlComments(sql)
     .toLowerCase()
     .replace(/["`[\]]/g, '')
     .replace(/\bif\s+not\s+exists\b/g, '')
