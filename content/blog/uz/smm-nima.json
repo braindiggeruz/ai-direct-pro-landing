@@ -138,7 +138,7 @@
       "links": [
         { "token": "xizmat", "target": "/uz/smm-xizmatlari/", "anchor": "SMM ishini jamoaga topshirish" },
         { "token": "menejer", "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI-menejer" },
-        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama" }
+        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "Telegram Ads va kanallarda joylashtirish" }
       ]
     },
     {

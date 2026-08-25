@@ -146,7 +146,7 @@
       "text": "Agar xizmat murakkab bo‘lsa va uni tushuntirish kerak bo‘lsa, avval {sayt} kerak bo‘ladi: ijtimoiy tarmoq profili barcha savollarga javob bera olmaydi. Auditoriyangiz Telegram’da bo‘lsa, {telegram} alohida kanal sifatida ko‘rib chiqiladi.",
       "links": [
         { "token": "sayt", "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt" },
-        { "token": "telegram", "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama" }
+        { "token": "telegram", "target": "/uz/telegram-reklama/", "anchor": "Telegram orqali reklama berish" }
       ]
     },
 

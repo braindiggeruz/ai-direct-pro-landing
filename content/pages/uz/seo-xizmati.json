@@ -90,7 +90,7 @@
       "text": "Agar sayt hali bo‘lmasa, avval {sayt} bilan boshlaymiz — SEO shundan keyin ma’noga ega bo‘ladi. Agar natija tez kerak bo‘lsa, {reklama} qisqa muddatda ko‘proq mos keladi.",
       "links": [
         { "token": "sayt", "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt yaratish" },
-        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama" }
+        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "Telegram’da to‘lovli reklama" }
       ]
     },
 

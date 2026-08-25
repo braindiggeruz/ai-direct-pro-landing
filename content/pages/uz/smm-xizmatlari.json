@@ -124,7 +124,7 @@
       "text": "Telegram O‘zbekistonda alohida kuchli kanal: bu yerda odam kanalni o‘qiydi, so‘ng {bot} orqali savol beradi va ariza qoldiradi. Agar kanal bo‘yicha reklama ham kerak bo‘lsa, uni {reklama} sahifasida alohida ko‘rib chiqamiz.",
       "links": [
         { "token": "bot", "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot" },
-        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama" }
+        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "kanal reklamasi" }
       ]
     },
     { "type": "h2", "id": "reklama", "text": "Reklama bilan bog‘lash" },
