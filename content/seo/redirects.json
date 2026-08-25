@@ -94,5 +94,13 @@
     "statusCode": 301,
     "reason": "M4: loses to /ru/ai-bot-dlya-biznesa/ (position 7.6) on all four shared AI-bot-for-business queries, 37 impressions and 0 clicks at position 34.6 (CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01)",
     "createdAt": "2026-08-01"
+  },
+  {
+    "id": "cannib-2026-08-gpt-russian-query-guide",
+    "from": "/ru/gpt-na-russkom-kak-zadavat-zaprosy/",
+    "to": "/ru/blog/chat-gpt-na-russkom/",
+    "statusCode": 301,
+    "reason": "The separate Russian query guide duplicated the indexed how-to article's intent and remained Crawled - currently not indexed. Its unique five-part prompt formula, comparison table and RU/Uzbek workflow were consolidated into the established informational owner.",
+    "createdAt": "2026-08-25"
   }
 ]

@@ -44,7 +44,7 @@
     },
     {
       "type": "linkp",
-      "text": "Для запросов на русском откройте {russian}, для узбекского интерфейса — {uz}. Чем GPT отличается от ChatGPT, объясняем в {compare}. Подробный разбор возможностей и безопасности — в {guide}; условия — на странице {tariffs}. Компаниям GPTBot.uz внедряет {b2b}: AI-чат для сайта, Telegram-бота и автоматизацию заявок.",
+      "text": "Для запросов на русском откройте {russian}, для узбекского интерфейса — {uz}. Как устроена технология, объясняем в {basics}, а практическую формулу запроса — в {guide}. Для старта можно взять {prompts}. Чем GPT отличается от ChatGPT, смотрите в {compare}; условия — на странице {tariffs}. Компаниям GPTBot.uz внедряет {b2b}: AI-чат для сайта, Telegram-бота и автоматизацию заявок.",
       "links": [
         {
           "token": "russian",
@@ -62,9 +62,19 @@
           "anchor": "сравнении GPT и ChatGPT"
         },
         {
+          "token": "basics",
+          "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+          "anchor": "объяснении GPT простыми словами"
+        },
+        {
           "token": "guide",
-          "target": "/ru/gpt-chat-guide/",
-          "anchor": "гайде по AI-чату"
+          "target": "/ru/blog/chat-gpt-na-russkom/",
+          "anchor": "инструкции по AI-чату на русском"
+        },
+        {
+          "token": "prompts",
+          "target": "/ru/promty-gpt-chatgpt-50-primerov/",
+          "anchor": "50 готовых промптов"
         },
         {
           "token": "tariffs",
@@ -145,6 +155,24 @@
     {
       "target": "/ru/gpt-chat-guide/",
       "anchor": "Гайд по AI-чату",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/chat-gpt-na-russkom/",
+      "anchor": "Как задавать запросы AI-чату",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+      "anchor": "Что такое GPT простыми словами",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/promty-gpt-chatgpt-50-primerov/",
+      "anchor": "50 промптов для ChatGPT",
       "locale": "ru",
       "type": "contextual"
     },

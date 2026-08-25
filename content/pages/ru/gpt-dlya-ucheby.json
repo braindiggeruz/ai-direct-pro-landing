@@ -76,9 +76,11 @@
 
     { "type": "h2", "id": "yazyki", "text": "Учёба на русском и узбекском" },
     { "type": "p", "text": "AI-чат понимает запросы на русском и узбекском (Uzbek Latin). Можно попросить объяснить тему на удобном языке или перевести материал. Для узбекоязычных заданий пишите в Uzbek Latin и проверяйте естественность терминов." },
-    { "type": "linkp", "text": "Начать можно в {chat}. Чтобы точнее формулировать запросы, читайте {russian}; условия доступа — на странице {tariffs}.", "links": [
+    { "type": "linkp", "text": "Начать можно в {chat}. Почему модель отвечает именно так, объясняет материал {basics}; формулу точного запроса разбирает {russian}. Для практики откройте {prompts}; условия доступа — на странице {tariffs}.", "links": [
       { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "GPT-чат онлайн" },
-      { "token": "russian", "target": "/ru/gpt-na-russkom-kak-zadavat-zaprosy/", "anchor": "как задавать запросы GPT" },
+      { "token": "basics", "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "anchor": "что такое GPT" },
+      { "token": "russian", "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "как задавать запросы GPT" },
+      { "token": "prompts", "target": "/ru/promty-gpt-chatgpt-50-primerov/", "anchor": "50 готовых промптов" },
       { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата" }
     ] },
     { "type": "cta", "text": "Попробуйте GPTBot.uz как учебного помощника", "href": "/ru/gpt-chat/" },
@@ -108,8 +110,9 @@
   "internalLinks": [
     { "target": "/ru/gpt-chat/", "anchor": "GPT-чат онлайн", "locale": "ru", "type": "contextual" },
     { "target": "/ru/gpt-na-russkom/", "anchor": "GPT на русском", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/gpt-na-russkom-kak-zadavat-zaprosy/", "anchor": "Как задавать запросы GPT", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "Как задавать запросы GPT", "locale": "ru", "type": "contextual" },
     { "target": "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "anchor": "Что такое GPT", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/promty-gpt-chatgpt-50-primerov/", "anchor": "50 готовых промптов", "locale": "ru", "type": "contextual" },
     { "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida", "locale": "ru", "type": "block" },
     { "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата", "locale": "ru", "type": "block" }
   ],
