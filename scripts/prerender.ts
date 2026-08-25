@@ -656,7 +656,17 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 
   const hrefRu = page.hreflangRu ? (page.hreflangRu.startsWith('http') ? page.hreflangRu : `${global.siteUrl}${page.hreflangRu}`) : '';
   const hrefUz = page.hreflangUz ? (page.hreflangUz.startsWith('http') ? page.hreflangUz : `${global.siteUrl}${page.hreflangUz}`) : '';
-  const xDefaultHref = hrefRu && hrefUz ? hrefRu : '';
+  // An hreflang annotation describes a SET of alternates. 110 pages here are
+  // authored in one locale only and declare just their own URL, which rendered
+  // as a single self-referencing <link rel="alternate">: a one-member set that
+  // says nothing and that Google ignores. Emit the annotation only when there
+  // is a real pair to annotate. This is markup hygiene, not a ranking lever —
+  // the content model already treats a single-locale page as valid
+  // (see the missing-hreflang rule in src/shared/audit.ts).
+  const hasAlternatePair = Boolean(hrefRu && hrefUz);
+  const altRu = hasAlternatePair ? hrefRu : '';
+  const altUz = hasAlternatePair ? hrefUz : '';
+  const xDefaultHref = hasAlternatePair ? hrefRu : '';
 
   // Freshness layer: prefer lastReviewedAt (human-curated) over updatedAt
   // (auto-touched by every admin save). Falls back gracefully to nothing if
@@ -726,8 +736,8 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 <meta name="description" content="${escapeHtml(page.description)}" />
 <meta name="robots" content="${robotsContent}" />
 <link rel="canonical" href="${escapeHtml(page.canonical || fullUrl)}" />
-${hrefRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(hrefRu)}" />` : ''}
-${hrefUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(hrefUz)}" />` : ''}
+${altRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(altRu)}" />` : ''}
+${altUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(altUz)}" />` : ''}
 ${xDefaultHref ? `<link rel="alternate" hreflang="x-default" href="${escapeHtml(xDefaultHref)}" />` : ''}
 
 <meta property="og:type" content="website" />
@@ -765,8 +775,8 @@ ${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === '
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="/" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm">
-      ${hrefRu ? `<a href="${escapeHtml(hrefRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
-      ${hrefUz ? `<a href="${escapeHtml(hrefUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
+      ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
+      ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
       <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${(page.ctaPrimaryHref || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
       </a>
