@@ -1,5 +1,6 @@
 export * from './schema';
 export * from './capabilities';
+export * from './intent';
 export * from './runtime-schema';
 export * from './scoring';
 export * from './service';

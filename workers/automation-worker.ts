@@ -17,6 +17,7 @@ import {
   parseLeadRadarRetentionDays,
   LeadRadarStore,
   maintainTelegramBusinessTransport,
+  type LeadRadarQueueOutcome,
   type LeadRadarQueueMessage,
   type LeadRadarQueueSender,
 } from '../functions/platform/lead-radar';
@@ -63,6 +64,22 @@ function sender(queue: Queue<AutomationQueueMessage>): AutomationQueueSender {
 
 function leadRadarSender(queue: Queue<AutomationQueueMessage | LeadRadarQueueMessage>): LeadRadarQueueSender {
   return queue as unknown as LeadRadarQueueSender;
+}
+
+export function settleLeadRadarRetryWait(
+  message: Pick<Message<unknown>, 'ack' | 'retry'>,
+  result: Extract<LeadRadarQueueOutcome, { outcome: 'retry_wait' }>,
+): void {
+  if (result.retryDelivery) {
+    // D1 has already persisted available_at/next_dispatch_at. Retrying the
+    // same bounded envelope wakes the job at that deadline; observeJobDispatch
+    // then marks the outbox sent. Cron remains the loss/reconciliation fallback.
+    message.retry({ delaySeconds: result.delaySeconds });
+    return;
+  }
+  // A lease/CAS conflict is a duplicate delivery, not a business retry. ACK it
+  // so duplicates cannot form a 30-second hot loop or consume Queue retries.
+  message.ack();
 }
 
 export default {
@@ -162,10 +179,7 @@ export default {
             { personalDataEnabled: isLeadRadarContactEnabled(env) },
           );
           if (result.outcome === 'retry_wait') {
-            // retryJob() has already persisted the authoritative schedule and
-            // returned the durable outbox row to pending. Cron is the sole
-            // business-retry dispatcher, so this delivery is only ACKed.
-            message.ack();
+            settleLeadRadarRetryWait(message, result);
           } else if (result.outcome === 'dead_letter') {
             await env.AUTOMATION_DLQ.send(raw);
             message.ack();

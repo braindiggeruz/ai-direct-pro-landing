@@ -24,6 +24,7 @@ import {
 } from './types';
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { scoreLead } from './scoring';
+import { resolveLeadRadarIntent } from './intent';
 
 export interface LeadRadarSuppressionFingerprint {
   canonicalKey: string;
@@ -341,12 +342,20 @@ function decisionMakersFromJson(value: string): LeadRadarDecisionMaker[] {
 }
 
 function mapSearch(row: SearchRow): LeadRadarSearchSummary {
+  const input = parseJson<LeadRadarSearchInput>(row.input_json, {
+    niche: '', city: '', country: 'UZ', offer: '', desiredCount: 20,
+    telegramRequired: false, languages: ['ru', 'uz'],
+  });
+  const resolvedIntent = resolveLeadRadarIntent(input.niche);
   return {
     id: row.id,
-    input: parseJson<LeadRadarSearchInput>(row.input_json, {
-      niche: '', city: '', country: 'UZ', offer: '', desiredCount: 20,
-      telegramRequired: false, languages: ['ru', 'uz'],
-    }),
+    input,
+    interpretation: {
+      canonicalCategory: resolvedIntent.canonicalLabel,
+      matchKind: resolvedIntent.matchKind,
+      confidence: resolvedIntent.confidence,
+      expanded: resolvedIntent.expanded,
+    },
     status: row.status,
     candidateCount: Number(row.candidate_count),
     verifiedCount: Number(row.verified_count),

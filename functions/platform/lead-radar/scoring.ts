@@ -77,6 +77,7 @@ export function scoreLead(input: ScoreInput, now: Date = new Date()): {
     ...(hasNamedDecisionMaker ? decisionMakers.flatMap((person) => person.evidenceIds) : []),
   ];
   const categoryEvidence = ids(input, ['company.category']);
+  const hasSourcedCategory = categoryEvidence.length > 0;
   const geoEvidence = input.evidence
     .filter((item) => item.fieldPath.startsWith('locations.') && item.classification !== 'model_inference')
     .map((item) => item.id);
@@ -86,9 +87,11 @@ export function scoreLead(input: ScoreInput, now: Date = new Date()): {
     {
       key: 'niche_fit',
       label: 'Соответствие нише',
-      score: input.category ? 25 : 12,
+      score: hasSourcedCategory ? 25 : 12,
       max: 25,
-      reason: input.category ? `Категория подтверждена: ${input.category}` : 'Категория определена неполно',
+      reason: hasSourcedCategory
+        ? `Категория подтверждена источником: ${input.category}`
+        : 'Совпадение найдено по названию или поисковому контексту; категория источником не подтверждена',
       evidenceIds: categoryEvidence,
     },
     {

@@ -69,6 +69,33 @@ const DEFAULT_INPUT: LeadRadarSearchInput = {
   languages: ['ru', 'uz'],
 };
 
+type SearchAttemptError = {
+  input: LeadRadarSearchInput;
+  message: string;
+};
+
+function cloneSearchInput(input: LeadRadarSearchInput): LeadRadarSearchInput {
+  return { ...input, languages: [...input.languages] };
+}
+
+function normalizedSearchText(value: string): string {
+  return value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('ru-RU');
+}
+
+function sameSearchInput(left: LeadRadarSearchInput, right: LeadRadarSearchInput): boolean {
+  return normalizedSearchText(left.niche) === normalizedSearchText(right.niche)
+    && normalizedSearchText(left.city) === normalizedSearchText(right.city)
+    && normalizedSearchText(left.country) === normalizedSearchText(right.country)
+    && normalizedSearchText(left.offer) === normalizedSearchText(right.offer)
+    && left.desiredCount === right.desiredCount
+    && left.telegramRequired === right.telegramRequired
+    && [...left.languages].sort().join('|') === [...right.languages].sort().join('|');
+}
+
+function searchInputLabel(input: LeadRadarSearchInput): string {
+  return `${input.niche.trim()} · ${input.city.trim()}`;
+}
+
 const LIFECYCLE_LABELS: Record<LeadRadarLifecycle, string> = {
   new: 'Новый',
   contacted: 'Связались',
@@ -448,9 +475,10 @@ function Metric({ icon: Icon, label, value, accent = false }: {
   );
 }
 
-function SearchHistory({ searches, activeId, onOpen }: {
+function SearchHistory({ searches, activeId, disabled = false, onOpen }: {
   searches: LeadRadarSearchSummary[];
   activeId?: string;
+  disabled?: boolean;
   onOpen: (id: string) => void;
 }) {
   if (searches.length === 0) return null;
@@ -468,8 +496,9 @@ function SearchHistory({ searches, activeId, onOpen }: {
             key={search.id}
             type="button"
             onClick={() => onOpen(search.id)}
+            disabled={disabled}
             aria-current={activeId === search.id ? 'true' : undefined}
-            className={`group min-h-16 rounded-2xl border px-4 py-3 text-left transition-colors ${
+            className={`group min-h-16 rounded-2xl border px-4 py-3 text-left transition-colors disabled:cursor-wait disabled:opacity-50 ${
               activeId === search.id
                 ? 'border-brand-cyan/35 bg-brand-cyan/[0.08]'
                 : 'border-white/[0.07] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]'
@@ -1320,7 +1349,9 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
 }
 
 export default function LeadRadarPage() {
-  const [input, setInput] = useState<LeadRadarSearchInput>(DEFAULT_INPUT);
+  const [draftInput, setDraftInput] = useState<LeadRadarSearchInput>(DEFAULT_INPUT);
+  const [pendingSearchInput, setPendingSearchInput] = useState<LeadRadarSearchInput | null>(null);
+  const [searchAttemptError, setSearchAttemptError] = useState<SearchAttemptError | null>(null);
   const [overview, setOverview] = useState<LeadRadarOverview | null>(null);
   const [result, setResult] = useState<LeadRadarSearchResult | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
@@ -1549,18 +1580,27 @@ export default function LeadRadarPage() {
     && result.leads.length > 0
     && result.search.funnel.personalTelegramCount === 0,
   );
+  const draftDiffersFromOpenResult = Boolean(
+    result && !sameSearchInput(draftInput, result.search.input),
+  );
+  const openResultLabel = result ? searchInputLabel(result.search.input) : null;
 
-  async function runSearch(searchInput: LeadRadarSearchInput = input): Promise<void> {
+  async function runSearch(searchInput?: LeadRadarSearchInput): Promise<void> {
+    const snapshot = cloneSearchInput(searchInput ?? draftInput);
+    if (searchInput) setDraftInput(snapshot);
     const currentCapabilities = result?.capabilities ?? overview?.capabilities;
     if (!currentCapabilities?.admissionEnabled) {
-      setError('Новые поиски временно приостановлены защитным переключателем. Сохранённые исследования остаются доступны.');
+      setSearchAttemptError({
+        input: snapshot,
+        message: 'Новые поиски временно приостановлены защитным переключателем. Сохранённые исследования остаются доступны.',
+      });
       return;
     }
     const sequence = requestSequence.current + 1;
     requestSequence.current = sequence;
-    const snapshot = { ...searchInput, languages: [...searchInput.languages] };
-    setInput(snapshot);
     autoRevealNoTelegram.current = snapshot.telegramRequired;
+    setPendingSearchInput(snapshot);
+    setSearchAttemptError(null);
     setLoading(true);
     setPollingDelayed(false);
     setPollingStopped(false);
@@ -1573,6 +1613,7 @@ export default function LeadRadarPage() {
       pendingSearchRequestKey.current = null;
       if (requestSequence.current !== sequence) return;
       setResult(next);
+      setPendingSearchInput(null);
       setSelectedLeadId(next.leads[0]?.id ?? null);
       const shouldRevealAll = next.leads.length > 0
         && next.search.funnel.personalTelegramCount === 0;
@@ -1588,9 +1629,12 @@ export default function LeadRadarPage() {
         pendingSearchRequestKey.current = null;
       }
       if (requestSequence.current !== sequence) return;
-      setError(errorCopy(searchError));
+      setSearchAttemptError({ input: snapshot, message: errorCopy(searchError) });
     } finally {
-      if (requestSequence.current === sequence) setLoading(false);
+      if (requestSequence.current === sequence) {
+        setPendingSearchInput(null);
+        setLoading(false);
+      }
     }
   }
 
@@ -1602,6 +1646,7 @@ export default function LeadRadarPage() {
     setPollingDelayed(false);
     setPollingStopped(false);
     setReviewNotice(null);
+    setSearchAttemptError(null);
     setError(null);
     try {
       const next = await api.leadRadarSearchResult(id);
@@ -1799,6 +1844,21 @@ export default function LeadRadarPage() {
             <button type="button" onClick={() => setError(null)} className="min-h-11 px-2 text-xs text-rose-100/70">Закрыть</button>
           </div>
         )}
+        {searchAttemptError && (
+          <div role="alert" data-testid="lead-radar-search-attempt-error" className="flex items-start gap-3 rounded-2xl border border-rose-400/20 bg-rose-400/[0.07] p-4 text-sm text-rose-100">
+            <CircleHelp size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <div className="flex-1 leading-6">
+              <strong className="block text-white">Поиск «{searchInputLabel(searchAttemptError.input)}» не запущен.</strong>
+              <span>{searchAttemptError.message}</span>
+              {result && (
+                <span className="mt-1 block text-rose-100/75">
+                  Ниже по-прежнему открыт предыдущий результат «{searchInputLabel(result.search.input)}».
+                </span>
+              )}
+            </div>
+            <button type="button" onClick={() => setSearchAttemptError(null)} className="min-h-11 px-2 text-xs text-rose-100/70">Закрыть</button>
+          </div>
+        )}
         {reviewNotice && (
           <div role="status" className="flex items-start gap-3 rounded-2xl border border-amber-300/20 bg-amber-300/[0.055] p-4 text-sm text-amber-100">
             <CircleHelp size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
@@ -1828,39 +1888,49 @@ export default function LeadRadarPage() {
               <form className="space-y-4 p-5" aria-busy={loading} onSubmit={(event) => { event.preventDefault(); void runSearch(); }}>
                 <div>
                   <Label htmlFor="lead-radar-niche">Ниша</Label>
-                  <Input id="lead-radar-niche" disabled={loading || !capabilities.admissionEnabled} value={input.niche} onChange={(event) => setInput({ ...input, niche: event.target.value })} className="min-h-12" placeholder="Например, стоматологии" required />
+                  <Input id="lead-radar-niche" disabled={loading || !capabilities.admissionEnabled} value={draftInput.niche} onChange={(event) => setDraftInput({ ...draftInput, niche: event.target.value })} className="min-h-12" placeholder="Например, стоматологии" required />
+                  <p className="mt-2 text-[11px] leading-4 text-white/55">Можно писать своими словами или с опечаткой: поиск попробует распознать нишу и показать близкие по смыслу бизнесы.</p>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-1">
                   <div>
                     <Label htmlFor="lead-radar-city">Город</Label>
-                    <Input id="lead-radar-city" disabled={loading || !capabilities.admissionEnabled} value={input.city} onChange={(event) => setInput({ ...input, city: event.target.value })} className="min-h-12" required />
+                    <Input id="lead-radar-city" disabled={loading || !capabilities.admissionEnabled} value={draftInput.city} onChange={(event) => setDraftInput({ ...draftInput, city: event.target.value })} className="min-h-12" required />
                   </div>
                   <div>
                     <Label htmlFor="lead-radar-count">Количество</Label>
-                    <Select id="lead-radar-count" disabled={loading || !capabilities.admissionEnabled} value={input.desiredCount} onChange={(event) => setInput({ ...input, desiredCount: Number(event.target.value) })} className="min-h-12">
+                    <Select id="lead-radar-count" disabled={loading || !capabilities.admissionEnabled} value={draftInput.desiredCount} onChange={(event) => setDraftInput({ ...draftInput, desiredCount: Number(event.target.value) })} className="min-h-12">
                       {[10, 20, 30, 40, 50].map((count) => <option key={count} value={count}>{count} компаний</option>)}
                     </Select>
                   </div>
                 </div>
                 <div>
                   <Label htmlFor="lead-radar-offer">Что предлагаем</Label>
-                  <Textarea id="lead-radar-offer" disabled={loading || !capabilities.admissionEnabled} value={input.offer} onChange={(event) => setInput({ ...input, offer: event.target.value })} className="min-h-20 resize-y" rows={2} required />
+                  <Textarea id="lead-radar-offer" disabled={loading || !capabilities.admissionEnabled} value={draftInput.offer} onChange={(event) => setDraftInput({ ...draftInput, offer: event.target.value })} className="min-h-20 resize-y" rows={2} required />
                 </div>
                 <label className="flex min-h-14 cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
                   <span>
                     <span className="block text-sm font-medium text-white/80">Сначала показать личный Telegram</span>
                     <span className="mt-0.5 block text-xs text-white/60">Фильтр выдачи: все найденные компании всё равно сохранятся</span>
                   </span>
-                  <input type="checkbox" disabled={loading || !capabilities.admissionEnabled || !capabilities.contactEnabled} checked={capabilities.contactEnabled && input.telegramRequired} onChange={(event) => setInput({ ...input, telegramRequired: event.target.checked })} className="h-5 w-5 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan" />
+                  <input type="checkbox" disabled={loading || !capabilities.admissionEnabled || !capabilities.contactEnabled} checked={capabilities.contactEnabled && draftInput.telegramRequired} onChange={(event) => setDraftInput({ ...draftInput, telegramRequired: event.target.checked })} className="h-5 w-5 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan" />
                 </label>
                 <Button type="submit" size="lg" disabled={loading || !capabilities.admissionEnabled} className="min-h-14 w-full text-sm font-semibold">
-                  {loading ? <><LoaderCircle size={18} className="motion-safe:animate-spin" aria-hidden="true" />Подождите…</> : !capabilities.admissionEnabled ? <><ShieldCheck size={18} aria-hidden="true" />Поиск приостановлен</> : <><Search size={18} aria-hidden="true" />Найти компании<ArrowRight size={16} aria-hidden="true" /></>}
+                  {pendingSearchInput ? <><LoaderCircle size={18} className="motion-safe:animate-spin" aria-hidden="true" />Запускаем поиск…</> : loading ? <><LoaderCircle size={18} className="motion-safe:animate-spin" aria-hidden="true" />Подождите…</> : !capabilities.admissionEnabled ? <><ShieldCheck size={18} aria-hidden="true" />Поиск приостановлен</> : <><Search size={18} aria-hidden="true" />Найти компании<ArrowRight size={16} aria-hidden="true" /></>}
                 </Button>
+                {(pendingSearchInput || draftDiffersFromOpenResult) && (
+                  <p role="status" data-testid="lead-radar-draft-context" className="rounded-xl border border-brand-cyan/15 bg-brand-cyan/[0.045] px-3 py-2 text-[11px] leading-4 text-white/65">
+                    {pendingSearchInput
+                      ? result
+                        ? `Запускаем «${searchInputLabel(pendingSearchInput)}». До подтверждения ниже остаётся предыдущий результат «${searchInputLabel(result.search.input)}».`
+                        : `Запускаем «${searchInputLabel(pendingSearchInput)}». Результат появится после подтверждения запуска.`
+                      : `В форме новый черновик. Ниже открыт сохранённый результат «${openResultLabel}»; он не изменится до нового запуска.`}
+                  </p>
+                )}
                 <p className="text-center text-[11px] leading-4 text-white/60">Поиск идёт в фоне, карточки появляются постепенно. Число результатов может быть меньше цели — система не додумывает компании.</p>
               </form>
             </section>
 
-            <SearchHistory searches={overview?.searches ?? []} activeId={result?.search.id} onOpen={(id) => { void openSearch(id); }} />
+            <SearchHistory searches={overview?.searches ?? []} activeId={result?.search.id} disabled={loading} onOpen={(id) => { void openSearch(id); }} />
 
             <section aria-labelledby="sources-title" className="rounded-[1.5rem] border border-white/[0.07] bg-white/[0.018] p-4">
               <h2 id="sources-title" className="flex items-center gap-2 text-sm font-semibold text-white"><Database size={15} className="text-brand-cyan" aria-hidden="true" />Источники</h2>
@@ -2020,7 +2090,7 @@ export default function LeadRadarPage() {
                       <div className="flex flex-wrap items-center gap-2">
                         <h2 className="text-lg font-semibold text-white">{result.search.input.niche} · {result.search.input.city}</h2>
                         <Badge tone={STATUS_COPY[result.search.status].tone}>{STATUS_COPY[result.search.status].label}</Badge>
-                        {loading && <Badge tone="neutral">Обновляем…</Badge>}
+                        {pendingSearchInput ? <Badge tone="neutral">Предыдущий результат</Badge> : loading && <Badge tone="neutral">Обновляем…</Badge>}
                       </div>
                       <p className="mt-1 text-xs text-white/55">
                         {result.search.status === 'running'
@@ -2029,6 +2099,13 @@ export default function LeadRadarPage() {
                             ? result.leads.length > 0 ? 'Часть найденных компаний сохранена; один из этапов не завершился.' : 'Источник не завершил запуск до получения компаний.'
                             : `Сохранено ${result.search.funnel.candidateCount} компаний · обработано ${result.search.funnel.processedCount} · личных Telegram одобрено ${result.search.funnel.personalTelegramCount}`}
                       </p>
+                      {result.search.interpretation && (
+                        <p data-testid="lead-radar-intent-interpretation" className="mt-2 text-xs leading-5 text-brand-cyan/80">
+                          {result.search.interpretation.expanded
+                            ? `Запрос распознан как «${result.search.interpretation.canonicalCategory}» — учитываем синонимы, варианты написания и близкие категории.`
+                            : 'Точная бизнес-категория не определена — ищем по значимым словам названия без выдуманных совпадений.'}
+                        </p>
+                      )}
                     </div>
                     {result.leads.length > 0 ? (
                       <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Фильтры выдачи">

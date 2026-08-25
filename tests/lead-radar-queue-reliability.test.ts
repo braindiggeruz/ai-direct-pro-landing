@@ -56,11 +56,11 @@ class RecordingQueue implements LeadRadarQueueSender {
   }
 }
 
-function candidate(website: string | null): SourceCandidate {
+function candidate(website: string | null, key = 'fixture-company'): SourceCandidate {
   return {
-    sourceId: 'fixture-company',
+    sourceId: key,
     sourceUrl: 'https://www.openstreetmap.org/node/42',
-    name: 'Example Clinic',
+    name: `Example Clinic ${key}`,
     category: 'dentist',
     city: 'Ташкент',
     country: 'UZ',
@@ -75,9 +75,9 @@ function candidate(website: string | null): SourceCandidate {
     enrichmentReason: website ? null : 'no_website',
     enrichmentAttempts: 0,
     evidence: [{
-      id: 'fixture-company-name',
+      id: `${key}-name`,
       fieldPath: 'company.name',
-      value: 'Example Clinic',
+      value: `Example Clinic ${key}`,
       sourceUrl: 'https://www.openstreetmap.org/node/42',
       sourceType: 'openstreetmap',
       observedAt: '2026-08-25T10:00:00.000Z',
@@ -242,7 +242,9 @@ test('D1 owns retry timing and a completed job cannot regress', async () => {
     now: () => start,
     discover: async () => { throw new Error('source timeout'); },
   });
-  assert.deepEqual(retry, { outcome: 'retry_wait', delaySeconds: 45 });
+  assert.deepEqual(retry, {
+    outcome: 'retry_wait', delaySeconds: 45, retryDelivery: true,
+  });
   let job = await store.getJob(firstMessage.job_id);
   assert.equal(job?.status, 'retry_wait');
   assert.equal(job?.dispatchStatus, 'pending');
@@ -447,6 +449,58 @@ test('enrichment effect ledger records one digest across duplicate delivery', as
   assert.equal(fixture.value(
     'SELECT COUNT(*) FROM lead_radar_job_effects WHERE job_id = ?', enrichmentMessage.job_id,
   ), 1);
+});
+
+test('each released enrichment slot dispatches one next due child without waiting for cron', async () => {
+  const fixture = database();
+  const db = fixture.asD1();
+  const store = new LeadRadarStore(db);
+  const queue = new RecordingQueue();
+  const at = new Date('2026-08-25T15:15:00.000Z');
+  const input = { ...SEARCH_INPUT, desiredCount: 7 };
+
+  await enqueueLeadRadarSearch(store, 'org-a', input, queue, at);
+  const discoveryMessage = queue.messages.shift();
+  assert.ok(discoveryMessage);
+  const discovered = await consumeLeadRadarQueueMessage(db, discoveryMessage, queue, {
+    now: () => at,
+    discover: async () => ({
+      candidates: Array.from({ length: 7 }, (_, index) => (
+        candidate(`https://example-${index}.uz`, `fixture-company-${index}`)
+      )),
+      sourceWarnings: [],
+      rawDiscoveredCount: 7,
+    }),
+  });
+  assert.equal(discovered.outcome, 'completed');
+  assert.equal(queue.messages.length, 5, 'the discovery tick primes a bounded five-job window');
+
+  const firstChild = queue.messages.shift();
+  assert.ok(firstChild);
+  const completed = await consumeLeadRadarQueueMessage(db, firstChild, queue, {
+    now: () => at,
+    enrichWebsite: async () => ({
+      facts: null,
+      reason: 'no_relevant_evidence',
+      retryable: false,
+    }),
+  });
+  assert.equal(completed.outcome, 'completed');
+  assert.equal(queue.messages.length, 5, 'completion immediately replaces exactly one released slot');
+  assert.equal(fixture.value(
+    "SELECT COUNT(*) FROM lead_radar_jobs WHERE search_id = ? AND stage = 'enrichment' AND dispatch_status = 'sent' AND status = 'queued'",
+    String(fixture.value("SELECT id FROM lead_radar_searches WHERE org_id = 'org-a'")),
+  ), 5);
+  assert.equal(fixture.value(
+    "SELECT COUNT(*) FROM lead_radar_jobs WHERE search_id = ? AND stage = 'enrichment' AND dispatch_status = 'pending' AND status = 'queued'",
+    String(fixture.value("SELECT id FROM lead_radar_searches WHERE org_id = 'org-a'")),
+  ), 1);
+
+  const beforeDuplicate = queue.messages.length;
+  assert.equal((await consumeLeadRadarQueueMessage(db, firstChild, queue, {
+    now: () => at,
+  })).outcome, 'duplicate');
+  assert.equal(queue.messages.length, beforeDuplicate, 'a duplicate completion cannot release another slot');
 });
 
 test('an expired final-attempt lease with a committed effect completes instead of dead-lettering', async () => {

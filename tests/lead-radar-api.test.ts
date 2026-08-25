@@ -266,6 +266,11 @@ test('research response is server-redacted and contact approval stays closed', a
     contactEnabled: false,
     mode: 'paused',
   });
+  const interpretation = result.body.search.interpretation as Record<string, unknown>;
+  assert.equal(interpretation.canonicalCategory, 'Стоматология');
+  assert.equal(interpretation.expanded, true);
+  assert.ok(['exact', 'alias', 'semantic', 'fuzzy'].includes(String(interpretation.matchKind)));
+  assert.ok(Number(interpretation.confidence) >= 0.9);
 
   const approve = await callRoute(
     leadRadarRoute.onRequestPatch,

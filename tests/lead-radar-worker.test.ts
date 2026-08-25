@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import worker from '../workers/automation-worker';
+import worker, { settleLeadRadarRetryWait } from '../workers/automation-worker';
 
 interface RecordedMessage {
   body: unknown;
@@ -141,6 +141,20 @@ test('processing pause ACKs Lead Radar without touching D1 and preserves SEO ret
   assert.deepEqual(db.sql, []);
   assert.equal(seo.acknowledgements, 0);
   assert.deepEqual(seo.retries, [300]);
+});
+
+test('durable business retries use the exact Queue delay while lease conflicts are ACKed', () => {
+  const scheduled = queueMessage({ schema: 'gptbot.lead-radar.job.v1', job_id: `lrjob_${'3'.repeat(32)}` });
+  settleLeadRadarRetryWait(scheduled, {
+    outcome: 'retry_wait', delaySeconds: 45, retryDelivery: true,
+  });
+  assert.equal(scheduled.acknowledgements, 0);
+  assert.deepEqual(scheduled.retries, [45]);
+
+  const duplicate = queueMessage({ schema: 'gptbot.lead-radar.job.v1', job_id: `lrjob_${'4'.repeat(32)}` });
+  settleLeadRadarRetryWait(duplicate, { outcome: 'retry_wait', delaySeconds: 30 });
+  assert.equal(duplicate.acknowledgements, 1);
+  assert.deepEqual(duplicate.retries, []);
 });
 
 test('a Lead Radar schema fault is isolated and cannot abort the next SEO message', async () => {

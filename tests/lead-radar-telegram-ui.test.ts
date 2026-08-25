@@ -153,3 +153,25 @@ test('Lead Radar page integrates Telegram without background or broad contact se
   assert.match(API, /leadRadarTelegramBusinessConnect: \(idempotencyKey: string\)/);
   assert.match(API, /telegram-business\/connect[\s\S]{0,160}Idempotency-Key/);
 });
+
+test('Lead Radar keeps the editable draft separate from pending and opened searches', () => {
+  assert.match(PAGE, /const \[draftInput, setDraftInput\] = useState<LeadRadarSearchInput>/);
+  assert.match(PAGE, /const \[pendingSearchInput, setPendingSearchInput\] = useState<LeadRadarSearchInput \| null>/);
+  assert.match(PAGE, /const \[searchAttemptError, setSearchAttemptError\] = useState<SearchAttemptError \| null>/);
+  assert.match(PAGE, /const snapshot = cloneSearchInput\(searchInput \?\? draftInput\)/);
+  assert.match(PAGE, /setPendingSearchInput\(snapshot\)/);
+  assert.match(PAGE, /setSearchAttemptError\(\{ input: snapshot, message: errorCopy\(searchError\) \}\)/);
+  assert.doesNotMatch(PAGE, /setInput\(snapshot\)/);
+
+  assert.match(PAGE, /value=\{draftInput\.niche\}/);
+  assert.match(PAGE, /\{result\.search\.input\.niche\} · \{result\.search\.input\.city\}/);
+  assert.match(PAGE, /Поиск «\{searchInputLabel\(searchAttemptError\.input\)\}» не запущен/);
+  assert.match(PAGE, /по-прежнему открыт предыдущий результат/);
+  assert.match(PAGE, /В форме новый черновик/);
+  assert.match(PAGE, /Предыдущий результат/);
+  assert.match(PAGE, /своими словами или с опечаткой/);
+  assert.match(PAGE, /близкие по смыслу бизнесы/);
+  assert.match(PAGE, /lead-radar-intent-interpretation/);
+  assert.match(PAGE, /Запрос распознан как/);
+  assert.match(PAGE, /Точная бизнес-категория не определена/);
+});

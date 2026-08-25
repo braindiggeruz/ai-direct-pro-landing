@@ -14,13 +14,24 @@ import {
   type SourceCandidate,
   type TelegramContactType,
 } from './types';
+import {
+  normalizeLeadRadarIntentText,
+  resolveLeadRadarIntent,
+  scoreLeadRadarOsmTags,
+  type LeadRadarIntentOsmFilter,
+  type LeadRadarIntentResolution,
+  type LeadRadarOsmTagCondition,
+} from './intent';
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
-  { id: 'lz4', url: 'https://lz4.overpass-api.de/api/interpreter' },
+  // Independent providers from the current OpenStreetMap public-instance
+  // registry. Provider diversity matters: public mirrors legitimately shed
+  // load, and retrying two hostnames on the same cluster is not redundancy.
+  { id: 'main', url: 'https://overpass-api.de/api/interpreter' },
+  { id: 'vk_maps', url: 'https://maps.mail.ru/osm/tools/overpass/api/interpreter' },
   { id: 'private_coffee', url: 'https://overpass.private.coffee/api/interpreter' },
-  { id: 'z', url: 'https://z.overpass-api.de/api/interpreter' },
 ] as const;
 const USER_AGENT = 'GPTBot-Lead-Radar/1.1 (+https://gptbot.uz; contact: info@gptbot.uz)';
 const MAX_WEBSITE_BYTES = 450_000;
@@ -79,18 +90,6 @@ export interface CompanyWebsiteBinding {
   method: 'company_name' | 'phone' | null;
   sourceUrl: string | null;
 }
-
-const NICHE_FILTERS: Array<{ match: RegExp; category: string; filters: string[] }> = [
-  { match: /стомат|dent|tish|dental|ортод/i, category: 'Стоматология', filters: ['["amenity"="dentist"]', '["healthcare"="dentist"]'] },
-  { match: /клиник|clinic|медицин|medical|shifox/i, category: 'Клиника', filters: ['["amenity"="clinic"]', '["amenity"="doctors"]', '["healthcare"="clinic"]'] },
-  { match: /салон|beauty|красот|go.zallik|парикмах|hair/i, category: 'Красота', filters: ['["shop"="beauty"]', '["shop"="hairdresser"]'] },
-  { match: /недвиж|real.?estate|риелтор|риэлтор|ko.chmas/i, category: 'Недвижимость', filters: ['["office"="estate_agent"]'] },
-  { match: /учеб|образован|education|training|o.quv|школ|курс/i, category: 'Образование', filters: ['["amenity"="language_school"]', '["amenity"="training"]', '["amenity"="college"]'] },
-  { match: /авто|car|машин|autosalon/i, category: 'Авто', filters: ['["shop"="car"]', '["shop"="car_repair"]', '["amenity"="car_repair"]'] },
-  { match: /ресторан|кафе|достав|restaurant|cafe|horeca|овқат|ovqat/i, category: 'HoReCa', filters: ['["amenity"="restaurant"]', '["amenity"="cafe"]', '["amenity"="fast_food"]'] },
-  { match: /фитнес|спортзал|fitness|gym|sport/i, category: 'Фитнес', filters: ['["leisure"="fitness_centre"]', '["leisure"="sports_centre"]'] },
-  { match: /магазин|shop|докон|do.kon|retail/i, category: 'Розничная торговля', filters: ['["shop"]'] },
-];
 
 class SubrequestBudget {
   constructor(private remaining: number) {}
@@ -661,17 +660,57 @@ function addressFrom(tags: Record<string, string>): string | null {
   return parts.length > 0 ? cleanText(parts.join(', '), 300) : null;
 }
 
+function escapeOverpassQuoted(value: string): string {
+  return value.replace(/[\\"\n\r]/g, ' ').slice(0, 120);
+}
+
+function escapeOverpassRegex(value: string): string {
+  return escapeOverpassQuoted(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function conditionSelector(condition: LeadRadarOsmTagCondition): string {
+  const key = escapeOverpassQuoted(condition.key);
+  if (condition.operation === 'exists') return `["${key}"]`;
+  const value = condition.operation === 'matches'
+    ? escapeOverpassQuoted(condition.value ?? '')
+    : escapeOverpassQuoted(condition.value ?? '');
+  return condition.operation === 'matches'
+    ? `["${key}"~"${value}",i]`
+    : `["${key}"="${value}"]`;
+}
+
+function filterSelector(filter: LeadRadarIntentOsmFilter): string {
+  return filter.conditions.map(conditionSelector).join('');
+}
+
 function queryDefinition(
   niche: string,
   languages: LeadRadarSearchInput['languages'],
-): { category: string; filters: string[] } {
-  const matched = NICHE_FILTERS.find((item) => item.match.test(niche));
-  if (matched) return { category: matched.category, filters: matched.filters };
-  const escaped = niche.replace(/[\\"\n\r]/g, ' ').replace(/[.*+?^${}()|[\]\\]/g, '\\$&').slice(0, 70);
+): { category: string; filters: string[]; intent: LeadRadarIntentResolution } {
+  const intent = resolveLeadRadarIntent(niche);
   const localizedNameTags = [...new Set(languages)].map((language) => `name:${language}`);
+  const semanticFilters = intent.osmFilters.map(filterSelector);
+  const fallbackTerms = intent.nameFallbackTokens
+    .map((term) => normalizeLeadRadarIntentText(term).slice(0, 32))
+    .filter((term) => term.length >= 3)
+    .map(escapeOverpassRegex);
+  const fallbackPattern = fallbackTerms.length > 0
+    ? [...new Set(fallbackTerms)].join('|')
+    : `^${escapeOverpassRegex(intent.normalizedQuery.slice(0, 48))}$`;
+  const fallbackTags = fallbackTerms.length > 0
+    ? ['name', ...localizedNameTags, 'brand', 'operator']
+    : ['name', ...localizedNameTags];
+  const nameFilters = fallbackPattern && fallbackPattern !== '^$'
+    ? fallbackTags.map((tag) => `["${escapeOverpassQuoted(tag)}"~"${fallbackPattern}",i]`)
+    : [];
   return {
-    category: niche,
-    filters: ['name', ...localizedNameTags].map((tag) => `["${tag}"~"${escaped}",i]`),
+    category: intent.canonicalLabel || niche,
+    // Once the closed resolver identifies a category, tag selectors are both
+    // more precise and dramatically cheaper for Overpass than a city-wide
+    // regex scan across every named object. Name/brand/operator fallback is
+    // reserved for an unknown niche, where no grounded tag plan exists.
+    filters: [...new Set(semanticFilters.length > 0 ? semanticFilters : nameFilters)],
+    intent,
   };
 }
 
@@ -773,9 +812,10 @@ async function geocode(
 }
 
 export interface LeadRadarOsmQueryPlan {
-  version: 'osm-overpass-v2';
+  version: 'osm-overpass-v3';
   category: string;
   languageTags: string[];
+  intent: LeadRadarIntentResolution;
   query: string;
 }
 
@@ -787,11 +827,17 @@ export function buildLeadRadarQueryPlan(
   const definition = queryDefinition(input.niche, input.languages);
   const bbox = bounds.join(',');
   const lines = definition.filters.map((filter) => `nwr${filter}(${bbox});`).join('\n');
+  const resultLimit = definition.intent.canonicalId
+    ? Math.min(240, Math.max(80, input.desiredCount * 6))
+    : (definition.intent.nameFallbackTokens.length > 0
+      ? Math.min(160, Math.max(40, input.desiredCount * 4))
+      : Math.min(40, Math.max(10, input.desiredCount * 2)));
   return {
-    version: 'osm-overpass-v2',
+    version: 'osm-overpass-v3',
     category: definition.category,
     languageTags: [...new Set(input.languages)].map((language) => `name:${language}`),
-    query: `[out:json][timeout:24];\n(\n${lines}\n);\nout meta center ${Math.min(150, input.desiredCount * 4)};`,
+    intent: definition.intent,
+    query: `[out:json][timeout:24];\n(\n${lines}\n);\nout meta center ${resultLimit};`,
   };
 }
 
@@ -844,6 +890,36 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
   );
 }
 
+function osmTagsFromElement(element: unknown): Record<string, string> {
+  if (!element || typeof element !== 'object' || Array.isArray(element)) return {};
+  const tags = (element as Partial<OverpassElement>).tags;
+  if (!tags || typeof tags !== 'object' || Array.isArray(tags)) return {};
+  return Object.fromEntries(
+    Object.entries(tags).filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
+  );
+}
+
+/** Stable, evidence-only ordering applied before the queue selects its fanout. */
+export function rankLeadRadarOsmElements(
+  elements: unknown[],
+  intent: LeadRadarIntentResolution,
+): unknown[] {
+  return elements
+    .map((element, index) => {
+      const tags = osmTagsFromElement(element);
+      const semantic = scoreLeadRadarOsmTags(tags, intent);
+      const completeness = [
+        tags.name,
+        tags['contact:website'] || tags.website,
+        tags['contact:phone'] || tags.phone,
+        tags['addr:full'] || tags['addr:street'],
+      ].filter(Boolean).length;
+      return { element, index, score: semantic.score * 10 + completeness };
+    })
+    .sort((left, right) => right.score - left.score || left.index - right.index)
+    .map(({ element }) => element);
+}
+
 export function candidateFromOsmElement(
   element: unknown,
   input: LeadRadarSearchInput,
@@ -852,9 +928,7 @@ export function candidateFromOsmElement(
   if (!element || typeof element !== 'object' || Array.isArray(element)) return null;
   const raw = element as Partial<OverpassElement>;
   if (!raw.type || !['node', 'way', 'relation'].includes(raw.type) || !Number.isSafeInteger(raw.id) || Number(raw.id) <= 0) return null;
-  const tags = raw.tags && typeof raw.tags === 'object' && !Array.isArray(raw.tags)
-    ? Object.fromEntries(Object.entries(raw.tags).filter((entry): entry is [string, string] => typeof entry[1] === 'string'))
-    : {};
+  const tags = osmTagsFromElement(element);
   const lifecycleTags = Object.entries(tags).filter(([key]) => (
     key === 'disused' || key === 'abandoned' || key === 'demolished'
     || key.startsWith('disused:') || key.startsWith('abandoned:') || key.startsWith('demolished:')
@@ -864,7 +938,8 @@ export function candidateFromOsmElement(
   const name = cleanText(preferredNames.find(Boolean) || tags.name || tags.brand, 160);
   if (!name || name.length < 2) return null;
   const sourceUrl = `https://www.openstreetmap.org/${raw.type}/${raw.id}`;
-  const category = cleanText(tags['healthcare:speciality'] || tags.healthcare || tags.amenity || tags.shop || tags.office || fallbackCategory, 120) ?? fallbackCategory;
+  const sourcedCategory = cleanText(tags['healthcare:speciality'] || tags.healthcare || tags.amenity || tags.shop || tags.office, 120);
+  const category = sourcedCategory ?? fallbackCategory;
   const address = addressFrom(tags);
   const website = cleanWebsite(tags['contact:website'] || tags.website || null);
   const phone = cleanPhone(tags['contact:phone'] || tags.phone || null);
@@ -880,8 +955,10 @@ export function candidateFromOsmElement(
     && Number.isFinite(longitude) && longitude >= -180 && longitude <= 180;
   const evidence: LeadRadarEvidence[] = [
     sourceEvidence('company.name', name, sourceUrl, 'openstreetmap', 0.82, 'fact', sourceObservedAt),
-    sourceEvidence('company.category', category, sourceUrl, 'openstreetmap', 0.78, 'fact', sourceObservedAt),
   ];
+  if (sourcedCategory) {
+    evidence.push(sourceEvidence('company.category', sourcedCategory, sourceUrl, 'openstreetmap', 0.78, 'fact', sourceObservedAt));
+  }
   if (sourceCity) evidence.push(sourceEvidence(
     'locations.city', sourceCity, sourceUrl, 'openstreetmap', 0.82, 'fact', sourceObservedAt,
   ));
@@ -1460,9 +1537,9 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
   async discoverRaw(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
     const budget = new SubrequestBudget(MAX_SOURCE_SUBREQUESTS);
     const bounds = await geocode(input, budget, this.geocodeStore);
-    const { query, category } = buildLeadRadarQueryPlan(input, bounds);
+    const { query, category, intent } = buildLeadRadarQueryPlan(input, bounds);
     const { response, warnings } = await overpass(query, budget);
-    const candidates = (response.elements ?? [])
+    const candidates = rankLeadRadarOsmElements(response.elements ?? [], intent)
       .map((element) => candidateFromOsmElement(element, input, category))
       .filter((item): item is SourceCandidate => Boolean(item));
 

@@ -28,7 +28,7 @@ const CHILD_DISPATCH_BARRIER = '9999-12-31T23:59:59.999Z';
 
 export type LeadRadarQueueOutcome =
   | { outcome: 'completed' | 'duplicate' | 'invalid' }
-  | { outcome: 'retry_wait'; delaySeconds: number }
+  | { outcome: 'retry_wait'; delaySeconds: number; retryDelivery?: true }
   | { outcome: 'dead_letter'; errorCode: string };
 
 export interface LeadRadarQueueDependencies {
@@ -303,7 +303,7 @@ async function retryOrDeadLetter(
     );
     if (!retried) return { outcome: 'retry_wait', delaySeconds: 30 };
     await store.refreshSearchFunnel(job.orgId, job.searchId, now);
-    return { outcome: 'retry_wait', delaySeconds };
+    return { outcome: 'retry_wait', delaySeconds, retryDelivery: true };
   }
   if (job.companyId) {
     const transitioned = await store.markLeadEnrichmentTerminal(
@@ -621,7 +621,9 @@ export async function consumeLeadRadarQueueMessage(
     );
     if (recovered) await store.refreshSearchFunnel(known.orgId, known.searchId, at.toISOString());
     if (recovered === 'completed') return { outcome: 'completed' };
-    if (recovered === 'retry_wait') return { outcome: 'retry_wait', delaySeconds };
+    if (recovered === 'retry_wait') {
+      return { outcome: 'retry_wait', delaySeconds, retryDelivery: true };
+    }
     return recovered === 'dead_letter'
       ? { outcome: 'dead_letter', errorCode: 'retry_exhausted' }
       : { outcome: 'duplicate' };
@@ -637,16 +639,44 @@ export async function consumeLeadRadarQueueMessage(
   if (claimed.stage === 'discovery') {
     const outcome = await processDiscovery(store, claimed, dependencies, at);
     if (outcome.outcome === 'completed') {
-      // A fixed outbox tick preserves low-latency single-lead behaviour while
-      // keeping a 50-lead fan-out inside the Workers Free D1 ceiling. The
-      // remaining jobs stay durable for cron; there is no per-child send loop.
+      // A fixed priming tick preserves low-latency single-lead behaviour while
+      // keeping a 50-lead fan-out inside the Workers Free D1 ceiling. Later
+      // completions replace one slot at a time; cron remains the durable fallback.
+      const dispatchAt = dependencies.now?.() ?? new Date();
       await enqueueDueLeadRadarJobs(
-        db, queue, at, 5, (orgId) => orgId === claimed.orgId,
+        db, queue, dispatchAt, 5, (orgId) => orgId === claimed.orgId,
       );
     }
     return outcome;
   }
-  return processEnrichment(store, claimed, dependencies, at);
+  const outcome = await processEnrichment(store, claimed, dependencies, at);
+  if (outcome.outcome === 'completed' || outcome.outcome === 'dead_letter'
+    || (outcome.outcome === 'retry_wait' && outcome.retryDelivery)) {
+    // One terminal or durably deferred child releases exactly one processing
+    // slot. Replacing only that slot keeps the Queue work-conserving without
+    // turning a large discovery fan-out into an unbounded burst. Reservation
+    // CAS makes concurrent completions select distinct due jobs.
+    const dispatchAt = dependencies.now?.() ?? new Date();
+    try {
+      const reservations = await store.reserveDueJobDispatches(
+        dispatchAt.toISOString(),
+        new Date(dispatchAt.getTime() + DISPATCH_LEASE_MS).toISOString(),
+        1,
+        (orgId) => orgId === claimed.orgId,
+      );
+      if (reservations[0]) {
+        await dispatchReservation(store, queue, reservations[0], dispatchAt);
+      }
+    } catch (error) {
+      // The authoritative pending outbox row remains available to the cron
+      // dispatcher. A refill failure must not regress an already committed
+      // enrichment result or cause the current delivery to be retried.
+      console.warn('lead_radar.queue_refill_deferred', {
+        error: error instanceof Error ? error.name : 'unknown',
+      });
+    }
+  }
+  return outcome;
 }
 
 export async function enqueueDueLeadRadarJobs(

@@ -67,6 +67,13 @@ export interface LeadRadarSearchInput {
   languages: Array<'ru' | 'uz' | 'en'>;
 }
 
+export interface LeadRadarSearchInterpretation {
+  canonicalCategory: string;
+  matchKind: 'exact' | 'alias' | 'semantic' | 'fuzzy' | 'fallback';
+  confidence: number;
+  expanded: boolean;
+}
+
 export interface LeadRadarEvidence {
   id: string;
   fieldPath: string;
@@ -188,6 +195,8 @@ export interface LeadRadarLead {
 export interface LeadRadarSearchSummary {
   id: string;
   input: LeadRadarSearchInput;
+  /** Deterministic interpretation derived from the immutable submitted input. */
+  interpretation?: LeadRadarSearchInterpretation;
   status: LeadRadarSearchStatus;
   candidateCount: number;
   verifiedCount: number;

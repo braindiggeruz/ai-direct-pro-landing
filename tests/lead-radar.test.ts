@@ -212,7 +212,7 @@ test('OSM query planning is versioned, language-aware, and requests source metad
     { ...SEARCH_INPUT, niche: 'Сувениры', languages: ['uz', 'en'] },
     [41.1, 69.1, 41.4, 69.5],
   );
-  assert.equal(plan.version, 'osm-overpass-v2');
+  assert.equal(plan.version, 'osm-overpass-v3');
   assert.deepEqual(plan.languageTags, ['name:uz', 'name:en']);
   assert.match(plan.query, /\["name:uz"~/);
   assert.match(plan.query, /\["name:en"~/);
@@ -718,6 +718,26 @@ test('geo score ignores a requested city or inferred location without source pro
   const geo = scored.components.find((item) => item.key === 'geo_fit');
   assert.equal(geo?.score, 6);
   assert.deepEqual(geo?.evidenceIds, []);
+});
+
+test('niche score requires a sourced category instead of a fallback label', () => {
+  const fallbackOnly = scoreLead({
+    evidence: [evidence('name-only', 'company.name')],
+    signals: [], website: null, phone: null, genericEmail: null,
+    telegramUrl: null, telegramContact: null, decisionMakers: [], category: 'Стоматология',
+  }, new Date('2026-08-25T10:00:00.000Z'));
+  const sourced = scoreLead({
+    evidence: [evidence('category-fact', 'company.category')],
+    signals: [], website: null, phone: null, genericEmail: null,
+    telegramUrl: null, telegramContact: null, decisionMakers: [], category: 'dentist',
+  }, new Date('2026-08-25T10:00:00.000Z'));
+
+  const fallbackComponent = fallbackOnly.components.find((item) => item.key === 'niche_fit');
+  const sourcedComponent = sourced.components.find((item) => item.key === 'niche_fit');
+  assert.equal(fallbackComponent?.score, 12);
+  assert.deepEqual(fallbackComponent?.evidenceIds, []);
+  assert.equal(sourcedComponent?.score, 25);
+  assert.deepEqual(sourcedComponent?.evidenceIds, ['category-fact']);
 });
 
 test('store enforces tenant isolation on reads and lifecycle mutations', async () => {
