@@ -33,6 +33,8 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
 (function(){
   var p = location.pathname;
   if (p.indexOf('/admin-tools/')===0 || p.indexOf('/api/')===0) return;
+  var h = location.hostname || '';
+  if (h==='localhost' || h==='127.0.0.1' || h==='::1' || h==='[::1]' || h==='0.0.0.0' || h.slice(-6)==='.local') return;
   window.dataLayer = window.dataLayer || [];
   window.gtag = function(){ dataLayer.push(arguments); };
   gtag('js', new Date());

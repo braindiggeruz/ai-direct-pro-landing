@@ -41,8 +41,10 @@
       "text": "Sahifa bo‘yicha",
       "links": [
         { "anchor": "turlari", "label": "Qanday saytlar yaratamiz" },
+        { "anchor": "veb-yondashuv", "label": "Veb sayt: konstruktor yoki maxsus yechim" },
         { "anchor": "nima-kiradi", "label": "Sayt yaratishga nima kiradi" },
         { "anchor": "jarayon", "label": "Ish jarayoni" },
+        { "anchor": "tayyorgarlik", "label": "Ishni boshlash uchun nimalar kerak" },
         { "anchor": "muddat", "label": "Muddat" },
         { "anchor": "narx", "label": "Narx qanday shakllanadi" },
         { "anchor": "kimlar-uchun", "label": "Qaysi bizneslar uchun" },
@@ -80,6 +82,39 @@
       "type": "p",
       "text": "Agar qaysi turi kerakligi aniq bo‘lmasa — buni birinchi suhbatda hal qilamiz. Ko‘pincha kichik landing‘dan boshlab, keyin uni korporativ saytgacha kengaytirish arzonroq va tezroq bo‘ladi."
     },
+    {
+      "type": "h2",
+      "id": "veb-yondashuv",
+      "text": "Veb sayt yaratish: konstruktor yoki maxsus yechim"
+    },
+    {
+      "type": "p",
+      "text": "«Veb sayt» va «web sayt» bir xil ma’noni anglatadi: brauzerda ochiladigan sayt. Bu ikki alohida xizmat emas; farq faqat yozilishida. Tanlov atamadan emas, saytning vazifasi va kerakli integratsiyalardan boshlanadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Yondashuv",
+        "Qachon yetarli",
+        "Oldindan tekshiriladigan chegara"
+      ],
+      "rows": [
+        [
+          "Sayt konstruktori",
+          "G‘oyani yoki bitta taklifni tez sinash, tayyor shablon va oddiy forma yetarli bo‘lsa",
+          "O‘z domeni, kontentni ko‘chirish, analitika, ikki tillilik va kerakli integratsiyalar qo‘llanadimi"
+        ],
+        [
+          "Maxsus ishlab chiqish",
+          "Noyob foydalanuvchi yo‘li, katalog yoki to‘lov mantiqi, rollar yoxud bir nechta tizim bilan bog‘lanish kerak bo‘lsa",
+          "Talablar ko‘paygani sari texnik topshiriq, test va qo‘llab-quvvatlash hajmi ham o‘zgaradi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Konstruktor yomon, maxsus ishlab chiqish esa avtomatik ravishda yaxshi degani emas. Standart imkoniyat biznes jarayonini yopsa, sodda yechim yetarli; yopmasa, maxsus ishlab chiqishning sababi aniq bo‘ladi."
+    },
     { "type": "h2", "id": "nima-kiradi", "text": "Sayt yaratishga nima kiradi" },
     {
       "type": "list",
@@ -114,6 +149,30 @@
     {
       "type": "p",
       "text": "Har bosqichda natijani ko‘rasiz va tasdiqlaysiz. Struktura tasdiqlanmagunicha dizaynga o‘tmaymiz — bu keyinchalik qayta ishlashning oldini oladi."
+    },
+    {
+      "type": "h2",
+      "id": "tayyorgarlik",
+      "text": "Ishni boshlash uchun sizdan nima kerak"
+    },
+    {
+      "type": "p",
+      "text": "Texnik topshiriq tayyor bo‘lishi shart emas. Lekin quyidagi ma’lumotlar ish hajmini taxmin emas, aniq vazifa asosida baholashga yordam beradi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Saytning asosiy vazifasi va foydalanuvchi bajarishi kerak bo‘lgan bitta asosiy harakat",
+        "Ustuvor xizmat yoki mahsulotlar, mijoz kimligi va eng ko‘p beriladigan savollar",
+        "Logotip, ranglar, real suratlar va mavjud matnlar; yetishmagan kontentni kim tayyorlashi",
+        "Domen, hosting, analitika va mavjud sayt bo‘lsa kirish ma’lumotlari",
+        "Ariza qayerga tushishi va unga kim javob berishi",
+        "CRM, to‘lov, katalog yoki bot kerak bo‘lsa: tizim nomi, hisob egasi va qaysi ma’lumot qayerga o‘tishi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Integratsiya nomining o‘zi yetarli emas. Oddiy forma orqali Telegram yoki elektron pochtaga xabar yuborish bilan ikki tomonlama CRM sinxronizatsiyasi, shaxsiy kabinet, to‘lov yoki ombor qoldig‘ini yangilash bir xil hajm emas. Smeta uchun qaysi ma’lumot qayerdan qayerga o‘tishi, kirish huquqi kimda ekani, test muhiti bor-yo‘qligi va xato holatida nima bo‘lishi oldindan aniqlanadi."
     },
     { "type": "h2", "id": "muddat", "text": "Muddat" },
     {
@@ -390,7 +449,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-01",
+  "lastReviewedAt": "2026-08-25",
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-08-20"
+  "updatedAt": "2026-08-25"
 }

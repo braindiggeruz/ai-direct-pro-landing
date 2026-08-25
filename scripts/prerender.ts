@@ -101,6 +101,7 @@ function loadPages(): Page[] {
 // Load published blog articles so each money page can show related posts
 // pointing back at it (article.targetMoneyPage === page.url).
 import type { BlogArticle } from '../src/shared/types';
+import { gptChatNavLinks } from './gpt-chat-nav';
 function loadPublishedArticles(): BlogArticle[] {
   const files = fg.sync('blog/**/*.json', { cwd: CONTENT_DIR, absolute: true });
   return files
@@ -384,19 +385,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const loading = uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…';
   const appLabel = uz ? 'AI-chat ilovasi' : 'Приложение AI-чата';
   const navLabel = uz ? 'Foydali sahifalar' : 'Полезные страницы';
-  const links = uz
-    ? [
-        { href: '/uz/gpt-chat-qollanma/', text: 'AI-chat qo‘llanmasi' },
-        { href: '/uz/chat-bot-narxi/', text: 'Tariflar' },
-        { href: '/uz/biznes-uchun-ai-bot/', text: 'Biznes uchun AI' },
-        { href: '/uz/blog/', text: 'Blog' },
-      ]
-    : [
-        { href: '/ru/gpt-chat-guide/', text: 'Гайд по AI-чату' },
-        { href: '/ru/tarify-ai-chat/', text: 'Тарифы' },
-        { href: '/ru/gpt-dlya-biznesa/', text: 'AI для бизнеса' },
-        { href: '/ru/blog/', text: 'Блог' },
-      ];
+  const links = gptChatNavLinks(page);
 
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
@@ -682,7 +671,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
 <head>
 <meta charset="UTF-8" />
-<script data-tag="gtm">(function(w,d,s,l,i){w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
+<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="${marketVariant ? '#FFF8EC' : '#05070D'}" />
 <title>${escapeText(page.title)}</title>

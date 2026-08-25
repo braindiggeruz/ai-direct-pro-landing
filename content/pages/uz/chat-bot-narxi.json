@@ -15,12 +15,12 @@
   "searchIntent": "commercial",
   "h1": "O'zbekistonda biznes uchun chat-bot narxi",
   "title": "Chat-bot narxi — tarif va narxlar 2026 | GPTBot",
-  "description": "O'zbekistonda biznes uchun chat-bot qancha turadi: tariflar 3 mln so'mdan, narxga nima kiradi va u nimaga bog'liq. Vazifangizga aniq smeta.",
+  "description": "O‘zbekistonda biznes uchun chat-bot qancha turadi: tariflar 990 000 so‘mdan, narxga nima kiradi va u nimaga bog‘liq. Vazifangizga aniq smeta.",
   "canonical": "https://gptbot.uz/uz/chat-bot-narxi/",
   "hreflangRu": "/ru/stoimost-chat-bota/",
   "hreflangUz": "/uz/chat-bot-narxi/",
   "ogTitle": "Biznes uchun chat-bot narxi — tarif va narxlar | GPTBot",
-  "ogDescription": "Chat-bot tariflari 3 mln so'mdan. Narxga nima kiradi va u nimaga bog'liq. Vazifaga aniq smeta.",
+  "ogDescription": "Chat-bot tariflari 990 000 so‘mdan. Narxga nima kiradi va u nimaga bog‘liq. Vazifaga aniq smeta.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -115,7 +115,7 @@
     },
     {
       "type": "h3",
-      "text": "Start — 3 mln so'mdan"
+      "text": "Start"
     },
     {
       "type": "p",
@@ -123,7 +123,7 @@
     },
     {
       "type": "h3",
-      "text": "Biznes — 7 mln so'mdan"
+      "text": "Biznes"
     },
     {
       "type": "p",
@@ -131,7 +131,7 @@
     },
     {
       "type": "h3",
-      "text": "Pro — 15 mln so'mdan"
+      "text": "Pro"
     },
     {
       "type": "p",
@@ -193,11 +193,11 @@
   "faq": [
     {
       "q": "O'zbekistonda biznes uchun chat-bot qancha turadi?",
-      "a": "Narxlar bitta kanal uchun bazaviy bot uchun taxminan 3 mln so'mdan boshlanadi va GPT, CRM va to'lovli murakkab yechimlar uchun 25 mln so'm va undan yuqorigacha boradi. Aniq narxni qisqa brifdan keyin vazifangizga qarab hisoblaymiz."
+      "a": "Tariflar jadvalidagi eng past narx — Telegram’dagi bazaviy bot uchun 990 000 so‘mdan. Instagram Direct boti 1 190 000 so‘mdan, to‘laqonli AI-voronka esa 1 990 000 so‘mdan boshlanadi. Aniq narxni qisqa brifdan keyin vazifangizga qarab qayd etamiz."
     },
     {
       "q": "Toshkentda chat-bot yasash qancha turadi?",
-      "a": "Toshkentda bitta kanal uchun bazaviy chat-bot 3 mln so'mdan, ko'p kanalli GPT-bot — 7 mln so'mdan, CRM, to'lov va katalogli yechim esa 15 mln so'mdan turadi. Yakuniy narx kanallar, dvigatel va integratsiyalarga bog'liq va startdan oldin qayd etiladi."
+      "a": "Toshkentda bazaviy Telegram-bot 990 000 so‘mdan, sotuv voronkasi va CRM integratsiyasi bilan Telegram-bot 2 490 000 so‘mdan, Telegram va Instagram uchun AI-voronka esa 1 990 000 so‘mdan turadi. To‘liq ro‘yxat tariflar jadvalida; yakuniy narx kanallar, dvigatel va integratsiyalarga bog‘liq va startdan oldin qayd etiladi."
     },
     {
       "q": "Chat-bot narxi nimaga bog'liq?",
@@ -277,7 +277,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-08-24",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-08-24"
 }

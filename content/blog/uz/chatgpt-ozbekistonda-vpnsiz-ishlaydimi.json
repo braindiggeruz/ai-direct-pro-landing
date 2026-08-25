@@ -309,6 +309,7 @@
         {"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta o'zbekcha prompt"}
       ]
     },
+    {"type":"linkp","text":"Mijoz tomonida VPN, ro‘yxatdan o‘tish va til to‘sig‘i bo‘lmasligi kerak bo‘lsa, javob beruvchi tomonni avtomatlashtirish kerak: {tg} yoki {ariza}. Muddat va narx {narx}da qayd etilgan.","links":[{"token":"tg","target":"/uz/telegram-bot-biznes-uchun/","anchor":"Telegram’da ishlaydigan biznes bot"},{"token":"ariza","target":"/uz/arizalarni-avtomatlashtirish/","anchor":"arizalarni avtomatlashtirish"},{"token":"narx","target":"/uz/chat-bot-narxi/","anchor":"chat-bot narxi va muddati"}]},
     {
       "type": "cta",
       "text": "O'zbek tilidagi AI-chatni sinab ko'rish",
@@ -437,7 +438,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-26",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-08-24",
   "schemaTypes": [
     "Organization",
     "WebSite",

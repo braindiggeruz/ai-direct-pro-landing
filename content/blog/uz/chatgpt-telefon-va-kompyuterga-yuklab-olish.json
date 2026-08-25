@@ -3,7 +3,7 @@
   "locale":"uz",
   "slug":"chatgpt-telefon-va-kompyuterga-yuklab-olish",
   "url":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
-  "title":"ChatGPT ilovasini yuklab olish: telefon va kompyuter",
+  "title":"ChatGPT ilovasini yuklab olish — o‘zbek tilida, telefon va kompyuter",
   "description":"ChatGPT ilovasini Android, iPhone va kompyuterga xavfsiz yuklab olish: rasmiy havolalar, o‘zbek tilida ishlatish va soxta APKdan himoya.",
   "h1":"ChatGPT ilovasini yuklab olish va o‘zbek tilida ishlatish",
   "topicCluster":"chatgpt-uzbek-tilida",
@@ -33,6 +33,7 @@
     {"type":"h2","id":"uzbek","text":"ChatGPTda o'zbek tilida qanday yozish kerak?"},
     {"type":"p","text":"Interfeys tili va javob tili bir xil narsa emas. So'rovni o'zbekcha yozing va kerak bo'lsa «faqat Uzbek Latin ishlat, sodda va qisqa javob ber» deb qo'shing. Natija sifati vazifa, kontekst va terminlarning aniqligiga bog'liq."},
     {"type":"linkp","text":"O'zbekcha so'rovlarni o'rnatmasdan {chat}da sinash, tayyor topshiriqlarni {prompts}dan olish va O'zbekistondagi rasmiy kirish holatini {access}da tekshirish mumkin.","links":[{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"o'zbek tilidagi AI chat"},{"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta tayyor prompt"},{"token":"access","target":"/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/","anchor":"ChatGPT O'zbekistonda ishlashi haqidagi qo'llanma"}]},
+    {"type":"linkp","text":"Agar maqsad ChatGPT’dan shaxsiy foydalanish emas, balki mijozlarga javob berish bo‘lsa, bu boshqa vazifa: {b2b}. Kanallar, ssenariy va CRM integratsiyasiga qarab narx {narx} jadvalida ko‘rsatilgan.","links":[{"token":"b2b","target":"/uz/biznes-uchun-ai-bot/","anchor":"mijozlarga javob beradigan AI-bot"},{"token":"narx","target":"/uz/chat-bot-narxi/","anchor":"tariflar va ishga tushirish muddatlari"}]},
     {"type":"cta","text":"O'zbek tilida AI chatni brauzerda ochish","href":"/uz/gpt-uzbek-tilida/"}
   ],
   "faq":[
@@ -51,7 +52,7 @@
     {"target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini","locale":"uz","type":"contextual","priority":4},
     {"target":"/uz/gpt-uzbek-tilida-ai-chat/","anchor":"GPTdan foydalanish qo'llanmasi","locale":"uz","type":"contextual","priority":5}
   ],
-  "ogTitle":"ChatGPT ilovasini yuklab olish: rasmiy havolalar",
+  "ogTitle":"ChatGPT ilovasini o‘zbek tilida yuklab olish: rasmiy havolalar",
   "ogDescription":"Android, iPhone, Windows va macOS uchun rasmiy ChatGPT havolalari, o‘zbek tilida ishlatish va soxta APKdan himoya.",
   "ogImage":"https://gptbot.uz/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
   "canonical":"https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
@@ -60,7 +61,7 @@
   "robotsFollow":true,
   "author":"Борис Герасимов",
   "datePublished":"2026-07-30",
-  "dateModified":"2026-08-20",
+  "dateModified":"2026-08-24",
   "schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
   "createdAt":"2026-07-30T00:00:00.000Z",
   "updatedAt":"2026-08-20T00:00:00.000Z",

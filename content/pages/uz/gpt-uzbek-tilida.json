@@ -4,8 +4,10 @@
   "url": "/uz/gpt-uzbek-tilida/",
   "slug": "gpt-uzbek-tilida",
   "pageType": "gpt-chat",
-  "primaryKeyword": "chatgpt uzbek tilida",
+  "primaryKeyword": "chatgpt uzbekcha",
   "secondaryKeywords": [
+    "chatgpt uzbekcha",
+    "chatgpt uzbekcha online",
     "chatgpt uzbek tilida",
     "chat gpt uzbek tilida",
     "chatgpt uzbek tilida onlayn",
@@ -13,12 +15,12 @@
     "ai chat uzbekistan",
     "chat gpt uzbek",
     "bepul ai chat",
-    "sun‘iy intellekt chat"
+    "sun’iy intellekt chat"
   ],
   "searchIntent": "transactional",
   "h1": "O‘zbek tilida AI chat online",
-  "title": "ChatGPT o‘zbek tilida online — AI chat | GPTBot.uz",
-  "description": "O‘zbek tilida AI chatni online sinab ko‘ring: matn, tarjima, o‘qish, marketing va biznes vazifalari. Yuklash shart emas, brauzerda ishlaydi.",
+  "title": "ChatGPT uzbekcha: o‘zbek tilida AI chat online | GPTBot.uz",
+  "description": "ChatGPT uzbekcha ishlaydi — o‘zbek tilida AI chatni online sinab ko‘ring: matn, tarjima, o‘qish va biznes vazifalari. Yuklash shart emas, brauzerda ishlaydi.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
@@ -152,6 +154,13 @@
     {
       "type": "p",
       "text": "Talaba AI chatdan tushuntirish va test uchun, marketolog matn qoralamasi va g‘oya uchun, tadbirkor esa taklif va mijozga javob variantlari uchun foydalanishi mumkin. Mijozlarga avtomatik javob, CRMga ariza va nazorat kerak bo‘lsa, shaxsiy chat emas, qoidalari va bilim bazasi bo‘lgan biznes AI-bot loyihalanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "AI chat ijtimoiy tarmoqlar uchun g‘oya va matn qoralamasini beradi. Muntazam rubrikalar, nashr taqvimi va natijani o‘lchash kerak bo‘lsa, {smm} alohida ish jarayoni sifatida quriladi.",
+      "links": [
+        {"token":"smm","target":"/uz/smm-xizmatlari/","anchor":"ijtimoiy tarmoqlar uchun kontent tayyorlash xizmati"}
+      ]
     },
     {
       "type": "linkp",
@@ -310,7 +319,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-08-20",
+  "lastReviewedAt": "2026-08-25",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-08-20"
+  "updatedAt": "2026-08-25"
 }
