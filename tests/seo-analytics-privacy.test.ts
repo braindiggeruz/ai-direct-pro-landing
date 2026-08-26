@@ -300,24 +300,39 @@ test('a visitor who never interacts is still measured within ten seconds', () =>
   }
 });
 
-test('the SPA shell defers the Google tags no longer than the prerendered pages', () => {
-  // index.html carries its own copies of the same two blocks. When they drift
-  // from scripts/analytics-snippet.ts the homepage and the landings stop being
-  // comparable in GA4, and the drift is invisible in every other test here.
-  // The Meta pixel is deliberately not covered: it is marketing, not
+test('every copy of the Google tag loaders is bounded the same way', () => {
+  // The block is inlined by hand in four places: the SPA shell, both prerender
+  // scripts, and scripts/analytics-snippet.ts above. On 2026-08-26 they had
+  // drifted - index.html said 32 000 ms for gtag and 30 000 for GTM, and both
+  // prerender scripts still said 30 000 for GTM on every SEO landing, which is
+  // precisely where the organic traffic lands. Nothing pointed the copies at
+  // each other, so this does.
+  //
+  // The Meta pixel is deliberately outside this: it is marketing, not
   // measurement, and loading it late costs nothing that this file is about.
-  const shell = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
-  for (const tag of ['gtm', 'ga']) {
-    const start = shell.indexOf(`<script data-tag="${tag}">`);
-    assert.notEqual(start, -1, `index.html has no data-tag="${tag}" block`);
-    const end = shell.indexOf('</script>', start);
-    const delays = passiveDelays(shell.slice(start, end));
-    assert.ok(delays.length > 0, `the ${tag} block has no passive fallback at all`);
-    for (const ms of delays) {
-      assert.ok(
-        ms <= MAX_PASSIVE_DELAY_MS,
-        `index.html defers the ${tag} tag ${ms} ms for a passive visitor`,
-      );
+  const sources = ['index.html', 'scripts/prerender.ts', 'scripts/prerender-blog.ts'];
+  let blocksChecked = 0;
+
+  for (const source of sources) {
+    const text = fs.readFileSync(path.join(process.cwd(), source), 'utf8');
+    for (const tag of ['gtm', 'ga']) {
+      const opener = `<script data-tag="${tag}">`;
+      for (let at = text.indexOf(opener); at !== -1; at = text.indexOf(opener, at + 1)) {
+        const block = text.slice(at, text.indexOf('</script>', at));
+        const delays = passiveDelays(block);
+        if (delays.length === 0) continue;
+        blocksChecked += 1;
+        for (const ms of delays) {
+          assert.ok(
+            ms <= MAX_PASSIVE_DELAY_MS,
+            `${source} defers the ${tag} tag ${ms} ms for a visitor who never interacts`,
+          );
+        }
+      }
     }
   }
+
+  // A typo in a filename or a renamed data-tag would otherwise make this test
+  // pass by checking nothing at all.
+  assert.ok(blocksChecked >= 4, `only ${blocksChecked} loader blocks were found to check`);
 });
