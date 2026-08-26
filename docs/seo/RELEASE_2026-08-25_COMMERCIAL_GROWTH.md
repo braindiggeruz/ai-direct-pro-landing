@@ -236,3 +236,53 @@ Known-good earlier deployments:
 Cloudflare auto-deploy: still disabled. Railway: untouched. SEO
 auto-publication / scheduler: untouched. n8n: not restored. No force push, no
 rebase, no history rewritten, no stash used as a sole copy.
+
+---
+
+## Second deployment, 2026-08-26 — the Telegram cluster, and a clobber
+
+| | |
+| --- | --- |
+| Deployment id | `cd8d3ec5-4069-4857-95d2-d350f14b7120` |
+| Immutable URL | `https://cd8d3ec5.ai-direct-pro-landing.pages.dev` |
+| Source SHA | `987407785a12b81558fd2b4ea4e812af847d6bf8` |
+| Rollback target | `de447a11-1428-4532-8041-93856191d05a` (source `2eb9a2a`) |
+| `origin/main` | `0aedc8e` — pushed |
+| Production canary | **PASSED** |
+| IndexNow | 258 URLs submitted, HTTP 200 |
+
+### The drift became a real regression
+
+Between the first deployment and this one, the Lead Radar author deployed
+`2eb9a2a` from `codex/lead-radar-mvp-20260824`. That branch does **not** contain
+`3a8bf71`, so the deploy silently **removed the entire SEO release from
+production**: `/uz/sayt-yaratish/` lost its new H2 and all three target phrases,
+and link test 3 disappeared. Verified by fetching the live pages — both markers
+returned 0.
+
+This is the exact failure mode recorded above, now realised. It is not anybody's
+mistake in isolation: two branches deploy to the same Pages project, neither is
+a superset of the other, and whichever deploys last wins.
+
+This deployment fixes it by shipping `9874077` = `main` (`0aedc8e`, all SEO work)
+merged with `2eb9a2a` (the live Lead Radar tree). Both are preserved, the merge
+was conflict-free, and all 14 `LEAD_RADAR_*` variables survive in `wrangler.toml`.
+
+**The permanent fix is not another integration branch.** `origin/main` is now
+`0aedc8e` and carries every SEO commit. The Lead Radar author must merge
+`origin/main` into their branch before their next deploy, or land their branch on
+`main` and deploy `main`. Until one of those happens, the next deploy from either
+side clobbers the other again.
+
+### Verification
+
+`tsc -b` clean · `npm test` 346/346 · SEO gate set 107/107 · `seo:audit`
+0 critical · `scan:secrets` clean over 3,461 files · `eslint .` clean ·
+built-artifact canary passed · `dist/admin` present.
+
+Live canary: seven release URLs 200 with one H1, no duplicate H2, self-canonical,
+`index, follow`; `sayt yaratish xizmati` 4, `web sayt yaratish` 2,
+`veb sayt yaratish` 3, density 0.82%; link test 3 present. Both Telegram pages
+200 with their new titles and four `0,1 Toncoin` mentions each. Regression
+surfaces unchanged; `/admin/lead-radar` 302, `/admin/` 200,
+`/api/telegram/agents` 405 on GET, unknown URL 404.
