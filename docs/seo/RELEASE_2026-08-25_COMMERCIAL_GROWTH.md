@@ -286,3 +286,88 @@ Live canary: seven release URLs 200 with one H1, no duplicate H2, self-canonical
 200 with their new titles and four `0,1 Toncoin` mentions each. Regression
 surfaces unchanged; `/admin/lead-radar` 302, `/admin/` 200,
 `/api/telegram/agents` 405 on GET, unknown URL 404.
+
+---
+
+## Third deployment, 2026-08-26 — the buying-placements article
+
+| | |
+| --- | --- |
+| Deployment id | `a00b35d9` (`https://a00b35d9.ai-direct-pro-landing.pages.dev`) |
+| Source SHA | `9754dbb20049de269da5ebfc647a87f4f20ec72a` |
+| What it is | `main` (`afb87f0`) merged with the live Lead Radar tree `2eb9a2a` |
+| Rollback target | `8d6679fd-b284-4ed5-a4f8-2f1c17a4fc40` (source `010fd19`) |
+| `origin/main` | **still `fd4177e` — the push is blocked, see below** |
+| Production canary | **PASSED** |
+| IndexNow | 259 URLs submitted, HTTP 200 |
+
+### What shipped
+
+One new URL: `/ru/blog/telegram-ads-ili-posevy-v-kanalah/`, 2,281 words, RU only.
+It claims the buying-placements intent family measured on 2026-08-26 — ~25
+phrases around «биржа рекламы телеграм», «купить рекламу в телеграм», «закупка»,
+«покупка», «продажа» and «разместить», aggregating ~250/mo — which the two
+Telegram hubs deliberately do not answer. One URL for the whole family, never one
+per phrase.
+
+Registered as the `telegram-ru` spoke in `content/seo/intent-manifest.json`, so
+the cluster gates now run against it. `/ru/telegram-ads-uzbekistan/` gained one
+contextual paragraph linking to it; that is the only page edited to create the
+incoming link. `content/seo/demand-policy.json` records «купить рекламу в
+телеграм» at 10/mo with its source and measurement date, even though the demand
+gate scores money and niche pages only.
+
+Anchor concentration on `/ru/telegram-ads-uzbekistan/`: **6 of 16 (38%)**, down
+from 6 of 14 (43%). Both new anchors describe the section they point at.
+
+Third-party figures keep their source and date: 0.1 TON minimum CPM, the
+160-character limit and the 1,000-subscriber threshold from the Telegram Ads
+documentation; 0.01 € minimum bid and the 500 € start budget from eLama's
+published reseller figures. No GPTBot price, no case, no partner claim.
+
+### Verification
+
+`tsc -b` clean · `eslint .` clean · `npm test` **321/321** · the six SEO test
+files **74/74** · `seo:audit` 0 critical, RU/UZ pairs 44 OK / 0 broken, avg blog
+score 98/100 · `scan:secrets` clean over 3,389 files · `dist/admin` present ·
+14 `LEAD_RADAR_*` variables in `wrangler.toml`.
+
+Live canary after the deploy: article **200** with exactly one H1, four tables,
+self-canonical, two anchors to the hub, the sources block rendering the eLama and
+`ads.telegram.org` references; `/ru/telegram-ads-uzbekistan/` links back;
+`/uz/sayt-yaratish/` marker still **1**; `/admin/lead-radar` **302**; `/admin/`
+**200**; `sitemap.xml` contains the new URL.
+
+### Three numbers the handoff got wrong
+
+The handoff brief `docs/seo/HANDOFF_TELEGRAM_ADS_MOVE2_2026-08-26.md` was written
+one commit before it was committed, and two of its figures were already stale
+when it was read. Live state, measured 2026-08-26:
+
+- `origin/main` was `fd4177e`, not `a3e37b7` — the extra commit is the brief itself.
+- `npm test` is **321/321**, not 346/346, and `tests/lead-radar-api.test.ts` is
+  not in the `npm test` list at all, so the "known pre-existing failure" it names
+  never runs in the gate. Nothing failed.
+- Anchor concentration on the hub was already **43%** (6 of 14), not 57%. The two
+  anchors were rewritten in `a3e37b7`, before the brief was written.
+
+### Outstanding — the push
+
+`main` is `afb87f0` locally and `origin/main` is still `fd4177e`. The deployment
+was made from an integration containing `afb87f0`, so production is correct, but
+**the commit is not on the remote yet.** A plain `git push` returns 403 because
+Windows Credential Manager holds a token for `cakecityuz-lab`, and the one-shot
+credential-helper override documented in §7 of the handoff was refused by the
+sandbox. Until the push lands, the next deploy from `origin/main` by another
+session will clobber this article exactly as `2eb9a2a` clobbered the first SEO
+release.
+
+### Kill rule
+
+Read at **2026-10-07** (six weeks). If the article has earned zero impressions on
+any «биржа» / «купить рекламу в телеграм» phrase in Search Console with
+country = Uzbekistan, do **not** write
+`/ru/blog/kak-vybrat-telegram-kanal-dlya-reklamy/`; move the effort to §5 of
+`docs/seo/TELEGRAM_ADS_ROADMAP_2026-08-26.md` — the OLX listing, the
+`marketing.uz` pitch, and citations. First signal to look for: impressions within
+7–14 days of recrawl.
