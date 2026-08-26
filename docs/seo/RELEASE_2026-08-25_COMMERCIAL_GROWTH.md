@@ -4,7 +4,47 @@ Branch `seo/commercial-growth-2026-08-25b`, 9 commits on top of `b0a83ff`.
 Merge to `main` is a **fast-forward** — the branch is 8/9 ahead and 0 behind
 `origin/main`, so no conflict is possible.
 
-**Status: merged and pushed. NOT deployed.**
+**Status: merged, pushed and DEPLOYED on 2026-08-26.**
+
+| | |
+| --- | --- |
+| Deployment id | `63c0aff2-9371-41ac-b831-2189b3e61a58` |
+| Immutable URL | `https://63c0aff2.ai-direct-pro-landing.pages.dev` |
+| Source SHA | `3a8bf71582ca9b9a50571c9e488dd00b5b4a3ebc` |
+| Rollback target | `84a1f131-7b76-4629-8a7a-17aae1a192cb` (source `ce01c0d`) |
+| Built with | `npm run build:cf` from a clean tree |
+| Production canary | **PASSED** |
+
+Deployed from `3a8bf71`, not from `main` (`36b4ac5`). That tree is a **superset**
+of `main`: it contains every SEO commit plus the live Lead Radar tree `ce01c0d`,
+so the release ships without rolling Lead Radar back. `main` remains the SEO
+lineage; the drift closes when Lead Radar lands on `main`.
+
+`npm run build` was **not** enough: it omits `apps/bormi-admin`, so `dist/admin`
+was missing and deploying that artifact would have removed the Owner Control
+Center and the Lead Radar admin UI from production. `build:cf` is the only
+correct build for a Pages deploy here.
+
+Production canary against `https://gptbot.uz`: all seven release URLs HTTP 200
+with one H1, no duplicate H2, self-canonical, `index, follow`, JSON-LD present,
+correct hreflang, clean Uzbek apostrophes and present in the live sitemap.
+`sayt yaratish xizmati` 0 → **4**, `web sayt yaratish` 0 → **2**,
+`veb sayt yaratish` 1 → **3**, head-term density 0.82%. Regression surfaces
+unchanged: `/`, `/ru/gpt-chat/`, `/uz/`, `/ru/sotuvchi/`, `/uz/sotuvchi/`,
+`/ru/razrabotka-saytov-tashkent/`, `/ru/seo-prodvizhenie-saytov-tashkent/` all
+200; unknown URL 404; `/admin/lead-radar` 302 (auth boundary intact);
+`/api/telegram/agents` 405 on GET.
+
+### Rollback
+
+```bash
+node_modules/.bin/wrangler pages deployment list --project-name ai-direct-pro-landing
+# then promote 84a1f131-7b76-4629-8a7a-17aae1a192cb from the Cloudflare dashboard
+```
+
+---
+
+### Earlier status, kept for the record
 
 `origin/main` moved `b0a83ff -> 36b4ac5` on 2026-08-26 as a **fast-forward** —
 no merge commit, no conflict, nothing rewritten. `origin/seo/commercial-growth-2026-08-25b`
