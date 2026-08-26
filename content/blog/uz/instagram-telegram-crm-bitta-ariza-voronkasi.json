@@ -4,7 +4,7 @@
   "slug": "instagram-telegram-crm-bitta-ariza-voronkasi",
   "url": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
   "title": "Instagram, Telegram va CRM voronkasi | GPTBot.uz",
-  "description": "Instagram va Telegram'dan kelgan murojaatlarni bitta voronkaga yig'ish: tez javob, lid kartasi va to'g'ri handoff. Birorta arizani yo'qotmaslik uchun sxema.",
+  "description": "Instagram va Telegram’dan kelgan murojaatlarni bitta voronkaga yig‘ish: tez javob, lid kartasi va to‘g‘ri handoff. Birorta arizani yo‘qotmaslik uchun sxema.",
   "h1": "Instagram, Telegram va CRM: bitta ariza voronkasi",
   "topicCluster": "lead-funnel",
   "targetMoneyPage": "/uz/arizalarni-avtomatlashtirish/",
@@ -15,7 +15,7 @@
     "lid handoff",
     "bot ariza ishlovchi"
   ],
-  "intro": "Agar Direct, Telegram va menejerlik chatlari alohida yashasa, biznes javob tezligi, kontekst va ishlov berish intizomini yo'qotadi.",
+  "intro": "Agar Direct, Telegram va menejerlik chatlari alohida yashasa, biznes javob tezligi, kontekst va ishlov berish intizomini yo‘qotadi.",
   "body": [
     {
       "type": "figure",
@@ -34,7 +34,7 @@
     },
     {
       "type": "p",
-      "text": "Ko'p biznesda muammo lead kamligida emas, leadning turli joyda yurishida. Kimdir Direct'ga yozadi, kimdir Telegram'ga, kimdir saytda qoldiradi. Menejer esa hammasini alohida ko'rib chiqadi. Shu yerda ariza yo'qola boshlaydi."
+      "text": "Ko‘p biznesda muammo lead kamligida emas, leadning turli joyda yurishida. Kimdir Direct’ga yozadi, kimdir Telegram’ga, kimdir saytda qoldiradi. Menejer esa hammasini alohida ko‘rib chiqadi. Shu yerda ariza yo‘qola boshlaydi."
     },
     {
       "type": "h2",
@@ -42,7 +42,7 @@
     },
     {
       "type": "p",
-      "text": "Bitta voronka degani — istalgan kanal bir xil asosiy yo'lga tushadi. Bot tez javob beradi, minimal kerakli ma'lumotni oladi, lid kartasini shakllantiradi va keyin uni menejerga yoki CRM'ga tartibli uzatadi. Bu kartada kanal, kontakt, qiziqish va suhbat konteksti bo'lishi kerak."
+      "text": "Bitta voronka degani — istalgan kanal bir xil asosiy yo‘lga tushadi. Bot tez javob beradi, minimal kerakli ma’lumotni oladi, lid kartasini shakllantiradi va keyin uni menejerga yoki CRM’ga tartibli uzatadi. Bu kartada kanal, kontakt, qiziqish va suhbat konteksti bo‘lishi kerak."
     },
     {
       "type": "h2",
@@ -50,7 +50,7 @@
     },
     {
       "type": "p",
-      "text": "Instagram ko'pincha birinchi eshik bo'ladi. Telegram esa ko'pincha ko'proq boshqariladigan ichki qatlam. CRM esa oqim kattalashganda tartib beradi. Muhimi — bular uchta alohida dunyo bo'lib qolmasin, balki bir-biriga ulangan ishchi tizim sifatida ishlasin."
+      "text": "Instagram ko‘pincha birinchi eshik bo‘ladi. Telegram esa ko‘pincha ko‘proq boshqariladigan ichki qatlam. CRM esa oqim kattalashganda tartib beradi. Muhimi — bular uchta alohida dunyo bo‘lib qolmasin, balki bir-biriga ulangan ishchi tizim sifatida ishlasin."
     },
     {
       "type": "h2",
@@ -58,7 +58,7 @@
     },
     {
       "type": "p",
-      "text": "Birinchi qadamda ko'p savol berish — eng katta xato. Mijoz hali ishonmadi, biznes esa uni uzun anketaga aylantirib yuboradi. To'g'risi: kontakt, qiziqish, kanal va marshrutlash uchun zarur minimum. Qolgani — keyingi follow-up vazifasi."
+      "text": "Birinchi qadamda ko‘p savol berish — eng katta xato. Mijoz hali ishonmadi, biznes esa uni uzun anketaga aylantirib yuboradi. To‘g‘risi: kontakt, qiziqish, kanal va marshrutlash uchun zarur minimum. Qolgani — keyingi follow-up vazifasi."
     },
     {
       "type": "cta",
@@ -112,28 +112,28 @@
   ],
   "faq": [
     {
-      "q": "CRM'siz ishlaydimi?",
+      "q": "CRM’siz ishlaydimi?",
       "a": "Ha, kichik oqimda ishlaydi."
     },
     {
       "q": "Instagram va Telegram uchun alohida ssenariy kerakmi?",
-      "a": "Umumiy logika bitta, lekin birinchi qadam va muloqot temp boshqacha bo'lgani ma'qul."
+      "a": "Umumiy logika bitta, lekin birinchi qadam va muloqot temp boshqacha bo‘lgani ma’qul."
     },
     {
-      "q": "Lid kartasida nima bo'lsin?",
+      "q": "Lid kartasida nima bo‘lsin?",
       "a": "Ism, kontakt, qiziqish, kanal va suhbat konteksti."
     },
     {
-      "q": "Filiallar bo'lsa ham ishlaydimi?",
-      "a": "Ha, agar ssenariyga filial yoki tuman maydoni qo'shilgan bo'lsa."
+      "q": "Filiallar bo‘lsa ham ishlaydimi?",
+      "a": "Ha, agar ssenariyga filial yoki tuman maydoni qo‘shilgan bo‘lsa."
     },
     {
-      "q": "Birinchi qadamda ko'p savol berish kerakmi?",
-      "a": "Yo'q. Avval tezlik, keyin qisqa va foydali kvalifikatsiya."
+      "q": "Birinchi qadamda ko‘p savol berish kerakmi?",
+      "a": "Yo‘q. Avval tezlik, keyin qisqa va foydali kvalifikatsiya."
     },
     {
-      "q": "Direct'dan Telegram'ga o'tkazish kerakmi?",
-      "a": "Faqat agar bu keyingi qadamni soddalashtirsa, qo'shimcha ishqalanish keltirib chiqarmasa."
+      "q": "Direct’dan Telegram’ga o‘tkazish kerakmi?",
+      "a": "Faqat agar bu keyingi qadamni soddalashtirsa, qo‘shimcha ishqalanish keltirib chiqarmasa."
     }
   ],
   "cta": {
@@ -207,7 +207,7 @@
     }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",
-  "ogDescription": "Instagram va Telegram'dan kelgan murojaatlarni bitta voronkaga yig'ish: tez javob, lid kartasi va to'g'ri handoff. Birorta arizani yo'qotmaslik uchun sxema.",
+  "ogDescription": "Instagram va Telegram’dan kelgan murojaatlarni bitta voronkaga yig‘ish: tez javob, lid kartasi va to‘g‘ri handoff. Birorta arizani yo‘qotmaslik uchun sxema.",
   "ogImage": "https://gptbot.uz/assets/blog/instagram-telegram-crm-bitta-ariza-voronkasi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
   "hreflangRu": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",

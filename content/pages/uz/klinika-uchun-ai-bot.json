@@ -12,19 +12,19 @@
     "bemor uchun bot"
   ],
   "searchIntent": "commercial",
-  "h1": "Klinika uchun AI bot: virtual ro'yxatxona",
+  "h1": "Klinika uchun AI bot: virtual ro‘yxatxona",
   "title": "Klinika uchun AI bot — qabulga 24/7 yozuv | GPTBot",
-  "description": "Klinika uchun AI bot Telegram va Instagram'da qabulga yozuvni avtomatlashtiradi, bemorlar savollariga 24/7 javob beradi va ro'yxatxonani bo'shatadi.",
+  "description": "Klinika uchun AI bot Telegram va Instagram’da qabulga yozuvni avtomatlashtiradi, bemorlar savollariga 24/7 javob beradi va ro‘yxatxonani bo‘shatadi.",
   "canonical": "https://gptbot.uz/uz/klinika-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-kliniki/",
   "hreflangUz": "/uz/klinika-uchun-ai-bot/",
   "ogTitle": "Klinika uchun AI bot — qabulga 24/7 yozuv | GPTBot",
-  "ogDescription": "Klinika uchun AI bot Telegram va Instagram'da qabulga yozuvni avtomatlashtiradi, bemorlar savollariga 24/7 javob beradi va ro'yxatxonani bo'shatadi.",
+  "ogDescription": "Klinika uchun AI bot Telegram va Instagram’da qabulga yozuvni avtomatlashtiradi, bemorlar savollariga 24/7 javob beradi va ro‘yxatxonani bo‘shatadi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Klinika uchun AI bot",
-  "heroTitle": "Klinika uchun AI bot: virtual ro'yxatxona",
+  "heroTitle": "Klinika uchun AI bot: virtual ro‘yxatxona",
   "heroSubtitle": "Bemorlarni qabulga yozadi, tashrifni eslatadi va tipik savollarga 24/7 javob beradi.",
   "ctaPrimaryLabel": "Bemorlarni qabul qilishni avtomatlashtirish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
@@ -37,19 +37,19 @@
     },
     {
       "type": "p",
-      "text": "Bot bemorlarni yozuvga oladi, qabulni eslatadi, tez-tez beriladigan savollarga javob beradi (manzil, ish vaqti, xizmatlar). Tashriflarni o'tkazib yuborishni kamaytiradi."
+      "text": "Bot bemorlarni yozuvga oladi, qabulni eslatadi, tez-tez beriladigan savollarga javob beradi (manzil, ish vaqti, xizmatlar). Tashriflarni o‘tkazib yuborishni kamaytiradi."
     },
     {
       "type": "h2",
-      "text": "Nima uchun arizalar yo'qoladi"
+      "text": "Nima uchun arizalar yo‘qoladi"
     },
     {
       "type": "list",
       "items": [
-        "Ro'yxatxona band — bemorlar qo'ng'iroq qila olmaydi",
+        "Ro‘yxatxona band — bemorlar qo‘ng‘iroq qila olmaydi",
         "Ish vaqtidan tashqari yozilish imkonsiz",
-        "O'tkazib yuborilgan qo'ng'iroqlar va kelmaganlar",
-        "Ro'yxatga oluvchi bir xil savollarga vaqt sarflaydi"
+        "O‘tkazib yuborilgan qo‘ng‘iroqlar va kelmaganlar",
+        "Ro‘yxatga oluvchi bir xil savollarga vaqt sarflaydi"
       ]
     },
     {
@@ -58,7 +58,7 @@
     },
     {
       "type": "p",
-      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo'shimcha savollarni so'raydi, ism va kontaktni yig'adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
+      "text": "AI-bot Telegram va Instagram Directga ulanadi, kiruvchi xabarlarga javob beradi, qo‘shimcha savollarni so‘raydi, ism va kontaktni yig‘adi va tayyor arizani Telegram yoki CRM dagi menejerga uzatadi. Ssenariy nishga moslab tuziladi."
     },
     {
       "type": "h2",
@@ -69,8 +69,8 @@
       "items": [
         "Qabulga yozuvni avtomatlashtirish",
         "Bemorlar uchun 24/7 imkoniyat",
-        "Ro'yxatxona yukini kamaytirish",
-        "Kam o'tkazib yuborilgan tashriflar",
+        "Ro‘yxatxona yukini kamaytirish",
+        "Kam o‘tkazib yuborilgan tashriflar",
         "Bemorlar uchun qulaylik"
       ]
     },
@@ -80,11 +80,11 @@
     },
     {
       "type": "p",
-      "text": "Bemor Telegram yoki Instagram Direct'ga yozadi, bot kerakli shifokor yoki xizmatni aniqlaydi, bo'sh vaqtlarni taklif qiladi, F.I.Sh va telefonni qayd etadi va yozuvni tasdiqlaydi. Tashrifdan bir kun oldin bot eslatma yuboradi — bu klinikaga vaqt va pul yo'qotadigan kelmasliklarni (no-show) kamaytiradi."
+      "text": "Bemor Telegram yoki Instagram Direct’ga yozadi, bot kerakli shifokor yoki xizmatni aniqlaydi, bo‘sh vaqtlarni taklif qiladi, F.I.Sh va telefonni qayd etadi va yozuvni tasdiqlaydi. Tashrifdan bir kun oldin bot eslatma yuboradi — bu klinikaga vaqt va pul yo‘qotadigan kelmasliklarni (no-show) kamaytiradi."
     },
     {
       "type": "h2",
-      "text": "Bot registrator'siz qaysi savollarni yopadi"
+      "text": "Bot registrator’siz qaysi savollarni yopadi"
     },
     {
       "type": "list",
@@ -94,35 +94,35 @@
         "Qabul va muolajalar narxi",
         "Qanday tahlillar va ularga qanday tayyorlanish",
         "Qanday hujjatlar olib kelish kerak",
-        "Sug'urta va DMS shartlari"
+        "Sug‘urta va DMS shartlari"
       ]
     },
     {
       "type": "h2",
-      "text": "Klinikalar nega bemorlarni yo'qotadi"
+      "text": "Klinikalar nega bemorlarni yo‘qotadi"
     },
     {
       "type": "p",
-      "text": "Asosiy yo'qotish nuqtasi — telefon. Cho'qqi soatlarida registratura band, bemor qo'ng'iroqni ulay olmaydi va qo'shni klinikaga ketadi. Kechqurun va dam olish kunlari umuman yozilib bo'lmaydi. AI bot ikkala bo'shliqni yopadi: darhol va kun-tun javob beradi, murakkab holatlarni administratorga uzatadi."
+      "text": "Asosiy yo‘qotish nuqtasi — telefon. Cho‘qqi soatlarida registratura band, bemor qo‘ng‘iroqni ulay olmaydi va qo‘shni klinikaga ketadi. Kechqurun va dam olish kunlari umuman yozilib bo‘lmaydi. AI bot ikkala bo‘shliqni yopadi: darhol va kun-tun javob beradi, murakkab holatlarni administratorga uzatadi."
     },
     {
       "type": "h2",
-      "text": "Bemor ma'lumotlari xavfsizligi"
+      "text": "Bemor ma’lumotlari xavfsizligi"
     },
     {
       "type": "p",
-      "text": "Bot faqat yozuv uchun zarur narsani yig'adi: ism, telefon, xizmat va istalgan vaqt. Nozik tibbiy tafsilotlar yozishmada so'ralmaydi — holatni aniqlash shifokor qabulida bo'ladi. Arizalarga faqat sizning xodimlaringiz kirishi mumkin."
+      "text": "Bot faqat yozuv uchun zarur narsani yig‘adi: ism, telefon, xizmat va istalgan vaqt. Nozik tibbiy tafsilotlar yozishmada so‘ralmaydi — holatni aniqlash shifokor qabulida bo‘ladi. Arizalarga faqat sizning xodimlaringiz kirishi mumkin."
     },
     {
       "type": "h2",
-      "text": "Qaysi tibbiy yo'nalishlar uchun mos"
+      "text": "Qaysi tibbiy yo‘nalishlar uchun mos"
     },
     {
       "type": "list",
       "items": [
         "Stomatologiya va ortodontiya",
         "Kosmetologiya va estetik tibbiyot",
-        "Ko'p tarmoqli tibbiy markazlar",
+        "Ko‘p tarmoqli tibbiy markazlar",
         "Diagnostika va laboratoriya markazlari",
         "Xususiy kabinet va tor mutaxassislar"
       ]
@@ -150,35 +150,35 @@
   "faq": [
     {
       "q": "Mavjud jadval bilan integratsiya qilish mumkinmi?",
-      "a": "Ha. Tibbiy jadvallar va MIS bilan API orqali integratsiyani qo'llab-quvvatlaymiz."
+      "a": "Ha. Tibbiy jadvallar va MIS bilan API orqali integratsiyani qo‘llab-quvvatlaymiz."
     },
     {
-      "q": "O'zbek tilini qo'llab-quvvatlaydimi?",
-      "a": "Ha, rus va o'zbek (UZ Latin). Skriptni klinikangiz auditoriyasiga moslashtiramiz."
+      "q": "O‘zbek tilini qo‘llab-quvvatlaydimi?",
+      "a": "Ha, rus va o‘zbek (UZ Latin). Skriptni klinikangiz auditoriyasiga moslashtiramiz."
     },
     {
       "q": "Shoshilinch holatlarni qanday boshqaradi?",
-      "a": "Ssenariyda eskalatsiya bor: shoshilinch so'rovlarda bot bemorni jonli administratorga uzatadi va shoshilinch xizmat raqamini ko'rsatadi."
+      "a": "Ssenariyda eskalatsiya bor: shoshilinch so‘rovlarda bot bemorni jonli administratorga uzatadi va shoshilinch xizmat raqamini ko‘rsatadi."
     },
     {
-      "q": "Bot qanday ma'lumotlarni yig'adi?",
-      "a": "Ism, telefon, xizmat, kerakli vaqt. Qo'shimcha maydonlar — klinika talablariga ko'ra."
+      "q": "Bot qanday ma’lumotlarni yig‘adi?",
+      "a": "Ism, telefon, xizmat, kerakli vaqt. Qo‘shimcha maydonlar — klinika talablariga ko‘ra."
     },
     {
       "q": "Tashrifni qanday eslatadi?",
-      "a": "Telegram'da tashrifdan bir kun oldin va/yoki qabul kuni ertalab avtomatik eslatma."
+      "a": "Telegram’da tashrifdan bir kun oldin va/yoki qabul kuni ertalab avtomatik eslatma."
     },
     {
       "q": "Klinika uchun AI bot qancha turadi?",
-      "a": "Narx kanallar soni va jadval bilan integratsiyaga bog'liq. Telegram orqali qabulga yozish tezroq va arzonroq ishga tushadi. Aniq smetani klinikangizga qarab hisoblaymiz — Telegram'ga yozing."
+      "a": "Narx kanallar soni va jadval bilan integratsiyaga bog‘liq. Telegram orqali qabulga yozish tezroq va arzonroq ishga tushadi. Aniq smetani klinikangizga qarab hisoblaymiz — Telegram’ga yozing."
     },
     {
       "q": "Bot registratorni almashtiradimi?",
-      "a": "Yo'q, uni yengillashtiradi. Bot tipik savollar oqimi va birlamchi yozuvni o'z zimmasiga oladi, registrator esa murakkab holatlar bilan ishlaydi."
+      "a": "Yo‘q, uni yengillashtiradi. Bot tipik savollar oqimi va birlamchi yozuvni o‘z zimmasiga oladi, registrator esa murakkab holatlar bilan ishlaydi."
     },
     {
       "q": "Bir necha filialni ulash mumkinmi?",
-      "a": "Ha. Bot bir necha filial va shifokor bo'yicha yozuvni olib boradi va barcha arizalarni bitta joyda yig'adi."
+      "a": "Ha. Bot bir necha filial va shifokor bo‘yicha yozuvni olib boradi va barcha arizalarni bitta joyda yig‘adi."
     }
   ],
   "internalLinks": [

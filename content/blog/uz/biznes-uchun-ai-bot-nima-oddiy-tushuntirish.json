@@ -4,7 +4,7 @@
   "slug": "biznes-uchun-ai-bot-nima-oddiy-tushuntirish",
   "url": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
   "title": "Biznes uchun AI-bot nima: oddiy tushuntirish",
-  "description": "Biznes uchun AI-bot nima ekanini oddiy tilda tushuntiramiz: qanday ishlaydi, oddiy chat-botdan farqi nimada, O'zbekistonda qaysi vazifalarni hal qiladi.",
+  "description": "Biznes uchun AI-bot nima ekanini oddiy tilda tushuntiramiz: qanday ishlaydi, oddiy chat-botdan farqi nimada, O‘zbekistonda qaysi vazifalarni hal qiladi.",
   "h1": "Biznes uchun AI-bot nima",
   "topicCluster": "ai-bot-basics",
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
@@ -13,10 +13,10 @@
     "biznes uchun AI-bot",
     "AI-bot qanday ishlaydi",
     "AI-bot oddiy tilda",
-    "AI-bot O'zbekiston",
+    "AI-bot O‘zbekiston",
     "biznesga AI-bot nima uchun kerak"
   ],
-  "intro": "Biznes uchun AI-bot — bu kompaniya nomidan messenjerlarda mijozlar bilan yozishmalar olib boradigan dastur: savollarga javob beradi, kontakt yig'adi va tayyor arizani menejerga topshiradi. Maqolada — ta'rif, ishlash tamoyili va oddiy chat-botdan farqlari.",
+  "intro": "Biznes uchun AI-bot — bu kompaniya nomidan messenjerlarda mijozlar bilan yozishmalar olib boradigan dastur: savollarga javob beradi, kontakt yig‘adi va tayyor arizani menejerga topshiradi. Maqolada — ta’rif, ishlash tamoyili va oddiy chat-botdan farqlari.",
   "body": [
     {
       "type": "figure",
@@ -31,15 +31,15 @@
     },
     {
       "type": "h2",
-      "text": "Ta'rif: biznes uchun AI-bot nima"
+      "text": "Ta’rif: biznes uchun AI-bot nima"
     },
     {
       "type": "p",
-      "text": "Biznes uchun AI-bot — bu til modeli (masalan, GPT) asosidagi dastur bo'lib, kompaniya mijozlari bilan Telegram, Instagram Direct, WhatsApp yoki saytda yozishmalar olib boradi. Oddiy tugmali botdan farqli ravishda AI-bot erkin matnni tushunadi: mijoz oddiy so'zlar bilan yozadi, bot esa aniq biznesning bilimlar bazasiga tayanib mazmuniga qarab javob beradi."
+      "text": "Biznes uchun AI-bot — bu til modeli (masalan, GPT) asosidagi dastur bo‘lib, kompaniya mijozlari bilan Telegram, Instagram Direct, WhatsApp yoki saytda yozishmalar olib boradi. Oddiy tugmali botdan farqli ravishda AI-bot erkin matnni tushunadi: mijoz oddiy so‘zlar bilan yozadi, bot esa aniq biznesning bilimlar bazasiga tayanib mazmuniga qarab javob beradi."
     },
     {
       "type": "p",
-      "text": "AI-botni birinchi qator navbatchi xodimi deb tasavvur qilish eng oson: u odatiy savollarga bir zumda javob beradi, mijozga nima kerakligini aniqlaydi, ism va telefonni yozib oladi va issiq arizani jonli menejerga topshiradi. U savdo bo'limini almashtirmaydi — u arizalar qo'l yetguncha yo'qolib ketishiga yo'l qo'ymaydi."
+      "text": "AI-botni birinchi qator navbatchi xodimi deb tasavvur qilish eng oson: u odatiy savollarga bir zumda javob beradi, mijozga nima kerakligini aniqlaydi, ism va telefonni yozib oladi va issiq arizani jonli menejerga topshiradi. U savdo bo‘limini almashtirmaydi — u arizalar qo‘l yetguncha yo‘qolib ketishiga yo‘l qo‘ymaydi."
     },
     {
       "type": "h2",
@@ -48,9 +48,9 @@
     {
       "type": "list",
       "items": [
-        "Kanal: bot Telegram, Instagram Direct yoki WhatsApp'ga ulanadi va mijozlar xabarlarini xuddi menejer kabi qabul qiladi.",
-        "Miya: til modeli xabarni o'qiydi, biznesning bilimlar bazasi (xizmatlar, narxlar, manzillar, qoidalar) bilan solishtiradi va javob tuzadi.",
-        "Harakatlar: bot kontaktni yig'adi, belgilangan qoidalar bo'yicha lidni saralaydi va suhbatni menejerga — Telegram-xabarnoma yoki CRM'dagi vazifa ko'rinishida topshiradi."
+        "Kanal: bot Telegram, Instagram Direct yoki WhatsApp’ga ulanadi va mijozlar xabarlarini xuddi menejer kabi qabul qiladi.",
+        "Miya: til modeli xabarni o‘qiydi, biznesning bilimlar bazasi (xizmatlar, narxlar, manzillar, qoidalar) bilan solishtiradi va javob tuzadi.",
+        "Harakatlar: bot kontaktni yig‘adi, belgilangan qoidalar bo‘yicha lidni saralaydi va suhbatni menejerga — Telegram-xabarnoma yoki CRM’dagi vazifa ko‘rinishida topshiradi."
       ]
     },
     {
@@ -59,12 +59,12 @@
     },
     {
       "type": "linkp",
-      "text": "Shaxsiy chatdan boshlamoqchi bo'lsangiz, avval {access} bo'yicha yangilangan qo'llanmani ko'ring; biznes kanallariga avtomatik javob berish esa alohida integratsiyani talab qiladi.",
+      "text": "Shaxsiy chatdan boshlamoqchi bo‘lsangiz, avval {access} bo‘yicha yangilangan qo‘llanmani ko‘ring; biznes kanallariga avtomatik javob berish esa alohida integratsiyani talab qiladi.",
       "links": [
         {
           "token": "access",
           "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-          "anchor": "ChatGPT'dan O'zbekistonda foydalanish"
+          "anchor": "ChatGPT’dan O‘zbekistonda foydalanish"
         }
       ]
     },
@@ -75,11 +75,11 @@
     {
       "type": "list",
       "items": [
-        "Mijoz kiritishi: oddiy bot — tugmalar va qat'iy stsenariylar; AI-bot — rus va o'zbek tillarida erkin matn.",
-        "Stsenariydan tashqari savol: oddiy bot «tushunmadim» deb javob beradi; AI-bot bilimlar bazasi bo'yicha javob beradi yoki menejerga topshiradi.",
+        "Mijoz kiritishi: oddiy bot — tugmalar va qat’iy stsenariylar; AI-bot — rus va o‘zbek tillarida erkin matn.",
+        "Stsenariydan tashqari savol: oddiy bot «tushunmadim» deb javob beradi; AI-bot bilimlar bazasi bo‘yicha javob beradi yoki menejerga topshiradi.",
         "Sozlash: oddiy bot — bloklardan tuzilgan sxema; AI-bot — bilimlar bazasi va muloqot qoidalari.",
-        "Til: oddiy bot — har tarmoqqa bitta til; AI-bot mijoz tilini suhbatning o'zida aniqlaydi.",
-        "Vazifa: oddiy bot — menyu bo'ylab navigatsiya; AI-bot — suhbat, saralash va ariza yig'ish."
+        "Til: oddiy bot — har tarmoqqa bitta til; AI-bot mijoz tilini suhbatning o‘zida aniqlaydi.",
+        "Vazifa: oddiy bot — menyu bo‘ylab navigatsiya; AI-bot — suhbat, saralash va ariza yig‘ish."
       ]
     },
     {
@@ -90,23 +90,23 @@
       "type": "list",
       "items": [
         "Kechasi, dam olish kunlari va eng band soatlarda, menejerlar ulgurmayotganda mijozlarga javob beradi.",
-        "Har bir murojaatdan ism, telefon va so'rov mohiyatini yig'adi — ariza yozishmalarda yo'qolmaydi.",
+        "Har bir murojaatdan ism, telefon va so‘rov mohiyatini yig‘adi — ariza yozishmalarda yo‘qolmaydi.",
         "Maqsadsiz murojaatlarni saralab, menejerga faqat iliq mijozlarni topshiradi.",
-        "Biznesda jadval bo'lsa, qabulga, konsultatsiyaga yoki o'lchovga yozadi.",
-        "Rus va o'zbek tillarida suhbat olib boradi — O'zbekiston auditoriyasi uchun muhim."
+        "Biznesda jadval bo‘lsa, qabulga, konsultatsiyaga yoki o‘lchovga yozadi.",
+        "Rus va o‘zbek tillarida suhbat olib boradi — O‘zbekiston auditoriyasi uchun muhim."
       ]
     },
     {
       "type": "h2",
-      "text": "AI-bot qachon kerak, qachon esa yo'q"
+      "text": "AI-bot qachon kerak, qachon esa yo‘q"
     },
     {
       "type": "p",
-      "text": "AI-bot biznesda messenjerlar orqali sezilarli murojaatlar oqimi bo'lsa — odatda oyiga bir necha o'nlab — va ularning bir qismi tez javobsiz qolsa, o'zini oqlaydi. O'zbekistondagi odatiy sohalar: klinikalar, go'zallik salonlari, o'quv markazlari, do'konlar, yetkazib berish, ko'chmas mulk, avtosalonlar."
+      "text": "AI-bot biznesda messenjerlar orqali sezilarli murojaatlar oqimi bo‘lsa — odatda oyiga bir necha o‘nlab — va ularning bir qismi tez javobsiz qolsa, o‘zini oqlaydi. O‘zbekistondagi odatiy sohalar: klinikalar, go‘zallik salonlari, o‘quv markazlari, do‘konlar, yetkazib berish, ko‘chmas mulk, avtosalonlar."
     },
     {
       "type": "p",
-      "text": "Agar murojaatlar kam bo'lsa va menejer hammaga daqiqalar ichida javob bersa, AI-bot kuchsiz samara beradi. Bunday holatda kontakt yig'ishning oddiy stsenariysidan boshlash va oqim o'sganda AI-qatlamga qaytish oqilona."
+      "text": "Agar murojaatlar kam bo‘lsa va menejer hammaga daqiqalar ichida javob bersa, AI-bot kuchsiz samara beradi. Bunday holatda kontakt yig‘ishning oddiy stsenariysidan boshlash va oqim o‘sganda AI-qatlamga qaytish oqilona."
     },
     {
       "type": "h2",
@@ -114,11 +114,11 @@
     },
     {
       "type": "p",
-      "text": "Narx bir martalik joriy etish (stsenariy, bilimlar bazasi, kanallarni ulash) va oylik qo'llab-quvvatlashdan iborat. O'zbekistondagi kichik biznes uchun ishga tushirish odatda bir necha kundan bir-ikki haftagacha davom etadi. Sohalar va kanallar bo'yicha batafsil tahlil — biznes uchun AI-bot sahifasida."
+      "text": "Narx bir martalik joriy etish (stsenariy, bilimlar bazasi, kanallarni ulash) va oylik qo‘llab-quvvatlashdan iborat. O‘zbekistondagi kichik biznes uchun ishga tushirish odatda bir necha kundan bir-ikki haftagacha davom etadi. Sohalar va kanallar bo‘yicha batafsil tahlil — biznes uchun AI-bot sahifasida."
     },
     {
       "type": "cta",
-      "text": "AI-bot sizning biznesingizda qanday ishlashini ko'ring",
+      "text": "AI-bot sizning biznesingizda qanday ishlashini ko‘ring",
       "href": "/uz/biznes-uchun-ai-bot/"
     },
     {
@@ -136,26 +136,26 @@
     }
   ],
   "cta": {
-    "label": "Telegram'da demo ochish",
+    "label": "Telegram’da demo ochish",
     "href": "https://t.me/XGame_changerx",
-    "note": "AI-botni amalda ko'rmoqchimisiz? Telegram'da yozing — sohangizga mos demo-stsenariyni ko'rsatamiz."
+    "note": "AI-botni amalda ko‘rmoqchimisiz? Telegram’da yozing — sohangizga mos demo-stsenariyni ko‘rsatamiz."
   },
   "faq": [
     {
       "q": "AI-bot oddiy tilda nima?",
-      "a": "Bu kompaniya nomidan messenjerlarda mijozlar bilan yozishadigan dastur: oddiy matnni tushunadi, biznesning bilimlar bazasi bo'yicha javob beradi, kontakt yig'adi va arizani menejerga topshiradi."
+      "a": "Bu kompaniya nomidan messenjerlarda mijozlar bilan yozishadigan dastur: oddiy matnni tushunadi, biznesning bilimlar bazasi bo‘yicha javob beradi, kontakt yig‘adi va arizani menejerga topshiradi."
     },
     {
       "q": "AI-bot ChatGPT bilan bir xilmi?",
-      "a": "Yo'q. ChatGPT — sizning kompaniyangiz haqida bilimga ega bo'lmagan universal yordamchi. AI-bot o'xshash texnologiyaga qurilgan, lekin aniq biznesning bilimlar bazasida sozlangan va uning savdo kanallari hamda CRM'iga ulangan."
+      "a": "Yo‘q. ChatGPT — sizning kompaniyangiz haqida bilimga ega bo‘lmagan universal yordamchi. AI-bot o‘xshash texnologiyaga qurilgan, lekin aniq biznesning bilimlar bazasida sozlangan va uning savdo kanallari hamda CRM’iga ulangan."
     },
     {
       "q": "AI-bot savdo menejerini almashtiradimi?",
-      "a": "Yo'q, va almashtirmasligi kerak. Bot birinchi qatorni yopadi: tezkor javob, odatiy savollar, kontakt yig'ish. Murakkab muzokaralar va bitimni yopish insonda qoladi."
+      "a": "Yo‘q, va almashtirmasligi kerak. Bot birinchi qatorni yopadi: tezkor javob, odatiy savollar, kontakt yig‘ish. Murakkab muzokaralar va bitimni yopish insonda qoladi."
     },
     {
-      "q": "AI-bot o'zbek tilida ishlaydimi?",
-      "a": "Ha. To'g'ri sozlangan AI-bot mijoz tilini aniqlaydi va bitta suhbat doirasida rus yoki o'zbek (lotin) tilida javob beradi."
+      "q": "AI-bot o‘zbek tilida ishlaydimi?",
+      "a": "Ha. To‘g‘ri sozlangan AI-bot mijoz tilini aniqlaydi va bitta suhbat doirasida rus yoki o‘zbek (lotin) tilida javob beradi."
     }
   ],
   "internalLinks": [
@@ -186,13 +186,13 @@
     },
     {
       "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-      "anchor": "ChatGPT'dan O'zbekistonda foydalanish",
+      "anchor": "ChatGPT’dan O‘zbekistonda foydalanish",
       "locale": "uz",
       "type": "contextual"
     }
   ],
   "ogTitle": "Biznes uchun AI-bot nima: oddiy tushuntirish",
-  "ogDescription": "Biznes uchun AI-bot nima ekanini oddiy tilda tushuntiramiz: qanday ishlaydi, oddiy chat-botdan farqi nimada, O'zbekistonda qaysi vazifalarni hal qiladi.",
+  "ogDescription": "Biznes uchun AI-bot nima ekanini oddiy tilda tushuntiramiz: qanday ishlaydi, oddiy chat-botdan farqi nimada, O‘zbekistonda qaysi vazifalarni hal qiladi.",
   "ogImage": "https://gptbot.uz/assets/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
   "hreflangRu": "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",

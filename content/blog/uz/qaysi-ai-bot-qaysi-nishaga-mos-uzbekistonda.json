@@ -4,19 +4,19 @@
   "slug": "qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda",
   "url": "/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
   "title": "Nishangizga mos AI botni qanday tanlash | GPTBot.uz",
-  "description": "Klinika, salon, o'quv markazi, do'kon va HoReCa uchun bot ssenariylari farqini taqqoslaymiz va har bir nishaga mos yechimni tanlashga yordam beramiz.",
-  "h1": "O'zbekistonda qaysi AI bot qaysi nishaga mos",
+  "description": "Klinika, salon, o‘quv markazi, do‘kon va HoReCa uchun bot ssenariylari farqini taqqoslaymiz va har bir nishaga mos yechimni tanlashga yordam beramiz.",
+  "h1": "O‘zbekistonda qaysi AI bot qaysi nishaga mos",
   "topicCluster": "niche-comparison",
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
   "keywords": [
-    "O'zbekistonda qaysi AI bot qaysi nishaga mos",
-    "klinika uchun bot O'zbekiston",
+    "O‘zbekistonda qaysi AI bot qaysi nishaga mos",
+    "klinika uchun bot O‘zbekiston",
     "salon uchun bot Toshkent",
-    "o'quv markazi uchun AI-bot",
-    "do'kon uchun bot",
-    "AI bot HoReCa O'zbekiston"
+    "o‘quv markazi uchun AI-bot",
+    "do‘kon uchun bot",
+    "AI bot HoReCa O‘zbekiston"
   ],
-  "intro": "Klinika, salon, o'quv markazi, do'kon va HoReCa uchun birinchi aloqa mantig'i har xil — demak, bot ham har xil bo'lishi kerak.",
+  "intro": "Klinika, salon, o‘quv markazi, do‘kon va HoReCa uchun birinchi aloqa mantig‘i har xil — demak, bot ham har xil bo‘lishi kerak.",
   "body": [
     {
       "type": "figure",
@@ -35,7 +35,7 @@
     },
     {
       "type": "p",
-      "text": "AI botni tanlashda eng katta xato — hamma nishaga bitta ssenariy mos deb o'ylash. Aslida esa klinika, salon, o'quv markazi, do'kon va HoReCa bir-biridan birinchi savolning o'zidayoq farq qiladi. Bot \"chiroyli\" yoki \"aqlli\" bo'lgani kifoya emas; u sizning nishangiz strukturasini tushunishi kerak."
+      "text": "AI botni tanlashda eng katta xato — hamma nishaga bitta ssenariy mos deb o‘ylash. Aslida esa klinika, salon, o‘quv markazi, do‘kon va HoReCa bir-biridan birinchi savolning o‘zidayoq farq qiladi. Bot \"chiroyli\" yoki \"aqlli\" bo‘lgani kifoya emas; u sizning nishangiz strukturasini tushunishi kerak."
     },
     {
       "type": "h2",
@@ -43,7 +43,7 @@
     },
     {
       "type": "p",
-      "text": "Klinikaga ehtiyot handoff, yozuv va sezgir holatlarni ajratish kerak. Salonga xizmat, usta va slot muhim. O'quv markazida FAQ va probniy darsga olib borish foydaliroq. Do'konda esa tezkorlik: mahsulot, parametr, yetkazib berish. HoReCa'da bron, buyurtma va formatni tez aniqlash zarur."
+      "text": "Klinikaga ehtiyot handoff, yozuv va sezgir holatlarni ajratish kerak. Salonga xizmat, usta va slot muhim. O‘quv markazida FAQ va probniy darsga olib borish foydaliroq. Do‘konda esa tezkorlik: mahsulot, parametr, yetkazib berish. HoReCa’da bron, buyurtma va formatni tez aniqlash zarur."
     },
     {
       "type": "h2",
@@ -59,7 +59,7 @@
     },
     {
       "type": "p",
-      "text": "Umumiy ramka barcha nishalar uchun bir xil: tez javob, minimal kerakli maydonlar, handoff va RU + UZ. Lekin majburiy maydonlar va birinchi savollar har xil. Aynan shu tafsilotlar bot \"klinika uchun\", \"salon uchun\" yoki \"HoReCa uchun\" deb chinakam ishlashini ta'minlaydi."
+      "text": "Umumiy ramka barcha nishalar uchun bir xil: tez javob, minimal kerakli maydonlar, handoff va RU + UZ. Lekin majburiy maydonlar va birinchi savollar har xil. Aynan shu tafsilotlar bot \"klinika uchun\", \"salon uchun\" yoki \"HoReCa uchun\" deb chinakam ishlashini ta’minlaydi."
     },
     {
       "type": "cta",
@@ -85,7 +85,7 @@
     },
     {
       "type": "p",
-      "text": "O'zbekistonda qaysi AI bot qaysi nishaga mos mavzusida yechim tanlashdan oldin kanal nomiga emas, mijoz yo‘liga qarang. Kiruvchi xabar qayerdan keladi, bot qaysi ma’lumotlarni so‘raydi, javob qaysi manbadan olinadi va qachon suhbat menejerga o‘tishi yozma ravishda belgilanishi kerak. Shunda demo chiroyli ko‘rinish bilan cheklanmaydi va real jarayon bilan solishtiriladi."
+      "text": "O‘zbekistonda qaysi AI bot qaysi nishaga mos mavzusida yechim tanlashdan oldin kanal nomiga emas, mijoz yo‘liga qarang. Kiruvchi xabar qayerdan keladi, bot qaysi ma’lumotlarni so‘raydi, javob qaysi manbadan olinadi va qachon suhbat menejerga o‘tishi yozma ravishda belgilanishi kerak. Shunda demo chiroyli ko‘rinish bilan cheklanmaydi va real jarayon bilan solishtiriladi."
     },
     {
       "type": "list",
@@ -114,7 +114,7 @@
   "faq": [
     {
       "q": "Bitta ssenariy hamma nishaga mos keladimi?",
-      "a": "Yo'q. Faqat eng yuqori darajadagi ramka mos keladi, qolgani nishaga moslashtiriladi."
+      "a": "Yo‘q. Faqat eng yuqori darajadagi ramka mos keladi, qolgani nishaga moslashtiriladi."
     },
     {
       "q": "Klinika uchun nima muhim?",
@@ -125,15 +125,15 @@
       "a": "Tez va qulay yozuv."
     },
     {
-      "q": "Do'kon uchun nima muhim?",
-      "a": "Qisqa yo'l bilan buyurtma."
+      "q": "Do‘kon uchun nima muhim?",
+      "a": "Qisqa yo‘l bilan buyurtma."
     },
     {
       "q": "HoReCa uchun nima muhim?",
       "a": "Bron va buyurtma turini tez ajratish."
     },
     {
-      "q": "O'quv markazi uchun nima muhim?",
+      "q": "O‘quv markazi uchun nima muhim?",
       "a": "FAQ va konsultatsiyaga olib chiqish."
     }
   ],
@@ -165,14 +165,14 @@
     },
     {
       "target": "/uz/oquv-markazi-uchun-ai-bot/",
-      "anchor": "o'quv markazi uchun AI bot",
+      "anchor": "o‘quv markazi uchun AI bot",
       "locale": "uz",
       "type": "contextual",
       "priority": 4
     },
     {
       "target": "/uz/dokon-uchun-ai-bot/",
-      "anchor": "do'kon uchun AI bot",
+      "anchor": "do‘kon uchun AI bot",
       "locale": "uz",
       "type": "contextual",
       "priority": 5
@@ -186,13 +186,13 @@
     },
     {
       "target": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
-      "anchor": "ko'chmas mulk agentligi uchun AI bot",
+      "anchor": "ko‘chmas mulk agentligi uchun AI bot",
       "locale": "uz",
       "type": "niche"
     }
   ],
-  "ogTitle": "O'zbekistonda qaysi AI bot qaysi nishaga mos",
-  "ogDescription": "Klinika, salon, o'quv markazi, do'kon va HoReCa uchun bot ssenariylari farqini taqqoslaymiz va har bir nishaga mos yechimni tanlashga yordam beramiz.",
+  "ogTitle": "O‘zbekistonda qaysi AI bot qaysi nishaga mos",
+  "ogDescription": "Klinika, salon, o‘quv markazi, do‘kon va HoReCa uchun bot ssenariylari farqini taqqoslaymiz va har bir nishaga mos yechimni tanlashga yordam beramiz.",
   "ogImage": "https://gptbot.uz/assets/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
   "hreflangRu": "/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",

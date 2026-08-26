@@ -102,7 +102,7 @@
     { "type": "list", "items": [
       "Название: Boss Digital",
       "Категория: маркетинговое агентство / digital-агентство",
-      "Адрес: Kichik Xalqa Yo'li 57, Ташкент, Узбекистан",
+      "Адрес: Kichik Xalqa Yo‘li 57, Ташкент, Узбекистан",
       "Телефон: +998 50 587 07 20",
       "График: 10:00–19:00 (актуальный график — в карточке Google)",
       "Территория обслуживания: Ташкент и весь Узбекистан (дистанционно)"
@@ -113,7 +113,7 @@
       "Boss Digital, Ташкент, Узбекистан",
       "Телефон: +998 50 587 07 20",
       "Telegram: t.me/XGame_changerx",
-      "Адрес: Kichik Xalqa Yo'li 57, Ташкент",
+      "Адрес: Kichik Xalqa Yo‘li 57, Ташкент",
       "Часы работы: 10:00–19:00",
       "Сайт AI-направления: gptbot.uz"
     ] },
@@ -189,7 +189,7 @@
       "telephone": "+998505870720",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Kichik Xalqa Yo'li 57",
+        "streetAddress": "Kichik Xalqa Yo‘li 57",
         "addressLocality": "Tashkent",
         "addressCountry": "UZ"
       },

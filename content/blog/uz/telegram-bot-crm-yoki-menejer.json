@@ -4,7 +4,7 @@
   "slug": "telegram-bot-crm-yoki-menejer",
   "url": "/uz/blog/telegram-bot-crm-yoki-menejer/",
   "title": "Telegram bot, CRM yoki menejer: kichik biznes nimani",
-  "description": "Telegram bot yetadigan, CRM kerak bo'ladigan va jonli menejer zarur bo'ladigan holatlar. O'zbekiston biznesi uchun real tanlov sxemasi.",
+  "description": "Telegram bot yetadigan, CRM kerak bo‘ladigan va jonli menejer zarur bo‘ladigan holatlar. O‘zbekiston biznesi uchun real tanlov sxemasi.",
   "h1": "Telegram bot, CRM yoki menejer: nima tanlash kerak",
   "topicCluster": "telegram-bot-dlya-biznesa",
   "targetMoneyPage": "/uz/telegram-bot-biznes-uchun/",
@@ -16,7 +16,7 @@
     "Telegram bot yoki CRM",
     "Telegram bot yoki menejer"
   ],
-  "intro": "Kichik biznesga ko'pincha hamma narsani birdaniga sotishadi: Telegram bot ham, CRM ham, AI menejer ham. Amalda hammasini birdaniga boshlash shart emas. Ushbu bog'lamani qaysi tartibda qurish kerakligini va \"bizga endi vaqti keldi\" deyish belgilarini ko'rib chiqamiz.",
+  "intro": "Kichik biznesga ko‘pincha hamma narsani birdaniga sotishadi: Telegram bot ham, CRM ham, AI menejer ham. Amalda hammasini birdaniga boshlash shart emas. Ushbu bog‘lamani qaysi tartibda qurish kerakligini va \"bizga endi vaqti keldi\" deyish belgilarini ko‘rib chiqamiz.",
   "body": [
     {
       "type": "figure",
@@ -31,7 +31,7 @@
     },
     {
       "type": "p",
-      "text": "Kichik biznesga ko'pincha hamma narsani birdaniga sotishadi: Telegram bot ham, CRM ham, AI menejer ham. Amalda hammasini birdaniga boshlash shart emas. Ushbu bog'lamani qaysi tartibda qurish kerakligini va \"bizga endi vaqti keldi\" deyish belgilarini ko'rib chiqamiz."
+      "text": "Kichik biznesga ko‘pincha hamma narsani birdaniga sotishadi: Telegram bot ham, CRM ham, AI menejer ham. Amalda hammasini birdaniga boshlash shart emas. Ushbu bog‘lamani qaysi tartibda qurish kerakligini va \"bizga endi vaqti keldi\" deyish belgilarini ko‘rib chiqamiz."
     },
     {
       "type": "h2",
@@ -39,7 +39,7 @@
     },
     {
       "type": "p",
-      "text": "Shartli ravishda uchta darajani ajratish mumkin: 1) arizalarni qabul qilish uchun Telegram bot; 2) voronkani boshqarish uchun bot + CRM; 3) to'liq kvalifikatsiya uchun bot + CRM + AI menejer. Har bir keyingi daraja qiymat qo'shadi, lekin qo'llab-quvvatlash uchun ham resurs talab qiladi."
+      "text": "Shartli ravishda uchta darajani ajratish mumkin: 1) arizalarni qabul qilish uchun Telegram bot; 2) voronkani boshqarish uchun bot + CRM; 3) to‘liq kvalifikatsiya uchun bot + CRM + AI menejer. Har bir keyingi daraja qiymat qo‘shadi, lekin qo‘llab-quvvatlash uchun ham resurs talab qiladi."
     },
     {
       "type": "h2",
@@ -48,11 +48,11 @@
     {
       "type": "list",
       "items": [
-        "Kuniga 1–5 ariza bo'lgan mikro-biznesga mos.",
-        "Arizalar sotuv bo'limining Telegram chatiga uzatiladi.",
+        "Kuniga 1–5 ariza bo‘lgan mikro-biznesga mos.",
+        "Arizalar sotuv bo‘limining Telegram chatiga uzatiladi.",
         "Minimal integratsiyalar va past start chegarasi.",
         "Pik yuklamani boshdan kechirish uchun start sifatida mos.",
-        "Cheklov: tahlil va voronka yo'q."
+        "Cheklov: tahlil va voronka yo‘q."
       ]
     },
     {
@@ -62,11 +62,11 @@
     {
       "type": "list",
       "items": [
-        "Arizalar CRM'ga tushadi (AmoCRM, Bitrix24, Pipedrive).",
-        "Voronka, statuslar, mas'ul shaxslar paydo bo'ladi.",
-        "Konversiya bo'yicha tahlil paydo bo'ladi.",
+        "Arizalar CRM’ga tushadi (AmoCRM, Bitrix24, Pipedrive).",
+        "Voronka, statuslar, mas’ul shaxslar paydo bo‘ladi.",
+        "Konversiya bo‘yicha tahlil paydo bo‘ladi.",
         "Menejerlar Telegram chat orqali emas, CRM orqali ishlaydi.",
-        "Kuniga 5–20 ariza va kamida 1–2 sotuv menejeri bo'lganida ma'noga ega."
+        "Kuniga 5–20 ariza va kamida 1–2 sotuv menejeri bo‘lganida ma’noga ega."
       ]
     },
     {
@@ -77,10 +77,10 @@
       "type": "list",
       "items": [
         "AI menejer birinchi dialogni tabiiy uslubda olib boradi.",
-        "Lidlarni mezonlar bo'yicha kvalifikatsiya qiladi.",
-        "\"Issiq\" lidlarni CRM'ga ustuvorlik bilan uzatadi.",
-        "Asosiy e'tirozlarga javob beradi.",
-        "Barqaror lid oqimi va menejerlarning rutina bilan uddalay olmaganda ma'noga ega."
+        "Lidlarni mezonlar bo‘yicha kvalifikatsiya qiladi.",
+        "\"Issiq\" lidlarni CRM’ga ustuvorlik bilan uzatadi.",
+        "Asosiy e’tirozlarga javob beradi.",
+        "Barqaror lid oqimi va menejerlarning rutina bilan uddalay olmaganda ma’noga ega."
       ]
     },
     {
@@ -89,18 +89,18 @@
     },
     {
       "type": "p",
-      "text": "Jonli menejer doim kerak — savol faqat qaysi bosqichda. Avtomatlashtirish darajasi qanchalik yuqori bo'lsa, menejer rutinaga shunchalik kam vaqt sarflaydi va iliq lidlar bilan ishlashga hamda yopishga shunchalik ko'p vaqt qoldiradi. Odamsiz to'liq sotuvlar ishlamaydi, ayniqsa katta chekli nishalarda."
+      "text": "Jonli menejer doim kerak — savol faqat qaysi bosqichda. Avtomatlashtirish darajasi qanchalik yuqori bo‘lsa, menejer rutinaga shunchalik kam vaqt sarflaydi va iliq lidlar bilan ishlashga hamda yopishga shunchalik ko‘p vaqt qoldiradi. Odamsiz to‘liq sotuvlar ishlamaydi, ayniqsa katta chekli nishalarda."
     },
     {
       "type": "h2",
-      "text": "Keyingi darajaga o'tish vaqti kelganligining belgilari"
+      "text": "Keyingi darajaga o‘tish vaqti kelganligining belgilari"
     },
     {
       "type": "list",
       "items": [
-        "Botda: arizalar Telegram chatda yo'qolib qoladi, voronkani tushunish yo'q → bot + CRM'ga o'tish vaqti.",
-        "Bot + CRM'da: menejerlar yopishdan ko'ra kvalifikatsiyaga 60–80% vaqt sarflaydi → AI menejerga o'tish vaqti.",
-        "AI menejerda: AI uchun kontent va o'qitish alohida jamoa rivojlanadi → bu allaqachon yetuk daraja."
+        "Botda: arizalar Telegram chatda yo‘qolib qoladi, voronkani tushunish yo‘q → bot + CRM’ga o‘tish vaqti.",
+        "Bot + CRM’da: menejerlar yopishdan ko‘ra kvalifikatsiyaga 60–80% vaqt sarflaydi → AI menejerga o‘tish vaqti.",
+        "AI menejerda: AI uchun kontent va o‘qitish alohida jamoa rivojlanadi → bu allaqachon yetuk daraja."
       ]
     },
     {
@@ -110,23 +110,23 @@
     {
       "type": "list",
       "items": [
-        "Birdan eng qimmat CRM'ni \"o'sish uchun\" sotib olish.",
+        "Birdan eng qimmat CRM’ni \"o‘sish uchun\" sotib olish.",
         "Asosiy voronka ishga tushishidan oldin uzun ssenariyli AI menejerni ishga tushirish.",
-        "Qaysi kanal asosiy oqim berishi tushunarli bo'lgunga qadar murakkab integratsiyalarni qilish.",
+        "Qaysi kanal asosiy oqim berishi tushunarli bo‘lgunga qadar murakkab integratsiyalarni qilish.",
         "\"AI hamma narsani almashtiradi\" haypiga berilish — bu ishlamaydi."
       ]
     },
     {
       "type": "quote",
-      "text": "Eng yaxshi avtomatlashtirish — siz haqiqatda foydalanadigani. Taqdimotda \"chiroyli ko'rinadigani\" emas."
+      "text": "Eng yaxshi avtomatlashtirish — siz haqiqatda foydalanadigani. Taqdimotda \"chiroyli ko‘rinadigani\" emas."
     },
     {
       "type": "h2",
-      "text": "O'zbekistondagi kichik biznes uchun real yo'l"
+      "text": "O‘zbekistondagi kichik biznes uchun real yo‘l"
     },
     {
       "type": "p",
-      "text": "1-qadam — arizalarni qabul qilib, ularni sotuv bo'limi chatiga yuboradigan Telegram bot. 2-qadam — arizalar ko'paygach va voronka kerak bo'lganida CRM'ni ulash. 3-qadam — jamoa kvalifikatsiyaga ulgura olmaganida voronka tepasiga AI menejerni qo'shish. Har bir qadam oldingisi barqarorlashgandan keyin."
+      "text": "1-qadam — arizalarni qabul qilib, ularni sotuv bo‘limi chatiga yuboradigan Telegram bot. 2-qadam — arizalar ko‘paygach va voronka kerak bo‘lganida CRM’ni ulash. 3-qadam — jamoa kvalifikatsiyaga ulgura olmaganida voronka tepasiga AI menejerni qo‘shish. Har bir qadam oldingisi barqarorlashgandan keyin."
     },
     {
       "type": "cta",
@@ -149,28 +149,28 @@
   ],
   "faq": [
     {
-      "q": "Agar menda allaqachon CRM bo'lsa, alohida Telegram bot kerakmi?",
-      "a": "Ha. CRM ma'lumotlarni saqlaydi, bot esa ularni mesendjerlardan yig'adi va CRM'ga uzatadi. Botsiz Direct va Telegram'dan arizalar normal ko'rinishda CRM'ga kamdan-kam tushadi."
+      "q": "Agar menda allaqachon CRM bo‘lsa, alohida Telegram bot kerakmi?",
+      "a": "Ha. CRM ma’lumotlarni saqlaydi, bot esa ularni mesendjerlardan yig‘adi va CRM’ga uzatadi. Botsiz Direct va Telegram’dan arizalar normal ko‘rinishda CRM’ga kamdan-kam tushadi."
     },
     {
       "q": "Bu darajalarning har biri qancha turadi?",
-      "a": "Narx murojaatlar hajmi va integratsiyalar to'plamiga bog'liq. \"Qutida\" narx ishlamaydi — aniq biznes uchun Telegram'da muhokama qilamiz."
+      "a": "Narx murojaatlar hajmi va integratsiyalar to‘plamiga bog‘liq. \"Qutida\" narx ishlamaydi — aniq biznes uchun Telegram’da muhokama qilamiz."
     },
     {
-      "q": "CRM'ni o'tkazib yuborib darrov AI menejerga o'tish mumkinmi?",
-      "a": "Mumkin, lekin bu xavfli. CRM'siz AI menejer haqiqatan voronkani yaxshilayotganini ko'rish qiyin. Bosqichma-bosqich ulash yaxshiroq."
+      "q": "CRM’ni o‘tkazib yuborib darrov AI menejerga o‘tish mumkinmi?",
+      "a": "Mumkin, lekin bu xavfli. CRM’siz AI menejer haqiqatan voronkani yaxshilayotganini ko‘rish qiyin. Bosqichma-bosqich ulash yaxshiroq."
     },
     {
       "q": "Bu sxema xizmatlar va tovarlar uchun bir xil mos keladimi?",
-      "a": "Asosiy logika bir xil. Ssenariylar va lid kartochkasidagi maydonlar farq qiladi. Xizmatlar uchun — ko'proq vaqt va ustuvorlik haqida, tovarlar uchun — model, o'lcham va yetkazib berish haqida."
+      "a": "Asosiy logika bir xil. Ssenariylar va lid kartochkasidagi maydonlar farq qiladi. Xizmatlar uchun — ko‘proq vaqt va ustuvorlik haqida, tovarlar uchun — model, o‘lcham va yetkazib berish haqida."
     },
     {
-      "q": "Qaysi tomondan boshlagan ma'qul — Telegram'mi yoki Instagram'mi?",
-      "a": "Hozirda ko'proq ariza keladigan kanaldan. Odatda bu yoki Direct, yoki Telegram bo'ladi. Avval asosiysini ulaymiz, keyin kengaytiramiz."
+      "q": "Qaysi tomondan boshlagan ma’qul — Telegram’mi yoki Instagram’mi?",
+      "a": "Hozirda ko‘proq ariza keladigan kanaldan. Odatda bu yoki Direct, yoki Telegram bo‘ladi. Avval asosiysini ulaymiz, keyin kengaytiramiz."
     }
   ],
   "cta": {
-    "label": "Telegram'da demoni ochish",
+    "label": "Telegram’da demoni ochish",
     "href": "https://t.me/XGame_changerx"
   },
   "internalLinks": [
@@ -217,7 +217,7 @@
     }
   ],
   "ogTitle": "Telegram bot, CRM yoki menejer: kichik biznes nimani tanlasin",
-  "ogDescription": "Telegram bot yetadigan, CRM kerak bo'ladigan va jonli menejer zarur bo'ladigan holatlar. O'zbekiston biznesi uchun real tanlov sxemasi.",
+  "ogDescription": "Telegram bot yetadigan, CRM kerak bo‘ladigan va jonli menejer zarur bo‘ladigan holatlar. O‘zbekiston biznesi uchun real tanlov sxemasi.",
   "ogImage": "https://gptbot.uz/assets/blog/telegram-bot-crm-yoki-menejer-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/telegram-bot-crm-yoki-menejer/",
   "hreflangRu": "/ru/blog/telegram-bot-crm-ili-menedzher/",

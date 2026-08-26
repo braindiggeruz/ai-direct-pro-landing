@@ -13,7 +13,7 @@
     "chat-bot buyurtma narxi"
   ],
   "searchIntent": "commercial",
-  "h1": "O'zbekistonda biznes uchun chat-bot narxi",
+  "h1": "O‘zbekistonda biznes uchun chat-bot narxi",
   "title": "Chat-bot narxi — tarif va narxlar 2026 | GPTBot",
   "description": "O‘zbekistonda biznes uchun chat-bot qancha turadi: tariflar 990 000 so‘mdan, narxga nima kiradi va u nimaga bog‘liq. Vazifangizga aniq smeta.",
   "canonical": "https://gptbot.uz/uz/chat-bot-narxi/",
@@ -26,8 +26,8 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Chat-bot narxi",
   "heroTitle": "Biznes uchun chat-bot narxi",
-  "heroSubtitle": "Shaffof tariflar 990 000 so'mdan. Soha, kanallar va integratsiyalarga qarab aniq smeta hisoblaymiz.",
-  "ctaPrimaryLabel": "Telegram'da narxni bilish",
+  "heroSubtitle": "Shaffof tariflar 990 000 so‘mdan. Soha, kanallar va integratsiyalarga qarab aniq smeta hisoblaymiz.",
+  "ctaPrimaryLabel": "Telegram’da narxni bilish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Qanday ishlaydi",
   "ctaSecondaryHref": "#how",
@@ -38,7 +38,7 @@
     },
     {
       "type": "p",
-      "text": "Qisqacha: O'zbekistonda biznes uchun chat-bot Telegram'dagi bazaviy bot uchun 990 000 so'mdan, Instagram Direct bot uchun 1 190 000 so'mdan va to'laqonli AI-voronka uchun 1 990 000 so'mdan turadi. CRM integratsiyali murakkab sohaviy loyihalar 4-5 mln so'mgacha boradi. Aniq narxni qisqa brifdan keyin qayd etamiz, yashirin to'lovlarsiz. Yangilandi: 2026 iyul."
+      "text": "Qisqacha: O‘zbekistonda biznes uchun chat-bot Telegram’dagi bazaviy bot uchun 990 000 so‘mdan, Instagram Direct bot uchun 1 190 000 so‘mdan va to‘laqonli AI-voronka uchun 1 990 000 so‘mdan turadi. CRM integratsiyali murakkab sohaviy loyihalar 4-5 mln so‘mgacha boradi. Aniq narxni qisqa brifdan keyin qayd etamiz, yashirin to‘lovlarsiz. Yangilandi: 2026 iyul."
     },
     {
       "type": "h2",
@@ -46,11 +46,11 @@
     },
     {
       "type": "p",
-      "text": "O'zbekistonda chat-bot narxi vazifaga bog'liq: bitta messenjerda arizalarni qabul qiluvchi oddiy bot bir necha kanalli va CRM integratsiyali aqlli GPT-botdan arzonroq. Toshkent bozorida narxlar taxminan 3 mln so'mdan boshlanadi va murakkab yechimlar uchun 25 mln so'm va undan yuqorigacha boradi. Aniq smetani qisqa brifdan keyin biznesingizga qarab hisoblaymiz."
+      "text": "O‘zbekistonda chat-bot narxi vazifaga bog‘liq: bitta messenjerda arizalarni qabul qiluvchi oddiy bot bir necha kanalli va CRM integratsiyali aqlli GPT-botdan arzonroq. Toshkent bozorida narxlar taxminan 3 mln so‘mdan boshlanadi va murakkab yechimlar uchun 25 mln so‘m va undan yuqorigacha boradi. Aniq smetani qisqa brifdan keyin biznesingizga qarab hisoblaymiz."
     },
     {
       "type": "p",
-      "text": "Quyida yechim turlari bo'yicha taxminiy tariflar berilgan. Bu narx tartibini tushunish uchun diapazonlar, yakuniy narx esa vazifa muhokamasidan keyin qayd etiladi."
+      "text": "Quyida yechim turlari bo‘yicha taxminiy tariflar berilgan. Bu narx tartibini tushunish uchun diapazonlar, yakuniy narx esa vazifa muhokamasidan keyin qayd etiladi."
     },
     {
       "type": "h2",
@@ -62,12 +62,12 @@
         "Xizmat",
         "Tavsif",
         "Muddat",
-        "Narx (so'm)"
+        "Narx (so‘m)"
       ],
       "rows": [
         [
           "Telegram-bot Start",
-          "Bazaviy AI-bot, arizalar yig'ish, FAQ",
+          "Bazaviy AI-bot, arizalar yig‘ish, FAQ",
           "3 kun",
           "990 000 dan"
         ],
@@ -79,13 +79,13 @@
         ],
         [
           "Instagram Direct bot",
-          "Avtojavoblar, Instagram'da voronka",
+          "Avtojavoblar, Instagram’da voronka",
           "5 kun",
           "1 190 000 dan"
         ],
         [
           "WhatsApp-bot Start",
-          "Avtojavoblar, WhatsApp'da lidlar yig'ish",
+          "Avtojavoblar, WhatsApp’da lidlar yig‘ish",
           "5 kun",
           "1 490 000 dan"
         ],
@@ -103,7 +103,7 @@
         ],
         [
           "Sohaviy AI-bot",
-          "Klinika, salon, do'kon, HoReCa uchun",
+          "Klinika, salon, do‘kon, HoReCa uchun",
           "14 kun",
           "1 990 000 dan"
         ]
@@ -119,7 +119,7 @@
     },
     {
       "type": "p",
-      "text": "Bitta kanal uchun bazaviy chat-bot (Telegram yoki Instagram): arizalarni qabul qilish, ssenariy bo'yicha tipik savollarga javob, ism va telefonni yig'ish, arizani menejerga uzatish. Murojaatlarni yo'qotishni tez to'xtatish uchun mos."
+      "text": "Bitta kanal uchun bazaviy chat-bot (Telegram yoki Instagram): arizalarni qabul qilish, ssenariy bo‘yicha tipik savollarga javob, ism va telefonni yig‘ish, arizani menejerga uzatish. Murojaatlarni yo‘qotishni tez to‘xtatish uchun mos."
     },
     {
       "type": "h3",
@@ -127,7 +127,7 @@
     },
     {
       "type": "p",
-      "text": "Ko'p kanalli bot (Telegram + Instagram), erkin savollarni tushunadigan GPT-dvigatel, kengaytirilgan ssenariy, sohangizga moslangan bilim bazasi, arizalarni Telegram'ga uzatish va bazaviy tahlil."
+      "text": "Ko‘p kanalli bot (Telegram + Instagram), erkin savollarni tushunadigan GPT-dvigatel, kengaytirilgan ssenariy, sohangizga moslangan bilim bazasi, arizalarni Telegram’ga uzatish va bazaviy tahlil."
     },
     {
       "type": "h3",
@@ -135,11 +135,11 @@
     },
     {
       "type": "p",
-      "text": "To'laqonli yechim: bir necha kanal, GPT-bot, AmoCRM yoki Bitrix24 bilan integratsiya, to'lov qabuli, tarqatma, katalogli bot-vitrina, arizalarni yo'naltirish va manbalar bo'yicha kengaytirilgan tahlil."
+      "text": "To‘laqonli yechim: bir necha kanal, GPT-bot, AmoCRM yoki Bitrix24 bilan integratsiya, to‘lov qabuli, tarqatma, katalogli bot-vitrina, arizalarni yo‘naltirish va manbalar bo‘yicha kengaytirilgan tahlil."
     },
     {
       "type": "h2",
-      "text": "Narx nimaga bog'liq"
+      "text": "Narx nimaga bog‘liq"
     },
     {
       "type": "list",
@@ -147,9 +147,9 @@
         "Kanallar soni: Telegram, Instagram Direct, WhatsApp",
         "Dvigatel: oddiy ssenariy yoki aqlli GPT-bot",
         "Ssenariy chuqurligi va bilim bazasi hajmi",
-        "CRM (AmoCRM, Bitrix24) integratsiyasi va to'lov qabuli",
+        "CRM (AmoCRM, Bitrix24) integratsiyasi va to‘lov qabuli",
         "Tarqatma, katalog, bot-vitrina",
-        "Tillar: rus va o'zbek"
+        "Tillar: rus va o‘zbek"
       ]
     },
     {
@@ -163,8 +163,8 @@
         "Tanlangan kanallarni ulash",
         "Bilim bazasi: xizmat, narx, tez-tez beriladigan savollar",
         "Arizalarni menejerga uzatish",
-        "Ishga tushirish va jamoangizni o'qitish",
-        "Ishga tushirgandan keyingi qo'llab-quvvatlash"
+        "Ishga tushirish va jamoangizni o‘qitish",
+        "Ishga tushirgandan keyingi qo‘llab-quvvatlash"
       ]
     },
     {
@@ -174,7 +174,7 @@
     },
     {
       "type": "p",
-      "text": "Siz Telegram'ga yozasiz, biz soha, kanallar va vazifalar haqida bir necha savol beramiz. Brif asosida ish hajmini qayd etamiz va aniq narx hamda muddatni aytamiz. Bazaviy bot bir necha kunda ishga tushadi, integratsiyali murakkab yechim — uzoqroq. Narx startdan oldin qayd etiladi, yashirin to'lovlarsiz."
+      "text": "Siz Telegram’ga yozasiz, biz soha, kanallar va vazifalar haqida bir necha savol beramiz. Brif asosida ish hajmini qayd etamiz va aniq narx hamda muddatni aytamiz. Bazaviy bot bir necha kunda ishga tushadi, integratsiyali murakkab yechim — uzoqroq. Narx startdan oldin qayd etiladi, yashirin to‘lovlarsiz."
     },
     {
       "type": "h2",
@@ -182,17 +182,17 @@
     },
     {
       "type": "p",
-      "text": "Chat-bot ilgari yo'qolib ketgan arizalar hisobiga qoplanadi: 24/7 javoblar, cho'qqida va reklamadan keyin darhol reaksiya, tunda va dam olish kunlari nol o'tkazib yuborilgan murojaat. Oyiga bir necha saqlangan bitim odatda bot narxidan oshadi. Narx va omillarning batafsil tahlili — narx haqidagi maqolalarimizda."
+      "text": "Chat-bot ilgari yo‘qolib ketgan arizalar hisobiga qoplanadi: 24/7 javoblar, cho‘qqida va reklamadan keyin darhol reaksiya, tunda va dam olish kunlari nol o‘tkazib yuborilgan murojaat. Oyiga bir necha saqlangan bitim odatda bot narxidan oshadi. Narx va omillarning batafsil tahlili — narx haqidagi maqolalarimizda."
     },
     {
       "type": "cta",
-      "text": "Telegram'da narxni bilish",
+      "text": "Telegram’da narxni bilish",
       "href": "https://t.me/XGame_changerx"
     }
   ],
   "faq": [
     {
-      "q": "O'zbekistonda biznes uchun chat-bot qancha turadi?",
+      "q": "O‘zbekistonda biznes uchun chat-bot qancha turadi?",
       "a": "Tariflar jadvalidagi eng past narx — Telegram’dagi bazaviy bot uchun 990 000 so‘mdan. Instagram Direct boti 1 190 000 so‘mdan, to‘laqonli AI-voronka esa 1 990 000 so‘mdan boshlanadi. Aniq narxni qisqa brifdan keyin vazifangizga qarab qayd etamiz."
     },
     {
@@ -200,24 +200,24 @@
       "a": "Toshkentda bazaviy Telegram-bot 990 000 so‘mdan, sotuv voronkasi va CRM integratsiyasi bilan Telegram-bot 2 490 000 so‘mdan, Telegram va Instagram uchun AI-voronka esa 1 990 000 so‘mdan turadi. To‘liq ro‘yxat tariflar jadvalida; yakuniy narx kanallar, dvigatel va integratsiyalarga bog‘liq va startdan oldin qayd etiladi."
     },
     {
-      "q": "Chat-bot narxi nimaga bog'liq?",
-      "a": "Kanallar soniga, dvigatel turiga (oddiy ssenariy yoki GPT), ssenariy chuqurligiga, CRM integratsiyasiga, to'lov qabuliga va tarqatmaga. Funksiya qancha ko'p bo'lsa — narx shuncha yuqori."
+      "q": "Chat-bot narxi nimaga bog‘liq?",
+      "a": "Kanallar soniga, dvigatel turiga (oddiy ssenariy yoki GPT), ssenariy chuqurligiga, CRM integratsiyasiga, to‘lov qabuliga va tarqatmaga. Funksiya qancha ko‘p bo‘lsa — narx shuncha yuqori."
     },
     {
-      "q": "Yashirin to'lovlar bormi?",
-      "a": "Yo'q. Biz ish boshlanishidan oldin brif asosida narx va muddatni qayd etamiz. Qo'shimcha funksiyalar alohida va faqat sizning roziligingiz bilan muhokama qilinadi."
+      "q": "Yashirin to‘lovlar bormi?",
+      "a": "Yo‘q. Biz ish boshlanishidan oldin brif asosida narx va muddatni qayd etamiz. Qo‘shimcha funksiyalar alohida va faqat sizning roziligingiz bilan muhokama qilinadi."
     },
     {
-      "q": "Arzon tarifdan boshlab keyin kengaytirsa bo'ladimi?",
-      "a": "Ha. Ko'pchilik bitta kanal uchun bazaviy botdan boshlaydi, keyin o'sish bilan GPT-dvigatel, ikkinchi kanal, CRM va to'lov qo'shadi."
+      "q": "Arzon tarifdan boshlab keyin kengaytirsa bo‘ladimi?",
+      "a": "Ha. Ko‘pchilik bitta kanal uchun bazaviy botdan boshlaydi, keyin o‘sish bilan GPT-dvigatel, ikkinchi kanal, CRM va to‘lov qo‘shadi."
     },
     {
       "q": "Ishga tushirish qancha vaqt oladi?",
-      "a": "Bazaviy bot bir necha kunda ishga tushadi. GPT va CRM integratsiyali yechim uzoqroq, ssenariy va bilim bazasi hajmiga bog'liq."
+      "a": "Bazaviy bot bir necha kunda ishga tushadi. GPT va CRM integratsiyali yechim uzoqroq, ssenariy va bilim bazasi hajmiga bog‘liq."
     },
     {
-      "q": "Qo'llab-quvvatlash narxga kiradimi?",
-      "a": "Ha, ishga tushirgandan keyin sozlash va kuzatishda yordam beramiz. Qo'llab-quvvatlash shartlari smeta bilan birga qayd etiladi."
+      "q": "Qo‘llab-quvvatlash narxga kiradimi?",
+      "a": "Ha, ishga tushirgandan keyin sozlash va kuzatishda yordam beramiz. Qo‘llab-quvvatlash shartlari smeta bilan birga qayd etiladi."
     }
   ],
   "internalLinks": [
@@ -253,7 +253,7 @@
     },
     {
       "target": "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
-      "anchor": "Telegram bot narxi O'zbekistonda",
+      "anchor": "Telegram bot narxi O‘zbekistonda",
       "locale": "uz",
       "type": "blog"
     },

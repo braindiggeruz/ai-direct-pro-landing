@@ -11,12 +11,12 @@
   "keywords": [
     "ai chat",
     "ai chat nima",
-    "sun'iy intellekt bilan chat",
+    "sun’iy intellekt bilan chat",
     "ai chat bot",
-    "ai chat o'zbek tilida",
+    "ai chat o‘zbek tilida",
     "biznes uchun ai chat"
   ],
-  "intro": "AI-chat — bu matn oynasida sun'iy intellekt bilan muloqot: siz savolni oddiy so'zlar bilan yozasiz, til modeli esa ma'no bo'yicha javob beradi. Maqolada — AI-chat nima, O'zbekistonda qaysi AI-chatlar mavjud va biznes AI-chatni qanday qilib savdo kanaliga aylantiradi.",
+  "intro": "AI-chat — bu matn oynasida sun’iy intellekt bilan muloqot: siz savolni oddiy so‘zlar bilan yozasiz, til modeli esa ma’no bo‘yicha javob beradi. Maqolada — AI-chat nima, O‘zbekistonda qaysi AI-chatlar mavjud va biznes AI-chatni qanday qilib savdo kanaliga aylantiradi.",
   "body": [
     {
       "type": "figure",
@@ -31,33 +31,33 @@
     },
     {
       "type": "h2",
-      "text": "AI-chat nima: ta'rif"
+      "text": "AI-chat nima: ta’rif"
     },
     {
       "type": "p",
-      "text": "AI-chat — sun'iy intellekt bilan muloqot interfeysi: foydalanuvchi erkin matnda xabar yozadi, til modeli (GPT va uning o'xshashlari) savolni tushunib, bog'langan matn bilan javob beradi. Qidiruv tizimidan farqli o'laroq, AI-chat suhbat olib boradi: kontekstni eslab qoladi, aniqlashtiruvchi savollar beradi va javoblarni moslashtiradi."
+      "text": "AI-chat — sun’iy intellekt bilan muloqot interfeysi: foydalanuvchi erkin matnda xabar yozadi, til modeli (GPT va uning o‘xshashlari) savolni tushunib, bog‘langan matn bilan javob beradi. Qidiruv tizimidan farqli o‘laroq, AI-chat suhbat olib boradi: kontekstni eslab qoladi, aniqlashtiruvchi savollar beradi va javoblarni moslashtiradi."
     },
     {
       "type": "p",
-      "text": "So'nggi yilda AI-chatga qiziqish bir necha barobar oshdi — odamlar endi sayt emas, darhol javob beradigan suhbatdosh qidirmoqda. Bu mijozlarning biznes bilan muloqotga bo'lgan kutilmalarini ham o'zgartiradi: operatorni kutish emas, zudlik bilan javob olish."
+      "text": "So‘nggi yilda AI-chatga qiziqish bir necha barobar oshdi — odamlar endi sayt emas, darhol javob beradigan suhbatdosh qidirmoqda. Bu mijozlarning biznes bilan muloqotga bo‘lgan kutilmalarini ham o‘zgartiradi: operatorni kutish emas, zudlik bilan javob olish."
     },
     {
       "type": "h2",
-      "text": "Qaysi AI-chatlar rus va o'zbek tillarida ishlaydi"
+      "text": "Qaysi AI-chatlar rus va o‘zbek tillarida ishlaydi"
     },
     {
       "type": "list",
       "items": [
-        "ChatGPT (OpenAI) — eng mashhur AI-chat; rus tilini a'lo, o'zbek tilini yaxshi tushunadi, bepul tarif bor.",
-        "Gemini (Google) — Google ekotizimiga o'rnatilgan, rus va o'zbek tillarida ishlaydi.",
+        "ChatGPT (OpenAI) — eng mashhur AI-chat; rus tilini a’lo, o‘zbek tilini yaxshi tushunadi, bepul tarif bor.",
+        "Gemini (Google) — Google ekotizimiga o‘rnatilgan, rus va o‘zbek tillarida ishlaydi.",
         "Alisa va YandexGPT — Yandex assistenti, rus tilida kuchli.",
-        "Claude, DeepSeek va boshqalar — ko'pchiligi O'zbekistondan to'g'ridan-to'g'ri ochiladi.",
-        "Biznes AI-chatlari — kompaniyalarning Telegram, Instagram va saytlaridagi, aynan shu biznes bilimlariga o'rgatilgan botlari."
+        "Claude, DeepSeek va boshqalar — ko‘pchiligi O‘zbekistondan to‘g‘ridan-to‘g‘ri ochiladi.",
+        "Biznes AI-chatlari — kompaniyalarning Telegram, Instagram va saytlaridagi, aynan shu biznes bilimlariga o‘rgatilgan botlari."
       ]
     },
     {
       "type": "p",
-      "text": "Muhim farq: universal AI-chatlar (ChatGPT, Gemini) hamma narsani ozgina biladi, lekin sizning kompaniyangiz haqida hech narsa bilmaydi. Biznes AI-chati esa aksincha: aniq kompaniyaning narxlari, ish jadvali va xizmatlari bo'yicha javob beradi va suhbatni arizagacha olib boradi."
+      "text": "Muhim farq: universal AI-chatlar (ChatGPT, Gemini) hamma narsani ozgina biladi, lekin sizning kompaniyangiz haqida hech narsa bilmaydi. Biznes AI-chati esa aksincha: aniq kompaniyaning narxlari, ish jadvali va xizmatlari bo‘yicha javob beradi va suhbatni arizagacha olib boradi."
     },
     {
       "type": "h2",
@@ -66,32 +66,32 @@
     {
       "type": "list",
       "items": [
-        "Shaxsiy foydalanish: savollar, matnlar, tarjimalar, o'qish — istalgan universal AI-chat yaraydi.",
-        "Biznes foydalanishi: AI-chat kompaniyaning Telegram, Instagram Direct yoki saytiga o'rnatiladi va uning nomidan mijozlarga javob beradi.",
-        "Asosiy farq — bilimlar bazasi: biznes AI-chati kompaniya ma'lumotlariga o'rgatilgan va narx-navoni o'ylab topmaydi.",
-        "Ikkinchi farq — amallar: biznes AI-chati kontaktlarni yig'adi, mijozlarni yozadi va arizani menejerga yoki CRM ga uzatadi."
+        "Shaxsiy foydalanish: savollar, matnlar, tarjimalar, o‘qish — istalgan universal AI-chat yaraydi.",
+        "Biznes foydalanishi: AI-chat kompaniyaning Telegram, Instagram Direct yoki saytiga o‘rnatiladi va uning nomidan mijozlarga javob beradi.",
+        "Asosiy farq — bilimlar bazasi: biznes AI-chati kompaniya ma’lumotlariga o‘rgatilgan va narx-navoni o‘ylab topmaydi.",
+        "Ikkinchi farq — amallar: biznes AI-chati kontaktlarni yig‘adi, mijozlarni yozadi va arizani menejerga yoki CRM ga uzatadi."
       ]
     },
     {
       "type": "h2",
-      "text": "O'zbekistonda biznes AI-chatdan qanday foydalanadi"
+      "text": "O‘zbekistonda biznes AI-chatdan qanday foydalanadi"
     },
     {
       "type": "p",
-      "text": "Tipik stsenariy: mijoz kompaniyaning Telegram yoki Instagram Direct'iga yozadi, AI-chat bir zumda o'zbek yoki rus tilida javob beradi — xizmatlar, narxlar, manzillar bo'yicha, — aniqlashtiruvchi savollar berib, tayyor arizani menejerga uzatadi. Kechasi va dam olish kunlari bot yolg'iz ishlaydi va murojaatlar sovub qolishiga yo'l qo'ymaydi."
+      "text": "Tipik stsenariy: mijoz kompaniyaning Telegram yoki Instagram Direct’iga yozadi, AI-chat bir zumda o‘zbek yoki rus tilida javob beradi — xizmatlar, narxlar, manzillar bo‘yicha, — aniqlashtiruvchi savollar berib, tayyor arizani menejerga uzatadi. Kechasi va dam olish kunlari bot yolg‘iz ishlaydi va murojaatlar sovub qolishiga yo‘l qo‘ymaydi."
     },
     {
       "type": "p",
-      "text": "Bunday AI-chatlardan klinikalar, go'zallik salonlari, o'quv markazlari, do'konlar va yetkazib berish xizmatlari allaqachon foydalanmoqda. Texnik jihatdan qanday ishlashi va qancha turishi — GPT-bot sahifasida."
+      "text": "Bunday AI-chatlardan klinikalar, go‘zallik salonlari, o‘quv markazlari, do‘konlar va yetkazib berish xizmatlari allaqachon foydalanmoqda. Texnik jihatdan qanday ishlashi va qancha turishi — GPT-bot sahifasida."
     },
     {
       "type": "linkp",
-      "text": "Universal servisni ishlatmoqchi bo'lsangiz, {access} qo'llanmasida ChatGPT'ga VPNsiz kirish, akkaunt va to'lov masalalari tekshirilgan.",
+      "text": "Universal servisni ishlatmoqchi bo‘lsangiz, {access} qo‘llanmasida ChatGPT’ga VPNsiz kirish, akkaunt va to‘lov masalalari tekshirilgan.",
       "links": [
         {
           "token": "access",
           "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-          "anchor": "ChatGPT O'zbekistonda qanday ishlashi"
+          "anchor": "ChatGPT O‘zbekistonda qanday ishlashi"
         }
       ]
     },
@@ -101,7 +101,7 @@
     },
     {
       "type": "p",
-      "text": "Shaxsiy muloqot uchun — ha, agar chatga keraksiz shaxsiy va to'lov ma'lumotlarini yubormasangiz. Biznes uchun asosiy qoida: AI-chat faqat tasdiqlangan bilimlar bazasi bo'yicha javob berishi, munozarali holatlarda esa suhbatni insonga o'tkazishi kerak. Shunda o'ylab topilgan javoblar istisno qilinadi."
+      "text": "Shaxsiy muloqot uchun — ha, agar chatga keraksiz shaxsiy va to‘lov ma’lumotlarini yubormasangiz. Biznes uchun asosiy qoida: AI-chat faqat tasdiqlangan bilimlar bazasi bo‘yicha javob berishi, munozarali holatlarda esa suhbatni insonga o‘tkazishi kerak. Shunda o‘ylab topilgan javoblar istisno qilinadi."
     },
     {
       "type": "cta",
@@ -123,26 +123,26 @@
     }
   ],
   "cta": {
-    "label": "Telegramda demo ko'rish",
+    "label": "Telegramda demo ko‘rish",
     "href": "https://t.me/XGame_changerx",
-    "note": "Mijozlaringizga o'zbek va rus tillarida javob beradigan AI-chat kerakmi? Bizga yozing — jonli demo ko'rsatamiz."
+    "note": "Mijozlaringizga o‘zbek va rus tillarida javob beradigan AI-chat kerakmi? Bizga yozing — jonli demo ko‘rsatamiz."
   },
   "faq": [
     {
-      "q": "AI-chat nima, oddiy so'zlar bilan?",
-      "a": "Bu sun'iy intellekt bilan suhbat oynasi: siz savolni oddiy so'zlar bilan yozasiz, til modeli esa ma'no bo'yicha javob beradi va suhbat kontekstini eslab qoladi."
+      "q": "AI-chat nima, oddiy so‘zlar bilan?",
+      "a": "Bu sun’iy intellekt bilan suhbat oynasi: siz savolni oddiy so‘zlar bilan yozasiz, til modeli esa ma’no bo‘yicha javob beradi va suhbat kontekstini eslab qoladi."
     },
     {
-      "q": "Qaysi AI-chat o'zbek tilida ishlaydi?",
-      "a": "ChatGPT, Gemini va boshqa yirik AI-chatlar o'zbek tilini (lotin yozuvi) tushunadi. Biznes uchun aniq kompaniya bilimlariga o'rgatilgan alohida AI-chatlar yasaladi."
+      "q": "Qaysi AI-chat o‘zbek tilida ishlaydi?",
+      "a": "ChatGPT, Gemini va boshqa yirik AI-chatlar o‘zbek tilini (lotin yozuvi) tushunadi. Biznes uchun aniq kompaniya bilimlariga o‘rgatilgan alohida AI-chatlar yasaladi."
     },
     {
       "q": "Biznes AI-chati ChatGPT dan nimasi bilan farq qiladi?",
-      "a": "ChatGPT hamma narsani ozgina biladi, lekin kompaniyangiz haqida hech narsa bilmaydi. Biznes AI-chati sizning narxlaringiz va xizmatlaringiz bo'yicha javob beradi, sizning kanallaringizda (Telegram, Instagram) ishlaydi va arizani menejerga yoki CRM ga uzatadi."
+      "a": "ChatGPT hamma narsani ozgina biladi, lekin kompaniyangiz haqida hech narsa bilmaydi. Biznes AI-chati sizning narxlaringiz va xizmatlaringiz bo‘yicha javob beradi, sizning kanallaringizda (Telegram, Instagram) ishlaydi va arizani menejerga yoki CRM ga uzatadi."
     },
     {
       "q": "AI-chat bir suhbatda ikki tilda javob bera oladimi?",
-      "a": "Ha. To'g'ri sozlangan biznes AI-chati mijoz tilini aniqlaydi va bitta suhbatda rus yoki o'zbek tilida javob beradi."
+      "a": "Ha. To‘g‘ri sozlangan biznes AI-chati mijoz tilini aniqlaydi va bitta suhbatda rus yoki o‘zbek tilida javob beradi."
     }
   ],
   "internalLinks": [
@@ -173,7 +173,7 @@
     },
     {
       "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-      "anchor": "ChatGPT O'zbekistonda qanday ishlashi",
+      "anchor": "ChatGPT O‘zbekistonda qanday ishlashi",
       "locale": "uz",
       "type": "contextual"
     },

@@ -14,17 +14,17 @@
   "searchIntent": "commercial",
   "h1": "Biznes uchun GPT bot: aqlli 24/7 javob beruvchi",
   "title": "GPT bot biznes uchun — aqlli AI-chatbot 24/7 | GPTBot",
-  "description": "GPT bot tabiiy tilni tushunadi va oddiy tugmali botdan farqli o'laroq nostandart savollarga javob beradi. 24/7 muloqot va arizalarni CRM'ga uzatish.",
+  "description": "GPT bot tabiiy tilni tushunadi va oddiy tugmali botdan farqli o‘laroq nostandart savollarga javob beradi. 24/7 muloqot va arizalarni CRM’ga uzatish.",
   "canonical": "https://gptbot.uz/uz/gpt-bot-biznes-uchun/",
   "hreflangUz": "/uz/gpt-bot-biznes-uchun/",
   "ogTitle": "GPT bot biznes uchun — aqlli AI-chatbot 24/7 | GPTBot",
-  "ogDescription": "GPT bot biznes uchun tabiiy tilni tushunadi, mijozlar bilan Telegram va Instagram'da 24/7 muloqot qiladi va lidlarni menejerga uzatadi.",
+  "ogDescription": "GPT bot biznes uchun tabiiy tilni tushunadi, mijozlar bilan Telegram va Instagram’da 24/7 muloqot qiladi va lidlarni menejerga uzatadi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Biznes uchun GPT bot",
   "heroTitle": "Biznes uchun GPT bot: aqlli 24/7 javob beruvchi",
-  "heroSubtitle": "Tabiiy tilni tushunadi, mazmunli javoblar beradi va arizalarni Telegram yoki CRM'ga uzatadi.",
+  "heroSubtitle": "Tabiiy tilni tushunadi, mazmunli javoblar beradi va arizalarni Telegram yoki CRM’ga uzatadi.",
   "ctaPrimaryLabel": "GPT bot demosi",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
@@ -40,11 +40,11 @@
     },
     {
       "type": "p",
-      "text": "Oddiy chat-bot qattiq ssenariy bo'yicha ishlaydi: tugmalar, oldindan belgilangan tarmoqlar, shablon javoblar. Ssenariydan chetga chiqsangiz — u «tushunmadim» deydi. GPT bot katta til modeli (LLM) asosida qurilgan: u xabarning ma'nosini tushunadi, faqat kalit so'zlarni emas, va ssenariyda bo'lmagan savolga ham mazmunli javob beradi."
+      "text": "Oddiy chat-bot qattiq ssenariy bo‘yicha ishlaydi: tugmalar, oldindan belgilangan tarmoqlar, shablon javoblar. Ssenariydan chetga chiqsangiz — u «tushunmadim» deydi. GPT bot katta til modeli (LLM) asosida qurilgan: u xabarning ma’nosini tushunadi, faqat kalit so‘zlarni emas, va ssenariyda bo‘lmagan savolga ham mazmunli javob beradi."
     },
     {
       "type": "p",
-      "text": "Bu biznes uchun muhim farq: mijozlar o'zlariga qulay tarzda yozadi — xato, qisqartma, rus va o'zbek tillari aralashmasida, nostandart shaklda. GPT bot ularni tushunadi va aniq javob beradi, tupikка yubormaydi."
+      "text": "Bu biznes uchun muhim farq: mijozlar o‘zlariga qulay tarzda yozadi — xato, qisqartma, rus va o‘zbek tillari aralashmasida, nostandart shaklda. GPT bot ularni tushunadi va aniq javob beradi, tupikка yubormaydi."
     },
     {
       "type": "h2",
@@ -53,12 +53,12 @@
     {
       "type": "list",
       "items": [
-        "Tabiiy til, xatolar va so'zlashuv shaklini tushunadi",
+        "Tabiiy til, xatolar va so‘zlashuv shaklini tushunadi",
         "Qattiq ssenariydan tashqari nostandart savollarga javob beradi",
         "Muloqot kontekstini saqlaydi — yuqorida nima haqida gap ketganini eslaydi",
-        "Rus va o'zbek (Latin) aralashmasiga javob beradi",
+        "Rus va o‘zbek (Latin) aralashmasiga javob beradi",
         "Sizning bilim bazangizga tayanadi: xizmat, narx, shartlar",
-        "Bazadan tashqari faktlarni o'ylab topmaydi — javoblar sizning ma'lumotlaringiz doirasida"
+        "Bazadan tashqari faktlarni o‘ylab topmaydi — javoblar sizning ma’lumotlaringiz doirasida"
       ]
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "type": "p",
-      "text": "GPT-dvigatel mijozlarda turli savollar ko'p bo'lib, ularni 5–10 tugmaga keltirib bo'lmaganda o'zini oqlaydi: konsalting, xizmatlar, murakkab mahsulotlar, B2B. Agar voronka oddiy bo'lsa (mahsulot tanladi → telefon qoldirdi), oddiyroq chat-bot biznes uchun yetarli. Vazifangizga nima foydaliroq ekanini maslahat beramiz."
+      "text": "GPT-dvigatel mijozlarda turli savollar ko‘p bo‘lib, ularni 5–10 tugmaga keltirib bo‘lmaganda o‘zini oqlaydi: konsalting, xizmatlar, murakkab mahsulotlar, B2B. Agar voronka oddiy bo‘lsa (mahsulot tanladi → telefon qoldirdi), oddiyroq chat-bot biznes uchun yetarli. Vazifangizga nima foydaliroq ekanini maslahat beramiz."
     },
     {
       "type": "h2",
@@ -80,7 +80,7 @@
         "Cheklov va muloqot uslubi — bot mavzudan chetlamaydi",
         "Murakkab holatlarni jonli menejerga uzatish",
         "Tahlil va yaxshilash uchun muloqot loglari",
-        "«Gallyutsinatsiya»dan himoya — javoblar ma'lumotlaringiz doirasida"
+        "«Gallyutsinatsiya»dan himoya — javoblar ma’lumotlaringiz doirasida"
       ]
     },
     {
@@ -89,7 +89,7 @@
     },
     {
       "type": "p",
-      "text": "Mijoz Telegram, Instagram Direct yoki WhatsApp'ga yozadi → GPT-dvigatel xabar va kontekstni tahlil qiladi → bilim bazangiz asosida javob shakllantiradi → kerak bo'lsa aniqlovchi savol beradi, ism va telefonni yig'adi → saralangan arizani menejer yoki CRM'ga uzatadi."
+      "text": "Mijoz Telegram, Instagram Direct yoki WhatsApp’ga yozadi → GPT-dvigatel xabar va kontekstni tahlil qiladi → bilim bazangiz asosida javob shakllantiradi → kerak bo‘lsa aniqlovchi savol beradi, ism va telefonni yig‘adi → saralangan arizani menejer yoki CRM’ga uzatadi."
     },
     {
       "type": "h2",
@@ -97,7 +97,7 @@
     },
     {
       "type": "p",
-      "text": "GPT-dvigatel bitta kanalga bog'lanmagan. Aynan o'sha «aqlli» bot Telegram, Instagram Direct va WhatsApp'da ishlashi mumkin. Asosiy kanalingiz Telegram bo'lsa — Telegram bot biznes uchun sahifasiga qarang; barcha yechimlar bo'yicha umumiy manzarani biznes uchun AI bot beradi."
+      "text": "GPT-dvigatel bitta kanalga bog‘lanmagan. Aynan o‘sha «aqlli» bot Telegram, Instagram Direct va WhatsApp’da ishlashi mumkin. Asosiy kanalingiz Telegram bo‘lsa — Telegram bot biznes uchun sahifasiga qarang; barcha yechimlar bo‘yicha umumiy manzarani biznes uchun AI bot beradi."
     },
     {
       "type": "h2",
@@ -109,8 +109,8 @@
         "Kamroq «tushunmadim» va tashlab ketilgan muloqot",
         "Murojaatdan arizagacha yuqori konversiya",
         "Murakkab va nostandart savollarni sifatli qayta ishlash",
-        "Ikki til — rus va o'zbek — qo'llab-quvvatlash",
-        "CRM'da tayyor saralangan arizalar"
+        "Ikki til — rus va o‘zbek — qo‘llab-quvvatlash",
+        "CRM’da tayyor saralangan arizalar"
       ]
     },
     {
@@ -119,11 +119,11 @@
     },
     {
       "type": "p",
-      "text": "GPT bot LLM ishi va bilim bazasini ishlab chiqish tufayli oddiy tugmali botdan qimmatroq, lekin yuqori konversiya hisobiga o'zini oqlaydi. Narx bilim bazasi hajmi, kanallar soni va integratsiyalarga bog'liq. Telegram'ga yozing — keysingizga qarab hisoblaymiz."
+      "text": "GPT bot LLM ishi va bilim bazasini ishlab chiqish tufayli oddiy tugmali botdan qimmatroq, lekin yuqori konversiya hisobiga o‘zini oqlaydi. Narx bilim bazasi hajmi, kanallar soni va integratsiyalarga bog‘liq. Telegram’ga yozing — keysingizga qarab hisoblaymiz."
     },
     {
       "type": "cta",
-      "text": "Telegram'da GPT botni muhokama qilish",
+      "text": "Telegram’da GPT botni muhokama qilish",
       "href": "https://t.me/XGame_changerx"
     },
     {
@@ -144,27 +144,27 @@
   "faq": [
     {
       "q": "GPT bot oddiy chat-botdan nimasi bilan farq qiladi?",
-      "a": "Oddiy bot tugmalar va qattiq ssenariy bo'yicha ishlaydi. GPT bot tabiiy tilni tushunadi va ssenariydan tashqari savollarga javob beradi, muloqot kontekstini saqlaydi. Bu tashlab ketilgan yozishmalarni kamaytiradi va konversiyani oshiradi."
+      "a": "Oddiy bot tugmalar va qattiq ssenariy bo‘yicha ishlaydi. GPT bot tabiiy tilni tushunadi va ssenariydan tashqari savollarga javob beradi, muloqot kontekstini saqlaydi. Bu tashlab ketilgan yozishmalarni kamaytiradi va konversiyani oshiradi."
     },
     {
-      "q": "GPT bot javobni o'ylab topishi mumkinmi?",
-      "a": "Biz modelni bilim bazangiz bilan cheklaymiz va qoidalar beramiz. Bot ma'lumotlaringiz doirasida javob beradi, murakkab holatlarni esa jonli menejerga uzatadi."
+      "q": "GPT bot javobni o‘ylab topishi mumkinmi?",
+      "a": "Biz modelni bilim bazangiz bilan cheklaymiz va qoidalar beramiz. Bot ma’lumotlaringiz doirasida javob beradi, murakkab holatlarni esa jonli menejerga uzatadi."
     },
     {
-      "q": "U o'zbek tilini tushunadimi?",
-      "a": "Ha, GPT bot rus va o'zbek (Latin) bilan, jumladan tillar aralashmasi va so'zlashuv shakllari bilan ishlaydi."
+      "q": "U o‘zbek tilini tushunadimi?",
+      "a": "Ha, GPT bot rus va o‘zbek (Latin) bilan, jumladan tillar aralashmasi va so‘zlashuv shakllari bilan ishlaydi."
     },
     {
       "q": "GPT bot qaysi messenjerlarda ishlaydi?",
-      "a": "Telegram, Instagram Direct va WhatsApp'da. Bitta «aqlli» dvigatelni kerakli kanallarga ulash mumkin."
+      "a": "Telegram, Instagram Direct va WhatsApp’da. Bitta «aqlli» dvigatelni kerakli kanallarga ulash mumkin."
     },
     {
       "q": "Qachon GPT botni tanlash kerak, oddiy botni emas?",
-      "a": "Mijozlarda bir necha tugmaga keltirib bo'lmaydigan turli savollar ko'p bo'lganda: xizmat, konsalting, murakkab mahsulot, B2B. Oddiy voronka uchun esa oddiy chat-bot yetarli."
+      "a": "Mijozlarda bir necha tugmaga keltirib bo‘lmaydigan turli savollar ko‘p bo‘lganda: xizmat, konsalting, murakkab mahsulot, B2B. Oddiy voronka uchun esa oddiy chat-bot yetarli."
     },
     {
-      "q": "Arizalarni CRM'ga uzatish mumkinmi?",
-      "a": "Ha. GPT bot ism va telefonni yig'adi, lidni saralaydi va arizani menejerga Telegram yoki CRM'ga — AmoCRM, Bitrix24 va boshqalarga uzatadi."
+      "q": "Arizalarni CRM’ga uzatish mumkinmi?",
+      "a": "Ha. GPT bot ism va telefonni yig‘adi, lidni saralaydi va arizani menejerga Telegram yoki CRM’ga — AmoCRM, Bitrix24 va boshqalarga uzatadi."
     }
   ],
   "internalLinks": [

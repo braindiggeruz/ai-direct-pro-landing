@@ -15,19 +15,19 @@
   ],
   "searchIntent": "commercial",
   "h1": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
-  "title": "Telegram bot biznes uchun — buyurtma va to'lov | GPTBot",
-  "description": "Telegram bot biznes uchun: 24/7 buyurtma va ariza qabuli, ommaviy tarqatma, CRM integratsiyasi. Rus va o'zbek tilida, arizalarni menejerga avtomatik uzatadi.",
+  "title": "Telegram bot biznes uchun — buyurtma va to‘lov | GPTBot",
+  "description": "Telegram bot biznes uchun: 24/7 buyurtma va ariza qabuli, ommaviy tarqatma, CRM integratsiyasi. Rus va o‘zbek tilida, arizalarni menejerga avtomatik uzatadi.",
   "canonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
   "hreflangRu": "/ru/telegram-bot-dlya-biznesa/",
   "hreflangUz": "/uz/telegram-bot-biznes-uchun/",
   "ogTitle": "Telegram bot biznes uchun — buyurtma va lid 24/7 | GPTBot",
-  "ogDescription": "Telegram bot biznes uchun: 24/7 buyurtma va ariza qabuli, ommaviy tarqatma, CRM integratsiyasi. Rus va o'zbek tilida, arizalarni menejerga avtomatik uzatadi.",
+  "ogDescription": "Telegram bot biznes uchun: 24/7 buyurtma va ariza qabuli, ommaviy tarqatma, CRM integratsiyasi. Rus va o‘zbek tilida, arizalarni menejerga avtomatik uzatadi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Telegram bot biznes uchun",
   "heroTitle": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
-  "heroSubtitle": "Buyurtmalarni qabul qiladi, 24/7 javob beradi, xabarlar yuboradi va lidlarni CRM'ga uzatadi.",
+  "heroSubtitle": "Buyurtmalarni qabul qiladi, 24/7 javob beradi, xabarlar yuboradi va lidlarni CRM’ga uzatadi.",
   "ctaPrimaryLabel": "Telegram bot buyurtma qilish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
@@ -40,11 +40,11 @@
     },
     {
       "type": "p",
-      "text": "O'zbekistonda Telegram — savdo va mijozlar bilan muloqotning asosiy kanallaridan biri. Telegram bot messenjerni to'laqonli vositaga aylantiradi: buyurtma va ariza qabuli, 24/7 javoblar, baza bo'yicha tarqatma va to'lovni qabul qilish — barchasi mijozlaringiz allaqachon bo'lgan bitta ilova ichida."
+      "text": "O‘zbekistonda Telegram — savdo va mijozlar bilan muloqotning asosiy kanallaridan biri. Telegram bot messenjerni to‘laqonli vositaga aylantiradi: buyurtma va ariza qabuli, 24/7 javoblar, baza bo‘yicha tarqatma va to‘lovni qabul qilish — barchasi mijozlaringiz allaqachon bo‘lgan bitta ilova ichida."
     },
     {
       "type": "p",
-      "text": "Bu sahifa aynan Telegram xususiyatlari haqida. «Aqlli» dvigatel muhim bo'lsa — GPT bot biznes uchun; kanallar bo'yicha umumiy manzara — biznes uchun AI bot; Instagram haqida — Instagram bot."
+      "text": "Bu sahifa aynan Telegram xususiyatlari haqida. «Aqlli» dvigatel muhim bo‘lsa — GPT bot biznes uchun; kanallar bo‘yicha umumiy manzara — biznes uchun AI bot; Instagram haqida — Instagram bot."
     },
     {
       "type": "h2",
@@ -55,19 +55,19 @@
       "items": [
         "Buyurtma va arizalarni 24/7 qabul qiladi",
         "Mijozlar savollariga darhol javob beradi",
-        "Baza bo'yicha ommaviy va segmentli tarqatma qiladi",
-        "To'lovni to'g'ridan-to'g'ri Telegram'da qabul qiladi",
+        "Baza bo‘yicha ommaviy va segmentli tarqatma qiladi",
+        "To‘lovni to‘g‘ridan-to‘g‘ri Telegram’da qabul qiladi",
         "Katalogli bot-vitrina sifatida ishlaydi",
-        "Ariza va buyurtmalarni CRM'ga uzatadi"
+        "Ariza va buyurtmalarni CRM’ga uzatadi"
       ]
     },
     {
       "type": "h2",
-      "text": "Telegram'da tarqatma"
+      "text": "Telegram’da tarqatma"
     },
     {
       "type": "p",
-      "text": "Bot obunachilar bazasini saqlaydi va ularga aksiya, yangilik va eslatmalarni — ommaviy yoki segment bo'yicha — yuborish imkonini beradi. Bu reklama xarajatlarisiz mijozlarni qaytaradi va takroriy savdoni oshiradi. Tarqatma botga o'zi yozganlar bo'yicha qilinadi, bu akkaunt obro'sini asraydi."
+      "text": "Bot obunachilar bazasini saqlaydi va ularga aksiya, yangilik va eslatmalarni — ommaviy yoki segment bo‘yicha — yuborish imkonini beradi. Bu reklama xarajatlarisiz mijozlarni qaytaradi va takroriy savdoni oshiradi. Tarqatma botga o‘zi yozganlar bo‘yicha qilinadi, bu akkaunt obro‘sini asraydi."
     },
     {
       "type": "h2",
@@ -79,16 +79,16 @@
     },
     {
       "type": "h2",
-      "text": "Telegram botsiz nega arizalar yo'qoladi"
+      "text": "Telegram botsiz nega arizalar yo‘qoladi"
     },
     {
       "type": "list",
       "items": [
         "Ish vaqtidan tashqari xabarlar javobsiz qoladi",
-        "Menejer cho'qqida javob berishga ulgurmaydi",
-        "Tarqatma uchun baza yo'q — takroriy savdo yo'qoladi",
-        "Buyurtmalar qo'lda qayd etiladi va yozishmada yo'qoladi",
-        "Mijoz tezroq javob berib to'lovni qabul qilgan joyga ketadi"
+        "Menejer cho‘qqida javob berishga ulgurmaydi",
+        "Tarqatma uchun baza yo‘q — takroriy savdo yo‘qoladi",
+        "Buyurtmalar qo‘lda qayd etiladi va yozishmada yo‘qoladi",
+        "Mijoz tezroq javob berib to‘lovni qabul qilgan joyga ketadi"
       ]
     },
     {
@@ -97,7 +97,7 @@
     },
     {
       "type": "p",
-      "text": "Mijoz Telegram'da botingizni ochadi → bot javob beradi, katalogni ko'rsatadi yoki arizani qabul qiladi → ism, telefon va buyurtma tafsilotlarini yig'adi → kerak bo'lsa to'lovni qabul qiladi → buyurtmani menejer yoki CRM'ga uzatadi. Bir vaqtda bot kelajakdagi tarqatmalar uchun baza yig'adi."
+      "text": "Mijoz Telegram’da botingizni ochadi → bot javob beradi, katalogni ko‘rsatadi yoki arizani qabul qiladi → ism, telefon va buyurtma tafsilotlarini yig‘adi → kerak bo‘lsa to‘lovni qabul qiladi → buyurtmani menejer yoki CRM’ga uzatadi. Bir vaqtda bot kelajakdagi tarqatmalar uchun baza yig‘adi."
     },
     {
       "type": "h2",
@@ -106,11 +106,11 @@
     {
       "type": "list",
       "items": [
-        "Bitta kanalda 24/7 buyurtma va to'lov qabuli",
-        "Tarqatma hisobiga takroriy savdoning o'sishi",
-        "Menejerlarning qo'l mehnati kamayadi",
-        "Buyurtma va arizalar avtomatik CRM'ga tushadi",
-        "Yagona kanal: savdo, qo'llab-quvvatlov va to'lov"
+        "Bitta kanalda 24/7 buyurtma va to‘lov qabuli",
+        "Tarqatma hisobiga takroriy savdoning o‘sishi",
+        "Menejerlarning qo‘l mehnati kamayadi",
+        "Buyurtma va arizalar avtomatik CRM’ga tushadi",
+        "Yagona kanal: savdo, qo‘llab-quvvatlov va to‘lov"
       ]
     },
     {
@@ -119,11 +119,11 @@
     },
     {
       "type": "p",
-      "text": "Narx funksiyalar to'plamiga bog'liq: arizalar uchun oddiy bot katalog, to'lov va tarqatmali bot-do'kondan arzonroq. CRM bilan integratsiya alohida hisoblanadi. Telegram'ga yozing — funksiya va smetani biznesingizga qarab muhokama qilamiz."
+      "text": "Narx funksiyalar to‘plamiga bog‘liq: arizalar uchun oddiy bot katalog, to‘lov va tarqatmali bot-do‘kondan arzonroq. CRM bilan integratsiya alohida hisoblanadi. Telegram’ga yozing — funksiya va smetani biznesingizga qarab muhokama qilamiz."
     },
     {
       "type": "cta",
-      "text": "Telegram bot so'rash",
+      "text": "Telegram bot so‘rash",
       "href": "https://t.me/XGame_changerx"
     },
     {
@@ -144,31 +144,31 @@
   "faq": [
     {
       "q": "Telegram bot biznes uchun AI botdan nimasi bilan farq qiladi?",
-      "a": "AI bot — istalgan kanallar uchun umumiy yechim. Telegram bot — aynan Telegram xususiyati: tarqatma, chatda to'lov qabuli, katalogli bot-vitrina. Ichida o'sha GPT-dvigatel ishlashi mumkin."
+      "a": "AI bot — istalgan kanallar uchun umumiy yechim. Telegram bot — aynan Telegram xususiyati: tarqatma, chatda to‘lov qabuli, katalogli bot-vitrina. Ichida o‘sha GPT-dvigatel ishlashi mumkin."
     },
     {
       "q": "Telegram bot orqali tarqatma qilish mumkinmi?",
-      "a": "Ha. Bot obuna bo'lgan foydalanuvchilar bazasini yig'adi va ularga aksiya hamda yangiliklarni — ommaviy yoki segment bo'yicha — yuborishga imkon beradi. Tarqatma botga o'zi yozganlar bo'yicha boradi."
+      "a": "Ha. Bot obuna bo‘lgan foydalanuvchilar bazasini yig‘adi va ularga aksiya hamda yangiliklarni — ommaviy yoki segment bo‘yicha — yuborishga imkon beradi. Tarqatma botga o‘zi yozganlar bo‘yicha boradi."
     },
     {
-      "q": "Bot to'lovni qabul qila oladimi?",
-      "a": "Ha, Telegram chat ichida to'lovni qo'llab-quvvatlaydi. Mijoz buyurtmani rasmiylashtirib, messenjerdan chiqmasdan to'lovni amalga oshiradi, bot esa buyurtmani qayd etadi."
+      "q": "Bot to‘lovni qabul qila oladimi?",
+      "a": "Ha, Telegram chat ichida to‘lovni qo‘llab-quvvatlaydi. Mijoz buyurtmani rasmiylashtirib, messenjerdan chiqmasdan to‘lovni amalga oshiradi, bot esa buyurtmani qayd etadi."
     },
     {
-      "q": "Bu katalogli bot-do'konmi?",
-      "a": "Shunday ham bo'lishi mumkin: bot mahsulot katalogini ko'rsatadi, buyurtma va to'lovni qabul qiladi. Internet-do'kon, yetkazib berish va xizmatlar uchun mos."
+      "q": "Bu katalogli bot-do‘konmi?",
+      "a": "Shunday ham bo‘lishi mumkin: bot mahsulot katalogini ko‘rsatadi, buyurtma va to‘lovni qabul qiladi. Internet-do‘kon, yetkazib berish va xizmatlar uchun mos."
     },
     {
       "q": "CRM ulash mumkinmi?",
-      "a": "Ha. Telegram'dagi buyurtma va arizalar AmoCRM, Bitrix24 yoki boshqa tizimga uzatiladi, hech narsa yo'qolmaydi."
+      "a": "Ha. Telegram’dagi buyurtma va arizalar AmoCRM, Bitrix24 yoki boshqa tizimga uzatiladi, hech narsa yo‘qolmaydi."
     },
     {
-      "q": "Mijozlar Instagram'ga yozsa-chi?",
-      "a": "U holda Instagram Direct bot yoki ko'p kanalli yechim kerak. Telegram bot aynan Telegram'ni yopadi, lekin kanallarni birlashtirsa bo'ladi."
+      "q": "Mijozlar Instagram’ga yozsa-chi?",
+      "a": "U holda Instagram Direct bot yoki ko‘p kanalli yechim kerak. Telegram bot aynan Telegram’ni yopadi, lekin kanallarni birlashtirsa bo‘ladi."
     },
     {
       "q": "Bot erkin savollarni tushunadimi?",
-      "a": "Savollar ko'p bo'lsa, biz GPT-dvigatel qo'yamiz va bot tabiiy tilni tushunadi. Batafsil — GPT bot biznes uchun sahifasida."
+      "a": "Savollar ko‘p bo‘lsa, biz GPT-dvigatel qo‘yamiz va bot tabiiy tilni tushunadi. Batafsil — GPT bot biznes uchun sahifasida."
     }
   ],
   "internalLinks": [

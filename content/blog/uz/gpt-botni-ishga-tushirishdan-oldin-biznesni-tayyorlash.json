@@ -4,7 +4,7 @@
   "slug": "gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash",
   "url": "/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
   "title": "GPT-botni ishga tushirishdan oldin biznesni qanday",
-  "description": "FAQ, bilim bazasi, handoff qoidalari va RU + UZ formulirovkalar: GPT-bot startidan oldin nima tayyor bo'lishi kerakligini bosqichma-bosqich tushuntiramiz.",
+  "description": "FAQ, bilim bazasi, handoff qoidalari va RU + UZ formulirovkalar: GPT-bot startidan oldin nima tayyor bo‘lishi kerakligini bosqichma-bosqich tushuntiramiz.",
   "h1": "GPT-botni ishga tushirishdan oldin biznesni qanday tayyorlash",
   "topicCluster": "gpt-bot-launch-prep",
   "targetMoneyPage": "/uz/gpt-bot-biznes-uchun/",
@@ -15,7 +15,7 @@
     "GPT-bot uchun bilim bazasi",
     "GPT bot Uzbekistan ishga tushirish"
   ],
-  "intro": "GPT-botni ulashdan ko'ra, biznes fakturani va muloqot doirasini oldindan tayyorlaganda yaxshiroq ishlaydi.",
+  "intro": "GPT-botni ulashdan ko‘ra, biznes fakturani va muloqot doirasini oldindan tayyorlaganda yaxshiroq ishlaydi.",
   "body": [
     {
       "type": "figure",
@@ -34,7 +34,7 @@
     },
     {
       "type": "p",
-      "text": "GPT-bot koddan oldin fakt talab qiladi. Agar biznes o'z xizmatlari, cheklovlari, tez-tez beriladigan savollari va handoff qoidalarini aniq bilmasa, bot chiroyli gapiradi, lekin foydasi sust bo'ladi. \"Modelni ulagandik\" degan yondashuv ko'pincha bo'sh javoblar va ortiqcha umumiy gaplarga olib keladi."
+      "text": "GPT-bot koddan oldin fakt talab qiladi. Agar biznes o‘z xizmatlari, cheklovlari, tez-tez beriladigan savollari va handoff qoidalarini aniq bilmasa, bot chiroyli gapiradi, lekin foydasi sust bo‘ladi. \"Modelni ulagandik\" degan yondashuv ko‘pincha bo‘sh javoblar va ortiqcha umumiy gaplarga olib keladi."
     },
     {
       "type": "h2",
@@ -42,7 +42,7 @@
     },
     {
       "type": "p",
-      "text": "Start uchun toza paket kerak: xizmat faktlari, qisqa FAQ, majburiy lead maydonlari va \"qachon jonli menejerga o'tadi\" degan aniq qoida. Bundan tashqari narx, vaqt va nostandart so'rovlarga aniq javob mantig'i belgilanishi kerak."
+      "text": "Start uchun toza paket kerak: xizmat faktlari, qisqa FAQ, majburiy lead maydonlari va \"qachon jonli menejerga o‘tadi\" degan aniq qoida. Bundan tashqari narx, vaqt va nostandart so‘rovlarga aniq javob mantig‘i belgilanishi kerak."
     },
     {
       "type": "h2",
@@ -50,7 +50,7 @@
     },
     {
       "type": "p",
-      "text": "Bundan tashqari RU va UZ formulirovkalarini alohida tayyorlash kerak. Bu oddiy tarjima emas, tabiiy suhbat mantiqi. Telegram va Instagram'dagi haqiqiy menejer-mijoz suhbatlaridan iboralarni olib, ular asosida javoblarni qurish — eng tezkor yo'l."
+      "text": "Bundan tashqari RU va UZ formulirovkalarini alohida tayyorlash kerak. Bu oddiy tarjima emas, tabiiy suhbat mantiqi. Telegram va Instagram’dagi haqiqiy menejer-mijoz suhbatlaridan iboralarni olib, ular asosida javoblarni qurish — eng tezkor yo‘l."
     },
     {
       "type": "h2",
@@ -58,7 +58,7 @@
     },
     {
       "type": "p",
-      "text": "Sinov ham real savollar bilan bo'lishi kerak: narx, vaqt, filial, aralash til, noqulay yoki nostandart murojaat. Yaxshi start — hamma narsaga javob beradigan bot emas, birinchi qatlamni ishonchli ushlaydigan bot."
+      "text": "Sinov ham real savollar bilan bo‘lishi kerak: narx, vaqt, filial, aralash til, noqulay yoki nostandart murojaat. Yaxshi start — hamma narsaga javob beradigan bot emas, birinchi qatlamni ishonchli ushlaydigan bot."
     },
     {
       "type": "cta",
@@ -113,18 +113,18 @@
   "faq": [
     {
       "q": "Hammasiga javob tayyorlash kerakmi?",
-      "a": "Yo'q. Avval eng tez-tez va eng muhim birinchi qatlam yopiladi."
+      "a": "Yo‘q. Avval eng tez-tez va eng muhim birinchi qatlam yopiladi."
     },
     {
-      "q": "Bilim bazasisiz bo'ladimi?",
-      "a": "Texnik jihatdan ha, lekin amalda sifati barqaror bo'lmaydi."
+      "q": "Bilim bazasisiz bo‘ladimi?",
+      "a": "Texnik jihatdan ha, lekin amalda sifati barqaror bo‘lmaydi."
     },
     {
-      "q": "FAQ'ni kim beradi?",
-      "a": "Biznesning o'zi: menejerlar, administratorlar va sotuv mutaxassislari."
+      "q": "FAQ’ni kim beradi?",
+      "a": "Biznesning o‘zi: menejerlar, administratorlar va sotuv mutaxassislari."
     },
     {
-      "q": "Narx tez-tez o'zgaradigan bo'lsa-chi?",
+      "q": "Narx tez-tez o‘zgaradigan bo‘lsa-chi?",
       "a": "\"Bitta raqam\" emas, balki diapazon yoki javob qoidasini berish kerak."
     },
     {
@@ -133,7 +133,7 @@
     },
     {
       "q": "Qachon handoff qilish kerak?",
-      "a": "Savol nozik, murakkab yoki nostandart bo'lsa."
+      "a": "Savol nozik, murakkab yoki nostandart bo‘lsa."
     }
   ],
   "cta": {
@@ -182,7 +182,7 @@
     }
   ],
   "ogTitle": "GPT-botni ishga tushirishdan oldin biznesni qanday tayyorlash",
-  "ogDescription": "FAQ, bilim bazasi, handoff qoidalari va RU + UZ formulirovkalar: GPT-bot startidan oldin nima tayyor bo'lishi kerakligini bosqichma-bosqich tushuntiramiz.",
+  "ogDescription": "FAQ, bilim bazasi, handoff qoidalari va RU + UZ formulirovkalar: GPT-bot startidan oldin nima tayyor bo‘lishi kerakligini bosqichma-bosqich tushuntiramiz.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
   "hreflangRu": "/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",

@@ -5,7 +5,7 @@
   "url": "/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
   "title": "Toshkentda chat-bot: kanal tanlash | GPTBot.uz",
   "description": "Telegrammi, Instagrammi yoki ikkalasi birga? Toshkent biznesi uchun chat-bot kanalini amaliy tanlaymiz: auditoriya, narx, integratsiya.",
-  "h1": "Toshkentda biznes uchun chat-bot: qaysi kanal to'g'ri",
+  "h1": "Toshkentda biznes uchun chat-bot: qaysi kanal to‘g‘ri",
   "topicCluster": "channel-choice",
   "targetMoneyPage": "/uz/chat-bot-biznes-uchun/",
   "keywords": [
@@ -16,7 +16,7 @@
     "Toshkentda chat-bot narxi",
     "biznes uchun qaysi kanal"
   ],
-  "intro": "Chat-bot tanlashda to'g'ri savol: \"Qaysi kanalda u tezroq natija beradi?\"",
+  "intro": "Chat-bot tanlashda to‘g‘ri savol: \"Qaysi kanalda u tezroq natija beradi?\"",
   "body": [
     {
       "type": "figure",
@@ -31,11 +31,11 @@
     },
     {
       "type": "h2",
-      "text": "\"Qaysi kanal kuchli?\" — noto'g'ri savol"
+      "text": "\"Qaysi kanal kuchli?\" — noto‘g‘ri savol"
     },
     {
       "type": "p",
-      "text": "Chat-bot tanlashda \"qaysi kanal kuchli?\" degan savol ko'p beriladi. To'g'ri savol esa boshqacha: mijoz qayerda birinchi yozadi va biznes qayerda jarayonni tartibli davom ettira oladi? Bu rollarni aralashtirib yuborilsa, bot voronkaning noto'g'ri nuqtasida ishlaydi."
+      "text": "Chat-bot tanlashda \"qaysi kanal kuchli?\" degan savol ko‘p beriladi. To‘g‘ri savol esa boshqacha: mijoz qayerda birinchi yozadi va biznes qayerda jarayonni tartibli davom ettira oladi? Bu rollarni aralashtirib yuborilsa, bot voronkaning noto‘g‘ri nuqtasida ishlaydi."
     },
     {
       "type": "h2",
@@ -43,7 +43,7 @@
     },
     {
       "type": "p",
-      "text": "Telegram kuchli joyi — katalog, qayta aloqa, status, buyurtma va tartib. Do'kon, kurs, qayta murojaat yoki order-flow kuchli bo'lgan biznesda Telegram ko'pincha qulayroq tayanch kanal bo'ladi."
+      "text": "Telegram kuchli joyi — katalog, qayta aloqa, status, buyurtma va tartib. Do‘kon, kurs, qayta murojaat yoki order-flow kuchli bo‘lgan biznesda Telegram ko‘pincha qulayroq tayanch kanal bo‘ladi."
     },
     {
       "type": "h2",
@@ -51,7 +51,7 @@
     },
     {
       "type": "p",
-      "text": "Instagram kuchli joyi — visual kontentdan keyingi tez birinchi yozish. Shu sababli salon, beauty yoki reklama-driven biznesda entrance ko'pincha Direct bo'ladi. Storis va rils ko'rgan mijoz xuddi shu daqiqada Direct'ga yozishni xohlaydi."
+      "text": "Instagram kuchli joyi — visual kontentdan keyingi tez birinchi yozish. Shu sababli salon, beauty yoki reklama-driven biznesda entrance ko‘pincha Direct bo‘ladi. Storis va rils ko‘rgan mijoz xuddi shu daqiqada Direct’ga yozishni xohlaydi."
     },
     {
       "type": "h2",
@@ -59,7 +59,7 @@
     },
     {
       "type": "p",
-      "text": "Eng yaxshi yechim ko'pincha \"yoki-yoki\" emas, balki \"qayerda interest tug'iladi va qayerda jarayon boshqariladi\" degan bog'lamadir. Avval bitta asosiy kirish nuqtasini ishga tushirib, keyin ikkinchi kanalni ulash eng sog'lom yondashuv bo'ladi."
+      "text": "Eng yaxshi yechim ko‘pincha \"yoki-yoki\" emas, balki \"qayerda interest tug‘iladi va qayerda jarayon boshqariladi\" degan bog‘lamadir. Avval bitta asosiy kirish nuqtasini ishga tushirib, keyin ikkinchi kanalni ulash eng sog‘lom yondashuv bo‘ladi."
     },
     {
       "type": "cta",
@@ -85,7 +85,7 @@
     },
     {
       "type": "p",
-      "text": "Toshkentda biznes uchun chat-bot: qaysi kanal to'g'ri mavzusida yechim tanlashdan oldin kanal nomiga emas, mijoz yo‘liga qarang. Kiruvchi xabar qayerdan keladi, bot qaysi ma’lumotlarni so‘raydi, javob qaysi manbadan olinadi va qachon suhbat menejerga o‘tishi yozma ravishda belgilanishi kerak. Shunda demo chiroyli ko‘rinish bilan cheklanmaydi va real jarayon bilan solishtiriladi."
+      "text": "Toshkentda biznes uchun chat-bot: qaysi kanal to‘g‘ri mavzusida yechim tanlashdan oldin kanal nomiga emas, mijoz yo‘liga qarang. Kiruvchi xabar qayerdan keladi, bot qaysi ma’lumotlarni so‘raydi, javob qaysi manbadan olinadi va qachon suhbat menejerga o‘tishi yozma ravishda belgilanishi kerak. Shunda demo chiroyli ko‘rinish bilan cheklanmaydi va real jarayon bilan solishtiriladi."
     },
     {
       "type": "list",
@@ -113,24 +113,24 @@
   ],
   "faq": [
     {
-      "q": "Bitta kanaldan boshlasa bo'ladimi?",
-      "a": "Ha. Bu birinchi bosqichda ko'pincha foydaliroq."
+      "q": "Bitta kanaldan boshlasa bo‘ladimi?",
+      "a": "Ha. Bu birinchi bosqichda ko‘pincha foydaliroq."
     },
     {
       "q": "Salon uchun qaysi biri kuchliroq?",
-      "a": "Ko'pincha Instagram entrance bo'ladi, keyin jarayon Telegram yoki CRM'ga o'tadi."
+      "a": "Ko‘pincha Instagram entrance bo‘ladi, keyin jarayon Telegram yoki CRM’ga o‘tadi."
     },
     {
-      "q": "Do'kon uchun-chi?",
-      "a": "Katalog, qayta murojaat va order-flow bo'lsa, ko'p hollarda Telegram qulayroq."
+      "q": "Do‘kon uchun-chi?",
+      "a": "Katalog, qayta murojaat va order-flow bo‘lsa, ko‘p hollarda Telegram qulayroq."
     },
     {
-      "q": "Sayt bo'lmasa ham ishlaydimi?",
+      "q": "Sayt bo‘lmasa ham ishlaydimi?",
       "a": "Ha, lekin SEO va ishonch uchun sayt baribir kerak."
     },
     {
       "q": "Ikki kanalni birdan ishga tushirish shartmi?",
-      "a": "Yo'q. Avval bitta kanalni barqarorlashtirish foydaliroq."
+      "a": "Yo‘q. Avval bitta kanalni barqarorlashtirish foydaliroq."
     }
   ],
   "cta": {
@@ -181,10 +181,10 @@
     },
     {
       "target": "/uz/ozbekiston-boylab-chat-bot/",
-      "anchor": "O'zbekiston bo'ylab chat-bot"
+      "anchor": "O‘zbekiston bo‘ylab chat-bot"
     }
   ],
-  "ogTitle": "Toshkentda biznes uchun chat-bot: qaysi kanal to'g'ri",
+  "ogTitle": "Toshkentda biznes uchun chat-bot: qaysi kanal to‘g‘ri",
   "ogDescription": "Telegrammi, Instagrammi yoki ikkalasi birga? Toshkent biznesi uchun chat-bot kanalini amaliy tanlaymiz.",
   "ogImage": "https://gptbot.uz/assets/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
