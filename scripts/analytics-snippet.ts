@@ -54,7 +54,18 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
   var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
   function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});setTimeout(idleLoad,600);}
   evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
-  if(document.readyState==='complete'){setTimeout(idleLoad,32000);}else{window.addEventListener('load',function(){setTimeout(idleLoad,32000)});}
+  // A visitor who never scrolls, taps or moves the mouse is still a visitor.
+  // This fallback used to arm 32 s after the LOAD EVENT, which measured on
+  // production 2026-08-26 put the first GA4 hit at 36 114 ms on / and 62 019 ms
+  // on a cold landing, while Yandex Metrika on the same pages fired at
+  // 1 533-5 288 ms. Every visit shorter than that was recorded by Metrika and
+  // by Search Console and was invisible in GA4 - which is what the owner saw as
+  // "traffic dropped to zero". Two bounds now, whichever lands first: a short
+  // one after load, and a ceiling counted from this snippet, so a slow load
+  // event cannot carry the measurement away with it. loadGtag is idempotent,
+  // so both of them firing costs nothing.
+  if(document.readyState==='complete'){setTimeout(idleLoad,2500);}else{window.addEventListener('load',function(){setTimeout(idleLoad,2500)});}
+  setTimeout(idleLoad,8000);
   var last = location.pathname;
   function fire(){ if(window.gtag){ gtag('event','page_view',{page_path:location.pathname,page_title:document.title}); } }
   ['pushState','replaceState'].forEach(function(m){

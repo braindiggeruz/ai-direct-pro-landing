@@ -273,3 +273,51 @@ test('no analytics payload carries a phone number or an email address', () => {
     }
   }
 });
+
+// When the Google tags actually load.
+//
+// Every test above stayed green on 2026-08-26 while the passive-visitor
+// fallback armed 32 s after the LOAD EVENT, which measured on production put
+// the first GA4 hit at 36 114 ms on / and 62 019 ms on a cold landing, against
+// 1 533-5 288 ms for Yandex Metrika on the same pages. They stayed green
+// because they only ever asked what the block sends, never when it loads, and
+// a tag that has not loaded sends nothing at all. These two ask when.
+const MAX_PASSIVE_DELAY_MS = 10_000;
+
+const passiveDelays = (source: string): number[] =>
+  [...source.matchAll(/setTimeout\(\s*idleLoad\s*,\s*(\d+)\s*\)/g)].map((m) => Number(m[1]));
+
+test('a visitor who never interacts is still measured within ten seconds', () => {
+  const delays = passiveDelays(ANALYTICS_HEAD);
+  assert.ok(delays.length > 0, 'the analytics block has no passive fallback at all');
+  for (const ms of delays) {
+    assert.ok(
+      ms <= MAX_PASSIVE_DELAY_MS,
+      `gtag.js is deferred ${ms} ms for a visitor who never scrolls or taps; past ` +
+        `${MAX_PASSIVE_DELAY_MS} ms the visit ends before the tag exists and GA4 ` +
+        `records nothing, while Search Console and Metrika still record it`,
+    );
+  }
+});
+
+test('the SPA shell defers the Google tags no longer than the prerendered pages', () => {
+  // index.html carries its own copies of the same two blocks. When they drift
+  // from scripts/analytics-snippet.ts the homepage and the landings stop being
+  // comparable in GA4, and the drift is invisible in every other test here.
+  // The Meta pixel is deliberately not covered: it is marketing, not
+  // measurement, and loading it late costs nothing that this file is about.
+  const shell = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
+  for (const tag of ['gtm', 'ga']) {
+    const start = shell.indexOf(`<script data-tag="${tag}">`);
+    assert.notEqual(start, -1, `index.html has no data-tag="${tag}" block`);
+    const end = shell.indexOf('</script>', start);
+    const delays = passiveDelays(shell.slice(start, end));
+    assert.ok(delays.length > 0, `the ${tag} block has no passive fallback at all`);
+    for (const ms of delays) {
+      assert.ok(
+        ms <= MAX_PASSIVE_DELAY_MS,
+        `index.html defers the ${tag} tag ${ms} ms for a passive visitor`,
+      );
+    }
+  }
+});

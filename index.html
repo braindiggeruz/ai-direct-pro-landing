@@ -25,7 +25,11 @@
       var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
       function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}
       evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});
-      if(d.readyState==='complete'){setTimeout(idleLoad,30000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,30000)});}
+      // Same bound as the gtag block below and scripts/analytics-snippet.ts.
+      // The container waited 30 s after the load event, so every tag inside it
+      // inherited that blindness whatever the tag itself was configured to do.
+      if(d.readyState==='complete'){setTimeout(idleLoad,2500);}else{w.addEventListener('load',function(){setTimeout(idleLoad,2500)});}
+      setTimeout(idleLoad,8000);
     })(window,document,'script','dataLayer','GTM-NLR4WFX8');
     </script>
     <!-- End Google Tag Manager -->
@@ -219,7 +223,10 @@
         // +600ms stagger after interaction (GTM first, gtag second, pixel third).
         function onInt(){evs.forEach(function(e){window.removeEventListener(e,onInt)});setTimeout(idleLoad,600);}
         evs.forEach(function(e){window.addEventListener(e,onInt,{passive:true,once:true})});
-        if(document.readyState==='complete'){setTimeout(idleLoad,32000);}else{window.addEventListener('load',function(){setTimeout(idleLoad,32000)});}
+        // Bounded the way scripts/analytics-snippet.ts is; the measurements
+        // that forced it are recorded there.
+        if(document.readyState==='complete'){setTimeout(idleLoad,2500);}else{window.addEventListener('load',function(){setTimeout(idleLoad,2500)});}
+        setTimeout(idleLoad,8000);
         // SPA route change -> page_view
         var last = location.pathname;
         function fire(){ if(window.gtag){ gtag('event','page_view',{page_path:location.pathname,page_title:document.title}); } }
