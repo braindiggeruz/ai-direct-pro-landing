@@ -293,7 +293,7 @@ surfaces unchanged; `/admin/lead-radar` 302, `/admin/` 200,
 
 | | |
 | --- | --- |
-| Deployment id | `a00b35d9` (`https://a00b35d9.ai-direct-pro-landing.pages.dev`) |
+| Deployment id | `a00b35d9-4c6d-43c3-a146-ec1ebc15ecca` (`https://a00b35d9.ai-direct-pro-landing.pages.dev`) |
 | Source SHA | `9754dbb20049de269da5ebfc647a87f4f20ec72a` |
 | What it is | `main` (`afb87f0`) merged with the live Lead Radar tree `2eb9a2a` |
 | Rollback target | `8d6679fd-b284-4ed5-a4f8-2f1c17a4fc40` (source `010fd19`) |
