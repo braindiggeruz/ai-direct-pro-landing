@@ -135,6 +135,14 @@
       "source": "OpenSEO/DataForSEO location 2860, get_keyword_metrics pulled 2026-08-22",
       "measuredAt": "2026-08-22",
       "note": "Google Ads competition index 0.01. Informational, so it is owned by a supporting article and never by a commercial page. Live SERP the same day: Wikipedia plus explainer pages from both direct competitors — royalmarketing.uz «Marketing nima? Oddiy tushuncha va foydalari» and oqila.uz «Marketing nima va u nima uchun kerak» — which is the same shape that made smm nima worth writing. It exists to route Uzbek top-of-funnel demand into /uz/smm-xizmatlari/, /uz/seo-xizmati/, /uz/sayt-yaratish/ and /uz/telegram-reklama/."
+    },
+    {
+      "keyword": "купить рекламу в телеграм",
+      "volumePerMonth": 10,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO location 2860, Telegram tail discovery 2026-08-26 (132 unique keywords, 8 live SERPs)",
+      "measuredAt": "2026-08-26",
+      "note": "10/mo alone. Recorded as the named entry point of a ~25-phrase buying-placements family aggregating ~250/mo — «биржа рекламы телеграм» and its six variants, «купить рекламу в телеграм» and its five, plus «закупка», «покупка», «продажа» and «разместить». The article /ru/blog/telegram-ads-ili-posevy-v-kanalah/ targets the family, not this phrase. Twenty-five URLs at 10/mo would be the frozen bot cluster repeating, so exactly one was written. The demand gate scores money and niche pages only, so a blog article is not blocked by this row; it is recorded because the number will be asked for at the six-week kill-rule read."
     }
   ],
   "qualityRequirements": {

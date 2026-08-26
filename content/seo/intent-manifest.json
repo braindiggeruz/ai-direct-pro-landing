@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-08-25",
+  "updatedAt": "2026-08-26",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -208,9 +208,15 @@
       "hub": "/ru/telegram-ads-uzbekistan/",
       "hubIntent": "commercial \u2014 commission paid Telegram distribution, in Russian, for a business in Uzbekistan",
       "hubKeywords": ["telegram ads \u0432 \u0443\u0437\u0431\u0435\u043a\u0438\u0441\u0442\u0430\u043d\u0435", "\u0440\u0435\u043a\u043b\u0430\u043c\u0430 \u0432 \u0442\u0435\u043b\u0435\u0433\u0440\u0430\u043c", "telegram ads \u0446\u0435\u043d\u0430", "\u0437\u0430\u043f\u0443\u0441\u043a telegram ads", "\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 telegram ads"],
-      "spokes": [],
+      "spokes": [
+        {
+          "url": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+          "ownsIntent": "buy an advertising placement inside someone else's Telegram channel, and tell that apart from the official ad platform",
+          "primaryKeyword": "купить рекламу в телеграм"
+        }
+      ],
       "evidence": "Measured 2026-08-26, location 2860. telegram ads 6,600/mo at CPC 1.30 and competition 0.17; ads telegram 1,000/mo; \u0440\u0435\u043a\u043b\u0430\u043c\u0430 \u0432 \u0442\u0435\u043b\u0435\u0433\u0440\u0430\u043c 70/mo at CPC 1.17; telegram ad platform 20/mo; and ten-a-month modifiers including telegram ads \u0446\u0435\u043d\u0430, telegram ads \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c and telegram ads \u0447\u0442\u043e \u044d\u0442\u043e. Search Console over three months: this URL holds telegram ads \u0443\u0437\u0431\u0435\u043a\u0438\u0441\u0442\u0430\u043d at position 50 on 3 impressions, the only Telegram-advertising query the site receives.",
-      "note": "Registered 2026-08-26 so the cluster-quality gates finally run against the Russian side too, and so the two Telegram pages are managed as one cluster with the Uzbek hub. Registering it surfaced the same defect the Uzbek side had: the exact phrase \u00abTelegram Ads \u0432 \u0423\u0437\u0431\u0435\u043a\u0438\u0441\u0442\u0430\u043d\u0435\u00bb carried 8 of the 14 internal anchors (57%), close to the 60% cap. Two in-sentence anchors were rewritten to describe the section they link to; no link was added or removed. Deliberately NOT claimed by this cluster: the bare head term google ads (3,600/mo), whose SERP is entirely Google's own properties, and the bare telegram ads, whose rank 1 is ads.telegram.org itself. The hub competes for the commercial slice below the platform, not for the platform's own name. No spoke is declared: the audit's rule stands that a second article is only justified once Search Console shows a distinct intent."
+      "note": "Registered 2026-08-26 so the cluster-quality gates finally run against the Russian side too, and so the two Telegram pages are managed as one cluster with the Uzbek hub. Registering it surfaced the same defect the Uzbek side had: the exact phrase \u00abTelegram Ads \u0432 \u0423\u0437\u0431\u0435\u043a\u0438\u0441\u0442\u0430\u043d\u0435\u00bb carried 8 of the 14 internal anchors (57%), close to the 60% cap. Two in-sentence anchors were rewritten to describe the section they link to; no link was added or removed. Deliberately NOT claimed by this cluster: the bare head term google ads (3,600/mo), whose SERP is entirely Google's own properties, and the bare telegram ads, whose rank 1 is ads.telegram.org itself. The hub competes for the commercial slice below the platform, not for the platform's own name. One spoke was added 2026-08-26: /ru/blog/telegram-ads-ili-posevy-v-kanalah/. It exists because the Russian tail discovery of the same day separated into four intents, and one of them is not the hub's — ~25 phrases around «биржа рекламы», «купить рекламу», «закупка» and «разместить» aggregating ~250/mo, whose searcher wants to buy a post inside someone else's channel rather than hire an agency. One URL for the whole family, never one per phrase. Anchor concentration on the hub measured 43% (6 of 14) before the spoke and 38% (6 of 16) after; the earlier note's 57% figure describes the state before the two anchors were rewritten in commit a3e37b7."
     }
   ],
   "pairs": [
