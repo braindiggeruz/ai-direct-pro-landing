@@ -116,6 +116,7 @@
       "headers": ["Kirish yo‘li", "Bu nima", "Chegara tartibi", "Kimga mos"],
       "rows": [
         ["Toncoin kabineti", "Hisobni TON bilan to‘ldirish va stavkani TON da qo‘yish", "Platforma hujjatiga ko‘ra eng kam CPM 0,1 TON", "Katta depozitsiz birinchi boshqariladigan sinov"],
+        ["O‘zbekiston uchun kabinet (resseller orqali)", "Shu bozor uchun hamkor ochadigan yevro-kabinet", "Eng kam stavka 0,01 € — eLama ma’lumoti, 2026-08-26; boshlang‘ich byudjet o‘sha yerda 500 € dan deb ko‘rsatilgan", "O‘zbekistondagi biznes uchun asosiy ishchi yo‘l"],
         ["Vakolatli resseller orqali", "Platformaning hamkori orqali kabinetga kirish va to‘lov", "Chegarani Telegram emas, hamkor belgilaydi; ochiq manbalarda yuzlab yevro tartibidagi summalar aytiladi", "Hisob-faktura, hujjat va o‘z tilida qo‘llab-quvvatlash kerak bo‘lsa"],
         ["Telegram bilan to‘g‘ridan-to‘g‘ri shartnoma", "Reklama beruvchining shaxsiy yevro-kabineti", "Maqolalarda tilga olinadigan katta depozit", "Doimiy katta hajmli reklama beruvchilar"]
       ]
@@ -123,6 +124,22 @@
     {
       "type": "p",
       "text": "Resseller chegaralari va to‘g‘ridan-to‘g‘ri shartnomadagi depozit — bu platformalar va soha nashrlari e’lon qilgan ma’lumot, bizning narxnomamiz emas: bu shartlar o‘zgaradi va hamkorga bog‘liq. Ularni ishga tushirish paytida tekshirish kerak. Toncoin kursi ham o‘zgarib turadi, shuning uchun eng kam CPM so‘mda qat’iy raqam emas."
+    },
+    {
+      "type": "h3",
+      "text": "Nega O‘zbekistonda stavka pastroq"
+    },
+    {
+      "type": "p",
+      "text": "Bu O‘zbekiston bozorini rus bozoridan ajratib turadigan asosiy narsa va aynan shuning uchun bu kanal hozir past baholangan. O‘zbekiston uchun kabinetlarda eng kam stavka 0,01 € ni tashkil qiladi — eLama bu raqamni ochiq yozadi va u rus kabinetlaridagidan past ekanini ta’kidlaydi, u yerda eng kam CPM odatda 0,7 € dan boshlanadi deb ko‘rsatiladi. 2026-08-26 da tekshirildi. Sababi oddiy: auksionda reklama beruvchilar hali kam va bir xil kontekst uchun raqobat deyarli yo‘q."
+    },
+    {
+      "type": "p",
+      "text": "Agentliklar keltiradigan mamlakatdagi Telegram qamrovi baholari 25–27 mln foydalanuvchi oralig‘ida. Bu ularning ma’lumoti, platformaning o‘lchovi emas, shuning uchun biz uni prognoz asosi sifatida emas, mo‘ljal sifatida keltiramiz."
+    },
+    {
+      "type": "p",
+      "text": "Muhim izoh: eng kam stavka — bu auksion poli, siz to‘laydigan narx emas. Haqiqiy CPM shu kontekst uchun qancha reklama beruvchi kurashayotganiga va sizning xabaringiz unga qanchalik mos kelishiga bog‘liq. Past pol sinovga arzon kirishni anglatadi, kafolatlangan arzon arizani emas. Va u abadiy past qolmaydi: u aynan bozor hali qizimagani uchun past."
     },
     {
       "type": "h3",
@@ -332,7 +349,8 @@
   ],
   "sources": [
     { "title": "Telegram Ad Platform — Getting Started", "url": "https://ads.telegram.org/getting-started", "note": "Eng kam CPM 0,1 Toncoin, 1000 dan ortiq obunachili ochiq kanallarda ko‘rsatish, byudjetni o‘zgartirish va qoldiqni qaytarish qoidalari. 2026-08-26 da tekshirildi." },
-    { "title": "Telegram Ads", "url": "https://ads.telegram.org/", "note": "E’lonning 160 belgi bilan cheklanishi va sponsored message formatining tavsifi. 2026-08-26 da tekshirildi." }
+    { "title": "Telegram Ads", "url": "https://ads.telegram.org/", "note": "E’lonning 160 belgi bilan cheklanishi va sponsored message formatining tavsifi. 2026-08-26 da tekshirildi." },
+    { "title": "eLama — Telegram Ads reklamasini O‘zbekistonda ishga tushiring", "url": "https://elama.ru/blog/zapuskayte-reklamu-telegram-ads-v-uzbekistane-s-elama/", "note": "O‘zbekiston kabinetlarida eng kam stavka 0,01 € va 500 € dan boshlang‘ich byudjet. Resseller ma’lumoti, platformaniki emas. 2026-08-26 da tekshirildi." }
   ],
   "schemaTypes": [
     "Organization",
