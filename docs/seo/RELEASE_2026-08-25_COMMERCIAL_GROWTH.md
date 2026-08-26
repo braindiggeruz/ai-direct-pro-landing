@@ -4,8 +4,15 @@ Branch `seo/commercial-growth-2026-08-25b`, 9 commits on top of `b0a83ff`.
 Merge to `main` is a **fast-forward** — the branch is 8/9 ahead and 0 behind
 `origin/main`, so no conflict is possible.
 
-**Status: built, verified, committed. NOT pushed and NOT deployed.** Both are
-blocked on credentials the repository cannot supply. See "Blocked" below.
+**Status: merged and pushed. NOT deployed.**
+
+`origin/main` moved `b0a83ff -> 36b4ac5` on 2026-08-26 as a **fast-forward** —
+no merge commit, no conflict, nothing rewritten. `origin/seo/commercial-growth-2026-08-25b`
+points at the same commit. The push did **not** trigger a deploy, which
+confirms Cloudflare Git auto-deploy is still disabled: production continued
+serving the Lead Radar build after the push.
+
+Deployment remains blocked on `wrangler login`. See "Blocked" below.
 
 ## Live state at the start, which the audit got wrong
 
@@ -74,11 +81,17 @@ is present, which is why a stale artifact can fail it.
 
 ## Blocked
 
-**Push.** `git push` returns
-`Permission to braindiggeruz/ai-direct-pro-landing.git denied to cakecityuz-lab`.
-The Windows Credential Manager holds a token for a different account, and
-`gh auth status` reports the `braindiggeruz` keyring token invalid. Owner action:
-re-authenticate, then `git push origin seo/commercial-growth-2026-08-25b`.
+**Push — resolved on 2026-08-26, but the underlying fault is still there.**
+`git push` was returning
+`Permission to braindiggeruz/ai-direct-pro-landing.git denied to cakecityuz-lab`:
+the Windows Credential Manager serves a token for the wrong account, and
+`gh auth status` reports the `braindiggeruz` keyring token invalid. The push was
+completed with a one-shot credential helper reading an owner-supplied token from
+a file outside the repository; the file and the helper were deleted immediately
+afterwards and nothing was written to any git config. **Both faults remain** —
+the next push will fail the same way until `gh auth login -h github.com` is run
+with a token carrying the `read:org` scope, or the stale `cakecityuz-lab` entry
+is removed from Credential Manager.
 
 **Deploy.** `wrangler whoami` succeeded early in this session and returned
 `not authenticated` later — the OAuth session was invalidated mid-run. Owner
@@ -127,41 +140,43 @@ A second session was committing to that branch while this one ran (`2bb7fbc`,
 plus 10 modified files). Integrating it here would mean merging another
 engineer's in-flight work without them.
 
-Options, in the order they should be considered:
+Now that `origin/main` is `36b4ac5`, the remaining options are:
 
-1. **Push both branches, land them both on `main`, deploy `main` once.**
-   Both are fast-forwards from `b0a83ff` with disjoint file sets, so the merge is
-   mechanical. `main` becomes a superset of production, the drift closes, and
-   nothing regresses. This is the right end state.
-2. **Deploy the validated integration `c9dca96` now.** Reaches production without
-   regressing anything and is already built and gated, but keeps production on a
-   SHA that is not `main` — the same drift, one release longer.
-3. **Deploy `main` + this branch alone.** Ships the SEO change and rolls Lead
-   Radar back off production, stripping its 14 `wrangler.toml` variables.
-   **Do not do this.**
+1. **The Lead Radar author merges `main` into `codex/lead-radar-mvp-20260824`,
+   pushes it, lands it on `main`, and deploys `main` once.** The drift closes
+   permanently and nothing regresses. This is the right end state and it is
+   their call, not this release's.
+2. **Deploy the validated integration `00863ed`.** It contains `36b4ac5` and the
+   live Lead Radar tree `ce01c0d`, and is already built into `dist/` and gated.
+   Ships the SEO change without regressing anything, but leaves production on a
+   SHA that is not `main` for one more release.
+3. **Deploy `main` (`36b4ac5`) alone.** Ships the SEO change and rolls Lead Radar
+   off production, stripping its 14 `wrangler.toml` variables. **Do not do this.**
 
-### Exact commands, once the credentials are back
+### Exact commands, once `wrangler login` has been run
 
 ```bash
-# 1. authenticate (interactive terminal)
-gh auth login -h github.com
-wrangler login
+# record the rollback target FIRST
+node_modules/.bin/wrangler pages deployment list --project-name ai-direct-pro-landing
 
-# 2. push both branches
-git -C F:/Claude/gptbot-commercial-growth-20260825 push origin seo/commercial-growth-2026-08-25b
-git -C F:/Claude/gptbot-ui-release-20260824      push origin codex/lead-radar-mvp-20260824
-
-# 3. land both on main (both are fast-forwards from b0a83ff, disjoint files)
-# 4. build and deploy the exact merged main SHA
+# option 2 — deploy the validated integration from a clean tree
+git checkout tmp/seo-lead-radar-integration
 npm run build:cf
 node_modules/.bin/wrangler pages deploy dist \
   --project-name ai-direct-pro-landing \
   --branch main \
-  --commit-hash <merged-main-sha>
+  --commit-hash 00863ed3a6c5865d72182838a3b2d412c11301d5
 ```
 
-Deploy only from a clean tree, and record the returned deployment id and its
-immutable `*.pages.dev` URL next to the source SHA.
+Deploy only from a clean tree, and write the returned deployment id and its
+immutable `*.pages.dev` URL down next to the source SHA.
+
+After the deploy, the canary is
+`scratchpad/canary.py` run against the served site rather than `dist/`: HTTP 200
+on the seven release URLs, one H1, no duplicate H2, self-canonical, the new H2
+present, `sayt yaratish xizmati` / `web sayt yaratish` / `veb sayt yaratish`
+present, clean Uzbek apostrophes, and `/ru/gpt-chat/`, `/ru/sotuvchi/`,
+`/uz/sotuvchi/` plus a 404 on an unknown URL unchanged.
 
 ## Rollback
 
