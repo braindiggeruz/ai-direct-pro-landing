@@ -117,7 +117,7 @@
     ]},
     {"type": "linkp", "text": "Если задача — сформировать интерес через креативы, перейдите к {target}. Для аудитории внутри Telegram изучите {telegram}. Контент и регулярное ведение принадлежат услуге {smm}.", "links": [
       {"token": "target", "target": "/ru/targetirovannaya-reklama-tashkent/", "anchor": "таргетированной рекламе"},
-      {"token": "telegram", "target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане"},
+      {"token": "telegram", "target": "/ru/telegram-ads-uzbekistan/", "anchor": "размещение в Telegram-каналах"},
       {"token": "smm", "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-продвижения"}
     ]},
     {"type": "cta", "text": "Обсудить контекстную рекламу", "href": "https://t.me/XGame_changerx"}

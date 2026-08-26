@@ -87,10 +87,12 @@ test('every Uzbek commercial money page is registered as a cluster hub', () => {
 // Defend / Watch / Freeze. They are deliberately outside the manifest today:
 // several are frozen and none is being invested in this sprint. Recorded so the
 // gap is visible and countable rather than silently forgotten.
+// /ru/telegram-ads-uzbekistan/ left this list on 2026-08-26 when telegram-ru was
+// registered — the advertising sweep of that day sized its cluster at roughly
+// 7,900 searches a month, which is 3.6x webdev-uz.
 const RU_COMMERCIAL_UNCLUSTERED = [
   '/ru/seo-prodvizhenie-saytov-tashkent/',
   '/ru/targetirovannaya-reklama-tashkent/',
-  '/ru/telegram-ads-uzbekistan/',
   '/ru/kontekstnaya-reklama-tashkent/',
   '/ru/digital-marketing-tashkent/',
   '/ru/marketingovyi-audit-tashkent/',

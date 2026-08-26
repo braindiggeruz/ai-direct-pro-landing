@@ -117,7 +117,7 @@
     ]},
     {"type": "linkp", "text": "Для горячего поискового спроса изучите {context}. Для размещения внутри Telegram — {telegram}. Если нужен полный комплекс каналов, начните с {digital}.", "links": [
       {"token": "context", "target": "/ru/kontekstnaya-reklama-tashkent/", "anchor": "контекстную рекламу"},
-      {"token": "telegram", "target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане"},
+      {"token": "telegram", "target": "/ru/telegram-ads-uzbekistan/", "anchor": "сколько стоит реклама в Telegram"},
       {"token": "digital", "target": "/ru/digital-marketing-tashkent/", "anchor": "digital-маркетинга в Ташкенте"}
     ]},
     {"type": "cta", "text": "Обсудить таргетированную рекламу", "href": "https://t.me/XGame_changerx"}

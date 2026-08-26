@@ -14,8 +14,8 @@
   ],
   "searchIntent": "commercial",
   "h1": "Telegram reklama — O‘zbekistonda biznes uchun",
-  "title": "Telegram reklama xizmati O‘zbekistonda | GPTBot.uz",
-  "description": "Telegram reklama: rasmiy Telegram Ads va kanallarda joylashtirish. Narx hajmga bog‘liq. Bosishdan keyin arizani yig‘adigan bot yo‘lini ham quramiz.",
+  "title": "Telegram reklama narxi va ishga tushirish | GPTBot.uz",
+  "description": "Telegram reklama qancha turadi: platformaning o‘z hujjatidagi eng kam CPM, kirishning uch yo‘li va byudjetni nima belgilaydi. Ariza yig‘adigan bot yo‘li bilan birga.",
   "canonical": "https://gptbot.uz/uz/telegram-reklama/",
   "hreflangRu": "/ru/telegram-ads-uzbekistan/",
   "hreflangUz": "/uz/telegram-reklama/",
@@ -39,6 +39,8 @@
         { "anchor": "ikki-yol", "label": "Telegram’da reklamaning ikki yo‘li" },
         { "anchor": "ads", "label": "Telegram Ads qanday ishlaydi" },
         { "anchor": "kanallar", "label": "Kanallarda joylashtirish" },
+        { "anchor": "qancha", "label": "Telegram reklama qancha turadi" },
+        { "anchor": "talablar", "label": "Platforma talablari" },
         { "anchor": "kimga", "label": "Kimga mos keladi" },
         { "anchor": "keyin", "label": "Bosishdan keyin nima bo‘ladi" },
         { "anchor": "byudjet", "label": "Byudjet qanday rejalashtiriladi" },
@@ -99,6 +101,59 @@
     {
       "type": "p",
       "text": "Kanal statistikasini ko‘rsatmaydigan yoki sun’iy o‘sish alomatlari bor kanallarni tavsiya qilmaymiz. Bunday joylashtirish odatda bosish beradi, ariza esa bermaydi."
+    },
+    { "type": "h2", "id": "qancha", "text": "Telegram reklama qancha turadi" },
+    {
+      "type": "p",
+      "text": "Platformada yagona narx yo‘q va bu qochirma javob emas — tizim shunday qurilgan. Telegram Ads auksion asosida ishlaydi: siz ming ko‘rsatish uchun to‘laysiz va stavkani o‘zingiz belgilaysiz. Platformaning 2026-yil 26-avgustdagi hujjatida bitta chegara ko‘rsatilgan: eng kam CPM ming ko‘rsatish uchun 0,1 Toncoin. Qolgani — aniq e’lonning byudjeti, uni siz belgilaysiz va istalgan payt oshirishingiz mumkin."
+    },
+    {
+      "type": "p",
+      "text": "Ruscha maqolalarda deyarli har safar uchraydigan «2 million yevro depozit» raqami Telegram bilan to‘g‘ridan-to‘g‘ri tuziladigan yevro-kabinet shartnomasiga tegishli. U O‘zbekistondagi biznes reklamani ishga tushiradigan yo‘lni tasvirlamaydi. Agar siz shu raqam tufayli kanaldan voz kechgan bo‘lsangiz — sizga taklif qilinmagan narsadan voz kechgansiz."
+    },
+    {
+      "type": "table",
+      "headers": ["Kirish yo‘li", "Bu nima", "Chegara tartibi", "Kimga mos"],
+      "rows": [
+        ["Toncoin kabineti", "Hisobni TON bilan to‘ldirish va stavkani TON da qo‘yish", "Platforma hujjatiga ko‘ra eng kam CPM 0,1 TON", "Katta depozitsiz birinchi boshqariladigan sinov"],
+        ["Vakolatli resseller orqali", "Platformaning hamkori orqali kabinetga kirish va to‘lov", "Chegarani Telegram emas, hamkor belgilaydi; ochiq manbalarda yuzlab yevro tartibidagi summalar aytiladi", "Hisob-faktura, hujjat va o‘z tilida qo‘llab-quvvatlash kerak bo‘lsa"],
+        ["Telegram bilan to‘g‘ridan-to‘g‘ri shartnoma", "Reklama beruvchining shaxsiy yevro-kabineti", "Maqolalarda tilga olinadigan katta depozit", "Doimiy katta hajmli reklama beruvchilar"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Resseller chegaralari va to‘g‘ridan-to‘g‘ri shartnomadagi depozit — bu platformalar va soha nashrlari e’lon qilgan ma’lumot, bizning narxnomamiz emas: bu shartlar o‘zgaradi va hamkorga bog‘liq. Ularni ishga tushirish paytida tekshirish kerak. Toncoin kursi ham o‘zgarib turadi, shuning uchun eng kam CPM so‘mda qat’iy raqam emas."
+    },
+    {
+      "type": "h3",
+      "text": "Yakuniy summani nima belgilaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "CPM stavkasi: bu auksion va siz bir xil kontekst uchun boshqa reklama beruvchilar bilan raqobatlashasiz",
+        "Nechta mavzu va kanal qamrab olinadi — har bir yangi bog‘lanish alohida gipoteza",
+        "Nechta e’lon varianti sinovdan o‘tadi: format 160 belgi bilan cheklangan, shuning uchun variant bittadan ko‘p bo‘lishi kerak",
+        "Bosish qayerga olib boradi va o‘sha joy tayyormi: kanal, bot yoki sayt",
+        "Analitika ulanganmi — usiz byudjet sarflanadi, lekin xulosaga aylanmaydi",
+        "Sotuvdan sifat bo‘yicha teskari aloqa bormi: usiz platforma harakatni ko‘radi, lekin ariza maqsadli bo‘lganini bilmaydi"
+      ]
+    },
+    { "type": "h2", "id": "talablar", "text": "Platforma talablari" },
+    {
+      "type": "p",
+      "text": "Bu cheklovlarni platformaning o‘zi belgilaydi va ularni byudjet hisoblashdan oldin bilish foydali: ular e’londa nima deyish mumkinligini va u qayerda ko‘rinishini aniqlaydi."
+    },
+    {
+      "type": "table",
+      "headers": ["Cheklov", "Qiymati", "Amalda nimani o‘zgartiradi"],
+      "rows": [
+        ["E’lon uzunligi", "160 belgigacha matn", "Taklif va chaqiriq bitta gapga sig‘ishi kerak"],
+        ["Qayerda ko‘rinadi", "1000 dan ortiq obunachili ochiq kanallarda", "Tor nishadagi kichik kanallar qamrovga tushmasligi mumkin"],
+        ["To‘lov modeli", "CPM — ming ko‘rsatish uchun to‘lov", "Bosish tannarxi e’lonning kontekstga mosligiga bog‘liq"],
+        ["Byudjetni o‘zgartirish", "Oshirish istalgan paytda mumkin, yuborilgan e’londa kamaytirib bo‘lmaydi", "Kichikroq summadan boshlab, keyin oshirgan ma’qul"],
+        ["Qoldiq mablag‘", "E’lon to‘xtatilib o‘chirilsa, umumiy balansga qaytadi", "Sarflanmagan byudjet yonib ketmaydi"]
+      ]
     },
     { "type": "h2", "id": "kimga", "text": "Kimga mos keladi" },
     {
@@ -203,6 +258,18 @@
       "a": "Ikki xil xarajat bor: reklama byudjeti va xizmat narxi. Byudjetni siz belgilaysiz va u platformaga to‘g‘ridan-to‘g‘ri to‘lanadi. Xizmat narxi esa ish hajmiga bog‘liq — suhbat va dastlabki baholash bepul."
     },
     {
+      "q": "Telegram reklama qancha turadi?",
+      "a": "Platformada qat’iy narx yo‘q: to‘lov CPM auksioni bo‘yicha, ya’ni ming ko‘rsatish uchun olinadi, stavkani esa reklama beruvchi belgilaydi. Platformaning 2026-yil 26-avgustdagi hujjatida eng kam CPM 0,1 Toncoin deb ko‘rsatilgan. Yakuniy summa mavzular soni, e’lon variantlari, borish nuqtasining tayyorligi va auksiondagi raqobatga bog‘liq."
+    },
+    {
+      "q": "Telegram Ads uchun rostdan ham 2 million yevro depozit kerakmi?",
+      "a": "Bu summa Telegram bilan to‘g‘ridan-to‘g‘ri tuziladigan yevro-kabinet shartnomasiga tegishli va O‘zbekistondagi biznes uchun yo‘lni tasvirlamaydi. Toncoin kabineti va vakolatli resseller orqali ishlash mavjud — ularning chegarasi bir necha tartib past. Resseller shartlari o‘zgaradi, shuning uchun ular ishga tushirish paytida tekshiriladi."
+    },
+    {
+      "q": "Nega e’lon shunchalik qisqa?",
+      "a": "Sponsored message formati 160 belgi matn bilan cheklangan. Bu platformaning cheklovi, uslubiy tanlov emas: taklif va chaqiriq bitta gapga sig‘ishi kerak, shuning uchun bitta emas, bir nechta variant tayyorlanadi."
+    },
+    {
       "q": "Telegram Ads va kanaldagi e’lon — qaysi biri yaxshiroq?",
       "a": "Universal javob yo‘q. Rasmiy kabinet kengroq qamrov va boshqariladigan sozlamalar beradi, kanal e’loni esa tor va ishonchli auditoriyaga tushadi. Ko‘pincha ikkalasini kichik byudjetda sinab, arzonroq ariza berganini qoldirish to‘g‘ri bo‘ladi."
     },
@@ -263,6 +330,10 @@
       "type": "block"
     }
   ],
+  "sources": [
+    { "title": "Telegram Ad Platform — Getting Started", "url": "https://ads.telegram.org/getting-started", "note": "Eng kam CPM 0,1 Toncoin, 1000 dan ortiq obunachili ochiq kanallarda ko‘rsatish, byudjetni o‘zgartirish va qoldiqni qaytarish qoidalari. 2026-08-26 da tekshirildi." },
+    { "title": "Telegram Ads", "url": "https://ads.telegram.org/", "note": "E’lonning 160 belgi bilan cheklanishi va sponsored message formatining tavsifi. 2026-08-26 da tekshirildi." }
+  ],
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -270,7 +341,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-21",
+  "lastReviewedAt": "2026-08-26",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-21"
+  "updatedAt": "2026-08-26"
 }
