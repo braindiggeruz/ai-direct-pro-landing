@@ -44,6 +44,32 @@ export interface LeadRadarTelegramAccountState {
   identityReviewReason?: string | null;
 }
 
+export type LeadRadarTelegramAccountQuickAction =
+  | 'connect'
+  | 'inspect'
+  | 'blocked_feature'
+  | 'blocked_unconfigured'
+  | 'blocked_restricted'
+  | 'blocked_unknown';
+
+export function telegramAccountQuickAction(
+  status: LeadRadarTelegramAccountConnectionStatus | null,
+  featureEnabled: boolean,
+): LeadRadarTelegramAccountQuickAction {
+  if (!featureEnabled) return 'blocked_feature';
+  if (status === 'disconnected'
+    || status === 'error'
+    || status === 'revoked'
+    || status === 'reauth_required') return 'connect';
+  if (status === 'pending'
+    || status === 'connecting'
+    || status === 'connected'
+    || status === 'paused') return 'inspect';
+  if (status === 'unconfigured') return 'blocked_unconfigured';
+  if (status === 'restricted') return 'blocked_restricted';
+  return 'blocked_unknown';
+}
+
 export type LeadRadarCampaignRecipientClassification = 'automatic' | 'manual' | 'excluded';
 
 export interface LeadRadarCampaignEligibilitySummary {
@@ -243,6 +269,23 @@ export function classifyCampaignLeadLocally(lead: LeadRadarLead): LocalCampaignE
 
 export function isSelectableCampaignLead(lead: LeadRadarLead): boolean {
   return classifyCampaignLeadLocally(lead).classification !== 'excluded';
+}
+
+/**
+ * A discovery result may be kept in the campaign draft even when Telegram has
+ * not been found yet. This never makes it delivery-eligible: preparation and
+ * dispatch still require a verified corporate endpoint and repeat DNC checks.
+ */
+export function isCampaignDraftCandidateLead(lead: LeadRadarLead): boolean {
+  return !lead.suppressed && lead.lifecycle !== 'do_not_contact';
+}
+
+export function campaignDraftCandidateLeadIds(leads: readonly LeadRadarLead[]): string[] {
+  const ids = new Set<string>();
+  for (const lead of leads) {
+    if (isCampaignDraftCandidateLead(lead)) ids.add(lead.id);
+  }
+  return [...ids];
 }
 
 export function selectableCampaignLeadIds(leads: readonly LeadRadarLead[]): string[] {

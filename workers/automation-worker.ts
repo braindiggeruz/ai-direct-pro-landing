@@ -45,6 +45,11 @@ import {
   getSchedule,
   shouldRunOnDate,
 } from '../functions/lib/seo-autopilot/schedule';
+import {
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
+  parseLeadRadarTelegramCampaignDailyLimit,
+  parseLeadRadarTelegramCampaignMinimumIntervalSeconds,
+} from '../src/shared/lead-radar-telegram-campaign-policy';
 
 type AutomationWorkerQueueMessage =
   | AutomationQueueMessage
@@ -58,8 +63,6 @@ interface AutomationWorkerEnv extends Env {
 }
 
 const TELEGRAM_CAMPAIGN_SCHEMA = 'gptbot.lead-radar.telegram-campaign.v1';
-const TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT = 10;
-const TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS = 120;
 const TELEGRAM_CAMPAIGN_ORG_PATTERN = /^(?:owner_[a-f0-9]{24}|org_[a-f0-9]{32,64})$/u;
 
 function isLeadRadarProcessingEnabled(env: AutomationWorkerEnv): boolean {
@@ -76,35 +79,15 @@ function isTelegramCampaignAutosendEnabled(env: AutomationWorkerEnv): boolean {
     && env.LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED === 'true';
 }
 
-function boundedInteger(
-  value: string | undefined,
-  fallback: number,
-  minimum: number,
-  maximum: number,
-): number | null {
-  if (value === undefined || value.trim() === '') return fallback;
-  if (!/^\d+$/u.test(value.trim())) return null;
-  const parsed = Number(value.trim());
-  return Number.isSafeInteger(parsed) && parsed >= minimum && parsed <= maximum
-    ? parsed
-    : null;
-}
-
 function telegramCampaignDailyLimit(env: AutomationWorkerEnv): number | null {
-  return boundedInteger(
+  return parseLeadRadarTelegramCampaignDailyLimit(
     env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT,
-    TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
-    1,
-    100,
   );
 }
 
 function telegramCampaignMinimumIntervalSeconds(env: AutomationWorkerEnv): number | null {
-  return boundedInteger(
+  return parseLeadRadarTelegramCampaignMinimumIntervalSeconds(
     env.LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS,
-    TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS,
-    30,
-    3_600,
   );
 }
 
@@ -240,7 +223,7 @@ export default {
                 orgId,
                 sender: telegramCampaignQueueSender(env.AUTOMATION_QUEUE),
                 now: retentionNow,
-                limit: Math.min(dailyLimit, 10),
+                limit: Math.min(dailyLimit, LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT),
               });
             }
           }

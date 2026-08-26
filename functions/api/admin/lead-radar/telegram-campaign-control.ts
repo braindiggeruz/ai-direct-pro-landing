@@ -41,6 +41,7 @@ import {
   type TelegramAccountConnectionPoll,
 } from '../../../platform/lead-radar/telegram-account-service';
 import type { LeadRadarApiCapabilities } from '../../../../src/shared/lead-radar';
+import { parseLeadRadarTelegramCampaignMinimumIntervalSeconds } from '../../../../src/shared/lead-radar-telegram-campaign-policy';
 
 const ENTITY_ID_PATTERN = /^[A-Za-z0-9:_-]{1,80}$/u;
 const IDEMPOTENCY_KEY_PATTERN = /^[A-Za-z0-9:_-]{8,160}$/u;
@@ -145,8 +146,9 @@ function campaignDataKey(ctx: CampaignContext): string | null {
 }
 
 function configuredInterval(ctx: CampaignContext): number | null {
-  const parsed = Number(ctx.env.LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS);
-  return Number.isInteger(parsed) && parsed >= 30 && parsed <= 3_600 ? parsed : null;
+  return parseLeadRadarTelegramCampaignMinimumIntervalSeconds(
+    ctx.env.LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS,
+  );
 }
 
 function disconnectedAccount(

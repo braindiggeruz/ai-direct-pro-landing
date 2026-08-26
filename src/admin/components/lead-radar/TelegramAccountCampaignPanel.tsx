@@ -21,17 +21,19 @@ import { api } from '../../lib/api';
 import {
   automaticCampaignLeadIds,
   boundCampaignTemplate,
+  campaignDraftCandidateLeadIds,
   campaignFromRecovery,
   campaignResumeBlockReason,
   classifyCampaignLeadLocally,
   isCampaignTemplateReady,
-  isSelectableCampaignLead,
+  isCampaignDraftCandidateLead,
   isTelegramAccountQrExpired,
   isValidCampaignRecipientAuthorization,
   LEAD_RADAR_CAMPAIGN_MESSAGE_LIMIT,
   LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT,
   safeTelegramQrDataUrl,
   safeTelegramLoginUrl,
+  telegramAccountQuickAction,
   type LeadRadarCampaignContactBasis,
   type LeadRadarCampaignRecipientClassification,
   type LeadRadarTelegramAccountState,
@@ -49,10 +51,12 @@ export interface TelegramAccountCampaignPanelProps {
   telegramAccountEnabled: boolean;
   campaignOutreachEnabled: boolean;
   campaignAutoSendEnabled: boolean;
+  telegramCampaignDailyLimit: number;
+  telegramCampaignMinimumIntervalSeconds: number;
 }
 
 const ACCOUNT_STATUS_COPY = {
-  unconfigured: { label: 'Нужна серверная настройка', tone: 'warning' as const, detail: 'MTProto-шлюз и защищённое хранилище сессии ещё не настроены. Подключение закрыто.' },
+  unconfigured: { label: 'Нужна серверная настройка', tone: 'warning' as const, detail: 'Защищённый сервер отправки и хранилище сессии ещё не настроены. Подключение закрыто.' },
   disconnected: { label: 'Не подключён', tone: 'neutral' as const, detail: 'Подключите выделенный аккаунт. Подключение само по себе не запускает кампанию.' },
   pending: { label: 'Ожидает QR', tone: 'warning' as const, detail: 'Отсканируйте короткоживущий QR в Telegram и дождитесь подтверждения сервера.' },
   connecting: { label: 'Ожидает QR', tone: 'warning' as const, detail: 'Отсканируйте короткоживущий QR в Telegram и дождитесь подтверждения сервера.' },
@@ -90,13 +94,13 @@ const LOCAL_CLASSIFICATION_COPY: Record<LeadRadarCampaignRecipientClassification
 const LOCAL_REASON_COPY = {
   candidate_verified_corporate: 'Найден проверенный корпоративный Telegram. Сервер всё равно повторит проверку.',
   manual_personal_or_unknown: 'Контакт похож на личный или его тип не подтверждён — автоматическая отправка запрещена.',
-  missing_telegram: 'У компании не найден Telegram-контакт.',
-  unsupported_telegram_type: 'Бот, канал или группа не поддерживаются для личного обращения.',
+  missing_telegram: 'Не будет отправлено — сначала нужен проверенный Telegram-контакт.',
+  unsupported_telegram_type: 'Не будет отправлено — бот, канал или группа не подходят для личного обращения.',
   do_not_contact: 'Компания находится в списке «Не связываться».',
 } as const;
 
 const SERVER_REASON_COPY: Record<string, string> = {
-  verified_corporate_endpoint: 'Корпоративный Telegram подтверждён, но отдельная запись основания ещё нужна.',
+  verified_corporate_endpoint: 'Telegram компании подтверждён, но отдельная запись основания ещё нужна.',
   verified_corporate_authorized: 'Корпоративный Telegram и отдельная запись основания подтверждены сервером.',
   documented_basis_required: 'Для этой компании нет действующей записи документированного основания.',
   documented_contact_basis_missing: 'Нет подтверждённого основания именно для этой компании.',
@@ -105,8 +109,8 @@ const SERVER_REASON_COPY: Record<string, string> = {
   bot_not_messageable: 'Бот нельзя использовать как адресата кампании.',
   channel_not_messageable: 'Канал нельзя использовать как адресата личного сообщения.',
   group_not_messageable: 'Группу нельзя использовать как адресата личного сообщения.',
-  no_verified_corporate_endpoint: 'Проверенный корпоративный Telegram не найден.',
-  corporate_endpoint_unverified: 'Корпоративный Telegram найден, но доказательств недостаточно.',
+  no_verified_corporate_endpoint: 'Подтверждённый Telegram компании не найден.',
+  corporate_endpoint_unverified: 'Telegram компании найден, но подтверждений недостаточно.',
   do_not_contact: 'Компания находится в списке «Не связываться».',
   company_not_found: 'Компания больше не доступна в этой выдаче.',
 };
@@ -238,6 +242,8 @@ export function TelegramAccountCampaignPanel({
   telegramAccountEnabled,
   campaignOutreachEnabled,
   campaignAutoSendEnabled,
+  telegramCampaignDailyLimit,
+  telegramCampaignMinimumIntervalSeconds,
 }: TelegramAccountCampaignPanelProps) {
   const headingId = useId();
   const composerHelpId = useId();
@@ -246,11 +252,17 @@ export function TelegramAccountCampaignPanel({
   const disconnectButtonId = useId();
   const stopButtonId = useId();
   const campaignStateHeadingId = useId();
+  const accountQuickStatusId = useId();
+  const accountSetupNoticeId = useId();
+  const bulkSelectionStatusId = useId();
+  const accountSectionId = useId();
+  const selectionSectionId = useId();
   const [account, setAccount] = useState<LeadRadarTelegramAccountState | null>(null);
   const [accountLoading, setAccountLoading] = useState(false);
   const [accountClock, setAccountClock] = useState(() => Date.now());
   const [accountBusy, setAccountBusy] = useState(false);
   const [accountNotice, setAccountNotice] = useState<string | null>(null);
+  const [accountSetupNoticeVisible, setAccountSetupNoticeVisible] = useState(false);
   const [accountIdentityConfirmed, setAccountIdentityConfirmed] = useState(false);
   const [disconnectConfirmation, setDisconnectConfirmation] = useState(false);
   const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(() => new Set());
@@ -277,6 +289,9 @@ export function TelegramAccountCampaignPanel({
   const [operationError, setOperationError] = useState(false);
   const [stopConfirmation, setStopConfirmation] = useState(false);
   const reviewHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const accountSectionRef = useRef<HTMLDivElement | null>(null);
+  const selectionSectionRef = useRef<HTMLFieldSetElement | null>(null);
+  const accountSetupNoticeRef = useRef<HTMLDivElement | null>(null);
   const disconnectConfirmationRef = useRef<HTMLDivElement | null>(null);
   const stopConfirmationRef = useRef<HTMLDivElement | null>(null);
   const connectRequestKey = useRef<string | null>(null);
@@ -552,6 +567,15 @@ export function TelegramAccountCampaignPanel({
     return summary;
   }, { automatic: 0, manual: 0, excluded: 0 }), [selectedLeads]);
   const automaticLeadIds = useMemo(() => automaticCampaignLeadIds(leads), [leads]);
+  const draftCandidateLeadIds = useMemo(() => campaignDraftCandidateLeadIds(leads), [leads]);
+  const uniqueFoundLeadCount = useMemo(() => new Set(leads.map((lead) => lead.id)).size, [leads]);
+  const telegramLeadCount = useMemo(() => {
+    const ids = new Set<string>();
+    for (const lead of leads) {
+      if (isCampaignDraftCandidateLead(lead) && (lead.telegramContact || lead.telegramUrl)) ids.add(lead.id);
+    }
+    return ids.size;
+  }, [leads]);
   const automaticLeadCount = automaticLeadIds.length;
   const accountConnectionId = account?.connectionId ?? account?.id ?? null;
   const connected = account?.status === 'connected' && Boolean(accountConnectionId);
@@ -673,6 +697,10 @@ export function TelegramAccountCampaignPanel({
     createRequestKey.current = null;
   }, [accountIdentityKey]);
 
+  useEffect(() => {
+    setAccountSetupNoticeVisible(false);
+  }, [account?.status, telegramAccountEnabled]);
+
   const authorizationCandidateSignature = selectedCorporateCandidates.map((lead) => lead.id).join('\u0000');
   useEffect(() => {
     const available = authorizationCandidateSignature
@@ -710,7 +738,7 @@ export function TelegramAccountCampaignPanel({
   }
 
   function toggleLead(lead: LeadRadarLead): void {
-    if (!isSelectableCampaignLead(lead) || operationBusy || campaign) return;
+    if (!isCampaignDraftCandidateLead(lead) || operationBusy || campaign) return;
     const next = new Set(selectedLeadIds);
     if (next.has(lead.id)) {
       next.delete(lead.id);
@@ -725,7 +753,23 @@ export function TelegramAccountCampaignPanel({
     invalidatePreparation();
   }
 
-  function selectAllEligible(): void {
+  function selectAllFound(): void {
+    if (operationBusy || campaign) return;
+    setSelectedLeadIds(new Set(draftCandidateLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)));
+    invalidatePreparation();
+    const excludedFromDelivery = draftCandidateLeadIds
+      .slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)
+      .filter((leadId) => !automaticLeadIds.includes(leadId)).length;
+    if (draftCandidateLeadIds.length > LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT) {
+      setOperationError(false);
+      setOperationNotice(`В черновик добавлены первые 50 из ${draftCandidateLeadIds.length} найденных компаний. ${excludedFromDelivery} без готового Telegram останутся кандидатами и не будут отправлены.`);
+    } else if (draftCandidateLeadIds.length > 0) {
+      setOperationError(false);
+      setOperationNotice(`В черновик добавлены ${draftCandidateLeadIds.length} найденных компаний. ${excludedFromDelivery} без готового Telegram останутся кандидатами и не будут отправлены.`);
+    }
+  }
+
+  function selectAllReady(): void {
     if (operationBusy || campaign) return;
     setSelectedLeadIds(new Set(automaticLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)));
     invalidatePreparation();
@@ -736,6 +780,24 @@ export function TelegramAccountCampaignPanel({
       setOperationError(false);
       setOperationNotice(`Выбраны ${automaticLeadIds.length} предварительно подходящих компаний. Финальное решение примет сервер.`);
     }
+  }
+
+  function clearAllSelection(): void {
+    if (operationBusy || campaign || selectedLeadIds.size === 0) return;
+    setSelectedLeadIds(new Set());
+    invalidatePreparation();
+    setOperationError(false);
+    setOperationNotice('Выбор снят со всех компаний. Ничего не отправлено.');
+  }
+
+  function revealSection(target: { current: HTMLElement | null }): void {
+    target.current?.scrollIntoView({ block: 'start' });
+    target.current?.focus({ preventScroll: true });
+  }
+
+  function explainBlockedAccountAction(): void {
+    setAccountSetupNoticeVisible(true);
+    window.requestAnimationFrame(() => accountSetupNoticeRef.current?.focus());
   }
 
   function updateTemplate(value: string): void {
@@ -861,7 +923,7 @@ export function TelegramAccountCampaignPanel({
       setAuthorizationNotice(code === 'telegram_campaign_invalid_input'
         ? 'Проверьте ссылку на доказательство и срок действия. Запись не создана.'
         : code === 'telegram_campaign_eligibility_required'
-          ? 'Сервер не подтвердил корпоративный endpoint этой компании или обнаружил DNC. Запись не создана.'
+          ? 'Сервер не подтвердил Telegram этой компании или запись помечена «Не связываться». Подтверждение не создано.'
           : campaignErrorCopy(authorizationFailure));
     } finally {
       setAuthorizationBusy(false);
@@ -870,6 +932,11 @@ export function TelegramAccountCampaignPanel({
 
   async function prepareCampaign(): Promise<void> {
     const accountId = accountConnectionId;
+    if (selectedLeadIds.size > 0 && localSummary.automatic === 0) {
+      setOperationError(true);
+      setOperationNotice('Сначала найдите подтверждённый Telegram хотя бы у одной выбранной компании. Серверная проверка не запускалась, ничего не отправлено.');
+      return;
+    }
     if (!campaignOutreachEnabled
       || !connected
       || !accountId
@@ -1040,14 +1107,153 @@ export function TelegramAccountCampaignPanel({
     ?? (campaign?.status === 'paused' ? campaign.nextSendAt ?? null : null);
   const accountStatus = account?.status ?? null;
   const accountCopy = accountStatus ? ACCOUNT_STATUS_COPY[accountStatus] : null;
-  const canRequestConnection = Boolean(
-    telegramAccountEnabled
-    && accountStatus
-    && ['disconnected', 'error', 'revoked'].includes(accountStatus),
-  );
+  const accountQuickAction = telegramAccountQuickAction(accountStatus, telegramAccountEnabled);
+  const canRequestConnection = accountQuickAction === 'connect';
+  const pendingConnection = accountStatus === 'pending' || accountStatus === 'connecting';
+  const foundSelectionIds = draftCandidateLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT);
+  const readySelectionIds = automaticLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT);
+  const allFoundSelected = foundSelectionIds.length > 0
+    && foundSelectionIds.every((leadId) => selectedLeadIds.has(leadId));
+  const allReadySelected = readySelectionIds.length > 0
+    && readySelectionIds.every((leadId) => selectedLeadIds.has(leadId))
+    && selectedLeadIds.size === readySelectionIds.length;
+  const bulkSelectionLocked = operationBusy || Boolean(campaign) || !campaignRecoveryReady;
+  const bulkFoundSelectDisabled = bulkSelectionLocked || foundSelectionIds.length === 0 || allFoundSelected;
+  const bulkReadySelectDisabled = bulkSelectionLocked || readySelectionIds.length === 0 || allReadySelected;
+  const bulkClearDisabled = bulkSelectionLocked || selectedLeadIds.size === 0;
+  const accountQuickActionBlocked = accountQuickAction.startsWith('blocked_');
+  const accountQuickActionBusy = accountBusy || accountLoading;
+  const accountQuickActionLabel = accountBusy
+    ? 'Готовим QR…'
+    : accountLoading
+      ? 'Проверяем аккаунт…'
+      : connected
+        ? 'Открыть подключённый аккаунт'
+        : pendingConnection
+          ? 'Показать QR подключения'
+          : accountQuickAction === 'connect'
+            ? accountStatus === 'disconnected' ? 'Подключить Telegram' : 'Переподключить Telegram'
+            : accountQuickAction === 'inspect'
+              ? 'Показать аккаунт на паузе'
+              : accountQuickAction === 'blocked_unconfigured'
+                ? 'Сначала настройте Telegram-шлюз'
+                : accountQuickAction === 'blocked_restricted'
+                  ? 'Аккаунт ограничен Telegram'
+                  : accountQuickAction === 'blocked_feature'
+                    ? 'Подключить Telegram'
+                    : 'Статус аккаунта недоступен';
+  const accountQuickStatus = !telegramAccountEnabled
+    ? 'Серверный контур пока выключен — кнопка станет активной после настройки.'
+    : accountLoading && !account
+      ? 'Проверяем защищённую серверную сессию.'
+      : connected
+        ? `Подключён ${accountIdentityLabel ?? 'выделенный аккаунт'}. Проверьте его карточку перед запуском.`
+        : pendingConnection
+          ? 'QR уже создан. Откройте его и подтвердите вход в Telegram.'
+          : accountCopy?.detail ?? 'Статус аккаунта ещё не получен; отправка закрыта.';
+  const accountBlockingExplanation = accountQuickAction === 'blocked_feature'
+    ? 'Подключение отключено серверным переключателем. Нужны защищённый сервер отправки и хранилище сессии. QR не создавался, запрос подключения не выполнялся, ничего не отправлено.'
+    : accountQuickAction === 'blocked_unconfigured'
+      ? 'Защищённый сервер отправки или хранилище сессии ещё не настроены. Сначала завершите серверную настройку; ничего не отправлено.'
+      : accountQuickAction === 'blocked_restricted'
+        ? 'Telegram ограничил этот аккаунт. Новое подключение и отправка заблокированы до снятия ограничения; ничего не отправлено.'
+        : 'Сервер не вернул подтверждённое состояние аккаунта. Обновите страницу или статус; подключение и отправка не выполнялись.';
+  const bulkSelectionStatus = campaign
+    ? 'Состав текущей кампании уже зафиксирован сервером.'
+    : !campaignRecoveryReady
+      ? 'Сначала дождитесь проверки предыдущей кампании.'
+      : draftCandidateLeadIds.length === 0
+        ? 'Нет компаний, которые можно добавить: записи «Не связываться» всегда исключаются.'
+        : 'Компании без Telegram можно сохранить в черновике, но сервер не допустит их к отправке. Записи «Не связываться» всегда исключаются.';
 
   return (
     <section aria-labelledby={headingId} data-testid="lead-radar-telegram-campaign" className="space-y-4 motion-reduce:[&_button]:transform-none motion-reduce:[&_button]:transition-none">
+      <div className="z-20 rounded-2xl border border-brand-cyan/25 bg-[#07101d]/95 p-3 shadow-[0_18px_50px_-30px_rgba(47,230,209,.75)] backdrop-blur 2xl:sticky 2xl:top-4" role="region" aria-label="Быстрые действия Telegram-кампании">
+        <div className="grid gap-3 2xl:grid-cols-2">
+          <div className="flex flex-col gap-3 rounded-xl border border-white/[0.08] bg-white/[0.025] p-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-brand-cyan/20 bg-brand-cyan/[0.07] text-brand-cyan" aria-hidden="true">
+                {connected ? <CheckCircle2 size={21} /> : <MessageCircle size={21} />}
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-white">1. Подключите отдельный Telegram-аккаунт</p>
+                <p id={accountQuickStatusId} role="status" aria-live="polite" aria-atomic="true" className="mt-1 text-xs leading-5 text-white/70">{accountQuickStatus}</p>
+              </div>
+            </div>
+            <Button
+              id={connectButtonId}
+              type="button"
+              disabled={accountQuickActionBusy}
+              aria-busy={accountBusy || accountLoading}
+              aria-describedby={accountQuickStatusId}
+              aria-controls={accountQuickActionBlocked ? accountSetupNoticeId : undefined}
+              aria-expanded={accountQuickActionBlocked ? accountSetupNoticeVisible : undefined}
+              onClick={() => {
+                if (accountQuickActionBlocked) explainBlockedAccountAction();
+                else if (canRequestConnection) void connectAccount();
+                else revealSection(accountSectionRef);
+              }}
+              className="min-h-12 w-full shrink-0 sm:w-auto"
+            >
+              {accountBusy || accountLoading
+                ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" />
+                : connected
+                  ? <CheckCircle2 size={17} aria-hidden="true" />
+                  : <QrCode size={17} aria-hidden="true" />}
+              {accountQuickActionLabel}
+            </Button>
+          </div>
+
+          <div className="flex flex-col gap-3 rounded-xl border border-white/[0.08] bg-white/[0.025] p-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-brand-cyan/20 bg-brand-cyan/[0.07] text-brand-cyan" aria-hidden="true">
+                <UsersRound size={21} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-white">2. Выберите получателей</p>
+                <p className="mt-1 text-xs font-medium tabular-nums text-white">Выбрано {selectedLeadIds.size}/{LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT}</p>
+                <dl className="mt-2 grid grid-cols-3 gap-2" aria-label="Сводка найденных компаний">
+                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">Найдено</dt><dd className="text-sm font-semibold tabular-nums text-white">{uniqueFoundLeadCount}</dd></div>
+                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">С Telegram</dt><dd className="text-sm font-semibold tabular-nums text-white">{telegramLeadCount}</dd></div>
+                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">Готовы</dt><dd className="text-sm font-semibold tabular-nums text-white">{automaticLeadCount}</dd></div>
+                </dl>
+                <p id={bulkSelectionStatusId} role="status" aria-live="polite" aria-atomic="true" className="mt-1 text-xs leading-5 text-white/70">{bulkSelectionStatus}</p>
+              </div>
+            </div>
+            <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={bulkFoundSelectDisabled}
+                aria-describedby={bulkSelectionStatusId}
+                onClick={() => {
+                  selectAllFound();
+                  revealSection(selectionSectionRef);
+                }}
+                className="min-h-12 w-full sm:w-auto"
+              >
+                <UsersRound size={17} aria-hidden="true" />
+                {allFoundSelected ? `Все найденные добавлены (${foundSelectionIds.length})` : `Добавить все найденные (${foundSelectionIds.length})`}
+              </Button>
+              {readySelectionIds.length > 0 && (
+                <Button type="button" variant="secondary" disabled={bulkReadySelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllReady} className="min-h-12 w-full sm:w-auto">
+                  <ShieldCheck size={17} aria-hidden="true" />{allReadySelected ? `Все готовые выбраны (${readySelectionIds.length})` : `Выбрать готовых (${readySelectionIds.length})`}
+                </Button>
+              )}
+              <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12 w-full sm:w-auto">
+                Снять весь выбор{selectedLeadIds.size > 0 ? ` (${selectedLeadIds.size})` : ''}
+              </Button>
+            </div>
+          </div>
+        </div>
+        {accountSetupNoticeVisible && accountQuickActionBlocked && (
+          <div id={accountSetupNoticeId} ref={accountSetupNoticeRef} tabIndex={-1} role="alert" className="mt-3 flex items-start gap-3 rounded-xl border border-amber-300/25 bg-amber-300/[0.06] p-4 text-sm leading-6 text-amber-50/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">
+            <AlertTriangle size={18} className="mt-0.5 shrink-0 text-amber-200" aria-hidden="true" />
+            <p><strong className="text-white">Подключение пока не запускается.</strong> {accountBlockingExplanation}</p>
+          </div>
+        )}
+      </div>
+
       <Card className="overflow-hidden border-brand-cyan/15 bg-[#08111f]/88 p-0">
         <div className="border-b border-white/[0.07] bg-[linear-gradient(135deg,rgba(47,230,209,.08),rgba(34,158,217,.04))] p-5 sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -1056,6 +1262,9 @@ export function TelegramAccountCampaignPanel({
               <h2 id={headingId} className="mt-1 text-xl font-semibold text-white">Отдельный Telegram-аккаунт</h2>
               <p className="mt-2 text-sm leading-6 text-white/65">
                 Выберите до 50 компаний и запустите одну кампанию. Сообщения обрабатываются последовательно; Pause и Stop доступны в любой момент.
+              </p>
+              <p className="mt-1 text-xs leading-5 text-white/55">
+                Серверный лимит: до {telegramCampaignDailyLimit} сообщений за UTC-сутки, интервал — не меньше {telegramCampaignMinimumIntervalSeconds} секунд.
               </p>
             </div>
             {!telegramAccountEnabled ? (
@@ -1090,12 +1299,12 @@ export function TelegramAccountCampaignPanel({
           {(!telegramAccountEnabled || !campaignOutreachEnabled || !campaignAutoSendEnabled) && (
             <div role="note" className="flex items-start gap-3 rounded-xl border border-amber-300/18 bg-amber-300/[0.045] p-4 text-sm leading-6 text-amber-50/85">
               <ShieldCheck size={18} className="mt-0.5 shrink-0 text-amber-200" aria-hidden="true" />
-              <p><strong className="text-white">Контур отправки ещё не активирован.</strong> Вы можете выбрать до 50 компаний и подготовить оффер сейчас. {!telegramAccountEnabled ? 'Подключение аккаунта, серверная проверка и запуск' : !campaignOutreachEnabled ? 'Серверная проверка и запуск' : 'Запуск'} остаются fail-closed до отдельного разрешения.</p>
+              <p><strong className="text-white">Контур отправки ещё не активирован.</strong> Вы можете выбрать до 50 компаний и подготовить оффер сейчас. {!telegramAccountEnabled ? 'Подключение аккаунта, серверная проверка и запуск' : !campaignOutreachEnabled ? 'Серверная проверка и запуск' : 'Запуск'} остаются заблокированы до отдельного разрешения.</p>
             </div>
           )}
 
           {telegramAccountEnabled && (
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)]">
+            <div id={accountSectionId} ref={accountSectionRef} tabIndex={-1} className="grid scroll-mt-28 gap-4 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan lg:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)]">
               <div className="rounded-2xl border border-white/[0.08] bg-white/[0.018] p-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
@@ -1107,7 +1316,7 @@ export function TelegramAccountCampaignPanel({
                       <RefreshCw size={16} className={accountLoading ? 'motion-safe:animate-spin' : ''} aria-hidden="true" />Статус
                     </Button>
                     {canRequestConnection && (
-                      <Button id={connectButtonId} type="button" disabled={accountBusy || accountLoading} aria-busy={accountBusy} onClick={() => { void connectAccount(); }} className="min-h-12">
+                      <Button type="button" disabled={accountBusy || accountLoading} aria-busy={accountBusy} onClick={() => { void connectAccount(); }} className="min-h-12">
                         {accountBusy ? <LoaderCircle size={16} className="motion-safe:animate-spin" aria-hidden="true" /> : <QrCode size={16} aria-hidden="true" />}
                         {accountBusy ? 'Готовим QR…' : accountStatus === 'disconnected' || accountStatus === 'revoked' ? 'Подключить аккаунт' : 'Переподключить'}
                       </Button>
@@ -1223,22 +1432,27 @@ export function TelegramAccountCampaignPanel({
           <div className="h-px bg-white/[0.07]" aria-hidden="true" />
 
           <div className="grid gap-5 xl:grid-cols-[minmax(16rem,0.9fr)_minmax(0,1.1fr)]">
-            <fieldset disabled={operationBusy || !campaignRecoveryReady || Boolean(campaign)} className="min-w-0">
+            <fieldset disabled={operationBusy || !campaignRecoveryReady || Boolean(campaign)} id={selectionSectionId} ref={selectionSectionRef} tabIndex={-1} className="min-w-0 scroll-mt-28 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">
               <legend className="text-sm font-semibold text-white">1. Выберите компании</legend>
               <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
                 <p className="text-xs leading-5 text-white/60">Выбрано <span className="font-semibold tabular-nums text-white">{selectedLeadIds.size}/{LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT}</span></p>
                 <div className="flex flex-wrap gap-2">
-                  <Button type="button" variant="secondary" disabled={automaticLeadCount === 0 || Boolean(campaign)} onClick={selectAllEligible} className="min-h-12">
-                    <UsersRound size={16} aria-hidden="true" />Выбрать корпоративных кандидатов ({Math.min(automaticLeadCount, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)})
+                  <Button type="button" variant="secondary" disabled={bulkFoundSelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllFound} className="min-h-12">
+                    <UsersRound size={16} aria-hidden="true" />{allFoundSelected ? `Все найденные добавлены (${foundSelectionIds.length})` : `Добавить все найденные (${foundSelectionIds.length})`}
                   </Button>
-                  <Button type="button" variant="ghost" disabled={selectedLeadIds.size === 0 || Boolean(campaign)} onClick={() => { setSelectedLeadIds(new Set()); invalidatePreparation(); }} className="min-h-12">Снять выбор</Button>
+                  {readySelectionIds.length > 0 && (
+                    <Button type="button" variant="secondary" disabled={bulkReadySelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllReady} className="min-h-12">
+                      <ShieldCheck size={16} aria-hidden="true" />{allReadySelected ? `Все готовые выбраны (${readySelectionIds.length})` : `Выбрать готовых (${readySelectionIds.length})`}
+                    </Button>
+                  )}
+                  <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12">Снять весь выбор{selectedLeadIds.size > 0 ? ` (${selectedLeadIds.size})` : ''}</Button>
                 </div>
               </div>
               <div className="mt-3 max-h-80 space-y-2 overflow-y-auto pr-1" aria-label="Компании для Telegram-кампании">
                 {leads.map((lead) => {
                   const local = classifyCampaignLeadLocally(lead);
                   const copy = LOCAL_CLASSIFICATION_COPY[local.classification];
-                  const selectable = isSelectableCampaignLead(lead);
+                  const selectable = isCampaignDraftCandidateLead(lead);
                   return (
                     <label key={lead.id} className={`flex min-h-12 items-start gap-3 rounded-xl border p-3 transition-colors motion-reduce:transition-none ${selectable ? 'cursor-pointer border-white/[0.08] hover:bg-white/[0.025]' : 'cursor-not-allowed border-rose-300/10 bg-rose-400/[0.025]'}`}>
                       <input
@@ -1259,7 +1473,7 @@ export function TelegramAccountCampaignPanel({
                 })}
               </div>
               {leads.length === 0 && <p className="mt-3 rounded-xl border border-dashed border-white/[0.1] p-4 text-sm text-white/55">Сначала дождитесь найденных компаний.</p>}
-              <p className="mt-3 text-xs leading-5 text-white/65">Кнопка выбирает только кандидатов с проверенным корпоративным endpoint. Это ещё не разрешение на сообщение: сервер отдельно проверит действующее основание по каждой компании. Контакты «Нужна проверка» можно добавить вручную; DNC всегда исключается.</p>
+              <p className="mt-3 text-xs leading-5 text-white/65">{bulkSelectionStatus} Записи «Не связываться» не попадают даже в черновик. Компании без подтверждённого Telegram остаются только кандидатами и исключаются сервером до отправки.</p>
             </fieldset>
 
             <div className="min-w-0">
@@ -1418,7 +1632,7 @@ export function TelegramAccountCampaignPanel({
               <Button
                 type="button"
                 size="lg"
-                disabled={!campaignOutreachEnabled || !campaignRecoveryReady || !connected || !accountIdentityConfirmed || !contactBasis || selectedLeadIds.size === 0 || !isCampaignTemplateReady(template) || operationBusy || Boolean(campaign)}
+                disabled={!campaignOutreachEnabled || !campaignRecoveryReady || !connected || !accountIdentityConfirmed || !contactBasis || selectedLeadIds.size === 0 || localSummary.automatic === 0 || !isCampaignTemplateReady(template) || operationBusy || Boolean(campaign)}
                 aria-busy={operationBusy && !preparation}
                 onClick={() => { void prepareCampaign(); }}
                 className="mt-4 min-h-12 w-full"
@@ -1430,7 +1644,11 @@ export function TelegramAccountCampaignPanel({
                 ? <p className="mt-2 text-xs leading-5 text-amber-50/70">Серверная проверка кампаний ещё не разрешена. Локальный выбор и оффер сохраните в этой вкладке.</p>
                 : !connected
                   ? <p className="mt-2 text-xs leading-5 text-amber-50/75">Для серверной проверки сначала подключите отдельный аккаунт.</p>
-                  : !accountIdentityConfirmed && <p className="mt-2 text-xs leading-5 text-amber-50/75">Сверьте карточку подключённого аккаунта и отметьте «Это нужный аккаунт».</p>}
+                  : !accountIdentityConfirmed
+                    ? <p className="mt-2 text-xs leading-5 text-amber-50/75">Сверьте карточку подключённого аккаунта и отметьте «Это нужный аккаунт».</p>
+                    : selectedLeadIds.size > 0 && localSummary.automatic === 0
+                      ? <p role="note" className="mt-2 text-xs leading-5 text-amber-50/80">Сначала найдите подтверждённый Telegram хотя бы у одной выбранной компании. Выбор сохранён как черновик, но серверная проверка и отправка недоступны.</p>
+                      : null}
             </div>
           </div>
 
@@ -1513,7 +1731,7 @@ export function TelegramAccountCampaignPanel({
                   onChange={(event) => setExactConfirmation(event.target.checked)}
                   className="mt-0.5 h-5 w-5 shrink-0 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
                 />
-                <span><span className="block font-medium text-white">Я просмотрел все {serverSummary.automatic} сообщений и подтверждаю точный состав</span>Основание: {contactBasis ? CONTACT_BASIS_COPY[contactBasis] : 'не выбрано'}. Сервер проверил доказательства по каждому адресату; DNC повторно проверяется перед отправкой, а Stop остаётся доступен.</span>
+                <span><span className="block font-medium text-white">Я просмотрел все {serverSummary.automatic} сообщений и подтверждаю точный состав</span>Основание: {contactBasis ? CONTACT_BASIS_COPY[contactBasis] : 'не выбрано'}. Сервер повторно проверяет список «Не связываться» перед отправкой, а Stop остаётся доступен.</span>
               </label>
 
               <Button type="button" size="lg" disabled={!createReady} aria-busy={operationBusy} onClick={() => { void createAndStartCampaign(); }} className="mt-4 min-h-12 w-full">

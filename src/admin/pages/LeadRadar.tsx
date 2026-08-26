@@ -59,6 +59,10 @@ import type {
   LeadRadarTelegramOutreachEndpoint,
   LeadRadarTelegramOutreachPreparation,
 } from '../../shared/lead-radar';
+import {
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS,
+} from '../../shared/lead-radar-telegram-campaign-policy';
 
 const DEFAULT_INPUT: LeadRadarSearchInput = {
   niche: 'Стоматологии',
@@ -1414,6 +1418,10 @@ export default function LeadRadarPage() {
   const telegramAccountEnabled = capabilities.telegramAccountEnabled ?? false;
   const campaignOutreachEnabled = capabilities.campaignOutreachEnabled ?? false;
   const campaignAutoSendEnabled = capabilities.campaignAutoSendEnabled ?? false;
+  const telegramCampaignDailyLimit = capabilities.telegramCampaignDailyLimit
+    ?? LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT;
+  const telegramCampaignMinimumIntervalSeconds = capabilities.telegramCampaignMinimumIntervalSeconds
+    ?? LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS;
 
   const loadOverview = useCallback(async (): Promise<LeadRadarOverview | null> => {
     try {
@@ -2177,6 +2185,8 @@ export default function LeadRadarPage() {
                   telegramAccountEnabled={telegramAccountEnabled}
                   campaignOutreachEnabled={campaignOutreachEnabled}
                   campaignAutoSendEnabled={campaignAutoSendEnabled}
+                  telegramCampaignDailyLimit={telegramCampaignDailyLimit}
+                  telegramCampaignMinimumIntervalSeconds={telegramCampaignMinimumIntervalSeconds}
                 />
 
                 {noApprovedPersonalTelegram && (

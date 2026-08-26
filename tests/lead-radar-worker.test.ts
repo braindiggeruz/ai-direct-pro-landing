@@ -370,7 +370,7 @@ test('missing private Telegram binding ACKs campaign before schema access or rec
     LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
     LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
     LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: Buffer.alloc(32, 7).toString('base64url'),
-    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '10',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '30',
     LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '120',
   }), {} as ExecutionContext);
 
@@ -528,8 +528,8 @@ test('enabled Telegram campaign envelope sends once through the private binding'
     LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
     LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
     LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
-    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '10',
-    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '30',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '30',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '120',
   }), {} as ExecutionContext);
 
   assert.equal(message.acknowledgements, 1);
@@ -571,8 +571,8 @@ test('scheduled campaign dispatcher enqueues only the strict ID-only envelope', 
     LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
     LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
     LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
-    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '10',
-    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '30',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '30',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '120',
   }));
 
   assert.deepEqual(outgoing.sent, [envelope]);

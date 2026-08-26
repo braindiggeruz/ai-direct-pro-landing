@@ -5,6 +5,7 @@ import test from 'node:test';
 import {
   automaticCampaignLeadIds,
   boundCampaignTemplate,
+  campaignDraftCandidateLeadIds,
   campaignFromRecovery,
   campaignResumeBlockReason,
   classifyCampaignLeadLocally,
@@ -16,8 +17,13 @@ import {
   safeTelegramLoginUrl,
   safeTelegramQrDataUrl,
   selectableCampaignLeadIds,
+  telegramAccountQuickAction,
 } from '../src/admin/lib/lead-radar-campaign.ts';
 import type { LeadRadarLead, LeadRadarTelegramContact } from '../src/shared/lead-radar.ts';
+import {
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS,
+} from '../src/shared/lead-radar-telegram-campaign-policy.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 
@@ -80,6 +86,26 @@ test('campaign pre-classification is conservative and DNC wins over every endpoi
     reason: 'do_not_contact',
   });
   assert.equal(LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT, 50);
+  assert.equal(LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT, 30);
+  assert.equal(LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS, 120);
+});
+
+test('campaign policy copy uses server capabilities and production configs match shared defaults', () => {
+  const component = readFileSync(path.join(ROOT, 'src/admin/components/lead-radar/TelegramAccountCampaignPanel.tsx'), 'utf8');
+  const page = readFileSync(path.join(ROOT, 'src/admin/pages/LeadRadar.tsx'), 'utf8');
+  assert.match(component, /Серверный лимит:[\s\S]{0,160}telegramCampaignDailyLimit/);
+  assert.match(component, /telegramCampaignMinimumIntervalSeconds/);
+  assert.doesNotMatch(component, /LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_(?:DAILY_LIMIT|MIN_INTERVAL_SECONDS)/);
+  assert.match(page, /telegramCampaignDailyLimit=\{telegramCampaignDailyLimit\}/);
+  assert.match(page, /telegramCampaignMinimumIntervalSeconds=\{telegramCampaignMinimumIntervalSeconds\}/);
+
+  for (const configPath of ['wrangler.toml', 'wrangler.automation.toml']) {
+    const config = readFileSync(path.join(ROOT, configPath), 'utf8');
+    const daily = config.match(/LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "(\d+)"/u);
+    const interval = config.match(/LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS = "(\d+)"/u);
+    assert.equal(Number(daily?.[1]), LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT, `${configPath}: daily limit drift`);
+    assert.equal(Number(interval?.[1]), LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS, `${configPath}: interval drift`);
+  }
 });
 
 test('campaign template preserves exact text, bounds Unicode code points and substitutes only the allowlisted variable', () => {
@@ -147,6 +173,30 @@ test('bulk shortcut selects only automatic candidates while manual review stays 
   assert.deepEqual(selectableCampaignLeadIds([automatic, manual, missing, suppressed]), [
     'lead-auto', 'lead-manual',
   ]);
+});
+
+test('found-company draft shortcut keeps missing Telegram visible but never includes DNC', () => {
+  const automatic = makeLead({ id: 'lead-auto' });
+  const missing = makeLead({ id: 'lead-missing', telegramContact: null, telegramUrl: null });
+  const unsupported = makeLead({ id: 'lead-channel', telegramContact: makeTelegramContact({ type: 'channel' }) });
+  const suppressed = makeLead({ id: 'lead-dnc', suppressed: true });
+  assert.deepEqual(campaignDraftCandidateLeadIds([
+    automatic, missing, unsupported, suppressed, { ...missing },
+  ]), ['lead-auto', 'lead-missing', 'lead-channel']);
+  assert.deepEqual(automaticCampaignLeadIds([automatic, missing, unsupported, suppressed]), ['lead-auto']);
+});
+
+test('Telegram account quick action maps every blocking and reconnectable state explicitly', () => {
+  assert.equal(telegramAccountQuickAction(null, false), 'blocked_feature');
+  assert.equal(telegramAccountQuickAction('unconfigured', true), 'blocked_unconfigured');
+  assert.equal(telegramAccountQuickAction('restricted', true), 'blocked_restricted');
+  assert.equal(telegramAccountQuickAction(null, true), 'blocked_unknown');
+  for (const status of ['disconnected', 'error', 'revoked', 'reauth_required'] as const) {
+    assert.equal(telegramAccountQuickAction(status, true), 'connect', status);
+  }
+  for (const status of ['pending', 'connecting', 'connected', 'paused'] as const) {
+    assert.equal(telegramAccountQuickAction(status, true), 'inspect', status);
+  }
 });
 
 test('campaign recovery accepts the active/latest envelope and resume guards fail closed', () => {
@@ -244,6 +294,8 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(page, /campaignOutreachEnabled/);
   assert.match(page, /telegramAccountEnabled/);
   assert.match(page, /campaignAutoSendEnabled/);
+  assert.match(page, /capabilities\.telegramCampaignDailyLimit/);
+  assert.match(page, /capabilities\.telegramCampaignMinimumIntervalSeconds/);
 
   assert.match(api, /telegram-account\/connect/);
   assert.match(api, /telegram-account\/connect\/\$\{encodeURIComponent\(authId\)\}/);
@@ -277,7 +329,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /transitionCampaign\('stop'\)/);
   assert.match(component, /Pause и Stop/);
   assert.match(component, /Кампании выключены/);
-  assert.match(component, /fail-closed/);
+  assert.match(component, /остаются заблокированы до отдельного разрешения/);
   assert.match(component, /<fieldset disabled=\{operationBusy \|\| !campaignRecoveryReady \|\| Boolean\(campaign\)\}/);
   assert.doesNotMatch(component, /<fieldset disabled=\{!campaignEnabled/);
   assert.match(component, /Контур отправки ещё не активирован/);
@@ -292,7 +344,29 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /href=\{safeQrLoginUrl\} target="_blank" rel="noreferrer"/);
   assert.match(component, /Открыть в Telegram на этом устройстве/);
   assert.match(component, /automaticLeadIds\.slice\(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT\)/);
-  assert.match(component, /Выбрать корпоративных кандидатов/);
+  assert.match(component, /Быстрые действия Telegram-кампании/);
+  assert.match(component, /Подключите отдельный Telegram-аккаунт/);
+  assert.match(component, /Подключить Telegram/);
+  assert.match(component, /Переподключить Telegram/);
+  assert.match(component, /Показать аккаунт на паузе/);
+  assert.match(component, /Сначала настройте Telegram-шлюз/);
+  assert.match(component, /Аккаунт ограничен Telegram/);
+  assert.match(component, /disabled=\{accountQuickActionBusy\}/);
+  assert.match(component, /aria-controls=\{accountQuickActionBlocked \? accountSetupNoticeId : undefined\}/);
+  assert.match(component, /aria-expanded=\{accountQuickActionBlocked \? accountSetupNoticeVisible : undefined\}/);
+  assert.match(component, /if \(accountQuickActionBlocked\) explainBlockedAccountAction\(\)/);
+  assert.match(component, /запрос подключения не выполнялся, ничего не отправлено/);
+  assert.match(component, /Добавить все найденные/);
+  assert.match(component, /Выбрать готовых/);
+  assert.match(component, /Снять весь выбор/);
+  assert.match(component, /campaignDraftCandidateLeadIds\(leads\)/);
+  assert.match(component, /automaticLeadIds\.slice\(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT\)/);
+  assert.match(component, /Сводка найденных компаний/);
+  assert.match(component, /\{uniqueFoundLeadCount\}[\s\S]{0,300}\{telegramLeadCount\}[\s\S]{0,300}\{automaticLeadCount\}/);
+  assert.match(component, /Записи «Не связываться» не попадают даже в черновик/);
+  assert.match(component, /исключаются сервером до отправки/);
+  assert.match(component, /selectedLeadIds\.size > 0 && localSummary\.automatic === 0[\s\S]{0,220}Сначала найдите подтверждённый Telegram хотя бы у одной выбранной компании/);
+  assert.match(component, /disabled=\{!campaignOutreachEnabled[\s\S]{0,300}localSummary\.automatic === 0/);
   assert.match(component, /Все персонализированные сообщения/);
   assert.match(component, /Показаны все:/);
   assert.doesNotMatch(component, /preparation\.previews\.slice\(0, 3\)/);

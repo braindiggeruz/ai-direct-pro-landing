@@ -246,6 +246,10 @@ export interface LeadRadarApiCapabilities {
   campaignOutreachEnabled?: boolean;
   /** Final provider-side send gate; campaign drafting can remain available while false. */
   campaignAutoSendEnabled?: boolean;
+  /** Server-resolved per-account UTC-day campaign quota; safe to expose. */
+  telegramCampaignDailyLimit?: number;
+  /** Server-resolved minimum delay between account campaign sends. */
+  telegramCampaignMinimumIntervalSeconds?: number;
   mode: 'paused' | 'research' | 'contact';
 }
 

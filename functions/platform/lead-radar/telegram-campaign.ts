@@ -18,6 +18,10 @@ import {
   encryptTelegramCampaignSecret,
 } from './telegram-campaign-crypto';
 import { hasExactTelegramCampaignSchema } from './telegram-campaign-schema';
+import {
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS,
+} from '../../../src/shared/lead-radar-telegram-campaign-policy';
 
 export type { TelegramCampaignContactBasis } from './telegram-campaign-store';
 
@@ -27,7 +31,7 @@ const MAX_TEMPLATE_CODE_POINTS = 4_096;
 const MAX_TEMPLATE_BYTES = 16_384;
 const APPROVAL_TTL_MS = 10 * 60_000;
 const CLAIM_LEASE_MS = 2 * 60_000;
-const DEFAULT_INTERVAL_SECONDS = 60;
+const DEFAULT_INTERVAL_SECONDS = LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS;
 const MAX_PROVIDER_WAIT_SECONDS = 2_147_483_647;
 const USERNAME_PATTERN = /^[A-Za-z0-9_]{5,32}$/u;
 const ACCOUNT_ID_PATTERN = /^lrtgua_[0-9a-f]{32}$/u;
@@ -343,7 +347,7 @@ function intervalSeconds(value: number | undefined): number {
 }
 
 function dailyLimit(value: number | undefined): number {
-  const parsed = value ?? 10;
+  const parsed = value ?? LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT;
   if (!Number.isInteger(parsed) || parsed < 1 || parsed > 100) {
     fail('telegram_campaign_invalid_input');
   }

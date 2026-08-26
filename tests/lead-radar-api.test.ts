@@ -8,6 +8,7 @@ import {
   LeadRadarStore,
   ownerOrgId,
   parseTelegramBusinessUpdate,
+  resolveLeadRadarCapabilities,
 } from '../functions/platform/lead-radar';
 import type { LeadRadarQueueMessage } from '../functions/platform/lead-radar';
 import {
@@ -71,6 +72,34 @@ async function telegramOwnerEnv(overrides: Record<string, unknown> = {}): Promis
   });
 }
 
+test('campaign capabilities expose validated server policy and fail closed on malformed config', async () => {
+  const orgId = await ownerOrgId(OWNER_EMAIL);
+  const common = {
+    LEAD_RADAR_ALLOWED_ORGS: orgId,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
+  };
+  const configured = resolveLeadRadarCapabilities({
+    ...common,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '42',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: '240',
+  }, orgId);
+  assert.equal(configured.telegramCampaignDailyLimit, 42);
+  assert.equal(configured.telegramCampaignMinimumIntervalSeconds, 240);
+  assert.equal(configured.campaignAutoSendEnabled, true);
+
+  const malformed = resolveLeadRadarCapabilities({
+    ...common,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT: '101',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS: 'not-a-number',
+  }, orgId);
+  assert.equal(malformed.telegramCampaignDailyLimit, 30);
+  assert.equal(malformed.telegramCampaignMinimumIntervalSeconds, 120);
+  assert.equal(malformed.campaignOutreachEnabled, true);
+  assert.equal(malformed.campaignAutoSendEnabled, false);
+});
+
 async function insertCorporateTelegramLead(db: SqliteD1): Promise<string> {
   const orgId = await ownerOrgId(OWNER_EMAIL);
   const store = new LeadRadarStore(db.asD1());
@@ -113,7 +142,10 @@ async function bindCorporateTelegramChat(
   leadId: string,
 ): Promise<string> {
   const orgId = await ownerOrgId(OWNER_EMAIL);
-  const now = new Date(NOW);
+  // The API enforces Telegram's rolling 24-hour business-chat window against
+  // the real request clock. Keep this fixture fresh so the test does not start
+  // failing simply because the calendar moved past its original authoring day.
+  const now = new Date();
   const link = await createTelegramBusinessConnectLink(db.asD1(), env, orgId, now);
   const connectToken = new URL(link.url).searchParams.get('start');
   assert.ok(connectToken);
@@ -270,6 +302,8 @@ test('research response is server-redacted and contact approval stays closed', a
     telegramAccountEnabled: false,
     campaignOutreachEnabled: false,
     campaignAutoSendEnabled: false,
+    telegramCampaignDailyLimit: 30,
+    telegramCampaignMinimumIntervalSeconds: 120,
     mode: 'paused',
   });
   const interpretation = result.body.search.interpretation as Record<string, unknown>;

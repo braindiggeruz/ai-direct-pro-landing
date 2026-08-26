@@ -181,11 +181,12 @@ be `true` while all three flags above remain false; it permits verified
 corporate Telegram discovery/filtering only and can never authorize a send.
 
 The disabled release candidate uses
-`LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT=10` and
+`LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT=30` and
 `LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS=120`. A 50-target campaign
-must cross daily boundaries rather than bypass these limits. Invalid/missing
-values keep auto-send unavailable; a production change requires the same
-configuration approval as capability enablement.
+must cross daily boundaries rather than bypass these limits. Missing values use
+the same safe 30/120 defaults; malformed or out-of-range values keep auto-send
+unavailable. A production change requires the same configuration approval as
+capability enablement.
 
 ### Rolling deployment order
 
@@ -207,7 +208,7 @@ authorize execution:
 6. Canary account connection for one allowlisted organization, prove QR/session
    custody and revoke/restore, then enable campaign creation without auto-send.
 7. Only after legal and operational acceptance, enable auto-send for the same
-   organization and prove the 10/day, 120-second, DNC, paid-message, flood and
+   organization and prove the 30/day, 120-second, DNC, paid-message, flood and
    ambiguous-effect controls.
 
 Container deployment is not transactional with the Worker and rollout may

@@ -715,7 +715,7 @@ test('active/latest recovery is search- and tenant-scoped across terminal transi
   assert.equal(terminal.latest?.status, 'stopped');
 });
 
-test('atomic account quota blocks the eleventh attempt and pauses to next UTC day', async (t) => {
+test('default atomic account quota blocks the thirty-first attempt and pauses to next UTC day', async (t) => {
   const db = database();
   t.after(() => db.sqlite.close());
   addCompany(db, { id: 'company_quota', username: 'QuotaClinic' });
@@ -726,7 +726,7 @@ test('atomic account quota blocks the eleventh attempt and pauses to next UTC da
     operatorId: 'owner@example.test', idempotencyKey: 'campaign_start_quota', now: NOW,
   });
   db.sqlite.prepare(`UPDATE lead_radar_tg_user_accounts
-    SET quota_day = ?, daily_reserved_count = 10
+    SET quota_day = ?, daily_reserved_count = 30
     WHERE org_id = ?`).run(NOW.toISOString().slice(0, 10), ORG_A);
   const claim = await claimNextTelegramCampaignRecipient({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
@@ -742,7 +742,6 @@ test('atomic account quota blocks the eleventh attempt and pauses to next UTC da
         return { kind: 'sent', providerMessageId: 'must-not-send' };
       },
     },
-    dailyLimit: 10,
     now: NOW,
   });
   assert.equal(blocked.status, 'paused');
@@ -753,7 +752,7 @@ test('atomic account quota blocks the eleventh attempt and pauses to next UTC da
   assert.equal(sendCalls, 0);
   assert.equal(db.value(
     'SELECT daily_reserved_count FROM lead_radar_tg_user_accounts WHERE org_id = ?', ORG_A,
-  ), 10);
+  ), 30);
   assert.equal(db.value(
     'SELECT status FROM lead_radar_tg_campaign_recipients WHERE campaign_id = ?',
     created.campaign.id,

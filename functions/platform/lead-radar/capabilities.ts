@@ -6,6 +6,7 @@ import type {
   LeadRadarSearchResult,
   LeadRadarSearchSummary,
 } from '../../../src/shared/lead-radar';
+import { resolveLeadRadarTelegramCampaignPolicy } from '../../../src/shared/lead-radar-telegram-campaign-policy';
 import { scoreLead } from './scoring';
 
 const PERSONAL_CONTACT_TTL_MS = 30 * 24 * 60 * 60_000;
@@ -19,6 +20,8 @@ type LeadRadarCapabilityEnv = Pick<Env,
   | 'LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED'
   | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED'
   | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED'
+  | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT'
+  | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS'
   | 'LEAD_RADAR_ALLOWED_ORGS'
 >;
 
@@ -60,8 +63,13 @@ export function resolveLeadRadarCapabilities(
     && enabled(env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED);
   const campaignOutreachEnabled = telegramAccountEnabled
     && enabled(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED);
+  const campaignPolicy = resolveLeadRadarTelegramCampaignPolicy({
+    dailyLimit: env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT,
+    minimumIntervalSeconds: env.LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS,
+  });
   const campaignAutoSendEnabled = campaignOutreachEnabled
-    && enabled(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED);
+    && enabled(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED)
+    && campaignPolicy.valid;
   return {
     admissionEnabled,
     processingEnabled,
@@ -72,6 +80,8 @@ export function resolveLeadRadarCapabilities(
     telegramAccountEnabled,
     campaignOutreachEnabled,
     campaignAutoSendEnabled,
+    telegramCampaignDailyLimit: campaignPolicy.dailyLimit,
+    telegramCampaignMinimumIntervalSeconds: campaignPolicy.minimumIntervalSeconds,
     mode: contactEnabled || campaignOutreachEnabled
       ? 'contact'
       : (admissionEnabled || processingEnabled ? 'research' : 'paused'),
