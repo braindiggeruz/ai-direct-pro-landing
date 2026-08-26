@@ -49,6 +49,8 @@
     {"q":"Что происходит на первой неделе?","a":"Фиксируем цели, проверяем аналитику, изучаем спрос, собираем гипотезы и устраняем критичные разрывы до запуска."},
     {"q":"Можно ли подключить performance к существующему маркетингу?","a":"Да. Начинаем с аудита данных и постепенно объединяем кампании, сайт и CRM без обязательной замены всех систем."}
   ],
-  "internalLinks":[{"target":"/ru/digital-marketing-tashkent/","anchor":"комплексный digital-маркетинг","locale":"ru","type":"contextual","priority":1},{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит","locale":"ru","type":"contextual","priority":2},{"target":"/ru/internet-reklama-tashkent/","anchor":"интернет-реклама в Ташкенте","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/seo-ili-google-ads-chto-vybrat/","anchor":"SEO или Google Ads","locale":"ru","type":"contextual","priority":4}],
-  "schemaTypes":["Organization","WebSite","BreadcrumbList","Service","FAQPage"],"lastReviewedAt":"2026-07-30","createdAt":"2026-07-30","updatedAt":"2026-07-30"
+  "internalLinks":[{"target":"/ru/digital-marketing-tashkent/","anchor":"комплексный digital-маркетинг","locale":"ru","type":"contextual","priority":1},{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит","locale":"ru","type":"contextual","priority":2},{"target":"/ru/internet-reklama-tashkent/","anchor":"интернет-реклама в Ташкенте","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/seo-ili-google-ads-chto-vybrat/","anchor":"SEO или Google Ads","locale":"ru","type":"contextual","priority":4},
+  {"target": "/ru/telegram-ads-uzbekistan/", "anchor": "Запуск Telegram Ads"}
+],
+  "schemaTypes":["Organization","WebSite","BreadcrumbList","Service","FAQPage"],"lastReviewedAt":"2026-08-27","createdAt":"2026-07-30","updatedAt":"2026-07-30"
 }

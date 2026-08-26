@@ -583,8 +583,9 @@
     { "target": "/ru/blog/seo-ili-google-ads-chto-vybrat/", "anchor": "SEO или Google Ads: что выбрать" },
     { "target": "/ru/digital-marketing-tashkent/", "anchor": "Digital-маркетинг в Ташкенте" },
     { "target": "/ru/lokalnoe-seo-tashkent/", "anchor": "Локальное SEO и продвижение на картах" },
-    { "target": "/ru/blog/audit-kartochki-kompanii-na-kartah/", "anchor": "Аудит карточки компании на картах" }
-  ],
+    { "target": "/ru/blog/audit-kartochki-kompanii-na-kartah/", "anchor": "Аудит карточки компании на картах" },
+    {"target": "/ru/telegram-ads-uzbekistan/", "anchor": "Реклама в Telegram для бизнеса"}
+],
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -592,7 +593,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-20T00:00:00.000Z",
+  "lastReviewedAt": "2026-08-27",
   "createdAt": "2026-07-28T00:00:00.000Z",
   "updatedAt": "2026-08-20T00:00:00.000Z",
   "heroImage": {

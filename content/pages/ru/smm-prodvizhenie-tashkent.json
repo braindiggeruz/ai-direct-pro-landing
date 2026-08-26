@@ -77,8 +77,9 @@
     {"target":"/ru/blog/chto-vhodit-v-uslugi-smm-specialista/","anchor":"что входит в услуги SMM-специалиста","locale":"ru","type":"contextual","priority":6},
     {"target":"/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/","anchor":"договор на оказание SMM-услуг","locale":"ru","type":"contextual","priority":7},
     {"target":"/ru/blog/chto-takoe-smm-prodvizhenie/","anchor":"что такое SMM-продвижение","locale":"ru","type":"contextual","priority":8},
-    {"target":"/ru/targetirovannaya-reklama-tashkent/","anchor":"таргетированная реклама в Ташкенте","locale":"ru","type":"contextual","priority":9}
-  ],
+    {"target":"/ru/targetirovannaya-reklama-tashkent/","anchor":"таргетированная реклама в Ташкенте","locale":"ru","type":"contextual","priority":9},
+    {"target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане"}
+],
   "schemaTypes":["Organization","WebSite","BreadcrumbList","Service","FAQPage"],
-  "lastReviewedAt":"2026-08-20","createdAt":"2026-07-30","updatedAt":"2026-08-20"
+  "lastReviewedAt":"2026-08-27","createdAt":"2026-07-30","updatedAt":"2026-08-20"
 }

@@ -142,10 +142,11 @@
     {"target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане", "locale": "ru", "type": "contextual", "priority": 3},
     {"target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-продвижение в Ташкенте", "locale": "ru", "type": "contextual", "priority": 4},
     {"target": "/ru/marketingovyi-audit-tashkent/", "anchor": "аудит рекламы", "locale": "ru", "type": "contextual", "priority": 5},
-    {"target": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/", "anchor": "почему Instagram-реклама не приносит заявки", "locale": "ru", "type": "contextual", "priority": 6}
-  ],
+    {"target": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/", "anchor": "почему Instagram-реклама не приносит заявки", "locale": "ru", "type": "contextual", "priority": 6},
+    {"target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "anchor": "Купить рекламу в Telegram"}
+],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "WebPage", "FAQPage"],
-  "lastReviewedAt": "2026-08-25",
+  "lastReviewedAt": "2026-08-27",
   "createdAt": "2026-08-20",
   "updatedAt": "2026-08-25"
 }

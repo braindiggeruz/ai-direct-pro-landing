@@ -392,8 +392,9 @@
     { "target": "/ru/blog/chto-takoe-marketing-kit/", "anchor": "Что такое маркетинг-кит" },
     { "target": "/ru/blog/chto-takoe-seo-prodvizhenie/", "anchor": "Что такое SEO-продвижение" },
     { "target": "/ru/blog/chto-takoe-smm-prodvizhenie/", "anchor": "Что такое SMM-продвижение" },
-    { "target": "/ru/blog/kak-provesti-audit-digital-marketinga/", "anchor": "Аудит digital-маркетинга" }
-  ],
+    { "target": "/ru/blog/kak-provesti-audit-digital-marketinga/", "anchor": "Аудит digital-маркетинга" },
+    {"target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "anchor": "Посевы в Telegram-каналах"}
+],
   "ogTitle": "Словарь маркетинговых терминов простыми словами",
   "ogDescription": "Лид, CPA, CPM, CR, ROI, сегментация, воронка, маркетинг-кит и план маркетинга — определения с формулами.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
@@ -403,7 +404,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-02",
-  "dateModified": "2026-08-02",
+  "dateModified": "2026-08-27",
   "schemaTypes": [
     "Organization",
     "WebSite",

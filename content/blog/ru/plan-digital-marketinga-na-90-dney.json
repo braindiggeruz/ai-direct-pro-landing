@@ -41,9 +41,11 @@
     {"q":"Что считать итогом квартала?","a":"Работающее измерение, подтверждённые или опровергнутые гипотезы, обновлённая воронка и обоснованный план следующего периода."}
   ],
   "cta":{"label":"Получить roadmap","href":"https://t.me/XGame_changerx"},
-  "internalLinks":[{"target":"/ru/digital-strategiya-dlya-biznesa/","anchor":"digital-стратегия для бизнеса","locale":"ru","type":"contextual","priority":1},{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте","locale":"ru","type":"contextual","priority":2},{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/","anchor":"стратегия для Узбекистана","locale":"ru","type":"contextual","priority":4}],
+  "internalLinks":[{"target":"/ru/digital-strategiya-dlya-biznesa/","anchor":"digital-стратегия для бизнеса","locale":"ru","type":"contextual","priority":1},{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте","locale":"ru","type":"contextual","priority":2},{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/","anchor":"стратегия для Узбекистана","locale":"ru","type":"contextual","priority":4},
+  {"target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане"}
+],
   "ogTitle":"План digital-маркетинга на 90 дней по неделям","ogDescription":"Фундамент, запуск, аналитика, CRM и решения о масштабировании за один квартальный цикл.","ogImage":"https://gptbot.uz/assets/digital/plan-digital-marketinga-na-90-dney-1200.webp",
   "canonical":"https://gptbot.uz/ru/blog/plan-digital-marketinga-na-90-dney/","hreflangRu":"/ru/blog/plan-digital-marketinga-na-90-dney/","robotsIndex":true,"robotsFollow":true,
-  "author":"GPTBot Team","datePublished":"2026-07-30","dateModified":"2026-07-30","schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],"createdAt":"2026-07-30T00:00:00.000Z","updatedAt":"2026-07-30T00:00:00.000Z",
+  "author":"GPTBot Team","datePublished":"2026-07-30","dateModified":"2026-08-27","schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],"createdAt":"2026-07-30T00:00:00.000Z","updatedAt":"2026-07-30T00:00:00.000Z",
   "sources":[{"title":"Google Ads Help: conversion tracking","url":"https://support.google.com/google-ads/answer/6308?hl=ru","note":"Связь рекламы с ценными действиями."},{"title":"Яндекс Метрика: цели","url":"https://yandex.com/support/metrica/ru/general/goals","note":"Определение целей и конверсий."}]
 }

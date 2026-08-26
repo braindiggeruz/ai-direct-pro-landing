@@ -277,8 +277,9 @@
     { "target": "/ru/blog/marketingovye-terminy-slovar/", "anchor": "Словарь маркетинговых терминов" },
     { "target": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/", "anchor": "Стоимость SMM-услуг в Ташкенте" },
     { "target": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/", "anchor": "Что входит в услуги SMM-специалиста" },
-    { "target": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/", "anchor": "Договор на оказание SMM-услуг в Узбекистане" }
-  ],
+    { "target": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/", "anchor": "Договор на оказание SMM-услуг в Узбекистане" },
+    {"target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "anchor": "Реклама в Telegram: биржи и посевы"}
+],
   "ogTitle": "Что такое SMM-продвижение: состав работ и стоимость",
   "ogDescription": "Что входит в SMM, чем отличается от таргета и SEO, сколько стоит в месяц и почему часто не приносит заявок.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
@@ -288,7 +289,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-02",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-08-27",
   "schemaTypes": [
     "Organization",
     "WebSite",

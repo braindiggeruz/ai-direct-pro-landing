@@ -463,8 +463,9 @@
       "anchor": "как выбрать digital-агентство",
       "locale": "ru",
       "type": "contextual"
-    }
-  ],
+    },
+    {"target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "anchor": "Telegram Ads и посевы в каналах"}
+],
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -472,6 +473,6 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-20",
+  "lastReviewedAt": "2026-08-27",
   "updatedAt": "2026-08-20"
 }

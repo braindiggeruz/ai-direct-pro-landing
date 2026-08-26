@@ -259,8 +259,9 @@
     { "target": "/ru/blog/marketingovye-terminy-slovar/", "anchor": "Словарь маркетинговых терминов" },
     { "target": "/ru/blog/chto-takoe-lid-v-marketinge/", "anchor": "Что такое лид в маркетинге" },
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "Интернет-реклама в Ташкенте" },
-    { "target": "/ru/blog/seo-ili-google-ads-chto-vybrat/", "anchor": "SEO или Google Ads" }
-  ],
+    { "target": "/ru/blog/seo-ili-google-ads-chto-vybrat/", "anchor": "SEO или Google Ads" },
+    {"target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "anchor": "Как купить рекламу в Telegram"}
+],
   "ogTitle": "CPA, CPM, CPC и CPL: за что вы платите в рекламе",
   "ogDescription": "Шесть моделей оплаты, метрики CTR, CR и ROMI и разбор кампании на числах.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
@@ -270,7 +271,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-02",
-  "dateModified": "2026-08-02",
+  "dateModified": "2026-08-27",
   "schemaTypes": [
     "Organization",
     "WebSite",

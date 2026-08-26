@@ -894,8 +894,9 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 13
-    }
-  ],
+    },
+    {"target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "anchor": "Реклама в Telegram-каналах"}
+],
   "ogTitle": "Почему реклама в Instagram не приносит заявки",
   "ogDescription": "Почему клики из Instagram не превращаются в заявки: проверяем оффер, креатив, профиль, Direct, скорость ответа, CRM и аналитику по шагам.",
   "ogImage": "https://gptbot.uz/assets/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki-1200.webp",
@@ -905,7 +906,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-14",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-08-27",
   "schemaTypes": [
     "Organization",
     "WebSite",
