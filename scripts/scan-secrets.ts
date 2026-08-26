@@ -16,7 +16,7 @@
 // scanner output is safe to paste into CI logs, issues and reports.
 //
 // Usage:
-//   npx tsx scripts/scan-secrets.ts             # scan tracked files
+//   npx tsx scripts/scan-secrets.ts             # scan tracked + untracked files
 //   npx tsx scripts/scan-secrets.ts <path...>   # scan specific files
 //
 // Exit code 0 = clean, 1 = findings, 2 = usage/IO error.
@@ -200,9 +200,16 @@ export function scanText(file: string, text: string): Finding[] {
   return findings;
 }
 
-function trackedFiles(): string[] {
-  const out = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
-  return out.split('\n').map((s) => s.trim()).filter(Boolean);
+export function repositoryFiles(): string[] {
+  // Include non-ignored, untracked source/artifacts too. A secret does not
+  // become harmless merely because the author has not staged it yet. NUL
+  // delimiters preserve paths containing spaces and non-ASCII characters.
+  const out = execFileSync(
+    'git',
+    ['ls-files', '-z', '--cached', '--others', '--exclude-standard'],
+    { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
+  );
+  return out.split('\u0000').filter(Boolean);
 }
 
 export function scanFiles(files: string[]): Finding[] {
@@ -216,7 +223,7 @@ export function scanFiles(files: string[]): Finding[] {
     } catch {
       continue;
     }
-    if (text.includes(' ')) continue;
+    if (text.includes('\u0000')) continue;
     findings.push(...scanText(f.replace(/\\/g, '/'), text));
   }
   return findings;
@@ -224,7 +231,7 @@ export function scanFiles(files: string[]): Finding[] {
 
 function main(): void {
   const args = process.argv.slice(2);
-  const files = args.length ? args : trackedFiles();
+  const files = args.length ? args : repositoryFiles();
   const findings = scanFiles(files);
 
   if (findings.length === 0) {

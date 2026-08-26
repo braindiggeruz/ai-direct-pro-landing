@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptbot.uz/schemas/lead-radar-candidate-predictions.v1.schema.json",
+  "title": "Lead Radar candidate predictions v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "candidateId",
+    "candidateVersion",
+    "datasetVersion",
+    "contactSurfaceEnabled",
+    "contactPrerequisites",
+    "companies",
+    "rankings",
+    "telegram",
+    "people",
+    "personalCtaNegatives"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "lead-radar-candidate-predictions/v1" },
+    "candidateId": { "type": "string", "minLength": 1 },
+    "candidateVersion": { "type": "string", "minLength": 1 },
+    "datasetVersion": { "type": "string", "minLength": 1 },
+    "contactSurfaceEnabled": { "type": "boolean" },
+    "contactPrerequisites": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "writtenCounselApproval",
+        "dataFlowAndResidencyApproved",
+        "personalVaultApproved",
+        "retentionDsarDncGreen",
+        "manualRoleApprovalEnforced",
+        "channelPolicyApproved"
+      ],
+      "properties": {
+        "writtenCounselApproval": { "type": "boolean" },
+        "dataFlowAndResidencyApproved": { "type": "boolean" },
+        "personalVaultApproved": { "type": "boolean" },
+        "retentionDsarDncGreen": { "type": "boolean" },
+        "manualRoleApprovalEnforced": { "type": "boolean" },
+        "channelPolicyApproved": { "type": "boolean" }
+      }
+    },
+    "companies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "caseId",
+          "activeCompany",
+          "nicheMatch",
+          "geoMatch",
+          "officialSite",
+          "corporateRouteVerified",
+          "retrievedWithinBoundedK",
+          "actionable"
+        ],
+        "properties": {
+          "caseId": { "type": "string", "minLength": 1 },
+          "activeCompany": { "type": "boolean" },
+          "nicheMatch": { "type": "boolean" },
+          "geoMatch": { "type": "boolean" },
+          "officialSite": { "type": "boolean" },
+          "corporateRouteVerified": { "type": "boolean" },
+          "retrievedWithinBoundedK": { "type": "boolean" },
+          "actionable": { "type": "boolean" }
+        }
+      }
+    },
+    "rankings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["searchId", "orderedCardIds"],
+        "properties": {
+          "searchId": { "type": "string", "minLength": 1 },
+          "orderedCardIds": {
+            "type": "array",
+            "minItems": 10,
+            "maxItems": 10,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "telegram": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["caseId", "type"],
+        "properties": {
+          "caseId": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["business", "human", "bot", "channel", "group", "unknown"] }
+        }
+      }
+    },
+    "people": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["caseId", "companyAffiliation", "contactBelongsToPerson", "currentDecisionMaker"],
+        "properties": {
+          "caseId": { "type": "string", "minLength": 1 },
+          "companyAffiliation": { "type": "boolean" },
+          "contactBelongsToPerson": { "type": "boolean" },
+          "currentDecisionMaker": { "type": "boolean" }
+        }
+      }
+    },
+    "personalCtaNegatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["caseId", "showPersonalCta"],
+        "properties": {
+          "caseId": { "type": "string", "minLength": 1 },
+          "showPersonalCta": { "type": "boolean" }
+        }
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timeToFirstActionableMs": { "$ref": "#/$defs/nonNegativeNumbers" },
+        "totalCostUsd": { "type": "number", "minimum": 0 },
+        "incrementalActionableCount": { "type": "number", "minimum": 0 },
+        "d1QueriesPerInvocation": { "$ref": "#/$defs/nonNegativeNumbers" },
+        "externalFetchesPerCompany": { "$ref": "#/$defs/nonNegativeNumbers" },
+        "dailyQueueReserveExhausted": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "nonNegativeNumbers": {
+      "type": "array",
+      "items": { "type": "number", "minimum": 0 }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+name = "gptbot-lead-radar-telegram-account"
+main = "index.ts"
+compatibility_date = "2026-08-25"
+compatibility_flags = ["global_fetch_strictly_public"]
+workers_dev = true
+preview_urls = false
+
+# The current Cloudflare token cannot manage Zone routes. Publish the exact
+# account-owned workers.dev hostname instead; only authenticated /v1/bridge/*
+# is public. Owner account control and sends remain private Service Binding calls.
+
+[[durable_objects.bindings]]
+name = "TELEGRAM_ACCOUNTS"
+class_name = "LeadRadarTelegramBridgeMailbox"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["LeadRadarTelegramBridgeMailbox"]
+
+[[r2_buckets]]
+binding = "LEAD_RADAR_CAMPAIGN_MEDIA"
+bucket_name = "gptbot-lead-radar-campaign-media"
+
+[vars]
+LEAD_RADAR_TELEGRAM_ACCOUNT_KEY_VERSION = "v1"
+LEAD_RADAR_TELEGRAM_GATEWAY_VERSION = "1.0.0"
+LEAD_RADAR_TELEGRAM_BRIDGE_PUBLIC_ORIGIN = "https://gptbot-lead-radar-telegram-account.braindigger-uz.workers.dev"
+
+# Secrets are provisioned through Cloudflare controls only:
+# LEAD_RADAR_TELEGRAM_ACCOUNT_DATA_KEY
+# LEAD_RADAR_TELEGRAM_ACCOUNT_ROUTING_KEY (stable; independent of key rotation)
+# LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN
+# Telegram API_ID/API_HASH and StringSession exist only in the Windows DPAPI
+# vault. No Cloudflare API token is installed on the Bridge device.

@@ -9,8 +9,17 @@
 // Run: node --import tsx --test tests/secret-scan.test.ts
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 
-import { scanText, scanFiles, scanTableRow, RULES, EXEMPT_FILES } from '../scripts/scan-secrets.ts';
+import {
+  scanText,
+  scanFiles,
+  scanTableRow,
+  repositoryFiles,
+  RULES,
+  EXEMPT_FILES,
+} from '../scripts/scan-secrets.ts';
 
 // Synthetic, never-issued values. Assembled at runtime so the literals in this
 // file do not themselves look like a pasted credential.
@@ -148,6 +157,23 @@ test('every rule has a distinct name and a severity', () => {
 test('the repository itself is clean under the gate', () => {
   const findings = scanFiles(['scripts/scan-secrets.ts', 'tests/secret-scan.test.ts', '.gitignore']);
   assert.deepEqual(findings, [], 'the gate must not flag its own files');
+});
+
+test('the scanner source contains no literal NUL byte', () => {
+  const source = readFileSync('scripts/scan-secrets.ts', 'utf8');
+  assert.ok(!source.includes(String.fromCharCode(0)));
+});
+
+test('default repository discovery includes non-ignored untracked files', () => {
+  const folder = mkdtempSync(path.join(process.cwd(), 'secret-scan-untracked-test-'));
+  const file = path.join(folder, 'probe.txt');
+  try {
+    writeFileSync(file, 'harmless untracked probe\n', 'utf8');
+    const relative = path.relative(process.cwd(), file).replaceAll('\\', '/');
+    assert.ok(repositoryFiles().map((candidate) => candidate.replaceAll('\\', '/')).includes(relative));
+  } finally {
+    rmSync(folder, { recursive: true, force: true });
+  }
 });
 
 test('the removed incident paths are no longer tracked', async () => {

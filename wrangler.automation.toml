@@ -1,9 +1,12 @@
 # Local deployment descriptor for the first-party automation Worker.
 # This file prepares bindings only; no queue, Worker, secret or cron was
 # created or changed by this repository task.
+# Secret (never committed): LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN must
+# match the gateway and Pages value for private account/send Service Binding calls.
 name = "gptbot-automation"
 main = "workers/automation-worker.ts"
 compatibility_date = "2026-07-28"
+compatibility_flags = ["global_fetch_strictly_public"]
 # No public HTTP surface: the Worker is driven by its cron trigger and its
 # Queue consumer only, and Pages produces straight onto the Queue binding.
 workers_dev = false
@@ -18,6 +21,17 @@ binding = "GPTBOT_DRAFTS_DB"
 database_name = "gptbot-ai-drafts"
 database_id = "97ef0372-d937-406f-8871-755368d9afff"
 
+# Same private, non-public campaign-media bucket used by Pages upload routes.
+# Queue messages contain only campaign/org references; the Worker resolves the
+# frozen opaque media id and digest immediately before dispatch.
+[[r2_buckets]]
+binding = "LEAD_RADAR_CAMPAIGN_MEDIA"
+bucket_name = "gptbot-lead-radar-campaign-media"
+
+[[services]]
+binding = "LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE"
+service = "gptbot-lead-radar-telegram-account"
+
 [[queues.producers]]
 binding = "AUTOMATION_QUEUE"
 queue = "gptbot-automation"
@@ -28,16 +42,39 @@ queue = "gptbot-automation-dlq"
 
 [[queues.consumers]]
 queue = "gptbot-automation"
-max_batch_size = 10
+# One Lead Radar company can use up to 12 bounded website/DNS subrequests.
+# A single-message batch keeps the whole Worker invocation below the Free
+# plan's outbound-request ceiling; max_concurrency preserves throughput.
+max_batch_size = 1
 max_batch_timeout = 5
 max_retries = 3
+max_concurrency = 4
 dead_letter_queue = "gptbot-automation-dlq"
 
 [triggers]
 crons = ["*/15 * * * *"]
 
 # First-party automation is the sole production automation path as of R0.4.
-# The Worker fails closed when this is absent or not exactly "true": the cron
-# returns immediately and every queue message is retried rather than processed.
+# The Worker fails closed when this is absent or not exactly "true". Lead Radar
+# deliveries are ACKed without D1 access while its own processing flag is off;
+# their durable jobs are dispatched by cron only after an approved re-enable.
 [vars]
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
+# Lead Radar research is enabled only for the owner canary organization.
+# Privacy retention remains active at all times; contact is a separate
+# legal/credential gate and stays fail-closed in this release.
+LEAD_RADAR_ADMISSION_ENABLED = "true"
+LEAD_RADAR_PROCESSING_ENABLED = "true"
+LEAD_RADAR_CONTACT_ENABLED = "false"
+LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
+LEAD_RADAR_TELEGRAM_TRANSPORT_MODE = "local_bridge"
+LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED = "true"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED = "false"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "false"
+LEAD_RADAR_PERSONAL_RETENTION_DAYS = "30"
+LEAD_RADAR_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
+LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
+LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""
+LEAD_RADAR_CONTACT_DAILY_LIMIT = "10"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "30"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS = "120"

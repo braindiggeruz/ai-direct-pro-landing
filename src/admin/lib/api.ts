@@ -2,9 +2,19 @@
 // Base URL precedence:
 //   1. VITE_API_BASE (set in .env for Emergent dev → full Emergent URL)
 //   2. window.location.origin (production → Cloudflare Pages same origin)
-const BASE = (import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/$/, '') || '';
+const BASE = (import.meta.env?.VITE_API_BASE as string | undefined)?.replace(/\/$/, '') || '';
 
 const TOKEN_KEY = 'gptbot_admin_token';
+// Must remain above the private service control deadline so cold gateway auth/revoke
+// can return a definite response before the browser reports an unknown outcome.
+const LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS = 90_000;
+const LEAD_RADAR_TELEGRAM_MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
+
+function jsonRecord(value: unknown): Record<string, unknown> | null {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : null;
+}
 
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
@@ -14,9 +24,14 @@ export function setToken(t: string | null): void {
   else localStorage.removeItem(TOKEN_KEY);
 }
 
-async function request<T>(method: string, path: string, body?: unknown, opts?: { timeoutMs?: number }): Promise<T> {
+async function request<T>(
+  method: string,
+  path: string,
+  body?: unknown,
+  opts?: { timeoutMs?: number; headers?: Record<string, string> },
+): Promise<T> {
   const url = `${BASE}${path}`;
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  const headers: Record<string, string> = { 'Content-Type': 'application/json', ...opts?.headers };
   const token = getToken();
   if (token) headers.Authorization = `Bearer ${token}`;
   let signal: AbortSignal | undefined;
@@ -39,31 +54,134 @@ async function request<T>(method: string, path: string, body?: unknown, opts?: {
       let requestId = res.headers.get('x-request-id') || undefined;
       let endpoint: string | undefined;
       let retryable: boolean | undefined;
+      const retryAfterHeader = res.headers.get('retry-after');
+      const retryAfterSeconds = retryAfterHeader && Number.isFinite(Number(retryAfterHeader))
+        ? Math.max(0, Math.ceil(Number(retryAfterHeader)))
+        : undefined;
       try {
-        const d = await res.json();
-        if (d?.error && typeof d.error === 'object') {
+        const d = jsonRecord(await res.json());
+        const structuredError = jsonRecord(d?.error);
+        if (structuredError) {
           // Structured shape from withErrorHandler.
-          err = d.error.message || err;
-          code = d.error.code;
-          requestId = d.error.request_id || requestId;
-          endpoint = d.error.endpoint;
-          retryable = d.error.retryable;
-        } else {
-          err = d.error || d.detail || d.error_message || err;
+          if (typeof structuredError.message === 'string') err = structuredError.message;
+          if (typeof structuredError.code === 'string') code = structuredError.code;
+          if (typeof structuredError.request_id === 'string') requestId = structuredError.request_id;
+          if (typeof structuredError.endpoint === 'string') endpoint = structuredError.endpoint;
+          if (typeof structuredError.retryable === 'boolean') retryable = structuredError.retryable;
+        } else if (d) {
+          const message = [d.error, d.detail, d.error_message]
+            .find((value): value is string => typeof value === 'string');
+          if (message) err = message;
           if (typeof d.error === 'string') code = d.error;
-          requestId = d.request_id || requestId;
+          if (typeof d.request_id === 'string') requestId = d.request_id;
         }
       } catch { /* ignore non-JSON */ }
       const e = new Error(err) as Error & {
-        code?: string; requestId?: string; endpoint?: string; retryable?: boolean; status?: number;
+        code?: string; requestId?: string; endpoint?: string; retryable?: boolean; status?: number; retryAfterSeconds?: number;
       };
-      e.code = code; e.requestId = requestId; e.endpoint = endpoint; e.retryable = retryable; e.status = res.status;
+      e.code = code; e.requestId = requestId; e.endpoint = endpoint; e.retryable = retryable; e.status = res.status; e.retryAfterSeconds = retryAfterSeconds;
       throw e;
     }
+    if (res.status === 204) return undefined as T;
     return res.json() as Promise<T>;
   } finally {
     if (timer) clearTimeout(timer);
   }
+}
+
+/**
+ * Raw binary upload with byte progress. The response contains only an opaque
+ * media identity; the browser never receives an object-store key or public URL.
+ */
+function uploadLeadRadarTelegramCampaignImage<T>(
+  file: File,
+  idempotencyKey: string,
+  onProgress?: (percent: number) => void,
+  signal?: AbortSignal,
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    let settled = false;
+    const cleanup = (): void => signal?.removeEventListener('abort', abortFromSignal);
+    const fail = (error: Error): void => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      reject(error);
+    };
+    const succeed = (value: T): void => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve(value);
+    };
+    const abortFromSignal = (): void => xhr.abort();
+    if (signal?.aborted) {
+      fail(Object.assign(new Error('Upload cancelled'), { code: 'ABORTED' }));
+      return;
+    }
+    xhr.open('POST', `${BASE}/api/admin/lead-radar/telegram-campaigns/media`);
+    xhr.responseType = 'json';
+    xhr.timeout = LEAD_RADAR_TELEGRAM_MEDIA_UPLOAD_TIMEOUT_MS;
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.setRequestHeader('Content-Type', file.type);
+    xhr.setRequestHeader('Idempotency-Key', idempotencyKey);
+    const token = getToken();
+    if (token) xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    signal?.addEventListener('abort', abortFromSignal, { once: true });
+
+    xhr.upload.addEventListener('progress', (event) => {
+      if (settled || !event.lengthComputable || event.total < 1) return;
+      onProgress?.(Math.min(99, Math.max(0, Math.round(event.loaded / event.total * 100))));
+    });
+    xhr.addEventListener('load', () => {
+      if (settled) return;
+      if (xhr.status === 401) {
+        setToken(null);
+        window.location.assign('/admin-tools/login');
+        fail(Object.assign(new Error('Session expired'), {
+          code: 'UNAUTHENTICATED',
+          requestId: xhr.getResponseHeader('x-request-id'),
+          status: 401,
+        }));
+        return;
+      }
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress?.(100);
+        succeed(xhr.response as T);
+        return;
+      }
+      const payload = jsonRecord(xhr.response);
+      const structuredError = jsonRecord(payload?.error);
+      const message = typeof structuredError?.message === 'string'
+        ? structuredError.message
+        : typeof payload?.error === 'string'
+          ? payload.error
+          : `Upload failed (${xhr.status})`;
+      fail(Object.assign(new Error(message), {
+        code: typeof structuredError?.code === 'string'
+          ? structuredError.code
+          : typeof payload?.error === 'string'
+            ? payload.error
+            : undefined,
+        requestId: typeof structuredError?.request_id === 'string'
+          ? structuredError.request_id
+          : xhr.getResponseHeader('x-request-id') || undefined,
+        status: xhr.status,
+      }));
+    });
+    xhr.addEventListener('error', () => fail(Object.assign(new Error('Upload network error'), {
+      code: 'NETWORK_ERROR',
+    })));
+    xhr.addEventListener('timeout', () => fail(Object.assign(new Error('Upload timed out'), {
+      code: 'TIMEOUT',
+    })));
+    xhr.addEventListener('abort', () => fail(Object.assign(new Error('Upload cancelled'), {
+      code: 'ABORTED',
+    })));
+
+    xhr.send(file);
+  });
 }
 
 export const api = {
@@ -571,12 +689,15 @@ export const api = {
   // carrying a source URL and never fabricates a missing company/contact.
   leadRadarOverview: () =>
     request<import('../../shared/lead-radar').LeadRadarOverview>('GET', '/api/admin/lead-radar'),
-  leadRadarSearch: (input: import('../../shared/lead-radar').LeadRadarSearchInput) =>
+  leadRadarSearch: (
+    input: import('../../shared/lead-radar').LeadRadarSearchInput,
+    idempotencyKey: string,
+  ) =>
     request<import('../../shared/lead-radar').LeadRadarSearchResult>(
       'POST',
       '/api/admin/lead-radar/searches',
       input,
-      { timeoutMs: 120_000 },
+      { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
   leadRadarSearchResult: (searchId: string) =>
     request<import('../../shared/lead-radar').LeadRadarSearchResult>(
@@ -590,6 +711,190 @@ export const api = {
     'PATCH',
     `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}`,
     { lifecycle },
+  ),
+  leadRadarReviewDecisionMaker: (
+    leadId: string,
+    decisionMakerId: string,
+    contactReviewStatus: 'approved' | 'rejected',
+  ) => request<{ ok: true; contactReviewStatus: 'approved' | 'rejected'; contactReviewedAt: string }>(
+    'PATCH',
+    `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/decision-makers/${encodeURIComponent(decisionMakerId)}`,
+      { contactReviewStatus },
+    ),
+  leadRadarTelegramBusinessStatus: () =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramBusinessStatus>(
+      'GET',
+      '/api/admin/lead-radar/telegram-business',
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarTelegramBusinessConnect: (idempotencyKey: string) =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramBusinessConnectLink>(
+      'POST',
+      '/api/admin/lead-radar/telegram-business/connect',
+      {},
+      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+  leadRadarPrepareTelegramOutreach: (leadId: string, text: string) =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramOutreachPreparation>(
+      'POST',
+      `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/telegram/prepare`,
+      { text },
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarApproveTelegramBusiness: (leadId: string, input: { bindingId: string; text: string }) =>
+    request<import('../../shared/lead-radar').LeadRadarTelegramBusinessApproval>(
+      'POST',
+      `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/telegram/approve`,
+      input,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarSendTelegramBusiness: (
+    leadId: string,
+    input: {
+      bindingId: string;
+      text: string;
+      approvalToken: string;
+    },
+    idempotencyKey: string,
+  ) => request<import('../../shared/lead-radar').LeadRadarTelegramBusinessSendResponse>(
+    'POST',
+    `/api/admin/lead-radar/leads/${encodeURIComponent(leadId)}/telegram/send`,
+    input,
+    { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
+  leadRadarTelegramAccount: () =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'GET',
+      '/api/admin/lead-radar/telegram-account',
+      undefined,
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+    ),
+  leadRadarTelegramBridgeStatus: () =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramBridgeDeviceState>(
+      'GET',
+      '/api/admin/lead-radar/telegram-account/bridge',
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarCreateTelegramBridgePairing: (
+    input: { label: string; enrollmentCode: string },
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramBridgePairing>(
+    'POST',
+    '/api/admin/lead-radar/telegram-account/bridge/pairings',
+    input,
+    { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
+  leadRadarRevokeTelegramBridge: (deviceId: string, idempotencyKey: string) =>
+    request<void>(
+      'DELETE',
+      '/api/admin/lead-radar/telegram-account/bridge',
+      { deviceId },
+      { timeoutMs: 20_000, headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+  leadRadarConnectTelegramAccount: (
+    idempotencyKey: string,
+    browserKey: import('../../shared/lead-radar-telegram-bridge').LeadRadarTelegramBridgeBrowserKey,
+  ) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'POST',
+      '/api/admin/lead-radar/telegram-account/connect',
+      { browserKey },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+  leadRadarTelegramAccountConnectStatus: (authId: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'GET',
+      `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}`,
+      undefined,
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+    ),
+  leadRadarSubmitTelegramAccountPassword: (
+    authId: string,
+    input: {
+      passwordCommandId: string;
+      passwordEnvelope: import('../../shared/lead-radar-telegram-bridge').LeadRadarTelegramBridgeE2eEnvelope;
+    },
+  ) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'POST',
+      `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}/password`,
+      input,
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+    ),
+  leadRadarDisconnectTelegramAccount: (idempotencyKey: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'DELETE',
+      '/api/admin/lead-radar/telegram-account',
+      undefined,
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+  leadRadarAuthorizeTelegramCampaignContact: (
+    input: import('./lead-radar-campaign').LeadRadarTelegramContactAuthorizationInput,
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramContactAuthorizationReadModel>(
+    'POST',
+    '/api/admin/lead-radar/telegram-campaigns/eligibility',
+    input,
+    { timeoutMs: 20_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
+  leadRadarUploadTelegramCampaignImage: (
+    file: File,
+    idempotencyKey: string,
+    onProgress?: (percent: number) => void,
+    signal?: AbortSignal,
+  ) => uploadLeadRadarTelegramCampaignImage<import('./lead-radar-campaign').LeadRadarTelegramCampaignMediaUpload>(
+    file,
+    idempotencyKey,
+    onProgress,
+    signal,
+  ),
+  leadRadarDeleteTelegramCampaignImage: (mediaId: string) => request<void>(
+    'DELETE',
+    `/api/admin/lead-radar/telegram-campaigns/media/${encodeURIComponent(mediaId)}`,
+  ),
+  leadRadarPrepareTelegramCampaign: (
+    input: import('./lead-radar-campaign').LeadRadarTelegramCampaignPrepareInput,
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignPreparation>(
+    'POST',
+    '/api/admin/lead-radar/telegram-campaigns/prepare',
+    input,
+    { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
+  leadRadarCreateTelegramCampaign: (
+    input: import('./lead-radar-campaign').LeadRadarTelegramCampaignCreateInput,
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignMutationResponse>(
+    'POST',
+    '/api/admin/lead-radar/telegram-campaigns',
+    input,
+    { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
+  ),
+  leadRadarTelegramCampaign: (campaignId: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramCampaignReadModel>(
+      'GET',
+      `/api/admin/lead-radar/telegram-campaigns/${encodeURIComponent(campaignId)}`,
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarTelegramCampaignRecovery: (searchId: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramCampaignRecoveryResponse>(
+      'GET',
+      `/api/admin/lead-radar/telegram-campaigns?searchId=${encodeURIComponent(searchId)}`,
+      undefined,
+      { timeoutMs: 15_000 },
+    ),
+  leadRadarTransitionTelegramCampaign: (
+    campaignId: string,
+    action: 'start' | 'pause' | 'resume' | 'stop',
+    idempotencyKey: string,
+  ) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignMutationResponse>(
+    'POST',
+    `/api/admin/lead-radar/telegram-campaigns/${encodeURIComponent(campaignId)}/${action}`,
+    {},
+    { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
   ),
 
   // ─── Intent Guard / Anti-cannibalization ─────────────────────────────────

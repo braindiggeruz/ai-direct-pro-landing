@@ -6,18 +6,32 @@ import type {
 } from '../../../src/shared/lead-radar';
 import {
   LeadRadarSourceError,
+  type LeadRadarDecisionMaker,
   type LeadRadarDiscoveryResult,
   type LeadRadarGeocodeStore,
   type LeadRadarSource,
+  type LeadRadarTelegramContact,
   type SourceCandidate,
+  type TelegramContactType,
 } from './types';
+import {
+  normalizeLeadRadarIntentText,
+  resolveLeadRadarIntent,
+  scoreLeadRadarOsmTags,
+  type LeadRadarIntentOsmFilter,
+  type LeadRadarIntentResolution,
+  type LeadRadarOsmTagCondition,
+} from './intent';
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
-  { id: 'lz4', url: 'https://lz4.overpass-api.de/api/interpreter' },
+  // Independent providers from the current OpenStreetMap public-instance
+  // registry. Provider diversity matters: public mirrors legitimately shed
+  // load, and retrying two hostnames on the same cluster is not redundancy.
+  { id: 'main', url: 'https://overpass-api.de/api/interpreter' },
+  { id: 'vk_maps', url: 'https://maps.mail.ru/osm/tools/overpass/api/interpreter' },
   { id: 'private_coffee', url: 'https://overpass.private.coffee/api/interpreter' },
-  { id: 'z', url: 'https://z.overpass-api.de/api/interpreter' },
 ] as const;
 const USER_AGENT = 'GPTBot-Lead-Radar/1.1 (+https://gptbot.uz; contact: info@gptbot.uz)';
 const MAX_WEBSITE_BYTES = 450_000;
@@ -44,32 +58,38 @@ interface OverpassElement {
   type: 'node' | 'way' | 'relation';
   id: number;
   tags?: Record<string, string>;
+  lat?: number;
+  lon?: number;
+  center?: { lat?: number; lon?: number };
+  timestamp?: string;
 }
 
 interface OverpassResponse {
   elements?: unknown[];
 }
 
-interface WebsiteFacts {
+export interface WebsiteFacts {
   website: string;
   phone: string | null;
   genericEmail: string | null;
   telegramUrl: string | null;
+  telegramContact: LeadRadarTelegramContact | null;
+  decisionMakers: LeadRadarDecisionMaker[];
   evidence: LeadRadarEvidence[];
   signals: LeadRadarSignal[];
 }
 
-const NICHE_FILTERS: Array<{ match: RegExp; category: string; filters: string[] }> = [
-  { match: /стомат|dent|tish|dental|ортод/i, category: 'Стоматология', filters: ['["amenity"="dentist"]', '["healthcare"="dentist"]'] },
-  { match: /клиник|clinic|медицин|medical|shifox/i, category: 'Клиника', filters: ['["amenity"="clinic"]', '["amenity"="doctors"]', '["healthcare"="clinic"]'] },
-  { match: /салон|beauty|красот|go.zallik|парикмах|hair/i, category: 'Красота', filters: ['["shop"="beauty"]', '["shop"="hairdresser"]'] },
-  { match: /недвиж|real.?estate|риелтор|риэлтор|ko.chmas/i, category: 'Недвижимость', filters: ['["office"="estate_agent"]'] },
-  { match: /учеб|образован|education|training|o.quv|школ|курс/i, category: 'Образование', filters: ['["amenity"="language_school"]', '["amenity"="training"]', '["amenity"="college"]'] },
-  { match: /авто|car|машин|autosalon/i, category: 'Авто', filters: ['["shop"="car"]', '["shop"="car_repair"]', '["amenity"="car_repair"]'] },
-  { match: /ресторан|кафе|достав|restaurant|cafe|horeca|овқат|ovqat/i, category: 'HoReCa', filters: ['["amenity"="restaurant"]', '["amenity"="cafe"]', '["amenity"="fast_food"]'] },
-  { match: /фитнес|спортзал|fitness|gym|sport/i, category: 'Фитнес', filters: ['["leisure"="fitness_centre"]', '["leisure"="sports_centre"]'] },
-  { match: /магазин|shop|докон|do.kon|retail/i, category: 'Розничная торговля', filters: ['["shop"]'] },
-];
+export interface ExpectedCompanyWebsiteIdentity {
+  name: string;
+  phone: string | null;
+  address?: string | null;
+}
+
+export interface CompanyWebsiteBinding {
+  verified: boolean;
+  method: 'company_name' | 'phone' | null;
+  sourceUrl: string | null;
+}
 
 class SubrequestBudget {
   constructor(private remaining: number) {}
@@ -231,6 +251,7 @@ function sourceEvidence(
   sourceType: LeadRadarEvidence['sourceType'],
   confidence: number,
   classification: LeadRadarEvidence['classification'] = 'fact',
+  observedAt = new Date().toISOString(),
 ): LeadRadarEvidence {
   return {
     id: `ev_${crypto.randomUUID().replaceAll('-', '')}`,
@@ -238,7 +259,7 @@ function sourceEvidence(
     value,
     sourceUrl,
     sourceType,
-    observedAt: new Date().toISOString(),
+    observedAt,
     confidence,
     classification,
   };
@@ -260,6 +281,358 @@ function cleanTelegram(value: string | null | undefined): string | null {
   if (!/^[A-Za-z0-9_]{5,32}$/.test(handle)) return null;
   if (['share', 'joinchat', 'proxy', 'socks', 'login', 'iv', 'addstickers', 'setlanguage'].includes(handle.toLowerCase())) return null;
   return `https://t.me/${handle}`;
+}
+
+const DECISION_ROLE_PATTERN = /(?:генеральн(?:ый|ая)\s+директор|коммерческ(?:ий|ая)\s+директор|исполнительн(?:ый|ая)\s+директор|главн(?:ый|ая)\s+врач|директор|основател(?:ь|ница)|соосновател(?:ь|ница)|владел(?:ец|ица)|собственни(?:к|ца)|руководител(?:ь|ница)|управляющ(?:ий|ая)|bosh\s+(?:direktor|shifokor)|ijrochi\s+direktor|tijorat\s+direktori|direktor|asoschi|hammuassis|egasi|rahbar|chief\s+executive\s+officer|chief\s+marketing\s+officer|managing\s+director|executive\s+director|general\s+manager|head\s+of\s+marketing|co[- ]founder|founder|owner|director|ceo|cmo)/iu;
+const CYRILLIC_NAME_PATTERN = /(?<![А-ЯЁҚҒҲЎа-яёқғҳў])[А-ЯЁҚҒҲЎ][а-яёқғҳў]{1,}(?:[-'][А-ЯЁҚҒҲЎ]?[а-яёқғҳў]{1,})?(?:\s+[А-ЯЁҚҒҲЎ][а-яёқғҳў]{1,}(?:[-'][А-ЯЁҚҒҲЎ]?[а-яёқғҳў]{1,})?){1,2}(?![А-ЯЁҚҒҲЎа-яёқғҳў])/gu;
+const LATIN_NAME_PATTERN = /\b[A-Z][a-zʻʼ’'-]{1,}(?:\s+[A-Z][a-zʻʼ’'-]{1,}){1,2}\b/g;
+const PERSON_NAME_STOP_WORDS = new Set([
+  'telegram', 'instagram', 'facebook', 'youtube', 'linkedin', 'whatsapp',
+  'chief', 'executive', 'officer', 'general', 'manager', 'managing', 'director',
+  'head', 'marketing', 'коммерческий', 'генеральный', 'исполнительный', 'главный',
+  'врач', 'директор', 'основатель', 'владелец', 'руководитель', 'управляющий',
+  'наша', 'наши', 'наш', 'команда', 'контакты', 'руководство', 'директоримиз',
+  'bosh', 'direktor', 'shifokor', 'rahbar', 'asoschi', 'egasi', 'jamoa',
+  'clinic', 'company', 'center', 'centre', 'dental', 'group', 'hospital',
+  'medical', 'school', 'academy', 'restaurant', 'salon', 'studio', 'agency',
+  'leadership', 'team', 'staff', 'management', 'our', 'meet',
+  'клиника', 'компания', 'центр', 'стоматология', 'группа', 'медицинский',
+  'школа', 'академия', 'ресторан', 'салон', 'агентство', 'доктор',
+  'сотрудники', 'персонал', 'познакомьтесь',
+  'klinika', 'markaz', 'kompaniya', 'tibbiyot', 'maktab', 'akademiya',
+  'tashkent', 'toshkent', 'uzbekistan', 'ташкент', 'узбекистан',
+]);
+
+export interface TelegramClassificationInput {
+  username: string;
+  context: string;
+  isOfficialCompanyPage: boolean;
+  hasNamedDecisionMaker: boolean;
+  hasStructuredOrganizationOwner?: boolean;
+  sourceClaim?: 'official_site_proximity' | 'json_ld_same_as';
+}
+
+export function classifyTelegramContact(input: TelegramClassificationInput): Pick<
+  LeadRadarTelegramContact,
+  'type' | 'confidence' | 'reason' | 'messageable'
+> {
+  const username = input.username.trim().replace(/^@/, '').toLowerCase();
+  const context = input.context.toLowerCase();
+  const botHandle = /(?:^|_)(?:bot|robot|chatbot|assistant)(?:_|$)/i.test(username)
+    || /bot$/i.test(username);
+  const botContext = /(?:телеграм\s*-?\s*бот|\btelegram\s*-?\s*bot\b|\bchatbot\b|(?:^|[\s(])бот(?=$|[\s).,!?:;]))/i.test(context);
+  if (botHandle || botContext) {
+    return { type: 'bot', confidence: botHandle ? 0.99 : 0.94, reason: 'Лексические признаки Telegram-бота', messageable: false };
+  }
+  if (/(?:канал|\bchannel\b|\byangiliklar\b|\bnews\s+channel\b|\brasmiy\s+kanal\b)/i.test(context)) {
+    return { type: 'channel', confidence: 0.91, reason: 'Страница называет ссылку каналом', messageable: false };
+  }
+  if (/(?:группа|групповой\s+чат|\bgroup\b|\bcommunity\b|\bguruh\b|\bjamoa\b|\bumumiy\s+chat\b)/i.test(context)) {
+    return { type: 'group', confidence: 0.91, reason: 'Страница называет ссылку группой или сообществом', messageable: false };
+  }
+  if (input.hasNamedDecisionMaker) {
+    const structured = input.sourceClaim === 'json_ld_same_as';
+    return {
+      type: 'human',
+      confidence: structured ? 0.9 : 0.78,
+      reason: structured
+        ? 'Официальный сайт публикует Telegram в JSON-LD Person; требуется проверка оператором'
+        : 'Ссылка расположена рядом с именем и ролью; требуется проверка оператором',
+      messageable: false,
+    };
+  }
+  if (input.hasStructuredOrganizationOwner) {
+    return {
+      type: 'business',
+      confidence: 0.94,
+      reason: 'Exact Telegram endpoint указан в JSON-LD Organization/LocalBusiness',
+      messageable: false,
+    };
+  }
+  const telegramOffset = context.indexOf('telegram');
+  const corporateLabelOffset = context.search(/(?:компани[ия]|организаци[ия]|бизнеса|korxona|kompaniya|tashkilot|biznes)/iu);
+  const explicitCorporateLabel = telegramOffset >= 0
+    && corporateLabelOffset >= 0
+    && Math.abs(telegramOffset - corporateLabelOffset) <= 36;
+  if (input.isOfficialCompanyPage && explicitCorporateLabel) {
+    return {
+      type: 'business',
+      confidence: 0.9,
+      reason: 'Официальная страница явно маркирует endpoint как Telegram компании',
+      messageable: false,
+    };
+  }
+  return {
+    type: 'unknown',
+    confidence: input.isOfficialCompanyPage ? 0.58 : 0.45,
+    reason: input.isOfficialCompanyPage
+      ? 'Ссылка опубликована на официальном сайте, но корпоративная принадлежность не доказана'
+      : 'Недостаточно доказательств типа Telegram-контакта',
+    messageable: false,
+  };
+}
+
+function telegramUsername(url: string): string {
+  try { return new URL(url).pathname.split('/').filter(Boolean)[0] ?? ''; } catch { return ''; }
+}
+
+function compactEvidenceSnippet(value: string, max = 360): string {
+  const clean = cleanText(stripHtml(value), max + 40) ?? '';
+  return clean.length <= max ? clean : `${clean.slice(0, max - 1).trimEnd()}…`;
+}
+
+function normalizedPersonKey(name: string, role: string): string {
+  return `${normalizeCompanyKey(name)}:${normalizeCompanyKey(role)}`;
+}
+
+function validPersonName(value: string): boolean {
+  const words = value.split(/\s+/).filter(Boolean);
+  if (words.length < 2 || words.length > 3) return false;
+  return words.every((word) => {
+    const normalized = word.replace(/[-'ʻʼ’]/g, '').toLowerCase();
+    return normalized.length >= 2 && !PERSON_NAME_STOP_WORDS.has(normalized);
+  });
+}
+
+function personNameCandidates(value: string): string[] {
+  const words = value.split(/\s+/).filter(Boolean);
+  const candidates: string[] = [];
+  for (const size of [3, 2]) {
+    for (let start = 0; start + size <= words.length; start += 1) {
+      const candidate = words.slice(start, start + size).join(' ');
+      if (validPersonName(candidate) && !candidates.includes(candidate)) candidates.push(candidate);
+    }
+  }
+  return candidates;
+}
+
+function namesNearRole(text: string): Array<{ name: string; role: string; snippet: string }> {
+  const results: Array<{ name: string; role: string; snippet: string }> = [];
+  const roleMatcher = new RegExp(DECISION_ROLE_PATTERN.source, 'giu');
+  for (const roleMatch of text.matchAll(roleMatcher)) {
+    const role = cleanText(roleMatch[0], 100);
+    if (!role || roleMatch.index === undefined) continue;
+    const start = Math.max(0, roleMatch.index - 100);
+    const end = Math.min(text.length, roleMatch.index + roleMatch[0].length + 100);
+    const window = text.slice(start, end);
+    const roleCenter = roleMatch.index - start + roleMatch[0].length / 2;
+    const names: Array<{ name: string; distance: number }> = [];
+    for (const pattern of [CYRILLIC_NAME_PATTERN, LATIN_NAME_PATTERN]) {
+      pattern.lastIndex = 0;
+      for (const match of window.matchAll(pattern)) {
+        if (match.index === undefined) continue;
+        for (const name of personNameCandidates(match[0])) {
+          const offset = match[0].indexOf(name);
+          const center = match.index + Math.max(0, offset) + name.length / 2;
+          names.push({ name, distance: Math.abs(center - roleCenter) });
+        }
+      }
+    }
+    names.sort((a, b) => a.distance - b.distance);
+    const nearest = names[0];
+    if (!nearest || nearest.distance > 105) continue;
+    const snippet = compactEvidenceSnippet(window);
+    const key = normalizedPersonKey(nearest.name, role);
+    if (!results.some((item) => normalizedPersonKey(item.name, item.role) === key)) {
+      results.push({ name: nearest.name, role, snippet });
+    }
+  }
+  return results.slice(0, 12);
+}
+
+function jsonLdPeople(html: string): Array<{ name: string; role: string; telegramUrl: string | null; snippet: string }> {
+  const people: Array<{ name: string; role: string; telegramUrl: string | null; snippet: string }> = [];
+  const scripts = html.matchAll(/<script\b[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
+  let visited = 0;
+  const visit = (value: unknown, depth: number): void => {
+    if (depth > 8 || visited >= 200 || !value || typeof value !== 'object') return;
+    visited += 1;
+    if (Array.isArray(value)) {
+      for (const item of value) visit(item, depth + 1);
+      return;
+    }
+    const node = value as Record<string, unknown>;
+    const rawType = node['@type'];
+    const types = Array.isArray(rawType) ? rawType : [rawType];
+    if (types.some((item) => typeof item === 'string' && item.toLowerCase() === 'person')) {
+      const name = typeof node.name === 'string' ? cleanText(node.name, 120) : null;
+      const role = typeof node.jobTitle === 'string' ? cleanText(node.jobTitle, 120) : null;
+      if (name && role && validPersonName(name) && DECISION_ROLE_PATTERN.test(role)) {
+        const sameAs = Array.isArray(node.sameAs) ? node.sameAs : [node.sameAs];
+        const telegramUrl = sameAs
+          .filter((item): item is string => typeof item === 'string')
+          .map((item) => cleanTelegram(item))
+          .find((item): item is string => Boolean(item)) ?? null;
+        people.push({ name, role, telegramUrl, snippet: `${name} — ${role} (JSON-LD Person)` });
+      }
+    }
+    for (const child of Object.values(node)) visit(child, depth + 1);
+  };
+  for (const match of scripts) {
+    try { visit(JSON.parse(match[1] ?? 'null'), 0); } catch { /* Invalid structured data is ignored. */ }
+  }
+  return people.slice(0, 12);
+}
+
+function jsonLdOrganizationTelegramUrls(html: string): Set<string> {
+  const urls = new Set<string>();
+  const scripts = html.matchAll(/<script\b[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
+  let visited = 0;
+  const visit = (value: unknown, depth: number): void => {
+    if (depth > 8 || visited >= 200 || !value || typeof value !== 'object') return;
+    visited += 1;
+    if (Array.isArray(value)) {
+      for (const item of value) visit(item, depth + 1);
+      return;
+    }
+    const node = value as Record<string, unknown>;
+    const rawType = node['@type'];
+    const types = Array.isArray(rawType) ? rawType : [rawType];
+    const isOrganization = types.some((item) => (
+      typeof item === 'string'
+      && ['organization', 'localbusiness'].includes(item.toLowerCase())
+    ));
+    if (isOrganization) {
+      const sameAs = Array.isArray(node.sameAs) ? node.sameAs : [node.sameAs];
+      for (const item of sameAs) {
+        const telegramUrl = typeof item === 'string' ? cleanTelegram(item) : null;
+        if (telegramUrl) urls.add(telegramUrl.toLowerCase());
+      }
+    }
+    for (const child of Object.values(node)) visit(child, depth + 1);
+  };
+  for (const match of scripts) {
+    try { visit(JSON.parse(match[1] ?? 'null'), 0); } catch { /* Invalid structured data is ignored. */ }
+  }
+  return urls;
+}
+
+export interface OfficialSiteContactFacts {
+  telegramContact: LeadRadarTelegramContact | null;
+  decisionMakers: LeadRadarDecisionMaker[];
+  evidence: LeadRadarEvidence[];
+}
+
+export function extractOfficialSiteContacts(
+  pageUrl: URL,
+  html: string,
+  verifiedAt = new Date().toISOString(),
+): OfficialSiteContactFacts {
+  const text = stripHtml(html);
+  const people = [
+    ...namesNearRole(text).map((person) => ({ ...person, telegramUrl: null as string | null, structured: false })),
+    ...jsonLdPeople(html).map((person) => ({ ...person, structured: true })),
+  ];
+  const structuredOrganizationTelegramUrls = jsonLdOrganizationTelegramUrls(html);
+  const decisionMakerMap = new Map<string, LeadRadarDecisionMaker>();
+  const evidence: LeadRadarEvidence[] = [];
+  for (const person of people) {
+    const key = normalizedPersonKey(person.name, person.role);
+    const existing = decisionMakerMap.get(key);
+    const evidenceItem = sourceEvidence(
+      'decision_makers.named_role',
+      `${person.name} — ${person.role}`,
+      pageUrl.toString(),
+      'company_website',
+      person.structured ? 0.9 : 0.78,
+      'company_data',
+      verifiedAt,
+    );
+    evidence.push(evidenceItem);
+    const structuredClassification = person.telegramUrl
+      ? classifyTelegramContact({
+          username: telegramUsername(person.telegramUrl),
+          context: person.snippet,
+          isOfficialCompanyPage: true,
+          hasNamedDecisionMaker: true,
+          sourceClaim: person.structured ? 'json_ld_same_as' : 'official_site_proximity',
+        })
+      : null;
+    const contactType: TelegramContactType = structuredClassification?.type ?? 'unknown';
+    const candidate: LeadRadarDecisionMaker = {
+      id: existing?.id ?? `dm_${crypto.randomUUID().replaceAll('-', '')}`,
+      name: person.name,
+      role: person.role,
+      telegramUrl: person.telegramUrl,
+      telegramUsername: person.telegramUrl ? telegramUsername(person.telegramUrl) : null,
+      contactType,
+      confidence: person.structured ? 0.9 : 0.78,
+      evidenceIds: [...(existing?.evidenceIds ?? []), evidenceItem.id],
+      sourceUrl: pageUrl.toString(),
+      evidence: person.snippet,
+      verifiedAt,
+      sourceClaim: person.structured ? 'json_ld_same_as' : 'official_site_proximity',
+      contactReviewStatus: 'unreviewed',
+      contactReviewedAt: null,
+    };
+    if (!existing || candidate.confidence > existing.confidence || (!existing.telegramUrl && candidate.telegramUrl)) {
+      decisionMakerMap.set(key, candidate);
+    }
+  }
+
+  const contacts: LeadRadarTelegramContact[] = [];
+  const telegramPattern = /https?:\/\/(?:t\.me|telegram\.me)\/[-A-Za-z0-9_+]{4,64}/gi;
+  for (const match of html.matchAll(telegramPattern)) {
+    if (match.index === undefined) continue;
+    const telegramUrl = cleanTelegram(match[0]);
+    if (!telegramUrl) continue;
+    const username = telegramUsername(telegramUrl);
+    const rawContext = html.slice(Math.max(0, match.index - 420), Math.min(html.length, match.index + match[0].length + 420));
+    const context = compactEvidenceSnippet(rawContext);
+    const normalizedContext = context.toLocaleLowerCase('ru');
+    const linked = [...decisionMakerMap.values()].find((person) => (
+      person.telegramUrl === telegramUrl
+      || (
+        normalizedContext.includes(person.name.toLocaleLowerCase('ru'))
+        && normalizedContext.includes(person.role.toLocaleLowerCase('ru'))
+      )
+    ));
+    const classification = classifyTelegramContact({
+      username,
+      context,
+      isOfficialCompanyPage: true,
+      hasNamedDecisionMaker: Boolean(linked),
+      hasStructuredOrganizationOwner: structuredOrganizationTelegramUrls.has(telegramUrl.toLowerCase()),
+      sourceClaim: linked?.sourceClaim,
+    });
+    const evidenceItem = sourceEvidence(
+      `web.telegram.${classification.type}`,
+      telegramUrl,
+      pageUrl.toString(),
+      'company_website',
+      classification.confidence,
+      'company_data',
+      verifiedAt,
+    );
+    evidence.push(evidenceItem);
+    const contact: LeadRadarTelegramContact = {
+      url: telegramUrl,
+      username,
+      ...classification,
+      evidenceIds: [evidenceItem.id],
+      verifiedAt,
+    };
+    const duplicate = contacts.find((item) => item.url.toLowerCase() === telegramUrl.toLowerCase());
+    if (!duplicate) contacts.push(contact);
+    else if (contact.confidence > duplicate.confidence) Object.assign(duplicate, contact);
+    if (linked) {
+      linked.telegramUrl = telegramUrl;
+      linked.telegramUsername = username;
+      linked.contactType = classification.type;
+      linked.confidence = Math.max(linked.confidence, classification.confidence);
+      linked.evidenceIds = [...new Set([...linked.evidenceIds, evidenceItem.id])];
+    }
+  }
+
+  const rank: Record<TelegramContactType, number> = {
+    human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0,
+  };
+  contacts.sort((a, b) => rank[b.type] - rank[a.type] || b.confidence - a.confidence);
+  return {
+    telegramContact: contacts[0] ?? null,
+    decisionMakers: [...decisionMakerMap.values()].sort((a, b) => b.confidence - a.confidence),
+    evidence,
+  };
 }
 
 function cleanWebsite(value: string | null | undefined): string | null {
@@ -287,11 +660,58 @@ function addressFrom(tags: Record<string, string>): string | null {
   return parts.length > 0 ? cleanText(parts.join(', '), 300) : null;
 }
 
-function queryDefinition(niche: string): { category: string; filters: string[] } {
-  const matched = NICHE_FILTERS.find((item) => item.match.test(niche));
-  if (matched) return { category: matched.category, filters: matched.filters };
-  const escaped = niche.replace(/[\\"\n\r]/g, ' ').replace(/[.*+?^${}()|[\]\\]/g, '\\$&').slice(0, 70);
-  return { category: niche, filters: [`["name"~"${escaped}",i]`] };
+function escapeOverpassQuoted(value: string): string {
+  return value.replace(/[\\"\n\r]/g, ' ').slice(0, 120);
+}
+
+function escapeOverpassRegex(value: string): string {
+  return escapeOverpassQuoted(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function conditionSelector(condition: LeadRadarOsmTagCondition): string {
+  const key = escapeOverpassQuoted(condition.key);
+  if (condition.operation === 'exists') return `["${key}"]`;
+  const value = condition.operation === 'matches'
+    ? escapeOverpassQuoted(condition.value ?? '')
+    : escapeOverpassQuoted(condition.value ?? '');
+  return condition.operation === 'matches'
+    ? `["${key}"~"${value}",i]`
+    : `["${key}"="${value}"]`;
+}
+
+function filterSelector(filter: LeadRadarIntentOsmFilter): string {
+  return filter.conditions.map(conditionSelector).join('');
+}
+
+function queryDefinition(
+  niche: string,
+  languages: LeadRadarSearchInput['languages'],
+): { category: string; filters: string[]; intent: LeadRadarIntentResolution } {
+  const intent = resolveLeadRadarIntent(niche);
+  const localizedNameTags = [...new Set(languages)].map((language) => `name:${language}`);
+  const semanticFilters = intent.osmFilters.map(filterSelector);
+  const fallbackTerms = intent.nameFallbackTokens
+    .map((term) => normalizeLeadRadarIntentText(term).slice(0, 32))
+    .filter((term) => term.length >= 3)
+    .map(escapeOverpassRegex);
+  const fallbackPattern = fallbackTerms.length > 0
+    ? [...new Set(fallbackTerms)].join('|')
+    : `^${escapeOverpassRegex(intent.normalizedQuery.slice(0, 48))}$`;
+  const fallbackTags = fallbackTerms.length > 0
+    ? ['name', ...localizedNameTags, 'brand', 'operator']
+    : ['name', ...localizedNameTags];
+  const nameFilters = fallbackPattern && fallbackPattern !== '^$'
+    ? fallbackTags.map((tag) => `["${escapeOverpassQuoted(tag)}"~"${fallbackPattern}",i]`)
+    : [];
+  return {
+    category: intent.canonicalLabel || niche,
+    // Once the closed resolver identifies a category, tag selectors are both
+    // more precise and dramatically cheaper for Overpass than a city-wide
+    // regex scan across every named object. Name/brand/operator fallback is
+    // reserved for an unknown niche, where no grounded tag plan exists.
+    filters: [...new Set(semanticFilters.length > 0 ? semanticFilters : nameFilters)],
+    intent,
+  };
 }
 
 async function geocode(
@@ -391,13 +811,33 @@ async function geocode(
   return normalizedBounds;
 }
 
-function buildOverpassQuery(input: LeadRadarSearchInput, bounds: [number, number, number, number]): { query: string; category: string } {
-  const definition = queryDefinition(input.niche);
+export interface LeadRadarOsmQueryPlan {
+  version: 'osm-overpass-v3';
+  category: string;
+  languageTags: string[];
+  intent: LeadRadarIntentResolution;
+  query: string;
+}
+
+/** Deterministic, versioned source plan used by discovery and contract tests. */
+export function buildLeadRadarQueryPlan(
+  input: LeadRadarSearchInput,
+  bounds: [number, number, number, number],
+): LeadRadarOsmQueryPlan {
+  const definition = queryDefinition(input.niche, input.languages);
   const bbox = bounds.join(',');
   const lines = definition.filters.map((filter) => `nwr${filter}(${bbox});`).join('\n');
+  const resultLimit = definition.intent.canonicalId
+    ? Math.min(240, Math.max(80, input.desiredCount * 6))
+    : (definition.intent.nameFallbackTokens.length > 0
+      ? Math.min(160, Math.max(40, input.desiredCount * 4))
+      : Math.min(40, Math.max(10, input.desiredCount * 2)));
   return {
+    version: 'osm-overpass-v3',
     category: definition.category,
-    query: `[out:json][timeout:24];\n(\n${lines}\n);\nout tags center ${Math.min(150, input.desiredCount * 4)};`,
+    languageTags: [...new Set(input.languages)].map((language) => `name:${language}`),
+    intent: definition.intent,
+    query: `[out:json][timeout:24];\n(\n${lines}\n);\nout meta center ${resultLimit};`,
   };
 }
 
@@ -450,7 +890,37 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
   );
 }
 
-function candidateFromElement(
+function osmTagsFromElement(element: unknown): Record<string, string> {
+  if (!element || typeof element !== 'object' || Array.isArray(element)) return {};
+  const tags = (element as Partial<OverpassElement>).tags;
+  if (!tags || typeof tags !== 'object' || Array.isArray(tags)) return {};
+  return Object.fromEntries(
+    Object.entries(tags).filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
+  );
+}
+
+/** Stable, evidence-only ordering applied before the queue selects its fanout. */
+export function rankLeadRadarOsmElements(
+  elements: unknown[],
+  intent: LeadRadarIntentResolution,
+): unknown[] {
+  return elements
+    .map((element, index) => {
+      const tags = osmTagsFromElement(element);
+      const semantic = scoreLeadRadarOsmTags(tags, intent);
+      const completeness = [
+        tags.name,
+        tags['contact:website'] || tags.website,
+        tags['contact:phone'] || tags.phone,
+        tags['addr:full'] || tags['addr:street'],
+      ].filter(Boolean).length;
+      return { element, index, score: semantic.score * 10 + completeness };
+    })
+    .sort((left, right) => right.score - left.score || left.index - right.index)
+    .map(({ element }) => element);
+}
+
+export function candidateFromOsmElement(
   element: unknown,
   input: LeadRadarSearchInput,
   fallbackCategory: string,
@@ -458,41 +928,103 @@ function candidateFromElement(
   if (!element || typeof element !== 'object' || Array.isArray(element)) return null;
   const raw = element as Partial<OverpassElement>;
   if (!raw.type || !['node', 'way', 'relation'].includes(raw.type) || !Number.isSafeInteger(raw.id) || Number(raw.id) <= 0) return null;
-  const tags = raw.tags && typeof raw.tags === 'object' && !Array.isArray(raw.tags)
-    ? Object.fromEntries(Object.entries(raw.tags).filter((entry): entry is [string, string] => typeof entry[1] === 'string'))
-    : {};
-  const name = cleanText(tags['name:ru'] || tags['name:uz'] || tags.name || tags.brand, 160);
+  const tags = osmTagsFromElement(element);
+  const lifecycleTags = Object.entries(tags).filter(([key]) => (
+    key === 'disused' || key === 'abandoned' || key === 'demolished'
+    || key.startsWith('disused:') || key.startsWith('abandoned:') || key.startsWith('demolished:')
+  ));
+  if (lifecycleTags.some(([, value]) => !['no', 'false', '0'].includes(value.trim().toLowerCase()))) return null;
+  const preferredNames = [...new Set(input.languages)].map((language) => tags[`name:${language}`]);
+  const name = cleanText(preferredNames.find(Boolean) || tags.name || tags.brand, 160);
   if (!name || name.length < 2) return null;
   const sourceUrl = `https://www.openstreetmap.org/${raw.type}/${raw.id}`;
-  const category = cleanText(tags['healthcare:speciality'] || tags.healthcare || tags.amenity || tags.shop || tags.office || fallbackCategory, 120) ?? fallbackCategory;
+  const sourcedCategory = cleanText(tags['healthcare:speciality'] || tags.healthcare || tags.amenity || tags.shop || tags.office, 120);
+  const category = sourcedCategory ?? fallbackCategory;
   const address = addressFrom(tags);
   const website = cleanWebsite(tags['contact:website'] || tags.website || null);
   const phone = cleanPhone(tags['contact:phone'] || tags.phone || null);
   const email = genericEmail(tags['contact:email'] || tags.email || null);
   const telegram = cleanTelegram(tags['contact:telegram'] || tags.telegram || tags['social:telegram'] || null);
+  const sourceObservedAt = typeof raw.timestamp === 'string' && Number.isFinite(Date.parse(raw.timestamp))
+    ? new Date(raw.timestamp).toISOString()
+    : new Date().toISOString();
+  const sourceCity = cleanText(tags['addr:city'] || tags['addr:place'], 120);
+  const latitude = Number(raw.lat ?? raw.center?.lat);
+  const longitude = Number(raw.lon ?? raw.center?.lon);
+  const hasCoordinates = Number.isFinite(latitude) && latitude >= -90 && latitude <= 90
+    && Number.isFinite(longitude) && longitude >= -180 && longitude <= 180;
   const evidence: LeadRadarEvidence[] = [
-    sourceEvidence('company.name', name, sourceUrl, 'openstreetmap', 0.82),
-    sourceEvidence('company.category', category, sourceUrl, 'openstreetmap', 0.78),
-    sourceEvidence('locations.city', input.city, sourceUrl, 'openstreetmap', 0.8),
+    sourceEvidence('company.name', name, sourceUrl, 'openstreetmap', 0.82, 'fact', sourceObservedAt),
   ];
-  if (address) evidence.push(sourceEvidence('locations.address', address, sourceUrl, 'openstreetmap', 0.82));
-  if (website) evidence.push(sourceEvidence('web.website', website, sourceUrl, 'openstreetmap', 0.78));
-  if (phone) evidence.push(sourceEvidence('company_contacts.phone', phone, sourceUrl, 'openstreetmap', 0.74, 'company_data'));
-  if (email) evidence.push(sourceEvidence('company_contacts.generic_email', email, sourceUrl, 'openstreetmap', 0.74, 'company_data'));
-  if (telegram) evidence.push(sourceEvidence('web.telegram', telegram, sourceUrl, 'openstreetmap', 0.74, 'company_data'));
+  if (sourcedCategory) {
+    evidence.push(sourceEvidence('company.category', sourcedCategory, sourceUrl, 'openstreetmap', 0.78, 'fact', sourceObservedAt));
+  }
+  if (sourceCity) evidence.push(sourceEvidence(
+    'locations.city', sourceCity, sourceUrl, 'openstreetmap', 0.82, 'fact', sourceObservedAt,
+  ));
+  else evidence.push(sourceEvidence(
+    'search_context.requested_city', input.city, sourceUrl, 'openstreetmap', 0.35, 'model_inference', sourceObservedAt,
+  ));
+  if (hasCoordinates) evidence.push(sourceEvidence(
+    'locations.coordinates', `${latitude.toFixed(6)},${longitude.toFixed(6)}`,
+    sourceUrl, 'openstreetmap', 0.9, 'fact', sourceObservedAt,
+  ));
+  if (address) evidence.push(sourceEvidence(
+    'locations.address', address, sourceUrl, 'openstreetmap', 0.82, 'fact', sourceObservedAt,
+  ));
+  if (website) evidence.push(sourceEvidence(
+    'web.website_candidate', website, sourceUrl, 'openstreetmap', 0.45, 'model_inference', sourceObservedAt,
+  ));
+  if (phone) evidence.push(sourceEvidence(
+    'company_contacts.phone', phone, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
+  ));
+  if (email) evidence.push(sourceEvidence(
+    'company_contacts.generic_email', email, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
+  ));
+  let telegramContact: LeadRadarTelegramContact | null = null;
+  if (telegram) {
+    const username = telegramUsername(telegram);
+    const evidenceItem = sourceEvidence(
+      'web.telegram.unknown',
+      telegram,
+      sourceUrl,
+      'openstreetmap',
+      0.4,
+      'model_inference',
+      sourceObservedAt,
+    );
+    evidence.push(evidenceItem);
+    telegramContact = {
+      url: telegram,
+      username,
+      type: 'unknown',
+      messageable: false,
+      reason: 'Telegram указан в OpenStreetMap; принадлежность компании и тип адресата не подтверждены первым источником',
+      confidence: 0.4,
+      evidenceIds: [evidenceItem.id],
+      verifiedAt: evidenceItem.observedAt,
+    };
+  }
 
   return {
     sourceId: `osm:${raw.type}:${raw.id}`,
     sourceUrl,
     name,
     category,
-    city: input.city,
+    city: sourceCity ?? input.city,
     country: input.country,
     address,
     website,
     phone,
     genericEmail: email,
-    telegramUrl: telegram,
+    telegramUrl: telegramContact && ['human', 'business'].includes(telegramContact.type)
+      ? telegramContact.url
+      : null,
+    telegramContact,
+    decisionMakers: [],
+    enrichmentStatus: website ? 'pending' : 'terminal',
+    enrichmentReason: website ? null : 'no_website',
+    enrichmentAttempts: 0,
     evidence,
     signals: [],
   };
@@ -508,6 +1040,77 @@ function stripHtml(html: string): string {
     .trim();
 }
 
+const COMPANY_LEGAL_FORM_TOKENS = new Set([
+  'ooo', 'ооо', 'llc', 'ltd', 'inc', 'ip', 'ип', 'mchj', 'xk', 'aj', 'jsc', 'l.l.c',
+]);
+
+const GENERIC_SINGLE_COMPANY_NAMES = new Set([
+  'clinic', 'klinika', 'клиника', 'dental', 'dent', 'center', 'centre', 'markaz', 'центр',
+  'salon', 'салон', 'restaurant', 'ресторан', 'school', 'школа', 'academy', 'академия',
+  'shop', 'store', 'магазин', 'company', 'kompaniya', 'компания',
+]);
+
+function normalizedCompanyPhrase(value: string): string {
+  const tokens = normalizeCompanyKey(value).split('-').filter(Boolean);
+  while (tokens.length > 1 && COMPANY_LEGAL_FORM_TOKENS.has(tokens[0])) tokens.shift();
+  while (tokens.length > 1 && COMPANY_LEGAL_FORM_TOKENS.has(tokens[tokens.length - 1])) tokens.pop();
+  return tokens.join('-');
+}
+
+function metaOgTitles(html: string): string[] {
+  const values: string[] = [];
+  for (const match of html.matchAll(/<meta\b[^>]*>/gi)) {
+    const tag = match[0];
+    if (!/(?:property|name)\s*=\s*["']og:title["']/i.test(tag)) continue;
+    const content = tag.match(/content\s*=\s*["']([^"']{1,300})["']/i)?.[1];
+    if (content) values.push(content);
+  }
+  return values;
+}
+
+function pageHasCompanyName(html: string, expectedName: string): boolean {
+  const expected = normalizedCompanyPhrase(expectedName);
+  if (!expected) return false;
+  const tokens = expected.split('-').filter(Boolean);
+  if (tokens.length === 1 && (tokens[0].length < 6 || GENERIC_SINGLE_COMPANY_NAMES.has(tokens[0]))) {
+    return false;
+  }
+  const corpus = normalizedCompanyPhrase(`${stripHtml(html)} ${metaOgTitles(html).join(' ')}`);
+  return Boolean(corpus) && `-${corpus}-`.includes(`-${expected}-`);
+}
+
+function pagePhoneNumbers(html: string): Set<string> {
+  const numbers = new Set<string>();
+  // Include attributes such as href="tel:+998..." as well as visible text.
+  const text = `${stripHtml(html)} ${html}`;
+  for (const match of text.matchAll(/\+?\d(?:[\s().-]*\d){6,14}/g)) {
+    const normalized = cleanPhone(match[0]);
+    if (normalized) numbers.add(normalized.replace(/\D/g, ''));
+  }
+  return numbers;
+}
+
+/**
+ * A website URL from a community-edited directory is only a candidate. Personal
+ * contacts become first-party evidence after the fetched site independently
+ * repeats the expected company name or the exact public company phone number.
+ */
+export function verifyCompanyWebsiteBinding(
+  expected: ExpectedCompanyWebsiteIdentity,
+  pages: Array<{ url: URL; html: string }>,
+): CompanyWebsiteBinding {
+  const expectedPhone = cleanPhone(expected.phone)?.replace(/\D/g, '') ?? null;
+  for (const page of pages) {
+    if (expectedPhone && pagePhoneNumbers(page.html).has(expectedPhone)) {
+      return { verified: true, method: 'phone', sourceUrl: page.url.toString() };
+    }
+    if (pageHasCompanyName(page.html, expected.name)) {
+      return { verified: true, method: 'company_name', sourceUrl: page.url.toString() };
+    }
+  }
+  return { verified: false, method: null, sourceUrl: null };
+}
+
 function sameOriginLinks(html: string, base: URL): URL[] {
   const links: URL[] = [];
   const pattern = /href\s*=\s*["']([^"'#]+)["']/gi;
@@ -516,10 +1119,10 @@ function sameOriginLinks(html: string, base: URL): URL[] {
       const url = new URL(match[1], base);
       if (url.origin !== base.origin) continue;
       if (url.toString().length > 2_048) continue;
-      if (!/(contact|kontakt|aloqa|about|company|vakans|career|service|uslug)/i.test(url.pathname)) continue;
+      if (!/(contact|kontakt|aloqa|about|company|vakans|career|service|uslug|team|staff|doctor|management|leadership|rukovod|руковод|команд|врач)/i.test(decodeURIComponent(url.pathname))) continue;
       url.hash = '';
       if (!links.some((item) => item.toString() === url.toString())) links.push(url);
-      if (links.length >= 1) break;
+      if (links.length >= 2) break;
     } catch {
       // Ignore malformed page links.
     }
@@ -618,22 +1221,42 @@ async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2): 
   return null;
 }
 
-export function extractCompanyPageFacts(pageUrl: URL, html: string): Omit<WebsiteFacts, 'website'> {
+export function extractCompanyPageFacts(
+  pageUrl: URL,
+  html: string,
+  companyWebsiteBound = false,
+  observedAt = new Date().toISOString(),
+): Omit<WebsiteFacts, 'website'> {
   const text = stripHtml(html);
-  const telegramMatch = html.match(/https?:\/\/(?:t\.me|telegram\.me)\/[-A-Za-z0-9_+]{4,64}/i);
+  const contactFacts = extractOfficialSiteContacts(pageUrl, html);
   const emailMatches = [...text.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)]
     .map((match) => genericEmail(match[0]))
     .filter((item): item is string => Boolean(item));
   const phoneMatches = [...text.matchAll(/(?:\+998|998)[\s()-]*\d{2}[\s()-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}/g)]
     .map((match) => cleanPhone(match[0]))
     .filter((item): item is string => Boolean(item));
-  const telegramUrl = cleanTelegram(telegramMatch?.[0] ?? null);
-  const genericEmailValue = emailMatches[0] ?? null;
-  const phone = phoneMatches[0] ?? null;
+  const telegramContact = companyWebsiteBound && contactFacts.telegramContact
+    ? { ...contactFacts.telegramContact, messageable: false }
+    : null;
+  const telegramUrl = companyWebsiteBound
+    && telegramContact
+    && ['human', 'business'].includes(telegramContact.type)
+    ? telegramContact.url
+    : null;
+  const genericEmailValue = companyWebsiteBound ? (emailMatches[0] ?? null) : null;
+  const phone = companyWebsiteBound ? (phoneMatches[0] ?? null) : null;
+  const contactEvidence = companyWebsiteBound ? contactFacts.evidence : [];
   const evidence: LeadRadarEvidence[] = [
-    sourceEvidence('web.website', pageUrl.origin, pageUrl.toString(), 'company_website', 0.94),
+    sourceEvidence(
+      companyWebsiteBound ? 'web.website' : 'web.website_candidate',
+      pageUrl.origin,
+      pageUrl.toString(),
+      'company_website',
+      companyWebsiteBound ? 0.94 : 0.45,
+      companyWebsiteBound ? 'fact' : 'model_inference',
+    ),
+    ...contactEvidence,
   ];
-  if (telegramUrl) evidence.push(sourceEvidence('web.telegram', telegramUrl, pageUrl.toString(), 'company_website', 0.94, 'company_data'));
   if (genericEmailValue) evidence.push(sourceEvidence('company_contacts.generic_email', genericEmailValue, pageUrl.toString(), 'company_website', 0.92, 'company_data'));
   if (phone) evidence.push(sourceEvidence('company_contacts.phone', phone, pageUrl.toString(), 'company_website', 0.9, 'company_data'));
 
@@ -645,96 +1268,215 @@ export function extractCompanyPageFacts(pageUrl: URL, html: string): Omit<Websit
     { type: 'tender', label: 'тендер или закупка', pattern: /тендер|закупк|tender|procurement/i },
     { type: 'new_branch', label: 'новый филиал или расширение', pattern: /нов(?:ый|ого) филиал|открыли филиал|new branch|yangi filial/i },
   ];
+  const observedMs = Date.parse(observedAt);
+  const publishedCandidates = [
+    ...html.matchAll(/(?:article:published_time|datePublished|date_created|datePublished)[^>\n]{0,160}?(?:content\s*=\s*["']|:\s*["'])([^"']{8,40})/gi),
+    ...html.matchAll(/<time\b[^>]*datetime\s*=\s*["']([^"']{8,40})["']/gi),
+  ];
+  const publishedAt = publishedCandidates
+    .map((match) => match[1] ?? '')
+    .map((value) => Date.parse(value))
+    .find((value) => Number.isFinite(value)
+      && Number.isFinite(observedMs)
+      && value <= observedMs + 5 * 60_000
+      && observedMs - value <= 90 * 24 * 60 * 60_000);
   const signals: LeadRadarSignal[] = [];
   for (const item of signalPatterns) {
+    if (!companyWebsiteBound) break;
     if (!item.pattern.test(text)) continue;
-    const evidenceItem = sourceEvidence(`signals.${item.type}`, item.label, pageUrl.toString(), 'company_website', 0.84);
+    const highIntent = ['hiring', 'tender', 'new_branch'].includes(item.type);
+    const datedHighIntent = highIntent && publishedAt !== undefined;
+    const classification = highIntent && !datedHighIntent ? 'model_inference' : 'fact';
+    const signalObservedAt = datedHighIntent ? new Date(publishedAt).toISOString() : observedAt;
+    const evidenceItem = sourceEvidence(
+      `signals.${item.type}`,
+      item.label,
+      pageUrl.toString(),
+      'company_website',
+      classification === 'fact' ? 0.84 : 0.45,
+      classification,
+      signalObservedAt,
+    );
     evidence.push(evidenceItem);
     signals.push({
       type: item.type,
       label: item.label,
-      classification: 'fact',
+      classification,
       evidenceIds: [evidenceItem.id],
-      observedAt: evidenceItem.observedAt,
+      observedAt: signalObservedAt,
     });
   }
-  const activeEvidence = sourceEvidence('signals.active_website', 'Сайт отвечает', pageUrl.toString(), 'company_website', 0.96);
-  evidence.push(activeEvidence);
-  signals.push({
-    type: 'active_website',
-    label: 'активный сайт',
-    classification: 'fact',
-    evidenceIds: [activeEvidence.id],
-    observedAt: activeEvidence.observedAt,
-  });
+  if (companyWebsiteBound) {
+    const activeEvidence = sourceEvidence('signals.active_website', 'Сайт отвечает', pageUrl.toString(), 'company_website', 0.96);
+    evidence.push(activeEvidence);
+    signals.push({
+      type: 'active_website',
+      label: 'активный сайт',
+      classification: 'fact',
+      evidenceIds: [activeEvidence.id],
+      observedAt: activeEvidence.observedAt,
+    });
+  }
 
-  return { phone, genericEmail: genericEmailValue, telegramUrl, evidence, signals };
+  return {
+    phone,
+    genericEmail: genericEmailValue,
+    telegramUrl,
+    telegramContact,
+    decisionMakers: companyWebsiteBound ? contactFacts.decisionMakers : [],
+    evidence,
+    signals,
+  };
 }
 
 async function enrichCompanyWebsiteWithBudget(
   website: string,
   budget: SubrequestBudget,
+  diagnostic?: { reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean },
+  expected?: ExpectedCompanyWebsiteIdentity,
 ): Promise<WebsiteFacts | null> {
   const start = safePublicHttpUrl(website);
   if (!start) return null;
   let robots: string | null;
   try {
     const robotsUrl = new URL('/robots.txt', start);
-    if (!(await hasOnlyPublicAddresses(robotsUrl, budget))) return null;
+    if (!(await hasOnlyPublicAddresses(robotsUrl, budget))) {
+      if (diagnostic) Object.assign(diagnostic, { reason: 'http_blocked', retryable: false });
+      return null;
+    }
     const policy = await fetchWithin(
       robotsUrl,
       { headers: { 'User-Agent': USER_AGENT }, redirect: 'manual' },
       3_000,
       budget,
-      async (response): Promise<{ allow: boolean; body: string | null }> => {
+      async (response): Promise<{ allow: boolean; body: string | null; reason?: 'robots_blocked' | 'http_blocked' | 'source_unavailable'; retryable?: boolean }> => {
         if (response.status === 404 || response.status === 410) return { allow: true, body: null };
-        if (response.status === 401 || response.status === 403 || response.status === 429 || response.status >= 500) {
-          return { allow: false, body: null };
+        if (response.status === 401 || response.status === 403) {
+          return { allow: false, body: null, reason: 'robots_blocked', retryable: false };
         }
-        if (!response.ok) return { allow: false, body: null };
+        if (response.status === 429 || response.status >= 500) {
+          return { allow: false, body: null, reason: 'source_unavailable', retryable: true };
+        }
+        if (!response.ok) return { allow: false, body: null, reason: 'http_blocked', retryable: false };
         return { allow: true, body: await readTextBounded(response, MAX_ROBOTS_BYTES) };
       },
     );
-    if (!policy.allow) return null;
+    if (!policy.allow) {
+      if (diagnostic) Object.assign(diagnostic, {
+        reason: policy.reason ?? 'robots_blocked',
+        retryable: policy.retryable ?? false,
+      });
+      return null;
+    }
     robots = policy.body;
   } catch {
     // Timeout, transport error, or malformed/oversized policy fails closed.
+    if (diagnostic) Object.assign(diagnostic, { reason: 'source_timeout', retryable: true });
     return null;
   }
 
   try {
-    if (robots !== null && !robotsAllows(robots, start)) return null;
+    if (robots !== null && !robotsAllows(robots, start)) {
+      if (diagnostic) Object.assign(diagnostic, { reason: 'robots_blocked', retryable: false });
+      return null;
+    }
     const home = await fetchText(start, budget, 1);
-    if (!home) return null;
+    if (!home) {
+      if (diagnostic) Object.assign(diagnostic, { reason: 'source_unavailable', retryable: true });
+      return null;
+    }
     const pages = [home];
     for (const link of sameOriginLinks(home.html, home.url)) {
       if (robots !== null && !robotsAllows(robots, link)) continue;
       const page = await fetchText(link, budget, 0);
       if (page) pages.push(page);
     }
-    const facts = pages.map((page) => extractCompanyPageFacts(page.url, page.html));
+    const binding = expected
+      ? verifyCompanyWebsiteBinding(expected, pages)
+      : { verified: false, method: null, sourceUrl: null } satisfies CompanyWebsiteBinding;
+    const facts = pages.map((page) => extractCompanyPageFacts(page.url, page.html, binding.verified));
+    const telegramRank: Record<TelegramContactType, number> = {
+      human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0,
+    };
+    const telegramContact = facts
+      .map((item) => item.telegramContact)
+      .filter((item): item is LeadRadarTelegramContact => Boolean(item))
+      .sort((a, b) => telegramRank[b.type] - telegramRank[a.type] || b.confidence - a.confidence)[0] ?? null;
+    const decisionMakerMap = new Map<string, LeadRadarDecisionMaker>();
+    for (const person of facts.flatMap((item) => item.decisionMakers)) {
+      const key = normalizedPersonKey(person.name, person.role);
+      const existing = decisionMakerMap.get(key);
+      if (!existing || person.confidence > existing.confidence || (!existing.telegramUrl && person.telegramUrl)) {
+        decisionMakerMap.set(key, person);
+      } else {
+        existing.evidenceIds = [...new Set([...existing.evidenceIds, ...person.evidenceIds])];
+      }
+    }
+    const bindingEvidence = binding.verified && binding.method && binding.sourceUrl
+      ? [sourceEvidence(
+          'web.company_binding',
+          binding.method === 'phone' ? 'Совпадает телефон компании' : 'Совпадает название компании',
+          binding.sourceUrl,
+          'company_website',
+          binding.method === 'phone' ? 0.98 : 0.9,
+          'fact',
+        )]
+      : [];
     return {
       website: home.url.origin,
       phone: facts.find((item) => item.phone)?.phone ?? null,
       genericEmail: facts.find((item) => item.genericEmail)?.genericEmail ?? null,
-      telegramUrl: facts.find((item) => item.telegramUrl)?.telegramUrl ?? null,
-      evidence: facts.flatMap((item) => item.evidence),
+      telegramUrl: telegramContact && ['human', 'business'].includes(telegramContact.type)
+        ? telegramContact.url
+        : null,
+      telegramContact,
+      decisionMakers: [...decisionMakerMap.values()].sort((a, b) => b.confidence - a.confidence),
+      evidence: [...bindingEvidence, ...facts.flatMap((item) => item.evidence)],
       signals: facts.flatMap((item) => item.signals).filter((signal, index, all) => (
         all.findIndex((candidate) => candidate.type === signal.type) === index
       )),
     };
   } catch {
+    if (diagnostic) Object.assign(diagnostic, { reason: 'source_unavailable', retryable: true });
     return null;
   }
 }
 
-export async function enrichCompanyWebsite(website: string): Promise<WebsiteFacts | null> {
-  return enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(12));
+export async function enrichCompanyWebsite(
+  website: string,
+  expected?: ExpectedCompanyWebsiteIdentity,
+): Promise<WebsiteFacts | null> {
+  return enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(12), undefined, expected);
+}
+
+export async function enrichCompanyWebsiteDetailed(
+  website: string,
+  expected?: ExpectedCompanyWebsiteIdentity,
+): Promise<{
+  facts: WebsiteFacts | null;
+  reason: 'enriched' | 'no_relevant_evidence' | 'invalid_website' | 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable';
+  retryable: boolean;
+}> {
+  if (!safePublicHttpUrl(website)) return { facts: null, reason: 'invalid_website', retryable: false };
+  const diagnostic = { reason: 'source_unavailable' as const, retryable: true } as {
+    reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean;
+  };
+  const facts = await enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(12), diagnostic, expected);
+  if (!facts) return { facts: null, reason: diagnostic.reason, retryable: diagnostic.retryable };
+  const relevant = Boolean(
+    facts.phone || facts.genericEmail
+    || (facts.telegramContact && ['human', 'business'].includes(facts.telegramContact.type))
+    || facts.decisionMakers.length > 0
+    || facts.signals.some((signal) => signal.type !== 'active_website'),
+  );
+  return relevant
+    ? { facts, reason: 'enriched', retryable: false }
+    : { facts, reason: 'no_relevant_evidence', retryable: false };
 }
 
 async function enrichCandidates(candidates: SourceCandidate[], budget: SubrequestBudget): Promise<SourceCandidate[]> {
   const queue = candidates
-    .filter((candidate) => candidate.website && !candidate.telegramUrl)
+    .filter((candidate) => candidate.website)
     .slice(0, MAX_SITE_ENRICHMENTS);
   const enriched = new Map<string, WebsiteFacts>();
   let cursor = 0;
@@ -744,7 +1486,11 @@ async function enrichCandidates(candidates: SourceCandidate[], budget: Subreques
       cursor += 1;
       const candidate = queue[index];
       if (!candidate?.website) continue;
-      const facts = await enrichCompanyWebsiteWithBudget(candidate.website, budget);
+      const facts = await enrichCompanyWebsiteWithBudget(candidate.website, budget, undefined, {
+        name: candidate.name,
+        phone: candidate.phone,
+        address: candidate.address,
+      });
       if (facts) enriched.set(candidate.sourceId, facts);
     }
   });
@@ -753,12 +1499,30 @@ async function enrichCandidates(candidates: SourceCandidate[], budget: Subreques
   return candidates.map((candidate) => {
     const facts = enriched.get(candidate.sourceId);
     if (!facts) return candidate;
+    const rank: Record<TelegramContactType, number> = {
+      human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0,
+    };
+    const telegramContact = [facts.telegramContact, candidate.telegramContact]
+      .filter((item): item is LeadRadarTelegramContact => Boolean(item))
+      .sort((a, b) => rank[b.type] - rank[a.type] || b.confidence - a.confidence)[0] ?? null;
+    const decisionMakerMap = new Map<string, LeadRadarDecisionMaker>();
+    for (const person of [...candidate.decisionMakers, ...facts.decisionMakers]) {
+      const key = normalizedPersonKey(person.name, person.role);
+      const existing = decisionMakerMap.get(key);
+      if (!existing || person.confidence > existing.confidence || (!existing.telegramUrl && person.telegramUrl)) {
+        decisionMakerMap.set(key, person);
+      }
+    }
     return {
       ...candidate,
       website: facts.website,
       phone: facts.phone ?? candidate.phone,
       genericEmail: facts.genericEmail ?? candidate.genericEmail,
-      telegramUrl: facts.telegramUrl ?? candidate.telegramUrl,
+      telegramUrl: telegramContact && ['human', 'business'].includes(telegramContact.type)
+        ? telegramContact.url
+        : null,
+      telegramContact,
+      decisionMakers: [...decisionMakerMap.values()].sort((a, b) => b.confidence - a.confidence),
       evidence: [...candidate.evidence, ...facts.evidence],
       signals: [...candidate.signals, ...facts.signals],
     };
@@ -770,27 +1534,31 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
 
   constructor(private readonly geocodeStore?: LeadRadarGeocodeStore) {}
 
-  async discover(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
+  async discoverRaw(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
     const budget = new SubrequestBudget(MAX_SOURCE_SUBREQUESTS);
     const bounds = await geocode(input, budget, this.geocodeStore);
-    const { query, category } = buildOverpassQuery(input, bounds);
+    const { query, category, intent } = buildLeadRadarQueryPlan(input, bounds);
     const { response, warnings } = await overpass(query, budget);
-    const candidates = (response.elements ?? [])
-      .map((element) => candidateFromElement(element, input, category))
+    const candidates = rankLeadRadarOsmElements(response.elements ?? [], intent)
+      .map((element) => candidateFromOsmElement(element, input, category))
       .filter((item): item is SourceCandidate => Boolean(item));
 
     const deduped = new Map<string, SourceCandidate>();
     for (const candidate of candidates) {
-      const key = candidate.website
-        ? new URL(candidate.website).hostname.replace(/^www\./, '')
-        : `${normalizeCompanyKey(candidate.name)}:${normalizeCompanyKey(candidate.address ?? input.city)}`;
+      const key = `${normalizeCompanyKey(candidate.name)}:${normalizeCompanyKey(candidate.address ?? input.city)}`;
       const existing = deduped.get(key);
       if (!existing || candidate.evidence.length > existing.evidence.length) deduped.set(key, candidate);
     }
-    const enriched = await enrichCandidates(
-      [...deduped.values()].slice(0, Math.min(80, input.desiredCount * 3)),
-      budget,
-    );
-    return { candidates: enriched, sourceWarnings: warnings };
+    return {
+      candidates: [...deduped.values()].slice(0, Math.min(80, input.desiredCount * 3)),
+      sourceWarnings: warnings,
+      rawDiscoveredCount: response.elements?.length ?? 0,
+    };
+  }
+
+  async discover(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
+    const raw = await this.discoverRaw(input);
+    const enriched = await enrichCandidates(raw.candidates, new SubrequestBudget(MAX_SOURCE_SUBREQUESTS));
+    return { ...raw, candidates: enriched };
   }
 }

@@ -1,5 +1,5 @@
-import type { LeadRadarLifecycle, LeadRadarSearchInput } from '../../../src/shared/lead-radar';
-import { LEAD_RADAR_LIFECYCLE } from '../../../src/shared/lead-radar';
+import type { LeadRadarContactReviewStatus, LeadRadarLifecycle, LeadRadarSearchInput } from '../../../src/shared/lead-radar';
+import { LEAD_RADAR_CONTACT_REVIEW_STATUSES, LEAD_RADAR_LIFECYCLE } from '../../../src/shared/lead-radar';
 
 export class LeadRadarValidationError extends Error {
   constructor(readonly code: string) {
@@ -48,6 +48,14 @@ export function parseLifecycle(value: unknown): LeadRadarLifecycle {
     throw new LeadRadarValidationError('invalid_lifecycle');
   }
   return value as LeadRadarLifecycle;
+}
+
+export function parseContactReviewStatus(value: unknown): Exclude<LeadRadarContactReviewStatus, 'unreviewed'> {
+  if (value !== 'approved' && value !== 'rejected'
+    || !LEAD_RADAR_CONTACT_REVIEW_STATUSES.includes(value)) {
+    throw new LeadRadarValidationError('invalid_contact_review_status');
+  }
+  return value;
 }
 
 export function normalizeCompanyKey(value: string): string {

@@ -58,6 +58,57 @@ export interface Env {
   // messages contain job references only, never prompts, content or secrets.
   AUTOMATION_QUEUE?: Queue<unknown>;
   FIRST_PARTY_AUTOMATION_ENABLED?: string;
+  // Lead Radar capabilities are independent and fail closed. A capability is
+  // enabled only when its value is exactly "true". Admission controls creation
+  // of searches/jobs, processing controls Worker claims and external fetches,
+  // and contact controls personal-data review and outreach actions. Retention
+  // and do-not-contact enforcement never depend on any of these switches.
+  LEAD_RADAR_ADMISSION_ENABLED?: string;
+  LEAD_RADAR_PROCESSING_ENABLED?: string;
+  LEAD_RADAR_CONTACT_ENABLED?: string;
+  // Corporate Telegram discovery is safe in research mode and is deliberately
+  // independent from the legal/personal-data gate above. Campaign outreach is
+  // a separate, stricter switch and remains fail-closed until the dedicated
+  // user-account gateway and its encrypted session key are provisioned.
+  LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED?: string;
+  LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED?: string;
+  // Bounded privacy configuration. Invalid values fall back to 30 days and
+  // values above 30 are clamped; this is not a retention kill switch.
+  LEAD_RADAR_PERSONAL_RETENTION_DAYS?: string;
+  // Canary controls. Empty means no tenant is allowlisted for processing;
+  // production enablement requires explicit org ids and a bounded dispatch cap.
+  LEAD_RADAR_ALLOWED_ORGS?: string;
+  LEAD_RADAR_MAX_DISPATCH_PER_TICK?: string;
+  // Dedicated Telegram Business bot. Token, webhook secret and the 32-byte
+  // data-encryption key are secret bindings and must never be placed in TOML.
+  // The username is public configuration used only to build a one-time deep
+  // link. Contact limits remain bounded even after the contact capability is
+  // explicitly enabled.
+  LEAD_RADAR_TELEGRAM_BOT_TOKEN?: string;
+  LEAD_RADAR_TELEGRAM_WEBHOOK_SECRET?: string;
+  LEAD_RADAR_TELEGRAM_DATA_KEY?: string;
+  LEAD_RADAR_TELEGRAM_BOT_USERNAME?: string;
+  LEAD_RADAR_CONTACT_DAILY_LIMIT?: string;
+  // CAMPAIGN_DATA_KEY protects campaign templates, endpoints and keyed digests
+  // in D1. The separate ACCOUNT_DATA_KEY exists only in the route-less account
+  // gateway's own Env and must not be bound to Pages or the automation Worker.
+  // Neither key may be reused by the Telegram Business bot plane above.
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY?: string;
+  // Private image custody for Telegram account campaigns. The bucket must not
+  // have a public domain; only opaque ids and digests are persisted in D1.
+  LEAD_RADAR_CAMPAIGN_MEDIA?: R2Bucket;
+  // Private Service Binding to the Workers-Free Durable Object mailbox. The
+  // local Windows Bridge is the only MTProto/provider boundary and reaches
+  // only the gateway's separately authenticated public bridge routes.
+  LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE?: Fetcher;
+  LEAD_RADAR_TELEGRAM_TRANSPORT_MODE?: string;
+  // Independent high-entropy bearer used only on private Service Binding
+  // account/send calls. Never expose it to the browser or local Bridge.
+  LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT?: string;
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS?: string;
   // Bearer for the GitHub Actions cron worker. Authenticates
   // /api/internal/seo-autopilot/scheduled-run.
   CRON_SECRET?: string;

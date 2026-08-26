@@ -20,7 +20,9 @@
 #   GSC_CLIENT_ID, GSC_CLIENT_SECRET, GSC_REFRESH_TOKEN,
 #   TELEGRAM_AGENTS_BOT_TOKEN, TELEGRAM_AGENTS_WEBHOOK_SECRET,
 #   MARKET_MINI_APP_SESSION_SECRET, and the
-#   existing product-specific TELEGRAM_* secrets.
+#   existing product-specific TELEGRAM_* secrets. Lead Radar also requires
+#   LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN on Pages and on the gateway;
+#   it is never a plain-text [vars] value and is unrelated to Bridge/device keys.
 #
 # CRON_SECRET must match the GitHub Actions repository secret used by
 # .github/workflows/search-pulse-daily.yml.
@@ -115,22 +117,24 @@ queue = "gptbot-automation"
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
 
 # ── Lead Radar ──────────────────────────────────────────────────────────────
-# Mirrored from the Lead Radar branch and verified against live production on
-# 2026-08-27. Values must equal what that branch ships: `wrangler pages deploy`
-# replaces the whole production var set, so any LEAD_RADAR_* key missing here is
-# deleted from production the moment this branch deploys. Do not "clean up" this
-# block - change it only together with the Lead Radar branch.
+# This is the shared production configuration for SEO and Lead Radar. A Pages
+# deploy replaces the complete var and binding sets, so every production build
+# must retain this block even when its feature work is unrelated to Lead Radar.
 LEAD_RADAR_ADMISSION_ENABLED = "true"
 LEAD_RADAR_PROCESSING_ENABLED = "true"
 LEAD_RADAR_CONTACT_ENABLED = "false"
 LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_TRANSPORT_MODE = "local_bridge"
+# Account pairing is enabled for the owner canary, but all outbound gates remain
+# independently fail-closed below.
 LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED = "false"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "false"
 LEAD_RADAR_PERSONAL_RETENTION_DAYS = "30"
 LEAD_RADAR_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
 LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
+# Public username stays empty until the dedicated Business bot and its secret
+# bindings are configured. Empty is a hard connection pause.
 LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""
 LEAD_RADAR_CONTACT_DAILY_LIMIT = "10"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "30"

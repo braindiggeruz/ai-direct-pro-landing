@@ -1,0 +1,155 @@
+name: Lead Radar release gate
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lead-radar-release-gate.yml'
+      - 'functions/**'
+      - 'migrations/**'
+      - 'scripts/d1/**'
+      - 'scripts/lead-radar/**'
+      - 'scripts/scan-secrets.ts'
+      - 'src/admin/**'
+      - 'src/shared/lead-radar.ts'
+      - 'src/shared/lead-radar-telegram-bridge.ts'
+      - 'src/shared/lead-radar-telegram-campaign-policy.ts'
+      - 'tests/lead-radar*.test.ts'
+      - 'tests/secret-scan.test.ts'
+      - 'tools/lead-radar-telegram-bridge/**'
+      - 'tsconfig*.json'
+      - 'workers/automation-worker.ts'
+      - 'workers/lead-radar-telegram-account/**'
+      - 'wrangler.automation.toml'
+      - 'wrangler.toml'
+      - 'package.json'
+      - 'yarn.lock'
+  push:
+    branches: ['**']
+    paths:
+      - '.github/workflows/lead-radar-release-gate.yml'
+      - 'functions/**'
+      - 'migrations/**'
+      - 'scripts/d1/**'
+      - 'scripts/lead-radar/**'
+      - 'scripts/scan-secrets.ts'
+      - 'src/admin/**'
+      - 'src/shared/lead-radar.ts'
+      - 'src/shared/lead-radar-telegram-bridge.ts'
+      - 'src/shared/lead-radar-telegram-campaign-policy.ts'
+      - 'tests/lead-radar*.test.ts'
+      - 'tests/secret-scan.test.ts'
+      - 'tools/lead-radar-telegram-bridge/**'
+      - 'tsconfig*.json'
+      - 'workers/automation-worker.ts'
+      - 'workers/lead-radar-telegram-account/**'
+      - 'wrangler.automation.toml'
+      - 'wrangler.toml'
+      - 'package.json'
+      - 'yarn.lock'
+  workflow_dispatch:
+
+# The job gets no write token and receives no production credentials. The only
+# Wrangler command admitted by the gate is `deploy --dry-run` with a local
+# temporary outdir; D1 migration/apply commands are rejected before execution.
+permissions:
+  contents: read
+
+concurrency:
+  group: lead-radar-release-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          corepack enable
+          yarn install --frozen-lockfile
+          python3 -m pip install --disable-pip-version-check --require-hashes \
+            -r tools/lead-radar-telegram-bridge/requirements-ci.lock
+
+      - name: Test the gate without running the build
+        run: node --import tsx --test tests/lead-radar-release-gate.test.ts
+
+      - name: Execute the non-deploying release gate
+        run: >-
+          npx --no-install tsx scripts/lead-radar/release-gate.ts
+          --execute
+          --report reports/lead-radar-release-gate.json
+
+      - name: Preserve the machine-readable report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lead-radar-release-gate-report
+          path: reports/lead-radar-release-gate.json
+          if-no-files-found: error
+          retention-days: 14
+
+  windows-bridge:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install the exact production Windows dependency lock
+        run: >-
+          python -m pip install --disable-pip-version-check --require-hashes
+          -r tools/lead-radar-telegram-bridge/requirements.lock
+      - name: Test the outbound-only Windows Bridge
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: >-
+          python -B -m unittest discover
+          -s tools/lead-radar-telegram-bridge/tests -p test_*.py -v
+      - name: Build and smoke-test the installed Bridge wheel
+        shell: pwsh
+        run: |
+          python -m pip wheel --disable-pip-version-check --no-deps `
+            --wheel-dir bridge-dist tools/lead-radar-telegram-bridge
+          python -m venv 'bridge installed smoke'
+          $smokePython = (Resolve-Path 'bridge installed smoke/Scripts/python.exe').Path
+          & $smokePython -m pip install --disable-pip-version-check --require-hashes `
+            -r tools/lead-radar-telegram-bridge/requirements.lock
+          $bridgeWheel = (Get-ChildItem -LiteralPath bridge-dist -Filter '*.whl' `
+            | Select-Object -First 1).FullName
+          if (-not $bridgeWheel) { throw 'Bridge wheel was not produced' }
+          & $smokePython -m pip install --disable-pip-version-check --no-deps $bridgeWheel
+          $packageRoot = 'bridge wheel scan'
+          python -m zipfile -e $bridgeWheel $packageRoot
+          $packageFiles = @(Get-ChildItem -LiteralPath $packageRoot -Recurse -File `
+            | ForEach-Object FullName)
+          if ($packageFiles.Count -eq 0) { throw 'Bridge wheel was empty' }
+          node --experimental-strip-types scripts/scan-secrets.ts @packageFiles
+          Push-Location ([System.IO.Path]::GetTempPath())
+          try {
+            & $smokePython -c "from lead_radar_bridge.installer import _assert_installed_runtime; _assert_installed_runtime(); import lead_radar_bridge; print(lead_radar_bridge.__file__)"
+          } finally {
+            Pop-Location
+          }
+      - name: Preserve the installable Windows Bridge wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: lead-radar-telegram-bridge-wheel
+          path: bridge-dist/*.whl
+          if-no-files-found: error
+          retention-days: 14

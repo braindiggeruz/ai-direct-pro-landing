@@ -1,8 +1,10 @@
 import type {
   LeadRadarEvidence,
+  LeadRadarDecisionMaker,
   LeadRadarPriority,
   LeadRadarScoreComponent,
   LeadRadarSignal,
+  LeadRadarTelegramContact,
 } from '../../../src/shared/lead-radar';
 
 export interface ScoreInput {
@@ -12,7 +14,23 @@ export interface ScoreInput {
   phone: string | null;
   genericEmail: string | null;
   telegramUrl: string | null;
+  telegramContact: LeadRadarTelegramContact | null;
+  decisionMakers: LeadRadarDecisionMaker[];
   category: string;
+}
+
+const ACTIVE_INTENT_MAX_AGE_MS = 90 * 24 * 60 * 60_000;
+const CLOCK_SKEW_MS = 5 * 60_000;
+
+function isFreshDatedIntent(signal: LeadRadarSignal, nowMs: number): boolean {
+  if (
+    signal.classification !== 'fact'
+    || !['hiring', 'tender', 'new_branch'].includes(signal.type)
+  ) return false;
+  const observedMs = Date.parse(signal.observedAt);
+  return Number.isFinite(observedMs)
+    && observedMs <= nowMs + CLOCK_SKEW_MS
+    && nowMs - observedMs <= ACTIVE_INTENT_MAX_AGE_MS;
 }
 
 function ids(input: ScoreInput, paths: string[]): string[] {
@@ -21,30 +39,59 @@ function ids(input: ScoreInput, paths: string[]): string[] {
     .map((item) => item.id);
 }
 
-export function scoreLead(input: ScoreInput): {
+export function scoreLead(input: ScoreInput, now: Date = new Date()): {
   score: number;
   confidence: number;
   priority: LeadRadarPriority;
   components: LeadRadarScoreComponent[];
 } {
-  const hasIntent = input.signals.some((signal) => (
-    signal.type === 'hiring' || signal.type === 'tender' || signal.type === 'new_branch'
-  ));
+  const nowMs = now.getTime();
+  const activeIntentSignals = Number.isFinite(nowMs)
+    ? input.signals.filter((signal) => isFreshDatedIntent(signal, nowMs))
+    : [];
+  const hasIntent = activeIntentSignals.length > 0;
   const digitalFacts = input.signals.filter((signal) => (
     signal.type === 'messenger' || signal.type === 'online_booking' || signal.type === 'contact_form'
   ));
-  const contactEvidence = ids(input, ['company_contacts', 'web.telegram']);
+  const decisionMakers = input.decisionMakers ?? [];
+  const personalTelegram = input.telegramContact?.type === 'human'
+    && input.telegramContact.messageable
+    && decisionMakers.some((person) => (
+      person.contactType === 'human'
+      && person.telegramUrl === input.telegramContact?.url
+      && person.contactReviewStatus === 'approved'
+    ));
+  const businessTelegram = input.telegramContact?.type === 'business';
+  const hasNamedDecisionMaker = decisionMakers.length > 0;
+  const conventionalContactScore = (input.phone ? 10 : 0) + (input.genericEmail ? 6 : 0);
+  const contactabilityScore = personalTelegram
+    ? 20
+    : Math.max(
+        Math.min(16, conventionalContactScore),
+        businessTelegram ? 12 : 0,
+        hasNamedDecisionMaker ? 6 : 0,
+      );
+  const contactEvidence = [
+    ...ids(input, ['company_contacts']),
+    ...(personalTelegram || businessTelegram ? input.telegramContact?.evidenceIds ?? [] : []),
+    ...(hasNamedDecisionMaker ? decisionMakers.flatMap((person) => person.evidenceIds) : []),
+  ];
   const categoryEvidence = ids(input, ['company.category']);
-  const geoEvidence = ids(input, ['locations']);
-  const signalEvidence = input.signals.flatMap((signal) => signal.evidenceIds);
+  const hasSourcedCategory = categoryEvidence.length > 0;
+  const geoEvidence = input.evidence
+    .filter((item) => item.fieldPath.startsWith('locations.') && item.classification !== 'model_inference')
+    .map((item) => item.id);
+  const intentEvidence = activeIntentSignals.flatMap((signal) => signal.evidenceIds);
 
   const components: LeadRadarScoreComponent[] = [
     {
       key: 'niche_fit',
       label: 'Соответствие нише',
-      score: input.category ? 25 : 12,
+      score: hasSourcedCategory ? 25 : 12,
       max: 25,
-      reason: input.category ? `Категория подтверждена: ${input.category}` : 'Категория определена неполно',
+      reason: hasSourcedCategory
+        ? `Категория подтверждена источником: ${input.category}`
+        : 'Совпадение найдено по названию или поисковому контексту; категория источником не подтверждена',
       evidenceIds: categoryEvidence,
     },
     {
@@ -71,18 +118,24 @@ export function scoreLead(input: ScoreInput): {
       score: hasIntent ? 25 : 5,
       max: 25,
       reason: hasIntent
-        ? 'Есть свежий сигнал найма, тендера или расширения'
-        : 'Прямой сигнал покупки не найден; это перспективная компания, а не горячий inbound-лид',
-      evidenceIds: signalEvidence,
+        ? 'Есть датированный свежий сигнал найма, тендера или расширения'
+        : 'Свежий датированный сигнал покупки не подтверждён; это перспективная компания, а не горячий inbound-лид',
+      evidenceIds: intentEvidence,
     },
     {
       key: 'contactability',
       label: 'Доступность контакта',
-      score: input.telegramUrl ? 20 : (input.phone ? 12 : 0) + (input.genericEmail ? 8 : 0),
+      score: contactabilityScore,
       max: 20,
-      reason: input.telegramUrl
-        ? 'Найден публичный корпоративный Telegram'
-        : (input.phone || input.genericEmail ? 'Найден корпоративный канал связи' : 'Проверенный контакт пока не найден'),
+      reason: personalTelegram
+        ? 'Найден публичный Telegram названного руководителя'
+        : (businessTelegram
+            ? 'Найден публичный корпоративный Telegram; личность получателя не подтверждена'
+            : (input.phone || input.genericEmail
+                ? 'Найден корпоративный канал связи'
+                : (hasNamedDecisionMaker
+                    ? 'На официальном сайте назван руководитель, но прямой контакт не подтверждён'
+                    : 'Проверенный контакт пока не найден'))),
       evidenceIds: contactEvidence,
     },
   ];

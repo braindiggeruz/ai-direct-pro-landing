@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["ES2023", "DOM", "WebWorker"],
+    "module": "esnext",
+    "types": ["vite/client", "@cloudflare/workers-types"],
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "files": [
+    "functions/api/admin/lead-radar/[[path]].ts",
+    "functions/api/telegram/lead-radar-business.ts",
+    "functions/platform/lead-radar/index.ts",
+    "src/admin/lib/api.ts",
+    "src/admin/components/lead-radar/TelegramBusinessConnectionCard.tsx",
+    "src/admin/components/lead-radar/TelegramOutreachActions.tsx",
+    "src/admin/pages/LeadRadar.tsx",
+    "src/shared/lead-radar.ts",
+    "workers/automation-worker.ts",
+    "workers/lead-radar-telegram-account/index.ts"
+  ]
+}
