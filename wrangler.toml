@@ -76,6 +76,23 @@ id = "c5e30ccbfcbe43f0b22a027b38c225f4"
 binding = "MARKET_MEDIA"
 bucket_name = "bormi-market-media"
 
+# Private Lead Radar campaign images. No public/custom domain is permitted;
+# Pages uploads and the automation Worker read objects only through this binding.
+# Declared here as well as on the Lead Radar branch: both branches deploy to the
+# same Pages project, and whichever deploys last defines production. A binding
+# that exists in only one of them is silently deleted by the other one shipping.
+[[r2_buckets]]
+binding = "LEAD_RADAR_CAMPAIGN_MEDIA"
+bucket_name = "gptbot-lead-radar-campaign-media"
+
+# Workers-Free Telegram gateway. The gateway exposes only HMAC-authenticated
+# local-Bridge routes publicly; Pages reaches account control through this
+# Service Binding and an independent secret bearer.
+[[services]]
+binding = "LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE"
+service = "gptbot-lead-radar-telegram-account"
+
+
 # Workers AI binding (Cloudflare Pages Functions).
 # Powers the direct-AI SEO Autopilot generator. The binding name "AI"
 # is referenced via env.AI.run(model, …) in
@@ -96,6 +113,28 @@ queue = "gptbot-automation"
 # wrangler.automation.toml. Both fail closed when it is not exactly "true".
 [vars]
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
+
+# ── Lead Radar ──────────────────────────────────────────────────────────────
+# Mirrored from the Lead Radar branch and verified against live production on
+# 2026-08-27. Values must equal what that branch ships: `wrangler pages deploy`
+# replaces the whole production var set, so any LEAD_RADAR_* key missing here is
+# deleted from production the moment this branch deploys. Do not "clean up" this
+# block - change it only together with the Lead Radar branch.
+LEAD_RADAR_ADMISSION_ENABLED = "true"
+LEAD_RADAR_PROCESSING_ENABLED = "true"
+LEAD_RADAR_CONTACT_ENABLED = "false"
+LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
+LEAD_RADAR_TELEGRAM_TRANSPORT_MODE = "local_bridge"
+LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED = "true"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED = "false"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "false"
+LEAD_RADAR_PERSONAL_RETENTION_DAYS = "30"
+LEAD_RADAR_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
+LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
+LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""
+LEAD_RADAR_CONTACT_DAILY_LIMIT = "10"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "30"
+LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS = "120"
 TELEGRAM_AGENTS_BOT_USERNAME = "BormiMarketBot"
 MARKET_MINI_APP_ENABLED = "true"
 MARKET_MINI_APP_BUYER_ENABLED = "true"
