@@ -1,10 +1,10 @@
 # Telegram connection release — 2026-08-27
 
-Deployed source: `bf275e9048c7762ff86ca9728fc140f903e44489`.
-Pages: `d4074317-daef-4f28-848e-febbfb848189` (canonical production, success).
+Deployed source: `4329ed3`.
+Pages: `a6b40443-f674-4f64-b641-e4063b056344` (canonical production, success).
 Gateway: deployment `ef77f06b-4b79-4f93-b326-90edd5ecec6e`, Worker version `49d93788-8aec-4a4d-8f3d-b5049acb9c7b`, gateway version 1.2.1.
 Windows Bridge: 1.2.0 installed and scheduled task restarted; existing vault preserved.
-Owner login/send canary is still pending, not claimed as passed.
+Phone code delivery passed once; code/2FA completion and the send canary are still pending, not claimed as passed.
 
 Scope: Lead Radar only. SEO/content/routes, bot webhook and campaign policy unchanged.
 Baseline production: da3b93fcc1c9ae97294353f57ed9cd821bebcb5d / Pages e178b49e-81fc-4c89-8053-a7a301d94cab.
@@ -38,3 +38,11 @@ The first owner attempt against `3395a80` proved the next cross-runtime defect w
 The candidate caps each browser phone/code envelope at 60 seconds while retaining the ten-minute human ceremony. Gateway 1.2.1 accepts the exact empty `local_validation_failed` result, closes the one-use command as `bridge_input_rejected`, and requires a fresh explicit owner action; it never claims that Telegram was called and never retries a code request. Permanent tests cover both the ten-minute production challenge and the terminal ACK path. Full Lead Radar tests pass 304/304; both TypeScript projects and scoped ESLint pass.
 
 Rollout result: gateway 1.2.1 was deployed first as deployment `ef77f06b-4b79-4f93-b326-90edd5ecec6e` / Worker version `49d93788-8aec-4a4d-8f3d-b5049acb9c7b`, followed by exact Pages source `bf275e9048c7762ff86ca9728fc140f903e44489` as canonical production deployment `d4074317-daef-4f28-848e-febbfb848189` (`https://d4074317.ai-direct-pro-landing.pages.dev`). Canonical root/RU/UZ/admin and immutable admin probes return 200; the live admin bundle contains the `bridge_input_rejected` and 60-second envelope markers; unauthenticated account and Bridge APIs return 401 with `no-store`; admin remains `no-store`/`noindex`; root canonical/hreflang metadata remains present; sitemap still contains 259 URLs. The scheduled Windows Bridge is running and its built-in status and self-test both pass with the existing DPAPI vault preserved. The historical locally rejected input predates this deployment and never crossed Telegram's provider boundary; its durable row remains inert for that closed command and does not affect fresh command IDs. Owner phone/code/2FA and one explicitly approved controlled send remain the only unpassed canaries. No company message, migration, webhook change or secret rotation occurred during this release.
+
+## Repeated phone preparation recovery
+
+The first fresh owner attempt after the TTL/ACK rollout reached `awaiting_code`, and the Windows Bridge recorded `phone_code_requested`; the Telegram code was received by the owner. The owner intentionally did not enter it and started a fresh connection with a different number. The second browser attempt stopped after 20 seconds before the Bridge published `awaiting_phone`. Durable timestamps show the new Bridge command completed after 28 seconds, so the second phone and code request never crossed the provider boundary. This was a browser readiness deadline mismatch, not Telegram rate limiting or a revoked session.
+
+Source `4329ed3` extends only the read-only preparation budget from 20 to 45 seconds, covering one mailbox poll plus the Bridge's bounded Telegram reconnect. It still encrypts and submits the phone exactly once only after a fresh bound input channel exists; cancellation, stale challenges and changed auth state continue to fail closed. A permanent regression test models the two 15-second readiness cycles after cancellation. Lead Radar passes 305/305 tests; both TypeScript projects, scoped ESLint, secret scan and the full Cloudflare/SEO build pass with 0 critical SEO findings and sitemap 259.
+
+Rollout result: exact source `4329ed3` is canonical production deployment `a6b40443-f674-4f64-b641-e4063b056344` (`https://a6b40443.ai-direct-pro-landing.pages.dev`). Canonical root/RU/UZ/admin and immutable admin return 200; admin remains `no-store`/`noindex`; the live admin asset contains the 45-second preparation and fail-closed timeout markers; sitemap remains 259. Gateway 1.2.1, Windows Bridge 1.2.0, Telegram webhook, SEO content, storage and secrets were unchanged. No company message was sent.

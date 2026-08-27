@@ -1,9 +1,10 @@
 # GPTBot Agents — Handoff
 
 > Lead Radar-only release (2026-08-27): see `../lead-radar/TELEGRAM_RELEASE_20260827.md`.
-> Source `bf275e9048c7762ff86ca9728fc140f903e44489` is live on Pages deployment `d4074317-daef-4f28-848e-febbfb848189`; gateway 1.2.1 is live as deployment `ef77f06b-4b79-4f93-b326-90edd5ecec6e` / Worker version `49d93788-8aec-4a4d-8f3d-b5049acb9c7b`; Windows Bridge 1.2.0 and its DPAPI vault are preserved. HTTP, admin-boundary and SEO canaries pass; owner login/send canary remains pending.
+> Source `4329ed3` is live on Pages deployment `a6b40443-f674-4f64-b641-e4063b056344`; gateway 1.2.1 remains deployment `ef77f06b-4b79-4f93-b326-90edd5ecec6e` / Worker version `49d93788-8aec-4a4d-8f3d-b5049acb9c7b`; Windows Bridge 1.2.0 and its DPAPI vault are preserved. HTTP, admin-boundary and SEO canaries pass. Phone code delivery passed once; code/2FA completion and the controlled-send canary remain pending.
 > The explicit phone submit now waits for its bound Bridge challenge and submits exactly once instead of deadlocking on UI polling. No company message was sent during repair or deployment.
 > The first owner attempt exposed a second defect: browser input used the ten-minute ceremony expiry but Bridge input accepts at most 90 seconds, then gateway refused to ACK the safe local failure. The 60-second envelope plus gateway 1.2.1 terminal ACK is now deployed. Live admin assets contain the new markers; root/RU/UZ/admin, immutable admin, unauthenticated API, sitemap and SEO canaries pass. No Telegram provider call or company message occurred during the failed attempt or deployment.
+> The next attempt proved end-to-end code delivery. When the owner cancelled it and chose another number, the fresh Bridge input channel took 28 seconds to become ready while the browser allowed only 20 seconds; the second number never reached Telegram. Source `4329ed3` raises only that read-only readiness budget to 45 seconds, retains exactly-once phone submission, and adds a permanent cancellation/reconnect regression test. It is deployed and live-marker verified; no company message was sent.
 > The Bormi stages and acceptance requirements below are unchanged.
 
 > **Fresh Bormi operational handoff (2026-08-02):** before touching the Market

@@ -2,15 +2,15 @@
   "project": "gptbot-agents",
   "lead_radar_telegram_release": {
     "date": "2026-08-27",
-    "status": "auth_input_ttl_and_ack_hotfix_deployed_owner_canary_pending",
-    "code_commit": "bf275e9048c7762ff86ca9728fc140f903e44489",
-    "pages_deployment": "d4074317-daef-4f28-848e-febbfb848189",
+    "status": "repeat_phone_preparation_fix_deployed_code_delivery_passed_login_completion_pending",
+    "code_commit": "4329ed3",
+    "pages_deployment": "a6b40443-f674-4f64-b641-e4063b056344",
     "gateway_deployment": "ef77f06b-4b79-4f93-b326-90edd5ecec6e",
     "gateway_worker_version": "49d93788-8aec-4a4d-8f3d-b5049acb9c7b",
     "baseline_commit": "da3b93fcc1c9ae97294353f57ed9cd821bebcb5d",
     "handoff": "docs/lead-radar/TELEGRAM_RELEASE_20260827.md",
-    "verification": "Gateway 1.2.1 and exact Pages source bf275e9 are canonical production. 304 Lead Radar tests, both TypeScript projects, scoped ESLint, secret scan, production build and SEO audit pass. Live root/RU/UZ/admin and immutable admin return 200; admin is no-store/noindex; unauthenticated Telegram account/Bridge APIs return 401; live bundle contains the terminal-ACK and 60-second envelope markers; sitemap remains 259. Windows Bridge is running and status/self-test pass with the existing DPAPI vault preserved. No Telegram provider call or company message occurred during repair/deployment.",
-    "next_step": "Owner refreshes Lead Radar and completes a fresh phone/code/2FA login. Then verify the masked connected identity. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
+    "verification": "The first fresh owner attempt reached awaiting_code and Telegram delivered the code. After intentional cancellation and switching numbers, the second Bridge readiness transition took 28 seconds while the browser allowed 20; the second number and code request never reached Telegram. Exact Pages source 4329ed3 extends only the read-only budget to 45 seconds and preserves exactly-once submission. 305 Lead Radar tests, both TypeScript projects, scoped ESLint, secret scan, production build and SEO audit pass. Live root/RU/UZ/admin and immutable admin return 200; admin is no-store/noindex; the live bundle contains the 45-second timeout marker; sitemap remains 259. Gateway 1.2.1, Bridge 1.2.0, webhook and SEO content are unchanged. No company message was sent.",
+    "next_step": "Owner hard-refreshes Lead Radar, uses the already-ready fresh connection or starts one connection, enters the new number once, then enters the received code and 2FA if requested. Verify the masked connected identity. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Bormi voice search merged to main and deployed at 4367850; native Telegram owner canary outstanding",
