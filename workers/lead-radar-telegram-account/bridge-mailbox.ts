@@ -55,7 +55,7 @@ const PUBLIC_BRIDGE_ORIGIN_FALLBACK =
 const MAILBOX_NAME = 'global-v1';
 const PAIRING_TTL_MS = 5 * 60_000;
 const AUTH_TTL_MS = 10 * 60_000;
-const RELAY_TTL_MS = 90_000;
+const RELAY_TTL_MS = 10 * 60_000;
 const HEARTBEAT_FRESH_MS = 95_000;
 const COMMAND_LEASE_MS = 90_000;
 const COMMAND_TTL_MS = 24 * 60 * 60_000;
@@ -500,7 +500,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         schema: BRIDGE_SCHEMA,
         status: 'registered',
         device_id: existing.deviceId,
-        poll_after_seconds: 30,
+        poll_after_seconds: 15,
       });
       return signedRegistrationResponse({
         responseBody,
@@ -555,7 +555,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       schema: BRIDGE_SCHEMA,
       status: 'registered',
       device_id: deviceId,
-      poll_after_seconds: 30,
+      poll_after_seconds: 15,
     });
     return signedRegistrationResponse({
       responseBody,
@@ -663,7 +663,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         schema: BRIDGE_SCHEMA,
         status: 'command',
         server_time: Math.floor(Date.now() / 1_000),
-        poll_after_seconds: 30,
+        poll_after_seconds: 15,
         command: {
           id: command.commandId,
           kind: command.kind,
@@ -676,7 +676,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         schema: BRIDGE_SCHEMA,
         status: 'idle',
         server_time: Math.floor(Date.now() / 1_000),
-        poll_after_seconds: 30,
+        poll_after_seconds: 15,
         command: null,
       });
     return signedBridgeResponse({

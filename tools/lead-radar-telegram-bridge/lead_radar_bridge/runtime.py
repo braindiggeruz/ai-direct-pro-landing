@@ -36,9 +36,11 @@ from .security import DpapiVault, SecurityError, secure_directory
 from .telegram_adapter import ProviderOutcome, TelethonAccount
 
 
-VERSION = "1.1.1"
+VERSION = "1.1.2"
 MAX_AUTH_SECONDS = 10 * 60
 MAX_COMMAND_FUTURE_SECONDS = 10 * 60
+RELAY_TTL_SECONDS = 10 * 60
+RELAY_SAFETY_SECONDS = 5
 
 
 def _iso(value: Any, *, maximum_future: int = MAX_COMMAND_FUTURE_SECONDS) -> dt.datetime:
@@ -271,7 +273,10 @@ class BridgeRuntime:
 
     @staticmethod
     def _relay_expiry(expires_at: int) -> str:
-        deadline = min(expires_at, int(time.time()) + 85)
+        deadline = min(
+            expires_at,
+            int(time.time()) + RELAY_TTL_SECONDS - RELAY_SAFETY_SECONDS,
+        )
         if deadline <= int(time.time()) + 5:
             raise ProtocolError("auth_relay_expired")
         return dt.datetime.fromtimestamp(
@@ -281,11 +286,15 @@ class BridgeRuntime:
     async def _new_qr_progress(self, command: BridgeCommand, sequence: int) -> dict[str, Any]:
         org_id, auth_id, account_ref, browser, expires = self._connect_payload(command)
         qr_url = await self.telegram.begin_qr(auth_id)
-        browser_expiry = _iso(browser["expires_at"], maximum_future=95)
+        browser_expiry = _iso(
+            browser["expires_at"], maximum_future=RELAY_TTL_SECONDS + RELAY_SAFETY_SECONDS,
+        )
         relay_expiry_value = min(
             expires,
             browser_expiry,
-            dt.datetime.now(dt.timezone.utc) + dt.timedelta(seconds=85),
+            dt.datetime.now(dt.timezone.utc) + dt.timedelta(
+                seconds=RELAY_TTL_SECONDS - RELAY_SAFETY_SECONDS,
+            ),
         )
         if relay_expiry_value <= dt.datetime.now(dt.timezone.utc) + dt.timedelta(seconds=5):
             raise ProtocolError("browser_key_expired")
@@ -429,7 +438,10 @@ class BridgeRuntime:
                 expires_at=active.expires_at,
             )
             if not active.password_reported:
-                relay_deadline = min(active.expires_at, int(time.time()) + 85)
+                relay_deadline = min(
+                    active.expires_at,
+                    int(time.time()) + RELAY_TTL_SECONDS - RELAY_SAFETY_SECONDS,
+                )
                 if relay_deadline <= int(time.time()) + 5:
                     raise ProtocolError("password_relay_expired")
                 relay_expires_at = dt.datetime.fromtimestamp(
@@ -547,6 +559,10 @@ class BridgeRuntime:
                     phone=value,
                     phone_code_hash=phone_code_hash,
                 )
+                # Deliberately omit the phone and challenge identifiers. This
+                # lets support distinguish a real Telegram acknowledgement
+                # from a browser/mailbox timeout without logging private data.
+                self.logger.info("phone_code_requested")
             finally:
                 value = ""
             return result_body(
@@ -1052,6 +1068,23 @@ class BridgeRuntime:
                             status="ambiguous",
                             result_code="provider_outcome_unknown",
                             result={"effect_id": str(command.payload.get("effect_id", ""))},
+                        )
+                        await self._submit(command, body)
+                elif command.kind in {"connect", "connect_phone", "submit_auth", "submit_password"}:
+                    # Authentication provider/network failures must always
+                    # close the browser request with an explicit uncertain
+                    # outcome. Leaving these commands leased makes the owner
+                    # stare at a spinner until both relay and HTTP deadlines
+                    # expire, while providing no safe retry signal.
+                    previous = self.ledger.last_result(command.id)
+                    sequence = int(previous.get("sequence", 0)) + 1 if previous else 1
+                    if sequence <= 32:
+                        body = result_body(
+                            command_id=command.id,
+                            sequence=sequence,
+                            status="ambiguous",
+                            result_code="provider_outcome_unknown",
+                            result={},
                         )
                         await self._submit(command, body)
         return idle_delay(delay)

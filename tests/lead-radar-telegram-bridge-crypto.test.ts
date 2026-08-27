@@ -10,6 +10,8 @@ import {
   telegramBridgeEnrollmentUri,
 } from '../src/admin/lib/lead-radar-telegram-bridge-crypto';
 import {
+  LEAD_RADAR_TELEGRAM_BRIDGE_POLL_SECONDS,
+  LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS,
   LEAD_RADAR_TELEGRAM_BRIDGE_SCHEMA,
   type LeadRadarTelegramBridgeE2eEnvelope,
 } from '../src/shared/lead-radar-telegram-bridge';
@@ -20,6 +22,11 @@ const DEVICE = `lrtgbd_${'1'.repeat(32)}`;
 const COMMAND = `lrtgbc_${'2'.repeat(32)}`;
 const AUTH = 'auth_local_bridge_1234567890';
 const QR_PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=';
+
+test('interactive login timing allows human entry while polling promptly', () => {
+  assert.equal(LEAD_RADAR_TELEGRAM_BRIDGE_POLL_SECONDS, 15);
+  assert.equal(LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS, 600);
+});
 
 function b64url(bytes: Uint8Array): string {
   return Buffer.from(bytes).toString('base64url');

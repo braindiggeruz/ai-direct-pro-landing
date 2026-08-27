@@ -76,6 +76,7 @@ class FakeTelegram:
         self.text_calls = 0
         self.pending_phone = None
         self.pending_phone_code_hash = None
+        self.phone_error: BaseException | None = None
 
     async def begin_qr(self, _auth_id: str) -> str:
         self.begin_calls += 1
@@ -85,6 +86,8 @@ class FakeTelegram:
         self.begin_calls += 1
 
     async def submit_phone(self, phone: str) -> str:
+        if self.phone_error is not None:
+            raise self.phone_error
         self.pending_phone = phone
         self.pending_phone_code_hash = "hash-12345678"
         return self.pending_phone_code_hash
@@ -286,6 +289,10 @@ class BridgeRuntimeTests(unittest.IsolatedAsyncioTestCase):
             )
             await runtime.handle_command(mailbox.command)
             self.assertEqual(mailbox.submitted[-1]["result_code"], "awaiting_phone")
+            relay_expires = dt.datetime.fromisoformat(
+                str(mailbox.submitted[-1]["result"]["expires_at"]).replace("Z", "+00:00"),
+            ).timestamp()
+            self.assertGreater(relay_expires, time.time() + 300)
             phone_command = auth_input_command("lrtgbc_" + "c" * 32, "phone")
             with mock.patch(
                 "lead_radar_bridge.runtime.envelope_decrypt_context",
@@ -303,6 +310,30 @@ class BridgeRuntimeTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(mailbox.submitted[-1]["result_code"], "connected")
             self.assertNotIn("pending_phone", state["telegram"])
             self.assertNotIn("pending_phone_code_hash", state["telegram"])
+            ledger.close()
+
+    async def test_phone_provider_uncertainty_finishes_command_instead_of_spinning(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            runtime, ledger, mailbox, telegram, _state = self.make_runtime(
+                folder, phone_connect_command(),
+            )
+            await runtime.handle_command(mailbox.command)
+            phone_command = auth_input_command("lrtgbc_" + "c" * 32, "phone")
+            mailbox.command = phone_command
+            telegram.phone_error = TimeoutError("fixture provider timeout")
+            with mock.patch(
+                "lead_radar_bridge.runtime.envelope_decrypt_context",
+                return_value="+998901234567",
+            ):
+                await runtime.run_once()
+            self.assertEqual(mailbox.submitted[-1], {
+                "schema": "gptbot.lead-radar.telegram-bridge.v1",
+                "command_id": phone_command.id,
+                "sequence": 1,
+                "status": "ambiguous",
+                "result_code": "provider_outcome_unknown",
+                "result": {},
+            })
             ledger.close()
 
     async def test_disconnect_retries_more_than_32_times_without_consuming_sequence(self) -> None:

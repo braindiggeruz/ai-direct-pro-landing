@@ -480,7 +480,6 @@ function TelegramPhoneAuthForm({
     setBusy(true);
     onBusyChange(true);
     setError(null);
-    setValue('');
     try {
       const inputEnvelope = await encryptTelegramBridgeAuthInput({
         bridgePublicKeySpki: encryptionKey.spki,
@@ -499,6 +498,7 @@ function TelegramPhoneAuthForm({
         inputEnvelope,
       });
       onResolved(next);
+      setValue('');
       if (next.reasonCode === 'phone_invalid') setError('Telegram не принял этот номер. Проверьте код страны и номер.');
       if (next.reasonCode === 'code_invalid') setError('Telegram не принял код. Введите последний полученный код ещё раз.');
     } catch (submitError) {
@@ -518,8 +518,8 @@ function TelegramPhoneAuthForm({
       </h4>
       <p id={helpId} className="mt-1 text-center text-xs leading-5 text-white/60">
         {phoneStep
-          ? 'Укажите номер с кодом страны. Он зашифруется в этой вкладке и попадёт только в локальный Bridge.'
-          : 'Telegram прислал код в приложение или SMS. Код шифруется на этом устройстве и не сохраняется сайтом.'}
+          ? 'Укажите номер с кодом страны. Он зашифруется в этой вкладке и попадёт только в локальный Bridge. Запрос обычно занимает до 20 секунд.'
+          : 'Telegram прислал код в приложение или SMS. Код шифруется на этом устройстве и не сохраняется сайтом. Проверка обычно занимает до 20 секунд.'}
       </p>
       <Label htmlFor={fieldId} className="mt-4">{phoneStep ? 'Номер телефона' : 'Код подтверждения'}</Label>
       <Input
