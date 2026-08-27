@@ -1,8 +1,8 @@
 # Telegram connection release — 2026-08-27
 
-Deployed source: `6d30e7acf56a30d714aa2b9f031317433e3c4144`.
-Pages: `d44eade5-1241-41b0-af6c-8d778aa81a60` (canonical production, success).
-Gateway: `361fd697-8316-4f5e-9539-206fb954041b`, version 1.2.0.
+Deployed source: `bf275e9048c7762ff86ca9728fc140f903e44489`.
+Pages: `d4074317-daef-4f28-848e-febbfb848189` (canonical production, success).
+Gateway: deployment `ef77f06b-4b79-4f93-b326-90edd5ecec6e`, Worker version `49d93788-8aec-4a4d-8f3d-b5049acb9c7b`, gateway version 1.2.1.
 Windows Bridge: 1.2.0 installed and scheduled task restarted; existing vault preserved.
 Owner login/send canary is still pending, not claimed as passed.
 
@@ -35,4 +35,6 @@ Rollout result: source `3395a80e7af567468aaa7cdc2eff5a824baea85d` is the canonic
 
 The first owner attempt against `3395a80` proved the next cross-runtime defect without crossing Telegram's provider boundary. The Bridge durably acknowledged `awaiting_phone`, then recorded `local_validation_failed`; no `awaiting_code` or send effect exists. The browser bound the encrypted input to the ten-minute human ceremony expiry, while the Windows Bridge enforces a 90-second anti-replay ceiling for each individual input envelope. The otherwise valid phone was therefore rejected locally. The gateway then rejected that safe terminal result shape, leaving it unacknowledged and replaying while the UI waited.
 
-The candidate caps each browser phone/code envelope at 60 seconds while retaining the ten-minute human ceremony. Gateway 1.2.1 accepts the exact empty `local_validation_failed` result, closes the one-use command as `bridge_input_rejected`, and requires a fresh explicit owner action; it never claims that Telegram was called and never retries a code request. Permanent tests cover both the ten-minute production challenge and the terminal ACK path. Full Lead Radar tests pass 304/304; both TypeScript projects and scoped ESLint pass. Deployment is pending; production still serves Pages `5ccd3d24` and gateway 1.2.0 at this point.
+The candidate caps each browser phone/code envelope at 60 seconds while retaining the ten-minute human ceremony. Gateway 1.2.1 accepts the exact empty `local_validation_failed` result, closes the one-use command as `bridge_input_rejected`, and requires a fresh explicit owner action; it never claims that Telegram was called and never retries a code request. Permanent tests cover both the ten-minute production challenge and the terminal ACK path. Full Lead Radar tests pass 304/304; both TypeScript projects and scoped ESLint pass.
+
+Rollout result: gateway 1.2.1 was deployed first as deployment `ef77f06b-4b79-4f93-b326-90edd5ecec6e` / Worker version `49d93788-8aec-4a4d-8f3d-b5049acb9c7b`, followed by exact Pages source `bf275e9048c7762ff86ca9728fc140f903e44489` as canonical production deployment `d4074317-daef-4f28-848e-febbfb848189` (`https://d4074317.ai-direct-pro-landing.pages.dev`). Canonical root/RU/UZ/admin and immutable admin probes return 200; the live admin bundle contains the `bridge_input_rejected` and 60-second envelope markers; unauthenticated account and Bridge APIs return 401 with `no-store`; admin remains `no-store`/`noindex`; root canonical/hreflang metadata remains present; sitemap still contains 259 URLs. The scheduled Windows Bridge is running and its built-in status and self-test both pass with the existing DPAPI vault preserved. The historical locally rejected input predates this deployment and never crossed Telegram's provider boundary; its durable row remains inert for that closed command and does not affect fresh command IDs. Owner phone/code/2FA and one explicitly approved controlled send remain the only unpassed canaries. No company message, migration, webhook change or secret rotation occurred during this release.
