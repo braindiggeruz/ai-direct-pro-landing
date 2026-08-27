@@ -2,15 +2,15 @@
   "project": "gptbot-agents",
   "lead_radar_telegram_release": {
     "date": "2026-08-27",
-    "status": "repeat_phone_preparation_fix_deployed_code_delivery_passed_login_completion_pending",
-    "code_commit": "4329ed3",
-    "pages_deployment": "a6b40443-f674-4f64-b641-e4063b056344",
-    "gateway_deployment": "ef77f06b-4b79-4f93-b326-90edd5ecec6e",
-    "gateway_worker_version": "49d93788-8aec-4a4d-8f3d-b5049acb9c7b",
+    "status": "telegram_2fa_relay_fix_deployed_fresh_owner_login_required",
+    "code_commit": "9d3d2b7",
+    "pages_deployment": "09b442fd-a472-4e66-be52-fa199e7b02ca",
+    "gateway_deployment": "bd5eae95-76fb-4b1d-af7f-79c51c0c416a",
+    "gateway_worker_version": "6aa02786-0a1a-4c9b-85d3-a857c9a63f6a",
     "baseline_commit": "da3b93fcc1c9ae97294353f57ed9cd821bebcb5d",
     "handoff": "docs/lead-radar/TELEGRAM_RELEASE_20260827.md",
-    "verification": "The first fresh owner attempt reached awaiting_code and Telegram delivered the code. After intentional cancellation and switching numbers, the second Bridge readiness transition took 28 seconds while the browser allowed 20; the second number and code request never reached Telegram. Exact Pages source 4329ed3 extends only the read-only budget to 45 seconds and preserves exactly-once submission. 305 Lead Radar tests, both TypeScript projects, scoped ESLint, secret scan, production build and SEO audit pass. Live root/RU/UZ/admin and immutable admin return 200; admin is no-store/noindex; the live bundle contains the 45-second timeout marker; sitemap remains 259. Gateway 1.2.1, Bridge 1.2.0, webhook and SEO content are unchanged. No company message was sent.",
-    "next_step": "Owner hard-refreshes Lead Radar, uses the already-ready fresh connection or starts one connection, enters the new number once, then enters the received code and 2FA if requested. Verify the masked connected identity. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
+    "verification": "The owner received and entered the Telegram code and reached the 2FA step, but was not connected: the production-shaped 2FA password envelope inherited the remaining ten-minute ceremony lifetime while Windows Bridge accepts an individual password envelope for at most 90 seconds. The Bridge rejected it locally as e2e_expired before Telegram and the gateway did not ACK that safe terminal result, leaving the UI pending. Source 9d3d2b7 caps the one-use password envelope at 60 seconds and gateway 1.2.2 ACKs local_validation_failed, rotates only the password slot while live, and never claims a provider rejection. The expired provisional session was logged out and cannot be reused. 305/305 Lead Radar tests, both TypeScript projects, scoped ESLint, secret scan, production build and SEO audit pass. Live root/RU/UZ/admin return 200; admin is no-store/noindex; the live bundle contains both 2FA recovery markers and the truthful Russian copy; sitemap remains 259. Bridge 1.2.0, Telegram webhook and SEO content are unchanged. No company message was sent.",
+    "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Bormi voice search merged to main and deployed at 4367850; native Telegram owner canary outstanding",
