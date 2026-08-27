@@ -521,6 +521,14 @@ function TelegramPhoneAuthForm({
           ? 'Укажите номер с кодом страны. Он зашифруется в этой вкладке и попадёт только в локальный Bridge. Запрос обычно занимает до 20 секунд.'
           : 'Telegram прислал код в приложение или SMS. Код шифруется на этом устройстве и не сохраняется сайтом. Проверка обычно занимает до 20 секунд.'}
       </p>
+      {!phoneStep && (
+        <a
+          href="tg://resolve?domain=Telegram"
+          className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-brand-cyan/30 bg-brand-cyan/[0.07] px-4 py-2 text-sm font-semibold text-white hover:bg-brand-cyan/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
+        >
+          <ExternalLink size={16} aria-hidden="true" />Открыть Telegram за кодом
+        </a>
+      )}
       <Label htmlFor={fieldId} className="mt-4">{phoneStep ? 'Номер телефона' : 'Код подтверждения'}</Label>
       <Input
         id={fieldId}

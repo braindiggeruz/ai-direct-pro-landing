@@ -550,6 +550,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /Введите номер Telegram/);
   assert.match(component, /Получить код/);
   assert.match(component, /Подтвердить код/);
+  assert.match(component, /href="tg:\/\/resolve\?domain=Telegram"[\s\S]{0,420}Открыть Telegram за кодом/);
   assert.match(component, /encryptTelegramBridgeAuthInput\(\{/);
   assert.match(component, /leadRadarSubmitTelegramAccountAuthInput/);
   assert.match(component, /decryptTelegramBridgeQrEnvelope\([\s\S]{0,500}setDecryptedQr\(qr\)/);
