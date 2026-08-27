@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import asyncio
 import datetime as dt
+import threading
 import sys
 import tempfile
 import time
@@ -231,6 +233,35 @@ def validate_media_command() -> BridgeCommand:
 
 
 class BridgeRuntimeTests(unittest.IsolatedAsyncioTestCase):
+    async def test_mailbox_io_does_not_block_telegram_event_loop(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            runtime, ledger, mailbox, _telegram, _state = self.make_runtime(folder, phone_connect_command())
+            released = threading.Event()
+            def blocking_poll(_version):
+                if not released.wait(0.5):
+                    raise AssertionError("mailbox blocked event loop")
+                return None, 2
+            mailbox.poll = blocking_poll
+            asyncio.get_running_loop().call_later(0.02, released.set)
+            try:
+                self.assertEqual(await runtime.run_once(), 2)
+            finally:
+                ledger.close()
+
+    async def test_failed_provider_probe_never_finalizes_local_custody(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            runtime, ledger, _mailbox, telegram, state = self.make_runtime(folder, phone_connect_command())
+            try:
+                await runtime.run_once()
+                telegram.probe = mock.AsyncMock(side_effect=TimeoutError())
+                probe = BridgeCommand("lrtgbc_" + "f" * 32, "probe", 1, iso_after(90), {"account_ref": ACCOUNT_REF, "finalize_auth_id": AUTH_ID})
+                with self.assertRaises(TimeoutError):
+                    await runtime._probe(probe)
+                self.assertEqual(ledger.auth_custody(AUTH_ID)["state"], "provisional")
+                self.assertEqual(state["telegram"]["custody"], "provisional")
+            finally:
+                ledger.close()
+
     def make_runtime(self, folder: str, command: BridgeCommand):
         ledger = BridgeLedger(Path(folder) / "ledger.sqlite3")
         mailbox = FakeMailbox(command)
@@ -331,7 +362,7 @@ class BridgeRuntimeTests(unittest.IsolatedAsyncioTestCase):
                 "command_id": phone_command.id,
                 "sequence": 1,
                 "status": "ambiguous",
-                "result_code": "provider_outcome_unknown",
+                "result_code": "telegram_timeout",
                 "result": {},
             })
             ledger.close()

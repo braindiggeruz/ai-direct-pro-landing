@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import sys
 import tempfile
 import unittest
@@ -78,6 +79,47 @@ def account(client: FakeClient, folder: Path) -> TelethonAccount:
 
 
 class TelegramAdapterTests(unittest.IsolatedAsyncioTestCase):
+    async def test_auth_rpc_deadlines_do_not_claim_a_code_or_retry(self) -> None:
+        async def stalled(*_args, **_kwargs):
+            await asyncio.Event().wait()
+
+        with tempfile.TemporaryDirectory() as folder:
+            client = FakeClient(User(id=123, username="clinic_uz"))
+            bridge = account(client, Path(folder))
+            bridge.request_timeout = 0.01
+            client.send_code_request = mock.AsyncMock(side_effect=stalled)
+            with self.assertRaises(TimeoutError):
+                await bridge.submit_phone("+998901234567")
+            self.assertIsNone(bridge.pending_phone_code_hash)
+            self.assertEqual(client.send_code_request.await_count, 1)
+            client.sign_in = mock.AsyncMock(side_effect=stalled)
+            with self.assertRaises(TimeoutError):
+                await bridge.submit_code("12345", phone="+998901234567", phone_code_hash="hash-12345678")
+            with self.assertRaises(TimeoutError):
+                await bridge.submit_password("fixture-password")
+            self.assertEqual(client.sign_in.await_count, 2)
+
+    async def test_probe_timeout_is_not_misreported_as_revocation_or_restriction(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            client = FakeClient(User(id=123, username="clinic_uz"))
+            bridge = account(client, Path(folder))
+            client.is_user_authorized = mock.AsyncMock(side_effect=TimeoutError())
+            with self.assertRaises(TimeoutError):
+                await bridge.probe()
+
+    async def test_send_deadline_is_ambiguous_and_never_retries(self) -> None:
+        async def stalled(*_args, **_kwargs):
+            await asyncio.Event().wait()
+
+        with tempfile.TemporaryDirectory() as folder:
+            client = FakeClient(User(id=123, username="clinic_uz"))
+            bridge = account(client, Path(folder))
+            bridge.request_timeout = 0.01
+            client.send_message = mock.AsyncMock(side_effect=stalled)
+            outcome = await bridge.send_text("clinic_uz", "fixture canary")
+            self.assertEqual(outcome.kind, "ambiguous")
+            self.assertEqual(client.send_message.await_count, 1)
+
     async def test_phone_code_login_uses_exact_telethon_challenge(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             client = FakeClient(User(id=123, username="clinic_uz"))

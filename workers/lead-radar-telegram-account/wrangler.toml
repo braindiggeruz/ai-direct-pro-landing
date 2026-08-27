@@ -23,7 +23,7 @@ bucket_name = "gptbot-lead-radar-campaign-media"
 
 [vars]
 LEAD_RADAR_TELEGRAM_ACCOUNT_KEY_VERSION = "v1"
-LEAD_RADAR_TELEGRAM_GATEWAY_VERSION = "1.0.0"
+LEAD_RADAR_TELEGRAM_GATEWAY_VERSION = "1.2.0"
 LEAD_RADAR_TELEGRAM_BRIDGE_PUBLIC_ORIGIN = "https://gptbot-lead-radar-telegram-account.braindigger-uz.workers.dev"
 
 # Secrets are provisioned through Cloudflare controls only:

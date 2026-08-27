@@ -16,6 +16,7 @@ import {
   LEAD_RADAR_TELEGRAM_BRIDGE_DEVICE_ID_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_PAIRING_ID_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_RSA_SPKI_PATTERN,
+  LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS,
   LEAD_RADAR_TELEGRAM_BRIDGE_SECRET_PATTERN,
   type LeadRadarTelegramBridgeBrowserKey,
   type LeadRadarTelegramBridgeE2eEnvelope,
@@ -90,6 +91,7 @@ export interface TelegramAccountConnectChallenge {
   bridgeEncryptionKey: Omit<LeadRadarTelegramBridgeBrowserKey, 'expires_at'> | null;
   expiresAt: string;
   reasonCode: string | null;
+  pendingAction?: 'phone' | 'code' | 'password' | null;
 }
 
 export type TelegramAccountConnectionPoll =
@@ -145,7 +147,8 @@ function validRelayExpiry(value: unknown): value is string {
   if (!validIso(value)) return false;
   const expiresAt = Date.parse(value);
   const now = Date.now();
-  return expiresAt > now - 5_000 && expiresAt <= now + 95_000;
+  return expiresAt > now - 5_000
+    && expiresAt <= now + LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS * 1_000 + 5_000;
 }
 
 function validMaskedLabel(value: unknown): value is string {
@@ -521,9 +524,13 @@ function detailedChallenge(envelope: ServiceEnvelope): TelegramAccountConnectCha
     'qr_envelope',
     ...(hasInputFields ? ['input_command_id', 'input_action'] : []),
     'password_command_id', 'reason_code',
+    ...(Object.hasOwn(envelope, 'pending_action') ? ['pending_action'] : []),
     ...(secretState ? ['bridge_encryption_key'] : []),
   ];
   if (!exactKeys(envelope, expected)
+    || (envelope.pending_action != null
+      && envelope.pending_action !== (passwordState ? 'password'
+        : inputState ? envelope.input_action : null))
     || !authStates.includes(envelope.status as TelegramAccountConnectChallenge['authState'])
     || typeof envelope.auth_id !== 'string'
     || !AUTH_ID_PATTERN.test(envelope.auth_id)
@@ -583,6 +590,7 @@ function detailedChallenge(envelope: ServiceEnvelope): TelegramAccountConnectCha
       : null,
     expiresAt: envelope.expires_at as string,
     reasonCode: envelope.reason_code as string | null,
+    pendingAction: (envelope.pending_action ?? null) as TelegramAccountConnectChallenge['pendingAction'],
   };
 }
 
@@ -865,7 +873,7 @@ export async function finalizeTelegramAccountConnection(input: {
   internalServiceToken?: string;
   orgId: string;
   authId: string;
-}): Promise<void> {
+}): Promise<boolean> {
   assertRequestScope(input.orgId);
   if (!AUTH_ID_PATTERN.test(input.authId)) {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_not_found');
@@ -879,7 +887,10 @@ export async function finalizeTelegramAccountConnection(input: {
       auth_id: input.authId,
     }),
   }, input.internalServiceToken);
-  if (response.status === 204) return;
+  if (response.status === 204) return true;
+  // The Bridge probe is queued, not yet acknowledged. Never promote D1 to
+  // connected until a later poll observes the provider-confirmed 204.
+  if (response.status === 202) return false;
   statusError(response);
 }
 

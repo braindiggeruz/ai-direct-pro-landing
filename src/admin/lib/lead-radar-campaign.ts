@@ -150,6 +150,7 @@ export type LeadRadarTelegramAccountAuthState =
   | 'awaiting_qr'
   | 'awaiting_code'
   | 'awaiting_password'
+  | 'finalizing'
   | 'connected';
 
 export interface LeadRadarTelegramBridgeEncryptionKey {
@@ -211,6 +212,8 @@ export interface LeadRadarTelegramAccountState {
   qr: LeadRadarTelegramAccountQr | null;
   /** Non-secret TDLib authorization step; password values never enter this model. */
   authState?: LeadRadarTelegramAccountAuthState | null;
+  authAttemptId?: string | null;
+  pendingAction?: 'phone' | 'code' | 'password' | null;
   reasonCode: string | null;
   /** Optional server attestation for the identity shown to the operator. */
   identityVerifiedAt?: string | null;
@@ -227,6 +230,29 @@ export type LeadRadarTelegramAccountQuickAction =
   | 'blocked_unconfigured'
   | 'blocked_restricted'
   | 'blocked_unknown';
+
+/** Only provider-acknowledged states may say that a code was requested. */
+export function telegramAuthProgress(account: LeadRadarTelegramAccountState | null): string | null {
+  if (!account) return null;
+  if (account.pendingAction === 'phone') return 'Команда принята. Bridge запрашивает код у Telegram; подтверждения ещё нет.';
+  if (account.pendingAction === 'code') return 'Команда принята. Telegram проверяет код.';
+  if (account.pendingAction === 'password') return 'Команда принята. Telegram проверяет пароль двухэтапной защиты.';
+  const errors: Record<string, string> = {
+    phone_invalid: 'Telegram отклонил номер. Проверьте номер и код страны.',
+    code_invalid: 'Telegram отклонил код. Введите последний полученный код.',
+    password_invalid: 'Telegram отклонил пароль двухэтапной защиты. Проверьте его и повторите ввод.',
+    code_expired: 'Код истёк. Начните новое подключение.',
+    auth_expired: 'Время входа истекло. Начните новое подключение.',
+    telegram_timeout: 'Telegram не ответил вовремя. Код не подтверждён. Проверьте сеть компьютера и начните новое подключение.',
+    auth_input_outcome_unknown: 'Нет подтверждения Telegram. Запрос не повторяется автоматически; обновите статус перед новой попыткой.',
+    auth_outcome_unknown: 'Нет подтверждения Telegram. Запрос не повторяется автоматически; обновите статус перед новой попыткой.',
+  };
+  if (account.reasonCode && errors[account.reasonCode]) return errors[account.reasonCode];
+  if (account.authState === 'finalizing') return 'Telegram принял вход. Bridge подтверждает сохранение сессии; отправка пока закрыта.';
+  if (account.authState === 'awaiting_code') return 'Telegram подтвердил запрос кода. Проверьте служебный чат Telegram на уже подключённом устройстве или SMS.';
+  if (account.authState === 'awaiting_password') return 'Код принят. Введите пароль двухэтапной защиты Telegram.';
+  return null;
+}
 
 export function telegramAccountQuickAction(
   status: LeadRadarTelegramAccountConnectionStatus | null,

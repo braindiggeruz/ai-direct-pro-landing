@@ -823,7 +823,7 @@ export const api = {
       'POST',
       `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}/password`,
       input,
-      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS },
     ),
   leadRadarSubmitTelegramAccountAuthInput: (
     authId: string,
@@ -837,7 +837,7 @@ export const api = {
       'POST',
       `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}/input`,
       input,
-      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS },
     ),
   leadRadarDisconnectTelegramAccount: (idempotencyKey: string) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(

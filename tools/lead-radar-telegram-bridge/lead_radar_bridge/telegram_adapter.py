@@ -93,6 +93,7 @@ class TelethonAccount:
         device_id: str,
         secure_temp: Path,
         client_factory: Callable[[str, int, str], Any] | None = None,
+        request_timeout: float = 20.0,
     ) -> None:
         if not 1_000 <= api_id <= 999_999_999_999 or not __import__("re").fullmatch(
             r"[a-f0-9]{32}", api_hash
@@ -104,6 +105,7 @@ class TelethonAccount:
         self.secure_temp = secure_temp
         self._session_value = session
         self._factory = client_factory or self._default_factory
+        self.request_timeout = request_timeout
         self.client: Any | None = None
         self.qr_login: Any | None = None
         self.auth_id: str | None = None
@@ -117,19 +119,29 @@ class TelethonAccount:
             from telethon.sessions import StringSession
         except ImportError as exc:
             raise TelegramBridgeError("telethon_dependency_missing") from exc
-        return TelegramClient(StringSession(session), api_id, api_hash)
+        return TelegramClient(
+            StringSession(session), api_id, api_hash,
+            timeout=10, connection_retries=1, request_retries=1,
+            retry_delay=1, flood_sleep_threshold=0, raise_last_call_error=True,
+            device_model="Lead Radar Windows Bridge", app_version="1.2.0",
+        )
+
+    async def _request(self, request: Awaitable[Any]) -> Any:
+        # Telethon's `timeout` only bounds connecting, not awaited RPCs.
+        # Never sleep through FloodWait or leave a mailbox command leased forever.
+        return await asyncio.wait_for(request, timeout=self.request_timeout)
 
     async def ensure_connected(self) -> Any:
         if self.client is None:
             self.client = self._factory(self._session_value, self.api_id, self.api_hash)
         if not self.client.is_connected():
-            await self.client.connect()
+            await self._request(self.client.connect())
         return self.client
 
     async def begin_qr(self, auth_id: str) -> str:
         client = await self.ensure_connected()
         self.auth_id = auth_id
-        self.qr_login = await client.qr_login()
+        self.qr_login = await self._request(client.qr_login())
         url = getattr(self.qr_login, "url", None)
         if not isinstance(url, str) or not __import__("re").fullmatch(
             r"tg://login\?token=[A-Za-z0-9_-]{16,512}={0,2}", url
@@ -148,7 +160,7 @@ class TelethonAccount:
         if not isinstance(phone, str) or not __import__("re").fullmatch(r"\+[1-9]\d{6,14}", phone):
             raise ProtocolError("phone_invalid")
         client = await self.ensure_connected()
-        sent = await client.send_code_request(phone, force_sms=False)
+        sent = await self._request(client.send_code_request(phone, force_sms=False))
         phone_code_hash = getattr(sent, "phone_code_hash", None)
         if not isinstance(phone_code_hash, str) or not 8 <= len(phone_code_hash) <= 256:
             raise TelegramBridgeError("phone_code_hash_invalid")
@@ -163,7 +175,7 @@ class TelethonAccount:
             raise ProtocolError("code_invalid")
         client = await self.ensure_connected()
         try:
-            await client.sign_in(phone=phone, code=code, phone_code_hash=phone_code_hash)
+            await self._request(client.sign_in(phone=phone, code=code, phone_code_hash=phone_code_hash))
         except BaseException as error:
             if error.__class__.__name__ == "SessionPasswordNeededError":
                 return "awaiting_password"
@@ -193,19 +205,19 @@ class TelethonAccount:
         if not isinstance(password, str) or not 1 <= len(password.encode("utf-8")) <= 256 or "\x00" in password:
             raise ProtocolError("password_invalid")
         client = await self.ensure_connected()
-        await client.sign_in(password=password)
+        await self._request(client.sign_in(password=password))
         if not await self.is_authorized():
             raise TelegramBridgeError("password_rejected")
 
     async def is_authorized(self) -> bool:
         client = await self.ensure_connected()
-        return bool(await client.is_user_authorized())
+        return bool(await self._request(client.is_user_authorized()))
 
     async def connected_identity(self, expected_account_ref: str) -> tuple[str, str]:
         if not __import__("re").fullmatch(r"lracct_[A-Za-z0-9_-]{43}", expected_account_ref):
             raise TelegramBridgeError("account_ref_invalid")
         client = await self.ensure_connected()
-        user = await client.get_me()
+        user = await self._request(client.get_me())
         identifier = getattr(user, "id", None)
         if not isinstance(identifier, int) or identifier < 1:
             raise TelegramBridgeError("telegram_identity_invalid")
@@ -222,19 +234,22 @@ class TelethonAccount:
     async def probe(self) -> str:
         try:
             return "connected" if await self.is_authorized() else "reauth_required"
-        except BaseException as error:
+        except Exception as error:
             if error.__class__.__name__ in {"AuthKeyUnregisteredError", "SessionRevokedError"}:
                 return "revoked"
-            return "restricted"
+            if error.__class__.__name__ == "UserRestrictedError":
+                return "restricted"
+            # A network outage is not a Telegram restriction or revocation.
+            raise
 
     async def logout(self) -> None:
         client = await self.ensure_connected()
         confirmed = False
         try:
-            if not await client.is_user_authorized():
+            if not await self._request(client.is_user_authorized()):
                 confirmed = True
             else:
-                result = await client.log_out()
+                result = await self._request(client.log_out())
                 if result is False:
                     raise TelegramBridgeError("telegram_logout_unconfirmed")
                 confirmed = True
@@ -248,14 +263,14 @@ class TelethonAccount:
                 # can retry the provider logout. Local deletion alone is not a
                 # revocation acknowledgement.
                 try:
-                    await client.disconnect()
+                    await self._request(client.disconnect())
                 finally:
                     self.client = None
                 raise
         finally:
             if confirmed:
                 try:
-                    await client.disconnect()
+                    await self._request(client.disconnect())
                 finally:
                     self.client = None
                     self.qr_login = None
@@ -265,10 +280,10 @@ class TelethonAccount:
 
     async def close_unauthorized_auth(self) -> None:
         client = await self.ensure_connected()
-        if await client.is_user_authorized():
+        if await self._request(client.is_user_authorized()):
             await self.logout()
             return
-        await client.disconnect()
+        await self._request(client.disconnect())
         self.client = None
         self.qr_login = None
         self.pending_phone = None
@@ -283,7 +298,7 @@ class TelethonAccount:
             raise TelegramBridgeError("telethon_dependency_missing") from exc
         # Prefixing with `@` forces username resolution. Passing a bare digit
         # sequence lets Telethon interpret it as an id/phone/contact lookup.
-        entity = await client.get_entity(f"@{endpoint}")
+        entity = await self._request(client.get_entity(f"@{endpoint}"))
         if (not isinstance(entity, User)
             or bool(getattr(entity, "bot", False))
             or bool(getattr(entity, "deleted", False))
@@ -297,13 +312,13 @@ class TelethonAccount:
             return ProviderOutcome("failed", code="provider_rejected")
         try:
             client, entity = await self._resolved_regular_user(endpoint)
-            message = await client.send_message(
+            message = await self._request(client.send_message(
                 entity,
                 text,
                 parse_mode=None,
                 formatting_entities=[],
                 link_preview=False,
-            )
+            ))
             message_id = getattr(message, "id", None)
             if not isinstance(message_id, int) or message_id < 1:
                 return ProviderOutcome("ambiguous")
@@ -321,14 +336,14 @@ class TelethonAccount:
         try:
             client, entity = await self._resolved_regular_user(endpoint)
             with private_photo_file(sanitized, self.secure_temp) as photo:
-                message = await client.send_file(
+                message = await self._request(client.send_file(
                     entity,
                     str(photo),
                     caption=text,
                     parse_mode=None,
                     formatting_entities=[],
                     force_document=False,
-                )
+                ))
             message_id = getattr(message, "id", None)
             if not isinstance(message_id, int) or message_id < 1:
                 return ProviderOutcome("ambiguous")

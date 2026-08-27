@@ -7,6 +7,7 @@ import {
   LEAD_RADAR_TELEGRAM_BRIDGE_NONCE_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_PAIRING_ID_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_RSA_SPKI_PATTERN,
+  LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS,
   LEAD_RADAR_TELEGRAM_BRIDGE_SCHEMA,
   LEAD_RADAR_TELEGRAM_BRIDGE_SECRET_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_SIGNATURE_PATTERN,
@@ -392,7 +393,8 @@ export function validBridgeBrowserKey(value: unknown): value is BridgeJsonRecord
     && typeof value.expires_at === 'string'
     && Number.isFinite(Date.parse(value.expires_at))
     && Date.parse(value.expires_at) > Date.now() - 5_000
-    && Date.parse(value.expires_at) <= Date.now() + 95_000;
+    && Date.parse(value.expires_at) <= Date.now()
+      + LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS * 1_000 + 5_000;
 }
 
 export function validBridgeE2eEnvelope(value: unknown): boolean {

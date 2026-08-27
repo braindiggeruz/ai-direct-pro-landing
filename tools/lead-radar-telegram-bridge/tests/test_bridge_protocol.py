@@ -149,7 +149,7 @@ class BridgeProtocolTests(unittest.TestCase):
         self.assertEqual(seen[0][0], "https://lead-radar-bridge.gptbot.uz/v1/bridge/poll")
         self.assertEqual(
             seen[0][1].get("User-agent"),
-            "GPTBot-LeadRadar-Telegram-Bridge/1.1.2",
+                "GPTBot-LeadRadar-Telegram-Bridge/1.2.0",
         )
 
     def test_qr_and_password_envelopes_bind_exact_context_and_key(self) -> None:

@@ -48,6 +48,7 @@ import {
   type JsonRecord,
 } from './protocol';
 import { telegramMessagePayloadDigest } from './message-effect';
+import { LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS } from '../../src/shared/lead-radar-telegram-bridge';
 
 
 const PUBLIC_BRIDGE_ORIGIN_FALLBACK =
@@ -55,7 +56,7 @@ const PUBLIC_BRIDGE_ORIGIN_FALLBACK =
 const MAILBOX_NAME = 'global-v1';
 const PAIRING_TTL_MS = 5 * 60_000;
 const AUTH_TTL_MS = 10 * 60_000;
-const RELAY_TTL_MS = 10 * 60_000;
+const RELAY_TTL_MS = LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS * 1_000;
 const HEARTBEAT_FRESH_MS = 95_000;
 const COMMAND_LEASE_MS = 90_000;
 const COMMAND_TTL_MS = 24 * 60 * 60_000;
@@ -127,6 +128,7 @@ interface AuthRecord {
   state: AuthState;
   adopted: boolean;
   finalized: boolean;
+  finalizeCommandId?: string;
   qrEnvelope: BridgeJsonRecord | null;
   relayExpiresAt: string | null;
   maskedLabel: string | null;
@@ -658,12 +660,22 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
   }): Promise<Response> {
     if (!validBridgePoll(auth.verified.body)) return new Response('Invalid request', { status: 400 });
     const command = await this.nextCommand(auth.device);
+    const activeId = await this.ctx.storage.get<string>(orgAuthKey(auth.device.orgId));
+    const active = activeId ? await this.ctx.storage.get<AuthRecord>(authKey(activeId)) : null;
+    const [major, minor] = auth.device.bridgeVersion.split('.').map(Number);
+    const supportsFastPoll = major > 1 || (major === 1 && minor >= 2);
+    const interactive = active && active.deviceId === auth.device.deviceId
+      && !active.finalized && Date.parse(active.expiresAt) > Date.now()
+      && !['revoked', 'error', 'restricted', 'reauth_required'].includes(active.state);
+    // Older installed Bridges reject delays below 15 seconds. Keep the rollout
+    // backward-compatible while the 1.2 client serves interactive auth promptly.
+    const pollSeconds = supportsFastPoll && interactive ? 2 : 15;
     const responseBody = command
       ? JSON.stringify({
         schema: BRIDGE_SCHEMA,
         status: 'command',
         server_time: Math.floor(Date.now() / 1_000),
-        poll_after_seconds: 15,
+        poll_after_seconds: pollSeconds,
         command: {
           id: command.commandId,
           kind: command.kind,
@@ -676,7 +688,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         schema: BRIDGE_SCHEMA,
         status: 'idle',
         server_time: Math.floor(Date.now() / 1_000),
-        poll_after_seconds: 15,
+        poll_after_seconds: pollSeconds,
         command: null,
       });
     return signedBridgeResponse({
@@ -1001,7 +1013,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
           state: 'error',
           inputCommandId: null,
           inputAction: null,
-          reasonCode: 'auth_input_outcome_unknown',
+          reasonCode: body.result_code === 'telegram_timeout' ? 'telegram_timeout' : 'auth_input_outcome_unknown',
           updatedAt: nowIso(),
         } satisfies AuthRecord,
         [applicationKey]: digest,
@@ -1097,7 +1109,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         [authKey(auth.authId)]: {
           ...auth,
           state: 'error',
-          reasonCode: 'password_outcome_unknown',
+          reasonCode: body.result_code === 'telegram_timeout' ? 'telegram_timeout' : 'password_outcome_unknown',
           updatedAt: nowIso(),
         } satisfies AuthRecord,
         [applicationKey]: digest,
@@ -1115,6 +1127,12 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
   ): Promise<void> {
     const payload = await this.commandPayload(command);
     const result = body.result as BridgeJsonRecord;
+    if (body.status === 'ambiguous' && bridgeExactKeys(result, [])) {
+      // A network timeout proves neither authorization nor revocation. Close
+      // the read-only probe; a later finalization poll may enqueue another.
+      await this.ctx.storage.put(applicationKey, digest);
+      return;
+    }
     if (body.status !== 'succeeded'
       || body.result_code !== 'probed'
       || !bridgeExactKeys(result, ['account_ref', 'state', 'masked_label', 'checked_at'])
@@ -1133,7 +1151,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       [accountKey(account.accountRef)]: {
       ...account,
       state,
-      finalized: finalized ? true : account.finalized,
+      finalized: finalized && state === 'connected' ? true : account.finalized,
       reasonCode: state === 'connected' ? null : state,
       updatedAt: nowIso(),
       } satisfies AccountRecord,
@@ -1143,7 +1161,9 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       const auth = await this.ctx.storage.get<AuthRecord>(authKey(account.authId));
       if (auth) writes[authKey(auth.authId)] = {
         ...auth,
-        finalized: true,
+        state,
+        finalized: state === 'connected',
+        reasonCode: state === 'connected' ? null : state,
         updatedAt: nowIso(),
       } satisfies AuthRecord;
     }
@@ -1587,10 +1607,6 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         reason_code: auth.reasonCode ?? 'authorization_failed',
       });
     }
-    const devicePromise = this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
-    // Auth projection contains only encrypted QR and public bridge key metadata;
-    // device loading is synchronous from Durable storage at the callsite.
-    void devicePromise;
     return jsonResponse({
       schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA,
       status: auth.state,
@@ -1614,6 +1630,8 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     }
     const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
     if (!device || device.state === 'revoked') return safeErrorResponse('bridge_offline', 503);
+    const inputId = auth.state === 'awaiting_password' ? auth.passwordCommandId : auth.inputCommandId;
+    const input = inputId ? await this.ctx.storage.get<CommandRecord>(commandKey(inputId)) : null;
     return jsonResponse({
       schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA,
       status: auth.state,
@@ -1633,6 +1651,8 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         spki: device.encryptionPublicKeySpki,
       },
       reason_code: auth.reasonCode,
+      pending_action: input && !isTerminal(input.status)
+        ? (auth.state === 'awaiting_password' ? 'password' : auth.inputAction) : null,
     });
   }
 
@@ -1928,7 +1948,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     }
     const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
     if (!device || this.deviceStatus(device) !== 'online') return safeErrorResponse('bridge_offline', 503);
-    const command = await this.enqueue({
+    await this.enqueue({
       orgId: auth.orgId,
       accountRef: auth.accountRef,
       device,
@@ -1942,7 +1962,6 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       },
       ttlMs: Math.max(1_000, Date.parse(auth.relayExpiresAt) - Date.now()),
     });
-    await this.waitTerminal(command.commandId, 70_000);
     const updated = await this.ctx.storage.get<AuthRecord>(authKey(auth.authId));
     if (!updated) throw new MailboxFault('auth_not_found', 404);
     return this.detailedAuthEnvelope(updated);
@@ -1974,7 +1993,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     }
     const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
     if (!device || this.deviceStatus(device) !== 'online') return safeErrorResponse('bridge_offline', 503);
-    const command = await this.enqueue({
+    await this.enqueue({
       orgId: auth.orgId,
       accountRef: auth.accountRef,
       device,
@@ -1989,7 +2008,6 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       },
       ttlMs: Math.max(1_000, Date.parse(auth.relayExpiresAt) - Date.now()),
     });
-    await this.waitTerminal(command.commandId, 70_000);
     const updated = await this.ctx.storage.get<AuthRecord>(authKey(auth.authId));
     if (!updated) throw new MailboxFault('auth_not_found', 404);
     return this.detailedAuthEnvelope(updated);
@@ -2022,16 +2040,25 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     }
     const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
     if (!device || this.deviceStatus(device) !== 'online') return safeErrorResponse('bridge_offline', 503);
-    const command = await this.enqueue({
-      orgId: auth.orgId,
-      accountRef: auth.accountRef,
-      device,
-      kind: 'probe',
-      operationId: `finalize:${auth.authId}`,
-      payload: { account_ref: auth.accountRef, finalize_auth_id: auth.authId },
-    });
-    const terminal = await this.waitTerminal(command.commandId, 70_000);
-    if (terminal.status !== 'succeeded') return safeErrorResponse('bridge_finalize_failed', 503);
+    let command = auth.finalizeCommandId
+      ? await this.ctx.storage.get<CommandRecord>(commandKey(auth.finalizeCommandId)) : undefined;
+    if (!command || (isTerminal(command.status) && command.status !== 'succeeded')) {
+      command = await this.enqueue({
+        orgId: auth.orgId,
+        accountRef: auth.accountRef,
+        device,
+        kind: 'probe',
+        operationId: command ? `finalize:${auth.authId}:${command.commandId}` : `finalize:${auth.authId}`,
+        payload: { account_ref: auth.accountRef, finalize_auth_id: auth.authId },
+      });
+      const commandId = command.commandId;
+      await this.ctx.storage.transaction(async (storage) => {
+        const current = await storage.get<AuthRecord>(authKey(auth.authId));
+        if (current) await storage.put(authKey(auth.authId), { ...current, finalizeCommandId: commandId });
+      });
+    }
+    if (!isTerminal(command.status)) return new Response(null, { status: 202 });
+    if (command.status !== 'succeeded') return safeErrorResponse('bridge_finalize_failed', 503);
     const updated = await this.ctx.storage.get<AuthRecord>(authKey(auth.authId));
     const account = await this.ctx.storage.get<AccountRecord>(accountKey(auth.accountRef));
     if (!updated?.finalized

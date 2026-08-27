@@ -105,7 +105,8 @@ function phoneChallengeEnvelope(
     auth_id: authId,
     bridge_command_id: BRIDGE_COMMAND_ID,
     device_id: BRIDGE_DEVICE_ID,
-    expires_at: new Date(Date.now() + 60_000).toISOString(),
+    // Match the real Bridge's human-input TTL, not a shorter mock-only TTL.
+    expires_at: new Date(Date.now() + 595_000).toISOString(),
     qr_envelope: null,
     input_command_id: BRIDGE_INPUT_COMMAND_ID,
     input_action: state === 'awaiting_phone' ? 'phone' : 'code',
@@ -305,6 +306,7 @@ class TelegramAccountServiceFixture {
   adopts = 0;
   finalizes = 0;
   finalizeUnavailable = false;
+  finalizePending = false;
   beforeCancel: (() => Promise<void>) | null = null;
   mediaValidationOutcome: 'valid' | 'invalid' | 'malformed' | 'unavailable' = 'valid';
   mediaValidationCalls = 0;
@@ -534,6 +536,7 @@ class TelegramAccountServiceFixture {
     if (url.pathname === '/v1/accounts/connect/finalize') {
       this.finalizes += 1;
       if (this.finalizeUnavailable) return new Response(null, { status: 503 });
+      if (this.finalizePending) return new Response(null, { status: 202 });
       const raw = typeof init?.body === 'string' ? init.body : '{}';
       const body = JSON.parse(raw) as { auth_id?: string };
       if (body.auth_id !== this.authId || !this.connected) {
@@ -2070,6 +2073,17 @@ test('staged D1 binding stays pending and reload idempotently recovers private f
     WHERE org_id = ?`, orgId), 1);
 
   service.finalizeUnavailable = false;
+  service.finalizePending = true;
+  const pending = await callRoute(
+    leadRadarRoute.onRequestGet, db, '/api/admin/lead-radar/telegram-account',
+    { token, params: { path: 'telegram-account' }, env },
+  );
+  assert.equal(pending.status, 200);
+  assert.equal(pending.body.status, 'connecting');
+  assert.equal(pending.body.authState, 'finalizing');
+  assert.equal(pending.body.authAttemptId, service.authId);
+  assert.equal(db.value('SELECT status FROM lead_radar_tg_user_accounts WHERE org_id = ?', orgId), 'pending');
+  service.finalizePending = false;
   const recovered = await callRoute(
     leadRadarRoute.onRequestGet,
     db,
@@ -2078,7 +2092,7 @@ test('staged D1 binding stays pending and reload idempotently recovers private f
   );
   assert.equal(recovered.status, 200);
   assert.equal(recovered.body.status, 'connected');
-  assert.equal(service.finalizes, 2);
+  assert.equal(service.finalizes, 3);
   assert.equal(db.value(`SELECT status FROM lead_radar_tg_user_accounts
     WHERE org_id = ?`, orgId), 'connected');
   assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_account_finalizations

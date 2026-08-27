@@ -36,7 +36,7 @@ from .security import DpapiVault, SecurityError, secure_directory
 from .telegram_adapter import ProviderOutcome, TelethonAccount
 
 
-VERSION = "1.1.2"
+VERSION = "1.2.0"
 MAX_AUTH_SECONDS = 10 * 60
 MAX_COMMAND_FUTURE_SECONDS = 10 * 60
 RELAY_TTL_SECONDS = 10 * 60
@@ -222,7 +222,7 @@ class BridgeRuntime:
     async def _submit(self, command: BridgeCommand, body: dict[str, Any]) -> None:
         terminal = body["status"] in {"succeeded", "failed", "ambiguous"}
         self.ledger.store_result(body, terminal=terminal)
-        self.mailbox.submit_result(command, body)
+        await asyncio.to_thread(self.mailbox.submit_result, command, body)
         self.ledger.acknowledge_result(body)
 
     async def _resend_pending(self, command: BridgeCommand) -> bool:
@@ -232,7 +232,7 @@ class BridgeRuntime:
         # Do not derive a later result until the signed server acknowledgement
         # for these exact canonical bytes has been observed. This covers both
         # a request dropped before commit and a response dropped after commit.
-        self.mailbox.submit_result(command, pending)
+        await asyncio.to_thread(self.mailbox.submit_result, command, pending)
         self.ledger.acknowledge_result(pending)
         return True
 
@@ -701,7 +701,8 @@ class BridgeRuntime:
             await self.telegram.close_unauthorized_auth()
             self._wipe_session_after_confirmed_logout()
             self.ledger.mark_auth_state(auth_id, "revoked")
-        self.active_connect = None
+        if self.active_connect and self.active_connect.auth_id == auth_id:
+            self.active_connect = None
         return result_body(
             command_id=command.id,
             sequence=1,
@@ -777,7 +778,11 @@ class BridgeRuntime:
             or (finalize_auth_id is not None
                 and (not isinstance(finalize_auth_id, str) or not AUTH_ID.fullmatch(finalize_auth_id)))):
             raise ProtocolError("probe_payload_invalid")
-        if finalize_auth_id:
+        state = await self.telegram.probe()
+        masked_label = "Telegram account"
+        if state == "connected":
+            _confirmed_ref, masked_label = await self.telegram.connected_identity(account_ref)
+        if finalize_auth_id and state == "connected":
             custody = self.ledger.auth_custody(finalize_auth_id)
             if (not custody
                 or custody["account_ref"] != account_ref
@@ -799,10 +804,6 @@ class BridgeRuntime:
                 self._save_state()
             if custody["state"] != "finalized":
                 self.ledger.mark_auth_state(finalize_auth_id, "finalized")
-        state = await self.telegram.probe()
-        masked_label = "Telegram account"
-        if state == "connected":
-            _confirmed_ref, masked_label = await self.telegram.connected_identity(account_ref)
         return result_body(
             command_id=command.id,
             sequence=1,
@@ -892,7 +893,7 @@ class BridgeRuntime:
                     "media_id", "media_digest", "mime_type", "size_bytes", "download_path",
                 }):
                     raise ProtocolError("media_payload_invalid")
-                raw = self.mailbox.download_media(command, str(media.get("download_path", "")))
+                raw = await asyncio.to_thread(self.mailbox.download_media, command, str(media.get("download_path", "")))
                 verify_media_bytes(
                     raw,
                     media_id=str(media.get("media_id", "")),
@@ -929,7 +930,7 @@ class BridgeRuntime:
         }):
             raise ProtocolError("media_payload_invalid")
         try:
-            raw = self.mailbox.download_media(command, str(media.get("download_path", "")))
+            raw = await asyncio.to_thread(self.mailbox.download_media, command, str(media.get("download_path", "")))
             verify_media_bytes(
                 raw,
                 media_id=str(media.get("media_id", "")),
@@ -962,7 +963,7 @@ class BridgeRuntime:
         # Terminal results are durable before HTTP acknowledgement; a re-lease
         # re-posts the same bytes and never repeats Telegram provider I/O.
         if previous and previous.get("status") in {"succeeded", "failed", "ambiguous"}:
-            self.mailbox.submit_result(command, previous)
+            await asyncio.to_thread(self.mailbox.submit_result, command, previous)
             return
         if previous and previous.get("status") == "progress" and command.kind == "connect":
             if self.active_connect and self.active_connect.command.id == command.id:
@@ -1014,7 +1015,9 @@ class BridgeRuntime:
         self.repair_finalizing_custody()
         await self.cleanup_expired_provisional()
         await self._advance_connect()
-        command, delay = self.mailbox.poll(VERSION)
+        # urllib is synchronous. Keep Telegram's MTProto updates and heartbeats
+        # running while the outbound mailbox request is in flight.
+        command, delay = await asyncio.to_thread(self.mailbox.poll, VERSION)
         if command:
             try:
                 await self.handle_command(command)
@@ -1054,7 +1057,7 @@ class BridgeRuntime:
                             result={},
                         )
                     await self._submit(command, body)
-            except BaseException:
+            except Exception as error:
                 self.logger.warning("command_outcome_ambiguous")
                 if self.ledger.pending_result(command.id) is not None:
                     return idle_delay(delay)
@@ -1070,7 +1073,7 @@ class BridgeRuntime:
                             result={"effect_id": str(command.payload.get("effect_id", ""))},
                         )
                         await self._submit(command, body)
-                elif command.kind in {"connect", "connect_phone", "submit_auth", "submit_password"}:
+                elif command.kind in {"connect", "connect_phone", "submit_auth", "submit_password", "probe"}:
                     # Authentication provider/network failures must always
                     # close the browser request with an explicit uncertain
                     # outcome. Leaving these commands leased makes the owner
@@ -1083,7 +1086,7 @@ class BridgeRuntime:
                             command_id=command.id,
                             sequence=sequence,
                             status="ambiguous",
-                            result_code="provider_outcome_unknown",
+                            result_code="telegram_timeout" if isinstance(error, TimeoutError) else "provider_outcome_unknown",
                             result={},
                         )
                         await self._submit(command, body)
@@ -1095,7 +1098,7 @@ class BridgeRuntime:
         while True:
             try:
                 delay = await self.run_once()
-            except BaseException:
+            except Exception:
                 self.logger.warning("poll_retry")
                 delay = min(max(delay * 2, 15), 60)
             await asyncio.sleep(delay)

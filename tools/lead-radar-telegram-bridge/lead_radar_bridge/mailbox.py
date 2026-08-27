@@ -64,7 +64,7 @@ def system_https_transport(
     # first-party client explicitly; authenticated bridge routes still require
     # their device HMAC, so this header grants no access by itself.
     request_headers = {
-        "User-Agent": "GPTBot-LeadRadar-Telegram-Bridge/1.1.2",
+        "User-Agent": "GPTBot-LeadRadar-Telegram-Bridge/1.2.0",
         **headers,
     }
     request = urllib.request.Request(
@@ -257,4 +257,4 @@ class MailboxClient:
 
 
 def idle_delay(value: int | None) -> int:
-    return value if isinstance(value, int) and 15 <= value <= 60 else DEFAULT_POLL_SECONDS
+    return value if isinstance(value, int) and not isinstance(value, bool) and 2 <= value <= 60 else DEFAULT_POLL_SECONDS

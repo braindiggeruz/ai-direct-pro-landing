@@ -42,6 +42,7 @@ import {
   renderCampaignPreview,
   safeTelegramLoginUrl,
   telegramAccountQuickAction,
+  telegramAuthProgress,
   validateCampaignImage,
   validateCampaignImageDimensions,
   type LeadRadarCampaignImageValidationCode,
@@ -369,7 +370,7 @@ function TelegramTwoFactorPasswordForm({
         passwordEnvelope,
       });
       onResolved(next);
-      if (next.authState === 'awaiting_password') {
+      if (next.authState === 'awaiting_password' && !next.pendingAction) {
         setError(next.reasonCode === 'password_invalid'
           ? 'Telegram отклонил пароль. Проверьте его и попробуйте снова.'
           : 'Telegram всё ещё ожидает пароль двухэтапной защиты.');
@@ -431,15 +432,17 @@ function TelegramTwoFactorPasswordForm({
 function TelegramPhoneAuthForm({
   challenge,
   disabled,
+  pending,
   onBusyChange,
   onResolved,
 }: {
-  challenge: LeadRadarTelegramAccountQr;
+  challenge: LeadRadarTelegramAccountQr | null;
   disabled: boolean;
+  pending: boolean;
   onBusyChange: (busy: boolean) => void;
   onResolved: (account: LeadRadarTelegramAccountState) => void;
 }) {
-  const action = challenge.inputAction;
+  const action = challenge?.inputAction ?? 'phone';
   const fieldId = useId();
   const helpId = useId();
   const errorId = useId();
@@ -450,11 +453,11 @@ function TelegramPhoneAuthForm({
   useEffect(() => {
     setValue('');
     setError(null);
-  }, [challenge.authId, action]);
+  }, [action]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
-    if (busy || disabled || !action) return;
+    if (busy || disabled || pending || !challenge) return;
     const encryptionKey = challenge.bridgeEncryptionKey;
     const inputCommandId = challenge.inputCommandId;
     if (!encryptionKey || !inputCommandId) {
@@ -518,8 +521,8 @@ function TelegramPhoneAuthForm({
       </h4>
       <p id={helpId} className="mt-1 text-center text-xs leading-5 text-white/60">
         {phoneStep
-          ? 'Укажите номер с кодом страны. Он зашифруется в этой вкладке и попадёт только в локальный Bridge. Запрос обычно занимает до 20 секунд.'
-          : 'Telegram прислал код в приложение или SMS. Код шифруется на этом устройстве и не сохраняется сайтом. Проверка обычно занимает до 20 секунд.'}
+          ? 'Укажите номер с кодом страны. Он зашифруется в этой вкладке и попадёт только в локальный Bridge.'
+          : 'Telegram подтвердил запрос кода. Проверьте служебный чат Telegram на устройстве, где вы уже вошли, или SMS. Код не сохраняется сайтом.'}
       </p>
       {!phoneStep && (
         <a
@@ -539,16 +542,16 @@ function TelegramPhoneAuthForm({
         value={value}
         placeholder={phoneStep ? '+998 90 123 45 67' : '12345'}
         required
-        disabled={busy || disabled}
+        disabled={busy || pending}
         aria-describedby={`${helpId}${error ? ` ${errorId}` : ''}`}
         aria-errormessage={error ? errorId : undefined}
         aria-invalid={Boolean(error)}
         onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
         className="min-h-12"
       />
-      <Button type="submit" disabled={busy || disabled || value.trim().length < 3} aria-busy={busy} className="mt-3 min-h-12 w-full">
-        {busy ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" /> : <ShieldCheck size={17} aria-hidden="true" />}
-        {busy ? (phoneStep ? 'Запрашиваем код…' : 'Проверяем код…') : (phoneStep ? 'Получить код' : 'Подтвердить код')}
+      <Button type="submit" disabled={busy || disabled || pending || !challenge?.inputCommandId || value.trim().length < 3} aria-busy={busy || pending} className="mt-3 min-h-12 w-full">
+        {busy || pending ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" /> : <ShieldCheck size={17} aria-hidden="true" />}
+        {!challenge?.inputCommandId ? 'Подготавливаем защищённый вход…' : busy || pending ? (phoneStep ? 'Запрашиваем код у Telegram…' : 'Проверяем код…') : (phoneStep ? 'Получить код' : 'Подтвердить код')}
       </Button>
       {error && <p id={errorId} role="alert" className="mt-3 rounded-xl border border-amber-300/18 bg-amber-300/[0.04] p-3 text-xs leading-5 text-amber-50/90">{error}</p>}
     </form>
@@ -627,6 +630,14 @@ export function TelegramAccountCampaignPanel({
   const [accountLoading, setAccountLoading] = useState(false);
   const [accountClock, setAccountClock] = useState(() => Date.now());
   const [accountBusy, setAccountBusy] = useState(false);
+  const [connectStarting, setConnectStarting] = useState(false);
+  const accountMutationEpoch = useRef(0);
+  const accountMutationBusy = useRef(false);
+  const changeAccountBusy = useCallback((busy: boolean) => {
+    accountMutationEpoch.current += 1;
+    accountMutationBusy.current = busy;
+    setAccountBusy(busy);
+  }, []);
   const [accountNotice, setAccountNotice] = useState<string | null>(null);
   const [accountSetupNoticeVisible, setAccountSetupNoticeVisible] = useState(false);
   const [accountIdentityConfirmed, setAccountIdentityConfirmed] = useState(false);
@@ -707,14 +718,17 @@ export function TelegramAccountCampaignPanel({
 
   const loadAccount = useCallback(async (): Promise<LeadRadarTelegramAccountState | null> => {
     if (!telegramAccountEnabled) return null;
+    const epoch = accountMutationEpoch.current;
     setAccountLoading(true);
     try {
       const next = await api.leadRadarTelegramAccount();
+      if (epoch !== accountMutationEpoch.current) return null;
       setAccountClock(Date.now());
       setAccount(next);
       setAccountNotice(null);
       return next;
     } catch (statusError) {
+      if (epoch !== accountMutationEpoch.current) return null;
       setAccount((current) => current ?? {
         status: 'error',
         connectionId: null,
@@ -898,7 +912,7 @@ export function TelegramAccountCampaignPanel({
 
   useEffect(() => {
     const authId = account?.status === 'connecting' || account?.status === 'pending'
-      ? account?.qr?.authId
+      ? account?.authAttemptId ?? account?.qr?.authId
       : null;
     if (!telegramAccountEnabled || !authId) return undefined;
     let cancelled = false;
@@ -906,26 +920,33 @@ export function TelegramAccountCampaignPanel({
     const challengeExpiresAt = Date.parse(account?.qr?.expiresAt ?? '');
     const deadline = Number.isFinite(challengeExpiresAt)
       ? Math.min(Date.now() + 15 * 60_000, challengeExpiresAt)
-      : Date.now();
+      : Date.now() + 2 * 60_000;
     const poll = async (): Promise<void> => {
       if (Date.now() >= deadline) {
         setAccountClock(Date.now());
-        setAccountNotice('Срок QR истёк. Создайте новый QR; сообщения не отправлялись.');
+        setAccountNotice('Время ожидания входа истекло. Обновите статус или отмените подключение и начните заново. Рассылка не запускалась.');
         return;
       }
+      if (accountMutationBusy.current) {
+        timer = window.setTimeout(() => { void poll(); }, 2_000);
+        return;
+      }
+      const epoch = accountMutationEpoch.current;
       try {
         const next = await api.leadRadarTelegramAccountConnectStatus(authId);
         if (cancelled) return;
-        setAccountClock(Date.now());
-        setAccount(next);
-        setAccountNotice(null);
-        if (next.status !== 'connecting' && next.status !== 'pending') return;
+        if (epoch === accountMutationEpoch.current) {
+          setAccountClock(Date.now());
+          setAccount(next);
+          setAccountNotice(null);
+          if (next.status !== 'connecting' && next.status !== 'pending') return;
+        }
       } catch (pollError) {
         if (cancelled) return;
-        setAccountNotice(campaignErrorCopy(pollError));
+        if (epoch === accountMutationEpoch.current) setAccountNotice(campaignErrorCopy(pollError));
       }
       const remaining = Math.max(0, deadline - Date.now() + 50);
-      timer = window.setTimeout(() => { void poll(); }, Math.min(5_000, remaining));
+      timer = window.setTimeout(() => { void poll(); }, Math.min(2_000, remaining));
     };
     const firstDelay = Math.max(0, deadline - Date.now() + 50);
     timer = window.setTimeout(() => { void poll(); }, Math.min(3_000, firstDelay));
@@ -933,7 +954,7 @@ export function TelegramAccountCampaignPanel({
       cancelled = true;
       if (timer !== undefined) window.clearTimeout(timer);
     };
-  }, [account?.qr?.authId, account?.qr?.expiresAt, account?.status, telegramAccountEnabled]);
+  }, [account?.authAttemptId, account?.qr?.authId, account?.qr?.expiresAt, account?.status, telegramAccountEnabled]);
 
   useEffect(() => {
     if (!campaign || campaign.status !== 'running') return undefined;
@@ -1542,7 +1563,9 @@ export function TelegramAccountCampaignPanel({
 
   async function connectAccount(): Promise<void> {
     if (!telegramAccountEnabled || accountBusy) return;
-    setAccountBusy(true);
+    changeAccountBusy(true);
+    setConnectStarting(true);
+    revealSection(accountSectionRef);
     setAccountNotice(null);
     try {
       // Every explicit click is a new attempt. The server recovers an already
@@ -1571,7 +1594,8 @@ export function TelegramAccountCampaignPanel({
         ? 'Запрос подключения принят. Дождитесь формы номера телефона; отправка сообщений пока закрыта.'
         : campaignErrorCopy(connectError));
     } finally {
-      setAccountBusy(false);
+      setConnectStarting(false);
+      changeAccountBusy(false);
     }
   }
 
@@ -1921,6 +1945,7 @@ export function TelegramAccountCampaignPanel({
   const campaignPauseUntil = campaign?.pausedUntil
     ?? (campaign?.status === 'paused' ? campaign.nextSendAt ?? null : null);
   const accountStatus = account?.status ?? null;
+  const authProgress = telegramAuthProgress(account);
   const pendingConnection = accountStatus === 'pending' || accountStatus === 'connecting';
   const awaitingTwoFactorPassword = (accountStatus === 'pending' || accountStatus === 'connecting')
     && account?.authState === 'awaiting_password';
@@ -1992,7 +2017,7 @@ export function TelegramAccountCampaignPanel({
                   : accountQuickAction === 'blocked_feature'
                     ? 'Подключить Telegram'
                     : 'Статус аккаунта недоступен';
-  const accountQuickStatus = accountReadinessReason ?? (!telegramAccountEnabled
+  const accountQuickStatus = authProgress ?? accountReadinessReason ?? (!telegramAccountEnabled
     ? 'Серверный контур пока выключен — кнопка станет активной после настройки.'
       : accountLoading && !account
       ? 'Проверяем локальный Bridge и сессию Telegram.'
@@ -2273,6 +2298,9 @@ export function TelegramAccountCampaignPanel({
                 {accountNotice && (
                   <p role="status" aria-live="polite" aria-atomic="true" className="mt-3 rounded-xl border border-amber-300/15 bg-amber-300/[0.04] p-3 text-xs leading-5 text-amber-50/80">{accountNotice}</p>
                 )}
+                {authProgress && (
+                  <p role="status" aria-live="polite" className="mt-3 rounded-xl border border-brand-cyan/20 bg-brand-cyan/[0.04] p-3 text-sm leading-6 text-white/85">{authProgress}</p>
+                )}
                 {account && (Boolean(accountConnectionId) || account.status === 'pending' || account.status === 'connecting') && !disconnectConfirmation && (
                   <button id={disconnectButtonId} type="button" disabled={accountBusy || accountLoading} onClick={() => setDisconnectConfirmation(true)} className="mt-3 inline-flex min-h-12 items-center gap-2 rounded-xl px-3 text-sm font-medium text-white/70 hover:bg-white/[0.04] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50">
                     <Unplug size={16} aria-hidden="true" />{account.status === 'pending' || account.status === 'connecting' ? 'Отменить подключение' : 'Отключить аккаунт'}
@@ -2290,37 +2318,32 @@ export function TelegramAccountCampaignPanel({
               </div>
 
               <div className="grid min-h-44 place-items-center rounded-2xl border border-white/[0.08] bg-[#05070d]/55 p-4 text-center">
-                {account?.status === 'connecting' || account?.status === 'pending' ? (
+                {connectStarting || (pendingConnection && !qrExpired && (awaitingPhone || awaitingCode || account?.authState === 'starting')) ? (
+                  <TelegramPhoneAuthForm
+                    key={awaitingCode ? 'code' : 'phone'}
+                    challenge={pendingConnection ? account?.qr ?? null : null}
+                    disabled={accountLoading || accountBusy}
+                    pending={Boolean(account?.pendingAction)}
+                    onBusyChange={changeAccountBusy}
+                    onResolved={(next) => {
+                      setAccountClock(Date.now());
+                      setAccount(next);
+                      setAccountNotice(null);
+                    }}
+                  />
+                ) : account?.status === 'connecting' || account?.status === 'pending' ? (
                   qrExpired ? (
                     <div role="status" aria-live="polite" aria-atomic="true" className="max-w-xs">
                       <Clock3 size={36} className="mx-auto text-amber-200" aria-hidden="true" />
                       <p className="mt-3 text-sm font-medium text-white">Срок входа истёк</p>
                       <p className="mt-1 text-xs leading-5 text-white/60">Отмените истёкшее подключение и начните заново. Старый код больше не используется; сообщения не отправлялись.</p>
                     </div>
-                  ) : (awaitingPhone || awaitingCode) && account.qr?.authId ? (
-                    <TelegramPhoneAuthForm
-                      key={`${account.qr.authId}:${account.qr.inputAction ?? 'input'}`}
-                      challenge={account.qr}
-                      disabled={accountLoading || accountBusy}
-                      onBusyChange={setAccountBusy}
-                      onResolved={(next) => {
-                        setAccountClock(Date.now());
-                        setAccount(next);
-                        setAccountNotice(next.status === 'connected'
-                          ? 'Telegram подтвердил код и подключил аккаунт.'
-                          : next.authState === 'awaiting_code'
-                            ? 'Код отправлен. Проверьте Telegram и введите его здесь.'
-                            : next.authState === 'awaiting_password'
-                              ? 'Код принят. Введите пароль двухэтапной защиты Telegram.'
-                              : null);
-                      }}
-                    />
                   ) : awaitingTwoFactorPassword && account.qr?.authId ? (
                     <TelegramTwoFactorPasswordForm
                       key={account.qr.authId}
                       challenge={account.qr}
-                      disabled={accountLoading || accountBusy}
-                      onBusyChange={setAccountBusy}
+                      disabled={accountLoading || accountBusy || Boolean(account.pendingAction)}
+                      onBusyChange={changeAccountBusy}
                       onResolved={(next) => {
                         setAccountClock(Date.now());
                         setAccount(next);
@@ -2356,8 +2379,8 @@ export function TelegramAccountCampaignPanel({
                   ) : (
                     <div role="status" aria-live="polite" aria-atomic="true" className="max-w-xs">
                       <Phone size={36} className="mx-auto text-brand-cyan" aria-hidden="true" />
-                      <p className="mt-3 text-sm font-medium text-white">Готовим форму номера</p>
-                      <p className="mt-1 text-xs leading-5 text-white/60">Bridge забирает команду с компьютера. Форма появится автоматически; Telegram Desktop откроется только вами, а код придёт после ввода номера.</p>
+                      <p className="mt-3 text-sm font-medium text-white">{account.authState === 'finalizing' ? 'Сохраняем подтверждённое подключение' : 'Готовим форму номера'}</p>
+                      <p className="mt-1 text-xs leading-5 text-white/60">{account.authState === 'finalizing' ? 'Telegram принял вход. Ждём подтверждения защищённого хранилища Bridge; отправка пока закрыта.' : 'Bridge забирает команду с компьютера. Форма появится автоматически; код можно запросить после ввода номера.'}</p>
                     </div>
                   )
                 ) : connected ? (

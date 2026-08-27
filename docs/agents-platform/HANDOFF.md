@@ -1,5 +1,8 @@
 # GPTBot Agents — Handoff
 
+> Lead Radar-only release (2026-08-27): see `../lead-radar/TELEGRAM_RELEASE_20260827.md`.
+> The Bormi stages and acceptance requirements below are unchanged.
+
 > **Fresh Bormi operational handoff (2026-08-02):** before touching the Market
 > Mini App, Telegram entry or production deployment, read
 > `BORMI_MARKET_MAXIMUM_DETAIL_HANDOFF_2026-08-02.md`. It supersedes the Bormi

@@ -67,6 +67,7 @@ import {
   LEAD_RADAR_TELEGRAM_BRIDGE_COMMAND_ID_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_DEVICE_ID_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_RSA_SPKI_PATTERN,
+  LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS,
   LEAD_RADAR_TELEGRAM_BRIDGE_SECRET_PATTERN,
   type LeadRadarTelegramBridgeE2eEnvelope,
 } from '../../../../src/shared/lead-radar-telegram-bridge';
@@ -131,7 +132,9 @@ interface AccountState {
     } | null;
     expiresAt: string;
   } | null;
-  authState: TelegramAccountConnectChallenge['authState'] | 'connected' | null;
+  authState: TelegramAccountConnectChallenge['authState'] | 'finalizing' | 'connected' | null;
+  authAttemptId?: string | null;
+  pendingAction?: TelegramAccountConnectChallenge['pendingAction'];
   reasonCode: string | null;
   readiness?: LeadRadarTelegramAccountReadiness;
 }
@@ -179,7 +182,8 @@ function browserKeyFromBody(value: unknown): {
     || typeof key.expires_at !== 'string'
     || !Number.isFinite(Date.parse(key.expires_at))
     || Date.parse(key.expires_at) <= Date.now()
-    || Date.parse(key.expires_at) > Date.now() + 95_000) return null;
+    || Date.parse(key.expires_at) > Date.now()
+      + LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS * 1_000 + 5_000) return null;
   return { alg: 'RSA-OAEP-256', keyId: key.key_id, spki: key.spki, expiresAt: key.expires_at };
 }
 
@@ -264,6 +268,7 @@ function accountState(
     serviceStatus?: TelegramAccountConnectionPoll['status'];
     reasonCode?: string | null;
     readiness?: LeadRadarTelegramAccountReadiness;
+    finalizingAuthId?: string;
   } = {},
 ): AccountState {
   const status = options.serviceStatus ?? (
@@ -299,7 +304,10 @@ function accountState(
       } : null,
       expiresAt: challenge.expiresAt,
     } : null,
-    authState: challenge?.authState ?? (status === 'connected' ? 'connected' : null),
+    authState: challenge?.authState ?? (status === 'connected' ? 'connected'
+      : options.finalizingAuthId ? 'finalizing' : null),
+    authAttemptId: challenge?.authId ?? (status === 'connecting' ? options.finalizingAuthId ?? null : null),
+    pendingAction: challenge?.pendingAction ?? null,
     reasonCode: options.reasonCode ?? challenge?.reasonCode ?? null,
     ...(options.readiness ? { readiness: options.readiness } : {}),
   };
@@ -447,12 +455,13 @@ async function finalizeConnectedTelegramAccount(
       maskedLabel: connection.maskedLabel,
       providerConnectedAt: connection.connectedAt,
     });
-  await finalizeTelegramAccountConnection({
+  const finalized = await finalizeTelegramAccountConnection({
     service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
     internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
     orgId,
     authId: connection.authId,
   });
+  if (!finalized) return staged;
   return staged.status === 'connected'
     ? staged
     : completeTelegramUserAccountConnection({
@@ -796,7 +805,7 @@ export async function handleTelegramCampaignGet(
       }
       if (challenge.status === 'connected') {
         const connected = await finalizeConnectedTelegramAccount(ctx, orgId, challenge, account);
-        return ownerJson(accountState(connected, { readiness: OPERATIONALLY_READY }), ctx.requestId);
+        return ownerJson(accountState(connected, { readiness: OPERATIONALLY_READY, finalizingAuthId: challenge.authId }), ctx.requestId);
       }
       if (challenge.status !== 'connecting') {
         if (challenge.status === 'revoked') {
@@ -860,7 +869,7 @@ export async function handleTelegramCampaignGet(
       }
       if (polled.status === 'connected') {
         const connected = await finalizeConnectedTelegramAccount(ctx, orgId, polled, account);
-        return ownerJson(accountState(connected), ctx.requestId);
+        return ownerJson(accountState(connected, { finalizingAuthId: polled.authId }), ctx.requestId);
       }
       if (polled.status === 'revoked') {
         await revokeTelegramUserAccount({ db: ctx.db, orgId, accountId: account.id });
@@ -1004,7 +1013,7 @@ export async function handleTelegramCampaignPost(
       }
       if (polled.status === 'connected') {
         const connected = await finalizeConnectedTelegramAccount(ctx, orgId, polled, account);
-        return ownerJson(accountState(connected), ctx.requestId);
+        return ownerJson(accountState(connected, { finalizingAuthId: polled.authId }), ctx.requestId);
       }
       if (polled.status === 'revoked') {
         await revokeTelegramUserAccount({ db: ctx.db, orgId, accountId: account.id });
@@ -1067,7 +1076,7 @@ export async function handleTelegramCampaignPost(
       }
       if (polled.status === 'connected') {
         const connected = await finalizeConnectedTelegramAccount(ctx, orgId, polled, account);
-        return ownerJson(accountState(connected), ctx.requestId);
+        return ownerJson(accountState(connected, { finalizingAuthId: polled.authId }), ctx.requestId);
       }
       if (polled.status === 'revoked') {
         await revokeTelegramUserAccount({ db: ctx.db, orgId, accountId: account.id });
@@ -1240,7 +1249,7 @@ export async function handleTelegramCampaignPost(
               const connected = await finalizeConnectedTelegramAccount(
                 ctx, orgId, activeChallenge, existing,
               );
-              return ownerJson(accountState(connected), ctx.requestId);
+              return ownerJson(accountState(connected, { finalizingAuthId: activeChallenge.authId }), ctx.requestId);
             }
             if (activeChallenge.status === 'connecting'
               && (browserKey || activeChallenge.authState !== 'awaiting_qr')) {
@@ -1400,7 +1409,7 @@ export async function handleTelegramCampaignPost(
         const connected = await finalizeConnectedTelegramAccount(
           ctx, orgId, challenge, created.account,
         );
-        return ownerJson(accountState(connected), ctx.requestId, created.replayed ? 200 : 201);
+        return ownerJson(accountState(connected, { finalizingAuthId: challenge.authId }), ctx.requestId, created.replayed ? 200 : 201);
       }
       if (challenge.status !== 'connecting') {
         return ownerError('telegram_campaign_gateway_conflict', ctx.requestId, 409);
