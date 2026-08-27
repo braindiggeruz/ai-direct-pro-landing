@@ -26,6 +26,7 @@ import {
   validBridgeRegistration,
   validBridgeResult,
   verifyBridgeDeviceRequest,
+  bridgeAuthChallengeMayBeCancelled,
   isFinalizedConnectedAuthRecoverable,
   type BridgeJsonRecord,
   type VerifiedBridgeDeviceRequest,
@@ -1798,8 +1799,12 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         && existing.mode === 'phone' && Date.parse(existing.expiresAt) > Date.now()) {
         return this.detailedAuthEnvelope(existing);
       }
-      if (existing && !existing.adopted && !existing.finalized
-        && !['connected', 'revoked'].includes(existing.state)) {
+      if (existing && bridgeAuthChallengeMayBeCancelled({
+        state: existing.state,
+        adopted: existing.adopted,
+        finalized: existing.finalized,
+        expiresAt: existing.expiresAt,
+      })) {
         const cancel = await this.enqueue({
           orgId: existing.orgId,
           accountRef: existing.accountRef,
@@ -2045,8 +2050,13 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
   private async cancelAuth(body: JsonRecord): Promise<Response> {
     const auth = await this.exactAuth(body);
     if (auth instanceof Response) return auth;
-    if (auth.adopted || auth.finalized || auth.state === 'connected') return safeErrorResponse('auth_adopted', 409);
     if (auth.state === 'revoked') return noContentResponse();
+    if (!bridgeAuthChallengeMayBeCancelled({
+      state: auth.state,
+      adopted: auth.adopted,
+      finalized: auth.finalized,
+      expiresAt: auth.expiresAt,
+    })) return safeErrorResponse('auth_adopted', 409);
     const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
     if (!device || device.state === 'revoked') return safeErrorResponse('bridge_offline', 503);
     const command = await this.enqueue({

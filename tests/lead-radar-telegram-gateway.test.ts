@@ -51,7 +51,10 @@ import {
   GATEWAY_DO_RECONCILE_TIMEOUT_MS,
   GATEWAY_DO_SEND_TIMEOUT_MS,
 } from '../workers/lead-radar-telegram-account/timeouts.ts';
-import { isFinalizedConnectedAuthRecoverable } from '../workers/lead-radar-telegram-account/bridge-protocol.ts';
+import {
+  bridgeAuthChallengeMayBeCancelled,
+  isFinalizedConnectedAuthRecoverable,
+} from '../workers/lead-radar-telegram-account/bridge-protocol.ts';
 import {
   PrivateTelegramCampaignSender,
   TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS,
@@ -110,6 +113,36 @@ test('phone login start returns immediately and lets the owner UI poll Bridge pr
   assert.match(method, /return this\.detailedAuthEnvelope\(auth\)/u);
   const newPhoneCommand = method.slice(method.indexOf("kind: 'connect_phone'"));
   assert.doesNotMatch(newPhoneCommand, /waitTerminal/u);
+});
+
+test('an expired adopted phone challenge can be cancelled and replaced', () => {
+  const nowMs = Date.parse('2026-08-27T04:10:00.000Z');
+  assert.equal(bridgeAuthChallengeMayBeCancelled({
+    state: 'awaiting_phone',
+    adopted: true,
+    finalized: false,
+    expiresAt: '2026-08-27T04:09:59.000Z',
+    nowMs,
+  }), true);
+  assert.equal(bridgeAuthChallengeMayBeCancelled({
+    state: 'awaiting_phone',
+    adopted: true,
+    finalized: false,
+    expiresAt: '2026-08-27T04:10:01.000Z',
+    nowMs,
+  }), false);
+  assert.equal(bridgeAuthChallengeMayBeCancelled({
+    state: 'connected',
+    adopted: true,
+    finalized: true,
+    expiresAt: '2026-08-27T04:09:59.000Z',
+    nowMs,
+  }), false);
+  const source = readFileSync(path.join(GATEWAY, 'bridge-mailbox.ts'), 'utf8');
+  const start = source.indexOf('private async beginPhoneConnection');
+  const end = source.indexOf('private async activeAuth', start);
+  assert.match(source.slice(start, end), /bridgeAuthChallengeMayBeCancelled/u);
+  assert.match(source, /private async cancelAuth[\s\S]{0,500}bridgeAuthChallengeMayBeCancelled/u);
 });
 
 test('Bridge mailbox alarms are monotonic and cleanup is paginated with ciphertext retention', () => {

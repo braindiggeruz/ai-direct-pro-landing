@@ -1537,8 +1537,10 @@ export function TelegramAccountCampaignPanel({
     setAccountBusy(true);
     setAccountNotice(null);
     try {
-      const requestKey = connectRequestKey.current
-        ?? `lead-radar-account-connect-ui-${crypto.randomUUID()}`;
+      // Every explicit click is a new attempt. The server recovers an already
+      // accepted private challenge by tenant, so retaining an expired browser
+      // idempotency key can only replay the stale attempt and wedge reconnect.
+      const requestKey = `lead-radar-account-connect-ui-${crypto.randomUUID()}`;
       connectRequestKey.current = requestKey;
       setDecryptedQr(null);
       const next = await api.leadRadarConnectTelegramAccount(requestKey);

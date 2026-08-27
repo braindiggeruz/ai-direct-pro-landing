@@ -43,6 +43,18 @@ export function isFinalizedConnectedAuthRecoverable(
 ): boolean {
   return state === 'connected' && finalized;
 }
+export function bridgeAuthChallengeMayBeCancelled(input: {
+  state: string;
+  adopted: boolean;
+  finalized: boolean;
+  expiresAt: string;
+  nowMs?: number;
+}): boolean {
+  if (input.finalized || input.state === 'connected' || input.state === 'revoked') return false;
+  if (!input.adopted) return true;
+  const expiresAtMs = Date.parse(input.expiresAt);
+  return Number.isFinite(expiresAtMs) && expiresAtMs <= (input.nowMs ?? Date.now());
+}
 export const BRIDGE_COMMAND_KINDS: readonly LeadRadarTelegramBridgeCommandKind[] = [
   'connect', 'connect_phone', 'submit_auth', 'cancel_auth', 'submit_password',
   'disconnect', 'probe', 'validate_media', 'send',

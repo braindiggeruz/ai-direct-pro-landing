@@ -547,6 +547,8 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /safeTelegramLoginUrl\(decryptedQr\?\.qrLoginUrl\)/);
   assert.match(component, /<img src=\{safeQr\} alt="QR-код/);
   assert.match(component, /leadRadarConnectTelegramAccount\(requestKey\)/);
+  assert.match(component, /const requestKey = `lead-radar-account-connect-ui-\$\{crypto\.randomUUID\(\)\}`/);
+  assert.doesNotMatch(component, /const requestKey = connectRequestKey\.current\s*\?\?/);
   assert.match(component, /catch \(connectError\)[\s\S]{0,420}const recovered = await loadAccount\(\)[\s\S]{0,260}Запрос подключения принят/);
   assert.match(component, /createTelegramBridgeEnrollmentCode\(\)/);
   assert.match(component, /telegramBridgeEnrollmentUri\(\{/);
