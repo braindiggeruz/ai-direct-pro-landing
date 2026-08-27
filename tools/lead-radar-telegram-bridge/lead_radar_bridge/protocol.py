@@ -43,6 +43,8 @@ PATH = re.compile(r"^/v1/bridge/[A-Za-z0-9_/-]{1,180}$")
 
 COMMAND_KINDS = {
     "connect",
+    "connect_phone",
+    "submit_auth",
     "cancel_auth",
     "submit_password",
     "disconnect",
@@ -51,7 +53,7 @@ COMMAND_KINDS = {
     "send",
 }
 RESULT_STATUSES = {"progress", "succeeded", "failed", "ambiguous"}
-CAPABILITIES = ["qr", "two_factor_password", "text", "image"]
+CAPABILITIES = ["qr", "phone_code", "two_factor_password", "text", "image"]
 
 
 class ProtocolError(ValueError):

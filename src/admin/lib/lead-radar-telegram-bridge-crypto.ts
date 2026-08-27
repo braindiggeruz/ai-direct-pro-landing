@@ -321,3 +321,66 @@ export async function encryptTelegramBridgePassword(input: {
     plaintext.fill(0);
   }
 }
+
+export async function encryptTelegramBridgeAuthInput(input: {
+  bridgePublicKeySpki: string;
+  keyId: string;
+  action: 'phone' | 'code';
+  value: string;
+  orgId: string;
+  deviceId: string;
+  commandId: string;
+  authId: string;
+  expiresAt: string;
+  now?: Date;
+}): Promise<LeadRadarTelegramBridgeE2eEnvelope> {
+  const now = input.now ?? new Date();
+  const valueValid = input.action === 'phone'
+    ? /^\+[1-9]\d{6,14}$/u.test(input.value)
+    : /^[0-9A-Za-z_-]{3,16}$/u.test(input.value);
+  if (!LEAD_RADAR_TELEGRAM_BRIDGE_RSA_SPKI_PATTERN.test(input.bridgePublicKeySpki)
+    || !LEAD_RADAR_TELEGRAM_BRIDGE_KEY_ID_PATTERN.test(input.keyId)
+    || !CONTEXT_ID_PATTERN.test(input.orgId)
+    || !DEVICE_ID_PATTERN.test(input.deviceId)
+    || !CONTEXT_ID_PATTERN.test(input.commandId)
+    || !CONTEXT_ID_PATTERN.test(input.authId)
+    || !relayExpiry(input.expiresAt, now, input.expiresAt)
+    || !valueValid) throw new Error('telegram_bridge_crypto_invalid');
+  const publicKey = await crypto.subtle.importKey(
+    'spki',
+    base64UrlToBytes(input.bridgePublicKeySpki),
+    { name: 'RSA-OAEP', hash: 'SHA-256' },
+    false,
+    ['encrypt'],
+  );
+  const rawKey = crypto.getRandomValues(new Uint8Array(32));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const plaintext = encoder.encode(JSON.stringify({
+    schema: LEAD_RADAR_TELEGRAM_BRIDGE_SCHEMA,
+    purpose: input.action,
+    org_id: input.orgId,
+    device_id: input.deviceId,
+    command_id: input.commandId,
+    auth_id: input.authId,
+    expires_at: Math.floor(Date.parse(input.expiresAt) / 1_000),
+    value: input.value,
+  }));
+  try {
+    const aesKey = await crypto.subtle.importKey('raw', rawKey, 'AES-GCM', false, ['encrypt']);
+    const [wrappedKey, ciphertext] = await Promise.all([
+      crypto.subtle.encrypt({ name: 'RSA-OAEP' }, publicKey, rawKey),
+      crypto.subtle.encrypt({ name: 'AES-GCM', iv, tagLength: 128 }, aesKey, plaintext),
+    ]);
+    return {
+      alg: 'RSA-OAEP-256+A256GCM',
+      key_id: input.keyId,
+      wrapped_key: bytesToBase64Url(new Uint8Array(wrappedKey)),
+      iv: bytesToBase64Url(iv),
+      ciphertext: bytesToBase64Url(new Uint8Array(ciphertext)),
+    };
+  } finally {
+    rawKey.fill(0);
+    iv.fill(0);
+    plaintext.fill(0);
+  }
+}

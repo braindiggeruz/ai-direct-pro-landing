@@ -9,6 +9,7 @@ import {
   MessageCircle,
   PauseCircle,
   PlayCircle,
+  Phone,
   QrCode,
   RefreshCw,
   Send,
@@ -57,9 +58,9 @@ import {
   type LeadRadarTelegramCampaignStatus,
 } from '../../lib/lead-radar-campaign';
 import {
-  createTelegramBridgeBrowserKey,
   createTelegramBridgeEnrollmentCode,
   decryptTelegramBridgeQrEnvelope,
+  encryptTelegramBridgeAuthInput,
   encryptTelegramBridgePassword,
   LEAD_RADAR_TELEGRAM_BRIDGE_PUBLIC_ORIGIN,
   telegramBridgeEnrollmentUri,
@@ -83,8 +84,8 @@ export interface TelegramAccountCampaignPanelProps {
 const ACCOUNT_STATUS_COPY = {
   unconfigured: { label: 'Нужно подключить Bridge', tone: 'warning' as const, detail: 'Запустите бесплатный локальный Telegram Bridge на этом компьютере и выполните одноразовую привязку.' },
   disconnected: { label: 'Не подключён', tone: 'neutral' as const, detail: 'Подключите выделенный аккаунт. Подключение само по себе не запускает кампанию.' },
-  pending: { label: 'Ожидает QR', tone: 'warning' as const, detail: 'Отсканируйте короткоживущий QR в Telegram и дождитесь подтверждения сервера.' },
-  connecting: { label: 'Ожидает QR', tone: 'warning' as const, detail: 'Отсканируйте короткоживущий QR в Telegram и дождитесь подтверждения сервера.' },
+  pending: { label: 'Подключение Telegram', tone: 'warning' as const, detail: 'Введите номер, затем код Telegram. Рассылка до завершения входа закрыта.' },
+  connecting: { label: 'Подключение Telegram', tone: 'warning' as const, detail: 'Введите номер, затем код Telegram. Рассылка до завершения входа закрыта.' },
   connected: { label: 'Подключён', tone: 'success' as const, detail: 'Аккаунт готов. Для отправки компьютер и локальный Bridge должны оставаться включёнными.' },
   restricted: { label: 'Ограничен Telegram', tone: 'danger' as const, detail: 'Новые отправки остановлены из-за ограничения аккаунта.' },
   reauth_required: { label: 'Нужно переподключение', tone: 'warning' as const, detail: 'Сессия больше не действует. Подключите аккаунт заново.' },
@@ -427,6 +428,125 @@ function TelegramTwoFactorPasswordForm({
   );
 }
 
+function TelegramPhoneAuthForm({
+  challenge,
+  disabled,
+  onBusyChange,
+  onResolved,
+}: {
+  challenge: LeadRadarTelegramAccountQr;
+  disabled: boolean;
+  onBusyChange: (busy: boolean) => void;
+  onResolved: (account: LeadRadarTelegramAccountState) => void;
+}) {
+  const action = challenge.inputAction;
+  const fieldId = useId();
+  const helpId = useId();
+  const errorId = useId();
+  const [value, setValue] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setValue('');
+    setError(null);
+  }, [challenge.authId, action]);
+
+  async function submit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault();
+    if (busy || disabled || !action) return;
+    const encryptionKey = challenge.bridgeEncryptionKey;
+    const inputCommandId = challenge.inputCommandId;
+    if (!encryptionKey || !inputCommandId) {
+      setError('Bridge не вернул одноразовый защищённый канал. Обновите статус; данные не отправлены.');
+      return;
+    }
+    let normalized = value.trim();
+    if (action === 'phone') {
+      normalized = normalized.replace(/[\s()-]/gu, '');
+      if (normalized.startsWith('00')) normalized = `+${normalized.slice(2)}`;
+      else if (/^\d{7,15}$/u.test(normalized)) normalized = `+${normalized}`;
+      if (!/^\+[1-9]\d{6,14}$/u.test(normalized)) {
+        setError('Введите номер с кодом страны, например +998 90 123 45 67.');
+        return;
+      }
+    } else {
+      normalized = normalized.replace(/\s/gu, '');
+      if (!/^[0-9A-Za-z_-]{3,16}$/u.test(normalized)) {
+        setError('Введите код из сообщения Telegram.');
+        return;
+      }
+    }
+    setBusy(true);
+    onBusyChange(true);
+    setError(null);
+    setValue('');
+    try {
+      const inputEnvelope = await encryptTelegramBridgeAuthInput({
+        bridgePublicKeySpki: encryptionKey.spki,
+        keyId: encryptionKey.keyId,
+        action,
+        value: normalized,
+        orgId: challenge.orgId,
+        deviceId: challenge.deviceId,
+        commandId: inputCommandId,
+        authId: challenge.authId,
+        expiresAt: challenge.expiresAt,
+      });
+      const next = await api.leadRadarSubmitTelegramAccountAuthInput(challenge.authId, {
+        inputCommandId,
+        inputAction: action,
+        inputEnvelope,
+      });
+      onResolved(next);
+      if (next.reasonCode === 'phone_invalid') setError('Telegram не принял этот номер. Проверьте код страны и номер.');
+      if (next.reasonCode === 'code_invalid') setError('Telegram не принял код. Введите последний полученный код ещё раз.');
+    } catch (submitError) {
+      setError(campaignErrorCopy(submitError));
+    } finally {
+      setBusy(false);
+      onBusyChange(false);
+    }
+  }
+
+  const phoneStep = action === 'phone';
+  return (
+    <form onSubmit={(event) => { void submit(event); }} className="w-full max-w-sm text-left">
+      <Phone size={36} className="mx-auto text-brand-cyan" aria-hidden="true" />
+      <h4 className="mt-3 text-center text-sm font-semibold text-white">
+        {phoneStep ? 'Введите номер Telegram' : 'Введите код из Telegram'}
+      </h4>
+      <p id={helpId} className="mt-1 text-center text-xs leading-5 text-white/60">
+        {phoneStep
+          ? 'Укажите номер с кодом страны. Он зашифруется в этой вкладке и попадёт только в локальный Bridge.'
+          : 'Telegram прислал код в приложение или SMS. Код шифруется на этом устройстве и не сохраняется сайтом.'}
+      </p>
+      <Label htmlFor={fieldId} className="mt-4">{phoneStep ? 'Номер телефона' : 'Код подтверждения'}</Label>
+      <Input
+        id={fieldId}
+        name={phoneStep ? 'telegram-phone' : 'telegram-one-time-code'}
+        type="text"
+        inputMode={phoneStep ? 'tel' : 'numeric'}
+        autoComplete={phoneStep ? 'tel' : 'one-time-code'}
+        value={value}
+        placeholder={phoneStep ? '+998 90 123 45 67' : '12345'}
+        required
+        disabled={busy || disabled}
+        aria-describedby={`${helpId}${error ? ` ${errorId}` : ''}`}
+        aria-errormessage={error ? errorId : undefined}
+        aria-invalid={Boolean(error)}
+        onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
+        className="min-h-12"
+      />
+      <Button type="submit" disabled={busy || disabled || value.trim().length < 3} aria-busy={busy} className="mt-3 min-h-12 w-full">
+        {busy ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" /> : <ShieldCheck size={17} aria-hidden="true" />}
+        {busy ? (phoneStep ? 'Запрашиваем код…' : 'Проверяем код…') : (phoneStep ? 'Получить код' : 'Подтвердить код')}
+      </Button>
+      {error && <p id={errorId} role="alert" className="mt-3 rounded-xl border border-amber-300/18 bg-amber-300/[0.04] p-3 text-xs leading-5 text-amber-50/90">{error}</p>}
+    </form>
+  );
+}
+
 function isCampaignTerminal(status: LeadRadarTelegramCampaignStatus): boolean {
   return status === 'stopped' || status === 'completed' || status === 'failed';
 }
@@ -703,7 +823,7 @@ export function TelegramAccountCampaignPanel({
         bridgePairingRequest.current = null;
         setBridgePairing(null);
         setBridgePairingNotice(device.status === 'online'
-          ? 'Локальный Bridge привязан и находится в сети. Теперь можно создать защищённый QR.'
+          ? 'Локальный Bridge привязан и находится в сети. Теперь можно войти по номеру телефона.'
           : 'Bridge привязан, но сейчас не в сети. Запустите программу на компьютере.');
         await loadAccount();
         return;
@@ -1417,26 +1537,17 @@ export function TelegramAccountCampaignPanel({
     setAccountBusy(true);
     setAccountNotice(null);
     try {
-      let key = bridgeBrowserKey.current;
-      if (!key || Date.parse(key.expiresAt) <= Date.now()) {
-        // An idempotency key and its E2E browser key are one indivisible
-        // ceremony. Never retry an old operation with a newly generated key:
-        // the gateway may already have encrypted its QR to the original key.
-        connectRequestKey.current = null;
-        key = await createTelegramBridgeBrowserKey();
-        bridgeBrowserKey.current = key;
-      }
       const requestKey = connectRequestKey.current
         ?? `lead-radar-account-connect-ui-${crypto.randomUUID()}`;
       connectRequestKey.current = requestKey;
       setDecryptedQr(null);
-      const next = await api.leadRadarConnectTelegramAccount(requestKey, key.publicKey);
+      const next = await api.leadRadarConnectTelegramAccount(requestKey);
       connectRequestKey.current = null;
       setAccountClock(Date.now());
       setAccount(next);
       setAccountNotice(next.status === 'connected'
         ? 'Telegram подтвердил подключение выделенного аккаунта.'
-        : 'QR создан. Отсканируйте его в Telegram; сообщения ещё не отправляются.');
+        : 'Введите номер с кодом страны. Telegram пришлёт код подтверждения; сообщения ещё не отправляются.');
     } catch (connectError) {
       if (hasDefiniteHttpResponse(connectError)) {
         connectRequestKey.current = null;
@@ -1521,7 +1632,9 @@ export function TelegramAccountCampaignPanel({
       setAccount(next);
       setAccountNotice(next.status === 'connected'
         ? 'Telegram подтвердил подключение. Сверьте карточку аккаунта перед кампанией.'
-        : 'Telegram ещё не подтвердил вход. QR остаётся активным; сообщения не отправляются.');
+        : next.authState === 'awaiting_code'
+          ? 'Telegram ждёт код подтверждения. Введите последний полученный код; сообщения не отправляются.'
+          : 'Telegram ещё не подтвердил вход. Завершите текущий шаг; сообщения не отправляются.');
     } catch (statusError) {
       setAccountNotice(campaignErrorCopy(statusError));
     } finally {
@@ -1792,13 +1905,16 @@ export function TelegramAccountCampaignPanel({
   const campaignPauseUntil = campaign?.pausedUntil
     ?? (campaign?.status === 'paused' ? campaign.nextSendAt ?? null : null);
   const accountStatus = account?.status ?? null;
+  const pendingConnection = accountStatus === 'pending' || accountStatus === 'connecting';
   const awaitingTwoFactorPassword = (accountStatus === 'pending' || accountStatus === 'connecting')
     && account?.authState === 'awaiting_password';
+  const awaitingPhone = pendingConnection && account?.authState === 'awaiting_phone';
+  const awaitingCode = pendingConnection && account?.authState === 'awaiting_code';
   const accountCopy = awaitingTwoFactorPassword
     ? {
       label: 'Нужен пароль 2FA',
       tone: 'warning' as const,
-      detail: 'QR подтверждён. Telegram ожидает пароль двухэтапной защиты; отправка остаётся закрытой.',
+      detail: 'Код подтверждён. Telegram ожидает пароль двухэтапной защиты; отправка остаётся закрытой.',
     }
     : accountStatus ? ACCOUNT_STATUS_COPY[accountStatus] : null;
   const accountReadinessReasonCode = effectiveAccountReadiness?.blockers[0] ?? account?.reasonCode;
@@ -1824,7 +1940,6 @@ export function TelegramAccountCampaignPanel({
     && bridgeStatus !== 'revoked';
   const accountQuickAction = telegramAccountQuickAction(accountStatus, telegramAccountEnabled);
   const canRequestConnection = accountQuickAction === 'connect' && !accountReadinessBlocked;
-  const pendingConnection = accountStatus === 'pending' || accountStatus === 'connecting';
   const foundSelectionIds = draftCandidateLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT);
   const readySelectionIds = automaticLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT);
   const allFoundSelected = foundSelectionIds.length > 0
@@ -1839,13 +1954,15 @@ export function TelegramAccountCampaignPanel({
   const accountQuickActionBlocked = accountQuickAction.startsWith('blocked_') || accountReadinessBlocked;
   const accountQuickActionBusy = accountBusy || accountLoading;
   const accountQuickActionLabel = accountBusy
-    ? 'Готовим QR…'
+    ? 'Подключаем…'
     : accountLoading
       ? 'Проверяем аккаунт…'
       : connected
         ? 'Открыть подключённый аккаунт'
         : pendingConnection
-          ? awaitingTwoFactorPassword ? 'Ввести пароль 2FA' : 'Показать QR подключения'
+          ? awaitingTwoFactorPassword ? 'Ввести пароль 2FA'
+            : awaitingCode ? 'Ввести код Telegram'
+              : awaitingPhone ? 'Ввести номер телефона' : 'Открыть подключение'
           : accountReadinessReason
             ? 'Что нужно настроить'
             : accountQuickAction === 'connect'
@@ -1867,8 +1984,9 @@ export function TelegramAccountCampaignPanel({
         ? `Подключён ${accountIdentityLabel ?? 'выделенный аккаунт'}. Проверьте его карточку перед запуском.`
         : pendingConnection
           ? awaitingTwoFactorPassword
-            ? 'Telegram подтвердил QR и ожидает пароль двухэтапной защиты.'
-            : 'QR уже создан. Откройте его и подтвердите вход в Telegram.'
+            ? 'Telegram подтвердил код и ожидает пароль двухэтапной защиты.'
+            : awaitingCode ? 'Код отправлен. Введите его из Telegram.'
+              : 'Введите номер с кодом страны, чтобы получить код Telegram.'
           : accountCopy?.detail ?? 'Статус аккаунта ещё не получен; отправка закрыта.');
   const accountBlockingExplanation = accountReadinessReason ?? (accountQuickAction === 'blocked_feature'
     ? 'Подключение отключено серверным переключателем. QR не создавался, запрос подключения не выполнялся, ничего не отправлено.'
@@ -1918,7 +2036,7 @@ export function TelegramAccountCampaignPanel({
                 ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" />
                 : connected
                   ? <CheckCircle2 size={17} aria-hidden="true" />
-                  : <QrCode size={17} aria-hidden="true" />}
+                  : <Phone size={17} aria-hidden="true" />}
               {accountQuickActionLabel}
             </Button>
           </div>
@@ -2096,8 +2214,8 @@ export function TelegramAccountCampaignPanel({
                     </Button>
                     {canRequestConnection && (
                       <Button type="button" disabled={accountBusy || accountLoading} aria-busy={accountBusy} onClick={() => { void connectAccount(); }} className="min-h-12">
-                        {accountBusy ? <LoaderCircle size={16} className="motion-safe:animate-spin" aria-hidden="true" /> : <QrCode size={16} aria-hidden="true" />}
-                        {accountBusy ? 'Готовим QR…' : accountStatus === 'disconnected' || accountStatus === 'revoked' ? 'Подключить аккаунт' : 'Переподключить'}
+                        {accountBusy ? <LoaderCircle size={16} className="motion-safe:animate-spin" aria-hidden="true" /> : <Phone size={16} aria-hidden="true" />}
+                        {accountBusy ? 'Подключаем…' : accountStatus === 'disconnected' || accountStatus === 'revoked' ? 'Подключить аккаунт' : 'Переподключить'}
                       </Button>
                     )}
                   </div>
@@ -2144,7 +2262,7 @@ export function TelegramAccountCampaignPanel({
                 )}
                 {disconnectConfirmation && (
                   <div ref={disconnectConfirmationRef} tabIndex={-1} role="group" aria-label="Подтверждение отключения Telegram-аккаунта" className="mt-3 rounded-xl border border-rose-300/18 bg-rose-400/[0.045] p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">
-                    <p className="text-sm leading-6 text-rose-50/85">{account?.status === 'pending' || account?.status === 'connecting' ? 'QR станет недействительным, незавершённое подключение будет отменено. Сообщения не отправлялись.' : 'Отключение немедленно блокирует новые отправки и просит локальный Bridge удалить Telegram-сессию.'}</p>
+                    <p className="text-sm leading-6 text-rose-50/85">{account?.status === 'pending' || account?.status === 'connecting' ? 'Код входа станет недействительным, незавершённое подключение будет отменено. Сообщения не отправлялись.' : 'Отключение немедленно блокирует новые отправки и просит локальный Bridge удалить Telegram-сессию.'}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <Button type="button" variant="danger" disabled={accountBusy || accountLoading} onClick={() => { void disconnectAccount(); }} className="min-h-12">{account?.status === 'pending' || account?.status === 'connecting' ? 'Отменить подключение' : 'Подтвердить отключение'}</Button>
                       <Button type="button" variant="secondary" disabled={accountBusy || accountLoading} onClick={() => { setDisconnectConfirmation(false); restoreFocus(disconnectButtonId); }} className="min-h-12">Вернуться</Button>
@@ -2158,9 +2276,27 @@ export function TelegramAccountCampaignPanel({
                   qrExpired ? (
                     <div role="status" aria-live="polite" aria-atomic="true" className="max-w-xs">
                       <Clock3 size={36} className="mx-auto text-amber-200" aria-hidden="true" />
-                      <p className="mt-3 text-sm font-medium text-white">Срок QR истёк</p>
-                      <p className="mt-1 text-xs leading-5 text-white/60">Чтобы создать новый QR, отмените истёкшее подключение, затем нажмите «Подключить аккаунт». Старый код больше не используется; сообщения не отправлялись.</p>
+                      <p className="mt-3 text-sm font-medium text-white">Срок входа истёк</p>
+                      <p className="mt-1 text-xs leading-5 text-white/60">Отмените истёкшее подключение и начните заново. Старый код больше не используется; сообщения не отправлялись.</p>
                     </div>
+                  ) : (awaitingPhone || awaitingCode) && account.qr?.authId ? (
+                    <TelegramPhoneAuthForm
+                      key={`${account.qr.authId}:${account.qr.inputAction ?? 'input'}`}
+                      challenge={account.qr}
+                      disabled={accountLoading || accountBusy}
+                      onBusyChange={setAccountBusy}
+                      onResolved={(next) => {
+                        setAccountClock(Date.now());
+                        setAccount(next);
+                        setAccountNotice(next.status === 'connected'
+                          ? 'Telegram подтвердил код и подключил аккаунт.'
+                          : next.authState === 'awaiting_code'
+                            ? 'Код отправлен. Проверьте Telegram и введите его здесь.'
+                            : next.authState === 'awaiting_password'
+                              ? 'Код принят. Введите пароль двухэтапной защиты Telegram.'
+                              : null);
+                      }}
+                    />
                   ) : awaitingTwoFactorPassword && account.qr?.authId ? (
                     <TelegramTwoFactorPasswordForm
                       key={account.qr.authId}
@@ -2214,8 +2350,8 @@ export function TelegramAccountCampaignPanel({
                   </div>
                 ) : (
                   <div>
-                    <QrCode size={36} className="mx-auto text-white/35" aria-hidden="true" />
-                    <p className="mt-3 text-xs leading-5 text-white/55">QR появится здесь после ответа локального Bridge и расшифруется только в этой вкладке.</p>
+                    <Phone size={36} className="mx-auto text-white/35" aria-hidden="true" />
+                    <p className="mt-3 text-xs leading-5 text-white/55">Нажмите «Подключить аккаунт», затем введите номер и код из Telegram.</p>
                   </div>
                 )}
               </div>

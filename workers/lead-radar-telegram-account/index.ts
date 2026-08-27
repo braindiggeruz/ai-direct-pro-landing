@@ -126,6 +126,20 @@ async function connect(request: Request, env: TelegramAccountGatewayEnv): Promis
   }, GATEWAY_DO_CONTROL_TIMEOUT_MS);
 }
 
+async function connectPhone(request: Request, env: TelegramAccountGatewayEnv): Promise<Response> {
+  const body = await readBoundedJson(request);
+  if (!body
+    || !hasExactKeys(body, ['schema', 'org_id', 'operation_id'])
+    || !validSchema(body)
+    || !validOrgId(body.org_id)
+    || !validOperationId(body.operation_id)
+    || !idempotencyHeaderMatches(request, body.operation_id)) return safeErrorResponse('invalid_request');
+  return doFetch(env, '/internal/accounts/connect/phone/start', {
+    ...body,
+    account_ref: await accountRef(env, body.org_id),
+  }, GATEWAY_DO_CONTROL_TIMEOUT_MS);
+}
+
 async function activeConnection(url: URL, env: TelegramAccountGatewayEnv): Promise<Response> {
   const orgId = url.searchParams.get('org_id');
   if (!orgId || !ORG_ID_PATTERN.test(orgId)
@@ -165,6 +179,22 @@ async function submitPassword(request: Request, env: TelegramAccountGatewayEnv):
     || !/^lrtgbc_[a-f0-9]{32}$/u.test(body.password_command_id)
     || !validBridgeE2eEnvelope(body.password_envelope)) return safeErrorResponse('invalid_request');
   return doFetch(env, '/internal/accounts/connect/password', body, GATEWAY_DO_CONTROL_TIMEOUT_MS);
+}
+
+async function submitAuthInput(request: Request, env: TelegramAccountGatewayEnv): Promise<Response> {
+  const body = await readBoundedJson(request);
+  if (!body
+    || !hasExactKeys(body, [
+      'schema', 'org_id', 'auth_id', 'input_command_id', 'input_action', 'input_envelope',
+    ])
+    || !validSchema(body)
+    || !validOrgId(body.org_id)
+    || !validAuthId(body.auth_id)
+    || typeof body.input_command_id !== 'string'
+    || !/^lrtgbc_[a-f0-9]{32}$/u.test(body.input_command_id)
+    || !['phone', 'code'].includes(String(body.input_action))
+    || !validBridgeE2eEnvelope(body.input_envelope)) return safeErrorResponse('invalid_request');
+  return doFetch(env, '/internal/accounts/connect/input', body, GATEWAY_DO_CONTROL_TIMEOUT_MS);
 }
 
 async function disconnect(request: Request, env: TelegramAccountGatewayEnv): Promise<Response> {
@@ -379,6 +409,8 @@ async function privateRoute(request: Request, env: TelegramAccountGatewayEnv): P
     case '/v1/bridge/status': return bridgeStatus(request, env);
     case '/v1/bridge/revoke': return revokeBridge(request, env);
     case '/v1/accounts/connect': return connect(request, env);
+    case '/v1/accounts/connect/phone/start': return connectPhone(request, env);
+    case '/v1/accounts/connect/input': return submitAuthInput(request, env);
     case '/v1/accounts/connect/password': return submitPassword(request, env);
     case '/v1/accounts/connect/adopt': return authAction(request, env, 'adopt');
     case '/v1/accounts/connect/finalize': return authAction(request, env, 'finalize');

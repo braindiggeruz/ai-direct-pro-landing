@@ -793,14 +793,11 @@ export const api = {
       { deviceId },
       { timeoutMs: 20_000, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
-  leadRadarConnectTelegramAccount: (
-    idempotencyKey: string,
-    browserKey: import('../../shared/lead-radar-telegram-bridge').LeadRadarTelegramBridgeBrowserKey,
-  ) =>
+  leadRadarConnectTelegramAccount: (idempotencyKey: string) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
       'POST',
       '/api/admin/lead-radar/telegram-account/connect',
-      { browserKey },
+      {},
       { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
   leadRadarTelegramAccountConnectStatus: (authId: string) =>
@@ -820,6 +817,20 @@ export const api = {
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
       'POST',
       `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}/password`,
+      input,
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+    ),
+  leadRadarSubmitTelegramAccountAuthInput: (
+    authId: string,
+    input: {
+      inputCommandId: string;
+      inputAction: 'phone' | 'code';
+      inputEnvelope: import('../../shared/lead-radar-telegram-bridge').LeadRadarTelegramBridgeE2eEnvelope;
+    },
+  ) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'POST',
+      `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}/input`,
       input,
       { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
     ),

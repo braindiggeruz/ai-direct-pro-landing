@@ -8,6 +8,7 @@ export const LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS = 90;
 
 export const LEAD_RADAR_TELEGRAM_BRIDGE_CAPABILITIES = [
   'qr',
+  'phone_code',
   'two_factor_password',
   'text',
   'image',
@@ -18,6 +19,8 @@ export type LeadRadarTelegramBridgeCapability =
 
 export type LeadRadarTelegramBridgeCommandKind =
   | 'connect'
+  | 'connect_phone'
+  | 'submit_auth'
   | 'cancel_auth'
   | 'submit_password'
   | 'disconnect'

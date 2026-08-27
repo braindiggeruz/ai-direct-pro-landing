@@ -44,7 +44,8 @@ export function isFinalizedConnectedAuthRecoverable(
   return state === 'connected' && finalized;
 }
 export const BRIDGE_COMMAND_KINDS: readonly LeadRadarTelegramBridgeCommandKind[] = [
-  'connect', 'cancel_auth', 'submit_password', 'disconnect', 'probe', 'validate_media', 'send',
+  'connect', 'connect_phone', 'submit_auth', 'cancel_auth', 'submit_password',
+  'disconnect', 'probe', 'validate_media', 'send',
 ];
 
 export interface BridgeJsonRecord { [key: string]: unknown }

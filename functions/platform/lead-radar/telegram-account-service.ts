@@ -84,6 +84,8 @@ export interface TelegramAccountConnectChallenge {
   bridgeCommandId: string;
   deviceId: string;
   qrEnvelope: LeadRadarTelegramBridgeE2eEnvelope | null;
+  inputCommandId: string | null;
+  inputAction: 'phone' | 'code' | null;
   passwordCommandId: string | null;
   bridgeEncryptionKey: Omit<LeadRadarTelegramBridgeBrowserKey, 'expires_at'> | null;
   expiresAt: string;
@@ -504,14 +506,22 @@ export async function getTelegramAccountGatewayReadiness(
 function detailedChallenge(envelope: ServiceEnvelope): TelegramAccountConnectChallenge {
   const authStates: readonly TelegramAccountConnectChallenge['authState'][] = [
     'starting',
+    'awaiting_phone',
     'awaiting_qr',
+    'awaiting_code',
     'awaiting_password',
   ];
+  const inputState = envelope.status === 'awaiting_phone' || envelope.status === 'awaiting_code';
   const passwordState = envelope.status === 'awaiting_password';
+  const secretState = inputState || passwordState;
+  const hasInputFields = Object.hasOwn(envelope, 'input_command_id')
+    || Object.hasOwn(envelope, 'input_action');
   const expected = [
     'schema', 'status', 'auth_id', 'bridge_command_id', 'device_id', 'expires_at',
-    'qr_envelope', 'password_command_id', 'reason_code',
-    ...(passwordState ? ['bridge_encryption_key'] : []),
+    'qr_envelope',
+    ...(hasInputFields ? ['input_command_id', 'input_action'] : []),
+    'password_command_id', 'reason_code',
+    ...(secretState ? ['bridge_encryption_key'] : []),
   ];
   if (!exactKeys(envelope, expected)
     || !authStates.includes(envelope.status as TelegramAccountConnectChallenge['authState'])
@@ -522,12 +532,20 @@ function detailedChallenge(envelope: ServiceEnvelope): TelegramAccountConnectCha
     || typeof envelope.device_id !== 'string'
     || !LEAD_RADAR_TELEGRAM_BRIDGE_DEVICE_ID_PATTERN.test(envelope.device_id)
     || (envelope.status === 'awaiting_qr') !== isLeadRadarTelegramBridgeE2eEnvelope(envelope.qr_envelope)
+    || (inputState && !hasInputFields)
+    || (hasInputFields && inputState !== (
+      typeof envelope.input_command_id === 'string'
+      && LEAD_RADAR_TELEGRAM_BRIDGE_COMMAND_ID_PATTERN.test(envelope.input_command_id)
+      && envelope.input_action === (envelope.status === 'awaiting_phone' ? 'phone' : 'code')
+    ))
+    || (hasInputFields && !inputState
+      && (envelope.input_command_id !== null || envelope.input_action !== null))
     || (envelope.status === 'awaiting_password') !== (
       typeof envelope.password_command_id === 'string'
       && LEAD_RADAR_TELEGRAM_BRIDGE_COMMAND_ID_PATTERN.test(envelope.password_command_id)
     )
     || (!passwordState && envelope.password_command_id !== null)
-    || (passwordState && (!exactRecord(envelope.bridge_encryption_key)
+    || (secretState && (!exactRecord(envelope.bridge_encryption_key)
       || !exactKeys(envelope.bridge_encryption_key, ['alg', 'key_id', 'spki'])
       || envelope.bridge_encryption_key.alg !== 'RSA-OAEP-256'
       || typeof envelope.bridge_encryption_key.key_id !== 'string'
@@ -537,7 +555,7 @@ function detailedChallenge(envelope: ServiceEnvelope): TelegramAccountConnectCha
     || (envelope.reason_code !== null
       && (typeof envelope.reason_code !== 'string'
         || !SAFE_REASON_PATTERN.test(envelope.reason_code)))
-    || ((envelope.status === 'awaiting_qr' || passwordState)
+    || ((envelope.status === 'awaiting_qr' || secretState)
       ? !validRelayExpiry(envelope.expires_at)
       : !validChallengeExpiry(envelope.expires_at))) {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
@@ -550,9 +568,13 @@ function detailedChallenge(envelope: ServiceEnvelope): TelegramAccountConnectCha
     deviceId: envelope.device_id as string,
     qrEnvelope: isLeadRadarTelegramBridgeE2eEnvelope(envelope.qr_envelope)
       ? envelope.qr_envelope : null,
+    inputCommandId: typeof envelope.input_command_id === 'string'
+      ? envelope.input_command_id : null,
+    inputAction: envelope.input_action === 'phone' || envelope.input_action === 'code'
+      ? envelope.input_action : null,
     passwordCommandId: typeof envelope.password_command_id === 'string'
       ? envelope.password_command_id : null,
-    bridgeEncryptionKey: passwordState
+    bridgeEncryptionKey: secretState
       ? {
         alg: 'RSA-OAEP-256',
         key_id: (envelope.bridge_encryption_key as Record<string, unknown>).key_id as string,
@@ -738,6 +760,28 @@ export async function beginTelegramAccountConnection(input: {
     }),
   }, input.internalServiceToken);
   return challenge(await responseEnvelope(response));
+}
+
+export async function beginTelegramAccountPhoneConnection(input: {
+  service?: Fetcher;
+  internalServiceToken?: string;
+  orgId: string;
+  operationId: string;
+}): Promise<TelegramAccountConnectChallenge> {
+  assertRequestScope(input.orgId, input.operationId);
+  const response = await serviceFetch(input.service, '/v1/accounts/connect/phone/start', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Idempotency-Key': input.operationId,
+    },
+    body: JSON.stringify({
+      schema: SERVICE_SCHEMA,
+      org_id: input.orgId,
+      operation_id: input.operationId,
+    }),
+  }, input.internalServiceToken);
+  return detailedChallenge(await responseEnvelope(response));
 }
 
 export async function getActiveTelegramAccountConnection(input: {
@@ -931,6 +975,50 @@ export function validTelegramAccountPassword(value: string): boolean {
     && !value.includes('\u0000');
 }
 
+export async function submitTelegramAccountAuthInput(input: {
+  service?: Fetcher;
+  internalServiceToken?: string;
+  orgId: string;
+  authId: string;
+  inputCommandId: string;
+  inputAction: 'phone' | 'code';
+  inputEnvelope: LeadRadarTelegramBridgeE2eEnvelope;
+}): Promise<TelegramAccountConnectionPoll> {
+  assertRequestScope(input.orgId);
+  if (!AUTH_ID_PATTERN.test(input.authId)
+    || !LEAD_RADAR_TELEGRAM_BRIDGE_COMMAND_ID_PATTERN.test(input.inputCommandId)
+    || !isLeadRadarTelegramBridgeE2eEnvelope(input.inputEnvelope)) {
+    throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
+  }
+  const response = await serviceFetch(input.service, '/v1/accounts/connect/input', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({
+      schema: SERVICE_SCHEMA,
+      org_id: input.orgId,
+      auth_id: input.authId,
+      input_command_id: input.inputCommandId,
+      input_action: input.inputAction,
+      input_envelope: input.inputEnvelope,
+    }),
+  }, input.internalServiceToken);
+  if (response.status === 429) {
+    throw new TelegramAccountServiceError('telegram_campaign_auth_rate_limited');
+  }
+  const envelope = await responseEnvelope(response);
+  if (['starting', 'awaiting_phone', 'awaiting_qr', 'awaiting_code', 'awaiting_password']
+    .includes(envelope.status)) return detailedChallenge(envelope);
+  if (['connected', 'restricted', 'reauth_required', 'revoked', 'error'].includes(envelope.status)) {
+    return pollTelegramAccountConnection({
+      service: input.service,
+      internalServiceToken: input.internalServiceToken,
+      orgId: input.orgId,
+      authId: input.authId,
+    });
+  }
+  throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
+}
+
 /**
  * Forwards only a browser-to-Bridge hybrid ciphertext. Plaintext 2FA exists in
  * browser memory and the DPAPI-protected local process only; Pages, Worker,
@@ -966,7 +1054,9 @@ export async function submitTelegramAccountPassword(input: {
   }
   const envelope = await responseEnvelope(response);
   if (envelope.status === 'starting'
+    || envelope.status === 'awaiting_phone'
     || envelope.status === 'awaiting_qr'
+    || envelope.status === 'awaiting_code'
     || envelope.status === 'awaiting_password') {
     return detailedChallenge(envelope);
   }

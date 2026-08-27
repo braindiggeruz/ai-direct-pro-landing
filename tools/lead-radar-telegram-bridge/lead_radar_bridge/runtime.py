@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .e2e import decrypt_password_envelope, encrypt_qr_envelope
+from .e2e import decrypt_password_envelope, encrypt_qr_envelope, envelope_decrypt_context
 from .ledger import BridgeLedger, LedgerConflict, payload_digest
 from .mailbox import MailboxClient, idle_delay
 from .media import sanitize_static_image, verify_media_bytes
@@ -36,7 +36,7 @@ from .security import DpapiVault, SecurityError, secure_directory
 from .telegram_adapter import ProviderOutcome, TelethonAccount
 
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 MAX_AUTH_SECONDS = 10 * 60
 MAX_COMMAND_FUTURE_SECONDS = 10 * 60
 
@@ -132,6 +132,39 @@ class BridgeRuntime:
             "custody": custody,
             "expires_at": expires_at,
         })
+        if custody == "finalized":
+            telegram.pop("pending_phone", None)
+            telegram.pop("pending_phone_code_hash", None)
+        self._save_state()
+
+    def _persist_pending_phone(self, *, auth_id: str, phone: str, phone_code_hash: str) -> None:
+        telegram = self.state.get("telegram")
+        if (not isinstance(telegram, dict)
+            or telegram.get("auth_id") != auth_id
+            or telegram.get("custody") != "provisional"):
+            raise SecurityError("auth_not_provisional")
+        telegram["pending_phone"] = phone
+        telegram["pending_phone_code_hash"] = phone_code_hash
+        self._save_state()
+
+    def _pending_phone(self, auth_id: str) -> tuple[str, str]:
+        telegram = self.state.get("telegram")
+        if not isinstance(telegram, dict) or telegram.get("auth_id") != auth_id:
+            raise SecurityError("phone_auth_missing")
+        phone = telegram.get("pending_phone")
+        phone_code_hash = telegram.get("pending_phone_code_hash")
+        if (not isinstance(phone, str) or not re.fullmatch(r"\+[1-9]\d{6,14}", phone)
+            or not isinstance(phone_code_hash, str) or not 8 <= len(phone_code_hash) <= 256):
+            raise SecurityError("phone_auth_missing")
+        return phone, phone_code_hash
+
+    def _clear_pending_phone(self) -> None:
+        telegram = self.state.get("telegram")
+        if isinstance(telegram, dict):
+            telegram.pop("pending_phone", None)
+            telegram.pop("pending_phone_code_hash", None)
+        self.telegram.pending_phone = None
+        self.telegram.pending_phone_code_hash = None
         self._save_state()
 
     def _wipe_session_after_confirmed_logout(self) -> None:
@@ -144,6 +177,8 @@ class BridgeRuntime:
                 "custody": "revoked",
                 "expires_at": 0,
             })
+            telegram.pop("pending_phone", None)
+            telegram.pop("pending_phone_code_hash", None)
         self._save_state()
 
     async def cleanup_expired_provisional(self) -> None:
@@ -220,6 +255,29 @@ class BridgeRuntime:
         _iso(browser.get("expires_at"), maximum_future=95)
         return org_id, auth_id, account_ref, browser, expires
 
+    def _phone_connect_payload(self, command: BridgeCommand) -> tuple[str, str, str, dt.datetime]:
+        payload = command.payload
+        if not exact_keys(payload, {"org_id", "auth_id", "account_ref", "expires_at"}):
+            raise ProtocolError("phone_connect_payload_invalid")
+        org_id = payload.get("org_id")
+        auth_id = payload.get("auth_id")
+        account_ref = payload.get("account_ref")
+        expires = _iso(payload.get("expires_at"))
+        if (not isinstance(org_id, str) or not ENTITY_ID.fullmatch(org_id)
+            or not isinstance(auth_id, str) or not AUTH_ID.fullmatch(auth_id)
+            or not isinstance(account_ref, str) or not ACCOUNT_REF.fullmatch(account_ref)):
+            raise ProtocolError("phone_connect_payload_invalid")
+        return org_id, auth_id, account_ref, expires
+
+    @staticmethod
+    def _relay_expiry(expires_at: int) -> str:
+        deadline = min(expires_at, int(time.time()) + 85)
+        if deadline <= int(time.time()) + 5:
+            raise ProtocolError("auth_relay_expired")
+        return dt.datetime.fromtimestamp(
+            deadline, tz=dt.timezone.utc,
+        ).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+
     async def _new_qr_progress(self, command: BridgeCommand, sequence: int) -> dict[str, Any]:
         org_id, auth_id, account_ref, browser, expires = self._connect_payload(command)
         qr_url = await self.telegram.begin_qr(auth_id)
@@ -289,6 +347,12 @@ class BridgeRuntime:
         sequence: int,
     ) -> dict[str, Any]:
         resolved_ref, label = await self.telegram.connected_identity(account_ref)
+        telegram_state = self.state.get("telegram")
+        if isinstance(telegram_state, dict):
+            telegram_state.pop("pending_phone", None)
+            telegram_state.pop("pending_phone_code_hash", None)
+        self.telegram.pending_phone = None
+        self.telegram.pending_phone_code_hash = None
         self._persist_session(
             auth_id=auth_id,
             account_ref=resolved_ref,
@@ -398,6 +462,161 @@ class BridgeRuntime:
 
     async def _connect(self, command: BridgeCommand) -> dict[str, Any]:
         return await self._new_qr_progress(command, 1)
+
+    async def _connect_phone(self, command: BridgeCommand) -> dict[str, Any]:
+        org_id, auth_id, account_ref, expires = self._phone_connect_payload(command)
+        self._clear_pending_phone()
+        await self.telegram.begin_phone(auth_id)
+        expires_epoch = int(expires.timestamp())
+        self.ledger.put_auth_custody(
+            auth_id=auth_id,
+            command_id=command.id,
+            account_ref=account_ref,
+            state="provisional",
+            expires_at=expires_epoch,
+        )
+        self._persist_session(
+            auth_id=auth_id,
+            account_ref=account_ref,
+            custody="provisional",
+            expires_at=expires_epoch,
+        )
+        return result_body(
+            command_id=command.id,
+            sequence=1,
+            status="succeeded",
+            result_code="awaiting_phone",
+            result={
+                "auth_id": auth_id,
+                "auth_state": "awaiting_phone",
+                "expires_at": self._relay_expiry(expires_epoch),
+            },
+        )
+
+    async def _submit_auth(self, command: BridgeCommand) -> dict[str, Any]:
+        payload = command.payload
+        if not exact_keys(payload, {"org_id", "auth_id", "action", "auth_envelope"}):
+            raise ProtocolError("auth_input_payload_invalid")
+        org_id = payload.get("org_id")
+        auth_id = payload.get("auth_id")
+        action = payload.get("action")
+        if (not isinstance(org_id, str) or not ENTITY_ID.fullmatch(org_id)
+            or not isinstance(auth_id, str) or not AUTH_ID.fullmatch(auth_id)
+            or action not in {"phone", "code"}):
+            raise ProtocolError("auth_input_payload_invalid")
+        custody = self.ledger.auth_custody(auth_id)
+        if custody is None or custody["state"] != "provisional":
+            raise ProtocolError("auth_not_provisional")
+        value = envelope_decrypt_context(
+            self.device["private_key_pkcs8"],
+            payload.get("auth_envelope"),
+            purpose=str(action),
+            org_id=org_id,
+            device_id=self.device["device_id"],
+            command_id=command.id,
+            auth_id=auth_id,
+        )
+        if action == "phone":
+            if not isinstance(value, str) or not re.fullmatch(r"\+[1-9]\d{6,14}", value):
+                raise ProtocolError("phone_invalid")
+            try:
+                try:
+                    phone_code_hash = await self.telegram.submit_phone(value)
+                except BaseException as error:
+                    if error.__class__.__name__ in {
+                        "PhoneNumberInvalidError", "PhoneNumberBannedError", "PhoneNumberUnoccupiedError",
+                    }:
+                        return result_body(
+                            command_id=command.id,
+                            sequence=1,
+                            status="failed",
+                            result_code="phone_invalid",
+                            result={},
+                        )
+                    raise
+                self.telegram.pending_phone = value
+                self.telegram.pending_phone_code_hash = phone_code_hash
+                self._persist_session(
+                    auth_id=auth_id,
+                    account_ref=str(custody["account_ref"]),
+                    custody="provisional",
+                    expires_at=int(custody["expires_at"]),
+                )
+                self._persist_pending_phone(
+                    auth_id=auth_id,
+                    phone=value,
+                    phone_code_hash=phone_code_hash,
+                )
+            finally:
+                value = ""
+            return result_body(
+                command_id=command.id,
+                sequence=1,
+                status="succeeded",
+                result_code="awaiting_code",
+                result={
+                    "auth_id": auth_id,
+                    "auth_state": "awaiting_code",
+                    "expires_at": self._relay_expiry(int(custody["expires_at"])),
+                },
+            )
+
+        if not isinstance(value, str) or not re.fullmatch(r"[0-9A-Za-z_-]{3,16}", value):
+            raise ProtocolError("code_invalid")
+        phone, phone_code_hash = self._pending_phone(auth_id)
+        try:
+            try:
+                next_state = await self.telegram.submit_code(
+                    value,
+                    phone=phone,
+                    phone_code_hash=phone_code_hash,
+                )
+            except BaseException as error:
+                if error.__class__.__name__ in {"PhoneCodeInvalidError", "PhoneCodeEmptyError"}:
+                    return result_body(
+                        command_id=command.id,
+                        sequence=1,
+                        status="failed",
+                        result_code="code_invalid",
+                        result={},
+                    )
+                if error.__class__.__name__ == "PhoneCodeExpiredError":
+                    return result_body(
+                        command_id=command.id,
+                        sequence=1,
+                        status="failed",
+                        result_code="code_expired",
+                        result={},
+                    )
+                raise
+        finally:
+            value = ""
+        self._clear_pending_phone()
+        if next_state == "awaiting_password":
+            self._persist_session(
+                auth_id=auth_id,
+                account_ref=str(custody["account_ref"]),
+                custody="provisional",
+                expires_at=int(custody["expires_at"]),
+            )
+            return result_body(
+                command_id=command.id,
+                sequence=1,
+                status="succeeded",
+                result_code="awaiting_password",
+                result={
+                    "auth_id": auth_id,
+                    "auth_state": "awaiting_password",
+                    "expires_at": self._relay_expiry(int(custody["expires_at"])),
+                },
+            )
+        return await self._connected_result(
+            command,
+            auth_id=auth_id,
+            account_ref=str(custody["account_ref"]),
+            expires_at=int(custody["expires_at"]),
+            sequence=1,
+        )
 
     async def _password(self, command: BridgeCommand) -> dict[str, Any]:
         payload = command.payload
@@ -755,6 +974,10 @@ class BridgeRuntime:
                 return
         if command.kind == "connect":
             body = await self._connect(command)
+        elif command.kind == "connect_phone":
+            body = await self._connect_phone(command)
+        elif command.kind == "submit_auth":
+            body = await self._submit_auth(command)
         elif command.kind == "submit_password":
             body = await self._password(command)
         elif command.kind == "cancel_auth":

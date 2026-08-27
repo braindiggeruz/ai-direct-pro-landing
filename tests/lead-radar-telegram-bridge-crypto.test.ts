@@ -5,6 +5,7 @@ import {
   createTelegramBridgeBrowserKey,
   createTelegramBridgeEnrollmentCode,
   decryptTelegramBridgeQrEnvelope,
+  encryptTelegramBridgeAuthInput,
   encryptTelegramBridgePassword,
   telegramBridgeEnrollmentUri,
 } from '../src/admin/lib/lead-radar-telegram-bridge-crypto';
@@ -147,4 +148,42 @@ test('2FA leaves the browser only as contextual hybrid ciphertext', async () => 
     expires_at: expiresAt,
     password,
   });
+});
+
+test('phone and code leave the browser only as Bridge-bound ciphertext', async () => {
+  const bridgePair = await crypto.subtle.generateKey({
+    name: 'RSA-OAEP', modulusLength: 2048,
+    publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256',
+  }, true, ['encrypt', 'decrypt']);
+  const spkiBytes = new Uint8Array(await crypto.subtle.exportKey('spki', bridgePair.publicKey));
+  const spki = b64url(spkiBytes);
+  const keyId = Buffer.from(await crypto.subtle.digest('SHA-256', spkiBytes)).toString('hex');
+  const expiresAt = new Date(NOW.getTime() + 60_000).toISOString();
+  for (const [action, value] of [['phone', '+998901234567'], ['code', '12345']] as const) {
+    const envelope = await encryptTelegramBridgeAuthInput({
+      bridgePublicKeySpki: spki, keyId, action, value,
+      orgId: ORG, deviceId: DEVICE, commandId: COMMAND, authId: AUTH,
+      expiresAt, now: NOW,
+    });
+    assert.equal(JSON.stringify(envelope).includes(value), false);
+    const rawKey = await crypto.subtle.decrypt(
+      { name: 'RSA-OAEP' }, bridgePair.privateKey, fromB64url(envelope.wrapped_key),
+    );
+    const aesKey = await crypto.subtle.importKey('raw', rawKey, 'AES-GCM', false, ['decrypt']);
+    const plaintext = await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv: fromB64url(envelope.iv), tagLength: 128 },
+      aesKey,
+      fromB64url(envelope.ciphertext),
+    );
+    assert.deepEqual(JSON.parse(new TextDecoder().decode(plaintext)), {
+      schema: LEAD_RADAR_TELEGRAM_BRIDGE_SCHEMA,
+      purpose: action,
+      org_id: ORG,
+      device_id: DEVICE,
+      command_id: COMMAND,
+      auth_id: AUTH,
+      expires_at: Math.floor(Date.parse(expiresAt) / 1_000),
+      value,
+    });
+  }
 });

@@ -186,6 +186,9 @@ export interface LeadRadarTelegramAccountQr {
   deviceId: string;
   /** Ciphertext only. The private QR key never leaves React memory. */
   qrEnvelope: LeadRadarTelegramBridgeE2eEnvelope | null;
+  /** One-use encrypted phone/code relay owned by the local Bridge. */
+  inputCommandId: string | null;
+  inputAction: 'phone' | 'code' | null;
   /** Present only while the Bridge is waiting for Telegram 2FA. */
   passwordCommandId: string | null;
   bridgeEncryptionKey: LeadRadarTelegramBridgeEncryptionKey | null;

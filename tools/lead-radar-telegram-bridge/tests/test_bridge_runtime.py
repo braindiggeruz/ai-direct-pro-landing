@@ -74,10 +74,26 @@ class FakeTelegram:
         self.authorized = False
         self.photo_calls = 0
         self.text_calls = 0
+        self.pending_phone = None
+        self.pending_phone_code_hash = None
 
     async def begin_qr(self, _auth_id: str) -> str:
         self.begin_calls += 1
         return "tg://login?token=" + "A" * 32
+
+    async def begin_phone(self, _auth_id: str) -> None:
+        self.begin_calls += 1
+
+    async def submit_phone(self, phone: str) -> str:
+        self.pending_phone = phone
+        self.pending_phone_code_hash = "hash-12345678"
+        return self.pending_phone_code_hash
+
+    async def submit_code(self, _code: str, *, phone: str, phone_code_hash: str) -> str:
+        assert phone == self.pending_phone
+        assert phone_code_hash == self.pending_phone_code_hash
+        self.authorized = True
+        return "connected"
 
     def export_session(self) -> str:
         return "fixture-string-session-placeholder"
@@ -136,6 +152,31 @@ def disconnect_command() -> BridgeCommand:
         1,
         iso_after(90),
         {"account_ref": ACCOUNT_REF, "auth_id": AUTH_ID},
+    )
+
+
+def phone_connect_command(command_id: str = COMMAND_ID) -> BridgeCommand:
+    return BridgeCommand(
+        command_id,
+        "connect_phone",
+        1,
+        iso_after(90),
+        {
+            "org_id": ORG_ID,
+            "auth_id": AUTH_ID,
+            "account_ref": ACCOUNT_REF,
+            "expires_at": iso_after(540),
+        },
+    )
+
+
+def auth_input_command(command_id: str, action: str) -> BridgeCommand:
+    return BridgeCommand(
+        command_id,
+        "submit_auth",
+        1,
+        iso_after(90),
+        {"org_id": ORG_ID, "auth_id": AUTH_ID, "action": action, "auth_envelope": {}},
     )
 
 
@@ -236,6 +277,32 @@ class BridgeRuntimeTests(unittest.IsolatedAsyncioTestCase):
                 await runtime.run_once()
                 self.assertEqual(telegram.begin_calls, 1)
                 self.assertTrue(all(body == mailbox.submitted[0] for body in mailbox.submitted[:2]))
+            ledger.close()
+
+    async def test_phone_then_code_connects_without_exposing_plaintext_to_mailbox(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            runtime, ledger, mailbox, telegram, state = self.make_runtime(
+                folder, phone_connect_command(),
+            )
+            await runtime.handle_command(mailbox.command)
+            self.assertEqual(mailbox.submitted[-1]["result_code"], "awaiting_phone")
+            phone_command = auth_input_command("lrtgbc_" + "c" * 32, "phone")
+            with mock.patch(
+                "lead_radar_bridge.runtime.envelope_decrypt_context",
+                return_value="+998901234567",
+            ):
+                await runtime.handle_command(phone_command)
+            self.assertEqual(mailbox.submitted[-1]["result_code"], "awaiting_code")
+            self.assertEqual(state["telegram"]["pending_phone"], "+998901234567")
+            code_command = auth_input_command("lrtgbc_" + "d" * 32, "code")
+            with mock.patch(
+                "lead_radar_bridge.runtime.envelope_decrypt_context",
+                return_value="12345",
+            ):
+                await runtime.handle_command(code_command)
+            self.assertEqual(mailbox.submitted[-1]["result_code"], "connected")
+            self.assertNotIn("pending_phone", state["telegram"])
+            self.assertNotIn("pending_phone_code_hash", state["telegram"])
             ledger.close()
 
     async def test_disconnect_retries_more_than_32_times_without_consuming_sequence(self) -> None:

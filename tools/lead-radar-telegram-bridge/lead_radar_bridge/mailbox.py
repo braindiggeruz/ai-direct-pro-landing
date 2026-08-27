@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from .protocol import (
+    CAPABILITIES,
     COMMAND_ID,
     DEFAULT_POLL_SECONDS,
     SCHEMA,
@@ -173,7 +174,7 @@ class MailboxClient:
         body = {
             "schema": SCHEMA,
             "version": version,
-            "capabilities": ["qr", "two_factor_password", "text", "image"],
+            "capabilities": CAPABILITIES,
         }
         raw = canonical_json(body)
         response, nonce = self._signed_post(POLL_PATH, raw, MAX_RESPONSE_BYTES)

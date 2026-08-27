@@ -538,11 +538,15 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /refreshConnectionStatus[\s\S]{0,500}leadRadarTelegramAccountConnectStatus\(authId\)/);
   assert.match(component, /onClick=\{\(\) => \{ void refreshConnectionStatus\(\); \}\}[\s\S]{0,300}Я отсканировал — проверить/);
   assert.match(component, /account\?\.qr\?\.expiresAt, account\?\.status/);
-  assert.match(component, /создать новый QR/);
+  assert.match(component, /Введите номер Telegram/);
+  assert.match(component, /Получить код/);
+  assert.match(component, /Подтвердить код/);
+  assert.match(component, /encryptTelegramBridgeAuthInput\(\{/);
+  assert.match(component, /leadRadarSubmitTelegramAccountAuthInput/);
   assert.match(component, /decryptTelegramBridgeQrEnvelope\([\s\S]{0,500}setDecryptedQr\(qr\)/);
   assert.match(component, /safeTelegramLoginUrl\(decryptedQr\?\.qrLoginUrl\)/);
   assert.match(component, /<img src=\{safeQr\} alt="QR-код/);
-  assert.match(component, /createTelegramBridgeBrowserKey\(\)[\s\S]{0,360}key\.publicKey/);
+  assert.match(component, /leadRadarConnectTelegramAccount\(requestKey\)/);
   assert.match(component, /createTelegramBridgeEnrollmentCode\(\)/);
   assert.match(component, /telegramBridgeEnrollmentUri\(\{/);
   assert.match(component, /leadRadarCreateTelegramBridgePairing/);

@@ -11,9 +11,11 @@ import {
 } from '../functions/platform/lead-radar';
 import {
   beginTelegramAccountConnection,
+  beginTelegramAccountPhoneConnection,
   cancelTelegramAccountConnection,
   getTelegramAccountGatewayReadiness,
   PrivateTelegramCampaignSender,
+  submitTelegramAccountAuthInput,
   TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS,
   TELEGRAM_ACCOUNT_HEALTH_REQUEST_TIMEOUT_MS,
   TELEGRAM_ACCOUNT_SEND_REQUEST_TIMEOUT_MS,
@@ -37,6 +39,7 @@ const INTERNAL_SERVICE_TOKEN = 't'.repeat(43);
 const BRIDGE_DEVICE_ID = `lrtgbd_${'1'.repeat(32)}`;
 const BRIDGE_COMMAND_ID = `lrtgbc_${'2'.repeat(32)}`;
 const BRIDGE_PASSWORD_COMMAND_ID = `lrtgbc_${'3'.repeat(32)}`;
+const BRIDGE_INPUT_COMMAND_ID = `lrtgbc_${'6'.repeat(32)}`;
 const BRIDGE_KEY_ID = '4'.repeat(64);
 const BRIDGE_SPKI = 'A'.repeat(400);
 const QR_ENVELOPE = {
@@ -89,6 +92,28 @@ function challengeEnvelope(
       },
     } : {}),
     reason_code: reasonCode,
+  };
+}
+
+function phoneChallengeEnvelope(
+  authId: string,
+  state: 'awaiting_phone' | 'awaiting_code',
+): Record<string, unknown> {
+  return {
+    schema: 'gptbot.lead-radar.telegram-account-service.v1',
+    status: state,
+    auth_id: authId,
+    bridge_command_id: BRIDGE_COMMAND_ID,
+    device_id: BRIDGE_DEVICE_ID,
+    expires_at: new Date(Date.now() + 60_000).toISOString(),
+    qr_envelope: null,
+    input_command_id: BRIDGE_INPUT_COMMAND_ID,
+    input_action: state === 'awaiting_phone' ? 'phone' : 'code',
+    password_command_id: null,
+    bridge_encryption_key: {
+      alg: 'RSA-OAEP-256', key_id: BRIDGE_KEY_ID, spki: BRIDGE_SPKI,
+    },
+    reason_code: null,
   };
 }
 
@@ -597,6 +622,49 @@ async function seedConnectedAccount(db: SqliteD1): Promise<string> {
   });
   return connected.id;
 }
+
+test('phone connect and code submission use ciphertext-only private contracts', async () => {
+  const requests: Array<{ pathname: string; body: Record<string, unknown> }> = [];
+  const authId = 'auth_phone_fixture_123456';
+  const service = {
+    async fetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+      const url = new URL(typeof input === 'string' ? input : input.toString());
+      const body = JSON.parse(typeof init?.body === 'string' ? init.body : '{}') as Record<string, unknown>;
+      requests.push({ pathname: url.pathname, body });
+      return Response.json(url.pathname.endsWith('/phone/start')
+        ? phoneChallengeEnvelope(authId, 'awaiting_phone')
+        : phoneChallengeEnvelope(authId, 'awaiting_code'));
+    },
+  } as Fetcher;
+  const started = await beginTelegramAccountPhoneConnection({
+    service,
+    internalServiceToken: INTERNAL_SERVICE_TOKEN,
+    orgId: 'owner_fixture_org',
+    operationId: 'phone-connect-operation-0001',
+  });
+  assert.equal(started.authState, 'awaiting_phone');
+  assert.equal(started.inputAction, 'phone');
+  const advanced = await submitTelegramAccountAuthInput({
+    service,
+    internalServiceToken: INTERNAL_SERVICE_TOKEN,
+    orgId: 'owner_fixture_org',
+    authId,
+    inputCommandId: BRIDGE_INPUT_COMMAND_ID,
+    inputAction: 'phone',
+    inputEnvelope: PASSWORD_ENVELOPE,
+  });
+  assert.equal(advanced.status, 'connecting');
+  assert.equal(advanced.authState, 'awaiting_code');
+  assert.deepEqual(requests.map((request) => request.pathname), [
+    '/v1/accounts/connect/phone/start', '/v1/accounts/connect/input',
+  ]);
+  assert.equal(JSON.stringify(requests).includes('+998'), false);
+  assert.equal(Object.hasOwn(requests[1]!.body, 'phone'), false);
+  assert.equal(Object.hasOwn(requests[1]!.body, 'code'), false);
+  assert.deepEqual(Object.keys(requests[1]!.body).sort(), [
+    'auth_id', 'input_action', 'input_command_id', 'input_envelope', 'org_id', 'schema',
+  ]);
+});
 
 test('authoritative private decode rejects upload before D1 registration or campaign effects', async () => {
   const db = freshAdminDb();

@@ -30,6 +30,10 @@ class FakeClient:
         self.lookups: list[str] = []
         self.text_calls: list[tuple[object, str, dict[str, object]]] = []
         self.photo_calls: list[tuple[object, str, dict[str, object]]] = []
+        self.code_requests: list[tuple[str, bool]] = []
+        self.sign_in_calls: list[dict[str, str]] = []
+        self.authorized = False
+        self.require_password = False
 
     def is_connected(self) -> bool:
         return True
@@ -46,6 +50,19 @@ class FakeClient:
         self.photo_calls.append((entity, path, kwargs))
         return Message()
 
+    async def send_code_request(self, phone: str, *, force_sms: bool = False):
+        self.code_requests.append((phone, force_sms))
+        return type("SentCode", (), {"phone_code_hash": "hash-12345678"})()
+
+    async def sign_in(self, **kwargs: str) -> None:
+        self.sign_in_calls.append(kwargs)
+        if self.require_password:
+            raise type("SessionPasswordNeededError", (Exception,), {})()
+        self.authorized = True
+
+    async def is_user_authorized(self) -> bool:
+        return self.authorized
+
 
 def account(client: FakeClient, folder: Path) -> TelethonAccount:
     result = TelethonAccount(
@@ -61,6 +78,31 @@ def account(client: FakeClient, folder: Path) -> TelethonAccount:
 
 
 class TelegramAdapterTests(unittest.IsolatedAsyncioTestCase):
+    async def test_phone_code_login_uses_exact_telethon_challenge(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            client = FakeClient(User(id=123, username="clinic_uz"))
+            bridge = account(client, Path(folder))
+            await bridge.begin_phone("auth_fixture_123456")
+            phone_hash = await bridge.submit_phone("+998901234567")
+            state = await bridge.submit_code(
+                "12345", phone="+998901234567", phone_code_hash=phone_hash,
+            )
+        self.assertEqual(client.code_requests, [("+998901234567", False)])
+        self.assertEqual(client.sign_in_calls, [{
+            "phone": "+998901234567", "code": "12345", "phone_code_hash": "hash-12345678",
+        }])
+        self.assertEqual(state, "connected")
+
+    async def test_phone_code_login_surfaces_telegram_two_factor_step(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            client = FakeClient(User(id=123, username="clinic_uz"))
+            client.require_password = True
+            bridge = account(client, Path(folder))
+            state = await bridge.submit_code(
+                "12345", phone="+998901234567", phone_code_hash="hash-12345678",
+            )
+        self.assertEqual(state, "awaiting_password")
+
     async def test_exact_plain_text_and_paid_features_remain_disabled(self) -> None:
         user = User(id=123, username="Clinic_Uz", first_name="Clinic")
         with tempfile.TemporaryDirectory() as folder:

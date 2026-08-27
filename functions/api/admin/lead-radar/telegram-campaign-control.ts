@@ -36,7 +36,9 @@ import {
 import { LeadRadarTelegramCampaignStore } from '../../../platform/lead-radar/telegram-campaign-store';
 import {
   adoptTelegramAccountConnection,
+  beginTelegramAccountPhoneConnection,
   beginTelegramAccountConnection,
+  cancelTelegramAccountConnection,
   createTelegramBridgePairing,
   disconnectTelegramAccountService,
   finalizeTelegramAccountConnection,
@@ -48,6 +50,7 @@ import {
   probeTelegramAccountGatewayConfiguration,
   revokeTelegramBridge,
   submitTelegramAccountPassword,
+  submitTelegramAccountAuthInput,
   TelegramAccountServiceError,
   validateTelegramCampaignMedia,
   type TelegramAccountConnectChallenge,
@@ -118,6 +121,8 @@ interface AccountState {
     bridgeCommandId: string;
     deviceId: string;
     qrEnvelope: LeadRadarTelegramBridgeE2eEnvelope | null;
+    inputCommandId: string | null;
+    inputAction: 'phone' | 'code' | null;
     passwordCommandId: string | null;
     bridgeEncryptionKey: {
       alg: 'RSA-OAEP-256';
@@ -160,16 +165,8 @@ async function exactBodyVariants(
   return body && variants.some((keys) => exactKeys(body, keys)) ? body : null;
 }
 
-function attachmentFromBody(value: unknown): TelegramCampaignAttachmentReference | null | false {
-  if (value === null || value === undefined) return null;
-  return isTelegramCampaignAttachmentReference(value) ? value : false;
-}
-
 function browserKeyFromBody(value: unknown): {
-  alg: 'RSA-OAEP-256';
-  keyId: string;
-  spki: string;
-  expiresAt: string;
+  alg: 'RSA-OAEP-256'; keyId: string; spki: string; expiresAt: string;
 } | null {
   const key = record(value);
   if (!key
@@ -183,12 +180,12 @@ function browserKeyFromBody(value: unknown): {
     || !Number.isFinite(Date.parse(key.expires_at))
     || Date.parse(key.expires_at) <= Date.now()
     || Date.parse(key.expires_at) > Date.now() + 95_000) return null;
-  return {
-    alg: 'RSA-OAEP-256',
-    keyId: key.key_id,
-    spki: key.spki,
-    expiresAt: key.expires_at,
-  };
+  return { alg: 'RSA-OAEP-256', keyId: key.key_id, spki: key.spki, expiresAt: key.expires_at };
+}
+
+function attachmentFromBody(value: unknown): TelegramCampaignAttachmentReference | null | false {
+  if (value === null || value === undefined) return null;
+  return isTelegramCampaignAttachmentReference(value) ? value : false;
 }
 
 function idempotencyKey(ctx: CampaignContext): string | null {
@@ -292,6 +289,8 @@ function accountState(
       bridgeCommandId: challenge.bridgeCommandId,
       deviceId: challenge.deviceId,
       qrEnvelope: challenge.qrEnvelope,
+      inputCommandId: challenge.inputCommandId,
+      inputAction: challenge.inputAction,
       passwordCommandId: challenge.passwordCommandId,
       bridgeEncryptionKey: challenge.bridgeEncryptionKey ? {
         alg: challenge.bridgeEncryptionKey.alg,
@@ -966,6 +965,69 @@ export async function handleTelegramCampaignPost(
     if (parts.length === 4
       && parts[0] === 'telegram-account'
       && parts[1] === 'connect'
+      && parts[3] === 'input') {
+      if (!capabilities.telegramAccountEnabled) {
+        return ownerError('lead_radar_telegram_account_paused', ctx.requestId, 409);
+      }
+      const body = await exactBody(ctx, ['inputCommandId', 'inputAction', 'inputEnvelope']);
+      if (!body
+        || typeof body.inputCommandId !== 'string'
+        || !LEAD_RADAR_TELEGRAM_BRIDGE_COMMAND_ID_PATTERN.test(body.inputCommandId)
+        || (body.inputAction !== 'phone' && body.inputAction !== 'code')
+        || !isLeadRadarTelegramBridgeE2eEnvelope(body.inputEnvelope)) {
+        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      }
+      const dataKey = campaignDataKey(ctx);
+      if (!dataKey) return unavailable('telegram_campaign_not_configured', ctx);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const account = await getTelegramUserAccountByAuthRequest({
+        db: ctx.db,
+        dataKey,
+        orgId,
+        authRequestReference: parts[2],
+      });
+      if (!account || account.status !== 'pending') {
+        return ownerError('telegram_campaign_gateway_not_found', ctx.requestId, 404);
+      }
+      const polled = await submitTelegramAccountAuthInput({
+        service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+        internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+        orgId,
+        authId: parts[2],
+        inputCommandId: body.inputCommandId,
+        inputAction: body.inputAction,
+        inputEnvelope: body.inputEnvelope,
+      });
+      if (polled.status === 'connecting') {
+        return ownerJson(accountState(account, { challenge: polled, orgId }), ctx.requestId);
+      }
+      if (polled.status === 'connected') {
+        const connected = await finalizeConnectedTelegramAccount(ctx, orgId, polled, account);
+        return ownerJson(accountState(connected), ctx.requestId);
+      }
+      if (polled.status === 'revoked') {
+        await revokeTelegramUserAccount({ db: ctx.db, orgId, accountId: account.id });
+      }
+      const terminalAccount = polled.status !== 'revoked'
+        ? await setTelegramUserAccountStatus({
+          db: ctx.db,
+          orgId,
+          accountId: account.id,
+          expectedVersion: account.stateVersion,
+          status: 'error',
+          healthy: false,
+        })
+        : account;
+      return ownerJson(accountState(terminalAccount, {
+        serviceStatus: polled.status,
+        reasonCode: polled.reasonCode,
+      }), ctx.requestId);
+    }
+
+    if (parts.length === 4
+      && parts[0] === 'telegram-account'
+      && parts[1] === 'connect'
       && parts[3] === 'password') {
       if (!capabilities.telegramAccountEnabled) {
         return ownerError('lead_radar_telegram_account_paused', ctx.requestId, 409);
@@ -1111,9 +1173,11 @@ export async function handleTelegramCampaignPost(
       && parts[1] === 'connect') {
       const requestKey = idempotencyKey(ctx);
       if (!requestKey) return requiredIdempotencyResponse(ctx);
-      const body = await exactBody(ctx, ['browserKey']);
-      const browserKey = browserKeyFromBody(body?.browserKey);
-      if (!body || !browserKey) {
+      const body = await exactBodyVariants(ctx, [[], ['browserKey']]);
+      const browserKey = body && Object.hasOwn(body, 'browserKey')
+        ? browserKeyFromBody(body.browserKey)
+        : null;
+      if (!body || (Object.hasOwn(body, 'browserKey') && !browserKey)) {
         return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
       }
       const gatewayProbe = await telegramAccountReadiness(ctx, capabilities, orgId);
@@ -1178,7 +1242,8 @@ export async function handleTelegramCampaignPost(
               );
               return ownerJson(accountState(connected), ctx.requestId);
             }
-            if (activeChallenge.status === 'connecting') {
+            if (activeChallenge.status === 'connecting'
+              && (browserKey || activeChallenge.authState !== 'awaiting_qr')) {
               await adoptTelegramAccountConnection({
                 service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
                 internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
@@ -1254,17 +1319,34 @@ export async function handleTelegramCampaignPost(
         } catch (error) {
           if (!missingConnection(error)) throw error;
         }
+        if (!browserKey && recoverableChallenge?.status === 'connecting'
+          && recoverableChallenge.authState === 'awaiting_qr') {
+          await cancelTelegramAccountConnection({
+            service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+            internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+            orgId,
+            authId: recoverableChallenge.authId,
+          });
+          recoverableChallenge = null;
+        }
       }
       if (!hasPrivateTelegramAccountService(ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE)) {
         return unavailable('telegram_campaign_gateway_unavailable', ctx);
       }
-      const challenge = recoverableChallenge ?? await beginTelegramAccountConnection({
-        service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
-        internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
-        orgId,
-        operationId: requestKey,
-        browserKey,
-      });
+      const challenge = recoverableChallenge ?? (browserKey
+        ? await beginTelegramAccountConnection({
+          service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+          internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+          orgId,
+          operationId: requestKey,
+          browserKey,
+        })
+        : await beginTelegramAccountPhoneConnection({
+          service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+          internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+          orgId,
+          operationId: requestKey,
+        }));
       let created: Awaited<ReturnType<typeof createTelegramUserAccountPending>>;
       try {
         created = await createTelegramUserAccountPending({

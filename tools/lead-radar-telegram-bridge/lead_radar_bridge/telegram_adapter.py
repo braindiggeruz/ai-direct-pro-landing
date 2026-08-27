@@ -107,6 +107,8 @@ class TelethonAccount:
         self.client: Any | None = None
         self.qr_login: Any | None = None
         self.auth_id: str | None = None
+        self.pending_phone: str | None = None
+        self.pending_phone_code_hash: str | None = None
 
     @staticmethod
     def _default_factory(session: str, api_id: int, api_hash: str) -> Any:
@@ -134,6 +136,43 @@ class TelethonAccount:
         ):
             raise TelegramBridgeError("qr_invalid")
         return url
+
+    async def begin_phone(self, auth_id: str) -> None:
+        await self.ensure_connected()
+        self.auth_id = auth_id
+        self.qr_login = None
+        self.pending_phone = None
+        self.pending_phone_code_hash = None
+
+    async def submit_phone(self, phone: str) -> str:
+        if not isinstance(phone, str) or not __import__("re").fullmatch(r"\+[1-9]\d{6,14}", phone):
+            raise ProtocolError("phone_invalid")
+        client = await self.ensure_connected()
+        sent = await client.send_code_request(phone, force_sms=False)
+        phone_code_hash = getattr(sent, "phone_code_hash", None)
+        if not isinstance(phone_code_hash, str) or not 8 <= len(phone_code_hash) <= 256:
+            raise TelegramBridgeError("phone_code_hash_invalid")
+        self.pending_phone = phone
+        self.pending_phone_code_hash = phone_code_hash
+        return phone_code_hash
+
+    async def submit_code(self, code: str, *, phone: str, phone_code_hash: str) -> str:
+        if (not isinstance(code, str) or not __import__("re").fullmatch(r"[0-9A-Za-z_-]{3,16}", code)
+            or not isinstance(phone, str) or not __import__("re").fullmatch(r"\+[1-9]\d{6,14}", phone)
+            or not isinstance(phone_code_hash, str) or not 8 <= len(phone_code_hash) <= 256):
+            raise ProtocolError("code_invalid")
+        client = await self.ensure_connected()
+        try:
+            await client.sign_in(phone=phone, code=code, phone_code_hash=phone_code_hash)
+        except BaseException as error:
+            if error.__class__.__name__ == "SessionPasswordNeededError":
+                return "awaiting_password"
+            raise
+        if not await self.is_authorized():
+            raise TelegramBridgeError("code_rejected")
+        self.pending_phone = None
+        self.pending_phone_code_hash = None
+        return "connected"
 
     async def wait_qr(self, timeout_seconds: int = 1) -> str:
         if self.qr_login is None:
@@ -220,6 +259,8 @@ class TelethonAccount:
                 finally:
                     self.client = None
                     self.qr_login = None
+                    self.pending_phone = None
+                    self.pending_phone_code_hash = None
                     self._session_value = ""
 
     async def close_unauthorized_auth(self) -> None:
@@ -230,6 +271,8 @@ class TelethonAccount:
         await client.disconnect()
         self.client = None
         self.qr_login = None
+        self.pending_phone = None
+        self.pending_phone_code_hash = None
         self._session_value = ""
 
     async def _resolved_regular_user(self, endpoint: str) -> tuple[Any, Any]:

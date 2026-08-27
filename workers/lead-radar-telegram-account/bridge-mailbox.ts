@@ -74,7 +74,8 @@ function hasControlCharacters(value: string): boolean {
 
 type DeviceState = 'online' | 'offline' | 'pending_revocation' | 'revoked';
 type CommandStatus = 'queued' | 'leased' | 'progress' | 'succeeded' | 'failed' | 'ambiguous';
-type AuthState = 'starting' | 'awaiting_qr' | 'awaiting_password' | 'connected'
+type AuthState = 'starting' | 'awaiting_phone' | 'awaiting_qr' | 'awaiting_code'
+  | 'awaiting_password' | 'connected'
   | 'restricted' | 'reauth_required' | 'revoked' | 'error';
 
 interface PairingRecord {
@@ -115,7 +116,11 @@ interface AuthRecord {
   accountRef: string;
   deviceId: string;
   operationId: string;
+  mode: 'qr' | 'phone';
   connectCommandId: string;
+  inputCommandId: string | null;
+  previousInputCommandId: string | null;
+  inputAction: 'phone' | 'code' | null;
   passwordCommandId: string | null;
   previousPasswordCommandId: string | null;
   state: AuthState;
@@ -714,7 +719,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
           ...auth,
           state: 'awaiting_qr',
           qrEnvelope: result.qr_envelope as BridgeJsonRecord,
-          relayExpiresAt: result.expires_at,
+          relayExpiresAt: result.expires_at as string,
           updatedAt: nowIso(),
         } satisfies AuthRecord,
         [applicationKey]: digest,
@@ -737,7 +742,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
           state: 'awaiting_password',
           passwordCommandId: auth.passwordCommandId ?? `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`,
           qrEnvelope: null,
-          relayExpiresAt: result.expires_at,
+          relayExpiresAt: result.expires_at as string,
           updatedAt: nowIso(),
         } satisfies AuthRecord,
         [applicationKey]: digest,
@@ -790,6 +795,212 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
           qrEnvelope: null,
           relayExpiresAt: null,
           reasonCode: body.result_code as string,
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    throw new MailboxFault('bridge_result_invalid', 400);
+  }
+
+  private async applyPhoneConnectResult(
+    command: CommandRecord,
+    body: BridgeJsonRecord,
+    applicationKey: string,
+    digest: string,
+  ): Promise<void> {
+    const authId = (await this.commandPayload(command)).auth_id;
+    if (typeof authId !== 'string') throw new MailboxFault('bridge_result_invalid', 400);
+    const auth = await this.ctx.storage.get<AuthRecord>(authKey(authId));
+    if (!auth || auth.deviceId !== command.deviceId
+      || auth.connectCommandId !== command.commandId || auth.mode !== 'phone') {
+      throw new MailboxFault('bridge_result_conflict', 409);
+    }
+    const result = body.result as BridgeJsonRecord;
+    if (body.status === 'succeeded' && body.result_code === 'awaiting_phone'
+      && bridgeExactKeys(result, ['auth_id', 'auth_state', 'expires_at'])
+      && result.auth_id === auth.authId
+      && result.auth_state === 'awaiting_phone'
+      && validIso(result.expires_at)
+      && Date.parse(result.expires_at) > Date.now() - 5_000
+      && Date.parse(result.expires_at) <= Date.now() + RELAY_TTL_MS + 5_000
+      && Date.parse(result.expires_at) <= Date.parse(auth.expiresAt)) {
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'awaiting_phone',
+          inputCommandId: `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`,
+          previousInputCommandId: null,
+          inputAction: 'phone',
+          relayExpiresAt: result.expires_at,
+          reasonCode: null,
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    if (body.status === 'failed' || body.status === 'ambiguous') {
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'error',
+          inputCommandId: null,
+          inputAction: null,
+          relayExpiresAt: null,
+          reasonCode: String(body.result_code ?? 'authorization_failed'),
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    throw new MailboxFault('bridge_result_invalid', 400);
+  }
+
+  private async applyAuthInputResult(
+    command: CommandRecord,
+    body: BridgeJsonRecord,
+    applicationKey: string,
+    digest: string,
+  ): Promise<void> {
+    const payload = await this.commandPayload(command);
+    const authId = payload.auth_id;
+    const action = payload.action;
+    if (typeof authId !== 'string' || !['phone', 'code'].includes(String(action))) {
+      throw new MailboxFault('bridge_result_invalid', 400);
+    }
+    const auth = await this.ctx.storage.get<AuthRecord>(authKey(authId));
+    if (!auth || auth.deviceId !== command.deviceId
+      || auth.inputCommandId !== command.commandId || auth.inputAction !== action) {
+      throw new MailboxFault('bridge_result_conflict', 409);
+    }
+    const result = body.result as BridgeJsonRecord;
+    const validRelay = bridgeExactKeys(result, ['auth_id', 'auth_state', 'expires_at'])
+      && result.auth_id === auth.authId
+      && validIso(result.expires_at)
+      && Date.parse(result.expires_at) > Date.now() - 5_000
+      && Date.parse(result.expires_at) <= Date.now() + RELAY_TTL_MS + 5_000
+      && Date.parse(result.expires_at) <= Date.parse(auth.expiresAt);
+
+    if (action === 'phone' && body.status === 'succeeded' && body.result_code === 'awaiting_code'
+      && validRelay && result.auth_state === 'awaiting_code') {
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'awaiting_code',
+          inputCommandId: `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`,
+          previousInputCommandId: command.commandId,
+          inputAction: 'code',
+          relayExpiresAt: result.expires_at as string,
+          reasonCode: null,
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    if (action === 'code' && body.status === 'succeeded' && body.result_code === 'awaiting_password'
+      && validRelay && result.auth_state === 'awaiting_password') {
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'awaiting_password',
+          inputCommandId: null,
+          previousInputCommandId: command.commandId,
+          inputAction: null,
+          passwordCommandId: `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`,
+          relayExpiresAt: result.expires_at as string,
+          reasonCode: null,
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    if (action === 'code' && body.status === 'succeeded' && body.result_code === 'connected') {
+      if (!bridgeExactKeys(result, ['auth_id', 'account_ref', 'masked_label', 'connected_at'])
+        || result.auth_id !== auth.authId
+        || result.account_ref !== auth.accountRef
+        || !validMaskedLabel(result.masked_label)
+        || !validIso(result.connected_at)) throw new MailboxFault('bridge_result_invalid', 400);
+      const connectedAt = result.connected_at as string;
+      const maskedLabel = result.masked_label as string;
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'connected',
+          inputCommandId: null,
+          previousInputCommandId: command.commandId,
+          inputAction: null,
+          relayExpiresAt: null,
+          maskedLabel,
+          connectedAt,
+          reasonCode: null,
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [accountKey(auth.accountRef)]: {
+          version: 1,
+          orgId: auth.orgId,
+          accountRef: auth.accountRef,
+          authId: auth.authId,
+          deviceId: auth.deviceId,
+          state: 'connected',
+          finalized: false,
+          maskedLabel,
+          connectedAt,
+          reasonCode: null,
+          providerBlockedUntil: null,
+          updatedAt: nowIso(),
+        } satisfies AccountRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    if (body.status === 'failed'
+      && ((action === 'phone' && body.result_code === 'phone_invalid')
+        || (action === 'code' && body.result_code === 'code_invalid'))
+      && bridgeExactKeys(result, [])) {
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: action === 'phone' ? 'awaiting_phone' : 'awaiting_code',
+          inputCommandId: `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`,
+          previousInputCommandId: command.commandId,
+          inputAction: action,
+          relayExpiresAt: nowIso(Math.min(Date.now() + RELAY_TTL_MS, Date.parse(auth.expiresAt))),
+          reasonCode: body.result_code as string,
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    if (body.status === 'failed' && action === 'code' && body.result_code === 'code_expired'
+      && bridgeExactKeys(result, [])) {
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'error',
+          inputCommandId: null,
+          inputAction: null,
+          relayExpiresAt: null,
+          reasonCode: 'code_expired',
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
+    if (body.status === 'ambiguous') {
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'error',
+          inputCommandId: null,
+          inputAction: null,
+          reasonCode: 'auth_input_outcome_unknown',
           updatedAt: nowIso(),
         } satisfies AuthRecord,
         [applicationKey]: digest,
@@ -1050,6 +1261,11 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     digest: string,
   ): Promise<void> {
     if (command.kind === 'connect') await this.applyConnectResult(command, body, applicationKey, digest);
+    else if (command.kind === 'connect_phone') {
+      await this.applyPhoneConnectResult(command, body, applicationKey, digest);
+    } else if (command.kind === 'submit_auth') {
+      await this.applyAuthInputResult(command, body, applicationKey, digest);
+    }
     else if (command.kind === 'submit_password') {
       await this.applyPasswordResult(command, body, applicationKey, digest);
     } else if (command.kind === 'probe') await this.applyProbeResult(command, body, applicationKey, digest);
@@ -1382,13 +1598,19 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       device_id: auth.deviceId,
       expires_at: auth.relayExpiresAt ?? auth.expiresAt,
       qr_envelope: auth.state === 'awaiting_qr' ? auth.qrEnvelope : null,
+      input_command_id: auth.state === 'awaiting_phone' || auth.state === 'awaiting_code'
+        ? auth.inputCommandId : null,
+      input_action: auth.state === 'awaiting_phone' ? 'phone'
+        : auth.state === 'awaiting_code' ? 'code' : null,
       password_command_id: auth.state === 'awaiting_password' ? auth.passwordCommandId : null,
       reason_code: auth.reasonCode,
     });
   }
 
   private async detailedAuthEnvelope(auth: AuthRecord): Promise<Response> {
-    if (auth.state !== 'awaiting_password') return this.authEnvelope(auth);
+    if (!['awaiting_phone', 'awaiting_code', 'awaiting_password'].includes(auth.state)) {
+      return this.authEnvelope(auth);
+    }
     const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
     if (!device || device.state === 'revoked') return safeErrorResponse('bridge_offline', 503);
     return jsonResponse({
@@ -1399,6 +1621,10 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       device_id: auth.deviceId,
       expires_at: auth.relayExpiresAt ?? auth.expiresAt,
       qr_envelope: null,
+      input_command_id: auth.state === 'awaiting_phone' || auth.state === 'awaiting_code'
+        ? auth.inputCommandId : null,
+      input_action: auth.state === 'awaiting_phone' ? 'phone'
+        : auth.state === 'awaiting_code' ? 'code' : null,
       password_command_id: auth.passwordCommandId,
       bridge_encryption_key: {
         alg: 'RSA-OAEP-256',
@@ -1503,7 +1729,11 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       accountRef: body.account_ref,
       deviceId: device.deviceId,
       operationId: body.operation_id,
+      mode: 'qr',
       connectCommandId: commandId,
+      inputCommandId: null,
+      previousInputCommandId: null,
+      inputAction: null,
       passwordCommandId: null,
       previousPasswordCommandId: null,
       state: 'starting',
@@ -1535,6 +1765,99 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       initialAuth: auth,
     });
     await this.waitFor(command.commandId, 70_000);
+    const updated = await this.ctx.storage.get<AuthRecord>(authKey(authId));
+    if (!updated) throw new MailboxFault('auth_not_found', 404);
+    return this.detailedAuthEnvelope(updated);
+  }
+
+  private async beginPhoneConnection(body: JsonRecord): Promise<Response> {
+    if (!hasExactKeys(body, ['schema', 'org_id', 'operation_id', 'account_ref'])
+      || body.schema !== TELEGRAM_ACCOUNT_SERVICE_SCHEMA
+      || typeof body.org_id !== 'string'
+      || !ORG_ID_PATTERN.test(body.org_id)
+      || typeof body.operation_id !== 'string'
+      || !OPERATION_ID_PATTERN.test(body.operation_id)
+      || typeof body.account_ref !== 'string'
+      || !ACCOUNT_REF_PATTERN.test(body.account_ref)) return safeErrorResponse('invalid_request');
+    const orgId = body.org_id as string;
+    const operationId = body.operation_id as string;
+    const accountRef = body.account_ref as string;
+    const device = await this.activeDevice(orgId);
+    if (!device || this.deviceStatus(device) !== 'online') return safeErrorResponse('bridge_offline', 503);
+    if (device.accountRef !== accountRef) return safeErrorResponse('routing_conflict', 409);
+
+    const existingAuthId = await this.ctx.storage.get<string>(orgAuthKey(orgId));
+    if (existingAuthId) {
+      const existing = await this.ctx.storage.get<AuthRecord>(authKey(existingAuthId));
+      if (existing && isFinalizedConnectedAuthRecoverable(existing.state, existing.finalized)) {
+        return existing.operationId === operationId
+          ? this.detailedAuthEnvelope(existing)
+          : safeErrorResponse('auth_conflict', 409);
+      }
+      if (existing && existing.operationId === operationId
+        && existing.mode === 'phone' && Date.parse(existing.expiresAt) > Date.now()) {
+        return this.detailedAuthEnvelope(existing);
+      }
+      if (existing && !existing.adopted && !existing.finalized
+        && !['connected', 'revoked'].includes(existing.state)) {
+        const cancel = await this.enqueue({
+          orgId: existing.orgId,
+          accountRef: existing.accountRef,
+          device,
+          kind: 'cancel_auth',
+          operationId: `cancel:${existing.authId}`,
+          payload: { auth_id: existing.authId },
+        });
+        const cancelled = await this.waitTerminal(cancel.commandId, 70_000);
+        const released = await this.ctx.storage.get<AuthRecord>(authKey(existing.authId));
+        if (cancelled.status !== 'succeeded' || released?.state !== 'revoked') {
+          return safeErrorResponse('bridge_cancel_failed', 503);
+        }
+      } else if (existing && !['revoked', 'error'].includes(existing.state)) {
+        return safeErrorResponse('auth_conflict', 409);
+      }
+    }
+
+    const authId = randomOpaqueId('auth_', 18);
+    const expiresAt = nowIso(Date.now() + AUTH_TTL_MS);
+    const commandId = `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`;
+    const auth: AuthRecord = {
+      version: 1,
+      authId,
+      orgId,
+      accountRef,
+      deviceId: device.deviceId,
+      operationId,
+      mode: 'phone',
+      connectCommandId: commandId,
+      inputCommandId: null,
+      previousInputCommandId: null,
+      inputAction: null,
+      passwordCommandId: null,
+      previousPasswordCommandId: null,
+      state: 'starting',
+      adopted: false,
+      finalized: false,
+      qrEnvelope: null,
+      relayExpiresAt: null,
+      maskedLabel: null,
+      connectedAt: null,
+      reasonCode: null,
+      expiresAt,
+      updatedAt: nowIso(),
+    };
+    const command = await this.enqueue({
+      orgId,
+      accountRef,
+      device,
+      kind: 'connect_phone',
+      operationId,
+      commandId,
+      payload: { org_id: orgId, auth_id: authId, account_ref: accountRef, expires_at: expiresAt },
+      ttlMs: AUTH_TTL_MS,
+      initialAuth: auth,
+    });
+    await this.waitTerminal(command.commandId, 70_000);
     const updated = await this.ctx.storage.get<AuthRecord>(authKey(authId));
     if (!updated) throw new MailboxFault('auth_not_found', 404);
     return this.detailedAuthEnvelope(updated);
@@ -1602,6 +1925,53 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         org_id: auth.orgId,
         auth_id: auth.authId,
         password_envelope: body.password_envelope,
+      },
+      ttlMs: Math.max(1_000, Date.parse(auth.relayExpiresAt) - Date.now()),
+    });
+    await this.waitTerminal(command.commandId, 70_000);
+    const updated = await this.ctx.storage.get<AuthRecord>(authKey(auth.authId));
+    if (!updated) throw new MailboxFault('auth_not_found', 404);
+    return this.detailedAuthEnvelope(updated);
+  }
+
+  private async submitAuthInput(body: JsonRecord): Promise<Response> {
+    if (!hasExactKeys(body, [
+      'schema', 'org_id', 'auth_id', 'input_command_id', 'input_action', 'input_envelope',
+    ])
+      || body.schema !== TELEGRAM_ACCOUNT_SERVICE_SCHEMA
+      || typeof body.org_id !== 'string'
+      || !ORG_ID_PATTERN.test(body.org_id)
+      || typeof body.auth_id !== 'string'
+      || !AUTH_ID_PATTERN.test(body.auth_id)
+      || typeof body.input_command_id !== 'string'
+      || !/^lrtgbc_[a-f0-9]{32}$/u.test(body.input_command_id)
+      || !['phone', 'code'].includes(String(body.input_action))
+      || !validBridgeE2eEnvelope(body.input_envelope)) return safeErrorResponse('invalid_request');
+    const auth = await this.ctx.storage.get<AuthRecord>(authKey(body.auth_id));
+    if (!auth
+      || auth.orgId !== body.org_id
+      || auth.inputCommandId !== body.input_command_id
+      || auth.inputAction !== body.input_action
+      || auth.state !== (body.input_action === 'phone' ? 'awaiting_phone' : 'awaiting_code')
+      || !auth.relayExpiresAt
+      || Date.parse(auth.relayExpiresAt) <= Date.now()
+      || Date.parse(auth.relayExpiresAt) > Date.parse(auth.expiresAt)) {
+      return safeErrorResponse('auth_conflict', 409);
+    }
+    const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(auth.deviceId));
+    if (!device || this.deviceStatus(device) !== 'online') return safeErrorResponse('bridge_offline', 503);
+    const command = await this.enqueue({
+      orgId: auth.orgId,
+      accountRef: auth.accountRef,
+      device,
+      kind: 'submit_auth',
+      operationId: `${body.input_action}:${auth.authId}:${auth.inputCommandId}`,
+      commandId: auth.inputCommandId,
+      payload: {
+        org_id: auth.orgId,
+        auth_id: auth.authId,
+        action: body.input_action,
+        auth_envelope: body.input_envelope,
       },
       ttlMs: Math.max(1_000, Date.parse(auth.relayExpiresAt) - Date.now()),
     });
@@ -1960,6 +2330,8 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       case '/internal/bridge/status': return this.bridgeStatus(body);
       case '/internal/bridge/revoke': return this.revokeBridge(body);
       case '/internal/accounts/connect/qr': return this.beginConnection(body);
+      case '/internal/accounts/connect/phone/start': return this.beginPhoneConnection(body);
+      case '/internal/accounts/connect/input': return this.submitAuthInput(body);
       case '/internal/accounts/connect/active': return this.activeAuth(body);
       case '/internal/accounts/connect/state': return this.authState(body);
       case '/internal/accounts/connect/status': return this.authState(body);
