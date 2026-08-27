@@ -1,6 +1,7 @@
 # GPTBot Agents — Handoff
 
 > Lead Radar-only release (2026-08-27): see `../lead-radar/TELEGRAM_RELEASE_20260827.md`.
+> Source `6d30e7a` deployed to Pages and gateway; Windows Bridge updated to 1.2.0. Owner login/send canary remains pending.
 > The Bormi stages and acceptance requirements below are unchanged.
 
 > **Fresh Bormi operational handoff (2026-08-02):** before touching the Market

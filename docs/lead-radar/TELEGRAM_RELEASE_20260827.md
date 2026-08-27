@@ -1,5 +1,11 @@
 # Telegram connection release — 2026-08-27
 
+Deployed source: `6d30e7acf56a30d714aa2b9f031317433e3c4144`.
+Pages: `d44eade5-1241-41b0-af6c-8d778aa81a60` (canonical production, success).
+Gateway: `361fd697-8316-4f5e-9539-206fb954041b`, version 1.2.0.
+Windows Bridge: 1.2.0 installed and scheduled task restarted; existing vault preserved.
+Owner login/send canary is still pending, not claimed as passed.
+
 Scope: Lead Radar only. SEO/content/routes, bot webhook and campaign policy unchanged.
 Baseline production: da3b93fcc1c9ae97294353f57ed9cd821bebcb5d / Pages e178b49e-81fc-4c89-8053-a7a301d94cab.
 
@@ -11,6 +17,6 @@ UI opens the number form immediately, preserves draft number while Bridge prepar
 
 Checks: 297 existing Lead Radar tests, 3 production-mailbox contract tests, 38 Python tests; app/Lead Radar/gateway TypeScript; production build and SEO audit (0 critical, sitemap 259). Full live login and real-send canary still need owner input in the website; no messages sent to companies during this repair. No database migration or secret rotation required.
 
-Rollout: Bridge, then Pages (accepts old/new envelopes), then gateway. Preserve existing environment/bindings. Rollback uses the preceding artifacts; never drop safety ledgers or erase the vault. Bridge 1.2 remains compatible with the preceding gateway.
+Rollout executed: Pages (accepts old/new envelopes), gateway, Bridge. Existing environment/bindings preserved. The gateway kept old clients on compatible 15-second polling until Bridge updated. Rollback uses the preceding artifacts; never drop safety ledgers or erase the vault. Bridge 1.2 remains compatible with the preceding gateway.
 
 Next acceptance: owner logs in to admin, enters Telegram number/code/2FA on the site, checks masked identity, then explicitly approves one controlled recipient/message. Existing DNC, consent, 30/day, 120-second pacing, Pause/Stop and permanent no-repeat guards remain enabled. Public listings with no verified Telegram address cannot be sent messages automatically.
