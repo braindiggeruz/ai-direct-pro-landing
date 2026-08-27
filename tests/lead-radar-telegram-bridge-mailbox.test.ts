@@ -120,6 +120,24 @@ test('production mailbox rejects cross-tenant input and never downgrades to a fa
   assert.equal([...f.storage.values.values()].filter(v => v?.kind === 'submit_auth').length, 0);
 });
 
+test('local auth validation failure is acknowledged and closes the one-use command without a provider retry', async () => {
+  const f = await fixture();
+  let state = await f.state();
+  const phoneId = state.inputCommandId!;
+  assert.equal((await f.call('input', {
+    auth_id: f.authId,
+    input_command_id: phoneId,
+    input_action: 'phone',
+    input_envelope: envelope,
+  })).status, 200);
+  await f.result(phoneId, 'failed', 'local_validation_failed', {});
+  state = await f.state();
+  assert.equal(state.status, 'error');
+  assert.equal(state.reasonCode, 'bridge_input_rejected');
+  assert.equal(state.inputCommandId, null);
+  assert.equal('pendingAction' in state ? state.pendingAction : null, null);
+});
+
 test('fast auth polling is version-compatible and returns to idle pacing', async () => {
   const f = await fixture();
   f.mailbox.nextCommand = async () => null;

@@ -11,6 +11,7 @@ import {
 } from '../src/admin/lib/lead-radar-telegram-bridge-crypto';
 import {
   LEAD_RADAR_TELEGRAM_BRIDGE_POLL_SECONDS,
+  LEAD_RADAR_TELEGRAM_BRIDGE_AUTH_INPUT_TTL_SECONDS,
   LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS,
   LEAD_RADAR_TELEGRAM_BRIDGE_SCHEMA,
   type LeadRadarTelegramBridgeE2eEnvelope,
@@ -165,7 +166,9 @@ test('phone and code leave the browser only as Bridge-bound ciphertext', async (
   const spkiBytes = new Uint8Array(await crypto.subtle.exportKey('spki', bridgePair.publicKey));
   const spki = b64url(spkiBytes);
   const keyId = Buffer.from(await crypto.subtle.digest('SHA-256', spkiBytes)).toString('hex');
-  const expiresAt = new Date(NOW.getTime() + 60_000).toISOString();
+  // Production challenges live for ten minutes, but each one-use encrypted
+  // value must remain inside the Bridge's 90-second anti-replay window.
+  const expiresAt = new Date(NOW.getTime() + 540_000).toISOString();
   for (const [action, value] of [['phone', '+998901234567'], ['code', '12345']] as const) {
     const envelope = await encryptTelegramBridgeAuthInput({
       bridgePublicKeySpki: spki, keyId, action, value,
@@ -189,7 +192,7 @@ test('phone and code leave the browser only as Bridge-bound ciphertext', async (
       device_id: DEVICE,
       command_id: COMMAND,
       auth_id: AUTH,
-      expires_at: Math.floor(Date.parse(expiresAt) / 1_000),
+      expires_at: Math.floor(NOW.getTime() / 1_000) + LEAD_RADAR_TELEGRAM_BRIDGE_AUTH_INPUT_TTL_SECONDS,
       value,
     });
   }

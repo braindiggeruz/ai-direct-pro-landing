@@ -1006,6 +1006,25 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       });
       return;
     }
+    if (body.status === 'failed' && body.result_code === 'local_validation_failed'
+      && bridgeExactKeys(result, [])) {
+      // No Telegram provider call occurred. Close and acknowledge the one-use
+      // command so the Bridge cannot remain stuck replaying the same durable
+      // result forever. A new explicit owner action is required.
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'error',
+          inputCommandId: null,
+          inputAction: null,
+          relayExpiresAt: null,
+          reasonCode: 'bridge_input_rejected',
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
     if (body.status === 'ambiguous') {
       await this.ctx.storage.put({
         [authKey(auth.authId)]: {

@@ -1,5 +1,6 @@
 import {
   isLeadRadarTelegramBridgeE2eEnvelope,
+  LEAD_RADAR_TELEGRAM_BRIDGE_AUTH_INPUT_TTL_SECONDS,
   LEAD_RADAR_TELEGRAM_BRIDGE_PAIRING_ID_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_KEY_ID_PATTERN,
   LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS,
@@ -335,6 +336,7 @@ export async function encryptTelegramBridgeAuthInput(input: {
   now?: Date;
 }): Promise<LeadRadarTelegramBridgeE2eEnvelope> {
   const now = input.now ?? new Date();
+  const challengeExpiryMs = Date.parse(input.expiresAt);
   const valueValid = input.action === 'phone'
     ? /^\+[1-9]\d{6,14}$/u.test(input.value)
     : /^[0-9A-Za-z_-]{3,16}$/u.test(input.value);
@@ -345,6 +347,7 @@ export async function encryptTelegramBridgeAuthInput(input: {
     || !CONTEXT_ID_PATTERN.test(input.commandId)
     || !CONTEXT_ID_PATTERN.test(input.authId)
     || !relayExpiry(input.expiresAt, now, input.expiresAt)
+    || challengeExpiryMs <= now.getTime()
     || !valueValid) throw new Error('telegram_bridge_crypto_invalid');
   const publicKey = await crypto.subtle.importKey(
     'spki',
@@ -355,6 +358,10 @@ export async function encryptTelegramBridgeAuthInput(input: {
   );
   const rawKey = crypto.getRandomValues(new Uint8Array(32));
   const iv = crypto.getRandomValues(new Uint8Array(12));
+  const envelopeExpirySeconds = Math.min(
+    Math.floor(challengeExpiryMs / 1_000),
+    Math.floor(now.getTime() / 1_000) + LEAD_RADAR_TELEGRAM_BRIDGE_AUTH_INPUT_TTL_SECONDS,
+  );
   const plaintext = encoder.encode(JSON.stringify({
     schema: LEAD_RADAR_TELEGRAM_BRIDGE_SCHEMA,
     purpose: input.action,
@@ -362,7 +369,7 @@ export async function encryptTelegramBridgeAuthInput(input: {
     device_id: input.deviceId,
     command_id: input.commandId,
     auth_id: input.authId,
-    expires_at: Math.floor(Date.parse(input.expiresAt) / 1_000),
+    expires_at: envelopeExpirySeconds,
     value: input.value,
   }));
   try {

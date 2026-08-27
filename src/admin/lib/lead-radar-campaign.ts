@@ -246,6 +246,7 @@ export function telegramAuthProgress(account: LeadRadarTelegramAccountState | nu
     telegram_timeout: 'Telegram не ответил вовремя. Код не подтверждён. Проверьте сеть компьютера и начните новое подключение.',
     auth_input_outcome_unknown: 'Нет подтверждения Telegram. Запрос не повторяется автоматически; обновите статус перед новой попыткой.',
     auth_outcome_unknown: 'Нет подтверждения Telegram. Запрос не повторяется автоматически; обновите статус перед новой попыткой.',
+    bridge_input_rejected: 'Bridge отклонил защищённый ввод до обращения к Telegram. Начните новое подключение; код не запрашивался.',
   };
   if (account.reasonCode && errors[account.reasonCode]) return errors[account.reasonCode];
   if (account.authState === 'finalizing') return 'Telegram принял вход. Bridge подтверждает сохранение сессии; отправка пока закрыта.';

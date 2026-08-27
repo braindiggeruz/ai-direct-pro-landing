@@ -3,6 +3,7 @@
 > Lead Radar-only release (2026-08-27): see `../lead-radar/TELEGRAM_RELEASE_20260827.md`.
 > Source `3395a80` is live on Pages deployment `5ccd3d24-a06b-405a-a312-e7180fe71388`; gateway `361fd697-8316-4f5e-9539-206fb954041b` and Windows Bridge 1.2.0 are unchanged. HTTP, admin-boundary and SEO canaries pass; owner login/send canary remains pending.
 > The explicit phone submit now waits for its bound Bridge challenge and submits exactly once instead of deadlocking on UI polling. No company message was sent during repair or deployment.
+> The first owner attempt exposed a second candidate fix: browser input used the ten-minute ceremony expiry but Bridge input accepts at most 90 seconds, then gateway refused to ACK the safe local failure. A 60-second envelope plus gateway 1.2.1 terminal ACK is locally verified and not yet deployed.
 > The Bormi stages and acceptance requirements below are unchanged.
 
 > **Fresh Bormi operational handoff (2026-08-02):** before touching the Market

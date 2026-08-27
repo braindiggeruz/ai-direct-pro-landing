@@ -4,6 +4,10 @@ export const LEAD_RADAR_TELEGRAM_BRIDGE_POLL_SECONDS = 15;
 export const LEAD_RADAR_TELEGRAM_BRIDGE_CLOCK_SKEW_SECONDS = 90;
 export const LEAD_RADAR_TELEGRAM_BRIDGE_NONCE_TTL_SECONDS = 300;
 export const LEAD_RADAR_TELEGRAM_BRIDGE_COMMAND_LEASE_SECONDS = 90;
+// A browser input envelope is consumed by the local Bridge within a few
+// seconds. Keep this substantially shorter than the human login ceremony and
+// below the Bridge's 90-second anti-replay ceiling.
+export const LEAD_RADAR_TELEGRAM_BRIDGE_AUTH_INPUT_TTL_SECONDS = 60;
 // Human login input remains E2E encrypted and one-use, but a person must have
 // enough time to open Telegram, read the code and complete optional 2FA.
 export const LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS = 10 * 60;

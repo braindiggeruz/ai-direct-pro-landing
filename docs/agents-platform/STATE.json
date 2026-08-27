@@ -2,14 +2,14 @@
   "project": "gptbot-agents",
   "lead_radar_telegram_release": {
     "date": "2026-08-27",
-    "status": "deployed_phone_readiness_hotfix_owner_login_and_send_canary_pending",
+    "status": "verified_auth_input_ttl_and_ack_hotfix_deployment_pending",
     "code_commit": "3395a80e7af567468aaa7cdc2eff5a824baea85d",
     "pages_deployment": "5ccd3d24-a06b-405a-a312-e7180fe71388",
     "gateway_deployment": "361fd697-8316-4f5e-9539-206fb954041b",
     "baseline_commit": "da3b93fcc1c9ae97294353f57ed9cd821bebcb5d",
     "handoff": "docs/lead-radar/TELEGRAM_RELEASE_20260827.md",
-    "verification": "304 Lead Radar tests, both TypeScript projects, scoped ESLint, secret scan, full Cloudflare build and SEO audit pass. Live root, RU, UZ, admin and immutable probes are 200; new UI marker is present; API auth boundary is 401; admin no-store/noindex, protected SEO marker and sitemap 259 are intact.",
-    "next_step": "Owner completes Telegram phone/code/2FA login, checks masked identity, then explicitly approves one controlled recipient and message for the send canary. Bormi state unchanged."
+    "verification": "The owner attempt reached Bridge awaiting_phone, then local_validation_failed with no Telegram code or send effect. Root cause is a ten-minute browser input expiry against the Bridge 90-second anti-replay ceiling plus a gateway terminal-ACK gap. Candidate uses a 60-second input envelope and gateway 1.2.1 ACK; 304 Lead Radar tests, both TypeScript projects and scoped ESLint pass.",
+    "next_step": "Deploy gateway 1.2.1 first so the pending safe failure is acknowledged, then deploy exact Pages source and repeat owner phone/code/2FA login. One controlled send still requires explicit recipient/message approval. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Bormi voice search merged to main and deployed at 4367850; native Telegram owner canary outstanding",
