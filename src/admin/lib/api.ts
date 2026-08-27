@@ -8,9 +8,10 @@ const TOKEN_KEY = 'gptbot_admin_token';
 // Must remain above the private service control deadline so cold gateway auth/revoke
 // can return a definite response before the browser reports an unknown outcome.
 const LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS = 90_000;
-// Starting a phone login now only queues the Bridge command. Keep the UI bounded
-// even if an older deployment or an intermediary holds the request open.
-const LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS = 12_000;
+// A connection start performs readiness and durable-state recovery before it
+// queues the Bridge command. Keep this above one 15-second Bridge poll plus
+// network/cold-start margin so a successful request cannot look failed in UI.
+const LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS = 35_000;
 const LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS = 15_000;
 const LEAD_RADAR_TELEGRAM_MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
 

@@ -1547,9 +1547,12 @@ export function TelegramAccountCampaignPanel({
       connectRequestKey.current = null;
       setAccountClock(Date.now());
       setAccount(next);
+      revealSection(accountSectionRef);
       setAccountNotice(next.status === 'connected'
         ? 'Telegram подтвердил подключение выделенного аккаунта.'
-        : 'Введите номер с кодом страны. Telegram пришлёт код подтверждения; сообщения ещё не отправляются.');
+        : next.authState === 'awaiting_phone'
+          ? 'Введите номер с кодом страны. Код придёт в системный чат Telegram; сообщения ещё не отправляются.'
+          : 'Bridge готовит защищённую форму номера. Она появится здесь автоматически; сообщения ещё не отправляются.');
     } catch (connectError) {
       if (hasDefiniteHttpResponse(connectError)) {
         connectRequestKey.current = null;
@@ -1965,9 +1968,9 @@ export function TelegramAccountCampaignPanel({
       : connected
         ? 'Открыть подключённый аккаунт'
         : pendingConnection
-          ? awaitingTwoFactorPassword ? 'Ввести пароль 2FA'
+        ? awaitingTwoFactorPassword ? 'Ввести пароль 2FA'
             : awaitingCode ? 'Ввести код Telegram'
-              : awaitingPhone ? 'Ввести номер телефона' : 'Открыть подключение'
+              : awaitingPhone ? 'Ввести номер телефона' : 'Перейти к форме входа'
           : accountReadinessReason
             ? 'Что нужно настроить'
             : accountQuickAction === 'connect'
@@ -1991,7 +1994,9 @@ export function TelegramAccountCampaignPanel({
           ? awaitingTwoFactorPassword
             ? 'Telegram подтвердил код и ожидает пароль двухэтапной защиты.'
             : awaitingCode ? 'Код отправлен. Введите его из Telegram.'
-              : 'Введите номер с кодом страны, чтобы получить код Telegram.'
+              : awaitingPhone
+                ? 'Введите номер с кодом страны, чтобы получить код Telegram.'
+                : 'Bridge готовит форму номера. Telegram Desktop не открывается этой кнопкой: код появится в приложении после отправки номера.'
           : accountCopy?.detail ?? 'Статус аккаунта ещё не получен; отправка закрыта.');
   const accountBlockingExplanation = accountReadinessReason ?? (accountQuickAction === 'blocked_feature'
     ? 'Подключение отключено серверным переключателем. QR не создавался, запрос подключения не выполнялся, ничего не отправлено.'
@@ -2342,9 +2347,9 @@ export function TelegramAccountCampaignPanel({
                     </div>
                   ) : (
                     <div role="status" aria-live="polite" aria-atomic="true" className="max-w-xs">
-                      <QrCode size={36} className="mx-auto text-brand-cyan" aria-hidden="true" />
-                      <p className="mt-3 text-sm font-medium text-white">QR ещё готовится</p>
-                      <p className="mt-1 text-xs leading-5 text-white/60">Локальный Bridge ещё не вернул зашифрованный QR. Компьютер должен быть включён; отправка остаётся закрытой.</p>
+                      <Phone size={36} className="mx-auto text-brand-cyan" aria-hidden="true" />
+                      <p className="mt-3 text-sm font-medium text-white">Готовим форму номера</p>
+                      <p className="mt-1 text-xs leading-5 text-white/60">Bridge забирает команду с компьютера. Форма появится автоматически; Telegram Desktop откроется только вами, а код придёт после ввода номера.</p>
                     </div>
                   )
                 ) : connected ? (

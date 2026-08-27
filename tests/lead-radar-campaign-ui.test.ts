@@ -462,6 +462,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   const page = readFileSync(path.join(ROOT, 'src/admin/pages/LeadRadar.tsx'), 'utf8');
   const component = readFileSync(path.join(ROOT, 'src/admin/components/lead-radar/TelegramAccountCampaignPanel.tsx'), 'utf8');
   const api = readFileSync(path.join(ROOT, 'src/admin/lib/api.ts'), 'utf8');
+  const bridgeProtocol = readFileSync(path.join(ROOT, 'src/shared/lead-radar-telegram-bridge.ts'), 'utf8');
   const accountService = readFileSync(path.join(ROOT, 'functions/platform/lead-radar/telegram-account-service.ts'), 'utf8');
   const adminApp = readFileSync(path.join(ROOT, 'src/admin/AdminApp.tsx'), 'utf8');
 
@@ -484,6 +485,14 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(api, /leadRadarRevokeTelegramBridge[\s\S]{0,360}telegram-account\/bridge[\s\S]{0,220}Idempotency-Key/);
   assert.match(api, /telegram-account\/connect\/\$\{encodeURIComponent\(authId\)\}/);
   assert.match(api, /leadRadarConnectTelegramAccount[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS/);
+  const connectStartTimeout = api.match(/LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS = ([\d_]+)/u);
+  const bridgePollSeconds = bridgeProtocol.match(/LEAD_RADAR_TELEGRAM_BRIDGE_POLL_SECONDS = ([\d_]+)/u);
+  assert.ok(connectStartTimeout && bridgePollSeconds);
+  assert.ok(
+    Number(connectStartTimeout[1].replaceAll('_', ''))
+      > Number(bridgePollSeconds[1].replaceAll('_', '')) * 1_000 + 10_000,
+    'browser connection start timeout must exceed one Bridge poll plus a cold-start margin',
+  );
   assert.match(api, /leadRadarTelegramAccount: \(\)[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS/);
   assert.match(api, /leadRadarTelegramAccountConnectStatus[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS/);
   assert.match(api, /leadRadarSubmitTelegramAccountPassword[\s\S]{0,520}connect\/\$\{encodeURIComponent\(authId\)\}\/password/);
@@ -567,6 +576,8 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /Подключите отдельный Telegram-аккаунт/);
   assert.match(component, /Подключить Telegram/);
   assert.match(component, /Переподключить Telegram/);
+  assert.match(component, /Перейти к форме входа/);
+  assert.match(component, /Готовим форму номера/);
   assert.match(component, /Показать аккаунт на паузе/);
   assert.match(component, /Сначала настройте Telegram-шлюз/);
   assert.match(component, /Аккаунт ограничен Telegram/);
