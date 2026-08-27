@@ -2,14 +2,14 @@
   "project": "gptbot-agents",
   "lead_radar_telegram_release": {
     "date": "2026-08-27",
-    "status": "verified_phone_readiness_hotfix_deployment_pending",
-    "code_commit": "6d30e7acf56a30d714aa2b9f031317433e3c4144",
-    "pages_deployment": "d44eade5-1241-41b0-af6c-8d778aa81a60",
+    "status": "deployed_phone_readiness_hotfix_owner_login_and_send_canary_pending",
+    "code_commit": "3395a80e7af567468aaa7cdc2eff5a824baea85d",
+    "pages_deployment": "5ccd3d24-a06b-405a-a312-e7180fe71388",
     "gateway_deployment": "361fd697-8316-4f5e-9539-206fb954041b",
     "baseline_commit": "da3b93fcc1c9ae97294353f57ed9cd821bebcb5d",
     "handoff": "docs/lead-radar/TELEGRAM_RELEASE_20260827.md",
-    "candidate": "Phone readiness recovery verified locally: 304 Lead Radar tests, TypeScript, ESLint, secret scan, production build, Pages Functions and SEO audit pass.",
-    "next_step": "Deploy the exact candidate commit, then owner completes Telegram login and explicitly approves one controlled send canary. Bormi state unchanged."
+    "verification": "304 Lead Radar tests, both TypeScript projects, scoped ESLint, secret scan, full Cloudflare build and SEO audit pass. Live root, RU, UZ, admin and immutable probes are 200; new UI marker is present; API auth boundary is 401; admin no-store/noindex, protected SEO marker and sitemap 259 are intact.",
+    "next_step": "Owner completes Telegram phone/code/2FA login, checks masked identity, then explicitly approves one controlled recipient and message for the send canary. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Bormi voice search merged to main and deployed at 4367850; native Telegram owner canary outstanding",

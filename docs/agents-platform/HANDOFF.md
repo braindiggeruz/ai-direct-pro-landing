@@ -1,8 +1,8 @@
 # GPTBot Agents — Handoff
 
 > Lead Radar-only release (2026-08-27): see `../lead-radar/TELEGRAM_RELEASE_20260827.md`.
-> Source `6d30e7a` deployed to Pages and gateway; Windows Bridge updated to 1.2.0. Owner login/send canary remains pending.
-> A phone-readiness recovery candidate is locally verified: the explicit submit action now waits for the Bridge challenge and sends the phone exactly once instead of deadlocking on UI polling. Production still serves `6d30e7a` until this candidate is deployed; no company message was sent.
+> Source `3395a80` is live on Pages deployment `5ccd3d24-a06b-405a-a312-e7180fe71388`; gateway `361fd697-8316-4f5e-9539-206fb954041b` and Windows Bridge 1.2.0 are unchanged. HTTP, admin-boundary and SEO canaries pass; owner login/send canary remains pending.
+> The explicit phone submit now waits for its bound Bridge challenge and submits exactly once instead of deadlocking on UI polling. No company message was sent during repair or deployment.
 > The Bormi stages and acceptance requirements below are unchanged.
 
 > **Fresh Bormi operational handoff (2026-08-02):** before touching the Market
