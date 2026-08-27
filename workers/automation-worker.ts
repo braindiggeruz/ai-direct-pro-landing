@@ -7,7 +7,9 @@ import {
 } from '../functions/platform/automation';
 import {
   consumeLeadRadarQueueMessage,
+  completeTelegramUserAccountConnection,
   enqueueDueLeadRadarJobs,
+  getTelegramUserAccountByAuthRequest,
   assertLeadRadarRuntimeSchema,
   hasLeadRadarPersonalDataSchema,
   hasTelegramBusinessTransportSchema,
@@ -17,6 +19,9 @@ import {
   parseLeadRadarRetentionDays,
   LeadRadarStore,
   maintainTelegramBusinessTransport,
+  revokeTelegramUserAccount,
+  setTelegramUserAccountStatus,
+  stageTelegramUserAccountConnection,
   type LeadRadarQueueOutcome,
   type LeadRadarQueueMessage,
   type LeadRadarQueueSender,
@@ -33,8 +38,10 @@ import {
   type TelegramCampaignQueueSender,
 } from '../functions/platform/lead-radar/telegram-campaign';
 import {
+  finalizeTelegramAccountConnection,
   getTelegramAccountGatewayReadiness,
   hasPrivateTelegramAccountService,
+  pollTelegramAccountConnection,
   PrivateTelegramCampaignSender,
 } from '../functions/platform/lead-radar/telegram-account-service';
 import { LeadRadarTelegramCampaignMediaStore } from '../functions/platform/lead-radar/telegram-campaign-media';
@@ -53,11 +60,19 @@ import {
   parseLeadRadarTelegramCampaignDailyLimit,
   parseLeadRadarTelegramCampaignMinimumIntervalSeconds,
 } from '../src/shared/lead-radar-telegram-campaign-policy';
+import {
+  LEAD_RADAR_TELEGRAM_ACCOUNT_FINALIZATION_RETRY_SECONDS,
+  LEAD_RADAR_TELEGRAM_ACCOUNT_FINALIZATION_SCHEMA,
+  nextLeadRadarTelegramAccountFinalizationQueueMessage,
+  parseLeadRadarTelegramAccountFinalizationQueueMessage,
+  type LeadRadarTelegramAccountFinalizationQueueMessage,
+} from '../src/shared/lead-radar-telegram-account-finalization';
 
 type AutomationWorkerQueueMessage =
   | AutomationQueueMessage
   | LeadRadarQueueMessage
-  | TelegramCampaignQueueMessage;
+  | TelegramCampaignQueueMessage
+  | LeadRadarTelegramAccountFinalizationQueueMessage;
 
 interface AutomationWorkerEnv extends Env {
   GPTBOT_DRAFTS_DB: D1Database;
@@ -132,6 +147,142 @@ function telegramCampaignQueueSender(
   queue: Queue<AutomationWorkerQueueMessage>,
 ): TelegramCampaignQueueSender {
   return queue as unknown as TelegramCampaignQueueSender;
+}
+
+function telegramAccountFinalizationConfigured(env: AutomationWorkerEnv): boolean {
+  return env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED === 'true'
+    && env.LEAD_RADAR_TELEGRAM_TRANSPORT_MODE === 'local_bridge'
+    && isTelegramCampaignDataKeyValid(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY)
+    && TELEGRAM_INTERNAL_SERVICE_TOKEN_PATTERN.test(
+      env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN ?? '',
+    )
+    && hasPrivateTelegramAccountService(env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE);
+}
+
+async function deferTelegramAccountFinalization(
+  message: Message<unknown>,
+  envelope: LeadRadarTelegramAccountFinalizationQueueMessage,
+  env: AutomationWorkerEnv,
+): Promise<void> {
+  const next = nextLeadRadarTelegramAccountFinalizationQueueMessage(envelope);
+  if (!next) {
+    message.ack();
+    return;
+  }
+  try {
+    await env.AUTOMATION_QUEUE.send(next, {
+      delaySeconds: LEAD_RADAR_TELEGRAM_ACCOUNT_FINALIZATION_RETRY_SECONDS,
+    });
+    message.ack();
+  } catch {
+    message.retry({
+      delaySeconds: LEAD_RADAR_TELEGRAM_ACCOUNT_FINALIZATION_RETRY_SECONDS,
+    });
+  }
+}
+
+async function consumeTelegramAccountFinalization(
+  message: Message<unknown>,
+  envelope: LeadRadarTelegramAccountFinalizationQueueMessage,
+  env: AutomationWorkerEnv,
+): Promise<void> {
+  if (Date.parse(envelope.not_after) <= Date.now()) {
+    message.ack();
+    return;
+  }
+  if (!telegramAccountFinalizationConfigured(env)
+    || !isLeadRadarOrganizationAllowed(env, envelope.org_id)) {
+    await deferTelegramAccountFinalization(message, envelope, env);
+    return;
+  }
+  try {
+    await assertLeadRadarRuntimeSchema(env.GPTBOT_DRAFTS_DB);
+    if (!await hasTelegramCampaignSchema(env.GPTBOT_DRAFTS_DB)) {
+      await deferTelegramAccountFinalization(message, envelope, env);
+      return;
+    }
+    const dataKey = (env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY ?? '').trim();
+    const account = await getTelegramUserAccountByAuthRequest({
+      db: env.GPTBOT_DRAFTS_DB,
+      dataKey,
+      orgId: envelope.org_id,
+      authRequestReference: envelope.auth_id,
+    });
+    if (!account) {
+      await deferTelegramAccountFinalization(message, envelope, env);
+      return;
+    }
+    const connection = await pollTelegramAccountConnection({
+      service: env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+      internalServiceToken: env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+      orgId: envelope.org_id,
+      authId: envelope.auth_id,
+    });
+    if (connection.status === 'connecting') {
+      await deferTelegramAccountFinalization(message, envelope, env);
+      return;
+    }
+    if (connection.status === 'revoked') {
+      await revokeTelegramUserAccount({
+        db: env.GPTBOT_DRAFTS_DB,
+        orgId: envelope.org_id,
+        accountId: account.id,
+      });
+      message.ack();
+      return;
+    }
+    if (connection.status !== 'connected') {
+      if (account.status === 'pending') {
+        await setTelegramUserAccountStatus({
+          db: env.GPTBOT_DRAFTS_DB,
+          orgId: envelope.org_id,
+          accountId: account.id,
+          expectedVersion: account.stateVersion,
+          status: 'error',
+          healthy: false,
+        });
+      }
+      message.ack();
+      return;
+    }
+    const staged = account.status === 'connected'
+      ? account
+      : await stageTelegramUserAccountConnection({
+        db: env.GPTBOT_DRAFTS_DB,
+        dataKey,
+        orgId: envelope.org_id,
+        accountId: account.id,
+        gatewayAccountRef: connection.accountRef,
+        expectedVersion: account.stateVersion,
+        maskedLabel: connection.maskedLabel,
+        providerConnectedAt: connection.connectedAt,
+      });
+    const finalized = await finalizeTelegramAccountConnection({
+      service: env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+      internalServiceToken: env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+      orgId: envelope.org_id,
+      authId: envelope.auth_id,
+    });
+    if (!finalized) {
+      await deferTelegramAccountFinalization(message, envelope, env);
+      return;
+    }
+    if (staged.status !== 'connected') {
+      await completeTelegramUserAccountConnection({
+        db: env.GPTBOT_DRAFTS_DB,
+        dataKey,
+        orgId: envelope.org_id,
+        accountId: staged.id,
+        gatewayAccountRef: connection.accountRef,
+        expectedVersion: staged.stateVersion,
+        maskedLabel: connection.maskedLabel,
+      });
+    }
+    message.ack();
+  } catch (error) {
+    recordLeadRadarFailure('telegram_account_finalize', error);
+    await deferTelegramAccountFinalization(message, envelope, env);
+  }
 }
 
 export function settleLeadRadarRetryWait(
@@ -392,6 +543,18 @@ export default {
     for (const message of batch.messages) {
       const raw = message.body;
       const rawRecord = recordValue(raw);
+      const looksLikeTelegramAccountFinalization =
+        rawRecord?.schema === LEAD_RADAR_TELEGRAM_ACCOUNT_FINALIZATION_SCHEMA;
+      if (looksLikeTelegramAccountFinalization) {
+        const finalizationEnvelope =
+          parseLeadRadarTelegramAccountFinalizationQueueMessage(raw);
+        if (!finalizationEnvelope) {
+          message.ack();
+          continue;
+        }
+        await consumeTelegramAccountFinalization(message, finalizationEnvelope, env);
+        continue;
+      }
       const looksLikeTelegramCampaignEnvelope = rawRecord?.schema === TELEGRAM_CAMPAIGN_SCHEMA;
       if (looksLikeTelegramCampaignEnvelope) {
         try {

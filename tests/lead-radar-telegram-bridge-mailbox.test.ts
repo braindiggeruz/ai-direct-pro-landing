@@ -45,9 +45,11 @@ async function fixture() {
   const device = { version: 1, deviceId, orgId, accountRef, state: 'online', bridgeVersion: '1.2.0', lastSeenAt: new Date().toISOString(), encryptionKeyId: envelope.key_id, encryptionPublicKeySpki: 'A'.repeat(400) };
   await storage.put(`bridge:device:${deviceId}`, device);
   await storage.put(`bridge:org-device:${orgId}`, deviceId);
+  const finalizationMessages: unknown[] = [];
   const mailbox = new LeadRadarTelegramBridgeMailbox({ storage }, {
     LEAD_RADAR_TELEGRAM_ACCOUNT_DATA_KEY: Buffer.alloc(32, 8).toString('base64url'),
     LEAD_RADAR_TELEGRAM_ACCOUNT_ROUTING_KEY: Buffer.alloc(32, 9).toString('base64url'),
+    AUTOMATION_QUEUE: { async send(message: unknown) { finalizationMessages.push(message); } },
   });
   // Interactive routes must never wait for a desktop response in an HTTP request.
   mailbox.waitTerminal = async () => { throw new Error('synchronous auth wait'); };
@@ -61,8 +63,10 @@ async function fixture() {
   const result = async (commandId: string, status: string, code: string, data: Row) => {
     const command = await storage.get(`bridge:command:${commandId}`);
     assert.ok(command, 'command persisted before delivery');
-    await mailbox.applyResult(command, { status, result_code: code, result: data }, `test-result:${commandId}`, 'digest');
+    const body = { status, result_code: code, result: data };
+    await mailbox.applyResult(command, body, `test-result:${commandId}`, 'digest');
     await storage.put(`bridge:command:${commandId}`, { ...command, status, lastSequence: 1 });
+    await mailbox.dispatchConnectedAuthFinalization(command, body);
   };
   const state = async () => {
     const service = { fetch: () => call('state', { auth_id: authId }) } as unknown as Fetcher;
@@ -72,7 +76,7 @@ async function fixture() {
     auth_id: authId, auth_state: 'awaiting_phone', expires_at: initial.expires_at,
   });
   await call('adopt', { auth_id: authId });
-  return { mailbox, storage, device, authId, initial, call, result, state };
+  return { mailbox, storage, device, authId, initial, call, result, state, finalizationMessages };
 }
 
 test('production mailbox → Pages parser accepts real ten-minute phone/code/2FA stages without synchronous waits', async () => {
@@ -102,6 +106,13 @@ test('production mailbox → Pages parser accepts real ten-minute phone/code/2FA
   state = await f.state();
   assert.ok('pendingAction' in state && state.pendingAction === 'password');
   await f.result(passwordId, 'succeeded', 'connected', { auth_id: f.authId, account_ref: accountRef, masked_label: '@c•••z', connected_at: new Date().toISOString() });
+  assert.deepEqual(f.finalizationMessages, [{
+    schema: 'gptbot.lead-radar.telegram-account-finalization.v1',
+    org_id: orgId,
+    auth_id: f.authId,
+    attempt: 0,
+    not_after: f.initial.expires_at,
+  }], 'connected result dispatches one opaque server finalization envelope');
   assert.equal((await f.call('finalize', { auth_id: f.authId })).status, 202);
   assert.equal((await f.call('finalize', { auth_id: f.authId })).status, 202);
   assert.equal((await f.storage.get(`bridge:account:${accountRef}`)).finalized, false);

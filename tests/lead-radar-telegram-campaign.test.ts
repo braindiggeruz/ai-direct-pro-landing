@@ -585,18 +585,30 @@ test('account lifecycle is tenant-scoped, idempotent and stores only an opaque g
     }),
     (error) => errorCode(error) === 'telegram_campaign_idempotency_conflict',
   );
+  await assert.rejects(
+    createTelegramUserAccountPending({
+      db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+      authRequestReference: 'gateway_auth_request_unsafe_label',
+      idempotencyKey: 'account_connect_unsafe_label_0001',
+      maskedLabel: '@open_username',
+      now: NOW,
+    }),
+    (error) => errorCode(error) === 'telegram_campaign_invalid_input',
+  );
   await stageTelegramUserAccountConnection({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     accountId: first.account.id, gatewayAccountRef: 'gateway_account_reference_a',
     expectedVersion: first.account.stateVersion,
+    maskedLabel: '@ab•••yz',
     providerConnectedAt: NOW.toISOString(), now: NOW,
   });
   const connected = await completeTelegramUserAccountConnection({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     accountId: first.account.id, gatewayAccountRef: 'gateway_account_reference_a',
-    expectedVersion: first.account.stateVersion, now: NOW,
+    expectedVersion: first.account.stateVersion, maskedLabel: '@ab•••yz', now: NOW,
   });
   assert.equal(connected.status, 'connected');
+  assert.equal(connected.maskedLabel, '@ab•••yz');
   assert.equal(await getTelegramUserAccount(db.asD1(), ORG_B, connected.id), null);
   const row = db.rows<Record<string, unknown>>(
     'SELECT * FROM lead_radar_tg_user_accounts WHERE org_id = ?', ORG_A,

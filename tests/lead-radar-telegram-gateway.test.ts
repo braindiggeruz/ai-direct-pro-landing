@@ -79,12 +79,14 @@ test('gateway readiness groups missing setup without exposing configuration valu
     LEAD_RADAR_TELEGRAM_BRIDGE_PUBLIC_ORIGIN: 'https://lead-radar-bridge.gptbot.uz',
     TELEGRAM_ACCOUNTS: {},
     LEAD_RADAR_CAMPAIGN_MEDIA: {},
+    AUTOMATION_QUEUE: {},
   };
   assert.deepEqual(gatewayConfigurationBlockers(valid), []);
   assert.deepEqual(gatewayConfigurationBlockers({}), [
     'gateway_internal_token_missing',
     'gateway_account_keys_missing',
     'gateway_storage_missing',
+    'gateway_finalization_queue_missing',
     'gateway_runtime_config_invalid',
   ]);
   assert.deepEqual(gatewayConfigurationBlockers({

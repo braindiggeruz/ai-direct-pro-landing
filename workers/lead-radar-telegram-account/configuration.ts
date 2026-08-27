@@ -16,6 +16,7 @@ export type TelegramAccountGatewayConfigurationBlocker =
   | 'gateway_internal_token_missing'
   | 'gateway_account_keys_missing'
   | 'gateway_storage_missing'
+  | 'gateway_finalization_queue_missing'
   | 'gateway_runtime_config_invalid';
 
 export interface TelegramAccountGatewayConfigurationEnv {
@@ -27,6 +28,7 @@ export interface TelegramAccountGatewayConfigurationEnv {
   LEAD_RADAR_TELEGRAM_BRIDGE_PUBLIC_ORIGIN?: string;
   TELEGRAM_ACCOUNTS?: unknown;
   LEAD_RADAR_CAMPAIGN_MEDIA?: unknown;
+  AUTOMATION_QUEUE?: unknown;
 }
 
 function validPublicOrigin(value: string | undefined): boolean {
@@ -59,6 +61,7 @@ export function gatewayConfigurationBlockers(
   if (!env.TELEGRAM_ACCOUNTS || !env.LEAD_RADAR_CAMPAIGN_MEDIA) {
     blockers.push('gateway_storage_missing');
   }
+  if (!env.AUTOMATION_QUEUE) blockers.push('gateway_finalization_queue_missing');
   if (!validGatewayRuntimeVersion(env.LEAD_RADAR_TELEGRAM_ACCOUNT_KEY_VERSION)
     || !validGatewayRuntimeVersion(env.LEAD_RADAR_TELEGRAM_GATEWAY_VERSION)
     || !validPublicOrigin(env.LEAD_RADAR_TELEGRAM_BRIDGE_PUBLIC_ORIGIN)) {

@@ -49,6 +49,10 @@ import {
 } from './protocol';
 import { telegramMessagePayloadDigest } from './message-effect';
 import { LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS } from '../../src/shared/lead-radar-telegram-bridge';
+import {
+  leadRadarTelegramAccountFinalizationQueueMessage,
+  type LeadRadarTelegramAccountFinalizationQueueMessage,
+} from '../../src/shared/lead-radar-telegram-account-finalization';
 
 
 const PUBLIC_BRIDGE_ORIGIN_FALLBACK =
@@ -216,6 +220,7 @@ export interface TelegramBridgeGatewayEnv {
   LEAD_RADAR_TELEGRAM_GATEWAY_VERSION: string;
   LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN: string;
   LEAD_RADAR_TELEGRAM_BRIDGE_PUBLIC_ORIGIN?: string;
+  AUTOMATION_QUEUE: Queue<LeadRadarTelegramAccountFinalizationQueueMessage>;
 }
 
 class MailboxFault extends Error {
@@ -1404,6 +1409,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     const digest = await bridgeSha256Hex(auth.verified.rawBody);
     if (auth.verified.body.sequence <= command.lastSequence) {
       if (auth.verified.body.sequence === command.lastSequence && digest === command.resultDigest) {
+        await this.dispatchConnectedAuthFinalization(command, auth.verified.body);
         return this.resultAck(request, auth, commandId, auth.verified.body.sequence);
       }
       return new Response('Result conflict', { status: 409 });
@@ -1442,7 +1448,36 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
         updated.commandId,
       ));
     }
+    await this.dispatchConnectedAuthFinalization(updated, auth.verified.body);
     return this.resultAck(request, auth, commandId, auth.verified.body.sequence);
+  }
+
+  private async dispatchConnectedAuthFinalization(
+    command: CommandRecord,
+    body: BridgeJsonRecord,
+  ): Promise<void> {
+    if (body.status !== 'succeeded' || body.result_code !== 'connected') return;
+    if (!['connect', 'submit_auth', 'submit_password'].includes(command.kind)) {
+      throw new MailboxFault('bridge_result_invalid', 400);
+    }
+    const payload = await this.commandPayload(command);
+    const authId = payload.auth_id;
+    if (typeof authId !== 'string' || !AUTH_ID_PATTERN.test(authId)) {
+      throw new MailboxFault('bridge_result_invalid', 400);
+    }
+    const record = await this.ctx.storage.get<AuthRecord>(authKey(authId));
+    if (!record
+      || record.orgId !== command.orgId
+      || record.accountRef !== command.accountRef
+      || record.state !== 'connected') {
+      throw new MailboxFault('bridge_result_conflict', 409);
+    }
+    if (record.finalized) return;
+    await this.env.AUTOMATION_QUEUE.send(leadRadarTelegramAccountFinalizationQueueMessage({
+      orgId: record.orgId,
+      authId: record.authId,
+      notAfter: record.expiresAt,
+    }));
   }
 
   private async resultAck(request: Request, auth: {

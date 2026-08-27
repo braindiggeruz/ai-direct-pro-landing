@@ -413,9 +413,11 @@ function selectedCompanyIds(input: readonly string[]): string[] {
 
 function safeMaskedLabel(value: string): string {
   const label = value.trim();
+  const maskedUsername = /^@[A-Za-z0-9_]{1,2}•{3,5}[A-Za-z0-9_]{1,2}$/u.test(label);
   if (label.length < 1
     || label.length > 40
-    || /[@+]|https?:|t\.me|\d{5,}/iu.test(label)
+    || (label.includes('@') && !maskedUsername)
+    || /[+]|https?:|t\.me|\d{5,}/iu.test(label)
     || [...label].some((character) => {
       const code = character.charCodeAt(0);
       return code < 32 || code === 127;

@@ -15,6 +15,7 @@ import {
   type TelegramCampaignQueueMessage,
 } from '../functions/platform/lead-radar/telegram-campaign';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { leadRadarTelegramAccountFinalizationQueueMessage } from '../src/shared/lead-radar-telegram-account-finalization';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CAMPAIGN_MIGRATIONS = [
@@ -369,6 +370,47 @@ function privateTelegramService(options: { blockers?: string[] } = {}): {
   };
 }
 
+function privateTelegramFinalizationService(input: {
+  authId: string;
+  connectedAt: string;
+}): {
+  binding: Fetcher;
+  paths: string[];
+  finalizeCalls: number;
+} {
+  const paths: string[] = [];
+  let finalizeCalls = 0;
+  return {
+    paths,
+    get finalizeCalls() { return finalizeCalls; },
+    binding: {
+      async fetch(request: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+        const headers = new Headers(init?.headers);
+        if (headers.get('Authorization') !== `Bearer ${TELEGRAM_INTERNAL_SERVICE_TOKEN}`) {
+          return Response.json({ error: 'unauthorized' }, { status: 401 });
+        }
+        const path = new URL(String(request)).pathname;
+        paths.push(path);
+        if (path === '/v1/accounts/connect/state') {
+          return Response.json({
+            schema: 'gptbot.lead-radar.telegram-account-service.v1',
+            status: 'connected',
+            auth_id: input.authId,
+            account_ref: 'lracct_' + 'A'.repeat(43),
+            masked_label: '@w•••r',
+            connected_at: input.connectedAt,
+          });
+        }
+        if (path === '/v1/accounts/connect/finalize') {
+          finalizeCalls += 1;
+          return new Response(null, { status: finalizeCalls === 1 ? 202 : 204 });
+        }
+        return new Response('Not found', { status: 404 });
+      },
+    } as Fetcher,
+  };
+}
+
 function batch(messages: Message<unknown>[]): MessageBatch<unknown> {
   return {
     queue: 'automation-queue',
@@ -392,6 +434,90 @@ test('processing pause ACKs Lead Radar without touching D1 and preserves SEO ret
   assert.deepEqual(db.sql, []);
   assert.equal(seo.acknowledgements, 0);
   assert.deepEqual(seo.retries, [300]);
+});
+
+test('connected Telegram auth finalizes through the server queue without UI polling', async (t) => {
+  const db = campaignDatabase();
+  t.after(() => db.sqlite.close());
+  const connectedAt = new Date(Date.now() - 1_000).toISOString();
+  const authId = `auth_${'f'.repeat(32)}`;
+  const pending = await createTelegramUserAccountPending({
+    db: db.asD1(),
+    dataKey: CAMPAIGN_DATA_KEY,
+    orgId: CAMPAIGN_ORG,
+    authRequestReference: authId,
+    idempotencyKey: 'worker_account_server_finalize_0001',
+    now: new Date(Date.now() - 60_000),
+  });
+  const service = privateTelegramFinalizationService({ authId, connectedAt });
+  const outgoing = fakeQueue();
+  const envelope = leadRadarTelegramAccountFinalizationQueueMessage({
+    orgId: CAMPAIGN_ORG,
+    authId,
+    notAfter: new Date(Date.now() + 8 * 60_000).toISOString(),
+  });
+  const first = queueMessage(envelope);
+  const env = environment(db, {
+    AUTOMATION_QUEUE: outgoing,
+    LEAD_RADAR_ALLOWED_ORGS: CAMPAIGN_ORG,
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: CAMPAIGN_DATA_KEY,
+    LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN: TELEGRAM_INTERNAL_SERVICE_TOKEN,
+    LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
+    LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE: service.binding,
+    LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
+  });
+
+  await worker.queue(batch([first]), env, {} as ExecutionContext);
+
+  assert.equal(first.acknowledgements, 1);
+  assert.deepEqual(first.retries, []);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_user_accounts WHERE org_id = ?',
+    CAMPAIGN_ORG,
+  ), 'pending');
+  assert.equal(db.value(
+    'SELECT COUNT(*) FROM lead_radar_tg_account_finalizations WHERE org_id = ?',
+    CAMPAIGN_ORG,
+  ), 1);
+  assert.deepEqual(outgoing.sent, [{ ...envelope, attempt: 1 }]);
+
+  const second = queueMessage(outgoing.sent[0]);
+  await worker.queue(batch([second]), env, {} as ExecutionContext);
+
+  assert.equal(second.acknowledgements, 1);
+  assert.deepEqual(second.retries, []);
+  assert.equal(service.finalizeCalls, 2);
+  assert.deepEqual(service.paths, [
+    '/v1/accounts/connect/state',
+    '/v1/accounts/connect/finalize',
+    '/v1/accounts/connect/state',
+    '/v1/accounts/connect/finalize',
+  ]);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_user_accounts WHERE id = ?',
+    pending.account.id,
+  ), 'connected');
+  assert.equal(db.value(
+    'SELECT COUNT(*) FROM lead_radar_tg_account_finalizations WHERE org_id = ?',
+    CAMPAIGN_ORG,
+  ), 0);
+});
+
+test('malformed Telegram account finalization envelope ACKs before D1 or provider access', async () => {
+  const db = new FakeD1(false, true);
+  const malformed = queueMessage({
+    schema: 'gptbot.lead-radar.telegram-account-finalization.v1',
+    org_id: CAMPAIGN_ORG,
+    auth_id: 'invalid',
+    attempt: 0,
+    not_after: new Date(Date.now() + 60_000).toISOString(),
+  });
+
+  await worker.queue(batch([malformed]), environment(db), {} as ExecutionContext);
+
+  assert.equal(malformed.acknowledgements, 1);
+  assert.deepEqual(malformed.retries, []);
+  assert.deepEqual(db.sql, []);
 });
 
 test('missing private Telegram binding ACKs campaign before schema access or recipient claim', async () => {
