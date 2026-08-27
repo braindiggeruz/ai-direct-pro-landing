@@ -1123,6 +1123,40 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       });
       return;
     }
+    if (body.status === 'failed' && body.result_code === 'local_validation_failed'
+      && bridgeExactKeys(body.result as BridgeJsonRecord, [])) {
+      // The password never crossed Telegram's provider boundary. Rotate the
+      // one-use local input slot and require another explicit owner submit;
+      // never retry or imply that Telegram rejected the password.
+      const expiresAt = Date.parse(auth.expiresAt);
+      if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
+        await this.ctx.storage.put({
+          [authKey(auth.authId)]: {
+            ...auth,
+            state: 'error',
+            passwordCommandId: null,
+            relayExpiresAt: null,
+            reasonCode: 'bridge_password_input_expired',
+            updatedAt: nowIso(),
+          } satisfies AuthRecord,
+          [applicationKey]: digest,
+        });
+        return;
+      }
+      await this.ctx.storage.put({
+        [authKey(auth.authId)]: {
+          ...auth,
+          state: 'awaiting_password',
+          passwordCommandId: `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`,
+          previousPasswordCommandId: command.commandId,
+          relayExpiresAt: nowIso(Math.min(Date.now() + RELAY_TTL_MS, expiresAt)),
+          reasonCode: 'bridge_password_input_rejected',
+          updatedAt: nowIso(),
+        } satisfies AuthRecord,
+        [applicationKey]: digest,
+      });
+      return;
+    }
     if (body.status === 'ambiguous') {
       await this.ctx.storage.put({
         [authKey(auth.authId)]: {

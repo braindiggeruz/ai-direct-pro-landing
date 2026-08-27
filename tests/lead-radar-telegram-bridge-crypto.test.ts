@@ -121,7 +121,12 @@ test('2FA leaves the browser only as contextual hybrid ciphertext', async () => 
   const spkiBytes = new Uint8Array(await crypto.subtle.exportKey('spki', bridgePair.publicKey));
   const spki = b64url(spkiBytes);
   const keyId = Buffer.from(await crypto.subtle.digest('SHA-256', spkiBytes)).toString('hex');
-  const expiresAt = new Date(NOW.getTime() + 60_000).toISOString();
+  // Match the production ten-minute ceremony: the one-use password envelope
+  // must still be capped inside the Bridge's 90-second anti-replay window.
+  const expiresAt = new Date(NOW.getTime() + 540_000).toISOString();
+  const envelopeExpiresAt = new Date(
+    NOW.getTime() + LEAD_RADAR_TELEGRAM_BRIDGE_AUTH_INPUT_TTL_SECONDS * 1_000,
+  ).toISOString();
   const password = 'fixture-password-not-a-secret';
   const envelope = await encryptTelegramBridgePassword({
     bridgePublicKeySpki: spki,
@@ -153,7 +158,7 @@ test('2FA leaves the browser only as contextual hybrid ciphertext', async () => 
     device_id: DEVICE,
     command_id: COMMAND,
     auth_id: AUTH,
-    expires_at: expiresAt,
+    expires_at: envelopeExpiresAt,
     password,
   });
 });

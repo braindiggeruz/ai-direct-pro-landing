@@ -272,6 +272,7 @@ export async function encryptTelegramBridgePassword(input: {
   now?: Date;
 }): Promise<LeadRadarTelegramBridgeE2eEnvelope> {
   const now = input.now ?? new Date();
+  const challengeExpiryMs = Date.parse(input.expiresAt);
   if (!LEAD_RADAR_TELEGRAM_BRIDGE_RSA_SPKI_PATTERN.test(input.bridgePublicKeySpki)
     || !LEAD_RADAR_TELEGRAM_BRIDGE_KEY_ID_PATTERN.test(input.keyId)
     || !CONTEXT_ID_PATTERN.test(input.orgId)
@@ -279,6 +280,7 @@ export async function encryptTelegramBridgePassword(input: {
     || !CONTEXT_ID_PATTERN.test(input.commandId)
     || !CONTEXT_ID_PATTERN.test(input.authId)
     || !relayExpiry(input.expiresAt, now, input.expiresAt)
+    || challengeExpiryMs <= now.getTime()
     || input.password.length < 1
     || encoder.encode(input.password).byteLength > 256
     || [...input.password].some((character) => character === '\u0000')) {
@@ -293,6 +295,10 @@ export async function encryptTelegramBridgePassword(input: {
   );
   const rawKey = crypto.getRandomValues(new Uint8Array(32));
   const iv = crypto.getRandomValues(new Uint8Array(12));
+  const envelopeExpiresAt = new Date(Math.min(
+    challengeExpiryMs,
+    now.getTime() + LEAD_RADAR_TELEGRAM_BRIDGE_AUTH_INPUT_TTL_SECONDS * 1_000,
+  )).toISOString();
   const plaintext = encoder.encode(JSON.stringify({
     schema: LEAD_RADAR_TELEGRAM_BRIDGE_SCHEMA,
     purpose: 'password',
@@ -300,7 +306,7 @@ export async function encryptTelegramBridgePassword(input: {
     device_id: input.deviceId,
     command_id: input.commandId,
     auth_id: input.authId,
-    expires_at: input.expiresAt,
+    expires_at: envelopeExpiresAt,
     password: input.password,
   }));
   try {

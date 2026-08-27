@@ -134,8 +134,41 @@ test('local auth validation failure is acknowledged and closes the one-use comma
   state = await f.state();
   assert.equal(state.status, 'error');
   assert.equal(state.reasonCode, 'bridge_input_rejected');
-  assert.equal(state.inputCommandId, null);
+  assert.equal(state.inputCommandId ?? null, null);
   assert.equal('pendingAction' in state ? state.pendingAction : null, null);
+});
+
+test('local 2FA validation failure is acknowledged and rotates only the password slot', async () => {
+  const f = await fixture();
+  let state = await f.state();
+  const phoneId = state.inputCommandId!;
+  assert.equal((await f.call('input', {
+    auth_id: f.authId, input_command_id: phoneId, input_action: 'phone', input_envelope: envelope,
+  })).status, 200);
+  await f.result(phoneId, 'succeeded', 'awaiting_code', {
+    auth_id: f.authId, auth_state: 'awaiting_code', expires_at: f.initial.expires_at,
+  });
+  state = await f.state();
+  const codeId = state.inputCommandId!;
+  assert.equal((await f.call('input', {
+    auth_id: f.authId, input_command_id: codeId, input_action: 'code', input_envelope: envelope,
+  })).status, 200);
+  await f.result(codeId, 'succeeded', 'awaiting_password', {
+    auth_id: f.authId, auth_state: 'awaiting_password', expires_at: f.initial.expires_at,
+  });
+  state = await f.state();
+  const passwordId = state.passwordCommandId!;
+  assert.equal((await f.call('password', {
+    auth_id: f.authId, password_command_id: passwordId, password_envelope: envelope,
+  })).status, 200);
+  await f.result(passwordId, 'failed', 'local_validation_failed', {});
+  state = await f.state();
+  assert.equal(state.status, 'connecting');
+  assert.equal(state.authState, 'awaiting_password');
+  assert.equal(state.reasonCode, 'bridge_password_input_rejected');
+  assert.equal(state.pendingAction, null);
+  assert.notEqual(state.passwordCommandId, passwordId);
+  assert.match(state.passwordCommandId, /^lrtgbc_[a-f0-9]{32}$/u);
 });
 
 test('fast auth polling is version-compatible and returns to idle pacing', async () => {

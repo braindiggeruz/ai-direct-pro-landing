@@ -378,7 +378,9 @@ function TelegramTwoFactorPasswordForm({
       if (next.authState === 'awaiting_password' && !next.pendingAction) {
         setError(next.reasonCode === 'password_invalid'
           ? 'Telegram отклонил пароль. Проверьте его и попробуйте снова.'
-          : 'Telegram всё ещё ожидает пароль двухэтапной защиты.');
+          : next.reasonCode === 'bridge_password_input_rejected'
+            ? 'Пароль не дошёл до Telegram из-за просроченного защищённого конверта. Введите пароль ещё раз.'
+            : 'Telegram всё ещё ожидает пароль двухэтапной защиты.');
       }
     } catch (passwordError) {
       setError(campaignErrorCopy(passwordError));

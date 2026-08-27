@@ -247,6 +247,8 @@ export function telegramAuthProgress(account: LeadRadarTelegramAccountState | nu
     auth_input_outcome_unknown: 'Нет подтверждения Telegram. Запрос не повторяется автоматически; обновите статус перед новой попыткой.',
     auth_outcome_unknown: 'Нет подтверждения Telegram. Запрос не повторяется автоматически; обновите статус перед новой попыткой.',
     bridge_input_rejected: 'Bridge отклонил защищённый ввод до обращения к Telegram. Начните новое подключение; код не запрашивался.',
+    bridge_password_input_rejected: 'Пароль не дошёл до Telegram: Bridge отклонил просроченный защищённый конверт. Введите пароль 2FA ещё раз.',
+    bridge_password_input_expired: 'Срок текущего входа истёк до проверки пароля 2FA. Начните новое подключение.',
   };
   if (account.reasonCode && errors[account.reasonCode]) return errors[account.reasonCode];
   if (account.authState === 'finalizing') return 'Telegram принял вход. Bridge подтверждает сохранение сессии; отправка пока закрыта.';
