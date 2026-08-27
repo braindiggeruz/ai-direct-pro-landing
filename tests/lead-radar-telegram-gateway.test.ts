@@ -100,6 +100,18 @@ test('finalized connected custody remains recoverable after the QR ceremony TTL'
   assert.match(source, /beginConnection[\s\S]{0,2600}isFinalizedConnectedAuthRecoverable/u);
 });
 
+test('phone login start returns immediately and lets the owner UI poll Bridge progress', () => {
+  const source = readFileSync(path.join(GATEWAY, 'bridge-mailbox.ts'), 'utf8');
+  const start = source.indexOf('private async beginPhoneConnection');
+  const end = source.indexOf('private async activeAuth', start);
+  assert.ok(start >= 0 && end > start);
+  const method = source.slice(start, end);
+  assert.match(method, /kind: 'connect_phone'/u);
+  assert.match(method, /return this\.detailedAuthEnvelope\(auth\)/u);
+  const newPhoneCommand = method.slice(method.indexOf("kind: 'connect_phone'"));
+  assert.doesNotMatch(newPhoneCommand, /waitTerminal/u);
+});
+
 test('Bridge mailbox alarms are monotonic and cleanup is paginated with ciphertext retention', () => {
   const source = readFileSync(path.join(GATEWAY, 'bridge-mailbox.ts'), 'utf8');
   const scheduleStart = source.indexOf('private async scheduleAlarm');

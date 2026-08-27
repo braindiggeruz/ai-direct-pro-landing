@@ -1846,7 +1846,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       expiresAt,
       updatedAt: nowIso(),
     };
-    const command = await this.enqueue({
+    await this.enqueue({
       orgId,
       accountRef,
       device,
@@ -1857,10 +1857,14 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       ttlMs: AUTH_TTL_MS,
       initialAuth: auth,
     });
-    await this.waitTerminal(command.commandId, 70_000);
-    const updated = await this.ctx.storage.get<AuthRecord>(authKey(authId));
-    if (!updated) throw new MailboxFault('auth_not_found', 404);
-    return this.detailedAuthEnvelope(updated);
+    // Starting a phone login must not hold the browser request open while the
+    // desktop Bridge waits for its next poll. Return the durable `starting`
+    // challenge immediately; the owner UI already polls the exact auth id and
+    // will render the phone field as soon as the Bridge reports
+    // `awaiting_phone`. This also makes cold-start/offline failures visible as
+    // state instead of leaving the button spinning for the 70-second control
+    // deadline.
+    return this.detailedAuthEnvelope(auth);
   }
 
   private async activeAuth(body: JsonRecord): Promise<Response> {
