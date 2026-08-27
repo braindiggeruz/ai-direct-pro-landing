@@ -59,7 +59,20 @@ def system_https_transport(
     body: bytes,
     maximum: int,
 ) -> HttpResponse:
-    request = urllib.request.Request(url, data=body, method=method, headers=headers)
+    # Cloudflare rejects urllib's default ``Python-urllib/*`` fingerprint with
+    # Error 1010 before the request reaches the Worker.  Identify the installed
+    # first-party client explicitly; authenticated bridge routes still require
+    # their device HMAC, so this header grants no access by itself.
+    request_headers = {
+        "User-Agent": "GPTBot-LeadRadar-Telegram-Bridge/1.1.1",
+        **headers,
+    }
+    request = urllib.request.Request(
+        url,
+        data=body,
+        method=method,
+        headers=request_headers,
+    )
     context = ssl.create_default_context()
     try:
         opener = urllib.request.build_opener(
