@@ -99,7 +99,9 @@ test('finalized connected custody remains recoverable after the QR ceremony TTL'
   assert.equal(isFinalizedConnectedAuthRecoverable('connected', false), false);
   assert.equal(isFinalizedConnectedAuthRecoverable('awaiting_password', true), false);
   const source = readFileSync(path.join(GATEWAY, 'bridge-mailbox.ts'), 'utf8');
-  assert.match(source, /activeAuth[\s\S]{0,900}isFinalizedConnectedAuthRecoverable/u);
+  const activeStart = source.indexOf('private async activeAuth');
+  const activeEnd = source.indexOf('private async authState', activeStart);
+  assert.match(source.slice(activeStart, activeEnd), /isFinalizedConnectedAuthRecoverable/u);
   assert.match(source, /beginConnection[\s\S]{0,2600}isFinalizedConnectedAuthRecoverable/u);
 });
 
@@ -143,6 +145,18 @@ test('an expired adopted phone challenge can be cancelled and replaced', () => {
   const end = source.indexOf('private async activeAuth', start);
   assert.match(source.slice(start, end), /bridgeAuthChallengeMayBeCancelled/u);
   assert.match(source, /private async cancelAuth[\s\S]{0,500}bridgeAuthChallengeMayBeCancelled/u);
+});
+
+test('terminal auth history is never exposed or adopted as an active challenge', () => {
+  const source = readFileSync(path.join(GATEWAY, 'bridge-mailbox.ts'), 'utf8');
+  const activeStart = source.indexOf('private async activeAuth');
+  const activeEnd = source.indexOf('private async authState', activeStart);
+  const adoptStart = source.indexOf('private async adoptAuth');
+  const adoptEnd = source.indexOf('private async finalizeAuth', adoptStart);
+  assert.ok(activeStart >= 0 && activeEnd > activeStart);
+  assert.ok(adoptStart >= 0 && adoptEnd > adoptStart);
+  assert.match(source.slice(activeStart, activeEnd), /\['revoked', 'error'\]\.includes\(auth\.state\)/u);
+  assert.match(source.slice(adoptStart, adoptEnd), /\['revoked', 'error'\]\.includes\(auth\.state\)/u);
 });
 
 test('Bridge mailbox alarms are monotonic and cleanup is paginated with ciphertext retention', () => {

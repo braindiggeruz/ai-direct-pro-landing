@@ -413,6 +413,13 @@ class TelegramAccountServiceFixture {
       this.adopted = false;
       return Response.json(challengeEnvelope(this.authId, this.authState));
     }
+    if (url.pathname === '/v1/accounts/connect/phone/start') {
+      this.activeMissing = false;
+      this.activeAuthId = this.authId;
+      this.terminalStatus = null;
+      this.adopted = false;
+      return Response.json(phoneChallengeEnvelope(this.authId, 'awaiting_phone'));
+    }
     if (url.pathname === '/v1/accounts/health') {
       return Response.json({
         schema: 'gptbot.lead-radar.telegram-account-service.v1',
@@ -429,6 +436,14 @@ class TelegramAccountServiceFixture {
     if (url.pathname === '/v1/accounts/connect/active') {
       if (this.activeMissing) return new Response(null, { status: 404 });
       if (this.deadQrAfterConnectFailure) return new Response(null, { status: 503 });
+      if (this.terminalStatus) {
+        return Response.json({
+          schema: 'gptbot.lead-radar.telegram-account-service.v1',
+          status: this.terminalStatus,
+          auth_id: this.activeAuthId,
+          reason_code: 'fixture_terminal_auth',
+        });
+      }
       if (this.connected) {
         return Response.json({
           schema: 'gptbot.lead-radar.telegram-account-service.v1',
@@ -1314,6 +1329,39 @@ test('the next explicit connect reconciles a challenge left by a failed D1 write
     1,
   );
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_user_accounts'), 1);
+});
+
+test('phone connect skips terminal gateway history and starts a fresh challenge', async () => {
+  const db = freshAdminDb();
+  installLeadRadarLedger(db);
+  const token = await platformToken('platform_owner');
+  const service = new TelegramAccountServiceFixture();
+  service.activeMissing = false;
+  service.activeAuthId = 'auth_revoked_history_1234567890';
+  service.terminalStatus = 'revoked';
+  service.authId = 'auth_fresh_phone_1234567890';
+  const response = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    '/api/admin/lead-radar/telegram-account/connect',
+    {
+      method: 'POST', token, params: { path: 'telegram-account/connect' },
+      headers: { 'Idempotency-Key': 'account-connect-after-revoked-history-0001' },
+      body: {}, env: await campaignEnv(service),
+    },
+  );
+  assert.equal(response.status, 201);
+  assert.equal(response.body.status, 'connecting');
+  assert.equal(response.body.authState, 'awaiting_phone');
+  assert.equal((response.body.qr as Record<string, unknown>).authId, service.authId);
+  assert.equal(service.adopts, 1);
+  assert.equal(
+    service.requests.filter((item) => item.pathname === '/v1/accounts/connect/phone/start').length,
+    1,
+  );
+  assert.equal(db.value(
+    `SELECT COUNT(*) FROM lead_radar_tg_user_accounts WHERE status = 'pending'`,
+  ), 1);
 });
 
 test('failed writer never cancels a challenge concurrently adopted by another request', async () => {

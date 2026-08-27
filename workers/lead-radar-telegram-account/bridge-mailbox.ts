@@ -1880,7 +1880,12 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     const authId = await this.ctx.storage.get<string>(orgAuthKey(body.org_id));
     if (!authId) return safeErrorResponse('auth_not_found', 404);
     const auth = await this.ctx.storage.get<AuthRecord>(authKey(authId));
-    if (!auth || (Date.parse(auth.expiresAt) <= Date.now()
+    // `active` is a recovery locator, not an auth history endpoint. Returning
+    // a cancelled/error record here lets a fresh owner connect adopt that
+    // terminal auth id, persist a new pending D1 row for it, and immediately
+    // surface the old `revoked` state without ever enqueueing a Bridge command.
+    if (!auth || ['revoked', 'error'].includes(auth.state)
+      || (Date.parse(auth.expiresAt) <= Date.now()
       && !isFinalizedConnectedAuthRecoverable(auth.state, auth.finalized))) {
       return safeErrorResponse('auth_not_found', 404);
     }
@@ -1993,7 +1998,9 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
   private async adoptAuth(body: JsonRecord): Promise<Response> {
     const auth = await this.exactAuth(body);
     if (auth instanceof Response) return auth;
-    if (auth.finalized) return safeErrorResponse('auth_conflict', 409);
+    if (auth.finalized || ['revoked', 'error'].includes(auth.state)) {
+      return safeErrorResponse('auth_conflict', 409);
+    }
     await this.ctx.storage.put(authKey(auth.authId), { ...auth, adopted: true, updatedAt: nowIso() });
     return noContentResponse();
   }

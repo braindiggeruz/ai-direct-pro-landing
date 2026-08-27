@@ -1319,6 +1319,15 @@ export async function handleTelegramCampaignPost(
         } catch (error) {
           if (!missingConnection(error)) throw error;
         }
+        // A terminal private auth is history, never a recoverable challenge.
+        // Older gateway versions could return it from `/active`; do not create
+        // and adopt a fresh D1 pending row that points straight back to a
+        // cancelled/error attempt.
+        if (recoverableChallenge
+          && recoverableChallenge.status !== 'connecting'
+          && recoverableChallenge.status !== 'connected') {
+          recoverableChallenge = null;
+        }
         if (!browserKey && recoverableChallenge?.status === 'connecting'
           && recoverableChallenge.authState === 'awaiting_qr') {
           await cancelTelegramAccountConnection({
