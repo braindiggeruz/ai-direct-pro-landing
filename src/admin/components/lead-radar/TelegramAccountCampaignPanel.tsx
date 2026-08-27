@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import type { LeadRadarLead, LeadRadarTelegramAccountReadiness } from '../../../shared/lead-radar';
 import { api } from '../../lib/api';
+import { awaitTelegramPhoneChallenge } from '../../lib/lead-radar-telegram-auth';
 import {
   automaticCampaignLeadIds,
   boundCampaignTemplate,
@@ -297,6 +298,10 @@ function campaignErrorCopy(error: unknown): string {
   if (details.code === 'telegram_campaign_auth_rate_limited') {
     return 'Слишком много попыток ввода пароля. Подождите и повторите позже; пароль не сохранён.';
   }
+  if (details.code === 'telegram_bridge_preparation_timeout') return 'Bridge не подготовил вход за 20 секунд. Номер и запрос кода не отправлялись. Проверьте Bridge и попробуйте ещё раз.';
+  if (details.code === 'telegram_auth_expired') return 'Срок подключения истёк. Начните новое подключение; код не запрашивался.';
+  if (details.code === 'telegram_auth_state_changed') return 'Состояние входа изменилось. Нажмите «Статус», чтобы продолжить текущий шаг. Повторный код не запрашивался.';
+  if (details.code === 'telegram_auth_cancelled') return 'Ожидание подключения отменено. Код не запрашивался.';
   if (details.code === 'telegram_campaign_recipient_limit') return 'В одной кампании можно выбрать не более 50 компаний.';
   if (details.code === 'lead_radar_contact_paused') return 'Контактный контур выключен. Кампания не запущена.';
   if (details.code === 'UNAUTHENTICATED') return 'Сессия завершилась. Войдите в панель снова.';
@@ -448,7 +453,11 @@ function TelegramPhoneAuthForm({
   const errorId = useId();
   const [value, setValue] = useState('');
   const [busy, setBusy] = useState(false);
+  const [preparing, setPreparing] = useState(false);
+  const preparationRequest = useRef<AbortController | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => () => { preparationRequest.current?.abort(); }, [challenge?.authId, action]);
 
   useEffect(() => {
     setValue('');
@@ -458,12 +467,6 @@ function TelegramPhoneAuthForm({
   async function submit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     if (busy || disabled || pending || !challenge) return;
-    const encryptionKey = challenge.bridgeEncryptionKey;
-    const inputCommandId = challenge.inputCommandId;
-    if (!encryptionKey || !inputCommandId) {
-      setError('Bridge не вернул одноразовый защищённый канал. Обновите статус; данные не отправлены.');
-      return;
-    }
     let normalized = value.trim();
     if (action === 'phone') {
       normalized = normalized.replace(/[\s()-]/gu, '');
@@ -483,19 +486,34 @@ function TelegramPhoneAuthForm({
     setBusy(true);
     onBusyChange(true);
     setError(null);
+    const request = new AbortController();
+    preparationRequest.current = request;
     try {
+      let ready = challenge;
+      if (action === 'phone' && (!ready.inputCommandId || !ready.bridgeEncryptionKey)) {
+        setPreparing(true);
+        const recovered = await awaitTelegramPhoneChallenge(challenge, api.leadRadarTelegramAccountConnectStatus, { signal: request.signal });
+        ready = recovered.qr;
+        onResolved(recovered);
+        setPreparing(false);
+      }
+      const encryptionKey = ready.bridgeEncryptionKey;
+      const inputCommandId = ready.inputCommandId;
+      if (!encryptionKey || !inputCommandId) throw Object.assign(new Error('missing_channel'), { code: 'telegram_auth_state_changed' });
+      if (request.signal.aborted) return;
       const inputEnvelope = await encryptTelegramBridgeAuthInput({
         bridgePublicKeySpki: encryptionKey.spki,
         keyId: encryptionKey.keyId,
         action,
         value: normalized,
-        orgId: challenge.orgId,
-        deviceId: challenge.deviceId,
+        orgId: ready.orgId,
+        deviceId: ready.deviceId,
         commandId: inputCommandId,
-        authId: challenge.authId,
-        expiresAt: challenge.expiresAt,
+        authId: ready.authId,
+        expiresAt: ready.expiresAt,
       });
-      const next = await api.leadRadarSubmitTelegramAccountAuthInput(challenge.authId, {
+      if (request.signal.aborted) return;
+      const next = await api.leadRadarSubmitTelegramAccountAuthInput(ready.authId, {
         inputCommandId,
         inputAction: action,
         inputEnvelope,
@@ -507,6 +525,8 @@ function TelegramPhoneAuthForm({
     } catch (submitError) {
       setError(campaignErrorCopy(submitError));
     } finally {
+      preparationRequest.current = null;
+      setPreparing(false);
       setBusy(false);
       onBusyChange(false);
     }
@@ -549,10 +569,11 @@ function TelegramPhoneAuthForm({
         onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
         className="min-h-12"
       />
-      <Button type="submit" disabled={busy || disabled || pending || !challenge?.inputCommandId || value.trim().length < 3} aria-busy={busy || pending} className="mt-3 min-h-12 w-full">
+      <Button type="submit" disabled={busy || disabled || pending || !challenge || value.trim().length < 3} aria-busy={busy || pending} className="mt-3 min-h-12 w-full">
         {busy || pending ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" /> : <ShieldCheck size={17} aria-hidden="true" />}
-        {!challenge?.inputCommandId ? 'Подготавливаем защищённый вход…' : busy || pending ? (phoneStep ? 'Запрашиваем код у Telegram…' : 'Проверяем код…') : (phoneStep ? 'Получить код' : 'Подтвердить код')}
+        {preparing ? 'Ждём готовность Bridge…' : busy || pending ? (phoneStep ? 'Запрашиваем код у Telegram…' : 'Проверяем код…') : (phoneStep ? 'Получить код' : 'Подтвердить код')}
       </Button>
+      {phoneStep && !challenge?.inputCommandId && <p role="status" className="mt-2 text-xs leading-5 text-white/60">Введите номер и нажмите «Получить код». Проверим готовность Bridge; ожидание — не более 20 секунд после нажатия.</p>}
       {error && <p id={errorId} role="alert" className="mt-3 rounded-xl border border-amber-300/18 bg-amber-300/[0.04] p-3 text-xs leading-5 text-amber-50/90">{error}</p>}
     </form>
   );

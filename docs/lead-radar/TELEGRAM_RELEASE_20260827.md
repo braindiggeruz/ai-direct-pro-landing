@@ -20,3 +20,11 @@ Checks: 297 existing Lead Radar tests, 3 production-mailbox contract tests, 38 P
 Rollout executed: Pages (accepts old/new envelopes), gateway, Bridge. Existing environment/bindings preserved. The gateway kept old clients on compatible 15-second polling until Bridge updated. Rollback uses the preceding artifacts; never drop safety ledgers or erase the vault. Bridge 1.2 remains compatible with the preceding gateway.
 
 Next acceptance: owner logs in to admin, enters Telegram number/code/2FA on the site, checks masked identity, then explicitly approves one controlled recipient/message. Existing DNC, consent, 30/day, 120-second pacing, Pause/Stop and permanent no-repeat guards remain enabled. Public listings with no verified Telegram address cannot be sent messages automatically.
+
+## Phone readiness recovery candidate
+
+After the 1.2.0 rollout, production evidence isolated one remaining browser deadlock: the Bridge accepted the connection and acknowledged `awaiting_phone`, but the page kept the explicit phone submit action disabled until a background status poll returned the input command. The local durable ledger contained no `awaiting_code` transition and no send effect, so Telegram had never received the number or produced a code.
+
+The candidate makes the explicit button wait read-only for the bound tenant/device/auth challenge for at most 20 seconds, then encrypt and submit the phone exactly once. It never retries a Telegram code request, rejects stale or cross-bound challenges, cancels on unmount/session change, and keeps the HTTP deadline active while the response body is read. Authentication error copy now appears in the phone flow instead of the unrelated media flow.
+
+Candidate checks: 304/304 permanent Lead Radar tests, both TypeScript projects, scoped ESLint, secret scan over 3,909 files, production build, Pages Functions compilation and SEO audit all pass. SEO remains unchanged: 0 critical findings, 120 published pages, sitemap 259, and no missing title, description, H1, canonical, hreflang or Open Graph metadata. No migration, secret rotation, webhook change or company message was performed. Deployment and the owner login/send canaries remain pending until the exact candidate commit is released.

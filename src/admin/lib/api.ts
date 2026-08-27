@@ -33,7 +33,7 @@ async function request<T>(
   method: string,
   path: string,
   body?: unknown,
-  opts?: { timeoutMs?: number; headers?: Record<string, string> },
+  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal },
 ): Promise<T> {
   const url = `${BASE}${path}`;
   const headers: Record<string, string> = { 'Content-Type': 'application/json', ...opts?.headers };
@@ -43,9 +43,10 @@ async function request<T>(
   let timer: ReturnType<typeof setTimeout> | undefined;
   if (opts?.timeoutMs && opts.timeoutMs > 0) {
     const ctrl = new AbortController();
-    signal = ctrl.signal;
+    signal = opts.signal ? AbortSignal.any([ctrl.signal, opts.signal]) : ctrl.signal;
     timer = setTimeout(() => ctrl.abort(), opts.timeoutMs);
   }
+  signal ??= opts?.signal;
   try {
     const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined, signal });
     if (res.status === 401) {
@@ -88,7 +89,8 @@ async function request<T>(
       throw e;
     }
     if (res.status === 204) return undefined as T;
-    return res.json() as Promise<T>;
+    // Keep the deadline alive until the body is read, not only until headers arrive.
+    return await res.json() as T;
   } finally {
     if (timer) clearTimeout(timer);
   }
@@ -805,12 +807,12 @@ export const api = {
       {},
       { timeoutMs: LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
-  leadRadarTelegramAccountConnectStatus: (authId: string) =>
+  leadRadarTelegramAccountConnectStatus: (authId: string, signal?: AbortSignal) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
       'GET',
       `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}`,
       undefined,
-      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS, signal },
     ),
   leadRadarSubmitTelegramAccountPassword: (
     authId: string,

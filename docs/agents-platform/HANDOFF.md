@@ -2,6 +2,7 @@
 
 > Lead Radar-only release (2026-08-27): see `../lead-radar/TELEGRAM_RELEASE_20260827.md`.
 > Source `6d30e7a` deployed to Pages and gateway; Windows Bridge updated to 1.2.0. Owner login/send canary remains pending.
+> A phone-readiness recovery candidate is locally verified: the explicit submit action now waits for the Bridge challenge and sends the phone exactly once instead of deadlocking on UI polling. Production still serves `6d30e7a` until this candidate is deployed; no company message was sent.
 > The Bormi stages and acceptance requirements below are unchanged.
 
 > **Fresh Bormi operational handoff (2026-08-02):** before touching the Market
