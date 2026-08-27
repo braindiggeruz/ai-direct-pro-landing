@@ -1553,7 +1553,10 @@ export function TelegramAccountCampaignPanel({
         connectRequestKey.current = null;
         clearBridgeBrowserCeremony();
       }
-      setAccountNotice(campaignErrorCopy(connectError));
+      const recovered = await loadAccount();
+      setAccountNotice(recovered?.status === 'connecting' || recovered?.status === 'pending'
+        ? 'Запрос подключения принят. Дождитесь формы номера телефона; отправка сообщений пока закрыта.'
+        : campaignErrorCopy(connectError));
     } finally {
       setAccountBusy(false);
     }

@@ -8,6 +8,10 @@ const TOKEN_KEY = 'gptbot_admin_token';
 // Must remain above the private service control deadline so cold gateway auth/revoke
 // can return a definite response before the browser reports an unknown outcome.
 const LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS = 90_000;
+// Starting a phone login now only queues the Bridge command. Keep the UI bounded
+// even if an older deployment or an intermediary holds the request open.
+const LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS = 12_000;
+const LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS = 15_000;
 const LEAD_RADAR_TELEGRAM_MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
 
 function jsonRecord(value: unknown): Record<string, unknown> | null {
@@ -768,7 +772,7 @@ export const api = {
       'GET',
       '/api/admin/lead-radar/telegram-account',
       undefined,
-      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS },
     ),
   leadRadarTelegramBridgeStatus: () =>
     request<import('./lead-radar-campaign').LeadRadarTelegramBridgeDeviceState>(
@@ -798,14 +802,14 @@ export const api = {
       'POST',
       '/api/admin/lead-radar/telegram-account/connect',
       {},
-      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
   leadRadarTelegramAccountConnectStatus: (authId: string) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
       'GET',
       `/api/admin/lead-radar/telegram-account/connect/${encodeURIComponent(authId)}`,
       undefined,
-      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS },
+      { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS },
     ),
   leadRadarSubmitTelegramAccountPassword: (
     authId: string,

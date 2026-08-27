@@ -483,9 +483,9 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(api, /leadRadarTelegramBridgeStatus/);
   assert.match(api, /leadRadarRevokeTelegramBridge[\s\S]{0,360}telegram-account\/bridge[\s\S]{0,220}Idempotency-Key/);
   assert.match(api, /telegram-account\/connect\/\$\{encodeURIComponent\(authId\)\}/);
-  assert.match(api, /leadRadarConnectTelegramAccount[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS/);
-  assert.match(api, /leadRadarTelegramAccount: \(\)[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS/);
-  assert.match(api, /leadRadarTelegramAccountConnectStatus[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS/);
+  assert.match(api, /leadRadarConnectTelegramAccount[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_CONNECT_START_TIMEOUT_MS/);
+  assert.match(api, /leadRadarTelegramAccount: \(\)[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS/);
+  assert.match(api, /leadRadarTelegramAccountConnectStatus[\s\S]{0,360}timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_STATUS_TIMEOUT_MS/);
   assert.match(api, /leadRadarSubmitTelegramAccountPassword[\s\S]{0,520}connect\/\$\{encodeURIComponent\(authId\)\}\/password/);
   assert.match(component, /account\?\.authState === 'awaiting_password'/);
   assert.match(component, /encryptTelegramBridgePassword\([\s\S]{0,500}leadRadarSubmitTelegramAccountPassword\(authId, \{/);
@@ -547,6 +547,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /safeTelegramLoginUrl\(decryptedQr\?\.qrLoginUrl\)/);
   assert.match(component, /<img src=\{safeQr\} alt="QR-код/);
   assert.match(component, /leadRadarConnectTelegramAccount\(requestKey\)/);
+  assert.match(component, /catch \(connectError\)[\s\S]{0,420}const recovered = await loadAccount\(\)[\s\S]{0,260}Запрос подключения принят/);
   assert.match(component, /createTelegramBridgeEnrollmentCode\(\)/);
   assert.match(component, /telegramBridgeEnrollmentUri\(\{/);
   assert.match(component, /leadRadarCreateTelegramBridgePairing/);
