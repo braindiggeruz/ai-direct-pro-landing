@@ -1,5 +1,10 @@
 import type { LeadRadarTelegramAccountQr, LeadRadarTelegramAccountState } from './lead-radar-campaign';
 
+// A fresh phone auth can follow local cleanup of the preceding provisional
+// session. The Bridge may need one mailbox poll plus its bounded Telegram
+// reconnect before it can publish the new one-use input channel.
+export const TELEGRAM_PHONE_PREPARATION_TIMEOUT_MS = 45_000;
+
 function preparationError(code: string): Error {
   return Object.assign(new Error(code), { code });
 }
@@ -14,7 +19,7 @@ export async function awaitTelegramPhoneChallenge(
   const cancel = () => controller.abort();
   options.signal.addEventListener('abort', cancel, { once: true });
   if (options.signal.aborted) cancel();
-  const timer = setTimeout(cancel, options.timeoutMs ?? 20_000);
+  const timer = setTimeout(cancel, options.timeoutMs ?? TELEGRAM_PHONE_PREPARATION_TIMEOUT_MS);
   const signal = controller.signal;
   const aborted = new Promise<never>((_resolve, reject) => {
     const fail = () => reject(preparationError(options.signal.aborted

@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { api } from '../src/admin/lib/api';
-import { awaitTelegramPhoneChallenge } from '../src/admin/lib/lead-radar-telegram-auth';
+import {
+  awaitTelegramPhoneChallenge,
+  TELEGRAM_PHONE_PREPARATION_TIMEOUT_MS,
+} from '../src/admin/lib/lead-radar-telegram-auth';
 import type { LeadRadarTelegramAccountQr, LeadRadarTelegramAccountState } from '../src/admin/lib/lead-radar-campaign';
 
 function challenge(ready = false): LeadRadarTelegramAccountQr {
@@ -21,6 +24,26 @@ test('one explicit click can recover a missing phone channel with read-only poll
   assert.equal(next.connectionId, 'account_fixture', 'keep the actual server account, not a fabricated replacement');
   assert.equal(next.qr.inputAction, 'phone');
   assert.ok(next.qr.inputCommandId);
+});
+
+test('default preparation budget covers a second number after the previous login is cancelled', async t => {
+  assert.equal(TELEGRAM_PHONE_PREPARATION_TIMEOUT_MS, 45_000);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let reads = 0;
+  const pending = awaitTelegramPhoneChallenge(challenge(), async () => state(++reads >= 3), {
+    signal: new AbortController().signal,
+    intervalMs: 15_000,
+  });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(reads, 1);
+  t.mock.timers.tick(15_000);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(reads, 2);
+  t.mock.timers.tick(15_000);
+  await new Promise(resolve => setImmediate(resolve));
+  const ready = await pending;
+  assert.equal(reads, 3);
+  assert.equal(ready.authState, 'awaiting_phone');
 });
 
 test('a stalled status read cannot leave phone preparation spinning forever', async () => {

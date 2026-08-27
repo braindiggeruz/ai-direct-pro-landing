@@ -298,7 +298,7 @@ function campaignErrorCopy(error: unknown): string {
   if (details.code === 'telegram_campaign_auth_rate_limited') {
     return 'Слишком много попыток ввода пароля. Подождите и повторите позже; пароль не сохранён.';
   }
-  if (details.code === 'telegram_bridge_preparation_timeout') return 'Bridge не подготовил вход за 20 секунд. Номер и запрос кода не отправлялись. Проверьте Bridge и попробуйте ещё раз.';
+  if (details.code === 'telegram_bridge_preparation_timeout') return 'Bridge не завершил подготовку нового входа за 45 секунд. Номер и запрос кода не отправлялись. Проверьте Bridge и попробуйте ещё раз.';
   if (details.code === 'telegram_auth_expired') return 'Срок подключения истёк. Начните новое подключение; код не запрашивался.';
   if (details.code === 'telegram_auth_state_changed') return 'Состояние входа изменилось. Нажмите «Статус», чтобы продолжить текущий шаг. Повторный код не запрашивался.';
   if (details.code === 'telegram_auth_cancelled') return 'Ожидание подключения отменено. Код не запрашивался.';
