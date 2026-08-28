@@ -35,7 +35,7 @@ const PROMOTION_LINKS = [
   { ru: '/ru/targetirovannaya-reklama-tashkent/', uz: undefined, ruLabel: 'Таргетированная реклама', uzLabel: 'Target reklama' },
   { ru: '/ru/smm-prodvizhenie-tashkent/', uz: '/uz/smm-xizmatlari/', ruLabel: 'SMM-продвижение', uzLabel: 'SMM xizmatlari' },
   { ru: '/ru/telegram-ads-uzbekistan/', uz: '/uz/telegram-reklama/', ruLabel: 'Telegram Ads', uzLabel: 'Telegram reklama' },
-  { ru: '/ru/seo-prodvizhenie-tashkent/', uz: '/uz/seo-xizmati/', ruLabel: 'SEO-продвижение', uzLabel: 'SEO xizmati' },
+  { ru: '/ru/seo-prodvizhenie-saytov-tashkent/', uz: '/uz/seo-xizmati/', ruLabel: 'SEO-продвижение', uzLabel: 'SEO xizmati' },
 ];
 
 export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUrl: string }) {
