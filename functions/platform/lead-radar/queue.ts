@@ -7,6 +7,7 @@ import {
   type WebsiteFacts,
 } from './sources';
 import { LeadRadarStore } from './store';
+import type { WebsiteEnrichmentResult } from './firecrawl-enrichment';
 import type {
   LeadRadarDiscoveryResult,
   LeadRadarDispatchReservation,
@@ -32,6 +33,8 @@ export type LeadRadarQueueOutcome =
   | { outcome: 'dead_letter'; errorCode: string };
 
 export interface LeadRadarQueueDependencies {
+  resolveMissingWebsites?: boolean;
+  enrichLead?: (website: string | null, expected: ExpectedCompanyWebsiteIdentity, job: LeadRadarJob) => Promise<WebsiteEnrichmentResult>;
   discover?: (input: LeadRadarSearchInput) => Promise<LeadRadarDiscoveryResult>;
   enrichWebsite?: (website: string, expected: ExpectedCompanyWebsiteIdentity) => Promise<{
     facts: WebsiteFacts | null;
@@ -268,6 +271,7 @@ function researchOnlyWebsiteFacts(facts: WebsiteFacts): WebsiteFacts {
     ...facts,
     telegramUrl: humanContact ? null : facts.telegramUrl,
     telegramContact: humanContact ? null : facts.telegramContact,
+    telegramContacts: facts.telegramContacts?.filter((contact) => contact.type !== 'human'),
     decisionMakers: [],
     evidence: facts.evidence.filter((item) => (
       !item.fieldPath.startsWith('decision_makers.')
@@ -380,6 +384,7 @@ async function processDiscovery(
     fanout,
     now,
     CHILD_DISPATCH_BARRIER,
+    dependencies.resolveMissingWebsites === true,
   )) return { outcome: 'retry_wait', delaySeconds: 30 };
   if (!await store.recordDiscoveryTelemetry(
     job.orgId,
@@ -488,7 +493,7 @@ async function processEnrichment(
     await store.refreshSearchFunnel(job.orgId, job.searchId, now);
     return { outcome: 'completed' };
   }
-  if (!stored.lead.website) {
+  if (!stored.lead.website && !dependencies.enrichLead) {
     if (!job.leaseOwner || !await store.markLeadEnrichmentTerminal(
       job.orgId, job.companyId, job.id, job.leaseOwner, 'no_website', job.attemptCount, now,
       job.leaseGeneration,
@@ -512,9 +517,11 @@ async function processEnrichment(
   } satisfies ExpectedCompanyWebsiteIdentity;
   const website = stored.lead.website;
   const heartbeatResult = await runWithJobHeartbeat(store, job, dependencies, async () => (
-    dependencies.enrichWebsite
-      ? await dependencies.enrichWebsite(website, expected)
-      : await enrichCompanyWebsiteDetailed(website, expected)
+    dependencies.enrichLead
+      ? await dependencies.enrichLead(website, { ...expected, city: stored.lead.city }, job)
+      : dependencies.enrichWebsite
+        ? await dependencies.enrichWebsite(website!, expected)
+        : await enrichCompanyWebsiteDetailed(website!, expected)
   ));
   if (!heartbeatResult.leaseHeld) return { outcome: 'retry_wait', delaySeconds: 30 };
   const transitionAt = dependencies.now?.() ?? new Date();

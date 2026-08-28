@@ -89,7 +89,9 @@ export function mergeWebsiteFactsIntoLead(
   now: string,
   attempts: number,
 ): StoredLeadInput {
-  const rank = { human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0 } as const;
+  // An unreviewed person must not hide a corporate endpoint found on the site.
+  // Named people remain in decisionMakers with their separate review gate.
+  const rank = { business: 6, human: 5, channel: 3, group: 2, unknown: 1, bot: 0 } as const;
   const telegramContact = [facts.telegramContact, lead.telegramContact]
     .filter((item): item is NonNullable<typeof item> => Boolean(item))
     .map((item) => ({ ...item, messageable: false }))

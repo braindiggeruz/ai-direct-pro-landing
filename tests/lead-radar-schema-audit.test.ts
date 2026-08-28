@@ -15,6 +15,19 @@ import { SqliteD1 } from './helpers/sqlite-d1';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const MIGRATIONS = path.join(ROOT, 'migrations');
 
+test('optional Firecrawl migration preserves the base runtime fingerprint and existing schema', async () => {
+  const fixture = new SqliteD1();
+  fixture.exec('CREATE TABLE d1_migrations (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)');
+  for (const filename of LEAD_RADAR_MIGRATIONS) {
+    fixture.exec(migrationSql(filename));
+    await fixture.prepare('INSERT INTO d1_migrations(name) VALUES (?)').bind(filename).run();
+  }
+  fixture.exec(migrationSql('0049_lead_radar_firecrawl.sql'));
+  await fixture.prepare('INSERT INTO d1_migrations(name) VALUES (?)').bind('0049_lead_radar_firecrawl.sql').run();
+  const report = await auditLeadRadarD1Schema(fixture.asD1(), 'target');
+  assert.equal(report.status, 'pass', JSON.stringify(report.issues));
+});
+
 type SqlTransform = (sql: string) => string;
 
 function migrationSql(filename: string): string {

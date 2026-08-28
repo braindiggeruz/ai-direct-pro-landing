@@ -696,6 +696,10 @@ export const api = {
   // carrying a source URL and never fabricates a missing company/contact.
   leadRadarOverview: () =>
     request<import('../../shared/lead-radar').LeadRadarOverview>('GET', '/api/admin/lead-radar'),
+  leadRadarEnrichmentDiagnostics: (searchId: string) =>
+    request<import('../../shared/lead-radar-enrichment').LeadRadarEnrichmentDiagnostics>(
+      'GET', `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}/enrichment`,
+    ),
   leadRadarSearch: (
     input: import('../../shared/lead-radar').LeadRadarSearchInput,
     idempotencyKey: string,

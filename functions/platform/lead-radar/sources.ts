@@ -74,6 +74,8 @@ export interface WebsiteFacts {
   genericEmail: string | null;
   telegramUrl: string | null;
   telegramContact: LeadRadarTelegramContact | null;
+  /** All observed candidates; extraction never grants send permission. */
+  telegramContacts?: LeadRadarTelegramContact[];
   decisionMakers: LeadRadarDecisionMaker[];
   evidence: LeadRadarEvidence[];
   signals: LeadRadarSignal[];
@@ -83,6 +85,7 @@ export interface ExpectedCompanyWebsiteIdentity {
   name: string;
   phone: string | null;
   address?: string | null;
+  city?: string;
 }
 
 export interface CompanyWebsiteBinding {
@@ -122,7 +125,7 @@ async function fetchWithin<T>(
   }
 }
 
-async function readTextBounded(response: Response, maxBytes: number): Promise<string> {
+export async function readTextBounded(response: Response, maxBytes: number): Promise<string> {
   const declared = Number(response.headers.get('content-length') ?? 0);
   if (Number.isFinite(declared) && declared > maxBytes) {
     throw new LeadRadarSourceError('upstream_payload_invalid', ['content_length_exceeded']);
@@ -490,7 +493,7 @@ function jsonLdOrganizationTelegramUrls(html: string): Set<string> {
     const types = Array.isArray(rawType) ? rawType : [rawType];
     const isOrganization = types.some((item) => (
       typeof item === 'string'
-      && ['organization', 'localbusiness'].includes(item.toLowerCase())
+      && ['organization', 'localbusiness', 'dentist', 'medicalclinic'].includes(item.toLowerCase())
     ));
     if (isOrganization) {
       const sameAs = Array.isArray(node.sameAs) ? node.sameAs : [node.sameAs];
@@ -509,6 +512,7 @@ function jsonLdOrganizationTelegramUrls(html: string): Set<string> {
 
 export interface OfficialSiteContactFacts {
   telegramContact: LeadRadarTelegramContact | null;
+  telegramContacts: LeadRadarTelegramContact[];
   decisionMakers: LeadRadarDecisionMaker[];
   evidence: LeadRadarEvidence[];
 }
@@ -630,6 +634,7 @@ export function extractOfficialSiteContacts(
   contacts.sort((a, b) => rank[b.type] - rank[a.type] || b.confidence - a.confidence);
   return {
     telegramContact: contacts[0] ?? null,
+    telegramContacts: contacts,
     decisionMakers: [...decisionMakerMap.values()].sort((a, b) => b.confidence - a.confidence),
     evidence,
   };
@@ -1146,7 +1151,7 @@ function robotsPatternMatches(pattern: string, path: string): boolean {
   try { return new RegExp(`^${expression}${anchored ? '$' : ''}`).test(path); } catch { return false; }
 }
 
-export function robotsAllows(robots: string, target: URL): boolean {
+export function robotsAllows(robots: string, target: URL, product = 'gptbot-lead-radar'): boolean {
   const groups: RobotsGroup[] = [];
   let current: RobotsGroup | null = null;
   let rulesStarted = false;
@@ -1171,7 +1176,6 @@ export function robotsAllows(robots: string, target: URL): boolean {
     if (value) current.rules.push({ allow: key === 'allow', pattern: value });
   }
 
-  const product = 'gptbot-lead-radar';
   const scored = groups.map((group) => ({
     group,
     specificity: Math.max(0, ...group.agents.map((agent) => (
@@ -1186,6 +1190,23 @@ export function robotsAllows(robots: string, target: URL): boolean {
     .filter((rule) => robotsPatternMatches(rule.pattern, path))
     .sort((a, b) => b.pattern.replaceAll('*', '').length - a.pattern.replaceAll('*', '').length || Number(b.allow) - Number(a.allow));
   return matching[0]?.allow ?? true;
+}
+
+/** Provider fallback obeys the same DNS/robots boundary as the direct reader. */
+export async function readPublicWebsiteRobots(target: URL): Promise<string | null> {
+  const budget = new SubrequestBudget(4);
+  if (!safePublicHttpUrl(target.toString()) || !await hasOnlyPublicAddresses(target, budget)) {
+    throw new Error('website_policy_unavailable');
+  }
+  return fetchWithin(new URL('/robots.txt', target), {
+    headers: { 'User-Agent': USER_AGENT }, redirect: 'error',
+  }, 5_000, budget, async (response) => {
+    if (response.status === 404 || response.status === 410) return null;
+    if (!response.ok) throw new Error('website_policy_unavailable');
+    const body = await readTextBounded(response, MAX_ROBOTS_BYTES);
+    if (/<(?:html|body)\b/i.test(body)) throw new Error('website_policy_unavailable');
+    return body;
+  });
 }
 
 async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2): Promise<{ url: URL; html: string } | null> {
@@ -1228,7 +1249,7 @@ export function extractCompanyPageFacts(
   observedAt = new Date().toISOString(),
 ): Omit<WebsiteFacts, 'website'> {
   const text = stripHtml(html);
-  const contactFacts = extractOfficialSiteContacts(pageUrl, html);
+  const contactFacts = extractOfficialSiteContacts(pageUrl, html, observedAt);
   const emailMatches = [...text.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)]
     .map((match) => genericEmail(match[0]))
     .filter((item): item is string => Boolean(item));
@@ -1323,6 +1344,7 @@ export function extractCompanyPageFacts(
     genericEmail: genericEmailValue,
     telegramUrl,
     telegramContact,
+    telegramContacts: companyWebsiteBound ? contactFacts.telegramContacts : [],
     decisionMakers: companyWebsiteBound ? contactFacts.decisionMakers : [],
     evidence,
     signals,

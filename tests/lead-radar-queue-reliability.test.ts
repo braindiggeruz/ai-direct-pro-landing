@@ -16,6 +16,7 @@ import {
 } from '../functions/platform/lead-radar';
 import type { LeadRadarSearchInput } from '../src/shared/lead-radar';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
 
 const SEARCH_INPUT: LeadRadarSearchInput = {
   niche: 'Стоматологии',
@@ -142,6 +143,51 @@ test('request idempotency replays the same fingerprint and rejects key reuse wit
     ),
     LeadRadarRequestConflictError,
   );
+});
+
+test('optional Firecrawl discovery queues missing sites and completes enrichment through the real queue/store', async () => {
+  const fixture = database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0049_lead_radar_firecrawl.sql'), 'utf8'));
+  const db = fixture.asD1(); const store = new LeadRadarStore(db); const queue = new RecordingQueue();
+  const at = new Date('2026-08-28T12:00:00.000Z'); let calls = 0;
+  const provider = await createFirecrawlQueueDependencies({ FIRECRAWL_API_KEY: 'fixture-only', LEAD_RADAR_FIRECRAWL_ENABLED: 'true',
+    LEAD_RADAR_FIRECRAWL_MODE: 'fallback', LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS: 'org-a' }, db, 'org-a', false, {
+    now: () => at, robots: async () => null,
+    fetch: async (input) => {
+      calls++;
+      const response = String(input).endsWith('/search') ? { success: true, data: { web: [{ url: 'https://clinic.uz/' }] } }
+        : String(input).endsWith('/map') ? { success: true, links: [] }
+          : { success: true, data: { html: '<h1>Example Clinic missing-site</h1><p>Ташкент</p><footer>+998711234567</footer>',
+            links: [], metadata: { sourceURL: 'https://clinic.uz/', statusCode: 200 } } };
+      return new Response(JSON.stringify(response), { headers: { 'Content-Type': 'application/json' } });
+    },
+  });
+  const result = await enqueueLeadRadarSearch(store, 'org-a', SEARCH_INPUT, queue, at, 'firecrawl-fixture');
+  assert.equal((await consumeLeadRadarQueueMessage(db, queue.messages[0], queue, {
+    ...provider, now: () => at, discover: async () => ({ candidates: [candidate(null, 'missing-site')], sourceWarnings: [] }),
+  })).outcome, 'completed');
+  const child = fixture.rows<{ id: string }>("SELECT id FROM lead_radar_jobs WHERE stage = 'enrichment'")[0];
+  assert.ok(child, 'domain discovery must not stop at no_website before creating a child job');
+  const envelope = { schema: 'gptbot.lead-radar.job.v1' as const, job_id: child.id };
+  assert.equal((await consumeLeadRadarQueueMessage(db, envelope, queue, { ...provider, now: () => at })).outcome, 'retry_wait');
+  at.setTime(at.getTime() + 121_000);
+  assert.equal((await consumeLeadRadarQueueMessage(db, envelope, queue, { ...provider, now: () => at })).outcome, 'completed');
+  assert.equal(fixture.value('SELECT website FROM lead_radar_companies WHERE search_id = ?', result.search.id), 'https://clinic.uz');
+  assert.equal(fixture.value('SELECT enrichment_status FROM lead_radar_companies'), 'enriched');
+  assert.equal(calls, 3);
+  assert.equal((await consumeLeadRadarQueueMessage(db, envelope, queue, { ...provider, now: () => at })).outcome, 'duplicate');
+  assert.equal(calls, 3, 'queue replay must not repeat paid requests');
+});
+
+test('without provider opt-in missing sites remain terminal and create no extra jobs', async () => {
+  const fixture = database(); const db = fixture.asD1(); const store = new LeadRadarStore(db); const queue = new RecordingQueue();
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  await enqueueLeadRadarSearch(store, 'org-a', SEARCH_INPUT, queue, at, 'disabled-fixture');
+  await consumeLeadRadarQueueMessage(db, queue.messages[0], queue, { now: () => at,
+    discover: async () => ({ candidates: [candidate(null)], sourceWarnings: [] }),
+  });
+  assert.equal(fixture.value("SELECT COUNT(*) FROM lead_radar_jobs WHERE stage = 'enrichment'"), 0);
+  assert.equal(fixture.value('SELECT enrichment_reason FROM lead_radar_companies'), 'no_website');
 });
 
 test('crash after Queue accepted a send produces a safe duplicate instead of a duplicate effect', async () => {

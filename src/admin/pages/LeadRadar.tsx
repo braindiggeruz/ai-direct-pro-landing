@@ -34,6 +34,7 @@ import { api } from '../lib/api';
 import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui';
 import { TelegramBusinessConnectionCard } from '../components/lead-radar/TelegramBusinessConnectionCard';
 import { TelegramAccountCampaignPanel } from '../components/lead-radar/TelegramAccountCampaignPanel';
+import { FirecrawlDiagnostics } from '../components/lead-radar/FirecrawlDiagnostics';
 import {
   boundTelegramDraftText,
   isVerifiedCorporateBusinessEndpoint,
@@ -2177,6 +2178,8 @@ export default function LeadRadarPage() {
                   pollingDelayed={pollingDelayed}
                   pollingStopped={pollingStopped}
                 />
+
+                <FirecrawlDiagnostics key={`firecrawl-${result.search.id}`} searchId={result.search.id} companies={result.leads} />
 
                 <TelegramAccountCampaignPanel
                   key={result.search.id}

@@ -20,7 +20,9 @@
 //
 // Optional bindings (set under Settings → Functions):
 //   LOGIN_ATTEMPTS          KV namespace for durable lockout (recommended).
-export interface Env {
+import type { FirecrawlEnvironment } from './platform/lead-radar/firecrawl-client';
+
+export interface Env extends FirecrawlEnvironment {
   GITHUB_TOKEN: string;
   GITHUB_OWNER: string;
   GITHUB_REPO: string;

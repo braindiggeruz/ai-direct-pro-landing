@@ -15,6 +15,7 @@ import {
 } from '../functions/platform/lead-radar';
 import type { LeadRadarSearchInput } from '../src/shared/lead-radar';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
 
 const SAMPLE_SIZES = [1, 5, 10, 50] as const;
 const FIXED_NOW = new Date('2026-08-25T10:00:00.000Z');
@@ -22,6 +23,48 @@ const FIXED_NOW = new Date('2026-08-25T10:00:00.000Z');
 // 50 queries per Worker invocation, including statements inside a batch.
 // https://developers.cloudflare.com/d1/platform/limits/
 const FREE_D1_QUERIES_PER_INVOCATION = 50;
+
+for (const missingWebsite of [false, true]) test(`Firecrawl four-page enrichment (${missingWebsite ? 'missing' : 'known'} site) stays within the Free D1 budget`, async (context) => {
+  const fixture = database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0049_lead_radar_firecrawl.sql'), 'utf8'));
+  const counted = new CountingD1(fixture.asD1()); const db = counted.asD1();
+  const store = new LeadRadarStore(db); const queue = new RecordingQueue();
+  let at = new Date(FIXED_NOW); let calls = 0;
+  const searchId = await store.createSearch('org-a', searchInput(1), at.toISOString());
+  const lead = storedLead(1, at.toISOString());
+  const resolvedWebsite = lead.website!;
+  if (missingWebsite) lead.website = null;
+  const leadId = await store.insertLead('org-a', searchId, lead);
+  assert.ok(leadId);
+  const child = await store.createJob('org-a', searchId, leadId, 'enrichment', 'firecrawl-budget', at.toISOString(), 3);
+  const env = { FIRECRAWL_API_KEY: 'fixture-only', LEAD_RADAR_FIRECRAWL_ENABLED: 'true',
+    LEAD_RADAR_FIRECRAWL_MODE: 'fallback', LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS: 'org-a' };
+  let completed = false;
+  for (let delivery = 0; delivery < 3; delivery++) {
+    counted.reset();
+    const provider = await createFirecrawlQueueDependencies(env, db, 'org-a', false, {
+      now: () => at, direct: async () => ({ facts: null, reason: 'source_unavailable', retryable: true }), robots: async () => null,
+      fetch: async (input, init) => {
+        calls++; const url = JSON.parse(String(init?.body)).url;
+        const result = String(input).endsWith('/search') ? { success: true, data: { web: [{ url: resolvedWebsite }] } }
+          : String(input).endsWith('/map') ? { success: true, links: ['/contacts', '/about', '/team'] }
+          : { success: true, data: { html: `<h1>${lead.name}</h1><p>Ташкент</p>`, links: [], metadata: { sourceURL: url, statusCode: 200 } } };
+        return new Response(JSON.stringify(result));
+      },
+    });
+    const outcome = await consumeLeadRadarQueueMessage(db, { schema: 'gptbot.lead-radar.job.v1', job_id: child.id }, queue, { ...provider, now: () => at });
+    const count = counted.snapshot('funnel_refresh', 1).executedStatements;
+    // 4 base schema + 1 outer job lookup + <=4 timed lease heartbeats.
+    context.diagnostic(`Firecrawl delivery ${delivery + 1}: ${count} D1 statements + 9 reserved for Worker/heartbeats`);
+    assert.ok(count + 9 <= 50, `Firecrawl exceeds Free D1 budget: ${count}+9`);
+    if (outcome.outcome === 'completed') { completed = true; break; }
+    assert.equal(outcome.outcome, 'retry_wait');
+    at = new Date(at.getTime() + 121_000);
+  }
+  assert.equal(completed, true);
+  assert.equal(calls, missingWebsite ? 6 : 5, 'bounded search/map/scrapes; no re-submission after continuation');
+  assert.equal(fixture.value('SELECT pages FROM lead_radar_firecrawl_reports'), 4);
+});
 
 interface D1Counters {
   prepare: number;

@@ -1,4 +1,6 @@
 import type { Env } from '../functions/_types';
+import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
+import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
 import {
   consumeAutomationMessage,
   enqueueDueAutomationJobs,
@@ -313,6 +315,10 @@ export default {
     env: AutomationWorkerEnv,
   ): Promise<void> {
     const retentionNow = new Date();
+    try {
+      const firecrawlStore = new FirecrawlStore(env.GPTBOT_DRAFTS_DB);
+      if (await firecrawlStore.available()) await firecrawlStore.purgeResults(retentionNow.toISOString());
+    } catch { recordLeadRadarFailure('firecrawl_retention', new Error('firecrawl_retention_failed')); }
     try {
       if (await hasLeadRadarPersonalDataSchema(env.GPTBOT_DRAFTS_DB)) {
         const retentionDays = parseLeadRadarRetentionDays(env.LEAD_RADAR_PERSONAL_RETENTION_DAYS);
@@ -657,7 +663,10 @@ export default {
             env.GPTBOT_DRAFTS_DB,
             raw,
             leadRadarSender(env.AUTOMATION_QUEUE),
-            { personalDataEnabled: isLeadRadarContactEnabled(env) },
+            {
+              personalDataEnabled: isLeadRadarContactEnabled(env),
+              ...await createFirecrawlQueueDependencies(env, env.GPTBOT_DRAFTS_DB, knownJob.orgId, isLeadRadarContactEnabled(env)),
+            },
           );
           if (result.outcome === 'retry_wait') {
             settleLeadRadarRetryWait(message, result);

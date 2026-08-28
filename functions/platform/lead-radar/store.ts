@@ -799,6 +799,7 @@ export class LeadRadarStore {
     leads: StoredLeadInput[],
     now: string,
     nextDispatchAt: string,
+    resolveMissingWebsites = false,
   ): Promise<boolean> {
     if (leads.length > DISCOVERY_FANOUT_MAX_LEADS) {
       throw new Error('lead_radar_discovery_fanout_too_large');
@@ -824,6 +825,7 @@ export class LeadRadarStore {
         country: lead.country,
         address: lead.address,
         website: lead.website,
+        enrichWebsite: Boolean(lead.website) || resolveMissingWebsites,
         domain: identity.domain,
         phoneDigits: identity.phoneDigits,
         nameCityKey: identity.nameCityKey,
@@ -883,8 +885,8 @@ export class LeadRadarStore {
         json_extract(item, '$.lifecycle'), json_extract(item, '$.suppressed'),
         json_extract(item, '$.scoreComponentsJson'), json_extract(item, '$.signalsJson'),
         json_extract(item, '$.discoveredAt'), json_extract(item, '$.lastVerifiedAt'), ?,
-        CASE WHEN json_type(item, '$.website') = 'text' THEN 'pending' ELSE 'terminal' END,
-        CASE WHEN json_type(item, '$.website') = 'text' THEN NULL ELSE 'no_website' END,
+        CASE WHEN json_extract(item, '$.enrichWebsite') = 1 THEN 'pending' ELSE 'terminal' END,
+        CASE WHEN json_extract(item, '$.enrichWebsite') = 1 THEN NULL ELSE 'no_website' END,
         json_extract(item, '$.enrichmentAttempts')
       FROM payload
       WHERE json_extract(item, '$.suppressed') = 0
@@ -958,7 +960,7 @@ export class LeadRadarStore {
       JOIN lead_radar_companies company
         ON company.org_id = ? AND company.search_id = ?
         AND company.canonical_key = json_extract(item, '$.canonicalKey')
-      WHERE json_type(item, '$.website') = 'text'
+      WHERE json_extract(item, '$.enrichWebsite') = 1
         AND company.suppressed = 0
         AND company.enrichment_status IN ('pending', 'queued', 'processing')
         AND ${parentFence}
@@ -984,7 +986,7 @@ export class LeadRadarStore {
       WHERE org_id = ? AND search_id = ? AND suppressed = 0
         AND enrichment_status IN ('pending', 'queued', 'processing')
         AND canonical_key IN (SELECT json_extract(item, '$.canonicalKey') FROM payload
-          WHERE json_type(item, '$.website') = 'text')
+          WHERE json_extract(item, '$.enrichWebsite') = 1)
         AND ${parentFence}
         AND EXISTS (
           SELECT 1 FROM lead_radar_jobs child

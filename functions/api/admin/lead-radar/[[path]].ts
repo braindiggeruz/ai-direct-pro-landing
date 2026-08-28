@@ -5,6 +5,7 @@ import {
   readOwnerBody,
   withOwnerRole,
 } from '../../../platform/admin';
+import { FirecrawlStore } from '../../../platform/lead-radar/firecrawl-store';
 import {
   assertLeadRadarRuntimeSchema,
   buildVerifiedTelegramCorporateDraftLink,
@@ -133,6 +134,12 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   if (unavailable) return unavailable;
   const store = new LeadRadarStore(ctx.db);
   const service = new LeadRadarService(store);
+  if (parts.length === 3 && parts[0] === 'searches' && parts[2] === 'enrichment') {
+    if (!await store.getSearchInput(orgId, parts[1])) return ownerError('search_not_found', ctx.requestId, 404);
+    const provider = new FirecrawlStore(ctx.db);
+    if (!await provider.available()) return ownerJson({ schemaReady: false, reports: [], usage: null }, ctx.requestId);
+    return ownerJson({ schemaReady: true, ...await provider.diagnostics(orgId, parts[1]) }, ctx.requestId);
+  }
   if (parts.length === 0) {
     return ownerJson(
       presentLeadRadarOverview(await store.listOverview(orgId), capabilities),
