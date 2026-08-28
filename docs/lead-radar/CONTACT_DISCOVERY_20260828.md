@@ -48,3 +48,16 @@ An ordinary phone number is not a verified Telegram recipient. This release sepa
 ## Recovery
 
 Do not roll back to a schema auditor unaware of0050. Disable new contact-mode admission or deploy a forward fix if needed; retain base research and existing campaign safeguards. Do not clear uncertain Firecrawl reservations. Do not reset the Bridge vault to repair account status.
+
+## Published release
+
+- Implementation commit: `8c5c2c5` (no unrelated AGENTS/tool-state changes included).
+- Pages: `058bb4dd-536b-4d2a-ad3a-7ab323df4c22`, production `gptbot.uz`, success.
+- Automation Worker: `5609d3ee-fb84-4539-a547-067259ca5c50`.
+- Gateway1.4.0: `7b0744e9-ea6d-4cb7-861f-7e44137d5c4b`.
+- Optional0050 applied after all three deployments,7 statements including ledger; base/campaign/contact runtime audit passed against actual production D1. No active jobs/campaigns/effects at the release check.
+- Installed Bridge1.4.0: pip check, DPAPI self-test, configured/paired/URI/task checks passed. Previous1.3.2 package backup: `F:/Claude/.lead-radar-cache/bridge-1.3.2-before-contact-20260828`; vault and ledger were not reset.
+- Sanitized production tail confirmed repeated fresh `/v1/bridge/poll` HTTP200 after restart. Diagnostic tails were stopped; no credential headers were emitted.
+- Production login responds200 with no-store. Authenticated owner UI interaction and real recipient delivery are **not** claimed tested; browser currently needs owner login.
+- Firecrawl enabled=false, mode=off verified after deploy. No new paid API work or messages were initiated.
+- `scripts/lead-radar/contact-release-audit.ts` is a read-only production check using CF process credentials. It accepts no arguments, arbitrary SQL or write methods and prints only schema booleans and aggregate activity.
