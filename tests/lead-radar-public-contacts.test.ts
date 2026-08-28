@@ -49,7 +49,11 @@ test('contact source allowlist rejects private, login, query, member and arbitra
   for (const raw of ['http://127.0.0.1/test','https://evil.test/clinic','https://t.me/+InviteToken','https://t.me/clinic_name/123',
     'https://clinics.uz/login','https://clinics.uz/test?token=secret','https://clinics.uz/','https://t.me/clinic_name?start=token']) assert.equal(publicContactSourceUrl(raw),null,raw);
   assert.ok(publicContactSourceUrl(url));
-  assert.ok(publicContactSearchQueries(identity).every((q)=>q.toLowerCase().includes(identity.name.toLowerCase())&&q.includes(identity.phone)));
+  const queries=publicContactSearchQueries(identity);
+  assert.ok(queries[0].includes(identity.name) && !queries[0].includes(identity.phone));
+  assert.equal(queries[1],`"${identity.phone}"`);
+  assert.equal(publicContactSourceUrl('https://www.32top.uz/contacts/'),null);
+  assert.equal(publicContactSourceUrl('https://med24.uz/uslugi/stomatologiya/'),null);
 });
 
 test('Russian/Uzbek company-name variants match only with a public phone or address anchor',async()=>{
@@ -57,7 +61,27 @@ test('Russian/Uzbek company-name variants match only with a public phone or addr
   assert.ok(await extractPublicBusinessContacts(url,html,{...identity,name:'Садаф'},at.toISOString()));
   assert.equal(await extractPublicBusinessContacts(url,html,{...identity,name:'Садаф',phone:null},at.toISOString()),null);
   assert.equal(await extractPublicBusinessContacts(url,html,{...identity,name:'Sadaf Smile'},at.toISOString()),null);
-  assert.ok(publicContactSearchQueries({...identity,name:'Садаф'})[1].includes('"sadaf"'));
+  assert.ok(publicContactSearchQueries({...identity,name:'Садаф',phone:null})[1].includes('"sadaf"'));
+});
+
+test('queries isolate a quoted brand and do not spend on an anonymous category without an anchor',()=>{
+  assert.equal(publicContactSearchQueries({...identity,name:'Семейная стоматология "IRODA"'})[0],'"IRODA" Tashkent');
+  assert.deepEqual(publicContactSearchQueries({...identity,name:'Стоматология',phone:null}),[]);
+});
+
+test('Top.uz company social card is separate from header/vendor and weak identity stays unconfirmed',async()=>{
+  const top='https://top.uz/company/smalto-dente-chp-stomatologiya';
+  const expected={name:'"Smalto Dente" ЧП Стоматология',city:'Ташкент',phone:null,address:null};
+  const html='<header><a href="https://t.me/vendor_contact">Telegram</a></header>'
+    +'<div class="category-intro"><div><h1>SMALTO Dental Clinic</h1></div><h1>SMALTO Dental Clinic</h1></div>'
+    +'<div id="contacts"><a href="https://t.me/smalto_booking">Telegram,</a></div>'
+    +'<aside><a href="https://t.me/other_contact">Telegram</a></aside>'
+    +'<script type="application/ld+json">{"@type":"LocalBusiness","name":"SMALTO Dental Clinic","telephone":"+998711234567"}</script>';
+  const result=await extractPublicBusinessContacts(top,html,expected,at.toISOString());
+  assert.deepEqual(result?.candidates.map((c)=>[c.value,c.ownership,c.reason]),[['https://t.me/smalto_booking','unconfirmed','ownership_unconfirmed']]);
+  assert.equal(await extractPublicBusinessContacts(top,html,{...expected,name:'Another Brand'},at.toISOString()),null);
+  assert.equal(await extractPublicBusinessContacts(top,html,{...expected,phone:'+998901234567'},at.toISOString()),null);
+  assert.equal(await extractPublicBusinessContacts(top,html.replace('</h1>','</h1><h1>Other clinic</h1>'),expected,at.toISOString()),null);
 });
 
 test('disabled source discovery does not query optional schema or request the provider',async()=>{

@@ -126,6 +126,18 @@ test('completed request replays stored result without a second API charge', asyn
   assert.deepEqual(await run(), ['result']); assert.deepEqual(await run(), ['result']); assert.equal(calls, 1);
 });
 
+test('successful null result survives another delivery and is not a missing or expired result', async () => {
+  const db=database(), store=new FirecrawlStore(db.asD1()); let calls=0;
+  const request=async () => { calls++; return json({success:true}); };
+  const run=() => new FirecrawlClient(firecrawlConfig(ENV,CTX.orgId)!,store,CTX,request,NOW)
+    .request('scrape','clinic.uz',{url:'https://clinic.uz/'},()=>null);
+  assert.equal(await run(),null);
+  assert.equal(db.value('SELECT result_json FROM lead_radar_firecrawl_requests'),'null');
+  assert.equal(await run(),null);
+  assert.equal(calls,1);
+  assert.equal(db.value('SELECT SUM(credits) FROM lead_radar_firecrawl_requests'),1);
+});
+
 test('timeout/unknown submission is retained and never automatically resubmitted', async () => {
   const db = database(); let calls = 0;
   const client = new FirecrawlClient(firecrawlConfig(ENV, CTX.orgId)!, new FirecrawlStore(db.asD1()), CTX,

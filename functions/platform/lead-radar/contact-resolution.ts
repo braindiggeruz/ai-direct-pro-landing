@@ -31,7 +31,8 @@ function candidates(company: CompanyRow, evidence: EvidenceRow[], now: string, e
       && new URL(company.website).origin === new URL(c.sourceUrl).origin; } catch { return false; }
   });
   const publicCandidates=(enrichment?.sources ?? []).flatMap((source) => source.candidates.filter((c) =>
-    c.ownership==='company' && c.lookupEligible && c.sourceUrl===source.url
+    (c.ownership==='company' || c.ownership==='unconfirmed' && c.kind==='telegram' && parseLeadRadarTelegramLocator(c.value)?.kind==='username')
+    && c.lookupEligible && c.sourceUrl===source.url
     && c.evidenceIds.includes(source.id) && publicContactSourceUrl(source.url)
     && (c.kind==='phone' ? assessLeadRadarPhone(c.value).mobileLookupCandidate : c.kind==='telegram' && parseLeadRadarTelegramLocator(c.value))
     && Date.parse(source.observedAt)>=oldest && Date.parse(source.observedAt)<=newest));

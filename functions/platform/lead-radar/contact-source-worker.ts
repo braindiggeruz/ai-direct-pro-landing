@@ -34,8 +34,10 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
       const policy=policies.get(url.origin)!;
       if (policy!==null && (!robotsAllows(policy,url) || !robotsAllows(policy,url,'firecrawl firecrawlbot firecrawlagent'))) throw new FirecrawlError('robots_blocked');
     };
+    const queries=publicContactSearchQueries(identity);
+    if (queries.length===0) reason='insufficient_company_identity';
     try {
-      for (const query of publicContactSearchQueries(identity)) {
+      for (const query of queries) {
         const urls=await client.request('search',`contact-search:${job.companyId}`,{query,limit:5,sources:['web'],
           includeDomains:[...FIRECRAWL_DIRECTORY_DOMAINS,'t.me','telegram.me']}, (data) => {
           const web=firecrawlObject(data.data).web;
@@ -71,7 +73,7 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
             throw error;
           }
         }
-        if (sources.length || seen.size>=3) break;
+        if (sources.some((s)=>s.candidates.some((c)=>c.ownership==='company')) || seen.size>=3) break;
       }
     } catch (error) {
       if (error instanceof FirecrawlError && error.retryable) return {pending:true};

@@ -13,13 +13,15 @@ import { readPublicWebsiteRobots, robotsAllows } from '../../functions/platform/
 
 const ORG = 'owner_8ee98dc3040f160b308166b0';
 const DB = '97ef0372-d937-406f-8871-755368d9afff';
-const REQUEST = 'firecrawl-pilot-20260828-dentistry-20-v1';
 const REPAIR = 'firecrawl-runtime-repair-20260828-v1:';
 const mode = process.argv[2] ?? '--preflight';
-if (!['--preflight', '--start', '--status', '--repair-runtime', '--diagnose-page', '--repair-html'].includes(mode) || process.argv.length > 3) {
+const contactPilot = mode.startsWith('--contact-');
+const REQUEST = contactPilot ? 'firecrawl-contact-pilot-20260828-dentistry-20-v2' : 'firecrawl-pilot-20260828-dentistry-20-v1';
+if (!['--preflight', '--start', '--status', '--repair-runtime', '--diagnose-page', '--repair-html',
+  '--contact-preflight', '--contact-start', '--contact-status', '--contact-dispatch', '--contact-recheck'].includes(mode) || process.argv.length > 3) {
   throw new Error('Use a documented pilot mode; no credentials in arguments');
 }
-const mutating = ['--start', '--repair-runtime', '--diagnose-page', '--repair-html'].includes(mode);
+const mutating = ['--start', '--repair-runtime', '--diagnose-page', '--repair-html', '--contact-start', '--contact-dispatch', '--contact-recheck'].includes(mode);
 
 async function main() {
   const account = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -73,15 +75,16 @@ async function main() {
   let existing = await store.findSearchByRequest(ORG, REQUEST);
   if (mutating) {
     if (!secretReady || vars.LEAD_RADAR_FIRECRAWL_ENABLED !== 'true'
-      || vars.LEAD_RADAR_FIRECRAWL_MODE !== 'shadow'
+      || vars.LEAD_RADAR_FIRECRAWL_MODE !== (contactPilot ? 'fallback' : 'shadow')
       || vars.LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS !== ORG
       || !(Number(vars.LEAD_RADAR_FIRECRAWL_DAILY_CREDITS) > 0 && Number(vars.LEAD_RADAR_FIRECRAWL_DAILY_CREDITS) <= 200)
-      || !(Number(vars.LEAD_RADAR_FIRECRAWL_SEARCH_CREDITS) > 0 && Number(vars.LEAD_RADAR_FIRECRAWL_SEARCH_CREDITS) <= 140)) {
-      throw new Error('approved_shadow_limits_not_configured');
+      || !(Number(vars.LEAD_RADAR_FIRECRAWL_SEARCH_CREDITS) > 0 && Number(vars.LEAD_RADAR_FIRECRAWL_SEARCH_CREDITS) <= (contactPilot ? 100 : 140))) {
+      throw new Error('approved_pilot_limits_not_configured');
     }
-    if (!existing) {
+    if (!existing || contactPilot) {
       const active = await db.prepare(`SELECT COUNT(*) AS n FROM lead_radar_jobs
-        WHERE org_id = ? AND status IN ('queued','running','retry_wait')`).bind(ORG).first<{ n: number }>();
+        WHERE org_id = ? AND status IN ('queued','running','retry_wait') AND search_id != ?`)
+        .bind(ORG, existing?.id ?? '').first<{ n: number }>();
       if (active?.n) throw new Error('other_research_jobs_active');
     }
     const queues = await api('/queues?name=gptbot-automation') as Array<{ queue_name: string; queue_id: string }>;
@@ -90,14 +93,47 @@ async function main() {
     const sender = { async send(message: unknown) {
       await api(`/queues/${queue.queue_id}/messages`, { body: message, content_type: 'json' });
     } };
-    if (mode === '--start') {
+    if (mode === '--start' || mode === '--contact-start') {
       const result = await enqueueLeadRadarSearch(store, ORG, parseSearchInput({
       niche: 'Стоматология', city: 'Ташкент', country: 'Узбекистан',
       offer: 'Сайт для стоматологической клиники и ведение рекламы',
       desiredCount: 20, telegramRequired: true, languages: ['ru', 'uz'],
+      ...(contactPilot ? { searchGoal: 'telegram_contacts', maxCandidates: 20 } : {}),
       }), sender, new Date(), REQUEST);
       existing = { id: result.search.id, requestFingerprint: '' };
-      console.log(JSON.stringify({ pilotStarted: true, searchId: result.search.id, desiredCount: 20, maximumCredits: 140, campaignStarted: false }));
+      console.log(JSON.stringify({ pilotStarted: true, searchId: result.search.id, desiredCount: 20,
+        maximumCompanies: contactPilot ? 20 : undefined, maximumCredits: contactPilot ? 100 : 140, campaignStarted: false }));
+    } else if (mode === '--contact-recheck') {
+      // Four SAME companies inside the approved20. Never alter/retry unknown
+      // provider rows; all new requests still consume the original100/search
+      // and7/company reservations, even when the earlier result was empty.
+      if (existing?.id!=='search_2c026efabc274f7bb1853357ac26910a') throw new Error('contact_pilot_mismatch');
+      const targets=['lead_15c9fcd3c19743d2876e8f5e2c6d8e25','lead_a0fee31240f644b794d09b6f7b45f7cb',
+        'lead_cebeca5eea014008b9c00e0a8bf72e52','lead_cc64d1cf031547dd8370a85576c3bc94'];
+      let released=0;
+      for (const companyId of targets) {
+        const row=await db.prepare(`SELECT c.id FROM lead_radar_companies c JOIN lead_radar_contact_enrichments e
+          ON c.org_id=e.org_id AND c.id=e.company_id WHERE c.org_id=? AND c.search_id=? AND c.id=? AND c.suppressed=0
+          AND c.lifecycle<>'do_not_contact' AND e.sources_json='[]' AND e.reason IN ('no_matching_public_contact','result_expired')`)
+          .bind(ORG,existing.id,companyId).first();
+        if (!row) continue;
+        const now=new Date().toISOString(), barrier='9999-12-31T23:59:59.999Z';
+        const job=await store.createJob(ORG,existing.id,companyId,'enrichment',`contact-resolve:pilot-quality-v3:${companyId}`,now,3,barrier);
+        if (job.status!=='queued' || job.attemptCount!==0 || job.nextDispatchAt!==barrier) continue;
+        await db.prepare(`UPDATE lead_radar_contact_enrichments SET expires_at=? WHERE org_id=? AND company_id=?
+          AND sources_json='[]' AND reason IN ('no_matching_public_contact','result_expired')`).bind(now,ORG,companyId).run();
+        await db.prepare(`UPDATE lead_radar_searches SET status='running',phase='enriching',completed_at=NULL,state_version=state_version+1
+          WHERE org_id=? AND id=?`).bind(ORG,existing.id).run();
+        await db.prepare(`UPDATE lead_radar_jobs SET next_dispatch_at=?,updated_at=? WHERE org_id=? AND id=? AND status='queued'
+          AND attempt_count=0 AND next_dispatch_at=?`).bind(now,now,ORG,job.id,barrier).run();
+        released++;
+      }
+      const dispatched=await enqueueDueLeadRadarJobs(db,sender,new Date(),5,(orgId)=>orgId===ORG);
+      console.log(JSON.stringify({searchId:existing.id,released,dispatched,maximumCreditsIncludingEarlierPilotRequests:100,campaignStarted:false}));
+    } else if (mode === '--contact-dispatch') {
+      if (!existing) throw new Error('contact_pilot_not_started');
+      const dispatched = await enqueueDueLeadRadarJobs(db, sender, new Date(), 5, (orgId) => orgId === ORG);
+      console.log(JSON.stringify({ searchId: existing.id, dispatched, campaignStarted: false }));
     } else if (mode === '--diagnose-page') {
       // One credit, one existing pilot company, no raw HTML or contacts printed.
       // The ordinary ledger/limits still apply; replay returns the compact result.
@@ -184,8 +220,12 @@ async function main() {
   const diagnostics = await provider.diagnostics(ORG, existing.id);
   const jobs = await db.prepare(`SELECT status, last_error_code, COUNT(*) AS n FROM lead_radar_jobs
     WHERE org_id = ? AND search_id = ? GROUP BY status, last_error_code`).bind(ORG, existing.id).all();
+  const contactSources = contactPilot ? (await db.prepare(`SELECT e.status,e.reason,COUNT(*) AS count,
+    SUM(json_array_length(e.sources_json)) AS sources FROM lead_radar_contact_enrichments e
+    JOIN lead_radar_companies c ON c.org_id=e.org_id AND c.id=e.company_id
+    WHERE c.org_id=? AND c.search_id=? GROUP BY e.status,e.reason`).bind(ORG,existing.id).all()).results : undefined;
   console.log(JSON.stringify({ schemaReady: true, secretReady, searchId: existing.id,
-    search: result?.search, jobs: jobs.results, diagnostics,
+    search: result?.search, jobs: jobs.results, diagnostics, contactSources,
     leads: result?.leads.map((lead) => ({ id: lead.id, name: lead.name, website: lead.website,
       telegram: lead.telegramContact?.type === 'business' ? lead.telegramContact.url : null,
       contactType: lead.telegramContact?.type ?? null, evidenceCount: lead.evidence.length })),

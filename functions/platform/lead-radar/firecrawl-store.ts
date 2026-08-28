@@ -122,7 +122,10 @@ export class FirecrawlStore {
 
   async finish(id: string, state: 'completed' | 'failed' | 'unknown', value: unknown,
     code: string | null, retryAt: string | null, now: string): Promise<void> {
-    const serialized = value === null ? null : JSON.stringify(value);
+    // A successful decoder may legitimately find nothing. Persist JSON null,
+    // distinct from SQL NULL (purged/missing result), so a later delivery can
+    // continue to the next source without rebilling or a false result_expired.
+    const serialized = state === 'completed' ? JSON.stringify(value ?? null) : value === null ? null : JSON.stringify(value);
     if (serialized && new TextEncoder().encode(serialized).byteLength > 90_000) throw new Error('firecrawl_result_too_large');
     await this.db.prepare(`UPDATE lead_radar_firecrawl_requests SET state = ?, error_code = ?, retry_at = ?,
       result_json = ?, result_expires_at = ?, updated_at = ? WHERE id = ? AND state = 'started'`)

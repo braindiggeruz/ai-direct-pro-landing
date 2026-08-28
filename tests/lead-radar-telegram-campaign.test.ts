@@ -342,6 +342,26 @@ test('listing-bound user without a website reaches sender proof but never bypass
   assert.equal((await verifiedResolvedCorporateCompanies(input)).size,0);
 });
 
+test('listing name-only evidence permits type checking but never qualifies for the sender',async()=>{
+  const db=database([...MIGRATIONS,'0050_lead_radar_contact_discovery.sql','0052_lead_radar_contact_sources.sql']);
+  addCompany(db,{id:'weak_listing',username:'old_unknown',type:'unknown'});
+  db.exec("UPDATE lead_radar_companies SET website=NULL,phone=NULL WHERE id='weak_listing'");
+  const identity={name:'Company weak_listing',city:'Tashkent',address:null,phone:null};
+  const source={id:'lrcs_fixture',kind:'business_listing',url:'https://top.uz/company/weak-listing',observedAt:NOW.toISOString(),
+    candidates:[{key:'telegram:https://t.me/review_user',kind:'telegram',value:'https://t.me/review_user',phoneType:null,
+      ownership:'unconfirmed',lookupEligible:true,reason:'ownership_unconfirmed',sourceUrl:'https://top.uz/company/weak-listing',evidenceIds:['lrcs_fixture'],observedAt:NOW.toISOString()}]};
+  db.sqlite.prepare(`INSERT INTO lead_radar_contact_enrichments(org_id,company_id,job_id,identity_digest,status,reason,sources_json,checked_at,expires_at)
+    VALUES (?,'weak_listing','fixture',?,'complete','public_contact_candidates',?,?,?)`).run(ORG_A,await contactIdentityDigest(identity),JSON.stringify([source]),NOW.toISOString(),new Date(NOW.getTime()+86400_000).toISOString());
+  const account=await connectedAccount(db);
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'weak_listing',searchId:'search_weak_listing',candidateKey:source.candidates[0].key,accountId:account.id,now:NOW.toISOString(),
+    resolve:async()=>({status:'resolved',username:'review_user',reason:'regular_user_resolved',retryAfterSeconds:null})});
+  assert.equal(result.reason,'username_exists_ownership_unconfirmed');
+  const contact=JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='weak_listing'")));
+  assert.equal(contact.type,'unknown');assert.equal(contact.messageable,false);
+  assert.equal((await verifiedResolvedCorporateCompanies({db:db.asD1(),orgId:ORG_A,companies:[{companyId:'weak_listing',contact}],now:NOW})).size,0);
+  assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_weak_listing',NOW.toISOString()),0);
+});
+
 test('published mobile resolves durably but cannot skip consent, tenant, fresh proof, account or DNC checks', async () => {
   const db = database([...MIGRATIONS, '0050_lead_radar_contact_discovery.sql']);
   addCompany(db, { id: 'mobile', username: 'old_unknown', type: 'unknown' });

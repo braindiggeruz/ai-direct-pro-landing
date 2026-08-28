@@ -67,13 +67,13 @@ LEAD_RADAR_ADMISSION_ENABLED = "true"
 LEAD_RADAR_PROCESSING_ENABLED = "true"
 # Optional Firecrawl rollout. Secret FIRECRAWL_API_KEY is set only on this worker.
 # An explicit org allowlist AND both switches are required before paid calls.
-# Approved 20-company pilot finished. Keep paid work off until quality acceptance;
-# research admission/processing and the separately gated Telegram sender stay on.
-LEAD_RADAR_FIRECRAWL_ENABLED = "false"
-LEAD_RADAR_FIRECRAWL_MODE = "off"
+# Owner approved contact enrichment and a NEW 20-company pilot, max100 credits.
+# Existing UTC-day ceiling includes historical/uncertain reservations. No sends.
+LEAD_RADAR_FIRECRAWL_ENABLED = "true"
+LEAD_RADAR_FIRECRAWL_MODE = "fallback"
 LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
 LEAD_RADAR_FIRECRAWL_DAILY_CREDITS = "200"
-LEAD_RADAR_FIRECRAWL_SEARCH_CREDITS = "140"
+LEAD_RADAR_FIRECRAWL_SEARCH_CREDITS = "100"
 LEAD_RADAR_FIRECRAWL_DOMAIN_CREDITS = "14"
 LEAD_RADAR_CONTACT_ENABLED = "false"
 LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
