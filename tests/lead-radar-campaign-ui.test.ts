@@ -565,7 +565,8 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /leadRadarCreateTelegramBridgePairing/);
   assert.match(component, /leadRadarTelegramBridgeStatus\(\)/);
   assert.match(component, /href=\{bridgePairing\.enrollmentUri\}/);
-  assert.match(component, /onClick=\{\(\) => \{ void copyBridgePairingCode\(true\); \}\}/);
+  assert.match(component, /await copyBridgePairingCode\(true\);[\s\S]{0,120}window\.location\.assign\(bridgePairing\.enrollmentUri\)/);
+  assert.match(component, /onClick=\{\(event\) => \{ event\.preventDefault\(\); void openBridgeWithPairingCode\(\); \}\}/);
   assert.match(component, /Скопировать и открыть Bridge/);
   assert.match(component, /Bridge подхватит его из защищённого локального буфера автоматически/);
   assert.match(component, /value=\{bridgePairing\.enrollmentCode\}/);

@@ -1669,6 +1669,12 @@ export function TelegramAccountCampaignPanel({
     }
   }
 
+  async function openBridgeWithPairingCode(): Promise<void> {
+    if (!bridgePairing) return;
+    await copyBridgePairingCode(true);
+    window.location.assign(bridgePairing.enrollmentUri);
+  }
+
   async function revokeBridgeDevice(): Promise<void> {
     const deviceId = bridgeDevice?.deviceId;
     if (!deviceId || bridgePairingBusy) return;
@@ -2256,7 +2262,7 @@ export function TelegramAccountCampaignPanel({
                     className="mt-3 min-h-20 w-full resize-none rounded-xl border border-white/[0.1] bg-[#05070d] p-3 font-mono text-[11px] leading-5 text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
                   />
                   <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-                    <a href={bridgePairing.enrollmentUri} onClick={() => { void copyBridgePairingCode(true); }} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-sm font-semibold text-[#031013] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                    <a href={bridgePairing.enrollmentUri} onClick={(event) => { event.preventDefault(); void openBridgeWithPairingCode(); }} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-sm font-semibold text-[#031013] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                       <ExternalLink size={16} aria-hidden="true" />Скопировать и открыть Bridge
                     </a>
                     <Button type="button" variant="secondary" onClick={() => { void copyBridgePairingCode(); }} className="min-h-12">Скопировать код</Button>
