@@ -837,6 +837,21 @@ ${marketVariant ? renderMarketFooter(page, global) : page.pageType === 'gpt-chat
       </a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
     </div>
+    ${page.locale === 'uz' ? `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="Reklama xizmatlari">
+      <span class="text-white/50">Reklama:</span>
+      <a href="/uz/internet-reklama-toshkent/" class="hover:text-brand-cyan transition">Internet reklama</a>
+      <a href="/uz/smm-xizmatlari/" class="hover:text-brand-cyan transition">SMM xizmatlari</a>
+      <a href="/uz/telegram-reklama/" class="hover:text-brand-cyan transition">Telegram reklama</a>
+      <a href="/uz/seo-xizmati/" class="hover:text-brand-cyan transition">SEO xizmati</a>
+    </nav>` : `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="Услуги продвижения">
+      <span class="text-white/50">Продвижение:</span>
+      <a href="/ru/internet-reklama-tashkent/" class="hover:text-brand-cyan transition">Интернет-реклама</a>
+      <a href="/ru/kontekstnaya-reklama-tashkent/" class="hover:text-brand-cyan transition">Контекстная реклама</a>
+      <a href="/ru/targetirovannaya-reklama-tashkent/" class="hover:text-brand-cyan transition">Таргетированная реклама</a>
+      <a href="/ru/smm-prodvizhenie-tashkent/" class="hover:text-brand-cyan transition">SMM-продвижение</a>
+      <a href="/ru/telegram-ads-uzbekistan/" class="hover:text-brand-cyan transition">Telegram Ads</a>
+      <a href="/ru/seo-prodvizhenie-saytov-tashkent/" class="hover:text-brand-cyan transition">SEO-продвижение</a>
+    </nav>`}
   </div>
 </footer>`}
 

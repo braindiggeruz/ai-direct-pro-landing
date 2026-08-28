@@ -29,10 +29,20 @@ const NICHE_LINKS = [
   { ru: '/ru/ai-bot-dlya-horeca/', uz: undefined, ruLabel: 'HoReCa', uzLabel: 'HoReCa' },
 ];
 
+const PROMOTION_LINKS = [
+  { ru: '/ru/internet-reklama-tashkent/', uz: '/uz/internet-reklama-toshkent/', ruLabel: 'Интернет-реклама', uzLabel: 'Internet reklama' },
+  { ru: '/ru/kontekstnaya-reklama-tashkent/', uz: undefined, ruLabel: 'Контекстная реклама', uzLabel: 'Kontekst reklama' },
+  { ru: '/ru/targetirovannaya-reklama-tashkent/', uz: undefined, ruLabel: 'Таргетированная реклама', uzLabel: 'Target reklama' },
+  { ru: '/ru/smm-prodvizhenie-tashkent/', uz: '/uz/smm-xizmatlari/', ruLabel: 'SMM-продвижение', uzLabel: 'SMM xizmatlari' },
+  { ru: '/ru/telegram-ads-uzbekistan/', uz: '/uz/telegram-reklama/', ruLabel: 'Telegram Ads', uzLabel: 'Telegram reklama' },
+  { ru: '/ru/seo-prodvizhenie-saytov-tashkent/', uz: '/uz/seo-xizmati/', ruLabel: 'SEO-продвижение', uzLabel: 'SEO xizmati' },
+];
+
 export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUrl: string }) {
   const isUz = lang === 'uz';
   const lSolutions = isUz ? 'Yechimlar' : 'Решения';
   const lNiches = isUz ? 'Nishlar' : 'Ниши';
+  const lPromotion = isUz ? 'Reklama' : 'Продвижение';
   const lResources = isUz ? 'Resurslar' : 'Ресурсы';
   const lContacts = isUz ? 'Kontaktlar' : 'Контакты';
   const lBlog = isUz ? 'Blog' : 'Блог';
@@ -43,7 +53,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-10">
           {/* Brand */}
-          <div className="col-span-2 md:col-span-4">
+          <div className="col-span-2 md:col-span-3">
             <div className="flex items-center gap-3 mb-4">
               <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-xl bg-grad-cta">
                 <img src="/assets/landing/logo-sq-40.webp" srcSet="/assets/landing/logo-sq-40.webp 1x, /assets/landing/logo-sq-80.webp 2x" alt="Логотип GPTBot" className="h-7 w-7 rounded-lg" width={28} height={28} loading="lazy" />
@@ -89,12 +99,31 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
           </div>
 
           {/* Niches column */}
-          <div className="md:col-span-3" data-testid="footer-niches">
+          <div className="md:col-span-2" data-testid="footer-niches">
             <h3 className="text-white font-semibold text-sm mb-4">{lNiches}</h3>
             <ul className="space-y-2.5 text-sm">
               {NICHE_LINKS.map((l) => {
                 const href = (isUz && l.uz) ? l.uz : l.ru;
                 const label = isUz ? l.uzLabel : l.ruLabel;
+                return (
+                  <li key={l.ru}>
+                    <a href={href} className="text-white/65 hover:text-brand-cyan transition" onClick={() => track('click_footer_link', { href })}>
+                      {label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Promotion column */}
+          <div className="md:col-span-2" data-testid="footer-promotion">
+            <h3 className="text-white font-semibold text-sm mb-4">{lPromotion}</h3>
+            <ul className="space-y-2.5 text-sm">
+              {PROMOTION_LINKS.map((l) => {
+                const href = isUz ? l.uz : l.ru;
+                const label = isUz ? l.uzLabel : l.ruLabel;
+                if (!href) return null;
                 return (
                   <li key={l.ru}>
                     <a href={href} className="text-white/65 hover:text-brand-cyan transition" onClick={() => track('click_footer_link', { href })}>

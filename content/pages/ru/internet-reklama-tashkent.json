@@ -21,6 +21,7 @@
   "description": "Настройка интернет-рекламы в Ташкенте: Google Ads, Meta/Instagram, Telegram, посадочные страницы, AI-бот, CRM, аналитика и обработка заявок. Бесплатный разбор.",
   "canonical": "https://gptbot.uz/ru/internet-reklama-tashkent/",
   "hreflangRu": "/ru/internet-reklama-tashkent/",
+  "hreflangUz": "/uz/internet-reklama-toshkent/",
   "ogTitle": "Интернет-реклама в Ташкенте | GPTBot.uz",
   "ogDescription": "Запускаем интернет-рекламу как систему: аудитория, объявления, посадочная страница, AI-бот, CRM, Telegram и аналитика заявок.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
@@ -461,6 +462,12 @@
     {
       "target": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
       "anchor": "как выбрать digital-агентство",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/otzyvy/",
+      "anchor": "отзывы и кейсы клиентов GPTBot.uz",
       "locale": "ru",
       "type": "contextual"
     },
