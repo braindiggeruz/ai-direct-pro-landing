@@ -165,8 +165,12 @@ export async function createFirecrawlQueueDependencies(
           const final = typeof metadata.url === 'string' ? firecrawlPublicUrl(metadata.url) : source;
           if (!source || !final || source.origin !== url.origin || final.origin !== url.origin) throw new FirecrawlError('unsafe_redirect');
           await allowed(final);
-          const html = [data.rawHtml, data.html].filter((v): v is string => typeof v === 'string').join('\n');
-          if (!html || new TextEncoder().encode(html).byteLength > 900_000) throw new FirecrawlError('invalid_page');
+          // These are two representations of ONE page, not two page fragments.
+          // Concatenation double-counted content (VIP:310KB+656KB), rejecting an
+          // individually valid page and duplicating evidence/phone occurrences.
+          const html = [data.html, data.rawHtml].find((value): value is string => typeof value === 'string'
+            && value.trim().length > 0 && new TextEncoder().encode(value).byteLength <= 900_000);
+          if (!html) throw new FirecrawlError('invalid_page');
           // A same-origin contact page can inherit the independently verified
           // homepage identity, but never a conflicting explicit phone or redirect.
           const bound = identityBound(expected, final, html, discovered)

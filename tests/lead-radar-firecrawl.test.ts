@@ -72,6 +72,20 @@ test('generic dentistry name plus city does not establish ownership of a discove
   assert.equal(db.value('SELECT status FROM lead_radar_firecrawl_reports'), 'identity_unconfirmed');
 });
 
+test('html and rawHtml are alternate representations, not concatenated against the size limit', async () => {
+  const db = database();
+  const deps = await createFirecrawlQueueDependencies(ENV, db.asD1(), CTX.orgId, false, {
+    now: NOW, direct: async () => NONE, robots: async () => null,
+    fetch: async (input) => String(input).endsWith('/map') ? json({ success: true, links: [] })
+      : json({ success: true, data: { html: HTML + ' '.repeat(310_000), rawHtml: HTML + ' '.repeat(650_000),
+        links: [], metadata: { sourceURL: 'https://clinic.uz/', statusCode: 200 } } }),
+  });
+  const result = await deps.enrichLead!('https://clinic.uz/', EXPECTED, job());
+  assert.equal(result.reason, 'enriched');
+  assert.equal(result.facts?.telegramContact?.type, 'business');
+  assert.equal(result.facts?.telegramContact?.messageable, false);
+});
+
 test('Firecrawl requires BOTH switches, key, explicit organization and valid nonzero budgets', () => {
   assert.ok(firecrawlConfig(ENV, CTX.orgId));
   for (const env of [{}, { ...ENV, LEAD_RADAR_FIRECRAWL_ENABLED: 'false' }, { ...ENV, FIRECRAWL_API_KEY: '' },

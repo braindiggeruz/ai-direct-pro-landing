@@ -6,18 +6,20 @@
 import { enqueueDueLeadRadarJobs, enqueueLeadRadarSearch } from '../../functions/platform/lead-radar/queue';
 import { LeadRadarStore } from '../../functions/platform/lead-radar/store';
 import { FirecrawlStore } from '../../functions/platform/lead-radar/firecrawl-store';
+import { FirecrawlClient, firecrawlConfig } from '../../functions/platform/lead-radar/firecrawl-client';
 import { auditLeadRadarD1Schema } from '../../functions/platform/lead-radar/schema-contract';
 import { parseSearchInput } from '../../functions/platform/lead-radar/validation';
+import { readPublicWebsiteRobots, robotsAllows } from '../../functions/platform/lead-radar/sources';
 
 const ORG = 'owner_8ee98dc3040f160b308166b0';
 const DB = '97ef0372-d937-406f-8871-755368d9afff';
 const REQUEST = 'firecrawl-pilot-20260828-dentistry-20-v1';
 const REPAIR = 'firecrawl-runtime-repair-20260828-v1:';
 const mode = process.argv[2] ?? '--preflight';
-if (!['--preflight', '--start', '--status', '--repair-runtime'].includes(mode) || process.argv.length > 3) {
-  throw new Error('Use --preflight, --start, --status or --repair-runtime; no credentials in arguments');
+if (!['--preflight', '--start', '--status', '--repair-runtime', '--diagnose-page', '--repair-html'].includes(mode) || process.argv.length > 3) {
+  throw new Error('Use a documented pilot mode; no credentials in arguments');
 }
-const mutating = mode === '--start' || mode === '--repair-runtime';
+const mutating = ['--start', '--repair-runtime', '--diagnose-page', '--repair-html'].includes(mode);
 
 async function main() {
   const account = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -96,26 +98,66 @@ async function main() {
       }), sender, new Date(), REQUEST);
       existing = { id: result.search.id, requestFingerprint: '' };
       console.log(JSON.stringify({ pilotStarted: true, searchId: result.search.id, desiredCount: 20, maximumCredits: 140, campaignStarted: false }));
+    } else if (mode === '--diagnose-page') {
+      // One credit, one existing pilot company, no raw HTML or contacts printed.
+      // The ordinary ledger/limits still apply; replay returns the compact result.
+      if (existing?.id !== 'search_6e4c151860d84078b5df9e5474b2c2b1') throw new Error('repair_pilot_mismatch');
+      const target = await db.prepare(`SELECT id FROM lead_radar_companies WHERE org_id = ? AND search_id = ?
+        AND id = 'lead_656c87ff83374cf3928312534953d42b' AND suppressed = 0`)
+        .bind(ORG, existing.id).first<{ id: string }>();
+      const config = firecrawlConfig({ ...vars, FIRECRAWL_API_KEY: process.env.FIRECRAWL_API_KEY }, ORG);
+      if (!target || !config) throw new Error('page_probe_not_ready');
+      const policy = await readPublicWebsiteRobots(new URL('https://vipclinic.uz/'));
+      if (policy && !robotsAllows(policy, new URL('https://vipclinic.uz/'), 'firecrawl firecrawlbot firecrawlagent')) throw new Error('probe_robots_blocked');
+      const now = new Date().toISOString();
+      const job = await store.createJob(ORG, existing.id, target.id, 'enrichment', 'firecrawl-response-probe-20260828-v1', now, 1, '9999-12-31T23:59:59.999Z');
+      if (job.status === 'completed') {
+        console.log(JSON.stringify({ responseProbe: [...(await provider.completedResults({ orgId: ORG, searchId: existing.id,
+          companyId: target.id, jobId: job.id, leaseOwner: '', leaseGeneration: 0 }, now)).values()][0], replayed: true }));
+        return;
+      }
+      const claimed = await store.claimJob(ORG, job.id, now, new Date(Date.now() + 120_000).toISOString());
+      if (!claimed?.leaseOwner) throw new Error('probe_lease_unavailable');
+      try {
+        const client = new FirecrawlClient(config, provider, { orgId: ORG, searchId: existing.id, companyId: target.id,
+          jobId: job.id, leaseOwner: claimed.leaseOwner, leaseGeneration: claimed.leaseGeneration });
+        const responseProbe = await client.request('scrape', 'vipclinic.uz', {
+          url: 'https://vipclinic.uz/', formats: ['html', 'rawHtml', 'links'], onlyMainContent: false,
+          onlyCleanContent: false, skipTlsVerification: false, maxAge: 0, storeInCache: false, parsers: [], timeout: 30_000,
+        }, (response) => {
+          const data = response.data as Record<string, unknown>;
+          const bytes = (value: unknown) => typeof value === 'string' ? new TextEncoder().encode(value).byteLength : 0;
+          return { htmlBytes: bytes(data.html), rawHtmlBytes: bytes(data.rawHtml),
+            identical: data.html === data.rawHtml, statusCode: (data.metadata as { statusCode?: unknown })?.statusCode ?? null };
+        });
+        console.log(JSON.stringify({ responseProbe, campaignStarted: false }));
+      } finally {
+        await store.completeJob(ORG, job.id, claimed.leaseOwner, new Date().toISOString(), claimed.leaseGeneration);
+      }
+      return;
     } else {
       // Explicit repair of the one pilot whose native fetch failed before network.
       // Never reset unknown requests, refund reservations or restart a discovery.
       if (existing?.id !== 'search_6e4c151860d84078b5df9e5474b2c2b1') throw new Error('repair_pilot_mismatch');
+      const htmlRepair = mode === '--repair-html';
+      const repairKey = htmlRepair ? 'firecrawl-html-repair-20260828-v1:' : REPAIR;
       const active = await db.prepare(`SELECT COUNT(*) AS n FROM lead_radar_jobs
         WHERE org_id = ? AND status IN ('queued','running','retry_wait') AND idempotency_key NOT LIKE ?`)
-        .bind(ORG, `${REPAIR}%`).first<{ n: number }>();
+        .bind(ORG, `${repairKey}%`).first<{ n: number }>();
       if (active?.n) throw new Error('other_research_jobs_active');
       const targets = (await db.prepare(`SELECT DISTINCT c.id FROM lead_radar_companies c
         JOIN lead_radar_firecrawl_reports r ON r.org_id = c.org_id AND r.company_id = c.id
         WHERE c.org_id = ? AND c.search_id = ? AND c.suppressed = 0
-          AND r.status IN ('request_unknown','robots_unavailable')
-          AND r.updated_at < '2026-08-28T05:12:00.000Z' ORDER BY c.id LIMIT 21`)
-        .bind(ORG, existing.id).all<{ id: string }>()).results ?? [];
+          AND ((? = 0 AND r.status IN ('request_unknown','robots_unavailable') AND r.updated_at < '2026-08-28T05:12:00.000Z')
+            OR (? = 1 AND r.status = 'invalid_page' AND c.id = 'lead_656c87ff83374cf3928312534953d42b'))
+          ORDER BY c.id LIMIT 21`)
+        .bind(ORG, existing.id, Number(htmlRepair), Number(htmlRepair)).all<{ id: string }>()).results ?? [];
       if (targets.length > 20) throw new Error('repair_company_limit');
       let released = 0;
       for (const target of targets) {
         const now = new Date().toISOString();
         const barrier = '9999-12-31T23:59:59.999Z';
-        const job = await store.createJob(ORG, existing.id, target.id, 'enrichment', `${REPAIR}${target.id}`, now, 3, barrier);
+        const job = await store.createJob(ORG, existing.id, target.id, 'enrichment', `${repairKey}${target.id}`, now, 3, barrier);
         // Re-running the operator command cannot regress an active/completed job.
         if (job.status !== 'queued' || job.attemptCount !== 0 || job.nextDispatchAt !== barrier) continue;
         await db.prepare(`UPDATE lead_radar_companies SET enrichment_status = 'queued', enrichment_reason = NULL,
@@ -130,7 +172,7 @@ async function main() {
       }
       await store.refreshSearchFunnel(ORG, existing.id, new Date().toISOString());
       const dispatched = await enqueueDueLeadRadarJobs(db, sender, new Date(), 5, (orgId) => orgId === ORG);
-      console.log(JSON.stringify({ runtimeRepair: true, sameSearch: existing.id, released, dispatched,
+      console.log(JSON.stringify({ repair: htmlRepair ? 'html_size' : 'runtime', sameSearch: existing.id, released, dispatched,
         originalLedgerPreserved: true, maximumCreditsIncludingOldReservations: 140, campaignStarted: false }));
     }
   }
