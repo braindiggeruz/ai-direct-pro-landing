@@ -36,7 +36,7 @@ from .security import DpapiVault, SecurityError, secure_directory
 from .telegram_adapter import ProviderOutcome, TelethonAccount
 
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 MAX_AUTH_SECONDS = 10 * 60
 MAX_COMMAND_FUTURE_SECONDS = 10 * 60
 RELAY_TTL_SECONDS = 10 * 60

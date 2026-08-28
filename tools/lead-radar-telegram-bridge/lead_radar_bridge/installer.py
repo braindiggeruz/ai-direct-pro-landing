@@ -209,6 +209,22 @@ def _install_uri_handler(executable: Path, root: Path) -> None:
         winreg.SetValueEx(key, "", 0, winreg.REG_SZ, command)
 
 
+def _uri_handler_matches(executable: Path, root: Path) -> bool:
+    """Return whether the CurrentUser protocol handler is exactly ours."""
+    try:
+        import winreg
+
+        base = rf"Software\Classes\{URI_SCHEME}"
+        expected = f'"{executable}" -m lead_radar_bridge.cli pair-uri --root "{root}" "%1"'
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, base) as key:
+            protocol, _kind = winreg.QueryValueEx(key, "URL Protocol")
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, base + r"\shell\open\command") as key:
+            command, _kind = winreg.QueryValueEx(key, "")
+        return protocol == "" and command == expected
+    except (FileNotFoundError, ImportError, OSError):
+        return False
+
+
 def status(root: Path | None = None) -> dict[str, Any]:
     target = (root or default_root()).resolve()
     task = _task_snapshot()
@@ -239,6 +255,7 @@ def status(root: Path | None = None) -> dict[str, Any]:
         except (OSError, SecurityError, ValueError):
             vault_healthy = False
     installed = False
+    uri_handler_registered = False
     marker_path = target / INSTALL_MARKER
     if marker_path.is_file() and task is not None:
         try:
@@ -258,6 +275,11 @@ def status(root: Path | None = None) -> dict[str, Any]:
                     working_directory=target,
                 )
             )
+            if installed:
+                uri_handler_registered = _uri_handler_matches(
+                    Path(str(marker.get("pythonw", ""))),
+                    target,
+                )
         except (OSError, SecurityError, ValueError, TypeError):
             installed = False
     return {
@@ -266,12 +288,13 @@ def status(root: Path | None = None) -> dict[str, Any]:
         "paired": paired,
         "vault_healthy": vault_healthy,
         "task_registered": task is not None,
+        "uri_handler_registered": uri_handler_registered,
         "root": str(target),
     }
 
 
-def start(root: Path | None = None) -> None:
-    """Start only the task created by this installation, in user context."""
+def _verified_installation(root: Path | None = None) -> tuple[Path, dict[str, Any]]:
+    """Load and verify the exact per-user task before lifecycle mutations."""
     target = (root or default_root()).resolve()
     marker_path = target / INSTALL_MARKER
     if not marker_path.is_file():
@@ -281,7 +304,8 @@ def start(root: Path | None = None) -> None:
     marker = json.loads(marker_path.read_text(encoding="utf-8"))
     task = _task_snapshot()
     if (
-        marker.get("schema") != "gptbot.lead-radar.telegram-bridge-install.v1"
+        not isinstance(marker, dict)
+        or marker.get("schema") != "gptbot.lead-radar.telegram-bridge-install.v1"
         or marker.get("task") != TASK_NAME
         or marker.get("root") != str(target)
         or not _task_matches(
@@ -293,10 +317,31 @@ def start(root: Path | None = None) -> None:
         )
     ):
         raise SecurityError("foreign_scheduled_task")
+    return target, marker
+
+
+def start(root: Path | None = None) -> None:
+    """Start only the task created by this installation, in user context."""
+    _verified_installation(root)
     _powershell(
         "$ErrorActionPreference='Stop';Start-ScheduledTask -TaskName $args[0]",
         TASK_NAME,
     )
+
+
+def stop(root: Path | None = None) -> None:
+    """Stop only the verified task and wait until its process is released."""
+    _verified_installation(root)
+    script = (
+        "$ErrorActionPreference='Stop';"
+        "$t=Get-ScheduledTask -TaskName $args[0] -ErrorAction Stop;"
+        "if($t.State -eq 'Running'){Stop-ScheduledTask -TaskName $args[0] -ErrorAction Stop};"
+        "for($i=0;$i -lt 100;$i++){"
+        "$state=(Get-ScheduledTask -TaskName $args[0] -ErrorAction Stop).State;"
+        "if($state -ne 'Running'){exit 0};Start-Sleep -Milliseconds 100};"
+        "throw 'scheduled_task_stop_timeout'"
+    )
+    _powershell(script, TASK_NAME)
 
 
 def uninstall(root: Path | None = None) -> None:

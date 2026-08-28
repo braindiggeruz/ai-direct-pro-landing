@@ -5,12 +5,13 @@ import asyncio
 import json
 import os
 import sys
+import time
 from importlib import metadata
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from .e2e import generate_rsa_identity
-from .installer import default_root, install, start, status, uninstall
+from .installer import default_root, install, start, status, stop, uninstall
 from .ledger import BridgeLedger
 from .mailbox import MailboxClient, PRODUCTION_ORIGINS
 from .protocol import PAIRING_CODE, PAIRING_ID, SCHEMA, ProtocolError, b64url_encode
@@ -78,27 +79,18 @@ def _activation_uri(raw: str) -> tuple[str, str]:
     return pairing_id, origin
 
 
-def _prompt_pairing_code() -> str:
-    if os.name != "nt":
-        raise SecurityError("windows_runtime_required")
-    try:
-        import tkinter as tk
-        from tkinter import simpledialog
-        owner = tk.Tk()
-        owner.withdraw()
-        owner.attributes("-topmost", True)
-        value = simpledialog.askstring(
-            "Lead Radar Telegram Bridge",
-            "Вставьте одноразовый код из Lead Radar:",
-            show="•",
-            parent=owner,
-        )
-        owner.destroy()
-    except BaseException as exc:
-        raise SecurityError("pairing_code_prompt_failed") from exc
-    if not isinstance(value, str) or not PAIRING_CODE.fullmatch(value.strip()):
-        raise SecurityError("pairing_code_invalid")
-    return value.strip()
+def _pairing_error_copy(error: BaseException) -> str:
+    code = str(error)
+    return {
+        "pairing_code_invalid": "Код имеет неверный формат. Скопируйте его целиком из Lead Radar.",
+        "registration_rejected": "Код истёк или уже использован. Создайте новую привязку на сайте.",
+        "bridge_already_running": "Фоновый Bridge не остановился. Подождите несколько секунд и повторите.",
+        "foreign_scheduled_task": "Установка Bridge повреждена. Переустановите локальную программу.",
+        "foreign_uri_handler": "Обработчик кнопки принадлежит другой программе. Переустановите Bridge.",
+        "telegram_credentials_missing": "В Bridge не настроены Telegram API ID и hash.",
+        "bridge_already_paired": "Этот Bridge уже привязан. Обновите страницу Lead Radar.",
+        "pairing_retry_conflict": "Нельзя безопасно заменить текущую привязку.",
+    }.get(code, "Не удалось завершить привязку. Проверьте интернет и повторите попытку.")
 
 
 def _read_pairing(args: argparse.Namespace) -> str:
@@ -218,7 +210,7 @@ def _complete_pending_registration(
     return state
 
 
-def pair_device(root: Path, raw_uri: str) -> None:
+def pair_device(root: Path, raw_uri: str, *, replace_existing: bool = False) -> None:
     secure_directory(root)
     pairing_id, code, origin = _pairing_uri(raw_uri)
     vault = DpapiVault(root / VAULT_FILE)
@@ -226,20 +218,38 @@ def pair_device(root: Path, raw_uri: str) -> None:
     telegram = _configured_telegram(state)
     device = state.get("device")
     same_pending_pairing = False
+    replacing_confirmed_device = False
     if isinstance(device, dict):
         if device.get("device_id"):
-            raise SecurityError("bridge_already_paired")
+            if not replace_existing:
+                raise SecurityError("bridge_already_paired")
+            previous_id = device.get("device_id")
+            previous_origin = device.get("origin")
+            if (
+                not isinstance(previous_id, str)
+                or not __import__("re").fullmatch(r"lrtgbd_[a-f0-9]{32}", previous_id)
+                or previous_origin not in PRODUCTION_ORIGINS
+            ):
+                raise SecurityError("pairing_retry_conflict")
+            # The owner explicitly approved a fresh web pairing and entered
+            # its one-use code locally. Rotate only the cloud device identity;
+            # keep Telegram credentials/session inside the same DPAPI vault.
+            device = None
+            replacing_confirmed_device = True
         same_pending_pairing = (
-            device.get("pairing_id") == pairing_id and device.get("origin") == origin
+            isinstance(device, dict)
+            and device.get("pairing_id") == pairing_id
+            and device.get("origin") == origin
         )
         if not same_pending_pairing:
             # A signed registration response may be lost after the server
             # commits. Once the owner revokes that offline/no-account device,
             # a new one-time URI must be recoverable locally. Reset only an
             # unconfirmed device and only when no Telegram custody exists.
-            if (telegram.get("session") or telegram.get("auth_id")
-                or telegram.get("account_ref")
-                or telegram.get("custody") not in {None, "revoked"}):
+            if (not replacing_confirmed_device
+                and (telegram.get("session") or telegram.get("auth_id")
+                     or telegram.get("account_ref")
+                     or telegram.get("custody") not in {None, "revoked"})):
                 raise SecurityError("pairing_retry_conflict")
             device = None
         if same_pending_pairing:
@@ -272,6 +282,167 @@ def pair_device(root: Path, raw_uri: str) -> None:
     # secret/key and recover the already-committed device id.
     vault.save({key: value for key, value in state.items() if key != "schema"})
     _complete_pending_registration(vault, state)
+
+
+def _pair_with_background_restart(
+    root: Path,
+    raw_uri: str,
+    *,
+    replace_existing: bool,
+) -> bool:
+    """Serialize vault mutation against the scheduled background runtime."""
+    stop(root)
+    registration_pending = False
+    try:
+        deadline = time.monotonic() + 10.0
+        while True:
+            try:
+                with WindowsSingleInstance():
+                    try:
+                        pair_device(root, raw_uri, replace_existing=replace_existing)
+                    except OSError:
+                        # Exact key/code material is already durable in DPAPI;
+                        # the restarted runtime can retry registration safely.
+                        registration_pending = True
+                break
+            except SecurityError as error:
+                if str(error) != "bridge_already_running" or time.monotonic() >= deadline:
+                    raise
+                time.sleep(0.1)
+    finally:
+        # Pairing failure must not strand the outbound worker offline.
+        start(root)
+    return registration_pending
+
+
+def _run_pairing_window(root: Path, raw_activation_uri: str) -> None:
+    """Show a persistent local window; never disappear on an operation error."""
+    if os.name != "nt":
+        raise SecurityError("windows_runtime_required")
+    pairing_id, origin = _activation_uri(raw_activation_uri)
+    try:
+        import tkinter as tk
+        from tkinter import ttk
+    except (ImportError, OSError) as exc:
+        raise SecurityError("pairing_code_prompt_failed") from exc
+
+    window = tk.Tk()
+    window.title("Lead Radar — привязка Telegram Bridge")
+    window.geometry("560x360")
+    window.minsize(520, 330)
+    window.configure(bg="#07111d")
+    window.attributes("-topmost", True)
+    window.after(250, window.focus_force)
+
+    frame = tk.Frame(window, bg="#07111d", padx=28, pady=24)
+    frame.pack(fill="both", expand=True)
+    tk.Label(
+        frame,
+        text="Привязать этот компьютер",
+        bg="#07111d",
+        fg="#f8fafc",
+        font=("Segoe UI", 18, "bold"),
+    ).pack(anchor="w")
+    tk.Label(
+        frame,
+        text="Скопируйте одноразовый код на странице Lead Radar и вставьте его сюда.",
+        bg="#07111d",
+        fg="#a8b3c2",
+        font=("Segoe UI", 10),
+        wraplength=495,
+        justify="left",
+    ).pack(anchor="w", pady=(8, 18))
+    code_value = tk.StringVar()
+    code_entry = ttk.Entry(frame, textvariable=code_value, show="•", font=("Consolas", 13))
+    code_entry.pack(fill="x", ipady=8)
+    status_value = tk.StringVar(value="Окно останется открытым до результата.")
+    status_label = tk.Label(
+        frame,
+        textvariable=status_value,
+        bg="#07111d",
+        fg="#a8b3c2",
+        font=("Segoe UI", 10),
+        wraplength=495,
+        justify="left",
+    )
+    status_label.pack(anchor="w", pady=(14, 14))
+    actions = tk.Frame(frame, bg="#07111d")
+    actions.pack(fill="x", side="bottom")
+    succeeded = False
+
+    def finish() -> None:
+        window.destroy()
+
+    def submit() -> None:
+        nonlocal succeeded
+        if succeeded:
+            finish()
+            return
+        code = code_value.get().strip()
+        if not PAIRING_CODE.fullmatch(code):
+            status_label.configure(fg="#fbbf24")
+            status_value.set(_pairing_error_copy(SecurityError("pairing_code_invalid")))
+            code_entry.focus_set()
+            code_entry.selection_range(0, "end")
+            return
+        submit_button.configure(state="disabled", text="Привязываем…")
+        code_entry.configure(state="disabled")
+        status_label.configure(fg="#67e8f9")
+        status_value.set("Останавливаем фоновый Bridge и безопасно обновляем привязку…")
+        window.update_idletasks()
+        raw = f"gptbot-lead-radar://pair#id={pairing_id}&code={code}&origin={origin}"
+        try:
+            pending = _pair_with_background_restart(root, raw, replace_existing=True)
+        except (ProtocolError, SecurityError, ValueError, OSError) as error:
+            status_label.configure(fg="#fbbf24")
+            status_value.set(_pairing_error_copy(error))
+            code_entry.configure(state="normal")
+            submit_button.configure(state="normal", text="Повторить привязку")
+            code_entry.focus_set()
+            return
+        code_value.set("")
+        succeeded = True
+        status_label.configure(fg="#6ee7b7")
+        status_value.set(
+            "Компьютер привязан. Bridge запущен и подключается к Lead Radar. "
+            "Теперь нажмите «Закрыть» и обновите статус на сайте."
+            if not pending
+            else "Данные сохранены. Bridge запущен и завершает регистрацию; "
+            "подождите несколько секунд и обновите статус на сайте."
+        )
+        submit_button.configure(state="normal", text="Закрыть")
+        cancel_button.configure(state="disabled")
+
+    submit_button = tk.Button(
+        actions,
+        text="Привязать",
+        command=submit,
+        bg="#2dd4bf",
+        fg="#031013",
+        activebackground="#5eead4",
+        relief="flat",
+        padx=18,
+        pady=10,
+        font=("Segoe UI", 10, "bold"),
+    )
+    submit_button.pack(side="left")
+    cancel_button = tk.Button(
+        actions,
+        text="Отмена",
+        command=finish,
+        bg="#1e293b",
+        fg="#e2e8f0",
+        activebackground="#334155",
+        activeforeground="#ffffff",
+        relief="flat",
+        padx=18,
+        pady=10,
+        font=("Segoe UI", 10),
+    )
+    cancel_button.pack(side="left", padx=(10, 0))
+    code_entry.bind("<Return>", lambda _event: submit())
+    code_entry.focus_set()
+    window.mainloop()
 
 
 async def run_bridge(root: Path) -> None:
@@ -387,24 +558,15 @@ def main(argv: list[str] | None = None) -> int:
             print('{"status":"uninstalled","data_retained":true}')
         elif args.command in {"pair", "pair-uri"}:
             if args.command == "pair-uri":
-                pairing_id, origin = _activation_uri(args.uri)
-                code = _prompt_pairing_code()
-                raw = f"gptbot-lead-radar://pair#id={pairing_id}&code={code}&origin={origin}"
+                _run_pairing_window(root, args.uri)
+                return 0
             else:
                 raw = _read_pairing(args)
-            registration_pending = False
-            with WindowsSingleInstance():
-                try:
-                    pair_device(root, raw)
-                except OSError:
-                    # The request or signed response may have been lost after
-                    # server commit. Exact secret/key/code are already under
-                    # DPAPI, so the background task can safely retry.
-                    registration_pending = True
-            # The URI handler runs in a short-lived pythonw process. Start the
-            # exact verified per-user task after releasing the mutex so the
-            # bridge becomes online immediately, without a reboot/sign-out.
-            start(root)
+            registration_pending = _pair_with_background_restart(
+                root,
+                raw,
+                replace_existing=False,
+            )
             print('{"status":"pairing_pending"}' if registration_pending else '{"status":"paired"}')
         elif args.command == "run":
             with WindowsSingleInstance():

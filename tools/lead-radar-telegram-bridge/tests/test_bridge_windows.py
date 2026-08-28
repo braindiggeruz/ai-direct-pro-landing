@@ -78,25 +78,118 @@ class BridgeCliRegressionTests(unittest.TestCase):
                 f"gptbot-lead-radar://pair#id={PAIRING_ID}&code={PAIRING_CODE}&origin={ORIGIN}"
             )
 
-    def test_pair_uri_prompts_locally_then_starts_verified_task(self) -> None:
+    def test_pair_uri_opens_persistent_local_window(self) -> None:
         uri = f"gptbot-lead-radar://pair#id={PAIRING_ID}&origin={ORIGIN}"
         output = io.StringIO()
         with (
-            mock.patch.object(cli, "WindowsSingleInstance", return_value=DummySingleInstance()),
-            mock.patch.object(cli, "_prompt_pairing_code", return_value=PAIRING_CODE),
-            mock.patch.object(cli, "pair_device") as pair_device,
-            mock.patch.object(cli, "start") as start,
+            mock.patch.object(cli, "_run_pairing_window") as pairing_window,
             contextlib.redirect_stdout(output),
         ):
             result = cli.main(["pair-uri", "--root", r"C:\Bridge Root", uri])
         self.assertEqual(result, 0)
-        pair_device.assert_called_once_with(
-            Path(r"C:\Bridge Root").resolve(),
-            f"gptbot-lead-radar://pair#id={PAIRING_ID}&code={PAIRING_CODE}&origin={ORIGIN}",
-        )
-        start.assert_called_once_with(Path(r"C:\Bridge Root").resolve())
+        pairing_window.assert_called_once_with(Path(r"C:\Bridge Root").resolve(), uri)
         self.assertNotIn(PAIRING_CODE, uri)
         self.assertNotIn(PAIRING_CODE, output.getvalue())
+
+    def test_pairing_serializes_against_background_and_always_restarts(self) -> None:
+        root = Path(r"C:\Bridge Root").resolve()
+        raw = f"gptbot-lead-radar://pair#id={PAIRING_ID}&code={PAIRING_CODE}&origin={ORIGIN}"
+        calls: list[str] = []
+
+        class RecordingInstance:
+            def __enter__(self):
+                calls.append("lock")
+                return self
+
+            def __exit__(self, *_args: object) -> None:
+                calls.append("unlock")
+
+        with (
+            mock.patch.object(cli, "stop", side_effect=lambda _root: calls.append("stop")),
+            mock.patch.object(cli, "start", side_effect=lambda _root: calls.append("start")),
+            mock.patch.object(cli, "WindowsSingleInstance", return_value=RecordingInstance()),
+            mock.patch.object(
+                cli,
+                "pair_device",
+                side_effect=lambda *_args, **_kwargs: calls.append("pair"),
+            ) as pair_device,
+        ):
+            self.assertFalse(
+                cli._pair_with_background_restart(root, raw, replace_existing=True)
+            )
+        self.assertEqual(calls, ["stop", "lock", "pair", "unlock", "start"])
+        pair_device.assert_called_once_with(root, raw, replace_existing=True)
+
+    def test_pairing_failure_still_restarts_background(self) -> None:
+        root = Path(r"C:\Bridge Root").resolve()
+        raw = f"gptbot-lead-radar://pair#id={PAIRING_ID}&code={PAIRING_CODE}&origin={ORIGIN}"
+        with (
+            mock.patch.object(cli, "stop"),
+            mock.patch.object(cli, "start") as start,
+            mock.patch.object(cli, "WindowsSingleInstance", return_value=DummySingleInstance()),
+            mock.patch.object(
+                cli,
+                "pair_device",
+                side_effect=SecurityError("registration_rejected"),
+            ),
+        ):
+            with self.assertRaisesRegex(SecurityError, "registration_rejected"):
+                cli._pair_with_background_restart(root, raw, replace_existing=True)
+        start.assert_called_once_with(root)
+
+    def test_pairing_error_copy_is_stable_and_never_echoes_exception(self) -> None:
+        secret = "sensitive-provider-detail"
+        copy = cli._pairing_error_copy(SecurityError(secret))
+        self.assertNotIn(secret, copy)
+        self.assertIn("Не удалось", copy)
+
+    def test_explicit_local_pairing_rotates_stale_device_but_keeps_telegram_session(self) -> None:
+        state: dict[str, object] = {
+            "telegram": {
+                "api_id": int(API_ID),
+                "api_hash": API_HASH,
+                "session": "encrypted-session-fixture",
+                "auth_id": "auth-fixture",
+                "account_ref": "acct-fixture",
+                "custody": "authorized",
+            },
+            "device": {
+                "device_id": "lrtgbd_" + "b" * 32,
+                "origin": ORIGIN,
+            },
+        }
+        saved: list[dict[str, object]] = []
+
+        class FakeVault:
+            def __init__(self, _path: Path) -> None:
+                pass
+
+            def load(self) -> dict[str, object]:
+                return state
+
+            def initialize_device_secret(self) -> bytes:
+                return b"x" * 32
+
+            def save(self, value: dict[str, object]) -> None:
+                saved.append(value)
+
+        identity = mock.Mock(
+            private_key_pkcs8="private-key",
+            public_key_spki="public-key",
+            key_id="key-id",
+        )
+        raw = f"gptbot-lead-radar://pair#id={PAIRING_ID}&code={PAIRING_CODE}&origin={ORIGIN}"
+        with (
+            mock.patch.object(cli, "secure_directory"),
+            mock.patch.object(cli, "DpapiVault", FakeVault),
+            mock.patch.object(cli, "generate_rsa_identity", return_value=identity),
+            mock.patch.object(cli, "_complete_pending_registration"),
+        ):
+            cli.pair_device(Path(r"C:\Bridge"), raw, replace_existing=True)
+        self.assertTrue(saved)
+        self.assertEqual(saved[-1]["telegram"], state["telegram"])
+        self.assertIsNone(saved[-1]["device"]["device_id"])
+        self.assertEqual(saved[-1]["device"]["pairing_id"], PAIRING_ID)
 
     def test_cli_never_echoes_unallowlisted_exception_or_secret(self) -> None:
         secret = "fixture-secret-that-must-not-cross-cli"
@@ -277,6 +370,17 @@ class BridgeInstallerRegressionTests(unittest.TestCase):
                 installer.start(root)
             self.assertEqual(powershell.call_args.args[1:], (installer.TASK_NAME,))
             self.assertIn("Start-ScheduledTask", powershell.call_args.args[0])
+
+    def test_stop_uses_only_verified_task_and_waits_for_exit(self) -> None:
+        root = Path(r"C:\Users\Owner\Bridge").resolve()
+        with (
+            mock.patch.object(installer, "_verified_installation", return_value=(root, {})),
+            mock.patch.object(installer, "_powershell") as powershell,
+        ):
+            installer.stop(root)
+        self.assertEqual(powershell.call_args.args[1:], (installer.TASK_NAME,))
+        self.assertIn("Stop-ScheduledTask", powershell.call_args.args[0])
+        self.assertIn("scheduled_task_stop_timeout", powershell.call_args.args[0])
 
 
 @unittest.skipUnless(os.name == "nt", "Windows DPAPI/ACL/Scheduled Task regression")
