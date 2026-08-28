@@ -44,4 +44,16 @@ npm run deploy:pages:production
 
 Добавлены regression-тесты старой/односторонней ветки, недостижимых chunks, отсутствующих функций/SEO, устаревшего manifest и композиции всей страницы. Полная браузерная fixture `tests/browser-fixtures/lead-radar-page.html` использует вымышленные компании и блокирует любые реальные сетевые вызовы.
 
-Факт выпуска и итоговые проверки дополняются после публикации. В браузере Codex нет авторизованной owner-сессии; рабочие кнопки проверяются на полной локальной fixture, production — по версии, файлам, конфигурации и read-only данным. Это не тест реальной отправки.
+В браузере Codex нет авторизованной owner-сессии; рабочие кнопки проверены на полной локальной fixture, production — по версии, файлам, конфигурации и read-only данным. Это не тест реальной отправки.
+
+## Выпущено и проверено
+
+- Runtime `d2a148ae6acabef63bb8f4f4f2a0b41148f305ac`; Pages production `37b7a90e-32f5-427a-89f2-5c9d78d8a298`, 14:32 UTC, success. Gateway и automation Worker не менялись.
+- Guard подтвердил ancestry текущей production-версии перед публикацией, 860 файлов сборки, все шесть feature checks, а после публикации — canonical commit и manifest непосредственно на `gptbot.uz`.
+- Live `AdminRoot-MWr7TJlD.js` и API chunk `triangle-alert-DcMMNCfU.js`: HTTP200 и SHA256 совпадают с локальной сборкой. Login HTML загружает новый `index-Bt9kyYaX.js`. RU/UZ рекламные страницы и новые footer-секции HTTP200.
+- Production account/campaign/autosend flags `true`, legacy contact `false`, daily30/minInterval120/local_bridge подтверждены Cloudflare API после публикации. Ранее отключённые campaign-флаги восстановлены, а не отключены защитные проверки получателей.
+- Повторный read-only audit: все пять schema gates pass, 37 групп каталога и те же source counts, activity[]. Windows Bridge task Running. Миграций, сбросов сессии/ключей, платных запросов и реальных отправок не было.
+- Все 40 файлов regression-набора Lead Radar/SEO/config/production-guard/secret-scan прошли. Typecheck, full ESLint, secret scan (3976 файлов), обе production-сборки прошли. Предупреждение о размере admin chunk остаётся; это не ошибка сборки.
+- Full-page browser fixture: переход из истории в поиск, Bridge/account/campaign/readiness видны; текст редактируется; общая база выбирает mobile+username одной кнопкой; аудитория 2/2 сохраняется после reload; preflight без основания не разрешает отправку. Тестовые вкладки и Vite закрыты.
+
+После обновления страницы браузер загрузит исправленную админку. Повторная привязка Telegram из-за этого инцидента не требуется. Следующие SEO-публикации должны включать этот объединённый release и использовать guard, иначе raw upload по-прежнему способен заменить весь сайт старой версией.
