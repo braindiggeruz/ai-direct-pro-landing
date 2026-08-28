@@ -1829,6 +1829,7 @@ export default function LeadRadarPage() {
   }
 
   const totals = overview?.totals ?? { searches: 0, leads: 0, p1: 0, telegram: 0, replies: 0, qualified: 0 };
+  const totalsUnknown = overviewLoading || (!overview && overviewError);
   const sourceStatuses = overview?.sourceHealth
     .filter((source) => source.source !== 'Открытые реестры')
     .map((source) => source.status) ?? [];
@@ -1895,7 +1896,14 @@ export default function LeadRadarPage() {
             <button type="button" onClick={() => setReviewNotice(null)} className="min-h-11 px-2 text-xs text-amber-100/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-100">Закрыть</button>
           </div>
         )}
-        {!overviewLoading && !capabilities.admissionEnabled && (
+        {overviewError && !overview && !result && (
+          <div role="alert" className="flex items-start gap-3 rounded-2xl border border-rose-300/20 bg-rose-300/[0.055] p-4 text-sm text-rose-100">
+            <CircleHelp size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <div className="flex-1"><strong className="text-white">Не удалось загрузить Lead Radar.</strong> Сервер не подтвердил состояние системы. Это не означает, что сохранённые компании удалены. Новые действия недоступны до успешного обновления.</div>
+            <button type="button" onClick={() => { setOverviewLoading(true); void loadOverview(); }} disabled={overviewLoading} className="min-h-11 px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-100">{overviewLoading ? 'Обновляем…' : 'Повторить'}</button>
+          </div>
+        )}
+        {!overviewLoading && !overviewError && !capabilities.admissionEnabled && (
           <div role="status" className="flex items-start gap-3 rounded-2xl border border-amber-300/20 bg-amber-300/[0.055] p-4 text-sm text-amber-100">
             <ShieldCheck size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
             <div><strong className="text-white">Безопасная пауза.</strong> Новые поиски не создаются. Сохранённые результаты доступны только для исследования; контактные действия включаются отдельным разрешением.</div>
@@ -1963,7 +1971,7 @@ export default function LeadRadarPage() {
 
             <section aria-labelledby="sources-title" className="rounded-[1.5rem] border border-white/[0.07] bg-white/[0.018] p-4">
               <h2 id="sources-title" className="flex items-center gap-2 text-sm font-semibold text-white"><Database size={15} className="text-brand-cyan" aria-hidden="true" />Источники</h2>
-              {overviewError && <p className="mt-2 text-xs leading-5 text-amber-100/80">Статус источников не обновился. Поиск остаётся доступен.</p>}
+              {overviewError && <p className="mt-2 text-xs leading-5 text-amber-100/80">Статус источников не обновился. {capabilities.admissionEnabled ? 'Показаны последние доступные данные.' : 'Обновите состояние системы перед поиском.'}</p>}
               <div className="mt-3 space-y-3">
                 {(overview?.sourceHealth ?? []).map((source) => (
                   <div key={source.source} className="flex items-start gap-3">
@@ -2071,12 +2079,12 @@ export default function LeadRadarPage() {
                 <span className="text-[11px] text-white/45">Не относится только к открытому запуску</span>
               </div>
               <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 2xl:grid-cols-6">
-                <Metric icon={Radar} label="Запусков" value={overviewLoading ? '—' : totals.searches} />
-                <Metric icon={Building2} label="Компаний" value={overviewLoading ? '—' : totals.leads} />
-                <Metric icon={Sparkles} label="P1-сигнал" value={overviewLoading ? '—' : totals.p1} accent />
-                <Metric icon={MessageCircle} label="Telegram одобрен вручную" value={overviewLoading ? '—' : totals.telegram} accent />
-                <Metric icon={UserRoundCheck} label="Ответили" value={overviewLoading ? '—' : totals.replies} />
-                <Metric icon={Check} label="Квалифицированы" value={overviewLoading ? '—' : totals.qualified} />
+                <Metric icon={Radar} label="Запусков" value={totalsUnknown ? '—' : totals.searches} />
+                <Metric icon={Building2} label="Компаний" value={totalsUnknown ? '—' : totals.leads} />
+                <Metric icon={Sparkles} label="P1-сигнал" value={totalsUnknown ? '—' : totals.p1} accent />
+                <Metric icon={MessageCircle} label="Telegram одобрен вручную" value={totalsUnknown ? '—' : totals.telegram} accent />
+                <Metric icon={UserRoundCheck} label="Ответили" value={totalsUnknown ? '—' : totals.replies} />
+                <Metric icon={Check} label="Квалифицированы" value={totalsUnknown ? '—' : totals.qualified} />
               </div>
             </section>
 

@@ -54,6 +54,7 @@ export interface LeadRadarSchemaAuditReport {
   integrity: {
     ok: boolean;
     foreignKeyViolations: number;
+    scope?: 'lead_radar_tables' | 'database';
   };
   objects: {
     expected: number;
@@ -930,6 +931,7 @@ function unionPragmaQueries(
 
 const ALL_TABLE_NAMES = TABLES.map((table) => table.name);
 const ALL_INDEX_NAMES = INDEXES.map((index) => index.name);
+const SCOPED_TABLE_FILTER = `s.type = 'table' AND s.name IN (${ALL_TABLE_NAMES.map(sqlLiteral).join(', ')})`;
 
 const AUDIT_QUERIES = {
   schema: `SELECT type, name, tbl_name, sql FROM sqlite_schema
@@ -960,8 +962,17 @@ const AUDIT_QUERIES = {
     'metadata.id, metadata.seq, metadata.[table] AS target_table, metadata.[from] AS from_column, metadata.[to] AS to_column, metadata.on_update, metadata.on_delete, metadata.match',
   ),
   integrityCheck: 'PRAGMA integrity_check',
-  quickCheck: 'PRAGMA quick_check',
-  foreignKeyCheck: 'PRAGMA foreign_key_check',
+  // Whole-database quick_check compiles every product's CHECK expressions and
+  // exceeded D1 memory after an unrelated additive migration (SQLITE_NOMEM).
+  // Correlated table-valued pragmas check only this contract, one table at a
+  // time, while preserving the four-statement runtime budget. Exact DDL and
+  // ledger checks below still reject missing/changed Lead Radar objects.
+  quickCheck: `SELECT CASE WHEN COUNT(*) > 0 AND MIN(q.quick_check) = 'ok'
+      AND MAX(q.quick_check) = 'ok' THEN 'ok' ELSE 'failed' END AS quick_check
+    FROM sqlite_schema AS s, pragma_quick_check(s.name) AS q
+    WHERE ${SCOPED_TABLE_FILTER}`,
+  foreignKeyCheck: `SELECT f.* FROM sqlite_schema AS s, pragma_foreign_key_check(s.name) AS f
+    WHERE ${SCOPED_TABLE_FILTER}`,
   ledger: `SELECT name FROM d1_migrations WHERE name IN (
     '0036_lead_radar.sql', '0041_lead_radar_search_leases.sql',
     '0042_lead_radar_decision_makers.sql', '0043_lead_radar_async_funnel.sql',
@@ -1366,6 +1377,7 @@ export async function auditLeadRadarSchema(
     integrity: {
       ok: integrityIssues(inspection).length === 0,
       foreignKeyViolations: inspection.foreignKeyCheck.length,
+      scope: inspection.integrityPragma === 'quick_check' ? 'lead_radar_tables' : 'database',
     },
     objects: {
       expected: expectedTables(stage).length + expectedIndexes(stage).length,
@@ -1482,6 +1494,7 @@ export async function auditLeadRadarD1Schema(
         && integrityValues[0] === 'ok'
         && foreignKeyCheck.length === 0,
       foreignKeyViolations: foreignKeyCheck.length,
+      scope: 'lead_radar_tables',
     },
     objects: { expected: TABLES.length + INDEXES.length, observed: schemaRows.length },
     migrationLedger: {

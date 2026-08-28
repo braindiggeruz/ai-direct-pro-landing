@@ -329,12 +329,13 @@ test('remote-compatible quick_check is explicit, strict, and read-only', async (
     },
   }, 'target', 'quick_check');
   assert.equal(passing.status, 'pass', JSON.stringify(passing.issues, null, 2));
-  assert.equal(observed.includes('PRAGMA quick_check'), true);
+  assert.equal(observed.some((sql) => sql.includes('pragma_quick_check(s.name)')), true);
+  assert.equal(observed.includes('PRAGMA quick_check'), false);
   assert.equal(observed.includes('PRAGMA integrity_check'), false);
 
   const blocked = await auditLeadRadarSchema({
     async query(sql) {
-      if (/^PRAGMA quick_check$/i.test(sql)) return [{ quick_check: 'synthetic_failure' }];
+      if (sql.includes('pragma_quick_check(s.name)')) return [{ quick_check: 'synthetic_failure' }];
       return base.query(sql);
     },
   }, 'target', 'quick_check');
@@ -368,6 +369,46 @@ test('runtime target fingerprint is exact and costs four D1 statements', async (
   const blocked = await auditLeadRadarD1Schema(fixture.asD1(), 'target');
   assert.equal(blocked.status, 'blocked');
   assert.equal(blocked.issues.some((item) => item.code === 'schema_fingerprint_mismatch'), true);
+});
+
+test('runtime and remote audit isolate Lead Radar from whole-database quick_check OOM', async (t) => {
+  const database = canonicalDatabase();
+  t.after(() => database.close());
+  database.exec(migrationSql('0049_lead_radar_firecrawl.sql'));
+  database.exec(`CREATE TABLE other_product (value INTEGER CHECK (value > 0));
+    PRAGMA ignore_check_constraints = ON;
+    INSERT INTO other_product VALUES (-1);
+    PRAGMA ignore_check_constraints = OFF;`);
+  const queries: string[] = [];
+  const isolatedReader = {
+    async query(sql: string) {
+      queries.push(sql);
+      if (/^PRAGMA (quick_check|foreign_key_check)$/i.test(sql.trim())) throw new Error('SQLITE_NOMEM');
+      return database.prepare(sql).all() as Array<Record<string, unknown>>;
+    },
+  };
+  const remote = await auditLeadRadarSchema(isolatedReader, 'target', 'quick_check');
+  assert.equal(remote.status, 'pass', JSON.stringify(remote.issues));
+  assert.equal(remote.integrity.scope, 'lead_radar_tables');
+  const runtime = await auditLeadRadarD1Schema({
+    prepare: (sql: string) => ({ all: async () => ({ success: true, results: await isolatedReader.query(sql) }) }),
+  } as unknown as D1Database);
+  assert.equal(runtime.status, 'pass', JSON.stringify(runtime.issues));
+  assert.equal(queries.some((sql) => /^PRAGMA quick_check$/i.test(sql.trim())), false);
+});
+
+test('scoped runtime checks still reject corrupt Lead Radar rows', async (t) => {
+  const database = canonicalDatabase();
+  t.after(() => database.close());
+  database.exec(`PRAGMA ignore_check_constraints = ON;
+    INSERT INTO lead_radar_searches (id, org_id, input_json, status, created_at)
+      VALUES ('corrupt-search', 'org_fixture', '{}', 'invalid_status', '2026-08-28T00:00:00Z');
+    PRAGMA ignore_check_constraints = OFF;`);
+  const report = await auditLeadRadarD1Schema({
+    prepare: (sql: string) => ({ all: async () => ({ success: true, results: database.prepare(sql).all() }) }),
+  } as unknown as D1Database);
+  assert.equal(report.status, 'blocked');
+  assert.equal(report.issues.some((item) => item.code === 'integrity_check_failed'), true);
 });
 
 test('runtime target fingerprint treats D1-stripped DDL comments as non-semantic', async () => {
