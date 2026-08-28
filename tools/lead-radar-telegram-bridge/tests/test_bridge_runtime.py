@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT))
 
 from lead_radar_bridge.ledger import BridgeLedger, payload_digest  # noqa: E402
 from lead_radar_bridge.protocol import BridgeCommand, ProtocolError  # noqa: E402
-from lead_radar_bridge.runtime import BridgeRuntime  # noqa: E402
+from lead_radar_bridge.runtime import BridgeRuntime, safe_poll_error_code  # noqa: E402
 
 
 DEVICE_ID = "lrtgbd_" + "a" * 32
@@ -24,6 +24,22 @@ COMMAND_ID = "lrtgbc_" + "b" * 32
 AUTH_ID = "auth_fixture_123456"
 ACCOUNT_REF = "lracct_" + "c" * 43
 ORG_ID = "org_" + "d" * 32
+
+
+class BridgePollDiagnosticTests(unittest.TestCase):
+    def test_poll_diagnostics_are_allowlisted_and_never_echo_exception_text(self) -> None:
+        secret = "fixture-secret-that-must-not-be-logged"
+        self.assertEqual(
+            safe_poll_error_code(ProtocolError("poll_device_unauthorized")),
+            "poll_device_unauthorized",
+        )
+        self.assertEqual(
+            safe_poll_error_code(ProtocolError(secret)),
+            "poll_protocol_invalid",
+        )
+        self.assertNotIn(secret, safe_poll_error_code(ProtocolError(secret)))
+        self.assertEqual(safe_poll_error_code(TimeoutError(secret)), "poll_timeout")
+        self.assertEqual(safe_poll_error_code(OSError(secret)), "poll_network_failed")
 
 
 def iso_after(seconds: int) -> str:

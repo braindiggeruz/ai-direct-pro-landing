@@ -672,6 +672,7 @@ export function TelegramAccountCampaignPanel({
   }) | null>(null);
   const [bridgePairingBusy, setBridgePairingBusy] = useState(false);
   const [bridgePairingNotice, setBridgePairingNotice] = useState<string | null>(null);
+  const [bridgePairingClock, setBridgePairingClock] = useState(() => Date.now());
   const [bridgeRevokeConfirmation, setBridgeRevokeConfirmation] = useState(false);
   const [disconnectConfirmation, setDisconnectConfirmation] = useState(false);
   const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(() => new Set());
@@ -856,21 +857,25 @@ export function TelegramAccountCampaignPanel({
     let timer: number | undefined;
     const deadline = Date.parse(bridgePairing.expiresAt);
     const poll = async (): Promise<void> => {
-      if (Date.now() >= deadline) {
+      setBridgePairingClock(Date.now());
+      const device = await loadBridgeDevice();
+      if (cancelled) return;
+      if (device?.deviceId && device.status === 'online') {
+        bridgePairingRequest.current = null;
+        setBridgePairing(null);
+        setBridgePairingNotice('Локальный Bridge подтвердил новую привязку heartbeat-запросом. Теперь можно войти по номеру телефона.');
+        await loadAccount();
+        return;
+      }
+      if (device?.deviceId) {
+        // Registration alone is not proof that the native client persisted
+        // its signed credential. Keep the ceremony visible until the first
+        // authenticated heartbeat from this newly registered installation.
+        setBridgePairingNotice('Код принят сервером. Ждём первый защищённый heartbeat от Bridge; окно и код пока остаются на экране.');
+      } else if (Date.now() >= deadline) {
         bridgePairingRequest.current = null;
         setBridgePairing(null);
         setBridgePairingNotice('Срок одноразовой привязки истёк. Создайте новый код; Telegram-аккаунт не подключался.');
-        return;
-      }
-      const device = await loadBridgeDevice();
-      if (cancelled) return;
-      if (device?.deviceId) {
-        bridgePairingRequest.current = null;
-        setBridgePairing(null);
-        setBridgePairingNotice(device.status === 'online'
-          ? 'Локальный Bridge привязан и находится в сети. Теперь можно войти по номеру телефона.'
-          : 'Bridge привязан, но сейчас не в сети. Запустите программу на компьютере.');
-        await loadAccount();
         return;
       }
       timer = window.setTimeout(() => { void poll(); }, 3_000);
@@ -1998,6 +2003,10 @@ export function TelegramAccountCampaignPanel({
     || bridgeStatus === 'revoked'
     || effectiveAccountReadiness?.blockers.includes('bridge_not_paired')
     || Boolean(bridgePairing);
+  const bridgePairingRemainingSeconds = bridgePairing
+    ? Math.max(0, Math.ceil((Date.parse(bridgePairing.expiresAt) - bridgePairingClock) / 1_000))
+    : 0;
+  const bridgePairingRemainingLabel = `${Math.floor(bridgePairingRemainingSeconds / 60)}:${String(bridgePairingRemainingSeconds % 60).padStart(2, '0')}`;
   const canRevokeBridge = Boolean(bridgeDevice?.deviceId)
     && (accountStatus === 'disconnected' || accountStatus === 'revoked')
     && bridgeStatus !== 'pending_revocation'
@@ -2233,7 +2242,7 @@ export function TelegramAccountCampaignPanel({
               </div>
               {bridgePairing && (
                 <div className="mt-4 rounded-xl border border-amber-300/18 bg-[#05070d]/45 p-3">
-                  <p className="text-sm font-medium text-white">Одноразовая привязка готова до {formatDate(bridgePairing.expiresAt)}</p>
+                  <p className="text-sm font-medium text-white">Одноразовая привязка готова до {formatDate(bridgePairing.expiresAt)} · осталось {bridgePairingRemainingLabel}</p>
                   <p className="mt-1 text-xs leading-5 text-white/60">Нажмите «Открыть Bridge», затем вставьте код ниже в защищённое окно программы. Секретный код не передаётся через ссылку или командную строку Windows.</p>
                   <textarea
                     readOnly

@@ -566,6 +566,9 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /leadRadarTelegramBridgeStatus\(\)/);
   assert.match(component, /href=\{bridgePairing\.enrollmentUri\}/);
   assert.match(component, /value=\{bridgePairing\.enrollmentCode\}/);
+  assert.match(component, /device\?\.deviceId && device\.status === 'online'/);
+  assert.match(component, /Код принят сервером\. Ждём первый защищённый heartbeat/);
+  assert.match(component, /bridgePairingRemainingLabel/);
   assert.match(component, /Секретный код не передаётся через ссылку или командную строку Windows/);
   assert.match(component, /Привязать этот компьютер/);
   assert.match(component, /Bridge не в сети/);

@@ -58,7 +58,12 @@ import {
 const PUBLIC_BRIDGE_ORIGIN_FALLBACK =
   'https://gptbot-lead-radar-telegram-account.braindigger-uz.workers.dev';
 const MAILBOX_NAME = 'global-v1';
-const PAIRING_TTL_MS = 5 * 60_000;
+// Pairing is a human ceremony across the browser and a native Windows window.
+// Five minutes proved too short once Windows protocol-handler confirmation,
+// clipboard access and assistive input are involved. The code remains one-use
+// and its digest only is stored, so extending the human deadline does not make
+// a consumed code reusable.
+const PAIRING_TTL_MS = 15 * 60_000;
 const AUTH_TTL_MS = 10 * 60_000;
 const RELAY_TTL_MS = LEAD_RADAR_TELEGRAM_BRIDGE_RELAY_TTL_SECONDS * 1_000;
 const HEARTBEAT_FRESH_MS = 95_000;

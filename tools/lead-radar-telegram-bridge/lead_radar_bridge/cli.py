@@ -84,6 +84,8 @@ def _pairing_error_copy(error: BaseException) -> str:
     return {
         "pairing_code_invalid": "Код имеет неверный формат. Скопируйте его целиком из Lead Radar.",
         "registration_rejected": "Код истёк или уже использован. Создайте новую привязку на сайте.",
+        "registration_rate_limited": "Слишком много попыток привязки. Подождите и создайте новый код на сайте.",
+        "registration_server_unavailable": "Сервис привязки временно недоступен. Окно останется открытым — повторите попытку позже.",
         "bridge_already_running": "Фоновый Bridge не остановился. Подождите несколько секунд и повторите.",
         "foreign_scheduled_task": "Установка Bridge повреждена. Переустановите локальную программу.",
         "foreign_uri_handler": "Обработчик кнопки принадлежит другой программе. Переустановите Bridge.",
@@ -583,6 +585,8 @@ def main(argv: list[str] | None = None) -> int:
             "bridge_already_paired": "already_paired",
             "pairing_retry_conflict": "pairing_conflict",
             "registration_rejected": "pairing_expired_or_rejected",
+            "registration_rate_limited": "pairing_rate_limited",
+            "registration_server_unavailable": "pairing_service_unavailable",
             "server_origin_not_allowed": "origin_not_allowed",
             "foreign_scheduled_task": "installation_conflict",
             "foreign_uri_handler": "installation_conflict",

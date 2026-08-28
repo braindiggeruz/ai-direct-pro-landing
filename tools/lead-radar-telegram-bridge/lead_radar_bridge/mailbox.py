@@ -64,7 +64,7 @@ def system_https_transport(
     # first-party client explicitly; authenticated bridge routes still require
     # their device HMAC, so this header grants no access by itself.
     request_headers = {
-        "User-Agent": "GPTBot-LeadRadar-Telegram-Bridge/1.3.0",
+        "User-Agent": "GPTBot-LeadRadar-Telegram-Bridge/1.3.1",
         **headers,
     }
     request = urllib.request.Request(
@@ -137,6 +137,12 @@ class MailboxClient:
             MAX_RESPONSE_BYTES,
         )
         if response.status != 201:
+            if response.status == 429:
+                raise ProtocolError("registration_rate_limited")
+            if response.status >= 500:
+                raise ProtocolError("registration_server_unavailable")
+            # Do not distinguish an unknown pairing id, a wrong one-use code
+            # and a consumed/expired pairing to an unauthenticated caller.
             raise ProtocolError("registration_rejected")
         parsed = strict_json(response.body)
         if set(parsed) != {"schema", "status", "device_id", "poll_after_seconds"}:
@@ -192,6 +198,16 @@ class MailboxClient:
         raw = canonical_json(body)
         response, nonce = self._signed_post(POLL_PATH, raw, MAX_RESPONSE_BYTES)
         if response.status != 200:
+            # These are safe operational categories only. Response bodies and
+            # device identifiers never cross the local diagnostic boundary.
+            if response.status in {401, 403}:
+                raise ProtocolError("poll_device_unauthorized")
+            if response.status in {404, 410}:
+                raise ProtocolError("poll_device_unavailable")
+            if response.status == 429:
+                raise ProtocolError("poll_rate_limited")
+            if response.status >= 500:
+                raise ProtocolError("poll_server_unavailable")
             raise ProtocolError("poll_rejected")
         command, server_time, delay = parse_poll_response(response.body)
         verify_signed_response(

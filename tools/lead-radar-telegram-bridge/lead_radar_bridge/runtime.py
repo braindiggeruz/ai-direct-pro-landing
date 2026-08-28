@@ -7,7 +7,10 @@ import logging
 import logging.handlers
 import os
 import re
+import socket
+import ssl
 import time
+import urllib.error
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -36,7 +39,7 @@ from .security import DpapiVault, SecurityError, secure_directory
 from .telegram_adapter import ProviderOutcome, TelethonAccount
 
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 MAX_AUTH_SECONDS = 10 * 60
 MAX_COMMAND_FUTURE_SECONDS = 10 * 60
 RELAY_TTL_SECONDS = 10 * 60
@@ -74,6 +77,40 @@ def _safe_logger(log_path: Path) -> logging.Logger:
     logger.addHandler(handler)
     logger.propagate = False
     return logger
+
+
+def safe_poll_error_code(error: BaseException) -> str:
+    """Reduce a poll failure to a secret-free, supportable category."""
+    if isinstance(error, ProtocolError):
+        code = str(error)
+        if code in {
+            "poll_device_unauthorized",
+            "poll_device_unavailable",
+            "poll_rate_limited",
+            "poll_server_unavailable",
+            "poll_rejected",
+            "response_signature_invalid",
+            "response_timestamp_invalid",
+            "response_nonce_invalid",
+        }:
+            return code
+        return "poll_protocol_invalid"
+    if isinstance(error, ssl.SSLError):
+        return "poll_tls_failed"
+    if isinstance(error, (TimeoutError, socket.timeout)):
+        return "poll_timeout"
+    if isinstance(error, urllib.error.URLError):
+        reason = error.reason
+        if isinstance(reason, ssl.SSLError):
+            return "poll_tls_failed"
+        if isinstance(reason, (TimeoutError, socket.timeout)):
+            return "poll_timeout"
+        if isinstance(reason, socket.gaierror):
+            return "poll_dns_failed"
+        return "poll_network_failed"
+    if isinstance(error, OSError):
+        return "poll_network_failed"
+    return "poll_internal_error"
 
 
 @dataclass
@@ -1095,10 +1132,17 @@ class BridgeRuntime:
     async def run_forever(self) -> None:
         self.ledger.recover_inflight_sends()
         delay = 1
+        last_error_code: str | None = None
         while True:
             try:
                 delay = await self.run_once()
-            except Exception:
-                self.logger.warning("poll_retry")
+                if last_error_code is not None:
+                    self.logger.info("poll_recovered")
+                last_error_code = None
+            except Exception as error:
+                code = safe_poll_error_code(error)
                 delay = min(max(delay * 2, 15), 60)
+                if code != last_error_code:
+                    self.logger.warning(f"poll_retry code={code} next_seconds={delay}")
+                last_error_code = code
             await asyncio.sleep(delay)

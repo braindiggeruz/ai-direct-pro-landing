@@ -23,7 +23,11 @@ from lead_radar_bridge.e2e import (  # noqa: E402
     generate_rsa_identity,
 )
 from lead_radar_bridge.ledger import BridgeLedger, LedgerConflict, payload_digest  # noqa: E402
-from lead_radar_bridge.mailbox import system_https_transport  # noqa: E402
+from lead_radar_bridge.mailbox import (  # noqa: E402
+    HttpResponse,
+    MailboxClient,
+    system_https_transport,
+)
 from lead_radar_bridge.protocol import (  # noqa: E402
     SCHEMA,
     ProtocolError,
@@ -43,6 +47,25 @@ SECRET = b"s" * 32
 
 
 class BridgeProtocolTests(unittest.TestCase):
+    def test_poll_rejection_distinguishes_stale_device_from_server_failure(self) -> None:
+        def response(status: int):
+            return lambda *_args: HttpResponse(status=status, headers={}, body=b"")
+
+        for status, expected in (
+            (401, "poll_device_unauthorized"),
+            (404, "poll_device_unavailable"),
+            (429, "poll_rate_limited"),
+            (503, "poll_server_unavailable"),
+        ):
+            client = MailboxClient(
+                "https://lead-radar-bridge.gptbot.uz",
+                device_id=DEVICE_ID,
+                device_secret=SECRET,
+                transport=response(status),
+            )
+            with self.subTest(status=status), self.assertRaisesRegex(ProtocolError, expected):
+                client.poll("1.3.1")
+
     def test_server_signatures_are_direction_bound_and_tamper_evident(self) -> None:
         now = int(time.time())
         raw = b'{"schema":"gptbot.lead-radar.telegram-bridge.v1","status":"idle"}'
@@ -149,7 +172,7 @@ class BridgeProtocolTests(unittest.TestCase):
         self.assertEqual(seen[0][0], "https://lead-radar-bridge.gptbot.uz/v1/bridge/poll")
         self.assertEqual(
             seen[0][1].get("User-agent"),
-                "GPTBot-LeadRadar-Telegram-Bridge/1.3.0",
+                "GPTBot-LeadRadar-Telegram-Bridge/1.3.1",
         )
 
     def test_qr_and_password_envelopes_bind_exact_context_and_key(self) -> None:
