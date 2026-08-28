@@ -1199,7 +1199,7 @@ export async function readPublicWebsiteRobots(target: URL): Promise<string | nul
     throw new Error('website_policy_unavailable');
   }
   return fetchWithin(new URL('/robots.txt', target), {
-    headers: { 'User-Agent': USER_AGENT }, redirect: 'error',
+    headers: { 'User-Agent': USER_AGENT }, redirect: 'manual',
   }, 5_000, budget, async (response) => {
     if (response.status === 404 || response.status === 410) return null;
     if (!response.ok) throw new Error('website_policy_unavailable');

@@ -120,8 +120,13 @@ export class FirecrawlClient {
     const timer = setTimeout(() => controller.abort(), 35_000);
     let response: Response | undefined;
     try {
-      response = await this.transport(`https://api.firecrawl.dev/v2/${operation}`, {
-        method: 'POST', redirect: 'error', signal: controller.signal,
+      // Native workerd fetch is receiver-sensitive. Calling this.transport(...)
+      // binds the client as `this` and throws before any request reaches Firecrawl.
+      const request = this.transport;
+      response = await request(`https://api.firecrawl.dev/v2/${operation}`, {
+        // workerd supports manual/follow, not redirect:error. Manual also keeps
+        // the API credential from being forwarded to a redirected destination.
+        method: 'POST', redirect: 'manual', signal: controller.signal,
         headers: { Authorization: `Bearer ${this.config.key}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });

@@ -41,6 +41,16 @@ function page(url: string, html = HTML, metadata: Record<string, unknown> = {}) 
 }
 const errorCode = (code: string) => (error: unknown) => error instanceof FirecrawlError && error.code === code;
 
+test('transport is invoked without rebinding the native fetch receiver', async () => {
+  const db = database();
+  const transport = async function (this: unknown) {
+    assert.equal(this, undefined, 'workerd rejects a custom fetch receiver');
+    return json({ success: true, links: [] });
+  } as typeof fetch;
+  const client = new FirecrawlClient(firecrawlConfig(ENV, CTX.orgId)!, new FirecrawlStore(db.asD1()), CTX, transport, NOW);
+  assert.deepEqual(await client.request('map', 'clinic.uz', { url: 'https://clinic.uz/' }, () => []), []);
+});
+
 test('Firecrawl requires BOTH switches, key, explicit organization and valid nonzero budgets', () => {
   assert.ok(firecrawlConfig(ENV, CTX.orgId));
   for (const env of [{}, { ...ENV, LEAD_RADAR_FIRECRAWL_ENABLED: 'false' }, { ...ENV, FIRECRAWL_API_KEY: '' },
