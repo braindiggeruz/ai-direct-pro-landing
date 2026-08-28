@@ -6,6 +6,7 @@ import {
   withOwnerRole,
 } from '../../../platform/admin';
 import { FirecrawlStore } from '../../../platform/lead-radar/firecrawl-store';
+import { handleAudienceRequest,isAudiencePath } from './audience-control';
 import {
   assertLeadRadarRuntimeSchema,
   buildVerifiedTelegramCorporateDraftLink,
@@ -108,6 +109,7 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   const orgId = await ownerOrgId(ctx.actor.email);
   const capabilities = resolveLeadRadarCapabilities(ctx.env, orgId);
   const parts = pathParts(ctx.params.path);
+  if (isAudiencePath(parts)) return handleAudienceRequest(ctx,parts,orgId,capabilities);
   if (isTelegramCampaignControlPath(parts)) {
     return handleTelegramCampaignGet(ctx, parts, orgId, capabilities);
   }
@@ -157,6 +159,10 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
 
 export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
   const parts = pathParts(ctx.params.path);
+  if (isAudiencePath(parts)) {
+    const orgId=await ownerOrgId(ctx.actor.email);
+    return handleAudienceRequest(ctx,parts,orgId,resolveLeadRadarCapabilities(ctx.env,orgId));
+  }
   if (isTelegramCampaignControlPath(parts)) {
     const orgId = await ownerOrgId(ctx.actor.email);
     return handleTelegramCampaignPost(

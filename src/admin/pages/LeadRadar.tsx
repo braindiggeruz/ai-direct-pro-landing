@@ -35,6 +35,7 @@ import { api } from '../lib/api';
 import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui';
 import { TelegramBusinessConnectionCard } from '../components/lead-radar/TelegramBusinessConnectionCard';
 import { TelegramAccountCampaignPanel } from '../components/lead-radar/TelegramAccountCampaignPanel';
+import { TelegramContactDirectory } from '../components/lead-radar/TelegramContactDirectory';
 import { FirecrawlDiagnostics } from '../components/lead-radar/FirecrawlDiagnostics';
 import {
   boundTelegramDraftText,
@@ -1385,6 +1386,11 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
 }
 
 export default function LeadRadarPage() {
+  const [view,setView]=useState<'search'|'contacts'>(()=>new URLSearchParams(window.location.search).get('view')==='contacts'?'contacts':'search');
+  function changeView(next:'search'|'contacts') {
+    setView(next);
+    const url=new URL(window.location.href);url.searchParams.set('view',next);window.history.replaceState(null,'',url);
+  }
   const [draftInput, setDraftInput] = useState<LeadRadarSearchInput>(DEFAULT_INPUT);
   const [pendingSearchInput, setPendingSearchInput] = useState<LeadRadarSearchInput | null>(null);
   const [searchAttemptError, setSearchAttemptError] = useState<SearchAttemptError | null>(null);
@@ -1922,7 +1928,18 @@ export default function LeadRadarPage() {
           </div>
         )}
 
-        <div className="grid gap-6 xl:grid-cols-[20rem_minmax(0,1fr)]">
+        <nav aria-label="Разделы Lead Radar" className="flex flex-wrap gap-3">
+          <Button variant={view==='search'?'primary':'secondary'} aria-current={view==='search'?'page':undefined} onClick={()=>changeView('search')}>Поиск компаний</Button>
+          <Button variant={view==='contacts'?'primary':'secondary'} aria-current={view==='contacts'?'page':undefined} onClick={()=>changeView('contacts')}>Все Telegram-контакты и кампании</Button>
+        </nav>
+        {view==='contacts' && <TelegramContactDirectory
+          onOpenSearch={(id)=>{changeView('search');void openSearch(id);}}
+          initialTemplate={campaignMessageTemplate(draftInput.offer)}
+          telegramAccountEnabled={telegramAccountEnabled} telegramAccountReadiness={telegramAccountReadiness}
+          campaignOutreachEnabled={campaignOutreachEnabled} campaignAutoSendEnabled={campaignAutoSendEnabled}
+          telegramCampaignDailyLimit={telegramCampaignDailyLimit} telegramCampaignMinimumIntervalSeconds={telegramCampaignMinimumIntervalSeconds}
+        />}
+        <div className={view==='search'?'grid gap-6 xl:grid-cols-[20rem_minmax(0,1fr)]':'hidden'}>
           <aside className="space-y-6">
             <section aria-labelledby="search-title" className="overflow-hidden rounded-[1.75rem] border border-white/[0.09] bg-[#08111f]/90 shadow-[0_30px_80px_-50px_rgba(34,158,217,.75)]">
               <div className="border-b border-white/[0.07] bg-[linear-gradient(135deg,rgba(34,158,217,.11),rgba(47,230,209,.04))] p-5">
@@ -2213,7 +2230,7 @@ export default function LeadRadarPage() {
 
                 <FirecrawlDiagnostics key={`firecrawl-${result.search.id}`} searchId={result.search.id} companies={result.leads} />
 
-                <TelegramAccountCampaignPanel
+                {view==='search' && <TelegramAccountCampaignPanel
                   key={result.search.id}
                   searchId={result.search.id}
                   leads={result.leads}
@@ -2224,7 +2241,7 @@ export default function LeadRadarPage() {
                   campaignAutoSendEnabled={campaignAutoSendEnabled}
                   telegramCampaignDailyLimit={telegramCampaignDailyLimit}
                   telegramCampaignMinimumIntervalSeconds={telegramCampaignMinimumIntervalSeconds}
-                />
+                />}
 
                 {noApprovedPersonalTelegram && (
                   <section role="status" className="rounded-[1.5rem] border border-amber-300/18 bg-amber-300/[0.045] p-4 sm:p-5">

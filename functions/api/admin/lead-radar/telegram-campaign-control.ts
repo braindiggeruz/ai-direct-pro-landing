@@ -34,6 +34,8 @@ import {
   type TelegramCampaignSelectionEvaluation,
 } from '../../../platform/lead-radar';
 import { LeadRadarTelegramCampaignStore } from '../../../platform/lead-radar/telegram-campaign-store';
+import { AudienceError,AudienceStore,requireAudienceSchema } from '../../../platform/lead-radar/audiences';
+import type { AudienceScope } from '../../../../src/shared/lead-radar-audiences';
 import { checkCorporateTelegramContact } from '../../../platform/lead-radar/contact-resolution';
 import {
   adoptTelegramAccountConnection,
@@ -610,6 +612,7 @@ async function validateSearchSelection(
 }
 
 function campaignErrorResponse(error: unknown, ctx: CampaignContext): Response | null {
+  if (error instanceof AudienceError) return ownerError(error.code,ctx.requestId,error.status);
   if (error instanceof TelegramCampaignMediaError) {
     if (error.code === 'telegram_campaign_media_too_large') {
       return ownerError(error.code, ctx.requestId, 413);
@@ -660,6 +663,24 @@ function campaignErrorResponse(error: unknown, ctx: CampaignContext): Response |
 
 export function isTelegramCampaignControlPath(parts: readonly string[]): boolean {
   return parts[0] === 'telegram-account' || parts[0] === 'telegram-campaigns';
+}
+
+async function resolveCampaignSource(ctx: CampaignContext, orgId: string, body: Record<string,unknown>): Promise<{searchId:string;audience?:AudienceScope}> {
+  if ('audienceId' in body) {
+    if (typeof body.audienceId!=='string' || typeof body.audienceVersion!=='number'
+      || !Array.isArray(body.leadIds) || body.leadIds.some((id)=>typeof id!=='string')) throw new AudienceError('audience_invalid_input');
+    await requireAudienceSchema(ctx.db);
+    const audience={audienceId:body.audienceId,audienceVersion:body.audienceVersion};
+    return {searchId:await new AudienceStore(ctx.db).resolveScope(orgId,audience,body.leadIds as string[]),audience};
+  }
+  const membership=await validateSearchSelection(ctx,orgId,body.searchId,body.leadIds);
+  if (membership!=='ok') throw new AudienceError(membership==='search_not_found'?'search_not_found':'telegram_campaign_invalid_input',membership==='search_not_found'?404:400);
+  return {searchId:body.searchId as string};
+}
+
+function sourceBodyVariants(keys: string[]): string[][] {
+  const audienceKeys=keys.flatMap((key)=>key==='searchId'?['audienceId','audienceVersion']:[key]);
+  return [keys,[...keys,'attachment'],audienceKeys,[...audienceKeys,'attachment']];
 }
 
 export async function handleTelegramCampaignGet(
@@ -897,14 +918,17 @@ export async function handleTelegramCampaignGet(
       if (!key) return unavailable('telegram_campaign_not_configured', ctx);
       const schema = await campaignSchemaResponse(ctx);
       if (schema) return schema;
-      const searchId = new URL(ctx.request.url).searchParams.get('searchId');
-      if (!searchId || !ENTITY_ID_PATTERN.test(searchId)) {
+      const query = new URL(ctx.request.url).searchParams;
+      const searchId = query.get('searchId');
+      const audienceId = query.get('audienceId');
+      if ((!searchId === !audienceId) || !ENTITY_ID_PATTERN.test(searchId ?? audienceId ?? '')) {
         return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
       }
       const recovery = await getTelegramCampaignRecovery({
         db: ctx.db,
         orgId,
-        searchId,
+        searchId:searchId ?? undefined,
+        audienceId:audienceId ?? undefined,
       });
       return ownerJson({
         active: recovery.active
@@ -1453,7 +1477,7 @@ export async function handleTelegramCampaignPost(
       const requestKey = idempotencyKey(ctx);
       if (!requestKey) return requiredIdempotencyResponse(ctx);
       const prepareKeys = ['accountId', 'searchId', 'leadIds', 'template', 'contactBasis'];
-      const body = await exactBodyVariants(ctx, [prepareKeys, [...prepareKeys, 'attachment']]);
+      const body = await exactBodyVariants(ctx, sourceBodyVariants(prepareKeys));
       const attachment = attachmentFromBody(body?.attachment);
       if (!body
         || attachment === false
@@ -1498,21 +1522,13 @@ export async function handleTelegramCampaignPost(
           throw new TelegramCampaignMediaError('telegram_campaign_media_invalid');
         }
       }
-      const membership = await validateSearchSelection(
-        ctx, orgId, body.searchId, body.leadIds,
-      );
-      if (membership === 'search_not_found') {
-        return ownerError('search_not_found', ctx.requestId, 404);
-      }
-      if (membership !== 'ok') {
-        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
-      }
+      const source = await resolveCampaignSource(ctx,orgId,body);
       const prepared = await prepareTelegramCampaign({
         db: ctx.db,
         dataKey,
         orgId,
         accountId: body.accountId,
-        searchId: body.searchId as string,
+        ...source,
         companyIds: body.leadIds as string[],
         template: body.template,
         operatorId: ctx.actor.email,
@@ -1586,12 +1602,11 @@ export async function handleTelegramCampaignPost(
         'accountId', 'searchId', 'leadIds', 'template', 'contactBasis', 'approvalToken',
         'selectionDigest', 'contentDigest',
       ];
-      const body = await exactBodyVariants(ctx, [createKeys, [...createKeys, 'attachment']]);
+      const body = await exactBodyVariants(ctx, sourceBodyVariants(createKeys));
       const attachment = attachmentFromBody(body?.attachment);
       if (!body
         || attachment === false
         || typeof body.accountId !== 'string'
-        || typeof body.searchId !== 'string'
         || !Array.isArray(body.leadIds)
         || typeof body.template !== 'string'
         || typeof body.approvalToken !== 'string'
@@ -1626,21 +1641,13 @@ export async function handleTelegramCampaignPost(
           ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA,
         ).inspect(orgId, attachment);
       }
-      const membership = await validateSearchSelection(
-        ctx, orgId, body.searchId, body.leadIds,
-      );
-      if (membership === 'search_not_found') {
-        return ownerError('search_not_found', ctx.requestId, 404);
-      }
-      if (membership !== 'ok') {
-        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
-      }
+      const source = await resolveCampaignSource(ctx,orgId,body);
       const created = await createApprovedTelegramCampaign({
         db: ctx.db,
         dataKey,
         orgId,
         accountId: body.accountId,
-        searchId: body.searchId,
+        ...source,
         companyIds: body.leadIds as string[],
         template: body.template,
         operatorId: ctx.actor.email,

@@ -904,10 +904,12 @@ export const api = {
       undefined,
       { timeoutMs: 15_000 },
     ),
-  leadRadarTelegramCampaignRecovery: (searchId: string) =>
+  leadRadarTelegramCampaignRecovery: (searchId: string, audienceId?: string) =>
     request<import('./lead-radar-campaign').LeadRadarTelegramCampaignRecoveryResponse>(
       'GET',
-      `/api/admin/lead-radar/telegram-campaigns?searchId=${encodeURIComponent(searchId)}`,
+      audienceId
+        ? `/api/admin/lead-radar/telegram-campaigns?audienceId=${encodeURIComponent(audienceId)}`
+        : `/api/admin/lead-radar/telegram-campaigns?searchId=${encodeURIComponent(searchId)}`,
       undefined,
       { timeoutMs: 15_000 },
     ),
@@ -921,6 +923,19 @@ export const api = {
     {},
     { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
   ),
+
+  leadRadarContactDirectory: (query: {q?:string;category?:string;city?:string;offset?:number} = {}) =>
+    request<import('../../shared/lead-radar-audiences').ContactDirectoryPage>('GET',
+      `/api/admin/lead-radar/telegram-contacts?${new URLSearchParams(Object.entries(query).map(([key,value])=>[key,String(value)]))}`,
+      undefined,{timeoutMs:30_000}),
+  leadRadarAudiences: () => request<{audiences:import('../../shared/lead-radar-audiences').LeadRadarAudience[]}>(
+    'GET','/api/admin/lead-radar/audiences',undefined,{timeoutMs:15_000}),
+  leadRadarAudience: (id:string) => request<import('../../shared/lead-radar-audiences').AudienceDetail>(
+    'GET',`/api/admin/lead-radar/audiences/${encodeURIComponent(id)}`,undefined,{timeoutMs:15_000}),
+  leadRadarSaveAudience: (input: {id:string;name:string;version:number;companyIds:string[]}) =>
+    request<import('../../shared/lead-radar-audiences').LeadRadarAudience>('POST',
+      `/api/admin/lead-radar/audiences/${encodeURIComponent(input.id)}`,
+      {name:input.name,version:input.version,companyIds:input.companyIds},{timeoutMs:30_000}),
 
   // ─── Intent Guard / Anti-cannibalization ─────────────────────────────────
   contentInventory: () =>

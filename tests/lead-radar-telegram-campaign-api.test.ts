@@ -584,7 +584,7 @@ async function campaignEnv(
   };
 }
 
-async function seedCorporateLead(db: SqliteD1): Promise<{ searchId: string; leadId: string }> {
+async function seedCorporateLead(db: SqliteD1, suffix = ''): Promise<{ searchId: string; leadId: string }> {
   const now = new Date().toISOString();
   const orgId = await ownerOrgId(OWNER_EMAIL);
   const store = new LeadRadarStore(db.asD1());
@@ -593,21 +593,21 @@ async function seedCorporateLead(db: SqliteD1): Promise<{ searchId: string; lead
     offer: 'AI-бот', desiredCount: 10, telegramRequired: true, languages: ['ru', 'uz'],
   }, now);
   const leadId = await store.insertLead(orgId, searchId, {
-    canonicalKey: 'domain:campaign-clinic.example.invalid',
+    canonicalKey: `domain:campaign-clinic${suffix}.example.invalid`,
     name: 'Клиника Альфа', category: 'Стоматология', city: 'Ташкент', country: 'UZ',
-    address: 'Ташкент', website: 'https://campaign-clinic.example.invalid',
-    phone: null, genericEmail: null, telegramUrl: 'https://t.me/campaign_clinic',
+    address: 'Ташкент', website: `https://campaign-clinic${suffix}.example.invalid`,
+    phone: null, genericEmail: null, telegramUrl: `https://t.me/campaign_clinic${suffix}`,
     telegramContact: {
-      url: 'https://t.me/campaign_clinic', username: 'campaign_clinic', type: 'business',
+      url: `https://t.me/campaign_clinic${suffix}`, username: `campaign_clinic${suffix}`, type: 'business',
       confidence: 0.98, reason: 'synthetic exact corporate fixture',
-      evidenceIds: ['ev-campaign-corporate'], verifiedAt: now, messageable: false,
+      evidenceIds: [`ev-campaign-corporate${suffix}`], verifiedAt: now, messageable: false,
     },
     decisionMakers: [], score: 64, confidence: 0.9, priority: 'P2',
     lifecycle: 'new', suppressed: false, scoreComponents: [], signals: [],
     evidence: [{
-      id: 'ev-campaign-corporate', fieldPath: 'web.telegram.business',
-      value: '@campaign_clinic',
-      sourceUrl: 'https://campaign-clinic.example.invalid/contact',
+      id: `ev-campaign-corporate${suffix}`, fieldPath: 'web.telegram.business',
+      value: `@campaign_clinic${suffix}`,
+      sourceUrl: `https://campaign-clinic${suffix}.example.invalid/contact`,
       sourceType: 'company_website', observedAt: now, confidence: 0.98,
       classification: 'fact',
     }],
@@ -2162,6 +2162,39 @@ test('terminal QR poll leaves no pending challenge for reload recovery', async (
       WHERE org_id = ? AND status = 'pending'`,
     orgId,
   ), 1);
+});
+
+test('audience API prepares and creates across searches, rejects mixed scope and recovers without sending',async()=>{
+  const db=freshAdminDb();installLeadRadarLedger(db);
+  db.exec("INSERT OR IGNORE INTO d1_migrations(name) VALUES ('0051_lead_radar_audiences.sql')");
+  const first=await seedCorporateLead(db),second=await seedCorporateLead(db,'_second');
+  const accountId=await seedConnectedAccount(db),token=await platformToken('platform_owner');
+  const service=new TelegramAccountServiceFixture(),queue=new MemoryQueue();
+  const env=await campaignEnv(service,{AUTOMATION_QUEUE:queue});
+  const post=(route:string,body:unknown,key:string)=>callRoute(leadRadarRoute.onRequestPost,db,`/api/admin/lead-radar/${route}`,{
+    method:'POST',token,params:{path:route},headers:{'Idempotency-Key':key},body,env});
+  for(const lead of [first,second]) {
+    const allowed=await post('telegram-campaigns/eligibility',{...lead,contactBasis:'documented_consent',
+      evidenceReference:'fixture-owner-consent',expiresAt:new Date(Date.now()+86400_000).toISOString()},`audience-api-eligibility-${lead.leadId}`);
+    assert.equal(allowed.status,201,JSON.stringify(allowed.body));
+  }
+  const audienceId='aud_'+'c'.repeat(32),leadIds=[first.leadId,second.leadId];
+  const saved=await post('audiences/'+audienceId,{name:'Mixed search API fixture',version:0,companyIds:leadIds},'audience-api-save');
+  assert.equal(saved.status,200,JSON.stringify(saved.body));
+  const input={accountId,audienceId,audienceVersion:1,leadIds,template:'Здравствуйте, {company_name}.',contactBasis:'documented_consent'};
+  const mixed=await post('telegram-campaigns/prepare',{...input,searchId:first.searchId},'audience-api-mixed');
+  assert.equal(mixed.status,400);
+  const prepared=await post('telegram-campaigns/prepare',input,'audience-api-prepare');
+  assert.equal(prepared.status,201,JSON.stringify(prepared.body));
+  assert.deepEqual(prepared.body.summary,{selected:2,automatic:2,manual:0,excluded:0});
+  const created=await post('telegram-campaigns',{...input,approvalToken:prepared.body.approvalToken,
+    selectionDigest:prepared.body.selectionDigest,contentDigest:prepared.body.contentDigest},'audience-api-create');
+  assert.equal(created.status,201,JSON.stringify(created.body));assert.equal(created.body.status,'approved');
+  const recovery=await callRoute(leadRadarRoute.onRequestGet,db,`/api/admin/lead-radar/telegram-campaigns?audienceId=${audienceId}`,{
+    token,params:{path:'telegram-campaigns'},env});
+  assert.equal(recovery.status,200,JSON.stringify(recovery.body));
+  assert.equal((recovery.body.active as Record<string,unknown>).id,created.body.id);
+  assert.equal(queue.messages.length,0);assert.equal(service.requests.length,0);
 });
 
 test('campaign API freezes exact payload, queues only an opaque envelope, and keeps pause/stop available', async () => {

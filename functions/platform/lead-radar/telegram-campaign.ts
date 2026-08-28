@@ -1,4 +1,6 @@
 import type { LeadRadarTelegramContact, TelegramContactType } from './types';
+import type { AudienceScope } from '../../../src/shared/lead-radar-audiences';
+import { AudienceStore,requireAudienceSchema } from './audiences';
 import {
   buildVerifiedTelegramCorporateDraftLink,
   telegramIdentifierDigest,
@@ -1046,6 +1048,7 @@ async function approvalBindings(input: {
   orgId: string;
   accountId: string;
   searchId: string;
+  audience?: AudienceScope;
   automaticRecipients: ReadonlyArray<{
     companyId: string;
     businessIdentityDigests: readonly string[];
@@ -1069,7 +1072,7 @@ async function approvalBindings(input: {
   const requestFingerprint = await digest(input.dataKey, 'campaign-approval-request', [
     input.orgId,
     input.accountId,
-    input.searchId,
+    input.audience ?? input.searchId,
     selectionDigest,
     contentDigest,
     operatorDigest,
@@ -1383,6 +1386,7 @@ export async function prepareTelegramCampaign(input: {
   orgId: string;
   accountId: string;
   searchId: string;
+  audience?: AudienceScope;
   companyIds: readonly string[];
   template: string;
   operatorId: string;
@@ -1397,6 +1401,10 @@ export async function prepareTelegramCampaign(input: {
     fail('telegram_campaign_invalid_input');
   }
   assertIdempotencyKey(input.idempotencyKey);
+  if (input.audience) {
+    await requireAudienceSchema(input.db);
+    if (await new AudienceStore(input.db).resolveScope(input.orgId,input.audience,input.companyIds) !== input.searchId) fail('telegram_campaign_invalid_input');
+  }
   const template = boundedTemplate(input.template);
   const attachment = attachmentReference(input.attachment);
   const operatorId = assertOperator(input.operatorId);
@@ -1437,6 +1445,7 @@ export async function prepareTelegramCampaign(input: {
     orgId: input.orgId,
     accountId: input.accountId,
     searchId: input.searchId,
+    audience: input.audience,
     automaticRecipients: selection.verifiedRecipients.map((recipient) => ({
       companyId: recipient.companyId,
       businessIdentityDigests: recipient.businessIdentities.map((identity) => identity.digest),
@@ -1532,6 +1541,7 @@ export async function createApprovedTelegramCampaign(input: {
   orgId: string;
   accountId: string;
   searchId: string;
+  audience?: AudienceScope;
   companyIds: readonly string[];
   template: string;
   operatorId: string;
@@ -1557,6 +1567,10 @@ export async function createApprovedTelegramCampaign(input: {
     fail('telegram_campaign_invalid_input');
   }
   assertIdempotencyKey(input.idempotencyKey);
+  if (input.audience) {
+    await requireAudienceSchema(input.db);
+    if (await new AudienceStore(input.db).resolveScope(input.orgId,input.audience,input.companyIds) !== input.searchId) fail('telegram_campaign_invalid_input');
+  }
   const template = boundedTemplate(input.template);
   const attachment = attachmentReference(input.attachment);
   const operatorId = assertOperator(input.operatorId);
@@ -1584,6 +1598,7 @@ export async function createApprovedTelegramCampaign(input: {
     orgId: input.orgId,
     accountId: input.accountId,
     searchId: input.searchId,
+    audience: input.audience,
     automaticRecipients: selection.verifiedRecipients.map((recipient) => ({
       companyId: recipient.companyId,
       businessIdentityDigests: recipient.businessIdentities.map((identity) => identity.digest),
@@ -1732,6 +1747,8 @@ export async function createApprovedTelegramCampaign(input: {
     operatorDigest: bindings.operatorDigest,
     contactBasis: input.contactBasis,
     searchId: input.searchId,
+    audience: input.audience,
+    audienceCompanyIds: [...input.companyIds].sort(),
     templateCiphertext: templateEncrypted.ciphertext,
     templateIv: templateEncrypted.iv,
     minIntervalSeconds,
@@ -1791,16 +1808,19 @@ export async function getTelegramCampaign(
 export async function getTelegramCampaignRecovery(input: {
   db: D1Database;
   orgId: string;
-  searchId: string;
+  searchId?: string;
+  audienceId?: string;
   now?: Date;
 }): Promise<{
   active: TelegramCampaignReadModel | null;
   latest: TelegramCampaignReadModel | null;
 }> {
   assertOrgId(input.orgId);
-  if (!ENTITY_ID_PATTERN.test(input.searchId)) fail('telegram_campaign_invalid_input');
+  if ((!input.searchId === !input.audienceId)
+    || !ENTITY_ID_PATTERN.test(input.searchId ?? input.audienceId ?? '')) fail('telegram_campaign_invalid_input');
+  if (input.audienceId) await requireAudienceSchema(input.db);
   const store = new LeadRadarTelegramCampaignStore(input.db);
-  const rows = await store.getCampaignRecovery(input.orgId, input.searchId);
+  const rows = await store.getCampaignRecovery(input.orgId, input.searchId ?? null, input.audienceId);
   const now = input.now ?? new Date();
   return {
     active: rows.active ? await campaignModel(store, input.orgId, rows.active, now) : null,

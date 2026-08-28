@@ -1108,7 +1108,8 @@ function isLeadRadarSchemaRow(row: Record<string, unknown>): boolean {
     // Optional provider tables have their own activation guard. Installing 0049
     // must not invalidate the stable discovery/sender schema fingerprint.
     && !['lead_radar_firecrawl_requests', 'lead_radar_firecrawl_control', 'lead_radar_firecrawl_reports',
-      'lead_radar_candidate_pools', 'lead_radar_contact_checks'].includes(tableName)
+      'lead_radar_candidate_pools', 'lead_radar_contact_checks',
+      'lead_radar_audiences', 'lead_radar_audience_campaigns'].includes(tableName)
     && (name.startsWith('lead_radar_') || tableName.startsWith('lead_radar_'));
 }
 

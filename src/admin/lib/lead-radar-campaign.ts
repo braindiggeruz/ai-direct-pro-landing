@@ -405,7 +405,9 @@ export type LeadRadarCampaignContactBasis =
 
 export interface LeadRadarTelegramCampaignPrepareInput {
   accountId: string;
-  searchId: string;
+  searchId?: string;
+  audienceId?: string;
+  audienceVersion?: number;
   leadIds: string[];
   template: string;
   contactBasis: LeadRadarCampaignContactBasis;
@@ -414,7 +416,9 @@ export interface LeadRadarTelegramCampaignPrepareInput {
 
 export interface LeadRadarTelegramCampaignCreateInput {
   accountId: string;
-  searchId: string;
+  searchId?: string;
+  audienceId?: string;
+  audienceVersion?: number;
   leadIds: string[];
   template: string;
   contactBasis: LeadRadarCampaignContactBasis;

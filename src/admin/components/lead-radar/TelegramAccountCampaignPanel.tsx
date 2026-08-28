@@ -72,7 +72,9 @@ import {
 import { Badge, Button, Card, Input, Label, Select, Textarea } from '../ui';
 
 export interface TelegramAccountCampaignPanelProps {
-  searchId: string;
+  searchId?: string;
+  audience?: { audienceId: string; audienceVersion: number };
+  initialSelectedLeadIds?: string[];
   leads: LeadRadarLead[];
   initialTemplate: string;
   telegramAccountEnabled: boolean;
@@ -267,6 +269,7 @@ function localDateTimeToIso(value: string): string | null {
 
 function campaignErrorCopy(error: unknown): string {
   const details = error as Error & { code?: string; status?: number; retryAfterSeconds?: number };
+  if (details.code?.startsWith('audience_')) return 'Аудитория изменилась или один из её контактов больше не допускается. Обновите аудиторию в общей базе и выполните проверку заново. Ничего не отправлено.';
   if (details.code === 'telegram_campaign_disabled'
     || details.code === 'lead_radar_campaign_paused'
     || details.code === 'lead_radar_campaign_autosend_paused') {
@@ -624,7 +627,9 @@ function validPreparation(value: LeadRadarTelegramCampaignPreparation): boolean 
 }
 
 export function TelegramAccountCampaignPanel({
-  searchId,
+  searchId: sourceSearchId,
+  audience,
+  initialSelectedLeadIds,
   leads,
   initialTemplate,
   telegramAccountEnabled,
@@ -634,6 +639,11 @@ export function TelegramAccountCampaignPanel({
   telegramCampaignDailyLimit,
   telegramCampaignMinimumIntervalSeconds,
 }: TelegramAccountCampaignPanelProps) {
+  // UI lifetime key only; the API receives an explicit search OR audience scope.
+  const searchId = sourceSearchId ?? audience?.audienceId ?? '';
+  const audienceId = audience?.audienceId;
+  const campaignSource = audience ?? { searchId: sourceSearchId };
+  const initialSelection = useRef(initialSelectedLeadIds ?? []);
   const headingId = useId();
   const composerHelpId = useId();
   const resumeHelpId = useId();
@@ -675,7 +685,7 @@ export function TelegramAccountCampaignPanel({
   const [bridgePairingClock, setBridgePairingClock] = useState(() => Date.now());
   const [bridgeRevokeConfirmation, setBridgeRevokeConfirmation] = useState(false);
   const [disconnectConfirmation, setDisconnectConfirmation] = useState(false);
-  const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(() => new Set());
+  const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(() => new Set(initialSelection.current));
   const [template, setTemplate] = useState(() => boundCampaignTemplate(initialTemplate));
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
@@ -789,7 +799,7 @@ export function TelegramAccountCampaignPanel({
     setCampaignRecovering(true);
     setCampaignRecoveryIssue(null);
     try {
-      const response = await api.leadRadarTelegramCampaignRecovery(searchId);
+      const response = await api.leadRadarTelegramCampaignRecovery(searchId, audienceId);
       if (requestSequence !== recoveryRequestSequence.current) return null;
       const recovered = campaignFromRecovery(response);
       if (recovered && !validCampaignReadModel(recovered)) {
@@ -821,7 +831,7 @@ export function TelegramAccountCampaignPanel({
     } finally {
       if (requestSequence === recoveryRequestSequence.current) setCampaignRecovering(false);
     }
-  }, [searchId, telegramAccountEnabled]);
+  }, [searchId, audienceId, telegramAccountEnabled]);
 
   useEffect(() => {
     if (!telegramAccountEnabled) {
@@ -1026,7 +1036,7 @@ export function TelegramAccountCampaignPanel({
     mediaUploadSequence.current += 1;
     mediaUploadAbortController.current?.abort();
     mediaUploadAbortController.current = null;
-    setSelectedLeadIds(new Set());
+    setSelectedLeadIds(new Set(initialSelection.current));
     setPreparation(null);
     setExactConfirmation(false);
     setCampaign(null);
@@ -1375,6 +1385,7 @@ export function TelegramAccountCampaignPanel({
   }
 
   function toggleLead(lead: LeadRadarLead): void {
+    if (audience) return;
     if (!isCampaignDraftCandidateLead(lead) || operationBusy || campaign) return;
     const next = new Set(selectedLeadIds);
     if (next.has(lead.id)) {
@@ -1391,6 +1402,7 @@ export function TelegramAccountCampaignPanel({
   }
 
   function selectAllFound(): void {
+    if (audience) return;
     if (operationBusy || campaign) return;
     setSelectedLeadIds(new Set(draftCandidateLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)));
     invalidatePreparation();
@@ -1407,6 +1419,7 @@ export function TelegramAccountCampaignPanel({
   }
 
   function selectAllReady(): void {
+    if (audience) return;
     if (operationBusy || campaign) return;
     setSelectedLeadIds(new Set(automaticLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)));
     invalidatePreparation();
@@ -1420,6 +1433,7 @@ export function TelegramAccountCampaignPanel({
   }
 
   function clearAllSelection(): void {
+    if (audience) return;
     if (operationBusy || campaign || selectedLeadIds.size === 0) return;
     setSelectedLeadIds(new Set());
     invalidatePreparation();
@@ -1777,7 +1791,7 @@ export function TelegramAccountCampaignPanel({
     setAuthorizationError(false);
     try {
       const next = await api.leadRadarAuthorizeTelegramCampaignContact({
-        searchId,
+        searchId: authorizationLead.searchId,
         leadId: authorizationLead.id,
         contactBasis,
         evidenceReference: normalizedReference,
@@ -1839,7 +1853,7 @@ export function TelegramAccountCampaignPanel({
     try {
       const next = await api.leadRadarPrepareTelegramCampaign({
         accountId,
-        searchId,
+        ...campaignSource,
         leadIds: [...selectedLeadIds],
         template,
         contactBasis,
@@ -1927,7 +1941,7 @@ export function TelegramAccountCampaignPanel({
     try {
       const response = await api.leadRadarCreateTelegramCampaign({
         accountId,
-        searchId,
+        ...campaignSource,
         leadIds: [...selectedLeadIds],
         template,
         contactBasis,
@@ -2040,9 +2054,9 @@ export function TelegramAccountCampaignPanel({
     && readySelectionIds.every((leadId) => selectedLeadIds.has(leadId))
     && selectedLeadIds.size === readySelectionIds.length;
   const bulkSelectionLocked = operationBusy || Boolean(campaign) || !campaignRecoveryReady;
-  const bulkFoundSelectDisabled = bulkSelectionLocked || foundSelectionIds.length === 0 || allFoundSelected;
-  const bulkReadySelectDisabled = bulkSelectionLocked || readySelectionIds.length === 0 || allReadySelected;
-  const bulkClearDisabled = bulkSelectionLocked || selectedLeadIds.size === 0;
+  const bulkFoundSelectDisabled = Boolean(audience) || bulkSelectionLocked || foundSelectionIds.length === 0 || allFoundSelected;
+  const bulkReadySelectDisabled = Boolean(audience) || bulkSelectionLocked || readySelectionIds.length === 0 || allReadySelected;
+  const bulkClearDisabled = Boolean(audience) || bulkSelectionLocked || selectedLeadIds.size === 0;
   const accountQuickActionBlocked = accountQuickAction.startsWith('blocked_') || accountReadinessBlocked;
   const accountQuickActionBusy = accountBusy || accountLoading;
   const accountQuickActionLabel = accountBusy
@@ -2101,6 +2115,7 @@ export function TelegramAccountCampaignPanel({
 
   return (
     <section aria-labelledby={headingId} data-testid="lead-radar-telegram-campaign" className="space-y-4 motion-reduce:[&_button]:transform-none motion-reduce:[&_button]:transition-none">
+      {audience && <p className="rounded-xl border border-brand-cyan/20 p-4 text-sm text-white/70">Получатели загружены из сохранённой аудитории, версия {audience.audienceVersion}. Состав меняется в общей базе выше. Изменение состава потребует нового подтверждения кампании.</p>}
       <div className="z-20 rounded-2xl border border-brand-cyan/25 bg-[#07101d]/95 p-3 shadow-[0_18px_50px_-30px_rgba(47,230,209,.75)] backdrop-blur 2xl:sticky 2xl:top-4" role="region" aria-label="Быстрые действия Telegram-кампании">
         <div className="grid gap-3 2xl:grid-cols-2">
           <div className="flex flex-col gap-3 rounded-xl border border-white/[0.08] bg-white/[0.025] p-3 sm:flex-row sm:items-center sm:justify-between">
@@ -2488,7 +2503,7 @@ export function TelegramAccountCampaignPanel({
                       <input
                         type="checkbox"
                         checked={selectedLeadIds.has(lead.id)}
-                        disabled={!selectable || operationBusy || Boolean(campaign)}
+                        disabled={Boolean(audience) || !selectable || operationBusy || Boolean(campaign)}
                         onChange={() => toggleLead(lead)}
                         className="mt-0.5 h-5 w-5 shrink-0 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
                       />

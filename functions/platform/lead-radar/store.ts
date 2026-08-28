@@ -2010,25 +2010,38 @@ export class LeadRadarStore {
       ORDER BY CASE priority WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END, score DESC, name ASC`)
       .bind(orgId, searchId).all<LeadRow>();
     const leadRows = leadsResult.results ?? [];
+    const summary = mapSearch(search);
+    if (summary.input.searchGoal === 'telegram_contacts' && await this.supportsContactDiscovery()) {
+      summary.funnel.resolvedTelegramCount = (await this.contactDiscovery.getPool(orgId,searchId))?.resolved_count ?? 0;
+    }
+    return { search: summary, leads: await this.mapLeadRows(orgId, leadRows) };
+  }
+
+  /** Bounded tenant-scoped access shared by single-search and saved audiences. */
+  async getLeadsByIds(orgId: string, ids: readonly string[]): Promise<LeadRadarLead[]> {
+    if (ids.length === 0) return [];
+    if (ids.length > 50) throw new Error('lead_selection_too_large');
+    const rows = await this.db.prepare(`SELECT * FROM lead_radar_companies
+      WHERE org_id = ? AND id IN (SELECT value FROM json_each(?))`)
+      .bind(orgId, JSON.stringify(ids)).all<LeadRow>();
+    return this.mapLeadRows(orgId, rows.results ?? []);
+  }
+
+  private async mapLeadRows(orgId: string, leadRows: LeadRow[]): Promise<LeadRadarLead[]> {
     const suppressions = await this.listSuppressions(orgId);
     const evidenceResult = await this.db.prepare(`SELECT evidence.* FROM lead_radar_evidence evidence
       INNER JOIN lead_radar_companies company ON company.id = evidence.company_id
-      WHERE evidence.org_id = ? AND company.org_id = ? AND company.search_id = ?
+      WHERE evidence.org_id = ? AND company.org_id = ?
+        AND company.id IN (SELECT value FROM json_each(?))
       ORDER BY evidence.company_id, evidence.field_path, evidence.id`)
-      .bind(orgId, orgId, searchId).all<EvidenceRow>();
+      .bind(orgId, orgId, JSON.stringify(leadRows.map((row) => row.id))).all<EvidenceRow>();
     const evidenceByLead = new Map<string, LeadRadarEvidence[]>();
     for (const row of evidenceResult.results ?? []) {
       const values = evidenceByLead.get(row.company_id) ?? [];
       values.push(mapEvidence(row));
       evidenceByLead.set(row.company_id, values);
     }
-    const summary = mapSearch(search);
-    if (summary.input.searchGoal === 'telegram_contacts' && await this.supportsContactDiscovery()) {
-      summary.funnel.resolvedTelegramCount = (await this.contactDiscovery.getPool(orgId,searchId))?.resolved_count ?? 0;
-    }
-    return {
-      search: summary,
-      leads: leadRows.map((row) => {
+    return leadRows.map((row) => {
         const suppressed = row.suppressed === 1 || matchesSuppression({
           canonicalKey: row.canonical_key,
           domain: row.domain ?? domainFromWebsite(row.website),
@@ -2090,8 +2103,7 @@ export class LeadRadarStore {
           discoveredAt: row.discovered_at,
           lastVerifiedAt: row.last_verified_at,
         };
-      }),
-    };
+      });
   }
 
   async listOverview(orgId: string): Promise<LeadRadarOverview> {

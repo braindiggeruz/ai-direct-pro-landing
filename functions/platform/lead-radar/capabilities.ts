@@ -154,7 +154,7 @@ function personalEvidencePath(fieldPath: string): boolean {
   return fieldPath.startsWith('decision_makers.') || fieldPath.startsWith('web.telegram.human');
 }
 
-function redactLead(
+export function redactLead(
   lead: LeadRadarLead,
   capabilities: LeadRadarApiCapabilities,
   nowMs: number,

@@ -30,6 +30,7 @@ import {
 } from '../functions/platform/lead-radar/telegram-campaign';
 import { auditTelegramCampaignSchema } from '../functions/platform/lead-radar/telegram-campaign-schema';
 import { LeadRadarTelegramCampaignStore } from '../functions/platform/lead-radar/telegram-campaign-store';
+import { AudienceStore } from '../functions/platform/lead-radar/audiences';
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { checkCorporateTelegramContact, verifiedResolvedCorporateCompanies, countResolvedCorporateContacts } from '../functions/platform/lead-radar/contact-resolution';
 import { ContactDiscoveryStore } from '../functions/platform/lead-radar/contact-discovery-store';
@@ -53,6 +54,98 @@ const NOW = new Date('2026-08-25T12:00:00.000Z');
 const DATA_KEY = Buffer.alloc(32, 9).toString('base64url');
 const DATA_KEY_B = Buffer.alloc(32, 17).toString('base64url');
 const BASIS: TelegramCampaignContactBasis = 'existing_relationship';
+
+async function audiencePreparation(db:SqliteD1) {
+  addCompany(db,{id:'aud_one',username:'AudienceOne'});
+  addCompany(db,{id:'aud_two',username:'AudienceTwo'});
+  const account=await connectedAccount(db);
+  for(const companyId of ['aud_one','aud_two']) await authorizeTelegramCampaignContact({
+    db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,companyId,contactBasis:BASIS,
+    evidenceReference:`fixture-audience-${companyId}`,expiresAt:'2026-09-01T12:00:00.000Z',
+    reviewerId:'owner@example.test',idempotencyKey:`audience_authorization_${companyId}`,now:NOW,
+  });
+  const saved=await new AudienceStore(db.asD1()).save(ORG_A,{id:'aud_'+'a'.repeat(32),name:'Mixed searches',version:0,companyIds:['aud_one','aud_two']},NOW);
+  const input={db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,accountId:account.id,
+    searchId:'search_aud_one',audience:{audienceId:saved.id,audienceVersion:saved.version},companyIds:saved.companyIds,
+    template:'Здравствуйте, {company_name}. Согласованный пример.',operatorId:'owner@example.test',
+    contactBasis:BASIS,idempotencyKey:'audience_prepare_0001',minIntervalSeconds:120,now:NOW};
+  const prepared=await prepareTelegramCampaign(input);
+  return {...input,idempotencyKey:'audience_create_0001',approvalToken:prepared.approvalToken,
+    expectedSelectionDigest:prepared.selectionDigest,expectedContentDigest:prepared.contentDigest};
+}
+
+test('audience campaigns freeze mixed-search membership and recover independently, without sending',async()=>{
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);
+  const input=await audiencePreparation(db);
+  const created=await createApprovedTelegramCampaign(input);
+  assert.equal(created.campaign.status,'approved');
+  assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM lead_radar_tg_campaign_recipients WHERE campaign_id=?').get(created.campaign.id)!.n,2);
+  const snapshot=db.sqlite.prepare('SELECT * FROM lead_radar_audience_campaigns WHERE org_id=?').get(ORG_A)!;
+  assert.equal(snapshot.audience_version,1);assert.deepEqual(JSON.parse(String(snapshot.company_ids_json)),['aud_one','aud_two']);
+  assert.equal((await createApprovedTelegramCampaign(input)).replayed,true);
+  assert.equal((await getTelegramCampaignRecovery({db:db.asD1(),orgId:ORG_A,audienceId:input.audience.audienceId,now:NOW})).active?.id,created.campaign.id);
+  assert.equal((await getTelegramCampaignRecovery({db:db.asD1(),orgId:ORG_A,searchId:'search_aud_one',now:NOW})).active,null);
+  assert.equal((await getTelegramCampaignRecovery({db:db.asD1(),orgId:ORG_B,audienceId:input.audience.audienceId,now:NOW})).active,null);
+});
+test('audience edits invalidate the exact approval even if an operator supplies the new version',async()=>{
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);const input=await audiencePreparation(db);
+  const store=new AudienceStore(db.asD1());
+  await store.save(ORG_A,{id:input.audience.audienceId,name:'Changed',version:1,companyIds:['aud_one','aud_two']},NOW);
+  await assert.rejects(createApprovedTelegramCampaign(input),/audience_version_conflict/);
+  await assert.rejects(createApprovedTelegramCampaign({...input,audience:{...input.audience,audienceVersion:2}}));
+  assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM lead_radar_tg_campaigns').get()!.n,0);
+});
+test('audience version race at approval consumption rolls back the entire transaction',async()=>{
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);const input=await audiencePreparation(db);
+  const batch=db.batch.bind(db);
+  db.batch=async(statements)=>{
+    if(statements.some((statement)=>statement.sql.includes('UPDATE lead_radar_tg_campaign_approvals'))) {
+      db.sqlite.prepare('UPDATE lead_radar_audiences SET version=version+1 WHERE org_id=?').run(ORG_A);
+    }
+    return batch(statements);
+  };
+  await assert.rejects(createApprovedTelegramCampaign(input));
+  assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM lead_radar_tg_campaigns').get()!.n,0);
+  assert.equal(db.sqlite.prepare('SELECT consumed_at FROM lead_radar_tg_campaign_approvals').get()!.consumed_at,null);
+  assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM lead_radar_audience_campaigns').get()!.n,0);
+});
+
+test('a 50-contact audience stays inside the D1 statement budget with API headroom',async(context)=>{
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);
+  const account=await connectedAccount(db);
+  const companyIds=Array.from({length:50},(_,index)=>`aud_budget_${index}`);
+  for(const [index,companyId] of companyIds.entries()) {
+    addCompany(db,{id:companyId,username:`AudienceBudget${index}`});
+    await authorizeTelegramCampaignContact({db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,companyId,
+      contactBasis:BASIS,evidenceReference:`fixture-${companyId}`,expiresAt:'2026-09-01T12:00:00.000Z',
+      reviewerId:'owner@example.test',idempotencyKey:`authorization_${companyId}`,now:NOW});
+  }
+  const audience=await new AudienceStore(db.asD1()).save(ORG_A,{id:'aud_'+'b'.repeat(32),name:'Fifty contacts',version:0,companyIds},NOW);
+  let statements=0;
+  const originalPrepare=db.prepare.bind(db),originalBatch=db.batch.bind(db);
+  db.prepare=(sql)=>{
+    const statement=originalPrepare(sql);
+    for(const method of ['first','all','run'] as const) {
+      const original=statement[method].bind(statement);
+      // Count execution, not preparation; batch execution is counted below.
+      Object.defineProperty(statement,method,{value:async()=>{statements++;return original();}});
+    }
+    return statement;
+  };
+  db.batch=async(items)=>{statements+=items.length;return originalBatch(items);};
+  const input={db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,accountId:account.id,searchId:'search_aud_budget_0',
+    audience:{audienceId:audience.id,audienceVersion:audience.version},companyIds:audience.companyIds,
+    template:'Здравствуйте, {company_name}. Согласованный пример.',operatorId:'owner@example.test',
+    contactBasis:BASIS,idempotencyKey:'audience_budget_prepare',minIntervalSeconds:120,now:NOW};
+  const prepared=await prepareTelegramCampaign(input);
+  const preparationStatements=statements;statements=0;
+  const created=await createApprovedTelegramCampaign({...input,idempotencyKey:'audience_budget_create',
+    approvalToken:prepared.approvalToken,expectedSelectionDigest:prepared.selectionDigest,expectedContentDigest:prepared.contentDigest});
+  context.diagnostic(`50-contact audience: prepare=${preparationStatements}, create=${statements}; 15 statements reserved for API guards`);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients WHERE campaign_id=?',created.campaign.id),50);
+  assert.ok(preparationStatements+15<=50,`audience prepare D1 budget: ${preparationStatements}+15`);
+  assert.ok(statements+15<=50,`audience create D1 budget: ${statements}+15`);
+});
 
 function database(migrations: readonly string[] = MIGRATIONS): SqliteD1 {
   const db = new SqliteD1();

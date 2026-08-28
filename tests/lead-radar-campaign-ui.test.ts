@@ -522,7 +522,9 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(api, /telegram-campaigns\/eligibility[\s\S]{0,180}Idempotency-Key/);
   assert.match(api, /telegram-campaigns\?searchId=\$\{encodeURIComponent\(searchId\)\}/);
   assert.match(api, /telegram-campaigns\/\$\{encodeURIComponent\(campaignId\)\}\/\$\{action\}/);
-  assert.match(component, /accountId,[\s\S]{0,80}searchId,[\s\S]{0,160}leadIds: \[\.\.\.selectedLeadIds\],[\s\S]{0,100}template,[\s\S]{0,100}approvalToken:/);
+  assert.match(component, /const campaignSource = audience \?\? \{ searchId: sourceSearchId \}/);
+  assert.match(component, /accountId,[\s\S]{0,80}\.\.\.campaignSource,[\s\S]{0,160}leadIds: \[\.\.\.selectedLeadIds\],[\s\S]{0,100}template,[\s\S]{0,100}approvalToken:/);
+  assert.match(component, /searchId: authorizationLead.searchId/);
   assert.match(component, /contactBasis,/);
   assert.match(component, /Документированное согласие/);
   assert.match(component, /Компания сама запросила контакт/);
@@ -612,7 +614,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /Все персонализированные сообщения/);
   assert.match(component, /Показаны все:/);
   assert.doesNotMatch(component, /preparation\.previews\.slice\(0, 3\)/);
-  assert.match(component, /leadRadarTelegramCampaignRecovery\(searchId\)/);
+  assert.match(component, /leadRadarTelegramCampaignRecovery\(searchId, audienceId\)/);
   assert.match(component, /!campaignOutreachEnabled[\s\S]{0,100}recoveredSearchId === searchId && !campaignRecovering && !campaignRecoveryIssue/);
   assert.match(component, /Серверная подготовка и запуск заблокированы до успешной проверки/);
   assert.match(component, /Повторить проверку/);

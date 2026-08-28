@@ -1,3 +1,6 @@
+import type { AudienceScope } from '../../../src/shared/lead-radar-audiences';
+import { audienceSchemaReady } from './audiences';
+
 export type TelegramUserAccountStatus = 'pending' | 'connected' | 'paused' | 'revoked' | 'error';
 export type TelegramCampaignStatus =
   | 'draft'
@@ -1570,15 +1573,18 @@ export class LeadRadarTelegramCampaignStore {
 
   async getCampaignRecovery(
     orgId: string,
-    searchId: string,
+    searchId: string | null,
+    audienceId?: string,
   ): Promise<TelegramCampaignRecoveryRows> {
+    const audienceReady = await audienceSchemaReady(this.db);
+    const scopeQuery = audienceId && audienceReady
+      ? 'SELECT campaign_id FROM lead_radar_audience_campaigns WHERE org_id = ? AND audience_id = ?'
+      : `SELECT campaign_id FROM lead_radar_tg_campaign_safety WHERE org_id = ? AND search_id = ?
+        ${audienceReady ? 'AND campaign_id NOT IN (SELECT campaign_id FROM lead_radar_audience_campaigns WHERE org_id=lead_radar_tg_campaign_safety.org_id)' : ''}`;
     const result = await this.db.prepare(`${CAMPAIGN_SELECT}
-      WHERE org_id = ? AND id IN (
-        SELECT campaign_id FROM lead_radar_tg_campaign_safety
-        WHERE org_id = ? AND search_id = ?
-      )
+      WHERE org_id = ? AND id IN (${scopeQuery})
       ORDER BY created_at DESC, id DESC`)
-      .bind(orgId, orgId, searchId)
+      .bind(orgId, orgId, audienceId ?? searchId)
       .all<TelegramCampaignRow>();
     const rows = result.results ?? [];
     return {
@@ -1613,6 +1619,8 @@ export class LeadRadarTelegramCampaignStore {
     operatorDigest: string;
     contactBasis: TelegramCampaignContactBasis;
     searchId: string;
+    audience?: AudienceScope;
+    audienceCompanyIds?: string[];
     templateCiphertext: string;
     templateIv: string;
     minIntervalSeconds: number;
@@ -1695,7 +1703,9 @@ export class LeadRadarTelegramCampaignStore {
           AND account_id = ? AND selection_digest = ? AND content_digest = ?
           AND request_fingerprint = ? AND operator_digest = ? AND contact_basis = ?
           AND recipient_count = ? AND consumed_at IS NULL AND expires_at > ?
-          AND ${approvalMediaGuard}`)
+          AND ${approvalMediaGuard}
+          ${input.audience ? `AND EXISTS (SELECT 1 FROM lead_radar_audiences
+            WHERE org_id=? AND id=? AND version=?)` : ''}`)
         .bind(
           input.now,
           input.id,
@@ -1711,6 +1721,7 @@ export class LeadRadarTelegramCampaignStore {
           input.recipients.length,
           input.now,
           ...approvalMediaBindings,
+          ...(input.audience ? [orgId,input.audience.audienceId,input.audience.audienceVersion] : []),
         ),
       this.db.prepare(`INSERT INTO lead_radar_tg_campaigns (
         id, org_id, account_id, approval_id, idempotency_key_digest,
@@ -1767,6 +1778,15 @@ export class LeadRadarTelegramCampaignStore {
           input.now,
         ),
     ];
+    if (input.audience) {
+      // Same transaction as approval consumption: stale versions MUST roll back.
+      // NOT NULL/FKs make a lost race fatal rather than partially consuming approval.
+      statements.push(this.db.prepare(`INSERT INTO lead_radar_audience_campaigns
+        (org_id,campaign_id,audience_id,audience_version,company_ids_json)
+        VALUES (?, ?, (SELECT id FROM lead_radar_audiences WHERE org_id=? AND id=? AND version=?), ?, ?)`)
+        .bind(orgId,input.id,orgId,input.audience.audienceId,input.audience.audienceVersion,
+          input.audience.audienceVersion,JSON.stringify(input.audienceCompanyIds ?? [])));
+    }
     if (input.approval.attachment_id && input.approval.attachment_digest) {
       statements.push(
         this.db.prepare(`INSERT INTO lead_radar_tg_campaign_media (
@@ -1863,6 +1883,7 @@ export class LeadRadarTelegramCampaignStore {
     try {
       const results = await this.db.batch(statements) as D1WriteResult[];
       const expectedChanges = [1, 1, 1];
+      if (input.audience) expectedChanges.push(1);
       if (input.approval.attachment_id && input.approval.attachment_digest) {
         expectedChanges.push(1);
       }
