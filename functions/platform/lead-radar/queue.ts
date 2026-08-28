@@ -29,7 +29,7 @@ const CHILD_DISPATCH_BARRIER = '9999-12-31T23:59:59.999Z';
 
 export type LeadRadarQueueOutcome =
   | { outcome: 'completed' | 'duplicate' | 'invalid' }
-  | { outcome: 'retry_wait'; delaySeconds: number; retryDelivery?: true }
+  | { outcome: 'retry_wait'; delaySeconds: number; retryDelivery?: true; rescheduleDelivery?: true }
   | { outcome: 'dead_letter'; errorCode: string };
 
 export interface LeadRadarQueueDependencies {
@@ -136,7 +136,8 @@ async function dispatchReservation(
   at: Date,
 ): Promise<boolean> {
   try {
-    await queue.send(messageFor(reservation.job));
+    const delaySeconds = Math.max(0, Math.ceil((Date.parse(reservation.job.availableAt) - at.getTime()) / 1_000));
+    await queue.send(messageFor(reservation.job), delaySeconds > 0 ? { delaySeconds } : undefined);
     // A consumer may observe and clear this reservation before this CAS. That
     // is a successful dispatch too; a false CAS must never regress it.
     await store.markJobDispatchSent(
@@ -169,12 +170,14 @@ async function dispatchSpecificJob(
   queue: LeadRadarQueueSender,
   job: LeadRadarJob,
   at: Date,
+  allowDelayed = false,
 ): Promise<boolean> {
   const reservation = await store.reserveJobDispatch(
     job.orgId,
     job.id,
     at.toISOString(),
     new Date(at.getTime() + DISPATCH_LEASE_MS).toISOString(),
+    allowDelayed ? new Date(at.getTime() + 900_000).toISOString() : undefined,
   );
   return reservation ? dispatchReservation(store, queue, reservation, at) : false;
 }
@@ -316,7 +319,7 @@ async function retryOrDeadLetter(
     );
     if (!retried) return { outcome: 'retry_wait', delaySeconds: 30 };
     await store.refreshSearchFunnel(job.orgId, job.searchId, now);
-    return { outcome: 'retry_wait', delaySeconds, retryDelivery: true };
+    return { outcome: 'retry_wait', delaySeconds, retryDelivery: true, ...(defer ? { rescheduleDelivery: true as const } : {}) };
   }
   if (job.companyId) {
     const transitioned = await store.markLeadEnrichmentTerminal(
@@ -666,9 +669,17 @@ export async function consumeLeadRadarQueueMessage(
     }
     return outcome;
   }
-  const outcome = await processEnrichment(store, claimed, dependencies, at);
+  let outcome = await processEnrichment(store, claimed, dependencies, at);
+  let continuationScheduled = false;
+  if (outcome.outcome === 'retry_wait' && outcome.rescheduleDelivery) {
+    // A fresh delayed envelope keeps scheduling out of Queue max_retries=3.
+    // Its D1 outbox CAS remains authoritative if Queue accepts then times out.
+    const dispatchAt = dependencies.now?.() ?? new Date();
+    continuationScheduled = await dispatchSpecificJob(store, queue, claimed, dispatchAt, true);
+    if (continuationScheduled) outcome = { outcome: 'retry_wait', delaySeconds: outcome.delaySeconds };
+  }
   if (outcome.outcome === 'completed' || outcome.outcome === 'dead_letter'
-    || (outcome.outcome === 'retry_wait' && outcome.retryDelivery)) {
+    || continuationScheduled || (outcome.outcome === 'retry_wait' && outcome.retryDelivery)) {
     // One terminal or durably deferred child releases exactly one processing
     // slot. Replacing only that slot keeps the Queue work-conserving without
     // turning a large discovery fan-out into an unbounded burst. Reservation

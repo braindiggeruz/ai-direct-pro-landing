@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { FirecrawlClient, FirecrawlError, firecrawlConfig, firecrawlPublicUrl } from '../functions/platform/lead-radar/firecrawl-client';
+import { FIRECRAWL_DIRECTORY_DOMAINS, FirecrawlClient, FirecrawlError, firecrawlConfig, firecrawlPublicUrl } from '../functions/platform/lead-radar/firecrawl-client';
 import { createFirecrawlQueueDependencies, selectFirecrawlContactPages } from '../functions/platform/lead-radar/firecrawl-enrichment';
 import { FirecrawlStore, type FirecrawlJobContext } from '../functions/platform/lead-radar/firecrawl-store';
 import type { LeadRadarJob } from '../functions/platform/lead-radar/types';
@@ -49,6 +49,27 @@ test('transport is invoked without rebinding the native fetch receiver', async (
   } as typeof fetch;
   const client = new FirecrawlClient(firecrawlConfig(ENV, CTX.orgId)!, new FirecrawlStore(db.asD1()), CTX, transport, NOW);
   assert.deepEqual(await client.request('map', 'clinic.uz', { url: 'https://clinic.uz/' }, () => []), []);
+});
+
+test('business directories and their common Telegram are never treated as first-party websites', () => {
+  for (const host of FIRECRAWL_DIRECTORY_DOMAINS) {
+    assert.equal(firecrawlPublicUrl(`https://${host}/company/clinic`), null);
+    assert.equal(firecrawlPublicUrl(`https://www.${host}/`), null);
+  }
+  assert.ok(firecrawlPublicUrl('https://clinics.uz.example.com/'), 'only exact domain boundaries are excluded');
+});
+
+test('generic dentistry name plus city does not establish ownership of a discovered domain', async () => {
+  const db = database();
+  const deps = await createFirecrawlQueueDependencies(ENV, db.asD1(), CTX.orgId, false, {
+    now: NOW, direct: async () => NONE, robots: async () => null,
+    fetch: async (input) => String(input).endsWith('/search')
+      ? json({ success: true, data: { web: [{ url: 'https://clinic.uz/' }] } })
+      : page('https://clinic.uz/', '<h1>Стоматология в Ташкенте</h1><p>Telegram компании: <a href="https://t.me/directory_owner">Написать</a></p>'),
+  });
+  const result = await deps.enrichLead!(null, { name: 'Стоматология', phone: null, city: 'Ташкент', address: null }, job());
+  assert.equal(result.facts, null);
+  assert.equal(db.value('SELECT status FROM lead_radar_firecrawl_reports'), 'identity_unconfirmed');
 });
 
 test('Firecrawl requires BOTH switches, key, explicit organization and valid nonzero budgets', () => {

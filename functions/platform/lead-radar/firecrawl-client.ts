@@ -46,11 +46,18 @@ export class FirecrawlError extends Error {
 }
 
 const NON_COMPANY_HOSTS = /(^|\.)(t\.me|telegram\.me|instagram\.com|facebook\.com|youtube\.com|google\.[a-z.]+|yandex\.[a-z.]+|2gis\.[a-z.]+|gptbot\.uz)$/i;
+// Public business directories are evidence sources, not the listed company's
+// own domain. A directory's shared footer/Telegram must never become its contact.
+export const FIRECRAWL_DIRECTORY_DOMAINS = [
+  'yellowpages.uz', '32top.uz', 'clinics.uz', 'medgid.uz', 'top.uz', 'apteka.uz',
+  'goldenpages.uz', 'sprav.uz', 'med24.uz',
+] as const;
 
 /** Never relay secrets, arbitrary query strings, logins or local addresses. */
 export function firecrawlPublicUrl(value: string): URL | null {
   const url = safePublicHttpUrl(value);
   if (!url || url.search || NON_COMPANY_HOSTS.test(url.hostname)
+    || FIRECRAWL_DIRECTORY_DOMAINS.some((host) => url.hostname === host || url.hostname.endsWith(`.${host}`))
     || /(?:^|\/)(?:admin|admin-tools|login|oauth|auth|logout|account|private)(?:\/|$)/i.test(url.pathname)
     || /\.(?:pdf|zip|docx?|xlsx?|exe|png|jpe?g|webp|svg|mp[34])$/i.test(url.pathname)) return null;
   return url;

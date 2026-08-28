@@ -43,17 +43,19 @@ function database(): SqliteD1 {
 
 class RecordingQueue implements LeadRadarQueueSender {
   readonly messages: LeadRadarQueueMessage[] = [];
+  readonly delays: number[] = [];
   failures = 0;
 
   constructor(private readonly recordBeforeFailure = false) {}
 
-  async send(message: LeadRadarQueueMessage): Promise<void> {
+  async send(message: LeadRadarQueueMessage, options?: { delaySeconds?: number }): Promise<void> {
     if (this.failures > 0) {
       this.failures -= 1;
       if (this.recordBeforeFailure) this.messages.push(structuredClone(message));
       throw new Error('fixture_queue_send_failed');
     }
     this.messages.push(structuredClone(message));
+    this.delays.push(options?.delaySeconds ?? 0);
   }
 }
 
@@ -203,13 +205,22 @@ test('provider capacity waits preserve failure attempts, but stop deferring afte
     retryable: true, deferUntil: new Date(at.getTime() + 60_000).toISOString() }) };
   for (let i = 0; i < 5; i++) {
     assert.deepEqual(await consumeLeadRadarQueueMessage(db, envelope, queue, deps), {
-      outcome: 'retry_wait', delaySeconds: 60, retryDelivery: true,
+      outcome: 'retry_wait', delaySeconds: 60,
     });
     const deferred = await store.getJob(child.id);
     assert.equal(deferred?.attemptCount, 0, 'a capacity wait is not a failed network attempt');
     assert.equal(deferred?.createdAt, start.toISOString(), 'deadline is not extended by retry');
     at = new Date(at.getTime() + 61_000);
   }
+  assert.ok(queue.delays.filter((delay) => delay === 60).length >= 5,
+    'each continuation gets a fresh delayed envelope, not Queue retry exhaustion');
+  queue.failures = 1;
+  const failedDispatch = await consumeLeadRadarQueueMessage(db, envelope, queue, deps);
+  assert.equal(failedDispatch.outcome, 'retry_wait');
+  assert.ok(failedDispatch.outcome === 'retry_wait' && failedDispatch.retryDelivery,
+    'a failed delayed send retains the delivery retry plus durable pending outbox');
+  assert.equal((await store.getJob(child.id))?.dispatchStatus, 'pending');
+  assert.equal((await store.getJob(child.id))?.attemptCount, 0);
   at = new Date(start.getTime() + 31 * 60_000);
   for (let attempt = 1; attempt <= 3; attempt++) {
     const outcome = await consumeLeadRadarQueueMessage(db, envelope, queue, deps);

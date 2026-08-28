@@ -1620,7 +1620,10 @@ export class LeadRadarStore {
     jobId: string,
     now: string,
     leaseExpiresAt: string,
+    delayedThrough?: string,
   ): Promise<LeadRadarDispatchReservation | null> {
+    const horizon = delayedThrough && Date.parse(delayedThrough) > Date.parse(now)
+      && Date.parse(delayedThrough) <= Date.parse(now) + 900_000 ? delayedThrough : now;
     const dispatchLeaseOwner = `dispatch_${crypto.randomUUID().replaceAll('-', '')}`;
     const reserved = await this.db.prepare(`UPDATE lead_radar_jobs SET
       dispatch_lease_owner = ?, dispatch_lease_expires_at = ?,
@@ -1629,7 +1632,7 @@ export class LeadRadarStore {
         AND available_at <= ? AND dispatch_status = 'pending'
         AND COALESCE(next_dispatch_at, available_at) <= ?
         AND (dispatch_lease_owner IS NULL OR dispatch_lease_expires_at <= ?)`)
-      .bind(dispatchLeaseOwner, leaseExpiresAt, now, orgId, jobId, now, now, now).run();
+      .bind(dispatchLeaseOwner, leaseExpiresAt, now, orgId, jobId, horizon, horizon, now).run();
     if (Number(reserved.meta.changes ?? 0) !== 1) return null;
     const row = await this.db.prepare(`SELECT * FROM lead_radar_jobs
       WHERE org_id = ? AND id = ? AND dispatch_status = 'pending'

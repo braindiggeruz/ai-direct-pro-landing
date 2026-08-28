@@ -72,6 +72,12 @@ function identityBound(expected: ExpectedCompanyWebsiteIdentity, url: URL, html:
   // A same-name website with a conflicting public phone needs review.
   if (conflictingPhone(expected, html)) return false;
   if (!discovered) return true;
+  // "Стоматология + Ташкент" describes a category, not a unique business.
+  // Generic names need an exact phone anchor (handled above), not city overlap.
+  const generic = new Set(['стоматология', 'стоматологии', 'стоматолог', 'стоматологическая',
+    'клиника', 'клиники', 'центр', 'зубов', 'зубная', 'имплантации', 'детская',
+    'dental', 'dentist', 'dentistry', 'clinic', 'stomatologiya', 'mchj', 'ооо', 'чп']);
+  if (!normalizeCompanyKey(expected.name).split('-').some((token) => token.length >= 3 && !generic.has(token) && !/^\d+$/.test(token))) return false;
   const text = normalizeCompanyKey(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '').replace(/<[^>]*>/g, ' '));
   const city = normalizeCompanyKey(expected.city ?? '');
   const address = normalizeCompanyKey(expected.address ?? '');
@@ -195,7 +201,12 @@ export async function createFirecrawlQueueDependencies(
             return urlsFrom(data.web).slice(0, 5);
           });
           // At most two candidate domains; mismatch never upgrades to first-party.
-          for (const candidate of [...new Set(candidates.map((url) => new URL(url).origin))].slice(0, 2)) {
+          // Revalidate cached Search results too: safety policy may be tightened
+          // during deployment, without changing the key or charging Search again.
+          for (const candidate of [...new Set(candidates.flatMap((value) => {
+            const url = firecrawlPublicUrl(value);
+            return url ? [url.origin] : [];
+          }))].slice(0, 2)) {
             const url = new URL(candidate);
             try {
               const page = await scrape(url, true);
