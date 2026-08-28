@@ -95,6 +95,14 @@ def _pairing_error_copy(error: BaseException) -> str:
     }.get(code, "Не удалось завершить привязку. Проверьте интернет и повторите попытку.")
 
 
+def _normalize_clipboard_pairing_code(raw: object) -> str | None:
+    """Accept only a complete one-use pairing code from the local clipboard."""
+    if not isinstance(raw, str):
+        return None
+    code = raw.strip()
+    return code if PAIRING_CODE.fullmatch(code) else None
+
+
 def _read_pairing(args: argparse.Namespace) -> str:
     sources = int(bool(args.stdin)) + int(bool(args.file))
     environment = os.environ.pop(PAIRING_URI_ENV, None)
@@ -357,7 +365,7 @@ def _run_pairing_window(root: Path, raw_activation_uri: str) -> None:
     code_value = tk.StringVar()
     code_entry = ttk.Entry(frame, textvariable=code_value, show="•", font=("Consolas", 13))
     code_entry.pack(fill="x", ipady=8)
-    status_value = tk.StringVar(value="Окно останется открытым до результата.")
+    status_value = tk.StringVar(value="Проверяем локальный буфер Windows — код вставится автоматически.")
     status_label = tk.Label(
         frame,
         textvariable=status_value,
@@ -443,6 +451,31 @@ def _run_pairing_window(root: Path, raw_activation_uri: str) -> None:
     )
     cancel_button.pack(side="left", padx=(10, 0))
     code_entry.bind("<Return>", lambda _event: submit())
+
+    clipboard_attempts = 0
+
+    def prefill_from_clipboard() -> None:
+        nonlocal clipboard_attempts
+        if succeeded or code_value.get().strip():
+            return
+        clipboard_attempts += 1
+        try:
+            code = _normalize_clipboard_pairing_code(window.clipboard_get())
+        except tk.TclError:
+            code = None
+        if code:
+            code_value.set(code)
+            code_entry.icursor("end")
+            status_label.configure(fg="#6ee7b7")
+            status_value.set("Код вставлен автоматически. Нажмите «Привязать».")
+            window.after(50, code_entry.focus_set)
+            return
+        if clipboard_attempts < 30:
+            window.after(100, prefill_from_clipboard)
+        else:
+            status_value.set("Автовставка не сработала. Нажмите «Скопировать код» на сайте и Ctrl+V здесь.")
+
+    window.after(100, prefill_from_clipboard)
     code_entry.focus_set()
     window.mainloop()
 

@@ -64,7 +64,7 @@ class BridgeProtocolTests(unittest.TestCase):
                 transport=response(status),
             )
             with self.subTest(status=status), self.assertRaisesRegex(ProtocolError, expected):
-                client.poll("1.3.1")
+                client.poll("1.3.2")
 
     def test_server_signatures_are_direction_bound_and_tamper_evident(self) -> None:
         now = int(time.time())
@@ -172,7 +172,7 @@ class BridgeProtocolTests(unittest.TestCase):
         self.assertEqual(seen[0][0], "https://lead-radar-bridge.gptbot.uz/v1/bridge/poll")
         self.assertEqual(
             seen[0][1].get("User-agent"),
-                "GPTBot-LeadRadar-Telegram-Bridge/1.3.1",
+                "GPTBot-LeadRadar-Telegram-Bridge/1.3.2",
         )
 
     def test_qr_and_password_envelopes_bind_exact_context_and_key(self) -> None:

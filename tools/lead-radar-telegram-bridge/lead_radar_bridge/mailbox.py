@@ -64,7 +64,7 @@ def system_https_transport(
     # first-party client explicitly; authenticated bridge routes still require
     # their device HMAC, so this header grants no access by itself.
     request_headers = {
-        "User-Agent": "GPTBot-LeadRadar-Telegram-Bridge/1.3.1",
+        "User-Agent": "GPTBot-LeadRadar-Telegram-Bridge/1.3.2",
         **headers,
     }
     request = urllib.request.Request(

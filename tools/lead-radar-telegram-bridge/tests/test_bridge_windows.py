@@ -70,6 +70,15 @@ def scheduled_task(
 
 
 class BridgeCliRegressionTests(unittest.TestCase):
+    def test_clipboard_pairing_code_accepts_only_complete_one_use_code(self) -> None:
+        self.assertEqual(
+            cli._normalize_clipboard_pairing_code(f"  {PAIRING_CODE}\r\n"),
+            PAIRING_CODE,
+        )
+        self.assertIsNone(cli._normalize_clipboard_pairing_code(""))
+        self.assertIsNone(cli._normalize_clipboard_pairing_code("not-a-pairing-code"))
+        self.assertIsNone(cli._normalize_clipboard_pairing_code(None))
+
     def test_activation_uri_forbids_secret_in_process_arguments(self) -> None:
         uri = f"gptbot-lead-radar://pair#id={PAIRING_ID}&origin={ORIGIN}"
         self.assertEqual(cli._activation_uri(uri), (PAIRING_ID, ORIGIN))

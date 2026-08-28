@@ -123,7 +123,7 @@ class TelethonAccount:
             StringSession(session), api_id, api_hash,
             timeout=10, connection_retries=1, request_retries=1,
             retry_delay=1, flood_sleep_threshold=0, raise_last_call_error=True,
-            device_model="Lead Radar Windows Bridge", app_version="1.3.1",
+            device_model="Lead Radar Windows Bridge", app_version="1.3.2",
         )
 
     async def _request(self, request: Awaitable[Any]) -> Any:

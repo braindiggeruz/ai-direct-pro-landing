@@ -1655,13 +1655,17 @@ export function TelegramAccountCampaignPanel({
     }
   }
 
-  async function copyBridgePairingUri(): Promise<void> {
+  async function copyBridgePairingCode(openingBridge = false): Promise<void> {
     if (!bridgePairing) return;
     try {
       await navigator.clipboard.writeText(bridgePairing.enrollmentCode);
-      setBridgePairingNotice('Одноразовый код скопирован. Вставьте его только в локальное окно Bridge.');
+      setBridgePairingNotice(openingBridge
+        ? 'Одноразовый код скопирован. Bridge подхватит его из защищённого локального буфера автоматически.'
+        : 'Одноразовый код скопирован. Bridge подхватит его автоматически или код можно вставить вручную.');
     } catch {
-      setBridgePairingNotice('Автокопирование недоступно. Выделите код ниже и скопируйте вручную.');
+      setBridgePairingNotice(openingBridge
+        ? 'Bridge открыт, но браузер не разрешил автокопирование. Нажмите «Скопировать код» и вставьте его вручную.'
+        : 'Автокопирование недоступно. Выделите код ниже и скопируйте вручную.');
     }
   }
 
@@ -2243,7 +2247,7 @@ export function TelegramAccountCampaignPanel({
               {bridgePairing && (
                 <div className="mt-4 rounded-xl border border-amber-300/18 bg-[#05070d]/45 p-3">
                   <p className="text-sm font-medium text-white">Одноразовая привязка готова до {formatDate(bridgePairing.expiresAt)} · осталось {bridgePairingRemainingLabel}</p>
-                  <p className="mt-1 text-xs leading-5 text-white/60">Нажмите «Открыть Bridge», затем вставьте код ниже в защищённое окно программы. Секретный код не передаётся через ссылку или командную строку Windows.</p>
+                  <p className="mt-1 text-xs leading-5 text-white/60">Нажмите «Скопировать и открыть Bridge»: код попадёт только в локальный буфер Windows, а программа вставит его автоматически. Секрет не передаётся через ссылку или командную строку.</p>
                   <textarea
                     readOnly
                     value={bridgePairing.enrollmentCode}
@@ -2252,10 +2256,10 @@ export function TelegramAccountCampaignPanel({
                     className="mt-3 min-h-20 w-full resize-none rounded-xl border border-white/[0.1] bg-[#05070d] p-3 font-mono text-[11px] leading-5 text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
                   />
                   <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-                    <a href={bridgePairing.enrollmentUri} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-sm font-semibold text-[#031013] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                      <ExternalLink size={16} aria-hidden="true" />Открыть Bridge
+                    <a href={bridgePairing.enrollmentUri} onClick={() => { void copyBridgePairingCode(true); }} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-sm font-semibold text-[#031013] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                      <ExternalLink size={16} aria-hidden="true" />Скопировать и открыть Bridge
                     </a>
-                    <Button type="button" variant="secondary" onClick={() => { void copyBridgePairingUri(); }} className="min-h-12">Скопировать код</Button>
+                    <Button type="button" variant="secondary" onClick={() => { void copyBridgePairingCode(); }} className="min-h-12">Скопировать код</Button>
                   </div>
                 </div>
               )}

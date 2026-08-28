@@ -565,11 +565,14 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /leadRadarCreateTelegramBridgePairing/);
   assert.match(component, /leadRadarTelegramBridgeStatus\(\)/);
   assert.match(component, /href=\{bridgePairing\.enrollmentUri\}/);
+  assert.match(component, /onClick=\{\(\) => \{ void copyBridgePairingCode\(true\); \}\}/);
+  assert.match(component, /Скопировать и открыть Bridge/);
+  assert.match(component, /Bridge подхватит его из защищённого локального буфера автоматически/);
   assert.match(component, /value=\{bridgePairing\.enrollmentCode\}/);
   assert.match(component, /device\?\.deviceId && device\.status === 'online'/);
   assert.match(component, /Код принят сервером\. Ждём первый защищённый heartbeat/);
   assert.match(component, /bridgePairingRemainingLabel/);
-  assert.match(component, /Секретный код не передаётся через ссылку или командную строку Windows/);
+  assert.match(component, /Секрет не передаётся через ссылку или командную строку/);
   assert.match(component, /Привязать этот компьютер/);
   assert.match(component, /Bridge не в сети/);
   assert.match(component, /Удаляем сессию/);
