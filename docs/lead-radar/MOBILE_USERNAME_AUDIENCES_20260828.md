@@ -21,4 +21,18 @@ Browser fixture (network sending disabled): 63 synthetic contacts, one click sel
 
 ## Release / limits
 
-Production release identifiers are appended after verification. No real campaign/message, paid Firecrawl request, contact import, reset of Telegram credentials/session, or budget increase is part of this update. A real first-send acceptance test still requires a selected consenting recipient and exact message approval. Privacy-hidden phones cannot be guaranteed resolvable; zero verified contacts is not turned into permission to message unverified numbers.
+Released to production on 2026-08-28:
+
+- Runtime code: `da3e03a20c3fa3be06e181122db73085ac8ff940`.
+- D1 migration `0053_lead_radar_audience_selection.sql` applied and ledgered.
+- Automation Worker: `bd6452fb-46b6-4a6a-8207-5ae32f419e83`.
+- Telegram gateway: `ea3c7eff-8cb6-4673-a84c-ed187701c96c`.
+- Pages main: `5beea596-a02e-4423-bb2e-b012c177f1bf`; deployment API confirmed success and the runtime commit. Production admin asset matched the local build hash.
+- Local Windows Bridge 1.5.0 installed; self-test and package checks passed. Paired state, vault health, URI handler and running scheduled task confirmed. Fresh gateway logs showed successful Bridge polls after restart. No session/vault reset.
+- Production schema audits passed. The directory contained 37 unique groups; first-page statuses were 13 review, 6 conflict and 1 verified. These are not 37 send-ready recipients. No active jobs/campaigns/effects were reported at verification time. Login returned 200; unauthenticated private APIs returned 401 with no-store.
+
+No real campaign/message, paid Firecrawl request, contact import, reset of Telegram credentials/session, or budget increase was part of this update. A real first-send acceptance test still requires a selected consenting recipient and exact message approval. Privacy-hidden phones cannot be guaranteed resolvable; zero verified contacts is not turned into permission to message unverified numbers.
+
+## Remaining broader roadmap work
+
+This release delivers the mobile-or-username selection and compatible recipient pipeline; it does not claim every item in the wider roadmap is complete. Additional source/search/date filters, a group authorization form, explicit operator resume for historical budget-limited enrichment, cross-search enrichment-cache reuse, and a pre-search remaining-budget display remain follow-up work. Historical limited/unknown jobs were not rewritten or automatically retried. Full unification of every legacy card's readiness display and a live owner-approved first-send acceptance test remain separate checks.
