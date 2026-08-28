@@ -37,6 +37,7 @@ import { LeadRadarTelegramCampaignStore } from '../../../platform/lead-radar/tel
 import { AudienceError,AudienceStore,requireAudienceSchema } from '../../../platform/lead-radar/audiences';
 import type { AudienceScope } from '../../../../src/shared/lead-radar-audiences';
 import { checkCorporateTelegramContact } from '../../../platform/lead-radar/contact-resolution';
+import { evaluateTelegramCampaignSelection } from '../../../platform/lead-radar/telegram-campaign';
 import {
   adoptTelegramAccountConnection,
   beginTelegramAccountPhoneConnection,
@@ -56,7 +57,7 @@ import {
   submitTelegramAccountPassword,
   submitTelegramAccountAuthInput,
   TelegramAccountServiceError,
-  validateTelegramCampaignMedia,
+  checkTelegramCampaignMedia,
   type TelegramAccountConnectChallenge,
   type TelegramAccountConnectionPoll,
 } from '../../../platform/lead-radar/telegram-account-service';
@@ -80,6 +81,7 @@ import {
   LeadRadarTelegramCampaignMediaStore,
   TelegramCampaignMediaError,
   type TelegramCampaignAttachmentReference,
+  type TelegramCampaignUploadedMedia,
 } from '../../../platform/lead-radar/telegram-campaign-media';
 
 const ENTITY_ID_PATTERN = /^[A-Za-z0-9:_-]{1,80}$/u;
@@ -242,6 +244,29 @@ function configuredInterval(ctx: CampaignContext): number | null {
   return parseLeadRadarTelegramCampaignMinimumIntervalSeconds(
     ctx.env.LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS,
   );
+}
+
+async function finishCampaignMediaCheck(ctx: CampaignContext, orgId: string, stored: TelegramCampaignUploadedMedia): Promise<Response> {
+  if (!ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA) return unavailable('telegram_campaign_media_storage_unavailable', ctx);
+  const media = await new LeadRadarTelegramCampaignMediaStore(ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA).read(orgId, { mediaId: stored.mediaId, mediaDigest: stored.mediaDigest });
+  const validation = await checkTelegramCampaignMedia({
+    service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+    internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+    orgId, operationId: `media-check-${stored.mediaId}`, media,
+  });
+  if (validation.status === 'invalid') throw new TelegramCampaignMediaError('telegram_campaign_media_invalid');
+  if (validation.status === 'valid') {
+    const store = new LeadRadarTelegramCampaignStore(ctx.db);
+    const now = new Date().toISOString();
+    if (!await store.registerCampaignMediaObject(orgId, { mediaId: stored.mediaId, mediaDigest: stored.mediaDigest, expiresAt: stored.expiresAt, now })) {
+      throw new TelegramCampaignMediaError('telegram_campaign_media_idempotency_conflict');
+    }
+    if (!await store.activateCampaignMediaQuota(orgId, { mediaId: stored.mediaId, mediaDigest: stored.mediaDigest, sizeBytes: stored.sizeBytes, now })) {
+      throw new TelegramCampaignMediaError('telegram_campaign_media_storage_unavailable');
+    }
+  }
+  return ownerJson({ mediaId: stored.mediaId, mediaDigest: stored.mediaDigest, filename: stored.filename,
+    mimeType: stored.mimeType, sizeBytes: stored.sizeBytes, validation }, ctx.requestId, validation.status === 'pending' ? 202 : 201);
 }
 
 function disconnectedAccount(
@@ -635,7 +660,10 @@ function campaignErrorResponse(error: unknown, ctx: CampaignContext): Response |
     if (error.code === 'telegram_campaign_auth_rate_limited') {
       return ownerError(error.code, ctx.requestId, 429);
     }
-    if (error.code === 'telegram_campaign_gateway_unavailable') {
+    if (error.code === 'telegram_campaign_gateway_unavailable'
+      || error.code === 'telegram_campaign_bridge_offline'
+      || error.code === 'telegram_campaign_media_validation_failed'
+      || error.code === 'telegram_campaign_gateway_not_configured') {
       return unavailable(error.code, ctx);
     }
     if (error.code === 'telegram_campaign_gateway_invalid_response') {
@@ -964,6 +992,42 @@ export async function handleTelegramCampaignPost(
 ): Promise<Response> {
   const ctx = rawContext as CampaignContext;
   try {
+    if (parts.length === 2 && parts[0] === 'telegram-campaigns' && parts[1] === 'preflight') {
+      const body = await exactBody(ctx, ['companyIds', 'contactBasis']);
+      if (!body || !Array.isArray(body.companyIds) || body.companyIds.length < 1 || body.companyIds.length > 50
+        || !body.companyIds.every((id) => typeof id === 'string' && ENTITY_ID_PATTERN.test(id))
+        || new Set(body.companyIds).size !== body.companyIds.length
+        || !(body.contactBasis === null || isTelegramCampaignContactBasis(body.contactBasis))) {
+        return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      }
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const dataKey = campaignDataKey(ctx);
+      if (!dataKey) return unavailable('telegram_campaign_not_configured', ctx);
+      const probe = await telegramAccountReadiness(ctx, capabilities, orgId);
+      const readiness = await withCampaignDataKeyReadiness(ctx, orgId, dataKey, probe.readiness, probe.routingKeyFingerprint, false);
+      const account = await getTelegramUserAccount(ctx.db, orgId);
+      const blockers: string[] = [...readiness.blockers];
+      if (!capabilities.campaignOutreachEnabled) blockers.push('campaign_paused');
+      if (!capabilities.campaignAutoSendEnabled) blockers.push('autosend_paused');
+      if (!account || account.status !== 'connected') blockers.push('account_not_connected');
+      if (account?.status === 'connected' && !await getTelegramUserAccountGatewayBinding({ db: ctx.db, orgId, dataKey, accountId: account.id })) blockers.push('account_binding_missing');
+      const store = new LeadRadarTelegramCampaignStore(ctx.db);
+      const now = new Date().toISOString();
+      const [row, active, safety] = account ? await Promise.all([store.getAccount(orgId, account.id),
+        store.getActiveCampaignForAccount(orgId, account.id), store.getAccountSafety(orgId, account.id)]) : [null, null, null];
+      const dailyLimit = capabilities.telegramCampaignDailyLimit ?? 30;
+      const used = row?.quota_day === now.slice(0, 10) ? row.daily_reserved_count : 0;
+      const remainingToday = Math.max(0, dailyLimit - used);
+      if (active) blockers.push('active_campaign_exists');
+      if (remainingToday === 0) blockers.push('daily_limit_exhausted');
+      if (safety && safety.state !== 'ready' && !(safety.state === 'cooldown' && safety.blocked_until && safety.blocked_until <= now)) blockers.push(`account_safety_${safety.state}`);
+      const selection = await evaluateTelegramCampaignSelection({ db: ctx.db, orgId, companyIds: body.companyIds,
+        dataKey, contactBasis: body.contactBasis ?? undefined, readOnly: true });
+      return ownerJson({ selection, blockers: [...new Set(blockers)], checkedAt: now,
+        limits: { dailyLimit, remainingToday, minimumIntervalSeconds: capabilities.telegramCampaignMinimumIntervalSeconds ?? 120,
+          nextDispatchAt: row?.next_dispatch_at ?? null } }, ctx.requestId);
+    }
     if (parts.length === 2 && parts[0] === 'telegram-account' && parts[1] === 'resolve-contact') {
       if (!capabilities.telegramAccountEnabled) return ownerError('lead_radar_telegram_account_paused', ctx.requestId, 409);
       const body = await exactBody(ctx, ['searchId','companyId','candidateKey']);
@@ -1177,51 +1241,18 @@ export async function handleTelegramCampaignPost(
           reservation,
         ),
       });
-      const resolved = await mediaStore.read(orgId, {
-        mediaId: stored.mediaId,
-        mediaDigest: stored.mediaDigest,
-      });
-      if (await validateTelegramCampaignMedia({
-        service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
-        internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
-        orgId,
-        operationId: requestKey,
-        media: resolved,
-      }) !== 'valid') {
-        // The immutable R2 object is deliberately left unregistered. Deleting
-        // it here could race a concurrent idempotent request that has already
-        // validated and registered the same digest. The bounded orphan sweep
-        // removes unregistered expired objects without exposing a public URL.
-        throw new TelegramCampaignMediaError('telegram_campaign_media_invalid');
-      }
-      const registered = await campaignStore.registerCampaignMediaObject(orgId, {
-          mediaId: stored.mediaId,
-          mediaDigest: stored.mediaDigest,
-          expiresAt: stored.expiresAt,
-          now: now.toISOString(),
-        });
-      if (!registered) {
-        throw new TelegramCampaignMediaError(
-          'telegram_campaign_media_idempotency_conflict',
-        );
-      }
-      if (!await campaignStore.activateCampaignMediaQuota(orgId, {
-        mediaId: stored.mediaId,
-        mediaDigest: stored.mediaDigest,
-        sizeBytes: stored.sizeBytes,
-        now: now.toISOString(),
-      })) {
-        throw new TelegramCampaignMediaError(
-          'telegram_campaign_media_storage_unavailable',
-        );
-      }
-      return ownerJson({
-        mediaId: stored.mediaId,
-        mediaDigest: stored.mediaDigest,
-        filename: stored.filename,
-        mimeType: stored.mimeType,
-        sizeBytes: stored.sizeBytes,
-      }, ctx.requestId, 201);
+      return await finishCampaignMediaCheck(ctx, orgId, stored);
+    }
+
+    if (parts.length === 3 && parts[0] === 'telegram-campaigns' && parts[1] === 'media' && parts[2] === 'check') {
+      if (!capabilities.campaignOutreachEnabled) return ownerError('lead_radar_campaign_paused', ctx.requestId, 409);
+      if (!ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA) return unavailable('telegram_campaign_media_storage_unavailable', ctx);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const body = await exactBody(ctx, ['mediaId', 'mediaDigest']);
+      if (!isTelegramCampaignAttachmentReference(body)) return ownerError('telegram_campaign_media_invalid', ctx.requestId, 400);
+      const stored = await new LeadRadarTelegramCampaignMediaStore(ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA).inspect(orgId, body);
+      return await finishCampaignMediaCheck(ctx, orgId, stored);
     }
 
     if (parts.length === 2
@@ -1512,13 +1543,19 @@ export async function handleTelegramCampaignPost(
         const resolved = await new LeadRadarTelegramCampaignMediaStore(
           ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA,
         ).read(orgId, attachment);
-        if (await validateTelegramCampaignMedia({
+        const validation = await checkTelegramCampaignMedia({
           service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
           internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
           orgId,
           operationId: requestKey,
           media: resolved,
-        }) !== 'valid') {
+        });
+        if (validation.status === 'pending') {
+          const response = ownerError(validation.reason === 'bridge_offline' ? 'telegram_campaign_bridge_offline' : 'telegram_campaign_media_check_pending', ctx.requestId, 409);
+          response.headers.set('Retry-After', String(validation.retryAfterSeconds));
+          return response;
+        }
+        if (validation.status !== 'valid') {
           throw new TelegramCampaignMediaError('telegram_campaign_media_invalid');
         }
       }

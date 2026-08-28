@@ -855,6 +855,9 @@ export const api = {
   leadRadarResolveContact: (searchId: string, companyId: string, candidateKey: string) =>
     request<import('../../shared/lead-radar-contact-resolution').TelegramContactResolution>('POST',
       '/api/admin/lead-radar/telegram-account/resolve-contact', { searchId, companyId, candidateKey }, { timeoutMs: 15_000 }),
+  leadRadarCampaignPreflight: (companyIds: string[], contactBasis: import('./lead-radar-campaign').LeadRadarCampaignContactBasis | null) =>
+    request<import('./lead-radar-campaign').LeadRadarCampaignPreflight>('POST', '/api/admin/lead-radar/telegram-campaigns/preflight',
+      { companyIds, contactBasis }, { timeoutMs: 20_000 }),
   leadRadarAuthorizeTelegramCampaignContact: (
     input: import('./lead-radar-campaign').LeadRadarTelegramContactAuthorizationInput,
     idempotencyKey: string,
@@ -878,6 +881,9 @@ export const api = {
   leadRadarDeleteTelegramCampaignImage: (mediaId: string) => request<void>(
     'DELETE',
     `/api/admin/lead-radar/telegram-campaigns/media/${encodeURIComponent(mediaId)}`,
+  ),
+  leadRadarCheckTelegramCampaignImage: (input: import('./lead-radar-campaign').LeadRadarTelegramCampaignAttachmentReference) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignMediaUpload>(
+    'POST', '/api/admin/lead-radar/telegram-campaigns/media/check', input, { timeoutMs: 15_000 },
   ),
   leadRadarPrepareTelegramCampaign: (
     input: import('./lead-radar-campaign').LeadRadarTelegramCampaignPrepareInput,

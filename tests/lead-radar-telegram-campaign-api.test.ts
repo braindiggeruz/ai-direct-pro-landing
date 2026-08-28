@@ -308,7 +308,7 @@ class TelegramAccountServiceFixture {
   finalizeUnavailable = false;
   finalizePending = false;
   beforeCancel: (() => Promise<void>) | null = null;
-  mediaValidationOutcome: 'valid' | 'invalid' | 'malformed' | 'unavailable' = 'valid';
+  mediaValidationOutcome: 'valid' | 'invalid' | 'pending' | 'malformed' | 'unavailable' = 'valid';
   mediaValidationCalls = 0;
   lastMediaValidationBody: Record<string, unknown> | null = null;
   lastPasswordBody: Record<string, unknown> | null = null;
@@ -380,13 +380,19 @@ class TelegramAccountServiceFixture {
         status: 'revoked',
       });
     }
-    if (url.pathname === '/v1/media/validate') {
+    if (url.pathname === '/v1/media/validate' || url.pathname === '/v1/media/check') {
       this.mediaValidationCalls += 1;
       if (this.mediaValidationOutcome === 'unavailable') {
         return new Response(null, { status: 503 });
       }
       const raw = typeof init?.body === 'string' ? init.body : '{}';
       this.lastMediaValidationBody = JSON.parse(raw) as Record<string, unknown>;
+      if (this.mediaValidationOutcome === 'pending') {
+        return Response.json({
+          schema: 'gptbot.lead-radar.telegram-account-service.v1',
+          status: 'pending', code: 'media_validation_pending', retry_after_seconds: 3,
+        }, { status: 202 });
+      }
       if (this.mediaValidationOutcome === 'malformed') {
         return Response.json({ status: 'valid', extra: true });
       }
@@ -684,6 +690,76 @@ test('phone connect and code submission use ciphertext-only private contracts', 
   ]);
 });
 
+test('read-only preflight separates missing consent, Bridge offline and actual authorization without preparing or sending', async () => {
+  const db = freshAdminDb(); installLeadRadarLedger(db);
+  const { searchId, leadId } = await seedCorporateLead(db);
+  await seedConnectedAccount(db);
+  const service = new TelegramAccountServiceFixture();
+  const token = await platformToken('platform_owner');
+  const env = await campaignEnv(service);
+  const inspect = (companyIds = [leadId]) => callRoute(leadRadarRoute.onRequestPost, db,
+    '/api/admin/lead-radar/telegram-campaigns/preflight', { method: 'POST', token,
+      params: { path: 'telegram-campaigns/preflight' }, env,
+      body: { companyIds, contactBasis: 'documented_consent' } });
+  const missing = await inspect();
+  assert.equal(missing.status, 200, JSON.stringify(missing.body));
+  assert.equal((missing.body.selection as { automatic: number }).automatic, 0);
+  assert.equal((missing.body.selection as { items: { reasonCode: string }[] }).items[0]?.reasonCode, 'documented_basis_required');
+  const granted = await callRoute(leadRadarRoute.onRequestPost, db,
+    '/api/admin/lead-radar/telegram-campaigns/eligibility', { method: 'POST', token,
+      params: { path: 'telegram-campaigns/eligibility' }, env,
+      headers: { 'Idempotency-Key': 'campaign-preflight-basis-0001' },
+      body: { searchId, leadId, contactBasis: 'documented_consent', evidenceReference: 'fixture-confirmed-request-2026',
+        expiresAt: new Date(Date.now() + 86_400_000).toISOString() } });
+  assert.equal(granted.status, 201, JSON.stringify(granted.body));
+  const ready = await inspect();
+  assert.equal((ready.body.selection as { automatic: number }).automatic, 1);
+  // The fixture intentionally has no routing-key adoption and autosend is off.
+  // Recipient authorization must not conceal independent infrastructure gates.
+  assert.deepEqual(ready.body.blockers, ['gateway_routing_legacy_unbound', 'autosend_paused']);
+  service.bridgeStatus = 'offline';
+  const offline = await inspect();
+  assert.ok((offline.body.blockers as string[]).includes('bridge_offline'));
+  assert.equal((offline.body.selection as { automatic: number }).automatic, 1);
+  assert.equal((await inspect([leadId, leadId])).status, 400);
+  assert.equal((await inspect(Array.from({ length: 51 }, (_, i) => `fixture_${i}`))).status, 400);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_approvals'), 0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaigns'), 0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'), 0);
+  assert.ok(service.requests.every((request) => ['/v1/health', '/v1/bridge/status'].includes(request.pathname)));
+});
+
+test('pending media check survives retries without creating campaign effects or premature registration', async () => {
+  const db = freshAdminDb();
+  installLeadRadarLedger(db);
+  const service = new TelegramAccountServiceFixture();
+  service.mediaValidationOutcome = 'pending';
+  const r2 = new CampaignMediaR2Fixture();
+  const token = await platformToken('platform_owner');
+  const env = await campaignEnv(service, { LEAD_RADAR_CAMPAIGN_MEDIA: r2.bucket });
+  const upload = await callRawCampaignRoute(db, token, CAMPAIGN_MEDIA_PNG, env, 'campaign-media-pending-upload-0001');
+  assert.equal(upload.status, 202, JSON.stringify(upload.body));
+  assert.equal((upload.body.validation as { status: string }).status, 'pending');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_media_objects'), 0);
+  const check = () => callRoute(leadRadarRoute.onRequestPost, db,
+    '/api/admin/lead-radar/telegram-campaigns/media/check', {
+      method: 'POST', token, params: { path: 'telegram-campaigns/media/check' }, env,
+      body: { mediaId: upload.body.mediaId, mediaDigest: upload.body.mediaDigest },
+    });
+  assert.equal((await check()).status, 202);
+  service.mediaValidationOutcome = 'valid';
+  const completed = await check();
+  assert.equal(completed.status, 201, JSON.stringify(completed.body));
+  assert.equal((completed.body.validation as { status: string }).status, 'valid');
+  assert.equal((await check()).status, 201);
+  assert.equal(new Set(service.requests.filter((request) => request.pathname === '/v1/media/check')
+    .map((request) => request.idempotencyKey)).size, 1);
+  assert.equal(r2.objects.size, 1);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_media_objects'), 1);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaigns'), 0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'), 0);
+});
+
 test('authoritative private decode rejects upload before D1 registration or campaign effects', async () => {
   const db = freshAdminDb();
   installLeadRadarLedger(db);
@@ -712,9 +788,9 @@ test('authoritative private decode rejects upload before D1 registration or camp
     })),
   }));
   const validationRequest = service.requests.find(
-    (request) => request.pathname === '/v1/media/validate',
+    (request) => request.pathname === '/v1/media/check',
   );
-  assert.equal(validationRequest?.idempotencyKey, idempotencyKey);
+  assert.match(validationRequest?.idempotencyKey ?? '', /^media-check-lrtgcm_/);
   assert.deepEqual(Object.keys(service.lastMediaValidationBody ?? {}).sort(), [
     'media', 'operation_id', 'org_id', 'schema',
   ]);
@@ -876,7 +952,7 @@ test('prepare revalidates frozen media and creates no approval or recipient on d
   assert.equal(prepared.body.error, 'telegram_campaign_media_invalid');
   assert.equal(service.mediaValidationCalls, 2);
   assert.equal(
-    service.requests.filter((request) => request.pathname === '/v1/media/validate')[1]
+    service.requests.filter((request) => request.pathname === '/v1/media/check')[1]
       ?.idempotencyKey,
     'campaign-media-prepare-invalid-0001',
   );

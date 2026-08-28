@@ -1,5 +1,6 @@
 import type { LeadRadarLead, LeadRadarTelegramAccountReadiness } from '../../shared/lead-radar';
 import { telegramContactEndpoint } from '../../shared/lead-radar-telegram-endpoint';
+import { isLeadRadarMediaValidation, type LeadRadarMediaValidation } from '../../shared/lead-radar-media-validation';
 
 import type {
   LeadRadarTelegramBridgeE2eEnvelope,
@@ -32,6 +33,7 @@ export interface LeadRadarTelegramCampaignMediaUpload
   filename: string;
   mimeType: LeadRadarCampaignImageMimeType;
   sizeBytes: number;
+  validation?: LeadRadarMediaValidation;
 }
 
 export interface LeadRadarCampaignImageCandidate {
@@ -126,7 +128,8 @@ export function isValidCampaignMediaUpload(
     && typeof media.sizeBytes === 'number'
     && Number.isInteger(media.sizeBytes)
     && media.sizeBytes >= 1
-    && media.sizeBytes <= LEAD_RADAR_CAMPAIGN_IMAGE_MAX_BYTES;
+    && media.sizeBytes <= LEAD_RADAR_CAMPAIGN_IMAGE_MAX_BYTES
+    && (media.validation === undefined || isLeadRadarMediaValidation(media.validation));
 }
 
 export function campaignMessageLimit(hasAttachment: boolean): number {
@@ -334,6 +337,19 @@ export interface LeadRadarTelegramCampaignPreparation {
   summary?: LeadRadarCampaignEligibilitySummary;
   recipients?: LeadRadarCampaignRecipientPreview[];
   previews?: Array<{ leadId: string; companyName: string; text: string }>;
+}
+
+/** Read-only snapshot, never an approval token or an instruction to send. */
+export interface LeadRadarCampaignPreflight {
+  limits?: { dailyLimit: number; remainingToday: number; minimumIntervalSeconds: number; nextDispatchAt: string | null };
+  selection: {
+    selected: number; automatic: number; manual: number; excluded: number;
+    automaticCompanyIds: string[];
+    items: Array<{companyId: string; name: string | null; classification: LeadRadarCampaignRecipientClassification;
+      reasonCode: string; authorization: LeadRadarCampaignRecipientAuthorization | null}>;
+  };
+  blockers: string[];
+  checkedAt: string;
 }
 
 export type LeadRadarTelegramCampaignStatus =

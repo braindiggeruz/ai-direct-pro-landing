@@ -2283,7 +2283,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     });
   }
 
-  private async validateMedia(body: JsonRecord): Promise<Response> {
+  private async validateMedia(body: JsonRecord, background = false): Promise<Response> {
     if (!hasExactKeys(body, ['schema', 'org_id', 'operation_id', 'account_ref', 'media_ref'])
       || body.schema !== TELEGRAM_ACCOUNT_SERVICE_SCHEMA
       || typeof body.org_id !== 'string'
@@ -2294,18 +2294,37 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       || !ACCOUNT_REF_PATTERN.test(body.account_ref)
       || body.account_ref !== await this.accountRef(body.org_id)
       || !bridgeRecord(body.media_ref)) return safeErrorResponse('invalid_request');
-    const device = await this.activeDevice(body.org_id);
-    if (!device || this.deviceStatus(device) !== 'online') return safeErrorResponse('bridge_offline', 503);
-    if (device.accountRef !== body.account_ref) return safeErrorResponse('routing_conflict', 409);
     const media = this.parseMediaReference(body.media_ref, body.org_id);
     if (!media) return safeErrorResponse('invalid_request');
-    const commandId = `lrtgbc_${crypto.randomUUID().replaceAll('-', '')}`;
-    const command = await this.enqueue({
+    // Immutable bytes + validator version + UTC day give a bounded reusable receipt.
+    // The legacy blocking route shares this receipt with the asynchronous route.
+    const identity = await sha256Hex([body.org_id, media.mediaId, media.mediaDigest, 'static-image-v1', String(Math.floor(Date.now() / 86_400_000))]);
+    const operationId = `media-validation-${identity}`;
+    const commandId = `lrtgbc_${identity.slice(0, 32)}`;
+    const prior = await this.ctx.storage.get<CommandRecord>(commandKey(commandId));
+    if (prior && (prior.kind !== 'validate_media' || prior.orgId !== body.org_id
+      || prior.media?.mediaDigest !== media.mediaDigest || prior.media.mediaId !== media.mediaId)) {
+      return safeErrorResponse('command_conflict', 409);
+    }
+    if (prior?.status === 'succeeded' && prior.resultCode === 'media_valid') {
+      return jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status: 'valid' });
+    }
+    if (prior?.status === 'failed' && prior.resultCode === 'media_invalid') {
+      return jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status: 'rejected', code: 'media_invalid' });
+    }
+    const device = await this.activeDevice(body.org_id);
+    if (!device || this.deviceStatus(device) !== 'online') {
+      return background
+        ? jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status: 'pending', code: 'bridge_offline', retry_after_seconds: 5 }, 202)
+        : safeErrorResponse('bridge_offline', 503);
+    }
+    if (device.accountRef !== body.account_ref) return safeErrorResponse('routing_conflict', 409);
+    const command = prior ?? await this.enqueue({
       orgId: body.org_id,
       accountRef: body.account_ref,
       device,
       kind: 'validate_media',
-      operationId: body.operation_id,
+      operationId,
       commandId,
       payload: {
         media: {
@@ -2318,6 +2337,10 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       },
       media,
     });
+    if (background) {
+      if (isTerminal(command.status)) return safeErrorResponse('bridge_media_validation_failed', 503);
+      return jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status: 'pending', code: 'media_validation_pending', retry_after_seconds: 3 }, 202);
+    }
     const terminal = await this.waitTerminal(command.commandId, 70_000);
     return terminal.status === 'succeeded' && terminal.resultCode === 'media_valid'
       ? jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status: 'valid' })
@@ -2527,6 +2550,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       case '/internal/accounts/health': return this.accountHealth(body);
       case '/internal/health': return this.health();
       case '/internal/media/validate': return this.validateMedia(body);
+      case '/internal/media/check': return this.validateMedia(body, true);
       case '/internal/contacts/resolve': return this.resolveContact(body);
       case '/internal/messages/send': return this.sendMessage(body);
       case '/internal/messages/reconcile': return this.reconcile(body);

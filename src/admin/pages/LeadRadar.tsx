@@ -2236,6 +2236,7 @@ export default function LeadRadarPage() {
                   key={result.search.id}
                   searchId={result.search.id}
                   leads={result.leads}
+                  onContactsUpdated={() => { void openSearch(result.search.id); }}
                   initialTemplate={campaignMessageTemplate(result.search.input.offer)}
                   telegramAccountEnabled={telegramAccountEnabled}
                   telegramAccountReadiness={telegramAccountReadiness}

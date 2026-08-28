@@ -235,7 +235,7 @@ function sourceMediaReference(value: unknown, orgId: string): JsonRecord | null 
   };
 }
 
-async function validateMedia(request: Request, env: TelegramAccountGatewayEnv): Promise<Response> {
+async function validateMedia(request: Request, env: TelegramAccountGatewayEnv, background = false): Promise<Response> {
   const body = await readBoundedJson(request, MAX_MEDIA_VALIDATE_REQUEST_BYTES);
   if (!body
     || !hasExactKeys(body, ['schema', 'org_id', 'operation_id', 'media'])
@@ -251,13 +251,13 @@ async function validateMedia(request: Request, env: TelegramAccountGatewayEnv): 
   });
   const reference = await accountRef(env, body.org_id);
   try {
-    return await doFetch(env, '/internal/media/validate', {
+    return await doFetch(env, background ? '/internal/media/check' : '/internal/media/validate', {
       schema: body.schema,
       org_id: body.org_id,
       operation_id: body.operation_id,
       account_ref: reference,
       media_ref: media,
-    }, GATEWAY_DO_CONTROL_TIMEOUT_MS);
+    }, background ? GATEWAY_DO_HEALTH_TIMEOUT_MS : GATEWAY_DO_CONTROL_TIMEOUT_MS);
   } catch {
     return safeErrorResponse('gateway_unavailable', 503);
   }
@@ -419,6 +419,7 @@ async function privateRoute(request: Request, env: TelegramAccountGatewayEnv): P
     case '/v1/accounts/connect/state': return authAction(request, env, 'state');
     case '/v1/accounts/disconnect': return disconnect(request, env);
     case '/v1/media/validate': return validateMedia(request, env);
+    case '/v1/media/check': return validateMedia(request, env, true);
     case '/v1/contacts/resolve': {
       const body = await readBoundedJson(request);
       if (!body || !idempotencyHeaderMatches(request, String(body.operation_id ?? ''))) return safeErrorResponse('invalid_request');

@@ -197,6 +197,7 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
       <Button variant="secondary" disabled={loading || busy || !page || page.offset+page.limit>=page.total} onClick={()=>setFilters((value)=>({...value,offset:value.offset+20}))}>Далее</Button></div>
     {composer && detail && <TelegramAccountCampaignPanel key={`${detail.audience.id}:${detail.audience.version}`} {...campaignProps}
       audience={{audienceId:detail.audience.id,audienceVersion:detail.audience.version}}
-      leads={detail.leads} initialSelectedLeadIds={detail.audience.companyIds} excludedRecipientIds={detail.excludedRecipientIds} />}
+      leads={detail.leads} onContactsUpdated={()=>{setFilters((value)=>({...value}));void openAudience(detail.audience.id);}}
+      initialSelectedLeadIds={detail.audience.companyIds} excludedRecipientIds={detail.excludedRecipientIds} />}
   </section>;
 }

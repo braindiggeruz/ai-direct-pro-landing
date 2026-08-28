@@ -645,10 +645,14 @@ async function evaluateSelectionInternal(input: {
   now: Date;
   dataKey?: string;
   contactBasis?: TelegramCampaignContactBasis;
+  readOnly?: boolean;
 }): Promise<InternalSelection> {
   const ids = selectedCompanyIds(input.companyIds);
   const store = new LeadRadarTelegramCampaignStore(input.db);
-  if (input.dataKey) {
+  if (input.dataKey && input.readOnly) {
+    const identity = await getTelegramCampaignDataKeyIdentityState({ db: input.db, orgId: input.orgId, dataKey: input.dataKey });
+    if (identity === 'mismatch' || identity === 'legacy_unbound') fail('telegram_campaign_not_configured');
+  } else if (input.dataKey) {
     await requireCampaignDataKeyIdentity(
       store,
       input.orgId,
@@ -840,6 +844,7 @@ export async function evaluateTelegramCampaignSelection(input: {
   dataKey?: string;
   contactBasis?: TelegramCampaignContactBasis;
   now?: Date;
+  readOnly?: boolean;
 }): Promise<TelegramCampaignSelectionEvaluation> {
   assertOrgId(input.orgId);
   const result = await evaluateSelectionInternal({
@@ -849,6 +854,7 @@ export async function evaluateTelegramCampaignSelection(input: {
     now: input.now ?? new Date(),
     dataKey: input.dataKey,
     contactBasis: input.contactBasis,
+    readOnly: input.readOnly,
   });
   return publicSelection(result);
 }

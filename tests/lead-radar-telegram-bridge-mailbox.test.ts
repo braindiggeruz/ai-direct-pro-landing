@@ -79,6 +79,45 @@ async function fixture() {
   return { mailbox, storage, device, authId, initial, call, result, state, finalizationMessages };
 }
 
+test('media checks are nonblocking, deduplicated by immutable content and recover after desktop completion', async () => {
+  const f = await fixture();
+  const ref = await f.mailbox.accountRef(orgId);
+  await f.storage.put(`bridge:device:${deviceId}`, { ...f.device, accountRef: ref });
+  const mediaId = `lrtgcm_${'a'.repeat(32)}`;
+  const media = { object_key: `lead-radar/campaign-media/${orgId}/${mediaId}`, media_id: mediaId,
+    media_digest: 'b'.repeat(64), mime_type: 'image/png', size_bytes: 68 };
+  const call = (operation: string, route = 'check') => f.mailbox.fetch(new Request(`https://lead-radar-telegram-account-do.internal/internal/media/${route}`, {
+    method: 'POST', body: JSON.stringify({ schema, org_id: orgId, account_ref: ref, operation_id: operation, media_ref: media }),
+  }));
+  const first = await call('media-fixture-start');
+  assert.equal(first.status, 202, await first.clone().text());
+  assert.equal((await first.json()).status, 'pending');
+  assert.equal((await call('media-fixture-retry')).status, 202);
+  const commands = [...f.storage.values.values()].filter((row): row is Row => typeof row === 'object' && row.kind === 'validate_media');
+  assert.equal(commands.length, 1);
+  const command = commands[0];
+  await f.storage.put(`bridge:command:${command.commandId}`, { ...command, status: 'succeeded', resultCode: 'media_valid' });
+  await f.storage.put(`bridge:device:${deviceId}`, { ...f.device, accountRef: ref, lastSeenAt: '2020-01-01T00:00:00Z' });
+  assert.equal((await (await call('media-fixture-reloaded')).json()).status, 'valid', 'validated bytes remain usable while desktop is offline');
+  assert.equal((await (await call('media-fixture-legacy', 'validate')).json()).status, 'valid', 'legacy route shares receipt');
+  await f.storage.put(`bridge:command:${command.commandId}`, { ...command, status: 'failed', resultCode: 'media_invalid' });
+  assert.equal((await (await call('media-fixture-invalid')).json()).code, 'media_invalid');
+});
+
+test('media check preserves explicit offline state and does not enqueue until a device is available', async () => {
+  const f = await fixture();
+  const ref = await f.mailbox.accountRef(orgId);
+  await f.storage.delete(`bridge:org-device:${orgId}`);
+  const mediaId = `lrtgcm_${'c'.repeat(32)}`;
+  const response = await f.mailbox.fetch(new Request('https://lead-radar-telegram-account-do.internal/internal/media/check', {
+    method: 'POST', body: JSON.stringify({ schema, org_id: orgId, account_ref: ref, operation_id: 'media-offline-fixture',
+      media_ref: { object_key: `lead-radar/campaign-media/${orgId}/${mediaId}`, media_id: mediaId, media_digest: 'd'.repeat(64), mime_type: 'image/png', size_bytes: 68 } }),
+  }));
+  assert.equal(response.status, 202);
+  assert.equal((await response.json()).code, 'bridge_offline');
+  assert.equal([...f.storage.values.values()].filter(row => typeof row === 'object' && row.kind === 'validate_media').length, 0);
+});
+
 test('contact resolution is async, version-gated, account-bound and idempotent', async () => {
   const f = await fixture();
   const ref = await f.mailbox.accountRef(orgId);

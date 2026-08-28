@@ -80,10 +80,12 @@ export async function checkCorporateTelegramContact(input: {
   const company = await db.prepare('SELECT id,search_id,name,city,address,country,phone,suppressed,lifecycle,website FROM lead_radar_companies WHERE org_id=? AND id=? AND search_id=?')
     .bind(orgId,companyId,input.searchId).first<CompanyRow>();
   if (!company) return reject('contact_not_found');
+  if (company.suppressed === 1 || company.lifecycle === 'do_not_contact') return reject('do_not_contact');
   const evidence = (await db.prepare('SELECT id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE org_id=? AND company_id=?').bind(orgId,companyId).all<EvidenceRow>()).results ?? [];
   const enrichment=(await loadContactEnrichments(db,orgId,[company],now)).get(company.id);
   const candidate = candidates(company,evidence,now,enrichment).find((c) => c.key === input.candidateKey);
   if (!candidate) return reject('corporate_source_required');
+  if (!candidate.lookupEligible) return reject('corporate_source_required');
   const target = candidate.kind === 'phone' ? { kind: 'phone' as const, value: candidate.value } : parseLeadRadarTelegramLocator(candidate.value);
   if (!target) return reject('invalid_target');
   const [candidateDigest, proofDigest, accountDigest] = await Promise.all([hash(candidate.key),proof(candidate,evidence,enrichment),hash(input.accountId)]);

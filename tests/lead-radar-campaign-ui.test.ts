@@ -215,7 +215,7 @@ test('campaign image UX is explicit, accessible and binds the opaque media to bo
   assert.match(component, /leadRadarDeleteTelegramCampaignImage\(next\.mediaId\)/);
   assert.match(component, /whitespace-pre-wrap break-words/);
   assert.match(component, /Markdown и HTML не интерпретируются/);
-  assert.match(component, /imagePreviewUrl \? 'подпись к фото' : 'обычный текст'/);
+  assert.match(component, /hasImageAttachment \? 'подпись к фото' : 'обычный текст'/);
   assert.match(component, /Точный предпросмотр подписи и ориентировочный предпросмотр изображения/);
   assert.match(component, /Текст ниже — точная подпись\. Изображение показано ориентировочно/);
   assert.match(component, /Telegram может дополнительно его сжать/);
@@ -611,8 +611,10 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /\{uniqueFoundLeadCount\}[\s\S]{0,300}\{telegramLeadCount\}[\s\S]{0,300}\{automaticLeadCount\}/);
   assert.match(component, /Записи «Не связываться» не попадают даже в черновик/);
   assert.match(component, /исключаются сервером до отправки/);
-  assert.match(component, /selectedLeadIds\.size > 0 && localSummary\.automatic === 0[\s\S]{0,220}Сначала найдите подтверждённый Telegram хотя бы у одной выбранной компании/);
-  assert.match(component, /disabled=\{!campaignOutreachEnabled[\s\S]{0,300}localSummary\.automatic === 0/);
+  assert.match(component, /if \(!serverSelection \|\| serverSelection\.blockers\.length > 0 \|\| serverSelection\.selection\.automatic === 0\)/);
+  assert.match(component, /disabled=\{!campaignOutreachEnabled[\s\S]{0,400}serverSelection\.selection\.automatic === 0/);
+  assert.match(component, /serverSelection\.selection\.automaticCompanyIds\.filter/);
+  assert.match(component, /serverSelection\.blockers\.length > 0/);
   assert.match(component, /Все персонализированные сообщения/);
   assert.match(component, /Показаны все:/);
   assert.doesNotMatch(component, /preparation\.previews\.slice\(0, 3\)/);
@@ -623,7 +625,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /Это нужный аккаунт для текущей кампании/);
   assert.match(component, /Выбор пункта не создаёт разрешение/);
   assert.match(component, /isValidCampaignRecipientAuthorization/);
-  assert.match(component, /Подтвердить документ по одной компании/);
+  assert.match(component, /Подтвердить основание для компании/);
   assert.match(component, /evidenceReference: normalizedReference/);
   assert.match(component, /От 8 до 200 символов/);
   assert.match(component, /максимум 366 дней/);

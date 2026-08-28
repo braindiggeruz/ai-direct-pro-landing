@@ -2,6 +2,7 @@ import type {
   TelegramCampaignProviderResult,
   TelegramCampaignSender,
 } from './telegram-campaign';
+import type { LeadRadarMediaValidation } from '../../../src/shared/lead-radar-media-validation';
 import {
   telegramCampaignMediaObjectKey,
   type TelegramCampaignResolvedMedia,
@@ -61,6 +62,9 @@ interface TelegramServiceTransportMedia {
 
 export type TelegramAccountServiceErrorCode =
   | 'telegram_campaign_gateway_unavailable'
+  | 'telegram_campaign_bridge_offline'
+  | 'telegram_campaign_media_validation_failed'
+  | 'telegram_campaign_gateway_not_configured'
   | 'telegram_campaign_gateway_invalid_response'
   | 'telegram_campaign_gateway_not_found'
   | 'telegram_campaign_gateway_conflict'
@@ -297,6 +301,7 @@ async function serviceFetch(
   pathname: string,
   init: RequestInit,
   internalServiceToken?: string,
+  timeoutMs = TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS,
 ): Promise<Response> {
   if (!configured(service)
     || !INTERNAL_SERVICE_TOKEN_PATTERN.test(internalServiceToken ?? '')) {
@@ -309,7 +314,7 @@ async function serviceFetch(
       service,
       `${INTERNAL_ORIGIN}${pathname}`,
       { ...init, headers },
-      TELEGRAM_ACCOUNT_CONTROL_REQUEST_TIMEOUT_MS,
+      timeoutMs,
     );
   } catch {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_unavailable');
@@ -330,7 +335,21 @@ function statusError(response: Response): never {
 }
 
 async function responseEnvelope(response: Response): Promise<ServiceEnvelope> {
-  if (!response.ok) statusError(response);
+  if (!response.ok) {
+    // Preserve only closed reason codes, never an untrusted raw error body.
+    let reason: unknown;
+    try {
+      const raw = await responseTextBeforeDeadline(response);
+      if (raw.length <= 4096) {
+        const error = JSON.parse(raw) as Record<string, unknown>;
+        if (error.schema === SERVICE_SCHEMA && error.status === 'error') reason = error.reason_code;
+      }
+    } catch { /* Unknown failures retain their HTTP classification. */ }
+    if (reason === 'bridge_offline') throw new TelegramAccountServiceError('telegram_campaign_bridge_offline');
+    if (reason === 'bridge_media_validation_failed') throw new TelegramAccountServiceError('telegram_campaign_media_validation_failed');
+    if (reason === 'gateway_not_configured') throw new TelegramAccountServiceError('telegram_campaign_gateway_not_configured');
+    statusError(response);
+  }
   const declared = Number(response.headers.get('Content-Length') ?? 0);
   if (Number.isFinite(declared) && declared > MAX_RESPONSE_BYTES) {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
@@ -1145,6 +1164,28 @@ export async function validateTelegramCampaignMedia(input: {
     && envelope.status === 'rejected'
     && envelope.code === 'media_invalid') {
     return 'invalid';
+  }
+  throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
+}
+
+/** Starts or reads the same bounded media operation; never waits for the desktop. */
+export async function checkTelegramCampaignMedia(input: Parameters<typeof validateTelegramCampaignMedia>[0]): Promise<LeadRadarMediaValidation> {
+  assertRequestScope(input.orgId, input.operationId);
+  const media = resolvedMediaEnvelope(input.media, input.orgId);
+  if (!media) return { status: 'invalid' };
+  const response = await serviceFetch(input.service, '/v1/media/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Idempotency-Key': input.operationId },
+    body: JSON.stringify({ schema: SERVICE_SCHEMA, org_id: input.orgId, operation_id: input.operationId, media }),
+  }, input.internalServiceToken, 8_000);
+  const envelope = await responseEnvelope(response);
+  if (exactKeys(envelope, ['schema', 'status']) && envelope.status === 'valid') return { status: 'valid' };
+  if (exactKeys(envelope, ['schema', 'status', 'code']) && envelope.status === 'rejected' && envelope.code === 'media_invalid') return { status: 'invalid' };
+  if (exactKeys(envelope, ['schema', 'status', 'code', 'retry_after_seconds']) && envelope.status === 'pending'
+    && (envelope.code === 'bridge_offline' || envelope.code === 'media_validation_pending')
+    && typeof envelope.retry_after_seconds === 'number' && Number.isInteger(envelope.retry_after_seconds)
+    && envelope.retry_after_seconds >= 1 && envelope.retry_after_seconds <= 30) {
+    return { status: 'pending', reason: envelope.code, retryAfterSeconds: envelope.retry_after_seconds };
   }
   throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
 }

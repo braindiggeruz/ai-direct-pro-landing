@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { describeCampaignFailure } from '../../lib/campaign-diagnostics';
+import { readCampaignMediaDraft, saveCampaignMediaDraft } from '../../lib/campaign-media-draft';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -24,6 +26,8 @@ import type { LeadRadarLead, LeadRadarTelegramAccountReadiness } from '../../../
 import { AUDIENCE_LIMIT } from '../../../shared/lead-radar-audiences';
 import { mobileOrUsernameLeadIds, recipientContactChoices, recipientContactSummary } from '../../../shared/lead-radar-recipient-contacts';
 import { api } from '../../lib/api';
+import { CampaignReadiness } from './CampaignReadiness';
+import type { LeadRadarCampaignPreflight } from '../../lib/lead-radar-campaign';
 import { awaitTelegramPhoneChallenge } from '../../lib/lead-radar-telegram-auth';
 import {
   automaticCampaignLeadIds,
@@ -73,6 +77,7 @@ import {
 import { Badge, Button, Card, Input, Label, Select, Textarea } from '../ui';
 
 export interface TelegramAccountCampaignPanelProps {
+  onContactsUpdated?: () => void;
   searchId?: string;
   audience?: { audienceId: string; audienceVersion: number };
   initialSelectedLeadIds?: string[];
@@ -188,7 +193,7 @@ const CONTACT_BASIS_COPY: Record<LeadRadarCampaignContactBasis, string> = {
   contractual_relationship: 'Действующий договор',
 };
 
-type CampaignMediaState = 'idle' | 'validating' | 'ready' | 'uploading' | 'uploaded' | 'removing' | 'error';
+type CampaignMediaState = 'idle' | 'validating' | 'ready' | 'uploading' | 'checking' | 'uploaded' | 'removing' | 'error';
 
 const CAMPAIGN_IMAGE_VALIDATION_COPY: Record<LeadRadarCampaignImageValidationCode, string> = {
   empty: 'Файл пустой. Выберите другое изображение.',
@@ -234,6 +239,10 @@ async function inspectCampaignImage(file: File): Promise<LeadRadarCampaignImageV
 }
 
 function campaignMediaErrorCopy(error: unknown): string {
+  return describeCampaignFailure(error, campaignMediaErrorMessage(error));
+}
+
+function campaignMediaErrorMessage(error: unknown): string {
   const details = error as Error & { code?: string; status?: number };
   if (details.code === 'telegram_campaign_media_type_invalid' || details.status === 415) return CAMPAIGN_IMAGE_VALIDATION_COPY.unsupported_type;
   if (details.code === 'telegram_campaign_media_too_large' || details.status === 413) return CAMPAIGN_IMAGE_VALIDATION_COPY.too_large;
@@ -270,6 +279,10 @@ function localDateTimeToIso(value: string): string | null {
 }
 
 function campaignErrorCopy(error: unknown): string {
+  return describeCampaignFailure(error, campaignErrorMessage(error));
+}
+
+function campaignErrorMessage(error: unknown): string {
   const details = error as Error & { code?: string; status?: number; retryAfterSeconds?: number };
   if (details.code?.startsWith('audience_')) return 'Аудитория изменилась или один из её контактов больше не допускается. Обновите аудиторию в общей базе и выполните проверку заново. Ничего не отправлено.';
   if (details.code === 'telegram_campaign_disabled'
@@ -310,7 +323,7 @@ function campaignErrorCopy(error: unknown): string {
   if (details.code === 'telegram_campaign_recipient_limit') return 'В одной кампании можно выбрать не более 50 компаний.';
   if (details.code === 'lead_radar_contact_paused') return 'Контактный контур выключен. Кампания не запущена.';
   if (details.code === 'UNAUTHENTICATED') return 'Сессия завершилась. Войдите в панель снова.';
-  if (details.status === 404 || details.status === 503) return 'Контур отдельного Telegram-аккаунта пока недоступен на сервере. Ничего не отправлено.';
+  if (details.status === 404 || details.status === 503) return 'Сервер не завершил этот этап. Код ошибки и номер запроса ниже помогут определить причину. Не переподключайте аккаунт вслепую.';
   return 'Сервер не подтвердил операцию. Ничего не повторяется автоматически — обновите статус перед новой попыткой.';
 }
 
@@ -629,6 +642,7 @@ function validPreparation(value: LeadRadarTelegramCampaignPreparation): boolean 
 }
 
 export function TelegramAccountCampaignPanel({
+  onContactsUpdated,
   searchId: sourceSearchId,
   audience,
   initialSelectedLeadIds,
@@ -707,6 +721,7 @@ export function TelegramAccountCampaignPanel({
   const [authorizationNotice, setAuthorizationNotice] = useState<string | null>(null);
   const [authorizationError, setAuthorizationError] = useState(false);
   const [authorizedLeadIds, setAuthorizedLeadIds] = useState<Set<string>>(() => new Set());
+  const [serverSelection, setServerSelection] = useState<LeadRadarCampaignPreflight | null>(null);
   const [preparation, setPreparation] = useState<LeadRadarTelegramCampaignPreparation | null>(null);
   const [preparationClock, setPreparationClock] = useState(() => Date.now());
   const [exactConfirmation, setExactConfirmation] = useState(false);
@@ -742,6 +757,7 @@ export function TelegramAccountCampaignPanel({
   const mediaValidationSequence = useRef(0);
   const mediaUploadSequence = useRef(0);
   const mediaUploadAbortController = useRef<AbortController | null>(null);
+  const mediaCheckStartedAt = useRef(0);
   const currentSearchId = useRef(searchId);
   const authorizationRequest = useRef<{ fingerprint: string; key: string } | null>(null);
   const transitionRequestKeys = useRef<Partial<Record<'start' | 'pause' | 'resume' | 'stop', string>>>({});
@@ -1058,10 +1074,12 @@ export function TelegramAccountCampaignPanel({
     mediaValidationSequence.current += 1;
     setImageFile(null);
     setImagePreviewUrl(null);
-    setUploadedMedia(null);
-    setMediaState('idle');
+    const restoredMedia = readCampaignMediaDraft(audienceId ?? searchId);
+    setUploadedMedia(restoredMedia);
+    setMediaState(restoredMedia ? 'checking' : 'idle');
+    mediaCheckStartedAt.current = Date.now();
     setMediaProgress(0);
-    setMediaNotice(null);
+    setMediaNotice(restoredMedia ? 'Восстанавливаем проверку сохранённого изображения…' : null);
     setMediaError(false);
     setImageDragActive(false);
     if (imageInputRef.current) imageInputRef.current.value = '';
@@ -1070,7 +1088,49 @@ export function TelegramAccountCampaignPanel({
     mediaUploadRequestKey.current = null;
     authorizationRequest.current = null;
     transitionRequestKeys.current = {};
-  }, [searchId]);
+  }, [searchId, audienceId]);
+
+  useEffect(() => {
+    if (mediaState !== 'checking' || !uploadedMedia) return;
+    let active = true;
+    let timer: ReturnType<typeof setTimeout>;
+    const reference = { mediaId: uploadedMedia.mediaId, mediaDigest: uploadedMedia.mediaDigest };
+    const check = async () => {
+      try {
+        const next = await api.leadRadarCheckTelegramCampaignImage(reference);
+        if (!active) return;
+        if (!isValidCampaignMediaUpload(next) || next.mediaId !== reference.mediaId || next.mediaDigest !== reference.mediaDigest) {
+          throw Object.assign(new Error('Invalid media validation state'), { status: 502 });
+        }
+        if (next.validation?.status === 'pending') {
+          if (Date.now() - mediaCheckStartedAt.current > 120_000) {
+            setMediaState('error');
+            setMediaError(true);
+            setMediaNotice('Изображение сохранено, но Bridge пока не завершил проверку. Запустите Bridge и нажмите «Продолжить проверку» — повторная загрузка не нужна.');
+            return;
+          }
+          setMediaNotice(next.validation.reason === 'bridge_offline'
+            ? 'Изображение сохранено. Ждём локальный Bridge; откройте программу на компьютере.'
+            : 'Изображение сохранено. Bridge проверяет его в фоне; повторно загружать файл после обновления страницы не нужно.');
+          timer = setTimeout(() => { void check(); }, next.validation.retryAfterSeconds * 1000);
+          return;
+        }
+        if (next.validation?.status === 'invalid') throw Object.assign(new Error('Invalid image'), { code: 'telegram_campaign_media_invalid' });
+        saveCampaignMediaDraft(audienceId ?? searchId, next);
+        setUploadedMedia(next);
+        setMediaState('uploaded');
+        setMediaError(false);
+        setMediaNotice('Bridge подтвердил изображение. Оно готово для серверной проверки кампании.');
+      } catch (error) {
+        if (!active) return;
+        setMediaState('error');
+        setMediaError(true);
+        setMediaNotice(campaignMediaErrorCopy(error));
+      }
+    };
+    timer = setTimeout(() => { void check(); }, 1000);
+    return () => { active = false; clearTimeout(timer); };
+  }, [mediaState, uploadedMedia, searchId, audienceId]);
 
   useEffect(() => () => {
     mediaUploadSequence.current += 1;
@@ -1137,8 +1197,10 @@ export function TelegramAccountCampaignPanel({
   const selectedCorporateCandidates = useMemo(
     () => selectedLeads.filter((lead) => !excludedRecipientIds?.includes(lead.id)
       && !['contacted','replied','qualified','meeting','won'].includes(lead.lifecycle)
-      && classifyCampaignLeadLocally(lead).classification === 'automatic'),
-    [selectedLeads,excludedRecipientIds],
+      && (classifyCampaignLeadLocally(lead).classification === 'automatic'
+        || serverSelection?.selection.items.some((item) => item.companyId === lead.id
+          && ['documented_basis_required', 'verified_corporate_authorized'].includes(item.reasonCode)))),
+    [selectedLeads,excludedRecipientIds,serverSelection],
   );
   const authorizationLead = selectedCorporateCandidates
     .find((lead) => lead.id === authorizationLeadId) ?? null;
@@ -1174,6 +1236,7 @@ export function TelegramAccountCampaignPanel({
     summary[classification] += 1;
     return summary;
   }, { automatic: 0, manual: 0, excluded: 0 }), [selectedLeads]);
+  const displayedSelection = serverSelection?.selection ?? localSummary;
   const automaticLeadIds = useMemo(() => automaticCampaignLeadIds(leads), [leads]);
   const draftCandidateLeadIds = useMemo(() => mobileOrUsernameLeadIds(leads), [leads]);
   const uniqueFoundLeadCount = useMemo(() => new Set(leads.map((lead) => lead.id)).size, [leads]);
@@ -1184,7 +1247,7 @@ export function TelegramAccountCampaignPanel({
     }
     return ids.size;
   }, [leads]);
-  const automaticLeadCount = automaticLeadIds.length;
+  const automaticLeadCount = serverSelection?.selection.automatic ?? automaticLeadIds.length;
   const accountConnectionId = account?.connectionId ?? account?.id ?? null;
   const effectiveAccountReadiness = account?.readiness ?? telegramAccountReadiness;
   const accountReadinessBlocked = effectiveAccountReadiness?.status === 'blocked'
@@ -1252,13 +1315,13 @@ export function TelegramAccountCampaignPanel({
   }, [preparation, reviewRecipients]);
   const nonAutomaticReviewItems = reviewRecipients
     .filter((recipient) => recipient.classification !== 'automatic');
-  const hasImageAttachment = Boolean(imageFile);
+  const hasImageAttachment = Boolean(imageFile || uploadedMedia);
   const messageLimit = campaignMessageLimit(hasImageAttachment);
-  const attachmentReference = imageFile && mediaState === 'uploaded' && uploadedMedia
+  const attachmentReference = mediaState === 'uploaded' && uploadedMedia
     ? { mediaId: uploadedMedia.mediaId, mediaDigest: uploadedMedia.mediaDigest }
     : null;
-  const attachmentReady = !imageFile || Boolean(attachmentReference);
-  const mediaBusy = mediaState === 'validating' || mediaState === 'uploading' || mediaState === 'removing';
+  const attachmentReady = !hasImageAttachment || Boolean(attachmentReference);
+  const mediaBusy = mediaState === 'validating' || mediaState === 'uploading' || mediaState === 'checking' || mediaState === 'removing';
   const longestLocalPreviewLength = selectedCorporateCandidates.reduce((longest, lead) => (
     Math.max(longest, [...renderCampaignPreview(template, lead.name)].length)
   ), [...template].length);
@@ -1562,7 +1625,9 @@ export function TelegramAccountCampaignPanel({
         return;
       }
       setUploadedMedia(next);
-      setMediaState('uploaded');
+      saveCampaignMediaDraft(audienceId ?? searchId, next);
+      mediaCheckStartedAt.current = Date.now();
+      setMediaState(next.validation?.status === 'pending' ? 'checking' : 'uploaded');
       setMediaError(Boolean(previousCleanupIssue));
       setMediaNotice(previousCleanupIssue
         ? `Новое изображение загружено и выбрано. Предыдущая защищённая копия пока сохранена сервером: ${previousCleanupIssue}`
@@ -1609,6 +1674,7 @@ export function TelegramAccountCampaignPanel({
     setImageFile(null);
     setImagePreviewUrl(null);
     setUploadedMedia(null);
+    saveCampaignMediaDraft(audienceId ?? searchId, null);
     setMediaState('idle');
     setMediaProgress(0);
     setMediaError(Boolean(cleanupIssue));
@@ -1838,9 +1904,9 @@ export function TelegramAccountCampaignPanel({
 
   async function prepareCampaign(): Promise<void> {
     const accountId = accountConnectionId;
-    if (selectedLeadIds.size > 0 && localSummary.automatic === 0) {
+    if (!serverSelection || serverSelection.blockers.length > 0 || serverSelection.selection.automatic === 0) {
       setOperationError(true);
-      setOperationNotice('Сначала найдите подтверждённый Telegram хотя бы у одной выбранной компании. Серверная проверка не запускалась, ничего не отправлено.');
+      setOperationNotice('Сначала нажмите «Показать готовность на сервере». Нужен хотя бы один подтверждённый адресат с действующим основанием и без серверных блокировок.');
       return;
     }
     if (!campaignOutreachEnabled
@@ -1860,7 +1926,7 @@ export function TelegramAccountCampaignPanel({
     setOperationNotice(null);
     setOperationError(false);
     try {
-      const requestCompanyIds=selectedCorporateCandidates.slice(0,LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT).map((lead)=>lead.id);
+      const requestCompanyIds=serverSelection.selection.automaticCompanyIds.filter((id)=>selectedLeadIds.has(id) && !excludedRecipientIds?.includes(id)).slice(0,LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT);
       const next = await api.leadRadarPrepareTelegramCampaign({
         accountId,
         ...campaignSource,
@@ -2174,7 +2240,7 @@ export function TelegramAccountCampaignPanel({
                 <dl className="mt-2 grid grid-cols-3 gap-2" aria-label="Сводка найденных компаний">
                   <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">Найдено</dt><dd className="text-sm font-semibold tabular-nums text-white">{uniqueFoundLeadCount}</dd></div>
                   <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">С Telegram</dt><dd className="text-sm font-semibold tabular-nums text-white">{telegramLeadCount}</dd></div>
-                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/75">Telegram-кандидаты</dt><dd className="text-sm font-semibold tabular-nums text-white">{automaticLeadCount}</dd></div>
+                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/75">{serverSelection ? 'Подтверждены сервером' : 'Telegram-кандидаты'}</dt><dd className="text-sm font-semibold tabular-nums text-white">{automaticLeadCount}</dd></div>
                 </dl>
                 <p id={bulkSelectionStatusId} role="status" aria-live="polite" aria-atomic="true" className="mt-1 text-xs leading-5 text-white/70">{bulkSelectionStatus}</p>
               </div>
@@ -2504,11 +2570,19 @@ export function TelegramAccountCampaignPanel({
                   <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12">Снять весь выбор{selectedLeadIds.size > 0 ? ` (${selectedLeadIds.size})` : ''}</Button>
                 </div>
               </div>
+              <CampaignReadiness scope={`${searchId}:${audienceId ?? ''}:${accountConnectionId ?? ''}`}
+                leads={selectedLeads} excludedIds={excludedRecipientIds} basis={contactBasis} canCheck={connected}
+                disabled={operationBusy || Boolean(campaign)} revision={authorizedLeadIds.size}
+                onUpdated={onContactsUpdated} onSnapshot={setServerSelection}
+                onSelectReady={(ids) => { setSelectedLeadIds(new Set(ids)); invalidatePreparation(); }} />
               <div className="mt-3 max-h-80 space-y-2 overflow-y-auto pr-1" aria-label="Компании для Telegram-кампании">
                 {leads.map((lead) => {
                   const local = classifyCampaignLeadLocally(lead);
                   const selectable = recipientContactChoices(lead).selectable;
-                  const copy = selectable && local.reason==='missing_telegram' ? {label:'Проверить Telegram',tone:'warning' as const} : LOCAL_CLASSIFICATION_COPY[local.classification];
+                  const checked = serverSelection?.selection.items.find((item) => item.companyId === lead.id);
+                  const copy = checked ? { label: checked.classification === 'automatic' ? 'Подтверждён сервером' : checked.reasonCode === 'documented_basis_required' ? 'Нужно основание' : 'Не допущен',
+                    tone: checked.classification === 'automatic' ? 'success' as const : 'warning' as const }
+                    : selectable && local.reason==='missing_telegram' ? {label:'Проверить Telegram',tone:'warning' as const} : LOCAL_CLASSIFICATION_COPY[local.classification];
                   return (
                     <label key={lead.id} className={`flex min-h-12 items-start gap-3 rounded-xl border p-3 transition-colors motion-reduce:transition-none ${selectable ? 'cursor-pointer border-white/[0.08] hover:bg-white/[0.025]' : 'cursor-not-allowed border-rose-300/10 bg-rose-400/[0.025]'}`}>
                       <input
@@ -2522,7 +2596,8 @@ export function TelegramAccountCampaignPanel({
                         <span className="block truncate text-sm font-medium text-white/80">{lead.name}</span>
                         {selectable && <span className="mt-1 block break-words text-sm text-brand-cyan">{recipientContactSummary(lead)}</span>}
                         <span className="mt-1 block text-[11px] text-white/50">{lead.city} · {lead.priority}</span>
-                        <span className="mt-1 block text-xs leading-5 text-white/80">{selectable && local.reason==='missing_telegram' ? 'Мобильный номер найден. Telegram ещё не подтверждён; до проверки отправка недоступна.' : LOCAL_REASON_COPY[local.reason]}</span>
+                        <span className="mt-1 block text-xs leading-5 text-white/80">{checked ? SERVER_REASON_COPY[checked.reasonCode] ?? checked.reasonCode
+                          : selectable && local.reason==='missing_telegram' ? 'Мобильный номер найден. Telegram ещё не подтверждён; до проверки отправка недоступна.' : LOCAL_REASON_COPY[local.reason]}</span>
                       </span>
                       <Badge tone={copy.tone}>{copy.label}</Badge>
                     </label>
@@ -2605,7 +2680,7 @@ export function TelegramAccountCampaignPanel({
                     }}
                     className="sr-only"
                   />
-                  {!imagePreviewUrl ? (
+                  {!imagePreviewUrl && !uploadedMedia ? (
                     <div className="flex flex-col items-center text-center">
                       {mediaState === 'validating'
                         ? <LoaderCircle size={32} className="text-brand-cyan motion-safe:animate-spin" aria-hidden="true" />
@@ -2624,26 +2699,32 @@ export function TelegramAccountCampaignPanel({
                     </div>
                   ) : (
                     <div className="grid gap-4 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)]">
-                      <img
+                      {imagePreviewUrl ? <img
                         src={imagePreviewUrl}
                         alt={`Предпросмотр изображения «${imageFile?.name ?? 'макет'}» для Telegram-сообщения`}
                         className="max-h-72 w-full rounded-xl border border-white/[0.1] bg-white object-contain"
-                      />
+                      /> : <div className="flex min-h-28 items-center justify-center rounded-xl border border-white/10 p-3 text-sm text-white/70">Защищённая копия сохранена. Локальный предпросмотр после перезагрузки недоступен.</div>}
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-white">{imageFile?.name}</p>
+                        <p className="truncate text-sm font-semibold text-white">{imageFile?.name ?? uploadedMedia?.filename}</p>
                         {imageFile && <p className="mt-1 text-xs text-white/60">{formatImageSize(imageFile.size)} · {imageFile.type.replace('image/', '').toUpperCase()}</p>}
                         <p className="mt-2 text-xs leading-5 text-white/65">
                           {mediaState === 'uploaded'
                             ? 'Загружено в защищённый черновик. Отправка начнётся только после проверки и отдельного запуска кампании.'
+                            : mediaState === 'checking'
+                              ? 'Bridge проверяет сохранённое изображение в фоне. Повторно загружать файл не нужно.'
                             : mediaState === 'uploading'
                               ? 'Загрузка выполняется. Кампания ещё не создана и сообщение не отправляется.'
                               : 'Файл выбран только в браузере. Загрузите его отдельной кнопкой, чтобы включить в проверку.'}
                         </p>
                         <div className="mt-3 flex flex-wrap gap-2">
                           {mediaState !== 'uploaded' && (
-                            <Button type="button" disabled={mediaBusy} onClick={() => { void uploadCampaignImage(); }} className="min-h-12">
+                            <Button type="button" disabled={mediaBusy} onClick={() => {
+                              if (uploadedMedia && mediaState !== 'ready' && (!imageFile || uploadedMedia.validation?.status === 'pending')) {
+                                mediaCheckStartedAt.current = Date.now(); setMediaError(false); setMediaState('checking');
+                              } else void uploadCampaignImage();
+                            }} className="min-h-12">
                               {mediaState === 'uploading' ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" /> : <UploadCloud size={17} aria-hidden="true" />}
-                              {mediaState === 'uploading' ? `Загрузка ${mediaProgress}%` : uploadedMedia ? 'Загрузить замену' : mediaState === 'error' ? 'Повторить загрузку' : 'Загрузить изображение'}
+                              {mediaState === 'checking' ? 'Bridge проверяет…' : mediaState === 'uploading' ? `Загрузка ${mediaProgress}%` : uploadedMedia && mediaState !== 'ready' && (!imageFile || uploadedMedia.validation?.status === 'pending') ? 'Продолжить проверку' : uploadedMedia ? 'Загрузить замену' : mediaState === 'error' ? 'Повторить загрузку' : 'Загрузить изображение'}
                             </Button>
                           )}
                           <Button type="button" variant="secondary" disabled={mediaBusy} onClick={() => imageInputRef.current?.click()} className="min-h-12">
@@ -2674,20 +2755,20 @@ export function TelegramAccountCampaignPanel({
 
               <div
                 className="mt-4 rounded-2xl border border-white/[0.09] bg-[#05070d]/55 p-3"
-                aria-label={imagePreviewUrl
+                aria-label={hasImageAttachment
                   ? 'Точный предпросмотр подписи и ориентировочный предпросмотр изображения Telegram-сообщения'
                   : 'Точный предпросмотр текста Telegram-сообщения'}
               >
                 <div className="flex items-center justify-between gap-3">
                   <h4 className="min-w-0 truncate text-xs font-semibold uppercase tracking-wide text-white/65">Предпросмотр сообщения{composerPreviewCompany ? ` · ${composerPreviewCompany}` : ''}</h4>
                   <span className="text-[11px] text-white/50">
-                    {imagePreviewUrl ? 'подпись к фото' : 'обычный текст'}
+                    {hasImageAttachment ? 'подпись к фото' : 'обычный текст'}
                   </span>
                 </div>
                 {imagePreviewUrl && <img src={imagePreviewUrl} alt="Изображение в предпросмотре Telegram-сообщения" className="mt-3 max-h-80 w-full rounded-xl bg-white object-contain" />}
                 <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-white/85">{composerPreviewText || 'Текст сообщения появится здесь.'}</p>
                 <p className="mt-2 text-xs leading-5 text-white/55">
-                  {imagePreviewUrl
+                  {hasImageAttachment
                     ? 'Текст ниже — точная подпись. Изображение показано ориентировочно: перед отправкой оно безопасно очищается и перекодируется, а Telegram может дополнительно его сжать. '
                     : 'Текст ниже отправится без скрытого форматирования. '}
                   Переносы строк и emoji сохраняются; Markdown и HTML не интерпретируются.
@@ -2721,7 +2802,7 @@ export function TelegramAccountCampaignPanel({
               {contactBasis && selectedCorporateCandidates.length > 0 && (
                 <details className="mt-4 rounded-xl border border-white/[0.09] bg-white/[0.018]">
                   <summary className="flex min-h-12 cursor-pointer items-center justify-between gap-3 px-3 text-sm font-medium text-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan">
-                    <span>Подтвердить документ по одной компании</span>
+                    <span>Подтвердить основание для компании</span>
                     <span className="shrink-0 text-xs font-normal text-white/65">В этой сессии {selectedCorporateCandidates.filter((lead) => authorizedLeadIds.has(lead.id)).length}/{selectedCorporateCandidates.length}</span>
                   </summary>
                   <div className="space-y-4 border-t border-white/[0.07] p-3 sm:p-4">
@@ -2818,16 +2899,20 @@ export function TelegramAccountCampaignPanel({
 
               {selectedLeadIds.size > 0 && (
                 <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3" aria-label="Предварительная разбивка выбранных компаний">
-                  <div className="rounded-xl border border-emerald-300/15 bg-emerald-300/[0.035] p-3"><div className="text-[10px] uppercase text-white/50">Кандидаты авто</div><div className="mt-1 text-xl font-semibold tabular-nums text-emerald-200">{localSummary.automatic}</div></div>
-                  <div className="rounded-xl border border-amber-300/15 bg-amber-300/[0.035] p-3"><div className="text-[10px] uppercase text-white/50">Вручную</div><div className="mt-1 text-xl font-semibold tabular-nums text-amber-100">{localSummary.manual}</div></div>
-                  <div className="rounded-xl border border-white/[0.08] bg-white/[0.018] p-3"><div className="text-[10px] uppercase text-white/50">Исключатся</div><div className="mt-1 text-xl font-semibold tabular-nums text-white/75">{localSummary.excluded}</div></div>
+                  <div className="rounded-xl border border-emerald-300/15 bg-emerald-300/[0.035] p-3"><div className="text-[10px] uppercase text-white/50">{serverSelection ? 'Подтверждены сервером' : 'Кандидаты авто'}</div><div className="mt-1 text-xl font-semibold tabular-nums text-emerald-200">{displayedSelection.automatic}</div></div>
+                  <div className="rounded-xl border border-amber-300/15 bg-amber-300/[0.035] p-3"><div className="text-[10px] uppercase text-white/50">Проверка / основание</div><div className="mt-1 text-xl font-semibold tabular-nums text-amber-100">{displayedSelection.manual}</div></div>
+                  <div className="rounded-xl border border-white/[0.08] bg-white/[0.018] p-3"><div className="text-[10px] uppercase text-white/50">Исключатся</div><div className="mt-1 text-xl font-semibold tabular-nums text-white/75">{displayedSelection.excluded}</div></div>
                 </div>
+              )}
+
+              {(!serverSelection || serverSelection.selection.automatic === 0 || serverSelection.blockers.length > 0) && (
+                <p role="note" className="mt-3 text-sm leading-6 text-amber-100">Перед подготовкой нажмите «Показать готовность на сервере» в списке слева. Там будут точные причины: проверка Telegram, основание или состояние Bridge. После подтверждения документа обновите готовность.</p>
               )}
 
               <Button
                 type="button"
                 size="lg"
-                disabled={!campaignOutreachEnabled || !campaignRecoveryReady || !connected || !accountIdentityConfirmed || !contactBasis || selectedLeadIds.size === 0 || localSummary.automatic === 0 || !templateReadyForSelected || !attachmentReady || mediaBusy || operationBusy || Boolean(campaign)}
+                disabled={!campaignOutreachEnabled || !campaignRecoveryReady || !connected || !accountIdentityConfirmed || !contactBasis || selectedLeadIds.size === 0 || !serverSelection || serverSelection.selection.automatic === 0 || serverSelection.blockers.length > 0 || !templateReadyForSelected || !attachmentReady || mediaBusy || operationBusy || Boolean(campaign)}
                 aria-busy={operationBusy && !preparation}
                 onClick={() => { void prepareCampaign(); }}
                 className="mt-4 min-h-12 w-full"
@@ -2841,9 +2926,9 @@ export function TelegramAccountCampaignPanel({
                   ? <p className="mt-2 text-xs leading-5 text-amber-50/75">Для серверной проверки сначала подключите отдельный аккаунт.</p>
                   : !accountIdentityConfirmed
                     ? <p className="mt-2 text-xs leading-5 text-amber-50/75">Сверьте карточку подключённого аккаунта и отметьте «Это нужный аккаунт».</p>
-                    : selectedLeadIds.size > 0 && localSummary.automatic === 0
+                    : selectedLeadIds.size > 0 && localSummary.automatic === 0 && !serverSelection?.selection.automatic
                       ? <p role="note" className="mt-2 text-xs leading-5 text-amber-50/80">Сначала найдите подтверждённый Telegram хотя бы у одной выбранной компании. Выбор сохранён как черновик, но серверная проверка и отправка недоступны.</p>
-                      : imageFile && !attachmentReady
+                      : hasImageAttachment && !attachmentReady
                         ? <p role="note" className="mt-2 text-xs leading-5 text-amber-50/80">Загрузите выбранное изображение или удалите его. Незагруженный файл не попадёт в кампанию.</p>
                       : null}
             </div>
