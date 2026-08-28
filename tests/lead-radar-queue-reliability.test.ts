@@ -190,6 +190,39 @@ test('without provider opt-in missing sites remain terminal and create no extra 
   assert.equal(fixture.value('SELECT enrichment_reason FROM lead_radar_companies'), 'no_website');
 });
 
+test('provider capacity waits preserve failure attempts, but stop deferring after 30 minutes', async () => {
+  const fixture = database(); const db = fixture.asD1(); const store = new LeadRadarStore(db); const queue = new RecordingQueue();
+  const start = new Date('2026-08-28T12:00:00.000Z'); let at = new Date(start);
+  await enqueueLeadRadarSearch(store, 'org-a', SEARCH_INPUT, queue, start, 'bounded-provider-wait');
+  await consumeLeadRadarQueueMessage(db, queue.messages[0], queue, { now: () => at,
+    discover: async () => ({ candidates: [candidate('https://clinic.uz')], sourceWarnings: [] }),
+  });
+  const child = fixture.rows<{ id: string }>("SELECT id FROM lead_radar_jobs WHERE stage = 'enrichment'")[0];
+  const envelope = { schema: 'gptbot.lead-radar.job.v1' as const, job_id: child.id };
+  const deps = { now: () => at, enrichLead: async () => ({ facts: null, reason: 'source_timeout' as const,
+    retryable: true, deferUntil: new Date(at.getTime() + 60_000).toISOString() }) };
+  for (let i = 0; i < 5; i++) {
+    assert.deepEqual(await consumeLeadRadarQueueMessage(db, envelope, queue, deps), {
+      outcome: 'retry_wait', delaySeconds: 60, retryDelivery: true,
+    });
+    const deferred = await store.getJob(child.id);
+    assert.equal(deferred?.attemptCount, 0, 'a capacity wait is not a failed network attempt');
+    assert.equal(deferred?.createdAt, start.toISOString(), 'deadline is not extended by retry');
+    at = new Date(at.getTime() + 61_000);
+  }
+  at = new Date(start.getTime() + 31 * 60_000);
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const outcome = await consumeLeadRadarQueueMessage(db, envelope, queue, deps);
+    assert.equal((await store.getJob(child.id))?.attemptCount, attempt);
+    assert.equal(outcome.outcome, attempt === 3 ? 'dead_letter' : 'retry_wait');
+    at = new Date(at.getTime() + 200_000);
+  }
+  const terminal = await store.getJob(child.id);
+  assert.equal(await store.retryJob('org-a', child.id, 'stale-owner', 'source_timeout',
+    at.toISOString(), at.toISOString(), terminal?.leaseGeneration, true), false);
+  assert.equal((await store.getJob(child.id))?.status, 'dead_letter');
+});
+
 test('crash after Queue accepted a send produces a safe duplicate instead of a duplicate effect', async () => {
   const fixture = database();
   const db = fixture.asD1();

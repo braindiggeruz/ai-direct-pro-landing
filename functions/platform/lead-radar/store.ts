@@ -120,6 +120,7 @@ interface JobRow {
   attempt_count: number;
   max_attempts: number;
   available_at: string;
+  created_at: string;
   last_error_code: string | null;
   lease_owner: string | null;
   lease_expires_at: string | null;
@@ -165,6 +166,7 @@ function mapJob(row: JobRow): LeadRadarJob {
     attemptCount: Number(row.attempt_count),
     maxAttempts: Number(row.max_attempts),
     availableAt: row.available_at,
+    createdAt: row.created_at,
     lastErrorCode: row.last_error_code,
     leaseOwner: row.lease_owner,
     leaseExpiresAt: row.lease_expires_at,
@@ -1420,15 +1422,19 @@ export class LeadRadarStore {
     availableAt: string,
     now: string,
     leaseGeneration?: number,
+    preserveAttemptBudget = false,
   ): Promise<boolean> {
     const result = await this.db.prepare(`UPDATE lead_radar_jobs SET status = 'retry_wait',
+      attempt_count = CASE WHEN ? = 1 AND stage = 'enrichment'
+        AND created_at > ? THEN MAX(0, attempt_count - 1) ELSE attempt_count END,
       lease_owner = NULL, lease_expires_at = NULL, last_error_code = ?,
       available_at = ?, dispatch_status = 'pending', next_dispatch_at = ?,
       dispatch_lease_owner = NULL, dispatch_lease_expires_at = NULL,
       dispatched_at = NULL, updated_at = ?
       WHERE org_id = ? AND id = ? AND status = 'running' AND lease_owner = ?
         AND lease_expires_at > ? AND (? IS NULL OR lease_generation = ?)`)
-      .bind(errorCode, availableAt, availableAt, now, orgId, jobId, leaseOwner, now,
+      .bind(preserveAttemptBudget ? 1 : 0, new Date(Date.parse(now) - 30 * 60_000).toISOString(),
+        errorCode, availableAt, availableAt, now, orgId, jobId, leaseOwner, now,
         leaseGeneration ?? null, leaseGeneration ?? null).run();
     return Number(result.meta.changes ?? 0) === 1;
   }

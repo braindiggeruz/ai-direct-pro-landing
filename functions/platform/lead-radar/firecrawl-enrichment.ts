@@ -13,6 +13,8 @@ export type WebsiteEnrichmentResult = {
   reason: 'enriched' | 'no_relevant_evidence' | 'invalid_website' | 'robots_blocked' | 'http_blocked'
     | 'source_timeout' | 'source_unavailable' | 'no_website';
   retryable: boolean;
+  /** Local capacity/continuation is scheduling, not a failed provider attempt. */
+  deferUntil?: string;
 };
 
 interface PageResult {
@@ -235,7 +237,12 @@ export async function createFirecrawlQueueDependencies(
       } catch (error) {
         const code = error instanceof FirecrawlError ? error.code : 'provider_unavailable';
         await store.report(ctx, config.mode, code, pages.length, 0, directCount, now().toISOString());
-        if (error instanceof FirecrawlError && error.retryable) return { facts: null, reason: 'source_timeout', retryable: true };
+        if (error instanceof FirecrawlError && error.retryable) return {
+          facts: null, reason: 'source_timeout', retryable: true,
+          ...(['rate_limited', 'continuation'].includes(error.code) ? {
+            deferUntil: error.retryAt ?? new Date(now().getTime() + (error.code === 'continuation' ? 5_000 : 60_000)).toISOString(),
+          } : {}),
+        };
         if (config.mode === 'shadow') return direct;
         // Preserve useful direct facts. Unknown submission is terminal and visible,
         // not an automatic second charge on the next delivery of this job.

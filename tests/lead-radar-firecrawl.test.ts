@@ -285,7 +285,9 @@ test('contact page inherits a verified same-origin homepage without needing to r
         : '<h1>Example Dental Clinic</h1><p>+998711234567</p>');
     },
   });
-  assert.equal((await deps.enrichLead!('https://clinic.uz/', EXPECTED, job())).retryable, true);
+  const continuation = await deps.enrichLead!('https://clinic.uz/', EXPECTED, job());
+  assert.equal(continuation.retryable, true);
+  assert.equal(continuation.deferUntil, '2026-08-28T12:00:05.000Z');
   const result = await deps.enrichLead!('https://clinic.uz/', EXPECTED, job());
   assert.equal(result.facts?.telegramContact?.type, 'business');
   assert.equal(result.facts?.telegramContact?.messageable, false);

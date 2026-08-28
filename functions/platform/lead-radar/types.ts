@@ -121,6 +121,8 @@ export interface LeadRadarJob {
   attemptCount: number;
   maxAttempts: number;
   availableAt: string;
+  /** Immutable job age bounds non-failure provider continuations. */
+  createdAt?: string;
   lastErrorCode: string | null;
   leaseOwner: string | null;
   leaseExpiresAt: string | null;

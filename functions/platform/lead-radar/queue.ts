@@ -285,11 +285,19 @@ async function retryOrDeadLetter(
   job: LeadRadarJob,
   code: string,
   at: Date,
+  deferUntil?: string,
 ): Promise<LeadRadarQueueOutcome> {
   const now = at.toISOString();
   if (!job.leaseOwner) return { outcome: 'duplicate' };
-  if (job.attemptCount < job.maxAttempts) {
-    const delaySeconds = retryDelaySeconds(job.attemptCount);
+  const created = Date.parse(job.createdAt ?? '');
+  const resume = Date.parse(deferUntil ?? '');
+  // A successful chunk or capacity wait must not exhaust network-error retries.
+  // Immutable creation time prevents endless continuation, even after restart.
+  const defer = job.stage === 'enrichment' && Number.isFinite(created)
+    && resume > at.getTime() && resume <= created + 30 * 60_000;
+  if (job.attemptCount < job.maxAttempts || defer) {
+    const delaySeconds = defer ? Math.max(5, Math.min(900, Math.ceil((resume - at.getTime()) / 1_000)))
+      : retryDelaySeconds(job.attemptCount);
     if (job.companyId) {
       const transitioned = await store.markLeadEnrichmentQueued(
         job.orgId, job.companyId, job.id, job.leaseOwner, now, job.leaseGeneration,
@@ -304,6 +312,7 @@ async function retryOrDeadLetter(
       new Date(at.getTime() + delaySeconds * 1_000).toISOString(),
       now,
       job.leaseGeneration,
+      defer,
     );
     if (!retried) return { outcome: 'retry_wait', delaySeconds: 30 };
     await store.refreshSearchFunnel(job.orgId, job.searchId, now);
@@ -532,7 +541,8 @@ async function processEnrichment(
   if (!result) return retryOrDeadLetter(store, job, 'source_unavailable', transitionAt);
   const transitionNow = transitionAt.toISOString();
   if (!result.facts) {
-    if (result.retryable) return retryOrDeadLetter(store, job, result.reason, transitionAt);
+    if (result.retryable) return retryOrDeadLetter(store, job, result.reason, transitionAt,
+      'deferUntil' in result && typeof result.deferUntil === 'string' ? result.deferUntil : undefined);
     if (!job.leaseOwner || !await store.markLeadEnrichmentTerminal(
       job.orgId, job.companyId, job.id, job.leaseOwner, result.reason, job.attemptCount,
       transitionNow, job.leaseGeneration,
