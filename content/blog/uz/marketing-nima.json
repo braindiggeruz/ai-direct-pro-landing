@@ -161,6 +161,14 @@
     },
 
     {
+      "type": "linkp",
+      "text": "Znaniyalar yetarli, lekin arizalar kerakmi? SMM va internet-reklama bo‘yicha {smm} va {reklama} sahifalaridan boshlang.",
+      "links": [
+        { "token": "smm", "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari" },
+        { "token": "reklama", "target": "/uz/internet-reklama-toshkent/", "anchor": "internet reklama" }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Qaysi kanal sizning biznesingizga mos kelishini birgalikda ko‘rib chiqamiz — maslahat bepul.",
       "href": "https://t.me/XGame_changerx"

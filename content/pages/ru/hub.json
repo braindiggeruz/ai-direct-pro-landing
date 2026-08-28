@@ -183,7 +183,12 @@
     { "target": "/ru/gde-polzovatsya-gpt-besplatno/", "anchor": "Где пользоваться GPT бесплатно", "locale": "ru", "type": "block" },
     { "target": "/ru/gpt-vs-chatgpt-sravnenie/", "anchor": "GPT vs ChatGPT — разница", "locale": "ru", "type": "block" },
     { "target": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/", "anchor": "AI-чат для сайта: заявки", "locale": "ru", "type": "block" },
-    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "block" }
+    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "block" },
+    { "target": "/ru/internet-reklama-tashkent/", "anchor": "Интернет-реклама в Ташкенте", "locale": "ru", "type": "block" },
+    { "target": "/ru/kontekstnaya-reklama-tashkent/", "anchor": "Контекстная реклама в Ташкенте", "locale": "ru", "type": "block" },
+    { "target": "/ru/targetirovannaya-reklama-tashkent/", "anchor": "Таргетированная реклама в Ташкенте", "locale": "ru", "type": "block" },
+    { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-продвижение в Ташкенте", "locale": "ru", "type": "block" },
+    { "target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане", "locale": "ru", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
   "lastReviewedAt": "2026-07-01",

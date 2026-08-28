@@ -142,6 +142,13 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Znaniyalar yetarli, lekin arizalar kerakmi? {smm} bo‘yicha hisob-kitob va ish rejasi bilan tanishib chiqing.",
+      "links": [
+        { "token": "smm", "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari" }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Sahifangizni ko‘rib chiqib, nimadan boshlash kerakligini aytamiz — maslahat bepul.",
       "href": "https://t.me/XGame_changerx"
