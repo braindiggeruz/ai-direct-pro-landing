@@ -4,7 +4,16 @@
 
 Owner approved implementation of real corporate Telegram username discovery by niche. This is an additive improvement on the existing search, durable Queue, Bridge 1.4 and unified audiences. It does not reset pairing, authorize outreach, send messages, or promise a fixed number of contacts.
 
-Implementation complete; final full suite **401/401 PASS**, main/admin builds and typecheck/lint/secret scan passed. Worker dry-run and production release follow below. Firecrawl flags remain OFF; a new paid quality pilot needs owner approval (proposed: 20 companies, maximum 100 new credits, no messages).
+Implemented and deployed; final full suite **401/401 PASS**, main/admin builds, Worker dry-run, typecheck, lint and 3955-file secret scan passed. Firecrawl flags remain OFF; a new paid quality pilot needs owner approval (proposed: 20 companies, maximum 100 new credits, no messages).
+
+Code commit: `7ba7c7d3779e316961e0ba8ef57668a3a9f72484`.
+
+- Pages production `5ad5f687-368f-4e0d-adb0-cccf56c923c2`, main, canonical deployment success on gptbot.uz.
+- Automation Worker `7ad511fd-64ae-48a6-9737-de093d511145`.
+- 0052 applied and ledgered AFTER both new runtimes; no historical tables rebuilt or records deleted.
+- Post-release audit: base/campaign/contact/audience/contact-source schemas pass; source reports empty, directory two review-needed contacts, no active jobs/campaigns/effects.
+- Smoke: login 200/no-store; private overview and contact directory 401/no-store without authentication; new AdminRoot asset 200 and SHA-256 matches local build.
+- Authenticated owner clicks and a real paid acquisition run were not performed or claimed tested. Bridge/session and existing outbound gates unchanged; no messages sent.
 
 ## Causes fixed
 
