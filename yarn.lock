@@ -3300,3 +3300,8 @@ youch@4.1.0-beta.10:
   version "4.4.3"
   resolved "https://registry.npmjs.org/zod/-/zod-4.4.3.tgz"
   integrity sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==
+
+libphonenumber-js@1.13.12:
+  version "1.13.12"
+  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.13.12.tgz#ba5371e954cb07c0498de97afa312d25e93e2241"
+  integrity sha512-uLVeV1c9OTk6qkdqnj+mpMD+ZdnZ0szVyWu58HwMmpwkHA1gCEkyjd3veZQXDnuw9KEwSRjcc9B1pS9XKIN1fA==

@@ -33,6 +33,7 @@ export type LeadRadarQueueOutcome =
   | { outcome: 'dead_letter'; errorCode: string };
 
 export interface LeadRadarQueueDependencies {
+  resolveLeadContacts?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean }>;
   resolveMissingWebsites?: boolean;
   enrichLead?: (website: string | null, expected: ExpectedCompanyWebsiteIdentity, job: LeadRadarJob) => Promise<WebsiteEnrichmentResult>;
   discover?: (input: LeadRadarSearchInput) => Promise<LeadRadarDiscoveryResult>;
@@ -191,6 +192,9 @@ export async function enqueueLeadRadarSearch(
   requestKey: string | null = null,
 ): Promise<LeadRadarSearchResult> {
   const now = at.toISOString();
+  if (input.searchGoal === 'telegram_contacts' && !await store.supportsContactDiscovery()) {
+    throw new Error('contact_discovery_unavailable');
+  }
   const request = requestKey ? await createLeadRadarRequestIdentity(requestKey, input) : null;
   if (request) {
     const existing = await store.findSearchByRequest(orgId, request.requestKey);
@@ -358,9 +362,14 @@ async function processDiscovery(
     return { outcome: 'dead_letter', errorCode: 'search_not_found' };
   }
   await store.setSearchPhase(job.orgId, job.searchId, 'discovering', now);
-  let discovery: LeadRadarDiscoveryResult;
+  const contactMode = input.searchGoal === 'telegram_contacts';
+  if (contactMode && !await store.supportsContactDiscovery()) {
+    return retryOrDeadLetter(store, job, 'contact_discovery_unavailable', at);
+  }
+  const existingPool = contactMode ? await store.contactDiscovery.getPool(job.orgId, job.searchId) : null;
+  let discovery: LeadRadarDiscoveryResult = { candidates: [], sourceWarnings: [] };
   try {
-    discovery = dependencies.discover
+    if (!existingPool) discovery = dependencies.discover
       ? await dependencies.discover(input)
       : await new OpenStreetMapLeadSource(store).discoverRaw(input);
   } catch (error) {
@@ -383,7 +392,13 @@ async function processDiscovery(
     const existing = candidates.get(lead.canonicalKey);
     if (!existing || lead.evidence.length > existing.evidence.length) candidates.set(lead.canonicalKey, lead);
   }
-  const fanout = [...candidates.values()].slice(
+  if (contactMode && !existingPool) {
+    const ranked = [...candidates.values()].sort((a, b) =>
+      Number(Boolean(b.telegramContact)) * 4 + Number(Boolean(b.website)) * 2 + Number(Boolean(b.phone))
+      - Number(Boolean(a.telegramContact)) * 4 - Number(Boolean(a.website)) * 2 - Number(Boolean(a.phone)));
+    await store.contactDiscovery.initialize(job, ranked.slice(0, input.maxCandidates ?? 250), input.desiredCount, now);
+  }
+  const fanout = contactMode ? await store.contactDiscovery.reserveBatch(job, now) : [...candidates.values()].slice(
     0,
     Math.max(1, Math.min(50, Math.trunc(input.desiredCount))),
   );
@@ -398,7 +413,7 @@ async function processDiscovery(
     CHILD_DISPATCH_BARRIER,
     dependencies.resolveMissingWebsites === true,
   )) return { outcome: 'retry_wait', delaySeconds: 30 };
-  if (!await store.recordDiscoveryTelemetry(
+  if (!existingPool && !await store.recordDiscoveryTelemetry(
     job.orgId,
     job.searchId,
     job.id,
@@ -495,10 +510,27 @@ async function processEnrichment(
     await store.refreshSearchFunnel(job.orgId, job.searchId, now);
     return { outcome: 'completed' };
   }
+  if (job.purpose === 'contact_resolution') {
+    let pending: boolean;
+    try { pending = (await dependencies.resolveLeadContacts?.(job, stored.lead))?.pending ?? false; }
+    catch { pending = true; } // Keep a durable bounded retry; never restart website enrichment.
+    // The check itself expires after 3 minutes; allow queue delay and short
+    // account-wide cooldowns without dropping a fresh check on an older job.
+    if (pending && Date.parse(now) - Date.parse(job.createdAt ?? now) < 30 * 60_000 && job.leaseOwner) {
+      const retried = await store.retryJob(job.orgId,job.id,job.leaseOwner,'contact_check_pending',
+        new Date(at.getTime()+15_000).toISOString(),now,job.leaseGeneration,true);
+      return retried ? { outcome: 'retry_wait', delaySeconds: 15, retryDelivery: true, rescheduleDelivery: true }
+        : { outcome: 'retry_wait', delaySeconds: 30 };
+    }
+    if (!job.leaseOwner || !await store.completeJob(job.orgId,job.id,job.leaseOwner,now,job.leaseGeneration)) return { outcome: 'retry_wait', delaySeconds: 30 };
+    await store.refreshSearchFunnel(job.orgId,job.searchId,now);
+    return { outcome: 'completed' };
+  }
   const committedEffect = await store.getJobEffectDigest(
     job.orgId, job.id, 'company_enrichment:v1',
   );
   if (committedEffect) {
+    if (dependencies.resolveLeadContacts) await store.ensureContactResolutionJob(job, now);
     if (!job.leaseOwner || !await store.completeJob(
       job.orgId, job.id, job.leaseOwner, now, job.leaseGeneration,
     )) return { outcome: 'retry_wait', delaySeconds: 30 };
@@ -599,6 +631,7 @@ async function processEnrichment(
   if (!applied && !await store.hasSuppressionForLead(job.orgId, enriched)) {
     return { outcome: 'retry_wait', delaySeconds: 30 };
   }
+  if (applied && dependencies.resolveLeadContacts) await store.ensureContactResolutionJob(job, mutationNow);
   if (!job.leaseOwner || !await store.completeJob(
     job.orgId, job.id, job.leaseOwner, mutationNow, job.leaseGeneration,
   )) {

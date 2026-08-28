@@ -112,6 +112,7 @@ export interface LeadRadarQueueSender {
 }
 
 export interface LeadRadarJob {
+  purpose?: 'contact_resolution';
   id: string;
   orgId: string;
   searchId: string;

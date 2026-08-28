@@ -610,6 +610,23 @@ export interface TelegramBridgeStatus {
   encryptionKey: Omit<LeadRadarTelegramBridgeBrowserKey, 'expires_at'> | null;
 }
 
+export async function resolveTelegramContact(input: {
+  service?: Fetcher; internalServiceToken?: string; orgId: string; gatewayAccountRef: string;
+  operationId: string; target: import('../../../src/shared/lead-radar-contact-resolution').TelegramContactTarget;
+}): Promise<import('../../../src/shared/lead-radar-contact-resolution').TelegramContactResolution> {
+  const { validTelegramContactTarget, validTelegramContactResolution } = await import('../../../src/shared/lead-radar-contact-resolution');
+  assertRequestScope(input.orgId, input.operationId);
+  if (!ACCOUNT_REF_PATTERN.test(input.gatewayAccountRef) || !validTelegramContactTarget(input.target)) throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
+  const response = await serviceFetch(input.service, '/v1/contacts/resolve', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': input.operationId },
+    body: JSON.stringify({ schema: SERVICE_SCHEMA, org_id: input.orgId, account_ref: input.gatewayAccountRef, operation_id: input.operationId, target: input.target }),
+  }, input.internalServiceToken);
+  const envelope = await responseEnvelope(response);
+  const result = { status: envelope.status, username: envelope.username, reason: envelope.reason, retryAfterSeconds: envelope.retryAfterSeconds };
+  if (!exactKeys(envelope, ['schema','status','username','reason','retryAfterSeconds']) || !validTelegramContactResolution(result)) throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
+  return result;
+}
+
 export async function createTelegramBridgePairing(input: {
   service?: Fetcher;
   internalServiceToken?: string;

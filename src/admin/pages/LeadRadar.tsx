@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ContactCandidates } from '../components/lead-radar/ContactCandidates';
 import {
   Activity,
   AlertTriangle,
@@ -94,6 +95,8 @@ function sameSearchInput(left: LeadRadarSearchInput, right: LeadRadarSearchInput
     && normalizedSearchText(left.country) === normalizedSearchText(right.country)
     && normalizedSearchText(left.offer) === normalizedSearchText(right.offer)
     && left.desiredCount === right.desiredCount
+    && (left.searchGoal ?? 'companies') === (right.searchGoal ?? 'companies')
+    && left.maxCandidates === right.maxCandidates
     && left.telegramRequired === right.telegramRequired
     && [...left.languages].sort().join('|') === [...right.languages].sort().join('|');
 }
@@ -665,6 +668,12 @@ function CurrentSearchFunnel({ search, pollingDelayed, pollingStopped }: {
         ))}
       </dl>
 
+      {search.input.searchGoal === 'telegram_contacts' && <p className="mt-3 text-xs leading-5 text-white/70">
+        Цель: {search.input.desiredCount} подтверждённых Telegram-контактов. В источниках: {funnel.companyTelegramCount}; подтверждено Bridge по завершённым партиям: {search.funnel.resolvedTelegramCount ?? 0}.
+        Проверяем до {search.input.maxCandidates ?? 250} компаний в этом городе, не более часа и в пределах бюджета источников.
+        Bridge проверяет контакты в фоне, без сообщений. Готовность к отправке проверяется отдельно. При исчерпании источников сохраняется частичный результат.
+      </p>}
+
       {(search.warnings?.length ?? 0) > 0 && (
         <p className="mt-3 flex items-start gap-2 rounded-xl border border-amber-300/15 bg-amber-300/[0.045] p-3 text-xs leading-5 text-amber-100/85">
           <AlertTriangle size={14} className="mt-0.5 shrink-0" aria-hidden="true" />
@@ -733,10 +742,12 @@ function LeadListItem({ lead, selected, onSelect }: {
   );
 }
 
-function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact, busy, reviewBusyId, onBack, focusOnMount }: {
+function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact, busy, reviewBusyId, onBack, focusOnMount, canCheckContacts, onContactResolved }: {
   lead: LeadRadarLead;
   offer: string;
   contactEnabled: boolean;
+  canCheckContacts: boolean;
+  onContactResolved: () => void;
   onLifecycle: (lifecycle: LeadRadarLifecycle) => void;
   onReviewContact: (personId: string, status: 'approved' | 'rejected') => void;
   busy: boolean;
@@ -1176,6 +1187,7 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55">Компания</p>
               <h3 id="corporate-channels-title" className="mt-1 text-base font-semibold text-white">Корпоративные каналы</h3>
             </div>
+            <ContactCandidates key={lead.id} candidates={lead.contactCandidates} searchId={lead.searchId} companyId={lead.id} canCheck={canCheckContacts} onResolved={onContactResolved} />
             <div className="mt-4 grid gap-3 text-sm">
               {corporateTelegram && companyType && (
                 <div className="rounded-2xl border border-white/[0.08] bg-white/[0.018] p-4">
@@ -1934,10 +1946,22 @@ export default function LeadRadarPage() {
                     <Input id="lead-radar-city" disabled={loading || !capabilities.admissionEnabled} value={draftInput.city} onChange={(event) => setDraftInput({ ...draftInput, city: event.target.value })} className="min-h-12" required />
                   </div>
                   <div>
-                    <Label htmlFor="lead-radar-count">Количество</Label>
-                    <Select id="lead-radar-count" disabled={loading || !capabilities.admissionEnabled} value={draftInput.desiredCount} onChange={(event) => setDraftInput({ ...draftInput, desiredCount: Number(event.target.value) })} className="min-h-12">
-                      {[10, 20, 30, 40, 50].map((count) => <option key={count} value={count}>{count} компаний</option>)}
+                    <Label htmlFor="lead-radar-goal">Цель поиска</Label>
+                    <Select id="lead-radar-goal" disabled={loading || !capabilities.admissionEnabled} value={draftInput.searchGoal ?? 'companies'} onChange={(event) => setDraftInput({ ...draftInput, searchGoal: event.target.value as 'companies' | 'telegram_contacts', maxCandidates: event.target.value === 'telegram_contacts' ? 100 : undefined })} className="mb-3 min-h-12">
+                      <option value="companies">Найти компании</option>
+                      <option value="telegram_contacts">Найти корпоративные Telegram-контакты</option>
                     </Select>
+                    <Label htmlFor="lead-radar-count">Количество {draftInput.searchGoal === 'telegram_contacts' ? 'Telegram-контактов' : 'компаний'}</Label>
+                    <Select id="lead-radar-count" disabled={loading || !capabilities.admissionEnabled} value={draftInput.desiredCount} onChange={(event) => setDraftInput({ ...draftInput, desiredCount: Number(event.target.value) })} className="min-h-12">
+                      {[10, 20, 30, 40, 50].map((count) => <option key={count} value={count}>{count}</option>)}
+                    </Select>
+                    {draftInput.searchGoal === 'telegram_contacts' && <>
+                      <Label htmlFor="lead-radar-candidate-limit">Предел проверки компаний</Label>
+                      <Select id="lead-radar-candidate-limit" disabled={loading || !capabilities.admissionEnabled} value={draftInput.maxCandidates ?? 100} onChange={(event) => setDraftInput({ ...draftInput, maxCandidates: Number(event.target.value) })} className="min-h-12">
+                        {[50, 100, 150, 250].map((count) => <option key={count} value={count}>{count}</option>)}
+                      </Select>
+                      <p className="mt-2 text-xs leading-5 text-white/55">Если контактов мало, поиск продолжится по следующим компаниям. Telegram и разрешение на отправку проверяются отдельно.</p>
+                    </>}
                   </div>
                 </div>
                 <div>
@@ -2252,6 +2276,8 @@ export default function LeadRadarPage() {
                           lead={selectedLead}
                           offer={result.search.input.offer}
                           contactEnabled={individualOutreachEnabled}
+                          canCheckContacts={capabilities.telegramAccountEnabled === true}
+                          onContactResolved={() => { void openSearch(result.search.id); }}
                           onLifecycle={(lifecycle) => { void updateLifecycle(lifecycle); }}
                           onReviewContact={(personId, status) => { void reviewDecisionMaker(personId, status); }}
                           busy={statusBusy}

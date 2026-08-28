@@ -1,3 +1,5 @@
+import type { LeadRadarContactCandidate } from './lead-radar-contacts';
+
 export const LEAD_RADAR_SEARCH_STATUSES = [
   'running',
   'ready',
@@ -63,6 +65,9 @@ export interface LeadRadarSearchInput {
   country: string;
   offer: string;
   desiredCount: number;
+  searchGoal?: 'companies' | 'telegram_contacts';
+  /** Bounded discovery pool, not the maximum number of campaign recipients. */
+  maxCandidates?: number;
   telegramRequired: boolean;
   languages: Array<'ru' | 'uz' | 'en'>;
 }
@@ -176,6 +181,8 @@ export interface LeadRadarLead {
   genericEmail: string | null;
   telegramUrl: string | null;
   telegramContact: LeadRadarTelegramContact | null;
+  /** Multiple sourced contacts, independent of permission to send. */
+  contactCandidates?: LeadRadarContactCandidate[];
   decisionMakers: LeadRadarDecisionMaker[];
   enrichmentStatus: LeadRadarEnrichmentStatus;
   enrichmentReason: LeadRadarEnrichmentReason | null;
@@ -217,6 +224,9 @@ export interface LeadRadarSearchSummary {
     companyTelegramCount: number;
     personalTelegramCount: number;
     excludedCount: number;
+    contactTarget?: number;
+    resolvedTelegramCount?: number;
+    candidateLimit?: number;
   };
   warnings: string[];
   createdAt: string;

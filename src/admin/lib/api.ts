@@ -852,6 +852,9 @@ export const api = {
       undefined,
       { timeoutMs: LEAD_RADAR_TELEGRAM_ACCOUNT_BROWSER_CONTROL_TIMEOUT_MS, headers: { 'Idempotency-Key': idempotencyKey } },
     ),
+  leadRadarResolveContact: (searchId: string, companyId: string, candidateKey: string) =>
+    request<import('../../shared/lead-radar-contact-resolution').TelegramContactResolution>('POST',
+      '/api/admin/lead-radar/telegram-account/resolve-contact', { searchId, companyId, candidateKey }, { timeoutMs: 15_000 }),
   leadRadarAuthorizeTelegramCampaignContact: (
     input: import('./lead-radar-campaign').LeadRadarTelegramContactAuthorizationInput,
     idempotencyKey: string,

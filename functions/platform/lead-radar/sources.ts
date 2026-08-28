@@ -23,6 +23,7 @@ import {
   type LeadRadarOsmTagCondition,
 } from './intent';
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
+import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator } from '../../../src/shared/lead-radar-contacts';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
@@ -357,7 +358,9 @@ export function classifyTelegramContact(input: TelegramClassificationInput): Pic
   const explicitCorporateLabel = telegramOffset >= 0
     && corporateLabelOffset >= 0
     && Math.abs(telegramOffset - corporateLabelOffset) <= 36;
-  if (input.isOfficialCompanyPage && explicitCorporateLabel) {
+  const corporateCallToAction = /(?:записаться|запись (?:на|в)|связаться с нами|напишите нам|пишите нам|регистратур|qabulga|biz bilan|bog.lanish|contact us|book an appointment)/iu.test(context);
+  const thirdParty = /(?:разработк[аи] сайта|создание сайта|powered by|website by|web design|личный телефон|personal phone)/iu.test(context);
+  if (input.isOfficialCompanyPage && !thirdParty && (explicitCorporateLabel || corporateCallToAction)) {
     return {
       type: 'business',
       confidence: 0.9,
@@ -575,13 +578,14 @@ export function extractOfficialSiteContacts(
   }
 
   const contacts: LeadRadarTelegramContact[] = [];
-  const telegramPattern = /https?:\/\/(?:t\.me|telegram\.me)\/[-A-Za-z0-9_+]{4,64}/gi;
+  const telegramPattern = /(?:https?:\/\/(?:t\.me|telegram\.me)\/[^\s"'<>]{1,200}|tg:\/\/(?:resolve|message)\?[^\s"'<>]{1,200})/gi;
   for (const match of html.matchAll(telegramPattern)) {
     if (match.index === undefined) continue;
-    const telegramUrl = cleanTelegram(match[0]);
-    if (!telegramUrl) continue;
-    const username = telegramUsername(telegramUrl);
-    const rawContext = html.slice(Math.max(0, match.index - 420), Math.min(html.length, match.index + match[0].length + 420));
+    const locator = parseLeadRadarTelegramLocator(match[0]);
+    if (!locator) continue;
+    const telegramUrl = locator.url;
+    const username = locator.kind === 'username' ? locator.value : '';
+    const rawContext = html.slice(Math.max(0, match.index - 180), Math.min(html.length, match.index + match[0].length + 180));
     const context = compactEvidenceSnippet(rawContext);
     const normalizedContext = context.toLocaleLowerCase('ru');
     const linked = [...decisionMakerMap.values()].find((person) => (
@@ -609,6 +613,9 @@ export function extractOfficialSiteContacts(
       verifiedAt,
     );
     evidence.push(evidenceItem);
+    // Non-username locators are kept as evidence/multi-contact candidates. They
+    // require Bridge resolution before they can become a legacy sender endpoint.
+    if (locator.kind !== 'username') continue;
     const contact: LeadRadarTelegramContact = {
       url: telegramUrl,
       username,
@@ -1253,9 +1260,25 @@ export function extractCompanyPageFacts(
   const emailMatches = [...text.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)]
     .map((match) => genericEmail(match[0]))
     .filter((item): item is string => Boolean(item));
-  const phoneMatches = [...text.matchAll(/(?:\+998|998)[\s()-]*\d{2}[\s()-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}/g)]
-    .map((match) => cleanPhone(match[0]))
-    .filter((item): item is string => Boolean(item));
+  // Exclude numbers attributed to a site vendor/personal footer from both href
+  // and visible-text extraction. Removing just the href reintroduced them below.
+  const excludedPhones = new Set<string>();
+  const phoneAnchors = [...html.matchAll(/href\s*=\s*["'](tel:[^"']{3,180})["']/gi)]
+    .map((match) => {
+      const nearby = stripHtml(html.slice(Math.max(0, match.index! - 140), match.index! + match[0].length + 140));
+      const phone = assessLeadRadarPhone(match[1]);
+      if (/разработк[аи] сайта|создание сайта|powered by|website by|web design|личный телефон|personal phone/i.test(nearby)) {
+        if (phone.e164) excludedPhones.add(phone.e164);
+        return null;
+      }
+      return phone;
+    }).filter((item): item is NonNullable<typeof item> => Boolean(item?.e164));
+  // Keep all public company phone candidates; a landline is useful identity data
+  // but never automatically a Telegram lookup target. The lookup layer rechecks type.
+  const phoneMatches = [...new Set([...phoneAnchors, ...extractLeadRadarPhones(text)]
+    .filter((item) => item.e164 && item.reason !== 'extension' && !excludedPhones.has(item.e164)).map((item) => item.e164!))]
+    .sort((a, b) => Number(assessLeadRadarPhone(b).mobileLookupCandidate) - Number(assessLeadRadarPhone(a).mobileLookupCandidate))
+    .slice(0, 8);
   const telegramContact = companyWebsiteBound && contactFacts.telegramContact
     ? { ...contactFacts.telegramContact, messageable: false }
     : null;
@@ -1279,7 +1302,9 @@ export function extractCompanyPageFacts(
     ...contactEvidence,
   ];
   if (genericEmailValue) evidence.push(sourceEvidence('company_contacts.generic_email', genericEmailValue, pageUrl.toString(), 'company_website', 0.92, 'company_data'));
-  if (phone) evidence.push(sourceEvidence('company_contacts.phone', phone, pageUrl.toString(), 'company_website', 0.9, 'company_data'));
+  if (companyWebsiteBound) for (const candidatePhone of phoneMatches) {
+    evidence.push(sourceEvidence('company_contacts.phone', candidatePhone, pageUrl.toString(), 'company_website', 0.9, 'company_data', observedAt));
+  }
 
   const signalPatterns: Array<{ type: LeadRadarSignalType; label: string; pattern: RegExp }> = [
     { type: 'online_booking', label: 'онлайн-запись', pattern: /онлайн[- ]?(?:запис|бронир)|online booking|qabulga yozil/i },
@@ -1572,7 +1597,8 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
       if (!existing || candidate.evidence.length > existing.evidence.length) deduped.set(key, candidate);
     }
     return {
-      candidates: [...deduped.values()].slice(0, Math.min(80, input.desiredCount * 3)),
+      candidates: [...deduped.values()].slice(0, input.searchGoal === 'telegram_contacts'
+        ? Math.min(250, input.maxCandidates ?? input.desiredCount * 5) : Math.min(80, input.desiredCount * 3)),
       sourceWarnings: warnings,
       rawDiscoveredCount: response.elements?.length ?? 0,
     };

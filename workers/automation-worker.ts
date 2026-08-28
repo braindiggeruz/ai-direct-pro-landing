@@ -1,6 +1,8 @@
 import type { Env } from '../functions/_types';
 import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
 import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
+import { ContactDiscoveryStore, contactDiscoverySchemaReady } from '../functions/platform/lead-radar/contact-discovery-store';
+import { createContactResolutionQueueDependencies } from '../functions/platform/lead-radar/contact-resolution-worker';
 import {
   consumeAutomationMessage,
   enqueueDueAutomationJobs,
@@ -319,6 +321,9 @@ export default {
       const firecrawlStore = new FirecrawlStore(env.GPTBOT_DRAFTS_DB);
       if (await firecrawlStore.available()) await firecrawlStore.purgeResults(retentionNow.toISOString());
     } catch { recordLeadRadarFailure('firecrawl_retention', new Error('firecrawl_retention_failed')); }
+    try {
+      if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) await new ContactDiscoveryStore(env.GPTBOT_DRAFTS_DB).purgeExpired(retentionNow.toISOString());
+    } catch { recordLeadRadarFailure('contact_retention', new Error('contact_retention_failed')); }
     try {
       if (await hasLeadRadarPersonalDataSchema(env.GPTBOT_DRAFTS_DB)) {
         const retentionDays = parseLeadRadarRetentionDays(env.LEAD_RADAR_PERSONAL_RETENTION_DAYS);
@@ -665,6 +670,7 @@ export default {
             leadRadarSender(env.AUTOMATION_QUEUE),
             {
               personalDataEnabled: isLeadRadarContactEnabled(env),
+              ...createContactResolutionQueueDependencies(env, env.GPTBOT_DRAFTS_DB),
               ...await createFirecrawlQueueDependencies(env, env.GPTBOT_DRAFTS_DB, knownJob.orgId, isLeadRadarContactEnabled(env)),
             },
           );

@@ -121,6 +121,62 @@ function storedLead(canonicalKey: string, website: string | null): StoredLeadInp
   };
 }
 
+test('contact target replenishes from a fenced persisted pool and stops at its bound without claiming ready', async () => {
+  const fixture = database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'), 'utf8'));
+  fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
+  const store = new LeadRadarStore(fixture.asD1());
+  const queue = new RecordingQueue();
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  const result = await enqueueLeadRadarSearch(store, 'org-a', { ...SEARCH_INPUT, searchGoal: 'telegram_contacts', maxCandidates: 25 }, queue, at, 'contact-request-001');
+  let discoveries = 0;
+  const deps = { now: () => at, discover: async () => {
+    discoveries++;
+    return { candidates: Array.from({ length: 30 }, (_, i) => candidate(null, `clinic-${i}`)), sourceWarnings: [] };
+  } };
+  for (let i = 0; i < 4; i++) {
+    const next = queue.messages.shift();
+    if (next) {
+      await consumeLeadRadarQueueMessage(fixture.asD1(), next, queue, deps);
+      // Duplicate delivery must not consume the next batch or duplicate companies.
+      await consumeLeadRadarQueueMessage(fixture.asD1(), next, queue, deps);
+    }
+    await enqueueDueLeadRadarJobs(fixture.asD1(), queue, at);
+  }
+  const final = await store.getSearch('org-a', result.search.id);
+  assert.equal(discoveries, 1);
+  assert.equal(final?.leads.length, 25);
+  assert.equal(final?.search.status, 'partial');
+  assert.equal(final?.search.funnel?.companyTelegramCount, 0);
+  assert.equal(fixture.value('SELECT cursor FROM lead_radar_candidate_pools'), 25);
+  assert.equal(fixture.value('SELECT stop_reason FROM lead_radar_candidate_pools'), 'candidate_limit');
+  assert.equal(fixture.value('SELECT candidates_json FROM lead_radar_candidate_pools'), null);
+});
+
+test('contact-mode enrichment schedules a durable lookup job and resumes it without fetching the website again', async () => {
+  const fixture = database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'), 'utf8'));
+  fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
+  const db = fixture.asD1(), store = new LeadRadarStore(db), queue = new RecordingQueue();
+  let at = new Date('2026-08-28T12:00:00.000Z'), websites = 0, lookups = 0;
+  const result = await enqueueLeadRadarSearch(store,'org-a',{ ...SEARCH_INPUT,searchGoal:'telegram_contacts',maxCandidates:5 },queue,at,'lookup-queue-test');
+  const deps = { now: () => at, discover: async () => ({ candidates:[candidate('https://clinic.uz')],sourceWarnings:[] }),
+    enrichWebsite: async () => { websites++; return { facts: { website:'https://clinic.uz',phone:'+998901234567',genericEmail:null,telegramUrl:null,telegramContact:null,decisionMakers:[],signals:[],evidence:[] },reason:'enriched' as const,retryable:false }; },
+    resolveLeadContacts: async () => ({ pending: ++lookups < 2 }),
+  };
+  for (let iteration=0; iteration<8; iteration++) {
+    const next = queue.messages.shift();
+    if (next) await consumeLeadRadarQueueMessage(db,next,queue,deps);
+    at = new Date(at.getTime()+16_000);
+    await enqueueDueLeadRadarJobs(db,queue,at);
+  }
+  assert.equal(websites,1);
+  assert.equal(lookups,2);
+  assert.equal(fixture.value("SELECT COUNT(*) FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),1);
+  assert.equal(fixture.value("SELECT status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'completed');
+  assert.equal((await store.getSearch('org-a',result.search.id))?.search.status,'partial');
+});
+
 test('request idempotency replays the same fingerprint and rejects key reuse with a different body', async () => {
   const fixture = database();
   const store = new LeadRadarStore(fixture.asD1());

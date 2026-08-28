@@ -58,7 +58,7 @@ export function bridgeAuthChallengeMayBeCancelled(input: {
 }
 export const BRIDGE_COMMAND_KINDS: readonly LeadRadarTelegramBridgeCommandKind[] = [
   'connect', 'connect_phone', 'submit_auth', 'cancel_auth', 'submit_password',
-  'disconnect', 'probe', 'validate_media', 'send',
+  'disconnect', 'probe', 'resolve_contact', 'validate_media', 'send',
 ];
 
 export interface BridgeJsonRecord { [key: string]: unknown }

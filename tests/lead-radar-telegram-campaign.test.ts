@@ -31,6 +31,9 @@ import {
 import { auditTelegramCampaignSchema } from '../functions/platform/lead-radar/telegram-campaign-schema';
 import { LeadRadarTelegramCampaignStore } from '../functions/platform/lead-radar/telegram-campaign-store';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { checkCorporateTelegramContact, verifiedResolvedCorporateCompanies, countResolvedCorporateContacts } from '../functions/platform/lead-radar/contact-resolution';
+import { ContactDiscoveryStore } from '../functions/platform/lead-radar/contact-discovery-store';
+import { buildVerifiedTelegramCorporateDraftLink } from '../functions/platform/lead-radar/telegram-business';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const MIGRATIONS = [
@@ -178,6 +181,69 @@ function setVerifiedCorporateDomain(
       NOW.toISOString(),
     );
 }
+
+test('published mobile resolves durably but cannot skip consent, tenant, fresh proof, account or DNC checks', async () => {
+  const db = database([...MIGRATIONS, '0050_lead_radar_contact_discovery.sql']);
+  addCompany(db, { id: 'mobile', username: 'old_unknown', type: 'unknown' });
+  setVerifiedCorporateDomain(db, 'mobile', 'mobile.example');
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence (id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES ('mobile-phone',?,'mobile','company_contacts.phone','+998901234567','https://mobile.example/contact','company_website',?,0.9,'company_data')`).run(ORG_A,NOW.toISOString());
+  const account = await connectedAccount(db);
+  let lookups = 0;
+  const input = { db: db.asD1(), orgId: ORG_A, companyId: 'mobile', searchId: 'search_mobile', candidateKey: 'phone:+998901234567', accountId: account.id, now: NOW.toISOString(),
+    resolve: async () => { lookups++; return { status: 'resolved' as const, username: 'clinic_verified', reason: 'regular_user_resolved', retryAfterSeconds: null }; } };
+  assert.equal((await checkCorporateTelegramContact(input)).status, 'resolved');
+  await checkCorporateTelegramContact(input);
+  assert.equal(lookups, 1, 'retry reuses the stored resolution, never sends or imports a contact');
+  assert.equal(db.value('SELECT attempts_today FROM lead_radar_contact_checks'), 1);
+  assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_mobile',NOW.toISOString()), 1);
+  const resolved = JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mobile'")));
+  const proofInput = { db: db.asD1(), orgId: ORG_A, companies: [{ companyId: 'mobile', contact: resolved }], now: NOW };
+  assert.ok((await verifiedResolvedCorporateCompanies(proofInput)).has('mobile'));
+  assert.ok(await buildVerifiedTelegramCorporateDraftLink({ db: db.asD1(), orgId: ORG_A, companyId: 'mobile', website: 'https://mobile.example/', contact: resolved, draft: 'fixture', now: NOW }));
+  const selection = await evaluateTelegramCampaignSelection({ db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id, companyIds: ['mobile'], now: NOW });
+  assert.equal(selection.automatic, 0, 'resolution is not outreach authorization');
+  assert.equal((await checkCorporateTelegramContact({ ...input, orgId: ORG_B })).status, 'failed');
+  assert.equal(lookups, 1);
+  db.exec("UPDATE lead_radar_evidence SET value='+998901234568' WHERE id='mobile-phone'");
+  assert.equal((await verifiedResolvedCorporateCompanies(proofInput)).size, 0, 'changed public source invalidates the resolved endpoint');
+  db.exec("UPDATE lead_radar_evidence SET value='+998901234567' WHERE id='mobile-phone'; UPDATE lead_radar_companies SET suppressed=1 WHERE id='mobile'");
+  assert.equal((await verifiedResolvedCorporateCompanies(proofInput)).size, 0);
+  assert.equal((await checkCorporateTelegramContact(input)).status, 'failed');
+  await new ContactDiscoveryStore(db.asD1()).purgeExpired(NOW.toISOString());
+  assert.equal(db.value('SELECT result_json FROM lead_radar_contact_checks'), null, 'DNC also purges the cached identifier');
+});
+
+test('contact rechecks consume a daily budget and late callbacks cannot overwrite a terminal result', async () => {
+  const db = database([...MIGRATIONS, '0050_lead_radar_contact_discovery.sql']);
+  addCompany(db, { id:'mobile',username:'old_unknown',type:'unknown' });
+  setVerifiedCorporateDomain(db,'mobile','mobile.example');
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence (id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES ('mobile-phone',?,'mobile','company_contacts.phone','+998901234567','https://mobile.example/contact','company_website',?,0.9,'company_data')`).run(ORG_A,NOW.toISOString());
+  const account = await connectedAccount(db);
+  let calls = 0;
+  const input = { db:db.asD1(),orgId:ORG_A,companyId:'mobile',searchId:'search_mobile',candidateKey:'phone:+998901234567',accountId:account.id,now:NOW.toISOString(),
+    resolve:async () => { calls++; return {status:'failed' as const,username:null,reason:'bridge_offline',retryAfterSeconds:null}; } };
+  await checkCorporateTelegramContact(input);
+  await checkCorporateTelegramContact(input);
+  assert.equal(calls,1);
+  db.exec('UPDATE lead_radar_contact_checks SET attempts_today=199');
+  await checkCorporateTelegramContact({...input,now:new Date(NOW.getTime()+61_000).toISOString()});
+  assert.equal(calls,2);
+  assert.equal(db.value('SELECT attempts_today FROM lead_radar_contact_checks'),200);
+  const capped = await checkCorporateTelegramContact({...input,now:new Date(NOW.getTime()+122_000).toISOString()});
+  assert.equal(capped.reason,'daily_check_limit');
+  assert.equal(calls,2);
+  const nextDay = new Date(NOW.getTime()+86400_000).toISOString();
+  const terminal = {status:'unresolved',username:null,reason:'check_expired',retryAfterSeconds:null};
+  const outcome = await checkCorporateTelegramContact({...input,now:nextDay,resolve:async () => {
+    db.sqlite.prepare("UPDATE lead_radar_contact_checks SET status='unresolved',result_json=?").run(JSON.stringify(terminal));
+    return {status:'resolved',username:'late_callback',reason:'regular_user_resolved',retryAfterSeconds:null};
+  }});
+  assert.deepEqual(outcome,terminal);
+  assert.equal(db.value('SELECT attempts_today FROM lead_radar_contact_checks'),1);
+  assert.equal(JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mobile'"))).type,'unknown');
+});
 
 function errorCode(error: unknown): string | null {
   return error instanceof LeadRadarTelegramCampaignError ? error.code : null;
@@ -384,6 +450,35 @@ test('runtime campaign schema contract is exact, fail-closed and bounded to four
   missingLedger.sqlite.prepare('DELETE FROM d1_migrations WHERE name = ?')
     .run('0048_lead_radar_telegram_media_quota.sql');
   assert.equal(await hasTelegramCampaignSchema(missingLedger.asD1()), false);
+});
+
+test('campaign integrity remains checked when global shared-database PRAGMAs cannot run', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  const queries: string[] = [];
+  const scopedDb = {
+    prepare(sql: string) {
+      queries.push(sql);
+      if (/^PRAGMA\s+(?:quick_check|foreign_key_check)\s*$/i.test(sql.trim())) {
+        throw new Error('SQLITE_NOMEM: shared-database global audit unavailable');
+      }
+      return db.prepare(sql);
+    },
+  } as unknown as D1Database;
+  assert.equal(await hasTelegramCampaignSchema(scopedDb), true);
+  assert.equal(queries.length, 4);
+  assert.ok(queries.some((sql) => sql.includes('pragma_quick_check(s.name)')));
+  assert.ok(queries.some((sql) => sql.includes('pragma_foreign_key_check(s.name)')));
+  assert.equal((await auditTelegramCampaignSchema(scopedDb)).status, 'pass');
+
+  // A broken campaign FK must still fail, even though unrelated tables are out of scope.
+  db.exec('PRAGMA foreign_keys = OFF');
+  db.sqlite.prepare(`INSERT INTO lead_radar_tg_account_safety (
+    org_id, account_id, state, created_at, updated_at
+  ) VALUES (?, ?, 'ready', ?, ?)`)
+    .run(ORG_A, `lrtgua_${'f'.repeat(32)}`, NOW.toISOString(), NOW.toISOString());
+  const freshDb = { prepare: (sql: string) => db.prepare(sql) } as unknown as D1Database;
+  assert.equal(await hasTelegramCampaignSchema(freshDb), false);
 });
 
 test('0047 upgrade backfills a fail-closed sentinel for legacy campaign state', async (t) => {

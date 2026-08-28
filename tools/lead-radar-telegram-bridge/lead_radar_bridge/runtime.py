@@ -39,7 +39,7 @@ from .security import DpapiVault, SecurityError, secure_directory
 from .telegram_adapter import ProviderOutcome, TelethonAccount
 
 
-VERSION = "1.3.2"
+VERSION = "1.4.0"
 MAX_AUTH_SECONDS = 10 * 60
 MAX_COMMAND_FUTURE_SECONDS = 10 * 60
 RELAY_TTL_SECONDS = 10 * 60
@@ -805,6 +805,36 @@ class BridgeRuntime:
             result={},
         )
 
+    async def _resolve_contact(self, command: BridgeCommand) -> dict[str, Any]:
+        payload = command.payload
+        target = payload.get("target")
+        if (not exact_keys(payload, {"account_ref", "target"})
+            or not isinstance(payload.get("account_ref"), str) or not ACCOUNT_REF.fullmatch(payload["account_ref"])
+            or not isinstance(target, dict) or not exact_keys(target, {"kind", "value"})
+            or not isinstance(target.get("value"), str)):
+            raise ProtocolError("contact_target_invalid")
+        patterns = {"phone": r"\+[1-9][0-9]{7,14}", "username": r"[A-Za-z][A-Za-z0-9_]{4,31}", "business_link": r"[A-Za-z0-9_-]{4,128}"}
+        if target.get("kind") not in patterns or not re.fullmatch(patterns[target["kind"]], target["value"]):
+            raise ProtocolError("contact_target_invalid")
+        custody = self.ledger.auth_custody_for_account(payload["account_ref"])
+        now = time.time()
+        blocked_until = float(self.state.get("contact_lookup_blocked_until", 0))
+        if custody is None or custody["state"] != "finalized":
+            result = {"status": "failed", "username": None, "reason": "account_not_finalized", "retryAfterSeconds": None}
+        elif blocked_until > now:
+            result = {"status": "limited", "username": None, "reason": "telegram_rate_limited", "retryAfterSeconds": max(1, int(blocked_until - now) + 1)}
+        else:
+            # Persist before the RPC; a restart cannot bypass the 3-second limit.
+            self.state["contact_lookup_blocked_until"] = now + 3.1
+            self._save_state()
+            result = await self.telegram.resolve_public_contact(target["kind"], target["value"])
+            if result.get("status") == "limited":
+                self.state["contact_lookup_blocked_until"] = time.time() + int(result["retryAfterSeconds"])
+                self._save_state()
+        previous = self.ledger.last_result(command.id)
+        return result_body(command_id=command.id, sequence=int(previous.get("sequence", 0)) + 1 if previous else 1,
+                           status="succeeded", result_code="contact_checked", result=result)
+
     async def _probe(self, command: BridgeCommand) -> dict[str, Any]:
         if not (exact_keys(command.payload, {"account_ref"})
             or exact_keys(command.payload, {"account_ref", "finalize_auth_id"})):
@@ -1040,6 +1070,8 @@ class BridgeRuntime:
             body = await self._disconnect(command)
         elif command.kind == "probe":
             body = await self._probe(command)
+        elif command.kind == "resolve_contact":
+            body = await self._resolve_contact(command)
         elif command.kind == "validate_media":
             body = await self._validate_media(command)
         elif command.kind == "send":
@@ -1110,7 +1142,7 @@ class BridgeRuntime:
                             result={"effect_id": str(command.payload.get("effect_id", ""))},
                         )
                         await self._submit(command, body)
-                elif command.kind in {"connect", "connect_phone", "submit_auth", "submit_password", "probe"}:
+                elif command.kind in {"connect", "connect_phone", "submit_auth", "submit_password", "probe", "resolve_contact"}:
                     # Authentication provider/network failures must always
                     # close the browser request with an explicit uncertain
                     # outcome. Leaving these commands leased makes the owner

@@ -195,6 +195,8 @@ function redactLead(
   });
   return {
     ...lead,
+    contactCandidates: lead.contactCandidates?.filter((candidate) => candidate.ownership !== 'personal'
+      && candidate.evidenceIds.every((id) => evidence.some((item) => item.id === id))),
     telegramUrl,
     telegramContact,
     decisionMakers,

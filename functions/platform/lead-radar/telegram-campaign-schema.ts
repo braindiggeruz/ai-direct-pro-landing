@@ -367,6 +367,18 @@ function sqlLiteral(value: string): string {
 
 const RUNTIME_TABLES = Object.keys(TABLE_COLUMNS);
 const RUNTIME_TABLE_LIST = RUNTIME_TABLES.map(sqlLiteral).join(',');
+// D1 shares this database with other products. Compiling all CHECK expressions
+// in a global quick_check can exhaust memory even when campaign tables are sound.
+// Keep integrity and foreign-key checks, scoped to the exact fingerprinted tables.
+const CAMPAIGN_TABLE_FILTER = `s.type = 'table' AND s.name IN (${RUNTIME_TABLE_LIST})`;
+const CAMPAIGN_QUICK_CHECK = `SELECT CASE WHEN COUNT(*) > 0
+  AND MIN(q.quick_check) = 'ok' AND MAX(q.quick_check) = 'ok'
+  THEN 'ok' ELSE 'failed' END AS quick_check
+  FROM sqlite_schema AS s, pragma_quick_check(s.name) AS q
+  WHERE ${CAMPAIGN_TABLE_FILTER}`;
+const CAMPAIGN_FOREIGN_KEY_CHECK = `SELECT f.*
+  FROM sqlite_schema AS s, pragma_foreign_key_check(s.name) AS f
+  WHERE ${CAMPAIGN_TABLE_FILTER}`;
 const RUNTIME_SCHEMA_QUERY = `SELECT type, name, tbl_name, sql FROM sqlite_schema
   WHERE sql IS NOT NULL AND type IN ('table', 'index')
     AND (name IN (${RUNTIME_TABLE_LIST}) OR tbl_name IN (${RUNTIME_TABLE_LIST}))
@@ -404,8 +416,8 @@ export async function hasRuntimeTelegramCampaignSchema(db: D1Database): Promise<
       db.prepare(`SELECT name FROM d1_migrations
         WHERE name IN (${RUNTIME_MIGRATIONS.map(sqlLiteral).join(',')}) ORDER BY name`)
         .all<{ name: string }>(),
-      db.prepare('PRAGMA quick_check').all<{ quick_check: string }>(),
-      db.prepare('PRAGMA foreign_key_check').all<Record<string, unknown>>(),
+      db.prepare(CAMPAIGN_QUICK_CHECK).all<{ quick_check: string }>(),
+      db.prepare(CAMPAIGN_FOREIGN_KEY_CHECK).all<Record<string, unknown>>(),
     ]);
     const migrations = (ledger.results ?? []).map((row) => row.name).sort();
     const expectedMigrations = [...RUNTIME_MIGRATIONS].sort();
@@ -498,11 +510,11 @@ export async function auditTelegramCampaignSchema(
       .bind(MIGRATION)
       .first<{ name: string }>();
     if (ledger?.name !== MIGRATION) issues.push('migration_ledger:0048');
-    const integrity = await db.prepare('PRAGMA quick_check').all<{ quick_check: string }>();
+    const integrity = await db.prepare(CAMPAIGN_QUICK_CHECK).all<{ quick_check: string }>();
     if ((integrity.results ?? []).map((row) => row.quick_check).join(',') !== 'ok') {
       issues.push('quick_check');
     }
-    const violations = await db.prepare('PRAGMA foreign_key_check').all<Record<string, unknown>>();
+    const violations = await db.prepare(CAMPAIGN_FOREIGN_KEY_CHECK).all<Record<string, unknown>>();
     if ((violations.results ?? []).length > 0) issues.push('foreign_key_check');
   } catch {
     issues.push('audit_query_failed');

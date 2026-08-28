@@ -25,6 +25,9 @@ import {
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { scoreLead } from './scoring';
 import { resolveLeadRadarIntent } from './intent';
+import { contactCandidatesForLead } from './contact-candidates';
+import { ContactDiscoveryStore, contactDiscoverySchemaReady } from './contact-discovery-store';
+import { countResolvedCorporateContacts } from './contact-resolution';
 
 export interface LeadRadarSuppressionFingerprint {
   canonicalKey: string;
@@ -111,6 +114,7 @@ interface EvidenceRow {
 }
 
 interface JobRow {
+  idempotency_key?: string;
   id: string;
   org_id: string;
   search_id: string;
@@ -157,6 +161,7 @@ function chunksOf<T>(items: T[], size: number): T[][] {
 
 function mapJob(row: JobRow): LeadRadarJob {
   return {
+    ...(row.idempotency_key?.startsWith('contact-resolve:') ? { purpose: 'contact_resolution' as const } : {}),
     id: row.id,
     orgId: row.org_id,
     searchId: row.search_id,
@@ -368,6 +373,7 @@ function mapSearch(row: SearchRow): LeadRadarSearchSummary {
     errorCode: row.error_code,
     phase: row.phase ?? 'completed',
     funnel: {
+      ...(input.searchGoal === 'telegram_contacts' ? { contactTarget: input.desiredCount, candidateLimit: input.maxCandidates ?? 250 } : {}),
       rawDiscoveredCount: Number(row.raw_discovered_count ?? 0),
       candidateCount: Number(row.candidate_count ?? 0),
       processedCount: Number(row.processed_count ?? row.verified_count ?? 0),
@@ -431,7 +437,23 @@ function matchesSuppression(
 }
 
 export class LeadRadarStore {
-  constructor(private readonly db: D1Database) {}
+  readonly contactDiscovery: ContactDiscoveryStore;
+  constructor(private readonly db: D1Database) { this.contactDiscovery = new ContactDiscoveryStore(db); }
+  supportsContactDiscovery(): Promise<boolean> { return contactDiscoverySchemaReady(this.db); }
+
+  async ensureContactResolutionJob(job: LeadRadarJob, now: string): Promise<void> {
+    // One lookup job per enriched company. Created before completing the parent;
+    // the parent lease and idempotency key make crash recovery replay-safe.
+    await this.db.prepare(`INSERT INTO lead_radar_jobs
+      (id,org_id,search_id,company_id,idempotency_key,stage,status,attempt_count,max_attempts,available_at,dispatch_status,next_dispatch_at,created_at,updated_at)
+      SELECT ?,?,?,?,?,'enrichment','queued',0,3,?,'pending',?,?,?
+      WHERE EXISTS (SELECT 1 FROM lead_radar_jobs j JOIN lead_radar_searches s ON s.org_id=j.org_id AND s.id=j.search_id
+        JOIN lead_radar_companies c ON c.org_id=j.org_id AND c.id=j.company_id
+        WHERE j.org_id=? AND j.id=? AND j.status='running' AND j.lease_owner=? AND j.lease_generation=? AND j.lease_expires_at>?
+        AND json_extract(s.input_json,'$.searchGoal')='telegram_contacts' AND c.suppressed=0 AND c.enrichment_status='enriched')
+      ON CONFLICT(org_id,idempotency_key) DO NOTHING`).bind(`lrjob_${crypto.randomUUID().replaceAll('-','')}`,job.orgId,job.searchId,job.companyId,
+        `contact-resolve:${job.searchId}:${job.companyId}`,now,now,now,now,job.orgId,job.id,job.leaseOwner,job.leaseGeneration,now).run();
+  }
 
   async acquireSearchLease(
     orgId: string,
@@ -1884,7 +1906,7 @@ export class LeadRadarStore {
     const rows = (rowsResult.results ?? []).filter((row) => row.suppressed !== 1);
     const jobs = jobsResult.results ?? [];
     const activeJobs = jobs.filter((job) => ['queued', 'running', 'retry_wait'].includes(job.status));
-    const discoveryActive = activeJobs.some((job) => job.stage === 'discovery');
+    let discoveryActive = activeJobs.some((job) => job.stage === 'discovery');
     const decisionMakers = rows.flatMap((row) => decisionMakersFromJson(row.decision_makers_json));
     const personalTelegramCount = rows.filter((row) => {
       const contact = telegramContactFromJson(row.telegram_contact_json);
@@ -1895,7 +1917,10 @@ export class LeadRadarStore {
           && person.contactReviewStatus === 'approved'
           && isFreshPersonalContact(person.verifiedAt, Date.parse(now))));
     }).length;
-    const companyTelegramCount = rows.filter((row) => telegramContactFromJson(row.telegram_contact_json)?.type === 'business').length;
+    const companyTelegramCount = new Set(rows.flatMap((row) => {
+      const contact = telegramContactFromJson(row.telegram_contact_json);
+      return contact?.type === 'business' ? [contact.username.toLowerCase()] : [];
+    })).size;
     const processedCount = rows.filter((row) => ['enriched', 'terminal'].includes(row.enrichment_status)).length;
     const verifiedCount = rows.filter((row) => row.verified_identity === 1 && row.verified_anchor === 1).length;
     const websiteCount = rows.filter((row) => row.verified_website === 1).length;
@@ -1910,11 +1935,35 @@ export class LeadRadarStore {
       ...parseJson<string[]>(search.warnings_json ?? '[]', []),
       ...deadJobs.map((job) => job.last_error_code).filter((item): item is string => Boolean(item)),
     ])].slice(0, 20);
-    const terminal = activeJobs.length === 0 && jobs.some((job) => job.stage === 'discovery');
+    let replenishing = false;
+    let resolvedGoalCount = 0;
+    if (input.searchGoal === 'telegram_contacts' && activeJobs.length === 0 && !discoveryFailure
+      && await this.supportsContactDiscovery()) {
+      const pool = await this.contactDiscovery.getPool(orgId, searchId);
+      if (pool) {
+        resolvedGoalCount = await countResolvedCorporateContacts(this.db,orgId,searchId,now);
+        await this.contactDiscovery.recordResolvedCount(orgId,searchId,resolvedGoalCount);
+      }
+      if (pool && !pool.stop_reason) {
+        // Contact-mode success requires a Bridge resolution under the current
+        // account, not just a public link. Outreach permission remains separate.
+        const reason = resolvedGoalCount >= input.desiredCount ? 'target_reached'
+          : pool.expires_at <= now ? 'time_limit'
+            : pool.cursor >= pool.candidate_count ? (pool.candidate_count >= (input.maxCandidates ?? 250) ? 'candidate_limit' : 'sources_exhausted') : null;
+        if (reason) await this.contactDiscovery.stop(orgId, searchId, reason, now);
+        else {
+          const next = await this.createJob(orgId, searchId, null, 'discovery', `contact-pool:${searchId}:${pool.cursor}`, now);
+          replenishing = ['queued', 'running', 'retry_wait'].includes(next.status);
+          discoveryActive = replenishing;
+        }
+        if (reason && reason !== 'target_reached') warnings.push(`contact_${reason}`);
+      }
+    }
+    const terminal = activeJobs.length === 0 && !replenishing && jobs.some((job) => job.stage === 'discovery');
     const status: LeadRadarSearchStatus = !terminal
       ? 'running'
       : (discoveryFailure ? 'failed' : (rows.length === 0 ? 'insufficient_results'
-        : (deadJobs.length > 0 || rows.length < input.desiredCount ? 'partial' : 'ready')));
+        : (deadJobs.length > 0 || (input.searchGoal === 'telegram_contacts' ? resolvedGoalCount : rows.length) < input.desiredCount ? 'partial' : 'ready')));
     const phase: LeadRadarSearchPhase = terminal ? 'completed' : (discoveryActive ? 'discovering' : 'enriching');
     await this.db.prepare(`UPDATE lead_radar_searches SET
       status = ?, phase = ?, candidate_count = ?, verified_count = ?,
@@ -1973,8 +2022,12 @@ export class LeadRadarStore {
       values.push(mapEvidence(row));
       evidenceByLead.set(row.company_id, values);
     }
+    const summary = mapSearch(search);
+    if (summary.input.searchGoal === 'telegram_contacts' && await this.supportsContactDiscovery()) {
+      summary.funnel.resolvedTelegramCount = (await this.contactDiscovery.getPool(orgId,searchId))?.resolved_count ?? 0;
+    }
     return {
-      search: mapSearch(search),
+      search: summary,
       leads: leadRows.map((row) => {
         const suppressed = row.suppressed === 1 || matchesSuppression({
           canonicalKey: row.canonical_key,
@@ -2019,6 +2072,9 @@ export class LeadRadarStore {
           genericEmail: suppressed ? null : row.generic_email,
           telegramUrl: suppressed ? null : row.telegram_url,
           telegramContact,
+          contactCandidates: contactCandidatesForLead({
+            phone: row.phone, country: row.country, evidence, telegramContact, suppressed,
+          }),
           decisionMakers,
           enrichmentStatus: suppressed ? 'terminal' : row.enrichment_status,
           enrichmentReason: suppressed ? 'suppressed' : row.enrichment_reason,

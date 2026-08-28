@@ -1,5 +1,6 @@
 import type { FirecrawlEnvironment } from './firecrawl-client';
-import { FirecrawlClient, FirecrawlError, firecrawlConfig, firecrawlDigest, firecrawlObject, firecrawlPublicUrl } from './firecrawl-client';
+import { FirecrawlClient, FirecrawlError, firecrawlConfig, firecrawlDigest, firecrawlObject, firecrawlPublicUrl, firecrawlDiscoveryUrl, firecrawlIsThirdParty } from './firecrawl-client';
+import { officialDomainSearchQuery, officialDomainsFromListing } from './official-domain-discovery';
 import { FirecrawlStore, type FirecrawlJobContext } from './firecrawl-store';
 import type { LeadRadarQueueDependencies } from './queue';
 import {
@@ -36,14 +37,14 @@ export interface FirecrawlEnrichmentDependencies {
   robots?: typeof readPublicWebsiteRobots;
 }
 
-function urlsFrom(value: unknown, base?: URL): string[] {
+function urlsFrom(value: unknown, base?: URL, discovery = false): string[] {
   if (!Array.isArray(value)) throw new FirecrawlError('invalid_response');
   const result: string[] = [];
   for (const item of value.slice(0, 100)) {
     const raw = typeof item === 'string' ? item : item && typeof item === 'object' ? (item as { url?: unknown }).url : null;
     if (typeof raw !== 'string') continue;
     try {
-      const url = firecrawlPublicUrl(base ? new URL(raw, base).toString() : raw);
+      const url = (discovery ? firecrawlDiscoveryUrl : firecrawlPublicUrl)(base ? new URL(raw, base).toString() : raw);
       if (url && (!base || url.origin === base.origin) && !result.includes(url.toString())) result.push(url.toString());
     } catch { /* An invalid source link is not actionable. */ }
   }
@@ -122,7 +123,8 @@ export async function createFirecrawlQueueDependencies(
   return {
     resolveMissingWebsites: true,
     enrichLead: async (website, expected, job) => {
-      const direct: WebsiteEnrichmentResult = website
+      const thirdParty = Boolean(website && firecrawlIsThirdParty(website));
+      const direct: WebsiteEnrichmentResult = website && !thirdParty
         ? await (deps.direct ?? enrichCompanyWebsiteDetailed)(website, expected)
         : { facts: null, reason: 'no_website', retryable: false };
       const ctx: FirecrawlJobContext = {
@@ -197,19 +199,43 @@ export async function createFirecrawlQueueDependencies(
       };
       try {
         let home = website ? firecrawlPublicUrl(website) : null;
-        if (website && !home) throw new FirecrawlError('unsafe_url');
+        if (website && !home && !thirdParty) throw new FirecrawlError('unsafe_url');
         if (!home) {
-          const query = `${expected.name} ${expected.city ?? ''} официальный сайт`.slice(0, 220);
+          const query = officialDomainSearchQuery(expected);
           const candidates = await client.request('search', `search:${ctx.companyId}`, { query, limit: 5 }, (response) => {
             const data = firecrawlObject(response.data);
-            return urlsFrom(data.web).slice(0, 5);
+            return urlsFrom(data.web, undefined, true).slice(0, 5);
           });
+          const officialCandidates = candidates.filter((value) => firecrawlPublicUrl(value));
+          // One concrete directory listing at most. Extract only its matched
+          // JSON-LD entity, then independently verify the destination website.
+          if (!officialCandidates.length) {
+            const listing = candidates.map(firecrawlDiscoveryUrl).find((url) => url && !firecrawlPublicUrl(url.toString()));
+            if (listing) {
+              await allowed(listing);
+              const destinations = await client.request('scrape', listing.hostname, {
+                url: listing.toString(), formats: ['html'], onlyMainContent: false, maxAge: 0,
+                storeInCache: false, skipTlsVerification: false, parsers: [], timeout: 30_000,
+              }, async (response) => {
+                const data = firecrawlObject(response.data);
+                const meta = firecrawlObject(data.metadata);
+                const source = typeof meta.sourceURL === 'string' ? firecrawlDiscoveryUrl(meta.sourceURL) : null;
+                const final = typeof meta.url === 'string' ? firecrawlDiscoveryUrl(meta.url) : source;
+                if (meta.statusCode !== 200 || !source || !final || source.origin !== listing.origin || final.origin !== listing.origin
+                  || ['hit','cached'].includes(String(meta.cacheState))) throw new FirecrawlError('unsafe_redirect');
+                await allowed(final);
+                if (typeof data.html !== 'string' || new TextEncoder().encode(data.html).byteLength > 900_000) throw new FirecrawlError('invalid_page');
+                return officialDomainsFromListing(data.html, expected);
+              }, JSON.stringify(['directory-identity-v1', expected]));
+              officialCandidates.push(...destinations);
+            }
+          }
           // At most two candidate domains; mismatch never upgrades to first-party.
           // Revalidate cached Search results too: safety policy may be tightened
           // during deployment, without changing the key or charging Search again.
-          for (const candidate of [...new Set(candidates.flatMap((value) => {
+          for (const candidate of [...new Set(officialCandidates.flatMap((value) => {
             const url = firecrawlPublicUrl(value);
-            return url ? [url.origin] : [];
+            return url ? [url.toString()] : [];
           }))].slice(0, 2)) {
             const url = new URL(candidate);
             try {

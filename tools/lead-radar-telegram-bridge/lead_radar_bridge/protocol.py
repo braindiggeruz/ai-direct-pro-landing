@@ -49,6 +49,7 @@ COMMAND_KINDS = {
     "submit_password",
     "disconnect",
     "probe",
+    "resolve_contact",
     "validate_media",
     "send",
 }

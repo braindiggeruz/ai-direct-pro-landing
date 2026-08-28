@@ -31,6 +31,7 @@ export type LeadRadarTelegramBridgeCommandKind =
   | 'submit_password'
   | 'disconnect'
   | 'probe'
+  | 'resolve_contact'
   | 'validate_media'
   | 'send';
 

@@ -34,6 +34,7 @@ import {
   type TelegramCampaignSelectionEvaluation,
 } from '../../../platform/lead-radar';
 import { LeadRadarTelegramCampaignStore } from '../../../platform/lead-radar/telegram-campaign-store';
+import { checkCorporateTelegramContact } from '../../../platform/lead-radar/contact-resolution';
 import {
   adoptTelegramAccountConnection,
   beginTelegramAccountPhoneConnection,
@@ -49,6 +50,7 @@ import {
   pollTelegramAccountConnection,
   probeTelegramAccountGatewayConfiguration,
   revokeTelegramBridge,
+  resolveTelegramContact,
   submitTelegramAccountPassword,
   submitTelegramAccountAuthInput,
   TelegramAccountServiceError,
@@ -938,6 +940,27 @@ export async function handleTelegramCampaignPost(
 ): Promise<Response> {
   const ctx = rawContext as CampaignContext;
   try {
+    if (parts.length === 2 && parts[0] === 'telegram-account' && parts[1] === 'resolve-contact') {
+      if (!capabilities.telegramAccountEnabled) return ownerError('lead_radar_telegram_account_paused', ctx.requestId, 409);
+      const body = await exactBody(ctx, ['searchId','companyId','candidateKey']);
+      if (!body || typeof body.searchId !== 'string' || !ENTITY_ID_PATTERN.test(body.searchId)
+        || typeof body.companyId !== 'string' || !ENTITY_ID_PATTERN.test(body.companyId)
+        || typeof body.candidateKey !== 'string' || body.candidateKey.length > 450) return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const dataKey = campaignDataKey(ctx);
+      if (!dataKey) return unavailable('telegram_campaign_not_configured', ctx);
+      const account = await getTelegramUserAccount(ctx.db, orgId);
+      if (!account || account.status !== 'connected') return ownerError('telegram_campaign_account_state_conflict', ctx.requestId, 409);
+      const binding = await getTelegramUserAccountGatewayBinding({ db: ctx.db, dataKey, orgId, accountId: account.id });
+      if (!binding) return ownerError('telegram_campaign_account_state_conflict', ctx.requestId, 409);
+      const result = await checkCorporateTelegramContact({ db: ctx.db, orgId, searchId: body.searchId,
+        companyId: body.companyId, candidateKey: body.candidateKey, accountId: account.id,
+        resolve: (target, operationId) => resolveTelegramContact({ service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+          internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN, orgId, gatewayAccountRef: binding.gatewayAccountRef, operationId, target }),
+      });
+      return ownerJson(result, ctx.requestId);
+    }
     if (parts.length === 3
       && parts[0] === 'telegram-account'
       && parts[1] === 'bridge'

@@ -1,4 +1,5 @@
 import { DurableObject } from 'cloudflare:workers';
+import { validTelegramContactTarget, validTelegramContactResolution, type TelegramContactResolution } from '../../src/shared/lead-radar-contact-resolution';
 
 import {
   accountRefForOrg,
@@ -1353,6 +1354,17 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     else if (command.kind === 'submit_password') {
       await this.applyPasswordResult(command, body, applicationKey, digest);
     } else if (command.kind === 'probe') await this.applyProbeResult(command, body, applicationKey, digest);
+    else if (command.kind === 'resolve_contact') {
+      const checked = body.status === 'succeeded' && body.result_code === 'contact_checked'
+        && validTelegramContactResolution(body.result) && body.result.status !== 'pending';
+      const failed = ['failed','ambiguous'].includes(String(body.status))
+        && ['local_validation_failed','provider_outcome_unknown','telegram_timeout'].includes(String(body.result_code))
+        && bridgeExactKeys(body.result as BridgeJsonRecord, []);
+      if (!checked && !failed) {
+        throw new MailboxFault('bridge_result_invalid', 400);
+      }
+      await this.ctx.storage.put(applicationKey, digest);
+    }
     else if (command.kind === 'disconnect') {
       await this.applyDisconnectResult(command, body, applicationKey, digest);
     }
@@ -2459,6 +2471,33 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       : jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status: 'ambiguous' });
   }
 
+  private async resolveContact(body: JsonRecord): Promise<Response> {
+    if (!hasExactKeys(body, ['schema','org_id','account_ref','operation_id','target'])
+      || body.schema !== TELEGRAM_ACCOUNT_SERVICE_SCHEMA || typeof body.org_id !== 'string' || !ORG_ID_PATTERN.test(body.org_id)
+      || typeof body.account_ref !== 'string' || !ACCOUNT_REF_PATTERN.test(body.account_ref)
+      || body.account_ref !== await this.accountRef(body.org_id)
+      || typeof body.operation_id !== 'string' || !OPERATION_ID_PATTERN.test(body.operation_id)
+      || !validTelegramContactTarget(body.target)) return safeErrorResponse('invalid_request');
+    const reply = (status: TelegramContactResolution['status'], reason: string, retryAfterSeconds: number | null = null) =>
+      jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status, username: null, reason, retryAfterSeconds });
+    const account = await this.ctx.storage.get<AccountRecord>(accountKey(body.account_ref));
+    if (!account || account.orgId !== body.org_id || !account.finalized || account.state !== 'connected') return reply('failed','account_not_connected');
+    const device = await this.ctx.storage.get<DeviceRecord>(deviceKey(account.deviceId));
+    if (!device || this.deviceStatus(device) !== 'online') return reply('failed','bridge_offline');
+    const [major, minor] = device.bridgeVersion.split('.').map(Number);
+    if (!(major > 1 || major === 1 && minor >= 4)) return reply('unsupported','bridge_update_required');
+    const command = await this.enqueue({ orgId: body.org_id, accountRef: body.account_ref, device,
+      kind: 'resolve_contact', operationId: body.operation_id, ttlMs: 120_000,
+      payload: { account_ref: body.account_ref, target: body.target },
+    });
+    if (command.result) {
+      const terminal = await this.decrypt(command.commandId, `result:${command.lastSequence}`, command.result);
+      if (validTelegramContactResolution(terminal.result)) return jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, ...terminal.result });
+    }
+    if (Date.parse(command.expiresAt) <= Date.now() || ['failed','ambiguous'].includes(command.status)) return reply('unresolved','check_expired');
+    return reply('pending','waiting_for_bridge');
+  }
+
   private async internalRoute(request: Request): Promise<Response> {
     const url = new URL(request.url);
     if (url.origin !== INTERNAL_ACCOUNT_ORIGIN || request.method !== 'POST') {
@@ -2484,6 +2523,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       case '/internal/accounts/health': return this.accountHealth(body);
       case '/internal/health': return this.health();
       case '/internal/media/validate': return this.validateMedia(body);
+      case '/internal/contacts/resolve': return this.resolveContact(body);
       case '/internal/messages/send': return this.sendMessage(body);
       case '/internal/messages/reconcile': return this.reconcile(body);
       default: return new Response('Not Found', { status: 404 });

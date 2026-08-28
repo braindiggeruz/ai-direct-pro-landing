@@ -1,4 +1,5 @@
 import type { LeadRadarTelegramContact } from './types';
+import { verifiedResolvedCorporateCompanies } from './contact-resolution';
 import {
   LeadRadarTelegramBusinessStore,
   type TelegramBusinessCompanyRow,
@@ -1359,6 +1360,10 @@ export async function buildVerifiedTelegramCorporateDraftLink(input: {
   now?: Date;
 }): Promise<string | null> {
   const now = input.now ?? new Date();
+  if ((await verifiedResolvedCorporateCompanies({ db: input.db, orgId: input.orgId,
+    companies: [{ companyId: input.companyId, contact: input.contact }], now })).has(input.companyId)) {
+    return buildTelegramCorporateDraftLink(input.contact, input.draft, now);
+  }
   const username = await verifiedBusinessEndpointUsername({
     store: new LeadRadarTelegramBusinessStore(input.db),
     orgId: input.orgId,
@@ -1407,7 +1412,7 @@ export async function verifiedTelegramCampaignBusinessCompanyIds(input: {
     current.push(row);
     byCompany.set(row.company_id, current);
   }
-  const verified = new Set<string>();
+  const verified = await verifiedResolvedCorporateCompanies({ db: input.db, orgId: input.orgId, companies: parsed, now });
   const oldest = now.getTime() - 30 * 24 * 60 * 60_000;
   const newest = now.getTime() + FUTURE_SKEW_MS;
   for (const company of parsed) {

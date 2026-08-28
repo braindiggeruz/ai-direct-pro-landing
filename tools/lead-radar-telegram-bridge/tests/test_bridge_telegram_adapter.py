@@ -79,6 +79,27 @@ def account(client: FakeClient, folder: Path) -> TelethonAccount:
 
 
 class TelegramAdapterTests(unittest.IsolatedAsyncioTestCase):
+    async def test_contact_lookup_uses_resolve_not_import_or_send(self) -> None:
+        from telethon.tl import functions, types
+        class Resolver(FakeClient):
+            calls: list[object] = []
+            async def __call__(self, request):
+                self.calls.append(request)
+                return type("Resolved", (), {"peer": types.PeerUser(123), "users": [self.entity]})()
+        with tempfile.TemporaryDirectory() as folder:
+            client = Resolver(User(id=123, username="clinic_uz"))
+            bridge = account(client, Path(folder))
+            result = await bridge.resolve_public_contact("phone", "+998901234567")
+            self.assertEqual(result["status"], "resolved")
+            self.assertIsInstance(client.calls[-1], functions.contacts.ResolvePhoneRequest)
+            self.assertEqual(client.text_calls, [])
+            self.assertEqual(client.photo_calls, [])
+            client.entity = User(id=123, bot=True, username="clinic_bot")
+            self.assertEqual((await bridge.resolve_public_contact("username", "clinic_bot"))["status"], "unsupported")
+            client.entity = User(id=123)
+            self.assertEqual((await bridge.resolve_public_contact("phone", "+998901234567"))["reason"], "no_public_username")
+            self.assertNotIn("+998901234567", str(result))
+
     async def test_auth_rpc_deadlines_do_not_claim_a_code_or_retry(self) -> None:
         async def stalled(*_args, **_kwargs):
             await asyncio.Event().wait()

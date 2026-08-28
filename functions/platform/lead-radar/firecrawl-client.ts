@@ -54,13 +54,24 @@ export const FIRECRAWL_DIRECTORY_DOMAINS = [
 ] as const;
 
 /** Never relay secrets, arbitrary query strings, logins or local addresses. */
-export function firecrawlPublicUrl(value: string): URL | null {
+function providerUrl(value: string, allowDirectory: boolean): URL | null {
   const url = safePublicHttpUrl(value);
   if (!url || url.search || NON_COMPANY_HOSTS.test(url.hostname)
-    || FIRECRAWL_DIRECTORY_DOMAINS.some((host) => url.hostname === host || url.hostname.endsWith(`.${host}`))
+    || (!allowDirectory && FIRECRAWL_DIRECTORY_DOMAINS.some((host) => url.hostname === host || url.hostname.endsWith(`.${host}`)))
     || /(?:^|\/)(?:admin|admin-tools|login|oauth|auth|logout|account|private)(?:\/|$)/i.test(url.pathname)
     || /\.(?:pdf|zip|docx?|xlsx?|exe|png|jpe?g|webp|svg|mp[34])$/i.test(url.pathname)) return null;
   return url;
+}
+export function firecrawlPublicUrl(value: string): URL | null { return providerUrl(value, false); }
+/** A directory LISTING can point to an official website; it is never that website. */
+export function firecrawlDiscoveryUrl(value: string): URL | null {
+  const url = providerUrl(value, true);
+  return url && (firecrawlPublicUrl(value) || url.pathname.split('/').filter(Boolean).length >= 1) ? url : null;
+}
+export function firecrawlIsThirdParty(value: string): boolean {
+  const url = safePublicHttpUrl(value);
+  return !!url && (NON_COMPANY_HOSTS.test(url.hostname)
+    || FIRECRAWL_DIRECTORY_DOMAINS.some((host) => url.hostname === host || url.hostname.endsWith(`.${host}`)));
 }
 
 export function firecrawlObject(value: unknown): Record<string, unknown> {

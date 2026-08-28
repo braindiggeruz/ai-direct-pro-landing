@@ -31,6 +31,14 @@ export function parseSearchInput(value: unknown): LeadRadarSearchInput {
     )))]
     : [];
   if (languages.length === 0) throw new LeadRadarValidationError('invalid_languages');
+  if (raw.searchGoal !== undefined && !['companies', 'telegram_contacts'].includes(String(raw.searchGoal))) {
+    throw new LeadRadarValidationError('invalid_search_goal');
+  }
+  const contactGoal = raw.searchGoal === 'telegram_contacts';
+  const maxCandidates = Number(raw.maxCandidates ?? Math.min(250, desiredCount * 5));
+  if (contactGoal && (!Number.isInteger(maxCandidates) || maxCandidates < desiredCount || maxCandidates > 250)) {
+    throw new LeadRadarValidationError('invalid_candidate_limit');
+  }
 
   return {
     niche: text(raw.niche, 90, 'invalid_niche'),
@@ -38,6 +46,7 @@ export function parseSearchInput(value: unknown): LeadRadarSearchInput {
     country: text(raw.country ?? 'UZ', 40, 'invalid_country').toUpperCase(),
     offer: text(raw.offer, 180, 'invalid_offer'),
     desiredCount,
+    ...(contactGoal ? { searchGoal: 'telegram_contacts' as const, maxCandidates } : {}),
     telegramRequired: raw.telegramRequired === true,
     languages,
   };

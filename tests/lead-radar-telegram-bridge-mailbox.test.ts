@@ -79,6 +79,30 @@ async function fixture() {
   return { mailbox, storage, device, authId, initial, call, result, state, finalizationMessages };
 }
 
+test('contact resolution is async, version-gated, account-bound and idempotent', async () => {
+  const f = await fixture();
+  const ref = await f.mailbox.accountRef(orgId);
+  await f.storage.put(`bridge:account:${ref}`, { orgId, accountRef: ref, deviceId, finalized: true, state: 'connected' });
+  const call = (operation = 'contact-check-fixture', target = { kind: 'phone', value: '+998901234567' }) => f.mailbox.fetch(new Request('https://lead-radar-telegram-account-do.internal/internal/contacts/resolve', {
+    method: 'POST', body: JSON.stringify({ schema, org_id: orgId, account_ref: ref, operation_id: operation, target }),
+  }));
+  assert.equal((await (await call()).json()).reason, 'bridge_update_required');
+  await f.storage.put(`bridge:device:${deviceId}`, { ...f.device, accountRef: ref, bridgeVersion: '1.4.0' });
+  assert.equal((await (await call()).json()).status, 'pending');
+  assert.equal((await (await call()).json()).status, 'pending');
+  const commands = [...f.storage.values.values()].filter(v => v?.kind === 'resolve_contact');
+  assert.equal(commands.length, 1);
+  const command = commands[0];
+  const body = { status: 'succeeded', result_code: 'contact_checked', result: { status: 'resolved', username: 'clinic_verified', reason: 'regular_user_resolved', retryAfterSeconds: null } };
+  await f.mailbox.applyResult(command, body, 'fixture-contact-result', 'digest');
+  await f.storage.put(`bridge:command:${command.commandId}`, { ...command, status: 'succeeded', lastSequence: 1,
+    result: await f.mailbox.encrypt(command.commandId, 'result:1', body) });
+  assert.equal((await (await call()).json()).username, 'clinic_verified');
+  assert.equal((await call('contact-check-invalid', { kind: 'phone', value: '+InviteHash' })).status, 400);
+  assert.equal((await call('contact-check-fixture', { kind: 'username', value: 'different_clinic' })).status, 409);
+  assert.equal([...f.storage.values.values()].filter(v => v?.kind === 'send').length, 0);
+});
+
 test('production mailbox → Pages parser accepts real ten-minute phone/code/2FA stages without synchronous waits', async () => {
   const f = await fixture();
   let state = await f.state();

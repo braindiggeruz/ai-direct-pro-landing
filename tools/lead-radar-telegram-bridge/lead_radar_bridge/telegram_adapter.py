@@ -123,7 +123,7 @@ class TelethonAccount:
             StringSession(session), api_id, api_hash,
             timeout=10, connection_retries=1, request_retries=1,
             retry_delay=1, flood_sleep_threshold=0, raise_last_call_error=True,
-            device_model="Lead Radar Windows Bridge", app_version="1.3.2",
+            device_model="Lead Radar Windows Bridge", app_version="1.4.0",
         )
 
     async def _request(self, request: Awaitable[Any]) -> Any:
@@ -289,6 +289,44 @@ class TelethonAccount:
         self.pending_phone = None
         self.pending_phone_code_hash = None
         self._session_value = ""
+
+    async def resolve_public_contact(self, kind: str, value: str) -> dict[str, Any]:
+        """One public corporate lookup, never contact import or a message.
+
+        Privacy-hidden numbers cannot be distinguished from missing accounts.
+        Numeric peer ids, access hashes, names and phone values stay local.
+        """
+        result = {"status": "unresolved", "username": None, "reason": "privacy_or_missing", "retryAfterSeconds": None}
+        try:
+            from telethon.tl import functions, types
+            client = await self.ensure_connected()
+            if kind == "phone":
+                request = functions.contacts.ResolvePhoneRequest(phone=value)
+            elif kind == "business_link":
+                request = functions.account.ResolveBusinessChatLinkRequest(slug=value)
+            elif kind == "username":
+                request = functions.contacts.ResolveUsernameRequest(username=value)
+            else:
+                return {**result, "status": "failed", "reason": "invalid_target"}
+            resolved = await self._request(client(request))
+            peer = getattr(resolved, "peer", None)
+            if not isinstance(peer, types.PeerUser):
+                return {**result, "status": "unsupported", "reason": "not_regular_user"}
+            entity = next((user for user in getattr(resolved, "users", []) if isinstance(user, types.User) and user.id == peer.user_id), None)
+            if entity is None or entity.bot or entity.deleted:
+                return {**result, "status": "unsupported", "reason": "not_regular_user"}
+            username = getattr(entity, "username", None)
+            if not isinstance(username, str) or not __import__("re").fullmatch(r"[A-Za-z][A-Za-z0-9_]{4,31}", username):
+                return {**result, "status": "unsupported", "reason": "no_public_username"}
+            return {**result, "status": "resolved", "username": username, "reason": "regular_user_resolved"}
+        except Exception as error:
+            code = error.__class__.__name__
+            if "Flood" in code or "SlowMode" in code:
+                seconds = max(3, int(getattr(error, "seconds", 60)))
+                return {**result, "status": "limited", "reason": "telegram_rate_limited", "retryAfterSeconds": seconds}
+            if code in {"PhoneNotOccupiedError", "UsernameNotOccupiedError", "UsernameInvalidError", "ChatlinkSlugExpiredError", "UserPrivacyRestrictedError"}:
+                return result
+            return {**result, "reason": "telegram_timeout" if isinstance(error, TimeoutError) else "lookup_unconfirmed"}
 
     async def _resolved_regular_user(self, endpoint: str) -> tuple[Any, Any]:
         client = await self.ensure_connected()

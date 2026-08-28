@@ -249,6 +249,24 @@ def validate_media_command() -> BridgeCommand:
 
 
 class BridgeRuntimeTests(unittest.IsolatedAsyncioTestCase):
+    async def test_contact_lookup_floodwait_survives_and_never_sends(self) -> None:
+        command = BridgeCommand(COMMAND_ID, "resolve_contact", 1, iso_after(90), {"account_ref": ACCOUNT_REF, "target": {"kind": "phone", "value": "+998901234567"}})
+        with tempfile.TemporaryDirectory() as folder:
+            runtime, ledger, _mailbox, telegram, state = self.make_runtime(folder, command)
+            try:
+                ledger.put_auth_custody(auth_id=AUTH_ID, command_id=COMMAND_ID, account_ref=ACCOUNT_REF, state="finalized", expires_at=int(time.time()) + 600)
+                telegram.resolve_public_contact = mock.AsyncMock(return_value={"status": "limited", "username": None, "reason": "telegram_rate_limited", "retryAfterSeconds": 172800})
+                first = await runtime._resolve_contact(command)
+                self.assertEqual(first["result"]["retryAfterSeconds"], 172800)
+                second = await runtime._resolve_contact(command)
+                self.assertGreater(second["result"]["retryAfterSeconds"], 86400)
+                self.assertEqual(telegram.resolve_public_contact.await_count, 1)
+                self.assertGreater(state["contact_lookup_blocked_until"], time.time() + 86400)
+                self.assertEqual(telegram.text_calls + telegram.photo_calls, 0)
+                self.assertTrue(runtime.vault.saved)
+            finally:
+                ledger.close()
+
     async def test_mailbox_io_does_not_block_telegram_event_loop(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             runtime, ledger, mailbox, _telegram, _state = self.make_runtime(folder, phone_connect_command())

@@ -16,6 +16,7 @@ import {
 import type { LeadRadarSearchInput } from '../src/shared/lead-radar';
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
+import { checkCorporateTelegramContact } from '../functions/platform/lead-radar/contact-resolution';
 
 const SAMPLE_SIZES = [1, 5, 10, 50] as const;
 const FIXED_NOW = new Date('2026-08-25T10:00:00.000Z');
@@ -66,6 +67,46 @@ for (const missingWebsite of [false, true]) test(`Firecrawl four-page enrichment
   assert.equal(fixture.value('SELECT pages FROM lead_radar_firecrawl_reports'), 4);
 });
 
+test('background contact checks and final target aggregation fit the Free D1 budget', async (context) => {
+  const fixture = database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'),'utf8'));
+  fixture.exec(`CREATE TABLE d1_migrations(name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');
+    CREATE TABLE lead_radar_tg_user_accounts(id TEXT,org_id TEXT,status TEXT);
+    INSERT INTO lead_radar_tg_user_accounts VALUES ('fixture-account','org-a','connected');`);
+  const store = new LeadRadarStore(fixture.asD1()), queue = new RecordingQueue();
+  const now = FIXED_NOW.toISOString();
+  const searchId = await store.createSearch('org-a',{...searchInput(5),searchGoal:'telegram_contacts',maxCandidates:25},now);
+  const lead = storedLead(1,now);
+  lead.enrichmentStatus = 'enriched';
+  const companyId = await store.insertLead('org-a',searchId,lead);
+  assert.ok(companyId);
+  fixture.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools (org_id,search_id,candidate_count,cursor,target,created_at,expires_at,updated_at)
+    VALUES ('org-a',?,1,1,5,?,?,?)`).run(searchId,now,new Date(FIXED_NOW.getTime()+3600_000).toISOString(),now);
+  const evidence = fixture.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES (?,'org-a',?,?,?,?,'company_website',?,0.9,'company_data')`);
+  evidence.run('binding',companyId,'web.website',lead.website,lead.website,now);
+  fixture.exec("UPDATE lead_radar_evidence SET classification='fact' WHERE id='binding'");
+  for (const [i,phone] of ['+998901234567','+998901234568'].entries()) evidence.run(`phone-${i}`,companyId,'company_contacts.phone',phone,lead.website,now);
+  const job = await store.createJob('org-a',searchId,companyId,'enrichment',`contact-resolve:${searchId}:${companyId}`,now);
+  const counted = new CountingD1(fixture.asD1()), db = counted.asD1();
+  const outcome = await consumeLeadRadarQueueMessage(db,{schema:'gptbot.lead-radar.job.v1',job_id:job.id},queue,{
+    now:() => FIXED_NOW,
+    resolveLeadContacts:async () => {
+      for (const phone of ['+998901234567','+998901234568']) await checkCorporateTelegramContact({
+        db,orgId:'org-a',searchId,companyId,accountId:'fixture-account',candidateKey:`phone:${phone}`,now,
+        resolve:async () => ({status:'unresolved',username:null,reason:'privacy_or_missing',retryAfterSeconds:null}),
+      });
+      return {pending:false};
+    },
+  });
+  assert.equal(outcome.outcome,'completed');
+  const count = counted.snapshot('funnel_refresh',1).executedStatements;
+  // Nine outer Worker/heartbeat slots plus four for account/binding loading.
+  context.diagnostic(`Contact delivery: ${count} D1 statements + 13 outer/account allowance`);
+  assert.ok(count+13<=50,`Contact delivery exceeds Free D1 budget: ${count}+13`);
+  assert.equal(fixture.value('SELECT COUNT(*) FROM lead_radar_contact_checks'),2);
+});
+
 interface D1Counters {
   prepare: number;
   run: number;
@@ -77,7 +118,7 @@ interface D1Counters {
 }
 
 interface D1BudgetSample extends D1Counters {
-  operation: 'discovery_fanout' | 'funnel_refresh' | 'due_dispatch' | 'adversarial_cron';
+  operation: 'discovery_fanout' | 'funnel_refresh' | 'due_dispatch' | 'adversarial_cron' | 'contact_pool_discovery';
   n: number;
   executedStatements: number;
   roundTrips: number;
@@ -491,6 +532,24 @@ async function measureAdversarialCron(): Promise<{
     )),
   };
 }
+
+test('contact pool discovery and refill remain within the Free D1 budget including outer guard headroom', async (context) => {
+  const fixture = database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'),'utf8'));
+  fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
+  const queue = new RecordingQueue();
+  const store = new LeadRadarStore(fixture.asD1());
+  await enqueueLeadRadarSearch(store,'org-a',{ ...searchInput(5),searchGoal:'telegram_contacts',maxCandidates:25 },queue,FIXED_NOW,'pool-budget-test');
+  const profiler = new CountingD1(fixture.asD1());
+  const db = profiler.asD1();
+  const outcome = await consumeLeadRadarQueueMessage(db,queue.messages.shift(),queue,{ now: () => FIXED_NOW,
+    discover: async () => ({ candidates: Array.from({length:25},(_,i) => ({ ...candidate(i+1),website:null })),sourceWarnings:[] }),
+  });
+  assert.equal(outcome.outcome,'completed');
+  const sample = profiler.snapshot('contact_pool_discovery',25);
+  assert.ok(sample.executedStatements + 9 <= 50,JSON.stringify(sample));
+  context.diagnostic(JSON.stringify(sample));
+});
 
 test('Lead Radar discovery fan-out stays within the Workers Free D1 budget at N=1/5/10/50', async (context) => {
   const measured = await Promise.all(SAMPLE_SIZES.map(measureDiscoveryFanout));

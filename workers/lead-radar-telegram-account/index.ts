@@ -419,6 +419,11 @@ async function privateRoute(request: Request, env: TelegramAccountGatewayEnv): P
     case '/v1/accounts/connect/state': return authAction(request, env, 'state');
     case '/v1/accounts/disconnect': return disconnect(request, env);
     case '/v1/media/validate': return validateMedia(request, env);
+    case '/v1/contacts/resolve': {
+      const body = await readBoundedJson(request);
+      if (!body || !idempotencyHeaderMatches(request, String(body.operation_id ?? ''))) return safeErrorResponse('invalid_request');
+      return doFetch(env, '/internal/contacts/resolve', body, GATEWAY_DO_CONTROL_TIMEOUT_MS);
+    }
     case '/v1/messages/send': return sendMessage(request, env);
     case '/v1/messages/reconcile': return reconcileMessage(request, env);
     default: return new Response('Not Found', { status: 404 });
