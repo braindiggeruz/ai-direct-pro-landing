@@ -36,3 +36,14 @@ Deploy optional-table-aware Pages and automation Worker BEFORE applying 0051, th
 Do not roll back to an older schema auditor that rejects the two new optional tables. Do not drop audience data for rollback. A UI-only rollback must retain the additive-schema compatibility and the campaign snapshot/recovery logic. No data/session reset is needed.
 
 Release identifiers and final production audit results are recorded after deployment in STATE.md and the release section below.
+
+## Released
+
+- Code: `f9f8738d4d368e7d9d02812161145c5cc1b098b7`.
+- Pages production: `d9206ece-b9d3-44e8-bc18-f9630d0b574f` (gptbot.uz), deployment stage success and commit verified through Cloudflare readback.
+- Automation Worker: `ac566699-4a87-47d7-8ead-051ccb3f3d98`.
+- 0051 applied and ledgered after both code deployments (five successful SQL statements). Base/campaign/contact/audience schema audits all pass.
+- Actual directory: **3 unique public contacts, all review-needed** at release. No active jobs, campaigns or effects; nothing sent and no paid collection started. Aggregation does not upgrade unverified contacts.
+- Login HTTP200/no-store; unauthenticated directory/audience endpoints HTTP401/no-store; new `AdminRoot-D95vMfYD.js` asset HTTP200.
+- Main/admin builds, full lint/typecheck, secret scan3946 files and Worker dry-run passed. Final campaign API regression subset29/29 passed including the new audience chain. Existing large admin-bundle build warning remains non-blocking.
+- Local UI test server was stopped. Owner-authenticated production interaction and real recipient delivery were deliberately not represented as tested.
