@@ -13,13 +13,21 @@
 ## Проверено
 
 - Все 29 файлов `lead-radar-*.test.ts`, включая новые тесты read-only preflight, pending-media/retry, последовательности и паузы контактов, фильтрации номеров и восстановления metadata.
-- TypeScript, production main/admin build, оба Worker dry-run, secret-scan. Полный ESLint — результат фиксируется при завершении выпуска.
+- TypeScript, production main/admin build, оба Worker dry-run, secret-scan и полный ESLint прошли.
 - Локальная браузерная fixture с вымышленными контактами и запретом сетевых отправок: нет основания → 0; основание одного адресата → 1; выбор только готовых; редактирование текста; подготовка с картинкой/без; 35-секундная проверка переживает обновление вкладки без повторной загрузки; прогресс 2/2 сохраняется. Запуск до отдельной галочки закрыт. Новые кнопки 48px, горизонтального переполнения при ширине1265px нет. Это scoped accessibility check, не полная WCAG-сертификация.
 - Перед выпуском production: все пять schema gates проходят, активных кампаний/работ нет; 37 групп в общем каталоге, на первой странице20 — review13/conflict6/verified1. Это не 37 разрешённых адресатов.
 
 ## Выпуск
 
-Gateway 1.5.1 выпускается первым, затем automation Worker и Pages. Bridge 1.5.0 совместим и не переустанавливается. Новых миграций нет. Секреты, Telegram-сессия, флаги и бюджеты сохраняются. Идентификаторы фактических deployments фиксируются ниже после проверки.
+Выпущено: gateway первым, затем automation Worker и Pages. Bridge 1.5.0 совместим и не переустанавливался. Новых миграций нет. Секреты, Telegram-сессия, флаги и бюджеты сохранены.
+
+- Runtime commit: `d629b4bcc471f6310f335af89fc8022b74b9f839`.
+- Gateway 1.5.1: `c19f008b-620d-4d13-bf09-caf0d428169d`.
+- Automation Worker: `3b49db0e-f9a0-40ea-8965-9a72705f8260`.
+- Pages main: `95d31e78-4a9c-4ca0-ba73-bed74059d3c4`, API deploy success и commit совпадают.
+- Публичная страница HTTP200 загружает `/assets/AdminRoot-CnJ9J6pD.js`; SHA256 live-файла совпадает с локальной production-сборкой. Общий API-модуль содержит новые `media/check` и `preflight` маршруты.
+- Проверенные production флаги account/campaign/autosend = true, transport=local_bridge, версия ключаv1 сохранена. После выпуска все пять schema gates повторно проходят, activity=[] и исторические source counts не изменились.
+- Локальная программа: installed/paired/vault_healthy=true, scheduled task Running. Вызовы отправки не выполнялись. Тестовая вкладка и Vite закрыты.
 
 ## Что ещё не доказано / не активировалось
 
