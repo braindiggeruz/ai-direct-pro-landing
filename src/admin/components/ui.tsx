@@ -25,7 +25,7 @@ export function Button({
 export function Input({ className = '', ...rest }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
-      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 focus-visible:ring-2 focus-visible:ring-brand-cyan/60 ${className}`}
+      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 focus-visible:ring-2 focus-visible:ring-brand-cyan/60 disabled:cursor-not-allowed disabled:opacity-55 ${className}`}
       {...rest}
     />
   );
@@ -34,7 +34,7 @@ export function Input({ className = '', ...rest }: React.InputHTMLAttributes<HTM
 export function Textarea({ className = '', ...rest }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
-      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 focus-visible:ring-2 focus-visible:ring-brand-cyan/60 ${className}`}
+      className={`w-full bg-bg-base border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/60 focus-visible:ring-2 focus-visible:ring-brand-cyan/60 disabled:cursor-not-allowed disabled:opacity-55 ${className}`}
       {...rest}
     />
   );

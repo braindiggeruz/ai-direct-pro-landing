@@ -1361,6 +1361,15 @@ export function TelegramAccountCampaignPanel({
     createRequestKey.current = null;
   }
 
+  function startNewDraftAfterTerminalCampaign(): void {
+    if (!campaign || !isCampaignTerminal(campaign.status)) return;
+    setCampaign(null);
+    invalidatePreparation();
+    setOperationNotice('Завершённая кампания закрыта. Редактор нового оффера разблокирован.');
+    setOperationError(false);
+    window.requestAnimationFrame(() => document.getElementById(`${composerHelpId}-input`)?.focus());
+  }
+
   function restoreFocus(elementId: string): void {
     window.requestAnimationFrame(() => document.getElementById(elementId)?.focus());
   }
@@ -2443,6 +2452,13 @@ export function TelegramAccountCampaignPanel({
 
           <div className="h-px bg-white/[0.07]" aria-hidden="true" />
 
+          {campaign && isCampaignTerminal(campaign.status) && (
+            <div role="note" className="flex flex-col gap-3 rounded-xl border border-brand-cyan/25 bg-brand-cyan/[0.055] p-4 text-sm leading-6 text-white/80 sm:flex-row sm:items-center sm:justify-between">
+              <p><strong className="text-white">Редактор показывает завершённую кампанию и поэтому защищён от случайного изменения.</strong> Закройте её карточку — история сохранится на сервере, а текст, выбор компаний и изображение станут доступны для новой рассылки.</p>
+              <Button type="button" disabled={operationBusy} onClick={startNewDraftAfterTerminalCampaign} className="min-h-12 shrink-0">Редактировать новый оффер</Button>
+            </div>
+          )}
+
           <div className="grid gap-5 xl:grid-cols-[minmax(16rem,0.9fr)_minmax(0,1.1fr)]">
             <fieldset disabled={operationBusy || !campaignRecoveryReady || Boolean(campaign)} id={selectionSectionId} ref={selectionSectionRef} tabIndex={-1} className="min-w-0 scroll-mt-28 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">
               <legend className="text-sm font-semibold text-white">1. Выберите компании</legend>
@@ -2497,8 +2513,8 @@ export function TelegramAccountCampaignPanel({
                   value={template}
                   rows={9}
                   required
-                  disabled={operationBusy || !campaignRecoveryReady || Boolean(campaign)}
-                  aria-describedby={`${composerHelpId}${templateIssue ? ` ${composerHelpId}-error` : ''}`}
+                  disabled={operationBusy || Boolean(campaign)}
+                  aria-describedby={`${composerHelpId}${!campaignRecoveryReady && !campaign ? ` ${composerHelpId}-recovery` : ''}${templateIssue ? ` ${composerHelpId}-error` : ''}`}
                   aria-errormessage={templateIssue ? `${composerHelpId}-error` : undefined}
                   aria-invalid={Boolean(templateIssue)}
                   onChange={(event) => updateTemplate(event.target.value)}
@@ -2508,6 +2524,7 @@ export function TelegramAccountCampaignPanel({
                   <span>Разрешённая переменная: {'{company_name}'}. Точный текст фиксирует сервер.</span>
                   <span className={`shrink-0 tabular-nums ${[...template].length > messageLimit ? 'font-semibold text-amber-100' : ''}`} aria-live="polite">{[...template].length}/{messageLimit}</span>
                 </div>
+                {!campaignRecoveryReady && !campaign && <p id={`${composerHelpId}-recovery`} className="mt-2 text-xs leading-5 text-amber-100">Текст можно редактировать локально уже сейчас. Серверная проверка и запуск останутся заблокированы до восстановления состояния кампании.</p>}
                 {templateIssue && <p id={`${composerHelpId}-error`} className="mt-2 text-sm leading-5 text-amber-100">{templateIssue}</p>}
               </div>
 
@@ -2949,12 +2966,7 @@ export function TelegramAccountCampaignPanel({
                 {!isCampaignTerminal(campaign.status) && !stopConfirmation && <Button id={stopButtonId} type="button" variant="danger" disabled={operationBusy} onClick={() => setStopConfirmation(true)} className="min-h-12"><StopCircle size={17} aria-hidden="true" />Остановить</Button>}
                 <Button type="button" variant="secondary" disabled={operationBusy} onClick={() => { void refreshCampaign(); }} className="min-h-12"><RefreshCw size={17} className={operationBusy ? 'motion-safe:animate-spin' : ''} aria-hidden="true" />Обновить</Button>
                 {isCampaignTerminal(campaign.status) && (
-                  <Button type="button" variant="ghost" disabled={operationBusy} onClick={() => {
-                    setCampaign(null);
-                    invalidatePreparation();
-                    setOperationNotice('Карточка завершённой кампании закрыта. Можно подготовить новую.');
-                    setOperationError(false);
-                  }} className="min-h-12">Подготовить новую</Button>
+                  <Button type="button" variant="ghost" disabled={operationBusy} onClick={startNewDraftAfterTerminalCampaign} className="min-h-12">Подготовить новую</Button>
                 )}
               </div>
 

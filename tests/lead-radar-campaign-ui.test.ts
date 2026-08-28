@@ -575,6 +575,10 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /bridgePairingRemainingLabel/);
   assert.match(component, /Секрет не передаётся через ссылку или командную строку/);
   assert.match(component, /Привязать этот компьютер/);
+  assert.match(component, /Редактировать новый оффер/);
+  assert.match(component, /startNewDraftAfterTerminalCampaign/);
+  assert.match(component, /Текст можно редактировать локально уже сейчас/);
+  assert.match(component, /disabled=\{operationBusy \|\| Boolean\(campaign\)\}/);
   assert.match(component, /Bridge не в сети/);
   assert.match(component, /Удаляем сессию/);
   assert.match(component, /href=\{safeQrLoginUrl\} target="_blank" rel="noreferrer"/);
