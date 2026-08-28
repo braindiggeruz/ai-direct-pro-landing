@@ -55,6 +55,14 @@ test('audience schema optional; tenant directory dedupes all historical searches
   assert.equal(result.rows[0].status,'verified');assert.equal(result.rows[0].sources.length,5);
   assert.equal(result.rows[0].lead.telegramContact?.username.toLowerCase(),'dentalclinic');
 });
+test('legacy unknown bot and Bridge-rejected peer never inflate the contact directory',async()=>{
+  const db=database(),store=new AudienceStore(db.asD1());
+  company(db,'bot_unknown','stomaservice_bot','bot_unknown',ORG,'unknown');
+  company(db,'rejected','clinic_channel','rejected',ORG,'unknown');
+  db.exec("UPDATE lead_radar_companies SET telegram_contact_json=json_set(telegram_contact_json,'$.reason','bridge_not_regular_user') WHERE id='rejected'");
+  const result=await store.directory(ORG,{},CAPS,NOW);assert.equal(result.total,0);
+});
+
 test('selection survives reload, is bounded and versioned, duplicate retry is safe',async()=>{
   const db=database();const store=new AudienceStore(db.asD1());company(db,'a','DentalAlpha');company(db,'b','DentalBravo');
   const first=await store.save(ORG,{id:A,name:'All niches',version:0,companyIds:['b','a']},NOW);

@@ -51,7 +51,8 @@ export function contactCandidatesForLead(lead: ContactLead): LeadRadarContactCan
     candidates.set(key, {
       key, kind: 'telegram', value, phoneType: null,
       ownership: company ? 'company' : kind === 'human' ? 'personal' : 'unconfirmed',
-      lookupEligible: company && (locator.kind !== 'phone' || assessLeadRadarPhone(locator.value).mobileLookupCandidate),
+      lookupEligible: company && (locator.kind !== 'phone' || assessLeadRadarPhone(locator.value).mobileLookupCandidate)
+        || kind === 'unknown' && locator.kind === 'username' && evidence.confidence >= 0.4,
       reason: company ? 'telegram_unverified' : ['bot', 'channel', 'group', 'human'].includes(kind) ? 'unsupported_telegram' : 'ownership_unconfirmed',
       sourceUrl: evidence.sourceUrl, evidenceIds: [...new Set([...(existing?.evidenceIds ?? []), evidence.id])], observedAt: evidence.observedAt,
     });

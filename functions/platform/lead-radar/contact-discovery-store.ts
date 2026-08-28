@@ -1,4 +1,5 @@
 import type { LeadRadarJob, StoredLeadInput } from './types';
+import { contactSourceSchemaReady } from './contact-source-store';
 
 const checkedBindings = new WeakSet<D1Database>();
 export async function contactDiscoverySchemaReady(db: D1Database): Promise<boolean> {
@@ -35,6 +36,9 @@ const parentFence = `EXISTS (SELECT 1 FROM lead_radar_jobs j WHERE j.org_id=? AN
 export class ContactDiscoveryStore {
   constructor(private readonly db: D1Database) {}
   async purgeExpired(now: string): Promise<void> {
+    if (await contactSourceSchemaReady(this.db)) await this.db.prepare(`UPDATE lead_radar_contact_enrichments SET sources_json='[]' WHERE rowid IN (
+      SELECT e.rowid FROM lead_radar_contact_enrichments e JOIN lead_radar_companies c ON c.org_id=e.org_id AND c.id=e.company_id
+      WHERE e.sources_json<>'[]' AND (e.expires_at<=? OR c.suppressed=1 OR c.lifecycle='do_not_contact') LIMIT 100)`).bind(now).run();
     // Runs independently of feature flags. Keep idempotency/cost metadata, not
     // expired pool contents or resolved usernames, in bounded batches.
     await this.db.batch([

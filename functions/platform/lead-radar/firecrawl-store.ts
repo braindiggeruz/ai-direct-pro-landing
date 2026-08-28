@@ -103,7 +103,8 @@ export class FirecrawlStore {
         AND (SELECT COALESCE(SUM(credits),0) FROM lead_radar_firecrawl_requests WHERE created_at >= ?) + ? <= ?
         AND (SELECT COALESCE(SUM(credits),0) FROM lead_radar_firecrawl_requests WHERE org_id = ? AND search_id = ?) + ? <= ?
         AND (SELECT COALESCE(SUM(credits),0) FROM lead_radar_firecrawl_requests WHERE org_id = ? AND domain = ? AND created_at >= ?) + ? <= ?
-        AND (SELECT COALESCE(SUM(credits),0) FROM lead_radar_firecrawl_requests WHERE org_id = ? AND job_id = ?) + ? <= ?
+        AND (SELECT COALESCE(SUM(r.credits),0) FROM lead_radar_firecrawl_requests r
+          JOIN lead_radar_jobs j ON j.org_id=r.org_id AND j.id=r.job_id WHERE r.org_id=? AND j.company_id=?) + ? <= ?
         AND (SELECT COUNT(*) FROM lead_radar_firecrawl_requests WHERE created_at > ?) < 10
         AND (SELECT COUNT(*) FROM lead_radar_firecrawl_requests WHERE state = 'started' AND created_at > ?) < 2
         AND (? = 1 OR EXISTS (SELECT 1 FROM lead_radar_firecrawl_requests WHERE org_id = ? AND request_key = ?
@@ -113,7 +114,7 @@ export class FirecrawlStore {
         ctx.companyId, ctx.orgId, day, credits, limits.dailyCredits,
         ctx.orgId, ctx.searchId, credits, limits.searchCredits,
         ctx.orgId, domain, day, credits, limits.domainCredits,
-        ctx.orgId, ctx.jobId, credits, limits.companyCredits,
+        ctx.orgId, ctx.companyId, credits, limits.companyCredits,
         new Date(Date.parse(now) - 60_000).toISOString(), new Date(Date.parse(now) - 40_000).toISOString(),
         attempt, ctx.orgId, key, now).run();
     return result.meta.changes === 1 ? id : null;

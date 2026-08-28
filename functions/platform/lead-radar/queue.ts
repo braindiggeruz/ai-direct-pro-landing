@@ -33,7 +33,8 @@ export type LeadRadarQueueOutcome =
   | { outcome: 'dead_letter'; errorCode: string };
 
 export interface LeadRadarQueueDependencies {
-  resolveLeadContacts?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean }>;
+  resolveLeadContacts?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean; retryAfterSeconds?: number }>;
+  discoverLeadContactSources?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean }>;
   resolveMissingWebsites?: boolean;
   enrichLead?: (website: string | null, expected: ExpectedCompanyWebsiteIdentity, job: LeadRadarJob) => Promise<WebsiteEnrichmentResult>;
   discover?: (input: LeadRadarSearchInput) => Promise<LeadRadarDiscoveryResult>;
@@ -293,6 +294,7 @@ async function retryOrDeadLetter(
   code: string,
   at: Date,
   deferUntil?: string,
+  continueContacts = false,
 ): Promise<LeadRadarQueueOutcome> {
   const now = at.toISOString();
   if (!job.leaseOwner) return { outcome: 'duplicate' };
@@ -333,6 +335,7 @@ async function retryOrDeadLetter(
     );
     if (!transitioned) return { outcome: 'retry_wait', delaySeconds: 30 };
   }
+  if (continueContacts && job.companyId) await store.ensureContactResolutionJob(job,now);
   const dead = await store.deadLetterJob(
     job.orgId, job.id, job.leaseOwner, code, now, job.leaseGeneration,
   );
@@ -411,7 +414,7 @@ async function processDiscovery(
     fanout,
     now,
     CHILD_DISPATCH_BARRIER,
-    dependencies.resolveMissingWebsites === true,
+    dependencies.resolveMissingWebsites === true || Boolean(dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources),
   )) return { outcome: 'retry_wait', delaySeconds: 30 };
   if (!existingPool && !await store.recordDiscoveryTelemetry(
     job.orgId,
@@ -512,14 +515,24 @@ async function processEnrichment(
   }
   if (job.purpose === 'contact_resolution') {
     let pending: boolean;
-    try { pending = (await dependencies.resolveLeadContacts?.(job, stored.lead))?.pending ?? false; }
+    let delaySeconds=15;
+    try {
+      const discovery = dependencies.discoverLeadContactSources
+        ? await runWithJobHeartbeat(store,job,dependencies,() => dependencies.discoverLeadContactSources!(job,stored.lead)) : null;
+      if (discovery && !discovery.leaseHeld) return {outcome:'retry_wait',delaySeconds:30};
+      if (discovery?.error) throw discovery.error;
+      const result = discovery?.value?.pending ? {pending:true} : await dependencies.resolveLeadContacts?.(job, stored.lead);
+      pending=result?.pending ?? false;
+      if (result && 'retryAfterSeconds' in result && typeof result.retryAfterSeconds==='number') delaySeconds=Math.min(900,Math.max(15,result.retryAfterSeconds));
+    }
     catch { pending = true; } // Keep a durable bounded retry; never restart website enrichment.
     // The check itself expires after 3 minutes; allow queue delay and short
     // account-wide cooldowns without dropping a fresh check on an older job.
     if (pending && Date.parse(now) - Date.parse(job.createdAt ?? now) < 30 * 60_000 && job.leaseOwner) {
+      const transitionNow=dependencies.now?.() ?? new Date();
       const retried = await store.retryJob(job.orgId,job.id,job.leaseOwner,'contact_check_pending',
-        new Date(at.getTime()+15_000).toISOString(),now,job.leaseGeneration,true);
-      return retried ? { outcome: 'retry_wait', delaySeconds: 15, retryDelivery: true, rescheduleDelivery: true }
+        new Date(transitionNow.getTime()+delaySeconds*1000).toISOString(),transitionNow.toISOString(),job.leaseGeneration,true);
+      return retried ? { outcome: 'retry_wait', delaySeconds, retryDelivery: true, rescheduleDelivery: true }
         : { outcome: 'retry_wait', delaySeconds: 30 };
     }
     if (!job.leaseOwner || !await store.completeJob(job.orgId,job.id,job.leaseOwner,now,job.leaseGeneration)) return { outcome: 'retry_wait', delaySeconds: 30 };
@@ -530,7 +543,7 @@ async function processEnrichment(
     job.orgId, job.id, 'company_enrichment:v1',
   );
   if (committedEffect) {
-    if (dependencies.resolveLeadContacts) await store.ensureContactResolutionJob(job, now);
+    if (dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources) await store.ensureContactResolutionJob(job, now);
     if (!job.leaseOwner || !await store.completeJob(
       job.orgId, job.id, job.leaseOwner, now, job.leaseGeneration,
     )) return { outcome: 'retry_wait', delaySeconds: 30 };
@@ -542,6 +555,7 @@ async function processEnrichment(
       job.orgId, job.companyId, job.id, job.leaseOwner, 'no_website', job.attemptCount, now,
       job.leaseGeneration,
     )) return { outcome: 'retry_wait', delaySeconds: 30 };
+    if (dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources) await store.ensureContactResolutionJob(job, now);
     if (!await store.completeJob(
       job.orgId, job.id, job.leaseOwner, now, job.leaseGeneration,
     )) {
@@ -570,18 +584,22 @@ async function processEnrichment(
   if (!heartbeatResult.leaseHeld) return { outcome: 'retry_wait', delaySeconds: 30 };
   const transitionAt = dependencies.now?.() ?? new Date();
   if (heartbeatResult.error) {
-    return retryOrDeadLetter(store, job, safeFailureCode(heartbeatResult.error), transitionAt);
+    return retryOrDeadLetter(store, job, safeFailureCode(heartbeatResult.error), transitionAt,undefined,
+      Boolean(dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources));
   }
   const result = heartbeatResult.value;
-  if (!result) return retryOrDeadLetter(store, job, 'source_unavailable', transitionAt);
+  if (!result) return retryOrDeadLetter(store, job, 'source_unavailable', transitionAt,undefined,
+    Boolean(dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources));
   const transitionNow = transitionAt.toISOString();
   if (!result.facts) {
     if (result.retryable) return retryOrDeadLetter(store, job, result.reason, transitionAt,
-      'deferUntil' in result && typeof result.deferUntil === 'string' ? result.deferUntil : undefined);
+      'deferUntil' in result && typeof result.deferUntil === 'string' ? result.deferUntil : undefined,
+      Boolean(dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources));
     if (!job.leaseOwner || !await store.markLeadEnrichmentTerminal(
       job.orgId, job.companyId, job.id, job.leaseOwner, result.reason, job.attemptCount,
       transitionNow, job.leaseGeneration,
     )) return { outcome: 'retry_wait', delaySeconds: 30 };
+    if (dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources) await store.ensureContactResolutionJob(job, transitionNow);
     if (!await store.completeJob(
       job.orgId, job.id, job.leaseOwner, transitionNow, job.leaseGeneration,
     )) {
@@ -631,7 +649,7 @@ async function processEnrichment(
   if (!applied && !await store.hasSuppressionForLead(job.orgId, enriched)) {
     return { outcome: 'retry_wait', delaySeconds: 30 };
   }
-  if (applied && dependencies.resolveLeadContacts) await store.ensureContactResolutionJob(job, mutationNow);
+  if (applied && (dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources)) await store.ensureContactResolutionJob(job, mutationNow);
   if (!job.leaseOwner || !await store.completeJob(
     job.orgId, job.id, job.leaseOwner, mutationNow, job.leaseGeneration,
   )) {

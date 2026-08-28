@@ -1,4 +1,5 @@
 import type { LeadRadarContactCandidate } from './lead-radar-contacts';
+import type { LeadRadarContactEnrichment } from './lead-radar-contact-sources';
 
 export const LEAD_RADAR_SEARCH_STATUSES = [
   'running',
@@ -183,6 +184,7 @@ export interface LeadRadarLead {
   telegramContact: LeadRadarTelegramContact | null;
   /** Multiple sourced contacts, independent of permission to send. */
   contactCandidates?: LeadRadarContactCandidate[];
+  contactEnrichment?: LeadRadarContactEnrichment;
   decisionMakers: LeadRadarDecisionMaker[];
   enrichmentStatus: LeadRadarEnrichmentStatus;
   enrichmentReason: LeadRadarEnrichmentReason | null;

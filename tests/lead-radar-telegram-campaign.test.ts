@@ -32,7 +32,9 @@ import { auditTelegramCampaignSchema } from '../functions/platform/lead-radar/te
 import { LeadRadarTelegramCampaignStore } from '../functions/platform/lead-radar/telegram-campaign-store';
 import { AudienceStore } from '../functions/platform/lead-radar/audiences';
 import { SqliteD1 } from './helpers/sqlite-d1';
-import { checkCorporateTelegramContact, verifiedResolvedCorporateCompanies, countResolvedCorporateContacts } from '../functions/platform/lead-radar/contact-resolution';
+import { checkCorporateTelegramContact, verifiedResolvedCorporateCompanies, countResolvedCorporateContacts, nextTelegramContactCandidate } from '../functions/platform/lead-radar/contact-resolution';
+import { contactIdentityDigest } from '../functions/platform/lead-radar/contact-source-store';
+import { extractPublicBusinessContacts } from '../functions/platform/lead-radar/public-contact-discovery';
 import { ContactDiscoveryStore } from '../functions/platform/lead-radar/contact-discovery-store';
 import { buildVerifiedTelegramCorporateDraftLink } from '../functions/platform/lead-radar/telegram-business';
 
@@ -274,6 +276,71 @@ function setVerifiedCorporateDomain(
       NOW.toISOString(),
     );
 }
+
+test('all published candidates advance durably past a failed and a negative first pair',async()=>{
+  const db=database([...MIGRATIONS,'0050_lead_radar_contact_discovery.sql']);
+  addCompany(db,{id:'progress',username:'clinic_first'}); setVerifiedCorporateDomain(db,'progress','progress.example');
+  for (const [i,username] of ['clinic_second','clinic_third'].entries()) db.sqlite.prepare(`INSERT INTO lead_radar_evidence
+    (id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES (?,?,'progress','web.telegram.business',?,'https://progress.example/contact','company_website',?,.95,'fact')`)
+    .run(`more_${i}`,ORG_A,`https://t.me/${username}`,NOW.toISOString());
+  const account=await connectedAccount(db);
+  const selection={db:db.asD1(),orgId:ORG_A,companyId:'progress',accountId:account.id,now:NOW.toISOString()};
+  const visited:string[]=[];
+  for (let step=0;step<3;step++) {
+    const next=await nextTelegramContactCandidate(selection); assert.ok(next.candidateKey);
+    visited.push(next.candidateKey);
+    await checkCorporateTelegramContact({...selection,searchId:'search_progress',candidateKey:next.candidateKey,
+      resolve:async()=>step===0 ? {status:'failed',username:null,reason:'temporary_failure',retryAfterSeconds:null}
+        : step===1 ? {status:'unsupported',username:null,reason:'not_regular_user',retryAfterSeconds:null}
+          : {status:'resolved',username:'clinic_third',reason:'regular_user_resolved',retryAfterSeconds:null}});
+  }
+  assert.equal(new Set(visited).size,3);
+  assert.deepEqual(await nextTelegramContactCandidate(selection),{pending:false});
+  assert.equal(JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='progress'"))).username,'clinic_third');
+});
+
+test('a public OSM username can be type-checked without granting corporate ownership',async()=>{
+  const db=database([...MIGRATIONS,'0050_lead_radar_contact_discovery.sql']);
+  addCompany(db,{id:'typecheck',username:'unconfirmed_user',type:'unknown'});
+  db.exec("UPDATE lead_radar_companies SET website=NULL WHERE id='typecheck'");
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES ('public_osm',?,'typecheck','web.telegram.unknown','https://t.me/unconfirmed_user','https://www.openstreetmap.org/node/123','openstreetmap',?,.4,'model_inference')`).run(ORG_A,NOW.toISOString());
+  const account=await connectedAccount(db);
+  const base={db:db.asD1(),orgId:ORG_A,companyId:'typecheck',accountId:account.id,now:NOW.toISOString()};
+  const next=await nextTelegramContactCandidate(base);assert.ok(next.candidateKey);
+  const result=await checkCorporateTelegramContact({...base,searchId:'search_typecheck',candidateKey:next.candidateKey,
+    resolve:async()=>({status:'resolved',username:'unconfirmed_user',reason:'regular_user_resolved',retryAfterSeconds:null})});
+  assert.equal(result.reason,'username_exists_ownership_unconfirmed');
+  const saved=JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='typecheck'")));
+  assert.equal(saved.type,'unknown');
+  assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_typecheck',NOW.toISOString()),0);
+  assert.equal((await verifiedResolvedCorporateCompanies({db:db.asD1(),orgId:ORG_A,companies:[{companyId:'typecheck',contact:saved}],now:NOW})).size,0);
+  assert.deepEqual(await nextTelegramContactCandidate(base),{pending:false});
+});
+
+test('listing-bound user without a website reaches sender proof but never bypasses authorization or changed identity',async()=>{
+  const db=database([...MIGRATIONS,'0050_lead_radar_contact_discovery.sql','0052_lead_radar_contact_sources.sql']);
+  addCompany(db,{id:'listing',username:'old_unknown',type:'unknown'});
+  db.exec("UPDATE lead_radar_companies SET website=NULL,phone='+998711234567' WHERE id='listing'");
+  const identity={name:'Company listing',city:'Tashkent',address:null,phone:'+998711234567'};
+  const source=await extractPublicBusinessContacts('https://clinics.uz/catalog/company-listing',
+    `<script type="application/ld+json">${JSON.stringify({'@type':'Dentist',name:identity.name,telephone:identity.phone,sameAs:'https://t.me/listing_booking'})}</script>`,identity,NOW.toISOString());
+  assert.ok(source);
+  db.sqlite.prepare(`INSERT INTO lead_radar_contact_enrichments(org_id,company_id,job_id,identity_digest,status,reason,sources_json,checked_at,expires_at)
+    VALUES (?,'listing','fixture',?,'complete','public_contact_candidates',?,?,?)`).run(ORG_A,await contactIdentityDigest(identity),JSON.stringify([source]),NOW.toISOString(),new Date(NOW.getTime()+86400_000).toISOString());
+  const account=await connectedAccount(db);
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'listing',searchId:'search_listing',candidateKey:source.candidates[0].key,accountId:account.id,now:NOW.toISOString(),
+    resolve:async()=>({status:'resolved',username:'listing_booking',reason:'regular_user_resolved',retryAfterSeconds:null})});
+  assert.equal(result.status,'resolved');
+  const contact=JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='listing'")));
+  const input={db:db.asD1(),orgId:ORG_A,companies:[{companyId:'listing',contact}],now:NOW};
+  assert.ok((await verifiedResolvedCorporateCompanies(input)).has('listing'));
+  assert.ok(await buildVerifiedTelegramCorporateDraftLink({db:db.asD1(),orgId:ORG_A,companyId:'listing',contact,website:null,draft:'fixture',now:NOW}));
+  assert.equal((await evaluateTelegramCampaignSelection({db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,accountId:account.id,companyIds:['listing'],now:NOW})).automatic,0);
+  db.exec("UPDATE lead_radar_companies SET name='Different business' WHERE id='listing'");
+  assert.equal((await verifiedResolvedCorporateCompanies(input)).size,0);
+});
 
 test('published mobile resolves durably but cannot skip consent, tenant, fresh proof, account or DNC checks', async () => {
   const db = database([...MIGRATIONS, '0050_lead_radar_contact_discovery.sql']);

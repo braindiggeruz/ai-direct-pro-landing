@@ -26,6 +26,7 @@ import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { scoreLead } from './scoring';
 import { resolveLeadRadarIntent } from './intent';
 import { contactCandidatesForLead } from './contact-candidates';
+import { loadContactEnrichments } from './contact-source-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from './contact-discovery-store';
 import { countResolvedCorporateContacts } from './contact-resolution';
 
@@ -450,7 +451,7 @@ export class LeadRadarStore {
       WHERE EXISTS (SELECT 1 FROM lead_radar_jobs j JOIN lead_radar_searches s ON s.org_id=j.org_id AND s.id=j.search_id
         JOIN lead_radar_companies c ON c.org_id=j.org_id AND c.id=j.company_id
         WHERE j.org_id=? AND j.id=? AND j.status='running' AND j.lease_owner=? AND j.lease_generation=? AND j.lease_expires_at>?
-        AND json_extract(s.input_json,'$.searchGoal')='telegram_contacts' AND c.suppressed=0 AND c.enrichment_status='enriched')
+        AND c.suppressed=0 AND c.lifecycle<>'do_not_contact' AND c.enrichment_status IN ('enriched','terminal'))
       ON CONFLICT(org_id,idempotency_key) DO NOTHING`).bind(`lrjob_${crypto.randomUUID().replaceAll('-','')}`,job.orgId,job.searchId,job.companyId,
         `contact-resolve:${job.searchId}:${job.companyId}`,now,now,now,now,job.orgId,job.id,job.leaseOwner,job.leaseGeneration,now).run();
   }
@@ -2028,6 +2029,7 @@ export class LeadRadarStore {
   }
 
   private async mapLeadRows(orgId: string, leadRows: LeadRow[]): Promise<LeadRadarLead[]> {
+    const contactEnrichments=await loadContactEnrichments(this.db,orgId,leadRows,new Date().toISOString());
     const suppressions = await this.listSuppressions(orgId);
     const evidenceResult = await this.db.prepare(`SELECT evidence.* FROM lead_radar_evidence evidence
       INNER JOIN lead_radar_companies company ON company.id = evidence.company_id
@@ -2085,9 +2087,10 @@ export class LeadRadarStore {
           genericEmail: suppressed ? null : row.generic_email,
           telegramUrl: suppressed ? null : row.telegram_url,
           telegramContact,
-          contactCandidates: contactCandidatesForLead({
+          contactCandidates: [...new Map([...contactCandidatesForLead({
             phone: row.phone, country: row.country, evidence, telegramContact, suppressed,
-          }),
+          }), ...(suppressed ? [] : contactEnrichments.get(row.id)?.sources.flatMap((s) => s.candidates) ?? [])].map((c) => [c.key,c])).values()],
+          contactEnrichment: suppressed ? undefined : contactEnrichments.get(row.id),
           decisionMakers,
           enrichmentStatus: suppressed ? 'terminal' : row.enrichment_status,
           enrichmentReason: suppressed ? 'suppressed' : row.enrichment_reason,

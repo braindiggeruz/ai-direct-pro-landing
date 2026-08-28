@@ -16,7 +16,8 @@ import {
 import type { LeadRadarSearchInput } from '../src/shared/lead-radar';
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
-import { checkCorporateTelegramContact } from '../functions/platform/lead-radar/contact-resolution';
+import { checkCorporateTelegramContact, nextTelegramContactCandidate } from '../functions/platform/lead-radar/contact-resolution';
+import { createContactSourceQueueDependencies } from '../functions/platform/lead-radar/contact-source-worker';
 
 const SAMPLE_SIZES = [1, 5, 10, 50] as const;
 const FIXED_NOW = new Date('2026-08-25T10:00:00.000Z');
@@ -105,6 +106,49 @@ test('background contact checks and final target aggregation fit the Free D1 bud
   context.diagnostic(`Contact delivery: ${count} D1 statements + 13 outer/account allowance`);
   assert.ok(count+13<=50,`Contact delivery exceeds Free D1 budget: ${count}+13`);
   assert.equal(fixture.value('SELECT COUNT(*) FROM lead_radar_contact_checks'),2);
+});
+
+test('contact-first search then Bridge proof stays inside D1 budget on every delivery',async(context)=>{
+  const fixture=database();
+  fixture.exec('CREATE TABLE d1_migrations(name TEXT)');
+  for (const file of ['0049_lead_radar_firecrawl.sql','0050_lead_radar_contact_discovery.sql','0052_lead_radar_contact_sources.sql']) {
+    fixture.exec(readFileSync(resolve(import.meta.dirname,'../migrations',file),'utf8'));
+    fixture.sqlite.prepare('INSERT INTO d1_migrations VALUES (?)').run(file);
+  }
+  fixture.exec("CREATE TABLE lead_radar_tg_user_accounts(id TEXT,org_id TEXT,status TEXT); INSERT INTO lead_radar_tg_user_accounts VALUES ('fixture-account','org-a','connected')");
+  const counted=new CountingD1(fixture.asD1()),db=counted.asD1(),store=new LeadRadarStore(db),queue=new RecordingQueue();
+  let at=new Date(FIXED_NOW),requests=0;
+  const searchId=await store.createSearch('org-a',searchInput(5),at.toISOString());
+  const lead=storedLead(1,at.toISOString());lead.website=null;lead.phone='+998711234567';lead.enrichmentStatus='terminal';
+  const companyId=(await store.insertLead('org-a',searchId,lead))!;
+  const job=await store.createJob('org-a',searchId,companyId,'enrichment',`contact-resolve:${searchId}:${companyId}`,at.toISOString());
+  const env={FIRECRAWL_API_KEY:'fixture-only',LEAD_RADAR_FIRECRAWL_ENABLED:'true',LEAD_RADAR_FIRECRAWL_MODE:'fallback',LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS:'org-a'};
+  let completed=false;
+  for (let delivery=0;delivery<3;delivery++) {
+    counted.reset();
+    const sources=await createContactSourceQueueDependencies(env,db,'org-a',{now:()=>at,robots:async()=>null,fetch:async(input)=>{
+      requests++;const url='https://clinics.uz/catalog/fixture';
+      return new Response(JSON.stringify(String(input).endsWith('/search') ? {success:true,data:{web:[{url}]}}
+        : {success:true,data:{rawHtml:`<script type="application/ld+json">${JSON.stringify({'@type':'Dentist',name:lead.name,telephone:lead.phone,sameAs:'https://t.me/fixture_booking'})}</script>`,metadata:{statusCode:200,sourceURL:url}}}));
+    }});
+    const provider=await createFirecrawlQueueDependencies(env,db,'org-a',false,{preferContactDiscovery:true});
+    const outcome=await consumeLeadRadarQueueMessage(db,{schema:'gptbot.lead-radar.job.v1',job_id:job.id},queue,{...provider,...sources,now:()=>at,
+      resolveLeadContacts:async()=>{
+        const base={db,orgId:'org-a',companyId,accountId:'fixture-account',now:at.toISOString()};
+        const next=await nextTelegramContactCandidate(base);assert.ok(next.candidateKey);
+        const checked=await checkCorporateTelegramContact({...base,searchId,candidateKey:next.candidateKey,resolve:async()=>({status:'resolved',username:'fixture_booking',reason:'regular_user_resolved',retryAfterSeconds:null})});
+        assert.equal(checked.status,'resolved');return {pending:false};
+      },
+    });
+    const count=counted.snapshot('funnel_refresh',1).executedStatements;
+    // Includes both provider factories; reserve base auditor/job lookup,
+    // account/binding and <=4 timed heartbeats in the production Worker.
+    context.diagnostic(`Contact-first delivery ${delivery+1}: ${count} + 13 reserved`);
+    assert.ok(count+13<=50,`contact-first exceeds D1 budget: ${count}+13`);
+    if (outcome.outcome==='completed') {completed=true;break;}
+    assert.equal(outcome.outcome,'retry_wait');at=new Date(at.getTime()+121_000);
+  }
+  assert.equal(completed,true);assert.equal(requests,2);
 });
 
 interface D1Counters {

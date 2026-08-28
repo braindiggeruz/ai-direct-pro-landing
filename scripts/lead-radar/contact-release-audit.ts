@@ -4,12 +4,14 @@ import { hasRuntimeTelegramCampaignSchema } from '../../functions/platform/lead-
 import { contactDiscoverySchemaReady } from '../../functions/platform/lead-radar/contact-discovery-store';
 import { audienceSchemaReady,AudienceStore } from '../../functions/platform/lead-radar/audiences';
 import { resolveLeadRadarCapabilities } from '../../functions/platform/lead-radar/capabilities';
+import { contactSourceSchemaReady } from '../../functions/platform/lead-radar/contact-source-store';
 
 async function main() {
   const account = process.env.CLOUDFLARE_ACCOUNT_ID;
   const token = process.env.CLOUDFLARE_API_TOKEN;
-  const audiencesRequired=process.argv.length===3 && process.argv[2]==='--audiences';
-  if (!account || !/^[a-f0-9]{32}$/.test(account) || !token || (process.argv.length !== 2 && !audiencesRequired)) throw new Error('audit_credentials_or_arguments');
+  const args=process.argv.slice(2);
+  const audiencesRequired=args.includes('--audiences'), sourcesRequired=args.includes('--contact-sources');
+  if (!account || !/^[a-f0-9]{32}$/.test(account) || !token || args.some((arg)=>!['--audiences','--contact-sources'].includes(arg))) throw new Error('audit_credentials_or_arguments');
   const url = `https://api.cloudflare.com/client/v4/accounts/${account}/d1/database/97ef0372-d937-406f-8871-755368d9afff/query`;
   const db = {
     prepare(sql: string) {
@@ -32,6 +34,8 @@ async function main() {
   const campaigns = await hasRuntimeTelegramCampaignSchema(db);
   const contacts = await contactDiscoverySchemaReady(db);
   const audiences = await audienceSchemaReady(db);
+  const contactSources=await contactSourceSchemaReady(db);
+  const sourceCounts=sourcesRequired && contactSources ? (await db.prepare('SELECT status,reason,COUNT(*) AS count FROM lead_radar_contact_enrichments GROUP BY status,reason').all()).results : [];
   const directoryCounts:unknown[]=[];
   if (audiencesRequired && audiences) {
     const orgs=await db.prepare('SELECT DISTINCT org_id FROM lead_radar_searches LIMIT 100').all<{org_id:string}>();
@@ -43,7 +47,7 @@ async function main() {
   const counts = (await db.prepare(`SELECT 'campaigns' AS kind,status,COUNT(*) AS count FROM lead_radar_tg_campaigns GROUP BY status
     UNION ALL SELECT 'effects',status,COUNT(*) FROM lead_radar_tg_campaign_effects GROUP BY status
     UNION ALL SELECT 'jobs',status,COUNT(*) FROM lead_radar_jobs WHERE status IN ('queued','running','retry_wait') GROUP BY status`).all()).results;
-  console.log(JSON.stringify({baseSchema:base.status,campaignSchema:campaigns,contactSchema:contacts,audienceSchema:audiences,directoryCounts,activity:counts,readOnly:true}));
-  if (base.status!=='pass' || !campaigns || !contacts || (audiencesRequired && !audiences)) process.exitCode=1;
+  console.log(JSON.stringify({baseSchema:base.status,campaignSchema:campaigns,contactSchema:contacts,audienceSchema:audiences,contactSourceSchema:contactSources,sourceCounts,directoryCounts,activity:counts,readOnly:true}));
+  if (base.status!=='pass' || !campaigns || !contacts || (audiencesRequired && !audiences) || (sourcesRequired && !contactSources)) process.exitCode=1;
 }
 main().catch(() => {console.error('contact_release_audit_failed');process.exitCode=1;});

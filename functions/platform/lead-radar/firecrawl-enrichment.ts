@@ -35,6 +35,7 @@ export interface FirecrawlEnrichmentDependencies {
   now?: () => Date;
   direct?: typeof enrichCompanyWebsiteDetailed;
   robots?: typeof readPublicWebsiteRobots;
+  preferContactDiscovery?: boolean;
 }
 
 function urlsFrom(value: unknown, base?: URL, discovery = false): string[] {
@@ -127,6 +128,9 @@ export async function createFirecrawlQueueDependencies(
       const direct: WebsiteEnrichmentResult = website && !thirdParty
         ? await (deps.direct ?? enrichCompanyWebsiteDetailed)(website, expected)
         : { facts: null, reason: 'no_website', retryable: false };
+      // Missing-site companies go to the dedicated contact-first job. Spending
+      // their entire budget searching for a website would starve contact search.
+      if (deps.preferContactDiscovery && (!website || thirdParty)) return direct;
       const ctx: FirecrawlJobContext = {
         orgId: job.orgId, searchId: job.searchId, jobId: job.id, companyId: job.companyId!,
         leaseOwner: job.leaseOwner!, leaseGeneration: job.leaseGeneration,

@@ -1,12 +1,15 @@
 import type { LeadRadarEvidence, LeadRadarTelegramContact } from '../../../src/shared/lead-radar';
 import type { LeadRadarContactCandidate } from '../../../src/shared/lead-radar-contacts';
-import { parseLeadRadarTelegramLocator } from '../../../src/shared/lead-radar-contacts';
+import { assessLeadRadarPhone, parseLeadRadarTelegramLocator } from '../../../src/shared/lead-radar-contacts';
 import { validTelegramContactResolution, type TelegramContactResolution, type TelegramContactTarget } from '../../../src/shared/lead-radar-contact-resolution';
 import { contactCandidatesForLead } from './contact-candidates';
 import { contactDiscoverySchemaReady } from './contact-discovery-store';
+import { loadContactEnrichments } from './contact-source-store';
+import type { LeadRadarContactEnrichment } from '../../../src/shared/lead-radar-contact-sources';
+import { publicContactSourceUrl } from './public-contact-discovery';
 
 const RESOLVED_REASON = 'bridge_resolved_corporate';
-interface CompanyRow { id: string; search_id: string; country: string; phone: string | null; suppressed: number; lifecycle: string; website: string | null }
+interface CompanyRow { id: string; search_id: string; name:string; city:string; address:string|null; country: string; phone: string | null; suppressed: number; lifecycle: string; website: string | null }
 interface EvidenceRow { id: string; company_id: string; field_path: string; value: string; source_url: string; source_type: LeadRadarEvidence['sourceType']; observed_at: string; confidence: number; classification: LeadRadarEvidence['classification'] }
 interface CheckRow { id: string; company_id: string; candidate_digest: string; proof_digest: string; account_digest: string; status: string; result_json: string | null; created_at: string; expires_at: string; checked_at: string | null }
 async function hash(value: unknown): Promise<string> {
@@ -16,21 +19,35 @@ async function hash(value: unknown): Promise<string> {
 function evidenceFromRow(row: EvidenceRow): LeadRadarEvidence {
   return { id: row.id, fieldPath: row.field_path, value: row.value, sourceUrl: row.source_url, sourceType: row.source_type, observedAt: row.observed_at, confidence: row.confidence, classification: row.classification };
 }
-function candidates(company: CompanyRow, evidence: EvidenceRow[], now: string): LeadRadarContactCandidate[] {
+function candidates(company: CompanyRow, evidence: EvidenceRow[], now: string, enrichment?: LeadRadarContactEnrichment): LeadRadarContactCandidate[] {
   if (company.suppressed || company.lifecycle === 'do_not_contact') return [];
   const newest = Date.parse(now) + 5 * 60_000, oldest = Date.parse(now) - 30 * 86400_000;
-  return contactCandidatesForLead({ phone: company.phone, country: company.country, suppressed: false, telegramContact: null,
+  const websiteCandidates=contactCandidatesForLead({ phone: company.phone, country: company.country, suppressed: false, telegramContact: null,
     evidence: evidence.filter((e) => e.company_id === company.id && Date.parse(e.observed_at) >= oldest && Date.parse(e.observed_at) <= newest).map(evidenceFromRow),
   }).filter((c) => {
+    if (c.lookupEligible && c.ownership==='unconfirmed' && c.kind==='telegram'
+      && parseLeadRadarTelegramLocator(c.value)?.kind==='username') return true; // Type-only, never ownership approval.
     try { return c.lookupEligible && c.ownership === 'company' && company.website && c.sourceUrl
       && new URL(company.website).origin === new URL(c.sourceUrl).origin; } catch { return false; }
   });
+  const publicCandidates=(enrichment?.sources ?? []).flatMap((source) => source.candidates.filter((c) =>
+    c.ownership==='company' && c.lookupEligible && c.sourceUrl===source.url
+    && c.evidenceIds.includes(source.id) && publicContactSourceUrl(source.url)
+    && (c.kind==='phone' ? assessLeadRadarPhone(c.value).mobileLookupCandidate : c.kind==='telegram' && parseLeadRadarTelegramLocator(c.value))
+    && Date.parse(source.observedAt)>=oldest && Date.parse(source.observedAt)<=newest));
+  const unique=new Map<string,LeadRadarContactCandidate>();
+  for (const c of [...websiteCandidates,...publicCandidates]) if (!unique.has(c.key) || c.ownership==='company') unique.set(c.key,c);
+  return [...unique.values()].sort((a,b) => Number(b.ownership==='company')-Number(a.ownership==='company') || Number(b.kind==='telegram')-Number(a.kind==='telegram')).slice(0,40);
 }
-async function proof(candidate: LeadRadarContactCandidate, evidence: EvidenceRow[]): Promise<string> {
+async function proof(candidate: LeadRadarContactCandidate, evidence: EvidenceRow[], enrichment?: LeadRadarContactEnrichment): Promise<string> {
   // Include first-party binding as well as contact evidence: a site reassignment
   // or changed phone invalidates the check without modifying historical records.
-  return hash([candidate.key, candidate.sourceUrl, evidence.filter((e) => candidate.evidenceIds.includes(e.id)
-    || ['web.website','web.company_binding'].includes(e.field_path)).sort((a,b) => a.id.localeCompare(b.id))]);
+  const sourceProof=(enrichment?.sources ?? []).filter((s) => candidate.evidenceIds.includes(s.id));
+  const base=[candidate.key, candidate.sourceUrl, evidence.filter((e) => candidate.evidenceIds.includes(e.id)
+    || ['web.website','web.company_binding'].includes(e.field_path)).sort((a,b) => a.id.localeCompare(b.id))];
+  // Preserve existing first-party hashes. New/type-only proofs cannot collide
+  // with the historical corporate proof format.
+  return hash(sourceProof.length ? [...base,'public-source:v1',sourceProof] : candidate.ownership==='company' ? base : [...base,'type-only:v1']);
 }
 function parseResult(row: CheckRow): TelegramContactResolution | null {
   try { const result: unknown = JSON.parse(row.result_json ?? 'null'); return validTelegramContactResolution(result) ? result : null; } catch { return null; }
@@ -58,15 +75,16 @@ export async function checkCorporateTelegramContact(input: {
   const now = input.now ?? new Date().toISOString();
   const reject = (reason: string): TelegramContactResolution => ({ status: 'failed', username: null, reason, retryAfterSeconds: null });
   if (!await contactDiscoverySchemaReady(db)) return reject('contact_schema_unavailable');
-  const company = await db.prepare('SELECT id,search_id,country,phone,suppressed,lifecycle,website FROM lead_radar_companies WHERE org_id=? AND id=? AND search_id=?')
+  const company = await db.prepare('SELECT id,search_id,name,city,address,country,phone,suppressed,lifecycle,website FROM lead_radar_companies WHERE org_id=? AND id=? AND search_id=?')
     .bind(orgId,companyId,input.searchId).first<CompanyRow>();
   if (!company) return reject('contact_not_found');
   const evidence = (await db.prepare('SELECT id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE org_id=? AND company_id=?').bind(orgId,companyId).all<EvidenceRow>()).results ?? [];
-  const candidate = candidates(company,evidence,now).find((c) => c.key === input.candidateKey);
+  const enrichment=(await loadContactEnrichments(db,orgId,[company],now)).get(company.id);
+  const candidate = candidates(company,evidence,now,enrichment).find((c) => c.key === input.candidateKey);
   if (!candidate) return reject('corporate_source_required');
   const target = candidate.kind === 'phone' ? { kind: 'phone' as const, value: candidate.value } : parseLeadRadarTelegramLocator(candidate.value);
   if (!target) return reject('invalid_target');
-  const [candidateDigest, proofDigest, accountDigest] = await Promise.all([hash(candidate.key),proof(candidate,evidence),hash(input.accountId)]);
+  const [candidateDigest, proofDigest, accountDigest] = await Promise.all([hash(candidate.key),proof(candidate,evidence,enrichment),hash(input.accountId)]);
   const id = `lrcc_${(await hash([orgId,companyId,candidateDigest,proofDigest,accountDigest])).slice(0,32)}`;
   // A stable row/operation survives tab closure and retries. Negative checks are
   // cached too. Expiry permits a fresh generation, never replay of a sent effect.
@@ -85,6 +103,7 @@ export async function checkCorporateTelegramContact(input: {
     ? { status: 'unresolved' as const, username: null, reason: 'check_expired', retryAfterSeconds: null }
     : await input.resolve({ kind: target.kind, value: target.value }, `contact:${id}:${Date.parse(row.created_at)}`);
   if (!validTelegramContactResolution(result)) return reject('invalid_bridge_response');
+  if (result.status==='resolved' && candidate.ownership!=='company') result={...result,reason:'username_exists_ownership_unconfirmed'};
   const ttl = result.status === 'limited' ? Math.max(3,result.retryAfterSeconds ?? 60) * 1000
     : result.status === 'failed' || ['lookup_unconfirmed','telegram_timeout','check_expired'].includes(result.reason) ? 60_000 : 86400_000;
   const updated = await db.prepare(`UPDATE lead_radar_contact_checks SET status=?,result_json=?,reason=?,checked_at=?,updated_at=?,expires_at=?
@@ -97,17 +116,25 @@ export async function checkCorporateTelegramContact(input: {
   if (!authoritative) return reject('check_superseded');
   result = authoritative;
   if (result.status === 'resolved' && result.username) {
-    const contact: LeadRadarTelegramContact = { url: `https://t.me/${result.username}`, username: result.username, type: 'business',
-      reason: RESOLVED_REASON, confidence: 0.9, verifiedAt: now, evidenceIds: candidate.evidenceIds, messageable: false };
+    const corporate=candidate.ownership==='company';
+    const contact: LeadRadarTelegramContact = { url: `https://t.me/${result.username}`, username: result.username, type: corporate ? 'business' : 'unknown',
+      reason: corporate ? RESOLVED_REASON : 'bridge_resolved_unconfirmed', confidence: corporate ? 0.9 : 0.5, verifiedAt: now, evidenceIds: candidate.evidenceIds, messageable: false };
     // No consent/authorization is created. Every sender check revalidates the
     // stored result, account, current source proof and DNC before using this link.
     await db.prepare(`UPDATE lead_radar_companies SET telegram_url=?,telegram_contact_json=?,updated_at=?
       WHERE org_id=? AND id=? AND suppressed=0 AND lifecycle<>'do_not_contact'
+      AND (?=1 OR COALESCE(json_extract(telegram_contact_json,'$.reason'),'')<>'bridge_resolved_corporate')
       AND EXISTS (SELECT 1 FROM lead_radar_tg_user_accounts WHERE org_id=? AND id=? AND status='connected')
       AND EXISTS (SELECT 1 FROM lead_radar_contact_checks WHERE org_id=? AND id=? AND status='resolved'
         AND result_json=? AND created_at=? AND expires_at>?)`)
-      .bind(contact.url,JSON.stringify(contact),now,orgId,companyId,orgId,input.accountId,
+      .bind(contact.url,JSON.stringify(contact),now,orgId,companyId,corporate ? 1 : 0,orgId,input.accountId,
         orgId,id,JSON.stringify(result),row.created_at,now).run();
+  } else if (result.status==='unsupported' && result.reason==='not_regular_user' && target.kind==='username') {
+    // Older OSM candidates were all tagged unknown, including bots. Hide the
+    // exact rejected endpoint, never a different successful contact on the lead.
+    await db.prepare(`UPDATE lead_radar_companies SET telegram_contact_json=json_set(telegram_contact_json,'$.reason','bridge_not_regular_user','$.messageable',json('false')),updated_at=?
+      WHERE org_id=? AND id=? AND lower(json_extract(telegram_contact_json,'$.username'))=? AND suppressed=0`)
+      .bind(now,orgId,companyId,target.value.toLowerCase()).run();
   }
   return result;
 }
@@ -125,16 +152,42 @@ export async function verifiedResolvedCorporateCompanies(input: {
   const accountDigest = await hash(account.id), now = input.now.toISOString();
   const checks = (await input.db.prepare(`SELECT * FROM lead_radar_contact_checks WHERE org_id=? AND company_id IN (${marks}) AND status='resolved' AND expires_at>? AND account_digest=?`).bind(input.orgId,...ids,now,accountDigest).all<CheckRow>()).results ?? [];
   if (!checks.length) return valid;
-  const companies = (await input.db.prepare(`SELECT id,search_id,country,phone,suppressed,lifecycle,website FROM lead_radar_companies WHERE org_id=? AND id IN (${marks})`).bind(input.orgId,...ids).all<CompanyRow>()).results ?? [];
+  const companies = (await input.db.prepare(`SELECT id,search_id,name,city,address,country,phone,suppressed,lifecycle,website FROM lead_radar_companies WHERE org_id=? AND id IN (${marks})`).bind(input.orgId,...ids).all<CompanyRow>()).results ?? [];
   const evidence = (await input.db.prepare(`SELECT id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE org_id=? AND company_id IN (${marks})`).bind(input.orgId,...ids).all<EvidenceRow>()).results ?? [];
+  const enrichments=await loadContactEnrichments(input.db,input.orgId,companies,now);
   for (const company of companies) {
     const expected = input.companies.find((c) => c.companyId === company.id)!.contact;
     const companyEvidence = evidence.filter((e) => e.company_id === company.id);
-    for (const candidate of candidates(company,companyEvidence,now)) {
-      const [candidateDigest,proofDigest] = await Promise.all([hash(candidate.key),proof(candidate,companyEvidence)]);
+    const enrichment=enrichments.get(company.id);
+    for (const candidate of candidates(company,companyEvidence,now,enrichment).filter((c) => c.ownership==='company')) {
+      const [candidateDigest,proofDigest] = await Promise.all([hash(candidate.key),proof(candidate,companyEvidence,enrichment)]);
       if (checks.some((row) => row.company_id === company.id && row.candidate_digest === candidateDigest && row.proof_digest === proofDigest
         && parseResult(row)?.username?.toLowerCase() === expected.username.toLowerCase())) valid.add(company.id);
     }
   }
   return valid;
+}
+
+/** Durable progress is derived from proof-bound checks, not an in-memory slice.
+ * One new check per delivery keeps even large candidate sets inside D1 limits. */
+export async function nextTelegramContactCandidate(input: {db:D1Database;orgId:string;companyId:string;accountId:string;now:string}): Promise<{candidateKey?:string;pending:boolean;retryAfterSeconds?:number}> {
+  const {db,orgId,companyId,now}=input;
+  if (!await contactDiscoverySchemaReady(db)) return {pending:false};
+  const company=await db.prepare('SELECT id,search_id,name,city,address,country,phone,suppressed,lifecycle,website FROM lead_radar_companies WHERE org_id=? AND id=?').bind(orgId,companyId).first<CompanyRow>();
+  if (!company) return {pending:false};
+  const evidence=(await db.prepare('SELECT id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE org_id=? AND company_id=?').bind(orgId,companyId).all<EvidenceRow>()).results ?? [];
+  const enrichment=(await loadContactEnrichments(db,orgId,[company],now)).get(companyId);
+  const checks=(await db.prepare('SELECT * FROM lead_radar_contact_checks WHERE org_id=? AND company_id=? AND account_digest=? AND expires_at>?')
+    .bind(orgId,companyId,await hash(input.accountId),now).all<CheckRow>()).results ?? [];
+  let retryAfterSeconds:number|undefined;
+  for (const candidate of candidates(company,evidence,now,enrichment)) {
+    const [candidateDigest,proofDigest]=await Promise.all([hash(candidate.key),proof(candidate,evidence,enrichment)]);
+    const row=checks.find((r) => r.candidate_digest===candidateDigest && r.proof_digest===proofDigest);
+    const result=row ? parseResult(row) : null;
+    if (!result || result.status==='pending') return {candidateKey:candidate.key,pending:true};
+    if (result.status==='resolved' && candidate.ownership==='company') return {pending:false};
+    if (result.status==='limited') return {pending:true,retryAfterSeconds:Math.max(3,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000))};
+    if (result.status==='failed') retryAfterSeconds=Math.max(retryAfterSeconds ?? 0,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000));
+  }
+  return retryAfterSeconds===undefined ? {pending:false} : {pending:true,retryAfterSeconds};
 }

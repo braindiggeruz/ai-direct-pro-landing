@@ -248,6 +248,22 @@ test('without provider opt-in missing sites remain terminal and create no extra 
   assert.equal(fixture.value('SELECT enrichment_reason FROM lead_radar_companies'), 'no_website');
 });
 
+for (const mode of ['no_site','robots_denied','retry_exhausted'] as const) test(`contact phase survives ${mode}, independently of website enrichment`,async()=>{
+  const fixture=database(),db=fixture.asD1(),store=new LeadRadarStore(db),queue=new RecordingQueue();
+  const at=new Date('2026-08-28T12:00:00.000Z');let checked=0;
+  const deps={now:()=>at,resolveLeadContacts:async()=>{checked++;return {pending:false};},
+    enrichWebsite:async()=>mode==='retry_exhausted' ? {facts:null,reason:'source_unavailable' as const,retryable:true}
+      : {facts:null,reason:'robots_blocked' as const,retryable:false}};
+  await enqueueLeadRadarSearch(store,'org-a',SEARCH_INPUT,queue,at,`contacts-${mode}`);
+  await consumeLeadRadarQueueMessage(db,queue.messages[0],queue,{...deps,discover:async()=>({candidates:[candidate(mode==='no_site' ? null : 'https://clinic.example/')],sourceWarnings:[]})});
+  const site=fixture.rows<{id:string}>("SELECT id FROM lead_radar_jobs WHERE stage='enrichment'")[0];assert.ok(site);
+  if (mode==='retry_exhausted') fixture.exec("UPDATE lead_radar_jobs SET max_attempts=1 WHERE stage='enrichment'");
+  await consumeLeadRadarQueueMessage(db,{schema:'gptbot.lead-radar.job.v1',job_id:site.id},queue,deps);
+  const contact=fixture.rows<{id:string}>("SELECT id FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'")[0];assert.ok(contact,'terminal website outcome must still create the independent contact job');
+  assert.equal((await consumeLeadRadarQueueMessage(db,{schema:'gptbot.lead-radar.job.v1',job_id:contact.id},queue,deps)).outcome,'completed');
+  assert.equal(checked,1);
+});
+
 test('provider capacity waits preserve failure attempts, but stop deferring after 30 minutes', async () => {
   const fixture = database(); const db = fixture.asD1(); const store = new LeadRadarStore(db); const queue = new RecordingQueue();
   const start = new Date('2026-08-28T12:00:00.000Z'); let at = new Date(start);

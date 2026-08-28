@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import type { LeadRadarContactCandidate } from '../../../shared/lead-radar-contacts';
 import { LEAD_RADAR_CONTACT_REASON_COPY } from '../../../shared/lead-radar-contacts';
 import type { TelegramContactResolution } from '../../../shared/lead-radar-contact-resolution';
+import type { LeadRadarContactEnrichment } from '../../../shared/lead-radar-contact-sources';
 import { api } from '../../lib/api';
 
 function resolutionCopy(result: TelegramContactResolution): string {
+  if (result.reason==='username_exists_ownership_unconfirmed') return `Аккаунт @${result.username} существует, но его принадлежность компании ещё не подтверждена. В рассылку не допускается.`;
   if (result.status === 'resolved') return `Telegram найден: @${result.username}. Отправка не запускалась; основание для контакта проверяется отдельно.`;
   if (result.status === 'pending') return 'Ждём ответ Bridge. Ничего не отправляем.';
   if (result.reason === 'bridge_update_required') return 'Нужно обновить локальный Bridge до 1.4.0.';
@@ -18,8 +20,8 @@ function resolutionCopy(result: TelegramContactResolution): string {
 }
 
 /** Source evidence, line type and Telegram reachability are deliberately separate. */
-export function ContactCandidates({ candidates = [], searchId, companyId, canCheck, onResolved }: {
-  candidates?: LeadRadarContactCandidate[]; searchId: string; companyId: string; canCheck: boolean; onResolved: () => void;
+export function ContactCandidates({ candidates = [], enrichment, searchId, companyId, canCheck, onResolved }: {
+  candidates?: LeadRadarContactCandidate[]; enrichment?: LeadRadarContactEnrichment; searchId: string; companyId: string; canCheck: boolean; onResolved: () => void;
 }) {
   const [results, setResults] = useState<Record<string, TelegramContactResolution>>({});
   const [busy, setBusy] = useState<string | null>(null);
@@ -43,13 +45,18 @@ export function ContactCandidates({ candidates = [], searchId, companyId, canChe
     } catch { if (mounted.current) setError('Не удалось получить результат. Проверьте состояние аккаунта и соединение.'); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
-  if (!candidates.length) return null;
+  if (!candidates.length && !enrichment) return null;
   return <details className="mt-3 rounded-xl border border-white/10 p-3 text-xs text-white/70">
     <summary className="cursor-pointer py-1 font-medium">Найденные контакты и причины исключения ({candidates.length})</summary>
+    {enrichment && <p className="mt-2 leading-5">Поиск публичных контактов: {enrichment.reason==='public_contact_candidates' ? 'найдены контакты в карточках бизнеса; тип аккаунта проверяется через Bridge'
+      : enrichment.status==='limited' ? 'остановлен по лимиту расходов; результат не означает отсутствие Telegram'
+        : enrichment.status==='unavailable' ? 'источник недоступен; отсутствие контакта не подтверждено'
+          : enrichment.reason==='shadow_only' ? 'тестовый режим без добавления контактов' : 'в проверенных источниках подходящих контактов не найдено'}.</p>}
     <ul className="mt-3 space-y-3">
       {candidates.map((candidate) => <li key={candidate.key}>
         <p className="break-all font-mono text-white/90">{candidate.value}</p>
         <p className="mt-1 leading-5">{LEAD_RADAR_CONTACT_REASON_COPY[candidate.reason] ?? 'Нужна проверка контакта'}</p>
+        {candidate.lookupEligible && candidate.ownership==='unconfirmed' && <p className="leading-5">Проверим только существование и тип аккаунта. Принадлежность компании этим не подтверждается.</p>}
         {candidate.lookupEligible && <button type="button" disabled={!canCheck || busy !== null} onClick={() => void check(candidate.key)} className="mt-2 min-h-11 rounded-lg border border-brand-cyan/30 px-3 text-brand-cyan disabled:opacity-50">
           {busy === candidate.key ? 'Проверяем без отправки…' : 'Проверить Telegram'}
         </button>}

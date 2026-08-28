@@ -3,6 +3,7 @@ import { createFirecrawlQueueDependencies } from '../functions/platform/lead-rad
 import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from '../functions/platform/lead-radar/contact-discovery-store';
 import { createContactResolutionQueueDependencies } from '../functions/platform/lead-radar/contact-resolution-worker';
+import { createContactSourceQueueDependencies } from '../functions/platform/lead-radar/contact-source-worker';
 import {
   consumeAutomationMessage,
   enqueueDueAutomationJobs,
@@ -664,6 +665,7 @@ export default {
             message.ack();
             continue;
           }
+          const contactSources=await createContactSourceQueueDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId);
           const result = await consumeLeadRadarQueueMessage(
             env.GPTBOT_DRAFTS_DB,
             raw,
@@ -671,7 +673,9 @@ export default {
             {
               personalDataEnabled: isLeadRadarContactEnabled(env),
               ...createContactResolutionQueueDependencies(env, env.GPTBOT_DRAFTS_DB),
-              ...await createFirecrawlQueueDependencies(env, env.GPTBOT_DRAFTS_DB, knownJob.orgId, isLeadRadarContactEnabled(env)),
+              ...await createFirecrawlQueueDependencies(env, env.GPTBOT_DRAFTS_DB, knownJob.orgId, isLeadRadarContactEnabled(env),
+                {preferContactDiscovery:Boolean(contactSources.discoverLeadContactSources)}),
+              ...contactSources,
             },
           );
           if (result.outcome === 'retry_wait') {

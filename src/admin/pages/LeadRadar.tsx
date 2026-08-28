@@ -73,7 +73,9 @@ const DEFAULT_INPUT: LeadRadarSearchInput = {
   country: 'UZ',
   offer: 'AI-бот для обработки заявок в Telegram и Instagram',
   desiredCount: 20,
-  telegramRequired: false,
+  searchGoal: 'telegram_contacts',
+  maxCandidates: 100,
+  telegramRequired: true,
   languages: ['ru', 'uz'],
 };
 
@@ -1188,7 +1190,7 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55">Компания</p>
               <h3 id="corporate-channels-title" className="mt-1 text-base font-semibold text-white">Корпоративные каналы</h3>
             </div>
-            <ContactCandidates key={lead.id} candidates={lead.contactCandidates} searchId={lead.searchId} companyId={lead.id} canCheck={canCheckContacts} onResolved={onContactResolved} />
+            <ContactCandidates key={lead.id} candidates={lead.contactCandidates} enrichment={lead.contactEnrichment} searchId={lead.searchId} companyId={lead.id} canCheck={canCheckContacts} onResolved={onContactResolved} />
             <div className="mt-4 grid gap-3 text-sm">
               {corporateTelegram && companyType && (
                 <div className="rounded-2xl border border-white/[0.08] bg-white/[0.018] p-4">

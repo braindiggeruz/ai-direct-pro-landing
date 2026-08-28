@@ -4,6 +4,31 @@ import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLoc
 import { contactCandidatesForLead } from '../functions/platform/lead-radar/contact-candidates';
 import { extractCompanyPageFacts } from '../functions/platform/lead-radar/sources';
 import { officialDomainsFromListing, officialDomainSearchQuery } from '../functions/platform/lead-radar/official-domain-discovery';
+import { extractOfficialSiteContacts } from '../functions/platform/lead-radar/sources';
+import { publishedTelegramLocators } from '../functions/platform/lead-radar/telegram-locators';
+
+test('published plain usernames and bare links are found without generating handles from names or emails', () => {
+  const html = '<p>Записаться в Telegram: @clinic_booking</p><p>t.me/clinic_other</p>'
+    + '<p>mail@not_telegram.test</p><script>const x="@hidden_handle"</script>'
+    + '<span title="@attribute_handle">О нас</span><style>@media_foo {}</style>';
+  const facts = extractOfficialSiteContacts(new URL('https://clinic.example/'), html);
+  assert.deepEqual(facts.telegramContacts.map((c) => c.username).sort(), ['clinic_booking', 'clinic_other']);
+  assert.equal(facts.telegramContact?.username, 'clinic_booking');
+  assert.equal(facts.telegramContact?.type, 'business');
+  assert.equal(publishedTelegramLocators('Компания Clinic Without Telegram').length, 0);
+});
+
+test('corporate booking takes priority over a named person and an adjacent bot or channel', () => {
+  const facts = extractOfficialSiteContacts(new URL('https://clinic.example/'),
+    '<script type="application/ld+json">{"@type":"Person","name":"Ivan Petrov","jobTitle":"Director","sameAs":"https://t.me/ivan_petrov"}</script>'
+    + '<p>Канал: <a href="https://t.me/clinic_news">Новости</a></p>'
+    + '<p>Записаться в Telegram: @clinic_booking</p>'
+    + '<footer>Website by Agency: @agency_contact</footer>');
+  assert.equal(facts.telegramContact?.username, 'clinic_booking');
+  assert.equal(facts.telegramContacts.find((c) => c.username === 'clinic_news')?.type, 'channel');
+  assert.equal(facts.telegramContacts.find((c) => c.username === 'agency_contact')?.type, 'unknown');
+  assert.ok((facts.telegramContacts.find((c) => c.username === 'agency_contact')?.confidence ?? 1) < 0.8);
+});
 
 test('an extension and vendor footer never become mobile lookup targets', () => {
   const facts = extractCompanyPageFacts(new URL('https://clinic.uz/'), '<p>Клиника</p>' + ' '.repeat(300)

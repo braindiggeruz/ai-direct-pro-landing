@@ -23,7 +23,8 @@ import {
   type LeadRadarOsmTagCondition,
 } from './intent';
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
-import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator } from '../../../src/shared/lead-radar-contacts';
+import { assessLeadRadarPhone, extractLeadRadarPhones } from '../../../src/shared/lead-radar-contacts';
+import { publishedTelegramLocators } from './telegram-locators';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
@@ -322,6 +323,9 @@ export function classifyTelegramContact(input: TelegramClassificationInput): Pic
 > {
   const username = input.username.trim().replace(/^@/, '').toLowerCase();
   const context = input.context.toLowerCase();
+  if (/(?:разработк[аи] сайта|создание сайта|powered by|website by|web design)/iu.test(context)) {
+    return { type: 'unknown', confidence: 0.2, reason: 'Контакт разработчика сайта, не компании', messageable: false };
+  }
   const botHandle = /(?:^|_)(?:bot|robot|chatbot|assistant)(?:_|$)/i.test(username)
     || /bot$/i.test(username);
   const botContext = /(?:телеграм\s*-?\s*бот|\btelegram\s*-?\s*bot\b|\bchatbot\b|(?:^|[\s(])бот(?=$|[\s).,!?:;]))/i.test(context);
@@ -578,14 +582,9 @@ export function extractOfficialSiteContacts(
   }
 
   const contacts: LeadRadarTelegramContact[] = [];
-  const telegramPattern = /(?:https?:\/\/(?:t\.me|telegram\.me)\/[^\s"'<>]{1,200}|tg:\/\/(?:resolve|message)\?[^\s"'<>]{1,200})/gi;
-  for (const match of html.matchAll(telegramPattern)) {
-    if (match.index === undefined) continue;
-    const locator = parseLeadRadarTelegramLocator(match[0]);
-    if (!locator) continue;
+  for (const { locator, context: rawContext } of publishedTelegramLocators(html)) {
     const telegramUrl = locator.url;
     const username = locator.kind === 'username' ? locator.value : '';
-    const rawContext = html.slice(Math.max(0, match.index - 180), Math.min(html.length, match.index + match[0].length + 180));
     const context = compactEvidenceSnippet(rawContext);
     const normalizedContext = context.toLocaleLowerCase('ru');
     const linked = [...decisionMakerMap.values()].find((person) => (
@@ -636,7 +635,7 @@ export function extractOfficialSiteContacts(
   }
 
   const rank: Record<TelegramContactType, number> = {
-    human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0,
+    business: 6, human: 5, unknown: 4, channel: 2, group: 1, bot: 0,
   };
   contacts.sort((a, b) => rank[b.type] - rank[a.type] || b.confidence - a.confidence);
   return {
@@ -1443,7 +1442,7 @@ async function enrichCompanyWebsiteWithBudget(
       : { verified: false, method: null, sourceUrl: null } satisfies CompanyWebsiteBinding;
     const facts = pages.map((page) => extractCompanyPageFacts(page.url, page.html, binding.verified));
     const telegramRank: Record<TelegramContactType, number> = {
-      human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0,
+      business: 6, human: 5, unknown: 4, channel: 2, group: 1, bot: 0,
     };
     const telegramContact = facts
       .map((item) => item.telegramContact)
@@ -1547,7 +1546,7 @@ async function enrichCandidates(candidates: SourceCandidate[], budget: Subreques
     const facts = enriched.get(candidate.sourceId);
     if (!facts) return candidate;
     const rank: Record<TelegramContactType, number> = {
-      human: 6, business: 5, channel: 3, group: 2, unknown: 1, bot: 0,
+      business: 6, human: 5, unknown: 4, channel: 2, group: 1, bot: 0,
     };
     const telegramContact = [facts.telegramContact, candidate.telegramContact]
       .filter((item): item is LeadRadarTelegramContact => Boolean(item))

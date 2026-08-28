@@ -52,6 +52,9 @@ const CONTACTS = `WITH contacts AS (
   FROM lead_radar_companies c WHERE c.org_id=?
     AND json_valid(c.telegram_contact_json)
     AND json_extract(c.telegram_contact_json,'$.type') IN ('business','unknown')
+    AND COALESCE(json_extract(c.telegram_contact_json,'$.reason'),'')<>'bridge_not_regular_user'
+    AND (lower(substr(json_extract(c.telegram_contact_json,'$.username'),-3))<>'bot'
+      OR json_extract(c.telegram_contact_json,'$.reason')='bridge_resolved_corporate')
     AND length(json_extract(c.telegram_contact_json,'$.username')) BETWEEN 5 AND 32
     AND json_extract(c.telegram_contact_json,'$.username') NOT GLOB '*[^a-zA-Z0-9_]*'
     AND json_extract(c.telegram_contact_json,'$.username') GLOB '[a-zA-Z]*'
