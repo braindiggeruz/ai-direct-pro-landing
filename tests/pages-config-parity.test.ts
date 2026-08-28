@@ -40,9 +40,10 @@ const declaredVars = (): Map<string, string> => {
   return found;
 };
 
-// Verified against the live production project on 2026-08-27. These are the
-// exact values the Lead Radar branch ships; a mismatch here does not merely
-// drift, it overwrites production the next time this branch deploys.
+// Owner-approved integrated release, 2026-08-28 (d629b4b). The later SEO-only
+// deployment accidentally restored the older false flags and removed the UI.
+// This combined branch must preserve the approved values, not the obsolete
+// 2026-08-27 snapshot. A true feature flag is NOT recipient authorization.
 const LEAD_RADAR_VARS: Record<string, string> = {
   LEAD_RADAR_ADMISSION_ENABLED: 'true',
   LEAD_RADAR_PROCESSING_ENABLED: 'true',
@@ -50,8 +51,8 @@ const LEAD_RADAR_VARS: Record<string, string> = {
   LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
   LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
-  LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'false',
-  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'false',
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
   LEAD_RADAR_PERSONAL_RETENTION_DAYS: '30',
   LEAD_RADAR_ALLOWED_ORGS: 'owner_8ee98dc3040f160b308166b0',
   LEAD_RADAR_MAX_DISPATCH_PER_TICK: '5',
@@ -78,19 +79,14 @@ test('every Lead Radar production var is declared on this branch too', () => {
   }
 });
 
-test('the sending gate stays closed on this branch as well', () => {
-  // main never intends to turn Telegram sending on. If a careless merge flips
-  // one of these here, a routine SEO deploy from this branch would arm outbound
-  // messaging in production - the one change nobody would look for in an SEO
-  // release.
+test('the integrated release keeps legacy outreach closed and campaign limits unchanged', () => {
+  // Campaign availability was explicitly approved. Legacy Business outreach
+  // remains disabled. Recipient basis/identity/approval are independent server
+  // gates, covered by the campaign API and preflight regression tests.
   const declared = declaredVars();
-  for (const key of [
-    'LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED',
-    'LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED',
-    'LEAD_RADAR_CONTACT_ENABLED',
-  ]) {
-    assert.equal(declared.get(key), 'false', `${key} must ship as "false" from this branch`);
-  }
+  assert.equal(declared.get('LEAD_RADAR_CONTACT_ENABLED'), 'false');
+  assert.equal(declared.get('LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT'), '30');
+  assert.equal(declared.get('LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS'), '120');
 });
 
 test('the Lead Radar bindings this branch does not use are still declared', () => {
