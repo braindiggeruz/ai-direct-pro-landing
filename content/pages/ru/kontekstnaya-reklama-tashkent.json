@@ -142,7 +142,8 @@
     {"target": "/ru/marketingovyi-audit-tashkent/", "anchor": "маркетинговый аудит", "locale": "ru", "type": "contextual", "priority": 3},
     {"target": "/ru/targetirovannaya-reklama-tashkent/", "anchor": "таргетированная реклама в Ташкенте", "locale": "ru", "type": "contextual", "priority": 4},
     {"target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане", "locale": "ru", "type": "contextual", "priority": 5},
-    {"target": "/ru/blog/stoimost-digital-marketinga-v-tashkente/", "anchor": "бюджет digital-маркетинга", "locale": "ru", "type": "contextual", "priority": 6}
+    {"target": "/ru/blog/stoimost-digital-marketinga-v-tashkente/", "anchor": "бюджет digital-маркетинга", "locale": "ru", "type": "contextual", "priority": 6},
+    {"target": "/ru/otzyvy/", "anchor": "отзывы и кейсы клиентов GPTBot.uz", "locale": "ru", "type": "contextual", "priority": 7}
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "WebPage", "FAQPage"],
   "lastReviewedAt": "2026-08-20",

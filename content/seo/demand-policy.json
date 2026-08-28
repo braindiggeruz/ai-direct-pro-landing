@@ -143,6 +143,14 @@
       "source": "OpenSEO/DataForSEO location 2860, Telegram tail discovery 2026-08-26 (132 unique keywords, 8 live SERPs)",
       "measuredAt": "2026-08-26",
       "note": "10/mo alone. Recorded as the named entry point of a ~25-phrase buying-placements family aggregating ~250/mo — «биржа рекламы телеграм» and its six variants, «купить рекламу в телеграм» and its five, plus «закупка», «покупка», «продажа» and «разместить». The article /ru/blog/telegram-ads-ili-posevy-v-kanalah/ targets the family, not this phrase. Twenty-five URLs at 10/mo would be the frozen bot cluster repeating, so exactly one was written. The demand gate scores money and niche pages only, so a blog article is not blocked by this row; it is recorded because the number will be asked for at the six-week kill-rule read."
+    },
+    {
+      "keyword": "internet reklama toshkent",
+      "volumePerMonth": 0,
+      "competition": "UNMEASURED",
+      "source": "Live UZ-Latin SERP review 2026-08-28 (web search, Tashkent commercial intent): mkrokus.uz, oqila.uz/narxlar and 101digital.uz rank with commercial pages/posts, confirming an active commercial SERP; the RU twin cluster was approved by the commercial digital-cluster strategy reviewed 2026-08-20 (see the 'контекстная реклама в Ташкенте' row). No verified Uzbekistan volume/KD/CPC export was available in this environment.",
+      "measuredAt": "2026-08-28",
+      "note": "UZ pilot page /uz/internet-reklama-toshkent/ ships with volume UNMEASURED, following the documented UNMEASURED-approval precedent in this file. Re-measure with OpenSEO/DataForSEO location 2860 when access is available and replace this row with real volume. Kill-rule: if GSC shows zero impressions for the cluster after 42 days of indexation, consolidate the page into /uz/telegram-reklama/."
     }
   ],
   "qualityRequirements": {

@@ -152,6 +152,7 @@
     { "target": "/uz/gpt-uzbek-tilida-ai-chat/", "anchor": "GPT o‘zbek tilida — AI-chat", "locale": "uz", "type": "block" },
     { "target": "/uz/gpt-telegram-instagram-ideya/", "anchor": "Telegram va Instagram uchun GPT", "locale": "uz", "type": "block" },
     { "target": "/uz/seo-xizmati/", "anchor": "Qidiruv optimizatsiyasi (SEO)", "locale": "uz", "type": "block" },
+    { "target": "/uz/internet-reklama-toshkent/", "anchor": "Toshkentda internet reklama", "locale": "uz", "type": "block" },
     { "target": "/uz/blog/marketing-nima/", "anchor": "Marketing nima", "locale": "uz", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],

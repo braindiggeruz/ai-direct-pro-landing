@@ -341,6 +341,12 @@
       "type": "block"
     },
     {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "Toshkentda internet reklama",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
       "target": "/uz/",
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
