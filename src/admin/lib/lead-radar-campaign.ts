@@ -1,4 +1,5 @@
 import type { LeadRadarLead, LeadRadarTelegramAccountReadiness } from '../../shared/lead-radar';
+import { telegramContactEndpoint } from '../../shared/lead-radar-telegram-endpoint';
 
 import type {
   LeadRadarTelegramBridgeE2eEnvelope,
@@ -482,7 +483,7 @@ export function classifyCampaignLeadLocally(lead: LeadRadarLead): LocalCampaignE
   if (contact.type !== 'business') {
     return { classification: 'excluded', reason: 'unsupported_telegram_type' };
   }
-  if (!contact.username || contact.evidenceIds.length === 0 || !contact.verifiedAt) {
+  if (!telegramContactEndpoint(contact) || contact.evidenceIds.length === 0 || !contact.verifiedAt) {
     return { classification: 'manual', reason: 'manual_personal_or_unknown' };
   }
   return { classification: 'automatic', reason: 'candidate_verified_corporate' };

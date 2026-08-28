@@ -97,8 +97,38 @@ class TelegramAdapterTests(unittest.IsolatedAsyncioTestCase):
             client.entity = User(id=123, bot=True, username="clinic_bot")
             self.assertEqual((await bridge.resolve_public_contact("username", "clinic_bot"))["status"], "unsupported")
             client.entity = User(id=123)
-            self.assertEqual((await bridge.resolve_public_contact("phone", "+998901234567"))["reason"], "no_public_username")
+            self.assertEqual((await bridge.resolve_public_contact("phone", "+998901234567"))["reason"], "peer_access_unavailable")
             self.assertNotIn("+998901234567", str(result))
+
+    async def test_phone_peer_without_username_is_local_durable_and_identity_checked(self) -> None:
+        from telethon.tl import types
+        class Resolver(FakeClient):
+            async def __call__(self, _request):
+                return type("Resolved", (), {"peer": types.PeerUser(123), "users": [self.entity]})()
+        with tempfile.TemporaryDirectory() as folder:
+            client = Resolver(User(id=123, access_hash=-456, username=None))
+            bridge = account(client, Path(folder))
+            result = await bridge.resolve_public_contact("phone", "+998901234567")
+            self.assertEqual(result["status"], "resolved")
+            self.assertIsNone(result["username"])
+            ref = result["peerRef"]
+            self.assertRegex(ref, r"^lrpeer:[a-f0-9]{32}$")
+            self.assertNotIn("access_hash", str(result))
+            self.assertNotIn("user_id", str(result))
+            self.assertEqual(client.text_calls, [])
+            restarted = account(client, Path(folder))
+            restarted.restore_peer_bindings(bridge.peer_bindings)
+            self.assertEqual((await restarted.send_text(ref, "fixture only")).kind, "sent")
+            self.assertIsInstance(client.lookups[-1], types.InputPeerUser)
+            self.assertEqual(client.lookups[-1].user_id, 123)
+            self.assertEqual(client.lookups[-1].access_hash, -456)
+            client.entity = User(id=124, access_hash=-456)
+            self.assertNotEqual((await restarted.send_text(ref, "wrong peer")).kind, "sent")
+            client.entity = User(id=123, bot=True, access_hash=-456)
+            self.assertNotEqual((await restarted.send_text(ref, "bot")).kind, "sent")
+            restarted.restore_peer_bindings({ref: {"user_id": 123, "access_hash": -456, "expires_at": 1}})
+            self.assertNotEqual((await restarted.send_text(ref, "expired")).kind, "sent")
+            self.assertEqual(len(client.text_calls), 1)
 
     async def test_auth_rpc_deadlines_do_not_claim_a_code_or_retry(self) -> None:
         async def stalled(*_args, **_kwargs):

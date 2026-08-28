@@ -272,7 +272,7 @@ export async function createFirecrawlQueueDependencies(
           catch (e) {
             if (e instanceof FirecrawlError && e.retryable) throw e;
             partialFailure = e instanceof FirecrawlError ? e.code : 'provider_unavailable';
-            if (e instanceof FirecrawlError && ['budget_or_lease_blocked','credits_exhausted','authentication_failed','request_unknown'].includes(e.code)) break;
+            if (e instanceof FirecrawlError && (/budget_exhausted$/.test(e.code) || ['budget_or_lease_blocked','credits_exhausted','authentication_failed','request_unknown'].includes(e.code))) break;
           }
         }
         const facts = combineFirecrawlPages(pages);

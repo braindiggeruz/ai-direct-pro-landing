@@ -3,6 +3,7 @@ import { AudienceError,AudienceStore,requireAudienceSchema } from '../../../plat
 import { assertLeadRadarRuntimeSchema,LeadRadarStore,hasTelegramCampaignSchema } from '../../../platform/lead-radar';
 import { redactLead } from '../../../platform/lead-radar/capabilities';
 import type { LeadRadarApiCapabilities } from '../../../../src/shared/lead-radar';
+import { AUDIENCE_LIMIT } from '../../../../src/shared/lead-radar-audiences';
 
 export function isAudiencePath(parts: readonly string[]): boolean {
   return parts[0]==='audiences' || parts[0]==='telegram-contacts';
@@ -18,15 +19,16 @@ export async function handleAudienceRequest(ctx: OwnerHandlerContext,parts: read
         const query=new URL(ctx.request.url).searchParams;
         const offset=Number(query.get('offset') ?? '0');
         if (!Number.isSafeInteger(offset) || offset<0) throw new AudienceError('audience_invalid_input');
-        return ownerJson(await store.directory(orgId,{q:query.get('q') ?? '',category:query.get('category') ?? '',city:query.get('city') ?? '',offset},capabilities),ctx.requestId);
+        return ownerJson(await store.directory(orgId,{q:query.get('q') ?? '',category:query.get('category') ?? '',city:query.get('city') ?? '',status:query.get('status') ?? 'all',offset},capabilities),ctx.requestId);
       }
       if (parts.length===1) return ownerJson({audiences:await store.list(orgId)},ctx.requestId);
       if (parts.length===2) {
         const audience=await store.get(orgId,parts[1]);
         if (!audience) throw new AudienceError('audience_not_found',404);
-        const leads=(await new LeadRadarStore(ctx.db).getLeadsByIds(orgId,audience.companyIds))
+        const leads=(await new LeadRadarStore(ctx.db).getLeadsByIds(orgId,audience.companyIds,AUDIENCE_LIMIT))
           .map((lead)=>redactLead(lead,capabilities,Date.now()));
-        return ownerJson({audience,leads,missingCompanyIds:audience.companyIds.filter((id)=>!leads.some((lead)=>lead.id===id))},ctx.requestId);
+        return ownerJson({audience,leads,excludedRecipientIds:await store.excludedRecipientIds(orgId,audience.companyIds),
+          missingCompanyIds:audience.companyIds.filter((id)=>!leads.some((lead)=>lead.id===id))},ctx.requestId);
       }
     }
     if (ctx.request.method==='POST' && parts.length===2 && parts[0]==='audiences') {

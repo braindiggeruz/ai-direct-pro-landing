@@ -39,7 +39,7 @@ from .security import DpapiVault, SecurityError, secure_directory
 from .telegram_adapter import ProviderOutcome, TelethonAccount
 
 
-VERSION = "1.4.0"
+VERSION = "1.5.0"
 MAX_AUTH_SECONDS = 10 * 60
 MAX_COMMAND_FUTURE_SECONDS = 10 * 60
 RELAY_TTL_SECONDS = 10 * 60
@@ -153,6 +153,18 @@ class BridgeRuntime:
     def _save_state(self) -> None:
         self.vault.save({key: value for key, value in self.state.items() if key != "schema"})
 
+    def _restore_account_peers(self, account_ref: str) -> None:
+        restore = getattr(self.telegram, "restore_peer_bindings", None)
+        if restore is None:
+            return  # Legacy test/provider adapters never return peer handles.
+        session = self.state.get("telegram")
+        if (not isinstance(session, dict) or session.get("account_ref") != account_ref
+            or session.get("custody") != "finalized"):
+            raise ProtocolError("peer_account_mismatch")
+        cached = self.state.get("resolved_peers", {})
+        restore(cached.get("bindings", {}) if isinstance(cached, dict) and cached.get("account_ref") == account_ref
+                and cached.get("auth_id") == session.get("auth_id") else {})
+
     def _persist_session(
         self,
         *,
@@ -207,6 +219,9 @@ class BridgeRuntime:
         self._save_state()
 
     def _wipe_session_after_confirmed_logout(self) -> None:
+        self.state.pop("resolved_peers", None)
+        if hasattr(self.telegram, "restore_peer_bindings"):
+            self.telegram.restore_peer_bindings({})
         telegram = self.state.get("telegram")
         if isinstance(telegram, dict):
             telegram.update({
@@ -827,7 +842,11 @@ class BridgeRuntime:
             # Persist before the RPC; a restart cannot bypass the 3-second limit.
             self.state["contact_lookup_blocked_until"] = now + 3.1
             self._save_state()
+            self._restore_account_peers(payload["account_ref"])
             result = await self.telegram.resolve_public_contact(target["kind"], target["value"])
+            if result.get("peerRef"):
+                self.state["resolved_peers"] = {"account_ref": payload["account_ref"], "auth_id": self.state["telegram"]["auth_id"], "bindings": self.telegram.peer_bindings}
+                self._save_state()  # Durable BEFORE acknowledging the public result.
             if result.get("status") == "limited":
                 self.state["contact_lookup_blocked_until"] = time.time() + int(result["retryAfterSeconds"])
                 self._save_state()
@@ -936,6 +955,7 @@ class BridgeRuntime:
         custody = self.ledger.auth_custody_for_account(account_ref)
         if custody is None or custody["state"] != "finalized":
             raise ProtocolError("account_not_finalized")
+        self._restore_account_peers(account_ref)
         digest = payload_digest(payload)
         decision = self.ledger.reserve_send(effect_id, digest)
         if decision.kind == "replay":

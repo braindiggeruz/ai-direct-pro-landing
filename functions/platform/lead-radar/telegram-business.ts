@@ -1,5 +1,6 @@
 import type { LeadRadarTelegramContact } from './types';
 import { verifiedResolvedCorporateCompanies } from './contact-resolution';
+import { isTelegramPeerRef } from '../../../src/shared/lead-radar-telegram-endpoint';
 import {
   LeadRadarTelegramBusinessStore,
   type TelegramBusinessCompanyRow,
@@ -644,9 +645,10 @@ function parsedVerifiedBusinessEndpoint(
 ): ParsedVerifiedBusinessEndpoint | null {
   try {
     const value = record(JSON.parse(telegramContactJson) as unknown);
-    const username = typeof value?.username === 'string' && USERNAME_PATTERN.test(value.username)
+    const peer = value?.reason==='bridge_resolved_corporate' && typeof value.peerRef==='string' && /^lrpeer:[a-f0-9]{32}$/u.test(value.peerRef) ? value.peerRef : null;
+    const username = peer ?? (typeof value?.username === 'string' && USERNAME_PATTERN.test(value.username)
       ? value.username.toLowerCase()
-      : null;
+      : null);
     const confidence = typeof value?.confidence === 'number' && Number.isFinite(value.confidence)
       ? value.confidence
       : 0;
@@ -668,10 +670,10 @@ function parsedVerifiedBusinessEndpoint(
       || !Number.isFinite(verifiedAt)
       || verifiedAt > now.getTime() + FUTURE_SKEW_MS
       || now.getTime() - verifiedAt > 30 * 24 * 60 * 60_000
-      || endpoint?.protocol !== 'https:'
+      || (!peer && (endpoint?.protocol !== 'https:'
       || !['t.me', 'telegram.me'].includes(endpoint.hostname.toLowerCase())
       || segments.length !== 1
-      || segments[0]?.toLowerCase() !== username) return null;
+      || segments[0]?.toLowerCase() !== username))) return null;
     return { username, evidenceIds };
   } catch {
     return null;
@@ -717,7 +719,7 @@ async function verifiedBusinessEndpointUsername(input: {
     input.now,
     input.expectedUsername,
   );
-  if (!endpoint) return null;
+  if (!endpoint || isTelegramPeerRef(endpoint.username)) return null;
   const rows = await input.store.findCompanyEvidenceByIds(
     input.orgId,
     input.companyId,
@@ -1416,6 +1418,8 @@ export async function verifiedTelegramCampaignBusinessCompanyIds(input: {
   const oldest = now.getTime() - 30 * 24 * 60 * 60_000;
   const newest = now.getTime() + FUTURE_SKEW_MS;
   for (const company of parsed) {
+    // An opaque handle is valid only through fresh, account-bound Bridge proof.
+    if (isTelegramPeerRef(company.endpoint.username)) continue;
     const rows = byCompany.get(company.companyId) ?? [];
     const ids = new Set(rows.map((row) => row.id));
     const companyHost = normalizedHost(company.website);

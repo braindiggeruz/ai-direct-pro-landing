@@ -126,6 +126,17 @@ test('completed request replays stored result without a second API charge', asyn
   assert.deepEqual(await run(), ['result']); assert.deepEqual(await run(), ['result']); assert.equal(calls, 1);
 });
 
+test('reservation diagnostics distinguish budgets from a stale lease without any provider request',async()=>{
+  const db=database(),store=new FirecrawlStore(db.asD1());
+  const limits={dailyCredits:200,searchCredits:100,domainCredits:14,companyCredits:7};
+  assert.equal(await store.reservationBlockReason({...CTX,leaseGeneration:2},'scrape','clinic.uz',limits,AT),'lease_lost');
+  assert.equal(await store.reservationBlockReason(CTX,'scrape','clinic.uz',{...limits,dailyCredits:0},AT),'daily_budget_exhausted');
+  assert.equal(await store.reservationBlockReason(CTX,'scrape','clinic.uz',{...limits,searchCredits:0},AT),'search_budget_exhausted');
+  assert.equal(await store.reservationBlockReason(CTX,'scrape','clinic.uz',{...limits,domainCredits:0},AT),'domain_budget_exhausted');
+  assert.equal(await store.reservationBlockReason(CTX,'scrape','clinic.uz',{...limits,companyCredits:0},AT),'company_budget_exhausted');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_firecrawl_requests'),0);
+});
+
 test('successful null result survives another delivery and is not a missing or expired result', async () => {
   const db=database(), store=new FirecrawlStore(db.asD1()); let calls=0;
   const request=async () => { calls++; return json({success:true}); };

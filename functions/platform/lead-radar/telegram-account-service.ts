@@ -622,8 +622,10 @@ export async function resolveTelegramContact(input: {
     body: JSON.stringify({ schema: SERVICE_SCHEMA, org_id: input.orgId, account_ref: input.gatewayAccountRef, operation_id: input.operationId, target: input.target }),
   }, input.internalServiceToken);
   const envelope = await responseEnvelope(response);
-  const result = { status: envelope.status, username: envelope.username, reason: envelope.reason, retryAfterSeconds: envelope.retryAfterSeconds };
-  if (!exactKeys(envelope, ['schema','status','username','reason','retryAfterSeconds']) || !validTelegramContactResolution(result)) throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
+  const result = { status: envelope.status, username: envelope.username, reason: envelope.reason, retryAfterSeconds: envelope.retryAfterSeconds,
+    ...(envelope.peerRef !== undefined ? {peerRef:envelope.peerRef} : {}) };
+  if (!(exactKeys(envelope, ['schema','status','username','reason','retryAfterSeconds']) || exactKeys(envelope, ['schema','status','username','reason','retryAfterSeconds','peerRef']))
+    || !validTelegramContactResolution(result)) throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
   return result;
 }
 

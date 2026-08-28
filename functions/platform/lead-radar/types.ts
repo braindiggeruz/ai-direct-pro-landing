@@ -26,6 +26,7 @@ export type TelegramContactType = (typeof TELEGRAM_CONTACT_TYPES)[number];
 export interface LeadRadarTelegramContact {
   url: string;
   username: string;
+  peerRef?: string;
   type: TelegramContactType;
   confidence: number;
   reason: string;

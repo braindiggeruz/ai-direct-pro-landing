@@ -285,11 +285,13 @@ function telegramContactFromJson(value: string): LeadRadarTelegramContact | null
   const confidence = boundedConfidence(item.confidence);
   const reason = boundedText(item.reason, 240);
   const checkedAt = verifiedAt(item.verifiedAt);
-  if (!locator || !username || username.toLowerCase() !== locator.username.toLowerCase()
+  const peerRef = item.reason==='bridge_resolved_corporate' && typeof item.peerRef==='string' && /^lrpeer:[a-f0-9]{32}$/u.test(item.peerRef) ? item.peerRef : null;
+  if ((!peerRef && (!locator || !username || username.toLowerCase() !== locator.username.toLowerCase()))
     || !type || confidence === null || !reason || !checkedAt) return null;
   return {
-    url: locator.url,
-    username: locator.username,
+    url: locator?.url ?? '',
+    username: locator?.username ?? '',
+    ...(peerRef ? {peerRef} : {}),
     type,
     confidence,
     reason,
@@ -2019,9 +2021,9 @@ export class LeadRadarStore {
   }
 
   /** Bounded tenant-scoped access shared by single-search and saved audiences. */
-  async getLeadsByIds(orgId: string, ids: readonly string[]): Promise<LeadRadarLead[]> {
+  async getLeadsByIds(orgId: string, ids: readonly string[], maximum = 50): Promise<LeadRadarLead[]> {
     if (ids.length === 0) return [];
-    if (ids.length > 50) throw new Error('lead_selection_too_large');
+    if (ids.length > Math.min(500,maximum)) throw new Error('lead_selection_too_large');
     const rows = await this.db.prepare(`SELECT * FROM lead_radar_companies
       WHERE org_id = ? AND id IN (SELECT value FROM json_each(?))`)
       .bind(orgId, JSON.stringify(ids)).all<LeadRow>();

@@ -1,3 +1,4 @@
+import { isCampaignEndpoint } from '../../src/shared/lead-radar-telegram-endpoint';
 import {
   BRIDGE_MAILBOX_OBJECT_NAME,
   LeadRadarTelegramBridgeMailbox,
@@ -26,7 +27,6 @@ import {
   validOperationId,
   validOrgId,
   validSchema,
-  validUsername,
   type JsonRecord,
 } from './protocol';
 import {
@@ -278,7 +278,7 @@ async function sendMessage(request: Request, env: TelegramAccountGatewayEnv): Pr
     || !validSchema(body)
     || !validOrgId(body.org_id)
     || !validAccountRef(body.account_ref)
-    || !validUsername(body.username)
+    || !isCampaignEndpoint(body.username)
     || !validMessage(body.text, media ? MAX_MEDIA_CAPTION_CHARACTERS : undefined)
     || !validOperationId(body.random_id)
     || !idempotencyHeaderMatches(request, body.random_id)

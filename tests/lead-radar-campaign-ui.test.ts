@@ -523,7 +523,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(api, /telegram-campaigns\?searchId=\$\{encodeURIComponent\(searchId\)\}/);
   assert.match(api, /telegram-campaigns\/\$\{encodeURIComponent\(campaignId\)\}\/\$\{action\}/);
   assert.match(component, /const campaignSource = audience \?\? \{ searchId: sourceSearchId \}/);
-  assert.match(component, /accountId,[\s\S]{0,80}\.\.\.campaignSource,[\s\S]{0,160}leadIds: \[\.\.\.selectedLeadIds\],[\s\S]{0,100}template,[\s\S]{0,100}approvalToken:/);
+  assert.match(component, /accountId,[\s\S]{0,80}\.\.\.campaignSource,[\s\S]{0,160}leadIds: \[\.\.\.preparedCompanyIds\.current\],[\s\S]{0,100}template,[\s\S]{0,100}approvalToken:/);
   assert.match(component, /searchId: authorizationLead.searchId/);
   assert.match(component, /contactBasis,/);
   assert.match(component, /Документированное согласие/);
@@ -600,10 +600,12 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /aria-expanded=\{accountQuickActionBlocked \? accountSetupNoticeVisible : undefined\}/);
   assert.match(component, /if \(accountQuickActionBlocked\) explainBlockedAccountAction\(\)/);
   assert.match(component, /запрос подключения не выполнялся, ничего не отправлено/);
-  assert.match(component, /Добавить все найденные/);
-  assert.match(component, /Выбрать готовых/);
+  assert.match(component, /Выбрать все: мобильный или username/);
+  assert.match(component, /Только корпоративные Telegram/);
   assert.match(component, /Снять весь выбор/);
-  assert.match(component, /campaignDraftCandidateLeadIds\(leads\)/);
+  assert.match(component, /mobileOrUsernameLeadIds\(leads\)/);
+  assert.match(component, /preparedCompanyIds\.current=requestCompanyIds/);
+  assert.match(component, /leadIds: \[\.\.\.preparedCompanyIds\.current\]/);
   assert.match(component, /automaticLeadIds\.slice\(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT\)/);
   assert.match(component, /Сводка найденных компаний/);
   assert.match(component, /\{uniqueFoundLeadCount\}[\s\S]{0,300}\{telegramLeadCount\}[\s\S]{0,300}\{automaticLeadCount\}/);

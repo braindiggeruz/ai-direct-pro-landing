@@ -98,5 +98,29 @@ test('stale proof is review only and pagination is deterministic, without losing
   const second=await store.directory(ORG,{offset:20},CAPS,NOW);
   assert.equal(first.total,23);assert.equal(first.rows.length,20);assert.ok(first.rows.every((row)=>row.status==='review'));
   assert.equal(second.rows.length,3);assert.ok(second.rows.every((row)=>!first.rows.some((item)=>item.key===row.key)));
-  await assert.rejects(store.save(ORG,{id:A,name:'Too many',version:0,companyIds:Array.from({length:51},(_,i)=>`row${i}`)},NOW),/audience_invalid_input/);
+  await assert.rejects(store.save(ORG,{id:A,name:'Too many',version:0,companyIds:Array.from({length:501},(_,i)=>`row${i}`)},NOW),/audience_invalid_input/);
+});
+
+test('mobile-only corporate candidates are selectable, fixed lines are not, and selection never verifies Telegram', async()=>{
+  const db=database(),store=new AudienceStore(db.asD1());
+  company(db,'mobile','UnusedOne');company(db,'fixed','UnusedTwo');
+  db.exec("UPDATE lead_radar_companies SET telegram_contact_json='null',phone='+998901234567' WHERE id='mobile'");
+  db.exec("UPDATE lead_radar_companies SET telegram_contact_json='null',phone='+998711234567' WHERE id='fixed'");
+  const page=await store.directory(ORG,{},CAPS,NOW);
+  assert.equal(page.total,1);assert.equal(page.rows[0].lead.id,'mobile');assert.equal(page.rows[0].status,'review');
+  assert.equal(page.rows[0].lead.telegramContact,null);
+  assert.deepEqual((await store.save(ORG,{id:A,name:'Mobile candidates',version:0,companyIds:['mobile']},NOW)).companyIds,['mobile']);
+  await assert.rejects(store.save(ORG,{id:A,name:'Fixed',version:1,companyIds:['fixed']},NOW),/audience_members_unavailable/);
+});
+
+test('all-page selection larger than a campaign is durable; legacy writes cannot revive stale full selections',async()=>{
+  const db=database(),store=new AudienceStore(db.asD1());
+  const ids=Array.from({length:55},(_,i)=>`bulk_${i}`);
+  for(const id of ids)company(db,id,`Clinic_${id}`);
+  const saved=await store.save(ORG,{id:A,name:'Whole audience',version:0,companyIds:ids},NOW);
+  assert.equal(saved.companyIds.length,55);
+  assert.equal((await new AudienceStore(db.asD1()).get(ORG,A))?.companyIds.length,55);
+  assert.equal(db.sqlite.prepare('SELECT json_array_length(company_ids_json) n FROM lead_radar_audiences').get().n,50);
+  db.exec("UPDATE lead_radar_audiences SET version=version+1,company_ids_json='[]'");
+  assert.deepEqual((await store.get(ORG,A))?.companyIds,[]);
 });

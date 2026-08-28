@@ -1,6 +1,7 @@
 import type { LeadRadarLead } from './lead-radar';
 
-export const AUDIENCE_LIMIT = 50;
+/** Research selection; each approved campaign remains limited to 50. */
+export const AUDIENCE_LIMIT = 500;
 export const AUDIENCE_ID_PATTERN = /^aud_[0-9a-f]{32}$/u;
 export interface LeadRadarAudience {
   id: string;
@@ -18,6 +19,7 @@ export interface ContactDirectoryRow {
   status: ContactDirectoryStatus;
   sources: Array<{ companyId: string; searchId: string; name: string; category: string; city: string }>;
   occurrences: number;
+  memberIds?: string[];
 }
 export interface ContactDirectoryPage {
   rows: ContactDirectoryRow[];
@@ -29,4 +31,5 @@ export interface AudienceDetail {
   audience: LeadRadarAudience;
   leads: LeadRadarLead[];
   missingCompanyIds: string[];
+  excludedRecipientIds?: string[];
 }

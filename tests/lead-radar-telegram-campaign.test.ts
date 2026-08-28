@@ -77,7 +77,7 @@ async function audiencePreparation(db:SqliteD1) {
 }
 
 test('audience campaigns freeze mixed-search membership and recover independently, without sending',async()=>{
-  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql','0053_lead_radar_audience_selection.sql']);
   const input=await audiencePreparation(db);
   const created=await createApprovedTelegramCampaign(input);
   assert.equal(created.campaign.status,'approved');
@@ -90,7 +90,7 @@ test('audience campaigns freeze mixed-search membership and recover independentl
   assert.equal((await getTelegramCampaignRecovery({db:db.asD1(),orgId:ORG_B,audienceId:input.audience.audienceId,now:NOW})).active,null);
 });
 test('audience edits invalidate the exact approval even if an operator supplies the new version',async()=>{
-  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);const input=await audiencePreparation(db);
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql','0053_lead_radar_audience_selection.sql']);const input=await audiencePreparation(db);
   const store=new AudienceStore(db.asD1());
   await store.save(ORG_A,{id:input.audience.audienceId,name:'Changed',version:1,companyIds:['aud_one','aud_two']},NOW);
   await assert.rejects(createApprovedTelegramCampaign(input),/audience_version_conflict/);
@@ -98,7 +98,7 @@ test('audience edits invalidate the exact approval even if an operator supplies 
   assert.equal(db.sqlite.prepare('SELECT COUNT(*) AS n FROM lead_radar_tg_campaigns').get()!.n,0);
 });
 test('audience version race at approval consumption rolls back the entire transaction',async()=>{
-  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);const input=await audiencePreparation(db);
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql','0053_lead_radar_audience_selection.sql']);const input=await audiencePreparation(db);
   const batch=db.batch.bind(db);
   db.batch=async(statements)=>{
     if(statements.some((statement)=>statement.sql.includes('UPDATE lead_radar_tg_campaign_approvals'))) {
@@ -113,7 +113,7 @@ test('audience version race at approval consumption rolls back the entire transa
 });
 
 test('a 50-contact audience stays inside the D1 statement budget with API headroom',async(context)=>{
-  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql']);
+  const db=database([...MIGRATIONS,'0051_lead_radar_audiences.sql','0053_lead_radar_audience_selection.sql']);
   const account=await connectedAccount(db);
   const companyIds=Array.from({length:50},(_,index)=>`aud_budget_${index}`);
   for(const [index,companyId] of companyIds.entries()) {
@@ -122,7 +122,9 @@ test('a 50-contact audience stays inside the D1 statement budget with API headro
       contactBasis:BASIS,evidenceReference:`fixture-${companyId}`,expiresAt:'2026-09-01T12:00:00.000Z',
       reviewerId:'owner@example.test',idempotencyKey:`authorization_${companyId}`,now:NOW});
   }
-  const audience=await new AudienceStore(db.asD1()).save(ORG_A,{id:'aud_'+'b'.repeat(32),name:'Fifty contacts',version:0,companyIds},NOW);
+  const extraIds=Array.from({length:10},(_,i)=>`aaa_extra_${i}`);
+  extraIds.forEach((id,i)=>addCompany(db,{id,username:`ExtraAudience${i}`}));
+  const audience=await new AudienceStore(db.asD1()).save(ORG_A,{id:'aud_'+'b'.repeat(32),name:'Sixty contacts, fifty in campaign',version:0,companyIds:[...extraIds,...companyIds]},NOW);
   let statements=0;
   const originalPrepare=db.prepare.bind(db),originalBatch=db.batch.bind(db);
   db.prepare=(sql)=>{
@@ -136,7 +138,7 @@ test('a 50-contact audience stays inside the D1 statement budget with API headro
   };
   db.batch=async(items)=>{statements+=items.length;return originalBatch(items);};
   const input={db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,accountId:account.id,searchId:'search_aud_budget_0',
-    audience:{audienceId:audience.id,audienceVersion:audience.version},companyIds:audience.companyIds,
+    audience:{audienceId:audience.id,audienceVersion:audience.version},companyIds,
     template:'Здравствуйте, {company_name}. Согласованный пример.',operatorId:'owner@example.test',
     contactBasis:BASIS,idempotencyKey:'audience_budget_prepare',minIntervalSeconds:120,now:NOW};
   const prepared=await prepareTelegramCampaign(input);
@@ -145,6 +147,8 @@ test('a 50-contact audience stays inside the D1 statement budget with API headro
     approvalToken:prepared.approvalToken,expectedSelectionDigest:prepared.selectionDigest,expectedContentDigest:prepared.contentDigest});
   context.diagnostic(`50-contact audience: prepare=${preparationStatements}, create=${statements}; 15 statements reserved for API guards`);
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_recipients WHERE campaign_id=?',created.campaign.id),50);
+  assert.equal(audience.companyIds.length,60);
+  assert.equal(JSON.parse(String(db.value('SELECT company_ids_json FROM lead_radar_audience_campaigns'))).length,50);
   assert.ok(preparationStatements+15<=50,`audience prepare D1 budget: ${preparationStatements}+15`);
   assert.ok(statements+15<=50,`audience create D1 budget: ${statements}+15`);
 });
@@ -362,7 +366,7 @@ test('listing name-only evidence permits type checking but never qualifies for t
   assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_weak_listing',NOW.toISOString()),0);
 });
 
-test('published mobile resolves durably but cannot skip consent, tenant, fresh proof, account or DNC checks', async () => {
+for (const withoutUsername of [false,true]) test(`published mobile resolves durably and retains all guards (no username: ${withoutUsername})`, async () => {
   const db = database([...MIGRATIONS, '0050_lead_radar_contact_discovery.sql']);
   addCompany(db, { id: 'mobile', username: 'old_unknown', type: 'unknown' });
   setVerifiedCorporateDomain(db, 'mobile', 'mobile.example');
@@ -371,7 +375,7 @@ test('published mobile resolves durably but cannot skip consent, tenant, fresh p
   const account = await connectedAccount(db);
   let lookups = 0;
   const input = { db: db.asD1(), orgId: ORG_A, companyId: 'mobile', searchId: 'search_mobile', candidateKey: 'phone:+998901234567', accountId: account.id, now: NOW.toISOString(),
-    resolve: async () => { lookups++; return { status: 'resolved' as const, username: 'clinic_verified', reason: 'regular_user_resolved', retryAfterSeconds: null }; } };
+    resolve: async () => { lookups++; return { status: 'resolved' as const, username: withoutUsername ? null : 'clinic_verified', ...(withoutUsername ? {peerRef:`lrpeer:${'a'.repeat(32)}`} : {}), reason: 'regular_user_resolved', retryAfterSeconds: null }; } };
   assert.equal((await checkCorporateTelegramContact(input)).status, 'resolved');
   await checkCorporateTelegramContact(input);
   assert.equal(lookups, 1, 'retry reuses the stored resolution, never sends or imports a contact');
@@ -380,9 +384,16 @@ test('published mobile resolves durably but cannot skip consent, tenant, fresh p
   const resolved = JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mobile'")));
   const proofInput = { db: db.asD1(), orgId: ORG_A, companies: [{ companyId: 'mobile', contact: resolved }], now: NOW };
   assert.ok((await verifiedResolvedCorporateCompanies(proofInput)).has('mobile'));
-  assert.ok(await buildVerifiedTelegramCorporateDraftLink({ db: db.asD1(), orgId: ORG_A, companyId: 'mobile', website: 'https://mobile.example/', contact: resolved, draft: 'fixture', now: NOW }));
+  const link=await buildVerifiedTelegramCorporateDraftLink({ db: db.asD1(), orgId: ORG_A, companyId: 'mobile', website: 'https://mobile.example/', contact: resolved, draft: 'fixture', now: NOW });
+  assert.equal(Boolean(link),!withoutUsername,'opaque peers must never be turned into public links');
   const selection = await evaluateTelegramCampaignSelection({ db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id, companyIds: ['mobile'], now: NOW });
   assert.equal(selection.automatic, 0, 'resolution is not outreach authorization');
+  await authorizeTelegramCampaignContact({db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,companyId:'mobile',contactBasis:BASIS,
+    evidenceReference:'fixture-explicit-contact-approval',expiresAt:'2026-09-24T12:00:00.000Z',reviewerId:'owner@example.test',idempotencyKey:'mobile_authorization_0001',now:NOW});
+  const approved=await evaluateTelegramCampaignSelection({db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,contactBasis:BASIS,companyIds:['mobile'],now:NOW});
+  assert.equal(approved.automatic,1,'phone peer may qualify only after explicit authorization');
+  const forged={...resolved,peerRef:`lrpeer:${'b'.repeat(32)}`};
+  assert.equal((await verifiedResolvedCorporateCompanies({...proofInput,companies:[{companyId:'mobile',contact:forged}]})).size,0);
   assert.equal((await checkCorporateTelegramContact({ ...input, orgId: ORG_B })).status, 'failed');
   assert.equal(lookups, 1);
   db.exec("UPDATE lead_radar_evidence SET value='+998901234568' WHERE id='mobile-phone'");

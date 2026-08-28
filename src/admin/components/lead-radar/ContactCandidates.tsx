@@ -7,9 +7,10 @@ import { api } from '../../lib/api';
 
 function resolutionCopy(result: TelegramContactResolution): string {
   if (result.reason==='username_exists_ownership_unconfirmed') return `Аккаунт @${result.username} существует, но его принадлежность компании ещё не подтверждена. В рассылку не допускается.`;
-  if (result.status === 'resolved') return `Telegram найден: @${result.username}. Отправка не запускалась; основание для контакта проверяется отдельно.`;
+  if (result.status === 'resolved') return `${result.username ? `Telegram найден: @${result.username}` : 'Telegram найден по номеру, без публичного username'}. Отправка не запускалась; основание для контакта проверяется отдельно.`;
   if (result.status === 'pending') return 'Ждём ответ Bridge. Ничего не отправляем.';
-  if (result.reason === 'bridge_update_required') return 'Нужно обновить локальный Bridge до 1.4.0.';
+  if (result.reason === 'bridge_update_required') return 'Нужно обновить локальный Bridge до 1.5.0.';
+  if (result.reason === 'peer_access_unavailable') return 'Telegram не вернул доступный адресат. Повторите проверку позже; номер не считается готовым к отправке.';
   if (result.reason === 'bridge_offline') return 'Bridge не в сети. Запустите программу на компьютере.';
   if (result.reason === 'no_public_username') return 'Аккаунт найден, но у него нет публичного username. Автоматическая отправка по этому номеру пока недоступна.';
   if (result.status === 'limited') return `Telegram ограничил проверки. Пауза: ${result.retryAfterSeconds ?? 60} сек. Автоповтора нет.`;
@@ -49,7 +50,7 @@ export function ContactCandidates({ candidates = [], enrichment, searchId, compa
   return <details className="mt-3 rounded-xl border border-white/10 p-3 text-xs text-white/70">
     <summary className="cursor-pointer py-1 font-medium">Найденные контакты и причины исключения ({candidates.length})</summary>
     {enrichment && <p className="mt-2 leading-5">Поиск публичных контактов: {enrichment.reason==='public_contact_candidates' ? 'найдены контакты в карточках бизнеса; тип аккаунта проверяется через Bridge'
-      : enrichment.status==='limited' ? 'остановлен по лимиту расходов; результат не означает отсутствие Telegram'
+      : enrichment.status==='limited' ? `${({daily_budget_exhausted:'исчерпан дневной лимит Firecrawl',search_budget_exhausted:'исчерпан лимит этого поиска',company_budget_exhausted:'исчерпан лимит проверки этой компании',domain_budget_exhausted:'исчерпан лимит источника',credits_exhausted:'закончились кредиты Firecrawl'} as Record<string,string>)[enrichment.reason] ?? 'остановлен по лимиту расходов'}; результат не означает отсутствие Telegram`
         : enrichment.status==='unavailable' ? 'источник недоступен; отсутствие контакта не подтверждено'
           : enrichment.reason==='shadow_only' ? 'тестовый режим без добавления контактов' : 'в проверенных источниках подходящих контактов не найдено'}.</p>}
     <ul className="mt-3 space-y-3">

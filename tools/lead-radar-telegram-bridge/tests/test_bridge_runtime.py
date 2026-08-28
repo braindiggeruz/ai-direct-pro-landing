@@ -249,6 +249,39 @@ def validate_media_command() -> BridgeCommand:
 
 
 class BridgeRuntimeTests(unittest.IsolatedAsyncioTestCase):
+    async def test_peer_binding_is_saved_before_ack_and_bound_to_finalized_account(self) -> None:
+        command = BridgeCommand(COMMAND_ID, "resolve_contact", 1, iso_after(90), {"account_ref": ACCOUNT_REF, "target": {"kind": "phone", "value": "+998901234567"}})
+        with tempfile.TemporaryDirectory() as folder:
+            runtime, ledger, _mailbox, telegram, state = self.make_runtime(folder, command)
+            try:
+                ledger.put_auth_custody(auth_id=AUTH_ID, command_id=COMMAND_ID, account_ref=ACCOUNT_REF, state="finalized", expires_at=int(time.time()) + 600)
+                state["telegram"].update({"custody":"finalized","account_ref":ACCOUNT_REF,"auth_id":AUTH_ID})
+                ref="lrpeer:" + "a" * 32
+                bindings={ref:{"user_id":123,"access_hash":-456,"expires_at":int(time.time())+86400}}
+                telegram.restore_peer_bindings=mock.Mock()
+                telegram.peer_bindings=bindings
+                telegram.resolve_public_contact=mock.AsyncMock(return_value={"status":"resolved","username":None,"peerRef":ref,"reason":"regular_user_resolved","retryAfterSeconds":None})
+                result=await runtime._resolve_contact(command)
+                self.assertEqual(result["result"]["peerRef"],ref)
+                self.assertTrue(runtime.vault.saved)
+                self.assertEqual(state["resolved_peers"],{"account_ref":ACCOUNT_REF,"auth_id":AUTH_ID,"bindings":bindings})
+                runtime._restore_account_peers(ACCOUNT_REF)
+                telegram.restore_peer_bindings.assert_called_with(bindings)
+                state["resolved_peers"]["auth_id"]="previous-login"
+                runtime._restore_account_peers(ACCOUNT_REF)
+                telegram.restore_peer_bindings.assert_called_with({})
+                state["resolved_peers"]["account_ref"]="another-account"
+                runtime._restore_account_peers(ACCOUNT_REF)
+                telegram.restore_peer_bindings.assert_called_with({})
+                state["telegram"]["custody"]="revoked"
+                with self.assertRaises(ProtocolError):
+                    runtime._restore_account_peers(ACCOUNT_REF)
+                runtime._wipe_session_after_confirmed_logout()
+                self.assertNotIn("resolved_peers",state)
+                self.assertEqual(telegram.text_calls+telegram.photo_calls,0)
+            finally:
+                ledger.close()
+
     async def test_contact_lookup_floodwait_survives_and_never_sends(self) -> None:
         command = BridgeCommand(COMMAND_ID, "resolve_contact", 1, iso_after(90), {"account_ref": ACCOUNT_REF, "target": {"kind": "phone", "value": "+998901234567"}})
         with tempfile.TemporaryDirectory() as folder:

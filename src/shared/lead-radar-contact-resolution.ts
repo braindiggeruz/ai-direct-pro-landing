@@ -1,7 +1,9 @@
+import { isTelegramPeerRef } from './lead-radar-telegram-endpoint';
 export interface TelegramContactTarget { kind: 'username' | 'phone' | 'business_link'; value: string }
 export interface TelegramContactResolution {
   status: 'pending' | 'resolved' | 'unresolved' | 'unsupported' | 'limited' | 'failed';
   username: string | null;
+  peerRef?: string;
   reason: string;
   retryAfterSeconds: number | null;
 }
@@ -16,10 +18,11 @@ export function validTelegramContactTarget(value: unknown): value is TelegramCon
 export function validTelegramContactResolution(value: unknown): value is TelegramContactResolution {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
   const item = value as Record<string, unknown>;
-  return Object.keys(item).sort().join(',') === 'reason,retryAfterSeconds,status,username'
+  return ['reason,retryAfterSeconds,status,username','peerRef,reason,retryAfterSeconds,status,username'].includes(Object.keys(item).sort().join(','))
     && ['pending','resolved','unresolved','unsupported','limited','failed'].includes(String(item.status))
     && (item.username === null || typeof item.username === 'string' && /^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(item.username))
-    && (item.status !== 'resolved' || item.username !== null)
+    && (item.peerRef === undefined || item.status === 'resolved' && isTelegramPeerRef(item.peerRef))
+    && (item.status !== 'resolved' || item.username !== null || isTelegramPeerRef(item.peerRef))
     && (item.status === 'resolved' || item.username === null)
     && typeof item.reason === 'string' && /^[a-z][a-z0-9_]{2,79}$/.test(item.reason)
     && (item.retryAfterSeconds === null || typeof item.retryAfterSeconds === 'number'

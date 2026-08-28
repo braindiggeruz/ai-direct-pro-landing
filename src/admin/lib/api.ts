@@ -924,7 +924,7 @@ export const api = {
     { timeoutMs: 30_000, headers: { 'Idempotency-Key': idempotencyKey } },
   ),
 
-  leadRadarContactDirectory: (query: {q?:string;category?:string;city?:string;offset?:number} = {}) =>
+  leadRadarContactDirectory: (query: {q?:string;category?:string;city?:string;offset?:number;status?:string} = {}) =>
     request<import('../../shared/lead-radar-audiences').ContactDirectoryPage>('GET',
       `/api/admin/lead-radar/telegram-contacts?${new URLSearchParams(Object.entries(query).map(([key,value])=>[key,String(value)]))}`,
       undefined,{timeoutMs:30_000}),

@@ -1,4 +1,5 @@
 import { DurableObject } from 'cloudflare:workers';
+import { isCampaignEndpoint, isTelegramPeerRef } from '../../src/shared/lead-radar-telegram-endpoint';
 import { validTelegramContactTarget, validTelegramContactResolution, type TelegramContactResolution } from '../../src/shared/lead-radar-contact-resolution';
 
 import {
@@ -39,7 +40,6 @@ import {
   OPERATION_ID_PATTERN,
   ORG_ID_PATTERN,
   TELEGRAM_ACCOUNT_SERVICE_SCHEMA,
-  USERNAME_PATTERN,
   hasExactKeys,
   jsonResponse,
   noContentResponse,
@@ -2361,7 +2361,7 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
       || !ACCOUNT_REF_PATTERN.test(body.account_ref)
       || body.account_ref !== await this.accountRef(body.org_id)
       || typeof body.username !== 'string'
-      || !USERNAME_PATTERN.test(body.username)
+      || !isCampaignEndpoint(body.username)
       || !validMessage(body.text, body.media_ref ? 1_024 : 4_096)
       || typeof body.random_id !== 'string'
       || !OPERATION_ID_PATTERN.test(body.random_id)
@@ -2380,6 +2380,10 @@ export class LeadRadarTelegramBridgeMailbox extends DurableObject<TelegramBridge
     const media = body.media_ref && bridgeRecord(body.media_ref)
       ? this.parseMediaReference(body.media_ref, account.orgId)
       : null;
+    const [bridgeMajor, bridgeMinor] = device.bridgeVersion.split('.').map(Number);
+    if (isTelegramPeerRef(body.username) && !(bridgeMajor > 1 || bridgeMajor === 1 && bridgeMinor >= 5)) {
+      return jsonResponse({ schema: TELEGRAM_ACCOUNT_SERVICE_SCHEMA, status: 'rejected', code: 'account_restricted' });
+    }
     if (body.media_ref && !media) return safeErrorResponse('invalid_request');
     const payloadDigest = await telegramMessagePayloadDigest({
       accountRef: body.account_ref,

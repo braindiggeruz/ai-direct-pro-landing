@@ -25,7 +25,7 @@ export async function loadContactEnrichments(db: D1Database, orgId: string,
   if (!companies.length || !await contactSourceSchemaReady(db)) return result;
   const rows = (await db.prepare(`SELECT company_id,identity_digest,status,reason,sources_json,checked_at,expires_at
     FROM lead_radar_contact_enrichments WHERE org_id=? AND company_id IN (SELECT value FROM json_each(?)) AND expires_at>?`)
-    .bind(orgId,JSON.stringify(companies.map((c) => c.id).slice(0,250)),now).all<Row>()).results ?? [];
+    .bind(orgId,JSON.stringify(companies.map((c) => c.id).slice(0,500)),now).all<Row>()).results ?? [];
   for (const row of rows) {
     const company = companies.find((c) => c.id === row.company_id);
     if (!company || await contactIdentityDigest(company) !== row.identity_digest || Date.parse(row.checked_at) > Date.parse(now)+300_000) continue;

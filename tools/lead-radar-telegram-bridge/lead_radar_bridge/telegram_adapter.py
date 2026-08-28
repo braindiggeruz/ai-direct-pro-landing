@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import asyncio
+import re
+import secrets
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Awaitable, Callable
@@ -111,6 +114,21 @@ class TelethonAccount:
         self.auth_id: str | None = None
         self.pending_phone: str | None = None
         self.pending_phone_code_hash: str | None = None
+        self.peer_bindings: dict[str, dict[str, int]] = {}
+
+    def restore_peer_bindings(self, bindings: object) -> None:
+        """Called only with the current finalized account's DPAPI state."""
+        self.peer_bindings = {}
+        if not isinstance(bindings, dict):
+            return
+        for key, value in list(bindings.items())[-500:]:
+            if (isinstance(key, str) and re.fullmatch(r"lrpeer:[a-f0-9]{32}", key)
+                and isinstance(value, dict)
+                and all(isinstance(value.get(field), int) and not isinstance(value.get(field), bool)
+                        for field in ("user_id", "access_hash", "expires_at"))
+                and 0 < value["user_id"] < 2**63 and -(2**63) <= value["access_hash"] < 2**63
+                and value["access_hash"] != 0 and time.time() < value["expires_at"] <= time.time() + 86_405):
+                self.peer_bindings[key] = {field: value[field] for field in ("user_id", "access_hash", "expires_at")}
 
     @staticmethod
     def _default_factory(session: str, api_id: int, api_hash: str) -> Any:
@@ -123,7 +141,7 @@ class TelethonAccount:
             StringSession(session), api_id, api_hash,
             timeout=10, connection_retries=1, request_retries=1,
             retry_delay=1, flood_sleep_threshold=0, raise_last_call_error=True,
-            device_model="Lead Radar Windows Bridge", app_version="1.4.0",
+            device_model="Lead Radar Windows Bridge", app_version="1.5.0",
         )
 
     async def _request(self, request: Awaitable[Any]) -> Any:
@@ -316,9 +334,19 @@ class TelethonAccount:
             if entity is None or entity.bot or entity.deleted:
                 return {**result, "status": "unsupported", "reason": "not_regular_user"}
             username = getattr(entity, "username", None)
-            if not isinstance(username, str) or not __import__("re").fullmatch(r"[A-Za-z][A-Za-z0-9_]{4,31}", username):
-                return {**result, "status": "unsupported", "reason": "no_public_username"}
-            return {**result, "status": "resolved", "username": username, "reason": "regular_user_resolved"}
+            if not isinstance(username, str) or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{4,31}", username):
+                username = None
+            access_hash = getattr(entity, "access_hash", None)
+            if isinstance(access_hash, int) and access_hash:
+                existing = next((key for key, binding in self.peer_bindings.items() if binding["user_id"] == entity.id), None)
+                if not existing and len(self.peer_bindings) >= 500:
+                    return {**result, "status": "limited", "reason": "peer_store_full", "retryAfterSeconds": 3600}
+                peer_ref = existing or "lrpeer:" + secrets.token_hex(16)
+                self.peer_bindings[peer_ref] = {"user_id": entity.id, "access_hash": access_hash, "expires_at": int(time.time()) + 86_400}
+                return {**result, "status": "resolved", "username": username, "peerRef": peer_ref, "reason": "regular_user_resolved"}
+            if username:
+                return {**result, "status": "resolved", "username": username, "reason": "regular_user_resolved"}
+            return {**result, "status": "unresolved", "reason": "peer_access_unavailable"}
         except Exception as error:
             code = error.__class__.__name__
             if "Flood" in code or "SlowMode" in code:
@@ -336,12 +364,20 @@ class TelethonAccount:
             raise TelegramBridgeError("telethon_dependency_missing") from exc
         # Prefixing with `@` forces username resolution. Passing a bare digit
         # sequence lets Telethon interpret it as an id/phone/contact lookup.
-        entity = await self._request(client.get_entity(f"@{endpoint}"))
+        binding = self.peer_bindings.get(endpoint) if endpoint.startswith("lrpeer:") else None
+        if endpoint.startswith("lrpeer:"):
+            if not binding or binding["expires_at"] <= time.time():
+                raise PeerNotRegularUserError("peer_recheck_required")
+            from telethon.tl.types import InputPeerUser
+            entity = await self._request(client.get_entity(InputPeerUser(binding["user_id"], binding["access_hash"])))
+        else:
+            entity = await self._request(client.get_entity(f"@{endpoint}"))
         if (not isinstance(entity, User)
             or bool(getattr(entity, "bot", False))
             or bool(getattr(entity, "deleted", False))
-            or not isinstance(getattr(entity, "username", None), str)
-            or entity.username.casefold() != endpoint.casefold()):
+            or (binding is not None and entity.id != binding["user_id"])
+            or (binding is None and (not isinstance(getattr(entity, "username", None), str)
+                                    or entity.username.casefold() != endpoint.casefold()))):
             raise PeerNotRegularUserError("peer_not_regular_user")
         return client, entity
 

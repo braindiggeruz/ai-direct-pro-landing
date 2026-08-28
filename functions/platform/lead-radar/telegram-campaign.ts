@@ -1,5 +1,6 @@
 import type { LeadRadarTelegramContact, TelegramContactType } from './types';
 import type { AudienceScope } from '../../../src/shared/lead-radar-audiences';
+import { telegramContactEndpoint } from '../../../src/shared/lead-radar-telegram-endpoint';
 import { AudienceStore,requireAudienceSchema } from './audiences';
 import {
   buildVerifiedTelegramCorporateDraftLink,
@@ -44,7 +45,6 @@ const APPROVAL_TTL_MS = 10 * 60_000;
 const CLAIM_LEASE_MS = 2 * 60_000;
 const DEFAULT_INTERVAL_SECONDS = LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS;
 const MAX_PROVIDER_WAIT_SECONDS = 2_147_483_647;
-const USERNAME_PATTERN = /^[A-Za-z0-9_]{5,32}$/u;
 const ACCOUNT_ID_PATTERN = /^lrtgua_[0-9a-f]{32}$/u;
 const CAMPAIGN_ID_PATTERN = /^lrtgcp_[0-9a-f]{32}$/u;
 const APPROVAL_TOKEN_PATTERN = /^lrtgca_[A-Za-z0-9_-]{43}$/u;
@@ -674,7 +674,7 @@ async function evaluateSelectionInternal(input: {
     ? await Promise.all(rows.flatMap((company) => {
       const contact = contactsById.get(company.id);
       return contact?.type === 'business'
-        && USERNAME_PATTERN.test(contact.username)
+        && telegramContactEndpoint(contact)
         && verifiedBusinessCompanyIds.has(company.id)
         && company.suppressed !== 1
         && company.lifecycle !== 'do_not_contact'
@@ -682,7 +682,7 @@ async function evaluateSelectionInternal(input: {
           digest(
             input.dataKey as string,
             'campaign-endpoint',
-            [input.orgId, contact.username.toLowerCase()],
+            [input.orgId, telegramContactEndpoint(contact)!],
           ),
           frozenBusinessIdentities(input.dataKey as string, input.orgId, company),
         ]).then(([endpointDigest, businessIdentities]) => ({
@@ -749,7 +749,7 @@ async function evaluateSelectionInternal(input: {
       continue;
     }
     if (!verifiedBusinessCompanyIds.has(companyId)
-      || !USERNAME_PATTERN.test(contact.username)) {
+      || !telegramContactEndpoint(contact)) {
       items.push({
         companyId,
         name: company.name,
@@ -813,7 +813,7 @@ async function evaluateSelectionInternal(input: {
     verifiedRecipients.push({
       companyId,
       name: company.name,
-      username: contact.username.toLowerCase(),
+      username: telegramContactEndpoint(contact)!,
       contactJson: company.telegram_contact_json,
       businessIdentities,
       authorization,
@@ -921,10 +921,12 @@ export async function authorizeTelegramCampaignContact(input: {
     fail('telegram_campaign_eligibility_required');
   }
   const contact = parseContact(company.telegram_contact_json);
-  if (!contact || contact.type !== 'business' || !USERNAME_PATTERN.test(contact.username)) {
+  if (!contact || !telegramContactEndpoint(contact)) {
     fail('telegram_campaign_eligibility_required');
   }
-  const verified = await buildVerifiedTelegramCorporateDraftLink({
+  const verified = contact.peerRef ? (await verifiedTelegramCampaignBusinessCompanyIds({
+    db:input.db,orgId:input.orgId,companies:[{companyId:company.id,website:company.website,contact}],now,
+  })).has(company.id) : await buildVerifiedTelegramCorporateDraftLink({
     db: input.db,
     orgId: input.orgId,
     companyId: input.companyId,
@@ -940,7 +942,7 @@ export async function authorizeTelegramCampaignContact(input: {
     reviewerDigest,
     idempotencyKeyDigest,
   ] = await Promise.all([
-    digest(input.dataKey, 'campaign-endpoint', [input.orgId, contact.username.toLowerCase()]),
+    digest(input.dataKey, 'campaign-endpoint', [input.orgId, telegramContactEndpoint(contact)!]),
     digest(input.dataKey, 'campaign-evidence-reference', [input.orgId, evidenceReference]),
     digest(input.dataKey, 'campaign-reviewer', [input.orgId, reviewerId]),
     digest(input.dataKey, 'campaign-authorization-idempotency', [
@@ -1960,9 +1962,7 @@ export async function claimNextTelegramCampaignRecipient(input: {
 
 function contactUsername(contactJson: string): string | null {
   const contact = parseContact(contactJson);
-  return contact?.type === 'business' && USERNAME_PATTERN.test(contact.username)
-    ? contact.username.toLowerCase()
-    : null;
+  return telegramContactEndpoint(contact);
 }
 
 function safeProviderErrorCode(value: string): string {

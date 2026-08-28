@@ -7,6 +7,7 @@ import { contactDiscoverySchemaReady } from './contact-discovery-store';
 import { loadContactEnrichments } from './contact-source-store';
 import type { LeadRadarContactEnrichment } from '../../../src/shared/lead-radar-contact-sources';
 import { publicContactSourceUrl } from './public-contact-discovery';
+import { isTelegramPeerRef } from '../../../src/shared/lead-radar-telegram-endpoint';
 
 const RESOLVED_REASON = 'bridge_resolved_corporate';
 interface CompanyRow { id: string; search_id: string; name:string; city:string; address:string|null; country: string; phone: string | null; suppressed: number; lifecycle: string; website: string | null }
@@ -59,12 +60,12 @@ export async function countResolvedCorporateContacts(db: D1Database, orgId: stri
   try { account = await db.prepare("SELECT id FROM lead_radar_tg_user_accounts WHERE org_id=? AND status='connected' LIMIT 1").bind(orgId).first<{id:string}>(); }
   catch { return 0; }
   if (!account) return 0;
-  const row = await db.prepare(`SELECT COUNT(DISTINCT lower(json_extract(c.result_json,'$.username'))) AS count
+  const row = await db.prepare(`SELECT COUNT(DISTINCT COALESCE(json_extract(c.result_json,'$.peerRef'),lower(json_extract(c.result_json,'$.username')))) AS count
     FROM lead_radar_contact_checks c JOIN lead_radar_companies p ON p.org_id=c.org_id AND p.id=c.company_id
     WHERE c.org_id=? AND c.search_id=? AND c.status='resolved' AND c.expires_at>? AND c.account_digest=?
       AND c.result_json IS NOT NULL AND p.suppressed=0 AND p.lifecycle<>'do_not_contact'
       AND json_extract(p.telegram_contact_json,'$.reason')='bridge_resolved_corporate'
-      AND lower(json_extract(p.telegram_contact_json,'$.username'))=lower(json_extract(c.result_json,'$.username'))`)
+      AND COALESCE(json_extract(p.telegram_contact_json,'$.peerRef'),lower(json_extract(p.telegram_contact_json,'$.username')))=COALESCE(json_extract(c.result_json,'$.peerRef'),lower(json_extract(c.result_json,'$.username')))`)
     .bind(orgId,searchId,now,await hash(account.id)).first<{count:number}>();
   return Number(row?.count ?? 0);
 }
@@ -116,9 +117,10 @@ export async function checkCorporateTelegramContact(input: {
   const authoritative = settled && settled.created_at === row.created_at && settled.expires_at > now ? parseResult(settled) : null;
   if (!authoritative) return reject('check_superseded');
   result = authoritative;
-  if (result.status === 'resolved' && result.username) {
+  if (result.status === 'resolved' && (result.username || isTelegramPeerRef(result.peerRef))) {
     const corporate=candidate.ownership==='company';
-    const contact: LeadRadarTelegramContact = { url: `https://t.me/${result.username}`, username: result.username, type: corporate ? 'business' : 'unknown',
+    const contact: LeadRadarTelegramContact = { url: result.username ? `https://t.me/${result.username}` : '', username: result.username ?? '',
+      ...(result.peerRef ? {peerRef:result.peerRef} : {}), type: corporate ? 'business' : 'unknown',
       reason: corporate ? RESOLVED_REASON : 'bridge_resolved_unconfirmed', confidence: corporate ? 0.9 : 0.5, verifiedAt: now, evidenceIds: candidate.evidenceIds, messageable: false };
     // No consent/authorization is created. Every sender check revalidates the
     // stored result, account, current source proof and DNC before using this link.
@@ -163,7 +165,8 @@ export async function verifiedResolvedCorporateCompanies(input: {
     for (const candidate of candidates(company,companyEvidence,now,enrichment).filter((c) => c.ownership==='company')) {
       const [candidateDigest,proofDigest] = await Promise.all([hash(candidate.key),proof(candidate,companyEvidence,enrichment)]);
       if (checks.some((row) => row.company_id === company.id && row.candidate_digest === candidateDigest && row.proof_digest === proofDigest
-        && parseResult(row)?.username?.toLowerCase() === expected.username.toLowerCase())) valid.add(company.id);
+        && (expected.peerRef ? isTelegramPeerRef(expected.peerRef) && parseResult(row)?.peerRef === expected.peerRef
+          : Boolean(expected.username) && parseResult(row)?.username?.toLowerCase() === expected.username.toLowerCase()))) valid.add(company.id);
     }
   }
   return valid;

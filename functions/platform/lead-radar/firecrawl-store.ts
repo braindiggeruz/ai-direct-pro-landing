@@ -120,6 +120,31 @@ export class FirecrawlStore {
     return result.meta.changes === 1 ? id : null;
   }
 
+  /** Diagnostic only after a failed atomic reservation; never releases credits. */
+  async reservationBlockReason(ctx: FirecrawlJobContext, operation: 'search'|'map'|'scrape', domain: string, limits: FirecrawlLimits, now: string): Promise<string> {
+    const day=`${now.slice(0,10)}T00:00:00.000Z`, credits=operation==='search'?2:1;
+    const row=await this.db.prepare(`SELECT
+      NOT EXISTS (SELECT 1 FROM lead_radar_jobs WHERE id=? AND org_id=? AND search_id=? AND company_id=?
+        AND status='running' AND lease_owner=? AND lease_generation=? AND lease_expires_at>?) AS lease_lost,
+      NOT EXISTS (SELECT 1 FROM lead_radar_companies WHERE id=? AND org_id=? AND suppressed=0) AS excluded,
+      (SELECT error_code FROM lead_radar_firecrawl_control WHERE id='account' AND blocked_until>?) AS blocked,
+      (SELECT COALESCE(SUM(credits),0) FROM lead_radar_firecrawl_requests WHERE created_at>=?) AS daily,
+      (SELECT COALESCE(SUM(credits),0) FROM lead_radar_firecrawl_requests WHERE org_id=? AND search_id=?) AS search,
+      (SELECT COALESCE(SUM(credits),0) FROM lead_radar_firecrawl_requests WHERE org_id=? AND domain=? AND created_at>=?) AS domain,
+      (SELECT COALESCE(SUM(r.credits),0) FROM lead_radar_firecrawl_requests r JOIN lead_radar_jobs j ON j.org_id=r.org_id AND j.id=r.job_id
+        WHERE r.org_id=? AND j.company_id=?) AS company`).bind(ctx.jobId,ctx.orgId,ctx.searchId,ctx.companyId,ctx.leaseOwner,ctx.leaseGeneration,now,
+      ctx.companyId,ctx.orgId,now,day,ctx.orgId,ctx.searchId,ctx.orgId,domain,day,ctx.orgId,ctx.companyId)
+      .first<{lease_lost:number;excluded:number;blocked:string|null;daily:number;search:number;domain:number;company:number}>();
+    if (!row || row.lease_lost) return 'lease_lost';
+    if (row.excluded) return 'contact_excluded';
+    if (row.blocked) return row.blocked;
+    if (row.daily+credits>limits.dailyCredits) return 'daily_budget_exhausted';
+    if (row.search+credits>limits.searchCredits) return 'search_budget_exhausted';
+    if (row.domain+credits>limits.domainCredits) return 'domain_budget_exhausted';
+    if (row.company+credits>limits.companyCredits) return 'company_budget_exhausted';
+    return 'reservation_conflict';
+  }
+
   async finish(id: string, state: 'completed' | 'failed' | 'unknown', value: unknown,
     code: string | null, retryAt: string | null, now: string): Promise<void> {
     // A successful decoder may legitimately find nothing. Persist JSON null,

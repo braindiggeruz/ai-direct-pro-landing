@@ -21,13 +21,14 @@ import {
   UsersRound,
 } from 'lucide-react';
 import type { LeadRadarLead, LeadRadarTelegramAccountReadiness } from '../../../shared/lead-radar';
+import { AUDIENCE_LIMIT } from '../../../shared/lead-radar-audiences';
+import { mobileOrUsernameLeadIds, recipientContactChoices, recipientContactSummary } from '../../../shared/lead-radar-recipient-contacts';
 import { api } from '../../lib/api';
 import { awaitTelegramPhoneChallenge } from '../../lib/lead-radar-telegram-auth';
 import {
   automaticCampaignLeadIds,
   boundCampaignTemplate,
   campaignMessageLimit,
-  campaignDraftCandidateLeadIds,
   campaignFromRecovery,
   campaignResumeBlockReason,
   classifyCampaignLeadLocally,
@@ -75,6 +76,7 @@ export interface TelegramAccountCampaignPanelProps {
   searchId?: string;
   audience?: { audienceId: string; audienceVersion: number };
   initialSelectedLeadIds?: string[];
+  excludedRecipientIds?: string[];
   leads: LeadRadarLead[];
   initialTemplate: string;
   telegramAccountEnabled: boolean;
@@ -630,6 +632,7 @@ export function TelegramAccountCampaignPanel({
   searchId: sourceSearchId,
   audience,
   initialSelectedLeadIds,
+  excludedRecipientIds,
   leads,
   initialTemplate,
   telegramAccountEnabled,
@@ -733,6 +736,7 @@ export function TelegramAccountCampaignPanel({
   const bridgeRevokeRequestKey = useRef<string | null>(null);
   const disconnectRequestKey = useRef<string | null>(null);
   const prepareRequestKey = useRef<string | null>(null);
+  const preparedCompanyIds = useRef<string[]>([]);
   const createRequestKey = useRef<string | null>(null);
   const mediaUploadRequestKey = useRef<string | null>(null);
   const mediaValidationSequence = useRef(0);
@@ -1131,8 +1135,10 @@ export function TelegramAccountCampaignPanel({
 
   const selectedLeads = useMemo(() => leads.filter((lead) => selectedLeadIds.has(lead.id)), [leads, selectedLeadIds]);
   const selectedCorporateCandidates = useMemo(
-    () => selectedLeads.filter((lead) => classifyCampaignLeadLocally(lead).classification === 'automatic'),
-    [selectedLeads],
+    () => selectedLeads.filter((lead) => !excludedRecipientIds?.includes(lead.id)
+      && !['contacted','replied','qualified','meeting','won'].includes(lead.lifecycle)
+      && classifyCampaignLeadLocally(lead).classification === 'automatic'),
+    [selectedLeads,excludedRecipientIds],
   );
   const authorizationLead = selectedCorporateCandidates
     .find((lead) => lead.id === authorizationLeadId) ?? null;
@@ -1169,7 +1175,7 @@ export function TelegramAccountCampaignPanel({
     return summary;
   }, { automatic: 0, manual: 0, excluded: 0 }), [selectedLeads]);
   const automaticLeadIds = useMemo(() => automaticCampaignLeadIds(leads), [leads]);
-  const draftCandidateLeadIds = useMemo(() => campaignDraftCandidateLeadIds(leads), [leads]);
+  const draftCandidateLeadIds = useMemo(() => mobileOrUsernameLeadIds(leads), [leads]);
   const uniqueFoundLeadCount = useMemo(() => new Set(leads.map((lead) => lead.id)).size, [leads]);
   const telegramLeadCount = useMemo(() => {
     const ids = new Set<string>();
@@ -1373,6 +1379,8 @@ export function TelegramAccountCampaignPanel({
 
   function startNewDraftAfterTerminalCampaign(): void {
     if (!campaign || !isCampaignTerminal(campaign.status)) return;
+    // A new batch never silently reuses the previous approved snapshot.
+    setSelectedLeadIds((current)=>new Set([...current].filter((id)=>!preparedCompanyIds.current.includes(id))));
     setCampaign(null);
     invalidatePreparation();
     setOperationNotice('Завершённая кампания закрыта. Редактор нового оффера разблокирован.');
@@ -1386,15 +1394,15 @@ export function TelegramAccountCampaignPanel({
 
   function toggleLead(lead: LeadRadarLead): void {
     if (audience) return;
-    if (!isCampaignDraftCandidateLead(lead) || operationBusy || campaign) return;
+    if (!recipientContactChoices(lead).selectable || operationBusy || campaign) return;
     const next = new Set(selectedLeadIds);
     if (next.has(lead.id)) {
       next.delete(lead.id);
-    } else if (next.size < LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT) {
+    } else if (next.size < AUDIENCE_LIMIT) {
       next.add(lead.id);
     } else {
       setOperationError(true);
-      setOperationNotice('В одной кампании можно выбрать не более 50 компаний.');
+      setOperationNotice(`Для подготовки можно выбрать до ${AUDIENCE_LIMIT} контактов. В одной кампании — до 50 проверенных адресатов.`);
       return;
     }
     setSelectedLeadIds(next);
@@ -1404,17 +1412,18 @@ export function TelegramAccountCampaignPanel({
   function selectAllFound(): void {
     if (audience) return;
     if (operationBusy || campaign) return;
-    setSelectedLeadIds(new Set(draftCandidateLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)));
+    if (draftCandidateLeadIds.length > AUDIENCE_LIMIT) {
+      setOperationError(true);
+      setOperationNotice(`Найдено больше ${AUDIENCE_LIMIT} контактов. Уточните фильтр в общей базе. Частичный выбор не выполнен.`);
+      return;
+    }
+    setSelectedLeadIds(new Set(draftCandidateLeadIds));
     invalidatePreparation();
     const excludedFromDelivery = draftCandidateLeadIds
-      .slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT)
       .filter((leadId) => !automaticLeadIds.includes(leadId)).length;
-    if (draftCandidateLeadIds.length > LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT) {
+    if (draftCandidateLeadIds.length > 0) {
       setOperationError(false);
-      setOperationNotice(`В черновик добавлены первые 50 из ${draftCandidateLeadIds.length} найденных компаний. ${excludedFromDelivery} без готового Telegram останутся кандидатами и не будут отправлены.`);
-    } else if (draftCandidateLeadIds.length > 0) {
-      setOperationError(false);
-      setOperationNotice(`В черновик добавлены ${draftCandidateLeadIds.length} найденных компаний. ${excludedFromDelivery} без готового Telegram останутся кандидатами и не будут отправлены.`);
+      setOperationNotice(`Выбраны все ${draftCandidateLeadIds.length} контактов с мобильным или username. ${excludedFromDelivery} ещё нуждаются в проверке Telegram. Для одной кампании проверяются до 50 корпоративных адресатов; остальные остаются в выборе. Ничего не отправлено.`);
     }
   }
 
@@ -1851,15 +1860,17 @@ export function TelegramAccountCampaignPanel({
     setOperationNotice(null);
     setOperationError(false);
     try {
+      const requestCompanyIds=selectedCorporateCandidates.slice(0,LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT).map((lead)=>lead.id);
       const next = await api.leadRadarPrepareTelegramCampaign({
         accountId,
         ...campaignSource,
-        leadIds: [...selectedLeadIds],
+        leadIds: requestCompanyIds,
         template,
         contactBasis,
         attachment: attachmentReference,
       }, requestKey);
       if (!validPreparation(next)) throw Object.assign(new Error('Invalid campaign preparation'), { status: 502 });
+      preparedCompanyIds.current=requestCompanyIds;
       prepareRequestKey.current = null;
       setPreparationClock(Date.now());
       setPreparation(next);
@@ -1931,7 +1942,7 @@ export function TelegramAccountCampaignPanel({
 
   async function createAndStartCampaign(): Promise<void> {
     const accountId = accountConnectionId;
-    if (!createReady || !preparation || !accountId || !contactBasis) return;
+    if (!createReady || !preparation || !accountId || !contactBasis || preparedCompanyIds.current.length===0) return;
     const requestKey = createRequestKey.current ?? `lead-radar-campaign-create-ui-${crypto.randomUUID()}`;
     createRequestKey.current = requestKey;
     setOperationBusy(true);
@@ -1942,7 +1953,7 @@ export function TelegramAccountCampaignPanel({
       const response = await api.leadRadarCreateTelegramCampaign({
         accountId,
         ...campaignSource,
-        leadIds: [...selectedLeadIds],
+        leadIds: [...preparedCompanyIds.current],
         template,
         contactBasis,
         approvalToken: preparation.approvalToken,
@@ -2046,7 +2057,7 @@ export function TelegramAccountCampaignPanel({
     && bridgeStatus !== 'revoked';
   const accountQuickAction = telegramAccountQuickAction(accountStatus, telegramAccountEnabled);
   const canRequestConnection = accountQuickAction === 'connect' && !accountReadinessBlocked;
-  const foundSelectionIds = draftCandidateLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT);
+  const foundSelectionIds = draftCandidateLeadIds;
   const readySelectionIds = automaticLeadIds.slice(0, LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT);
   const allFoundSelected = foundSelectionIds.length > 0
     && foundSelectionIds.every((leadId) => selectedLeadIds.has(leadId));
@@ -2111,7 +2122,7 @@ export function TelegramAccountCampaignPanel({
       ? 'Проверяем на сервере, есть ли активная кампания. Ничего не отправляется.'
       : draftCandidateLeadIds.length === 0
         ? 'Нет компаний, которые можно добавить: записи «Не связываться» всегда исключаются.'
-        : 'Компании без Telegram можно сохранить в черновике, но сервер не допустит их к отправке. Записи «Не связываться» всегда исключаются.';
+        : 'Выбор включает мобильные номера и Telegram-username, но не означает готовность к отправке. Подготовка кампании проверяет до 50 корпоративных Telegram-кандидатов; остальные остаются для проверки. Записи «Не связываться» исключены.';
 
   return (
     <section aria-labelledby={headingId} data-testid="lead-radar-telegram-campaign" className="space-y-4 motion-reduce:[&_button]:transform-none motion-reduce:[&_button]:transition-none">
@@ -2159,11 +2170,11 @@ export function TelegramAccountCampaignPanel({
               </span>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-white">2. Выберите получателей</p>
-                <p className="mt-1 text-xs font-medium tabular-nums text-white">Выбрано {selectedLeadIds.size}/{LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT}</p>
+                <p className="mt-1 text-xs font-medium tabular-nums text-white" role="status">Выбрано для проверки: {selectedLeadIds.size}</p>
                 <dl className="mt-2 grid grid-cols-3 gap-2" aria-label="Сводка найденных компаний">
                   <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">Найдено</dt><dd className="text-sm font-semibold tabular-nums text-white">{uniqueFoundLeadCount}</dd></div>
                   <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">С Telegram</dt><dd className="text-sm font-semibold tabular-nums text-white">{telegramLeadCount}</dd></div>
-                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">Готовы</dt><dd className="text-sm font-semibold tabular-nums text-white">{automaticLeadCount}</dd></div>
+                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/75">Telegram-кандидаты</dt><dd className="text-sm font-semibold tabular-nums text-white">{automaticLeadCount}</dd></div>
                 </dl>
                 <p id={bulkSelectionStatusId} role="status" aria-live="polite" aria-atomic="true" className="mt-1 text-xs leading-5 text-white/70">{bulkSelectionStatus}</p>
               </div>
@@ -2181,11 +2192,11 @@ export function TelegramAccountCampaignPanel({
                 className="min-h-12 w-full sm:w-auto"
               >
                 <UsersRound size={17} aria-hidden="true" />
-                {allFoundSelected ? `Все найденные добавлены (${foundSelectionIds.length})` : `Добавить все найденные (${foundSelectionIds.length})`}
+                {allFoundSelected ? `Все контакты выбраны (${foundSelectionIds.length})` : `Выбрать все: мобильный или username (${foundSelectionIds.length})`}
               </Button>
               {readySelectionIds.length > 0 && (
                 <Button type="button" variant="secondary" disabled={bulkReadySelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllReady} className="min-h-12 w-full sm:w-auto">
-                  <ShieldCheck size={17} aria-hidden="true" />{allReadySelected ? `Все готовые выбраны (${readySelectionIds.length})` : `Выбрать готовых (${readySelectionIds.length})`}
+                  <ShieldCheck size={17} aria-hidden="true" />{allReadySelected ? `Telegram-кандидаты выбраны (${readySelectionIds.length})` : `Только корпоративные Telegram (${readySelectionIds.length})`}
                 </Button>
               )}
               <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12 w-full sm:w-auto">
@@ -2480,14 +2491,14 @@ export function TelegramAccountCampaignPanel({
             <fieldset disabled={operationBusy || !campaignRecoveryReady || Boolean(campaign)} id={selectionSectionId} ref={selectionSectionRef} tabIndex={-1} className="min-w-0 scroll-mt-28 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">
               <legend className="text-sm font-semibold text-white">1. Выберите компании</legend>
               <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                <p className="text-xs leading-5 text-white/60">Выбрано <span className="font-semibold tabular-nums text-white">{selectedLeadIds.size}/{LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT}</span></p>
+                <p className="text-sm leading-5 text-white/80">Выбрано для проверки: <span className="font-semibold tabular-nums text-white">{selectedLeadIds.size}</span>. В кампании — до 50 допущенных адресатов.</p>
                 <div className="flex flex-wrap gap-2">
                   <Button type="button" variant="secondary" disabled={bulkFoundSelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllFound} className="min-h-12">
-                    <UsersRound size={16} aria-hidden="true" />{allFoundSelected ? `Все найденные добавлены (${foundSelectionIds.length})` : `Добавить все найденные (${foundSelectionIds.length})`}
+                    <UsersRound size={16} aria-hidden="true" />{allFoundSelected ? `Все контакты выбраны (${foundSelectionIds.length})` : `Выбрать все: мобильный или username (${foundSelectionIds.length})`}
                   </Button>
                   {readySelectionIds.length > 0 && (
                     <Button type="button" variant="secondary" disabled={bulkReadySelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllReady} className="min-h-12">
-                      <ShieldCheck size={16} aria-hidden="true" />{allReadySelected ? `Все готовые выбраны (${readySelectionIds.length})` : `Выбрать готовых (${readySelectionIds.length})`}
+                      <ShieldCheck size={16} aria-hidden="true" />{allReadySelected ? `Telegram-кандидаты выбраны (${readySelectionIds.length})` : `Только корпоративные Telegram (${readySelectionIds.length})`}
                     </Button>
                   )}
                   <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12">Снять весь выбор{selectedLeadIds.size > 0 ? ` (${selectedLeadIds.size})` : ''}</Button>
@@ -2496,8 +2507,8 @@ export function TelegramAccountCampaignPanel({
               <div className="mt-3 max-h-80 space-y-2 overflow-y-auto pr-1" aria-label="Компании для Telegram-кампании">
                 {leads.map((lead) => {
                   const local = classifyCampaignLeadLocally(lead);
-                  const copy = LOCAL_CLASSIFICATION_COPY[local.classification];
-                  const selectable = isCampaignDraftCandidateLead(lead);
+                  const selectable = recipientContactChoices(lead).selectable;
+                  const copy = selectable && local.reason==='missing_telegram' ? {label:'Проверить Telegram',tone:'warning' as const} : LOCAL_CLASSIFICATION_COPY[local.classification];
                   return (
                     <label key={lead.id} className={`flex min-h-12 items-start gap-3 rounded-xl border p-3 transition-colors motion-reduce:transition-none ${selectable ? 'cursor-pointer border-white/[0.08] hover:bg-white/[0.025]' : 'cursor-not-allowed border-rose-300/10 bg-rose-400/[0.025]'}`}>
                       <input
@@ -2509,8 +2520,9 @@ export function TelegramAccountCampaignPanel({
                       />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium text-white/80">{lead.name}</span>
+                        {selectable && <span className="mt-1 block break-words text-sm text-brand-cyan">{recipientContactSummary(lead)}</span>}
                         <span className="mt-1 block text-[11px] text-white/50">{lead.city} · {lead.priority}</span>
-                        <span className="mt-1 block text-xs leading-5 text-white/65">{LOCAL_REASON_COPY[local.reason]}</span>
+                        <span className="mt-1 block text-xs leading-5 text-white/80">{selectable && local.reason==='missing_telegram' ? 'Мобильный номер найден. Telegram ещё не подтверждён; до проверки отправка недоступна.' : LOCAL_REASON_COPY[local.reason]}</span>
                       </span>
                       <Badge tone={copy.tone}>{copy.label}</Badge>
                     </label>

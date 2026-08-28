@@ -7,20 +7,21 @@ import { api } from '../../src/admin/lib/api';
 import type { ContactDirectoryRow,LeadRadarAudience } from '../../src/shared/lead-radar-audiences';
 import '../../src/index.css';
 
-const rows:ContactDirectoryRow[]=Array.from({length:26},(_,i)=>{
+const rows:ContactDirectoryRow[]=Array.from({length:63},(_,i)=>{
   const id=`fixture_${i}`;
   const stamp=new Date().toISOString();
-  return {key:id,status:i===0?'blocked':i===1?'review':i===2?'conflict':i===3?'contacted':'verified',occurrences:i===4?5:1,
+  const mobileOnly=i%2===1;
+  return {key:id,status:i===0?'blocked':i===2?'conflict':i===3?'contacted':mobileOnly?'review':'verified',occurrences:i===4?5:1,
     sources:[{companyId:id,searchId:`search_${i}`,name:`Клиника ${i}`,category:i%2?'salon':'dentist',city:'Ташкент'}],
-    lead:{id,searchId:`search_${i}`,name:`Клиника ${i}`,category:i%2?'salon':'dentist',city:'Ташкент',country:'UZ',address:null,website:`https://fixture${i}.example`,phone:null,genericEmail:null,
-      telegramUrl:`https://t.me/fixture_${i}`,telegramContact:{url:`https://t.me/fixture_${i}`,username:`fixture_${i}`,type:'business',confidence:.95,reason:'Fixture',evidenceIds:[],verifiedAt:stamp,messageable:false},
+    lead:{id,searchId:`search_${i}`,name:`Клиника ${i}`,category:i%2?'salon':'dentist',city:'Ташкент',country:'UZ',address:null,website:`https://fixture${i}.example`,phone:mobileOnly?`+99890${String(1234500+i)}`:null,genericEmail:null,
+      telegramUrl:mobileOnly?null:`https://t.me/fixture_${i}`,telegramContact:mobileOnly?null:{url:`https://t.me/fixture_${i}`,username:`fixture_${i}`,type:'business',confidence:.95,reason:'Fixture',evidenceIds:[],verifiedAt:stamp,messageable:false},
       decisionMakers:[],contactCandidates:[],enrichmentStatus:'terminal',enrichmentReason:'no_relevant_evidence',enrichmentAttempts:1,score:60,confidence:.95,priority:'P3',lifecycle:'new',suppressed:i===0,scoreComponents:[],signals:[],evidence:[],discoveredAt:stamp,lastVerifiedAt:stamp}};
 });
-const key='lead-radar-audience-ui-fixture-only';
+const key='lead-radar-mobile-audience-ui-fixture-only-v2';
 const read=():LeadRadarAudience[]=>JSON.parse(sessionStorage.getItem(key) ?? '[]');
 api.leadRadarAudiences=async()=>({audiences:read()});
 api.leadRadarContactDirectory=async(filters={})=>{
-  const matches=rows.filter((row)=>(!filters.q || row.lead.name.includes(filters.q))&&(!filters.category || row.lead.category===filters.category)&&(!filters.city || row.lead.city===filters.city));
+  const matches=rows.filter((row)=>(!filters.q || row.lead.name.includes(filters.q))&&(!filters.category || row.lead.category===filters.category)&&(!filters.city || row.lead.city===filters.city)&&(!filters.status || filters.status==='all' || row.status===filters.status));
   return {rows:matches.slice(filters.offset ?? 0,(filters.offset ?? 0)+20),total:matches.length,offset:filters.offset ?? 0,limit:20};
 };
 api.leadRadarSaveAudience=async(input)=>{

@@ -33,7 +33,7 @@ export type LeadRadarQueueOutcome =
   | { outcome: 'dead_letter'; errorCode: string };
 
 export interface LeadRadarQueueDependencies {
-  resolveLeadContacts?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean; retryAfterSeconds?: number }>;
+  resolveLeadContacts?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean; retryAfterSeconds?: number; reason?: string }>;
   discoverLeadContactSources?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean }>;
   resolveMissingWebsites?: boolean;
   enrichLead?: (website: string | null, expected: ExpectedCompanyWebsiteIdentity, job: LeadRadarJob) => Promise<WebsiteEnrichmentResult>;
@@ -516,24 +516,33 @@ async function processEnrichment(
   if (job.purpose === 'contact_resolution') {
     let pending: boolean;
     let delaySeconds=15;
+    let waitingReason='contact_check_pending';
     try {
       const discovery = dependencies.discoverLeadContactSources
         ? await runWithJobHeartbeat(store,job,dependencies,() => dependencies.discoverLeadContactSources!(job,stored.lead)) : null;
       if (discovery && !discovery.leaseHeld) return {outcome:'retry_wait',delaySeconds:30};
       if (discovery?.error) throw discovery.error;
-      const result = discovery?.value?.pending ? {pending:true} : await dependencies.resolveLeadContacts?.(job, stored.lead);
+      const result = discovery?.value?.pending ? {pending:true,reason:'contact_sources_pending'} : dependencies.resolveLeadContacts
+        ? await dependencies.resolveLeadContacts(job, stored.lead) : {pending:true,reason:'contact_checker_unavailable',retryAfterSeconds:60};
       pending=result?.pending ?? false;
+      if (result?.reason && /^[a-z][a-z0-9_]{2,79}$/.test(result.reason)) waitingReason=result.reason;
       if (result && 'retryAfterSeconds' in result && typeof result.retryAfterSeconds==='number') delaySeconds=Math.min(900,Math.max(15,result.retryAfterSeconds));
     }
-    catch { pending = true; } // Keep a durable bounded retry; never restart website enrichment.
+    catch { pending = true; waitingReason='contact_check_unavailable'; } // Never restart website enrichment.
     // The check itself expires after 3 minutes; allow queue delay and short
     // account-wide cooldowns without dropping a fresh check on an older job.
     if (pending && Date.parse(now) - Date.parse(job.createdAt ?? now) < 30 * 60_000 && job.leaseOwner) {
       const transitionNow=dependencies.now?.() ?? new Date();
-      const retried = await store.retryJob(job.orgId,job.id,job.leaseOwner,'contact_check_pending',
+      const retried = await store.retryJob(job.orgId,job.id,job.leaseOwner,waitingReason,
         new Date(transitionNow.getTime()+delaySeconds*1000).toISOString(),transitionNow.toISOString(),job.leaseGeneration,true);
       return retried ? { outcome: 'retry_wait', delaySeconds, retryDelivery: true, rescheduleDelivery: true }
         : { outcome: 'retry_wait', delaySeconds: 30 };
+    }
+    if (pending) {
+      // Bounded waiting must not turn an unperformed check into "completed".
+      if (!job.leaseOwner || !await store.deadLetterJob(job.orgId,job.id,job.leaseOwner,waitingReason,now,job.leaseGeneration)) return {outcome:'retry_wait',delaySeconds:30};
+      await store.refreshSearchFunnel(job.orgId,job.searchId,now);
+      return {outcome:'dead_letter',errorCode:waitingReason};
     }
     if (!job.leaseOwner || !await store.completeJob(job.orgId,job.id,job.leaseOwner,now,job.leaseGeneration)) return { outcome: 'retry_wait', delaySeconds: 30 };
     await store.refreshSearchFunnel(job.orgId,job.searchId,now);

@@ -130,7 +130,8 @@ export class FirecrawlClient {
     const id = await this.store.reserve(this.ctx, key, operation, domain, attempt, this.config.limits, at);
     if (!id) {
       if (await this.store.throttled(at)) throw rateLimited();
-      throw new FirecrawlError('budget_or_lease_blocked');
+      const reason=await this.store.reservationBlockReason(this.ctx,operation,domain,this.config.limits,at);
+      throw new FirecrawlError(reason,['lease_lost','reservation_conflict'].includes(reason));
     }
     this.submissions++;
     const controller = new AbortController();

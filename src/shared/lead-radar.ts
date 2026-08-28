@@ -130,6 +130,8 @@ export type LeadRadarContactReviewStatus = (typeof LEAD_RADAR_CONTACT_REVIEW_STA
 export interface LeadRadarTelegramContact {
   url: string;
   username: string;
+  /** Protected local-Bridge identity, not a fabricated username. */
+  peerRef?: string;
   type: LeadRadarTelegramContactType;
   confidence: number;
   reason: string;

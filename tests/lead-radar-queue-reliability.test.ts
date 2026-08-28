@@ -203,6 +203,27 @@ test('request idempotency replays the same fingerprint and rejects key reuse wit
   );
 });
 
+test('unavailable Bridge waits durably then requires attention instead of completing an unperformed check',async()=>{
+  const fixture=database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname,'../migrations/0050_lead_radar_contact_discovery.sql'),'utf8'));
+  fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
+  const db=fixture.asD1(),queue=new RecordingQueue();
+  let at=new Date('2026-08-28T12:00:00.000Z');
+  await enqueueLeadRadarSearch(new LeadRadarStore(db),'org-a',SEARCH_INPUT,queue,at,'waiting-bridge-fixture');
+  const deps={now:()=>at,discover:async()=>({candidates:[candidate(null)],sourceWarnings:[]}),
+    resolveLeadContacts:async()=>({pending:true,reason:'waiting_for_account',retryAfterSeconds:60})};
+  for(let i=0;i<5;i++){
+    const message=queue.messages.shift();if(message)await consumeLeadRadarQueueMessage(db,message,queue,deps);
+    at=new Date(at.getTime()+61_000);await enqueueDueLeadRadarJobs(db,queue,at);
+  }
+  assert.equal(fixture.value("SELECT status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'retry_wait');
+  at=new Date(at.getTime()+31*60_000);
+  await enqueueDueLeadRadarJobs(db,queue,at);
+  for(let i=0;i<3;i++){const message=queue.messages.shift();if(message)await consumeLeadRadarQueueMessage(db,message,queue,deps);}
+  assert.equal(fixture.value("SELECT status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'dead_letter');
+  assert.equal(fixture.value("SELECT last_error_code FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'waiting_for_account');
+});
+
 test('optional Firecrawl discovery queues missing sites and completes enrichment through the real queue/store', async () => {
   const fixture = database();
   fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0049_lead_radar_firecrawl.sql'), 'utf8'));
