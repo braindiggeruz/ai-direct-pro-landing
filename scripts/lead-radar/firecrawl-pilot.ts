@@ -10,6 +10,9 @@ import { FirecrawlClient, firecrawlConfig } from '../../functions/platform/lead-
 import { auditLeadRadarD1Schema } from '../../functions/platform/lead-radar/schema-contract';
 import { parseSearchInput } from '../../functions/platform/lead-radar/validation';
 import { readPublicWebsiteRobots, robotsAllows } from '../../functions/platform/lead-radar/sources';
+import { readTextBounded } from '../../functions/platform/lead-radar/sources';
+import { extractPublicBusinessContacts } from '../../functions/platform/lead-radar/public-contact-discovery';
+import { saveContactEnrichment } from '../../functions/platform/lead-radar/contact-source-store';
 
 const ORG = 'owner_8ee98dc3040f160b308166b0';
 const DB = '97ef0372-d937-406f-8871-755368d9afff';
@@ -18,10 +21,10 @@ const mode = process.argv[2] ?? '--preflight';
 const contactPilot = mode.startsWith('--contact-');
 const REQUEST = contactPilot ? 'firecrawl-contact-pilot-20260828-dentistry-20-v2' : 'firecrawl-pilot-20260828-dentistry-20-v1';
 if (!['--preflight', '--start', '--status', '--repair-runtime', '--diagnose-page', '--repair-html',
-  '--contact-preflight', '--contact-start', '--contact-status', '--contact-dispatch', '--contact-recheck'].includes(mode) || process.argv.length > 3) {
+  '--contact-preflight', '--contact-start', '--contact-status', '--contact-dispatch', '--contact-recheck', '--contact-reparse-top'].includes(mode) || process.argv.length > 3) {
   throw new Error('Use a documented pilot mode; no credentials in arguments');
 }
-const mutating = ['--start', '--repair-runtime', '--diagnose-page', '--repair-html', '--contact-start', '--contact-dispatch', '--contact-recheck'].includes(mode);
+const mutating = ['--start', '--repair-runtime', '--diagnose-page', '--repair-html', '--contact-start', '--contact-dispatch', '--contact-recheck', '--contact-reparse-top'].includes(mode);
 
 async function main() {
   const account = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -130,6 +133,41 @@ async function main() {
       }
       const dispatched=await enqueueDueLeadRadarJobs(db,sender,new Date(),5,(orgId)=>orgId===ORG);
       console.log(JSON.stringify({searchId:existing.id,released,dispatched,maximumCreditsIncludingEarlierPilotRequests:100,campaignStarted:false}));
+    } else if (mode === '--contact-reparse-top') {
+      // Reparse ONE public URL already returned by this company's Firecrawl
+      // search. Direct read costs zero provider credits, preserves every ledger
+      // row, and uses normal proof persistence + Bridge Queue, never a send API.
+      if (existing?.id!=='search_2c026efabc274f7bb1853357ac26910a') throw new Error('contact_pilot_mismatch');
+      const companyId='lead_cc64d1cf031547dd8370a85576c3bc94';
+      const url=new URL('https://top.uz/company/smalto-dente-chp-stomatologiya');
+      const discovered=await db.prepare(`SELECT r.id FROM lead_radar_firecrawl_requests r JOIN lead_radar_jobs j ON j.id=r.job_id AND j.org_id=r.org_id
+        WHERE r.org_id=? AND r.search_id=? AND j.company_id=? AND r.operation='search' AND r.state='completed'
+        AND EXISTS (SELECT 1 FROM json_each(r.result_json) WHERE value=?) LIMIT 1`)
+        .bind(ORG,existing.id,companyId,url.toString()).first();
+      if (!discovered) throw new Error('source_not_discovered_by_pilot');
+      const found=await store.getLeadForEnrichment(ORG,companyId);
+      if (!found || found.lead.suppressed || found.lead.lifecycle==='do_not_contact') throw new Error('company_not_available');
+      const identity={name:found.lead.name,city:found.lead.city,phone:found.lead.phone,address:found.lead.address};
+      const policy=await readPublicWebsiteRobots(url);
+      if (policy && !robotsAllows(policy,url)) throw new Error('source_robots_blocked');
+      const response=await fetch(url,{signal:AbortSignal.timeout(15_000),redirect:'manual'});
+      if (response.status!==200) throw new Error('public_source_unavailable');
+      const now=new Date().toISOString();
+      const source=await extractPublicBusinessContacts(url.toString(),await readTextBounded(response,900_000),identity,now);
+      if (!source) throw new Error('no_public_source_candidates');
+      const probe=await store.createJob(ORG,existing.id,companyId,'enrichment',`public-source-reparse:pilot-v1:${companyId}`,now,1,'9999-12-31T23:59:59.999Z');
+      if (probe.status!=='completed') {
+        const claimed=await store.claimJob(ORG,probe.id,now,new Date(Date.now()+120_000).toISOString());
+        if (!claimed?.leaseOwner) throw new Error('source_probe_lease_unavailable');
+        const saved=await saveContactEnrichment(db,claimed,identity,{status:'complete',reason:'public_contact_candidates',sources:[source],
+          checkedAt:now,expiresAt:new Date(Date.parse(now)+86400_000).toISOString()});
+        if (!saved) throw new Error('source_proof_not_saved');
+        await store.completeJob(ORG,probe.id,claimed.leaseOwner,now,claimed.leaseGeneration);
+      }
+      await store.createJob(ORG,existing.id,companyId,'enrichment',`contact-resolve:pilot-local-proof-v1:${companyId}`,now,3);
+      const dispatched=await enqueueDueLeadRadarJobs(db,sender,new Date(),5,(orgId)=>orgId===ORG);
+      console.log(JSON.stringify({searchId:existing.id,publicSourceReparsed:true,candidates:source.candidates.length,dispatched,
+        additionalFirecrawlCredits:0,corporateOwnershipGranted:false,campaignStarted:false}));
     } else if (mode === '--contact-dispatch') {
       if (!existing) throw new Error('contact_pilot_not_started');
       const dispatched = await enqueueDueLeadRadarJobs(db, sender, new Date(), 5, (orgId) => orgId === ORG);

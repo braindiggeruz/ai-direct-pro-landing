@@ -4,7 +4,7 @@
 
 Owner approved implementation of real corporate Telegram username discovery by niche. This is an additive improvement on the existing search, durable Queue, Bridge 1.4 and unified audiences. It does not reset pairing, authorize outreach, send messages, or promise a fixed number of contacts.
 
-Implemented and deployed; final full suite **401/401 PASS**, main/admin builds, Worker dry-run, typecheck, lint and 3955-file secret scan passed. Firecrawl flags remain OFF; a new paid quality pilot needs owner approval (proposed: 20 companies, maximum 100 new credits, no messages).
+Implemented and deployed; original full suite **401/401 PASS**, main/admin builds, Worker dry-run, typecheck, lint and 3955-file secret scan passed. **Update:** owner subsequently approved activation and a 20-company/100-credit pilot. Firecrawl is now ON; live findings, fixes, limits and the 405-test follow-up release are documented in [FIRECRAWL_ACTIVATION_20260828.md](FIRECRAWL_ACTIVATION_20260828.md).
 
 Code commit: `7ba7c7d3779e316961e0ba8ef57668a3a9f72484`.
 
