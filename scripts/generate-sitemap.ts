@@ -38,6 +38,23 @@ const latestSiteChange = latestDate([
 const latestRuArticle = latestDate(ruArticles.map((a) => a.dateModified || a.updatedAt || a.datePublished || a.createdAt));
 const latestUzArticle = latestDate(uzArticles.map((a) => a.dateModified || a.updatedAt || a.datePublished || a.createdAt));
 
+// hreflang pairs declared in the content JSON (hreflangRu + hreflangUz on the
+// same item). Each pair is registered under every URL that belongs to it — the
+// item's own url plus both declared alternates — so both language versions of a
+// page emit the same reciprocal xhtml:link set even when a counterpart only
+// declares one direction. Items missing either field simply get no alternates
+// (no invented links for single-locale content).
+type HreflangPair = { ru: string; uz: string };
+const hreflangPairs = new Map<string, HreflangPair>();
+for (const item of [...eligible, ...eligibleArticles]) {
+  if (item.hreflangRu && item.hreflangUz) {
+    const pair: HreflangPair = { ru: item.hreflangRu, uz: item.hreflangUz };
+    hreflangPairs.set(item.url, pair);
+    hreflangPairs.set(item.hreflangRu, pair);
+    hreflangPairs.set(item.hreflangUz, pair);
+  }
+}
+
 const entries = [
   // Homepage. We deliberately do NOT emit hreflang alternates here:
   //  • There is no separate /uz/ landing today — emitting hreflang="uz"
@@ -68,14 +85,25 @@ const entries = [
 ];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries.map((e) => `  <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${entries.map((e) => {
+  const pair = hreflangPairs.get(e.url);
+  const links = pair
+    ? `
+    <xhtml:link rel="alternate" hreflang="ru" href="${SITE_URL}${pair.ru}"/>
+    <xhtml:link rel="alternate" hreflang="uz" href="${SITE_URL}${pair.uz}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${pair.ru}"/>`
+    : '';
+  return `  <url>
     <loc>${SITE_URL}${e.url}</loc>
-    ${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}
-  </url>`).join('\n')}
+    ${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}${links}
+  </url>`;
+}).join('\n')}
 </urlset>
 `;
 
 if (!fs.existsSync(DIST_DIR)) fs.mkdirSync(DIST_DIR, { recursive: true });
 fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), xml, 'utf-8');
-console.log(`Sitemap written with ${entries.length} entries (${eligible.length} pages + ${eligibleArticles.length} articles) → dist/sitemap.xml`);
+const withAlternates = entries.filter((e) => hreflangPairs.has(e.url)).length;
+console.log(`Sitemap written with ${entries.length} entries (${eligible.length} pages + ${eligibleArticles.length} articles), ${withAlternates} with hreflang alternates → dist/sitemap.xml`);
