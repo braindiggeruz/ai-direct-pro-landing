@@ -601,7 +601,7 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /if \(accountQuickActionBlocked\) explainBlockedAccountAction\(\)/);
   assert.match(component, /запрос подключения не выполнялся, ничего не отправлено/);
   assert.match(component, /Выбрать все: мобильный или username/);
-  assert.match(component, /Только корпоративные Telegram/);
+  assert.match(component, /Только проверенные Bridge/);
   assert.match(component, /Снять весь выбор/);
   assert.match(component, /mobileOrUsernameLeadIds\(leads\)/);
   assert.match(component, /preparedCompanyIds\.current=requestCompanyIds/);

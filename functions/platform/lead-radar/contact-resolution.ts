@@ -122,7 +122,7 @@ export async function checkCorporateTelegramContact(input: {
   if (result.status === 'resolved' && (result.username || isTelegramPeerRef(result.peerRef))) {
     const corporate=candidate.ownership==='company';
     const contact: LeadRadarTelegramContact = { url: result.username ? `https://t.me/${result.username}` : '', username: result.username ?? '',
-      ...(result.peerRef ? {peerRef:result.peerRef} : {}), type: corporate ? 'business' : 'unknown',
+      ...(result.peerRef ? {peerRef:result.peerRef} : {}), ...(corporate ? {sourceKey:candidate.key} : {}), type: corporate ? 'business' : 'unknown',
       reason: corporate ? RESOLVED_REASON : 'bridge_resolved_unconfirmed', confidence: corporate ? 0.9 : 0.5, verifiedAt: now, evidenceIds: candidate.evidenceIds, messageable: false };
     // No consent/authorization is created. Every sender check revalidates the
     // stored result, account, current source proof and DNC before using this link.

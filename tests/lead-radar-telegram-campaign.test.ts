@@ -382,12 +382,15 @@ for (const withoutUsername of [false,true]) test(`published mobile resolves dura
   assert.equal(db.value('SELECT attempts_today FROM lead_radar_contact_checks'), 1);
   assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_mobile',NOW.toISOString()), 1);
   const resolved = JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mobile'")));
+  assert.equal(resolved.sourceKey,'phone:+998901234567');
   const proofInput = { db: db.asD1(), orgId: ORG_A, companies: [{ companyId: 'mobile', contact: resolved }], now: NOW };
   assert.ok((await verifiedResolvedCorporateCompanies(proofInput)).has('mobile'));
   const link=await buildVerifiedTelegramCorporateDraftLink({ db: db.asD1(), orgId: ORG_A, companyId: 'mobile', website: 'https://mobile.example/', contact: resolved, draft: 'fixture', now: NOW });
   assert.equal(Boolean(link),!withoutUsername,'opaque peers must never be turned into public links');
   const selection = await evaluateTelegramCampaignSelection({ db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, accountId: account.id, companyIds: ['mobile'], now: NOW });
   assert.equal(selection.automatic, 0, 'resolution is not outreach authorization');
+  assert.equal(selection.verified, 1);
+  assert.deepEqual(selection.verifiedCompanyIds, ['mobile']);
   await authorizeTelegramCampaignContact({db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,companyId:'mobile',contactBasis:BASIS,
     evidenceReference:'fixture-explicit-contact-approval',expiresAt:'2026-09-24T12:00:00.000Z',reviewerId:'owner@example.test',idempotencyKey:'mobile_authorization_0001',now:NOW});
   const approved=await evaluateTelegramCampaignSelection({db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,contactBasis:BASIS,companyIds:['mobile'],now:NOW});
@@ -966,6 +969,8 @@ test('prepare classifies all selected leads but binds approval only to verified 
     { selected: 5, automatic: 0, manual: 2, excluded: 3 },
   );
   assert.deepEqual(selection.automaticCompanyIds, []);
+  assert.equal(selection.verified, 0, 'published username alone is not Bridge proof');
+  assert.deepEqual(selection.verifiedCompanyIds, []);
 
   await authorizeTelegramCampaignContact({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, companyId: 'company_auto',

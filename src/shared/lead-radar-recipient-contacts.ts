@@ -45,6 +45,45 @@ export function recipientContactChoices(lead: RecipientContactInput): RecipientC
   return { mobilePhones, usernames: handles, keys: [...(peer ? [peer] : []), ...handles.map((name) => `username:${name}`), ...mobilePhones.map((phone) => `phone:${phone}`)], selectable: Boolean(peer) || mobilePhones.length > 0 || handles.length > 0 };
 }
 
+/**
+ * High-precision read model. Unlike `recipientContactChoices`, this never treats
+ * a published phone/username as Telegram proof. The endpoint must have been
+ * resolved by the currently connected local Bridge; the server still repeats
+ * account, source-proof, expiry, DNC and authorization checks before sending.
+ */
+export function verifiedTelegramContactChoices(lead: RecipientContactInput): RecipientContactChoices {
+  const empty = { mobilePhones: [], usernames: [], keys: [], selectable: false };
+  if (lead.suppressed || lead.lifecycle === 'do_not_contact') return empty;
+  const contact = lead.telegramContact;
+  if (!contact || contact.type !== 'business' || contact.reason !== 'bridge_resolved_corporate'
+    || !contact.evidenceIds.length || !contact.verifiedAt) return empty;
+  const phones = new Set<string>(), usernames = new Set<string>();
+  if (contact.sourceKey?.startsWith('phone:')) {
+    const phone = assessLeadRadarPhone(contact.sourceKey.slice('phone:'.length), lead.country);
+    if (phone.mobileLookupCandidate && phone.e164) phones.add(phone.e164);
+  } else if (contact.sourceKey?.startsWith('telegram:')) {
+    const locator = parseLeadRadarTelegramLocator(contact.sourceKey.slice('telegram:'.length));
+    if (locator?.kind === 'username') usernames.add(locator.value.toLowerCase());
+  }
+  if (contact.username && /^[A-Za-z][A-Za-z0-9_]{4,31}$/u.test(contact.username)) {
+    usernames.add(contact.username.toLowerCase());
+  }
+  const peer = isTelegramPeerRef(contact.peerRef) ? contact.peerRef : null;
+  const handles = [...usernames].sort(), mobilePhones = [...phones].sort();
+  const keys = [...(peer ? [peer] : []), ...handles.map((name) => `username:${name}`), ...mobilePhones.map((phone) => `phone:${phone}`)];
+  return { mobilePhones, usernames: handles, keys, selectable: Boolean(peer) || handles.length > 0 };
+}
+
+export function verifiedTelegramLeadIds(leads: readonly LeadRadarLead[]): string[] {
+  return [...new Set(leads.filter((lead) => verifiedTelegramContactChoices(lead).selectable).map((lead) => lead.id))];
+}
+
+export function verifiedTelegramContactSummary(lead: RecipientContactInput): string {
+  const contacts = verifiedTelegramContactChoices(lead);
+  return [...contacts.usernames.map((name) => `@${name}`), ...contacts.mobilePhones].join(' · ')
+    || (contacts.keys.some(isTelegramPeerRef) ? 'Telegram подтверждён без публичного username' : '');
+}
+
 export function mobileOrUsernameLeadIds(leads: readonly LeadRadarLead[]): string[] {
   return [...new Set(leads.filter((lead) => recipientContactChoices(lead).selectable).map((lead) => lead.id))];
 }

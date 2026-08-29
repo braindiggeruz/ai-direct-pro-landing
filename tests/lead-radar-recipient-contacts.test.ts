@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { recipientContactChoices } from '../src/shared/lead-radar-recipient-contacts';
+import { recipientContactChoices, verifiedTelegramContactChoices, verifiedTelegramLeadIds } from '../src/shared/lead-radar-recipient-contacts';
 import type { RecipientContactInput } from '../src/shared/lead-radar-recipient-contacts';
 import { validTelegramContactResolution } from '../src/shared/lead-radar-contact-resolution';
 
@@ -30,4 +30,27 @@ test('suppression and known personal/bot/group contacts are not bulk selected', 
     const contact={username:'DentalClinic',url:'https://t.me/DentalClinic',type,confidence:1,reason:'fixture',evidenceIds:[],verifiedAt:'',messageable:false};
     assert.equal(recipientContactChoices({ ...base, telegramUrl:contact.url,telegramContact:contact }).selectable, false);
   }
+});
+
+test('strict Telegram choices require corporate Bridge proof and retain the exact checked source', () => {
+  const publishedOnly = {username:'DentalClinic',url:'https://t.me/DentalClinic',type:'business' as const,confidence:1,
+    reason:'official_site_proximity',evidenceIds:['ev-1'],verifiedAt:'2026-08-29T00:00:00.000Z',messageable:false};
+  assert.equal(verifiedTelegramContactChoices({ ...base, telegramContact: publishedOnly, telegramUrl: publishedOnly.url }).selectable, false);
+  const resolved = {...publishedOnly,reason:'bridge_resolved_corporate',sourceKey:'phone:+998901234567',peerRef:`lrpeer:${'a'.repeat(32)}`};
+  const strict = verifiedTelegramContactChoices({ ...base, telegramContact: resolved, telegramUrl: resolved.url });
+  assert.deepEqual(strict.mobilePhones,['+998901234567']);
+  assert.deepEqual(strict.usernames,['dentalclinic']);
+  assert.equal(strict.selectable,true);
+  assert.deepEqual(verifiedTelegramLeadIds([
+    {id:'published',...base,telegramContact:publishedOnly} as never,
+    {id:'resolved',...base,telegramContact:resolved} as never,
+    {id:'dnc',...base,telegramContact:resolved,suppressed:true} as never,
+  ]),['resolved']);
+});
+
+test('strict Telegram choices reject malformed source keys and unsupported resolved contacts', () => {
+  const resolved = {username:'',url:'',type:'business' as const,confidence:0.9,reason:'bridge_resolved_corporate',
+    evidenceIds:['ev-1'],verifiedAt:'2026-08-29T00:00:00.000Z',messageable:false,sourceKey:'phone:+998711234567'};
+  assert.equal(verifiedTelegramContactChoices({ ...base, telegramContact: resolved }).selectable,false);
+  assert.equal(verifiedTelegramContactChoices({ ...base, telegramContact: {...resolved,peerRef:`lrpeer:${'a'.repeat(32)}`} }).selectable,true);
 });

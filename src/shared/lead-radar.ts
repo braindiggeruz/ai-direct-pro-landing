@@ -132,6 +132,8 @@ export interface LeadRadarTelegramContact {
   username: string;
   /** Protected local-Bridge identity, not a fabricated username. */
   peerRef?: string;
+  /** Exact evidence-bound candidate that the local Bridge resolved. */
+  sourceKey?: string;
   type: LeadRadarTelegramContactType;
   confidence: number;
   reason: string;

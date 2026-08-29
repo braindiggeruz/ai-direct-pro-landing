@@ -24,13 +24,12 @@ import {
 } from 'lucide-react';
 import type { LeadRadarLead, LeadRadarTelegramAccountReadiness } from '../../../shared/lead-radar';
 import { AUDIENCE_LIMIT } from '../../../shared/lead-radar-audiences';
-import { mobileOrUsernameLeadIds, recipientContactChoices, recipientContactSummary } from '../../../shared/lead-radar-recipient-contacts';
+import { mobileOrUsernameLeadIds, recipientContactChoices, recipientContactSummary, verifiedTelegramContactChoices, verifiedTelegramContactSummary, verifiedTelegramLeadIds } from '../../../shared/lead-radar-recipient-contacts';
 import { api } from '../../lib/api';
 import { CampaignReadiness } from './CampaignReadiness';
 import type { LeadRadarCampaignPreflight } from '../../lib/lead-radar-campaign';
 import { awaitTelegramPhoneChallenge } from '../../lib/lead-radar-telegram-auth';
 import {
-  automaticCampaignLeadIds,
   boundCampaignTemplate,
   campaignMessageLimit,
   campaignFromRecovery,
@@ -1237,7 +1236,7 @@ export function TelegramAccountCampaignPanel({
     return summary;
   }, { automatic: 0, manual: 0, excluded: 0 }), [selectedLeads]);
   const displayedSelection = serverSelection?.selection ?? localSummary;
-  const automaticLeadIds = useMemo(() => automaticCampaignLeadIds(leads), [leads]);
+  const automaticLeadIds = useMemo(() => verifiedTelegramLeadIds(leads), [leads]);
   const draftCandidateLeadIds = useMemo(() => mobileOrUsernameLeadIds(leads), [leads]);
   const uniqueFoundLeadCount = useMemo(() => new Set(leads.map((lead) => lead.id)).size, [leads]);
   const telegramLeadCount = useMemo(() => {
@@ -1247,7 +1246,7 @@ export function TelegramAccountCampaignPanel({
     }
     return ids.size;
   }, [leads]);
-  const automaticLeadCount = serverSelection?.selection.automatic ?? automaticLeadIds.length;
+  const automaticLeadCount = serverSelection?.selection.verified ?? automaticLeadIds.length;
   const accountConnectionId = account?.connectionId ?? account?.id ?? null;
   const effectiveAccountReadiness = account?.readiness ?? telegramAccountReadiness;
   const accountReadinessBlocked = effectiveAccountReadiness?.status === 'blocked'
@@ -1497,10 +1496,10 @@ export function TelegramAccountCampaignPanel({
     invalidatePreparation();
     if (automaticLeadIds.length > LEAD_RADAR_CAMPAIGN_RECIPIENT_LIMIT) {
       setOperationError(false);
-      setOperationNotice(`Выбраны первые 50 из ${automaticLeadIds.length} предварительно подходящих компаний. Остальные сохранены в выдаче.`);
+      setOperationNotice(`Выбраны первые 50 из ${automaticLeadIds.length} контактов, подтверждённых локальным Bridge. Сервер повторит проверку перед отправкой.`);
     } else if (automaticLeadIds.length > 0) {
       setOperationError(false);
-      setOperationNotice(`Выбраны ${automaticLeadIds.length} предварительно подходящих компаний. Финальное решение примет сервер.`);
+      setOperationNotice(`Выбраны ${automaticLeadIds.length} контактов, подтверждённых локальным Bridge. Финальное решение примет сервер.`);
     }
   }
 
@@ -2240,7 +2239,7 @@ export function TelegramAccountCampaignPanel({
                 <dl className="mt-2 grid grid-cols-3 gap-2" aria-label="Сводка найденных компаний">
                   <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">Найдено</dt><dd className="text-sm font-semibold tabular-nums text-white">{uniqueFoundLeadCount}</dd></div>
                   <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/55">С Telegram</dt><dd className="text-sm font-semibold tabular-nums text-white">{telegramLeadCount}</dd></div>
-                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/75">{serverSelection ? 'Подтверждены сервером' : 'Telegram-кандидаты'}</dt><dd className="text-sm font-semibold tabular-nums text-white">{automaticLeadCount}</dd></div>
+                  <div className="rounded-lg border border-white/[0.07] bg-[#05070d]/35 px-2 py-1.5"><dt className="text-[10px] leading-4 text-white/75">{serverSelection ? 'Подтверждены сервером' : 'Проверены Bridge'}</dt><dd className="text-sm font-semibold tabular-nums text-white">{automaticLeadCount}</dd></div>
                 </dl>
                 <p id={bulkSelectionStatusId} role="status" aria-live="polite" aria-atomic="true" className="mt-1 text-xs leading-5 text-white/70">{bulkSelectionStatus}</p>
               </div>
@@ -2262,7 +2261,7 @@ export function TelegramAccountCampaignPanel({
               </Button>
               {readySelectionIds.length > 0 && (
                 <Button type="button" variant="secondary" disabled={bulkReadySelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllReady} className="min-h-12 w-full sm:w-auto">
-                  <ShieldCheck size={17} aria-hidden="true" />{allReadySelected ? `Telegram-кандидаты выбраны (${readySelectionIds.length})` : `Только корпоративные Telegram (${readySelectionIds.length})`}
+                  <ShieldCheck size={17} aria-hidden="true" />{allReadySelected ? `Подтверждённые Telegram выбраны (${readySelectionIds.length})` : `Только проверенные Bridge (${readySelectionIds.length})`}
                 </Button>
               )}
               <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12 w-full sm:w-auto">
@@ -2564,7 +2563,7 @@ export function TelegramAccountCampaignPanel({
                   </Button>
                   {readySelectionIds.length > 0 && (
                     <Button type="button" variant="secondary" disabled={bulkReadySelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllReady} className="min-h-12">
-                      <ShieldCheck size={16} aria-hidden="true" />{allReadySelected ? `Telegram-кандидаты выбраны (${readySelectionIds.length})` : `Только корпоративные Telegram (${readySelectionIds.length})`}
+                      <ShieldCheck size={16} aria-hidden="true" />{allReadySelected ? `Подтверждённые Telegram выбраны (${readySelectionIds.length})` : `Только проверенные Bridge (${readySelectionIds.length})`}
                     </Button>
                   )}
                   <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12">Снять весь выбор{selectedLeadIds.size > 0 ? ` (${selectedLeadIds.size})` : ''}</Button>
@@ -2579,6 +2578,7 @@ export function TelegramAccountCampaignPanel({
                 {leads.map((lead) => {
                   const local = classifyCampaignLeadLocally(lead);
                   const selectable = recipientContactChoices(lead).selectable;
+                  const strictContact = verifiedTelegramContactChoices(lead);
                   const checked = serverSelection?.selection.items.find((item) => item.companyId === lead.id);
                   const copy = checked ? { label: checked.classification === 'automatic' ? 'Подтверждён сервером' : checked.reasonCode === 'documented_basis_required' ? 'Нужно основание' : 'Не допущен',
                     tone: checked.classification === 'automatic' ? 'success' as const : 'warning' as const }
@@ -2594,7 +2594,7 @@ export function TelegramAccountCampaignPanel({
                       />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium text-white/80">{lead.name}</span>
-                        {selectable && <span className="mt-1 block break-words text-sm text-brand-cyan">{recipientContactSummary(lead)}</span>}
+                        {selectable && <span className="mt-1 block break-words text-sm text-brand-cyan">{strictContact.selectable ? verifiedTelegramContactSummary(lead) : recipientContactSummary(lead)}</span>}
                         <span className="mt-1 block text-[11px] text-white/50">{lead.city} · {lead.priority}</span>
                         <span className="mt-1 block text-xs leading-5 text-white/80">{checked ? SERVER_REASON_COPY[checked.reasonCode] ?? checked.reasonCode
                           : selectable && local.reason==='missing_telegram' ? 'Мобильный номер найден. Telegram ещё не подтверждён; до проверки отправка недоступна.' : LOCAL_REASON_COPY[local.reason]}</span>

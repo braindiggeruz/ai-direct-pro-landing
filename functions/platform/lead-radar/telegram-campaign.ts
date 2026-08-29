@@ -7,6 +7,7 @@ import {
   telegramIdentifierDigest,
   verifiedTelegramCampaignBusinessCompanyIds,
 } from './telegram-business';
+import { verifiedResolvedCorporateCompanies } from './contact-resolution';
 import {
   LeadRadarTelegramCampaignStore,
   TELEGRAM_CAMPAIGN_EVIDENCE_VERSION,
@@ -124,6 +125,9 @@ export interface TelegramCampaignSelectionEvaluation {
   automatic: number;
   manual: number;
   excluded: number;
+  /** Fresh, current-account Bridge proof; still not outreach authorization. */
+  verified: number;
+  verifiedCompanyIds: string[];
   automaticCompanyIds: string[];
   items: TelegramCampaignSelectionItem[];
 }
@@ -169,6 +173,8 @@ function publicSelection(selection: InternalSelection): TelegramCampaignSelectio
     automatic: selection.automatic,
     manual: selection.manual,
     excluded: selection.excluded,
+    verified: selection.verified,
+    verifiedCompanyIds: [...selection.verifiedCompanyIds],
     automaticCompanyIds: [...selection.automaticCompanyIds],
     items: selection.items.map((item) => ({ ...item })),
   };
@@ -646,6 +652,7 @@ async function evaluateSelectionInternal(input: {
   dataKey?: string;
   contactBasis?: TelegramCampaignContactBasis;
   readOnly?: boolean;
+  includeBridgeVerification?: boolean;
 }): Promise<InternalSelection> {
   const ids = selectedCompanyIds(input.companyIds);
   const store = new LeadRadarTelegramCampaignStore(input.db);
@@ -674,6 +681,19 @@ async function evaluateSelectionInternal(input: {
     }),
     now: input.now,
   });
+  const bridgeVerifiedBusinessCompanyIds = input.includeBridgeVerification
+    ? await verifiedResolvedCorporateCompanies({
+      db: input.db,
+      orgId: input.orgId,
+      companies: rows.flatMap((company) => {
+        const contact = contactsById.get(company.id);
+        return contact?.type === 'business'
+          ? [{ companyId: company.id, contact }]
+          : [];
+      }),
+      now: input.now,
+    })
+    : new Set<string>();
   const selectionCandidates = input.contactBasis && input.dataKey
     ? await Promise.all(rows.flatMap((company) => {
       const contact = contactsById.get(company.id);
@@ -826,11 +846,15 @@ async function evaluateSelectionInternal(input: {
   const automatic = verifiedRecipients.length;
   const manual = items.filter((item) => item.classification === 'manual').length;
   const excluded = items.length - automatic - manual;
+  const verifiedCompanyIds = items.filter((item) => item.classification !== 'excluded'
+    && bridgeVerifiedBusinessCompanyIds.has(item.companyId)).map((item) => item.companyId);
   return {
     selected: items.length,
     automatic,
     manual,
     excluded,
+    verified: verifiedCompanyIds.length,
+    verifiedCompanyIds,
     automaticCompanyIds: verifiedRecipients.map((item) => item.companyId),
     items,
     verifiedRecipients,
@@ -855,6 +879,7 @@ export async function evaluateTelegramCampaignSelection(input: {
     dataKey: input.dataKey,
     contactBasis: input.contactBasis,
     readOnly: input.readOnly,
+    includeBridgeVerification: true,
   });
   return publicSelection(result);
 }

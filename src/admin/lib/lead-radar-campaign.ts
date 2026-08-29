@@ -343,7 +343,8 @@ export interface LeadRadarTelegramCampaignPreparation {
 export interface LeadRadarCampaignPreflight {
   limits?: { dailyLimit: number; remainingToday: number; minimumIntervalSeconds: number; nextDispatchAt: string | null };
   selection: {
-    selected: number; automatic: number; manual: number; excluded: number;
+    selected: number; automatic: number; manual: number; excluded: number; verified: number;
+    verifiedCompanyIds: string[];
     automaticCompanyIds: string[];
     items: Array<{companyId: string; name: string | null; classification: LeadRadarCampaignRecipientClassification;
       reasonCode: string; authorization: LeadRadarCampaignRecipientAuthorization | null}>;

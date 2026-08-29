@@ -27,6 +27,7 @@ export interface LeadRadarTelegramContact {
   url: string;
   username: string;
   peerRef?: string;
+  sourceKey?: string;
   type: TelegramContactType;
   confidence: number;
   reason: string;

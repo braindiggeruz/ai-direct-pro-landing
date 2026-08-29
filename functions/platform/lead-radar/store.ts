@@ -286,12 +286,15 @@ function telegramContactFromJson(value: string): LeadRadarTelegramContact | null
   const reason = boundedText(item.reason, 240);
   const checkedAt = verifiedAt(item.verifiedAt);
   const peerRef = item.reason==='bridge_resolved_corporate' && typeof item.peerRef==='string' && /^lrpeer:[a-f0-9]{32}$/u.test(item.peerRef) ? item.peerRef : null;
+  const sourceKey = item.reason==='bridge_resolved_corporate' && typeof item.sourceKey==='string'
+    && /^(?:phone|telegram):\S{1,430}$/u.test(item.sourceKey) ? item.sourceKey : null;
   if ((!peerRef && (!locator || !username || username.toLowerCase() !== locator.username.toLowerCase()))
     || !type || confidence === null || !reason || !checkedAt) return null;
   return {
     url: locator?.url ?? '',
     username: locator?.username ?? '',
     ...(peerRef ? {peerRef} : {}),
+    ...(sourceKey ? {sourceKey} : {}),
     type,
     confidence,
     reason,
