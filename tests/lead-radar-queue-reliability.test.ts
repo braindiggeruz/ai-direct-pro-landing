@@ -124,6 +124,7 @@ function storedLead(canonicalKey: string, website: string | null): StoredLeadInp
 test('contact target replenishes from a fenced persisted pool and stops at its bound without claiming ready', async () => {
   const fixture = database();
   fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'), 'utf8'));
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0054_lead_radar_candidate_pool_resume.sql'), 'utf8'));
   fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
   const store = new LeadRadarStore(fixture.asD1());
   const queue = new RecordingQueue();
@@ -156,6 +157,7 @@ test('contact target replenishes from a fenced persisted pool and stops at its b
 test('contact-mode enrichment schedules a durable lookup job and resumes it without fetching the website again', async () => {
   const fixture = database();
   fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'), 'utf8'));
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0054_lead_radar_candidate_pool_resume.sql'), 'utf8'));
   fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
   const db = fixture.asD1(), store = new LeadRadarStore(db), queue = new RecordingQueue();
   let at = new Date('2026-08-28T12:00:00.000Z'), websites = 0, lookups = 0;
@@ -206,6 +208,7 @@ test('request idempotency replays the same fingerprint and rejects key reuse wit
 test('unavailable Bridge waits durably then requires attention instead of completing an unperformed check',async()=>{
   const fixture=database();
   fixture.exec(readFileSync(resolve(import.meta.dirname,'../migrations/0050_lead_radar_contact_discovery.sql'),'utf8'));
+  fixture.exec(readFileSync(resolve(import.meta.dirname,'../migrations/0054_lead_radar_candidate_pool_resume.sql'),'utf8'));
   fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
   const db=fixture.asD1(),queue=new RecordingQueue();
   let at=new Date('2026-08-28T12:00:00.000Z');
@@ -795,4 +798,183 @@ test('bounded dispatcher gives each tenant a turn and balances stages within a t
     { orgId: 'org-b', stage: 'discovery' },
     { orgId: 'org-a', stage: 'enrichment' },
   ]);
+});
+
+const CONTACT_POOL_INPUT: LeadRadarSearchInput = {
+  ...SEARCH_INPUT,
+  searchGoal: 'telegram_contacts',
+  desiredCount: 5,
+  maxCandidates: 25,
+};
+
+function contactPoolDatabase(): SqliteD1 {
+  const fixture = database();
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'), 'utf8'));
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0054_lead_radar_candidate_pool_resume.sql'), 'utf8'));
+  fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
+  return fixture;
+}
+
+async function runningDiscoveryJob(
+  store: LeadRadarStore,
+  fixture: SqliteD1,
+  searchId: string,
+  at: Date,
+  key: string,
+) {
+  const created = await store.createJob('org-a', searchId, null, 'discovery', key, at.toISOString());
+  fixture.sqlite.prepare(
+    "UPDATE lead_radar_jobs SET status='running', lease_owner='owner', lease_generation=1, lease_expires_at=? WHERE id=?",
+  ).run(new Date(at.getTime() + 600_000).toISOString(), created.id);
+  const job = await store.getJob(created.id);
+  assert.ok(job);
+  return job;
+}
+
+test('a time-limited pool resumes with a bounded rediscovery round instead of staying partial', async () => {
+  const fixture = contactPoolDatabase();
+  const store = new LeadRadarStore(fixture.asD1());
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  const now = at.toISOString();
+  const searchId = await store.createSearch('org-a', CONTACT_POOL_INPUT, now);
+  const leadId = await store.insertLead('org-a', searchId, storedLead('resume-company', null));
+  assert.ok(leadId);
+  const initial = await store.createJob('org-a', searchId, null, 'discovery', `contact-pool:${searchId}:0`, now);
+  fixture.sqlite.prepare("UPDATE lead_radar_jobs SET status='completed', completed_at=?, updated_at=? WHERE id=?").run(now, now, initial.id);
+  fixture.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools
+    (org_id,search_id,candidates_json,candidate_count,cursor,target,stop_reason,created_at,expires_at,updated_at)
+    VALUES ('org-a',?,NULL,25,25,5,'time_limit',?,?,?)`)
+    .run(searchId, new Date(at.getTime() - 2 * 60 * 60_000).toISOString(), new Date(at.getTime() - 60_000).toISOString(), now);
+  await store.refreshSearchFunnel('org-a', searchId, now);
+  assert.equal(fixture.value('SELECT resume_count FROM lead_radar_candidate_pools'), 1);
+  assert.equal(fixture.value('SELECT stop_reason FROM lead_radar_candidate_pools'), null);
+  assert.equal(fixture.value('SELECT candidate_count FROM lead_radar_candidate_pools'), 0);
+  assert.equal(fixture.value('SELECT cursor FROM lead_radar_candidate_pools'), 0);
+  assert.equal(
+    fixture.value('SELECT status FROM lead_radar_jobs WHERE idempotency_key=?', `contact-pool:${searchId}:resume:1`),
+    'queued',
+  );
+  const summary = await store.getSearch('org-a', searchId);
+  assert.equal(summary?.search.status, 'running');
+  assert.equal(summary?.search.phase, 'discovering');
+});
+
+test('a pool that already used both resume rounds stops at the time limit for good', async () => {
+  const fixture = contactPoolDatabase();
+  const store = new LeadRadarStore(fixture.asD1());
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  const now = at.toISOString();
+  const searchId = await store.createSearch('org-a', CONTACT_POOL_INPUT, now);
+  const leadId = await store.insertLead('org-a', searchId, storedLead('exhausted-resume-company', null));
+  assert.ok(leadId);
+  const initial = await store.createJob('org-a', searchId, null, 'discovery', `contact-pool:${searchId}:0`, now);
+  fixture.sqlite.prepare("UPDATE lead_radar_jobs SET status='completed', completed_at=?, updated_at=? WHERE id=?").run(now, now, initial.id);
+  fixture.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools
+    (org_id,search_id,candidates_json,candidate_count,cursor,target,stop_reason,resume_count,created_at,expires_at,updated_at)
+    VALUES ('org-a',?,NULL,25,25,5,NULL,2,?,?,?)`)
+    .run(searchId, new Date(at.getTime() - 3 * 60 * 60_000).toISOString(), new Date(at.getTime() - 60_000).toISOString(), now);
+  await store.refreshSearchFunnel('org-a', searchId, now);
+  assert.equal(fixture.value('SELECT stop_reason FROM lead_radar_candidate_pools'), 'time_limit');
+  assert.equal(fixture.value('SELECT resume_count FROM lead_radar_candidate_pools'), 2);
+  assert.equal(
+    fixture.value("SELECT COUNT(*) FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-pool:%:resume:%'"),
+    0,
+  );
+  const summary = await store.getSearch('org-a', searchId);
+  assert.equal(summary?.search.status, 'partial');
+  assert.ok(
+    String(fixture.value('SELECT warnings_json FROM lead_radar_searches WHERE id=?', searchId)).includes('contact_time_limit'),
+  );
+});
+
+test('oversized candidate sets are capped during discovery with a visible warning instead of silent loss', async () => {
+  const fixture = contactPoolDatabase();
+  const store = new LeadRadarStore(fixture.asD1());
+  const queue = new RecordingQueue();
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  const result = await enqueueLeadRadarSearch(
+    store, 'org-a', { ...CONTACT_POOL_INPUT, maxCandidates: 250 }, queue, at, 'capped-pool-test',
+  );
+  const fatCandidate = (key: string): SourceCandidate => ({
+    ...candidate(null, key),
+    evidence: Array.from({ length: 16 }, (_, i) => ({
+      id: `${key}-ev-${i}`,
+      fieldPath: 'company.name',
+      value: 'x'.repeat(2000),
+      sourceUrl: 'https://www.openstreetmap.org/node/42',
+      sourceType: 'openstreetmap' as const,
+      observedAt: '2026-08-25T10:00:00.000Z',
+      confidence: 0.9,
+      classification: 'company_data' as const,
+    })),
+  });
+  const deps = {
+    now: () => at,
+    discover: async () => ({
+      candidates: Array.from({ length: 250 }, (_, i) => fatCandidate(`fat-${i}`)),
+      sourceWarnings: [] as string[],
+    }),
+  };
+  const message = queue.messages.shift();
+  assert.ok(message);
+  await consumeLeadRadarQueueMessage(fixture.asD1(), message, queue, deps);
+  const kept = Number(fixture.value('SELECT candidate_count FROM lead_radar_candidate_pools'));
+  assert.ok(kept > 0 && kept < 250, `kept=${kept}`);
+  const warnings = String(fixture.value('SELECT warnings_json FROM lead_radar_searches WHERE id=?', result.search.id));
+  assert.ok(warnings.includes('contact_candidates_capped'), warnings);
+});
+
+test('pool re-initialization replaces candidates and reopens the pool without touching resume history', async () => {
+  const fixture = contactPoolDatabase();
+  const store = new LeadRadarStore(fixture.asD1());
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  const now = at.toISOString();
+  const searchId = await store.createSearch('org-a', CONTACT_POOL_INPUT, now);
+  const job = await runningDiscoveryJob(store, fixture, searchId, at, `contact-pool:${searchId}:0`);
+  const first = await store.contactDiscovery.initialize(job, [storedLead('lead-a', null)], 5, now);
+  assert.deepEqual(first, { kept: 1, dropped: 0 });
+  await store.contactDiscovery.stop('org-a', searchId, 'time_limit', now);
+  assert.equal(await store.contactDiscovery.markForResume('org-a', searchId, now), true);
+  const second = await store.contactDiscovery.initialize(
+    job, [storedLead('lead-b', null), storedLead('lead-c', null)], 5, now,
+  );
+  assert.deepEqual(second, { kept: 2, dropped: 0 });
+  const pool = await store.contactDiscovery.getPool('org-a', searchId);
+  assert.ok(pool);
+  assert.equal(pool.candidate_count, 2);
+  assert.equal(pool.cursor, 0);
+  assert.equal(pool.batch_start, 0);
+  assert.equal(pool.batch_job_id, null);
+  assert.equal(pool.stop_reason, null);
+  assert.equal(pool.resume_count, 1);
+  assert.ok(pool.candidates_json);
+  assert.ok(pool.candidates_json.includes('lead-c'));
+  assert.ok(!pool.candidates_json.includes('lead-a'));
+});
+
+test('pool initialization reports candidates dropped by the byte budget', async () => {
+  const fixture = contactPoolDatabase();
+  const store = new LeadRadarStore(fixture.asD1());
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  const now = at.toISOString();
+  const searchId = await store.createSearch('org-a', CONTACT_POOL_INPUT, now);
+  const job = await runningDiscoveryJob(store, fixture, searchId, at, `contact-pool:${searchId}:0`);
+  const fatLead = (key: string): StoredLeadInput => ({
+    ...storedLead(key, null),
+    evidence: Array.from({ length: 16 }, (_, i) => ({
+      id: `${key}-ev-${i}`,
+      fieldPath: 'company.name',
+      value: 'x'.repeat(2000),
+      sourceUrl: 'https://www.openstreetmap.org/node/42',
+      sourceType: 'openstreetmap' as const,
+      observedAt: now,
+      confidence: 0.9,
+      classification: 'company_data' as const,
+    })),
+  });
+  const fat = Array.from({ length: 250 }, (_, i) => fatLead(`fat-${i}`));
+  const { kept, dropped } = await store.contactDiscovery.initialize(job, fat, 5, now);
+  assert.ok(kept > 0 && kept < 250, `kept=${kept}`);
+  assert.equal(dropped, 250 - kept);
+  assert.equal(Number(fixture.value('SELECT candidate_count FROM lead_radar_candidate_pools')), kept);
 });

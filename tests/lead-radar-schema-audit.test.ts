@@ -26,6 +26,7 @@ test('optional Firecrawl migration preserves the base runtime fingerprint and ex
   await fixture.prepare('INSERT INTO d1_migrations(name) VALUES (?)').bind('0049_lead_radar_firecrawl.sql').run();
   fixture.exec(migrationSql('0050_lead_radar_contact_discovery.sql'));
   await fixture.prepare('INSERT INTO d1_migrations(name) VALUES (?)').bind('0050_lead_radar_contact_discovery.sql').run();
+  fixture.exec(migrationSql('0054_lead_radar_candidate_pool_resume.sql'));
   const report = await auditLeadRadarD1Schema(fixture.asD1(), 'target');
   assert.equal(report.status, 'pass', JSON.stringify(report.issues));
 });

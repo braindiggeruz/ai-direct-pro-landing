@@ -10,7 +10,7 @@ export async function contactDiscoverySchemaReady(db: D1Database): Promise<boole
       (SELECT COUNT(*) FROM d1_migrations WHERE name='0050_lead_radar_contact_discovery.sql') AS ledger`).first<{ tables: number; ledger: number }>();
     if (row?.tables !== 2 || row.ledger !== 1) return false;
     // Verify critical columns without inspecting unrelated product tables.
-    await db.prepare(`SELECT p.cursor, p.batch_job_id, p.stop_reason, p.resolved_count, c.proof_digest, c.account_digest, c.status, c.attempts_today, c.attempt_day
+    await db.prepare(`SELECT p.cursor, p.batch_job_id, p.stop_reason, p.resolved_count, p.resume_count, c.proof_digest, c.account_digest, c.status, c.attempts_today, c.attempt_day
       FROM lead_radar_candidate_pools p LEFT JOIN lead_radar_contact_checks c ON c.org_id=p.org_id AND c.search_id=p.search_id LIMIT 0`).all();
     checkedBindings.add(db);
     return true;
@@ -27,6 +27,7 @@ export interface ContactCandidatePool {
   resolved_count: number;
   stop_reason: string | null;
   expires_at: string;
+  resume_count: number;
 }
 
 const parentFence = `EXISTS (SELECT 1 FROM lead_radar_jobs j WHERE j.org_id=? AND j.id=?
@@ -51,13 +52,13 @@ export class ContactDiscoveryStore {
     ]);
   }
   async getPool(orgId: string, searchId: string): Promise<ContactCandidatePool | null> {
-    return this.db.prepare(`SELECT candidates_json,candidate_count,cursor,batch_start,batch_job_id,target,resolved_count,stop_reason,expires_at
+    return this.db.prepare(`SELECT candidates_json,candidate_count,cursor,batch_start,batch_job_id,target,resolved_count,stop_reason,expires_at,resume_count
       FROM lead_radar_candidate_pools WHERE org_id=? AND search_id=?`).bind(orgId, searchId).first<ContactCandidatePool>();
   }
   async recordResolvedCount(orgId: string, searchId: string, count: number): Promise<void> {
     await this.db.prepare('UPDATE lead_radar_candidate_pools SET resolved_count=? WHERE org_id=? AND search_id=?').bind(Math.min(250,count),orgId,searchId).run();
   }
-  async initialize(job: LeadRadarJob, candidates: StoredLeadInput[], target: number, now: string): Promise<void> {
+  async initialize(job: LeadRadarJob, candidates: StoredLeadInput[], target: number, now: string): Promise<{ kept: number; dropped: number }> {
     const bounded: StoredLeadInput[] = [];
     let bytes = 2;
     for (const candidate of candidates.slice(0, 250)) {
@@ -66,13 +67,28 @@ export class ContactDiscoveryStore {
       if (bytes + size > 1_400_000) break;
       bounded.push(compact); bytes += size;
     }
-    await this.db.prepare(`INSERT OR IGNORE INTO lead_radar_candidate_pools
+    // Re-initialization after a resume keeps created_at and resume_count while
+    // replacing the candidate set and reopening the pool for a fresh round.
+    await this.db.prepare(`INSERT INTO lead_radar_candidate_pools
       (org_id,search_id,candidates_json,candidate_count,target,created_at,expires_at,updated_at)
-      SELECT ?,?,?,?,?,?,?,? WHERE ${parentFence}`).bind(
+      SELECT ?,?,?,?,?,?,?,? WHERE ${parentFence}
+      ON CONFLICT(org_id,search_id) DO UPDATE SET candidates_json=excluded.candidates_json,
+        candidate_count=excluded.candidate_count, cursor=0, batch_start=0, batch_job_id=NULL,
+        target=excluded.target, stop_reason=NULL, expires_at=excluded.expires_at, updated_at=excluded.updated_at`).bind(
         job.orgId,job.searchId,JSON.stringify(bounded),bounded.length,target,now,
         new Date(Date.parse(now) + 60 * 60_000).toISOString(),now,
         job.orgId,job.id,job.searchId,job.leaseOwner,job.leaseGeneration,now,
       ).run();
+    return { kept: bounded.length, dropped: candidates.length - bounded.length };
+  }
+  async markForResume(orgId: string, searchId: string, now: string): Promise<boolean> {
+    const result = await this.db.prepare(`UPDATE lead_radar_candidate_pools
+      SET stop_reason=NULL, candidates_json=NULL, candidate_count=0, cursor=0, batch_start=0,
+        batch_job_id=NULL, resume_count=resume_count+1, expires_at=?, updated_at=?
+      WHERE org_id=? AND search_id=? AND stop_reason='time_limit'`).bind(
+        new Date(Date.parse(now) + 60 * 60_000).toISOString(),now,orgId,searchId,
+      ).run();
+    return result.meta.changes === 1;
   }
   async reserveBatch(job: LeadRadarJob, now: string, batchSize = 10): Promise<StoredLeadInput[]> {
     await this.db.prepare(`UPDATE lead_radar_candidate_pools SET batch_job_id=?,batch_start=cursor,

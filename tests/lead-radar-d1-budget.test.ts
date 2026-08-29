@@ -71,6 +71,7 @@ for (const missingWebsite of [false, true]) test(`Firecrawl four-page enrichment
 test('background contact checks and final target aggregation fit the Free D1 budget', async (context) => {
   const fixture = database();
   fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'),'utf8'));
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0054_lead_radar_candidate_pool_resume.sql'),'utf8'));
   fixture.exec(`CREATE TABLE d1_migrations(name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');
     CREATE TABLE lead_radar_tg_user_accounts(id TEXT,org_id TEXT,status TEXT);
     INSERT INTO lead_radar_tg_user_accounts VALUES ('fixture-account','org-a','connected');`);
@@ -111,7 +112,7 @@ test('background contact checks and final target aggregation fit the Free D1 bud
 test('contact-first search then Bridge proof stays inside D1 budget on every delivery',async(context)=>{
   const fixture=database();
   fixture.exec('CREATE TABLE d1_migrations(name TEXT)');
-  for (const file of ['0049_lead_radar_firecrawl.sql','0050_lead_radar_contact_discovery.sql','0052_lead_radar_contact_sources.sql']) {
+  for (const file of ['0049_lead_radar_firecrawl.sql','0050_lead_radar_contact_discovery.sql','0052_lead_radar_contact_sources.sql','0054_lead_radar_candidate_pool_resume.sql']) {
     fixture.exec(readFileSync(resolve(import.meta.dirname,'../migrations',file),'utf8'));
     fixture.sqlite.prepare('INSERT INTO d1_migrations VALUES (?)').run(file);
   }
@@ -580,6 +581,7 @@ async function measureAdversarialCron(): Promise<{
 test('contact pool discovery and refill remain within the Free D1 budget including outer guard headroom', async (context) => {
   const fixture = database();
   fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0050_lead_radar_contact_discovery.sql'),'utf8'));
+  fixture.exec(readFileSync(resolve(import.meta.dirname, '../migrations/0054_lead_radar_candidate_pool_resume.sql'),'utf8'));
   fixture.exec("CREATE TABLE d1_migrations (name TEXT); INSERT INTO d1_migrations VALUES ('0050_lead_radar_contact_discovery.sql');");
   const queue = new RecordingQueue();
   const store = new LeadRadarStore(fixture.asD1());

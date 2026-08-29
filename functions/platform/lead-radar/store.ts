@@ -1950,21 +1950,40 @@ export class LeadRadarStore {
         resolvedGoalCount = await countResolvedCorporateContacts(this.db,orgId,searchId,now);
         await this.contactDiscovery.recordResolvedCount(orgId,searchId,resolvedGoalCount);
       }
-      if (pool && !pool.stop_reason) {
+      if (pool && (!pool.stop_reason || pool.stop_reason === 'time_limit')) {
         // Contact-mode success requires a Bridge resolution under the current
         // account, not just a public link. Outreach permission remains separate.
         const blockedSources = deadJobs.find(job => /^contact_sources_.*(?:budget|credits|rate_limit)/.test(job.last_error_code ?? ''));
-        const reason = resolvedGoalCount >= input.desiredCount ? 'target_reached'
-          : blockedSources ? 'provider_budget'
-          : pool.expires_at <= now ? 'time_limit'
-            : pool.cursor >= pool.candidate_count ? (pool.candidate_count >= (input.maxCandidates ?? 250) ? 'candidate_limit' : 'sources_exhausted') : null;
-        if (reason) await this.contactDiscovery.stop(orgId, searchId, reason, now);
-        else {
-          const next = await this.createJob(orgId, searchId, null, 'discovery', `contact-pool:${searchId}:${pool.cursor}`, now);
-          replenishing = ['queued', 'running', 'retry_wait'].includes(next.status);
-          discoveryActive = replenishing;
+        if (resolvedGoalCount >= input.desiredCount) {
+          if (!pool.stop_reason) await this.contactDiscovery.stop(orgId, searchId, 'target_reached', now);
+        } else if (blockedSources) {
+          if (!pool.stop_reason) {
+            await this.contactDiscovery.stop(orgId, searchId, 'provider_budget', now);
+            warnings.push('contact_provider_budget');
+          }
+        } else if (pool.stop_reason === 'time_limit' || pool.expires_at <= now) {
+          // A time-limited pool is not terminal while the contact target is
+          // unmet: allow up to two fresh discovery rounds before giving up.
+          if (pool.resume_count < 2 && await this.contactDiscovery.markForResume(orgId, searchId, now)) {
+            const next = await this.createJob(orgId, searchId, null, 'discovery', `contact-pool:${searchId}:resume:${pool.resume_count + 1}`, now);
+            replenishing = ['queued', 'running', 'retry_wait'].includes(next.status);
+            discoveryActive = replenishing;
+          } else if (!pool.stop_reason) {
+            await this.contactDiscovery.stop(orgId, searchId, 'time_limit', now);
+            warnings.push('contact_time_limit');
+          }
+        } else {
+          const reason = pool.cursor >= pool.candidate_count
+            ? (pool.candidate_count >= (input.maxCandidates ?? 250) ? 'candidate_limit' : 'sources_exhausted') : null;
+          if (reason) {
+            await this.contactDiscovery.stop(orgId, searchId, reason, now);
+            warnings.push(`contact_${reason}`);
+          } else {
+            const next = await this.createJob(orgId, searchId, null, 'discovery', `contact-pool:${searchId}:${pool.cursor}`, now);
+            replenishing = ['queued', 'running', 'retry_wait'].includes(next.status);
+            discoveryActive = replenishing;
+          }
         }
-        if (reason && reason !== 'target_reached') warnings.push(`contact_${reason}`);
       }
     }
     const terminal = activeJobs.length === 0 && !replenishing && jobs.some((job) => job.stage === 'discovery');

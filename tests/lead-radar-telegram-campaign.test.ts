@@ -50,6 +50,7 @@ const MIGRATIONS = [
   '0047_lead_radar_telegram_campaign_media.sql',
   '0048_lead_radar_telegram_media_quota.sql',
   '0050_lead_radar_contact_discovery.sql',
+  '0054_lead_radar_candidate_pool_resume.sql',
 ] as const;
 const ORG_A = 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const ORG_B = 'org_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';

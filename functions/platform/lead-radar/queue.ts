@@ -370,9 +370,12 @@ async function processDiscovery(
     return retryOrDeadLetter(store, job, 'contact_discovery_unavailable', at);
   }
   const existingPool = contactMode ? await store.contactDiscovery.getPool(job.orgId, job.searchId) : null;
+  // A pool left empty by a resume (candidate_count=0) must be re-discovered
+  // and re-initialized exactly like a pool that never existed.
+  const needsInit = !existingPool || existingPool.candidate_count === 0;
   let discovery: LeadRadarDiscoveryResult = { candidates: [], sourceWarnings: [] };
   try {
-    if (!existingPool) discovery = dependencies.discover
+    if (needsInit) discovery = dependencies.discover
       ? await dependencies.discover(input)
       : await new OpenStreetMapLeadSource(store).discoverRaw(input);
   } catch (error) {
@@ -395,11 +398,12 @@ async function processDiscovery(
     const existing = candidates.get(lead.canonicalKey);
     if (!existing || lead.evidence.length > existing.evidence.length) candidates.set(lead.canonicalKey, lead);
   }
-  if (contactMode && !existingPool) {
+  if (contactMode && needsInit) {
     const ranked = [...candidates.values()].sort((a, b) =>
       Number(Boolean(b.telegramContact)) * 4 + Number(Boolean(b.website)) * 2 + Number(Boolean(b.phone))
       - Number(Boolean(a.telegramContact)) * 4 - Number(Boolean(a.website)) * 2 - Number(Boolean(a.phone)));
-    await store.contactDiscovery.initialize(job, ranked.slice(0, input.maxCandidates ?? 250), input.desiredCount, now);
+    const { dropped } = await store.contactDiscovery.initialize(job, ranked.slice(0, input.maxCandidates ?? 250), input.desiredCount, now);
+    if (dropped > 0) discovery.sourceWarnings = [...discovery.sourceWarnings, 'contact_candidates_capped'];
   }
   const fanout = contactMode ? await store.contactDiscovery.reserveBatch(job, now) : [...candidates.values()].slice(
     0,
@@ -416,7 +420,7 @@ async function processDiscovery(
     CHILD_DISPATCH_BARRIER,
     dependencies.resolveMissingWebsites === true || Boolean(dependencies.resolveLeadContacts || dependencies.discoverLeadContactSources),
   )) return { outcome: 'retry_wait', delaySeconds: 30 };
-  if (!existingPool && !await store.recordDiscoveryTelemetry(
+  if (needsInit && !await store.recordDiscoveryTelemetry(
     job.orgId,
     job.searchId,
     job.id,
@@ -545,7 +549,8 @@ async function processEnrichment(
       if (!job.leaseOwner || !await store.deadLetterJob(job.orgId,job.id,job.leaseOwner,waitingReason,now,job.leaseGeneration)) return {outcome:'retry_wait',delaySeconds:30};
       // Leave a visible terminal trace on the company; a later enrichment cycle
       // re-creates the contact-resolution job (terminal status is re-eligible).
-      await store.markLeadEnrichmentTerminalFromDeadLetter(job.orgId,job.companyId,job.id,'contact_unverified',job.attemptCount,now);
+      // Reason must stay within the 0043 CHECK constraint on enrichment_reason.
+      await store.markLeadEnrichmentTerminalFromDeadLetter(job.orgId,job.companyId,job.id,'retry_exhausted',job.attemptCount,now);
       await store.refreshSearchFunnel(job.orgId,job.searchId,now);
       return {outcome:'dead_letter',errorCode:waitingReason};
     }
