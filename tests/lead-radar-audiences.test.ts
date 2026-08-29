@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { AudienceStore,audienceSchemaReady } from '../functions/platform/lead-radar/audiences';
 import { resolveLeadRadarCapabilities } from '../functions/platform/lead-radar/capabilities';
+import { checkCorporateTelegramContact,nextTelegramContactCandidate } from '../functions/platform/lead-radar/contact-resolution';
 import { freshAdminDb,migrationFiles,callRoute,platformToken,OWNER_EMAIL } from './helpers/bormi-admin-fixture';
 import * as routes from '../functions/api/admin/lead-radar/[[path]]';
 import { ownerOrgId } from '../functions/platform/lead-radar';
@@ -44,7 +45,7 @@ function company(db:SqliteD1,id:string,username:string,canonical=id,org=ORG,type
     VALUES (?,?,?,'web.telegram.business',?,?,'company_website',?,.95,'fact')`)
     .run(evidenceId,org,id,`https://t.me/${username}`,`https://${id}.example/contact`,stamp);
 }
-test('audience schema optional; tenant directory dedupes all historical searches, excludes phones/bots/humans',async()=>{
+test('audience schema optional; tenant directory dedupes all historical searches, excludes phones/bots/humans, evidence-only stays review',async()=>{
   const db=database(); const store=new AudienceStore(db.asD1());
   assert.equal(await audienceSchemaReady(db.asD1()),true);
   for(let i=0;i<5;i++)company(db,`same${i}`,i%2?'DentalClinic':'dentalclinic','same-business');
@@ -52,8 +53,43 @@ test('audience schema optional; tenant directory dedupes all historical searches
   company(db,'bot','DentalBot','bot',ORG,'bot');company(db,'human','PersonalName','human',ORG,'human');
   const result=await store.directory(ORG,{},CAPS,NOW);
   assert.equal(result.total,1);assert.equal(result.rows.length,1);assert.equal(result.rows[0].occurrences,5);
-  assert.equal(result.rows[0].status,'verified');assert.equal(result.rows[0].sources.length,5);
+  // Evidence alone is not verification: only a Bridge-resolved corporate check
+  // (lead_radar_contact_checks) earns the strict 'verified' status.
+  assert.equal(result.rows[0].status,'review');assert.equal(result.rows[0].sources.length,5);
   assert.equal(result.rows[0].lead.telegramContact?.username.toLowerCase(),'dentalclinic');
+});
+
+test('a Bridge-resolved corporate contact earns the strict verified status in the directory',async()=>{
+  const db=database();const store=new AudienceStore(db.asD1());
+  const hex='a'.repeat(64);
+  const accountId='lrtgua_'+'b'.repeat(32);
+  // Minimal connected account row; the strict verifier keys on id/status only.
+  db.sqlite.prepare(`INSERT INTO lead_radar_tg_user_accounts
+    (id,org_id,gateway_account_ref,gateway_account_ref_digest,masked_label,status,
+     auth_request_digest,request_idempotency_digest,request_fingerprint,connected_at,created_at,updated_at)
+    VALUES (?,?,?,?,?,'connected',?,?,?,?,?,?)`)
+    .run(accountId,ORG,'gateway_account_reference_aud',hex,'Fixture Account',hex,hex,hex,
+      NOW.toISOString(),NOW.toISOString(),NOW.toISOString());
+  company(db,'verified','VerifiedClinic');
+  // Corporate ownership requires the first-party website binding evidence,
+  // same as the campaign fixtures: without it the candidate stays unconfirmed.
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES ('evidence_binding_verified',?,'verified','web.website','https://verified.example/','https://verified.example/contact','company_website',?,.95,'fact')`)
+    .run(ORG,NOW.toISOString());
+  const base={db:db.asD1(),orgId:ORG,companyId:'verified',accountId,now:NOW.toISOString()};
+  const next=await nextTelegramContactCandidate(base);
+  assert.ok(next.candidateKey);
+  const result=await checkCorporateTelegramContact({...base,searchId:'search_verified',candidateKey:next.candidateKey,
+    resolve:async()=>({status:'resolved',username:'VerifiedClinic',reason:'regular_user_resolved',retryAfterSeconds:null})});
+  assert.equal(result.status,'resolved',result.reason);
+  // checkCorporateTelegramContact itself rewrites telegram_contact_json with
+  // reason 'bridge_resolved_corporate', bound to the durable check row.
+  const saved=JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='verified'")));
+  assert.equal(saved.reason,'bridge_resolved_corporate');assert.equal(saved.type,'business');
+  const page=await store.directory(ORG,{},CAPS,NOW);
+  assert.equal(page.total,1);
+  assert.equal(page.rows[0].status,'verified');
+  assert.equal(page.rows[0].lead.telegramContact?.username.toLowerCase(),'verifiedclinic');
 });
 test('legacy unknown bot and Bridge-rejected peer never inflate the contact directory',async()=>{
   const db=database(),store=new AudienceStore(db.asD1());
