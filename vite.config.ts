@@ -53,6 +53,17 @@ export default defineConfig({
             ) {
               return 'vendor'
             }
+            // motion (and its motion-dom/motion-utils internals) is only used
+            // by the lazy admin tree — keep it in its own cacheable chunk so
+            // it never leaks into the landing-critical path.
+            if (
+              id.includes('/motion/') ||
+              id.includes('/motion-dom/') ||
+              id.includes('/motion-utils/') ||
+              id.includes('/framer-motion/')
+            ) {
+              return 'motion'
+            }
           }
         },
       },
