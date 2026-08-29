@@ -1,0 +1,2 @@
+# Benchmark-only environment; not installed into the Telegram Bridge.
+scrapling[fetchers]==0.4.15

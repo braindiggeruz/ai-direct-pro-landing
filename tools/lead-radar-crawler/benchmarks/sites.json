@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "purpose": "Public, read-only one-page smoke comparison. Not a production audience or a complete recall benchmark.",
+  "discovered_at": "2026-08-29",
+  "sites": [
+    {"id":"dentista","niche":"dentist","name":"Dentista","url":"https://www.dentista-denta.uz/ru","known_phone":"+998901865505"},
+    {"id":"smalto","niche":"dentist","name":"Smalto","url":"https://smalto.uz/","known_phone":"+998712024151"},
+    {"id":"dental-clinic","niche":"dentist","name":"Dental Clinic","url":"https://dental-clinic.uz/kontakty","known_phone":"+998909376465"},
+    {"id":"dentx","niche":"dentist","name":"DentX","url":"https://dentx.uz/","known_phone":"+998997950312"},
+    {"id":"dentario","niche":"dentist","name":"Dentario","url":"https://dentario.uz/contacts/","known_phone":"+998781137130"},
+    {"id":"samir","niche":"beauty","name":"SAMIR SALON","url":"https://www.samirsalon.com/","known_phone":"+998501175018","known_telegram":"https://t.me/samirsalon"},
+    {"id":"konfetti","niche":"beauty","name":"Конфетти","url":"https://konfetti.uz/","known_phone":"+998901898365"},
+    {"id":"bosco","niche":"beauty","name":"BOSCO Beauty Club","url":"https://boscobeauty.uz/manicure.html","known_phone":"+998951207020"},
+    {"id":"rocks","niche":"beauty","name":"Rocks","url":"https://rocks.uz/","known_phone":"+998910030055","known_telegram":"https://t.me/rocks_studio"},
+    {"id":"karolina","niche":"beauty","name":"Karolina Beauty","url":"https://karolinabeauty.uz/"},
+    {"id":"avtotexxizmat","niche":"car_repair","name":"AVTOTEXXIZMAT","url":"https://avtotexxizmat.uz/contact","known_phone":"+998909480995"},
+    {"id":"sprint","niche":"car_repair","name":"Sprint","url":"https://www.sprint.uz/","known_phone":"+998983072500"},
+    {"id":"asko","niche":"car_repair","name":"ASKO GO","url":"https://www.askogo.uz/ru"},
+    {"id":"carland","niche":"car_repair","name":"Carland","url":"https://carland.uz/ru/"},
+    {"id":"asacar","niche":"car_repair","name":"ASACAR Autocenter","url":"https://asacar.uz/"}
+  ]
+}
