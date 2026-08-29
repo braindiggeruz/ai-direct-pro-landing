@@ -1,19 +1,34 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { i18n, type Lang } from './i18n';
 import { buildCtaUrl, track } from './lib/cta';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Pain from './components/Pain';
-import Solution from './components/Solution';
-import DemoChat from './components/DemoChat';
-import Niches from './components/Niches';
-import Offer from './components/Offer';
-import FAQ from './components/FAQ';
-import FinalCTA from './components/FinalCTA';
-import Footer from './components/Footer';
-import StickyCTA from './components/StickyCTA';
-import BlogTeaser from './components/BlogTeaser';
-import SolutionsGrid from './components/SolutionsGrid';
+
+// Below-the-fold sections are code-split so the first paint only downloads
+// Header + Hero + Pain. Everything else loads in parallel right after, inside
+// a single Suspense boundary per group (neutral fallback keeps layout stable).
+// The SEO prerender shell (scripts/prerender-home.ts) is independent of React
+// and is unaffected by this split.
+const Solution = lazy(() => import('./components/Solution'));
+const SolutionsGrid = lazy(() => import('./components/SolutionsGrid'));
+const DemoChat = lazy(() => import('./components/DemoChat'));
+const Niches = lazy(() => import('./components/Niches'));
+const Offer = lazy(() => import('./components/Offer'));
+const BlogTeaser = lazy(() => import('./components/BlogTeaser'));
+const FAQ = lazy(() => import('./components/FAQ'));
+const FinalCTA = lazy(() => import('./components/FinalCTA'));
+const Footer = lazy(() => import('./components/Footer'));
+const StickyCTA = lazy(() => import('./components/StickyCTA'));
+
+// Suspense has no "resolved" callback; this sentinel bumps a counter once the
+// lazy chunks mount so the section observers below can (re)scan the DOM.
+function MountSignal({ onMount }: { onMount: () => void }) {
+  useEffect(() => {
+    onMount();
+  }, [onMount]);
+  return null;
+}
 
 function getInitialLang(): Lang {
   if (typeof window === 'undefined') return 'ru';
@@ -30,6 +45,11 @@ export default function App() {
   const t = useMemo(() => i18n[lang], [lang]);
   const ctaUrl = useMemo(() => buildCtaUrl(), []);
   const scroll50Fired = useRef(false);
+  // Bumped by MountSignal when a lazy below-the-fold boundary resolves.
+  const [belowFoldVersion, setBelowFoldVersion] = useState(0);
+  const signalBelowFold = useCallback(() => setBelowFoldVersion((v) => v + 1), []);
+  // Survives effect re-runs so an already-tracked section never fires twice.
+  const viewedSections = useRef(new Set<string>());
 
   // persist language + update <html lang>
   useEffect(() => {
@@ -87,7 +107,7 @@ export default function App() {
       { sel: '[data-testid="offer"]', name: 'offer' },
       { sel: '[data-testid="final-cta"]', name: 'final_cta' },
     ];
-    const seen = new Set<string>();
+    const seen = viewedSections.current;
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -109,7 +129,8 @@ export default function App() {
       }
     }
     return () => io.disconnect();
-  }, [lang]);
+    // belowFoldVersion: lazy sections mount after first paint — rescan for them.
+  }, [lang, belowFoldVersion]);
 
   // IntersectionObserver for .reveal
   useEffect(() => {
@@ -121,13 +142,14 @@ export default function App() {
             e.target.classList.add('is-visible');
             io.unobserve(e.target);
           }
-        }
+        },
       },
       { rootMargin: '0px 0px -60px 0px', threshold: 0.08 },
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [lang]);
+    // belowFoldVersion: pick up .reveal nodes added by lazy sections.
+  }, [lang, belowFoldVersion]);
 
   const switchLang = (next: Lang) => {
     if (next === lang) return;
@@ -144,17 +166,23 @@ export default function App() {
       <main id="main-content">
         <Hero t={t} ctaUrl={ctaUrl} />
         <Pain t={t} />
-        <Solution t={t} ctaUrl={ctaUrl} />
-        <SolutionsGrid t={t} lang={lang} />
-        <DemoChat t={t} ctaUrl={ctaUrl} />
-        <Niches t={t} lang={lang} />
-        <Offer t={t} ctaUrl={ctaUrl} />
-        <BlogTeaser t={t} lang={lang} />
-        <FAQ t={t} />
-        <FinalCTA t={t} ctaUrl={ctaUrl} />
+        <Suspense fallback={null}>
+          <Solution t={t} ctaUrl={ctaUrl} />
+          <SolutionsGrid t={t} lang={lang} />
+          <DemoChat t={t} ctaUrl={ctaUrl} />
+          <Niches t={t} lang={lang} />
+          <Offer t={t} ctaUrl={ctaUrl} />
+          <BlogTeaser t={t} lang={lang} />
+          <FAQ t={t} />
+          <FinalCTA t={t} ctaUrl={ctaUrl} />
+          <MountSignal onMount={signalBelowFold} />
+        </Suspense>
       </main>
-      <Footer t={t} lang={lang} ctaUrl={ctaUrl} />
-      <StickyCTA t={t} ctaUrl={ctaUrl} />
+      <Suspense fallback={null}>
+        <Footer t={t} lang={lang} ctaUrl={ctaUrl} />
+        <StickyCTA t={t} ctaUrl={ctaUrl} />
+        <MountSignal onMount={signalBelowFold} />
+      </Suspense>
     </div>
   );
 }
