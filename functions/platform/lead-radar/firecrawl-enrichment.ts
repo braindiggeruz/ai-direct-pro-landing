@@ -181,7 +181,7 @@ export async function createFirecrawlQueueDependencies(
           // homepage identity, but never a conflicting explicit phone or redirect.
           const bound = identityBound(expected, final, html, discovered)
             || (boundOrigin === final.origin && !conflictingPhone(expected, html));
-          const facts = { website: final.origin, ...extractCompanyPageFacts(final, html, bound, observedAt) };
+          const facts = { website: final.origin, ...extractCompanyPageFacts(final, html, bound, observedAt, expected) };
           // Persist compact evidence, not upstream HTML or disallowed person records.
           facts.telegramContacts = (facts.telegramContacts ?? []).filter((c) => personalDataEnabled || c.type !== 'human').slice(0, 20);
           if (!personalDataEnabled) {

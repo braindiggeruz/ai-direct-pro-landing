@@ -1950,7 +1950,9 @@ export class LeadRadarStore {
       if (pool && !pool.stop_reason) {
         // Contact-mode success requires a Bridge resolution under the current
         // account, not just a public link. Outreach permission remains separate.
+        const blockedSources = deadJobs.find(job => /^contact_sources_.*(?:budget|credits|rate_limit)/.test(job.last_error_code ?? ''));
         const reason = resolvedGoalCount >= input.desiredCount ? 'target_reached'
+          : blockedSources ? 'provider_budget'
           : pool.expires_at <= now ? 'time_limit'
             : pool.cursor >= pool.candidate_count ? (pool.candidate_count >= (input.maxCandidates ?? 250) ? 'candidate_limit' : 'sources_exhausted') : null;
         if (reason) await this.contactDiscovery.stop(orgId, searchId, reason, now);

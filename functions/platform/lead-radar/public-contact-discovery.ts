@@ -4,15 +4,7 @@ import { FIRECRAWL_DIRECTORY_DOMAINS, firecrawlDiscoveryUrl, firecrawlDigest } f
 import { classifyTelegramContact, type ExpectedCompanyWebsiteIdentity } from './sources';
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { publishedTelegramLocators } from './telegram-locators';
-
-const CYRILLIC:Record<string,string>={а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'j',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'ts',ч:'ch',ш:'sh',щ:'sh',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',қ:'q',ғ:'g',ҳ:'h',ў:'o'};
-function latinName(value:string):string {
-  return value.toLocaleLowerCase('ru').replace(/[а-яёқғҳў]/g,(letter)=>CYRILLIC[letter] ?? letter).replace(/['‘’ʻʼ`]/g,'');
-}
-function businessNameKey(value:string):string {
-  const generic=new Set(['ooo','mchj','chp','kompaniya','company','stomatologiya','stomatologicheskaya','klinika','clinic','dental','dentist','stomatology']);
-  return normalizeCompanyKey(latinName(value)).split('-').filter((word)=>!generic.has(word)).join('-');
-}
+import { businessNameKey, latinBusinessName as latinName, matchesBusinessIdentity, publishedBusinessEntities, publishedPagePhones } from './business-contact-data';
 
 /** Allowlisted public listings/profiles only; never member lists or private links. */
 export function publicContactSourceUrl(value: string): { url: URL; kind: LeadRadarContactSource['kind'] } | null {
@@ -54,15 +46,7 @@ function boundedDiv(html: string, opening: RegExp): string | null {
 }
 
 function identityMatches(name: string, phones: unknown[], address: string, expected: ExpectedCompanyWebsiteIdentity): boolean {
-  const actualKey=businessNameKey(name), expectedKey=businessNameKey(expected.name);
-  const sameName = normalizeCompanyKey(name)===normalizeCompanyKey(expected.name)
-    || actualKey.length>=3 && actualKey===expectedKey;
-  const expectedPhone = expected.phone ? assessLeadRadarPhone(expected.phone).e164 : null;
-  const advertised = phones.filter((p): p is string => typeof p==='string').map((p) => assessLeadRadarPhone(p).e164).filter(Boolean);
-  if (expectedPhone && advertised.length && !advertised.includes(expectedPhone)) return false;
-  const samePhone = !!expectedPhone && advertised.includes(expectedPhone);
-  const normalizedAddress = normalizeCompanyKey(expected.address ?? '');
-  return sameName && (samePhone || normalizedAddress.length>=12 && normalizeCompanyKey(address)===normalizedAddress);
+  return matchesBusinessIdentity({name, phones:phones.filter((p):p is string=>typeof p==='string'), address}, expected);
 }
 
 /** Identity and contact must be in the SAME business entity. A page-wide match,
@@ -72,7 +56,7 @@ export async function extractPublicBusinessContacts(value: string, html: string,
   const source = publicContactSourceUrl(value);
   if (!source) return null;
   const endpoints: Array<{value:string;context:string;structured:boolean;unconfirmed?:boolean}> = [];
-  const entities: Array<{name:string;phones:unknown[];address:string}> = [];
+  const entities = publishedBusinessEntities(html);
   const corporatePhones=new Set<string>();
   if (source.kind==='telegram_profile') {
     const title=html.match(/<div\b[^>]*class=["'][^"']*\btgme_page_title\b[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1]?.replace(/<[^>]*>/g,' ').trim() ?? '';
@@ -86,37 +70,14 @@ export async function extractPublicBusinessContacts(value: string, html: string,
       for (const item of publishedTelegramLocators(description)) endpoints.push({value:item.locator.url,context:item.context.replace(/<[^>]*>/g,' '),structured:false});
     }
   }
-  const types = new Set(['Organization','LocalBusiness','Dentist','MedicalClinic','MedicalBusiness','Hospital','Pharmacy',
-    'BeautySalon','HairSalon','HealthAndBeautyBusiness','DaySpa','Store','ClothingStore','ElectronicsStore','FurnitureStore',
-    'AutoRepair','AutoDealer','AutomotiveBusiness','AutoPartsStore','EducationalOrganization','School','LanguageSchool',
-    'TravelAgency','RealEstateAgent','ProfessionalService','HomeAndConstructionBusiness','FoodEstablishment','Restaurant',
-    'CafeOrCoffeeShop','SportsActivityLocation','ExerciseGym','Hotel','LodgingBusiness']);
-  let visited=0;
-  const visit = (node: unknown, depth=0) => {
-    if (++visited>300 || depth>8 || !node || typeof node!=='object') return;
-    if (Array.isArray(node)) { node.slice(0,50).forEach((n) => visit(n,depth+1)); return; }
-    const entity = node as Record<string,unknown>;
-    const address = typeof entity.address==='string' ? entity.address : entity.address && typeof entity.address==='object'
-      ? String((entity.address as Record<string,unknown>).streetAddress ?? '') : '';
-    const business=[entity['@type']].flat().some((t) => typeof t==='string' && types.has(t)) && typeof entity.name==='string';
-    if (business) entities.push({name:entity.name as string,phones:[entity.telephone].flat(),address});
-    if (business && identityMatches(entity.name as string,[entity.telephone].flat(),address,expected)) {
-      for (const raw of [entity.telephone].flat()) if (typeof raw==='string') {
+  for (const entity of entities) {
+    if (matchesBusinessIdentity(entity, expected)) {
+      for (const raw of entity.phones) {
         const phone=assessLeadRadarPhone(raw);
         if (phone.e164 && phone.mobileLookupCandidate) corporatePhones.add(phone.e164);
       }
-      for (const endpoint of [entity.url,...[entity.sameAs].flat()]) if (typeof endpoint==='string') endpoints.push({value:endpoint,context:'',structured:true});
-      for (const point of [entity.contactPoint].flat()) {
-        if (!point || typeof point!=='object') continue;
-        const p=point as Record<string,unknown>, context=String(p.contactType ?? '');
-        if (/personal|owner|director|личн|директор|владелец/i.test(context)) continue;
-        for (const endpoint of [p.url,...[p.sameAs].flat()]) if (typeof endpoint==='string') endpoints.push({value:endpoint,context,structured:true});
-      }
+      for (const link of entity.links) endpoints.push({...link, structured:true});
     }
-    Object.values(entity).forEach((n) => visit(n,depth+1));
-  };
-  for (const script of html.slice(0,900_000).matchAll(/<script\b[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
-    try { visit(JSON.parse(script[1])); } catch { /* No inference from invalid structured data. */ }
   }
   // Top.uz publishes company social links in a bounded card, not JSON-LD.
   // A name/slug-only match is kept for TYPE checking and manual review only.
@@ -146,8 +107,12 @@ export async function extractPublicBusinessContacts(value: string, html: string,
     ?.replace(/<(?:footer|nav|aside|script|style)\b[^>]*>[\s\S]*?<\/(?:footer|nav|aside|script|style)>/gi,'');
   if (main && main.length<60_000) {
     const headings=[...main.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
-    const phones=[...main.matchAll(/\+\d(?:[\s().-]*\d){8,14}/g)].map((p) => p[0]);
+    const phones=publishedPagePhones(main).flatMap(p=>p.e164 ? [p.e164] : []);
     if (headings.length===1 && identityMatches(headings[0][1].replace(/<[^>]*>/g,' '),phones,'',expected)) {
+      // For unstructured directories only the independently matched phone is
+      // owned; another number in a related-business card is not sufficient.
+      const matched=assessLeadRadarPhone(expected.phone ?? '');
+      if (matched.e164 && matched.mobileLookupCandidate && phones.includes(matched.e164)) corporatePhones.add(matched.e164);
       for (const item of publishedTelegramLocators(main)) endpoints.push({value:item.locator.url,context:item.context.replace(/<[^>]*>/g,' '),structured:false});
     }
   }

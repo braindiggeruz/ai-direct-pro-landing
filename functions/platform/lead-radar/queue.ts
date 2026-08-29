@@ -34,7 +34,7 @@ export type LeadRadarQueueOutcome =
 
 export interface LeadRadarQueueDependencies {
   resolveLeadContacts?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean; retryAfterSeconds?: number; reason?: string }>;
-  discoverLeadContactSources?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean }>;
+  discoverLeadContactSources?: (job: LeadRadarJob, lead: import('./types').StoredLeadInput) => Promise<{ pending: boolean; reason?: string; retryAfterSeconds?: number }>;
   resolveMissingWebsites?: boolean;
   enrichLead?: (website: string | null, expected: ExpectedCompanyWebsiteIdentity, job: LeadRadarJob) => Promise<WebsiteEnrichmentResult>;
   discover?: (input: LeadRadarSearchInput) => Promise<LeadRadarDiscoveryResult>;
@@ -522,7 +522,7 @@ async function processEnrichment(
         ? await runWithJobHeartbeat(store,job,dependencies,() => dependencies.discoverLeadContactSources!(job,stored.lead)) : null;
       if (discovery && !discovery.leaseHeld) return {outcome:'retry_wait',delaySeconds:30};
       if (discovery?.error) throw discovery.error;
-      const result = discovery?.value?.pending ? {pending:true,reason:'contact_sources_pending'} : dependencies.resolveLeadContacts
+      const result = discovery?.value?.pending ? {reason:'contact_sources_pending',...discovery.value} : dependencies.resolveLeadContacts
         ? await dependencies.resolveLeadContacts(job, stored.lead) : {pending:true,reason:'contact_checker_unavailable',retryAfterSeconds:60};
       pending=result?.pending ?? false;
       if (result?.reason && /^[a-z][a-z0-9_]{2,79}$/.test(result.reason)) waitingReason=result.reason;
@@ -531,7 +531,9 @@ async function processEnrichment(
     catch { pending = true; waitingReason='contact_check_unavailable'; } // Never restart website enrichment.
     // The check itself expires after 3 minutes; allow queue delay and short
     // account-wide cooldowns without dropping a fresh check on an older job.
-    if (pending && Date.parse(now) - Date.parse(job.createdAt ?? now) < 30 * 60_000 && job.leaseOwner) {
+    const waitingForDailyBudget=/^contact_sources_(daily|domain)_budget_exhausted$/.test(waitingReason);
+    const waitWindowMs=waitingForDailyBudget ? 36*60*60_000 : 30*60_000;
+    if (pending && Date.parse(now) - Date.parse(job.createdAt ?? now) < waitWindowMs && job.leaseOwner) {
       const transitionNow=dependencies.now?.() ?? new Date();
       const retried = await store.retryJob(job.orgId,job.id,job.leaseOwner,waitingReason,
         new Date(transitionNow.getTime()+delaySeconds*1000).toISOString(),transitionNow.toISOString(),job.leaseGeneration,true);

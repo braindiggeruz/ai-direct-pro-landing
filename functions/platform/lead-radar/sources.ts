@@ -25,6 +25,7 @@ import {
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { assessLeadRadarPhone, extractLeadRadarPhones } from '../../../src/shared/lead-radar-contacts';
 import { publishedTelegramLocators } from './telegram-locators';
+import { hasDistinctBusinessName, publishedBusinessEntities, publishedPagePhones } from './business-contact-data';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
@@ -1081,24 +1082,18 @@ function metaOgTitles(html: string): string[] {
 
 function pageHasCompanyName(html: string, expectedName: string): boolean {
   const expected = normalizedCompanyPhrase(expectedName);
-  if (!expected) return false;
+  if (!expected || !hasDistinctBusinessName(expectedName)) return false;
   const tokens = expected.split('-').filter(Boolean);
   if (tokens.length === 1 && (tokens[0].length < 6 || GENERIC_SINGLE_COMPANY_NAMES.has(tokens[0]))) {
     return false;
   }
-  const corpus = normalizedCompanyPhrase(`${stripHtml(html)} ${metaOgTitles(html).join(' ')}`);
+  const titles = [...html.matchAll(/<(title|h1)\b[^>]*>([\s\S]*?)<\/\1>/gi)].map(match => stripHtml(match[2]));
+  const corpus = normalizedCompanyPhrase([...titles, ...metaOgTitles(html), ...publishedBusinessEntities(html).map(entity => entity.name)].join(' '));
   return Boolean(corpus) && `-${corpus}-`.includes(`-${expected}-`);
 }
 
 function pagePhoneNumbers(html: string): Set<string> {
-  const numbers = new Set<string>();
-  // Include attributes such as href="tel:+998..." as well as visible text.
-  const text = `${stripHtml(html)} ${html}`;
-  for (const match of text.matchAll(/\+?\d(?:[\s().-]*\d){6,14}/g)) {
-    const normalized = cleanPhone(match[0]);
-    if (normalized) numbers.add(normalized.replace(/\D/g, ''));
-  }
-  return numbers;
+  return new Set(publishedPagePhones(html).flatMap(phone => phone.e164 ? [phone.e164.replace(/\D/g, '')] : []));
 }
 
 /**
@@ -1110,12 +1105,19 @@ export function verifyCompanyWebsiteBinding(
   expected: ExpectedCompanyWebsiteIdentity,
   pages: Array<{ url: URL; html: string }>,
 ): CompanyWebsiteBinding {
-  const expectedPhone = cleanPhone(expected.phone)?.replace(/\D/g, '') ?? null;
+  const expectedPhones = expected.phone
+    ? extractLeadRadarPhones(expected.phone).flatMap(phone => phone.e164 ? [phone.e164.replace(/\D/g, '')] : [])
+    : [];
+  // Prefer the exact anchor across all pages before considering a name-only
+  // match. A conflicting published phone cannot be ignored by the name fallback.
   for (const page of pages) {
-    if (expectedPhone && pagePhoneNumbers(page.html).has(expectedPhone)) {
+    if (expectedPhones.some(phone => pagePhoneNumbers(page.html).has(phone))) {
       return { verified: true, method: 'phone', sourceUrl: page.url.toString() };
     }
-    if (pageHasCompanyName(page.html, expected.name)) {
+  }
+  const conflicting = expectedPhones.length > 0 && pages.some(page => pagePhoneNumbers(page.html).size > 0);
+  for (const page of pages) {
+    if (!conflicting && pageHasCompanyName(page.html, expected.name)) {
       return { verified: true, method: 'company_name', sourceUrl: page.url.toString() };
     }
   }
@@ -1253,6 +1255,7 @@ export function extractCompanyPageFacts(
   html: string,
   companyWebsiteBound = false,
   observedAt = new Date().toISOString(),
+  expected?: ExpectedCompanyWebsiteIdentity,
 ): Omit<WebsiteFacts, 'website'> {
   const text = stripHtml(html);
   const contactFacts = extractOfficialSiteContacts(pageUrl, html, observedAt);
@@ -1261,21 +1264,9 @@ export function extractCompanyPageFacts(
     .filter((item): item is string => Boolean(item));
   // Exclude numbers attributed to a site vendor/personal footer from both href
   // and visible-text extraction. Removing just the href reintroduced them below.
-  const excludedPhones = new Set<string>();
-  const phoneAnchors = [...html.matchAll(/href\s*=\s*["'](tel:[^"']{3,180})["']/gi)]
-    .map((match) => {
-      const nearby = stripHtml(html.slice(Math.max(0, match.index! - 140), match.index! + match[0].length + 140));
-      const phone = assessLeadRadarPhone(match[1]);
-      if (/разработк[аи] сайта|создание сайта|powered by|website by|web design|личный телефон|personal phone/i.test(nearby)) {
-        if (phone.e164) excludedPhones.add(phone.e164);
-        return null;
-      }
-      return phone;
-    }).filter((item): item is NonNullable<typeof item> => Boolean(item?.e164));
   // Keep all public company phone candidates; a landline is useful identity data
   // but never automatically a Telegram lookup target. The lookup layer rechecks type.
-  const phoneMatches = [...new Set([...phoneAnchors, ...extractLeadRadarPhones(text)]
-    .filter((item) => item.e164 && item.reason !== 'extension' && !excludedPhones.has(item.e164)).map((item) => item.e164!))]
+  const phoneMatches = publishedPagePhones(html, expected).map(item => item.e164!)
     .sort((a, b) => Number(assessLeadRadarPhone(b).mobileLookupCandidate) - Number(assessLeadRadarPhone(a).mobileLookupCandidate))
     .slice(0, 8);
   const telegramContact = companyWebsiteBound && contactFacts.telegramContact
@@ -1440,7 +1431,7 @@ async function enrichCompanyWebsiteWithBudget(
     const binding = expected
       ? verifyCompanyWebsiteBinding(expected, pages)
       : { verified: false, method: null, sourceUrl: null } satisfies CompanyWebsiteBinding;
-    const facts = pages.map((page) => extractCompanyPageFacts(page.url, page.html, binding.verified));
+    const facts = pages.map((page) => extractCompanyPageFacts(page.url, page.html, binding.verified, undefined, expected));
     const telegramRank: Record<TelegramContactType, number> = {
       business: 6, human: 5, unknown: 4, channel: 2, group: 1, bot: 0,
     };

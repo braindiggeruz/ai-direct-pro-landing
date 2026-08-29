@@ -18,13 +18,17 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
     if (!job.companyId || !job.leaseOwner || lead.suppressed || lead.lifecycle==='do_not_contact') return {pending:false};
     const identity={name:lead.name,phone:lead.phone,address:lead.address,city:lead.city};
     const cached=await loadContactEnrichments(db,job.orgId,[{id:job.companyId,...identity}],now().toISOString());
-    if (cached.has(job.companyId)) return {pending:false};
+    const previous=cached.get(job.companyId);
+    // A temporary limit is not a completed search. Re-evaluate the atomic
+    // reservation under current limits; this does not itself spend credits.
+    if (previous?.status==='complete') return {pending:false};
     if (contactCandidatesForLead(lead).some((c) => c.lookupEligible && c.ownership==='company' && c.kind==='telegram')) return {pending:false};
     const client=new FirecrawlClient(config,store,{orgId:job.orgId,searchId:job.searchId,companyId:job.companyId,
       jobId:job.id,leaseOwner:job.leaseOwner,leaseGeneration:job.leaseGeneration},deps.fetch,now);
     const sources: LeadRadarContactSource[]=[];
     const seen=new Set<string>();
     let reason='no_matching_public_contact', status: 'complete'|'limited'|'unavailable'='complete';
+    let retryAfterSeconds=60;
     const policies=new Map<string,string|null>();
     const allowed=async (url:URL) => {
       if (!policies.has(url.origin)) {
@@ -46,10 +50,10 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
             const raw=item && typeof item==='object' ? (item as {url?:unknown}).url : null;
             const source=typeof raw==='string' ? publicContactSourceUrl(raw) : null;
             return source ? [source.url.toString()] : [];
-          }).slice(0,2);
-        },'contact-first:v1');
+          }).slice(0,5);
+        },'contact-first:v2');
         for (const raw of urls) {
-          if (seen.has(raw) || seen.size>=3) continue;
+          if (seen.has(raw) || seen.size>=5) continue;
           seen.add(raw);
           const url=publicContactSourceUrl(raw)!.url;
           try {
@@ -63,29 +67,50 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
               const final=typeof meta.url==='string' ? publicContactSourceUrl(meta.url) : original;
               if (!original || !final || original.url.origin!==url.origin || final.url.origin!==url.origin) throw new FirecrawlError('unsafe_redirect');
               await allowed(final.url);
-              const html=[data.rawHtml,data.html].find((h):h is string => typeof h==='string' && h.length>0 && new TextEncoder().encode(h).byteLength<=900_000);
-              if (!html) throw new FirecrawlError('invalid_page');
-              return extractPublicBusinessContacts(final.url.toString(),html,identity,observedAt);
-            },JSON.stringify(['contact-proof:v1',identity]));
+              const representations=[...new Set([data.rawHtml,data.html].filter((h):h is string => typeof h==='string'
+                && h.length>0 && new TextEncoder().encode(h).byteLength<=900_000))];
+              if (!representations.length) throw new FirecrawlError('invalid_page');
+              let combined:LeadRadarContactSource|null=null;
+              for (const html of representations) {
+                // Match identity independently in each representation. Never
+                // borrow a name from raw HTML to trust a phone in another DOM.
+                const parsed=await extractPublicBusinessContacts(final.url.toString(),html,identity,observedAt);
+                if (!parsed) continue;
+                if (!combined) { combined=parsed; continue; }
+                for (const candidate of parsed.candidates) {
+                  const old=combined.candidates.findIndex(c=>c.key===candidate.key);
+                  if (old<0) combined.candidates.push(candidate);
+                  else if (combined.candidates[old].ownership!=='company' && candidate.ownership==='company') combined.candidates[old]=candidate;
+                }
+                combined.candidates=combined.candidates.slice(0,12);
+              }
+              return combined;
+            },JSON.stringify(['contact-proof:v2',identity]));
             if (source) sources.push(source);
+            if (source?.candidates.some(c=>c.kind==='telegram' && c.ownership==='company')) break;
           } catch (error) {
             if (error instanceof FirecrawlError && ['robots_blocked','robots_unavailable','target_http_error','unsafe_redirect','invalid_page'].includes(error.code)) continue;
             throw error;
           }
         }
-        if (sources.some((s)=>s.candidates.some((c)=>c.ownership==='company')) || seen.size>=3) break;
+        if (sources.some((s)=>s.candidates.some((c)=>c.kind==='telegram' && c.ownership==='company')) || seen.size>=5) break;
       }
     } catch (error) {
-      if (error instanceof FirecrawlError && error.retryable) return {pending:true};
+      if (error instanceof FirecrawlError && error.retryable) return {pending:true,reason:`contact_sources_${error.code}`,
+        retryAfterSeconds:error.retryAt ? Math.max(15,Math.ceil((Date.parse(error.retryAt)-now().getTime())/1000)) : 15};
       reason=error instanceof FirecrawlError ? error.code : 'source_unavailable';
       status=/budget|credits|rate_limit/.test(reason) ? 'limited' : 'unavailable';
+      if (reason==='daily_budget_exhausted' || reason==='domain_budget_exhausted') retryAfterSeconds=900;
     }
-    if (sources.length) { status='complete'; reason='public_contact_candidates'; }
+    if (sources.length && status==='complete') reason='public_contact_candidates';
     const at=now();
     const saved=await saveContactEnrichment(db,job,identity,{status,reason:config.mode==='shadow' ? 'shadow_only' : reason,
-      sources:config.mode==='shadow' ? [] : sources,checkedAt:at.toISOString(),expiresAt:new Date(at.getTime()+86400_000).toISOString()});
+      sources:config.mode==='shadow' ? [] : sources.slice(0,4),checkedAt:at.toISOString(),expiresAt:new Date(at.getTime()+86400_000).toISOString()});
     // A separate delivery handles Telegram. Paid parsing + account lookup must
     // not share one Workers Free D1/subrequest budget.
-    return {pending:saved};
+    // Partial evidence must not hide a budget/provider failure. Queue status
+    // retains the reason instead of marking unfinished discovery successful.
+    return {pending:true,reason:saved && status==='complete' ? 'contact_sources_pending' : `contact_sources_${reason}`,
+      retryAfterSeconds:status==='complete' ? 15 : retryAfterSeconds};
   } };
 }
