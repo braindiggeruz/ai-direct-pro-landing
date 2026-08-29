@@ -29,6 +29,9 @@ import {
   platformToken,
 } from './helpers/bormi-admin-fixture';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import {
+  checkCorporateTelegramContact,
+} from '../functions/platform/lead-radar/contact-resolution';
 
 const CAMPAIGN_DATA_KEY = Buffer.alloc(32, 19).toString('base64url');
 const CAMPAIGN_MEDIA_PNG = Buffer.from(
@@ -146,6 +149,7 @@ function installLeadRadarLedger(db: SqliteD1): void {
     '0046_lead_radar_telegram_campaign_safety.sql',
     '0047_lead_radar_telegram_campaign_media.sql',
     '0048_lead_radar_telegram_media_quota.sql',
+    '0050_lead_radar_contact_discovery.sql',
   ]) {
     db.sqlite.prepare('INSERT OR IGNORE INTO d1_migrations(name) VALUES (?)').run(name);
   }
@@ -616,6 +620,12 @@ async function seedCorporateLead(db: SqliteD1, suffix = ''): Promise<{ searchId:
       sourceUrl: `https://campaign-clinic${suffix}.example.invalid/contact`,
       sourceType: 'company_website', observedAt: now, confidence: 0.98,
       classification: 'fact',
+    }, {
+      id: `ev-campaign-binding${suffix}`, fieldPath: 'web.website',
+      value: `https://campaign-clinic${suffix}.example.invalid`,
+      sourceUrl: `https://campaign-clinic${suffix}.example.invalid/contact`,
+      sourceType: 'company_website', observedAt: now, confidence: 0.98,
+      classification: 'fact',
     }],
     enrichmentStatus: 'enriched', enrichmentReason: 'enriched', enrichmentAttempts: 1,
     discoveredAt: now, lastVerifiedAt: now,
@@ -644,7 +654,36 @@ async function seedConnectedAccount(db: SqliteD1): Promise<string> {
     expectedVersion: pending.account.stateVersion,
     maskedLabel: 'Рабочий аккаунт',
   });
+  await bridgeVerifySeededCorporateLeads(db, orgId, connected.id);
   return connected.id;
+}
+
+async function bridgeVerifySeededCorporateLeads(
+  db: SqliteD1,
+  orgId: string,
+  accountId: string,
+): Promise<void> {
+  const rows = db.rows<{ id: string; search_id: string; telegram_contact_json: string }>(
+    `SELECT id, search_id, telegram_contact_json FROM lead_radar_companies
+     WHERE org_id = ? AND suppressed = 0
+       AND json_extract(telegram_contact_json, '$.type') = 'business'`,
+    orgId,
+  );
+  const now = new Date().toISOString();
+  for (const row of rows) {
+    const saved = JSON.parse(row.telegram_contact_json) as { username?: string | null };
+    if (!saved.username) continue;
+    const result = await checkCorporateTelegramContact({
+      db: db.asD1(), orgId, searchId: row.search_id, companyId: row.id,
+      candidateKey: `telegram:https://t.me/${saved.username.toLowerCase()}`,
+      accountId, now,
+      resolve: async () => ({
+        status: 'resolved', username: saved.username ?? null,
+        reason: 'regular_user_resolved', retryAfterSeconds: null,
+      }),
+    });
+    assert.equal(result.status, 'resolved', JSON.stringify(result));
+  }
 }
 
 test('phone connect and code submission use ciphertext-only private contracts', async () => {

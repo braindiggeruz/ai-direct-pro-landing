@@ -14,6 +14,7 @@ import {
   transitionTelegramCampaign,
   type TelegramCampaignQueueMessage,
 } from '../functions/platform/lead-radar/telegram-campaign';
+import { checkCorporateTelegramContact } from '../functions/platform/lead-radar/contact-resolution';
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { leadRadarTelegramAccountFinalizationQueueMessage } from '../src/shared/lead-radar-telegram-account-finalization';
 
@@ -28,6 +29,7 @@ const CAMPAIGN_MIGRATIONS = [
   '0046_lead_radar_telegram_campaign_safety.sql',
   '0047_lead_radar_telegram_campaign_media.sql',
   '0048_lead_radar_telegram_media_quota.sql',
+  '0050_lead_radar_contact_discovery.sql',
 ] as const;
 const CAMPAIGN_ORG = 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const CAMPAIGN_DATA_KEY = Buffer.alloc(32, 17).toString('base64url');
@@ -188,6 +190,7 @@ async function runningCampaignFixture(): Promise<{
   const companyId = 'company_worker_campaign';
   const searchId = 'search_worker_campaign';
   const evidenceId = 'evidence_worker_campaign';
+  const bindingEvidenceId = 'evidence_worker_campaign_binding';
   const username = 'WorkerCampaignClinic';
   db.sqlite.prepare(`INSERT INTO lead_radar_searches (
     id, org_id, input_json, status, created_at
@@ -232,6 +235,17 @@ async function runningCampaignFixture(): Promise<{
       `https://t.me/${username}`,
       now.toISOString(),
     );
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence (
+    id, org_id, company_id, field_path, value, source_url, source_type,
+    observed_at, confidence, classification
+  ) VALUES (?, ?, ?, 'web.website', 'https://worker-campaign.example/',
+    'https://worker-campaign.example/contact', 'company_website', ?, 0.95, 'fact')`)
+    .run(
+      bindingEvidenceId,
+      CAMPAIGN_ORG,
+      companyId,
+      now.toISOString(),
+    );
   const pending = await createTelegramUserAccountPending({
     db: db.asD1(),
     dataKey: CAMPAIGN_DATA_KEY,
@@ -255,6 +269,22 @@ async function runningCampaignFixture(): Promise<{
     expectedVersion: pending.account.stateVersion,
     now,
   });
+  const bridgeResult = await checkCorporateTelegramContact({
+    db: db.asD1(),
+    orgId: CAMPAIGN_ORG,
+    searchId,
+    companyId,
+    candidateKey: `telegram:https://t.me/${username.toLowerCase()}`,
+    accountId: account.id,
+    now: now.toISOString(),
+    resolve: async () => ({
+      status: 'resolved',
+      username,
+      reason: 'regular_user_resolved',
+      retryAfterSeconds: null,
+    }),
+  });
+  assert.equal(bridgeResult.status, 'resolved', JSON.stringify(bridgeResult));
   const template = 'Здравствуйте, {company_name}!';
   await authorizeTelegramCampaignContact({
     db: db.asD1(), dataKey: CAMPAIGN_DATA_KEY, orgId: CAMPAIGN_ORG,

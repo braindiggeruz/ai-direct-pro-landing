@@ -49,6 +49,7 @@ const MIGRATIONS = [
   '0046_lead_radar_telegram_campaign_safety.sql',
   '0047_lead_radar_telegram_campaign_media.sql',
   '0048_lead_radar_telegram_media_quota.sql',
+  '0050_lead_radar_contact_discovery.sql',
 ] as const;
 const ORG_A = 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const ORG_B = 'org_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';
@@ -61,6 +62,11 @@ async function audiencePreparation(db:SqliteD1) {
   addCompany(db,{id:'aud_one',username:'AudienceOne'});
   addCompany(db,{id:'aud_two',username:'AudienceTwo'});
   const account=await connectedAccount(db);
+  const resolvedRows=db.rows<{id:string;telegram_contact_json:string}>(
+    "SELECT id,telegram_contact_json FROM lead_radar_companies WHERE id IN ('aud_one','aud_two') ORDER BY id",
+  );
+  assert.deepEqual([...await verifiedResolvedCorporateCompanies({db:db.asD1(),orgId:ORG_A,
+    companies:resolvedRows.map((row)=>({companyId:row.id,contact:JSON.parse(row.telegram_contact_json)})),now:NOW})].sort(),['aud_one','aud_two']);
   for(const companyId of ['aud_one','aud_two']) await authorizeTelegramCampaignContact({
     db:db.asD1(),dataKey:DATA_KEY,orgId:ORG_A,companyId,contactBasis:BASIS,
     evidenceReference:`fixture-audience-${companyId}`,expiresAt:'2026-09-01T12:00:00.000Z',
@@ -122,6 +128,7 @@ test('a 50-contact audience stays inside the D1 statement budget with API headro
       contactBasis:BASIS,evidenceReference:`fixture-${companyId}`,expiresAt:'2026-09-01T12:00:00.000Z',
       reviewerId:'owner@example.test',idempotencyKey:`authorization_${companyId}`,now:NOW});
   }
+  await bridgeVerifyBusinessCompanies(db,account.id,ORG_A,companyIds);
   const extraIds=Array.from({length:10},(_,i)=>`aaa_extra_${i}`);
   extraIds.forEach((id,i)=>addCompany(db,{id,username:`ExtraAudience${i}`}));
   const audience=await new AudienceStore(db.asD1()).save(ORG_A,{id:'aud_'+'b'.repeat(32),name:'Sixty contacts, fifty in campaign',version:0,companyIds:[...extraIds,...companyIds]},NOW);
@@ -175,7 +182,7 @@ function database(migrations: readonly string[] = MIGRATIONS): SqliteD1 {
     ) VALUES (?, ?, ?, 'active', 'ru', ?, ?)`)
       .run(orgId, `Fixture ${orgId.at(-1)}`, orgId, NOW.toISOString(), NOW.toISOString());
   }
-  for (const filename of migrations) {
+  for (const filename of new Set(migrations)) {
     db.exec(readFileSync(path.join(ROOT, 'migrations', filename), 'utf8'));
     db.sqlite.prepare('INSERT INTO d1_migrations (name) VALUES (?)').run(filename);
   }
@@ -250,6 +257,19 @@ function addCompany(db: SqliteD1, input: {
         `https://${input.id}.example/contact`,
         NOW.toISOString(),
       );
+    db.sqlite.prepare(`INSERT INTO lead_radar_evidence (
+      id, org_id, company_id, field_path, value, source_url, source_type,
+      observed_at, confidence, classification
+    ) VALUES (?, ?, ?, 'web.website', ?, ?, 'company_website',
+      ?, 0.95, 'fact')`)
+      .run(
+        `evidence_binding_${input.id}`,
+        orgId,
+        input.id,
+        `https://${input.id}.example/`,
+        `https://${input.id}.example/contact`,
+        NOW.toISOString(),
+      );
   }
 }
 
@@ -283,12 +303,12 @@ function setVerifiedCorporateDomain(
 
 test('all published candidates advance durably past a failed and a negative first pair',async()=>{
   const db=database([...MIGRATIONS,'0050_lead_radar_contact_discovery.sql']);
+  const account=await connectedAccount(db);
   addCompany(db,{id:'progress',username:'clinic_first'}); setVerifiedCorporateDomain(db,'progress','progress.example');
   for (const [i,username] of ['clinic_second','clinic_third'].entries()) db.sqlite.prepare(`INSERT INTO lead_radar_evidence
     (id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
     VALUES (?,?,'progress','web.telegram.business',?,'https://progress.example/contact','company_website',?,.95,'fact')`)
     .run(`more_${i}`,ORG_A,`https://t.me/${username}`,NOW.toISOString());
-  const account=await connectedAccount(db);
   const selection={db:db.asD1(),orgId:ORG_A,companyId:'progress',accountId:account.id,now:NOW.toISOString()};
   const visited:string[]=[];
   for (let step=0;step<3;step++) {
@@ -459,7 +479,7 @@ async function connectedAccount(db: SqliteD1, orgId = ORG_A) {
     expectedVersion: pending.account.stateVersion,
     providerConnectedAt: NOW.toISOString(), now: NOW,
   });
-  return completeTelegramUserAccountConnection({
+  const connected = await completeTelegramUserAccountConnection({
     db: db.asD1(),
     dataKey: DATA_KEY,
     orgId,
@@ -468,6 +488,39 @@ async function connectedAccount(db: SqliteD1, orgId = ORG_A) {
     expectedVersion: pending.account.stateVersion,
     now: NOW,
   });
+  await bridgeVerifyBusinessCompanies(db, connected.id, orgId);
+  return connected;
+}
+
+async function bridgeVerifyBusinessCompanies(
+  db: SqliteD1,
+  accountId: string,
+  orgId = ORG_A,
+  companyIds?: readonly string[],
+  now = NOW,
+): Promise<void> {
+  const rows = db.rows<{ id: string; search_id: string; telegram_contact_json: string }>(
+    `SELECT id, search_id, telegram_contact_json FROM lead_radar_companies
+     WHERE org_id = ? AND suppressed = 0
+       AND json_extract(telegram_contact_json, '$.type') = 'business'
+       ${companyIds?.length ? `AND id IN (${companyIds.map(() => '?').join(',')})` : ''}`,
+    orgId,
+    ...(companyIds ?? []),
+  );
+  for (const row of rows) {
+    const saved = JSON.parse(row.telegram_contact_json) as { username?: string | null };
+    if (!saved.username) continue;
+    const result = await checkCorporateTelegramContact({
+      db: db.asD1(), orgId, searchId: row.search_id, companyId: row.id,
+      candidateKey: `telegram:https://t.me/${saved.username.toLowerCase()}`,
+      accountId, now: now.toISOString(),
+      resolve: async () => ({
+        status: 'resolved', username: saved.username ?? null,
+        reason: 'regular_user_resolved', retryAfterSeconds: null,
+      }),
+    });
+    assert.equal(result.status, 'resolved', `Bridge fixture could not resolve ${row.id}: ${result.reason}`);
+  }
 }
 
 async function approvedCampaign(
@@ -477,6 +530,7 @@ async function approvedCampaign(
   template = 'Здравствуйте! Это согласованное предложение.',
 ) {
   const account = await getTelegramUserAccount(db.asD1(), ORG_A) ?? await connectedAccount(db);
+  await bridgeVerifyBusinessCompanies(db, account.id, ORG_A, companyIds);
   for (const [index, companyId] of companyIds.entries()) {
     await authorizeTelegramCampaignContact({
       db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, companyId,
@@ -676,7 +730,7 @@ test('campaign integrity remains checked when global shared-database PRAGMAs can
 });
 
 test('0047 upgrade backfills a fail-closed sentinel for legacy campaign state', async (t) => {
-  const db = database(MIGRATIONS.slice(0, -2));
+  const db = database(MIGRATIONS.slice(0, MIGRATIONS.indexOf('0047_lead_radar_telegram_campaign_media.sql')));
   t.after(() => db.sqlite.close());
   db.sqlite.prepare(`INSERT INTO lead_radar_tg_user_accounts (
     id, org_id, masked_label, status, auth_request_digest,
@@ -848,7 +902,7 @@ test('per-company authorization is tenant-scoped, expiry-bound, idempotent and d
     now: new Date('2026-09-24T12:00:00.000Z'),
   });
   assert.equal(expired.automatic, 0);
-  assert.equal(expired.items[0]?.reasonCode, 'documented_basis_required');
+  assert.equal(expired.items[0]?.reasonCode, 'corporate_endpoint_unverified');
 });
 
 test('account lifecycle is tenant-scoped, idempotent and stores only an opaque gateway ref', async (t) => {
@@ -969,8 +1023,8 @@ test('prepare classifies all selected leads but binds approval only to verified 
     { selected: 5, automatic: 0, manual: 2, excluded: 3 },
   );
   assert.deepEqual(selection.automaticCompanyIds, []);
-  assert.equal(selection.verified, 0, 'published username alone is not Bridge proof');
-  assert.deepEqual(selection.verifiedCompanyIds, []);
+  assert.equal(selection.verified, 1, 'the connected Bridge fixture resolved the corporate username');
+  assert.deepEqual(selection.verifiedCompanyIds, ['company_auto']);
 
   await authorizeTelegramCampaignContact({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A, companyId: 'company_auto',
@@ -1099,6 +1153,7 @@ test('fifty-recipient prepare and create stay below the Workers Free D1 query bu
       now: NOW,
     });
   }
+  await bridgeVerifyBusinessCompanies(db, account.id, ORG_A, companyIds);
   let queryCount = 0;
   const countedDb = {
     prepare(sql: string) {
@@ -1978,14 +2033,14 @@ test('ambiguous provider boundary is terminal per-recipient and pauses without r
     campaignId: created.campaign.id, now: new Date(NOW.getTime() + 60_000),
   }), null);
   assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_contact_history
-    WHERE org_id = ? AND state = 'ambiguous'`, ORG_A), 3);
+    WHERE org_id = ? AND state = 'ambiguous'`, ORG_A), 4);
   const blockedFollowUp = await evaluateTelegramCampaignSelection({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     companyIds: ['company_ambiguous'], contactBasis: BASIS,
     now: new Date(NOW.getTime() + 60_000),
   });
   assert.equal(blockedFollowUp.automatic, 0);
-  assert.equal(blockedFollowUp.items[0]?.reasonCode, 'previous_delivery_uncertain');
+  assert.equal(blockedFollowUp.items[0]?.reasonCode, 'corporate_endpoint_unverified');
   assert.equal(providerCalls, 1, 'ambiguous history must prevent a second provider effect');
   await assert.rejects(
     transitionTelegramCampaign({
@@ -2045,7 +2100,8 @@ test('exact missing private account releases quota and no-repeat guards before p
     companyIds: [companyId], contactBasis: BASIS,
     now: new Date(NOW.getTime() + 60_000),
   });
-  assert.equal(followUp.automatic, 1, 'zero-provider failure must not burn the recipient forever');
+  assert.equal(followUp.automatic, 0, 'a missing account must require reconnect and a fresh Bridge proof');
+  assert.equal(followUp.items[0]?.reasonCode, 'corporate_endpoint_unverified');
 });
 
 test('permanent no-repeat blocks either company or endpoint but remains tenant scoped', async (t) => {
@@ -2080,21 +2136,20 @@ test('permanent no-repeat blocks either company or endpoint but remains tenant s
   assert.equal(delivered.status, 'sent');
   assert.equal(providerCalls, 1);
   assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_contact_history
-    WHERE org_id = ? AND state = 'sent'`, ORG_A), 3);
+    WHERE org_id = ? AND state = 'sent'`, ORG_A), 4);
 
   // Same company, changed Telegram endpoint: company identity still blocks.
-  const replacementEvidence = 'evidence_replacementhistoryclinic';
-  db.sqlite.prepare(`INSERT INTO lead_radar_evidence (
-    id, org_id, company_id, field_path, value, source_url, source_type,
-    observed_at, confidence, classification
-  ) VALUES (?, ?, ?, 'web.telegram.business', ?, ?, 'company_website', ?, 0.95, 'fact')`)
+  const replacementEvidence = 'evidence_sharedhistoryclinic';
+  db.sqlite.prepare(`UPDATE lead_radar_evidence
+    SET value = ?, source_url = ?, observed_at = ?
+    WHERE org_id = ? AND company_id = ? AND id = ?`)
     .run(
-      replacementEvidence,
-      ORG_A,
-      'company_history_original',
       'https://t.me/ReplacementHistoryClinic',
       'https://company_history_original.example/contact-new',
       NOW.toISOString(),
+      ORG_A,
+      'company_history_original',
+      replacementEvidence,
     );
   db.sqlite.prepare(`UPDATE lead_radar_companies
     SET telegram_contact_json = ?, updated_at = ? WHERE org_id = ? AND id = ?`)
@@ -2104,6 +2159,9 @@ test('permanent no-repeat blocks either company or endpoint but remains tenant s
       ORG_A,
       'company_history_original',
     );
+  const accountA = await getTelegramUserAccount(db.asD1(), ORG_A);
+  assert.ok(accountA);
+  await bridgeVerifyBusinessCompanies(db, accountA.id, ORG_A, ['company_history_original']);
   const changedEndpoint = await evaluateTelegramCampaignSelection({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     companyIds: ['company_history_original'], contactBasis: BASIS, now: NOW,
@@ -2117,6 +2175,7 @@ test('permanent no-repeat blocks either company or endpoint but remains tenant s
     username: 'SharedHistoryClinic',
     evidenceId: 'evidence_sharedhistoryclinic_reused_company',
   });
+  await bridgeVerifyBusinessCompanies(db, accountA.id, ORG_A, ['company_history_reused_endpoint']);
   const reusedEndpoint = await evaluateTelegramCampaignSelection({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     companyIds: ['company_history_reused_endpoint'], contactBasis: BASIS, now: NOW,
@@ -2133,6 +2192,7 @@ test('permanent no-repeat blocks either company or endpoint but remains tenant s
     orgId: ORG_B,
     evidenceId: 'evidence_sharedhistoryclinic_org_b',
   });
+  await connectedAccount(db, ORG_B);
   await authorizeTelegramCampaignContact({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_B,
     companyId: 'company_history_cross_tenant', contactBasis: BASIS,
@@ -2195,6 +2255,9 @@ test('stable business aliases block rediscovery without false-blocking distinct 
     'stable-alias-clinic.example',
     'stable:clinic:identity',
   );
+  const account = await getTelegramUserAccount(db.asD1(), ORG_A);
+  assert.ok(account);
+  await bridgeVerifyBusinessCompanies(db, account.id, ORG_A, ['company_alias_rediscovered']);
   const rediscovered = await evaluateTelegramCampaignSelection({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     companyIds: ['company_alias_rediscovered'], contactBasis: BASIS, now: NOW,
@@ -2211,6 +2274,7 @@ test('stable business aliases block rediscovery without false-blocking distinct 
     'distinct-alias-clinic.example',
     'stable:distinct:identity',
   );
+  await bridgeVerifyBusinessCompanies(db, account.id, ORG_A, ['company_alias_distinct']);
   db.sqlite.prepare(`UPDATE lead_radar_companies SET name = ?
     WHERE org_id = ? AND id IN (?, ?)`)
     .run(
@@ -2265,6 +2329,9 @@ test('generic multi-tenant website hosts never become cross-company identity gua
 
   addCompany(db, { id: 'company_generic_host_b', username: 'GenericHostClinicB' });
   setVerifiedCorporateDomain(db, 'company_generic_host_b', 'linktr.ee');
+  const account = await getTelegramUserAccount(db.asD1(), ORG_A);
+  assert.ok(account);
+  await bridgeVerifyBusinessCompanies(db, account.id, ORG_A, ['company_generic_host_b']);
   await authorizeTelegramCampaignContact({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     companyId: 'company_generic_host_b', contactBasis: BASIS,
@@ -2328,7 +2395,7 @@ test('terminal retention purges encrypted outreach relations but permanent alias
     assert.equal(db.value(`SELECT COUNT(*) FROM ${table} WHERE org_id = ?`, ORG_A), 0, table);
   }
   assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_contact_history
-    WHERE org_id = ? AND state = 'sent'`, ORG_A), 3);
+    WHERE org_id = ? AND state = 'sent'`, ORG_A), 4);
 
   // The standalone ledger no longer pins the source company/search through a
   // foreign key, while its opaque alias remains usable after rediscovery.
@@ -2354,6 +2421,11 @@ test('terminal retention purges encrypted outreach relations but permanent alias
   db.sqlite.prepare(`UPDATE lead_radar_evidence SET observed_at = ?
     WHERE org_id = ? AND company_id = ?`)
     .run(rediscoveredAt.toISOString(), ORG_A, 'company_retention_rediscovered');
+  const retentionAccount = await getTelegramUserAccount(db.asD1(), ORG_A);
+  assert.ok(retentionAccount);
+  await bridgeVerifyBusinessCompanies(
+    db, retentionAccount.id, ORG_A, ['company_retention_rediscovered'], rediscoveredAt,
+  );
   const rediscovered = await evaluateTelegramCampaignSelection({
     db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
     companyIds: ['company_retention_rediscovered'], contactBasis: BASIS,
@@ -2423,6 +2495,9 @@ test('campaign identity key rotation blocks endpoint-repeat bypass before claim 
     username: 'StableEndpointClinic',
     evidenceId: 'evidence_stable_endpoint_alias',
   });
+  const account = await getTelegramUserAccount(db.asD1(), ORG_A);
+  assert.ok(account);
+  await bridgeVerifyBusinessCompanies(db, account.id, ORG_A, ['company_key_b_alias']);
 
   await assert.rejects(
     evaluateTelegramCampaignSelection({
@@ -2500,7 +2575,7 @@ test('concurrent dispatch reserves both identities once and makes one provider e
     outcome.status === 'fulfilled' && outcome.value.status === 'sent'
   )));
   assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_contact_history
-    WHERE org_id = ? AND state = 'sent'`, ORG_A), 3);
+    WHERE org_id = ? AND state = 'sent'`, ORG_A), 4);
 });
 
 test('operator stop and maintenance DNC compensate a claimed partial dispatch exactly', async () => {
@@ -2551,7 +2626,7 @@ test('operator stop never releases a dispatching uncertain effect', async (t) =>
   assert.equal(db.value(`SELECT status FROM lead_radar_tg_campaign_effects
     WHERE org_id = ? AND id = ?`, ORG_A, staged.effect_id), 'reserved');
   assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_contact_history
-    WHERE org_id = ? AND effect_id = ?`, ORG_A, staged.effect_id), 3);
+    WHERE org_id = ? AND effect_id = ?`, ORG_A, staged.effect_id), 4);
   assert.equal(db.value(`SELECT daily_reserved_count FROM lead_radar_tg_user_accounts
     WHERE org_id = ?`, ORG_A), 1);
 
@@ -2568,7 +2643,7 @@ test('operator stop never releases a dispatching uncertain effect', async (t) =>
     WHERE org_id = ? AND id = ?`, ORG_A, staged.effect_id), 'ambiguous');
   assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_contact_history
     WHERE org_id = ? AND effect_id = ? AND state = 'ambiguous'`,
-  ORG_A, staged.effect_id), 3);
+  ORG_A, staged.effect_id), 4);
 });
 
 test('lease recovery compensates every claimed beginDispatch crash point and suppresses dispatching', async () => {
@@ -2691,7 +2766,7 @@ test('lease recovery compensates every claimed beginDispatch crash point and sup
         ), 'ambiguous', `stage ${stage}`);
         assert.equal(db.value(`SELECT COUNT(*) FROM lead_radar_tg_contact_history
           WHERE org_id = ? AND effect_id = ? AND state = 'ambiguous'`,
-        ORG_A, row.effect_id), 3, `stage ${stage}`);
+        ORG_A, row.effect_id), 4, `stage ${stage}`);
         assert.equal(db.value(`SELECT daily_reserved_count FROM lead_radar_tg_user_accounts
           WHERE org_id = ?`, ORG_A), 1, `stage ${stage}`);
       }

@@ -700,6 +700,8 @@ async function evaluateSelectionInternal(input: {
       return contact?.type === 'business'
         && telegramContactEndpoint(contact)
         && verifiedBusinessCompanyIds.has(company.id)
+        && (!input.includeBridgeVerification
+          || bridgeVerifiedBusinessCompanyIds.has(company.id))
         && company.suppressed !== 1
         && company.lifecycle !== 'do_not_contact'
         ? [Promise.all([
@@ -774,6 +776,17 @@ async function evaluateSelectionInternal(input: {
     }
     if (!verifiedBusinessCompanyIds.has(companyId)
       || !telegramContactEndpoint(contact)) {
+      items.push({
+        companyId,
+        name: company.name,
+        classification: 'excluded',
+        reasonCode: 'corporate_endpoint_unverified',
+        authorization: null,
+      });
+      continue;
+    }
+    if (input.includeBridgeVerification
+      && !bridgeVerifiedBusinessCompanyIds.has(companyId)) {
       items.push({
         companyId,
         name: company.name,
@@ -1466,6 +1479,7 @@ export async function prepareTelegramCampaign(input: {
     now,
     dataKey: input.dataKey,
     contactBasis: input.contactBasis,
+    includeBridgeVerification: true,
   });
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
@@ -1619,6 +1633,7 @@ export async function createApprovedTelegramCampaign(input: {
     now,
     dataKey: input.dataKey,
     contactBasis: input.contactBasis,
+    includeBridgeVerification: true,
   });
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
