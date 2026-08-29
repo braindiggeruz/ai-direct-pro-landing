@@ -49,6 +49,7 @@
         { "anchor": "kontent-reja-namuna", "label": "30 kunlik kontent reja — namuna" },
         { "anchor": "olchov", "label": "Natijani qanday o‘lchaymiz" },
         { "anchor": "narx", "label": "Narx qanday shakllanadi" },
+        { "anchor": "bozor-narxlari", "label": "Bozor narxlari" },
         { "anchor": "kimlar", "label": "Qaysi bizneslar uchun" },
         { "anchor": "oqing", "label": "Buyurtmadan oldin o‘qing" },
         { "anchor": "faq", "label": "Ko‘p so‘raladigan savollar" }
@@ -333,6 +334,15 @@
       "type": "p",
       "text": "Suhbatdan keyin aniq hajm va narx aytiladi. Maslahat va dastlabki baholash — bepul."
     },
+    { "type": "h2", "id": "bozor-narxlari", "text": "SMM narxi: Toshkent bozori mo‘ljallari" },
+    {
+      "type": "p",
+      "text": "Toshkent bozori bo‘yicha mo‘ljallar (agentliklarning ochiq ma’lumotlari, 2026-yil avgust): SMM paketlari — oylik 5–12 mln so‘mdan, platformalar soni, kontent hajmi, suratga olish va tillarga qarab. Bu bozor mo‘ljallari, GPTBot.uz narxnomasi emas — nishingiz va ish tarkibiga aniq smetani profilni bepul tahlil qilgandan keyin hisoblaymiz."
+    },
+    {
+      "type": "p",
+      "text": "Iqtisodga alohida omil — murojaatlarni qayta ishlash: izohlar va Direct’ni AI bot qayta ishlayotganda arizalar tunda ham, navbatda ham yo‘qolmaydi. SMM → AI bot bog‘lanishi lidlar yo‘qotilishini kamaytiradi va yakuniy murojaat narxini pasaytirishga yordam beradi."
+    },
     { "type": "h2", "id": "kimlar", "text": "Qaysi bizneslar uchun" },
     {
       "type": "list",
@@ -407,6 +417,14 @@
     {
       "q": "Sahifam butunlay bo‘sh, shundan ham boshlash mumkinmi?",
       "a": "Ha. Noldan boshlash ko‘p hollarda oson: eski noto‘g‘ri kontentni tozalash kerak bo‘lmaydi. Birinchi oy profilni yig‘ish va dastlabki kontent bazasini tayyorlashga ketadi."
+    },
+    {
+      "q": "Toshkentda SMM paketlari bozorda qancha turadi?",
+      "a": "Bozor mo‘ljallari bo‘yicha (2026-yil avgust) SMM paketlari Toshkentda oylik 5–12 mln so‘mni tashkil qiladi — platformalar, kontent hajmi va suratga olishga bog‘liq. Bu bozor mo‘ljali, GPTBot.uz tarifi emas."
+    },
+    {
+      "q": "SMM uchun minimal byudjet qancha?",
+      "a": "Minimal ishchi tarkib — bitta platforma, kelishilgan kontent hajmi va moderatsiya; Toshkent bozori bo‘yicha bunday paketlar ~5 mln so‘m/oydan boshlanadi. Reklama byudjeti har doim alohida to‘lanadi."
     }
   ],
   "internalLinks": [
@@ -459,6 +477,12 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "Toshkentda internet reklama kalitgacha",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/",
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
@@ -474,5 +498,5 @@
   ],
   "lastReviewedAt": "2026-08-23",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-23"
+  "updatedAt": "2026-08-29"
 }
