@@ -543,6 +543,9 @@ async function processEnrichment(
     if (pending) {
       // Bounded waiting must not turn an unperformed check into "completed".
       if (!job.leaseOwner || !await store.deadLetterJob(job.orgId,job.id,job.leaseOwner,waitingReason,now,job.leaseGeneration)) return {outcome:'retry_wait',delaySeconds:30};
+      // Leave a visible terminal trace on the company; a later enrichment cycle
+      // re-creates the contact-resolution job (terminal status is re-eligible).
+      await store.markLeadEnrichmentTerminalFromDeadLetter(job.orgId,job.companyId,job.id,'contact_unverified',job.attemptCount,now);
       await store.refreshSearchFunnel(job.orgId,job.searchId,now);
       return {outcome:'dead_letter',errorCode:waitingReason};
     }

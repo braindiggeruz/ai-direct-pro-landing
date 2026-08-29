@@ -40,6 +40,7 @@ export const LEAD_RADAR_ENRICHMENT_REASONS = [
   'invalid_website',
   'payload_invalid',
   'retry_exhausted',
+  'contact_unverified',
   'suppressed',
 ] as const;
 export type LeadRadarEnrichmentReason = (typeof LEAD_RADAR_ENRICHMENT_REASONS)[number];

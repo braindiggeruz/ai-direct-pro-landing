@@ -3,9 +3,21 @@ import { AUDIENCE_ID_PATTERN, AUDIENCE_LIMIT, type AudienceScope, type LeadRadar
   type ContactDirectoryPage, type ContactDirectoryRow } from '../../../src/shared/lead-radar-audiences';
 import { redactLead } from './capabilities';
 import { LeadRadarStore } from './store';
-import { verifiedTelegramCampaignBusinessCompanyIds } from './telegram-business';
+import { verifiedResolvedCorporateCompanies } from './contact-resolution';
+import type { LeadRadarTelegramContact } from './types';
 import { normalizeCompanyKey } from './validation';
 import { recipientDirectoryGroups, RecipientDirectoryLimitError, type DirectoryGroup } from './recipient-directory';
+
+/** Directory status must match the strict campaign gate (includeBridgeVerification). */
+async function strictVerifiedDirectoryCompanyIds(input: {
+  db: D1Database; orgId: string; now: Date;
+  companies: ReadonlyArray<{ companyId: string; contact: LeadRadarTelegramContact }>;
+}): Promise<Set<string>> {
+  return verifiedResolvedCorporateCompanies({
+    db: input.db, orgId: input.orgId, now: input.now,
+    companies: input.companies,
+  });
+}
 
 export class AudienceError extends Error {
   constructor(readonly code: string, readonly status = 400) { super(code); }
@@ -134,16 +146,16 @@ export class AudienceStore {
       globalVerified=new Set<string>();
       for(let start=0;start<potential.length;start+=50){
         const candidates=await new LeadRadarStore(this.db).getLeadsByIds(orgId,potential.slice(start,start+50).map((group)=>group.companyId));
-        const checked=await verifiedTelegramCampaignBusinessCompanyIds({db:this.db,orgId,now,
-          companies:candidates.flatMap((lead)=>lead.telegramContact?[{companyId:lead.id,website:lead.website,contact:lead.telegramContact}]:[])});
+        const checked=await strictVerifiedDirectoryCompanyIds({db:this.db,orgId,now,
+          companies:candidates.flatMap((lead)=>lead.telegramContact?[{companyId:lead.id,contact:lead.telegramContact}]:[])});
         checked.forEach((id)=>globalVerified!.add(id));
       }
       matches=matches.filter((group)=>globalVerified!.has(group.companyId)===(requestedStatus==='verified'));
     } else if(requestedStatus!=='all') matches=matches.filter((group)=>baseStatus(group)===requestedStatus);
     const rows = matches.slice(offset, offset+limit);
     const leads = await new LeadRadarStore(this.db).getLeadsByIds(orgId,rows.map((row) => row.companyId));
-    const verified = globalVerified ?? await verifiedTelegramCampaignBusinessCompanyIds({ db:this.db,orgId,now,
-      companies:leads.flatMap((lead) => lead.telegramContact ? [{companyId:lead.id,website:lead.website,contact:lead.telegramContact}] : []) });
+    const verified = globalVerified ?? await strictVerifiedDirectoryCompanyIds({ db:this.db,orgId,now,
+      companies:leads.flatMap((lead) => lead.telegramContact ? [{companyId:lead.id,contact:lead.telegramContact}] : []) });
     const output: ContactDirectoryRow[] = [];
     for (const row of rows) {
       const lead = leads.find((item) => item.id === row.companyId);
