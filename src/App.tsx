@@ -142,7 +142,7 @@ export default function App() {
             e.target.classList.add('is-visible');
             io.unobserve(e.target);
           }
-        },
+        }
       },
       { rootMargin: '0px 0px -60px 0px', threshold: 0.08 },
     );
