@@ -67,9 +67,9 @@ LEAD_RADAR_ADMISSION_ENABLED = "true"
 LEAD_RADAR_PROCESSING_ENABLED = "true"
 # Optional Firecrawl rollout. Secret FIRECRAWL_API_KEY is set only on this worker.
 # An explicit org allowlist AND both switches are required before paid calls.
-# Owner approved contact enrichment and a NEW 20-company pilot, max100 credits.
-# Existing UTC-day ceiling includes historical/uncertain reservations. No sends.
-LEAD_RADAR_FIRECRAWL_ENABLED = "true"
+# Owner policy 2026-08-30: acquisition must use no paid providers.
+# Historical limits/secret remain for audit; both the flag and runtime are OFF.
+LEAD_RADAR_FIRECRAWL_ENABLED = "false"
 LEAD_RADAR_FIRECRAWL_MODE = "fallback"
 LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
 LEAD_RADAR_FIRECRAWL_DAILY_CREDITS = "200"

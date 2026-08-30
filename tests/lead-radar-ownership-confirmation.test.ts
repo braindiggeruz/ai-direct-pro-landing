@@ -42,10 +42,7 @@ function database(): SqliteD1 {
   return db;
 }
 
-test('operator confirmation promotes an unconfirmed own-site endpoint into the strict corporate set', async (t) => {
-  const db = database();
-  t.after(() => db.sqlite.close());
-  const d1 = db.asD1();
+function seedOwnership(db: SqliteD1) {
   const searchId = 'search_ownership_fixture';
   db.sqlite.prepare(`INSERT INTO lead_radar_searches (id, org_id, input_json, status, phase, created_at)
     VALUES (?, ?, '{}', 'running', 'enriching', ?)`).run(searchId, ORG_A, NOW.toISOString());
@@ -64,7 +61,12 @@ test('operator confirmation promotes an unconfirmed own-site endpoint into the s
   ) VALUES ('ev_unknown', ?, ?, 'web.telegram.unknown', 'https://t.me/AksuMedClinic',
     'https://clinic.uz/contacts', 'company_website', ?, 0.6, 'fact')`)
     .run(ORG_A, COMPANY_ID, NOW.toISOString());
+}
 
+test('operator confirmation promotes an unconfirmed own-site endpoint into the strict corporate set', async (t) => {
+  const db = database(); t.after(() => db.sqlite.close()); seedOwnership(db);
+  const d1 = db.asD1();
+  const searchId = 'search_ownership_fixture';
   const pending = await createTelegramUserAccountPending({
     db: d1, dataKey: DATA_KEY, orgId: ORG_A,
     authRequestReference: 'gateway_auth_request_a', idempotencyKey: 'ownership_account_0001', now: NOW,
@@ -101,9 +103,12 @@ test('operator confirmation promotes an unconfirmed own-site endpoint into the s
   assert.equal(await countResolvedCorporateContacts(d1, ORG_A, searchId, now1.toISOString()), 0);
 
   // The operator confirms the source after eyeballing the page.
-  const first = await confirmCompanyWebsiteOwnership({ db: d1, orgId: ORG_A, companyId: COMPANY_ID, operatorId: 'owner@example.test', now: now1 });
+  const confirmation = { db: d1, orgId: ORG_A, companyId: COMPANY_ID, operatorId: 'owner@example.test', now: now1,
+    candidateKey: 'telegram:https://t.me/aksumedclinic', robots: async () => null,
+    readPage: async () => '<html><main><a href="https://t.me/AksuMedClinic">Telegram компании: напишите нам</a></main></html>' };
+  const first = await confirmCompanyWebsiteOwnership(confirmation);
   assert.deepEqual(first, { confirmed: true, reason: 'confirmed', confirmedEndpoints: 1 });
-  const repeat = await confirmCompanyWebsiteOwnership({ db: d1, orgId: ORG_A, companyId: COMPANY_ID, operatorId: 'owner@example.test', now: now1 });
+  const repeat = await confirmCompanyWebsiteOwnership(confirmation);
   assert.equal(repeat.reason, 'already_confirmed', 'confirmation must be idempotent');
 
   // After confirmation the same endpoint resolves as a corporate contact and
@@ -114,4 +119,48 @@ test('operator confirmation promotes an unconfirmed own-site endpoint into the s
     'SELECT telegram_contact_json FROM lead_radar_companies WHERE id = ?', COMPANY_ID,
   ) ?? '{}')?.reason, 'bridge_resolved_corporate');
   assert.equal(await countResolvedCorporateContacts(d1, ORG_A, searchId, now2.toISOString()), 1);
+});
+
+test('R4 promotes only the selected endpoint; concurrent confirmation is idempotent and fresh re-review refreshes proof',async(t)=>{
+  const db=database();t.after(()=>db.sqlite.close());seedOwnership(db);
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence SELECT 'ev_sibling',org_id,company_id,field_path,
+    'https://t.me/otherclinic',source_url,source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE id='ev_unknown'`).run();
+  const input={db:db.asD1(),orgId:ORG_A,companyId:COMPANY_ID,operatorId:'operator',now:NOW,
+    candidateKey:'telegram:https://t.me/aksumedclinic',robots:async()=>null,
+    readPage:async()=>'<a href="https://t.me/AksuMedClinic">Telegram компании: напишите нам</a><a href="https://t.me/otherclinic">Telegram компании: напишите нам</a>'};
+  const results=await Promise.all([confirmCompanyWebsiteOwnership(input),confirmCompanyWebsiteOwnership(input)]);
+  assert.equal(results.filter(r=>r.confirmed).length,1);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE field_path='web.telegram.business'"),1);
+  const later=new Date(NOW.getTime()+86400000);
+  assert.equal((await confirmCompanyWebsiteOwnership({...input,now:later})).confirmed,true);
+  assert.equal(db.value("SELECT observed_at FROM lead_radar_evidence WHERE field_path='web.telegram.business'"),later.toISOString());
+});
+
+test('R4 refuses removed, unclear, personal, bot, channel, group and robots-denied evidence',async(t)=>{
+  const db=database();t.after(()=>db.sqlite.close());seedOwnership(db);
+  const base={db:db.asD1(),orgId:ORG_A,companyId:COMPANY_ID,operatorId:'operator',now:NOW,
+    candidateKey:'telegram:https://t.me/aksumedclinic',robots:async()=>null};
+  const pages=[
+    '<p>Contact removed</p>',
+    '<a href="https://t.me/AksuMedClinic">Telegram</a>',
+    '<a href="https://t.me/AksuMedClinic">Наш канал</a>',
+    '<a href="https://t.me/AksuMedClinic">Наша группа</a>',
+    '<a href="https://t.me/AksuMedClinic">Telegram бот</a>',
+    '<script type="application/ld+json">{"@type":"Person","name":"Иван Петров","sameAs":["https://t.me/AksuMedClinic"]}</script>',
+  ];
+  for(const html of pages) assert.equal((await confirmCompanyWebsiteOwnership({...base,readPage:async()=>html})).confirmed,false);
+  assert.equal((await confirmCompanyWebsiteOwnership({...base,robots:async()=>'User-agent: *\nDisallow: /',
+    readPage:async()=>{throw new Error('must not fetch');}})).reason,'source_unavailable');
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE field_path='web.telegram.business'"),0);
+});
+
+test('R4 rechecks DNC and website identity atomically after the network read',async(t)=>{
+  const db=database();t.after(()=>db.sqlite.close());seedOwnership(db);
+  const result=await confirmCompanyWebsiteOwnership({db:db.asD1(),orgId:ORG_A,companyId:COMPANY_ID,operatorId:'operator',now:NOW,
+    candidateKey:'telegram:https://t.me/aksumedclinic',robots:async()=>null,readPage:async()=>{
+      db.sqlite.prepare('UPDATE lead_radar_companies SET suppressed=1 WHERE id=?').run(COMPANY_ID);
+      return '<a href="https://t.me/AksuMedClinic">Telegram компании: напишите нам</a>';
+    }});
+  assert.equal(result.confirmed,false);assert.equal(result.reason,'source_changed');
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE field_path='web.telegram.business'"),0);
 });

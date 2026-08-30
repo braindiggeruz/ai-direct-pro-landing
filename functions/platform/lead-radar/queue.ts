@@ -361,6 +361,7 @@ async function retryOrDeadLetter(
   );
   if (!dead) return { outcome: 'retry_wait', delaySeconds: 30 };
   if (job.stage === 'discovery') {
+    if (await store.supportsContactDiscovery()) await store.contactDiscovery.unreserveBatch(job.orgId, job.searchId, job.id, now);
     await store.deadLetterDiscoveryChildren(job.orgId, job.searchId, now);
   }
   await store.refreshSearchFunnel(job.orgId, job.searchId, now);
@@ -750,7 +751,7 @@ export async function consumeLeadRadarQueueMessage(
       // Audit LR-F-7: a discovery parent that exhausted its attempts while
       // holding a reserved candidate window must not take that window with
       // it — hand it back so a replenish job re-serves it.
-      if (known.stage === 'discovery') {
+      if (known.stage === 'discovery' && await store.supportsContactDiscovery()) {
         await store.contactDiscovery.unreserveBatch(known.orgId, known.searchId, known.id, at.toISOString());
       }
       return { outcome: 'dead_letter', errorCode: 'retry_exhausted' };
@@ -902,6 +903,13 @@ export async function resumeStalledLeadRadarSearches(
       resumed += 1;
     } catch {
       // The next tick retries this search; the sweep must keep going.
+    } finally {
+      // A blocked/failed funnel also needs to rotate. Touching only successful
+      // pool mutations let the same two blocked searches monopolize the sweep.
+      try {
+        await db.prepare('UPDATE lead_radar_candidate_pools SET updated_at=? WHERE org_id=? AND search_id=?')
+          .bind(now.toISOString(), stalled.orgId, stalled.searchId).run();
+      } catch { /* Keep another tenant's sweep independent of this failure. */ }
     }
   }
   return resumed;

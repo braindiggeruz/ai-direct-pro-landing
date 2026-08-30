@@ -35,8 +35,10 @@ export async function handleAudienceRequest(ctx: OwnerHandlerContext,parts: read
     if (ctx.request.method==='POST' && parts.length===2 && parts[0]==='telegram-contacts' && parts[1]==='confirm-ownership') {
       const body=await readOwnerBody(ctx.request);
       const companyId=body && typeof body==='object' && !Array.isArray(body) ? (body as {companyId?:unknown}).companyId : null;
+      const candidateKey=body && typeof body==='object' && !Array.isArray(body) ? (body as {candidateKey?:unknown}).candidateKey : null;
       if (typeof companyId!=='string' || companyId.length<1 || companyId.length>80) throw new AudienceError('audience_invalid_input');
-      const result=await confirmCompanyWebsiteOwnership({db:ctx.db,orgId,companyId,operatorId:ctx.actor.email});
+      if (typeof candidateKey!=='string' || candidateKey.length>300 || !candidateKey.startsWith('telegram:')) throw new AudienceError('audience_invalid_input');
+      const result=await confirmCompanyWebsiteOwnership({db:ctx.db,orgId,companyId,candidateKey,operatorId:ctx.actor.email});
       return ownerJson(result,ctx.requestId);
     }
     if (ctx.request.method==='POST' && parts.length===2 && parts[0]==='audiences') {

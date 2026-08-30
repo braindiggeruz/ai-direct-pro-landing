@@ -1,9 +1,8 @@
 import type { Env } from '../functions/_types';
-import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
+import { createFreeContactAcquisitionDependencies } from '../functions/platform/lead-radar/free-acquisition';
 import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from '../functions/platform/lead-radar/contact-discovery-store';
 import { createContactResolutionQueueDependencies } from '../functions/platform/lead-radar/contact-resolution-worker';
-import { createContactSourceQueueDependencies } from '../functions/platform/lead-radar/contact-source-worker';
 import {
   consumeAutomationMessage,
   enqueueDueAutomationJobs,
@@ -682,7 +681,7 @@ export default {
             message.ack();
             continue;
           }
-          const contactSources=await createContactSourceQueueDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId);
+          const contactSources=await createFreeContactAcquisitionDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId);
           const result = await consumeLeadRadarQueueMessage(
             env.GPTBOT_DRAFTS_DB,
             raw,
@@ -690,8 +689,8 @@ export default {
             {
               personalDataEnabled: isLeadRadarContactEnabled(env),
               ...createContactResolutionQueueDependencies(env, env.GPTBOT_DRAFTS_DB),
-              ...await createFirecrawlQueueDependencies(env, env.GPTBOT_DRAFTS_DB, knownJob.orgId, isLeadRadarContactEnabled(env),
-                {preferContactDiscovery:Boolean(contactSources.discoverLeadContactSources)}),
+              // Acquisition is free-only. The queue's built-in first-party
+              // reader handles websites; no paid enrichment dependency is wired.
               ...contactSources,
             },
           );

@@ -4,6 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import { createContactSourceQueueDependencies } from '../functions/platform/lead-radar/contact-source-worker';
+import { createFreeContactAcquisitionDependencies } from '../functions/platform/lead-radar/free-acquisition';
 import { resumeStalledLeadRadarSearches } from '../functions/platform/lead-radar/queue';
 import { SqliteD1 } from './helpers/sqlite-d1';
 
@@ -17,7 +18,7 @@ test('free Tier-1: top.uz catalog sourcing works with no Firecrawl config and ze
   t.after(() => { db.sqlite.close(); globalThis.fetch = REAL_FETCH; });
   db.exec(`CREATE TABLE d1_migrations (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
     applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);`);
-  for (const filename of ['0036_lead_radar.sql', '0041_lead_radar_search_leases.sql', '0042_lead_radar_decision_makers.sql', '0043_lead_radar_async_funnel.sql', '0052_lead_radar_contact_sources.sql']) {
+  for (const filename of ['0036_lead_radar.sql', '0041_lead_radar_search_leases.sql', '0042_lead_radar_decision_makers.sql', '0043_lead_radar_async_funnel.sql', '0049_lead_radar_firecrawl.sql', '0052_lead_radar_contact_sources.sql']) {
     db.exec(readFileSync(path.join(ROOT, 'migrations', filename), 'utf8'));
     db.sqlite.prepare('INSERT INTO d1_migrations (name) VALUES (?)').run(filename);
   }
@@ -40,6 +41,7 @@ test('free Tier-1: top.uz catalog sourcing works with no Firecrawl config and ze
         + `{"@type":"LocalBusiness","name":"Стоматология AksuMed","telephone":"+998901234567","url":"https://clinic.uz","sameAs":["https://t.me/AksuMedClinic"]}`
         + `</script></body></html>`, { headers: { 'Content-Type': 'text/html' } });
     }
+    if (!url.startsWith('https://top.uz/')) throw new Error('unexpected_provider_call');
     return new Response('nf', { status: 404 });
   }) as typeof globalThis.fetch;
 
@@ -62,7 +64,7 @@ test('free Tier-1: top.uz catalog sourcing works with no Firecrawl config and ze
     'enrichment:company_fixture','enrichment','running',1,3,?,'pending',?,?,?,'owner',?)`)
     .run(NOW.toISOString(), NOW.toISOString(), NOW.toISOString(), NOW.toISOString(), NOW.toISOString());
   // No FIRECRAWL_API_KEY, no LEAD_RADAR_FIRECRAWL_* env at all.
-  const deps = await createContactSourceQueueDependencies({}, db.asD1(), 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+  const deps = await createContactSourceQueueDependencies({}, db.asD1(), 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', {now:()=>NOW});
   assert.ok(deps.discoverLeadContactSources, 'free path must wire contact sourcing without a provider');
   const job = {
     id: 'lrjob_fixture', orgId: 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', searchId: 'search_fixture',
@@ -82,6 +84,20 @@ test('free Tier-1: top.uz catalog sourcing works with no Firecrawl config and ze
   // Sources discovered through the free path (the Firecrawl loop was skipped).
   assert.equal(outcome.reason, 'contact_sources_public_contact_candidates');
   assert.ok(!calls.some((c) => c.includes('firecrawl')), 'zero provider calls must happen on the free path');
+  const freeDeps=await createFreeContactAcquisitionDependencies({
+    FIRECRAWL_API_KEY:'fixture-not-a-secret',LEAD_RADAR_FIRECRAWL_ENABLED:'true',
+    LEAD_RADAR_FIRECRAWL_MODE:'fallback',LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS:job.orgId,
+    LEAD_RADAR_JINA_ENABLED:'true',JINA_API_KEY:'fixture-not-a-secret',
+  },db.asD1(),job.orgId,{now:()=>NOW,robots:async()=>'User-agent: *\nDisallow: */search/',
+    readPage:async()=>null,fetch:async()=>{throw new Error('paid_or_external_provider_must_never_run');}});
+  assert.equal((await freeDeps.discoverLeadContactSources!(job,lead)).reason,'contact_sources_free_catalog_page_1_unavailable');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_firecrawl_requests'),0,'no paid reservation, even with enabled flags and populated ledger schema');
+});
+
+test('production Worker uses the free-only boundary and does not wire paid enrichment',()=>{
+  const worker=readFileSync(path.join(ROOT,'workers/automation-worker.ts'),'utf8');
+  assert.match(worker,/await createFreeContactAcquisitionDependencies\(/);
+  assert.doesNotMatch(worker,/createFirecrawlQueueDependencies|createContactSourceQueueDependencies/);
 });
 
 test('cron watchdog resumes a running search whose pool froze behind parked jobs', async (t) => {

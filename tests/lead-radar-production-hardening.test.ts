@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { LeadRadarStore, type StoredLeadInput, resumeStalledLeadRadarSearches } from '../functions/platform/lead-radar';
+import { LeadRadarStore, type StoredLeadInput, resumeStalledLeadRadarSearches, consumeLeadRadarQueueMessage } from '../functions/platform/lead-radar';
 import { SqliteD1 } from './helpers/sqlite-d1';
 
 const ROOT = resolve(import.meta.dirname, '..');
@@ -147,10 +147,26 @@ test('LR-F-20: the watchdog sweep rotates by pool touch time instead of starving
     'the least recently touched pool must be served first, not the oldest search');
   const swept = await resumeStalledLeadRadarSearches(fixture.asD1(), NOW);
   assert.equal(swept, 2, 'the sweep still serves both searches, but newest-touched last');
-  // Once the churning search is refreshed (touching its pool), it rotates to
-  // the back of the queue instead of permanently occupying a watchdog slot.
+  assert.equal(fixture.value('SELECT updated_at FROM lead_radar_candidate_pools WHERE search_id=?', 'search_fresh'), NOW.toISOString());
+  // A subsequent visit rotates this search behind the earlier visit.
   fixture.sqlite.prepare('UPDATE lead_radar_candidate_pools SET updated_at=? WHERE search_id=?')
-    .run(new Date(NOW.getTime() - 1_000).toISOString(), 'search_churning');
+    .run(new Date(NOW.getTime() + 1_000).toISOString(), 'search_churning');
   const secondSweep = await store.listRunningSearchesWithPools(1);
   assert.deepEqual(secondSweep.map((row) => row.searchId), ['search_fresh']);
+});
+
+test('LR-F-7: ordinary exhausted discovery returns its reservation, not only an expired lease', async (t) => {
+  const fixture=database();t.after(()=>fixture.sqlite.close());
+  const store=new LeadRadarStore(fixture.asD1());insertRunningSearch(fixture,'search_final_failure',NOW.toISOString());
+  const job=await store.createJob(ORG,'search_final_failure',null,'discovery','discovery:search_final_failure',NOW.toISOString());
+  fixture.sqlite.prepare('UPDATE lead_radar_jobs SET attempt_count=2,max_attempts=3 WHERE id=?').run(job.id);
+  fixture.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools
+    (org_id,search_id,candidates_json,candidate_count,cursor,batch_start,batch_job_id,target,created_at,expires_at,updated_at)
+    VALUES (?,'search_final_failure','[]',10,8,3,?,5,?,?,?)`)
+    .run(ORG,job.id,NOW.toISOString(),new Date(NOW.getTime()+3600000).toISOString(),NOW.toISOString());
+  const result=await consumeLeadRadarQueueMessage(fixture.asD1(),{schema:'gptbot.lead-radar.job.v1',job_id:job.id},
+    {send:async()=>{}},{now:()=>NOW,discover:async()=>{throw new Error('source timeout');}});
+  assert.equal(result.outcome,'dead_letter');
+  assert.equal(fixture.value('SELECT cursor FROM lead_radar_candidate_pools'),3);
+  assert.equal(fixture.value('SELECT batch_job_id FROM lead_radar_candidate_pools'),null);
 });

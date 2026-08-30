@@ -2003,7 +2003,9 @@ export class LeadRadarStore {
     // or resume discovery while only they remain active. The terminal/status
     // calculation below still counts every active job.
     const blockingActiveJobs = activeJobs.filter((job) => !(
-      job.status === 'retry_wait' && /budget_exhausted/.test(job.last_error_code ?? '')
+      // Regeneration keeps the budget reason but changes retry_wait to queued.
+      // Both durable parked states must release discovery's progress barrier.
+      ['retry_wait', 'queued'].includes(job.status) && /budget_exhausted/.test(job.last_error_code ?? '')
     ));
     if (input.searchGoal === 'telegram_contacts' && blockingActiveJobs.length === 0 && !discoveryFailure
       && await this.supportsContactDiscovery()) {

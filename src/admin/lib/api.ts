@@ -855,9 +855,9 @@ export const api = {
   leadRadarResolveContact: (searchId: string, companyId: string, candidateKey: string) =>
     request<import('../../shared/lead-radar-contact-resolution').TelegramContactResolution>('POST',
       '/api/admin/lead-radar/telegram-account/resolve-contact', { searchId, companyId, candidateKey }, { timeoutMs: 15_000 }),
-  leadRadarConfirmOwnership: (companyId: string) =>
+  leadRadarConfirmOwnership: (companyId: string, candidateKey: string) =>
     request<{ confirmed: boolean; reason: string; confirmedEndpoints: number }>('POST',
-      '/api/admin/lead-radar/telegram-contacts/confirm-ownership', { companyId }, { timeoutMs: 15_000 }),
+      '/api/admin/lead-radar/telegram-contacts/confirm-ownership', { companyId, candidateKey }, { timeoutMs: 20_000 }),
   leadRadarPulseSearch: (searchId: string) =>
     request<{ ok: true; kicked: number; remaining: number | null; note: string }>('POST',
       `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}/pulse`, {}, { timeoutMs: 20_000 }),

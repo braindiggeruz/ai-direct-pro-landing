@@ -1265,7 +1265,7 @@ export async function readPublicWebsiteRobots(target: URL): Promise<string | nul
   });
 }
 
-async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2): Promise<{ url: URL; html: string } | null> {
+async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2, maxBytes = MAX_WEBSITE_BYTES): Promise<{ url: URL; html: string } | null> {
   let current = url;
   for (let attempt = 0; attempt <= maxRedirects; attempt += 1) {
     if (!(await hasOnlyPublicAddresses(current, budget))) return null;
@@ -1284,7 +1284,7 @@ async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2): 
         if (!response.ok || !(response.headers.get('content-type') ?? '').toLowerCase().includes('text/html')) {
           return { redirect: null, html: null };
         }
-        return { redirect: null, html: await readTextBounded(response, MAX_WEBSITE_BYTES) };
+        return { redirect: null, html: await readTextBounded(response, maxBytes) };
       },
     );
     if (outcome.redirect) {
@@ -1545,11 +1545,14 @@ export async function enrichCompanyWebsite(
 /** Free bounded public page fetch for catalog discovery (audit R1 Tier-1).
  * Same SSRF/DNS/robots-agnostic guards as the enrichment crawler; any failure
  * returns null so a blocked catalog never fails the calling job. */
-export async function readPublicPageHtml(raw: string): Promise<string | null> {
+export async function readPublicPageHtml(raw: string, options: { maxBytes?: number; sameOrigin?: boolean; allowRedirects?: boolean } = {}): Promise<string | null> {
   const url = safePublicHttpUrl(raw);
   if (!url) return null;
+  const maxBytes = options.maxBytes ?? MAX_WEBSITE_BYTES;
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1 || maxBytes > 900_000) return null;
   try {
-    const page = await fetchText(url, new SubrequestBudget(4), 1);
+    const page = await fetchText(url, new SubrequestBudget(4), options.allowRedirects === false ? 0 : 1, maxBytes);
+    if (options.sameOrigin && page && page.url.origin !== url.origin) return null;
     return page?.html ?? null;
   } catch {
     return null;

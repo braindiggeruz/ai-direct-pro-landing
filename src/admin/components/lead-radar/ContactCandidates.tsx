@@ -46,14 +46,14 @@ export function ContactCandidates({ candidates = [], enrichment, searchId, compa
     } catch { if (mounted.current) setError('Не удалось получить результат. Проверьте состояние аккаунта и соединение.'); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
-  async function confirmOwnership() {
+  async function confirmOwnership(candidateKey: string) {
     if (busyRef.current) return;
     busyRef.current = true; setBusy('ownership'); setError(null);
     try {
-      const result = await api.leadRadarConfirmOwnership(companyId);
+      const result = await api.leadRadarConfirmOwnership(companyId, candidateKey);
       if (!mounted.current) return;
       if (!result.confirmed && result.reason === 'already_confirmed') onResolved();
-      else if (!result.confirmed) setError('Подтверждение не применено: откройте сайт компании и убедитесь, что контакт опубликован именно там.');
+      else if (!result.confirmed) setError('Сайт должен сейчас публиковать именно этот контакт как корпоративный. Личные аккаунты, каналы, боты и ссылки без подтверждённого типа не допускаются.');
       else onResolved();
     } catch { if (mounted.current) setError('Не удалось сохранить подтверждение. Выбор не изменён.'); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
@@ -62,6 +62,8 @@ export function ContactCandidates({ candidates = [], enrichment, searchId, compa
   return <details className="mt-3 rounded-xl border border-white/10 p-3 text-xs text-white/70">
     <summary className="cursor-pointer py-1 font-medium">Найденные контакты и причины исключения ({candidates.length})</summary>
     {enrichment && <p className="mt-2 leading-5">Поиск публичных контактов: {enrichment.reason==='public_contact_candidates' ? 'найдены контакты в карточках бизнеса; тип аккаунта проверяется через Bridge'
+      : /^free_catalog_page_\d+$/.test(enrichment.reason) ? `бесплатный каталог: продолжаем со страницы ${enrichment.reason.split('_').pop()}; сообщения не отправляются`
+        : enrichment.reason==='free_catalog_niche_not_supported' ? 'для этой ниши пока проверяются собственные сайты; бесплатный каталог ещё не подключён'
       : enrichment.status==='limited' ? `${({daily_budget_exhausted:'исчерпан дневной лимит Firecrawl',search_budget_exhausted:'исчерпан лимит этого поиска',company_budget_exhausted:'исчерпан лимит проверки этой компании',domain_budget_exhausted:'исчерпан лимит источника',credits_exhausted:'закончились кредиты Firecrawl'} as Record<string,string>)[enrichment.reason] ?? 'остановлен по лимиту расходов'}; результат не означает отсутствие Telegram`
         : enrichment.status==='unavailable' ? 'источник недоступен; отсутствие контакта не подтверждено'
           : enrichment.reason==='shadow_only' ? 'тестовый режим без добавления контактов' : 'в проверенных источниках подходящих контактов не найдено'}.</p>}
@@ -70,7 +72,7 @@ export function ContactCandidates({ candidates = [], enrichment, searchId, compa
         <p className="break-all font-mono text-white/90">{candidate.value}</p>
         <p className="mt-1 leading-5">{LEAD_RADAR_CONTACT_REASON_COPY[candidate.reason] ?? 'Нужна проверка контакта'}</p>
         {candidate.lookupEligible && candidate.ownership==='unconfirmed' && <p className="leading-5">Проверим только существование и тип аккаунта. Принадлежность компании этим не подтверждается.</p>}
-        {candidate.lookupEligible && candidate.ownership==='unconfirmed' && <button type="button" disabled={busy !== null} onClick={() => void confirmOwnership()} className="mr-2 mt-2 min-h-11 rounded-lg border border-white/20 px-3 text-white/80 disabled:opacity-50">
+        {candidate.lookupEligible && candidate.kind==='telegram' && candidate.ownership==='unconfirmed' && <button type="button" disabled={busy !== null} onClick={() => void confirmOwnership(candidate.key)} className="mr-2 mt-2 min-h-11 rounded-lg border border-white/20 px-3 text-white/80 disabled:opacity-50">
           {busy === 'ownership' ? 'Сохраняем…' : 'Я проверил источник: контакт компании'}
         </button>}
         {candidate.lookupEligible && <button type="button" disabled={!canCheck || busy !== null} onClick={() => void check(candidate.key)} className="mt-2 min-h-11 rounded-lg border border-brand-cyan/30 px-3 text-brand-cyan disabled:opacity-50">
