@@ -4,16 +4,65 @@ import { FirecrawlClient, FirecrawlError, firecrawlConfig, firecrawlObject, type
 import { FirecrawlStore } from './firecrawl-store';
 import { JinaReaderClient, JinaReaderError, jinaReaderConfig, type JinaReaderEnvironment } from './jina-reader-client';
 import { extractPublicBusinessContacts, publicContactSearchQueries, publicContactSourceUrl } from './public-contact-discovery';
-import { readPublicWebsiteRobots, robotsAllows } from './sources';
+import { readPublicPageHtml, readPublicWebsiteRobots, robotsAllows, type ExpectedCompanyWebsiteIdentity } from './sources';
+import { safePublicHttpUrl } from './validation';
 import type { LeadRadarQueueDependencies } from './queue';
 import type { LeadRadarContactSource } from '../../../src/shared/lead-radar-contact-sources';
+
+const TOP_UZ_ORIGIN = 'https://top.uz';
+
+/** Free Tier-1 catalog discovery (audit-2026-08-30): query top.uz directly —
+ * verified live on 2026-08-30 that /search/?text=<q> returns /company/<slug>
+ * listings and the origin's robots allows public paths. Bounded: one search
+ * page + ≤5 listings, robots-checked, same identity extraction as the
+ * provider path. Any failure yields no sources and never fails the job. */
+async function discoverTopUzListings(
+  identity: ExpectedCompanyWebsiteIdentity,
+  robotsFor: (url: URL) => Promise<string | null>,
+  observedAt: string,
+): Promise<LeadRadarContactSource[]> {
+  const query = [identity.name, identity.city].filter((part): part is string => Boolean(part)).join(' ').slice(0, 90);
+  if (query.length < 3) return [];
+  const searchUrl = safePublicHttpUrl(`${TOP_UZ_ORIGIN}/search/?text=${encodeURIComponent(query)}`);
+  if (!searchUrl) return [];
+  const policies = new Map<string, string | null>();
+  const allowed = async (url: URL): Promise<boolean> => {
+    if (!policies.has(url.origin)) {
+      try { policies.set(url.origin, await robotsFor(url)); } catch { return false; }
+    }
+    const policy = policies.get(url.origin)!;
+    return policy === null || robotsAllows(policy, url);
+  };
+  if (!await allowed(searchUrl)) return [];
+  const html = await readPublicPageHtml(searchUrl.toString());
+  if (!html) return [];
+  const seen = new Set<string>();
+  const listings: string[] = [];
+  for (const match of html.matchAll(/href\s*=\s*["'](\/company\/[a-z0-9-]+\/?)(?:#[^"']*)?["']/gi)) {
+    const absolute = safePublicHttpUrl(`${TOP_UZ_ORIGIN}${match[1]}`);
+    if (!absolute || seen.has(absolute.toString())) continue;
+    seen.add(absolute.toString());
+    listings.push(absolute.toString());
+    if (listings.length >= 5) break;
+  }
+  const sources: LeadRadarContactSource[] = [];
+  for (const listing of listings) {
+    if (!await allowed(new URL(listing))) continue;
+    const page = await readPublicPageHtml(listing);
+    if (!page) continue;
+    const parsed = await extractPublicBusinessContacts(listing, page, identity, observedAt);
+    if (parsed) sources.push(parsed);
+    if (sources.some((s) => s.candidates.some((c) => c.kind === 'telegram' && c.ownership === 'company'))) break;
+  }
+  return sources.slice(0, 4);
+}
 
 export async function createContactSourceQueueDependencies(env: FirecrawlEnvironment & JinaReaderEnvironment, db: D1Database, orgId: string,
   deps: { fetch?: typeof fetch; now?: () => Date; robots?: typeof readPublicWebsiteRobots; sleep?: (ms: number) => Promise<void> } = {}): Promise<LeadRadarQueueDependencies> {
   const config=firecrawlConfig(env,orgId);
-  if (!config || !await contactSourceSchemaReady(db)) return {};
+  if (!await contactSourceSchemaReady(db)) return {};
   const store=new FirecrawlStore(db);
-  if (!await store.available()) return {};
+  if (config && !await store.available()) return {};
   const now=deps.now ?? (() => new Date());
   // Optional free Jina Reader fallback. When the flag is off no client is
   // built and no D1 query is added: behaviour stays byte-identical.
@@ -32,8 +81,8 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
     // reservation under current limits; this does not itself spend credits.
     if (previous?.status==='complete') return {pending:false};
     if (contactCandidatesForLead(lead).some((c) => c.lookupEligible && c.ownership==='company' && c.kind==='telegram')) return {pending:false};
-    const client=new FirecrawlClient(config,store,{orgId:job.orgId,searchId:job.searchId,companyId:job.companyId,
-      jobId:job.id,leaseOwner:job.leaseOwner,leaseGeneration:job.leaseGeneration},deps.fetch,now);
+    const client=config ? new FirecrawlClient(config,store,{orgId:job.orgId,searchId:job.searchId,companyId:job.companyId,
+      jobId:job.id,leaseOwner:job.leaseOwner,leaseGeneration:job.leaseGeneration},deps.fetch,now) : null;
     const sources: LeadRadarContactSource[]=[];
     const seen=new Set<string>();
     let reason='no_matching_public_contact', status: 'complete'|'limited'|'unavailable'='complete';
@@ -49,6 +98,14 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
     };
     const queries=publicContactSearchQueries(identity);
     if (queries.length===0) reason='insufficient_company_identity';
+    // Free Tier-1 first: direct top.uz discovery spends nothing, so an
+    // exhausted provider budget no longer stops public contact sourcing.
+    if (config?.mode!=='shadow') {
+      try {
+        sources.push(...await discoverTopUzListings(identity,(url)=>(deps.robots ?? readPublicWebsiteRobots)(url),now().toISOString()));
+      } catch { /* Best-effort: the provider path below still runs. */ }
+    }
+    const freeHit=sources.some((s)=>s.candidates.some((c)=>c.kind==='telegram' && c.ownership==='company'));
     // Jina Reader renders the same URL when the direct provider fetch is
     // blocked by the origin (HTTP 521/5xx, empty page). The origin's robots
     // policy was already accepted above, so this never bypasses a denial.
@@ -63,9 +120,10 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
         return null;
       }
     };
+    const firecrawl=client && !freeHit ? client : null;
     try {
-      for (const query of queries) {
-        const urls=await client.request('search',`contact-search:${job.companyId}`,{query,limit:5,sources:['web'],
+      for (const query of firecrawl ? queries : []) {
+        const urls=await firecrawl!.request('search',`contact-search:${job.companyId}`,{query,limit:5,sources:['web'],
           includeDomains:[...FIRECRAWL_DIRECTORY_DOMAINS,'t.me','telegram.me']}, (data) => {
           const web=firecrawlObject(data.data).web;
           if (!Array.isArray(web)) throw new FirecrawlError('invalid_response');
@@ -81,7 +139,7 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
           const url=publicContactSourceUrl(raw)!.url;
           try {
             await allowed(url);
-            const source=await client.request('scrape',url.hostname,{url:raw,formats:['rawHtml','html'],
+            const source=await firecrawl!.request('scrape',url.hostname,{url:raw,formats:['rawHtml','html'],
               onlyMainContent:false,onlyCleanContent:false,skipTlsVerification:false,maxAge:0,storeInCache:false,parsers:[],timeout:30_000},async (response,observedAt) => {
               const data=firecrawlObject(response.data), meta=firecrawlObject(data.metadata);
               if (meta.statusCode!==200) throw new FirecrawlError('target_http_error');
@@ -136,8 +194,8 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
     }
     if (sources.length && status==='complete') reason='public_contact_candidates';
     const at=now();
-    const saved=await saveContactEnrichment(db,job,identity,{status,reason:config.mode==='shadow' ? 'shadow_only' : reason,
-      sources:config.mode==='shadow' ? [] : sources.slice(0,4),checkedAt:at.toISOString(),expiresAt:new Date(at.getTime()+86400_000).toISOString()});
+    const saved=await saveContactEnrichment(db,job,identity,{status,reason:config?.mode==='shadow' ? 'shadow_only' : reason,
+      sources:config?.mode==='shadow' ? [] : sources.slice(0,4),checkedAt:at.toISOString(),expiresAt:new Date(at.getTime()+86400_000).toISOString()});
     // A separate delivery handles Telegram. Paid parsing + account lookup must
     // not share one Workers Free D1/subrequest budget.
     // Partial evidence must not hide a budget/provider failure. Queue status

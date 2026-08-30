@@ -1542,6 +1542,20 @@ export async function enrichCompanyWebsite(
   return enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(12), undefined, expected);
 }
 
+/** Free bounded public page fetch for catalog discovery (audit R1 Tier-1).
+ * Same SSRF/DNS/robots-agnostic guards as the enrichment crawler; any failure
+ * returns null so a blocked catalog never fails the calling job. */
+export async function readPublicPageHtml(raw: string): Promise<string | null> {
+  const url = safePublicHttpUrl(raw);
+  if (!url) return null;
+  try {
+    const page = await fetchText(url, new SubrequestBudget(4), 1);
+    return page?.html ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function enrichCompanyWebsiteDetailed(
   website: string,
   expected?: ExpectedCompanyWebsiteIdentity,
