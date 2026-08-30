@@ -265,6 +265,15 @@ function retryDelaySeconds(attempt: number): number {
   return Math.min(15 * 60, 45 * (2 ** Math.max(0, attempt - 1)));
 }
 
+// Transient target outages (site down, HTTP 5xx, timeout, transport error)
+// get a bounded long backoff inside the enrichment job — 15 min, 1 h, 4 h —
+// so a temporarily down website is not written off as terminal within minutes.
+// Deliberately terminal causes (robots_blocked, invalid_website, http_blocked)
+// are never retried and keep their immediate terminal path.
+const TRANSIENT_ENRICHMENT_CODES = new Set(['source_unavailable', 'source_timeout']);
+const TRANSIENT_ENRICHMENT_BACKOFF_SECONDS = [15 * 60, 60 * 60, 4 * 60 * 60];
+
+
 function safeFailureCode(error: unknown): string {
   const message = error instanceof Error ? error.message : '';
   if (/city_not_found/.test(message)) return 'city_not_found';
@@ -305,8 +314,11 @@ async function retryOrDeadLetter(
   const defer = job.stage === 'enrichment' && Number.isFinite(created)
     && resume > at.getTime() && resume <= created + 30 * 60_000;
   if (job.attemptCount < job.maxAttempts || defer) {
+    const transientBackoff = !defer && job.stage === 'enrichment' && TRANSIENT_ENRICHMENT_CODES.has(code)
+      ? TRANSIENT_ENRICHMENT_BACKOFF_SECONDS[Math.min(Math.max(job.attemptCount, 1), TRANSIENT_ENRICHMENT_BACKOFF_SECONDS.length) - 1]
+      : null;
     const delaySeconds = defer ? Math.max(5, Math.min(900, Math.ceil((resume - at.getTime()) / 1_000)))
-      : retryDelaySeconds(job.attemptCount);
+      : (transientBackoff ?? retryDelaySeconds(job.attemptCount));
     if (job.companyId) {
       const transitioned = await store.markLeadEnrichmentQueued(
         job.orgId, job.companyId, job.id, job.leaseOwner, now, job.leaseGeneration,

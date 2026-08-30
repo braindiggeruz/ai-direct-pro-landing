@@ -1943,7 +1943,14 @@ export class LeadRadarStore {
     ])].slice(0, 20);
     let replenishing = false;
     let resolvedGoalCount = 0;
-    if (input.searchGoal === 'telegram_contacts' && activeJobs.length === 0 && !discoveryFailure
+    // Budget-parked contact jobs (retry_wait on an exhausted source budget)
+    // wait out their cooldown and must not hold the pool hostage: replenish
+    // or resume discovery while only they remain active. The terminal/status
+    // calculation below still counts every active job.
+    const blockingActiveJobs = activeJobs.filter((job) => !(
+      job.status === 'retry_wait' && /budget_exhausted/.test(job.last_error_code ?? '')
+    ));
+    if (input.searchGoal === 'telegram_contacts' && blockingActiveJobs.length === 0 && !discoveryFailure
       && await this.supportsContactDiscovery()) {
       const pool = await this.contactDiscovery.getPool(orgId, searchId);
       if (pool) {
@@ -1953,7 +1960,10 @@ export class LeadRadarStore {
       if (pool && (!pool.stop_reason || pool.stop_reason === 'time_limit')) {
         // Contact-mode success requires a Bridge resolution under the current
         // account, not just a public link. Outreach permission remains separate.
-        const blockedSources = deadJobs.find(job => /^contact_sources_.*(?:budget|credits|rate_limit)/.test(job.last_error_code ?? ''));
+        // Per-company source budgets dead-letter a single lookup and the next
+        // enrichment cycle re-creates it; only account/search-wide provider
+        // limits (daily, domain, search, credits, rate limit) park the pool.
+        const blockedSources = deadJobs.find(job => /^contact_sources_(?!.*company).*(?:budget|credits|rate_limit)/.test(job.last_error_code ?? ''));
         if (resolvedGoalCount >= input.desiredCount) {
           if (!pool.stop_reason) await this.contactDiscovery.stop(orgId, searchId, 'target_reached', now);
         } else if (blockedSources) {

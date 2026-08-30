@@ -1084,13 +1084,14 @@ test('async enrichment keeps partial leads through bounded retry and terminal fa
   assert.equal(result?.leads.length, 1);
   assert.equal(result?.leads[0]?.enrichmentStatus, 'queued');
 
-  const secondAt = new Date(start.getTime() + 46_000);
+  // Transient source failures back off 15 minutes, then 1 hour, inside the job.
+  const secondAt = new Date(start.getTime() + 15 * 60_000 + 1_000);
   const second = await consumeLeadRadarQueueMessage(db, enrichmentMessage, queue, {
     now: () => secondAt,
     enrichWebsite: unavailable,
   });
   assert.equal(second.outcome, 'retry_wait');
-  const thirdAt = new Date(secondAt.getTime() + 91_000);
+  const thirdAt = new Date(secondAt.getTime() + 60 * 60_000 + 1_000);
   const third = await consumeLeadRadarQueueMessage(db, enrichmentMessage, queue, {
     now: () => thirdAt,
     enrichWebsite: unavailable,
