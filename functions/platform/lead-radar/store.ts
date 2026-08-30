@@ -1625,7 +1625,7 @@ export class LeadRadarStore {
     const result = await this.db.prepare(`SELECT * FROM lead_radar_jobs
       WHERE status = 'running' AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?
       ORDER BY lease_expires_at, org_id, id LIMIT ?`).bind(
-      now, Math.max(1, Math.min(2, Math.trunc(limit))),
+      now, Math.max(1, Math.min(10, Math.trunc(limit))),
     ).all<JobRow>();
     return (result.results ?? []).map(mapJob);
   }

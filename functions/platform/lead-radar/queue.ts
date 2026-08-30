@@ -824,10 +824,13 @@ export async function enqueueDueLeadRadarJobs(
     allowOrganization,
     5,
   );
-  // Recovery can touch an effect, terminal state and funnel. Keep it small so
-  // the combined recovery + dispatch tick remains under the Free D1 ceiling.
-  const expiredJobs = (await store.listExpiredJobs(now, 2))
+  // Recovery touches one row per expired lease; the funnel refresh is the
+  // expensive part, so it runs once per affected search (bounded to two)
+  // instead of once per job. Ten recoveries per tick keep a post-deploy
+  // backlog from crawling at two jobs per 15 minutes (audit QR-5).
+  const expiredJobs = (await store.listExpiredJobs(now, 10))
     .filter((job) => allowOrganization(job.orgId));
+  const dirtySearches = new Map<string, { orgId: string; searchId: string }>();
   for (const expired of expiredJobs) {
     const delaySeconds = retryDelaySeconds(expired.attemptCount);
     const recovered = await store.recoverExpiredJob(
@@ -835,7 +838,10 @@ export async function enqueueDueLeadRadarJobs(
       new Date(at.getTime() + delaySeconds * 1_000).toISOString(),
       now,
     );
-    if (recovered) await store.refreshSearchFunnel(expired.orgId, expired.searchId, now);
+    if (recovered) dirtySearches.set(`${expired.orgId}:${expired.searchId}`, { orgId: expired.orgId, searchId: expired.searchId });
+  }
+  for (const dirty of [...dirtySearches.values()].slice(0, 2)) {
+    await store.refreshSearchFunnel(dirty.orgId, dirty.searchId, now);
   }
   const reservations = await store.reserveDueJobDispatches(
     now,

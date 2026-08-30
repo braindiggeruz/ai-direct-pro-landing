@@ -197,8 +197,8 @@ const ENRICHMENT_REASON_COPY: Record<LeadRadarEnrichmentReason, string> = {
   no_relevant_evidence: 'На доступных страницах не найдено релевантных контактных доказательств.',
   robots_blocked: 'Сайт ограничил автоматическую проверку; найденные данные сохранены.',
   http_blocked: 'Сайт не разрешил получить страницу; найденные данные сохранены.',
-  source_timeout: 'Источник не успел ответить; найденные данные сохранены.',
-  source_unavailable: 'Источник временно недоступен; найденные данные сохранены.',
+  source_timeout: 'Источник не успел ответить; найденные данные сохранены. Проверка повторится сама: через ~15 минут, затем через 1 и 4 часа.',
+  source_unavailable: 'Источник временно недоступен; найденные данные сохранены. Проверка повторится сама: через ~15 минут, затем через 1 и 4 часа.',
   invalid_website: 'Адрес сайта не удалось безопасно проверить.',
   payload_invalid: 'Источник вернул данные, которые нельзя было надёжно подтвердить.',
   retry_exhausted: 'Лимит безопасных повторов исчерпан; можно повторить поиск позже.',
@@ -1900,6 +1900,9 @@ export default function LeadRadarPage() {
             <div className="flex-1 leading-6">
               <strong className="block text-white">Поиск «{searchInputLabel(searchAttemptError.input)}» не запущен.</strong>
               <span>{searchAttemptError.message}</span>
+              <span className="mt-1 block text-rose-100/75">
+                Парсинг не потерян: текущий результат ниже продолжает обновляться, а новый запуск откроется после завершения предыдущего — лимит «не больше двух незавершённых поисков» защищает базу от гонок.
+              </span>
               {result && (
                 <span className="mt-1 block text-rose-100/75">
                   Ниже по-прежнему открыт предыдущий результат «{searchInputLabel(result.search.input)}».
