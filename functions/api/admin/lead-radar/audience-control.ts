@@ -1,5 +1,6 @@
 import { ownerError,ownerJson,readOwnerBody,OwnerValidationError,type OwnerHandlerContext } from '../../../platform/admin';
 import { AudienceError,AudienceStore,requireAudienceSchema } from '../../../platform/lead-radar/audiences';
+import { confirmCompanyWebsiteOwnership } from '../../../platform/lead-radar/ownership-confirmation';
 import { assertLeadRadarRuntimeSchema,LeadRadarStore,hasTelegramCampaignSchema } from '../../../platform/lead-radar';
 import { redactLead } from '../../../platform/lead-radar/capabilities';
 import type { LeadRadarApiCapabilities } from '../../../../src/shared/lead-radar';
@@ -30,6 +31,13 @@ export async function handleAudienceRequest(ctx: OwnerHandlerContext,parts: read
         return ownerJson({audience,leads,excludedRecipientIds:await store.excludedRecipientIds(orgId,audience.companyIds),
           missingCompanyIds:audience.companyIds.filter((id)=>!leads.some((lead)=>lead.id===id))},ctx.requestId);
       }
+    }
+    if (ctx.request.method==='POST' && parts.length===2 && parts[0]==='telegram-contacts' && parts[1]==='confirm-ownership') {
+      const body=await readOwnerBody(ctx.request);
+      const companyId=body && typeof body==='object' && !Array.isArray(body) ? (body as {companyId?:unknown}).companyId : null;
+      if (typeof companyId!=='string' || companyId.length<1 || companyId.length>80) throw new AudienceError('audience_invalid_input');
+      const result=await confirmCompanyWebsiteOwnership({db:ctx.db,orgId,companyId,operatorId:ctx.actor.email});
+      return ownerJson(result,ctx.requestId);
     }
     if (ctx.request.method==='POST' && parts.length===2 && parts[0]==='audiences') {
       const body=await readOwnerBody(ctx.request);
