@@ -855,3 +855,22 @@ export async function enqueueDueLeadRadarJobs(
   }
   return sent;
 }
+
+/** Cron-only watchdog (audit QR-2 class, "stuck at 10 of 186"): a running
+ * contact-mode search whose jobs are all parked hours ahead must still
+ * advance. refreshSearchFunnel re-evaluates the pool under current limits
+ * and mints a due replenish/resume discovery job. Runs in the scheduled
+ * handler's own invocation budget; two searches per 15-minute tick. */
+export async function resumeStalledLeadRadarSearches(
+  db: D1Database,
+  now: Date,
+  allowOrganization: (orgId: string) => boolean = () => true,
+): Promise<number> {
+  const store = new LeadRadarStore(db);
+  let resumed = 0;
+  for (const stalled of await store.listRunningSearchesWithPools(2, allowOrganization)) {
+    await store.refreshSearchFunnel(stalled.orgId, stalled.searchId, now.toISOString());
+    resumed += 1;
+  }
+  return resumed;
+}

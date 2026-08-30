@@ -1621,6 +1621,31 @@ export class LeadRadarStore {
       .bind(availableAt, availableAt, now, orgId, jobId).run();
   }
 
+  /** Running contact-mode searches whose remaining pool candidates are not
+   * covered by any due job. The cron watchdog feeds these into
+   * refreshSearchFunnel so parking can never freeze a search forever. */
+  async listRunningSearchesWithPools(
+    limit: number,
+    allowOrganization: (orgId: string) => boolean = () => true,
+  ): Promise<Array<{ orgId: string; searchId: string }>> {
+    try {
+      const result = await this.db.prepare(`SELECT s.org_id AS org_id, s.id AS search_id
+        FROM lead_radar_searches s
+        WHERE s.status = 'running' AND EXISTS (
+          SELECT 1 FROM lead_radar_candidate_pools p
+          WHERE p.org_id = s.org_id AND p.search_id = s.id
+            AND p.candidate_count > COALESCE(p.cursor, 0) AND p.stop_reason IS NULL)
+        ORDER BY s.created_at LIMIT ?`)
+        .bind(Math.max(1, Math.min(5, Math.trunc(limit)))).all<{ org_id: string; search_id: string }>();
+      return (result.results ?? [])
+        .filter((row) => allowOrganization(row.org_id))
+        .map((row) => ({ orgId: row.org_id, searchId: row.search_id }));
+    } catch {
+      // Pre-contact-schema deployments have no pools; the sweep is a no-op.
+      return [];
+    }
+  }
+
   async listExpiredJobs(now: string, limit = 2): Promise<LeadRadarJob[]> {
     const result = await this.db.prepare(`SELECT * FROM lead_radar_jobs
       WHERE status = 'running' AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?

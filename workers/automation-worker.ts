@@ -14,6 +14,7 @@ import {
   consumeLeadRadarQueueMessage,
   completeTelegramUserAccountConnection,
   enqueueDueLeadRadarJobs,
+  resumeStalledLeadRadarSearches,
   getTelegramUserAccountByAuthRequest,
   assertLeadRadarRuntimeSchema,
   hasLeadRadarPersonalDataSchema,
@@ -327,6 +328,11 @@ export default {
     try {
       if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) await new ContactDiscoveryStore(env.GPTBOT_DRAFTS_DB).purgeExpired(retentionNow.toISOString());
     } catch { recordLeadRadarFailure('contact_retention', new Error('contact_retention_failed')); }
+    try {
+      if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) {
+        await resumeStalledLeadRadarSearches(env.GPTBOT_DRAFTS_DB, retentionNow, (orgId) => isLeadRadarOrganizationAllowed(env, orgId));
+      }
+    } catch { recordLeadRadarFailure('stalled_search_resume', new Error('stalled_search_resume_failed')); }
     try {
       if (await hasLeadRadarPersonalDataSchema(env.GPTBOT_DRAFTS_DB)) {
         const retentionDays = parseLeadRadarRetentionDays(env.LEAD_RADAR_PERSONAL_RETENTION_DAYS);

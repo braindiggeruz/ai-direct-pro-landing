@@ -4,6 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import { createContactSourceQueueDependencies } from '../functions/platform/lead-radar/contact-source-worker';
+import { resumeStalledLeadRadarSearches } from '../functions/platform/lead-radar/queue';
 import { SqliteD1 } from './helpers/sqlite-d1';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -81,4 +82,29 @@ test('free Tier-1: top.uz catalog sourcing works with no Firecrawl config and ze
   // Sources discovered through the free path (the Firecrawl loop was skipped).
   assert.equal(outcome.reason, 'contact_sources_public_contact_candidates');
   assert.ok(!calls.some((c) => c.includes('firecrawl')), 'zero provider calls must happen on the free path');
+});
+
+test('cron watchdog resumes a running search whose pool froze behind parked jobs', async (t) => {
+  const db = new SqliteD1();
+  t.after(() => db.sqlite.close());
+  db.exec(`CREATE TABLE d1_migrations (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
+    applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);`);
+  for (const filename of ['0036_lead_radar.sql', '0041_lead_radar_search_leases.sql', '0042_lead_radar_decision_makers.sql',
+    '0043_lead_radar_async_funnel.sql', '0050_lead_radar_contact_discovery.sql', '0054_lead_radar_candidate_pool_resume.sql']) {
+    db.exec(readFileSync(path.join(ROOT, 'migrations', filename), 'utf8'));
+    db.sqlite.prepare('INSERT INTO d1_migrations (name) VALUES (?)').run(filename);
+  }
+  const ORG = 'org_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+  const now = new Date('2026-08-30T07:00:00.000Z');
+  db.sqlite.prepare(`INSERT INTO lead_radar_searches (id, org_id, input_json, status, phase, created_at)
+    VALUES ('search_stuck', ?, '{"searchGoal":"telegram_contacts","desiredCount":5}', 'running', 'enriching', ?)`).run(ORG, now.toISOString());
+  db.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools (org_id, search_id, candidates_json,
+    candidate_count, target, created_at, expires_at, updated_at)
+    VALUES (?, 'search_stuck', '[]', 186, 50, ?, ?, ?)`)
+    .run(ORG, now.toISOString(), new Date(now.getTime() + 3_600_000).toISOString(), now.toISOString());
+  await resumeStalledLeadRadarSearches(db.asD1(), now);
+  const jobs = db.rows<{ idempotency_key: string; status: string }>(
+    `SELECT idempotency_key, status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-pool:%'`);
+  assert.ok(jobs.length >= 1, 'watchdog must mint a replenish/resume discovery job for the frozen pool');
+  assert.equal(jobs[0].status, 'queued');
 });
