@@ -936,6 +936,7 @@ export function candidateFromOsmElement(
   element: unknown,
   input: LeadRadarSearchInput,
   fallbackCategory: string,
+  collectedAt?: string,
 ): SourceCandidate | null {
   if (!element || typeof element !== 'object' || Array.isArray(element)) return null;
   const raw = element as Partial<OverpassElement>;
@@ -957,7 +958,8 @@ export function candidateFromOsmElement(
   const phone = cleanPhone(tags['contact:phone'] || tags.phone || null);
   const email = genericEmail(tags['contact:email'] || tags.email || null);
   const telegram = cleanTelegram(tags['contact:telegram'] || tags.telegram || tags['social:telegram'] || null);
-  const sourceObservedAt = typeof raw.timestamp === 'string' && Number.isFinite(Date.parse(raw.timestamp))
+  const sourceObservedAt = collectedAt && Number.isFinite(Date.parse(collectedAt)) ? new Date(collectedAt).toISOString()
+    : typeof raw.timestamp === 'string' && Number.isFinite(Date.parse(raw.timestamp))
     ? new Date(raw.timestamp).toISOString()
     : new Date().toISOString();
   const sourceCity = cleanText(tags['addr:city'] || tags['addr:place'], 120);
@@ -968,6 +970,9 @@ export function candidateFromOsmElement(
   const evidence: LeadRadarEvidence[] = [
     sourceEvidence('company.name', name, sourceUrl, 'openstreetmap', 0.82, 'fact', sourceObservedAt),
   ];
+  if (collectedAt && typeof raw.timestamp==='string' && Number.isFinite(Date.parse(raw.timestamp))) {
+    evidence.push(sourceEvidence('source.osm.last_edited_at',new Date(raw.timestamp).toISOString(),sourceUrl,'openstreetmap',1,'fact',sourceObservedAt));
+  }
   if (sourcedCategory) {
     evidence.push(sourceEvidence('company.category', sourcedCategory, sourceUrl, 'openstreetmap', 0.78, 'fact', sourceObservedAt));
   }
@@ -1652,8 +1657,9 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     const bounds = await geocode(input, budget, this.geocodeStore);
     const { query, category, intent } = buildLeadRadarQueryPlan(input, bounds);
     const { response, warnings } = await overpass(query, budget);
+    const collectedAt=new Date().toISOString();
     const candidates = rankLeadRadarOsmElements(response.elements ?? [], intent)
-      .map((element) => candidateFromOsmElement(element, input, category))
+      .map((element) => candidateFromOsmElement(element, input, category, collectedAt))
       .filter((item): item is SourceCandidate => Boolean(item));
 
     const deduped = new Map<string, SourceCandidate>();

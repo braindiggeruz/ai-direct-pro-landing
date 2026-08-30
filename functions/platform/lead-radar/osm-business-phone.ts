@@ -52,7 +52,32 @@ export async function refreshOsmBusinessPhone(input: {
   const failure=(reason: string, temporary=false, retry=900) => ({...unchanged,failure:{status:temporary?'limited' as const:'unresolved' as const,
     username:null,reason,retryAfterSeconds:temporary?retry:null}});
   const record=osmBusinessRecord(phone.sourceUrl)!;
+  // Old discovery stored the map EDIT time as observed_at. Recover the actual
+  // collection time only from an exact, successfully completed discovery ledger.
+  // No current-clock stamping, imported rows, retries or merely recent searches.
+  let collectedAt: string | null = null;
+  let collectionJobId: string | null = null;
   try {
+    const receipt=await input.db.prepare(`SELECT c.discovered_at AS collected_at,j.id AS job_id FROM lead_radar_companies c
+      JOIN lead_radar_jobs j ON j.org_id=c.org_id AND j.search_id=c.search_id
+      JOIN lead_radar_searches s ON s.org_id=c.org_id AND s.id=c.search_id
+      WHERE c.org_id=? AND c.id=? AND c.suppressed=0 AND c.lifecycle<>'do_not_contact'
+        AND j.stage='discovery' AND j.status='completed' AND j.attempt_count=1 AND j.last_error_code IS NULL
+        AND j.completed_at=c.discovered_at AND j.created_at=s.created_at
+        AND julianday(j.completed_at)>=julianday(j.created_at)
+        AND julianday(j.completed_at)-julianday(j.created_at)<=15.0/1440
+        AND NOT EXISTS (SELECT 1 FROM lead_radar_contact_checks ch WHERE ch.org_id=c.org_id
+          AND ch.company_id=c.id AND ch.reason='business_listing_changed')
+        AND c.name=? AND c.phone IS ? AND c.address IS ? LIMIT 1`)
+      .bind(input.orgId,input.companyId,lead.name,lead.phone,lead.address??null).first<{collected_at:string;job_id:string}>();
+    const at=Date.parse(receipt?.collected_at??'');
+    if (Number.isFinite(at) && at>=Date.parse(now)-30*86400_000 && at<=Date.parse(now)
+      && proof.every(e=>e.observedAt===phone.observedAt && Number.isFinite(Date.parse(e.observedAt)) && Date.parse(e.observedAt)<at)) {
+      collectedAt=receipt!.collected_at;collectionJobId=receipt!.job_id;
+    }
+  } catch { /* An unavailable discovery ledger is not proof of collection time. */ }
+  try {
+    if (!collectedAt) {
     // Exact constant host/path; no redirects, credentials, arbitrary URLs or paid provider.
     const response=await (input.fetch ?? fetch)(`https://api.openstreetmap.org/api/0.6/${record.type}/${record.id}.json`,{
       redirect:'manual',signal:AbortSignal.timeout(8000),headers:{Accept:'application/json','User-Agent':'GPTBotLeadRadar/1.0 (+https://gptbot.uz)'},
@@ -86,17 +111,23 @@ export async function refreshOsmBusinessPhone(input: {
       || !currentPhones.some(p=>p.mobileLookupCandidate && `phone:${p.e164}`===input.candidateKey)
       || !storedPhones.every(old=>currentPhones.some(p=>p.e164===old.e164 && (!old.mobileLookupCandidate || p.mobileLookupCandidate)))
       || (place.fieldPath==='locations.coordinates' ? normalized(coordinates)!==normalized(place.value) : normalized(address)!==normalized(place.value))) return failure('business_listing_changed');
+    }
+    const observedAt=collectedAt??now;
     // Only exact previously read facts are refreshed. Concurrent edits, DNC and
     // changed company identity cannot inherit this check.
     const result=await input.db.prepare(`UPDATE lead_radar_evidence SET observed_at=?
       WHERE org_id=? AND company_id=? AND EXISTS (SELECT 1 FROM json_each(?) p
         WHERE json_extract(p.value,'$.id')=lead_radar_evidence.id AND json_extract(p.value,'$.value')=lead_radar_evidence.value
           AND json_extract(p.value,'$.observedAt')=lead_radar_evidence.observed_at AND json_extract(p.value,'$.sourceUrl')=lead_radar_evidence.source_url)
+      AND (? IS NULL OR NOT EXISTS (SELECT 1 FROM lead_radar_contact_checks ch
+        WHERE ch.org_id=lead_radar_evidence.org_id AND ch.company_id=lead_radar_evidence.company_id AND ch.reason='business_listing_changed'))
       AND EXISTS (SELECT 1 FROM lead_radar_companies c WHERE c.id=? AND c.org_id=? AND c.suppressed=0 AND c.lifecycle<>'do_not_contact'
-        AND c.name=? AND c.phone IS ? AND c.address IS ?)`)
-      .bind(now,input.orgId,input.companyId,JSON.stringify(proof),input.companyId,input.orgId,lead.name,lead.phone,lead.address??null).run();
+        AND c.name=? AND c.phone IS ? AND c.address IS ? AND (? IS NULL OR (c.discovered_at=?
+          AND EXISTS(SELECT 1 FROM lead_radar_jobs j WHERE j.id=? AND j.org_id=c.org_id AND j.search_id=c.search_id
+            AND j.status='completed' AND j.stage='discovery' AND j.completed_at=c.discovered_at AND j.attempt_count=1 AND j.last_error_code IS NULL))))`)
+      .bind(observedAt,input.orgId,input.companyId,JSON.stringify(proof),collectedAt,input.companyId,input.orgId,lead.name,lead.phone,lead.address??null,collectedAt,collectedAt,collectionJobId).run();
     if (Number(result.meta.changes)!==proof.length) return failure('business_listing_changed');
     const ids=new Set(proof.map(e=>e.id));
-    return {evidence:lead.evidence.map(e=>ids.has(e.id)?{...e,observedAt:now}:e)};
+    return {evidence:lead.evidence.map(e=>ids.has(e.id)?{...e,observedAt}:e)};
   } catch {return failure('business_listing_unavailable',true);}
 }

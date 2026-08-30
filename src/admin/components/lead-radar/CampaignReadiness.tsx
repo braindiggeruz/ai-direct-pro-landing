@@ -21,6 +21,7 @@ const REASONS: Record<string, string> = {
   account_safety_review_required: 'Требуется сверка предыдущей доставки',
   business_listing_unavailable: 'Источник номера временно недоступен; проверка сохранена, повторите позже',
   business_listing_changed: 'В публичной карточке изменились данные компании или номер',
+  source_checks_deferred: 'Недоступный источник отложен. Остальные доступные контакты проверены; отложенные не допущены к отправке',
 };
 
 export interface CampaignReadinessHandle { prepare: () => Promise<LeadRadarCampaignPreflight | null>; cancel: () => void }
@@ -131,11 +132,13 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
         save: (value) => { saveContactCheckProgress(scope, value); if (mounted.current) setProgress(value); },
       });
       if (mounted.current) {
-        if (!next.reason && !cancel.current) {
+        if ((!next.reason || next.reason==='source_checks_deferred') && !cancel.current) {
           const strict = await readSnapshot(version);
           if (strict) {
             setSnapshot(strict); current.current.onSnapshot(strict);
-            setNotice(`Проверка завершена: подтверждены Telegram-контакты (${strict.selection.verified}). Состав аудитории сохранён. Сообщения не отправлялись.`);
+            setNotice(next.reason==='source_checks_deferred'
+              ? `${REASONS.source_checks_deferred}. Подтверждены Telegram: ${strict.selection.verified}. Повторная проверка источника — не раньше ${new Date(next.sourcePauses?.openstreetmap?.until??0).toLocaleTimeString('ru-RU')}.`
+              : `Проверка завершена: подтверждены Telegram-контакты (${strict.selection.verified}). Состав аудитории сохранён. Сообщения не отправлялись.`);
           }
         } else setNotice(next.reason ? `Проверка приостановлена: ${REASONS[next.reason] ?? next.reason}.${next.pausedUntil > Date.now() ? ` Повторить не раньше ${new Date(next.pausedUntil).toLocaleTimeString('ru-RU')}.` : ''} Результаты сохранены.`
           : 'Проверка приостановлена. Можно продолжить с сохранённого места.');

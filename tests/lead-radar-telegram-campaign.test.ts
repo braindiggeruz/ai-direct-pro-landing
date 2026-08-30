@@ -401,6 +401,60 @@ function mappedPhoneFixture(db:SqliteD1, fresh=false) {
   return {elements:[{type:'node',id:123456,lat:41.3,lon:69.2,timestamp:'2026-03-07T19:11:44Z',tags:{name:'Example Clinic',amenity:'dentist',phone:'+998901234567'}}]};
 }
 
+function mappedCollectionReceipt(db:SqliteD1, at=new Date(NOW.getTime()-86400_000).toISOString()) {
+  const started=new Date(Date.parse(at)-4000).toISOString();
+  db.sqlite.prepare("UPDATE lead_radar_searches SET created_at=? WHERE id='search_mapped'").run(started);
+  db.sqlite.prepare("UPDATE lead_radar_companies SET discovered_at=? WHERE id='mapped'").run(at);
+  db.sqlite.prepare(`INSERT INTO lead_radar_jobs(id,org_id,search_id,idempotency_key,stage,status,attempt_count,available_at,created_at,updated_at,completed_at)
+    VALUES(?,?,'search_mapped','legacy-map-discovery','discovery','completed',1,?,?,?,?)`)
+    .run(`lrjob_${'a'.repeat(32)}`,ORG_A,started,started,at,at);
+  return at;
+}
+
+test('exact successful discovery ledger recovers collection time, never now or Telegram permission',async()=>{
+  const db=database();mappedPhoneFixture(db);const at=mappedCollectionReceipt(db);const account=await connectedAccount(db);let lookups=0;
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    candidateKey:'phone:+998901234567',now:NOW.toISOString(),fetch:async()=>{throw new Error('recent known collection requires no new source request');},
+    resolve:async()=>{lookups++;return {status:'unresolved',reason:'privacy_or_missing',username:null,retryAfterSeconds:null};}});
+  assert.equal(result.reason,'privacy_or_missing');assert.equal(lookups,1);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE id LIKE 'map-%' AND observed_at=?",at),4);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE id LIKE 'map-%' AND observed_at=?",NOW.toISOString()),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_contact_authorizations'),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'),0);
+});
+
+test('historical changed-source evidence cannot be revived by an old discovery receipt',async()=>{
+  const db=database();mappedPhoneFixture(db);const account=await connectedAccount(db);let lookups=0;
+  const input={db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    candidateKey:'phone:+998901234567',now:NOW.toISOString(),fetch:async()=>new Response('',{status:410}),
+    resolve:async()=>{lookups++;throw new Error('no proof');}};
+  assert.equal((await checkCorporateTelegramContact(input)).reason,'business_listing_changed');
+  mappedCollectionReceipt(db);
+  let reads=0;
+  const next=await checkCorporateTelegramContact({...input,now:new Date(NOW.getTime()+2*86400_000).toISOString(),
+    fetch:async()=>{reads++;return new Response('',{status:410});}});
+  assert.equal(next.reason,'business_listing_changed');assert.equal(reads,1);assert.equal(lookups,0);
+  assert.equal(db.value("SELECT observed_at FROM lead_radar_evidence WHERE id='map-phone'"),'2026-03-07T19:11:44.000Z');
+});
+
+for(const scenario of ['missing-ledger','retried','failed','time-mismatch','stale','future','mixed-evidence','error-recorded'] as const)
+test(`legacy collection date cannot be inferred from ${scenario}`,async()=>{
+  const db=database();mappedPhoneFixture(db);const at=scenario==='stale'?new Date(NOW.getTime()-31*86400_000).toISOString()
+    :scenario==='future'?new Date(NOW.getTime()+86400_000).toISOString():undefined;
+  mappedCollectionReceipt(db,at);const account=await connectedAccount(db);let reads=0,lookups=0;
+  if(scenario==='missing-ledger')db.exec('DELETE FROM lead_radar_jobs');
+  if(scenario==='retried')db.exec('UPDATE lead_radar_jobs SET attempt_count=2');
+  if(scenario==='failed')db.exec("UPDATE lead_radar_jobs SET status='dead_letter'");
+  if(scenario==='time-mismatch')db.exec("UPDATE lead_radar_jobs SET completed_at='2026-08-24T12:00:01.000Z'");
+  if(scenario==='mixed-evidence')db.exec("UPDATE lead_radar_evidence SET observed_at='2026-03-08T19:11:44.000Z' WHERE id='map-name'");
+  if(scenario==='error-recorded')db.exec("UPDATE lead_radar_jobs SET last_error_code='source_timeout'");
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    candidateKey:'phone:+998901234567',now:NOW.toISOString(),fetch:async()=>{reads++;return new Response('',{status:429,headers:{'Retry-After':'900'}});},
+    resolve:async()=>{lookups++;throw new Error('no proof');}});
+  assert.equal(result.reason,'business_listing_unavailable');assert.equal(reads,1);assert.equal(lookups,0);
+  assert.equal(db.value("SELECT observed_at FROM lead_radar_evidence WHERE id='map-phone'"),'2026-03-07T19:11:44.000Z');
+});
+
 test('mapped mobile without a website refreshes old source evidence and resolves with or without a username', async () => {
   const db=database();const body=mappedPhoneFixture(db);const account=await connectedAccount(db);
   let reads=0,lookups=0;

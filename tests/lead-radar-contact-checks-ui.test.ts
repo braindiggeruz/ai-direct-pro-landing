@@ -12,7 +12,7 @@ test('mapped public mobile enters the same UI checker without a website or Teleg
     ].map(([id,fieldPath,value,confidence,classification])=>({id,fieldPath,value,confidence,classification,
       sourceUrl:'https://www.openstreetmap.org/node/123456',sourceType:'openstreetmap',observedAt:'2026-03-07T19:11:44Z'}))} as LeadRadarLead;
   lead.contactCandidates=contactCandidatesForLead(lead);
-  assert.deepEqual(selectedContactCheckJobs([lead]),[{companyId:'mapped',searchId:'search',candidateKeys:['phone:+998901234567']}]);
+  assert.deepEqual(selectedContactCheckJobs([lead]),[{companyId:'mapped',searchId:'search',candidateKeys:['phone:+998901234567'],sourceByCandidate:{'phone:+998901234567':'openstreetmap'}}]);
   assert.match(contactCheckExplanation(lead,emptyContactCheckProgress())!,/ещё не завершена/);
   assert.match(contactCheckExplanation(lead,{...emptyContactCheckProgress(),completed:['mapped'],outcomes:{mapped:{reason:'privacy_or_missing',status:'unresolved'}}})!,/приватности/);
 });
@@ -55,4 +55,46 @@ test('a new mobile candidate reopens a previously completed company check',async
         :{status:'resolved',username:'clinic_contact',reason:'regular_user_resolved',retryAfterSeconds:null};
     }});
   assert.deepEqual(calls,['old','mobile']);assert.deepEqual(result.resolved,['company']);assert.deepEqual(result.completed,['company']);
+});
+
+test('one unavailable source defers its other phones but continues independent company contacts',async()=>{
+  const calls:string[]=[];
+  const jobs=[{companyId:'map1',searchId:'s',candidateKeys:['phone'],sourceByCandidate:{phone:'openstreetmap' as const}},
+    {companyId:'map2',searchId:'s',candidateKeys:['phone'],sourceByCandidate:{phone:'openstreetmap' as const}},
+    {companyId:'official',searchId:'s',candidateKeys:['username']}];
+  const progress=await runSelectedContactChecks({jobs,progress:emptyContactCheckProgress(),now:()=>1000,
+    cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async(job)=>{
+      calls.push(job.companyId);return job.companyId==='map1'
+        ? {status:'limited',reason:'business_listing_unavailable',username:null,retryAfterSeconds:900}
+        : {status:'resolved',reason:'regular_user_resolved',username:'official_company',retryAfterSeconds:null};
+    }});
+  assert.deepEqual(calls,['map1','official']);assert.deepEqual(progress.completed,['official']);
+  assert.deepEqual(progress.resolved,['official']);assert.equal(progress.reason,'source_checks_deferred');
+  assert.equal(progress.pausedUntil,0);assert.equal(progress.sourcePauses?.openstreetmap?.until,901000);
+  calls.length=0;
+  await runSelectedContactChecks({jobs,progress,now:()=>2000,cancelled:()=>false,save:()=>{},wait:async()=>{},
+    resolve:async()=>{throw new Error('source cooldown must survive restart');}});
+  const resumed=await runSelectedContactChecks({jobs,progress,now:()=>902000,cancelled:()=>false,save:()=>{},wait:async()=>{},
+    resolve:async(job)=>{calls.push(job.companyId);return {status:'unresolved',reason:'privacy_or_missing',username:null,retryAfterSeconds:null};}});
+  assert.deepEqual(calls,['map1','map2']);assert.equal(resumed.reason,null);assert.equal(resumed.completed.length,3);
+});
+
+test('source failure does not prevent an independent candidate of the same company',async()=>{
+  const calls:string[]=[];
+  const result=await runSelectedContactChecks({jobs:[{companyId:'a',searchId:'s',candidateKeys:['phone','username'],sourceByCandidate:{phone:'openstreetmap'}}],
+    progress:emptyContactCheckProgress(),now:()=>1000,cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async(_job,key)=>{
+      calls.push(key);return key==='phone'?{status:'limited',reason:'business_listing_unavailable',username:null,retryAfterSeconds:60}
+        :{status:'resolved',reason:'regular_user_resolved',username:'official_company',retryAfterSeconds:null};}});
+  assert.deepEqual(calls,['phone','username']);assert.deepEqual(result.resolved,['a']);assert.equal(result.reason,null);
+});
+
+test('legacy source pause remains scoped, while Telegram FloodWait still stops all sources',async()=>{
+  const jobs=[{companyId:'a',searchId:'s',candidateKeys:['phone'],sourceByCandidate:{phone:'openstreetmap' as const}},
+    {companyId:'b',searchId:'s',candidateKeys:['username']}];
+  const calls:string[]=[];
+  const result=await runSelectedContactChecks({jobs,progress:{...emptyContactCheckProgress(),reason:'business_listing_unavailable',pausedUntil:5000},
+    now:()=>1000,cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async(job)=>{calls.push(job.companyId);
+      return {status:'limited',reason:'flood_wait',username:null,retryAfterSeconds:120};}});
+  assert.deepEqual(calls,['b']);assert.equal(result.reason,'flood_wait');assert.equal(result.pausedUntil,121000);
+  assert.equal(result.sourcePauses?.openstreetmap?.until,5000);
 });
