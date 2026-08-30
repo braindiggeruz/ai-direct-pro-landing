@@ -1,6 +1,10 @@
 # STATE — contact-first acquisition implementation, 2026-08-30
 
-## CURRENT CHECKPOINT: QR-5 backlog drain deployed after screenshot triage
+## CURRENT CHECKPOINT: always-progress watchdog deployed for frozen pool searches
+
+Second screenshot (10:45) proved searches from 29 Aug 20:10-20:11 are still 'running' frozen at 10/10 with a 186-candidate pool: old-code parking left them with no due jobs, so nothing ever called refreshSearchFunnel even after QR-2/QR-5 fixes. Fix: resumeStalledLeadRadarSearches (queue.ts) — cron scheduled handler picks up to 2 running searches with unterminated pools per tick and re-runs refreshSearchFunnel, which mints due replenish/resume discovery jobs; schema-resilient try/catch; own invocation budget keeps D1 guard tests green (moving it inside enqueueDue broke the Free-budget tests by design). Test: watchdog test in lead-radar-free-catalog-discovery.test.ts proves a frozen pool mints a queued contact-pool job. Suites green (348+105+2). Remaining owner-gated: live send canary. Known UI follow-ups (not blocking): busy-banner progress details, batch counter 'K of ~19'.
+
+## PREVIOUS CHECKPOINT: QR-5 backlog drain deployed after screenshot triage
 
 Screenshot triage (gptbot.uz/admin-tools/lead-radar, 30 Aug 10:21): the 'search not started' red banner is the two-running-searches admission limit (429 busy), and the running search was stalled because four Worker deploys that morning killed in-flight jobs while cron recovered only 2 expired leases per 15 min (QR-5). Shipped: recovery batch 2->10 with funnel refresh deduplicated per search (bounded 2) keeping the Free D1 ceiling; source_unavailable/source_timeout cards now state the automatic retry ladder (15m/1h/4h); the 'not started' banner explains the background search keeps updating. All suites green (348+105+106), typecheck clean, single combined deploy of automation Worker + Pages. Runbook given to owner: wait for the stuck search to drain (now minutes, not hours), then start the new search; for Smalto click Bridge check then operator ownership confirm.
 
