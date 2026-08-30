@@ -25,7 +25,7 @@ import {
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { scoreLead } from './scoring';
 import { resolveLeadRadarIntent } from './intent';
-import { contactCandidatesForLead } from './contact-candidates';
+import { contactCandidatesForLead, mergeContactCandidates } from './contact-candidates';
 import { loadContactEnrichments } from './contact-source-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from './contact-discovery-store';
 import { countResolvedCorporateContacts } from './contact-resolution';
@@ -2189,9 +2189,9 @@ export class LeadRadarStore {
           genericEmail: suppressed ? null : row.generic_email,
           telegramUrl: suppressed ? null : row.telegram_url,
           telegramContact,
-          contactCandidates: [...new Map([...contactCandidatesForLead({
-            phone: row.phone, country: row.country, evidence, telegramContact, suppressed,
-          }), ...(suppressed ? [] : contactEnrichments.get(row.id)?.sources.flatMap((s) => s.candidates) ?? [])].map((c) => [c.key,c])).values()],
+          contactCandidates: mergeContactCandidates([...contactCandidatesForLead({
+            name:row.name,address:row.address,phone: row.phone, country: row.country, evidence, telegramContact, suppressed,
+          }), ...(suppressed ? [] : contactEnrichments.get(row.id)?.sources.flatMap((s) => s.candidates) ?? [])]),
           contactEnrichment: suppressed ? undefined : contactEnrichments.get(row.id),
           decisionMakers,
           enrichmentStatus: suppressed ? 'terminal' : row.enrichment_status,

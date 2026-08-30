@@ -105,7 +105,7 @@ export const LEAD_RADAR_CONTACT_REASON_COPY: Record<string, string> = {
   service_number: 'Служебный номер: исключён из получателей',
   extension: 'Номер с добавочным: исключён из поиска Telegram',
   invalid_number: 'Некорректный номер: исключён',
-  ownership_unconfirmed: 'Принадлежность компании не подтверждена официальным источником',
+  ownership_unconfirmed: 'Нужен источник, связывающий этот контакт с компанией',
   telegram_unverified: 'Корпоративный источник подтверждён; аккаунт ещё не проверен',
   unsupported_telegram: 'Бот, канал, группа или личный контакт: автоматическая отправка закрыта',
 };

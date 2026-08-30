@@ -1,11 +1,54 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator } from '../src/shared/lead-radar-contacts';
-import { contactCandidatesForLead } from '../functions/platform/lead-radar/contact-candidates';
+import { contactCandidatesForLead, mergeContactCandidates } from '../functions/platform/lead-radar/contact-candidates';
 import { extractCompanyPageFacts } from '../functions/platform/lead-radar/sources';
 import { officialDomainsFromListing, officialDomainSearchQuery } from '../functions/platform/lead-radar/official-domain-discovery';
 import { extractOfficialSiteContacts } from '../functions/platform/lead-radar/sources';
 import { publishedTelegramLocators } from '../functions/platform/lead-radar/telegram-locators';
+import type { LeadRadarEvidence } from '../src/shared/lead-radar';
+
+function mappedBusiness() {
+  const sourceUrl='https://www.openstreetmap.org/node/123456';
+  const evidence = [
+    ['name','company.name','Example Clinic',0.82,'fact'],
+    ['place','locations.coordinates','41.300000,69.200000',0.9,'fact'],
+    ['category','company.category','dentist',0.78,'fact'],
+    ['phone','company_contacts.phone','+998901234567',0.74,'company_data'],
+  ].map(([id,fieldPath,value,confidence,classification]) => ({id,fieldPath,value,confidence,classification,
+    sourceUrl,sourceType:'openstreetmap',observedAt:'2026-03-07T19:11:44.000Z'})) as LeadRadarEvidence[];
+  return {name:'Example Clinic',address:null,phone:'+998901234567',country:'UZ',evidence,telegramContact:null,suppressed:false};
+}
+
+test('a mapped business mobile without a website enters checks, not automatic sending', () => {
+  const candidates=contactCandidatesForLead(mappedBusiness());
+  assert.equal(candidates[0].lookupEligible,true);
+  assert.equal(candidates[0].ownership,'company');
+  assert.equal(candidates[0].resolution,undefined);
+  assert.deepEqual(candidates[0].evidenceIds.sort(),['category','name','phone','place']);
+});
+
+test('weaker duplicate enrichment cannot hide a proved mobile; personal evidence remains restrictive',()=>{
+  const good=contactCandidatesForLead(mappedBusiness())[0];
+  const weak={...good,ownership:'unconfirmed' as const,lookupEligible:false};
+  for(const values of [[good,weak],[weak,good]])assert.deepEqual(mergeContactCandidates(values),[good]);
+  const personal={...good,ownership:'personal' as const,lookupEligible:false};
+  for(const values of [[good,personal],[personal,good]])assert.deepEqual(mergeContactCandidates(values),[personal]);
+});
+
+test('mapped phones require a coherent named business record, not a loose number or personal listing', () => {
+  for (const mutate of [
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.name='Another Clinic';},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence=lead.evidence.filter(e=>e.id!=='place');},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.find(e=>e.id==='phone')!.sourceUrl='https://www.openstreetmap.org/node/999';},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.forEach(e=>{e.sourceUrl='https://openstreetmap.org.evil.test/node/123456';});},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.find(e=>e.id==='phone')!.classification='model_inference';},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.find(e=>e.id==='category')!.value='residential';},
+  ]) {
+    const lead=mappedBusiness();mutate(lead);
+    assert.equal(contactCandidatesForLead(lead).some(c=>c.lookupEligible),false);
+  }
+});
 
 test('published plain usernames and bare links are found without generating handles from names or emails', () => {
   const html = '<p>Записаться в Telegram: @clinic_booking</p><p>t.me/clinic_other</p>'

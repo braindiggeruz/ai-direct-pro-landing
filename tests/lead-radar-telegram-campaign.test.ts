@@ -387,6 +387,93 @@ test('listing name-only evidence permits type checking but never qualifies for t
   assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_weak_listing',NOW.toISOString()),0);
 });
 
+function mappedPhoneFixture(db:SqliteD1, fresh=false) {
+  addCompany(db,{id:'mapped',username:'OldUnknown',type:'unknown'});
+  db.exec("UPDATE lead_radar_companies SET name='Example Clinic',phone='+998901234567',website=NULL,telegram_contact_json='null' WHERE id='mapped'");
+  for (const [id,field,value,confidence,classification] of [
+    ['phone','company_contacts.phone','+998901234567',0.74,'company_data'],
+    ['name','company.name','Example Clinic',0.82,'fact'],
+    ['category','company.category','dentist',0.78,'fact'],
+    ['place','locations.coordinates','41.300000,69.200000',0.9,'fact'],
+  ]) db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES (?,?,'mapped',?,?,'https://www.openstreetmap.org/node/123456','openstreetmap',?,?,?)`)
+    .run(`map-${id}`,ORG_A,field,value,fresh?NOW.toISOString():'2026-03-07T19:11:44.000Z',confidence,classification);
+  return {elements:[{type:'node',id:123456,lat:41.3,lon:69.2,timestamp:'2026-03-07T19:11:44Z',tags:{name:'Example Clinic',amenity:'dentist',phone:'+998901234567'}}]};
+}
+
+test('mapped mobile without a website refreshes old source evidence and resolves with or without a username', async () => {
+  const db=database();const body=mappedPhoneFixture(db);const account=await connectedAccount(db);
+  let reads=0,lookups=0;
+  const selection={db:db.asD1(),orgId:ORG_A,companyId:'mapped',accountId:account.id,now:NOW.toISOString()};
+  const next=await nextTelegramContactCandidate(selection);
+  assert.equal(next.candidateKey,'phone:+998901234567','old map timestamp remains eligible for real source recheck');
+  const input={...selection,searchId:'search_mapped',candidateKey:next.candidateKey!,
+    fetch:(async(url,options)=>{reads++;assert.equal(String(url),'https://api.openstreetmap.org/api/0.6/node/123456.json');
+      assert.equal(options?.redirect,'manual');return Response.json(body);}) as typeof fetch,
+    resolve:async()=>{lookups++;return {status:'resolved' as const,username:null,peerRef:`lrpeer:${'c'.repeat(32)}`,reason:'regular_user_resolved',retryAfterSeconds:null};}};
+  assert.equal((await checkCorporateTelegramContact(input)).status,'resolved');
+  assert.equal((await checkCorporateTelegramContact(input)).status,'resolved');
+  assert.equal(reads,1);assert.equal(lookups,1);
+  const contact=JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mapped'")));
+  assert.equal(contact.sourceKey,'phone:+998901234567');
+  const proof={db:db.asD1(),orgId:ORG_A,companies:[{companyId:'mapped',contact}],now:NOW};
+  assert.ok((await verifiedResolvedCorporateCompanies(proof)).has('mapped'));
+  const readiness=await evaluateTelegramCampaignSelection({...selection,dataKey:DATA_KEY,companyIds:['mapped'],now:NOW});
+  assert.equal(readiness.verified,1);assert.equal(readiness.automatic,0,'source+Telegram never grants outreach consent');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_contact_authorizations'),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'),0);
+  db.exec("UPDATE lead_radar_evidence SET value='Different Clinic' WHERE id='map-name'");
+  assert.equal((await verifiedResolvedCorporateCompanies(proof)).size,0,'identity proof is bound to receipt');
+});
+
+for (const scenario of ['changed-phone','changed-name','removed','redirect','rate-limit','oversized','dnc-race'] as const) test(`mapped phone recheck fails closed: ${scenario}`,async()=>{
+  const db=database();const body=mappedPhoneFixture(db);const account=await connectedAccount(db);let lookups=0;
+  const input={db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    now:NOW.toISOString(),candidateKey:'phone:+998901234567',
+    fetch:(async()=>{
+      if(scenario==='changed-phone')body.elements[0].tags.phone='+998901234568';
+      if(scenario==='changed-name')body.elements[0].tags.name='Another Business';
+      if(scenario==='removed')return new Response('',{status:410});
+      if(scenario==='redirect')return new Response('',{status:302,headers:{Location:'http://127.0.0.1/private'}});
+      if(scenario==='rate-limit')return new Response('',{status:429,headers:{'retry-after':'3600'}});
+      if(scenario==='oversized')return new Response(' '.repeat(262145),{headers:{'content-type':'application/json'}});
+      if(scenario==='dnc-race')db.exec("UPDATE lead_radar_companies SET suppressed=1,lifecycle='do_not_contact' WHERE id='mapped'");
+      return Response.json(body);
+    }) as typeof fetch,
+    resolve:async()=>{lookups++;return {status:'unresolved' as const,username:null,reason:'privacy_or_missing',retryAfterSeconds:null};}};
+  const result=await checkCorporateTelegramContact(input);
+  assert.notEqual(result.status,'resolved');assert.equal(lookups,0);
+  if(scenario==='rate-limit')assert.equal(result.retryAfterSeconds,3600);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_contact_checks WHERE status='resolved'"),0);
+  if(scenario==='rate-limit') {
+    const again=await checkCorporateTelegramContact({...input,now:new Date(NOW.getTime()+1000).toISOString(),fetch:async()=>{throw new Error('must_reuse_source_cooldown');}});
+    assert.equal(again.retryAfterSeconds,3599);
+    const next=await nextTelegramContactCandidate({...input,now:new Date(NOW.getTime()+1000).toISOString()});
+    assert.deepEqual(next,{pending:true,retryAfterSeconds:3599});
+  }
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE observed_at=?",NOW.toISOString()),0);
+});
+
+test('a freshly matched mapped mobile skips network revalidation but still requires Telegram lookup',async()=>{
+  const db=database();mappedPhoneFixture(db,true);const account=await connectedAccount(db);let lookups=0;
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    now:NOW.toISOString(),candidateKey:'phone:+998901234567',fetch:async()=>{throw new Error('must_not_fetch');},
+    resolve:async()=>{lookups++;return {status:'unresolved',username:null,reason:'privacy_or_missing',retryAfterSeconds:null};}});
+  assert.equal(result.status,'unresolved');assert.equal(lookups,1);
+  assert.equal(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mapped'"),'null');
+});
+
+test('a stale map copy cannot block the same phone already proved by a current official site',async()=>{
+  const db=database();mappedPhoneFixture(db);setVerifiedCorporateDomain(db,'mapped','mapped.example');
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES ('official-phone',?,'mapped','company_contacts.phone','+998901234567','https://mapped.example/contact','company_website',?,0.9,'company_data')`).run(ORG_A,NOW.toISOString());
+  const account=await connectedAccount(db);let network=0;
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    now:NOW.toISOString(),candidateKey:'phone:+998901234567',fetch:async()=>{network++;return new Response('',{status:429});},
+    resolve:async()=>({status:'resolved',username:'clinic_contact',reason:'regular_user_resolved',retryAfterSeconds:null})});
+  assert.equal(result.status,'resolved');assert.equal(network,0);
+});
+
 for (const withoutUsername of [false,true]) test(`published mobile resolves durably and retains all guards (no username: ${withoutUsername})`, async () => {
   const db = database([...MIGRATIONS, '0050_lead_radar_contact_discovery.sql']);
   addCompany(db, { id: 'mobile', username: 'old_unknown', type: 'unknown' });

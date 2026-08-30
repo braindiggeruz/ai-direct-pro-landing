@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState }
 import type { LeadRadarLead } from '../../../shared/lead-radar';
 import { api } from '../../lib/api';
 import { describeCampaignFailure } from '../../lib/campaign-diagnostics';
-import { readContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, selectedContactCheckJobs } from '../../lib/campaign-contact-checks';
+import { contactCheckCompleted, contactCheckExplanation, readContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, selectedContactCheckJobs } from '../../lib/campaign-contact-checks';
 import type { LeadRadarCampaignContactBasis, LeadRadarCampaignPreflight } from '../../lib/lead-radar-campaign';
 import { Button } from '../ui';
 
@@ -19,6 +19,8 @@ const REASONS: Record<string, string> = {
   active_campaign_exists: 'Уже есть незавершённая кампания', daily_limit_exhausted: 'Дневной лимит исчерпан',
   account_safety_cooldown: 'Аккаунт ожидает окончания паузы Telegram', account_safety_restricted: 'Аккаунт ограничен Telegram',
   account_safety_review_required: 'Требуется сверка предыдущей доставки',
+  business_listing_unavailable: 'Источник номера временно недоступен; проверка сохранена, повторите позже',
+  business_listing_changed: 'В публичной карточке изменились данные компании или номер',
 };
 
 export interface CampaignReadinessHandle { prepare: () => Promise<LeadRadarCampaignPreflight | null>; cancel: () => void }
@@ -44,7 +46,7 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; cancel.current = true; }; }, []);
   useEffect(() => { generation.current += 1; cancel.current = true; setSnapshot(null); current.current.onSnapshot(null); }, [signature]);
   useEffect(() => { setProgress(readContactCheckProgress(scope)); }, [scope]);
-  const remaining = jobs.filter((job) => !progress.completed.includes(job.companyId)).length;
+  const remaining = jobs.filter((job) => !contactCheckCompleted(job,progress)).length;
   async function readSnapshot(version: number): Promise<LeadRadarCampaignPreflight | null> {
     const result: LeadRadarCampaignPreflight = { checkedAt: '', blockers: [], selection: { selected: 0, automatic: 0, manual: 0, excluded: 0, verified: 0, verifiedCompanyIds: [], automaticCompanyIds: [], items: [] } };
     const ids = [...new Set(leads.map((lead) => lead.id))];
@@ -144,7 +146,7 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
   }
   return <section className="mt-4 space-y-3 rounded-xl border border-brand-cyan/20 p-3" aria-label="Проверка выбранных получателей">
     <h4 className="font-semibold text-white">Готовность выбранных контактов</h4>
-    <p className="text-xs leading-5 text-white/70">Проверка Telegram не отправляет сообщения и не создаёт согласие. Стационарные и личные номера не проверяются. Лимиты Telegram и дневной бюджет сохраняются.</p>
+    <p className="text-xs leading-5 text-white/70">Мобильные номера с сайта или подтверждённой публичной карточки компании проверяются в Telegram, даже без username. Старые карточки сверяются заново. Проверка не отправляет сообщения и не создаёт согласие. Стационарные и личные номера исключены; лимиты сохраняются.</p>
     <div className="flex flex-wrap gap-2">
       <Button type="button" variant="secondary" disabled={disabled || busy === 'snapshot' || (!busy && (!canCheck || !remaining))}
         onClick={() => { if (busy === 'contacts') { cancel.current = true; setNotice('Останавливаем после текущей проверки…'); } else void checkContacts(); }} className="min-h-12">
@@ -158,10 +160,10 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
         {busy === 'snapshot' ? 'Получаем причины…' : 'Показать готовность на сервере'}
       </Button>
     </div>
-    <p role="status" className="text-xs leading-5 text-white/70">Проверено в этом списке: {jobs.filter((job) => progress.completed.includes(job.companyId)).length}/{jobs.length}. Осталось: {remaining}. После обновления страницы нажмите проверку снова — завершённые компании будут пропущены.</p>
+    <p role="status" className="text-xs leading-5 text-white/70">Проверено в этом списке: {jobs.filter((job) => contactCheckCompleted(job,progress)).length}/{jobs.length}. Осталось: {remaining}. После обновления страницы нажмите проверку снова — завершённые компании будут пропущены.</p>
     {notice && <p role="status" className="text-sm leading-6 text-amber-100">{notice}</p>}
     {snapshot && <div className="space-y-2 text-sm" aria-live="polite">
-      <p>Telegram подтверждён Bridge: <strong>{snapshot.selection.verified}</strong> · Допущены для авто: {snapshot.selection.automatic} · Нужна проверка/основание: {snapshot.selection.manual} · Исключены: {snapshot.selection.excluded}.</p>
+      <p>Telegram подтверждён Bridge: <strong>{snapshot.selection.verified}</strong> · Допущены для авто: {snapshot.selection.automatic} · Нужна проверка/основание: {snapshot.selection.manual} · Пока не допущены: {snapshot.selection.excluded}.</p>
       {snapshot.limits && <p className="text-xs text-white/70">Осталось на текущие UTC-сутки: {snapshot.limits.remainingToday}/{snapshot.limits.dailyLimit}. Интервал: не менее {snapshot.limits.minimumIntervalSeconds} секунд.</p>}
       {snapshot.blockers.length > 0 && <p role="alert" className="text-amber-100">Запуск заблокирован: {snapshot.blockers.map((reason) => REASONS[reason] ?? reason).join('; ')}.</p>}
       {snapshot.selection.verified > 0 && <Button type="button" variant="secondary" className="min-h-12"
@@ -171,7 +173,9 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
       <p className="text-xs text-white/60">Это снимок проверки, не запуск. Далее загрузите изображение (если нужно), проверьте точный текст и подтвердите кампанию.</p>
       <details><summary className="min-h-11 cursor-pointer py-3">Причины по каждой компании ({snapshot.selection.items.length})</summary>
         <ul className="max-h-64 space-y-2 overflow-y-auto">{snapshot.selection.items.map((item) => <li key={item.companyId} className="rounded-lg border border-white/10 p-2">
-          <strong>{item.name ?? 'Компания недоступна'}</strong>: {REASONS[item.reasonCode] ?? item.reasonCode}
+          <strong>{item.name ?? 'Компания недоступна'}</strong>: {item.reasonCode==='no_verified_corporate_endpoint'
+            ? contactCheckExplanation(leads.find(lead=>lead.id===item.companyId),progress) ?? REASONS[item.reasonCode]
+            : REASONS[item.reasonCode] ?? item.reasonCode}
         </li>)}</ul>
       </details>
     </div>}

@@ -168,7 +168,7 @@ const SERVER_REASON_COPY: Record<string, string> = {
   bot_not_messageable: 'Бот нельзя использовать как адресата кампании.',
   channel_not_messageable: 'Канал нельзя использовать как адресата личного сообщения.',
   group_not_messageable: 'Группу нельзя использовать как адресата личного сообщения.',
-  no_verified_corporate_endpoint: 'Подтверждённый Telegram компании не найден.',
+  no_verified_corporate_endpoint: 'Telegram ещё не подтверждён. Если номер найден, выполните подготовку и посмотрите результат проверки выше.',
   corporate_endpoint_unverified: 'Telegram компании найден, но подтверждений недостаточно.',
   do_not_contact: 'Компания находится в списке «Не связываться».',
   already_contacted: 'Исключён — этой компании уже успешно отправлялось сообщение в предыдущей кампании.',
