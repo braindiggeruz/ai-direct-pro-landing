@@ -1124,6 +1124,12 @@ export function verifyCompanyWebsiteBinding(
   return { verified: false, method: null, sourceUrl: null };
 }
 
+/** Bounded contact-page discovery on the company's own origin — the free
+ * enrichment path. Contact-like pages rank first so the bounded page budget
+ * is spent where Telegram/phone facts actually live (audit-2026-08-30 R1). */
+const CONTACT_PAGE_PATTERN = /(contact|kontakt|aloqa|about|company|vakans|career|service|uslug|team|staff|doctor|management|leadership|rukovod|руковод|команд|врач|контакт|о-компан|o-kompan|haqida|o-nas)/i;
+const CONTACT_PAGE_FETCH_LIMIT = 4;
+
 function sameOriginLinks(html: string, base: URL): URL[] {
   const links: URL[] = [];
   const pattern = /href\s*=\s*["']([^"'#]+)["']/gi;
@@ -1132,15 +1138,57 @@ function sameOriginLinks(html: string, base: URL): URL[] {
       const url = new URL(match[1], base);
       if (url.origin !== base.origin) continue;
       if (url.toString().length > 2_048) continue;
-      if (!/(contact|kontakt|aloqa|about|company|vakans|career|service|uslug|team|staff|doctor|management|leadership|rukovod|руковод|команд|врач)/i.test(decodeURIComponent(url.pathname))) continue;
       url.hash = '';
       if (!links.some((item) => item.toString() === url.toString())) links.push(url);
-      if (links.length >= 2) break;
+      if (links.length >= 8) break;
     } catch {
       // Ignore malformed page links.
     }
   }
-  return links;
+  const rank = (url: URL) => /contact|kontakt|aloqa|контакт/i.test(decodeURIComponent(url.pathname)) ? 0 : 1;
+  return links.filter((url) => CONTACT_PAGE_PATTERN.test(decodeURIComponent(url.pathname)))
+    .sort((a, b) => rank(a) - rank(b))
+    .slice(0, CONTACT_PAGE_FETCH_LIMIT);
+}
+
+/** JS-rendered homepages often expose no static links, while the site's
+ * sitemap still lists the real contact pages. Best-effort: any failure,
+ * denial or non-XML answer simply yields no extra links and never fails
+ * the enrichment (audit-2026-08-30 R1 Tier 0). */
+async function sitemapContactLinks(start: URL, robots: string | null, budget: SubrequestBudget): Promise<URL[]> {
+  try {
+    const sitemapUrl = new URL('/sitemap.xml', start);
+    if (robots !== null && !robotsAllows(robots, sitemapUrl)) return [];
+    if (!(await hasOnlyPublicAddresses(sitemapUrl, budget))) return [];
+    const xml = await fetchWithin(
+      sitemapUrl,
+      { headers: { 'User-Agent': USER_AGENT, Accept: 'application/xml,text/xml' }, redirect: 'manual' },
+      4_000,
+      budget,
+      async (response): Promise<string | null> => {
+        if (!response.ok) return null;
+        if (!(response.headers.get('content-type') ?? '').toLowerCase().includes('xml')) return null;
+        return readTextBounded(response, 512_000);
+      },
+    );
+    if (!xml) return [];
+    const results: URL[] = [];
+    for (const match of xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi)) {
+      try {
+        const url = new URL(match[1], start);
+        if (url.origin !== start.origin) continue;
+        url.hash = '';
+        if (results.some((item) => item.toString() === url.toString())) continue;
+        if (CONTACT_PAGE_PATTERN.test(decodeURIComponent(url.pathname))) results.push(url);
+        if (results.length >= CONTACT_PAGE_FETCH_LIMIT) break;
+      } catch {
+        // A malformed <loc> entry is not actionable.
+      }
+    }
+    return results;
+  } catch {
+    return [];
+  }
 }
 
 interface RobotsGroup {
@@ -1423,7 +1471,15 @@ async function enrichCompanyWebsiteWithBudget(
       return null;
     }
     const pages = [home];
-    for (const link of sameOriginLinks(home.html, home.url)) {
+    let links = sameOriginLinks(home.html, home.url);
+    if (links.length < CONTACT_PAGE_FETCH_LIMIT) {
+      for (const link of await sitemapContactLinks(start, robots, budget)) {
+        if (links.length >= CONTACT_PAGE_FETCH_LIMIT) break;
+        if (links.some((item) => item.toString() === link.toString())) continue;
+        links.push(link);
+      }
+    }
+    for (const link of links) {
       if (robots !== null && !robotsAllows(robots, link)) continue;
       const page = await fetchText(link, budget, 0);
       if (page) pages.push(page);
@@ -1498,7 +1554,10 @@ export async function enrichCompanyWebsiteDetailed(
   const diagnostic = { reason: 'source_unavailable' as const, retryable: true } as {
     reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean;
   };
-  const facts = await enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(12), diagnostic, expected);
+  // Single-company detailed crawl: homepage + up to 4 contact pages + optional
+  // sitemap lookup all fit the Free-plan 50-subrequest invocation ceiling
+  // (queue consumer runs one Lead Radar job per delivery).
+  const facts = await enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(20), diagnostic, expected);
   if (!facts) return { facts: null, reason: diagnostic.reason, retryable: diagnostic.retryable };
   const relevant = Boolean(
     facts.phone || facts.genericEmail
