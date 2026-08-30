@@ -227,12 +227,22 @@ function sha256(value: string | Buffer): string {
 export function resolveGateCommandInvocation(
   executable: GateCommand['executable'],
   platform: NodeJS.Platform = process.platform,
+  bridgePython: string | undefined = process.env.LEAD_RADAR_BRIDGE_PYTHON,
 ): {
   executable: string;
   prefix: string[];
 } {
   if (executable === 'node') return { executable: process.execPath, prefix: [] };
   if (executable === 'python3') {
+    // Use the installed Bridge's isolated dependencies without modifying its
+    // session or installing packages into the unrelated system interpreter.
+    if (bridgePython) {
+      const paths = platform === 'win32' ? path.win32 : path.posix;
+      if (!paths.isAbsolute(bridgePython) || !/^python(?:3(?:\.\d+)?)?(?:\.exe)?$/i.test(paths.basename(bridgePython))) {
+        throw new Error('unsafe_bridge_python_path');
+      }
+      return { executable: bridgePython, prefix: [] };
+    }
     return platform === 'win32'
       ? { executable: 'py', prefix: ['-3.12'] }
       : { executable: 'python3', prefix: [] };

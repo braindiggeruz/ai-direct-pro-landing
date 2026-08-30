@@ -32,6 +32,11 @@ test('free directory keeps provider failures distinct from no-match',async()=>{
   assert.equal((await discoverFreeTopUzContacts({identity,category,observedAt,robots:async()=>{throw new Error('offline');},readPage:async()=>{throw new Error('must not fetch');}})).reason,'free_catalog_page_1_policy_unavailable');
 });
 
+test('live top.uz map CTA must not replace the business name when its current name differs from the slug',()=>{
+  const index=parseTopUzIndex('<a href="/company/old-brand">Iftixor Dental Clinic</a><a href="/company/old-brand">Показать схему проезда на карте</a>',new URL('https://top.uz/section/stomatologii'));
+  assert.deepEqual(index.listings,[{url:'https://top.uz/company/old-brand',name:'Iftixor Dental Clinic'}]);
+});
+
 test('free index hints cannot override phone conflicts, bots or directory support accounts',async()=>{
   const readPage=async(url:string)=>url.includes('/section/')?'<a href="/company/aksumed">AksuMed</a>':card.replace('+998901234567','+998909876543');
   const result=await discoverFreeTopUzContacts({identity,category,observedAt,robots,readPage});

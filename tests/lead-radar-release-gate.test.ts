@@ -243,14 +243,22 @@ test('the plan is complete, read-only/locally bounded, and discovers schema audi
 });
 
 test('the logical Python command resolves without npm or a shell on every platform', () => {
-  assert.deepEqual(resolveGateCommandInvocation('python3', 'linux'), {
+  assert.deepEqual(resolveGateCommandInvocation('python3', 'linux', ''), {
     executable: 'python3',
     prefix: [],
   });
-  assert.deepEqual(resolveGateCommandInvocation('python3', 'win32'), {
+  assert.deepEqual(resolveGateCommandInvocation('python3', 'win32', ''), {
     executable: 'py',
     prefix: ['-3.12'],
   });
+});
+
+test('Bridge tests can use an explicit isolated Python without accepting a shell command', () => {
+  const isolated='C:\\BridgeRuntime\\venv\\Scripts\\python.exe';
+  assert.deepEqual(resolveGateCommandInvocation('python3','win32',isolated),{executable:isolated,prefix:[]});
+  assert.throws(()=>resolveGateCommandInvocation('python3','win32','python.exe'),/unsafe_bridge_python_path/);
+  assert.throws(()=>resolveGateCommandInvocation('python3','win32','C:\\Windows\\cmd.exe'),/unsafe_bridge_python_path/);
+  assert.throws(()=>resolveGateCommandInvocation('python3','linux','/usr/bin/python3 -c payload'),/unsafe_bridge_python_path/);
 });
 
 test('static validation rejects a deploy without dry-run and every mutating flag', () => {

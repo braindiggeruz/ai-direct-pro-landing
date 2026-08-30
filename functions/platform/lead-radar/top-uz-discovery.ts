@@ -34,7 +34,10 @@ export function parseTopUzIndex(html: string, pageUrl: URL): Index {
     if (url.pathname === pageUrl.pathname && Number(url.searchParams.get('PAGEN_1')) === page + 1) hasNext = true;
     if (!/^\/company\/[a-z0-9-]+\/?$/i.test(url.pathname) || url.search) continue;
     url.hash = '';
-    const name = match[2].replace(/<[^>]*>/g, ' ').replace(/&(?:nbsp|quot|amp);/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 180);
+    const label = match[2].replace(/<[^>]*>/g, ' ').replace(/&(?:nbsp|quot|amp);/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 180);
+    // The live category repeats each URL for its name AND a longer map CTA.
+    // Navigation labels must not overwrite the actual company name.
+    const name = /^(?:показать схему проезда на карте|показать на карте|подробнее|отзывы|контакты)$/iu.test(label) ? '' : label;
     const previous = listings.get(url.toString());
     if (!previous || name.length > previous.name.length) listings.set(url.toString(), { url: url.toString(), name });
     if (listings.size > 100) break;
