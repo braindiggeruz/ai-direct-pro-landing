@@ -28,6 +28,9 @@ export function contactCheckExplanation(lead: LeadRadarLead | undefined, progres
   const outcome=progress.outcomes?.[lead.id];
   if (outcome?.reason==='privacy_or_missing') return 'Telegram не смог найти аккаунт по номеру: его нет или поиск скрыт настройками приватности';
   if (outcome?.reason==='business_listing_changed') return 'Данные публичной карточки изменились — нужно обновить источник номера';
+  if (outcome?.reason==='corporate_source_required') return 'Источник не подтверждает принадлежность контакта компании. Контакт исключён; остальные проверяются';
+  if (outcome?.reason==='contact_not_found') return 'Карточка больше недоступна. Компания исключена из проверки';
+  if (outcome?.reason==='do_not_contact') return 'Для компании установлен запрет на контакт';
   if (outcome?.reason==='username_exists_ownership_unconfirmed') return 'Аккаунт существует, но его связь с компанией ещё не подтверждена';
   if (outcome?.status==='unsupported') return 'Найденный контакт не подходит для отправки через Telegram';
   if (lead.contactCandidates?.some(c=>c.kind==='phone' && c.phoneType==='mobile' && !c.lookupEligible)) return 'Мобильный номер найден, но источник пока не подтверждает его связь с этой компанией';
@@ -71,6 +74,7 @@ export async function runSelectedContactChecks(input: {
     let resolved = false;
     let lastResult: TelegramContactResolution | undefined;
     let jobDeferred=false;
+    let companyRejected=false;
     for (const key of job.candidateKeys) {
       const source=job.sourceByCandidate?.[key];
       if (source && (progress.sourcePauses?.[source]?.until??0)>now()) {jobDeferred=true;continue;}
@@ -88,6 +92,15 @@ export async function runSelectedContactChecks(input: {
             outcomes:{...progress.outcomes,[job.companyId]:{status:result.status,reason:result.reason}}};
           jobDeferred=true;input.save(progress);await input.wait(3_000);break;
         }
+        // These are definitive recipient/source rejections, not Bridge/account
+        // failures. Never admit the rejected contact, but don't block unrelated
+        // companies. An explicit server retry deadline always remains binding.
+        if (result.status==='failed' && result.retryAfterSeconds===null
+          && ['corporate_source_required','contact_not_found','do_not_contact'].includes(result.reason)) {
+          companyRejected=result.reason!=='corporate_source_required';
+          if(companyRejected)jobDeferred=false;
+          await input.wait(3_000);break;
+        }
         if (result.status === 'limited' || result.status === 'failed' || result.reason === 'check_expired') {
           progress = { ...progress, pausedUntil: now() + (result.retryAfterSeconds ?? 60) * 1000, reason: result.reason };
           input.save(progress); return progress;
@@ -104,7 +117,7 @@ export async function runSelectedContactChecks(input: {
           progress = { ...progress, reason: 'waiting_for_bridge' }; input.save(progress); return progress;
         }
       }
-      if (resolved) break;
+      if (resolved || companyRejected) break;
     }
     if (jobDeferred && !resolved) {deferred=true;continue;}
     progress = { ...progress, completed: [...new Set([...progress.completed, job.companyId])],

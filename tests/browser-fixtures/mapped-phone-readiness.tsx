@@ -7,6 +7,7 @@ import type {LeadRadarLead} from '../../src/shared/lead-radar';
 import '../../src/index.css';
 const checked=new Set<string>();
 const sourceOutage=new URLSearchParams(location.search).has('source-outage');
+const sourceRejected=new URLSearchParams(location.search).has('source-rejected');
 const leads=(sourceOutage?[1,2,3]:[1,2]).map(i=>({id:`mapped_fixture_${i}`,searchId:'mapped_fixture',name:`Вымышленная клиника ${i}`,
   website:null,phone:`+99890123456${i}`,country:'UZ',suppressed:false,lifecycle:'new',telegramContact:null,
   contactCandidates:[{key:`phone:+99890123456${i}`,kind:'phone',phoneType:'mobile',value:`+99890123456${i}`,
@@ -14,6 +15,7 @@ const leads=(sourceOutage?[1,2,3]:[1,2]).map(i=>({id:`mapped_fixture_${i}`,searc
 })) as LeadRadarLead[];
 api.leadRadarResolveContact=async(_search,id)=>{checked.add(id);
   document.getElementById('checked-fixtures')!.textContent=`Запрошены: ${[...checked].join(', ')}`;
+  if(sourceRejected && id==='mapped_fixture_1')return {status:'failed',username:null,reason:'corporate_source_required',retryAfterSeconds:null};
   if(sourceOutage && id==='mapped_fixture_1')return {status:'limited',username:null,reason:'business_listing_unavailable',retryAfterSeconds:900};
   if(sourceOutage && id==='mapped_fixture_2')throw new Error('Do not retry the paused source');
   return id==='mapped_fixture_1'
@@ -30,6 +32,6 @@ window.fetch=async()=>{throw new Error('Synthetic fixture forbids network access
 createRoot(document.getElementById('root')!).render(<main className="mx-auto max-w-3xl p-5">
   <p>Локальный тест: два вымышленных мобильных номера без сайта и username. Реальных отправок 0.</p>
   <p id="checked-fixtures">Запрошены: нет</p>
-  <CampaignReadiness scope={sourceOutage?'source-outage-fixture':'mapped-phones-fixture'} leads={leads} basis="" canCheck disabled={false} revision={0}
+  <CampaignReadiness scope={sourceOutage?'source-outage-fixture':sourceRejected?'source-rejected-fixture':'mapped-phones-fixture'} leads={leads} basis="" canCheck disabled={false} revision={0}
     onSnapshot={()=>{}} onSelectReady={()=>{}} />
 </main>);

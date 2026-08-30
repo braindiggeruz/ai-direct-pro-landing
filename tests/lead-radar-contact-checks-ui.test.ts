@@ -98,3 +98,39 @@ test('legacy source pause remains scoped, while Telegram FloodWait still stops a
   assert.deepEqual(calls,['b']);assert.equal(result.reason,'flood_wait');assert.equal(result.pausedUntil,121000);
   assert.equal(result.sourcePauses?.openstreetmap?.until,5000);
 });
+
+test('a rejected source excludes only that candidate and continues the same company and following companies',async()=>{
+  const calls:string[]=[];
+  const result=await runSelectedContactChecks({jobs:[{companyId:'a',searchId:'s',candidateKeys:['rejected','valid']},
+    {companyId:'b',searchId:'s',candidateKeys:['rejected']}],progress:emptyContactCheckProgress(),now:()=>1000,
+    cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async(job,key)=>{calls.push(`${job.companyId}:${key}`);
+      return key==='rejected'?{status:'failed',reason:'corporate_source_required',username:null,retryAfterSeconds:null}
+        :{status:'resolved',reason:'regular_user_resolved',username:'company_fixture',retryAfterSeconds:null};}});
+  assert.deepEqual(calls,['a:rejected','a:valid','b:rejected']);
+  assert.deepEqual(result.completed,['a','b']);assert.deepEqual(result.resolved,['a']);
+  assert.equal(result.pausedUntil,0);assert.equal(result.reason,null);
+  assert.equal(result.outcomes?.b.reason,'corporate_source_required');
+  assert.match(contactCheckExplanation({id:'b'} as LeadRadarLead,result)!,/принадлежность/);
+});
+
+for(const reason of ['contact_not_found','do_not_contact'])test(`${reason} ends only that company and does not try its other candidates`,async()=>{
+  const calls:string[]=[];
+  const result=await runSelectedContactChecks({jobs:[{companyId:'a',searchId:'s',candidateKeys:['one','two']},
+    {companyId:'b',searchId:'s',candidateKeys:['one']}],progress:emptyContactCheckProgress(),now:()=>1000,
+    cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async(job,key)=>{calls.push(`${job.companyId}:${key}`);
+      return job.companyId==='a'?{status:'failed',reason,username:null,retryAfterSeconds:null}
+        :{status:'unresolved',reason:'privacy_or_missing',username:null,retryAfterSeconds:null};}});
+  assert.deepEqual(calls,['a:one','b:one']);assert.deepEqual(result.completed,['a','b']);assert.deepEqual(result.resolved,[]);
+});
+
+test('unknown failures, account limits and explicit retry-after still pause the entire checker',async()=>{
+  for(const [reason,retryAfterSeconds] of [['daily_check_limit',null],['invalid_bridge_response',null],['corporate_source_required',300]] as const){
+    const calls:string[]=[];
+    const result=await runSelectedContactChecks({jobs:[{companyId:'a',searchId:'s',candidateKeys:['one']},
+      {companyId:'b',searchId:'s',candidateKeys:['one']}],progress:emptyContactCheckProgress(),now:()=>1000,
+      cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async(job)=>{calls.push(job.companyId);
+        return {status:'failed',reason,username:null,retryAfterSeconds};}});
+    assert.deepEqual(calls,['a']);assert.deepEqual(result.completed,[]);assert.equal(result.reason,reason);
+    assert.equal(result.pausedUntil,1000+(retryAfterSeconds??60)*1000);
+  }
+});
