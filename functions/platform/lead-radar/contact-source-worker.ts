@@ -2,18 +2,27 @@ import { contactCandidatesForLead } from './contact-candidates';
 import { contactSourceSchemaReady, loadContactEnrichments, saveContactEnrichment } from './contact-source-store';
 import { FirecrawlClient, FirecrawlError, firecrawlConfig, firecrawlObject, type FirecrawlEnvironment, FIRECRAWL_DIRECTORY_DOMAINS } from './firecrawl-client';
 import { FirecrawlStore } from './firecrawl-store';
+import { JinaReaderClient, JinaReaderError, jinaReaderConfig, type JinaReaderEnvironment } from './jina-reader-client';
 import { extractPublicBusinessContacts, publicContactSearchQueries, publicContactSourceUrl } from './public-contact-discovery';
 import { readPublicWebsiteRobots, robotsAllows } from './sources';
 import type { LeadRadarQueueDependencies } from './queue';
 import type { LeadRadarContactSource } from '../../../src/shared/lead-radar-contact-sources';
 
-export async function createContactSourceQueueDependencies(env: FirecrawlEnvironment, db: D1Database, orgId: string,
-  deps: { fetch?: typeof fetch; now?: () => Date; robots?: typeof readPublicWebsiteRobots } = {}): Promise<LeadRadarQueueDependencies> {
+export async function createContactSourceQueueDependencies(env: FirecrawlEnvironment & JinaReaderEnvironment, db: D1Database, orgId: string,
+  deps: { fetch?: typeof fetch; now?: () => Date; robots?: typeof readPublicWebsiteRobots; sleep?: (ms: number) => Promise<void> } = {}): Promise<LeadRadarQueueDependencies> {
   const config=firecrawlConfig(env,orgId);
   if (!config || !await contactSourceSchemaReady(db)) return {};
   const store=new FirecrawlStore(db);
   if (!await store.available()) return {};
   const now=deps.now ?? (() => new Date());
+  // Optional free Jina Reader fallback. When the flag is off no client is
+  // built and no D1 query is added: behaviour stays byte-identical.
+  let jina: JinaReaderClient | null=null;
+  const jinaConfig=jinaReaderConfig(env);
+  if (jinaConfig) {
+    const candidate=new JinaReaderClient(jinaConfig,db,deps.fetch,now,deps.sleep);
+    if (await candidate.available()) jina=candidate;
+  }
   return { discoverLeadContactSources: async (job,lead) => {
     if (!job.companyId || !job.leaseOwner || lead.suppressed || lead.lifecycle==='do_not_contact') return {pending:false};
     const identity={name:lead.name,phone:lead.phone,address:lead.address,city:lead.city};
@@ -40,6 +49,20 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
     };
     const queries=publicContactSearchQueries(identity);
     if (queries.length===0) reason='insufficient_company_identity';
+    // Jina Reader renders the same URL when the direct provider fetch is
+    // blocked by the origin (HTTP 521/5xx, empty page). The origin's robots
+    // policy was already accepted above, so this never bypasses a denial.
+    const jinaSource=async (raw:string,url:URL): Promise<LeadRadarContactSource|null> => {
+      if (!jina) return null;
+      try {
+        const html=await jina.fetchHtml(raw);
+        return await extractPublicBusinessContacts(url.toString(),html,identity,now().toISOString());
+      } catch (error) {
+        // Retryable provider states keep the queue's reason-code taxonomy.
+        if (error instanceof JinaReaderError && error.retryable) throw new FirecrawlError(error.code,true,error.retryAt);
+        return null;
+      }
+    };
     try {
       for (const query of queries) {
         const urls=await client.request('search',`contact-search:${job.companyId}`,{query,limit:5,sources:['web'],
@@ -89,7 +112,16 @@ export async function createContactSourceQueueDependencies(env: FirecrawlEnviron
             if (source) sources.push(source);
             if (source?.candidates.some(c=>c.kind==='telegram' && c.ownership==='company')) break;
           } catch (error) {
-            if (error instanceof FirecrawlError && ['robots_blocked','robots_unavailable','target_http_error','unsafe_redirect','invalid_page'].includes(error.code)) continue;
+            if (error instanceof FirecrawlError && ['robots_blocked','robots_unavailable','target_http_error','unsafe_redirect','invalid_page'].includes(error.code)) {
+              // robots_blocked/unsafe_redirect are explicit safety denials and
+              // are never retried through an alternate fetch path.
+              if (['target_http_error','invalid_page'].includes(error.code)) {
+                const fallback=await jinaSource(raw,url);
+                if (fallback) sources.push(fallback);
+                if (fallback?.candidates.some(c=>c.kind==='telegram' && c.ownership==='company')) break;
+              }
+              continue;
+            }
             throw error;
           }
         }

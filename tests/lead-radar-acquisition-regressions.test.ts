@@ -159,7 +159,9 @@ test('daily source budget waiting survives the Telegram-check 30-minute timeout'
 test('exhausted provider budget is not reported as exhausted public sources', async () => {
   const f = await providerFixture('budget');
   f.db.sqlite.prepare("UPDATE lead_radar_searches SET input_json=json_set(input_json,'$.searchGoal','telegram_contacts') WHERE id=?").run(f.searchId);
-  assert.equal(await f.store.deadLetterJob('audit', f.job.id, 'owner', 'contact_sources_company_budget_exhausted', at.toISOString(), 1), true);
+  // Search-wide provider budgets park the pool as provider_budget; per-company
+  // budgets deliberately do not (the next enrichment cycle re-creates them).
+  assert.equal(await f.store.deadLetterJob('audit', f.job.id, 'owner', 'contact_sources_daily_budget_exhausted', at.toISOString(), 1), true);
   f.db.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools(org_id,search_id,candidates_json,candidate_count,cursor,target,created_at,expires_at,updated_at)
     VALUES ('audit',?,'[]',1,1,5,?,?,?)`).run(f.searchId, at.toISOString(), new Date(at.getTime()+3_600_000).toISOString(), at.toISOString());
   await f.store.refreshSearchFunnel('audit', f.searchId, at.toISOString());
