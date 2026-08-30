@@ -156,6 +156,31 @@ test('daily source budget waiting survives the Telegram-check 30-minute timeout'
   assert.equal(checked, 0);
 });
 
+for (const scenario of [
+  { name: 'first free continuation on an old job', ageHours: 2, previous: null, reason: 'contact_sources_free_catalog_page_2', delay: 15 },
+  { name: 'advancing free page retains quick scheduling late in the bounded lifetime', ageHours: 46, previous: 'contact_sources_free_catalog_page_2', reason: 'contact_sources_free_catalog_page_3', delay: 15 },
+  { name: 'repeated free page does not earn fast retries', ageHours: 2, previous: 'contact_sources_free_catalog_page_2', reason: 'contact_sources_free_catalog_page_2', delay: 1800 },
+  { name: 'failed page does not earn fast retries', ageHours: 2, previous: null, reason: 'contact_sources_free_catalog_page_2_unavailable', delay: 1800 },
+  { name: 'invalid page beyond catalog bound does not earn fast retries', ageHours: 2, previous: null, reason: 'contact_sources_free_catalog_page_41', delay: 1800 },
+  { name: 'free pagination still terminates after the 48-hour bound', ageHours: 49, previous: 'contact_sources_free_catalog_page_2', reason: 'contact_sources_free_catalog_page_3', delay: null },
+]) test(scenario.name, async (t) => {
+  const f = await providerFixture('budget'); t.after(() => f.db.sqlite.close());
+  f.db.sqlite.prepare("UPDATE lead_radar_jobs SET status='queued',lease_owner=NULL,lease_expires_at=NULL,created_at=?,last_error_code=? WHERE id=?")
+    .run(new Date(at.getTime() - scenario.ageHours * 3_600_000).toISOString(), scenario.previous, f.job.id);
+  let checked = 0; const deliveries: number[] = [];
+  const result = await consumeLeadRadarQueueMessage(f.db.asD1(), { schema: 'gptbot.lead-radar.job.v1', job_id: f.job.id },
+    { send: async (_body, options) => { deliveries.push(options?.delaySeconds ?? 0); } },
+    { now: () => at, discoverLeadContactSources: async () => ({ pending: true, reason: scenario.reason, retryAfterSeconds: 15 }),
+      resolveLeadContacts: async () => { checked++; return { pending: false }; } });
+  assert.equal(checked, 0, 'pagination never checks Telegram or sends');
+  if (scenario.delay === null) { assert.equal(result.outcome, 'dead_letter'); return; }
+  assert.equal(result.outcome, 'retry_wait');
+  const nextAt = String(f.db.value('SELECT available_at FROM lead_radar_jobs WHERE id=?', f.job.id));
+  assert.equal(Date.parse(nextAt) - at.getTime(), scenario.delay * 1000);
+  if (scenario.delay === 15) assert.ok(deliveries.includes(15), 'continuation is actually enqueued, not left waiting for cron');
+  else assert.equal(deliveries.length, 0, 'non-progress keeps the conservative regeneration path');
+});
+
 test('exhausted provider budget is not reported as exhausted public sources', async () => {
   const f = await providerFixture('budget');
   f.db.sqlite.prepare("UPDATE lead_radar_searches SET input_json=json_set(input_json,'$.searchGoal','telegram_contacts') WHERE id=?").run(f.searchId);

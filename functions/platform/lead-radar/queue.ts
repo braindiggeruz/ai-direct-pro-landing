@@ -557,7 +557,16 @@ async function processEnrichment(
     // The check itself expires after 3 minutes; allow queue delay and short
     // account-wide cooldowns without dropping a fresh check on an older job.
     const waitingForDailyBudget=/^contact_sources_(daily|domain)_budget_exhausted$/.test(waitingReason);
-    const waitWindowMs=waitingForDailyBudget ? 36*60*60_000 : 30*60_000;
+    const freePage=/^contact_sources_free_catalog_page_(\d+)$/.exec(waitingReason);
+    const previousFreePage=/^contact_sources_free_catalog_page_(\d+)$/.exec(job.lastErrorCode ?? '');
+    // A successfully parsed page advances the bounded (40-page) free catalog.
+    // It is not a stalled Telegram check: preserve its requested short delay
+    // and durable Queue continuation even when this job began hours ago.
+    // Repeated/failed/out-of-range pages keep the existing conservative path.
+    const advancingFreeCatalog = freePage && Number(freePage[1]) <= 40
+      && Number(freePage[1]) > Math.max(1, Number(previousFreePage?.[1] ?? 1));
+    const waitWindowMs=advancingFreeCatalog ? CONTACT_RESOLUTION_REGENERATION_MS
+      : waitingForDailyBudget ? 36*60*60_000 : 30*60_000;
     if (pending && Date.parse(now) - Date.parse(job.createdAt ?? now) < waitWindowMs && job.leaseOwner) {
       const transitionNow=dependencies.now?.() ?? new Date();
       const retried = await store.retryJob(job.orgId,job.id,job.leaseOwner,waitingReason,
