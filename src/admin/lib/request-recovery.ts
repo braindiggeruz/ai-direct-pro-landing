@@ -47,7 +47,9 @@ export async function withLeadRadarReadRecovery<T>(run: (remainingMs?: number) =
   const start = now();
   const path = input.path.split('?')[0];
   const allowed = input.method === 'GET' && /^\/api\/admin\/lead-radar(?:\/overview|\/telegram-contacts|\/audiences(?:\/aud_[a-zA-Z0-9_-]+)?)?$/.test(path);
-  const timeoutMs = input.timeoutMs ?? (allowed ? 15000 : undefined);
+  // Keep existing error contracts for account controls, campaign calls and writes.
+  if (!allowed) return run(input.timeoutMs);
+  const timeoutMs = input.timeoutMs ?? 15000;
   const remaining = () => timeoutMs ? Math.max(0, timeoutMs - (now() - start)) : undefined;
   try { return await run(remaining()); }
   catch (failure) {

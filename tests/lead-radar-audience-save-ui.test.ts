@@ -117,6 +117,15 @@ test('cancellation and elapsed deadline prevent a second read', async () => {
   })); assert.equal(calls, 1);
 });
 
+test('unrelated account reads and writes preserve their original error contracts', async () => {
+  for (const [method, path] of [['GET', '/api/admin/lead-radar/telegram-account'],
+    ['POST', '/api/admin/lead-radar/audiences/aud_test']]) {
+    const failure = Object.assign(new Error('body_aborted'), { name: 'AbortError', retryable: false });
+    await assert.rejects(withLeadRadarReadRecovery(async () => { throw failure; }, { method, path }),
+      (error) => error === failure);
+  }
+});
+
 test('directory sync issues are separate from real campaign capability and empty results', () => {
   const directory = readFileSync(new URL('../src/admin/components/lead-radar/TelegramContactDirectory.tsx', import.meta.url), 'utf8');
   const panel = readFileSync(new URL('../src/admin/components/lead-radar/TelegramAccountCampaignPanel.tsx', import.meta.url), 'utf8');
