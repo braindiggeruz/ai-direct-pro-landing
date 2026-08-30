@@ -1,6 +1,10 @@
 # STATE — contact-first acquisition implementation, 2026-08-30
 
-## CURRENT CHECKPOINT: always-progress watchdog deployed for frozen pool searches
+## CURRENT CHECKPOINT: manual search pulse (layer 3) deployed
+
+Shipped POST /api/admin/lead-radar/searches/{id}/pulse (functions/api/admin/lead-radar/searches/[id]/pulse.ts + platform search-pulse.ts): re-runs refreshSearchFunnel under current limits and immediately dispatches up to five due jobs — pure scheduling, no fetches/spend. UI button "Обработать партию сейчас" on a running search header refreshes counters in place. Pages deployed_and_verified; Worker unchanged since 66997ca2. Roadmap layers now all present: cron watchdog (1), task resilience (2), manual pulse (3). Owner-gated remainder: live send canary only.
+
+## PREVIOUS CHECKPOINT: always-progress watchdog deployed for frozen pool searches
 
 Second screenshot (10:45) proved searches from 29 Aug 20:10-20:11 are still 'running' frozen at 10/10 with a 186-candidate pool: old-code parking left them with no due jobs, so nothing ever called refreshSearchFunnel even after QR-2/QR-5 fixes. Fix: resumeStalledLeadRadarSearches (queue.ts) — cron scheduled handler picks up to 2 running searches with unterminated pools per tick and re-runs refreshSearchFunnel, which mints due replenish/resume discovery jobs; schema-resilient try/catch; own invocation budget keeps D1 guard tests green (moving it inside enqueueDue broke the Free-budget tests by design). Test: watchdog test in lead-radar-free-catalog-discovery.test.ts proves a frozen pool mints a queued contact-pool job. Suites green (348+105+2). Remaining owner-gated: live send canary. Known UI follow-ups (not blocking): busy-banner progress details, batch counter 'K of ~19'.
 
