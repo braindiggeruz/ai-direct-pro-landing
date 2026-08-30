@@ -223,6 +223,18 @@ test('unavailable Bridge waits durably then requires attention instead of comple
   at=new Date(at.getTime()+31*60_000);
   await enqueueDueLeadRadarJobs(db,queue,at);
   for(let i=0;i<3;i++){const message=queue.messages.shift();if(message)await consumeLeadRadarQueueMessage(db,message,queue,deps);}
+  // Regeneration (audit-2026-08-30 QR-1): an expired wait window returns the
+  // job to the queue on the same idempotency row instead of dead-lettering the
+  // company while its check is still performable.
+  assert.equal(fixture.value("SELECT status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'queued');
+  assert.equal(fixture.value("SELECT attempt_count FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),0);
+  assert.equal(fixture.value("SELECT last_error_code FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'waiting_for_account');
+  assert.equal(fixture.value("SELECT COUNT(*) FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),1);
+  assert.equal(fixture.value("SELECT enrichment_reason FROM lead_radar_companies"),'no_website');
+  // The whole-job lifetime bound still ends in a visible terminal trace.
+  at=new Date(at.getTime()+49*60*60_000);
+  await enqueueDueLeadRadarJobs(db,queue,at);
+  for(let i=0;i<3;i++){const message=queue.messages.shift();if(message)await consumeLeadRadarQueueMessage(db,message,queue,deps);}
   assert.equal(fixture.value("SELECT status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'dead_letter');
   assert.equal(fixture.value("SELECT last_error_code FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'waiting_for_account');
 });

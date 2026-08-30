@@ -1830,6 +1830,71 @@ test('provider FLOOD_WAIT longer than 24 hours is preserved exactly and blocks e
   assert.equal(resumed.campaign.status, 'running');
 });
 
+test('maintenance repairs a sent recipient whose effect lost its guard race to ambiguous', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_effect_race', username: 'EffectRaceClinic' });
+  const created = await approvedCampaign(
+    db,
+    ['company_effect_race'],
+    'campaign_effect_race_0001',
+  );
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_effect_race_start', now: NOW,
+  });
+  const claim = await claimNextTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, now: NOW,
+  });
+  assert.ok(claim);
+  // The dispatch lease must outlive the 125 s provider send budget plus
+  // decrypt/DNC work, so recovery cannot race an in-flight send (audit CP-1).
+  const leaseExpiresAt = db.value(
+    'SELECT lease_expires_at FROM lead_radar_tg_campaign_recipients WHERE id = ?', claim.recipientId,
+  );
+  assert.ok(leaseExpiresAt, 'claim must set a recipient lease');
+  assert.ok(Date.parse(String(leaseExpiresAt)) - NOW.getTime() >= 150_000);
+  const providerDigest = 'b'.repeat(64);
+  // The markRecipientSent race: the recipient half commits, the effect-half
+  // guard loses, and the dispatch layer files the effect as ambiguous.
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_recipients
+    SET status = 'sent', claim_digest = NULL, lease_expires_at = NULL,
+      attempt_count = 1, provider_message_digest = ?,
+      sent_at = ?, completed_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND id = ?`)
+    .run(providerDigest, NOW.toISOString(), NOW.toISOString(), NOW.toISOString(),
+      ORG_A, created.campaign.id, claim.recipientId);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_effects
+    SET status = 'ambiguous', completed_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND recipient_id = ?`)
+    .run(NOW.toISOString(), NOW.toISOString(), ORG_A, created.campaign.id, claim.recipientId);
+  await maintainTelegramCampaigns({ db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 60_000) });
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?', created.campaign.id,
+  ), 'sent');
+  assert.equal(db.value(
+    'SELECT provider_message_digest FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?', created.campaign.id,
+  ), providerDigest);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'completed');
+  let sends = 0;
+  await consumeTelegramCampaignQueueMessage({
+    db: db.asD1(), dataKey: DATA_KEY,
+    raw: {
+      schema: 'gptbot.lead-radar.telegram-campaign.v1',
+      campaign_id: created.campaign.id,
+      org_id: ORG_A,
+      state_version: 1,
+    },
+    sender: { async send() { sends += 1; return { kind: 'sent', providerMessageId: 'race' }; } },
+    now: new Date(NOW.getTime() + 2 * 60_000),
+  });
+  assert.equal(sends, 0);
+});
+
 test('maintenance applies new DNC suppression and purges unsent recipient ciphertext', async (t) => {
   const db = database();
   t.after(() => db.sqlite.close());

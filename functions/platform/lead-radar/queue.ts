@@ -273,6 +273,14 @@ function retryDelaySeconds(attempt: number): number {
 const TRANSIENT_ENRICHMENT_CODES = new Set(['source_unavailable', 'source_timeout']);
 const TRANSIENT_ENRICHMENT_BACKOFF_SECONDS = [15 * 60, 60 * 60, 4 * 60 * 60];
 
+// A contact-resolution job that outlives its in-window waits (offline Bridge,
+// parked budget, transient provider errors) regenerates on the same idempotency
+// row instead of dead-lettering: each cycle requeues for a fresh 30-minute
+// window. The job's immutable created_at is the bound — after 48 hours the
+// terminal trace path takes over, so nothing loops forever.
+const CONTACT_RESOLUTION_REGENERATION_MS = 48 * 60 * 60_000;
+const CONTACT_RESOLUTION_REGENERATION_DELAY_SECONDS = 30 * 60;
+
 
 function safeFailureCode(error: unknown): string {
   const message = error instanceof Error ? error.message : '';
@@ -558,6 +566,18 @@ async function processEnrichment(
     }
     if (pending) {
       // Bounded waiting must not turn an unperformed check into "completed".
+      // Regeneration first: a young job whose window expired (Bridge offline
+      // overnight, budget parked past the 36h daily-budget window) returns to
+      // the queue on the same idempotency row, so the company is not silently
+      // written off while its check is still performable.
+      const jobAgeMs = Date.parse(now) - Date.parse(job.createdAt ?? now);
+      if (job.leaseOwner && Number.isFinite(jobAgeMs) && jobAgeMs < CONTACT_RESOLUTION_REGENERATION_MS) {
+        const regenerateAt = new Date(Date.parse(now) + CONTACT_RESOLUTION_REGENERATION_DELAY_SECONDS * 1000).toISOString();
+        if (await store.requeueContactResolutionJob(job.orgId, job.id, job.leaseOwner, waitingReason, regenerateAt, now, job.leaseGeneration)) {
+          await store.refreshSearchFunnel(job.orgId, job.searchId, now);
+          return { outcome: 'retry_wait', delaySeconds: 30 };
+        }
+      }
       if (!job.leaseOwner || !await store.deadLetterJob(job.orgId,job.id,job.leaseOwner,waitingReason,now,job.leaseGeneration)) return {outcome:'retry_wait',delaySeconds:30};
       // Leave a visible terminal trace on the company; a later enrichment cycle
       // re-creates the contact-resolution job (terminal status is re-eligible).

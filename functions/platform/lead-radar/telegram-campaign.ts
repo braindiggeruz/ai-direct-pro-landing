@@ -43,7 +43,10 @@ const MAX_TEMPLATE_CODE_POINTS = 4_096;
 const MAX_TEMPLATE_BYTES = 16_384;
 const MAX_MEDIA_CAPTION_CODE_POINTS = 1_024;
 const APPROVAL_TTL_MS = 10 * 60_000;
-const CLAIM_LEASE_MS = 2 * 60_000;
+// The dispatch lease must outlive the whole send boundary (gateway request
+// budget is 125 s, plus decrypt/DNC/media work) so lease recovery can never
+// mark an in-flight send ambiguous and start a competing request.
+const CLAIM_LEASE_MS = 3 * 60_000;
 const DEFAULT_INTERVAL_SECONDS = LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS;
 const MAX_PROVIDER_WAIT_SECONDS = 2_147_483_647;
 const ACCOUNT_ID_PATTERN = /^lrtgua_[0-9a-f]{32}$/u;

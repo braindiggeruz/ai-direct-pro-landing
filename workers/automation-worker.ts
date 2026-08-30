@@ -298,7 +298,9 @@ export function settleLeadRadarRetryWait(
     // D1 has already persisted available_at/next_dispatch_at. Retrying the
     // same bounded envelope wakes the job at that deadline; observeJobDispatch
     // then marks the outbox sent. Cron remains the loss/reconciliation fallback.
-    message.retry({ delaySeconds: result.delaySeconds });
+    // Cloudflare Queues caps delivery delay at 900 s — longer D1 waits are
+    // re-dispatched by cron instead of throwing inside message.retry.
+    message.retry({ delaySeconds: Math.min(900, Math.max(1, result.delaySeconds)) });
     return;
   }
   // A lease/CAS conflict is a duplicate delivery, not a business retry. ACK it

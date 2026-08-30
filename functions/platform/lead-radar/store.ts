@@ -1485,6 +1485,30 @@ export class LeadRadarStore {
     return Number(result.meta.changes ?? 0) === 1;
   }
 
+  /** Reuses the contact-resolution job's idempotency-key row for a fresh
+   * wait cycle instead of dead-lettering it (audit-2026-08-30 QR-1). The
+   * caller bounds total lifetime via the job's immutable created_at. */
+  async requeueContactResolutionJob(
+    orgId: string,
+    jobId: string,
+    leaseOwner: string,
+    errorCode: string,
+    availableAt: string,
+    now: string,
+    leaseGeneration?: number,
+  ): Promise<boolean> {
+    const result = await this.db.prepare(`UPDATE lead_radar_jobs SET
+      status = 'queued', attempt_count = 0, available_at = ?,
+      lease_owner = NULL, lease_expires_at = NULL,
+      dispatch_status = 'pending', next_dispatch_at = ?, completed_at = NULL,
+      last_error_code = ?, updated_at = ?
+      WHERE org_id = ? AND id = ? AND status = 'running' AND lease_owner = ?
+        AND lease_expires_at > ? AND (? IS NULL OR lease_generation = ?)`)
+      .bind(availableAt, availableAt, errorCode, now, orgId, jobId, leaseOwner, now,
+        leaseGeneration ?? null, leaseGeneration ?? null).run();
+    return Number(result.meta.changes ?? 0) === 1;
+  }
+
   async deadLetterExpiredJob(
     orgId: string,
     jobId: string,

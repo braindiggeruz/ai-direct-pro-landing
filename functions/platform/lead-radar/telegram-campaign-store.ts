@@ -3698,6 +3698,36 @@ export class LeadRadarTelegramCampaignStore {
               AND recipient.status = 'sent' AND recipient.provider_message_digest IS NOT NULL
           )`)
         .bind(input.now, input.now, orgId),
+      // The recipient half is authoritative: it only reaches 'sent' after an
+      // acknowledged provider message. A lost effect-half guard race can leave
+      // effect='ambiguous' behind it; repair instead of reporting a failed send.
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_effects AS effect
+        SET status = 'sent',
+          provider_message_digest = (
+            SELECT recipient.provider_message_digest
+            FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = effect.org_id AND recipient.id = effect.recipient_id
+              AND recipient.status = 'sent'
+          ),
+          completed_at = COALESCE(completed_at, ?), updated_at = ?
+        WHERE effect.org_id = ? AND effect.status = 'ambiguous'
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = effect.org_id AND recipient.id = effect.recipient_id
+              AND recipient.status = 'sent' AND recipient.provider_message_digest IS NOT NULL
+          )`)
+        .bind(input.now, input.now, orgId),
+      // Mirror repair: a terminal ambiguous recipient must not leave its effect
+      // looking like an attempt still in flight.
+      this.db.prepare(`UPDATE lead_radar_tg_campaign_effects AS effect
+        SET status = 'ambiguous', completed_at = COALESCE(completed_at, ?), updated_at = ?
+        WHERE effect.org_id = ? AND effect.status IN ('reserved', 'dispatching')
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = effect.org_id AND recipient.id = effect.recipient_id
+              AND recipient.status = 'ambiguous'
+          )`)
+        .bind(input.now, input.now, orgId),
       this.db.prepare(`UPDATE lead_radar_tg_campaign_recipients AS recipient
         SET status = 'sent', claim_digest = NULL, lease_expires_at = NULL,
           provider_message_digest = (
