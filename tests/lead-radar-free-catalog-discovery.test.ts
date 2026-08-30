@@ -102,9 +102,16 @@ test('cron watchdog resumes a running search whose pool froze behind parked jobs
     candidate_count, target, created_at, expires_at, updated_at)
     VALUES (?, 'search_stuck', '[]', 186, 50, ?, ?, ?)`)
     .run(ORG, now.toISOString(), new Date(now.getTime() + 3_600_000).toISOString(), now.toISOString());
+  // A dead replenish row from an older code generation must not deadlock the
+  // revival: the funnel revives it into a fresh queued generation.
+  db.sqlite.prepare(`INSERT INTO lead_radar_jobs (id,org_id,search_id,idempotency_key,stage,status,
+    attempt_count,max_attempts,available_at,dispatch_status,next_dispatch_at,created_at,updated_at,completed_at)
+    VALUES ('lrjob_' || substr(hex(zeroblob(17)),1,32), ?, ?, 'contact-pool:search_stuck:0',
+    'discovery','dead_letter',3,3,?, 'pending', ?, ?, ?, ?)`)
+    .run(ORG, 'search_stuck', now.toISOString(), now.toISOString(), now.toISOString(), now.toISOString(), now.toISOString());
   await resumeStalledLeadRadarSearches(db.asD1(), now);
   const jobs = db.rows<{ idempotency_key: string; status: string }>(
     `SELECT idempotency_key, status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-pool:%'`);
   assert.ok(jobs.length >= 1, 'watchdog must mint a replenish/resume discovery job for the frozen pool');
-  assert.equal(jobs[0].status, 'queued');
+  assert.equal(jobs[0].status, 'queued', 'the dead replenish row must be revived, not skipped');
 });

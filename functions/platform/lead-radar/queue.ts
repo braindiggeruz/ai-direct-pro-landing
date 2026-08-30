@@ -869,6 +869,16 @@ export async function resumeStalledLeadRadarSearches(
   const store = new LeadRadarStore(db);
   let resumed = 0;
   for (const stalled of await store.listRunningSearchesWithPools(2, allowOrganization)) {
+    // Dead replenish rows from an older code generation would deadlock the
+    // funnel; revive them into a fresh queued generation before re-evaluating.
+    await db.prepare(`UPDATE lead_radar_jobs SET status='queued', attempt_count=0,
+      available_at=?, lease_owner=NULL, lease_expires_at=NULL,
+      dispatch_status='pending', next_dispatch_at=?, completed_at=NULL,
+      last_error_code=NULL, updated_at=?
+      WHERE org_id=? AND search_id=? AND idempotency_key LIKE 'contact-pool:%'
+        AND status='dead_letter'`)
+      .bind(now.toISOString(), now.toISOString(), now.toISOString(),
+        stalled.orgId, stalled.searchId).run();
     await store.refreshSearchFunnel(stalled.orgId, stalled.searchId, now.toISOString());
     resumed += 1;
   }

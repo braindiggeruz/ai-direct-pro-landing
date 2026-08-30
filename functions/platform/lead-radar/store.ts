@@ -2038,6 +2038,15 @@ export class LeadRadarStore {
             await this.contactDiscovery.stop(orgId, searchId, reason, now);
             warnings.push(`contact_${reason}`);
           } else {
+            // A dead replenish row from an older code generation must not
+            // deadlock the pool: revive it into a fresh queued generation
+            // before the conflicting insert (audit QR-7/QR-9).
+            await this.db.prepare(`UPDATE lead_radar_jobs SET status='queued', attempt_count=0,
+              available_at=?, lease_owner=NULL, lease_expires_at=NULL,
+              dispatch_status='pending', next_dispatch_at=?, completed_at=NULL,
+              last_error_code=NULL, updated_at=?
+              WHERE org_id=? AND search_id=? AND idempotency_key=? AND status='dead_letter'`)
+              .bind(now, now, now, orgId, searchId, `contact-pool:${searchId}:${pool.cursor}`).run();
             const next = await this.createJob(orgId, searchId, null, 'discovery', `contact-pool:${searchId}:${pool.cursor}`, now);
             replenishing = ['queued', 'running', 'retry_wait'].includes(next.status);
             discoveryActive = replenishing;
