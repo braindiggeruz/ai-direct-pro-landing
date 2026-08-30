@@ -1627,7 +1627,10 @@ export class LeadRadarStore {
    * Ordering by pool updated_at (least recently touched first, audit
    * LR-F-20) rotates the sweep: a search that churns every tick moves to
    * the back instead of permanently occupying a slot and starving newer
-   * running searches. */
+   * running searches. Time-limited pools are included on purpose — the
+   * funnel's bounded markForResume path (resume_count < 2) is the only
+   * thing that can reopen them, so without this the stalled-search
+   * guarantee could never reach exactly those searches. */
   async listRunningSearchesWithPools(
     limit: number,
     allowOrganization: (orgId: string) => boolean = () => true,
@@ -1637,7 +1640,7 @@ export class LeadRadarStore {
         FROM lead_radar_searches s
         JOIN lead_radar_candidate_pools p ON p.org_id = s.org_id AND p.search_id = s.id
         WHERE s.status = 'running' AND p.candidate_count > COALESCE(p.cursor, 0)
-          AND p.stop_reason IS NULL
+          AND (p.stop_reason IS NULL OR p.stop_reason = 'time_limit')
         ORDER BY p.updated_at ASC LIMIT ?`)
         .bind(Math.max(1, Math.min(5, Math.trunc(limit)))).all<{ org_id: string; search_id: string }>();
       return (result.results ?? [])
