@@ -122,6 +122,9 @@ test('duplicate endpoint and different-company conflicts cannot be saved or hidd
 });
 test('global DNC hides the endpoint of all copies and cannot enter an audience',async()=>{
   const db=database();const store=new AudienceStore(db.asD1());company(db,'a','SafeClinic','same');company(db,'b','SafeClinic','same');
+  // Warm the parsing caches before a new prohibition arrives on another copy.
+  const before=await store.directory(ORG,{},CAPS,NOW);assert.equal(before.total,1);
+  assert.notEqual(before.rows[0].status,'blocked');
   db.sqlite.prepare("UPDATE lead_radar_companies SET suppressed=1,lifecycle='do_not_contact' WHERE id='b'").run();
   const page=await store.directory(ORG,{},CAPS,NOW);assert.equal(page.rows[0].status,'blocked');
   assert.equal(page.rows[0].lead.telegramContact,null);assert.deepEqual(page.rows[0].lead.evidence,[]);

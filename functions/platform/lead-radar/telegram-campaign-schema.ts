@@ -1,3 +1,5 @@
+import { normalizeSchemaSql as normalizeSql } from './schema-sql';
+
 const MIGRATION = '0048_lead_radar_telegram_media_quota.sql';
 const RUNTIME_MIGRATIONS = [
   '0045_lead_radar_telegram_campaigns.sql',
@@ -282,83 +284,6 @@ export interface TelegramCampaignSchemaReport {
 
 function equal(left: readonly string[], right: readonly string[]): boolean {
   return left.length === right.length && left.every((value, index) => value === right[index]);
-}
-
-function stripSqlComments(sql: string): string {
-  let normalized = '';
-  let quote: "'" | '"' | '`' | '[' | null = null;
-  for (let index = 0; index < sql.length; index += 1) {
-    const character = sql[index];
-    const next = sql[index + 1];
-    if (quote !== null) {
-      normalized += character;
-      const closing = quote === '[' ? ']' : quote;
-      if (character === closing) {
-        if (next === closing) {
-          normalized += next;
-          index += 1;
-        } else quote = null;
-      }
-      continue;
-    }
-    if (character === "'" || character === '"' || character === '`' || character === '[') {
-      quote = character;
-      normalized += character;
-      continue;
-    }
-    if (character === '-' && next === '-') {
-      index += 2;
-      while (index < sql.length && sql[index] !== '\n') index += 1;
-      if (index < sql.length) normalized += '\n';
-      continue;
-    }
-    if (character === '/' && next === '*') {
-      index += 2;
-      while (index < sql.length && !(sql[index] === '*' && sql[index + 1] === '/')) index += 1;
-      if (index < sql.length) index += 1;
-      normalized += ' ';
-      continue;
-    }
-    normalized += character;
-  }
-  return normalized;
-}
-
-function normalizeSql(sql: string): string {
-  const source = stripSqlComments(sql);
-  let normalized = '';
-  let unquoted = '';
-  let quote: "'" | '"' | '`' | '[' | null = null;
-  const flushUnquoted = (): void => {
-    normalized += unquoted
-      .toLowerCase()
-      .replace(/\bif\s+not\s+exists\b/g, '')
-      .replace(/\s+/g, ' ')
-      .replace(/\s*([(),=<>])\s*/g, '$1');
-    unquoted = '';
-  };
-  for (let index = 0; index < source.length; index += 1) {
-    const character = source[index];
-    const next = source[index + 1];
-    if (quote === null) {
-      if (character === "'" || character === '"' || character === '`' || character === '[') {
-        flushUnquoted();
-        quote = character;
-        normalized += character;
-      } else unquoted += character;
-      continue;
-    }
-    normalized += character;
-    const closing = quote === '[' ? ']' : quote;
-    if (character === closing) {
-      if (next === closing) {
-        normalized += next;
-        index += 1;
-      } else quote = null;
-    }
-  }
-  flushUnquoted();
-  return normalized.trim();
 }
 
 function sqlLiteral(value: string): string {

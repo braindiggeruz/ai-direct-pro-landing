@@ -11,6 +11,24 @@ import {
   type LeadRadarSchemaReader,
 } from '../functions/platform/lead-radar/schema-contract';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { normalizeSchemaSql } from '../functions/platform/lead-radar/schema-sql';
+
+test('bounded SQL lexical memoization preserves quoted bytes, escapes and changed DDL', () => {
+  for (const quote of ["'", '"', '`', '[']) {
+    const end = quote === '[' ? ']' : quote;
+    const value = `${quote}MiX--/*x*/${end}${end}Q${end}`;
+    const source = `--header\r\n CREATE /* gap */ TABLE IF NOT EXISTS x ( a TEXT DEFAULT ${value}, b INT CHECK (b / 2 - 1 > 0) )`;
+    const expected = `create table x(a text default ${value},b int check(b / 2 - 1>0))`;
+    assert.equal(normalizeSchemaSql(source), expected);
+    assert.equal(normalizeSchemaSql(source), expected);
+    assert.notEqual(normalizeSchemaSql(source.replace('MiX', 'mix')), expected);
+  }
+  assert.equal(normalizeSchemaSql('SELECT 1 -- ignored\r still comment\n + 2'), 'select 1 + 2');
+  assert.equal(normalizeSchemaSql('SELECT 1 /* unfinished'), 'select 1');
+  assert.equal(normalizeSchemaSql("SELECT 'Unfinished--/*"), "select 'Unfinished--/*");
+  for (let i = 0; i < 140; i++) normalizeSchemaSql(`SELECT '${i}'`);
+  assert.equal(normalizeSchemaSql("SELECT 'Case'"), "select 'Case'");
+});
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const MIGRATIONS = path.join(ROOT, 'migrations');

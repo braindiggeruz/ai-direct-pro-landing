@@ -123,6 +123,7 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
     if (busyRef.current || !canCheck) return;
     busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null); setSnapshot(null); current.current.onSnapshot(null);
     const version = generation.current;
+    let checksSaved = false;
     try {
       const startingProgress = recheck ? restartContactCheckProgress(progress) : progress;
       if (recheck) { saveContactCheckProgress(scope, startingProgress); setProgress(startingProgress); }
@@ -131,6 +132,7 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
         wait: (ms) => new Promise((resolve) => window.setTimeout(resolve, ms)),
         save: (value) => { saveContactCheckProgress(scope, value); if (mounted.current) setProgress(value); },
       });
+      checksSaved = true;
       if (mounted.current) {
         if ((!next.reason || next.reason==='source_checks_deferred') && !cancel.current) {
           const strict = await readSnapshot(version);
@@ -144,7 +146,9 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
           : 'Проверка приостановлена. Можно продолжить с сохранённого места.');
         current.current.onUpdated?.();
       }
-    } catch (error) { if (mounted.current) setNotice(describeCampaignFailure(error, 'Проверка прервана. Результаты сохранены; продолжите после восстановления соединения.')); }
+    } catch (error) { if (mounted.current) setNotice(describeCampaignFailure(error, checksSaved
+      ? 'Результаты проверки сохранены. Не удалось обновить итоговую готовность. Нажмите «Показать готовность на сервере» после восстановления соединения; заново проверять контакты не нужно.'
+      : 'Проверка прервана. Результаты сохранены; продолжите после восстановления соединения.')); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
   return <section className="mt-4 space-y-3 rounded-xl border border-brand-cyan/20 p-3" aria-label="Проверка выбранных получателей">

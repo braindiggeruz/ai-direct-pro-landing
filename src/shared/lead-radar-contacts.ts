@@ -59,7 +59,29 @@ function countryCode(country: string): CountryCode | undefined {
   return isSupportedCountry(candidate) ? candidate as CountryCode : undefined;
 }
 
+// Only deterministic parsing is memoized: never ownership, freshness, Telegram
+// resolution or permission. Copies keep callers from poisoning a later result.
+// Short bounded keys keep arbitrary scraped pages out of the isolate cache.
+const phoneAssessments = new Map<string, LeadRadarPhoneAssessment>();
+const phoneExtractions = new Map<string, LeadRadarPhoneAssessment[]>();
+function memoKey(value: string, country: string, suffix = ''): string | null {
+  return typeof value === 'string' && value.length <= 512 && country.length <= 3
+    ? JSON.stringify([country, value, suffix]) : null;
+}
+function remember<T>(cache: Map<string, T>, key: string | null, value: T): void {
+  if (key === null) return;
+  if (cache.size >= 512) cache.delete(cache.keys().next().value!);
+  cache.set(key, value);
+}
 export function assessLeadRadarPhone(value: string, country = 'UZ'): LeadRadarPhoneAssessment {
+  const key = memoKey(value, country);
+  const cached = key === null ? undefined : phoneAssessments.get(key);
+  if (cached) return { ...cached };
+  const result = assessPhone(value, country);
+  remember(phoneAssessments, key, result);
+  return { ...result };
+}
+function assessPhone(value: string, country: string): LeadRadarPhoneAssessment {
   const invalid: LeadRadarPhoneAssessment = { e164: null, type: 'invalid', mobileLookupCandidate: false, reason: 'invalid_number' };
   if (typeof value !== 'string' || value.length > 180) return invalid;
   let normalized = value.trim().replace(/^tel:/i, '').replace(/\u00a0/g, ' ');
@@ -84,6 +106,20 @@ export function assessLeadRadarPhone(value: string, country = 'UZ'): LeadRadarPh
 
 /** Bounded extraction. All numbers remain candidates until source ownership is checked. */
 export function extractLeadRadarPhones(text: string, country = 'UZ', limit = 12): LeadRadarPhoneAssessment[] {
+  const key = Number.isInteger(limit) && limit >= 0 && limit <= 20 ? memoKey(text, country, String(limit)) : null;
+  const cached = key === null ? undefined : phoneExtractions.get(key);
+  if (cached) return cached.map((phone) => ({ ...phone }));
+  const extracted = extractPhones(text, country, limit);
+  remember(phoneExtractions, key, extracted);
+  return extracted.map((phone) => ({ ...phone }));
+}
+function extractPhones(text: string, country: string, limit: number): LeadRadarPhoneAssessment[] {
+  // A stored canonical number is not prose: avoid the full-text scanner while
+  // retaining the exact same metadata-backed validity/type classification.
+  if (/^\+\d{8,15}$/.test(text)) {
+    const phone = assessLeadRadarPhone(text, country);
+    return (phone.e164 ? [phone] : []).slice(0, Math.max(0, Math.min(20, limit)));
+  }
   const results = new Map<string, LeadRadarPhoneAssessment>();
   const source = text.slice(0, 900_000).replace(/\u00a0/g, ' ')
     .replace(/(^|[\s"'=>(;])998(?=[\s().-]*\d)/g, '$1+998');

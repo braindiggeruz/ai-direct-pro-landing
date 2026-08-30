@@ -47,21 +47,32 @@ export async function recipientDirectoryGroups(db: D1Database, orgId: string): P
     parent.set(key, current); return current;
   };
   const keysById = new Map<string, string[]>();
+  // Historical searches repeat the same contact fields. Parse each exact input
+  // once per invocation, but still merge EVERY row's fresh DNC/history flags.
+  // This is not a cache of verification, ownership or audience eligibility.
+  const parsedKeys = new Map<string, string[]>();
   for (const row of rows) {
-    const sources = parse<Array<{ candidates?: unknown[] }>>(row.sources_json, []);
-    const candidates = Array.isArray(sources) ? sources.flatMap((source) => Array.isArray(source?.candidates) ? source.candidates : []) : [];
-    const choices = recipientContactChoices({ phone: row.phone, country: row.country, telegramUrl: row.telegram_url,
-      telegramContact: parse<LeadRadarTelegramContact | null>(row.telegram_contact_json, null),
-      evidence: parse<string[]>(row.phones_json, []).filter((value) => typeof value === 'string').map((value) => ({
-        id: '', fieldPath: 'company_contacts.phone', value, sourceUrl: '', sourceType: 'openstreetmap', observedAt: '', confidence: 0, classification: 'fact',
-      })),
-      contactCandidates: candidates.filter((value): value is NonNullable<Parameters<typeof recipientContactChoices>[0]['contactCandidates']>[number] =>
-        Boolean(value) && typeof value === 'object' && typeof (value as {value?: unknown}).value === 'string'
-        && ['phone','telegram'].includes((value as {kind: string}).kind)),
-    });
-    keysById.set(row.id, choices.keys);
+    const contactInput = JSON.stringify([row.phone,row.country,row.telegram_url,
+      row.telegram_contact_json,row.phones_json,row.sources_json]);
+    let keys = parsedKeys.get(contactInput);
+    if (keys === undefined) {
+      const sources = parse<Array<{ candidates?: unknown[] }>>(row.sources_json, []);
+      const candidates = Array.isArray(sources) ? sources.flatMap((source) => Array.isArray(source?.candidates) ? source.candidates : []) : [];
+      const choices = recipientContactChoices({ phone: row.phone, country: row.country, telegramUrl: row.telegram_url,
+        telegramContact: parse<LeadRadarTelegramContact | null>(row.telegram_contact_json, null),
+        evidence: parse<string[]>(row.phones_json, []).filter((value) => typeof value === 'string').map((value) => ({
+          id: '', fieldPath: 'company_contacts.phone', value, sourceUrl: '', sourceType: 'openstreetmap', observedAt: '', confidence: 0, classification: 'fact',
+        })),
+        contactCandidates: candidates.filter((value): value is NonNullable<Parameters<typeof recipientContactChoices>[0]['contactCandidates']>[number] =>
+          Boolean(value) && typeof value === 'object' && typeof (value as {value?: unknown}).value === 'string'
+          && ['phone','telegram'].includes((value as {kind: string}).kind)),
+      });
+      keys = choices.keys;
+      parsedKeys.set(contactInput, keys);
+    }
+    keysById.set(row.id, keys);
     const identity = root(`company:${row.canonical_key}`);
-    for (const key of choices.keys) parent.set(root(key), root(identity));
+    for (const key of keys) parent.set(root(key), root(identity));
   }
   const groups = new Map<string, DirectoryCompany[]>();
   for (const row of rows) {

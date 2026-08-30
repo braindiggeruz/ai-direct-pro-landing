@@ -7,6 +7,28 @@ import { officialDomainsFromListing, officialDomainSearchQuery } from '../functi
 import { extractOfficialSiteContacts } from '../functions/platform/lead-radar/sources';
 import { publishedTelegramLocators } from '../functions/platform/lead-radar/telegram-locators';
 import type { LeadRadarEvidence } from '../src/shared/lead-radar';
+import { recipientContactChoices } from '../src/shared/lead-radar-recipient-contacts';
+
+test('phone parsing memoization isolates countries, limits, caller mutations and current DNC', () => {
+  const raw = '+998901234567';
+  const expected = assessLeadRadarPhone(raw);
+  const damaged = assessLeadRadarPhone(raw);
+  damaged.e164 = 'changed'; damaged.mobileLookupCandidate = false;
+  assert.deepEqual(assessLeadRadarPhone(raw), expected);
+  const list = extractLeadRadarPhones(raw);
+  list[0].e164 = 'changed'; list.push({ ...expected });
+  assert.deepEqual(extractLeadRadarPhones(raw), [expected]);
+  const pair = `${raw}, +998931234567`;
+  assert.equal(extractLeadRadarPhones(pair, 'UZ', 1).length, 1);
+  assert.equal(extractLeadRadarPhones(pair, 'UZ', 2).length, 2);
+  assert.equal(extractLeadRadarPhones(raw, 'UZ', 0).length, 0);
+  assert.equal(assessLeadRadarPhone('901234567', 'UZ').e164, raw);
+  assert.notEqual(assessLeadRadarPhone('901234567', 'US').e164, raw);
+  const lead = { phone: raw, country: 'UZ', telegramUrl: null, telegramContact: null };
+  assert.equal(recipientContactChoices(lead).selectable, true);
+  assert.equal(recipientContactChoices({ ...lead, suppressed: true }).selectable, false);
+  assert.equal(recipientContactChoices({ ...lead, lifecycle: 'do_not_contact' }).selectable, false);
+});
 
 function mappedBusiness() {
   const sourceUrl='https://www.openstreetmap.org/node/123456';
