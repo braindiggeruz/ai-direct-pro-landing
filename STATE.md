@@ -1,4 +1,10 @@
-# STATE — contact-first acquisition implementation, 2026-08-30 (commit 26229de)
+# STATE — contact-first acquisition implementation, 2026-08-30
+
+## CURRENT CHECKPOINT: QR-5 backlog drain deployed after screenshot triage
+
+Screenshot triage (gptbot.uz/admin-tools/lead-radar, 30 Aug 10:21): the 'search not started' red banner is the two-running-searches admission limit (429 busy), and the running search was stalled because four Worker deploys that morning killed in-flight jobs while cron recovered only 2 expired leases per 15 min (QR-5). Shipped: recovery batch 2->10 with funnel refresh deduplicated per search (bounded 2) keeping the Free D1 ceiling; source_unavailable/source_timeout cards now state the automatic retry ladder (15m/1h/4h); the 'not started' banner explains the background search keeps updating. All suites green (348+105+106), typecheck clean, single combined deploy of automation Worker + Pages. Runbook given to owner: wait for the stuck search to drain (now minutes, not hours), then start the new search; for Smalto click Bridge check then operator ownership confirm.
+
+## PREVIOUS CHECKPOINT: Tier-1 free top.uz discovery deployed — Lead Radar runs provider-free
 
 ## CURRENT CHECKPOINT: Tier-1 free top.uz discovery deployed — Lead Radar runs provider-free
 
