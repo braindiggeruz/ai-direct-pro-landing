@@ -769,6 +769,38 @@ test('read-only preflight separates missing consent, Bridge offline and actual a
   assert.ok(service.requests.every((request) => ['/v1/health', '/v1/bridge/status'].includes(request.pathname)));
 });
 
+test('preflight checks 28 candidates with one strict Bridge proof pass and no legacy evidence pass', async (t) => {
+  const db = freshAdminDb(); installLeadRadarLedger(db);
+  t.after(() => db.sqlite.close());
+  const { leadId } = await seedCorporateLead(db, '_cpu');
+  await seedConnectedAccount(db);
+  const companyIds = [leadId];
+  for (let index=0; index<27; index++) {
+    const next = await seedCorporateLead(db, `_cpu_unresolved_${index}`);
+    db.sqlite.prepare("UPDATE lead_radar_companies SET telegram_contact_json='null',telegram_url=NULL WHERE id=?").run(next.leadId);
+    companyIds.push(next.leadId);
+  }
+  const service = new TelegramAccountServiceFixture();
+  const token = await platformToken('platform_owner');
+  const env = await campaignEnv(service);
+  const statements: string[] = [];
+  const originalPrepare = db.prepare.bind(db);
+  t.mock.method(db, 'prepare', (sql:string) => { statements.push(sql); return originalPrepare(sql); });
+  const result = await callRoute(leadRadarRoute.onRequestPost, db,
+    '/api/admin/lead-radar/telegram-campaigns/preflight', { method:'POST', token,
+      params:{path:'telegram-campaigns/preflight'}, env, body:{companyIds,contactBasis:null} });
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  const selection = result.body.selection as {selected:number;verified:number;automatic:number;manual:number;excluded:number};
+  assert.deepEqual([selection.selected,selection.verified,selection.automatic,selection.manual,selection.excluded], [28,1,0,1,27]);
+  assert.equal(statements.filter(sql => sql.includes("AND status='resolved' AND expires_at>?")).length, 1,
+    'one exact receipt check per company set, not two identical passes');
+  assert.equal(statements.filter(sql => sql.includes('json_each') && sql.includes('evidenceIds')).length, 0,
+    'strict Bridge mode must not run an unused legacy source-only query');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_approvals'), 0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaigns'), 0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_contact_authorizations'), 0);
+});
+
 test('pending media check survives retries without creating campaign effects or premature registration', async () => {
   const db = freshAdminDb();
   installLeadRadarLedger(db);

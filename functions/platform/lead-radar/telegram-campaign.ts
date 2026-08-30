@@ -7,7 +7,6 @@ import {
   telegramIdentifierDigest,
   verifiedTelegramCampaignBusinessCompanyIds,
 } from './telegram-business';
-import { verifiedResolvedCorporateCompanies } from './contact-resolution';
 import {
   LeadRadarTelegramCampaignStore,
   TELEGRAM_CAMPAIGN_EVIDENCE_VERSION,
@@ -686,19 +685,10 @@ async function evaluateSelectionInternal(input: {
         : [];
     }),
     now: input.now,
+    requireBridge: input.includeBridgeVerification,
   });
   const bridgeVerifiedBusinessCompanyIds = input.includeBridgeVerification
-    ? await verifiedResolvedCorporateCompanies({
-      db: input.db,
-      orgId: input.orgId,
-      companies: rows.flatMap((company) => {
-        const contact = contactsById.get(company.id);
-        return contact?.type === 'business'
-          ? [{ companyId: company.id, contact }]
-          : [];
-      }),
-      now: input.now,
-    })
+    ? verifiedBusinessCompanyIds
     : new Set<string>();
   const selectionCandidates = input.contactBasis && input.dataKey
     ? await Promise.all(rows.flatMap((company) => {
