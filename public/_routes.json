@@ -1,5 +1,14 @@
 {
   "version": 1,
-  "include": ["/api/*", "/admin-tools/*", "/admin/*", "/robots.txt"],
+  "include": [
+    "/api/*",
+    "/webhooks/*",
+    "/ru/blog/*",
+    "/uz/blog/*",
+    "/sitemap.xml",
+    "/admin-tools/*",
+    "/admin/*",
+    "/robots.txt"
+  ],
   "exclude": ["/admin/assets/*"]
 }

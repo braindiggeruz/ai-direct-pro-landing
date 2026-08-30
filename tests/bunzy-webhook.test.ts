@@ -172,3 +172,10 @@ test('an older, previously unseen update cannot overwrite a newer article', asyn
   assert.equal((await send(db, older)).status, 200);
   assert.equal(db.value("SELECT title FROM bunzy_articles WHERE slug = 'kak-vybrat-ai-bota'"), 'Новая версия');
 });
+
+test('Cloudflare routes signed webhooks and dynamic content through Pages Functions', () => {
+  const routes = JSON.parse(fs.readFileSync('public/_routes.json', 'utf8')) as { include: string[] };
+  for (const route of ['/webhooks/*', '/ru/blog/*', '/uz/blog/*', '/sitemap.xml']) {
+    assert.ok(routes.include.includes(route), `${route} must reach Pages Functions in production`);
+  }
+});
