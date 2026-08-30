@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LeadRadarLead } from '../../../shared/lead-radar';
 import { api } from '../../lib/api';
 import { describeCampaignFailure } from '../../lib/campaign-diagnostics';
-import { readContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, selectedContactCheckJobs } from '../../lib/campaign-contact-checks';
+import { readContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, selectedContactCheckJobs } from '../../lib/campaign-contact-checks';
 import type { LeadRadarCampaignContactBasis, LeadRadarCampaignPreflight } from '../../lib/lead-radar-campaign';
 import { Button } from '../ui';
 
@@ -88,12 +88,14 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
     } catch (error) { if (mounted.current) setNotice(describeCampaignFailure(error, 'Не удалось проверить готовность. Ничего не отправлено.')); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
-  async function checkContacts() {
+  async function checkContacts(recheck = false) {
     if (busyRef.current || !canCheck) return;
     busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null); setSnapshot(null); current.current.onSnapshot(null);
     const version = generation.current;
     try {
-      const next = await runSelectedContactChecks({ jobs, progress, cancelled: () => cancel.current || !mounted.current,
+      const startingProgress = recheck ? restartContactCheckProgress(progress) : progress;
+      if (recheck) { saveContactCheckProgress(scope, startingProgress); setProgress(startingProgress); }
+      const next = await runSelectedContactChecks({ jobs, progress: startingProgress, cancelled: () => cancel.current || !mounted.current,
         resolve: (job, key) => api.leadRadarResolveContact(job.searchId, job.companyId, key),
         wait: (ms) => new Promise((resolve) => window.setTimeout(resolve, ms)),
         save: (value) => { saveContactCheckProgress(scope, value); if (mounted.current) setProgress(value); },
@@ -121,6 +123,10 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
         onClick={() => { if (busy === 'contacts') { cancel.current = true; setNotice('Останавливаем после текущей проверки…'); } else void checkContacts(); }} className="min-h-12">
         {busy === 'contacts' ? 'Приостановить проверку' : `Проверить и оставить подтверждённые (${remaining})`}
       </Button>
+      {remaining === 0 && jobs.length > 0 && <Button type="button" variant="secondary" className="min-h-12"
+        disabled={disabled || busy !== null || !canCheck} onClick={() => void checkContacts(true)}>
+        Перепроверить актуальность контактов ({jobs.length})
+      </Button>}
       <Button type="button" variant="secondary" disabled={disabled || busy !== null || !leads.length} onClick={() => void inspect()} className="min-h-12">
         {busy === 'snapshot' ? 'Получаем причины…' : 'Показать готовность на сервере'}
       </Button>

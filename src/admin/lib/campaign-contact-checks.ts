@@ -5,6 +5,11 @@ export interface ContactCheckJob { companyId: string; searchId: string; candidat
 export interface ContactCheckProgress { completed: string[]; resolved: string[]; pausedUntil: number; reason: string | null }
 export const emptyContactCheckProgress = (): ContactCheckProgress => ({ completed: [], resolved: [], pausedUntil: 0, reason: null });
 
+/** Restart user-requested freshness checks, never the account's cooldown. */
+export const restartContactCheckProgress = (progress: ContactCheckProgress): ContactCheckProgress => ({
+  ...progress, completed: [], resolved: [],
+});
+
 export function selectedContactCheckJobs(leads: readonly LeadRadarLead[], excluded: readonly string[] = []): ContactCheckJob[] {
   return [...new Map(leads.filter((lead) => !excluded.includes(lead.id) && !lead.suppressed
     && !['do_not_contact', 'contacted', 'replied', 'qualified', 'meeting', 'won'].includes(lead.lifecycle))
@@ -42,7 +47,12 @@ export async function runSelectedContactChecks(input: {
         }
         // A three-second interval also separates successful candidates/companies.
         await input.wait(3_000);
-        if (result.status !== 'pending') { resolved = result.status === 'resolved'; break; }
+        if (result.status !== 'pending') {
+          // A real username without company ownership is not our successful
+          // endpoint. Continue to the next candidate just like the Worker does.
+          resolved = result.status === 'resolved' && result.reason !== 'username_exists_ownership_unconfirmed';
+          break;
+        }
         if (now() >= deadline) {
           progress = { ...progress, reason: 'waiting_for_bridge' }; input.save(progress); return progress;
         }
