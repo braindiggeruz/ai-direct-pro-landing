@@ -6,7 +6,7 @@ import { AUDIENCE_LIMIT,type AudienceDetail,type ContactDirectoryPage,type Conta
   type LeadRadarAudience } from '../../../shared/lead-radar-audiences';
 import { recipientContactChoices, recipientContactSummary } from '../../../shared/lead-radar-recipient-contacts';
 import { ContactCandidates } from './ContactCandidates';
-import { audienceFailureMessage, saveAudienceWithRecovery } from '../../lib/audience-save';
+import { audienceFailureMessage, sameAudienceSelection, saveAudienceWithRecovery, type AudienceSaveInput } from '../../lib/audience-save';
 
 const STATUS = {verified:'Подтверждён · нужно основание',review:'Нужна проверка',conflict:'Общий контакт разных компаний',contacted:'Уже писали / исход требует проверки',blocked:'Не связываться'};
 const NICHE_LABELS:Record<string,string> = {dentist:'Стоматологии',car_repair:'Автосервисы',hairdresser:'Парикмахерские',salon:'Салоны красоты'};
@@ -35,11 +35,15 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
   const [loading,setLoading]=useState(false);
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState<string|null>(null);
+  const [directoryError,setDirectoryError]=useState<string|null>(null);
+  const [listError,setListError]=useState<string|null>(null);
+  const [listReload,setListReload]=useState(0);
   const [notice,setNotice]=useState<string|null>(null);
   const [composer,setComposer]=useState(false);
   const [refreshPending,setRefreshPending]=useState(false);
   const [pendingSelection,setPendingSelection]=useState<string[]|null>(null);
   const pendingName=useRef<string|null>(null);
+  const pendingSave=useRef<AudienceSaveInput|null>(null);
   const mutation=useRef(false);
   const mounted=useRef(true);
   const readEpoch=useRef(0);
@@ -47,13 +51,13 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
   useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;};},[]);
   useEffect(()=>{
     let active=true;
-    setLoading(true);setError(null);
+    setLoading(true);setDirectoryError(null);
     let inFlight=false;
     const refresh=async(initial=false)=>{
       if (inFlight || (!initial && (document.hidden || mutation.current))) return;
       inFlight=true;
-      try {const next=await api.leadRadarContactDirectory({...filters,status});if(active){setPage(next);if(!initial && pendingName.current===null)setError(null);}}
-      catch(failure) {if(active)setError(errorCopy(failure));}
+      try {const next=await api.leadRadarContactDirectory({...filters,status});if(active){setPage(next);setDirectoryError(null);}}
+      catch(failure) {if(active)setDirectoryError(errorCopy(failure));}
       finally {inFlight=false;if(active && initial)setLoading(false);}
     };
     void refresh(true);
@@ -61,12 +65,24 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
     return()=>{active=false;window.clearInterval(timer);};
   },[filters,status]);
   const openAudience=useCallback(async(id:string)=>{
+    if(mutation.current)return;
+    const pending=pendingSave.current;
+    if(pending && pending.id!==id)return;
     const epoch=++readEpoch.current;
-    setBusy(true);setError(null);
+    setBusy(true);if(!pending)setError(null);
     try {
       const next=await api.leadRadarAudience(id);
       if(mounted.current && readEpoch.current===epoch) {
-        setDetail(next);setDraftName(pendingName.current ?? next.audience.name);setRefreshPending(false);
+        setDetail(next);setRefreshPending(false);
+        setAudiences((current)=>[next.audience,...current.filter((item)=>item.id!==next.audience.id)]);
+        // A read may reconcile an older save after the user has edited the name again.
+        if(!pending)setDraftName(next.audience.name);
+        if(pending && pendingSave.current===pending && sameAudienceSelection(next.audience,pending)) {
+          pendingSave.current=null;pendingName.current=null;setPendingSelection(null);setError(null);
+          setNotice(`Сверка завершена: все ${next.audience.companyIds.length} выбранных контактов уже сохранены. Повторная запись не потребовалась.`);
+        } else if(pending) {
+          setError('Серверный список отличается от неподтверждённого выбора или его версии. Ваш выбор сохранён в этой вкладке. Проверьте состав перед повторным сохранением.');
+        }
         const url=new URL(window.location.href);url.searchParams.set('audience',id);window.history.replaceState(null,'',url);
       }
     } catch(failure) {if(mounted.current && readEpoch.current===epoch)setError(errorCopy(failure));}
@@ -74,24 +90,27 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
   },[]);
   useEffect(()=>{
     let active=true;
+    setListError(null);
     api.leadRadarAudiences().then(async(result)=>{
       if(!active)return;
       setAudiences(result.audiences);
       const requested=new URLSearchParams(window.location.search).get('audience');
       const existing=result.audiences.find((item)=>item.id===requested) ?? result.audiences[0];
       if(existing)await openAudience(existing.id);
-    }).catch((failure)=>{if(active)setError(errorCopy(failure));});
+    }).catch((failure)=>{if(active)setListError(errorCopy(failure));});
     return()=>{active=false;};
-  },[openAudience]);
+  },[openAudience,listReload]);
   async function save(ids:string[],name=detail?.audience.name ?? draftName):Promise<void> {
     if(mutation.current)return;
     mutation.current=true;setBusy(true);setError(null);setNotice(null);
     setPendingSelection(ids);
     pendingName.current=name;
+    const input:AudienceSaveInput={id:detail?.audience.id ?? createId.current,name,
+      version:detail?.audience.version ?? 0,companyIds:[...ids]};
+    pendingSave.current=input;
     ++readEpoch.current;
     try {
-      const result=await saveAudienceWithRecovery({id:detail?.audience.id ?? createId.current,name,
-        version:detail?.audience.version ?? 0,companyIds:ids},{save:api.leadRadarSaveAudience,read:api.leadRadarAudience});
+      const result=await saveAudienceWithRecovery(input,{save:api.leadRadarSaveAudience,read:api.leadRadarAudience});
       if(!mounted.current)return;
       const saved=result.audience;
       const known=new Map([...(detail?.leads ?? []),...(page?.rows.map((row)=>row.lead) ?? [])].map((lead)=>[lead.id,lead]));
@@ -100,6 +119,7 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
       setDraftName(saved.name);setRefreshPending(result.refreshPending);
       setPendingSelection(null);
       pendingName.current=null;
+      pendingSave.current=null;
       setAudiences((current)=>[saved,...current.filter((item)=>item.id!==saved.id)]);
       setNotice(result.refreshPending ? `Выбор сохранён: ${saved.companyIds.length}. Статусы пока не обновились — нажмите «Обновить аудиторию». Редактор и сообщение сохранены.`
         : `Сохранено на сервере: ${saved.companyIds.length}/${AUDIENCE_LIMIT}. Отправка не запускалась.`);
@@ -153,8 +173,16 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
       <p className="text-sm text-white/80">Все компании с мобильным телефоном или публичным Telegram-username из сохранённых поисков. Стационарные номера, боты и известные личные профили исключены. Повторы объединены.</p>
       <p className="text-sm text-white/65">Подтверждённый контакт ещё не означает разрешение на рассылку. Основание, актуальность, история и запреты проверяются сервером перед отправкой.</p>
     </div>
+    {(directoryError || listError) && <div role="alert" className="rounded-xl border border-rose-300/30 p-4 text-rose-100 space-y-2">
+      {directoryError && <p><strong>Каталог не обновился.</strong> {directoryError}</p>}
+      {listError && <p><strong>Список аудиторий не загрузился.</strong> {listError}</p>}
+      <p>Ошибка загрузки не означает, что контактов нет. Ранее загруженные данные остаются на экране.</p>
+      <Button variant="secondary" disabled={loading || busy} onClick={()=>{setFilters((value)=>({...value}));setListReload((value)=>value+1);}}>Восстановить загрузку</Button>
+    </div>}
     {error && <div role="alert" className="rounded-xl border border-rose-300/30 p-4 text-rose-100">{error}</div>}
-    {pendingSelection && !busy && <p role="status" className="text-amber-100">Ваш выбор ({pendingSelection.length}) ещё не подтверждён сервером и остаётся в этой вкладке. <Button variant="secondary" onClick={()=>void save(pendingSelection,pendingName.current ?? draftName)}>Повторить сохранение выбора</Button></p>}
+    {pendingSelection && !busy && <div role="status" className="text-amber-100 space-y-2"><p>Ваш выбор ({pendingSelection.length}) ещё не подтверждён сервером и остаётся в этой вкладке.</p>
+      <Button variant="secondary" onClick={()=>{if(pendingSave.current)void openAudience(pendingSave.current.id);}}>Сверить с сервером</Button>{' '}
+      <Button variant="secondary" onClick={()=>void save(pendingSelection,pendingName.current ?? draftName)}>Повторить сохранение выбора</Button></div>}
     {notice && <p role="status" className="text-sm text-brand-cyan">{notice}</p>}
     <div className="rounded-2xl border border-white/10 p-5 space-y-4">
       <div className="flex flex-wrap gap-3 items-end">
@@ -182,7 +210,9 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
       </>}
     </div>
     {detail && <div hidden={!composer}><TelegramAccountCampaignPanel key={detail.audience.id} {...campaignProps}
-      campaignOutreachEnabled={campaignProps.campaignOutreachEnabled && !refreshPending && pendingSelection===null && !busy}
+      audienceSyncIssue={pendingSelection!==null ? 'Выбор ещё не подтверждён. Нажмите «Сверить с сервером» выше — сообщение и контакты не потеряны.'
+        : refreshPending ? 'Выбор сохранён, но сведения о контактах не обновились. Нажмите «Обновить аудиторию» выше.'
+          : busy ? 'Дождитесь завершения загрузки или сохранения аудитории.' : undefined}
       audience={{audienceId:detail.audience.id,audienceVersion:detail.audience.version}}
       leads={detail.leads} onContactsUpdated={()=>{setFilters((value)=>({...value}));void openAudience(detail.audience.id);}}
       initialSelectedLeadIds={detail.audience.companyIds} excludedRecipientIds={detail.excludedRecipientIds} /></div>}
@@ -212,10 +242,10 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
             canCheck={campaignProps.telegramAccountEnabled} onResolved={()=>{setFilters((value)=>({...value}));if(detail)void openAudience(detail.audience.id);}} />}</td>
         <td className="p-3"><details><summary className="cursor-pointer">Найден {row.occurrences} раз</summary>{row.sources.map((source)=><button type="button" className="block py-2 text-brand-cyan" key={source.companyId} onClick={()=>onOpenSearch(source.searchId)}>{source.name} · {source.category} · {source.city}</button>)}
           {row.occurrences>row.sources.length && <p>Показаны последние 50 источников.</p>}</details></td></tr>)}</tbody></table>
-      {!loading && rows.length===0 && <p className="p-6 text-white/80">В выбранном фильтре нет мобильных телефонов или публичных Telegram-username. Попробуйте «Все статусы» или другую нишу.</p>}
+      {!loading && !directoryError && rows.length===0 && <p className="p-6 text-white/80">В выбранном фильтре нет мобильных телефонов или публичных Telegram-username. Попробуйте «Все статусы» или другую нишу.</p>}
     </div>
     <div className="flex items-center justify-between gap-3"><Button variant="secondary" disabled={loading || busy || !page || page.offset===0} onClick={()=>setFilters((value)=>({...value,offset:Math.max(0,value.offset-20)}))}>Назад</Button>
-      <span className="text-sm text-white/60">{loading?'Загружаем…':`${page?.total ?? 0} уникальных контактов · страница ${Math.floor((page?.offset ?? 0)/20)+1}`}</span>
+      <span className="text-sm text-white/60">{loading?'Загружаем…':!page && directoryError?'Количество контактов неизвестно — данные не загрузились':`${page?.total ?? 0} уникальных контактов · страница ${Math.floor((page?.offset ?? 0)/20)+1}`}</span>
       <Button variant="secondary" disabled={loading || busy || !page || page.offset+page.limit>=page.total} onClick={()=>setFilters((value)=>({...value,offset:value.offset+20}))}>Далее</Button></div>
     </details>
   </section>;

@@ -1,3 +1,5 @@
+import { parseRetryAfter, withLeadRadarReadRecovery } from './request-recovery';
+
 // API client used by the admin UI.
 // Base URL precedence:
 //   1. VITE_API_BASE (set in .env for Emergent dev → full Emergent URL)
@@ -35,6 +37,18 @@ async function request<T>(
   body?: unknown,
   opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' },
 ): Promise<T> {
+  // Other APIs retain their existing error/timeout behaviour.
+  if (!path.startsWith('/api/admin/lead-radar')) return requestOnce<T>(method, path, body, opts);
+  return withLeadRadarReadRecovery((timeoutMs) => requestOnce<T>(method, path, body, { ...opts, timeoutMs }),
+    { method, path, timeoutMs: opts?.timeoutMs, signal: opts?.signal });
+}
+
+async function requestOnce<T>(
+  method: string,
+  path: string,
+  body?: unknown,
+  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' },
+): Promise<T> {
   const url = `${BASE}${path}`;
   const headers: Record<string, string> = { 'Content-Type': 'application/json', ...opts?.headers };
   const token = getToken();
@@ -61,9 +75,7 @@ async function request<T>(
       let endpoint: string | undefined;
       let retryable: boolean | undefined;
       const retryAfterHeader = res.headers.get('retry-after');
-      const retryAfterSeconds = retryAfterHeader && Number.isFinite(Number(retryAfterHeader))
-        ? Math.max(0, Math.ceil(Number(retryAfterHeader)))
-        : undefined;
+      const retryAfterSeconds = parseRetryAfter(retryAfterHeader);
       try {
         const d = jsonRecord(await res.json());
         const structuredError = jsonRecord(d?.error);

@@ -32,6 +32,7 @@ import {
   UserRoundCheck,
 } from 'lucide-react';
 import { api } from '../lib/api';
+import { requestFailureHint } from '../lib/request-recovery';
 import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui';
 import { TelegramBusinessConnectionCard } from '../components/lead-radar/TelegramBusinessConnectionCard';
 import { TelegramAccountCampaignPanel } from '../components/lead-radar/TelegramAccountCampaignPanel';
@@ -1411,6 +1412,7 @@ export default function LeadRadarPage() {
   const [pollingStopped, setPollingStopped] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [overviewError, setOverviewError] = useState(false);
+  const [overviewErrorHint, setOverviewErrorHint] = useState('');
   const [telegramBusinessStatus, setTelegramBusinessStatus] = useState<LeadRadarTelegramBusinessStatus | null>(null);
   const [telegramStatusLoading, setTelegramStatusLoading] = useState(false);
   const [telegramConnectionBusy, setTelegramConnectionBusy] = useState(false);
@@ -1450,9 +1452,11 @@ export default function LeadRadarPage() {
       const nextOverview = await api.leadRadarOverview();
       setOverview(nextOverview);
       setOverviewError(false);
+      setOverviewErrorHint('');
       return nextOverview;
-    } catch {
+    } catch (failure) {
       setOverviewError(true);
+      setOverviewErrorHint(requestFailureHint(failure));
       return null;
     } finally {
       setOverviewLoading(false);
@@ -1922,7 +1926,7 @@ export default function LeadRadarPage() {
         {overviewError && !overview && !result && (
           <div role="alert" className="flex items-start gap-3 rounded-2xl border border-rose-300/20 bg-rose-300/[0.055] p-4 text-sm text-rose-100">
             <CircleHelp size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
-            <div className="flex-1"><strong className="text-white">Не удалось загрузить Lead Radar.</strong> Сервер не подтвердил состояние системы. Это не означает, что сохранённые компании удалены. Новые действия недоступны до успешного обновления.</div>
+            <div className="flex-1"><strong className="text-white">Не удалось загрузить Lead Radar.</strong> Сервер не подтвердил состояние системы. Это не означает, что сохранённые компании удалены. Новые действия недоступны до успешного обновления. {overviewErrorHint}</div>
             <button type="button" onClick={() => { setOverviewLoading(true); void loadOverview(); }} disabled={overviewLoading} className="min-h-11 px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-100">{overviewLoading ? 'Обновляем…' : 'Повторить'}</button>
           </div>
         )}

@@ -87,6 +87,7 @@ export interface TelegramAccountCampaignPanelProps {
   telegramAccountEnabled: boolean;
   telegramAccountReadiness?: LeadRadarTelegramAccountReadiness;
   campaignOutreachEnabled: boolean;
+  audienceSyncIssue?: string;
   campaignAutoSendEnabled: boolean;
   telegramCampaignDailyLimit: number;
   telegramCampaignMinimumIntervalSeconds: number;
@@ -652,6 +653,7 @@ export function TelegramAccountCampaignPanel({
   telegramAccountEnabled,
   telegramAccountReadiness,
   campaignOutreachEnabled,
+  audienceSyncIssue,
   campaignAutoSendEnabled,
   telegramCampaignDailyLimit,
   telegramCampaignMinimumIntervalSeconds,
@@ -1267,6 +1269,7 @@ export function TelegramAccountCampaignPanel({
     && authorizationExpiresTime <= authorizationNow + 366 * 24 * 60 * 60_000;
   const authorizationFormReady = Boolean(
     campaignOutreachEnabled
+    && !audienceSyncIssue
     && campaignRecoveryReady
     && contactBasis
     && authorizationLead
@@ -1368,7 +1371,7 @@ export function TelegramAccountCampaignPanel({
     : null;
   const attachmentReady = !hasImageAttachment || Boolean(attachmentReference);
   const draftIdentity = JSON.stringify([searchId, audience?.audienceVersion, accountIdentityKey,
-    [...selectedLeadIds].sort(), excludedRecipientIds, template, contactBasis, attachmentReference, campaignOutreachEnabled]);
+    [...selectedLeadIds].sort(), excludedRecipientIds, template, contactBasis, attachmentReference, campaignOutreachEnabled, audienceSyncIssue]);
   const currentDraftKey = useRef(draftIdentity);
   currentDraftKey.current = draftIdentity;
   const currentAccountIdentity = useRef(accountIdentityKey);
@@ -1437,6 +1440,7 @@ export function TelegramAccountCampaignPanel({
     : null;
   const createReady = Boolean(
     campaignOutreachEnabled
+    && !audienceSyncIssue
     && campaignRecoveryReady
     && connected
     && accountIdentityAvailable
@@ -1961,7 +1965,7 @@ export function TelegramAccountCampaignPanel({
 
   async function prepareCampaign(): Promise<void> {
     const accountId = accountConnectionId;
-    if (!campaignOutreachEnabled || !campaignRecoveryReady || operationBusy || campaign
+    if (!campaignOutreachEnabled || audienceSyncIssue || !campaignRecoveryReady || operationBusy || campaign
       || preparationInFlight.current || selectedLeadIds.size === 0) return;
     preparationInFlight.current = true;
     preparationCancelled.current = false;
@@ -2992,7 +2996,7 @@ export function TelegramAccountCampaignPanel({
               <Button
                 type="button"
                 size="lg"
-                disabled={!campaignOutreachEnabled || !campaignRecoveryReady || selectedLeadIds.size === 0 || mediaBusy || operationBusy || Boolean(campaign)}
+                disabled={!campaignOutreachEnabled || Boolean(audienceSyncIssue) || !campaignRecoveryReady || selectedLeadIds.size === 0 || mediaBusy || operationBusy || Boolean(campaign)}
                 aria-busy={operationBusy && !preparation}
                 onClick={() => { void prepareCampaign(); }}
                 className="mt-4 min-h-12 w-full"
@@ -3003,7 +3007,8 @@ export function TelegramAccountCampaignPanel({
               {operationBusy && preparationInFlight.current && <Button type="button" variant="secondary" className="mt-2 min-h-12 w-full" onClick={() => {
                 preparationCancelled.current = true; readinessRef.current?.cancel(); setOperationNotice('Подготовка приостановлена. Ждём окончания текущего запроса; результаты контактов сохранены, отправок нет.');
               }}>Приостановить подготовку</Button>}
-              {!campaignOutreachEnabled && <p className="mt-2 text-xs text-amber-100">Подготовка временно недоступна: обновите сохранённую аудиторию или проверьте доступ на сервере. Черновик не удалён.</p>}
+              {!campaignOutreachEnabled && <p className="mt-2 text-xs text-amber-100">Подготовка кампаний выключена на сервере. Обновление или повторное сохранение аудитории не включит её.</p>}
+              {audienceSyncIssue && <p role="status" className="mt-2 text-xs text-amber-100">{audienceSyncIssue}</p>}
               {selectedLeadIds.size === 0 && <p className="mt-2 text-xs text-amber-100">Сначала выберите компании в аудиторию.</p>}
               {mediaBusy && <p role="status" className="mt-2 text-xs text-white/70">Дождитесь загрузки и проверки изображения.</p>}
             </div>
