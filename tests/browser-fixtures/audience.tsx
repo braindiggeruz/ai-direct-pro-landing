@@ -19,6 +19,8 @@ const rows:ContactDirectoryRow[]=Array.from({length:63},(_,i)=>{
 });
 const key='lead-radar-mobile-audience-ui-fixture-only-v2';
 const read=():LeadRadarAudience[]=>JSON.parse(sessionStorage.getItem(key) ?? '[]');
+let failRead = false;
+let loseWriteResponse = false;
 api.leadRadarAudiences=async()=>({audiences:read()});
 api.leadRadarContactDirectory=async(filters={})=>{
   const matches=rows.filter((row)=>(!filters.q || row.lead.name.includes(filters.q))&&(!filters.category || row.lead.category===filters.category)&&(!filters.city || row.lead.city===filters.city)&&(!filters.status || filters.status==='all' || row.status===filters.status));
@@ -28,15 +30,21 @@ api.leadRadarSaveAudience=async(input)=>{
   const all=read();const previous=all.find((item)=>item.id===input.id);
   if(previous && previous.version!==input.version)throw Object.assign(new Error('conflict'),{code:'audience_version_conflict'});
   const saved={...input,version:input.version+1,createdAt:previous?.createdAt ?? new Date().toISOString(),updatedAt:new Date().toISOString()};
-  sessionStorage.setItem(key,JSON.stringify([saved,...all.filter((item)=>item.id!==input.id)]));return saved;
+  sessionStorage.setItem(key,JSON.stringify([saved,...all.filter((item)=>item.id!==input.id)]));
+  if(loseWriteResponse){loseWriteResponse=false;throw new Error('Simulated lost response');}
+  return saved;
 };
 api.leadRadarAudience=async(id)=>{
+  if(failRead){failRead=false;throw Object.assign(new Error('Simulated failed read'),{status:503,code:'audience_unavailable'});}
   const audience=read().find((item)=>item.id===id)!;
   return {audience,leads:rows.filter((row)=>audience.companyIds.includes(row.lead.id)).map((row)=>row.lead),missingCompanyIds:[]};
 };
 api.leadRadarTelegramCampaignRecovery=async()=>({active:null,latest:null});
 window.fetch=async()=>{throw new Error('Fixture forbids network API requests');};
-createRoot(document.getElementById('root')!).render(<React.StrictMode><main className="p-5 mx-auto max-w-7xl"><p className="text-amber-100 mb-4">Локальный тест · вымышленные контакты · отправка отключена</p><TelegramContactDirectory
+createRoot(document.getElementById('root')!).render(<React.StrictMode><main className="p-5 mx-auto max-w-7xl"><p className="text-amber-100 mb-4">Локальный тест · вымышленные контакты · отправка отключена</p>
+  <button className="min-h-12 p-3" onClick={()=>{failRead=true;}}>Следующее чтение: ошибка</button>
+  <button className="min-h-12 p-3" onClick={()=>{loseWriteResponse=true;}}>Следующий ответ сохранения: потерян</button>
+  <TelegramContactDirectory
   initialTemplate="Здравствуйте! Согласованный пример для {company_name}."
   telegramAccountEnabled={false} campaignOutreachEnabled={false} campaignAutoSendEnabled={false}
   telegramCampaignDailyLimit={30} telegramCampaignMinimumIntervalSeconds={120}

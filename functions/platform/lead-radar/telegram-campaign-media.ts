@@ -688,6 +688,22 @@ export class LeadRadarTelegramCampaignMediaStore {
     return { ...metadata, objectKey: key };
   }
 
+  async preview(orgId: string, attachment: TelegramCampaignAttachmentReference, now = new Date()): Promise<{ bytes: ArrayBuffer; mimeType: TelegramCampaignMediaType }> {
+    const key = telegramCampaignMediaObjectKey(orgId, attachment.mediaId);
+    if (!key || !isTelegramCampaignAttachmentReference(attachment)) mediaFail('telegram_campaign_media_invalid');
+    let object: R2ObjectBody | null;
+    try { object = await this.bucket.get(key); }
+    catch { return mediaFail('telegram_campaign_media_storage_unavailable'); }
+    if (!object) mediaFail('telegram_campaign_media_not_found');
+    const metadata = metadataFrom(object);
+    if (!metadata || object.size > TELEGRAM_CAMPAIGN_MEDIA_MAX_BYTES || object.size !== metadata.sizeBytes) mediaFail('telegram_campaign_media_invalid');
+    if (Date.parse(metadata.expiresAt) <= now.getTime()) mediaFail('telegram_campaign_media_not_found');
+    if (metadata.mediaDigest !== attachment.mediaDigest) mediaFail('telegram_campaign_media_digest_mismatch');
+    const bytes = await object.arrayBuffer();
+    if (bytes.byteLength !== metadata.sizeBytes || await sha256Hex(bytes) !== attachment.mediaDigest) mediaFail('telegram_campaign_media_digest_mismatch');
+    return { bytes, mimeType: metadata.mimeType };
+  }
+
   async delete(orgId: string, mediaId: string): Promise<void> {
     const key = telegramCampaignMediaObjectKey(orgId, mediaId);
     if (!key) mediaFail('telegram_campaign_media_invalid');

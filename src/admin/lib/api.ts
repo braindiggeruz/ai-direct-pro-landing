@@ -33,7 +33,7 @@ async function request<T>(
   method: string,
   path: string,
   body?: unknown,
-  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal },
+  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' },
 ): Promise<T> {
   const url = `${BASE}${path}`;
   const headers: Record<string, string> = { 'Content-Type': 'application/json', ...opts?.headers };
@@ -89,6 +89,13 @@ async function request<T>(
       throw e;
     }
     if (res.status === 204) return undefined as T;
+    if (opts?.responseType === 'blob') {
+      const value = await res.blob();
+      if (!['image/png', 'image/jpeg', 'image/webp'].includes(value.type) || value.size > 5_000_000 || value.size === 0) {
+        throw Object.assign(new Error('Invalid private image preview'), { code: 'telegram_campaign_media_invalid' });
+      }
+      return value as T;
+    }
     // Keep the deadline alive until the body is read, not only until headers arrive.
     return await res.json() as T;
   } finally {
@@ -890,6 +897,9 @@ export const api = {
   ),
   leadRadarCheckTelegramCampaignImage: (input: import('./lead-radar-campaign').LeadRadarTelegramCampaignAttachmentReference) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignMediaUpload>(
     'POST', '/api/admin/lead-radar/telegram-campaigns/media/check', input, { timeoutMs: 15_000 },
+  ),
+  leadRadarPreviewTelegramCampaignImage: (input: import('./lead-radar-campaign').LeadRadarTelegramCampaignAttachmentReference, signal?: AbortSignal) => request<Blob>(
+    'POST', '/api/admin/lead-radar/telegram-campaigns/media/preview', input, { timeoutMs: 15_000, responseType: 'blob', signal },
   ),
   leadRadarPrepareTelegramCampaign: (
     input: import('./lead-radar-campaign').LeadRadarTelegramCampaignPrepareInput,

@@ -800,6 +800,30 @@ test('pending media check survives retries without creating campaign effects or 
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'), 0);
 });
 
+test('private preview is owner-only, no-store and never calls Telegram or creates effects', async () => {
+  const db = freshAdminDb(); installLeadRadarLedger(db);
+  const service = new TelegramAccountServiceFixture();
+  const r2 = new CampaignMediaR2Fixture();
+  const token = await platformToken('platform_owner');
+  const env = await campaignEnv(service, { LEAD_RADAR_CAMPAIGN_MEDIA: r2.bucket });
+  const upload = await callRawCampaignRoute(db, token, CAMPAIGN_MEDIA_PNG, env, 'campaign-media-preview-api-0001');
+  assert.equal(upload.status, 201);
+  const beforeCalls = service.requests.length;
+  const preview = (authToken?: string) => callRoute(leadRadarRoute.onRequestPost, db,
+    '/api/admin/lead-radar/telegram-campaigns/media/preview', { method: 'POST', token: authToken,
+      params: { path: 'telegram-campaigns/media/preview' }, env,
+      body: { mediaId: upload.body.mediaId, mediaDigest: upload.body.mediaDigest } });
+  const result = await preview(token);
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  assert.equal(result.headers.get('content-type'), 'image/png');
+  assert.equal(result.headers.get('cache-control'), 'no-store');
+  assert.equal(result.headers.get('x-content-type-options'), 'nosniff');
+  assert.equal((await preview()).status, 401);
+  assert.equal(service.requests.length, beforeCalls);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaigns'), 0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'), 0);
+});
+
 test('authoritative private decode rejects upload before D1 registration or campaign effects', async () => {
   const db = freshAdminDb();
   installLeadRadarLedger(db);

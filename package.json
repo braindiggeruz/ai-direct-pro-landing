@@ -43,7 +43,7 @@
     "test:web-security": "node --import tsx --test tests/web-security-hardening.test.ts",
     "test:search-pulse": "node --import tsx --test tests/search-pulse.test.ts",
     "typecheck:lead-radar": "tsc -p tsconfig.lead-radar.json --noEmit --pretty false",
-    "test:lead-radar-audiences": "node --import tsx --test tests/lead-radar-audiences.test.ts tests/lead-radar-telegram-campaign.test.ts tests/lead-radar-telegram-campaign-api.test.ts tests/lead-radar-campaign-ui.test.ts",
+    "test:lead-radar-audiences": "node --import tsx --test tests/lead-radar-audience-save-ui.test.ts tests/lead-radar-campaign-drafts.test.ts tests/lead-radar-audiences.test.ts tests/lead-radar-telegram-campaign.test.ts tests/lead-radar-telegram-campaign-api.test.ts tests/lead-radar-campaign-ui.test.ts",
     "test:firecrawl": "node --import tsx --test tests/lead-radar-firecrawl.test.ts tests/lead-radar-firecrawl-runtime.test.ts tests/lead-radar-queue-reliability.test.ts tests/lead-radar-production-hardening.test.ts tests/lead-radar-schema-audit.test.ts",
     "test:bunzy": "node --import tsx --test tests/bunzy-webhook.test.ts",
     "test:lead-radar-contacts": "node --import tsx --test tests/lead-radar-contact-candidates.test.ts tests/lead-radar-telegram-bridge-mailbox.test.ts tests/lead-radar-telegram-campaign.test.ts tests/lead-radar-queue-reliability.test.ts tests/lead-radar-d1-budget.test.ts tests/lead-radar-free-acquisition.test.ts tests/lead-radar-free-catalog-discovery.test.ts tests/lead-radar-ownership-confirmation.test.ts",

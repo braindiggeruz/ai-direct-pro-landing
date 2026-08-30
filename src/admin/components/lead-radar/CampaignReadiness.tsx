@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LeadRadarLead } from '../../../shared/lead-radar';
 import { api } from '../../lib/api';
 import { describeCampaignFailure } from '../../lib/campaign-diagnostics';
@@ -21,12 +21,14 @@ const REASONS: Record<string, string> = {
   account_safety_review_required: 'Требуется сверка предыдущей доставки',
 };
 
-export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCheck, disabled, revision, onUpdated, onSnapshot, onSelectReady }: {
+export interface CampaignReadinessHandle { prepare: () => Promise<LeadRadarCampaignPreflight | null>; cancel: () => void }
+
+export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
   scope: string; leads: LeadRadarLead[]; excludedIds?: string[]; basis: LeadRadarCampaignContactBasis | '';
   canCheck: boolean; disabled: boolean; revision: number; onUpdated?: () => void;
   onSnapshot: (snapshot: LeadRadarCampaignPreflight | null) => void;
   onSelectReady: (ids: string[]) => void;
-}) {
+}>(function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCheck, disabled, revision, onUpdated, onSnapshot, onSelectReady }, ref) {
   const jobs = useMemo(() => selectedContactCheckJobs(leads, excludedIds), [leads, excludedIds]);
   const [progress, setProgress] = useState(() => readContactCheckProgress(scope));
   const [busy, setBusy] = useState<'contacts' | 'snapshot' | null>(null);
@@ -48,7 +50,7 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
     const ids = [...new Set(leads.map((lead) => lead.id))];
     for (let i = 0; i < ids.length; i += 50) {
       const next = await api.leadRadarCampaignPreflight(ids.slice(i, i + 50), basis || null);
-      if (!mounted.current || version !== generation.current) return null;
+      if (!mounted.current || cancel.current || version !== generation.current) return null;
       result.checkedAt = next.checkedAt; result.blockers = [...new Set([...result.blockers, ...next.blockers])];
       // Aggregate limits across batches (audit CP-6): the strictest remaining
       // quota wins, and the latest next-dispatch moment governs the start.
@@ -79,7 +81,7 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
   }
   async function inspect() {
     if (busyRef.current || !leads.length) return;
-    busyRef.current = true; setBusy('snapshot'); setNotice(null);
+    busyRef.current = true; cancel.current = false; setBusy('snapshot'); setNotice(null);
     const version = generation.current;
     try {
       const result = await readSnapshot(version);
@@ -88,6 +90,32 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
     } catch (error) { if (mounted.current) setNotice(describeCampaignFailure(error, 'Не удалось проверить готовность. Ничего не отправлено.')); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
+  // One no-send workflow. It never trims the audience or creates authorization.
+  useImperativeHandle(ref, () => ({ cancel: () => { cancel.current = true; setNotice('Приостанавливаем после текущей проверки. Результаты сохраняются.'); }, prepare: async () => {
+    if (busyRef.current || !leads.length) return null;
+    busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null);
+    setSnapshot(null); current.current.onSnapshot(null);
+    const version = generation.current;
+    try {
+      if (canCheck && remaining > 0) {
+        const next = await runSelectedContactChecks({ jobs, progress,
+          cancelled: () => cancel.current || !mounted.current || version !== generation.current,
+          resolve: (job, key) => api.leadRadarResolveContact(job.searchId, job.companyId, key),
+          wait: (ms) => new Promise((resolve) => window.setTimeout(resolve, ms)),
+          save: (value) => { saveContactCheckProgress(scope, value); if (mounted.current) setProgress(value); },
+        });
+        if (cancel.current || !mounted.current || version !== generation.current) return null;
+        if (next.reason) setNotice(`Проверка контактов приостановлена: ${REASONS[next.reason] ?? next.reason}. Сохранённые результаты учтены; новые сообщения не отправлялись.`);
+      }
+      setBusy('snapshot');
+      const result = await readSnapshot(version);
+      if (result) { setSnapshot(result); current.current.onSnapshot(result); }
+      return result;
+    } catch (error) {
+      if (mounted.current) setNotice(describeCampaignFailure(error, 'Не удалось закончить подготовку. Результаты проверок сохранены; сообщения не отправлялись.'));
+      return null;
+    } finally { busyRef.current = false; if (mounted.current) setBusy(null); }
+  } }));
   async function checkContacts(recheck = false) {
     if (busyRef.current || !canCheck) return;
     busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null); setSnapshot(null); current.current.onSnapshot(null);
@@ -105,8 +133,7 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
           const strict = await readSnapshot(version);
           if (strict) {
             setSnapshot(strict); current.current.onSnapshot(strict);
-            current.current.onSelectReady?.(strict.selection.verifiedCompanyIds.slice(0, 50));
-            setNotice(`Проверка завершена: оставлены только подтверждённые Telegram-контакты (${Math.min(50, strict.selection.verified)}). Сообщения не отправлялись.`);
+            setNotice(`Проверка завершена: подтверждены Telegram-контакты (${strict.selection.verified}). Состав аудитории сохранён. Сообщения не отправлялись.`);
           }
         } else setNotice(next.reason ? `Проверка приостановлена: ${REASONS[next.reason] ?? next.reason}.${next.pausedUntil > Date.now() ? ` Повторить не раньше ${new Date(next.pausedUntil).toLocaleTimeString('ru-RU')}.` : ''} Результаты сохранены.`
           : 'Проверка приостановлена. Можно продолжить с сохранённого места.');
@@ -121,7 +148,7 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
     <div className="flex flex-wrap gap-2">
       <Button type="button" variant="secondary" disabled={disabled || busy === 'snapshot' || (!busy && (!canCheck || !remaining))}
         onClick={() => { if (busy === 'contacts') { cancel.current = true; setNotice('Останавливаем после текущей проверки…'); } else void checkContacts(); }} className="min-h-12">
-        {busy === 'contacts' ? 'Приостановить проверку' : `Проверить и оставить подтверждённые (${remaining})`}
+        {busy === 'contacts' ? 'Приостановить проверку' : `Проверить контакты (${remaining})`}
       </Button>
       {remaining === 0 && jobs.length > 0 && <Button type="button" variant="secondary" className="min-h-12"
         disabled={disabled || busy !== null || !canCheck} onClick={() => void checkContacts(true)}>
@@ -149,4 +176,4 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
       </details>
     </div>}
   </section>;
-}
+});

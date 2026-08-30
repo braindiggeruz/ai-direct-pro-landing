@@ -1245,6 +1245,18 @@ export async function handleTelegramCampaignPost(
       return await finishCampaignMediaCheck(ctx, orgId, stored);
     }
 
+    if (parts.length === 3 && parts[0] === 'telegram-campaigns' && parts[1] === 'media' && parts[2] === 'preview') {
+      if (!ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA) return unavailable('telegram_campaign_media_storage_unavailable', ctx);
+      const body = await exactBody(ctx, ['mediaId', 'mediaDigest']);
+      if (!isTelegramCampaignAttachmentReference(body)) return ownerError('telegram_campaign_media_invalid', ctx.requestId, 400);
+      const preview = await new LeadRadarTelegramCampaignMediaStore(ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA).preview(orgId, body);
+      return new Response(preview.bytes, { headers: {
+        'Content-Type': preview.mimeType, 'Content-Length': String(preview.bytes.byteLength),
+        'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
+        'Content-Security-Policy': "default-src 'none'; sandbox", 'X-Request-Id': ctx.requestId,
+      } });
+    }
+
     if (parts.length === 3 && parts[0] === 'telegram-campaigns' && parts[1] === 'media' && parts[2] === 'check') {
       if (!capabilities.campaignOutreachEnabled) return ownerError('lead_radar_campaign_paused', ctx.requestId, 409);
       if (!ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA) return unavailable('telegram_campaign_media_storage_unavailable', ctx);

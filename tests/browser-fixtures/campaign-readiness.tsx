@@ -28,6 +28,7 @@ api.leadRadarCampaignPreflight = async (ids, basis) => ({ checkedAt: new Date().
   limits: { dailyLimit: 30, remainingToday: 30, minimumIntervalSeconds: 120, nextDispatchAt: null },
   selection: { selected: ids.length, automatic: basis ? ids.filter((id) => id === 'fixture_1').length : 0,
     manual: ids.filter((id) => id !== 'fixture_1' || !basis).length, excluded: 0,
+    verified: ids.length, verifiedCompanyIds: ids,
     automaticCompanyIds: basis && ids.includes('fixture_1') ? ['fixture_1'] : [],
     items: ids.map((id) => ({ companyId: id, name: leads.find((lead) => lead.id === id)!.name,
       classification: id === 'fixture_1' && basis ? 'automatic' : 'manual', reasonCode: id === 'fixture_1' && basis ? 'verified_corporate_authorized' : 'documented_basis_required',
@@ -42,11 +43,23 @@ api.leadRadarUploadTelegramCampaignImage = async (file) => {
 api.leadRadarCheckTelegramCampaignImage = async () => ({ ...media, sizeBytes: Number(sessionStorage.getItem('fixture-media-size')) || media.sizeBytes, validation: Date.now() >= Number(sessionStorage.getItem('fixture-media-ready-at'))
   ? { status: 'valid' } : { status: 'pending', reason: 'media_validation_pending', retryAfterSeconds: 3 } });
 api.leadRadarDeleteTelegramCampaignImage = async () => {};
+api.leadRadarPreviewTelegramCampaignImage = async () => {
+  const canvas = document.createElement('canvas'); canvas.width = 100; canvas.height = 100;
+  const context = canvas.getContext('2d')!; context.fillStyle = '#20cbbb'; context.fillRect(0, 0, 100, 100);
+  return await new Promise<Blob>((resolve) => canvas.toBlob((blob) => resolve(blob!), 'image/png'));
+};
 api.leadRadarPrepareTelegramCampaign = async (input) => {
   const result = await api.leadRadarCampaignPreflight(input.leadIds, input.contactBasis);
   return { approvalToken: `lrtgca_${'a'.repeat(64)}`, expiresAt: new Date(Date.now() + 300_000).toISOString(), selectionDigest: 'c'.repeat(64), contentDigest: 'd'.repeat(64),
-    selection: result.selection, previews: input.leadIds.map((leadId) => ({ leadId, companyName: 'Тестовая клиника', text: input.template })) };
+    selection: result.selection, previews: input.leadIds.map((leadId) => ({ leadId, companyName: 'Тестовая клиника', text: input.template.replace('{company_name}', 'Тестовая клиника'), authorization: auth })) };
 };
+let createCount = 0;
+let startCount = 0;
+const fakeCampaign = { id: 'fixture_campaign', status: 'approved', counts: { total: 1, pending: 1, sent: 0, failed: 0, ambiguous: 0, skipped: 0 }, recipients: [], createdAt: stamp, updatedAt: stamp };
+function showCalls() { document.getElementById('fixture-calls')!.textContent = `Тестовые вызовы: создать ${createCount}, запустить ${startCount}. Реальных отправок 0.`; }
+api.leadRadarCreateTelegramCampaign = async () => { createCount++; showCalls(); await new Promise((resolve) => setTimeout(resolve, 500)); return { ...fakeCampaign }; };
+api.leadRadarTelegramCampaign = async () => ({ ...fakeCampaign });
+api.leadRadarTransitionTelegramCampaign = async (_id, action) => { if (action === 'start') startCount++; showCalls(); fakeCampaign.status = action === 'start' ? 'running' : 'paused'; return { ...fakeCampaign }; };
 window.fetch = async () => { throw new Error('Local fixture forbids network requests'); };
 function injectImage() {
   const canvas = document.createElement('canvas'); canvas.width = 100; canvas.height = 100;
@@ -60,6 +73,7 @@ function injectImage() {
 }
 createRoot(document.getElementById('root')!).render(<React.StrictMode><main className="mx-auto max-w-7xl p-5">
   <p className="mb-3 text-amber-100">Локальный тест. Все компании вымышлены; реальная отправка запрещена.</p>
+  <p id="fixture-calls">Тестовые вызовы: создать 0, запустить 0. Реальных отправок 0.</p>
   <button className="min-h-12 rounded border border-white/30 px-4 mb-4" onClick={injectImage}>Подставить тестовый PNG</button>
   <TelegramAccountCampaignPanel searchId="fixture_search" leads={leads} initialSelectedLeadIds={leads.map((lead) => lead.id)}
     initialTemplate="Здравствуйте! Согласованный пример для {company_name}." telegramAccountEnabled campaignOutreachEnabled campaignAutoSendEnabled
