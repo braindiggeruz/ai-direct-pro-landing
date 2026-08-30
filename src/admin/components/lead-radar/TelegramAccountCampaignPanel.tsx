@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { describeCampaignFailure } from '../../lib/campaign-diagnostics';
 import { readCampaignMediaDraft, saveCampaignMediaDraft } from '../../lib/campaign-media-draft';
+import { readCampaignTemplateDraft, saveCampaignTemplateDraft } from '../../lib/campaign-template-draft';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -702,7 +703,14 @@ export function TelegramAccountCampaignPanel({
   const [bridgeRevokeConfirmation, setBridgeRevokeConfirmation] = useState(false);
   const [disconnectConfirmation, setDisconnectConfirmation] = useState(false);
   const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(() => new Set(initialSelection.current));
-  const [template, setTemplate] = useState(() => boundCampaignTemplate(initialTemplate));
+  // Audit CP-3: the operator's draft must survive a page reload. The tab-scoped
+  // draft helper keeps the last edited template; the per-search initialTemplate
+  // is only a fallback for first visits. Polling never writes here, so user
+  // text wins.
+  const [template, setTemplate] = useState(() => {
+    const stored = readCampaignTemplateDraft();
+    return boundCampaignTemplate(stored ?? initialTemplate);
+  });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [uploadedMedia, setUploadedMedia] = useState<LeadRadarTelegramCampaignMediaUpload | null>(null);
@@ -1322,8 +1330,8 @@ export function TelegramAccountCampaignPanel({
   const attachmentReady = !hasImageAttachment || Boolean(attachmentReference);
   const mediaBusy = mediaState === 'validating' || mediaState === 'uploading' || mediaState === 'checking' || mediaState === 'removing';
   const longestLocalPreviewLength = selectedCorporateCandidates.reduce((longest, lead) => (
-    Math.max(longest, [...renderCampaignPreview(template, lead.name)].length)
-  ), [...template].length);
+    Math.max(longest, renderCampaignPreview(template, lead.name).length)
+  ), template.length);
   const localPersonalizationFits = !hasImageAttachment
     || longestLocalPreviewLength <= LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT;
   const composerPreviewCompany = selectedCorporateCandidates[0]?.name ?? null;
@@ -1363,7 +1371,7 @@ export function TelegramAccountCampaignPanel({
     ? null
     : template.trim().length === 0
       ? 'Введите текст сообщения.'
-      : [...template].length > messageLimit
+      : template.length > messageLimit
         ? `С изображением подпись Telegram ограничена ${LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT} символами. Сократите текст или удалите изображение.`
         : !localPersonalizationFits
           ? `После подстановки названия компании самая длинная подпись содержит ${longestLocalPreviewLength} символов из ${LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT}. Сократите текст.`
@@ -1524,7 +1532,9 @@ export function TelegramAccountCampaignPanel({
 
   function updateTemplate(value: string): void {
     if (operationBusy || campaign) return;
-    setTemplate(boundCampaignTemplate(value));
+    const bounded = boundCampaignTemplate(value);
+    setTemplate(bounded);
+    saveCampaignTemplateDraft(bounded);
     invalidatePreparation();
   }
 
@@ -2626,7 +2636,7 @@ export function TelegramAccountCampaignPanel({
                 />
                 <div id={composerHelpId} className="mt-2 flex flex-col gap-1 text-xs leading-5 text-white/60 sm:flex-row sm:items-center sm:justify-between">
                   <span>Разрешённая переменная: {'{company_name}'}. Точный текст фиксирует сервер.</span>
-                  <span className={`shrink-0 tabular-nums ${[...template].length > messageLimit ? 'font-semibold text-amber-100' : ''}`} aria-live="polite">{[...template].length}/{messageLimit}</span>
+                  <span className={`shrink-0 tabular-nums ${template.length > messageLimit ? 'font-semibold text-amber-100' : ''}`} aria-live="polite">{template.length}/{messageLimit}</span>
                 </div>
                 {!campaignRecoveryReady && !campaign && <p id={`${composerHelpId}-recovery`} className="mt-2 text-xs leading-5 text-amber-100">Текст можно редактировать локально уже сейчас. Серверная проверка и запуск останутся заблокированы до восстановления состояния кампании.</p>}
                 {templateIssue && <p id={`${composerHelpId}-error`} className="mt-2 text-sm leading-5 text-amber-100">{templateIssue}</p>}

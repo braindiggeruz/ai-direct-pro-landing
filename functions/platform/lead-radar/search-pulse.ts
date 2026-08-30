@@ -1,6 +1,6 @@
 import { LeadRadarStore } from './store';
 import { enqueueDueLeadRadarJobs } from './queue';
-import type { LeadRadarQueueSender } from './queue';
+import type { LeadRadarQueueSender } from './types';
 
 export interface SearchPulseResult {
   ok: true;

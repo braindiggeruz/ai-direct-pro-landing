@@ -50,7 +50,16 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
       const next = await api.leadRadarCampaignPreflight(ids.slice(i, i + 50), basis || null);
       if (!mounted.current || version !== generation.current) return null;
       result.checkedAt = next.checkedAt; result.blockers = [...new Set([...result.blockers, ...next.blockers])];
-      result.limits = next.limits;
+      // Aggregate limits across batches (audit CP-6): the strictest remaining
+      // quota wins, and the latest next-dispatch moment governs the start.
+      result.limits = result.limits && next.limits
+        ? {
+            ...next.limits,
+            remainingToday: Math.min(result.limits.remainingToday, next.limits.remainingToday),
+            nextDispatchAt: [result.limits.nextDispatchAt, next.limits.nextDispatchAt]
+              .filter((value): value is string => Boolean(value)).sort().at(-1) ?? null,
+          }
+        : result.limits ?? next.limits;
       for (const key of ['selected', 'automatic', 'manual', 'excluded', 'verified'] as const) result.selection[key] += next.selection[key];
       result.selection.verifiedCompanyIds.push(...next.selection.verifiedCompanyIds);
       result.selection.automaticCompanyIds.push(...next.selection.automaticCompanyIds);

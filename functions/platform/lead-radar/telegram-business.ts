@@ -1346,7 +1346,8 @@ export function buildTelegramCorporateDraftLink(
     || verifiedAt > now.getTime() + FUTURE_SKEW_MS
     || now.getTime() - verifiedAt > 30 * 24 * 60 * 60_000) return null;
   const text = draft;
-  if (text.trim().length === 0 || [...text].length > 4096 || text.includes('\u0000')) return null;
+  // Telegram counts the 4096 limit in UTF-16 code units (audit CP-4).
+  if (text.trim().length === 0 || text.length > 4096 || text.includes('\u0000')) return null;
   const url = new URL(`https://t.me/${contact.username}`);
   url.searchParams.set('text', text);
   return url.toString();

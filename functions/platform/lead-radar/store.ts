@@ -1623,7 +1623,11 @@ export class LeadRadarStore {
 
   /** Running contact-mode searches whose remaining pool candidates are not
    * covered by any due job. The cron watchdog feeds these into
-   * refreshSearchFunnel so parking can never freeze a search forever. */
+   * refreshSearchFunnel so parking can never freeze a search forever.
+   * Ordering by pool updated_at (least recently touched first, audit
+   * LR-F-20) rotates the sweep: a search that churns every tick moves to
+   * the back instead of permanently occupying a slot and starving newer
+   * running searches. */
   async listRunningSearchesWithPools(
     limit: number,
     allowOrganization: (orgId: string) => boolean = () => true,
@@ -1631,11 +1635,10 @@ export class LeadRadarStore {
     try {
       const result = await this.db.prepare(`SELECT s.org_id AS org_id, s.id AS search_id
         FROM lead_radar_searches s
-        WHERE s.status = 'running' AND EXISTS (
-          SELECT 1 FROM lead_radar_candidate_pools p
-          WHERE p.org_id = s.org_id AND p.search_id = s.id
-            AND p.candidate_count > COALESCE(p.cursor, 0) AND p.stop_reason IS NULL)
-        ORDER BY s.created_at LIMIT ?`)
+        JOIN lead_radar_candidate_pools p ON p.org_id = s.org_id AND p.search_id = s.id
+        WHERE s.status = 'running' AND p.candidate_count > COALESCE(p.cursor, 0)
+          AND p.stop_reason IS NULL
+        ORDER BY p.updated_at ASC LIMIT ?`)
         .bind(Math.max(1, Math.min(5, Math.trunc(limit)))).all<{ org_id: string; search_id: string }>();
       return (result.results ?? [])
         .filter((row) => allowOrganization(row.org_id))

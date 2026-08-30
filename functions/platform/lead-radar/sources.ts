@@ -1471,7 +1471,7 @@ async function enrichCompanyWebsiteWithBudget(
       return null;
     }
     const pages = [home];
-    let links = sameOriginLinks(home.html, home.url);
+    const links = sameOriginLinks(home.html, home.url);
     if (links.length < CONTACT_PAGE_FETCH_LIMIT) {
       for (const link of await sitemapContactLinks(start, robots, budget)) {
         if (links.length >= CONTACT_PAGE_FETCH_LIMIT) break;

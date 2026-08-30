@@ -466,14 +466,23 @@ function isSafeCampaignTextScalar(character: string): boolean {
 }
 
 export function boundCampaignTemplate(value: string): string {
-  return [...value]
-    .filter(isSafeCampaignTextScalar)
-    .slice(0, LEAD_RADAR_CAMPAIGN_MESSAGE_LIMIT)
-    .join('');
+  // Telegram counts the 4096 limit in UTF-16 code units (audit CP-4): an
+  // astral emoji costs 2 units, so truncation must measure units and never
+  // split a surrogate pair.
+  let units = 0;
+  let bounded = '';
+  for (const character of value) {
+    if (!isSafeCampaignTextScalar(character)) continue;
+    const width = (character.codePointAt(0) ?? 0) > 0xffff ? 2 : 1;
+    if (units + width > LEAD_RADAR_CAMPAIGN_MESSAGE_LIMIT) break;
+    units += width;
+    bounded += character;
+  }
+  return bounded;
 }
 
 export function isCampaignTemplateReady(value: string, hasAttachment = false): boolean {
-  const length = [...value].length;
+  const length = value.length;
   const hasUnsupportedVariable = [...value.matchAll(/\{([^{}]+)\}/gu)]
     .some((match) => match[1] !== 'company_name');
   return [...value].every(isSafeCampaignTextScalar)

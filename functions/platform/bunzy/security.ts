@@ -1,6 +1,6 @@
 const SIGNATURE_PREFIX = 'sha256=';
 
-function hexBytes(value: string): Uint8Array | null {
+function hexBytes(value: string): Uint8Array<ArrayBuffer> | null {
   if (!/^[a-f0-9]{64}$/i.test(value)) return null;
   const bytes = new Uint8Array(32);
   for (let index = 0; index < value.length; index += 2) {

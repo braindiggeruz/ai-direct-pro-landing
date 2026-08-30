@@ -128,13 +128,19 @@ test('campaign policy cannot exceed 30 sends or weaken the 120-second pacing flo
   assert.equal(parseLeadRadarTelegramCampaignMinimumIntervalSeconds('119'), null);
 });
 
-test('campaign template preserves exact text, bounds Unicode code points and substitutes only the allowlisted variable', () => {
-  const astral = '🚀'.repeat(4_097);
-  assert.equal(boundCampaignTemplate(astral), '🚀'.repeat(4_096));
+test('campaign template preserves exact text, bounds the Telegram UTF-16 limit and substitutes only the allowlisted variable', () => {
+  // Telegram counts the 4096/1024 limits in UTF-16 code units (audit CP-4):
+  // an astral emoji costs 2 units, so 2048 rockets fit but 2049 do not.
+  const astral = '🚀'.repeat(2_049);
+  assert.equal(boundCampaignTemplate(astral), '🚀'.repeat(2_048));
+  assert.equal(boundCampaignTemplate('a'.repeat(4_097)), 'a'.repeat(4_096));
+  assert.equal(boundCampaignTemplate('🚀'.repeat(2_048)).length, 4_096);
   assert.equal(isCampaignTemplateReady('  \n'), false);
   assert.equal(isCampaignTemplateReady('  exact {company_name}  '), true);
-  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT), true), true);
-  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT + 1), true), false);
+  assert.equal(isCampaignTemplateReady('е'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT), true), true);
+  assert.equal(isCampaignTemplateReady('е'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT + 1), true), false);
+  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT / 2), true), true);
+  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT / 2 + 1), true), false);
   assert.equal(campaignMessageLimit(true), LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT);
   assert.equal(campaignMessageLimit(false), 4_096);
   assert.equal(isCampaignTemplateReady('  wrong {company}  '), false);

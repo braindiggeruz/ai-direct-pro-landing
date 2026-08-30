@@ -3888,6 +3888,19 @@ export class LeadRadarTelegramCampaignStore {
         SET state = 'ready', reason_code = NULL, blocked_until = NULL, updated_at = ?
         WHERE org_id = ? AND state = 'cooldown' AND blocked_until <= ?`)
         .bind(input.now, orgId, input.now),
+      // Audit LR-F-3: when reconciliation repaired every ambiguous pair with
+      // provider proof, a campaign paused by ambiguous_delivery must not stay
+      // frozen until the operator notices. Auto-resume only when nothing is
+      // left in flight or ambiguous; a true unknown outcome keeps the pause.
+      this.db.prepare(`UPDATE lead_radar_tg_campaigns SET status = 'running',
+          pause_reason = NULL, updated_at = ?, state_version = state_version + 1
+        WHERE org_id = ? AND status = 'paused' AND pause_reason = 'ambiguous_delivery'
+          AND NOT EXISTS (
+            SELECT 1 FROM lead_radar_tg_campaign_recipients recipient
+            WHERE recipient.org_id = lead_radar_tg_campaigns.org_id
+              AND recipient.campaign_id = lead_radar_tg_campaigns.id
+              AND recipient.status IN ('pending', 'claimed', 'dispatching', 'ambiguous'))`)
+        .bind(input.now, orgId),
       this.db.prepare(`UPDATE lead_radar_tg_user_accounts AS account
         SET status = 'connected', updated_at = ?, state_version = state_version + 1
         WHERE account.org_id = ? AND account.status = 'paused'

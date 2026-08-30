@@ -87,7 +87,8 @@ import {
 const ENTITY_ID_PATTERN = /^[A-Za-z0-9:_-]{1,80}$/u;
 const IDEMPOTENCY_KEY_PATTERN = /^[A-Za-z0-9:_-]{8,160}$/u;
 const DIGEST_PATTERN = /^[0-9a-f]{64}$/u;
-const MAX_TEMPLATE_CODE_POINTS = 4_096;
+// Telegram counts the 4096 limit in UTF-16 code units (audit CP-4).
+const MAX_TEMPLATE_UTF16_UNITS = 4_096;
 
 function hasControlCharacters(value: string): boolean {
   return [...value].some((character) => {
@@ -560,7 +561,7 @@ function renderTemplate(template: string, companyName: string): string | null {
         || code === 127
         || (code >= 0xd800 && code <= 0xdfff);
     })
-    && [...rendered].length <= MAX_TEMPLATE_CODE_POINTS
+    && rendered.length <= MAX_TEMPLATE_UTF16_UNITS
     && new TextEncoder().encode(rendered).byteLength <= MAX_TEMPLATE_BYTES
     ? rendered
     : null;

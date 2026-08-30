@@ -102,6 +102,15 @@ export class ContactDiscoveryStore {
     if (!pool || pool.batch_job_id !== job.id || pool.stop_reason || !pool.candidates_json || pool.expires_at <= now) return [];
     return (JSON.parse(pool.candidates_json) as StoredLeadInput[]).slice(pool.batch_start, pool.cursor);
   }
+  /** Audit LR-F-7: a discovery parent that dead-letters while holding a
+   * reserved-but-unpersisted candidate window must hand that window back,
+   * otherwise a replenish job silently skips it. Re-fanout is safe: the
+   * company upsert dedupes by canonical key. */
+  async unreserveBatch(orgId: string, searchId: string, jobId: string, now: string): Promise<void> {
+    await this.db.prepare(`UPDATE lead_radar_candidate_pools SET batch_job_id=NULL,
+      cursor=batch_start, updated_at=?
+      WHERE org_id=? AND search_id=? AND batch_job_id=?`).bind(now,orgId,searchId,jobId).run();
+  }
   async stop(orgId: string, searchId: string, reason: string, now: string): Promise<void> {
     await this.db.prepare(`UPDATE lead_radar_candidate_pools SET stop_reason=?,candidates_json=NULL,updated_at=?
       WHERE org_id=? AND search_id=? AND stop_reason IS NULL`).bind(reason,now,orgId,searchId).run();

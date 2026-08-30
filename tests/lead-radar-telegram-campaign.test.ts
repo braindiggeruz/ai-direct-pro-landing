@@ -1895,6 +1895,69 @@ test('maintenance repairs a sent recipient whose effect lost its guard race to a
   assert.equal(sends, 0);
 });
 
+test('maintenance auto-resumes a campaign paused by ambiguous_delivery once every pair is repaired', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_autoresume', username: 'AutoResumeClinic' });
+  const created = await approvedCampaign(
+    db,
+    ['company_autoresume'],
+    'campaign_autoresume_0001',
+  );
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_autoresume_start', now: NOW,
+  });
+  const claim = await claimNextTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, now: NOW,
+  });
+  assert.ok(claim);
+  // Unknown provider outcome: recipient and effect go ambiguous and the
+  // dispatch layer pauses the campaign (audit LR-F-3 scenario).
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_recipients
+    SET status = 'ambiguous', claim_digest = NULL, lease_expires_at = NULL,
+      completed_at = ?, updated_at = ? WHERE id = ?`)
+    .run(NOW.toISOString(), NOW.toISOString(), claim.recipientId);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_effects
+    SET status = 'ambiguous', completed_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND recipient_id = ?`)
+    .run(NOW.toISOString(), NOW.toISOString(), ORG_A, created.campaign.id, claim.recipientId);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaigns
+    SET status = 'paused', pause_reason = 'ambiguous_delivery', updated_at = ?
+    WHERE id = ?`).run(NOW.toISOString(), created.campaign.id);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_user_accounts
+    SET dispatch_lease_campaign_id = NULL, dispatch_lease_digest = NULL, dispatch_lease_expires_at = NULL
+    WHERE org_id = ?`).run(ORG_A);
+  // A true unknown outcome keeps the pause: nothing was proven delivered.
+  await maintainTelegramCampaigns({ db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 60_000) });
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'paused');
+  assert.equal(db.value(
+    'SELECT pause_reason FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'ambiguous_delivery');
+  // Gateway-ledger proof of delivery arrives: the recipient half becomes
+  // authoritative, maintenance repairs the pair — and must also lift the
+  // pause instead of leaving the campaign frozen until an operator notices.
+  const providerDigest = 'c'.repeat(64);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_recipients
+    SET status = 'sent', provider_message_digest = ?, sent_at = ?, completed_at = ?, updated_at = ?
+    WHERE id = ?`)
+    .run(providerDigest, NOW.toISOString(), NOW.toISOString(), NOW.toISOString(), claim.recipientId);
+  await maintainTelegramCampaigns({ db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 120_000) });
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?', created.campaign.id,
+  ), 'sent');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'running');
+  assert.equal(db.value(
+    'SELECT pause_reason FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), null);
+});
+
 test('maintenance applies new DNC suppression and purges unsent recipient ciphertext', async (t) => {
   const db = database();
   t.after(() => db.sqlite.close());

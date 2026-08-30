@@ -746,9 +746,16 @@ export async function consumeLeadRadarQueueMessage(
     if (recovered === 'retry_wait') {
       return { outcome: 'retry_wait', delaySeconds, retryDelivery: true };
     }
-    return recovered === 'dead_letter'
-      ? { outcome: 'dead_letter', errorCode: 'retry_exhausted' }
-      : { outcome: 'duplicate' };
+    if (recovered === 'dead_letter') {
+      // Audit LR-F-7: a discovery parent that exhausted its attempts while
+      // holding a reserved candidate window must not take that window with
+      // it — hand it back so a replenish job re-serves it.
+      if (known.stage === 'discovery') {
+        await store.contactDiscovery.unreserveBatch(known.orgId, known.searchId, known.id, at.toISOString());
+      }
+      return { outcome: 'dead_letter', errorCode: 'retry_exhausted' };
+    }
+    return { outcome: 'duplicate' };
   }
   const claimed = await store.claimJob(
     known.orgId,
@@ -869,18 +876,33 @@ export async function resumeStalledLeadRadarSearches(
   const store = new LeadRadarStore(db);
   let resumed = 0;
   for (const stalled of await store.listRunningSearchesWithPools(2, allowOrganization)) {
-    // Dead replenish rows from an older code generation would deadlock the
-    // funnel; revive them into a fresh queued generation before re-evaluating.
-    await db.prepare(`UPDATE lead_radar_jobs SET status='queued', attempt_count=0,
-      available_at=?, lease_owner=NULL, lease_expires_at=NULL,
-      dispatch_status='pending', next_dispatch_at=?, completed_at=NULL,
-      last_error_code=NULL, updated_at=?
-      WHERE org_id=? AND search_id=? AND idempotency_key LIKE 'contact-pool:%'
-        AND status='dead_letter'`)
-      .bind(now.toISOString(), now.toISOString(), now.toISOString(),
-        stalled.orgId, stalled.searchId).run();
-    await store.refreshSearchFunnel(stalled.orgId, stalled.searchId, now.toISOString());
-    resumed += 1;
+    // Per-search isolation (audit LR-F-14): one failing search must not
+    // abort the sweep for the remaining stalled searches on this tick.
+    try {
+      // Dead replenish rows from an older code generation would deadlock the
+      // funnel; revive them into a fresh queued generation before re-evaluating.
+      // Audit LR-F-2: the same UPDATE once revives dead contact-resolution
+      // rows created BEFORE the QR-1 regeneration fix — they used to be
+      // uncreatable (ON CONFLICT DO NOTHING) and silently dropped their
+      // companies from the funnel. Resetting created_at re-arms the bounded
+      // 48h window. Rows created after the fix never need revival: they
+      // regenerate on the same row for 48h before dead-lettering, so the
+      // cutoff keeps this strictly one-time without an endless revive loop.
+      await db.prepare(`UPDATE lead_radar_jobs SET status='queued', attempt_count=0,
+        available_at=?, lease_owner=NULL, lease_expires_at=NULL,
+        dispatch_status='pending', next_dispatch_at=?, completed_at=NULL,
+        created_at=?, last_error_code=NULL, updated_at=?
+        WHERE org_id=? AND search_id=? AND status='dead_letter'
+          AND (idempotency_key LIKE 'contact-pool:%'
+            OR (idempotency_key LIKE 'contact-resolve:%'
+              AND created_at < '2026-08-30T00:00:00.000Z'))`)
+        .bind(now.toISOString(), now.toISOString(), now.toISOString(), now.toISOString(),
+          stalled.orgId, stalled.searchId).run();
+      await store.refreshSearchFunnel(stalled.orgId, stalled.searchId, now.toISOString());
+      resumed += 1;
+    } catch {
+      // The next tick retries this search; the sweep must keep going.
+    }
   }
   return resumed;
 }

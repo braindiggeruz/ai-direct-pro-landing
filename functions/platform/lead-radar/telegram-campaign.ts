@@ -39,9 +39,9 @@ export type { TelegramCampaignContactBasis } from './telegram-campaign-store';
 
 const TEXT_ENCODER = new TextEncoder();
 const MAX_SELECTION = 50;
-const MAX_TEMPLATE_CODE_POINTS = 4_096;
+const MAX_TEMPLATE_UTF16_UNITS = 4_096;
 const MAX_TEMPLATE_BYTES = 16_384;
-const MAX_MEDIA_CAPTION_CODE_POINTS = 1_024;
+const MAX_MEDIA_CAPTION_UTF16_UNITS = 1_024;
 const APPROVAL_TTL_MS = 10 * 60_000;
 // The dispatch lease must outlive the whole send boundary (gateway request
 // budget is 125 s, plus decrypt/DNC/media work) so lease recovery can never
@@ -362,10 +362,13 @@ function assertIdempotencyKey(value: string): void {
   if (!IDEMPOTENCY_PATTERN.test(value)) fail('telegram_campaign_invalid_input');
 }
 
-function boundedTemplate(value: string, maxCodePoints = MAX_TEMPLATE_CODE_POINTS): string {
+function boundedTemplate(value: string, maxCodePoints = MAX_TEMPLATE_UTF16_UNITS): string {
   const bytes = TEXT_ENCODER.encode(value);
+  // Telegram's documented 4096/1024 limits count UTF-16 code units, so the
+  // length check must too (audit CP-4): counting code points let emoji-heavy
+  // text pass locally and be rejected by the provider mid-campaign.
   if (value.trim().length === 0
-    || [...value].length > maxCodePoints
+    || value.length > maxCodePoints
     || bytes.byteLength > MAX_TEMPLATE_BYTES
     || [...value].some((character) => {
       const code = character.codePointAt(0) ?? 0;
@@ -381,7 +384,7 @@ function boundedTemplate(value: string, maxCodePoints = MAX_TEMPLATE_CODE_POINTS
 function renderedTemplate(
   template: string,
   companyName: string,
-  maxCodePoints = MAX_TEMPLATE_CODE_POINTS,
+  maxCodePoints = MAX_TEMPLATE_UTF16_UNITS,
 ): string {
   return boundedTemplate(template.replaceAll('{company_name}', companyName), maxCodePoints);
 }
@@ -1487,7 +1490,7 @@ export async function prepareTelegramCampaign(input: {
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
     for (const recipient of selection.verifiedRecipients) {
-      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_CODE_POINTS);
+      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_UTF16_UNITS);
     }
   }
   const bindings = await approvalBindings({
@@ -1641,7 +1644,7 @@ export async function createApprovedTelegramCampaign(input: {
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
     for (const recipient of selection.verifiedRecipients) {
-      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_CODE_POINTS);
+      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_UTF16_UNITS);
     }
   }
   const bindings = await approvalBindings({
@@ -1718,7 +1721,7 @@ export async function createApprovedTelegramCampaign(input: {
     const rendered = renderedTemplate(
       template,
       recipient.name,
-      attachment ? MAX_MEDIA_CAPTION_CODE_POINTS : MAX_TEMPLATE_CODE_POINTS,
+      attachment ? MAX_MEDIA_CAPTION_UTF16_UNITS : MAX_TEMPLATE_UTF16_UNITS,
     );
     const [
       endpointEncrypted,

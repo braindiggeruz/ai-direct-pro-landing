@@ -15,12 +15,10 @@ import {
 } from '../functions/platform/lead-radar';
 import {
   authorizeTelegramCampaignContact,
-  claimNextTelegramCampaignRecipient,
   consumeTelegramCampaignQueueMessage,
   createApprovedTelegramCampaign,
   createTelegramUserAccountPending,
   completeTelegramUserAccountConnection,
-  getTelegramUserAccount,
   maintainTelegramCampaigns,
   prepareTelegramCampaign,
   stageTelegramUserAccountConnection,

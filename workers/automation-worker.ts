@@ -334,6 +334,15 @@ export default {
       }
     } catch { recordLeadRadarFailure('stalled_search_resume', new Error('stalled_search_resume_failed')); }
     try {
+      // Audit QR-10/LR-F-11: without an open admin tab nothing finalized
+      // interrupted searches; cron now closes them server-side.
+      const interruptedStore = new LeadRadarStore(env.GPTBOT_DRAFTS_DB);
+      const staleBefore = new Date(retentionNow.getTime() - 60 * 60_000).toISOString();
+      for (const orgId of telegramCampaignOrganizations(env)) {
+        await interruptedStore.failInterruptedSearches(orgId, staleBefore, retentionNow.toISOString());
+      }
+    } catch { recordLeadRadarFailure('interrupted_searches', new Error('interrupted_searches_failed')); }
+    try {
       if (await hasLeadRadarPersonalDataSchema(env.GPTBOT_DRAFTS_DB)) {
         const retentionDays = parseLeadRadarRetentionDays(env.LEAD_RADAR_PERSONAL_RETENTION_DAYS);
         await new LeadRadarStore(env.GPTBOT_DRAFTS_DB).purgeExpiredPersonalContacts(
@@ -689,8 +698,16 @@ export default {
           if (result.outcome === 'retry_wait') {
             settleLeadRadarRetryWait(message, result);
           } else if (result.outcome === 'dead_letter') {
-            await env.AUTOMATION_DLQ.send(raw);
-            message.ack();
+            // Audit QR-9/LR-F-12: a failed DLQ copy must not be acked away —
+            // retry the delivery so the D1 dead_letter path re-attempts the
+            // DLQ send instead of losing the observability copy.
+            try {
+              await env.AUTOMATION_DLQ.send(raw);
+              message.ack();
+            } catch (dlqError) {
+              recordLeadRadarFailure('dlq_send', dlqError);
+              message.retry({ delaySeconds: 300 });
+            }
           } else {
             // Malformed and duplicate Lead Radar envelopes are acknowledged so
             // one poison message cannot force a whole batch to retry forever.
