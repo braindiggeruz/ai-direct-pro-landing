@@ -2174,6 +2174,18 @@ export default function LeadRadarPage() {
                         <h2 className="text-lg font-semibold text-white">{result.search.input.niche} · {result.search.input.city}</h2>
                         <Badge tone={STATUS_COPY[result.search.status].tone}>{STATUS_COPY[result.search.status].label}</Badge>
                         {pendingSearchInput ? <Badge tone="neutral">Предыдущий результат</Badge> : loading && <Badge tone="neutral">Обновляем…</Badge>}
+                        {result.search.status === 'running' && (
+                          <button type="button" disabled={loading}
+                            onClick={() => { void (async () => {
+                              try {
+                                await api.leadRadarPulseSearch(result.search.id);
+                                setResult(await api.leadRadarSearchResult(result.search.id));
+                              } catch { /* cron watchdog still advances the search */ }
+                            })(); }}
+                            className="min-h-9 rounded-xl border border-brand-cyan/30 px-3 text-xs text-brand-cyan disabled:opacity-50">
+                            ⚡ Обработать партию сейчас
+                          </button>
+                        )}
                       </div>
                       <p className="mt-1 text-xs text-white/55">
                         {result.search.status === 'running'

@@ -858,6 +858,9 @@ export const api = {
   leadRadarConfirmOwnership: (companyId: string) =>
     request<{ confirmed: boolean; reason: string; confirmedEndpoints: number }>('POST',
       '/api/admin/lead-radar/telegram-contacts/confirm-ownership', { companyId }, { timeoutMs: 15_000 }),
+  leadRadarPulseSearch: (searchId: string) =>
+    request<{ ok: true; kicked: number; remaining: number | null; note: string }>('POST',
+      `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}/pulse`, {}, { timeoutMs: 20_000 }),
   leadRadarCampaignPreflight: (companyIds: string[], contactBasis: import('./lead-radar-campaign').LeadRadarCampaignContactBasis | null) =>
     request<import('./lead-radar-campaign').LeadRadarCampaignPreflight>('POST', '/api/admin/lead-radar/telegram-campaigns/preflight',
       { companyIds, contactBasis }, { timeoutMs: 20_000 }),
