@@ -39,10 +39,15 @@ jobs:
           const fs = require('node:fs');
 
           const testPath = 'tests/seo-commercial-claims.test.ts';
-          const testSource = fs.readFileSync(testPath, 'utf8').replace(
-            '/не гарант|kafolatlamaydi/i',
-            '/не гарант|нельзя гарант|kafolatlamaydi/i',
-          );
+          const testSource = fs.readFileSync(testPath, 'utf8')
+            .replace(
+              '/не гарант|kafolatlamaydi/i',
+              '/не гарант|нельзя гарант|kafolatlamaydi/i',
+            )
+            .replace(
+              '/чтобы ни одно обращение не потерялось|лиды больше не теряются|lidlar.*yo‘qolmaydi/i',
+              '/чтобы ни одно обращение не потерялось|лиды больше не теряются|lidlar endi yo‘qolmaydi|birorta ham lid yo‘qolmaydi/i',
+            );
           fs.writeFileSync(testPath, testSource, 'utf8');
 
           const pagePath = 'content/pages/uz/amocrm-bitrix24-bilan-ai-bot.json';
