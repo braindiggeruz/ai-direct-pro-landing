@@ -39,6 +39,44 @@ class WindowsInstallerTests(unittest.TestCase):
         result = self.ps("Add-Type -Path " + quote(WINDOWS / "Native.cs") + "; if(-not ('GPTBotCollector.Native' -as [type])){throw 'missing_type'}")
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def test_native_stderr_classifier_redacts_unknown_and_mixed_output(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        $helper=[GPTBotCollector.Native].GetMethod('ProcessErrorCode',[Reflection.BindingFlags]'NonPublic,Static');
+        function Classify([string]$Text,[int]$Exit=2,[bool]$Timeout=$false){$helper.Invoke($null,[object[]]@($Text,$Exit,$Timeout))};
+        foreach($safe in @('control_unavailable','crawler_unauthorized','extractor_configuration_invalid','collector_configuration_invalid','delivery_rejected')){
+          if((Classify ($safe+"`r`n")) -cne $safe){throw 'safe_code_lost'}
+        };
+        foreach($unsafe in @('https://private.invalid/token','lrcr_synthetic_not_a_real_secret','C:\private\secret',
+            "control_unavailable`nBearer private",'control_unavailable injected','unreviewed_server_error','',
+            (('x'*4096)+'control_unavailable'))){
+          if((Classify $unsafe) -cne 'python_process_failed'){throw 'unsafe_stderr_exposed'};
+          if($null -ne [GPTBotCollector.Native]::SafeRuntimeErrorCode($unsafe)){throw 'unsafe_report_code_exposed'}
+        };
+        if($null -ne (Classify 'control_unavailable' 0)){throw 'success_misclassified'};
+        if((Classify 'private' 2 $true) -cne 'python_process_timeout'){throw 'timeout_not_reported'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_native_child_error_code_is_returned_without_raw_stderr(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;$python=" + quote(sys.executable) + ";"
+        code += r"""
+        $start=[Diagnostics.ProcessStartInfo]::new();$start.FileName=$python;
+        $start.Arguments='-B -c "import sys; sys.stderr.write(''control_unavailable\n''); sys.exit(2)"';
+        $result=[GPTBotCollector.Native]::Run($start,$null,15);
+        if($result.ExitCode -ne 2 -or $result.ErrorCode -cne 'control_unavailable' -or $result.Output -cne ''){throw 'child_safe_error_missing'};
+        if($result.PSObject.Properties['StandardError'] -or $result.PSObject.Properties['ErrorOutput']){throw 'raw_stderr_field_present'};
+        $start.Arguments='-B -c "import sys; sys.stderr.write(''control_unavailable\nprivate-synthetic-data''); sys.exit(2)"';
+        $result=[GPTBotCollector.Native]::Run($start,$null,15);
+        if($result.ErrorCode -cne 'python_process_failed' -or (($result|ConvertTo-Json) -match 'private-synthetic-data')){throw 'child_stderr_leaked'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        wrapper = (WINDOWS / "Run-Collector.ps1").read_text()
+        self.assertIn("$errorCode=$result.ErrorCode", wrapper)
+        self.assertIn("errorCode=$errorCode", wrapper)
+        self.assertNotIn("StandardError", wrapper)
+
     def test_bundle_path_rejects_traversal_streams_devices_absolute_names(self):
         invalid = ["../secret", "app/../secret", "C:/file", "\\\\host\\share", "app/file:stream", "app/NUL.txt",
                    "node/COM1", "python/trailing. ", "other/file", "app/./file", "app/file?name"]

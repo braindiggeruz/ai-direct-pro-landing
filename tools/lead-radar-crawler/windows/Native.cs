@@ -320,13 +320,40 @@ namespace GPTBotCollector {
         }
     }
     public sealed class ProcessResult {
-        public int ExitCode; public string Output; public bool TimedOut, TraverseBypassRemoved;
+        public int ExitCode; public string Output, ErrorCode; public bool TimedOut, TraverseBypassRemoved;
     }
     public sealed class RootDenyResult {
         public bool Changed, LegacyAutoInheritedCleared;
         public int ControlBefore, ControlAfter;
     }
     public static class Native {
+        // Only fixed codes cross the stderr boundary. Never expose lines, paths,
+        // response bodies, exception messages, or an arbitrary code from an API.
+        public static string SafeRuntimeErrorCode(string candidate) {
+            switch(candidate) {
+                case "collector_configuration_invalid": case "control_unavailable":
+                case "control_payload_too_large": case "control_response_too_large":
+                case "invalid_control_response": case "api_redirect_refused": case "api_error":
+                case "invalid_result_ack": case "invalid_claim_response": case "delivery_rejected":
+                case "extractor_configuration_invalid": case "extractor_invalid_identity":
+                case "extractor_invalid_result": case "extractor_input_too_large":
+                case "extractor_output_too_large": case "extractor_unavailable":
+                case "extractor_timeout": case "extractor_failed":
+                case "crawler_unauthorized": case "crawler_disabled": case "crawler_schema_unavailable":
+                case "crawler_internal_error": case "crawler_invalid_body": case "crawler_payload_too_large":
+                case "crawler_invalid_result": case "crawler_lease_lost":
+                case "crawler_identity_changed": case "crawler_receipt_conflict":
+                case "python_process_failed": case "python_process_timeout": case "python_output_invalid":
+                    return candidate;
+                default:return null;
+            }
+        }
+        internal static string ProcessErrorCode(string stderr,int exitCode,bool timedOut) {
+            if(timedOut)return "python_process_timeout";
+            if(exitCode==0)return null;
+            // Exact single-code stderr only; mixed warning/traceback/content is redacted.
+            return SafeRuntimeErrorCode((stderr??"").Trim())??"python_process_failed";
+        }
         [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
         static extern SafeFileHandle CreateFile(string name, uint access, uint share, IntPtr security,
             uint disposition, uint flags, IntPtr template);
@@ -534,7 +561,9 @@ namespace GPTBotCollector {
                     if (!finished) { CloseHandle(job); job=IntPtr.Zero; process.WaitForExit(5000); }
                     Task.WaitAll(new Task[]{output,errors},5000);
                     return new ProcessResult { ExitCode=finished ? process.ExitCode : 124,
-                        TimedOut=!finished, Output=output.IsCompleted ? output.Result : "",TraverseBypassRemoved=requireTraverseRemoved };
+                        TimedOut=!finished, Output=output.IsCompleted ? output.Result : "",
+                        ErrorCode=ProcessErrorCode(errors.IsCompleted?errors.Result:"",finished?process.ExitCode:124,!finished),
+                        TraverseBypassRemoved=requireTraverseRemoved };
                 } finally { if (job!=IntPtr.Zero) CloseHandle(job); }
             }
         }

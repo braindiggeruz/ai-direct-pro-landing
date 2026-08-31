@@ -62,6 +62,26 @@ class WindowsActivationTests(unittest.TestCase):
         self.assertNotIn("EnsureBatchLogonRightOwned", text)
         self.assertLess(text.index("::InspectBatchLogonRightOwned"), text.index("Enable-ScheduledTask"))
 
+    def test_runtime_error_report_accepts_only_fresh_allowlisted_codes(self):
+        code = self.helpers() + r"""Import-CollectorNative;
+        $started=[DateTime]::UtcNow.AddSeconds(-5);
+        $run=[pscustomobject]@{finishedAt=[DateTime]::UtcNow.ToString('o');exitCode=2;status='runtime_error';errorCode='control_unavailable'};
+        if((Get-ActivationRuntimeError $run $started) -cne 'control_unavailable'){throw 'safe_runtime_code_missing'};
+        foreach($unsafe in @('Bearer synthetic-private-value','https://private.invalid','unknown_error',"control_unavailable`nprivate")){
+          $run.errorCode=$unsafe;if($null -ne (Get-ActivationRuntimeError $run $started)){throw 'unsafe_runtime_code_exposed'}
+        };
+        $run.errorCode='crawler_unauthorized';$run.finishedAt=$started.AddSeconds(-1).ToString('o');
+        if($null -ne (Get-ActivationRuntimeError $run $started)){throw 'stale_error_accepted'};
+        $run.finishedAt=[DateTime]::UtcNow.ToString('o');$run.exitCode=0;$run.status='no_job';
+        if($null -ne (Get-ActivationRuntimeError $run $started)){throw 'successful_run_error_accepted'};
+        $run.PSObject.Properties.Remove('errorCode');
+        if($null -ne (Get-ActivationRuntimeError $run $started)){throw 'legacy_report_not_supported'};
+        """
+        self.assert_ps_ok(code)
+        text = SCRIPT.read_text()
+        self.assertIn("runtimeErrorCode=$runtimeErrorCode", text)
+        self.assertNotIn("StandardError", text)
+
     def test_manifest_rejects_different_identity_hash_state_and_missing_proofs(self):
         code = self.helpers() + r"""
         $spec=Get-CollectorSpec;$id='28af57a7-ddf3-481a-ad96-3250fc7d3e9a';$hash='a'*64;

@@ -161,6 +161,16 @@ function Get-ActivationRunOutcome($Run, [DateTime]$StartedUtc) {
     }
 }
 
+function Get-ActivationRuntimeError($Run, [DateTime]$StartedUtc) {
+    $finished=[DateTimeOffset]::MinValue
+    if (-not $Run.PSObject.Properties['errorCode'] -or
+        -not [DateTimeOffset]::TryParse([string]$Run.finishedAt,[ref]$finished) -or
+        $finished.UtcDateTime -lt $StartedUtc -or $finished.UtcDateTime -gt [DateTime]::UtcNow.AddSeconds(30) -or
+        ($Run.exitCode -isnot [int] -and $Run.exitCode -isnot [long]) -or
+        ($Run.exitCode -eq 0 -and $Run.status -cne 'runtime_error')) { return $null }
+    [GPTBotCollector.Native]::SafeRuntimeErrorCode([string]$Run.errorCode)
+}
+
 $stage='load_reviewed_helpers'
 $reportReady=$false
 $manifest=$null
@@ -168,6 +178,7 @@ $manifestOwned=$false
 $taskOwned=$false
 $activationStarted=$false
 $updateSummary=$null
+$runtimeErrorCode=$null
 $report=$null
 $cleanupVerified=$true
 try {
@@ -277,9 +288,15 @@ try {
         if ($task.Settings.Enabled -ne $true) { throw 'task_disabled_during_activation' }
         $freshScheduler=$info.LastRunTime.ToUniversalTime() -ge $startedUtc.AddSeconds(-1)
         if ($freshScheduler -and $task.State -notin @('Running','Queued')) {
-            if ([long]$info.LastTaskResult -ne 0) { throw ('scheduled_run_failed_'+([long]$info.LastTaskResult).ToString()) }
+            if ([long]$info.LastTaskResult -ne 0) {
+                if (Test-Path -LiteralPath $lastRunPath) {
+                    $runtimeErrorCode=Get-ActivationRuntimeError (Read-ActivationJson $lastRunPath 4096) $startedUtc
+                }
+                throw ('scheduled_run_failed_'+([long]$info.LastTaskResult).ToString())
+            }
             if (Test-Path -LiteralPath $lastRunPath) {
                 $candidate=Read-ActivationJson $lastRunPath 4096
+                $runtimeErrorCode=Get-ActivationRuntimeError $candidate $startedUtc
                 try { $outcome=Get-ActivationRunOutcome $candidate $startedUtc; $verifiedRun=$candidate; break }
                 catch { if ($_.Exception.Message -cne 'run_report_not_fresh') { throw } }
             }
@@ -317,14 +334,14 @@ try {
             $manifest.state=$(if ($cleanupVerified) {'activation_failed_disabled'} else {'activation_failed_unknown'})
             $manifest | Add-Member -NotePropertyName activation -NotePropertyValue @{verifiedAt=[DateTime]::UtcNow.ToString('o');
                 localRunVerified=$false;serverAckVerified=$false;failureCode=$failureCode;failureStage=$stage;failureLine=$failureLine;
-                cleanupVerified=$cleanupVerified} -Force
+                runtimeErrorCode=$runtimeErrorCode;cleanupVerified=$cleanupVerified} -Force
             Write-CollectorJson $manifestPath $manifest
         } catch { $cleanupVerified=$false }
     }
     $report=@{activated=$false;taskEnabled=$(if ($taskOwned -and $cleanupVerified) {$false} else {$null});
         activationAttempted=$activationStarted;localRunVerified=$false;serverAckVerified=$false;
         failureCode=$failureCode;failureStage=$stage;failureLine=$failureLine;cleanupVerified=$cleanupVerified;
-        statePreserved=$true;update=$updateSummary}
+        runtimeErrorCode=$runtimeErrorCode;statePreserved=$true;update=$updateSummary}
     if ($reportReady) { try { Write-CollectorJson $ReportPath $report } catch { [Console]::Error.WriteLine('activation_report_write_failed') } }
     $report | ConvertTo-Json -Depth 8
     [Console]::Error.WriteLine('collector_activation_failed')

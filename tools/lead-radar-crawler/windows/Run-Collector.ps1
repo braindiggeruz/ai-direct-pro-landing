@@ -42,7 +42,10 @@ try {
     $result=[GPTBotCollector.Native]::Run($start,$null,240,$true)
     $status=$result.Output.Trim()
     if ($status -notmatch '^(completed|partial|deferred|failed|delivery_waiting|worker_busy|no_job)$') { $status='runtime_error' }
-    Write-CollectorJson (Join-Path $spec.Root 'private\last-run.json') @{finishedAt=[DateTime]::UtcNow.ToString('o');status=$status;exitCode=$result.ExitCode;traverseBypassRemoved=$result.TraverseBypassRemoved}
+    $errorCode=$result.ErrorCode
+    if ($status -eq 'runtime_error' -and $null -eq $errorCode) { $errorCode='python_output_invalid' }
+    Write-CollectorJson (Join-Path $spec.Root 'private\last-run.json') @{finishedAt=[DateTime]::UtcNow.ToString('o');status=$status;
+        exitCode=$result.ExitCode;errorCode=$errorCode;traverseBypassRemoved=$result.TraverseBypassRemoved}
     $start.EnvironmentVariables.Remove('CRAWLER_TOKEN')
     $token=$null
     exit $result.ExitCode

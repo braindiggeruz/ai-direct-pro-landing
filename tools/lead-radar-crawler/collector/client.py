@@ -17,6 +17,7 @@ from .state import StateStore
 from .transport import FetchError, normalize_url, retry_after_deadline
 
 _TERMINAL_CONFLICTS = {"crawler_lease_lost", "crawler_identity_changed", "crawler_receipt_conflict"}
+CONTROL_USER_AGENT = "GPTBotLeadRadarCollector/2.0 (+https://gptbot.uz)"
 
 
 class ApiError(Exception):
@@ -56,6 +57,7 @@ class ApiClient:
             raise ApiError(0, "control_payload_too_large")
         request = Request(self.base + "/" + route, data=data, method="POST", headers={
             "Authorization": "Bearer " + self.token, "Content-Type": "application/json", "Accept": "application/json",
+            "User-Agent": CONTROL_USER_AGENT,
         })
         try:
             with self.opener.open(request, timeout=15) as response:
