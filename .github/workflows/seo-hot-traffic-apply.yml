@@ -1,0 +1,108 @@
+name: seo-hot-traffic-apply
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: seo-hot-traffic-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  apply-verify-commit:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out the PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Apply the reviewed SEO transformations
+        run: node .github/scripts/apply-seo-hot-traffic.mjs
+
+      - name: Remove one-shot automation files from the final branch
+        run: git rm .github/scripts/apply-seo-hot-traffic.mjs .github/workflows/seo-hot-traffic-apply.yml
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run commercial-claim regression gate
+        run: npm run test:seo-commercial-claims
+
+      - name: Run SEO audit
+        run: npm run seo:audit
+
+      - name: Run link, demand, intent, cluster and canonical gates
+        run: |
+          npm run test:seo-links
+          npm run test:seo-demand
+          npm run test:seo-intent
+          npm run test:seo-cluster
+          npm run test:canonical
+
+      - name: Type-check
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npx tsc -b
+
+      - name: Build and prerender the complete site
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npm run build
+
+      - name: Scan tracked content for secrets
+        run: npm run scan:secrets
+
+      - name: Validate the patch
+        run: |
+          git diff --check
+          node -e "for (const f of process.argv.slice(1)) JSON.parse(require('node:fs').readFileSync(f, 'utf8'))" \
+            content/pages/ru/internet-reklama-tashkent.json \
+            content/pages/ru/otzyvy.json \
+            content/pages/uz/sharhlar.json \
+            content/pages/ru/stoimost-chat-bota.json \
+            content/pages/uz/chat-bot-narxi.json \
+            content/pages/ru/ai-bot-s-crm-amocrm-bitrix24.json \
+            content/pages/uz/amocrm-bitrix24-bilan-ai-bot.json
+
+      - name: Commit the verified implementation to the PR branch
+        env:
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+        run: |
+          git config user.name "GPTBot SEO CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add \
+            package.json \
+            tests/seo-commercial-claims.test.ts \
+            docs/seo/RELEASE_2026-08-31_HOT_TRAFFIC_FOUNDATION.md \
+            content/pages/ru/internet-reklama-tashkent.json \
+            content/pages/ru/kontekstnaya-reklama-tashkent.json \
+            content/pages/ru/targetirovannaya-reklama-tashkent.json \
+            content/pages/ru/telegram-ads-uzbekistan.json \
+            content/pages/ru/smm-prodvizhenie-tashkent.json \
+            content/pages/ru/performance-marketing-tashkent.json \
+            content/pages/uz/internet-reklama-toshkent.json \
+            content/pages/uz/telegram-reklama.json \
+            content/pages/uz/smm-xizmatlari.json \
+            content/pages/ru/otzyvy.json \
+            content/pages/uz/sharhlar.json \
+            content/pages/ru/stoimost-chat-bota.json \
+            content/pages/uz/chat-bot-narxi.json \
+            content/pages/ru/ai-bot-s-crm-amocrm-bitrix24.json \
+            content/pages/uz/amocrm-bitrix24-bilan-ai-bot.json
+          git diff --cached --stat
+          git commit -m "feat(seo): strengthen hot-traffic conversion foundation"
+          git push origin "HEAD:${GITHUB_HEAD_REF}"
