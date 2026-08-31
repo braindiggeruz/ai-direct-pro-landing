@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState }
 import type { LeadRadarLead } from '../../../shared/lead-radar';
 import { api } from '../../lib/api';
 import { describeCampaignFailure } from '../../lib/campaign-diagnostics';
-import { contactCheckCompleted, contactCheckExplanation, readContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, selectedContactCheckJobs } from '../../lib/campaign-contact-checks';
+import { contactCheckCompleted, contactCheckExplanation, planContactSourceRetry, readContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, scheduleContactSourceRetry, selectedContactCheckJobs, type ContactSourceRetry } from '../../lib/campaign-contact-checks';
 import type { LeadRadarCampaignContactBasis, LeadRadarCampaignPreflight } from '../../lib/lead-radar-campaign';
 import { Button } from '../ui';
 
@@ -20,6 +20,7 @@ const REASONS: Record<string, string> = {
   account_safety_cooldown: 'Аккаунт ожидает окончания паузы Telegram', account_safety_restricted: 'Аккаунт ограничен Telegram',
   account_safety_review_required: 'Требуется сверка предыдущей доставки',
   business_listing_unavailable: 'Источник номера временно недоступен; проверка сохранена, повторите позже',
+  business_listing_rate_limited: 'OpenStreetMap временно ограничил запросы (429); это не отказ Telegram',
   business_listing_changed: 'В публичной карточке изменились данные компании или номер',
   source_checks_deferred: 'Недоступный источник отложен. Остальные доступные контакты проверены; отложенные не допущены к отправке',
 };
@@ -37,16 +38,30 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
   const [busy, setBusy] = useState<'contacts' | 'snapshot' | null>(null);
   const [snapshot, setSnapshot] = useState<LeadRadarCampaignPreflight | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [sourceRetry, setSourceRetry] = useState<(ContactSourceRetry & { selectionKey: string }) | null>(null);
+  const [clock, setClock] = useState(Date.now);
+  const resumeSourceChecks = useRef<(attempts: number) => void>(() => {});
   const cancel = useRef(false);
   const mounted = useRef(true);
   const busyRef = useRef(false);
   const generation = useRef(0);
   const signature = JSON.stringify([scope, leads.map((lead) => [lead.id, lead.telegramContact?.verifiedAt,
     lead.contactCandidates?.map((candidate) => [candidate.key, candidate.resolution])]), excludedIds, basis, revision]);
+  // Evidence/receipt updates don't change the user's selection or cancel a
+  // scheduled continuation. Changing the audience or candidates always does.
+  const selectionKey = JSON.stringify([scope, jobs.map(job => [job.searchId, job.companyId, job.candidateKeys])]);
   const current = useRef({ onUpdated, onSnapshot, onSelectReady }); current.current = { onUpdated, onSnapshot, onSelectReady };
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; cancel.current = true; }; }, []);
   useEffect(() => { generation.current += 1; cancel.current = true; setSnapshot(null); current.current.onSnapshot(null); }, [signature]);
   useEffect(() => { setProgress(readContactCheckProgress(scope)); }, [scope]);
+  useEffect(() => {
+    if (!sourceRetry) return;
+    if (sourceRetry.selectionKey !== selectionKey || disabled || !canCheck) { setSourceRetry(null); return; }
+    return scheduleContactSourceRetry({ retry: sourceRetry, ready: () => mounted.current && !busyRef.current,
+      tick: setClock, resume: attempts => { setSourceRetry(null); resumeSourceChecks.current(attempts); },
+      interval: (callback, ms) => window.setInterval(callback, ms), clear: timer => window.clearInterval(timer),
+    });
+  }, [sourceRetry, selectionKey, disabled, canCheck]);
   const remaining = jobs.filter((job) => !contactCheckCompleted(job,progress)).length;
   async function readSnapshot(version: number): Promise<LeadRadarCampaignPreflight | null> {
     const result: LeadRadarCampaignPreflight = { checkedAt: '', blockers: [], selection: { selected: 0, automatic: 0, manual: 0, excluded: 0, verified: 0, verifiedCompanyIds: [], automaticCompanyIds: [], items: [] } };
@@ -94,8 +109,9 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
   // One no-send workflow. It never trims the audience or creates authorization.
-  useImperativeHandle(ref, () => ({ cancel: () => { cancel.current = true; setNotice('Приостанавливаем после текущей проверки. Результаты сохраняются.'); }, prepare: async () => {
+  useImperativeHandle(ref, () => ({ cancel: () => { cancel.current = true; setSourceRetry(null); setNotice('Приостанавливаем после текущей проверки. Результаты сохраняются.'); }, prepare: async () => {
     if (busyRef.current || !leads.length) return null;
+    setSourceRetry(null);
     busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null);
     setSnapshot(null); current.current.onSnapshot(null);
     const version = generation.current;
@@ -119,27 +135,32 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
       return null;
     } finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   } }));
-  async function checkContacts(recheck = false) {
-    if (busyRef.current || !canCheck) return;
+  async function checkContacts(recheck = false, autoAttempts = 2) {
+    if (busyRef.current || !canCheck || disabled) return;
+    setSourceRetry(null);
     busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null); setSnapshot(null); current.current.onSnapshot(null);
     const version = generation.current;
     let checksSaved = false;
     try {
       const startingProgress = recheck ? restartContactCheckProgress(progress) : progress;
       if (recheck) { saveContactCheckProgress(scope, startingProgress); setProgress(startingProgress); }
-      const next = await runSelectedContactChecks({ jobs, progress: startingProgress, cancelled: () => cancel.current || !mounted.current,
+      const next = await runSelectedContactChecks({ jobs, progress: startingProgress, cancelled: () => cancel.current || !mounted.current || version !== generation.current,
         resolve: (job, key) => api.leadRadarResolveContact(job.searchId, job.companyId, key),
         wait: (ms) => new Promise((resolve) => window.setTimeout(resolve, ms)),
         save: (value) => { saveContactCheckProgress(scope, value); if (mounted.current) setProgress(value); },
       });
       checksSaved = true;
-      if (mounted.current) {
+      if (mounted.current && version === generation.current) {
+        if (!cancel.current) {
+          const retry = planContactSourceRetry(next, autoAttempts);
+          if (retry) { setClock(Date.now()); setSourceRetry({ ...retry, selectionKey }); }
+        }
         if ((!next.reason || next.reason==='source_checks_deferred') && !cancel.current) {
           const strict = await readSnapshot(version);
           if (strict) {
             setSnapshot(strict); current.current.onSnapshot(strict);
             setNotice(next.reason==='source_checks_deferred'
-              ? `${REASONS.source_checks_deferred}. Подтверждены Telegram: ${strict.selection.verified}. Повторная проверка источника — не раньше ${new Date(next.sourcePauses?.openstreetmap?.until??0).toLocaleTimeString('ru-RU')}.`
+              ? `${REASONS[next.sourcePauses?.openstreetmap?.reason ?? ''] ?? REASONS.source_checks_deferred}. Подтверждены Telegram: ${strict.selection.verified}. Уже проверенные компании не теряются.${autoAttempts === 0 ? ' Две автоматические попытки использованы; источник всё ещё недоступен. Позже нажмите «Продолжить проверку».' : ''}`
               : `Проверка завершена: подтверждены Telegram-контакты (${strict.selection.verified}). Состав аудитории сохранён. Сообщения не отправлялись.`);
           }
         } else setNotice(next.reason ? `Проверка приостановлена: ${REASONS[next.reason] ?? next.reason}.${next.pausedUntil > Date.now() ? ` Повторить не раньше ${new Date(next.pausedUntil).toLocaleTimeString('ru-RU')}.` : ''} Результаты сохранены.`
@@ -151,13 +172,18 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
       : 'Проверка прервана. Результаты сохранены; продолжите после восстановления соединения.')); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
+  useEffect(() => { resumeSourceChecks.current = attempts => { void checkContacts(false, attempts); }; });
   return <section className="mt-4 space-y-3 rounded-xl border border-brand-cyan/20 p-3" aria-label="Проверка выбранных получателей">
     <h4 className="font-semibold text-white">Готовность выбранных контактов</h4>
     <p className="text-xs leading-5 text-white/70">Мобильные номера с сайта или подтверждённой публичной карточки компании проверяются в Telegram, даже без username. Старые карточки сверяются заново. Проверка не отправляет сообщения и не создаёт согласие. Стационарные и личные номера исключены; лимиты сохраняются.</p>
     <div className="flex flex-wrap gap-2">
-      <Button type="button" variant="secondary" disabled={disabled || busy === 'snapshot' || (!busy && (!canCheck || !remaining))}
-        onClick={() => { if (busy === 'contacts') { cancel.current = true; setNotice('Останавливаем после текущей проверки…'); } else void checkContacts(); }} className="min-h-12">
-        {busy === 'contacts' ? 'Приостановить проверку' : `Проверить контакты (${remaining})`}
+      <Button type="button" variant="secondary" disabled={disabled || busy === 'snapshot' || (!busy && !sourceRetry && (!canCheck || !remaining))}
+        onClick={() => {
+          if (sourceRetry) { setSourceRetry(null); setNotice('Автопродолжение остановлено. Результаты сохранены; можно продолжить вручную после окончания паузы источника.'); }
+          else if (busy === 'contacts') { cancel.current = true; setNotice('Останавливаем после текущей проверки…'); }
+          else void checkContacts();
+        }} className="min-h-12">
+        {sourceRetry ? 'Остановить ожидание' : busy === 'contacts' ? 'Приостановить проверку' : `${progress.reason === 'source_checks_deferred' ? 'Продолжить проверку' : 'Проверить контакты'} (${remaining})`}
       </Button>
       {remaining === 0 && jobs.length > 0 && <Button type="button" variant="secondary" className="min-h-12"
         disabled={disabled || busy !== null || !canCheck} onClick={() => void checkContacts(true)}>
@@ -168,6 +194,10 @@ export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
       </Button>
     </div>
     <p role="status" className="text-xs leading-5 text-white/70">Проверено в этом списке: {jobs.filter((job) => contactCheckCompleted(job,progress)).length}/{jobs.length}. Осталось: {remaining}. После обновления страницы нажмите проверку снова — завершённые компании будут пропущены.</p>
+    {sourceRetry && <div className="rounded-lg border border-brand-cyan/20 p-3 text-sm text-white/80">
+      <p>Продолжим автоматически в {new Date(sourceRetry.deadline).toLocaleTimeString('ru-RU')} — осталось {Math.max(0, Math.ceil((sourceRetry.deadline - clock) / 1000))} сек.</p>
+      <p className="mt-1 text-xs">Оставьте эту вкладку открытой. Осталось автоматических попыток: {sourceRetry.remainingAttempts + 1}. Проверенные компании пропустим; сообщения не отправляются. Смена аудитории или кнопка остановки отменяет ожидание.</p>
+    </div>}
     {notice && <p role="status" className="text-sm leading-6 text-amber-100">{notice}</p>}
     {snapshot && <div className="space-y-2 text-sm" aria-live="polite">
       <p>Telegram подтверждён Bridge: <strong>{snapshot.selection.verified}</strong> · Допущены для авто: {snapshot.selection.automatic} · Нужна проверка/основание: {snapshot.selection.manual} · Пока не допущены: {snapshot.selection.excluded}.</p>

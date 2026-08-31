@@ -4,6 +4,7 @@ export function contactResolutionCopy(result: TelegramContactResolution): string
   if (result.reason === 'username_exists_ownership_unconfirmed') return `${result.username ? `Аккаунт @${result.username}` : 'Аккаунт'} найден, но принадлежность компании ещё не подтверждена. Откройте источник и подтвердите его ниже. Отправка недоступна.`;
   if (result.status === 'resolved') return `${result.username ? `Telegram найден: @${result.username}` : 'Telegram найден по номеру, без публичного username'}. Отправка не запускалась; основание для контакта проверяется отдельно.`;
   if (result.status === 'pending') return 'Ждём ответ Bridge. Ничего не отправляем.';
+  if (result.reason === 'business_listing_rate_limited') return `OpenStreetMap ограничил запросы (429). Telegram ещё не проверен. Проверка источника доступна не раньше чем через ${result.retryAfterSeconds ?? 900} сек.; найденные данные сохранены.`;
   if (result.reason === 'business_listing_unavailable') return `Карточка компании в источнике временно недоступна. Это не означает, что Telegram отсутствует. Повторная проверка — не раньше чем через ${result.retryAfterSeconds ?? 900} сек.; независимые источники можно проверять отдельно.`;
   if (result.reason === 'bridge_update_required') return 'Нужно обновить локальный Bridge до 1.5.0.';
   if (result.reason === 'bridge_offline') return 'Bridge не в сети. Запустите программу на компьютере; результат Telegram пока неизвестен.';

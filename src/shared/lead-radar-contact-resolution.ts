@@ -8,6 +8,10 @@ export interface TelegramContactResolution {
   retryAfterSeconds: number | null;
 }
 
+export function isBusinessListingUnavailable(reason: string): boolean {
+  return reason === 'business_listing_unavailable' || reason === 'business_listing_rate_limited';
+}
+
 /** Older Bridge clients used unresolved for transport errors. These are not
  * negative account lookups: keep them retryable without changing privacy results. */
 export function normalizeTelegramContactResolution(result: TelegramContactResolution): TelegramContactResolution {

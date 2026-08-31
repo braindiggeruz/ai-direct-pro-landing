@@ -87,7 +87,7 @@ export async function refreshOsmBusinessPhone(input: {
       const raw=response.headers.get('retry-after');
       const seconds=raw && /^\d+$/.test(raw) ? Number(raw) : raw ? Math.ceil((Date.parse(raw)-Date.parse(now))/1000) : 900;
       const retry=Number.isFinite(seconds)?Math.min(2147483647,Math.max(900,seconds)):900;
-      await response.body?.cancel(); return failure('business_listing_unavailable',true,retry);
+      await response.body?.cancel(); return failure(response.status===429?'business_listing_rate_limited':'business_listing_unavailable',true,retry);
     }
     const reader=response.body?.getReader(); if (!reader) return failure('business_listing_unavailable',true);
     let size=0;const parts:Uint8Array[]=[];

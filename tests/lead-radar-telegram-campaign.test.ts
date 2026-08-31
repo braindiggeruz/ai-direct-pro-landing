@@ -451,7 +451,7 @@ test(`legacy collection date cannot be inferred from ${scenario}`,async()=>{
   const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
     candidateKey:'phone:+998901234567',now:NOW.toISOString(),fetch:async()=>{reads++;return new Response('',{status:429,headers:{'Retry-After':'900'}});},
     resolve:async()=>{lookups++;throw new Error('no proof');}});
-  assert.equal(result.reason,'business_listing_unavailable');assert.equal(reads,1);assert.equal(lookups,0);
+  assert.equal(result.reason,'business_listing_rate_limited');assert.equal(reads,1);assert.equal(lookups,0);
   assert.equal(db.value("SELECT observed_at FROM lead_radar_evidence WHERE id='map-phone'"),'2026-03-07T19:11:44.000Z');
 });
 
@@ -506,6 +506,20 @@ for (const scenario of ['changed-phone','changed-name','removed','redirect','rat
     assert.deepEqual(next,{pending:true,retryAfterSeconds:3599});
   }
   assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE observed_at=?",NOW.toISOString()),0);
+});
+
+for(const reason of ['business_listing_unavailable','business_listing_rate_limited','flood_wait'])test(`next candidate scopes the ${reason} receipt correctly`,async()=>{
+  const db=database();mappedPhoneFixture(db,true);setVerifiedCorporateDomain(db,'mapped','mapped.example');
+  const account=await connectedAccount(db);
+  const input={db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,now:NOW.toISOString()};
+  await checkCorporateTelegramContact({...input,candidateKey:'phone:+998901234567',
+    resolve:async()=>({status:'limited',reason,username:null,retryAfterSeconds:900})});
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES('independent-username',?,'mapped','web.telegram.unknown','https://t.me/mapped_company','https://mapped.example/contact','company_website',?,.95,'fact')`).run(ORG_A,NOW.toISOString());
+  const next=await nextTelegramContactCandidate(input);
+  if(reason==='flood_wait'){assert.equal(next.candidateKey,undefined);assert.equal(next.pending,true);assert.ok(next.retryAfterSeconds!>0);}
+  else assert.deepEqual(next,{candidateKey:'telegram:https://t.me/mapped_company',pending:true});
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_contact_checks WHERE status='resolved'"),0);
 });
 
 test('a freshly matched mapped mobile skips network revalidation but still requires Telegram lookup',async()=>{

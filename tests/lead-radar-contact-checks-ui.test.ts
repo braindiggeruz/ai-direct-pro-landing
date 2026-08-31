@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { contactCheckExplanation, emptyContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, selectedContactCheckJobs } from '../src/admin/lib/campaign-contact-checks';
+import { contactCheckExplanation, emptyContactCheckProgress, planContactSourceRetry, readContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, scheduleContactSourceRetry, selectedContactCheckJobs } from '../src/admin/lib/campaign-contact-checks';
 import type { LeadRadarLead } from '../src/shared/lead-radar';
 import { contactCandidatesForLead } from '../functions/platform/lead-radar/contact-candidates';
 import { contactResolutionCopy, ownershipConfirmationCopy } from '../src/admin/lib/contact-candidate-feedback';
@@ -22,6 +22,7 @@ test('contact feedback distinguishes source outages, Telegram privacy and transp
   const result={status:'limited' as const,username:null,reason:'business_listing_unavailable',retryAfterSeconds:900};
   assert.match(contactResolutionCopy(result),/источнике временно недоступна/);
   assert.doesNotMatch(contactResolutionCopy(result),/Telegram ограничил/);
+  assert.match(contactResolutionCopy({...result,reason:'business_listing_rate_limited'}),/OpenStreetMap.*429/);
   assert.match(contactResolutionCopy({...result,status:'unresolved',reason:'privacy_or_missing'}),/может быть скрыт/);
   assert.match(contactResolutionCopy({...result,status:'failed',reason:'telegram_timeout'}),/Результат неизвестен/);
   assert.match(contactResolutionCopy({...result,status:'resolved',reason:'regular_user_resolved',peerRef:'lrpeer:fixture'}),/без публичного username/);
@@ -43,6 +44,55 @@ test('mapped public mobile enters the same UI checker without a website or Teleg
   assert.deepEqual(selectedContactCheckJobs([lead]),[{companyId:'mapped',searchId:'search',candidateKeys:['phone:+998901234567'],sourceByCandidate:{'phone:+998901234567':'openstreetmap'}}]);
   assert.match(contactCheckExplanation(lead,emptyContactCheckProgress())!,/ещё не завершена/);
   assert.match(contactCheckExplanation(lead,{...emptyContactCheckProgress(),completed:['mapped'],outcomes:{mapped:{reason:'privacy_or_missing',status:'unresolved'}}})!,/приватности/);
+  const now=Date.parse('2026-08-31T00:00:00Z');
+  for(const item of lead.evidence)item.observedAt=new Date(now).toISOString();
+  assert.equal(selectedContactCheckJobs([lead],[],now)[0].sourceByCandidate,undefined,'fresh proof still checked on server but needs no OSM request');
+  lead.evidence[0].observedAt=new Date(now-31*86400_000).toISOString();
+  assert.equal(selectedContactCheckJobs([lead],[],now)[0].sourceByCandidate?.['phone:+998901234567'],'openstreetmap','one stale proof requires a source read');
+  lead.evidence[0].observedAt=new Date(now+301_000).toISOString();
+  assert.ok(selectedContactCheckJobs([lead],[],now)[0].sourceByCandidate,'future proof cannot bypass scheduling');
+  lead.evidence.shift();
+  assert.ok(selectedContactCheckJobs([lead],[],now)[0].sourceByCandidate,'missing proof remains source-dependent');
+});
+
+test('source continuation is bounded to two attempts and never auto-retries Telegram/account failures',()=>{
+  const progress={...emptyContactCheckProgress(),reason:'source_checks_deferred',sourcePauses:{openstreetmap:{until:901000,reason:'business_listing_rate_limited'}}};
+  const first=planContactSourceRetry(progress,2,1000);assert.deepEqual(first,{deadline:901000,remainingAttempts:1});
+  const second=planContactSourceRetry({...progress,sourcePauses:{openstreetmap:{until:1801000,reason:'business_listing_unavailable'}}},first!.remainingAttempts,902000);
+  assert.deepEqual(second,{deadline:1801000,remainingAttempts:0});
+  assert.equal(planContactSourceRetry(progress,second!.remainingAttempts,1802000),null);
+  assert.equal(planContactSourceRetry({...progress,pausedUntil:2000},2,1000),null);
+  for(const reason of ['flood_wait','account_safety_cooldown','waiting_for_bridge','invalid_bridge_response',null])
+    assert.equal(planContactSourceRetry({...progress,reason},2,1000),null);
+  assert.equal(planContactSourceRetry({...progress,sourcePauses:undefined},2,1000),null);
+  assert.equal(planContactSourceRetry(progress,Infinity,1000),null);
+});
+
+test('source timer respects retry-after, waits for idle and fires only once; cancel/unmount prevents resume',()=>{
+  let now=1000,ready=true,callback=()=>{},cleared=0,resumed=0;
+  const start=()=>scheduleContactSourceRetry({retry:{deadline:5000,remainingAttempts:1},now:()=>now,ready:()=>ready,tick:()=>{},
+    resume:attempts=>{assert.equal(attempts,1);resumed++;},interval:cb=>{callback=cb;return 1;},clear:()=>{cleared++;}});
+  start();now=4999;callback();assert.equal(resumed,0);
+  ready=false;now=5000;callback();assert.equal(resumed,0);
+  ready=true;callback();callback();assert.equal(resumed,1);assert.equal(cleared,1);
+  const stop=start();stop();callback();assert.equal(resumed,1,'cleanup for cancel, scope change and unmount cannot dispatch');
+});
+
+test('rate-limited source persists separately and cached independent contacts still reach server verification',async()=>{
+  const store=new Map<string,string>();
+  const original=globalThis.sessionStorage;
+  Object.defineProperty(globalThis,'sessionStorage',{configurable:true,value:{setItem:(key:string,value:string)=>store.set(key,value),getItem:(key:string)=>store.get(key)??null}});
+  try {
+    const progress={...emptyContactCheckProgress(),reason:'source_checks_deferred',sourcePauses:{openstreetmap:{until:Date.now()+900_000,reason:'business_listing_rate_limited'}}};
+    saveContactCheckProgress('fixture',progress);
+    const stored=readContactCheckProgress('fixture');assert.deepEqual(stored.sourcePauses,progress.sourcePauses);
+    const calls:string[]=[];
+    const result=await runSelectedContactChecks({jobs:[{companyId:'stale',searchId:'s',candidateKeys:['p'],sourceByCandidate:{p:'openstreetmap'}},
+      {companyId:'fresh',searchId:'s',candidateKeys:['p']}],progress:stored,cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async job=>{
+        calls.push(job.companyId);return {status:'unresolved',reason:'privacy_or_missing',username:null,retryAfterSeconds:null};}});
+    assert.deepEqual(calls,['fresh']);assert.deepEqual(result.completed,['fresh']);assert.deepEqual(result.resolved,[]);
+    assert.equal(result.reason,'source_checks_deferred');
+  } finally {Object.defineProperty(globalThis,'sessionStorage',{configurable:true,value:original});}
 });
 
 test('UI contact checker continues after an ownership-unconfirmed username to the corporate candidate', async () => {
@@ -85,7 +135,7 @@ test('a new mobile candidate reopens a previously completed company check',async
   assert.deepEqual(calls,['old','mobile']);assert.deepEqual(result.resolved,['company']);assert.deepEqual(result.completed,['company']);
 });
 
-test('one unavailable source defers its other phones but continues independent company contacts',async()=>{
+for(const reason of ['business_listing_unavailable','business_listing_rate_limited'])test(`${reason} defers source phones but continues independent company contacts`,async()=>{
   const calls:string[]=[];
   const jobs=[{companyId:'map1',searchId:'s',candidateKeys:['phone'],sourceByCandidate:{phone:'openstreetmap' as const}},
     {companyId:'map2',searchId:'s',candidateKeys:['phone'],sourceByCandidate:{phone:'openstreetmap' as const}},
@@ -93,7 +143,7 @@ test('one unavailable source defers its other phones but continues independent c
   const progress=await runSelectedContactChecks({jobs,progress:emptyContactCheckProgress(),now:()=>1000,
     cancelled:()=>false,save:()=>{},wait:async()=>{},resolve:async(job)=>{
       calls.push(job.companyId);return job.companyId==='map1'
-        ? {status:'limited',reason:'business_listing_unavailable',username:null,retryAfterSeconds:900}
+        ? {status:'limited',reason,username:null,retryAfterSeconds:900}
         : {status:'resolved',reason:'regular_user_resolved',username:'official_company',retryAfterSeconds:null};
     }});
   assert.deepEqual(calls,['map1','official']);assert.deepEqual(progress.completed,['official']);

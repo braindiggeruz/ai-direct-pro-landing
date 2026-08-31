@@ -1,7 +1,7 @@
 import type { LeadRadarEvidence, LeadRadarTelegramContact } from '../../../src/shared/lead-radar';
 import type { LeadRadarContactCandidate } from '../../../src/shared/lead-radar-contacts';
 import { assessLeadRadarPhone, parseLeadRadarTelegramLocator } from '../../../src/shared/lead-radar-contacts';
-import { normalizeTelegramContactResolution, validTelegramContactResolution, type TelegramContactResolution, type TelegramContactTarget } from '../../../src/shared/lead-radar-contact-resolution';
+import { isBusinessListingUnavailable, normalizeTelegramContactResolution, validTelegramContactResolution, type TelegramContactResolution, type TelegramContactTarget } from '../../../src/shared/lead-radar-contact-resolution';
 import { contactCandidatesForLead } from './contact-candidates';
 import { contactDiscoverySchemaReady } from './contact-discovery-store';
 import { loadContactEnrichments } from './contact-source-store';
@@ -240,7 +240,11 @@ export async function nextTelegramContactCandidate(input: {db:D1Database;orgId:s
     const result=row ? parseResult(row) : null;
     if (!result || result.status==='pending') return {candidateKey:candidate.key,pending:true};
     if (result.status==='resolved' && candidate.ownership==='company') return {pending:false};
-    if (result.status==='limited') return {pending:true,retryAfterSeconds:Math.max(3,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000))};
+    if (result.status==='limited') {
+      const retry=Math.max(3,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000));
+      if (!isBusinessListingUnavailable(result.reason)) return {pending:true,retryAfterSeconds:retry};
+      retryAfterSeconds=Math.max(retryAfterSeconds??0,retry);
+    }
     if (result.status==='failed') retryAfterSeconds=Math.max(retryAfterSeconds ?? 0,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000));
   }
   return retryAfterSeconds===undefined ? {pending:false} : {pending:true,retryAfterSeconds};
