@@ -5,7 +5,8 @@ Import-Module (Join-Path $script:CollectorSystemDirectory 'WindowsPowerShell\v1.
 
 function Get-CollectorSpec {
     [pscustomobject]@{ Root='C:\ProgramData\GPTBot\LeadRadarCollector'; User='GPTBotCollector';
-        TaskName='LeadRadarCollector'; TaskPath='\GPTBot\'; Schema='gptbot.lead-radar.windows.v1' }
+        # ScheduledTasks cmdlets use a trailing separator; COM GetFolder explicitly forbids it.
+        TaskName='LeadRadarCollector'; TaskPath='\GPTBot\'; TaskFolderPath='\GPTBot'; Schema='gptbot.lead-radar.windows.v1' }
 }
 
 function Assert-CollectorRelativePath([string]$Path) {

@@ -120,6 +120,19 @@ namespace GPTBotCollector {
             RequireSuccess(NetUserSetInfo(null,Name,1008,ref info,out parameterError),"local_account_disable");
             if ((RequireOwned(sid,installationId).Flags&0x2)==0) throw new InvalidOperationException("account_disable_readback_failed");
         }
+        // Credential-preserving finalization only: no password/profile/DPAPI changes.
+        public static void EnableOwned(string sid,string installationId) {
+            var account=RequireOwned(sid,installationId);
+            if (IsMemberOfBuiltin("S-1-5-32-544") || !IsMemberOfBuiltin("S-1-5-32-545"))
+                throw new InvalidOperationException("collector_membership_invalid");
+            var info=new UserInfo1008 { Flags=account.Flags&~0x2u };uint parameterError;
+            RequireSuccess(NetUserSetInfo(null,Name,1008,ref info,out parameterError),"local_account_enable");
+            if ((RequireOwned(sid,installationId).Flags&0x2)!=0) throw new InvalidOperationException("account_enable_readback_failed");
+            if (IsMemberOfBuiltin("S-1-5-32-544") || !IsMemberOfBuiltin("S-1-5-32-545")) {
+                DisableOwned(sid,installationId);
+                throw new InvalidOperationException("collector_membership_readback_failed");
+            }
+        }
         // Caller must also prove no profile/DPAPI/config/task exists before recovery.
         public static void ResetUnprovisionedOwned(string sid, string installationId, SecureString password) {
             var account=RequireOwned(sid,installationId);

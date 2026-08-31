@@ -97,6 +97,41 @@ class WindowsInstallerTests(unittest.TestCase):
         self.assertIn("Marshal.ZeroFreeGlobalAllocUnicode(secret)", native)
         self.assertNotIn("NetUserDel", native)
 
+    def test_com_folder_path_is_distinct_from_powershell_task_path(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";$spec=Get-CollectorSpec;
+        if($spec.TaskFolderPath -cne '\GPTBot' -or $spec.TaskPath -cne '\GPTBot\'){throw 'task_path_contract_changed'};
+        if($spec.TaskFolderPath.EndsWith('\') -or -not $spec.TaskPath.EndsWith('\')){throw 'com_path_trailing_separator'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        for name in ("Install-Collector.ps1", "Activate-Collector.ps1", "Disable-Collector.ps1"):
+            source = (WINDOWS / name).read_text()
+            self.assertNotIn(".GetFolder($spec.TaskPath)", source)
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        self.assertEqual(installer.count(".GetFolder($spec.TaskFolderPath)"), 3)
+        self.assertIn("-TaskPath $spec.TaskPath", installer)
+        self.assertIn("-2147024894,-2147024893", installer)  # Missing path only; never repair arbitrary COM errors.
+
+    def test_enable_owned_rejects_foreign_identity_and_never_resets_credentials(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        $blocked=$false;try{[GPTBotCollector.LocalAccount]::EnableOwned('S-1-0-0','00000000-0000-0000-0000-000000000000')}
+        catch{if($_.Exception.GetBaseException().Message -cne 'account_ownership_mismatch'){throw};$blocked=$true};
+        if(-not $blocked){throw 'enable_account_ownership_guard_missing'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        native = (WINDOWS / "Native.cs").read_text()
+        body = native.split("public static void EnableOwned", 1)[1].split("// Caller must also prove", 1)[0]
+        self.assertIn("RequireOwned(sid,installationId)", body)
+        self.assertIn("Flags=account.Flags&~0x2u", body)
+        self.assertIn("NetUserSetInfo(null,Name,1008", body)
+        self.assertIn("account_enable_readback_failed", body)
+        self.assertEqual(body.count('IsMemberOfBuiltin("S-1-5-32-544")'), 2)
+        self.assertEqual(body.count('IsMemberOfBuiltin("S-1-5-32-545")'), 2)
+        self.assertIn("DisableOwned(sid,installationId)", body)
+        for forbidden in ("NetUserSetPassword", "1003", "ProfileList", "ResetUnprovisionedOwned", "ProtectedData", "ReadAll"):
+            self.assertNotIn(forbidden, body)
+
     def test_validateonly_reports_safe_failure_stage_without_touching_secrets(self):
         with tempfile.TemporaryDirectory() as directory:
             missing_bundle = Path(directory) / "missing-bundle"

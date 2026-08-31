@@ -17,6 +17,8 @@ temporary directories, never installation or changes to the protected roots.
 - Scheduled task: `\GPTBot\LeadRadarCollector`, Limited/Password logon,
   once per minute plus startup, IgnoreNew, hidden, five-minute execution limit.
   **Registered DISABLED. There is no enable/start command in the installer.**
+  PowerShell uses task path `\GPTBot\`; the COM folder lookup deliberately uses
+  `\GPTBot` without a trailing separator, as required by Task Scheduler.
 - Existing target/account fails normal installation. Explicit guarded resume
   accepts only this installer's exact owned, interrupted, unprovisioned account
   and old bundle hash; an existing profile, DPAPI/config/state or task still fails.

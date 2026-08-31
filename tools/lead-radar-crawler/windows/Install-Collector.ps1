@@ -305,7 +305,10 @@ try {
     $failureStage='register_disabled_task'
     $scheduler=New-Object -ComObject 'Schedule.Service'
     $scheduler.Connect()
-    try { $null=$scheduler.GetFolder($spec.TaskPath) } catch { $null=$scheduler.GetFolder('\').CreateFolder('GPTBot') }
+    try { $null=$scheduler.GetFolder($spec.TaskFolderPath) } catch {
+        if ($_.Exception.GetBaseException().HResult -notin @(-2147024894,-2147024893)) { throw }
+        $null=$scheduler.GetFolder('\').CreateFolder('GPTBot')
+    }
     $powershell=Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
     $action=New-ScheduledTaskAction -Execute $powershell -Argument ('-NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File "'+(Join-Path $spec.Root 'windows\Run-Collector.ps1')+'" -ConfigPath "'+$configPath+'"') -WorkingDirectory (Join-Path $spec.Root 'app')
     $minute=New-ScheduledTaskTrigger -Once -At ([DateTime]::Now.AddMinutes(1)) -RepetitionInterval (New-TimeSpan -Minutes 1)
@@ -316,7 +319,7 @@ try {
     $null=Register-ScheduledTask -TaskName $spec.TaskName -TaskPath $spec.TaskPath -InputObject $task -User ($env:COMPUTERNAME+'\'+$spec.User) -Password $password
     $manifest.taskRegistered=$true
     Write-CollectorJson $manifestPath $manifest
-    $registered=$scheduler.GetFolder($spec.TaskPath).GetTask($spec.TaskName)
+    $registered=$scheduler.GetFolder($spec.TaskFolderPath).GetTask($spec.TaskName)
     $registered.SetSecurityDescriptor('D:P(A;;FA;;;SY)(A;;FA;;;BA)(A;;GRGX;;;'+$account.SID.Value+')',0)
     $failureStage='task_safety_readback'
     $readback=Get-ScheduledTask -TaskName $spec.TaskName -TaskPath $spec.TaskPath
@@ -354,7 +357,7 @@ try {
                 Stop-ScheduledTask -TaskName $spec.TaskName -TaskPath $spec.TaskPath
                 $afterTask=Get-ScheduledTask -TaskName $spec.TaskName -TaskPath $spec.TaskPath
                 $service=New-Object -ComObject 'Schedule.Service';$service.Connect()
-                $instances=$service.GetFolder($spec.TaskPath).GetTask($spec.TaskName).GetInstances(0).Count
+                $instances=$service.GetFolder($spec.TaskFolderPath).GetTask($spec.TaskName).GetInstances(0).Count
                 if ($afterTask.Settings.Enabled -ne $false -or $instances -ne 0) { throw 'task_cleanup_not_verified' }
                 $taskDisabledVerified=$true
             }
