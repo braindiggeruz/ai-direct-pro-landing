@@ -1,0 +1,80 @@
+name: patch-deploy-gsc-crawler-directory-perf-r2
+
+on:
+  push:
+    branches:
+      - ops/deploy-gsc-crawler-directory-perf-20260831-r2
+    paths:
+      - .github/workflows/patch-deploy-gsc-crawler-directory-perf-r2.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ops/deploy-gsc-crawler-directory-perf-20260831-r2
+          fetch-depth: 0
+
+      - name: Patch retry workflow without changing release source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          file = Path('.github/workflows/deploy-gsc-crawler-directory-perf-20260831.yml')
+          source = file.read_text(encoding='utf-8')
+          old_branch = 'ops/deploy-gsc-crawler-directory-perf-20260831'
+          new_branch = 'ops/deploy-gsc-crawler-directory-perf-20260831-r2'
+          if old_branch not in source:
+              raise SystemExit('old deploy branch marker missing')
+          source = source.replace(old_branch, new_branch)
+          source = source.replace(
+              'name: deploy-gsc-crawler-directory-perf-20260831\n',
+              'name: deploy-gsc-crawler-directory-perf-20260831-r2\n',
+              1,
+          )
+          status_guard = '          test -z "$(git status --porcelain)"'
+          if source.count(status_guard) < 2:
+              raise SystemExit(f'expected status guards, got {source.count(status_guard)}')
+          source = source.replace(
+              status_guard,
+              '          git diff --quiet\n          git diff --cached --quiet',
+          )
+          probe_assignment = '          PROBE_TOKEN=$(node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))")\n'
+          if source.count(probe_assignment) != 1:
+              raise SystemExit('probe token assignment marker missing')
+          source = source.replace(
+              probe_assignment,
+              probe_assignment + '          export PROBE_TOKEN\n',
+          )
+          preview_assignment = "          PREVIEW_URL=$(grep -Eo 'https://[a-z0-9-]+\\.ai-direct-pro-landing\\.pages\\.dev' evidence/preflight-preview.log | head -1)\n"
+          if source.count(preview_assignment) != 1:
+              raise SystemExit('preview URL assignment marker missing')
+          source = source.replace(
+              preview_assignment,
+              preview_assignment + '          export PREVIEW_URL\n',
+          )
+          file.write_text(source, encoding='utf-8')
+          PY
+          git rm -f .github/workflows/patch-deploy-gsc-crawler-directory-perf-r2.yml
+          git diff --check
+          grep -F 'ops/deploy-gsc-crawler-directory-perf-20260831-r2' .github/workflows/deploy-gsc-crawler-directory-perf-20260831.yml
+          grep -F 'export PROBE_TOKEN' .github/workflows/deploy-gsc-crawler-directory-perf-20260831.yml
+          grep -F 'export PREVIEW_URL' .github/workflows/deploy-gsc-crawler-directory-perf-20260831.yml
+          ! grep -F 'test -z "$(git status --porcelain)"' .github/workflows/deploy-gsc-crawler-directory-perf-20260831.yml
+
+      - name: Commit the retry workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GPTBot Production Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "ci(release): retry GSC crawler deploy with tracked-tree guards"
+          git push origin HEAD:ops/deploy-gsc-crawler-directory-perf-20260831-r2
