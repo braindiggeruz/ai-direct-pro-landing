@@ -56,7 +56,7 @@ jobs:
         run: node .github/scripts/apply-seo-commercial-review.mjs
 
       - name: Remove one-shot review automation from final branch
-        run: git rm .github/scripts/apply-seo-commercial-review.mjs .github/workflows/seo-commercial-review.yml
+        run: git rm -f .github/scripts/apply-seo-commercial-review.mjs .github/workflows/seo-commercial-review.yml
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --ignore-scripts --non-interactive
