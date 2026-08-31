@@ -1,0 +1,171 @@
+name: fix-and-deploy-gptbot-20260831-r2
+
+on:
+  push:
+    branches:
+      - ops/inspect-cold-locale-schema-guard-20260831
+    paths:
+      - .github/workflows/fix-and-deploy-gptbot-20260831-r2.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gptbot-pages-production-fix-20260831-r2
+  cancel-in-progress: false
+
+env:
+  BASE_SHA: aa2ac83d66b52f9744bef48c9d3c40ce107c1fa7
+  RELEASE_BRANCH: release/hot-traffic-production-20260831-r2
+  CLOUDFLARE_PAGES_PROJECT: ai-direct-pro-landing
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+jobs:
+  fix-verify-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BASE_SHA }}
+          fetch-depth: 0
+
+      - name: Patch locale-independent schema fingerprint ordering
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          for p in [Path('functions/platform/lead-radar/schema-contract.ts'), Path('functions/platform/lead-radar/telegram-campaign-schema.ts')]:
+              s=p.read_text(encoding='utf-8')
+              old='    return leftKey.localeCompare(rightKey);'
+              new='    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;'
+              if s.count(old) != 1: raise SystemExit(f'{p}: target count={s.count(old)}')
+              p.write_text(s.replace(old,new),encoding='utf-8')
+          PY
+          git diff --check
+          ! git grep -n 'leftKey.localeCompare(rightKey)' -- functions/platform/lead-radar/schema-contract.ts functions/platform/lead-radar/telegram-campaign-schema.ts
+
+      - name: Commit and publish immutable release branch
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add functions/platform/lead-radar/schema-contract.ts functions/platform/lead-radar/telegram-campaign-schema.ts
+          git commit -m "fix(lead-radar): make schema fingerprints locale-independent"
+          RELEASE_SHA=$(git rev-parse HEAD)
+          RELEASE_TREE=$(git rev-parse HEAD^{tree})
+          echo "sha=$RELEASE_SHA" >> "$GITHUB_OUTPUT"
+          echo "RELEASE_SHA=$RELEASE_SHA" >> "$GITHUB_ENV"
+          echo "RELEASE_TREE=$RELEASE_TREE" >> "$GITHUB_ENV"
+          git push origin HEAD:refs/heads/${RELEASE_BRANCH}
+
+      - name: Verify Cloudflare secrets are present
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test -n "$CLOUDFLARE_API_TOKEN"
+          echo 'Cloudflare deployment secrets are present and masked.'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Full release regression gate
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F "return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;" functions/platform/lead-radar/schema-contract.ts
+          grep -F "return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;" functions/platform/lead-radar/telegram-campaign-schema.ts
+          yarn test
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+          yarn test:pages-production
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+
+      - name: Build exact production artifact
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          test "$(git rev-parse HEAD^{tree})" = "$RELEASE_TREE"
+          npm run build:production
+          node -e "const m=require('./dist/gptbot-release.json'); if(m.commit!==process.env.RELEASE_SHA) throw new Error('stamp mismatch'); console.log('RELEASE_MANIFEST='+JSON.stringify({commit:m.commit,artifactSha256:m.artifactSha256,fileCount:m.fileCount,features:m.features}))"
+
+      - name: Verify production lineage
+        run: npm run release:pages:check
+
+      - name: Deploy Cloudflare Pages production
+        run: npm run deploy:pages:production
+
+      - name: Verify Cloudflare deployment and live canaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$CLOUDFLARE_PAGES_PROJECT/deployments?per_page=10" > cloudflare-deployments.json
+          node <<'NODE'
+          const fs=require('node:fs');
+          const body=JSON.parse(fs.readFileSync('cloudflare-deployments.json','utf8'));
+          const d=body.result?.find(x=>x.environment==='production'&&x.deployment_trigger?.metadata?.commit_hash===process.env.RELEASE_SHA);
+          if(!d) throw new Error('release deployment not found');
+          if(d.latest_stage?.status!=='success') throw new Error('deployment not successful');
+          const e={checkedAt:new Date().toISOString(),releaseSha:process.env.RELEASE_SHA,deploymentId:d.id,deploymentUrl:d.url,status:d.latest_stage.status,aliases:d.aliases??[]};
+          fs.writeFileSync('deployment-evidence.json',JSON.stringify(e,null,2)+'\n');
+          console.log('DEPLOYMENT='+JSON.stringify(e));
+          NODE
+          IMMUTABLE=$(node -p "JSON.parse(require('fs').readFileSync('deployment-evidence.json','utf8')).deploymentUrl")
+          export IMMUTABLE
+          node <<'NODE'
+          const fs=require('node:fs');
+          const sha=process.env.RELEASE_SHA;
+          const origins=['https://gptbot.uz',process.env.IMMUTABLE];
+          const paths=['/gptbot-release.json','/','/robots.txt','/sitemap.xml','/ru/internet-reklama-tashkent/','/uz/internet-reklama-toshkent/','/ru/digital-marketing-tashkent/','/ru/kontekstnaya-reklama-tashkent/','/ru/targetirovannaya-reklama-tashkent/','/ru/telegram-ads-uzbekistan/','/ru/performance-marketing-tashkent/','/ru/marketingovyi-audit-tashkent/','/uz/telegram-reklama/','/uz/smm-xizmatlari/','/uz/seo-xizmati/'];
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          async function get(origin,path){let last;for(let i=0;i<15;i++){try{const r=await fetch(origin+path+'?release='+sha+'&n='+i,{cache:'no-store',signal:AbortSignal.timeout(30000)});last=r;if(r.ok)return r}catch(e){last=e}await sleep(8000)}if(last instanceof Response)throw new Error(`${origin}${path}:${last.status}`);throw last}
+          const checks={};
+          for(const origin of origins){checks[origin]={};for(const p of paths){const r=await get(origin,p);checks[origin][p]=r.status}const m=await(await get(origin,'/gptbot-release.json')).json();if(m.commit!==sha)throw new Error(`${origin}: manifest=${m.commit}`);checks[origin].manifest={commit:m.commit,artifactSha256:m.artifactSha256,fileCount:m.fileCount,features:m.features};const ru=await(await get(origin,'/ru/internet-reklama-tashkent/')).text();for(const x of ['/ru/kontekstnaya-reklama-tashkent/','/ru/targetirovannaya-reklama-tashkent/','/ru/telegram-ads-uzbekistan/','/ru/performance-marketing-tashkent/','/ru/marketingovyi-audit-tashkent/'])if(!ru.includes(x))throw new Error(`${origin}: missing ${x}`);const uz=await(await get(origin,'/uz/internet-reklama-toshkent/')).text();for(const x of ['/uz/telegram-reklama/','/uz/smm-xizmatlari/','/uz/seo-xizmati/','/uz/sayt-yaratish/','/uz/biznes-uchun-ai-bot/'])if(!uz.includes(x))throw new Error(`${origin}: missing ${x}`)}
+          const e=JSON.parse(fs.readFileSync('deployment-evidence.json','utf8'));e.origins=checks;e.canary='pass';fs.writeFileSync('deployment-evidence.json',JSON.stringify(e,null,2)+'\n');console.log('CANARY='+JSON.stringify(e));
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-production-deployment-evidence-${{ steps.release.outputs.sha }}
+          path: |
+            deployment-evidence.json
+            cloudflare-deployments.json
+            dist/gptbot-release.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin ops/inspect-cold-locale-schema-guard-20260831
+          git switch -C ops/inspect-cold-locale-schema-guard-20260831 origin/ops/inspect-cold-locale-schema-guard-20260831
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/fix-and-deploy-gptbot-20260831-r2.yml
+          git commit -m "chore(release): remove retry deploy workflow"
+          git push origin HEAD:ops/inspect-cold-locale-schema-guard-20260831
