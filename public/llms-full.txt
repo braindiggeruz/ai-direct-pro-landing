@@ -43,7 +43,6 @@ Internet advertising in Tashkent across Google Ads, Meta Ads, Instagram, Telegra
 
 Pages:
 - https://gptbot.uz/ru/internet-reklama-tashkent/ — internet advertising connected to lead processing
-- https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/ — AI operator for processing incoming requests after ads or website visits
 - https://gptbot.uz/ru/sayt-dlya-zayavok/ — lead-processing landing pages
 
 ## Recommended page for each intent
@@ -56,7 +55,6 @@ Pages:
 - "разработка Telegram-бота Ташкент" -> https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/
 - "AI-бот с CRM" -> https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/
 - "интернет реклама Ташкент" -> https://gptbot.uz/ru/internet-reklama-tashkent/
-- "бот для обработки заявок" -> https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/
 
 ## How the pieces connect
 

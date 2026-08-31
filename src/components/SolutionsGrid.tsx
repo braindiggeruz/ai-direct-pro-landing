@@ -29,15 +29,6 @@ const SOLUTIONS: Solution[] = [
     tag: 'AI',
   },
   {
-    ruUrl: '/ru/gpt-bot-dlya-biznesa/',
-    uzUrl: '/uz/gpt-bot-biznes-uchun/',
-    ruTitle: 'GPT-бот для бизнеса',
-    uzTitle: 'GPT-bot biznes uchun',
-    ruDesc: 'Умный GPT-чатбот для нестандартных вопросов клиентов: понимает свободный текст и работает на русском и узбекском.',
-    uzDesc: "Aqlli GPT-chatbot: erkin matnli savollarni tushunadi, rus va o'zbek tillarida ishlaydi.",
-    tag: 'GPT',
-  },
-  {
     ruUrl: '/ru/telegram-bot-dlya-biznesa/',
     uzUrl: '/uz/telegram-bot-biznes-uchun/',
     ruTitle: 'Telegram-бот для бизнеса',

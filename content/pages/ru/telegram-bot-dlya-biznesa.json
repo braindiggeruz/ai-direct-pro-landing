@@ -4,8 +4,9 @@
   "url": "/ru/telegram-bot-dlya-biznesa/",
   "slug": "telegram-bot-dlya-biznesa",
   "pageType": "money",
-  "primaryKeyword": "Telegram-бот для бизнеса",
+  "primaryKeyword": "Telegram-бот для бизнеса в Узбекистане",
   "secondaryKeywords": [
+    "разработка Telegram-ботов в Узбекистане",
     "бот для приёма заказов Telegram",
     "Telegram-рассылки",
     "приём оплаты в Telegram",
@@ -13,26 +14,45 @@
     "AI-менеджер Telegram"
   ],
   "searchIntent": "commercial",
-  "h1": "Telegram-бот для бизнеса: автоматизация продаж",
-  "title": "Telegram-бот для бизнеса — заказы, рассылки, оплата | GPTBot",
-  "description": "Telegram-бот для бизнеса: приём заказов и заявок 24/7, массовые рассылки, приём оплаты и интеграция с CRM. AI-менеджер для продаж в Telegram.",
+  "h1": "Telegram-бот для бизнеса в Узбекистане",
+  "title": "Telegram-бот для бизнеса в Узбекистане | GPTBot",
+  "description": "Разработка Telegram-бота для бизнеса в Узбекистане: заявки, каталог, рассылки, оплата и CRM. Русский и Uzbek Latin, работа по всей стране.",
   "canonical": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
   "hreflangRu": "/ru/telegram-bot-dlya-biznesa/",
   "hreflangUz": "/uz/telegram-bot-biznes-uchun/",
-  "ogTitle": "Telegram-бот для бизнеса — AI-менеджер 24/7 | GPTBot",
-  "ogDescription": "Telegram-бот для бизнеса в Узбекистане принимает заявки и заказы 24/7, делает рассылки, интегрируется с CRM и приёмом платежей. AI-менеджер на базе GPT.",
+  "ogTitle": "Telegram-бот для бизнеса в Узбекистане | GPTBot",
+  "ogDescription": "Telegram-бот для заявок, каталога, рассылок, оплаты и CRM. Запуск для бизнеса по всему Узбекистану на русском и Uzbek Latin.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "Telegram-бот для бизнеса",
-  "heroTitle": "Telegram-бот для бизнеса: автоматизация продаж",
-  "heroSubtitle": "Telegram-бот принимает заказы, отвечает клиентам 24/7, делает рассылки и передаёт горячие заявки в CRM.",
+  "breadcrumbLabel": "Telegram-бот в Узбекистане",
+  "heroTitle": "Telegram-бот для бизнеса в Узбекистане",
+  "heroSubtitle": "Принимает заявки и заказы, показывает каталог, помогает с оплатой и передаёт контекст менеджеру или в CRM. Запускаем для бизнеса по всей стране на русском и Uzbek Latin.",
   "ctaPrimaryLabel": "Получить Telegram-бот",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "Telegram-бот для бизнеса — это сценарная система внутри Telegram, которая отвечает клиенту, собирает заявку и передаёт её менеджеру или в CRM." },
+    {
+      "type": "p",
+      "text": "Telegram-бот для бизнеса в Узбекистане — это сценарная система внутри Telegram, которая принимает обращение, собирает согласованные поля и передаёт контекст менеджеру или в CRM. Конкретный состав — каталог, оплата, рассылки, AI-ответы и интеграции — фиксируется в смете."
+    },
+    {
+      "type": "linkp",
+      "text": "Работаем с компаниями по всей стране: региональный формат и языки описаны на странице {geo}. Если нужен отдельный проект с техническим заданием, интеграциями и этапами запуска, смотрите {development}.",
+      "links": [
+        {
+          "token": "geo",
+          "target": "/ru/chat-bot-po-uzbekistanu/",
+          "anchor": "разработка чат-ботов по Узбекистану"
+        },
+        {
+          "token": "development",
+          "target": "/ru/razrabotka-telegram-bota-tashkent/",
+          "anchor": "разработка Telegram-бота в Ташкенте"
+        }
+      ]
+    },
     {
       "type": "h2",
       "text": "Зачем бизнесу Telegram-бот"
@@ -195,7 +215,7 @@
       "locale": "ru",
       "type": "contextual"
     },
- {
+    {
       "target": "/ru/chat-bot-dlya-biznesa/",
       "anchor": "чат-бот для бизнеса",
       "locale": "ru",
@@ -236,6 +256,12 @@
       "anchor": "расчёт стоимости Telegram-бота",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/chat-bot-po-uzbekistanu/",
+      "anchor": "чат-боты по всему Узбекистану",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -245,7 +271,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-08-31"
 }

@@ -102,5 +102,29 @@
     "statusCode": 301,
     "reason": "The separate Russian query guide duplicated the indexed how-to article's intent and remained Crawled - currently not indexed. Its unique five-part prompt formula, comparison table and RU/Uzbek workflow were consolidated into the established informational owner.",
     "createdAt": "2026-08-25"
+  },
+  {
+    "id": "gsc-legacy-telegram-bot-uzbekistan",
+    "from": "/ru/telegram-bot-uzbekistan/",
+    "to": "/ru/telegram-bot-dlya-biznesa/",
+    "statusCode": 301,
+    "reason": "GSC 404 legacy country/channel slug. Consolidate into the existing Telegram-specific commercial owner instead of creating a cannibalising duplicate.",
+    "createdAt": "2026-08-31"
+  },
+  {
+    "id": "gsc-legacy-gpt-uzbek-unprefixed",
+    "from": "/gpt-uzbek-tilida/",
+    "to": "/uz/gpt-uzbek-tilida/",
+    "statusCode": 301,
+    "reason": "GSC 404 legacy unprefixed Uzbek product URL. Preserve discovery signals and send users to the published Uzbek canonical.",
+    "createdAt": "2026-08-31"
+  },
+  {
+    "id": "gsc-legacy-gpt-chat-unprefixed",
+    "from": "/gpt-chat/",
+    "to": "/ru/gpt-chat/",
+    "statusCode": 301,
+    "reason": "GSC 404 legacy unprefixed GPT chat URL. Consolidate into the published Russian product canonical.",
+    "createdAt": "2026-08-31"
   }
 ]
