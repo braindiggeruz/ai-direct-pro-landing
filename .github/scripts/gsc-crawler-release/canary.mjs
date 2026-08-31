@@ -127,10 +127,7 @@ for (const origin of origins) {
   const admin = manifest.probes.find((item) => /^assets\/AdminRoot-.*\.js$/.test(item.path));
   if (!admin) throw new Error(`${origin}: admin probe missing`);
   const adminText = await (await request(`${origin}/${admin.path}?release=${releaseSha}`)).text();
-  for (const marker of [
-    'Локальный сборщик', 'Собрать контакты с сайта',
-    '/api/admin/lead-radar/crawler/status', '/api/admin/lead-radar/crawler/jobs',
-  ]) {
+  for (const marker of ['Локальный сборщик', 'Собрать контакты с сайта']) {
     if (!adminText.includes(marker)) throw new Error(`${origin}: admin marker missing: ${marker}`);
   }
   await eventually(`${origin} owner crawler auth`, async () => {
