@@ -1,0 +1,214 @@
+name: deploy-gsc-crawler-directory-perf-20260831-r3
+
+on:
+  push:
+    branches:
+      - ops/deploy-gsc-crawler-directory-perf-20260831-r3
+    paths:
+      - .github/scripts/gsc-crawler-release/**
+      - .github/workflows/deploy-gsc-crawler-directory-perf-20260831-r3.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gptbot-pages-production
+  cancel-in-progress: false
+
+env:
+  RELEASE_SHA: 9e23024e066a158153a7f89e9e27e49e9dacb02b
+  RELEASE_BRANCH: release/gsc-crawler-directory-perf-20260831
+  EXPECTED_MAIN_SHA: a45db41ef32a3077c0f9af2f912d0c1239d127d9
+  PROJECT: ai-direct-pro-landing
+  EXPECTED_OLD_DEPLOYMENT_ID: 6da93a09-b662-42d5-948e-ce8e19a3cba1
+  EXPECTED_OLD_COMMIT: 39f67ad83edc4600f9700d7a9230f28996abc3e1
+  EXPECTED_OLD_ARTIFACT: 3b8c157411edcc66de071d24c6c2be05d0099adbfbe50e8a0143883d82dc7a5f
+  EXPECTED_OLD_ADMIN_HASH: e2fe0a69594e8a274a181b1424c3db5211078d08126029c0ae2a77dcc00c1f70
+  PREVIEW_BRANCH: gsc-crawler-directory-preflight-r3-20260831
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+jobs:
+  verify-deploy-align:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out deployment tooling
+        uses: actions/checkout@v4
+        with:
+          ref: ops/deploy-gsc-crawler-directory-perf-20260831-r3
+          path: ops
+          fetch-depth: 0
+
+      - name: Check out exact reviewed release
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_SHA }}
+          path: release
+          fetch-depth: 0
+
+      - name: Assert immutable source lineage
+        working-directory: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          test "$(git ls-remote origin refs/heads/$RELEASE_BRANCH | cut -f1)" = "$RELEASE_SHA"
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$EXPECTED_MAIN_SHA"
+          git merge-base --is-ancestor "$EXPECTED_MAIN_SHA" "$RELEASE_SHA"
+          git diff --quiet
+          git diff --cached --quiet
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -f migrations/0056_lead_radar_crawler.sql
+          test -f tests/gsc-indexation-hygiene.test.ts
+          test -f tests/lead-radar-crawler.test.ts
+          grep -F 'MAX_DIRECTORY_CONTACT_CANDIDATES_PER_COMPANY = 256' functions/platform/lead-radar/recipient-directory.ts
+          grep -F 'MAX_DIRECTORY_PHONE_EVIDENCE_PER_COMPANY = 128' functions/platform/lead-radar/recipient-directory.ts
+          grep -F 'matches.filter((group)=>group.hasBusinessContact)' functions/platform/lead-radar/audiences.ts
+          ! grep -F 'JSON.parse(member.telegram_contact_json' functions/platform/lead-radar/audiences.ts
+
+      - name: Guard the exact live release being replaced
+        working-directory: release
+        run: node ../ops/.github/scripts/gsc-crawler-release/guard.mjs
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+          cache-dependency-path: release/yarn.lock
+
+      - name: Install locked dependencies
+        working-directory: release
+        run: |
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run complete regression, SEO and security gates
+        working-directory: release
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --import tsx --test tests/lead-radar-audiences.test.ts tests/lead-radar-crawler.test.ts tests/lead-radar-crawler-contract.test.ts
+          yarn test:gsc-indexation
+          yarn test
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+          yarn test:pages-production
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+          git diff --quiet
+          git diff --cached --quiet
+
+      - name: Build and freeze exact candidate artifact
+        working-directory: release
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run build:production
+          npx --no-install tsx scripts/release/pages-production.ts check
+          node ../ops/.github/scripts/gsc-crawler-release/verify-candidate.mjs
+          ! grep -RniE 'SearchAction|search_term_string|query-input' dist/index.html dist/ru/blog/index.html dist/uz/blog/index.html
+          grep -F '/ru/telegram-bot-uzbekistan/  /ru/telegram-bot-dlya-biznesa/  301' dist/_redirects
+          grep -F '/gpt-uzbek-tilida/  /uz/gpt-uzbek-tilida/  301' dist/_redirects
+          grep -F '/gpt-chat/  /ru/gpt-chat/  301' dist/_redirects
+
+      - name: Exercise candidate Functions against live D1 in isolated preview
+        working-directory: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PROBE_TOKEN=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+          echo "::add-mask::$PROBE_TOKEN"
+          echo "PROBE_TOKEN=$PROBE_TOKEN" >> "$GITHUB_ENV"
+          node ../ops/.github/scripts/gsc-crawler-release/write-probe.mjs
+          node node_modules/wrangler/bin/wrangler.js pages deploy dist \
+            --project-name "$PROJECT" \
+            --branch "$PREVIEW_BRANCH" \
+            --commit-hash "$RELEASE_SHA" \
+            --commit-dirty=true | tee evidence/preflight-preview.log
+          export PREVIEW_URL=$(grep -Eo 'https://[a-z0-9-]+\.ai-direct-pro-landing\.pages\.dev' evidence/preflight-preview.log | head -1)
+          test -n "$PREVIEW_URL"
+          echo "PREVIEW_URL=$PREVIEW_URL" >> "$GITHUB_ENV"
+          node ../ops/.github/scripts/gsc-crawler-release/check-preview.mjs
+          rm -f functions/api/internal/release-directory-probe.ts
+          git diff --quiet
+          git diff --cached --quiet
+
+      - name: Final production and main race guard
+        working-directory: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$EXPECTED_MAIN_SHA"
+          node ../ops/.github/scripts/gsc-crawler-release/race-guard.mjs
+
+      - name: Deploy exact artifact and Functions to production
+        id: deploy
+        working-directory: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          node node_modules/wrangler/bin/wrangler.js pages deploy dist \
+            --project-name "$PROJECT" \
+            --branch main \
+            --commit-hash "$RELEASE_SHA" \
+            --commit-dirty=false | tee evidence/production-deploy.log
+          node ../ops/.github/scripts/gsc-crawler-release/wait-deployment.mjs
+
+      - name: Run production SEO, crawler and heartbeat canaries
+        id: canary
+        working-directory: release
+        run: node ../ops/.github/scripts/gsc-crawler-release/canary.mjs
+
+      - name: Roll back automatically if production canary fails
+        if: failure() && steps.deploy.outcome == 'success' && steps.canary.outcome == 'failure'
+        working-directory: release
+        run: node ../ops/.github/scripts/gsc-crawler-release/rollback.mjs
+
+      - name: Fast-forward main to deployed source of truth
+        working-directory: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          CURRENT_MAIN=$(git ls-remote origin refs/heads/main | cut -f1)
+          test "$CURRENT_MAIN" = "$EXPECTED_MAIN_SHA" || test "$CURRENT_MAIN" = "$RELEASE_SHA"
+          if [ "$CURRENT_MAIN" != "$RELEASE_SHA" ]; then git push origin "$RELEASE_SHA:refs/heads/main"; fi
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$RELEASE_SHA"
+          node -e "require('fs').writeFileSync('evidence/main-alignment-safe.json',JSON.stringify({alignedAt:new Date().toISOString(),previous:'$EXPECTED_MAIN_SHA',current:'$RELEASE_SHA'},null,2)+'\n')"
+          echo 'MAIN_ALIGNMENT=pass'
+
+      - name: Verify final canonical deployment and source alignment
+        working-directory: release
+        run: node ../ops/.github/scripts/gsc-crawler-release/final-verify.mjs
+
+      - name: Upload sanitized release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-gsc-crawler-directory-production-evidence-r3-${{ env.RELEASE_SHA }}
+          path: |
+            release/evidence/*.json
+            release/evidence/production-deploy.log
+            release/dist/gptbot-release.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Delete temporary D1 preview
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          if [ -n "${PREVIEW_DEPLOYMENT_ID:-}" ]; then
+            curl --silent --show-error --request DELETE \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments/$PREVIEW_DEPLOYMENT_ID?force=true" >/dev/null
+          fi
