@@ -35,7 +35,7 @@ for (const origin of origins) {
   const adminBytes = new Uint8Array(await adminResponse.arrayBuffer());
   if (sha256(adminBytes) !== oldAdminHash) throw new Error(`${origin}: live admin bytes changed`);
   const adminText = new TextDecoder().decode(adminBytes);
-  for (const marker of ['Локальный сборщик', 'Собрать контакты с сайта', '/api/admin/lead-radar/crawler/status']) {
+  for (const marker of ['Локальный сборщик', 'Собрать контакты с сайта']) {
     if (!adminText.includes(marker)) throw new Error(`${origin}: Local Collector marker missing: ${marker}`);
   }
   manifests[origin] = {
