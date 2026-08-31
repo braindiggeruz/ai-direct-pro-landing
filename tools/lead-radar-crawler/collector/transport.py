@@ -155,6 +155,9 @@ def retry_after_deadline(value: str | None, now: float) -> float | None:
 
 class _PinnedConnection(http.client.HTTPConnection):
     def __init__(self, host: str, port: int, ip: str, tls: bool, timeout: float):
+        # HTTPConnection serializes Host using default_port; TLS must use HTTPS's
+        # default without changing the pinned destination or other instances.
+        self.default_port = 443 if tls else 80
         super().__init__(host, port, timeout=timeout)
         self.ip = ip
         self.tls = tls

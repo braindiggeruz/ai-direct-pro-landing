@@ -119,6 +119,38 @@ class TransportTests(unittest.TestCase):
             context.wrap_socket.assert_called_once_with(raw_socket, server_hostname="fixture.example", do_handshake_on_connect=False)
             wrapped_socket.do_handshake.assert_called_once()
 
+    def test_serialized_host_omits_only_the_protocol_default_port(self):
+        # Exercise HTTPConnection's real request serialization, not mocked headers.
+        # Repeating HTTP after HTTPS also detects a class-wide default_port mutation.
+        for tls, port, expected in [(False, 80, b"fixture.example"),
+                                    (True, 443, b"fixture.example"),
+                                    (False, 80, b"fixture.example"),
+                                    (True, 8443, b"fixture.example:8443"),
+                                    (False, 443, b"fixture.example:443"),
+                                    (True, 80, b"fixture.example:80")]:
+            with self.subTest(tls=tls, port=port):
+                conn = _PinnedConnection("fixture.example", port, PUBLIC_IP, tls, 3)
+                capture = Mock()
+                conn.sock = capture
+                conn.request("GET", "/robots.txt", headers={"User-Agent": Policy().user_agent,
+                                                            "Connection": "close"})
+                wire = b"".join(call.args[0] for call in capture.sendall.call_args_list)
+                self.assertEqual([line for line in wire.split(b"\r\n") if line.startswith(b"Host:")],
+                                 [b"Host: " + expected])
+                self.assertNotIn(PUBLIC_IP.encode(), wire)
+                self.assertEqual(conn.port, port)
+                self.assertEqual(http.client.HTTPConnection.default_port, 80)
+
+    def test_nondefault_url_ports_are_rejected_before_dns_or_connection(self):
+        resolver, connection = Mock(), Mock()
+        transport = SafeTransport(resolver=resolver, connection_factory=connection)
+        for url in ["https://fixture.example:8443/", "https://fixture.example:80/",
+                    "http://fixture.example:443/", "http://fixture.example:8080/"]:
+            with self.subTest(url=url), self.assertRaisesRegex(FetchError, "invalid_url"):
+                transport.get(url, "https://fixture.example")
+        resolver.assert_not_called()
+        connection.assert_not_called()
+
     def test_fresh_dns_and_pin_on_every_redirect(self):
         transport, records, connections, resolver = self.transport([
             RawResponse(status=302, headers=[("Location", "/contact")]), RawResponse()
