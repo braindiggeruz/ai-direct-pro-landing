@@ -1,0 +1,54 @@
+name: inspect-cold-locale-schema-guard-20260831
+
+on:
+  push:
+    branches:
+      - ops/inspect-cold-locale-schema-guard-20260831
+    paths:
+      - .github/workflows/inspect-cold-locale-schema-guard-20260831.yml
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: aa2ac83d66b52f9744bef48c9d3c40ce107c1fa7
+          fetch-depth: 0
+
+      - name: Locate locale-sensitive schema guard code
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== locale / Intl / Collator / toLocale matches ==='
+          git grep -n -E 'localeCompare|Intl\.|Collator|toLocale|normalize\(|sort\(' -- \
+            'functions/platform/lead-radar/**' \
+            'functions/api/admin/lead-radar/**' \
+            'workers/**' \
+            'scripts/d1/**' \
+            'scripts/lead-radar/**' \
+            'tests/lead-radar*.test.ts' || true
+          echo '=== schema guard call sites ==='
+          git grep -n -E 'assertLeadRadarRuntimeSchema|auditLeadRadarD1Schema|schema guard|schemaGuard|runtime schema' -- \
+            'functions/**' 'workers/**' 'scripts/**' 'tests/**' || true
+          echo '=== sort calls in schema-contract.ts ==='
+          grep -n -C 5 -E 'sort\(|locale|Intl|Collator|toLocale' functions/platform/lead-radar/schema-contract.ts || true
+          echo '=== runtime-schema.ts ==='
+          nl -ba functions/platform/lead-radar/runtime-schema.ts
+          echo '=== schema-contract audit functions (tail) ==='
+          nl -ba functions/platform/lead-radar/schema-contract.ts | tail -n 900
+
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git switch -C ops/inspect-cold-locale-schema-guard-20260831 origin/ops/inspect-cold-locale-schema-guard-20260831
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/inspect-cold-locale-schema-guard-20260831.yml
+          git commit -m "chore(release): remove cold-locale inspection workflow"
+          git push origin HEAD:ops/inspect-cold-locale-schema-guard-20260831
