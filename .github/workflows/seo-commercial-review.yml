@@ -48,6 +48,10 @@ jobs:
             .replaceAll(
               'минимал[^?]*бюджет.*Telegram Ads',
               'Как определить достаточный бюджет для теста|минимал[^?]*бюджет.*Telegram Ads',
+            )
+            .replaceAll(
+              'resseller.*(?:2026|avgust)',
+              'resseller.*(?:2026|avgust)|2026-yil avgust|Bozor mo‘ljallari',
             );
           fs.writeFileSync(file, source, 'utf8');
           NODE
