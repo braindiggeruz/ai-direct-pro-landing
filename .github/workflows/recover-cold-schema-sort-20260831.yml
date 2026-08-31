@@ -1,0 +1,153 @@
+name: recover-cold-schema-sort-20260831
+
+on:
+  push:
+    branches:
+      - fix/recover-cold-schema-sort-20260831
+    paths:
+      - .github/workflows/recover-cold-schema-sort-20260831.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: recover-cold-schema-sort-20260831
+  cancel-in-progress: false
+
+jobs:
+  apply-test-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out recovery branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/recover-cold-schema-sort-20260831
+          fetch-depth: 0
+
+      - name: Recover locale-free cold schema guards and regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          function replaceOnce(source, from, to, label) {
+            const first = source.indexOf(from);
+            if (first < 0) throw new Error(`${label}: source marker missing`);
+            if (source.indexOf(from, first + from.length) >= 0) throw new Error(`${label}: source marker is not unique`);
+            return source.slice(0, first) + to + source.slice(first + from.length);
+          }
+
+          {
+            const file = 'functions/platform/lead-radar/schema-contract.ts';
+            let source = fs.readFileSync(file, 'utf8');
+            const helperMarker = `function integer(value: unknown): number {\n  return typeof value === 'number' ? value : Number(value);\n}\n`;
+            const helper = `${helperMarker}\n// Schema fingerprints are byte contracts, not human-language ordering. Using\n// localeCompare on a cold Worker initializes locale/ICU state and adds startup\n// work without changing the intended ASCII key order. Keep this comparator\n// deterministic and locale-free across Node, workerd and D1.\nfunction compareSchemaText(left: string, right: string): number {\n  return left < right ? -1 : left > right ? 1 : 0;\n}\n`;
+            if (!source.includes('function compareSchemaText(')) {
+              source = replaceOnce(source, helperMarker, helper, `${file} helper insertion`);
+            }
+            source = replaceOnce(
+              source,
+              '    return leftKey.localeCompare(rightKey);',
+              '    return compareSchemaText(leftKey, rightKey);',
+              `${file} comparator`,
+            );
+            fs.writeFileSync(file, source, 'utf8');
+          }
+
+          {
+            const file = 'functions/platform/lead-radar/telegram-campaign-schema.ts';
+            let source = fs.readFileSync(file, 'utf8');
+            const marker = `export async function telegramCampaignSchemaFingerprint(db: D1Database): Promise<string> {`;
+            const helper = `// Runtime schema ordering is a byte-level fingerprint operation. Avoid\n// localeCompare here: on a cold Worker it initializes locale/ICU machinery for\n// keys that are deliberately ASCII and must sort identically in every runtime.\nfunction compareSchemaText(left: string, right: string): number {\n  return left < right ? -1 : left > right ? 1 : 0;\n}\n\n${marker}`;
+            if (!source.includes('function compareSchemaText(')) {
+              source = replaceOnce(source, marker, helper, `${file} helper insertion`);
+            }
+            source = replaceOnce(
+              source,
+              '    return leftKey.localeCompare(rightKey);',
+              '    return compareSchemaText(leftKey, rightKey);',
+              `${file} comparator`,
+            );
+            fs.writeFileSync(file, source, 'utf8');
+          }
+
+          {
+            const file = 'tests/lead-radar-cold-schema-sort.test.ts';
+            const content = `import assert from 'node:assert/strict';\nimport { readFileSync } from 'node:fs';\nimport path from 'node:path';\nimport test from 'node:test';\nimport {\n  auditLeadRadarD1Schema,\n  LEAD_RADAR_MIGRATIONS,\n} from '../functions/platform/lead-radar/schema-contract';\nimport { telegramCampaignSchemaFingerprint } from '../functions/platform/lead-radar/telegram-campaign-schema';\nimport { SqliteD1 } from './helpers/sqlite-d1';\n\nconst ROOT = path.resolve(import.meta.dirname, '..');\n\nfunction canonicalLeadRadarDatabase(): SqliteD1 {\n  const db = new SqliteD1();\n  db.exec(\`CREATE TABLE d1_migrations (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT NOT NULL UNIQUE,\n    applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP\n  )\`);\n  for (const filename of LEAD_RADAR_MIGRATIONS) {\n    db.exec(readFileSync(path.join(ROOT, 'migrations', filename), 'utf8'));\n    db.sqlite.prepare('INSERT INTO d1_migrations(name) VALUES (?)').run(filename);\n  }\n  return db;\n}\n\nasync function withoutLocaleCompare<T>(operation: () => Promise<T>): Promise<T> {\n  const original = String.prototype.localeCompare;\n  Object.defineProperty(String.prototype, 'localeCompare', {\n    configurable: true,\n    writable: true,\n    value() { throw new Error('locale initialization is forbidden in a cold schema guard'); },\n  });\n  try {\n    return await operation();\n  } finally {\n    Object.defineProperty(String.prototype, 'localeCompare', {\n      configurable: true,\n      writable: true,\n      value: original,\n    });\n  }\n}\n\ntest('Lead Radar cold runtime schema fingerprint does not initialize locale collation', async (t) => {\n  const db = canonicalLeadRadarDatabase();\n  t.after(() => db.sqlite.close());\n  const report = await withoutLocaleCompare(() => auditLeadRadarD1Schema(db.asD1(), 'target'));\n  assert.equal(report.status, 'pass', JSON.stringify(report.issues, null, 2));\n  assert.equal(report.matchedProfile, 'target');\n});\n\ntest('Telegram campaign cold schema fingerprint is locale-free and order-stable', async () => {\n  const rows = [\n    { type: 'table', name: 'lead_radar_tg_user_accounts', tbl_name: 'lead_radar_tg_user_accounts', sql: 'CREATE TABLE lead_radar_tg_user_accounts (id TEXT)' },\n    { type: 'index', name: 'idx_lead_radar_tg_campaigns_status', tbl_name: 'lead_radar_tg_campaigns', sql: 'CREATE INDEX idx_lead_radar_tg_campaigns_status ON lead_radar_tg_campaigns (status)' },\n  ];\n  const dbFor = (results: typeof rows) => ({\n    prepare() {\n      return { all: async () => ({ success: true, results }) };\n    },\n  }) as unknown as D1Database;\n\n  const [forward, reverse] = await withoutLocaleCompare(() => Promise.all([\n    telegramCampaignSchemaFingerprint(dbFor(rows)),\n    telegramCampaignSchemaFingerprint(dbFor([...rows].reverse())),\n  ]));\n  assert.match(forward, /^[0-9a-f]{64}$/);\n  assert.equal(forward, reverse);\n});\n`;
+            fs.writeFileSync(file, content, 'utf8');
+          }
+
+          {
+            const file = 'package.json';
+            const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const testFile = 'tests/lead-radar-cold-schema-sort.test.ts';
+            for (const scriptName of ['test', 'test:lead-radar']) {
+              const value = String(pkg.scripts[scriptName] ?? '');
+              if (!value) throw new Error(`package.json is missing ${scriptName}`);
+              if (!value.includes(testFile)) pkg.scripts[scriptName] = `${value} ${testFile}`;
+            }
+            fs.writeFileSync(file, `${JSON.stringify(pkg, null, 2)}\n`, 'utf8');
+          }
+
+          {
+            const file = 'docs/lead-radar/COLD_SCHEMA_SORT_RECOVERY_20260831.md';
+            const content = `# Lead Radar cold schema-sort recovery — 2026-08-31\n\nProduction deployment \`edc0edea-a38b-4fcf-81d7-e7de9be0e0cd\` reported an unpushed dirty source commit \`425dce778f9ad4482cab08dce0914706e96fcee2\` with the message \`fix(lead-radar): avoid cold locale initialization in schema guard\`. The deployed artifact could be fingerprinted, but Cloudflare Pages does not expose the original source diff and the commit was absent from GitHub.\n\nThis recovery preserves the documented intent in the two exact runtime schema fingerprint paths:\n\n- \`auditLeadRadarD1Schema\` for the research/business-contact schema;\n- \`telegramCampaignSchemaFingerprint\` for the optional campaign schema.\n\nBoth paths now use deterministic code-unit comparison instead of \`localeCompare\`. Schema fingerprints are byte contracts over ASCII object keys; human-language collation is neither required nor desirable. Regression tests replace \`String.prototype.localeCompare\` with a throwing implementation and prove that both cold guards still produce valid, stable fingerprints.\n\nNo schema, migration, binding, feature flag, contact permission, campaign permission or sending gate changes in this recovery. Deployment remains blocked unless the current Cloudflare production identity and captured live artifact fingerprint still match the inspected deployment.\n`;
+            fs.writeFileSync(file, content, 'utf8');
+          }
+          NODE
+
+      - name: Remove one-shot workflow from final tree
+        run: git rm -f .github/workflows/recover-cold-schema-sort-20260831.yml
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install locked dependencies
+        run: |
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run focused cold-schema regression
+        run: node --import tsx --test tests/lead-radar-cold-schema-sort.test.ts
+
+      - name: Run complete public-site and Lead Radar suites
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn test
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+          yarn test:pages-production
+
+      - name: Run repository, SEO and build gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+          npm run build:production
+          npx --no-install tsx scripts/release/pages-production.ts check
+
+      - name: Commit verified recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add \
+            functions/platform/lead-radar/schema-contract.ts \
+            functions/platform/lead-radar/telegram-campaign-schema.ts \
+            tests/lead-radar-cold-schema-sort.test.ts \
+            package.json \
+            docs/lead-radar/COLD_SCHEMA_SORT_RECOVERY_20260831.md
+          git diff --cached --stat
+          git commit -m "fix(lead-radar): recover locale-free cold schema guards"
+          git push origin HEAD:fix/recover-cold-schema-sort-20260831
