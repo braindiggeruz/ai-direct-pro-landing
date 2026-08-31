@@ -4,7 +4,35 @@ import { contactCheckExplanation, emptyContactCheckProgress, planContactSourceRe
 import type { LeadRadarLead } from '../src/shared/lead-radar';
 import { contactCandidatesForLead } from '../functions/platform/lead-radar/contact-candidates';
 import { contactResolutionCopy, ownershipConfirmationCopy } from '../src/admin/lib/contact-candidate-feedback';
-import { normalizeTelegramContactResolution } from '../src/shared/lead-radar-contact-resolution';
+import { contactResolutionForBrowser, normalizeTelegramContactResolution } from '../src/shared/lead-radar-contact-resolution';
+import { hasNewAdminRelease } from '../src/admin/lib/admin-release';
+
+test('new source reason remains compatible with old open tabs without mutating receipts or deadlines',()=>{
+  const receipt={status:'limited' as const,username:null,reason:'business_listing_rate_limited',retryAfterSeconds:857};
+  for(const protocol of [null,'','1','3','invalid']){
+    const legacy=contactResolutionForBrowser(receipt,protocol);
+    assert.deepEqual(legacy,{...receipt,reason:'business_listing_unavailable'});
+    assert.equal(receipt.reason,'business_listing_rate_limited');
+  }
+  assert.equal(contactResolutionForBrowser(receipt,'2'),receipt);
+  for(const reason of ['flood_wait','account_safety_cooldown','daily_check_limit']){
+    const guard={...receipt,reason};assert.equal(contactResolutionForBrowser(guard,null),guard);
+  }
+});
+
+test('release notice compares executing admin asset and ignores same, malformed, dev or unrelated releases',()=>{
+  const loaded='https://gptbot.uz/assets/AdminRoot-old.js';
+  const probe={path:'assets/AdminRoot-new.js',sha256:'a'.repeat(64)};
+  const manifest={schema:1,commit:'b'.repeat(40),probes:[probe]};
+  assert.equal(hasNewAdminRelease(loaded,manifest),true);
+  assert.equal(hasNewAdminRelease(loaded,{...manifest,probes:[{...probe,path:'assets/AdminRoot-old.js'}]}),false);
+  for(const value of [null,{},[],{...manifest,schema:2},{...manifest,commit:'invalid'},
+    {...manifest,probes:[probe,probe]},{...manifest,probes:[{...probe,sha256:'invalid'}]},
+    {...manifest,probes:[{...probe,path:'https://other.example/assets/AdminRoot-new.js'}]}])
+    assert.equal(hasNewAdminRelease(loaded,value),false);
+  assert.equal(hasNewAdminRelease('http://localhost:3000/src/admin/AdminRoot.tsx',manifest),false);
+  assert.equal(hasNewAdminRelease('https://gptbot.uz/assets/index-old.js',manifest),false);
+});
 
 test('legacy transport errors pause the checker without completing or excluding a company', async () => {
   for (const reason of ['telegram_timeout','lookup_unconfirmed','check_expired']) {

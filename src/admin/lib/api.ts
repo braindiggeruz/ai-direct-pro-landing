@@ -873,7 +873,8 @@ export const api = {
     ),
   leadRadarResolveContact: (searchId: string, companyId: string, candidateKey: string) =>
     request<import('../../shared/lead-radar-contact-resolution').TelegramContactResolution>('POST',
-      '/api/admin/lead-radar/telegram-account/resolve-contact', { searchId, companyId, candidateKey }, { timeoutMs: 15_000 }),
+      '/api/admin/lead-radar/telegram-account/resolve-contact', { searchId, companyId, candidateKey },
+      { timeoutMs: 15_000, headers: { 'X-Lead-Radar-Contact-Protocol': '2' } }),
   leadRadarConfirmOwnership: (companyId: string, candidateKey: string) =>
     request<{ confirmed: boolean; reason: string; confirmedEndpoints: number }>('POST',
       '/api/admin/lead-radar/telegram-contacts/confirm-ownership', { companyId, candidateKey }, { timeoutMs: 20_000 }),

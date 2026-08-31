@@ -12,6 +12,13 @@ export function isBusinessListingUnavailable(reason: string): boolean {
   return reason === 'business_listing_unavailable' || reason === 'business_listing_rate_limited';
 }
 
+/** Open tabs outlive releases. Negotiate presentation only; never alter the
+ * receipt, result status, retry deadline, ownership, or sending eligibility. */
+export function contactResolutionForBrowser(result: TelegramContactResolution, protocol: string | null): TelegramContactResolution {
+  return protocol !== '2' && result.reason === 'business_listing_rate_limited' && ['limited', 'failed'].includes(result.status)
+    ? { ...result, reason: 'business_listing_unavailable' } : result;
+}
+
 /** Older Bridge clients used unresolved for transport errors. These are not
  * negative account lookups: keep them retryable without changing privacy results. */
 export function normalizeTelegramContactResolution(result: TelegramContactResolution): TelegramContactResolution {

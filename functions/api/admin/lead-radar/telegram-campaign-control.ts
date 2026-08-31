@@ -37,6 +37,7 @@ import { LeadRadarTelegramCampaignStore } from '../../../platform/lead-radar/tel
 import { AudienceError,AudienceStore,requireAudienceSchema } from '../../../platform/lead-radar/audiences';
 import type { AudienceScope } from '../../../../src/shared/lead-radar-audiences';
 import { checkCorporateTelegramContact } from '../../../platform/lead-radar/contact-resolution';
+import { contactResolutionForBrowser } from '../../../../src/shared/lead-radar-contact-resolution';
 import { evaluateTelegramCampaignSelection } from '../../../platform/lead-radar/telegram-campaign';
 import {
   adoptTelegramAccountConnection,
@@ -1048,7 +1049,7 @@ export async function handleTelegramCampaignPost(
         resolve: (target, operationId) => resolveTelegramContact({ service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
           internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN, orgId, gatewayAccountRef: binding.gatewayAccountRef, operationId, target }),
       });
-      return ownerJson(result, ctx.requestId);
+      return ownerJson(contactResolutionForBrowser(result, ctx.request.headers.get('X-Lead-Radar-Contact-Protocol')), ctx.requestId);
     }
     if (parts.length === 3
       && parts[0] === 'telegram-account'

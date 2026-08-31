@@ -730,6 +730,33 @@ test('phone connect and code submission use ciphertext-only private contracts', 
   ]);
 });
 
+test('contact API negotiates source-limit copy for old tabs without rewriting the stored receipt',async()=>{
+  const db=freshAdminDb();installLeadRadarLedger(db);
+  const accountId=await seedConnectedAccount(db);
+  const {searchId,leadId}=await seedCorporateLead(db);
+  const orgId=await ownerOrgId(OWNER_EMAIL);
+  const candidateKey='telegram:https://t.me/campaign_clinic';
+  // A cached source-limit receipt isolates transport compatibility from OSM.
+  await checkCorporateTelegramContact({db:db.asD1(),orgId,searchId,companyId:leadId,accountId,candidateKey,now:new Date().toISOString(),
+    resolve:async()=>({status:'limited',username:null,reason:'business_listing_rate_limited',retryAfterSeconds:900})});
+  const before=db.rows('SELECT status,result_json,reason,expires_at FROM lead_radar_contact_checks WHERE company_id=?',leadId);
+  assert.equal(before.length,1);
+  const service=new TelegramAccountServiceFixture();
+  const env=await campaignEnv(service),token=await platformToken('platform_owner');
+  const invoke=(protocol?:string)=>callRoute(leadRadarRoute.onRequestPost,db,'/api/admin/lead-radar/telegram-account/resolve-contact',{
+    method:'POST',token,params:{path:'telegram-account/resolve-contact'},env,
+    headers:protocol?{'X-Lead-Radar-Contact-Protocol':protocol}:{},body:{searchId,companyId:leadId,candidateKey}});
+  const legacy=await invoke();assert.equal(legacy.status,200,JSON.stringify(legacy.body));
+  assert.equal(legacy.body.status,'limited');assert.equal(legacy.body.reason,'business_listing_unavailable');
+  const modern=await invoke('2');assert.equal(modern.status,200,JSON.stringify(modern.body));
+  assert.equal(modern.body.status,'limited');assert.equal(modern.body.reason,'business_listing_rate_limited');
+  assert.equal(modern.body.retryAfterSeconds,legacy.body.retryAfterSeconds);
+  assert.deepEqual(db.rows('SELECT status,result_json,reason,expires_at FROM lead_radar_contact_checks WHERE company_id=?',leadId),before);
+  assert.equal(service.requests.length,0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaigns'),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_contact_authorizations'),0);
+});
+
 test('read-only preflight separates missing consent, Bridge offline and actual authorization without preparing or sending', async () => {
   const db = freshAdminDb(); installLeadRadarLedger(db);
   const { searchId, leadId } = await seedCorporateLead(db);
