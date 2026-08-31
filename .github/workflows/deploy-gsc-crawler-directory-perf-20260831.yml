@@ -1,0 +1,503 @@
+name: deploy-gsc-crawler-directory-perf-20260831
+
+on:
+  push:
+    branches:
+      - ops/deploy-gsc-crawler-directory-perf-20260831
+    paths:
+      - .github/workflows/deploy-gsc-crawler-directory-perf-20260831.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gptbot-pages-production
+  cancel-in-progress: false
+
+env:
+  RELEASE_SHA: 9e23024e066a158153a7f89e9e27e49e9dacb02b
+  RELEASE_BRANCH: release/gsc-crawler-directory-perf-20260831
+  EXPECTED_MAIN_SHA: a45db41ef32a3077c0f9af2f912d0c1239d127d9
+  PROJECT: ai-direct-pro-landing
+  EXPECTED_OLD_DEPLOYMENT_ID: 6da93a09-b662-42d5-948e-ce8e19a3cba1
+  EXPECTED_OLD_COMMIT: 39f67ad83edc4600f9700d7a9230f28996abc3e1
+  EXPECTED_OLD_ARTIFACT: 3b8c157411edcc66de071d24c6c2be05d0099adbfbe50e8a0143883d82dc7a5f
+  EXPECTED_OLD_ADMIN_HASH: e2fe0a69594e8a274a181b1424c3db5211078d08126029c0ae2a77dcc00c1f70
+  PREVIEW_BRANCH: gsc-crawler-directory-preflight-20260831
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+jobs:
+  verify-deploy-align:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out exact reviewed release
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_SHA }}
+          fetch-depth: 0
+
+      - name: Assert immutable release, main ancestry and credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          test "$(git ls-remote origin refs/heads/$RELEASE_BRANCH | cut -f1)" = "$RELEASE_SHA"
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$EXPECTED_MAIN_SHA"
+          git merge-base --is-ancestor "$EXPECTED_MAIN_SHA" "$RELEASE_SHA"
+          test -z "$(git status --porcelain)"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -f migrations/0056_lead_radar_crawler.sql
+          test -f tests/gsc-indexation-hygiene.test.ts
+          test -f tests/lead-radar-crawler.test.ts
+          grep -F 'MAX_DIRECTORY_CONTACT_CANDIDATES_PER_COMPANY = 256' functions/platform/lead-radar/recipient-directory.ts
+          grep -F 'MAX_DIRECTORY_PHONE_EVIDENCE_PER_COMPANY = 128' functions/platform/lead-radar/recipient-directory.ts
+          grep -F 'matches.filter((group)=>group.hasBusinessContact)' functions/platform/lead-radar/audiences.ts
+          ! grep -F 'JSON.parse(member.telegram_contact_json' functions/platform/lead-radar/audiences.ts
+
+      - name: Guard the exact live Functions and artifact being replaced
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT" \
+            > evidence/predeploy-project.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          const project = JSON.parse(fs.readFileSync('evidence/predeploy-project.json','utf8'));
+          const current = project.result?.canonical_deployment;
+          if (!project.success || !current) throw new Error('canonical production unavailable');
+          if (current.id !== process.env.EXPECTED_OLD_DEPLOYMENT_ID) throw new Error(`production race: ${current.id}`);
+          if (current.environment !== 'production' || current.latest_stage?.status !== 'success') throw new Error('current production is not successful');
+          if (current.deployment_trigger?.metadata?.commit_hash !== process.env.EXPECTED_OLD_COMMIT) throw new Error('current production commit drifted');
+          if (current.deployment_trigger?.metadata?.commit_dirty !== true) throw new Error('expected dirty Functions superset metadata missing');
+          async function get(url, options={}) {
+            return fetch(url,{cache:'no-store',signal:AbortSignal.timeout(30000),...options});
+          }
+          const manifests={};
+          for(const origin of ['https://gptbot.uz',current.url]){
+            const response=await get(`${origin}/gptbot-release.json?guard=${Date.now()}`);
+            if(!response.ok)throw new Error(`${origin}: manifest ${response.status}`);
+            const manifest=await response.json();
+            if(manifest.commit!==process.env.EXPECTED_OLD_COMMIT||manifest.artifactSha256!==process.env.EXPECTED_OLD_ARTIFACT||manifest.fileCount!==870)throw new Error(`${origin}: old artifact mismatch`);
+            const admin=manifest.probes?.find((item)=>/^assets\/AdminRoot-.*\.js$/.test(item.path));
+            if(!admin||admin.sha256!==process.env.EXPECTED_OLD_ADMIN_HASH)throw new Error(`${origin}: admin probe mismatch`);
+            const adminResponse=await get(`${origin}/${admin.path}?guard=${Date.now()}`);
+            const bytes=new Uint8Array(await adminResponse.arrayBuffer());
+            const digest=crypto.createHash('sha256').update(bytes).digest('hex');
+            if(!adminResponse.ok||digest!==process.env.EXPECTED_OLD_ADMIN_HASH)throw new Error(`${origin}: admin bytes mismatch`);
+            const text=new TextDecoder().decode(bytes);
+            for(const marker of ['Локальный сборщик','Собрать контакты с сайта'])if(!text.includes(marker))throw new Error(`${origin}: crawler UI marker missing`);
+            manifests[origin]={commit:manifest.commit,artifactSha256:manifest.artifactSha256,fileCount:manifest.fileCount,adminPath:admin.path,adminSha256:admin.sha256};
+          }
+          const worker=await get(`${current.url}/api/lead-radar/crawler/jobs`,{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
+          const workerBody=await worker.json().catch(()=>({}));
+          if(worker.status!==401||workerBody.error!=='crawler_unauthorized')throw new Error('live crawler worker contract missing');
+          const safe={
+            checkedAt:new Date().toISOString(),
+            deployment:{id:current.id,url:current.url,status:current.latest_stage.status,commit:current.deployment_trigger.metadata.commit_hash,commitDirty:current.deployment_trigger.metadata.commit_dirty,aliases:current.aliases??[]},
+            source:{productionBranch:project.result?.source?.config?.production_branch??null,productionDeploymentsEnabled:project.result?.source?.config?.production_deployments_enabled??null},
+            manifests,workerRouteAuthFirst:true,
+          };
+          fs.writeFileSync('evidence/predeploy-safe.json',JSON.stringify(safe,null,2)+'\n');
+          console.log('PREDEPLOY_GUARD=pass');
+          NODE
+          rm -f evidence/predeploy-project.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install locked dependencies
+        run: |
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Re-run complete release gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          node --import tsx --test tests/lead-radar-audiences.test.ts tests/lead-radar-crawler.test.ts tests/lead-radar-crawler-contract.test.ts
+          yarn test:gsc-indexation
+          yarn test
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+          yarn test:pages-production
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+          test -z "$(git status --porcelain)"
+
+      - name: Build and freeze the exact candidate artifact
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run build:production
+          npx --no-install tsx scripts/release/pages-production.ts check
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          const manifest=JSON.parse(fs.readFileSync('dist/gptbot-release.json','utf8'));
+          if(manifest.commit!==process.env.RELEASE_SHA)throw new Error('release stamp mismatch');
+          if(manifest.fileCount!==870)throw new Error(`unexpected file count ${manifest.fileCount}`);
+          for(const feature of ['audience_directory','mobile_username_selection','bridge_pairing','sending_readiness','campaign_preflight','async_media_check'])if(!manifest.features.includes(feature))throw new Error(`missing ${feature}`);
+          const admin=manifest.probes?.find((item)=>/^assets\/AdminRoot-.*\.js$/.test(item.path));
+          if(!admin)throw new Error('candidate admin probe missing');
+          const bytes=fs.readFileSync(`dist/${admin.path}`);
+          if(crypto.createHash('sha256').update(bytes).digest('hex')!==admin.sha256)throw new Error('candidate admin hash mismatch');
+          const text=bytes.toString('utf8');
+          for(const marker of ['Локальный сборщик','Собрать контакты с сайта'])if(!text.includes(marker))throw new Error(`candidate missing ${marker}`);
+          fs.writeFileSync('evidence/candidate-safe.json',JSON.stringify(manifest,null,2)+'\n');
+          console.log(`CANDIDATE_ARTIFACT=${manifest.artifactSha256}`);
+          NODE
+          ! grep -RniE 'SearchAction|search_term_string|query-input' dist/index.html dist/ru/blog/index.html dist/uz/blog/index.html
+          grep -F '/ru/telegram-bot-uzbekistan/  /ru/telegram-bot-dlya-biznesa/  301' dist/_redirects
+          grep -F '/gpt-uzbek-tilida/  /uz/gpt-uzbek-tilida/  301' dist/_redirects
+          grep -F '/gpt-chat/  /ru/gpt-chat/  301' dist/_redirects
+
+      - name: Exercise candidate Functions against live D1 in an isolated preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROBE_TOKEN=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+          echo "::add-mask::$PROBE_TOKEN"
+          echo "PROBE_TOKEN=$PROBE_TOKEN" >> "$GITHUB_ENV"
+          mkdir -p functions/api/internal
+          cat > functions/api/internal/release-directory-probe.ts <<'EOF'
+          import { recipientDirectoryGroups } from '../../platform/lead-radar/recipient-directory';
+          interface Env { GPTBOT_DRAFTS_DB: D1Database }
+          export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+            if(new URL(request.url).searchParams.get('token')!=='__TOKEN__')return new Response('not found',{status:404});
+            try{
+              const migrations=await env.GPTBOT_DRAFTS_DB.prepare("SELECT name FROM d1_migrations WHERE name='0056_lead_radar_crawler.sql'").all();
+              const objects=await env.GPTBOT_DRAFTS_DB.prepare("SELECT type,name FROM sqlite_master WHERE name LIKE 'lead_radar_crawler_%' OR name LIKE 'idx_lr_crawler_%' ORDER BY type,name").all();
+              const workers=await env.GPTBOT_DRAFTS_DB.prepare("SELECT COUNT(*) AS count,SUM(CASE WHEN revoked=0 THEN 1 ELSE 0 END) AS active_count,MAX(last_seen_at) AS last_seen_at FROM lead_radar_crawler_workers").first();
+              const jobs=await env.GPTBOT_DRAFTS_DB.prepare("SELECT status,COUNT(*) AS count FROM lead_radar_crawler_jobs GROUP BY status ORDER BY status").all();
+              const largest=await env.GPTBOT_DRAFTS_DB.prepare("SELECT org_id,COUNT(*) AS company_count FROM lead_radar_companies GROUP BY org_id ORDER BY company_count DESC LIMIT 1").first<{org_id:string;company_count:number}>();
+              let directory={companyCount:0,groupCount:0,elapsedMs:0};
+              if(largest?.org_id){
+                const started=Date.now();
+                const groups=await recipientDirectoryGroups(env.GPTBOT_DRAFTS_DB,largest.org_id);
+                directory={companyCount:Number(largest.company_count??0),groupCount:groups.length,elapsedMs:Date.now()-started};
+              }
+              return Response.json({generatedAt:new Date().toISOString(),migrations:migrations.results??[],objects:objects.results??[],workers,jobs:jobs.results??[],directory},{headers:{'Cache-Control':'no-store','X-Robots-Tag':'noindex,nofollow'}});
+            }catch(error){return Response.json({error:error instanceof Error?error.message:'probe_failed'},{status:500,headers:{'Cache-Control':'no-store'}})}
+          };
+          EOF
+          PROBE_TOKEN="$PROBE_TOKEN" node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const file='functions/api/internal/release-directory-probe.ts';
+          fs.writeFileSync(file,fs.readFileSync(file,'utf8').replace('__TOKEN__',process.env.PROBE_TOKEN));
+          NODE
+          node node_modules/wrangler/bin/wrangler.js pages deploy dist \
+            --project-name "$PROJECT" \
+            --branch "$PREVIEW_BRANCH" \
+            --commit-hash "$RELEASE_SHA" \
+            --commit-dirty=true | tee evidence/preflight-preview.log
+          PREVIEW_URL=$(grep -Eo 'https://[a-z0-9-]+\.ai-direct-pro-landing\.pages\.dev' evidence/preflight-preview.log | head -1)
+          test -n "$PREVIEW_URL"
+          echo "PREVIEW_URL=$PREVIEW_URL" >> "$GITHUB_ENV"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const sleep=(ms)=>new Promise((resolve)=>setTimeout(resolve,ms));
+          const url=`${process.env.PREVIEW_URL}/api/internal/release-directory-probe?token=${process.env.PROBE_TOKEN}`;
+          const snapshots=[];
+          for(let sample=0;sample<2;sample++){
+            let response=null;
+            for(let i=0;i<20;i++){
+              response=await fetch(`${url}&sample=${sample}&t=${Date.now()}`,{cache:'no-store',signal:AbortSignal.timeout(30000)}).catch(()=>null);
+              if(response?.status===200)break;
+              await sleep(3000);
+            }
+            if(!response||response.status!==200)throw new Error(`directory probe HTTP ${response?.status}`);
+            const snapshot=await response.json();
+            if(snapshot.error)throw new Error(snapshot.error);
+            snapshots.push(snapshot);
+          }
+          const snapshot=snapshots.at(-1);
+          if(!snapshot.migrations.some((row)=>row.name==='0056_lead_radar_crawler.sql'))throw new Error('crawler migration ledger missing');
+          const names=new Set(snapshot.objects.map((row)=>row.name));
+          for(const name of ['lead_radar_crawler_workers','lead_radar_crawler_jobs','lead_radar_crawler_receipts','lead_radar_crawler_hosts','idx_lr_crawler_jobs_active_company'])if(!names.has(name))throw new Error(`crawler object missing ${name}`);
+          if(Number(snapshot.workers?.count??0)<1||Number(snapshot.workers?.active_count??0)<1)throw new Error('no active crawler worker registration');
+          for(const item of snapshots){
+            if(!Number.isSafeInteger(item.directory?.companyCount)||!Number.isSafeInteger(item.directory?.groupCount)||!Number.isSafeInteger(item.directory?.elapsedMs))throw new Error('invalid directory probe metrics');
+            if(item.directory.elapsedMs>20000)throw new Error(`directory projection exceeded safety budget: ${item.directory.elapsedMs}ms`);
+          }
+          fs.writeFileSync('evidence/directory-predeploy-safe.json',JSON.stringify({samples:snapshots.map((item)=>({generatedAt:item.generatedAt,workers:item.workers,jobs:item.jobs,directory:item.directory,migrations:item.migrations,objects:item.objects}))},null,2)+'\n');
+          console.log(`DIRECTORY_COMPANIES=${snapshot.directory.companyCount}`);
+          console.log(`DIRECTORY_GROUPS=${snapshot.directory.groupCount}`);
+          console.log(`DIRECTORY_ELAPSED_MS=${snapshot.directory.elapsedMs}`);
+          console.log('LIVE_D1_PREFLIGHT=pass');
+          NODE
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments?env=preview&per_page=50" \
+            > evidence/preview-deployments.json
+          PREVIEW_DEPLOYMENT_ID=$(PREVIEW_URL="$PREVIEW_URL" node -e "const fs=require('fs');const b=JSON.parse(fs.readFileSync('evidence/preview-deployments.json','utf8'));const x=(b.result||[]).find(v=>v.url===process.env.PREVIEW_URL);process.stdout.write(x?.id||'')")
+          test -n "$PREVIEW_DEPLOYMENT_ID"
+          echo "PREVIEW_DEPLOYMENT_ID=$PREVIEW_DEPLOYMENT_ID" >> "$GITHUB_ENV"
+          rm -f evidence/preview-deployments.json functions/api/internal/release-directory-probe.ts
+          test -z "$(git status --porcelain)"
+
+      - name: Final production and main race guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$EXPECTED_MAIN_SHA"
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT" \
+            > evidence/preupload-project.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const body=JSON.parse(fs.readFileSync('evidence/preupload-project.json','utf8'));
+          const current=body.result?.canonical_deployment;
+          if(!body.success||current?.id!==process.env.EXPECTED_OLD_DEPLOYMENT_ID||current?.latest_stage?.status!=='success'||current?.deployment_trigger?.metadata?.commit_hash!==process.env.EXPECTED_OLD_COMMIT)throw new Error('production changed during verification; upload aborted');
+          const response=await fetch(`https://gptbot.uz/gptbot-release.json?race=${Date.now()}`,{cache:'no-store',signal:AbortSignal.timeout(30000)});
+          const manifest=await response.json();
+          if(!response.ok||manifest.artifactSha256!==process.env.EXPECTED_OLD_ARTIFACT)throw new Error('apex artifact changed during verification');
+          console.log('FINAL_RACE_GUARD=pass');
+          NODE
+          rm -f evidence/preupload-project.json
+
+      - name: Deploy exact artifact and Functions to production
+        id: deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          node node_modules/wrangler/bin/wrangler.js pages deploy dist \
+            --project-name "$PROJECT" \
+            --branch main \
+            --commit-hash "$RELEASE_SHA" \
+            --commit-dirty=false | tee evidence/production-deploy.log
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const sleep=(ms)=>new Promise((resolve)=>setTimeout(resolve,ms));
+          let deployment=null;
+          for(let i=0;i<48;i++){
+            const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/pages/projects/${process.env.PROJECT}`,{headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`},cache:'no-store',signal:AbortSignal.timeout(30000)});
+            const body=await response.json();
+            const current=body.result?.canonical_deployment;
+            if(body.success&&current?.id!==process.env.EXPECTED_OLD_DEPLOYMENT_ID&&current?.environment==='production'&&current?.latest_stage?.status==='success'&&current?.deployment_trigger?.metadata?.commit_hash===process.env.RELEASE_SHA){deployment=current;break;}
+            await sleep(5000);
+          }
+          if(!deployment)throw new Error('new production deployment was not observed');
+          const safe={id:deployment.id,url:deployment.url,environment:deployment.environment,status:deployment.latest_stage.status,commit:deployment.deployment_trigger.metadata.commit_hash,commitDirty:deployment.deployment_trigger.metadata.commit_dirty,aliases:deployment.aliases??[]};
+          fs.writeFileSync('evidence/new-deployment-safe.json',JSON.stringify(safe,null,2)+'\n');
+          fs.appendFileSync(process.env.GITHUB_ENV,`NEW_DEPLOYMENT_ID=${deployment.id}\nNEW_DEPLOYMENT_URL=${deployment.url}\n`);
+          console.log(`NEW_DEPLOYMENT_ID=${deployment.id}`);
+          console.log(`NEW_DEPLOYMENT_URL=${deployment.url}`);
+          NODE
+
+      - name: Run production SEO, crawler and heartbeat canaries
+        id: canary
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const sleep=(ms)=>new Promise((resolve)=>setTimeout(resolve,ms));
+          const expected=JSON.parse(fs.readFileSync('dist/gptbot-release.json','utf8'));
+          const pre=JSON.parse(fs.readFileSync('evidence/directory-predeploy-safe.json','utf8')).samples.at(-1);
+          const origins=['https://gptbot.uz',process.env.NEW_DEPLOYMENT_URL];
+          async function request(url,options={}){
+            let error;
+            for(let i=0;i<12;i++){
+              try{return await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(30000),...options});}
+              catch(value){error=value;await sleep(2500);}
+            }
+            throw error;
+          }
+          function canonicalOf(html){
+            for(const tag of html.match(/<link\b[^>]*>/gi)||[]){
+              if(!/\brel=["'][^"']*canonical[^"']*["']/i.test(tag))continue;
+              const href=tag.match(/\bhref=["']([^"']+)["']/i)?.[1];if(href)return href;
+            }
+            return null;
+          }
+          async function redirect(origin,path,target){
+            const response=await request(`${origin}${path}${path.includes('?')?'&':'?'}release=${process.env.RELEASE_SHA}`,{redirect:'manual'});
+            if(response.status!==301)throw new Error(`${origin}${path}: expected 301 got ${response.status}`);
+            const location=new URL(response.headers.get('location'),`${origin}${path}`).href;
+            if(location!==`${origin}${target}`&&location!==`https://gptbot.uz${target}`)throw new Error(`${origin}${path}: ${location}`);
+          }
+          async function missing(origin,path){
+            const response=await request(`${origin}${path}?release=${process.env.RELEASE_SHA}`,{redirect:'manual'});
+            if(response.status!==404)throw new Error(`${origin}${path}: expected 404 got ${response.status}`);
+            if(!/noindex\s*,?\s*nofollow/i.test(await response.text()))throw new Error(`${origin}${path}: noindex missing`);
+          }
+          async function workerAuth(origin,path){
+            const response=await request(`${origin}${path}`,{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
+            const body=await response.json().catch(()=>({}));
+            if(response.status!==401||body.error!=='crawler_unauthorized')throw new Error(`${origin}${path}: worker auth contract`);
+          }
+          const evidence={checkedAt:new Date().toISOString(),releaseSha:process.env.RELEASE_SHA,deploymentId:process.env.NEW_DEPLOYMENT_ID,deploymentUrl:process.env.NEW_DEPLOYMENT_URL,artifactSha256:expected.artifactSha256,origins:{},crawlerHeartbeat:{}};
+          for(const origin of origins){
+            const manifestResponse=await request(`${origin}/gptbot-release.json?release=${process.env.RELEASE_SHA}`);
+            const manifest=await manifestResponse.json();
+            if(!manifestResponse.ok||JSON.stringify(manifest)!==JSON.stringify(expected))throw new Error(`${origin}: manifest mismatch`);
+            for(const path of ['/','/robots.txt','/sitemap.xml','/ru/internet-reklama-tashkent/','/uz/internet-reklama-toshkent/','/ru/telegram-bot-dlya-biznesa/','/admin/lead-radar']){
+              const response=await request(`${origin}${path}?release=${process.env.RELEASE_SHA}`);if(!response.ok)throw new Error(`${origin}${path}: ${response.status}`);
+            }
+            const home=await(await request(`${origin}/?release=${process.env.RELEASE_SHA}`)).text();
+            if(/SearchAction|search_term_string|query-input/.test(home))throw new Error(`${origin}: obsolete SearchAction`);
+            const admin=manifest.probes.find((item)=>/^assets\/AdminRoot-.*\.js$/.test(item.path));
+            const adminText=await(await request(`${origin}/${admin.path}?release=${process.env.RELEASE_SHA}`)).text();
+            for(const marker of ['Локальный сборщик','Собрать контакты с сайта'])if(!adminText.includes(marker))throw new Error(`${origin}: admin marker ${marker}`);
+            const owner=await request(`${origin}/api/admin/lead-radar/crawler/status?companyId=test`);
+            const ownerBody=await owner.json().catch(()=>({}));
+            if(owner.status!==401||ownerBody.error!=='missing_token')throw new Error(`${origin}: owner crawler auth contract`);
+            for(const path of ['/api/lead-radar/crawler/jobs','/api/lead-radar/crawler/claim','/api/lead-radar/crawler/heartbeat','/api/lead-radar/crawler/receipt'])await workerAuth(origin,path);
+            await redirect(origin,'/ru/blog/?q=%7Bsearch_term_string%7D','/ru/blog/');
+            await redirect(origin,'/ru/telegram-bot-uzbekistan/','/ru/telegram-bot-dlya-biznesa/');
+            await redirect(origin,'/gpt-uzbek-tilida/','/uz/gpt-uzbek-tilida/');
+            await redirect(origin,'/gpt-chat/','/ru/gpt-chat/');
+            for(const path of ['/cabinet','/oauth','/api','/callback','/reset-password','/auth','/account'])await missing(origin,path);
+            const telegram=await(await request(`${origin}/ru/telegram-bot-dlya-biznesa/?release=${process.env.RELEASE_SHA}`)).text();
+            if(!/Узбекистан/.test(telegram)||canonicalOf(telegram)!=='https://gptbot.uz/ru/telegram-bot-dlya-biznesa/')throw new Error(`${origin}: Telegram owner canary`);
+            const sitemap=await(await request(`${origin}/sitemap.xml?release=${process.env.RELEASE_SHA}`)).text();
+            const urls=[...new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match)=>match[1].trim()))];
+            if(urls.length!==260)throw new Error(`${origin}: sitemap ${urls.length}`);
+            let cursor=0;const results=new Array(urls.length);
+            async function crawl(){while(cursor<urls.length){const index=cursor++;const canonical=urls[index];const target=origin.includes('pages.dev')?canonical.replace('https://gptbot.uz',origin):canonical;const response=await request(`${target}?release=${process.env.RELEASE_SHA}`);const html=await response.text();results[index]={url:canonical,status:response.status,canonical:canonicalOf(html),noindex:/<meta\b[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html)};}}
+            await Promise.all(Array.from({length:8},crawl));
+            const bad=results.filter((item)=>item.status!==200||item.canonical!==item.url||item.noindex);
+            if(bad.length)throw new Error(`${origin}: sitemap canary ${JSON.stringify(bad.slice(0,5))}`);
+            evidence.origins[origin]={manifestPass:true,publicShellPass:true,searchActionAbsent:true,redirectsPass:true,private404Pass:true,sitemapCount:urls.length,sitemapSelfCanonicalPass:true,crawlerRoutesAuthFirst:true,crawlerUiPass:true};
+          }
+          const www=await request(`https://www.gptbot.uz/uz/chat-bot-narxi/?release=${process.env.RELEASE_SHA}`,{redirect:'manual'});
+          if(www.status!==301||new URL(www.headers.get('location'),'https://www.gptbot.uz').hostname!=='gptbot.uz')throw new Error('www redirect failed');
+          const preSeen=pre.workers?.last_seen_at?new Date(pre.workers.last_seen_at).valueOf():NaN;
+          const preFresh=Number.isFinite(preSeen)&&Date.now()-preSeen<=120000;
+          let post=null;
+          for(let i=0;i<(preFresh?24:1);i++){
+            const response=await request(`${process.env.PREVIEW_URL}/api/internal/release-directory-probe?token=${process.env.PROBE_TOKEN}&after=${Date.now()}`);
+            if(!response.ok)throw new Error(`post probe ${response.status}`);
+            post=await response.json();if(post.error)throw new Error(post.error);
+            const seen=post.workers?.last_seen_at?new Date(post.workers.last_seen_at).valueOf():NaN;
+            if(!preFresh||(Number.isFinite(seen)&&seen>preSeen))break;
+            await sleep(5000);
+          }
+          const postSeen=post?.workers?.last_seen_at?new Date(post.workers.last_seen_at).valueOf():NaN;
+          if(preFresh&&(!Number.isFinite(postSeen)||postSeen<=preSeen))throw new Error('crawler heartbeat stopped after deployment');
+          if(Number(post?.directory?.elapsedMs??Infinity)>20000)throw new Error('post-deploy directory safety budget exceeded');
+          fs.writeFileSync('evidence/directory-postdeploy-safe.json',JSON.stringify(post,null,2)+'\n');
+          evidence.crawlerHeartbeat={preFresh,preLastSeenAt:pre.workers?.last_seen_at??null,postLastSeenAt:post?.workers?.last_seen_at??null,advanced:preFresh?postSeen>preSeen:null,activeWorkers:Number(post?.workers?.active_count??0),directory:post?.directory??null};
+          evidence.wwwCanonicalRedirect={status:www.status,location:www.headers.get('location')};
+          evidence.canary='pass';
+          fs.writeFileSync('evidence/deployment-evidence.json',JSON.stringify(evidence,null,2)+'\n');
+          console.log('PRODUCTION_CANARY=pass');
+          NODE
+
+      - name: Roll back automatically if production canary fails
+        if: failure() && steps.deploy.outcome == 'success' && steps.canary.outcome == 'failure'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --request POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H 'Content-Type: application/json' --data '{}' \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments/$EXPECTED_OLD_DEPLOYMENT_ID/rollback" \
+            > evidence/rollback-response.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const sleep=(ms)=>new Promise((resolve)=>setTimeout(resolve,ms));
+          let restored=false;
+          for(let i=0;i<36;i++){
+            const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/pages/projects/${process.env.PROJECT}`,{headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`},cache:'no-store',signal:AbortSignal.timeout(30000)});
+            const body=await response.json();const current=body.result?.canonical_deployment;
+            if(body.success&&current?.id===process.env.EXPECTED_OLD_DEPLOYMENT_ID&&current?.latest_stage?.status==='success'){restored=true;break;}
+            await sleep(5000);
+          }
+          if(!restored)throw new Error('rollback not confirmed');
+          const response=await fetch(`https://gptbot.uz/gptbot-release.json?rollback=${Date.now()}`,{cache:'no-store',signal:AbortSignal.timeout(30000)});const manifest=await response.json();
+          if(!response.ok||manifest.artifactSha256!==process.env.EXPECTED_OLD_ARTIFACT)throw new Error('rollback artifact mismatch');
+          fs.writeFileSync('evidence/rollback-safe.json',JSON.stringify({rolledBackAt:new Date().toISOString(),deploymentId:process.env.EXPECTED_OLD_DEPLOYMENT_ID,artifactSha256:manifest.artifactSha256,status:'confirmed'},null,2)+'\n');
+          console.log('AUTOMATIC_ROLLBACK=confirmed');
+          NODE
+          rm -f evidence/rollback-response.json
+
+      - name: Fast-forward main to the deployed source of truth
+        shell: bash
+        run: |
+          set -euo pipefail
+          CURRENT_MAIN=$(git ls-remote origin refs/heads/main | cut -f1)
+          test "$CURRENT_MAIN" = "$EXPECTED_MAIN_SHA" || test "$CURRENT_MAIN" = "$RELEASE_SHA"
+          if [ "$CURRENT_MAIN" != "$RELEASE_SHA" ]; then git push origin "$RELEASE_SHA:refs/heads/main"; fi
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$RELEASE_SHA"
+          node -e "require('fs').writeFileSync('evidence/main-alignment-safe.json',JSON.stringify({alignedAt:new Date().toISOString(),previous:'$EXPECTED_MAIN_SHA',current:'$RELEASE_SHA'},null,2)+'\n')"
+          echo 'MAIN_ALIGNMENT=pass'
+
+      - name: Verify final canonical deployment and source alignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          sleep 10
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const expected=JSON.parse(fs.readFileSync('dist/gptbot-release.json','utf8'));
+          const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/pages/projects/${process.env.PROJECT}`,{headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`},cache:'no-store',signal:AbortSignal.timeout(30000)});
+          const body=await response.json();const current=body.result?.canonical_deployment;
+          if(!body.success||current?.latest_stage?.status!=='success'||current?.deployment_trigger?.metadata?.commit_hash!==process.env.RELEASE_SHA)throw new Error('final canonical deployment mismatch');
+          const manifestResponse=await fetch(`https://gptbot.uz/gptbot-release.json?final=${Date.now()}`,{cache:'no-store',signal:AbortSignal.timeout(30000)});const manifest=await manifestResponse.json();
+          if(!manifestResponse.ok||JSON.stringify(manifest)!==JSON.stringify(expected))throw new Error('final apex artifact mismatch');
+          const safe={verifiedAt:new Date().toISOString(),canonicalDeploymentId:current.id,canonicalDeploymentUrl:current.url,commit:current.deployment_trigger.metadata.commit_hash,status:current.latest_stage.status,commitDirty:current.deployment_trigger.metadata.commit_dirty,manualDeploymentId:process.env.NEW_DEPLOYMENT_ID};
+          fs.writeFileSync('evidence/final-production-safe.json',JSON.stringify(safe,null,2)+'\n');
+          console.log(`FINAL_DEPLOYMENT_ID=${current.id}`);
+          console.log('FINAL_SOURCE_ALIGNMENT=pass');
+          NODE
+
+      - name: Upload sanitized release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-gsc-crawler-directory-production-evidence-${{ env.RELEASE_SHA }}
+          path: |
+            evidence/predeploy-safe.json
+            evidence/candidate-safe.json
+            evidence/directory-predeploy-safe.json
+            evidence/directory-postdeploy-safe.json
+            evidence/new-deployment-safe.json
+            evidence/deployment-evidence.json
+            evidence/main-alignment-safe.json
+            evidence/final-production-safe.json
+            evidence/rollback-safe.json
+            evidence/production-deploy.log
+            dist/gptbot-release.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Delete temporary D1 preview
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          if [ -n "${PREVIEW_DEPLOYMENT_ID:-}" ]; then
+            curl --silent --show-error --request DELETE \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments/$PREVIEW_DEPLOYMENT_ID?force=true" >/dev/null
+          fi
+
+      - name: Remove one-shot deployment workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin ops/deploy-gsc-crawler-directory-perf-20260831
+          git switch -C ops/deploy-gsc-crawler-directory-perf-20260831 origin/ops/deploy-gsc-crawler-directory-perf-20260831
+          git config user.name "GPTBot Production Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/deploy-gsc-crawler-directory-perf-20260831.yml
+          git commit -m "chore(release): remove one-shot directory recovery deployment"
+          git push origin HEAD:ops/deploy-gsc-crawler-directory-perf-20260831
