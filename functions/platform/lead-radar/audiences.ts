@@ -139,9 +139,7 @@ export class AudienceStore {
     let globalVerified: Set<string> | null = null;
     if (requestedStatus==='verified' || requestedStatus==='review') {
       matches=matches.filter((group)=>baseStatus(group)===null);
-      const potential=matches.filter((group)=>group.members.some((member)=>{
-        try{return JSON.parse(member.telegram_contact_json ?? 'null')?.type==='business';}catch{return false;}
-      }));
+      const potential=matches.filter((group)=>group.hasBusinessContact);
       if(potential.length>200)throw new AudienceError('directory_narrow_verification_filter',422);
       globalVerified=new Set<string>();
       for(let start=0;start<potential.length;start+=50){

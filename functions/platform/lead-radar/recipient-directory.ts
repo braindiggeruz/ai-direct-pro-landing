@@ -10,8 +10,10 @@ export interface DirectoryCompany {
 }
 export interface DirectoryGroup {
   key: string; companyId: string; members: DirectoryCompany[]; keys: string[];
-  blocked: boolean; conflict: boolean; contacted: boolean;
+  blocked: boolean; conflict: boolean; contacted: boolean; hasBusinessContact: boolean;
 }
+const MAX_DIRECTORY_CONTACT_CANDIDATES_PER_COMPANY = 256;
+const MAX_DIRECTORY_PHONE_EVIDENCE_PER_COMPANY = 128;
 function parse<T>(value: string | null, fallback: T): T { try { return JSON.parse(value ?? 'null') ?? fallback; } catch { return fallback; } }
 
 /** One bounded tenant read, followed by the SAME phone parser used by the UI.
@@ -47,19 +49,34 @@ export async function recipientDirectoryGroups(db: D1Database, orgId: string): P
     parent.set(key, current); return current;
   };
   const keysById = new Map<string, string[]>();
+  const businessById = new Map<string, boolean>();
   for (const row of rows) {
+    // Parse each persisted contact representation once. Directory reads may scan
+    // thousands of rows, so status filters and sorting must reuse this projection.
+    const telegramContact = parse<LeadRadarTelegramContact | null>(row.telegram_contact_json, null);
     const sources = parse<Array<{ candidates?: unknown[] }>>(row.sources_json, []);
-    const candidates = Array.isArray(sources) ? sources.flatMap((source) => Array.isArray(source?.candidates) ? source.candidates : []) : [];
+    const candidates: NonNullable<Parameters<typeof recipientContactChoices>[0]['contactCandidates']>[number][] = [];
+    sourceLoop: for (const source of Array.isArray(sources) ? sources : []) {
+      if (!Array.isArray(source?.candidates)) continue;
+      for (const candidate of source.candidates) {
+        if (!candidate || typeof candidate !== 'object' || typeof (candidate as { value?: unknown }).value !== 'string'
+          || !['phone','telegram'].includes((candidate as { kind?: unknown }).kind as string)) continue;
+        if (candidates.length >= MAX_DIRECTORY_CONTACT_CANDIDATES_PER_COMPANY) break sourceLoop;
+        candidates.push(candidate as NonNullable<Parameters<typeof recipientContactChoices>[0]['contactCandidates']>[number]);
+      }
+    }
+    const phoneEvidence = parse<unknown[]>(row.phones_json, [])
+      .filter((value): value is string => typeof value === 'string')
+      .slice(0, MAX_DIRECTORY_PHONE_EVIDENCE_PER_COMPANY);
     const choices = recipientContactChoices({ phone: row.phone, country: row.country, telegramUrl: row.telegram_url,
-      telegramContact: parse<LeadRadarTelegramContact | null>(row.telegram_contact_json, null),
-      evidence: parse<string[]>(row.phones_json, []).filter((value) => typeof value === 'string').map((value) => ({
+      telegramContact,
+      evidence: phoneEvidence.map((value) => ({
         id: '', fieldPath: 'company_contacts.phone', value, sourceUrl: '', sourceType: 'openstreetmap', observedAt: '', confidence: 0, classification: 'fact',
       })),
-      contactCandidates: candidates.filter((value): value is NonNullable<Parameters<typeof recipientContactChoices>[0]['contactCandidates']>[number] =>
-        Boolean(value) && typeof value === 'object' && typeof (value as {value?: unknown}).value === 'string'
-        && ['phone','telegram'].includes((value as {kind: string}).kind)),
+      contactCandidates: candidates,
     });
     keysById.set(row.id, choices.keys);
+    businessById.set(row.id, telegramContact?.type === 'business');
     const identity = root(`company:${row.canonical_key}`);
     for (const key of choices.keys) parent.set(root(key), root(identity));
   }
@@ -72,11 +89,11 @@ export async function recipientDirectoryGroups(db: D1Database, orgId: string): P
     const keys = [...new Set(members.flatMap((row) => keysById.get(row.id) ?? []))].sort();
     if (!keys.length) return [];
     const eligibleMembers = members.filter((row) => keysById.get(row.id)?.length);
-    eligibleMembers.sort((a,b) => Number(parse<LeadRadarTelegramContact | null>(b.telegram_contact_json,null)?.type==='business')
-      - Number(parse<LeadRadarTelegramContact | null>(a.telegram_contact_json,null)?.type==='business')
+    eligibleMembers.sort((a,b) => Number(businessById.get(b.id)) - Number(businessById.get(a.id))
       || b.last_verified_at.localeCompare(a.last_verified_at) || a.id.localeCompare(b.id));
     return [{ key, keys, companyId: eligibleMembers[0].id, members,
       blocked: members.some((row) => Boolean(row.blocked)), conflict: new Set(members.map((row) => row.canonical_key)).size>1,
-      contacted: members.some((row) => Boolean(row.contacted)) }];
+      contacted: members.some((row) => Boolean(row.contacted)),
+      hasBusinessContact: members.some((row) => businessById.get(row.id) === true) }];
   }).sort((a,b) => a.keys[0].localeCompare(b.keys[0]) || a.companyId.localeCompare(b.companyId));
 }

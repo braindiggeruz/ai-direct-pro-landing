@@ -34,3 +34,17 @@ test('crawler UI and APIs remain fail-closed and do not expose raw worker creden
   assert.doesNotMatch(source, /crawler.*(?:send|message).*(?:Telegram|provider)/i);
   assert.match(source, /crawler_unauthorized/);
 });
+
+
+test('recipient directory contact parsing is bounded once and reused by status filters', () => {
+  const directory = read('functions/platform/lead-radar/recipient-directory.ts');
+  const audiences = read('functions/platform/lead-radar/audiences.ts');
+  assert.match(directory, /MAX_DIRECTORY_CONTACT_CANDIDATES_PER_COMPANY = 256/);
+  assert.match(directory, /MAX_DIRECTORY_PHONE_EVIDENCE_PER_COMPANY = 128/);
+  assert.match(directory, /const telegramContact = parse<LeadRadarTelegramContact \| null>/);
+  assert.match(directory, /const businessById = new Map<string, boolean>/);
+  assert.match(directory, /hasBusinessContact: members\.some/);
+  assert.equal((directory.match(/parse<LeadRadarTelegramContact \| null>/g) ?? []).length, 1);
+  assert.match(audiences, /matches\.filter\(\(group\)=>group\.hasBusinessContact\)/);
+  assert.doesNotMatch(audiences, /JSON\.parse\(member\.telegram_contact_json/);
+});
