@@ -26,6 +26,17 @@ jobs:
           ref: fix/gsc-indexation-hygiene-20260831
           fetch-depth: 0
 
+      - name: Remove keyword overlap from the one-shot transform
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const file='.github/scripts/apply-gsc-indexation-hygiene.mjs';
+          let source=fs.readFileSync(file,'utf8');
+          source=source.replace("    'Telegram-бот Узбекистан',\n", '');
+          fs.writeFileSync(file,source,'utf8');
+          NODE
+
       - name: Assert production base and apply corrections
         shell: bash
         run: |
