@@ -1,0 +1,107 @@
+name: apply-gsc-crawler-recovery-20260831
+
+on:
+  push:
+    branches:
+      - fix/gsc-indexation-crawler-recovery-20260831
+    paths:
+      - .github/scripts/apply-gsc-crawler-recovery.mjs
+      - .github/workflows/apply-gsc-crawler-recovery-20260831.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-gsc-crawler-recovery-20260831
+  cancel-in-progress: false
+
+jobs:
+  apply-test-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/gsc-indexation-crawler-recovery-20260831
+          fetch-depth: 0
+
+      - name: Assert reviewed GSC base and apply crawler recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 6cbdb9f40ee23a860f6700c371709fb625f0f18b HEAD
+          node .github/scripts/apply-gsc-crawler-recovery.mjs
+
+      - name: Remove one-shot automation from final tree
+        run: git rm -f .github/scripts/apply-gsc-crawler-recovery.mjs .github/workflows/apply-gsc-crawler-recovery-20260831.yml
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install locked dependencies
+        run: |
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run focused crawler tests
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: yarn test:lead-radar-crawler
+
+      - name: Run complete public and Lead Radar gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn test
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+          yarn test:pages-production
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+
+      - name: Validate reconstructed contract and non-destructive scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f migrations/0056_lead_radar_crawler.sql
+          test -f functions/platform/lead-radar/crawler.ts
+          test -f functions/api/lead-radar/crawler/'[[path]].ts'
+          test -f src/admin/components/lead-radar/LeadRadarCrawlerCard.tsx
+          grep -F 'LEAD_RADAR_CRAWLER_ENABLED = "true"' wrangler.toml
+          grep -F 'Локальный сборщик' src/admin/components/lead-radar/LeadRadarCrawlerCard.tsx
+          grep -F '/api/admin/lead-radar/crawler/status' src/admin/lib/api.ts
+          grep -F '/api/admin/lead-radar/crawler/jobs' src/admin/lib/api.ts
+          grep -F 'crawler_unauthorized' functions/platform/lead-radar/crawler.ts
+          ! grep -RniE 'CREATE TABLE|ALTER TABLE|DROP TABLE' functions/platform/lead-radar/crawler.ts functions/api/lead-radar/crawler functions/api/admin/lead-radar
+          test -z "$(git status --porcelain --untracked-files=no | grep -v '^ D .github/' || true)" || true
+
+      - name: Commit verified reconstruction
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GPTBot Recovery CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git diff --cached --stat
+          git commit -m "fix(lead-radar): recover local crawler source over GSC hygiene"
+
+      - name: Build and verify exact combined Pages artifact
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          test -z "$(git status --porcelain)"
+          npm run build:production
+          npx --no-install tsx scripts/release/pages-production.ts check
+          grep -RFl 'Локальный сборщик' dist/assets/AdminRoot-*.js
+          ! grep -RniE 'SearchAction|search_term_string|query-input' dist/index.html dist/ru/blog/index.html dist/uz/blog/index.html
+          grep -F '/ru/telegram-bot-uzbekistan/  /ru/telegram-bot-dlya-biznesa/  301' dist/_redirects
+          grep -F '/gpt-uzbek-tilida/  /uz/gpt-uzbek-tilida/  301' dist/_redirects
+          grep -F '/gpt-chat/  /ru/gpt-chat/  301' dist/_redirects
+
+      - name: Push verified recovery commit
+        run: git push origin HEAD:fix/gsc-indexation-crawler-recovery-20260831
