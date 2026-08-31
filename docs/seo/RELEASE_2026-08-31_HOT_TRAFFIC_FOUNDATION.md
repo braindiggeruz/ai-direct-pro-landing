@@ -55,23 +55,31 @@ The pages no longer promise zero lost leads or zero duplicates. A buyer-facing a
 
 ## Permanent regression gate
 
-`tests/seo-commercial-claims.test.ts` blocks unverified ratings, loss of paid-media body links, stale competitor-price snapshots, pricing without scope qualification and CRM pages without idempotency/recovery boundaries. It is included in `npm test` and available as `npm run test:seo-commercial-claims`.
+`tests/seo-commercial-claims.test.ts` blocks unverified ratings, loss of paid-media body links, stale competitor-price snapshots, pricing without scope qualification and CRM pages without idempotency/recovery boundaries. It is included in `yarn test` and is also available as `yarn test:seo-commercial-claims`.
 
 ## Required checks before merge
 
 ```bash
-npm ci --ignore-scripts --no-audit --no-fund
-npm run seo:audit
-npm run test:seo-commercial-claims
-npm run test:seo-links
-npm run test:seo-demand
-npm run test:seo-intent
-npm run test:seo-cluster
-npm run test:canonical
-npx tsc -b
-npm run build
-npm run scan:secrets
+yarn install --frozen-lockfile --ignore-scripts --non-interactive
+yarn test
+yarn seo:audit
+yarn tsc -b
+yarn build
+yarn scan:secrets
 ```
+
+## Verified implementation evidence
+
+The final code-bearing commit `8fb700972f353a66224559b90e8cded06632654c` passed GitHub Actions run `33395158634` on 2026-08-31:
+
+- complete repository suite: **336/336 tests passed**;
+- SEO audit: passed;
+- TypeScript project build: passed;
+- complete site build and prerender: passed;
+- tracked-content secret scan: passed;
+- JSON parsing, whitespace and volatile-claim validation: passed.
+
+The one-shot transformation scripts and workflows were deleted from the final branch after the verified content commit.
 
 ## Deployment and observation gate
 
