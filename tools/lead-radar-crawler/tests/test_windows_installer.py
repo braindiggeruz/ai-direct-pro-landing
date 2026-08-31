@@ -71,6 +71,8 @@ class WindowsInstallerTests(unittest.TestCase):
         self.assertIn("-RunLevel Limited", installer)
         self.assertIn("-AtStartup", installer)
         self.assertIn("-RepetitionInterval (New-TimeSpan -Minutes 1)", installer)
+        self.assertIn("TASK_DONT_ADD_PRINCIPAL_ACE (16)", installer)
+        self.assertIn("$registered.SetSecurityDescriptor('D:P(A;;FA;;;SY)(A;;FA;;;BA)(A;;GRGX;;;'+$account.SID.Value+')',16)", installer)
         for forbidden in ("Enable-ScheduledTask", "Start-ScheduledTask", "Invoke-WebRequest", "Invoke-RestMethod",
                           "Remove-LocalUser", "Unregister-ScheduledTask", "Remove-Item"):
             self.assertNotIn(forbidden, installer + rollback)

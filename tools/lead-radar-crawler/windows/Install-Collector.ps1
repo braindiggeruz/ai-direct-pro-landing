@@ -320,7 +320,8 @@ try {
     $manifest.taskRegistered=$true
     Write-CollectorJson $manifestPath $manifest
     $registered=$scheduler.GetFolder($spec.TaskFolderPath).GetTask($spec.TaskName)
-    $registered.SetSecurityDescriptor('D:P(A;;FA;;;SY)(A;;FA;;;BA)(A;;GRGX;;;'+$account.SID.Value+')',0)
+    # TASK_DONT_ADD_PRINCIPAL_ACE (16): the supplied principal ACE is authoritative.
+    $registered.SetSecurityDescriptor('D:P(A;;FA;;;SY)(A;;FA;;;BA)(A;;GRGX;;;'+$account.SID.Value+')',16)
     $failureStage='task_safety_readback'
     $readback=Get-ScheduledTask -TaskName $spec.TaskName -TaskPath $spec.TaskPath
     if ($readback.State -ne 'Disabled' -or $readback.Principal.RunLevel -ne 'Limited') { throw 'task_safety_readback_failed' }
