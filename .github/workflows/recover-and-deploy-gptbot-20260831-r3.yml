@@ -1,0 +1,139 @@
+name: recover-and-deploy-gptbot-20260831-r3
+
+on:
+  push:
+    branches: [ops/inspect-cold-locale-schema-guard-20260831]
+    paths: [.github/workflows/recover-and-deploy-gptbot-20260831-r3.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gptbot-pages-production-recovery-20260831-r3
+  cancel-in-progress: false
+
+env:
+  RELEASE_SHA: e81f65e6c4757f77ed2991ef12b599d956185e55
+  RELEASE_BRANCH: release/hot-traffic-production-20260831-recovered
+  PROJECT: ai-direct-pro-landing
+  OLD_ID: edc0edea-a38b-4fcf-81d7-e7de9be0e0cd
+  OLD_COMMIT: 425dce778f9ad4482cab08dce0914706e96fcee2
+  OLD_ARTIFACT: a632f5f1dc0aa73d2eb1ca54691ebcb0a6bceea714044e5672b2a4fa0028f11d
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_SHA }}
+          fetch-depth: 0
+
+      - name: Exact source, recovery and current-production guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          git merge-base --is-ancestor aa2ac83d66b52f9744bef48c9d3c40ce107c1fa7 HEAD
+          git merge-base --is-ancestor d629b4bcc471f6310f335af89fc8022b74b9f839 HEAD
+          git merge-base --is-ancestor 9cdfff152597a43ba7b3eea89bd3abe23db760d6 HEAD
+          test -f tests/lead-radar-cold-schema-sort.test.ts
+          ! grep -F "leftKey.localeCompare(rightKey)" functions/platform/lead-radar/schema-contract.ts
+          ! grep -F "leftKey.localeCompare(rightKey)" functions/platform/lead-radar/telegram-campaign-schema.ts
+          test -n "$CLOUDFLARE_ACCOUNT_ID" && test -n "$CLOUDFLARE_API_TOKEN"
+          curl --fail --silent --show-error -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT" > before.json
+          node <<'NODE'
+          const fs=require('node:fs'),b=JSON.parse(fs.readFileSync('before.json','utf8')),d=b.result?.canonical_deployment;
+          if(!b.success||d?.id!==process.env.OLD_ID||d?.environment!=='production'||d?.latest_stage?.status!=='success'||d?.deployment_trigger?.metadata?.commit_hash!==process.env.OLD_COMMIT)throw new Error('production identity drift; abort');
+          fs.writeFileSync('before-safe.json',JSON.stringify({id:d.id,url:d.url,status:d.latest_stage.status,commit:d.deployment_trigger.metadata.commit_hash,aliases:d.aliases??[]},null,2)+'\n');
+          console.log('PRODUCTION_IDENTITY_GUARD=pass');
+          NODE
+          OLD_URL=$(node -p "JSON.parse(require('fs').readFileSync('before-safe.json','utf8')).url")
+          export OLD_URL
+          node <<'NODE'
+          (async()=>{for(const o of ['https://gptbot.uz',process.env.OLD_URL]){const r=await fetch(o+'/gptbot-release.json?guard='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(30000)});if(!r.ok)throw new Error(`${o}:${r.status}`);const m=await r.json();if(m.commit!==process.env.OLD_COMMIT||m.artifactSha256!==process.env.OLD_ARTIFACT||m.fileCount!==870)throw new Error(`${o}: artifact drift`)}console.log('PREVIOUS_ARTIFACT_GUARD=pass')})().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install and rerun deployment-critical gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+          node --import tsx --test tests/lead-radar-cold-schema-sort.test.ts
+          yarn test:pages-production
+          yarn seo:audit
+          yarn scan:secrets
+          git diff --check
+          git checkout -- .
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+
+      - name: Preserve release ref and build exact combined artifact
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin HEAD:refs/heads/${RELEASE_BRANCH} --force-with-lease || git push origin HEAD:refs/heads/${RELEASE_BRANCH}
+          npm run build:production
+          npx --no-install tsx scripts/release/pages-production.ts check
+          node <<'NODE'
+          const fs=require('node:fs'),m=JSON.parse(fs.readFileSync('dist/gptbot-release.json','utf8'));if(m.commit!==process.env.RELEASE_SHA)throw new Error('stamp mismatch');fs.writeFileSync('candidate-safe.json',JSON.stringify({commit:m.commit,artifactSha256:m.artifactSha256,fileCount:m.fileCount,features:m.features,probes:m.probes},null,2)+'\n');console.log('CANDIDATE='+JSON.stringify({commit:m.commit,artifactSha256:m.artifactSha256,fileCount:m.fileCount,features:m.features}));
+          NODE
+
+      - name: Final race guard and recovery upload
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT" > preupload.json
+          node <<'NODE'
+          const fs=require('node:fs'),b=JSON.parse(fs.readFileSync('preupload.json','utf8')),d=b.result?.canonical_deployment;if(!b.success||d?.id!==process.env.OLD_ID||d?.deployment_trigger?.metadata?.commit_hash!==process.env.OLD_COMMIT||d?.latest_stage?.status!=='success')throw new Error('production changed during verification');console.log('RACE_GUARD=pass');
+          NODE
+          node node_modules/wrangler/bin/wrangler.js pages deploy dist --project-name "$PROJECT" --branch main --commit-hash "$RELEASE_SHA" --commit-dirty=false
+
+      - name: Verify canonical deployment and live SEO/Lead Radar artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          (async()=>{const fs=require('node:fs'),sleep=ms=>new Promise(r=>setTimeout(r,ms));async function state(){const r=await fetch(`https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/pages/projects/${process.env.PROJECT}`,{headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`},signal:AbortSignal.timeout(30000)});if(!r.ok)throw new Error(`CF ${r.status}`);return r.json()}let d;for(let i=0;i<30;i++){const b=await state(),x=b.result?.canonical_deployment;if(b.success&&x?.environment==='production'&&x?.latest_stage?.status==='success'&&x?.deployment_trigger?.metadata?.commit_hash===process.env.RELEASE_SHA){d=x;break}await sleep(5000)}if(!d)throw new Error('new production not observed');fs.writeFileSync('deployment-evidence.json',JSON.stringify({checkedAt:new Date().toISOString(),releaseSha:process.env.RELEASE_SHA,deploymentId:d.id,deploymentUrl:d.url,status:d.latest_stage.status,aliases:d.aliases??[]},null,2)+'\n');console.log('NEW_DEPLOYMENT='+d.id)})().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+          IMMUTABLE=$(node -p "JSON.parse(require('fs').readFileSync('deployment-evidence.json','utf8')).deploymentUrl")
+          export IMMUTABLE
+          node <<'NODE'
+          (async()=>{const fs=require('node:fs'),expected=JSON.parse(fs.readFileSync('dist/gptbot-release.json','utf8')),sleep=ms=>new Promise(r=>setTimeout(r,ms));const origins=['https://gptbot.uz',process.env.IMMUTABLE];const paths=['/','/robots.txt','/sitemap.xml','/ru/internet-reklama-tashkent/','/uz/internet-reklama-toshkent/','/ru/digital-marketing-tashkent/','/ru/kontekstnaya-reklama-tashkent/','/ru/targetirovannaya-reklama-tashkent/','/ru/telegram-ads-uzbekistan/','/ru/performance-marketing-tashkent/','/ru/marketingovyi-audit-tashkent/','/uz/telegram-reklama/','/uz/smm-xizmatlari/','/uz/seo-xizmati/','/ru/seo-prodvizhenie-saytov-tashkent/'];async function get(o,p){let last;for(let i=0;i<20;i++){try{const r=await fetch(o+p+(p.includes('?')?'&':'?')+'release='+process.env.RELEASE_SHA+'&n='+i,{cache:'no-store',signal:AbortSignal.timeout(30000)});last=r;if(r.ok)return r}catch(e){last=e}await sleep(5000)}if(last instanceof Response)throw new Error(`${o}${p}:${last.status}`);throw last}const checks={};for(const o of origins){checks[o]={};const m=await(await get(o,'/gptbot-release.json')).json();if(JSON.stringify(m)!==JSON.stringify(expected))throw new Error(`${o}: manifest mismatch`);checks[o].manifest={commit:m.commit,artifactSha256:m.artifactSha256,fileCount:m.fileCount,features:m.features};for(const p of paths)checks[o][p]=(await get(o,p)).status;const ru=await(await get(o,'/ru/internet-reklama-tashkent/')).text();for(const x of ['/ru/kontekstnaya-reklama-tashkent/','/ru/targetirovannaya-reklama-tashkent/','/ru/telegram-ads-uzbekistan/','/ru/performance-marketing-tashkent/','/ru/marketingovyi-audit-tashkent/'])if(!ru.includes(x))throw new Error(`${o}: RU missing ${x}`);const uz=await(await get(o,'/uz/internet-reklama-toshkent/')).text();for(const x of ['/uz/telegram-reklama/','/uz/smm-xizmatlari/','/uz/seo-xizmati/','/uz/sayt-yaratish/','/uz/biznes-uchun-ai-bot/'])if(!uz.includes(x))throw new Error(`${o}: UZ missing ${x}`)}const e=JSON.parse(fs.readFileSync('deployment-evidence.json','utf8'));e.previous={deploymentId:process.env.OLD_ID,commit:process.env.OLD_COMMIT,artifactSha256:process.env.OLD_ARTIFACT};e.origins=checks;e.canary='pass';fs.writeFileSync('deployment-evidence.json',JSON.stringify(e,null,2)+'\n');console.log('LIVE_CANARY=pass')})().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-recovery-production-evidence-${{ env.RELEASE_SHA }}
+          path: |
+            before-safe.json
+            candidate-safe.json
+            deployment-evidence.json
+            dist/gptbot-release.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin ops/inspect-cold-locale-schema-guard-20260831
+          git switch -C ops/inspect-cold-locale-schema-guard-20260831 origin/ops/inspect-cold-locale-schema-guard-20260831
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/recover-and-deploy-gptbot-20260831-r3.yml
+          git commit -m "chore(release): remove verified recovery deploy workflow"
+          git push origin HEAD:ops/inspect-cold-locale-schema-guard-20260831
