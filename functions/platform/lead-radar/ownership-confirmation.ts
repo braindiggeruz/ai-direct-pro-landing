@@ -37,9 +37,18 @@ export async function confirmCompanyWebsiteOwnership(input: {
     FROM lead_radar_evidence WHERE org_id=? AND company_id=? AND field_path LIKE 'web.telegram.%'
     ORDER BY observed_at DESC,id ASC`).bind(input.orgId,input.companyId)
     .all<{field_path:string;value:string;source_url:string;source_type:string;classification:string;observed_at:string}>()).results ?? [];
-  const endpoint=rows.find(row=>['web.telegram.business','web.telegram.unknown'].includes(row.field_path)
+  const endpoints=rows.filter(row=>['web.telegram.business','web.telegram.unknown'].includes(row.field_path)
     && ['fact','company_data'].includes(row.classification) && row.source_type==='company_website'
     && sameTarget(row.value) && safePublicHttpUrl(row.source_url)?.origin===site.origin);
+  // A footer icon on the homepage often lacks the label present on Contacts.
+  // Choose one already observed same-origin page, never guess/crawl new URLs.
+  // Stable sorting retains newest-first order within each source priority.
+  const sourceRank=(row:typeof endpoints[number])=>{
+    const path=safePublicHttpUrl(row.source_url)!.pathname;
+    return row.field_path==='web.telegram.business' ? 0
+      : /(?:^|\/)(?:contacts?|kontakts?|kontakti|kontakty|kontaktlar|aloqa|boglanish)(?:[/.\-_]|$)/i.test(path) ? 1 : 2;
+  };
+  const endpoint=endpoints.sort((a,b)=>sourceRank(a)-sourceRank(b))[0];
   if (!endpoint) return no('no_confirmable_endpoint');
   const url=safePublicHttpUrl(endpoint.source_url)!;
   let html:string|null;

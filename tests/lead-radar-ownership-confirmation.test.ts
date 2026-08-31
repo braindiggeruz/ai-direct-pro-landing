@@ -180,11 +180,17 @@ test('R4 rechecks DNC and website identity atomically after the network read',as
 
 test('fresh explicit sibling label confirms only its selected website endpoint, without outreach authorization', async(t) => {
   const db=database();t.after(()=>db.sqlite.close());seedOwnership(db);
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence SELECT 'ev_aaa_home',org_id,company_id,field_path,
+    value,'https://clinic.uz/',source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE id='ev_unknown'`).run();
+  const reads:string[]=[];
   const result=await confirmCompanyWebsiteOwnership({db:db.asD1(),orgId:ORG_A,companyId:COMPANY_ID,operatorId:'operator',now:NOW,
     candidateKey:'telegram:https://t.me/aksumedclinic',robots:async()=>null,
-    readPage:async()=>'<p><span>Если Вы не смогли дозвониться до нас, напишите нам в Telegram:</span></p>'
-      + '<div><a href="https://t.me/AksuMedClinic"><img alt="Telegram" src="/tg.svg" /></a></div>'});
+    readPage:async url=>{reads.push(url);return url==='https://clinic.uz/contacts'
+      ? '<p><span>Если Вы не смогли дозвониться до нас, напишите нам в Telegram:</span></p>'
+        + '<div><a href="https://t.me/AksuMedClinic"><img alt="Telegram" src="/tg.svg" /></a></div>'
+      : '<a href="https://t.me/AksuMedClinic">Telegram</a>';}});
   assert.equal(result.confirmed,true);
+  assert.deepEqual(reads,['https://clinic.uz/contacts'],'one observed contact page, no extra crawl or homepage ambiguity');
   assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE field_path='web.telegram.business'"),1);
   assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_ownership_fixture',NOW.toISOString()),0);
 });
