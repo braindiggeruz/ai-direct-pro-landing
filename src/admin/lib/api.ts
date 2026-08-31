@@ -715,6 +715,21 @@ export const api = {
       'GET',
       `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}`,
     ),
+  leadRadarCrawlerStatus: (companyId: string, signal?: AbortSignal) =>
+    request<import('../../shared/lead-radar-crawler').LeadRadarCrawlerStatusResponse>(
+      'GET', `/api/admin/lead-radar/crawler/status?companyId=${encodeURIComponent(companyId)}`, undefined,
+      { timeoutMs: 15_000, signal },
+    ),
+  leadRadarCreateCrawlerJob: (companyId: string, idempotencyKey: string, signal?: AbortSignal) =>
+    request<import('../../shared/lead-radar-crawler').LeadRadarCrawlerJobMutationResponse>(
+      'POST', '/api/admin/lead-radar/crawler/jobs', { companyId },
+      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey }, signal },
+    ),
+  leadRadarCancelCrawlerJob: (jobId: string, signal?: AbortSignal) =>
+    request<import('../../shared/lead-radar-crawler').LeadRadarCrawlerJobMutationResponse>(
+      'POST', `/api/admin/lead-radar/crawler/jobs/${encodeURIComponent(jobId)}/cancel`, {},
+      { timeoutMs: 15_000, signal },
+    ),
   leadRadarSetLifecycle: (
     leadId: string,
     lifecycle: import('../../shared/lead-radar').LeadRadarLifecycle,

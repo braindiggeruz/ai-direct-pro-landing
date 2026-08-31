@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ContactCandidates } from '../components/lead-radar/ContactCandidates';
+import { LeadRadarCrawlerCard } from '../components/lead-radar/LeadRadarCrawlerCard';
 import {
   Activity,
   AlertTriangle,
@@ -1191,6 +1192,7 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
               <h3 id="corporate-channels-title" className="mt-1 text-base font-semibold text-white">Корпоративные каналы</h3>
             </div>
             <ContactCandidates key={lead.id} candidates={lead.contactCandidates} enrichment={lead.contactEnrichment} searchId={lead.searchId} companyId={lead.id} canCheck={canCheckContacts} onResolved={onContactResolved} />
+            <LeadRadarCrawlerCard companyId={lead.id} website={lead.website} onContactsUpdated={onContactResolved} />
             <div className="mt-4 grid gap-3 text-sm">
               {corporateTelegram && companyType && (
                 <div className="rounded-2xl border border-white/[0.08] bg-white/[0.018] p-4">
