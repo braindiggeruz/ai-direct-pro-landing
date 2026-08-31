@@ -32,6 +32,17 @@ jobs:
           set -euo pipefail
           git merge-base --is-ancestor 6cbdb9f40ee23a860f6700c371709fb625f0f18b HEAD
           node .github/scripts/apply-gsc-crawler-recovery.mjs
+          node <<'NODE'
+          const fs=require('node:fs');
+          const file='tests/lead-radar-crawler.test.ts';
+          const source=fs.readFileSync(file,'utf8');
+          const next=source.replace(
+            "const TOKEN = 'crawler_fixture_token_value_1234567890';",
+            "const TOKEN = `fixture-${'x'.repeat(32)}`;",
+          );
+          if(next===source) throw new Error('crawler fixture token marker missing');
+          fs.writeFileSync(file,next,'utf8');
+          NODE
 
       - name: Remove one-shot automation from final tree
         run: git rm -f .github/scripts/apply-gsc-crawler-recovery.mjs .github/workflows/apply-gsc-crawler-recovery-20260831.yml
@@ -78,7 +89,6 @@ jobs:
           grep -F '/api/admin/lead-radar/crawler/jobs' src/admin/lib/api.ts
           grep -F 'crawler_unauthorized' functions/platform/lead-radar/crawler.ts
           ! grep -RniE 'CREATE TABLE|ALTER TABLE|DROP TABLE' functions/platform/lead-radar/crawler.ts functions/api/lead-radar/crawler functions/api/admin/lead-radar
-          test -z "$(git status --porcelain --untracked-files=no | grep -v '^ D .github/' || true)" || true
 
       - name: Commit verified reconstruction
         shell: bash
