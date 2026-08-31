@@ -1,27 +1,30 @@
 name: analytics-contact-semantics
 
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches:
+      - seo/hot-traffic-foundation-20260831
+    paths:
+      - .github/scripts/apply-analytics-contact-semantics.mjs
+      - .github/workflows/analytics-contact-semantics.yml
 
 permissions:
   contents: write
 
 concurrency:
-  group: analytics-contact-semantics-${{ github.event.pull_request.number }}
+  group: analytics-contact-semantics-20260831
   cancel-in-progress: false
 
 jobs:
   apply-verify-commit:
-    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
     steps:
-      - name: Check out the PR branch
+      - name: Check out the exact implementation branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: seo/hot-traffic-foundation-20260831
           fetch-depth: 0
 
       - name: Set up Node.js
@@ -71,9 +74,7 @@ jobs:
           grep -n "telegram_open_attempt" scripts/analytics-snippet.ts index.html
           grep -n "telegram_cta_click" scripts/analytics-metrika.ts src/lib/analytics/yandexMetrika.ts
 
-      - name: Commit verified measurement correction to the PR branch
-        env:
-          GITHUB_HEAD_REF: ${{ github.head_ref }}
+      - name: Commit verified measurement correction to the branch
         run: |
           git config user.name "GPTBot SEO CI"
           git config user.email "actions@users.noreply.github.com"
@@ -85,4 +86,4 @@ jobs:
             docs/seo/RELEASE_2026-08-31_HOT_TRAFFIC_FOUNDATION.md
           git diff --cached --stat
           git commit -m "fix(analytics): separate contact clicks from generated leads"
-          git push origin "HEAD:${GITHUB_HEAD_REF}"
+          git push origin HEAD:seo/hot-traffic-foundation-20260831
