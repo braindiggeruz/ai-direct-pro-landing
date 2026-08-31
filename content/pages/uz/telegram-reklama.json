@@ -36,19 +36,58 @@
       "type": "toc",
       "text": "Sahifa bo‘yicha",
       "links": [
-        { "anchor": "ikki-yol", "label": "Telegram’da reklamaning ikki yo‘li" },
-        { "anchor": "ads", "label": "Telegram Ads qanday ishlaydi" },
-        { "anchor": "kanallar", "label": "Kanallarda joylashtirish" },
-        { "anchor": "qancha", "label": "Telegram reklama qancha turadi" },
-        { "anchor": "talablar", "label": "Platforma talablari" },
-        { "anchor": "kimga", "label": "Kimga mos keladi" },
-        { "anchor": "keyin", "label": "Bosishdan keyin nima bo‘ladi" },
-        { "anchor": "byudjet", "label": "Byudjet qanday rejalashtiriladi" },
-        { "anchor": "olchov", "label": "Natijani qanday o‘lchaymiz" },
-        { "anchor": "jarayon", "label": "Ish jarayoni" },
-        { "anchor": "narx", "label": "Narx qanday shakllanadi" },
-        { "anchor": "bozor-narxlari", "label": "Bozor narxlari" },
-        { "anchor": "faq", "label": "Ko‘p so‘raladigan savollar" }
+        {
+          "anchor": "ikki-yol",
+          "label": "Telegram’da reklamaning ikki yo‘li"
+        },
+        {
+          "anchor": "ads",
+          "label": "Telegram Ads qanday ishlaydi"
+        },
+        {
+          "anchor": "kanallar",
+          "label": "Kanallarda joylashtirish"
+        },
+        {
+          "anchor": "qancha",
+          "label": "Telegram reklama qancha turadi"
+        },
+        {
+          "anchor": "talablar",
+          "label": "Platforma talablari"
+        },
+        {
+          "anchor": "kimga",
+          "label": "Kimga mos keladi"
+        },
+        {
+          "anchor": "keyin",
+          "label": "Bosishdan keyin nima bo‘ladi"
+        },
+        {
+          "anchor": "byudjet",
+          "label": "Byudjet qanday rejalashtiriladi"
+        },
+        {
+          "anchor": "olchov",
+          "label": "Natijani qanday o‘lchaymiz"
+        },
+        {
+          "anchor": "jarayon",
+          "label": "Ish jarayoni"
+        },
+        {
+          "anchor": "narx",
+          "label": "Narx qanday shakllanadi"
+        },
+        {
+          "anchor": "bozor-narxlari",
+          "label": "Bozor narxlari"
+        },
+        {
+          "anchor": "faq",
+          "label": "Ko‘p so‘raladigan savollar"
+        }
       ]
     },
     {
@@ -59,21 +98,45 @@
       "type": "p",
       "text": "Aynan shu sabab ko‘p kampaniya bosish bilan tugaydi va ariza bilan tugamaydi. Bosish bor, javob yo‘q — odam kutmaydi. Biz reklamani ham, undan keyingi yo‘lni ham birgalikda quramiz."
     },
-    { "type": "h2", "id": "ikki-yol", "text": "Telegram’da reklamaning ikki yo‘li" },
+    {
+      "type": "h2",
+      "id": "ikki-yol",
+      "text": "Telegram’da reklamaning ikki yo‘li"
+    },
     {
       "type": "table",
-      "headers": ["Yo‘l", "Qanday joylashadi", "Qachon mos keladi"],
+      "headers": [
+        "Yo‘l",
+        "Qanday joylashadi",
+        "Qachon mos keladi"
+      ],
       "rows": [
-        ["Telegram Ads", "Rasmiy kabinet orqali yirik ochiq kanallar ostida", "Kengroq qamrov va boshqariladigan sozlamalar kerak bo‘lganda"],
-        ["Kanalda e’lon", "Kanal egasi bilan to‘g‘ridan-to‘g‘ri kelishuv", "Aniq tor auditoriya va jonli tavsiya kerak bo‘lganda"],
-        ["Aralash", "Ikkalasi parallel sinaladi", "Qaysi biri arzonroq ariza berishini bilish uchun"]
+        [
+          "Telegram Ads",
+          "Rasmiy kabinet orqali yirik ochiq kanallar ostida",
+          "Kengroq qamrov va boshqariladigan sozlamalar kerak bo‘lganda"
+        ],
+        [
+          "Kanalda e’lon",
+          "Kanal egasi bilan to‘g‘ridan-to‘g‘ri kelishuv",
+          "Aniq tor auditoriya va jonli tavsiya kerak bo‘lganda"
+        ],
+        [
+          "Aralash",
+          "Ikkalasi parallel sinaladi",
+          "Qaysi biri arzonroq ariza berishini bilish uchun"
+        ]
       ]
     },
     {
       "type": "p",
       "text": "Ikkala yo‘lning ham o‘z cheklovi bor. Rasmiy kabinet qat’iy qoidalar bilan ishlaydi va e’lon matni qisqa bo‘ladi. Kanal e’lonida esa natija kanal auditoriyasining sifatiga bog‘liq, va buni oldindan tekshirish kerak."
     },
-    { "type": "h2", "id": "ads", "text": "Telegram Ads qanday ishlaydi" },
+    {
+      "type": "h2",
+      "id": "ads",
+      "text": "Telegram Ads qanday ishlaydi"
+    },
     {
       "type": "list",
       "items": [
@@ -88,7 +151,11 @@
       "type": "p",
       "text": "Muhim jihat: e’lon qisqa bo‘lgani uchun unda hamma narsani aytib bo‘lmaydi. Shuning uchun taklif aniq bo‘lishi va bosgan odam tushadigan joy savolga darhol javob berishi kerak."
     },
-    { "type": "h2", "id": "kanallar", "text": "Kanallarda joylashtirish" },
+    {
+      "type": "h2",
+      "id": "kanallar",
+      "text": "Kanallarda joylashtirish"
+    },
     {
       "type": "list",
       "items": [
@@ -103,7 +170,11 @@
       "type": "p",
       "text": "Kanal statistikasini ko‘rsatmaydigan yoki sun’iy o‘sish alomatlari bor kanallarni tavsiya qilmaymiz. Bunday joylashtirish odatda bosish beradi, ariza esa bermaydi."
     },
-    { "type": "h2", "id": "qancha", "text": "Telegram reklama qancha turadi" },
+    {
+      "type": "h2",
+      "id": "qancha",
+      "text": "Telegram reklama qancha turadi"
+    },
     {
       "type": "p",
       "text": "Platformada yagona narx yo‘q va bu qochirma javob emas — tizim shunday qurilgan. Telegram Ads auksion asosida ishlaydi: siz ming ko‘rsatish uchun to‘laysiz va stavkani o‘zingiz belgilaysiz. Platformaning 2026-yil 26-avgustdagi hujjatida bitta chegara ko‘rsatilgan: eng kam CPM ming ko‘rsatish uchun 0,1 Toncoin. Qolgani — aniq e’lonning byudjeti, uni siz belgilaysiz va istalgan payt oshirishingiz mumkin."
@@ -114,12 +185,37 @@
     },
     {
       "type": "table",
-      "headers": ["Kirish yo‘li", "Bu nima", "Chegara tartibi", "Kimga mos"],
+      "headers": [
+        "Kirish yo‘li",
+        "Bu nima",
+        "Chegara tartibi",
+        "Kimga mos"
+      ],
       "rows": [
-        ["Toncoin kabineti", "Hisobni TON bilan to‘ldirish va stavkani TON da qo‘yish", "Platforma hujjatiga ko‘ra eng kam CPM 0,1 TON", "Katta depozitsiz birinchi boshqariladigan sinov"],
-        ["O‘zbekiston uchun kabinet (resseller orqali)", "Shu bozor uchun hamkor ochadigan yevro-kabinet", "Eng kam stavka 0,01 € — eLama ma’lumoti, 2026-08-26; boshlang‘ich byudjet o‘sha yerda 500 € dan deb ko‘rsatilgan", "O‘zbekistondagi biznes uchun asosiy ishchi yo‘l"],
-        ["Vakolatli resseller orqali", "Platformaning hamkori orqali kabinetga kirish va to‘lov", "Chegarani Telegram emas, hamkor belgilaydi; ochiq manbalarda yuzlab yevro tartibidagi summalar aytiladi", "Hisob-faktura, hujjat va o‘z tilida qo‘llab-quvvatlash kerak bo‘lsa"],
-        ["Telegram bilan to‘g‘ridan-to‘g‘ri shartnoma", "Reklama beruvchining shaxsiy yevro-kabineti", "Maqolalarda tilga olinadigan katta depozit", "Doimiy katta hajmli reklama beruvchilar"]
+        [
+          "Toncoin kabineti",
+          "Hisobni TON bilan to‘ldirish va stavkani TON da qo‘yish",
+          "Platforma hujjatiga ko‘ra eng kam CPM 0,1 TON",
+          "Katta depozitsiz birinchi boshqariladigan sinov"
+        ],
+        [
+          "O‘zbekiston uchun kabinet (resseller orqali)",
+          "Shu bozor uchun hamkor ochadigan yevro-kabinet",
+          "Eng kam stavka 0,01 € — eLama ma’lumoti, 2026-08-26; boshlang‘ich byudjet o‘sha yerda 500 € dan deb ko‘rsatilgan",
+          "O‘zbekistondagi biznes uchun asosiy ishchi yo‘l"
+        ],
+        [
+          "Vakolatli resseller orqali",
+          "Platformaning hamkori orqali kabinetga kirish va to‘lov",
+          "Chegarani Telegram emas, hamkor belgilaydi; ochiq manbalarda yuzlab yevro tartibidagi summalar aytiladi",
+          "Hisob-faktura, hujjat va o‘z tilida qo‘llab-quvvatlash kerak bo‘lsa"
+        ],
+        [
+          "Telegram bilan to‘g‘ridan-to‘g‘ri shartnoma",
+          "Reklama beruvchining shaxsiy yevro-kabineti",
+          "Maqolalarda tilga olinadigan katta depozit",
+          "Doimiy katta hajmli reklama beruvchilar"
+        ]
       ]
     },
     {
@@ -157,23 +253,55 @@
         "Sotuvdan sifat bo‘yicha teskari aloqa bormi: usiz platforma harakatni ko‘radi, lekin ariza maqsadli bo‘lganini bilmaydi"
       ]
     },
-    { "type": "h2", "id": "talablar", "text": "Platforma talablari" },
+    {
+      "type": "h2",
+      "id": "talablar",
+      "text": "Platforma talablari"
+    },
     {
       "type": "p",
       "text": "Bu cheklovlarni platformaning o‘zi belgilaydi va ularni byudjet hisoblashdan oldin bilish foydali: ular e’londa nima deyish mumkinligini va u qayerda ko‘rinishini aniqlaydi."
     },
     {
       "type": "table",
-      "headers": ["Cheklov", "Qiymati", "Amalda nimani o‘zgartiradi"],
+      "headers": [
+        "Cheklov",
+        "Qiymati",
+        "Amalda nimani o‘zgartiradi"
+      ],
       "rows": [
-        ["E’lon uzunligi", "160 belgigacha matn", "Taklif va chaqiriq bitta gapga sig‘ishi kerak"],
-        ["Qayerda ko‘rinadi", "1000 dan ortiq obunachili ochiq kanallarda", "Tor nishadagi kichik kanallar qamrovga tushmasligi mumkin"],
-        ["To‘lov modeli", "CPM — ming ko‘rsatish uchun to‘lov", "Bosish tannarxi e’lonning kontekstga mosligiga bog‘liq"],
-        ["Byudjetni o‘zgartirish", "Oshirish istalgan paytda mumkin, yuborilgan e’londa kamaytirib bo‘lmaydi", "Kichikroq summadan boshlab, keyin oshirgan ma’qul"],
-        ["Qoldiq mablag‘", "E’lon to‘xtatilib o‘chirilsa, umumiy balansga qaytadi", "Sarflanmagan byudjet yonib ketmaydi"]
+        [
+          "E’lon uzunligi",
+          "160 belgigacha matn",
+          "Taklif va chaqiriq bitta gapga sig‘ishi kerak"
+        ],
+        [
+          "Qayerda ko‘rinadi",
+          "1000 dan ortiq obunachili ochiq kanallarda",
+          "Tor nishadagi kichik kanallar qamrovga tushmasligi mumkin"
+        ],
+        [
+          "To‘lov modeli",
+          "CPM — ming ko‘rsatish uchun to‘lov",
+          "Bosish tannarxi e’lonning kontekstga mosligiga bog‘liq"
+        ],
+        [
+          "Byudjetni o‘zgartirish",
+          "Oshirish istalgan paytda mumkin, yuborilgan e’londa kamaytirib bo‘lmaydi",
+          "Kichikroq summadan boshlab, keyin oshirgan ma’qul"
+        ],
+        [
+          "Qoldiq mablag‘",
+          "E’lon to‘xtatilib o‘chirilsa, umumiy balansga qaytadi",
+          "Sarflanmagan byudjet yonib ketmaydi"
+        ]
       ]
     },
-    { "type": "h2", "id": "kimga", "text": "Kimga mos keladi" },
+    {
+      "type": "h2",
+      "id": "kimga",
+      "text": "Kimga mos keladi"
+    },
     {
       "type": "list",
       "items": [
@@ -188,7 +316,11 @@
       "type": "p",
       "text": "Kimga mos kelmasligini ham aytamiz: agar taklifingiz murakkab va uzoq tushuntirish talab qilsa, Telegram reklama birinchi qadam sifatida qimmatga tushishi mumkin. Bunday holatda avval sayt va kontent kerak bo‘ladi."
     },
-    { "type": "h2", "id": "keyin", "text": "Bosishdan keyin nima bo‘ladi" },
+    {
+      "type": "h2",
+      "id": "keyin",
+      "text": "Bosishdan keyin nima bo‘ladi"
+    },
     {
       "type": "p",
       "text": "Bu sahifadagi eng muhim bo‘lim. Reklamani yoqish oson, lekin pul aynan shu yerda yo‘qoladi: odam bosadi, botga yoki kanalga tushadi va u yerda hech kim javob bermaydi."
@@ -197,12 +329,28 @@
       "type": "linkp",
       "text": "Shuning uchun biz kampaniya bilan birga {bot} ni ham sozlaymiz: u birinchi savolga darhol javob beradi, ism va telefonni yig‘adi va tayyor arizani menejerga uzatadi. Barcha kanallardan kelgan murojaatni {avtomat} orqali bitta oqimga yig‘ish mumkin. Agar kanalning o‘zi ham muntazam yuritilishi kerak bo‘lsa, buni {smm} doirasida qilamiz.",
       "links": [
-        { "token": "bot", "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot" },
-        { "token": "avtomat", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" },
-        { "token": "smm", "target": "/uz/smm-xizmatlari/", "anchor": "ijtimoiy tarmoqlarni yuritish" }
+        {
+          "token": "bot",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "Telegram bot"
+        },
+        {
+          "token": "avtomat",
+          "target": "/uz/arizalarni-avtomatlashtirish/",
+          "anchor": "arizalarni avtomatlashtirish"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "ijtimoiy tarmoqlarni yuritish"
+        }
       ]
     },
-    { "type": "h2", "id": "byudjet", "text": "Byudjet qanday rejalashtiriladi" },
+    {
+      "type": "h2",
+      "id": "byudjet",
+      "text": "Byudjet qanday rejalashtiriladi"
+    },
     {
       "type": "list",
       "items": [
@@ -217,19 +365,45 @@
       "type": "p",
       "text": "Sinovsiz katta byudjet bilan boshlash eng keng tarqalgan xato. Sinov bosqichi qimmat emas va u keyingi sarfni bir necha barobar samaraliroq qiladi."
     },
-    { "type": "h2", "id": "olchov", "text": "Natijani qanday o‘lchaymiz" },
+    {
+      "type": "h2",
+      "id": "olchov",
+      "text": "Natijani qanday o‘lchaymiz"
+    },
     {
       "type": "table",
-      "headers": ["Ko‘rsatkich", "Nimani ko‘rsatadi"],
+      "headers": [
+        "Ko‘rsatkich",
+        "Nimani ko‘rsatadi"
+      ],
       "rows": [
-        ["Botga kirganlar soni", "E’lon haqiqatan ham harakatga undayaptimi"],
-        ["Suhbatni boshlaganlar", "Taklif tushunarlimi"],
-        ["Kontakt qoldirganlar", "Ariza oqimi bormi"],
-        ["Bitta ariza tannarxi", "Kanal yoki e’lon foydalimi"],
-        ["Ko‘rsatuv va bosish", "Yordamchi ko‘rsatkich, asosiy maqsad emas"]
+        [
+          "Botga kirganlar soni",
+          "E’lon haqiqatan ham harakatga undayaptimi"
+        ],
+        [
+          "Suhbatni boshlaganlar",
+          "Taklif tushunarlimi"
+        ],
+        [
+          "Kontakt qoldirganlar",
+          "Ariza oqimi bormi"
+        ],
+        [
+          "Bitta ariza tannarxi",
+          "Kanal yoki e’lon foydalimi"
+        ],
+        [
+          "Ko‘rsatuv va bosish",
+          "Yordamchi ko‘rsatkich, asosiy maqsad emas"
+        ]
       ]
     },
-    { "type": "h2", "id": "jarayon", "text": "Ish jarayoni" },
+    {
+      "type": "h2",
+      "id": "jarayon",
+      "text": "Ish jarayoni"
+    },
     {
       "type": "list",
       "items": [
@@ -240,7 +414,11 @@
         "Xulosa — nima ishlagani va keyingi qadam"
       ]
     },
-    { "type": "h2", "id": "narx", "text": "Narx qanday shakllanadi" },
+    {
+      "type": "h2",
+      "id": "narx",
+      "text": "Narx qanday shakllanadi"
+    },
     {
       "type": "p",
       "text": "Xizmat narxi ish hajmiga bog‘liq: qaysi yo‘l tanlanadi, nechta e’lon varianti tayyorlanadi, bot ssenariysi noldan quriladimi va kampaniya qancha davom etadi. Reklama byudjeti bunga kirmaydi va uni siz belgilaysiz."
@@ -249,16 +427,19 @@
       "type": "p",
       "text": "Suhbatdan keyin aniq hajm va narx aytiladi. Maslahat va dastlabki baholash — bepul."
     },
-    { "type": "h2", "id": "bozor-narxlari", "text": "Telegram Ads yuritish narxi: Toshkent bozori mo‘ljallari" },
     {
-      "type": "p",
-      "text": "Toshkent bozori bo‘yicha mo‘ljallar (agentliklar va ressellerlarning ochiq ma’lumotlari, 2026-yil avgust): Telegram Ads yuritish — oylik 4 mln so‘mdan, ressellerlar orqali platformaning minimal byudjeti — ~500 € dan, O‘zbekiston bo‘yicha ishchi CPM — 0,05 € dan (auksionning eng past stavkasi 0,01 € dan). Bu bozor mo‘ljallari, GPTBot.uz narxnomasi emas: nishingiz va borish nuqtasiga aniq smetani bepul tahlildan keyin hisoblaymiz."
+      "type": "h2",
+      "id": "bozor-narxlari",
+      "text": "Telegram Ads yuritish narxi: Toshkent bozori mo‘ljallari"
     },
     {
       "type": "p",
       "text": "Bizning farqimiz — Telegram Ads → AI bot bog‘lanishi: bot foydalanuvchini klikdan so‘ng bir zumda kutib oladi, so‘rovni aniqlashtiradi va arizani menejerga uzatadi. Bu o‘tish va suhbat orasidagi yo‘qotishlarni kamaytiradi hamda yakuniy lid narxini pasaytirishga yordam beradi."
     },
-    { "type": "h2", "text": "Nega GPTBot.uz" },
+    {
+      "type": "h2",
+      "text": "Nega GPTBot.uz"
+    },
     {
       "type": "list",
       "items": [
@@ -372,9 +553,21 @@
     }
   ],
   "sources": [
-    { "title": "Telegram Ad Platform — Getting Started", "url": "https://ads.telegram.org/getting-started", "note": "Eng kam CPM 0,1 Toncoin, 1000 dan ortiq obunachili ochiq kanallarda ko‘rsatish, byudjetni o‘zgartirish va qoldiqni qaytarish qoidalari. 2026-08-26 da tekshirildi." },
-    { "title": "Telegram Ads", "url": "https://ads.telegram.org/", "note": "E’lonning 160 belgi bilan cheklanishi va sponsored message formatining tavsifi. 2026-08-26 da tekshirildi." },
-    { "title": "eLama — Telegram Ads reklamasini O‘zbekistonda ishga tushiring", "url": "https://elama.ru/blog/zapuskayte-reklamu-telegram-ads-v-uzbekistane-s-elama/", "note": "O‘zbekiston kabinetlarida eng kam stavka 0,01 € va 500 € dan boshlang‘ich byudjet. Resseller ma’lumoti, platformaniki emas. 2026-08-26 da tekshirildi." }
+    {
+      "title": "Telegram Ad Platform — Getting Started",
+      "url": "https://ads.telegram.org/getting-started",
+      "note": "Eng kam CPM 0,1 Toncoin, 1000 dan ortiq obunachili ochiq kanallarda ko‘rsatish, byudjetni o‘zgartirish va qoldiqni qaytarish qoidalari. 2026-08-26 da tekshirildi."
+    },
+    {
+      "title": "Telegram Ads",
+      "url": "https://ads.telegram.org/",
+      "note": "E’lonning 160 belgi bilan cheklanishi va sponsored message formatining tavsifi. 2026-08-26 da tekshirildi."
+    },
+    {
+      "title": "eLama — Telegram Ads reklamasini O‘zbekistonda ishga tushiring",
+      "url": "https://elama.ru/blog/zapuskayte-reklamu-telegram-ads-v-uzbekistane-s-elama/",
+      "note": "O‘zbekiston kabinetlarida eng kam stavka 0,01 € va 500 € dan boshlang‘ich byudjet. Resseller ma’lumoti, platformaniki emas. 2026-08-26 da tekshirildi."
+    }
   ],
   "schemaTypes": [
     "Organization",
@@ -383,7 +576,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-26",
+  "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-29"
+  "updatedAt": "2026-08-31"
 }

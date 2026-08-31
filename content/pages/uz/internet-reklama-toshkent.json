@@ -32,7 +32,12 @@
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Qanday ishlaymiz",
   "ctaSecondaryHref": "#qanday",
-  "heroTrust": ["Kanal vazifaga ko‘ra tanlanadi", "Reklama byudjeti alohida", "UTM va CRM", "Savdo kafolatlanmaydi"],
+  "heroTrust": [
+    "Kanal vazifaga ko‘ra tanlanadi",
+    "Reklama byudjeti alohida",
+    "UTM va CRM",
+    "Savdo kafolatlanmaydi"
+  ],
   "bodyBlocks": [
     {
       "type": "h2",
@@ -160,10 +165,6 @@
     {
       "type": "p",
       "text": "Narx nisha, raqobat, kanal, geografiya, byudjet, qo‘nish sahifasi sifati, kreativlar soni, analitika sozlamalari va arizalarni qayta ishlash usuliga bog‘liq. Reklama maydonchalarining byudjeti — Google, Meta yoki Telegram — alohida hisoblanadi. Ishga tushirishdan oldin nafaqat byudjetni, balki ruxsat etilgan ariza narxini (CPL) ham hisoblab olish tavsiya etiladi. Aniq hisob-kitob uchun bizga yozing — dastlabki taxmin bepul."
-    },
-    {
-      "type": "p",
-      "text": "Bozor mo‘ljallari (Toshkent, raqobatchi agentliklarning ochiq ma’lumotlari, 2026-yil avgust): Meta/Instagram target reklamasini yuritish — oylik 1,5–8 mln so‘mdan (qamrov va platformalar soniga qarab), Google/Yandex kontekst reklamasini yuritish — oylik 7 mln so‘mdan, Telegram Ads ressellerlar orqali — oylik 4 mln so‘mdan (platforma minimal byudjeti ~500 € atrofida), SMM paketlari — oylik 5–12 mln so‘mdan. Bu bozor mo‘ljallari, GPTBot.uz narxnomasi emas: nishingizga aniq smetani bepul tahlildan keyin hisoblaymiz. Bizning farqimiz — reklama → AI bot bog‘lanishi: arizalarning bir zumda qayta ishlanishi klikdan keyingi yo‘qotishlarni kamaytiradi va yakuniy lid narxini (CPL) pasaytirishga yordam beradi."
     },
     {
       "type": "h2",
@@ -305,7 +306,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-28",
+  "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-08-28",
-  "updatedAt": "2026-08-29"
+  "updatedAt": "2026-08-31"
 }

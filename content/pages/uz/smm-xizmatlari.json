@@ -38,21 +38,66 @@
       "type": "toc",
       "text": "Sahifa bo‘yicha",
       "links": [
-        { "anchor": "kerak", "label": "SMM biznesga nima beradi" },
-        { "anchor": "tarkib", "label": "Xizmat tarkibi" },
-        { "anchor": "instagram", "label": "Instagram sahifasini yuritish" },
-        { "anchor": "telegram", "label": "Telegram kanal yuritish" },
-        { "anchor": "reklama", "label": "Reklama bilan bog‘lash" },
-        { "anchor": "ai", "label": "Murojaatlarni AI yordamida qayta ishlash" },
-        { "anchor": "jarayon", "label": "Ish jarayoni" },
-        { "anchor": "muddat", "label": "Muddat" },
-        { "anchor": "kontent-reja-namuna", "label": "30 kunlik kontent reja — namuna" },
-        { "anchor": "olchov", "label": "Natijani qanday o‘lchaymiz" },
-        { "anchor": "narx", "label": "Narx qanday shakllanadi" },
-        { "anchor": "bozor-narxlari", "label": "Bozor narxlari" },
-        { "anchor": "kimlar", "label": "Qaysi bizneslar uchun" },
-        { "anchor": "oqing", "label": "Buyurtmadan oldin o‘qing" },
-        { "anchor": "faq", "label": "Ko‘p so‘raladigan savollar" }
+        {
+          "anchor": "kerak",
+          "label": "SMM biznesga nima beradi"
+        },
+        {
+          "anchor": "tarkib",
+          "label": "Xizmat tarkibi"
+        },
+        {
+          "anchor": "instagram",
+          "label": "Instagram sahifasini yuritish"
+        },
+        {
+          "anchor": "telegram",
+          "label": "Telegram kanal yuritish"
+        },
+        {
+          "anchor": "reklama",
+          "label": "Reklama bilan bog‘lash"
+        },
+        {
+          "anchor": "ai",
+          "label": "Murojaatlarni AI yordamida qayta ishlash"
+        },
+        {
+          "anchor": "jarayon",
+          "label": "Ish jarayoni"
+        },
+        {
+          "anchor": "muddat",
+          "label": "Muddat"
+        },
+        {
+          "anchor": "kontent-reja-namuna",
+          "label": "30 kunlik kontent reja — namuna"
+        },
+        {
+          "anchor": "olchov",
+          "label": "Natijani qanday o‘lchaymiz"
+        },
+        {
+          "anchor": "narx",
+          "label": "Narx qanday shakllanadi"
+        },
+        {
+          "anchor": "bozor-narxlari",
+          "label": "Bozor narxlari"
+        },
+        {
+          "anchor": "kimlar",
+          "label": "Qaysi bizneslar uchun"
+        },
+        {
+          "anchor": "oqing",
+          "label": "Buyurtmadan oldin o‘qing"
+        },
+        {
+          "anchor": "faq",
+          "label": "Ko‘p so‘raladigan savollar"
+        }
       ]
     },
     {
@@ -63,7 +108,11 @@
       "type": "p",
       "text": "GPTBot.uz — Toshkentdagi mustaqil jamoa. Biz ijtimoiy tarmoqlarni yuritamiz va ularga murojaatlarni yig‘adigan avtomatlashtirishni qo‘shamiz. Ish rus va o‘zbek tillarida olib boriladi."
     },
-    { "type": "h2", "id": "kerak", "text": "SMM biznesga nima beradi" },
+    {
+      "type": "h2",
+      "id": "kerak",
+      "text": "SMM biznesga nima beradi"
+    },
     {
       "type": "list",
       "items": [
@@ -78,23 +127,55 @@
       "type": "p",
       "text": "Bitta muhim ogohlantirish: SMM tez natija beradigan kanal emas. Birinchi haftada sotuv portlashini kutish noto‘g‘ri. Real muddat — bir necha oy izchil ish, va shu davrda ko‘rsatkichlarni kuzatib borish kerak."
     },
-    { "type": "h2", "id": "tarkib", "text": "Xizmat tarkibi" },
+    {
+      "type": "h2",
+      "id": "tarkib",
+      "text": "Xizmat tarkibi"
+    },
     {
       "type": "table",
-      "headers": ["Blok", "Nima qilinadi", "Nima uchun kerak"],
+      "headers": [
+        "Blok",
+        "Nima qilinadi",
+        "Nima uchun kerak"
+      ],
       "rows": [
-        ["Strategiya", "Auditoriya, raqobatchilar, xabar va kanal tanlash", "Kontent tasodifiy bo‘lmasligi uchun"],
-        ["Kontent reja", "Oy bo‘yicha mavzular va format jadvali", "Ish izchil borishi uchun"],
-        ["Kontent ishlab chiqarish", "Matn, dizayn, stories, reels ssenariysi", "Sahifa jonli ko‘rinishi uchun"],
-        ["Nashr va moderatsiya", "Joylash, izohlarga javob, Direct nazorati", "Murojaat yo‘qolmasligi uchun"],
-        ["Hisobot", "Oylik ko‘rsatkichlar va keyingi qadamlar", "Natija o‘lchanadigan bo‘lishi uchun"]
+        [
+          "Strategiya",
+          "Auditoriya, raqobatchilar, xabar va kanal tanlash",
+          "Kontent tasodifiy bo‘lmasligi uchun"
+        ],
+        [
+          "Kontent reja",
+          "Oy bo‘yicha mavzular va format jadvali",
+          "Ish izchil borishi uchun"
+        ],
+        [
+          "Kontent ishlab chiqarish",
+          "Matn, dizayn, stories, reels ssenariysi",
+          "Sahifa jonli ko‘rinishi uchun"
+        ],
+        [
+          "Nashr va moderatsiya",
+          "Joylash, izohlarga javob, Direct nazorati",
+          "Murojaat yo‘qolmasligi uchun"
+        ],
+        [
+          "Hisobot",
+          "Oylik ko‘rsatkichlar va keyingi qadamlar",
+          "Natija o‘lchanadigan bo‘lishi uchun"
+        ]
       ]
     },
     {
       "type": "p",
       "text": "Bloklarni bo‘lib olish mumkin. Ba’zi mijozlarda kontent o‘zida tayyorlanadi va faqat strategiya bilan moderatsiya kerak bo‘ladi — bunday hajm ham normal."
     },
-    { "type": "h2", "id": "instagram", "text": "Instagram sahifasini yuritish" },
+    {
+      "type": "h2",
+      "id": "instagram",
+      "text": "Instagram sahifasini yuritish"
+    },
     {
       "type": "list",
       "items": [
@@ -109,7 +190,11 @@
       "type": "p",
       "text": "Instagram’da eng ko‘p yo‘qotish Direct’da bo‘ladi: odam kechqurun yozadi, javob esa ertalab keladi va u allaqachon boshqa joydan sotib olgan bo‘ladi. Shuning uchun javob tezligi biz uchun kontent sifatidek muhim ko‘rsatkich."
     },
-    { "type": "h2", "id": "telegram", "text": "Telegram kanal yuritish" },
+    {
+      "type": "h2",
+      "id": "telegram",
+      "text": "Telegram kanal yuritish"
+    },
     {
       "type": "list",
       "items": [
@@ -124,11 +209,23 @@
       "type": "linkp",
       "text": "Telegram O‘zbekistonda alohida kuchli kanal: bu yerda odam kanalni o‘qiydi, so‘ng {bot} orqali savol beradi va ariza qoldiradi. Agar kanal bo‘yicha reklama ham kerak bo‘lsa, uni {reklama} sahifasida alohida ko‘rib chiqamiz.",
       "links": [
-        { "token": "bot", "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot" },
-        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "kanal reklamasi" }
+        {
+          "token": "bot",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "Telegram bot"
+        },
+        {
+          "token": "reklama",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "kanal reklamasi"
+        }
       ]
     },
-    { "type": "h2", "id": "reklama", "text": "Reklama bilan bog‘lash" },
+    {
+      "type": "h2",
+      "id": "reklama",
+      "text": "Reklama bilan bog‘lash"
+    },
     {
       "type": "p",
       "text": "Organik kontent va pullik reklama — ikki xil ish. Biz ularni aralashtirmaymiz: sahifa yuritish alohida kelishiladi, reklama byudjeti va kampaniyalar alohida. Lekin ular bir-birini quvvatlashi kerak — bo‘sh sahifaga reklama olib kelish pulni behuda sarflashdir."
@@ -137,7 +234,11 @@
       "type": "p",
       "text": "Amaliy tartib oddiy: avval sahifani tartibga solamiz va javob berish yo‘lini sozlaymiz, keyin reklamani yoqamiz. Shunda har bir bosish qayerga borishi va nima bilan tugashi oldindan ma’lum bo‘ladi."
     },
-    { "type": "h2", "id": "ai", "text": "Murojaatlarni AI yordamida qayta ishlash" },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "Murojaatlarni AI yordamida qayta ishlash"
+    },
     {
       "type": "p",
       "text": "Bizning boshqa jamoalardan farqimiz shu: biz faqat post qo‘yib qo‘ymaymiz. Murojaat kelganidan keyin nima bo‘lishini ham quramiz."
@@ -146,16 +247,32 @@
       "type": "linkp",
       "text": "Direct va izohlarga {menejer} javob berishi mumkin: u savolni tushunadi, ism va telefonni so‘raydi va tayyor arizani menejerga uzatadi. Barcha kanallardan kelgan murojaatlarni {avtomat} orqali bitta oqimga yig‘ish mumkin, {instagram} esa aynan Instagram uchun qanday sozlanishini ko‘rsatadi.",
       "links": [
-        { "token": "menejer", "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI-menejer" },
-        { "token": "avtomat", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" },
-        { "token": "instagram", "target": "/uz/instagram-bot-biznes-uchun/", "anchor": "Instagram bot biznes uchun" }
+        {
+          "token": "menejer",
+          "target": "/uz/instagram-uchun-ai-menejer/",
+          "anchor": "Instagram uchun AI-menejer"
+        },
+        {
+          "token": "avtomat",
+          "target": "/uz/arizalarni-avtomatlashtirish/",
+          "anchor": "arizalarni avtomatlashtirish"
+        },
+        {
+          "token": "instagram",
+          "target": "/uz/instagram-bot-biznes-uchun/",
+          "anchor": "Instagram bot biznes uchun"
+        }
       ]
     },
     {
       "type": "p",
       "text": "Bu majburiy emas. SMM avtomatlashtirishsiz ham ishlaydi — bot faqat murojaat ko‘payganda yoki ish vaqtidan tashqari javob kerak bo‘lganda foyda beradi."
     },
-    { "type": "h2", "id": "jarayon", "text": "Ish jarayoni" },
+    {
+      "type": "h2",
+      "id": "jarayon",
+      "text": "Ish jarayoni"
+    },
     {
       "type": "list",
       "items": [
@@ -166,7 +283,11 @@
         "Oylik hisobot — ko‘rsatkichlar va keyingi oy rejasi"
       ]
     },
-    { "type": "h2", "id": "muddat", "text": "Muddat" },
+    {
+      "type": "h2",
+      "id": "muddat",
+      "text": "Muddat"
+    },
     {
       "type": "p",
       "text": "Quyidagi jadval faqat ishga tushirish bosqichlariga tegishli — birinchi oyda nima qilinishini ko‘rsatadi, natija muddatini emas. Yuqorida aytilganidek, real natija uchun bir necha oy izchil ish kerak. Bu kalendar kafolati emas: aniq muddat ish hajmi tasdiqlangandan keyin aytiladi va material siz tomondan qancha tez kelsa, shuncha qisqaradi."
@@ -211,7 +332,11 @@
         ]
       ]
     },
-    { "type": "h2", "id": "kontent-reja-namuna", "text": "30 kunlik kontent reja — namuna" },
+    {
+      "type": "h2",
+      "id": "kontent-reja-namuna",
+      "text": "30 kunlik kontent reja — namuna"
+    },
     {
       "type": "p",
       "text": "Quyida — bir oylik reja qanday ko‘rinishini ko‘rsatadigan namuna. Bu real mijoz rejasi emas va tayyor shablon sifatida sotilmaydi: har bir biznes uchun rubrika, format va chastota alohida tuziladi. Maqsad — buyurtmadan oldin ish qanday hujjatlashtirilishini ko‘rsatish."
@@ -298,23 +423,49 @@
         ]
       ]
     },
-    { "type": "h2", "id": "olchov", "text": "Natijani qanday o‘lchaymiz" },
+    {
+      "type": "h2",
+      "id": "olchov",
+      "text": "Natijani qanday o‘lchaymiz"
+    },
     {
       "type": "table",
-      "headers": ["Ko‘rsatkich", "Nimani ko‘rsatadi"],
+      "headers": [
+        "Ko‘rsatkich",
+        "Nimani ko‘rsatadi"
+      ],
       "rows": [
-        ["Yozgan odamlar soni", "Sahifa murojaat keltirayaptimi"],
-        ["Javob tezligi", "Murojaat sovib qolmayaptimi"],
-        ["Saytga o‘tishlar", "Kontent keyingi qadamga olib boryaptimi"],
-        ["Saqlash va ulashish", "Kontent foydali deb topilyaptimi"],
-        ["Qamrov va obunachi", "Yordamchi ko‘rsatkich, asosiy maqsad emas"]
+        [
+          "Yozgan odamlar soni",
+          "Sahifa murojaat keltirayaptimi"
+        ],
+        [
+          "Javob tezligi",
+          "Murojaat sovib qolmayaptimi"
+        ],
+        [
+          "Saytga o‘tishlar",
+          "Kontent keyingi qadamga olib boryaptimi"
+        ],
+        [
+          "Saqlash va ulashish",
+          "Kontent foydali deb topilyaptimi"
+        ],
+        [
+          "Qamrov va obunachi",
+          "Yordamchi ko‘rsatkich, asosiy maqsad emas"
+        ]
       ]
     },
     {
       "type": "p",
       "text": "Obunachi soni oxirgi o‘rinda turgani bejiz emas. Obunachini sotib olish oson, ariza esa sotib olinmaydi. Shuning uchun hisobotda birinchi bo‘lib murojaat va javob tezligi turadi."
     },
-    { "type": "h2", "id": "narx", "text": "Narx qanday shakllanadi" },
+    {
+      "type": "h2",
+      "id": "narx",
+      "text": "Narx qanday shakllanadi"
+    },
     {
       "type": "p",
       "text": "Narx ish hajmiga bog‘liq. Biz oldindan «hamma uchun bitta narx» aytmaymiz, chunki bitta Instagram sahifasini yuritish va ikki tilda ikkita kanalni parallel olib borish butunlay boshqa hajmdagi ish."
@@ -334,16 +485,20 @@
       "type": "p",
       "text": "Suhbatdan keyin aniq hajm va narx aytiladi. Maslahat va dastlabki baholash — bepul."
     },
-    { "type": "h2", "id": "bozor-narxlari", "text": "SMM narxi: Toshkent bozori mo‘ljallari" },
     {
-      "type": "p",
-      "text": "Toshkent bozori bo‘yicha mo‘ljallar (agentliklarning ochiq ma’lumotlari, 2026-yil avgust): SMM paketlari — oylik 5–12 mln so‘mdan, platformalar soni, kontent hajmi, suratga olish va tillarga qarab. Bu bozor mo‘ljallari, GPTBot.uz narxnomasi emas — nishingiz va ish tarkibiga aniq smetani profilni bepul tahlil qilgandan keyin hisoblaymiz."
+      "type": "h2",
+      "id": "bozor-narxlari",
+      "text": "SMM narxi: Toshkent bozori mo‘ljallari"
     },
     {
       "type": "p",
       "text": "Iqtisodga alohida omil — murojaatlarni qayta ishlash: izohlar va Direct’ni AI bot qayta ishlayotganda arizalar tunda ham, navbatda ham yo‘qolmaydi. SMM → AI bot bog‘lanishi lidlar yo‘qotilishini kamaytiradi va yakuniy murojaat narxini pasaytirishga yordam beradi."
     },
-    { "type": "h2", "id": "kimlar", "text": "Qaysi bizneslar uchun" },
+    {
+      "type": "h2",
+      "id": "kimlar",
+      "text": "Qaysi bizneslar uchun"
+    },
     {
       "type": "list",
       "items": [
@@ -355,7 +510,10 @@
         "Mahalliy biznes — mijoz sizni Instagram yoki Telegram’dan qidiradigan har qanday soha"
       ]
     },
-    { "type": "h2", "text": "Nega GPTBot.uz" },
+    {
+      "type": "h2",
+      "text": "Nega GPTBot.uz"
+    },
     {
       "type": "list",
       "items": [
@@ -370,13 +528,25 @@
       "type": "p",
       "text": "Biz kafolatlangan sotuv yoki kafolatlangan obunachi o‘sishini va’da qilmaymiz — bunday va’dalar halol emas. Biz ish izchil olib borilishi, murojaat yo‘qolmasligi va ko‘rsatkichlar ochiq bo‘lishi uchun javob beramiz."
     },
-    { "type": "h2", "id": "oqing", "text": "Buyurtmadan oldin o‘qing" },
+    {
+      "type": "h2",
+      "id": "oqing",
+      "text": "Buyurtmadan oldin o‘qing"
+    },
     {
       "type": "linkp",
       "text": "Agar SMM bilan birinchi marta ishlayotgan bo‘lsangiz, {smm} kanal qanday ishlashini va qaysi ko‘rsatkichlarga qarash kerakligini sotuv matnisiz tushuntiradi. Sahifadan saytga o‘tish ham kerak bo‘lsa, {sayt} bo‘limida qanday sayt mos kelishini ko‘rishingiz mumkin.",
       "links": [
-        { "token": "smm", "target": "/uz/blog/smm-nima/", "anchor": "SMM kanal sifatida qanday ishlaydi" },
-        { "token": "sayt", "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt" }
+        {
+          "token": "smm",
+          "target": "/uz/blog/smm-nima/",
+          "anchor": "SMM kanal sifatida qanday ishlaydi"
+        },
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "biznes uchun sayt"
+        }
       ]
     },
     {
@@ -496,7 +666,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-23",
+  "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-29"
+  "updatedAt": "2026-08-31"
 }
