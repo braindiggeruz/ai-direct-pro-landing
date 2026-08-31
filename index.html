@@ -291,11 +291,12 @@
               contact_kind: isContactTg ? 'contact' : 'product_bot'
             });
           }
-          // The one lead this site can honestly observe. Same six commercial
-          // dimensions as telegram_open_attempt, so the two can be compared on
-          // identical breakdowns in GA4.
+          // A browser click only proves that the official contact link was activated.
+          // It does not prove Telegram opened, a message was sent, or a request was
+          // received. Keep this as a custom contact_click event; generate_lead is
+          // reserved for a future server, form or CRM acknowledgement.
           if (isContactTg) {
-            gtag('event','generate_lead',{
+            gtag('event','contact_click',{
               page_path: location.pathname,
               locale: seoLocale,
               page_kind: isArticle ? 'article' : 'landing',
@@ -304,7 +305,7 @@
               cta_zone: ctaZone(el),
               target_url: href,
               contact_kind: 'contact',
-              method: 'telegram'
+              contact_method: 'telegram'
             });
           }
           // Any CTA on a service landing that leads off-page or to another service.
