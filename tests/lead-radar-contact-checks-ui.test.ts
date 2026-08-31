@@ -3,6 +3,34 @@ import test from 'node:test';
 import { contactCheckExplanation, emptyContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, selectedContactCheckJobs } from '../src/admin/lib/campaign-contact-checks';
 import type { LeadRadarLead } from '../src/shared/lead-radar';
 import { contactCandidatesForLead } from '../functions/platform/lead-radar/contact-candidates';
+import { contactResolutionCopy, ownershipConfirmationCopy } from '../src/admin/lib/contact-candidate-feedback';
+import { normalizeTelegramContactResolution } from '../src/shared/lead-radar-contact-resolution';
+
+test('legacy transport errors pause the checker without completing or excluding a company', async () => {
+  for (const reason of ['telegram_timeout','lookup_unconfirmed','check_expired']) {
+    const result=await runSelectedContactChecks({jobs:[{companyId:'company',searchId:'search',candidateKeys:['corporate']}],
+      progress:emptyContactCheckProgress(),cancelled:()=>false,save:()=>{},wait:async()=>{},now:()=>1000,
+      resolve:async()=>normalizeTelegramContactResolution({status:'unresolved',username:null,reason,retryAfterSeconds:null})});
+    assert.deepEqual(result.completed,[]);assert.deepEqual(result.resolved,[]);
+    assert.equal(result.reason,reason);assert.equal(result.pausedUntil,61_000);
+  }
+  const privacy={status:'unresolved' as const,username:null,reason:'privacy_or_missing',retryAfterSeconds:null};
+  assert.deepEqual(normalizeTelegramContactResolution(privacy),privacy);
+});
+
+test('contact feedback distinguishes source outages, Telegram privacy and transport failures', () => {
+  const result={status:'limited' as const,username:null,reason:'business_listing_unavailable',retryAfterSeconds:900};
+  assert.match(contactResolutionCopy(result),/источнике временно недоступна/);
+  assert.doesNotMatch(contactResolutionCopy(result),/Telegram ограничил/);
+  assert.match(contactResolutionCopy({...result,status:'unresolved',reason:'privacy_or_missing'}),/может быть скрыт/);
+  assert.match(contactResolutionCopy({...result,status:'failed',reason:'telegram_timeout'}),/Результат неизвестен/);
+  assert.match(contactResolutionCopy({...result,status:'resolved',reason:'regular_user_resolved',peerRef:'lrpeer:fixture'}),/без публичного username/);
+  assert.doesNotMatch(contactResolutionCopy({...result,status:'resolved',reason:'username_exists_ownership_unconfirmed'}),/@null/);
+  assert.match(ownershipConfirmationCopy('source_unavailable'),/Не удалось прочитать/);
+  assert.match(ownershipConfirmationCopy('source_changed'),/больше не публикует/);
+  assert.match(ownershipConfirmationCopy('classification_unconfirmed'),/не обозначает/);
+  assert.match(ownershipConfirmationCopy('already_confirmed'),/не разрешение на рассылку/);
+});
 
 test('mapped public mobile enters the same UI checker without a website or Telegram username',()=>{
   const lead={id:'mapped',searchId:'search',name:'Example Clinic',country:'UZ',phone:'+998901234567',address:null,

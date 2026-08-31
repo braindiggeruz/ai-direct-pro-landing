@@ -339,14 +339,14 @@ export function classifyTelegramContact(input: TelegramClassificationInput): Pic
   if (/(?:группа|групповой\s+чат|\bgroup\b|\bcommunity\b|\bguruh\b|\bjamoa\b|\bumumiy\s+chat\b)/i.test(context)) {
     return { type: 'group', confidence: 0.91, reason: 'Страница называет ссылку группой или сообществом', messageable: false };
   }
-  if (input.hasNamedDecisionMaker) {
+  if (input.hasNamedDecisionMaker || /(?:личный\s+telegram|личный\s+телеграм|personal\s+telegram)/iu.test(context)) {
     const structured = input.sourceClaim === 'json_ld_same_as';
     return {
       type: 'human',
       confidence: structured ? 0.9 : 0.78,
       reason: structured
         ? 'Официальный сайт публикует Telegram в JSON-LD Person; требуется проверка оператором'
-        : 'Ссылка расположена рядом с именем и ролью; требуется проверка оператором',
+        : 'Личный контакт или ссылка рядом с именем и ролью; требуется проверка оператором',
       messageable: false,
     };
   }

@@ -94,8 +94,21 @@ test('operator confirmation promotes an unconfirmed own-site endpoint into the s
     return result.status === 'resolved' ? (result.reason ?? '') : `status:${result.status}`;
   }
 
+  // Legacy Bridge transport failures are retryable, not completed negatives.
+  for (const [offset, reason] of [[1000, 'telegram_timeout'], [62_000, 'lookup_unconfirmed']] as const) {
+    const checkTime = new Date(NOW.getTime() + offset).toISOString();
+    const failed = await checkCorporateTelegramContact({db:d1,orgId:ORG_A,searchId,companyId:COMPANY_ID,
+      candidateKey:'telegram:https://t.me/aksumedclinic',accountId:account.id,now:checkTime,
+      resolve:async()=>({status:'unresolved',username:null,reason,retryAfterSeconds:null})});
+    assert.equal(failed.status,'failed');
+    assert.equal(failed.reason,reason);
+    const next = await nextTelegramContactCandidate({db:d1,orgId:ORG_A,companyId:COMPANY_ID,accountId:account.id,now:checkTime});
+    assert.equal(next.pending,true);assert.equal(next.retryAfterSeconds,60);
+    assert.equal(await countResolvedCorporateContacts(d1,ORG_A,searchId,checkTime),0);
+  }
+
   // Before confirmation: Bridge resolves the account, ownership stays unproven.
-  const now1 = new Date(NOW.getTime() + 60_000);
+  const now1 = new Date(NOW.getTime() + 180_000);
   assert.equal(await resolveOnce(now1), 'username_exists_ownership_unconfirmed');
   assert.equal(JSON.parse(db.value<string>(
     'SELECT telegram_contact_json FROM lead_radar_companies WHERE id = ?', COMPANY_ID,
@@ -113,7 +126,7 @@ test('operator confirmation promotes an unconfirmed own-site endpoint into the s
 
   // After confirmation the same endpoint resolves as a corporate contact and
   // counts toward the search goal — through the unchanged strict gates.
-  const now2 = new Date(NOW.getTime() + 120_000);
+  const now2 = new Date(NOW.getTime() + 240_000);
   assert.equal(await resolveOnce(now2), 'regular_user_resolved');
   assert.equal(JSON.parse(db.value<string>(
     'SELECT telegram_contact_json FROM lead_radar_companies WHERE id = ?', COMPANY_ID,
@@ -163,4 +176,15 @@ test('R4 rechecks DNC and website identity atomically after the network read',as
     }});
   assert.equal(result.confirmed,false);assert.equal(result.reason,'source_changed');
   assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE field_path='web.telegram.business'"),0);
+});
+
+test('fresh explicit sibling label confirms only its selected website endpoint, without outreach authorization', async(t) => {
+  const db=database();t.after(()=>db.sqlite.close());seedOwnership(db);
+  const result=await confirmCompanyWebsiteOwnership({db:db.asD1(),orgId:ORG_A,companyId:COMPANY_ID,operatorId:'operator',now:NOW,
+    candidateKey:'telegram:https://t.me/aksumedclinic',robots:async()=>null,
+    readPage:async()=>'<p><span>Если Вы не смогли дозвониться до нас, напишите нам в Telegram:</span></p>'
+      + '<div><a href="https://t.me/AksuMedClinic"><img alt="Telegram" src="/tg.svg" /></a></div>'});
+  assert.equal(result.confirmed,true);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE field_path='web.telegram.business'"),1);
+  assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_ownership_fixture',NOW.toISOString()),0);
 });

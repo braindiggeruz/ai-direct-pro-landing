@@ -104,6 +104,33 @@ test('an extension and vendor footer never become mobile lookup targets', () => 
   assert.equal(contacts[0]?.lookupEligible, false);
 });
 
+test('an explicit Telegram lead-in labels only the immediately following icon, as on Smalto contacts', () => {
+  const facts = extractOfficialSiteContacts(new URL('https://clinic.example/contacts'),
+    '<p><span style="font-size:12pt;">Если Вы не смогли дозвониться до нас, напишите нам в Telegram:</span></p>'
+    + '<div style="left:35px;top:774px;"><a href="https://t.me/clinic_booking"><img alt="Telegram" src="/tg.svg" /></a>'
+    + '<a href="https://t.me/second_unknown">Telegram</a></div>');
+  assert.equal(facts.telegramContacts.find(c => c.username === 'clinic_booking')?.type, 'business');
+  assert.equal(facts.telegramContacts.find(c => c.username === 'second_unknown')?.type, 'unknown');
+  assert.ok(facts.telegramContacts.every(c => !c.messageable));
+});
+
+test('separate labels preserve negative types and do not leak across links, sections or generic CTAs', () => {
+  for (const [prefix, body, expected] of [
+    ['<p>Напишите нам в Telegram:</p>', 'Личный Telegram', 'human'],
+    ['<p>Напишите нам в Telegram:</p>', 'Наш канал', 'channel'],
+    ['<p>Напишите нам в Telegram:</p>', 'Наш Telegram бот', 'bot'],
+    ['<p>Напишите нам в Telegram:</p>', 'Наша группа', 'group'],
+    ['<p>Website by Agency — напишите нам в Telegram:</p>', 'Telegram', 'unknown'],
+    ['<section><p>Напишите нам в Telegram:</p></section><section>', 'Telegram', 'unknown'],
+    ['<p>Записаться на приём</p>', 'Telegram', 'unknown'],
+    ['<p>Напишите нам в Telegram: <a href="https://t.me/another_clinic">Клиника</a></p>', 'Telegram', 'unknown'],
+  ]) {
+    const facts = extractOfficialSiteContacts(new URL('https://clinic.example/'),
+      `${prefix}<div><a href="https://t.me/target_contact">${body}</a></div>`);
+    assert.equal(facts.telegramContacts.find(c => c.username === 'target_contact')?.type, expected, prefix + body);
+  }
+});
+
 test('directory website discovery requires the exact listing entity, not its footer', () => {
   const expected = { name: 'Example Clinic', phone: '+998711234567', city: 'Ташкент', address: null };
   const listing = (name: string, telephone: string) => `<script type="application/ld+json">${JSON.stringify({ '@type': 'Dentist', name, telephone, url: 'https://clinic.uz/ru/' })}</script><footer><a href="https://agency.uz/">Website</a></footer>`;

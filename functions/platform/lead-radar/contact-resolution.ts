@@ -1,7 +1,7 @@
 import type { LeadRadarEvidence, LeadRadarTelegramContact } from '../../../src/shared/lead-radar';
 import type { LeadRadarContactCandidate } from '../../../src/shared/lead-radar-contacts';
 import { assessLeadRadarPhone, parseLeadRadarTelegramLocator } from '../../../src/shared/lead-radar-contacts';
-import { validTelegramContactResolution, type TelegramContactResolution, type TelegramContactTarget } from '../../../src/shared/lead-radar-contact-resolution';
+import { normalizeTelegramContactResolution, validTelegramContactResolution, type TelegramContactResolution, type TelegramContactTarget } from '../../../src/shared/lead-radar-contact-resolution';
 import { contactCandidatesForLead } from './contact-candidates';
 import { contactDiscoverySchemaReady } from './contact-discovery-store';
 import { loadContactEnrichments } from './contact-source-store';
@@ -54,7 +54,7 @@ async function proof(candidate: LeadRadarContactCandidate, evidence: EvidenceRow
   return hash(sourceProof.length ? [...base,'public-source:v1',sourceProof] : candidate.ownership==='company' ? base : [...base,'type-only:v1']);
 }
 function parseResult(row: CheckRow): TelegramContactResolution | null {
-  try { const result: unknown = JSON.parse(row.result_json ?? 'null'); return validTelegramContactResolution(result) ? result : null; } catch { return null; }
+  try { const result: unknown = JSON.parse(row.result_json ?? 'null'); return validTelegramContactResolution(result) ? normalizeTelegramContactResolution(result) : null; } catch { return null; }
 }
 export async function countResolvedCorporateContacts(db: D1Database, orgId: string, searchId: string, now: string): Promise<number> {
   // Research-only installations may not have the optional Telegram account schema.
@@ -148,6 +148,7 @@ export async function checkCorporateTelegramContact(input: {
     ? { status: 'unresolved' as const, username: null, reason: 'check_expired', retryAfterSeconds: null }
     : await input.resolve({ kind: target.kind, value: target.value }, `contact:${id}:${Date.parse(row.created_at)}`);
   if (!validTelegramContactResolution(result)) return reject('invalid_bridge_response');
+  result = normalizeTelegramContactResolution(result);
   if (result.status==='resolved' && candidate.ownership!=='company') result={...result,reason:'username_exists_ownership_unconfirmed'};
   const ttl = result.status === 'limited' ? Math.max(3,result.retryAfterSeconds ?? 60) * 1000
     : result.status === 'failed' || ['lookup_unconfirmed','telegram_timeout','check_expired'].includes(result.reason) ? 60_000 : 86400_000;
