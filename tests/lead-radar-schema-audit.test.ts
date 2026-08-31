@@ -364,7 +364,10 @@ test('remote-compatible quick_check is explicit, strict, and read-only', async (
   assert.equal(blocked.issues.some((item) => item.code === 'integrity_check_failed'), true);
 });
 
-test('runtime target fingerprint is exact and costs four D1 statements', async () => {
+test('runtime target fingerprint is exact, avoids locale initialization and costs four D1 statements', async (t) => {
+  // Metadata identifiers have a fixed ASCII order. Locale collation loads ICU
+  // on the first authenticated request, even though no human text is sorted.
+  const localeComparison = t.mock.method(String.prototype, 'localeCompare');
   const fixture = new SqliteD1();
   fixture.exec(`CREATE TABLE d1_migrations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -385,6 +388,7 @@ test('runtime target fingerprint is exact and costs four D1 statements', async (
   const passing = await auditLeadRadarD1Schema(compact, 'target');
   assert.equal(passing.status, 'pass', JSON.stringify(passing.issues, null, 2));
   assert.equal(statements, 4);
+  assert.equal(localeComparison.mock.callCount(), 0, 'cold schema assertion must not initialize locale collation');
 
   fixture.exec('DROP INDEX idx_lead_radar_tg_send_status');
   const blocked = await auditLeadRadarD1Schema(fixture.asD1(), 'target');

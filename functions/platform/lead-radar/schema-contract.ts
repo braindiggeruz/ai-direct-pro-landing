@@ -1347,7 +1347,11 @@ export async function auditLeadRadarD1Schema(
   const schemaRows = schema.filter(isLeadRadarSchemaRow).sort((left, right) => {
     const leftKey = `${text(left.type)}\u0000${text(left.name)}`;
     const rightKey = `${text(right.type)}\u0000${text(right.name)}`;
-    return leftKey.localeCompare(rightKey);
+    // These are fixed ASCII schema identifiers, not localized display text.
+    // Avoid cold ICU/collator initialization on every new Pages isolate: it
+    // alone can exhaust the Free request CPU budget. The pinned fingerprint
+    // and release audit still verify the exact same canonical target bytes.
+    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
   const canonical = schemaRows.map((row) => [
     text(row.type),
