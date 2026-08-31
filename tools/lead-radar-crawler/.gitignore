@@ -1,5 +1,6 @@
 .venv*/
 .cache/
 results/
+.collector-state/
 __pycache__/
 *.pyc

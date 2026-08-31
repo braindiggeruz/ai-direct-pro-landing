@@ -16,6 +16,9 @@ on:
       - 'tests/lead-radar*.test.ts'
       - 'tests/secret-scan.test.ts'
       - 'tools/lead-radar-telegram-bridge/**'
+      - 'tools/lead-radar-crawler/**'
+      - 'functions/api/lead-radar/crawler/**'
+      - 'src/shared/lead-radar-crawler.ts'
       - 'tsconfig*.json'
       - 'workers/automation-worker.ts'
       - 'workers/lead-radar-telegram-account/**'
@@ -39,6 +42,8 @@ on:
       - 'tests/lead-radar*.test.ts'
       - 'tests/secret-scan.test.ts'
       - 'tools/lead-radar-telegram-bridge/**'
+      - 'tools/lead-radar-crawler/**'
+      - 'src/shared/lead-radar-crawler.ts'
       - 'tsconfig*.json'
       - 'workers/automation-worker.ts'
       - 'workers/lead-radar-telegram-account/**'
@@ -81,6 +86,9 @@ jobs:
           yarn install --frozen-lockfile
           python3 -m pip install --disable-pip-version-check --require-hashes \
             -r tools/lead-radar-telegram-bridge/requirements-ci.lock
+          python3 -m venv tools/lead-radar-crawler/.venv-scrapling
+          tools/lead-radar-crawler/.venv-scrapling/bin/python -m pip install --disable-pip-version-check --require-hashes \
+            -r tools/lead-radar-crawler/benchmarks/requirements-scrapling.lock
 
       - name: Test the gate without running the build
         run: node --import tsx --test tests/lead-radar-release-gate.test.ts

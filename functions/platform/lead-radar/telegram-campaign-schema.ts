@@ -315,7 +315,8 @@ export async function telegramCampaignSchemaFingerprint(db: D1Database): Promise
   const rows = (result.results ?? []).sort((left, right) => {
     const leftKey = `${left.type}\u0000${left.name}`;
     const rightKey = `${right.type}\u0000${right.name}`;
-    return leftKey.localeCompare(rightKey);
+    // Fixed ASCII schema keys must not initialize locale/ICU on a cold Worker.
+    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
   const canonical = rows.map((row) => [
     row.type,

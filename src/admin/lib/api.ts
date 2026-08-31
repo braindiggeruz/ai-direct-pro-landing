@@ -1,4 +1,5 @@
 import { parseRetryAfter, withLeadRadarReadRecovery } from './request-recovery';
+import type { LeadRadarCrawlerJobSummary, LeadRadarCrawlerStatus } from '../../shared/lead-radar-crawler';
 
 // API client used by the admin UI.
 // Base URL precedence:
@@ -211,6 +212,15 @@ function uploadLeadRadarTelegramCampaignImage<T>(
 }
 
 export const api = {
+  leadRadarCrawlerStatus: (companyId: string, signal?: AbortSignal) =>
+    request<LeadRadarCrawlerStatus>('GET', `/api/admin/lead-radar/crawler/status?companyId=${encodeURIComponent(companyId)}`,
+      undefined, { signal, timeoutMs: 15_000 }),
+  leadRadarCreateCrawlerJob: (companyId: string, idempotencyKey: string, signal?: AbortSignal) =>
+    request<{ job: LeadRadarCrawlerJobSummary; replayed: boolean }>('POST', '/api/admin/lead-radar/crawler/jobs',
+      { companyId }, { signal, timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } }),
+  leadRadarCancelCrawlerJob: (jobId: string, signal?: AbortSignal) =>
+    request<{ job: LeadRadarCrawlerJobSummary }>('POST', `/api/admin/lead-radar/crawler/jobs/${encodeURIComponent(jobId)}/cancel`,
+      {}, { signal, timeoutMs: 15_000 }),
   config: () => request<{ turnstileRequired: boolean; turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
   login: (email: string, password: string, turnstileToken?: string) => request<{ token: string; email: string; role: string }>('POST', '/api/auth/login', { email, password, turnstileToken }),
   me: () => request<{ email: string; role: string }>('GET', '/api/auth/me'),

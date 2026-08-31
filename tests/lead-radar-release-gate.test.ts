@@ -163,6 +163,7 @@ test('the plan is complete, read-only/locally bounded, and discovers schema audi
       'lead_radar_lint',
       'lead_radar_tests',
       'telegram_windows_bridge_tests',
+      'website_collector_tests',
       'secret_scan',
       'secret_scan_self_tests',
       'cloudflare_pages_build',
@@ -431,10 +432,11 @@ test('fake execution produces a deterministic green report with exact hashes', a
     assert.equal(first.complete, true);
     assert.deepEqual(first.reasons, []);
     assert.deepEqual(first, second);
-    assert.equal(firstRunner.calls.length, 12);
+    assert.equal(firstRunner.calls.length, 13);
     for (const id of [
       'telegram_gateway_typecheck',
       'telegram_windows_bridge_tests',
+      'website_collector_tests',
       'telegram_gateway_worker_dry_run',
     ] satisfies GateCommand['id'][]) {
       assert.equal(
@@ -549,6 +551,7 @@ test('every required gateway command failure makes the report red', async () => 
     for (const id of [
       'telegram_gateway_typecheck',
       'telegram_windows_bridge_tests',
+      'website_collector_tests',
       'telegram_gateway_worker_dry_run',
     ] satisfies GateCommand['id'][]) {
       const report = await runReleaseGate({

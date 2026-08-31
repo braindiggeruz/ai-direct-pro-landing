@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ContactCandidates } from '../components/lead-radar/ContactCandidates';
+import { WebsiteCollectorCard } from '../components/lead-radar/WebsiteCollectorCard';
 import {
   Activity,
   AlertTriangle,
@@ -746,12 +747,13 @@ function LeadListItem({ lead, selected, onSelect }: {
   );
 }
 
-function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact, busy, reviewBusyId, onBack, focusOnMount, canCheckContacts, onContactResolved }: {
+function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact, busy, reviewBusyId, onBack, focusOnMount, canCheckContacts, onContactResolved, onWebsiteContactsUpdated }: {
   lead: LeadRadarLead;
   offer: string;
   contactEnabled: boolean;
   canCheckContacts: boolean;
   onContactResolved: () => void;
+  onWebsiteContactsUpdated: () => Promise<void>;
   onLifecycle: (lifecycle: LeadRadarLifecycle) => void;
   onReviewContact: (personId: string, status: 'approved' | 'rejected') => void;
   busy: boolean;
@@ -1192,6 +1194,7 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
               <h3 id="corporate-channels-title" className="mt-1 text-base font-semibold text-white">Корпоративные каналы</h3>
             </div>
             <ContactCandidates key={lead.id} candidates={lead.contactCandidates} enrichment={lead.contactEnrichment} searchId={lead.searchId} companyId={lead.id} canCheck={canCheckContacts} onResolved={onContactResolved} />
+            <WebsiteCollectorCard key={lead.id} companyId={lead.id} website={lead.website} onContactsUpdated={onWebsiteContactsUpdated} />
             <div className="mt-4 grid gap-3 text-sm">
               {corporateTelegram && companyType && (
                 <div className="rounded-2xl border border-white/[0.08] bg-white/[0.018] p-4">
@@ -1723,6 +1726,14 @@ export default function LeadRadarPage() {
     } finally {
       if (requestSequence.current === sequence) setLoading(false);
     }
+  }
+
+  async function refreshCollectedContacts(searchId: string): Promise<void> {
+    const sequence = requestSequence.current;
+    const next = await api.leadRadarSearchResult(searchId);
+    if (requestSequence.current !== sequence) return;
+    // Keep selection, offer, audience and composer state intact during background collection.
+    setResult((current) => current?.search.id === searchId ? next : current);
   }
 
   async function updateLifecycle(lifecycle: LeadRadarLifecycle): Promise<void> {
@@ -2317,6 +2328,7 @@ export default function LeadRadarPage() {
                           contactEnabled={individualOutreachEnabled}
                           canCheckContacts={capabilities.telegramAccountEnabled === true}
                           onContactResolved={() => { void openSearch(result.search.id); }}
+                          onWebsiteContactsUpdated={() => refreshCollectedContacts(result.search.id)}
                           onLifecycle={(lifecycle) => { void updateLifecycle(lifecycle); }}
                           onReviewContact={(personId, status) => { void reviewDecisionMaker(personId, status); }}
                           busy={statusBusy}

@@ -125,6 +125,9 @@ BUNZY_DEFAULT_LOCALE = "ru"
 # must retain this block even when its feature work is unrelated to Lead Radar.
 LEAD_RADAR_ADMISSION_ENABLED = "true"
 LEAD_RADAR_PROCESSING_ENABLED = "true"
+# Acquisition-only local collector; still requires its exact schema and dedicated
+# registered worker. Never grants Telegram verification or sending permission.
+LEAD_RADAR_CRAWLER_ENABLED = "true"
 LEAD_RADAR_CONTACT_ENABLED = "false"
 LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_TRANSPORT_MODE = "local_bridge"

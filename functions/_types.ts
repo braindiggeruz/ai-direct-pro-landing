@@ -72,6 +72,8 @@ export interface Env extends FirecrawlEnvironment {
   // and do-not-contact enforcement never depend on any of these switches.
   LEAD_RADAR_ADMISSION_ENABLED?: string;
   LEAD_RADAR_PROCESSING_ENABLED?: string;
+  // Separate acquisition-only collector; disabled until schema and scoped worker are provisioned.
+  LEAD_RADAR_CRAWLER_ENABLED?: string;
   LEAD_RADAR_CONTACT_ENABLED?: string;
   // Corporate Telegram discovery is safe in research mode and is deliberately
   // independent from the legal/personal-data gate above. Campaign outreach is

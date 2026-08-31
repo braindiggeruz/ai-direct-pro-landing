@@ -1309,6 +1309,7 @@ export function extractCompanyPageFacts(
   companyWebsiteBound = false,
   observedAt = new Date().toISOString(),
   expected?: ExpectedCompanyWebsiteIdentity,
+  options: { includeSignals?: boolean } = {},
 ): Omit<WebsiteFacts, 'website'> {
   const text = stripHtml(html);
   const contactFacts = extractOfficialSiteContacts(pageUrl, html, observedAt);
@@ -1348,6 +1349,19 @@ export function extractCompanyPageFacts(
   if (companyWebsiteBound) for (const candidatePhone of phoneMatches) {
     evidence.push(sourceEvidence('company_contacts.phone', candidatePhone, pageUrl.toString(), 'company_website', 0.9, 'company_data', observedAt));
   }
+
+  // Acquisition needs the exact same contact/ownership/personal-context guards,
+  // but not the sales-signal/date analysis used by the full enrichment path.
+  const contacts = {
+    phone,
+    genericEmail: genericEmailValue,
+    telegramUrl,
+    telegramContact,
+    telegramContacts: companyWebsiteBound ? contactFacts.telegramContacts : [],
+    decisionMakers: companyWebsiteBound ? contactFacts.decisionMakers : [],
+    evidence,
+  };
+  if (options.includeSignals === false) return { ...contacts, signals: [] };
 
   const signalPatterns: Array<{ type: LeadRadarSignalType; label: string; pattern: RegExp }> = [
     { type: 'online_booking', label: 'онлайн-запись', pattern: /онлайн[- ]?(?:запис|бронир)|online booking|qabulga yozil/i },
@@ -1407,16 +1421,7 @@ export function extractCompanyPageFacts(
     });
   }
 
-  return {
-    phone,
-    genericEmail: genericEmailValue,
-    telegramUrl,
-    telegramContact,
-    telegramContacts: companyWebsiteBound ? contactFacts.telegramContacts : [],
-    decisionMakers: companyWebsiteBound ? contactFacts.decisionMakers : [],
-    evidence,
-    signals,
-  };
+  return { ...contacts, signals };
 }
 
 async function enrichCompanyWebsiteWithBudget(

@@ -22,6 +22,7 @@ export interface GateCommand {
     | 'lead_radar_lint'
     | 'lead_radar_tests'
     | 'telegram_windows_bridge_tests'
+    | 'website_collector_tests'
     | 'secret_scan'
     | 'secret_scan_self_tests'
     | 'cloudflare_pages_build'
@@ -149,6 +150,16 @@ const FIXED_INPUTS = [
   'tools/lead-radar-telegram-bridge/tests/test_bridge_windows.py',
   'functions/_types.ts',
   'functions/api/admin/lead-radar/[[path]].ts',
+  'functions/api/admin/lead-radar/crawler-control.ts',
+  'functions/api/lead-radar/crawler/[[path]].ts',
+  'src/shared/lead-radar-crawler.ts',
+  'src/admin/components/lead-radar/WebsiteCollectorCard.tsx',
+  'src/admin/components/lead-radar/website-collector-state.ts',
+  'tools/lead-radar-crawler/benchmarks/requirements-scrapling.lock',
+  'tools/lead-radar-crawler/README.md',
+  'tools/lead-radar-crawler/extractor.ts',
+  'tools/lead-radar-crawler/extractor-cli.ts',
+  'tsconfig.crawler.json',
   'functions/api/admin/lead-radar/telegram-campaign-control.ts',
   'functions/api/telegram/lead-radar-business.ts',
   'functions/platform/lead-radar/telegram-account-service.ts',
@@ -194,6 +205,7 @@ const OPTIONAL_MIGRATIONS = [
   'migrations/0046_lead_radar_telegram_campaign_safety.sql',
   'migrations/0047_lead_radar_telegram_campaign_media.sql',
   'migrations/0048_lead_radar_telegram_media_quota.sql',
+  'migrations/0056_lead_radar_crawler.sql',
 ] as const;
 
 const ALLOWLISTED_ROOT_SCRIPTS = {
@@ -382,11 +394,13 @@ export function createCommandPlan(root = REPOSITORY_ROOT): GateCommand[] {
         'eslint',
         'functions/platform/lead-radar',
         'functions/api/admin/lead-radar',
+        'functions/api/lead-radar/crawler',
         'functions/api/telegram/lead-radar-business.ts',
         'src/admin/components/lead-radar',
         'src/admin/pages/LeadRadar.tsx',
         'src/admin/lib/api.ts',
         'src/shared/lead-radar.ts',
+        'src/shared/lead-radar-crawler.ts',
         'workers/automation-worker.ts',
         'workers/lead-radar-telegram-account',
         'tests/lead-radar*.test.ts',
@@ -414,6 +428,13 @@ export function createCommandPlan(root = REPOSITORY_ROOT): GateCommand[] {
         '-s', 'tools/lead-radar-telegram-bridge/tests',
         '-p', 'test_*.py',
       ],
+      cwd: '.',
+      safety: 'read_only',
+    },
+    {
+      id: 'website_collector_tests',
+      executable: 'node',
+      args: ['--import', 'tsx', 'scripts/lead-radar/test-crawler.ts'],
       cwd: '.',
       safety: 'read_only',
     },
@@ -544,11 +565,13 @@ export function assertSafeCommandPlan(plan: GateCommand[]): void {
             '--no-install', 'eslint',
             'functions/platform/lead-radar',
             'functions/api/admin/lead-radar',
+            'functions/api/lead-radar/crawler',
             'functions/api/telegram/lead-radar-business.ts',
             'src/admin/components/lead-radar',
             'src/admin/pages/LeadRadar.tsx',
             'src/admin/lib/api.ts',
             'src/shared/lead-radar.ts',
+            'src/shared/lead-radar-crawler.ts',
             'workers/automation-worker.ts',
             'workers/lead-radar-telegram-account',
             'tests/lead-radar*.test.ts',
@@ -579,6 +602,11 @@ export function assertSafeCommandPlan(plan: GateCommand[]): void {
             '-s', 'tools/lead-radar-telegram-bridge/tests',
             '-p', 'test_*.py',
           ])
+          && command.safety === 'read_only';
+        break;
+      case 'website_collector_tests':
+        valid = command.executable === 'node'
+          && sameArgs(command.args, ['--import', 'tsx', 'scripts/lead-radar/test-crawler.ts'])
           && command.safety === 'read_only';
         break;
       case 'secret_scan':
@@ -633,6 +661,7 @@ export function assertSafeCommandPlan(plan: GateCommand[]): void {
     'lead_radar_lint',
     'lead_radar_tests',
     'telegram_windows_bridge_tests',
+    'website_collector_tests',
     'secret_scan',
     'secret_scan_self_tests',
     'cloudflare_pages_build',
@@ -776,6 +805,9 @@ function collectInputFiles(root: string): HashedFile[] {
     'functions/platform/lead-radar',
     'scripts/lead-radar',
     'tools/lead-radar-telegram-bridge',
+    'tools/lead-radar-crawler/collector',
+    'tools/lead-radar-crawler/tests',
+    'tools/lead-radar-crawler/windows',
     'workers/lead-radar-telegram-account',
   ]) {
     const treeRoot = path.join(root, tree);
