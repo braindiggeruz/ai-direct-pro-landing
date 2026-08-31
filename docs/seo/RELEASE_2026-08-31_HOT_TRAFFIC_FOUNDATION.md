@@ -78,3 +78,11 @@ npm run scan:secrets
 Before deployment: record the exact merge SHA; build from that SHA; verify preferred-host redirects and canonicals; verify the new body links in rendered HTML; verify that the two scenario pages expose no star quotations or Review/AggregateRating nodes; and verify production content markers against the exact deployment.
 
 After deployment, record the actual production date. Evaluate GSC query × page, CTR and qualified-organic-lead events after complete 28-, 56- and 90-day windows. Do not attribute results to this release before the corresponding data window ends.
+
+## Final commercial-claim review
+
+A second review removed residual “market price” headings, reseller-specific thresholds and deterministic CPL/loss claims that survived the first transformation. Every paid-media page now answers price intent through scope, ownership, media-budget separation and acceptance criteria.
+
+The RU/UZ Telegram pages retain only the current primary-source boundary: Telegram's official Getting Started guide lists a minimum CPM of 0.1 Toncoin, while the Terms allow Telegram to change service parameters including minimum CPM. Reseller deposits, country-specific euro floors and third-party audience estimates are not presented as platform facts. Sources were checked on 2026-08-31.
+
+The Uzbek internet-advertising hub now has visible body links to Telegram advertising, SMM, SEO, website creation and the AI-bot service. Its funnel copy distinguishes a contact, submitted request, qualified lead and sale.

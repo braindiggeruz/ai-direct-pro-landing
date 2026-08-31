@@ -15,7 +15,7 @@
   "searchIntent": "commercial",
   "h1": "Telegram reklama — O‘zbekistonda biznes uchun",
   "title": "Telegram reklama narxi va ishga tushirish | GPTBot.uz",
-  "description": "Telegram reklama narxi: eng kam CPM, kirishning uch yo‘li va byudjet omillari. Ariza yig‘adigan bot bilan birga.",
+  "description": "Telegram reklama narxi: rasmiy minimal CPM, media byudjet, platforma talablari, bot yoki sayt va arizalarni o‘lchash.",
   "canonical": "https://gptbot.uz/uz/telegram-reklama/",
   "hreflangRu": "/ru/telegram-ads-uzbekistan/",
   "hreflangUz": "/uz/telegram-reklama/",
@@ -82,7 +82,7 @@
         },
         {
           "anchor": "bozor-narxlari",
-          "label": "Bozor narxlari"
+          "label": "Takliflarni solishtirish"
         },
         {
           "anchor": "faq",
@@ -173,85 +173,71 @@
     {
       "type": "h2",
       "id": "qancha",
-      "text": "Telegram reklama qancha turadi"
+      "text": "Telegram Ads narxi qanday hisoblanadi"
     },
     {
       "type": "p",
-      "text": "Platformada yagona narx yo‘q va bu qochirma javob emas — tizim shunday qurilgan. Telegram Ads auksion asosida ishlaydi: siz ming ko‘rsatish uchun to‘laysiz va stavkani o‘zingiz belgilaysiz. Platformaning 2026-yil 26-avgustdagi hujjatida bitta chegara ko‘rsatilgan: eng kam CPM ming ko‘rsatish uchun 0,1 Toncoin. Qolgani — aniq e’lonning byudjeti, uni siz belgilaysiz va istalgan payt oshirishingiz mumkin."
+      "text": "Telegram Ads uchun yagona paket narxi yo‘q: e’lonlar CPM auksionida qatnashadi, reklama beruvchi esa aniq e’lon stavkasi va byudjetini belgilaydi. Platforma media byudjeti sozlash, yuritish, manzil va analitika xizmatidan alohida to‘lanadi."
     },
     {
-      "type": "p",
-      "text": "Ruscha maqolalarda deyarli har safar uchraydigan «2 million yevro depozit» raqami Telegram bilan to‘g‘ridan-to‘g‘ri tuziladigan yevro-kabinet shartnomasiga tegishli. U O‘zbekistondagi biznes reklamani ishga tushiradigan yo‘lni tasvirlamaydi. Agar siz shu raqam tufayli kanaldan voz kechgan bo‘lsangiz — sizga taklif qilinmagan narsadan voz kechgansiz."
+      "type": "linkp",
+      "text": "Amaldagi {guide} sponsored message uchun minimal CPM 0,1 Toncoin deb ko‘rsatilgan. {terms} Telegram platforma parametrlarini, jumladan minimal CPM’ni o‘zgartirishi mumkinligini belgilaydi; shuning uchun to‘lovdan oldin qiymat joriy kabinet va birlamchi manbada tekshiriladi.",
+      "links": [
+        {
+          "token": "guide",
+          "target": "https://ads.telegram.org/getting-started",
+          "anchor": "Telegram Ads rasmiy yo‘riqnomasida"
+        },
+        {
+          "token": "terms",
+          "target": "https://ads.telegram.org/tos",
+          "anchor": "platforma shartlarida"
+        }
+      ]
     },
     {
       "type": "table",
       "headers": [
-        "Kirish yo‘li",
-        "Bu nima",
-        "Chegara tartibi",
-        "Kimga mos"
+        "Byudjet qismi",
+        "Nimani o‘z ichiga oladi",
+        "Qanday qayd etiladi"
       ],
       "rows": [
         [
-          "Toncoin kabineti",
-          "Hisobni TON bilan to‘ldirish va stavkani TON da qo‘yish",
-          "Platforma hujjatiga ko‘ra eng kam CPM 0,1 TON",
-          "Katta depozitsiz birinchi boshqariladigan sinov"
+          "Ads media byudjeti",
+          "Sponsored message balansi va aniq e’lon byudjeti",
+          "Limit, valyuta, kabinet egasi va stop-rule"
         ],
         [
-          "O‘zbekiston uchun kabinet (resseller orqali)",
-          "Shu bozor uchun hamkor ochadigan yevro-kabinet",
-          "Eng kam stavka 0,01 € — eLama ma’lumoti, 2026-08-26; boshlang‘ich byudjet o‘sha yerda 500 € dan deb ko‘rsatilgan",
-          "O‘zbekistondagi biznes uchun asosiy ishchi yo‘l"
+          "Kanalda joylashtirish",
+          "Tanlangan kanal egasiga to‘lov",
+          "Narx, sana, format, statistika va joylashtirish tasdig‘i"
         ],
         [
-          "Vakolatli resseller orqali",
-          "Platformaning hamkori orqali kabinetga kirish va to‘lov",
-          "Chegarani Telegram emas, hamkor belgilaydi; ochiq manbalarda yuzlab yevro tartibidagi summalar aytiladi",
-          "Hisob-faktura, hujjat va o‘z tilida qo‘llab-quvvatlash kerak bo‘lsa"
+          "Jamoa ishi",
+          "Strategiya, kontekst, matn, ishga tushirish va optimallashtirish",
+          "Kelishilgan hajm va davr"
         ],
         [
-          "Telegram bilan to‘g‘ridan-to‘g‘ri shartnoma",
-          "Reklama beruvchining shaxsiy yevro-kabineti",
-          "Maqolalarda tilga olinadigan katta depozit",
-          "Doimiy katta hajmli reklama beruvchilar"
+          "Manzil",
+          "Kanal, bot yoki saytning kontenti va texnik tayyorligi",
+          "Dasturlash kerak bo‘lsa alohida scope"
+        ],
+        [
+          "O‘lchash",
+          "Belgi, start-parametr, hodisa va CRM statusi",
+          "O‘tish, lid va sotuv ta’rifi"
+        ],
+        [
+          "Tashqi shartlar",
+          "Provayder komissiyasi, hujjat va to‘lov usuli",
+          "Tanlangan yo‘l bo‘yicha ishga tushirishdan oldin tekshiriladi"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Resseller chegaralari va to‘g‘ridan-to‘g‘ri shartnomadagi depozit — bu platformalar va soha nashrlari e’lon qilgan ma’lumot, bizning narxnomamiz emas: bu shartlar o‘zgaradi va hamkorga bog‘liq. Ularni ishga tushirish paytida tekshirish kerak. Toncoin kursi ham o‘zgarib turadi, shuning uchun eng kam CPM so‘mda qat’iy raqam emas."
-    },
-    {
-      "type": "h3",
-      "text": "Nega O‘zbekistonda stavka pastroq"
-    },
-    {
-      "type": "p",
-      "text": "Bu O‘zbekiston bozorini rus bozoridan ajratib turadigan asosiy narsa va aynan shuning uchun bu kanal hozir past baholangan. O‘zbekiston uchun kabinetlarda eng kam stavka 0,01 € ni tashkil qiladi — eLama bu raqamni ochiq yozadi va u rus kabinetlaridagidan past ekanini ta’kidlaydi, u yerda eng kam CPM odatda 0,7 € dan boshlanadi deb ko‘rsatiladi. 2026-08-26 da tekshirildi. Sababi oddiy: auksionda reklama beruvchilar hali kam va bir xil kontekst uchun raqobat deyarli yo‘q."
-    },
-    {
-      "type": "p",
-      "text": "Agentliklar keltiradigan mamlakatdagi Telegram qamrovi baholari 25–27 mln foydalanuvchi oralig‘ida. Bu ularning ma’lumoti, platformaning o‘lchovi emas, shuning uchun biz uni prognoz asosi sifatida emas, mo‘ljal sifatida keltiramiz."
-    },
-    {
-      "type": "p",
-      "text": "Muhim izoh: eng kam stavka — bu auksion poli, siz to‘laydigan narx emas. Haqiqiy CPM shu kontekst uchun qancha reklama beruvchi kurashayotganiga va sizning xabaringiz unga qanchalik mos kelishiga bog‘liq. Past pol sinovga arzon kirishni anglatadi, kafolatlangan arzon arizani emas. Va u abadiy past qolmaydi: u aynan bozor hali qizimagani uchun past."
-    },
-    {
-      "type": "h3",
-      "text": "Yakuniy summani nima belgilaydi"
-    },
-    {
-      "type": "list",
-      "items": [
-        "CPM stavkasi: bu auksion va siz bir xil kontekst uchun boshqa reklama beruvchilar bilan raqobatlashasiz",
-        "Nechta mavzu va kanal qamrab olinadi — har bir yangi bog‘lanish alohida gipoteza",
-        "Nechta e’lon varianti sinovdan o‘tadi: format 160 belgi bilan cheklangan, shuning uchun variant bittadan ko‘p bo‘lishi kerak",
-        "Bosish qayerga olib boradi va o‘sha joy tayyormi: kanal, bot yoki sayt",
-        "Analitika ulanganmi — usiz byudjet sarflanadi, lekin xulosaga aylanmaydi",
-        "Sotuvdan sifat bo‘yicha teskari aloqa bormi: usiz platforma harakatni ko‘radi, lekin ariza maqsadli bo‘lganini bilmaydi"
-      ]
+      "text": "Barcha kirish yo‘llari uchun bitta universal depozit yoki boshlang‘ich summa yo‘q. Aniq kabinet yoki provayder sharti platformaning o‘z talabidan farq qilishi mumkin va smetada alohida ko‘rsatiladi."
     },
     {
       "type": "h2",
@@ -430,11 +416,51 @@
     {
       "type": "h2",
       "id": "bozor-narxlari",
-      "text": "Telegram Ads yuritish narxi: Toshkent bozori mo‘ljallari"
+      "text": "Telegram reklama takliflarini qanday solishtirish"
     },
     {
       "type": "p",
-      "text": "Bizning farqimiz — Telegram Ads → AI bot bog‘lanishi: bot foydalanuvchini klikdan so‘ng bir zumda kutib oladi, so‘rovni aniqlashtiradi va arizani menejerga uzatadi. Bu o‘tish va suhbat orasidagi yo‘qotishlarni kamaytiradi hamda yakuniy lid narxini pasaytirishga yordam beradi."
+      "text": "Bir xil “Telegram reklama” nomi ostida rasmiy Ads, kanalda joylashtirish yoki ikkalasi bo‘lishi mumkin. Takliflarni faqat format, media byudjet, xabarlar soni, manzil, o‘lchash va tashqi komissiyalar bir xil yozilganda solishtirish mumkin."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Taklif satri",
+        "Nima aniq yozilishi kerak",
+        "Nega muhim"
+      ],
+      "rows": [
+        [
+          "Xarid formati",
+          "Rasmiy kabinet, kanal joylashtiruvi yoki aralash",
+          "Qoidalar va metrikalar farq qiladi"
+        ],
+        [
+          "Media byudjet",
+          "Valyuta, limit, kabinet yoki kanal narxi",
+          "Platforma xarajati xizmat haqidan ajraladi"
+        ],
+        [
+          "Xabar va kontekst",
+          "Variantlar, mavzular, kanallar va iteratsiyalar soni",
+          "Sinovning haqiqiy hajmini ko‘rsatadi"
+        ],
+        [
+          "Manzil",
+          "Kanal, bot yoki sayt va tayyorlik mas’uli",
+          "E’lon va keyingi qadam mos bo‘lishi kerak"
+        ],
+        [
+          "Analitika",
+          "Start-parametr, hodisa va CRM statusi",
+          "O‘tish, dialog, lid va sotuvni ajratadi"
+        ],
+        [
+          "Kirish va komissiya",
+          "Kabinet egasi, rollar va tashqi to‘lovlar",
+          "Yashirin xarajat va bog‘liqlikni kamaytiradi"
+        ]
+      ]
     },
     {
       "type": "h2",
@@ -467,11 +493,11 @@
     },
     {
       "q": "Telegram reklama qancha turadi?",
-      "a": "Platformada qat’iy narx yo‘q: to‘lov CPM auksioni bo‘yicha, ya’ni ming ko‘rsatish uchun olinadi, stavkani esa reklama beruvchi belgilaydi. Platformaning 2026-yil 26-avgustdagi hujjatida eng kam CPM 0,1 Toncoin deb ko‘rsatilgan. Yakuniy summa mavzular soni, e’lon variantlari, borish nuqtasining tayyorligi va auksiondagi raqobatga bog‘liq."
+      "a": "Telegram Ads CPM auksioni bilan ishlaydi. Rasmiy yo‘riqnomada minimal CPM 0,1 Toncoin deb ko‘rsatilgan, lekin real stavka va byudjet kontekst hamda auksionga bog‘liq. Media byudjet, jamoa ishi, manzil, analitika va mumkin bo‘lgan komissiyalar alohida yoziladi."
     },
     {
-      "q": "Telegram Ads uchun rostdan ham 2 million yevro depozit kerakmi?",
-      "a": "Bu summa Telegram bilan to‘g‘ridan-to‘g‘ri tuziladigan yevro-kabinet shartnomasiga tegishli va O‘zbekistondagi biznes uchun yo‘lni tasvirlamaydi. Toncoin kabineti va vakolatli resseller orqali ishlash mavjud — ularning chegarasi bir necha tartib past. Resseller shartlari o‘zgaradi, shuning uchun ular ishga tushirish paytida tekshiriladi."
+      "q": "Telegram Ads uchun qat’iy katta depozit kerakmi?",
+      "a": "Barcha kirish yo‘llari uchun bitta universal talab yo‘q. Telegram Ads joriy kabineti, tanlangan to‘lov yo‘li yoki provayder sharti farq qilishi mumkin. Ishga tushirishdan oldin birlamchi manba, shartnoma va barcha komissiyalar tekshiriladi."
     },
     {
       "q": "Nega e’lon shunchalik qisqa?",
@@ -506,12 +532,8 @@
       "a": "Sizning nomingizga. Statistika va sarf tarixi sizda qoladi, biz esa ishlash uchun kirish huquqini olamiz. Hamkorlik tugasa, kabinet sizda saqlanadi."
     },
     {
-      "q": "Toshkentda Telegram Ads yuritish qancha turadi?",
-      "a": "Bozor mo‘ljallari bo‘yicha (2026-yil avgust) — yuritish oylik 4 mln so‘mdan va platforma byudjeti alohida. Bu bozor mo‘ljali, GPTBot.uz tarifi emas: aniq hisob-kitob vazifani bepul tahlil qilgandan keyin."
-    },
-    {
-      "q": "Telegram Ads uchun minimal byudjet qancha?",
-      "a": "O‘zbekiston uchun resseller kabinetlarida boshlang‘ich byudjet ~500 € dan, ishchi CPM — 0,05 € dan (auksion poli 0,01 €, resseller ma’lumotlari, 2026-08). Media byudjet yuritish narxiga kirmaydi."
+      "q": "Telegram Ads sinov byudjeti qanday belgilanadi?",
+      "a": "Rasmiy hujjat minimal CPM’ni beradi, lekin universal kampaniya byudjetini bermaydi. Limit kontekstlar, xabar variantlari, kutiladigan ko‘rsatuv hajmi, kanal, bot yoki sayt tayyorligi va oldindan belgilangan stop-rule bo‘yicha hisoblanadi."
     }
   ],
   "internalLinks": [
@@ -556,17 +578,17 @@
     {
       "title": "Telegram Ad Platform — Getting Started",
       "url": "https://ads.telegram.org/getting-started",
-      "note": "Eng kam CPM 0,1 Toncoin, 1000 dan ortiq obunachili ochiq kanallarda ko‘rsatish, byudjetni o‘zgartirish va qoldiqni qaytarish qoidalari. 2026-08-26 da tekshirildi."
+      "note": "Minimal CPM 0,1 Toncoin, CPM auksioni, e’lon byudjeti va ochiq kanallar. 2026-08-31 da tekshirildi."
     },
     {
-      "title": "Telegram Ads",
-      "url": "https://ads.telegram.org/",
-      "note": "E’lonning 160 belgi bilan cheklanishi va sponsored message formatining tavsifi. 2026-08-26 da tekshirildi."
+      "title": "Telegram Ad Platform — Terms of Service",
+      "url": "https://ads.telegram.org/tos",
+      "note": "Platforma xizmat parametrlarini, jumladan minimal CPM’ni o‘zgartirishi mumkin. 2026-08-31 da tekshirildi."
     },
     {
-      "title": "eLama — Telegram Ads reklamasini O‘zbekistonda ishga tushiring",
-      "url": "https://elama.ru/blog/zapuskayte-reklamu-telegram-ads-v-uzbekistane-s-elama/",
-      "note": "O‘zbekiston kabinetlarida eng kam stavka 0,01 € va 500 € dan boshlang‘ich byudjet. Resseller ma’lumoti, platformaniki emas. 2026-08-26 da tekshirildi."
+      "title": "Telegram Ads Guidelines",
+      "url": "https://ads.telegram.org/guidelines",
+      "note": "E’lon va manzil talablari. 2026-08-31 da tekshirildi."
     }
   ],
   "schemaTypes": [

@@ -37,3 +37,46 @@ test('pricing pages explain scope and do not guarantee payback or zero missed en
 test('CRM pages specify delivery reliability and avoid absolute no-loss promises', () => {
   for (const file of ['content/pages/ru/ai-bot-s-crm-amocrm-bitrix24.json', 'content/pages/uz/amocrm-bitrix24-bilan-ai-bot.json']) { const text = serialized(file); assert.match(text, /Идемпотентность|Idempotentlik/); assert.match(text, /Восстановление|Tiklash/); assert.doesNotMatch(text, /чтобы ни одно обращение не потерялось|лиды больше не теряются|lidlar endi yo‘qolmaydi|birorta ham lid yo‘qolmaydi/i); assert.doesNotMatch(text, /без дублей|dublikatlarsiz/i); }
 });
+
+
+test('commercial price guidance is scope-led and contains no volatile reseller snapshots', () => {
+  const files = [
+    'content/pages/ru/internet-reklama-tashkent.json',
+    'content/pages/ru/kontekstnaya-reklama-tashkent.json',
+    'content/pages/ru/targetirovannaya-reklama-tashkent.json',
+    'content/pages/ru/telegram-ads-uzbekistan.json',
+    'content/pages/ru/smm-prodvizhenie-tashkent.json',
+    'content/pages/ru/performance-marketing-tashkent.json',
+    'content/pages/uz/internet-reklama-toshkent.json',
+    'content/pages/uz/telegram-reklama.json',
+    'content/pages/uz/smm-xizmatlari.json',
+  ];
+  const volatile = /по рыночным ориентирам|Рыночные цены|Bozor narxlari|Bozor mo‘ljallari|eLama|500\s*€|0,01\s*€|0,05\s*€|25[–-]27\s*mln|2026-yil avgust|август 2026/i;
+  const deterministic = /снижает потери лидов|уменьшает итоговую стоимость лида|уменьшается итоговый CPL|arizalar tunda ham, navbatda ham yo‘qolmaydi|reklama byudjeti bekorga ketmaydi/i;
+  for (const file of files) {
+    const text = serialized(file);
+    assert.doesNotMatch(text, volatile, `${file} contains a volatile market/reseller price snapshot`);
+    assert.doesNotMatch(text, deterministic, `${file} contains an unsupported deterministic outcome claim`);
+  }
+});
+
+test('Telegram money pages use current primary-source pricing boundaries', () => {
+  for (const file of ['content/pages/ru/telegram-ads-uzbekistan.json', 'content/pages/uz/telegram-reklama.json']) {
+    const page = read(file);
+    const text = JSON.stringify(page);
+    assert.match(text, /0,1 Toncoin/);
+    assert.match(text, /https:\/\/ads\.telegram\.org\/getting-started/);
+    assert.match(text, /https:\/\/ads\.telegram\.org\/tos/);
+    assert.doesNotMatch(text, /eLama|500\s*€|0,01\s*€|2 million|2 миллиона евро/);
+  }
+});
+
+test('Uzbek internet advertising hub exposes commercial body bridges and funnel semantics', () => {
+  const page = read('content/pages/uz/internet-reklama-toshkent.json');
+  const bodyTargets = new Set<string>();
+  for (const block of page.bodyBlocks || []) for (const link of block.links || []) if (link?.target) bodyTargets.add(link.target);
+  for (const target of ['/uz/telegram-reklama/', '/uz/smm-xizmatlari/', '/uz/seo-xizmati/', '/uz/sayt-yaratish/', '/uz/biznes-uchun-ai-bot/']) assert.ok(bodyTargets.has(target), `UZ advertising hub is missing body link to ${target}`);
+  const text = JSON.stringify(page);
+  assert.match(text, /Kontakt.*malakali|Kontakt bosilishi malakali/i);
+  assert.match(text, /yuborilgan ariza.*sotuv/i);
+});

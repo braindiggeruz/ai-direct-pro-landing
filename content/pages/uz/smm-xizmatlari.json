@@ -22,13 +22,13 @@
   "hreflangRu": "/ru/smm-prodvizhenie-tashkent/",
   "hreflangUz": "/uz/smm-xizmatlari/",
   "ogTitle": "SMM xizmatlari Toshkentda — Instagram, Telegram | GPTBot.uz",
-  "ogDescription": "Sahifa yuritish, kontent reja, reklama va murojaatlarni AI yordamida qayta ishlash. Obunachi emas, ariza uchun ishlaymiz.",
+  "ogDescription": "Strategiya, kontent reja, ishlab chiqarish, moderatsiya va murojaatlarni o‘lchash. Pullik reklama va media byudjet alohida scope.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "SMM xizmatlari",
   "heroTitle": "Toshkentda SMM xizmatlari",
-  "heroSubtitle": "Instagram va Telegram sahifalaringizni yuritamiz, kontent tayyorlaymiz va Direct’ga kelgan murojaatlarni yo‘qotmaydigan qilib sozlaymiz. Ish natijasi obunachi soni bilan emas, ariza soni bilan o‘lchanadi.",
+  "heroSubtitle": "Instagram va Telegram uchun strategiya, kontent, nashr va moderatsiyani tashkil qilamiz. Direct murojaatlari uchun javob tartibi, insonga uzatish va o‘lchash hodisalari alohida kelishiladi.",
   "ctaPrimaryLabel": "Bepul maslahat olish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Xizmat tarkibi",
@@ -84,7 +84,7 @@
         },
         {
           "anchor": "bozor-narxlari",
-          "label": "Bozor narxlari"
+          "label": "Takliflarni solishtirish"
         },
         {
           "anchor": "kimlar",
@@ -459,7 +459,7 @@
     },
     {
       "type": "p",
-      "text": "Obunachi soni oxirgi o‘rinda turgani bejiz emas. Obunachini sotib olish oson, ariza esa sotib olinmaydi. Shuning uchun hisobotda birinchi bo‘lib murojaat va javob tezligi turadi."
+      "text": "Obunachi va qamrov yordamchi signallardir. Hisobotda boshlangan dialog, malakali murojaat, javob vaqti, keyingi qadam va CRM statusi alohida ko‘rsatiladi. Sun’iy auditoriya bu metrikalarni buzadi, shuning uchun nakrutka ishlatilmaydi."
     },
     {
       "type": "h2",
@@ -488,11 +488,51 @@
     {
       "type": "h2",
       "id": "bozor-narxlari",
-      "text": "SMM narxi: Toshkent bozori mo‘ljallari"
+      "text": "SMM takliflarini qanday solishtirish"
     },
     {
       "type": "p",
-      "text": "Iqtisodga alohida omil — murojaatlarni qayta ishlash: izohlar va Direct’ni AI bot qayta ishlayotganda arizalar tunda ham, navbatda ham yo‘qolmaydi. SMM → AI bot bog‘lanishi lidlar yo‘qotilishini kamaytiradi va yakuniy murojaat narxini pasaytirishga yordam beradi."
+      "text": "“Sahifani yuritish” bir xil nom bilan turli hajmni anglatadi. Taklifda strategiya, kontent formati, suratga olish, til, moderatsiya, pullik reklama va hisobot alohida ko‘rsatilishi kerak."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Taklif satri",
+        "Nima aniq yozilishi kerak",
+        "Nega muhim"
+      ],
+      "rows": [
+        [
+          "Strategiya",
+          "Auditoriya, kanal roli, rubrika va gipotezalar",
+          "Tasodifiy kontentdan ajratadi"
+        ],
+        [
+          "Kontent",
+          "Post, stories, Reels, Telegram, til va moslashtirish soni",
+          "Haqiqiy hajmni ko‘rsatadi"
+        ],
+        [
+          "Ishlab chiqarish",
+          "Ssenariy, dizayn, montaj, suratga olish va safar",
+          "Ko‘pincha yashirin katta xarajat"
+        ],
+        [
+          "Moderatsiya",
+          "Ish vaqti, dialog hajmi va menejerga uzatish qoidasi",
+          "Mas’uliyat chegarasini belgilaydi"
+        ],
+        [
+          "Pullik reklama",
+          "Sozlash kiradimi va media byudjet qancha",
+          "SMM va target turli xizmat ekanini ko‘rsatadi"
+        ],
+        [
+          "Hisobot",
+          "Kontent signali, dialog, malakali murojaat va xulosa",
+          "Post soni natija isboti emas"
+        ]
+      ]
     },
     {
       "type": "h2",
@@ -526,7 +566,7 @@
     },
     {
       "type": "p",
-      "text": "Biz kafolatlangan sotuv yoki kafolatlangan obunachi o‘sishini va’da qilmaymiz — bunday va’dalar halol emas. Biz ish izchil olib borilishi, murojaat yo‘qolmasligi va ko‘rsatkichlar ochiq bo‘lishi uchun javob beramiz."
+      "text": "Biz sotuv yoki obunachi o‘sishini kafolatlamaymiz. Kelishilgan kontent hajmi, nashr jarayoni, moderatsiya, hodisalar, hisobot va xatolarni ko‘rib chiqish tartibi uchun javob beramiz. Murojaatni yetkazish bo‘yicha texnik va operatsion cheklovlar smetada ochiq yoziladi."
     },
     {
       "type": "h2",
@@ -561,8 +601,8 @@
       "a": "Narx ish hajmiga bog‘liq: nechta kanal yuritiladi, oyiga qancha kontent kerak, dizayn kimda tayyorlanadi va moderatsiya hajmi qanday. Suhbat va dastlabki baholash bepul — undan keyin aniq hajm va narx aytiladi."
     },
     {
-      "q": "Birinchi natijani qachon ko‘raman?",
-      "a": "Sahifa tartibga solingandan keyin javob tezligi va murojaat soni birinchi oyda o‘zgaradi. Barqaror o‘sish esa bir necha oy izchil ishni talab qiladi. Bir haftada sotuv portlashini va’da qiladigan ijrochiga ishonmaslik kerak."
+      "q": "Birinchi natijani qachon baholash mumkin?",
+      "a": "Profil va jarayon o‘zgarishi darhol ko‘rinishi mumkin, lekin biznes xulosasi uchun to‘liq davr va yetarli dialog kerak. Birinchi oy odatda baseline, kontent ritmi va moderatsiyani tekshirishga xizmat qiladi; barqaror o‘sish kafolatlanmaydi."
     },
     {
       "q": "Kontentni o‘zim beraman deb aytsam bo‘ladimi?",
@@ -589,12 +629,8 @@
       "a": "Ha. Noldan boshlash ko‘p hollarda oson: eski noto‘g‘ri kontentni tozalash kerak bo‘lmaydi. Birinchi oy profilni yig‘ish va dastlabki kontent bazasini tayyorlashga ketadi."
     },
     {
-      "q": "Toshkentda SMM paketlari bozorda qancha turadi?",
-      "a": "Bozor mo‘ljallari bo‘yicha (2026-yil avgust) SMM paketlari Toshkentda oylik 5–12 mln so‘mni tashkil qiladi — platformalar, kontent hajmi va suratga olishga bog‘liq. Bu bozor mo‘ljali, GPTBot.uz tarifi emas."
-    },
-    {
-      "q": "SMM uchun minimal byudjet qancha?",
-      "a": "Minimal ishchi tarkib — bitta platforma, kelishilgan kontent hajmi va moderatsiya; Toshkent bozori bo‘yicha bunday paketlar ~5 mln so‘m/oydan boshlanadi. Reklama byudjeti har doim alohida to‘lanadi."
+      "q": "SMM taklifini qanday solishtirish kerak?",
+      "a": "Kanal va til soni, post, stories va Reels hajmi, suratga olish, dizayn, moderatsiya vaqti, pullik reklama, hisobot va tashqi xarajatlarni bir xil satrlarda solishtiring."
     }
   ],
   "internalLinks": [
