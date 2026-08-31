@@ -328,6 +328,12 @@ class SafeTransport:
             wire_size = 0
             while True:
                 remaining = self._remaining(deadline)
+                # read1() closes HTTPResponse at exact Content-Length EOF, which
+                # can also release the final socket handle after Connection: close.
+                # Do not set a timeout on that closed handle. Length/compression/
+                # deadline validation below still rejects incomplete responses.
+                if raw.isclosed():
+                    break
                 # HTTPResponse retains the socket file even with Connection: close.
                 if active_socket[0]:
                     active_socket[0].settimeout(remaining)

@@ -1,7 +1,8 @@
-"""Owned in-memory HTTP fixtures only. No DNS, remote site, token or Telegram calls."""
+"""Owned memory/socketpair HTTP fixtures. No DNS, remote site, token or Telegram calls."""
 
 import gzip
 import hashlib
+import http.client
 import io
 import socket
 import ssl
@@ -46,6 +47,9 @@ class RawResponse:
 
     def read1(self, count):
         return self.body.read(count)
+
+    def isclosed(self):
+        return self.body.closed
 
     def close(self):
         pass
@@ -225,6 +229,75 @@ class TransportTests(unittest.TestCase):
         response.begin()
         self.assertEqual(response.read1(100), b"hello")
         self.assertEqual(response.read1(100), b"")
+
+    def socketpair_response(self, packet, policy=None):
+        # Real HTTPConnection/HTTPResponse + OS socket lifetime, no remote connection.
+        # Tiny fixture packets fit the socket buffer before the request is issued.
+        client, peer = socket.socketpair()
+        client.settimeout(2)
+        peer.settimeout(2)
+        try:
+            peer.sendall(packet)
+            peer.shutdown(socket.SHUT_WR)
+
+            class OwnedConnection(http.client.HTTPConnection):
+                def connect(self):
+                    self.sock = client
+
+            def connect(host, port, ip, tls, timeout):
+                return OwnedConnection(host, port, timeout=timeout)
+
+            transport = SafeTransport(policy or Policy(timeout_seconds=2), resolver=lambda *args: [PUBLIC_IP],
+                                      connection_factory=connect)
+            return transport.get(SITE + "/", SITE)
+        finally:
+            client.close()
+            peer.close()
+
+    def test_connection_close_content_length_eof_keeps_successful_response(self):
+        packet = b"HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Length: 5\r\n\r\nhello"
+        response = self.socketpair_response(packet)
+        self.assertEqual(response.status, 200)
+        self.assertEqual(response.body, b"hello")
+
+    def test_connection_close_empty_error_status_and_chunked_lifecycles(self):
+        cases = [
+            (b"HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Length: 0\r\n\r\n", 200, b""),
+            (b"HTTP/1.1 404 Missing\r\nConnection: close\r\nContent-Length: 5\r\n\r\nhello", 404, b"hello"),
+            (b"HTTP/1.1 403 Denied\r\nConnection: close\r\nContent-Length: 5\r\n\r\nhello", 403, b"hello"),
+            (b"HTTP/1.1 200 OK\r\nConnection: close\r\nTransfer-Encoding: chunked\r\n\r\n5\r\nhello\r\n0\r\n\r\n", 200, b"hello"),
+            (b"HTTP/1.0 200 OK\r\n\r\nhello", 200, b"hello"),
+            (b"HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nhello", 200, b"hello"),
+        ]
+        for packet, status, body in cases:
+            with self.subTest(status=status, packet=packet[:60]):
+                response = self.socketpair_response(packet)
+                self.assertEqual((response.status, response.body), (status, body))
+
+    def test_connection_close_still_rejects_truncation_compression_and_limits(self):
+        compressed = gzip.compress(b"hello")
+        good = b"HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Encoding: gzip\r\nContent-Length: "
+        self.assertEqual(self.socketpair_response(good + str(len(compressed)).encode() + b"\r\n\r\n" + compressed).body, b"hello")
+        invalid = compressed[:-2]
+        with self.assertRaisesRegex(FetchError, "invalid_compression"):
+            self.socketpair_response(good + str(len(invalid)).encode() + b"\r\n\r\n" + invalid)
+        with self.assertRaisesRegex(FetchError, "incomplete_body"):
+            self.socketpair_response(b"HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Length: 10\r\n\r\nhello")
+        with self.assertRaisesRegex(FetchError, "body_too_large"):
+            self.socketpair_response(b"HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Length: 101\r\n\r\nhello",
+                                     Policy(max_wire_bytes=100))
+        bomb = gzip.compress(b"x" * 1000)
+        with self.assertRaisesRegex(FetchError, "decoded_body_too_large"):
+            self.socketpair_response(good + str(len(bomb)).encode() + b"\r\n\r\n" + bomb,
+                                     Policy(max_body_bytes=100))
+
+    def test_unexpected_socket_failure_before_eof_is_not_ignored(self):
+        conn = MockConnection(RawResponse(b"hello"))
+        conn.sock.settimeout = Mock(side_effect=OSError(10038, "owned invalid socket fixture"))
+        transport = SafeTransport(resolver=lambda *args: [PUBLIC_IP], connection_factory=lambda *args: conn)
+        with self.assertRaisesRegex(FetchError, "transport_error"):
+            transport.get(SITE, SITE)
+        self.assertTrue(conn.closed)
 
     def test_total_deadline_checked_during_body_stream(self):
         now = [0.0]
