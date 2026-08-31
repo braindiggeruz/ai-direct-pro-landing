@@ -1,0 +1,82 @@
+name: tail-live-crawler-routes-20260831
+on:
+  push:
+    branches: [ops/tail-live-crawler-routes-20260831]
+    paths: [.github/workflows/tail-live-crawler-routes-20260831.yml]
+permissions:
+  contents: write
+jobs:
+  tail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PROJECT: ai-direct-pro-landing
+      DEPLOYMENT_ID: 000d6620-c0be-4b81-9e36-5f8093322718
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ops/tail-live-crawler-routes-20260831}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - name: Tail sanitized request paths for three minutes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          curl --fail --silent --show-error --request POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H 'Content-Type: application/json' \
+            --data '{}' \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments/$DEPLOYMENT_ID/tails" \
+            > evidence/tail.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const body=JSON.parse(fs.readFileSync('evidence/tail.json','utf8'));
+          if(!body.success||!body.result?.url) throw new Error(JSON.stringify(body.errors||body));
+          const url=body.result.url;
+          const tailId=body.result.id;
+          fs.writeFileSync('evidence/tail-id.txt',tailId+'\n');
+          const events=[];
+          const ws=new WebSocket(url);
+          const done=new Promise((resolve,reject)=>{
+            const timer=setTimeout(()=>{try{ws.close()}catch{};resolve()},180000);
+            ws.addEventListener('message',(event)=>{
+              try{
+                const parsed=JSON.parse(String(event.data));
+                const batch=Array.isArray(parsed)?parsed:[parsed];
+                for(const item of batch){
+                  const eventObj=item.event??item;
+                  const request=eventObj.request??eventObj;
+                  const rawUrl=request.url??eventObj.url;
+                  let path=null;
+                  try{path=rawUrl?new URL(rawUrl).pathname:null}catch{}
+                  if(!path||!/crawler|lead-radar/i.test(path)) continue;
+                  events.push({timestamp:item.timestamp??item.ts??null,method:request.method??null,path,outcome:item.outcome??eventObj.outcome??null,status:item.response?.status??eventObj.response?.status??null});
+                }
+              }catch{}
+            });
+            ws.addEventListener('error',()=>reject(new Error('tail websocket failed')));
+            ws.addEventListener('close',()=>{clearTimeout(timer);resolve()});
+          });
+          await done;
+          const unique=[...new Map(events.map((item)=>[`${item.method}|${item.path}|${item.status}|${item.outcome}`,item])).values()];
+          fs.writeFileSync('evidence/crawler-tail-safe.json',JSON.stringify({capturedAt:new Date().toISOString(),events:unique},null,2)+'\n');
+          console.log(JSON.stringify(unique,null,2));
+          NODE
+          TAIL_ID=$(cat evidence/tail-id.txt)
+          curl --silent --show-error --request DELETE \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments/$DEPLOYMENT_ID/tails/$TAIL_ID" >/dev/null || true
+          rm -f evidence/tail.json evidence/tail-id.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: gptbot-live-crawler-tail-safe-20260831, path: evidence/crawler-tail-safe.json, retention-days: 7, if-no-files-found: error}
+      - name: Remove one-shot workflow
+        if: always()
+        run: |
+          git fetch origin ops/tail-live-crawler-routes-20260831
+          git switch -C ops/tail-live-crawler-routes-20260831 origin/ops/tail-live-crawler-routes-20260831
+          git config user.name "GPTBot Tail CI"; git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/tail-live-crawler-routes-20260831.yml
+          git commit -m "chore: remove live crawler tail"
+          git push origin HEAD:ops/tail-live-crawler-routes-20260831
