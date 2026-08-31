@@ -241,6 +241,25 @@ test('directory parsing cache includes changed evidence and independent Telegram
   assert.equal(page.total,2);assert.ok(page.rows.every(r=>r.status==='review'&&r.occurrences===1));
 });
 
+test('early compact-evidence cache separates known contact types and is rebuilt after newer source decisions',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());const store=new AudienceStore(db.asD1());
+  for(const id of ['memo_allowed','memo_personal']) {
+    websiteOnlyCompany(db,id);websiteTelegram(db,id,'SharedMemoClinic','unknown');
+  }
+  // Compact evidence JSON is identical; contact classification is deliberately not.
+  db.sqlite.prepare('UPDATE lead_radar_companies SET telegram_contact_json=? WHERE id=?').run(JSON.stringify({
+    username:'sharedmemoclinic',url:'https://t.me/sharedmemoclinic',type:'human',confidence:.95,
+    reason:'fixture_personal',evidenceIds:['person_evidence'],verifiedAt:NOW.toISOString(),messageable:false,
+  }),'memo_personal');
+  const before=await store.directory(ORG,{},CAPS,NOW);
+  assert.equal(before.total,1);assert.equal(before.rows[0].lead.id,'memo_allowed');
+  assert.equal(before.rows[0].occurrences,1);assert.equal(before.rows[0].status,'review');
+  websiteTelegram(db,'memo_allowed','sharedmemoclinic','human','2026-08-28T10:01:00.000Z');
+  const after=await store.directory(ORG,{},CAPS,new Date('2026-08-28T10:01:01.000Z'));
+  assert.equal(after.total,0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_contact_checks'),0);
+});
+
 test('Telegram evidence directory projection is one bounded tenant query, never one read per company',async t=>{
   const db=database();t.after(()=>db.sqlite.close());
   for(let index=0;index<60;index++) {
@@ -251,7 +270,10 @@ test('Telegram evidence directory projection is one bounded tenant query, never 
   const counted={prepare:(sql:string)=>{queries.push(sql);return db.asD1().prepare(sql);}} as D1Database;
   const groups=await recipientDirectoryGroups(counted,ORG);
   assert.equal(groups.length,1);assert.equal(groups[0].members.length,60);
-  assert.equal(queries.filter(sql=>sql.includes('AS telegram_evidence_json')).length,1);
+  const projection=queries.filter(sql=>sql.includes('AS telegram_evidence_json'));
+  assert.equal(projection.length,1);
+  assert.match(projection[0],/json_object\('fieldPath',e\.field_path,'value',e\.value,'observedAt',e\.observed_at\)/);
+  assert.doesNotMatch(projection[0],/'sourceUrl'|'confidence'|'classification'/);
   assert.ok(queries.length<=3,`directory projection used ${queries.length} queries`);
 });
 

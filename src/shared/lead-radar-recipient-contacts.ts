@@ -1,4 +1,4 @@
-import type { LeadRadarLead } from './lead-radar';
+import type { LeadRadarEvidence, LeadRadarLead } from './lead-radar';
 import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator } from './lead-radar-contacts';
 import { isTelegramPeerRef } from './lead-radar-telegram-endpoint';
 
@@ -10,7 +10,8 @@ export interface RecipientContactChoices {
   selectable: boolean;
 }
 export type RecipientContactInput = Pick<LeadRadarLead, 'phone' | 'country' | 'telegramContact' | 'telegramUrl'>
-  & Partial<Pick<LeadRadarLead, 'suppressed' | 'lifecycle' | 'contactCandidates' | 'evidence' | 'contactEnrichment'>>;
+  & Partial<Pick<LeadRadarLead, 'suppressed' | 'lifecycle' | 'contactCandidates' | 'contactEnrichment'>>
+  & { evidence?: (LeadRadarEvidence | Pick<LeadRadarEvidence, 'fieldPath' | 'value'>)[] };
 
 export function recipientContactChoices(lead: RecipientContactInput): RecipientContactChoices {
   const phones = new Set<string>(), usernames = new Set<string>();

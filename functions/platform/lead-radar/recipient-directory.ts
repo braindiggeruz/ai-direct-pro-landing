@@ -15,29 +15,31 @@ export interface DirectoryGroup {
   blocked: boolean; conflict: boolean; contacted: boolean;
 }
 function parse<T>(value: string | null, fallback: T): T { try { return JSON.parse(value ?? 'null') ?? fallback; } catch { return fallback; } }
+type TelegramDirectoryEvidence = Pick<LeadRadarEvidence, 'fieldPath' | 'value' | 'observedAt'>;
 
-/** Selection projection only: retain source types, never manufacture Bridge proof.
+/** Selection projection only: retain contact types, never manufacture Bridge proof.
  * A newer personal/unsupported classification must not be revived by an older
  * unknown observation of the same case-insensitive username on another page. */
-function directoryTelegramEvidence(value: string, contact: LeadRadarTelegramContact | null): {
-  evidence: LeadRadarEvidence[]; blockedKeys: Set<string>;
+function directoryTelegramEvidence(value: string, contact: LeadRadarTelegramContact | null,
+  locate: typeof parseLeadRadarTelegramLocator): {
+  evidence: TelegramDirectoryEvidence[]; blockedKeys: Set<string>;
 } {
-  const input = parse<LeadRadarEvidence[]>(value, []);
+  const input = parse<TelegramDirectoryEvidence[]>(value, []);
   const blockedKeys = new Set<string>();
   const block = (url: string) => {
-    const locator = parseLeadRadarTelegramLocator(url);
+    const locator = locate(url);
     if (locator?.kind === 'username') blockedKeys.add(`username:${locator.value.toLowerCase()}`);
     if (locator?.kind === 'phone') blockedKeys.add(`phone:${locator.value}`);
   };
   const unsupported = (type: string) => ['human','bot','channel','group'].includes(type);
   const key = (url: string) => {
-    const locator = parseLeadRadarTelegramLocator(url);
+    const locator = locate(url);
     return locator ? locator.kind === 'username' ? locator.url.toLowerCase() : locator.url : null;
   };
   const knownUnsupported = contact && unsupported(contact.type)
     ? key(contact.url || `@${contact.username}`) : null;
   if (knownUnsupported) block(knownUnsupported);
-  const latest = new Map<string, LeadRadarEvidence>();
+  const latest = new Map<string, TelegramDirectoryEvidence>();
   for (const evidence of Array.isArray(input) ? input : []) {
     if (!evidence || typeof evidence.value !== 'string' || typeof evidence.fieldPath !== 'string'
       || !/^web\.telegram\.(business|unknown|human|bot|channel|group)$/.test(evidence.fieldPath)) continue;
@@ -55,7 +57,7 @@ function directoryTelegramEvidence(value: string, contact: LeadRadarTelegramCont
   for (const item of evidence) if (unsupported(item.fieldPath.split('.')[2])) block(item.value);
   // An old stored URL or enrichment candidate must not resurrect the exact
   // locator that fresh typed evidence has identified as an unsupported peer.
-  const contactLocator = contact ? parseLeadRadarTelegramLocator(contact.url || `@${contact.username}`) : null;
+  const contactLocator = contact ? locate(contact.url || `@${contact.username}`) : null;
   if (contact?.peerRef && contactLocator?.kind === 'username'
     && blockedKeys.has(`username:${contactLocator.value.toLowerCase()}`)) blockedKeys.add(contact.peerRef);
   return { evidence, blockedKeys };
@@ -72,9 +74,8 @@ export async function recipientDirectoryGroups(db: D1Database, orgId: string): P
     ${hasSources ? '(SELECT sources_json FROM lead_radar_contact_enrichments x WHERE x.org_id=c.org_id AND x.company_id=c.id)' : 'NULL'} AS sources_json,
     (SELECT json_group_array(e.value) FROM lead_radar_evidence e WHERE e.org_id=c.org_id AND e.company_id=c.id
       AND e.field_path='company_contacts.phone') AS phones_json,
-    (SELECT json_group_array(json_object('id',e.id,'fieldPath',e.field_path,'value',e.value,
-      'sourceUrl',e.source_url,'sourceType',e.source_type,'observedAt',e.observed_at,
-      'confidence',e.confidence,'classification',e.classification)) FROM lead_radar_evidence e
+    (SELECT json_group_array(json_object('fieldPath',e.field_path,'value',e.value,'observedAt',e.observed_at))
+      FROM lead_radar_evidence e
       WHERE e.org_id=c.org_id AND e.company_id=c.id
         AND e.field_path IN ('web.telegram.business','web.telegram.unknown','web.telegram.human',
           'web.telegram.bot','web.telegram.channel','web.telegram.group')) AS telegram_evidence_json,
@@ -104,22 +105,32 @@ export async function recipientDirectoryGroups(db: D1Database, orgId: string): P
   // once per invocation, but still merge EVERY row's fresh DNC/history flags.
   // This is not a cache of verification, ownership or audience eligibility.
   const parsedKeys = new Map<string, string[]>();
+  const locators = new Map<string, ReturnType<typeof parseLeadRadarTelegramLocator>>();
+  const locate: typeof parseLeadRadarTelegramLocator = (value) => {
+    const cached = locators.get(value);
+    if (cached !== undefined) return cached;
+    const locator = parseLeadRadarTelegramLocator(value);
+    if (locators.size < 4096) locators.set(value, locator);
+    return locator;
+  };
   for (const row of rows) {
-    const contact = parse<LeadRadarTelegramContact | null>(row.telegram_contact_json, null);
-    const telegram = directoryTelegramEvidence(row.telegram_evidence_json, contact);
+    // Compact typed observations are part of the exact input key. Check before
+    // parsing repeated historical JSON or normalizing its locators. Timestamps
+    // and contact classifications remain inputs, so changed facts cannot reuse
+    // an older decision. All caches are bounded by this invocation's row limit.
     const contactInput = JSON.stringify([row.phone,row.country,row.telegram_url,
-      row.telegram_contact_json,row.phones_json,row.sources_json,
-      telegram.evidence.map((item) => [item.fieldPath,item.value]).sort(),[...telegram.blockedKeys].sort()]);
+      row.telegram_contact_json,row.phones_json,row.sources_json,row.telegram_evidence_json]);
     let keys = parsedKeys.get(contactInput);
     if (keys === undefined) {
+      const contact = parse<LeadRadarTelegramContact | null>(row.telegram_contact_json, null);
+      const telegram = directoryTelegramEvidence(row.telegram_evidence_json, contact, locate);
       const sources = parse<Array<{ candidates?: unknown[] }>>(row.sources_json, []);
       const candidates = Array.isArray(sources) ? sources.flatMap((source) => Array.isArray(source?.candidates) ? source.candidates : []) : [];
       const choices = recipientContactChoices({ phone: row.phone, country: row.country, telegramUrl: row.telegram_url,
         telegramContact: contact,
         evidence: [...telegram.evidence,
-          ...parse<string[]>(row.phones_json, []).filter((value) => typeof value === 'string').map((value): LeadRadarEvidence => ({
-          id: '', fieldPath: 'company_contacts.phone', value, sourceUrl: '', sourceType: 'openstreetmap', observedAt: '', confidence: 0, classification: 'fact',
-        }))],
+          ...parse<string[]>(row.phones_json, []).filter((value) => typeof value === 'string')
+            .map((value) => ({ fieldPath: 'company_contacts.phone', value }))],
         contactCandidates: candidates.filter((value): value is NonNullable<Parameters<typeof recipientContactChoices>[0]['contactCandidates']>[number] =>
           Boolean(value) && typeof value === 'object' && typeof (value as {value?: unknown}).value === 'string'
           && ['phone','telegram'].includes((value as {kind: string}).kind)),
