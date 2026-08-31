@@ -390,7 +390,7 @@ export async function telegramCampaignSchemaFingerprint(db: D1Database): Promise
   const rows = (result.results ?? []).sort((left, right) => {
     const leftKey = `${left.type}\u0000${left.name}`;
     const rightKey = `${right.type}\u0000${right.name}`;
-    return leftKey.localeCompare(rightKey);
+    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
   const canonical = rows.map((row) => [
     row.type,

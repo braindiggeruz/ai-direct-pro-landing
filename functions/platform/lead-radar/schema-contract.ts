@@ -1433,7 +1433,7 @@ export async function auditLeadRadarD1Schema(
   const schemaRows = schema.filter(isLeadRadarSchemaRow).sort((left, right) => {
     const leftKey = `${text(left.type)}\u0000${text(left.name)}`;
     const rightKey = `${text(right.type)}\u0000${text(right.name)}`;
-    return leftKey.localeCompare(rightKey);
+    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
   const canonical = schemaRows.map((row) => [
     text(row.type),
