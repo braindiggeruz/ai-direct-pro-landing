@@ -52,18 +52,27 @@ for (const snapshot of snapshots) {
   }
 }
 
-const deploymentsResponse = await request(
-  `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${project}/deployments?env=preview&per_page=50`,
-  { headers: { Authorization: `Bearer ${apiToken}` } },
-);
-if (!deploymentsResponse.ok) throw new Error(`preview deployment list HTTP ${deploymentsResponse.status}`);
-const deploymentsBody = await deploymentsResponse.json();
-if (!deploymentsBody.success) throw new Error('preview deployment list failed');
-const deployment = (deploymentsBody.result ?? []).find((item) => item.url === previewUrl);
-if (!deployment?.id) throw new Error(`preview deployment id not found for ${previewUrl}`);
-
+// The preview itself is already validated above. Deployment-list lookup is only
+// for best-effort cleanup and must never block a verified production release.
 writeJson('evidence/directory-predeploy-safe.json', { samples: snapshots });
-appendGithubEnv({ PREVIEW_DEPLOYMENT_ID: deployment.id });
+const deploymentsResponse = await request(
+  `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${project}/deployments?per_page=25`,
+  { headers: { Authorization: `Bearer ${apiToken}` } },
+).catch(() => null);
+if (deploymentsResponse?.ok) {
+  const deploymentsBody = await deploymentsResponse.json().catch(() => null);
+  const deployment = deploymentsBody?.success
+    ? (deploymentsBody.result ?? []).find((item) => item.url === previewUrl)
+    : null;
+  if (deployment?.id) {
+    appendGithubEnv({ PREVIEW_DEPLOYMENT_ID: deployment.id });
+    console.log(`PREVIEW_DEPLOYMENT_ID=${deployment.id}`);
+  } else {
+    console.warn(`PREVIEW_DEPLOYMENT_CLEANUP=deferred url=${previewUrl}`);
+  }
+} else {
+  console.warn(`PREVIEW_DEPLOYMENT_CLEANUP=deferred status=${deploymentsResponse?.status ?? 'network_error'}`);
+}
 console.log(`DIRECTORY_COMPANIES=${current.directory.companyCount}`);
 console.log(`DIRECTORY_GROUPS=${current.directory.groupCount}`);
 console.log(`DIRECTORY_ELAPSED_MS=${current.directory.elapsedMs}`);
