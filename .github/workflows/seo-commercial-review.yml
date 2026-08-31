@@ -30,6 +30,20 @@ jobs:
           node-version: '24'
           cache: yarn
 
+      - name: Normalize Unicode-aware matchers
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const file = '.github/scripts/apply-seo-commercial-review.mjs';
+          let source = fs.readFileSync(file, 'utf8');
+          source = source
+            .replaceAll('рыночн\\w* цен', 'рыночн[а-яё]* цен')
+            .replaceAll('рыночн\\w* ориентир', 'рыночн[а-яё]* ориентир')
+            .replaceAll('минимальн\\w* бюджет на Telegram Ads', 'минимал[^?]*бюджет.*Telegram Ads')
+            .replaceAll('минимальн\\w* бюджет', 'минимал[^?]*бюджет');
+          fs.writeFileSync(file, source, 'utf8');
+          NODE
+
       - name: Apply final commercial review corrections
         run: node .github/scripts/apply-seo-commercial-review.mjs
 
