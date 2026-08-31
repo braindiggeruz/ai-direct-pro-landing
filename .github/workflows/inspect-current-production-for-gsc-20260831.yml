@@ -1,0 +1,118 @@
+name: inspect-current-production-for-gsc-20260831
+
+on:
+  push:
+    branches:
+      - ops/inspect-current-production-for-gsc-20260831
+    paths:
+      - .github/workflows/inspect-current-production-for-gsc-20260831.yml
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      REVIEWED_SHA: 6cbdb9f40ee23a860f6700c371709fb625f0f18b
+      PROJECT: ai-direct-pro-landing
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.REVIEWED_SHA }}
+          fetch-depth: 0
+
+      - name: Read current Cloudflare production identity and artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_ACCOUNT_ID" && test -n "$CLOUDFLARE_API_TOKEN"
+          mkdir -p evidence
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT" \
+            > evidence/project.json
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments?env=production&per_page=10" \
+            > evidence/deployments.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { spawnSync } from 'node:child_process';
+          const project = JSON.parse(fs.readFileSync('evidence/project.json', 'utf8'));
+          const deployments = JSON.parse(fs.readFileSync('evidence/deployments.json', 'utf8'));
+          const current = project.result?.canonical_deployment;
+          if (!project.success || !current) throw new Error('canonical production deployment unavailable');
+          const safeDeployment = (d) => ({
+            id: d?.id,
+            url: d?.url,
+            environment: d?.environment,
+            status: d?.latest_stage?.status,
+            createdOn: d?.created_on,
+            modifiedOn: d?.modified_on,
+            branch: d?.deployment_trigger?.metadata?.branch,
+            commit: d?.deployment_trigger?.metadata?.commit_hash,
+            commitMessage: d?.deployment_trigger?.metadata?.commit_message,
+            commitDirty: d?.deployment_trigger?.metadata?.commit_dirty,
+            aliases: d?.aliases ?? [],
+          });
+          const origins = ['https://gptbot.uz', current.url];
+          const manifests = {};
+          for (const origin of origins) {
+            const response = await fetch(`${origin}/gptbot-release.json?inspect=${Date.now()}`, { cache: 'no-store', signal: AbortSignal.timeout(30000) });
+            if (!response.ok) throw new Error(`${origin}: manifest HTTP ${response.status}`);
+            manifests[origin] = await response.json();
+          }
+          const currentCommit = current.deployment_trigger?.metadata?.commit_hash ?? '';
+          const object = /^[0-9a-f]{40}$/.test(currentCommit)
+            && spawnSync('git', ['cat-file', '-e', `${currentCommit}^{commit}`], { stdio: 'ignore' }).status === 0;
+          const currentAncestorOfReviewed = object
+            && spawnSync('git', ['merge-base', '--is-ancestor', currentCommit, process.env.REVIEWED_SHA], { stdio: 'ignore' }).status === 0;
+          const reviewedAncestorOfCurrent = object
+            && spawnSync('git', ['merge-base', '--is-ancestor', process.env.REVIEWED_SHA, currentCommit], { stdio: 'ignore' }).status === 0;
+          const safe = {
+            checkedAt: new Date().toISOString(),
+            reviewedSha: process.env.REVIEWED_SHA,
+            current: safeDeployment(current),
+            recent: (deployments.result || []).slice(0, 10).map(safeDeployment),
+            manifests,
+            currentCommitExistsInGitHubFetch: object,
+            currentCommitIsAncestorOfReviewed: currentAncestorOfReviewed,
+            reviewedIsAncestorOfCurrentCommit: reviewedAncestorOfCurrent,
+          };
+          fs.writeFileSync('evidence/current-production-safe.json', JSON.stringify(safe, null, 2) + '\n');
+          console.log(`CURRENT_DEPLOYMENT_ID=${safe.current.id}`);
+          console.log(`CURRENT_DEPLOYMENT_URL=${safe.current.url}`);
+          console.log(`CURRENT_COMMIT=${safe.current.commit}`);
+          console.log(`CURRENT_BRANCH=${safe.current.branch}`);
+          console.log(`CURRENT_MESSAGE=${safe.current.commitMessage}`);
+          console.log(`CURRENT_DIRTY=${safe.current.commitDirty}`);
+          console.log(`CURRENT_MANIFEST=${JSON.stringify(manifests['https://gptbot.uz'])}`);
+          console.log(`CURRENT_COMMIT_EXISTS=${object}`);
+          console.log(`CURRENT_ANCESTOR_OF_REVIEWED=${currentAncestorOfReviewed}`);
+          console.log(`REVIEWED_ANCESTOR_OF_CURRENT=${reviewedAncestorOfCurrent}`);
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-current-production-inspection-20260831
+          path: evidence/current-production-safe.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin ops/inspect-current-production-for-gsc-20260831
+          git switch -C ops/inspect-current-production-for-gsc-20260831 origin/ops/inspect-current-production-for-gsc-20260831
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/inspect-current-production-for-gsc-20260831.yml
+          git commit -m "chore(release): remove one-shot production inspection workflow"
+          git push origin HEAD:ops/inspect-current-production-for-gsc-20260831
