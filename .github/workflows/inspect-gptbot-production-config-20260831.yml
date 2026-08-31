@@ -1,0 +1,100 @@
+name: inspect-gptbot-production-config-20260831
+
+on:
+  push:
+    branches:
+      - ops/deploy-gptbot-production-20260831-r3
+    paths:
+      - .github/workflows/inspect-gptbot-production-config-20260831.yml
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT: ai-direct-pro-landing
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ops/deploy-gptbot-production-20260831-r3
+          fetch-depth: 0
+      - name: Inspect safe production configuration surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test -n "$CLOUDFLARE_API_TOKEN"
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT" \
+            > "$RUNNER_TEMP/project.json"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const body = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/project.json', 'utf8'));
+          if (!body.success) throw new Error('Cloudflare project lookup failed');
+          const project = body.result;
+          const deployment = project.canonical_deployment;
+          const production = project.deployment_configs?.production ?? {};
+          const envVars = production.env_vars ?? {};
+          const names = [
+            'FIRST_PARTY_AUTOMATION_ENABLED',
+            'LEAD_RADAR_ADMISSION_ENABLED',
+            'LEAD_RADAR_PROCESSING_ENABLED',
+            'LEAD_RADAR_CONTACT_ENABLED',
+            'LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED',
+            'LEAD_RADAR_TELEGRAM_TRANSPORT_MODE',
+            'LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED',
+            'LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED',
+            'LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED',
+            'LEAD_RADAR_PERSONAL_RETENTION_DAYS',
+            'LEAD_RADAR_MAX_DISPATCH_PER_TICK',
+            'LEAD_RADAR_CONTACT_DAILY_LIMIT',
+            'LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT',
+            'LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS',
+          ];
+          const flags = Object.fromEntries(names.map((name) => [name, envVars[name]?.value ?? null]));
+          const botValue = envVars.LEAD_RADAR_TELEGRAM_BOT_USERNAME?.value;
+          flags.LEAD_RADAR_TELEGRAM_BOT_USERNAME_STATE = botValue === undefined ? 'missing' : botValue === '' ? 'empty' : 'nonempty';
+          const bindingGroups = [
+            'd1_databases','kv_namespaces','r2_buckets','services','queue_producers',
+            'ai_bindings','analytics_engine_datasets','hyperdrive_bindings','vectorize_bindings',
+            'durable_object_namespaces'
+          ];
+          const bindings = {};
+          for (const group of bindingGroups) {
+            const value = production[group];
+            if (Array.isArray(value)) bindings[group] = value.map((entry) => entry?.binding ?? entry?.name).filter(Boolean).sort();
+            else if (value && typeof value === 'object') bindings[group] = Object.keys(value).sort();
+            else bindings[group] = [];
+          }
+          const safe = {
+            checkedAt: new Date().toISOString(),
+            project: project.name,
+            productionBranch: project.production_branch,
+            deployment: {
+              id: deployment?.id,
+              url: deployment?.url,
+              environment: deployment?.environment,
+              status: deployment?.latest_stage?.status,
+              commit: deployment?.deployment_trigger?.metadata?.commit_hash,
+              commitDirty: deployment?.deployment_trigger?.metadata?.commit_dirty,
+            },
+            flags,
+            bindings,
+          };
+          console.log('SAFE_PRODUCTION_CONFIG=' + JSON.stringify(safe));
+          NODE
+      - name: Remove one-shot inspection workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/inspect-gptbot-production-config-20260831.yml
+          git commit -m "chore(release): remove production config inspection workflow"
+          git push origin HEAD:ops/deploy-gptbot-production-20260831-r3
