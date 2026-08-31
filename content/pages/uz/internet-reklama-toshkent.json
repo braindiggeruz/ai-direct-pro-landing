@@ -27,12 +27,17 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Toshkentda internet reklama",
   "heroTitle": "Toshkentda internet reklama — ariza va savdolar uchun",
-  "heroSubtitle": "Internet reklama shunchaki klik emas — ariza, murojaat va savdo keltirishi kerak. GPTBot.uz toshkentlik bizneslar uchun reklamani yagona tizim sifatida yo‘lga qo‘yadi: reklama kampaniyasi, qo‘nish sahifasi, ariza formasi, AI bot, Telegram yoki CRM va natija tahlili.",
+  "heroSubtitle": "Internet reklama klikdan keyingi yo‘l bilan birga ishlaydi: taklif, qo‘nish sahifasi yoki messenjer, hodisa, menejer va CRM statusi. Har bir bosqich alohida o‘lchanadi; sotuv natijasi reklama kabinetining o‘zi bilan kafolatlanmaydi.",
   "ctaPrimaryLabel": "Reklamani muhokama qilish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Qanday ishlaymiz",
   "ctaSecondaryHref": "#qanday",
-  "heroTrust": ["Kanal vazifaga ko‘ra tanlanadi", "Reklama byudjeti alohida", "UTM va CRM", "Savdo kafolatlanmaydi"],
+  "heroTrust": [
+    "Kanal vazifaga ko‘ra tanlanadi",
+    "Reklama byudjeti alohida",
+    "UTM va CRM",
+    "Savdo kafolatlanmaydi"
+  ],
   "bodyBlocks": [
     {
       "type": "h2",
@@ -68,6 +73,17 @@
     },
     {
       "type": "linkp",
+      "text": "Pullik tarqatish va doimiy sahifa yuritish bir xil xizmat emas. Organik kontent, rubrika, moderatsiya va profil ishonchi uchun {smm} alohida scope sifatida rejalashtiriladi.",
+      "links": [
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "Toshkentdagi SMM xizmatlari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Telegram mijoz tez yozishi, savol berishi va javob olishi qulay bo‘lgan nishalarga mos keladi. {tg} Telegram boti yoki menejer bilan bog‘lanishi mumkin — ariza darhol qayta ishga tushadi.",
       "links": [
         {
@@ -95,6 +111,22 @@
     {
       "type": "p",
       "text": "Internet reklamadagi asosiy xato — traefikni aniq taklif, forma, tezkor aloqa va tushunarli mantiq bo‘lmagan sahifaga olib borish. Foydalanuvchi klik qiladi, bir necha soniya qaraydi va ketadi. Shuning uchun reklama tizimi yagona zanjir sifatida yig‘iladi: e’lon → sayt yoki lending → ariza formasi yoki AI bot → Telegram/CRM → menejer → tahlil."
+    },
+    {
+      "type": "linkp",
+      "text": "Klikdan keyin alohida xizmat sahifasi kerak bo‘lsa, {site} scope’i baholanadi. Birinchi javob va kelishilgan savollarni avtomatlashtirish kerak bo‘lsa, {bot} keyingi qadam bo‘lishi mumkin.",
+      "links": [
+        {
+          "token": "site",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "biznes uchun sayt yaratish"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "biznes uchun AI-bot"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -135,7 +167,7 @@
     },
     {
       "type": "p",
-      "text": "Reklamadan keyin ariza kelsa, javob tezligi hal qiluvchi ahamiyatga ega. AI bot bir zumda aniqlashtiruvchi savollar beradi, ism, telefon va so‘rovni yig‘adi, so‘ng murojaatni menejerga Telegram, CRM yoki Google Sheets orqali uzatadi."
+      "text": "Reklamadan keyin foydalanuvchi aniq va tez keyingi qadamni kutadi. AI-bot kelishilgan savollarni berishi, ism, telefon va so‘rovni yig‘ishi hamda kontekstni menejerga uzatishi mumkin. Javob tezligi va malakali arizaga ta’sir faqat loyiha hodisalari va CRM statuslari bilan tekshiriladi."
     },
     {
       "type": "h3",
@@ -155,15 +187,51 @@
     },
     {
       "type": "h2",
-      "text": "Narx qanday shakllanadi"
+      "text": "Narx va smeta qanday shakllanadi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Taklif satri",
+        "Nima aniq yozilishi kerak",
+        "Nega muhim"
+      ],
+      "rows": [
+        [
+          "Jamoa ishi",
+          "Kanal strategiyasi, sozlash, ishga tushirish, hisobot va optimallashtirish",
+          "Bir martalik ish yoki oylik yuritish"
+        ],
+        [
+          "Media byudjet",
+          "Limit, valyuta, kabinet egasi va to‘ldirish tartibi",
+          "Platformaga alohida to‘lanadi"
+        ],
+        [
+          "Kreativ va kontent",
+          "Formatlar, tillar, moslashtirish va iteratsiyalar soni",
+          "Scope ichida yoki alohida paket"
+        ],
+        [
+          "Qo‘nish sahifasi",
+          "Yangi sahifa, mavjud sahifani yaxshilash yoki messenjer yo‘li",
+          "Ish hajmiga ko‘ra"
+        ],
+        [
+          "Analitika va CRM",
+          "UTM, hodisa, lid maydoni, status va qayta aloqa",
+          "Bazaviy sozlashdan integratsiyagacha"
+        ],
+        [
+          "Tashqi servis",
+          "CRM, call-tracking, konnektor va provayder komissiyasi",
+          "Ta’minotchi tarifi bo‘yicha alohida"
+        ]
+      ]
     },
     {
       "type": "p",
-      "text": "Narx nisha, raqobat, kanal, geografiya, byudjet, qo‘nish sahifasi sifati, kreativlar soni, analitika sozlamalari va arizalarni qayta ishlash usuliga bog‘liq. Reklama maydonchalarining byudjeti — Google, Meta yoki Telegram — alohida hisoblanadi. Ishga tushirishdan oldin nafaqat byudjetni, balki ruxsat etilgan ariza narxini (CPL) ham hisoblab olish tavsiya etiladi. Aniq hisob-kitob uchun bizga yozing — dastlabki taxmin bepul."
-    },
-    {
-      "type": "p",
-      "text": "Bozor mo‘ljallari (Toshkent, raqobatchi agentliklarning ochiq ma’lumotlari, 2026-yil avgust): Meta/Instagram target reklamasini yuritish — oylik 1,5–8 mln so‘mdan (qamrov va platformalar soniga qarab), Google/Yandex kontekst reklamasini yuritish — oylik 7 mln so‘mdan, Telegram Ads ressellerlar orqali — oylik 4 mln so‘mdan (platforma minimal byudjeti ~500 € atrofida), SMM paketlari — oylik 5–12 mln so‘mdan. Bu bozor mo‘ljallari, GPTBot.uz narxnomasi emas: nishingizga aniq smetani bepul tahlildan keyin hisoblaymiz. Bizning farqimiz — reklama → AI bot bog‘lanishi: arizalarning bir zumda qayta ishlanishi klikdan keyingi yo‘qotishlarni kamaytiradi va yakuniy lid narxini (CPL) pasaytirishga yordam beradi."
+      "text": "Smetada kiritilgan ishlar, istisnolar, egasi, qabul mezoni va scope o‘zgarsa tartib yoziladi. Universal bozor narxi nisha, kanal va tayyorlikni bilmasdan aniq loyiha smetasi bo‘la olmaydi."
     },
     {
       "type": "h2",
@@ -171,7 +239,7 @@
     },
     {
       "type": "p",
-      "text": "Reklama biznesga shunchaki ko‘rsatuv va klik emas, murojaat, ariza va savdo keltirayotganda ishlaydi. Buning uchun CTR, CPC, CPL, CPA, sahifa konversiyasi, ariza manbalari, lidlar sifati va menejerning javob tezligi kuzatiladi. Ariza kelgan, lekin menejer kech javob bergan bo‘lsa, reklama tizimi baribir pul yo‘qotadi."
+      "text": "Natija voronka bosqichlari bo‘yicha baholanadi: ko‘rsatuv va klik, boshlangan aloqa, yuborilgan ariza, malakali lid, bitim va sotuv. CTR, CPC va CPL reklamani boshqarishga yordam beradi, lekin CRM statusi va menejer qayta aloqasini almashtirmaydi. Kontakt bosilishi malakali ariza, yuborilgan forma esa sotuv emas."
     },
     {
       "type": "linkp",
@@ -204,11 +272,11 @@
     {
       "type": "list",
       "items": [
-        "Instagram va Telegram reklamasi traefik keltiradi, lekin bir zumda javob bo‘lmasa arizalar yo‘qoladi.",
-        "AI bot reklamadan kelgan har bir mijozni kutib oladi va 24/7 bir necha soniyada javob beradi.",
-        "Bot lidni saralaydi va kontaktni menejerga uzatadi — reklama byudjeti bekorga ketmaydi.",
-        "Sozlash sizning nishangiz, xizmatlaringiz va muloqot uslubingizga moslanadi.",
-        "Reklama byudjeti alohida hisoblanadi, savdo kafolatlanmaydi — halol hisobot beriladi."
+        "Kanal vazifa, talab holati va sinov iqtisodiga ko‘ra tanlanadi.",
+        "E’lon va keyingi sahifa yoki messenjer bir xil va’dani berishi kerak.",
+        "AI-bot birinchi javobni tezlashtirishi va kontekstni menejerga uzatishi mumkin.",
+        "Kontakt, yuborilgan ariza, malakali lid va sotuv alohida o‘lchanadi.",
+        "CPL va sotuvga ta’sir faqat loyiha ma’lumotlari bilan tasdiqlanadi."
       ]
     }
   ],
@@ -227,7 +295,7 @@
     },
     {
       "q": "Internet reklama qancha turadi?",
-      "a": "Narx reklama byudjeti, kanallar, raqobat, kreativlar, qo‘nish sahifasi, analitika va arizalarni qayta ishlash murakkabligiga bog‘liq. Maydoncha byudjeti alohida hisoblanadi. Aniq hisob-kitob uchun bizga yozing — dastlabki taxmin bepul."
+      "a": "Narx jamoa ishi, media byudjet, kreativlar, qo‘nish sahifasi, analitika, CRM va tashqi servislar bo‘yicha alohida hisoblanadi. Aniq smeta uchun kanal, maqsad, geografiya, tillar va test hajmi brifda belgilanadi."
     },
     {
       "q": "Reklama samaradorligi qanday o‘lchanadi?",
@@ -246,12 +314,8 @@
       "a": "Ha. O‘zbekiston uchun biznes auditoriyasiga mos bo‘lsa, rus va o‘zbek (lotin) tillarida test qilish foydali bo‘ladi."
     },
     {
-      "q": "Toshkentda reklama yuritish bozorda qancha turadi?",
-      "a": "Bozor mo‘ljallari (2026-yil avgust): target Meta/Instagram — oylik 1,5–8 mln so‘mdan, kontekst Google/Yandex — oylik 7 mln so‘mdan, Telegram Ads — oylik 4 mln so‘mdan, SMM paketlari — oylik 5–12 mln so‘mdan. Bu bozor bo‘yicha mo‘ljallar, GPTBot.uz tariflari emas; aniq hisob-kitob bepul tahlildan keyin."
-    },
-    {
-      "q": "Minimal reklama byudjeti qancha bo‘lishi kerak?",
-      "a": "Kanalga bog‘liq: Telegram Ads uchun ressellerlarda boshlang‘ich byudjet ~500 € dan, Meta va Google uchun sinov byudjeti ruxsat etilgan ariza narxi va talab hajmiga ko‘ra belgilanadi. Reklama byudjeti platformaga alohida to‘lanadi."
+      "q": "Smetada nimalar alohida ko‘rsatiladi?",
+      "a": "Jamoa ishi, platforma media byudjeti, kreativ ishlab chiqarish, qo‘nish sahifasi, hodisalar, CRM integratsiyasi va tashqi servislar. Har bir satr uchun hajm, egasi, istisno va qabul mezoni yoziladi."
     }
   ],
   "internalLinks": [
@@ -305,7 +369,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-28",
+  "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-08-28",
-  "updatedAt": "2026-08-29"
+  "updatedAt": "2026-08-31"
 }

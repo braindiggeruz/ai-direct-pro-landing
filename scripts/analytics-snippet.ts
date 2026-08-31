@@ -10,22 +10,18 @@
 //     gtag('event','telegram_demo_click', {page_path,page_title,cta_text,target_url})
 //   - SEO funnel events on prerendered landings: seo_landing_view,
 //     service_cta_click, telegram_open_attempt, language_switch
-//   - generate_lead when a visitor opens the studio's own Telegram contact
+//   - contact_click when a visitor activates the studio's Telegram contact
 //
-// Lead semantics. This site has no contact form, no phone number and no email
-// link: the only way a visitor can reach the studio is the Telegram contact
-// handle. GA4 defines generate_lead as "a user submits a form or a request for
-// information", and opening that chat is that request being made — so it is
-// emitted there and nowhere else. Clicks on our own product bots are product
-// engagement, not an enquiry, and stay diagnostic-only. qualify_lead and
-// close_convert_lead are deliberately never emitted: nothing the browser can
-// see tells us whether the conversation was answered or won, and inventing that
-// signal would make the funnel a lie. Those two belong to a CRM callback that
-// does not exist yet.
+// Contact semantics. A Telegram link click is observable; a sent message, a
+// received request and a qualified lead are not. Google defines generate_lead
+// for a lead that has actually been generated (for example, through a form),
+// so the browser must not emit it at click time. contact_click remains a custom
+// diagnostic event. generate_lead, working_lead, qualify_lead and
+// close_convert_lead belong to a future acknowledged form, bridge or CRM signal.
 //
 // Privacy: every event carries page path, page title, a truncated CTA label and
-// the outgoing URL. No form values, no phone or email, no Telegram username, no
-// message text — nothing a visitor typed ever reaches the dataLayer.
+// the public destination URL. No form values, phone, email, message text or
+// visitor-supplied identifier reaches the dataLayer.
 //
 // Keep this file dependency-free; both prerender.ts and prerender-blog.ts
 // import it.
@@ -125,13 +121,12 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         contact_kind: isContactTg ? 'contact' : 'product_bot'
       });
     }
-    // The one lead this site can honestly observe. See the header note.
-    // Carries the same six commercial dimensions as telegram_open_attempt so a
-    // GA4 exploration can compare attempts with leads on identical breakdowns —
-    // contact_kind in particular, because telegram_open_attempt fires for the
-    // product bots too and must never be read as a lead.
+    // A browser click only proves that the official contact link was activated.
+    // It does not prove Telegram opened, a message was sent, or a request was
+    // received. Keep this as a custom contact_click event; generate_lead is
+    // reserved for a future server, form or CRM acknowledgement.
     if (isContactTg) {
-      gtag('event','generate_lead',{
+      gtag('event','contact_click',{
         page_path: location.pathname,
         locale: seoLocale,
         page_kind: isArticle ? 'article' : 'landing',
@@ -140,7 +135,7 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         cta_zone: ctaZone(el),
         target_url: href,
         contact_kind: 'contact',
-        method: 'telegram'
+        contact_method: 'telegram'
       });
     }
     // Any CTA on a service landing that leads off-page or to another service.

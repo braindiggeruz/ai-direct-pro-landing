@@ -15,19 +15,19 @@
   ],
   "searchIntent": "commercial",
   "h1": "AmoCRM va Bitrix24 bilan integratsiyalashgan AI bot",
-  "title": "AmoCRM va Bitrix24 bilan AI bot — CRM’ga lidlar | GPTBot",
-  "description": "AmoCRM va Bitrix24 bilan AI bot messenjerlarda arizalarni yig‘adi va lidlarni avtomatik CRMga yuboradi. Telegram va Instagramda 24/7.",
+  "title": "AmoCRM va Bitrix24 bilan AI-bot: lid uzatish | GPTBot",
+  "description": "AI-bot messenjerda kelishilgan ma’lumotni yig‘ib, lidni AmoCRM yoki Bitrix24’ga uzatadi. Scope maydon, deduplikatsiya, qayta urinish, monitoring va tiklashni belgilaydi.",
   "canonical": "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
   "hreflangRu": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
   "hreflangUz": "/uz/amocrm-bitrix24-bilan-ai-bot/",
-  "ogTitle": "AmoCRM va Bitrix24 bilan AI bot — lidlar darhol CRM’da | GPTBot",
-  "ogDescription": "AI bot Telegram, Instagram va WhatsApp’da mijoz bilan suhbatlashadi, ma’lumotni yig‘adi va bitimni AmoCRM yoki Bitrix24'ga uzatadi.",
+  "ogTitle": "AmoCRM va Bitrix24 bilan AI-bot: nazoratli lid uzatish",
+  "ogDescription": "Maydon, status, deduplikatsiya, qayta urinish, monitoring va qo‘lda tiklashni loyihalaymiz — uzatish mutlaqo xatosiz bo‘lishini va’da qilmaymiz.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "AmoCRM va Bitrix24 bilan AI bot",
   "heroTitle": "AmoCRM va Bitrix24 bilan integratsiyalashgan AI bot",
-  "heroSubtitle": "AI bot Telegram, Instagram Direct va WhatsApp’da suhbat olib boradi, kontakt va ehtiyojni yig‘adi, sizning CRM’ingizda bitim yaratadi va barcha yozishmalarni mijoz kartochkasiga qo‘yadi. Menejer allaqachon tayyorlangan lidni oladi.",
+  "heroSubtitle": "AI-bot dastlabki dialogni olib boradi, kelishilgan maydonlarni yig‘adi va kontekstni CRM’ga uzatadi. Ishga tushirishdan oldin bitim yaratish, deduplikatsiya, qayta urinish, monitoring va qo‘lda tiklash qoidalarini belgilaymiz.",
   "ctaPrimaryLabel": "CRM bilan integratsiyani muhokama qilish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Qanday ishlaydi",
@@ -43,7 +43,7 @@
     },
     {
       "type": "p",
-      "text": "Bu ikki asosiy operatsion bo‘shliqni yopadi: lidlar messendjer va CRM o‘rtasida yo‘qolmaydi, menejerlar esa «assalomu alaykum, ismingiz nima, telefon qancha» degan savollarga vaqt sarflamaydi — buni allaqachon AI qildi."
+      "text": "Bu bog‘lanish messenjer va CRM o‘rtasidagi qo‘lda ko‘chirishni hamda kontekst yo‘qolishi xavfini kamaytiradi. Ishonchlilik platforma API’si, kelishilgan maydon, yetkazish tasdig‘i, qayta urinish, idempotentlik va monitoringga bog‘liq; ular texnik topshiriqda yozilib, ishga tushirishdan oldin sinovdan o‘tkaziladi."
     },
     {
       "type": "h2",
@@ -89,7 +89,7 @@
     },
     {
       "type": "p",
-      "text": "Mijoz Telegram, Instagram Direct yoki WhatsApp’ga yozadi. AI bot mijoz tilida (rus yoki o‘zbek) darhol javob beradi, sizning ssenariyingiz bo‘yicha saralashni olib boradi, kontaktni yig‘adi. Lid shartlari tasdiqlangach, bot API orqali AmoCRM yoki Bitrix24'da bitim yaratadi, kontakt maydonlarini to‘ldiradi, manba va kanalni teglaydi, yozishmalarni biriktiradi. Agar kontakt CRM’da allaqachon bo‘lsa — bot mavjud kartochkaga yangi bitim qo‘shadi, dublikatlarsiz. Menejer CRM va Telegram’da bildirishnoma oladi."
+      "text": "Mijoz Telegram, Instagram Direct yoki WhatsApp’ga yozadi. AI-bot kelishilgan ssenariyni olib boradi va shartlar tasdiqlangach, AmoCRM yoki Bitrix24 API’si orqali mavjud yozuvni yangilash yoki yangi yozuv yaratishga harakat qiladi. Moslashtirish oldindan belgilangan identifikatorlar bo‘yicha bajariladi; noaniq moslik qo‘lda tekshiriladi, shuning uchun dublikatlar mutlaqo bo‘lmaydi deb va’da qilinmaydi."
     },
     {
       "type": "h2",
@@ -114,11 +114,11 @@
     {
       "type": "list",
       "items": [
-        "AmoCRM — to‘liq ulanish: bitim, kontakt, teglar yaratish, yozishmalarni biriktirish",
-        "Bitrix24 — lidlar, bitimlar, kontaktlar, vazifalar, voronkaga bog‘lash",
-        "1C — bitimlar hisob tizimi orqali ketadigan biznes uchun",
-        "Google Sheets — CRM’siz mikro biznes uchun oddiy variant",
-        "Shaxsiy CRM’lar — sizning API’ingiz orqali integratsiyani muhokama qilamiz"
+        "AmoCRM — mavjud API orqali kelishilgan amallar: kontakt, bitim, maydon, teg, vazifa va izoh.",
+        "Bitrix24 — lid yoki bitim, kontakt, vazifa, status va tanlangan voronkaga bog‘lash.",
+        "Google Sheets — CRM’siz kichik jarayon uchun oddiy arizalar jurnali.",
+        "1C va shaxsiy CRM — faqat API, limit, avtorizatsiya modeli va test muhiti tekshirilgach.",
+        "Integratsiyaning aniq hajmi smetada yoziladi; CRM nomi barcha funksiyalar qo‘llanadi degani emas."
       ]
     },
     {
@@ -146,6 +146,54 @@
     },
     {
       "type": "h2",
+      "text": "Uzatish ishonchliligi: texnik topshiriqda nimani belgilaymiz"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nazorat",
+        "Nima aniqlanadi",
+        "Qabul mezoni"
+      ],
+      "rows": [
+        [
+          "Tasdiq",
+          "CRM yozuvni qabul qilganini tizim qanday biladi",
+          "Muvaffaqiyat faqat API tasdiqlagan javobdan keyin qayd etiladi"
+        ],
+        [
+          "Qayta urinish",
+          "Qaysi xato takrorlanadi, interval va limit",
+          "Vaqtinchalik xato cheksiz sikl yaratmaydi"
+        ],
+        [
+          "Idempotentlik",
+          "Bitta mantiqiy ariza kaliti va yangilash qoidasi",
+          "Takroriy so‘rov ikkinchi bitim yaratmaydi"
+        ],
+        [
+          "Deduplikatsiya",
+          "Telefon, email, tashqi ID va noaniq holat",
+          "Nizo qo‘lda tekshirishga tushadi"
+        ],
+        [
+          "Monitoring",
+          "Muvaffaqiyat, xato, kechikish va mas’ul shaxs",
+          "Kritik xato mijoz shikoyatidan oldin ko‘rinadi"
+        ],
+        [
+          "Tiklash",
+          "Muvaffaqiyatsiz operatsiyalar navbati va qo‘lda replay",
+          "Arizani ikkinchi bitimsiz xavfsiz tiklash mumkin"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu bandlardan biri scope’ga kirmasa, cheklov sifatida ochiq yoziladi. API ishlamasligi, tarif yoki CRM limiti o‘zgarishi uzatishni kechiktirishi mumkin; bunday holat uchun ko‘rinadigan status va qo‘lda ishlash yo‘li kerak."
+    },
+    {
+      "type": "h2",
       "text": "Tushunish muhim bo‘lgan cheklovlar va xavflar"
     },
     {
@@ -155,7 +203,9 @@
         "Agar nostandart maydonlari bilan kuchli moslashtirilgan CRM’ingiz bo‘lsa — maydon moslashtirishini alohida sozlash kerak",
         "Bot sehrli mo''jiza qilmaydi: lidlar sifati mezonlar qanchalik aniq tavsiflanganiga bog‘liq",
         "Dublikatlar telefon raqami bo‘yicha kuzatiladi — bitta mijoz ikkita raqamdan yozsa, ikkita kontakt sifatida tanib olinadi",
-        "AI bot menejerni muzokara va bitim yopishda almashtirmaydi"
+        "AI bot menejerni muzokara va bitim yopishda almashtirmaydi",
+        "CRM yoki kanal vaqtincha ishlamasligi mumkin: navbat, qayta urinish va monitoringsiz uzatish ishonchli hisoblanmaydi.",
+        "To‘liq yozishmalar tarixi faqat API, ma’lumot siyosati va kelishilgan hajm ruxsat bersa uzatiladi."
       ]
     },
     {
@@ -199,11 +249,11 @@
     {
       "type": "list",
       "items": [
-        "CRM bilan AI-bot arizani to‘g‘ridan-to‘g‘ri amoCRM yoki Bitrix24 ga uzatadi.",
-        "Bitim voronkada avtomatik yaratiladi, qo‘lda ko‘chirishsiz.",
-        "Menejer yangi lid haqida bildirishnoma oladi.",
-        "CRM bo‘lmasa — Google Sheets yoki Telegram bildirishnomasidan boshlash mumkin.",
-        "Telegram, Instagram va saytda ishlaydi."
+        "AI-bot kelishilgan maydonlarni yig‘ib, kontekstni AmoCRM yoki Bitrix24’ga uzatadi.",
+        "Bitim yaratish yoki yangilash tasdiqlangan qoida va API imkoniyati bo‘yicha bajariladi.",
+        "Qayta urinish, deduplikatsiya, monitoring va tiklash ishonchlilik mezoniga kiradi.",
+        "Noaniq moslik va xato uchun qo‘lda ishlash yo‘li bo‘lishi kerak.",
+        "CRM bo‘lmasa, Telegram bildirishnomasi yoki jadvaldan ularning cheklovlarini hisobga olib boshlash mumkin."
       ]
     }
   ],
@@ -322,7 +372,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-24",
+  "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-08-31",
+  "heroTrust": [
+    "Maydon va status oldindan",
+    "Idempotent uzatish",
+    "Xatolar monitoringi",
+    "Qo‘lda tiklash"
+  ]
 }

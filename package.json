@@ -25,7 +25,7 @@
     "test:intent-guard": "node --import tsx --test tests/intent-guard.test.ts",
     "test:direct-generator": "node --import tsx --test tests/direct-generator.test.ts",
     "test:yandex-research": "node --import tsx --test tests/yandex-research.test.ts",
-    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts tests/indexnow-engine.test.ts tests/search-pulse.test.ts tests/yandex-research.test.ts tests/gpt-chat.test.ts tests/gpt-backend.test.ts tests/telegram-assistant.test.ts tests/telegram-cost-calculator.test.ts tests/canonical-url-redirects.test.ts tests/seo-link-graph.test.ts tests/seo-demand-gate.test.ts tests/seo-intent-manifest.test.ts tests/seo-indexation-recovery.test.ts tests/seo-analytics-privacy.test.ts tests/yandex-metrika.test.ts tests/seo-cluster-quality.test.ts tests/classifieds-foundation.test.ts tests/lead-radar.test.ts tests/pages-config-parity.test.ts",
+    "test": "node --import tsx --test tests/intent-guard.test.ts tests/direct-generator.test.ts tests/indexnow-engine.test.ts tests/search-pulse.test.ts tests/yandex-research.test.ts tests/gpt-chat.test.ts tests/gpt-backend.test.ts tests/telegram-assistant.test.ts tests/telegram-cost-calculator.test.ts tests/canonical-url-redirects.test.ts tests/seo-link-graph.test.ts tests/seo-demand-gate.test.ts tests/seo-intent-manifest.test.ts tests/seo-indexation-recovery.test.ts tests/seo-analytics-privacy.test.ts tests/yandex-metrika.test.ts tests/seo-cluster-quality.test.ts tests/classifieds-foundation.test.ts tests/lead-radar.test.ts tests/pages-config-parity.test.ts tests/seo-commercial-claims.test.ts",
     "test:seo-cluster": "node --import tsx --test tests/seo-cluster-quality.test.ts",
     "test:seo-links": "node --import tsx --test tests/seo-link-graph.test.ts",
     "test:seo-demand": "node --import tsx --test tests/seo-demand-gate.test.ts",
@@ -53,7 +53,8 @@
     "javob:eval": "tsx scripts/javob-eval.ts",
     "javob:eval:live": "tsx scripts/javob-eval.ts --live",
     "scan:secrets": "tsx scripts/scan-secrets.ts",
-    "test:secret-scan": "node --import tsx --test tests/secret-scan.test.ts"
+    "test:secret-scan": "node --import tsx --test tests/secret-scan.test.ts",
+    "test:seo-commercial-claims": "node --import tsx --test tests/seo-commercial-claims.test.ts"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",
