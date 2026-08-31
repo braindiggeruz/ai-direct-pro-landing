@@ -1,0 +1,129 @@
+name: deploy-hot-traffic-production-20260831
+
+on:
+  push:
+    branches:
+      - release/hot-traffic-production-20260831
+    paths:
+      - .github/workflows/deploy-hot-traffic-production-20260831.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gptbot-pages-production
+  cancel-in-progress: false
+
+jobs:
+  verify-build-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - name: Check out the production superset
+        uses: actions/checkout@v4
+        with:
+          ref: release/hot-traffic-production-20260831
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Verify Cloudflare credentials are available
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo '::error::Missing CLOUDFLARE_ACCOUNT_ID repository secret'; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo '::error::Missing CLOUDFLARE_API_TOKEN repository secret'; exit 1; }
+
+      - name: Install root and admin dependencies
+        run: |
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run complete public-site regression suite
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: yarn test
+
+      - name: Run complete Lead Radar regression suite
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+
+      - name: Run release, SEO and TypeScript gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn test:pages-production
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+
+      - name: Build and stamp the combined production artifact
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npm run build:production
+
+      - name: Verify production lineage before upload
+        run: yarn release:pages:check
+
+      - name: Deploy guarded artifact to Cloudflare Pages production
+        run: yarn deploy:pages:production
+
+      - name: Verify public SEO, analytics and Lead Radar canaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          release="$(git rev-parse HEAD)"
+
+          fetch_retry() {
+            local url="$1" output="$2"
+            for attempt in $(seq 1 18); do
+              if curl -fsSL --retry 2 --retry-all-errors -H 'Cache-Control: no-cache' "${url}${url#*\?}" >/dev/null 2>&1; then :; fi
+              if curl -fsSL --retry 2 --retry-all-errors -H 'Cache-Control: no-cache' "$url" -o "$output"; then
+                return 0
+              fi
+              sleep 5
+            done
+            return 1
+          }
+
+          fetch_retry "https://gptbot.uz/ru/internet-reklama-tashkent/?release=$release" /tmp/ads.html
+          grep -Fq 'Что входит в смету и что оплачивается отдельно' /tmp/ads.html
+          grep -Fq '/ru/kontekstnaya-reklama-tashkent/' /tmp/ads.html
+          grep -Fq '/ru/targetirovannaya-reklama-tashkent/' /tmp/ads.html
+          grep -Fq '/ru/telegram-ads-uzbekistan/' /tmp/ads.html
+
+          fetch_retry "https://gptbot.uz/ru/otzyvy/?release=$release" /tmp/reviews.html
+          grep -Fq 'Сценарии по нишам' /tmp/reviews.html
+          ! grep -Fq '★★★★★' /tmp/reviews.html
+          ! grep -Fq 'AggregateRating' /tmp/reviews.html
+
+          fetch_retry "https://gptbot.uz/?release=$release" /tmp/home.html
+          grep -Fq "gtag('event','contact_click'" /tmp/home.html
+          grep -Fq "contact_method: 'telegram'" /tmp/home.html
+          ! grep -Fq "gtag('event','generate_lead'" /tmp/home.html
+
+          fetch_retry "https://gptbot.uz/gptbot-release.json?release=$release" /tmp/release.json
+          node -e "const r=require('/tmp/release.json'); if(r.commit!==process.argv[1]) process.exit(1); if(!r.features.includes('audience_directory')||!r.features.includes('campaign_preflight')) process.exit(1)" "$release"
+
+          test "$(curl -sS -o /dev/null -w '%{http_code}' https://gptbot.uz/admin/lead-radar)" = '302'
+          test "$(curl -sS -o /dev/null -w '%{http_code}' https://gptbot.uz/api/telegram/agents)" = '405'
+          test "$(curl -sS -o /dev/null -w '%{http_code}' https://gptbot.uz/__release-canary-not-found-20260831)" = '404'
+
+      - name: Remove one-shot deployment workflow from the release branch
+        if: always()
+        run: |
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/deploy-hot-traffic-production-20260831.yml
+          git commit -m "chore(release): remove one-shot production workflow"
+          git push origin HEAD:release/hot-traffic-production-20260831
