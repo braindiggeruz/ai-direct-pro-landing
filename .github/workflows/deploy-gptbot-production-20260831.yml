@@ -1,0 +1,258 @@
+name: deploy-gptbot-production-20260831
+
+on:
+  push:
+    branches:
+      - ops/deploy-gptbot-production-20260831
+    paths:
+      - .github/workflows/deploy-gptbot-production-20260831.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gptbot-pages-production
+  cancel-in-progress: false
+
+env:
+  RELEASE_SHA: 0eb69146faede0a19ff59f2fc749b09307b61e0a
+  CLOUDFLARE_PAGES_PROJECT: ai-direct-pro-landing
+
+jobs:
+  verify-deploy-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - name: Check out immutable production release
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_SHA }}
+          fetch-depth: 0
+
+      - name: Assert exact release source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+          test "$(git rev-parse HEAD^{tree})" = "a6d82e3fcf86a73a515751e6775fc95d1622c9df"
+
+      - name: Verify Cloudflare deployment credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo '::error::CLOUDFLARE_ACCOUNT_ID is missing'; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo '::error::CLOUDFLARE_API_TOKEN is missing'; exit 1; }
+          echo 'Cloudflare credential names are present; values are not printed.'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Re-run public and commercial regression gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: yarn test
+
+      - name: Re-run Lead Radar production gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+          yarn test:pages-production
+
+      - name: Re-run SEO, TypeScript and secret gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        shell: bash
+        run: |
+          set -euo pipefail
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+
+      - name: Build and stamp the combined Pages production artifact
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npm run build:production
+
+      - name: Verify current production lineage before publication
+        run: npm run release:pages:check
+
+      - name: Deploy guarded artifact to Cloudflare Pages production
+        run: npm run deploy:pages:production
+
+      - name: Capture Cloudflare deployment metadata without secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          const project = process.env.CLOUDFLARE_PAGES_PROJECT;
+          const expected = process.env.RELEASE_SHA;
+          const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/pages/projects/${project}`, {
+            headers: { Authorization: `Bearer ${token}` },
+            signal: AbortSignal.timeout(30000),
+          });
+          if (!response.ok) throw new Error(`Cloudflare project metadata HTTP ${response.status}`);
+          const body = await response.json();
+          const deployment = body?.result?.canonical_deployment;
+          const evidence = {
+            success: body?.success === true,
+            project,
+            deploymentId: deployment?.id ?? null,
+            environment: deployment?.environment ?? null,
+            status: deployment?.latest_stage?.status ?? null,
+            commit: deployment?.deployment_trigger?.metadata?.commit_hash ?? null,
+            url: deployment?.url ?? null,
+            aliases: Array.isArray(deployment?.aliases) ? deployment.aliases : [],
+            capturedAt: new Date().toISOString(),
+          };
+          if (!evidence.success || evidence.environment !== 'production' || evidence.status !== 'success') {
+            throw new Error(`Unexpected canonical deployment metadata: ${JSON.stringify(evidence)}`);
+          }
+          if (evidence.commit !== expected) throw new Error(`Canonical commit ${evidence.commit} != ${expected}`);
+          fs.writeFileSync('deployment-evidence.json', JSON.stringify(evidence, null, 2) + '\n');
+          console.log(JSON.stringify(evidence));
+          NODE
+
+      - name: Verify public release, SEO, analytics and Lead Radar canaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          nonce="$(date +%s)"
+          curl -fsS --retry 8 --retry-delay 5 --retry-all-errors \
+            "https://gptbot.uz/gptbot-release.json?release=$RELEASE_SHA&v=$nonce" \
+            -o /tmp/gptbot-release.json
+          curl -fsS --retry 8 --retry-delay 5 --retry-all-errors \
+            "https://gptbot.uz/ru/internet-reklama-tashkent/?v=$nonce" \
+            -o /tmp/ru-internet.html
+          curl -fsS --retry 8 --retry-delay 5 --retry-all-errors \
+            "https://gptbot.uz/uz/internet-reklama-toshkent/?v=$nonce" \
+            -o /tmp/uz-internet.html
+          curl -fsS --retry 8 --retry-delay 5 --retry-all-errors \
+            "https://gptbot.uz/ru/otzyvy/?v=$nonce" \
+            -o /tmp/reviews.html
+          curl -fsS --retry 8 --retry-delay 5 --retry-all-errors \
+            "https://gptbot.uz/sitemap.xml?v=$nonce" \
+            -o /tmp/sitemap.xml
+          curl -fsS --retry 8 --retry-delay 5 --retry-all-errors \
+            "https://gptbot.uz/robots.txt?v=$nonce" \
+            -o /tmp/robots.txt
+          curl -fsS --retry 8 --retry-delay 5 --retry-all-errors \
+            "https://gptbot.uz/?v=$nonce" \
+            -o /tmp/home.html
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const expected = process.env.RELEASE_SHA;
+          const release = JSON.parse(fs.readFileSync('/tmp/gptbot-release.json', 'utf8'));
+          if (release.commit !== expected) throw new Error(`release manifest commit ${release.commit} != ${expected}`);
+          for (const feature of ['audience_directory','mobile_username_selection','bridge_pairing','sending_readiness','campaign_preflight','async_media_check']) {
+            if (!release.features?.includes(feature)) throw new Error(`missing release feature ${feature}`);
+          }
+          const ru = fs.readFileSync('/tmp/ru-internet.html', 'utf8');
+          const uz = fs.readFileSync('/tmp/uz-internet.html', 'utf8');
+          const reviews = fs.readFileSync('/tmp/reviews.html', 'utf8');
+          const sitemap = fs.readFileSync('/tmp/sitemap.xml', 'utf8');
+          const robots = fs.readFileSync('/tmp/robots.txt', 'utf8');
+          const home = fs.readFileSync('/tmp/home.html', 'utf8');
+
+          for (const marker of [
+            '/ru/kontekstnaya-reklama-tashkent/',
+            '/ru/targetirovannaya-reklama-tashkent/',
+            '/ru/telegram-ads-uzbekistan/',
+            '/ru/performance-marketing-tashkent/',
+            '/ru/marketingovyi-audit-tashkent/',
+          ]) if (!ru.includes(marker)) throw new Error(`RU paid-media hub missing ${marker}`);
+
+          for (const marker of [
+            '/uz/telegram-reklama/',
+            '/uz/smm-xizmatlari/',
+            '/uz/seo-xizmati/',
+            '/uz/sayt-yaratish/',
+            '/uz/biznes-uchun-ai-bot/',
+          ]) if (!uz.includes(marker)) throw new Error(`UZ advertising hub missing ${marker}`);
+
+          if (!/обезличенн|составн/i.test(reviews)) throw new Error('reviews scenario disclosure is missing');
+          if (/★★★★★|AggregateRating|"@type"\s*:\s*"Review"/.test(reviews)) throw new Error('unverified review/rating markup is present');
+          if (!home.includes("gtag('event','contact_click'")) throw new Error('contact_click analytics marker is missing');
+          if (!home.includes("contact_method: 'telegram'")) throw new Error('contact_method analytics marker is missing');
+          if (home.includes("gtag('event','generate_lead'")) throw new Error('browser still fabricates generate_lead');
+          for (const url of ['/ru/internet-reklama-tashkent/','/uz/internet-reklama-toshkent/','/ru/otzyvy/']) {
+            if (!sitemap.includes(url)) throw new Error(`sitemap missing ${url}`);
+          }
+          if (!/Sitemap:\s*https:\/\/gptbot\.uz\/sitemap\.xml/i.test(robots)) throw new Error('robots sitemap directive is missing');
+          fs.writeFileSync('public-canary-evidence.json', JSON.stringify({
+            status: 'pass',
+            release: expected,
+            checkedAt: new Date().toISOString(),
+            checks: [
+              'release_manifest',
+              'lead_radar_features',
+              'ru_paid_media_body_links',
+              'uz_commercial_body_links',
+              'review_trust_boundary',
+              'contact_click_semantics',
+              'sitemap',
+              'robots',
+            ],
+          }, null, 2) + '\n');
+          NODE
+
+          admin_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-redirs 0 "https://gptbot.uz/admin/lead-radar?v=$nonce" || true)"
+          case "$admin_code" in
+            200|301|302|303|307|308|401|403) ;;
+            *) echo "::error::Unexpected /admin/lead-radar HTTP $admin_code"; exit 1 ;;
+          esac
+          echo "Lead Radar admin canary HTTP $admin_code"
+
+          www_headers="$(curl -sSI --max-redirs 0 "https://www.gptbot.uz/?v=$nonce" || true)"
+          printf '%s\n' "$www_headers" > www-host-evidence.txt
+          if printf '%s' "$www_headers" | grep -qiE '^location: https://gptbot\.uz/'; then
+            echo 'Preferred-host redirect is present.'
+          else
+            echo '::warning::Preferred-host redirect was not proven by this probe; deployment remains valid but host reconciliation still needs review.'
+          fi
+
+      - name: Preserve deployment evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-production-deploy-${{ env.RELEASE_SHA }}
+          path: |
+            deployment-evidence.json
+            public-canary-evidence.json
+            www-host-evidence.txt
+            dist/gptbot-release.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove one-shot deployment workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git switch -C ops/deploy-gptbot-production-20260831 origin/ops/deploy-gptbot-production-20260831
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/deploy-gptbot-production-20260831.yml
+          git commit -m "chore(release): remove one-shot production deployment workflow"
+          git push origin HEAD:ops/deploy-gptbot-production-20260831
