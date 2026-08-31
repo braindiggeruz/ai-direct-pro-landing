@@ -1,0 +1,91 @@
+name: seo-hot-traffic-apply
+
+on:
+  push:
+    branches:
+      - seo/hot-traffic-foundation-20260831
+    paths:
+      - .github/scripts/apply-seo-hot-traffic.mjs
+      - .github/workflows/seo-hot-traffic-apply.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: seo-hot-traffic-foundation-20260831
+  cancel-in-progress: false
+
+jobs:
+  apply-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo/hot-traffic-foundation-20260831
+          fetch-depth: 0
+
+      - name: Use repository Node version
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Apply commercial SEO transformation
+        run: node .github/scripts/apply-seo-hot-traffic.mjs
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: SEO audit
+        run: npm run seo:audit
+
+      - name: Commercial claims regression gate
+        run: npm run test:seo-commercial-claims
+
+      - name: Full test suite
+        run: npm test
+
+      - name: TypeScript
+        run: npx tsc -b
+
+      - name: Production build and prerender
+        run: npm run build
+
+      - name: Secret scan
+        run: npm run scan:secrets
+
+      - name: Whitespace and patch integrity
+        run: git diff --check
+
+      - name: Commit verified changes and remove one-shot automation
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -f .github/scripts/apply-seo-hot-traffic.mjs .github/workflows/seo-hot-traffic-apply.yml
+          git add \
+            package.json \
+            tests/seo-commercial-claims.test.ts \
+            docs/seo/RELEASE_2026-08-31_HOT_TRAFFIC_FOUNDATION.md \
+            content/pages/ru/internet-reklama-tashkent.json \
+            content/pages/ru/kontekstnaya-reklama-tashkent.json \
+            content/pages/ru/targetirovannaya-reklama-tashkent.json \
+            content/pages/ru/telegram-ads-uzbekistan.json \
+            content/pages/ru/smm-prodvizhenie-tashkent.json \
+            content/pages/ru/performance-marketing-tashkent.json \
+            content/pages/ru/otzyvy.json \
+            content/pages/ru/stoimost-chat-bota.json \
+            content/pages/ru/ai-bot-s-crm-amocrm-bitrix24.json \
+            content/pages/uz/internet-reklama-toshkent.json \
+            content/pages/uz/telegram-reklama.json \
+            content/pages/uz/smm-xizmatlari.json \
+            content/pages/uz/sharhlar.json \
+            content/pages/uz/chat-bot-narxi.json \
+            content/pages/uz/amocrm-bitrix24-bilan-ai-bot.json
+          git diff --cached --check
+          git commit -m "feat(seo): strengthen hot-traffic conversion and trust"
+          git push origin HEAD:seo/hot-traffic-foundation-20260831
