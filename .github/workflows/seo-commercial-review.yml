@@ -37,6 +37,10 @@ jobs:
           const file = '.github/scripts/apply-seo-commercial-review.mjs';
           let source = fs.readFileSync(file, 'utf8');
           source = source
+            .replaceAll(
+              'replaceFaq(page, /минимальн\\w* бюджет на Telegram Ads/i, {',
+              'upsertFaq(page, /минимальн\\w* бюджет на Telegram Ads/i, {',
+            )
             .replaceAll('рыночн\\w* цен', 'рыночн[а-яё]* цен')
             .replaceAll('рыночн\\w* ориентир', 'рыночн[а-яё]* ориентир')
             .replaceAll('минимальн\\w* бюджет на Telegram Ads', 'минимал[^?]*бюджет.*Telegram Ads')
