@@ -81,6 +81,7 @@ $securePassword=$null
 $reportReady=$false
 $ownedMutationStarted=$false
 $resumeChanges=@()
+$isolationChanges=@()
 $bootstrapFailureStage=$null
 $failureStage='load_common'
 try {
@@ -244,8 +245,13 @@ try {
         $ruleRecord=@{path=$path;sid=$account.SID.Value;rights='FullControl';inheritance='None';type='Deny';method='set_file_security_root_only';state='intent'}
         $manifest.addedDenyRules += $ruleRecord
         Write-CollectorJson $manifestPath $manifest
-        $changed=[GPTBotCollector.Native]::EnsureFixedRootDeny($path,$account.SID.Value,$installationId)
-        $ruleRecord.state=$(if ($changed) {'added_root_only'} else {'existing_deny_preserved'})
+        $change=[GPTBotCollector.Native]::EnsureFixedRootDenyWithReport($path,$account.SID.Value,$installationId)
+        $ruleRecord.state=$(if ($change.Changed) {'added_root_only'} else {'existing_deny_preserved'})
+        $ruleRecord.controlBefore=$change.ControlBefore
+        $ruleRecord.controlAfter=$change.ControlAfter
+        $ruleRecord.legacyAutoInheritedCleared=$change.LegacyAutoInheritedCleared
+        $isolationChanges+=@{path=$path;changed=$change.Changed;controlBefore=$change.ControlBefore;
+            controlAfter=$change.ControlAfter;legacyAutoInheritedCleared=$change.LegacyAutoInheritedCleared}
         Write-CollectorJson $manifestPath $manifest
     }
     $config=@{schema=$spec.Schema;installationId=$installationId;root=$spec.Root;userSid=$account.SID.Value;
@@ -318,7 +324,7 @@ try {
     $manifest.state='installed_disabled'
     Write-CollectorJson $manifestPath $manifest
     $report=@{installed=$true;taskDisabled=$true;manifest=$manifestPath;installationId=$installationId;
-        isolationVerified=$true;runtimeProof=$proof.runtimeProof;traverseBypassRemoved=$true;failureCode=$null;failureStage=$null;failureLine=$null}
+        isolationVerified=$true;isolationChanges=$isolationChanges;runtimeProof=$proof.runtimeProof;traverseBypassRemoved=$true;failureCode=$null;failureStage=$null;failureLine=$null}
     if ($reportReady) { Write-CollectorJson $ReportPath $report }
     $report | ConvertTo-Json -Depth 5
 } catch {
@@ -367,7 +373,8 @@ try {
         try { Write-CollectorJson (Join-Path $spec.Root 'installation.json') $manifest } catch { $cleanupVerified=$false }
     }
     $report=@{installed=$false;taskDisabled=$taskDisabledVerified;failureCode=$failureCode;failureStage=$failureStage;
-        failureLine=$failureLine;failureWin32Code=$failureWin32Code;bootstrapFailureStage=$bootstrapFailureStage;statePreserved=$true;cleanupVerified=$cleanupVerified}
+        failureLine=$failureLine;failureWin32Code=$failureWin32Code;bootstrapFailureStage=$bootstrapFailureStage;
+        isolationChanges=$isolationChanges;statePreserved=$true;cleanupVerified=$cleanupVerified}
     if ($reportReady) { Write-CollectorJson $ReportPath $report }
     $report | ConvertTo-Json
     [Console]::Error.WriteLine('collector_installation_failed')

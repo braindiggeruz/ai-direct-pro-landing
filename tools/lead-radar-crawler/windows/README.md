@@ -3,7 +3,8 @@
 This directory contains preparation code, not evidence of installation. Never
 dot-source `Install-Collector.ps1`; invoke it as a reviewed separate process.
 No script is run during package import. Windows tests invoke only read-only
-validation, syntax/compile checks and local account lookup, never installation.
+validation, syntax/compile checks, local account lookup and ACL fixtures in owned
+temporary directories, never installation or changes to the protected roots.
 
 ## Fixed resources and safety boundary
 
@@ -27,8 +28,11 @@ validation, syntax/compile checks and local account lookup, never installation.
   a read-control handle and left untouched. A required change deliberately uses
   the documented legacy SetFileSecurityW root-only semantics: it does not update
   existing children. A READ_CONTROL|WRITE_DAC handle without delete sharing pins
-  the exact directory while its DACL is changed; existing ACEs/order and control,
-  owner/group are verified. MAXIMUM_ALLOWED is unsuitable here because busy
+  the exact directory while its DACL is changed; existing ACEs/order, owner/group
+  and every control bit except a clear-only legacy `SE_DACL_AUTO_INHERITED`
+  transition are verified. The separate `SE_DACL_PROTECTED` flag cannot change.
+  Before/after flags and `legacyAutoInheritedCleared` are recorded in the manifest
+  and installation report. MAXIMUM_ALLOWED is unsuitable here because busy
   directories can reject its extra data/delete access with sharing violation32.
   Bootstrap and each run irrevocably remove SeChangeNotifyPrivilege from their
   process token, not account/machine policy, and verify its absence in the child.

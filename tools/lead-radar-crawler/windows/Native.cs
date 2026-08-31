@@ -145,6 +145,10 @@ namespace GPTBotCollector {
     public sealed class ProcessResult {
         public int ExitCode; public string Output; public bool TimedOut, TraverseBypassRemoved;
     }
+    public sealed class RootDenyResult {
+        public bool Changed, LegacyAutoInheritedCleared;
+        public int ControlBefore, ControlAfter;
+    }
     public static class Native {
         [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
         static extern SafeFileHandle CreateFile(string name, uint access, uint share, IntPtr security,
@@ -229,9 +233,22 @@ namespace GPTBotCollector {
             return true;
         }
         public static bool EnsureFixedRootDeny(string path,string sid,string installationId) {
+            return EnsureFixedRootDenyWithReport(path,sid,installationId).Changed;
+        }
+        public static RootDenyResult EnsureFixedRootDenyWithReport(string path,string sid,string installationId) {
             if (path!="C:\\Users\\Borinio" && path!="F:\\Claude") throw new InvalidOperationException("isolation_root_refused");
             LocalAccount.RequireOwned(sid,installationId);
             return EnsureRootOnlyDeny(path,new SecurityIdentifier(sid));
+        }
+        static bool CompatibleRootControl(ControlFlags before,ControlFlags after) {
+            // The legacy file setter may clear only the modern inheritance-model marker.
+            // This does not permit setting that bit or changing Protected, Present, or any other bit.
+            // https://learn.microsoft.com/windows-hardware/drivers/ifs/security-descriptor-control
+            return after==before || (int)after==((int)before&~0x0400);
+        }
+        static RootDenyResult RootResult(bool changed,ControlFlags before,ControlFlags after) {
+            return new RootDenyResult { Changed=changed,ControlBefore=(int)before,ControlAfter=(int)after,
+                LegacyAutoInheritedCleared=((int)before&0x0400)!=0 && ((int)after&0x0400)==0 };
         }
         static bool HasRootDeny(RawSecurityDescriptor descriptor,SecurityIdentifier identifier) {
             foreach(GenericAce ace in descriptor.DiscretionaryAcl) {
@@ -243,12 +260,13 @@ namespace GPTBotCollector {
         }
         // Private helper is exercised only on owned temporary directories by offline tests.
         // All production calls pass the fixed-root and exact-account guards above.
-        static bool EnsureRootOnlyDeny(string path,SecurityIdentifier identifier) {
+        static RootDenyResult EnsureRootOnlyDeny(string path,SecurityIdentifier identifier) {
             if ((File.GetAttributes(path)&FileAttributes.ReparsePoint)!=0) throw new InvalidOperationException("isolation_root_reparse_refused");
             // Existing deny needs only READ_CONTROL; do not request DELETE/data rights on busy roots.
             using(var query=CreateFile(path,0x20000,7,IntPtr.Zero,3,0x02200000,IntPtr.Zero)) {
                 if(query.IsInvalid) throw WindowsFailure("isolation_root_query_open_failed",Marshal.GetLastWin32Error());
-                if(HasRootDeny(ReadDescriptor(query),identifier)) return false;
+                var current=ReadDescriptor(query);
+                if(HasRootDeny(current,identifier)) return RootResult(false,current.ControlFlags,current.ControlFlags);
             }
             // READ_CONTROL|WRITE_DAC, no FILE_SHARE_DELETE: pin this exact directory name while
             // the path-based setter runs. Never use MAXIMUM_ALLOWED (DELETE causes sharing error 32).
@@ -256,7 +274,7 @@ namespace GPTBotCollector {
                 if(handle.IsInvalid) throw WindowsFailure("isolation_root_open_failed",Marshal.GetLastWin32Error());
                 if ((File.GetAttributes(path)&FileAttributes.ReparsePoint)!=0) throw new InvalidOperationException("isolation_root_reparse_refused");
                 var before=ReadDescriptor(handle);
-                if(HasRootDeny(before,identifier)) return false;
+                if(HasRootDeny(before,identifier)) return RootResult(false,before.ControlFlags,before.ControlFlags);
                 var updated=new RawAcl(before.DiscretionaryAcl.Revision,before.DiscretionaryAcl.Count+1);
                 updated.InsertAce(0,new CommonAce(AceFlags.None,AceQualifier.AccessDenied,0x1f01ff,identifier,false,null));
                 for(int i=0;i<before.DiscretionaryAcl.Count;i++) updated.InsertAce(i+1,before.DiscretionaryAcl[i]);
@@ -270,12 +288,12 @@ namespace GPTBotCollector {
                         throw WindowsFailure("root_only_deny_write_failed",Marshal.GetLastWin32Error());
                 } finally { pinned.Free(); }
                 var after=ReadDescriptor(handle);
-                if(after.ControlFlags!=before.ControlFlags || !Object.Equals(after.Owner,before.Owner) || !Object.Equals(after.Group,before.Group))
+                if(!CompatibleRootControl(before.ControlFlags,after.ControlFlags) || !Object.Equals(after.Owner,before.Owner) || !Object.Equals(after.Group,before.Group))
                     throw new InvalidOperationException("root_acl_control_or_identity_changed");
                 if(after.DiscretionaryAcl.Count!=updated.Count) throw new InvalidOperationException("root_only_deny_readback_failed");
                 for(int i=0;i<updated.Count;i++) if(!SameBytes(AceBytes(updated[i]),AceBytes(after.DiscretionaryAcl[i])))
                     throw new InvalidOperationException("root_acl_other_rules_changed");
-                return true;
+                return RootResult(true,before.ControlFlags,after.ControlFlags);
             }
         }
         [StructLayout(LayoutKind.Sequential)] struct BasicLimits {

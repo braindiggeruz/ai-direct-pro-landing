@@ -244,9 +244,11 @@ class WindowsInstallerTests(unittest.TestCase):
                 $helper=[GPTBotCollector.Native].GetMethod('EnsureRootOnlyDeny',[Reflection.BindingFlags]'NonPublic,Static');
                 $sid=New-Object Security.Principal.SecurityIdentifier('S-1-5-21-1-2-3-4294967001');
                 $arguments=[object[]]@($root,$sid.PSObject.BaseObject);
-                if(-not $helper.Invoke($null,$arguments)){throw 'missing_owned_fixture_update'};
+                $change=$helper.Invoke($null,$arguments);
+                if(-not $change.Changed){throw 'missing_owned_fixture_update'};
                 $rootAfter=Snapshot $root;
-                if($helper.Invoke($null,$arguments)){throw 'idempotency_failed'};
+                $replay=$helper.Invoke($null,$arguments);
+                if($replay.Changed -or $replay.LegacyAutoInheritedCleared -or $replay.ControlBefore -ne $replay.ControlAfter){throw 'idempotency_failed'};
                 if((Snapshot $root) -cne $rootAfter){throw 'idempotency_changed_acl'};
                 for($i=0;$i -lt $children.Count;$i++){if((Snapshot $children[$i]) -cne $before[$i]){throw 'child_acl_changed'}};
                 $rules=@([IO.Directory]::GetAccessControl($root).GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier]) |
@@ -273,6 +275,70 @@ class WindowsInstallerTests(unittest.TestCase):
         """
         result = self.ps(code)
         self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_legacy_setter_auto_inherited_delta_is_only_marker_on_owned_fixtures(self):
+        # Force modern ACLs, unlike tempfile's default descriptor, before creating descendants.
+        for protected in (False, True):
+            with self.subTest(protected=protected), tempfile.TemporaryDirectory(prefix="collector-modern-acl-") as directory:
+                code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;$root=" + quote(directory) + ";"
+                code += "$protected=" + ("$true" if protected else "$false") + ";"
+                code += r"""
+                $allowSid=[Security.Principal.SecurityIdentifier]::new('S-1-5-21-1-2-3-4294967002');
+                $denySid=[Security.Principal.SecurityIdentifier]::new('S-1-5-21-1-2-3-4294967001');
+                $acl=[IO.Directory]::GetAccessControl($root);$acl.SetAccessRuleProtection($protected,$true);
+                $rule=[Security.AccessControl.FileSystemAccessRule]::new($allowSid,'ReadAndExecute','ContainerInherit,ObjectInherit','None','Allow');
+                $acl.AddAccessRule($rule);[IO.Directory]::SetAccessControl($root,$acl);
+                $child=Join-Path $root 'child';$grandchild=Join-Path $child 'grandchild';
+                $null=[IO.Directory]::CreateDirectory($grandchild);
+                function Descriptor([string]$Path){[Security.AccessControl.RawSecurityDescriptor]::new([IO.Directory]::GetAccessControl($Path).GetSecurityDescriptorBinaryForm(),0)};
+                function Bytes($Value){$data=New-Object byte[] $Value.BinaryLength;$Value.GetBinaryForm($data,0);[Convert]::ToBase64String($data)};
+                $before=Descriptor $root;$childBefore=Bytes (Descriptor $child);$grandBefore=Bytes (Descriptor $grandchild);
+                if(([int]$before.ControlFlags -band 0x400) -eq 0){throw 'fixture_not_auto_inherited'};
+                $helper=[GPTBotCollector.Native].GetMethod('EnsureRootOnlyDeny',[Reflection.BindingFlags]'NonPublic,Static');
+                $change=$helper.Invoke($null,[object[]]@($root,$denySid));
+                if(-not $change.Changed -or -not $change.LegacyAutoInheritedCleared){throw 'missing_legacy_delta_report'};
+                $after=Descriptor $root;
+                if(([int]$before.ControlFlags -bxor [int]$after.ControlFlags) -ne 0x400 -or
+                   ([int]$after.ControlFlags -band 0x400) -ne 0){throw 'unexpected_control_delta'};
+                if($before.Owner -ne $after.Owner -or $before.Group -ne $after.Group){throw 'identity_changed'};
+                if($change.ControlBefore -ne [int]$before.ControlFlags -or $change.ControlAfter -ne [int]$after.ControlFlags){throw 'incorrect_flag_report'};
+                if($after.DiscretionaryAcl.Count -ne $before.DiscretionaryAcl.Count+1){throw 'acl_length_changed'};
+                for($i=0;$i -lt $before.DiscretionaryAcl.Count;$i++){
+                  if((Bytes $before.DiscretionaryAcl[$i]) -cne (Bytes $after.DiscretionaryAcl[$i+1])){throw 'old_ace_changed'}
+                };
+                if((Bytes (Descriptor $child)) -cne $childBefore -or (Bytes (Descriptor $grandchild)) -cne $grandBefore){throw 'child_changed'};
+                @{before=[int]$before.ControlFlags;after=[int]$after.ControlFlags;protected=$protected;xor=0x400;childrenUnchanged=$true}|ConvertTo-Json -Compress
+                """
+                result = self.ps(code)
+                self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+                proof = json.loads(result.stdout)
+                self.assertEqual(proof["xor"], 0x400)
+                self.assertEqual(bool(proof["after"] & 0x1000), protected)
+                self.assertTrue(proof["childrenUnchanged"])
+
+    def test_control_compatibility_refuses_setting_marker_and_every_other_bit_change(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;"
+        code += r"""
+        $helper=[GPTBotCollector.Native].GetMethod('CompatibleRootControl',[Reflection.BindingFlags]'NonPublic,Static');
+        function Allowed([int]$Before,[int]$After){$helper.Invoke($null,[object[]]@([Security.AccessControl.ControlFlags]$Before,[Security.AccessControl.ControlFlags]$After))};
+        foreach($before in @(0x8004,0x8404,0x9004,0x9404)){
+          if(-not (Allowed $before $before)){throw 'identical_flags_refused'};
+          if(-not (Allowed $before ($before -band (-bnot 0x400)))){throw 'legacy_clear_refused'};
+          for($bit=0;$bit -lt 16;$bit++){
+            $after=$before -bxor (1 -shl $bit);
+            $expected=$bit -eq 10 -and ($before -band 0x400) -ne 0;
+            if((Allowed $before $after) -ne $expected){throw 'unexpected_flag_delta_accepted'}
+          }
+        }
+        if(Allowed 0x9404 0x8004){throw 'protected_change_accepted_with_legacy_clear'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        self.assertIn("$ruleRecord.controlBefore=$change.ControlBefore", installer)
+        self.assertIn("$ruleRecord.controlAfter=$change.ControlAfter", installer)
+        self.assertIn("$ruleRecord.legacyAutoInheritedCleared=$change.LegacyAutoInheritedCleared", installer)
+        self.assertIn("isolationChanges=$isolationChanges", installer)
 
     def test_win32_diagnostic_accepts_only_numeric_codes_without_exception_text(self):
         code = self.recovery_helpers() + r"""
