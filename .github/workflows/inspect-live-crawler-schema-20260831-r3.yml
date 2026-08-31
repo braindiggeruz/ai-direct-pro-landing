@@ -1,0 +1,90 @@
+name: inspect-live-crawler-schema-20260831-r3
+on:
+  push:
+    branches: [ops/inspect-live-crawler-schema-20260831-r3]
+    paths: [.github/workflows/inspect-live-crawler-schema-20260831-r3.yml]
+permissions:
+  contents: write
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      SOURCE_SHA: 6cbdb9f40ee23a860f6700c371709fb625f0f18b
+      PROJECT: ai-direct-pro-landing
+      PREVIEW_BRANCH: crawler-schema-r3-20260831
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ env.SOURCE_SHA }}", fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24', cache: yarn}
+      - name: Build read-only schema probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+          export INSPECT_TOKEN=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+          echo "::add-mask::$INSPECT_TOKEN"
+          echo "INSPECT_TOKEN=$INSPECT_TOKEN" >> "$GITHUB_ENV"
+          mkdir -p functions/api/internal evidence
+          cat > functions/api/internal/gsc-crawler-schema-inspect.ts <<'EOF'
+          interface Env { GPTBOT_DRAFTS_DB: D1Database }
+          export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+            if (new URL(request.url).searchParams.get('token') !== '__TOKEN__') return new Response('not found',{status:404});
+            try {
+              const master = await env.GPTBOT_DRAFTS_DB.prepare("SELECT type,name,tbl_name,sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY type,name").all<Record<string,unknown>>();
+              const migrations = await env.GPTBOT_DRAFTS_DB.prepare("SELECT name FROM d1_migrations ORDER BY id DESC LIMIT 40").all<Record<string,unknown>>().catch(()=>({results:[]}));
+              const rows=master.results??[];
+              const crawlerObjects=rows.filter((r)=>/crawler|collector/i.test(String(r.name??''))||/crawler|collector/i.test(String(r.sql??'')));
+              const details: Record<string,unknown>={};
+              for(const row of crawlerObjects.filter((r)=>r.type==='table')){
+                const name=String(row.name); if(!/^[A-Za-z0-9_]+$/.test(name)) continue;
+                const [columns,indexes,foreignKeys,count]=await Promise.all([
+                  env.GPTBOT_DRAFTS_DB.prepare(`PRAGMA table_info(${name})`).all(),
+                  env.GPTBOT_DRAFTS_DB.prepare(`PRAGMA index_list(${name})`).all(),
+                  env.GPTBOT_DRAFTS_DB.prepare(`PRAGMA foreign_key_list(${name})`).all(),
+                  env.GPTBOT_DRAFTS_DB.prepare(`SELECT COUNT(*) AS count FROM ${name}`).first(),
+                ]);
+                details[name]={columns:columns.results??[],indexes:indexes.results??[],foreignKeys:foreignKeys.results??[],count};
+              }
+              return Response.json({generatedAt:new Date().toISOString(),migrations:migrations.results??[],crawlerObjects,details,tableNames:rows.filter((r)=>r.type==='table').map((r)=>r.name)},{headers:{'Cache-Control':'no-store','X-Robots-Tag':'noindex,nofollow'}});
+            } catch(error){return Response.json({error:error instanceof Error?error.message:'failed'},{status:500,headers:{'Cache-Control':'no-store'}})}
+          };
+          EOF
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; const f='functions/api/internal/gsc-crawler-schema-inspect.ts'; fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace('__TOKEN__',process.env.INSPECT_TOKEN));
+          NODE
+          npm run build:fast
+          npm --prefix apps/bormi-admin run build
+      - name: Deploy preview and read schema via branch alias
+        shell: bash
+        run: |
+          set -euo pipefail
+          node node_modules/wrangler/bin/wrangler.js pages deploy dist --project-name "$PROJECT" --branch "$PREVIEW_BRANCH" --commit-hash "$SOURCE_SHA" --commit-dirty=true | tee evidence/wrangler.txt
+          ALIAS=$(grep -Eo 'https://[a-z0-9-]+\.ai-direct-pro-landing\.pages\.dev' evidence/wrangler.txt | tail -1)
+          test -n "$ALIAS"; echo "PREVIEW_ALIAS=$ALIAS" >> "$GITHUB_ENV"
+          status=000
+          for i in $(seq 1 20); do
+            status=$(curl --silent --show-error --output evidence/schema.json --write-out '%{http_code}' "$ALIAS/api/internal/gsc-crawler-schema-inspect?token=$INSPECT_TOKEN" || true)
+            [ "$status" = 200 ] && break
+            sleep 3
+          done
+          echo "SCHEMA_STATUS=$status"; cat evidence/schema.json; test "$status" = 200
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; const s=JSON.parse(fs.readFileSync('evidence/schema.json','utf8')); if(s.error)throw new Error(s.error); fs.writeFileSync('evidence/schema-safe.json',JSON.stringify(s,null,2)+'\n');
+          NODE
+          rm evidence/schema.json
+      - uses: actions/upload-artifact@v4
+        with: {name: gptbot-live-crawler-schema-r3, path: evidence/, retention-days: 7, if-no-files-found: error}
+      - name: Remove one-shot workflow
+        if: always()
+        run: |
+          git fetch origin ops/inspect-live-crawler-schema-20260831-r3
+          git switch -C ops/inspect-live-crawler-schema-20260831-r3 origin/ops/inspect-live-crawler-schema-20260831-r3
+          git config user.name "GPTBot Schema CI"; git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/inspect-live-crawler-schema-20260831-r3.yml
+          git commit -m "chore: remove crawler schema probe r3"
+          git push origin HEAD:ops/inspect-live-crawler-schema-20260831-r3
