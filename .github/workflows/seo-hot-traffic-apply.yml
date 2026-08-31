@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: npm
+          cache: yarn
 
       - name: Apply the reviewed SEO transformations
         run: node .github/scripts/apply-seo-hot-traffic.mjs
@@ -37,34 +37,34 @@ jobs:
         run: git rm .github/scripts/apply-seo-hot-traffic.mjs .github/workflows/seo-hot-traffic-apply.yml
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts --no-audit --no-fund
+        run: yarn install --frozen-lockfile --ignore-scripts --non-interactive
 
       - name: Run commercial-claim regression gate
-        run: npm run test:seo-commercial-claims
+        run: yarn test:seo-commercial-claims
 
       - name: Run SEO audit
-        run: npm run seo:audit
+        run: yarn seo:audit
 
       - name: Run link, demand, intent, cluster and canonical gates
         run: |
-          npm run test:seo-links
-          npm run test:seo-demand
-          npm run test:seo-intent
-          npm run test:seo-cluster
-          npm run test:canonical
+          yarn test:seo-links
+          yarn test:seo-demand
+          yarn test:seo-intent
+          yarn test:seo-cluster
+          yarn test:canonical
 
       - name: Type-check
         env:
           NODE_OPTIONS: --max-old-space-size=4096
-        run: npx tsc -b
+        run: yarn tsc -b
 
       - name: Build and prerender the complete site
         env:
           NODE_OPTIONS: --max-old-space-size=4096
-        run: npm run build
+        run: yarn build
 
       - name: Scan tracked content for secrets
-        run: npm run scan:secrets
+        run: yarn scan:secrets
 
       - name: Validate the patch
         run: |
