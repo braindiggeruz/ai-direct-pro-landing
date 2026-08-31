@@ -1061,6 +1061,14 @@ function integer(value: unknown): number {
   return typeof value === 'number' ? value : Number(value);
 }
 
+// Schema fingerprints are byte contracts, not human-language ordering. Using
+// localeCompare on a cold Worker initializes locale/ICU state and adds startup
+// work without changing the intended ASCII key order. Keep this comparator
+// deterministic and locale-free across Node, workerd and D1.
+function compareSchemaText(left: string, right: string): number {
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
 function expectedTables(stage: MigrationStage): TableContract[] {
   return TABLES.filter((table) => table.since <= stage);
 }
@@ -1433,7 +1441,7 @@ export async function auditLeadRadarD1Schema(
   const schemaRows = schema.filter(isLeadRadarSchemaRow).sort((left, right) => {
     const leftKey = `${text(left.type)}\u0000${text(left.name)}`;
     const rightKey = `${text(right.type)}\u0000${text(right.name)}`;
-    return leftKey.localeCompare(rightKey);
+    return compareSchemaText(leftKey, rightKey);
   });
   const canonical = schemaRows.map((row) => [
     text(row.type),

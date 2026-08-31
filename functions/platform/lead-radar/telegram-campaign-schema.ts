@@ -385,12 +385,19 @@ const RUNTIME_SCHEMA_QUERY = `SELECT type, name, tbl_name, sql FROM sqlite_schem
     AND name NOT GLOB 'sqlite_autoindex_*'
   ORDER BY type, name`;
 
+// Runtime schema ordering is a byte-level fingerprint operation. Avoid
+// localeCompare here: on a cold Worker it initializes locale/ICU machinery for
+// keys that are deliberately ASCII and must sort identically in every runtime.
+function compareSchemaText(left: string, right: string): number {
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
 export async function telegramCampaignSchemaFingerprint(db: D1Database): Promise<string> {
   const result = await db.prepare(RUNTIME_SCHEMA_QUERY).all<SqliteSchemaRow>();
   const rows = (result.results ?? []).sort((left, right) => {
     const leftKey = `${left.type}\u0000${left.name}`;
     const rightKey = `${right.type}\u0000${right.name}`;
-    return leftKey.localeCompare(rightKey);
+    return compareSchemaText(leftKey, rightKey);
   });
   const canonical = rows.map((row) => [
     row.type,
