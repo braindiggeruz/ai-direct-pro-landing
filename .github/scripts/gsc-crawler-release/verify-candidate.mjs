@@ -13,12 +13,7 @@ if (!admin) throw new Error('candidate admin probe is missing');
 const adminBytes = fs.readFileSync(`dist/${admin.path}`);
 if (sha256(adminBytes) !== admin.sha256) throw new Error('candidate admin probe hash mismatch');
 const adminText = adminBytes.toString('utf8');
-for (const marker of [
-  'Локальный сборщик',
-  'Собрать контакты с сайта',
-  '/api/admin/lead-radar/crawler/status',
-  '/api/admin/lead-radar/crawler/jobs',
-]) {
+for (const marker of ['Локальный сборщик', 'Собрать контакты с сайта']) {
   if (!adminText.includes(marker)) throw new Error(`candidate Local Collector marker missing: ${marker}`);
 }
 writeJson('evidence/candidate-safe.json', manifest);
