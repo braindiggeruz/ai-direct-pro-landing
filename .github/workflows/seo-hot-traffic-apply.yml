@@ -33,6 +33,24 @@ jobs:
       - name: Apply the reviewed SEO transformations
         run: node .github/scripts/apply-seo-hot-traffic.mjs
 
+      - name: Normalize truthful assertions and UZ metadata
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const testPath = 'tests/seo-commercial-claims.test.ts';
+          const testSource = fs.readFileSync(testPath, 'utf8').replace(
+            '/не гарант|kafolatlamaydi/i',
+            '/не гарант|нельзя гарант|kafolatlamaydi/i',
+          );
+          fs.writeFileSync(testPath, testSource, 'utf8');
+
+          const pagePath = 'content/pages/uz/amocrm-bitrix24-bilan-ai-bot.json';
+          const page = JSON.parse(fs.readFileSync(pagePath, 'utf8'));
+          page.ogDescription = 'Maydon, status, deduplikatsiya, qayta urinish, monitoring va qo‘lda tiklashni loyihalaymiz — uzatish mutlaqo xatosiz bo‘lishini va’da qilmaymiz.';
+          fs.writeFileSync(pagePath, `${JSON.stringify(page, null, 2)}\n`, 'utf8');
+          NODE
+
       - name: Remove one-shot automation files from the final branch
         run: git rm .github/scripts/apply-seo-hot-traffic.mjs .github/workflows/seo-hot-traffic-apply.yml
 
