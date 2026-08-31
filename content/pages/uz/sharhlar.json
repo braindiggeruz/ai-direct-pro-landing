@@ -4,114 +4,128 @@
   "url": "/uz/sharhlar/",
   "slug": "sharhlar",
   "pageType": "niche",
-  "primaryKeyword": "GPTBot sharhlari",
+  "primaryKeyword": "biznes uchun AI-bot keyslari",
   "secondaryKeywords": [
-    "AI-bot haqida sharhlar",
-    "biznes uchun chat-bot sharhlari",
-    "AI-bot keyslari Ozbekiston",
-    "mijozlar sharhlari GPTBot"
+    "AI-bot joriy etish ssenariylari",
+    "murojaatlarni avtomatlashtirish misollari",
+    "GPTBot keyslari",
+    "chat-botni qanday tekshirish"
   ],
   "searchIntent": "commercial",
-  "h1": "GPTBot.uz mijozlari sharhlari va keyslari",
-  "title": "GPTBot.uz haqida sharhlar — biznes uchun AI-bot keyslari",
-  "description": "GPTBot.uz mijozlari sharhlari va keyslari: Telegram, Instagram va WhatsApp dagi AI-bot Ozbekistonda biznesga 24/7 javob berishga yordam beradi.",
+  "h1": "AI-bot keyslari va murojaatlarni avtomatlashtirish ssenariylari",
+  "title": "Biznes uchun AI-bot keyslari | GPTBot.uz",
+  "description": "Klinika, salon, do‘kon va o‘quv markazi uchun AI-bot ssenariylari: nimani avtomatlashtirish, qayerda menejer kerak va natijani qanday o‘lchash.",
   "canonical": "https://gptbot.uz/uz/sharhlar/",
   "hreflangRu": "/ru/otzyvy/",
   "hreflangUz": "/uz/sharhlar/",
-  "ogTitle": "GPTBot.uz haqida sharhlar — biznes uchun AI-bot keyslari",
-  "ogDescription": "GPTBot.uz mijozlari sharhlari va keyslari: Telegram, Instagram va WhatsApp dagi AI-bot Ozbekistonda biznesga 24/7 javob berishga yordam beradi.",
+  "ogTitle": "AI-bot keyslari va joriy etish ssenariylari | GPTBot.uz",
+  "ogDescription": "O‘ylab topilgan sharhlarsiz shaffof ssenariylar: vazifa, avtomatlashtirish, cheklov va tekshiruv metrikasi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "Sharhlar",
-  "heroTitle": "GPTBot.uz mijozlari nima deydi",
-  "heroSubtitle": "Telegram, Instagram va WhatsApp dagi AI-bot Ozbekistonda biznesga mijozlarga darhol javob berish va arizalarni menejerga yetkazishda qanday yordam berishi haqida real holatlar.",
-  "ctaPrimaryLabel": "Telegram da demo ishga tushirish",
+  "breadcrumbLabel": "Keyslar",
+  "heroTitle": "Biznes uchun AI-bot joriy etish ssenariylari",
+  "heroSubtitle": "Quyida biznesdagi odatiy vazifalardan tuzilgan anonim ssenariylar berilgan. Bular ommaviy tasdiqlangan sharhlar ham, natija va’dasi ham emas: ta’sir kelishilgan hodisalar, murojaat sifati va CRM ma’lumotlari bilan tekshiriladi.",
+  "ctaPrimaryLabel": "Soham uchun ssenariy olish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Narxini bilish",
   "ctaSecondaryHref": "/uz/chat-bot-narxi/",
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "Quyida GPTBot.uz mijozlarining turli sohalardagi sharhlari va keyslari: salonlar, dokonlar, yetkazib berish, klinikalar, avtosalonlar va onlayn-maktablar. Bular Toshkent, Samarqand va Buxorodagi kichik va orta biznes biz bilan keladigan odatiy holatlar va AI-bot arizalar bilan ishlashni qanday ozgartirishi. Mijozlar iltimosiga binoan ularning toliq ismlarini oshkor qilmaymiz."
+      "text": "Bu sahifada tekshiriladigan manba va mijoz ruxsatisiz ism, yulduzli baho yoki natija raqamini e’lon qilmaymiz. Buning o‘rniga boshlang‘ich muammo, AI-bot vazifasi, avtomatlashtirish chegarasi va qabul metrikasini ko‘rsatamiz."
     },
     {
       "type": "h2",
-      "text": "Mijozlar sharhlari"
+      "text": "Sohalar bo‘yicha ssenariylar"
     },
     {
-      "type": "p",
-      "text": "Dilyor, gozallik saloni (Toshkent) · Instagram · 2026 mart — ★★★★★\n«Bot paydo bolgunga qadar biz kechqurun Instagram Direct dan arizalarni yoqotardik: administrator ertalab javob berardi, mijoz esa allaqachon boshqa salonga yozilgan bolardi. Endi GPTBot darhol javob beradi, xizmat va qulay vaqtni aniqlaydi va kontaktni administratorga yuboradi.»"
-    },
-    {
-      "type": "p",
-      "text": "Shahzod, elektronika dokoni (Toshkent) · Telegram · 2026 fevral — ★★★★★\n«Ilgari menejerlar mavjudlik va narx haqidagi bir xil savollarga gark bolardi. Telegram dagi bot dastlabki savollarni oz zimmasiga oldi va model va kontakt bilan ariza yigadi. Endi menejerlar faqat issiq mijozlar bilan ishlaydi.»"
-    },
-    {
-      "type": "p",
-      "text": "Nigora, ovqat yetkazib berish (Samarqand) · WhatsApp · 2026 aprel — ★★★★★\n«Bizda buyurtmalarning asosiy oqimi WhatsApp orqali keladi. Bot buyurtmani qabul qiladi, manzil va vaqtni aniqlaydi va hammasini operatorga tushunarli korinishda yetkazadi. Eng band soatlarda chalkashlik kamaydi.»"
-    },
-    {
-      "type": "p",
-      "text": "Aziz, stomatologiya klinikasi (Toshkent) · Telegram · 2026 yanvar — ★★★★★\n«Bemorlar asosan kechqurun va dam olish kunlari yozadi. AI-bot xizmatlar haqidagi savollarga javob beradi va konsultatsiyaga yozadi, administrator esa ertalab tayyor arizalar royxatini koradi. Ilgari murojaatlarning bir qismi shunchaki yoqolardi.»"
-    },
-    {
-      "type": "p",
-      "text": "Kamila, ingliz tili onlayn-maktabi (Toshkent) · Instagram · 2026 mart — ★★★★★\n«Instagram dagi bot arizalarni saralaydi: daraja, oquvchi yoshi va qulay vaqtni aniqlaydi. Menejerga tayyor lidlar yetib boradi, narxni qiziqish uchun soraydiganlarga vaqt sarflash kerak emas.»"
-    },
-    {
-      "type": "p",
-      "text": "Rustam, avtosalon (Toshkent) · Telegram · 2026 fevral — ★★★★★\n«Mijozlar modellar va komplektatsiyalar boyicha kop takrorlanadigan savollar beradi. Bot ularga javob beradi va test-drayv uchun kontakt yigadi. Jamoa uni tez ulab berdi va sssenariyni bizning avtomobillarga moslashtirishga yordam berdi.»"
-    },
-    {
-      "type": "p",
-      "text": "Madina, kosmetika dokoni (Samarqand) · Instagram · 2026 aprel — ★★★★★\n«Direct dagi xabarlar oqimi boshqarib bolmaydigan darajada edi. Endi bot mavjudlik va yetkazib berish haqidagi savollarga javob beradi va buyurtmalarni yigadi. Eng muhimi — mijoz bir necha soatdan keyin emas, balki darhol javob oladi.»"
-    },
-    {
-      "type": "p",
-      "text": "Bobur, fitnes-klub (Toshkent) · WhatsApp · 2026 mart — ★★★★★\n«Bot abonementlar, jadval haqida gapiradi va sinov mashgulotiga yozadi. Administrator kuniga yuz marta bir xil savollarga javob berishni toxtatdi va zaldagi mijozlarga etibor qaratdi.»"
-    },
-    {
-      "type": "p",
-      "text": "Zuhra, xususiy klinika (Buxoro) · Telegram · 2026 yanvar — ★★★★★\n«Biz uchun bot ham rus, ham ozbek tilida muloqot qilishi muhim edi. GPTBot buni uddalaydi va bemorlar oz tilida javob oladi. Arizalar bizga darhol Telegram ga keladi, hech narsa yoqolmaydi.»"
-    },
-    {
-      "type": "p",
-      "text": "Jasur, korkmas mulk agentligi (Toshkent) · Instagram · 2026 fevral — ★★★★★\n«Bot sorov boyicha dastlabki malumotni yigadi: tuman, byudjet, uy turi. Rieltor tayyor tafsilotlar bilan ariza oladi va nima bilan ishlashni darhol tushunadi. Bu vaqtni katta tejaydi.»"
-    },
-    {
-      "type": "p",
-      "text": "Lola, kafe va yetkazib berish (Toshkent) · WhatsApp · 2026 aprel — ★★★★★\n«Tushlik paytida xabarlar uzluksiz oqim bolardi va bir qismi yoqolardi. Endi bot buyurtmani qabul qiladi va tafsilotlarni aniqlaydi, operator esa faqat kerak joyda ulanadi. «Javob bermadingiz» degan shikoyatlar kamaydi.»"
-    },
-    {
-      "type": "p",
-      "text": "Sardor, IT oquv markazi (Samarqand) · Telegram · 2026 mart — ★★★★★\n«Kurslarga qabul oldidan dastur va narxlar haqida savollar koplab keladi. Bot ularga javob beradi va sinov darsiga yozadi. Jamoa ssenariyni shunday yozishga yordam berdiki, bot robot emas, inson kabi jaranglaydi.»"
-    },
-    {
-      "type": "h2",
-      "text": "Bu hikoyalarda nima umumiy"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Mijozlar kop hollarda kechqurun va dam olish kunlari yozadi — bot menejerlar yoq paytda 24/7 javob beradi",
-        "Savollarning katta qismi takrorlanadi: mavjudlik, narx, vaqt, shartlar — buni AI-bot yopadi",
-        "Bot inson ornida sotmaydi, balki ariza yigadi va issiq mijozni menejerga yetkazadi",
-        "Rus va ozbek tilida ishlash muhim — mijozlar oz tilida javob oladi",
-        "Ssenariy soha ostiga moslashtiriladi, shablon olinmaydi"
+      "type": "table",
+      "headers": [
+        "Soha",
+        "Boshlang‘ich vazifa",
+        "Bot nimani avtomatlashtiradi",
+        "Nimani o‘lchash kerak"
+      ],
+      "rows": [
+        [
+          "Klinika",
+          "Kechki murojaatlar va takroriy savollar",
+          "Birinchi javob, xizmatni tanlash, kontaktni yig‘ish va administratorga uzatish",
+          "Birinchi javob vaqti, uzatilgan murojaatlar, kontaktdan keyingi yozuv"
+        ],
+        [
+          "Go‘zallik saloni",
+          "Direct’dagi tartibsiz so‘rovlar",
+          "Xizmat, filial, qulay vaqt va kontaktni kelishilgan ssenariy bo‘yicha yig‘ish",
+          "Yakunlangan dialoglar, tasdiqlangan yozuvlar, rad etish sabablari"
+        ],
+        [
+          "O‘quv markazi",
+          "Kurs va jadval bo‘yicha ko‘p savol",
+          "Kurs, yosh, daraja, filial va sinov darsiga so‘rov",
+          "Malakali arizalar, darsga yozuv, murojaat manbasi"
+        ],
+        [
+          "Do‘kon",
+          "Tovar va yetkazib berish bo‘yicha takroriy savollar",
+          "Tasdiqlangan katalog bo‘yicha qidirish, buyurtma tarkibini yig‘ish, eskalatsiya",
+          "Javob aniqligi, uzatilgan savatlar, menejer tasdiqlagan buyurtmalar"
+        ],
+        [
+          "Ko‘chmas mulk",
+          "Rieltor byudjet va tumansiz ariza oladi",
+          "Byudjet, tuman, obyekt turi, muddat va kontakt",
+          "Kartochka to‘liqligi, rieltor javob vaqti, belgilangan ko‘riklar"
+        ],
+        [
+          "Yetkazib berish va HoReCa",
+          "Yuqori yuklama va kontekst yo‘qolishi",
+          "Buyurtma tarkibi, manzil, vaqt, izoh va operatorga uzatish",
+          "Uzatish xatolari, tasdiqlangan buyurtmalar, qo‘lda tuzatishlar"
+        ]
       ]
     },
     {
       "type": "h2",
-      "text": "Oz biznesingiz uchun ham shunday natija xohlaysizmi?"
+      "text": "Bu keyslarni qanday o‘qish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bular aniq mijozning so‘zma-so‘z sharhi emas, anonimlashtirilgan tarkibiy ssenariylardir.",
+        "Muzokara, tibbiy qaror, murakkab smeta yoki buyurtmani tasdiqlash kerak bo‘lsa, bot menejerni almashtirmaydi.",
+        "Ishga tushirishdan oldin boshlang‘ich ko‘rsatkichlar qayd etiladi; keyin bir xil davr va bir xil voronka bosqichlari solishtiriladi.",
+        "Kontaktga bosish malakali lid emas, yuborilgan ariza esa sotuv emas.",
+        "Integratsiya yetkazish, takroriy yuborish, deduplikatsiya, xato va qo‘lda tiklash sinovlari bilan qabul qilinadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Xariddan oldin qaysi dalillarni so‘rash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sizning ssenariyingiz bo‘yicha to‘g‘ri javob va halol rad etish misollari bilan demo.",
+        "Bilim manbalari va narx, mavjudlik hamda shartlarni yangilash qoidasi.",
+        "Ma’lumotlar xaritasi: qaysi maydonlar yig‘iladi, qayerga uzatiladi va kim kirish huquqiga ega.",
+        "Qabul mezonlari: qayta yuborish, CRM ishlamasligi va inson operatoriga eskalatsiya.",
+        "Biznes hodisalari ta’rifi: kontakt, ariza, malaka, uchrashuv va sotuv.",
+        "Qo‘llab-quvvatlash, monitoring, akkauntlarga egalik va ish tugaganda ma’lumotlarni chiqarish shartlari."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Loyiha natijasini qanday qayd etamiz"
     },
     {
       "type": "p",
-      "text": "Biz sizning sohangiz va kanallaringiz — Telegram, Instagram Direct yoki WhatsApp — uchun bot yigamiz va ssenariyni mijozlaringizning real savollarini yopadigan qilib sozlaymiz. Ishni boshlashdan oldin demo va ssenariy namunasini bepul korsatamiz."
+      "text": "Ishlab chiqishdan oldin nazorat ssenariysi va voronka hodisalarini kelishamiz. Ishga tushgach xabarlar sonini emas, yig‘ilgan kontekst to‘liqligi, to‘g‘ri uzatish ulushi, birinchi javob tezligi, malaka sifati va CRM’dagi tasdiqlangan natijani tekshiramiz. Ma’lumot yetarli bo‘lmasa, “yaxshilandi” degan taxmin bilan almashtirmaymiz."
     },
     {
       "type": "cta",
-      "text": "Telegram da demo ishga tushirish",
+      "text": "Ssenariy va qabul mezonlarini olish",
       "href": "https://t.me/XGame_changerx"
     },
     {
@@ -121,30 +135,30 @@
     {
       "type": "list",
       "items": [
-        "Sharhlar va keyslar GPTBot.uz botlari turli sohalarda qanday ishlashini ko‘rsatadi.",
-        "Mijozlar uchun asosiy natija — kamroq yo‘qotilgan ariza.",
-        "Botlar Telegram, Instagram va saytlarga joriy etilgan.",
-        "Rus va o‘zbek tilida biznes vazifalari ostida ishlaydi.",
-        "Sohangiz uchun stsenariy namunasini bepul tayyorlaymiz."
+        "Ommaviy keys fakt, model misoli va gipotezani ajratishi kerak.",
+        "AI-bot natijasi voronkaning aniq bosqichida o‘lchanadi.",
+        "Murojaatni texnik yetkazish va lidning tijoriy sifati turli tekshiruvlardir.",
+        "Sharh, reyting yoki raqam faqat manba va ruxsat bo‘lsa e’lon qilinadi.",
+        "Sohaga mos ssenariyni ishlab chiqishdan oldin demoda tekshirish mumkin."
       ]
     }
   ],
   "faq": [
     {
-      "q": "Bu real mijozlar sharhlarimi?",
-      "a": "Bular GPTBot.uz ning turli sohalardagi real amaliyotidan umumlashtirilgan keyslar. Mijozlar iltimosiga binoan biz ularning toliq ismlari va tijorat tafsilotlarini oshkor qilmaymiz, shuning uchun odatiy holatlar va natijalarni keltiramiz."
+      "q": "Bular real mijozlar sharhlarimi?",
+      "a": "Yo‘q. Bu sahifada so‘zma-so‘z ommaviy sharhlar emas, odatiy loyihalardan tuzilgan anonim ssenariylar joylashtirilgan. Ism, reyting yoki o‘lchanadigan natija faqat manba tasdiqlangach va mijoz ruxsat bergach e’lon qilinadi."
     },
     {
-      "q": "Qaysi sohalarda bot qilgansiz?",
-      "a": "Gozallik salonlari, dokonlar, ovqat yetkazib berish, klinikalar, avtosalonlar, fitnes-klublar, korkmas mulk agentliklari va onlayn-maktablar Toshkent, Samarqand va Buxoroda. Ssenariyni aniq soha ostiga sozlaymiz."
+      "q": "Tavsiya uchun mijoz kontaktini olish mumkinmi?",
+      "a": "Faqat mijozning alohida roziligi bilan. Kontakt va tijoriy ma’lumotni ruxsatsiz bermaymiz. Buning o‘rniga demo, qabul mezonlari va texnik sxemani tekshirish mumkin."
     },
     {
-      "q": "Botlaringiz qaysi messenjerlarda ishlaydi?",
-      "a": "Telegram, Instagram Direct va WhatsApp da. Bitta kanalni yoki barchasini birdan ulash mumkin — bot arizalarni yigadi va menejerga qulay korinishda yetkazadi."
+      "q": "AI-bot foydasini qaysi metrikalar ko‘rsatadi?",
+      "a": "Birinchi javob vaqti, yakunlangan ssenariylar, uzatilgan maydonlar to‘liqligi, malakali arizalar, xatolar va qo‘lda tuzatishlar. Sotuv va tushum CRM yoki hisob tizimi bo‘yicha alohida hisoblanadi."
     },
     {
-      "q": "Bot menda qanday ishlashini korsam boladimi?",
-      "a": "Ha. Telegram ga yozing — biz demoni korsatamiz va sohangiz uchun ssenariy namunasini ish boshlanishidan oldin bepul tayyorlaymiz."
+      "q": "Soham uchun ssenariyni ko‘rish mumkinmi?",
+      "a": "Ha. Haqiqiy ariza yubormasdan namoyish yo‘li, savollar, menejerga uzatish nuqtalari va tekshiruv mezonlarini tayyorlaymiz."
     }
   ],
   "internalLinks": [
@@ -191,7 +205,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-26",
+  "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-06-26"
+  "updatedAt": "2026-08-31"
 }

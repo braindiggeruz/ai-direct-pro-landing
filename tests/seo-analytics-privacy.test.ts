@@ -15,7 +15,7 @@ const SEO_EVENTS = [
   'service_cta_click',
   'telegram_open_attempt',
   'language_switch',
-  'generate_lead',
+  'contact_click',
 ];
 
 test('the SEO funnel events are emitted from prerendered pages', () => {
@@ -43,8 +43,8 @@ test('analytics never runs on the admin surface', () => {
   assert.match(ANALYTICS_HEAD, /\/api\//);
 });
 
-test('generate_lead recognises the contact handle the site actually publishes', () => {
-  // The lead event keys off the studio's own Telegram handle. If site.json ever
+test('contact_click recognises the contact handle the site actually publishes', () => {
+  // The contact event keys off the studio's own Telegram handle. If site.json ever
   // moves to a different handle and this block is not updated, every enquiry
   // silently stops being counted — so the two are pinned together here.
   const site = JSON.parse(
@@ -60,7 +60,7 @@ test('generate_lead recognises the contact handle the site actually publishes', 
 });
 
 test('no lead stage is claimed that the browser cannot observe', () => {
-  // A Telegram click proves an enquiry was started, nothing more. Emitting a
+  // A Telegram click proves that a contact link was activated, nothing more. Emitting a
   // qualification or a closed deal from the browser would be fabricated data.
   for (const invented of ['qualify_lead', 'close_convert_lead', 'purchase']) {
     assert.ok(
@@ -117,7 +117,7 @@ test('index.html claims no lead stage the browser cannot observe', () => {
   }
 });
 
-test('index.html keys generate_lead off the published contact handle', () => {
+test('index.html keys contact_click off the published contact handle', () => {
   const site = JSON.parse(
     fs.readFileSync(path.join(process.cwd(), 'content', 'global', 'site.json'), 'utf8'),
   ) as { telegram?: string };
@@ -134,7 +134,7 @@ test('the measurement id is a public GA4 id, not a secret', () => {
 
 // ── Local development must never reach the production property ───────────────
 // GA4 property 540129731 was recording hits with hostName 127.0.0.1, which
-// contaminates exactly the low-count generate_lead signal the funnel is measured
+// contaminates exactly the low-count contact_click signal the funnel is measured
 // on. Every inline analytics block must refuse loopback hosts BEFORE it
 // transmits. Asserted per block, not per file: a whole-file substring search
 // passes as soon as any one block carries the guard, which silently leaves the
@@ -214,7 +214,7 @@ test('the host guard is a loopback denylist, not a single-host allowlist', () =>
 // hole in the comparison.
 //
 // telegram_open_attempt fires for the studio's contact handles AND for every
-// product bot. generate_lead fires only for the contact handles. Reading the
+// product bot. contact_click fires only for the contact handles. Reading the
 // first as a lead would count AI-chat traffic as enquiries, which is exactly
 // what contact_kind exists to prevent — so both events must carry it.
 const COMMERCIAL_DIMENSIONS = [
@@ -235,7 +235,7 @@ function eventPayload(source: string, event: string): string {
   return source.slice(open, close);
 }
 
-for (const event of ['generate_lead', 'telegram_open_attempt']) {
+for (const event of ['contact_click', 'telegram_open_attempt']) {
   test(`${event} carries all six commercial dimensions in the prerendered block`, () => {
     const payload = eventPayload(ANALYTICS_HEAD, event);
     for (const dimension of COMMERCIAL_DIMENSIONS) {
@@ -251,16 +251,28 @@ for (const event of ['generate_lead', 'telegram_open_attempt']) {
   });
 }
 
-test('generate_lead never claims a product-bot click as a service enquiry', () => {
+test('contact_click never claims a product-bot click as a service enquiry', () => {
   for (const source of [ANALYTICS_HEAD, indexHtmlAnalyticsBlock()]) {
-    const payload = eventPayload(source, 'generate_lead');
+    const payload = eventPayload(source, 'contact_click');
     // The event only fires inside `if (isContactTg)`, so its contact_kind is a
     // constant. A ternary here would mean the guard had been widened.
     assert.match(
       payload,
       /contact_kind:\s*'contact'/,
-      'generate_lead sends a conditional contact_kind — the event fires for product bots',
+      'contact_click sends a conditional contact_kind — the event fires for product bots',
     );
+  }
+});
+
+test('a Telegram click never fabricates GA4 generate_lead', () => {
+  for (const source of [ANALYTICS_HEAD, indexHtmlAnalyticsBlock()]) {
+    assert.ok(
+      !source.includes("gtag('event','generate_lead'"),
+      'generate_lead must wait for an acknowledged form, bridge or CRM event',
+    );
+    const payload = eventPayload(source, 'contact_click');
+    assert.match(payload, /contact_kind:\s*'contact'/);
+    assert.match(payload, /contact_method:\s*'telegram'/);
   }
 });
 
