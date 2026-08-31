@@ -1,0 +1,126 @@
+name: export-live-pages-worker-20260831
+
+on:
+  push:
+    branches:
+      - ops/export-live-pages-worker-20260831
+    paths:
+      - .github/workflows/export-live-pages-worker-20260831.yml
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROJECT: ai-direct-pro-landing
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ops/export-live-pages-worker-20260831
+
+      - name: Inspect Pages config and attempt read-only compiled Worker export
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT" \
+            > evidence/project.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const body=JSON.parse(fs.readFileSync('evidence/project.json','utf8'));
+          if(!body.success) throw new Error('project lookup failed');
+          const p=body.result;
+          const config=p.deployment_configs?.production ?? {};
+          const bindings=(value)=>Object.entries(value ?? {}).map(([name,item])=>({name,type:item?.type??typeof item,namespace_id:item?.namespace_id,database_name:item?.database_name,bucket_name:item?.bucket_name,service:item?.service,environment:item?.environment,queue_name:item?.queue_name,class_name:item?.class_name}));
+          const safe={
+            project:p.name,
+            productionScriptName:p.production_script_name,
+            usesFunctions:p.uses_functions,
+            compatibilityDate:config.compatibility_date,
+            compatibilityFlags:config.compatibility_flags,
+            failOpen:config.fail_open,
+            envVarNames:Object.keys(config.env_vars??{}),
+            kvNamespaces:bindings(config.kv_namespaces),
+            durableObjectNamespaces:bindings(config.durable_object_namespaces),
+            d1Databases:bindings(config.d1_databases),
+            r2Buckets:bindings(config.r2_buckets),
+            services:bindings(config.services),
+            queues:bindings(config.queue_producers ?? config.queues),
+            analyticsEngineDatasets:bindings(config.analytics_engine_datasets),
+            hyperdriveBindings:bindings(config.hyperdrive_bindings),
+            canonicalDeployment:{
+              id:p.canonical_deployment?.id,
+              url:p.canonical_deployment?.url,
+              commit:p.canonical_deployment?.deployment_trigger?.metadata?.commit_hash,
+              status:p.canonical_deployment?.latest_stage?.status,
+            },
+          };
+          fs.writeFileSync('evidence/project-safe.json',JSON.stringify(safe,null,2)+'\n');
+          console.log(JSON.stringify(safe,null,2));
+          NODE
+          SCRIPT=$(node -p "JSON.parse(require('fs').readFileSync('evidence/project-safe.json','utf8')).productionScriptName || ''")
+          if [ -z "$SCRIPT" ]; then
+            echo 'NO_PRODUCTION_SCRIPT_NAME' | tee evidence/worker-export-status.txt
+            exit 0
+          fi
+          : > evidence/worker-export-status.txt
+          for endpoint in \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/$SCRIPT" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/services/$SCRIPT/environments/production/content" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/services/$SCRIPT/environments/production"
+          do
+            safe_name=$(echo "$endpoint" | sed 's#https://api.cloudflare.com/client/v4/accounts/[^/]*/##;s#[^A-Za-z0-9._-]#_#g')
+            code=$(curl --silent --show-error --location \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H 'Accept: application/javascript,application/json,multipart/form-data,*/*' \
+              --output "evidence/$safe_name.body" \
+              --write-out '%{http_code}' "$endpoint" || true)
+            type=$(file -b --mime-type "evidence/$safe_name.body" || true)
+            bytes=$(wc -c < "evidence/$safe_name.body")
+            echo "$code|$bytes|$type|${endpoint##*/}" | tee -a evidence/worker-export-status.txt
+          done
+          # Never upload a response that is just an auth error containing request metadata.
+          for file in evidence/*.body; do
+            [ -e "$file" ] || continue
+            if head -c 1 "$file" | grep -q '{'; then
+              node --input-type=module - "$file" <<'NODE'
+          import fs from 'node:fs';
+          const file=process.argv[2];
+          try{
+            const body=JSON.parse(fs.readFileSync(file,'utf8'));
+            if(body.success===false){
+              fs.writeFileSync(file+'.safe.json',JSON.stringify({success:false,errors:(body.errors??[]).map(({code,message})=>({code,message}))},null,2)+'\n');
+              fs.unlinkSync(file);
+            }
+          }catch{}
+          NODE
+            fi
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-live-pages-worker-inspection-20260831
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin ops/export-live-pages-worker-20260831
+          git switch -C ops/export-live-pages-worker-20260831 origin/ops/export-live-pages-worker-20260831
+          git config user.name "GPTBot Worker Inspection CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/export-live-pages-worker-20260831.yml
+          git commit -m "chore: remove one-shot live Worker inspection"
+          git push origin HEAD:ops/export-live-pages-worker-20260831
