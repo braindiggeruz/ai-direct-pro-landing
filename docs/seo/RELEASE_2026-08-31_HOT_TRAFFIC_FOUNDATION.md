@@ -94,3 +94,9 @@ A second review removed residual “market price” headings, reseller-specific 
 The RU/UZ Telegram pages retain only the current primary-source boundary: Telegram's official Getting Started guide lists a minimum CPM of 0.1 Toncoin, while the Terms allow Telegram to change service parameters including minimum CPM. Reseller deposits, country-specific euro floors and third-party audience estimates are not presented as platform facts. Sources were checked on 2026-08-31.
 
 The Uzbek internet-advertising hub now has visible body links to Telegram advertising, SMM, SEO, website creation and the AI-bot service. Its funnel copy distinguishes a contact, submitted request, qualified lead and sale.
+
+## Contact and lead measurement correction
+
+The public browser previously emitted GA4 `generate_lead` immediately when a visitor clicked GPTBot's Telegram contact. That click proves only that the contact channel was activated; it cannot prove a sent message or an accepted lead. The click handler now emits the custom `contact_click` event with `contact_method=telegram`, while `telegram_open_attempt` remains the diagnostic event for all Telegram destinations. `generate_lead` is reserved for a future acknowledged form, bridge or CRM intake.
+
+The contract and owner dependencies are documented in `docs/seo/MEASUREMENT_CONTRACT_2026-08-31.md`. The existing Yandex Metrika `telegram_cta_click` goal is unchanged.
