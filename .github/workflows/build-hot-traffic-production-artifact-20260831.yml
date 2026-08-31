@@ -1,0 +1,124 @@
+name: build-hot-traffic-production-artifact-20260831
+
+on:
+  push:
+    branches:
+      - ops/build-hot-traffic-production-20260831
+    paths:
+      - .github/workflows/build-hot-traffic-production-artifact-20260831.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-hot-traffic-production-artifact-20260831
+  cancel-in-progress: false
+
+env:
+  RELEASE_SHA: 0eb69146faede0a19ff59f2fc749b09307b61e0a
+
+jobs:
+  verify-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out immutable release candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_SHA }}
+          fetch-depth: 0
+
+      - name: Assert exact release candidate
+        run: test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install locked dependencies
+        run: |
+          yarn install --frozen-lockfile --ignore-scripts --non-interactive
+          npm --prefix apps/bormi-admin ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run complete public-site regression suite
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: yarn test
+
+      - name: Run complete Lead Radar regression suite
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn typecheck:lead-radar
+          yarn test:lead-radar
+
+      - name: Run release and repository gates
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          yarn test:pages-production
+          yarn seo:audit
+          yarn tsc -b
+          yarn scan:secrets
+          git diff --check
+
+      - name: Build and stamp combined production artifact
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npm run build:production
+
+      - name: Verify stamped artifact locally
+        run: npx --no-install tsx scripts/release/pages-production.ts check
+
+      - name: Produce release evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const release = JSON.parse(fs.readFileSync('dist/gptbot-release.json', 'utf8'));
+          if (release.commit !== process.env.RELEASE_SHA) throw new Error('release manifest SHA mismatch');
+          for (const feature of ['audience_directory','mobile_username_selection','bridge_pairing','sending_readiness','campaign_preflight','async_media_check']) {
+            if (!release.features.includes(feature)) throw new Error(`missing ${feature}`);
+          }
+          fs.writeFileSync('dist/DEPLOYMENT.txt', [
+            `RELEASE_SHA=${release.commit}`,
+            'CLOUDFLARE_PAGES_PROJECT=ai-direct-pro-landing',
+            'DEPLOY_COMMAND=npx wrangler pages deploy dist --project-name ai-direct-pro-landing --branch main --commit-hash ' + release.commit + ' --commit-dirty=true',
+            `ARTIFACT_SHA256=${release.artifactSha256}`,
+            `FILE_COUNT=${release.fileCount}`,
+            `FEATURES=${release.features.join(',')}`,
+            '',
+          ].join('\n'));
+          NODE
+          find dist -type f -print0 | sort -z | xargs -0 sha256sum > dist/FILES.sha256
+          tar -C dist -czf "gptbot-production-${RELEASE_SHA}.tar.gz" .
+          sha256sum "gptbot-production-${RELEASE_SHA}.tar.gz" > "gptbot-production-${RELEASE_SHA}.tar.gz.sha256"
+
+      - name: Upload immutable production artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-production-${{ env.RELEASE_SHA }}
+          path: |
+            gptbot-production-${{ env.RELEASE_SHA }}.tar.gz
+            gptbot-production-${{ env.RELEASE_SHA }}.tar.gz.sha256
+            dist/gptbot-release.json
+            dist/DEPLOYMENT.txt
+            dist/FILES.sha256
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      - name: Remove one-shot build workflow
+        if: always()
+        shell: bash
+        run: |
+          git switch -C ops/build-hot-traffic-production-20260831 origin/ops/build-hot-traffic-production-20260831
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/build-hot-traffic-production-artifact-20260831.yml
+          git commit -m "chore(release): remove one-shot artifact workflow"
+          git push origin HEAD:ops/build-hot-traffic-production-20260831
