@@ -233,6 +233,10 @@ try {
     # Native helper resolves localized builtin names by SID and verifies direct/indirect membership.
     $failureStage='verify_nonadmin_membership'
     [GPTBotCollector.LocalAccount]::AddToBuiltinUsers($account.SID.Value,$installationId)
+    $failureStage='verify_batch_logon_right'
+    $batchRight=[GPTBotCollector.LocalAccount]::EnsureBatchLogonRightOwned($account.SID.Value,$installationId)
+    $manifest | Add-Member -NotePropertyName batchLogonRight -NotePropertyValue $batchRight -Force
+    Write-CollectorJson $manifestPath $manifest
     $failureStage='apply_scoped_isolation'
     Set-CollectorPrivateAcl $spec.Root $account.SID.Value 'ReadAndExecute'
     foreach ($dir in @('private','private\tmp','secrets')) {

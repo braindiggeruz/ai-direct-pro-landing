@@ -258,6 +258,10 @@ try {
     $task=Get-ScheduledTask -TaskPath $spec.TaskPath -TaskName $spec.TaskName
     Assert-ActivationTask $task $manifest $true
     if ([GPTBotCollector.LocalAccount]::IsMemberOfBuiltin('S-1-5-32-544')) { throw 'collector_unexpected_administrator' }
+    $stage='verify_batch_logon_right'
+    # Read-only preflight: activation never grants rights or changes an existing deny policy.
+    $batchRight=[GPTBotCollector.LocalAccount]::InspectBatchLogonRightOwned($manifest.userSid,$InstallationId)
+    if (-not $batchRight.EffectiveGranted -or -not $batchRight.DenyPolicyClear) { throw 'batch_logon_right_missing' }
     $stage='enable_and_start'
     $startedUtc=[DateTime]::UtcNow
     $activationStarted=$true

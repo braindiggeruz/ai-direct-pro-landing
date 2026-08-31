@@ -57,6 +57,10 @@ class WindowsActivationTests(unittest.TestCase):
         self.assertIn("if ($taskOwned)", text)
         self.assertIn("activation_failed_unknown", text)
         self.assertIn("task_disabled_during_activation", text)
+        self.assertIn("::InspectBatchLogonRightOwned($manifest.userSid,$InstallationId)", text)
+        self.assertIn("batch_logon_right_missing", text)
+        self.assertNotIn("EnsureBatchLogonRightOwned", text)
+        self.assertLess(text.index("::InspectBatchLogonRightOwned"), text.index("Enable-ScheduledTask"))
 
     def test_manifest_rejects_different_identity_hash_state_and_missing_proofs(self):
         code = self.helpers() + r"""

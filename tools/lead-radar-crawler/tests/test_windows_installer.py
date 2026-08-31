@@ -123,7 +123,7 @@ class WindowsInstallerTests(unittest.TestCase):
         result = self.ps(code)
         self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
         native = (WINDOWS / "Native.cs").read_text()
-        body = native.split("public static void EnableOwned", 1)[1].split("// Caller must also prove", 1)[0]
+        body = native.split("public static void EnableOwned", 1)[1].split('const string BatchRight=', 1)[0]
         self.assertIn("RequireOwned(sid,installationId)", body)
         self.assertIn("Flags=account.Flags&~0x2u", body)
         self.assertIn("NetUserSetInfo(null,Name,1008", body)
@@ -133,6 +133,119 @@ class WindowsInstallerTests(unittest.TestCase):
         self.assertIn("DisableOwned(sid,installationId)", body)
         for forbidden in ("NetUserSetPassword", "1003", "ProfileList", "ResetUnprovisionedOwned", "ProtectedData", "ReadAll"):
             self.assertNotIn(forbidden, body)
+
+    def test_batch_rights_reject_foreign_identity_before_any_lsa_operation(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        foreach($method in @('EnsureBatchLogonRightOwned','InspectBatchLogonRightOwned')){
+          $blocked=$false;
+          try{[GPTBotCollector.LocalAccount].GetMethod($method).Invoke($null,[object[]]@('S-1-0-0','00000000-0000-0000-0000-000000000000'))}
+          catch{if($_.Exception.GetBaseException().Message -cne 'account_ownership_mismatch'){throw};$blocked=$true};
+          if(-not $blocked){throw 'batch_ownership_guard_missing'}
+        }
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        native = (WINDOWS / "Native.cs").read_text()
+        self.assertIn('const string BatchRight="SeBatchLogonRight", DenyBatchRight="SeDenyBatchLogonRight"', native)
+        self.assertIn("LsaAddAccountRights(policy,SidBytes(sid),ref right,1)", native)
+        self.assertIn("ensure?0x810u:0x800u", native)
+        self.assertNotIn("LsaRemoveAccountRights", native)
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        self.assertLess(installer.index("::EnsureBatchLogonRightOwned"), installer.index("$failureStage='apply_scoped_isolation'"))
+        self.assertIn("-NotePropertyName batchLogonRight", installer)
+
+    def test_batch_policy_flow_uses_only_mock_rights_and_preserves_every_other_right(self):
+        # Compile the real core and this in-memory test double together. No LSA writes,
+        # account/password changes, Scheduler calls, or filesystem policy changes.
+        fixture = r"""
+        namespace GPTBotCollector {
+          public static class BatchRightsFixture {
+            const string User="S-1-5-21-1-2-3-1011", Users="S-1-5-32-545";
+            const string Grant="SeBatchLogonRight", Deny="SeDenyBatchLogonRight";
+            static HashSet<string> Set(params string[] values){return new HashSet<string>(values,StringComparer.Ordinal);}
+            static void Need(bool ok){if(!ok)throw new Exception("fixture_assertion_failed");}
+            static void Rejected(Action action,string code){
+              try{action();}catch(InvalidOperationException error){if(error.Message==code)return;throw;}
+              throw new Exception("fixture_expected_rejection_"+code);
+            }
+            public static void Run(){
+              var members=Set(User,Users,"S-1-1-0","S-1-5-3","S-1-5-11","S-1-5-113");
+              var rights=new Dictionary<string,HashSet<string>>();
+              foreach(string member in members)rights[member]=Set();
+              rights[User].Add("SeChangeNotifyPrivilege");
+              int additions=0,verifications=0;
+              Action identity=delegate{verifications++;};
+              Func<HashSet<string>> groups=delegate{return new HashSet<string>(members);};
+              Func<string,HashSet<string>> read=delegate(string sid){return rights[sid];};
+              Action add=delegate{additions++;rights[User].Add(Grant);};
+              var missing=LocalAccount.CheckBatchRights(User,false,identity,groups,read,add);
+              Need(!missing.EffectiveGranted && !missing.Changed && additions==0);
+              members.Add("S-1-5-64-10");rights["S-1-5-64-10"]=Set(Grant);
+              var uncertainAllow=LocalAccount.CheckBatchRights(User,false,identity,groups,read,add);
+              Need(!uncertainAllow.EffectiveGranted && additions==0);
+              members.Remove("S-1-5-64-10");rights.Remove("S-1-5-64-10");
+              var first=LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);
+              Need(first.Changed && first.DirectGranted && first.EffectiveGranted && first.DenyPolicyClear && first.OtherRightsPreserved);
+              Need(additions==1 && rights[User].SetEquals(Set(Grant,"SeChangeNotifyPrivilege")) && verifications>=3);
+              var replay=LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);
+              Need(!replay.Changed && additions==1);
+              foreach(string denied in members){
+                rights[denied].Add(Deny);
+                Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);},"batch_logon_denied_by_policy");
+                rights[denied].Remove(Deny);Need(additions==1);
+              }
+              rights[User].Remove(Grant);rights[Users].Add(Grant);
+              var inherited=LocalAccount.CheckBatchRights(User,false,identity,groups,read,add);
+              Need(inherited.EffectiveGranted && !inherited.DirectGranted && additions==1);
+              LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);
+              Need(additions==2 && rights[Users].SetEquals(Set(Grant)));
+              rights[User].Remove(Grant);rights[Users].Clear();
+              members.Add("S-1-5-32-544");
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);},"batch_membership_invalid");
+              members.Remove("S-1-5-32-544");Need(additions==2);
+              members.Remove(Users);
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);},"batch_membership_invalid");
+              members.Add(Users);
+              Action wrong=delegate{throw new InvalidOperationException("account_ownership_mismatch");};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,wrong,groups,read,add);},"account_ownership_mismatch");
+              Need(additions==2);
+              int groupReads=0;
+              Func<HashSet<string>> drifting=delegate{groupReads++;var found=groups();if(groupReads>1)found.Add("S-1-5-32-555");return found;};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,drifting,read,add);},"batch_membership_changed");
+              Need(additions==2);
+              Func<string,HashSet<string>> unavailable=delegate(string sid){throw new InvalidOperationException("mock_policy_access_denied");};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,unavailable,add);},"mock_policy_access_denied");
+              Need(additions==2);
+              Action missingReadback=delegate{additions++;};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,missingReadback);},"batch_rights_readback_changed");
+              Need(additions==3);
+              Action concurrent=delegate{add();rights[User].Add("SeDebugPrivilege");};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,concurrent);},"batch_rights_readback_changed");
+              Need(additions==4);
+            }
+          }
+        }
+        """
+        encoded = base64.b64encode(fixture.encode()).decode()
+        code = "$native=[IO.File]::ReadAllText(" + quote(WINDOWS / "Native.cs") + ");"
+        code += "$fixture=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(" + quote(encoded) + "));"
+        code += "Add-Type -TypeDefinition ($native+$fixture);[GPTBotCollector.BatchRightsFixture]::Run()"
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_batch_membership_metadata_read_has_correct_native_layout(self):
+        # Read-only account/group metadata, never account rights or secret/profile files.
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        $account=[GPTBotCollector.LocalAccount]::Get();
+        if($null -ne $account -and $account.Comment -match '^GPTBot collector ([a-f0-9-]{36})$'){
+          $helper=[GPTBotCollector.LocalAccount].GetMethod('BatchPrincipals',[Reflection.BindingFlags]'NonPublic,Static');
+          $members=$helper.Invoke($null,[object[]]@($account.SID.Value,$Matches[1]));
+          if(-not $members.Contains($account.SID.Value) -or -not $members.Contains('S-1-5-32-545') -or
+             -not $members.Contains('S-1-5-3') -or $members.Contains('S-1-5-32-544')){throw 'batch_membership_fixture_invalid'}
+        }
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
 
     def test_validateonly_reports_safe_failure_stage_without_touching_secrets(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -236,7 +349,7 @@ class WindowsInstallerTests(unittest.TestCase):
         self.assertIn("existing_deny_preserved", installer)
         self.assertNotIn("Set-Acl -LiteralPath $path", installer)
         self.assertNotIn("SetNamedSecurityInfo", native)
-        self.assertNotIn("LsaAddAccountRights", native)
+        self.assertNotIn("LsaRemoveAccountRights", native)
         self.assertIn("Attributes=4", native)  # SE_PRIVILEGE_REMOVED, not zero/disabled.
         for name in ("Bootstrap-Identity.ps1", "Run-Collector.ps1"):
             source = (WINDOWS / name).read_text()

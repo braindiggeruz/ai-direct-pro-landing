@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -13,6 +14,10 @@ using Microsoft.Win32.SafeHandles;
 namespace GPTBotCollector {
     public sealed class LocalAccountSnapshot {
         public string Name, Comment; public SecurityIdentifier SID; public uint Flags;
+    }
+    public sealed class BatchLogonRightResult {
+        public bool Changed, DirectGranted, EffectiveGranted, DenyPolicyClear, OtherRightsPreserved;
+        public int PrincipalsChecked;
     }
     // Fixed local identity only; no dependency on the optional LocalAccounts module.
     public static class LocalAccount {
@@ -30,12 +35,23 @@ namespace GPTBotCollector {
         }
         [StructLayout(LayoutKind.Sequential)] struct UserInfo1008 { public uint Flags; }
         [StructLayout(LayoutKind.Sequential)] struct UserInfo1003 { public IntPtr Password; }
+        // NetUserGetInfo returns Password=NULL; only the primary-group RID is inspected.
+        [StructLayout(LayoutKind.Sequential)] struct UserInfo3 {
+            public IntPtr Name, Password; public uint PasswordAge, Privilege;
+            public IntPtr HomeDirectory, Comment; public uint Flags; public IntPtr ScriptPath;
+            public uint AuthFlags; public IntPtr FullName, UserComment, Parameters, Workstations;
+            public uint LastLogon, LastLogoff, AccountExpires, MaxStorage, UnitsPerWeek;
+            public IntPtr LogonHours; public uint BadPasswordCount, NumLogons; public IntPtr LogonServer;
+            public uint CountryCode, CodePage, UserId, PrimaryGroupId;
+            public IntPtr Profile, HomeDrive; public uint PasswordExpired;
+        }
         [StructLayout(LayoutKind.Sequential)] struct GroupMember0 { public IntPtr Sid; }
         [DllImport("netapi32.dll", CharSet=CharSet.Unicode)] static extern uint NetUserGetInfo(string server, string user, uint level, out IntPtr buffer);
         [DllImport("netapi32.dll", CharSet=CharSet.Unicode)] static extern uint NetUserAdd(string server, uint level, ref UserInfo1 info, out uint parameterError);
         [DllImport("netapi32.dll", CharSet=CharSet.Unicode)] static extern uint NetUserSetInfo(string server, string user, uint level, ref UserInfo1008 info, out uint parameterError);
         [DllImport("netapi32.dll", CharSet=CharSet.Unicode, EntryPoint="NetUserSetInfo")] static extern uint NetUserSetPassword(string server, string user, uint level, ref UserInfo1003 info, out uint parameterError);
         [DllImport("netapi32.dll", CharSet=CharSet.Unicode)] static extern uint NetUserGetLocalGroups(string server, string user, uint level, uint flags, out IntPtr buffer, uint preferredLength, out uint entriesRead, out uint totalEntries);
+        [DllImport("netapi32.dll", CharSet=CharSet.Unicode)] static extern uint NetUserGetGroups(string server, string user, uint level, out IntPtr buffer, uint preferredLength, out uint entriesRead, out uint totalEntries);
         [DllImport("netapi32.dll", CharSet=CharSet.Unicode)] static extern uint NetLocalGroupAddMembers(string server, string group, uint level, ref GroupMember0 member, uint totalEntries);
         [DllImport("netapi32.dll")] static extern uint NetApiBufferFree(IntPtr buffer);
 
@@ -132,6 +148,154 @@ namespace GPTBotCollector {
                 DisableOwned(sid,installationId);
                 throw new InvalidOperationException("collector_membership_readback_failed");
             }
+        }
+        const string BatchRight="SeBatchLogonRight", DenyBatchRight="SeDenyBatchLogonRight";
+        [StructLayout(LayoutKind.Sequential)] struct LsaObjectAttributes {
+            public uint Length; public IntPtr RootDirectory, ObjectName; public uint Attributes;
+            public IntPtr SecurityDescriptor, SecurityQualityOfService;
+        }
+        [StructLayout(LayoutKind.Sequential)] struct LsaString {
+            public ushort Length, MaximumLength; public IntPtr Buffer;
+        }
+        [DllImport("advapi32.dll")] static extern uint LsaOpenPolicy(IntPtr system,ref LsaObjectAttributes attributes,uint access,out IntPtr policy);
+        [DllImport("advapi32.dll")] static extern uint LsaEnumerateAccountRights(IntPtr policy,byte[] sid,out IntPtr rights,out uint count);
+        [DllImport("advapi32.dll")] static extern uint LsaAddAccountRights(IntPtr policy,byte[] sid,ref LsaString right,uint count);
+        [DllImport("advapi32.dll")] static extern uint LsaFreeMemory(IntPtr buffer);
+        [DllImport("advapi32.dll")] static extern uint LsaClose(IntPtr policy);
+        [DllImport("advapi32.dll")] static extern uint LsaNtStatusToWinError(uint status);
+        static void RequireLsa(uint status,string operation) {
+            if(status==0)return;
+            uint error=LsaNtStatusToWinError(status);
+            var problem=new InvalidOperationException(operation+"_"+error.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            if(error<=65535)problem.Data["Win32Error"]=(int)error;
+            throw problem;
+        }
+        static byte[] SidBytes(string sid) {
+            var identifier=new SecurityIdentifier(sid);var bytes=new byte[identifier.BinaryLength];
+            identifier.GetBinaryForm(bytes,0);return bytes;
+        }
+        static HashSet<string> ReadLsaRights(IntPtr policy,string sid) {
+            IntPtr buffer=IntPtr.Zero;uint count;
+            try {
+                uint status=LsaEnumerateAccountRights(policy,SidBytes(sid),out buffer,out count);
+                // STATUS_OBJECT_NAME_NOT_FOUND means this SID has no direct LSA policy entry.
+                if(status==0xc0000034)return new HashSet<string>(StringComparer.Ordinal);
+                RequireLsa(status,"batch_rights_query");
+                if(count>256 || (count>0 && buffer==IntPtr.Zero))throw new InvalidOperationException("batch_rights_incomplete");
+                var rights=new HashSet<string>(StringComparer.Ordinal);int size=Marshal.SizeOf(typeof(LsaString));
+                for(int i=0;i<(int)count;i++) {
+                    var value=(LsaString)Marshal.PtrToStructure(IntPtr.Add(buffer,i*size),typeof(LsaString));
+                    if(value.Buffer==IntPtr.Zero || value.Length==0 || value.Length>512 || value.Length%2!=0 || value.MaximumLength<value.Length)
+                        throw new InvalidOperationException("batch_rights_invalid");
+                    rights.Add(Marshal.PtrToStringUni(value.Buffer,value.Length/2));
+                }
+                return rights;
+            } finally {if(buffer!=IntPtr.Zero)LsaFreeMemory(buffer);}
+        }
+        static string ResolveLocalGroup(string name,string domainSid) {
+            if(String.IsNullOrEmpty(name) || name.Length>256 || name.IndexOf('\\')>=0)
+                throw new InvalidOperationException("batch_group_name_invalid");
+            SecurityIdentifier sid=null;
+            try {sid=(SecurityIdentifier)new NTAccount("BUILTIN",name).Translate(typeof(SecurityIdentifier));}
+            catch(IdentityNotMappedException) {
+                try {sid=(SecurityIdentifier)new NTAccount(Environment.MachineName,name).Translate(typeof(SecurityIdentifier));}
+                catch(IdentityNotMappedException) {throw new InvalidOperationException("batch_group_unresolved");}
+            }
+            if(!sid.Value.StartsWith("S-1-5-32-",StringComparison.Ordinal) &&
+               !sid.Value.StartsWith(domainSid+"-",StringComparison.Ordinal))throw new InvalidOperationException("batch_group_not_local");
+            return sid.Value;
+        }
+        static HashSet<string> BatchPrincipals(string sid,string installationId) {
+            var account=RequireOwned(sid,installationId);
+            string domainSid=account.SID.AccountDomainSid.Value;
+            // Conservative deny checks include the fixed local password/batch identities,
+            // in addition to ALL direct/global/indirect aliases and the actual primary group.
+            var result=new HashSet<string>(StringComparer.Ordinal) {sid,"S-1-1-0","S-1-2-0","S-1-5-3",
+                "S-1-5-11","S-1-5-15","S-1-5-113","S-1-5-64-10","S-1-18-1"};
+            foreach(bool local in new bool[]{true,false}) {
+                IntPtr buffer=IntPtr.Zero;uint count,total;
+                try {
+                    uint status=local?NetUserGetLocalGroups(null,Name,0,1,out buffer,uint.MaxValue,out count,out total):
+                        NetUserGetGroups(null,Name,0,out buffer,uint.MaxValue,out count,out total);
+                    RequireSuccess(status,"batch_membership_query");
+                    if(count!=total || count>4096 || (count>0 && buffer==IntPtr.Zero))throw new InvalidOperationException("batch_membership_incomplete");
+                    for(int i=0;i<(int)count;i++)result.Add(ResolveLocalGroup(Marshal.PtrToStringUni(Marshal.ReadIntPtr(buffer,i*IntPtr.Size)),domainSid));
+                } finally {if(buffer!=IntPtr.Zero)NetApiBufferFree(buffer);}
+            }
+            IntPtr primary=IntPtr.Zero;
+            try {
+                RequireSuccess(NetUserGetInfo(null,Name,3,out primary),"batch_primary_group_query");
+                var value=(UserInfo3)Marshal.PtrToStructure(primary,typeof(UserInfo3));
+                if(value.Password!=IntPtr.Zero || value.PrimaryGroupId==0 ||
+                   domainSid+"-"+value.UserId.ToString(System.Globalization.CultureInfo.InvariantCulture)!=sid)
+                    throw new InvalidOperationException("batch_primary_group_invalid");
+                result.Add(domainSid+"-"+value.PrimaryGroupId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            } finally {if(primary!=IntPtr.Zero)NetApiBufferFree(primary);}
+            return result;
+        }
+        // Dependency seam for offline tests: production delegates below are the only LSA writer.
+        internal static BatchLogonRightResult CheckBatchRights(string sid,bool ensure,Action verify,
+            Func<HashSet<string>> getPrincipals,Func<string,HashSet<string>> readRights,Action addBatch) {
+            verify();var principals=getPrincipals();
+            if(principals==null || principals.Count>4096 || !principals.Contains(sid) ||
+               !principals.Contains("S-1-5-32-545") || principals.Contains("S-1-5-32-544"))
+                throw new InvalidOperationException("batch_membership_invalid");
+            var before=new Dictionary<string,HashSet<string>>(StringComparer.Ordinal);bool effective=false;
+            foreach(string principal in principals) {
+                var rights=readRights(principal);
+                if(rights==null)throw new InvalidOperationException("batch_rights_incomplete");
+                before.Add(principal,new HashSet<string>(rights,StringComparer.Ordinal));
+                if(rights.Contains(DenyBatchRight))throw new InvalidOperationException("batch_logon_denied_by_policy");
+                // These extra identities are conservative deny checks, not evidence that
+                // every password/batch token carries them. Never infer an allow from them.
+                if(rights.Contains(BatchRight) && principal!="S-1-2-0" && principal!="S-1-5-15" &&
+                   principal!="S-1-5-64-10" && principal!="S-1-18-1")effective=true;
+            }
+            bool changed=ensure && !before[sid].Contains(BatchRight);
+            verify();
+            if(!principals.SetEquals(getPrincipals()))throw new InvalidOperationException("batch_membership_changed");
+            if(changed)addBatch();
+            verify();
+            if(!principals.SetEquals(getPrincipals()))throw new InvalidOperationException("batch_membership_changed");
+            foreach(string principal in principals) {
+                var after=readRights(principal);var expected=new HashSet<string>(before[principal],StringComparer.Ordinal);
+                if(changed && principal==sid)expected.Add(BatchRight);
+                if(after==null || !expected.SetEquals(after))throw new InvalidOperationException("batch_rights_readback_changed");
+                if(after.Contains(DenyBatchRight))throw new InvalidOperationException("batch_logon_denied_by_policy");
+            }
+            bool direct=changed || before[sid].Contains(BatchRight);
+            return new BatchLogonRightResult {Changed=changed,DirectGranted=direct,EffectiveGranted=direct||effective,
+                DenyPolicyClear=true,OtherRightsPreserved=true,PrincipalsChecked=principals.Count};
+        }
+        static BatchLogonRightResult OwnedBatchRights(string sid,string installationId,bool ensure) {
+            Action verify=delegate {
+                RequireOwned(sid,installationId);
+                if(IsMemberOfBuiltin("S-1-5-32-544") || !IsMemberOfBuiltin("S-1-5-32-545"))
+                    throw new InvalidOperationException("collector_membership_invalid");
+            };
+            verify();IntPtr policy=IntPtr.Zero;
+            try {
+                var attributes=new LsaObjectAttributes {Length=(uint)Marshal.SizeOf(typeof(LsaObjectAttributes))};
+                // LOOKUP_NAMES; CREATE_ACCOUNT only for the new SID's LSA entry, not a SAM user.
+                RequireLsa(LsaOpenPolicy(IntPtr.Zero,ref attributes,ensure?0x810u:0x800u,out policy),"batch_policy_open");
+                return CheckBatchRights(sid,ensure,verify,delegate {return BatchPrincipals(sid,installationId);},
+                    delegate(string principal){return ReadLsaRights(policy,principal);},delegate {
+                        verify();IntPtr text=Marshal.StringToHGlobalUni(BatchRight);
+                        try {
+                            var right=new LsaString {Buffer=text,Length=(ushort)(BatchRight.Length*2),MaximumLength=(ushort)((BatchRight.Length+1)*2)};
+                            // Add ONLY this constant right to ONLY the ownership-checked collector SID.
+                            RequireLsa(LsaAddAccountRights(policy,SidBytes(sid),ref right,1),"batch_right_add");
+                        } finally {Marshal.FreeHGlobal(text);}
+                    });
+            } finally {if(policy!=IntPtr.Zero)LsaClose(policy);}
+        }
+        // Existing-install repair: caller fences exact manifest + disabled owned task first.
+        // Does not reset/enable the account, touch credentials, remove rights, or start a task.
+        public static BatchLogonRightResult EnsureBatchLogonRightOwned(string sid,string installationId) {
+            return OwnedBatchRights(sid,installationId,true);
+        }
+        public static BatchLogonRightResult InspectBatchLogonRightOwned(string sid,string installationId) {
+            return OwnedBatchRights(sid,installationId,false);
         }
         // Caller must also prove no profile/DPAPI/config/task exists before recovery.
         public static void ResetUnprovisionedOwned(string sid, string installationId, SecureString password) {
