@@ -1,0 +1,137 @@
+name: find-live-collector-source-20260831
+
+on:
+  push:
+    branches:
+      - ops/find-live-collector-source-20260831
+    paths:
+      - .github/workflows/find-live-collector-source-20260831.yml
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      REVIEWED_SHA: 6cbdb9f40ee23a860f6700c371709fb625f0f18b
+      BASE_PRODUCTION_SHA: e81f65e6c4757f77ed2991ef12b599d956185e55
+      PROJECT: ai-direct-pro-landing
+      LIVE_DEPLOYMENT_ID: 000d6620-c0be-4b81-9e36-5f8093322718
+      LIVE_URL: https://000d6620.ai-direct-pro-landing.pages.dev
+      LIVE_ADMIN_ASSET: assets/AdminRoot-D7qUpY4s.js
+      LIVE_ADMIN_HASH: e2fe0a69594e8a274a181b1424c3db5211078d08126029c0ae2a77dcc00c1f70
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.REVIEWED_SHA }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Inspect every recent remote branch and deployment log
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --all --prune --tags
+          mkdir -p evidence
+          {
+            echo '=== REMOTE BRANCH HEADS BY COMMIT DATE ==='
+            git for-each-ref refs/remotes/origin \
+              --sort=-committerdate \
+              --format='%(committerdate:iso-strict)|%(objectname)|%(refname:short)|%(subject)' | head -n 200
+            echo
+            echo '=== ALL COMMITS SINCE 2026-08-31 14:00Z ==='
+            git log --all --since='2026-08-31T14:00:00Z' --date=iso-strict \
+              --pretty='format:%ad|%H|%P|%D|%s' --name-status
+            echo
+            echo '=== COLLECTOR / JINA / POOL / RESUME MATCHES IN ALL REMOTE HEADS ==='
+            git grep -n -i -E 'collector|jina|budget.?park|pool resume|source.?paused|source pause|contact pool|replenish' \
+              $(git for-each-ref --format='%(refname)' refs/remotes/origin) -- \
+              'functions/**' 'workers/**' 'src/**' 'scripts/**' 'tests/**' 'docs/**' 2>/dev/null | head -n 500 || true
+          } | tee evidence/recent-refs-and-matches.txt
+
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/deployments/$LIVE_DEPLOYMENT_ID/history/logs" \
+            > evidence/deployment-logs.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const body = JSON.parse(fs.readFileSync('evidence/deployment-logs.json','utf8'));
+          const lines = (body.result?.data || body.result || body.data || []).map((row) => row.line || String(row));
+          const safe = lines.filter((line) => /git|commit|branch|build|test|deploy|wrangler|collector|jina|pool|resume|lead.radar|adminroot|artifact|source|merge/i.test(line));
+          fs.writeFileSync('evidence/deployment-logs-safe.txt', safe.join('\n') + '\n');
+          console.log(`DEPLOYMENT_LOG_LINES=${lines.length}`);
+          console.log(`DEPLOYMENT_LOG_SAFE_LINES=${safe.length}`);
+          console.log(safe.slice(0, 300).join('\n'));
+          NODE
+
+      - name: Analyze branches diverging from the previous production source
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { execFileSync, spawnSync } from 'node:child_process';
+          const base = process.env.BASE_PRODUCTION_SHA;
+          const refs = execFileSync('git',['for-each-ref','--format=%(refname:short)|%(objectname)|%(committerdate:iso-strict)|%(subject)','refs/remotes/origin'],{encoding:'utf8'})
+            .trim().split('\n').filter(Boolean);
+          const rows=[];
+          for (const value of refs) {
+            const [ref,sha,date,...subjectParts]=value.split('|');
+            if (ref === 'origin/HEAD') continue;
+            const ahead = spawnSync('git',['merge-base','--is-ancestor',base,sha],{stdio:'ignore'}).status===0;
+            if (!ahead) continue;
+            const diff = execFileSync('git',['diff','--name-only',`${base}..${sha}`],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
+            if (!diff.length) continue;
+            const lead = diff.filter((file)=>/lead-radar|LeadRadar|campaign|telegram|firecrawl|jina|source|collector|store\.ts|automation/i.test(file));
+            const publicFiles = diff.filter((file)=>/^(content|src\/components|index\.html|scripts\/seo|scripts\/prerender|public)/.test(file));
+            rows.push({ref,sha,date,subject:subjectParts.join('|'),diffCount:diff.length,leadFiles:lead,publicFiles});
+          }
+          rows.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+          fs.writeFileSync('evidence/branch-diff-candidates.json',JSON.stringify(rows,null,2)+'\n');
+          console.log(JSON.stringify(rows.slice(0,100),null,2));
+          NODE
+
+      - name: Download and inspect live admin bundle markers
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error "$LIVE_URL/$LIVE_ADMIN_ASSET?inspect=$(date +%s)" -o evidence/live-admin.js
+          printf '%s  %s\n' "$(sha256sum evidence/live-admin.js | awk '{print $1}')" "$LIVE_ADMIN_ASSET" | tee evidence/live-admin.sha256
+          test "$(sha256sum evidence/live-admin.js | awk '{print $1}')" = "$LIVE_ADMIN_HASH"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const source=fs.readFileSync('evidence/live-admin.js','utf8');
+          const strings=[...source.matchAll(/["'`](.{8,160}?)["'`]/gs)].map((m)=>m[1].replace(/\\n/g,' '));
+          const filtered=[...new Set(strings.filter((value)=>/collector|контакт|источник|source|Jina|Firecrawl|resume|возобнов|pool|budget|бюджет|провер|directory|companies|компан|telegram/i.test(value)))];
+          fs.writeFileSync('evidence/live-admin-markers.txt',filtered.slice(0,2000).join('\n')+'\n');
+          console.log(filtered.slice(0,300).join('\n'));
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gptbot-live-collector-source-investigation-20260831
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin ops/find-live-collector-source-20260831
+          git switch -C ops/find-live-collector-source-20260831 origin/ops/find-live-collector-source-20260831
+          git config user.name "GPTBot Release CI"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/find-live-collector-source-20260831.yml
+          git commit -m "chore(release): remove one-shot live collector investigation"
+          git push origin HEAD:ops/find-live-collector-source-20260831
