@@ -596,7 +596,9 @@ test('contact rechecks consume a daily budget and late callbacks cannot overwrit
     db.sqlite.prepare("UPDATE lead_radar_contact_checks SET status='unresolved',result_json=?").run(JSON.stringify(terminal));
     return {status:'resolved',username:'late_callback',reason:'regular_user_resolved',retryAfterSeconds:null};
   }});
-  assert.deepEqual(outcome,terminal);
+  assert.deepEqual(outcome,{...terminal,status:'failed'});
+  assert.deepEqual(JSON.parse(String(db.value('SELECT result_json FROM lead_radar_contact_checks'))),terminal,
+    'legacy terminal receipt remains untouched; only its interpretation changes');
   assert.equal(db.value('SELECT attempts_today FROM lead_radar_contact_checks'),1);
   assert.equal(JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mobile'"))).type,'unknown');
 });
