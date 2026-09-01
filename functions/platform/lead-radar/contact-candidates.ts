@@ -10,7 +10,14 @@ export function mergeContactCandidates(candidates: readonly LeadRadarContactCand
   const priority=(c:LeadRadarContactCandidate)=>c.ownership==='personal'?4:c.ownership==='company'?2+Number(c.lookupEligible):0;
   for(const candidate of candidates) {
     const previous=merged.get(candidate.key);
-    if (!previous || priority(candidate)>=priority(previous)) merged.set(candidate.key,candidate);
+    if (!previous || priority(candidate)>priority(previous)) { merged.set(candidate.key,candidate); continue; }
+    if (priority(candidate)<priority(previous)) continue;
+    // Equal tier: prefer the row backed by more distinct evidence. Two
+    // independent sources agreeing on one number is stronger than either alone.
+    // Evidence ids are deliberately NOT unioned across candidates — a candidate
+    // must reference only evidence that exists on this lead, or the
+    // fail-closed capability check drops it entirely.
+    if (candidate.evidenceIds.length>previous.evidenceIds.length) merged.set(candidate.key,candidate);
   }
   return [...merged.values()].slice(0,40);
 }

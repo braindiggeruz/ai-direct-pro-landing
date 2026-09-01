@@ -6,6 +6,8 @@ import type {
   LeadRadarSearchInput,
   LeadRadarSignal,
 } from '../../../src/shared/lead-radar';
+// Type-only: erased at compile time, so no runtime cycle with source-yield.
+import type { SourceYieldMap } from './source-yield';
 
 export const TELEGRAM_CONTACT_TYPES = [
   'human',
@@ -87,6 +89,8 @@ export interface LeadRadarDiscoveryResult {
   candidates: SourceCandidate[];
   sourceWarnings: string[];
   rawDiscoveredCount?: number;
+  /** Per-source contact yield for this pass. Phase 0 telemetry — read-only. */
+  sourceYield?: SourceYieldMap;
 }
 
 export type LeadRadarJobStage = 'discovery' | 'enrichment';

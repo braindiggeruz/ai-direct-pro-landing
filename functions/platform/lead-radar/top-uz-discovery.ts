@@ -17,10 +17,53 @@ export interface FreeCatalogResult {
   reason: string;
 }
 
+/**
+ * A top.uz route that was probed live before being trusted.
+ *
+ * `top.uz/robots.txt` disallows the search directory for every agent except
+ * Yandex, so the search-based path in `discoverFreeTopUzContacts` is closed to
+ * us. Category routes are therefore the only way into this catalog, which makes
+ * this table the single biggest lever on free contact yield: every entry turns a
+ * whole niche from "own-site crawl only" into "phone number arrives as a
+ * catalog field".
+ */
+export interface VerifiedTopUzCategory {
+  /** Live route on https://top.uz. Verified 2026-09-01: HTTP 200 with company
+   *  cards and +998 phone numbers on the page. See `verify_topuz_sections.py`. */
+  path: string;
+  /** Matched against the category/niche text, case-insensitive. */
+  pattern: RegExp;
+}
+
+/**
+ * Ordered most-specific first. A narrow speciality must win before the broad
+ * medical route, otherwise every medical search collapses into one section and
+ * the company simply will not be listed there.
+ *
+ * Do not add a route without probing it first. A guessed URL fails silently as
+ * `unrecognized_index`, which looks identical to "this company has no contact".
+ */
+export const VERIFIED_TOP_UZ_CATEGORIES: readonly VerifiedTopUzCategory[] = [
+  { path: '/section/stomatologii', pattern: /dent|stomat|стомат|tish|зубн|зуб/iu },
+  { path: '/section/ortodontiya', pattern: /orthodont|ортодонт|брекет/iu },
+  { path: '/section/oftalmologii', pattern: /ophthalm|oftalm|офтальм|окулист|глазн|зрен/iu },
+  { path: '/section/dermatologiya', pattern: /dermat|дермат|кожн/iu },
+  { path: '/section/khirurgiya', pattern: /surg|хирург|jarroh/iu },
+  { path: '/section/optika', pattern: /optic|оптик|очк/iu },
+  { path: '/section/apteka-uz', pattern: /pharmac|аптек|dorixona/iu },
+  { path: '/section/kliniki-chastnye', pattern: /clinic|клин|shifoxona|шифохона/iu },
+  { path: '/section/krasota-i-zdorove', pattern: /beauty|salon|красот|салон|go'zallik|g‘zallik/iu },
+  {
+    path: '/section/meditsinskie-tsentry-lechebnye-i-diagnosticheskie-ambulatorii',
+    pattern: /medical|medic|медицин|диагност|поликлиник|ambulator|tibbiy/iu,
+  },
+];
+
 export function topUzCategoryPath(category: string): string | null {
   // Only verified category routes. New niches need a policy/format fixture,
   // not guessed URLs. All other niches still have the free own-site path.
-  return /dent|stomat|стомат|tish/iu.test(category) ? '/section/stomatologii' : null;
+  const match = VERIFIED_TOP_UZ_CATEGORIES.find((entry) => entry.pattern.test(category));
+  return match?.path ?? null;
 }
 
 export function parseTopUzIndex(html: string, pageUrl: URL): Index {
