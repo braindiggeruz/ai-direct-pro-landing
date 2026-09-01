@@ -139,7 +139,7 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   const unavailable = await schemaResponse(ctx.db, ctx.requestId);
   if (unavailable) return unavailable;
   const store = new LeadRadarStore(ctx.db);
-  const service = new LeadRadarService(store);
+  const service = new LeadRadarService(store, undefined, ctx.env);
   if (parts.length === 3 && parts[0] === 'searches' && parts[2] === 'enrichment') {
     if (!await store.getSearchInput(orgId, parts[1])) return ownerError('search_not_found', ctx.requestId, 404);
     const provider = new FirecrawlStore(ctx.db);
