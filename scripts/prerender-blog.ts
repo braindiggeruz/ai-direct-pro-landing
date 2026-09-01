@@ -414,6 +414,7 @@ ${METRIKA_NOSCRIPT}
         ${a.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
+      <a href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${a.locale}',page_kind:'blog',target_url:'phone_contact',cta_zone:'footer'});" class="hover:text-white">+998 50 587 07 20</a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
     </div>
   </div>
@@ -542,6 +543,7 @@ ${METRIKA_NOSCRIPT}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
+      <a href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${locale}',page_kind:'blog_index',target_url:'phone_contact',cta_zone:'footer'});" class="hover:text-white">+998 50 587 07 20</a>
       <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
     </div>
   </div>

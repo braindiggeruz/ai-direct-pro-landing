@@ -56,6 +56,17 @@
       "text": "ChatGPT O‘zbekistonda rasman ishlaydimi?"
     },
     {
+      "type": "linkp",
+      "text": "Agar siz aynan login bosqichini izlayotgan bo‘lsangiz, alohida {kirish} qo‘llanmasini oching: unda rasmiy domen, Log in, Sign up, xatolar va xavfsizlik qisqa berilgan.",
+      "links": [
+        {
+          "token": "kirish",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "ChatGPT kirish yo‘riqnomasi"
+        }
+      ]
+    },
+    {
       "type": "p",
       "text": "Ha. OpenAI’ning 2026-yil iyulda yangilangan «ChatGPT Supported Countries» hujjatida Uzbekistan web va mobil ilova qo‘llab-quvvatlanadigan hudud sifatida ko‘rsatilgan. Shu sababli O‘zbekiston IP-manzilidan chatgpt.com saytiga kirish uchun VPN talab qilinmaydi. Xizmatning ayrim funksiyalari, tariflari yoki mobil ilovadagi imkoniyatlar akkaunt va platformaga qarab farq qilishi mumkin."
     },
@@ -304,12 +315,44 @@
       "type": "linkp",
       "text": "Keyingi qadam: rasmiy ilovani topish uchun {download}, servislarni taqqoslash uchun {compare}, o‘zbekcha topshiriqlar uchun {prompts}.",
       "links": [
-        {"token":"download","target":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/","anchor":"ChatGPTni telefon va kompyuterda xavfsiz ochish"},
-        {"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini taqqoslovi"},
-        {"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta o‘zbekcha prompt"}
+        {
+          "token": "download",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "ChatGPTni telefon va kompyuterda xavfsiz ochish"
+        },
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini taqqoslovi"
+        },
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "50 ta o‘zbekcha prompt"
+        }
       ]
     },
-    {"type":"linkp","text":"Mijoz tomonida VPN, ro‘yxatdan o‘tish va til to‘sig‘i bo‘lmasligi kerak bo‘lsa, javob beruvchi tomonni avtomatlashtirish kerak: {tg} yoki {ariza}. Muddat va narx {narx}da qayd etilgan.","links":[{"token":"tg","target":"/uz/telegram-bot-biznes-uchun/","anchor":"Telegram’da ishlaydigan biznes bot"},{"token":"ariza","target":"/uz/arizalarni-avtomatlashtirish/","anchor":"arizalarni avtomatlashtirish"},{"token":"narx","target":"/uz/chat-bot-narxi/","anchor":"chat-bot narxi va muddati"}]},
+    {
+      "type": "linkp",
+      "text": "Mijoz tomonida VPN, ro‘yxatdan o‘tish va til to‘sig‘i bo‘lmasligi kerak bo‘lsa, javob beruvchi tomonni avtomatlashtirish kerak: {tg} yoki {ariza}. Muddat va narx {narx}da qayd etilgan.",
+      "links": [
+        {
+          "token": "tg",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "Telegram’da ishlaydigan biznes bot"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/arizalarni-avtomatlashtirish/",
+          "anchor": "arizalarni avtomatlashtirish"
+        },
+        {
+          "token": "narx",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot narxi va muddati"
+        }
+      ]
+    },
     {
       "type": "cta",
       "text": "O‘zbek tilidagi AI-chatni sinab ko‘rish",
@@ -367,6 +410,13 @@
     "href": "/uz/gpt-uzbek-tilida/"
   },
   "internalLinks": [
+    {
+      "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "anchor": "ChatGPTga qanday kirish mumkin",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
     {
       "target": "/uz/gpt-uzbek-tilida/",
       "anchor": "o‘zbek tilidagi AI-chat",
@@ -438,7 +488,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-26",
-  "dateModified": "2026-08-27",
+  "dateModified": "2026-09-01",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -446,7 +496,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-08-20T00:00:00.000Z",
+  "updatedAt": "2026-09-01",
   "createdAt": "2026-07-26T00:00:00.000Z",
   "sources": [
     {

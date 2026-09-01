@@ -1,76 +1,389 @@
 {
-  "status":"published",
-  "locale":"uz",
-  "slug":"chatgpt-telefon-va-kompyuterga-yuklab-olish",
-  "url":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
-  "title":"ChatGPT yuklab olish o‘zbek tilida: rasmiy havolalar",
-  "description":"Android, iPhone va kompyuter uchun rasmiy ChatGPT havolalari. Bepul, VPNsiz, o‘zbek tilida — va soxta APK’ni qanday farqlash kerak.",
-  "h1":"ChatGPT ilovasini yuklab olish va o‘zbek tilida ishlatish",
-  "topicCluster":"chatgpt-uzbek-tilida",
-  "targetMoneyPage":"/uz/gpt-uzbek-tilida/",
-  "keywords":["chatgpt ilovasini yuklab olish","chatgpt yuklab olish uzbek tilida","chatgpt uzbek tilida yuklash","chatgpt yuklab olish","chat gpt android","chatgpt iphone","chatgpt kompyuterga o‘rnatish"],
-  "intro":"ChatGPT ilovasini yuklab olish uchun Androidda Google Play, iPhone va iPadda App Store, kompyuterda esa OpenAI rasmiy download sahifasidan foydalaning. O‘zbek tilida ishlash uchun alohida «uzbekcha APK» kerak emas: so‘rovni o‘zbekcha yozish kifoya. Brauzerda chatgpt.com orqali ilovasiz ham ishlash mumkin.",
-  "body":[
-    {"type":"figure","src":"/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp","srcSet":"/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-480.webp 480w, /assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-800.webp 800w, /assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp 1200w","sizes":"(max-width: 768px) 100vw, 768px","alt":"Telefon va noutbukda xavfsiz AI chat o‘rnatish jarayoni","width":1200,"height":630,"loading":"eager","caption":"Ilova nomiga emas, rasmiy do‘kon va ishlab chiquvchi nomiga qarang."},
-    {"type":"quote","text":"Qisqa javob: kompyuterda chatgpt.com saytini ochish yetarli; telefonda esa rasmiy do‘kondagi, nashriyotchisi OpenAI bo‘lgan ilovani tanlang."},
-    {"type":"linkp","text":"Rasmiy yuklab olish manzillari: Android uchun {android}, iPhone va iPad uchun {ios}, Windows yoki macOS uchun {desktop}. O‘zbekistonda xizmat mavjudligini {countries} ro‘yxatidan tekshirish mumkin.","links":[{"token":"android","target":"https://play.google.com/store/apps/details?id=com.openai.chatgpt&hl=uz","anchor":"Google Play’dagi ChatGPT"},{"token":"ios","target":"https://apps.apple.com/uz/app/chatgpt/id6448311069","anchor":"App Store’dagi ChatGPT"},{"token":"desktop","target":"https://chatgpt.com/download/","anchor":"ChatGPT download sahifasi"},{"token":"countries","target":"https://help.openai.com/en/articles/7947663-chatgpt-supported-countries","anchor":"OpenAI qo‘llab-quvvatlanadigan mamlakatlar"}]},
-    {"type":"toc","text":"Yo‘riqnoma","links":[{"anchor":"web","label":"Brauzerda ishlatish"},{"anchor":"android","label":"Android"},{"anchor":"iphone","label":"iPhone"},{"anchor":"pc","label":"Kompyuter"},{"anchor":"xavfsizlik","label":"Soxta ilovalar"},{"anchor":"uzbek","label":"O‘zbek tili"}]},
-    {"type":"h2","id":"web","text":"ChatGPTni yuklamasdan ishlatsa bo‘ladimi?"},
-    {"type":"p","text":"Ha. OpenAI rasmiy FAQ sahifasida ChatGPT web orqali chatgpt.com manzilida ishlashi ko‘rsatilgan. Zamonaviy brauzer, barqaror internet va hisobga kirish kifoya. Bu umumiy yoki ish kompyuteriga ortiqcha dastur o‘rnatishni xohlamaydigan foydalanuvchi uchun eng sodda yo‘l."},
-    {"type":"list","items":["Brauzer manzil satriga chatgpt.com ni o‘zingiz yozing.","Domen yozilishini tekshiring; reklamadagi o‘xshash domenni ochmang.","Hisobga kirishda ishlatilgan email va tasdiqlash usulini saqlang.","Umumiy qurilmada ish tugagach hisobdan chiqing."]},
-    {"type":"h2","id":"android","text":"Android telefoniga rasmiy ChatGPT ilovasini o‘rnatish"},
-    {"type":"p","text":"Google Play’ni oching, ChatGPTni qidiring va ilova sahifasidagi ishlab chiquvchi nomini tekshiring. Noma’lum sayt taklif qilgan APK faylni o‘rnatmang. Do‘kon ilovani ko‘rsatmasa, hudud yoki qurilma talabi sabab bo‘lishi mumkin; bunday holatda rasmiy web-versiyadan foydalanish xavfsizroq."},
-    {"type":"h3","text":"Android uchun bosqichlar"},
-    {"type":"list","items":["Google Play’ni oching va «ChatGPT» deb qidiring.","Nashriyotchi OpenAI ekanini, sharh emas aynan ilova ma’lumotini tekshiring.","So‘ralgan ruxsatlarni ko‘rib chiqing va o‘rnating.","Ilovani ochib, mavjud hisobga kiring yoki hisob yarating.","Birinchi so‘rovda maxfiy ma’lumot yubormang."]},
-    {"type":"h2","id":"iphone","text":"iPhone va iPad uchun ChatGPT"},
-    {"type":"p","text":"OpenAI o‘z yordam sahifasida iOS ilovasini App Store’dan yuklab olishni va rasmiy ilovani topish uchun nashriyotchi OpenAI ekanini tekshirishni tavsiya qiladi. App Store obunalari Apple hisobingiz orqali boshqariladi; xarid qilishdan oldin ekrandagi narx va davriylikni o‘qing."},
-    {"type":"h2","id":"pc","text":"Windows yoki macOS kompyuterida qanday ishlatish kerak?"},
-    {"type":"table","headers":["Variant","Qachon tanlash kerak","Tekshiruv"],"rows":[["Web-versiya","Tez boshlash va istalgan kompyuterda ishlash uchun","Faqat chatgpt.com domeni"],["Rasmiy desktop ilova","Doimiy shaxsiy qurilmada qulay integratsiya kerak bo‘lsa","Havolani OpenAI rasmiy saytidan ochish"],["Mustaqil AI chat","O‘zbekcha interfeys yoki boshqa ish oqimi kerak bo‘lsa","Xizmat egasi, maxfiylik va tarifni tekshirish"]]},
-    {"type":"p","text":"Desktop dasturini qidiruvdagi tasodifiy «download» katalogidan emas, rasmiy OpenAI sahifasidan boshlang. Korporativ kompyuterda dastur o‘rnatishdan oldin IT siyosatini tekshiring. Faqat chat kerak bo‘lsa, web-versiya ko‘pincha yetarli."},
-    {"type":"h2","id":"xavfsizlik","text":"Soxta ChatGPT ilovasini qanday aniqlash mumkin?"},
-    {"type":"list","items":["Ilova «bepul umrbod Plus» yoki cheksiz premium va’da qiladi.","APK yoki arxivni messenjer orqali yuklashni so‘raydi.","Karta ma’lumotini rasmiy do‘kon yoki rasmiy checkoutdan tashqarida kiritishni talab qiladi.","Nashriyotchi nomi OpenAIga o‘xshatilgan, lekin aynan bir xil emas.","Keraksiz kontakt, SMS yoki accessibility ruxsatini talab qiladi.","Login sahifasining domeni chatgpt.com yoki openai.com emas."]},
-    {"type":"p","text":"Shubhali faylni o‘rnatgan bo‘lsangiz, uni o‘chirish bilan cheklanmay: qurilmani tekshiring, hisob parolini yangilang, faol sessiyalarni nazorat qiling va to‘lov tarixini ko‘ring. Bir xil parol boshqa saytda ishlatilgan bo‘lsa, u yerda ham almashtiring."},
-    {"type":"h2","id":"uzbek","text":"ChatGPTda o‘zbek tilida qanday yozish kerak?"},
-    {"type":"p","text":"Interfeys tili va javob tili bir xil narsa emas. So‘rovni o‘zbekcha yozing va kerak bo‘lsa «faqat Uzbek Latin ishlat, sodda va qisqa javob ber» deb qo‘shing. Natija sifati vazifa, kontekst va terminlarning aniqligiga bog‘liq."},
-    {"type":"linkp","text":"O‘zbekcha so‘rovlarni o‘rnatmasdan {chat}da sinash, tayyor topshiriqlarni {prompts}dan olish va O‘zbekistondagi rasmiy kirish holatini {access}da tekshirish mumkin.","links":[{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"o‘zbek tilidagi AI chat"},{"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta tayyor prompt"},{"token":"access","target":"/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/","anchor":"ChatGPT O‘zbekistonda ishlashi haqidagi qo‘llanma"}]},
-    {"type":"linkp","text":"Agar maqsad ChatGPT’dan shaxsiy foydalanish emas, balki mijozlarga javob berish bo‘lsa, bu boshqa vazifa: {b2b}. Kanallar, ssenariy va CRM integratsiyasiga qarab narx {narx} jadvalida ko‘rsatilgan.","links":[{"token":"b2b","target":"/uz/biznes-uchun-ai-bot/","anchor":"mijozlarga javob beradigan AI-bot"},{"token":"narx","target":"/uz/chat-bot-narxi/","anchor":"tariflar va ishga tushirish muddatlari"}]},
-    {"type":"cta","text":"O‘zbek tilida AI chatni brauzerda ochish","href":"/uz/gpt-uzbek-tilida/"}
+  "status": "published",
+  "locale": "uz",
+  "slug": "chatgpt-telefon-va-kompyuterga-yuklab-olish",
+  "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+  "title": "ChatGPT yuklab olish: telefon va kompyuterga o‘rnatish — 2026",
+  "description": "ChatGPTni telefon yoki kompyuterga xavfsiz yuklab olish: rasmiy ilova, brauzer, Android/iPhone, xatolar va O‘zbekistonda VPNsiz ishlash.",
+  "h1": "ChatGPT yuklab olish: telefon va kompyuterga xavfsiz o‘rnatish",
+  "topicCluster": "chatgpt-uzbek-tilida",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "chatgpt ilovasini yuklab olish",
+    "chatgpt yuklab olish uzbek tilida",
+    "chatgpt uzbek tilida yuklash",
+    "chatgpt yuklab olish",
+    "chat gpt android",
+    "chatgpt iphone",
+    "chatgpt kompyuterga o‘rnatish"
   ],
-  "faq":[
-    {"q":"ChatGPTni kompyuterga yuklash shartmi?","a":"Yo‘q. chatgpt.com rasmiy web-versiyasi brauzerda ishlaydi. Desktop ilova qulaylik uchun tanlanadi."},
-    {"q":"ChatGPTning rasmiy Android ilovasi bormi?","a":"Ha. Uni Google Play orqali o‘rnating va ilova ma’lumotida ishlab chiquvchi OpenAI ekanini tekshiring."},
-    {"q":"iPhone uchun rasmiy ilovani qanday topaman?","a":"App Store’da ChatGPTni qidiring va nashriyotchi OpenAI ekanini tekshiring. OpenAI rasmiy yordam sahifasi ham to‘g‘ridan-to‘g‘ri havola beradi."},
-    {"q":"ChatGPT APK faylini yuklab olsa bo‘ladimi?","a":"Noma’lum saytdan APK yuklash tavsiya etilmaydi. Google Play mavjud bo‘lmasa, rasmiy web-versiyadan foydalaning."},
-    {"q":"ChatGPT o‘zbek tilida javob beradimi?","a":"O‘zbekcha savol va kerakli formatni yozsangiz, o‘zbek tilida javob olishingiz mumkin. Muhim faktlarni tekshiring."},
-    {"q":"Ilova bepulmi?","a":"Rasmiy xizmatning bepul rejasi mavjud, pulli funksiyalar va limitlar o‘zgarishi mumkin. Joriy shartlarni rasmiy ilova yoki sayt ichida tekshiring."}
+  "intro": "ChatGPT ilovasini yuklab olish uchun Androidda Google Play, iPhone va iPadda App Store, kompyuterda esa OpenAI rasmiy download sahifasidan foydalaning. O‘zbek tilida ishlash uchun alohida «uzbekcha APK» kerak emas: so‘rovni o‘zbekcha yozish kifoya. Brauzerda chatgpt.com orqali ilovasiz ham ishlash mumkin.",
+  "body": [
+    {
+      "type": "figure",
+      "src": "/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
+      "srcSet": "/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-480.webp 480w, /assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-800.webp 800w, /assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp 1200w",
+      "sizes": "(max-width: 768px) 100vw, 768px",
+      "alt": "Telefon va noutbukda xavfsiz AI chat o‘rnatish jarayoni",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Ilova nomiga emas, rasmiy do‘kon va ishlab chiquvchi nomiga qarang."
+    },
+    {
+      "type": "quote",
+      "text": "Qisqa javob: kompyuterda chatgpt.com saytini ochish yetarli; telefonda esa rasmiy do‘kondagi, nashriyotchisi OpenAI bo‘lgan ilovani tanlang."
+    },
+    {
+      "type": "linkp",
+      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {tg}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy yuklab olish manzillari: Android uchun {android}, iPhone va iPad uchun {ios}, Windows yoki macOS uchun {desktop}. O‘zbekistonda xizmat mavjudligini {countries} ro‘yxatidan tekshirish mumkin.",
+      "links": [
+        {
+          "token": "android",
+          "target": "https://play.google.com/store/apps/details?id=com.openai.chatgpt&hl=uz",
+          "anchor": "Google Play’dagi ChatGPT"
+        },
+        {
+          "token": "ios",
+          "target": "https://apps.apple.com/uz/app/chatgpt/id6448311069",
+          "anchor": "App Store’dagi ChatGPT"
+        },
+        {
+          "token": "desktop",
+          "target": "https://chatgpt.com/download/",
+          "anchor": "ChatGPT download sahifasi"
+        },
+        {
+          "token": "countries",
+          "target": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
+          "anchor": "OpenAI qo‘llab-quvvatlanadigan mamlakatlar"
+        }
+      ]
+    },
+    {
+      "type": "toc",
+      "text": "Yo‘riqnoma",
+      "links": [
+        {
+          "anchor": "web",
+          "label": "Brauzerda ishlatish"
+        },
+        {
+          "anchor": "android",
+          "label": "Android"
+        },
+        {
+          "anchor": "iphone",
+          "label": "iPhone"
+        },
+        {
+          "anchor": "pc",
+          "label": "Kompyuter"
+        },
+        {
+          "anchor": "xavfsizlik",
+          "label": "Soxta ilovalar"
+        },
+        {
+          "anchor": "uzbek",
+          "label": "O‘zbek tili"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "web",
+      "text": "ChatGPTni yuklamasdan ishlatsa bo‘ladimi?"
+    },
+    {
+      "type": "p",
+      "text": "Ha. OpenAI rasmiy FAQ sahifasida ChatGPT web orqali chatgpt.com manzilida ishlashi ko‘rsatilgan. Zamonaviy brauzer, barqaror internet va hisobga kirish kifoya. Bu umumiy yoki ish kompyuteriga ortiqcha dastur o‘rnatishni xohlamaydigan foydalanuvchi uchun eng sodda yo‘l."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Brauzer manzil satriga chatgpt.com ni o‘zingiz yozing.",
+        "Domen yozilishini tekshiring; reklamadagi o‘xshash domenni ochmang.",
+        "Hisobga kirishda ishlatilgan email va tasdiqlash usulini saqlang.",
+        "Umumiy qurilmada ish tugagach hisobdan chiqing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "android",
+      "text": "Android telefoniga rasmiy ChatGPT ilovasini o‘rnatish"
+    },
+    {
+      "type": "p",
+      "text": "Google Play’ni oching, ChatGPTni qidiring va ilova sahifasidagi ishlab chiquvchi nomini tekshiring. Noma’lum sayt taklif qilgan APK faylni o‘rnatmang. Do‘kon ilovani ko‘rsatmasa, hudud yoki qurilma talabi sabab bo‘lishi mumkin; bunday holatda rasmiy web-versiyadan foydalanish xavfsizroq."
+    },
+    {
+      "type": "h3",
+      "text": "Android uchun bosqichlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Google Play’ni oching va «ChatGPT» deb qidiring.",
+        "Nashriyotchi OpenAI ekanini, sharh emas aynan ilova ma’lumotini tekshiring.",
+        "So‘ralgan ruxsatlarni ko‘rib chiqing va o‘rnating.",
+        "Ilovani ochib, mavjud hisobga kiring yoki hisob yarating.",
+        "Birinchi so‘rovda maxfiy ma’lumot yubormang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "iphone",
+      "text": "iPhone va iPad uchun ChatGPT"
+    },
+    {
+      "type": "p",
+      "text": "OpenAI o‘z yordam sahifasida iOS ilovasini App Store’dan yuklab olishni va rasmiy ilovani topish uchun nashriyotchi OpenAI ekanini tekshirishni tavsiya qiladi. App Store obunalari Apple hisobingiz orqali boshqariladi; xarid qilishdan oldin ekrandagi narx va davriylikni o‘qing."
+    },
+    {
+      "type": "h2",
+      "id": "pc",
+      "text": "Windows yoki macOS kompyuterida qanday ishlatish kerak?"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Variant",
+        "Qachon tanlash kerak",
+        "Tekshiruv"
+      ],
+      "rows": [
+        [
+          "Web-versiya",
+          "Tez boshlash va istalgan kompyuterda ishlash uchun",
+          "Faqat chatgpt.com domeni"
+        ],
+        [
+          "Rasmiy desktop ilova",
+          "Doimiy shaxsiy qurilmada qulay integratsiya kerak bo‘lsa",
+          "Havolani OpenAI rasmiy saytidan ochish"
+        ],
+        [
+          "Mustaqil AI chat",
+          "O‘zbekcha interfeys yoki boshqa ish oqimi kerak bo‘lsa",
+          "Xizmat egasi, maxfiylik va tarifni tekshirish"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Desktop dasturini qidiruvdagi tasodifiy «download» katalogidan emas, rasmiy OpenAI sahifasidan boshlang. Korporativ kompyuterda dastur o‘rnatishdan oldin IT siyosatini tekshiring. Faqat chat kerak bo‘lsa, web-versiya ko‘pincha yetarli."
+    },
+    {
+      "type": "h2",
+      "id": "xavfsizlik",
+      "text": "Soxta ChatGPT ilovasini qanday aniqlash mumkin?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ilova «bepul umrbod Plus» yoki cheksiz premium va’da qiladi.",
+        "APK yoki arxivni messenjer orqali yuklashni so‘raydi.",
+        "Karta ma’lumotini rasmiy do‘kon yoki rasmiy checkoutdan tashqarida kiritishni talab qiladi.",
+        "Nashriyotchi nomi OpenAIga o‘xshatilgan, lekin aynan bir xil emas.",
+        "Keraksiz kontakt, SMS yoki accessibility ruxsatini talab qiladi.",
+        "Login sahifasining domeni chatgpt.com yoki openai.com emas."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Shubhali faylni o‘rnatgan bo‘lsangiz, uni o‘chirish bilan cheklanmay: qurilmani tekshiring, hisob parolini yangilang, faol sessiyalarni nazorat qiling va to‘lov tarixini ko‘ring. Bir xil parol boshqa saytda ishlatilgan bo‘lsa, u yerda ham almashtiring."
+    },
+    {
+      "type": "h2",
+      "id": "uzbek",
+      "text": "ChatGPTda o‘zbek tilida qanday yozish kerak?"
+    },
+    {
+      "type": "p",
+      "text": "Interfeys tili va javob tili bir xil narsa emas. So‘rovni o‘zbekcha yozing va kerak bo‘lsa «faqat Uzbek Latin ishlat, sodda va qisqa javob ber» deb qo‘shing. Natija sifati vazifa, kontekst va terminlarning aniqligiga bog‘liq."
+    },
+    {
+      "type": "linkp",
+      "text": "O‘zbekcha so‘rovlarni o‘rnatmasdan {chat}da sinash, tayyor topshiriqlarni {prompts}dan olish va O‘zbekistondagi rasmiy kirish holatini {access}da tekshirish mumkin.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "50 ta tayyor prompt"
+        },
+        {
+          "token": "access",
+          "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "anchor": "ChatGPT O‘zbekistonda ishlashi haqidagi qo‘llanma"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Agar maqsad ChatGPT’dan shaxsiy foydalanish emas, balki mijozlarga javob berish bo‘lsa, bu boshqa vazifa: {b2b}. Kanallar, ssenariy va CRM integratsiyasiga qarab narx {narx} jadvalida ko‘rsatilgan.",
+      "links": [
+        {
+          "token": "b2b",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "mijozlarga javob beradigan AI-bot"
+        },
+        {
+          "token": "narx",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "tariflar va ishga tushirish muddatlari"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "O‘zbek tilida AI chatni brauzerda ochish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
   ],
-  "cta":{"label":"AI chatni yuklamasdan ochish","href":"/uz/gpt-uzbek-tilida/"},
-  "internalLinks":[
-    {"target":"/uz/gpt-uzbek-tilida/","anchor":"o‘zbek tilidagi AI chat","locale":"uz","type":"contextual","priority":1},
-    {"target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"o‘zbekcha ChatGPT promptlar","locale":"uz","type":"contextual","priority":2},
-    {"target":"/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/","anchor":"ChatGPT O‘zbekistonda","locale":"uz","type":"contextual","priority":3},
-    {"target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini","locale":"uz","type":"contextual","priority":4},
-    {"target":"/uz/gpt-uzbek-tilida-ai-chat/","anchor":"GPTdan foydalanish qo‘llanmasi","locale":"uz","type":"contextual","priority":5}
+  "faq": [
+    {
+      "q": "ChatGPTni kompyuterga yuklash shartmi?",
+      "a": "Yo‘q. chatgpt.com rasmiy web-versiyasi brauzerda ishlaydi. Desktop ilova qulaylik uchun tanlanadi."
+    },
+    {
+      "q": "ChatGPTning rasmiy Android ilovasi bormi?",
+      "a": "Ha. Uni Google Play orqali o‘rnating va ilova ma’lumotida ishlab chiquvchi OpenAI ekanini tekshiring."
+    },
+    {
+      "q": "iPhone uchun rasmiy ilovani qanday topaman?",
+      "a": "App Store’da ChatGPTni qidiring va nashriyotchi OpenAI ekanini tekshiring. OpenAI rasmiy yordam sahifasi ham to‘g‘ridan-to‘g‘ri havola beradi."
+    },
+    {
+      "q": "ChatGPT APK faylini yuklab olsa bo‘ladimi?",
+      "a": "Noma’lum saytdan APK yuklash tavsiya etilmaydi. Google Play mavjud bo‘lmasa, rasmiy web-versiyadan foydalaning."
+    },
+    {
+      "q": "ChatGPT o‘zbek tilida javob beradimi?",
+      "a": "O‘zbekcha savol va kerakli formatni yozsangiz, o‘zbek tilida javob olishingiz mumkin. Muhim faktlarni tekshiring."
+    },
+    {
+      "q": "Ilova bepulmi?",
+      "a": "Rasmiy xizmatning bepul rejasi mavjud, pulli funksiyalar va limitlar o‘zgarishi mumkin. Joriy shartlarni rasmiy ilova yoki sayt ichida tekshiring."
+    }
   ],
-  "ogTitle":"ChatGPT yuklab olish: rasmiy havola va soxta APK xavfi",
-  "ogDescription":"Android, iPhone, Windows va macOS uchun rasmiy ChatGPT havolalari, o‘zbek tilida ishlatish va soxta APKdan himoya.",
-  "ogImage":"https://gptbot.uz/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
-  "canonical":"https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
-  "hreflangUz":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
-  "robotsIndex":true,
-  "robotsFollow":true,
-  "author":"Борис Герасимов",
-  "datePublished":"2026-07-30",
-  "dateModified":"2026-08-27",
-  "schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
-  "createdAt":"2026-07-30T00:00:00.000Z",
-  "updatedAt":"2026-08-20T00:00:00.000Z",
-  "sources":[
-    {"title":"OpenAI Help Center — What is ChatGPT?","url":"https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq","note":"ChatGPT web, iOS va Android orqali ishlashi; 2026-08-20 kuni tekshirildi."},
-    {"title":"OpenAI Help Center — official ChatGPT iOS app","url":"https://help.openai.com/en/articles/7908378-where-can-i-download-the-openai-chatgpt-ios-app-on-the-apple-app-store","note":"App Store’da nashriyotchi OpenAI ekanini tekshirish bo‘yicha rasmiy yo‘riqnoma; 2026-08-20 kuni tekshirildi."},
-    {"title":"OpenAI Help Center — supported countries","url":"https://help.openai.com/en/articles/7947663-chatgpt-supported-countries","note":"ChatGPT web va mobil xizmatlari qo‘llab-quvvatlanadigan hududlar; 2026-08-20 kuni tekshirildi."},
-    {"title":"Google Play — ChatGPT by OpenAI","url":"https://play.google.com/store/apps/details?id=com.openai.chatgpt&hl=uz","note":"Android uchun rasmiy ilova sahifasi; 2026-08-20 kuni tekshirildi."},
-    {"title":"Apple App Store — ChatGPT","url":"https://apps.apple.com/uz/app/chatgpt/id6448311069","note":"O‘zbekiston App Store hududidagi rasmiy iPhone va iPad ilovasi; 2026-08-20 kuni tekshirildi."},
-    {"title":"ChatGPT — Download","url":"https://chatgpt.com/download/","note":"Windows va macOS uchun rasmiy yuklab olish sahifasi; 2026-08-20 kuni tekshirildi."}
+  "cta": {
+    "label": "AI chatni yuklamasdan ochish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbek tilidagi AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "o‘zbekcha ChatGPT promptlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "anchor": "ChatGPT O‘zbekistonda",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "anchor": "ChatGPT, Claude va Gemini",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida-ai-chat/",
+      "anchor": "GPTdan foydalanish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "sayt uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "ChatGPT yuklab olish: rasmiy havola va soxta APK xavfi",
+  "ogDescription": "Android, iPhone, Windows va macOS uchun rasmiy ChatGPT havolalari, o‘zbek tilida ishlatish va soxta APKdan himoya.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+  "hreflangUz": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "datePublished": "2026-07-30",
+  "dateModified": "2026-09-01",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "createdAt": "2026-07-30T00:00:00.000Z",
+  "updatedAt": "2026-09-01",
+  "sources": [
+    {
+      "title": "OpenAI Help Center — What is ChatGPT?",
+      "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq",
+      "note": "ChatGPT web, iOS va Android orqali ishlashi; 2026-08-20 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — official ChatGPT iOS app",
+      "url": "https://help.openai.com/en/articles/7908378-where-can-i-download-the-openai-chatgpt-ios-app-on-the-apple-app-store",
+      "note": "App Store’da nashriyotchi OpenAI ekanini tekshirish bo‘yicha rasmiy yo‘riqnoma; 2026-08-20 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — supported countries",
+      "url": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
+      "note": "ChatGPT web va mobil xizmatlari qo‘llab-quvvatlanadigan hududlar; 2026-08-20 kuni tekshirildi."
+    },
+    {
+      "title": "Google Play — ChatGPT by OpenAI",
+      "url": "https://play.google.com/store/apps/details?id=com.openai.chatgpt&hl=uz",
+      "note": "Android uchun rasmiy ilova sahifasi; 2026-08-20 kuni tekshirildi."
+    },
+    {
+      "title": "Apple App Store — ChatGPT",
+      "url": "https://apps.apple.com/uz/app/chatgpt/id6448311069",
+      "note": "O‘zbekiston App Store hududidagi rasmiy iPhone va iPad ilovasi; 2026-08-20 kuni tekshirildi."
+    },
+    {
+      "title": "ChatGPT — Download",
+      "url": "https://chatgpt.com/download/",
+      "note": "Windows va macOS uchun rasmiy yuklab olish sahifasi; 2026-08-20 kuni tekshirildi."
+    }
   ]
 }

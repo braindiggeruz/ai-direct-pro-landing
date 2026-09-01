@@ -18,9 +18,9 @@
     "sun’iy intellekt chat"
   ],
   "searchIntent": "transactional",
-  "h1": "O‘zbek tilida AI chat online",
-  "title": "ChatGPT o‘zbek tilida — bepul, ro‘yxatsiz | GPTBot.uz",
-  "description": "O‘zbek tilida AI chat: savol bering, tarjima qiling, matn yozing. Bepul, ro‘yxatdan o‘tmasdan, VPNsiz — brauzerda darhol ishlaydi.",
+  "h1": "ChatGPT o‘zbek tilida online",
+  "title": "ChatGPT o‘zbek tilida online — bepul AI chat | GPTBot.uz",
+  "description": "ChatGPT o‘zbek tilida online: matn, tarjima, reja va savollar uchun brauzerda AI chat. Ro‘yxatsiz sinab ko‘ring, maxfiy ma’lumot yubormang.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
@@ -44,6 +44,22 @@
     {
       "type": "p",
       "text": "Muhim aniqlik: GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. «ChatGPT» nomi ushbu sahifada foydalanuvchi izlaydigan texnologiya va xizmat turini tushuntirish uchun ishlatiladi. AI xato qilishi mumkin — muhim faktlarni birlamchi manbadan tekshiring. Parol, karta raqami, hujjat va boshqa maxfiy ma’lumotlarni kiritmang."
+    },
+    {
+      "type": "linkp",
+      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {tg}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
     },
     {
       "type": "linkp",
@@ -99,22 +115,52 @@
     },
     {
       "type": "table",
-      "headers": ["Vazifa", "Tayyor so‘rov"],
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
       "rows": [
-        ["Matn", "«Quyidagi matnni sodda Uzbek Latin tilida tahrir qil, ma’noni o‘zgartirma: …»"],
-        ["Tarjima", "«Ruscha matnni tabiiy o‘zbekchaga tarjima qil, yangi fakt qo‘shma: …»"],
-        ["O‘qish", "«Mavzuni 15 yoshli o‘quvchiga misol bilan tushuntir va 5 savol ber: …»"],
-        ["Marketing", "«Mahsulot uchun 5 ta Telegram sarlavhasi yoz, asossiz va’da ishlatma: …»"],
-        ["Ish", "«Yig‘ilish qaydlarini qaror, mas’ul va muddat jadvaliga aylantir: …»"]
+        [
+          "Matn",
+          "«Quyidagi matnni sodda Uzbek Latin tilida tahrir qil, ma’noni o‘zgartirma: …»"
+        ],
+        [
+          "Tarjima",
+          "«Ruscha matnni tabiiy o‘zbekchaga tarjima qil, yangi fakt qo‘shma: …»"
+        ],
+        [
+          "O‘qish",
+          "«Mavzuni 15 yoshli o‘quvchiga misol bilan tushuntir va 5 savol ber: …»"
+        ],
+        [
+          "Marketing",
+          "«Mahsulot uchun 5 ta Telegram sarlavhasi yoz, asossiz va’da ishlatma: …»"
+        ],
+        [
+          "Ish",
+          "«Yig‘ilish qaydlarini qaror, mas’ul va muddat jadvaliga aylantir: …»"
+        ]
       ]
     },
     {
       "type": "linkp",
       "text": "Ko‘proq misol uchun {prompts}, o‘qish ssenariylari uchun {students}, servislarni tanlash uchun {compare} maqolalarini oching.",
       "links": [
-        {"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"o‘zbek tilidagi 50 ta tayyor prompt"},
-        {"token":"students","target":"/uz/blog/chatgpt-talabalar-uchun/","anchor":"ChatGPT talabalar uchun"},
-        {"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini taqqoslovi"}
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "o‘zbek tilidagi 50 ta tayyor prompt"
+        },
+        {
+          "token": "students",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "ChatGPT talabalar uchun"
+        },
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini taqqoslovi"
+        }
       ]
     },
     {
@@ -129,8 +175,16 @@
       "type": "linkp",
       "text": "Rasmiy xizmatning O‘zbekistondagi mavjudligi haqida {access}; ChatGPT, Claude va Gemini farqi haqida {compare}.",
       "links": [
-        {"token":"access","target":"/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/","anchor":"ChatGPT O‘zbekistonda VPNsiz ishlashi"},
-        {"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"AI chatlarni halol taqqoslash"}
+        {
+          "token": "access",
+          "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "anchor": "ChatGPT O‘zbekistonda VPNsiz ishlashi"
+        },
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "AI chatlarni halol taqqoslash"
+        }
       ]
     },
     {
@@ -159,21 +213,33 @@
       "type": "linkp",
       "text": "AI chat ijtimoiy tarmoqlar uchun g‘oya va matn qoralamasini beradi. Muntazam rubrikalar, nashr taqvimi va natijani o‘lchash kerak bo‘lsa, {smm} alohida ish jarayoni sifatida quriladi.",
       "links": [
-        {"token":"smm","target":"/uz/smm-xizmatlari/","anchor":"ijtimoiy tarmoqlar uchun kontent tayyorlash xizmati"}
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "ijtimoiy tarmoqlar uchun kontent tayyorlash xizmati"
+        }
       ]
     },
     {
       "type": "linkp",
       "text": "AI chat matn va g‘oya beradi, lekin mijoz taklifni ko‘rishi, narxni tushunishi va ariza qoldirishi uchun alohida joy kerak bo‘ladi. Shu vazifani {sayt} yopadi: bitta sahifa, aniq taklif va ishlaydigan ariza formasi.",
       "links": [
-        {"token":"sayt","target":"/uz/sayt-yaratish/","anchor":"biznes uchun sayt yaratish"}
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "biznes uchun sayt yaratish"
+        }
       ]
     },
     {
       "type": "linkp",
       "text": "Kompaniyalar uchun farq va joriy etish rejasi {business} maqolasida.",
       "links": [
-        {"token":"business","target":"/uz/blog/chat-gpt-uzbek-biznes-uchun/","anchor":"ChatGPT va AI-bot biznes uchun"}
+        {
+          "token": "business",
+          "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "anchor": "ChatGPT va AI-bot biznes uchun"
+        }
       ]
     },
     {
@@ -299,6 +365,12 @@
       "anchor": "Telegramdagi GPTBot Javob",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "sayt uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -326,7 +398,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-08-27",
+  "lastReviewedAt": "2026-09-01",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-08-25"
+  "updatedAt": "2026-09-01"
 }

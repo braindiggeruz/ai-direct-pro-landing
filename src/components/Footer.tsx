@@ -47,6 +47,8 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
   const lBlog = isUz ? 'Blog' : 'Блог';
   const lSitemap = 'Sitemap';
   const lDemo = t.nav.cta;
+  const phoneLabel = isUz ? 'Qo‘ng‘iroq qilish: +998 50 587 07 20' : 'Позвонить: +998 50 587 07 20';
+  const officeLabel = isUz ? "Ofis: Yahyo Gulyamov ko'chasi 35, Toshkent" : "Офис: Yahyo Gulyamov ko'chasi 35, Ташкент";
   return (
     <footer id="contacts" data-testid="site-footer" className="relative pt-16 pb-32 sm:pb-12 border-t border-white/5 bg-bg-base/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -72,7 +74,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
               href={ctaUrl}
               target="_blank"
               rel="nofollow noopener noreferrer"
-              onClick={() => track('click_footer_cta')}
+              onClick={() => track('click_footer_cta', { contact_method: 'telegram', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: ctaUrl, cta_zone: 'footer_primary' })}
               className="btn-primary !py-2.5 !px-4 text-sm"
             >
               {lDemo}
@@ -149,10 +151,21 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
             <h3 className="text-white font-semibold text-sm mb-4">{lContacts}</h3>
             <ul className="space-y-2.5 text-sm">
               <li>
+                <a
+                  href="tel:+998505870720"
+                  data-testid="footer-phone"
+                  className="text-white/65 hover:text-brand-cyan transition"
+                  onClick={() => track('contact_click', { contact_method: 'phone', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: 'phone_contact', cta_zone: 'footer' })}
+                >
+                  {phoneLabel}
+                </a>
+              </li>
+              <li>
                 <a href="https://t.me/XGame_changerx" target="_blank" rel="nofollow noopener noreferrer" data-testid="footer-telegram" className="text-white/65 hover:text-brand-cyan transition">
                   Telegram bot
                 </a>
               </li>
+              <li className="text-white/50 leading-relaxed" data-testid="footer-office-address">{officeLabel}</li>
             </ul>
           </div>
         </div>

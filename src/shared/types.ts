@@ -220,6 +220,10 @@ export interface GlobalSEO {
   instagram?: string;
   /** Human-readable single-line address (footer + JSON-LD short form). */
   address?: string;
+  /** Street address used in Organization.address.PostalAddress when publicly confirmed. */
+  streetAddress?: string;
+  /** Postal code used in Organization.address.PostalAddress when known. */
+  postalCode?: string;
   /** Locality used in Organization.address.PostalAddress. */
   addressLocality?: string;
   /** ISO 3166-1 alpha-2 country code used in Organization.address.PostalAddress. */

@@ -3,9 +3,9 @@
   "locale": "ru",
   "slug": "chatgpt-i-claude-v-uzbekistane",
   "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
-  "title": "ChatGPT и Claude в Узбекистане 2026: оплата и внедрение",
-  "description": "Как зарегистрироваться и оплатить ChatGPT и Claude из Узбекистана: тарифы в сумах, оплата картой узбекского банка без VPN и посредников, сравнение с Gemini.",
-  "h1": "ChatGPT и Claude в Узбекистане 2026: полный гид по регистрации, оплате и внедрению",
+  "title": "ChatGPT и Claude в Узбекистане 2026: доступ, оплата, сравнение",
+  "description": "ChatGPT и Claude в Узбекистане: работают ли без VPN, как зайти, оплатить и выбрать сервис. Сравнение с Gemini и правила безопасности.",
+  "h1": "ChatGPT и Claude в Узбекистане: доступ, оплата и сравнение",
   "topicCluster": "ai-bot-basics",
   "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
@@ -32,6 +32,22 @@
     {
       "type": "p",
       "text": "ChatGPT и Claude официально работают в Узбекистане — без VPN, посредников и «серых» схем. Регистрация занимает две минуты, номер +998 принимается, подписка оплачивается картой Visa или Mastercard любого узбекского банка напрямую. Самый доступный вход — тариф ChatGPT Go за $5 в месяц (≈61 000 сумов), запущенный для Узбекистана в октябре 2025 года. Покупать подписки у перекупщиков на маркетплейсах или через российские сервисы-посредники не нужно: вы переплатите 20–40% за то, что доступно напрямую."
+    },
+    {
+      "type": "linkp",
+      "text": "Нужно внедрить ChatGPT или AI-бота в бизнес? {call} или {tg}: за 15 минут разберём задачу и подскажем решение.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Позвонить"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -399,6 +415,12 @@
       "anchor": "Как AI-бот понимает узбекский язык",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "sayt uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "ChatGPT и Claude в Узбекистане 2026: регистрация, оплата, внедрение",
@@ -410,7 +432,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-08",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-01",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -419,7 +441,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-08T00:00:00.000Z",
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-09-01",
   "sources": [
     {
       "title": "OpenAI API — модели и возможности",
