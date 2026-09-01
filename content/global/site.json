@@ -87,5 +87,11 @@
     "label": "Запустить демо в Telegram",
     "href": "https://t.me/XGame_changerx"
   },
-  "streetAddress": "Yahyo Gulyamov ko'chasi 35"
+  "streetAddress": "Yahyo Gulyamov ko'chasi 35",
+  "geo": {
+    "latitude": 41.3340,
+    "longitude": 69.2860
+  },
+  "openingHours": "Mo-Fr 09:00-18:00",
+  "priceRange": "$$"
 }

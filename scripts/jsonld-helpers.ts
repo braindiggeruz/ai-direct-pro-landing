@@ -88,9 +88,30 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
   // sameAs — every confirmed external profile.
   if (global.sameAs && global.sameAs.length > 0) org.sameAs = global.sameAs;
 
-  // openingHoursSpecification — bots respond 24/7; the human handoff happens
-  // at operator pace. We declare 24/7 against the AI-bot service only,
-  // not the studio's office hours.
+  // openingHoursSpecification — office hours Mon–Fri 09:00–18:00,
+  // declared on the Organization/ProfessionalService entity so that
+  // Google Business Profile and Knowledge Graph can reconcile the hours.
+  org.openingHoursSpecification = {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '18:00',
+  };
+
+  // geo — latitude/longitude for the published street address.
+  // Used by Google Maps / Local Business Knowledge Graph to pin the
+  // entity on the map, strengthening the local SEO signal.
+  if (global.geo && global.geo.latitude && global.geo.longitude) {
+    org.geo = {
+      '@type': 'GeoCoordinates',
+      latitude: global.geo.latitude,
+      longitude: global.geo.longitude,
+    };
+  }
+
+  // priceRange — present on the site (service packages). Declared as
+  // a simple range indicator on the entity.
+  if (global.priceRange) org.priceRange = global.priceRange;
 
   return org;
 }
