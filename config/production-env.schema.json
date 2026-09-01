@@ -505,6 +505,16 @@
       "purpose": "Admin absolute-link base",
       "validation": "absolute HTTPS URL",
       "owner": "frontend"
+    },
+    {
+      "name": "TWOGIS_API_KEY",
+      "runtime": "cloudflare-pages-functions",
+      "required_for_r1": false,
+      "secret": true,
+      "kind": "opaque",
+      "purpose": "Optional 2GIS Places API catalog source for Lead Radar discovery",
+      "validation": "provider secret; must never be persisted in D1, logs or client bundles",
+      "owner": "platform"
     }
   ],
   "retired_variables": {

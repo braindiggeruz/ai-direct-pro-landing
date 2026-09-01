@@ -1,4 +1,5 @@
 import type { LeadRadarSearchInput, LeadRadarSearchResult } from '../../../src/shared/lead-radar';
+import { fanOutDiscovery, mergeCrossSourceCandidates } from './discovery-sources';
 import { LeadRadarBusyError, mergeWebsiteFactsIntoLead, sourceCandidateToStoredLead } from './service';
 import {
   enrichCompanyWebsiteDetailed,
@@ -6,6 +7,7 @@ import {
   type ExpectedCompanyWebsiteIdentity,
   type WebsiteFacts,
 } from './sources';
+import { mergeSourceYield, type SourceYieldMap } from './source-yield';
 import { LeadRadarStore } from './store';
 import type { WebsiteEnrichmentResult } from './firecrawl-enrichment';
 import type {
@@ -15,6 +17,7 @@ import type {
   LeadRadarRequestIdentity,
   LeadRadarQueueMessage,
   LeadRadarQueueSender,
+  LeadRadarSource,
 } from './types';
 
 const QUEUE_SCHEMA = 'gptbot.lead-radar.job.v1' as const;
@@ -38,6 +41,9 @@ export interface LeadRadarQueueDependencies {
   resolveMissingWebsites?: boolean;
   enrichLead?: (website: string | null, expected: ExpectedCompanyWebsiteIdentity, job: LeadRadarJob) => Promise<WebsiteEnrichmentResult>;
   discover?: (input: LeadRadarSearchInput) => Promise<LeadRadarDiscoveryResult>;
+  /** Extra catalogs merged into the OSM result. Discovery keeps working — and
+   *  stays identical to today — when this is absent or empty. */
+  sources?: import('./types').LeadRadarSource[];
   enrichWebsite?: (website: string, expected: ExpectedCompanyWebsiteIdentity) => Promise<{
     facts: WebsiteFacts | null;
     reason: 'enriched' | 'no_relevant_evidence' | 'invalid_website' | 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable';
@@ -372,6 +378,32 @@ async function retryOrDeadLetter(
   return { outcome: 'dead_letter', errorCode: code };
 }
 
+/**
+ * OSM plus any extra catalogs, merged into one candidate list.
+ *
+ * OSM deliberately stays on `discoverRaw`: the queue runs website enrichment as
+ * its own stage per lead, so crawling sites here would spend the same
+ * subrequests twice. The extra catalogs only ever *add* rows and contacts —
+ * when none are configured this is byte-for-byte the old behaviour.
+ */
+async function discoverWithSources(
+  store: LeadRadarStore,
+  input: LeadRadarSearchInput,
+  sources: readonly LeadRadarSource[] | undefined,
+): Promise<LeadRadarDiscoveryResult> {
+  const osm = await new OpenStreetMapLeadSource(store).discoverRaw(input);
+  if (!sources || sources.length === 0) return osm;
+  const extra = await fanOutDiscovery(sources, input);
+  return {
+    candidates: mergeCrossSourceCandidates([...osm.candidates, ...extra.candidates]),
+    sourceWarnings: [...osm.sourceWarnings, ...extra.warnings],
+    ...(osm.rawDiscoveredCount === undefined ? {} : { rawDiscoveredCount: osm.rawDiscoveredCount }),
+    ...(osm.sourceYield === undefined && extra.yieldBySource === undefined
+      ? {}
+      : { sourceYield: mergeSourceYield(...[osm.sourceYield, extra.yieldBySource].filter((map): map is SourceYieldMap => Boolean(map))) }),
+  };
+}
+
 async function processDiscovery(
   store: LeadRadarStore,
   job: LeadRadarJob,
@@ -402,7 +434,7 @@ async function processDiscovery(
   try {
     if (needsInit) discovery = dependencies.discover
       ? await dependencies.discover(input)
-      : await new OpenStreetMapLeadSource(store).discoverRaw(input);
+      : await discoverWithSources(store, input, dependencies.sources);
   } catch (error) {
     return retryOrDeadLetter(store, job, safeFailureCode(error), at);
   }

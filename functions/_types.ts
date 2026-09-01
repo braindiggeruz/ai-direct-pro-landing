@@ -118,6 +118,10 @@ export interface Env extends FirecrawlEnvironment {
   LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN?: string;
   LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT?: string;
   LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS?: string;
+  // Optional 2GIS Places API key. Secret: it is a commercial catalog grant and
+  // travels in the API query string, so it must never reach D1, a log line or
+  // the browser. When unset, Lead Radar discovery runs OpenStreetMap only.
+  TWOGIS_API_KEY?: string;
   // Bearer for the GitHub Actions cron worker. Authenticates
   // /api/internal/seo-autopilot/scheduled-run.
   CRON_SECRET?: string;

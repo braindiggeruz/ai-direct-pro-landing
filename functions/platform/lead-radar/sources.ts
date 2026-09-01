@@ -314,7 +314,11 @@ export async function readTextBounded(response: Response, maxBytes: number): Pro
   return chunks.join('');
 }
 
-function cleanText(value: unknown, max: number): string | null {
+/** Exported so every catalog source shares one definition of "clean". A second
+ *  copy would drift on exactly the rules the evidence model depends on.
+ *  Control characters are dropped by code point rather than by regex: the
+ *  lint rule against control-character patterns is enabled on purpose. */
+export function cleanText(value: unknown, max: number): string | null {
   if (typeof value !== 'string' || !value) return null;
   const printable = [...value].map((character) => {
     const code = character.codePointAt(0) ?? 0;
@@ -405,7 +409,17 @@ async function hasOnlyPublicAddresses(url: URL, budget: SubrequestBudget): Promi
   }
 }
 
-function sourceEvidence(
+/**
+ * Build one evidence row.
+ *
+ * Exported because every non-OSM source needs the same shape, and a second
+ * copy would drift. `sourceType` is a closed union enforced by a D1 CHECK
+ * constraint (schema-contract 36): a commercial catalog like 2GIS is recorded
+ * as `official_open_data`, which is the "bound by source provenance rather
+ * than by the company's own domain" branch — the same branch the Telegram
+ * verifier already trusts for third-party datasets.
+ */
+export function sourceEvidence(
   fieldPath: string,
   value: string,
   sourceUrl: string,
@@ -433,7 +447,9 @@ function cleanPhone(value: string | null | undefined): string | null {
   return /^\+?\d{7,15}$/.test(compact) ? compact : null;
 }
 
-function cleanTelegram(value: string | null | undefined): string | null {
+/** Exported: a second source needs the same locator cleaning, and a copy would
+ *  drift away from the rules that keep `messageable` fail-closed. */
+export function cleanTelegram(value: string | null | undefined): string | null {
   if (!value) return null;
   const candidate = value.startsWith('@') ? `https://t.me/${value.slice(1)}` : value;
   const url = safePublicHttpUrl(candidate);
@@ -538,7 +554,7 @@ export function classifyTelegramContact(input: TelegramClassificationInput): Pic
   };
 }
 
-function telegramUsername(url: string): string {
+export function telegramUsername(url: string): string {
   try { return new URL(url).pathname.split('/').filter(Boolean)[0] ?? ''; } catch { return ''; }
 }
 
@@ -881,13 +897,25 @@ function queryDefinition(
   };
 }
 
+/** City bounds we know without spending a geocoder request. `[s, w, n, e]`.
+ *
+ * Exported so a source that needs a centre point instead of a bounding box
+ * (2GIS takes `location=lon,lat` plus a radius) can reuse the same table
+ * rather than keeping a second, drifting list of city coordinates. */
+export function staticCityBounds(
+  city: string,
+  country: string,
+): [number, number, number, number] | null {
+  return STATIC_CITY_BOUNDS.get(`${normalizeCompanyKey(city)}:${country.toLowerCase()}`) ?? null;
+}
+
 async function geocode(
   input: LeadRadarSearchInput,
   budget: SubrequestBudget,
   store?: LeadRadarGeocodeStore,
 ): Promise<{ bounds: [number, number, number, number]; origin: LeadRadarGeocodeOrigin }> {
   const cacheKey = `${normalizeCompanyKey(input.city)}:${input.country.toLowerCase()}`;
-  const staticBounds = STATIC_CITY_BOUNDS.get(cacheKey);
+  const staticBounds = staticCityBounds(input.city, input.country);
   // Static city bounds cost zero subrequests and zero Nominatim quota. Every
   // city we add here is one fewer request against a 1 req/sec shared service.
   if (staticBounds) return { bounds: staticBounds, origin: 'static_city' };

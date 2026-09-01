@@ -3,8 +3,9 @@ import type {
   LeadRadarSearchInput,
   LeadRadarSearchResult,
 } from '../../../src/shared/lead-radar';
+import { configuredLeadRadarSources, fanOutDiscovery, type LeadRadarSourceEnvironment } from './discovery-sources';
 import { scoreLead } from './scoring';
-import { OpenStreetMapLeadSource, type WebsiteFacts } from './sources';
+import { type WebsiteFacts } from './sources';
 import { LeadRadarStore, type LeadRadarSuppressionFingerprint } from './store';
 import { LeadRadarSourceError, type LeadRadarSource, type SourceCandidate, type StoredLeadInput } from './types';
 import { normalizeCompanyKey } from './validation';
@@ -183,8 +184,9 @@ export class LeadRadarService {
   constructor(
     private readonly store: LeadRadarStore,
     sources?: LeadRadarSource[],
+    env: LeadRadarSourceEnvironment = {},
   ) {
-    this.sources = sources ?? [new OpenStreetMapLeadSource(store)];
+    this.sources = sources ?? configuredLeadRadarSources(store, env);
   }
 
   async run(orgId: string, input: LeadRadarSearchInput): Promise<LeadRadarSearchResult> {
@@ -208,15 +210,14 @@ export class LeadRadarService {
     try {
       const searchId = await this.store.createSearch(orgId, input, now);
       try {
-        const discoveries = await Promise.allSettled(this.sources.map((source) => source.discover(input)));
-      const candidates = discoveries.flatMap((result) => result.status === 'fulfilled' ? result.value.candidates : []);
-      const warnings = discoveries.flatMap((result) => result.status === 'fulfilled' ? result.value.sourceWarnings : []);
+        const discovery = await fanOutDiscovery(this.sources, input);
+      const candidates = discovery.candidates;
+      const warnings = discovery.warnings;
       if (warnings.length > 0) {
         console.info('lead_radar.discovery_fallback', { searchId, warnings: warnings.slice(0, 8) });
       }
-      if (candidates.length === 0 && discoveries.every((result) => result.status === 'rejected')) {
-        const firstFailure = discoveries.find((result): result is PromiseRejectedResult => result.status === 'rejected');
-        throw firstFailure?.reason ?? new Error('discovery_failed');
+      if (candidates.length === 0 && discovery.failures === this.sources.length) {
+        throw discovery.errors[0] ?? new Error('discovery_failed');
       }
 
       const unique = new Map<string, StoredLeadInput>();
