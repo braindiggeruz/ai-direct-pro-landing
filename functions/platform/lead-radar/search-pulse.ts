@@ -33,17 +33,35 @@ export async function resumeSearchPulse(input: {
   const kicked = await enqueueDueLeadRadarJobs(
     input.db, input.queue, input.now, 5,
     (orgId: string) => input.allowOrganization(orgId),
+    input.searchId,
   );
+  // enqueueDueLeadRadarJobs may have crossed the one-hour deadline and made
+  // the search terminal. Build the response from that committed state, never
+  // from the pre-pulse snapshot.
+  const refreshed = await store.getSearch(input.orgId, input.searchId);
+  if (!refreshed) throw Object.assign(new Error('search_not_found'), { code: 'search_not_found' });
   const pool = await store.contactDiscovery.getPool(input.orgId, input.searchId);
-  const remaining = pool
+  const searchFinished = refreshed.search.status !== 'running';
+  const poolStopped = Boolean(pool?.stop_reason);
+  const rawRemaining = pool
     ? Math.max(0, pool.candidate_count - Math.max(0, Number(pool.cursor ?? 0)))
     : null;
+  const remaining = searchFinished || poolStopped ? 0 : rawRemaining;
+  const note = searchFinished
+    ? (refreshed.search.status === 'partial'
+      ? 'Поиск завершён с частичным результатом. Найденные компании сохранены; повторный запуск этой партии не требуется.'
+      : 'Поиск завершён. Найденные результаты сохранены; повторный запуск этой партии не требуется.')
+    : poolStopped
+      ? 'Пул кандидатов остановлен. Найденные компании сохранены; новые партии для этого поиска не запланированы.'
+      : remaining && remaining > 0
+        ? (kicked > 0
+          ? 'Партия отправлена в обработку; результаты обновятся автоматически.'
+          : 'Поиск уже обрабатывает текущую партию; повторное нажатие сейчас не требуется.')
+        : 'Пул кандидатов обработан; финальные проверки идут в фоне.';
   return {
     ok: true,
     kicked,
     remaining,
-    note: remaining && remaining > 0
-      ? 'Партия отправлена в обработку; нажимайте ещё, чтобы двигаться быстрее.'
-      : 'Пул кандидатов обработан; финальные проверки идут в фоне.',
+    note,
   };
 }

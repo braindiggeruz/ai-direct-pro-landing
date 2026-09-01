@@ -1230,16 +1230,36 @@ export async function disconnectTelegramAccountService(input: {
   }
 }
 
+export interface TelegramAccountRouteState {
+  /**
+   * Browser-safe operational projection of the exact private account route.
+   * The production BridgeMailbox deliberately keeps its DPAPI session local,
+   * so `snapshot_present` is not an operational signal for that transport.
+   * A stale D1 `connected` flag is still never enough: campaign work also
+   * requires this keyed route to report `connected` and its Bridge `online`.
+   */
+  status: 'connected' | 'restricted' | 'reauth_required' | 'revoked' | 'error';
+  reasonCode: string | null;
+  providerBlockedUntil: string | null;
+  routePresent: boolean;
+  bridgeStatus: 'unpaired' | 'online' | 'offline' | 'pending_revocation' | 'revoked';
+  checkedAt: string;
+}
+
 /**
- * Checks only that the exact D1-held Durable Object route still owns private
- * account state. It does not start TDLib or expose the opaque route upstream.
+ * Attests the exact D1-held Durable Object route without starting TDLib or
+ * exposing the opaque route upstream. Unlike a presence-only lookup, this
+ * preserves terminal provider state. `snapshot_present` is validated as part
+ * of the exact cross-service contract, but is intentionally not used as a
+ * readiness gate: BridgeMailbox sessions are local DPAPI material and are
+ * never copied into Cloudflare snapshots.
  */
-export async function getTelegramAccountRoutePresence(input: {
+export async function getTelegramAccountRouteState(input: {
   service?: Fetcher;
   internalServiceToken?: string;
   orgId: string;
   gatewayAccountRef: string;
-}): Promise<'present' | 'missing'> {
+}): Promise<TelegramAccountRouteState> {
   assertRequestScope(input.orgId);
   if (!configured(input.service)
     || !INTERNAL_SERVICE_TOKEN_PATTERN.test(input.internalServiceToken ?? '')) {
@@ -1288,7 +1308,52 @@ export async function getTelegramAccountRoutePresence(input: {
     .includes(String(envelope.bridge_status))) {
     throw new TelegramAccountServiceError('telegram_campaign_gateway_invalid_response');
   }
-  return envelope.account_status === 'not_connected' ? 'missing' : 'present';
+  const accountStatus = envelope.account_status as
+    | 'not_connected'
+    | 'new'
+    | 'connected'
+    | 'restricted'
+    | 'reauth_required'
+    | 'revoked'
+    | 'error';
+  const routePresent = accountStatus !== 'not_connected';
+  const status: TelegramAccountRouteState['status'] = accountStatus === 'connected'
+    ? 'connected'
+    : accountStatus === 'restricted'
+      ? 'restricted'
+      : accountStatus === 'revoked'
+        ? 'revoked'
+        : accountStatus === 'error'
+          ? 'error'
+          : 'reauth_required';
+  return {
+    status,
+    reasonCode: typeof envelope.reason_code === 'string'
+      ? envelope.reason_code
+      : status === 'reauth_required'
+        ? 'gateway_account_not_connected'
+        : null,
+    providerBlockedUntil: typeof envelope.provider_blocked_until === 'string'
+      ? envelope.provider_blocked_until
+      : null,
+    routePresent,
+    bridgeStatus: envelope.bridge_status as TelegramAccountRouteState['bridgeStatus'],
+    checkedAt: new Date().toISOString(),
+  };
+}
+
+/**
+ * Compatibility helper for callers that deliberately need custody presence
+ * only. Campaign readiness must use `getTelegramAccountRouteState` instead.
+ */
+export async function getTelegramAccountRoutePresence(input: {
+  service?: Fetcher;
+  internalServiceToken?: string;
+  orgId: string;
+  gatewayAccountRef: string;
+}): Promise<'present' | 'missing'> {
+  const state = await getTelegramAccountRouteState(input);
+  return state.routePresent ? 'present' : 'missing';
 }
 
 /**

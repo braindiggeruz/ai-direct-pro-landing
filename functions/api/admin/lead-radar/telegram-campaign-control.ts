@@ -13,7 +13,9 @@ import {
   enqueueDueTelegramCampaignsForOrganization,
   getTelegramCampaign,
   getTelegramCampaignDataKeyIdentityState,
+  getTelegramCampaignPreparationReplay,
   getTelegramCampaignRecovery,
+  getTelegramCampaignTransitionReplay,
   getTelegramUserAccount,
   getTelegramUserAccountGatewayBinding,
   getTelegramUserAccountByAuthRequest,
@@ -48,7 +50,7 @@ import {
   disconnectTelegramAccountService,
   finalizeTelegramAccountConnection,
   getActiveTelegramAccountConnection,
-  getTelegramAccountRoutePresence,
+  getTelegramAccountRouteState,
   getTelegramBridgeStatus,
   hasPrivateTelegramAccountService,
   pollTelegramAccountConnection,
@@ -61,6 +63,7 @@ import {
   checkTelegramCampaignMedia,
   type TelegramAccountConnectChallenge,
   type TelegramAccountConnectionPoll,
+  type TelegramAccountRouteState,
 } from '../../../platform/lead-radar/telegram-account-service';
 import type {
   LeadRadarApiCapabilities,
@@ -300,6 +303,7 @@ function accountState(
     reasonCode?: string | null;
     readiness?: LeadRadarTelegramAccountReadiness;
     finalizingAuthId?: string;
+    lastHealthAt?: string | null;
   } = {},
 ): AccountState {
   const status = options.serviceStatus ?? (
@@ -318,7 +322,7 @@ function accountState(
     username: null,
     phoneMasked: null,
     connectedAt: account.connectedAt,
-    lastHealthAt: account.lastHealthAt,
+    lastHealthAt: options.lastHealthAt ?? account.lastHealthAt,
     qr: challenge ? {
       authId: challenge.authId,
       orgId: options.orgId!,
@@ -466,6 +470,104 @@ function readinessResponse(
 function missingConnection(error: unknown): boolean {
   return error instanceof TelegramAccountServiceError
     && error.code === 'telegram_campaign_gateway_not_found';
+}
+
+interface TelegramOperationalAccountProbe {
+  readiness: LeadRadarTelegramAccountReadiness;
+  routeState: TelegramAccountRouteState | null;
+}
+
+function blockedAccountReadiness(
+  blocker: LeadRadarTelegramAccountReadinessBlocker,
+): LeadRadarTelegramAccountReadiness {
+  return { status: 'blocked', blockers: [blocker] };
+}
+
+function routeReadiness(
+  state: TelegramAccountRouteState,
+): LeadRadarTelegramAccountReadiness {
+  if (state.status !== 'connected') {
+    return blockedAccountReadiness('gateway_account_session_missing');
+  }
+  if (state.bridgeStatus === 'offline') {
+    return blockedAccountReadiness('bridge_offline');
+  }
+  if (state.bridgeStatus === 'pending_revocation') {
+    return blockedAccountReadiness('bridge_revocation_pending');
+  }
+  if (state.bridgeStatus === 'unpaired' || state.bridgeStatus === 'revoked') {
+    return blockedAccountReadiness('bridge_not_paired');
+  }
+  return OPERATIONALLY_READY;
+}
+
+/**
+ * A D1 `connected` flag is historical state, not a current send attestation.
+ * Every prepare/start gate resolves the keyed private route and requires its
+ * current account status plus an online Bridge before mutating campaign state.
+ * BridgeMailbox intentionally keeps session material local and reports no
+ * cloud snapshot. No health result is persisted by this read-only probe.
+ */
+async function probeTelegramOperationalAccount(
+  ctx: CampaignContext,
+  orgId: string,
+  dataKey: string,
+  account: TelegramAccountReadModel,
+): Promise<TelegramOperationalAccountProbe> {
+  if (account.status !== 'connected') {
+    return {
+      readiness: blockedAccountReadiness('gateway_account_session_missing'),
+      routeState: null,
+    };
+  }
+  const binding = await getTelegramUserAccountGatewayBinding({
+    db: ctx.db,
+    dataKey,
+    orgId,
+    accountId: account.id,
+  });
+  if (!binding) {
+    return {
+      readiness: blockedAccountReadiness('gateway_account_session_missing'),
+      routeState: null,
+    };
+  }
+  try {
+    const routeState = await getTelegramAccountRouteState({
+      service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+      internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+      orgId,
+      gatewayAccountRef: binding.gatewayAccountRef,
+    });
+    return { readiness: routeReadiness(routeState), routeState };
+  } catch (error) {
+    return {
+      readiness: blockedAccountReadiness(
+        missingConnection(error) ? 'gateway_account_session_missing' : 'gateway_unavailable',
+      ),
+      routeState: null,
+    };
+  }
+}
+
+function operationalAccountResponse(
+  probe: TelegramOperationalAccountProbe,
+  ctx: CampaignContext,
+): Response {
+  if (probe.routeState?.status === 'restricted') {
+    return ownerError('telegram_account_restricted', ctx.requestId, 409);
+  }
+  const blocker = probe.readiness.blockers[0];
+  if (blocker === 'gateway_account_session_missing') {
+    return ownerError('telegram_campaign_account_not_connected', ctx.requestId, 409);
+  }
+  if (blocker === 'bridge_offline') {
+    return unavailable('telegram_campaign_bridge_offline', ctx);
+  }
+  if (blocker === 'gateway_unavailable') {
+    return unavailable('telegram_campaign_gateway_unavailable', ctx);
+  }
+  return readinessResponse(probe.readiness, ctx);
 }
 
 async function finalizeConnectedTelegramAccount(
@@ -743,19 +845,45 @@ export async function handleTelegramCampaignGet(
     if (parts.length === 1 && parts[0] === 'telegram-account') {
       const gatewayProbe = await telegramAccountReadiness(ctx, capabilities, orgId);
       let readiness = gatewayProbe.readiness;
-      if (readiness.status === 'blocked' || readiness.blockers.length > 0) {
-        return ownerJson(disconnectedAccount(
-          'unconfigured',
-          readiness.blockers[0] ?? 'telegram_account_disabled',
-          readiness,
-        ), ctx.requestId);
-      }
       const dataKey = campaignDataKey(ctx);
-      if (!dataKey) {
-        return ownerJson(disconnectedAccount('unconfigured', 'campaign_data_key_missing'), ctx.requestId);
-      }
       const schema = await campaignSchemaResponse(ctx);
       if (schema) return schema;
+      // Configuration/Bridge readiness is independent from the durable D1
+      // account state. Read the account before projecting a blocker so an
+      // outage never lies to the operator that an existing account is
+      // "unconfigured" or erases its reconnect context from the response.
+      const account = await getTelegramUserAccount(ctx.db, orgId);
+      if (!dataKey) {
+        const missingKeyReadiness: LeadRadarTelegramAccountReadiness = {
+          status: 'blocked',
+          blockers: uniqueReadinessBlockers([
+            'campaign_data_key_missing',
+            ...readiness.blockers,
+          ]),
+        };
+        return ownerJson(account
+          ? accountState(account, {
+              reasonCode: 'campaign_data_key_missing',
+              readiness: missingKeyReadiness,
+            })
+          : disconnectedAccount(
+              'unconfigured',
+              'campaign_data_key_missing',
+              missingKeyReadiness,
+            ), ctx.requestId);
+      }
+      if (readiness.status === 'blocked' || readiness.blockers.length > 0) {
+        return ownerJson(account
+          ? accountState(account, {
+              reasonCode: readiness.blockers[0] ?? 'telegram_account_disabled',
+              readiness,
+            })
+          : disconnectedAccount(
+              'unconfigured',
+              readiness.blockers[0] ?? 'telegram_account_disabled',
+              readiness,
+            ), ctx.requestId);
+      }
       readiness = await withCampaignDataKeyReadiness(
         ctx,
         orgId,
@@ -764,7 +892,6 @@ export async function handleTelegramCampaignGet(
         gatewayProbe.routingKeyFingerprint,
         false,
       );
-      const account = await getTelegramUserAccount(ctx.db, orgId);
       if (readiness.status === 'blocked' || readiness.blockers.length > 0) {
         return ownerJson(account
           ? accountState(account, {
@@ -779,50 +906,29 @@ export async function handleTelegramCampaignGet(
       }
       if (!account) return ownerJson(disconnectedAccount('disconnected', null, readiness), ctx.requestId);
       if (account.status !== 'pending') {
-        const binding = await getTelegramUserAccountGatewayBinding({
-          db: ctx.db,
-          dataKey,
+        const operational = await probeTelegramOperationalAccount(
+          ctx,
           orgId,
-          accountId: account.id,
-        });
-        if (!binding) {
-          const blocked: LeadRadarTelegramAccountReadiness = {
-            status: 'blocked',
-            blockers: ['gateway_account_session_missing'],
-          };
+          dataKey,
+          account,
+        );
+        if (operational.readiness.status === 'blocked') {
+          const routeStatus = operational.routeState?.status
+            ?? (operational.readiness.blockers.includes('gateway_account_session_missing')
+              ? 'reauth_required'
+              : 'error');
           return ownerJson(accountState(account, {
-            reasonCode: blocked.blockers[0],
-            readiness: blocked,
+            serviceStatus: routeStatus,
+            reasonCode: operational.routeState?.reasonCode
+              ?? operational.readiness.blockers[0]
+              ?? 'gateway_unavailable',
+            readiness: operational.readiness,
           }), ctx.requestId);
         }
-        try {
-          const presence = await getTelegramAccountRoutePresence({
-            service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
-            internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
-            orgId,
-            gatewayAccountRef: binding.gatewayAccountRef,
-          });
-          if (presence === 'missing') {
-            const blocked: LeadRadarTelegramAccountReadiness = {
-              status: 'blocked',
-              blockers: ['gateway_account_session_missing'],
-            };
-            return ownerJson(accountState(account, {
-              reasonCode: blocked.blockers[0],
-              readiness: blocked,
-            }), ctx.requestId);
-          }
-        } catch {
-          const blocked: LeadRadarTelegramAccountReadiness = {
-            status: 'blocked',
-            blockers: ['gateway_unavailable'],
-          };
-          return ownerJson(accountState(account, {
-            reasonCode: blocked.blockers[0],
-            readiness: blocked,
-          }), ctx.requestId);
-        }
-        return ownerJson(accountState(account, { readiness }), ctx.requestId);
+        return ownerJson(accountState(account, {
+          readiness,
+          lastHealthAt: operational.routeState?.checkedAt,
+        }), ctx.requestId);
       }
       if (!hasPrivateTelegramAccountService(ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE)) {
         return unavailable('telegram_campaign_gateway_unavailable', ctx);
@@ -1013,7 +1119,26 @@ export async function handleTelegramCampaignPost(
       if (!capabilities.campaignOutreachEnabled) blockers.push('campaign_paused');
       if (!capabilities.campaignAutoSendEnabled) blockers.push('autosend_paused');
       if (!account || account.status !== 'connected') blockers.push('account_not_connected');
-      if (account?.status === 'connected' && !await getTelegramUserAccountGatewayBinding({ db: ctx.db, orgId, dataKey, accountId: account.id })) blockers.push('account_binding_missing');
+      if (account?.status === 'connected' && readiness.status !== 'blocked') {
+        const operational = await probeTelegramOperationalAccount(
+          ctx,
+          orgId,
+          dataKey,
+          account,
+        );
+        blockers.push(...operational.readiness.blockers);
+        if (operational.routeState && operational.routeState.status !== 'connected') {
+          blockers.push('account_not_connected');
+        }
+      } else if (account?.status === 'connected'
+        && !await getTelegramUserAccountGatewayBinding({
+          db: ctx.db,
+          orgId,
+          dataKey,
+          accountId: account.id,
+        })) {
+        blockers.push('account_binding_missing');
+      }
       const store = new LeadRadarTelegramCampaignStore(ctx.db);
       const now = new Date().toISOString();
       const [row, active, safety] = account ? await Promise.all([store.getAccount(orgId, account.id),
@@ -1539,6 +1664,48 @@ export async function handleTelegramCampaignPost(
       const schema = await campaignSchemaResponse(ctx);
       if (schema) return schema;
       const operationNow = new Date();
+      const source = await resolveCampaignSource(ctx,orgId,body);
+      const preparationInput = {
+        db: ctx.db,
+        dataKey,
+        orgId,
+        accountId: body.accountId,
+        ...source,
+        companyIds: body.leadIds as string[],
+        template: body.template,
+        operatorId: ctx.actor.email,
+        idempotencyKey: requestKey,
+        minIntervalSeconds,
+        contactBasis: body.contactBasis,
+        attachment,
+        now: operationNow,
+      } as const;
+      const replay = await getTelegramCampaignPreparationReplay(preparationInput);
+      if (replay) {
+        const publicReplay = preparationState(replay, body.template);
+        return publicReplay
+          ? ownerJson(publicReplay, ctx.requestId, 201)
+          : ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      }
+      const gatewayProbe = await telegramAccountReadiness(ctx, capabilities, orgId);
+      if (gatewayProbe.readiness.status === 'blocked'
+        || gatewayProbe.readiness.blockers.length > 0) {
+        return readinessResponse(gatewayProbe.readiness, ctx);
+      }
+      const account = await getTelegramUserAccount(ctx.db, orgId, body.accountId);
+      if (!account) {
+        return ownerError('telegram_campaign_account_not_found', ctx.requestId, 404);
+      }
+      const operational = await probeTelegramOperationalAccount(
+        ctx,
+        orgId,
+        dataKey,
+        account,
+      );
+      if (operational.readiness.status === 'blocked'
+        || operational.readiness.blockers.length > 0) {
+        return operationalAccountResponse(operational, ctx);
+      }
       if (attachment) {
         if (!ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA) {
           return unavailable('telegram_campaign_media_storage_unavailable', ctx);
@@ -1573,22 +1740,7 @@ export async function handleTelegramCampaignPost(
           throw new TelegramCampaignMediaError('telegram_campaign_media_invalid');
         }
       }
-      const source = await resolveCampaignSource(ctx,orgId,body);
-      const prepared = await prepareTelegramCampaign({
-        db: ctx.db,
-        dataKey,
-        orgId,
-        accountId: body.accountId,
-        ...source,
-        companyIds: body.leadIds as string[],
-        template: body.template,
-        operatorId: ctx.actor.email,
-        idempotencyKey: requestKey,
-        minIntervalSeconds,
-        contactBasis: body.contactBasis,
-        attachment,
-        now: operationNow,
-      });
+      const prepared = await prepareTelegramCampaign(preparationInput);
       const publicPrepared = preparationState(prepared, body.template);
       return publicPrepared
         ? ownerJson(publicPrepared, ctx.requestId, 201)
@@ -1732,15 +1884,55 @@ export async function handleTelegramCampaignPost(
         && (!capabilities.campaignOutreachEnabled || !capabilities.campaignAutoSendEnabled)) {
         return ownerError('lead_radar_campaign_autosend_paused', ctx.requestId, 409);
       }
-      if ((action === 'start' || action === 'resume')
-        && (!ctx.env.AUTOMATION_QUEUE
-          || !hasPrivateTelegramAccountService(ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE))) {
-        return unavailable('telegram_campaign_gateway_unavailable', ctx);
-      }
       const dataKey = campaignDataKey(ctx);
       if (!dataKey) return unavailable('telegram_campaign_not_configured', ctx);
       const schema = await campaignSchemaResponse(ctx);
       if (schema) return schema;
+      if (action === 'start' || action === 'resume') {
+        const transitionInput = {
+          db: ctx.db,
+          dataKey,
+          orgId,
+          campaignId: parts[1],
+          action,
+          operatorId: ctx.actor.email,
+          idempotencyKey: requestKey,
+        } as const;
+        const replay = await getTelegramCampaignTransitionReplay(transitionInput);
+        if (replay) {
+          return ownerJson(
+            campaignStateWithCapabilities(replay.campaign, capabilities),
+            ctx.requestId,
+          );
+        }
+        if (!ctx.env.AUTOMATION_QUEUE
+          || !hasPrivateTelegramAccountService(ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE)) {
+          return unavailable('telegram_campaign_gateway_unavailable', ctx);
+        }
+        const campaign = await getTelegramCampaign(ctx.db, orgId, parts[1]);
+        if (!campaign) {
+          return ownerError('telegram_campaign_campaign_not_found', ctx.requestId, 404);
+        }
+        const gatewayProbe = await telegramAccountReadiness(ctx, capabilities, orgId);
+        if (gatewayProbe.readiness.status === 'blocked'
+          || gatewayProbe.readiness.blockers.length > 0) {
+          return readinessResponse(gatewayProbe.readiness, ctx);
+        }
+        const account = await getTelegramUserAccount(ctx.db, orgId, campaign.accountId);
+        if (!account) {
+          return ownerError('telegram_campaign_account_not_found', ctx.requestId, 404);
+        }
+        const operational = await probeTelegramOperationalAccount(
+          ctx,
+          orgId,
+          dataKey,
+          account,
+        );
+        if (operational.readiness.status === 'blocked'
+          || operational.readiness.blockers.length > 0) {
+          return operationalAccountResponse(operational, ctx);
+        }
+      }
       const transitioned = await transitionTelegramCampaign({
         db: ctx.db,
         dataKey,

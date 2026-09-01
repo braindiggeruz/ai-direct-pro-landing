@@ -304,6 +304,18 @@ class TelegramAccountServiceFixture {
   disconnectUnavailable = false;
   disconnects = 0;
   privateAccountPresent = true;
+  privateAccountStatus:
+    | 'not_connected'
+    | 'new'
+    | 'connected'
+    | 'restricted'
+    | 'reauth_required'
+    | 'revoked'
+    | 'error'
+    | null = null;
+  privateAccountReasonCode: string | null = null;
+  privateAccountProviderBlockedUntil: string | null = null;
+  privateAccountSnapshotPresent: boolean | null = null;
   lastDisconnectBody: Record<string, unknown> | null = null;
   cancelUnavailable = false;
   cancels = 0;
@@ -434,13 +446,17 @@ class TelegramAccountServiceFixture {
       return Response.json(phoneChallengeEnvelope(this.authId, 'awaiting_phone'));
     }
     if (url.pathname === '/v1/accounts/health') {
+      const accountStatus = this.privateAccountStatus
+        ?? (this.privateAccountPresent ? 'connected' : 'not_connected');
       return Response.json({
         schema: 'gptbot.lead-radar.telegram-account-service.v1',
         status: 'ok',
-        account_status: this.privateAccountPresent ? 'connected' : 'not_connected',
-        reason_code: null,
-        provider_blocked_until: null,
-        snapshot_present: this.privateAccountPresent,
+        account_status: accountStatus,
+        reason_code: this.privateAccountReasonCode,
+        provider_blocked_until: this.privateAccountProviderBlockedUntil,
+        // Production BridgeMailbox keeps the session under local DPAPI and
+        // intentionally never publishes a Cloudflare snapshot.
+        snapshot_present: this.privateAccountSnapshotPresent ?? false,
         active_effect: false,
         container_running: false,
         bridge_status: this.bridgeStatus,
@@ -784,6 +800,20 @@ test('read-only preflight separates missing consent, Bridge offline and actual a
   // The fixture intentionally has no routing-key adoption and autosend is off.
   // Recipient authorization must not conceal independent infrastructure gates.
   assert.deepEqual(ready.body.blockers, ['gateway_routing_legacy_unbound', 'autosend_paused']);
+  const orgId = await ownerOrgId(OWNER_EMAIL);
+  const boundAt = new Date().toISOString();
+  db.sqlite.prepare(`INSERT INTO lead_radar_tg_routing_key_state (
+    org_id, key_fingerprint, established_at, created_at, updated_at
+  ) VALUES (?, ?, ?, ?, ?)`)
+    .run(orgId, service.routingKeyFingerprint, boundAt, boundAt, boundAt);
+  service.privateAccountStatus = 'reauth_required';
+  service.privateAccountReasonCode = 'auth_expired';
+  const reconnectRequired = await inspect();
+  assert.ok((reconnectRequired.body.blockers as string[]).includes('gateway_account_session_missing'));
+  assert.ok((reconnectRequired.body.blockers as string[]).includes('account_not_connected'));
+  assert.equal((reconnectRequired.body.selection as { automatic: number }).automatic, 1);
+  service.privateAccountStatus = null;
+  service.privateAccountReasonCode = null;
   service.bridgeStatus = 'offline';
   const offline = await inspect();
   assert.ok((offline.body.blockers as string[]).includes('bridge_offline'));
@@ -793,7 +823,9 @@ test('read-only preflight separates missing consent, Bridge offline and actual a
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_approvals'), 0);
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaigns'), 0);
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'), 0);
-  assert.ok(service.requests.every((request) => ['/v1/health', '/v1/bridge/status'].includes(request.pathname)));
+  assert.ok(service.requests.every((request) => [
+    '/v1/health', '/v1/bridge/status', '/v1/accounts/health',
+  ].includes(request.pathname)));
 });
 
 test('preflight checks 28 candidates with one strict Bridge proof pass and no legacy evidence pass', async (t) => {
@@ -2057,10 +2089,59 @@ test('routing-key rotation blocks readiness and disconnects only the stored priv
   );
   assert.equal(healthy.body.status, 'connected');
   assert.deepEqual((healthy.body.readiness as { blockers: string[] }).blockers, []);
+  assert.notEqual(healthy.body.lastHealthAt, null);
+
+  service.healthUnavailable = true;
+  const gatewayBlocked = await callRoute(
+    leadRadarRoute.onRequestGet,
+    db,
+    '/api/admin/lead-radar/telegram-account',
+    { token, params: { path: 'telegram-account' }, env },
+  );
+  assert.equal(gatewayBlocked.status, 200);
+  assert.equal(gatewayBlocked.body.status, 'connected');
+  assert.equal(gatewayBlocked.body.connectionId, poll.body.connectionId);
+  assert.equal(gatewayBlocked.body.reasonCode, 'gateway_unavailable');
+  assert.deepEqual(gatewayBlocked.body.readiness, {
+    status: 'blocked', blockers: ['gateway_unavailable'],
+  });
+  service.healthUnavailable = false;
+
+  service.bridgeStatus = 'offline';
+  const bridgeBlocked = await callRoute(
+    leadRadarRoute.onRequestGet,
+    db,
+    '/api/admin/lead-radar/telegram-account',
+    { token, params: { path: 'telegram-account' }, env },
+  );
+  assert.equal(bridgeBlocked.body.status, 'connected');
+  assert.equal(bridgeBlocked.body.connectionId, poll.body.connectionId);
+  assert.equal(bridgeBlocked.body.reasonCode, 'bridge_offline');
+  assert.deepEqual(bridgeBlocked.body.readiness, {
+    status: 'blocked', blockers: ['bridge_offline'],
+  });
+  service.bridgeStatus = 'online';
+
+  service.privateAccountStatus = 'reauth_required';
+  service.privateAccountReasonCode = 'auth_expired';
+  const reconnectRequired = await callRoute(
+    leadRadarRoute.onRequestGet,
+    db,
+    '/api/admin/lead-radar/telegram-account',
+    { token, params: { path: 'telegram-account' }, env },
+  );
+  assert.equal(reconnectRequired.status, 200);
+  assert.equal(reconnectRequired.body.status, 'reauth_required');
+  assert.equal(reconnectRequired.body.reasonCode, 'auth_expired');
+  assert.deepEqual(reconnectRequired.body.readiness, {
+    status: 'blocked', blockers: ['gateway_account_session_missing'],
+  });
+  service.privateAccountStatus = null;
+  service.privateAccountReasonCode = null;
   const healthCalls = service.requests.filter(
     (request) => request.pathname === '/v1/accounts/health',
   ).length;
-  assert.equal(healthCalls, 1);
+  assert.equal(healthCalls, 2);
 
   service.routingKeyFingerprint = 'b'.repeat(64);
   const rotated = await callRoute(
@@ -2337,7 +2418,10 @@ test('terminal QR poll leaves no pending challenge for reload recovery', async (
     { token, params: { path: 'telegram-account' }, env },
   );
   assert.equal(reloaded.status, 200);
-  assert.equal(reloaded.body.status, 'error');
+  assert.equal(reloaded.body.status, 'reauth_required');
+  assert.deepEqual(reloaded.body.readiness, {
+    status: 'blocked', blockers: ['gateway_account_session_missing'],
+  });
   assert.equal(
     service.requests.filter((item) => item.pathname.endsWith('/active')).length,
     activeCallsBeforeReload,
@@ -2393,7 +2477,11 @@ test('audience API prepares and creates across searches, rejects mixed scope and
     token,params:{path:'telegram-campaigns'},env});
   assert.equal(recovery.status,200,JSON.stringify(recovery.body));
   assert.equal((recovery.body.active as Record<string,unknown>).id,created.body.id);
-  assert.equal(queue.messages.length,0);assert.equal(service.requests.length,0);
+  assert.equal(queue.messages.length,0);
+  assert.ok(service.requests.length > 0);
+  assert.ok(service.requests.every((request) => [
+    '/v1/health', '/v1/bridge/status', '/v1/accounts/health',
+  ].includes(request.pathname)));
 });
 
 test('campaign API freezes exact payload, queues only an opaque envelope, and keeps pause/stop available', async () => {
@@ -2431,6 +2519,23 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
     accountId, searchId, leadIds: [leadId], template,
     contactBasis: 'documented_consent',
   };
+  service.privateAccountStatus = 'reauth_required';
+  service.privateAccountReasonCode = 'auth_expired';
+  const blockedPrepare = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    '/api/admin/lead-radar/telegram-campaigns/prepare',
+    {
+      method: 'POST', token, params: { path: 'telegram-campaigns/prepare' },
+      headers: { 'Idempotency-Key': 'campaign-prepare-reauth-blocked-0001' },
+      body: prepareInput, env: baseEnv,
+    },
+  );
+  assert.equal(blockedPrepare.status, 409);
+  assert.equal(blockedPrepare.body.error, 'telegram_campaign_account_not_connected');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_approvals'), 0);
+  service.privateAccountStatus = null;
+  service.privateAccountReasonCode = null;
   const prepared = await callRoute(
     leadRadarRoute.onRequestPost,
     db,
@@ -2459,6 +2564,8 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
     ((prepared.body.previews as Array<Record<string, unknown>>)[0]?.text),
     'Здравствуйте, Клиника Альфа! Обсудим автоматизацию?',
   );
+  const prepareGatewayCalls = service.requests.length;
+  service.healthUnavailable = true;
   const replay = await callRoute(
     leadRadarRoute.onRequestPost,
     db,
@@ -2472,6 +2579,9 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
   assert.equal(replay.status, 201);
   assert.equal(replay.body.approvalToken, prepared.body.approvalToken);
   assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_approvals'), 1);
+  assert.equal(service.requests.length, prepareGatewayCalls,
+    'an exact preparation replay never depends on current gateway health');
+  service.healthUnavailable = false;
 
   const created = await callRoute(
     leadRadarRoute.onRequestPost,
@@ -2523,6 +2633,26 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
   assert.equal(blockedStart.body.error, 'lead_radar_campaign_autosend_paused');
   assert.equal(queue.messages.length, 0);
 
+  service.privateAccountStatus = 'reauth_required';
+  service.privateAccountReasonCode = 'auth_expired';
+  const reconnectBlockedStart = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    `/api/admin/lead-radar/telegram-campaigns/${campaignId}/start`,
+    {
+      method: 'POST', token,
+      params: { path: `telegram-campaigns/${campaignId}/start` },
+      headers: { 'Idempotency-Key': 'campaign-start-reauth-blocked-0001' },
+      body: {},
+      env: { ...baseEnv, LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true' },
+    },
+  );
+  assert.equal(reconnectBlockedStart.status, 409);
+  assert.equal(reconnectBlockedStart.body.error, 'telegram_campaign_account_not_connected');
+  assert.equal(db.value('SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', campaignId), 'approved');
+  assert.equal(queue.messages.length, 0);
+  service.privateAccountStatus = null;
+  service.privateAccountReasonCode = null;
   const running = await callRoute(
     leadRadarRoute.onRequestPost,
     db,
@@ -2544,6 +2674,27 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
   assert.equal(JSON.stringify(queue.messages[0]).includes('campaign_clinic'), false);
   assert.equal(JSON.stringify(queue.messages[0]).includes(template), false);
 
+  const startGatewayCalls = service.requests.length;
+  service.healthUnavailable = true;
+  const runningReplay = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    `/api/admin/lead-radar/telegram-campaigns/${campaignId}/start`,
+    {
+      method: 'POST', token,
+      params: { path: `telegram-campaigns/${campaignId}/start` },
+      headers: { 'Idempotency-Key': 'campaign-start-enabled-api-0001' },
+      body: {},
+      env: { ...baseEnv, LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true' },
+    },
+  );
+  assert.equal(runningReplay.status, 200);
+  assert.equal(runningReplay.body.status, 'running');
+  assert.equal(service.requests.length, startGatewayCalls,
+    'an exact start replay never depends on current gateway health');
+  assert.equal(queue.messages.length, 1, 'a start replay never enqueues a second effect');
+  service.healthUnavailable = false;
+
   const paused = await callRoute(
     leadRadarRoute.onRequestPost,
     db,
@@ -2557,6 +2708,64 @@ test('campaign API freezes exact payload, queues only an opaque envelope, and ke
   );
   assert.equal(paused.status, 200);
   assert.equal(paused.body.status, 'paused');
+
+  service.privateAccountStatus = 'reauth_required';
+  service.privateAccountReasonCode = 'auth_expired';
+  const blockedResume = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    `/api/admin/lead-radar/telegram-campaigns/${campaignId}/resume`,
+    {
+      method: 'POST', token,
+      params: { path: `telegram-campaigns/${campaignId}/resume` },
+      headers: { 'Idempotency-Key': 'campaign-resume-reauth-blocked-0001' },
+      body: {},
+      env: { ...baseEnv, LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true' },
+    },
+  );
+  assert.equal(blockedResume.status, 409);
+  assert.equal(blockedResume.body.error, 'telegram_campaign_account_not_connected');
+  assert.equal(db.value('SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', campaignId), 'paused');
+  assert.equal(queue.messages.length, 1);
+
+  service.privateAccountStatus = null;
+  service.privateAccountReasonCode = null;
+  const resumed = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    `/api/admin/lead-radar/telegram-campaigns/${campaignId}/resume`,
+    {
+      method: 'POST', token,
+      params: { path: `telegram-campaigns/${campaignId}/resume` },
+      headers: { 'Idempotency-Key': 'campaign-resume-enabled-api-0001' },
+      body: {},
+      env: { ...baseEnv, LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true' },
+    },
+  );
+  assert.equal(resumed.status, 200);
+  assert.equal(resumed.body.status, 'running');
+  const queueAfterResume = queue.messages.length;
+  const resumeGatewayCalls = service.requests.length;
+  service.healthUnavailable = true;
+  const resumedReplay = await callRoute(
+    leadRadarRoute.onRequestPost,
+    db,
+    `/api/admin/lead-radar/telegram-campaigns/${campaignId}/resume`,
+    {
+      method: 'POST', token,
+      params: { path: `telegram-campaigns/${campaignId}/resume` },
+      headers: { 'Idempotency-Key': 'campaign-resume-enabled-api-0001' },
+      body: {},
+      env: { ...baseEnv, LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true' },
+    },
+  );
+  assert.equal(resumedReplay.status, 200);
+  assert.equal(resumedReplay.body.status, 'running');
+  assert.equal(service.requests.length, resumeGatewayCalls,
+    'an exact resume replay never depends on current gateway health');
+  assert.equal(queue.messages.length, queueAfterResume,
+    'a resume replay never enqueues a second effect');
+  service.healthUnavailable = false;
 
   const stopped = await callRoute(
     leadRadarRoute.onRequestPost,

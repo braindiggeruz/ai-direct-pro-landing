@@ -273,11 +273,15 @@ function retryDelaySeconds(attempt: number): number {
 const TRANSIENT_ENRICHMENT_CODES = new Set(['source_unavailable', 'source_timeout']);
 const TRANSIENT_ENRICHMENT_BACKOFF_SECONDS = [15 * 60, 60 * 60, 4 * 60 * 60];
 
-// A contact-resolution job that outlives its in-window waits (offline Bridge,
-// parked budget, transient provider errors) regenerates on the same idempotency
-// row instead of dead-lettering: each cycle requeues for a fresh 30-minute
-// window. The job's immutable created_at is the bound — after 48 hours the
-// terminal trace path takes over, so nothing loops forever.
+// Search-time contact checks are useful only while the search is still open.
+// Keep provider continuations free of failure-attempt accounting, but cap the
+// complete search at one hour. Saved companies remain available for a later,
+// separately initiated Telegram readiness check.
+const CONTACT_RESOLUTION_SEARCH_WINDOW_MS = 60 * 60_000;
+// This remains the upper bound for regenerating one provider continuation.
+// While that work belongs to a running search, the one-hour search deadline
+// above wins for both explicit contact mode and an ordinary search's optional
+// contact tail.
 const CONTACT_RESOLUTION_REGENERATION_MS = 48 * 60 * 60_000;
 const CONTACT_RESOLUTION_REGENERATION_DELAY_SECONDS = 30 * 60;
 
@@ -576,10 +580,9 @@ async function processEnrichment(
     }
     if (pending) {
       // Bounded waiting must not turn an unperformed check into "completed".
-      // Regeneration first: a young job whose window expired (Bridge offline
-      // overnight, budget parked past the 36h daily-budget window) returns to
-      // the queue on the same idempotency row, so the company is not silently
-      // written off while its check is still performable.
+      // Regeneration first: a young job whose short check window expired
+      // returns to the queue on the same idempotency row. The consumer-level
+      // one-hour search deadline remains authoritative.
       const jobAgeMs = Date.parse(now) - Date.parse(job.createdAt ?? now);
       if (job.leaseOwner && Number.isFinite(jobAgeMs) && jobAgeMs < CONTACT_RESOLUTION_REGENERATION_MS) {
         const regenerateAt = new Date(Date.parse(now) + CONTACT_RESOLUTION_REGENERATION_DELAY_SECONDS * 1000).toISOString();
@@ -732,7 +735,7 @@ export async function consumeLeadRadarQueueMessage(
   const message = parseLeadRadarQueueMessage(raw);
   if (!message) return { outcome: 'invalid' };
   const store = new LeadRadarStore(db);
-  const known = await store.getJob(message.job_id);
+  let known = await store.getJob(message.job_id);
   if (!known) return { outcome: 'invalid' };
   const at = dependencies.now?.() ?? new Date();
   if (known.status === 'completed') return { outcome: 'duplicate' };
@@ -741,6 +744,28 @@ export async function consumeLeadRadarQueueMessage(
     // acknowledged. If the explicit DLQ send fails, Cloudflare retries this
     // message and the Worker gets another chance to persist the DLQ copy.
     return { outcome: 'dead_letter', errorCode: known.lastErrorCode ?? 'dead_letter' };
+  }
+  if (known.purpose === 'contact_resolution') {
+    const searchDeadlineBefore = new Date(
+      at.getTime() - CONTACT_RESOLUTION_SEARCH_WINDOW_MS,
+    ).toISOString();
+    await store.expireContactSearchIfPastDeadline(
+      known.orgId, known.searchId, searchDeadlineBefore, at.toISOString(),
+    );
+    let current = await store.getJob(known.id);
+    if (!current) return { outcome: 'invalid' };
+    if (current.status === 'completed') return { outcome: 'duplicate' };
+    if (current.status === 'dead_letter') {
+      return { outcome: 'dead_letter', errorCode: current.lastErrorCode ?? 'dead_letter' };
+    }
+    if (current.attemptCount >= current.maxAttempts) {
+      await store.rearmExhaustedContactJob(
+        current.orgId, current.id, searchDeadlineBefore, at.toISOString(),
+      );
+      current = await store.getJob(current.id);
+      if (!current) return { outcome: 'invalid' };
+    }
+    known = current;
   }
   await store.observeJobDispatch(known.id, at.toISOString());
   if (known.status === 'running' && known.leaseExpiresAt
@@ -832,20 +857,31 @@ export async function enqueueDueLeadRadarJobs(
   at = new Date(),
   limit = 5,
   allowOrganization: (orgId: string) => boolean = () => true,
+  searchId: string | null = null,
 ): Promise<number> {
   const store = new LeadRadarStore(db);
   const now = at.toISOString();
-  await store.requeueStaleSentDispatches(
+  const searchDeadlineBefore = new Date(
+    at.getTime() - CONTACT_RESOLUTION_SEARCH_WINDOW_MS,
+  ).toISOString();
+  // One bounded scan handles the old sent/ACK loop, max-attempt poison rows,
+  // and contact-search deadlines without adding queries to a normal tick.
+  const deferredRecovery = await store.recoverDeferredQueueWork(
     new Date(at.getTime() - DISPATCH_VISIBILITY_TIMEOUT_MS).toISOString(),
+    searchDeadlineBefore,
     now,
     allowOrganization,
     5,
+    searchId,
   );
+  // At most two running searches can hold admission. Their funnel refresh is
+  // deliberately the expensive work, so do not dispatch more work this tick.
+  if (deferredRecovery.expiredSearches > 0) return 0;
   // Recovery touches one row per expired lease; the funnel refresh is the
   // expensive part, so it runs once per affected search (bounded to two)
   // instead of once per job. Ten recoveries per tick keep a post-deploy
   // backlog from crawling at two jobs per 15 minutes (audit QR-5).
-  const expiredJobs = (await store.listExpiredJobs(now, 10))
+  const expiredJobs = (await store.listExpiredJobs(now, 10, searchId))
     .filter((job) => allowOrganization(job.orgId));
   const dirtySearches = new Map<string, { orgId: string; searchId: string }>();
   for (const expired of expiredJobs) {
@@ -865,6 +901,7 @@ export async function enqueueDueLeadRadarJobs(
     new Date(at.getTime() + DISPATCH_LEASE_MS).toISOString(),
     Math.max(1, Math.min(5, Math.trunc(limit))),
     allowOrganization,
+    searchId,
   );
   let sent = 0;
   for (const reservation of reservations) {
@@ -886,6 +923,12 @@ export async function resumeStalledLeadRadarSearches(
   const store = new LeadRadarStore(db);
   let resumed = 0;
   for (const stalled of await store.listRunningSearchesWithPools(2, allowOrganization)) {
+    // enqueueDueLeadRadarJobs performs the bounded terminal transition. Do
+    // not revive or extend a pool once its one-hour search deadline elapsed.
+    if (stalled.contactMode
+      && Date.parse(stalled.createdAt) <= now.getTime() - CONTACT_RESOLUTION_SEARCH_WINDOW_MS) {
+      continue;
+    }
     // Per-search isolation (audit LR-F-14): one failing search must not
     // abort the sweep for the remaining stalled searches on this tick.
     try {
@@ -894,10 +937,8 @@ export async function resumeStalledLeadRadarSearches(
       // Audit LR-F-2: the same UPDATE once revives dead contact-resolution
       // rows created BEFORE the QR-1 regeneration fix — they used to be
       // uncreatable (ON CONFLICT DO NOTHING) and silently dropped their
-      // companies from the funnel. Resetting created_at re-arms the bounded
-      // 48h window. Rows created after the fix never need revival: they
-      // regenerate on the same row for 48h before dead-lettering, so the
-      // cutoff keeps this strictly one-time without an endless revive loop.
+      // companies from the funnel. The search deadline guard above keeps this
+      // strictly one-time without extending an expired search.
       await db.prepare(`UPDATE lead_radar_jobs SET status='queued', attempt_count=0,
         available_at=?, lease_owner=NULL, lease_expires_at=NULL,
         dispatch_status='pending', next_dispatch_at=?, completed_at=NULL,
