@@ -93,6 +93,7 @@ ${DISALLOWED_PATHS.map((path) => `Disallow: ${path}`).join('\n')}
 
 # Sitemap (canonical, indexable URLs only).
 Sitemap: ${siteUrl}/sitemap.xml
+Sitemap: ${siteUrl}/sitemap-new.xml
 
 # AI / LLM grounding manifest (https://llmstxt.org).
 # X-LLM-Grounding: ${siteUrl}/llms.txt
