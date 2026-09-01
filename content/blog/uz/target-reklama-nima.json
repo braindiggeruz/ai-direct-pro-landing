@@ -1,0 +1,294 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "target-reklama-nima",
+  "url": "/uz/blog/target-reklama-nima/",
+  "title": "Target reklama nima: O‘zbekistonda qanday ishlaydi",
+  "description": "Target reklama nima, kontekst reklamadan nimasi bilan farq qiladi: auditoriya, kreativ, byudjet va o‘lchash. O‘zbekiston uchun amaliy cheklovlar va tez-tez uchraydigan xatolar.",
+  "h1": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
+  "topicCluster": "internet-reklama",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "target nima",
+    "target reklama nima",
+    "targetlangan reklama",
+    "target va kontekst farqi",
+    "target reklama O‘zbekiston"
+  ],
+  "intro": "Target reklama — e’lonni allaqachon tayyor bo‘lgan odamga emas, balki siz belgilagan xususiyatlarga mos keladigan auditoriyaga ko‘rsatish usuli. Kontekst reklama esa qidiruvdagi so‘rovga javob beradi. Farq shu: kontekst mavjud talabni ushlaydi, target esa talabni shakllantiradi. Quyida ikkalasi qanday tanlanadi, byudjet qanday rejalashtiriladi va qaysi ko‘rsatkichlar haqiqatan muhim.",
+  "body": [
+    {
+      "type": "h2",
+      "id": "ta-rif",
+      "text": "Target reklama nima?"
+    },
+    {
+      "type": "p",
+      "text": "Target (targetlangan reklama) — ijtimoiy tarmoq va platformalarda foydalanuvchiga uning yoshi, hududi, qiziqishlari va xatti-harakati bo‘yicha ko‘rsatiladigan e’lon. Foydalanuvchi mahsulotni qidirmayotgan bo‘lishi mumkin, lekin e’lon uning lentasida paydo bo‘ladi. Shu sababli target yangi mahsulot va yangi auditoriya uchun, kontekst esa shakllangan talab uchun kuchliroq."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Belgi",
+        "Target reklama",
+        "Kontekst reklama"
+      ],
+      "rows": [
+        [
+          "Ishga tushish",
+          "Auditoriya tanlanadi",
+          "Kalit so‘zlar tanlanadi"
+        ],
+        [
+          "Talab",
+          "Talabni shakllantiradi",
+          "Mavjud talabni ushlaydi"
+        ],
+        [
+          "Tezlik",
+          "Birinchi natija tez, lekin sifat tekshiruv talab qiladi",
+          "Talab bo‘lsa, ariza tezroq sifatli chiqadi"
+        ],
+        [
+          "Asosiy xavf",
+          "Keng auditoriya byudjetni yeb qo‘yadi",
+          "Tor semantika hajmni cheklaydi"
+        ],
+        [
+          "O‘lchash",
+          "Ko‘rsatish, bosish, ariza",
+          "So‘rov, bosish, ariza"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Kanallarni to‘liq solishtirish {ads} sahifasida. Qidiruv reklamasi bo‘yicha batafsil ma’lumot — {money} materialida.",
+      "links": [
+        {
+          "token": "ads",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "internet reklama Toshkent"
+        },
+        {
+          "token": "money",
+          "target": "/uz/seo-xizmati/",
+          "anchor": "SEO xizmati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "auditoriya",
+      "text": "Auditoriyani qanday tanlash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Avval mavjud mijozni tavsiflang: yoshi, hududi, qanday muammo bilan keladi.",
+        "Bitta kampaniyada bitta auditoriya segmenti — aralash segmentlarni solishtirib bo‘lmaydi.",
+        "Keng auditoriyadan boshlab toraytirmang: tor segmentdan boshlab kengaytiring.",
+        "O‘xshash (look-alike) auditoriyani faqat haqiqiy mijozlar bazasi bo‘lganda ishlating.",
+        "Charchagan auditoriyani kuzating: bir xil kreativ uzoq ko‘rsatilsa, narx oshadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kreativ",
+      "text": "Kreativ va taklif"
+    },
+    {
+      "type": "p",
+      "text": "Targetda kreativ auditoriyadan ham muhimroq bo‘ladi: odam e’lonni qidirmagan, shuning uchun birinchi ikki soniya hal qiladi. Bitta aniq va’da, bitta aniq keyingi qadam. «Eng yaxshi», «arzon», «tez» kabi asossiz so‘zlar ishlamaydi — aniq raqam va aniq natiya ishlaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi ekranda bitta savol yoki bitta va’da bo‘lsin.",
+        "Keyingi qadam aniq yozilsin: qo‘ng‘iroq, Telegram, ariza formasi.",
+        "Narx yoki shartni yashirmang — bu ariza sifatini pasaytiradi.",
+        "Har bir segment uchun alohida kreativ tayyorlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "byudjet",
+      "text": "Byudjet va o‘lchash"
+    },
+    {
+      "type": "p",
+      "text": "Byudjet «qancha pul bor»dan emas, «bitta ariza qancha turishi mumkin»dan hisoblanadi: o‘rtacha chek, yalpi marja va arizaning sotuvga aylanish ehtimoli. Bu chegara hisoblanmasa, kampaniya ariza keltirsa ham zarar bilan ishlashi mumkin."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘rsatkich",
+        "Nima haqida gapiradi",
+        "Nima uchun alohida o‘lchanadi"
+      ],
+      "rows": [
+        [
+          "CPM",
+          "Ko‘rsatish narxi",
+          "Auktsion qimmatlashganini ko‘rsatadi"
+        ],
+        [
+          "CTR",
+          "Kreativ qiziqtirganini",
+          "Past CTR — kreativ yoki auditoriya noto‘g‘ri"
+        ],
+        [
+          "CPC",
+          "Bosish narxi",
+          "Kanal samaradorligini solishtirish uchun"
+        ],
+        [
+          "CPL",
+          "Ariza narxi",
+          "Biznes uchun asosiy chegara"
+        ],
+        [
+          "Sotuvga aylanish",
+          "Ariza sifati",
+          "Arzon ariza sotuvga aylansa foydali"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Reklama byudjeti ariza keltiradimi-yo‘qmi, hisoblab ko‘rish kerakmi? {call} yoki {tg}: chegaraviy CPLni birgalikda hisoblaymiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "O‘zbekistonda tez-tez uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Barcha auditoriyaga bitta kreativ ko‘rsatish.",
+        "Faqat bosish narxini kuzatib, ariza sifatini o‘lchamaslik.",
+        "Qo‘ng‘iroqni umuman hisobga olmaslik — ko‘p sohalarda asosiy kanal shu.",
+        "Analitika o‘rnatilmasdan kampaniya boshlash.",
+        "Byudjetni bir haftada tugatib, xulosa chiqarish."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Kanalni tanlash, byudjet va o‘lchash tartibi {ads} sahifasida. Ijtimoiy tarmoqlar bo‘yicha muntazam ish {smm} materialida yozilgan.",
+      "links": [
+        {
+          "token": "ads",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "internet reklama Toshkent"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM xizmatlari"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Reklama kanallarini solishtirish",
+      "href": "/uz/internet-reklama-toshkent/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Target nima, oddiy qilib aytganda?",
+      "a": "Bu e’lonni aniq belgilangan auditoriyaga ko‘rsatish: yosh, hudud, qiziqish va xatti-harakat bo‘yicha. Qidiruvdagi so‘rovga emas, foydalanuvchi xususiyatlariga tayanadi."
+    },
+    {
+      "q": "Target va kontekst reklama farqi nimada?",
+      "a": "Kontekst mavjud talabni ushlaydi — odam allaqachon qidiryapti. Target talabni shakllantiradi — odam qidirmayotgan bo‘lsa ham e’lonni ko‘radi. Yangi mahsulot uchun target, shakllangan talab uchun kontekst kuchliroq."
+    },
+    {
+      "q": "Target reklama uchun qancha byudjet kerak?",
+      "a": "Aniq raqam soha va raqobatga bog‘liq. To‘g‘ri hisob teskari: avval bitta ariza uchun ruxsat etilgan narx hisoblanadi, keyin shu chegaradan byudjet rejalashtiriladi."
+    },
+    {
+      "q": "Target reklama qancha vaqtda natija beradi?",
+      "a": "Birinchi arizalar birinchi kunlarda chiqishi mumkin, lekin xulosa uchun kamida ikki-uch hafta kerak: kreativ sinovi va auditoriya saralanishi shu vaqt ichida bo‘ladi."
+    },
+    {
+      "q": "Nima uchun ariza ko‘p, sotuv kam?",
+      "a": "Demak kreativ juda keng va’da bergan yoki auditoriya noto‘g‘ri tanlangan. Ariza narxi emas, sotuvga aylanish foizi asosiy ko‘rsatkich bo‘lishi kerak."
+    }
+  ],
+  "cta": {
+    "label": "Reklama kanallarini solishtirish",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "internet reklama Toshkent",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "SEO xizmati",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "biznes uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",
+  "ogDescription": "Target reklama qanday ishlaydi, auditoriya va kreativ qanday tanlanadi, qaysi ko‘rsatkichlar muhim. O‘zbekiston uchun amaliy xatolar ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+  "hreflangUz": "/uz/blog/target-reklama-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "datePublished": "2026-09-01",
+  "dateModified": "2026-09-01",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Meta Business — рекламные объявления",
+      "url": "https://www.facebook.com/business/ads"
+    }
+  ],
+  "updatedAt": "2026-09-01T00:00:00.000Z",
+  "createdAt": "2026-09-01T00:00:00.000Z"
+}

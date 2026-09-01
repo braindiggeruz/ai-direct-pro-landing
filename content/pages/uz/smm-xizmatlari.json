@@ -693,6 +693,13 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "block"
+    },
+    {
+      "target": "/uz/blog/target-reklama-nima/",
+      "anchor": "target reklama nima",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "schemaTypes": [
@@ -704,5 +711,5 @@
   ],
   "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-31"
+  "updatedAt": "2026-09-01T00:00:00.000Z"
 }

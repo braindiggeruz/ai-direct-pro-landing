@@ -62,13 +62,37 @@
     },
     {
       "type": "table",
-      "headers": ["Soha", "Bot qanday vazifani hal qiladi", "Biznes uchun natija"],
+      "headers": [
+        "Soha",
+        "Bot qanday vazifani hal qiladi",
+        "Biznes uchun natija"
+      ],
       "rows": [
-        ["Klinikalar", "Qabulga yozilish, shifokor va narxlar bo‘yicha javob", "Kechasi ham yozilish, kamroq yo‘qotilgan murojaat"],
-        ["Go‘zallik salonlari", "Xizmatga bron, eslatmalar, usta bo‘yicha javob", "Administrator qo‘lda yozishmasdan to‘la jadval"],
-        ["Internet-do‘konlar", "Buyurtma rasmiylashtirish, yetkazish holati", "Tez javob va kamroq tashlab ketilgan savat"],
-        ["HoReCa", "Bron va yetkazishni qabul qilish, menyu bo‘yicha javob", "Eng band vaqtda ham buyurtmalar yo‘qolmaydi"],
-        ["O‘quv markazlari", "Sinov darsiga yozilish, ota-onalarga javob", "Instagram va Telegram reklamadan ko‘proq yozilish"]
+        [
+          "Klinikalar",
+          "Qabulga yozilish, shifokor va narxlar bo‘yicha javob",
+          "Kechasi ham yozilish, kamroq yo‘qotilgan murojaat"
+        ],
+        [
+          "Go‘zallik salonlari",
+          "Xizmatga bron, eslatmalar, usta bo‘yicha javob",
+          "Administrator qo‘lda yozishmasdan to‘la jadval"
+        ],
+        [
+          "Internet-do‘konlar",
+          "Buyurtma rasmiylashtirish, yetkazish holati",
+          "Tez javob va kamroq tashlab ketilgan savat"
+        ],
+        [
+          "HoReCa",
+          "Bron va yetkazishni qabul qilish, menyu bo‘yicha javob",
+          "Eng band vaqtda ham buyurtmalar yo‘qolmaydi"
+        ],
+        [
+          "O‘quv markazlari",
+          "Sinov darsiga yozilish, ota-onalarga javob",
+          "Instagram va Telegram reklamadan ko‘proq yozilish"
+        ]
       ]
     },
     {
@@ -118,45 +142,243 @@
     }
   ],
   "internalLinks": [
-    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/gpt-bot-biznes-uchun/", "anchor": "Biznes uchun GPT bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/chat-bot-biznes-uchun/", "anchor": "Biznes uchun chat-bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/ai-sotuvchi/", "anchor": "AI-sotuvchi", "locale": "uz", "type": "block" },
-    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
-    { "target": "/uz/instagram-bot-biznes-uchun/", "anchor": "Instagram Direct bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/instagram-uchun-ai-menejer/", "anchor": "Instagram uchun AI-menejer", "locale": "uz", "type": "block" },
-    { "target": "/uz/whatsapp-bot-biznes-uchun/", "anchor": "WhatsApp bot biznes uchun", "locale": "uz", "type": "block" },
-    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "Arizalarni avtomatlashtirish", "locale": "uz", "type": "block" },
-    { "target": "/uz/savdoni-avtomatlashtirish/", "anchor": "Savdoni avtomatlashtirish", "locale": "uz", "type": "block" },
-    { "target": "/uz/arizalarni-qabul-qiluvchi-bot/", "anchor": "Arizalarni qabul qiluvchi bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/amocrm-bitrix24-bilan-ai-bot/", "anchor": "AmoCRM va Bitrix24 integratsiyasi", "locale": "uz", "type": "block" },
-    { "target": "/uz/klinika-uchun-ai-bot/", "anchor": "Klinika uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/salon-uchun-ai-bot/", "anchor": "Salon uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/dokon-uchun-ai-bot/", "anchor": "Do‘kon uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/horeca-uchun-ai-bot/", "anchor": "HoReCa uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/oquv-markazi-uchun-ai-bot/", "anchor": "O‘quv markazi uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/", "anchor": "Ko‘chmas mulk uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/avtosalon-uchun-ai-bot/", "anchor": "Avtosalon uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/fitnes-klub-uchun-ai-bot/", "anchor": "Fitnes klub uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/sayt-yaratish/", "anchor": "Sayt yaratish", "locale": "uz", "type": "block" },
-    { "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari", "locale": "uz", "type": "block" },
-    { "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama", "locale": "uz", "type": "block" },
-    { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/yetkazib-berish-uchun-ai-bot/", "anchor": "Yetkazib berish uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/yurist-uchun-ai-bot/", "anchor": "Yurist uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/sharhlar/", "anchor": "Mijozlar sharhlari va keyslari", "locale": "uz", "type": "block" },
-    { "target": "/uz/chat-bot-narxi/", "anchor": "Chat-bot narxi", "locale": "uz", "type": "block" },
-    { "target": "/uz/biz-haqimizda/", "anchor": "Biz haqimizda", "locale": "uz", "type": "block" },
-    { "target": "/uz/jamoa/", "anchor": "GPTBot.uz jamoasi", "locale": "uz", "type": "block" },
-    { "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida", "locale": "uz", "type": "block" },
-    { "target": "/uz/gpt-uzbek-tilida-ai-chat/", "anchor": "GPT o‘zbek tilida — AI-chat", "locale": "uz", "type": "block" },
-    { "target": "/uz/gpt-telegram-instagram-ideya/", "anchor": "Telegram va Instagram uchun GPT", "locale": "uz", "type": "block" },
-    { "target": "/uz/seo-xizmati/", "anchor": "Qidiruv optimizatsiyasi (SEO)", "locale": "uz", "type": "block" },
-    { "target": "/uz/internet-reklama-toshkent/", "anchor": "Toshkentda internet reklama", "locale": "uz", "type": "block" },
-    { "target": "/uz/blog/marketing-nima/", "anchor": "Marketing nima", "locale": "uz", "type": "block" }
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-bot-biznes-uchun/",
+      "anchor": "Biznes uchun GPT bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/chat-bot-biznes-uchun/",
+      "anchor": "Biznes uchun chat-bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/ai-sotuvchi/",
+      "anchor": "AI-sotuvchi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot biznes uchun",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/instagram-bot-biznes-uchun/",
+      "anchor": "Instagram Direct bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/instagram-uchun-ai-menejer/",
+      "anchor": "Instagram uchun AI-menejer",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/whatsapp-bot-biznes-uchun/",
+      "anchor": "WhatsApp bot biznes uchun",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "Arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/savdoni-avtomatlashtirish/",
+      "anchor": "Savdoni avtomatlashtirish",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "Arizalarni qabul qiluvchi bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "anchor": "AmoCRM va Bitrix24 integratsiyasi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/klinika-uchun-ai-bot/",
+      "anchor": "Klinika uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/salon-uchun-ai-bot/",
+      "anchor": "Salon uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/dokon-uchun-ai-bot/",
+      "anchor": "Do‘kon uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/horeca-uchun-ai-bot/",
+      "anchor": "HoReCa uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O‘quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+      "anchor": "Ko‘chmas mulk uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/avtosalon-uchun-ai-bot/",
+      "anchor": "Avtosalon uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/fitnes-klub-uchun-ai-bot/",
+      "anchor": "Fitnes klub uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "Sayt yaratish",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "Sayt uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/yetkazib-berish-uchun-ai-bot/",
+      "anchor": "Yetkazib berish uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/yurist-uchun-ai-bot/",
+      "anchor": "Yurist uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/sharhlar/",
+      "anchor": "Mijozlar sharhlari va keyslari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/chat-bot-narxi/",
+      "anchor": "Chat-bot narxi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/biz-haqimizda/",
+      "anchor": "Biz haqimizda",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/jamoa/",
+      "anchor": "GPTBot.uz jamoasi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPT o‘zbek tilida",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida-ai-chat/",
+      "anchor": "GPT o‘zbek tilida — AI-chat",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-telegram-instagram-ideya/",
+      "anchor": "Telegram va Instagram uchun GPT",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "Qidiruv optimizatsiyasi (SEO)",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "Toshkentda internet reklama",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "Marketing nima",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/suniy-intellekt/",
+      "anchor": "Sun’iy intellekt nima",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "anchor": "ChatGPT kirish",
+      "locale": "uz",
+      "type": "contextual"
+    }
   ],
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
   "lastReviewedAt": "2026-07-01",
-  "updatedAt": "2026-07-01",
+  "updatedAt": "2026-09-01T00:00:00.000Z",
   "createdAt": "2026-07-01"
 }
