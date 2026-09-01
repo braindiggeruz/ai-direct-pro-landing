@@ -129,7 +129,6 @@ LEAD_RADAR_PROCESSING_ENABLED = "true"
 # registered worker. Never grants Telegram verification or sending permission.
 LEAD_RADAR_CRAWLER_ENABLED = "true"
 LEAD_RADAR_CONTACT_ENABLED = "false"
-LEAD_RADAR_CRAWLER_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_TRANSPORT_MODE = "local_bridge"
 # Account pairing is enabled for the owner canary, but all outbound gates remain
