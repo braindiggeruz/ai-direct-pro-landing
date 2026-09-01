@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator } from '../src/shared/lead-radar-contacts';
+import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator, type LeadRadarContactCandidate } from '../src/shared/lead-radar-contacts';
 import { contactCandidatesForLead, mergeContactCandidates } from '../functions/platform/lead-radar/contact-candidates';
 import { extractCompanyPageFacts } from '../functions/platform/lead-radar/sources';
 import { officialDomainsFromListing, officialDomainSearchQuery } from '../functions/platform/lead-radar/official-domain-discovery';
@@ -190,4 +190,44 @@ test('verified website retains multiple phones with fixed lines excluded only fr
   assert.equal(contacts.find((item) => item.phoneType === 'mobile')?.lookupEligible, true);
   assert.equal(contacts.some((item) => item.resolution === 'resolved'), false);
   assert.deepEqual(contactCandidatesForLead({ ...facts, country: 'UZ', suppressed: true }), []);
+});
+
+function phoneCandidate(overrides: Partial<LeadRadarContactCandidate> = {}): LeadRadarContactCandidate {
+  return {
+    key: 'phone:+998901234567', kind: 'phone', value: '+998901234567', phoneType: 'mobile',
+    ownership: 'company', lookupEligible: true, reason: 'mobile_unverified',
+    sourceUrl: 'https://clinic.example', evidenceIds: ['e1'], observedAt: null,
+    ...overrides,
+  };
+}
+
+test('merge keeps the higher tier and never unions evidence across candidates', () => {
+  const company = phoneCandidate();
+  const unconfirmed = phoneCandidate({ ownership: 'unconfirmed', lookupEligible: false, evidenceIds: ['e2', 'e3'] });
+  const merged = mergeContactCandidates([company, unconfirmed]);
+  assert.equal(merged.length, 1);
+  assert.equal(merged[0].ownership, 'company');
+  // Evidence ids must stay attached to the row that produced them: a candidate
+  // referencing evidence absent from the lead is dropped by the capability check.
+  assert.deepEqual(merged[0].evidenceIds, ['e1']);
+});
+
+test('merge breaks an equal-tier tie in favour of the better-evidenced phone', () => {
+  const oneSource = phoneCandidate({ evidenceIds: ['e1'] });
+  const twoSources = phoneCandidate({ evidenceIds: ['e2', 'e3'], sourceUrl: 'https://top.uz/company/x' });
+  const forward = mergeContactCandidates([oneSource, twoSources]);
+  assert.equal(forward.length, 1);
+  assert.deepEqual(forward[0].evidenceIds, ['e2', 'e3']);
+
+  // Order must not decide the winner.
+  const backward = mergeContactCandidates([twoSources, oneSource]);
+  assert.deepEqual(backward[0].evidenceIds, ['e2', 'e3']);
+});
+
+test('merge keeps distinct phone keys separate and bounded', () => {
+  const rows = Array.from({ length: 60 }, (_unused, index) => phoneCandidate({
+    key: `phone:+9989012345${String(index).padStart(2, '0')}`,
+    value: `+9989012345${String(index).padStart(2, '0')}`,
+  }));
+  assert.equal(mergeContactCandidates(rows).length, 40);
 });
