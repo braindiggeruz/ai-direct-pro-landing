@@ -40,6 +40,18 @@ export function isExportPath(parts: string[]): boolean {
 /** Characters a spreadsheet evaluates as the start of a formula. */
 const FORMULA_PREFIX = /^[=+\-@\t\r]/;
 
+/** C0 controls and DEL cannot occur in a real company name and would corrupt
+ *  the row structure. Filtered by code point rather than a regex literal so the
+ *  `no-control-regex` lint rule stays satisfied without an exemption. */
+function stripControlCharacters(value: string): string {
+  let out = '';
+  for (const char of value) {
+    const code = char.codePointAt(0) ?? 0;
+    out += code < 0x20 || code === 0x7f ? ' ' : char;
+  }
+  return out;
+}
+
 /**
  * Quote and neutralize a free-text cell.
  *
@@ -51,7 +63,7 @@ const FORMULA_PREFIX = /^[=+\-@\t\r]/;
  * every dialer and messaging-app importer.
  */
 function csvText(value: string | null | undefined): string {
-  const text = (value ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ' ');
+  const text = stripControlCharacters(value ?? '');
   const safe = FORMULA_PREFIX.test(text) ? `'${text}` : text;
   return /[",\r\n]/.test(safe) ? `"${safe.replace(/"/g, '""')}"` : safe;
 }

@@ -120,6 +120,30 @@ test('CSV neutralises spreadsheet formulas in third-party text', () => {
   assert.match(csv, /,\+998901234567,/, 'the phone itself is untouched');
 });
 
+test('CSV strips control characters instead of letting them corrupt the row', () => {
+  const csv = renderCsv([{
+    company: 'A\u0000B\u0007C\u007f',
+    phone: '+998901234567',
+    telegram: null,
+    website: null,
+    address: null,
+    city: 'Tashkent',
+    priority: 'p1',
+    score: 0,
+  }]);
+  // CRLF is the row terminator and is itself a C0 control, so it is removed
+  // before asserting that no stray control character survived into the cells.
+  // Scanned by code point for the same reason the implementation is: a regex
+  // literal holding control characters trips `no-control-regex`.
+  const cells = csv.replace(/\r\n/g, '');
+  const survived = [...cells].filter((char) => {
+    const code = char.codePointAt(0) ?? 0;
+    return code < 0x20 || code === 0x7f;
+  });
+  assert.deepEqual(survived, [], 'no C0 control or DEL survives');
+  assert.match(cells, /A B C/, 'each one became a space');
+});
+
 test('vCard renders an importable single contact', () => {
   const vcf = renderVcf([{
     company: 'Клиника Улыбка',
