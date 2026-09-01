@@ -78,7 +78,12 @@ export function boundsToCircle(
 
 /** Contact types we can turn into something actionable. Everything else in
  *  `contact_groups` (skype, viber, twitter…) is ignored rather than guessed. */
-const TELEGRAM_TYPES = new Set(['telegram']);
+/** 2GIS spells the messenger type `telegram`; a longer spelling such as
+ *  `telegram_channel` would be dropped by an exact match. Any type beginning
+ *  with the name is that messenger. */
+function isTelegramType(type: string): boolean {
+  return type.startsWith('telegram');
+}
 const WEBSITE_TYPES = new Set(['website']);
 const EMAIL_TYPES = new Set(['email']);
 const PHONE_TYPES = new Set(['phone', 'whatsapp']);
@@ -137,12 +142,35 @@ export function extractTwoGisContacts(item: unknown): TwoGisExtractedContacts {
         found.website = text;
       } else if (EMAIL_TYPES.has(type) && !found.email) {
         found.email = text;
-      } else if (TELEGRAM_TYPES.has(type) && !found.telegram) {
+      } else if (isTelegramType(type) && !found.telegram) {
         found.telegram = text;
       }
     }
   }
   return found;
+}
+
+/** A Telegram handle, optionally prefixed with `@`, in the length Telegram
+ *  itself allows. */
+const TELEGRAM_HANDLE = /^@?([A-Za-z][A-Za-z0-9_]{4,31})$/;
+const TELEGRAM_HOST_ONLY = /^(?:t|telegram)\.me\//i;
+
+/**
+ * Completes the shapes a catalog uses for a contact it has already typed as
+ * `telegram`: a full URL, a URL without its scheme, an `@handle`, or a bare
+ * handle. The shared cleaner accepts only the first and the third, and rightly
+ * so — on a scraped page a bare word is far more often prose than a handle,
+ * and guessing there would weaken the fail-closed contact model. A typed
+ * contact field carries the one assertion the shared cleaner lacks, so the
+ * shape is completed here and the shared cleaner still validates the handle.
+ */
+function twoGisTelegramUrl(raw: string | null): string | null {
+  if (!raw) return null;
+  const text = raw.trim();
+  const handle = TELEGRAM_HANDLE.exec(text);
+  if (handle) return cleanTelegram(`https://t.me/${handle[1]}`);
+  if (TELEGRAM_HOST_ONLY.test(text)) return cleanTelegram(`https://${text}`);
+  return cleanTelegram(text);
 }
 
 /** Item types that are not a business. 2GIS mixes buildings, streets and
@@ -210,7 +238,7 @@ export function candidateFromTwoGisItem(
   const phone = contacts.phone ? assessLeadRadarPhone(contacts.phone, input.country).e164 : null;
   const website = cleanWebsite(contacts.website);
   const email = cleanEmail(contacts.email);
-  const telegram = cleanTelegram(contacts.telegram);
+  const telegram = twoGisTelegramUrl(contacts.telegram);
 
   const evidence: LeadRadarEvidence[] = [
     sourceEvidence('company.name', name, sourceUrl, 'official_open_data', 0.88, 'fact', observedAt),

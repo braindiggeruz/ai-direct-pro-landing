@@ -126,6 +126,52 @@ test('an item becomes a candidate with a normalised E.164 phone', () => {
   assert.equal(candidate?.enrichmentStatus, 'pending', 'a website means enrichment can run');
 });
 
+test('every spelling 2GIS uses for a Telegram handle becomes a contact', () => {
+  // A catalog that types a contact as `telegram` has already asserted what the
+  // string is, so a bare handle is trustworthy here. On a scraped page the
+  // shared cleaner rightly refuses it — that rule is not weakened here, the
+  // shape is completed before the shared cleaner validates the handle itself.
+  const shapes: Array<[string, Record<string, string>]> = [
+    ['full url', { value: 'https://t.me/urlhandle' }],
+    ['url without a scheme', { text: 't.me/slashless' }],
+    ['@handle', { value: '@athandle' }],
+    ['bare handle', { value: 'shop_tashkent' }],
+    ['url in the url carrier', { url: 'https://t.me/urlfield' }],
+  ];
+  for (const [label, carrier] of shapes) {
+    const candidate = candidateFromTwoGisItem(
+      branchItem({ contact_groups: [{ contacts: [{ type: 'telegram', ...carrier }] }] }),
+      input(),
+      NOW,
+    );
+    assert.ok(
+      candidate?.telegramContact?.url?.startsWith('https://t.me/'),
+      `${label} must resolve to a canonical t.me url, got ${candidate?.telegramContact?.url}`,
+    );
+    assert.equal(candidate?.telegramContact?.messageable, false, `${label} stays fail-closed`);
+  }
+});
+
+test('a longer telegram type spelling is not dropped by an exact match', () => {
+  const candidate = candidateFromTwoGisItem(
+    branchItem({ contact_groups: [{ contacts: [{ type: 'telegram_channel', value: 'chan_handle' }] }] }),
+    input(),
+    NOW,
+  );
+  assert.equal(candidate?.telegramContact?.username, 'chan_handle');
+});
+
+test('a telegram value that is prose is still rejected', () => {
+  // Completing the shape must not turn into accepting anything.
+  const candidate = candidateFromTwoGisItem(
+    branchItem({ contact_groups: [{ contacts: [{ type: 'telegram', value: 'Написать в Telegram' }] }] }),
+    input(),
+    NOW,
+  );
+  assert.equal(candidate?.telegramContact, null, 'no invented handle');
+  assert.equal(candidate?.telegramUrl, null);
+});
+
 test('the WhatsApp signal is recorded, not silently dropped', () => {
   const candidate = candidateFromTwoGisItem(
     branchItem({ contact_groups: [{ contacts: [{ type: 'whatsapp', value: '+998901234567' }] }] }),
