@@ -3,9 +3,9 @@
   "locale": "uz",
   "slug": "marketing-nima",
   "url": "/uz/blog/marketing-nima/",
-  "title": "Marketing nima va u kichik biznesga nima beradi",
-  "description": "Marketing nima, reklamadan farqi nimada, qaysi kanallar bor va kichik biznes qaysi biridan boshlashi kerak. Oddiy tilda, misollar bilan.",
-  "h1": "Marketing nima va u kichik biznesga nima beradi",
+  "title": "Marketing nima: ta’rifi, turlari va biznesga foydasi",
+  "description": "Marketing nima: ta’rifi, asosiy turlari (digital, kontent, email), reklamadan farqi va kichik biznesga qanday yordam beradi. Oddiy tilda, misollar bilan.",
+  "h1": "Marketing nima: ta’rifi, turlari va biznesga foydasi",
   "topicCluster": "seo-uz",
   "targetMoneyPage": "/uz/seo-xizmati/",
   "keywords": [
@@ -356,8 +356,8 @@
       "type": "contextual"
     }
   ],
-  "ogTitle": "Marketing nima va u kichik biznesga nima beradi",
-  "ogDescription": "Marketing va reklama farqi, asosiy kanallar, voronka va qaysi ko‘rsatkichlarga qarash kerak. Oddiy tilda.",
+  "ogTitle": "Marketing nima: ta’rifi, turlari va biznesga foydasi",
+  "ogDescription": "Marketing nima: ta’rifi, asosiy turlari (digital, kontent, email), reklamadan farqi va kichik biznesga qanday yordam beradi. Oddiy tilda, misollar bilan.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/marketing-nima/",
   "hreflangUz": "/uz/blog/marketing-nima/",
@@ -374,5 +374,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-09-01T00:00:00.000Z"
+  "updatedAt": "2026-09-01"
 }

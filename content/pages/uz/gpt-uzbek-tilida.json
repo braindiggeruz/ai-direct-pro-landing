@@ -376,6 +376,17 @@
     },
     {
       "type": "linkp",
+      "text": "AI chat bilan tanishdingiz. Endi {marketing} asoslarini o‘rganing — biznesingizga foydasi tegadi.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/marketing-nima/",
+          "anchor": "marketing"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Kompaniyalar uchun farq va joriy etish rejasi {business} maqolasida.",
       "links": [
         {
@@ -544,6 +555,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 2
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "marketing",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "schemaTypes": [

@@ -394,6 +394,17 @@
     },
     {
       "type": "linkp",
+      "text": "Biznesingizni rivojlantirishni xohlaysizmi? {marketing} haqida bilib oling.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/marketing-nima/",
+          "anchor": "marketing"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Mijoz tomonida VPN, ro‘yxatdan o‘tish va til to‘sig‘i bo‘lmasligi kerak bo‘lsa, javob beruvchi tomonni avtomatlashtirish kerak: {tg} yoki {ariza}. Muddat va narx {narx}da qayd etilgan.",
       "links": [
         {
@@ -556,6 +567,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 2
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "marketing",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "ogTitle": "ChatGPT’ga kirish: O‘zbekistonda VPNsiz qanday ochish",

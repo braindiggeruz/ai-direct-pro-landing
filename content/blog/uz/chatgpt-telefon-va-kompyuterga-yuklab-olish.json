@@ -315,6 +315,28 @@
     },
     {
       "type": "linkp",
+      "text": "ChatGPT bilan marketing qilishni o‘rganmoqchimisiz? Avval {marketing} nima ekanini tushunib oling.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/marketing-nima/",
+          "anchor": "marketing"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ijtimoiy tarmoqlarda reklama qilishni rejalashtiryapsizmi? {SMM} nima ekanini bilib oling.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/smm-nima/",
+          "anchor": "SMM"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Agar maqsad ChatGPT’dan shaxsiy foydalanish emas, balki mijozlarga javob berish bo‘lsa, bu boshqa vazifa: {b2b}. Kanallar, ssenariy va CRM integratsiyasiga qarab narx {narx} jadvalida ko‘rsatilgan.",
       "links": [
         {
@@ -432,6 +454,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 2
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "marketing",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/smm-nima/",
+      "anchor": "SMM",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "ogTitle": "ChatGPT yuklab olish o‘zbek tilida: telefon va kompyuter",

@@ -3,9 +3,9 @@
   "locale": "uz",
   "slug": "smm-nima",
   "url": "/uz/blog/smm-nima/",
-  "title": "SMM nima va u biznesga qanday foyda beradi",
-  "description": "SMM — ijtimoiy tarmoqlar orqali marketing. Kanal qanday ishlaydi, mutaxassis nima qiladi, qaysi ko‘rsatkichlar muhim va qachon bu kanal mos kelmaydi.",
-  "h1": "SMM nima va u biznesga qanday foyda beradi",
+  "title": "SMM nima: ijtimoiy tarmoqlar orqali marketing",
+  "description": "SMM nima: ijtimoiy tarmoqlar orqali marketing, qanday ishlaydi, nimalar qilinadi, qaysi ko‘rsatkichlar muhim va qachon bu kanal mos keladi.",
+  "h1": "SMM nima: ijtimoiy tarmoqlar orqali marketing",
   "topicCluster": "smm-uz",
   "targetMoneyPage": "/uz/smm-xizmatlari/",
   "keywords": [
@@ -311,8 +311,8 @@
       "priority": 1
     }
   ],
-  "ogTitle": "SMM nima va u biznesga qanday foyda beradi",
-  "ogDescription": "SMM kanal sifatida qanday ishlaydi, mutaxassis nima qiladi, qaysi ko‘rsatkichlar muhim va qachon bu kanal mos kelmaydi.",
+  "ogTitle": "SMM nima: ijtimoiy tarmoqlar orqali marketing",
+  "ogDescription": "SMM nima: ijtimoiy tarmoqlar orqali marketing, qanday ishlaydi, nimalar qilinadi, qaysi ko‘rsatkichlar muhim va qachon bu kanal mos keladi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/uz/blog/smm-nima/",
   "hreflangUz": "/uz/blog/smm-nima/",
@@ -329,5 +329,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-09-01T00:00:00.000Z"
+  "updatedAt": "2026-09-01"
 }
