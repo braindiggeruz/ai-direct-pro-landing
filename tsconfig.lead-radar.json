@@ -23,6 +23,7 @@
   },
   "files": [
     "functions/api/admin/lead-radar/[[path]].ts",
+    "functions/api/lead-radar/crawler/[[path]].ts",
     "functions/api/telegram/lead-radar-business.ts",
     "functions/platform/lead-radar/index.ts",
     "src/admin/lib/api.ts",

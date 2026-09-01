@@ -128,13 +128,19 @@ test('campaign policy cannot exceed 30 sends or weaken the 120-second pacing flo
   assert.equal(parseLeadRadarTelegramCampaignMinimumIntervalSeconds('119'), null);
 });
 
-test('campaign template preserves exact text, bounds Unicode code points and substitutes only the allowlisted variable', () => {
-  const astral = '🚀'.repeat(4_097);
-  assert.equal(boundCampaignTemplate(astral), '🚀'.repeat(4_096));
+test('campaign template preserves exact text, bounds the Telegram UTF-16 limit and substitutes only the allowlisted variable', () => {
+  // Telegram counts the 4096/1024 limits in UTF-16 code units (audit CP-4):
+  // an astral emoji costs 2 units, so 2048 rockets fit but 2049 do not.
+  const astral = '🚀'.repeat(2_049);
+  assert.equal(boundCampaignTemplate(astral), '🚀'.repeat(2_048));
+  assert.equal(boundCampaignTemplate('a'.repeat(4_097)), 'a'.repeat(4_096));
+  assert.equal(boundCampaignTemplate('🚀'.repeat(2_048)).length, 4_096);
   assert.equal(isCampaignTemplateReady('  \n'), false);
   assert.equal(isCampaignTemplateReady('  exact {company_name}  '), true);
-  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT), true), true);
-  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT + 1), true), false);
+  assert.equal(isCampaignTemplateReady('е'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT), true), true);
+  assert.equal(isCampaignTemplateReady('е'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT + 1), true), false);
+  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT / 2), true), true);
+  assert.equal(isCampaignTemplateReady('🚀'.repeat(LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT / 2 + 1), true), false);
   assert.equal(campaignMessageLimit(true), LEAD_RADAR_CAMPAIGN_CAPTION_LIMIT);
   assert.equal(campaignMessageLimit(false), 4_096);
   assert.equal(isCampaignTemplateReady('  wrong {company}  '), false);
@@ -199,7 +205,8 @@ test('campaign image UX is explicit, accessible and binds the opaque media to bo
   assert.match(component, /onDragOver=/);
   assert.match(component, /onDrop=/);
   assert.match(component, /Загрузить изображение/);
-  assert.match(component, /до этого файл не покидает устройство/);
+  assert.match(component, /await uploadCampaignImage\(file\)/);
+  assert.match(component, /автоматически загружается в защищённый черновик/);
   assert.match(component, /alt=\{`Предпросмотр изображения/);
   assert.match(component, /Заменить/);
   assert.match(component, /Удалить/);
@@ -531,9 +538,13 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /Существующие деловые отношения/);
   assert.match(component, /Действующий договор/);
   assert.doesNotMatch(component, /value="public_contact"/);
-  assert.match(component, /disabled=\{!campaignOutreachEnabled \|\| !campaignRecoveryReady \|\| !connected \|\| !accountIdentityConfirmed \|\| !contactBasis/);
+  assert.match(component, /readinessRef.current\?\.prepare\(\)/);
+  assert.match(component, /snapshot.selection.automatic === 0/);
+  assert.match(component, /Подтвердить и запустить для/);
+  assert.match(component, /approvedIdentity !== currentAccountIdentity.current/);
+  assert.match(component, /createInFlight.current = true/);
   assert.match(component, /action === 'start' \|\| action === 'resume'/);
-  assert.match(component, /Создать кампанию без запуска/);
+  assert.match(component, /Подтвердить создание без отправки/);
   assert.match(component, /if \(!campaignAutoSendEnabled\)[\s\S]{0,220}Кампания создана и остаётся без отправок/);
   assert.match(component, /campaign\.status === 'running'[\s\S]{0,260}transitionCampaign\('pause'\)/);
   assert.match(component, /transitionCampaign\('stop'\)/);
@@ -611,10 +622,10 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /\{uniqueFoundLeadCount\}[\s\S]{0,300}\{telegramLeadCount\}[\s\S]{0,300}\{automaticLeadCount\}/);
   assert.match(component, /Записи «Не связываться» не попадают даже в черновик/);
   assert.match(component, /исключаются сервером до отправки/);
-  assert.match(component, /if \(!serverSelection \|\| serverSelection\.blockers\.length > 0 \|\| serverSelection\.selection\.automatic === 0\)/);
-  assert.match(component, /disabled=\{!campaignOutreachEnabled[\s\S]{0,400}serverSelection\.selection\.automatic === 0/);
-  assert.match(component, /serverSelection\.selection\.automaticCompanyIds\.filter/);
-  assert.match(component, /serverSelection\.blockers\.length > 0/);
+  assert.match(component, /snapshot.blockers.length > 0 \|\| snapshot.selection.automatic === 0/);
+  assert.match(component, /disabled=\{!campaignOutreachEnabled[\s\S]{0,400}selectedLeadIds.size === 0/);
+  assert.match(component, /snapshot\.selection\.automaticCompanyIds\.filter/);
+  assert.match(component, /draftKey !== currentDraftKey.current/);
   assert.match(component, /Все персонализированные сообщения/);
   assert.match(component, /Показаны все:/);
   assert.doesNotMatch(component, /preparation\.previews\.slice\(0, 3\)/);

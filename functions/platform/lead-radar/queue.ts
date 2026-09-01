@@ -265,6 +265,27 @@ function retryDelaySeconds(attempt: number): number {
   return Math.min(15 * 60, 45 * (2 ** Math.max(0, attempt - 1)));
 }
 
+// Transient target outages (site down, HTTP 5xx, timeout, transport error)
+// get a bounded long backoff inside the enrichment job — 15 min, 1 h, 4 h —
+// so a temporarily down website is not written off as terminal within minutes.
+// Deliberately terminal causes (robots_blocked, invalid_website, http_blocked)
+// are never retried and keep their immediate terminal path.
+const TRANSIENT_ENRICHMENT_CODES = new Set(['source_unavailable', 'source_timeout']);
+const TRANSIENT_ENRICHMENT_BACKOFF_SECONDS = [15 * 60, 60 * 60, 4 * 60 * 60];
+
+// Search-time contact checks are useful only while the search is still open.
+// Keep provider continuations free of failure-attempt accounting, but cap the
+// complete search at one hour. Saved companies remain available for a later,
+// separately initiated Telegram readiness check.
+const CONTACT_RESOLUTION_SEARCH_WINDOW_MS = 60 * 60_000;
+// This remains the upper bound for regenerating one provider continuation.
+// While that work belongs to a running search, the one-hour search deadline
+// above wins for both explicit contact mode and an ordinary search's optional
+// contact tail.
+const CONTACT_RESOLUTION_REGENERATION_MS = 48 * 60 * 60_000;
+const CONTACT_RESOLUTION_REGENERATION_DELAY_SECONDS = 30 * 60;
+
+
 function safeFailureCode(error: unknown): string {
   const message = error instanceof Error ? error.message : '';
   if (/city_not_found/.test(message)) return 'city_not_found';
@@ -305,8 +326,11 @@ async function retryOrDeadLetter(
   const defer = job.stage === 'enrichment' && Number.isFinite(created)
     && resume > at.getTime() && resume <= created + 30 * 60_000;
   if (job.attemptCount < job.maxAttempts || defer) {
+    const transientBackoff = !defer && job.stage === 'enrichment' && TRANSIENT_ENRICHMENT_CODES.has(code)
+      ? TRANSIENT_ENRICHMENT_BACKOFF_SECONDS[Math.min(Math.max(job.attemptCount, 1), TRANSIENT_ENRICHMENT_BACKOFF_SECONDS.length) - 1]
+      : null;
     const delaySeconds = defer ? Math.max(5, Math.min(900, Math.ceil((resume - at.getTime()) / 1_000)))
-      : retryDelaySeconds(job.attemptCount);
+      : (transientBackoff ?? retryDelaySeconds(job.attemptCount));
     if (job.companyId) {
       const transitioned = await store.markLeadEnrichmentQueued(
         job.orgId, job.companyId, job.id, job.leaseOwner, now, job.leaseGeneration,
@@ -341,6 +365,7 @@ async function retryOrDeadLetter(
   );
   if (!dead) return { outcome: 'retry_wait', delaySeconds: 30 };
   if (job.stage === 'discovery') {
+    if (await store.supportsContactDiscovery()) await store.contactDiscovery.unreserveBatch(job.orgId, job.searchId, job.id, now);
     await store.deadLetterDiscoveryChildren(job.orgId, job.searchId, now);
   }
   await store.refreshSearchFunnel(job.orgId, job.searchId, now);
@@ -536,7 +561,16 @@ async function processEnrichment(
     // The check itself expires after 3 minutes; allow queue delay and short
     // account-wide cooldowns without dropping a fresh check on an older job.
     const waitingForDailyBudget=/^contact_sources_(daily|domain)_budget_exhausted$/.test(waitingReason);
-    const waitWindowMs=waitingForDailyBudget ? 36*60*60_000 : 30*60_000;
+    const freePage=/^contact_sources_free_catalog_page_(\d+)$/.exec(waitingReason);
+    const previousFreePage=/^contact_sources_free_catalog_page_(\d+)$/.exec(job.lastErrorCode ?? '');
+    // A successfully parsed page advances the bounded (40-page) free catalog.
+    // It is not a stalled Telegram check: preserve its requested short delay
+    // and durable Queue continuation even when this job began hours ago.
+    // Repeated/failed/out-of-range pages keep the existing conservative path.
+    const advancingFreeCatalog = freePage && Number(freePage[1]) <= 40
+      && Number(freePage[1]) > Math.max(1, Number(previousFreePage?.[1] ?? 1));
+    const waitWindowMs=advancingFreeCatalog ? CONTACT_RESOLUTION_REGENERATION_MS
+      : waitingForDailyBudget ? 36*60*60_000 : 30*60_000;
     if (pending && Date.parse(now) - Date.parse(job.createdAt ?? now) < waitWindowMs && job.leaseOwner) {
       const transitionNow=dependencies.now?.() ?? new Date();
       const retried = await store.retryJob(job.orgId,job.id,job.leaseOwner,waitingReason,
@@ -546,6 +580,17 @@ async function processEnrichment(
     }
     if (pending) {
       // Bounded waiting must not turn an unperformed check into "completed".
+      // Regeneration first: a young job whose short check window expired
+      // returns to the queue on the same idempotency row. The consumer-level
+      // one-hour search deadline remains authoritative.
+      const jobAgeMs = Date.parse(now) - Date.parse(job.createdAt ?? now);
+      if (job.leaseOwner && Number.isFinite(jobAgeMs) && jobAgeMs < CONTACT_RESOLUTION_REGENERATION_MS) {
+        const regenerateAt = new Date(Date.parse(now) + CONTACT_RESOLUTION_REGENERATION_DELAY_SECONDS * 1000).toISOString();
+        if (await store.requeueContactResolutionJob(job.orgId, job.id, job.leaseOwner, waitingReason, regenerateAt, now, job.leaseGeneration)) {
+          await store.refreshSearchFunnel(job.orgId, job.searchId, now);
+          return { outcome: 'retry_wait', delaySeconds: 30 };
+        }
+      }
       if (!job.leaseOwner || !await store.deadLetterJob(job.orgId,job.id,job.leaseOwner,waitingReason,now,job.leaseGeneration)) return {outcome:'retry_wait',delaySeconds:30};
       // Leave a visible terminal trace on the company; a later enrichment cycle
       // re-creates the contact-resolution job (terminal status is re-eligible).
@@ -690,7 +735,7 @@ export async function consumeLeadRadarQueueMessage(
   const message = parseLeadRadarQueueMessage(raw);
   if (!message) return { outcome: 'invalid' };
   const store = new LeadRadarStore(db);
-  const known = await store.getJob(message.job_id);
+  let known = await store.getJob(message.job_id);
   if (!known) return { outcome: 'invalid' };
   const at = dependencies.now?.() ?? new Date();
   if (known.status === 'completed') return { outcome: 'duplicate' };
@@ -699,6 +744,28 @@ export async function consumeLeadRadarQueueMessage(
     // acknowledged. If the explicit DLQ send fails, Cloudflare retries this
     // message and the Worker gets another chance to persist the DLQ copy.
     return { outcome: 'dead_letter', errorCode: known.lastErrorCode ?? 'dead_letter' };
+  }
+  if (known.purpose === 'contact_resolution') {
+    const searchDeadlineBefore = new Date(
+      at.getTime() - CONTACT_RESOLUTION_SEARCH_WINDOW_MS,
+    ).toISOString();
+    await store.expireContactSearchIfPastDeadline(
+      known.orgId, known.searchId, searchDeadlineBefore, at.toISOString(),
+    );
+    let current = await store.getJob(known.id);
+    if (!current) return { outcome: 'invalid' };
+    if (current.status === 'completed') return { outcome: 'duplicate' };
+    if (current.status === 'dead_letter') {
+      return { outcome: 'dead_letter', errorCode: current.lastErrorCode ?? 'dead_letter' };
+    }
+    if (current.attemptCount >= current.maxAttempts) {
+      await store.rearmExhaustedContactJob(
+        current.orgId, current.id, searchDeadlineBefore, at.toISOString(),
+      );
+      current = await store.getJob(current.id);
+      if (!current) return { outcome: 'invalid' };
+    }
+    known = current;
   }
   await store.observeJobDispatch(known.id, at.toISOString());
   if (known.status === 'running' && known.leaseExpiresAt
@@ -714,9 +781,16 @@ export async function consumeLeadRadarQueueMessage(
     if (recovered === 'retry_wait') {
       return { outcome: 'retry_wait', delaySeconds, retryDelivery: true };
     }
-    return recovered === 'dead_letter'
-      ? { outcome: 'dead_letter', errorCode: 'retry_exhausted' }
-      : { outcome: 'duplicate' };
+    if (recovered === 'dead_letter') {
+      // Audit LR-F-7: a discovery parent that exhausted its attempts while
+      // holding a reserved candidate window must not take that window with
+      // it — hand it back so a replenish job re-serves it.
+      if (known.stage === 'discovery' && await store.supportsContactDiscovery()) {
+        await store.contactDiscovery.unreserveBatch(known.orgId, known.searchId, known.id, at.toISOString());
+      }
+      return { outcome: 'dead_letter', errorCode: 'retry_exhausted' };
+    }
+    return { outcome: 'duplicate' };
   }
   const claimed = await store.claimJob(
     known.orgId,
@@ -783,19 +857,33 @@ export async function enqueueDueLeadRadarJobs(
   at = new Date(),
   limit = 5,
   allowOrganization: (orgId: string) => boolean = () => true,
+  searchId: string | null = null,
 ): Promise<number> {
   const store = new LeadRadarStore(db);
   const now = at.toISOString();
-  await store.requeueStaleSentDispatches(
+  const searchDeadlineBefore = new Date(
+    at.getTime() - CONTACT_RESOLUTION_SEARCH_WINDOW_MS,
+  ).toISOString();
+  // One bounded scan handles the old sent/ACK loop, max-attempt poison rows,
+  // and contact-search deadlines without adding queries to a normal tick.
+  const deferredRecovery = await store.recoverDeferredQueueWork(
     new Date(at.getTime() - DISPATCH_VISIBILITY_TIMEOUT_MS).toISOString(),
+    searchDeadlineBefore,
     now,
     allowOrganization,
     5,
+    searchId,
   );
-  // Recovery can touch an effect, terminal state and funnel. Keep it small so
-  // the combined recovery + dispatch tick remains under the Free D1 ceiling.
-  const expiredJobs = (await store.listExpiredJobs(now, 2))
+  // At most two running searches can hold admission. Their funnel refresh is
+  // deliberately the expensive work, so do not dispatch more work this tick.
+  if (deferredRecovery.expiredSearches > 0) return 0;
+  // Recovery touches one row per expired lease; the funnel refresh is the
+  // expensive part, so it runs once per affected search (bounded to two)
+  // instead of once per job. Ten recoveries per tick keep a post-deploy
+  // backlog from crawling at two jobs per 15 minutes (audit QR-5).
+  const expiredJobs = (await store.listExpiredJobs(now, 10, searchId))
     .filter((job) => allowOrganization(job.orgId));
+  const dirtySearches = new Map<string, { orgId: string; searchId: string }>();
   for (const expired of expiredJobs) {
     const delaySeconds = retryDelaySeconds(expired.attemptCount);
     const recovered = await store.recoverExpiredJob(
@@ -803,17 +891,76 @@ export async function enqueueDueLeadRadarJobs(
       new Date(at.getTime() + delaySeconds * 1_000).toISOString(),
       now,
     );
-    if (recovered) await store.refreshSearchFunnel(expired.orgId, expired.searchId, now);
+    if (recovered) dirtySearches.set(`${expired.orgId}:${expired.searchId}`, { orgId: expired.orgId, searchId: expired.searchId });
+  }
+  for (const dirty of [...dirtySearches.values()].slice(0, 2)) {
+    await store.refreshSearchFunnel(dirty.orgId, dirty.searchId, now);
   }
   const reservations = await store.reserveDueJobDispatches(
     now,
     new Date(at.getTime() + DISPATCH_LEASE_MS).toISOString(),
     Math.max(1, Math.min(5, Math.trunc(limit))),
     allowOrganization,
+    searchId,
   );
   let sent = 0;
   for (const reservation of reservations) {
     if (await dispatchReservation(store, queue, reservation, at)) sent += 1;
   }
   return sent;
+}
+
+/** Cron-only watchdog (audit QR-2 class, "stuck at 10 of 186"): a running
+ * contact-mode search whose jobs are all parked hours ahead must still
+ * advance. refreshSearchFunnel re-evaluates the pool under current limits
+ * and mints a due replenish/resume discovery job. Runs in the scheduled
+ * handler's own invocation budget; two searches per 15-minute tick. */
+export async function resumeStalledLeadRadarSearches(
+  db: D1Database,
+  now: Date,
+  allowOrganization: (orgId: string) => boolean = () => true,
+): Promise<number> {
+  const store = new LeadRadarStore(db);
+  let resumed = 0;
+  for (const stalled of await store.listRunningSearchesWithPools(2, allowOrganization)) {
+    // enqueueDueLeadRadarJobs performs the bounded terminal transition. Do
+    // not revive or extend a pool once its one-hour search deadline elapsed.
+    if (stalled.contactMode
+      && Date.parse(stalled.createdAt) <= now.getTime() - CONTACT_RESOLUTION_SEARCH_WINDOW_MS) {
+      continue;
+    }
+    // Per-search isolation (audit LR-F-14): one failing search must not
+    // abort the sweep for the remaining stalled searches on this tick.
+    try {
+      // Dead replenish rows from an older code generation would deadlock the
+      // funnel; revive them into a fresh queued generation before re-evaluating.
+      // Audit LR-F-2: the same UPDATE once revives dead contact-resolution
+      // rows created BEFORE the QR-1 regeneration fix — they used to be
+      // uncreatable (ON CONFLICT DO NOTHING) and silently dropped their
+      // companies from the funnel. The search deadline guard above keeps this
+      // strictly one-time without extending an expired search.
+      await db.prepare(`UPDATE lead_radar_jobs SET status='queued', attempt_count=0,
+        available_at=?, lease_owner=NULL, lease_expires_at=NULL,
+        dispatch_status='pending', next_dispatch_at=?, completed_at=NULL,
+        created_at=?, last_error_code=NULL, updated_at=?
+        WHERE org_id=? AND search_id=? AND status='dead_letter'
+          AND (idempotency_key LIKE 'contact-pool:%'
+            OR (idempotency_key LIKE 'contact-resolve:%'
+              AND created_at < '2026-08-30T00:00:00.000Z'))`)
+        .bind(now.toISOString(), now.toISOString(), now.toISOString(), now.toISOString(),
+          stalled.orgId, stalled.searchId).run();
+      await store.refreshSearchFunnel(stalled.orgId, stalled.searchId, now.toISOString());
+      resumed += 1;
+    } catch {
+      // The next tick retries this search; the sweep must keep going.
+    } finally {
+      // A blocked/failed funnel also needs to rotate. Touching only successful
+      // pool mutations let the same two blocked searches monopolize the sweep.
+      try {
+        await db.prepare('UPDATE lead_radar_candidate_pools SET updated_at=? WHERE org_id=? AND search_id=?')
+          .bind(now.toISOString(), stalled.orgId, stalled.searchId).run();
+      } catch { /* Keep another tenant's sweep independent of this failure. */ }
+    }
+  }
+  return resumed;
 }

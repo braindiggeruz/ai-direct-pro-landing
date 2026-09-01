@@ -79,6 +79,71 @@ def account(client: FakeClient, folder: Path) -> TelethonAccount:
 
 
 class TelegramAdapterTests(unittest.IsolatedAsyncioTestCase):
+    async def test_public_lookup_control_matrix_without_messages_or_contact_import(self) -> None:
+        from telethon.tl import functions, types
+
+        class Resolver(FakeClient):
+            response = None
+            failure = None
+
+            def __init__(self):
+                super().__init__(User(id=123, username="clinic_test"))
+                self.calls = []
+
+            async def __call__(self, request):
+                self.calls.append(request)
+                if self.failure is not None:
+                    raise self.failure
+                return self.response
+
+        with tempfile.TemporaryDirectory() as folder:
+            client = Resolver()
+            bridge = account(client, Path(folder))
+            response = lambda peer, users: type("Resolved", (), {"peer": peer, "users": users})()
+            client.response = response(types.PeerUser(123), [client.entity])
+            for kind, value, request_type in [
+                ("phone", "+998901234567", functions.contacts.ResolvePhoneRequest),
+                ("username", "clinic_test", functions.contacts.ResolveUsernameRequest),
+                ("business_link", "fixture_slug", functions.account.ResolveBusinessChatLinkRequest),
+            ]:
+                result = await bridge.resolve_public_contact(kind, value)
+                self.assertEqual(result["status"], "resolved")
+                self.assertIsInstance(client.calls[-1], request_type)
+
+            for peer, users in [
+                (types.PeerChannel(123), []), (types.PeerChat(123), []),
+                (types.PeerUser(123), [User(id=123, bot=True)]),
+                (types.PeerUser(123), [User(id=123, deleted=True)]),
+                (types.PeerUser(123), []),
+            ]:
+                client.response = response(peer, users)
+                result = await bridge.resolve_public_contact("username", "clinic_test")
+                self.assertEqual(result["status"], "unsupported")
+                self.assertEqual(result["reason"], "not_regular_user")
+
+            for error_name in ["PhoneNotOccupiedError", "UsernameNotOccupiedError", "UserPrivacyRestrictedError"]:
+                client.failure = type(error_name, (Exception,), {})()
+                result = await bridge.resolve_public_contact("phone", "+998901234567")
+                self.assertEqual(result["reason"], "privacy_or_missing")
+                self.assertEqual(result["status"], "unresolved")
+
+            client.failure = type("FloodWaitError", (Exception,), {"seconds": 137})()
+            result = await bridge.resolve_public_contact("phone", "+998901234567")
+            self.assertEqual(result["status"], "limited")
+            self.assertEqual(result["retryAfterSeconds"], 137)
+            for failure, expected_reason in [(TimeoutError(), "telegram_timeout"), (RuntimeError(), "lookup_unconfirmed")]:
+                client.failure = failure
+                result = await bridge.resolve_public_contact("username", "clinic_test")
+                # The application normalizes these legacy wire reasons to failed.
+                self.assertEqual(result["reason"], expected_reason)
+                self.assertNotEqual(result["reason"], "privacy_or_missing")
+            self.assertEqual(client.text_calls, [])
+            self.assertEqual(client.photo_calls, [])
+            self.assertTrue(all(isinstance(request, (
+                functions.contacts.ResolvePhoneRequest, functions.contacts.ResolveUsernameRequest,
+                functions.account.ResolveBusinessChatLinkRequest,
+            )) for request in client.calls))
+
     async def test_contact_lookup_uses_resolve_not_import_or_send(self) -> None:
         from telethon.tl import functions, types
         class Resolver(FakeClient):

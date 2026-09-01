@@ -1,3 +1,6 @@
+import { parseRetryAfter, withLeadRadarReadRecovery } from './request-recovery';
+import type { LeadRadarCrawlerJobSummary, LeadRadarCrawlerStatus } from '../../shared/lead-radar-crawler';
+
 // API client used by the admin UI.
 // Base URL precedence:
 //   1. VITE_API_BASE (set in .env for Emergent dev → full Emergent URL)
@@ -33,7 +36,19 @@ async function request<T>(
   method: string,
   path: string,
   body?: unknown,
-  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal },
+  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' },
+): Promise<T> {
+  // Other APIs retain their existing error/timeout behaviour.
+  if (!path.startsWith('/api/admin/lead-radar')) return requestOnce<T>(method, path, body, opts);
+  return withLeadRadarReadRecovery((timeoutMs) => requestOnce<T>(method, path, body, { ...opts, timeoutMs }),
+    { method, path, timeoutMs: opts?.timeoutMs, signal: opts?.signal });
+}
+
+async function requestOnce<T>(
+  method: string,
+  path: string,
+  body?: unknown,
+  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' },
 ): Promise<T> {
   const url = `${BASE}${path}`;
   const headers: Record<string, string> = { 'Content-Type': 'application/json', ...opts?.headers };
@@ -61,9 +76,7 @@ async function request<T>(
       let endpoint: string | undefined;
       let retryable: boolean | undefined;
       const retryAfterHeader = res.headers.get('retry-after');
-      const retryAfterSeconds = retryAfterHeader && Number.isFinite(Number(retryAfterHeader))
-        ? Math.max(0, Math.ceil(Number(retryAfterHeader)))
-        : undefined;
+      const retryAfterSeconds = parseRetryAfter(retryAfterHeader);
       try {
         const d = jsonRecord(await res.json());
         const structuredError = jsonRecord(d?.error);
@@ -89,6 +102,13 @@ async function request<T>(
       throw e;
     }
     if (res.status === 204) return undefined as T;
+    if (opts?.responseType === 'blob') {
+      const value = await res.blob();
+      if (!['image/png', 'image/jpeg', 'image/webp'].includes(value.type) || value.size > 5_000_000 || value.size === 0) {
+        throw Object.assign(new Error('Invalid private image preview'), { code: 'telegram_campaign_media_invalid' });
+      }
+      return value as T;
+    }
     // Keep the deadline alive until the body is read, not only until headers arrive.
     return await res.json() as T;
   } finally {
@@ -192,6 +212,15 @@ function uploadLeadRadarTelegramCampaignImage<T>(
 }
 
 export const api = {
+  leadRadarCrawlerStatus: (companyId: string, signal?: AbortSignal) =>
+    request<LeadRadarCrawlerStatus>('GET', `/api/admin/lead-radar/crawler/status?companyId=${encodeURIComponent(companyId)}`,
+      undefined, { signal, timeoutMs: 15_000 }),
+  leadRadarCreateCrawlerJob: (companyId: string, idempotencyKey: string, signal?: AbortSignal) =>
+    request<{ job: LeadRadarCrawlerJobSummary; replayed: boolean }>('POST', '/api/admin/lead-radar/crawler/jobs',
+      { companyId }, { signal, timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey } }),
+  leadRadarCancelCrawlerJob: (jobId: string, signal?: AbortSignal) =>
+    request<{ job: LeadRadarCrawlerJobSummary }>('POST', `/api/admin/lead-radar/crawler/jobs/${encodeURIComponent(jobId)}/cancel`,
+      {}, { signal, timeoutMs: 15_000 }),
   config: () => request<{ turnstileRequired: boolean; turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
   login: (email: string, password: string, turnstileToken?: string) => request<{ token: string; email: string; role: string }>('POST', '/api/auth/login', { email, password, turnstileToken }),
   me: () => request<{ email: string; role: string }>('GET', '/api/auth/me'),
@@ -715,21 +744,6 @@ export const api = {
       'GET',
       `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}`,
     ),
-  leadRadarCrawlerStatus: (companyId: string, signal?: AbortSignal) =>
-    request<import('../../shared/lead-radar-crawler').LeadRadarCrawlerStatusResponse>(
-      'GET', `/api/admin/lead-radar/crawler/status?companyId=${encodeURIComponent(companyId)}`, undefined,
-      { timeoutMs: 15_000, signal },
-    ),
-  leadRadarCreateCrawlerJob: (companyId: string, idempotencyKey: string, signal?: AbortSignal) =>
-    request<import('../../shared/lead-radar-crawler').LeadRadarCrawlerJobMutationResponse>(
-      'POST', '/api/admin/lead-radar/crawler/jobs', { companyId },
-      { timeoutMs: 15_000, headers: { 'Idempotency-Key': idempotencyKey }, signal },
-    ),
-  leadRadarCancelCrawlerJob: (jobId: string, signal?: AbortSignal) =>
-    request<import('../../shared/lead-radar-crawler').LeadRadarCrawlerJobMutationResponse>(
-      'POST', `/api/admin/lead-radar/crawler/jobs/${encodeURIComponent(jobId)}/cancel`, {},
-      { timeoutMs: 15_000, signal },
-    ),
   leadRadarSetLifecycle: (
     leadId: string,
     lifecycle: import('../../shared/lead-radar').LeadRadarLifecycle,
@@ -869,7 +883,14 @@ export const api = {
     ),
   leadRadarResolveContact: (searchId: string, companyId: string, candidateKey: string) =>
     request<import('../../shared/lead-radar-contact-resolution').TelegramContactResolution>('POST',
-      '/api/admin/lead-radar/telegram-account/resolve-contact', { searchId, companyId, candidateKey }, { timeoutMs: 15_000 }),
+      '/api/admin/lead-radar/telegram-account/resolve-contact', { searchId, companyId, candidateKey },
+      { timeoutMs: 15_000, headers: { 'X-Lead-Radar-Contact-Protocol': '2' } }),
+  leadRadarConfirmOwnership: (companyId: string, candidateKey: string) =>
+    request<{ confirmed: boolean; reason: string; confirmedEndpoints: number }>('POST',
+      '/api/admin/lead-radar/telegram-contacts/confirm-ownership', { companyId, candidateKey }, { timeoutMs: 20_000 }),
+  leadRadarPulseSearch: (searchId: string) =>
+    request<{ ok: true; kicked: number; remaining: number | null; note: string }>('POST',
+      `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}/pulse`, {}, { timeoutMs: 20_000 }),
   leadRadarCampaignPreflight: (companyIds: string[], contactBasis: import('./lead-radar-campaign').LeadRadarCampaignContactBasis | null) =>
     request<import('./lead-radar-campaign').LeadRadarCampaignPreflight>('POST', '/api/admin/lead-radar/telegram-campaigns/preflight',
       { companyIds, contactBasis }, { timeoutMs: 20_000 }),
@@ -899,6 +920,9 @@ export const api = {
   ),
   leadRadarCheckTelegramCampaignImage: (input: import('./lead-radar-campaign').LeadRadarTelegramCampaignAttachmentReference) => request<import('./lead-radar-campaign').LeadRadarTelegramCampaignMediaUpload>(
     'POST', '/api/admin/lead-radar/telegram-campaigns/media/check', input, { timeoutMs: 15_000 },
+  ),
+  leadRadarPreviewTelegramCampaignImage: (input: import('./lead-radar-campaign').LeadRadarTelegramCampaignAttachmentReference, signal?: AbortSignal) => request<Blob>(
+    'POST', '/api/admin/lead-radar/telegram-campaigns/media/preview', input, { timeoutMs: 15_000, responseType: 'blob', signal },
   ),
   leadRadarPrepareTelegramCampaign: (
     input: import('./lead-radar-campaign').LeadRadarTelegramCampaignPrepareInput,

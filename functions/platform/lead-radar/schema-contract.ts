@@ -7,6 +7,8 @@
  * integrity diagnostics, and the canonical Lead Radar migration ledger names.
  */
 
+import { normalizeSchemaSql as normalizeSql } from './schema-sql';
+
 export type LeadRadarSchemaProfile = 'target' | 'production-preflight' | 'auto';
 export type LeadRadarIntegrityPragma = 'integrity_check' | 'quick_check';
 type MigrationStage = 36 | 41 | 42 | 43 | 44;
@@ -810,94 +812,6 @@ function stageFor(profile: Exclude<LeadRadarSchemaProfile, 'auto'>): MigrationSt
   return profile === 'target' ? 44 : 41;
 }
 
-function stripSqlComments(sql: string): string {
-  let normalized = '';
-  let quote: "'" | '"' | '`' | '[' | null = null;
-  for (let index = 0; index < sql.length; index += 1) {
-    const character = sql[index];
-    const next = sql[index + 1];
-    if (quote !== null) {
-      normalized += character;
-      const closing = quote === '[' ? ']' : quote;
-      if (character === closing) {
-        if (next === closing) {
-          normalized += next;
-          index += 1;
-        } else {
-          quote = null;
-        }
-      }
-      continue;
-    }
-    if (character === "'" || character === '"' || character === '`' || character === '[') {
-      quote = character;
-      normalized += character;
-      continue;
-    }
-    if (character === '-' && next === '-') {
-      index += 2;
-      // SQLite line comments end at LF. A preceding CR belongs to the comment,
-      // including in CRLF input, and must not expose trailing SQL early.
-      while (index < sql.length && sql[index] !== '\n') index += 1;
-      if (index < sql.length) normalized += '\n';
-      continue;
-    }
-    if (character === '/' && next === '*') {
-      index += 2;
-      while (index < sql.length && !(sql[index] === '*' && sql[index + 1] === '/')) index += 1;
-      if (index < sql.length) index += 1;
-      normalized += ' ';
-      continue;
-    }
-    normalized += character;
-  }
-  return normalized;
-}
-
-function normalizeSql(sql: string): string {
-  // D1 strips comments from some CREATE TABLE statements while local SQLite
-  // preserves them. Comments are not schema semantics, but comment markers in
-  // quoted SQL values are, so remove them with a quote-aware scanner.
-  const source = stripSqlComments(sql);
-  let normalized = '';
-  let unquoted = '';
-  let quote: "'" | '"' | '`' | '[' | null = null;
-  const flushUnquoted = (): void => {
-    normalized += unquoted
-      .toLowerCase()
-      .replace(/\bif\s+not\s+exists\b/g, '')
-      .replace(/\s+/g, ' ')
-      .replace(/\s*([(),=<>])\s*/g, '$1');
-    unquoted = '';
-  };
-  for (let index = 0; index < source.length; index += 1) {
-    const character = source[index];
-    const next = source[index + 1];
-    if (quote === null) {
-      if (character === "'" || character === '"' || character === '`' || character === '[') {
-        flushUnquoted();
-        quote = character;
-        normalized += character;
-      } else {
-        unquoted += character;
-      }
-      continue;
-    }
-    normalized += character;
-    const closing = quote === '[' ? ']' : quote;
-    if (character === closing) {
-      if (next === closing) {
-        normalized += next;
-        index += 1;
-      } else {
-        quote = null;
-      }
-    }
-  }
-  flushUnquoted();
-  return normalized.trim();
-}
-
 function normalizeDefault(value: unknown): string | null {
   if (value === null || value === undefined) return null;
   let normalized = String(value).trim();
@@ -1061,14 +975,6 @@ function integer(value: unknown): number {
   return typeof value === 'number' ? value : Number(value);
 }
 
-// Schema fingerprints are byte contracts, not human-language ordering. Using
-// localeCompare on a cold Worker initializes locale/ICU state and adds startup
-// work without changing the intended ASCII key order. Keep this comparator
-// deterministic and locale-free across Node, workerd and D1.
-function compareSchemaText(left: string, right: string): number {
-  return left < right ? -1 : left > right ? 1 : 0;
-}
-
 function expectedTables(stage: MigrationStage): TableContract[] {
   return TABLES.filter((table) => table.since <= stage);
 }
@@ -1120,7 +1026,6 @@ function isLeadRadarSchemaRow(row: Record<string, unknown>): boolean {
       'lead_radar_audiences', 'lead_radar_audience_campaigns', 'lead_radar_contact_enrichments',
       'lead_radar_crawler_workers', 'lead_radar_crawler_jobs', 'lead_radar_crawler_receipts',
       'lead_radar_crawler_hosts'].includes(tableName)
-    && !name.startsWith('idx_lr_crawler_')
     && (name.startsWith('lead_radar_') || tableName.startsWith('lead_radar_'));
 }
 
@@ -1444,7 +1349,11 @@ export async function auditLeadRadarD1Schema(
   const schemaRows = schema.filter(isLeadRadarSchemaRow).sort((left, right) => {
     const leftKey = `${text(left.type)}\u0000${text(left.name)}`;
     const rightKey = `${text(right.type)}\u0000${text(right.name)}`;
-    return compareSchemaText(leftKey, rightKey);
+    // These are fixed ASCII schema identifiers, not localized display text.
+    // Avoid cold ICU/collator initialization on every new Pages isolate: it
+    // alone can exhaust the Free request CPU budget. The pinned fingerprint
+    // and release audit still verify the exact same canonical target bytes.
+    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
   const canonical = schemaRows.map((row) => [
     text(row.type),

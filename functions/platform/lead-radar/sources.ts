@@ -26,6 +26,7 @@ import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { assessLeadRadarPhone, extractLeadRadarPhones } from '../../../src/shared/lead-radar-contacts';
 import { publishedTelegramLocators } from './telegram-locators';
 import { hasDistinctBusinessName, publishedBusinessEntities, publishedPagePhones } from './business-contact-data';
+import { SourceYieldRecorder } from './source-yield';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
@@ -46,11 +47,145 @@ const MAX_ROBOTS_BYTES = 100_000;
 const MAX_SOURCE_SUBREQUESTS = 45;
 const MAX_SITE_ENRICHMENTS = 6;
 
+// Order is [south, west, north, east] — the same tuple `geocode()` returns.
+// Every entry below was read from Nominatim on 2026-09-01 against the real
+// `normalizeCompanyKey()` cache-key function, so alias spellings cannot drift
+// from what geocode() looks up at runtime. Note that an Uzbek apostrophe
+// normalizes to a hyphen: "Farg'ona" -> "farg-ona", "Qo'qon" -> "qo-qon".
+// A city-sized bbox for Uzbekistan never spans more than ~0.75 degrees; wider
+// Nominatim matches are whole regions and were rejected, not cached.
 const STATIC_CITY_BOUNDS = new Map<string, [number, number, number, number]>([
-  ['ташкент:uz', [41.1577334, 69.1217970, 41.4224955, 69.5259080]],
-  ['tashkent:uz', [41.1577334, 69.1217970, 41.4224955, 69.5259080]],
-  ['toshkent:uz', [41.1577334, 69.1217970, 41.4224955, 69.5259080]],
+  // Tashkent
+  ['ташкент:uz', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  ['ташкент:uzbekistan', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  ['toshkent:uz', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  ['toshkent:uzbekistan', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  ['tashkent:uz', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  ['tashkent:uzbekistan', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  ['toshkent-shahri:uz', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  ['toshkent-shahri:uzbekistan', [41.1577334, 69.121797, 41.4224955, 69.525908]],
+  // Samarkand
+  ['самарканд:uz', [39.6151251, 66.8137707, 39.7277007, 67.0683071]],
+  ['самарканд:uzbekistan', [39.6151251, 66.8137707, 39.7277007, 67.0683071]],
+  ['samarqand:uz', [39.6151251, 66.8137707, 39.7277007, 67.0683071]],
+  ['samarqand:uzbekistan', [39.6151251, 66.8137707, 39.7277007, 67.0683071]],
+  ['samarkand:uz', [39.6151251, 66.8137707, 39.7277007, 67.0683071]],
+  ['samarkand:uzbekistan', [39.6151251, 66.8137707, 39.7277007, 67.0683071]],
+  // Bukhara
+  ['бухара:uz', [39.7137877, 64.3724249, 39.847084, 64.5248047]],
+  ['бухара:uzbekistan', [39.7137877, 64.3724249, 39.847084, 64.5248047]],
+  ['buxoro:uz', [39.7137877, 64.3724249, 39.847084, 64.5248047]],
+  ['buxoro:uzbekistan', [39.7137877, 64.3724249, 39.847084, 64.5248047]],
+  ['bukhara:uz', [39.7137877, 64.3724249, 39.847084, 64.5248047]],
+  ['bukhara:uzbekistan', [39.7137877, 64.3724249, 39.847084, 64.5248047]],
+  // Namangan
+  ['наманган:uz', [40.9594895, 71.5194597, 41.1494843, 71.7536571]],
+  ['наманган:uzbekistan', [40.9594895, 71.5194597, 41.1494843, 71.7536571]],
+  ['namangan:uz', [40.9594895, 71.5194597, 41.1494843, 71.7536571]],
+  ['namangan:uzbekistan', [40.9594895, 71.5194597, 41.1494843, 71.7536571]],
+  // Andijan
+  ['андижан:uz', [40.6950011, 72.2797277, 40.8302278, 72.4445826]],
+  ['андижан:uzbekistan', [40.6950011, 72.2797277, 40.8302278, 72.4445826]],
+  ['andijon:uz', [40.6950011, 72.2797277, 40.8302278, 72.4445826]],
+  ['andijon:uzbekistan', [40.6950011, 72.2797277, 40.8302278, 72.4445826]],
+  ['andijan:uz', [40.6950011, 72.2797277, 40.8302278, 72.4445826]],
+  ['andijan:uzbekistan', [40.6950011, 72.2797277, 40.8302278, 72.4445826]],
+  // Fergana
+  ['фергана:uz', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  ['фергана:uzbekistan', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  ['farg-ona:uz', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  ['farg-ona:uzbekistan', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  ['fargona:uz', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  ['fargona:uzbekistan', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  ['fergana:uz', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  ['fergana:uzbekistan', [40.3326951, 71.7009616, 40.4568424, 71.876834]],
+  // Kokand
+  ['коканд:uz', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  ['коканд:uzbekistan', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  ['qo-qon:uz', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  ['qo-qon:uzbekistan', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  ['qoqon:uz', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  ['qoqon:uzbekistan', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  ['kokand:uz', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  ['kokand:uzbekistan', [40.4575884, 70.8795226, 40.5893755, 71.0013665]],
+  // Margilan
+  ['маргилан:uz', [40.3885644, 71.6546753, 40.4986096, 71.7958413]],
+  ['маргилан:uzbekistan', [40.3885644, 71.6546753, 40.4986096, 71.7958413]],
+  ['margilon:uz', [40.3885644, 71.6546753, 40.4986096, 71.7958413]],
+  ['margilon:uzbekistan', [40.3885644, 71.6546753, 40.4986096, 71.7958413]],
+  ['margilan:uz', [40.3885644, 71.6546753, 40.4986096, 71.7958413]],
+  ['margilan:uzbekistan', [40.3885644, 71.6546753, 40.4986096, 71.7958413]],
+  // Nukus
+  ['нукус:uz', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  ['нукус:uzbekistan', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  ['nukus:uz', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  ['nukus:uzbekistan', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  ['no-kis:uz', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  ['no-kis:uzbekistan', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  ['nokis:uz', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  ['nokis:uzbekistan', [42.3543993, 59.5427808, 42.5585162, 59.6801982]],
+  // Karshi
+  ['карши:uz', [38.785366, 65.7298402, 38.903644, 65.862412]],
+  ['карши:uzbekistan', [38.785366, 65.7298402, 38.903644, 65.862412]],
+  ['qarshi:uz', [38.785366, 65.7298402, 38.903644, 65.862412]],
+  ['qarshi:uzbekistan', [38.785366, 65.7298402, 38.903644, 65.862412]],
+  ['karshi:uz', [38.785366, 65.7298402, 38.903644, 65.862412]],
+  ['karshi:uzbekistan', [38.785366, 65.7298402, 38.903644, 65.862412]],
+  // Termez
+  ['термез:uz', [37.198216, 67.2340173, 37.2604055, 67.324959]],
+  ['термез:uzbekistan', [37.198216, 67.2340173, 37.2604055, 67.324959]],
+  ['termiz:uz', [37.198216, 67.2340173, 37.2604055, 67.324959]],
+  ['termiz:uzbekistan', [37.198216, 67.2340173, 37.2604055, 67.324959]],
+  ['termez:uz', [37.198216, 67.2340173, 37.2604055, 67.324959]],
+  ['termez:uzbekistan', [37.198216, 67.2340173, 37.2604055, 67.324959]],
+  // Urgench
+  ['ургенч:uz', [41.5225355, 60.584836, 41.5879737, 60.6758095]],
+  ['ургенч:uzbekistan', [41.5225355, 60.584836, 41.5879737, 60.6758095]],
+  ['urganch:uz', [41.5225355, 60.584836, 41.5879737, 60.6758095]],
+  ['urganch:uzbekistan', [41.5225355, 60.584836, 41.5879737, 60.6758095]],
+  ['urgench:uz', [41.5225355, 60.584836, 41.5879737, 60.6758095]],
+  ['urgench:uzbekistan', [41.5225355, 60.584836, 41.5879737, 60.6758095]],
+  // Jizzakh
+  ['джизак:uz', [40.0881722, 67.7599007, 40.1839271, 67.9142551]],
+  ['джизак:uzbekistan', [40.0881722, 67.7599007, 40.1839271, 67.9142551]],
+  ['jizzax:uz', [40.0881722, 67.7599007, 40.1839271, 67.9142551]],
+  ['jizzax:uzbekistan', [40.0881722, 67.7599007, 40.1839271, 67.9142551]],
+  ['jizzakh:uz', [40.0881722, 67.7599007, 40.1839271, 67.9142551]],
+  ['jizzakh:uzbekistan', [40.0881722, 67.7599007, 40.1839271, 67.9142551]],
+  // Navoiy
+  ['навои:uz', [40.0688488, 65.2573093, 40.1303829, 65.4345714]],
+  ['навои:uzbekistan', [40.0688488, 65.2573093, 40.1303829, 65.4345714]],
+  ['navoiy:uz', [40.0688488, 65.2573093, 40.1303829, 65.4345714]],
+  ['navoiy:uzbekistan', [40.0688488, 65.2573093, 40.1303829, 65.4345714]],
+  // Chirchiq
+  ['чирчик:uz', [41.42216, 69.5245764, 41.5294441, 69.6426959]],
+  ['чирчик:uzbekistan', [41.42216, 69.5245764, 41.5294441, 69.6426959]],
+  ['chirchiq:uz', [41.42216, 69.5245764, 41.5294441, 69.6426959]],
+  ['chirchiq:uzbekistan', [41.42216, 69.5245764, 41.5294441, 69.6426959]],
+  // Angren
+  ['ангрен:uz', [40.9067651, 69.9843926, 41.1450559, 70.2500211]],
+  ['ангрен:uzbekistan', [40.9067651, 69.9843926, 41.1450559, 70.2500211]],
+  ['angren:uz', [40.9067651, 69.9843926, 41.1450559, 70.2500211]],
+  ['angren:uzbekistan', [40.9067651, 69.9843926, 41.1450559, 70.2500211]],
+  // Gulistan
+  ['гулистан:uz', [40.4723556, 68.710207, 40.5720989, 68.8245311]],
+  ['гулистан:uzbekistan', [40.4723556, 68.710207, 40.5720989, 68.8245311]],
+  ['guliston:uz', [40.4723556, 68.710207, 40.5720989, 68.8245311]],
+  ['guliston:uzbekistan', [40.4723556, 68.710207, 40.5720989, 68.8245311]],
+  ['gulistan:uz', [40.4723556, 68.710207, 40.5720989, 68.8245311]],
+  ['gulistan:uzbekistan', [40.4723556, 68.710207, 40.5720989, 68.8245311]],
+  // Zarafshan
+  ['зарафшан:uz', [41.5155893, 64.1744551, 41.5943214, 64.6087966]],
+  ['зарафшан:uzbekistan', [41.5155893, 64.1744551, 41.5943214, 64.6087966]],
+  ['zarafshon:uz', [41.5155893, 64.1744551, 41.5943214, 64.6087966]],
+  ['zarafshon:uzbekistan', [41.5155893, 64.1744551, 41.5943214, 64.6087966]],
+  ['zarafshan:uz', [41.5155893, 64.1744551, 41.5943214, 64.6087966]],
+  ['zarafshan:uzbekistan', [41.5155893, 64.1744551, 41.5943214, 64.6087966]],
 ]);
+
+/** Where a geocode result came from. Surfaced so yield telemetry can tell a
+ *  free static hit from a paid-latency Nominatim round trip. */
+export type LeadRadarGeocodeOrigin = 'static_city' | 'cache' | 'durable_cache' | 'nominatim';
 const geocodeCache = new Map<string, [number, number, number, number]>();
 
 interface NominatimResult {
@@ -339,14 +474,14 @@ export function classifyTelegramContact(input: TelegramClassificationInput): Pic
   if (/(?:группа|групповой\s+чат|\bgroup\b|\bcommunity\b|\bguruh\b|\bjamoa\b|\bumumiy\s+chat\b)/i.test(context)) {
     return { type: 'group', confidence: 0.91, reason: 'Страница называет ссылку группой или сообществом', messageable: false };
   }
-  if (input.hasNamedDecisionMaker) {
+  if (input.hasNamedDecisionMaker || /(?:личный\s+telegram|личный\s+телеграм|personal\s+telegram)/iu.test(context)) {
     const structured = input.sourceClaim === 'json_ld_same_as';
     return {
       type: 'human',
       confidence: structured ? 0.9 : 0.78,
       reason: structured
         ? 'Официальный сайт публикует Telegram в JSON-LD Person; требуется проверка оператором'
-        : 'Ссылка расположена рядом с именем и ролью; требуется проверка оператором',
+        : 'Личный контакт или ссылка рядом с именем и ролью; требуется проверка оператором',
       messageable: false,
     };
   }
@@ -730,16 +865,18 @@ async function geocode(
   input: LeadRadarSearchInput,
   budget: SubrequestBudget,
   store?: LeadRadarGeocodeStore,
-): Promise<[number, number, number, number]> {
+): Promise<{ bounds: [number, number, number, number]; origin: LeadRadarGeocodeOrigin }> {
   const cacheKey = `${normalizeCompanyKey(input.city)}:${input.country.toLowerCase()}`;
   const staticBounds = STATIC_CITY_BOUNDS.get(cacheKey);
-  if (staticBounds) return staticBounds;
+  // Static city bounds cost zero subrequests and zero Nominatim quota. Every
+  // city we add here is one fewer request against a 1 req/sec shared service.
+  if (staticBounds) return { bounds: staticBounds, origin: 'static_city' };
   const cached = geocodeCache.get(cacheKey);
-  if (cached) return cached;
+  if (cached) return { bounds: cached, origin: 'cache' };
   const durableCached = await store?.getGeocodeBounds(cacheKey, new Date().toISOString());
   if (durableCached) {
     geocodeCache.set(cacheKey, durableCached);
-    return durableCached;
+    return { bounds: durableCached, origin: 'durable_cache' };
   }
 
   if (store) {
@@ -751,7 +888,7 @@ async function geocode(
     if (!acquired) {
       await new Promise((resolve) => setTimeout(resolve, 1_150));
       const afterWait = await store.getGeocodeBounds(cacheKey, new Date().toISOString());
-      if (afterWait) return afterWait;
+      if (afterWait) return { bounds: afterWait, origin: 'durable_cache' };
       throw new LeadRadarSourceError('source_timeout', ['nominatim_application_throttle']);
     }
   }
@@ -820,25 +957,50 @@ async function geocode(
       console.warn('lead_radar.geocode_cache_write_failed', { cacheKey });
     }
   }
-  return normalizedBounds;
+  return { bounds: normalizedBounds, origin: 'nominatim' };
 }
 
 export interface LeadRadarOsmQueryPlan {
   version: 'osm-overpass-v3';
+  /** True when the query only selects rows that already carry a contact tag. */
+  contactOnly: boolean;
   category: string;
   languageTags: string[];
   intent: LeadRadarIntentResolution;
   query: string;
 }
 
+/**
+ * OSM keys whose presence means the row *already carries* a contact.
+ *
+ * This is the catalog-first principle: a phone found here is a field on a
+ * structured record, not a guess scraped out of page HTML. Rows selected by
+ * these tags need no crawl at all, which is why they are worth their own
+ * Overpass round trip.
+ */
+export const OSM_CONTACT_KEYS = ['contact:phone', 'phone', 'contact:website', 'website'] as const;
+
+/** Expand category selectors into contact-bearing selectors. */
+export function contactFilterLines(filters: readonly string[]): string[] {
+  return filters.flatMap((filter) => OSM_CONTACT_KEYS.map((key) => `${filter}["${key}"]`));
+}
+
+export interface LeadRadarOsmQueryPlanOptions {
+  /** Restrict the plan to rows that already expose a phone or website tag. */
+  contactOnly?: boolean;
+}
+
 /** Deterministic, versioned source plan used by discovery and contract tests. */
 export function buildLeadRadarQueryPlan(
   input: LeadRadarSearchInput,
   bounds: [number, number, number, number],
+  options: LeadRadarOsmQueryPlanOptions = {},
 ): LeadRadarOsmQueryPlan {
   const definition = queryDefinition(input.niche, input.languages);
   const bbox = bounds.join(',');
-  const lines = definition.filters.map((filter) => `nwr${filter}(${bbox});`).join('\n');
+  const contactOnly = options.contactOnly === true;
+  const selectors = contactOnly ? contactFilterLines(definition.filters) : definition.filters;
+  const lines = selectors.map((filter) => `nwr${filter}(${bbox});`).join('\n');
   const resultLimit = definition.intent.canonicalId
     ? Math.min(240, Math.max(80, input.desiredCount * 6))
     : (definition.intent.nameFallbackTokens.length > 0
@@ -846,6 +1008,7 @@ export function buildLeadRadarQueryPlan(
       : Math.min(40, Math.max(10, input.desiredCount * 2)));
   return {
     version: 'osm-overpass-v3',
+    contactOnly,
     category: definition.category,
     languageTags: [...new Set(input.languages)].map((language) => `name:${language}`),
     intent: definition.intent,
@@ -911,6 +1074,39 @@ function osmTagsFromElement(element: unknown): Record<string, string> {
   );
 }
 
+/** Overpass identity, or null when the row is not shaped like an element. */
+function osmElementKey(element: unknown): string | null {
+  if (!element || typeof element !== 'object') return null;
+  const { type, id } = element as Partial<OverpassElement>;
+  if (typeof type !== 'string' || typeof id !== 'number') return null;
+  return `${type}/${id}`;
+}
+
+/**
+ * Merge two Overpass result sets, keeping `preferred` ahead of `extra`.
+ *
+ * The contact plan and the broad plan legitimately overlap — a row with both a
+ * phone and a website matches two contact selectors, and every contact row also
+ * matches the broad one. Overpass unions do not guarantee order, so we dedupe
+ * here and let the caller keep contact-bearing rows first.
+ */
+export function mergeOsmElements(
+  preferred: readonly unknown[],
+  extra: readonly unknown[],
+): unknown[] {
+  const seen = new Set<string>();
+  const merged: unknown[] = [];
+  for (const element of [...preferred, ...extra]) {
+    const key = osmElementKey(element);
+    if (key) {
+      if (seen.has(key)) continue;
+      seen.add(key);
+    }
+    merged.push(element);
+  }
+  return merged;
+}
+
 /** Stable, evidence-only ordering applied before the queue selects its fanout. */
 export function rankLeadRadarOsmElements(
   elements: unknown[],
@@ -936,6 +1132,7 @@ export function candidateFromOsmElement(
   element: unknown,
   input: LeadRadarSearchInput,
   fallbackCategory: string,
+  collectedAt?: string,
 ): SourceCandidate | null {
   if (!element || typeof element !== 'object' || Array.isArray(element)) return null;
   const raw = element as Partial<OverpassElement>;
@@ -957,7 +1154,8 @@ export function candidateFromOsmElement(
   const phone = cleanPhone(tags['contact:phone'] || tags.phone || null);
   const email = genericEmail(tags['contact:email'] || tags.email || null);
   const telegram = cleanTelegram(tags['contact:telegram'] || tags.telegram || tags['social:telegram'] || null);
-  const sourceObservedAt = typeof raw.timestamp === 'string' && Number.isFinite(Date.parse(raw.timestamp))
+  const sourceObservedAt = collectedAt && Number.isFinite(Date.parse(collectedAt)) ? new Date(collectedAt).toISOString()
+    : typeof raw.timestamp === 'string' && Number.isFinite(Date.parse(raw.timestamp))
     ? new Date(raw.timestamp).toISOString()
     : new Date().toISOString();
   const sourceCity = cleanText(tags['addr:city'] || tags['addr:place'], 120);
@@ -968,6 +1166,9 @@ export function candidateFromOsmElement(
   const evidence: LeadRadarEvidence[] = [
     sourceEvidence('company.name', name, sourceUrl, 'openstreetmap', 0.82, 'fact', sourceObservedAt),
   ];
+  if (collectedAt && typeof raw.timestamp==='string' && Number.isFinite(Date.parse(raw.timestamp))) {
+    evidence.push(sourceEvidence('source.osm.last_edited_at',new Date(raw.timestamp).toISOString(),sourceUrl,'openstreetmap',1,'fact',sourceObservedAt));
+  }
   if (sourcedCategory) {
     evidence.push(sourceEvidence('company.category', sourcedCategory, sourceUrl, 'openstreetmap', 0.78, 'fact', sourceObservedAt));
   }
@@ -1124,6 +1325,12 @@ export function verifyCompanyWebsiteBinding(
   return { verified: false, method: null, sourceUrl: null };
 }
 
+/** Bounded contact-page discovery on the company's own origin — the free
+ * enrichment path. Contact-like pages rank first so the bounded page budget
+ * is spent where Telegram/phone facts actually live (audit-2026-08-30 R1). */
+const CONTACT_PAGE_PATTERN = /(contact|kontakt|aloqa|about|company|vakans|career|service|uslug|team|staff|doctor|management|leadership|rukovod|руковод|команд|врач|контакт|о-компан|o-kompan|haqida|o-nas)/i;
+const CONTACT_PAGE_FETCH_LIMIT = 4;
+
 function sameOriginLinks(html: string, base: URL): URL[] {
   const links: URL[] = [];
   const pattern = /href\s*=\s*["']([^"'#]+)["']/gi;
@@ -1132,15 +1339,57 @@ function sameOriginLinks(html: string, base: URL): URL[] {
       const url = new URL(match[1], base);
       if (url.origin !== base.origin) continue;
       if (url.toString().length > 2_048) continue;
-      if (!/(contact|kontakt|aloqa|about|company|vakans|career|service|uslug|team|staff|doctor|management|leadership|rukovod|руковод|команд|врач)/i.test(decodeURIComponent(url.pathname))) continue;
       url.hash = '';
       if (!links.some((item) => item.toString() === url.toString())) links.push(url);
-      if (links.length >= 2) break;
+      if (links.length >= 8) break;
     } catch {
       // Ignore malformed page links.
     }
   }
-  return links;
+  const rank = (url: URL) => /contact|kontakt|aloqa|контакт/i.test(decodeURIComponent(url.pathname)) ? 0 : 1;
+  return links.filter((url) => CONTACT_PAGE_PATTERN.test(decodeURIComponent(url.pathname)))
+    .sort((a, b) => rank(a) - rank(b))
+    .slice(0, CONTACT_PAGE_FETCH_LIMIT);
+}
+
+/** JS-rendered homepages often expose no static links, while the site's
+ * sitemap still lists the real contact pages. Best-effort: any failure,
+ * denial or non-XML answer simply yields no extra links and never fails
+ * the enrichment (audit-2026-08-30 R1 Tier 0). */
+async function sitemapContactLinks(start: URL, robots: string | null, budget: SubrequestBudget): Promise<URL[]> {
+  try {
+    const sitemapUrl = new URL('/sitemap.xml', start);
+    if (robots !== null && !robotsAllows(robots, sitemapUrl)) return [];
+    if (!(await hasOnlyPublicAddresses(sitemapUrl, budget))) return [];
+    const xml = await fetchWithin(
+      sitemapUrl,
+      { headers: { 'User-Agent': USER_AGENT, Accept: 'application/xml,text/xml' }, redirect: 'manual' },
+      4_000,
+      budget,
+      async (response): Promise<string | null> => {
+        if (!response.ok) return null;
+        if (!(response.headers.get('content-type') ?? '').toLowerCase().includes('xml')) return null;
+        return readTextBounded(response, 512_000);
+      },
+    );
+    if (!xml) return [];
+    const results: URL[] = [];
+    for (const match of xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi)) {
+      try {
+        const url = new URL(match[1], start);
+        if (url.origin !== start.origin) continue;
+        url.hash = '';
+        if (results.some((item) => item.toString() === url.toString())) continue;
+        if (CONTACT_PAGE_PATTERN.test(decodeURIComponent(url.pathname))) results.push(url);
+        if (results.length >= CONTACT_PAGE_FETCH_LIMIT) break;
+      } catch {
+        // A malformed <loc> entry is not actionable.
+      }
+    }
+    return results;
+  } catch {
+    return [];
+  }
 }
 
 interface RobotsGroup {
@@ -1217,7 +1466,7 @@ export async function readPublicWebsiteRobots(target: URL): Promise<string | nul
   });
 }
 
-async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2): Promise<{ url: URL; html: string } | null> {
+async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2, maxBytes = MAX_WEBSITE_BYTES): Promise<{ url: URL; html: string } | null> {
   let current = url;
   for (let attempt = 0; attempt <= maxRedirects; attempt += 1) {
     if (!(await hasOnlyPublicAddresses(current, budget))) return null;
@@ -1236,7 +1485,7 @@ async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2): 
         if (!response.ok || !(response.headers.get('content-type') ?? '').toLowerCase().includes('text/html')) {
           return { redirect: null, html: null };
         }
-        return { redirect: null, html: await readTextBounded(response, MAX_WEBSITE_BYTES) };
+        return { redirect: null, html: await readTextBounded(response, maxBytes) };
       },
     );
     if (outcome.redirect) {
@@ -1256,6 +1505,7 @@ export function extractCompanyPageFacts(
   companyWebsiteBound = false,
   observedAt = new Date().toISOString(),
   expected?: ExpectedCompanyWebsiteIdentity,
+  options: { includeSignals?: boolean } = {},
 ): Omit<WebsiteFacts, 'website'> {
   const text = stripHtml(html);
   const contactFacts = extractOfficialSiteContacts(pageUrl, html, observedAt);
@@ -1295,6 +1545,19 @@ export function extractCompanyPageFacts(
   if (companyWebsiteBound) for (const candidatePhone of phoneMatches) {
     evidence.push(sourceEvidence('company_contacts.phone', candidatePhone, pageUrl.toString(), 'company_website', 0.9, 'company_data', observedAt));
   }
+
+  // Acquisition needs the exact same contact/ownership/personal-context guards,
+  // but not the sales-signal/date analysis used by the full enrichment path.
+  const contacts = {
+    phone,
+    genericEmail: genericEmailValue,
+    telegramUrl,
+    telegramContact,
+    telegramContacts: companyWebsiteBound ? contactFacts.telegramContacts : [],
+    decisionMakers: companyWebsiteBound ? contactFacts.decisionMakers : [],
+    evidence,
+  };
+  if (options.includeSignals === false) return { ...contacts, signals: [] };
 
   const signalPatterns: Array<{ type: LeadRadarSignalType; label: string; pattern: RegExp }> = [
     { type: 'online_booking', label: 'онлайн-запись', pattern: /онлайн[- ]?(?:запис|бронир)|online booking|qabulga yozil/i },
@@ -1354,16 +1617,7 @@ export function extractCompanyPageFacts(
     });
   }
 
-  return {
-    phone,
-    genericEmail: genericEmailValue,
-    telegramUrl,
-    telegramContact,
-    telegramContacts: companyWebsiteBound ? contactFacts.telegramContacts : [],
-    decisionMakers: companyWebsiteBound ? contactFacts.decisionMakers : [],
-    evidence,
-    signals,
-  };
+  return { ...contacts, signals };
 }
 
 async function enrichCompanyWebsiteWithBudget(
@@ -1423,7 +1677,15 @@ async function enrichCompanyWebsiteWithBudget(
       return null;
     }
     const pages = [home];
-    for (const link of sameOriginLinks(home.html, home.url)) {
+    const links = sameOriginLinks(home.html, home.url);
+    if (links.length < CONTACT_PAGE_FETCH_LIMIT) {
+      for (const link of await sitemapContactLinks(start, robots, budget)) {
+        if (links.length >= CONTACT_PAGE_FETCH_LIMIT) break;
+        if (links.some((item) => item.toString() === link.toString())) continue;
+        links.push(link);
+      }
+    }
+    for (const link of links) {
       if (robots !== null && !robotsAllows(robots, link)) continue;
       const page = await fetchText(link, budget, 0);
       if (page) pages.push(page);
@@ -1486,6 +1748,23 @@ export async function enrichCompanyWebsite(
   return enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(12), undefined, expected);
 }
 
+/** Free bounded public page fetch for catalog discovery (audit R1 Tier-1).
+ * Same SSRF/DNS/robots-agnostic guards as the enrichment crawler; any failure
+ * returns null so a blocked catalog never fails the calling job. */
+export async function readPublicPageHtml(raw: string, options: { maxBytes?: number; sameOrigin?: boolean; allowRedirects?: boolean } = {}): Promise<string | null> {
+  const url = safePublicHttpUrl(raw);
+  if (!url) return null;
+  const maxBytes = options.maxBytes ?? MAX_WEBSITE_BYTES;
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1 || maxBytes > 900_000) return null;
+  try {
+    const page = await fetchText(url, new SubrequestBudget(4), options.allowRedirects === false ? 0 : 1, maxBytes);
+    if (options.sameOrigin && page && page.url.origin !== url.origin) return null;
+    return page?.html ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function enrichCompanyWebsiteDetailed(
   website: string,
   expected?: ExpectedCompanyWebsiteIdentity,
@@ -1498,7 +1777,10 @@ export async function enrichCompanyWebsiteDetailed(
   const diagnostic = { reason: 'source_unavailable' as const, retryable: true } as {
     reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean;
   };
-  const facts = await enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(12), diagnostic, expected);
+  // Single-company detailed crawl: homepage + up to 4 contact pages + optional
+  // sitemap lookup all fit the Free-plan 50-subrequest invocation ceiling
+  // (queue consumer runs one Lead Radar job per delivery).
+  const facts = await enrichCompanyWebsiteWithBudget(website, new SubrequestBudget(20), diagnostic, expected);
   if (!facts) return { facts: null, reason: diagnostic.reason, retryable: diagnostic.retryable };
   const relevant = Boolean(
     facts.phone || facts.genericEmail
@@ -1573,11 +1855,47 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
 
   async discoverRaw(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
     const budget = new SubrequestBudget(MAX_SOURCE_SUBREQUESTS);
-    const bounds = await geocode(input, budget, this.geocodeStore);
-    const { query, category, intent } = buildLeadRadarQueryPlan(input, bounds);
-    const { response, warnings } = await overpass(query, budget);
-    const candidates = rankLeadRadarOsmElements(response.elements ?? [], intent)
-      .map((element) => candidateFromOsmElement(element, input, category))
+    const { bounds, origin: geocodeOrigin } = await geocode(input, budget, this.geocodeStore);
+    const yieldRecorder = new SourceYieldRecorder({ city: input.city, niche: input.niche });
+    const { category, intent } = buildLeadRadarQueryPlan(input, bounds);
+    const sourceWarnings: string[] = [];
+    const plansRun: string[] = [];
+
+    // Catalog-first. The contact plan asks Overpass only for rows that already
+    // expose phone/website, so those contacts arrive as record fields instead
+    // of guesses scraped from page HTML. The broad plan stays as a coverage
+    // fallback: a niche with sparse OSM contact tagging must still return
+    // companies, otherwise we trade a low yield for no yield at all.
+    let elements: unknown[] = [];
+    try {
+      const contactPlan = buildLeadRadarQueryPlan(input, bounds, { contactOnly: true });
+      const contact = await overpass(contactPlan.query, budget);
+      sourceWarnings.push(...contact.warnings);
+      elements = contact.response.elements ?? [];
+      plansRun.push('contact');
+    } catch (error) {
+      // A failed contact plan must not lose the search: the broad plan below
+      // still runs and is the one allowed to surface a hard failure.
+      sourceWarnings.push('contact_plan_unavailable');
+      if (!(error instanceof LeadRadarSourceError)) throw error;
+    }
+
+    // Two Overpass round trips worst case, one when the contact plan already
+    // delivered. Public mirrors are a shared free resource, so the fallback is
+    // skipped whenever contact coverage is sufficient.
+    const contactFloor = Math.max(10, input.desiredCount);
+    if (elements.length < contactFloor) {
+      const broadPlan = buildLeadRadarQueryPlan(input, bounds);
+      const broad = await overpass(broadPlan.query, budget);
+      sourceWarnings.push(...broad.warnings);
+      elements = mergeOsmElements(elements, broad.response.elements ?? []);
+      plansRun.push('broad');
+    }
+
+    const collectedAt = new Date().toISOString();
+    const rawDiscoveredCount = elements.length;
+    const candidates = rankLeadRadarOsmElements(elements, intent)
+      .map((element) => candidateFromOsmElement(element, input, category, collectedAt))
       .filter((item): item is SourceCandidate => Boolean(item));
 
     const deduped = new Map<string, SourceCandidate>();
@@ -1586,11 +1904,18 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
       const existing = deduped.get(key);
       if (!existing || candidate.evidence.length > existing.evidence.length) deduped.set(key, candidate);
     }
+    const selected = [...deduped.values()].slice(0, input.searchGoal === 'telegram_contacts'
+      ? Math.min(250, input.maxCandidates ?? input.desiredCount * 5) : Math.min(80, input.desiredCount * 3));
+
+    for (const candidate of selected) yieldRecorder.recordCandidate(this.id, candidate);
+    yieldRecorder.recordRequested(this.id, rawDiscoveredCount - selected.length);
+    const sourceYield = yieldRecorder.log({ geocodeOrigin, plansRun, rawDiscoveredCount });
+
     return {
-      candidates: [...deduped.values()].slice(0, input.searchGoal === 'telegram_contacts'
-        ? Math.min(250, input.maxCandidates ?? input.desiredCount * 5) : Math.min(80, input.desiredCount * 3)),
-      sourceWarnings: warnings,
-      rawDiscoveredCount: response.elements?.length ?? 0,
+      candidates: selected,
+      sourceWarnings,
+      rawDiscoveredCount,
+      sourceYield,
     };
   }
 

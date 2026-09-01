@@ -1,7 +1,8 @@
 # GPTBot.uz — Hot Traffic SEO Foundation
 
-Date: 2026-08-31  
-Scope: commercial content, trust, pricing clarity, CRM reliability claims and regression gates.  
+Date: 2026-08-31
+
+Scope: commercial content, trust, pricing clarity, CRM reliability claims and regression gates.
 Deployment: **not included**. This release must be merged and deployed only after the checks below pass and the production marker is reconciled.
 
 ## Why this release exists

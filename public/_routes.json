@@ -2,13 +2,13 @@
   "version": 1,
   "include": [
     "/api/*",
-    "/admin-tools/*",
-    "/admin/*",
-    "/robots.txt",
     "/ru/blog",
     "/ru/blog/",
     "/uz/blog",
-    "/uz/blog/"
+    "/uz/blog/",
+    "/admin-tools/*",
+    "/admin/*",
+    "/robots.txt"
   ],
   "exclude": ["/admin/assets/*"]
 }

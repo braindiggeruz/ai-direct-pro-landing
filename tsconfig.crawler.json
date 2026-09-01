@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.lead-radar.json",
+  "compilerOptions": {
+    "types": ["node", "vite/client", "@cloudflare/workers-types"]
+  },
+  "files": [
+    "tools/lead-radar-crawler/extractor.ts",
+    "tools/lead-radar-crawler/extractor-cli.ts",
+    "scripts/lead-radar/build-crawler-extractor.ts",
+    "scripts/lead-radar/benchmark-crawler-admission.ts"
+  ]
+}

@@ -176,6 +176,25 @@ function mediaError(error: unknown, code: string): boolean {
   return error instanceof TelegramCampaignMediaError && error.code === code;
 }
 
+test('private preview verifies tenant, digest, expiration and immutable bytes without writes', async () => {
+  const r2 = new PrivateR2Fixture();
+  const store = new LeadRadarTelegramCampaignMediaStore(r2.bucket);
+  const media = await store.upload({ request: uploadRequest(PNG), dataKey: DATA_KEY, orgId: ORG_A,
+    idempotencyKey: 'media_preview_fixture_0001', now: NOW });
+  const attachment = { mediaId: media.mediaId, mediaDigest: media.mediaDigest };
+  const preview = await store.preview(ORG_A, attachment, NOW);
+  assert.deepEqual(Buffer.from(preview.bytes), PNG);
+  assert.equal(preview.mimeType, 'image/png');
+  await assert.rejects(store.preview(ORG_B, attachment, NOW), (error) => mediaError(error, 'telegram_campaign_media_not_found'));
+  await assert.rejects(store.preview(ORG_A, { ...attachment, mediaDigest: '0'.repeat(64) }, NOW), (error) => mediaError(error, 'telegram_campaign_media_digest_mismatch'));
+  await assert.rejects(store.preview(ORG_A, attachment, new Date('2026-10-01')), (error) => mediaError(error, 'telegram_campaign_media_not_found'));
+  const stored = [...r2.objects.values()][0];
+  stored.bytes[stored.bytes.length - 1] ^= 1;
+  await assert.rejects(store.preview(ORG_A, attachment, NOW), (error) => mediaError(error, 'telegram_campaign_media_digest_mismatch'));
+  assert.equal(r2.putCalls, 1);
+  assert.equal(r2.deleteCalls, 0);
+});
+
 test('private media upload is immutable, tenant scoped and carries only an opaque reference', async () => {
   const r2 = new PrivateR2Fixture();
   const store = new LeadRadarTelegramCampaignMediaStore(r2.bucket);

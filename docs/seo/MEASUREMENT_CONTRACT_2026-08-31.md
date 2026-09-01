@@ -1,7 +1,8 @@
 # GPTBot.uz — organic contact and lead measurement contract
 
-Date: 2026-08-31  
-Scope: public website browser events and the future CRM hand-off.  
+Date: 2026-08-31
+
+Scope: public website browser events and the future CRM hand-off.
 Production change: not included in this branch until a separate merge/deploy decision.
 
 ## Why this contract exists

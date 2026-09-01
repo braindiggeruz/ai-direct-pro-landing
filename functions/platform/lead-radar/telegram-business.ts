@@ -198,6 +198,16 @@ async function deriveKeys(dataKey: string): Promise<DerivedKeys> {
   return { encryption, digest };
 }
 
+// Signatures never use the AES key. Keep the existing HKDF domain and output
+// unchanged while avoiding a second derivation on every API identity check.
+async function deriveDigestKey(dataKey: string): Promise<CryptoKey> {
+  const root = await crypto.subtle.importKey('raw', parseDataKey(dataKey), 'HKDF', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256',
+    salt: TEXT_ENCODER.encode('gptbot.lead-radar.telegram-business.v1'),
+    info: TEXT_ENCODER.encode('identifier-digest') },
+  root, { name: 'HMAC', hash: 'SHA-256', length: 256 }, false, ['sign']);
+}
+
 function containsAsciiControl(value: string): boolean {
   return [...value].some((character) => {
     const code = character.charCodeAt(0);
@@ -226,7 +236,7 @@ export async function telegramIdentifierDigest(
   if (value.length < 1 || TEXT_ENCODER.encode(value).byteLength > 32_768 || !validIdentifier(purpose)) {
     fail('telegram_business_invalid_input');
   }
-  return digestWithKey((await deriveKeys(dataKey)).digest, purpose, value);
+  return digestWithKey(await deriveDigestKey(dataKey), purpose, value);
 }
 
 export async function encryptTelegramIdentifier(
@@ -1346,7 +1356,8 @@ export function buildTelegramCorporateDraftLink(
     || verifiedAt > now.getTime() + FUTURE_SKEW_MS
     || now.getTime() - verifiedAt > 30 * 24 * 60 * 60_000) return null;
   const text = draft;
-  if (text.trim().length === 0 || [...text].length > 4096 || text.includes('\u0000')) return null;
+  // Telegram counts the 4096 limit in UTF-16 code units (audit CP-4).
+  if (text.trim().length === 0 || text.length > 4096 || text.includes('\u0000')) return null;
   const url = new URL(`https://t.me/${contact.username}`);
   url.searchParams.set('text', text);
   return url.toString();
@@ -1391,6 +1402,7 @@ export async function verifiedTelegramCampaignBusinessCompanyIds(input: {
     contact: LeadRadarTelegramContact;
   }>;
   now?: Date;
+  requireBridge?: boolean;
 }): Promise<Set<string>> {
   const now = input.now ?? new Date();
   const parsed = input.companies.flatMap((company) => {
@@ -1400,6 +1412,12 @@ export async function verifiedTelegramCampaignBusinessCompanyIds(input: {
     );
     return endpoint ? [{ ...company, endpoint }] : [];
   });
+  // Strict campaigns require both parsed endpoint constraints and a current
+  // account/source-bound Bridge receipt. That receipt already proves ownership;
+  // a second identical verifier plus legacy source-only lookup adds no assurance.
+  if (input.requireBridge) {
+    return verifiedResolvedCorporateCompanies({ db: input.db, orgId: input.orgId, companies: parsed, now });
+  }
   const evidenceRows = await new LeadRadarTelegramBusinessStore(input.db)
     .findCompanyEvidenceForCampaignSelection(
       input.orgId,

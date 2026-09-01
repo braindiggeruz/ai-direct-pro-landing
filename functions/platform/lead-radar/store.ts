@@ -25,7 +25,7 @@ import {
 import { normalizeCompanyKey, safePublicHttpUrl } from './validation';
 import { scoreLead } from './scoring';
 import { resolveLeadRadarIntent } from './intent';
-import { contactCandidatesForLead } from './contact-candidates';
+import { contactCandidatesForLead, mergeContactCandidates } from './contact-candidates';
 import { loadContactEnrichments } from './contact-source-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from './contact-discovery-store';
 import { countResolvedCorporateContacts } from './contact-resolution';
@@ -59,6 +59,7 @@ interface SearchRow {
   personal_telegram_count: number;
   excluded_count: number;
   warnings_json: string;
+  resolved_count?: number | null;
   created_at: string;
   completed_at: string | null;
 }
@@ -379,7 +380,11 @@ function mapSearch(row: SearchRow): LeadRadarSearchSummary {
     errorCode: row.error_code,
     phase: row.phase ?? 'completed',
     funnel: {
-      ...(input.searchGoal === 'telegram_contacts' ? { contactTarget: input.desiredCount, candidateLimit: input.maxCandidates ?? 250 } : {}),
+      ...(input.searchGoal === 'telegram_contacts' ? {
+        contactTarget: input.desiredCount,
+        resolvedTelegramCount: Number(row.resolved_count ?? 0),
+        candidateLimit: input.maxCandidates ?? 250,
+      } : {}),
       rawDiscoveredCount: Number(row.raw_discovered_count ?? 0),
       candidateCount: Number(row.candidate_count ?? 0),
       processedCount: Number(row.processed_count ?? row.verified_count ?? 0),
@@ -1454,16 +1459,58 @@ export class LeadRadarStore {
   ): Promise<boolean> {
     const result = await this.db.prepare(`UPDATE lead_radar_jobs SET status = 'retry_wait',
       attempt_count = CASE WHEN ? = 1 AND stage = 'enrichment'
-        AND created_at > ? THEN MAX(0, attempt_count - 1) ELSE attempt_count END,
+        THEN MAX(0, attempt_count - 1) ELSE attempt_count END,
       lease_owner = NULL, lease_expires_at = NULL, last_error_code = ?,
       available_at = ?, dispatch_status = 'pending', next_dispatch_at = ?,
       dispatch_lease_owner = NULL, dispatch_lease_expires_at = NULL,
       dispatched_at = NULL, updated_at = ?
       WHERE org_id = ? AND id = ? AND status = 'running' AND lease_owner = ?
         AND lease_expires_at > ? AND (? IS NULL OR lease_generation = ?)`)
-      .bind(preserveAttemptBudget ? 1 : 0, new Date(Date.parse(now) - 30 * 60_000).toISOString(),
+      .bind(preserveAttemptBudget ? 1 : 0,
         errorCode, availableAt, availableAt, now, orgId, jobId, leaseOwner, now,
         leaseGeneration ?? null, leaseGeneration ?? null).run();
+    return Number(result.meta.changes ?? 0) === 1;
+  }
+
+  /**
+   * Repairs rows created by the old continuation policy. Callers run the
+   * one-hour deadline transition first: explicit contact searches are fully
+   * fenced, while ordinary searches lose only their optional contact tail.
+   * The CAS also fences a live worker: running rows are eligible only after
+   * their lease expired.
+   */
+  async rearmExhaustedContactJob(
+    orgId: string,
+    jobId: string,
+    searchDeadlineBefore: string,
+    now: string,
+  ): Promise<boolean> {
+    const result = await this.db.prepare(`UPDATE lead_radar_jobs SET
+      status = 'queued', attempt_count = 0,
+      available_at = CASE WHEN available_at > ? THEN available_at ELSE ? END,
+      lease_owner = NULL, lease_expires_at = NULL,
+      dispatch_status = 'pending',
+      next_dispatch_at = CASE WHEN available_at > ? THEN available_at ELSE ? END,
+      dispatch_lease_owner = NULL, dispatch_lease_expires_at = NULL,
+      dispatched_at = NULL, completed_at = NULL, updated_at = ?
+      WHERE org_id = ? AND id = ?
+        AND idempotency_key LIKE 'contact-resolve:%'
+        AND attempt_count >= max_attempts
+        AND (
+          status IN ('queued', 'retry_wait')
+          OR (status = 'running' AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?)
+        )
+        AND EXISTS (
+          SELECT 1 FROM lead_radar_searches search
+          WHERE search.org_id = lead_radar_jobs.org_id
+            AND search.id = lead_radar_jobs.search_id
+            AND search.status = 'running'
+            AND (
+              search.created_at > ?
+              OR COALESCE(json_extract(search.input_json, '$.searchGoal'), '') <> 'telegram_contacts'
+            )
+        )`)
+      .bind(now, now, now, now, now, orgId, jobId, now, searchDeadlineBefore).run();
     return Number(result.meta.changes ?? 0) === 1;
   }
 
@@ -1481,6 +1528,30 @@ export class LeadRadarStore {
         AND status = 'running' AND lease_owner = ? AND lease_expires_at > ?
         AND (? IS NULL OR lease_generation = ?)`)
       .bind(errorCode, now, now, orgId, jobId, leaseOwner, now,
+        leaseGeneration ?? null, leaseGeneration ?? null).run();
+    return Number(result.meta.changes ?? 0) === 1;
+  }
+
+  /** Reuses the contact-resolution job's idempotency-key row for a fresh
+   * wait cycle instead of dead-lettering it (audit-2026-08-30 QR-1). The
+   * caller bounds total lifetime via the job's immutable created_at. */
+  async requeueContactResolutionJob(
+    orgId: string,
+    jobId: string,
+    leaseOwner: string,
+    errorCode: string,
+    availableAt: string,
+    now: string,
+    leaseGeneration?: number,
+  ): Promise<boolean> {
+    const result = await this.db.prepare(`UPDATE lead_radar_jobs SET
+      status = 'queued', attempt_count = 0, available_at = ?,
+      lease_owner = NULL, lease_expires_at = NULL,
+      dispatch_status = 'pending', next_dispatch_at = ?, completed_at = NULL,
+      last_error_code = ?, updated_at = ?
+      WHERE org_id = ? AND id = ? AND status = 'running' AND lease_owner = ?
+        AND lease_expires_at > ? AND (? IS NULL OR lease_generation = ?)`)
+      .bind(availableAt, availableAt, errorCode, now, orgId, jobId, leaseOwner, now,
         leaseGeneration ?? null, leaseGeneration ?? null).run();
     return Number(result.meta.changes ?? 0) === 1;
   }
@@ -1597,11 +1668,127 @@ export class LeadRadarStore {
       .bind(availableAt, availableAt, now, orgId, jobId).run();
   }
 
-  async listExpiredJobs(now: string, limit = 2): Promise<LeadRadarJob[]> {
+  /**
+   * Ends search-time contact work without deleting any discovered company.
+   * Contact-mode searches fence every remaining worker and cancel their pool;
+   * ordinary searches fence only the optional contact-resolution tail.
+   */
+  async expireContactSearchIfPastDeadline(
+    orgId: string,
+    searchId: string,
+    searchDeadlineBefore: string,
+    now: string,
+  ): Promise<boolean> {
+    const search = await this.db.prepare(`SELECT input_json, created_at FROM lead_radar_searches
+      WHERE org_id = ? AND id = ? AND status = 'running' LIMIT 1`)
+      .bind(orgId, searchId).first<{ input_json: string; created_at: string }>();
+    if (!search || search.created_at > searchDeadlineBefore) return false;
+    const input = parseJson<LeadRadarSearchInput | null>(search.input_json, null);
+    const contactMode = input?.searchGoal === 'telegram_contacts';
+    const statements: D1PreparedStatement[] = [
+      this.db.prepare(`UPDATE lead_radar_jobs SET
+        status = 'dead_letter', lease_owner = NULL, lease_expires_at = NULL,
+        dispatch_status = 'pending', next_dispatch_at = NULL,
+        dispatch_lease_owner = NULL, dispatch_lease_expires_at = NULL,
+        dispatched_at = NULL,
+        last_error_code = CASE
+          WHEN idempotency_key LIKE 'contact-resolve:%'
+            THEN COALESCE(last_error_code, 'contact_search_deadline')
+          ELSE 'contact_search_deadline'
+        END,
+        completed_at = ?, updated_at = ?
+        WHERE org_id = ? AND search_id = ?
+          AND status IN ('queued', 'running', 'retry_wait')
+          AND (? = 1 OR idempotency_key LIKE 'contact-resolve:%')
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_searches search
+            WHERE search.org_id = lead_radar_jobs.org_id
+              AND search.id = lead_radar_jobs.search_id
+              AND search.status = 'running' AND search.created_at <= ?
+          )`).bind(now, now, orgId, searchId, contactMode ? 1 : 0, searchDeadlineBefore),
+      this.db.prepare(`UPDATE lead_radar_companies SET
+        enrichment_status = 'terminal', enrichment_reason = 'retry_exhausted', updated_at = ?
+        WHERE org_id = ? AND search_id = ? AND suppressed = 0
+          AND enrichment_status IN ('pending', 'queued', 'processing')
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_jobs expired
+            WHERE expired.org_id = lead_radar_companies.org_id
+              AND expired.search_id = lead_radar_companies.search_id
+              AND expired.company_id = lead_radar_companies.id
+              AND expired.status = 'dead_letter'
+              AND expired.completed_at = ?
+              AND (expired.last_error_code = 'contact_search_deadline'
+                OR expired.idempotency_key LIKE 'contact-resolve:%')
+          )`).bind(now, orgId, searchId, now),
+    ];
+    if (contactMode && await this.supportsContactDiscovery()) {
+      statements.push(this.db.prepare(`UPDATE lead_radar_candidate_pools SET
+        candidates_json = NULL, batch_job_id = NULL, stop_reason = 'cancelled', updated_at = ?
+        WHERE org_id = ? AND search_id = ?
+          AND EXISTS (
+            SELECT 1 FROM lead_radar_searches search
+            WHERE search.org_id = lead_radar_candidate_pools.org_id
+              AND search.id = lead_radar_candidate_pools.search_id
+              AND search.status = 'running' AND search.created_at <= ?
+          )`).bind(now, orgId, searchId, searchDeadlineBefore));
+    }
+    const results = await this.db.batch(statements);
+    if (Number(results[0]?.meta.changes ?? 0) === 0 && !contactMode) return false;
+    await this.refreshSearchFunnel(orgId, searchId, now);
+    return true;
+  }
+
+  /** Running contact-mode searches whose remaining pool candidates are not
+   * covered by any due job. The cron watchdog feeds these into
+   * refreshSearchFunnel so parking can never freeze a search forever.
+   * Ordering by pool updated_at (least recently touched first, audit
+   * LR-F-20) rotates the sweep: a search that churns every tick moves to
+   * the back instead of permanently occupying a slot and starving newer
+   * running searches. Time-limited pools are included on purpose — the
+   * funnel's bounded markForResume path (resume_count < 2) is the only
+   * thing that can reopen them, so without this the stalled-search
+   * guarantee could never reach exactly those searches. */
+  async listRunningSearchesWithPools(
+    limit: number,
+    allowOrganization: (orgId: string) => boolean = () => true,
+  ): Promise<Array<{ orgId: string; searchId: string; createdAt: string; contactMode: boolean }>> {
+    try {
+      const result = await this.db.prepare(`SELECT s.org_id AS org_id, s.id AS search_id,
+          s.created_at AS created_at,
+          CASE WHEN json_extract(s.input_json, '$.searchGoal') = 'telegram_contacts'
+            THEN 1 ELSE 0 END AS contact_mode
+        FROM lead_radar_searches s
+        JOIN lead_radar_candidate_pools p ON p.org_id = s.org_id AND p.search_id = s.id
+        WHERE s.status = 'running' AND p.candidate_count > COALESCE(p.cursor, 0)
+          AND (p.stop_reason IS NULL OR p.stop_reason = 'time_limit')
+        ORDER BY p.updated_at ASC LIMIT ?`)
+        .bind(Math.max(1, Math.min(5, Math.trunc(limit)))).all<{
+          org_id: string; search_id: string; created_at: string; contact_mode: number;
+        }>();
+      return (result.results ?? [])
+        .filter((row) => allowOrganization(row.org_id))
+        .map((row) => ({
+          orgId: row.org_id,
+          searchId: row.search_id,
+          createdAt: row.created_at,
+          contactMode: row.contact_mode === 1,
+        }));
+    } catch {
+      // Pre-contact-schema deployments have no pools; the sweep is a no-op.
+      return [];
+    }
+  }
+
+  async listExpiredJobs(
+    now: string,
+    limit = 2,
+    searchId: string | null = null,
+  ): Promise<LeadRadarJob[]> {
     const result = await this.db.prepare(`SELECT * FROM lead_radar_jobs
       WHERE status = 'running' AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?
+        AND (? IS NULL OR search_id = ?)
       ORDER BY lease_expires_at, org_id, id LIMIT ?`).bind(
-      now, Math.max(1, Math.min(2, Math.trunc(limit))),
+      now, searchId, searchId, Math.max(1, Math.min(10, Math.trunc(limit))),
     ).all<JobRow>();
     return (result.results ?? []).map(mapJob);
   }
@@ -1614,33 +1801,109 @@ export class LeadRadarStore {
         AND available_at <= ? AND dispatch_status = 'pending'`).bind(now, now, jobId, now).run();
   }
 
-  async requeueStaleSentDispatches(
+  async recoverDeferredQueueWork(
     staleBefore: string,
+    searchDeadlineBefore: string,
     now: string,
     allowOrganization: (orgId: string) => boolean = () => true,
     limit = 5,
-  ): Promise<number> {
-    const stale = await this.db.prepare(`SELECT * FROM lead_radar_jobs
-      WHERE status IN ('queued', 'retry_wait') AND available_at <= ?
-        AND dispatch_status = 'sent' AND dispatched_at IS NOT NULL
-        AND dispatched_at <= ?
-      ORDER BY dispatched_at, org_id, id LIMIT ?`).bind(
-      now, staleBefore, Math.max(1, Math.min(5, Math.trunc(limit))),
-    ).all<JobRow>();
+    searchId: string | null = null,
+  ): Promise<{ expiredSearches: number; rearmedJobs: number; requeuedDispatches: number }> {
+    const boundedLimit = Math.max(1, Math.min(5, Math.trunc(limit)));
+    // One scan replaces three independent cron scans so the ordinary queue
+    // tick keeps its existing Workers Free D1 statement/round-trip budget.
+    const work = await this.db.prepare(`WITH expired_searches AS (
+        SELECT search.org_id, search.id AS search_id
+        FROM lead_radar_searches search
+        WHERE search.status = 'running' AND search.created_at <= ?
+          AND (
+            json_extract(search.input_json, '$.searchGoal') = 'telegram_contacts'
+            OR EXISTS (
+              SELECT 1 FROM lead_radar_jobs contact_tail
+              WHERE contact_tail.org_id = search.org_id
+                AND contact_tail.search_id = search.id
+                AND contact_tail.idempotency_key LIKE 'contact-resolve:%'
+                AND contact_tail.status IN ('queued', 'running', 'retry_wait')
+            )
+          )
+          AND (? IS NULL OR search.id = ?)
+        ORDER BY search.created_at, search.org_id, search.id LIMIT 100
+      ), exhausted_jobs AS (
+        SELECT job.org_id, job.search_id, job.id AS job_id
+        FROM lead_radar_jobs job
+        JOIN lead_radar_searches search
+          ON search.org_id = job.org_id AND search.id = job.search_id
+        WHERE search.status = 'running'
+          AND job.idempotency_key LIKE 'contact-resolve:%'
+          AND (? IS NULL OR job.search_id = ?)
+          AND job.attempt_count >= job.max_attempts
+          AND (
+            job.status IN ('queued', 'retry_wait')
+            OR (job.status = 'running' AND job.lease_expires_at IS NOT NULL
+              AND job.lease_expires_at <= ?)
+          )
+        ORDER BY job.updated_at, job.org_id, job.id LIMIT 100
+      ), stale_dispatches AS (
+        SELECT job.org_id, job.search_id, job.id AS job_id
+        FROM lead_radar_jobs job
+        WHERE job.status IN ('queued', 'retry_wait') AND job.available_at <= ?
+          AND (? IS NULL OR job.search_id = ?)
+          AND job.dispatch_status = 'sent' AND job.dispatched_at IS NOT NULL
+          AND job.dispatched_at <= ?
+        ORDER BY job.dispatched_at, job.org_id, job.id LIMIT 100
+      )
+      SELECT 'expired_search' AS kind, org_id, search_id, NULL AS job_id
+        FROM expired_searches
+      UNION ALL
+      SELECT 'exhausted_job' AS kind, org_id, search_id, job_id
+        FROM exhausted_jobs
+      UNION ALL
+      SELECT 'stale_dispatch' AS kind, org_id, search_id, job_id
+        FROM stale_dispatches`)
+      .bind(
+        searchDeadlineBefore, searchId, searchId,
+        searchId, searchId, now,
+        now, searchId, searchId, staleBefore,
+      ).all<{
+        kind: 'expired_search' | 'exhausted_job' | 'stale_dispatch';
+        org_id: string;
+        search_id: string;
+        job_id: string | null;
+      }>();
+    const allowed = (work.results ?? []).filter((row) => allowOrganization(row.org_id));
+    let expiredSearches = 0;
+    for (const row of allowed.filter((item) => item.kind === 'expired_search').slice(0, 2)) {
+      try {
+        if (await this.expireContactSearchIfPastDeadline(
+          row.org_id, row.search_id, searchDeadlineBefore, now,
+        )) expiredSearches += 1;
+      } catch {
+        // A single damaged legacy search is retried on the next bounded tick.
+      }
+    }
+    if (expiredSearches > 0) {
+      return { expiredSearches, rearmedJobs: 0, requeuedDispatches: 0 };
+    }
+    let rearmedJobs = 0;
+    for (const row of allowed.filter((item) => item.kind === 'exhausted_job').slice(0, 5)) {
+      if (row.job_id && await this.rearmExhaustedContactJob(
+        row.org_id, row.job_id, searchDeadlineBefore, now,
+      )) rearmedJobs += 1;
+    }
     let requeued = 0;
-    for (const row of stale.results ?? []) {
-      if (!allowOrganization(row.org_id)) continue;
+    for (const row of allowed.filter((item) => item.kind === 'stale_dispatch').slice(0, boundedLimit)) {
+      if (!row.job_id) continue;
       const result = await this.db.prepare(`UPDATE lead_radar_jobs SET
         dispatch_status = 'pending', next_dispatch_at = ?, dispatched_at = NULL,
         dispatch_lease_owner = NULL, dispatch_lease_expires_at = NULL, updated_at = ?
         WHERE org_id = ? AND id = ? AND status IN ('queued', 'retry_wait')
           AND available_at <= ? AND dispatch_status = 'sent'
           AND dispatched_at IS NOT NULL AND dispatched_at <= ?`).bind(
-        now, now, row.org_id, row.id, now, staleBefore,
+        now, now, row.org_id, row.job_id, now, staleBefore,
       ).run();
       requeued += Number(result.meta.changes ?? 0);
     }
-    return requeued;
+    return { expiredSearches, rearmedJobs, requeuedDispatches: requeued };
   }
 
   async reserveJobDispatch(
@@ -1679,6 +1942,7 @@ export class LeadRadarStore {
     leaseExpiresAt: string,
     limit = 5,
     allowOrganization: (orgId: string) => boolean = () => true,
+    searchId: string | null = null,
   ): Promise<LeadRadarDispatchReservation[]> {
     const boundedLimit = Math.max(1, Math.min(5, Math.trunc(limit)));
     const scanLimit = 100;
@@ -1691,6 +1955,7 @@ export class LeadRadarStore {
         ) AS stage_rank
       FROM lead_radar_jobs jobs
       WHERE status IN ('queued', 'retry_wait') AND available_at <= ?
+        AND (? IS NULL OR jobs.search_id = ?)
         AND dispatch_status = 'pending'
         AND COALESCE(next_dispatch_at, available_at) <= ?
         AND (dispatch_lease_owner IS NULL OR dispatch_lease_expires_at <= ?)
@@ -1707,7 +1972,7 @@ export class LeadRadarStore {
     SELECT * FROM tenant_ranked
     ORDER BY tenant_rank, tenant_due_at, org_id, stage_rank,
       CASE stage WHEN 'discovery' THEN 0 ELSE 1 END, due_at, id
-    LIMIT ?`).bind(now, now, now, scanLimit).all<JobRow>();
+    LIMIT ?`).bind(now, searchId, searchId, now, now, scanLimit).all<JobRow>();
     const reservations: LeadRadarDispatchReservation[] = [];
     for (const candidate of candidates.results ?? []) {
       if (reservations.length >= boundedLimit) break;
@@ -1936,14 +2201,27 @@ export class LeadRadarStore {
       telegramRequired: false, languages: ['ru', 'uz'],
     });
     const deadJobs = jobs.filter((job) => job.status === 'dead_letter');
-    const discoveryFailure = deadJobs.find((job) => job.stage === 'discovery');
+    // Reaching the explicit contact-search deadline is a bounded partial
+    // result, not a discovery crash. The deadline transition may fence an
+    // in-flight discovery job together with its contact-resolution tail.
+    const discoveryFailure = deadJobs.find((job) => job.stage === 'discovery'
+      && job.last_error_code !== 'contact_search_deadline');
     const warnings = [...new Set([
       ...parseJson<string[]>(search.warnings_json ?? '[]', []),
       ...deadJobs.map((job) => job.last_error_code).filter((item): item is string => Boolean(item)),
     ])].slice(0, 20);
     let replenishing = false;
     let resolvedGoalCount = 0;
-    if (input.searchGoal === 'telegram_contacts' && activeJobs.length === 0 && !discoveryFailure
+    // Budget-parked contact jobs (retry_wait on an exhausted source budget)
+    // wait out their cooldown and must not hold the pool hostage: replenish
+    // or resume discovery while only they remain active. The terminal/status
+    // calculation below still counts every active job.
+    const blockingActiveJobs = activeJobs.filter((job) => !(
+      // Regeneration keeps the budget reason but changes retry_wait to queued.
+      // Both durable parked states must release discovery's progress barrier.
+      ['retry_wait', 'queued'].includes(job.status) && /budget_exhausted/.test(job.last_error_code ?? '')
+    ));
+    if (input.searchGoal === 'telegram_contacts' && blockingActiveJobs.length === 0 && !discoveryFailure
       && await this.supportsContactDiscovery()) {
       const pool = await this.contactDiscovery.getPool(orgId, searchId);
       if (pool) {
@@ -1953,7 +2231,10 @@ export class LeadRadarStore {
       if (pool && (!pool.stop_reason || pool.stop_reason === 'time_limit')) {
         // Contact-mode success requires a Bridge resolution under the current
         // account, not just a public link. Outreach permission remains separate.
-        const blockedSources = deadJobs.find(job => /^contact_sources_.*(?:budget|credits|rate_limit)/.test(job.last_error_code ?? ''));
+        // Per-company source budgets dead-letter a single lookup and the next
+        // enrichment cycle re-creates it; only account/search-wide provider
+        // limits (daily, domain, search, credits, rate limit) park the pool.
+        const blockedSources = deadJobs.find(job => /^contact_sources_(?!.*company).*(?:budget|credits|rate_limit)/.test(job.last_error_code ?? ''));
         if (resolvedGoalCount >= input.desiredCount) {
           if (!pool.stop_reason) await this.contactDiscovery.stop(orgId, searchId, 'target_reached', now);
         } else if (blockedSources) {
@@ -1979,6 +2260,15 @@ export class LeadRadarStore {
             await this.contactDiscovery.stop(orgId, searchId, reason, now);
             warnings.push(`contact_${reason}`);
           } else {
+            // A dead replenish row from an older code generation must not
+            // deadlock the pool: revive it into a fresh queued generation
+            // before the conflicting insert (audit QR-7/QR-9).
+            await this.db.prepare(`UPDATE lead_radar_jobs SET status='queued', attempt_count=0,
+              available_at=?, lease_owner=NULL, lease_expires_at=NULL,
+              dispatch_status='pending', next_dispatch_at=?, completed_at=NULL,
+              last_error_code=NULL, updated_at=?
+              WHERE org_id=? AND search_id=? AND idempotency_key=? AND status='dead_letter'`)
+              .bind(now, now, now, orgId, searchId, `contact-pool:${searchId}:${pool.cursor}`).run();
             const next = await this.createJob(orgId, searchId, null, 'discovery', `contact-pool:${searchId}:${pool.cursor}`, now);
             replenishing = ['queued', 'running', 'retry_wait'].includes(next.status);
             discoveryActive = replenishing;
@@ -2113,9 +2403,9 @@ export class LeadRadarStore {
           genericEmail: suppressed ? null : row.generic_email,
           telegramUrl: suppressed ? null : row.telegram_url,
           telegramContact,
-          contactCandidates: [...new Map([...contactCandidatesForLead({
-            phone: row.phone, country: row.country, evidence, telegramContact, suppressed,
-          }), ...(suppressed ? [] : contactEnrichments.get(row.id)?.sources.flatMap((s) => s.candidates) ?? [])].map((c) => [c.key,c])).values()],
+          contactCandidates: mergeContactCandidates([...contactCandidatesForLead({
+            name:row.name,address:row.address,phone: row.phone, country: row.country, evidence, telegramContact, suppressed,
+          }), ...(suppressed ? [] : contactEnrichments.get(row.id)?.sources.flatMap((s) => s.candidates) ?? [])]),
           contactEnrichment: suppressed ? undefined : contactEnrichments.get(row.id),
           decisionMakers,
           enrichmentStatus: suppressed ? 'terminal' : row.enrichment_status,
@@ -2136,8 +2426,15 @@ export class LeadRadarStore {
   }
 
   async listOverview(orgId: string): Promise<LeadRadarOverview> {
-    const searchesResult = await this.db.prepare(`SELECT * FROM lead_radar_searches
-      WHERE org_id = ? ORDER BY created_at DESC, id DESC LIMIT 12`).bind(orgId).all<SearchRow>();
+    const searchesStatement = await this.supportsContactDiscovery()
+      ? this.db.prepare(`SELECT search.*, pool.resolved_count AS resolved_count
+          FROM lead_radar_searches search
+          LEFT JOIN lead_radar_candidate_pools pool
+            ON pool.org_id = search.org_id AND pool.search_id = search.id
+          WHERE search.org_id = ? ORDER BY search.created_at DESC, search.id DESC LIMIT 12`)
+      : this.db.prepare(`SELECT * FROM lead_radar_searches
+          WHERE org_id = ? ORDER BY created_at DESC, id DESC LIMIT 12`);
+    const searchesResult = await searchesStatement.bind(orgId).all<SearchRow>();
     const searches = (searchesResult.results ?? []).map(mapSearch);
     const totals = await this.db.prepare(`SELECT
       (SELECT COUNT(*) FROM lead_radar_searches WHERE org_id = ?) AS searches,

@@ -17,6 +17,7 @@ import {
   purgeTelegramBusinessCompanyContact,
   purgeTelegramBusinessOrganization,
   sendApprovedTelegramBusinessMessage,
+  telegramIdentifierDigest,
   verifyTelegramWebhookSecret,
   type LeadRadarTelegramBusinessEnv,
   type ParsedTelegramBusinessUpdate,
@@ -202,6 +203,22 @@ test('AES-GCM identifier encryption round-trips and uses a fresh IV', async () =
     decryptTelegramIdentifier(DATA_KEY, `${ORG_B}:test`, first),
     (error) => errorCode(error) === 'telegram_business_invalid_input',
   );
+});
+
+test('identifier digests preserve the existing HKDF/HMAC format without deriving an unused AES key', async (t) => {
+  const encoder = new TextEncoder();
+  const root = await crypto.subtle.importKey('raw', Buffer.from(DATA_KEY, 'base64url'), 'HKDF', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256',
+    salt: encoder.encode('gptbot.lead-radar.telegram-business.v1'), info: encoder.encode('identifier-digest') },
+  root, { name: 'HMAC', hash: 'SHA-256', length: 256 }, false, ['sign']);
+  const expected = Buffer.from(await crypto.subtle.sign('HMAC', key, encoder.encode('fixture-purpose\u0000fixture-value'))).toString('hex');
+  const derive = t.mock.method(crypto.subtle, 'deriveKey');
+  assert.equal(await telegramIdentifierDigest(DATA_KEY, 'fixture-purpose', 'fixture-value'), expected);
+  assert.equal(derive.mock.calls.length, 1, 'digest-only requests must derive only one HMAC key');
+  assert.equal((derive.mock.calls[0].arguments[2] as {name:string}).name, 'HMAC');
+  assert.notEqual(await telegramIdentifierDigest(DATA_KEY, 'different-purpose', 'fixture-value'), expected);
+  assert.notEqual(await telegramIdentifierDigest(Buffer.alloc(32, 71).toString('base64url'), 'fixture-purpose', 'fixture-value'), expected);
+  await assert.rejects(telegramIdentifierDigest('invalid-key', 'fixture-purpose', 'fixture-value'));
 });
 
 test('connect nonces are hashed, single-use, expiring and tenant-scoped', async (t) => {

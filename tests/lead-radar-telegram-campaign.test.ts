@@ -387,6 +387,161 @@ test('listing name-only evidence permits type checking but never qualifies for t
   assert.equal(await countResolvedCorporateContacts(db.asD1(),ORG_A,'search_weak_listing',NOW.toISOString()),0);
 });
 
+function mappedPhoneFixture(db:SqliteD1, fresh=false) {
+  addCompany(db,{id:'mapped',username:'OldUnknown',type:'unknown'});
+  db.exec("UPDATE lead_radar_companies SET name='Example Clinic',phone='+998901234567',website=NULL,telegram_contact_json='null' WHERE id='mapped'");
+  for (const [id,field,value,confidence,classification] of [
+    ['phone','company_contacts.phone','+998901234567',0.74,'company_data'],
+    ['name','company.name','Example Clinic',0.82,'fact'],
+    ['category','company.category','dentist',0.78,'fact'],
+    ['place','locations.coordinates','41.300000,69.200000',0.9,'fact'],
+  ]) db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES (?,?,'mapped',?,?,'https://www.openstreetmap.org/node/123456','openstreetmap',?,?,?)`)
+    .run(`map-${id}`,ORG_A,field,value,fresh?NOW.toISOString():'2026-03-07T19:11:44.000Z',confidence,classification);
+  return {elements:[{type:'node',id:123456,lat:41.3,lon:69.2,timestamp:'2026-03-07T19:11:44Z',tags:{name:'Example Clinic',amenity:'dentist',phone:'+998901234567'}}]};
+}
+
+function mappedCollectionReceipt(db:SqliteD1, at=new Date(NOW.getTime()-86400_000).toISOString()) {
+  const started=new Date(Date.parse(at)-4000).toISOString();
+  db.sqlite.prepare("UPDATE lead_radar_searches SET created_at=? WHERE id='search_mapped'").run(started);
+  db.sqlite.prepare("UPDATE lead_radar_companies SET discovered_at=? WHERE id='mapped'").run(at);
+  db.sqlite.prepare(`INSERT INTO lead_radar_jobs(id,org_id,search_id,idempotency_key,stage,status,attempt_count,available_at,created_at,updated_at,completed_at)
+    VALUES(?,?,'search_mapped','legacy-map-discovery','discovery','completed',1,?,?,?,?)`)
+    .run(`lrjob_${'a'.repeat(32)}`,ORG_A,started,started,at,at);
+  return at;
+}
+
+test('exact successful discovery ledger recovers collection time, never now or Telegram permission',async()=>{
+  const db=database();mappedPhoneFixture(db);const at=mappedCollectionReceipt(db);const account=await connectedAccount(db);let lookups=0;
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    candidateKey:'phone:+998901234567',now:NOW.toISOString(),fetch:async()=>{throw new Error('recent known collection requires no new source request');},
+    resolve:async()=>{lookups++;return {status:'unresolved',reason:'privacy_or_missing',username:null,retryAfterSeconds:null};}});
+  assert.equal(result.reason,'privacy_or_missing');assert.equal(lookups,1);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE id LIKE 'map-%' AND observed_at=?",at),4);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE id LIKE 'map-%' AND observed_at=?",NOW.toISOString()),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_contact_authorizations'),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'),0);
+});
+
+test('historical changed-source evidence cannot be revived by an old discovery receipt',async()=>{
+  const db=database();mappedPhoneFixture(db);const account=await connectedAccount(db);let lookups=0;
+  const input={db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    candidateKey:'phone:+998901234567',now:NOW.toISOString(),fetch:async()=>new Response('',{status:410}),
+    resolve:async()=>{lookups++;throw new Error('no proof');}};
+  assert.equal((await checkCorporateTelegramContact(input)).reason,'business_listing_changed');
+  mappedCollectionReceipt(db);
+  let reads=0;
+  const next=await checkCorporateTelegramContact({...input,now:new Date(NOW.getTime()+2*86400_000).toISOString(),
+    fetch:async()=>{reads++;return new Response('',{status:410});}});
+  assert.equal(next.reason,'business_listing_changed');assert.equal(reads,1);assert.equal(lookups,0);
+  assert.equal(db.value("SELECT observed_at FROM lead_radar_evidence WHERE id='map-phone'"),'2026-03-07T19:11:44.000Z');
+});
+
+for(const scenario of ['missing-ledger','retried','failed','time-mismatch','stale','future','mixed-evidence','error-recorded'] as const)
+test(`legacy collection date cannot be inferred from ${scenario}`,async()=>{
+  const db=database();mappedPhoneFixture(db);const at=scenario==='stale'?new Date(NOW.getTime()-31*86400_000).toISOString()
+    :scenario==='future'?new Date(NOW.getTime()+86400_000).toISOString():undefined;
+  mappedCollectionReceipt(db,at);const account=await connectedAccount(db);let reads=0,lookups=0;
+  if(scenario==='missing-ledger')db.exec('DELETE FROM lead_radar_jobs');
+  if(scenario==='retried')db.exec('UPDATE lead_radar_jobs SET attempt_count=2');
+  if(scenario==='failed')db.exec("UPDATE lead_radar_jobs SET status='dead_letter'");
+  if(scenario==='time-mismatch')db.exec("UPDATE lead_radar_jobs SET completed_at='2026-08-24T12:00:01.000Z'");
+  if(scenario==='mixed-evidence')db.exec("UPDATE lead_radar_evidence SET observed_at='2026-03-08T19:11:44.000Z' WHERE id='map-name'");
+  if(scenario==='error-recorded')db.exec("UPDATE lead_radar_jobs SET last_error_code='source_timeout'");
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    candidateKey:'phone:+998901234567',now:NOW.toISOString(),fetch:async()=>{reads++;return new Response('',{status:429,headers:{'Retry-After':'900'}});},
+    resolve:async()=>{lookups++;throw new Error('no proof');}});
+  assert.equal(result.reason,'business_listing_rate_limited');assert.equal(reads,1);assert.equal(lookups,0);
+  assert.equal(db.value("SELECT observed_at FROM lead_radar_evidence WHERE id='map-phone'"),'2026-03-07T19:11:44.000Z');
+});
+
+test('mapped mobile without a website refreshes old source evidence and resolves with or without a username', async () => {
+  const db=database();const body=mappedPhoneFixture(db);const account=await connectedAccount(db);
+  let reads=0,lookups=0;
+  const selection={db:db.asD1(),orgId:ORG_A,companyId:'mapped',accountId:account.id,now:NOW.toISOString()};
+  const next=await nextTelegramContactCandidate(selection);
+  assert.equal(next.candidateKey,'phone:+998901234567','old map timestamp remains eligible for real source recheck');
+  const input={...selection,searchId:'search_mapped',candidateKey:next.candidateKey!,
+    fetch:(async(url,options)=>{reads++;assert.equal(String(url),'https://api.openstreetmap.org/api/0.6/node/123456.json');
+      assert.equal(options?.redirect,'manual');return Response.json(body);}) as typeof fetch,
+    resolve:async()=>{lookups++;return {status:'resolved' as const,username:null,peerRef:`lrpeer:${'c'.repeat(32)}`,reason:'regular_user_resolved',retryAfterSeconds:null};}};
+  assert.equal((await checkCorporateTelegramContact(input)).status,'resolved');
+  assert.equal((await checkCorporateTelegramContact(input)).status,'resolved');
+  assert.equal(reads,1);assert.equal(lookups,1);
+  const contact=JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mapped'")));
+  assert.equal(contact.sourceKey,'phone:+998901234567');
+  const proof={db:db.asD1(),orgId:ORG_A,companies:[{companyId:'mapped',contact}],now:NOW};
+  assert.ok((await verifiedResolvedCorporateCompanies(proof)).has('mapped'));
+  const readiness=await evaluateTelegramCampaignSelection({...selection,dataKey:DATA_KEY,companyIds:['mapped'],now:NOW});
+  assert.equal(readiness.verified,1);assert.equal(readiness.automatic,0,'source+Telegram never grants outreach consent');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_contact_authorizations'),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'),0);
+  db.exec("UPDATE lead_radar_evidence SET value='Different Clinic' WHERE id='map-name'");
+  assert.equal((await verifiedResolvedCorporateCompanies(proof)).size,0,'identity proof is bound to receipt');
+});
+
+for (const scenario of ['changed-phone','changed-name','removed','redirect','rate-limit','oversized','dnc-race'] as const) test(`mapped phone recheck fails closed: ${scenario}`,async()=>{
+  const db=database();const body=mappedPhoneFixture(db);const account=await connectedAccount(db);let lookups=0;
+  const input={db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    now:NOW.toISOString(),candidateKey:'phone:+998901234567',
+    fetch:(async()=>{
+      if(scenario==='changed-phone')body.elements[0].tags.phone='+998901234568';
+      if(scenario==='changed-name')body.elements[0].tags.name='Another Business';
+      if(scenario==='removed')return new Response('',{status:410});
+      if(scenario==='redirect')return new Response('',{status:302,headers:{Location:'http://127.0.0.1/private'}});
+      if(scenario==='rate-limit')return new Response('',{status:429,headers:{'retry-after':'3600'}});
+      if(scenario==='oversized')return new Response(' '.repeat(262145),{headers:{'content-type':'application/json'}});
+      if(scenario==='dnc-race')db.exec("UPDATE lead_radar_companies SET suppressed=1,lifecycle='do_not_contact' WHERE id='mapped'");
+      return Response.json(body);
+    }) as typeof fetch,
+    resolve:async()=>{lookups++;return {status:'unresolved' as const,username:null,reason:'privacy_or_missing',retryAfterSeconds:null};}};
+  const result=await checkCorporateTelegramContact(input);
+  assert.notEqual(result.status,'resolved');assert.equal(lookups,0);
+  if(scenario==='rate-limit')assert.equal(result.retryAfterSeconds,3600);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_contact_checks WHERE status='resolved'"),0);
+  if(scenario==='rate-limit') {
+    const again=await checkCorporateTelegramContact({...input,now:new Date(NOW.getTime()+1000).toISOString(),fetch:async()=>{throw new Error('must_reuse_source_cooldown');}});
+    assert.equal(again.retryAfterSeconds,3599);
+    const next=await nextTelegramContactCandidate({...input,now:new Date(NOW.getTime()+1000).toISOString()});
+    assert.deepEqual(next,{pending:true,retryAfterSeconds:3599});
+  }
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_evidence WHERE observed_at=?",NOW.toISOString()),0);
+});
+
+for(const reason of ['business_listing_unavailable','business_listing_rate_limited','flood_wait'])test(`next candidate scopes the ${reason} receipt correctly`,async()=>{
+  const db=database();mappedPhoneFixture(db,true);setVerifiedCorporateDomain(db,'mapped','mapped.example');
+  const account=await connectedAccount(db);
+  const input={db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,now:NOW.toISOString()};
+  await checkCorporateTelegramContact({...input,candidateKey:'phone:+998901234567',
+    resolve:async()=>({status:'limited',reason,username:null,retryAfterSeconds:900})});
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES('independent-username',?,'mapped','web.telegram.unknown','https://t.me/mapped_company','https://mapped.example/contact','company_website',?,.95,'fact')`).run(ORG_A,NOW.toISOString());
+  const next=await nextTelegramContactCandidate(input);
+  if(reason==='flood_wait'){assert.equal(next.candidateKey,undefined);assert.equal(next.pending,true);assert.ok(next.retryAfterSeconds!>0);}
+  else assert.deepEqual(next,{candidateKey:'telegram:https://t.me/mapped_company',pending:true});
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_contact_checks WHERE status='resolved'"),0);
+});
+
+test('a freshly matched mapped mobile skips network revalidation but still requires Telegram lookup',async()=>{
+  const db=database();mappedPhoneFixture(db,true);const account=await connectedAccount(db);let lookups=0;
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    now:NOW.toISOString(),candidateKey:'phone:+998901234567',fetch:async()=>{throw new Error('must_not_fetch');},
+    resolve:async()=>{lookups++;return {status:'unresolved',username:null,reason:'privacy_or_missing',retryAfterSeconds:null};}});
+  assert.equal(result.status,'unresolved');assert.equal(lookups,1);
+  assert.equal(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mapped'"),'null');
+});
+
+test('a stale map copy cannot block the same phone already proved by a current official site',async()=>{
+  const db=database();mappedPhoneFixture(db);setVerifiedCorporateDomain(db,'mapped','mapped.example');
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES ('official-phone',?,'mapped','company_contacts.phone','+998901234567','https://mapped.example/contact','company_website',?,0.9,'company_data')`).run(ORG_A,NOW.toISOString());
+  const account=await connectedAccount(db);let network=0;
+  const result=await checkCorporateTelegramContact({db:db.asD1(),orgId:ORG_A,companyId:'mapped',searchId:'search_mapped',accountId:account.id,
+    now:NOW.toISOString(),candidateKey:'phone:+998901234567',fetch:async()=>{network++;return new Response('',{status:429});},
+    resolve:async()=>({status:'resolved',username:'clinic_contact',reason:'regular_user_resolved',retryAfterSeconds:null})});
+  assert.equal(result.status,'resolved');assert.equal(network,0);
+});
+
 for (const withoutUsername of [false,true]) test(`published mobile resolves durably and retains all guards (no username: ${withoutUsername})`, async () => {
   const db = database([...MIGRATIONS, '0050_lead_radar_contact_discovery.sql']);
   addCompany(db, { id: 'mobile', username: 'old_unknown', type: 'unknown' });
@@ -455,7 +610,9 @@ test('contact rechecks consume a daily budget and late callbacks cannot overwrit
     db.sqlite.prepare("UPDATE lead_radar_contact_checks SET status='unresolved',result_json=?").run(JSON.stringify(terminal));
     return {status:'resolved',username:'late_callback',reason:'regular_user_resolved',retryAfterSeconds:null};
   }});
-  assert.deepEqual(outcome,terminal);
+  assert.deepEqual(outcome,{...terminal,status:'failed'});
+  assert.deepEqual(JSON.parse(String(db.value('SELECT result_json FROM lead_radar_contact_checks'))),terminal,
+    'legacy terminal receipt remains untouched; only its interpretation changes');
   assert.equal(db.value('SELECT attempts_today FROM lead_radar_contact_checks'),1);
   assert.equal(JSON.parse(String(db.value("SELECT telegram_contact_json FROM lead_radar_companies WHERE id='mobile'"))).type,'unknown');
 });
@@ -1828,6 +1985,134 @@ test('provider FLOOD_WAIT longer than 24 hours is preserved exactly and blocks e
     now: new Date(NOW.getTime() + waitSeconds * 1_000),
   });
   assert.equal(resumed.campaign.status, 'running');
+});
+
+test('maintenance repairs a sent recipient whose effect lost its guard race to ambiguous', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_effect_race', username: 'EffectRaceClinic' });
+  const created = await approvedCampaign(
+    db,
+    ['company_effect_race'],
+    'campaign_effect_race_0001',
+  );
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_effect_race_start', now: NOW,
+  });
+  const claim = await claimNextTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, now: NOW,
+  });
+  assert.ok(claim);
+  // The dispatch lease must outlive the 125 s provider send budget plus
+  // decrypt/DNC work, so recovery cannot race an in-flight send (audit CP-1).
+  const leaseExpiresAt = db.value(
+    'SELECT lease_expires_at FROM lead_radar_tg_campaign_recipients WHERE id = ?', claim.recipientId,
+  );
+  assert.ok(leaseExpiresAt, 'claim must set a recipient lease');
+  assert.ok(Date.parse(String(leaseExpiresAt)) - NOW.getTime() >= 150_000);
+  const providerDigest = 'b'.repeat(64);
+  // The markRecipientSent race: the recipient half commits, the effect-half
+  // guard loses, and the dispatch layer files the effect as ambiguous.
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_recipients
+    SET status = 'sent', claim_digest = NULL, lease_expires_at = NULL,
+      attempt_count = 1, provider_message_digest = ?,
+      sent_at = ?, completed_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND id = ?`)
+    .run(providerDigest, NOW.toISOString(), NOW.toISOString(), NOW.toISOString(),
+      ORG_A, created.campaign.id, claim.recipientId);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_effects
+    SET status = 'ambiguous', completed_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND recipient_id = ?`)
+    .run(NOW.toISOString(), NOW.toISOString(), ORG_A, created.campaign.id, claim.recipientId);
+  await maintainTelegramCampaigns({ db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 60_000) });
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?', created.campaign.id,
+  ), 'sent');
+  assert.equal(db.value(
+    'SELECT provider_message_digest FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?', created.campaign.id,
+  ), providerDigest);
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'completed');
+  let sends = 0;
+  await consumeTelegramCampaignQueueMessage({
+    db: db.asD1(), dataKey: DATA_KEY,
+    raw: {
+      schema: 'gptbot.lead-radar.telegram-campaign.v1',
+      campaign_id: created.campaign.id,
+      org_id: ORG_A,
+      state_version: 1,
+    },
+    sender: { async send() { sends += 1; return { kind: 'sent', providerMessageId: 'race' }; } },
+    now: new Date(NOW.getTime() + 2 * 60_000),
+  });
+  assert.equal(sends, 0);
+});
+
+test('maintenance auto-resumes a campaign paused by ambiguous_delivery once every pair is repaired', async (t) => {
+  const db = database();
+  t.after(() => db.sqlite.close());
+  addCompany(db, { id: 'company_autoresume', username: 'AutoResumeClinic' });
+  const created = await approvedCampaign(
+    db,
+    ['company_autoresume'],
+    'campaign_autoresume_0001',
+  );
+  await transitionTelegramCampaign({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, action: 'start', operatorId: 'owner@example.test',
+    idempotencyKey: 'campaign_autoresume_start', now: NOW,
+  });
+  const claim = await claimNextTelegramCampaignRecipient({
+    db: db.asD1(), dataKey: DATA_KEY, orgId: ORG_A,
+    campaignId: created.campaign.id, now: NOW,
+  });
+  assert.ok(claim);
+  // Unknown provider outcome: recipient and effect go ambiguous and the
+  // dispatch layer pauses the campaign (audit LR-F-3 scenario).
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_recipients
+    SET status = 'ambiguous', claim_digest = NULL, lease_expires_at = NULL,
+      completed_at = ?, updated_at = ? WHERE id = ?`)
+    .run(NOW.toISOString(), NOW.toISOString(), claim.recipientId);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_effects
+    SET status = 'ambiguous', completed_at = ?, updated_at = ?
+    WHERE org_id = ? AND campaign_id = ? AND recipient_id = ?`)
+    .run(NOW.toISOString(), NOW.toISOString(), ORG_A, created.campaign.id, claim.recipientId);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaigns
+    SET status = 'paused', pause_reason = 'ambiguous_delivery', updated_at = ?
+    WHERE id = ?`).run(NOW.toISOString(), created.campaign.id);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_user_accounts
+    SET dispatch_lease_campaign_id = NULL, dispatch_lease_digest = NULL, dispatch_lease_expires_at = NULL
+    WHERE org_id = ?`).run(ORG_A);
+  // A true unknown outcome keeps the pause: nothing was proven delivered.
+  await maintainTelegramCampaigns({ db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 60_000) });
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'paused');
+  assert.equal(db.value(
+    'SELECT pause_reason FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'ambiguous_delivery');
+  // Gateway-ledger proof of delivery arrives: the recipient half becomes
+  // authoritative, maintenance repairs the pair — and must also lift the
+  // pause instead of leaving the campaign frozen until an operator notices.
+  const providerDigest = 'c'.repeat(64);
+  db.sqlite.prepare(`UPDATE lead_radar_tg_campaign_recipients
+    SET status = 'sent', provider_message_digest = ?, sent_at = ?, completed_at = ?, updated_at = ?
+    WHERE id = ?`)
+    .run(providerDigest, NOW.toISOString(), NOW.toISOString(), NOW.toISOString(), claim.recipientId);
+  await maintainTelegramCampaigns({ db: db.asD1(), orgId: ORG_A, now: new Date(NOW.getTime() + 120_000) });
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaign_effects WHERE campaign_id = ?', created.campaign.id,
+  ), 'sent');
+  assert.equal(db.value(
+    'SELECT status FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), 'running');
+  assert.equal(db.value(
+    'SELECT pause_reason FROM lead_radar_tg_campaigns WHERE id = ?', created.campaign.id,
+  ), null);
 });
 
 test('maintenance applies new DNC suppression and purges unsent recipient ciphertext', async (t) => {

@@ -1,9 +1,8 @@
 import type { Env } from '../functions/_types';
-import { createFirecrawlQueueDependencies } from '../functions/platform/lead-radar/firecrawl-enrichment';
+import { createFreeContactAcquisitionDependencies } from '../functions/platform/lead-radar/free-acquisition';
 import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from '../functions/platform/lead-radar/contact-discovery-store';
 import { createContactResolutionQueueDependencies } from '../functions/platform/lead-radar/contact-resolution-worker';
-import { createContactSourceQueueDependencies } from '../functions/platform/lead-radar/contact-source-worker';
 import {
   consumeAutomationMessage,
   enqueueDueAutomationJobs,
@@ -14,6 +13,7 @@ import {
   consumeLeadRadarQueueMessage,
   completeTelegramUserAccountConnection,
   enqueueDueLeadRadarJobs,
+  resumeStalledLeadRadarSearches,
   getTelegramUserAccountByAuthRequest,
   assertLeadRadarRuntimeSchema,
   hasLeadRadarPersonalDataSchema,
@@ -298,7 +298,9 @@ export function settleLeadRadarRetryWait(
     // D1 has already persisted available_at/next_dispatch_at. Retrying the
     // same bounded envelope wakes the job at that deadline; observeJobDispatch
     // then marks the outbox sent. Cron remains the loss/reconciliation fallback.
-    message.retry({ delaySeconds: result.delaySeconds });
+    // Cloudflare Queues caps delivery delay at 900 s — longer D1 waits are
+    // re-dispatched by cron instead of throwing inside message.retry.
+    message.retry({ delaySeconds: Math.min(900, Math.max(1, result.delaySeconds)) });
     return;
   }
   // A lease/CAS conflict is a duplicate delivery, not a business retry. ACK it
@@ -325,6 +327,20 @@ export default {
     try {
       if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) await new ContactDiscoveryStore(env.GPTBOT_DRAFTS_DB).purgeExpired(retentionNow.toISOString());
     } catch { recordLeadRadarFailure('contact_retention', new Error('contact_retention_failed')); }
+    try {
+      if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) {
+        await resumeStalledLeadRadarSearches(env.GPTBOT_DRAFTS_DB, retentionNow, (orgId) => isLeadRadarOrganizationAllowed(env, orgId));
+      }
+    } catch { recordLeadRadarFailure('stalled_search_resume', new Error('stalled_search_resume_failed')); }
+    try {
+      // Audit QR-10/LR-F-11: without an open admin tab nothing finalized
+      // interrupted searches; cron now closes them server-side.
+      const interruptedStore = new LeadRadarStore(env.GPTBOT_DRAFTS_DB);
+      const staleBefore = new Date(retentionNow.getTime() - 60 * 60_000).toISOString();
+      for (const orgId of telegramCampaignOrganizations(env)) {
+        await interruptedStore.failInterruptedSearches(orgId, staleBefore, retentionNow.toISOString());
+      }
+    } catch { recordLeadRadarFailure('interrupted_searches', new Error('interrupted_searches_failed')); }
     try {
       if (await hasLeadRadarPersonalDataSchema(env.GPTBOT_DRAFTS_DB)) {
         const retentionDays = parseLeadRadarRetentionDays(env.LEAD_RADAR_PERSONAL_RETENTION_DAYS);
@@ -665,7 +681,7 @@ export default {
             message.ack();
             continue;
           }
-          const contactSources=await createContactSourceQueueDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId);
+          const contactSources=await createFreeContactAcquisitionDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId);
           const result = await consumeLeadRadarQueueMessage(
             env.GPTBOT_DRAFTS_DB,
             raw,
@@ -673,16 +689,24 @@ export default {
             {
               personalDataEnabled: isLeadRadarContactEnabled(env),
               ...createContactResolutionQueueDependencies(env, env.GPTBOT_DRAFTS_DB),
-              ...await createFirecrawlQueueDependencies(env, env.GPTBOT_DRAFTS_DB, knownJob.orgId, isLeadRadarContactEnabled(env),
-                {preferContactDiscovery:Boolean(contactSources.discoverLeadContactSources)}),
+              // Acquisition is free-only. The queue's built-in first-party
+              // reader handles websites; no paid enrichment dependency is wired.
               ...contactSources,
             },
           );
           if (result.outcome === 'retry_wait') {
             settleLeadRadarRetryWait(message, result);
           } else if (result.outcome === 'dead_letter') {
-            await env.AUTOMATION_DLQ.send(raw);
-            message.ack();
+            // Audit QR-9/LR-F-12: a failed DLQ copy must not be acked away —
+            // retry the delivery so the D1 dead_letter path re-attempts the
+            // DLQ send instead of losing the observability copy.
+            try {
+              await env.AUTOMATION_DLQ.send(raw);
+              message.ack();
+            } catch (dlqError) {
+              recordLeadRadarFailure('dlq_send', dlqError);
+              message.retry({ delaySeconds: 300 });
+            }
           } else {
             // Malformed and duplicate Lead Radar envelopes are acknowledged so
             // one poison message cannot force a whole batch to retry forever.

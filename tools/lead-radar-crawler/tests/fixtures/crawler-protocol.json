@@ -1,0 +1,341 @@
+{
+  "fixtureSchema": "gptbot.lead-radar.crawler.fixtures.v2",
+  "company": {
+    "id": "company-1",
+    "name": "Fixture Dental",
+    "website": "https://fixture-clinic.uz/",
+    "phone": "+998901234567",
+    "city": "Tashkent",
+    "address": "Fixture Street 1"
+  },
+  "cases": [
+    {
+      "name": "completed",
+      "job": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "id": "job-completed",
+        "orgId": "org-1",
+        "companyId": "company-1",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "identity": {
+          "name": "Fixture Dental",
+          "phone": "+998901234567",
+          "address": "Fixture Street 1",
+          "city": "Tashkent",
+          "website": "https://fixture-clinic.uz/",
+          "canonical_key": "fixture:company-1"
+        },
+        "url": "https://fixture-clinic.uz/",
+        "leaseGeneration": 1,
+        "leaseExpiresAt": "2027-01-15T08:03:00.000Z",
+        "deadlineAt": "2027-01-15T08:02:00.000Z",
+        "limits": {
+          "maxPages": 5,
+          "maxPageBytes": 131072,
+          "maxTotalBytes": 524288,
+          "maxRedirects": 3
+        },
+        "resumeUrls": []
+      },
+      "result": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "jobId": "job-completed",
+        "leaseGeneration": 1,
+        "receiptId": "00000000-0000-4000-8000-000000000001",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "status": "completed",
+        "reason": "ok",
+        "pages": [
+          {
+            "requestedUrl": "https://fixture-clinic.uz/",
+            "url": "https://fixture-clinic.uz/",
+            "bytes": 104,
+            "status": 200,
+            "fetchedAt": "2027-01-15T08:00:01.000Z",
+            "sha256": "17a0f1fb7b8d3398e356d3cad8b199d966ac1c0f0a95e3545e5f730416ec02ab"
+          },
+          {
+            "requestedUrl": "https://fixture-clinic.uz/contacts",
+            "url": "https://fixture-clinic.uz/contacts",
+            "bytes": 56,
+            "status": 200,
+            "fetchedAt": "2027-01-15T08:00:02.000Z",
+            "sha256": "53ead97bd193494aa4c37b658a7e39b85d19691e25d68976e22c740e10aecfe4"
+          }
+        ],
+        "retryAt": null,
+        "resumeUrls": [],
+        "extractorVersion": "gptbot.lead-radar.extractor.v1",
+        "binding": {
+          "method": "phone",
+          "pageIndex": 0
+        },
+        "evidence": [
+          {
+            "pageIndex": 0,
+            "fieldPath": "company_contacts.phone",
+            "value": "+998901234567",
+            "confidence": 0.9
+          },
+          {
+            "pageIndex": 1,
+            "fieldPath": "company_contacts.phone",
+            "value": "+998901234568",
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "name": "deferred_with_pages",
+      "job": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "id": "job-deferred_with_pages",
+        "orgId": "org-1",
+        "companyId": "company-1",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "identity": {
+          "name": "Fixture Dental",
+          "phone": "+998901234567",
+          "address": "Fixture Street 1",
+          "city": "Tashkent",
+          "website": "https://fixture-clinic.uz/",
+          "canonical_key": "fixture:company-1"
+        },
+        "url": "https://fixture-clinic.uz/",
+        "leaseGeneration": 1,
+        "leaseExpiresAt": "2027-01-15T08:03:00.000Z",
+        "deadlineAt": "2027-01-15T08:02:00.000Z",
+        "limits": {
+          "maxPages": 5,
+          "maxPageBytes": 131072,
+          "maxTotalBytes": 524288,
+          "maxRedirects": 3
+        },
+        "resumeUrls": []
+      },
+      "result": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "jobId": "job-deferred_with_pages",
+        "leaseGeneration": 1,
+        "receiptId": "00000000-0000-4000-8000-000000000002",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "status": "deferred",
+        "reason": "source_rate_limited",
+        "pages": [
+          {
+            "requestedUrl": "https://fixture-clinic.uz/",
+            "url": "https://fixture-clinic.uz/",
+            "bytes": 104,
+            "status": 200,
+            "fetchedAt": "2027-01-15T08:00:01.000Z",
+            "sha256": "17a0f1fb7b8d3398e356d3cad8b199d966ac1c0f0a95e3545e5f730416ec02ab"
+          }
+        ],
+        "retryAt": "2027-01-15T09:00:02.000Z",
+        "resumeUrls": [
+          "https://fixture-clinic.uz/contacts"
+        ],
+        "extractorVersion": "gptbot.lead-radar.extractor.v1",
+        "binding": {
+          "method": "phone",
+          "pageIndex": 0
+        },
+        "evidence": [
+          {
+            "pageIndex": 0,
+            "fieldPath": "company_contacts.phone",
+            "value": "+998901234567",
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "name": "resumed_with_fresh_root",
+      "job": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "id": "job-deferred_with_pages",
+        "orgId": "org-1",
+        "companyId": "company-1",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "identity": {
+          "name": "Fixture Dental",
+          "phone": "+998901234567",
+          "address": "Fixture Street 1",
+          "city": "Tashkent",
+          "website": "https://fixture-clinic.uz/",
+          "canonical_key": "fixture:company-1"
+        },
+        "url": "https://fixture-clinic.uz/",
+        "leaseGeneration": 2,
+        "leaseExpiresAt": "2027-01-15T09:03:03.000Z",
+        "deadlineAt": "2027-01-15T09:02:03.000Z",
+        "limits": {
+          "maxPages": 5,
+          "maxPageBytes": 131072,
+          "maxTotalBytes": 524288,
+          "maxRedirects": 3
+        },
+        "resumeUrls": [
+          "https://fixture-clinic.uz/contacts"
+        ]
+      },
+      "result": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "jobId": "job-deferred_with_pages",
+        "leaseGeneration": 2,
+        "receiptId": "00000000-0000-4000-8000-000000000005",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "status": "completed",
+        "reason": "ok",
+        "pages": [
+          {
+            "requestedUrl": "https://fixture-clinic.uz/",
+            "url": "https://fixture-clinic.uz/",
+            "bytes": 152,
+            "status": 200,
+            "fetchedAt": "2027-01-15T09:00:03.000Z",
+            "sha256": "e0c5bc2772444050d9009526a9194434bfff56d5f204b76060432936e9e2ff86"
+          },
+          {
+            "requestedUrl": "https://fixture-clinic.uz/contacts",
+            "url": "https://fixture-clinic.uz/contacts",
+            "bytes": 56,
+            "status": 200,
+            "fetchedAt": "2027-01-15T09:00:04.000Z",
+            "sha256": "53ead97bd193494aa4c37b658a7e39b85d19691e25d68976e22c740e10aecfe4"
+          }
+        ],
+        "retryAt": null,
+        "resumeUrls": [],
+        "extractorVersion": "gptbot.lead-radar.extractor.v1",
+        "binding": {
+          "method": "phone",
+          "pageIndex": 0
+        },
+        "evidence": [
+          {
+            "pageIndex": 0,
+            "fieldPath": "company_contacts.phone",
+            "value": "+998901234567",
+            "confidence": 0.9
+          },
+          {
+            "pageIndex": 1,
+            "fieldPath": "company_contacts.phone",
+            "value": "+998901234568",
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "name": "terminal_partial",
+      "job": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "id": "job-terminal_partial",
+        "orgId": "org-1",
+        "companyId": "company-1",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "identity": {
+          "name": "Fixture Dental",
+          "phone": "+998901234567",
+          "address": "Fixture Street 1",
+          "city": "Tashkent",
+          "website": "https://fixture-clinic.uz/",
+          "canonical_key": "fixture:company-1"
+        },
+        "url": "https://fixture-clinic.uz/",
+        "leaseGeneration": 1,
+        "leaseExpiresAt": "2027-01-15T08:03:00.000Z",
+        "deadlineAt": "2027-01-15T08:02:00.000Z",
+        "limits": {
+          "maxPages": 5,
+          "maxPageBytes": 131072,
+          "maxTotalBytes": 524288,
+          "maxRedirects": 3
+        },
+        "resumeUrls": []
+      },
+      "result": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "jobId": "job-terminal_partial",
+        "leaseGeneration": 1,
+        "receiptId": "00000000-0000-4000-8000-000000000003",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "status": "partial",
+        "reason": "unsupported_content_type",
+        "pages": [
+          {
+            "requestedUrl": "https://fixture-clinic.uz/",
+            "url": "https://fixture-clinic.uz/",
+            "bytes": 104,
+            "status": 200,
+            "fetchedAt": "2027-01-15T08:00:01.000Z",
+            "sha256": "17a0f1fb7b8d3398e356d3cad8b199d966ac1c0f0a95e3545e5f730416ec02ab"
+          }
+        ],
+        "retryAt": null,
+        "resumeUrls": [],
+        "extractorVersion": "gptbot.lead-radar.extractor.v1",
+        "binding": {
+          "method": "phone",
+          "pageIndex": 0
+        },
+        "evidence": [
+          {
+            "pageIndex": 0,
+            "fieldPath": "company_contacts.phone",
+            "value": "+998901234567",
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "name": "failed",
+      "job": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "id": "job-failed",
+        "orgId": "org-1",
+        "companyId": "company-1",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "identity": {
+          "name": "Fixture Dental",
+          "phone": "+998901234567",
+          "address": "Fixture Street 1",
+          "city": "Tashkent",
+          "website": "https://fixture-clinic.uz/",
+          "canonical_key": "fixture:company-1"
+        },
+        "url": "https://fixture-clinic.uz/",
+        "leaseGeneration": 1,
+        "leaseExpiresAt": "2027-01-15T08:03:00.000Z",
+        "deadlineAt": "2027-01-15T08:02:00.000Z",
+        "limits": {
+          "maxPages": 5,
+          "maxPageBytes": 131072,
+          "maxTotalBytes": 524288,
+          "maxRedirects": 3
+        },
+        "resumeUrls": []
+      },
+      "result": {
+        "schema": "gptbot.lead-radar.crawler.v2",
+        "jobId": "job-failed",
+        "leaseGeneration": 1,
+        "receiptId": "00000000-0000-4000-8000-000000000004",
+        "identityDigest": "72ccde48c817bff7a58a33ebcafb669a607a2e081553661c5bd0b4ca7020f1a4",
+        "status": "failed",
+        "reason": "robots_disallowed",
+        "pages": [],
+        "retryAt": null,
+        "resumeUrls": [],
+        "extractorVersion": "gptbot.lead-radar.extractor.v1",
+        "binding": null,
+        "evidence": []
+      }
+    }
+  ]
+}

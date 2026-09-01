@@ -1,6 +1,7 @@
--- Local collector control plane. Stores only bounded company identity and public crawl results.
-CREATE TABLE IF NOT EXISTS lead_radar_crawler_workers (
+-- Optional acquisition-only extension. No sender permissions or runtime DDL.
+CREATE TABLE lead_radar_crawler_workers (
   id TEXT PRIMARY KEY,
+  -- Lead Radar uses owner-scoped IDs, not the commerce organizations registry.
   org_id TEXT NOT NULL CHECK(length(org_id) BETWEEN 1 AND 80),
   token_hash TEXT NOT NULL UNIQUE CHECK(length(token_hash)=64),
   name TEXT NOT NULL CHECK(length(name) BETWEEN 1 AND 80),
@@ -9,9 +10,9 @@ CREATE TABLE IF NOT EXISTS lead_radar_crawler_workers (
   last_seen_at TEXT,
   UNIQUE(org_id,id)
 );
-CREATE INDEX IF NOT EXISTS idx_lr_crawler_workers_org ON lead_radar_crawler_workers(org_id,revoked,last_seen_at);
+CREATE INDEX idx_lr_crawler_workers_org ON lead_radar_crawler_workers(org_id,revoked,last_seen_at);
 
-CREATE TABLE IF NOT EXISTS lead_radar_crawler_jobs (
+CREATE TABLE lead_radar_crawler_jobs (
   id TEXT PRIMARY KEY,
   org_id TEXT NOT NULL,
   company_id TEXT NOT NULL,
@@ -40,13 +41,13 @@ CREATE TABLE IF NOT EXISTS lead_radar_crawler_jobs (
   FOREIGN KEY(org_id,company_id) REFERENCES lead_radar_companies(org_id,id) ON DELETE CASCADE,
   FOREIGN KEY(org_id,lease_owner) REFERENCES lead_radar_crawler_workers(org_id,id)
 );
-CREATE INDEX IF NOT EXISTS idx_lr_crawler_jobs_ready ON lead_radar_crawler_jobs(org_id,status,available_at);
-CREATE INDEX IF NOT EXISTS idx_lr_crawler_jobs_host ON lead_radar_crawler_jobs(host,status,lease_expires_at);
-CREATE INDEX IF NOT EXISTS idx_lr_crawler_jobs_company ON lead_radar_crawler_jobs(org_id,company_id,created_at);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_lr_crawler_jobs_active_company ON lead_radar_crawler_jobs(org_id,company_id)
+CREATE INDEX idx_lr_crawler_jobs_ready ON lead_radar_crawler_jobs(org_id,status,available_at);
+CREATE INDEX idx_lr_crawler_jobs_company ON lead_radar_crawler_jobs(org_id,company_id,created_at);
+CREATE INDEX idx_lr_crawler_jobs_host ON lead_radar_crawler_jobs(host,status,lease_expires_at);
+CREATE UNIQUE INDEX idx_lr_crawler_jobs_active_company ON lead_radar_crawler_jobs(org_id,company_id)
   WHERE status IN ('queued','running','deferred');
 
-CREATE TABLE IF NOT EXISTS lead_radar_crawler_receipts (
+CREATE TABLE lead_radar_crawler_receipts (
   org_id TEXT NOT NULL,
   job_id TEXT NOT NULL,
   receipt_id TEXT NOT NULL CHECK(length(receipt_id) BETWEEN 8 AND 80),
@@ -61,7 +62,8 @@ CREATE TABLE IF NOT EXISTS lead_radar_crawler_receipts (
   FOREIGN KEY(org_id,worker_id) REFERENCES lead_radar_crawler_workers(org_id,id)
 );
 
-CREATE TABLE IF NOT EXISTS lead_radar_crawler_hosts (
+-- One shared egress may serve several tenants; do not shorten another job's pause.
+CREATE TABLE lead_radar_crawler_hosts (
   host TEXT PRIMARY KEY,
   next_allowed_at TEXT NOT NULL,
   reason TEXT NOT NULL CHECK(length(reason) BETWEEN 1 AND 80),

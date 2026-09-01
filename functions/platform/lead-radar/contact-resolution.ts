@@ -1,13 +1,14 @@
 import type { LeadRadarEvidence, LeadRadarTelegramContact } from '../../../src/shared/lead-radar';
 import type { LeadRadarContactCandidate } from '../../../src/shared/lead-radar-contacts';
 import { assessLeadRadarPhone, parseLeadRadarTelegramLocator } from '../../../src/shared/lead-radar-contacts';
-import { validTelegramContactResolution, type TelegramContactResolution, type TelegramContactTarget } from '../../../src/shared/lead-radar-contact-resolution';
+import { isBusinessListingUnavailable, normalizeTelegramContactResolution, validTelegramContactResolution, type TelegramContactResolution, type TelegramContactTarget } from '../../../src/shared/lead-radar-contact-resolution';
 import { contactCandidatesForLead } from './contact-candidates';
 import { contactDiscoverySchemaReady } from './contact-discovery-store';
 import { loadContactEnrichments } from './contact-source-store';
 import type { LeadRadarContactEnrichment } from '../../../src/shared/lead-radar-contact-sources';
 import { publicContactSourceUrl } from './public-contact-discovery';
 import { isTelegramPeerRef } from '../../../src/shared/lead-radar-telegram-endpoint';
+import { osmBusinessRecord, refreshOsmBusinessPhone } from './osm-business-phone';
 
 const RESOLVED_REASON = 'bridge_resolved_corporate';
 interface CompanyRow { id: string; search_id: string; name:string; city:string; address:string|null; country: string; phone: string | null; suppressed: number; lifecycle: string; website: string | null }
@@ -23,9 +24,10 @@ function evidenceFromRow(row: EvidenceRow): LeadRadarEvidence {
 function candidates(company: CompanyRow, evidence: EvidenceRow[], now: string, enrichment?: LeadRadarContactEnrichment): LeadRadarContactCandidate[] {
   if (company.suppressed || company.lifecycle === 'do_not_contact') return [];
   const newest = Date.parse(now) + 5 * 60_000, oldest = Date.parse(now) - 30 * 86400_000;
-  const websiteCandidates=contactCandidatesForLead({ phone: company.phone, country: company.country, suppressed: false, telegramContact: null,
+  const websiteCandidates=contactCandidatesForLead({ name:company.name,address:company.address,phone: company.phone, country: company.country, suppressed: false, telegramContact: null,
     evidence: evidence.filter((e) => e.company_id === company.id && Date.parse(e.observed_at) >= oldest && Date.parse(e.observed_at) <= newest).map(evidenceFromRow),
   }).filter((c) => {
+    if (c.kind==='phone' && c.lookupEligible && c.ownership==='company' && c.sourceUrl && osmBusinessRecord(c.sourceUrl)) return true;
     if (c.lookupEligible && c.ownership==='unconfirmed' && c.kind==='telegram'
       && parseLeadRadarTelegramLocator(c.value)?.kind==='username') return true; // Type-only, never ownership approval.
     try { return c.lookupEligible && c.ownership === 'company' && company.website && c.sourceUrl
@@ -52,7 +54,7 @@ async function proof(candidate: LeadRadarContactCandidate, evidence: EvidenceRow
   return hash(sourceProof.length ? [...base,'public-source:v1',sourceProof] : candidate.ownership==='company' ? base : [...base,'type-only:v1']);
 }
 function parseResult(row: CheckRow): TelegramContactResolution | null {
-  try { const result: unknown = JSON.parse(row.result_json ?? 'null'); return validTelegramContactResolution(result) ? result : null; } catch { return null; }
+  try { const result: unknown = JSON.parse(row.result_json ?? 'null'); return validTelegramContactResolution(result) ? normalizeTelegramContactResolution(result) : null; } catch { return null; }
 }
 export async function countResolvedCorporateContacts(db: D1Database, orgId: string, searchId: string, now: string): Promise<number> {
   // Research-only installations may not have the optional Telegram account schema.
@@ -72,6 +74,7 @@ export async function countResolvedCorporateContacts(db: D1Database, orgId: stri
 export async function checkCorporateTelegramContact(input: {
   db: D1Database; orgId: string; searchId: string; companyId: string; candidateKey: string; accountId: string; now?: string;
   resolve: (target: TelegramContactTarget, operationId: string) => Promise<TelegramContactResolution>;
+  fetch?: typeof fetch;
 }): Promise<TelegramContactResolution> {
   const { db, orgId, companyId } = input;
   const now = input.now ?? new Date().toISOString();
@@ -81,9 +84,47 @@ export async function checkCorporateTelegramContact(input: {
     .bind(orgId,companyId,input.searchId).first<CompanyRow>();
   if (!company) return reject('contact_not_found');
   if (company.suppressed === 1 || company.lifecycle === 'do_not_contact') return reject('do_not_contact');
-  const evidence = (await db.prepare('SELECT id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE org_id=? AND company_id=?').bind(orgId,companyId).all<EvidenceRow>()).results ?? [];
+  let evidence = (await db.prepare('SELECT id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification FROM lead_radar_evidence WHERE org_id=? AND company_id=?').bind(orgId,companyId).all<EvidenceRow>()).results ?? [];
   const enrichment=(await loadContactEnrichments(db,orgId,[company],now)).get(company.id);
-  const candidate = candidates(company,evidence,now,enrichment).find((c) => c.key === input.candidateKey);
+  let candidate = candidates(company,evidence,now,enrichment).find((c) => c.key === input.candidateKey);
+  if (!candidate) {
+    const old=contactCandidatesForLead({...company,telegramContact:null,suppressed:false,evidence:evidence.map(evidenceFromRow)})
+      .find(c=>c.key===input.candidateKey && c.kind==='phone' && c.lookupEligible && c.ownership==='company' && c.sourceUrl && osmBusinessRecord(c.sourceUrl));
+    if (!old) return reject('corporate_source_required');
+    const [candidateDigest,proofDigest,accountDigest]=await Promise.all([hash(old.key),proof(old,evidence,enrichment),hash(input.accountId)]);
+    const sourceId=`lrcc_${(await hash([orgId,companyId,candidateDigest,proofDigest,accountDigest])).slice(0,32)}`;
+    const cached=await db.prepare('SELECT * FROM lead_radar_contact_checks WHERE org_id=? AND id=? AND expires_at>?').bind(orgId,sourceId,now).first<CheckRow>();
+    const cachedResult=cached && parseResult(cached);
+    if (cachedResult?.reason.startsWith('business_listing_')) return cachedResult.status==='limited'
+      ? {...cachedResult,retryAfterSeconds:Math.max(1,Math.ceil((Date.parse(cached!.expires_at)-Date.parse(now))/1000))} : cachedResult;
+    const allowed=await db.prepare(`SELECT id FROM lead_radar_tg_user_accounts WHERE org_id=? AND id=? AND status='connected'
+      AND (SELECT COALESCE(SUM(attempts_today),0) FROM lead_radar_contact_checks WHERE org_id=? AND attempt_day=?)<200`)
+      .bind(orgId,input.accountId,orgId,now.slice(0,10)).first<{id:string}>();
+    if (!allowed) return reject('daily_check_limit');
+    const refreshed=await refreshOsmBusinessPhone({db,orgId,companyId,lead:{...company,evidence:evidence.map(evidenceFromRow)},
+      candidateKey:input.candidateKey,now,fetch:input.fetch});
+    if (refreshed.failure) {
+      // Source failures are negative checks, never Telegram receipts. Persist
+      // their expiry so reloads and queue redelivery cannot bypass Retry-After.
+      const failure=refreshed.failure;
+      const expiry=new Date(Date.parse(now)+(failure.retryAfterSeconds??86400)*1000).toISOString();
+      await db.prepare(`INSERT INTO lead_radar_contact_checks
+        (id,org_id,search_id,company_id,candidate_digest,proof_digest,account_digest,status,result_json,reason,attempt_day,created_at,checked_at,expires_at,updated_at)
+        SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,? WHERE EXISTS (SELECT 1 FROM lead_radar_companies WHERE org_id=? AND id=? AND suppressed=0 AND lifecycle<>'do_not_contact')
+          AND EXISTS (SELECT 1 FROM lead_radar_tg_user_accounts WHERE org_id=? AND id=? AND status='connected')
+          AND (SELECT COALESCE(SUM(attempts_today),0) FROM lead_radar_contact_checks WHERE org_id=? AND attempt_day=?)<200
+        ON CONFLICT(id) DO UPDATE SET status=excluded.status,result_json=excluded.result_json,reason=excluded.reason,
+          checked_at=excluded.checked_at,expires_at=excluded.expires_at,updated_at=excluded.updated_at,
+          attempt_day=excluded.attempt_day,attempts_today=CASE WHEN lead_radar_contact_checks.attempt_day=excluded.attempt_day
+            THEN min(200,lead_radar_contact_checks.attempts_today+1) ELSE 1 END
+        WHERE lead_radar_contact_checks.expires_at<=excluded.updated_at`)
+        .bind(sourceId,orgId,input.searchId,companyId,candidateDigest,proofDigest,accountDigest,failure.status,JSON.stringify(failure),failure.reason,
+          now.slice(0,10),now,now,expiry,now,orgId,companyId,orgId,input.accountId,orgId,now.slice(0,10)).run();
+      return failure;
+    }
+    evidence=evidence.map(e=>({...e,observed_at:refreshed.evidence.find(item=>item.id===e.id)?.observedAt??e.observed_at}));
+    candidate=candidates(company,evidence,now,enrichment).find(c=>c.key===input.candidateKey);
+  }
   if (!candidate) return reject('corporate_source_required');
   if (!candidate.lookupEligible) return reject('corporate_source_required');
   const target = candidate.kind === 'phone' ? { kind: 'phone' as const, value: candidate.value } : parseLeadRadarTelegramLocator(candidate.value);
@@ -107,6 +148,7 @@ export async function checkCorporateTelegramContact(input: {
     ? { status: 'unresolved' as const, username: null, reason: 'check_expired', retryAfterSeconds: null }
     : await input.resolve({ kind: target.kind, value: target.value }, `contact:${id}:${Date.parse(row.created_at)}`);
   if (!validTelegramContactResolution(result)) return reject('invalid_bridge_response');
+  result = normalizeTelegramContactResolution(result);
   if (result.status==='resolved' && candidate.ownership!=='company') result={...result,reason:'username_exists_ownership_unconfirmed'};
   const ttl = result.status === 'limited' ? Math.max(3,result.retryAfterSeconds ?? 60) * 1000
     : result.status === 'failed' || ['lookup_unconfirmed','telegram_timeout','check_expired'].includes(result.reason) ? 60_000 : 86400_000;
@@ -186,13 +228,23 @@ export async function nextTelegramContactCandidate(input: {db:D1Database;orgId:s
   const checks=(await db.prepare('SELECT * FROM lead_radar_contact_checks WHERE org_id=? AND company_id=? AND account_digest=? AND expires_at>?')
     .bind(orgId,companyId,await hash(input.accountId),now).all<CheckRow>()).results ?? [];
   let retryAfterSeconds:number|undefined;
-  for (const candidate of candidates(company,evidence,now,enrichment)) {
+  const current=candidates(company,evidence,now,enrichment);
+  // A legacy map edit timestamp must not prevent the checker from re-reading
+  // that business record. Only the check path refreshes it; sender guards never do.
+  const refreshable=contactCandidatesForLead({...company,telegramContact:null,suppressed:false,evidence:evidence.map(evidenceFromRow)})
+    .filter(c=>!company.suppressed && company.lifecycle!=='do_not_contact' && c.kind==='phone' && c.ownership==='company'
+      && c.lookupEligible && c.sourceUrl && osmBusinessRecord(c.sourceUrl) && !current.some(v=>v.key===c.key));
+  for (const candidate of [...current,...refreshable]) {
     const [candidateDigest,proofDigest]=await Promise.all([hash(candidate.key),proof(candidate,evidence,enrichment)]);
     const row=checks.find((r) => r.candidate_digest===candidateDigest && r.proof_digest===proofDigest);
     const result=row ? parseResult(row) : null;
     if (!result || result.status==='pending') return {candidateKey:candidate.key,pending:true};
     if (result.status==='resolved' && candidate.ownership==='company') return {pending:false};
-    if (result.status==='limited') return {pending:true,retryAfterSeconds:Math.max(3,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000))};
+    if (result.status==='limited') {
+      const retry=Math.max(3,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000));
+      if (!isBusinessListingUnavailable(result.reason)) return {pending:true,retryAfterSeconds:retry};
+      retryAfterSeconds=Math.max(retryAfterSeconds??0,retry);
+    }
     if (result.status==='failed') retryAfterSeconds=Math.max(retryAfterSeconds ?? 0,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000));
   }
   return retryAfterSeconds===undefined ? {pending:false} : {pending:true,retryAfterSeconds};

@@ -7,7 +7,6 @@ import {
   telegramIdentifierDigest,
   verifiedTelegramCampaignBusinessCompanyIds,
 } from './telegram-business';
-import { verifiedResolvedCorporateCompanies } from './contact-resolution';
 import {
   LeadRadarTelegramCampaignStore,
   TELEGRAM_CAMPAIGN_EVIDENCE_VERSION,
@@ -39,11 +38,14 @@ export type { TelegramCampaignContactBasis } from './telegram-campaign-store';
 
 const TEXT_ENCODER = new TextEncoder();
 const MAX_SELECTION = 50;
-const MAX_TEMPLATE_CODE_POINTS = 4_096;
+const MAX_TEMPLATE_UTF16_UNITS = 4_096;
 const MAX_TEMPLATE_BYTES = 16_384;
-const MAX_MEDIA_CAPTION_CODE_POINTS = 1_024;
+const MAX_MEDIA_CAPTION_UTF16_UNITS = 1_024;
 const APPROVAL_TTL_MS = 10 * 60_000;
-const CLAIM_LEASE_MS = 2 * 60_000;
+// The dispatch lease must outlive the whole send boundary (gateway request
+// budget is 125 s, plus decrypt/DNC/media work) so lease recovery can never
+// mark an in-flight send ambiguous and start a competing request.
+const CLAIM_LEASE_MS = 3 * 60_000;
 const DEFAULT_INTERVAL_SECONDS = LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS;
 const MAX_PROVIDER_WAIT_SECONDS = 2_147_483_647;
 const ACCOUNT_ID_PATTERN = /^lrtgua_[0-9a-f]{32}$/u;
@@ -359,10 +361,13 @@ function assertIdempotencyKey(value: string): void {
   if (!IDEMPOTENCY_PATTERN.test(value)) fail('telegram_campaign_invalid_input');
 }
 
-function boundedTemplate(value: string, maxCodePoints = MAX_TEMPLATE_CODE_POINTS): string {
+function boundedTemplate(value: string, maxCodePoints = MAX_TEMPLATE_UTF16_UNITS): string {
   const bytes = TEXT_ENCODER.encode(value);
+  // Telegram's documented 4096/1024 limits count UTF-16 code units, so the
+  // length check must too (audit CP-4): counting code points let emoji-heavy
+  // text pass locally and be rejected by the provider mid-campaign.
   if (value.trim().length === 0
-    || [...value].length > maxCodePoints
+    || value.length > maxCodePoints
     || bytes.byteLength > MAX_TEMPLATE_BYTES
     || [...value].some((character) => {
       const code = character.codePointAt(0) ?? 0;
@@ -378,7 +383,7 @@ function boundedTemplate(value: string, maxCodePoints = MAX_TEMPLATE_CODE_POINTS
 function renderedTemplate(
   template: string,
   companyName: string,
-  maxCodePoints = MAX_TEMPLATE_CODE_POINTS,
+  maxCodePoints = MAX_TEMPLATE_UTF16_UNITS,
 ): string {
   return boundedTemplate(template.replaceAll('{company_name}', companyName), maxCodePoints);
 }
@@ -680,19 +685,10 @@ async function evaluateSelectionInternal(input: {
         : [];
     }),
     now: input.now,
+    requireBridge: input.includeBridgeVerification,
   });
   const bridgeVerifiedBusinessCompanyIds = input.includeBridgeVerification
-    ? await verifiedResolvedCorporateCompanies({
-      db: input.db,
-      orgId: input.orgId,
-      companies: rows.flatMap((company) => {
-        const contact = contactsById.get(company.id);
-        return contact?.type === 'business'
-          ? [{ companyId: company.id, contact }]
-          : [];
-      }),
-      now: input.now,
-    })
+    ? verifiedBusinessCompanyIds
     : new Set<string>();
   const selectionCandidates = input.contactBasis && input.dataKey
     ? await Promise.all(rows.flatMap((company) => {
@@ -1426,7 +1422,7 @@ export async function revokeTelegramUserAccount(input: {
   return store.revokeAccount(input.orgId, input.accountId, (input.now ?? new Date()).toISOString());
 }
 
-export async function prepareTelegramCampaign(input: {
+export interface TelegramCampaignPrepareInput {
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -1441,7 +1437,12 @@ export async function prepareTelegramCampaign(input: {
   contactBasis: TelegramCampaignContactBasis;
   attachment?: TelegramCampaignAttachmentReference | null;
   now?: Date;
-}): Promise<TelegramCampaignPrepareResult> {
+}
+
+async function prepareTelegramCampaignInternal(
+  input: TelegramCampaignPrepareInput,
+  replayOnly: boolean,
+): Promise<TelegramCampaignPrepareResult | null> {
   assertOrgId(input.orgId);
   if (!ACCOUNT_ID_PATTERN.test(input.accountId) || !ENTITY_ID_PATTERN.test(input.searchId)) {
     fail('telegram_campaign_invalid_input');
@@ -1460,18 +1461,6 @@ export async function prepareTelegramCampaign(input: {
   }
   const now = input.now ?? new Date();
   const store = new LeadRadarTelegramCampaignStore(input.db);
-  const account = await store.getAccount(input.orgId, input.accountId);
-  if (!account) fail('telegram_campaign_account_not_found');
-  if (account.status !== 'connected' || account.gateway_account_ref === null) {
-    fail('telegram_campaign_account_not_connected');
-  }
-  const accountSafety = await store.getAccountSafety(input.orgId, input.accountId);
-  if (accountSafety && accountSafety.state !== 'ready') {
-    fail('telegram_campaign_account_not_connected');
-  }
-  if (await store.getActiveCampaignForAccount(input.orgId, input.accountId)) {
-    fail('telegram_campaign_active_exists');
-  }
   const selection = await evaluateSelectionInternal({
     db: input.db,
     orgId: input.orgId,
@@ -1484,7 +1473,7 @@ export async function prepareTelegramCampaign(input: {
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
     for (const recipient of selection.verifiedRecipients) {
-      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_CODE_POINTS);
+      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_UTF16_UNITS);
     }
   }
   const bindings = await approvalBindings({
@@ -1529,6 +1518,23 @@ export async function prepareTelegramCampaign(input: {
       selection: publicSelection(selection),
       attachment,
     };
+  }
+  if (replayOnly) return null;
+  // Account/safety/activity are live mutation gates. They intentionally run
+  // after the exact idempotency lookup so a committed preparation remains
+  // replayable even if the account becomes unavailable immediately after the
+  // first response was persisted.
+  const account = await store.getAccount(input.orgId, input.accountId);
+  if (!account) fail('telegram_campaign_account_not_found');
+  if (account.status !== 'connected' || account.gateway_account_ref === null) {
+    fail('telegram_campaign_account_not_connected');
+  }
+  const accountSafety = await store.getAccountSafety(input.orgId, input.accountId);
+  if (accountSafety && accountSafety.state !== 'ready') {
+    fail('telegram_campaign_account_not_connected');
+  }
+  if (await store.getActiveCampaignForAccount(input.orgId, input.accountId)) {
+    fail('telegram_campaign_active_exists');
   }
   const expiresAt = new Date(now.getTime() + APPROVAL_TTL_MS).toISOString();
   const created = await store.createApproval(input.orgId, {
@@ -1580,6 +1586,21 @@ export async function prepareTelegramCampaign(input: {
     selection: publicSelection(selection),
     attachment,
   };
+}
+
+/** Returns only an already-committed exact preparation; never creates one. */
+export async function getTelegramCampaignPreparationReplay(
+  input: TelegramCampaignPrepareInput,
+): Promise<TelegramCampaignPrepareResult | null> {
+  return prepareTelegramCampaignInternal(input, true);
+}
+
+export async function prepareTelegramCampaign(
+  input: TelegramCampaignPrepareInput,
+): Promise<TelegramCampaignPrepareResult> {
+  const prepared = await prepareTelegramCampaignInternal(input, false);
+  if (!prepared) fail('telegram_campaign_storage_conflict');
+  return prepared;
 }
 
 export async function createApprovedTelegramCampaign(input: {
@@ -1638,7 +1659,7 @@ export async function createApprovedTelegramCampaign(input: {
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
     for (const recipient of selection.verifiedRecipients) {
-      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_CODE_POINTS);
+      renderedTemplate(template, recipient.name, MAX_MEDIA_CAPTION_UTF16_UNITS);
     }
   }
   const bindings = await approvalBindings({
@@ -1715,7 +1736,7 @@ export async function createApprovedTelegramCampaign(input: {
     const rendered = renderedTemplate(
       template,
       recipient.name,
-      attachment ? MAX_MEDIA_CAPTION_CODE_POINTS : MAX_TEMPLATE_CODE_POINTS,
+      attachment ? MAX_MEDIA_CAPTION_UTF16_UNITS : MAX_TEMPLATE_UTF16_UNITS,
     );
     const [
       endpointEncrypted,
@@ -1876,7 +1897,7 @@ export async function getTelegramCampaignRecovery(input: {
   };
 }
 
-export async function transitionTelegramCampaign(input: {
+export interface TelegramCampaignTransitionInput {
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -1885,7 +1906,15 @@ export async function transitionTelegramCampaign(input: {
   operatorId: string;
   idempotencyKey: string;
   now?: Date;
-}): Promise<{ campaign: TelegramCampaignReadModel; replayed: boolean }> {
+}
+
+async function telegramCampaignTransitionContext(input: TelegramCampaignTransitionInput): Promise<{
+  store: LeadRadarTelegramCampaignStore;
+  now: Date;
+  operationDigest: string;
+  operatorDigest: string;
+  requestFingerprint: string;
+}> {
   assertOrgId(input.orgId);
   if (!CAMPAIGN_ID_PATTERN.test(input.campaignId)) fail('telegram_campaign_invalid_input');
   assertIdempotencyKey(input.idempotencyKey);
@@ -1908,6 +1937,41 @@ export async function transitionTelegramCampaign(input: {
       operatorId,
     ]),
   ]);
+  return { store, now, operationDigest, operatorDigest, requestFingerprint };
+}
+
+/** Returns only an exact committed transition; never applies a transition. */
+export async function getTelegramCampaignTransitionReplay(
+  input: TelegramCampaignTransitionInput,
+): Promise<{ campaign: TelegramCampaignReadModel; replayed: true } | null> {
+  const {
+    store,
+    now,
+    operationDigest,
+    requestFingerprint,
+  } = await telegramCampaignTransitionContext(input);
+  const replay = await store.findOperation(input.orgId, operationDigest);
+  if (!replay) return null;
+  if (replay.campaign_id !== input.campaignId
+    || replay.action !== input.action
+    || replay.request_fingerprint !== requestFingerprint) {
+    fail('telegram_campaign_idempotency_conflict');
+  }
+  const campaign = await store.getCampaign(input.orgId, input.campaignId);
+  if (!campaign) fail('telegram_campaign_campaign_not_found');
+  return { campaign: await campaignModel(store, input.orgId, campaign, now), replayed: true };
+}
+
+export async function transitionTelegramCampaign(
+  input: TelegramCampaignTransitionInput,
+): Promise<{ campaign: TelegramCampaignReadModel; replayed: boolean }> {
+  const {
+    store,
+    now,
+    operationDigest,
+    operatorDigest,
+    requestFingerprint,
+  } = await telegramCampaignTransitionContext(input);
   const replay = await store.findOperation(input.orgId, operationDigest);
   if (replay) {
     if (replay.campaign_id !== input.campaignId

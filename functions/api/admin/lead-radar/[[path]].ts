@@ -7,20 +7,17 @@ import {
 } from '../../../platform/admin';
 import { FirecrawlStore } from '../../../platform/lead-radar/firecrawl-store';
 import { handleAudienceRequest,isAudiencePath } from './audience-control';
+import { handleCrawlerRequest, isCrawlerPath } from './crawler-control';
 import {
   assertLeadRadarRuntimeSchema,
   buildVerifiedTelegramCorporateDraftLink,
   createTelegramBusinessSendApproval,
   createTelegramBusinessConnectLink,
-  createCrawlerJob,
-  cancelCrawlerJob,
-  crawlerOwnerStatus,
   enqueueLeadRadarSearch,
   getTelegramBusinessCompanyEligibility,
   getTelegramBusinessConnectionStatus,
   isTelegramBusinessConfigurationValid,
   LeadRadarBusyError,
-  LeadRadarCrawlerError,
   LeadRadarInvalidRequestKeyError,
   LeadRadarRequestConflictError,
   LeadRadarSchemaUnavailableError,
@@ -114,13 +111,9 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   const capabilities = resolveLeadRadarCapabilities(ctx.env, orgId);
   const parts = pathParts(ctx.params.path);
   if (isAudiencePath(parts)) return handleAudienceRequest(ctx,parts,orgId,capabilities);
+  if (isCrawlerPath(parts)) return handleCrawlerRequest(ctx,parts,orgId);
   if (isTelegramCampaignControlPath(parts)) {
     return handleTelegramCampaignGet(ctx, parts, orgId, capabilities);
-  }
-  if (parts.length === 2 && parts[0] === 'crawler' && parts[1] === 'status') {
-    const companyId = new URL(ctx.request.url).searchParams.get('companyId');
-    if (!companyId) return ownerError('crawler_company_required', ctx.requestId, 400);
-    return ownerJson(await crawlerOwnerStatus(ctx.db, ctx.env, orgId, companyId), ctx.requestId);
   }
   if (parts.length === 1 && parts[0] === 'telegram-business') {
     if (!capabilities.contactEnabled) {
@@ -168,6 +161,7 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
 
 export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
   const parts = pathParts(ctx.params.path);
+  if (isCrawlerPath(parts)) return handleCrawlerRequest(ctx,parts,await ownerOrgId(ctx.actor.email));
   if (isAudiencePath(parts)) {
     const orgId=await ownerOrgId(ctx.actor.email);
     return handleAudienceRequest(ctx,parts,orgId,resolveLeadRadarCapabilities(ctx.env,orgId));
@@ -182,8 +176,6 @@ export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
     );
   }
   const searchRoute = parts.length === 1 && parts[0] === 'searches';
-  const crawlerCreateRoute = parts.length === 2 && parts[0] === 'crawler' && parts[1] === 'jobs';
-  const crawlerCancelRoute = parts.length === 4 && parts[0] === 'crawler' && parts[1] === 'jobs' && parts[3] === 'cancel';
   const connectRoute = parts.length === 2
     && parts[0] === 'telegram-business' && parts[1] === 'connect';
   const prepareRoute = parts.length === 4
@@ -192,8 +184,7 @@ export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
     && parts[0] === 'leads' && parts[2] === 'telegram' && parts[3] === 'approve';
   const sendRoute = parts.length === 4
     && parts[0] === 'leads' && parts[2] === 'telegram' && parts[3] === 'send';
-  if (!searchRoute && !crawlerCreateRoute && !crawlerCancelRoute
-    && !connectRoute && !prepareRoute && !approveRoute && !sendRoute) {
+  if (!searchRoute && !connectRoute && !prepareRoute && !approveRoute && !sendRoute) {
     return ownerError('route_not_found', ctx.requestId, 404);
   }
   try {
@@ -220,20 +211,6 @@ export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
         requestKey,
       );
       return ownerJson(presentLeadRadarSearchResult(result, capabilities), ctx.requestId, 202);
-    }
-
-    if (crawlerCreateRoute || crawlerCancelRoute) {
-      if (crawlerCreateRoute) {
-        const requestKey = ctx.request.headers.get('Idempotency-Key');
-        if (!requestKey) return ownerError('lead_radar_idempotency_key_required', ctx.requestId, 400);
-        const body = bodyRecord(await readOwnerBody(ctx.request));
-        const companyId = typeof body?.companyId === 'string' ? body.companyId : null;
-        if (!companyId) return ownerError('crawler_company_required', ctx.requestId, 400);
-        const stored = await new LeadRadarStore(ctx.db).getLeadForEnrichment(orgId, companyId);
-        if (!stored) return ownerError('lead_not_found', ctx.requestId, 404);
-        return ownerJson(await createCrawlerJob(ctx.db, ctx.env, orgId, companyId, requestKey, stored.lead), ctx.requestId, 202);
-      }
-      return ownerJson(await cancelCrawlerJob(ctx.db, ctx.env, orgId, parts[2] ?? ''), ctx.requestId);
     }
 
     if (!capabilities.contactEnabled) {
@@ -331,11 +308,6 @@ export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
   } catch (error) {
     const response = validationResponse(error, ctx.requestId);
     if (response) return response;
-    if (error instanceof LeadRadarCrawlerError) {
-      const crawlerResponse = ownerError(error.code, ctx.requestId, error.status);
-      if (error.status === 503) crawlerResponse.headers.set('Retry-After', '30');
-      return crawlerResponse;
-    }
     const telegramResponse = telegramErrorResponse(error, ctx.requestId);
     if (telegramResponse) return telegramResponse;
     if (error instanceof LeadRadarInvalidRequestKeyError) {

@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { AudienceStore,audienceSchemaReady } from '../functions/platform/lead-radar/audiences';
 import { resolveLeadRadarCapabilities } from '../functions/platform/lead-radar/capabilities';
+import { LeadRadarStore } from '../functions/platform/lead-radar/store';
+import { recipientDirectoryGroups } from '../functions/platform/lead-radar/recipient-directory';
+import { recipientContactChoices,verifiedTelegramContactChoices } from '../src/shared/lead-radar-recipient-contacts';
 import { checkCorporateTelegramContact,nextTelegramContactCandidate } from '../functions/platform/lead-radar/contact-resolution';
 import { freshAdminDb,migrationFiles,callRoute,platformToken,OWNER_EMAIL } from './helpers/bormi-admin-fixture';
 import * as routes from '../functions/api/admin/lead-radar/[[path]]';
@@ -122,6 +125,9 @@ test('duplicate endpoint and different-company conflicts cannot be saved or hidd
 });
 test('global DNC hides the endpoint of all copies and cannot enter an audience',async()=>{
   const db=database();const store=new AudienceStore(db.asD1());company(db,'a','SafeClinic','same');company(db,'b','SafeClinic','same');
+  // Warm the parsing caches before a new prohibition arrives on another copy.
+  const before=await store.directory(ORG,{},CAPS,NOW);assert.equal(before.total,1);
+  assert.notEqual(before.rows[0].status,'blocked');
   db.sqlite.prepare("UPDATE lead_radar_companies SET suppressed=1,lifecycle='do_not_contact' WHERE id='b'").run();
   const page=await store.directory(ORG,{},CAPS,NOW);assert.equal(page.rows[0].status,'blocked');
   assert.equal(page.rows[0].lead.telegramContact,null);assert.deepEqual(page.rows[0].lead.evidence,[]);
@@ -142,11 +148,133 @@ test('mobile-only corporate candidates are selectable, fixed lines are not, and 
   company(db,'mobile','UnusedOne');company(db,'fixed','UnusedTwo');
   db.exec("UPDATE lead_radar_companies SET telegram_contact_json='null',phone='+998901234567' WHERE id='mobile'");
   db.exec("UPDATE lead_radar_companies SET telegram_contact_json='null',phone='+998711234567' WHERE id='fixed'");
+  // These are phone-only fixtures; a published Telegram evidence locator is now
+  // intentionally a separate selectable candidate even without contact JSON.
+  db.exec("DELETE FROM lead_radar_evidence WHERE company_id IN ('mobile','fixed') AND field_path LIKE 'web.telegram.%'");
   const page=await store.directory(ORG,{},CAPS,NOW);
   assert.equal(page.total,1);assert.equal(page.rows[0].lead.id,'mobile');assert.equal(page.rows[0].status,'review');
   assert.equal(page.rows[0].lead.telegramContact,null);
   assert.deepEqual((await store.save(ORG,{id:A,name:'Mobile candidates',version:0,companyIds:['mobile']},NOW)).companyIds,['mobile']);
   await assert.rejects(store.save(ORG,{id:A,name:'Fixed',version:1,companyIds:['fixed']},NOW),/audience_members_unavailable/);
+});
+
+function websiteTelegram(db:SqliteD1,id:string,username:string,type='business',stamp=NOW.toISOString(),suffix='') {
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES (?,?,?,?,?,?,'company_website',?,.94,'company_data')`)
+    .run(`ev_crc_${id}_${type}${suffix}`,ORG,id,`web.telegram.${type}`,`https://t.me/${username}`,`https://${id}.example/contact`,stamp);
+}
+function websiteOnlyCompany(db:SqliteD1,id:string,canonical=id) {
+  company(db,id,'OldPlaceholder',canonical);
+  db.sqlite.prepare('DELETE FROM lead_radar_evidence WHERE org_id=? AND company_id=?').run(ORG,id);
+  db.sqlite.prepare("UPDATE lead_radar_companies SET phone='+998712024151',telegram_url=NULL,telegram_contact_json='null' WHERE org_id=? AND id=?").run(ORG,id);
+  db.sqlite.prepare(`INSERT INTO lead_radar_evidence(id,org_id,company_id,field_path,value,source_url,source_type,observed_at,confidence,classification)
+    VALUES (?,?,?,'web.website',?,?,'company_website',?,.94,'fact')`)
+    .run(`ev_crc_${id}_binding`,ORG,id,`https://${id}.example`,`https://${id}.example/`,NOW.toISOString());
+}
+
+test('crawler Telegram-only evidence reaches directory and audience as review, never as Bridge proof',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());const store=new AudienceStore(db.asD1());
+  websiteOnlyCompany(db,'crawler_only');websiteTelegram(db,'crawler_only','CrawlerClinic');
+  const [lead]=await new LeadRadarStore(db.asD1()).getLeadsByIds(ORG,['crawler_only']);
+  assert.equal(recipientContactChoices(lead).selectable,true);
+  assert.equal(verifiedTelegramContactChoices(lead).selectable,false);
+  assert.ok(lead.contactCandidates?.some(c=>c.kind==='telegram'&&c.ownership==='company'&&c.lookupEligible));
+  assert.equal((await nextTelegramContactCandidate({db:db.asD1(),orgId:ORG,companyId:'crawler_only',accountId:'fixture',now:NOW.toISOString()})).pending,true);
+  const page=await store.directory(ORG,{},CAPS,NOW);
+  assert.equal(page.total,1);assert.equal(page.rows[0].status,'review');
+  assert.equal(page.rows[0].lead.telegramContact,null);
+  assert.equal(page.rows[0].lead.phone,'+998712024151');
+  assert.deepEqual((await store.save(ORG,{id:A,name:'Website candidates',version:0,companyIds:['crawler_only']},NOW)).companyIds,['crawler_only']);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_contact_checks'),0);
+  assert.equal(db.value("SELECT COUNT(*) FROM lead_radar_tg_campaigns"),0);
+});
+
+test('crawler typed Telegram evidence preserves unsupported peers and latest per-locator classification',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());const store=new AudienceStore(db.asD1());
+  for(const type of ['business','unknown','human','bot','channel','group']) {
+    websiteOnlyCompany(db,`typed_${type}`);websiteTelegram(db,`typed_${type}`,`TypedClinic_${type}`,type);
+  }
+  websiteOnlyCompany(db,'typed_suffix');websiteTelegram(db,'typed_suffix','typed_clinic_bot','unknown');
+  websiteOnlyCompany(db,'changed');websiteTelegram(db,'changed','ChangedClinic','unknown','2026-08-28T09:00:00.000Z');
+  websiteTelegram(db,'changed','changedclinic','human',NOW.toISOString());
+  db.exec("UPDATE lead_radar_companies SET telegram_url='https://t.me/ChangedClinic' WHERE id='changed'");
+  websiteOnlyCompany(db,'same_time');websiteTelegram(db,'same_time','SameTimeClinic','business');
+  websiteTelegram(db,'same_time','sametimeclinic','channel');
+  const page=await store.directory(ORG,{},CAPS,NOW);
+  assert.deepEqual(page.rows.map(r=>r.lead.id).sort(),['typed_business','typed_unknown']);
+  assert.ok(page.rows.every(r=>r.status==='review'&&r.lead.telegramContact===null));
+});
+
+test('fresh website evidence cannot revive a same-locator known personal or rejected Telegram contact',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());const store=new AudienceStore(db.asD1());
+  for(const type of ['human','bot','group','channel']) {
+    company(db,`known_${type}`,`KnownClinic_${type}`,`known_${type}`,ORG,type);
+    websiteTelegram(db,`known_${type}`,`knownclinic_${type}`,'business');
+  }
+  company(db,'known_rejected','KnownRejected',undefined,ORG,'unknown');
+  db.exec("UPDATE lead_radar_companies SET telegram_contact_json=json_set(telegram_contact_json,'$.reason','bridge_not_regular_user') WHERE id='known_rejected'");
+  websiteTelegram(db,'known_rejected','KnownRejected','business');
+  assert.equal((await store.directory(ORG,{},CAPS,NOW)).total,0);
+});
+
+test('website-only locators dedupe across searches before DNC and niche filters, without tenant leakage',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());const store=new AudienceStore(db.asD1());
+  websiteOnlyCompany(db,'web_a','same-clinic');websiteOnlyCompany(db,'web_b','same-clinic');
+  websiteTelegram(db,'web_a','SharedWebsiteClinic');websiteTelegram(db,'web_b','sharedwebsiteclinic','unknown');
+  company(db,'foreign','ForeignWebsiteClinic','foreign','org_foreign');
+  const before=await store.directory(ORG,{},CAPS,NOW);
+  assert.equal(before.total,1);assert.equal(before.rows[0].occurrences,2);
+  await assert.rejects(store.save(ORG,{id:A,name:'Duplicate',version:0,companyIds:['web_a','web_b']},NOW),/audience_duplicate_contact/);
+  db.exec("UPDATE lead_radar_companies SET category='salon',suppressed=1,lifecycle='do_not_contact' WHERE id='web_b'");
+  const blocked=await store.directory(ORG,{category:'dentist'},CAPS,NOW);
+  assert.equal(blocked.total,1);assert.equal(blocked.rows[0].status,'blocked');
+  assert.deepEqual(blocked.rows[0].lead.evidence,[]);assert.deepEqual(blocked.rows[0].lead.contactCandidates,[]);
+  await assert.rejects(store.save(ORG,{id:A,name:'Blocked',version:0,companyIds:['web_a']},NOW),/audience_contact_blocked_or_conflicted/);
+});
+
+test('directory parsing cache includes changed evidence and independent Telegram-only companies',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());const store=new AudienceStore(db.asD1());
+  websiteOnlyCompany(db,'cache_a');websiteOnlyCompany(db,'cache_b');
+  assert.equal((await store.directory(ORG,{},CAPS,NOW)).total,0);
+  websiteTelegram(db,'cache_a','CacheAlpha','unknown');websiteTelegram(db,'cache_b','CacheBravo','business');
+  const page=await store.directory(ORG,{},CAPS,NOW);
+  assert.equal(page.total,2);assert.ok(page.rows.every(r=>r.status==='review'&&r.occurrences===1));
+});
+
+test('early compact-evidence cache separates known contact types and is rebuilt after newer source decisions',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());const store=new AudienceStore(db.asD1());
+  for(const id of ['memo_allowed','memo_personal']) {
+    websiteOnlyCompany(db,id);websiteTelegram(db,id,'SharedMemoClinic','unknown');
+  }
+  // Compact evidence JSON is identical; contact classification is deliberately not.
+  db.sqlite.prepare('UPDATE lead_radar_companies SET telegram_contact_json=? WHERE id=?').run(JSON.stringify({
+    username:'sharedmemoclinic',url:'https://t.me/sharedmemoclinic',type:'human',confidence:.95,
+    reason:'fixture_personal',evidenceIds:['person_evidence'],verifiedAt:NOW.toISOString(),messageable:false,
+  }),'memo_personal');
+  const before=await store.directory(ORG,{},CAPS,NOW);
+  assert.equal(before.total,1);assert.equal(before.rows[0].lead.id,'memo_allowed');
+  assert.equal(before.rows[0].occurrences,1);assert.equal(before.rows[0].status,'review');
+  websiteTelegram(db,'memo_allowed','sharedmemoclinic','human','2026-08-28T10:01:00.000Z');
+  const after=await store.directory(ORG,{},CAPS,new Date('2026-08-28T10:01:01.000Z'));
+  assert.equal(after.total,0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_contact_checks'),0);
+});
+
+test('Telegram evidence directory projection is one bounded tenant query, never one read per company',async t=>{
+  const db=database();t.after(()=>db.sqlite.close());
+  for(let index=0;index<60;index++) {
+    const id=`projection_${index}`;websiteOnlyCompany(db,id,'same-projection-clinic');
+    websiteTelegram(db,id,'ProjectionClinic');
+  }
+  const queries:string[]=[];
+  const counted={prepare:(sql:string)=>{queries.push(sql);return db.asD1().prepare(sql);}} as D1Database;
+  const groups=await recipientDirectoryGroups(counted,ORG);
+  assert.equal(groups.length,1);assert.equal(groups[0].members.length,60);
+  const projection=queries.filter(sql=>sql.includes('AS telegram_evidence_json'));
+  assert.equal(projection.length,1);
+  assert.match(projection[0],/json_object\('fieldPath',e\.field_path,'value',e\.value,'observedAt',e\.observed_at\)/);
+  assert.doesNotMatch(projection[0],/'sourceUrl'|'confidence'|'classification'/);
+  assert.ok(queries.length<=3,`directory projection used ${queries.length} queries`);
 });
 
 test('all-page selection larger than a campaign is durable; legacy writes cannot revive stale full selections',async()=>{

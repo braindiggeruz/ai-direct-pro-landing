@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ContactCandidates } from '../components/lead-radar/ContactCandidates';
-import { LeadRadarCrawlerCard } from '../components/lead-radar/LeadRadarCrawlerCard';
+import { WebsiteCollectorCard } from '../components/lead-radar/WebsiteCollectorCard';
 import {
   Activity,
   AlertTriangle,
@@ -33,6 +33,7 @@ import {
   UserRoundCheck,
 } from 'lucide-react';
 import { api } from '../lib/api';
+import { requestFailureHint } from '../lib/request-recovery';
 import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui';
 import { TelegramBusinessConnectionCard } from '../components/lead-radar/TelegramBusinessConnectionCard';
 import { TelegramAccountCampaignPanel } from '../components/lead-radar/TelegramAccountCampaignPanel';
@@ -198,8 +199,8 @@ const ENRICHMENT_REASON_COPY: Record<LeadRadarEnrichmentReason, string> = {
   no_relevant_evidence: 'На доступных страницах не найдено релевантных контактных доказательств.',
   robots_blocked: 'Сайт ограничил автоматическую проверку; найденные данные сохранены.',
   http_blocked: 'Сайт не разрешил получить страницу; найденные данные сохранены.',
-  source_timeout: 'Источник не успел ответить; найденные данные сохранены.',
-  source_unavailable: 'Источник временно недоступен; найденные данные сохранены.',
+  source_timeout: 'Источник не успел ответить; найденные данные сохранены. Проверка повторится сама: через ~15 минут, затем через 1 и 4 часа.',
+  source_unavailable: 'Источник временно недоступен; найденные данные сохранены. Проверка повторится сама: через ~15 минут, затем через 1 и 4 часа.',
   invalid_website: 'Адрес сайта не удалось безопасно проверить.',
   payload_invalid: 'Источник вернул данные, которые нельзя было надёжно подтвердить.',
   retry_exhausted: 'Лимит безопасных повторов исчерпан; можно повторить поиск позже.',
@@ -281,12 +282,42 @@ function formatDate(value: string | null): string {
   }).format(parsed);
 }
 
+export function leadRadarSearchRateLimitCopy(retryAfterSeconds?: number): string {
+  const retry = retryAfterSeconds
+    ? ` Повтор можно сделать примерно через ${retryAfterSeconds} сек.`
+    : '';
+  return `Новый поиск пока не принят сервером: действует ограничение частоты или ещё есть незавершённые запуски. Текущий результат не потерян.${retry}`;
+}
+
+export function leadRadarSearchPulseNotice(result: {
+  note: string;
+  kicked: number;
+  remaining: number | null;
+}): string {
+  const remaining = result.remaining === null
+    ? 'остаток пула уточняется'
+    : `в пуле осталось: ${result.remaining}`;
+  return `${result.note} Отправлено в очередь: ${result.kicked}; ${remaining}.`;
+}
+
+export function leadRadarPulseSettlement(input: {
+  currentOperation: number;
+  operation: number;
+  currentView: number;
+  view: number;
+}): { ownsOperation: boolean; mayPublish: boolean } {
+  const ownsOperation = input.currentOperation === input.operation;
+  return {
+    ownsOperation,
+    mayPublish: ownsOperation && input.currentView === input.view,
+  };
+}
+
 function errorCopy(error: unknown): string {
   const details = error as Error & { code?: string; retryAfterSeconds?: number };
   const code = details?.code;
   if (code === 'search_rate_limited') {
-    const retry = details.retryAfterSeconds ? ` Повтор будет доступен примерно через ${details.retryAfterSeconds} сек.` : '';
-    return `Другой поиск уже выполняется или только что завершился. Текущий результат не потерян.${retry}`;
+    return leadRadarSearchRateLimitCopy(details.retryAfterSeconds);
   }
   if (code === 'payload_too_large' || code === 'invalid_search') return 'Проверьте заполненные поля и повторите попытку.';
   if (code === 'lead_radar_admission_paused') return 'Новые поиски временно приостановлены защитным переключателем. Сохранённые исследования остаются доступны.';
@@ -544,7 +575,7 @@ function SearchHistory({ searches, activeId, disabled = false, onOpen }: {
               </div>
               <div className="flex items-center gap-2">
                 <Badge tone={STATUS_COPY[search.status].tone}>{STATUS_COPY[search.status].label}</Badge>
-                <span className="text-xs tabular-nums text-white/55" aria-label={`${search.funnel.processedCount} обработано из ${search.funnel.candidateCount} сохранённых компаний`}>{search.funnel.processedCount}/{search.funnel.candidateCount}</span>
+                <span className="text-xs tabular-nums text-white/55" aria-label={`${search.funnel.processedCount} обработано из ${search.funnel.candidateCount} сохранённых компаний`}>карточки {search.funnel.processedCount}/{search.funnel.candidateCount}</span>
                 <ChevronRight size={15} className="text-white/25 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </div>
             </div>
@@ -597,6 +628,21 @@ function SearchOutcome({
   );
 }
 
+export function leadRadarLateStageValue(value: number, running: boolean): string | number {
+  return running && value === 0 ? 'Пока 0' : value;
+}
+
+export function leadRadarSavedCardsProgress(
+  funnel: Pick<LeadRadarSearchSummary['funnel'], 'candidateCount' | 'processedCount'>,
+): { label: string; value: number; max: number } {
+  const max = Math.max(funnel.candidateCount, funnel.processedCount);
+  return {
+    label: 'Обработанные сохранённые карточки',
+    value: Math.min(funnel.processedCount, max),
+    max,
+  };
+}
+
 function CurrentSearchFunnel({ search, pollingDelayed, pollingStopped }: {
   search: LeadRadarSearchSummary;
   pollingDelayed: boolean;
@@ -616,16 +662,16 @@ function CurrentSearchFunnel({ search, pollingDelayed, pollingStopped }: {
     excludedCount: 0,
   };
   const running = search.status === 'running';
-  const progressMax = Math.max(funnel.candidateCount, funnel.processedCount);
-  const progressValue = Math.min(funnel.processedCount, progressMax);
-  const lateStageValue = (value: number): string | number => running && value === 0 ? 'Ищем' : value;
+  const savedCardsProgress = leadRadarSavedCardsProgress(funnel);
+  const progressMax = savedCardsProgress.max;
+  const progressValue = savedCardsProgress.value;
   const metrics = [
     ['Найдено', funnel.rawDiscoveredCount],
     ['Сохранено компаний', funnel.candidateCount],
     ['Обработано', funnel.processedCount],
     ['Подтверждено фактами', search.verifiedCount],
-    ['Представителей в источниках', lateStageValue(funnel.decisionMakerCount)],
-    ['Личный Telegram одобрен', lateStageValue(funnel.personalTelegramCount)],
+    ['Представителей в источниках', leadRadarLateStageValue(funnel.decisionMakerCount, running)],
+    ['Личный Telegram одобрен', leadRadarLateStageValue(funnel.personalTelegramCount, running)],
   ] as const;
 
   return (
@@ -649,9 +695,13 @@ function CurrentSearchFunnel({ search, pollingDelayed, pollingStopped }: {
 
       {running && progressMax > 0 && (
         <div className="mt-4">
+          <div className="mb-2 flex items-center justify-between gap-3 text-[11px] text-white/60">
+            <span>{savedCardsProgress.label}</span>
+            <span className="shrink-0 tabular-nums">{progressValue}/{progressMax}</span>
+          </div>
           <div
             role="progressbar"
-            aria-label="Проверка найденных компаний"
+            aria-label={savedCardsProgress.label}
             aria-valuemin={0}
             aria-valuemax={progressMax}
             aria-valuenow={progressValue}
@@ -673,7 +723,8 @@ function CurrentSearchFunnel({ search, pollingDelayed, pollingStopped }: {
       </dl>
 
       {search.input.searchGoal === 'telegram_contacts' && <p className="mt-3 text-xs leading-5 text-white/70">
-        Цель: {search.input.desiredCount} подтверждённых Telegram-контактов. В источниках: {funnel.companyTelegramCount}; подтверждено Bridge по завершённым партиям: {search.funnel.resolvedTelegramCount ?? 0}.
+        Цель подтверждённых Telegram-контактов: {search.funnel.resolvedTelegramCount ?? 0} из {search.input.desiredCount}. В источниках найдено: {funnel.companyTelegramCount}.
+        Обработка сохранённых карточек сама по себе не означает, что Telegram-цель достигнута.
         Проверяем до {search.input.maxCandidates ?? 250} компаний в этом городе, не более часа и в пределах бюджета источников.
         Bridge проверяет контакты в фоне, без сообщений. Готовность к отправке проверяется отдельно. При исчерпании источников сохраняется частичный результат.
       </p>}
@@ -746,12 +797,13 @@ function LeadListItem({ lead, selected, onSelect }: {
   );
 }
 
-function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact, busy, reviewBusyId, onBack, focusOnMount, canCheckContacts, onContactResolved }: {
+function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact, busy, reviewBusyId, onBack, focusOnMount, canCheckContacts, onContactResolved, onWebsiteContactsUpdated }: {
   lead: LeadRadarLead;
   offer: string;
   contactEnabled: boolean;
   canCheckContacts: boolean;
   onContactResolved: () => void;
+  onWebsiteContactsUpdated: () => Promise<void>;
   onLifecycle: (lifecycle: LeadRadarLifecycle) => void;
   onReviewContact: (personId: string, status: 'approved' | 'rejected') => void;
   busy: boolean;
@@ -1192,7 +1244,7 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
               <h3 id="corporate-channels-title" className="mt-1 text-base font-semibold text-white">Корпоративные каналы</h3>
             </div>
             <ContactCandidates key={lead.id} candidates={lead.contactCandidates} enrichment={lead.contactEnrichment} searchId={lead.searchId} companyId={lead.id} canCheck={canCheckContacts} onResolved={onContactResolved} />
-            <LeadRadarCrawlerCard companyId={lead.id} website={lead.website} onContactsUpdated={onContactResolved} />
+            <WebsiteCollectorCard key={lead.id} companyId={lead.id} website={lead.website} onContactsUpdated={onWebsiteContactsUpdated} />
             <div className="mt-4 grid gap-3 text-sm">
               {corporateTelegram && companyType && (
                 <div className="rounded-2xl border border-white/[0.08] bg-white/[0.018] p-4">
@@ -1411,8 +1463,12 @@ export default function LeadRadarPage() {
   const [reviewNotice, setReviewNotice] = useState<string | null>(null);
   const [pollingDelayed, setPollingDelayed] = useState(false);
   const [pollingStopped, setPollingStopped] = useState(false);
+  const [pollingRevision, setPollingRevision] = useState(0);
+  const [pulseBusy, setPulseBusy] = useState(false);
+  const [pulseNotice, setPulseNotice] = useState<{ kind: 'success' | 'error'; message: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [overviewError, setOverviewError] = useState(false);
+  const [overviewErrorHint, setOverviewErrorHint] = useState('');
   const [telegramBusinessStatus, setTelegramBusinessStatus] = useState<LeadRadarTelegramBusinessStatus | null>(null);
   const [telegramStatusLoading, setTelegramStatusLoading] = useState(false);
   const [telegramConnectionBusy, setTelegramConnectionBusy] = useState(false);
@@ -1420,6 +1476,8 @@ export default function LeadRadarPage() {
   const [telegramConnectLink, setTelegramConnectLink] = useState<LeadRadarTelegramBusinessConnectLink | null>(null);
   const [telegramStatusPollingStopped, setTelegramStatusPollingStopped] = useState(false);
   const requestSequence = useRef(0);
+  const pulseInFlight = useRef(false);
+  const pulseOperationSequence = useRef(0);
   const pendingSearchRequestKey = useRef<string | null>(null);
   const pendingTelegramConnectRequestKey = useRef<string | null>(null);
   const telegramStatusRequestSequence = useRef(0);
@@ -1452,9 +1510,11 @@ export default function LeadRadarPage() {
       const nextOverview = await api.leadRadarOverview();
       setOverview(nextOverview);
       setOverviewError(false);
+      setOverviewErrorHint('');
       return nextOverview;
-    } catch {
+    } catch (failure) {
       setOverviewError(true);
+      setOverviewErrorHint(requestFailureHint(failure));
       return null;
     } finally {
       setOverviewLoading(false);
@@ -1601,7 +1661,12 @@ export default function LeadRadarPage() {
       cancelled = true;
       if (timer !== undefined) window.clearTimeout(timer);
     };
-  }, [loadOverview, result?.capabilities?.processingEnabled, result?.search.id, result?.search.status]);
+  }, [loadOverview, pollingRevision, result?.capabilities?.processingEnabled, result?.search.id, result?.search.status]);
+
+  useEffect(() => () => {
+    pulseOperationSequence.current += 1;
+    pulseInFlight.current = false;
+  }, []);
 
   const visibleLeads = useMemo(() => {
     const filtered = (result?.leads ?? []).filter((lead) => {
@@ -1662,6 +1727,7 @@ export default function LeadRadarPage() {
     setLoading(true);
     setPollingDelayed(false);
     setPollingStopped(false);
+    setPulseNotice(null);
     setReviewNotice(null);
     setError(null);
     const requestKey = pendingSearchRequestKey.current ?? `lead-radar-ui-${crypto.randomUUID()}`;
@@ -1693,10 +1759,12 @@ export default function LeadRadarPage() {
     }
   }
 
-  async function openSearch(id: string): Promise<void> {
+  async function openSearch(id: string, options: { restartPolling?: boolean } = {}): Promise<void> {
     const sequence = requestSequence.current + 1;
     requestSequence.current = sequence;
     const refreshingCurrentSearch = result?.search.id === id;
+    if (options.restartPolling) setPollingRevision((current) => current + 1);
+    if (!refreshingCurrentSearch) setPulseNotice(null);
     setLoading(true);
     setPollingDelayed(false);
     setPollingStopped(false);
@@ -1721,6 +1789,104 @@ export default function LeadRadarPage() {
     } finally {
       if (requestSequence.current === sequence) setLoading(false);
     }
+  }
+
+  async function pulseSearch(searchId: string): Promise<void> {
+    if (pulseInFlight.current) return;
+    pulseInFlight.current = true;
+    const operation = pulseOperationSequence.current + 1;
+    pulseOperationSequence.current = operation;
+    const viewSequence = requestSequence.current;
+    setPulseBusy(true);
+    setPulseNotice(null);
+
+    let successMessage: string;
+    try {
+      const pulse = await api.leadRadarPulseSearch(searchId);
+      const settlement = leadRadarPulseSettlement({
+        currentOperation: pulseOperationSequence.current,
+        operation,
+        currentView: requestSequence.current,
+        view: viewSequence,
+      });
+      if (!settlement.mayPublish) {
+        if (settlement.ownsOperation) {
+          pulseInFlight.current = false;
+          setPulseBusy(false);
+        }
+        return;
+      }
+      successMessage = leadRadarSearchPulseNotice(pulse);
+      setPulseNotice({ kind: 'success', message: successMessage });
+    } catch (pulseError) {
+      const settlement = leadRadarPulseSettlement({
+        currentOperation: pulseOperationSequence.current,
+        operation,
+        currentView: requestSequence.current,
+        view: viewSequence,
+      });
+      if (settlement.mayPublish) {
+        setPulseNotice({
+          kind: 'error',
+          message: `Партию не удалось поставить в обработку. ${errorCopy(pulseError)}`,
+        });
+      }
+      if (settlement.ownsOperation) {
+        pulseInFlight.current = false;
+        setPulseBusy(false);
+      }
+      return;
+    }
+
+    // Queue processing is asynchronous. A delayed read is more useful than an
+    // immediate snapshot that almost always repeats the pre-pulse counters.
+    await new Promise<void>((resolve) => { window.setTimeout(resolve, 2_000); });
+    const delayedSettlement = leadRadarPulseSettlement({
+      currentOperation: pulseOperationSequence.current,
+      operation,
+      currentView: requestSequence.current,
+      view: viewSequence,
+    });
+    if (!delayedSettlement.mayPublish) {
+      if (delayedSettlement.ownsOperation) {
+        pulseInFlight.current = false;
+        setPulseBusy(false);
+      }
+      return;
+    }
+    try {
+      const next = await api.leadRadarSearchResult(searchId);
+      if (pulseOperationSequence.current !== operation || requestSequence.current !== viewSequence) return;
+      setResult(next);
+      setSelectedLeadId((current) => current && next.leads.some((lead) => lead.id === current)
+        ? current
+        : next.leads[0]?.id ?? null);
+    } catch {
+      if (pulseOperationSequence.current === operation && requestSequence.current === viewSequence) {
+        setPulseNotice({
+          kind: 'success',
+          message: `${successMessage} Сервер принял действие, но свежий статус пока не прочитан — автообновление продолжит проверку.`,
+        });
+      }
+    } finally {
+      if (pulseOperationSequence.current === operation) {
+        pulseInFlight.current = false;
+        setPulseBusy(false);
+        if (requestSequence.current === viewSequence) {
+          setPollingDelayed(false);
+          setPollingStopped(false);
+          setPollingRevision((current) => current + 1);
+        }
+      }
+    }
+  }
+
+  async function refreshCollectedContacts(searchId: string): Promise<void> {
+    const sequence = requestSequence.current;
+    const next = await api.leadRadarSearchResult(searchId);
+    if (requestSequence.current !== sequence) return;
+    // Keep selection, offer, audience and composer state intact during background collection.
+    setResult((current) => current?.search.id === searchId ? next : current);
   }
 
   async function updateLifecycle(lifecycle: LeadRadarLifecycle): Promise<void> {
@@ -1902,6 +2068,9 @@ export default function LeadRadarPage() {
             <div className="flex-1 leading-6">
               <strong className="block text-white">Поиск «{searchInputLabel(searchAttemptError.input)}» не запущен.</strong>
               <span>{searchAttemptError.message}</span>
+              <span className="mt-1 block text-rose-100/75">
+                Парсинг не потерян: текущий результат ниже продолжает обновляться. Новый запуск можно повторить после указанной сервером паузы; ограничение может относиться к незавершённым запускам или частоте запросов.
+              </span>
               {result && (
                 <span className="mt-1 block text-rose-100/75">
                   Ниже по-прежнему открыт предыдущий результат «{searchInputLabel(result.search.input)}».
@@ -1921,7 +2090,7 @@ export default function LeadRadarPage() {
         {overviewError && !overview && !result && (
           <div role="alert" className="flex items-start gap-3 rounded-2xl border border-rose-300/20 bg-rose-300/[0.055] p-4 text-sm text-rose-100">
             <CircleHelp size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
-            <div className="flex-1"><strong className="text-white">Не удалось загрузить Lead Radar.</strong> Сервер не подтвердил состояние системы. Это не означает, что сохранённые компании удалены. Новые действия недоступны до успешного обновления.</div>
+            <div className="flex-1"><strong className="text-white">Не удалось загрузить Lead Radar.</strong> Сервер не подтвердил состояние системы. Это не означает, что сохранённые компании удалены. Новые действия недоступны до успешного обновления. {overviewErrorHint}</div>
             <button type="button" onClick={() => { setOverviewLoading(true); void loadOverview(); }} disabled={overviewLoading} className="min-h-11 px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-100">{overviewLoading ? 'Обновляем…' : 'Повторить'}</button>
           </div>
         )}
@@ -2173,6 +2342,13 @@ export default function LeadRadarPage() {
                         <h2 className="text-lg font-semibold text-white">{result.search.input.niche} · {result.search.input.city}</h2>
                         <Badge tone={STATUS_COPY[result.search.status].tone}>{STATUS_COPY[result.search.status].label}</Badge>
                         {pendingSearchInput ? <Badge tone="neutral">Предыдущий результат</Badge> : loading && <Badge tone="neutral">Обновляем…</Badge>}
+                        {result.search.status === 'running' && (
+                          <button type="button" disabled={loading || pulseBusy}
+                            onClick={() => { void pulseSearch(result.search.id); }}
+                            className="min-h-9 rounded-xl border border-brand-cyan/30 px-3 text-xs text-brand-cyan disabled:opacity-50">
+                            {pulseBusy ? 'Обрабатываем партию…' : '⚡ Обработать партию сейчас'}
+                          </button>
+                        )}
                       </div>
                       <p className="mt-1 text-xs text-white/55">
                         {result.search.status === 'running'
@@ -2181,6 +2357,17 @@ export default function LeadRadarPage() {
                             ? result.leads.length > 0 ? 'Часть найденных компаний сохранена; один из этапов не завершился.' : 'Источник не завершил запуск до получения компаний.'
                             : `Сохранено ${result.search.funnel.candidateCount} компаний · обработано ${result.search.funnel.processedCount} · личных Telegram одобрено ${result.search.funnel.personalTelegramCount}`}
                       </p>
+                      {pulseNotice && (
+                        <p
+                          role={pulseNotice.kind === 'error' ? 'alert' : 'status'}
+                          aria-live="polite"
+                          className={`mt-3 rounded-xl border px-3 py-2 text-xs leading-5 ${pulseNotice.kind === 'error'
+                            ? 'border-rose-300/20 bg-rose-300/[0.06] text-rose-100'
+                            : 'border-brand-cyan/20 bg-brand-cyan/[0.05] text-brand-cyan'}`}
+                        >
+                          {pulseNotice.message}
+                        </p>
+                      )}
                       {result.search.interpretation && (
                         <p data-testid="lead-radar-intent-interpretation" className="mt-2 text-xs leading-5 text-brand-cyan/80">
                           {result.search.interpretation.expanded
@@ -2218,10 +2405,10 @@ export default function LeadRadarPage() {
                             </button>
                           );
                         })}
-                        <button type="button" disabled={loading} onClick={() => { void openSearch(result.search.id); }} aria-label="Обновить сохранённый статус поиска" className="grid h-11 w-11 place-items-center rounded-full border border-white/[0.08] text-white/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:cursor-wait disabled:opacity-50"><RefreshCw size={15} className={loading ? 'motion-safe:animate-spin' : ''} aria-hidden="true" /></button>
+                        <button type="button" disabled={loading} onClick={() => { void openSearch(result.search.id, { restartPolling: true }); }} aria-label="Обновить сохранённый статус поиска и возобновить автообновление" className="grid h-11 w-11 place-items-center rounded-full border border-white/[0.08] text-white/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:cursor-wait disabled:opacity-50"><RefreshCw size={15} className={loading ? 'motion-safe:animate-spin' : ''} aria-hidden="true" /></button>
                       </div>
                     ) : result.search.status === 'running' ? (
-                      <Button type="button" variant="secondary" disabled={loading} onClick={() => { void openSearch(result.search.id); }} className="min-h-11"><RefreshCw size={15} aria-hidden="true" />Обновить статус</Button>
+                      <Button type="button" variant="secondary" disabled={loading} onClick={() => { void openSearch(result.search.id, { restartPolling: true }); }} className="min-h-11"><RefreshCw size={15} aria-hidden="true" />Обновить статус</Button>
                     ) : null}
                   </div>
                 </section>
@@ -2273,7 +2460,7 @@ export default function LeadRadarPage() {
                   <SearchOutcome
                     title="Первые карточки ещё проверяются"
                     body="Поиск уже выполняется. Карточки появятся здесь сразу после сохранения публичных доказательств — новый запуск создавать не нужно."
-                    primary={{ label: 'Обновить статус', onClick: () => { void openSearch(result.search.id); } }}
+                    primary={{ label: 'Обновить статус', onClick: () => { void openSearch(result.search.id, { restartPolling: true }); } }}
                   />
                 ) : result.leads.length === 0 ? (
                   <SearchOutcome
@@ -2300,6 +2487,7 @@ export default function LeadRadarPage() {
                           contactEnabled={individualOutreachEnabled}
                           canCheckContacts={capabilities.telegramAccountEnabled === true}
                           onContactResolved={() => { void openSearch(result.search.id); }}
+                          onWebsiteContactsUpdated={() => refreshCollectedContacts(result.search.id)}
                           onLifecycle={(lifecycle) => { void updateLifecycle(lifecycle); }}
                           onReviewContact={(personId, status) => { void reviewDecisionMaker(personId, status); }}
                           busy={statusBusy}

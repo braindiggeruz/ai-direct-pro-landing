@@ -1,75 +1,39 @@
 import type { Env } from '../../../_types';
-import {
-  acceptCrawlerReceipt,
-  authenticateCrawlerWorker,
-  claimCrawlerJob,
-  crawlerErrorResponse,
-  crawlerHeartbeat,
-  readCrawlerBody,
-} from '../../../platform/lead-radar';
+import { ownerError, ownerJson } from '../../../platform/admin';
+import { CrawlerError, CrawlerStore, crawlerEnabled, crawlerRecord, parseCrawlerResult,
+  readCrawlerBody, requireCrawlerSchema } from '../../../platform/lead-radar/crawler';
+import { LEAD_RADAR_CRAWLER_SCHEMA } from '../../../../src/shared/lead-radar-crawler';
 
-function pathParts(value: string | string[] | undefined): string[] {
-  if (Array.isArray(value)) return value.flatMap((item) => item.split('/')).filter(Boolean);
-  return (value ?? '').split('/').filter(Boolean);
-}
-
-function json(value: unknown, requestId: string, status = 200): Response {
-  const record = value !== null && typeof value === 'object' && !Array.isArray(value)
-    ? value as Record<string, unknown>
-    : { result: value };
-  return Response.json({ ...record, request_id: requestId }, {
-    status,
-    headers: {
-      'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff',
-      'X-Request-Id': requestId,
-    },
-  });
-}
-
-export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }) => {
+export const onRequest: PagesFunction<Env> = async ({ request, env, params }) => {
   const requestId = crypto.randomUUID();
+  if (request.method !== 'POST') return ownerError('method_not_allowed', requestId, 405);
+  const token = request.headers.get('Authorization')?.match(/^Bearer (lrcr_[a-f0-9]{64})$/)?.[1];
+  if (!token) return ownerError('crawler_unauthorized', requestId, 401);
+  if (!env.GPTBOT_DRAFTS_DB || env.LEAD_RADAR_CRAWLER_ENABLED !== 'true') return ownerError('crawler_disabled', requestId, 503);
   try {
-    const worker = await authenticateCrawlerWorker(env.GPTBOT_DRAFTS_DB, request);
-    const parts = pathParts(params.path);
-    const body = await readCrawlerBody(request);
-    const tail = parts.at(-1) ?? '';
-
-    if (tail === 'heartbeat' || tail === 'status') {
-      return json(await crawlerHeartbeat(env.GPTBOT_DRAFTS_DB, worker, body), requestId);
+    await requireCrawlerSchema(env.GPTBOT_DRAFTS_DB);
+    const store = new CrawlerStore(env.GPTBOT_DRAFTS_DB);
+    const worker = await store.authenticate(token);
+    if (!worker) return ownerError('crawler_unauthorized', requestId, 401);
+    if (!crawlerEnabled(env, worker.org_id)) return ownerError('crawler_disabled', requestId, 503);
+    const parts = (Array.isArray(params.path) ? params.path : [params.path ?? '']).flatMap(p => String(p).split('/')).filter(Boolean);
+    if (parts.length !== 1 || !['claim', 'heartbeat', 'result'].includes(parts[0])) return ownerError('not_found', requestId, 404);
+    const body = crawlerRecord(await readCrawlerBody(request, parts[0] === 'result' ? undefined : 2048));
+    const now = new Date().toISOString();
+    if (parts[0] === 'claim') {
+      if (body.schema !== LEAD_RADAR_CRAWLER_SCHEMA || Object.keys(body).length !== 1) throw new CrawlerError('crawler_invalid_body', 400);
+      return ownerJson({ ok: true, job: await store.claim(worker, now), retryAfterSeconds: 30 }, requestId);
     }
-    if (tail === 'claim'
-      || (parts.length === 1 && parts[0] === 'jobs')
-      || (parts.length === 2 && parts[0] === 'jobs' && parts[1] === 'next')) {
-      return json(await claimCrawlerJob(env.GPTBOT_DRAFTS_DB, worker), requestId);
+    if (parts[0] === 'heartbeat') {
+      if (typeof body.jobId !== 'string' || !/^[A-Za-z0-9_-]{1,80}$/.test(body.jobId)
+        || !Number.isSafeInteger(body.leaseGeneration) || Number(body.leaseGeneration) < 1) throw new CrawlerError('crawler_invalid_body', 400);
+      return ownerJson({ ok: true, leaseExpiresAt: await store.heartbeat(worker, body.jobId, Number(body.leaseGeneration), now) }, requestId);
     }
-    if (tail === 'receipt' || tail === 'receipts' || tail === 'complete' || tail === 'result') {
-      const record = body !== null && typeof body === 'object' && !Array.isArray(body)
-        ? { ...body as Record<string, unknown> }
-        : {};
-      if (!record.jobId && !record.job_id && parts[0] === 'jobs' && parts[1]) record.jobId = parts[1];
-      return json(await acceptCrawlerReceipt(env.GPTBOT_DRAFTS_DB, worker, record), requestId);
-    }
-    return json({ error: 'route_not_found' }, requestId, 404);
+    return ownerJson(await store.accept(worker, parseCrawlerResult(body), now), requestId);
   } catch (error) {
-    return crawlerErrorResponse(error, requestId);
+    if (error instanceof CrawlerError) return ownerError(error.code, requestId, error.status);
+    // Source HTML, URLs, tokens and thrown messages must never reach diagnostics.
+    console.error(`lead-radar.crawler:internal_error:${requestId}`);
+    return ownerError('crawler_internal_error', requestId, 500);
   }
 };
-
-export const onRequestGet: PagesFunction<Env> = async () => new Response(null, {
-  status: 405,
-  headers: { Allow: 'POST, OPTIONS', 'Cache-Control': 'no-store' },
-});
-export const onRequestPatch = onRequestGet;
-export const onRequestPut = onRequestGet;
-export const onRequestDelete = onRequestGet;
-export const onRequestOptions: PagesFunction<Env> = async () => new Response(null, {
-  status: 204,
-  headers: {
-    Allow: 'POST, OPTIONS',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Authorization, Content-Type, Idempotency-Key',
-    'Access-Control-Max-Age': '600',
-    'Cache-Control': 'no-store',
-  },
-});

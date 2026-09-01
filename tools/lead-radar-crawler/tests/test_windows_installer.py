@@ -1,0 +1,626 @@
+"""Offline tests: ACL writes only in owned temporary fixtures; no accounts/tasks/UAC/network."""
+
+import base64
+import ast
+import ctypes
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+import unittest
+import sys
+
+
+WINDOWS = Path(__file__).resolve().parents[1] / "windows"
+POWERSHELL = Path(os.environ.get("SystemRoot", "C:/Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"
+
+
+def quote(value):
+    return "'" + str(value).replace("'", "''") + "'"
+
+
+@unittest.skipUnless(os.name == "nt" and POWERSHELL.is_file(), "Windows PowerShell required")
+class WindowsInstallerTests(unittest.TestCase):
+    def ps(self, code):
+        encoded = base64.b64encode(("$ErrorActionPreference='Stop'; " + code).encode("utf-16le")).decode("ascii")
+        return subprocess.run([str(POWERSHELL), "-NoLogo", "-NoProfile", "-NonInteractive", "-EncodedCommand", encoded],
+                              text=True, capture_output=True, timeout=60, check=False)
+
+    def test_all_scripts_parse_without_executing(self):
+        result = self.ps("$files=Get-ChildItem -LiteralPath " + quote(WINDOWS) + " -Filter '*.ps1'; "
+                         "foreach($file in $files){$tokens=$null;$errors=$null;"
+                         "[void][Management.Automation.Language.Parser]::ParseFile($file.FullName,[ref]$tokens,[ref]$errors);"
+                         "if($errors.Count){throw ($file.Name+':'+(($errors | ForEach-Object {$_.Message}) -join '|'))}}")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_native_helper_compiles_without_invoking_windows_operations(self):
+        result = self.ps("Add-Type -Path " + quote(WINDOWS / "Native.cs") + "; if(-not ('GPTBotCollector.Native' -as [type])){throw 'missing_type'}")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_native_stderr_classifier_redacts_unknown_and_mixed_output(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        $helper=[GPTBotCollector.Native].GetMethod('ProcessErrorCode',[Reflection.BindingFlags]'NonPublic,Static');
+        function Classify([string]$Text,[int]$Exit=2,[bool]$Timeout=$false){$helper.Invoke($null,[object[]]@($Text,$Exit,$Timeout))};
+        foreach($safe in @('control_unavailable','crawler_unauthorized','extractor_configuration_invalid','collector_configuration_invalid','delivery_rejected')){
+          if((Classify ($safe+"`r`n")) -cne $safe){throw 'safe_code_lost'}
+        };
+        foreach($unsafe in @('https://private.invalid/token','lrcr_synthetic_not_a_real_secret','C:\private\secret',
+            "control_unavailable`nBearer private",'control_unavailable injected','unreviewed_server_error','',
+            (('x'*4096)+'control_unavailable'))){
+          if((Classify $unsafe) -cne 'python_process_failed'){throw 'unsafe_stderr_exposed'};
+          if($null -ne [GPTBotCollector.Native]::SafeRuntimeErrorCode($unsafe)){throw 'unsafe_report_code_exposed'}
+        };
+        if($null -ne (Classify 'control_unavailable' 0)){throw 'success_misclassified'};
+        if((Classify 'private' 2 $true) -cne 'python_process_timeout'){throw 'timeout_not_reported'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_native_child_error_code_is_returned_without_raw_stderr(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;$python=" + quote(sys.executable) + ";"
+        code += r"""
+        $start=[Diagnostics.ProcessStartInfo]::new();$start.FileName=$python;
+        $start.Arguments='-B -c "import sys; sys.stderr.write(''control_unavailable\n''); sys.exit(2)"';
+        $result=[GPTBotCollector.Native]::Run($start,$null,15);
+        if($result.ExitCode -ne 2 -or $result.ErrorCode -cne 'control_unavailable' -or $result.Output -cne ''){throw 'child_safe_error_missing'};
+        if($result.PSObject.Properties['StandardError'] -or $result.PSObject.Properties['ErrorOutput']){throw 'raw_stderr_field_present'};
+        $start.Arguments='-B -c "import sys; sys.stderr.write(''control_unavailable\nprivate-synthetic-data''); sys.exit(2)"';
+        $result=[GPTBotCollector.Native]::Run($start,$null,15);
+        if($result.ErrorCode -cne 'python_process_failed' -or (($result|ConvertTo-Json) -match 'private-synthetic-data')){throw 'child_stderr_leaked'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        wrapper = (WINDOWS / "Run-Collector.ps1").read_text()
+        self.assertIn("$errorCode=$result.ErrorCode", wrapper)
+        self.assertIn("errorCode=$errorCode", wrapper)
+        self.assertNotIn("StandardError", wrapper)
+
+    def test_bundle_path_rejects_traversal_streams_devices_absolute_names(self):
+        invalid = ["../secret", "app/../secret", "C:/file", "\\\\host\\share", "app/file:stream", "app/NUL.txt",
+                   "node/COM1", "python/trailing. ", "other/file", "app/./file", "app/file?name"]
+        code = ". " + quote(WINDOWS / "Common.ps1") + "; "
+        code += "$invalid=@(" + ",".join(quote(value) for value in invalid) + ");"
+        code += "foreach($path in $invalid){$blocked=$false;try{$null=Assert-CollectorRelativePath $path}catch{$blocked=$true};if(-not $blocked){throw 'unsafe_path_accepted'}};"
+        code += "if((Assert-CollectorRelativePath 'app/collector/__main__.py') -ne 'app\\collector\\__main__.py'){throw 'normalization_failed'}"
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_fixed_resources_and_current_user_dpapi_not_machine_scope(self):
+        common = (WINDOWS / "Common.ps1").read_text()
+        bootstrap = (WINDOWS / "Bootstrap-Identity.ps1").read_text()
+        wrapper = (WINDOWS / "Run-Collector.ps1").read_text()
+        self.assertIn("C:\\ProgramData\\GPTBot\\LeadRadarCollector", common)
+        self.assertIn("User='GPTBotCollector'", common)
+        self.assertIn("DataProtectionScope]::CurrentUser", bootstrap)
+        self.assertIn("DataProtectionScope]::CurrentUser", wrapper)
+        self.assertNotIn("DataProtectionScope]::LocalMachine", bootstrap + wrapper)
+        self.assertIn("[Console]::In.ReadLine()", bootstrap)
+        self.assertIn("$start.EnvironmentVariables.Clear()", wrapper)
+        self.assertIn("$config.apiBase -cne 'https://gptbot.uz/api/lead-radar/crawler'", wrapper)
+        self.assertNotIn("CRAWLER_TOKEN", wrapper.split("$start.Arguments=", 1)[1].splitlines()[0])
+
+    def test_installer_task_disabled_and_rollback_non_destructive(self):
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        rollback = (WINDOWS / "Disable-Collector.ps1").read_text()
+        self.assertIn("New-ScheduledTaskSettingsSet -Disable", installer)
+        self.assertIn("-MultipleInstances IgnoreNew", installer)
+        self.assertIn("-RunLevel Limited", installer)
+        self.assertIn("-AtStartup", installer)
+        self.assertIn("-RepetitionInterval (New-TimeSpan -Minutes 1)", installer)
+        self.assertIn("TASK_DONT_ADD_PRINCIPAL_ACE (16)", installer)
+        self.assertIn("$registered.SetSecurityDescriptor('D:P(A;;FA;;;SY)(A;;FA;;;BA)(A;;GRGX;;;'+$account.SID.Value+')',16)", installer)
+        for forbidden in ("Enable-ScheduledTask", "Start-ScheduledTask", "Invoke-WebRequest", "Invoke-RestMethod",
+                          "Remove-LocalUser", "Unregister-ScheduledTask", "Remove-Item"):
+            self.assertNotIn(forbidden, installer + rollback)
+        self.assertIn("[GPTBotCollector.LocalAccount]::DisableOwned", rollback)
+        self.assertIn("account_ownership_mismatch", rollback)
+        self.assertIn("task_ownership_mismatch", rollback)
+
+    def test_native_account_lookup_works_without_optional_localaccounts_module(self):
+        result = self.ps(". " + quote(WINDOWS / "Common.ps1") + "; Import-CollectorNative; "
+                         "$account=[GPTBotCollector.LocalAccount]::Get(); "
+                         "if($null -ne $account -and ($account.Name -cne 'GPTBotCollector' -or -not $account.SID.Value)){throw 'invalid_account_snapshot'}")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        rollback = (WINDOWS / "Disable-Collector.ps1").read_text()
+        native = (WINDOWS / "Native.cs").read_text()
+        for unavailable in ("Microsoft.PowerShell.LocalAccounts", "Get-LocalUser", "New-LocalUser", "Disable-LocalUser",
+                            "Get-LocalGroup", "Add-LocalGroupMember"):
+            self.assertNotIn(unavailable, installer + rollback)
+        self.assertIn("NetUserGetInfo(null,Name,23", native)
+        self.assertIn("NetUserAdd(null,1", native)
+        self.assertIn("NetUserGetLocalGroups(null,Name,0,1", native)
+        self.assertIn('sid != "S-1-5-32-544" && sid != "S-1-5-32-545"', native)
+        self.assertIn("account.SID.Value != sid || account.Comment != Comment(installationId)", native)
+        self.assertIn("Marshal.ZeroFreeGlobalAllocUnicode(secret)", native)
+        self.assertNotIn("NetUserDel", native)
+
+    def test_com_folder_path_is_distinct_from_powershell_task_path(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";$spec=Get-CollectorSpec;
+        if($spec.TaskFolderPath -cne '\GPTBot' -or $spec.TaskPath -cne '\GPTBot\'){throw 'task_path_contract_changed'};
+        if($spec.TaskFolderPath.EndsWith('\') -or -not $spec.TaskPath.EndsWith('\')){throw 'com_path_trailing_separator'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        for name in ("Install-Collector.ps1", "Activate-Collector.ps1", "Disable-Collector.ps1"):
+            source = (WINDOWS / name).read_text()
+            self.assertNotIn(".GetFolder($spec.TaskPath)", source)
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        self.assertEqual(installer.count(".GetFolder($spec.TaskFolderPath)"), 3)
+        self.assertIn("-TaskPath $spec.TaskPath", installer)
+        self.assertIn("-2147024894,-2147024893", installer)  # Missing path only; never repair arbitrary COM errors.
+
+    def test_enable_owned_rejects_foreign_identity_and_never_resets_credentials(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        $blocked=$false;try{[GPTBotCollector.LocalAccount]::EnableOwned('S-1-0-0','00000000-0000-0000-0000-000000000000')}
+        catch{if($_.Exception.GetBaseException().Message -cne 'account_ownership_mismatch'){throw};$blocked=$true};
+        if(-not $blocked){throw 'enable_account_ownership_guard_missing'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        native = (WINDOWS / "Native.cs").read_text()
+        body = native.split("public static void EnableOwned", 1)[1].split('const string BatchRight=', 1)[0]
+        self.assertIn("RequireOwned(sid,installationId)", body)
+        self.assertIn("Flags=account.Flags&~0x2u", body)
+        self.assertIn("NetUserSetInfo(null,Name,1008", body)
+        self.assertIn("account_enable_readback_failed", body)
+        self.assertEqual(body.count('IsMemberOfBuiltin("S-1-5-32-544")'), 2)
+        self.assertEqual(body.count('IsMemberOfBuiltin("S-1-5-32-545")'), 2)
+        self.assertIn("DisableOwned(sid,installationId)", body)
+        for forbidden in ("NetUserSetPassword", "1003", "ProfileList", "ResetUnprovisionedOwned", "ProtectedData", "ReadAll"):
+            self.assertNotIn(forbidden, body)
+
+    def test_batch_rights_reject_foreign_identity_before_any_lsa_operation(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        foreach($method in @('EnsureBatchLogonRightOwned','InspectBatchLogonRightOwned')){
+          $blocked=$false;
+          try{[GPTBotCollector.LocalAccount].GetMethod($method).Invoke($null,[object[]]@('S-1-0-0','00000000-0000-0000-0000-000000000000'))}
+          catch{if($_.Exception.GetBaseException().Message -cne 'account_ownership_mismatch'){throw};$blocked=$true};
+          if(-not $blocked){throw 'batch_ownership_guard_missing'}
+        }
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        native = (WINDOWS / "Native.cs").read_text()
+        self.assertIn('const string BatchRight="SeBatchLogonRight", DenyBatchRight="SeDenyBatchLogonRight"', native)
+        self.assertIn("LsaAddAccountRights(policy,SidBytes(sid),ref right,1)", native)
+        self.assertIn("ensure?0x810u:0x800u", native)
+        self.assertNotIn("LsaRemoveAccountRights", native)
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        self.assertLess(installer.index("::EnsureBatchLogonRightOwned"), installer.index("$failureStage='apply_scoped_isolation'"))
+        self.assertIn("-NotePropertyName batchLogonRight", installer)
+
+    def test_batch_policy_flow_uses_only_mock_rights_and_preserves_every_other_right(self):
+        # Compile the real core and this in-memory test double together. No LSA writes,
+        # account/password changes, Scheduler calls, or filesystem policy changes.
+        fixture = r"""
+        namespace GPTBotCollector {
+          public static class BatchRightsFixture {
+            const string User="S-1-5-21-1-2-3-1011", Users="S-1-5-32-545";
+            const string Grant="SeBatchLogonRight", Deny="SeDenyBatchLogonRight";
+            static HashSet<string> Set(params string[] values){return new HashSet<string>(values,StringComparer.Ordinal);}
+            static void Need(bool ok){if(!ok)throw new Exception("fixture_assertion_failed");}
+            static void Rejected(Action action,string code){
+              try{action();}catch(InvalidOperationException error){if(error.Message==code)return;throw;}
+              throw new Exception("fixture_expected_rejection_"+code);
+            }
+            public static void Run(){
+              var members=Set(User,Users,"S-1-1-0","S-1-5-3","S-1-5-11","S-1-5-113");
+              var rights=new Dictionary<string,HashSet<string>>();
+              foreach(string member in members)rights[member]=Set();
+              rights[User].Add("SeChangeNotifyPrivilege");
+              int additions=0,verifications=0;
+              Action identity=delegate{verifications++;};
+              Func<HashSet<string>> groups=delegate{return new HashSet<string>(members);};
+              Func<string,HashSet<string>> read=delegate(string sid){return rights[sid];};
+              Action add=delegate{additions++;rights[User].Add(Grant);};
+              var missing=LocalAccount.CheckBatchRights(User,false,identity,groups,read,add);
+              Need(!missing.EffectiveGranted && !missing.Changed && additions==0);
+              members.Add("S-1-5-64-10");rights["S-1-5-64-10"]=Set(Grant);
+              var uncertainAllow=LocalAccount.CheckBatchRights(User,false,identity,groups,read,add);
+              Need(!uncertainAllow.EffectiveGranted && additions==0);
+              members.Remove("S-1-5-64-10");rights.Remove("S-1-5-64-10");
+              var first=LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);
+              Need(first.Changed && first.DirectGranted && first.EffectiveGranted && first.DenyPolicyClear && first.OtherRightsPreserved);
+              Need(additions==1 && rights[User].SetEquals(Set(Grant,"SeChangeNotifyPrivilege")) && verifications>=3);
+              var replay=LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);
+              Need(!replay.Changed && additions==1);
+              foreach(string denied in members){
+                rights[denied].Add(Deny);
+                Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);},"batch_logon_denied_by_policy");
+                rights[denied].Remove(Deny);Need(additions==1);
+              }
+              rights[User].Remove(Grant);rights[Users].Add(Grant);
+              var inherited=LocalAccount.CheckBatchRights(User,false,identity,groups,read,add);
+              Need(inherited.EffectiveGranted && !inherited.DirectGranted && additions==1);
+              LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);
+              Need(additions==2 && rights[Users].SetEquals(Set(Grant)));
+              rights[User].Remove(Grant);rights[Users].Clear();
+              members.Add("S-1-5-32-544");
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);},"batch_membership_invalid");
+              members.Remove("S-1-5-32-544");Need(additions==2);
+              members.Remove(Users);
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,add);},"batch_membership_invalid");
+              members.Add(Users);
+              Action wrong=delegate{throw new InvalidOperationException("account_ownership_mismatch");};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,wrong,groups,read,add);},"account_ownership_mismatch");
+              Need(additions==2);
+              int groupReads=0;
+              Func<HashSet<string>> drifting=delegate{groupReads++;var found=groups();if(groupReads>1)found.Add("S-1-5-32-555");return found;};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,drifting,read,add);},"batch_membership_changed");
+              Need(additions==2);
+              Func<string,HashSet<string>> unavailable=delegate(string sid){throw new InvalidOperationException("mock_policy_access_denied");};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,unavailable,add);},"mock_policy_access_denied");
+              Need(additions==2);
+              Action missingReadback=delegate{additions++;};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,missingReadback);},"batch_rights_readback_changed");
+              Need(additions==3);
+              Action concurrent=delegate{add();rights[User].Add("SeDebugPrivilege");};
+              Rejected(delegate{LocalAccount.CheckBatchRights(User,true,identity,groups,read,concurrent);},"batch_rights_readback_changed");
+              Need(additions==4);
+            }
+          }
+        }
+        """
+        encoded = base64.b64encode(fixture.encode()).decode()
+        code = "$native=[IO.File]::ReadAllText(" + quote(WINDOWS / "Native.cs") + ");"
+        code += "$fixture=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(" + quote(encoded) + "));"
+        code += "Add-Type -TypeDefinition ($native+$fixture);[GPTBotCollector.BatchRightsFixture]::Run()"
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_batch_membership_metadata_read_has_correct_native_layout(self):
+        # Read-only account/group metadata, never account rights or secret/profile files.
+        code = ". " + quote(WINDOWS / "Common.ps1") + r""";Import-CollectorNative;
+        $account=[GPTBotCollector.LocalAccount]::Get();
+        if($null -ne $account -and $account.Comment -match '^GPTBot collector ([a-f0-9-]{36})$'){
+          $helper=[GPTBotCollector.LocalAccount].GetMethod('BatchPrincipals',[Reflection.BindingFlags]'NonPublic,Static');
+          $members=$helper.Invoke($null,[object[]]@($account.SID.Value,$Matches[1]));
+          if(-not $members.Contains($account.SID.Value) -or -not $members.Contains('S-1-5-32-545') -or
+             -not $members.Contains('S-1-5-3') -or $members.Contains('S-1-5-32-544')){throw 'batch_membership_fixture_invalid'}
+        }
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_validateonly_reports_safe_failure_stage_without_touching_secrets(self):
+        with tempfile.TemporaryDirectory() as directory:
+            missing_bundle = Path(directory) / "missing-bundle"
+            missing_token = Path(directory) / "must-not-be-opened.secret"
+            result = self.ps("& " + quote(WINDOWS / "Install-Collector.ps1") + " -ValidateOnly -BundlePath "
+                             + quote(missing_bundle) + " -BundleManifestSha256 " + quote("0" * 64)
+                             + " -TokenStagingPath " + quote(missing_token) + " -TokenStagingSha256 " + quote("1" * 64))
+            self.assertNotEqual(result.returncode, 0, result.stderr)
+            report = json.loads(result.stdout)
+            self.assertFalse(report["installed"])
+            # If the collector is already installed, fail even earlier without modifying it.
+            self.assertIn(report["failureStage"], ("validate_bundle", "validate_targets"))
+            self.assertGreater(report["failureLine"], 0)
+            self.assertNotIn(str(missing_token), result.stdout + result.stderr)
+            self.assertNotIn("Exception.Message", result.stdout + result.stderr)
+            self.assertFalse(missing_token.exists())
+
+    def test_deny_probe_opens_handle_but_never_reads_contents(self):
+        native = (WINDOWS / "Native.cs").read_text()
+        body = native.split("public static bool ReadAccessDenied", 1)[1].split("static string Drain", 1)[0]
+        self.assertIn("CreateFile(path, 0x80000000", body)
+        self.assertIn("Marshal.GetLastWin32Error() != 5", body)
+        self.assertNotIn("ReadAll", body)
+        self.assertNotIn("FileStream", body)
+        self.assertNotIn(".Read(", body)
+
+    def test_offline_selfcheck_precedes_secret_and_task_and_report_is_sanitized(self):
+        bootstrap = (WINDOWS / "Bootstrap-Identity.ps1").read_text()
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        selfcheck = (WINDOWS / "Runtime-Selfcheck.py").read_text()
+        ast.parse(selfcheck)
+        self.assertLess(bootstrap.index("Runtime-Selfcheck.py"), bootstrap.index("[Console]::In.ReadLine()"))
+        self.assertLess(installer.index("isolated_bootstrap_failed"), installer.index("Register-ScheduledTask"))
+        self.assertIn('"networkUsed": False', selfcheck)
+        self.assertNotIn("CRAWLER_TOKEN", selfcheck)
+        self.assertIn("$bootstrap.EnvironmentVariables.Clear()", installer)
+        self.assertIn("$bootstrap.WorkingDirectory=Join-Path $spec.Root 'app'", installer)
+        self.assertIn("report_parent_acl_not_private", installer)
+        report = installer.split("$report=@{installed=$true", 1)[1].split("if ($reportReady)", 1)[0]
+        self.assertNotIn("ciphertext", report)
+        self.assertNotIn("$token", report)
+        self.assertNotIn("$password", report)
+        self.assertIn("$allowedStages=@(", installer)
+        self.assertIn("bootstrapFailureStage=$bootstrapFailureStage", installer)
+        self.assertIn("failureWin32Code=$failureWin32Code", installer)
+        self.assertIn("taskDisabled=$taskDisabledVerified", installer)
+        self.assertIn("'failed_unknown'", installer)
+        self.assertIn("GetInstances(0).Count", installer)
+        failure_report = bootstrap.split("} catch {", 1)[1]
+        self.assertIn("$allowed -cnotcontains $reason", failure_report)
+        self.assertNotIn("ciphertext", failure_report)
+        self.assertNotIn("$token", failure_report)
+        self.assertIn("$ownedMutationStarted -and $null -ne $manifest", installer)
+
+    def test_runtime_names_match_client_and_process_tree_is_bounded(self):
+        wrapper = (WINDOWS / "Run-Collector.ps1").read_text()
+        native = (WINDOWS / "Native.cs").read_text()
+        self.assertIn("delivery_waiting|worker_busy|no_job", wrapper)
+        self.assertIn("::Run($start,$null,240,$true)", wrapper)
+        self.assertIn("0x2000 | 0x8 | 0x200", native)
+        self.assertIn("limits.Basic.ActiveProcesses=4", native)
+        self.assertIn("new UIntPtr(536870912)", native)
+        self.assertIn("finally { if (job!=IntPtr.Zero) CloseHandle(job); }", native)
+
+    def test_traverse_removal_is_process_only_and_inherited_by_real_python_child(self):
+        # Execute the actual Python selfcheck token reader without its installed-path main body.
+        tree = ast.parse((WINDOWS / "Runtime-Selfcheck.py").read_text())
+        function = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == "traverse_bypass_present")
+        reader_source = "import ctypes\nfrom ctypes import wintypes\n" + ast.unparse(function)
+        namespace = {}
+        exec(compile(reader_source, "runtime-token-reader", "exec"), namespace)
+        before = namespace["traverse_bypass_present"]()
+        child_source = reader_source + "\nassert not traverse_bypass_present()\nprint('child_token_removed')\n"
+        encoded_child = base64.b64encode(child_source.encode()).decode()
+        python_command = "import base64;exec(base64.b64decode('" + encoded_child + "'))"
+        code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;"
+        code += "[GPTBotCollector.Native]::RemoveTraverseBypass();"
+        code += "if([GPTBotCollector.Native]::TraverseBypassPresent()){throw 'parent_not_removed'};"
+        code += "$start=New-Object Diagnostics.ProcessStartInfo;$start.FileName=" + quote(sys.executable) + ";"
+        code += "$start.Arguments=" + quote('-B -c "' + python_command + '"') + ";"
+        code += "$result=[GPTBotCollector.Native]::Run($start,$null,20,$true);"
+        code += "if($result.ExitCode -ne 0 -or $result.Output.Trim() -cne 'child_token_removed' -or -not $result.TraverseBypassRemoved){throw 'child_proof_failed'};"
+        code += "[GPTBotCollector.Native]::RemoveTraverseBypass();if([GPTBotCollector.Native]::TraverseBypassPresent()){throw 'removed_privilege_reappeared'}"
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(namespace["traverse_bypass_present"](), before, "test parent token must remain unchanged")
+
+    def test_root_deny_is_nonrecursive_and_process_drop_precedes_probes(self):
+        native = (WINDOWS / "Native.cs").read_text()
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        self.assertIn("CreateFile(path,0x20000,7", native)  # Existing deny requires only READ_CONTROL.
+        self.assertIn("CreateFile(path,0x60000,3", native)  # No DELETE access/sharing; pin the directory name.
+        self.assertIn("SetFileSecurityW(path,4,", native)  # Deliberate documented no-child-propagation API.
+        self.assertNotIn("CreateFile(path,0x02000000", native)
+        self.assertNotIn("SetKernelObjectSecurity", native)
+        self.assertNotIn("NtSetSecurityObject", native)
+        self.assertIn("new CommonAce(AceFlags.None,AceQualifier.AccessDenied", native)
+        self.assertIn("root_acl_other_rules_changed", native)
+        self.assertIn("root_acl_control_or_identity_changed", native)
+        self.assertIn("existing_deny_preserved", installer)
+        self.assertNotIn("Set-Acl -LiteralPath $path", installer)
+        self.assertNotIn("SetNamedSecurityInfo", native)
+        self.assertNotIn("LsaRemoveAccountRights", native)
+        self.assertIn("Attributes=4", native)  # SE_PRIVILEGE_REMOVED, not zero/disabled.
+        for name in ("Bootstrap-Identity.ps1", "Run-Collector.ps1"):
+            source = (WINDOWS / name).read_text()
+            self.assertLess(source.index("::RemoveTraverseBypass()"), source.index("::ReadAccessDenied"))
+            self.assertLess(source.index("::RemoveTraverseBypass()"), source.index("[Security.Cryptography.ProtectedData]"))
+        self.assertIn("F:\\Claude\\gptbot-lead-radar-integration-20260827\\AGENTS.md", installer)
+
+    def test_busy_owned_directory_updates_root_only_and_preserves_children(self):
+        from ctypes import wintypes
+        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+        create_file = kernel.CreateFileW
+        create_file.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD, ctypes.c_void_p,
+                                wintypes.DWORD, wintypes.DWORD, ctypes.c_void_p]
+        create_file.restype = wintypes.HANDLE
+        close = kernel.CloseHandle
+        close.argtypes = [wintypes.HANDLE]
+        close.restype = wintypes.BOOL
+        invalid = ctypes.c_void_p(-1).value
+        with tempfile.TemporaryDirectory(prefix="collector-acl-fixture-") as directory:
+            root = Path(directory)
+            nested = root / "child" / "nested"
+            nested.mkdir(parents=True)
+            child = nested / "owned-fixture.txt"
+            child.write_text("owned offline fixture", encoding="utf-8")
+            # Emulate Explorer/CWD holding a directory read handle without FILE_SHARE_DELETE.
+            busy = create_file(str(root), 0x100001, 3, None, 3, 0x02000000, None)
+            self.assertNotEqual(busy, invalid, "owned busy fixture handle must open")
+            try:
+                maximum = create_file(str(root), 0x02000000, 7, None, 3, 0x02200000, None)
+                error = ctypes.get_last_error()
+                if maximum != invalid:
+                    close(maximum)
+                self.assertEqual(maximum, invalid, "fixture must reproduce excessive-access sharing conflict")
+                self.assertEqual(error, 32)
+                code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;$root=" + quote(root) + ";"
+                code += r"""
+                $children=@((Join-Path $root 'child'),(Join-Path $root 'child\nested'),(Join-Path $root 'child\nested\owned-fixture.txt'));
+                function Snapshot([string]$Path){
+                  $acl=if([IO.Directory]::Exists($Path)){[IO.Directory]::GetAccessControl($Path)}else{[IO.File]::GetAccessControl($Path)};
+                  [Convert]::ToBase64String($acl.GetSecurityDescriptorBinaryForm())};
+                $before=@($children | ForEach-Object {Snapshot $_});
+                $helper=[GPTBotCollector.Native].GetMethod('EnsureRootOnlyDeny',[Reflection.BindingFlags]'NonPublic,Static');
+                $sid=New-Object Security.Principal.SecurityIdentifier('S-1-5-21-1-2-3-4294967001');
+                $arguments=[object[]]@($root,$sid.PSObject.BaseObject);
+                $change=$helper.Invoke($null,$arguments);
+                if(-not $change.Changed){throw 'missing_owned_fixture_update'};
+                $rootAfter=Snapshot $root;
+                $replay=$helper.Invoke($null,$arguments);
+                if($replay.Changed -or $replay.LegacyAutoInheritedCleared -or $replay.ControlBefore -ne $replay.ControlAfter){throw 'idempotency_failed'};
+                if((Snapshot $root) -cne $rootAfter){throw 'idempotency_changed_acl'};
+                for($i=0;$i -lt $children.Count;$i++){if((Snapshot $children[$i]) -cne $before[$i]){throw 'child_acl_changed'}};
+                $rules=@([IO.Directory]::GetAccessControl($root).GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier]) |
+                  Where-Object {$_.IdentityReference.Value -ceq $sid.Value});
+                if($rules.Count -ne 1 -or $rules[0].InheritanceFlags -ne 'None' -or $rules[0].PropagationFlags -ne 'None' -or
+                   $rules[0].AccessControlType -ne 'Deny' -or [int]$rules[0].FileSystemRights -ne 0x1f01ff){throw 'unexpected_root_rule'};
+                """
+                result = self.ps(code)
+                self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            finally:
+                close(busy)
+
+    def test_fixed_root_and_account_guards_reject_before_acl_work(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;"
+        code += r"""
+        $blocked=$false;try{[GPTBotCollector.Native]::EnsureFixedRootDeny('C:\Windows','S-1-0-0','00000000-0000-0000-0000-000000000000')}
+        catch{if($_.Exception.GetBaseException().Message -cne 'isolation_root_refused'){throw};$blocked=$true};
+        if(-not $blocked){throw 'fixed_root_guard_missing'};
+        foreach($root in @('C:\Users\Borinio','F:\Claude')){
+          $blocked=$false;try{[GPTBotCollector.Native]::EnsureFixedRootDeny($root,'S-1-0-0','00000000-0000-0000-0000-000000000000')}
+          catch{if($_.Exception.GetBaseException().Message -cne 'account_ownership_mismatch'){throw};$blocked=$true};
+          if(-not $blocked){throw 'ownership_guard_missing'}
+        }
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_legacy_setter_auto_inherited_delta_is_only_marker_on_owned_fixtures(self):
+        # Force modern ACLs, unlike tempfile's default descriptor, before creating descendants.
+        for protected in (False, True):
+            with self.subTest(protected=protected), tempfile.TemporaryDirectory(prefix="collector-modern-acl-") as directory:
+                code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;$root=" + quote(directory) + ";"
+                code += "$protected=" + ("$true" if protected else "$false") + ";"
+                code += r"""
+                $allowSid=[Security.Principal.SecurityIdentifier]::new('S-1-5-21-1-2-3-4294967002');
+                $denySid=[Security.Principal.SecurityIdentifier]::new('S-1-5-21-1-2-3-4294967001');
+                $acl=[IO.Directory]::GetAccessControl($root);$acl.SetAccessRuleProtection($protected,$true);
+                $rule=[Security.AccessControl.FileSystemAccessRule]::new($allowSid,'ReadAndExecute','ContainerInherit,ObjectInherit','None','Allow');
+                $acl.AddAccessRule($rule);[IO.Directory]::SetAccessControl($root,$acl);
+                $child=Join-Path $root 'child';$grandchild=Join-Path $child 'grandchild';
+                $null=[IO.Directory]::CreateDirectory($grandchild);
+                function Descriptor([string]$Path){[Security.AccessControl.RawSecurityDescriptor]::new([IO.Directory]::GetAccessControl($Path).GetSecurityDescriptorBinaryForm(),0)};
+                function Bytes($Value){$data=New-Object byte[] $Value.BinaryLength;$Value.GetBinaryForm($data,0);[Convert]::ToBase64String($data)};
+                $before=Descriptor $root;$childBefore=Bytes (Descriptor $child);$grandBefore=Bytes (Descriptor $grandchild);
+                if(([int]$before.ControlFlags -band 0x400) -eq 0){throw 'fixture_not_auto_inherited'};
+                $helper=[GPTBotCollector.Native].GetMethod('EnsureRootOnlyDeny',[Reflection.BindingFlags]'NonPublic,Static');
+                $change=$helper.Invoke($null,[object[]]@($root,$denySid));
+                if(-not $change.Changed -or -not $change.LegacyAutoInheritedCleared){throw 'missing_legacy_delta_report'};
+                $after=Descriptor $root;
+                if(([int]$before.ControlFlags -bxor [int]$after.ControlFlags) -ne 0x400 -or
+                   ([int]$after.ControlFlags -band 0x400) -ne 0){throw 'unexpected_control_delta'};
+                if($before.Owner -ne $after.Owner -or $before.Group -ne $after.Group){throw 'identity_changed'};
+                if($change.ControlBefore -ne [int]$before.ControlFlags -or $change.ControlAfter -ne [int]$after.ControlFlags){throw 'incorrect_flag_report'};
+                if($after.DiscretionaryAcl.Count -ne $before.DiscretionaryAcl.Count+1){throw 'acl_length_changed'};
+                for($i=0;$i -lt $before.DiscretionaryAcl.Count;$i++){
+                  if((Bytes $before.DiscretionaryAcl[$i]) -cne (Bytes $after.DiscretionaryAcl[$i+1])){throw 'old_ace_changed'}
+                };
+                if((Bytes (Descriptor $child)) -cne $childBefore -or (Bytes (Descriptor $grandchild)) -cne $grandBefore){throw 'child_changed'};
+                @{before=[int]$before.ControlFlags;after=[int]$after.ControlFlags;protected=$protected;xor=0x400;childrenUnchanged=$true}|ConvertTo-Json -Compress
+                """
+                result = self.ps(code)
+                self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+                proof = json.loads(result.stdout)
+                self.assertEqual(proof["xor"], 0x400)
+                self.assertEqual(bool(proof["after"] & 0x1000), protected)
+                self.assertTrue(proof["childrenUnchanged"])
+
+    def test_control_compatibility_refuses_setting_marker_and_every_other_bit_change(self):
+        code = ". " + quote(WINDOWS / "Common.ps1") + ";Import-CollectorNative;"
+        code += r"""
+        $helper=[GPTBotCollector.Native].GetMethod('CompatibleRootControl',[Reflection.BindingFlags]'NonPublic,Static');
+        function Allowed([int]$Before,[int]$After){$helper.Invoke($null,[object[]]@([Security.AccessControl.ControlFlags]$Before,[Security.AccessControl.ControlFlags]$After))};
+        foreach($before in @(0x8004,0x8404,0x9004,0x9404)){
+          if(-not (Allowed $before $before)){throw 'identical_flags_refused'};
+          if(-not (Allowed $before ($before -band (-bnot 0x400)))){throw 'legacy_clear_refused'};
+          for($bit=0;$bit -lt 16;$bit++){
+            $after=$before -bxor (1 -shl $bit);
+            $expected=$bit -eq 10 -and ($before -band 0x400) -ne 0;
+            if((Allowed $before $after) -ne $expected){throw 'unexpected_flag_delta_accepted'}
+          }
+        }
+        if(Allowed 0x9404 0x8004){throw 'protected_change_accepted_with_legacy_clear'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        installer = (WINDOWS / "Install-Collector.ps1").read_text()
+        self.assertIn("$ruleRecord.controlBefore=$change.ControlBefore", installer)
+        self.assertIn("$ruleRecord.controlAfter=$change.ControlAfter", installer)
+        self.assertIn("$ruleRecord.legacyAutoInheritedCleared=$change.LegacyAutoInheritedCleared", installer)
+        self.assertIn("isolationChanges=$isolationChanges", installer)
+
+    def test_win32_diagnostic_accepts_only_numeric_codes_without_exception_text(self):
+        code = self.recovery_helpers() + r"""
+        $problem=New-Object InvalidOperationException('do_not_publish');$problem.Data['Win32Error']=32;
+        if((Get-CollectorWin32Failure $problem) -ne 32){throw 'missing_win32_diagnostic'};
+        $problem.Data['Win32Error']='do_not_publish';if($null -ne (Get-CollectorWin32Failure $problem)){throw 'diagnostic_leak'};
+        $problem.Data['Win32Error']=-1;if($null -ne (Get-CollectorWin32Failure $problem)){throw 'invalid_native_code'};
+        $problem=New-Object ComponentModel.Win32Exception(5,'do_not_publish');
+        if((Get-CollectorWin32Failure $problem) -ne 5){throw 'missing_framework_native_code'};
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def recovery_helpers(self):
+        return (". " + quote(WINDOWS / "Common.ps1") + ";$tokens=$null;$errors=$null;"
+                "$ast=[Management.Automation.Language.Parser]::ParseFile(" + quote(WINDOWS / "Install-Collector.ps1")
+                + ",[ref]$tokens,[ref]$errors);if($errors.Count){throw 'parse_error'};"
+                "$ast.FindAll({param($n) $n -is [Management.Automation.Language.FunctionDefinitionAst]},$false)"
+                " | ForEach-Object {Invoke-Expression $_.Extent.Text};"
+                "function Expect-Rejected([scriptblock]$Op,[string]$Code){$blocked=$false;try{& $Op}catch{if($_.Exception.Message -ne $Code){throw};$blocked=$true};if(-not $blocked){throw 'guard_not_enforced'}};")
+
+    def test_resume_refuses_wrong_manifest_identity_and_any_provisioned_state(self):
+        code = self.recovery_helpers() + r"""
+        $spec=Get-CollectorSpec;$id='28af57a7-ddf3-481a-ad96-3250fc7d3e9a';$hash='a'*64;
+        $account=[pscustomobject]@{Name=$spec.User;SID=@{Value='S-1-5-21-1-2-3-1011'};Comment=('GPTBot collector '+$id)};
+        $m=[pscustomobject]@{schema=$spec.Schema;root=$spec.Root;installationId=$id;bundleManifestSha256=$hash;
+          userName=$spec.User;taskName=$spec.TaskName;taskPath=$spec.TaskPath;state='failed_disabled';accountCreated=$true;
+          accountCreationStarted=$true;taskRegistered=$false;taskInitiallyDisabled=$true;isolationProofs=@();userSid=$account.SID.Value};
+        Assert-CollectorResumeManifest $m $account $spec $id $hash;
+        $m.state='installed_disabled';Expect-Rejected {Assert-CollectorResumeManifest $m $account $spec $id $hash} 'resume_ownership_mismatch';
+        $m.state='failed_disabled';$account.Comment='unrelated';Expect-Rejected {Assert-CollectorResumeManifest $m $account $spec $id $hash} 'resume_ownership_mismatch';
+        $account.Comment='GPTBot collector '+$id;$m | Add-Member runtimeProof @{ok=$true};
+        Expect-Rejected {Assert-CollectorResumeManifest $m $account $spec $id $hash} 'resume_already_provisioned';
+        $script:foundPath=$null;$script:taskFound=$false;
+        function Test-Path {param($LiteralPath,$ErrorAction) $LiteralPath -ceq $script:foundPath};
+        function Get-ScheduledTask {param($TaskName,$TaskPath,$ErrorAction) if($script:taskFound){[pscustomobject]@{TaskName=$TaskName}}};
+        Assert-CollectorUnprovisioned $spec $account.SID.Value;
+        foreach($relative in @('config.json','secrets\token.dpapi','private\state.sqlite3')){
+          $script:foundPath=Join-Path $spec.Root $relative;Expect-Rejected {Assert-CollectorUnprovisioned $spec $account.SID.Value} 'resume_provisioned_state_present'};
+        $script:foundPath='C:\Users\GPTBotCollector';Expect-Rejected {Assert-CollectorUnprovisioned $spec $account.SID.Value} 'resume_provisioned_state_present';
+        $script:foundPath='Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\'+$account.SID.Value;
+        Expect-Rejected {Assert-CollectorUnprovisioned $spec $account.SID.Value} 'resume_provisioned_state_present';
+        $script:foundPath=$null;$script:taskFound=$true;Expect-Rejected {Assert-CollectorUnprovisioned $spec $account.SID.Value} 'resume_task_present';
+        """
+        result = self.ps(code)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_resume_validates_old_installed_bytes_and_never_changes_owned_fixture(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            installed = root / "windows" / "Native.cs"
+            installed.parent.mkdir()
+            content = b"owned old native fixture"
+            installed.write_bytes(content)
+            old = {"path": "windows/Native.cs", "sizeBytes": len(content), "sha256": hashlib.sha256(content).hexdigest()}
+            new = {**old, "sha256": "b" * 64}
+            fixture = {"old": {"Manifest": {"files": [old]}}, "next": {"Manifest": {"files": [new]}}}
+            encoded = base64.b64encode(json.dumps(fixture).encode()).decode()
+            code = self.recovery_helpers() + "$f=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(" + quote(encoded) + ")) | ConvertFrom-Json;$root=" + quote(root) + ";"
+            code += r"""
+            $changes=Get-CollectorResumeChanges $f.old $f.next $root;if(@($changes).Count -ne 1){throw 'missing_recovery_change'};
+            $f.next.Manifest.files=@();Expect-Rejected {Get-CollectorResumeChanges $f.old $f.next $root} 'resume_file_removal_refused';
+            $extra=[pscustomobject]@{path='app/unexpected.exe';sha256=('c'*64);sizeBytes=1};$f.next.Manifest.files=@($f.old.Manifest.files[0],$extra);
+            Expect-Rejected {Get-CollectorResumeChanges $f.old $f.next $root} 'resume_new_file_refused';
+            $f.next.Manifest.files=@($f.old.Manifest.files[0]);$f.old.Manifest.files[0].sha256='d'*64;
+            Expect-Rejected {Get-CollectorResumeChanges $f.old $f.next $root} 'resume_installed_file_mismatch';
+            """
+            result = self.ps(code)
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            self.assertEqual(installed.read_bytes(), content)
+
+    def test_real_manifest_validator_rejects_changed_file(self):
+        required = ["python/python.exe", "node/node.exe", "app/collector/__main__.py", "app/extractor.mjs",
+                    "windows/Run-Collector.ps1", "windows/Bootstrap-Identity.ps1", "windows/Common.ps1", "windows/Native.cs",
+                    "windows/Runtime-Selfcheck.py"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            files = []
+            for relative in required:
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                data = ("owned non-executable fixture: " + relative).encode()
+                path.write_bytes(data)
+                files.append({"path": relative, "sizeBytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
+            manifest = json.dumps({"schema": "gptbot.lead-radar.bundle.v1", "files": files}).encode()
+            (root / "bundle.manifest.json").write_bytes(manifest)
+            digest = hashlib.sha256(manifest).hexdigest()
+            code = ". " + quote(WINDOWS / "Common.ps1") + "; $null=Assert-CollectorBundle " + quote(root) + " " + quote(digest)
+            result = self.ps(code)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            (root / required[0]).write_bytes(b"changed owned fixture")
+            result = self.ps(code)
+            self.assertNotEqual(result.returncode, 0)
+
+
+if __name__ == "__main__":
+    unittest.main()

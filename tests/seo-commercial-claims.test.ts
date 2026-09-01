@@ -2,11 +2,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import type { Page } from '../src/shared/types';
 
 const ROOT = process.cwd();
 function read(relativePath: string) { return JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), 'utf8')); }
 function serialized(relativePath: string) { return JSON.stringify(read(relativePath)); }
-function linksOf(page: any): Set<string> { const links = new Set<string>(); for (const link of page.internalLinks || []) if (link?.target) links.add(link.target); for (const block of page.bodyBlocks || []) for (const link of block.links || []) if (link?.target) links.add(link.target); return links; }
+function linksOf(page: Page): Set<string> { const links = new Set<string>(); for (const link of page.internalLinks || []) if (link?.target) links.add(link.target); for (const block of page.bodyBlocks || []) for (const link of block.links || []) if (link?.target) links.add(link.target); return links; }
 
 test('paid-media hub links in body copy to every commercial owner', () => {
   const page = read('content/pages/ru/internet-reklama-tashkent.json');

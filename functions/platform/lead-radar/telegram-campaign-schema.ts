@@ -1,3 +1,5 @@
+import { normalizeSchemaSql as normalizeSql } from './schema-sql';
+
 const MIGRATION = '0048_lead_radar_telegram_media_quota.sql';
 const RUNTIME_MIGRATIONS = [
   '0045_lead_radar_telegram_campaigns.sql',
@@ -284,83 +286,6 @@ function equal(left: readonly string[], right: readonly string[]): boolean {
   return left.length === right.length && left.every((value, index) => value === right[index]);
 }
 
-function stripSqlComments(sql: string): string {
-  let normalized = '';
-  let quote: "'" | '"' | '`' | '[' | null = null;
-  for (let index = 0; index < sql.length; index += 1) {
-    const character = sql[index];
-    const next = sql[index + 1];
-    if (quote !== null) {
-      normalized += character;
-      const closing = quote === '[' ? ']' : quote;
-      if (character === closing) {
-        if (next === closing) {
-          normalized += next;
-          index += 1;
-        } else quote = null;
-      }
-      continue;
-    }
-    if (character === "'" || character === '"' || character === '`' || character === '[') {
-      quote = character;
-      normalized += character;
-      continue;
-    }
-    if (character === '-' && next === '-') {
-      index += 2;
-      while (index < sql.length && sql[index] !== '\n') index += 1;
-      if (index < sql.length) normalized += '\n';
-      continue;
-    }
-    if (character === '/' && next === '*') {
-      index += 2;
-      while (index < sql.length && !(sql[index] === '*' && sql[index + 1] === '/')) index += 1;
-      if (index < sql.length) index += 1;
-      normalized += ' ';
-      continue;
-    }
-    normalized += character;
-  }
-  return normalized;
-}
-
-function normalizeSql(sql: string): string {
-  const source = stripSqlComments(sql);
-  let normalized = '';
-  let unquoted = '';
-  let quote: "'" | '"' | '`' | '[' | null = null;
-  const flushUnquoted = (): void => {
-    normalized += unquoted
-      .toLowerCase()
-      .replace(/\bif\s+not\s+exists\b/g, '')
-      .replace(/\s+/g, ' ')
-      .replace(/\s*([(),=<>])\s*/g, '$1');
-    unquoted = '';
-  };
-  for (let index = 0; index < source.length; index += 1) {
-    const character = source[index];
-    const next = source[index + 1];
-    if (quote === null) {
-      if (character === "'" || character === '"' || character === '`' || character === '[') {
-        flushUnquoted();
-        quote = character;
-        normalized += character;
-      } else unquoted += character;
-      continue;
-    }
-    normalized += character;
-    const closing = quote === '[' ? ']' : quote;
-    if (character === closing) {
-      if (next === closing) {
-        normalized += next;
-        index += 1;
-      } else quote = null;
-    }
-  }
-  flushUnquoted();
-  return normalized.trim();
-}
-
 function sqlLiteral(value: string): string {
   return `'${value.replaceAll("'", "''")}'`;
 }
@@ -385,19 +310,13 @@ const RUNTIME_SCHEMA_QUERY = `SELECT type, name, tbl_name, sql FROM sqlite_schem
     AND name NOT GLOB 'sqlite_autoindex_*'
   ORDER BY type, name`;
 
-// Runtime schema ordering is a byte-level fingerprint operation. Avoid
-// localeCompare here: on a cold Worker it initializes locale/ICU machinery for
-// keys that are deliberately ASCII and must sort identically in every runtime.
-function compareSchemaText(left: string, right: string): number {
-  return left < right ? -1 : left > right ? 1 : 0;
-}
-
 export async function telegramCampaignSchemaFingerprint(db: D1Database): Promise<string> {
   const result = await db.prepare(RUNTIME_SCHEMA_QUERY).all<SqliteSchemaRow>();
   const rows = (result.results ?? []).sort((left, right) => {
     const leftKey = `${left.type}\u0000${left.name}`;
     const rightKey = `${right.type}\u0000${right.name}`;
-    return compareSchemaText(leftKey, rightKey);
+    // Fixed ASCII schema keys must not initialize locale/ICU on a cold Worker.
+    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
   const canonical = rows.map((row) => [
     row.type,

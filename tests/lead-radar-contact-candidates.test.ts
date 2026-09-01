@@ -1,11 +1,76 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator } from '../src/shared/lead-radar-contacts';
-import { contactCandidatesForLead } from '../functions/platform/lead-radar/contact-candidates';
+import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator, type LeadRadarContactCandidate } from '../src/shared/lead-radar-contacts';
+import { contactCandidatesForLead, mergeContactCandidates } from '../functions/platform/lead-radar/contact-candidates';
 import { extractCompanyPageFacts } from '../functions/platform/lead-radar/sources';
 import { officialDomainsFromListing, officialDomainSearchQuery } from '../functions/platform/lead-radar/official-domain-discovery';
 import { extractOfficialSiteContacts } from '../functions/platform/lead-radar/sources';
 import { publishedTelegramLocators } from '../functions/platform/lead-radar/telegram-locators';
+import type { LeadRadarEvidence } from '../src/shared/lead-radar';
+import { recipientContactChoices } from '../src/shared/lead-radar-recipient-contacts';
+
+test('phone parsing memoization isolates countries, limits, caller mutations and current DNC', () => {
+  const raw = '+998901234567';
+  const expected = assessLeadRadarPhone(raw);
+  const damaged = assessLeadRadarPhone(raw);
+  damaged.e164 = 'changed'; damaged.mobileLookupCandidate = false;
+  assert.deepEqual(assessLeadRadarPhone(raw), expected);
+  const list = extractLeadRadarPhones(raw);
+  list[0].e164 = 'changed'; list.push({ ...expected });
+  assert.deepEqual(extractLeadRadarPhones(raw), [expected]);
+  const pair = `${raw}, +998931234567`;
+  assert.equal(extractLeadRadarPhones(pair, 'UZ', 1).length, 1);
+  assert.equal(extractLeadRadarPhones(pair, 'UZ', 2).length, 2);
+  assert.equal(extractLeadRadarPhones(raw, 'UZ', 0).length, 0);
+  assert.equal(assessLeadRadarPhone('901234567', 'UZ').e164, raw);
+  assert.notEqual(assessLeadRadarPhone('901234567', 'US').e164, raw);
+  const lead = { phone: raw, country: 'UZ', telegramUrl: null, telegramContact: null };
+  assert.equal(recipientContactChoices(lead).selectable, true);
+  assert.equal(recipientContactChoices({ ...lead, suppressed: true }).selectable, false);
+  assert.equal(recipientContactChoices({ ...lead, lifecycle: 'do_not_contact' }).selectable, false);
+});
+
+function mappedBusiness() {
+  const sourceUrl='https://www.openstreetmap.org/node/123456';
+  const evidence = [
+    ['name','company.name','Example Clinic',0.82,'fact'],
+    ['place','locations.coordinates','41.300000,69.200000',0.9,'fact'],
+    ['category','company.category','dentist',0.78,'fact'],
+    ['phone','company_contacts.phone','+998901234567',0.74,'company_data'],
+  ].map(([id,fieldPath,value,confidence,classification]) => ({id,fieldPath,value,confidence,classification,
+    sourceUrl,sourceType:'openstreetmap',observedAt:'2026-03-07T19:11:44.000Z'})) as LeadRadarEvidence[];
+  return {name:'Example Clinic',address:null,phone:'+998901234567',country:'UZ',evidence,telegramContact:null,suppressed:false};
+}
+
+test('a mapped business mobile without a website enters checks, not automatic sending', () => {
+  const candidates=contactCandidatesForLead(mappedBusiness());
+  assert.equal(candidates[0].lookupEligible,true);
+  assert.equal(candidates[0].ownership,'company');
+  assert.equal(candidates[0].resolution,undefined);
+  assert.deepEqual(candidates[0].evidenceIds.sort(),['category','name','phone','place']);
+});
+
+test('weaker duplicate enrichment cannot hide a proved mobile; personal evidence remains restrictive',()=>{
+  const good=contactCandidatesForLead(mappedBusiness())[0];
+  const weak={...good,ownership:'unconfirmed' as const,lookupEligible:false};
+  for(const values of [[good,weak],[weak,good]])assert.deepEqual(mergeContactCandidates(values),[good]);
+  const personal={...good,ownership:'personal' as const,lookupEligible:false};
+  for(const values of [[good,personal],[personal,good]])assert.deepEqual(mergeContactCandidates(values),[personal]);
+});
+
+test('mapped phones require a coherent named business record, not a loose number or personal listing', () => {
+  for (const mutate of [
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.name='Another Clinic';},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence=lead.evidence.filter(e=>e.id!=='place');},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.find(e=>e.id==='phone')!.sourceUrl='https://www.openstreetmap.org/node/999';},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.forEach(e=>{e.sourceUrl='https://openstreetmap.org.evil.test/node/123456';});},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.find(e=>e.id==='phone')!.classification='model_inference';},
+    (lead:ReturnType<typeof mappedBusiness>)=>{lead.evidence.find(e=>e.id==='category')!.value='residential';},
+  ]) {
+    const lead=mappedBusiness();mutate(lead);
+    assert.equal(contactCandidatesForLead(lead).some(c=>c.lookupEligible),false);
+  }
+});
 
 test('published plain usernames and bare links are found without generating handles from names or emails', () => {
   const html = '<p>Записаться в Telegram: @clinic_booking</p><p>t.me/clinic_other</p>'
@@ -37,6 +102,33 @@ test('an extension and vendor footer never become mobile lookup targets', () => 
   const contacts = contactCandidatesForLead({ ...facts, phone: '+998901234567 ext. 42', country: 'UZ', suppressed: false });
   assert.equal(contacts[0]?.reason, 'extension');
   assert.equal(contacts[0]?.lookupEligible, false);
+});
+
+test('an explicit Telegram lead-in labels only the immediately following icon, as on Smalto contacts', () => {
+  const facts = extractOfficialSiteContacts(new URL('https://clinic.example/contacts'),
+    '<p><span style="font-size:12pt;">Если Вы не смогли дозвониться до нас, напишите нам в Telegram:</span></p>'
+    + '<div style="left:35px;top:774px;"><a href="https://t.me/clinic_booking"><img alt="Telegram" src="/tg.svg" /></a>'
+    + '<a href="https://t.me/second_unknown">Telegram</a></div>');
+  assert.equal(facts.telegramContacts.find(c => c.username === 'clinic_booking')?.type, 'business');
+  assert.equal(facts.telegramContacts.find(c => c.username === 'second_unknown')?.type, 'unknown');
+  assert.ok(facts.telegramContacts.every(c => !c.messageable));
+});
+
+test('separate labels preserve negative types and do not leak across links, sections or generic CTAs', () => {
+  for (const [prefix, body, expected] of [
+    ['<p>Напишите нам в Telegram:</p>', 'Личный Telegram', 'human'],
+    ['<p>Напишите нам в Telegram:</p>', 'Наш канал', 'channel'],
+    ['<p>Напишите нам в Telegram:</p>', 'Наш Telegram бот', 'bot'],
+    ['<p>Напишите нам в Telegram:</p>', 'Наша группа', 'group'],
+    ['<p>Website by Agency — напишите нам в Telegram:</p>', 'Telegram', 'unknown'],
+    ['<section><p>Напишите нам в Telegram:</p></section><section>', 'Telegram', 'unknown'],
+    ['<p>Записаться на приём</p>', 'Telegram', 'unknown'],
+    ['<p>Напишите нам в Telegram: <a href="https://t.me/another_clinic">Клиника</a></p>', 'Telegram', 'unknown'],
+  ]) {
+    const facts = extractOfficialSiteContacts(new URL('https://clinic.example/'),
+      `${prefix}<div><a href="https://t.me/target_contact">${body}</a></div>`);
+    assert.equal(facts.telegramContacts.find(c => c.username === 'target_contact')?.type, expected, prefix + body);
+  }
 });
 
 test('directory website discovery requires the exact listing entity, not its footer', () => {
@@ -98,4 +190,44 @@ test('verified website retains multiple phones with fixed lines excluded only fr
   assert.equal(contacts.find((item) => item.phoneType === 'mobile')?.lookupEligible, true);
   assert.equal(contacts.some((item) => item.resolution === 'resolved'), false);
   assert.deepEqual(contactCandidatesForLead({ ...facts, country: 'UZ', suppressed: true }), []);
+});
+
+function phoneCandidate(overrides: Partial<LeadRadarContactCandidate> = {}): LeadRadarContactCandidate {
+  return {
+    key: 'phone:+998901234567', kind: 'phone', value: '+998901234567', phoneType: 'mobile',
+    ownership: 'company', lookupEligible: true, reason: 'mobile_unverified',
+    sourceUrl: 'https://clinic.example', evidenceIds: ['e1'], observedAt: null,
+    ...overrides,
+  };
+}
+
+test('merge keeps the higher tier and never unions evidence across candidates', () => {
+  const company = phoneCandidate();
+  const unconfirmed = phoneCandidate({ ownership: 'unconfirmed', lookupEligible: false, evidenceIds: ['e2', 'e3'] });
+  const merged = mergeContactCandidates([company, unconfirmed]);
+  assert.equal(merged.length, 1);
+  assert.equal(merged[0].ownership, 'company');
+  // Evidence ids must stay attached to the row that produced them: a candidate
+  // referencing evidence absent from the lead is dropped by the capability check.
+  assert.deepEqual(merged[0].evidenceIds, ['e1']);
+});
+
+test('merge breaks an equal-tier tie in favour of the better-evidenced phone', () => {
+  const oneSource = phoneCandidate({ evidenceIds: ['e1'] });
+  const twoSources = phoneCandidate({ evidenceIds: ['e2', 'e3'], sourceUrl: 'https://top.uz/company/x' });
+  const forward = mergeContactCandidates([oneSource, twoSources]);
+  assert.equal(forward.length, 1);
+  assert.deepEqual(forward[0].evidenceIds, ['e2', 'e3']);
+
+  // Order must not decide the winner.
+  const backward = mergeContactCandidates([twoSources, oneSource]);
+  assert.deepEqual(backward[0].evidenceIds, ['e2', 'e3']);
+});
+
+test('merge keeps distinct phone keys separate and bounded', () => {
+  const rows = Array.from({ length: 60 }, (_unused, index) => phoneCandidate({
+    key: `phone:+9989012345${String(index).padStart(2, '0')}`,
+    value: `+9989012345${String(index).padStart(2, '0')}`,
+  }));
+  assert.equal(mergeContactCandidates(rows).length, 40);
 });

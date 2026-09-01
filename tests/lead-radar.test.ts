@@ -265,6 +265,15 @@ test('company website extraction keeps safe generic contacts and evidence-backed
   assert.equal(facts.evidence.some((item) => item.value.includes('ivan@')), false);
 });
 
+test('OSM collection time is distinct from an old map edit and never verifies Telegram',()=>{
+  const collectedAt='2026-08-30T12:00:00.000Z';
+  const item=candidateFromOsmElement({type:'node',id:42,timestamp:'2018-07-03T05:51:29Z',
+    tags:{name:'Example Clinic',amenity:'dentist',phone:'+998901234567',telegram:'@example_clinic'}},SEARCH_INPUT,'Клиника',collectedAt)!;
+  assert.ok(item.evidence.every(e=>e.observedAt===collectedAt));
+  assert.equal(item.evidence.find(e=>e.fieldPath==='source.osm.last_edited_at')?.value,'2018-07-03T05:51:29.000Z');
+  assert.equal(item.telegramContact?.messageable,false);assert.equal(item.telegramUrl,null);
+});
+
 test('OpenStreetMap website and Telegram remain unverified candidates', () => {
   const candidate = candidateFromOsmElement({
     type: 'node',
@@ -1084,13 +1093,14 @@ test('async enrichment keeps partial leads through bounded retry and terminal fa
   assert.equal(result?.leads.length, 1);
   assert.equal(result?.leads[0]?.enrichmentStatus, 'queued');
 
-  const secondAt = new Date(start.getTime() + 46_000);
+  // Transient source failures back off 15 minutes, then 1 hour, inside the job.
+  const secondAt = new Date(start.getTime() + 15 * 60_000 + 1_000);
   const second = await consumeLeadRadarQueueMessage(db, enrichmentMessage, queue, {
     now: () => secondAt,
     enrichWebsite: unavailable,
   });
   assert.equal(second.outcome, 'retry_wait');
-  const thirdAt = new Date(secondAt.getTime() + 91_000);
+  const thirdAt = new Date(secondAt.getTime() + 60 * 60_000 + 1_000);
   const third = await consumeLeadRadarQueueMessage(db, enrichmentMessage, queue, {
     now: () => thirdAt,
     enrichWebsite: unavailable,

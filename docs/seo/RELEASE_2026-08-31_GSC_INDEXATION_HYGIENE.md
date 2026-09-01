@@ -1,7 +1,7 @@
 # GPTBot.uz — GSC indexation hygiene release
 
-Date: 2026-08-31  
-Base production: `e81f65e6c4757f77ed2991ef12b599d956185e55`  
+Date: 2026-08-31
+Base production: `e81f65e6c4757f77ed2991ef12b599d956185e55`
 Scope: historical alternate-canonical, 404 and redirect-source cleanup.
 
 ## Evidence

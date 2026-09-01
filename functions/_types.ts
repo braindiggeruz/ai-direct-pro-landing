@@ -23,6 +23,11 @@
 import type { FirecrawlEnvironment } from './platform/lead-radar/firecrawl-client';
 
 export interface Env extends FirecrawlEnvironment {
+  // Bunzy publishes and retracts public articles through a signed webhook.
+  // The HMAC secret is a Cloudflare secret_text binding; never place it in
+  // wrangler.toml. Locale is public configuration and defaults to Russian.
+  BUNZY_WEBHOOK_SECRET?: string;
+  BUNZY_DEFAULT_LOCALE?: string;
   GITHUB_TOKEN: string;
   GITHUB_OWNER: string;
   GITHUB_REPO: string;
@@ -67,8 +72,9 @@ export interface Env extends FirecrawlEnvironment {
   // and do-not-contact enforcement never depend on any of these switches.
   LEAD_RADAR_ADMISSION_ENABLED?: string;
   LEAD_RADAR_PROCESSING_ENABLED?: string;
-  LEAD_RADAR_CONTACT_ENABLED?: string;
+  // Separate acquisition-only collector; disabled until schema and scoped worker are provisioned.
   LEAD_RADAR_CRAWLER_ENABLED?: string;
+  LEAD_RADAR_CONTACT_ENABLED?: string;
   // Corporate Telegram discovery is safe in research mode and is deliberately
   // independent from the legal/personal-data gate above. Campaign outreach is
   // a separate, stricter switch and remains fail-closed until the dedicated

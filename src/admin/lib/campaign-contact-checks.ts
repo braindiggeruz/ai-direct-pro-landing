@@ -1,17 +1,94 @@
 import type { LeadRadarLead } from '../../shared/lead-radar';
-import { validTelegramContactResolution, type TelegramContactResolution } from '../../shared/lead-radar-contact-resolution';
+import { isBusinessListingUnavailable, validTelegramContactResolution, type TelegramContactResolution } from '../../shared/lead-radar-contact-resolution';
 
-export interface ContactCheckJob { companyId: string; searchId: string; candidateKeys: string[] }
-export interface ContactCheckProgress { completed: string[]; resolved: string[]; pausedUntil: number; reason: string | null }
+export interface ContactCheckJob { companyId: string; searchId: string; candidateKeys: string[]; sourceByCandidate?: Record<string,'openstreetmap'> }
+export interface ContactCheckProgress { completed: string[]; resolved: string[]; pausedUntil: number; reason: string | null;
+  outcomes?: Record<string,{reason:string;status:TelegramContactResolution['status']}>;
+  checkedKeys?: Record<string,string[]>;
+  sourcePauses?: { openstreetmap?: { until:number; reason:string } };
+}
 export const emptyContactCheckProgress = (): ContactCheckProgress => ({ completed: [], resolved: [], pausedUntil: 0, reason: null });
 
-export function selectedContactCheckJobs(leads: readonly LeadRadarLead[], excluded: readonly string[] = []): ContactCheckJob[] {
+export interface ContactSourceRetry { deadline: number; remainingAttempts: number }
+/** Tab-local opt-in continuation. Never retries Telegram/account failures or advances a source deadline. */
+export function planContactSourceRetry(progress: ContactCheckProgress, attempts: number, now = Date.now()): ContactSourceRetry | null {
+  const pause = progress.sourcePauses?.openstreetmap;
+  if (progress.reason !== 'source_checks_deferred' || progress.pausedUntil > now || !pause
+    || !isBusinessListingUnavailable(pause.reason) || !Number.isSafeInteger(pause.until) || pause.until <= 0
+    || !Number.isInteger(attempts) || attempts <= 0 || attempts > 2) return null;
+  return { deadline: Math.max(now, pause.until), remainingAttempts: attempts - 1 };
+}
+
+export function contactSourceRetryDue(retry: ContactSourceRetry | null, now = Date.now()): boolean {
+  return retry !== null && now >= retry.deadline;
+}
+
+export function scheduleContactSourceRetry(input: {
+  retry: ContactSourceRetry; ready: () => boolean; tick: (now: number) => void; resume: (attempts: number) => void;
+  interval: (callback: () => void, ms: number) => number; clear: (timer: number) => void; now?: () => number;
+}): () => void {
+  let active = true;
+  const stop = () => { active = false; input.clear(timer); };
+  const timer = input.interval(() => {
+    if (!active) return;
+    const now = (input.now ?? Date.now)(); input.tick(now);
+    if (!input.ready() || !contactSourceRetryDue(input.retry, now)) return;
+    stop(); input.resume(input.retry.remainingAttempts);
+  }, 1000);
+  return stop;
+}
+
+/** Restart user-requested freshness checks, never the account's cooldown. */
+export const restartContactCheckProgress = (progress: ContactCheckProgress): ContactCheckProgress => ({
+  ...progress, completed: [], resolved: [], ...(progress.outcomes?{outcomes:{}}:{}), ...(progress.checkedKeys?{checkedKeys:{}}:{}),
+});
+
+export function contactCheckCompleted(job: ContactCheckJob, progress: ContactCheckProgress): boolean {
+  const checked=progress.checkedKeys?.[job.companyId];
+  return progress.completed.includes(job.companyId) && (!checked || job.candidateKeys.every(key=>checked.includes(key)));
+}
+
+export function contactCheckExplanation(lead: LeadRadarLead | undefined, progress: ContactCheckProgress): string | null {
+  if (!lead) return null;
+  const job=selectedContactCheckJobs([lead])[0];
+  if (job && !contactCheckCompleted(job,progress) && job.candidateKeys.some(key=>job.sourceByCandidate?.[key]==='openstreetmap')
+    && (progress.sourcePauses?.openstreetmap?.until??0)>Date.now()) return 'Источник номера временно недоступен. Контакт отложен; другие источники проверяются отдельно';
+  if (job && !contactCheckCompleted(job,progress)) return 'Номер/контакт компании найден — проверка Telegram ещё не завершена';
+  const outcome=progress.outcomes?.[lead.id];
+  if (outcome?.reason==='privacy_or_missing') return 'Telegram не смог найти аккаунт по номеру: его нет или поиск скрыт настройками приватности';
+  if (outcome?.reason==='business_listing_changed') return 'Данные публичной карточки изменились — нужно обновить источник номера';
+  if (outcome?.reason==='corporate_source_required') return 'Источник не подтверждает принадлежность контакта компании. Контакт исключён; остальные проверяются';
+  if (outcome?.reason==='contact_not_found') return 'Карточка больше недоступна. Компания исключена из проверки';
+  if (outcome?.reason==='do_not_contact') return 'Для компании установлен запрет на контакт';
+  if (outcome?.reason==='username_exists_ownership_unconfirmed') return 'Аккаунт существует, но его связь с компанией ещё не подтверждена';
+  if (outcome?.status==='unsupported') return 'Найденный контакт не подходит для отправки через Telegram';
+  if (lead.contactCandidates?.some(c=>c.kind==='phone' && c.phoneType==='mobile' && !c.lookupEligible)) return 'Мобильный номер найден, но источник пока не подтверждает его связь с этой компанией';
+  return null;
+}
+
+function freshMappedProof(lead: LeadRadarLead, evidenceIds: readonly string[], sourceUrl: string, now: number): boolean {
+  if (evidenceIds.length < 4) return false;
+  const proof = evidenceIds.map(id => lead.evidence?.find(item => item.id === id));
+  return proof.every(item => item && item.sourceUrl.replace('https://openstreetmap.org/', 'https://www.openstreetmap.org/').replace(/\/$/, '')
+    === sourceUrl.replace('https://openstreetmap.org/', 'https://www.openstreetmap.org/').replace(/\/$/, '')
+    && Date.parse(item.observedAt) >= now - 30 * 86_400_000 && Date.parse(item.observedAt) <= now + 300_000)
+    && ['company_contacts.phone', 'company.name', 'company.category', 'locations.coordinates'].every(field => proof.some(item => item?.fieldPath === field));
+}
+
+export function selectedContactCheckJobs(leads: readonly LeadRadarLead[], excluded: readonly string[] = [], now = Date.now()): ContactCheckJob[] {
   return [...new Map(leads.filter((lead) => !excluded.includes(lead.id) && !lead.suppressed
     && !['do_not_contact', 'contacted', 'replied', 'qualified', 'meeting', 'won'].includes(lead.lifecycle))
     .map((lead) => [lead.id, { companyId: lead.id, searchId: lead.searchId,
       candidateKeys: [...new Set((lead.contactCandidates ?? []).filter((candidate) => candidate.lookupEligible
         && candidate.ownership !== 'personal' && (candidate.kind !== 'phone' || candidate.ownership === 'company'))
         .map((candidate) => candidate.key))],
+      // Fresh coherent source evidence needs no OSM request. This only controls
+      // scheduling: the server still verifies proof, Telegram and all guards.
+      ...((lead.contactCandidates??[]).some(c=>c.kind==='phone' && /^https:\/\/(www\.)?openstreetmap\.org\/(node|way|relation)\/[1-9]\d*\/?$/.test(c.sourceUrl??'')
+        && !freshMappedProof(lead,c.evidenceIds,c.sourceUrl!,now))
+        ? {sourceByCandidate:Object.fromEntries((lead.contactCandidates??[]).filter(c=>c.kind==='phone'
+          && /^https:\/\/(www\.)?openstreetmap\.org\/(node|way|relation)\/[1-9]\d*\/?$/.test(c.sourceUrl??'')
+          && !freshMappedProof(lead,c.evidenceIds,c.sourceUrl!,now)).map(c=>[c.key,'openstreetmap' as const]))} : {}),
     }])).values()].filter((job) => job.candidateKeys.length > 0);
 }
 
@@ -24,49 +101,106 @@ export async function runSelectedContactChecks(input: {
 }): Promise<ContactCheckProgress> {
   const now = input.now ?? Date.now;
   let progress = { ...input.progress, completed: [...input.progress.completed], resolved: [...input.progress.resolved] };
+  // Older clients treated a source outage as an account-wide cooldown. Retain
+  // that source's deadline while allowing independent sources to proceed.
+  if (isBusinessListingUnavailable(progress.reason??'') && progress.pausedUntil>now()) {
+    progress={...progress,sourcePauses:{...progress.sourcePauses,openstreetmap:{until:Math.max(progress.pausedUntil,
+      progress.sourcePauses?.openstreetmap?.until??0),reason:progress.reason!}},pausedUntil:0,reason:null};
+    input.save(progress);
+  }
   if (progress.pausedUntil > now()) return progress;
-  progress.reason = null;
+  progress.reason = null; progress.pausedUntil=0;
+  let deferred=false;
   for (const job of input.jobs) {
-    if (progress.completed.includes(job.companyId)) continue;
+    if (contactCheckCompleted(job,progress)) continue;
     let resolved = false;
+    let lastResult: TelegramContactResolution | undefined;
+    let jobDeferred=false;
+    let companyRejected=false;
     for (const key of job.candidateKeys) {
+      const source=job.sourceByCandidate?.[key];
+      if (source && (progress.sourcePauses?.[source]?.until??0)>now()) {jobDeferred=true;continue;}
       const deadline = now() + 130_000;
       for (;;) {
         if (input.cancelled()) return progress;
         const result = await input.resolve(job, key);
         if (!validTelegramContactResolution(result)) throw new Error('invalid_contact_check_response');
+        lastResult=result;
         if (input.cancelled()) return progress;
+        if (isBusinessListingUnavailable(result.reason) && ['limited','failed'].includes(result.status)) {
+          // This reason is emitted only by the OSM source check, never Telegram.
+          progress={...progress,sourcePauses:{...progress.sourcePauses,openstreetmap:{
+            until:now()+(result.retryAfterSeconds??900)*1000,reason:result.reason}},
+            outcomes:{...progress.outcomes,[job.companyId]:{status:result.status,reason:result.reason}}};
+          jobDeferred=true;input.save(progress);await input.wait(3_000);break;
+        }
+        // These are definitive recipient/source rejections, not Bridge/account
+        // failures. Never admit the rejected contact, but don't block unrelated
+        // companies. An explicit server retry deadline always remains binding.
+        if (result.status==='failed' && result.retryAfterSeconds===null
+          && ['corporate_source_required','contact_not_found','do_not_contact'].includes(result.reason)) {
+          companyRejected=result.reason!=='corporate_source_required';
+          if(companyRejected)jobDeferred=false;
+          await input.wait(3_000);break;
+        }
         if (result.status === 'limited' || result.status === 'failed' || result.reason === 'check_expired') {
           progress = { ...progress, pausedUntil: now() + (result.retryAfterSeconds ?? 60) * 1000, reason: result.reason };
           input.save(progress); return progress;
         }
         // A three-second interval also separates successful candidates/companies.
         await input.wait(3_000);
-        if (result.status !== 'pending') { resolved = result.status === 'resolved'; break; }
+        if (result.status !== 'pending') {
+          // A real username without company ownership is not our successful
+          // endpoint. Continue to the next candidate just like the Worker does.
+          resolved = result.status === 'resolved' && result.reason !== 'username_exists_ownership_unconfirmed';
+          break;
+        }
         if (now() >= deadline) {
           progress = { ...progress, reason: 'waiting_for_bridge' }; input.save(progress); return progress;
         }
       }
-      if (resolved) break;
+      if (resolved || companyRejected) break;
     }
-    progress = { ...progress, completed: [...progress.completed, job.companyId],
-      resolved: resolved ? [...progress.resolved, job.companyId] : progress.resolved };
+    if (jobDeferred && !resolved) {deferred=true;continue;}
+    progress = { ...progress, completed: [...new Set([...progress.completed, job.companyId])],
+      resolved: resolved ? [...new Set([...progress.resolved, job.companyId])] : progress.resolved.filter(id=>id!==job.companyId),
+      checkedKeys:{...progress.checkedKeys,[job.companyId]:[...job.candidateKeys]},
+      ...(lastResult?{outcomes:{...progress.outcomes,[job.companyId]:{reason:lastResult.reason,status:lastResult.status}}}:{}),
+    };
     input.save(progress);
   }
+  if(deferred){progress={...progress,reason:'source_checks_deferred'};input.save(progress);}
   return progress;
 }
 
-const storageKey = (scope: string) => `lead-radar:contact-checks:v1:${scope}`;
+const storageKey = (scope: string) => `lead-radar:contact-checks:v2:${scope}`;
 export function saveContactCheckProgress(scope: string, progress: ContactCheckProgress): void {
   try { sessionStorage.setItem(storageKey(scope), JSON.stringify({ progress, expires: Date.now() + 86_400_000 })); } catch { /* Optional tab-local recovery. */ }
 }
 export function readContactCheckProgress(scope: string): ContactCheckProgress {
   try {
-    const data = JSON.parse(sessionStorage.getItem(storageKey(scope)) ?? 'null');
+    const stored=sessionStorage.getItem(storageKey(scope));
+    const data = JSON.parse(stored ?? sessionStorage.getItem(`lead-radar:contact-checks:v1:${scope}`) ?? 'null');
     const p = data?.progress;
     const ids = (v: unknown): v is string[] => Array.isArray(v) && v.length <= 500 && v.every((id) => typeof id === 'string' && /^[A-Za-z0-9:_-]{1,80}$/.test(id));
     if (data?.expires > Date.now() && ids(p?.completed) && ids(p?.resolved) && Number.isFinite(p.pausedUntil)
-      && (p.reason === null || typeof p.reason === 'string' && /^[a-z_]{1,80}$/.test(p.reason))) return p;
+      && (p.reason === null || typeof p.reason === 'string' && /^[a-z_]{1,80}$/.test(p.reason))) {
+      const outcomes=p.outcomes && typeof p.outcomes==='object' && !Array.isArray(p.outcomes)
+        ? Object.entries(p.outcomes).slice(0,500).filter(([id,value])=>ids([id]) && value && typeof value==='object'
+          && /^[a-z][a-z0-9_]{2,79}$/.test(String((value as {reason?:unknown}).reason))
+          && ['pending','resolved','unresolved','unsupported','limited','failed'].includes(String((value as {status?:unknown}).status))) : [];
+      const checkedKeys=p.checkedKeys && typeof p.checkedKeys==='object' && !Array.isArray(p.checkedKeys)
+        ? Object.entries(p.checkedKeys).slice(0,500).filter(([id,keys])=>ids([id]) && Array.isArray(keys) && keys.length<=40
+          && keys.every(key=>typeof key==='string' && key.length<=450)) : [];
+      // Legacy progress did not record which candidates were checked. Recheck
+      // through server receipts, retaining cooldown, without discarding drafts.
+      const pause=p.sourcePauses?.openstreetmap;
+      const sourcePauses=pause && Number.isSafeInteger(pause.until) && pause.until>0 && isBusinessListingUnavailable(pause.reason)
+        ? {openstreetmap:{until:pause.until as number,reason:pause.reason as string}} : undefined;
+      return {completed:stored?p.completed:[],resolved:stored?p.resolved:[],pausedUntil:p.pausedUntil,reason:p.reason,...(sourcePauses?{sourcePauses}:{}),
+        outcomes:Object.fromEntries(outcomes.map(([id,value])=>[id,{reason:(value as {reason:string}).reason,status:(value as {status:TelegramContactResolution['status']}).status}])),
+        checkedKeys:Object.fromEntries(checkedKeys.map(([id,keys])=>[id,keys as string[]]))};
+    }
   } catch { /* Local metadata is untrusted, server receipts remain authoritative. */ }
   return emptyContactCheckProgress();
 }

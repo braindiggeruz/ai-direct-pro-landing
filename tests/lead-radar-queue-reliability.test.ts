@@ -223,6 +223,18 @@ test('unavailable Bridge waits durably then requires attention instead of comple
   at=new Date(at.getTime()+31*60_000);
   await enqueueDueLeadRadarJobs(db,queue,at);
   for(let i=0;i<3;i++){const message=queue.messages.shift();if(message)await consumeLeadRadarQueueMessage(db,message,queue,deps);}
+  // Regeneration (audit-2026-08-30 QR-1): an expired wait window returns the
+  // job to the queue on the same idempotency row instead of dead-lettering the
+  // company while its check is still performable.
+  assert.equal(fixture.value("SELECT status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'queued');
+  assert.equal(fixture.value("SELECT attempt_count FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),0);
+  assert.equal(fixture.value("SELECT last_error_code FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'waiting_for_account');
+  assert.equal(fixture.value("SELECT COUNT(*) FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),1);
+  assert.equal(fixture.value("SELECT enrichment_reason FROM lead_radar_companies"),'no_website');
+  // The whole-job lifetime bound still ends in a visible terminal trace.
+  at=new Date(at.getTime()+49*60*60_000);
+  await enqueueDueLeadRadarJobs(db,queue,at);
+  for(let i=0;i<3;i++){const message=queue.messages.shift();if(message)await consumeLeadRadarQueueMessage(db,message,queue,deps);}
   assert.equal(fixture.value("SELECT status FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'dead_letter');
   assert.equal(fixture.value("SELECT last_error_code FROM lead_radar_jobs WHERE idempotency_key LIKE 'contact-resolve:%'"),'waiting_for_account');
 });
@@ -318,11 +330,17 @@ test('provider capacity waits preserve failure attempts, but stop deferring afte
   assert.equal((await store.getJob(child.id))?.dispatchStatus, 'pending');
   assert.equal((await store.getJob(child.id))?.attemptCount, 0);
   at = new Date(start.getTime() + 31 * 60_000);
+  // Once the defer window closes, transient source failures back off
+  // 15 minutes, then 1 hour, inside the job before going terminal.
+  const transientBackoffMs = [15 * 60_000 + 1_000, 60 * 60_000 + 1_000, 0];
   for (let attempt = 1; attempt <= 3; attempt++) {
     const outcome = await consumeLeadRadarQueueMessage(db, envelope, queue, deps);
     assert.equal((await store.getJob(child.id))?.attemptCount, attempt);
     assert.equal(outcome.outcome, attempt === 3 ? 'dead_letter' : 'retry_wait');
-    at = new Date(at.getTime() + 200_000);
+    if (attempt < 3 && outcome.outcome === 'retry_wait') {
+      assert.equal(outcome.delaySeconds, [15 * 60, 60 * 60][attempt - 1]);
+    }
+    at = new Date(at.getTime() + transientBackoffMs[attempt - 1]);
   }
   const terminal = await store.getJob(child.id);
   assert.equal(await store.retryJob('org-a', child.id, 'stale-owner', 'source_timeout',
@@ -977,4 +995,107 @@ test('pool initialization reports candidates dropped by the byte budget', async 
   assert.ok(kept > 0 && kept < 250, `kept=${kept}`);
   assert.equal(dropped, 250 - kept);
   assert.equal(Number(fixture.value('SELECT candidate_count FROM lead_radar_candidate_pools')), kept);
+});
+
+test('a budget-parked contact job does not block pool resume after a time limit', async () => {
+  const fixture = contactPoolDatabase();
+  const store = new LeadRadarStore(fixture.asD1());
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  const now = at.toISOString();
+  const searchId = await store.createSearch('org-a', CONTACT_POOL_INPUT, now);
+  const leadId = await store.insertLead('org-a', searchId, storedLead('parked-budget-company', null));
+  assert.ok(leadId);
+  const initial = await store.createJob('org-a', searchId, null, 'discovery', `contact-pool:${searchId}:0`, now);
+  fixture.sqlite.prepare("UPDATE lead_radar_jobs SET status='completed', completed_at=?, updated_at=? WHERE id=?").run(now, now, initial.id);
+  // Prod state (2026-08-28): a domain-budget retry_wait job parked for its
+  // cooldown plus per-company budget dead letters froze the pool "running".
+  const parked = await store.createJob('org-a', searchId, leadId, 'enrichment', `contact-resolve:${searchId}:${leadId}`, now);
+  const parkedUntil = new Date(at.getTime() + 900_000).toISOString();
+  fixture.sqlite.prepare("UPDATE lead_radar_jobs SET status='retry_wait', last_error_code=?, available_at=?, next_dispatch_at=?, updated_at=? WHERE id=?")
+    .run('contact_sources_domain_budget_exhausted', parkedUntil, parkedUntil, now, parked.id);
+  const earlier = await store.createJob('org-a', searchId, leadId, 'enrichment', `contact-resolve:${searchId}:${leadId}:earlier`, now);
+  fixture.sqlite.prepare("UPDATE lead_radar_jobs SET status='dead_letter', last_error_code=?, completed_at=?, updated_at=? WHERE id=?")
+    .run('contact_sources_company_budget_exhausted', now, now, earlier.id);
+  fixture.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools
+    (org_id,search_id,candidates_json,candidate_count,cursor,target,stop_reason,created_at,expires_at,updated_at)
+    VALUES ('org-a',?,NULL,127,10,5,'time_limit',?,?,?)`)
+    .run(searchId, new Date(at.getTime() - 2 * 60 * 60_000).toISOString(), new Date(at.getTime() - 60_000).toISOString(), now);
+  await store.refreshSearchFunnel('org-a', searchId, now);
+  assert.equal(fixture.value('SELECT resume_count FROM lead_radar_candidate_pools'), 1);
+  assert.equal(
+    fixture.value('SELECT status FROM lead_radar_jobs WHERE idempotency_key=?', `contact-pool:${searchId}:resume:1`),
+    'queued',
+  );
+  assert.equal(
+    fixture.value('SELECT status FROM lead_radar_jobs WHERE id=?', parked.id),
+    'retry_wait',
+    'the parked budget job waits out its cooldown untouched',
+  );
+  const summary = await store.getSearch('org-a', searchId);
+  assert.equal(summary?.search.status, 'running');
+  assert.equal(summary?.search.phase, 'discovering');
+});
+
+test('transient source_unavailable backs off 15m then 1h and only the third failure goes terminal', async () => {
+  const fixture = database();
+  const db = fixture.asD1();
+  const store = new LeadRadarStore(db);
+  const queue = new RecordingQueue();
+  const start = new Date('2026-08-28T12:00:00.000Z');
+  let at = new Date(start);
+  await enqueueLeadRadarSearch(store, 'org-a', SEARCH_INPUT, queue, start, 'transient-backoff');
+  await consumeLeadRadarQueueMessage(db, queue.messages[0], queue, {
+    now: () => at,
+    discover: async () => ({ candidates: [candidate('https://clinic.example/')], sourceWarnings: [] }),
+  });
+  const child = fixture.rows<{ id: string }>("SELECT id FROM lead_radar_jobs WHERE stage = 'enrichment'")[0];
+  assert.ok(child);
+  const envelope = { schema: 'gptbot.lead-radar.job.v1' as const, job_id: child.id };
+  const deps = {
+    now: () => at,
+    enrichWebsite: async () => ({ facts: null, reason: 'source_unavailable' as const, retryable: true }),
+  };
+  assert.deepEqual(await consumeLeadRadarQueueMessage(db, envelope, queue, deps), {
+    outcome: 'retry_wait', delaySeconds: 15 * 60, retryDelivery: true,
+  });
+  assert.equal(fixture.value('SELECT enrichment_status FROM lead_radar_companies'), 'queued');
+  at = new Date(at.getTime() + 15 * 60_000 + 1_000);
+  assert.deepEqual(await consumeLeadRadarQueueMessage(db, envelope, queue, deps), {
+    outcome: 'retry_wait', delaySeconds: 60 * 60, retryDelivery: true,
+  });
+  at = new Date(at.getTime() + 60 * 60_000 + 1_000);
+  assert.deepEqual(await consumeLeadRadarQueueMessage(db, envelope, queue, deps), {
+    outcome: 'dead_letter', errorCode: 'source_unavailable',
+  });
+  assert.equal(fixture.value('SELECT enrichment_status FROM lead_radar_companies'), 'terminal');
+  assert.equal(fixture.value('SELECT enrichment_reason FROM lead_radar_companies'), 'retry_exhausted');
+});
+
+test('robots_blocked stays an immediate terminal outcome without consuming retries', async () => {
+  const fixture = database();
+  const db = fixture.asD1();
+  const store = new LeadRadarStore(db);
+  const queue = new RecordingQueue();
+  const at = new Date('2026-08-28T12:00:00.000Z');
+  await enqueueLeadRadarSearch(store, 'org-a', SEARCH_INPUT, queue, at, 'robots-regression');
+  await consumeLeadRadarQueueMessage(db, queue.messages[0], queue, {
+    now: () => at,
+    discover: async () => ({ candidates: [candidate('https://clinic.example/')], sourceWarnings: [] }),
+  });
+  const child = fixture.rows<{ id: string }>("SELECT id FROM lead_radar_jobs WHERE stage = 'enrichment'")[0];
+  assert.ok(child);
+  const envelope = { schema: 'gptbot.lead-radar.job.v1' as const, job_id: child.id };
+  const deps = {
+    now: () => at,
+    enrichWebsite: async () => ({ facts: null, reason: 'robots_blocked' as const, retryable: false }),
+  };
+  assert.deepEqual(await consumeLeadRadarQueueMessage(db, envelope, queue, deps), { outcome: 'completed' });
+  assert.equal(fixture.value('SELECT status FROM lead_radar_jobs WHERE id = ?', child.id), 'completed');
+  assert.equal(fixture.value('SELECT enrichment_status FROM lead_radar_companies'), 'terminal');
+  assert.equal(fixture.value('SELECT enrichment_reason FROM lead_radar_companies'), 'robots_blocked');
+  assert.equal(
+    (await consumeLeadRadarQueueMessage(db, envelope, queue, deps)).outcome,
+    'duplicate',
+    'a terminal robots decision is never retried',
+  );
 });

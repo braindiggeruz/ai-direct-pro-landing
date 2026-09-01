@@ -1,7 +1,26 @@
 import type { LeadRadarEvidence, LeadRadarLead } from '../../../src/shared/lead-radar';
 import { assessLeadRadarPhone, extractLeadRadarPhones, parseLeadRadarTelegramLocator, type LeadRadarContactCandidate, type LeadRadarPhoneAssessment } from '../../../src/shared/lead-radar-contacts';
+import { osmBusinessPhoneProof, osmBusinessRecord } from './osm-business-phone';
 
-type ContactLead = Pick<LeadRadarLead, 'phone' | 'country' | 'evidence' | 'telegramContact' | 'suppressed'>;
+type ContactLead = Pick<LeadRadarLead, 'phone' | 'country' | 'evidence' | 'telegramContact' | 'suppressed'>
+  & Partial<Pick<LeadRadarLead,'name'|'address'>>;
+
+export function mergeContactCandidates(candidates: readonly LeadRadarContactCandidate[]): LeadRadarContactCandidate[] {
+  const merged=new Map<string,LeadRadarContactCandidate>();
+  const priority=(c:LeadRadarContactCandidate)=>c.ownership==='personal'?4:c.ownership==='company'?2+Number(c.lookupEligible):0;
+  for(const candidate of candidates) {
+    const previous=merged.get(candidate.key);
+    if (!previous || priority(candidate)>priority(previous)) { merged.set(candidate.key,candidate); continue; }
+    if (priority(candidate)<priority(previous)) continue;
+    // Equal tier: prefer the row backed by more distinct evidence. Two
+    // independent sources agreeing on one number is stronger than either alone.
+    // Evidence ids are deliberately NOT unioned across candidates — a candidate
+    // must reference only evidence that exists on this lead, or the
+    // fail-closed capability check drops it entirely.
+    if (candidate.evidenceIds.length>previous.evidenceIds.length) merged.set(candidate.key,candidate);
+  }
+  return [...merged.values()].slice(0,40);
+}
 
 function sameOrigin(a: string, b: string): boolean {
   try { return new URL(a).origin === new URL(b).origin; } catch { return false; }
@@ -21,16 +40,20 @@ export function contactCandidatesForLead(lead: ContactLead): LeadRadarContactCan
   const candidates = new Map<string, LeadRadarContactCandidate>();
   const addPhone = (phone: LeadRadarPhoneAssessment, evidence?: LeadRadarEvidence) => {
     if (!phone.e164) return;
-    const ownership = evidence && firstParty(evidence, lead.evidence) ? 'company' : 'unconfirmed';
+    const listingProof=evidence ? osmBusinessPhoneProof(lead,evidence) : null;
+    const official=evidence && firstParty(evidence,lead.evidence);
+    const ownership = official || listingProof ? 'company' : 'unconfirmed';
     const key = `phone:${phone.e164}`;
     const existing = candidates.get(key);
     if (existing?.ownership === 'company' && ownership !== 'company') return;
+    const existingListing=Boolean(existing?.sourceUrl && osmBusinessRecord(existing.sourceUrl));
+    if (existing?.ownership==='company' && !existingListing && listingProof && !official) return;
     candidates.set(key, {
       key, kind: 'phone', value: phone.e164, phoneType: phone.type, ownership,
       lookupEligible: ownership === 'company' && phone.mobileLookupCandidate,
       reason: !phone.mobileLookupCandidate ? phone.reason : ownership === 'company' ? 'mobile_unverified' : 'ownership_unconfirmed',
       sourceUrl: evidence?.sourceUrl ?? null,
-      evidenceIds: [...new Set([...(existing?.evidenceIds ?? []), ...(evidence ? [evidence.id] : [])])],
+      evidenceIds: [...new Set([...(official && existingListing ? [] : existing?.evidenceIds ?? []), ...(official && evidence ? [evidence.id] : listingProof?.map(e=>e.id) ?? (evidence ? [evidence.id] : []))])],
       observedAt: evidence?.observedAt ?? null,
     });
   };

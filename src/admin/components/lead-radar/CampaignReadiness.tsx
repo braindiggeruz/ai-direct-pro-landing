@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LeadRadarLead } from '../../../shared/lead-radar';
 import { api } from '../../lib/api';
 import { describeCampaignFailure } from '../../lib/campaign-diagnostics';
-import { readContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, selectedContactCheckJobs } from '../../lib/campaign-contact-checks';
+import { contactCheckCompleted, contactCheckExplanation, planContactSourceRetry, readContactCheckProgress, restartContactCheckProgress, runSelectedContactChecks, saveContactCheckProgress, scheduleContactSourceRetry, selectedContactCheckJobs, type ContactSourceRetry } from '../../lib/campaign-contact-checks';
 import type { LeadRadarCampaignContactBasis, LeadRadarCampaignPreflight } from '../../lib/lead-radar-campaign';
 import { Button } from '../ui';
 
@@ -19,38 +19,67 @@ const REASONS: Record<string, string> = {
   active_campaign_exists: 'Уже есть незавершённая кампания', daily_limit_exhausted: 'Дневной лимит исчерпан',
   account_safety_cooldown: 'Аккаунт ожидает окончания паузы Telegram', account_safety_restricted: 'Аккаунт ограничен Telegram',
   account_safety_review_required: 'Требуется сверка предыдущей доставки',
+  business_listing_unavailable: 'Источник номера временно недоступен; проверка сохранена, повторите позже',
+  business_listing_rate_limited: 'OpenStreetMap временно ограничил запросы (429); это не отказ Telegram',
+  business_listing_changed: 'В публичной карточке изменились данные компании или номер',
+  source_checks_deferred: 'Недоступный источник отложен. Остальные доступные контакты проверены; отложенные не допущены к отправке',
 };
 
-export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCheck, disabled, revision, onUpdated, onSnapshot, onSelectReady }: {
+export interface CampaignReadinessHandle { prepare: () => Promise<LeadRadarCampaignPreflight | null>; cancel: () => void }
+
+export const CampaignReadiness = forwardRef<CampaignReadinessHandle, {
   scope: string; leads: LeadRadarLead[]; excludedIds?: string[]; basis: LeadRadarCampaignContactBasis | '';
   canCheck: boolean; disabled: boolean; revision: number; onUpdated?: () => void;
   onSnapshot: (snapshot: LeadRadarCampaignPreflight | null) => void;
   onSelectReady: (ids: string[]) => void;
-}) {
+}>(function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCheck, disabled, revision, onUpdated, onSnapshot, onSelectReady }, ref) {
   const jobs = useMemo(() => selectedContactCheckJobs(leads, excludedIds), [leads, excludedIds]);
   const [progress, setProgress] = useState(() => readContactCheckProgress(scope));
   const [busy, setBusy] = useState<'contacts' | 'snapshot' | null>(null);
   const [snapshot, setSnapshot] = useState<LeadRadarCampaignPreflight | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [sourceRetry, setSourceRetry] = useState<(ContactSourceRetry & { selectionKey: string }) | null>(null);
+  const [clock, setClock] = useState(Date.now);
+  const resumeSourceChecks = useRef<(attempts: number) => void>(() => {});
   const cancel = useRef(false);
   const mounted = useRef(true);
   const busyRef = useRef(false);
   const generation = useRef(0);
   const signature = JSON.stringify([scope, leads.map((lead) => [lead.id, lead.telegramContact?.verifiedAt,
     lead.contactCandidates?.map((candidate) => [candidate.key, candidate.resolution])]), excludedIds, basis, revision]);
+  // Evidence/receipt updates don't change the user's selection or cancel a
+  // scheduled continuation. Changing the audience or candidates always does.
+  const selectionKey = JSON.stringify([scope, jobs.map(job => [job.searchId, job.companyId, job.candidateKeys])]);
   const current = useRef({ onUpdated, onSnapshot, onSelectReady }); current.current = { onUpdated, onSnapshot, onSelectReady };
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; cancel.current = true; }; }, []);
   useEffect(() => { generation.current += 1; cancel.current = true; setSnapshot(null); current.current.onSnapshot(null); }, [signature]);
   useEffect(() => { setProgress(readContactCheckProgress(scope)); }, [scope]);
-  const remaining = jobs.filter((job) => !progress.completed.includes(job.companyId)).length;
+  useEffect(() => {
+    if (!sourceRetry) return;
+    if (sourceRetry.selectionKey !== selectionKey || disabled || !canCheck) { setSourceRetry(null); return; }
+    return scheduleContactSourceRetry({ retry: sourceRetry, ready: () => mounted.current && !busyRef.current,
+      tick: setClock, resume: attempts => { setSourceRetry(null); resumeSourceChecks.current(attempts); },
+      interval: (callback, ms) => window.setInterval(callback, ms), clear: timer => window.clearInterval(timer),
+    });
+  }, [sourceRetry, selectionKey, disabled, canCheck]);
+  const remaining = jobs.filter((job) => !contactCheckCompleted(job,progress)).length;
   async function readSnapshot(version: number): Promise<LeadRadarCampaignPreflight | null> {
     const result: LeadRadarCampaignPreflight = { checkedAt: '', blockers: [], selection: { selected: 0, automatic: 0, manual: 0, excluded: 0, verified: 0, verifiedCompanyIds: [], automaticCompanyIds: [], items: [] } };
     const ids = [...new Set(leads.map((lead) => lead.id))];
     for (let i = 0; i < ids.length; i += 50) {
       const next = await api.leadRadarCampaignPreflight(ids.slice(i, i + 50), basis || null);
-      if (!mounted.current || version !== generation.current) return null;
+      if (!mounted.current || cancel.current || version !== generation.current) return null;
       result.checkedAt = next.checkedAt; result.blockers = [...new Set([...result.blockers, ...next.blockers])];
-      result.limits = next.limits;
+      // Aggregate limits across batches (audit CP-6): the strictest remaining
+      // quota wins, and the latest next-dispatch moment governs the start.
+      result.limits = result.limits && next.limits
+        ? {
+            ...next.limits,
+            remainingToday: Math.min(result.limits.remainingToday, next.limits.remainingToday),
+            nextDispatchAt: [result.limits.nextDispatchAt, next.limits.nextDispatchAt]
+              .filter((value): value is string => Boolean(value)).sort().at(-1) ?? null,
+          }
+        : result.limits ?? next.limits;
       for (const key of ['selected', 'automatic', 'manual', 'excluded', 'verified'] as const) result.selection[key] += next.selection[key];
       result.selection.verifiedCompanyIds.push(...next.selection.verifiedCompanyIds);
       result.selection.automaticCompanyIds.push(...next.selection.automaticCompanyIds);
@@ -70,7 +99,7 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
   }
   async function inspect() {
     if (busyRef.current || !leads.length) return;
-    busyRef.current = true; setBusy('snapshot'); setNotice(null);
+    busyRef.current = true; cancel.current = false; setBusy('snapshot'); setNotice(null);
     const version = generation.current;
     try {
       const result = await readSnapshot(version);
@@ -79,47 +108,99 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
     } catch (error) { if (mounted.current) setNotice(describeCampaignFailure(error, 'Не удалось проверить готовность. Ничего не отправлено.')); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
-  async function checkContacts() {
-    if (busyRef.current || !canCheck) return;
-    busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null); setSnapshot(null); current.current.onSnapshot(null);
+  // One no-send workflow. It never trims the audience or creates authorization.
+  useImperativeHandle(ref, () => ({ cancel: () => { cancel.current = true; setSourceRetry(null); setNotice('Приостанавливаем после текущей проверки. Результаты сохраняются.'); }, prepare: async () => {
+    if (busyRef.current || !leads.length) return null;
+    setSourceRetry(null);
+    busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null);
+    setSnapshot(null); current.current.onSnapshot(null);
     const version = generation.current;
     try {
-      const next = await runSelectedContactChecks({ jobs, progress, cancelled: () => cancel.current || !mounted.current,
+      if (canCheck && remaining > 0) {
+        const next = await runSelectedContactChecks({ jobs, progress,
+          cancelled: () => cancel.current || !mounted.current || version !== generation.current,
+          resolve: (job, key) => api.leadRadarResolveContact(job.searchId, job.companyId, key),
+          wait: (ms) => new Promise((resolve) => window.setTimeout(resolve, ms)),
+          save: (value) => { saveContactCheckProgress(scope, value); if (mounted.current) setProgress(value); },
+        });
+        if (cancel.current || !mounted.current || version !== generation.current) return null;
+        if (next.reason) setNotice(`Проверка контактов приостановлена: ${REASONS[next.reason] ?? next.reason}. Сохранённые результаты учтены; новые сообщения не отправлялись.`);
+      }
+      setBusy('snapshot');
+      const result = await readSnapshot(version);
+      if (result) { setSnapshot(result); current.current.onSnapshot(result); }
+      return result;
+    } catch (error) {
+      if (mounted.current) setNotice(describeCampaignFailure(error, 'Не удалось закончить подготовку. Результаты проверок сохранены; сообщения не отправлялись.'));
+      return null;
+    } finally { busyRef.current = false; if (mounted.current) setBusy(null); }
+  } }));
+  async function checkContacts(recheck = false, autoAttempts = 2) {
+    if (busyRef.current || !canCheck || disabled) return;
+    setSourceRetry(null);
+    busyRef.current = true; cancel.current = false; setBusy('contacts'); setNotice(null); setSnapshot(null); current.current.onSnapshot(null);
+    const version = generation.current;
+    let checksSaved = false;
+    try {
+      const startingProgress = recheck ? restartContactCheckProgress(progress) : progress;
+      if (recheck) { saveContactCheckProgress(scope, startingProgress); setProgress(startingProgress); }
+      const next = await runSelectedContactChecks({ jobs, progress: startingProgress, cancelled: () => cancel.current || !mounted.current || version !== generation.current,
         resolve: (job, key) => api.leadRadarResolveContact(job.searchId, job.companyId, key),
         wait: (ms) => new Promise((resolve) => window.setTimeout(resolve, ms)),
         save: (value) => { saveContactCheckProgress(scope, value); if (mounted.current) setProgress(value); },
       });
-      if (mounted.current) {
-        if (!next.reason && !cancel.current) {
+      checksSaved = true;
+      if (mounted.current && version === generation.current) {
+        if (!cancel.current) {
+          const retry = planContactSourceRetry(next, autoAttempts);
+          if (retry) { setClock(Date.now()); setSourceRetry({ ...retry, selectionKey }); }
+        }
+        if ((!next.reason || next.reason==='source_checks_deferred') && !cancel.current) {
           const strict = await readSnapshot(version);
           if (strict) {
             setSnapshot(strict); current.current.onSnapshot(strict);
-            current.current.onSelectReady?.(strict.selection.verifiedCompanyIds.slice(0, 50));
-            setNotice(`Проверка завершена: оставлены только подтверждённые Telegram-контакты (${Math.min(50, strict.selection.verified)}). Сообщения не отправлялись.`);
+            setNotice(next.reason==='source_checks_deferred'
+              ? `${REASONS[next.sourcePauses?.openstreetmap?.reason ?? ''] ?? REASONS.source_checks_deferred}. Подтверждены Telegram: ${strict.selection.verified}. Уже проверенные компании не теряются.${autoAttempts === 0 ? ' Две автоматические попытки использованы; источник всё ещё недоступен. Позже нажмите «Продолжить проверку».' : ''}`
+              : `Проверка завершена: подтверждены Telegram-контакты (${strict.selection.verified}). Состав аудитории сохранён. Сообщения не отправлялись.`);
           }
         } else setNotice(next.reason ? `Проверка приостановлена: ${REASONS[next.reason] ?? next.reason}.${next.pausedUntil > Date.now() ? ` Повторить не раньше ${new Date(next.pausedUntil).toLocaleTimeString('ru-RU')}.` : ''} Результаты сохранены.`
           : 'Проверка приостановлена. Можно продолжить с сохранённого места.');
         current.current.onUpdated?.();
       }
-    } catch (error) { if (mounted.current) setNotice(describeCampaignFailure(error, 'Проверка прервана. Результаты сохранены; продолжите после восстановления соединения.')); }
+    } catch (error) { if (mounted.current) setNotice(describeCampaignFailure(error, checksSaved
+      ? 'Результаты проверки сохранены. Не удалось обновить итоговую готовность. Нажмите «Показать готовность на сервере» после восстановления соединения; заново проверять контакты не нужно.'
+      : 'Проверка прервана. Результаты сохранены; продолжите после восстановления соединения.')); }
     finally { busyRef.current = false; if (mounted.current) setBusy(null); }
   }
+  useEffect(() => { resumeSourceChecks.current = attempts => { void checkContacts(false, attempts); }; });
   return <section className="mt-4 space-y-3 rounded-xl border border-brand-cyan/20 p-3" aria-label="Проверка выбранных получателей">
     <h4 className="font-semibold text-white">Готовность выбранных контактов</h4>
-    <p className="text-xs leading-5 text-white/70">Проверка Telegram не отправляет сообщения и не создаёт согласие. Стационарные и личные номера не проверяются. Лимиты Telegram и дневной бюджет сохраняются.</p>
+    <p className="text-xs leading-5 text-white/70">Мобильные номера с сайта или подтверждённой публичной карточки компании проверяются в Telegram, даже без username. Старые карточки сверяются заново. Проверка не отправляет сообщения и не создаёт согласие. Стационарные и личные номера исключены; лимиты сохраняются.</p>
     <div className="flex flex-wrap gap-2">
-      <Button type="button" variant="secondary" disabled={disabled || busy === 'snapshot' || (!busy && (!canCheck || !remaining))}
-        onClick={() => { if (busy === 'contacts') { cancel.current = true; setNotice('Останавливаем после текущей проверки…'); } else void checkContacts(); }} className="min-h-12">
-        {busy === 'contacts' ? 'Приостановить проверку' : `Проверить и оставить подтверждённые (${remaining})`}
+      <Button type="button" variant="secondary" disabled={disabled || busy === 'snapshot' || (!busy && !sourceRetry && (!canCheck || !remaining))}
+        onClick={() => {
+          if (sourceRetry) { setSourceRetry(null); setNotice('Автопродолжение остановлено. Результаты сохранены; можно продолжить вручную после окончания паузы источника.'); }
+          else if (busy === 'contacts') { cancel.current = true; setNotice('Останавливаем после текущей проверки…'); }
+          else void checkContacts();
+        }} className="min-h-12">
+        {sourceRetry ? 'Остановить ожидание' : busy === 'contacts' ? 'Приостановить проверку' : `${progress.reason === 'source_checks_deferred' ? 'Продолжить проверку' : 'Проверить контакты'} (${remaining})`}
       </Button>
+      {remaining === 0 && jobs.length > 0 && <Button type="button" variant="secondary" className="min-h-12"
+        disabled={disabled || busy !== null || !canCheck} onClick={() => void checkContacts(true)}>
+        Перепроверить актуальность контактов ({jobs.length})
+      </Button>}
       <Button type="button" variant="secondary" disabled={disabled || busy !== null || !leads.length} onClick={() => void inspect()} className="min-h-12">
         {busy === 'snapshot' ? 'Получаем причины…' : 'Показать готовность на сервере'}
       </Button>
     </div>
-    <p role="status" className="text-xs leading-5 text-white/70">Проверено в этом списке: {jobs.filter((job) => progress.completed.includes(job.companyId)).length}/{jobs.length}. Осталось: {remaining}. После обновления страницы нажмите проверку снова — завершённые компании будут пропущены.</p>
+    <p role="status" className="text-xs leading-5 text-white/70">Проверено в этом списке: {jobs.filter((job) => contactCheckCompleted(job,progress)).length}/{jobs.length}. Осталось: {remaining}. После обновления страницы нажмите проверку снова — завершённые компании будут пропущены.</p>
+    {sourceRetry && <div className="rounded-lg border border-brand-cyan/20 p-3 text-sm text-white/80">
+      <p>Продолжим автоматически в {new Date(sourceRetry.deadline).toLocaleTimeString('ru-RU')} — осталось {Math.max(0, Math.ceil((sourceRetry.deadline - clock) / 1000))} сек.</p>
+      <p className="mt-1 text-xs">Оставьте эту вкладку открытой. Осталось автоматических попыток: {sourceRetry.remainingAttempts + 1}. Проверенные компании пропустим; сообщения не отправляются. Смена аудитории или кнопка остановки отменяет ожидание.</p>
+    </div>}
     {notice && <p role="status" className="text-sm leading-6 text-amber-100">{notice}</p>}
     {snapshot && <div className="space-y-2 text-sm" aria-live="polite">
-      <p>Telegram подтверждён Bridge: <strong>{snapshot.selection.verified}</strong> · Допущены для авто: {snapshot.selection.automatic} · Нужна проверка/основание: {snapshot.selection.manual} · Исключены: {snapshot.selection.excluded}.</p>
+      <p>Telegram подтверждён Bridge: <strong>{snapshot.selection.verified}</strong> · Допущены для авто: {snapshot.selection.automatic} · Нужна проверка/основание: {snapshot.selection.manual} · Пока не допущены: {snapshot.selection.excluded}.</p>
       {snapshot.limits && <p className="text-xs text-white/70">Осталось на текущие UTC-сутки: {snapshot.limits.remainingToday}/{snapshot.limits.dailyLimit}. Интервал: не менее {snapshot.limits.minimumIntervalSeconds} секунд.</p>}
       {snapshot.blockers.length > 0 && <p role="alert" className="text-amber-100">Запуск заблокирован: {snapshot.blockers.map((reason) => REASONS[reason] ?? reason).join('; ')}.</p>}
       {snapshot.selection.verified > 0 && <Button type="button" variant="secondary" className="min-h-12"
@@ -129,9 +210,11 @@ export function CampaignReadiness({ scope, leads, excludedIds = [], basis, canCh
       <p className="text-xs text-white/60">Это снимок проверки, не запуск. Далее загрузите изображение (если нужно), проверьте точный текст и подтвердите кампанию.</p>
       <details><summary className="min-h-11 cursor-pointer py-3">Причины по каждой компании ({snapshot.selection.items.length})</summary>
         <ul className="max-h-64 space-y-2 overflow-y-auto">{snapshot.selection.items.map((item) => <li key={item.companyId} className="rounded-lg border border-white/10 p-2">
-          <strong>{item.name ?? 'Компания недоступна'}</strong>: {REASONS[item.reasonCode] ?? item.reasonCode}
+          <strong>{item.name ?? 'Компания недоступна'}</strong>: {item.reasonCode==='no_verified_corporate_endpoint'
+            ? contactCheckExplanation(leads.find(lead=>lead.id===item.companyId),progress) ?? REASONS[item.reasonCode]
+            : REASONS[item.reasonCode] ?? item.reasonCode}
         </li>)}</ul>
       </details>
     </div>}
   </section>;
-}
+});
