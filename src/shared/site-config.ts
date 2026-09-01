@@ -12,7 +12,6 @@ export const DEFAULT_LOCALE: 'ru' | 'uz' = 'ru';
 export const MONEY_PAGES = {
   ru: [
     '/ru/ai-bot-dlya-biznesa/',
-    '/ru/gpt-bot-dlya-biznesa/',
     '/ru/chat-bot-dlya-biznesa/',
     '/ru/telegram-bot-dlya-biznesa/',
     '/ru/instagram-direct-bot/',
@@ -20,7 +19,6 @@ export const MONEY_PAGES = {
     '/ru/ai-prodavec/',
     '/ru/avtomatizatsiya-zayavok/',
     '/ru/avtomatizatsiya-prodazh/',
-    '/ru/bot-dlya-obrabotki-zayavok/',
     '/ru/ai-bot-dlya-kliniki/',
     '/ru/ai-bot-dlya-salona-krasoty/',
     '/ru/ai-bot-dlya-uchebnogo-tsentra/',
@@ -44,7 +42,6 @@ export const MONEY_PAGES = {
 /** RU <-> UZ slug pairs for hreflang bidirectionality. */
 export const HREFLANG_PAIRS: Array<[string, string]> = [
   ['/ru/ai-bot-dlya-biznesa/', '/uz/biznes-uchun-ai-bot/'],
-  ['/ru/gpt-bot-dlya-biznesa/', '/uz/gpt-bot-biznes-uchun/'],
   ['/ru/telegram-bot-dlya-biznesa/', '/uz/telegram-bot-biznes-uchun/'],
   ['/ru/instagram-direct-bot/', '/uz/instagram-bot-biznes-uchun/'],
   ['/ru/avtomatizatsiya-zayavok/', '/uz/arizalarni-avtomatlashtirish/'],

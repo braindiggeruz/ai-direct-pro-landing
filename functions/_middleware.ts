@@ -61,6 +61,21 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
     return Response.redirect(target, 301);
   }
 
+  // GSC cleanup: the retired WebSite SearchAction generated literal
+  // /ru/blog/?q={search_term_string} crawl URLs even though the blog has no
+  // search-result page. Strip only the obsolete q parameter and retain any
+  // campaign attribution parameters. This turns the historical alternate
+  // canonical into one permanent hop to the real blog index.
+  const isBlogIndex =
+    url.pathname === '/ru/blog/' || url.pathname === '/ru/blog' ||
+    url.pathname === '/uz/blog/' || url.pathname === '/uz/blog';
+  if (isBlogIndex && url.searchParams.has('q')) {
+    url.searchParams.delete('q');
+    const pathname = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
+    const query = url.searchParams.toString();
+    return Response.redirect(`https://gptbot.uz${pathname}${query ? `?${query}` : ``}`, 301);
+  }
+
   const isLoginPage =
     url.pathname === '/admin-tools/login' ||
     url.pathname === '/admin-tools/login/';

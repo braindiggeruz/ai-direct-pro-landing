@@ -9,7 +9,6 @@ import { track } from '../lib/cta';
 
 const SOLUTION_LINKS = [
   { ru: '/ru/ai-bot-dlya-biznesa/', uz: '/uz/biznes-uchun-ai-bot/', ruLabel: 'AI-бот для бизнеса', uzLabel: 'Biznes uchun AI bot' },
-  { ru: '/ru/gpt-bot-dlya-biznesa/', uz: '/uz/gpt-bot-biznes-uchun/', ruLabel: 'GPT-бот', uzLabel: 'GPT-bot' },
   { ru: '/ru/telegram-bot-dlya-biznesa/', uz: '/uz/telegram-bot-biznes-uchun/', ruLabel: 'Telegram-бот', uzLabel: 'Telegram bot' },
   { ru: '/ru/razrabotka-telegram-bota-tashkent/', uz: undefined, ruLabel: 'Разработка Telegram-бота (Ташкент)', uzLabel: 'Telegram bot yaratish (Toshkent)' },
   { ru: '/ru/razrabotka-saytov-tashkent/', uz: undefined, ruLabel: 'Разработка сайтов (Ташкент)', uzLabel: 'Sayt yaratish (Toshkent)' },

@@ -2,10 +2,10 @@
   "version": 1,
   "include": [
     "/api/*",
-    "/webhooks/*",
-    "/ru/blog/*",
-    "/uz/blog/*",
-    "/sitemap.xml",
+    "/ru/blog",
+    "/ru/blog/",
+    "/uz/blog",
+    "/uz/blog/",
     "/admin-tools/*",
     "/admin/*",
     "/robots.txt"
