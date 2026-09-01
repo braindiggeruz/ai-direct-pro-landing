@@ -1,4 +1,5 @@
 import type { Env } from '../functions/_types';
+import { configuredLeadRadarSources } from '../functions/platform/lead-radar/discovery-sources';
 import { createFreeContactAcquisitionDependencies } from '../functions/platform/lead-radar/free-acquisition';
 import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from '../functions/platform/lead-radar/contact-discovery-store';
@@ -676,7 +677,8 @@ export default {
             continue;
           }
           await assertLeadRadarRuntimeSchema(env.GPTBOT_DRAFTS_DB);
-          const knownJob = await new LeadRadarStore(env.GPTBOT_DRAFTS_DB).getJob(leadEnvelope.job_id);
+          const store = new LeadRadarStore(env.GPTBOT_DRAFTS_DB);
+          const knownJob = await store.getJob(leadEnvelope.job_id);
           if (!knownJob || !isLeadRadarOrganizationAllowed(env, knownJob.orgId)) {
             message.ack();
             continue;
@@ -689,6 +691,9 @@ export default {
             {
               personalDataEnabled: isLeadRadarContactEnabled(env),
               ...createContactResolutionQueueDependencies(env, env.GPTBOT_DRAFTS_DB),
+              // Extra catalogs are additive: with no 2GIS key configured the
+              // list is OSM-only and discovery behaves exactly as before.
+              sources: configuredLeadRadarSources(store, env),
               // Acquisition is free-only. The queue's built-in first-party
               // reader handles websites; no paid enrichment dependency is wired.
               ...contactSources,
