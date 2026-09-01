@@ -26,8 +26,21 @@ import type { LeadRadarDiscoveryResult, LeadRadarSource, LeadRadarTelegramContac
 const API_ORIGIN = 'https://catalog.api.2gis.com';
 const API_PATH = '/3.0/items';
 const CLIENT_TIMEOUT_MS = 15_000;
-/** 2GIS caps page_size; asking for more is how you earn a 400. */
-const MAX_PAGE_SIZE = 50;
+/**
+ * Measured against the live API, not read off the docs: the Places API rejects
+ * page_size above 10 with `400 … "Length of parameter 'page_size' should be from
+ * 1 to 10"`. Asking for a page the size the docs suggest used to kill the whole
+ * source — the single request failed and discovery logged `invalid_payload`,
+ * so 2GIS contributed nothing at all. Ten per page is the real ceiling, which
+ * means reaching a useful lead count requires walking pages.
+ */
+const MAX_PAGE_SIZE = 10;
+/**
+ * A hard cap on the subrequest budget. Discovery runs inside a queue consumer
+ * with a finite one, and a catalog source failing soft must never be the reason
+ * a search times out.
+ */
+const MAX_PAGES = 6;
 
 export interface TwoGisEnvironment {
   TWOGIS_API_KEY?: string;
@@ -368,45 +381,83 @@ export class TwoGisLeadSource implements LeadRadarSource {
     }
 
     const circle = boundsToCircle(bounds);
-    const params = new URLSearchParams({
-      q: input.niche,
-      location: `${circle.lon},${circle.lat}`,
-      radius: String(circle.radius),
-      page_size: String(Math.min(MAX_PAGE_SIZE, Math.max(1, input.desiredCount * 2))),
-      fields: 'items.contact_groups,items.contact_groups.contacts,items.address,items.point,items.rubrics,items.name_ex,items.org',
-      key,
-    });
-    const requestUrl = `${API_ORIGIN}${API_PATH}?${params}`;
     // The key lives in that query string. Nothing built from `requestUrl` may
     // ever be persisted or logged; only the parsed items carry forward.
     const redactedUrl = `${API_ORIGIN}${API_PATH}?q=…&location=…&key=***`;
+    const target = Math.max(1, input.desiredCount * 2);
+    const maxPages = Math.min(MAX_PAGES, Math.ceil(target / MAX_PAGE_SIZE));
+    const items: unknown[] = [];
+    const pageWarnings: string[] = [];
+    let pagesFetched = 0;
 
-    let payload: unknown;
-    try {
-      const response = await this.fetchImpl(requestUrl, { signal: AbortSignal.timeout(CLIENT_TIMEOUT_MS) });
-      if (!response.ok) {
-        yieldRecorder.log({ plansRun: ['failed'], reason: `http_${response.status}` });
-        return {
-          candidates: [],
-          sourceWarnings: [`two_gis_http_${response.status}`],
-          sourceYield: yieldRecorder.snapshot(),
-        };
+    for (let page = 1; page <= maxPages; page += 1) {
+      const params = new URLSearchParams({
+        q: input.niche,
+        location: `${circle.lon},${circle.lat}`,
+        radius: String(circle.radius),
+        page: String(page),
+        page_size: String(MAX_PAGE_SIZE),
+        fields: 'items.contact_groups,items.contact_groups.contacts,items.address,items.point,items.rubrics,items.name_ex,items.org',
+        key,
+      });
+      const requestUrl = `${API_ORIGIN}${API_PATH}?${params}`;
+
+      let payload: unknown;
+      try {
+        const response = await this.fetchImpl(requestUrl, { signal: AbortSignal.timeout(CLIENT_TIMEOUT_MS) });
+        if (!response.ok) {
+          // Only the first page is fatal: with nothing to show, the caller
+          // deserves the real status. A later page failing merely shortens the
+          // list, so the source keeps whatever it already collected.
+          if (page === 1) {
+            yieldRecorder.log({ plansRun: ['failed'], reason: `http_${response.status}` });
+            return {
+              candidates: [],
+              sourceWarnings: [`two_gis_http_${response.status}`],
+              sourceYield: yieldRecorder.snapshot(),
+            };
+          }
+          pageWarnings.push(`two_gis_page_${page}_http_${response.status}`);
+          break;
+        }
+        payload = await response.json();
+      } catch (error) {
+        const reason = String(error).includes('abort') ? 'two_gis_timeout' : 'two_gis_unavailable';
+        if (page === 1) {
+          yieldRecorder.log({ plansRun: ['failed'], reason });
+          // Fail soft. The OSM source runs alongside this one and must still be
+          // able to complete the search.
+          return { candidates: [], sourceWarnings: [reason], sourceYield: yieldRecorder.snapshot() };
+        }
+        pageWarnings.push(`two_gis_page_${page}_${reason}`);
+        break;
       }
-      payload = await response.json();
-    } catch (error) {
-      const reason = String(error).includes('abort') ? 'two_gis_timeout' : 'two_gis_unavailable';
-      yieldRecorder.log({ plansRun: ['failed'], reason });
-      // Fail soft. The OSM source runs alongside this one and must still be
-      // able to complete the search.
-      return { candidates: [], sourceWarnings: [reason], sourceYield: yieldRecorder.snapshot() };
+
+      const pageItems = (payload as { result?: { items?: unknown } })?.result?.items;
+      if (!Array.isArray(pageItems)) {
+        if (page === 1) {
+          yieldRecorder.log({ plansRun: ['failed'], reason: 'invalid_payload', url: redactedUrl });
+          return {
+            candidates: [],
+            sourceWarnings: ['two_gis_invalid_payload'],
+            sourceYield: yieldRecorder.snapshot(),
+          };
+        }
+        pageWarnings.push(`two_gis_page_${page}_invalid_payload`);
+        break;
+      }
+      items.push(...pageItems);
+      pagesFetched += 1;
+      // Fewer than a full page means the catalog has nothing more to give.
+      if (pageItems.length < MAX_PAGE_SIZE || items.length >= target) break;
     }
 
-    const items = (payload as { result?: { items?: unknown } })?.result?.items;
-    if (!Array.isArray(items)) {
-      yieldRecorder.log({ plansRun: ['failed'], reason: 'invalid_payload', url: redactedUrl });
+    if (pagesFetched === 0) {
+      // Every page failed before yielding anything.
+      yieldRecorder.log({ plansRun: ['failed'], reason: 'no_pages', url: redactedUrl });
       return {
         candidates: [],
-        sourceWarnings: ['two_gis_invalid_payload'],
+        sourceWarnings: [...pageWarnings, 'two_gis_no_results'],
         sourceYield: yieldRecorder.snapshot(),
       };
     }
@@ -421,7 +472,7 @@ export class TwoGisLeadSource implements LeadRadarSource {
       yieldRecorder.recordCandidate(this.id, candidate);
     }
 
-    const warnings: string[] = [];
+    const warnings: string[] = [...pageWarnings];
     const hasContacts = candidates.some((candidate) => candidate.phone || candidate.website || candidate.telegramContact);
     if (!hasContacts && candidates.length > 0) {
       // The measurable signal that the key lacks the contact_groups permission.

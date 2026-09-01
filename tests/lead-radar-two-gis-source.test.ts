@@ -305,13 +305,78 @@ test('a malformed payload never throws into the search', async () => {
   assert.deepEqual(result.sourceWarnings, ['two_gis_invalid_payload']);
 });
 
-test('page_size stays inside the documented cap', async () => {
+test('page_size never exceeds the cap the live API actually enforces', async () => {
   let requestedUrl = '';
   const source = new TwoGisLeadSource({ TWOGIS_API_KEY: 'k' }, {
     fetchImpl: async (url) => { requestedUrl = url; return response({ result: { items: [] } }); },
   });
   await source.discover(input({ desiredCount: 500 }));
   const size = Number(new URL(requestedUrl).searchParams.get('page_size'));
-  assert.equal(size <= 50, true, `page_size capped, got ${size}`);
+  // Measured against the live API, not read off the docs: it answers 400 with
+  // "Length of parameter 'page_size' should be from 1 to 10". Asking for the
+  // 50 the docs suggest used to fail the single request and kill the source.
+  assert.equal(size <= 10, true, `page_size capped at 10, got ${size}`);
   assert.equal(size > 0, true);
+});
+
+/** A page of distinct branches, so ids never collide across pages. */
+function page(size: number, offset = 0) {
+  return Array.from({ length: size }, (_, index) => branchItem({
+    id: String(70_000_001_000_000_000 + offset + index),
+    name: `Клиника ${offset + index}`,
+  }));
+}
+
+test('ten per page is not a lead list, so pages are walked', async () => {
+  const urls: string[] = [];
+  let call = 0;
+  const source = new TwoGisLeadSource({ TWOGIS_API_KEY: 'k' }, {
+    fetchImpl: async (url) => {
+      urls.push(url);
+      call += 1;
+      // Every page comes back full: the catalog still has more to give.
+      return response({ result: { items: page(10, call * 100) } });
+    },
+    now: () => new Date(NOW),
+  });
+  const result = await source.discover(input({ desiredCount: 25 }));
+  // desiredCount 25 targets 50 rows, so five pages of ten are needed.
+  assert.deepEqual(
+    urls.map((url) => new URL(url).searchParams.get('page')),
+    ['1', '2', '3', '4', '5'],
+  );
+  assert.equal(result.candidates.length, 50, 'a search for 25 should see 50 candidates');
+});
+
+test('a short page ends the walk instead of asking for more', async () => {
+  let calls = 0;
+  const source = new TwoGisLeadSource({ TWOGIS_API_KEY: 'k' }, {
+    fetchImpl: async () => {
+      calls += 1;
+      return response({ result: { items: calls === 1 ? page(10) : page(3, 100) } });
+    },
+    now: () => new Date(NOW),
+  });
+  const result = await source.discover(input({ desiredCount: 25 }));
+  assert.equal(calls, 2, 'a three-item second page ends it');
+  assert.equal(result.candidates.length, 13);
+});
+
+test('a page failing mid-walk keeps what was already collected', async () => {
+  let calls = 0;
+  const source = new TwoGisLeadSource({ TWOGIS_API_KEY: 'k' }, {
+    fetchImpl: async () => {
+      calls += 1;
+      if (calls === 1) return response({ result: { items: page(10) } });
+      return response({ meta: { code: 500 } }, 500);
+    },
+    now: () => new Date(NOW),
+  });
+  const result = await source.discover(input({ desiredCount: 25 }));
+  assert.equal(result.candidates.length, 10, 'the first page survives');
+  assert.ok(
+    result.sourceWarnings.includes('two_gis_page_2_http_500'),
+    `expected a page warning, got ${JSON.stringify(result.sourceWarnings)}`,
+  );
+  assert.equal(calls, 2, 'no retries after a failed page');
 });

@@ -131,7 +131,12 @@ LEAD_RADAR_PROCESSING_ENABLED = "true"
 # Acquisition-only local collector; still requires its exact schema and dedicated
 # registered worker. Never grants Telegram verification or sending permission.
 LEAD_RADAR_CRAWLER_ENABLED = "true"
-LEAD_RADAR_CONTACT_ENABLED = "false"
+# Personal-data switch. Enabled at the owner's decision (2026-09-01): this is
+# the operator's own B2B prospecting tool and the pause was blocking all
+# outreach. It unlocks `messageable`, contact actions and campaign sending.
+# It does NOT relax who may be messaged — the fail-closed ownership and
+# endpoint-type rules below still decide that, and the daily limits still apply.
+LEAD_RADAR_CONTACT_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_TRANSPORT_MODE = "local_bridge"
 # Account pairing is enabled for the owner canary, but all outbound gates remain
