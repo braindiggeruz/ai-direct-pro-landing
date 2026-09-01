@@ -244,6 +244,17 @@
     },
     {
       "type": "linkp",
+      "text": "ChatGPT’ga kirdingiz. Keling, endi biznesingiz uchun {sayt} ochamiz.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Buning uchun {sitebot}, {tg} yoki {lead} sahifalarini ko‘ring.",
       "links": [
         {
@@ -341,6 +352,13 @@
       "locale": "uz",
       "type": "block",
       "priority": 6
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "ChatGPT kirish: O‘zbekistonda login va ochish yo‘li",
@@ -377,6 +395,6 @@
       "note": "Ma’lumotlarni yuborish va maxfiylik bo‘yicha rasmiy tushuntirish."
     }
   ],
-  "updatedAt": "2026-09-01T00:00:00.000Z",
+  "updatedAt": "2026-09-01",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

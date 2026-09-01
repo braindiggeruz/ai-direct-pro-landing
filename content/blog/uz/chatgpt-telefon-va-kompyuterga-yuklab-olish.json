@@ -304,6 +304,17 @@
     },
     {
       "type": "linkp",
+      "text": "Telefon va kompyuterga ChatGPT yuklab olish — biznesingiz uchun sayt ham kerakmi? {sayt}: professional yechim.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Agar maqsad ChatGPT’dan shaxsiy foydalanish emas, balki mijozlarga javob berish bo‘lsa, bu boshqa vazifa: {b2b}. Kanallar, ssenariy va CRM integratsiyasiga qarab narx {narx} jadvalida ko‘rsatilgan.",
       "links": [
         {
@@ -411,6 +422,13 @@
     {
       "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
       "anchor": "ChatGPT’ga qanday kirish mumkin",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
       "locale": "uz",
       "type": "contextual",
       "priority": 2

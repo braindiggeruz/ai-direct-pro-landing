@@ -1,0 +1,298 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash",
+  "url": "/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+  "title": "Veb sayt yaratish O‘zbekistonda: narx, turlar va tanlash — 2026",
+  "description": "Veb sayt yaratish xizmati Toshkentda: landing, korporativ sayt va internet do‘kon. Narxlar, muddatlar va qaysi tur sizga mos — batafsil qo‘llanma.",
+  "h1": "Veb sayt yaratish O‘zbekistonda: narx, turlar va to‘g‘ri tanlash",
+  "topicCluster": "sayt-yaratish",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "veb sayt yaratish",
+    "web sayt yaratish",
+    "sayt yaratish xizmati",
+    "sayt yaratish narxi",
+    "sayt yaratish turlari",
+    "landing page yaratish",
+    "korporativ sayt yaratish",
+    "internet do‘kon yaratish",
+    "sayt yaratish toshkent",
+    "veb sayt narxlari"
+  ],
+  "intro": "Biznes uchun veb sayt yaratish — bugun ehtiyoj, emas ixtiyor. Lekin «sayt kerak» degan fikr bilan boshlanganda, ko‘plab savollar tug‘iladi: qancha turadi, qancha vaqt oladi, qaysi tur kerak, o‘zi qayerdan boshlash kerak? Ushbu qo‘llanmada barcha javoblarni bitta sahifada yig‘dik.",
+  "body": [
+    {
+      "type": "toc",
+      "text": "Mundarija",
+      "links": [
+        {
+          "anchor": "turlari",
+          "label": "Sayt turlari"
+        },
+        {
+          "anchor": "narx",
+          "label": "Narxlar va muddatlar"
+        },
+        {
+          "anchor": "tanlash",
+          "label": "Qaysi tur sizga mos"
+        },
+        {
+          "anchor": "jarayon",
+          "label": "Ish jarayoni"
+        },
+        {
+          "anchor": "xatolar",
+          "label": "Tez-tez uchraydigan xatolar"
+        },
+        {
+          "anchor": "bepul",
+          "label": "Bepul konstruktor yoki buyurtma"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "turlari",
+      "text": "Biznes uchun 3 ta asosiy sayt turi"
+    },
+    {
+      "type": "p",
+      "text": "Sayt turi biznes maqsadiga qarab tanlanadi. Har biri o‘z narxini, muddatini va texnik talablarini o‘z ichiga oladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tur",
+        "Maqsad",
+        "Narx (so‘m)",
+        "Muddat"
+      ],
+      "rows": [
+        [
+          "Landing page",
+          "Bitta mahsulot/xizmatni sotish",
+          "3,5 – 7 mln",
+          "5 – 10 kun"
+        ],
+        [
+          "Korporativ sayt",
+          "Kompaniya haqida, xizmatlar, aloqa",
+          "7 – 15 mln",
+          "10 – 20 kun"
+        ],
+        [
+          "Internet do‘kon",
+          "Onlayn savdo, to‘lov, yetkazib berish",
+          "15 – 35 mln",
+          "20 – 40 kun"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Narxlar taxminiy va loyiha hajmiga bog‘liq. Aniq smeta uchun loyihangizni qisqacha tavsiflang."
+    },
+    {
+      "type": "linkp",
+      "text": "Sayt yaratish kerakmi? {call} yoki {tg}: loyihangizni 15 daqiqada eshitamiz va bepul smeta tayyorlaymiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "narx",
+      "text": "Sayt yaratish narxi nimaga bog‘liq"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sahifalar soni — har bir sahifa alohida dizayn va kontent talab qiladi.",
+        "Funktsiyalar — ariza formasi, onlayn to‘lov, chat, CRM ulash.",
+        "Dizayn murakkabligi — shablon yoki individual dizayn.",
+        "Mobil versiya — har bir sayt avtomatik ravishda telefonga moslashadi, lekin murakkab interfeyslar qo‘shimcha ish talab qiladi.",
+        "SEO va tezlik — sayt Google’da chiqishi uchun texnik sozlamalar kerak."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Eng katta xatolardan biri — narxi oldindan aytib bo‘lmaydi deb o‘ylash. Aslida, agar loyiha aniq tavsiflangan bo‘lsa, smeta 1 kunda tayyor."
+    },
+    {
+      "type": "h2",
+      "id": "tanlash",
+      "text": "Qaysi sayt turini tanlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi savollarga javob bering:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijozlarim saytimdan nima qilishini kutadi? (ko‘rish, ariza qoldirish, sotib olish)",
+        "Bitta xizmatmi yoki 10 tami?",
+        "Onlayn to‘lov kerakmi yoki yetarli ariza formasimi?",
+        "Saytni o‘zim boshqarishim kerakmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar 1 ta xizmat va ariza formasi yetarli bo‘lsa — landing page. Agar kompaniya haqida to‘liq ma’lumot va bir nechta xizmat kerak bo‘lsa — korporativ sayt. Agar mahsulot sotmoqchi bo‘lsangiz — internet do‘kon."
+    },
+    {
+      "type": "h2",
+      "id": "jarayon",
+      "text": "Sayt yaratish jarayoni: 5 bosqich"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Suhbat — biznesingiz, maqsadlar va byudjetni tushunamiz.",
+        "2. Smeta — aniq narx, muddat va hajm yozma ravishda tasdiqlanadi.",
+        "3. Dizayn — sayt maketi tasdiqlanadi, keyin kod yoziladi.",
+        "4. Test — telefon, planshet va kompyuterda tekshiriladi.",
+        "5. Ishga tushirish — domen ulash, hosting sozlash, Google’ga yuborish."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Har bir bosqichda siz bilan kelishib keyingi qadamga o‘tamiz. Tayyor bo‘lmaguncha sayt ochilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Sayt yaratishda tez-tez uchraydigan 5 xato"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bepul konstruktordan boshlab, keyin ko‘chirishga harakat — vaqt va pul yo‘qotiladi.",
+        "Dizayn o‘rniga faqat narxga qarab tanlash — arzon sayt keyin qayta qilinadi.",
+        "Mobil versiyani unutish — 60% mijozlar telefondan kiradi.",
+        "SEOni keyin o‘ylash — sayt ochilgach Google’da ko‘rinmasa, ariza kelmaydi.",
+        "Kontentni kutish — matn va rasmlar oldindan tayyor bo‘lishi kerak."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bepul",
+      "text": "Bepul konstruktor yoki professional buyurtma"
+    },
+    {
+      "type": "p",
+      "text": "Bepul konstruktor (Tilda, Wix) yaxshi, agar sizda vaqt va dizayn ko‘nikmasi bo‘lsa. Lekin o‘zbek tilidagi shablonlar cheklangan, SEO sozlamalari zaif, va keyin ko‘chirish murakkab. Professional sayt yaratish xizmati — barcha texnik ishlar bilan shug‘ullanadi, siz faqat biznesingizga e’tibor qarasangiz bo‘ladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Sayt yaratish kerakmi? {call} yoki {tg}: loyihangizni 15 daqiqada eshitamiz va bepul smeta tayyorlaymiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xulosa",
+      "text": "Xulosa"
+    },
+    {
+      "type": "p",
+      "text": "Veb sayt yaratish — bu narx emas, bu investitsiya. To‘g‘ri tanlangan sayt har kuni yangi mijozlar olib keladi. Noto‘g‘ri tanlangan esa — faqat xarajat. Agar qaysi tur kerakligini bilmasangiz, bepul maslahat oling."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Sayt yaratish qancha vaqt oladi?",
+      "a": "Landing page 5–10 kun, korporativ sayt 10–20 kun, internet do‘kon 20–40 kun. Aniq muddat smetada yoziladi."
+    },
+    {
+      "q": "Sayt yaratish narxi qancha?",
+      "a": "Landing page 3,5–7 mln so‘m, korporativ sayt 7–15 mln, internet do‘kon 15–35 mln. Narx loyiha hajmiga bog‘liq."
+    },
+    {
+      "q": "Bepul sayt yaratish mumkinmi?",
+      "a": "Ha, Tilda yoki Wixda bepul shablon bor. Lekin domen, hosting va professional sozlamalar uchun to‘lov kerak."
+    },
+    {
+      "q": "Sayt telefonda yaxshi ishlaydimi?",
+      "a": "Ha, bizning barcha saytlar mobil qurilmalarga moslashadi. Bu 2026-yilda standart talab."
+    },
+    {
+      "q": "Sayt ochilgandan keyin Google’da chiqadimi?",
+      "a": "Sayt SEO-sozlamalar bilan ochiladi va Google’ga yuboriladi. Birinchi o‘ringa chiqish esa 1–3 oy talab qiladi."
+    }
+  ],
+  "cta": {
+    "label": "Sayt yaratish bo‘yicha bepul maslahat olish",
+    "href": "/uz/sayt-yaratish/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+      "anchor": "sayt yaratish narxi haqida batafsil",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+      "anchor": "bepul sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+      "anchor": "domen va hosting tanlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Veb sayt yaratish O‘zbekistonda: narx, turlar va tanlash — 2026",
+  "ogDescription": "Veb sayt yaratish xizmati Toshkentda: landing, korporativ sayt va internet do‘kon. Narxlar, muddatlar va qaysi tur sizga mos.",
+  "ogImage": "/assets/og/sayt-yaratish-og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+  "hreflangUz": "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot.uz",
+  "datePublished": "2026-09-01",
+  "dateModified": "2026-09-01",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "createdAt": "2026-09-01",
+  "updatedAt": "2026-09-01"
+}

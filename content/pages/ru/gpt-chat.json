@@ -131,6 +131,17 @@
       "text": "Как получать более точные ответы"
     },
     {
+      "type": "linkp",
+      "text": "Вы уже используете Chat GPT. Теперь создайте {sayt} для своего бизнеса в Узбекистане.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        }
+      ]
+    },
+    {
       "type": "list",
       "items": [
         "Сформулируйте одну задачу и ожидаемый результат.",
@@ -237,6 +248,13 @@
       "anchor": "GPTBot Javob в Telegram",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "schemaTypes": [

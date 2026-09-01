@@ -383,6 +383,17 @@
     },
     {
       "type": "linkp",
+      "text": "ChatGPT bilan ishlashni o‘rgandingiz. Endi biznesingiz uchun {sayt} ochishni rejalashtiring.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Mijoz tomonida VPN, ro‘yxatdan o‘tish va til to‘sig‘i bo‘lmasligi kerak bo‘lsa, javob beruvchi tomonni avtomatlashtirish kerak: {tg} yoki {ariza}. Muddat va narx {narx}da qayd etilgan.",
       "links": [
         {
@@ -538,6 +549,13 @@
       "anchor": "mijozlar uchun GPT-bot",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "ChatGPT’ga kirish: O‘zbekistonda VPNsiz qanday ochish",

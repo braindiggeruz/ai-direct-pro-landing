@@ -365,6 +365,17 @@
     },
     {
       "type": "linkp",
+      "text": "AI chat bilan tanishdingiz. {sayt} orqali mijozlaringizga onlayn xizmat ko‘rsating.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Kompaniyalar uchun farq va joriy etish rejasi {business} maqolasida.",
       "links": [
         {
@@ -526,6 +537,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "schemaTypes": [
