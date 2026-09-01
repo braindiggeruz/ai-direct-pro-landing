@@ -1,0 +1,331 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "agentlik-frilanser-yoki-birja-ozbekiston",
+  "url": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+  "title": "Agentlik, frilanser yoki birja: O'zbekistonda kimga buyurtma berish kerak (2026)",
+  "description": "Uchta sxema aniq raqamlar bilan: birja $100–400, frilanser $300–800, agentlik 2–15 mln so'm. Qaysi vazifada birja yaxshiroq, qaysida shartnoma kerak.",
+  "h1": "Agentlik, frilanser yoki birja: O'zbekistonda kimga buyurtma berish kerak",
+  "topicCluster": "tanlash",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "agentlik yoki frilanser",
+    "birja yoki agentlik O'zbekiston",
+    "sayt yaratish kimga buyurtma",
+    "pudratchi tanlash Toshkent",
+    "kwork yoki agentlik",
+    "internet-reklama buyurtma Toshkent"
+  ],
+  "intro": "Uchta sxema raqamlarda, xavflar ro'yxati va qaysi vazifada qaysi variant ob'ektiv yaxshiroq — O'zbekiston bozori uchun.",
+  "body": [
+    {
+      "type": "toc",
+      "text": "Maqolada navigatsiya",
+      "links": [
+        {
+          "anchor": "Qisqa javob",
+          "target": "#javob"
+        },
+        {
+          "anchor": "Uchta sxema raqamlarda",
+          "target": "#solishtirish"
+        },
+        {
+          "anchor": "Har bir variant qayerda sinadi",
+          "target": "#xavf"
+        },
+        {
+          "anchor": "Narx va javobgarlik",
+          "target": "#narx"
+        },
+        {
+          "anchor": "Qayerdan buyurtma berish",
+          "target": "#buyurtma"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javob",
+      "text": "Qisqa javob"
+    },
+    {
+      "type": "p",
+      "text": "O'zbekistonda 2026 yilda uchta ishlaydigan sxema bor: frilans birjasi (kwork, fl.ru, uzwork.uz), xususiy frilanser va agentlik. Birja — arzon kirish va past javobgarlik. Frilanser — o'rtacha narx, lekin bitta odamga bog'liqlik. Agentlik — qimmatroq, lekin shartnoma, jamoa va arizalar uchun javobgarlik. Quyida har bir sxema aniq raqamlar va xavflar bilan."
+    },
+    {
+      "type": "h2",
+      "id": "solishtirish",
+      "text": "Uchta sxema raqamlarda"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko'rsatkich",
+        "Birja (kwork, fl.ru, uzwork)",
+        "Frilanser",
+        "Agentlik"
+      ],
+      "rows": [
+        [
+          "Kirish narxi",
+          "5 000 so'mdan",
+          "$100–500",
+          "2 mln so'mdan"
+        ],
+        [
+          "Sayt narxi (Toshkent)",
+          "$100–400",
+          "$300–800",
+          "2–15 mln so'm"
+        ],
+        [
+          "Reklama yuritish/oy",
+          "$50–200",
+          "$150–350",
+          "$200–600"
+        ],
+        [
+          "Ish boshlanishi",
+          "1–3 kun",
+          "3–10 kun",
+          "1–2 hafta"
+        ],
+        [
+          "Shartnoma",
+          "yo'q",
+          "kamdan-kam",
+          "ha"
+        ],
+        [
+          "Kim javob beradi",
+          "hech kim",
+          "bitta odam",
+          "jamoa"
+        ],
+        [
+          "Kasal/yo'qolish xavfi",
+          "yuqori",
+          "yuqori",
+          "past"
+        ],
+        [
+          "Kod va kirish huquqlari",
+          "bahsli",
+          "bahsli",
+          "shartnomada"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi asosiy farq narxda emas, javobgarlikda. Birja va frilanser bajarilgan ish uchun javob beradi, natija uchun emas. Agentlik arizalar oqimi uchun javob beradi — shu sababli narx farqi mavjud."
+    },
+    {
+      "type": "h2",
+      "id": "xavf",
+      "text": "Har bir variant qayerda sinadi"
+    },
+    {
+      "type": "h3",
+      "text": "Birja: arzon va tez, lekin bo'sh"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arzon ish ko'pincha shablon: tayyor shablon va noyob matnlar yo'q.",
+        "Bajaruvchi tanlovi tasodifiy: birinchi javob bergan odam g'alaba qozonadi.",
+        "Nizolarda platforma vositachilik qiladi, lekin texnik ekspertizasi yo'q.",
+        "Reklama yuritishda hisob-kitobga kirish ko'pincha bajaruvchida qoladi."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Frilanser: munosabatlar ishlaydi, tizim ishlamaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta odam kasal bo'lsa yoki yo'qolsa — loyiha to'xtaydi.",
+        "Kod va kirish huquqlari og'zaki kelishuvda qoladi.",
+        "O'sishda bitta odam tor bo'lib qoladi: u yoki dizayn, yoki sozlash, yoki matn.",
+        "Biznes jarayonlari odamning boshida, hujjatlarda emas."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Agentlik: qimmatroq, lekin boshqariladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shartnoma: muddatlar, natija va javobgarlik hujjatda.",
+        "Jamoa: dizayner, sozlovchi, matn muallifi alohida.",
+        "Hisob-kitoblarga kirish biznesda qoladi — bu tekshirilishi kerak.",
+        "Kamchilik: minimal byudjet yuqori, kichik vazifalar uchun ortiqcha."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "narx",
+      "text": "Narx va javobgarlik: qanday qaror qilish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Amaliy qoida: agar vazifa bir martalik va xato narxi past bo'lsa (banner, bitta post, shablon) — birja yetarli. Agar vazifa reklama byudjeti, arizalar yoki to'lovlarga tegsa — shartnoma kerak. Reklama byudjeti oyiga $300 dan oshsa, yuritishda xato narxi agentlik xizmatidan qimmatroq bo'ladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tavsiya",
+        "Nima uchun"
+      ],
+      "rows": [
+        [
+          "Banner yoki bitta post",
+          "Birja",
+          "Xato narxi past, tezlik muhim"
+        ],
+        [
+          "Bir martalik sayt vizitkasi",
+          "Birja yoki frilanser",
+          "Hujjat kerak emas"
+        ],
+        [
+          "Sayt + arizalar",
+          "Agentlik",
+          "Sayt va reklama birgalikda ishlashi kerak"
+        ],
+        [
+          "Reklama byudjeti oyiga $300+",
+          "Agentlik",
+          "Xato narxi xizmatdan qimmat"
+        ],
+        [
+          "To'lovlar va CRM bilan integratsiya",
+          "Agentlik",
+          "Pul va ma'lumotlar xavf ostida"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "buyurtma",
+      "text": "Qayerdan buyurtma berish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Toshkentda 2026 yilda sayt yaratish: landing — 2–4 mln so'm, korporativ sayt — 4–8 mln, internet-do'kon — 8–15 mln so'm. Telegram-bot — 990 000 so'mdan, Instagram-bot — 1 190 000 so'mdan, AI-voronka — 1 990 000 so'mdan. Internet-reklama yuritish — oyiga $200–600, reklama byudjeti alohida va platformaga ketadi."
+    },
+    {
+      "type": "p",
+      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko'chasi 35, Toshkent. Ofisda uchrashuv — ish kunlari 09:00 dan 18:00 gacha."
+    },
+    {
+      "type": "linkp",
+      "text": "{reklama} va {sayt} — shartnomagacha kanallaringizni tahlil qilib, ariza narxini hisoblab beramiz.",
+      "links": [
+        {
+          "token": "reklama",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "Toshkentda internet-reklama"
+        },
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Shartnoma imzolashdan oldin uchta narsani talab qiling: oldingi ishlarning jonli havolalari, hisob-kitoblarga kirish kimda qolishi haqida yozma band, va bosqichma-bosqich smeta. Bu uchta savol 90% muammolarni oldindan ko'rsatadi."
+    }
+  ],
+  "faq": [
+    {
+      "q": "O'zbekistonda sayt yaratishni birjada yoki agentlikda buyurtma qilish arzonroqmi?",
+      "a": "Birja arzonroq: $100–400 agentlikdagi 2–15 mln so'mga qarshi. Lekin birja bajarilgan ish uchun javob beradi, natija uchun emas. Agar sayt arizalar manbai bo'lsa, agentlikning narx farqi bir necha oy ichida qoplanadi, chunki sayt va reklama bitta jamoa tomonidan bog'lanadi."
+    },
+    {
+      "q": "Nima uchun birjada narx shunchalik past?",
+      "a": "Birjadagi past narx uchta omil bilan izohlanadi: shablonli ish, ijrochi tanlovidagi tasodifiylik va javobgarlik yo'qligi. Bajaruvchi natija uchun emas, bajarilgan ish uchun to'lov oladi — shuning uchun tuzatishlar va qayta ishlash alohida to'lanadi."
+    },
+    {
+      "q": "Frilanser agentlikdan nimasi bilan farq qiladi?",
+      "a": "Frilanser — bitta odam, agentlik — jamoa va shartnoma. Frilanser bilan asosiy xavf: u yo'qolsa yoki kasal bo'lsa loyiha to'xtaydi. Agentlikda muddatlar va javobgarlik hujjatda, jarayonlar esa odamning boshida emas."
+    },
+    {
+      "q": "Qaysi holatda birja haqiqatan ham yaxshiroq?",
+      "a": "Bir martalik va xato narxi past vazifalarda: banner, bitta post, shablon, matn. Bunday vazifalarda shartnoma va jamoa ortiqcha. Reklama byudjeti, to'lovlar va arizalar qayta ishlashga tegadigan vazifalarda — yo'q."
+    },
+    {
+      "q": "Shartnomada nima albatta bo'lishi kerak?",
+      "a": "Uchta band: muddatlar va bosqichlar, hisob-kitoblarga kirish huquqi (reklama kabinetlari, domen, hosting biznesda qolishi kerak), va qabul qilish mezonlari. Kirish huquqlarisiz pudratchini almashtirib bo'lmaydi."
+    },
+    {
+      "q": "Toshkentda sayt va reklamani bitta joyda buyurtma qilish to'g'rimi?",
+      "a": "Agar sayt arizalar manbai bo'lsa — ha. Ikkita alohida pudratchi bo'lsa, konversiya pasayganda hech kim javobgar bo'lmaydi: biri saytni, ikkinchisi reklamani ayblaydi. Bitta jamoa bo'lsa, javobgarlik bitta shartnomada."
+    }
+  ],
+  "cta": {
+    "label": "Telegram orqali bog'lanish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "Toshkentda internet-reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "SEO xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "anchor": "sayt yaratish narxi 2026",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Agentlik, frilanser yoki birja: O'zbekistonda kimga buyurtma berish kerak (2026)",
+  "ogDescription": "Uchta sxema aniq raqamlar bilan: birja $100–400, frilanser $300–800, agentlik 2–15 mln so'm.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+  "hreflangRu": "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+  "hreflangUz": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-09-02",
+  "dateModified": "2026-09-02",
+  "schemaTypes": [
+    "Article",
+    "FAQPage",
+    "BreadcrumbList"
+  ],
+  "createdAt": "2026-09-02T00:00:00Z",
+  "updatedAt": "2026-09-02T00:00:00.000Z"
+}

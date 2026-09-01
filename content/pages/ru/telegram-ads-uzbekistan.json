@@ -725,6 +725,20 @@
       "anchor": "агентство или частный исполнитель",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "anchor": "стоимость и запуск Telegram Ads",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+      "anchor": "кому заказать: агентство или биржа",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "sources": [

@@ -572,6 +572,13 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "block"
+    },
+    {
+      "target": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "anchor": "internet-reklama narxi 2026",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "sources": [

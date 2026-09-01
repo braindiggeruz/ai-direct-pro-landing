@@ -601,6 +601,13 @@
       "anchor": "выбор между агентством и фрилансером",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "anchor": "стоимость интернет-рекламы в 2026",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

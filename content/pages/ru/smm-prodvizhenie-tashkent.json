@@ -552,6 +552,13 @@
     {
       "target": "/ru/telegram-ads-uzbekistan/",
       "anchor": "Telegram Ads в Узбекистане"
+    },
+    {
+      "target": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "anchor": "Telegram Ads: стоимость и запуск",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

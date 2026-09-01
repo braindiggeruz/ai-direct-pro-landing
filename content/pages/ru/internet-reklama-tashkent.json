@@ -633,6 +633,27 @@
       "anchor": "агентство или фрилансер в Узбекистане",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "anchor": "сколько стоит интернет-реклама в Узбекистане",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+      "anchor": "агентство или биржа фриланса",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "anchor": "как проверить подрядчика",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

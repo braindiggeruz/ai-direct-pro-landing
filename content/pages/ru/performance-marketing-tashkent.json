@@ -416,6 +416,20 @@
     {
       "target": "/ru/telegram-ads-uzbekistan/",
       "anchor": "Запуск Telegram Ads"
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "anchor": "бюджет на интернет-рекламу",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+      "anchor": "агентство против биржи фриланса",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [
