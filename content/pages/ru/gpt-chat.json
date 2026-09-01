@@ -142,6 +142,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Вы используете AI для бизнеса. Попробуйте {link} — таргетированную рекламу в мессенджере.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/ru/telegram-ads-uzbekistan/",
+          "anchor": "Telegram Ads"
+        }
+      ]
+    },
+    {
       "type": "list",
       "items": [
         "Сформулируйте одну задачу и ожидаемый результат.",
@@ -255,6 +266,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 2
+    },
+    {
+      "target": "/ru/telegram-ads-uzbekistan/",
+      "anchor": "Telegram Ads",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "schemaTypes": [

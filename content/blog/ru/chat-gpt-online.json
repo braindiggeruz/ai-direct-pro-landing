@@ -3,9 +3,9 @@
   "locale": "ru",
   "slug": "chat-gpt-online",
   "url": "/ru/blog/chat-gpt-online/",
-  "title": "Чат GPT онлайн: вопросы, тексты и идеи на русском",
-  "description": "Как работать с AI-чатом онлайн: формулировать запросы, получать ответы, писать тексты и проверять факты. GPTBot.uz — независимый AI-сервис.",
-  "h1": "Чат GPT онлайн: как пользоваться AI-чатом без сложной регистрации",
+  "title": "Чат GPT онлайн бесплатно в Узбекистане — русский AI чат",
+  "description": "Чат GPT онлайн бесплатно в Узбекистане: как пользоваться AI-чатом на русском, писать тексты, проверять факты и генерировать идеи. Без установки, в браузере.",
+  "h1": "Чат GPT онлайн бесплатно в Узбекистане — русский AI чат",
   "topicCluster": "gpt-chat-product",
   "targetMoneyPage": "/ru/gpt-chat/",
   "keywords": [
@@ -373,6 +373,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Хотите привлечь клиентов через мессенджер? Узнайте о {link} в Узбекистане.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/ru/telegram-ads-uzbekistan/",
+          "anchor": "реклама в Telegram"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Коротко о главном"
     },
@@ -489,17 +500,24 @@
       "anchor": "sayt uchun AI bot",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/telegram-ads-uzbekistan/",
+      "anchor": "реклама в Telegram",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 3
     }
   ],
-  "ogTitle": "Чат GPT онлайн: вопросы, тексты и идеи на русском",
-  "ogDescription": "Как работать с AI-чатом онлайн: формулировать запросы, получать ответы, писать тексты и проверять факты. GPTBot.uz — независимый AI-сервис.",
+  "ogTitle": "Чат GPT онлайн бесплатно в Узбекистане — русский AI чат",
+  "ogDescription": "Чат GPT онлайн бесплатно в Узбекистане: как пользоваться AI-чатом на русском, писать тексты, проверять факты и генерировать идеи. Без установки, в браузере.",
   "ogImage": "https://gptbot.uz/assets/blog/chat-gpt-online-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/chat-gpt-online/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-14",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-01",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -508,7 +526,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-14T00:00:00Z",
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-09-01",
   "sources": [
     {
       "title": "OpenAI API — модели и возможности",
