@@ -8,6 +8,7 @@ import {
 import { FirecrawlStore } from '../../../platform/lead-radar/firecrawl-store';
 import { handleAudienceRequest,isAudiencePath } from './audience-control';
 import { handleCrawlerRequest, isCrawlerPath } from './crawler-control';
+import { handleExportRequest, isExportPath } from './export-control';
 import {
   assertLeadRadarRuntimeSchema,
   buildVerifiedTelegramCorporateDraftLink,
@@ -112,6 +113,7 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   const parts = pathParts(ctx.params.path);
   if (isAudiencePath(parts)) return handleAudienceRequest(ctx,parts,orgId,capabilities);
   if (isCrawlerPath(parts)) return handleCrawlerRequest(ctx,parts,orgId);
+  if (isExportPath(parts)) return handleExportRequest(ctx,parts,orgId);
   if (isTelegramCampaignControlPath(parts)) {
     return handleTelegramCampaignGet(ctx, parts, orgId, capabilities);
   }

@@ -32,11 +32,22 @@ export function setToken(t: string | null): void {
   else localStorage.removeItem(TOKEN_KEY);
 }
 
+/** Read an attachment filename, tolerating a missing or malformed header. */
+export function contentDispositionFilename(header: string | null): string | null {
+  const match = /filename\*?=(?:"([^"]+)"|([^;]+))/i.exec(header ?? '');
+  const raw = (match?.[1] ?? match?.[2] ?? '').trim();
+  if (!raw) return null;
+  // The header is server input. Strip path separators and anything else that
+  // could steer where the browser writes the file.
+  const safe = raw.replace(/[^A-Za-z0-9._-]/g, '_').replace(/^\.+/, '');
+  return safe.length > 0 && safe.length <= 120 ? safe : null;
+}
+
 async function request<T>(
   method: string,
   path: string,
   body?: unknown,
-  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' },
+  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' | 'raw' },
 ): Promise<T> {
   // Other APIs retain their existing error/timeout behaviour.
   if (!path.startsWith('/api/admin/lead-radar')) return requestOnce<T>(method, path, body, opts);
@@ -48,7 +59,7 @@ async function requestOnce<T>(
   method: string,
   path: string,
   body?: unknown,
-  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' },
+  opts?: { timeoutMs?: number; headers?: Record<string, string>; signal?: AbortSignal; responseType?: 'blob' | 'raw' },
 ): Promise<T> {
   const url = `${BASE}${path}`;
   const headers: Record<string, string> = { 'Content-Type': 'application/json', ...opts?.headers };
@@ -102,6 +113,9 @@ async function requestOnce<T>(
       throw e;
     }
     if (res.status === 204) return undefined as T;
+    // Caller reads the body itself. Needed for downloads, where the filename
+    // lives in a response header and the body is not JSON.
+    if (opts?.responseType === 'raw') return res as T;
     if (opts?.responseType === 'blob') {
       const value = await res.blob();
       if (!['image/png', 'image/jpeg', 'image/webp'].includes(value.type) || value.size > 5_000_000 || value.size === 0) {
@@ -744,6 +758,29 @@ export const api = {
       'GET',
       `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}`,
     ),
+  /**
+   * Download an outreach contact list for a saved search.
+   *
+   * Authenticated, so it cannot be a plain anchor href: the bearer token lives
+   * in a header. Returns the blob plus the server-chosen filename.
+   */
+  leadRadarExportContacts: async (
+    searchId: string,
+    format: 'csv' | 'vcf',
+  ): Promise<{ blob: Blob; filename: string; rows: number }> => {
+    const response = await request<Response>(
+      'GET',
+      `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}/export?format=${format}`,
+      undefined,
+      { timeoutMs: 45_000, responseType: 'raw' },
+    );
+    return {
+      blob: await response.blob(),
+      filename: contentDispositionFilename(response.headers.get('Content-Disposition'))
+        ?? `leads-${searchId}.${format}`,
+      rows: Number(response.headers.get('X-Export-Rows') ?? 0),
+    };
+  },
   leadRadarSetLifecycle: (
     leadId: string,
     lifecycle: import('../../shared/lead-radar').LeadRadarLifecycle,
