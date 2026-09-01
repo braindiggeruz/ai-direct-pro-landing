@@ -61,12 +61,14 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
   ).map((a) => ({ '@type': a.type, name: a.name }));
   org.areaServed = areas;
 
-  // Address — city + country only. Street is intentionally omitted because
-  // it is not published on the public site and we never invent location data.
-  if (global.addressLocality || global.addressCountry) {
+  // Address — emit street/postal code only when they are explicitly published
+  // in content/global/site.json. Never infer coordinates or exact entrances.
+  if (global.streetAddress || global.addressLocality || global.addressCountry) {
     org.address = {
       '@type': 'PostalAddress',
+      ...(global.streetAddress ? { streetAddress: global.streetAddress } : {}),
       ...(global.addressLocality ? { addressLocality: global.addressLocality } : {}),
+      ...(global.postalCode ? { postalCode: global.postalCode } : {}),
       ...(global.addressCountry ? { addressCountry: global.addressCountry } : {}),
     };
   }

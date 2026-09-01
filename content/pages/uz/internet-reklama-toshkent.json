@@ -360,6 +360,13 @@
       "anchor": "maxfiylik siyosati",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/target-reklama-nima/",
+      "anchor": "target reklama nima",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "schemaTypes": [
@@ -371,5 +378,5 @@
   ],
   "lastReviewedAt": "2026-08-31",
   "createdAt": "2026-08-28",
-  "updatedAt": "2026-08-31"
+  "updatedAt": "2026-09-01T00:00:00.000Z"
 }

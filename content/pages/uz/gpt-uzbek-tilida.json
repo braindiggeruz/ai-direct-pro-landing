@@ -15,23 +15,26 @@
     "ai chat uzbekistan",
     "chat gpt uzbek",
     "bepul ai chat",
-    "sun’iy intellekt chat"
+    "sun’iy intellekt chat",
+    "chatgpt uz",
+    "chatgpt uzbek tilida online",
+    "chatgpt kirish uzbek tilida"
   ],
   "searchIntent": "transactional",
-  "h1": "O‘zbek tilida AI chat online",
-  "title": "ChatGPT o‘zbek tilida — bepul, ro‘yxatsiz | GPTBot.uz",
-  "description": "O‘zbek tilida AI chat: savol bering, tarjima qiling, matn yozing. Bepul, ro‘yxatdan o‘tmasdan, VPNsiz — brauzerda darhol ishlaydi.",
+  "h1": "ChatGPT o‘zbek tilida online",
+  "title": "ChatGPT o‘zbek tilida online — bepul, ro‘yxatsiz, VPNsiz",
+  "description": "ChatGPT o‘zbek tilida: bepul AI chat brauzerda. Ro‘yxatsiz yozing, javobni o‘zbekcha oling, so‘zlashuv tilini sozlang. Telefon va kompyuterda ishlaydi.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
-  "ogTitle": "ChatGPT o‘zbek tilida online — mustaqil AI chat",
-  "ogDescription": "O‘zbek tilida savol bering, matn, tarjima, reja va g‘oyalar oling. Brauzerda ishlaydigan mustaqil AI servis.",
+  "ogTitle": "ChatGPT o‘zbek tilida online — bepul, ro‘yxatsiz, VPNsiz",
+  "ogDescription": "ChatGPT o‘zbek tilida: bepul AI chat brauzerda. Ro‘yxatsiz yozing, javobni o‘zbekcha oling, so‘zlashuv tilini sozlang. Telefon va kompyuterda ishlaydi.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "O‘zbek tilida AI chat",
   "heroTitle": "O‘zbek tilida AI chat online",
-  "heroSubtitle": "O‘zbek tilida savol yozing, matn va tarjima tayyorlang, g‘oyalarni AI bilan birga toping — hech narsa yuklash shart emas.",
+  "heroSubtitle": "Matn yozing, tarjima qiling, reja tuzing — o‘zbekcha, ro‘yxatsiz va bepul.",
   "ctaPrimaryLabel": "Tariflar",
   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
   "ctaSecondaryLabel": "Biznes uchun AI-bot buyurtma qilish",
@@ -44,6 +47,22 @@
     {
       "type": "p",
       "text": "Muhim aniqlik: GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. «ChatGPT» nomi ushbu sahifada foydalanuvchi izlaydigan texnologiya va xizmat turini tushuntirish uchun ishlatiladi. AI xato qilishi mumkin — muhim faktlarni birlamchi manbadan tekshiring. Parol, karta raqami, hujjat va boshqa maxfiy ma’lumotlarni kiritmang."
+    },
+    {
+      "type": "linkp",
+      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {tg}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
     },
     {
       "type": "linkp",
@@ -68,6 +87,135 @@
           "token": "b2b",
           "target": "/uz/biznes-uchun-ai-bot/",
           "anchor": "biznes uchun AI"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "chatgpt-kirish",
+      "text": "ChatGPT’ga o‘zbek tilida qanday kirish mumkin?"
+    },
+    {
+      "type": "p",
+      "text": "Kirish uchun brauzerda aynan chatgpt.com manzilini oching va Log in yoki Sign up tugmasini tanlang. Ro‘yxatdan o‘tishda ishlaydigan elektron pochta kerak bo‘ladi, keyin ikki bosqichli himoyani yoqish tavsiya etiladi. O‘zbekistondan odatiy kirish uchun VPN talab qilinmaydi — bu savol alohida sahifada manbalar bilan tekshirilgan."
+    },
+    {
+      "type": "linkp",
+      "text": "Login, Sign up, keng tarqalgan xatolar va xavfsizlik bo‘yicha to‘liq qo‘llanma {kirish} sahifasida. Ilovani telefon yoki kompyuterga o‘rnatish kerak bo‘lsa, {download} yo‘riqnomasini oching.",
+      "links": [
+        {
+          "token": "kirish",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "ChatGPT kirish yo‘riqnomasi"
+        },
+        {
+          "token": "download",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "ChatGPTni xavfsiz yuklash"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "chatgpt-bepul",
+      "text": "ChatGPT o‘zbek tilida bepulmi?"
+    },
+    {
+      "type": "p",
+      "text": "Qisqa javob: asosiy foydalanish bepul, lekin so‘rovlar soni va model tanlovi joriy tarifga bog‘liq. Limitlar vaqti-vaqti bilan o‘zgaradi, shuning uchun aniq raqamni aynan servisning o‘zida tekshirish kerak — bu sahifada ko‘rsatilgan har qanday son ertaga eskirishi mumkin."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nima tekshiriladi",
+        "Nimaga bog‘liq",
+        "Qayerda aniqlash kerak"
+      ],
+      "rows": [
+        [
+          "Kunlik so‘rovlar soni",
+          "Tarif va model",
+          "ChatGPT akkauntidagi amaldagi shartlar"
+        ],
+        [
+          "Qaysi model mavjud",
+          "Tarif va hudud",
+          "Servis interfeysidagi model tanlovi"
+        ],
+        [
+          "Fayl va rasm bilan ishlash",
+          "Tarif",
+          "Servisning joriy hujjatlari"
+        ],
+        [
+          "Jamoaviy foydalanish",
+          "Korporativ tarif",
+          "OpenAI rasmiy sahifasi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "interfeys-va-javob-tili",
+      "text": "ChatGPT uzbekcha: interfeys tili va javob tili bir xilmi?"
+    },
+    {
+      "type": "p",
+      "text": "Yo‘q. Interfeys tili — bu tugmalar va menyu tili. Javob tili esa so‘rov tiliga ergashadi: savolni o‘zbekcha yozsangiz, model o‘zbekcha javob qaytaradi. Shuning uchun «chatgpt uzbekcha» qidirayotgan foydalanuvchiga interfeysni almashtirish shart emas — faqat so‘rovni o‘zbekcha yozish kifoya."
+    },
+    {
+      "type": "list",
+      "items": [
+        "So‘rovni Uzbek Latin yozuvida, bitta aniq vazifa bilan yozing.",
+        "Agar javob aralash chiqsa, «faqat o‘zbekcha javob ber» deb aniq ko‘rsatma qo‘shing.",
+        "Terminlar kerak bo‘lsa, ularni ro‘yxat shaklida bering: model ularni asl ko‘rinishda saqlaydi.",
+        "Tayyor matnni ishlatishdan oldin bir marta o‘qib chiqing va faktlarni tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javob-xato",
+      "text": "Nega javob ba’zan noto‘g‘ri chiqadi va uni qanday tekshirish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Model matn yaratadi, lekin u faktlarni mustaqil tekshiradigan ma’lumotlar bazasi emas. Shuning uchun sana, narx, qonun, tibbiy va moliyaviy ma’lumot har doim rasmiy manbadan tekshirilishi kerak. AI javobini yakuniy hujjat emas, qoralama deb olish — eng xavfsiz yondashuv."
+    },
+    {
+      "type": "quote",
+      "text": "AI chat tez qoralama beradi, lekin javobgarlikni o‘z zimmasiga olmaydi: faktlarni tekshirish odamda qoladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Raqam, sana va narxni rasmiy manba bilan solishtiring.",
+        "Huquqiy va tibbiy masalada AI javobiga tayanib qaror qabul qilmang.",
+        "Noaniq joy bo‘lsa, bitta aniqlashtiruvchi savol bilan davom eting.",
+        "Bir xil savolni boshqacha yozib, javob barqarorligini tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "maxfiylik",
+      "text": "Chatga yozib bo‘lmaydigan ma’lumotlar"
+    },
+    {
+      "type": "p",
+      "text": "AI chatga shaxsiy ma’lumot, parol, bank karta raqami, tibbiy tashxis va mijozlar bazasini yubormang. Ish jarayonida kerak bo‘lsa, aniq ma’lumot o‘rniga umumlashtirilgan tavsif yozing: masalan, haqiqiy ism o‘rniga «mijoz A»."
+    },
+    {
+      "type": "linkp",
+      "text": "Ma’lumotlarning qanday saqlanishi va o‘chirilishi {privacy} sahifasida yozilgan. Biznes jarayoni uchun AI ulashdan oldin {audit} materialini o‘qib chiqing.",
+      "links": [
+        {
+          "token": "privacy",
+          "target": "/uz/maxfiylik-siyosati/",
+          "anchor": "Maxfiylik siyosati"
+        },
+        {
+          "token": "audit",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "biznes uchun AI bot"
         }
       ]
     },
@@ -99,22 +247,52 @@
     },
     {
       "type": "table",
-      "headers": ["Vazifa", "Tayyor so‘rov"],
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
       "rows": [
-        ["Matn", "«Quyidagi matnni sodda Uzbek Latin tilida tahrir qil, ma’noni o‘zgartirma: …»"],
-        ["Tarjima", "«Ruscha matnni tabiiy o‘zbekchaga tarjima qil, yangi fakt qo‘shma: …»"],
-        ["O‘qish", "«Mavzuni 15 yoshli o‘quvchiga misol bilan tushuntir va 5 savol ber: …»"],
-        ["Marketing", "«Mahsulot uchun 5 ta Telegram sarlavhasi yoz, asossiz va’da ishlatma: …»"],
-        ["Ish", "«Yig‘ilish qaydlarini qaror, mas’ul va muddat jadvaliga aylantir: …»"]
+        [
+          "Matn",
+          "«Quyidagi matnni sodda Uzbek Latin tilida tahrir qil, ma’noni o‘zgartirma: …»"
+        ],
+        [
+          "Tarjima",
+          "«Ruscha matnni tabiiy o‘zbekchaga tarjima qil, yangi fakt qo‘shma: …»"
+        ],
+        [
+          "O‘qish",
+          "«Mavzuni 15 yoshli o‘quvchiga misol bilan tushuntir va 5 savol ber: …»"
+        ],
+        [
+          "Marketing",
+          "«Mahsulot uchun 5 ta Telegram sarlavhasi yoz, asossiz va’da ishlatma: …»"
+        ],
+        [
+          "Ish",
+          "«Yig‘ilish qaydlarini qaror, mas’ul va muddat jadvaliga aylantir: …»"
+        ]
       ]
     },
     {
       "type": "linkp",
       "text": "Ko‘proq misol uchun {prompts}, o‘qish ssenariylari uchun {students}, servislarni tanlash uchun {compare} maqolalarini oching.",
       "links": [
-        {"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"o‘zbek tilidagi 50 ta tayyor prompt"},
-        {"token":"students","target":"/uz/blog/chatgpt-talabalar-uchun/","anchor":"ChatGPT talabalar uchun"},
-        {"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini taqqoslovi"}
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "o‘zbek tilidagi 50 ta tayyor prompt"
+        },
+        {
+          "token": "students",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "ChatGPT talabalar uchun"
+        },
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini taqqoslovi"
+        }
       ]
     },
     {
@@ -129,8 +307,16 @@
       "type": "linkp",
       "text": "Rasmiy xizmatning O‘zbekistondagi mavjudligi haqida {access}; ChatGPT, Claude va Gemini farqi haqida {compare}.",
       "links": [
-        {"token":"access","target":"/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/","anchor":"ChatGPT O‘zbekistonda VPNsiz ishlashi"},
-        {"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"AI chatlarni halol taqqoslash"}
+        {
+          "token": "access",
+          "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "anchor": "ChatGPT O‘zbekistonda VPNsiz ishlashi"
+        },
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "AI chatlarni halol taqqoslash"
+        }
       ]
     },
     {
@@ -159,21 +345,55 @@
       "type": "linkp",
       "text": "AI chat ijtimoiy tarmoqlar uchun g‘oya va matn qoralamasini beradi. Muntazam rubrikalar, nashr taqvimi va natijani o‘lchash kerak bo‘lsa, {smm} alohida ish jarayoni sifatida quriladi.",
       "links": [
-        {"token":"smm","target":"/uz/smm-xizmatlari/","anchor":"ijtimoiy tarmoqlar uchun kontent tayyorlash xizmati"}
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "ijtimoiy tarmoqlar uchun kontent tayyorlash xizmati"
+        }
       ]
     },
     {
       "type": "linkp",
       "text": "AI chat matn va g‘oya beradi, lekin mijoz taklifni ko‘rishi, narxni tushunishi va ariza qoldirishi uchun alohida joy kerak bo‘ladi. Shu vazifani {sayt} yopadi: bitta sahifa, aniq taklif va ishlaydigan ariza formasi.",
       "links": [
-        {"token":"sayt","target":"/uz/sayt-yaratish/","anchor":"biznes uchun sayt yaratish"}
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "biznes uchun sayt yaratish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI chat bilan tanishdingiz. {sayt} orqali mijozlaringizga onlayn xizmat ko‘rsating.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI chat bilan tanishdingiz. Endi {marketing} asoslarini o‘rganing — biznesingizga foydasi tegadi.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/marketing-nima/",
+          "anchor": "marketing"
+        }
       ]
     },
     {
       "type": "linkp",
       "text": "Kompaniyalar uchun farq va joriy etish rejasi {business} maqolasida.",
       "links": [
-        {"token":"business","target":"/uz/blog/chat-gpt-uzbek-biznes-uchun/","anchor":"ChatGPT va AI-bot biznes uchun"}
+        {
+          "token": "business",
+          "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "anchor": "ChatGPT va AI-bot biznes uchun"
+        }
       ]
     },
     {
@@ -213,6 +433,22 @@
     {
       "q": "AI chat talabalar uchun foydalimi?",
       "a": "Mavzuni tushuntirish, test va reja uchun foydali. Tayyor ishni ko‘chirish o‘rniga javobni tekshiring va muassasa qoidalariga rioya qiling."
+    },
+    {
+      "q": "ChatGPT o‘zbek tilida bepulmi?",
+      "a": "Asosiy foydalanish bepul, lekin so‘rovlar soni va model tanlovi joriy tarifga bog‘liq. Aniq cheklovlarni servisning o‘zida tekshiring: ular vaqt o‘tishi bilan o‘zgaradi."
+    },
+    {
+      "q": "ChatGPT’ga kirish uchun VPN kerakmi?",
+      "a": "O‘zbekistondan odatiy kirish uchun VPN talab qilinmaydi. VPN faqat lokal tarmoq muammosini tekshirish vositasi bo‘lishi mumkin, rasmiy talab emas. Batafsil tekshiruv alohida ChatGPT kirish qo‘llanmasida."
+    },
+    {
+      "q": "ChatGPT o‘zbekcha qanchalik to‘g‘ri yozadi?",
+      "a": "O‘zbekcha matn tuzilishi va uslubi bilan yaxshi ishlaydi, lekin termin va faktlarda xato qilishi mumkin. Tayyor matnni tahrir qilish va rasmiy manba bilan tekshirish tavsiya etiladi."
+    },
+    {
+      "q": "AI chatga shaxsiy ma’lumot yozsa bo‘ladimi?",
+      "a": "Yo‘q. Parol, karta raqami, tibbiy tashxis va mijozlar bazasini yubormang. Ish jarayonida aniq ma’lumot o‘rniga umumlashtirilgan tavsif ishlating."
     }
   ],
   "internalLinks": [
@@ -299,6 +535,33 @@
       "anchor": "Telegramdagi GPTBot Javob",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "sayt uchun AI bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "anchor": "ChatGPT kirish yo‘riqnomasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "marketing",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "schemaTypes": [
@@ -326,7 +589,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-08-27",
+  "lastReviewedAt": "2026-09-01",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-08-25"
+  "updatedAt": "2026-09-01"
 }

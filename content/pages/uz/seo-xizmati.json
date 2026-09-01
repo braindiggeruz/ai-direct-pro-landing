@@ -37,23 +37,65 @@
       "type": "toc",
       "text": "Sahifa bo‘yicha",
       "links": [
-        { "anchor": "nima", "label": "SEO xizmati nima beradi" },
-        { "anchor": "kimga", "label": "Kimga kerak va kimga hozircha kerak emas" },
-        { "anchor": "tarkib", "label": "Xizmat tarkibi" },
-        { "anchor": "texnik", "label": "Texnik SEO" },
-        { "anchor": "sahifa", "label": "Sahifa optimizatsiyasi" },
-        { "anchor": "kontent", "label": "Kontent va semantika" },
-        { "anchor": "local", "label": "Local SEO va xaritalar" },
-        { "anchor": "til", "label": "Rus va o‘zbek tilidagi saytlar" },
-        { "anchor": "jarayon", "label": "Ish jarayoni" },
-        { "anchor": "olchov", "label": "Natijani qanday o‘lchaymiz" },
-        { "anchor": "muddat", "label": "Natija qachon ko‘rinadi" },
-        { "anchor": "chegara", "label": "Nimani va’da qilmaymiz" },
-        { "anchor": "narx", "label": "Narx nimaga bog‘liq" }
+        {
+          "anchor": "nima",
+          "label": "SEO xizmati nima beradi"
+        },
+        {
+          "anchor": "kimga",
+          "label": "Kimga kerak va kimga hozircha kerak emas"
+        },
+        {
+          "anchor": "tarkib",
+          "label": "Xizmat tarkibi"
+        },
+        {
+          "anchor": "texnik",
+          "label": "Texnik SEO"
+        },
+        {
+          "anchor": "sahifa",
+          "label": "Sahifa optimizatsiyasi"
+        },
+        {
+          "anchor": "kontent",
+          "label": "Kontent va semantika"
+        },
+        {
+          "anchor": "local",
+          "label": "Local SEO va xaritalar"
+        },
+        {
+          "anchor": "til",
+          "label": "Rus va o‘zbek tilidagi saytlar"
+        },
+        {
+          "anchor": "jarayon",
+          "label": "Ish jarayoni"
+        },
+        {
+          "anchor": "olchov",
+          "label": "Natijani qanday o‘lchaymiz"
+        },
+        {
+          "anchor": "muddat",
+          "label": "Natija qachon ko‘rinadi"
+        },
+        {
+          "anchor": "chegara",
+          "label": "Nimani va’da qilmaymiz"
+        },
+        {
+          "anchor": "narx",
+          "label": "Narx nimaga bog‘liq"
+        }
       ]
     },
-
-    { "type": "h2", "id": "nima", "text": "SEO xizmati nima beradi" },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "SEO xizmati nima beradi"
+    },
     {
       "type": "p",
       "text": "SEO — bu saytni Google qidiruvida odam allaqachon izlayotgan so‘rovlar bo‘yicha ko‘rinadigan qilish. Reklamadan farqi shundaki, siz har bosish uchun to‘lamaysiz: sahifa bir marta to‘g‘ri qurilsa, u oylar davomida murojaat keltirib turadi. Kamchiligi ham bor — natija darhol chiqmaydi va u doimiy ish talab qiladi."
@@ -68,48 +110,121 @@
         "Qaysi so‘rov ariza keltirayotgani ko‘rinadi va shunga qarab qaror qabul qilinadi"
       ]
     },
-
-    { "type": "h2", "id": "kimga", "text": "Kimga kerak va kimga hozircha kerak emas" },
+    {
+      "type": "h2",
+      "id": "kimga",
+      "text": "Kimga kerak va kimga hozircha kerak emas"
+    },
     {
       "type": "p",
       "text": "SEO hamma biznesga bir xil foyda bermaydi. U talab allaqachon mavjud bo‘lgan joyda ishlaydi: odamlar sizning xizmatingizni Google’da qidirishi kerak. Agar so‘rov umuman yo‘q bo‘lsa, sahifa yozish talabni yaratmaydi."
     },
     {
       "type": "table",
-      "headers": ["Holat", "SEO mos keladimi", "Nima uchun"],
+      "headers": [
+        "Holat",
+        "SEO mos keladimi",
+        "Nima uchun"
+      ],
       "rows": [
-        ["Xizmat yoki mahsulot Google’da qidiriladi", "Ha", "Talab bor, uni faqat egallash kerak"],
-        ["Sayt bor, lekin ariza kelmayapti", "Ha", "Ko‘pincha muammo texnikada va sahifa tuzilishida"],
-        ["Sayt hali yo‘q", "Avval sayt", "Optimizatsiya qiladigan obyekt bo‘lishi kerak"],
-        ["Mahsulot yangi, hech kim uni qidirmaydi", "Yo‘q", "Talab yo‘q joyda SEO ishlamaydi — reklama va kontent kerak"],
-        ["Natija ertaga kerak", "Yo‘q", "Bunday holatda kontekst reklama tezroq"]
+        [
+          "Xizmat yoki mahsulot Google’da qidiriladi",
+          "Ha",
+          "Talab bor, uni faqat egallash kerak"
+        ],
+        [
+          "Sayt bor, lekin ariza kelmayapti",
+          "Ha",
+          "Ko‘pincha muammo texnikada va sahifa tuzilishida"
+        ],
+        [
+          "Sayt hali yo‘q",
+          "Avval sayt",
+          "Optimizatsiya qiladigan obyekt bo‘lishi kerak"
+        ],
+        [
+          "Mahsulot yangi, hech kim uni qidirmaydi",
+          "Yo‘q",
+          "Talab yo‘q joyda SEO ishlamaydi — reklama va kontent kerak"
+        ],
+        [
+          "Natija ertaga kerak",
+          "Yo‘q",
+          "Bunday holatda kontekst reklama tezroq"
+        ]
       ]
     },
     {
       "type": "linkp",
       "text": "Agar sayt hali bo‘lmasa, avval {sayt} bilan boshlaymiz — SEO shundan keyin ma’noga ega bo‘ladi. Agar natija tez kerak bo‘lsa, {reklama} qisqa muddatda ko‘proq mos keladi.",
       "links": [
-        { "token": "sayt", "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt yaratish" },
-        { "token": "reklama", "target": "/uz/telegram-reklama/", "anchor": "Telegram’da to‘lovli reklama" }
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "biznes uchun sayt yaratish"
+        },
+        {
+          "token": "reklama",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram’da to‘lovli reklama"
+        }
       ]
     },
-
-    { "type": "h2", "id": "tarkib", "text": "Xizmat tarkibi" },
+    {
+      "type": "h2",
+      "id": "tarkib",
+      "text": "Xizmat tarkibi"
+    },
     {
       "type": "table",
-      "headers": ["Blok", "Nima qilinadi", "Nima uchun kerak"],
+      "headers": [
+        "Blok",
+        "Nima qilinadi",
+        "Nima uchun kerak"
+      ],
       "rows": [
-        ["Audit", "Texnik holat, indeksatsiya, tezlik, mobil ko‘rinish, mavjud so‘rovlar", "Qayerda yo‘qotish borligini aniq bilish uchun"],
-        ["Semantika", "So‘rovlarni yig‘ish va ularni sahifalarga taqsimlash", "Ikki sahifa bitta so‘rov uchun kurashmasligi uchun"],
-        ["Texnik tuzatish", "Sarlavhalar, canonical, sitemap, robots, ichki havolalar, xatolar", "Google saytni to‘g‘ri o‘qishi uchun"],
-        ["Sahifa optimizatsiyasi", "Title, description, H1, tuzilma, ichki bog‘lanish", "Sahifa o‘z so‘roviga aniq javob berishi uchun"],
-        ["Kontent", "Yetishmayotgan sahifalar va mavjudlarini kuchaytirish", "Javob to‘liq bo‘lmasa, yuqoriga chiqmaydi"],
-        ["Local SEO", "Xarita profillari, manzil ma’lumotlari, mahalliy so‘rovlar", "Toshkent bo‘yicha qidiruvda ko‘rinish uchun"],
-        ["O‘lchov", "Search Console, analitika, ariza hodisasi", "Qaysi so‘rov pul keltirayotganini ko‘rish uchun"]
+        [
+          "Audit",
+          "Texnik holat, indeksatsiya, tezlik, mobil ko‘rinish, mavjud so‘rovlar",
+          "Qayerda yo‘qotish borligini aniq bilish uchun"
+        ],
+        [
+          "Semantika",
+          "So‘rovlarni yig‘ish va ularni sahifalarga taqsimlash",
+          "Ikki sahifa bitta so‘rov uchun kurashmasligi uchun"
+        ],
+        [
+          "Texnik tuzatish",
+          "Sarlavhalar, canonical, sitemap, robots, ichki havolalar, xatolar",
+          "Google saytni to‘g‘ri o‘qishi uchun"
+        ],
+        [
+          "Sahifa optimizatsiyasi",
+          "Title, description, H1, tuzilma, ichki bog‘lanish",
+          "Sahifa o‘z so‘roviga aniq javob berishi uchun"
+        ],
+        [
+          "Kontent",
+          "Yetishmayotgan sahifalar va mavjudlarini kuchaytirish",
+          "Javob to‘liq bo‘lmasa, yuqoriga chiqmaydi"
+        ],
+        [
+          "Local SEO",
+          "Xarita profillari, manzil ma’lumotlari, mahalliy so‘rovlar",
+          "Toshkent bo‘yicha qidiruvda ko‘rinish uchun"
+        ],
+        [
+          "O‘lchov",
+          "Search Console, analitika, ariza hodisasi",
+          "Qaysi so‘rov pul keltirayotganini ko‘rish uchun"
+        ]
       ]
     },
-
-    { "type": "h2", "id": "texnik", "text": "Texnik SEO" },
+    {
+      "type": "h2",
+      "id": "texnik",
+      "text": "Texnik SEO"
+    },
     {
       "type": "p",
       "text": "Texnik qism ko‘rinmaydi, lekin ko‘pincha aynan u to‘sib turadi. Sayt Google uchun ochiq bo‘lmasa, kontent qanchalik yaxshi bo‘lmasin, u qidiruvga chiqmaydi."
@@ -126,8 +241,11 @@
         "Ko‘p tilli sayt uchun hreflang: rus va o‘zbek versiyalari bir-birini ko‘rsatishi kerak"
       ]
     },
-
-    { "type": "h2", "id": "sahifa", "text": "Sahifa optimizatsiyasi" },
+    {
+      "type": "h2",
+      "id": "sahifa",
+      "text": "Sahifa optimizatsiyasi"
+    },
     {
       "type": "p",
       "text": "Har bir sahifa bitta savolga javob berishi kerak. Agar bitta sahifa uch xil so‘rovni bir vaqtda ushlamoqchi bo‘lsa, u hech biri bo‘yicha yuqoriga chiqmaydi. Shuning uchun biz avval so‘rovlarni sahifalar bo‘yicha ajratamiz, keyin matnni yozamiz."
@@ -142,8 +260,11 @@
         "Structured data — Google sahifa nima haqida ekanini aniq tushunishi uchun"
       ]
     },
-
-    { "type": "h2", "id": "kontent", "text": "Kontent va semantika" },
+    {
+      "type": "h2",
+      "id": "kontent",
+      "text": "Kontent va semantika"
+    },
     {
       "type": "p",
       "text": "Semantika — bu kalit so‘zlar ro‘yxati emas, balki qaysi sahifa qaysi so‘rovga javob berishi haqidagi qaror. Biz so‘rovni ikki savol bo‘yicha ajratamiz: odam bilmoqchimi yoki buyurtma qilmoqchimi. Bu ikkisi bitta sahifada birlashsa, natija yomonlashadi."
@@ -152,12 +273,23 @@
       "type": "linkp",
       "text": "Masalan, {marketing} degan so‘rov — bu o‘rganish, xizmat buyurtma qilish emas. Shuning uchun bunday so‘rovlar maqolada qoladi, tijorat sahifasida esa buyurtma tili turadi. Xuddi shu tamoyil {smm} yo‘nalishida ham qo‘llanadi.",
       "links": [
-        { "token": "marketing", "target": "/uz/blog/marketing-nima/", "anchor": "marketing nima" },
-        { "token": "smm", "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari" }
+        {
+          "token": "marketing",
+          "target": "/uz/blog/marketing-nima/",
+          "anchor": "marketing nima"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM xizmatlari"
+        }
       ]
     },
-
-    { "type": "h2", "id": "local", "text": "Local SEO va xaritalar" },
+    {
+      "type": "h2",
+      "id": "local",
+      "text": "Local SEO va xaritalar"
+    },
     {
       "type": "p",
       "text": "Toshkent bo‘yicha ko‘p so‘rovlarda Google odatiy natijalar ustida xarita blokini ko‘rsatadi. Bu blokka faqat biznes profili bo‘lgan kompaniyalar tushadi. Shuning uchun mahalliy so‘rovlar bilan ishlashda sayt bilan bir qatorda xarita profillari ham tartibga solinadi: nomi, faoliyat turi, manzil yoki xizmat hududi, ish vaqti va aloqa ma’lumotlari hamma joyda bir xil bo‘lishi kerak."
@@ -166,38 +298,90 @@
       "type": "p",
       "text": "Muhim nuqta: bu blok har doim ham chiqavermaydi. «Xizmat» shaklidagi so‘rovlarda — masalan, seo xizmati — odatda faqat oddiy natijalar bo‘ladi, «agentlik» shaklidagi so‘rovlarda esa xarita bloki paydo bo‘ladi. Strategiyani shunga qarab tuzamiz."
     },
-
-    { "type": "h2", "id": "til", "text": "Rus va o‘zbek tilidagi saytlar uchun yondashuv" },
+    {
+      "type": "h2",
+      "id": "til",
+      "text": "Rus va o‘zbek tilidagi saytlar uchun yondashuv"
+    },
     {
       "type": "p",
       "text": "O‘zbekistonda bitta biznes ikki auditoriyaga xizmat qiladi va bu ikki auditoriya boshqacha qidiradi. Shuning uchun o‘zbekcha sahifa ruschadan tarjima qilinmaydi — u alohida yoziladi, chunki so‘rovlar ham, ularning raqobati ham boshqacha."
     },
     {
       "type": "table",
-      "headers": ["Nima qilinadi", "Nima uchun"],
+      "headers": [
+        "Nima qilinadi",
+        "Nima uchun"
+      ],
       "rows": [
-        ["Har bir til uchun alohida so‘rovlar yig‘iladi", "O‘zbekcha va ruscha so‘rovlarning hajmi va raqobati mos kelmaydi"],
-        ["Sahifa alohida yoziladi, tarjima qilinmaydi", "Tarjima matn tabiiy o‘qilmaydi va so‘rov tilini takrorlamaydi"],
-        ["hreflang o‘zaro bog‘lanadi", "Bir tomonlama ko‘rsatkichni Google e’tiborsiz qoldiradi"],
-        ["Kirill va lotin variantlari hisobga olinadi", "Ruscha so‘rovlarda kirill yozuv ko‘proq ishlatiladi"]
+        [
+          "Har bir til uchun alohida so‘rovlar yig‘iladi",
+          "O‘zbekcha va ruscha so‘rovlarning hajmi va raqobati mos kelmaydi"
+        ],
+        [
+          "Sahifa alohida yoziladi, tarjima qilinmaydi",
+          "Tarjima matn tabiiy o‘qilmaydi va so‘rov tilini takrorlamaydi"
+        ],
+        [
+          "hreflang o‘zaro bog‘lanadi",
+          "Bir tomonlama ko‘rsatkichni Google e’tiborsiz qoldiradi"
+        ],
+        [
+          "Kirill va lotin variantlari hisobga olinadi",
+          "Ruscha so‘rovlarda kirill yozuv ko‘proq ishlatiladi"
+        ]
       ]
     },
-
-    { "type": "h2", "id": "jarayon", "text": "Ish jarayoni" },
+    {
+      "type": "h2",
+      "id": "jarayon",
+      "text": "Ish jarayoni"
+    },
     {
       "type": "table",
-      "headers": ["Bosqich", "Nima bo‘ladi", "Natija"],
+      "headers": [
+        "Bosqich",
+        "Nima bo‘ladi",
+        "Natija"
+      ],
       "rows": [
-        ["1. Suhbat", "Biznes, xizmatlar, hudud va joriy holat haqida savollar", "Ish hajmi va yo‘nalish aniqlanadi"],
-        ["2. Audit", "Sayt texnik holati va mavjud so‘rovlar tekshiriladi", "Muammolar ro‘yxati va ustuvorliklar"],
-        ["3. Reja", "Nima qilinishi, qanday tartibda va qancha vaqt olishi", "Kelishilgan ish rejasi"],
-        ["4. Texnik ish", "Xatolar tuzatiladi, tuzilma va sahifalar tartibga solinadi", "Sayt Google uchun o‘qiladigan holatga keladi"],
-        ["5. Kontent", "Yetishmayotgan sahifalar yoziladi, mavjudlari kuchaytiriladi", "Har bir so‘rovning o‘z sahifasi bo‘ladi"],
-        ["6. O‘lchov", "Search Console va analitika sozlanadi, hisobot beriladi", "Qaysi so‘rov ariza keltirgani ko‘rinadi"]
+        [
+          "1. Suhbat",
+          "Biznes, xizmatlar, hudud va joriy holat haqida savollar",
+          "Ish hajmi va yo‘nalish aniqlanadi"
+        ],
+        [
+          "2. Audit",
+          "Sayt texnik holati va mavjud so‘rovlar tekshiriladi",
+          "Muammolar ro‘yxati va ustuvorliklar"
+        ],
+        [
+          "3. Reja",
+          "Nima qilinishi, qanday tartibda va qancha vaqt olishi",
+          "Kelishilgan ish rejasi"
+        ],
+        [
+          "4. Texnik ish",
+          "Xatolar tuzatiladi, tuzilma va sahifalar tartibga solinadi",
+          "Sayt Google uchun o‘qiladigan holatga keladi"
+        ],
+        [
+          "5. Kontent",
+          "Yetishmayotgan sahifalar yoziladi, mavjudlari kuchaytiriladi",
+          "Har bir so‘rovning o‘z sahifasi bo‘ladi"
+        ],
+        [
+          "6. O‘lchov",
+          "Search Console va analitika sozlanadi, hisobot beriladi",
+          "Qaysi so‘rov ariza keltirgani ko‘rinadi"
+        ]
       ]
     },
-
-    { "type": "h2", "id": "olchov", "text": "Natijani qanday o‘lchaymiz" },
+    {
+      "type": "h2",
+      "id": "olchov",
+      "text": "Natijani qanday o‘lchaymiz"
+    },
     {
       "type": "p",
       "text": "SEO’da eng ko‘p uchraydigan xato — pozitsiya skrinshotini natija deb hisoblash. Pozitsiya foydalanuvchiga qarab o‘zgaradi va u o‘z-o‘zidan pul keltirmaydi. Shuning uchun biz uchta darajani ketma-ket kuzatamiz."
@@ -214,17 +398,27 @@
       "type": "linkp",
       "text": "Uchinchi daraja eng muhimi. Agar murojaatlar kelsa-yu, ularga o‘z vaqtida javob berilmasa, SEO bekorga ishlaydi — shuning uchun kerak bo‘lsa {avtomatlashtirish} qismini ham sozlaymiz.",
       "links": [
-        { "token": "avtomatlashtirish", "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish" }
+        {
+          "token": "avtomatlashtirish",
+          "target": "/uz/arizalarni-avtomatlashtirish/",
+          "anchor": "arizalarni avtomatlashtirish"
+        }
       ]
     },
-
-    { "type": "h2", "id": "muddat", "text": "Natija qachon ko‘rina boshlaydi" },
+    {
+      "type": "h2",
+      "id": "muddat",
+      "text": "Natija qachon ko‘rina boshlaydi"
+    },
     {
       "type": "p",
       "text": "Texnik tuzatishlardan keyin Google saytni qayta o‘qishi uchun odatda bir necha hafta ketadi. Ko‘rsatishlar sonidagi birinchi o‘zgarishlar shu davrda seziladi. Raqobatli so‘rovlar bo‘yicha barqaror o‘rin esa oylar bilan o‘lchanadi va u saytning yoshi, tashqi havolalar soni va sohaga bog‘liq. Yangi domen uchun bu yo‘l eski domendan uzunroq."
     },
-
-    { "type": "h2", "id": "chegara", "text": "Nimani va’da qilmaymiz" },
+    {
+      "type": "h2",
+      "id": "chegara",
+      "text": "Nimani va’da qilmaymiz"
+    },
     {
       "type": "p",
       "text": "Aniq pozitsiyani kafolatlay olmaymiz va kafolat bermaymiz — natija Google algoritmiga va raqobatchilarning harakatiga bog‘liq, bu esa bizning nazoratimizdan tashqarida. Kim aniq o‘rinni va’da qilsa, u yo algoritmni boshqara olmaydi, yo shartni keyin o‘zgartiradi."
@@ -239,8 +433,11 @@
         "Boshqa pudratchi ishini bilmasdan «hammasi noto‘g‘ri» deb aytilmaydi"
       ]
     },
-
-    { "type": "h2", "id": "narx", "text": "Narx nimaga bog‘liq" },
+    {
+      "type": "h2",
+      "id": "narx",
+      "text": "Narx nimaga bog‘liq"
+    },
     {
       "type": "p",
       "text": "Bizda tayyor narxlar ro‘yxati yo‘q, chunki ikki sayt bir xil bo‘lmaydi. Narx ish hajmiga qarab hisoblanadi va u quyidagilarga bog‘liq."
@@ -259,7 +456,6 @@
       "type": "p",
       "text": "Birinchi suhbat va ish hajmini baholash bepul. Suhbatdan keyin nima qilinishi va u qancha turishini yozma ko‘rinishda beramiz."
     },
-
     {
       "type": "cta",
       "text": "Saytingizni ko‘rib chiqamiz va nimadan boshlash kerakligini aytamiz — maslahat bepul.",
@@ -267,26 +463,97 @@
     }
   ],
   "faq": [
-    { "q": "SEO xizmatini qanday buyurtma qilaman?", "a": "Telegram’ga yozing va sayt manzilini hamda biznesingiz haqida qisqacha ma’lumot yuboring. Biz saytni ko‘rib chiqamiz, savollar beramiz va ish tarkibi, muddati hamda narxi bilan qaytamiz. Birinchi ko‘rik va ish hajmini baholash bepul." },
-    { "q": "SEO natijasi qancha vaqtdan keyin ko‘rinadi?", "a": "Texnik tuzatishlardan keyin ko‘rsatishlar sonidagi birinchi o‘zgarishlar odatda bir necha hafta ichida seziladi. Raqobatli so‘rovlar bo‘yicha barqaror o‘rin oylar bilan o‘lchanadi va u domen yoshi, tashqi havolalar hamda soha raqobatiga bog‘liq." },
-    { "q": "Birinchi o‘rinni kafolatlaysizmi?", "a": "Yo‘q, kafolat bermaymiz. Pozitsiya Google algoritmiga va raqobatchilar harakatiga bog‘liq, bu esa bizning nazoratimizdan tashqarida. Biz ish tarkibini, muddatlarni va o‘lchov usulini kafolatlaymiz, natija raqamini emas." },
-    { "q": "SEO xizmati qancha turadi?", "a": "Tayyor narxlar ro‘yxati yo‘q. Narx saytning holati, sahifalar soni, tillar soni va kerakli ish chuqurligiga bog‘liq. Suhbatdan keyin aniq tarkib va summa beriladi, baholash bepul." },
-    { "q": "Sayt o‘zbek va rus tilida bo‘lsa, ikkalasi ham optimallashtiriladimi?", "a": "Ha, lekin har biri alohida. O‘zbekcha sahifa ruschadan tarjima qilinmaydi: so‘rovlar, ularning hajmi va raqobati ikki tilda boshqacha. Shuningdek hreflang orqali ikki versiya o‘zaro bog‘lanadi." },
-    { "q": "SEO va kontekst reklama — qaysi biri kerak?", "a": "Ular bir-birini almashtirmaydi. Reklama darhol trafik beradi, lekin to‘lov to‘xtaganda u ham to‘xtaydi. SEO sekinroq ishlaydi, ammo natija uzoqroq qoladi. Ko‘p holatda ikkalasi birga ishlatiladi: reklama hozir, SEO kelajak uchun." },
-    { "q": "Havolalar sotib olasizmi?", "a": "Yo‘q. Sun’iy havolalar qisqa muddatli natija beradi va sayt uchun xavf tug‘diradi. Biz mahalliy katalog va sohaviy manbalardagi tabiiy joylashuvlar bilan ishlaymiz." },
-    { "q": "Sayt yo‘q, faqat Instagram bor. SEO kerakmi?", "a": "Bunday holatda avval sayt kerak — SEO optimallashtiriladigan obyektsiz ishlamaydi. Agar hozircha sayt rejada bo‘lmasa, ijtimoiy tarmoqlar va reklama orqali murojaat yig‘ish mantiqiyroq." }
+    {
+      "q": "SEO xizmatini qanday buyurtma qilaman?",
+      "a": "Telegram’ga yozing va sayt manzilini hamda biznesingiz haqida qisqacha ma’lumot yuboring. Biz saytni ko‘rib chiqamiz, savollar beramiz va ish tarkibi, muddati hamda narxi bilan qaytamiz. Birinchi ko‘rik va ish hajmini baholash bepul."
+    },
+    {
+      "q": "SEO natijasi qancha vaqtdan keyin ko‘rinadi?",
+      "a": "Texnik tuzatishlardan keyin ko‘rsatishlar sonidagi birinchi o‘zgarishlar odatda bir necha hafta ichida seziladi. Raqobatli so‘rovlar bo‘yicha barqaror o‘rin oylar bilan o‘lchanadi va u domen yoshi, tashqi havolalar hamda soha raqobatiga bog‘liq."
+    },
+    {
+      "q": "Birinchi o‘rinni kafolatlaysizmi?",
+      "a": "Yo‘q, kafolat bermaymiz. Pozitsiya Google algoritmiga va raqobatchilar harakatiga bog‘liq, bu esa bizning nazoratimizdan tashqarida. Biz ish tarkibini, muddatlarni va o‘lchov usulini kafolatlaymiz, natija raqamini emas."
+    },
+    {
+      "q": "SEO xizmati qancha turadi?",
+      "a": "Tayyor narxlar ro‘yxati yo‘q. Narx saytning holati, sahifalar soni, tillar soni va kerakli ish chuqurligiga bog‘liq. Suhbatdan keyin aniq tarkib va summa beriladi, baholash bepul."
+    },
+    {
+      "q": "Sayt o‘zbek va rus tilida bo‘lsa, ikkalasi ham optimallashtiriladimi?",
+      "a": "Ha, lekin har biri alohida. O‘zbekcha sahifa ruschadan tarjima qilinmaydi: so‘rovlar, ularning hajmi va raqobati ikki tilda boshqacha. Shuningdek hreflang orqali ikki versiya o‘zaro bog‘lanadi."
+    },
+    {
+      "q": "SEO va kontekst reklama — qaysi biri kerak?",
+      "a": "Ular bir-birini almashtirmaydi. Reklama darhol trafik beradi, lekin to‘lov to‘xtaganda u ham to‘xtaydi. SEO sekinroq ishlaydi, ammo natija uzoqroq qoladi. Ko‘p holatda ikkalasi birga ishlatiladi: reklama hozir, SEO kelajak uchun."
+    },
+    {
+      "q": "Havolalar sotib olasizmi?",
+      "a": "Yo‘q. Sun’iy havolalar qisqa muddatli natija beradi va sayt uchun xavf tug‘diradi. Biz mahalliy katalog va sohaviy manbalardagi tabiiy joylashuvlar bilan ishlaymiz."
+    },
+    {
+      "q": "Sayt yo‘q, faqat Instagram bor. SEO kerakmi?",
+      "a": "Bunday holatda avval sayt kerak — SEO optimallashtiriladigan obyektsiz ishlamaydi. Agar hozircha sayt rejada bo‘lmasa, ijtimoiy tarmoqlar va reklama orqali murojaat yig‘ish mantiqiyroq."
+    }
   ],
   "internalLinks": [
-    { "target": "/uz/sayt-yaratish/", "anchor": "biznes uchun sayt yaratish", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/smm-xizmatlari/", "anchor": "SMM xizmatlari", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/telegram-reklama/", "anchor": "Telegram reklama", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/blog/marketing-nima/", "anchor": "marketing nima", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/arizalarni-avtomatlashtirish/", "anchor": "arizalarni avtomatlashtirish", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/", "anchor": "sayt nega ariza olmayapti", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/", "anchor": "GPTBot.uz AI yechimlari", "locale": "uz", "type": "block" }
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "biznes uchun sayt yaratish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "marketing nima",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+      "anchor": "sayt nega ariza olmayapti",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/",
+      "anchor": "GPTBot.uz AI yechimlari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/suniy-intellekt/",
+      "anchor": "sun’iy intellekt",
+      "locale": "uz",
+      "type": "contextual"
+    }
   ],
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
   "lastReviewedAt": "2026-08-22",
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-08-22"
+  "updatedAt": "2026-09-01T00:00:00.000Z"
 }

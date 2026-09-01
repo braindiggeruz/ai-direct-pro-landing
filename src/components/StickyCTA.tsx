@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import type { Dict } from '../i18n';
+import type { Dict, Lang } from '../i18n';
 import { track } from '../lib/cta';
 
-export default function StickyCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
+const PHONE_HREF = 'tel:+998505870720';
+
+export default function StickyCTA({ t, ctaUrl, lang }: { t: Dict; ctaUrl: string; lang: Lang }) {
   const [pastProof, setPastProof] = useState(false);
   const [nearFooter, setNearFooter] = useState(false);
 
@@ -28,6 +30,7 @@ export default function StickyCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
   }, []);
 
   const show = pastProof && !nearFooter;
+  const callLabel = lang === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить';
 
   return (
     <div
@@ -37,18 +40,29 @@ export default function StickyCTA({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
       className="sticky-cta-shell fixed inset-x-0 bottom-0 z-40 mx-auto max-w-sm px-4 pb-[max(0.65rem,env(safe-area-inset-bottom))] pt-2 sm:hidden"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05070D] via-[#05070D]/85 to-transparent -z-10" />
-      <a
-        data-testid="sticky-cta-btn"
-        href={ctaUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        tabIndex={show ? 0 : -1}
-        onClick={() => track('click_sticky_cta')}
-        className="btn-primary w-full !py-3 text-sm"
-      >
-        {t.sticky}
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 3 2.5 10.5c-.9.35-.88 1.65.05 1.95l4.7 1.5L9.5 21c.4 1.05 1.8 1.2 2.4.25l2.95-4.55 5.3 3.9c.95.7 2.3.15 2.5-1.05L23 4.3c.2-1.1-.95-2-1.95-1.3Z" fill="#04101A"/></svg>
-      </a>
+      <div className="grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur">
+        <a
+          data-testid="sticky-call-btn"
+          href={PHONE_HREF}
+          tabIndex={show ? 0 : -1}
+          onClick={() => track('contact_click', { contact_method: 'phone', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: 'phone_contact', cta_zone: 'sticky_bar' })}
+          className="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm"
+        >
+          {callLabel}
+        </a>
+        <a
+          data-testid="sticky-telegram-btn"
+          href={ctaUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex={show ? 0 : -1}
+          onClick={() => track('click_sticky_cta', { contact_method: 'telegram', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: ctaUrl, cta_zone: 'sticky_bar' })}
+          className="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm"
+        >
+          Telegram
+        </a>
+      </div>
+      <div className="sr-only">{t.sticky}</div>
     </div>
   );
 }

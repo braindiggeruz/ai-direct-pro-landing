@@ -1,0 +1,279 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "insho-yozish-suniy-intellekt-bilan",
+  "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+  "title": "Insho yozish sun’iy intellekt bilan: reja, namuna, tekshiruv",
+  "description": "Insho va referat yozishda AIdan qanday foydalanish kerak: reja tuzish, fikrni kengaytirish va matnni tahrirlash. Tayyor so‘rov namunalari va tekshiruv tartibi.",
+  "h1": "Insho yozish sun’iy intellekt bilan: reja, namuna va tekshiruv",
+  "topicCluster": "chatgpt-ozbekistonda",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "insho yozish",
+    "insho yozish sun’iy intellekt",
+    "referat yozish",
+    "insho namuna",
+    "referat tayyorlash",
+    "AI bilan insho"
+  ],
+  "intro": "Insho yozishda sun’iy intellekt eng ko‘p vaqt oladigan qismni — reja tuzish va birinchi qoralamani — tezlashtiradi. Yakuniy matn muallifniki bo‘lishi kerak: AI tayyor inshoni «yozib berishi» emas, fikrni shakllantirishga yordam berishi to‘g‘ri. Quyida bosqichma-bosqich tartib, tayyor so‘rov namunalari va tekshiruv ro‘yxati.",
+  "body": [
+    {
+      "type": "h2",
+      "id": "ai-nima-qiladi",
+      "text": "AI insho yozishda nima qila oladi?"
+    },
+    {
+      "type": "p",
+      "text": "Sun’iy intellekt mavzu bo‘yicha reja taklif qiladi, dalil topishga yo‘naltiradi, matn tuzilishini tekshiradi va uslubiy xatolarni ko‘rsatadi. U fikrni «o‘ylab topmaydi» — u siz bergan yo‘nalish bo‘yicha variantlar taklif qiladi. Shuning uchun eng yaxshi natija AI va muallif hamkorligida chiqadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "AI yordami",
+        "Muallif javobgarligi"
+      ],
+      "rows": [
+        [
+          "Mavzuni aniqlash",
+          "Mavzuni toraytirish uchun savollar beradi",
+          "Yakuniy mavzuni tanlash"
+        ],
+        [
+          "Reja",
+          "3–5 bandli reja taklif qiladi",
+          "Rejani o‘z fikriga moslash"
+        ],
+        [
+          "Dalil",
+          "Qaysi turdagi dalil kerakligini aytadi",
+          "Manbani topish va tekshirish"
+        ],
+        [
+          "Qoralama",
+          "Birinchi matn variantini beradi",
+          "O‘z so‘zi bilan qayta yozish"
+        ],
+        [
+          "Tahrir",
+          "Uslub, takror va bog‘lovchilarni ko‘rsatadi",
+          "Tahrirni qabul qilish yoki rad etish"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bosqichlar",
+      "text": "Bosqichma-bosqich: inshoni AI bilan qanday yozish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mavzuni aniq yozing va kim uchun yozilayotganini ko‘rsating: maktab, kollej yoki universitet.",
+        "Talabni kiriting: hajm, til, uslub, nechta dalil kerakligi.",
+        "AI dan faqat reja so‘rang — matn emas.",
+        "Rejani o‘qing, keraksiz bandni olib tashlang, o‘z fikringizni qo‘shing.",
+        "Har bir band bo‘yicha alohida qoralama so‘rang va uni o‘z so‘zingiz bilan qayta yozing.",
+        "Oxirida AI dan faqat tahrir so‘rang: takror, uslub, bog‘lovchilar."
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Tayyor inshoni so‘rash o‘rniga reja va tahrir so‘rang: natija ham halol, ham sifatli chiqadi."
+    },
+    {
+      "type": "h2",
+      "id": "namunalar",
+      "text": "Insho va referat uchun tayyor so‘rov namunalari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "Reja",
+          "«“Kitob — bilim manbai” mavzusida 5 bandli insho rejasi tuzib ber, har bir bandga bitta dalil taklif qil.»"
+        ],
+        [
+          "Dalil",
+          "«Shu band uchun 3 xil dalil turi taklif qil: misol, statistika, iqtibos. Statistika uchun manba ko‘rsatma, o‘zing uydirma.»"
+        ],
+        [
+          "Kirish",
+          "«Inshoga 2 gapli kirish yoz: birinchi gap mavzuni ochadi, ikkinchisi muammoni qo‘yadi. Tayyor javob berma, faqat tuzilma ber.»"
+        ],
+        [
+          "Tahrir",
+          "«Quyidagi matndagi takror so‘zlarni va zaif bog‘lovchilarni ko‘rsat, ma’noni o‘zgartirma: …»"
+        ],
+        [
+          "Referat",
+          "«“Sun’iy intellekt” mavzusida referat rejasi tuz: kirish, 3 asosiy bob, xulosa. Har bobga 2 ta kichik mavzu yoz.»"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "referat",
+      "text": "Referat yozish: inshodan farqi nimada"
+    },
+    {
+      "type": "p",
+      "text": "Insho — muallif fikri va uslubi, referat esa mavzu bo‘yicha manbalarni umumlashtirish. Referatda asosiy xavf — AI manba uydirishi. Shuning uchun har bir manba alohida tekshirilishi kerak: AI dan faqat tuzilma va yo‘nalish so‘rash, manbalarni esa kutubxona yoki ilmiy bazadan olish to‘g‘ri."
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI dan reja va boblar tuzilmasini so‘rang, manbalarni o‘zingiz toping.",
+        "Har bir iqtibosni asl manba bilan solishtiring.",
+        "Hajm va rasmiylashtirish talabini o‘qituvchi yoki kafedradan oling.",
+        "Xulosa qismini o‘z so‘zingiz bilan yozing — u eng ko‘p tekshiriladigan qism."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Har bir fakt va raqam rasmiy manbada bormi?",
+        "Matn o‘z so‘zingiz bilan yozilganmi yoki shunchaki AI qoralamasi qolganmi?",
+        "O‘qituvchining hajm, til va rasmiylashtirish talabiga mosmi?",
+        "Kirish va xulosa bir-biriga bog‘langanmi?",
+        "Takror so‘z va uzun gaplar tozalanganmi?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Tayyor so‘rovlarni {chat} sahifasida sinab ko‘rish mumkin. Ko‘proq namuna {prompts} materialida, o‘qish ssenariylari {students} maqolasida.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "o‘zbekcha promptlar"
+        },
+        {
+          "token": "students",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "talabalar uchun ChatGPT"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {tg}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "AI chatni o‘zbek tilida ochish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Sun’iy intellekt bilan insho yozish mumkinmi?",
+      "a": "Ha, lekin yordamchi sifatida: reja tuzish, fikrni kengaytirish va matnni tahrirlash. Tayyor inshoni AI ga yozdirib topshirish o‘qish maqsadiga zid — yakuniy matn muallifniki bo‘lishi kerak."
+    },
+    {
+      "q": "AI yozgan inshoni o‘qituvchi aniqlay oladimi?",
+      "a": "Aniqlash usullari mavjud, lekin kafolat bermaydi. Asl sabab boshqa: AI yozgan matn muallif fikrini rivojlantirmaydi va keyingi ishlarda muammo tug‘diradi."
+    },
+    {
+      "q": "AI manba va iqtibos uydirishi mumkinmi?",
+      "a": "Ha, bu eng keng tarqalgan xato. Model haqiqiy ko‘rinadigan, lekin mavjud bo‘lmagan kitob yoki maqola nomini berishi mumkin. Har bir manbani alohida tekshirish shart."
+    },
+    {
+      "q": "Referat uchun AI dan qanday foydalangan ma’qul?",
+      "a": "Faqat tuzilma va yo‘nalish: reja, boblar, qaysi turdagi dalil kerakligi. Manbalarni kutubxona yoki ilmiy bazadan o‘zingiz toping va har bir iqtibosni asl matn bilan solishtiring."
+    },
+    {
+      "q": "Insho uchun qaysi so‘rov eng yaxshi natija beradi?",
+      "a": "Aniq va cheklangan: mavzu, hajm, til, nechta dalil va qaysi uslub kerakligi ko‘rsatilgan so‘rov. «Insho yozib ber» degan umumiy so‘rov o‘rniga avval reja, keyin alohida bandlar so‘rash yaxshiroq ishlaydi."
+    }
+  ],
+  "cta": {
+    "label": "AI chatni o‘zbek tilida ochish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbek tilidagi AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "o‘zbekcha promptlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "ChatGPT talabalar uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "anchor": "ChatGPT kirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/suniy-intellekt/",
+      "anchor": "Sun’iy intellekt nima",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Insho va referat yozishda AI: reja, namuna, tekshiruv",
+  "ogDescription": "Insho yozishda AIdan to‘g‘ri foydalanish: reja, dalil, qoralama va tahrir. Tayyor so‘rov namunalari va topshirishdan oldin tekshiruv ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+  "hreflangUz": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "datePublished": "2026-09-01",
+  "dateModified": "2026-09-01",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — What is ChatGPT?",
+      "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
+    }
+  ],
+  "updatedAt": "2026-09-01T00:00:00.000Z",
+  "createdAt": "2026-09-01T00:00:00.000Z"
+}

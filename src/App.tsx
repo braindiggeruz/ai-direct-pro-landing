@@ -180,7 +180,7 @@ export default function App() {
       </main>
       <Suspense fallback={null}>
         <Footer t={t} lang={lang} ctaUrl={ctaUrl} />
-        <StickyCTA t={t} ctaUrl={ctaUrl} />
+        <StickyCTA t={t} ctaUrl={ctaUrl} lang={lang} />
         <MountSignal onMount={signalBelowFold} />
       </Suspense>
     </div>

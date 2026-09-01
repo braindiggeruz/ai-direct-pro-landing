@@ -49,20 +49,35 @@
     "Telegram reklama"
   ],
   "logo": "https://gptbot.uz/assets/landing/logo-sq.webp",
-  "phone": "",
+  "phone": "+998505870720",
   "authorName": "Борис Герасимов",
   "authorUrl": "https://gptbot.uz/ru/avtor-boris-gerasimov/",
   "telegram": "https://t.me/XGame_changerx",
   "instagram": "",
-  "address": "Tashkent, Uzbekistan",
-  "addressLocality": "Tashkent",
+  "address": "Yahyo Gulyamov ko'chasi 35, Toshkent, Uzbekistan",
+  "addressLocality": "Toshkent",
   "addressCountry": "UZ",
-  "availableLanguage": ["ru", "uz"],
+  "availableLanguage": [
+    "ru",
+    "uz"
+  ],
   "areaServed": [
-    { "type": "Country", "name": "Uzbekistan" },
-    { "type": "City", "name": "Tashkent" },
-    { "type": "City", "name": "Samarkand" },
-    { "type": "City", "name": "Bukhara" }
+    {
+      "type": "Country",
+      "name": "Uzbekistan"
+    },
+    {
+      "type": "City",
+      "name": "Tashkent"
+    },
+    {
+      "type": "City",
+      "name": "Samarkand"
+    },
+    {
+      "type": "City",
+      "name": "Bukhara"
+    }
   ],
   "sameAs": [
     "https://t.me/XGame_changerx",
@@ -71,5 +86,6 @@
   "defaultCTA": {
     "label": "Запустить демо в Telegram",
     "href": "https://t.me/XGame_changerx"
-  }
+  },
+  "streetAddress": "Yahyo Gulyamov ko'chasi 35"
 }
