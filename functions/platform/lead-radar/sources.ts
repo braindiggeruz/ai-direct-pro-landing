@@ -37,6 +37,26 @@ const OVERPASS_ENDPOINTS = [
   { id: 'vk_maps', url: 'https://maps.mail.ru/osm/tools/overpass/api/interpreter' },
   { id: 'private_coffee', url: 'https://overpass.private.coffee/api/interpreter' },
 ] as const;
+
+/**
+ * Public Overpass mirrors are slow and they shed load. Both facts are measured,
+ * not assumed: a trivial five-row Tashkent query answered in 15s on the only
+ * healthy mirror while the other three returned http_502 or refused the
+ * connection, and a heavier query drew http_429 from the busiest one.
+ *
+ * The old client budget was 10s while the query declared `[timeout:24]` to the
+ * server — the client gave up roughly four times earlier than the server ever
+ * would. Every mirror slower than 10 seconds was therefore unreachable, which
+ * is why the contact plan silently fell back to the broad plan on most niches.
+ *
+ * Discovery runs inside a Queue consumer, not an HTTP request, so a longer wait
+ * costs throughput rather than the user's request.
+ */
+const OVERPASS_CLIENT_TIMEOUT_MS = 25_000;
+/** Server-side guard, kept below the client timeout so we see a real answer. */
+const OVERPASS_SERVER_TIMEOUT_SECONDS = 22;
+/** Pause between mirrors. Re-hammering a mirror that just shed load earns a ban. */
+const OVERPASS_BACKOFF_MS = 800;
 const USER_AGENT = 'GPTBot-Lead-Radar/1.1 (+https://gptbot.uz; contact: info@gptbot.uz)';
 const MAX_WEBSITE_BYTES = 450_000;
 const MAX_OVERPASS_BYTES = 2_000_000;
@@ -1012,13 +1032,46 @@ export function buildLeadRadarQueryPlan(
     category: definition.category,
     languageTags: [...new Set(input.languages)].map((language) => `name:${language}`),
     intent: definition.intent,
-    query: `[out:json][timeout:24];\n(\n${lines}\n);\nout meta center ${resultLimit};`,
+    query: `[out:json][timeout:${OVERPASS_SERVER_TIMEOUT_SECONDS}];\n(\n${lines}\n);\nout meta center ${resultLimit};`,
   };
+}
+
+/** Rotating start offset across mirrors.
+ *
+ * A fixed order always spends its first (longest) timeout on the same mirror.
+ * When that one is shedding load, every search pays the full penalty before
+ * failing over. Rotating spreads traffic, which is also simply better
+ * behaviour towards a free shared resource. */
+let overpassEndpointCursor = 0;
+
+/** How long a mirror stays out of rotation after it fails.
+ *
+ * Measured: a dead mirror costs the whole client timeout on every attempt, so
+ * one dead mirror out of three turns a 7s search into a 32s one, and two turn
+ * it into a 57s one. This is per-isolate best-effort state — it only has to
+ * smooth over a shared free resource, never to be exact. */
+const OVERPASS_ENDPOINT_COOLDOWN_MS = 120_000;
+const overpassCooldownUntil = new Map<string, number>();
+
+function overpassRotation(now: number): readonly (typeof OVERPASS_ENDPOINTS)[number][] {
+  const start = overpassEndpointCursor++ % OVERPASS_ENDPOINTS.length;
+  const rotated = OVERPASS_ENDPOINTS.map(
+    (_, offset) => OVERPASS_ENDPOINTS[(start + offset) % OVERPASS_ENDPOINTS.length],
+  );
+  const healthy = rotated.filter((endpoint) => (overpassCooldownUntil.get(endpoint.id) ?? 0) <= now);
+  // Never empty. If every mirror is cooling down we still try one, otherwise a
+  // transient global outage would fail the search closed instead of just slow.
+  return healthy.length > 0 ? healthy : rotated;
 }
 
 async function overpass(query: string, budget: SubrequestBudget): Promise<{ response: OverpassResponse; warnings: string[] }> {
   const failures: string[] = [];
-  for (const endpoint of OVERPASS_ENDPOINTS) {
+  const order = overpassRotation(Date.now());
+
+  for (const [attempt, endpoint] of order.entries()) {
+    if (attempt > 0) {
+      await new Promise((resolve) => setTimeout(resolve, OVERPASS_BACKOFF_MS));
+    }
     const startedAt = Date.now();
     try {
       const parsed = await fetchWithin(
@@ -1033,7 +1086,7 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
           },
           body: new URLSearchParams({ data: query }),
         },
-        10_000,
+        OVERPASS_CLIENT_TIMEOUT_MS,
         budget,
         async (response) => {
           if (!response.ok) throw new Error(`http_${response.status}`);
@@ -1042,8 +1095,10 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
       );
       if (!parsed || typeof parsed !== 'object' || !Array.isArray((parsed as OverpassResponse).elements)) {
         failures.push(`${endpoint.id}_invalid_payload`);
+        overpassCooldownUntil.set(endpoint.id, Date.now() + OVERPASS_ENDPOINT_COOLDOWN_MS);
         continue;
       }
+      overpassCooldownUntil.delete(endpoint.id);
       return {
         response: parsed as OverpassResponse,
         warnings: failures.map((code) => `fallback_after_${code}`),
@@ -1055,8 +1110,9 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
         ? error.diagnostics[0] ?? error.code
         : (timedOut ? 'timeout' : (/^http_\d{3}$/.test(message) ? message : 'network'));
       failures.push(`${endpoint.id}_${code}`);
+      overpassCooldownUntil.set(endpoint.id, Date.now() + OVERPASS_ENDPOINT_COOLDOWN_MS);
     } finally {
-      if (Date.now() - startedAt > 10_500) failures.push(`${endpoint.id}_slow`);
+      if (Date.now() - startedAt > OVERPASS_CLIENT_TIMEOUT_MS + 500) failures.push(`${endpoint.id}_slow`);
     }
   }
   throw new LeadRadarSourceError(
@@ -1107,7 +1163,23 @@ export function mergeOsmElements(
   return merged;
 }
 
-/** Stable, evidence-only ordering applied before the queue selects its fanout. */
+/** Stable, evidence-only ordering applied before the queue selects its fanout.
+ *
+ * Bands, widest first: tier, then reachability, then completeness, then the
+ * semantic score as the final tie-break.
+ *
+ * The old scale was `semantic.score * 10 + completeness`, where semantic.score
+ * already encoded the tier (0/100/200/300) plus a text bonus. A phone was ONE
+ * point of `completeness` against a 3400-point scale — about 0.03% — so
+ * ranking was effectively blind to whether the row could be contacted at all.
+ * Measured consequence: when the contact-first Overpass plan fell back to the
+ * broad plan, only 13-37% of the rows it kept had a phone, because the slice
+ * that bounds discovery kept unreachable rows ahead of reachable ones.
+ *
+ * A lead you cannot reach is not a lead, so reachability now sits directly
+ * below tier and above cosmetic completeness. */
+const OSM_TIER_WEIGHT = { primary: 4, related: 3, fallback: 2, none: 1 } as const;
+
 export function rankLeadRadarOsmElements(
   elements: unknown[],
   intent: LeadRadarIntentResolution,
@@ -1122,7 +1194,15 @@ export function rankLeadRadarOsmElements(
         tags['contact:phone'] || tags.phone,
         tags['addr:full'] || tags['addr:street'],
       ].filter(Boolean).length;
-      return { element, index, score: semantic.score * 10 + completeness };
+      // Phone outranks website: a phone is directly actionable, a website only
+      // enables a crawl that may or may not find a contact.
+      const reachable = (tags['contact:phone'] || tags.phone) ? 2
+        : ((tags['contact:website'] || tags.website) ? 1 : 0);
+      const score = OSM_TIER_WEIGHT[semantic.tier] * 10_000
+        + reachable * 1_000
+        + completeness * 10
+        + semantic.score;
+      return { element, index, score };
     })
     .sort((left, right) => right.score - left.score || left.index - right.index)
     .map(({ element }) => element);
@@ -1876,8 +1956,18 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     } catch (error) {
       // A failed contact plan must not lose the search: the broad plan below
       // still runs and is the one allowed to surface a hard failure.
-      sourceWarnings.push('contact_plan_unavailable');
-      if (!(error instanceof LeadRadarSourceError)) throw error;
+      //
+      // Keep the reason. `contact_plan_unavailable` on its own is unfalsifiable:
+      // a 429 (back off, add mirrors) and a timeout (raise the budget) look
+      // identical from the outside yet need opposite fixes. The discovery log
+      // keeps the first 8 entries, so this stays short on purpose.
+      if (error instanceof LeadRadarSourceError) {
+        sourceWarnings.push(`contact_plan_unavailable:${error.code}`);
+        sourceWarnings.push(...error.diagnostics.slice(0, 3).map((code) => `contact_plan_${code}`));
+      } else {
+        sourceWarnings.push('contact_plan_unavailable:unknown');
+        throw error;
+      }
     }
 
     // Two Overpass round trips worst case, one when the contact plan already
