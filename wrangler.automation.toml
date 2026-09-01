@@ -75,7 +75,15 @@ LEAD_RADAR_FIRECRAWL_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
 LEAD_RADAR_FIRECRAWL_DAILY_CREDITS = "200"
 LEAD_RADAR_FIRECRAWL_SEARCH_CREDITS = "100"
 LEAD_RADAR_FIRECRAWL_DOMAIN_CREDITS = "14"
-LEAD_RADAR_CONTACT_ENABLED = "false"
+# Personal-data switch. Enabled at the owner's decision (2026-09-01): this is
+# the operator's own B2B prospecting tool and the pause was blocking all
+# outreach. It unlocks `messageable`, contact actions and campaign sending.
+# It does NOT relax who may be messaged — the fail-closed ownership and
+# endpoint-type rules below still decide that, and the daily limits still apply.
+# This MUST stay in sync with wrangler.toml (Pages) — the Worker reads its own
+# copy and a mismatch leaves contact actions disabled in the queue consumer
+# even when the admin UI shows them as on.
+LEAD_RADAR_CONTACT_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_TRANSPORT_MODE = "local_bridge"
 LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED = "true"
