@@ -38,6 +38,7 @@ import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui'
 import { TelegramBusinessConnectionCard } from '../components/lead-radar/TelegramBusinessConnectionCard';
 import { TelegramAccountCampaignPanel } from '../components/lead-radar/TelegramAccountCampaignPanel';
 import { TelegramContactDirectory } from '../components/lead-radar/TelegramContactDirectory';
+import { OutreachExport } from '../components/lead-radar/OutreachExport';
 import { FirecrawlDiagnostics } from '../components/lead-radar/FirecrawlDiagnostics';
 import {
   boundTelegramDraftText,
@@ -2412,6 +2413,19 @@ export default function LeadRadarPage() {
                     ) : null}
                   </div>
                 </section>
+
+                {result.leads.length > 0 && (
+                  <section aria-label="Выгрузка контактов для рассылки" className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
+                    <h3 className="text-sm font-semibold text-white">Выгрузить контакты</h3>
+                    <p className="mt-1 max-w-prose text-xs text-white/55">
+                      Компании с телефоном или Telegram — без повторов и без отказавшихся от связи.
+                      CSV для таблицы, vCard — чтобы импортировать сразу в телефонную книгу и писать в WhatsApp или Telegram.
+                    </p>
+                    <div className="mt-3">
+                      <OutreachExport searchId={result.search.id} leads={result.leads} />
+                    </div>
+                  </section>
+                )}
 
                 <CurrentSearchFunnel
                   search={result.search}
