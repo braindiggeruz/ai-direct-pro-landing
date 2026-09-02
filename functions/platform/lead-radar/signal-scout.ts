@@ -40,10 +40,10 @@ import {
   SIGNAL_JOIN_POLICY,
   type JoinQueueSnapshot,
 } from './signal-join-queue';
+import { resolveSignalMode } from './signal-mode';
 import { SignalRadarStore, signalSchemaReady } from './signal-store';
 import {
   isSignalSlug,
-  parseSignalAutojoinMode,
   type SignalTarget,
 } from '../../../src/shared/signal-radar';
 
@@ -320,18 +320,19 @@ async function scoutTarget(
  * operator can see what would happen; performs no Telegram call.
  */
 async function planJoins(
+  db: D1Database | undefined,
   env: SignalScoutEnv,
   store: SignalRadarStore,
   orgId: string,
   now: string,
   report: SignalScoutReport,
 ): Promise<void> {
-  const policy = {
-    ...SIGNAL_JOIN_POLICY,
-    // The mode is the master switch for the most dangerous feature in the
-    // product, so it is the one knob an operator may turn without a deploy.
-    mode: parseSignalAutojoinMode(env.LEAD_RADAR_SIGNAL_AUTOJOIN_MODE) ?? SIGNAL_JOIN_POLICY.mode,
-  };
+  // The mode is the master switch for the most dangerous feature in the
+  // product, so it is the one knob an operator may turn without a deploy. It is
+  // resolved once here, from the same function the admin UI reads, so the two
+  // can never disagree about what is currently allowed.
+  const { mode } = await resolveSignalMode(db, env);
+  const policy = { ...SIGNAL_JOIN_POLICY, mode };
   if (policy.mode === 'off') return;
 
   const nowMs = Date.parse(now);
@@ -361,6 +362,17 @@ async function planJoins(
   }
 }
 
+export interface SignalScoutOptions {
+  /**
+   * Manual scan (the operator pressed «Сканировать»). Ignore `next_action_at`
+   * so the button actually does something: a cron tick is polite and waits for
+   * a channel's polling date, a human asking for a scan is not.
+   */
+  force?: boolean;
+  /** Restrict the tick to one organization. Manual scans are single-tenant. */
+  orgId?: string;
+}
+
 /**
  * One bounded Signal Radar tick. Safe to call on every cron trigger: it does
  * nothing at all unless the switch is exactly "true" and the schema is present,
@@ -371,6 +383,7 @@ export async function runSignalScoutTick(
   db: D1Database | undefined,
   now = new Date(),
   deps: SignalScoutDeps = {},
+  options: SignalScoutOptions = {},
 ): Promise<SignalScoutReport> {
   if (!signalRadarEnabled(env) || !db) return { ...EMPTY_REPORT };
   if (!(await signalSchemaReady(db))) return { ...EMPTY_REPORT };
@@ -380,7 +393,26 @@ export async function runSignalScoutTick(
   const nowMs = now.getTime();
   const report: SignalScoutReport = { ...EMPTY_REPORT, skipped: [] };
 
-  for (const orgId of allowedOrganizations(env)) {
+  // `off` is a hard stop checked *after* resolution, so it wins over the switch
+  // that enabled the module. ENABLED says "this capability is provisioned";
+  // mode `off` says "do not move", and the operator's word comes last.
+  const resolved = await resolveSignalMode(db, env);
+  if (resolved.mode === 'off') {
+    return { ...report, skipped: ['mode_off'] };
+  }
+
+  // In `channels` and `join` the operator has told us what to read, so polling
+  // already-watched channels outranks reconnoitring new ones. In `discover`
+  // the reverse holds: finding new sources is the point.
+  const pollingFirst = resolved.mode === 'channels' || resolved.mode === 'join';
+
+  const organizations = allowedOrganizations(env)
+    .filter((orgId) => !options.orgId || orgId === options.orgId);
+  if (options.orgId && organizations.length === 0) {
+    return { ...report, skipped: ['org_not_allowed'] };
+  }
+
+  for (const orgId of organizations) {
     report.orgs += 1;
     const store = new SignalRadarStore(db);
     try {
@@ -398,9 +430,14 @@ export async function runSignalScoutTick(
         limit: SIGNAL_SCOUT_LIMITS.maxPreviewsPerTick,
       });
       const due = candidates
-        .filter((target) => !target.nextActionAt || target.nextActionAt <= nowIso)
+        .filter((target) => options.force || !target.nextActionAt || target.nextActionAt <= nowIso)
         .sort((left, right) => {
-          if (left.status !== right.status) return left.status === 'candidate' ? -1 : 1;
+          if (left.status !== right.status) {
+            const rank = pollingFirst
+              ? (left.status === 'watching' ? -1 : 1)
+              : (left.status === 'candidate' ? -1 : 1);
+            return rank;
+          }
           return right.score - left.score;
         });
 
@@ -426,7 +463,7 @@ export async function runSignalScoutTick(
         await discover(env, store, orgId, report, deps);
       }
 
-      await planJoins(env, store, orgId, nowIso, report);
+      await planJoins(db, env, store, orgId, nowIso, report);
     } catch (error) {
       report.skipped.push(`${orgId}:${(error as Error).message}`);
     }

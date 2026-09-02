@@ -23,6 +23,7 @@ import {
 } from '../functions/platform/lead-radar/signal-scout';
 import { SignalRadarStore } from '../functions/platform/lead-radar/signal-store';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { applySignalMigrations } from './helpers/signal-schema';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const ORG = 'owner_8ee98dc3040f160b308166b0';
@@ -39,8 +40,7 @@ function signalDb(): SqliteD1 {
     name TEXT NOT NULL UNIQUE,
     applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`);
-  db.exec(readFileSync(path.join(ROOT, 'migrations/0057_lead_radar_signal.sql'), 'utf8'));
-  db.exec("INSERT INTO d1_migrations(name) VALUES ('0057_lead_radar_signal.sql')");
+  applySignalMigrations(db);
   return db;
 }
 

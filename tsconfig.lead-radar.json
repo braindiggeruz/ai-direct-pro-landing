@@ -27,6 +27,7 @@
     "functions/api/lead-radar/crawler/[[path]].ts",
     "functions/api/telegram/lead-radar-business.ts",
     "functions/platform/lead-radar/index.ts",
+    "functions/platform/lead-radar/signal-mode.ts",
     "functions/platform/lead-radar/signal-discovery.ts",
     "functions/platform/lead-radar/signal-join-queue.ts",
     "functions/platform/lead-radar/signal-scout.ts",

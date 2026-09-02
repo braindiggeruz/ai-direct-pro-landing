@@ -26,6 +26,7 @@ import { SqliteD1 } from './helpers/sqlite-d1';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const SIGNAL_MIGRATION = '0057_lead_radar_signal.sql';
+const RETENTION_MIGRATION = '0058_lead_radar_signal_lead_retention.sql';
 const CRAWLER_MIGRATION = '0056_lead_radar_crawler.sql';
 
 const migrationSql = (filename: string): string =>
@@ -56,7 +57,7 @@ async function database(
 }
 
 test('installing Signal Radar does not invalidate the pinned Lead Radar contract', async (t) => {
-  const db = await database({ file: SIGNAL_MIGRATION });
+  const db = await database({ file: SIGNAL_MIGRATION }, { file: RETENTION_MIGRATION });
   t.after(() => db.sqlite.close());
   const report = await auditLeadRadarD1Schema(db.asD1(), 'target');
   assert.equal(
@@ -80,7 +81,11 @@ test('Lead Radar still passes with Signal Radar absent, so an un-migrated databa
 });
 
 test('Signal Radar and the crawler extension can coexist without breaking either pin', async (t) => {
-  const db = await database({ file: CRAWLER_MIGRATION }, { file: SIGNAL_MIGRATION });
+  const db = await database(
+    { file: CRAWLER_MIGRATION },
+    { file: SIGNAL_MIGRATION },
+    { file: RETENTION_MIGRATION },
+  );
   t.after(() => db.sqlite.close());
   const report = await auditLeadRadarD1Schema(db.asD1(), 'target');
   assert.equal(report.status, 'pass', JSON.stringify(report.issues));
@@ -116,7 +121,7 @@ test('the crawler fingerprint constant is still the value the contract was pinne
 });
 
 test('Signal Radar tables, indexes and foreign keys materialize exactly as declared', async (t) => {
-  const db = await database({ file: SIGNAL_MIGRATION });
+  const db = await database({ file: SIGNAL_MIGRATION }, { file: RETENTION_MIGRATION });
   t.after(() => db.sqlite.close());
 
   const tables = db.rows<{ name: string }>(
@@ -133,21 +138,68 @@ test('Signal Radar tables, indexes and foreign keys materialize exactly as decla
   // is the worst possible place to discover it.
   // DISTINCT because pragma_foreign_key_list emits one row per *column*, and
   // every FK here is composite (org_id, other_id) — two rows per relation.
+  //
+  // There is deliberately no leads->posts edge. 0057 had one with ON DELETE
+  // CASCADE, which made the seven-day retention sweep delete worked leads;
+  // 0058 removed it. A lead keeps its own quote and outlives its post.
   const foreignKeys = db.rows<{ from: string; table: string }>(
     "SELECT DISTINCT m.name AS \"from\", p.\"table\" AS \"table\" FROM sqlite_master m JOIN pragma_foreign_key_list(m.name) p WHERE m.type='table' AND m.name LIKE 'lead_radar_signal_%'",
   );
   assert.deepEqual(
     foreignKeys.map((row) => `${row.from}->${row.table}`).sort(),
     [
-      'lead_radar_signal_leads->lead_radar_signal_posts',
       'lead_radar_signal_leads->lead_radar_signal_targets',
       'lead_radar_signal_posts->lead_radar_signal_targets',
     ],
   );
 });
 
+test('retention deletes the post without deleting the lead it produced', async (t) => {
+  const db = await database({ file: SIGNAL_MIGRATION }, { file: RETENTION_MIGRATION });
+  t.after(() => db.sqlite.close());
+
+  const ORG = 'owner_8ee98dc3040f160b308166b0';
+  const NOW = '2026-09-02T00:00:00.000Z';
+  const targetId = 'lrst_' + 'a'.repeat(32);
+  const postId = 'lrsp_' + 'b'.repeat(32);
+  const leadId = 'lrsl_' + 'c'.repeat(32);
+
+  await db.prepare(
+    `INSERT INTO lead_radar_signal_targets
+      (id,org_id,slug,url,kind,status,score,source,created_at,updated_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?)`,
+  ).bind(targetId, ORG, 'toshkent_ish', 'https://t.me/toshkent_ish', 'channel',
+    'watching', 72, 'manual', NOW, NOW).run();
+
+  await db.prepare(
+    `INSERT INTO lead_radar_signal_posts
+      (id,org_id,target_id,excerpt,dedup_key,occurred_at,verdict,score,service,created_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?)`,
+  ).bind(postId, ORG, targetId, 'нужен бот для записи', 'd'.repeat(64), NOW,
+    'lead', 80, 'telegram_bot', NOW).run();
+
+  await db.prepare(
+    `INSERT INTO lead_radar_signal_leads
+      (id,org_id,post_id,target_id,service,score,state,quote,created_at,updated_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?)`,
+  ).bind(leadId, ORG, postId, targetId, 'telegram_bot', 80, 'approved',
+    'нужен бот для записи', NOW, NOW).run();
+
+  // The retention sweep: seven days of raw stranger text, then it goes.
+  await db.prepare('DELETE FROM lead_radar_signal_posts WHERE org_id = ?').bind(ORG).run();
+
+  assert.equal(db.value('SELECT COUNT(*) AS n FROM lead_radar_signal_posts WHERE org_id = ?', ORG), 0);
+  // The approved lead survives. Losing it here is how a drafted, approved or
+  // already-answered request used to vanish without an error on day eight.
+  assert.equal(db.value('SELECT COUNT(*) AS n FROM lead_radar_signal_leads WHERE id = ?', leadId), 1);
+  assert.equal(
+    db.value('SELECT quote AS q FROM lead_radar_signal_leads WHERE id = ?', leadId),
+    'нужен бот для записи',
+  );
+});
+
 test('the signal schema enforces its own contracts end to end in real SQLite', async (t) => {
-  const db = await database({ file: SIGNAL_MIGRATION });
+  const db = await database({ file: SIGNAL_MIGRATION }, { file: RETENTION_MIGRATION });
   t.after(() => db.sqlite.close());
 
   const ORG = 'owner_8ee98dc3040f160b308166b0';
@@ -202,7 +254,7 @@ test('the signal schema enforces its own contracts end to end in real SQLite', a
 });
 
 test('the signal schema rejects malformed rows instead of silently storing them', async (t) => {
-  const db = await database({ file: SIGNAL_MIGRATION });
+  const db = await database({ file: SIGNAL_MIGRATION }, { file: RETENTION_MIGRATION });
   t.after(() => db.sqlite.close());
 
   const ORG = 'owner_8ee98dc3040f160b308166b0';

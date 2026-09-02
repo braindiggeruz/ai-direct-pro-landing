@@ -252,6 +252,19 @@ export const api = {
     patch: { state?: import('../../shared/signal-radar').SignalLeadState; draftText?: string | null },
   ) => request<{ lead: import('../../shared/signal-radar').SignalLead }>('PATCH',
     `/api/admin/signal-radar/leads/${encodeURIComponent(id)}`, patch, { timeoutMs: 20_000 }),
+  signalRadarLead: (id: string, signal?: AbortSignal) =>
+    request<import('../../shared/signal-radar').SignalLeadDetail>('GET',
+      `/api/admin/signal-radar/leads/${encodeURIComponent(id)}`, undefined,
+      { signal, timeoutMs: 20_000 }),
+  // `null` hands the mode back to the deploy-time env variable.
+  signalRadarSetMode: (
+    mode: import('../../shared/signal-radar').SignalAutojoinMode | null,
+    confirm?: boolean,
+  ) => request<{ mode: import('../../shared/signal-radar').SignalModeState }>('PATCH',
+    '/api/admin/signal-radar/mode', { mode, confirm }, { timeoutMs: 20_000 }),
+  signalRadarScan: () =>
+    request<{ scan: import('../../shared/signal-radar').SignalScanStatus }>('POST',
+      '/api/admin/signal-radar/scan', {}, { timeoutMs: 20_000 }),
   config: () => request<{ turnstileRequired: boolean; turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
   login: (email: string, password: string, turnstileToken?: string) => request<{ token: string; email: string; role: string }>('POST', '/api/auth/login', { email, password, turnstileToken }),
   me: () => request<{ email: string; role: string }>('GET', '/api/auth/me'),

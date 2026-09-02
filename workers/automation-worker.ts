@@ -74,12 +74,18 @@ import {
   parseLeadRadarTelegramAccountFinalizationQueueMessage,
   type LeadRadarTelegramAccountFinalizationQueueMessage,
 } from '../src/shared/lead-radar-telegram-account-finalization';
+import {
+  SIGNAL_SCAN_QUEUE_SCHEMA,
+  parseSignalScanQueueMessage,
+  type SignalScanQueueMessage,
+} from '../src/shared/signal-radar';
 
 type AutomationWorkerQueueMessage =
   | AutomationQueueMessage
   | LeadRadarQueueMessage
   | TelegramCampaignQueueMessage
-  | LeadRadarTelegramAccountFinalizationQueueMessage;
+  | LeadRadarTelegramAccountFinalizationQueueMessage
+  | SignalScanQueueMessage;
 
 interface AutomationWorkerEnv extends Env {
   GPTBOT_DRAFTS_DB: D1Database;
@@ -591,6 +597,30 @@ export default {
           continue;
         }
         await consumeTelegramAccountFinalization(message, finalizationEnvelope, env);
+        continue;
+      }
+      // ── Signal Radar manual scan (operator pressed «Сканировать») ──────
+      // Deliberately before every heavy branch: it is the cheapest message in
+      // the system and the only one a human is sitting there waiting for.
+      const looksLikeSignalScan = rawRecord?.schema === SIGNAL_SCAN_QUEUE_SCHEMA;
+      if (looksLikeSignalScan) {
+        try {
+          const scanEnvelope = parseSignalScanQueueMessage(raw);
+          // A malformed or non-allowlisted envelope is acknowledged, never
+          // retried: the cooldown cursor has already been spent in D1.
+          if (scanEnvelope && isLeadRadarOrganizationAllowed(env, scanEnvelope.org_id)) {
+            await runSignalScoutTick(env, env.GPTBOT_DRAFTS_DB, new Date(), {}, {
+              force: true,
+              orgId: scanEnvelope.org_id,
+            });
+          }
+        } catch (error) {
+          // One button press must never become a retry loop against Telegram.
+          // The tick contains its own per-target failures, so anything reaching
+          // here is infrastructure-level; cron keeps the radar warm regardless.
+          recordLeadRadarFailure('signal_scan', error);
+        }
+        message.ack();
         continue;
       }
       const looksLikeTelegramCampaignEnvelope = rawRecord?.schema === TELEGRAM_CAMPAIGN_SCHEMA;

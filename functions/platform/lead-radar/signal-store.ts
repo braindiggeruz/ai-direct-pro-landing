@@ -14,6 +14,7 @@
 import type {
   SignalLead,
   SignalLeadState,
+  SignalRadarPost,
   SignalTarget,
   SignalTargetKind,
   SignalTargetStatus,
@@ -109,6 +110,23 @@ interface LeadRow {
   updated_at: string;
 }
 
+export interface PostRow {
+  id: string;
+  org_id: string;
+  target_id: string;
+  external_id: string | null;
+  author_label: string | null;
+  author_handle: string | null;
+  excerpt: string;
+  dedup_key: string;
+  occurred_at: string;
+  verdict: string;
+  score: number;
+  service: string | null;
+  reasons_json: string;
+  created_at: string;
+}
+
 const SERVICE_VALUES = new Set<string>(['ads', 'seo', 'bots', 'sites', 'apps', 'design', 'crm']);
 
 function toTarget(row: TargetRow): SignalTarget {
@@ -156,6 +174,36 @@ function toLead(row: LeadRow): SignalLead {
     failureCode: row.failure_code,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+  };
+}
+
+/** Reasons are stored as JSON but are never trusted: a bad row must not 500. */
+function parseReasons(raw: string): string[] {
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed.filter((item): item is string => typeof item === 'string').slice(0, 40)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function toPost(row: PostRow): SignalRadarPost {
+  const service = row.service && SERVICE_VALUES.has(row.service) ? row.service as SignalService : null;
+  return {
+    id: row.id,
+    orgId: row.org_id,
+    targetId: row.target_id,
+    excerpt: row.excerpt,
+    authorLabel: row.author_label,
+    authorHandle: row.author_handle,
+    occurredAt: row.occurred_at,
+    verdict: row.verdict,
+    score: row.score,
+    service,
+    reasons: parseReasons(row.reasons_json),
+    createdAt: row.created_at,
   };
 }
 
@@ -361,6 +409,17 @@ export class SignalRadarStore {
       LEFT JOIN lead_radar_signal_targets t ON t.org_id=l.org_id AND t.id=l.target_id
       WHERE l.org_id=?1 AND l.id=?2`).bind(orgId, id).first<LeadRow>();
     return row ? toLead(row) : null;
+  }
+
+  /**
+   * The raw post behind a lead. Returns null when retention has already
+   * purged it — a week-old lead keeps its quote but loses the full text, and
+   * the caller has to render that honestly instead of showing an empty box.
+   */
+  async getPost(orgId: string, id: string): Promise<SignalRadarPost | null> {
+    const row = await this.db.prepare('SELECT * FROM lead_radar_signal_posts WHERE org_id=?1 AND id=?2')
+      .bind(orgId, id).first<PostRow>();
+    return row ? toPost(row) : null;
   }
 
   async updateLead(orgId: string, id: string, patch: SignalLeadPatch, now = new Date().toISOString()): Promise<boolean> {

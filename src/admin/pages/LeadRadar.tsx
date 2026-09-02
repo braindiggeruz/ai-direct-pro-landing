@@ -69,6 +69,11 @@ import {
   LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
   LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS,
 } from '../../shared/lead-radar-telegram-campaign-policy';
+import {
+  leadRadarPrefillFromHandoff,
+  parseSignalHandoff,
+  type SignalHandoff,
+} from '../../shared/signal-handoff';
 
 const DEFAULT_INPUT: LeadRadarSearchInput = {
   niche: 'Стоматологии',
@@ -1448,7 +1453,14 @@ export default function LeadRadarPage() {
     setView(next);
     const url=new URL(window.location.href);url.searchParams.set('view',next);window.history.replaceState(null,'',url);
   }
-  const [draftInput, setDraftInput] = useState<LeadRadarSearchInput>(DEFAULT_INPUT);
+  // A Signal Radar handoff arrives as a URL, once, at mount. It is not a live
+  // binding: from here on the draft belongs to the operator.
+  const [handoff, setHandoff] = useState<SignalHandoff | null>(
+    () => parseSignalHandoff(new URLSearchParams(window.location.search)),
+  );
+  const [draftInput, setDraftInput] = useState<LeadRadarSearchInput>(() => (
+    handoff ? leadRadarPrefillFromHandoff(handoff, DEFAULT_INPUT) : DEFAULT_INPUT
+  ));
   const [pendingSearchInput, setPendingSearchInput] = useState<LeadRadarSearchInput | null>(null);
   const [searchAttemptError, setSearchAttemptError] = useState<SearchAttemptError | null>(null);
   const [overview, setOverview] = useState<LeadRadarOverview | null>(null);
@@ -2106,6 +2118,29 @@ export default function LeadRadarPage() {
           <Button variant={view==='search'?'primary':'secondary'} aria-current={view==='search'?'page':undefined} onClick={()=>changeView('search')}>Поиск компаний</Button>
           <Button variant={view==='contacts'?'primary':'secondary'} aria-current={view==='contacts'?'page':undefined} onClick={()=>changeView('contacts')}>Все Telegram-контакты и кампании</Button>
         </nav>
+
+        {handoff && (
+          <div
+            role="status"
+            data-testid="lead-radar-signal-handoff"
+            className="flex flex-wrap items-start gap-3 rounded-2xl border border-brand-cyan/25 bg-brand-cyan/[0.06] p-4"
+          >
+            <span className="mt-0.5 shrink-0 text-brand-cyan"><Radar size={16} aria-hidden="true" /></span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-white/85">Заявка из Signal Radar</p>
+              {handoff.quote && (
+                <p className="mt-1 text-sm italic leading-relaxed text-white/60">«{handoff.quote}»</p>
+              )}
+              <p className="mt-1.5 text-xs leading-relaxed text-white/55">
+                Оффер и рынок подставились из запроса. Нишу укажите сами: в просьбе
+                «нужен бот» нет отрасли, и угадывать её мы не стали.
+              </p>
+            </div>
+            <Button size="sm" variant="ghost" onClick={()=>setHandoff(null)} data-testid="lead-radar-signal-handoff-dismiss">
+              Скрыть
+            </Button>
+          </div>
+        )}
         {view==='contacts' && <TelegramContactDirectory
           onOpenSearch={(id)=>{changeView('search');void openSearch(id);}}
           initialTemplate={campaignMessageTemplate(draftInput.offer)}
