@@ -1,6 +1,7 @@
 // Small Tailwind primitives used across the admin (kept light to avoid pulling
 // in shadcn into this Vite repo). Match the existing brand palette.
 import React from 'react';
+import { ArrowDown } from 'lucide-react';
 
 export function Card({ children, className = '', ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
@@ -74,12 +75,52 @@ export function ScoreBadge({ score }: { score: number }) {
   return <Badge tone={tone}>{score}/100</Badge>;
 }
 
-export function StatTile({ label, value, tone = 'neutral', testId }: { label: string; value: React.ReactNode; tone?: 'neutral' | 'success' | 'warning' | 'danger' | 'info'; testId?: string }) {
+/**
+ * A tile that can also be a shortcut.
+ *
+ * `onOpen` turns the whole tile into a button that scrolls to the section the
+ * number belongs to. A count the operator cannot reach is worse than no count
+ * at all — the whole point of "1 заявка" is to get to that one заявка.
+ */
+export function StatTile({
+  label, value, tone = 'neutral', testId, onOpen, hint,
+}: {
+  label: string;
+  value: React.ReactNode;
+  tone?: 'neutral' | 'success' | 'warning' | 'danger' | 'info';
+  testId?: string;
+  onOpen?: () => void;
+  hint?: string;
+}) {
   const accent = tone === 'success' ? 'border-emerald-500/30' : tone === 'warning' ? 'border-amber-500/30' : tone === 'danger' ? 'border-red-500/30' : tone === 'info' ? 'border-brand-blue/30' : 'border-white/10';
-  return (
-    <div data-testid={testId} className={`bg-bg-surface border ${accent} rounded-2xl p-4`}>
-      <div className="text-xs uppercase tracking-wide text-white/50">{label}</div>
+  const body = (
+    <>
+      <div className="flex items-baseline justify-between gap-2">
+        <div className="text-xs uppercase tracking-wide text-white/50">{label}</div>
+        {onOpen && <ArrowDown size={12} className="text-white/25 shrink-0" />}
+      </div>
       <div className="font-display text-3xl text-white mt-1">{value}</div>
-    </div>
+      {hint && <div className="text-[11px] text-white/40 mt-1">{hint}</div>}
+    </>
+  );
+
+  if (!onOpen) {
+    return (
+      <div data-testid={testId} className={`bg-bg-surface border ${accent} rounded-2xl p-4`}>
+        {body}
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      data-testid={testId}
+      onClick={onOpen}
+      aria-label={hint ? `${label}: ${hint}` : label}
+      className={`w-full text-left bg-bg-surface border ${accent} rounded-2xl p-4 transition-all duration-150 hover:border-brand-cyan/40 hover:bg-white/[0.03] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan/50`}
+    >
+      {body}
+    </button>
   );
 }

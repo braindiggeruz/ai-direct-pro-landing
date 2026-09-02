@@ -295,3 +295,43 @@ test('every new sidebar and cockpit string lives in the ru dictionary', () => {
 test('the cockpit never links the radar KPI to a foreign origin', () => {
   assert.doesNotMatch(COCKPIT_PAGE, /signal-radar["'`]\s*,?\s*\n?\s*[^/]*https?:\/\//);
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Ф6 — reachability: a count the operator cannot open is not a feature
+//
+// Production note that produced this block: the page said "1 заявка" on a
+// tile, buried that one заявка under a tall setup panel and a 40-row source
+// table, and the first question back was "а как мне её посмотреть?".
+// ─────────────────────────────────────────────────────────────────────────────
+
+const SIGNAL_PAGE = readFileSync(path.join(ROOT, 'src/admin/pages/SignalRadar.tsx'), 'utf8');
+const UI_SOURCE = readFileSync(path.join(ROOT, 'src/admin/components/ui.tsx'), 'utf8');
+
+test('the inbox is rendered above the controls, not below them', () => {
+  const inbox = SIGNAL_PAGE.indexOf('<LeadInbox');
+  const controls = SIGNAL_PAGE.indexOf('<ControlCard');
+  assert.ok(inbox > 0, 'the inbox must be rendered');
+  assert.ok(controls > 0, 'the controls must be rendered');
+  assert.ok(inbox < controls, 'the operator opens this page for leads, not for setup');
+});
+
+test('the sources table is behind a collapsed section', () => {
+  const sources = SIGNAL_PAGE.indexOf('<TargetsCard');
+  const collapsible = SIGNAL_PAGE.indexOf('signal-section-');
+  assert.ok(sources > collapsible, 'the long source table must not sit open by default');
+  assert.match(SIGNAL_PAGE, /defaultOpen\s*=\s*false/);
+});
+
+test('the lead-count tile is a shortcut to the inbox', () => {
+  assert.match(SIGNAL_PAGE, /scrollToSection\(ANCHOR\.inbox\)/);
+  assert.match(SIGNAL_PAGE, /scrollToSection\(ANCHOR\.sources\)/);
+  assert.match(SIGNAL_PAGE, /id=\{ANCHOR\.inbox\}/);
+  assert.match(UI_SOURCE, /onOpen\?: \(\) => void/);
+  // The hint tells the operator what the number will do before they click.
+  assert.match(SIGNAL_PAGE, /показать \$\{totals\.leadsNew\}/);
+});
+
+test('setup sections stay one click away rather than being deleted', () => {
+  assert.match(SIGNAL_PAGE, /signal-section-\$\{title\.toLowerCase\(\)\}/);
+  assert.match(SIGNAL_PAGE, /defaultOpen/);
+});

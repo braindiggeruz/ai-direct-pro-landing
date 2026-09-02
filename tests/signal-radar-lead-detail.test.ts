@@ -89,6 +89,22 @@ test('the detail read returns the whole post, not just the quote', async (t) => 
   assert.ok(post.reasons.every((reason) => typeof reason === 'string'));
 });
 
+test('posts are stamped with the tick clock, not the wall clock', async (t) => {
+  // This is why the purge test below is deterministic. When the scout wrote
+  // `created_at = new Date()`, retention was measured against an injected
+  // timestamp and the test silently became a race with the real clock — it
+  // passed until the wall clock overtook the fixture, then failed for no
+  // reason anyone could see. One tick, one clock, forever.
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  await seeded(db, DEMAND);
+
+  const row = db.sqlite
+    .prepare('SELECT created_at FROM lead_radar_signal_posts')
+    .get() as { created_at: string } | undefined;
+  assert.equal(row?.created_at, NOW.toISOString());
+});
+
 test('a lead whose post was purged reports null instead of an empty box', async (t) => {
   const db = signalDb();
   t.after(() => db.sqlite.close());

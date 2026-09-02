@@ -227,6 +227,81 @@ test('pickSignalQuote returns short posts untouched', () => {
   assert.equal(pickSignalQuote('Нужен бот'), 'Нужен бот');
 });
 
+/* ══════════════════════════════════════════════════════════════════ *
+ * Recruitment ads — the loudest real-world noise class
+ *
+ * The first entry is verbatim from production. It scored as a `bots` lead
+ * with confidence 79 because it ends with `@yandex_ish_bot` and its tracking
+ * URL contains a "?". Nothing in it asks for a bot.
+ * ══════════════════════════════════════════════════════════════════ */
+
+const JOB_OFFER: string[] = [
+  'ISHGA TAKLIF QILAMIZ ‼️\n'
+  + '📍TOSHKENT VA SAMARQAND SHAXRIDA\n\n'
+  + '🟡 "Yandex Eats" bilan oyiga 13 million so‘mgacha daromad bilan kuryer bo‘ling\n'
+  + '🚘🚲🛴🚶 Avtokuryer, velosiped, piyoda va skuter kuryerlar kerak.\n'
+  + '➡️ Havola orqali ro‘yxatdan o‘ting\n\n'
+  + 'https://reg.eda.yandex.uz/?advertisement_campaign=forms_for_agents'
+  + '&user_invite_code=1b45b01dc4a142528d8bf9aac8283875&utm_content=blank\n\n'
+  + '📞 Qo‘shimcha ma’lumot uchun:\n@yandex_ish_bot',
+  'Набираем курьеров, зарплата 10 млн сум, график сменный, Ташкент',
+  'Ищем менеджера по продажам в Ташкенте, оформление по ТК',
+  'Требуются водители на постоянную работу, собеседование сегодня',
+  'Kuryer kerak, maosh 8 mln, Toshkent',
+  'Ishga taklif qilamiz! Sotuvchi kerak, ish jadvali qulay',
+  'Xodimlar kerak, ish haqi kunlik, ariza qoldiring',
+];
+
+test('recruitment ads never become leads, in either language', () => {
+  for (const text of JOB_OFFER) {
+    const result = triageSignal(text);
+    assert.equal(result.verdict, 'jobseeker', `${text.slice(0, 40)} -> ${JSON.stringify(result)}`);
+    assert.equal(result.score, 0);
+  }
+});
+
+test('a bot handle in the signature is not a request for a bot', () => {
+  // The production failure: "@yandex_ish_bot" alone produced `bots:bot`.
+  const result = triageSignal('Акция в нашем магазине, подробности у @shop_helper_bot');
+  assert.equal(result.verdict, 'discard', JSON.stringify(result));
+  assert.deepEqual(result.services, []);
+});
+
+test('a question mark inside a URL does not make the post a question', () => {
+  const withUrl = triageSignal('Нужен бот https://t.me/x?ref=1');
+  const plain = triageSignal('Нужен бот');
+  assert.equal(withUrl.score, plain.score, JSON.stringify(withUrl.reasons));
+  assert.ok(!withUrl.reasons.includes('question'));
+
+  // A question a human typed still counts.
+  assert.ok(triageSignal('Нужен бот, кто сделает?').reasons.includes('question'));
+});
+
+test('reasons are readable strings, never stringified objects', () => {
+  const texts = [
+    'Срочно нужен бот, бюджет 5 млн сум, кто сделает?',
+    'Нужна реклама, срочно, сегодня, оплачу хорошо',
+    'Ищу лендинг под ключ, сколько стоит?',
+  ];
+  for (const text of texts) {
+    for (const reason of triageSignal(text).reasons) {
+      assert.doesNotMatch(reason, /\[object Object\]/, `${text} -> ${reason}`);
+      assert.ok(reason.length > 0);
+    }
+  }
+});
+
+test('a genuine buyer is still a lead after masking', () => {
+  // The mask must not eat the demand: these all carry a handle or a link.
+  for (const text of [
+    'Ребят, нужен бот для записи клиентов. Бюджет до 3 млн сум. Пишите @manager',
+    'Нужен сайт-визитка, кто сделает? Примеры: t.me/mysite',
+    'Требуется SEO, хотим вывести сайт в топ 10 по Ташкенту',
+  ]) {
+    assert.equal(triageSignal(text).verdict, 'lead', `${text} -> ${JSON.stringify(triageSignal(text))}`);
+  }
+});
+
 test('the verdict union is closed and stable', () => {
   const verdicts = new Set<SignalVerdict>();
   for (const [text] of LEAD) verdicts.add(triageSignal(text).verdict);

@@ -269,7 +269,11 @@ async function scoutTarget(
       dedupKey: key,
       occurredAt: post.occurredAt ?? now,
       triage: post.triage,
-    });
+      // The tick's clock, not the wall clock. One tick, one timestamp: a post
+      // written by this tick must be exactly as old as this tick says it is,
+      // or retention — which runs off the same clock — quietly disagrees and
+      // either keeps stranger text forever or deletes it before its time.
+    }, now);
     // null means we already saw this exact text — the whole point of the key.
     if (!inserted) continue;
     newPosts += 1;
@@ -285,7 +289,7 @@ async function scoutTarget(
         authorLabel: post.author,
         authorHandle: null,
         quote: pickSignalQuote(post.text),
-      });
+      }, now);
       if (created) newLeads += 1;
     }
   }

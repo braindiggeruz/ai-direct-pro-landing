@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import {
   ArrowUpRight,
@@ -52,6 +52,7 @@ import {
   type SignalTargetStatus,
 } from '../../shared/signal-radar';
 import { signalHandoffFromLead, signalHandoffQuery } from '../../shared/signal-handoff';
+import { pluralRu } from '../../shared/next-actions';
 
 /**
  * Signal Radar — the demand side.
@@ -60,7 +61,28 @@ import { signalHandoffFromLead, signalHandoffQuery } from '../../shared/signal-h
  * what the operator is here for), then the sources that produce them. Three
  * actions per lead, one add-targets box, one refresh button — nothing else.
  * Everything dangerous lives in the worker.
+ *
+ * Layout rule, learned the hard way: the inbox comes before the controls. The
+ * operator opens this page to answer people, and a setup panel that pushes the
+ * only live request below the fold turns a working radar into a number on a
+ * tile. Every stat that counts something also scrolls to it.
  */
+
+/** Section anchors the stat tiles jump to. */
+const ANCHOR = { inbox: 'signal-section-inbox', sources: 'signal-section-sources' } as const;
+
+/** Scrolls to a section and marks it, so the eye lands on the right card. */
+function scrollToSection(id: string) {
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  node.classList.remove('ring-2', 'ring-brand-cyan/40');
+  // Two frames: the class must be absent for a paint before it can animate in.
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    node.classList.add('ring-2', 'ring-brand-cyan/40');
+    window.setTimeout(() => node.classList.remove('ring-2', 'ring-brand-cyan/40'), 1400);
+  }));
+}
 
 const MODE_LABELS: Record<SignalAutojoinMode, string> = {
   off: 'Выключен',
@@ -290,9 +312,27 @@ export default function SignalRadar() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {(
             [
-              { label: 'Целей', value: totals.targets, tone: 'neutral', testId: 'signal-stat-targets', delay: 60 },
-              { label: 'Под наблюдением', value: totals.watching, tone: 'info', testId: undefined, delay: 100 },
-              { label: 'Новых заявок', value: totals.leadsNew, tone: leadsNewTone, testId: 'signal-stat-leads-new', delay: 140 },
+              {
+                label: 'Новых заявок',
+                value: totals.leadsNew,
+                tone: leadsNewTone,
+                testId: 'signal-stat-leads-new',
+                delay: 60,
+                open: () => scrollToSection(ANCHOR.inbox),
+                hint: totals.leadsNew > 0
+                  ? `показать ${totals.leadsNew} ${pluralRu(totals.leadsNew, ['заявку', 'заявки', 'заявок'])}`
+                  : 'к заявкам',
+              },
+              {
+                label: 'Целей',
+                value: totals.targets,
+                tone: 'neutral',
+                testId: 'signal-stat-targets',
+                delay: 100,
+                open: () => scrollToSection(ANCHOR.sources),
+                hint: 'к источникам',
+              },
+              { label: 'Под наблюдением', value: totals.watching, tone: 'info', testId: undefined, delay: 140 },
               { label: 'Отправлено', value: totals.leadsSent, tone: 'neutral', testId: undefined, delay: 180 },
               { label: 'Квота вступлений', value: totals.joinQuotaLeft, tone: quotaTone, testId: undefined, delay: 220 },
             ] as const
@@ -307,6 +347,8 @@ export default function SignalRadar() {
                 value={s.value}
                 tone={s.tone}
                 testId={s.testId}
+                hint={'hint' in s ? s.hint : undefined}
+                onOpen={'open' in s ? s.open : undefined}
               />
             </div>
           ))}
@@ -314,18 +356,6 @@ export default function SignalRadar() {
       ) : loading ? (
         <StatsSkeleton />
       ) : null}
-
-      {/* ── Controls: mode switch + manual scan ────────────────────── */}
-      {data && (
-        <ControlCard
-          modeState={data.modeState}
-          scan={data.scan}
-          runtime={data.runtime}
-          busyId={busyId}
-          onMutate={mutate}
-          onNotice={setNotice}
-        />
-      )}
 
       {/* ── Not installed notice ───────────────────────────────────── */}
       {!data?.installed && !loading && (
@@ -339,23 +369,99 @@ export default function SignalRadar() {
         </Card>
       )}
 
-      {/* ── Lead Inbox (primary focus) ────────────────────────────── */}
-      <LeadInbox
-        leads={data?.leads ?? []}
-        busyId={busyId}
-        onMutate={mutate}
-        loading={loading}
-        onHandoff={(lead) => navigate(
-          `/admin-tools/lead-radar?${signalHandoffQuery(signalHandoffFromLead(lead))}`,
+      {/* ── Lead Inbox — first, because it is the reason anyone is here ─ */}
+      <div id={ANCHOR.inbox} className="scroll-mt-6 rounded-2xl transition-shadow duration-300">
+        <LeadInbox
+          leads={data?.leads ?? []}
+          busyId={busyId}
+          onMutate={mutate}
+          loading={loading}
+          onHandoff={(lead) => navigate(
+            `/admin-tools/lead-radar?${signalHandoffQuery(signalHandoffFromLead(lead))}`,
+          )}
+        />
+      </div>
+
+      {/* ── Controls: mode switch + manual scan ────────────────────── */}
+      <Collapsible
+        icon={Zap}
+        title="Управление"
+        subtitle={`Режим «${MODE_LABELS[data?.modeState?.mode ?? 'discover']}» · крон каждые 15 минут`}
+        defaultOpen
+      >
+        {data ? (
+          <ControlCard
+            modeState={data.modeState}
+            scan={data.scan}
+            runtime={data.runtime}
+            busyId={busyId}
+            onMutate={mutate}
+            onNotice={setNotice}
+          />
+        ) : (
+          <p className="text-sm text-white/45">Загружаем состояние радара…</p>
         )}
-      />
+      </Collapsible>
 
       {/* ── Targets ────────────────────────────────────────────────── */}
-      <TargetsCard
-        targets={data?.targets ?? []}
-        busyId={busyId}
-        onMutate={mutate}
-      />
+      <div id={ANCHOR.sources} className="scroll-mt-6 rounded-2xl transition-shadow duration-300">
+        <Collapsible
+          icon={Radar}
+          title="Источники"
+          subtitle={data ? `${data.targets.length} в базе` : undefined}
+        >
+          <TargetsCard
+            targets={data?.targets ?? []}
+            busyId={busyId}
+            onMutate={mutate}
+          />
+        </Collapsible>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================ *
+ * Collapsible — keeps setup out of the way of the work.
+ *
+ * The inbox is the product; the mode switch and the source table are
+ * maintenance. They still have to be one click away, because a radar nobody
+ * can retune is a radar nobody keeps.
+ * ============================================================ */
+
+function Collapsible({
+  icon: Icon, title, subtitle, children, defaultOpen = false,
+}: {
+  icon: LucideIcon;
+  title: string;
+  subtitle?: string;
+  children: ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div
+      data-testid={`signal-section-${title.toLowerCase()}`}
+      className="rounded-2xl border border-white/10 bg-bg-surface/40 overflow-hidden"
+    >
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+        className="w-full flex items-center gap-3 px-5 py-3.5 text-left transition-colors hover:bg-white/[0.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan/50"
+      >
+        <Icon size={16} className="text-brand-cyan/80 shrink-0" />
+        <span className="font-display text-base text-white">{title}</span>
+        {subtitle && <span className="text-xs text-white/40 truncate">{subtitle}</span>}
+        <span className="ml-auto text-white/40 shrink-0">
+          {open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </span>
+      </button>
+      {open && (
+        <div className="px-5 pb-5 pt-1 animate-fade-in">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -377,8 +483,10 @@ function LeadInbox({
   const [drafts, setDrafts] = useState<Record<string, string>>({});
 
   if (loading && leads.length === 0) {
+    // The same test id as the loaded state: an element that vanishes while
+    // loading is an element no test and no operator can rely on.
     return (
-      <Card>
+      <Card data-testid="signal-inbox">
         <SectionTitle icon={Inbox} title="Заявки" />
         <InboxSkeleton />
       </Card>
@@ -390,12 +498,20 @@ function LeadInbox({
       data-testid="signal-inbox"
       className="bg-gradient-to-b from-white/[0.03] to-transparent"
     >
-      <div className="flex items-baseline justify-between gap-3 mb-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-1.5">
         <SectionTitle icon={Inbox} title="Заявки" />
         <span className="text-xs text-white/40">
-          {leads.length > 0 ? `${leads.length} активных` : 'новые, черновики и одобренные'}
+          {leads.length > 0
+            ? `${leads.length} ${pluralRu(leads.length, ['активная', 'активные', 'активных'])}`
+            : 'новые, черновики и одобренные'}
         </span>
       </div>
+      {leads.length > 0 && (
+        <p className="text-xs text-white/40 mb-4 leading-relaxed">
+          «Подробнее» открывает весь пост и причины, по которым он попал сюда.
+          «Найти компании» передаёт заявку в Lead Radar.
+        </p>
+      )}
 
       {leads.length === 0 ? (
         <EmptyState
@@ -778,15 +894,10 @@ function ControlCard({
         : null;
 
   return (
-    <Card
-      data-testid="signal-controls"
-      className="bg-gradient-to-b from-brand-cyan/[0.04] to-transparent animate-fade-up"
-      style={{ animationDelay: '40ms' }}
-    >
+    <div data-testid="signal-controls" className="animate-fade-up">
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
         {/* ── Mode switch ── */}
         <div className="min-w-0">
-          <SectionTitle icon={Zap} title="Управление" />
           <div
             className="mt-3 inline-flex flex-wrap gap-1 rounded-xl border border-white/10 bg-bg-surface/70 p-1"
             role="group"
@@ -906,7 +1017,7 @@ function ControlCard({
           </div>
         </div>
       )}
-    </Card>
+    </div>
   );
 }
 
@@ -951,11 +1062,7 @@ function TargetsCard({
   };
 
   return (
-    <Card
-      data-testid="signal-targets"
-      className="bg-gradient-to-b from-white/[0.03] to-transparent"
-    >
-      <SectionTitle icon={Radar} title="Источники" />
+    <div data-testid="signal-targets">
       <p className="text-xs text-white/45 mb-4 leading-relaxed">
         Каналы читаются без вступления. Группы требуют вступления и расходуют
         квоту — в режиме «Только поиск» система их не трогает.
@@ -1099,7 +1206,7 @@ function TargetsCard({
           </table>
         </div>
       )}
-    </Card>
+    </div>
   );
 }
 

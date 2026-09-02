@@ -11,13 +11,17 @@ import { normalizeLeadRadarIntentText } from './intent';
  *   3. It costs nothing and fits in a fraction of the 30 ms CPU budget that
  *      Cloudflare's free tier allows per request.
  *
- * The two traps this engine exists to survive:
+ * The three traps this engine exists to survive:
  *   - "ищу работу" is by far the loudest false positive in Russian-speaking
  *     groups. It shares the word "ищу" with a real buyer and would otherwise
  *     score as demand every single time.
  *   - SPROS vs PREDLOZHENIE. "делаю ботов" is a competitor advertising, not a
  *     lead. Replying to it with your own offer is the most embarrassing and
  *     most common failure mode of this whole product.
+ *   - Recruitment. "Курьеры нужны, 13 млн в месяц, @yandex_ish_bot" hits every
+ *     demand marker the engine has and is worth nothing to a studio. It is the
+ *     dominating noise class in Uzbekistan's groups, and the `jobseeker`
+ *     verdict covers both directions of the labour market.
  */
 
 export const SIGNAL_SERVICES = [
@@ -50,6 +54,31 @@ export const SIGNAL_TRIAGE_THRESHOLDS: SignalTriageThresholds = { lead: 60, revi
 // this module (and the whole intent dictionary behind it) into the browser
 // bundle. Re-exported here to keep existing imports working.
 export { SIGNAL_SERVICE_LABELS } from '../../../src/shared/signal-radar';
+
+/**
+ * Links and @handles are stripped before any keyword matching happens.
+ *
+ * This is not hygiene, it is the fix for the worst false positive the engine
+ * has shipped. A recruitment post for Yandex Eats scored as a `bots` lead with
+ * confidence 79 purely because it ended with the contact `@yandex_ish_bot`:
+ * the normalizer turns the underscore into a space, and "bot" then matches at
+ * the start of a word. The same post picked up `question` from the `?` in its
+ * tracking URL. Every Telegram post carries a handle, so without this mask the
+ * word "bot" is not a service signal at all — it is a constant.
+ *
+ * Contact detection stays on the original text: a handle is still a handle, it
+ * just is not allowed to vote on what the post is about.
+ */
+function maskNoise(raw: string): string {
+  return raw
+    // Full URLs first, so a query string cannot leak a "?" into the question
+    // check below.
+    .replace(/(?:https?:\/\/|www\.)[^\s]+/gi, ' ')
+    .replace(/@[A-Za-z0-9_]{3,}/g, ' ')
+    // Bare domains. The final label must be letters, so "11.400.000" stays a
+    // number and "reg.eda.yandex.uz" does not survive.
+    .replace(/\b[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z]{2,24})+(?:\/[^\s]*)?/gi, ' ');
+}
 
 /**
  * Every dictionary below holds *stems*, matched from the start of a word. That
@@ -138,8 +167,8 @@ const SERVICE_TERMS: Record<SignalService, readonly string[]> = {
 };
 
 /**
- * Job seeking. Checked before anything else and terminal: a person looking for
- * a job is not a buyer, no matter how many service words they used.
+ * Looking for work. Terminal: a person hunting for a job is not a buyer, no
+ * matter how many service words they used.
  */
 const JOBSEEKER_TERMS: readonly string[] = [
   'ищу работ', 'ищет работ', 'ищем работ', 'ищут работ', 'в поиске работ',
@@ -150,6 +179,45 @@ const JOBSEEKER_TERMS: readonly string[] = [
   'ищу подработ', 'устроит на работ',
   'ish qidir', 'ish izla', 'ish kerak', 'ish topish', 'rezume', 'vakansiya',
   'amaliyot', 'ishga joyla', 'ishga kir', 'tajriba orttir',
+];
+
+/**
+ * Offering work. The mirror image of job seeking, and in Uzbekistan's groups
+ * far louder: courier, driver and sales-staff recruitment is the single
+ * biggest class of noise in the feed. It is structurally identical to a real
+ * brief — "kerak", "нужен", a contact, urgency, money — so it has to be caught
+ * before scoring rather than out-scored afterwards.
+ *
+ * Nothing here is a bare hiring verb. "Требуется бот для Telegram" is a
+ * genuine buyer, and "требуется" on its own would have killed it: every term
+ * names either the role being hired or the machinery of employment itself
+ * (salary, shifts, probation, applications).
+ */
+const JOB_OFFER_TERMS: readonly string[] = [
+  // Russian — employment machinery.
+  'набираем', 'набор персонал', 'набор сотрудник', 'в штат', 'в нашу команд',
+  'трудоустройств', 'оформление по тк', 'испытательн', 'зарплат', 'оклад',
+  'график работ', 'сменный график', 'собеседован', 'отдел кадр',
+  'присылайте резюме', 'пришлите резюме', 'отправьте резюме', 'резюме на',
+  'эйчар', 'hr менеджер', 'работа в ташкент', 'работа удаленн',
+  'ищем сотрудник', 'ищем работник', 'ищем персонал', 'требуются сотрудник',
+  'требуется сотрудник', 'требуются работник', 'требуются персонал',
+  // Russian — the roles themselves.
+  'ищем кур', 'требуются кур', 'ищем водител', 'требуются водител',
+  'ищем кассир', 'ищем продавц', 'требуются продавц', 'ищем официант',
+  'ищем повар', 'ищем бармен', 'ищем грузчик', 'ищем охранник',
+  'ищем уборщиц', 'ищем администратор', 'ищем менеджер по продаж',
+  'ищем кладовщик', 'ищем сборщик', 'ищем комплектовщик',
+  // Uzbek — employment machinery.
+  'ishga taklif', 'ish taklif', 'ishga olamiz', 'ishga qabul',
+  'ishga joylashtir', 'ish orni', 'ish ornini', 'ish beramiz', 'ish haqi',
+  'maosh', 'ish jadval', 'ish vaqti', 'ariza qoldiring', 'royxatdan oting',
+  'ariza topshir', 'jamoaga qoshil', 'suhbatdan',
+  // Uzbek — the roles themselves.
+  'ishchi kerak', 'ishchilar kerak', 'xodim kerak', 'xodimlar kerak',
+  'kuryer kerak', 'kuryerlar kerak', 'kuryer boling', 'haydovchi kerak',
+  'sotuvchi kerak', 'kassir kerak', 'ofitsiant kerak', 'oshpaz kerak',
+  'qorovul kerak',
 ];
 
 /** Offering services rather than asking for them. */
@@ -217,21 +285,27 @@ export function triageSignal(
   thresholds: SignalTriageThresholds = SIGNAL_TRIAGE_THRESHOLDS,
 ): SignalTriage {
   const text = typeof rawText === 'string' ? rawText : '';
-  const normalized = normalizeLeadRadarIntentText(text);
+  // Links and handles are removed for every decision about *what the post is
+  // about*, and kept for the one decision about *whether we can reply*.
+  const masked = maskNoise(text);
+  const normalized = normalizeLeadRadarIntentText(masked);
   if (normalized.length === 0) {
     return { verdict: 'discard', score: 0, service: null, services: [], reasons: ['empty'], hasContact: false };
   }
 
-  // 1. Job seeking is terminal. It shares "ищу" with genuine demand and is the
-  //    single largest source of false positives in Russian-language groups.
+  // 1. Employment, in both directions, is terminal. It shares "ищу" and "нужен"
+  //    with genuine demand and is the single largest source of false positives
+  //    in the region's groups — mostly recruitment ads, not job seekers.
   const jobseeker = stemHits(normalized, JOBSEEKER_TERMS);
-  if (jobseeker.length > 0) {
+  const jobOffer = stemHits(normalized, JOB_OFFER_TERMS);
+  const job = jobseeker[0] ?? jobOffer[0] ?? null;
+  if (job) {
     return {
       verdict: 'jobseeker',
       score: 0,
       service: null,
       services: [],
-      reasons: [`jobseeker:${jobseeker[0].term}`],
+      reasons: [`${jobseeker.length > 0 ? 'jobseeker' : 'joboffer'}:${job.term}`],
       hasContact: false,
     };
   }
@@ -311,17 +385,22 @@ export function triageSignal(
     score += SCORE.contact;
     reasons.push('contact');
   }
+  // `.term`, not the hit object: these reasons are rendered in the lead card
+  // under "Почему это заявка", and a stringified object there reads as a bug
+  // to the operator who is deciding whether to spend money on the reply.
   const urgency = stemHits(normalized, URGENCY_TERMS);
   if (urgency.length > 0) {
     score += SCORE.urgency;
-    reasons.push(`urgency:${urgency[0]}`);
+    reasons.push(`urgency:${urgency[0].term}`);
   }
   const budget = stemHits(normalized, BUDGET_TERMS);
   if (budget.length > 0) {
     score += SCORE.budget;
-    reasons.push(`budget:${budget[0]}`);
+    reasons.push(`budget:${budget[0].term}`);
   }
-  if (text.includes('?')) {
+  // "?" only counts when a human typed it. Every tracking URL carries one, and
+  // a recruitment post for a delivery service should not read as a question.
+  if (masked.includes('?')) {
     score += SCORE.question;
     reasons.push('question');
   }
