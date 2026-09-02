@@ -1,0 +1,320 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "sayt-yaratish-narxi-toshkent-2026",
+  "url": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+  "title": "Sayt yaratish narxi Toshkent 2026: smetalar",
+  "description": "Toshkentda sayt narxlari: landing 2-4 million, korporativ 4-8 million, internet-do'kon 8-15 million so'm. Muddati, narxga nimalar kirmaydi, birja/frilanser/studiya solishtiruvi.",
+  "h1": "Sayt yaratish narxi Toshkent 2026: smetalar",
+  "topicCluster": "sayt-narxi",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "sayt yaratish narxi",
+    "sayt narxi Toshkent",
+    "veb sayt yaratish narxi",
+    "sayt yaratish qancha turadi",
+    "Toshkentda sayt buyurtma"
+  ],
+  "intro": "Sayt turlari bo'yicha aniq smetalar, real muddatlar va ishlar tarkibi bilan. Shuningdek, aytilgan narxga deyarli hech qachon kirmaydigan narsalar va pudratchini to'lovdan oldin qanday tekshirish.",
+  "body": [
+    {
+      "type": "toc",
+      "text": "Maqolada navigatsiya",
+      "links": [
+        {
+          "anchor": "Qisqa javob",
+          "target": "#javob"
+        },
+        {
+          "anchor": "Sayt turlari bo'yicha narxlar",
+          "target": "#narxlar"
+        },
+        {
+          "anchor": "Narxga nima kirmaydi",
+          "target": "#kirmaydi"
+        },
+        {
+          "anchor": "Birja, frilanser yoki studiya",
+          "target": "#solishtirish"
+        },
+        {
+          "anchor": "Smetani qanday tekshirish",
+          "target": "#tekshirish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javob",
+      "text": "Qisqa javob"
+    },
+    {
+      "type": "p",
+      "text": "2026 yilda Toshkentda biznes uchun sayt 2 dan 15 million so'mgacha turadi. Yetti barobar farq dizaynda emas, ishlar tarkibida: shablondagi landing va to'lov hamda CRM bilan internet-do'kon — bu turli loyihalar. Quyida turlar bo'yicha aniq taqsimot."
+    },
+    {
+      "type": "h2",
+      "id": "narxlar",
+      "text": "Sayt turlari bo'yicha narxlar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Sayt turi",
+        "Narxi",
+        "Muddati",
+        "Nimalar kiradi"
+      ],
+      "rows": [
+        [
+          "Landing (1–3 sahifa, shablon)",
+          "2–4 million so'm",
+          "5–8 kun",
+          "Dizayn, vjorstka, ariza formasi"
+        ],
+        [
+          "Korporativ sayt (5–10 sahifa)",
+          "4–8 million so'm",
+          "2–3 hafta",
+          "Struktura, matnlar, SEO bazasi"
+        ],
+        [
+          "Internet-do'kon",
+          "8–15 million so'm",
+          "3–5 hafta",
+          "Katalog, savatcha, to'lov"
+        ],
+        [
+          "Sayt + AI-bot (arizalar uchun)",
+          "12 million so'mdan",
+          "4–6 hafta",
+          "Sayt, bot, CRM, analitika"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Muddatlar kontent (matnlar, foto) o'z vaqtida taqdim etilganda amal qiladi. Amalda loyiha aynan kontentda to'xtaydi, vjorstkada emas: materiallar tayyor bo'lmasa, muddatga ikki-uch hafta qo'shing."
+    },
+    {
+      "type": "h2",
+      "id": "kirmaydi",
+      "text": "Narxga odatda nima kirmaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        ".uz zonasidagi domen — yiliga taxminan 80 000 so'm.",
+        "Xosting — yuklamaga qarab oyiga 50 000 dan 300 000 so'mgacha.",
+        "Kontent: matnlar, fotolar, suratga olish — alohida smeta.",
+        "Ishga tushgandan keyingi o'zgartirishlar — ko'pincha pullik va kafolatga kirmaydi."
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Domen, xosting va kontent «ichida» bo'lgan smeta deyarli har doim shablon va matnlarsiz degani. Buni imzolashdan oldin, ishga tushgandan keyin emas, tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "solishtirish",
+      "text": "Birja, frilanser yoki studiya"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Mezon",
+        "Birja",
+        "Frilanser",
+        "Studiya"
+      ],
+      "rows": [
+        [
+          "Landing",
+          "$30–150",
+          "1,5–3 million so'm",
+          "2–4 million so'm"
+        ],
+        [
+          "Internet-do'kon",
+          "Xavfli",
+          "4–8 million so'm",
+          "8–15 million so'm"
+        ],
+        [
+          "Kafolat va qo'llab-quvvatlash",
+          "Yo'q",
+          "Kelishuv bo'yicha",
+          "Shartnoma bo'yicha"
+        ],
+        [
+          "Manba kodlarini topshirish",
+          "Bahsli",
+          "Ko'pincha bahsli",
+          "Belgilanadi"
+        ],
+        [
+          "Reklama va CRM bilan bog'lash",
+          "Yo'q",
+          "Yo'q",
+          "Bor"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Frilanser bilan ishlashda alohida xavf — kirish huquqlari. Agar domen, xosting va kabinetlar ijrochiga rasmiylashtirilgan bo'lsa, ajralganda siz faqat saytni emas, tarixini ham yo'qotasiz. Batafsil: {tanlash}."
+    },
+    {
+      "type": "linkp",
+      "text": "{tanlash} — har bir variant qayerda yaxshiroq va sxema qayerda sinadi.",
+      "links": [
+        {
+          "token": "tanlash",
+          "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+          "anchor": "agentlik, frilanser yoki birja"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish",
+      "text": "Smetani to'lovdan oldin qanday tekshirish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Domen, xosting va manba kodlari sizda bo'lishi kerak — bu whois va shartnoma bo'yicha bir daqiqada tekshiriladi.",
+        "Smetada dizayn, vjorstka, to'ldirish, integratsiyalar alohida ko'rsatilgan. Bitta raqam — xavf belgisi.",
+        "Tuzatishlar soni va nima tuzatish, nima yangi vazifa ekanligi ko'rsatilgan.",
+        "Shartnomada bekor qilinganda manba kodlari va kirish huquqlarini topshirish tartibi yozilgan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar sayt vizitka emas, arizalar vositasi sifatida kerak bo'lsa, darhol murojaatlarni qayta ishlash bilan bog'lashni rejalashtirish mantiqan to'g'ri. Biz {sayt} qilamiz va {bot} ulaymiz — ariza sovib qolmasligi uchun."
+    },
+    {
+      "type": "linkp",
+      "text": "{sayt} va {bot} birgalikda — vazifangiz bo'yicha smetani hisoblab beramiz.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/sayt-uchun-ai-bot/",
+          "anchor": "sayt uchun AI-bot"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko'chasi 35, Toshkent."
+    },
+    {
+      "type": "cta",
+      "text": "Bog'lanish"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Toshkentda sayt yaratish qancha turadi?",
+      "a": "2 dan 15 million so'mgacha. Shablondagi landing — 2–4 million, 5–10 sahifali korporativ sayt — 4–8 million, katalog va to'lov bilan internet-do'kon — 8–15 million. Arizalarni qayta ishlash uchun AI-bot bilan sayt — 12 million so'mdan. Narxga odatda domen (.uz yiliga 80 000 so'm), xosting (oyiga 50–300 ming) va kontent kirmaydi."
+    },
+    {
+      "q": "Sayt yaratish qancha vaqt oladi?",
+      "a": "Landing — 5–8 kun, korporativ sayt — 2–3 hafta, internet-do'kon — 3–5 hafta. AI-bot va CRM bilan sayt — 4–6 hafta. Agar matnlar va fotolar tayyor bo'lmasa, muddatga 2–3 hafta qo'shing: loyihalar aynan kontentda to'xtaydi."
+    },
+    {
+      "q": "Birjada buyurtma berish arzonmi yoki studiyada?",
+      "a": "Birjada landing $30–150 turadi — studiyadan 3–5 barobar arzon. Lekin birjada kafolat, qo'llab-quvvatlash va reklama hamda CRM bilan bog'lash uchun javobgarlik yo'q. Internet-do'kon va arizalarni qayta ishlash muhim bo'lgan har qanday loyiha uchun birja — xavf."
+    },
+    {
+      "q": "Nega SEO ni sayt yaratilgandan keyin qilish mumkin emas?",
+      "a": "Chunki qayta qilish, strukturani ishlab chiqish bosqichida qo'yishdan 2–3 barobar qimmat. To'g'ri pudratchi struktura, semantik yadro va schema.org ni poydevorga qo'yadi — bu tayyor saytni qidiruv ostida qayta qilishdan arzonroq."
+    },
+    {
+      "q": "Saytga AI-bot kerakmi?",
+      "a": "Agar sayt arizalar olib kelishi kerak bo'lsa — ha. Bizning o'lchovlar bo'yicha tashrif buyuruvchilarning 38% 30 soniya ichida javob olmasa ketadi, murojaatlarning 40% esa soat 19:00 dan keyin keladi, menejerlar ishlamaydigan paytda. AI-bot darhol va 24/7 javob beradi."
+    },
+    {
+      "q": "Manba kodlari menga topshirilishini qanday tekshirish mumkin?",
+      "a": "To'lovdan oldin ikki narsani tekshiring: domen (whois) va xosting kimga rasmiylashtirilgan, shartnomada manba kodlari va kirish huquqlarini topshirish tartibi yozilganmi. Agar domen va xosting ijrochida bo'lsa, ajralganda saytni tarixi bilan yo'qotasiz."
+    }
+  ],
+  "cta": {
+    "label": "Telegram orqali bog'lanish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/sayt-uchun-ai-bot/",
+      "anchor": "sayt uchun AI-bot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "SEO xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "anchor": "agentlik, frilanser yoki birja",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "biznes uchun sayt",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "sayt narxi Toshkent",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "anchor": "sayt yaratish narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    }
+  ],
+  "ogTitle": "Sayt yaratish narxi Toshkent 2026: smetalar",
+  "ogDescription": "Toshkentda sayt narxlari: landing 2-4 million, korporativ 4-8 million, internet-do'kon 8-15 million so'm. Muddati, narxga nimalar kirmaydi, birja/frilanser/studiya solishtiruvi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+  "hreflangRu": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+  "hreflangUz": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-09-02",
+  "dateModified": "2026-09-02",
+  "schemaTypes": [
+    "Article",
+    "FAQPage",
+    "BreadcrumbList"
+  ],
+  "createdAt": "2026-09-02T00:00:00Z",
+  "updatedAt": "2026-09-02T00:00:00.000Z"
+}

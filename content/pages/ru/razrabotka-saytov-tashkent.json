@@ -27,7 +27,6 @@
   "canonical": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
   "hreflangUz": "/uz/sayt-yaratish/",
   "hreflangRu": "/ru/razrabotka-saytov-tashkent/",
-  "hreflangUz": "/uz/sayt-yaratish/",
   "ogTitle": "Разработка сайтов в Ташкенте под ключ | GPTBot.uz",
   "ogDescription": "Разработка сайтов в Ташкенте для бизнеса: лендинги, корпоративные сайты, интернет-магазины, SEO, CRM, аналитика и AI-боты для заявок. Бесплатная консультация.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
@@ -991,6 +990,34 @@
       "anchor": "сравнение форматов сайта",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "anchor": "сколько стоит создать сайт в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "anchor": "проверка подрядчика перед договором",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "anchor": "разработка сайтов в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+      "anchor": "разработка и поддержка сайтов",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

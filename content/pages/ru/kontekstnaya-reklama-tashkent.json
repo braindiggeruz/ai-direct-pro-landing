@@ -312,6 +312,17 @@
       "text": "После брифа фиксируются включённые работы, исключения, зависимости от владельца, критерии приёмки и порядок изменения объёма. Универсальный «рыночный пакет» без этих данных не является сопоставимой сметой."
     },
     {
+      "type": "linkp",
+      "text": "Даже две одинаковые сметы дают разный результат, если у исполнителей разная глубина: аналитика, обработка заявок, регламент правок. Как это проверить до оплаты — в разборе про {who}.",
+      "links": [
+        {
+          "token": "who",
+          "target": "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+          "anchor": "выбор между агентством и фрилансером"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "process",
       "text": "Как проходит запуск и ведение кампании"
@@ -584,6 +595,33 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+      "anchor": "выбор между агентством и фрилансером",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "anchor": "стоимость интернет-рекламы в 2026",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "anchor": "сколько стоит контекстная реклама",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "anchor": "контекстная реклама в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

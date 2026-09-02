@@ -626,6 +626,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "anchor": "реклама в Telegram: цены и запуск",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "anchor": "стоимость таргетированной рекламы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

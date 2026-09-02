@@ -1,0 +1,258 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "internet-dokon-yaratish-narxi-toshkent",
+  "url": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+  "title": "Internet do'kon yaratish narxi Toshkent 2026",
+  "description": "Toshkentda internet do'kon narxi 2026: shablon katalog, integratsiyalar bilan do'kon va individual ishlab chiqish. Muddatlar va nimalar kiradi.",
+  "h1": "Toshkentda internet do'kon yaratish narxi 2026: qancha turadi",
+  "topicCluster": "sayt-narxi",
+  "targetMoneyPage": "/uz/sayt-yaratish/",
+  "keywords": [
+    "internet do'kon yaratish narxi",
+    "internet do'kon narxi Toshkent",
+    "onlayn do'kon yaratish narxi",
+    "internet do'kon buyurtma",
+    "wordpress do'kon narxi"
+  ],
+  "intro": "Toshkentda internet do'kon 2026-yilda qancha turadi va nega narxlar 4 million so'mdan boshlanib, 40 millionda tugaydi. Uch turdagi loyiha: shablon katalog, integratsiyalar bilan do'kon, individual ishlab chiqish.",
+  "body": [
+    {
+      "type": "toc",
+      "text": "Maqola bo'ylab navigatsiya",
+      "links": [
+        {
+          "anchor": "Qisqa javob",
+          "target": "#javob"
+        },
+        {
+          "anchor": "Uch tur va ularning narxi",
+          "target": "#turlar"
+        },
+        {
+          "anchor": "Smetani qanday yig'ish kerak",
+          "target": "#smeta"
+        },
+        {
+          "anchor": "Birinchi yilning yashirin xarajatlari",
+          "target": "#yashirin"
+        },
+        {
+          "anchor": "Boshlash uchun nima tanlash kerak",
+          "target": "#tanlash"
+        },
+        {
+          "anchor": "Xulosa",
+          "target": "#xulosa"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javob",
+      "text": "Qisqa javob"
+    },
+    {
+      "type": "p",
+      "text": "Toshkentda internet do'kon odatiy holda 4–15 million so'm turadi: tayyor yechimdagi katalog — 4–7 million, integratsiyalar bilan do'kon (to'lov, yetkazib berish, ombor, CRM) — 8–15 million. Noyob mantiqli individual ishlab chiqish 15 milliondan boshlanib, 40 milliongacha yetadi."
+    },
+    {
+      "type": "h2",
+      "id": "turlar",
+      "text": "Uch tur va ularning narxi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tur",
+        "Narxi",
+        "Muddat",
+        "Nima kiradi"
+      ],
+      "rows": [
+        [
+          "Shablon katalog",
+          "4–7 mln so'm",
+          "3–5 hafta",
+          "vitrina, savatcha, buyurtma, oddiy admin"
+        ],
+        [
+          "Integratsiyalar bilan do'kon",
+          "8–15 mln so'm",
+          "6–10 hafta",
+          "to'lov, yetkazib berish, ombor, CRM, yuklamalar"
+        ],
+        [
+          "Individual ishlab chiqish",
+          "15–40 mln so'm",
+          "3–6 oy",
+          "noyob mantiq, shaxsiy kabinet, B2B"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Birinchi va ikkinchi tur orasidagi farq dizaynda emas, integratsiyalarda. Aynan ular byudjetni yeydi va aynan ularda ko'proq tejashadi, keyin esa ustiga to'laydilar."
+    },
+    {
+      "type": "h2",
+      "id": "smeta",
+      "text": "Smetani qanday yig'ish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Prototip va dizayn — alohida qator, 1–4 mln so'm.",
+        "Vyorstka va frontend — 1,5–5 mln so'm.",
+        "Katalog, savatcha, buyurtmalar — 2–6 mln so'm.",
+        "Integratsiyalar: to'lov, yetkazib berish, ombor, CRM — har biri 1–6 mln so'm.",
+        "Kontent bilan to'ldirish — 100 ta kartochka uchun 300–1500 ming so'm.",
+        "O'qitish va parollarni topshirish — majburiy qator."
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Agar pudratchi xosting, domen va kodlarga kirish huquqini bermasa, siz o'z do'koningizni begona kompaniyadan ijaraga olayotgan bo'lasiz."
+    },
+    {
+      "type": "h2",
+      "id": "yashirin",
+      "text": "Birinchi yilning yashirin xarajatlari"
+    },
+    {
+      "type": "p",
+      "text": "Ishlab chiqishdan tashqari quyidagilarni hisobga oling: domen va xosting yiliga 500 ming – 2 mln so'm, qo'llab-quvvatlash oyiga 300 ming – 1,5 mln so'm, pullik modullar va plaginlar, reklama byudjeti. Jami birinchi yil odatda ishlab chiqish narxidan ikki barobar qimmatga tushadi."
+    },
+    {
+      "type": "h2",
+      "id": "tanlash",
+      "text": "Boshlash uchun nima tanlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "Agar tovarlar 200 tadan kam va ombor hisobi bo'lmasa, 4–7 mln so'mlik shablon katalogdan boshlang. Birinchi yil vazifasi — mukammal tizim qurish emas, talabni tekshirish. Sotuvsiz yarim yillik ishlab chiqish, keyingi kengaytirishdan qimmatroq."
+    },
+    {
+      "type": "h2",
+      "id": "xulosa",
+      "text": "Xulosa"
+    },
+    {
+      "type": "p",
+      "text": "Narxni muhokama qilishdan oldin integratsiyalar ro'yxatini yig'ing. Aynan u narxni belgilaydi, sahifalar soni ham, dizayn ham emas."
+    },
+    {
+      "type": "quote",
+      "text": "Narxlar — 2026-yil uchun Toshkent bo'yicha yo'naltiruvchi ko'rsatkich. Yakuniy narx integratsiyalar soni, katalog hajmi va kontentni kim to'ldirishiga bog'liq."
+    },
+    {
+      "type": "linkp",
+      "text": "{sayt} buyurtma qilish yoki {ariza}ni ulash — integratsiyalaringiz bo'yicha smeta tuzamiz.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "internet do'kon yaratishni"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/arizalarni-avtomatlashtirish/",
+          "anchor": "arizalarni avtomatlashtirishni"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko'chasi 35, Toshkent."
+    },
+    {
+      "type": "cta",
+      "text": "Bog'lanish"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Toshkentda internet do'kon qancha turadi?",
+      "a": "Odatiy holda 4–15 million so'm. Shablon katalog — 4–7 mln, integratsiyalar bilan — 8–15 mln, individual ishlab chiqish — 15 mln dan."
+    },
+    {
+      "q": "Internet do'kon qancha vaqtda tayyor bo'ladi?",
+      "a": "Shablon katalog — 3–5 hafta. Integratsiyalar bilan do'kon — 6–10 hafta. Individual ishlab chiqish — 3–6 oy."
+    },
+    {
+      "q": "Do'kon ishlab chiqishda eng qimmat narsa nima?",
+      "a": "Integratsiyalar: to'lov, yetkazib berish, ombor hisobi va CRM. Har biri 1–6 million so'm turadi va aynan ular yakuniy narxni belgilaydi."
+    },
+    {
+      "q": "4 million so'mdan arzon do'kon qilish mumkinmi?",
+      "a": "Konstruktorda mumkin, lekin u holda siz platforma tarifiga bog'lanib qolasiz va ombor hisobi hamda CRM bilan integratsiya olmaysiz."
+    },
+    {
+      "q": "Do'konni qo'llab-quvvatlash qancha turadi?",
+      "a": "Oyiga 300 ming – 1,5 million so'm: yangilanishlar, zaxira nusxalar, tuzatishlar, to'lov va yetkazib berish ishini nazorat qilish."
+    },
+    {
+      "q": "Nimada tejash mumkin emas?",
+      "a": "Kirish huquqlari va xavfsizlikda. Domen, xosting va kodlar sizning nomingizga rasmiylashtirilgan bo'lishi kerak, aks holda do'kon sizniki emas."
+    }
+  ],
+  "cta": {
+    "label": "Telegram orqali bog'lanish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "SEO xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "internet-reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/savdoni-avtomatlashtirish/",
+      "anchor": "savdoni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    }
+  ],
+  "ogTitle": "Internet do'kon yaratish narxi Toshkent 2026",
+  "ogDescription": "Toshkentda internet do'kon narxi 2026: shablon katalog, integratsiyalar bilan do'kon va individual ishlab chiqish. Muddatlar va nimalar kiradi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+  "hreflangRu": "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+  "hreflangUz": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-09-02",
+  "dateModified": "2026-09-02",
+  "schemaTypes": [
+    "Article",
+    "FAQPage",
+    "BreadcrumbList"
+  ],
+  "createdAt": "2026-09-02T00:00:00Z",
+  "updatedAt": "2026-09-02T00:00:00.000Z"
+}

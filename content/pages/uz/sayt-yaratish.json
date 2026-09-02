@@ -620,6 +620,34 @@
       "anchor": "saytni qidiruvda ko‘tarish",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "anchor": "sayt yaratish narxi 2026",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "anchor": "kimga buyurtma berish kerak",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "sayt yaratish narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "anchor": "internet do'kon narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

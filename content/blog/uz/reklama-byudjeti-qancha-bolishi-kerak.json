@@ -1,0 +1,270 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "reklama-byudjeti-qancha-bolishi-kerak",
+  "url": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+  "title": "Reklama byudjeti qancha bo'lishi kerak: hisoblash formulasi",
+  "description": "Aylanmadan reklamaga qancha foiz ketishi kerak: biznes bosqichlari bo'yicha ko'rsatkichlar, maqsaddan byudjet hisoblash va oz-ko'pligini qanday aniqlash.",
+  "h1": "Reklama byudjeti qancha bo'lishi kerak: hisoblash tartibi",
+  "topicCluster": "byudjet",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "reklama byudjeti",
+    "reklama byudjeti qancha",
+    "aylanmadan qancha foiz reklama",
+    "reklama uchun byudjet hisoblash",
+    "kichik biznes reklama byudjeti"
+  ],
+  "intro": "Aylanmadan reklamaga qancha foiz ketishi kerak, nega universal raqam yo'q va byudjetni odat bo'yicha emas, maqsaddan qanday hisoblash kerak. 2026-yil uchun O'zbekiston bo'yicha hisob-kitoblar.",
+  "body": [
+    {
+      "type": "toc",
+      "text": "Maqola bo'ylab navigatsiya",
+      "links": [
+        {
+          "anchor": "Qisqa javob",
+          "target": "#javob"
+        },
+        {
+          "anchor": "Biznes bosqichlari bo'yicha ko'rsatkichlar",
+          "target": "#jadval"
+        },
+        {
+          "anchor": "Byudjetni maqsaddan qanday hisoblash",
+          "target": "#hisob"
+        },
+        {
+          "anchor": "Byudjet noto'g'ri ekanini qanday bilish",
+          "target": "#xatolar"
+        },
+        {
+          "anchor": "Byudjetni kanallar bo'yicha qanday taqsimlash",
+          "target": "#taqsimot"
+        },
+        {
+          "anchor": "Xulosa",
+          "target": "#xulosa"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javob",
+      "text": "Qisqa javob"
+    },
+    {
+      "type": "p",
+      "text": "Ishchi ko'rsatkich: barqaror biznes uchun aylanmaning 5–10 foizi, o'sish vazifasi bo'lsa 10–15 foiz, yangi mahsulot chiqarish yoki yangi shaharga kirishda 15–25 foiz. 3 foizdan kam faqat to'liq yuklama va kuchli doimiy mijozlar bazasi bo'lganda ma'noga ega."
+    },
+    {
+      "type": "p",
+      "text": "Lekin aylanmadan foiz — bu tekshiruv metrikasi, rejalashtirish usuli emas. Byudjetni maqsaddan hisoblash kerak: qancha ariza kerak va bitta ariza qancha turadi."
+    },
+    {
+      "type": "h2",
+      "id": "jadval",
+      "text": "Biznes bosqichlari bo'yicha ko'rsatkichlar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Holat",
+        "Aylanmadan foiz",
+        "Izoh"
+      ],
+      "rows": [
+        [
+          "Ishga tushirish yoki yangi mahsulot",
+          "15–25 %",
+          "o'zingiz haqingizda noldan bildirish kerak"
+        ],
+        [
+          "Faol o'sish",
+          "10–15 %",
+          "bozor ulushini olish vazifasi"
+        ],
+        [
+          "Barqaror biznes",
+          "5–10 %",
+          "oqimni ushlab turish va mijozlarni qaytarish"
+        ],
+        [
+          "Optimizatsiya yoki inqiroz",
+          "3–5 %",
+          "faqat o'lchanadigan daromadli kanallar"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "hisob",
+      "text": "Byudjetni maqsaddan qanday hisoblash"
+    },
+    {
+      "type": "p",
+      "text": "Formula oddiy: kerakli mijozlar sonini arizaning sotuvga aylanish ko'rsatkichiga bo'lamiz, arizalar sonini olamiz va kanaldagi ariza narxiga ko'paytiramiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqsad: oyiga 20 ta mijoz.",
+        "Arizaning sotuvga aylanishi: 25 % → 80 ta ariza kerak.",
+        "Ariza narxi: $8 → oyiga $640 byudjet.",
+        "Ustiga xizmat haqi: oyiga $150–300."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar hisoblangan byudjet aylanmaning 20 foizidan oshsa, muammo reklamada emas, mahsulot iqtisodida: marjada yoki arizaning sotuvga aylanishida."
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Byudjet noto'g'ri ekanini qanday bilish"
+    },
+    {
+      "type": "quote",
+      "text": "Juda kichik byudjet belgisi — statistika yiga olmaysiz. Juda katta byudjet belgisi — arizalarni qayta ishlashga ulgurmayapsiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kanal uchun oyiga 30 tadan kam ariza — statistika bo'yicha xulosa ishonchsiz.",
+        "Arizalar sotuv bo'limi qayta ishlay oladigandan ko'p — avval jarayon.",
+        "Byudjet oshganda ariza narxi oshadi — kanal noto'g'ri yoki auditoriya tor.",
+        "Byudjet «qancha achinmasa» deb belgilanadi — bu rejalashtirish emas."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "taqsimot",
+      "text": "Byudjetni kanallar bo'yicha qanday taqsimlash"
+    },
+    {
+      "type": "p",
+      "text": "Kichik biznes uchun ishchi sxema: 50–60 % tez javob beradigan kanallarga (kontekst, target, Telegram), 20–30 % SEO ga — kechiktirilgan, lekin arzon manba sifatida, 10–20 % mijozlarni ushlab qolish va takroriy sotuvlarga."
+    },
+    {
+      "type": "h2",
+      "id": "xulosa",
+      "text": "Xulosa"
+    },
+    {
+      "type": "p",
+      "text": "Oxirgi 2–3 oy ichida ariza narxi va sotuvga aylanish ko'rsatkichini hisoblang. Bu ikki raqamsiz byudjet haqidagi har qanday gap — taxmin."
+    },
+    {
+      "type": "quote",
+      "text": "Aylanmadan foizlar — yo'naltiruvchi ko'rsatkich, norma emas. Byudjetni maqsad va sohangizdagi ariza narxidan hisoblash kerak."
+    },
+    {
+      "type": "linkp",
+      "text": "{reklama} uchun byudjetni hisoblash yoki {ariza}ni ulash — boshlashdan oldin hisoblab beramiz.",
+      "links": [
+        {
+          "token": "reklama",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "Toshkentda internet-reklama"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/arizalarni-avtomatlashtirish/",
+          "anchor": "arizalarni avtomatlashtirishni"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko'chasi 35, Toshkent."
+    },
+    {
+      "type": "cta",
+      "text": "Bog'lanish"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Aylanmadan reklamaga qancha foiz ketishi kerak?",
+      "a": "Barqaror biznes uchun 5–10 %, o'sish vazifasi bo'lsa 10–15 %, yangi mahsulot chiqarishda 15–25 %. 3 % dan kam faqat to'liq yuklamada."
+    },
+    {
+      "q": "Reklama byudjetini qanday hisoblash kerak?",
+      "a": "Maqsaddan: kerakli mijozlar sonini arizaning sotuvga aylanishiga bo'lib, ariza narxiga ko'paytiring. Masalan, 25 % konversiya va $8 ariza narxi bilan 20 ta mijoz — oyiga $640."
+    },
+    {
+      "q": "O'zbekistonda kichik biznes uchun reklama byudjeti qancha?",
+      "a": "Xizmat haqi bilan oyiga 2–8 million so'm. 2 million so'mdan kam bilan bitta kanalni test qilish mumkin, lekin arizalar oqimini qurib bo'lmaydi."
+    },
+    {
+      "q": "Reklama byudjeti o'zini oqlamasa nima qilish kerak?",
+      "a": "Uch narsani tekshiring: arizalarni qayta ishlash tezligi, sayt konversiyasi va minus-so'zlar to'g'riligi. Ko'pincha muammo stavkalarda emas, qayta ishlashda."
+    },
+    {
+      "q": "Past mavsumda byudjetni qisqartirish kerakmi?",
+      "a": "To'liq emas: butunlay to'xtatilgan kanal keyin qimmatroq ishga tushadi, chunki algoritmlar qaytadan o'rganadi. 30–50 % ga tushiring, noldan emas."
+    },
+    {
+      "q": "Reklamaga nisbatan SEO ga qancha sarflash kerak?",
+      "a": "Odatda byudjetning 20–30 %. SEO ning effekti 3–6 oyga kechikadi, lekin bir yil ichida ariza narxi 2–4 barobar arzon bo'ladi."
+    }
+  ],
+  "cta": {
+    "label": "Telegram orqali bog'lanish",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "Toshkentda internet-reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "SEO xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/arizalarni-avtomatlashtirish/",
+      "anchor": "arizalarni avtomatlashtirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    }
+  ],
+  "ogTitle": "Reklama byudjeti qancha bo'lishi kerak: hisoblash formulasi",
+  "ogDescription": "Aylanmadan reklamaga qancha foiz ketishi kerak: biznes bosqichlari bo'yicha ko'rsatkichlar, maqsaddan byudjet hisoblash va oz-ko'pligini qanday aniqlash.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+  "hreflangRu": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+  "hreflangUz": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "datePublished": "2026-09-02",
+  "dateModified": "2026-09-02",
+  "schemaTypes": [
+    "Article",
+    "FAQPage",
+    "BreadcrumbList"
+  ],
+  "createdAt": "2026-09-02T00:00:00Z",
+  "updatedAt": "2026-09-02T00:00:00.000Z"
+}

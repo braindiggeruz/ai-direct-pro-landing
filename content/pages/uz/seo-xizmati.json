@@ -544,6 +544,20 @@
       "anchor": "sun’iy intellekt",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "anchor": "reklama byudjeti 2026",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "SEO xizmati narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

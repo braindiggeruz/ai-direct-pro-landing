@@ -367,6 +367,41 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "anchor": "internet-reklama narxi 2026",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "anchor": "agentlik, frilanser yoki birja",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "anchor": "kontekst reklama narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "internet reklama narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "anchor": "reklama byudjeti",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

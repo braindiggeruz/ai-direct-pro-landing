@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "chatgpt-ozbekistonda-vpnsiz-ishlaydimi",
   "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-  "title": "ChatGPT’ga kirish: O‘zbekistonda VPNsiz qanday ochish",
-  "description": "ChatGPT’ga kirish O‘zbekistonda VPNsiz ishlaydi: chatgpt.com orqali 4 qadamda kiring, hisob oching va o‘zbek tilida yozing. Xatolar va ularning yechimi.",
+  "title": "ChatGPT’ga kirish O‘zbekistonda: 4 qadamda, VPNsiz",
+  "description": "ChatGPT’ga kirish: to‘g‘ridan-to‘g‘ri chatgpt.com orqali, VPN va qo‘shimcha dastursiz. 4 qadam, hisob ochish, o‘zbek tilida yozish, keng tarqalgan xatolar va yechimlari.",
   "h1": "ChatGPT O‘zbekistonda: VPNsiz ochish va kirish",
   "topicCluster": "chatgpt-ozbekistonda",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
@@ -576,8 +576,8 @@
       "priority": 3
     }
   ],
-  "ogTitle": "ChatGPT’ga kirish: O‘zbekistonda VPNsiz qanday ochish",
-  "ogDescription": "ChatGPT’ga kirish O‘zbekistonda VPNsiz ishlaydi: chatgpt.com orqali 4 qadamda kiring, hisob oching va o‘zbek tilida yozing. Xatolar va ularning yechimi.",
+  "ogTitle": "ChatGPT’ga kirish O‘zbekistonda: 4 qadamda, VPNsiz",
+  "ogDescription": "ChatGPT’ga kirish: to‘g‘ridan-to‘g‘ri chatgpt.com orqali, VPN va qo‘shimcha dastursiz. 4 qadam, hisob ochish, o‘zbek tilida yozish, keng tarqalgan xatolar va yechimlari.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
   "hreflangUz": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
