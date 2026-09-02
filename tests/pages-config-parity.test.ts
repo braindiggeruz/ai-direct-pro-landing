@@ -44,10 +44,18 @@ const declaredVars = (): Map<string, string> => {
 // deployment accidentally restored the older false flags and removed the UI.
 // This combined branch must preserve the approved values, not the obsolete
 // 2026-08-27 snapshot. A true feature flag is NOT recipient authorization.
+//
+// LEAD_RADAR_CONTACT_ENABLED was 'false' at d629b4b and the owner deliberately
+// flipped it to 'true' on 2026-09-01 — this is the operator's own B2B
+// prospecting tool and the pause was blocking all outreach. That decision is
+// recorded here so the pin tracks reality instead of a stale snapshot. It does
+// NOT relax who may be messaged: the fail-closed ownership and endpoint-type
+// rules, the daily limits and LEAD_RADAR_ALLOWED_ORGS below stay pinned, and an
+// empty allowlist remains a hard pause even with this boolean set to true.
 const LEAD_RADAR_VARS: Record<string, string> = {
   LEAD_RADAR_ADMISSION_ENABLED: 'true',
   LEAD_RADAR_PROCESSING_ENABLED: 'true',
-  LEAD_RADAR_CONTACT_ENABLED: 'false',
+  LEAD_RADAR_CONTACT_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
   LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
@@ -79,14 +87,23 @@ test('every Lead Radar production var is declared on this branch too', () => {
   }
 });
 
-test('the integrated release keeps legacy outreach closed and campaign limits unchanged', () => {
-  // Campaign availability was explicitly approved. Legacy Business outreach
-  // remains disabled. Recipient basis/identity/approval are independent server
-  // gates, covered by the campaign API and preflight regression tests.
+test('the integrated release keeps campaign limits unchanged after outreach was enabled', () => {
+  // Campaign availability was explicitly approved. Legacy Business outreach was
+  // then opened by the owner's own decision on 2026-09-01 — see the note on
+  // LEAD_RADAR_VARS above for why that pin moved from false to true.
+  //
+  // What must NOT move are the throughput limits and the recipient allowlist.
+  // Those are the difference between an enabled switch and a blast, so this
+  // test now pins them harder than it did when outreach was simply off.
+  // Recipient basis, identity and approval are independent server gates,
+  // covered by the campaign API and preflight regression tests.
   const declared = declaredVars();
-  assert.equal(declared.get('LEAD_RADAR_CONTACT_ENABLED'), 'false');
+  assert.equal(declared.get('LEAD_RADAR_CONTACT_ENABLED'), 'true');
   assert.equal(declared.get('LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT'), '30');
   assert.equal(declared.get('LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS'), '120');
+  assert.equal(declared.get('LEAD_RADAR_CONTACT_DAILY_LIMIT'), '10');
+  // A hard pause even with every boolean above set to true.
+  assert.equal(declared.get('LEAD_RADAR_ALLOWED_ORGS'), 'owner_8ee98dc3040f160b308166b0');
 });
 
 test('the Lead Radar bindings this branch does not use are still declared', () => {

@@ -92,6 +92,16 @@ LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "true"
 LEAD_RADAR_PERSONAL_RETENTION_DAYS = "30"
 LEAD_RADAR_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
 LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
+# Signal Radar. The scout runs HERE, not in Pages: a Pages request gets ~30 ms
+# of CPU on the Free plan, which cannot fetch and parse a Telegram preview.
+# These plain vars are replaced wholesale on every Worker deploy, so they must
+# stay in this file — editing only wrangler.toml leaves the Worker on the old
+# value while Pages silently reads the new one.
+LEAD_RADAR_SIGNAL_ENABLED = "true"
+# off | discover | channels | join. `discover` never calls the Telegram API.
+# See the same key in wrangler.toml for why `join` is not the default.
+LEAD_RADAR_SIGNAL_AUTOJOIN_MODE = "discover"
+LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED = "true"
 LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""
 LEAD_RADAR_CONTACT_DAILY_LIMIT = "10"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "30"

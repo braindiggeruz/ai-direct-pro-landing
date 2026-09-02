@@ -16,6 +16,7 @@ export const ru = {
     cockpit:        'SEO-пульт',
     seo_autopilot:  'SEO Автопилот',
     lead_radar:     'Lead Radar',
+    signal_radar:   'Signal Radar',
     owner_center:   'Owner Center',
     pages:          'Страницы',
     blog:           'Блог',

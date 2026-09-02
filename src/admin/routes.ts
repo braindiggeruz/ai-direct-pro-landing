@@ -10,6 +10,7 @@ export const ADMIN_ROUTE_PATHS = {
   draftDetail: 'ai-drafts/:id',
   seoAutopilot: 'seo-autopilot',
   leadRadar: 'lead-radar',
+  signalRadar: 'signal-radar',
   internalLinks: 'internal-links',
   seoBooster: 'seo-booster',
   indexNow: 'indexnow',

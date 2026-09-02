@@ -147,6 +147,21 @@ LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "true"
 LEAD_RADAR_PERSONAL_RETENTION_DAYS = "30"
 LEAD_RADAR_ALLOWED_ORGS = "owner_8ee98dc3040f160b308166b0"
 LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
+# ── Signal Radar ────────────────────────────────────────────────────────────
+# Demand-side radar: watches Uzbek Telegram channels for incoming requests for
+# digital services instead of cold-prospecting companies.
+# The scout only reads public `t.me/s/<slug>` previews over HTTP — no Telegram
+# API call, no join, no send, nothing a stranger can see. Safe to enable.
+LEAD_RADAR_SIGNAL_ENABLED = "true"
+# off | discover | channels | join. `discover` reads channels from the web and
+# never touches the Telegram API. Groups are never joined in this mode: a
+# public group has no web preview, so joining is the only way to read one, and
+# that is the single most account-risky action in the product. Raising this to
+# `join` is an explicit operator decision, not a deploy default.
+LEAD_RADAR_SIGNAL_AUTOJOIN_MODE = "discover"
+# tgstat country ranking crawl. Allowed by its robots.txt for User-agent: *.
+# Set to "false" to keep only channels the operator added by hand.
+LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED = "true"
 # Public username stays empty until the dedicated Business bot and its secret
 # bindings are configured. Empty is a hard connection pause.
 LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""

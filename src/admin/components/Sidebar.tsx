@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router';
-import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck, Radar } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck, Radar, Radio } from 'lucide-react';
 import { setToken } from '../lib/api';
 import { useT } from '../i18n';
 
@@ -13,6 +13,7 @@ export function Sidebar({ onPublish, role }: { onPublish?: () => void; role?: st
     { to: '/admin-tools/',                label: t.nav.cockpit,        icon: LayoutDashboard, end: true, testId: 'nav-cockpit' },
     { to: '/admin-tools/seo-autopilot',   label: t.nav.seo_autopilot,  icon: PlayCircle,                  testId: 'nav-seo-autopilot' },
     { to: '/admin-tools/lead-radar',      label: t.nav.lead_radar,     icon: Radar,                       testId: 'nav-lead-radar' },
+    { to: '/admin-tools/signal-radar',    label: t.nav.signal_radar,   icon: Radio,                       testId: 'nav-signal-radar' },
     { to: '/admin-tools/agents',          label: t.nav.owner_center,   icon: ShieldCheck,                 testId: 'nav-owner-center' },
     { to: '/admin-tools/pages',           label: t.nav.pages,          icon: FileText,                    testId: 'nav-pages' },
     { to: '/admin-tools/blog',            label: t.nav.blog,           icon: BookOpen,                    testId: 'nav-blog' },
