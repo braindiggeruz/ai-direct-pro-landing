@@ -465,6 +465,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "anchor": "создание сайта для бизнеса",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+      "anchor": "создание сайта для бизнеса",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

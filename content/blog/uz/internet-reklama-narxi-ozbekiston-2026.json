@@ -220,7 +220,7 @@
         },
         {
           "token": "audit",
-          "target": "/ru/marketingovyj-audit/",
+          "target": "/ru/marketingovyi-audit-tashkent/",
           "anchor": "marketing audit"
         }
       ]
@@ -299,6 +299,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "anchor": "internet reklama narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "reklama narxlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",

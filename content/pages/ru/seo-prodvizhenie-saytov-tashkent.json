@@ -749,6 +749,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "anchor": "сколько стоит SEO",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

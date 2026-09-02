@@ -654,6 +654,27 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "anchor": "цены на интернет-рекламу",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "anchor": "интернет-реклама в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "anchor": "интернет-реклама под ключ",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

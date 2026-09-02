@@ -559,6 +559,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "anchor": "сколько стоит ведение соцсетей",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

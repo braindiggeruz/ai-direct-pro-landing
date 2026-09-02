@@ -250,7 +250,7 @@
         },
         {
           "token": "audit",
-          "target": "/ru/marketingovyj-audit/",
+          "target": "/ru/marketingovyi-audit-tashkent/",
           "anchor": "маркетинговый аудит"
         }
       ]
@@ -329,6 +329,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "anchor": "разбор стоимости интернет-рекламы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "anchor": "цены на интернет-рекламу по каналам",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Сколько стоит интернет-реклама в Узбекистане: цены 2026",

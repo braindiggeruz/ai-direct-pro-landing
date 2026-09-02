@@ -482,6 +482,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "anchor": "маркетинговый аудит",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

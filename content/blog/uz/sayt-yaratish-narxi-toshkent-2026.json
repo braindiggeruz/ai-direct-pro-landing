@@ -283,6 +283,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "sayt narxi Toshkent",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "anchor": "sayt yaratish narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Sayt yaratish narxi Toshkent 2026: smetalar",

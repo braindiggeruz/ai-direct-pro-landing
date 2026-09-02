@@ -1004,6 +1004,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "anchor": "разработка сайтов в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+      "anchor": "разработка и поддержка сайтов",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

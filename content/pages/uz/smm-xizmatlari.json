@@ -700,6 +700,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "SMM xizmati narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "anchor": "SMM xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

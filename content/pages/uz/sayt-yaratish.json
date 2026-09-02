@@ -634,6 +634,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "anchor": "sayt yaratish narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "anchor": "internet do'kon narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "schemaTypes": [

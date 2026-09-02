@@ -300,6 +300,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "anchor": "стоимость создания сайта",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "anchor": "сколько стоит создать сайт",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Сколько стоит создать сайт в Ташкенте: сметы 2026",
