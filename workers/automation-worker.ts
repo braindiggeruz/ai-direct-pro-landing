@@ -3,6 +3,7 @@ import { configuredLeadRadarSources } from '../functions/platform/lead-radar/dis
 import { createFreeContactAcquisitionDependencies } from '../functions/platform/lead-radar/free-acquisition';
 import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
 import { ContactDiscoveryStore, contactDiscoverySchemaReady } from '../functions/platform/lead-radar/contact-discovery-store';
+import { runSignalScoutTick } from '../functions/platform/lead-radar/signal-scout';
 import { createContactResolutionQueueDependencies } from '../functions/platform/lead-radar/contact-resolution-worker';
 import {
   consumeAutomationMessage,
@@ -363,6 +364,14 @@ export default {
       // Telegram identifiers and send-state retention is privacy/safety work,
       // so it remains independent from every Lead Radar capability switch.
       recordLeadRadarFailure('telegram_retention', error);
+    }
+    try {
+      // Signal Radar reads public Telegram previews over HTTP. It is its own
+      // capability: a failure here must never touch the company funnel below,
+      // and it does nothing at all unless its switch is exactly "true".
+      await runSignalScoutTick(env, env.GPTBOT_DRAFTS_DB, retentionNow);
+    } catch (error) {
+      recordLeadRadarFailure('signal_scout', error);
     }
     if (isLeadRadarProcessingEnabled(env)) {
       try {

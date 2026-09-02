@@ -90,6 +90,15 @@ export interface Env extends FirecrawlEnvironment {
   // production enablement requires explicit org ids and a bounded dispatch cap.
   LEAD_RADAR_ALLOWED_ORGS?: string;
   LEAD_RADAR_MAX_DISPATCH_PER_TICK?: string;
+  // Signal Radar — demand-side radar over Uzbek Telegram channels and groups.
+  // ENABLED is exact-true and gates the whole scout; absent means no network
+  // traffic at all. AUTOJOIN_MODE is closed to off|discover|channels|join and
+  // defaults to `discover`, which reads channels from the web and never calls
+  // the Telegram API. DISCOVERY_ENABLED=false stops tgstat crawling while still
+  // polling channels the operator added by hand.
+  LEAD_RADAR_SIGNAL_ENABLED?: string;
+  LEAD_RADAR_SIGNAL_AUTOJOIN_MODE?: string;
+  LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED?: string;
   // Dedicated Telegram Business bot. Token, webhook secret and the 32-byte
   // data-encryption key are secret bindings and must never be placed in TOML.
   // The username is public configuration used only to build a one-time deep

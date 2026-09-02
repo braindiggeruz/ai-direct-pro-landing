@@ -235,6 +235,23 @@ export const api = {
   leadRadarCancelCrawlerJob: (jobId: string, signal?: AbortSignal) =>
     request<{ job: LeadRadarCrawlerJobSummary }>('POST', `/api/admin/lead-radar/crawler/jobs/${encodeURIComponent(jobId)}/cancel`,
       {}, { signal, timeoutMs: 15_000 }),
+  // ─── Signal Radar (demand side) ─────────────────────────────────────
+  signalRadarOverview: (signal?: AbortSignal) =>
+    request<import('../../shared/signal-radar').SignalRadarOverview>('GET', '/api/admin/signal-radar',
+      undefined, { signal, timeoutMs: 20_000 }),
+  signalRadarAddTargets: (slugs: string[], source?: string) =>
+    request<{ added: number; skipped: number; slugs: string[] }>('POST', '/api/admin/signal-radar/targets',
+      { slugs, source }, { timeoutMs: 20_000 }),
+  signalRadarPatchTarget: (
+    id: string,
+    patch: { status?: import('../../shared/signal-radar').SignalTargetStatus; note?: string | null },
+  ) => request<{ target: import('../../shared/signal-radar').SignalTarget }>('PATCH',
+    `/api/admin/signal-radar/targets/${encodeURIComponent(id)}`, patch, { timeoutMs: 20_000 }),
+  signalRadarPatchLead: (
+    id: string,
+    patch: { state?: import('../../shared/signal-radar').SignalLeadState; draftText?: string | null },
+  ) => request<{ lead: import('../../shared/signal-radar').SignalLead }>('PATCH',
+    `/api/admin/signal-radar/leads/${encodeURIComponent(id)}`, patch, { timeoutMs: 20_000 }),
   config: () => request<{ turnstileRequired: boolean; turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
   login: (email: string, password: string, turnstileToken?: string) => request<{ token: string; email: string; role: string }>('POST', '/api/auth/login', { email, password, turnstileToken }),
   me: () => request<{ email: string; role: string }>('GET', '/api/auth/me'),
