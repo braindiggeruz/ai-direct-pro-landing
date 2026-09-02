@@ -57,6 +57,23 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 function Shell({ children }: { children: React.ReactNode }) {
   const session = useContext(AdminSessionContext);
   const [publishing, setPublishing] = useState(false);
+  const [signalBadge, setSignalBadge] = useState<number>(0);
+
+  // Poll signal radar badge every 30s while admin is open.
+  useEffect(() => {
+    if (session?.role === 'support_readonly') return;
+    let mounted = true;
+    const poll = async () => {
+      try {
+        const overview = await api.signalRadarOverview();
+        if (mounted) setSignalBadge(overview.installed ? overview.totals.leadsNew : 0);
+      } catch { /* badge silently fails */ }
+    };
+    poll();
+    const id = setInterval(poll, 30_000);
+    return () => { mounted = false; clearInterval(id); };
+  }, [session?.role]);
+
   const onPublish = async () => {
     if (!confirm('Commit all local content/*.json files to GitHub now?')) return;
     setPublishing(true);
@@ -76,7 +93,9 @@ function Shell({ children }: { children: React.ReactNode }) {
       </a>
       <Sidebar
         onPublish={session?.role === 'support_readonly' ? undefined : onPublish}
-        role={session?.role}/>
+        role={session?.role}
+        signalBadge={signalBadge}
+      />
       <main id="admin-main-content" tabIndex={-1} className="flex-1 min-w-0">{publishing ? <div className="p-8">Publishing to GitHub…</div> : children}</main>
     </div>
   );

@@ -10,9 +10,11 @@ import { Badge, Button, Card } from '../components/ui';
 import {
   AlertOctagon, AlertTriangle, CheckCircle2, ChevronRight, Clock, Inbox,
   Loader2, PlayCircle, RefreshCw, ShieldCheck, XCircle,
-  Activity, FileText, ListChecks, Zap,
+  Activity, FileText, ListChecks, Zap, Radio,
 } from 'lucide-react';
-import type { CockpitResponse, CockpitSection, CockpitGitHubHealth } from '../../shared/cockpit';
+import type {
+  CockpitResponse, CockpitSection, CockpitGitHubHealth, CockpitSignalRadar,
+} from '../../shared/cockpit';
 import type { NextBestAction } from '../../shared/next-actions';
 import { useT, localiseError } from '../i18n';
 
@@ -144,6 +146,7 @@ export default function Cockpit() {
   const audit  = data?.audit;
   const drafts = data?.drafts;
   const ap     = data?.autopilot;
+  const signal = data?.signal;
   const health = data?.health;
   const sys    = data?.system;
   const gh     = data?.github_health;
@@ -321,8 +324,8 @@ export default function Cockpit() {
         )}
       </div>
 
-      {/* ─── KPI row 2: drafts + autopilot (active failures only) ──── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {/* ─── KPI row 2: drafts + autopilot + signal (active failures only) ──── */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {drafts?.ok && drafts.data ? (
           <>
             <Kpi testId="kpi-pending-drafts" label={t.cockpit.kpi.pending_drafts} value={drafts.data.pending_review} tone={drafts.data.pending_review > 0 ? 'info' : 'neutral'} to="/admin-tools/ai-drafts"/>
@@ -343,6 +346,17 @@ export default function Cockpit() {
               to="/admin-tools/seo-autopilot"/>
           </>
         ) : <Kpi testId="kpi-autopilot-fail" label={t.cockpit.kpi.autopilot_failed_section} value="—" tone="warning"/>}
+        {signal?.ok && signal.data ? (
+          <Kpi
+            testId="kpi-signal-new"
+            label={t.cockpit.signal_radar_panel.new_leads}
+            value={signal.data.leadsNew}
+            tone={signal.data.leadsNew > 0 ? 'danger' : 'neutral'}
+            to="/admin-tools/signal-radar"
+          />
+        ) : (
+          <Kpi testId="kpi-signal-fail" label={t.cockpit.signal_radar_panel.new_leads} value="—" tone="warning"/>
+        )}
       </div>
 
       {/* ─── Integration / Health strip ─────────────────────────────── */}
@@ -392,10 +406,11 @@ export default function Cockpit() {
         </div>
       </Card>
 
-      {/* ─── Drafts + Autopilot row ─────────────────────────────────── */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      {/* ─── Drafts + Autopilot + Signal row ───────────────────────── */}
+      <div className="grid lg:grid-cols-3 gap-6">
         <DraftsPanel section={drafts} onRetry={() => void load(false)} />
         <AutopilotPanel section={ap} onRetry={() => void load(false)} />
+        <SignalRadarPanel section={signal} onRetry={() => void load(false)} />
       </div>
 
       {/* ─── Per-page table ─────────────────────────────────────────── */}
@@ -462,6 +477,57 @@ export default function Cockpit() {
         )}
       </Card>
     </div>
+  );
+}
+
+// ─── Signal Radar panel ─────────────────────────────────────────────
+
+function SignalRadarPanel({ section, onRetry }: { section?: CockpitSection<CockpitSignalRadar>; onRetry: () => void }) {
+  const { t } = useT();
+  return (
+    <Card data-testid="cockpit-signal-panel">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Radio size={16} className="text-brand-cyan"/>
+          <h2 className="font-display text-lg text-white">{t.cockpit.signal_radar_panel.title}</h2>
+        </div>
+        <Link to="/admin-tools/signal-radar">
+          <Button variant="ghost" size="sm">{t.cockpit.signal_radar_panel.open_radar} →</Button>
+        </Link>
+      </div>
+      {!section?.ok && section?.error ? (
+        <SectionError section="signal" sectionTitle={t.cockpit.signal_radar_panel.title} error={section.error} onRetry={onRetry} />
+      ) : section?.data ? (
+        <div className="space-y-3">
+          {section.data.installed ? (
+            <>
+              <div className="grid grid-cols-2 gap-2 text-center text-sm">
+                <div className="rounded-xl border border-brand-blue/30 bg-brand-blue/5 py-2" data-testid="signal-panel-new">
+                  <div className="font-display text-xl text-white">{section.data.leadsNew}</div>
+                  <div className="text-white/55 text-[11px]">{t.cockpit.signal_radar_panel.new_leads}</div>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/5 py-2" data-testid="signal-panel-watching">
+                  <div className="font-display text-xl text-white">{section.data.watching}</div>
+                  <div className="text-white/55 text-[11px]">{t.cockpit.signal_radar_panel.watching}</div>
+                </div>
+              </div>
+              <div className="text-white/40 text-xs flex items-center gap-2 flex-wrap">
+                {t.cockpit.signal_radar_panel.mode}:
+                <Badge tone="info">{section.data.mode}</Badge>
+              </div>
+              {section.data.leadsNew === 0 && (
+                <div className="text-white/40 text-xs">{t.cockpit.signal_radar_panel.empty}</div>
+              )}
+            </>
+          ) : (
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-2" data-testid="signal-panel-not-installed">
+              <div className="text-amber-300 text-sm font-medium">{t.cockpit.signal_radar_panel.not_installed}</div>
+              <div className="text-white/55 text-xs mt-1">{t.cockpit.signal_radar_panel.install_hint}</div>
+            </div>
+          )}
+        </div>
+      ) : null}
+    </Card>
   );
 }
 

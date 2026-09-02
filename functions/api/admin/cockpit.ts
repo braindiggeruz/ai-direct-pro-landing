@@ -33,6 +33,7 @@ import {
   type ErrorCode,
 } from '../../lib/api-errors';
 import { buildNextBestActions, type NextBestAction } from '../../../src/shared/next-actions';
+import type { CockpitSignalRadar } from '../../../src/shared/cockpit';
 
 const SITE_BASE = 'https://gptbot.uz';
 const STALE_AUTOPILOT_AGE_MS = 6 * 60 * 1000;
@@ -43,6 +44,10 @@ interface Section<T> {
   error: { code: ErrorCode; message: string } | null;
   duration_ms: number;
 }
+
+// Signal Radar summary. Typed through the shared contract so the SPA and the
+// aggregator cannot drift apart.
+export type SignalRadarSummary = CockpitSignalRadar;
 
 async function timeit<T>(load: () => Promise<T>): Promise<Section<T>> {
   const t0 = Date.now();
@@ -277,6 +282,7 @@ export interface CockpitResponse {
   content: Section<ContentSection>;
   drafts: Section<DraftsSummary>;
   autopilot: Section<AutopilotSummary>;
+  signal: Section<SignalRadarSummary>;
   health: Section<HealthProbe>;
   github_health: GitHubHealth;
   next_best_actions: NextBestAction[];
@@ -292,6 +298,34 @@ export interface CockpitResponse {
   };
 }
 
+// Signal Radar — lightweight D1 query, isolated from other sections.
+// Deliberately fail-soft in spirit but NOT internally: it never throws for the
+// two "not ready" states (no binding / migration not applied). A real D1 error
+// must surface as a failed section rather than a fake zero, otherwise the
+// cockpit would silently report "no demand" while the radar is actually blind.
+export async function loadSignalRadar(env: Env): Promise<SignalRadarSummary> {
+  const EMPTY: SignalRadarSummary = { installed: false, mode: 'discover', leadsNew: 0, leadsSent: 0, watching: 0 };
+  if (!env.GPTBOT_DRAFTS_DB) return EMPTY;
+  // Fast schema check: does the leads table exist?
+  const tableCheck = await env.GPTBOT_DRAFTS_DB
+    .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='lead_radar_signal_leads'")
+    .first<{ name: string }>();
+  if (!tableCheck) return EMPTY;
+  const orgId = 'owner_8ee98dc3040f160b308166b0';
+  const [leadsNew, leadsSent, watching] = await Promise.all([
+    env.GPTBOT_DRAFTS_DB.prepare("SELECT COUNT(*) AS cnt FROM lead_radar_signal_leads WHERE org_id=? AND state='new'").bind(orgId).first<{ cnt: number }>(),
+    env.GPTBOT_DRAFTS_DB.prepare("SELECT COUNT(*) AS cnt FROM lead_radar_signal_leads WHERE org_id=? AND state='sent'").bind(orgId).first<{ cnt: number }>(),
+    env.GPTBOT_DRAFTS_DB.prepare("SELECT COUNT(*) AS cnt FROM lead_radar_signal_targets WHERE org_id=? AND status='watching'").bind(orgId).first<{ cnt: number }>(),
+  ]);
+  return {
+    installed: true,
+    mode: env.LEAD_RADAR_SIGNAL_AUTOJOIN_MODE || 'discover',
+    leadsNew: Number(leadsNew?.cnt ?? 0),
+    leadsSent: Number(leadsSent?.cnt ?? 0),
+    watching: Number(watching?.cnt ?? 0),
+  };
+}
+
 // The explicit `Env` type argument is required: `withErrorHandler` defaults its
 // environment parameter to `unknown`, and `EventContext` then collapses `env`
 // to the ambient `{ ASSETS }` binding only, hiding every project binding this
@@ -301,11 +335,13 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler<Env>('admin.coc
   if (auth instanceof Response) return auth;
 
   const requestId = newRequestId();
+
   // Run every section in parallel; partial failures are reported per-section.
-  const [contentAudit, drafts, autopilot, health, githubHealth] = await Promise.all([
+  const [contentAudit, drafts, autopilot, signal, health, githubHealth] = await Promise.all([
     timeit(() => loadContentAndAudit(env)),
     timeit(() => loadDraftsSummary(env)),
     timeit(() => loadAutopilotSummary(env)),
+    timeit(() => loadSignalRadar(env)),
     timeit(() => runLiveProbes()),
     // Functional GitHub probe — auth + repo + branch + read one real blob.
     checkGitHubHealth(env).catch((e) => ({
@@ -331,11 +367,13 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler<Env>('admin.coc
     drafts: drafts.data,
     autopilot: autopilot.data,
     health: health.data,
+    signal: signal.data,
     sectionsFailed: [
       ...(auditSection.ok ? [] : ['audit']),
       ...(contentSection.ok ? [] : ['content']),
       ...(drafts.ok ? [] : ['drafts']),
       ...(autopilot.ok ? [] : ['autopilot']),
+      ...(signal.ok ? [] : ['signal']),
       ...(health.ok ? [] : ['health']),
     ],
   });
@@ -348,6 +386,7 @@ export const onRequestGet: PagesFunction<Env> = withErrorHandler<Env>('admin.coc
     content: contentSection,
     drafts,
     autopilot,
+    signal,
     health,
     github_health: githubHealth,
     next_best_actions: next,

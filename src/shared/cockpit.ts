@@ -83,6 +83,14 @@ export interface CockpitGitHubHealth {
   };
 }
 
+export interface CockpitSignalRadar {
+  installed: boolean;
+  mode: string;
+  leadsNew: number;
+  leadsSent: number;
+  watching: number;
+}
+
 export interface CockpitResponse {
   success: true;
   request_id: string;
@@ -91,6 +99,7 @@ export interface CockpitResponse {
   content: CockpitSection<CockpitContent>;
   drafts: CockpitSection<CockpitDrafts>;
   autopilot: CockpitSection<CockpitAutopilot>;
+  signal: CockpitSection<CockpitSignalRadar>;
   health: CockpitSection<CockpitHealth>;
   github_health: CockpitGitHubHealth;
   next_best_actions: NextBestAction[];

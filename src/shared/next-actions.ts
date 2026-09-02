@@ -32,10 +32,10 @@ export interface NextBestAction {
   affected_url?: string;
   affected_draft?: string;
   affected_job?: string;
-  category: 'autopilot' | 'drafts' | 'content' | 'links' | 'index' | 'health' | 'config';
+  category: 'autopilot' | 'drafts' | 'content' | 'links' | 'index' | 'health' | 'config' | 'radar';
 }
 
-interface BuildInput {
+export interface BuildInput {
   audit: (CockpitStats & {
     publishedBlog?: number; blogMissingFaq?: number; blogMissingTitle?: number; blogMissingDescription?: number; blogDuplicateTitle?: number;
   }) | null;
@@ -47,20 +47,34 @@ interface BuildInput {
     robots200?: boolean; faviconLive?: boolean; sampleImageLive?: boolean;
   } | null;
   sectionsFailed: string[];
+  signal: { installed: boolean; leadsNew: number } | null;
 }
 
 function action(a: Omit<NextBestAction, 'id'>, id: string): NextBestAction {
   return { id, ...a };
 }
 
-// Russian plural helper: 1 → '', 2..4 → 'а', 5..0 → 'ов'.
-function plural(n: number): string {
+// Russian plural selection: picks one of three agreement forms for a count.
+//
+//   pluralRu(1,  ['черновик', 'черновика', 'черновиков']) → 'черновик'
+//   pluralRu(3,  ['черновик', 'черновика', 'черновиков']) → 'черновика'
+//   pluralRu(5,  ['черновик', 'черновика', 'черновиков']) → 'черновиков'
+//   pluralRu(11, ['черновик', 'черновика', 'черновиков']) → 'черновиков'
+//
+// Form order is [1, 2..4, 5..0] — the classic Russian one/few/many split.
+// Passing the whole word (not a bare suffix) is required: a single suffix
+// cannot serve masculine, feminine and neuter stems at once, which is
+// exactly how the old `plural()` helper produced «5 страницов».
+export function pluralRu(n: number, forms: readonly [string, string, string]): string {
   const mod10 = n % 10, mod100 = n % 100;
-  if (mod100 >= 11 && mod100 <= 14) return 'ов';
-  if (mod10 === 1) return '';
-  if (mod10 >= 2 && mod10 <= 4) return 'а';
-  return 'ов';
+  if (mod100 >= 11 && mod100 <= 14) return forms[2];
+  if (mod10 === 1) return forms[0];
+  if (mod10 >= 2 && mod10 <= 4) return forms[1];
+  return forms[2];
 }
+
+// Noun forms reused across several rules.
+const PAGE_FORMS = ['страница', 'страницы', 'страниц'] as const;
 
 // Translate a failed-section identifier to Russian label.
 function sectionLabel(s: string): string {
@@ -130,7 +144,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
   if (input.drafts && input.drafts.pending_review > 0) {
     const n = input.drafts.pending_review;
     out.push(action({
-      title: `${n} AI-черновик${plural(n)} ожидает вашей проверки`,
+      title: `${n} ${pluralRu(n, ['AI-черновик', 'AI-черновика', 'AI-черновиков'])} ${pluralRu(n, ['ожидает', 'ожидают', 'ожидают'])} вашей проверки`,
       reason: input.drafts.last_pending_title
         ? `Последний: «${input.drafts.last_pending_title}». RU + UZ пакеты не публикуются до вашего одобрения.`
         : 'RU + UZ пакеты не публикуются до вашего одобрения.',
@@ -146,7 +160,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
   if (input.drafts && input.drafts.needs_revision > 0) {
     const n = input.drafts.needs_revision;
     out.push(action({
-      title: `${n} черновик${plural(n)} помечен «требует доработки»`,
+      title: `${n} ${pluralRu(n, ['черновик', 'черновика', 'черновиков'])} ${pluralRu(n, ['помечен', 'помечены', 'помечены'])} «требует доработки»`,
       reason: 'Вы отметили их для изменений. Доработка или повторный запуск освобождает Inbox для новых задач.',
       effect: 'Разбор очереди освободит Inbox для новых запусков Автопилота.',
       risk: 'low',
@@ -164,7 +178,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.mojibakePages ?? 0) > 0) {
       const n = a.mojibakePages!;
       out.push(action({
-        title: `На ${n} страниц${plural(n)} обнаружены искажения кодировки`,
+        title: `На ${pluralRu(n, ['странице', 'страницах', 'страницах'])} обнаружены искажения кодировки`,
         reason: 'Страницы с битой кодировкой выглядят как мусор для пользователей и поисковиков; публикация заблокирована.',
         effect: 'После исправления страницы снова дадут ранжирующие сигналы.',
         risk: 'high',
@@ -178,7 +192,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.brokenInternalLinks ?? 0) > 0) {
       const n = a.brokenInternalLinks;
       out.push(action({
-        title: `На сайте ${n} битых внутренних ссыл${plural(n)}`,
+        title: `На сайте ${n} ${pluralRu(n, ['битая внутренняя ссылка', 'битые внутренние ссылки', 'битых внутренних ссылок'])}`,
         reason: 'Ссылки на несуществующие страницы тратят crawl-бюджет и сбивают Google.',
         effect: 'Исправление каждой ссылки возвращает ~1–2% crawl-бюджета и укрепляет тематические кластеры.',
         risk: 'medium',
@@ -192,7 +206,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.duplicateTitle ?? 0) > 0) {
       const n = a.duplicateTitle;
       out.push(action({
-        title: `${n} дублирующих <title>`,
+        title: `${n} ${pluralRu(n, ['дублирующий', 'дублирующих', 'дублирующих'])} <title>`,
         reason: 'Дубли title запускают перезапись от Google и каннибализацию между страницами.',
         effect: 'Уникальные title уточняют, какая страница ранжируется по какому интенту.',
         risk: 'medium',
@@ -206,7 +220,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.duplicateDescription ?? 0) > 0) {
       const n = a.duplicateDescription;
       out.push(action({
-        title: `${n} дублирующих meta description`,
+        title: `${n} ${pluralRu(n, ['дублирующий', 'дублирующих', 'дублирующих'])} meta description`,
         reason: 'Дубли описаний снижают CTR; Google часто заменяет их случайными фрагментами текста.',
         effect: 'Уникальные описания могут поднять CTR на 5–15% по каннибал-запросам.',
         risk: 'medium',
@@ -220,7 +234,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.orphanPages ?? 0) > 0) {
       const n = a.orphanPages;
       out.push(action({
-        title: `${n} страниц${plural(n)} без входящих ссылок`,
+        title: `${n} ${pluralRu(n, PAGE_FORMS)} без входящих ссылок`,
         reason: 'Страницы без внутренних ссылок плохо ранжируются и могут выпасть из индекса.',
         effect: 'Каждая ссылка с сильной страницы передаёт PageRank и улучшает позиции.',
         risk: 'medium',
@@ -234,7 +248,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.missingFaq ?? 0) > 0) {
       const n = a.missingFaq;
       out.push(action({
-        title: `${n} страниц${plural(n)} без блока FAQ`,
+        title: `${n} ${pluralRu(n, PAGE_FORMS)} без блока FAQ`,
         reason: 'FAQ-блоки открывают rich-результаты (FAQPage) и дают внутренние якоря для long-tail.',
         effect: 'Money-страница с 4+ FAQ обычно ранжируется по 10–30 дополнительным long-tail запросам.',
         risk: 'medium',
@@ -248,7 +262,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.missingTitle ?? 0) > 0 || (a.missingDescription ?? 0) > 0 || (a.missingH1 ?? 0) > 0) {
       const total = (a.missingTitle ?? 0) + (a.missingDescription ?? 0) + (a.missingH1 ?? 0);
       out.push(action({
-        title: `${total} незаполненных SEO-полей (title/description/H1)`,
+        title: `${total} ${pluralRu(total, ['незаполненное SEO-поле', 'незаполненных SEO-поля', 'незаполненных SEO-полей'])} (title/description/H1)`,
         reason: 'Без этих полей страницы не могут ранжироваться ни по одному запросу.',
         effect: 'После заполнения страницы сразу получают право на индексацию.',
         risk: 'high',
@@ -262,7 +276,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.missingCanonical ?? 0) > 0) {
       const n = a.missingCanonical;
       out.push(action({
-        title: `${n} страниц${plural(n)} без canonical`,
+        title: `${n} ${pluralRu(n, PAGE_FORMS)} без canonical`,
         reason: 'Без canonical Google выбирает URL сам — часто неправильный.',
         effect: 'Один canonical = на одну неожиданность ранжирования меньше.',
         risk: 'low',
@@ -276,7 +290,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.ruUzPairsMissing ?? 0) > 0) {
       const n = a.ruUzPairsMissing;
       out.push(action({
-        title: `${n} пар${plural(n)} RU↔UZ не комплектны`,
+        title: `${n} ${pluralRu(n, ['пара', 'пары', 'пар'])} RU↔UZ ${pluralRu(n, ['не комплектна', 'не комплектны', 'не комплектны'])}`,
         reason: 'Без пары hreflang сломан, и один из языков теряет трафик.',
         effect: 'Восстановление пары даёт слабому языку +10–20% за месяц.',
         risk: 'medium',
@@ -290,7 +304,7 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
     if ((a.publishedPages ?? 0) > 0 && (a.pagesInSitemap ?? 0) < a.publishedPages) {
       const n = a.publishedPages - a.pagesInSitemap;
       out.push(action({
-        title: `${n} опубликованных страниц${plural(n)} не попадает в sitemap`,
+        title: `${n} ${pluralRu(n, ['опубликованная страница', 'опубликованные страницы', 'опубликованных страниц'])} ${pluralRu(n, ['не попадает', 'не попадают', 'не попадают'])} в sitemap`,
         reason: 'Published, но robotsIndex=false → не в sitemap.xml → Google может не сканировать.',
         effect: 'Возврат в sitemap = возврат в очередь индексации.',
         risk: 'high',
@@ -352,6 +366,22 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
         category: 'health',
       }, 'health-admin-noindex'));
     }
+  }
+
+  // 7. Signal Radar — hot demand. Weighted above drafts because demand
+  //    is time-sensitive (minutes, not days).
+  if (input.signal?.installed && input.signal.leadsNew > 0) {
+    const n = input.signal.leadsNew;
+    out.push(action({
+      title: `${n} ${pluralRu(n, ['заявка', 'заявки', 'заявок'])} из Telegram ${pluralRu(n, ['ждёт', 'ждут', 'ждут'])} ответа`,
+      reason: 'Горячий спрос на digital-услуги. Человек прямо сейчас ищет решение — ответ в первые минуты даёт максимальную конверсию.',
+      effect: 'Каждый ответ на заявку — это потенциальный клиент, который сам пришёл с намерением купить.',
+      risk: 'high',
+      weight: 900,
+      action_label: 'Открыть Signal Radar',
+      action_path: '/admin-tools/signal-radar',
+      category: 'radar',
+    }, `signal-leads-${n}`));
   }
 
   // Sort by weight descending and cap at 7.

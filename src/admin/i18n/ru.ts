@@ -29,6 +29,11 @@ export const ru = {
     publish_github: 'Опубликовать в GitHub',
     logout:         'Выйти',
     brand_label:    'SEO-пульт',
+    group_overview: 'Обзор',
+    group_radars:   'Радары',
+    group_platform: 'Платформа',
+    group_content:  'Контент',
+    group_seo:      'SEO',
   },
 
   // ─── Common ─────────────────────────────────────────────────────────
@@ -191,6 +196,18 @@ export const ru = {
       medium: 'средний',
       high:   'высокий',
       critical:'критично',
+    },
+
+    signal_radar_panel: {
+      title:           'Signal Radar',
+      subtitle:        'Поиск по спросу — заявки на digital-услуги из Telegram',
+      new_leads:       'Новые заявки',
+      watching:        'Наблюдаем',
+      mode:            'Режим',
+      open_radar:      'Открыть радар',
+      empty:           'Новых заявок нет. Радар сканирует каналы.',
+      not_installed:   'Модуль ещё не установлен',
+      install_hint:    'Примените миграцию 0057_lead_radar_signal.sql — после этого радар начнёт показывать данные.',
     },
 
     error: {
