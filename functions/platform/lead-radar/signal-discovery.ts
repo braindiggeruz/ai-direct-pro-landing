@@ -365,6 +365,33 @@ export function scoreSignalTarget(
   else if (members >= 100) score += 5;
   if (members >= 500) reasons.push(`members:${members}`);
 
+  // Who is allowed to speak here matters more than how many people listen.
+  //
+  // Every channel this radar promoted on its first day was a broadcast: news
+  // feeds, a militia feed, a job board, a car marketplace, a football channel
+  // — each with half a million subscribers and exactly one author. Together
+  // they produced 228 posts and one recruitment advert, because a broadcast
+  // is a place where the admin writes and half a million people read, and
+  // nobody in it can post a request for anything. Ranking by size selects for
+  // precisely that shape, so size has to answer to it.
+  const voices = new Set(
+    preview.messages
+      .map((message) => (message.author ?? '').trim().toLowerCase())
+      .filter(Boolean),
+  );
+  // Below three messages there is no distribution to speak of, and one author
+  // across a two-post sample is a coincidence, not a shape.
+  const broadcast = preview.messages.length >= 3 && voices.size <= 1;
+  if (broadcast) {
+    score -= 30;
+    reasons.push('broadcast');
+  } else if (voices.size >= 3) {
+    // Several different people writing in public is the closest thing to
+    // evidence that a stranger could write here too.
+    score += 10;
+    reasons.push(`voices:${voices.size}`);
+  }
+
   const newest = preview.messages
     .map((message) => (message.occurredAt ? Date.parse(message.occurredAt) : Number.NaN))
     .filter((value) => Number.isFinite(value))

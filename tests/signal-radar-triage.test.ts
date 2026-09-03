@@ -310,3 +310,82 @@ test('the verdict union is closed and stable', () => {
     assert.ok(['lead', 'review', 'discard', 'supply', 'jobseeker'].includes(verdict));
   }
 });
+
+// ---------------------------------------------------------------------------
+// Three classes of noise production actually served us, taken from live Uzbek
+// channels on 2026-09-02. Each scored above the lead threshold before this
+// block existed, and between them they were the whole of the operator's inbox.
+// ---------------------------------------------------------------------------
+
+/** Independence-day greeting from a marketing association. Scored 72. */
+const GREETING =
+  'Hurmatli hamkorlar, ekspertlar, hamkasblar va do‘stlar! O‘zbekiston ' +
+  'Marketing Uyushmasi barchangizni O‘zbekiston Respublikasi Mustaqilligining ' +
+  '35 yilligi bilan samimiy muborakbod etadi! Bugun biz nafaqat mamlakatimiz ' +
+  'tarixini, balki zamonaviy dizayn va kreativ yechimlarni ham nishonlaymiz. ' +
+  'Bugun men juda xohlayman';
+
+/** A Product Manager vacancy. Scored 89 on "дизайн", "мобил" and "ищем". */
+const VACANCY =
+  'В новое подразделение компании, занимающееся производством казуальных игр ' +
+  'для широкой аудитории требуется Product Manager (Producer / Game Designer) ' +
+  'на полный рабочий день! На какие задачи (обязанности)? - проектирование ' +
+  'игрового процесса, работа с мобильным приложением и дизайном.';
+
+/** A marketer's essay about planning her own wedding. Scored 82. */
+const ESSAY =
+  'Когда пиарщик организует ивент, нужно подумать о многом: как привлечь ' +
+  'участников, мотивировать их на UGC, и обязательно органически попасть в ' +
+  'СМИ. Когда в моём списке задач появилась свадьба, я автоматически ' +
+  'применила навыки: нужен был сайт и бот для рассадки гостей.';
+
+test('a holiday greeting is not a request, however many design words it uses', () => {
+  const result = triageSignal(GREETING);
+  assert.equal(result.verdict, 'discard', JSON.stringify(result));
+  assert.equal(result.score, 0);
+  assert.ok(result.reasons.some((reason) => reason.startsWith('greeting:')),
+    `expected a greeting reason, got ${result.reasons.join(',')}`);
+});
+
+test('a vacancy that names no salary and no role we list is still recruitment', () => {
+  const result = triageSignal(VACANCY);
+  assert.equal(result.verdict, 'jobseeker', JSON.stringify(result));
+  assert.equal(result.score, 0);
+  // The tell is the machinery of employment, not the job title.
+  assert.ok(result.reasons.some((reason) => reason.includes('полный рабочий день')),
+    result.reasons.join(','));
+});
+
+test('an essay that mentions a site and a bot in passing is not a brief', () => {
+  const result = triageSignal(ESSAY);
+  assert.equal(result.verdict, 'discard', JSON.stringify(result));
+  assert.ok(result.reasons.some((reason) => reason.startsWith('prose:')),
+    `expected a prose reason, got ${result.reasons.join(',')}`);
+  // The services really were mentioned; we simply do not believe them.
+  assert.ok(result.services.includes('sites'), result.services.join(','));
+});
+
+test('prose yields the moment the author leaves a way to be reached', () => {
+  // The same essay with a handle at the end. Killing that would cost us more
+  // than an occasional story in the inbox ever does.
+  // Five characters after the @: Telegram's own minimum, and the reason a
+  // shorter handle is not read as a contact anywhere in this pipeline.
+  const result = triageSignal(`${ESSAY} Кстати, если кому надо — пишите @alexey`);
+  assert.notEqual(result.verdict, 'discard', JSON.stringify(result));
+  assert.equal(result.hasContact, true, JSON.stringify(result));
+});
+
+test('a buyer who writes like a human is still a buyer', () => {
+  // The point of the whole block: none of the above may cost a real request.
+  for (const text of [
+    'Нужен бот для записи',
+    'Ищу исполнителя: нужен чат-бот для записи клиентов. Бюджет обсудим. Пишите @alex',
+    'Нужен сайт-визитка под ключ, писать в личку',
+    'Menga Telegram bot kerak, mijozlar uchun. Kim qila oladi?',
+    'Требуется настроить таргетированную рекламу в Instagram, бюджет от 300$',
+  ]) {
+    const result = triageSignal(text);
+    assert.equal(result.verdict, 'lead', `${text} -> ${JSON.stringify(result)}`);
+    assert.ok(result.score >= 60, `${text} -> ${result.score}`);
+  }
+});

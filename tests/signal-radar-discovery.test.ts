@@ -235,3 +235,69 @@ test('empty preview is safe end to end', () => {
   assert.equal(assessment.language, 'other');
   assert.deepEqual(assessment.posts, []);
 });
+
+// ---------------------------------------------------------------------------
+// Size is not the same thing as usefulness.
+//
+// Every channel the radar promoted on its first day was a broadcast with half
+// a million subscribers: two news feeds, a militia feed, a job board, a car
+// marketplace and a football channel. One author each, 228 posts between
+// them, one recruitment advert out. Ranking by size selects for exactly the
+// shape that cannot contain a request.
+// ---------------------------------------------------------------------------
+
+const CHATTER = 'Salom, hammaga yaxshi kun';
+const REQUEST = 'Salom, menga sayt kerak, yordam bera olasizmi?';
+
+function previewFrom(authors: string[], members: number, text = CHATTER): TelegramPreview {
+  return {
+    slug: 'uzb_room',
+    shape: 'channel',
+    kind: 'channel',
+    title: 'UZB room',
+    about: 'Dasturchilar guruhi',
+    members,
+    messages: authors.map((author, index) => ({
+      externalId: `a/${index + 1}`,
+      occurredAt: null,
+      author,
+      text,
+    })),
+    linkedSlugs: [],
+    indexable: true,
+  };
+}
+
+const NEWS = ['News Desk', 'News Desk', 'News Desk', 'News Desk'];
+const CROWD = ['Alisher', 'Dilnoza', 'Jasur', 'Madina'];
+
+test('a large broadcast is not a source, whatever its counter says', () => {
+  const broadcast = scoreSignalTarget(previewFrom(NEWS, 500_000));
+  assert.ok(broadcast.reasons.includes('broadcast'), broadcast.reasons.join(','));
+  // Half a million listeners and not one of them able to post: this is the
+  // exact shape that filled the first day with 228 posts and nothing to show.
+  assert.ok(broadcast.score < 40, `expected below the promote bar, got ${broadcast.score}`);
+});
+
+test('a room with four voices beats a broadcast with a thousand times the reach', () => {
+  const crowd = scoreSignalTarget(previewFrom(CROWD, 500));
+  const broadcast = scoreSignalTarget(previewFrom(NEWS, 500_000));
+  assert.ok(crowd.reasons.some((reason) => reason.startsWith('voices:')), crowd.reasons.join(','));
+  assert.ok(crowd.score > broadcast.score, `${crowd.score} should beat ${broadcast.score}`);
+  assert.ok(crowd.score >= 40, `a room full of strangers should be watched, got ${crowd.score}`);
+});
+
+test('a notice board survives the broadcast penalty when it carries requests', () => {
+  // Not every broadcast is useless. Half the service requests in this region
+  // are posted to an announcement channel by its admin on somebody's behalf,
+  // so the penalty has to hurt without being fatal.
+  const board = scoreSignalTarget(previewFrom(NEWS, 500_000, REQUEST));
+  assert.ok(board.reasons.includes('broadcast'), board.reasons.join(','));
+  assert.ok(board.score >= 40, `a board full of requests must still be watched, got ${board.score}`);
+});
+
+test('a two-post sample is too small to call a broadcast', () => {
+  // Below three messages a single author is a coincidence, not a shape.
+  const short = scoreSignalTarget(previewFrom(['Alisher', 'Alisher'], 500_000));
+  assert.equal(short.reasons.includes('broadcast'), false, short.reasons.join(','));
+});

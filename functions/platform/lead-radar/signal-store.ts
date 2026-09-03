@@ -242,6 +242,25 @@ export interface SignalTargetListOptions {
   kind?: SignalTargetKind;
   limit?: number;
   minScore?: number;
+  /**
+   * `'score'` (default) answers "show me the best targets" — right for a UI
+   * table, wrong for a scheduler.
+   *
+   * `'due'` answers "what needs looking at next": targets whose `next_action_at`
+   * has arrived, or was never set, come first — oldest schedule first, never
+   * checked at all before that — so nothing starves. Requires `now`.
+   *
+   * The default is deliberate, and the reason is a production bug. The scout
+   * asked for eight targets under `ORDER BY score DESC`; the eight watched
+   * channels scored 48–55 and the thirty-two candidates scored 0, so the
+   * candidates were never returned, never scored, and stayed at 0 forever — a
+   * pool that could never promote itself and, being permanently "full", also
+   * stopped discovery from refilling it. Ranking by "best" before filtering by
+   * "due" answers the wrong question.
+   */
+  orderBy?: 'score' | 'due';
+  /** ISO timestamp, required when `orderBy` is `'due'`. */
+  now?: string;
 }
 
 export class SignalRadarStore {
@@ -303,12 +322,41 @@ export class SignalRadarStore {
       binds.push(options.minScore);
       where.push(`score>=?${binds.length}`);
     }
+    // `orderBy: 'due'` puts the scheduler's needs first: work that is owed
+    // before work that merely looks good. Within the due set, a target that has
+    // never been checked (NULL) outranks one that is simply late, so a freshly
+    // discovered channel is reconnoitered before an old one is re-read.
+    const due = options.orderBy === 'due';
+    let order = 'ORDER BY score DESC, updated_at DESC';
+    if (due) {
+      binds.push(options.now ?? new Date().toISOString());
+      order = `ORDER BY CASE WHEN next_action_at IS NULL OR next_action_at<=?${binds.length}
+          THEN 0 ELSE 1 END,
+        COALESCE(next_action_at, '') ASC,
+        score DESC, updated_at DESC`;
+    }
     binds.push(limit);
     const result = await this.db.prepare(`SELECT * FROM lead_radar_signal_targets
       WHERE ${where.join(' AND ')}
-      ORDER BY score DESC, updated_at DESC LIMIT ?${binds.length}`)
+      ${order} LIMIT ?${binds.length}`)
       .bind(...binds).all<TargetRow>();
     return (result.results ?? []).map(toTarget);
+  }
+
+  /**
+   * Candidates that have never been reconnoitered.
+   *
+   * Discovery must be triggered by these, not by the candidate count. A pool of
+   * scored-and-rejected channels looks full forever, and a trigger that counts
+   * it never fires again.
+   */
+  async countFreshCandidates(orgId: string, limit = 200): Promise<number> {
+    const row = await this.db.prepare(`SELECT COUNT(*) AS n FROM (
+        SELECT 1 FROM lead_radar_signal_targets
+        WHERE org_id=?1 AND status='candidate' AND next_action_at IS NULL
+        LIMIT ?2)`)
+      .bind(orgId, limit).first<{ n: number }>();
+    return row?.n ?? 0;
   }
 
   /** Targets whose next_action_at has arrived — the only join-queue entry point. */

@@ -75,17 +75,22 @@ import {
   type LeadRadarTelegramAccountFinalizationQueueMessage,
 } from '../src/shared/lead-radar-telegram-account-finalization';
 import {
+  SIGNAL_CHAT_QUEUE_SCHEMA,
   SIGNAL_SCAN_QUEUE_SCHEMA,
+  parseSignalChatHarvestQueueMessage,
   parseSignalScanQueueMessage,
+  type SignalChatHarvestQueueMessage,
   type SignalScanQueueMessage,
 } from '../src/shared/signal-radar';
+import { runChatHarvest } from '../functions/platform/lead-radar/signal-chat-crawl';
 
 type AutomationWorkerQueueMessage =
   | AutomationQueueMessage
   | LeadRadarQueueMessage
   | TelegramCampaignQueueMessage
   | LeadRadarTelegramAccountFinalizationQueueMessage
-  | SignalScanQueueMessage;
+  | SignalScanQueueMessage
+  | SignalChatHarvestQueueMessage;
 
 interface AutomationWorkerEnv extends Env {
   GPTBOT_DRAFTS_DB: D1Database;
@@ -379,6 +384,27 @@ export default {
     } catch (error) {
       recordLeadRadarFailure('signal_scout', error);
     }
+    try {
+      // The chat harvest is a rotation, not a run: each tick takes a slice of
+      // the source list and stops. A tick that does part of the work is normal
+      // and expected — the cursor carries the rest into the next one.
+      const harvest = await runChatHarvest(env, env.GPTBOT_DRAFTS_DB, retentionNow);
+      if (harvest.skipped.length > 0 || harvest.cards > 0) {
+        console.log('signal_radar.chat_harvest', {
+          sources: harvest.sources.length,
+          entries: harvest.entries,
+          cards: harvest.cards,
+          kept: harvest.kept,
+          rejected: harvest.rejected,
+          refreshed: harvest.refreshed,
+          nextIndex: harvest.nextIndex,
+          elapsedMs: harvest.elapsedMs,
+          skipped: harvest.skipped.slice(0, 8),
+        });
+      }
+    } catch (error) {
+      recordLeadRadarFailure('signal_chat_harvest', error);
+    }
     if (isLeadRadarProcessingEnabled(env)) {
       try {
         await assertLeadRadarRuntimeSchema(env.GPTBOT_DRAFTS_DB);
@@ -597,6 +623,28 @@ export default {
           continue;
         }
         await consumeTelegramAccountFinalization(message, finalizationEnvelope, env);
+        continue;
+      }
+      // ── Signal Radar chat harvest («Найти чаты») ───────────────────────
+      // Heavier than a scan — dozens of paced catalogue requests — but still
+      // the only message a human is watching a table for, so it runs early.
+      const looksLikeChatHarvest = rawRecord?.schema === SIGNAL_CHAT_QUEUE_SCHEMA;
+      if (looksLikeChatHarvest) {
+        try {
+          const harvestEnvelope = parseSignalChatHarvestQueueMessage(raw);
+          if (harvestEnvelope && isLeadRadarOrganizationAllowed(env, harvestEnvelope.org_id)) {
+            await runChatHarvest(env, env.GPTBOT_DRAFTS_DB, new Date(), {}, {
+              manual: true,
+              orgId: harvestEnvelope.org_id,
+              extraKeywords: harvestEnvelope.keywords,
+            });
+          }
+        } catch (error) {
+          // One button press must never become a retry loop against a
+          // catalogue. The next cron tick resumes the rotation anyway.
+          recordLeadRadarFailure('signal_chat_harvest_consume', error);
+        }
+        message.ack();
         continue;
       }
       // ── Signal Radar manual scan (operator pressed «Сканировать») ──────

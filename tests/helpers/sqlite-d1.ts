@@ -3,7 +3,15 @@ import {
   type SQLInputValue,
 } from 'node:sqlite';
 
-function sqliteValue(value: unknown): SQLInputValue {
+function safeInspect(value: unknown): string {
+  try {
+    return JSON.stringify(value)?.slice(0, 200) ?? String(value);
+  } catch {
+    return String(value);
+  }
+}
+
+function sqliteValue(value: unknown, index: number): SQLInputValue {
   if (
     value === null
     || typeof value === 'string'
@@ -13,7 +21,10 @@ function sqliteValue(value: unknown): SQLInputValue {
   ) {
     return value;
   }
-  throw new Error('unsupported sqlite fixture value');
+  // D1 accepts only null, number, string and ArrayBuffer. Naming the offending
+  // value turns "unsupported sqlite fixture value" from a hunt through the
+  // call site into a one-line answer.
+  throw new Error(`unsupported sqlite fixture value at ?${index + 1}: ${typeof value} ${safeInspect(value)}`);
 }
 
 export class SqliteD1Statement {
@@ -25,7 +36,7 @@ export class SqliteD1Statement {
   ) {}
 
   bind(...values: unknown[]): SqliteD1Statement {
-    this.bindings = values.map(sqliteValue);
+    this.bindings = values.map((value, index) => sqliteValue(value, index));
     return this;
   }
 

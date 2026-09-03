@@ -70,11 +70,29 @@ export const SIGNAL_SCOUT_LIMITS = {
   previewIntervalMs: 1_500,
   /** How often a watched channel is re-read for new posts. */
   pollIntervalMinutes: 30,
+  /**
+   * Posts a channel may hand us without a single request before we stop
+   * believing it. Eight broadcast channels taught us this the hard way: 228
+   * posts, one recruitment advert, and every slot of every tick spent
+   * re-reading them.
+   */
+  quietAfterMessages: 40,
+  /** How often a channel that has stopped paying out is re-read instead. */
+  quietPollIntervalMinutes: 240,
+  /** Posts without a single request after which the channel is retired. */
+  retireAfterMessages: 150,
   /** Recon revisit delay for a candidate that scored too low to watch. */
   candidateReconMinutes: 240,
   /** Raw post text is retained only long enough to triage and quote it. */
   postRetentionDays: 7,
 } as const;
+
+/**
+ * The score at which a candidate starts being polled. Above the member bonus
+ * and the language bonus alone, so a channel has to have shown us something —
+ * a request, several voices, or both — before it earns a slot every half hour.
+ */
+export const PROMOTE_SCORE = 40;
 
 export interface SignalScoutReport {
   orgs: number;
@@ -163,6 +181,15 @@ async function dedupKey(orgId: string, text: string): Promise<string> {
  * Uzbek channels and groups. Its robots.txt allows `User-agent: *` and blocks
  * only commercial crawlers, so this is permitted. Its sitemaps are NOT used:
  * they are dated 2018 and most slugs in them are dead.
+ *
+ * As of 2026-09-02 tgstat answers the ranking page with HTTP 200 and an
+ * "authorization required" interstitial, which parses to zero entities. The
+ * ranking was always a poor source anyway — it sorts by subscriber count, and
+ * the biggest channels in the country are broadcasts nobody can post in. So
+ * the ranking is now the *second* thing we try: when it comes back empty we
+ * fall back to the link graph harvested from channels we already judged good,
+ * and if that is empty too we say so out loud instead of reporting a quiet
+ * tick as a healthy one.
  */
 async function discover(
   env: SignalScoutEnv,
@@ -170,10 +197,20 @@ async function discover(
   orgId: string,
   report: SignalScoutReport,
   deps: SignalScoutDeps,
+  graph: string[],
 ): Promise<void> {
   if (env.LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED === 'false') return;
   const fetchText = deps.fetchText ?? defaultFetchText;
   const sleep = deps.sleep ?? defaultSleep;
+
+  const accept = async (slug: string, kind: 'channel' | 'group', source: string, note: string | null) => {
+    if (report.discovered >= SIGNAL_SCOUT_LIMITS.maxDiscoveriesPerTick) return false;
+    if (!isSignalSlug(slug)) return false;
+    if (await store.getTargetBySlug(orgId, slug)) return false;
+    await store.upsertTarget(orgId, { slug, kind, source, note });
+    report.discovered += 1;
+    return true;
+  };
 
   for (const url of [
     SIGNAL_DISCOVERY_SOURCES.tgstatChannels('uz'),
@@ -181,22 +218,32 @@ async function discover(
   ]) {
     if (report.discovered >= SIGNAL_SCOUT_LIMITS.maxDiscoveriesPerTick) return;
     const html = await fetchText(url);
+    // A network miss on a ranking page is routine and says nothing about the
+    // source; a page that arrives empty is the opposite. Only the second is
+    // worth reporting, or the log fills up with weather.
     if (!html) continue;
-
+    let seen = 0;
     for (const entity of parseTgstatEntities(html)) {
+      seen += 1;
       if (report.discovered >= SIGNAL_SCOUT_LIMITS.maxDiscoveriesPerTick) break;
-      if (!isSignalSlug(entity.slug)) continue;
-      const existing = await store.getTargetBySlug(orgId, entity.slug);
-      if (existing) continue;
-      await store.upsertTarget(orgId, {
-        slug: entity.slug,
-        kind: entity.kind,
-        source: 'tgstat:uz',
-        note: entity.kind === 'group' ? 'Группа: нужен join, пока только наблюдаем' : null,
-      });
-      report.discovered += 1;
+      await accept(entity.slug, entity.kind, 'tgstat:uz',
+        entity.kind === 'group' ? 'Группа: нужен join, пока только наблюдаем' : null);
     }
+    // A ranking page that served no entities is not an empty country — it is
+    // an upstream that stopped talking to us, and the operator deserves to
+    // read that rather than a row of zeroes.
+    if (seen === 0) report.skipped.push('discovery:tgstat:empty');
     await sleep(SIGNAL_SCOUT_LIMITS.previewIntervalMs);
+  }
+
+  if (report.discovered > 0 || graph.length === 0) return;
+  // The link graph, harvested only from channels that cleared the promote bar
+  // during this tick. A good channel links to channels like itself; a news
+  // feed links to more news feeds, which is exactly why we do not take links
+  // from the ones that did not.
+  for (const slug of graph) {
+    const added = await accept(slug, 'channel', 'linked:uz', null);
+    if (!added && report.discovered >= SIGNAL_SCOUT_LIMITS.maxDiscoveriesPerTick) break;
   }
 }
 
@@ -209,7 +256,8 @@ async function scoutTarget(
   nowMs: number,
   report: SignalScoutReport,
   deps: SignalScoutDeps,
-): Promise<void> {
+): Promise<{ score: number; linkedSlugs: string[] }> {
+  const nothing = { score: 0, linkedSlugs: [] as string[] };
   const fetchText = deps.fetchText ?? defaultFetchText;
   const html = await fetchText(`https://t.me/s/${target.slug}`);
   if (!html) {
@@ -218,7 +266,7 @@ async function scoutTarget(
     await store.updateTarget(orgId, target.id, {
       next_action_at: new Date(nowMs + 6 * 3_600_000).toISOString(),
     });
-    return;
+    return nothing;
   }
 
   let preview: TelegramPreview;
@@ -226,14 +274,14 @@ async function scoutTarget(
     preview = parseTelegramPreview(html, target.slug);
   } catch {
     report.skipped.push(`${target.slug}:unparseable`);
-    return;
+    return nothing;
   }
   report.scouted += 1;
 
   // Telegram asks us not to index some pages. Honour it and forget the slug.
   if (!preview.indexable) {
     await store.updateTarget(orgId, target.id, { status: 'ignored', note: 'noindex от Telegram' });
-    return;
+    return nothing;
   }
 
   // A group has no web preview. There is nothing to read here without joining,
@@ -243,7 +291,7 @@ async function scoutTarget(
       kind: preview.kind === 'channel' ? 'channel' : 'group',
       next_action_at: new Date(nowMs + 24 * 3_600_000).toISOString(),
     });
-    return;
+    return nothing;
   }
 
   const assessment = scoreSignalTarget(preview, { now: nowMs });
@@ -298,25 +346,69 @@ async function scoutTarget(
   report.leads += newLeads;
 
   const members = preview.members ?? target.members;
-  const status = assessment.score >= 40 || newLeads > 0
-    ? (target.status === 'candidate' ? 'watching' : target.status)
-    : target.status;
 
-  await store.updateTarget(orgId, target.id, {
+  // A candidate whose preview carries no messages at all is empty, dead, or not
+  // readable from here. Leaving it a candidate makes it compete for preview
+  // slots forever — against channels nobody has even looked at yet. Low *score*
+  // is not the same thing and is deliberately not a reason to drop a channel:
+  // language detection on a short preview is unreliable, and throwing away a
+  // real Uzbek channel because we could not tell is worse than re-reading it.
+  const unreadable = target.status === 'candidate' && assessment.posts.length === 0;
+
+  // Evidence outranks promise. A channel is only worth a slot while it is
+  // still capable of surprising us: `messages_seen` counts what it has handed
+  // over and `leads_seen` counts what that was worth. A channel that has given
+  // us forty posts and not one request is not a demand source, whatever its
+  // subscriber count says, and a slot spent re-reading it is a slot not spent
+  // on a channel nobody has ever looked at.
+  const seen = target.messagesSeen + newPosts;
+  const earned = target.leadsSeen + newLeads;
+  const quiet = seen >= SIGNAL_SCOUT_LIMITS.quietAfterMessages && earned === 0;
+  const spent = seen >= SIGNAL_SCOUT_LIMITS.retireAfterMessages && earned === 0;
+
+  // A single lead in a single read is not enough to start polling a channel
+  // every half hour: eight channels were promoted exactly that way, and one
+  // of them was a holiday greeting on a marketing channel. Two requests in one
+  // preview is evidence; one is a coincidence until the score agrees.
+  const status = spent || unreadable
+    ? 'ignored'
+    : assessment.score >= PROMOTE_SCORE || newLeads >= 2
+      ? (target.status === 'candidate' ? 'watching' : target.status)
+      : target.status;
+
+  const patch: Parameters<SignalRadarStore['updateTarget']>[2] = {
     kind: preview.kind === 'channel' ? 'channel' : target.kind,
     title: preview.title || target.title,
     score: assessment.score,
     members,
     status,
-    messages_seen: target.messagesSeen + newPosts,
-    leads_seen: target.leadsSeen + newLeads,
+    messages_seen: seen,
+    leads_seen: earned,
     last_post_at: newestAt !== null ? new Date(newestAt).toISOString() : target.lastPostAt,
+    // A quiet channel is not thrown away, it is read less often: it keeps its
+    // place in the queue but drifts to the back of it, so a genuine request
+    // months from now is still found — just not at the cost of every tick.
     next_action_at: new Date(nowMs + (
       status === 'watching'
-        ? SIGNAL_SCOUT_LIMITS.pollIntervalMinutes * 60_000
+        ? (quiet ? SIGNAL_SCOUT_LIMITS.quietPollIntervalMinutes : SIGNAL_SCOUT_LIMITS.pollIntervalMinutes) * 60_000
         : SIGNAL_SCOUT_LIMITS.candidateReconMinutes * 60_000
     )).toISOString(),
-  });
+  };
+  // `note` is only ever written here when we are retiring the channel. Passing
+  // `note: undefined` would bind NULL and silently wipe the operator's note (or
+  // the "group, join later" marker) on every single poll.
+  if (spent) patch.note = `пусто: ${seen} постов, ни одной заявки`;
+  else if (unreadable) patch.note = 'пусто: ни одного поста в превью';
+
+  await store.updateTarget(orgId, target.id, patch, now);
+
+  // Only a channel we decided was worth watching is allowed to recommend its
+  // neighbours. A news feed links to news feeds, and the whole point of the
+  // link graph is that it inherits the quality of the seed.
+  return {
+    score: assessment.score,
+    linkedSlugs: assessment.score >= PROMOTE_SCORE ? preview.linkedSlugs : [],
+  };
 }
 
 /**
@@ -427,11 +519,15 @@ export async function runSignalScoutTick(
         new Date(nowMs - SIGNAL_SCOUT_LIMITS.postRetentionDays * 86_400_000).toISOString(),
       );
 
-      // Recon first, then polling: an unknown channel tells us nothing, so it
-      // outranks a channel we already understand.
+      // Ask for what is owed, not for what looks best. Under `score DESC` the
+      // eight watched channels (48–55) filled every slot, and the never-scored
+      // candidates (0) were never returned at all — so they never scored, so
+      // they never left the pool, so discovery never refilled it.
       const candidates = await store.listTargets(orgId, {
         status: ['candidate', 'watching'],
         limit: SIGNAL_SCOUT_LIMITS.maxPreviewsPerTick,
+        orderBy: 'due',
+        now: nowIso,
       });
       const due = candidates
         .filter((target) => options.force || !target.nextActionAt || target.nextActionAt <= nowIso)
@@ -446,25 +542,32 @@ export async function runSignalScoutTick(
         });
 
       let fetched = 0;
+      const graph: string[] = [];
       for (const target of due) {
         if (fetched >= SIGNAL_SCOUT_LIMITS.maxPreviewsPerTick) break;
         fetched += 1;
         try {
-          await scoutTarget(store, orgId, target, nowIso, nowMs, report, deps);
+          const found = await scoutTarget(store, orgId, target, nowIso, nowMs, report, deps);
+          graph.push(...found.linkedSlugs);
         } catch (error) {
           report.skipped.push(`${target.slug}:${(error as Error).message}`);
         }
         await sleep(SIGNAL_SCOUT_LIMITS.previewIntervalMs);
       }
 
-      // Demand-driven discovery: refill only when the pool runs dry, which
-      // throttles itself without any extra bookkeeping table.
-      const remaining = await store.listTargets(orgId, {
-        status: 'candidate',
-        limit: SIGNAL_SCOUT_LIMITS.discoverWhenCandidatesBelow,
-      });
-      if (remaining.length < SIGNAL_SCOUT_LIMITS.discoverWhenCandidatesBelow) {
-        await discover(env, store, orgId, report, deps);
+      // Demand-driven discovery: refill when the *unexplored* pool runs dry,
+      // which throttles itself without any extra bookkeeping table.
+      //
+      // Counting every candidate here was the second half of the stall: a
+      // channel that has been reconnoitered and rejected keeps its status, so a
+      // pool of dead channels reads as full forever and no new slug is ever
+      // looked up. Only "never checked" means there is still something to learn.
+      const unexplored = await store.countFreshCandidates(
+        orgId,
+        SIGNAL_SCOUT_LIMITS.discoverWhenCandidatesBelow,
+      );
+      if (unexplored < SIGNAL_SCOUT_LIMITS.discoverWhenCandidatesBelow) {
+        await discover(env, store, orgId, report, deps, [...new Set(graph)]);
       }
 
       await planJoins(db, env, store, orgId, nowIso, report);

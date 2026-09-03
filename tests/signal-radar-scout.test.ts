@@ -72,7 +72,45 @@ function stubFetch(
   };
 }
 
+/**
+ * Rewrite the subscriber counter. Not decoration: the member count is worth up
+ * to 20 points of the 40 that promote a candidate, so a small number here is
+ * the difference between a channel the scout watches and one it keeps waiting.
+ */
+function withSubscribers(html: string, value: string): string {
+  // A function, not `$1${value}$2`: with a numeric value that string reads as
+  // a group reference two digits long and silently replaces nothing.
+  return html.replace(
+    /(<span class="counter_value">)[^<]*(<\/span> <span class="counter_type">subscribers<)/g,
+    (_all, open: string, close: string) => `${open}${value}${close}`,
+  );
+}
+
 const NO_WAIT: SignalScoutDeps = { sleep: async () => {} };
+
+/**
+ * Give every message block a different author. The fixture is a real broadcast
+ * and carries one owner name throughout, which is the whole thing we are
+ * measuring — so a room has to be built, not found.
+ */
+function withAuthors(html: string, authors: string[]): string {
+  // Anchored on the owner-name link: a bare `<span dir="auto">` also appears
+  // in the page header, and matching there eats the first message with it.
+  const pattern = /(<a class="tgme_widget_message_owner_name"[^>]*><span dir="auto">)([\s\S]*?)(<\/span><\/a>)/g;
+  let index = 0;
+  return html.replace(pattern, (_all, open: string, _name: string, close: string) => {
+    const author = authors[index] ?? authors[authors.length - 1] ?? 'Someone';
+    index += 1;
+    return `${open}${author}${close}`;
+  });
+}
+
+/** Ordinary posts: real words, no request in them, three different texts. */
+const CHATTER = [
+  'Salom, hammaga yaxshi kun',
+  'Bugun ob-havo yaxshi boladi',
+  'Kanalimizga obuna boling',
+];
 
 /**
  * Swap the visible text of every message block, keeping Telegram's markup
@@ -281,6 +319,320 @@ test('a dead host backs off instead of hammering the slug every tick', async (t)
   assert.equal(target.nextActionAt !== null, true);
   const delayHours = (Date.parse(target.nextActionAt!) - NOW.getTime()) / 3_600_000;
   assert.ok(delayHours >= 5, `expected a multi-hour backoff, got ${delayHours}h`);
+});
+
+test('due work outranks good-looking work when slotting a tick', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+
+  // Same status, three different obligations: never checked, late, and not
+  // even owed yet. Ranking these by score would always reward the channel we
+  // already understand and starve the one we have never read.
+  for (const [slug, nextActionAt] of [
+    ['polled_recently', new Date(NOW.getTime() + 3_600_000).toISOString()],
+    ['polled_late', new Date(NOW.getTime() - 3_600_000).toISOString()],
+    ['never_checked', null],
+  ] as const) {
+    await store.upsertTarget(ORG, { slug, kind: 'channel', status: 'candidate', score: 42 });
+    if (nextActionAt) {
+      await store.updateTarget(ORG, (await store.getTargetBySlug(ORG, slug))!.id,
+        { next_action_at: nextActionAt });
+    }
+  }
+
+  const order = await store.listTargets(ORG, { limit: 10, orderBy: 'due', now: NOW.toISOString() });
+  assert.deepEqual(order.map((target) => target.slug),
+    ['never_checked', 'polled_late', 'polled_recently']);
+});
+
+test('a never-scored candidate is reconnoitred before a high-scoring watched channel', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+  const html = withMessageTexts(fixture('fx-channel.html'), ['Нужен сайт-визитка под ключ, писать в личку']);
+
+  // The production shape that locked discovery for a whole day: eight watched
+  // channels are due and score 48-55, while a freshly discovered candidate
+  // scores 0 and has never been read. Under `ORDER BY score DESC` the watched
+  // channels take every slot, so the candidate is never returned, never read,
+  // never scored — and never leaves the pool to make room for another.
+  for (let i = 0; i < SIGNAL_SCOUT_LIMITS.maxPreviewsPerTick; i += 1) {
+    const slug = `watched_channel_${i}`;
+    await store.upsertTarget(ORG, { slug, kind: 'channel', status: 'watching', score: 48 + i });
+    await store.updateTarget(ORG, (await store.getTargetBySlug(ORG, slug))!.id,
+      { next_action_at: NOW.toISOString() });
+  }
+  await store.upsertTarget(ORG, { slug: 'fresh_candidate', kind: 'channel', status: 'candidate' });
+
+  await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: async (url) => (url.includes('t.me/s/') ? html : null),
+  });
+
+  const fresh = (await store.getTargetBySlug(ORG, 'fresh_candidate'))!;
+  assert.equal(fresh.messagesSeen > 0, true, 'the new channel must be read, not starved');
+  assert.equal(fresh.nextActionAt !== null, true, 'after recon it owns a revisit date');
+  assert.equal(fresh.score > 0, true, 'and it carries a score, so it stops looking unexplored');
+});
+
+test('discovery refills a pool that is full of channels we have already read', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+
+  // Twenty-five candidates, every single one reconnoitered and rejected in an
+  // earlier tick. A trigger that counts *candidates* sees a comfortable pool
+  // above the refill threshold and stays silent forever; only the count of
+  // never-checked channels tells the truth, and it is zero.
+  for (let i = 0; i < SIGNAL_SCOUT_LIMITS.discoverWhenCandidatesBelow + 5; i += 1) {
+    const slug = `reconnoitred_${i}`;
+    await store.upsertTarget(ORG, { slug, kind: 'channel', status: 'candidate', score: 3 });
+    await store.updateTarget(ORG, (await store.getTargetBySlug(ORG, slug))!.id,
+      { next_action_at: new Date(NOW.getTime() + 3_600_000).toISOString() });
+  }
+  assert.equal(await store.countFreshCandidates(ORG, 50), 0);
+
+  const report = await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: stubFetch({ 'uz.tgstat.com/ratings/channels': fixture('fx-tgstat.html') }),
+  });
+
+  assert.equal(report.discovered > 0, true, 'a pool we have already read is not a full pool');
+  assert.equal(await store.countFreshCandidates(ORG, 50) > 0, true);
+});
+
+test('a candidate with no posts is retired; a quiet one is not, and notes survive', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+
+  await store.upsertTarget(ORG, { slug: 'silent_channel', kind: 'channel', status: 'candidate' });
+  await store.upsertTarget(ORG, {
+    slug: 'quiet_channel',
+    kind: 'channel',
+    status: 'candidate',
+    note: 'проверить вручную',
+  });
+
+  const calls: string[] = [];
+  await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: stubFetch({
+      // Empty bodies: the parser drops a message with no text, so the preview
+      // yields zero posts without the page being a noindex dead end.
+      't.me/s/silent_channel': withMessageTexts(fixture('fx-channel.html'), []),
+      // A channel with real posts, none of them a request, and too few
+      // subscribers to earn the promotion bonus.
+      't.me/s/quiet_channel': withSubscribers(
+        withMessageTexts(fixture('fx-channel.html'),
+          ['Hello everyone and welcome to the channel']),
+        '42',
+      ),
+    }, calls),
+  });
+  assert.equal(calls.filter((url) => url.includes('silent_channel')).length, 1);
+
+  // An empty preview is dead weight that competes for preview slots with
+  // channels nobody has ever looked at. Retire it, and say why.
+  const silent = (await store.getTargetBySlug(ORG, 'silent_channel'))!;
+  assert.equal(silent.status, 'ignored');
+  assert.equal(silent.note, 'пусто: ни одного поста в превью');
+
+  // A low score is not emptiness. Language detection on a short preview is
+  // unreliable, so dropping a real Uzbek channel we failed to classify would
+  // cost more than re-reading it — and the operator's note is not ours to wipe.
+  const quiet = (await store.getTargetBySlug(ORG, 'quiet_channel'))!;
+  assert.equal(quiet.status, 'candidate');
+  assert.equal(quiet.note, 'проверить вручную');
+  assert.ok(quiet.score < 40, `expected a low score, got ${quiet.score}`);
+  assert.equal(quiet.nextActionAt !== null, true);
+});
+
+test('a channel that has stopped paying out is read less often, then retired', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+  // Three *different* neutral posts, so the dedup key does not collapse them:
+  // the counter has to move by what the preview actually handed over.
+  const html = withMessageTexts(fixture('fx-channel.html'), CHATTER);
+
+  // A watched channel one preview short of the quiet threshold. It has given
+  // us nothing and it is about to be given one more chance to be interesting.
+  await store.upsertTarget(ORG, {
+    slug: 'loud_but_empty',
+    kind: 'channel',
+    status: 'watching',
+    score: 55,
+    members: 500_000,
+  });
+  await store.updateTarget(ORG, (await store.getTargetBySlug(ORG, 'loud_but_empty'))!.id, {
+    messages_seen: SIGNAL_SCOUT_LIMITS.quietAfterMessages - 3,
+    next_action_at: NOW.toISOString(),
+  });
+
+  const report = await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: async (url) => (url.includes('t.me/s/') ? html : null),
+  });
+  assert.equal(report.scouted, 1);
+  assert.equal(report.leads, 0);
+
+  const loud = (await store.getTargetBySlug(ORG, 'loud_but_empty'))!;
+  assert.equal(loud.status, 'watching', 'not thrown away on one bad read');
+  // But no longer polled every half hour: it keeps its place in the queue and
+  // drifts to the back of it, so a real request months from now is still found
+  // without costing every tick in the meantime.
+  const delayHours = (Date.parse(loud.nextActionAt!) - NOW.getTime()) / 3_600_000;
+  assert.ok(delayHours >= 3, `expected a multi-hour backoff, got ${delayHours}h`);
+});
+
+test('a channel that has given everything it has and none of it was a request is retired', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+  const html = withMessageTexts(fixture('fx-channel.html'), CHATTER);
+
+  await store.upsertTarget(ORG, {
+    slug: 'spent_channel',
+    kind: 'channel',
+    status: 'watching',
+    score: 55,
+    members: 500_000,
+  });
+  await store.updateTarget(ORG, (await store.getTargetBySlug(ORG, 'spent_channel'))!.id, {
+    messages_seen: SIGNAL_SCOUT_LIMITS.retireAfterMessages - 3,
+    next_action_at: NOW.toISOString(),
+  });
+
+  await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: async (url) => (url.includes('t.me/s/') ? html : null),
+  });
+
+  const spent = (await store.getTargetBySlug(ORG, 'spent_channel'))!;
+  assert.equal(spent.status, 'ignored');
+  assert.match(spent.note ?? '', /ни одной заявки/, spent.note ?? '(no note)');
+});
+
+test('one request in one read is not enough to start polling a channel', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+
+  // One request buried in a broadcast feed, with two ordinary posts either
+  // side of it. This is the exact shape that promoted eight news channels:
+  // a single match in a half-million-subscriber feed, promoted on the spot.
+  const html = withMessageTexts(fixture('fx-channel.html'),
+    ['Menga sayt kerak, yordam bera olasizmi?', ...CHATTER.slice(0, 2)]);
+  await store.upsertTarget(ORG, { slug: 'one_hit_wonder', kind: 'channel', status: 'candidate' });
+
+  const report = await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: stubFetch({ 't.me/s/one_hit_wonder': withSubscribers(html, '500000') }),
+  });
+  assert.equal(report.leads, 1, 'the lead is still written — the inbox loses nothing');
+
+  const target = (await store.getTargetBySlug(ORG, 'one_hit_wonder'))!;
+  assert.equal(target.status, 'candidate', 'but the channel does not earn a slot yet');
+  assert.ok(target.score < 40, `expected below the promote bar, got ${target.score}`);
+
+  // And the mirror image: a small channel where people actually talk is
+  // promoted on its first read, because there is no reason to wait.
+  await store.upsertTarget(ORG, { slug: 'small_room', kind: 'channel', status: 'candidate' });
+  await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: stubFetch({
+      't.me/s/small_room': withAuthors(
+        withSubscribers(
+          withMessageTexts(fixture('fx-channel.html'),
+            ['Menga sayt kerak, yordam bera olasizmi?', ...CHATTER.slice(0, 2)]),
+          '500',
+        ),
+        ['Alisher', 'Dilnoza', 'Jasur'],
+      ),
+    }),
+  });
+  const room = (await store.getTargetBySlug(ORG, 'small_room'))!;
+  assert.equal(room.status, 'watching', 'one request in a real room is worth a slot');
+});
+
+// ---------------------------------------------------------------------------
+// Discovery has to survive the ranking going away. tgstat started answering
+// /ratings/channels with HTTP 200 and an "authorization required" page on
+// 2026-09-02, which parses to zero entities and used to look exactly like a
+// healthy quiet tick.
+// ---------------------------------------------------------------------------
+
+test('an empty ranking page is reported, not mistaken for a quiet country', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+
+  // A page that arrives, says nothing, and is not an error in any HTTP sense.
+  const report = await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: stubFetch({ 'uz.tgstat.com/ratings/channels': '<html><body>Kirish</body></html>' }),
+  });
+
+  assert.equal(report.discovered, 0);
+  assert.ok(report.skipped.includes('discovery:tgstat:empty'), report.skipped.join(','));
+});
+
+test('when the ranking is silent, a good channel recommends its neighbours', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+
+  // A room worth watching whose posts point at two other channels. The link
+  // graph is the only discovery source left that costs no extra request.
+  const html = withMessageTexts(
+    fixture('fx-channel.html'),
+    ['Menga sayt kerak, yordam bera olasizmi?', ...CHATTER.slice(0, 2)],
+  ).replace(
+    '</body>',
+    '<div>см. также https://t.me/uzb_dev и https://t.me/tashkent_work</div></body>',
+  );
+  const good = withAuthors(withSubscribers(html, '500'), ['Alisher', 'Dilnoza', 'Jasur']);
+  await store.upsertTarget(ORG, { slug: 'small_room', kind: 'channel', status: 'candidate' });
+
+  await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: stubFetch({ 't.me/s/small_room': good }),
+  });
+
+  // The recommendation only counts if we decided the channel was worth it.
+  const room = (await store.getTargetBySlug(ORG, 'small_room'))!;
+  assert.equal(room.status, 'watching', `${room.status} @ ${room.score}`);
+
+  const neighbourhood = (await store.listTargets(ORG, { limit: 100 })).map((target) => target.slug);
+  assert.ok(neighbourhood.includes('uzb_dev'), neighbourhood.join(','));
+  assert.ok(neighbourhood.includes('tashkent_work'), neighbourhood.join(','));
+});
+
+test('a channel we did not promote is not allowed to recommend anything', async (t) => {
+  const db = signalDb();
+  t.after(() => db.sqlite.close());
+  const store = new SignalRadarStore(db.asD1());
+
+  // Same links, same page, but the channel is a half-million broadcast: it
+  // links to other broadcasts, and letting it seed the pool is how a radar
+  // ends up reading nothing but news.
+  const html = withMessageTexts(fixture('fx-channel.html'), CHATTER).replace(
+    '</body>',
+    '<div>https://t.me/uzb_dev и https://t.me/tashkent_work</div></body>',
+  );
+  await store.upsertTarget(ORG, { slug: 'big_feed', kind: 'channel', status: 'candidate' });
+
+  await runSignalScoutTick(env(), db.asD1(), NOW, {
+    ...NO_WAIT,
+    fetchText: stubFetch({ 't.me/s/big_feed': withSubscribers(html, '500000') }),
+  });
+
+  const feed = (await store.getTargetBySlug(ORG, 'big_feed'))!;
+  assert.ok(feed.score < 40, `expected below the promote bar, got ${feed.score}`);
+  const slugs = (await store.listTargets(ORG, { limit: 100 })).map((target) => target.slug);
+  assert.equal(slugs.includes('uzb_dev'), false, slugs.join(','));
+  assert.equal(slugs.includes('tashkent_work'), false, slugs.join(','));
 });
 
 test('the scout never executes a join, even for a fully qualified group', async (t) => {

@@ -396,3 +396,266 @@ export function parseSignalSlugList(raw: string, limit = 200): string[] {
   }
   return out;
 }
+
+/* ------------------------------------------------------------ chat surface */
+
+/**
+ * The chat surface: rooms a stranger is allowed to write in, as distinct from
+ * the post surface, which is about what has already been said.
+ *
+ * A channel is a megaphone — half a million readers, not one of whom can
+ * answer. A group is a room. The operator's real question is not "who is
+ * broadcasting about websites" but "where can I write an offer and be read,
+ * and get a reply". Different object, different table, different lifecycle.
+ *
+ * Verified live 2026-09-03: `t.me/s/<group>` serves a profile card (name,
+ * about, "N members, M online") and zero messages, while `t.me/s/<channel>`
+ * serves ~20 posts. That single difference is why chats cannot ride the 0057
+ * funnel — that funnel scores posts, so a group entering it scores nothing and
+ * is retired inside two ticks.
+ */
+
+export const SIGNAL_CHAT_KINDS = ['group', 'channel', 'unknown'] as const;
+export type SignalChatKind = typeof SIGNAL_CHAT_KINDS[number];
+
+export const SIGNAL_CHAT_STATUSES = [
+  'new', 'approved', 'queued', 'joined', 'rejected',
+] as const;
+export type SignalChatStatus = typeof SIGNAL_CHAT_STATUSES[number];
+
+export const SIGNAL_CAN_WRITE_VALUES = ['yes', 'no', 'unknown'] as const;
+export type SignalCanWrite = typeof SIGNAL_CAN_WRITE_VALUES[number];
+
+export const SIGNAL_CAN_WRITE_BASES = ['api', 'heuristic', 'operator'] as const;
+export type SignalCanWriteBasis = typeof SIGNAL_CAN_WRITE_BASES[number];
+
+export const SIGNAL_CHAT_ACTIVITIES = ['live', 'slow', 'unknown'] as const;
+export type SignalChatActivity = typeof SIGNAL_CHAT_ACTIVITIES[number];
+
+export const SIGNAL_CHAT_CONFIDENCES = ['confirmed', 'tentative'] as const;
+export type SignalChatConfidence = typeof SIGNAL_CHAT_CONFIDENCES[number];
+
+export interface SignalChat {
+  id: string;
+  orgId: string;
+  slug: string;
+  url: string;
+  title: string | null;
+  about: string | null;
+  kind: SignalChatKind;
+  /** Which topic pack claimed it: 'ads', 'dev', 'it', 'biz', 'freelance', 'design'. */
+  topic: string | null;
+  /**
+   * How much the room told us.
+   *
+   * 'confirmed' — it named the trade, or a catalogue filed it under one.
+   * 'tentative' — it used one word anyone might use: "сайт", "дизайн", "it".
+   *
+   * A tentative room is kept, because a studio that never describes itself is
+   * still a studio, but it is sorted after the rooms that earned their place
+   * and scored below them. Twenty of the thirty-seven rooms the first harvest
+   * kept were bakeries and taxi dispatch; every one of them was confident.
+   */
+  confidence: SignalChatConfidence | null;
+  members: number | null;
+  /** People in the room right now. The only liveness signal that exists pre-join. */
+  online: number | null;
+  activity: SignalChatActivity;
+  canWrite: SignalCanWrite;
+  /**
+   * Where `canWrite` came from. 'api' is a measurement (getChat), 'heuristic'
+   * is an inference from the room's own text, 'operator' is a human who looked.
+   *
+   * Stored because the operator is going to act on this column, and an answer
+   * with no provenance is not an answer worth an account.
+   */
+  canWriteBasis: SignalCanWriteBasis | null;
+  relevance: number;
+  /** Terms that matched, so a bad result can be explained rather than doubted. */
+  matched: string[];
+  /** Why the filter dropped it. Null means it survived. */
+  rejectReason: string | null;
+  source: string;
+  query: string | null;
+  status: SignalChatStatus;
+  checkedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const SIGNAL_CHAT_KIND_LABELS: Record<SignalChatKind, string> = {
+  group: 'Чат',
+  channel: 'Канал',
+  unknown: 'Неизвестно',
+};
+
+export const SIGNAL_CHAT_STATUS_LABELS: Record<SignalChatStatus, string> = {
+  new: 'Новый',
+  approved: 'Отобран',
+  queued: 'В очереди на вступление',
+  joined: 'Вступили',
+  rejected: 'Отсеян',
+};
+
+export const SIGNAL_CAN_WRITE_LABELS: Record<SignalCanWrite, string> = {
+  yes: 'Можно писать',
+  no: 'Писать нельзя',
+  unknown: 'Не известно',
+};
+
+export const SIGNAL_CHAT_ACTIVITY_LABELS: Record<SignalChatActivity, string> = {
+  live: 'Живой',
+  slow: 'Тихий',
+  unknown: 'Нет данных',
+};
+
+export function parseSignalChatStatus(value: unknown): SignalChatStatus | null {
+  return SIGNAL_CHAT_STATUSES.includes(value as SignalChatStatus)
+    ? value as SignalChatStatus
+    : null;
+}
+
+/* ---------------------------------------------------- chat harvest messages */
+
+export const SIGNAL_CHAT_QUEUE_SCHEMA = 'gptbot.signal-radar.chats.v1' as const;
+
+/**
+ * Manual harvests are rate-limited, but far more loosely than a scan is: a
+ * harvest is a handful of slow, polite catalogue requests rather than a burst
+ * of Telegram reads, and the operator is watching a table fill up row by row.
+ */
+export const SIGNAL_CHAT_HARVEST_COOLDOWN_MS = 60 * 1000;
+
+export interface SignalChatHarvestQueueMessage {
+  schema: typeof SIGNAL_CHAT_QUEUE_SCHEMA;
+  org_id: string;
+  requested_by: string;
+  requested_at: string;
+  /** Extra queries on top of the stored topic packs. Bounded, validated. */
+  keywords: string[];
+}
+
+export interface SignalChatHarvestStatus {
+  queued: boolean;
+  lastRequestedAt: string | null;
+  nextAvailableAt: string | null;
+  cooldownMs: number;
+}
+
+export function signalChatHarvestCursorKey(orgId: string): string {
+  return `signal_radar_chat_harvest:${orgId}`;
+}
+
+/** `system_settings` key holding the operator's chat-harvest configuration. */
+export function signalChatConfigKey(orgId: string): string {
+  return `signal_radar_chat_config:${orgId}`;
+}
+
+export function parseSignalChatHarvestQueueMessage(
+  value: unknown,
+): SignalChatHarvestQueueMessage | null {
+  const message = plainRecord(value);
+  if (!message
+    || Object.keys(message).sort().join(',') !== 'keywords,org_id,requested_at,requested_by,schema'
+    || message.schema !== SIGNAL_CHAT_QUEUE_SCHEMA
+    || typeof message.org_id !== 'string'
+    || !ORG_ID_PATTERN.test(message.org_id)
+    || typeof message.requested_by !== 'string'
+    || message.requested_by.length > 320
+    || !isIsoStamp(message.requested_at)
+    || !Array.isArray(message.keywords)) return null;
+  const keywords = message.keywords
+    .filter((item): item is string => typeof item === 'string')
+    .map((item) => item.trim().slice(0, 60))
+    .filter((item) => item.length > 0)
+    .slice(0, 40);
+  return {
+    schema: SIGNAL_CHAT_QUEUE_SCHEMA,
+    org_id: message.org_id,
+    requested_by: message.requested_by,
+    requested_at: message.requested_at,
+    keywords,
+  };
+}
+
+export function signalChatHarvestQueueMessage(input: {
+  orgId: string;
+  requestedBy: string;
+  requestedAt: string;
+  keywords: string[];
+}): SignalChatHarvestQueueMessage {
+  const candidate: SignalChatHarvestQueueMessage = {
+    schema: SIGNAL_CHAT_QUEUE_SCHEMA,
+    org_id: input.orgId,
+    requested_by: input.requestedBy,
+    requested_at: input.requestedAt,
+    keywords: [...new Set(input.keywords)].slice(0, 40),
+  };
+  if (!parseSignalChatHarvestQueueMessage(candidate)) {
+    throw new Error('invalid_signal_chat_harvest_message');
+  }
+  return candidate;
+}
+
+/** One topic pack as the UI lists it. Labels live on the server so the packs
+ *  themselves stay out of the frontend bundle. */
+export interface SignalChatTopic {
+  id: string;
+  label: string;
+}
+
+export interface SignalChatCounts {
+  total: number;
+  groups: number;
+  new: number;
+  approved: number;
+  queued: number;
+  joined: number;
+  rejected: number;
+  writable: number;
+}
+
+/** Everything the chats table needs, in one request. */
+export interface SignalChatsResponse {
+  /** False when migration 0059 is not applied yet. */
+  installed: boolean;
+  chats: SignalChat[];
+  counts: SignalChatCounts | null;
+  /** reject reason -> count, so the filter can be tuned instead of trusted. */
+  reasons: Array<{ reason: string; count: number }>;
+  config: {
+    topics: string[];
+    keywords: string[];
+    city: string;
+    minMembers: number;
+    minOnline: number;
+    minRelevance: number;
+    localOnly: boolean;
+    limit: number;
+  };
+  harvest: SignalChatHarvestStatus;
+  topics: SignalChatTopic[];
+}
+
+/** Derives what the UI may show and do from the stored cursor alone. */
+export function signalChatHarvestStatus(
+  cursor: { at: string; by: string | null } | null,
+  now: number,
+): SignalChatHarvestStatus {
+  const idle: SignalChatHarvestStatus = {
+    queued: false,
+    lastRequestedAt: null,
+    nextAvailableAt: null,
+    cooldownMs: SIGNAL_CHAT_HARVEST_COOLDOWN_MS,
+  };
+  if (!cursor) return idle;
+  const at = Date.parse(cursor.at);
+  if (!Number.isFinite(at)) return idle;
+  const next = at + SIGNAL_CHAT_HARVEST_COOLDOWN_MS;
+  return {
+    queued: now < next,
+    lastRequestedAt: cursor.at,
+    nextAvailableAt: new Date(next).toISOString(),
+    cooldownMs: SIGNAL_CHAT_HARVEST_COOLDOWN_MS,
+  };
+}
