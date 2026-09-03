@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import { useNavigate } from 'react-router';
 import {
   ArrowUpRight,
+  Ban,
   Bot,
   Building2,
   Check,
@@ -12,6 +13,7 @@ import {
   Inbox,
   LoaderCircle,
   Megaphone,
+  MessagesSquare,
   Palette,
   Play,
   Plus,
@@ -21,19 +23,24 @@ import {
   Search,
   SearchX,
   ShieldAlert,
+  SlidersHorizontal,
   Smartphone,
   Sparkles,
   Timer,
   Trash2,
+  Users,
   Zap,
   type LucideIcon,
 } from 'lucide-react';
-import { Badge, Button, Card, ScoreBadge, StatTile, Textarea } from '../components/ui';
+import { Badge, Button, Card, Input, ScoreBadge, StatTile, Textarea } from '../components/ui';
 import { api } from '../lib/api';
 import {
   detectSignalLanguage,
   parseSignalSlugList,
   SIGNAL_AUTOJOIN_MODES,
+  SIGNAL_CAN_WRITE_LABELS,
+  SIGNAL_CHAT_ACTIVITY_LABELS,
+  SIGNAL_CHAT_STATUS_LABELS,
   SIGNAL_LANGUAGE_LABELS,
   SIGNAL_LEAD_STATE_LABELS,
   SIGNAL_TARGET_KIND_LABELS,
@@ -41,6 +48,10 @@ import {
   signalServiceLabel,
   signalTargetUrl,
   type SignalAutojoinMode,
+  type SignalCanWrite,
+  type SignalChat,
+  type SignalChatsResponse,
+  type SignalChatStatus,
   type SignalLead,
   type SignalLeadState,
   type SignalModeState,
@@ -69,7 +80,11 @@ import { pluralRu } from '../../shared/next-actions';
  */
 
 /** Section anchors the stat tiles jump to. */
-const ANCHOR = { inbox: 'signal-section-inbox', sources: 'signal-section-sources' } as const;
+const ANCHOR = {
+  inbox: 'signal-section-inbox',
+  sources: 'signal-section-sources',
+  chats: 'signal-section-chats',
+} as const;
 
 /** Scrolls to a section and marks it, so the eye lands on the right card. */
 function scrollToSection(id: string) {
@@ -380,6 +395,18 @@ export default function SignalRadar() {
             `/admin-tools/lead-radar?${signalHandoffQuery(signalHandoffFromLead(lead))}`,
           )}
         />
+      </div>
+
+      {/* ── Chats — rooms we could actually write in ──────────────── */}
+      <div id={ANCHOR.chats} className="scroll-mt-6 rounded-2xl transition-shadow duration-300">
+        <Collapsible
+          icon={MessagesSquare}
+          title="Чаты"
+          subtitle="группы, где можно написать — а не каналы"
+          defaultOpen
+        >
+          <ChatsCard installed={data?.installed === true} />
+        </Collapsible>
       </div>
 
       {/* ── Controls: mode switch + manual scan ────────────────────── */}
@@ -1204,6 +1231,629 @@ function TargetsCard({
               })}
             </tbody>
           </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================ *
+ * ChatsCard — rooms the operator could write in.
+ *
+ * This is a different question from the sources table below it. A channel is
+ * a megaphone: a million readers, not one of whom can answer. A group is a
+ * room. So this table does not rank rooms by what was said in them — it ranks
+ * them by whether anyone is in the room and whether a stranger is allowed to
+ * speak. That is the only thing that matters before the first message.
+ *
+ * It loads when the section is first opened, not with the page: the inbox is
+ * why the operator is here, and a second request in front of it would be a
+ * slow inbox.
+ * ============================================================ */
+
+const CHAT_STATUS_FILTERS: Array<{ value: string; label: string }> = [
+  { value: '', label: 'Все' },
+  { value: 'new', label: 'Новые' },
+  { value: 'approved', label: 'Отобранные' },
+  { value: 'rejected', label: 'Отсеянные' },
+];
+
+const CHAT_REJECT_LABELS: Record<string, string> = {
+  'not-a-group': 'канал, а не чат',
+  unresolved: 'не удалось прочитать',
+  'too-small': 'мало участников',
+  inactive: 'никого нет онлайн',
+  junk: 'казино/крипта/такси',
+  noise: 'бытовой шум',
+  'promo-swamp': 'взаимный пиар',
+  'wrong-city': 'другой город',
+  'no-geo': 'без географии',
+  'off-topic': 'не по теме',
+  noindex: 'закрыт для индексации',
+};
+
+function rejectLabel(reason: string): string {
+  // A per-row reason carries the term that decided it ("noise:щен"); the
+  // breakdown under the table carries only the class ("noise"). Translate the
+  // class, keep the term: "бытовой шум: щен" is how an operator discovers that
+  // the word "щен" is inside "запрещено" without reading any code.
+  const [code, detail] = reason.split(':');
+  const label = CHAT_REJECT_LABELS[code] ?? code;
+  return detail ? `${label}: ${detail}` : label;
+}
+
+/* 'new' is what everything is until someone acts on it, so it stays silent;
+   the other four are decisions worth showing next to the name. */
+const CHAT_STATUS_TONES: Record<Exclude<SignalChatStatus, 'new'>, 'neutral' | 'success' | 'warning' | 'danger' | 'info'> = {
+  approved: 'success',
+  queued: 'info',
+  joined: 'success',
+  rejected: 'danger',
+};
+
+/* Flips the operator's own verdict. 'unknown' means nobody has looked yet,
+   so the first click must land on a claim, not on 'no'. */
+function nextCanWrite(chat: SignalChat): SignalCanWrite {
+  return chat.canWrite === 'yes' ? 'no' : 'yes';
+}
+
+function ChatsCard({ installed }: { installed: boolean }) {
+  const [data, setData] = useState<SignalChatsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  // Filters are local and re-fetch; the server does the work so the table
+  // never lies about how many rows matched.
+  const [status, setStatus] = useState('');
+  const [minMembers, setMinMembers] = useState('');
+  const [minRelevance, setMinRelevance] = useState('');
+  const [showRejected, setShowRejected] = useState(false);
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [keywords, setKeywords] = useState<string | null>(null);
+  const [topics, setTopics] = useState<string[] | null>(null);
+  const [thresholds, setThresholds] = useState<{ minMembers: string; minOnline: string; minRelevance: string } | null>(null);
+  const [localOnly, setLocalOnly] = useState<boolean | null>(null);
+
+  const [raw, setRaw] = useState('');
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      setData(await api.signalRadarChats({
+        status: status || undefined,
+        minMembers: minMembers ? Number(minMembers) : undefined,
+        minRelevance: minRelevance ? Number(minRelevance) : undefined,
+        rejected: showRejected ? 1 : 0,
+        limit: 200,
+      }));
+    } catch (e) {
+      setError((e as Error).message || 'Не удалось загрузить чаты');
+    } finally {
+      setLoading(false);
+    }
+  }, [status, minMembers, minRelevance, showRejected]);
+
+  useEffect(() => { void load(); }, [load]);
+
+  // The editor mirrors the stored config the first time it is shown, and then
+  // belongs to the operator: a half-typed threshold must not be overwritten by
+  // a background reload.
+  useEffect(() => {
+    if (!data || keywords !== null) return;
+    setKeywords(data.config.keywords.join('\n'));
+    setTopics(data.config.topics);
+    setThresholds({
+      minMembers: String(data.config.minMembers),
+      minOnline: String(data.config.minOnline),
+      minRelevance: String(data.config.minRelevance),
+    });
+    setLocalOnly(data.config.localOnly);
+  }, [data, keywords]);
+
+  const run = async (key: string, action: () => Promise<unknown>, message?: string) => {
+    setBusy(key);
+    setError(null);
+    try {
+      await action();
+      if (message) setNotice(message);
+      await load();
+    } catch (e) {
+      setNotice(null);
+      setError((e as Error).message || 'Действие не выполнено');
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const cooldown = useCountdown(data?.harvest.nextAvailableAt ?? null);
+  const coolingDown = (data?.harvest.queued ?? false) && cooldown > 0;
+  const topicLabels = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const topic of data?.topics ?? []) map[topic.id] = topic.label;
+    return map;
+  }, [data]);
+
+  const parsed = useMemo(() => parseSignalSlugList(raw), [raw]);
+  const counts = data?.counts;
+
+  const saveConfig = () => {
+    const patch: Partial<SignalChatsResponse['config']> = {
+      topics: topics ?? [],
+      keywords: (keywords ?? '').split(/[\n,]+/).map((k) => k.trim()).filter(Boolean).slice(0, 40),
+      localOnly: localOnly ?? true,
+    };
+    const members = Number(thresholds?.minMembers);
+    const online = Number(thresholds?.minOnline);
+    const relevance = Number(thresholds?.minRelevance);
+    if (Number.isFinite(members)) patch.minMembers = members;
+    if (Number.isFinite(online)) patch.minOnline = online;
+    if (Number.isFinite(relevance)) patch.minRelevance = relevance;
+    void run('config', () => api.signalRadarPatchChatConfig(patch), 'Настройки поиска сохранены');
+  };
+
+  const setChatStatus = (chat: SignalChat, next: SignalChatStatus) => (
+    api.signalRadarPatchChat(chat.id, { status: next })
+  );
+
+  return (
+    <div data-testid="signal-chats">
+      {!installed && (
+        <Card className="mb-4 bg-gradient-to-b from-amber-500/5 to-transparent">
+          <p className="text-sm text-white/60">
+            Примените миграцию <code className="text-brand-cyan">0059_lead_radar_signal_chats.sql</code> —
+            таблица чатов появится после неё. Поиск по спросу при этом продолжает работать.
+          </p>
+        </Card>
+      )}
+
+      <p className="text-xs text-white/45 mb-4 leading-relaxed">
+        Ищем <strong className="text-white/70">группы</strong>, а не каналы: в канале нельзя
+        начать разговор. Источники — каталоги чатов и обход похожих комнат. Telegram отдаёт
+        для группы только карточку: название, описание и «сколько сейчас онлайн». Что пишут
+        внутри, видно лишь после вступления — поэтому здесь этого нет.
+      </p>
+
+      {/* ── Actions ── */}
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <Button
+          size="sm"
+          disabled={!installed || coolingDown || busy !== null}
+          data-testid="signal-chats-harvest"
+          className="active:scale-95 transition-transform duration-150"
+          onClick={() => void run('harvest', () => api.signalRadarHarvestChats(
+            (keywords ?? '').split(/[\n,]+/).map((k) => k.trim()).filter(Boolean).slice(0, 40),
+          ), 'Поиск запущен: результаты появятся в течение минуты')}
+        >
+          {busy === 'harvest'
+            ? <LoaderCircle size={14} className="animate-spin" />
+            : <Search size={14} />}
+          <span className="ml-1.5">
+            {busy === 'harvest'
+              ? 'Ищем…'
+              : coolingDown
+                ? `Подождите ${mmss(cooldown)}`
+                : 'Найти чаты'}
+          </span>
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={loading}
+          data-testid="signal-chats-refresh"
+          onClick={() => void load()}
+        >
+          <RefreshCw size={14} />
+          <span className="ml-1.5">Обновить</span>
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => setSettingsOpen((prev) => !prev)}
+          data-testid="signal-chats-settings-toggle"
+        >
+          <SlidersHorizontal size={14} />
+          <span className="ml-1.5">Темы и ключевые слова</span>
+          {settingsOpen ? <ChevronUp size={13} className="ml-1" /> : <ChevronDown size={13} className="ml-1" />}
+        </Button>
+        {counts && (
+          <span className="text-xs text-white/45">
+            {counts.groups} чатов · {counts.writable} с открытой записью · {counts.new} новых
+          </span>
+        )}
+        {notice && (
+          <span className="inline-flex items-center gap-1 text-xs text-brand-cyan bg-brand-cyan/5 px-2 py-1 rounded-md">
+            <Check size={12} />
+            {notice}
+          </span>
+        )}
+      </div>
+
+      {/* ── Topic and keyword editor ── */}
+      {settingsOpen && (
+        <Card className="mb-4 space-y-4 animate-fade-in" data-testid="signal-chats-settings">
+          <div>
+            <p className="text-xs text-white/45 mb-2">
+              Темы поиска. Если не выбрано ничего — ищем по всем.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {(data?.topics ?? []).map((topic) => {
+                const active = (topics ?? []).includes(topic.id);
+                return (
+                  <button
+                    key={topic.id}
+                    type="button"
+                    data-testid={`signal-chat-topic-${topic.id}`}
+                    onClick={() => setTopics((prev) => {
+                      const current = prev ?? [];
+                      return current.includes(topic.id)
+                        ? current.filter((id) => id !== topic.id)
+                        : [...current, topic.id];
+                    })}
+                    className={[
+                      'px-2.5 py-1 rounded-lg text-xs border transition-colors',
+                      active
+                        ? 'bg-brand-cyan/10 text-brand-cyan border-brand-cyan/30'
+                        : 'bg-white/[0.03] text-white/50 border-white/10 hover:text-white/70',
+                    ].join(' ')}
+                  >
+                    {topic.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs text-white/45 mb-2">
+              Свои ключевые слова — по одному на строку. Они идут и в поиск каталогов,
+              и в фильтр: комната, которой нет ни в одной теме, всё равно найдётся.
+            </p>
+            <Textarea
+              rows={3}
+              value={keywords ?? ''}
+              onChange={(event) => setKeywords(event.target.value)}
+              placeholder={'нужен бот\nразработка лендинга\ntargetolog'}
+              aria-label="Ключевые слова"
+              data-testid="signal-chats-keywords"
+            />
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-3">
+            <label className="block">
+              <span className="text-xs text-white/45">Минимум участников</span>
+              <Input
+                type="number"
+                min={0}
+                max={100000}
+                value={thresholds?.minMembers ?? ''}
+                onChange={(event) => setThresholds((prev) => ({ ...prev, minMembers: event.target.value } as never))}
+                className="mt-1"
+                data-testid="signal-chats-min-members"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs text-white/45">Минимум онлайн</span>
+              <Input
+                type="number"
+                min={0}
+                max={10000}
+                value={thresholds?.minOnline ?? ''}
+                onChange={(event) => setThresholds((prev) => ({ ...prev, minOnline: event.target.value } as never))}
+                className="mt-1"
+                data-testid="signal-chats-min-online"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs text-white/45">Порог релевантности</span>
+              <Input
+                type="number"
+                min={0}
+                max={100}
+                value={thresholds?.minRelevance ?? ''}
+                onChange={(event) => setThresholds((prev) => ({ ...prev, minRelevance: event.target.value } as never))}
+                className="mt-1"
+                data-testid="signal-chats-min-relevance"
+              />
+            </label>
+          </div>
+
+          <label className="flex items-start gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={localOnly ?? true}
+              onChange={(event) => setLocalOnly(event.target.checked)}
+              className="mt-0.5"
+              data-testid="signal-chats-local-only"
+            />
+            <span className="text-xs text-white/55 leading-relaxed">
+              Только Узбекистан. Без этой галочки в таблицу полезут московские
+              чаты взаимного пиара — их в открытом вебе в несколько раз больше,
+              и ни один из них не закажет сайт в Ташкенте.
+            </span>
+          </label>
+
+          <Button
+            size="sm"
+            disabled={busy === 'config'}
+            onClick={saveConfig}
+            data-testid="signal-chats-save-config"
+            className="active:scale-95 transition-transform duration-150"
+          >
+            {busy === 'config' ? <LoaderCircle size={14} className="animate-spin" /> : <Check size={14} />}
+            <span className="ml-1.5">Сохранить</span>
+          </Button>
+        </Card>
+      )}
+
+      {/* ── Filters ── */}
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <div className="flex items-center gap-1.5">
+          {CHAT_STATUS_FILTERS.map((option) => (
+            <button
+              key={option.value || 'all'}
+              type="button"
+              onClick={() => setStatus(option.value)}
+              className={[
+                'px-2.5 py-1 rounded-lg text-xs border transition-colors',
+                status === option.value
+                  ? 'bg-brand-cyan/10 text-brand-cyan border-brand-cyan/30'
+                  : 'bg-white/[0.03] text-white/50 border-white/10 hover:text-white/70',
+              ].join(' ')}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        <label className="flex items-center gap-1.5 text-xs text-white/45">
+          участников от
+          <Input
+            type="number"
+            min={0}
+            value={minMembers}
+            onChange={(event) => setMinMembers(event.target.value)}
+            className="w-20"
+            placeholder="0"
+          />
+        </label>
+        <label className="flex items-center gap-1.5 text-xs text-white/45">
+          релевантность от
+          <Input
+            type="number"
+            min={0}
+            max={100}
+            value={minRelevance}
+            onChange={(event) => setMinRelevance(event.target.value)}
+            className="w-20"
+            placeholder="0"
+          />
+        </label>
+        <label className="flex items-center gap-1.5 text-xs text-white/45 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={showRejected}
+            onChange={(event) => setShowRejected(event.target.checked)}
+            data-testid="signal-chats-show-rejected"
+          />
+          показать отсеянные
+        </label>
+      </div>
+
+      {/* ── Manual add ── */}
+      <div className="mb-4 space-y-2">
+        <Textarea
+          rows={2}
+          value={raw}
+          onChange={(event) => setRaw(event.target.value)}
+          placeholder="Уже знаете комнату? @tashkent_freelance — по одному на строку"
+          aria-label="Ссылки на чаты"
+          data-testid="signal-chats-add-input"
+        />
+        <div className="flex flex-wrap items-center gap-3">
+          <Button
+            size="sm"
+            disabled={parsed.length === 0 || busy !== null}
+            onClick={() => void run('add', () => api.signalRadarAddChats(parsed), 'Добавлено, проверим на следующем тике').then(() => setRaw(''))}
+            data-testid="signal-chats-add-submit"
+            className="active:scale-95 transition-transform duration-150"
+          >
+            <Plus size={14} />
+            <span className="ml-1.5">Добавить{parsed.length ? ` (${parsed.length})` : ''}</span>
+          </Button>
+          {parsed.length > 0 && (
+            <span className="text-xs text-white/45">
+              распознано: {parsed.map((s) => `@${s}`).join(', ')}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {error && (
+        <p className="text-xs text-red-300 mb-3">{error}</p>
+      )}
+
+      {/* ── The table ── */}
+      {loading && !data ? (
+        <div className="rounded-xl border border-white/10 bg-white/[0.02] p-8 animate-pulse" />
+      ) : (data?.chats.length ?? 0) === 0 ? (
+        <EmptyState
+          testId="signal-chats-empty"
+          icon={MessagesSquare}
+          title="Чатов пока нет"
+          text="Нажмите «Найти чаты»: обойдём каталоги и похожие комнаты, отсеем каналы и мусор, и покажем только группы, куда можно написать."
+        />
+      ) : (
+        <div className="overflow-x-auto rounded-xl border border-white/5">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-xs uppercase tracking-wide text-white/40 border-b border-white/10 bg-bg-surface/80 backdrop-blur-sm">
+                <th className="py-2.5 pr-3 pl-3 font-medium">Название</th>
+                <th className="py-2.5 pr-3 font-medium">Ссылка</th>
+                <th className="py-2.5 pr-3 font-medium">Тематика</th>
+                <th className="py-2.5 pr-3 font-medium">Участников</th>
+                <th className="py-2.5 pr-3 font-medium">Активность</th>
+                <th className="py-2.5 pr-3 font-medium">Можно писать</th>
+                <th className="py-2.5 pr-3 font-medium" />
+              </tr>
+            </thead>
+            <tbody>
+              {(data?.chats ?? []).map((chat, i) => {
+                const busyRow = busy === chat.id;
+                const writable = chat.canWrite === 'yes';
+                return (
+                  <tr
+                    key={chat.id}
+                    data-testid="signal-chat"
+                    className="border-b border-white/5 transition-colors hover:bg-white/[0.04] even:bg-white/[0.015] animate-fade-up"
+                    style={{ animationDelay: `${staggerDelay(i, 30, 25, 300)}ms` }}
+                  >
+                    <td className="py-2.5 pr-3 pl-3 max-w-[20rem]">
+                      <div className="flex items-center gap-2">
+                        <span className="text-white/85 truncate">{chat.title || `@${chat.slug}`}</span>
+                        <ScoreBadge score={chat.relevance} />
+                        {chat.status !== 'new' && (
+                          <Badge tone={CHAT_STATUS_TONES[chat.status]}>
+                            {SIGNAL_CHAT_STATUS_LABELS[chat.status]}
+                          </Badge>
+                        )}
+                      </div>
+                      {chat.about && (
+                        <div className="text-xs text-white/40 truncate mt-0.5">{chat.about}</div>
+                      )}
+                      {chat.rejectReason && (
+                        <div className="text-xs text-amber-300/70 mt-0.5">
+                          отсеян: {rejectLabel(chat.rejectReason)}
+                        </div>
+                      )}
+                    </td>
+                    <td className="py-2.5 pr-3">
+                      <a
+                        href={chat.url}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-0.5 text-brand-cyan hover:text-brand-cyan/80 transition-colors whitespace-nowrap"
+                      >
+                        @{chat.slug}
+                        <ArrowUpRight size={11} className="opacity-50" />
+                      </a>
+                    </td>
+                    <td className="py-2.5 pr-3 text-white/70 whitespace-nowrap">
+                      {chat.topic ? topicLabels[chat.topic] ?? chat.topic : '—'}
+                      {chat.topic && chat.confidence === 'tentative' && (
+                        // The room used one word anyone might use — "сайт",
+                        // "дизайн", "it" — and nothing else. It may be a studio
+                        // that never describes itself. It may be a flower shop.
+                        // Say so rather than letting the column imply more than
+                        // the harvest actually knows.
+                        <span
+                          className="ml-1.5 text-[11px] text-amber-300/60"
+                          title="Комната назвала одно слово из темы и больше ничего. Возможно, это студия, которая никак себя не описывает, — а возможно, цветочный магазин. Проверьте перед тем, как писать."
+                        >
+                          предположительно
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-2.5 pr-3 text-white/70 whitespace-nowrap">
+                      <span className="inline-flex items-center gap-1">
+                        <Users size={12} className="text-white/30" />
+                        {chat.members?.toLocaleString('ru-RU') ?? '—'}
+                      </span>
+                    </td>
+                    <td className="py-2.5 pr-3 whitespace-nowrap">
+                      <Badge tone={chat.activity === 'live' ? 'success' : chat.activity === 'slow' ? 'warning' : 'neutral'}>
+                        {SIGNAL_CHAT_ACTIVITY_LABELS[chat.activity]}
+                      </Badge>
+                      {chat.online !== null && (
+                        <span className="text-xs text-white/40 ml-1.5">{chat.online} онлайн</span>
+                      )}
+                    </td>
+                    <td className="py-2.5 pr-3 whitespace-nowrap">
+                      <Badge tone={writable ? 'success' : chat.canWrite === 'no' ? 'danger' : 'neutral'}>
+                        {SIGNAL_CAN_WRITE_LABELS[chat.canWrite]}
+                      </Badge>
+                      {chat.canWriteBasis && (
+                        <span className="text-[11px] text-white/30 ml-1.5">
+                          {chat.canWriteBasis === 'api' ? 'проверено API'
+                            : chat.canWriteBasis === 'operator' ? 'вы сами' : 'предположение'}
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-2.5 pr-3 text-right whitespace-nowrap">
+                      {chat.status === 'rejected' ? (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          disabled={busyRow}
+                          data-testid="signal-chat-restore"
+                          onClick={() => void run(chat.id, () => setChatStatus(chat, 'new'))}
+                        >
+                          Вернуть
+                        </Button>
+                      ) : (
+                        <>
+                          {chat.status !== 'approved' && (
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              disabled={busyRow}
+                              data-testid="signal-chat-approve"
+                              className="active:scale-95 transition-transform duration-150"
+                              onClick={() => void run(chat.id, () => setChatStatus(chat, 'approved'))}
+                            >
+                              Отобрать
+                            </Button>
+                          )}
+                          {chat.kind === 'group' && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="ml-2"
+                              disabled={busyRow}
+                              title={writable ? 'Отметить, что писать нельзя' : 'Отметить, что писать можно'}
+                              data-testid="signal-chat-toggle-write"
+                              onClick={() => void run(`${chat.id}:write`, () => api.signalRadarPatchChat(chat.id, {
+                                canWrite: nextCanWrite(chat),
+                              }))}
+                            >
+                              {writable ? <Ban size={13} /> : <Check size={13} />}
+                            </Button>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="ml-2"
+                            disabled={busyRow}
+                            data-testid="signal-chat-reject"
+                            onClick={() => void run(chat.id, () => setChatStatus(chat, 'rejected'))}
+                          >
+                            Отсеять
+                          </Button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* ── Reject breakdown: so the filter can be tuned, not just trusted ── */}
+      {(data?.reasons.length ?? 0) > 0 && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="text-xs text-white/35">отсеяно по причинам:</span>
+          {data?.reasons.map((row) => (
+            <span
+              key={row.reason}
+              className="text-xs text-white/45 bg-white/[0.03] border border-white/10 px-2 py-0.5 rounded-md"
+            >
+              {rejectLabel(row.reason)} · {row.count}
+            </span>
+          ))}
         </div>
       )}
     </div>

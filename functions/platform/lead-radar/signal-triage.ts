@@ -218,6 +218,68 @@ const JOB_OFFER_TERMS: readonly string[] = [
   'kuryer kerak', 'kuryerlar kerak', 'kuryer boling', 'haydovchi kerak',
   'sotuvchi kerak', 'kassir kerak', 'ofitsiant kerak', 'oshpaz kerak',
   'qorovul kerak',
+  // The vocabulary of a vacancy advert that is not a job title. A Product
+  // Manager opening passed straight through the first version of this list
+  // — it said "на полный рабочий день" and listed "обязанности", and neither
+  // a role name nor a salary was anywhere in the post.
+  'полный рабочий день', 'неполный рабочий день', 'полная занятост',
+  'частичная занятост', 'обязанност', 'на постоянной основе',
+  'постоянная работ', 'официальное трудоустройств', 'оформляем официальн',
+  'белая зарплат', 'дружн команд', 'молодой команд', 'в наш коллектив',
+  'наш коллектив', 'open vacancy', 'full-time', 'part-time', 'job offer',
+  'to‘liq stavka', 'ish tartibi', 'jamoamizga', 'oylik maosh',
+];
+
+/**
+ * Congratulations, anniversaries and holiday posts. Terminal and cheap: a
+ * greeting is the most reliably-shaped text in any group and never a purchase
+ * request, yet it is stuffed with exactly our service vocabulary — one
+ * independence-day post from a marketing association scored 72 on
+ * "креатив", "хоч" and "сегодня" alone.
+ */
+const GREETING_TERMS: readonly string[] = [
+  'поздравл', 'с наступающ', 'с днём рожд', 'с днем рожд', 'с праздник',
+  'с новым годом', 'с 8 марта', 'с юбиле', 'юбиле', 'годовщин',
+  'желаем вам', 'желаю вам', 'от всей души',
+  'muborak', 'tabrikla', 'qutla', 'bayram', 'yubiley', 'yangi yil',
+  'bayramingiz', 'tabarak',
+];
+
+/**
+ * A way to answer. A gate, not a score booster.
+ *
+ * A post that names no handle, no number, no budget and no way to reach its
+ * author reads like a brief and scores like one, but the operator cannot act
+ * on it — and an inbox full of things nobody can act on is worse than an
+ * empty one. The first-person story that scored 82 was exactly this: a
+ * marketer writing about her own wedding, mentioning bots and sites in
+ * passing, with nothing in it for anyone to reply to.
+ *
+ * These are the ways people here actually say "get in touch", including the
+ * ones a polite dictionary would miss: "в личку", "в лс", "писать сюда".
+ */
+/**
+ * The register of someone writing rather than buying. Every term here is a
+ * construction, not a word: "нужно подумать" is an essay, "нужен подрядчик"
+ * is a brief, and the difference is entirely in what follows the verb.
+ */
+const PROSE_TERMS: readonly string[] = [
+  'нужно подумать', 'нужно понять', 'нужно помнить', 'нужно понимать',
+  'нужно учитывать', 'нужно учесть', 'надо подумать', 'надо понять',
+  'стоит отметить', 'важно понимать', 'важно помнить', 'важно отметить',
+  'как оказалось', 'хочу поделиться', 'хочу рассказать', 'хочу показать',
+  'делюсь опытом', 'личный опыт', 'моя история', 'история одного',
+  'в этой статье', 'в этом посте', 'подведём итог', 'подведем итог',
+  'делаем вывод', 'вывод прост', 'в заключение', 'написал стать',
+  'написал пост', 'почитать можно', 'советую почитать',
+];
+
+const CTA_TERMS: readonly string[] = [
+  'пишите', 'пиши', 'напишите', 'напиши', 'звоните', 'звони', 'позвоните',
+  'свяжитесь', 'свяжи', 'обращайтесь', 'откликнитесь', 'откликайтесь',
+  'отзовитес', 'предложите', 'предлагайте', 'жду предложен', 'жду отклик',
+  'контакт', 'телефон', 'whatsapp', 'ватсап', 'в личк', 'в лс', 'личк',
+  'boglaning', 'yozing', 'qo‘ng‘iroq', 'qongiroq', 'aloqa', 'murojaat',
 ];
 
 /** Offering services rather than asking for them. */
@@ -310,6 +372,20 @@ export function triageSignal(
     };
   }
 
+  // 1b. Greetings are terminal for the same reason employment is: they share
+  //     all our vocabulary and none of our intent.
+  const greeting = stemHits(normalized, GREETING_TERMS);
+  if (greeting.length > 0) {
+    return {
+      verdict: 'discard',
+      score: 0,
+      service: null,
+      services: [],
+      reasons: [`greeting:${greeting[0].term}`],
+      hasContact: false,
+    };
+  }
+
   // 2. Which services is this about at all? No service, no lead — ever.
   //    Ordering matters: "Нужен CRM, чтобы заявки с сайта не терялись" names
   //    two services, and dictionary order would have filed it under sites. The
@@ -380,7 +456,30 @@ export function triageSignal(
   const reasons: string[] = [...serviceReasons, `demand:${demand[0].term}`];
   let score = serviceScore + SCORE.demand;
 
+  // 4b. Blog register. Someone writing about their week mentions every service
+  //     word and needs none of them. A marketer's story about planning her own
+  //     wedding — "нужно подумать о многом", bots and sites in passing —
+  //     scored 82 and read exactly like a brief.
+  //
+  //     Deliberately not terminal, and deliberately conditional: a person may
+  //     open with a story and close with a real request, so prose only
+  //     disqualifies a post that offers nothing to act on either. A handle, a
+  //     number, a budget or a "пишите" is enough to keep it alive.
+  const prose = stemHits(normalized, PROSE_TERMS);
+  const cta = stemHits(normalized, CTA_TERMS);
+  const budgetHits = stemHits(normalized, BUDGET_TERMS);
   const hasContact = detectSignalContact(text);
+  if (prose.length > 0 && !hasContact && budgetHits.length === 0 && cta.length === 0) {
+    return {
+      verdict: 'discard',
+      score: 0,
+      service: services[0] ?? null,
+      services,
+      reasons: [`prose:${prose[0].term}`, ...serviceReasons],
+      hasContact,
+    };
+  }
+
   if (hasContact) {
     score += SCORE.contact;
     reasons.push('contact');
@@ -393,7 +492,7 @@ export function triageSignal(
     score += SCORE.urgency;
     reasons.push(`urgency:${urgency[0].term}`);
   }
-  const budget = stemHits(normalized, BUDGET_TERMS);
+  const budget = budgetHits;
   if (budget.length > 0) {
     score += SCORE.budget;
     reasons.push(`budget:${budget[0].term}`);

@@ -33,11 +33,33 @@ import {
   writeSignalScanCursor,
 } from '../../../platform/lead-radar/signal-mode';
 import {
+  chatsSchemaReady,
+  chatHarvestStatusFromCursor,
+  readChatHarvestConfig,
+  readChatHarvestCursor,
+  SignalChatStore,
+  signalChatId,
+  writeChatHarvestConfig,
+  writeChatHarvestCursor,
+} from '../../../platform/lead-radar/signal-chat-store';
+import {
+  CHAT_TOPIC_PACKS,
+  normalizeChatHarvest,
+} from '../../../platform/lead-radar/signal-chats';
+import {
   parseSignalAutojoinMode,
+  parseSignalChatStatus,
   parseSignalLeadState,
   parseSignalSlugList,
   parseSignalTargetStatus,
+  signalChatHarvestQueueMessage,
   signalScanQueueMessage,
+  SIGNAL_CAN_WRITE_VALUES,
+  SIGNAL_CHAT_HARVEST_COOLDOWN_MS,
+  SIGNAL_CHAT_KINDS,
+  type SignalCanWrite,
+  type SignalChatKind,
+  type SignalChatsResponse,
   type SignalLeadDetail,
   type SignalLeadState,
   type SignalRadarOverview,
@@ -149,6 +171,50 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
     return ownerJson({ leads }, ctx.requestId);
   }
 
+  // ── GET /api/admin/signal-radar/chats ──────────────────────────────────
+  // The chat surface: rooms the operator could actually write in. Everything
+  // the table needs comes back in one request — rows, counters, the reject
+  // histogram and the harvest config — because the alternative is a page that
+  // renders in four stages and looks broken in three of them.
+  //
+  // A missing 0059 is reported as `installed: false` rather than an error: the
+  // operator needs to see "the table is not created yet", not a red toast.
+  if (parts.length === 1 && parts[0] === 'chats') {
+    const params = ctx.url.searchParams;
+    const config = await readChatHarvestConfig(ctx.db, orgId);
+    const cursor = await readChatHarvestCursor(ctx.db, orgId);
+    const response: SignalChatsResponse = {
+      installed: false,
+      chats: [],
+      counts: null,
+      reasons: [],
+      config,
+      harvest: chatHarvestStatusFromCursor(cursor, Date.now(), SIGNAL_CHAT_HARVEST_COOLDOWN_MS),
+      topics: CHAT_TOPIC_PACKS.map((pack) => ({ id: pack.id, label: pack.label })),
+    };
+    if (!(await chatsSchemaReady(ctx.db))) {
+      return ownerJson(response, ctx.requestId);
+    }
+    const chats = new SignalChatStore(ctx.db);
+    const kind = params.get('kind');
+    const status = parseSignalChatStatus(params.get('status')) ?? undefined;
+    const [rows, counts, reasons] = await Promise.all([
+      chats.listChats(orgId, {
+        status,
+        kind: SIGNAL_CHAT_KINDS.includes(kind as SignalChatKind) ? kind as SignalChatKind : undefined,
+        topic: boundedString(params.get('topic'), 32) ?? undefined,
+        excludeRejected: params.get('rejected') !== '1',
+        minMembers: params.get('minMembers') === null ? undefined : boundedInt(params.get('minMembers'), 0, 0, 100_000),
+        minRelevance: params.get('minRelevance') === null ? undefined : boundedInt(params.get('minRelevance'), 0, 0, 100),
+        limit: boundedInt(params.get('limit'), 100, 1, 500),
+      }),
+      chats.counts(orgId),
+      chats.rejectBreakdown(orgId),
+    ]);
+    return ownerJson({ ...response, installed: true, chats: rows, counts, reasons },
+      ctx.requestId);
+  }
+
   // One lead in full: the raw post behind it. Fetched on demand when the
   // operator expands a card, so the inbox itself stays a single query.
   if (parts.length === 2 && parts[0] === 'leads') {
@@ -204,6 +270,99 @@ export const onRequestPost = withOwnerRole('platform_owner', async (ctx) => {
     await ctx.env.AUTOMATION_QUEUE.send(message);
     return ownerJson({ scan: await signalScanStatusFor(ctx.db, orgId, Date.now()) },
       ctx.requestId, 202);
+  }
+
+  // ── POST /api/admin/signal-radar/chats/harvest ─────────────────────────
+  // One bounded message on the queue. Harvesting costs dozens of slow, paced
+  // HTTP requests; a Pages function gets ~30 ms of CPU and cannot afford one.
+  if (parts.length === 2 && parts[0] === 'chats' && parts[1] === 'harvest') {
+    if (ctx.env.LEAD_RADAR_SIGNAL_ENABLED !== 'true') {
+      return ownerError('signal_disabled', ctx.requestId, 409);
+    }
+    const modeState = await resolveSignalMode(ctx.db, ctx.env);
+    if (modeState.mode === 'off') return ownerError('signal_mode_off', ctx.requestId, 409);
+    if (!ctx.env.AUTOMATION_QUEUE) return ownerError('queue_unavailable', ctx.requestId, 503);
+    if (!(await chatsSchemaReady(ctx.db))) {
+      return ownerError('signal_chats_schema_missing', ctx.requestId, 503);
+    }
+
+    const now = Date.now();
+    const cursor = await readChatHarvestCursor(ctx.db, orgId);
+    const before = chatHarvestStatusFromCursor(cursor, now, SIGNAL_CHAT_HARVEST_COOLDOWN_MS);
+    if (before.queued) {
+      return ownerJson(
+        { error: 'signal_chat_harvest_cooling_down', request_id: ctx.requestId, harvest: before },
+        ctx.requestId,
+        429,
+      );
+    }
+    const body = record(await readOwnerBody(ctx.request).catch(() => null));
+    const config = await readChatHarvestConfig(ctx.db, orgId);
+    const keywords = Array.isArray(body?.keywords)
+      ? body.keywords
+        .filter((item): item is string => typeof item === 'string')
+        .map((item) => item.trim().slice(0, 60))
+        .filter((item) => item.length > 0)
+        .slice(0, 40)
+      : config.keywords;
+
+    let message;
+    try {
+      message = signalChatHarvestQueueMessage({
+        orgId,
+        requestedBy: ctx.actor.email,
+        requestedAt: new Date(now).toISOString(),
+        keywords,
+      });
+    } catch {
+      return ownerError('invalid_org', ctx.requestId, 400);
+    }
+    // The cooldown anchor is written first and the send second. A lost queue
+    // send costs the operator one minute; a lost anchor costs a catalogue a
+    // burst of requests from a trigger-happy click.
+    await writeChatHarvestCursor(ctx.db, orgId, {
+      index: cursor?.index ?? 0,
+      query: cursor?.query ?? null,
+      at: new Date(now).toISOString(),
+      by: ctx.actor.email,
+      // Preserved, never cleared. Button pressed twice in a minute must not
+      // cost the operator the four hundred rooms the last harvest found and
+      // had no time to open.
+      pending: cursor?.pending ?? [],
+    });
+    await ctx.env.AUTOMATION_QUEUE.send(message);
+    const after = await readChatHarvestCursor(ctx.db, orgId);
+    return ownerJson({
+      harvest: chatHarvestStatusFromCursor(after, Date.now(), SIGNAL_CHAT_HARVEST_COOLDOWN_MS),
+    }, ctx.requestId, 202);
+  }
+
+  // ── POST /api/admin/signal-radar/chats ─────────────────────────────────
+  // The operator pastes rooms they already know about. They land unresolved —
+  // reading a card needs a network call, and the Worker resolves them on the
+  // next tick via the stale-refresh pass, which picks up `checked_at IS NULL`.
+  if (parts.length === 1 && parts[0] === 'chats') {
+    if (!(await chatsSchemaReady(ctx.db))) {
+      return ownerError('signal_chats_schema_missing', ctx.requestId, 503);
+    }
+    const body = record(await readOwnerBody(ctx.request));
+    if (!body) return ownerError('invalid_body', ctx.requestId, 400);
+    const raw = typeof body.text === 'string' ? body.text
+      : Array.isArray(body.slugs) ? body.slugs.join(' ')
+        : '';
+    const slugs = parseSignalSlugList(raw, 200);
+    if (slugs.length === 0) return ownerError('signal_no_valid_slug', ctx.requestId, 400);
+
+    const chats = new SignalChatStore(ctx.db);
+    const known = await chats.knownSlugs(orgId, slugs);
+    const added: string[] = [];
+    let skipped = 0;
+    for (const slug of slugs) {
+      if (known.has(slug.toLowerCase())) { skipped += 1; continue; }
+      const created = await chats.upsertChat(orgId, { slug, kind: 'unknown', source: 'manual' });
+      added.push(created.id);
+    }
+    return ownerJson({ added: added.length, skipped, slugs }, ctx.requestId, 201);
   }
 
   if (parts.length !== 1 || parts[0] !== 'targets') {
@@ -265,6 +424,53 @@ export const onRequestPatch = withOwnerRole('platform_owner', async (ctx) => {
       // reporting a generic 500 that nobody can act on.
       return ownerError('settings_unavailable', ctx.requestId, 503);
     }
+  }
+
+  // ── PATCH /api/admin/signal-radar/chats/config ─────────────────────────
+  // Topics, keywords and thresholds. Normalized on the way in so a half-typed
+  // form degrades to defaults instead of quietly harvesting nothing.
+  if (parts.length === 2 && parts[0] === 'chats' && parts[1] === 'config') {
+    const current = await readChatHarvestConfig(ctx.db, orgId);
+    const merged = normalizeChatHarvest({ ...current, ...body });
+    const saved = await writeChatHarvestConfig(ctx.db, orgId, merged, ctx.actor.email);
+    return ownerJson({ config: saved }, ctx.requestId);
+  }
+
+  // ── PATCH /api/admin/signal-radar/chats/:id ────────────────────────────
+  // Approve, reject, or correct the can-write verdict by hand. The operator's
+  // word is recorded as its own basis so a later re-harvest cannot overwrite
+  // what a human decided with what a regex guessed.
+  if (parts.length === 2 && parts[0] === 'chats') {
+    if (!signalChatId(parts[1])) return ownerError('invalid_id', ctx.requestId, 400);
+    if (!(await chatsSchemaReady(ctx.db))) {
+      return ownerError('signal_chats_schema_missing', ctx.requestId, 503);
+    }
+    const status = body.status === undefined ? undefined : parseSignalChatStatus(body.status);
+    if (body.status !== undefined && !status) return ownerError('invalid_status', ctx.requestId, 400);
+    const canWrite = body.canWrite === undefined
+      ? undefined
+      : SIGNAL_CAN_WRITE_VALUES.includes(body.canWrite as SignalCanWrite)
+        ? body.canWrite as SignalCanWrite
+        : null;
+    if (body.canWrite !== undefined && !canWrite) return ownerError('invalid_can_write', ctx.requestId, 400);
+    if (status === undefined && canWrite === undefined) {
+      return ownerError('empty_patch', ctx.requestId, 400);
+    }
+    const chats = new SignalChatStore(ctx.db);
+    const patch: Parameters<SignalChatStore['updateChat']>[2] = {};
+    if (status) {
+      patch.status = status;
+      // A room the operator approved stops being a rejected row, whatever the
+      // filter once said about it.
+      if (status !== 'rejected') patch.rejectReason = null;
+    }
+    if (canWrite) {
+      patch.canWrite = canWrite;
+      patch.canWriteBasis = 'operator';
+    }
+    const chat = await chats.updateChat(orgId, parts[1], patch);
+    if (!chat) return ownerError('not_found', ctx.requestId, 404);
+    return ownerJson({ chat }, ctx.requestId);
   }
 
   if (!(await signalSchemaReady(ctx.db))) {

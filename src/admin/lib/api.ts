@@ -265,6 +265,39 @@ export const api = {
   signalRadarScan: () =>
     request<{ scan: import('../../shared/signal-radar').SignalScanStatus }>('POST',
       '/api/admin/signal-radar/scan', {}, { timeoutMs: 20_000 }),
+  // ─── Signal Radar: the chat surface (rooms we could write in) ──────
+  signalRadarChats: (params?: {
+    status?: string; kind?: string; topic?: string; minMembers?: number;
+    minRelevance?: number; rejected?: 0 | 1; limit?: number;
+  }, signal?: AbortSignal) => {
+    const query = new URLSearchParams();
+    for (const [key, value] of Object.entries(params ?? {})) {
+      if (value === undefined || value === null || value === '') continue;
+      query.set(key, String(value));
+    }
+    const qs = query.toString();
+    return request<import('../../shared/signal-radar').SignalChatsResponse>('GET',
+      `/api/admin/signal-radar/chats${qs ? `?${qs}` : ''}`,
+      undefined, { signal, timeoutMs: 20_000 });
+  },
+  signalRadarHarvestChats: (keywords?: string[]) =>
+    request<{ harvest: import('../../shared/signal-radar').SignalChatHarvestStatus }>('POST',
+      '/api/admin/signal-radar/chats/harvest', { keywords: keywords ?? [] }, { timeoutMs: 20_000 }),
+  signalRadarAddChats: (slugs: string[]) =>
+    request<{ added: number; skipped: number; slugs: string[] }>('POST',
+      '/api/admin/signal-radar/chats', { slugs }, { timeoutMs: 20_000 }),
+  signalRadarPatchChat: (
+    id: string,
+    patch: {
+      status?: import('../../shared/signal-radar').SignalChatStatus;
+      canWrite?: import('../../shared/signal-radar').SignalCanWrite;
+    },
+  ) => request<{ chat: import('../../shared/signal-radar').SignalChat }>('PATCH',
+    `/api/admin/signal-radar/chats/${encodeURIComponent(id)}`, patch, { timeoutMs: 20_000 }),
+  signalRadarPatchChatConfig: (
+    patch: Partial<import('../../shared/signal-radar').SignalChatsResponse['config']>,
+  ) => request<{ config: import('../../shared/signal-radar').SignalChatsResponse['config'] }>('PATCH',
+    '/api/admin/signal-radar/chats/config', patch, { timeoutMs: 20_000 }),
   config: () => request<{ turnstileRequired: boolean; turnstileSiteKey: string | null }>('GET', '/api/auth/config'),
   login: (email: string, password: string, turnstileToken?: string) => request<{ token: string; email: string; role: string }>('POST', '/api/auth/login', { email, password, turnstileToken }),
   me: () => request<{ email: string; role: string }>('GET', '/api/auth/me'),
