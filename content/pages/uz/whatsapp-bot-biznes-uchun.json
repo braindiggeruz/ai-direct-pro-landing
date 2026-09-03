@@ -15,13 +15,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "WhatsApp bot biznes uchun O‘zbekistonda",
-  "title": "WhatsApp bot biznes uchun — AI javoblar 24/7 | GPTBot",
-  "description": "WhatsApp’dagi AI bot mijozlarga 24/7 javob beradi, ehtiyojni aniqlaydi va arizani menejerga uzatadi. Rus va o‘zbek tilida, Business API orqali ishlaydi.",
+  "title": "WhatsApp bot biznes uchun — 24/7 AI javoblar, 1 490 000 so‘mdan | GPTBot",
+  "description": "O‘zbekistonda biznes uchun WhatsApp bot: bilimlar bazasi asosida o‘zbek va rus tilida avtojavoblar, arizalar yig‘ish, CRM’ga uzatish. Tariflar 1 490 000 so‘mdan, 5 kundan.",
   "canonical": "https://gptbot.uz/uz/whatsapp-bot-biznes-uchun/",
   "hreflangRu": "/ru/whatsapp-bot-dlya-biznesa/",
   "hreflangUz": "/uz/whatsapp-bot-biznes-uchun/",
-  "ogTitle": "WhatsApp bot biznes uchun O‘zbekistonda — AI javoblar va arizalar",
-  "ogDescription": "WhatsApp’dagi AI bot mijozlarga 24/7 javob beradi, ehtiyojni aniqlaydi va arizani menejerga uzatadi. Rus va o‘zbek tilida, Business API orqali ishlaydi.",
+  "ogTitle": "WhatsApp bot biznes uchun — 24/7 AI javoblar, 1 490 000 so‘mdan | GPTBot",
+  "ogDescription": "O‘zbekistonda biznes uchun WhatsApp bot: bilimlar bazasi asosida o‘zbek va rus tilida avtojavoblar, arizalar yig‘ish, CRM’ga uzatish. Tariflar 1 490 000 so‘mdan, 5 kundan.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -178,6 +178,53 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "WhatsApp bot qancha turadi",
+      "id": "price"
+    },
+    {
+      "type": "h3",
+      "text": "WhatsApp bot tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "WhatsApp’da ssenariy bo‘yicha avtojavoblar va lid yig‘ish",
+          "5 kun",
+          "1 490 000 dan"
+        ],
+        [
+          "Biznes",
+          "Bilimlar bazasi asosida AI-javoblar, RU + UZ, CRM’ga uzatish",
+          "10 kun",
+          "2 900 000 dan"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Shuningdek {t} ko‘ring — unda smeta nimadan tashkil topishi va ishga tushirishdan oldin nimani qayd etishimiz tushuntirilgan.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot tariflari jadvalini"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Biznesingiz uchun WhatsApp botni muhokama qilish",
       "href": "https://t.me/XGame_changerx"
@@ -327,7 +374,12 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-24",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-09-03",
+  "heroTrust": [
+    "1 490 000 so‘mdan",
+    "5 kundan",
+    "UZ + RU"
+  ]
 }

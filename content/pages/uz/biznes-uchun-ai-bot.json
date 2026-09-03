@@ -13,13 +13,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "Biznes uchun AI bot — Instagram va Telegram’da mijozlarga 24/7 javob",
-  "title": "Biznes uchun AI bot — 24/7 ish AI-menejer | GPTBot",
-  "description": "Biznes uchun AI bot Telegram va Instagram’da 24/7 javob beradi, arizalarni yig‘adi va menejerga uzatadi. Rus va o‘zbek tilida, kechqurun ham ishlaydi.",
+  "title": "Biznes uchun AI bot Toshkentda — 1 990 000 so‘mdan, 5 kunda | GPTBot",
+  "description": "O‘zbekistonda biznes uchun AI bot: Telegram va Instagram’da 24/7 o‘zbek va rus tilida javob beradi, arizalarni yig‘adi, CRM’ga uzatadi. Tariflar 1 990 000 so‘mdan, 5 kundan ishga tushirish.",
   "canonical": "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
   "hreflangRu": "/ru/ai-bot-dlya-biznesa/",
   "hreflangUz": "/uz/biznes-uchun-ai-bot/",
-  "ogTitle": "Biznes uchun AI bot — mijozlar bilan 24/7 aloqa | GPTBot",
-  "ogDescription": "Biznes uchun AI bot Telegram va Instagram’da 24/7 javob beradi, arizalarni yig‘adi va menejerga uzatadi. Rus va o‘zbek tilida, kechqurun ham ishlaydi.",
+  "ogTitle": "Biznes uchun AI bot Toshkentda — 1 990 000 so‘mdan, 5 kunda | GPTBot",
+  "ogDescription": "O‘zbekistonda biznes uchun AI bot: Telegram va Instagram’da 24/7 o‘zbek va rus tilida javob beradi, arizalarni yig‘adi, CRM’ga uzatadi. Tariflar 1 990 000 so‘mdan, 5 kundan ishga tushirish.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -118,6 +118,60 @@
     {
       "type": "p",
       "text": "Narx kanallar soni, ssenariy murakkabligi va CRM bilan integratsiyaga bog‘liq. Bitta messenjer uchun bazaviy bot ko‘p kanalli yechimdan tezroq va arzonroq ishga tushadi. Aniq smetani vazifaga qarab hisoblaymiz — Telegram’ga yozing, keysingizni muhokama qilamiz."
+    },
+    {
+      "type": "h3",
+      "text": "Biznes uchun AI bot tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta kanal (Telegram yoki Instagram), bilimlar bazasi asosida AI-javoblar, ism va telefon yig‘ish",
+          "5 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Telegram + Instagram, soha bo‘yicha bilimlar bazasi, RU + UZ, CRM’ga uzatish",
+          "10 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "Pro",
+          "Uchta kanal (+ WhatsApp yoki sayt), to‘lov, tarqatma, arizalarni yo‘naltirish, analitika",
+          "21 kun",
+          "6 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Javoblar sifatini nazorat qilish, bazani to‘ldirish, murojaatlar bo‘yicha hisobot",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Shuningdek {t} ko‘ring — unda smeta nimadan tashkil topishi va ishga tushirishdan oldin nimani qayd etishimiz tushuntirilgan.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot tariflari jadvalini"
+        }
+      ]
     },
     {
       "type": "cta",
@@ -289,7 +343,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-09-03",
+  "heroTrust": [
+    "1 990 000 so‘mdan",
+    "5 kundan",
+    "UZ + RU",
+    "AmoCRM / Bitrix24"
+  ]
 }

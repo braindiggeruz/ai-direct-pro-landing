@@ -15,13 +15,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "Toshkentda SEO xizmati",
-  "title": "SEO xizmati Toshkentda — Google’da ko‘rinish | GPTBot.uz",
-  "description": "Biznes sayti uchun SEO xizmati Toshkentda: texnik audit, semantika, sahifa optimizatsiyasi va local SEO. Narx sayt holati va ish hajmiga bog‘liq.",
+  "title": "SEO xizmati Toshkentda — oyiga 2 490 000 so‘mdan, audit 990 000 | GPTBot.uz",
+  "description": "Toshkentda o‘zbek va rus tilidagi saytlar uchun SEO xizmati: audit 990 000 so‘mdan, yuritish oyiga 2 490 000 so‘mdan. Texnika, semantika, kontent, local SEO, arizalar bo‘yicha hisobot.",
   "canonical": "https://gptbot.uz/uz/seo-xizmati/",
   "hreflangRu": "/ru/seo-prodvizhenie-saytov-tashkent/",
   "hreflangUz": "/uz/seo-xizmati/",
-  "ogTitle": "SEO xizmati Toshkentda — Google’da ko‘rinish | GPTBot.uz",
-  "ogDescription": "Texnik audit, semantika, sahifa optimizatsiyasi va local SEO. Trafik emas, ariza uchun ishlaymiz.",
+  "ogTitle": "SEO xizmati Toshkentda — oyiga 2 490 000 so‘mdan, audit 990 000 | GPTBot.uz",
+  "ogDescription": "Toshkentda o‘zbek va rus tilidagi saytlar uchun SEO xizmati: audit 990 000 so‘mdan, yuritish oyiga 2 490 000 so‘mdan. Texnika, semantika, kontent, local SEO, arizalar bo‘yicha hisobot.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -443,6 +443,49 @@
       "text": "Bizda tayyor narxlar ro‘yxati yo‘q, chunki ikki sayt bir xil bo‘lmaydi. Narx ish hajmiga qarab hisoblanadi va u quyidagilarga bog‘liq."
     },
     {
+      "type": "h3",
+      "text": "SEO tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Audit",
+          "Texnik, qidiruv va tijorat auditi, ustuvorliklar rejasi bilan",
+          "bir martalik, 5 kun",
+          "990 000 dan"
+        ],
+        [
+          "Start",
+          "15 tagacha sahifa: texnika, semantika, oyiga 4 material, local SEO, arizalar bo‘yicha hisobot",
+          "oyiga",
+          "2 490 000 dan"
+        ],
+        [
+          "O‘sish",
+          "100 tagacha sahifa: RU + UZ kontent 10 tagacha, ichki havolalar, 5 ta tashqi eslatma, analitika",
+          "oyiga",
+          "4 900 000 dan"
+        ],
+        [
+          "Lider",
+          "Kataloglar va raqobati yuqori sohalar: URL limitisiz, kontent-reja, PR-havolalar, haftalik monitoring",
+          "oyiga",
+          "7 900 000 dan"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
       "type": "list",
       "items": [
         "Saytning joriy texnik holati va sahifalar soni",
@@ -567,7 +610,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-22",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-09-01T00:00:00.000Z"
+  "updatedAt": "2026-09-03",
+  "heroTrust": [
+    "Audit 990 000 so‘mdan",
+    "Oyiga 2 490 000 so‘mdan",
+    "Google + Yandex",
+    "UZ + RU"
+  ]
 }

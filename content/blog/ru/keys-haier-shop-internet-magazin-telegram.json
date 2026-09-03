@@ -1,0 +1,163 @@
+{
+  "status": "draft",
+  "locale": "ru",
+  "slug": "keys-haier-shop-internet-magazin-telegram",
+  "url": "/ru/blog/keys-haier-shop-internet-magazin-telegram/",
+  "title": "Кейс Haier Shop: интернет-магазин техники, Telegram-бот и сквозная аналитика | GPTBot",
+  "description": "Официальный магазин техники Haier в Ташкенте (haiershop.uz): каталог на UZ/RU, оплата Uzum и Click, доставка по Узбекистану, Telegram-бот и аналитика заявок.",
+  "h1": "Кейс Haier Shop: магазин техники с Telegram-ботом и аналитикой заявок",
+  "intro": "Haier Shop (haiershop.uz) — официальный интернет-магазин бытовой и климатической техники Haier в Ташкенте: кондиционеры, холодильники, стиральные машины, чиллеры и промышленные решения. Сайт двуязычный, с корзиной, оплатой Uzum и Click и доставкой по Узбекистану. [ПОДТВЕРДИТЬ: роль GPTBot/Boss Digital в проекте — бот, реклама, аналитика, SEO?]",
+  "targetMoneyPage": "/ru/ai-bot-dlya-magazina/",
+  "topicCluster": "кейсы GPTBot",
+  "keywords": [
+    "кейс интернет-магазин ташкент",
+    "haier shop uz",
+    "telegram бот для магазина техники",
+    "сквозная аналитика магазина"
+  ],
+  "body": [
+    {
+      "type": "figure",
+      "src": "/assets/blog/keys-haier-shop-internet-magazin-telegram-1200.webp",
+      "srcSet": "/assets/blog/keys-haier-shop-internet-magazin-telegram-480.webp 480w, /assets/blog/keys-haier-shop-internet-magazin-telegram-800.webp 800w, /assets/blog/keys-haier-shop-internet-magazin-telegram-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Схема Haier Shop: каталог, корзина и оплата, Telegram-бот, аналитика",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая иллюстрация GPTBot.uz."
+    },
+    {
+      "type": "h2",
+      "text": "Клиент и задача"
+    },
+    {
+      "type": "p",
+      "text": "Haier Shop продаёт технику с высоким средним чеком, где покупатель сравнивает модели и задаёт много вопросов до заказа: наличие, установка, гарантия, доставка. [ПОДТВЕРДИТЬ задачу проекта словами клиента.]"
+    },
+    {
+      "type": "h2",
+      "text": "Что видно на сайте (факты на 03.09.2026)"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Компонент",
+        "Факт"
+      ],
+      "rows": [
+        [
+          "Каталог и корзина",
+          "Категории от кондиционеров до тепловых насосов, карточки с выбором атрибутов и количества"
+        ],
+        [
+          "Оплата и доставка",
+          "Uzum и Click; доставка по Узбекистану, отдельные сроки для Ташкента"
+        ],
+        [
+          "Telegram",
+          "Канал @haiershop_uz и бот @HaiershopWebbot"
+        ],
+        [
+          "Аналитика",
+          "GA4, Яндекс Метрика, Meta Pixel, Google Ads conversions, GTM"
+        ],
+        [
+          "Онлайн-чат",
+          "Виджет Jivo"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Что сделали мы"
+    },
+    {
+      "type": "p",
+      "text": "[ПОДТВЕРДИТЬ И ЗАПОЛНИТЬ: состав работ GPTBot — Telegram-бот, настройка аналитики и конверсий, реклама, контент. Без подтверждения раздел не публикуется.]"
+    },
+    {
+      "type": "h2",
+      "text": "Что измеряется"
+    },
+    {
+      "type": "p",
+      "text": "Мы не публикуем цифры выручки и конверсии клиента без его письменного согласия и без сопоставимых периодов «до/после». Ниже — что именно измеряется в проекте и по каким данным; итоговые значения обновляются по согласованию с клиентом."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Метрика",
+        "Источник",
+        "Зачем"
+      ],
+      "rows": [
+        [
+          "Обращения из бота и виджета по категориям товаров",
+          "Бот + Jivo + CRM",
+          "Где покупатель застревает до заказа"
+        ],
+        [
+          "Заказы по источникам и стоимость заказа из рекламы",
+          "GA4 + Google Ads + Метрика",
+          "Экономика каналов"
+        ],
+        [
+          "Доля вопросов о наличии/установке, закрытых ботом без менеджера",
+          "Логи бота",
+          "Разгрузка менеджеров"
+        ]
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Что сделано для Haier Shop?",
+      "a": "[ПОДТВЕРДИТЬ состав работ перед публикацией.]"
+    },
+    {
+      "q": "Почему нет цифр по продажам?",
+      "a": "Показатели клиента публикуются только с его письменного согласия и при сопоставимых периодах «до/после»."
+    }
+  ],
+  "cta": {
+    "label": "Обсудить похожий проект в Telegram",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/ru/ai-bot-dlya-magazina/",
+      "anchor": "AI-бот для интернет-магазина",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/razrabotka-telegram-bota-tashkent/",
+      "anchor": "разработка Telegram-бота в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/kontekstnaya-reklama-tashkent/",
+      "anchor": "контекстная реклама в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Кейс Haier Shop: интернет-магазин техники, Telegram-бот и сквозная аналитика | GPTBot",
+  "ogDescription": "Официальный магазин техники Haier в Ташкенте (haiershop.uz): каталог на UZ/RU, оплата Uzum и Click, доставка по Узбекистану, Telegram-бот и аналитика заявок.",
+  "ogImage": "https://gptbot.uz/assets/blog/keys-haier-shop-internet-magazin-telegram-1200.webp",
+  "canonical": "https://gptbot.uz/ru/blog/keys-haier-shop-internet-magazin-telegram/",
+  "robotsIndex": false,
+  "robotsFollow": true,
+  "author": "GPTBot",
+  "schemaTypes": [
+    "Article",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
+  "datePublished": "2026-09-03",
+  "dateModified": "2026-09-03",
+  "updatedAt": "2026-09-03T00:00:00.000Z",
+  "createdAt": "2026-09-03T00:00:00.000Z"
+}

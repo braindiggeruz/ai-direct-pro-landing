@@ -14,13 +14,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "O‘zbekistonda biznes uchun chat-bot narxi",
-  "title": "Chat-bot narxi: tariflar va ish tarkibi | GPTBot",
-  "description": "Chat-bot narxi bo‘yicha yo‘nalish: Telegram-bot 990 000 so‘mdan. Yakuniy smeta ssenariy, kanal, CRM, yuklama va qo‘llab-quvvatlashga bog‘liq.",
+  "title": "Chat-bot narxi O‘zbekistonda 2026: tariflar 990 000 so‘mdan | GPTBot",
+  "description": "Chat-bot narxi: Telegram bot 990 000 so‘mdan, Instagram Direct 1 190 000 dan, AI bot 1 990 000 dan, CRM va to‘lovli Pro 4 900 000 so‘mdan. Paketlar tarkibi, muddatlar va alohida hisoblanadigan xarajatlar.",
   "canonical": "https://gptbot.uz/uz/chat-bot-narxi/",
   "hreflangRu": "/ru/stoimost-chat-bota/",
   "hreflangUz": "/uz/chat-bot-narxi/",
-  "ogTitle": "Chat-bot narxi: tarif, chegara va smeta | GPTBot",
-  "ogDescription": "Boshlang‘ich narxlar, har bir paketning aniq tarkibi, alohida xarajatlar va takliflarni solishtirish mezonlari.",
+  "ogTitle": "Chat-bot narxi O‘zbekistonda 2026: tariflar 990 000 so‘mdan | GPTBot",
+  "ogDescription": "Chat-bot narxi: Telegram bot 990 000 so‘mdan, Instagram Direct 1 190 000 dan, AI bot 1 990 000 dan, CRM va to‘lovli Pro 4 900 000 so‘mdan. Paketlar tarkibi, muddatlar va alohida hisoblanadigan xarajatlar.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -76,34 +76,58 @@
       ],
       "rows": [
         [
-          "Telegram-bot Start",
-          "Bazaviy AI-bot, arizalar yig‘ish, FAQ",
+          "Telegram bot Start",
+          "Tugmali ssenariy, arizalar, FAQ",
           "3 kun",
           "990 000 dan"
         ],
         [
-          "Telegram-bot Biznes",
-          "Sotuv voronkasi, CRM-integratsiya",
+          "Telegram bot Biznes",
+          "Savdo voronkasi, AI-javoblar, CRM",
           "7 kun",
           "2 490 000 dan"
         ],
         [
+          "Telegram bot Pro",
+          "AI + CRM + Payme/Click + vitrina yoki Mini App",
+          "14 kun",
+          "4 900 000 dan"
+        ],
+        [
           "Instagram Direct bot",
-          "Avtojavoblar, Instagram’da voronka",
+          "Avtojavoblar, Instagram voronkasi",
           "5 kun",
           "1 190 000 dan"
         ],
         [
-          "WhatsApp-bot Start",
-          "Avtojavoblar, WhatsApp’da lidlar yig‘ish",
+          "Instagram AI-menejer",
+          "AI-javoblar, izohlar, stories, kvalifikatsiya",
+          "10 kun",
+          "2 900 000 dan"
+        ],
+        [
+          "WhatsApp bot Start",
+          "Avtojavoblar, WhatsApp’da lid yig‘ish",
           "5 kun",
           "1 490 000 dan"
         ],
         [
-          "AI-voronka Bazaviy",
-          "Telegram + Instagram bir vaqtda",
-          "10 kun",
+          "AI bot Start",
+          "Bitta kanal, bilimlar bazasi, UZ + RU",
+          "5 kun",
           "1 990 000 dan"
+        ],
+        [
+          "AI bot Biznes",
+          "Telegram + Instagram, bilimlar bazasi, CRM",
+          "10 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "AI bot Pro",
+          "Uchta kanal, to‘lov, tarqatma, analitika",
+          "21 kun",
+          "6 900 000 dan"
         ],
         [
           "AmoCRM/Bitrix24 integratsiyasi",
@@ -112,10 +136,16 @@
           "790 000 dan"
         ],
         [
-          "Sohaviy AI-bot",
-          "Klinika, salon, do‘kon, HoReCa uchun",
-          "14 kun",
+          "Soha uchun AI bot",
+          "Klinika, o‘quv markazi, salon, do‘kon, HoReCa",
+          "7–14 kun",
           "1 990 000 dan"
+        ],
+        [
+          "Ishga tushirgandan keyingi qo‘llab-quvvatlash",
+          "Monitoring, ssenariy tuzatishlari, bazani yangilash",
+          "oyiga",
+          "290 000 dan"
         ]
       ]
     },
@@ -291,9 +321,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-03",
   "heroTrust": [
     "Boshlang‘ich narx ≠ to‘liq loyiha",
     "To‘lovdan oldin scope",

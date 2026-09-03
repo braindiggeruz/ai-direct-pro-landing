@@ -18,13 +18,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "Sayt yaratish — biznesingizga ariza keltiradigan veb sayt",
-  "title": "Sayt yaratish O‘zbekistonda: biznes uchun professional veb sayt",
-  "description": "Sayt yaratish xizmati O‘zbekistonda: landing, korporativ sayt va internet do‘kon. Mobil dizayn, ariza formasi, analitika. Narx va muddatni oldindan aytamiz.",
+  "title": "Sayt yaratish O‘zbekistonda — landing 2 990 000 so‘mdan, 7 kunda | GPTBot.uz",
+  "description": "Biznes uchun sayt yaratish: landing 2 990 000 so‘mdan, korporativ sayt 6 900 000 dan, internet-do‘kon 14 900 000 so‘mdan. UZ + RU, SEO-baza, AI-bot va CRM, 7 kundan.",
   "canonical": "https://gptbot.uz/uz/sayt-yaratish/",
   "hreflangRu": "/ru/razrabotka-saytov-tashkent/",
   "hreflangUz": "/uz/sayt-yaratish/",
-  "ogTitle": "Sayt yaratish O‘zbekistonda: biznes uchun professional veb sayt",
-  "ogDescription": "Sayt yaratish xizmati O‘zbekistonda: landing, korporativ sayt va internet do‘kon. Mobil dizayn, ariza formasi, analitika. Narx va muddatni oldindan aytamiz.",
+  "ogTitle": "Sayt yaratish O‘zbekistonda — landing 2 990 000 so‘mdan, 7 kunda | GPTBot.uz",
+  "ogDescription": "Biznes uchun sayt yaratish: landing 2 990 000 so‘mdan, korporativ sayt 6 900 000 dan, internet-do‘kon 14 900 000 so‘mdan. UZ + RU, SEO-baza, AI-bot va CRM, 7 kundan.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -271,6 +271,49 @@
       "type": "h2",
       "id": "narx",
       "text": "Narx qanday shakllanadi"
+    },
+    {
+      "type": "h3",
+      "text": "Sayt yaratish tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Landing",
+          "Bitta xizmat uchun sahifa, forma va AI-bot, RU + UZ, arizalar analitikasi",
+          "7 kun",
+          "2 990 000 dan"
+        ],
+        [
+          "Korporativ sayt",
+          "15 tagacha sahifa, CMS, blog, SEO-baza, RU + UZ, Telegram/CRM integratsiyasi",
+          "14 kun",
+          "6 900 000 dan"
+        ],
+        [
+          "Internet-do‘kon",
+          "Katalog, savat, Payme/Click to‘lovi, yetkazib berish, Telegram’da bot-vitrina",
+          "30 kun",
+          "14 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Yangilanishlar, zaxira nusxalar, monitoring, kontent tuzatishlari",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
     },
     {
       "type": "table",
@@ -657,7 +700,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-01",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-09-01"
+  "updatedAt": "2026-09-03",
+  "heroTrust": [
+    "Landing 2 990 000 so‘mdan",
+    "7 kundan",
+    "Sayt + AI-bot",
+    "UZ + RU"
+  ]
 }
