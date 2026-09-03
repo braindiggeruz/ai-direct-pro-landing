@@ -16,13 +16,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "Toshkentda SMM xizmatlari",
-  "title": "SMM xizmatlari Toshkentda — Instagram, Telegram | GPTBot.uz",
-  "description": "Biznes uchun SMM xizmatlari: sahifa yuritish, kontent reja va reklama. Narx ish hajmiga bog‘liq. Direct murojaatlarini AI bilan qayta ishlaymiz.",
+  "title": "SMM xizmatlari Toshkentda — oyiga 2 490 000 so‘mdan | GPTBot.uz",
+  "description": "Toshkentda SMM xizmatlari: o‘zbek va rus tilida kontent, Reels, target va Direct’da AI-bot orqali javoblar. Tariflar oyiga 2 490 000 so‘mdan, reklama byudjeti alohida.",
   "canonical": "https://gptbot.uz/uz/smm-xizmatlari/",
   "hreflangRu": "/ru/smm-prodvizhenie-tashkent/",
   "hreflangUz": "/uz/smm-xizmatlari/",
-  "ogTitle": "SMM xizmatlari Toshkentda — Instagram, Telegram | GPTBot.uz",
-  "ogDescription": "Strategiya, kontent reja, ishlab chiqarish, moderatsiya va murojaatlarni o‘lchash. Pullik reklama va media byudjet alohida scope.",
+  "ogTitle": "SMM xizmatlari Toshkentda — oyiga 2 490 000 so‘mdan | GPTBot.uz",
+  "ogDescription": "Toshkentda SMM xizmatlari: o‘zbek va rus tilida kontent, Reels, target va Direct’da AI-bot orqali javoblar. Tariflar oyiga 2 490 000 so‘mdan, reklama byudjeti alohida.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -471,6 +471,43 @@
       "text": "Narx ish hajmiga bog‘liq. Biz oldindan «hamma uchun bitta narx» aytmaymiz, chunki bitta Instagram sahifasini yuritish va ikki tilda ikkita kanalni parallel olib borish butunlay boshqa hajmdagi ish."
     },
     {
+      "type": "h3",
+      "text": "SMM tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Oyiga 12 ta post va 16 ta stories, dizayn, Direct’da AI-bot orqali javoblar",
+          "oyiga",
+          "2 490 000 dan"
+        ],
+        [
+          "Biznes",
+          "20 ta post, mijoz materiallaridan 8 ta Reels, target yuritish (byudjet alohida), murojaatlar bo‘yicha hisobot",
+          "oyiga",
+          "4 490 000 dan"
+        ],
+        [
+          "Pro",
+          "Strategiya, suratga olish kuni, 12 ta Reels, target va retarget, CRM bilan bog‘lash",
+          "oyiga",
+          "7 900 000 dan"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
       "type": "list",
       "items": [
         "Nechta kanal yuritiladi: Instagram, Telegram yoki ikkalasi",
@@ -723,7 +760,12 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-09-01T00:00:00.000Z"
+  "updatedAt": "2026-09-03",
+  "heroTrust": [
+    "Oyiga 2 490 000 so‘mdan",
+    "UZ + RU",
+    "Kontent + reklama"
+  ]
 }

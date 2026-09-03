@@ -1,0 +1,230 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "slug": "keys-graver-studio-seo-sayt-b2b",
+  "url": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+  "title": "Кейс Graver Studio: сайт на Next.js, SEO-архитектура RU/UZ и реклама для B2B | GPTBot",
+  "description": "Как для студии лазерной гравировки Graver Studio (Ташкент) собраны сайт с CMS, SEO-структура money pages на русском и узбекском, продуктовые страницы, блог из 139 материалов, CRM и рекламные креативы.",
+  "h1": "Кейс Graver Studio: SEO-архитектура, сайт и реклама для B2B-подарков",
+  "intro": "Graver Studio (graver-studio.uz) — лазерная гравировка и брендирование подарков для бизнеса в Ташкенте: корпоративные подарки, welcome-паки, VIP-наборы, сувениры с логотипом. Клиент B2B, цикл сделки длинный, а спрос сезонный. Задача — сделать сайт, который сам приводит корпоративных заказчиков из поиска, и подключить к нему рекламу и CRM.",
+  "targetMoneyPage": "/ru/seo-prodvizhenie-saytov-tashkent/",
+  "topicCluster": "кейсы GPTBot",
+  "keywords": [
+    "кейс seo ташкент",
+    "кейс разработка сайта b2b",
+    "graver studio сайт",
+    "seo для b2b узбекистан",
+    "money pages ru uz"
+  ],
+  "body": [
+    {
+      "type": "figure",
+      "src": "/assets/blog/keys-graver-studio-seo-sayt-b2b-1200.webp",
+      "srcSet": "/assets/blog/keys-graver-studio-seo-sayt-b2b-480.webp 480w, /assets/blog/keys-graver-studio-seo-sayt-b2b-800.webp 800w, /assets/blog/keys-graver-studio-seo-sayt-b2b-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Схема SEO-архитектуры Graver Studio: money pages RU/UZ, продуктовые страницы, блог, CRM и реклама",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая иллюстрация GPTBot.uz."
+    },
+    {
+      "type": "h2",
+      "text": "Клиент и задача"
+    },
+    {
+      "type": "p",
+      "text": "Graver Studio продаёт корпоративным клиентам: подарки с логотипом, наборы для сотрудников, гравировку на часах, ручках, блокнотах, powerbank. Заявки приходят из Telegram (@GraverAdm), WhatsApp и формы на сайте. Нужна была не «ещё одна визитка», а сайт, который отвечает на коммерческие запросы на двух языках и передаёт обращения в CRM."
+    },
+    {
+      "type": "h2",
+      "text": "Что построено"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Слой",
+        "Что сделано",
+        "Факт"
+      ],
+      "rows": [
+        [
+          "Сайт и CMS",
+          "Next.js + Cloudflare Pages + Keystatic CMS с GitHub-хранилищем контента; админка /keystatic/ для владельца",
+          "Владелец сам публикует страницы"
+        ],
+        [
+          "Money pages RU + UZ",
+          "Коммерческие посадочные под запросы «лазерная гравировка Ташкент», «корпоративные подарки Ташкент», «welcome pack» и их узбекские версии, языковые пары hreflang",
+          "Первая пара: /ru/lazernaya-gravirovka-tashkent/ и /uz/toshkentda-lazer-gravyura/"
+        ],
+        [
+          "Продуктовые страницы",
+          "5 продуктов × 2 языка: зажигалки, ручки, блокноты, powerbank, часы — каждая под свой коммерческий запрос",
+          "10 страниц"
+        ],
+        [
+          "Блог / истории",
+          "Около 139 материалов; проведена чистка каннибализации, чтобы статьи не конкурировали с money pages",
+          "139 материалов"
+        ],
+        [
+          "SEO-панель",
+          "Отдельная админ-панель для SEO-полей: title, description, noindex, OG-изображения, языковые пары",
+          "Контроль без разработчика"
+        ],
+        [
+          "CRM и обращения",
+          "Обработка заявок из Telegram, WhatsApp и сайта через respond.io / Umnico",
+          "Один поток заявок"
+        ],
+        [
+          "Реклама и контент",
+          "Креативы для таргета и Reels, фото- и видеоматериалы для Instagram под сезонные кампании (например, 14 февраля)",
+          "Регулярные кампании"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Принципы SEO-архитектуры"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Три уровня: money pages → продуктовые страницы → блог. Каждый уровень отвечает на свой тип запроса и ссылается на уровень выше.",
+        "RU и UZ — отдельные записи с языковой парой, а не переключатель языка на одной странице; так нельзя случайно перезаписать рабочую версию.",
+        "Статьи блога не целятся на коммерческие запросы money pages — это убирает каннибализацию.",
+        "Инфраструктура (auth, деплой, sitemap, редиректы) закрыта от правок контента: владелец работает только в CMS."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Что измеряется"
+    },
+    {
+      "type": "p",
+      "text": "Мы не публикуем цифры выручки и конверсии клиента без его письменного согласия и без сопоставимых периодов «до/после». Ниже — что именно измеряется в проекте и по каким данным; итоговые значения обновляются по согласованию с клиентом."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Метрика",
+        "Источник",
+        "Зачем"
+      ],
+      "rows": [
+        [
+          "Показы и позиции по коммерческим запросам RU и UZ",
+          "Google Search Console",
+          "Проверка, что money pages, а не блог, собирают коммерческий спрос"
+        ],
+        [
+          "Заявки по источникам: сайт, Telegram, WhatsApp, реклама",
+          "CRM (respond.io / Umnico) + UTM",
+          "Экономика каналов, а не «лайки»"
+        ],
+        [
+          "Стоимость обращения из таргета",
+          "Рекламные кабинеты + CRM",
+          "Решение о масштабировании кампаний"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Что можно повторить для вашего бизнеса"
+    },
+    {
+      "type": "linkp",
+      "text": "Такую архитектуру мы строим для B2B-услуг с сезонным спросом: {seo} на двух языках, {site} с CMS под владельца и {ads} с передачей заявок в CRM. Тарифы — в разделах «Стоимость» на страницах услуг.",
+      "links": [
+        {
+          "token": "seo",
+          "target": "/ru/seo-prodvizhenie-saytov-tashkent/",
+          "anchor": "SEO-продвижение сайта в Ташкенте"
+        },
+        {
+          "token": "site",
+          "target": "/ru/razrabotka-saytov-tashkent/",
+          "anchor": "разработку сайта"
+        },
+        {
+          "token": "ads",
+          "target": "/ru/targetirovannaya-reklama-tashkent/",
+          "anchor": "таргетированную рекламу"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Что сделано для Graver Studio?",
+      "a": "Сайт на Next.js с Keystatic CMS, SEO-архитектура из money pages RU/UZ, 10 продуктовых страниц, блог на ~139 материалов с чисткой каннибализации, SEO-панель, CRM для заявок и рекламные креативы."
+    },
+    {
+      "q": "Почему money pages на русском и узбекском сделаны отдельными записями?",
+      "a": "Чтобы каждая версия имела свой URL, title и hreflang-пару, а правка одной версии не перезаписывала другую. Это стандарт для двуязычного SEO в Узбекистане."
+    },
+    {
+      "q": "Где цифры по позициям и заявкам?",
+      "a": "Показатели клиента публикуются только с его согласия и с сопоставимыми периодами. На странице описаны метрики и источники, по которым проект оценивается."
+    },
+    {
+      "q": "Подходит ли такой подход не для подарков?",
+      "a": "Да — для любой B2B-услуги, где клиенты ищут подрядчика в поиске на двух языках: производство, услуги для бизнеса, оборудование."
+    }
+  ],
+  "cta": {
+    "label": "Обсудить похожий проект в Telegram",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "anchor": "SEO-продвижение сайтов в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/razrabotka-saytov-tashkent/",
+      "anchor": "разработка сайтов в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/targetirovannaya-reklama-tashkent/",
+      "anchor": "таргетированная реклама в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/smm-prodvizhenie-tashkent/",
+      "anchor": "SMM-продвижение в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/lokalnoe-seo-tashkent/",
+      "anchor": "локальное SEO в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Кейс Graver Studio: сайт на Next.js, SEO-архитектура RU/UZ и реклама для B2B | GPTBot",
+  "ogDescription": "Как для студии лазерной гравировки Graver Studio (Ташкент) собраны сайт с CMS, SEO-структура money pages на русском и узбекском, продуктовые страницы, блог из 139 материалов, CRM и рекламные креативы.",
+  "ogImage": "https://gptbot.uz/assets/blog/keys-graver-studio-seo-sayt-b2b-1200.webp",
+  "canonical": "https://gptbot.uz/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot",
+  "schemaTypes": [
+    "Article",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
+  "datePublished": "2026-09-03",
+  "dateModified": "2026-09-03",
+  "updatedAt": "2026-09-03T00:00:00.000Z",
+  "createdAt": "2026-09-03T00:00:00.000Z"
+}

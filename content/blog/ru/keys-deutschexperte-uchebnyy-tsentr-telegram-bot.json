@@ -1,0 +1,153 @@
+{
+  "status": "draft",
+  "locale": "ru",
+  "slug": "keys-deutschexperte-uchebnyy-tsentr-telegram-bot",
+  "url": "/ru/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot/",
+  "title": "Кейс Deutschexperte: Telegram-бот и заявки для курсов немецкого языка | GPTBot",
+  "description": "Deutschexperte — курсы немецкого языка в Ташкенте (A1–B2, разговорный клуб): как обращения из Telegram-бота @deutschexpertebot, WhatsApp и сайта собираются в один поток заявок.",
+  "h1": "Кейс Deutschexperte: учебный центр, Telegram-бот и поток заявок",
+  "intro": "Deutschexperte (deutschexperte.com) — курсы немецкого языка в Ташкенте от A1 до B2, индивидуальные и мини-группы, разговорный клуб и культурные семинары. Заявки приходят из WhatsApp, Telegram-бота @deutschexpertebot и формы на сайте. [ПОДТВЕРДИТЬ: роль GPTBot — AI-бот учебного центра, интеграция заявок, реклама?]",
+  "targetMoneyPage": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+  "topicCluster": "кейсы GPTBot",
+  "keywords": [
+    "кейс учебный центр telegram бот",
+    "deutschexperte",
+    "ai бот для языковых курсов",
+    "заявки на курсы немецкого"
+  ],
+  "body": [
+    {
+      "type": "figure",
+      "src": "/assets/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot-1200.webp",
+      "srcSet": "/assets/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot-480.webp 480w, /assets/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot-800.webp 800w, /assets/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Схема Deutschexperte: сайт, Telegram-бот, WhatsApp и поток заявок на курсы",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Тематическая иллюстрация GPTBot.uz."
+    },
+    {
+      "type": "h2",
+      "text": "Клиент и задача"
+    },
+    {
+      "type": "p",
+      "text": "Учебный центр получает однотипные вопросы: уровень, расписание, цена за час, пробный урок. Сайт (WordPress, разработка Webnum.uz) уже показывает цены и форму записи; бот нужен, чтобы отвечать вечером и в выходные и не терять обращения между WhatsApp и Telegram. [ПОДТВЕРДИТЬ задачу проекта словами клиента.]"
+    },
+    {
+      "type": "h2",
+      "text": "Что видно на сайте (факты на 03.09.2026)"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Компонент",
+        "Факт"
+      ],
+      "rows": [
+        [
+          "Программы",
+          "A1–B2, индивидуальные занятия, мини-группы, разговорный клуб, семинары"
+        ],
+        [
+          "Каналы обращений",
+          "WhatsApp, Telegram-бот @deutschexpertebot, форма и заказ звонка на сайте"
+        ],
+        [
+          "Цены",
+          "Опубликованы на сайте по форматам занятий"
+        ],
+        [
+          "Инструменты",
+          "Форма с reCAPTCHA, квиз (Thrive Quiz Builder)"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Что сделали мы"
+    },
+    {
+      "type": "p",
+      "text": "[ПОДТВЕРДИТЬ И ЗАПОЛНИТЬ: состав работ GPTBot по боту и заявкам. Без подтверждения раздел не публикуется.]"
+    },
+    {
+      "type": "h2",
+      "text": "Что измеряется"
+    },
+    {
+      "type": "p",
+      "text": "Мы не публикуем цифры выручки и конверсии клиента без его письменного согласия и без сопоставимых периодов «до/после». Ниже — что именно измеряется в проекте и по каким данным; итоговые значения обновляются по согласованию с клиентом."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Метрика",
+        "Источник",
+        "Зачем"
+      ],
+      "rows": [
+        [
+          "Доля обращений, квалифицированных ботом (уровень, формат, время)",
+          "Логи бота",
+          "Менеджер получает готовую карточку"
+        ],
+        [
+          "Время первого ответа вечером и в выходные",
+          "Бот",
+          "Главная точка потери у учебных центров"
+        ],
+        [
+          "Записи на пробный урок по каналам",
+          "CRM / таблица заявок",
+          "Какой канал приводит учеников"
+        ]
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Что сделано для Deutschexperte?",
+      "a": "[ПОДТВЕРДИТЬ состав работ перед публикацией.]"
+    },
+    {
+      "q": "Почему нет цифр по записям?",
+      "a": "Показатели клиента публикуются только с его письменного согласия и при сопоставимых периодах."
+    }
+  ],
+  "cta": {
+    "label": "Обсудить похожий проект в Telegram",
+    "href": "https://t.me/XGame_changerx"
+  },
+  "internalLinks": [
+    {
+      "target": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+      "anchor": "AI-бот для учебного центра",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/razrabotka-telegram-bota-tashkent/",
+      "anchor": "разработка Telegram-бота в Ташкенте",
+      "locale": "ru",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Кейс Deutschexperte: Telegram-бот и заявки для курсов немецкого языка | GPTBot",
+  "ogDescription": "Deutschexperte — курсы немецкого языка в Ташкенте (A1–B2, разговорный клуб): как обращения из Telegram-бота @deutschexpertebot, WhatsApp и сайта собираются в один поток заявок.",
+  "ogImage": "https://gptbot.uz/assets/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot-1200.webp",
+  "canonical": "https://gptbot.uz/ru/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot/",
+  "robotsIndex": false,
+  "robotsFollow": true,
+  "author": "GPTBot",
+  "schemaTypes": [
+    "Article",
+    "BreadcrumbList",
+    "FAQPage"
+  ],
+  "datePublished": "2026-09-03",
+  "dateModified": "2026-09-03",
+  "updatedAt": "2026-09-03T00:00:00.000Z",
+  "createdAt": "2026-09-03T00:00:00.000Z"
+}

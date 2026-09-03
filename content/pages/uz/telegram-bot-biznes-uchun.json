@@ -15,13 +15,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
-  "title": "Telegram bot biznes uchun — buyurtma va to‘lov | GPTBot",
-  "description": "Telegram bot biznes uchun: 24/7 buyurtma va ariza qabuli, ommaviy tarqatma, CRM integratsiyasi. Rus va o‘zbek tilida, arizalarni menejerga avtomatik uzatadi.",
+  "title": "Telegram bot yaratish Toshkentda — 990 000 so‘mdan, AI, CRM, Mini App | GPTBot",
+  "description": "Toshkentda biznes uchun Telegram bot yaratish: arizalar, yozilish, katalog, Payme/Click to‘lovi, AmoCRM/Bitrix24, 24/7 AI-javoblar va Mini App. Tariflar 990 000 so‘mdan, 3 kundan ishga tushirish.",
   "canonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
   "hreflangRu": "/ru/telegram-bot-dlya-biznesa/",
   "hreflangUz": "/uz/telegram-bot-biznes-uchun/",
-  "ogTitle": "Telegram bot biznes uchun — buyurtma va lid 24/7 | GPTBot",
-  "ogDescription": "Telegram bot biznes uchun: 24/7 buyurtma va ariza qabuli, ommaviy tarqatma, CRM integratsiyasi. Rus va o‘zbek tilida, arizalarni menejerga avtomatik uzatadi.",
+  "ogTitle": "Telegram bot yaratish Toshkentda — 990 000 so‘mdan, AI, CRM, Mini App | GPTBot",
+  "ogDescription": "Toshkentda biznes uchun Telegram bot yaratish: arizalar, yozilish, katalog, Payme/Click to‘lovi, AmoCRM/Bitrix24, 24/7 AI-javoblar va Mini App. Tariflar 990 000 so‘mdan, 3 kundan ishga tushirish.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -33,7 +33,10 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "Telegram bot biznes uchun — bu Telegram ichida savollarga javob beradigan, kontakt yig‘adigan va arizani menejerga uzatadigan tizim." },
+    {
+      "type": "p",
+      "text": "Telegram bot biznes uchun — bu Telegram ichida savollarga javob beradigan, kontakt yig‘adigan va arizani menejerga uzatadigan tizim."
+    },
     {
       "type": "h2",
       "text": "Biznesga Telegram bot nega kerak"
@@ -120,6 +123,60 @@
     {
       "type": "p",
       "text": "Narx funksiyalar to‘plamiga bog‘liq: arizalar uchun oddiy bot katalog, to‘lov va tarqatmali bot-do‘kondan arzonroq. CRM bilan integratsiya alohida hisoblanadi. Telegram’ga yozing — funksiya va smetani biznesingizga qarab muhokama qilamiz."
+    },
+    {
+      "type": "h3",
+      "text": "Telegram bot tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Tugmali ssenariy, ariza qabul qilish, FAQ, menejerga Telegram orqali uzatish",
+          "3 kun",
+          "990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Savdo voronkasi, bilimlar bazasi asosida AI-javoblar, RU + UZ, AmoCRM/Bitrix24 integratsiyasi",
+          "7 kun",
+          "2 490 000 dan"
+        ],
+        [
+          "Pro",
+          "AI + CRM + Payme/Click to‘lovi + bot-vitrina yoki Mini App, manbalar bo‘yicha analitika",
+          "14 kun",
+          "4 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Monitoring, ssenariy tuzatishlari, bilimlar bazasini yangilash",
+          "har oy",
+          "290 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Shuningdek {t} ko‘ring — unda smeta nimadan tashkil topishi va ishga tushirishdan oldin nimani qayd etishimiz tushuntirilgan.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot tariflari jadvalini"
+        }
+      ]
     },
     {
       "type": "cta",
@@ -234,7 +291,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-20",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-08-20"
+  "updatedAt": "2026-09-03",
+  "heroTrust": [
+    "990 000 so‘mdan",
+    "3 kundan",
+    "Payme / Click",
+    "AmoCRM / Bitrix24"
+  ]
 }

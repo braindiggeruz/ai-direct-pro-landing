@@ -13,13 +13,13 @@
   ],
   "searchIntent": "commercial",
   "h1": "Instagram uchun AI-menejer — Direct’dagi savollarga 24/7 javob",
-  "title": "Instagram uchun AI-menejer — Direct javoblari | GPTBot",
-  "description": "Instagram uchun AI-menejer Direct’da 24/7 javob beradi, ism va telefonni yig‘adi, tayyor lidni sizning menejeringizga uzatadi. Demo Telegram’da.",
+  "title": "Instagram uchun AI-menejer — Direct’da 24/7 javob, 1 190 000 so‘mdan | GPTBot",
+  "description": "Instagram uchun AI-menejer: Direct, izohlar va stories’da o‘zbek va rus tilida javob beradi, mijozlarni kvalifikatsiya qiladi va issiq arizalarni Telegram yoki CRM’ga uzatadi. Tariflar 1 190 000 so‘mdan.",
   "canonical": "https://gptbot.uz/uz/instagram-uchun-ai-menejer/",
   "hreflangRu": "/ru/ai-menedzher-dlya-instagram/",
   "hreflangUz": "/uz/instagram-uchun-ai-menejer/",
-  "ogTitle": "Instagram uchun AI-menejer — Direct’da avtomatik javob | GPTBot",
-  "ogDescription": "Instagram uchun AI-menejer Direct’da 24/7 javob beradi, ism va telefonni yig‘adi, tayyor lidni sizning menejeringizga uzatadi. Demo Telegram’da.",
+  "ogTitle": "Instagram uchun AI-menejer — Direct’da 24/7 javob, 1 190 000 so‘mdan | GPTBot",
+  "ogDescription": "Instagram uchun AI-menejer: Direct, izohlar va stories’da o‘zbek va rus tilida javob beradi, mijozlarni kvalifikatsiya qiladi va issiq arizalarni Telegram yoki CRM’ga uzatadi. Tariflar 1 190 000 so‘mdan.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -31,7 +31,10 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "Instagram uchun AI-menejer — bu direkt va izohlarga avtomatik javob beradigan, lidni baholaydigan va kontakt yig‘adigan bot." },
+    {
+      "type": "p",
+      "text": "Instagram uchun AI-menejer — bu direkt va izohlarga avtomatik javob beradigan, lidni baholaydigan va kontakt yig‘adigan bot."
+    },
     {
       "type": "h2",
       "text": "Instagram uchun AI-menejer nima qiladi"
@@ -128,6 +131,59 @@
     {
       "type": "p",
       "text": "Bot Instagram’ning rasmiy imkoniyatlari orqali ishlaydi va o‘zi yozgan yoki izoh qoldirganlarga javob beradi. Bu platforma qoidalarini buzmaydi va akkaunt obro‘sini asraydi."
+    },
+    {
+      "type": "h2",
+      "text": "Instagram uchun AI-menejer qancha turadi",
+      "id": "price"
+    },
+    {
+      "type": "h3",
+      "text": "Instagram bot va AI-menejer tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Direct’da ssenariy bo‘yicha avtojavoblar, kontakt yig‘ish, menejerga uzatish",
+          "5 kun",
+          "1 190 000 dan"
+        ],
+        [
+          "AI-menejer",
+          "Erkin savollarga AI-javoblar, kvalifikatsiya, izohlar va stories, RU + UZ",
+          "10 kun",
+          "2 900 000 dan"
+        ],
+        [
+          "Pro",
+          "AI-menejer + CRM + reklama va manbalar analitikasi bilan bog‘lash",
+          "14 kun",
+          "4 900 000 dan"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Shuningdek {t} ko‘ring — unda smeta nimadan tashkil topishi va ishga tushirishdan oldin nimani qayd etishimiz tushuntirilgan.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot tariflari jadvalini"
+        }
+      ]
     },
     {
       "type": "cta",
@@ -228,7 +284,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-03",
   "createdAt": "2026-06-03T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-09-03",
+  "heroTrust": [
+    "1 190 000 so‘mdan",
+    "5 kundan",
+    "Direct + izohlar",
+    "UZ + RU"
+  ]
 }
