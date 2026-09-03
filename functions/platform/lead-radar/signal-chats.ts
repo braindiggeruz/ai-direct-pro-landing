@@ -141,7 +141,11 @@ export const CHAT_TOPIC_PACKS: ChatTopicPack[] = [
       // above. A room whose only claim is the word is a billboard, and we are
       // not looking for billboards.
       'маркетинг', 'marketing', 'smm', 'таргет', 'targeting',
-      'пиар', ' pr ', 'копирайт', 'seo', 'контент', 'брендинг', 'brending',
+      // "контент" is out. It named "Чат для игроков PUBG MOBILE" (696
+      // members, "хвастаться скриншотами") and nothing that sells anything:
+      // every media room, gaming room and meme room in the country produces
+      // content. A marketing room says smm, таргет, seo or продвижение.
+      'пиар', ' pr ', 'копирайт', 'seo', 'брендинг', 'brending',
       'трафик', 'медиа', 'media', 'продвижен',
     ],
   },
@@ -182,6 +186,14 @@ export const CHAT_TOPIC_PACKS: ChatTopicPack[] = [
       'разработчик', 'создание сайт', 'создаем сайт', 'создаём сайт',
       'делаем сайт', 'делаем бот', 'пишем бот', 'web dasturlash',
       'веб-программир', 'programming', 'разработка приложен',
+      // "linux" and "rivojlantiruvchi" are here because of one room:
+      // "Xinux Oʻzbekiston" (663 members, "O‘zbekistondagi Nix va Linux
+      // rivojlantiruvchi hamjamiyatiga"). It was the only genuine miss in
+      // the 794 rooms the 2026-09-03 sweep threw away as off-topic — the
+      // other 793 were phone bazaars and classifieds, and the word counts
+      // behind that claim are in the commit that added these two lines.
+      // A Linux users' group is a developers' group.
+      'linux', 'rivojlantiruvchi',
     ],
     weak: [
       // No bare "сайт", "веб" or "бот", in either language, and the reason is
@@ -193,10 +205,29 @@ export const CHAT_TOPIC_PACKS: ChatTopicPack[] = [
       // not selling websites. Only compounds are safe.
       'веб-сайт', 'вебсайт', 'web-sayt', 'сайт под ключ', 'sayt buyurtma',
       'telegram bot', 'tg bot', 'telegram-бот', 'телеграм бот',
-      'приложен', 'ilova', 'разработк', 'landing', 'лендинг', 'crm',
+      'landing', 'лендинг', 'crm',
       'интернет-магазин', 'onlayn do‘kon', "onlayn do'kon",
-      'код', 'kod', 'программн', 'программирован',
-      'dastur', 'автоматизац', 'avtomatlashtir', 'verstka', 'вёрстк',
+      'программн', 'программирован',
+      'автоматизац', 'avtomatlashtir', 'verstka', 'вёрстк',
+      //
+      // Four deletions, every one of them a room that was sitting in the
+      // table on 2026-09-03:
+      //
+      //   "dastur"      — also "dasturxon", the tablecloth. It carried the
+      //                   textile room "robiyahometextil" (3 866), the carpet
+      //                   room "gilam_cheholl" (3 100) and a Tashkent cake
+      //                   shop "Zilola_tort_Toshkent" (3 281). "dasturlash"
+      //                   and "dasturchi" are strong and are what a dev room
+      //                   actually says.
+      //   "код"/"kod"   — "UZFOR_RUBLSAVDO" (836 members, a ruble exchange)
+      //                   matched on "Rasmiy Kod: 100400".
+      //   "ilova"       — the Uzbek for an app, and therefore for any app,
+      //                   including the game in "mobile_legends_uz_chat"
+      //                   (6 436). "mobil ilova" is strong and stays.
+      //   "приложен"    — the Russian for the same, and it appears in every
+      //                   "скачать приложение" footer in the country.
+      //   "разработк"   — kept. It is a verb only a builder uses.
+      'разработк',
     ],
   },
   {
@@ -218,8 +249,26 @@ export const CHAT_TOPIC_PACKS: ChatTopicPack[] = [
       // "дизайн" alone is not a design room in this country: "Самарканд
       // Гуллари" — a flower shop — scored 44 on the word and sat in the
       // table. Floral design is design. It is not a prospect.
-      'дизайн', 'dizayn', 'макет', 'иллюстрац', 'презентац',
-      'presentatsiya', 'grafika', 'шрифт', 'лого',
+      //
+      // The flower shop was the argument; the 2026-09-03 table was the
+      // proof. Fourteen of the rooms sitting on that one word were trades:
+      // blinds ("jalyuziuy" 48 801, "JalyuziUzbekistan_N1" 26 335), gates
+      // and railings ("DarvozavaPanjaralarSamarqand" 14 812), stretch
+      // ceilings ("natyajnoy_potolog_xorazm" 14 517, "Toshkentsifatlinatijnoy"
+      // 3 902), lawns ("Gazon_landshaft" 6 589), furniture ("Tapchan_Surilar_
+      // Karavat" 110 956), cakes ("asl_tort_markaz" 5 771) and a builders'
+      // exchange ("stroiteluz" 5 492). "В любом дизайне" is a promise every
+      // workshop in Uzbekistan makes, and it is not a design business.
+      //
+      // A studio names the trade instead, and the strong list names it back:
+      // "дизайнер", "логотип", "figma", "ui/ux", "веб-дизайн", "графический
+      // дизайн", "макет". All of them survive.
+      //
+      // "лого" goes with it: it is the front half of "логопед" — a speech
+      // therapist — and "surdologo_kab" (2 046 members of a speech-therapy
+      // club) was in the table on it.
+      'макет', 'иллюстрац', 'презентац',
+      'presentatsiya', 'grafika', 'шрифт',
     ],
   },
   {
@@ -236,15 +285,33 @@ export const CHAT_TOPIC_PACKS: ChatTopicPack[] = [
       'айтишник', 'it akademiya', 'it academy', 'it maktab',
       'axborot texnologiyalari', 'axborot texnologiyasi',
       'информационные технолог', 'информационных технолог',
+      // "it hamjamiyat" is "it jamiyat" with a prefix, and "hamjamiyat" is
+      // the ordinary Uzbek word for a community — it would not match the
+      // term above it and there is no reason it should have to.
+      'it hamjamiyat',
+      // Information security, named in full and in both languages. A security
+      // community is a room full of engineers, and the operator's brief asks
+      // for IT communities by name. "Cyber Community 🇺🇿" (889 members,
+      // "Форум на тему информационной безопасности") is what made the case.
+      'информационной безопасн', 'информационная безопасн',
+      'information security', 'кибербезопасн', 'kiberxavfsizlik',
     ],
     weak: [
       // No bare "it", in any form. "MANG‘IT NUKUS POPUTI" — an intercity
       // ride-share board — contains "it" between an apostrophe and a space,
       // matched the old term, and was kept twice under two different slugs.
       // Only compounds are safe.
-      'айти', 'технолог', 'texnologiya', 'texnologiyalar', 'digital',
-      'raqamli', 'developer', 'софт', 'soft', 'кибер', 'kiber', 'tech',
+      'айти', 'texnologiya', 'texnologiyalar', 'digital',
+      'developer', 'софт', 'soft', 'кибер', 'kiber', 'tech',
       'it-', 'стартап', 'startap',
+      //
+      // "технолог" and "raqamli" are out, and they are out for the same
+      // reason: in this country they are attached to a substance, not to
+      // computing. "технолог" carried "sutuzb" (4 713 members, milk-
+      // processing equipment: "Сутни қайта ишлаш технологиялари") and
+      // "smsklinikaandijon" (3 994, an ear-nose-throat clinic). "raqamli"
+      // carried two 70-thousand-member Tashkent flat-rental boards, whose
+      // only digital anything is the ministry in their registration footer.
     ],
   },
   {
@@ -271,8 +338,26 @@ export const CHAT_TOPIC_PACKS: ChatTopicPack[] = [
       // "компани" is weak for the same reason: "Atomy Namangan Markazi" — a
       // multi-level-marketing cell — named its company and was kept.
       'бизнес', 'biznes', 'инвест', 'invest', 'компани', 'kompaniya',
-      'фирм', 'заказчик', 'buyurtmachi', 'клиент', 'mijoz', 'проект',
-      'loyiha', 'офлайн', 'офлайн-', 'нетворкинг', 'networking',
+      'фирм', 'заказчик', 'офлайн', 'офлайн-', 'нетворкинг', 'networking',
+      //
+      // Four words for "customer" and "project" are gone, and the table they
+      // leave was not a business table:
+      //
+      //   "mijoz"       — "Stop_semizlik" (194 297 members, a dietitian),
+      //                   "asqarmallcenter11" (41 074, a shopping centre),
+      //                   "UZB_Oziq_Ovqat" (2 957, food wholesale) and two
+      //                   stock-exchange rooms (192 070 and 55 212) that say
+      //                   "barcha ishtirokchilarni va mijozlarni".
+      //   "клиент"     — the same word in Russian, and the same rooms.
+      //   "loyiha"     — "DilIzhorlar_Loyihasi" (1 648, birthday greetings)
+      //                   and "Slaydlar_Mustaqilishi" (289 957, a coursework
+      //                   mill whose "проект" is a term paper).
+      //   "проект"     — the Russian for it.
+      //   "buyurtmachi"— "BuvaydaTitan" (579, titanium gates).
+      //
+      // Every shop in the country has customers and every student has a
+      // project. A business community names itself: tadbirkor, предприниматель,
+      // бизнес-клуб, стартап, нетворкинг, инвест.
     ],
   },
   {
@@ -336,7 +421,32 @@ export interface ChatHarvestConfig {
 }
 
 export const CHAT_HARVEST_LIMITS = {
-  minMembers: { min: 0, max: 100_000, fallback: 150 },
+  /**
+   * Thirty, and it was a hundred and fifty until 2026-09-03.
+   *
+   * The floor was raised to 150 to keep a harvest clean, and it kept the
+   * harvest clean by throwing away the rooms that mattered. At 150 the table
+   * had 64 rooms; at 30 it has 85, and the twenty-one below the old floor are
+   * the most on-target rooms in the whole set:
+   *
+   *   @uz_js          (58)  — the Uzbek JavaScript community, and the hub:
+   *                           its description links @vuejs_uz, @react_uz,
+   *                           @laravel_uz, @linux_uzbek, @python_uz and six
+   *                           more. Small rooms are not the tail of this
+   *                           market; they are its index.
+   *   @gde_frilanseri (42)  — "Если вы фрилансер или агентство поможем найти
+   *                           заказ". The brief, in the room's own words.
+   *   @neprogersuz    (45)  and @progersuz_offtop (30) — the developers' chat
+   *                           and its offtop.
+   *   @tadbirkor_samarkand (93), @frilansuzb_org (38), @crystalart_info (37),
+   *   @jeteducation_group (43), @Kompyuterga_qiziquvchi (105).
+   *
+   * What comes in with them is a tail of single-word rooms — multi-level
+   * marketing, a curtain salon, a law firm — and every one of them lands in
+   * the tentative band, at the bottom of a table sorted by relevance. The
+   * confirmed band gained eleven rooms and lost none.
+   */
+  minMembers: { min: 0, max: 100_000, fallback: 30 },
   minOnline: { min: 0, max: 10_000, fallback: 3 },
   minRelevance: { min: 0, max: 100, fallback: 25 },
   limit: { min: 10, max: 2_000, fallback: 400 },
@@ -921,6 +1031,41 @@ export const CHAT_JUNK_TERMS = [
   'такси', 'taxi', 'taksi', 'дальнобой', 'грузоперевозк', 'попутчик',
   'poputchik', 'yuk tashish', 'haydovchi', 'haydovchilar', 'трансфер',
   'reys', 'рейс',
+  //
+  // Everything below was added after reading the 2026-09-03 table rather than
+  // guessing at it: each line is a room that was sitting in the output.
+  //
+  // Multi-level marketing. "Tarmoqli marketingda 9 yillik tajriba" is the
+  // loudest genre of Uzbek business group that is not a business.
+  'tarmoqli marketing', 'сетевой маркетинг', 'network marketing', ' mlm',
+  'bitcoin', 'bitkoin',
+  //
+  // The junk list was written in Cyrillic and half the country writes Latin.
+  // Two Tashkent flat-rental boards of 69 825 and 46 876 members were in the
+  // table as IT rooms because "kvartira" and "arenda" are not "квартир" and
+  // "аренда", and the same gap let a dental clinic and a gynaecology clinic
+  // through as technology rooms.
+  'kvartira', 'arenda', 'klinika', 'клиник', 'ginek',
+  //
+  // Building trades. Each of these was in the table on the word "дизайн".
+  'jalyuzi', 'potolok', 'потолк', 'натяжн', 'natya', 'darvoza', 'panjara',
+  'gazon', 'landshaft', 'dasturxon', 'gilam', 'ustalar', 'ustalari',
+  //
+  // Couriers, gaming, and the coursework industry: "Slayd, kurs ishi,
+  // mustaqil ishlar, referat, diplom ishi" is one room with 289 957 members
+  // and it is not a prospect, though it does use the word "mijoz".
+  'kuryer', 'курьер',   'gaming', 'geyming',
+  'diplom', 'referat', 'kurs ishi', 'mustaqil ish',
+  //
+  // A curtain salon whose come-on is "бесплатный выезд дизайнера" is a curtain
+  // salon. A restaurant's own chat is a place to order dinner.
+  'штор', 'карниз', 'портьер', 'ресторан', 'restoran', 'shtori',
+  //
+  // The three multi-level-marketing brands whose cells dominate Uzbek
+  // Telegram, named because "tarmoqli marketing" is not always spelled out:
+  // "Faberlik arzon narxlarda" and "Ерсаг корпорацияси" are two rooms the
+  // 30-member floor let in.
+  'faberlic', 'ersag', 'trading robot',
 ];
 
 /**
@@ -1174,8 +1319,32 @@ export function stripPromoBoilerplate(value: string): string {
  * 24-thousand-member intercity taxi dispatch room through, twice.
  */
 function haystack(slug: string, title: string, about: string): string {
-  const text = `${slug.replace(/[_-]+/g, ' ')} ${title} ${stripPromoBoilerplate(about)}`;
+  const text = `${slug.replace(/[_-]+/g, ' ')} ${title} ${stripPromoBoilerplate(stripUrls(about))}`;
   return ` ${normalize(text)} `;
+}
+
+/**
+ * Remove links before any vocabulary touches the text.
+ *
+ * Two rooms in the 2026-09-03 table were there because of their own URLs:
+ *
+ *   "Термез Мафтуна бижутерия" (239 members, a jewellery shop) was confirmed
+ *     as a development room on `profile.php?id=100079557645095`.
+ *   "Benison" restaurant (3 821) was confirmed as a startup room on
+ *     `t.me/benisonMenubot?startapp` — "startap" has no right-hand boundary,
+ *     because stems like "ташкент" and "предпринимат" need to match
+ *     "Ташкенте" and "предпринимателей", and "startapp" is one letter away.
+ *
+ * Tightening the right-hand boundary would be the obvious repair and it would
+ * break every stem in the file. Deleting the link is the other one, and it is
+ * correct anyway: the words inside a URL are a domain and a query string, and
+ * neither of them is the room talking about itself.
+ */
+function stripUrls(value: string): string {
+  return value
+    .replace(/https?:\/\/\S+/gi, ' ')
+    .replace(/\bwww\.\S+/gi, ' ')
+    .replace(/\S+@\S+\.\S+/g, ' ');
 }
 
 /**

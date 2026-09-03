@@ -520,12 +520,16 @@ test('a catalogue filing is not evidence, and a silent room stays out of the tab
 });
 
 test('the filing breaks a tie between two packs the room spoke for equally', () => {
-  // "dastur" is a weak dev word, "texnologiya" a weak it word, and this room
+  // "landing" is a weak dev word, "texnologiya" a weak it word, and this room
   // says one of each. Its own words point at two packs with equal weight, and
   // only then does the catalogue get a say.
+  //
+  // It used to be "dastur va texnologiyalar", which was a fairer sentence and
+  // a worse test: "dastur" left the weak list on 2026-09-03 because "dasturxon"
+  // is a tablecloth, and the sentence stopped being a tie.
   const room = {
     slug: 'texnopark_chat', kind: 'group' as const,
-    title: 'Texnopark chat', about: 'dastur va texnologiyalar haqida gaplashamiz',
+    title: 'Texnopark chat', about: 'landing va texnologiyalar haqida gaplashamiz',
     members: 3_000, online: 30, indexable: true, localHint: true,
   };
   assert.equal(assessChat({ ...room, topicHint: 'it' }, config()).topic, 'it');
@@ -623,11 +627,18 @@ test('a lawn company is not a design studio, however many alphabets it says it i
     },
     config(),
   );
-  assert.equal(
-    lawn.confidence,
-    'tentative',
-    `confirmed on ${JSON.stringify(lawn.matched)} — one word, twice`,
-  );
+  // It is out of the table now rather than tentatively in it. "дизайн" and
+  // "dizayn" left the weak list altogether the same day, when the table they
+  // were producing turned out to be blinds, gates, lawns, ceilings, cakes and
+  // a builders' exchange — "в любом дизайне" is a promise every workshop in
+  // this country makes. A lawn company says the word twice and nothing else,
+  // and nothing else is exactly what it is.
+  // It is out of the table now — on the junk list, in fact, because "gazon"
+  // and "landshaft" went onto it the same day — and the point of the test is
+  // the second half: the design vocabulary no longer claims it at all. The
+  // room says the word twice and has nothing else to say.
+  assert.notEqual(lawn.reject, null, `kept as ${lawn.topic}`);
+  assert.deepEqual(lawn.matched, [], 'design should not claim a lawn company');
 
   // A room that sells advertising slots is not a room that buys them.
   for (const [slug, title, about] of [
@@ -642,7 +653,12 @@ test('a lawn company is not a design studio, however many alphabets it says it i
       { slug, kind: 'group', title, about, members: 20_000, online: 60, indexable: true, localHint: true },
       config(),
     );
-    assert.equal(room.reject, 'off-topic', `${slug} kept as ${room.topic} on ${JSON.stringify(room.matched)}`);
+    // Not `off-topic` specifically: the gate fitters land on the junk list
+    // now, because "darvoza" went onto it. What matters is that none of them
+    // reaches the table, whichever door they are turned away at.
+    assert.notEqual(room.reject, null,
+      `${slug} kept as ${room.topic} on ${JSON.stringify(room.matched)}`);
+    assert.deepEqual(room.matched, [], `${slug} should not claim any vocabulary`);
   }
 
   // A school with a sign-up bot is not a development shop.
@@ -655,6 +671,130 @@ test('a lawn company is not a design studio, however many alphabets it says it i
     config(),
   );
   assert.equal(academy.confidence, 'tentative', `confirmed on ${JSON.stringify(academy.matched)}`);
+});
+
+test('the two rooms the off-topic pile was hiding, and the pile itself', () => {
+  // The 2026-09-03 sweep threw 794 rooms away for saying nothing we knew.
+  // Counting the words in them was the only honest way to find out whether
+  // the vocabulary was missing something or the rooms really were empty, and
+  // the answer was one room out of 794. Here it is.
+  const xinux = assessChat(
+    {
+      slug: 'Xinux_Ozbekiston', kind: 'group', title: 'Xinux Oʻzbekiston',
+      about: 'O‘zbekistondagi Nix va Linux rivojlantiruvchi hamjamiyatiga xush kelibsiz',
+      members: 663, online: 14, indexable: true, localHint: true,
+    },
+    config(),
+  );
+  assert.equal(xinux.topic, 'dev');
+  assert.equal(xinux.confidence, 'confirmed', `missed on ${JSON.stringify(xinux.matched)}`);
+
+  // An information-security forum is an IT community, and the brief asks for
+  // IT communities by name.
+  const cyber = assessChat(
+    {
+      slug: 'cyber_community_uz', kind: 'group', title: 'Cyber Community 🇺🇿',
+      about: 'Форум на тему информационной безопасности и хакинга. Автор: @someone',
+      members: 889, online: 22, indexable: true, localHint: true,
+    },
+    config(),
+  );
+  assert.equal(cyber.topic, 'it');
+  assert.equal(cyber.confidence, 'confirmed', `missed on ${JSON.stringify(cyber.matched)}`);
+
+  // And the pile. "компьютер" was the loudest word in it that sounds like our
+  // business and is not: five rooms, every one of them a shop that sells
+  // computers. The same count priced "reklama" at 67 rooms of ad-slot sales,
+  // "xizmat" at 36 shops and "zakaz" at 17 more. None of them is a client.
+  for (const [slug, title, about] of [
+    ['kompyuters', 'KOMPYUTER OLAMIZ & SOTAMIZ. 💻',
+      'Gruppa ssilkasi telegram.me/kompyuters Faqat olamiz va sotamiz'],
+    ['g_shop_chat', 'G-SHOP ЧАТ', 'Компьютерный магазин для геймеров и энтузиастов'],
+    ['quadro_mi', 'Quadro Mi Computers (Andijon)', 'Bu guruhda telefon va kompyuterlar sotiladi'],
+    ['andijon_shop', 'ANDIJON SHOP', 'Eng arzon narxlar. Zakaz qilish uchun admin: @andijon_shop'],
+    ['orzutech_mobile', 'Orzutech Mobile (GROUP)', 'Наша деятельность: Продажа смартфонов и аксессуаров'],
+  ] as const) {
+    const room = assessChat(
+      { slug, kind: 'group', title, about, members: 1_500, online: 20, indexable: true, localHint: true },
+      config(),
+    );
+    assert.notEqual(
+      room.reject, null,
+      `${slug} kept as ${room.topic} on ${JSON.stringify(room.matched)}`,
+    );
+  }
+});
+
+test('a room is not a startup because its menu link says so', () => {
+  // Two rooms in the 2026-09-03 table were there because of their own URLs.
+  // "Термез Мафтуна бижутерия" — a jewellery shop with 239 members — was
+  // confirmed as a development room on `facebook.com/profile.php?id=…`, and
+  // the Benison restaurant (3 821) was confirmed as a business room on
+  // `t.me/benisonMenubot?startapp`. Neither URL is the room talking about
+  // itself; both are a query string that happens to contain a word.
+  const jewellery = assessChat(
+    {
+      slug: 'termez_bijuteriya', kind: 'group', title: 'Термез Мафтуна бижутерия',
+      about: 'Для заказа директ @Ma_Silver Instagram https://www.facebook.com/profile.php?id=100079557645095',
+      members: 239, online: 9, indexable: true, localHint: true,
+    },
+    config(),
+  );
+  assert.notEqual(jewellery.reject, null, `kept as ${jewellery.topic} on ${JSON.stringify(jewellery.matched)}`);
+
+  const restaurant = assessChat(
+    {
+      slug: 'benisonuz', kind: 'group', title: '"Benison" restaurant [Чат]',
+      about: 'Семейный Ресторан Benison. Menu: https://t.me/benisonMenubot?startapp',
+      members: 3_821, online: 40, indexable: true, localHint: true,
+    },
+    config(),
+  );
+  assert.notEqual(restaurant.reject, null, `kept as ${restaurant.topic} on ${JSON.stringify(restaurant.matched)}`);
+
+  // The words are still found when the room says them as words rather than
+  // pastes them into a link. Stripping the link is not the same as forgetting
+  // the language.
+  const studio = assessChat(
+    {
+      slug: 'startap_uz', kind: 'group', title: 'Startap UZ',
+      about: 'стартап ва бизнес лойиҳалар муҳокамаси',
+      members: 900, online: 12, indexable: true, localHint: true,
+    },
+    config(),
+  );
+  assert.equal(studio.topic, 'biz');
+  assert.equal(studio.confidence, 'confirmed', `missed on ${JSON.stringify(studio.matched)}`);
+});
+
+test('a small room is a room, and Uzbekistan is full of them', () => {
+  // The floor used to be 150 members and it is 30 now, because the rooms it
+  // was keeping out were the ones the brief asked for. @uz_js has 58 members
+  // and links to @vuejs_uz, @react_uz, @laravel_uz, @linux_uzbek and six
+  // more: the small rooms in this market are the index of the big ones.
+  const hub = assessChat(
+    {
+      slug: 'uz_js', kind: 'group',
+      title: 'Uzbek JavaScript community',
+      about: '@vuejs_uz @react_uz @nodejs_uz @laravel_uz @linux_uzbek @python_uz',
+      members: 58, online: 18, indexable: true, localHint: true,
+    },
+    config(),
+  );
+  assert.equal(hub.topic, 'dev');
+  assert.equal(hub.confidence, 'confirmed', `missed on ${JSON.stringify(hub.matched)}`);
+
+  // And a room too quiet to be worth opening is still rejected, however small
+  // the floor gets: two people online is not a conversation.
+  const quiet = assessChat(
+    {
+      slug: 'tiny_dev_chat', kind: 'group', title: 'Разработчики Ташкент',
+      about: 'frontend, backend, обсуждаем код',
+      members: 40, online: 2, indexable: true, localHint: true,
+    },
+    config(),
+  );
+  assert.equal(quiet.reject, 'inactive');
 });
 
 test('activity is a verdict against a threshold, not a stored fact', () => {
