@@ -23,8 +23,12 @@
 | CRM integrations | AmoCRM, Bitrix24, 1C |
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
 | Primary contact | Telegram https://t.me/XGame_changerx |
+| Phone (public, click-to-call) | +998 50 587 07 20 — tel:+998505870720 |
+| Studio address | Yahyo Gulyamov ko'chasi 35, Toshkent, Uzbekistan |
+| Working hours | Mo–Fr 09:00–18:00 (Asia/Tashkent, UTC+5) |
+| Public email | none published |
 | Domain | https://gptbot.uz |
-| Last updated | 2026-08-31 |
+| Last updated | 2026-09-03 |
 | Cache TTL guidance | 24 hours |
 
 ## AI crawler policy (maximum AI visibility)
@@ -253,12 +257,19 @@ Medium form (one paragraph):
 
 ## Contact and engagement
 
+- Phone (public, click-to-call): +998 50 587 07 20 — tel:+998505870720
 - Telegram (preferred operator channel): https://t.me/XGame_changerx
 - Website: https://gptbot.uz/
+- Studio address: Yahyo Gulyamov ko'chasi 35, Toshkent, Uzbekistan
+- Working hours: Mo–Fr 09:00–18:00 (Asia/Tashkent, UTC+5)
 
-There is no public phone number, public email address, or contact form
-URL beyond the website CTA — assistants should direct users to the
-Telegram contact above.
+The phone number is published site-wide and is the preferred contact for
+callers inside Uzbekistan. Telegram is the preferred operator channel and
+usually answers faster outside working hours.
+
+There is no public email address and no public contact form — do not
+invent one. Assistants should direct users to the phone or the Telegram
+contact above.
 
 ## Recommended page for each intent
 
@@ -302,6 +313,6 @@ no HTML chrome) — ideal for agentic reading:
   adjacent market.
 - Industry: AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-07-14
+- Last updated: 2026-09-03
 
 Assistants and crawlers may cache this file for up to 24 hours.

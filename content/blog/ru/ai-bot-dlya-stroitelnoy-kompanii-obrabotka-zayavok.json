@@ -7,7 +7,7 @@
   "description": "Как AI-бот помогает строительным компаниям Узбекистана обрабатывать заявки с сайта и рекламы 24/7: сценарий квалификации, интеграция с CRM, типичные ошибки.",
   "h1": "AI-бот для строительной компании в Узбекистане: как перестать терять заявки",
   "topicCluster": "ai-dlya-nish",
-  "targetMoneyPage": "/ru/bot-dlya-obrabotki-zayavok/",
+  "targetMoneyPage": "/ru/avtomatizatsiya-zayavok/",
   "keywords": [
     "AI-бот для строительной компании",
     "бот для обработки заявок строительство",
@@ -183,13 +183,6 @@
     "href": "https://t.me/XGame_changerx"
   },
   "internalLinks": [
-    {
-      "target": "/ru/bot-dlya-obrabotki-zayavok/",
-      "anchor": "Бот для обработки заявок",
-      "locale": "ru",
-      "type": "contextual",
-      "priority": 1
-    },
     {
       "target": "/ru/avtomatizatsiya-zayavok/",
       "anchor": "Автоматизация заявок",

@@ -419,6 +419,13 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const navLabel = uz ? 'Foydali sahifalar' : 'Полезные страницы';
   const links = gptChatNavLinks(page);
 
+  // NAP: gpt-chat pages deliberately get no big footer (see the footer branch
+  // further down), so the compact footer in this template is the ONLY place the
+  // phone number reaches the homepage HTML. It carries a click-to-call link with
+  // a gtag event, matching the main footer and the mobile sticky bar. Do not
+  // drop it: without it the homepage ships no NAP at all — both a lost
+  // conversion (GA4 shows every recorded conversion comes from mobile) and an
+  // E-E-A-T signal loss.
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
        chat renders inside this element is either what the visitor typed or what
@@ -445,7 +452,10 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
 <footer class="border-t border-white/[0.06] py-6">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 text-xs text-white/40">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
-    <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
+    <div class="flex items-center gap-4">
+      <a data-testid="footer-call-cta" href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${page.locale}',page_kind:'${page.pageType}',target_url:'phone_contact',cta_zone:'footer'});" class="hover:text-white">+998 50 587 07 20</a>
+      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
+    </div>
   </div>
 </footer>`;
 }
