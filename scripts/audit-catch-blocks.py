@@ -1,100 +1,208 @@
 #!/usr/bin/env python3
 """Audit silent catch blocks across the codebase.
 
-Finds patterns that swallow errors without logging:
-- catch { } (empty)
-- catch (e) { /* no console.error or similar */ }
-- .catch(() => undefined)
-- .catch(() => '')
-- .catch(() => {})
+Finds patterns that swallow an error without leaving any trace:
+  - `catch {}` / `catch (e) {}` with an empty body
+  - `catch (e) { ... }` with no logging call inside
+  - `.catch(() => undefined)` and friends
 
-Categorizes by severity based on file path:
-- CRITICAL: API endpoints, external integrations, auth, payment
-- HIGH: core libraries, database operations
-- MEDIUM: admin components, analytics
-- LOW: UI components, tests, utilities
+NOT reported (these are deliberate and fine):
+  - `.catch(swallow('scope'))` — logs via lib/observability.ts
+  - `.catch(() => undefined)` attached to `reader.cancel()` / `body.cancel()`:
+    cancelling an already-released stream throws by design, so logging it is
+    pure noise.
+
+Severity is heuristic, from the file path:
+  CRITICAL  API endpoints, auth, payments
+  HIGH      core libraries, database, external integrations
+  MEDIUM    admin, analytics, agents
+  LOW       UI components, tests
+
+Exit status: 1 if any CRITICAL/HIGH finding, so CI can gate on it.
 """
 
+from __future__ import annotations
+
 import re
-from pathlib import Path
+import sys
 from collections import defaultdict
+from pathlib import Path
 
-SILENT_PATTERNS = [
-    # Empty catch
-    (r'catch\s*\([^)]*\)\s*\{\s*\}', 'empty_catch'),
-    # catch with only return/variable assignment, no logging
-    (r'catch\s*\(\s*(\w+)\s*\)\s*\{[^}]*\}', 'catch_no_log'),
-    # .catch(() => undefined)
-    (r'\.catch\s*\(\s*\(\s*\)\s*=>\s*undefined\s*\)', 'catch_undefined'),
-    # .catch(() => '')
-    (r'\.catch\s*\(\s*\(\s*\)\s*=>\s*[\'"]\s*[\'"]\s*\)', 'catch_empty_string'),
-    # .catch(() => {})
-    (r'\.catch\s*\(\s*\(\s*\)\s*=>\s*\{\s*\}\s*\)', 'catch_empty_obj'),
+# (pattern, label) — note the order: regex first.
+SILENT_PATTERNS: list[tuple[str, str]] = [
+    (r"catch\s*\{\s*\}", "catch_no_binding"),
+    (r"catch\s*\([^)]*\)\s*\{\s*\}", "catch_empty_body"),
+    (r"\.catch\s*\(\s*\(\s*\)\s*=>\s*undefined\s*\)", "catch_undefined"),
+    (r"\.catch\s*\(\s*\(\s*\)\s*=>\s*['\"]\s*['\"]\s*\)", "catch_empty_string"),
+    (r"\.catch\s*\(\s*\(\s*\)\s*=>\s*\{\s*\}\s*\)", "catch_empty_object"),
+    (r"\.catch\s*\(\s*\(\s*\)\s*=>\s*(?:null|false|0)\s*\)", "catch_falsy"),
 ]
 
-SEVERITY_RULES = [
-    (r'functions/api/', 'CRITICAL'),
-    (r'functions/lib/(jwt|password|lockout|turnstile)', 'CRITICAL'),
-    (r'functions/lib/(seo-autopilot|ai-drafts|indexnow|llm)', 'HIGH'),
-    (r'functions/lib/yandex', 'HIGH'),
-    (r'functions/lib/telegram', 'HIGH'),
-    (r'functions/lib/api-errors', 'HIGH'),
-    (r'functions/lib/(intent-guard|circuit-breaker)', 'HIGH'),
-    (r'functions/platform/lead-radar', 'HIGH'),
-    (r'src/admin', 'MEDIUM'),
-    (r'src/components', 'LOW'),
-    (r'src/lib', 'MEDIUM'),
-    (r'agents/', 'MEDIUM'),
-    (r'tests?/', 'LOW'),
+# `catch (e) { <single line, no logging> }` — genuinely suspicious, but only
+# when the whole block is on one line so nested braces cannot confuse us.
+CATCH_NO_LOG = re.compile(
+    r"catch\s*\(\s*\w+\s*\)\s*\{([^{}\n]*)\}", re.MULTILINE
+)
+
+# Cancelling an already-released stream throws by design.
+CANCEL_CALLS = ("reader.cancel(", ".body.cancel(")
+
+# `.catch(() => null)` is idiomatic for "unparseable body" — the caller then
+# validates the null and answers 400. That is a handled path, not a swallowed
+# error, so only report it when the result is never checked.
+CONST_ASSIGN = re.compile(r"(?:const|let|var)\s+(\w+)\s*=")
+LOOKAHEAD_LINES = 12
+
+# `.catch(() => null)` is idiomatic for "unparseable request body": the caller
+# validates the null and answers 400. That is a handled path, not a swallowed
+# error. Only these call shapes get that benefit of the doubt — a D1 or service
+# read that degrades to null is a silent failure even when the null is later
+# consumed, because "row missing" and "database down" become indistinguishable.
+BODY_PARSE = re.compile(
+    r"request\.json\(|readOwnerBody\(|readMarketJson\(|readJson\(|readBody\("
+    r"|\.json\(\s*\)|\.text\(\s*\)|\.formData\(\s*\)|new Request\("
+)
+
+SEVERITY_RULES: list[tuple[str, str]] = [
+    (r"functions/api/", "CRITICAL"),
+    (r"functions/lib/(jwt|password|lockout|turnstile)", "CRITICAL"),
+    (r"functions/lib/(seo-autopilot|ai-drafts|indexnow|llm)", "HIGH"),
+    (r"functions/lib/yandex", "HIGH"),
+    (r"functions/lib/telegram", "HIGH"),
+    (r"functions/lib/api-errors", "HIGH"),
+    (r"functions/lib/(intent-guard|circuit-breaker|search-pulse)", "HIGH"),
+    (r"functions/platform/lead-radar", "HIGH"),
+    (r"functions/market/", "HIGH"),
+    (r"functions/channels/", "HIGH"),
+    (r"^src/admin", "MEDIUM"),
+    (r"^src/components", "LOW"),
+    (r"^src/lib", "MEDIUM"),
+    (r"^agents/", "MEDIUM"),
+    (r"^tests?/", "LOW"),
 ]
 
-def get_severity(path):
-    path_str = str(path).replace('\\', '/')
+SKIP_DIRS = {"node_modules", ".wrangler", "dist", "build", ".git"}
+
+
+def get_severity(rel_path: str, root_name: str) -> str:
+    """Match severity rules against a repo-root-relative-ish path.
+
+    The rules are written with the `functions/` prefix because that is how the
+    paths look when the audit runs from the repo root. When it is pointed at a
+    subdirectory (`scripts/audit-catch-blocks.py functions`) the relative paths
+    lose that prefix and every rule would silently miss — which is exactly the
+    false-negative that made an earlier revision of this script report zero.
+    """
+    candidate = rel_path if rel_path.startswith(root_name + "/") else f"{root_name}/{rel_path}"
     for pattern, sev in SEVERITY_RULES:
-        if pattern in path_str:
+        if re.search(pattern, candidate):
             return sev
-    return 'MEDIUM'
+    return "MEDIUM"
 
-def find_silent_catches(root):
-    results = defaultdict(list)
-    for path in Path(root).rglob('*.ts'):
-        if 'node_modules' in str(path):
+
+def optional_null_is_handled(lines: list[str], lineno: int) -> bool:
+    """True when a `.catch(() => null)` sits on a request-body parse.
+
+    `const body = await request.json().catch(() => null); if (!body) return 400`
+    is a handled malformed-request path, not a swallowed error. Reporting it
+    would bury the findings that matter.
+
+    Deliberately narrow: only body-parsing calls qualify. A D1 or service read
+    that degrades to null is still reported even when the null is subsequently
+    consumed, because consuming it cannot tell "row missing" from "database
+    down" — which is exactly the blindness this audit exists to find.
+    """
+    lo = max(0, lineno - 1 - 6)
+    # The statement may open several lines above the `.catch(` that closes it.
+    statement = "\n".join(lines[lo:lineno])
+    return bool(BODY_PARSE.search(statement))
+
+
+def has_logging(text: str) -> bool:
+    return bool(
+        re.search(
+            r"console\.(error|warn|info|log)|logger\.|reportError\(|swallow\(",
+            text,
+        )
+    )
+
+
+def find_silent_catches(root: Path) -> dict[str, list[dict]]:
+    results: dict[str, list[dict]] = defaultdict(list)
+    for path in root.rglob("*.ts"):
+        if SKIP_DIRS & set(path.parts):
             continue
-        text = path.read_text(encoding='utf-8')
-        lines = text.split('\n')
-        
-        severity = get_severity(path)
-        
-        for pattern_name, pattern in SILENT_PATTERNS:
+        rel = path.relative_to(root).as_posix()
+        text = path.read_text(encoding="utf-8", errors="replace")
+        lines = text.split("\n")
+        severity = get_severity(rel, root.name)
+
+        for pattern, label in SILENT_PATTERNS:
             for match in re.finditer(pattern, text):
-                start = text[:match.start()].count('\n')
-                line = lines[start] if start < len(lines) else ''
-                # Skip if line has console.error or console.warn
-                ctx = '\n'.join(lines[max(0,start-2):start+3])
-                if 'console.error' in ctx or 'console.warn' in ctx or 'log(' in ctx:
+                lineno = text[: match.start()].count("\n") + 1
+                line = lines[lineno - 1] if lineno <= len(lines) else ""
+                if any(c in line for c in CANCEL_CALLS):
                     continue
-                results[severity].append({
-                    'file': str(path.relative_to(root)),
-                    'line': start + 1,
-                    'pattern': pattern_name,
-                    'context': line.strip()[:80]
-                })
-    
+                if has_logging(line):
+                    continue
+                # Skip prose: docs and comments quote the pattern on purpose.
+                if line.lstrip().startswith(("//", "*", "/*")):
+                    continue
+                if (
+                    label in ("catch_falsy", "catch_empty_string")
+                    and optional_null_is_handled(lines, lineno)
+                ):
+                    continue
+                results[severity].append(
+                    {"file": rel, "line": lineno, "pattern": label, "context": line.strip()[:90]}
+                )
+
+        for match in CATCH_NO_LOG.finditer(text):
+            body = match.group(1)
+            if not body.strip() or has_logging(body):
+                continue
+            # A catch that rethrows (often re-wrapped, e.g.
+            # `throw classifyRequestFailure(e)`) is handling the error, not
+            # swallowing it — the log happens at the boundary that catches it.
+            if re.search(r"\bthrow\b", body):
+                continue
+            lineno = text[: match.start()].count("\n") + 1
+            line = lines[lineno - 1] if lineno <= len(lines) else ""
+            results[severity].append(
+                {
+                    "file": rel,
+                    "line": lineno,
+                    "pattern": "catch_no_log",
+                    "context": line.strip()[:90],
+                }
+            )
+
     return results
 
-if __name__ == '__main__':
-    import sys
-    root = sys.argv[1] if len(sys.argv) > 1 else '.'
+
+def main() -> int:
+    root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
     results = find_silent_catches(root)
-    
+
     total = 0
-    for sev in ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW']:
-        items = results.get(sev, [])
+    gating = 0
+    for sev in ("CRITICAL", "HIGH", "MEDIUM", "LOW"):
+        items = sorted(results.get(sev, []), key=lambda x: (x["file"], x["line"]))
         total += len(items)
-        print(f'\n=== {sev}: {len(items)} ===')
-        for item in sorted(items, key=lambda x: x['file'])[:20]:
-            print(f"  {item['file']}:{item['line']}  {item['pattern']}")
-        if len(items) > 20:
-            print(f'  ... and {len(items)-20} more')
-    
-    print(f'\nTotal silent catches: {total}')
+        if sev in ("CRITICAL", "HIGH"):
+            gating += len(items)
+        print(f"\n=== {sev}: {len(items)} ===")
+        for item in items[:25]:
+            print(f"  {item['file']}:{item['line']}  [{item['pattern']}]")
+            if item["context"]:
+                print(f"      {item['context']}")
+        if len(items) > 25:
+            print(f"  ... and {len(items) - 25} more")
+
+    print(f"\nTotal silent catches: {total}")
+    print(f"Gating (CRITICAL+HIGH): {gating}")
+    return 1 if gating else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
