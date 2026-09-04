@@ -170,3 +170,48 @@ test('the Telegram country legacy URL consolidates into a geographically explici
   assert.match(String(page.description), /Узбекистан/);
   assert.equal(page.robotsIndex, true);
 });
+
+test('priority sitemap contains only the current canonical reindex queue', () => {
+  const expected = [
+    'https://gptbot.uz/',
+    'https://gptbot.uz/boss-digital/',
+    'https://gptbot.uz/uz/boss-digital/',
+    'https://gptbot.uz/ru/internet-reklama-tashkent/',
+    'https://gptbot.uz/uz/internet-reklama-toshkent/',
+    'https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/',
+    'https://gptbot.uz/uz/seo-xizmati/',
+    'https://gptbot.uz/ru/razrabotka-saytov-tashkent/',
+    'https://gptbot.uz/uz/sayt-yaratish/',
+    'https://gptbot.uz/ru/gpt-dlya-biznesa/',
+    'https://gptbot.uz/uz/biznes-uchun-ai-bot/',
+    'https://gptbot.uz/ru/telegram-ads-uzbekistan/',
+    'https://gptbot.uz/uz/telegram-reklama/',
+    'https://gptbot.uz/ru/smm-prodvizhenie-tashkent/',
+    'https://gptbot.uz/uz/smm-xizmatlari/',
+    'https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/',
+    'https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/',
+  ];
+  const xml = read('public/sitemap-priority.xml');
+  const locations = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  assert.deepEqual(locations, expected);
+  assert.equal(new Set(locations).size, expected.length);
+  assert.equal((xml.match(/<lastmod>2026-09-04<\/lastmod>/g) ?? []).length, expected.length);
+
+  const pageFiles = fs.readdirSync(path.join(ROOT, 'content', 'pages'), { recursive: true })
+    .filter((file) => typeof file === 'string' && file.endsWith('.json')) as string[];
+  const published = new Set(pageFiles.map((file) => JSON.parse(read(path.join('content', 'pages', file))) as { status: string; url: string; robotsIndex?: boolean })
+    .filter((page) => page.status === 'published' && page.robotsIndex !== false)
+    .map((page) => page.url));
+  const redirectSources = new Set((JSON.parse(read('content/seo/redirects.json')) as Array<{ from: string }>).map((item) => item.from));
+
+  for (const location of locations) {
+    const url = new URL(location);
+    assert.equal(url.origin, 'https://gptbot.uz');
+    assert.equal(url.search, '');
+    assert.equal(url.hash, '');
+    assert.ok(url.pathname === '/' || published.has(url.pathname), `${url.pathname} is not a published page`);
+    assert.ok(!redirectSources.has(url.pathname), `${url.pathname} is a redirect source`);
+  }
+  assert.match(read('public/robots.txt'), /Sitemap: https:\/\/gptbot\.uz\/sitemap-priority\.xml/);
+  assert.match(read('src/shared/robots-policy.ts'), /sitemap-priority\.xml/);
+});
