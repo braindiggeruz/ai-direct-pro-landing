@@ -15,6 +15,8 @@ import {
 } from '../../../src/shared/search-pulse';
 import type { BlogArticle, GlobalSEO, Page } from '../../../src/shared/types';
 
+import { swallow } from '../../lib/observability';
+
 const SITE_HOST = 'gptbot.uz';
 const SITE_URL = `https://${SITE_HOST}`;
 const MANUAL_QUEUE_LIMIT = 10;
@@ -140,7 +142,7 @@ async function submitIndexNow(
     error: row.kind === 'ok'
       ? null
       : `search_pulse:${row.kind}${row.error ? `: ${row.error}` : ''}`.slice(0, 480),
-  }))).catch(() => undefined);
+  }))).catch(swallow('search-pulse-service'));
 
   const failures = result.failed + result.rateLimited;
   return {

@@ -7,6 +7,8 @@ import { StatsAuthorizationError } from './errors';
 import { createSotuvchiStatsStore, type SotuvchiStatsStore } from './store';
 import { STATS_WINDOW_DAYS, type SotuvchiStatsReport } from './types';
 
+import { swallow } from '../../../lib/observability';
+
 const BOT_STARTED = 'sotuvchi.bot_started';
 const SEARCH_SUBMITTED = 'sotuvchi.search_submitted';
 const RESULTS_SHOWN = 'sotuvchi.search_results_shown';
@@ -82,7 +84,7 @@ export class SotuvchiStatsService {
         COMPARISON_STARTED,
       ],
       since,
-    }).catch(() => null);
+    }).catch(swallow('agents-sotuvchi-stats-service', null));
 
     const report: SotuvchiStatsReport = {
       windowDays: STATS_WINDOW_DAYS,

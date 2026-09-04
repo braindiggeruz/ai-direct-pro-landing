@@ -1,6 +1,8 @@
 import { normalizeTelegramBotUsername } from './deep-link';
 import { ensureTelegramAgentUpdateSchema } from './schema';
 
+import { swallow } from '../../lib/observability';
+
 export type TelegramAgentUpdateFailureCode =
   | 'identity_failed'
   | 'context_failed'
@@ -82,7 +84,7 @@ export function createTelegramAgentUpdateStore(
              idempotency_key, bot_username, duplicate_count, updated_at
            ) VALUES (?, ?, 0, ?)`,
         ).bind(idempotencyKey, normalizedBotUsername, now).run()
-          .catch(() => undefined);
+          .catch(swallow('channels-telegram-store'));
       } else {
         await db.prepare(
           `INSERT INTO telegram_agent_update_metrics (
@@ -95,7 +97,7 @@ export function createTelegramAgentUpdateStore(
              ),
              updated_at = excluded.updated_at`,
         ).bind(idempotencyKey, normalizedBotUsername, now).run()
-          .catch(() => undefined);
+          .catch(swallow('channels-telegram-store'));
       }
       return {
         status: (result.meta?.changes ?? 0) > 0
@@ -129,7 +131,7 @@ export function createTelegramAgentUpdateStore(
          ),
          updated_at = ?
          WHERE idempotency_key = ?`,
-      ).bind(now, key, now, key).run().catch(() => undefined);
+      ).bind(now, key, now, key).run().catch(swallow('channels-telegram-store'));
     },
 
     async fail(idempotencyKey, code) {
@@ -156,7 +158,7 @@ export function createTelegramAgentUpdateStore(
          ),
          updated_at = ?
          WHERE idempotency_key = ?`,
-      ).bind(now, key, now, key).run().catch(() => undefined);
+      ).bind(now, key, now, key).run().catch(swallow('channels-telegram-store'));
     },
   };
 }

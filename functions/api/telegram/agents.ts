@@ -57,6 +57,8 @@ import {
 } from '../../platform/runtime';
 import { verifyTelegramAgentsRuntimeSchema } from './agents-schema';
 
+import { swallow } from '../../lib/observability';
+
 function unavailable(): Response {
   return new Response('unavailable', {
     status: 503,
@@ -177,7 +179,7 @@ export function createTelegramAgentsRuntimeWiring(
       storeId: snapshot.store.id,
       agentId: 'sotuvchi',
       locale: snapshot.draft.locale ?? snapshot.store.locale,
-    }).then(() => true).catch(() => false);
+    }).then(() => true).catch(swallow('telegram-agents', false));
     return active ? 'seller-dashboard' : 'seller-paused';
   }
 
@@ -503,9 +505,9 @@ export function createTelegramAgentsRuntimeWiring(
     if (!dispatcher || typeof orgId !== 'string' || !orgId) return;
     const store = await catalog
       .resolveStorefrontByOrg(orgId, 'ru')
-      .catch(() => null);
+      .catch(swallow('telegram-agents', null));
     if (!store) return;
-    await dispatcher.flush(orgId, store.storeId).catch(() => undefined);
+    await dispatcher.flush(orgId, store.storeId).catch(swallow('telegram-agents'));
   }
 
   function runtimeFact(
@@ -573,7 +575,7 @@ export function createTelegramAgentsRuntimeWiring(
         await flush(orgId);
       })();
       if (options.schedulePostTurn) {
-        options.schedulePostTurn(postTurn.catch(() => undefined));
+        options.schedulePostTurn(postTurn.catch(swallow('telegram-agents')));
       } else {
         await postTurn;
       }

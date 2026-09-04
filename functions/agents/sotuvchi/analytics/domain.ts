@@ -5,6 +5,8 @@ import type {
   SotuvchiProductEvent,
 } from './types';
 
+import { swallow } from '../../../lib/observability';
+
 function readNumber(values: unknown, key: string): number | null {
   if (!values || typeof values !== 'object') return null;
   const value = (values as Record<string, unknown>)[key];
@@ -168,7 +170,7 @@ export function withSotuvchiAnalytics(
         orgId: call.org.orgId,
         requestId: call.org.requestId,
         event,
-      }))).catch(() => undefined);
+      }))).catch(swallow('agents-sotuvchi-analytics-domain'));
       return result;
     },
   };

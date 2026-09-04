@@ -41,6 +41,8 @@ import { readBreaker, recordSuccess, recordFailure, isOpen } from './circuit-bre
 import { enqueueHeavy, isHeavyFeature } from './queue';
 import { recordUsage, readIdempotent, writeIdempotent } from './usage-store';
 
+import { swallow } from '../../lib/observability';
+
 const PROVIDERS: Record<LlmProviderId, LlmProvider> = {
   gemini: geminiProvider,
   mistral: mistralProvider,
@@ -189,7 +191,7 @@ async function selectHealthyCandidates(env: Env, input: LlmCallInput): Promise<R
   for (const c of all) {
     const provider = PROVIDERS[c.provider];
     if (!provider || !provider.isConfigured(env)) continue;
-    const breaker = await readBreaker(env, c.provider, c.model).catch(() => null);
+    const breaker = await readBreaker(env, c.provider, c.model).catch(swallow('llm-router', null));
     if (breaker && isOpen(breaker)) continue;
     out.push(c);
   }

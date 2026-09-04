@@ -10,6 +10,8 @@ import { isYandexConfigured } from '../../../../lib/yandex/client';
 import { lastCallAt, cacheRowCount } from '../../../../lib/yandex/cache';
 import type { YandexStatusResponse } from '../../../../lib/yandex/types';
 
+import { swallow } from '../../../../lib/observability';
+
 function json(d: unknown, status = 200): Response {
   return new Response(JSON.stringify(d), {
     status,
@@ -22,8 +24,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (auth instanceof Response) return auth;
 
   const configured = isYandexConfigured(env);
-  const last = await lastCallAt(env).catch(() => null);
-  const rows = await cacheRowCount(env).catch(() => 0);
+  const last = await lastCallAt(env).catch(swallow('seo-yandex-status', null));
+  const rows = await cacheRowCount(env).catch(swallow('seo-yandex-status', 0));
   const out: YandexStatusResponse = {
     configured,
     web_search_available: configured,

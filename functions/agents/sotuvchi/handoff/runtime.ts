@@ -17,6 +17,8 @@ import {
 import { composeHandoffResponse } from './responses';
 import type { SotuvchiHandoffService } from './service';
 
+import { swallow } from '../../../lib/observability';
+
 export const HANDOFF_FACT_TOOL = 'sotuvchi.handoff';
 
 function answer(values: HandoffFactValues, locale: Locale): RuntimeStepResult {
@@ -42,7 +44,7 @@ export function createSotuvchiHandoffWorkflowPort(
       if (!org.actorId) return null;
       const reference = await service
         .getActiveReplyWorkflowRef(org.orgId, org.actorId)
-        .catch(() => null);
+        .catch(swallow('agents-sotuvchi-handoff-runtime', null));
       if (!reference || reference.instanceId !== active.instanceId) return null;
 
       // Buttons keep working while a reply is pending: only free text is

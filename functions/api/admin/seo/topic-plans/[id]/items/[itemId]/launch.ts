@@ -22,6 +22,8 @@ import { saveAnalysis, logAuditEvent } from '../../../../../../../lib/intent-gua
 import { getDraft } from '../../../../../../../lib/ai-drafts/store';
 import { withErrorHandler, jsonResponse } from '../../../../../../../lib/api-errors';
 
+import { swallow } from '../../../../../../../lib/observability';
+
 interface CtxEnv extends Env { OPENROUTER_API_KEY?: string }
 
 export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('admin.seo.topic-plans.item.launch', async (ctx) => {
@@ -100,7 +102,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
   };
   const runId = `gptbot-plan-${planId}-${itemId}-${Date.now().toString(36)}`;
   await updateItem(ctx.env, itemId, { status: 'generating' });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(swallow('seo-topic-plans-launch'));
 
   const launch = await startSeoAutopilotJobDirect({
     env: ctx.env,
@@ -113,7 +115,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
 
   if (!launch.ok) {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(swallow('seo-topic-plans-launch'));
     return jsonResponse({ ok: false, error: launch.message, reason: launch.reason }, launch.http);
   }
 
@@ -123,12 +125,12 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
   const jobId: string = launch.job.id || launch.jobId;
   if (launch.job.status === 'failed') {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'generation failed', source_job_id: jobId });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(swallow('seo-topic-plans-launch'));
     return jsonResponse({ ok: false, error: launch.job.error_message || 'launch failed', job: launch.job }, 502);
   }
 
   await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(swallow('seo-topic-plans-launch'));
 
   // Step 3: Intent Guard analyze the produced draft (RU + UZ, where available).
   const analysisResults: Array<{ locale: 'ru' | 'uz'; risk_score: number; risk_level: 'low' | 'medium' | 'high' }> = [];
@@ -162,7 +164,7 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
             risk_level: ar.risk_level,
             recommendation: ar.semantic.recommendation,
             actor: auth.email,
-          }).catch(() => null);
+          }).catch(swallow('seo-topic-plans-items-launch', null));
           analysisResults.push({ locale: loc, risk_score: ar.risk_score, risk_level: ar.risk_level });
         } catch { /* per-locale failure does not break others */ }
       }
@@ -177,10 +179,10 @@ export const onRequestPost: PagesFunction<CtxEnv> = withErrorHandler<CtxEnv>('ad
       risk_score: worst.risk_score,
       risk_level: worst.risk_level,
     });
-    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(swallow('seo-topic-plans-launch'));
   } else {
     await updateItem(ctx.env, itemId, { status: 'ready_for_review' });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(swallow('seo-topic-plans-launch'));
   }
   if (draftId) {
     await logAuditEvent(ctx.env, draftId, 'topic_plan_item_launched', auth.email, {

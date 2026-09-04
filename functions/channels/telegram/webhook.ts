@@ -26,6 +26,8 @@ import type {
   TelegramAgentUpdateStore,
 } from './store';
 
+import { swallow } from '../../lib/observability';
+
 const SECRET_HEADER = 'x-telegram-bot-api-secret-token';
 const MAX_BODY_BYTES = 64 * 1024;
 
@@ -205,7 +207,7 @@ async function sendFailure(
     dependencies.delivery,
     input.inbound.threadRef,
     renderTelegramRuntimeFailure(localeOf(input)),
-  ).catch(() => false);
+  ).catch(swallow('channels-telegram-webhook', false));
   dependencies.logger?.error(delivered ? code : 'send_failed');
   await finalizeFailure(
     dependencies,
@@ -222,7 +224,7 @@ async function sendRateLimit(
     dependencies.delivery,
     input.inbound.threadRef,
     renderTelegramRateLimit(localeOf(input)),
-  ).catch(() => false);
+  ).catch(swallow('channels-telegram-webhook', false));
   dependencies.logger?.error(delivered ? 'rate_limited' : 'send_failed');
   await finalizeFailure(
     dependencies,
@@ -256,7 +258,7 @@ async function recordError(
     locale: context.locale,
     reasonCode,
     latencyBucket: latencyBucket(startedAt),
-  }).catch(() => undefined);
+  }).catch(swallow('channels-telegram-webhook'));
 }
 
 async function processAccepted(
@@ -297,7 +299,7 @@ async function processAccepted(
   if (!input.callbackQueryId && dependencies.delivery.showTyping) {
     void dependencies.delivery
       .showTyping(input.inbound.threadRef)
-      .catch(() => false);
+      .catch(swallow('channels-telegram-webhook', false));
   }
 
   let identityId: string;
@@ -345,7 +347,7 @@ async function processAccepted(
       dependencies.delivery,
       input.inbound.threadRef,
       renderTelegramMappingFailure(localeOf(input)),
-    ).catch(() => false);
+    ).catch(swallow('channels-telegram-webhook', false));
     if (delivered) {
       try {
         await dependencies.updates.complete(input.inbound.idempotencyKey);
@@ -415,7 +417,7 @@ async function processAccepted(
     dependencies.delivery,
     input.inbound.threadRef,
     renderTelegramRuntimeResult(result, context.locale),
-  ).catch(() => false);
+  ).catch(swallow('channels-telegram-webhook', false));
   if (!delivered) {
     await recordError(
       dependencies,
@@ -494,7 +496,7 @@ export async function handleTelegramAgentsWebhook(
     waitUntil(
       dependencies.delivery
         .answerCallback(ingested.value.callbackQueryId)
-        .catch(() => false),
+        .catch(swallow('channels-telegram-webhook', false)),
     );
   }
   waitUntil(processAccepted(dependencies, ingested.value));

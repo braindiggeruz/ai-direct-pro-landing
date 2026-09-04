@@ -81,6 +81,8 @@ import {
   voiceSearchAvailable,
 } from './voice';
 
+import { swallow } from '../lib/observability';
+
 interface MarketConfiguration {
   botToken: string;
   botUsername: string;
@@ -508,7 +510,7 @@ async function runCatalogSearch(
       context: context.access.buyer,
       requestId: context.requestId,
       results,
-    }).catch(() => undefined);
+    }).catch(swallow('market-router'));
   }
   await context.services.analytics.record({
     orgId: context.access.buyer.orgId,
@@ -522,7 +524,7 @@ async function runCatalogSearch(
       resultCount: results.length,
       reasonCode: results.length ? 'market_search' : 'market_no_result',
     },
-  }).catch(() => undefined);
+  }).catch(swallow('market-router'));
   return { results, queryApplied, rewrites, aiAssisted };
 }
 
@@ -731,7 +733,7 @@ async function exchangeSession(
   // own failures so a miss costs the old path and never the request.
   const directAhead = includeLaunch
     ? services.onboarding.resolveDirectPilotStorefront(config.botUsername)
-      .catch(() => null)
+      .catch(swallow('market-router', null))
     : undefined;
   const shelfAhead = directAhead?.then(async (direct) => {
     if (!direct) return null;
@@ -746,7 +748,7 @@ async function exchangeSession(
       services.catalog.listPublishedProducts(storefront, HOME_PRODUCTS),
     ]);
     return { orgId: direct.orgId, storeId: direct.storeId, categories, results };
-  }).catch(() => null);
+  }).catch(swallow('market-router', null));
   const identityStart = Date.now();
   const identity = await services.identities.getOrCreateIdentity(
     'telegram',
@@ -886,7 +888,7 @@ function scheduleFlush(context: RequestContext, orgId: string, storeId: string) 
     ),
     analytics: context.services.analytics,
   });
-  const flush = dispatcher.flush(orgId, storeId).catch(() => undefined);
+  const flush = dispatcher.flush(orgId, storeId).catch(swallow('market-router'));
   if (context.waitUntil) context.waitUntil(flush);
 }
 
@@ -1371,7 +1373,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
         locale: context.claims.locale,
         productId: result.product.id,
       },
-    }).catch(() => undefined);
+    }).catch(swallow('market-router'));
     return marketJson(await productDto(
       result.product,
       result.categoryName,
@@ -1426,11 +1428,11 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
     if (!decoded) throw new MarketHttpError('resource_not_found', 404);
     let product: CatalogProduct | null = await services.catalog
       .getPublishedProduct(access.buyer, decoded.productId)
-      .catch(() => null);
+      .catch(swallow('market-router', null));
     if (!product && access.sellerOrg) {
       product = await services.catalog
         .getProduct(sellerOwner(context), decoded.productId)
-        .catch(() => null);
+        .catch(swallow('market-router', null));
     }
     const reference = product?.mediaRefs[decoded.index];
     if (!reference || !product) throw new MarketHttpError('resource_not_found', 404);
@@ -1535,7 +1537,7 @@ async function readRoutes(context: RequestContext): Promise<Response | null> {
       const inventory = await services.orders.getInventory(
         access.sellerOrg,
         product.id,
-      ).catch(() => null);
+      ).catch(swallow('market-router', null));
       return marketJson({
         product: await productDto(
           product,
@@ -2277,7 +2279,7 @@ export async function handleMarketRequest(input: {
         config.botUsername,
         claims.sub,
         body.locale,
-      ).catch(() => null);
+      ).catch(swallow('market-router', null));
       if (!storefront && !marketFlag(input.env.MARKET_CLASSIFIEDS_DISCOVERY_ENABLED)) {
         throw new MarketHttpError('storefront_unavailable', 409);
       }

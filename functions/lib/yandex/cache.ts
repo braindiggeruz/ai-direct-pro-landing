@@ -12,6 +12,8 @@
 import type { Env } from '../../_types';
 import type { YandexSerpSnapshot } from './types';
 
+import { swallow } from '../../lib/observability';
+
 const TTL_MS = 24 * 60 * 60_000; // 24 h
 
 async function ensureTable(db: D1Database): Promise<void> {
@@ -79,7 +81,7 @@ export async function writeCached(env: Env, cacheKey: string, snapshot: YandexSe
       now + TTL_MS,
     )
     .run()
-    .catch(() => undefined);
+    .catch(swallow('yandex-cache'));
 }
 
 export async function lastCallAt(env: Env): Promise<string | null> {

@@ -19,6 +19,8 @@ import { getItem, updateItem } from '../../../../lib/intent-guard/plans';
 import type { AiDraftArticle } from '../../../../../src/shared/ai-drafts';
 import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
 
+import { swallow } from '../../../../lib/observability';
+
 interface OptimizerEnv extends Env { OPENROUTER_API_KEY?: string }
 
 export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<OptimizerEnv>('admin.seo.cannibalization.analyze', async ({ request, env }) => {
@@ -131,7 +133,7 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
     recommendation,
     model: result.semantic.model,
     actor: auth.email,
-  }).catch(() => null);
+  }).catch(swallow('seo-cannibalization-analyze', null));
 
   // For plan items, also update the row so the planner UI reflects new risk.
   if (planItemId) {
@@ -139,7 +141,7 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
       risk_score: result.risk_score,
       risk_level: result.risk_level,
       status: result.risk_level === 'low' ? 'analyzed' : 'needs_retarget',
-    }).catch(() => null);
+    }).catch(swallow('seo-cannibalization-analyze', null));
   }
 
   return jsonResponse({

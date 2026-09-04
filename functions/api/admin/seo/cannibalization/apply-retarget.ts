@@ -21,6 +21,8 @@ import { analyzeCandidate } from '../../../../lib/intent-guard/analyze';
 import { saveAnalysis, updateAnalysisApplied, logAuditEvent } from '../../../../lib/intent-guard/audit';
 import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
 
+import { swallow } from '../../../../lib/observability';
+
 const MAX_BODY_BYTES = 300_000;
 
 export const onRequestPost: PagesFunction<Env> = withErrorHandler<Env>('admin.seo.cannibalization.apply-retarget', async ({ request, env }) => {
@@ -117,7 +119,7 @@ export const onRequestPost: PagesFunction<Env> = withErrorHandler<Env>('admin.se
     recommendation: recheck.semantic.recommendation,
     applied: false,
     actor: auth.email,
-  }).catch(() => null);
+  }).catch(swallow('seo-cannibalization-apply-retarget', null));
 
   // Mark the previous proposal row as applied.
   if (typeof body.analysis_id === 'string') {
@@ -125,7 +127,7 @@ export const onRequestPost: PagesFunction<Env> = withErrorHandler<Env>('admin.se
       after_risk_score: recheck.risk_score,
       after_risk_level: recheck.risk_level,
       applied: true,
-    }).catch(() => undefined);
+    }).catch(swallow('seo-cannibalization-apply-retarget'));
   }
   await logAuditEvent(env, draftId, 'cannibalization_retarget_applied', auth.email, {
     locale,

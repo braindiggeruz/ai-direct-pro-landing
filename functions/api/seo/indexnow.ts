@@ -20,6 +20,8 @@ import { buildBoosterReport, filterSafeForIndexNow } from '../../../src/shared/b
 import type { Page, BlogArticle, GlobalSEO } from '../../../src/shared/types';
 import { writeAudit } from '../../lib/indexnow/audit';
 
+import { swallow } from '../../lib/observability';
+
 const SITE_HOST = 'gptbot.uz';
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow';
 // Standard root-level keyLocation. The static file already lives in
@@ -134,7 +136,7 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
       duration_ms: durationMs,
       error: networkError ?? (ok ? null : (upstreamBody || `HTTP ${upstreamStatus}`).slice(0, 240)),
     })),
-  ).catch(() => undefined);
+  ).catch(swallow('seo-indexnow'));
 
   if (networkError) {
     return json({ ok: false, error: `IndexNow fetch failed: ${networkError}`, submitted: safe.length, rejected, batchId }, 502);

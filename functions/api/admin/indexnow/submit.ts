@@ -39,6 +39,8 @@ import { requireAuth } from '../../../lib/jwt';
 import { writeAudit, readLatestPerUrl } from '../../../lib/indexnow/audit';
 import { runChunkedSubmit, INDEXNOW_ENDPOINT, type IndexNowKind, type PerUrlResult, type ChunkResult } from '../../../lib/indexnow/submit-engine';
 
+import { swallow } from '../../../lib/observability';
+
 const SITE_HOST = 'gptbot.uz';
 const SITE_URL = `https://${SITE_HOST}`;
 // Cap per-click submission. With the chunked engine (chunkSize=8,
@@ -193,7 +195,7 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     duration_ms: durationMs,
     error: r.kind === 'ok' ? null : [kindForAudit(r.kind), r.error].filter(Boolean).join(': ').slice(0, 480),
   }));
-  await writeAudit(env, auditRows).catch(() => undefined);
+  await writeAudit(env, auditRows).catch(swallow('indexnow-submit'));
 
   // Aggregate response. Operators see the totals + per-URL list in UI.
   const overallOk = result.succeeded > 0 && result.failed === 0 && result.rateLimited === 0;

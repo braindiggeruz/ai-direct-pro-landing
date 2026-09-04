@@ -7,6 +7,8 @@ import type { MarketSessionClaims, VerifiedTelegramInitData } from '../platform/
 import { MarketHttpError, marketFlag } from '../platform/market/http';
 import type { Env } from '../_types';
 
+import { swallow } from '../lib/observability';
+
 export interface MarketAccessContext {
   buyer: StorefrontContext;
   buyerOrg: OrgContext;
@@ -91,7 +93,7 @@ export async function bindMarketLaunch(
       botUsername,
       requestId: `market_launch_${launch.launchFingerprint}`,
       locale: launch.locale,
-    }).catch(() => null);
+    }).catch(swallow('market-access', null));
     if (
       onboarding?.status === 'completed'
       && onboarding.store?.status === 'active'
@@ -152,14 +154,14 @@ export async function resolveMarketAccess(
       : services.catalog.resolveStorefrontContext({
           ...buyer,
           locale: claims.locale,
-        }).catch(() => null),
+        }).catch(swallow('market-access', null)),
     sellerEnabled
       ? services.onboarding.getOnboarding({
           identityId: claims.sub,
           botUsername,
           requestId,
           locale: claims.locale,
-        }).catch(() => null)
+        }).catch(swallow('market-access', null))
       : Promise.resolve(null),
   ]);
   if (!verifiedBuyer) throw new MarketHttpError('storefront_unavailable', 409);
@@ -197,7 +199,7 @@ export async function resolveMarketAccess(
           status: 'active',
           locale: store.locale,
         })
-        .catch(() => null);
+        .catch(swallow('market-access', null));
     if (candidateStore) {
       const candidate = orgContext(candidateStore.orgId, claims, requestId);
       // The single gate both paths pass: an active `owner` membership over an
@@ -205,7 +207,7 @@ export async function resolveMarketAccess(
       // rather than carried over from whatever produced the candidate.
       const verified = await services.orders.resolveSeller(candidate)
         .then(() => true)
-        .catch(() => false);
+        .catch(swallow('market-access', false));
       if (verified) {
         sellerOrg = candidate;
         sellerStore = {

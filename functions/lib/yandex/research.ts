@@ -41,6 +41,8 @@ import { callYandexSearch, isYandexConfigured, type YandexErrorCode } from './cl
 import { makeCacheKey, readCached, writeCached } from './cache';
 import type { YandexResearchTopic } from './types';
 
+import { swallow } from '../../lib/observability';
+
 /** Max concurrent Yandex calls per research run. */
 const MAX_PARALLEL = 3;
 /** Total walltime budget for the whole research run. */
@@ -120,7 +122,7 @@ async function runSeed(
     });
     if (first.ok) {
       snapshot = first.snapshot;
-      await writeCached(env, cacheKey, snapshot).catch(() => undefined);
+      await writeCached(env, cacheKey, snapshot).catch(swallow('yandex-research'));
     } else if (
       first.retryable
       && Date.now() < deadlineAt - PER_CALL_TIMEOUT_MS
@@ -143,7 +145,7 @@ async function runSeed(
       });
       if (second.ok) {
         snapshot = second.snapshot;
-        await writeCached(env, cacheKey, snapshot).catch(() => undefined);
+        await writeCached(env, cacheKey, snapshot).catch(swallow('yandex-research'));
         retryWarning = `«${seed}»: первый запрос ${first.error_code}, второй удался`;
       } else {
         return {

@@ -58,6 +58,8 @@ import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
 import { withErrorHandler, jsonResponse, newRequestId } from '../../../../lib/api-errors';
 import type { TopicPlan } from '../../../../../src/shared/intent-guard';
 
+import { swallow } from '../../../../lib/observability';
+
 interface CtxEnv extends Env { OPENROUTER_API_KEY?: string }
 
 interface QuickLaunchBody {
@@ -258,7 +260,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   // 2. Cannibalization pre-check. We consider a query "already covered"
   //    when (a) Yandex says GPTBot.uz is in the SERP OR (b) the inventory
   //    has an item with the same locale + intent_key.
-  const inventory = await buildContentInventory(ctx.env).catch(() => null);
+  const inventory = await buildContentInventory(ctx.env).catch(swallow('seo-yandex-quick-launch', null));
   const conflictingItem = inventory?.items.find(
     (it) => it.locale === locale && it.intent_key === intent_key,
   );
@@ -383,7 +385,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   };
   const runId = `gptbot-yandex-${itemId}-${Date.now().toString(36)}`;
   await updateItem(ctx.env, itemId, { status: 'generating' });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generating').catch(swallow('seo-yandex-quick-launch'));
 
   const launch = await startSeoAutopilotJobDirect({
     env: ctx.env,
@@ -395,7 +397,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   });
   if (!launch.ok) {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.message });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.message }).catch(swallow('seo-yandex-quick-launch'));
     return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.message, reason: launch.reason, plan_id: planId, item_id: itemId, request_id: runId }, 200);
   }
 
@@ -406,11 +408,11 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
   const fallbackUsed = !!(launch.job as { llm_fallback_used?: number | boolean }).llm_fallback_used;
   if (launch.job.status === 'failed') {
     await updateItem(ctx.env, itemId, { status: 'failed', error_message: launch.job.error_message || 'Generation failed', source_job_id: jobId });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'failed', { release_reason: launch.job.error_message || 'launch failed', source_job_id: jobId }).catch(swallow('seo-yandex-quick-launch'));
     return jsonResponse({ ok: false, mode: 'launch_failed', error: launch.job.error_message || 'Generation failed', provider, model, plan_id: planId, item_id: itemId, job_id: jobId, request_id: runId }, 200);
   }
   await updateItem(ctx.env, itemId, { status: 'generated', draft_id: draftId, source_job_id: jobId });
-  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(() => undefined);
+  await transitionReservation(ctx.env, reserve.reservation.id, 'generated', { draft_id: draftId, source_job_id: jobId }).catch(swallow('seo-yandex-quick-launch'));
 
   // 7. Intent Guard analyze on both locales (best-effort, runs inline so
   // the operator sees the final risk_level in the success response).
@@ -433,7 +435,7 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
             serper: ar.serper, semantic: ar.semantic, conflicts: ar.conflicts,
             risk_score: ar.risk_score, risk_level: ar.risk_level,
             recommendation: ar.semantic.recommendation, actor: auth.email,
-          }).catch(() => null);
+          }).catch(swallow('seo-yandex-quick-launch', null));
           analysisResults.push({ locale: loc, risk_score: ar.risk_score, risk_level: ar.risk_level });
         } catch { /* per-locale guard is best-effort */ }
       }
@@ -447,10 +449,10 @@ const quickLaunchHandler: PagesFunction<CtxEnv> = async (ctx) => {
       status: worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget',
       risk_score: worst.risk_score, risk_level: worst.risk_level,
     });
-    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, worst.risk_level === 'low' ? 'ready_for_review' : 'needs_retarget').catch(swallow('seo-yandex-quick-launch'));
   } else {
     await updateItem(ctx.env, itemId, { status: 'ready_for_review' });
-    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(() => undefined);
+    await transitionReservation(ctx.env, reserve.reservation.id, 'ready_for_review').catch(swallow('seo-yandex-quick-launch'));
   }
   if (draftId) {
     await logAuditEvent(ctx.env, draftId, 'yandex_quick_launch', auth.email, {

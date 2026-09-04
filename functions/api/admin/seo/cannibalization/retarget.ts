@@ -18,6 +18,8 @@ import type { AiDraftArticle } from '../../../../../src/shared/ai-drafts';
 import { withErrorHandler, jsonResponse } from '../../../../lib/api-errors';
 import { buildContentInventory } from '../../../../lib/intent-guard/inventory';
 
+import { swallow } from '../../../../lib/observability';
+
 interface OptimizerEnv extends Env { OPENROUTER_API_KEY?: string }
 
 // In-flight lock per (source, id, locale)
@@ -135,7 +137,7 @@ export const onRequestPost: PagesFunction<OptimizerEnv> = withErrorHandler<Optim
       applied: false,
       model: retarget.proposal.model,
       actor: auth.email,
-    }).catch(() => null);
+    }).catch(swallow('seo-cannibalization-retarget', null));
 
     if (draftId) {
       await logAuditEvent(env, draftId, 'cannibalization_retarget_proposed', auth.email, {

@@ -22,6 +22,8 @@ import {
   type SotuvchiOrdersService,
 } from '../orders';
 
+import { swallow } from '../../../lib/observability';
+
 export interface SotuvchiDispatchResult {
   delivered: number;
   skipped: number;
@@ -196,7 +198,7 @@ export class SotuvchiNotificationDispatcher {
       }
       const order = await this.deps.orders
         .readNotificationOrder(orgId, storeId, intent.orderId)
-        .catch(() => null);
+        .catch(swallow('agents-sotuvchi-delivery-dispatcher', null));
       if (!order) {
         await this.deps.orders.settleNotification(
           orgId,
@@ -258,7 +260,7 @@ export class SotuvchiNotificationDispatcher {
     };
     const locale = await this.deps.handoff
       .findStoreLocale(orgId, storeId)
-      .catch(() => null)
+      .catch(swallow('agents-sotuvchi-delivery-dispatcher', null))
       ?? fallbackLocale;
     await this.deliverSellerNotices(orgId, storeId, locale, result);
     await this.deliverBuyerReplies(orgId, storeId, locale, result);

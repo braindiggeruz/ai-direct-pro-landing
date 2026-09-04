@@ -1,6 +1,8 @@
 import { normalizeTelegramBotUsername } from './deep-link';
 import { ensureTelegramAgentUpdateSchema } from './schema';
 
+import { swallow } from '../../lib/observability';
+
 const WINDOW_MS = 60_000;
 const RETENTION_MS = 24 * 60 * 60 * 1000;
 
@@ -237,7 +239,7 @@ export function createTelegramRateLimiter(
         };
       }
     }
-    await cleanupOldWindows(db, now).catch(() => undefined);
+    await cleanupOldWindows(db, now).catch(swallow('channels-telegram-rate-limit'));
     return { status: 'allowed' };
   }
 
